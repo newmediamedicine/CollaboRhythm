@@ -1,0 +1,15 @@
+Welcome to the CollaboRhythm Project.
+
+You need the code in this repository to start developing Mobile or desktop applications for CollaboRhythm!
+
+#### Setting up your development environment:
+These instructions have been tested on Mac OSX and Windows 7. They should work on other versions of those same operating systems. Unfortunately they will not work on linux as Adobe has discontinued support for its core build tools on linux.
+
+Currently these projects leverage a number of Adobe Air features and as such rely on Adobe Lab's Flash Builder (the Burrito release). You can probably use any SDE that you like but we recommend Eclipse. As far as adding Git support, as per this quora thread: http://www.quora.com/Whats-the-best-Eclipse-plugin-to-manage-git, there are a number of options including EGit, Aptana, or installing an OS level Git manager rather than using it directly from Eclipse.
+
+Download and install:
+1. Adobe Lab's Flash Builder (Release "Burrito"): https://www.adobe.com/cfusion/entitlement/index.cfm?e=labs_flashbuilder_burrito
+2. Install egit (git plugin): http://www.eclipse.org/egit/ (or another way of connecting to a git repo)
+
+Sync the Source Code:
+1. 
