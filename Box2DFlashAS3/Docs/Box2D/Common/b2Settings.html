@@ -1,0 +1,544 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../../style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="../../print.css" type="text/css" media="print">
+<meta content="b2Settings,Box2D.Common.b2Settings,USHRT_MAX,VERSION,b2_aabbExtension,b2_aabbMultiplier,b2_angularSleepTolerance,b2_angularSlop,b2_contactBaumgarte,b2_linearSleepTolerance,b2_linearSlop,b2_maxAngularCorrection,b2_maxLinearCorrection,b2_maxManifoldPoints,b2_maxRotation,b2_maxRotationSquared,b2_maxTOIContactsPerIsland,b2_maxTOIJointsPerIsland,b2_maxTranslation,b2_maxTranslationSquared,b2_pi,b2_polygonRadius,b2_timeToSleep,b2_toiSlop,b2_velocityThreshold,b2Assert,b2MixFriction,b2MixRestitution" name="keywords">
+<title>Box2D.Common.b2Settings</title>
+</head>
+<body>
+<script type="text/javascript" language="javascript" src="../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../cookies.js"></script><script type="text/javascript" language="javascript">
+<!--
+				asdocTitle = 'b2Settings - Box2DFlash Documentation';
+				var baseRef = '../../';
+				window.onload = configPage;
+			--></script>
+<table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+<tr>
+<td align="left" class="titleTableTitle">Box2DFlash Documentation</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../all-classes.html')" href="../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../all-classes.html')" href="../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../index-list.html')" href="../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../index.html?Box2D/Common/b2Settings.html&amp;Box2D/Common/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../images/logo.jpg"></td>
+</tr>
+<tr class="titleTableRow2">
+<td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;b2Settings</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#methodSummary">Methods</a>&nbsp;| <a href="#constantSummary">Constants</a></td>
+</tr>
+<tr class="titleTableRow3">
+<td colspan="2">&nbsp;</td>
+</tr>
+</table>
+<script type="text/javascript" language="javascript">
+<!--
+if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Class b2Settings"); titleBar_setSubNav(true,false,false,false,false,false,true,false,false,false,false,false,false,false);}
+--></script>
+<div class="MainContent">
+<table cellspacing="0" cellpadding="0" class="classHeaderTable">
+<tr>
+<td class="classHeaderTableLabel">Package</td><td><a onclick="javascript:loadClassListFrame('class-list.html')" href="package-detail.html">Box2D.Common</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Class</td><td class="classSignature">public class b2Settings</td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Source</td><td><a href="http://box2dflash.svn.sourceforge.net/viewvc/box2dflash/Source/Box2D/Common/b2Settings.as">b2Settings.as</a></td>
+</tr>
+</table>
+<p></p>
+This class controls Box2D global settings
+<p></p>
+<br>
+<hr>
+</div>
+<a name="methodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Methods</div>
+<table id="summaryTableMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#b2Assert()">b2Assert</a>(a:Boolean):void</div>
+<div class="summaryTableDescription">[static]
+    b2Assert is used internally to handle assertions.</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#b2MixFriction()">b2MixFriction</a>(friction1:Number, friction2:Number):Number</div>
+<div class="summaryTableDescription">[static]
+  Friction mixing law.</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#b2MixRestitution()">b2MixRestitution</a>(restitution1:Number, restitution2:Number):Number</div>
+<div class="summaryTableDescription">[static] 
+  Restitution mixing law.</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+</table>
+</div>
+<a name="constantSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Constants</div>
+<table id="summaryTableConstant" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Constant</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#b2_aabbExtension">b2_aabbExtension</a> : Number = 0.1<div class="summaryTableDescription">[static]
+  This is used to fatten AABBs in the dynamic tree.</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#b2_aabbMultiplier">b2_aabbMultiplier</a> : Number = 2.0<div class="summaryTableDescription">[static]
+   This is used to fatten AABBs in the dynamic tree.</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#b2_angularSleepTolerance">b2_angularSleepTolerance</a> : Number<div class="summaryTableDescription">[static]
+ A body cannot sleep if its angular velocity is above this tolerance.</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#b2_angularSlop">b2_angularSlop</a> : Number<div class="summaryTableDescription">[static]
+ A small angle used as a collision and constraint tolerance.</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#b2_contactBaumgarte">b2_contactBaumgarte</a> : Number = 0.2<div class="summaryTableDescription">[static]
+ This scale factor controls how fast overlap is resolved.</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#b2_linearSleepTolerance">b2_linearSleepTolerance</a> : Number = 0.01<div class="summaryTableDescription">[static]
+ A body cannot sleep if its linear velocity is above this tolerance.</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#b2_linearSlop">b2_linearSlop</a> : Number = 0.005<div class="summaryTableDescription">[static]
+ A small length used as a collision and constraint tolerance.</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#b2_maxAngularCorrection">b2_maxAngularCorrection</a> : Number<div class="summaryTableDescription">[static]
+ The maximum angular position correction used when solving constraints.</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#b2_maxLinearCorrection">b2_maxLinearCorrection</a> : Number = 0.2<div class="summaryTableDescription">[static]
+ The maximum linear position correction used when solving constraints.</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#b2_maxManifoldPoints">b2_maxManifoldPoints</a> : int = 2<div class="summaryTableDescription">[static]
+       Number of manifold points in a b2Manifold.</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#b2_maxRotation">b2_maxRotation</a> : Number<div class="summaryTableDescription">[static]
+ The maximum angular velocity of a body.</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#b2_maxRotationSquared">b2_maxRotationSquared</a> : Number<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#b2_maxTOIContactsPerIsland">b2_maxTOIContactsPerIsland</a> : int = 32<div class="summaryTableDescription">[static]
+ Maximum number of contacts to be handled to solve a TOI island.</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#b2_maxTOIJointsPerIsland">b2_maxTOIJointsPerIsland</a> : int = 32<div class="summaryTableDescription">[static]
+ Maximum number of joints to be handled to solve a TOI island.</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#b2_maxTranslation">b2_maxTranslation</a> : Number = 2.0<div class="summaryTableDescription">[static]
+ The maximum linear velocity of a body.</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#b2_maxTranslationSquared">b2_maxTranslationSquared</a> : Number = 4.0<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#b2_pi">b2_pi</a> : Number = 3.141592653589793<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#b2_polygonRadius">b2_polygonRadius</a> : Number<div class="summaryTableDescription">[static]
+  The radius of the polygon/edge shape skin.</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#b2_timeToSleep">b2_timeToSleep</a> : Number = 0.5<div class="summaryTableDescription">[static]
+ The time that a body must be still before it will go to sleep.</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#b2_toiSlop">b2_toiSlop</a> : Number = 0.04<div class="summaryTableDescription">[static]
+ Continuous collision detection (CCD) works with core, shrunken shapes.</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#b2_velocityThreshold">b2_velocityThreshold</a> : Number = 1.0<div class="summaryTableDescription">[static]
+ A velocity threshold for elastic collisions.</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#USHRT_MAX">USHRT_MAX</a> : int = 0x0000ffff<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#VERSION">VERSION</a> : String = "2.1alpha"<div class="summaryTableDescription">[static]
+    The current version of Box2D
+    </div>
+</td><td class="summaryTableOwnerCol">b2Settings</td>
+</tr>
+</table>
+</div>
+<script type="text/javascript" language="javascript">
+<!--
+showHideInherited();
+--></script>
+<div class="MainContent">
+<a name="methodDetail"></a>
+<div class="detailSectionHeader">Method detail</div>
+<a name="b2Assert()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2Assert</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function b2Assert(a:Boolean):void</code><p>
+    b2Assert is used internally to handle assertions. By default, calls are commented out to save performance,
+    so they serve more as documentation than anything else.
+    </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">a</span>:Boolean</code></td>
+</tr>
+</table>
+</div>
+<a name="b2MixFriction()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2MixFriction</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function b2MixFriction(friction1:Number, friction2:Number):Number</code><p>
+  Friction mixing law. Feel free to customize this.
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">friction1</span>:Number</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">friction2</span>:Number</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Number</code></td>
+</tr>
+</table>
+</div>
+<a name="b2MixRestitution()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2MixRestitution</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function b2MixRestitution(restitution1:Number, restitution2:Number):Number</code><p> 
+  Restitution mixing law. Feel free to customize this.
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">restitution1</span>:Number</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">restitution2</span>:Number</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Number</code></td>
+</tr>
+</table>
+</div>
+<a name="constantDetail"></a>
+<div class="detailSectionHeader">Constant detail</div>
+<a name="b2_aabbExtension"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2_aabbExtension</td><td class="detailHeaderType">constant</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const b2_aabbExtension:Number = 0.1</code><p>
+  This is used to fatten AABBs in the dynamic tree. This allows proxies
+  to move by a small amount without triggering a tree adjustment.
+  This is in meters.
+  </p></div>
+<a name="b2_aabbMultiplier"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2_aabbMultiplier</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const b2_aabbMultiplier:Number = 2.0</code><p>
+   This is used to fatten AABBs in the dynamic tree. This is used to predict
+   the future position based on the current displacement.
+  This is a dimensionless multiplier.
+  </p></div>
+<a name="b2_angularSleepTolerance"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2_angularSleepTolerance</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const b2_angularSleepTolerance:Number</code><p>
+ A body cannot sleep if its angular velocity is above this tolerance.
+ </p></div>
+<a name="b2_angularSlop"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2_angularSlop</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const b2_angularSlop:Number</code><p>
+ A small angle used as a collision and constraint tolerance. Usually it is
+ chosen to be numerically significant, but visually insignificant.
+ </p></div>
+<a name="b2_contactBaumgarte"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2_contactBaumgarte</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const b2_contactBaumgarte:Number = 0.2</code><p>
+ This scale factor controls how fast overlap is resolved. Ideally this would be 1 so
+ that overlap is removed in one time step. However using values close to 1 often lead
+ to overshoot.
+ </p></div>
+<a name="b2_linearSleepTolerance"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2_linearSleepTolerance</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const b2_linearSleepTolerance:Number = 0.01</code><p>
+ A body cannot sleep if its linear velocity is above this tolerance.
+ </p></div>
+<a name="b2_linearSlop"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2_linearSlop</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const b2_linearSlop:Number = 0.005</code><p>
+ A small length used as a collision and constraint tolerance. Usually it is
+ chosen to be numerically significant, but visually insignificant.
+ </p></div>
+<a name="b2_maxAngularCorrection"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2_maxAngularCorrection</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const b2_maxAngularCorrection:Number</code><p>
+ The maximum angular position correction used when solving constraints. This helps to
+ prevent overshoot.
+ </p></div>
+<a name="b2_maxLinearCorrection"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2_maxLinearCorrection</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const b2_maxLinearCorrection:Number = 0.2</code><p>
+ The maximum linear position correction used when solving constraints. This helps to
+ prevent overshoot.
+ </p></div>
+<a name="b2_maxManifoldPoints"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2_maxManifoldPoints</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const b2_maxManifoldPoints:int = 2</code><p>
+       Number of manifold points in a b2Manifold. This should NEVER change.
+     </p></div>
+<a name="b2_maxRotation"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2_maxRotation</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const b2_maxRotation:Number</code><p>
+ The maximum angular velocity of a body. This limit is very large and is used
+ to prevent numerical problems. You shouldn't need to adjust this.
+ </p></div>
+<a name="b2_maxRotationSquared"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2_maxRotationSquared</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const b2_maxRotationSquared:Number</code>
+</div>
+<a name="b2_maxTOIContactsPerIsland"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2_maxTOIContactsPerIsland</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const b2_maxTOIContactsPerIsland:int = 32</code><p>
+ Maximum number of contacts to be handled to solve a TOI island.
+ </p></div>
+<a name="b2_maxTOIJointsPerIsland"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2_maxTOIJointsPerIsland</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const b2_maxTOIJointsPerIsland:int = 32</code><p>
+ Maximum number of joints to be handled to solve a TOI island.
+ </p></div>
+<a name="b2_maxTranslation"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2_maxTranslation</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const b2_maxTranslation:Number = 2.0</code><p>
+ The maximum linear velocity of a body. This limit is very large and is used
+ to prevent numerical problems. You shouldn't need to adjust this.
+ </p></div>
+<a name="b2_maxTranslationSquared"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2_maxTranslationSquared</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const b2_maxTranslationSquared:Number = 4.0</code>
+</div>
+<a name="b2_pi"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2_pi</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const b2_pi:Number = 3.141592653589793</code>
+</div>
+<a name="b2_polygonRadius"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2_polygonRadius</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const b2_polygonRadius:Number</code><p>
+  The radius of the polygon/edge shape skin. This should not be modified. Making
+  this smaller means polygons will have and insufficient for continuous collision.
+  Making it larger may create artifacts for vertex collision.
+  </p></div>
+<a name="b2_timeToSleep"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2_timeToSleep</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const b2_timeToSleep:Number = 0.5</code><p>
+ The time that a body must be still before it will go to sleep.
+ </p></div>
+<a name="b2_toiSlop"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2_toiSlop</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const b2_toiSlop:Number = 0.04</code><p>
+ Continuous collision detection (CCD) works with core, shrunken shapes. This is the
+ amount by which shapes are automatically shrunk to work with CCD. This must be
+ larger than b2_linearSlop.
+    </p><p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">b2_linearSlop</div>
+</div>
+<a name="b2_velocityThreshold"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2_velocityThreshold</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const b2_velocityThreshold:Number = 1.0</code><p>
+ A velocity threshold for elastic collisions. Any collision with a relative linear
+ velocity below this threshold will be treated as inelastic.
+ </p></div>
+<a name="USHRT_MAX"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">USHRT_MAX</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const USHRT_MAX:int = 0x0000ffff</code>
+</div>
+<a name="VERSION"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">VERSION</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const VERSION:String = "2.1alpha"</code><p>
+    The current version of Box2D
+    </p></div>
+<br>
+<br>
+<hr>
+<br>
+<p></p>
+<center class="copyright">Box2DFlash 2.1a</center>
+</div>
+</body>
+</html>
+<!--Box2DFlash 2.1a-->

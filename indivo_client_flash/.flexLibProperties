@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="org.indivo.client.IndivoClient"/>
+    <classEntry path="org.indivo.client.IndivoClientEvent"/>
+    <classEntry path="org.indivo.client.DocumentBuilder"/>
+    <classEntry path="org.indivo.client.IndivoRequestHandler"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>

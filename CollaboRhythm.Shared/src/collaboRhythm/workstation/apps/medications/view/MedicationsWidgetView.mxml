@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel
+	title="Medications"
+	skinClass="skins.WidgetPanelSkin"
+	width="500"
+	height="250" 
+	xmlns:resize="flex.utils.ui.resize.*"
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:healthRecord="collaboRhythm.workstation.model.healthRecord.*"
+	xmlns:scroll="collaboRhythm.view.scroll.*">
+	<fx:Script>
+		<![CDATA[
+			import collaboRhythm.workstation.apps.medications.model.MedicationsModel;
+			import collaboRhythm.workstation.controller.apps.WorkstationAppControllerBase;
+			import collaboRhythm.workstation.view.apps.WidgetGridItemRenderer;
+			
+			[Bindable]
+			private var _model:MedicationsModel;
+			
+			public function get model():MedicationsModel
+			{
+				return _model;
+			}
+			
+			public function set model(value:MedicationsModel):void
+			{
+				_model = value;
+			}
+
+			protected function rawButton_clickHandler(event:MouseEvent):void
+			{
+				viewstack1.selectedIndex = (viewstack1.selectedIndex + 1) % viewstack1.length;
+			}
+		]]>
+	</fx:Script>
+				
+	<fx:Declarations>
+<!--		<healthRecord:MedicationsModel id="model"/> -->
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<mx:ViewStack id="viewstack1" width="100%" height="100%">
+		<s:NavigatorContent label="gridContent" width="100%" height="100%">
+			<mx:Image source="@Embed(source='resources/images/apps/medications-watermark.png')" styleName="WidgetWatermarkImage" width="60%" height="60%" alpha="{WorkstationAppControllerBase.WIDGET_WATERMARK_ALPHA}" smoothBitmapContent="true"/>
+			<scroll:TouchScrollingDataGrid id="widgetGrid" styleName="WidgetGrid" useHorizontalTouchScrolling="false" showHeaders="false" selectable="false" useRollOver="false" width="100%" height="100%" dataProvider="{_model.shortMedicationsCollection.list}">
+				<scroll:columns>
+					<mx:DataGridColumn headerText="Name" dataField="name" width="160" itemRenderer="collaboRhythm.workstation.view.apps.WidgetGridItemRenderer"/>
+					<mx:DataGridColumn headerText="Strength" dataField="strengthLabelText" itemRenderer="collaboRhythm.workstation.view.apps.WidgetGridItemRenderer"/>
+					<mx:DataGridColumn headerText="Dose" dataField="doseLabelText" itemRenderer="collaboRhythm.workstation.view.apps.WidgetGridItemRenderer"/>
+					<mx:DataGridColumn headerText="Frequency" dataField="frequency" width="120" itemRenderer="collaboRhythm.workstation.view.apps.WidgetGridItemRenderer"/>
+				</scroll:columns>
+			</scroll:TouchScrollingDataGrid>
+		</s:NavigatorContent>
+		<s:NavigatorContent label="rawContent" width="100%" height="100%">
+			<s:TextArea width="100%" height="100%" text="{_model.rawData}"/>
+		</s:NavigatorContent>
+	</mx:ViewStack>
+	<s:ToggleButton styleName="DebugToggleButton" label="Raw" id="rawButton" click="rawButton_clickHandler(event)" width="48" bottom="0" left="0" alpha="{WorkstationAppControllerBase.DEBUG_BUTTON_ALPHA}" visible="{WorkstationAppControllerBase.DEBUG_BUTTON_VISIBLE}"/>
+</s:Panel>

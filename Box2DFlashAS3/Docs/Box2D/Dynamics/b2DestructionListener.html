@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../../style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="../../print.css" type="text/css" media="print">
+<meta content="b2DestructionListener,Box2D.Dynamics.b2DestructionListener,SayGoodbyeFixture,SayGoodbyeJoint" name="keywords">
+<title>Box2D.Dynamics.b2DestructionListener</title>
+</head>
+<body>
+<script type="text/javascript" language="javascript" src="../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../cookies.js"></script><script type="text/javascript" language="javascript">
+<!--
+				asdocTitle = 'b2DestructionListener - Box2DFlash Documentation';
+				var baseRef = '../../';
+				window.onload = configPage;
+			--></script>
+<table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+<tr>
+<td align="left" class="titleTableTitle">Box2DFlash Documentation</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../all-classes.html')" href="../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../all-classes.html')" href="../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../index-list.html')" href="../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../index.html?Box2D/Dynamics/b2DestructionListener.html&amp;Box2D/Dynamics/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../images/logo.jpg"></td>
+</tr>
+<tr class="titleTableRow2">
+<td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;b2DestructionListener</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#methodSummary">Methods</a></td>
+</tr>
+<tr class="titleTableRow3">
+<td colspan="2">&nbsp;</td>
+</tr>
+</table>
+<script type="text/javascript" language="javascript">
+<!--
+if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Class b2DestructionListener"); titleBar_setSubNav(false,false,false,false,false,false,true,false,false,false,false,false,false,false);}
+--></script>
+<div class="MainContent">
+<table cellspacing="0" cellpadding="0" class="classHeaderTable">
+<tr>
+<td class="classHeaderTableLabel">Package</td><td><a onclick="javascript:loadClassListFrame('class-list.html')" href="package-detail.html">Box2D.Dynamics</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Class</td><td class="classSignature">public class b2DestructionListener</td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Source</td><td><a href="http://box2dflash.svn.sourceforge.net/viewvc/box2dflash/Source/Box2D/Dynamics/b2DestructionListener.as">b2DestructionListener.as</a></td>
+</tr>
+</table>
+<p></p>
+Joints and shapes are destroyed when their associated
+body is destroyed. Implement this listener so that you
+may nullify references to these joints and shapes.
+<p></p>
+<br>
+<hr>
+</div>
+<a name="methodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Methods</div>
+<table id="summaryTableMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SayGoodbyeFixture()">SayGoodbyeFixture</a>(fixture:<a href="b2Fixture.html">b2Fixture</a>):void</div>
+<div class="summaryTableDescription">
+ Called when any fixture is about to be destroyed due
+ to the destruction of its parent body.</div>
+</td><td class="summaryTableOwnerCol">b2DestructionListener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SayGoodbyeJoint()">SayGoodbyeJoint</a>(joint:<a href="Joints/b2Joint.html">b2Joint</a>):void</div>
+<div class="summaryTableDescription">
+ Called when any joint is about to be destroyed due
+ to the destruction of one of its attached bodies.</div>
+</td><td class="summaryTableOwnerCol">b2DestructionListener</td>
+</tr>
+</table>
+</div>
+<script type="text/javascript" language="javascript">
+<!--
+showHideInherited();
+--></script>
+<div class="MainContent">
+<a name="methodDetail"></a>
+<div class="detailSectionHeader">Method detail</div>
+<a name="SayGoodbyeFixture()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SayGoodbyeFixture</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SayGoodbyeFixture(fixture:<a href="b2Fixture.html">b2Fixture</a>):void</code><p>
+ Called when any fixture is about to be destroyed due
+ to the destruction of its parent body.
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">fixture</span>:<a href="b2Fixture.html">b2Fixture</a></code></td>
+</tr>
+</table>
+</div>
+<a name="SayGoodbyeJoint()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SayGoodbyeJoint</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SayGoodbyeJoint(joint:<a href="Joints/b2Joint.html">b2Joint</a>):void</code><p>
+ Called when any joint is about to be destroyed due
+ to the destruction of one of its attached bodies.
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">joint</span>:<a href="Joints/b2Joint.html">b2Joint</a></code></td>
+</tr>
+</table>
+</div>
+<br>
+<br>
+<hr>
+<br>
+<p></p>
+<center class="copyright">Box2DFlash 2.1a</center>
+</div>
+</body>
+</html>
+<!--Box2DFlash 2.1a-->

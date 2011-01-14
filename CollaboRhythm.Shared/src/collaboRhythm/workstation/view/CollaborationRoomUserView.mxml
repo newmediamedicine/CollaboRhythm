@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 visible="{determineViewState(_collaborationModel.localUser.collaborationRoomConnectionStatus, _collaboratingRemoteUsers.length, _user.collaborationRoomConnectionStatus, _collaborationModel.controllingUser)}"
+		 resize="resizeHandler(event)">
+	<fx:Declarations>
+		<s:Fade id="fadeInEffect" target="{this}" alphaFrom="{this.alpha}" alphaTo="1" effectEnd="joinTransitionEffect_effectEndHandler(event)"/>
+		<s:Animate id="joinTransitionEffect" target="{this}">
+			<s:motionPaths>
+				<s:SimpleMotionPath property="width" valueFrom="{this.width}" valueTo="{CollaborationRoomView.COLLABORATION_ROOM_JOINED_USER_VIEW_WIDTH}"/>
+				<s:SimpleMotionPath property="height" valueFrom="{this.height}" valueTo="{CollaborationRoomView.COLLABORATION_ROOM_JOINED_USER_VIEW_HEIGHT}"/>
+				<s:SimpleMotionPath id="horizontalCenterMotionPath" property="horizontalCenter"/>				
+			</s:motionPaths>
+		</s:Animate>
+		<s:Animate id="enlargeEffect" target="{this}">
+			<s:motionPaths>
+				<s:SimpleMotionPath property="width" valueBy="20"/>
+				<s:SimpleMotionPath property="height" valueBy="15"/>
+				<s:SimpleMotionPath property="bottom" valueBy="-8"/>
+			</s:motionPaths>
+		</s:Animate>
+		<s:Animate id="shrinkEffect" target="{this}">
+			<s:motionPaths>
+				<s:SimpleMotionPath property="width" valueBy="-20"/>
+				<s:SimpleMotionPath property="height" valueBy="-15"/>
+				<s:SimpleMotionPath property="bottom" valueBy="8"/>
+			</s:motionPaths>
+		</s:Animate>
+	</fx:Declarations>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		
+		#userNameLabel {
+			font-size: 14;
+			color: #FFFFFF;
+		}
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[	
+			import collaboRhythm.workstation.controller.CollaborationEvent;
+			import collaboRhythm.workstation.model.CollaborationModel;
+			import collaboRhythm.workstation.model.User;
+			
+			import mx.binding.utils.BindingUtils;
+			import mx.binding.utils.ChangeWatcher;
+			import mx.collections.ArrayCollection;
+			import mx.events.CollectionEvent;
+			import mx.events.EffectEvent;
+			import mx.events.ResizeEvent;
+			
+			import spark.effects.Resize;
+			
+			[Bindable]
+			private var _user:User;
+			[Bindable] 
+			private var _collaborationModel:CollaborationModel;
+			[Bindable]
+			private var _collaboratingRemoteUsers:ArrayCollection;
+			private var _collaborationRoomView:CollaborationRoomView;
+			[Bindable]
+			private var _video:Video;
+			private var _localUserCollaborationRoomConnectionStatus:String = "";
+			private var _collaborationRoomUsersCount:Number = 0;
+			private var _collaborationRoomConnectionStatus:String = "";
+			private var _controllingUser:User;
+			private var _enlarged:Boolean = false;
+			
+			public function get user():User
+			{
+				return _user
+			}
+			
+			public function set user(user:User):void
+			{
+				_user = user;
+				_video = _user.video;
+				videoUIComponent.addChild(_video);
+			}
+			
+			public function set collaborationModel(collaborationModel:CollaborationModel):void
+			{
+				_collaborationModel = collaborationModel;
+			}
+			
+			public function set collaboratingRemoteUsers(collaboratingRemoteUsers:ArrayCollection):void
+			{
+				_collaboratingRemoteUsers = collaboratingRemoteUsers;
+			}
+			
+			public function set collaborationRoomView(collaborationRoomView:CollaborationRoomView):void
+			{
+				_collaborationRoomView = collaborationRoomView;
+			}
+			
+			private function resizeHandler(event:ResizeEvent):void
+			{
+				_video.width = this.width - 2;
+				_video.height = this.height - 30;
+			}
+			
+			private function determineUserNameLabel(subjectUser:User):String
+			{
+				if (_user == _collaborationModel.subjectUser)
+				{
+					iconImage.source = "resources/images/icons/magnifyingGlass.png";
+				}
+				
+				var userName:String;
+				if (_user.contact.givenName && _user.contact.familyName)
+				{
+					userName = _user.contact.givenName + " " + _user.contact.familyName;
+				}
+				else
+				{
+					userName = _user.accountId;
+				}
+				
+				if (_user == _collaborationModel.localUser)
+				{
+					userName += " (You)";
+				}
+				return userName
+			}
+			
+			private function determineViewState(localUserCollaborationRoomConnectionStatus:String, collaborationRoomUsersCount:Number, collaborationRoomConnectionStatus:String, controllingUser:User):Boolean
+			{
+				if (collaborationRoomConnectionStatus != _collaborationRoomConnectionStatus)
+				{
+					determineAlpha(collaborationRoomConnectionStatus);
+					_collaborationRoomConnectionStatus = collaborationRoomConnectionStatus;
+				}
+				if (localUserCollaborationRoomConnectionStatus != _localUserCollaborationRoomConnectionStatus || collaborationRoomUsersCount != _collaborationRoomUsersCount)
+				{
+					determineLocation(localUserCollaborationRoomConnectionStatus, collaborationRoomUsersCount);
+					_localUserCollaborationRoomConnectionStatus = localUserCollaborationRoomConnectionStatus;
+					_collaborationRoomUsersCount = collaborationRoomUsersCount;
+				}
+				if (controllingUser != _controllingUser)
+				{
+					determineEnlarged(controllingUser);
+					_controllingUser = controllingUser;
+				}
+				return true
+			}
+			
+			private function determineAlpha(collaborationRoomConnectionStatus:String):void
+			{
+				if (collaborationRoomConnectionStatus == User.COLLABORATION_ROOM_ENTERED)
+				{
+					if (_user == _collaborationModel.localUser)
+					{
+						if (_user == _collaborationModel.subjectUser)
+						{
+							this.alpha = 0.5;
+						}
+						else
+						{
+							this.alpha = 0;
+						}
+					}
+					else
+					{
+						this.alpha = 0.5;
+					}
+				}
+				else if (collaborationRoomConnectionStatus == User.COLLABORATION_ROOM_JOINED)
+				{
+					fadeInEffect.play();
+				}
+				else if (collaborationRoomConnectionStatus == User.COLLABORATION_ROOM_EXITED)
+				{
+					this.alpha = 0.5;
+				}
+			}
+			
+			private function determineLocation(localUserCollaborationRoomConnectionStatus:String, collaborationRoomUserCount:Number):Boolean
+			{
+				var index:Number = _collaborationModel.invitedUsers.indexOf(_user);
+				if (localUserCollaborationRoomConnectionStatus == User.COLLABORATION_ROOM_ENTERED)
+				{
+					this.width = CollaborationRoomView.COLLABORATION_ROOM_ENTERED_USER_VIEW_WIDTH;
+					this.height = CollaborationRoomView.COLLABORATION_ROOM_ENTERED_USER_VIEW_HEIGHT;
+					this.bottom = CollaborationRoomView.COLLABORATION_ROOM_USER_VIEW_SPACING;
+					if (_user == _collaborationModel.subjectUser)
+					{
+						this.x = CollaborationRoomView.COLLABORATION_ROOM_USER_VIEW_SPACING;
+					}
+					else if (_user == _collaborationModel.invitingUser)
+					{
+						this.x = CollaborationRoomView.COLLABORATION_ROOM_ENTERED_USER_VIEW_WIDTH + 2 * CollaborationRoomView.COLLABORATION_ROOM_USER_VIEW_SPACING;
+					}
+					else
+					{
+						this.x = (index + 2) * (CollaborationRoomView.COLLABORATION_ROOM_ENTERED_USER_VIEW_WIDTH) + (index + 3) * CollaborationRoomView.COLLABORATION_ROOM_USER_VIEW_SPACING;
+					}
+				}
+				else if (localUserCollaborationRoomConnectionStatus == User.COLLABORATION_ROOM_JOINED)
+				{
+					this.bottom = CollaborationRoomView.COLLABORATION_ROOM_USER_VIEW_SPACING;
+					if (_user == _collaborationModel.localUser)
+					{
+						this.width = CollaborationRoomView.COLLABORATION_ROOM_LOCAL_USER_VIEW_WIDTH;
+						this.height = CollaborationRoomView.COLLABORATION_ROOM_LOCAL_USER_VIEW_HEIGHT;
+						this.x = CollaborationRoomView.COLLABORATION_ROOM_USER_VIEW_SPACING;
+					}
+					else
+					{
+						horizontalCenterMotionPath.valueFrom = (this.x + this.width / 2) - (_collaborationRoomView.width / 2);
+						if (_user == _collaborationModel.subjectUser)
+						{
+							horizontalCenterMotionPath.valueTo = 0;
+						}
+						else if (_user == _collaborationModel.invitingUser)
+						{
+							if (_collaborationModel.localUser == _collaborationModel.subjectUser)
+							{
+								horizontalCenterMotionPath.valueTo = 0;
+							}
+							else
+							{
+								horizontalCenterMotionPath.valueTo = CollaborationRoomView.COLLABORATION_ROOM_JOINED_USER_VIEW_WIDTH + CollaborationRoomView.COLLABORATION_ROOM_USER_VIEW_SPACING;
+							}
+						}
+						else
+						{
+							var offset:Number;
+							if (_collaborationModel.localUser == _collaborationModel.subjectUser)
+							{
+								offset = 1;
+							}
+							else
+							{
+								if (_collaborationModel.invitingUser == null)
+								{
+									offset = 1;
+								}
+								else
+								{
+									offset = 2;
+								}
+							}
+							
+							if ((index + offset) % 2 == 1)
+							{
+								horizontalCenterMotionPath.valueTo = (Math.floor((index + offset) / 2) + 1) * (CollaborationRoomView.COLLABORATION_ROOM_JOINED_USER_VIEW_WIDTH + CollaborationRoomView.COLLABORATION_ROOM_USER_VIEW_SPACING);
+							}
+							else
+							{
+								horizontalCenterMotionPath.valueTo =  -Math.floor((index + offset) / 2) * (CollaborationRoomView.COLLABORATION_ROOM_JOINED_USER_VIEW_WIDTH + CollaborationRoomView.COLLABORATION_ROOM_USER_VIEW_SPACING);
+							}
+						}
+						joinTransitionEffect.play();
+					}
+				}
+				else
+				{
+					this.width = CollaborationRoomView.COLLABORATION_ROOM_LOCAL_USER_VIEW_WIDTH;
+					this.height = CollaborationRoomView.COLLABORATION_ROOM_LOCAL_USER_VIEW_HEIGHT;
+					this.bottom = CollaborationRoomView.COLLABORATION_ROOM_USER_VIEW_SPACING;
+				}
+				return true;
+			}
+
+			private function determineEnlarged(controllingUser:User):void
+			{
+				if (_user != _collaborationModel.localUser)
+				{
+					if (enlargeEffect.isPlaying == true)
+					{
+						enlargeEffect.end();
+					}					
+					if (shrinkEffect.isPlaying == true)
+					{
+						shrinkEffect.end();
+					}
+					if (_user == controllingUser && _enlarged == false)
+					{
+						enlargeEffect.play();
+						_enlarged = true;
+					}
+					else if (_user != controllingUser && _enlarged == true)
+					{
+						shrinkEffect.play();
+						_enlarged = false;
+					}
+				}
+			}
+			
+			private function determineVideoVisibility(netStream:NetStream):Boolean
+			{
+				if (netStream != null)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			
+			private function joinTransitionEffect_effectEndHandler(event:EffectEvent):void
+			{
+				if (_user == _collaborationModel.localUser)
+				{
+					callLater(localUserJoinedCollaborationRoomAnimationComplete);
+				}
+			}
+			
+			private function localUserJoinedCollaborationRoomAnimationComplete():void
+			{
+				dispatchEvent(new CollaborationEvent(CollaborationEvent.LOCAL_USER_JOINED_COLLABORATION_ROOM_ANIMATION_COMPLETE, _collaborationModel.localUser));
+			}
+		]]>
+	</fx:Script>
+	<s:Rect id="outerRectangle" width="100%" height="100%">
+ 		<s:fill>
+			<s:SolidColor color="{uint(_user.collaborationColor)}" alpha="0.4"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke color="0xFFFFFF" weight="1" alpha="0.5"/>
+		</s:stroke>
+	</s:Rect>
+	<s:Label id="userNameLabel" text="{determineUserNameLabel(_collaborationModel.subjectUser)}" alpha="0.5" top="10" left="5"/>
+	<mx:Image id="iconImage" right="5" top="5"/>
+	<s:Group id="contentGroup" top="29" left="1" bottom="1" right="1">
+		<mx:Image id="userImage" source="{_user.contact.imageURI}" maintainAspectRatio="true" width="100%" height="100%" smoothBitmapContent="true" horizontalCenter="0"/>
+		<mx:UIComponent id="videoUIComponent" width="100%" height="100%" visible="{determineVideoVisibility(_user.netStream)}"/>
+	</s:Group>
+	<s:filters>
+		<s:GlowFilter id="glowFilter"
+					  quality="3"
+					  alpha="0.2"
+					  color="0x000000"
+					  blurX="5"
+					  blurY="5"
+					  strength="5"/>
+	</s:filters>
+</s:Group>

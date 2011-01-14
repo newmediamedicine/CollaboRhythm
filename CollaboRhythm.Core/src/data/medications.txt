@@ -1,0 +1,274 @@
+<Reports>
+  <Summary total_document_count="5" limit="100" offset="0" order_by="-medication_date_started"/>
+  <Report>
+    <Meta>
+      <Document id="27d07c68-6b85-4fea-a4d5-34affd28080c" type="http://indivo.org/vocab/xml/documents#Medication" size="2316" digest="15c6f65dec50bd3bda0263d0e99b6ef3c3975c624265e6606cc17d4fa9eb105f" record_id="">
+        <createdAt>
+          2010-05-10T20:49:27+00:00
+        </createdAt>
+        <creator id="rpoole@records.media.mit.edu" type="Account">
+          <fullname>
+            Robert Poole
+          </fullname>
+        </creator>
+        <original id="27d07c68-6b85-4fea-a4d5-34affd28080c"/>
+        <status>
+          active
+        </status>
+      </Document>
+    </Meta>
+    <Item>
+      <Medication junk="http://indivo.org/vocab/xml/documents#">
+        <dateStarted>
+          2009-01-23T00:00:00+00:00
+        </dateStarted>
+        <name type="http://indivo.org/codes/meds#" abbrev="c2i" value="hydrochlorothiazide">
+          Hydrochlorothiazide
+        </name>
+        <brandName type="http://indivo.org/codes/meds#" abbrev="vioxx" value="hydrochlorothiazide">
+          Hydrochlorothiazide
+        </brandName>
+        <dose>
+          <value>
+            1
+          </value>
+          <unit type="http://indivo.org/codes/units#" value="pills" abbrev="p">
+            pills
+          </unit>
+        </dose>
+        <route type="http://indivo.org/codes/routes#" value="PO" abbrev="None">
+          By Mouth
+        </route>
+        <strength>
+          <value>
+            25
+          </value>
+          <unit type="http://indivo.org/codes/units#" value="mg" abbrev="mg">
+            milligram
+          </unit>
+        </strength>
+        <frequency type="http://indivo.org/codes/frequency#" value="daily" abbrev="None">
+          once a day
+        </frequency>
+      </Medication>
+    </Item>
+  </Report>
+  <Report>
+    <Meta>
+      <Document id="be8aeaca-18f4-45c4-a347-1a2e91b4da38" type="http://indivo.org/vocab/xml/documents#Medication" size="2284" digest="0fcd02f38eb326122732916c66bbaf9263b5ad9d97976b67242fa2514d7db026" record_id="">
+        <createdAt>
+          2010-05-10T16:49:55+00:00
+        </createdAt>
+        <creator id="rpoole@records.media.mit.edu" type="Account">
+          <fullname>
+            Robert Poole
+          </fullname>
+        </creator>
+        <original id="be8aeaca-18f4-45c4-a347-1a2e91b4da38"/>
+        <status>
+          active
+        </status>
+      </Document>
+    </Meta>
+    <Item>
+      <Medication junk="http://indivo.org/vocab/xml/documents#">
+        <dateStarted>
+          2009-01-23T00:00:00+00:00
+        </dateStarted>
+        <name type="http://indivo.org/codes/meds#" abbrev="c2i" value="simvastatin">
+          Simvastatin
+        </name>
+        <brandName type="http://indivo.org/codes/meds#" abbrev="vioxx" value="simvastatin">
+          Simvastatin
+        </brandName>
+        <dose>
+          <value>
+            1
+          </value>
+          <unit type="http://indivo.org/codes/units#" value="pills" abbrev="p">
+            pills
+          </unit>
+        </dose>
+        <route type="http://indivo.org/codes/routes#" value="PO" abbrev="None">
+          By Mouth
+        </route>
+        <strength>
+          <value>
+            40
+          </value>
+          <unit type="http://indivo.org/codes/units#" value="mg" abbrev="mg">
+            milligram
+          </unit>
+        </strength>
+        <frequency type="http://indivo.org/codes/frequency#" value="daily" abbrev="None">
+          once a day
+        </frequency>
+      </Medication>
+    </Item>
+  </Report>
+  <Report>
+    <Meta>
+      <Document id="f82ec096-425f-451b-a9f5-4c5bb817414c" type="http://indivo.org/vocab/xml/documents#Medication" size="2278" digest="6d3d3454e7ad94610f22a3256ce4d8cf27433377ef75250ac25eb08181dd0517" record_id="">
+        <createdAt>
+          2010-05-13T11:42:22+00:00
+        </createdAt>
+        <creator id="rpoole@records.media.mit.edu" type="Account">
+          <fullname>
+            Robert Poole
+          </fullname>
+        </creator>
+        <original id="f82ec096-425f-451b-a9f5-4c5bb817414c"/>
+        <status>
+          active
+        </status>
+      </Document>
+    </Meta>
+    <Item>
+      <Medication junk="http://indivo.org/vocab/xml/documents#">
+        <dateStarted>
+          2008-09-09T00:00:00+00:00
+        </dateStarted>
+        <name type="http://indivo.org/codes/meds#" abbrev="c2i" value="cox2-inhibitor">
+          Metformin
+        </name>
+        <brandName type="http://indivo.org/codes/meds#" abbrev="vioxx" value="Vioxx">
+          Metformin
+        </brandName>
+        <dose>
+          <value>
+            1
+          </value>
+          <unit type="http://indivo.org/codes/units#" value="pills" abbrev="p">
+            pills
+          </unit>
+        </dose>
+        <route type="http://indivo.org/codes/routes#" value="PO" abbrev="None">
+          By Mouth
+        </route>
+        <strength>
+          <value>
+            500
+          </value>
+          <unit type="http://indivo.org/codes/units#" value="mg" abbrev="mg">
+            milligram
+          </unit>
+        </strength>
+        <frequency type="http://indivo.org/codes/frequency#" value="daily" abbrev="None">
+          once a day
+        </frequency>
+      </Medication>
+    </Item>
+  </Report>
+  <Report>
+    <Meta>
+      <Document id="be44abe5-6315-499b-a58f-dc0eb377c636" type="http://indivo.org/vocab/xml/documents#Medication" size="2331" digest="a433fc9e042c54dda2253e260ffa8cea0ee43070e8d5d55b4bc2c0a22c06b331" record_id="">
+        <createdAt>
+          2010-05-13T17:48:53+00:00
+        </createdAt>
+        <creator id="rpoole@records.media.mit.edu" type="Account">
+          <fullname>
+            Robert Poole
+          </fullname>
+        </creator>
+        <original id="be44abe5-6315-499b-a58f-dc0eb377c636"/>
+        <status>
+          active
+        </status>
+      </Document>
+    </Meta>
+    <Item>
+      <Medication junk="http://indivo.org/vocab/xml/documents#">
+        <dateStarted>
+          2008-04-15T00:00:00+00:00
+        </dateStarted>
+        <dateStopped>
+          2008-04-25T00:00:00+00:00
+        </dateStopped>
+        <name type="http://indivo.org/codes/meds#" abbrev="c2i" value="amoxicillin">
+          Amoxicillin
+        </name>
+        <brandName type="http://indivo.org/codes/meds#" abbrev="vioxx" value="amoxicillin">
+          Amoxicillin
+        </brandName>
+        <dose>
+          <value>
+            1
+          </value>
+          <unit type="http://indivo.org/codes/units#" value="pills" abbrev="p">
+            pills
+          </unit>
+        </dose>
+        <route type="http://indivo.org/codes/routes#" value="PO" abbrev="None">
+          By Mouth
+        </route>
+        <strength>
+          <value>
+            500
+          </value>
+          <unit type="http://indivo.org/codes/units#" value="mg" abbrev="mg">
+            milligram
+          </unit>
+        </strength>
+        <frequency type="http://indivo.org/codes/frequency#" value="every 8 hours" abbrev="None">
+          every 8 hours
+        </frequency>
+      </Medication>
+    </Item>
+  </Report>
+  <Report>
+    <Meta>
+      <Document id="2ad88f16-f44f-4ccc-aca6-cdf487d2fa09" type="http://indivo.org/vocab/xml/documents#Medication" size="2335" digest="643ad81fed6347533e197f4ca960d5ba038b3f02ffd9a1e08b614e2de97d02f6" record_id="">
+        <createdAt>
+          2010-05-13T17:50:44+00:00
+        </createdAt>
+        <creator id="rpoole@records.media.mit.edu" type="Account">
+          <fullname>
+            Robert Poole
+          </fullname>
+        </creator>
+        <original id="2ad88f16-f44f-4ccc-aca6-cdf487d2fa09"/>
+        <status>
+          active
+        </status>
+      </Document>
+    </Meta>
+    <Item>
+      <Medication junk="http://indivo.org/vocab/xml/documents#">
+        <dateStarted>
+          2008-01-03T00:00:00+00:00
+        </dateStarted>
+        <dateStopped>
+          2008-01-10T00:00:00+00:00
+        </dateStopped>
+        <name type="http://indivo.org/codes/meds#" abbrev="c2i" value="erythromycin">
+          Erythromycin
+        </name>
+        <brandName type="http://indivo.org/codes/meds#" abbrev="vioxx" value="erythromycin">
+          Erythromycin
+        </brandName>
+        <dose>
+          <value>
+            1
+          </value>
+          <unit type="http://indivo.org/codes/units#" value="pills" abbrev="p">
+            pills
+          </unit>
+        </dose>
+        <route type="http://indivo.org/codes/routes#" value="PO" abbrev="None">
+          By Mouth
+        </route>
+        <strength>
+          <value>
+            250
+          </value>
+          <unit type="http://indivo.org/codes/units#" value="mg" abbrev="mg">
+            milligram
+          </unit>
+        </strength>
+        <frequency type="http://indivo.org/codes/frequency#" value="every 6 hours" abbrev="None">
+          every 6 hours
+        </frequency>
+      </Medication>
+    </Item>
+  </Report>
+</Reports>

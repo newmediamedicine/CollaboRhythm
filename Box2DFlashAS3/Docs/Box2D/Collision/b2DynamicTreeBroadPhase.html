@@ -1,0 +1,437 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../../style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="../../print.css" type="text/css" media="print">
+<meta content="b2DynamicTreeBroadPhase,Box2D.Collision.b2DynamicTreeBroadPhase,CreateProxy,DestroyProxy,GetFatAABB,GetProxyCount,GetUserData,MoveProxy,Query,RayCast,Rebalance,TestOverlap,UpdatePairs,Validate" name="keywords">
+<title>Box2D.Collision.b2DynamicTreeBroadPhase</title>
+</head>
+<body>
+<script type="text/javascript" language="javascript" src="../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../cookies.js"></script><script type="text/javascript" language="javascript">
+<!--
+				asdocTitle = 'b2DynamicTreeBroadPhase - Box2DFlash Documentation';
+				var baseRef = '../../';
+				window.onload = configPage;
+			--></script>
+<table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+<tr>
+<td align="left" class="titleTableTitle">Box2DFlash Documentation</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../all-classes.html')" href="../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../all-classes.html')" href="../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../index-list.html')" href="../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../index.html?Box2D/Collision/b2DynamicTreeBroadPhase.html&amp;Box2D/Collision/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../images/logo.jpg"></td>
+</tr>
+<tr class="titleTableRow2">
+<td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;b2DynamicTreeBroadPhase</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#methodSummary">Methods</a></td>
+</tr>
+<tr class="titleTableRow3">
+<td colspan="2">&nbsp;</td>
+</tr>
+</table>
+<script type="text/javascript" language="javascript">
+<!--
+if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Class b2DynamicTreeBroadPhase"); titleBar_setSubNav(false,false,false,false,false,false,true,false,false,false,false,false,false,false);}
+--></script>
+<div class="MainContent">
+<table cellspacing="0" cellpadding="0" class="classHeaderTable">
+<tr>
+<td class="classHeaderTableLabel">Package</td><td><a onclick="javascript:loadClassListFrame('class-list.html')" href="package-detail.html">Box2D.Collision</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Class</td><td class="classSignature">public class b2DynamicTreeBroadPhase</td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Implements</td><td><a href="IBroadPhase.html">IBroadPhase</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Source</td><td><a href="http://box2dflash.svn.sourceforge.net/viewvc/box2dflash/Source/Box2D/Collision/b2DynamicTreeBroadPhase.as">b2DynamicTreeBroadPhase.as</a></td>
+</tr>
+</table>
+<p></p>
+ The broad-phase is used for computing pairs and performing volume queries and ray casts.
+ This broad-phase does not persist pairs. Instead, this reports potentially new pairs.
+ It is up to the client to consume the new pairs and to track subsequent overlap.
+ <p></p>
+<br>
+<hr>
+</div>
+<a name="methodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Methods</div>
+<table id="summaryTableMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#CreateProxy()">CreateProxy</a>(aabb:<a href="b2AABB.html">b2AABB</a>, userData:*):*</div>
+<div class="summaryTableDescription">
+  Create a proxy with an initial AABB.</div>
+</td><td class="summaryTableOwnerCol">b2DynamicTreeBroadPhase</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#DestroyProxy()">DestroyProxy</a>(proxy:*):void</div>
+<div class="summaryTableDescription">
+  Destroy a proxy.</div>
+</td><td class="summaryTableOwnerCol">b2DynamicTreeBroadPhase</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetFatAABB()">GetFatAABB</a>(proxy:*):<a href="../Collision/b2AABB.html">b2AABB</a>
+</div>
+<div class="summaryTableDescription">
+  Get the AABB for a proxy.</div>
+</td><td class="summaryTableOwnerCol">b2DynamicTreeBroadPhase</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetProxyCount()">GetProxyCount</a>():int</div>
+<div class="summaryTableDescription">
+  Get the number of proxies.</div>
+</td><td class="summaryTableOwnerCol">b2DynamicTreeBroadPhase</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetUserData()">GetUserData</a>(proxy:*):*</div>
+<div class="summaryTableDescription">
+  Get user data from a proxy.</div>
+</td><td class="summaryTableOwnerCol">b2DynamicTreeBroadPhase</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#MoveProxy()">MoveProxy</a>(proxy:*, aabb:<a href="b2AABB.html">b2AABB</a>, displacement:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>):void</div>
+<div class="summaryTableDescription">
+  Call MoveProxy as many times as you like, then when you are done
+  call UpdatePairs to finalized the proxy pairs (for your time step).</div>
+</td><td class="summaryTableOwnerCol">b2DynamicTreeBroadPhase</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#Query()">Query</a>(callback:Function, aabb:<a href="b2AABB.html">b2AABB</a>):void</div>
+<div class="summaryTableDescription">
+  
+   Query an AABB for overlapping proxies.</div>
+</td><td class="summaryTableOwnerCol">b2DynamicTreeBroadPhase</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#RayCast()">RayCast</a>(callback:Function, input:<a href="b2RayCastInput.html">b2RayCastInput</a>):void</div>
+<div class="summaryTableDescription">
+  
+   Ray-cast  agains the proxies in the tree.</div>
+</td><td class="summaryTableOwnerCol">b2DynamicTreeBroadPhase</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#Rebalance()">Rebalance</a>(iterations:int):void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">b2DynamicTreeBroadPhase</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#TestOverlap()">TestOverlap</a>(proxyA:*, proxyB:*):Boolean</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">b2DynamicTreeBroadPhase</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#UpdatePairs()">UpdatePairs</a>(callback:Function):void</div>
+<div class="summaryTableDescription">
+  Update the pairs.</div>
+</td><td class="summaryTableOwnerCol">b2DynamicTreeBroadPhase</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#Validate()">Validate</a>():void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">b2DynamicTreeBroadPhase</td>
+</tr>
+</table>
+</div>
+<script type="text/javascript" language="javascript">
+<!--
+showHideInherited();
+--></script>
+<div class="MainContent">
+<a name="methodDetail"></a>
+<div class="detailSectionHeader">Method detail</div>
+<a name="CreateProxy()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">CreateProxy</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function CreateProxy(aabb:<a href="b2AABB.html">b2AABB</a>, userData:*):*</code><p>
+  Create a proxy with an initial AABB. Pairs are not reported until
+  UpdatePairs is called.
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">aabb</span>:<a href="b2AABB.html">b2AABB</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">userData</span>:*</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>*</code></td>
+</tr>
+</table>
+</div>
+<a name="DestroyProxy()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">DestroyProxy</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function DestroyProxy(proxy:*):void</code><p>
+  Destroy a proxy. It is up to the client to remove any pairs.
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">proxy</span>:*</code></td>
+</tr>
+</table>
+</div>
+<a name="GetFatAABB()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetFatAABB</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetFatAABB(proxy:*):<a href="../Collision/b2AABB.html">b2AABB</a></code><p>
+  Get the AABB for a proxy.
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">proxy</span>:*</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../Collision/b2AABB.html">b2AABB</a></code></td>
+</tr>
+</table>
+</div>
+<a name="GetProxyCount()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetProxyCount</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetProxyCount():int</code><p>
+  Get the number of proxies.
+  </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>int</code></td>
+</tr>
+</table>
+</div>
+<a name="GetUserData()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetUserData</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetUserData(proxy:*):*</code><p>
+  Get user data from a proxy. Returns null if the proxy is invalid.
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">proxy</span>:*</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>*</code></td>
+</tr>
+</table>
+</div>
+<a name="MoveProxy()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">MoveProxy</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function MoveProxy(proxy:*, aabb:<a href="b2AABB.html">b2AABB</a>, displacement:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>):void</code><p>
+  Call MoveProxy as many times as you like, then when you are done
+  call UpdatePairs to finalized the proxy pairs (for your time step).
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">proxy</span>:*</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">aabb</span>:<a href="b2AABB.html">b2AABB</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">displacement</span>:<a href="../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+</table>
+</div>
+<a name="Query()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">Query</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function Query(callback:Function, aabb:<a href="b2AABB.html">b2AABB</a>):void</code><p>
+  
+   Query an AABB for overlapping proxies. The callback class
+   is called with each proxy that overlaps 
+   the supplied AABB, and return a Boolean indicating if 
+   the broaphase should proceed to the next match.
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">callback</span>:Function</code> &mdash; This function should be a function matching signature
+   <code>function Callback(proxy::Boolean</code>
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">aabb</span>:<a href="b2AABB.html">b2AABB</a></code></td>
+</tr>
+</table>
+</div>
+<a name="RayCast()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">RayCast</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function RayCast(callback:Function, input:<a href="b2RayCastInput.html">b2RayCastInput</a>):void</code><p>
+  
+   Ray-cast  agains the proxies in the tree. This relies on the callback
+   to perform exact ray-cast in the case where the proxy contains a shape
+   The callback also performs any collision filtering
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">callback</span>:Function</code> &mdash; This function should be a function matching signature
+   <code>function Callback(subInput:b2RayCastInput, proxy::Number</code>
+   Where the returned number is the new value for maxFraction
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">input</span>:<a href="b2RayCastInput.html">b2RayCastInput</a></code></td>
+</tr>
+</table>
+</div>
+<a name="Rebalance()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">Rebalance</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function Rebalance(iterations:int):void</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">iterations</span>:int</code></td>
+</tr>
+</table>
+</div>
+<a name="TestOverlap()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">TestOverlap</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function TestOverlap(proxyA:*, proxyB:*):Boolean</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">proxyA</span>:*</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">proxyB</span>:*</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code></td>
+</tr>
+</table>
+</div>
+<a name="UpdatePairs()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">UpdatePairs</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function UpdatePairs(callback:Function):void</code><p>
+  Update the pairs. This results in pair callbacks. This can only add pairs.
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">callback</span>:Function</code></td>
+</tr>
+</table>
+</div>
+<a name="Validate()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">Validate</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function Validate():void</code>
+</div>
+<br>
+<br>
+<hr>
+<br>
+<p></p>
+<center class="copyright">Box2DFlash 2.1a</center>
+</div>
+</body>
+</html>
+<!--Box2DFlash 2.1a-->

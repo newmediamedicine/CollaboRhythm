@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="100%" height="100%">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		
+		.labelText {
+			font-size: 30;
+		}
+		
+		.buttonText {
+			font-size: 20;
+		}
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[	
+			import collaboRhythm.workstation.apps.bloodPressure.model.BloodPressureModel;
+			import collaboRhythm.workstation.apps.bloodPressureAgent.controller.BloodPressureAgentFullViewController;
+			
+			import mx.events.ResizeEvent;
+			
+			private var _bloodPressureAgentFullViewController:BloodPressureAgentFullViewController;
+			private var _bloodPressureModel:BloodPressureModel;
+			private var _dialogueMode:String;
+			
+			public function get dialogueMode():String
+			{
+				return _dialogueMode;
+			}
+
+			public function set dialogueMode(value:String):void
+			{
+				_dialogueMode = value;
+			}
+
+			public function initializeControllerModel(bloodPressureFullViewController:BloodPressureAgentFullViewController, bloodPressureModel:BloodPressureModel):void 
+			{
+				_bloodPressureAgentFullViewController = bloodPressureFullViewController;				
+				avatarUIComponent.addChild(_bloodPressureAgentFullViewController.avatarLoader);
+				_bloodPressureModel = bloodPressureModel;
+				this.addEventListener(MouseEvent.CLICK, clickHandler);
+			}
+			
+			private function clickHandler(event:MouseEvent):void
+			{
+				_bloodPressureAgentFullViewController.clickHandler();
+			}
+			
+			public function refresh():void
+			{
+				if (_bloodPressureModel.showAdherence == false)
+				{
+					_dialogueMode = "LivingRoom";
+				}
+				else
+				{
+					_dialogueMode = "CollaborationRoom";
+				}
+			}
+			
+			private function agentUIComponent_resizeHandler(event:ResizeEvent):void
+			{
+//				_bloodPressureFullViewController.avatarLoader.height = avatarUIComponent.height;
+//				_bloodPressureFullViewController.avatarLoader.width = avatarUIComponent.height;
+			}
+			
+			private function instructButton_clickHandler(event:MouseEvent):void
+			{
+				_bloodPressureAgentFullViewController.instructBloodPressure();
+			}
+			
+			private function skipButton_clickHandler(event:MouseEvent):void
+			{
+				_bloodPressureAgentFullViewController.skip();
+			}
+			
+			private function multipleChoiceButton1_clickHandler(event:MouseEvent):void
+			{
+				_bloodPressureAgentFullViewController.multipleChoiceOther("eat");
+			}
+			
+			private function multipleChoiceButton2_clickHandler(event:MouseEvent):void
+			{
+				_bloodPressureAgentFullViewController.multipleChoiceOther("exercise");
+			}
+			
+			private function multipleChoiceButton3_clickHandler(event:MouseEvent):void
+			{
+				_bloodPressureAgentFullViewController.multipleChoiceOther("bathe");
+			}
+			
+			private function multipleChoiceButton4_clickHandler(event:MouseEvent):void
+			{
+				_bloodPressureAgentFullViewController.multipleChoiceOther("smoke");
+			}
+			
+			private function multipleChoiceButton5_clickHandler(event:MouseEvent):void
+			{
+				_bloodPressureAgentFullViewController.multipleChoiceOther("drink alcohol");
+			}
+			
+			private function multipleChoiceButton6_clickHandler(event:MouseEvent):void
+			{
+				_bloodPressureAgentFullViewController.noneOfTheAbove();
+			}
+			
+			private function whyDoYouAsk_clickHandler(event:MouseEvent):void
+			{
+				_bloodPressureAgentFullViewController.whyDoYouAskButton();
+			}
+			
+			private function okButton_clickHandler(event:MouseEvent):void
+			{
+				_bloodPressureAgentFullViewController.OK();
+			}
+			
+			private function skipToEnd_clickHandler(event:MouseEvent):void
+			{
+				_bloodPressureAgentFullViewController.currentInstruction = 5;
+				_bloodPressureAgentFullViewController.OK();
+			}
+		]]>
+	</fx:Script>
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="0xAAAAAA"/>
+		</s:fill>
+	</s:Rect>
+	<mx:UIComponent id="avatarUIComponent" width="100%" height="100%" resize="agentUIComponent_resizeHandler(event)"/>
+	<s:Button id="instructButton" styleName="buttonText" top="300" right="200" width="500" height="100" label="Hello Linda, please help me take my blood pressure." click="instructButton_clickHandler(event)" visible="false"/>
+	<s:Button id="skipButton" styleName="buttonText" top="420" right="200" width="500" height="100" label="Thanks Linda, but I know how to take my blood pressure." click="skipButton_clickHandler(event)" visible="false"/>
+	<s:Label id="textLabel" styleName="labelText" top="130" right="10" width="640"/>
+	<s:Button id="multipleChoiceButton1" styleName="buttonText" top="200" right="520" width="150" height="100" label="Eaten" click="multipleChoiceButton1_clickHandler(event)" visible="false"/>
+	<s:Button id="multipleChoiceButton2" styleName="buttonText" top="200" right="350" width="150" height="100" label="Exercised" click="multipleChoiceButton2_clickHandler(event)" visible="false"/>
+	<s:Button id="multipleChoiceButton4" styleName="buttonText" top="200" right="180" width="150" height="100" label="Smoked" click="multipleChoiceButton4_clickHandler(event)" visible="false"/>
+	<s:Button id="multipleChoiceButton5" styleName="buttonText" top="200" right="20" width="150" height="100" label="Drunk Alcohol" click="multipleChoiceButton5_clickHandler(event)" visible="false"/>
+	<s:Button id="multipleChoiceButton6" styleName="buttonText" top="430" right="240" width="200" height="100" label="No, none of these" click="multipleChoiceButton6_clickHandler(event)" visible="false"/>
+	<s:Button id="whyDoYouAskButton" styleName="buttonText" top="550" right="240" width="200" height="100" label="Why do you ask?" click="whyDoYouAsk_clickHandler(event)" visible="false"/>
+	<s:Button id="okButton" styleName="buttonText" bottom="20" height="100" right="220" width="350" label="OK" click="okButton_clickHandler(event)" visible="false"/>
+	<mx:Image id="instructions1Image" source="@Embed(source='resources/images/apps/bloodPressureAgent/instructions1.jpg')" top="50" right="300" smoothBitmapContent="true" visible="false"/>
+	<mx:Image id="instructions2Image" source="@Embed(source='resources/images/apps/bloodPressureAgent/instructions2.jpg')" top="50" right="300" smoothBitmapContent="true" visible="false"/>
+	<mx:Image id="instructions3Image" source="@Embed(source='resources/images/apps/bloodPressureAgent/instructions3.jpg')" top="50" right="300" smoothBitmapContent="true" visible="false"/>
+	<mx:Image id="instructions4Image" source="@Embed(source='resources/images/apps/bloodPressureAgent/instructions4.jpg')" top="50" right="300" smoothBitmapContent="true" visible="false"/>
+	<s:Button id="skipToEnd" styleName="buttonText" bottom="20" right="20" width="100" height="100" label="Skip" click="skipToEnd_clickHandler(event)" visible="false"/>
+	<mx:Image id="hypertensionEducation" source="@Embed(source='resources/images/apps/bloodPressureAgent/hypertensionEducation.PNG')" bottom="130" right="20" smoothBitmapContent="true" visible="false"/>
+	<mx:Image id="oddcastPowered" source="@Embed(source='resources/images/apps/bloodPressureAgent/oddcast.PNG')" top="10" left="10" smoothBitmapContent="true" visible="true"/>
+</s:Group>

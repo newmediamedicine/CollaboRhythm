@@ -1,0 +1,344 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../../style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="../../print.css" type="text/css" media="print">
+<meta content="b2BodyDef,Box2D.Dynamics.b2BodyDef,active,allowSleep,angle,angularDamping,angularVelocity,awake,bullet,fixedRotation,inertiaScale,linearDamping,linearVelocity,position,type,userData" name="keywords">
+<title>Box2D.Dynamics.b2BodyDef</title>
+</head>
+<body>
+<script type="text/javascript" language="javascript" src="../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../cookies.js"></script><script type="text/javascript" language="javascript">
+<!--
+				asdocTitle = 'b2BodyDef - Box2DFlash Documentation';
+				var baseRef = '../../';
+				window.onload = configPage;
+			--></script>
+<table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+<tr>
+<td align="left" class="titleTableTitle">Box2DFlash Documentation</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../all-classes.html')" href="../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../all-classes.html')" href="../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../index-list.html')" href="../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../index.html?Box2D/Dynamics/b2BodyDef.html&amp;Box2D/Dynamics/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../images/logo.jpg"></td>
+</tr>
+<tr class="titleTableRow2">
+<td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;b2BodyDef</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#propertySummary">Properties</a>&nbsp;| <a href="#methodSummary">Methods</a></td>
+</tr>
+<tr class="titleTableRow3">
+<td colspan="2">&nbsp;</td>
+</tr>
+</table>
+<script type="text/javascript" language="javascript">
+<!--
+if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Class b2BodyDef"); titleBar_setSubNav(false,true,false,false,false,false,true,false,false,false,false,false,false,false);}
+--></script>
+<div class="MainContent">
+<table cellspacing="0" cellpadding="0" class="classHeaderTable">
+<tr>
+<td class="classHeaderTableLabel">Package</td><td><a onclick="javascript:loadClassListFrame('class-list.html')" href="package-detail.html">Box2D.Dynamics</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Class</td><td class="classSignature">public class b2BodyDef</td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Source</td><td><a href="http://box2dflash.svn.sourceforge.net/viewvc/box2dflash/Source/Box2D/Dynamics/b2BodyDef.as">b2BodyDef.as</a></td>
+</tr>
+</table>
+<p></p>
+A body definition holds all the data needed to construct a rigid body.
+You can safely re-use body definitions.
+<p></p>
+<br>
+<hr>
+</div>
+<a name="propertySummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Properties</div>
+<table id="summaryTableProperty" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#active">active</a> : Boolean<div class="summaryTableDescription">
+  Does this body start out active?
+  </div>
+</td><td class="summaryTableOwnerCol">b2BodyDef</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#allowSleep">allowSleep</a> : Boolean<div class="summaryTableDescription">
+  Set this flag to false if this body should never fall asleep.</div>
+</td><td class="summaryTableOwnerCol">b2BodyDef</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#angle">angle</a> : Number<div class="summaryTableDescription">
+  The world angle of the body in radians.</div>
+</td><td class="summaryTableOwnerCol">b2BodyDef</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#angularDamping">angularDamping</a> : Number<div class="summaryTableDescription">
+  Angular damping is use to reduce the angular velocity.</div>
+</td><td class="summaryTableOwnerCol">b2BodyDef</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#angularVelocity">angularVelocity</a> : Number<div class="summaryTableDescription">
+  The angular velocity of the body.</div>
+</td><td class="summaryTableOwnerCol">b2BodyDef</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#awake">awake</a> : Boolean<div class="summaryTableDescription">
+  Is this body initially awake or sleeping?
+  </div>
+</td><td class="summaryTableOwnerCol">b2BodyDef</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#bullet">bullet</a> : Boolean<div class="summaryTableDescription">
+  Is this a fast moving body that should be prevented from tunneling through
+  other moving bodies? Note that all bodies are prevented from tunneling through
+  static bodies.</div>
+</td><td class="summaryTableOwnerCol">b2BodyDef</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#fixedRotation">fixedRotation</a> : Boolean<div class="summaryTableDescription">
+  Should this body be prevented from rotating? Useful for characters.</div>
+</td><td class="summaryTableOwnerCol">b2BodyDef</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#inertiaScale">inertiaScale</a> : Number<div class="summaryTableDescription">
+  Scales the inertia tensor.</div>
+</td><td class="summaryTableOwnerCol">b2BodyDef</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#linearDamping">linearDamping</a> : Number<div class="summaryTableDescription">
+  Linear damping is use to reduce the linear velocity.</div>
+</td><td class="summaryTableOwnerCol">b2BodyDef</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#linearVelocity">linearVelocity</a> : <a href="../Common/Math/b2Vec2.html">b2Vec2</a>
+<div class="summaryTableDescription">
+  The linear velocity of the body's origin in world co-ordinates.</div>
+</td><td class="summaryTableOwnerCol">b2BodyDef</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#position">position</a> : <a href="../Common/Math/b2Vec2.html">b2Vec2</a>
+<div class="summaryTableDescription">
+  The world position of the body.</div>
+</td><td class="summaryTableOwnerCol">b2BodyDef</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#type">type</a> : uint<div class="summaryTableDescription"> The body type: static, kinematic, or dynamic.</div>
+</td><td class="summaryTableOwnerCol">b2BodyDef</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#userData">userData</a> : *<div class="summaryTableDescription">
+  Use this to store application specific body data.</div>
+</td><td class="summaryTableOwnerCol">b2BodyDef</td>
+</tr>
+</table>
+</div>
+<a name="methodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Methods</div>
+<table id="summaryTableMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#b2BodyDef()">b2BodyDef</a>()</div>
+<div class="summaryTableDescription">
+ This constructor sets the body definition default values.</div>
+</td><td class="summaryTableOwnerCol">b2BodyDef</td>
+</tr>
+</table>
+</div>
+<script type="text/javascript" language="javascript">
+<!--
+showHideInherited();
+--></script>
+<div class="MainContent">
+<a name="propertyDetail"></a>
+<div class="detailSectionHeader">Property detail</div>
+<a name="active"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">active</td><td class="detailHeaderType">property</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var active:Boolean</code><p>
+  Does this body start out active?
+  </p></div>
+<a name="allowSleep"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">allowSleep</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var allowSleep:Boolean</code><p>
+  Set this flag to false if this body should never fall asleep. Note that
+  this increases CPU usage.
+  </p></div>
+<a name="angle"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">angle</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var angle:Number</code><p>
+  The world angle of the body in radians.
+  </p></div>
+<a name="angularDamping"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">angularDamping</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var angularDamping:Number</code><p>
+  Angular damping is use to reduce the angular velocity. The damping parameter
+  can be larger than 1.0f but the damping effect becomes sensitive to the
+  time step when the damping parameter is large.
+  </p></div>
+<a name="angularVelocity"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">angularVelocity</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var angularVelocity:Number</code><p>
+  The angular velocity of the body.
+  </p></div>
+<a name="awake"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">awake</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var awake:Boolean</code><p>
+  Is this body initially awake or sleeping?
+  </p></div>
+<a name="bullet"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">bullet</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var bullet:Boolean</code><p>
+  Is this a fast moving body that should be prevented from tunneling through
+  other moving bodies? Note that all bodies are prevented from tunneling through
+  static bodies.
+  </p><p>
+<font color="red">Warning: </font>You should use this flag sparingly since it increases processing time.
+  </p>
+</div>
+<a name="fixedRotation"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">fixedRotation</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var fixedRotation:Boolean</code><p>
+  Should this body be prevented from rotating? Useful for characters.
+  </p></div>
+<a name="inertiaScale"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">inertiaScale</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var inertiaScale:Number</code><p>
+  Scales the inertia tensor.
+  </p><p>
+<font color="red">Warning: </font>Experimental
+  </p>
+</div>
+<a name="linearDamping"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">linearDamping</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var linearDamping:Number</code><p>
+  Linear damping is use to reduce the linear velocity. The damping parameter
+  can be larger than 1.0f but the damping effect becomes sensitive to the
+  time step when the damping parameter is large.
+  </p></div>
+<a name="linearVelocity"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">linearVelocity</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var linearVelocity:<a href="../Common/Math/b2Vec2.html">b2Vec2</a></code><p>
+  The linear velocity of the body's origin in world co-ordinates.
+  </p></div>
+<a name="position"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">position</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var position:<a href="../Common/Math/b2Vec2.html">b2Vec2</a></code><p>
+  The world position of the body. Avoid creating bodies at the origin
+  since this can lead to many overlapping shapes.
+  </p></div>
+<a name="type"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">type</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var type:uint</code><p> The body type: static, kinematic, or dynamic. A member of the b2BodyType class
+  Note: if a dynamic body would have zero mass, the mass is set to one.
+  </p><p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">
+<a href="b2Body.html#b2_staticBody" target="">b2Body.b2_staticBody</a>
+<br>
+<a href="b2Body.html#b2_dynamicBody" target="">b2Body.b2_dynamicBody</a>
+<br>
+<a href="b2Body.html#b2_kinematicBody" target="">b2Body.b2_kinematicBody</a>
+</div>
+</div>
+<a name="userData"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">userData</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var userData:*</code><p>
+  Use this to store application specific body data.
+  </p></div>
+<a name="constructorDetail"></a>
+<div class="detailSectionHeader">Constructor detail</div>
+<a name="b2BodyDef()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2BodyDef</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">constructor</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function b2BodyDef()</code><p>
+ This constructor sets the body definition default values.
+ </p></div>
+<br>
+<br>
+<hr>
+<br>
+<p></p>
+<center class="copyright">Box2DFlash 2.1a</center>
+</div>
+</body>
+</html>
+<!--Box2DFlash 2.1a-->

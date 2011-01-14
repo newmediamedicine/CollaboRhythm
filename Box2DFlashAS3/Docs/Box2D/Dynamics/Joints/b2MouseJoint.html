@@ -1,0 +1,451 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../../../style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="../../../print.css" type="text/css" media="print">
+<meta content="b2MouseJoint,Box2D.Dynamics.Joints.b2MouseJoint,GetAnchorA,GetAnchorB,GetDampingRatio,GetFrequency,GetMaxForce,GetReactionForce,GetReactionTorque,GetTarget,SetDampingRatio,SetFrequency,SetMaxForce,SetTarget" name="keywords">
+<title>Box2D.Dynamics.Joints.b2MouseJoint</title>
+</head>
+<body>
+<script type="text/javascript" language="javascript" src="../../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../../cookies.js"></script><script type="text/javascript" language="javascript">
+<!--
+				asdocTitle = 'b2MouseJoint - Box2DFlash Documentation';
+				var baseRef = '../../../';
+				window.onload = configPage;
+			--></script>
+<table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+<tr>
+<td align="left" class="titleTableTitle">Box2DFlash Documentation</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../../all-classes.html')" href="../../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../all-classes.html')" href="../../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../index-list.html')" href="../../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../../index.html?Box2D/Dynamics/Joints/b2MouseJoint.html&amp;Box2D/Dynamics/Joints/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../../images/logo.jpg"></td>
+</tr>
+<tr class="titleTableRow2">
+<td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;b2MouseJoint</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#methodSummary">Methods</a></td>
+</tr>
+<tr class="titleTableRow3">
+<td colspan="2">&nbsp;</td>
+</tr>
+</table>
+<script type="text/javascript" language="javascript">
+<!--
+if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Class b2MouseJoint"); titleBar_setSubNav(false,false,false,false,false,false,true,false,false,false,false,false,false,false);}
+--></script>
+<div class="MainContent">
+<table cellspacing="0" cellpadding="0" class="classHeaderTable">
+<tr>
+<td class="classHeaderTableLabel">Package</td><td><a onclick="javascript:loadClassListFrame('class-list.html')" href="package-detail.html">Box2D.Dynamics.Joints</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Class</td><td class="classSignature">public class b2MouseJoint</td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Inheritance</td><td class="inheritanceList">b2MouseJoint <img class="inheritArrow" alt="Inheritance" title="Inheritance" src="../../../images/inherit-arrow.gif"> <a href="b2Joint.html">b2Joint</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Source</td><td><a href="http://box2dflash.svn.sourceforge.net/viewvc/box2dflash/Source/Box2D/Dynamics/Joints/b2MouseJoint.as">b2MouseJoint.as</a></td>
+</tr>
+</table>
+<p></p>
+A mouse joint is used to make a point on a body track a
+specified world point. This a soft constraint with a maximum
+force. This allows the constraint to stretch and without
+applying huge forces.
+Note: this joint is not fully documented as it is intended primarily
+for the testbed. See that for more instructions.
+<p></p>
+<p>
+<span class="classHeaderTableLabel">See also</span>
+</p>
+<div class="seeAlso">
+<a href="b2MouseJointDef.html" target="">b2MouseJointDef</a>
+</div>
+<br>
+<hr>
+</div>
+<a name="methodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Methods</div>
+<div class="showHideLinks">
+<div class="hideInheritedMethod" id="hideInheritedMethod">
+<a onclick="javascript:setInheritedVisible(false,'Method');" href="#methodSummary" class="showHideLink"><img src="../../../images/expanded.gif" class="showHideLinkImage"> Hide Inherited Public Methods</a>
+</div>
+<div class="showInheritedMethod" id="showInheritedMethod">
+<a onclick="javascript:setInheritedVisible(true,'Method');" href="#methodSummary" class="showHideLink"><img src="../../../images/collapsed.gif" class="showHideLinkImage"> Show Inherited Public Methods</a>
+</div>
+</div>
+<table id="summaryTableMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetAnchorA()">GetAnchorA</a>():<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>
+</div>
+<div class="summaryTableDescription"> 
+ Get the anchor point on bodyA in world coordinates.</div>
+</td><td class="summaryTableOwnerCol">b2MouseJoint</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetAnchorB()">GetAnchorB</a>():<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>
+</div>
+<div class="summaryTableDescription"> 
+ Get the anchor point on bodyB in world coordinates.</div>
+</td><td class="summaryTableOwnerCol">b2MouseJoint</td>
+</tr>
+<tr class="hideInheritedMethod">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="b2Joint.html#GetBodyA()">GetBodyA</a>():<a href="../../Dynamics/b2Body.html">b2Body</a>
+</div>
+<div class="summaryTableDescription">
+ Get the first body attached to this joint.</div>
+</td><td class="summaryTableOwnerCol"><a href="b2Joint.html">b2Joint</a></td>
+</tr>
+<tr class="hideInheritedMethod">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="b2Joint.html#GetBodyB()">GetBodyB</a>():<a href="../../Dynamics/b2Body.html">b2Body</a>
+</div>
+<div class="summaryTableDescription">
+ Get the second body attached to this joint.</div>
+</td><td class="summaryTableOwnerCol"><a href="b2Joint.html">b2Joint</a></td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetDampingRatio()">GetDampingRatio</a>():Number</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">b2MouseJoint</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetFrequency()">GetFrequency</a>():Number</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">b2MouseJoint</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetMaxForce()">GetMaxForce</a>():Number</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">b2MouseJoint</td>
+</tr>
+<tr class="hideInheritedMethod">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="b2Joint.html#GetNext()">GetNext</a>():<a href="../Joints/b2Joint.html">b2Joint</a>
+</div>
+<div class="summaryTableDescription">
+ Get the next joint the world joint list.</div>
+</td><td class="summaryTableOwnerCol"><a href="b2Joint.html">b2Joint</a></td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetReactionForce()">GetReactionForce</a>(inv_dt:Number):<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>
+</div>
+<div class="summaryTableDescription"> 
+ Get the reaction force on body2 at the joint anchor in Newtons.</div>
+</td><td class="summaryTableOwnerCol">b2MouseJoint</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetReactionTorque()">GetReactionTorque</a>(inv_dt:Number):Number</div>
+<div class="summaryTableDescription"> 
+ Get the reaction torque on body2 in N.</div>
+</td><td class="summaryTableOwnerCol">b2MouseJoint</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetTarget()">GetTarget</a>():<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>
+</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">b2MouseJoint</td>
+</tr>
+<tr class="hideInheritedMethod">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="b2Joint.html#GetType()">GetType</a>():int</div>
+<div class="summaryTableDescription">
+ Get the type of the concrete joint.</div>
+</td><td class="summaryTableOwnerCol"><a href="b2Joint.html">b2Joint</a></td>
+</tr>
+<tr class="hideInheritedMethod">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="b2Joint.html#GetUserData()">GetUserData</a>():*</div>
+<div class="summaryTableDescription">
+ Get the user data pointer.</div>
+</td><td class="summaryTableOwnerCol"><a href="b2Joint.html">b2Joint</a></td>
+</tr>
+<tr class="hideInheritedMethod">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="b2Joint.html#IsActive()">IsActive</a>():Boolean</div>
+<div class="summaryTableDescription">
+  Short-cut function to determine if either body is inactive.</div>
+</td><td class="summaryTableOwnerCol"><a href="b2Joint.html">b2Joint</a></td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetDampingRatio()">SetDampingRatio</a>(ratio:Number):void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">b2MouseJoint</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetFrequency()">SetFrequency</a>(hz:Number):void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">b2MouseJoint</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetMaxForce()">SetMaxForce</a>(maxForce:Number):void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">b2MouseJoint</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetTarget()">SetTarget</a>(target:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>):void</div>
+<div class="summaryTableDescription">
+  Use this to update the target point.</div>
+</td><td class="summaryTableOwnerCol">b2MouseJoint</td>
+</tr>
+<tr class="hideInheritedMethod">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="b2Joint.html#SetUserData()">SetUserData</a>(data:*):void</div>
+<div class="summaryTableDescription">
+ Set the user data pointer.</div>
+</td><td class="summaryTableOwnerCol"><a href="b2Joint.html">b2Joint</a></td>
+</tr>
+</table>
+</div>
+<script type="text/javascript" language="javascript">
+<!--
+showHideInherited();
+--></script>
+<div class="MainContent">
+<a name="methodDetail"></a>
+<div class="detailSectionHeader">Method detail</div>
+<a name="GetAnchorA()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetAnchorA</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public override function GetAnchorA():<a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code><p> 
+ Get the anchor point on bodyA in world coordinates.
+ </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+</table>
+</div>
+<a name="GetAnchorB()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetAnchorB</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public override function GetAnchorB():<a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code><p> 
+ Get the anchor point on bodyB in world coordinates.
+ </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+</table>
+</div>
+<a name="GetDampingRatio()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetDampingRatio</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetDampingRatio():Number</code>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Number</code></td>
+</tr>
+</table>
+</div>
+<a name="GetFrequency()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetFrequency</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetFrequency():Number</code>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Number</code></td>
+</tr>
+</table>
+</div>
+<a name="GetMaxForce()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetMaxForce</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetMaxForce():Number</code>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Number</code></td>
+</tr>
+</table>
+</div>
+<a name="GetReactionForce()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetReactionForce</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public override function GetReactionForce(inv_dt:Number):<a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code><p> 
+ Get the reaction force on body2 at the joint anchor in Newtons.
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">inv_dt</span>:Number</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+</table>
+</div>
+<a name="GetReactionTorque()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetReactionTorque</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public override function GetReactionTorque(inv_dt:Number):Number</code><p> 
+ Get the reaction torque on body2 in N.
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">inv_dt</span>:Number</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Number</code></td>
+</tr>
+</table>
+</div>
+<a name="GetTarget()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetTarget</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetTarget():<a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+</table>
+</div>
+<a name="SetDampingRatio()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetDampingRatio</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetDampingRatio(ratio:Number):void</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">ratio</span>:Number</code></td>
+</tr>
+</table>
+</div>
+<a name="SetFrequency()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetFrequency</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetFrequency(hz:Number):void</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">hz</span>:Number</code></td>
+</tr>
+</table>
+</div>
+<a name="SetMaxForce()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetMaxForce</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetMaxForce(maxForce:Number):void</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">maxForce</span>:Number</code></td>
+</tr>
+</table>
+</div>
+<a name="SetTarget()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetTarget</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetTarget(target:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>):void</code><p>
+  Use this to update the target point.
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">target</span>:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+</table>
+</div>
+<br>
+<br>
+<hr>
+<br>
+<p></p>
+<center class="copyright">Box2DFlash 2.1a</center>
+</div>
+</body>
+</html>
+<!--Box2DFlash 2.1a-->

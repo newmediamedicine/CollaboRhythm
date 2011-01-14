@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" height="100%">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		
+		.tension 
+		{
+			font-size: 20;
+		}
+		
+		#hypertensionLabel 
+		{
+			color: red;
+			text-alpha: 0.5;
+		} 
+		
+		#prehypertensionLabel 
+		{
+			color: "0xF7941E";
+			text-alpha: 0.9;
+		} 
+		
+		#normotensionLabel 
+		{
+			color: green;
+			text-alpha: 0.5;
+		} 
+		
+		#hypotensionLabel 
+		{
+			color: red;
+			text-alpha: 0.5;
+		}  
+		
+		.scale
+		{
+			font-size: 16;
+		}
+		
+		#systolicLabel
+		{
+			font-size: 24;
+		}
+		
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+			import collaboRhythm.workstation.apps.bloodPressure.model.BloodPressureModel;
+			import collaboRhythm.workstation.controller.CollaborationEvent;
+			
+			import mx.events.CollectionEvent;
+			import mx.events.PropertyChangeEvent;
+			
+			public static const red:uint = 0xED1C24;
+			public static const orange:uint = 0xF7941E;
+			public static const green:uint = 0x00A651;
+			
+			[Bindable]
+			private var _model:BloodPressureModel;
+			
+			public function get model():BloodPressureModel
+			{
+				return _model;
+			}
+			
+			public function set model(value:BloodPressureModel):void
+			{
+				_model = value;
+				refresh();
+				
+				_model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, model_propertyChangeHandler);
+			}
+			
+			private function model_propertyChangeHandler(event:PropertyChangeEvent):void
+			{
+				refresh();
+			}
+			
+			public function updateBloodPressureHeight(simulationModelSystolic:Number):void
+			{				
+				systolicLabel.text = String(simulationModelSystolic);
+				
+				if (simulationModelSystolic < 90)
+				{
+					bloodPressureRectFill.color = red;
+					
+					hypotensionRectFill.alpha = 0.5;
+					normotensionRectFill.alpha = 0.10;
+					prehypertensionRectFill.alpha = 0.10;
+					hypertensionRectFill.alpha = 0.10;
+					
+					systolicLabel.setStyle("color", red);
+				}
+				else if (simulationModelSystolic < 120)
+				{
+					bloodPressureRectFill.color = green;
+					
+					hypotensionRectFill.alpha = 0.10;
+					normotensionRectFill.alpha = 0.5;
+					prehypertensionRectFill.alpha = 0.10;
+					hypertensionRectFill.alpha = 0.10;
+					
+					systolicLabel.setStyle("color", green);
+				}
+				else if (simulationModelSystolic < 130)
+				{
+					bloodPressureRectFill.color = orange;
+					
+					hypotensionRectFill.alpha = 0.10;
+					normotensionRectFill.alpha = 0.10;
+					prehypertensionRectFill.alpha = 0.3;
+					hypertensionRectFill.alpha = 0.10;
+					
+					systolicLabel.setStyle("color", orange);
+				}
+				else
+				{
+					bloodPressureRectFill.color = red;
+					
+					hypotensionRectFill.alpha = 0.10;
+					normotensionRectFill.alpha = 0.10;
+					prehypertensionRectFill.alpha = 0.10;
+					hypertensionRectFill.alpha = 0.5;
+					
+					systolicLabel.setStyle("color", red);
+				}
+				
+				bloodPressureRect.height = (simulationModelSystolic - 80) * (200 / 80);
+			}
+			
+			public function refresh():void
+			{
+				if (_model != null && _model.data != null)
+				{
+					var simulationModelSystolic:Number = _model.data.getItemAt(_model.data.length-1)["systolic"];
+					updateBloodPressureHeight(simulationModelSystolic);
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<s:Label id="systolicLabel" bottom="210" left="2"/>
+	
+	<s:Group left="10" bottom="10" width="180" height="200">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0xFFFFFF"/>
+			</s:fill>
+		</s:Rect>
+		<s:VGroup width="180" height="100%" gap="0">
+			<s:Group width="100%" height="37.5%">
+				<s:Line width="100%" bottom="0">
+					<s:stroke>
+						<s:SolidColorStroke weight="0.5" color="0x000000" alpha="0.25"/>
+					</s:stroke>
+				</s:Line>
+				<s:Rect width="100%" height="100%">
+					<s:fill>
+						<s:SolidColor id="hypertensionRectFill" color="red" alpha="0.15"/>
+					</s:fill>
+				</s:Rect>
+				<s:Label id="hypertensionLabel" styleName="tension" left="25" text="Hypertension" verticalCenter="0"/>
+			</s:Group>
+			<s:Group width="100%" height="12.5%">
+				<s:Line width="100%"  bottom="0">
+					<s:stroke>
+						<s:SolidColorStroke weight="0.5" color="0x000000" alpha="0.25"/>
+					</s:stroke>
+				</s:Line>
+				<s:Rect width="100%" height="100%">
+					<s:fill>
+						<s:SolidColor id="prehypertensionRectFill" color="{orange}" alpha="0.15"/>
+					</s:fill>
+				</s:Rect>
+				<s:Label id="prehypertensionLabel"  styleName="tension" left="25" text="Prehypertension" verticalCenter="0"/>
+			</s:Group>
+			<s:Group width="100%" height="37.5%">
+				<s:Line width="100%"  bottom="0">
+					<s:stroke>
+						<s:SolidColorStroke weight="0.5" color="0x000000" alpha="0.25"/>
+					</s:stroke>
+				</s:Line>
+				<s:Rect width="100%" height="100%">
+					<s:fill>
+						<s:SolidColor id="normotensionRectFill" color="green" alpha="0.15"/>
+					</s:fill>
+				</s:Rect>
+				<s:Label id="normotensionLabel"  styleName="tension" left="25" text="Normal" verticalCenter="0"/>
+			</s:Group>
+			<s:Group width="100%" height="12.5%">
+				<s:Line width="100%" bottom="1">
+					<s:stroke>
+						<s:SolidColorStroke weight="0.5" color="0x000000" alpha="0.25"/>
+					</s:stroke>
+				</s:Line>
+				<s:Rect width="100%" height="100%">
+					<s:fill>
+						<s:SolidColor id="hypotensionRectFill" color="red" alpha="0.15"/>
+					</s:fill>
+				</s:Rect>
+				<s:Label id="hypotensionLabel"  styleName="tension" left="25" text="Hypotension" verticalCenter="0"/>
+			</s:Group>
+		</s:VGroup>
+		<s:Rect width="100%" height="100%">
+			<s:stroke>
+				<s:SolidColorStroke weight="1" color="0x000000" alpha="0.25"/>
+			</s:stroke>
+		</s:Rect>
+		<s:Rect id="bloodPressureRect" bottom="0" width="20">
+			<s:fill>
+				<s:SolidColor id="bloodPressureRectFill"/>
+			</s:fill>
+			<s:stroke>
+				<s:SolidColorStroke weight="0.5" color="0x000000" alpha="0.25"/>
+			</s:stroke>
+		</s:Rect> 
+		<s:Rect width="20" height="100%">
+			<s:stroke>
+				<s:SolidColorStroke weight="1" color="0x000000"/>
+			</s:stroke>
+		</s:Rect>
+	</s:Group>
+</s:Group>

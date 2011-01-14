@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 height="100%" width="{this.height}"
+		 clipAndEnableScrolling="true"
+		 >
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		
+		.hour {
+			font-size: 16;
+			font-weight: bold;
+		}
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[	
+			import collaboRhythm.workstation.apps.medications.model.Medication;
+			import collaboRhythm.workstation.apps.medications.model.MedicationsModel;
+			import collaboRhythm.workstation.apps.schedule.model.AdherenceGroup;
+			import collaboRhythm.workstation.apps.schedule.model.Measurement;
+			import collaboRhythm.workstation.apps.schedule.model.ScheduleItemBase;
+			import collaboRhythm.workstation.apps.schedule.model.ScheduleModel;
+			
+			import com.leebrimelow.drawing.Wedge;
+			
+			import mx.binding.utils.BindingUtils;
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.events.CollectionEvent;
+			import mx.events.CollectionEventKind;
+			
+			public static const CLOCK_SIZE:Number = 230;
+			public static const CLOCK_CENTER_SIZE:Number = 10;
+			public static const SUN_MOON_ICON_SIZE:Number = 36;
+			public static const SUN_MOON_ICON_CENTER_DISTANCE:Number = (CLOCK_SIZE / 2 - SUN_MOON_ICON_SIZE / 2);
+			
+			[Bindable]
+			private var _scheduleModel:ScheduleModel;
+			private var _scheduleItemsCollection:ArrayCollection;
+			private var _adherenceGroupsCollection:ArrayCollection;
+			private var _widgetMedicationViews:Vector.<WidgetMedicationView>;
+			private var _widgetAdherenceWindowViews:Vector.<WidgetAdherenceWindowView>;
+			
+			private var _size:Number = 115;
+			
+			public function initializeClock(scheduleModel:ScheduleModel):void
+			{
+				_scheduleModel = scheduleModel;
+				_scheduleItemsCollection = _scheduleModel.scheduleItemsCollection;
+				_adherenceGroupsCollection = _scheduleModel.adherenceGroupsCollection;
+				_widgetMedicationViews = new Vector.<WidgetMedicationView>;
+				_widgetAdherenceWindowViews = new Vector.<WidgetAdherenceWindowView>;
+				
+				_scheduleItemsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, scheduleItemsCollectionChangeHandler);
+				_adherenceGroupsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, adherenceGroupsCollectionChangeHandler);
+				
+				hourHandCanvas.graphics.lineStyle(3, 0x000000, 1);
+				hourHandCanvas.graphics.lineTo(0, -65);
+				hourHandCanvas.graphics.lineTo(5, -60);
+				hourHandCanvas.graphics.moveTo(0, -65);
+				hourHandCanvas.graphics.lineTo(-5, -60);
+				updateTime();
+				
+				// creates a Timer that fires an event once per 10 minutes
+				var timer:Timer = new Timer(600000); 
+				
+				// designates the onTick() method to handle Timer events
+				timer.addEventListener(TimerEvent.TIMER, onTick);
+				
+				// starts the clock ticking
+				timer.start();
+
+			}
+			
+			private function onTick(event:TimerEvent):void
+			{
+				updateTime();
+			}
+			
+			private function updateTime():void
+			{
+				var currentTime:Date = _scheduleModel.now;
+				var minutes:uint = currentTime.getMinutes();
+				var hours:uint = currentTime.getHours();
+				
+				hourHandCanvas.rotation = (hours * 15) + (minutes * 0.25);
+			}
+			
+			public function get scheduleModel():ScheduleModel
+			{
+				return _scheduleModel;
+			}
+			
+			public function set scheduleModel(value:ScheduleModel):void
+			{
+				_scheduleModel = value;
+			}
+			
+			public function scheduleItemsCollectionChangeHandler(event:CollectionEvent):void
+			{
+				if (event.kind == CollectionEventKind.ADD)
+				{
+					for each (var scheduleItemAdded:ScheduleItemBase in event.items)
+					{
+						createScheduleItemView(scheduleItemAdded);
+					}
+				}
+			}
+			
+			public function adherenceGroupsCollectionChangeHandler(event:CollectionEvent):void
+			{
+				if (event.kind == CollectionEventKind.ADD)
+				{
+					for each (var adherenceGroupAdded:AdherenceGroup in event.items)
+					{
+						createAdherenceWindowView(adherenceGroupAdded);
+					}
+				}
+				else if (event.kind == CollectionEventKind.REMOVE)
+				{
+					for each (var adherenceGroupRemoved:AdherenceGroup in event.items)
+					{
+						destroyAdherenceWindowView(adherenceGroupRemoved);
+					}
+				}
+			}
+
+			public function createScheduleItemView(scheduleItem:ScheduleItemBase):void
+			{
+				var className:String = getQualifiedClassName(scheduleItem);
+				if (className == "collaboRhythm.workstation.apps.medications.model::Medication")
+				{
+					var widgetMedicationView:WidgetMedicationView = new WidgetMedicationView();
+					widgetMedicationView.medication = Medication(scheduleItem);
+					widgetMedicationView.scheduleWidgetView = this;
+					medicationsCanvas.addElement(widgetMedicationView);
+					_widgetMedicationViews.push(widgetMedicationView);
+				}
+				else if (className == "collaboRhythm.workstation.apps.schedule.model::Measurement")
+				{
+					var widgetMeasurementView:WidgetMeasurementView = new WidgetMeasurementView();
+					widgetMeasurementView.measurement = Measurement(scheduleItem);
+					widgetMeasurementView.scheduleWidgetView = this;
+					medicationsCanvas.addElement(widgetMeasurementView);
+//					_widgetMedicationViews.push(widgetMeasurementView);
+				}
+			}
+			
+			public function createAdherenceWindowView(adherenceGroup:AdherenceGroup):void
+			{				
+				var widgetAdherenceWindowView:WidgetAdherenceWindowView = new WidgetAdherenceWindowView();
+				widgetAdherenceWindowView.adherenceGroup = adherenceGroup;
+				widgetAdherenceWindowView.scheduleWidgetView = this;
+				adherenceGroupsGroup.addElement(widgetAdherenceWindowView);
+				_widgetAdherenceWindowViews.push(widgetAdherenceWindowView);		
+			}
+			
+			public function destroyAdherenceWindowView(adherenceGroup:AdherenceGroup):void
+			{
+				for each (var widgetAdherenceWindowView:WidgetAdherenceWindowView in _widgetAdherenceWindowViews)
+				{
+					if (widgetAdherenceWindowView.adherenceGroup == adherenceGroup)
+					{
+						var clockAdherenceWindowViewIndex:Number = _widgetAdherenceWindowViews.indexOf(widgetAdherenceWindowView);
+						_widgetAdherenceWindowViews.splice(clockAdherenceWindowViewIndex, 1);
+						adherenceGroupsGroup.removeElement(widgetAdherenceWindowView);
+					}
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:Ellipse top="10" left="10" bottom="10" right="10">
+		<s:fill>
+			<s:SolidColor color="0xBFBFBF"/>
+		</s:fill>
+	</s:Ellipse>
+	<s:Group id="adherenceGroupsGroup" top="10" left="10" bottom="10" right="10"/>
+	<mx:Canvas id="medicationsCanvas" top="10" left="10" bottom="10" right="10"/>
+	<mx:Canvas id="hourHandCanvas" x="{this.width/2}" y="{this.width/2}" width="{this.width/2}" height="{this.width/2}"/>
+	<mx:Image id="clockMoonIcon" source="@Embed('resources/images/apps/medications/moon.png')" width="{SUN_MOON_ICON_SIZE}" height="{SUN_MOON_ICON_SIZE}" smoothBitmapContent="true" horizontalCenter="0" top="10"/>
+	<s:Label text="midn" styleName="hour" horizontalCenter="0" top="14"/>
+	<s:Label text="6am" styleName="hour" right="15" verticalCenter="0"/>
+	<mx:Image id="clockSunIcon" source="@Embed('resources/images/apps/medications/sun.png')" width="{SUN_MOON_ICON_SIZE}" height="{SUN_MOON_ICON_SIZE}" smoothBitmapContent="true" horizontalCenter="0" bottom="10"/>
+	<s:Label text="noon" styleName="hour" horizontalCenter="0" bottom="14"/>
+	<s:Label text="6pm" styleName="hour" left="15" verticalCenter="0"/>
+	<s:Ellipse top="10" left="10" bottom="10" right="10">
+		<s:stroke>
+			<s:SolidColorStroke weight="2" color="0x000000"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse horizontalCenter="0" verticalCenter="0" width="{CLOCK_CENTER_SIZE}" height="{CLOCK_CENTER_SIZE}">
+		<s:fill>
+			<s:SolidColor color="0x000000"/>
+		</s:fill>
+	</s:Ellipse>
+<!--	<s:HGroup width="100%" height="100%" horizontalAlign="center" top="10" bottom="10">
+		<s:Group width="{CLOCK_SIZE+1}" height="{CLOCK_SIZE+1}">
+			<s:Ellipse width="{CLOCK_SIZE}" height="{CLOCK_SIZE}">
+				<s:fill>
+					<s:SolidColor color="0xBFBFBF"/>
+				</s:fill>
+			</s:Ellipse>
+			<s:Path data="M 0 115 
+					C 6 266 222 268 231 115
+					L 0 115">
+				<s:fill>
+					<s:SolidColor color="0xD7D7D7"/>
+				</s:fill>
+			</s:Path>
+			<mx:Canvas width="100%" height="100%" id="adherenceGroupsCanvas"/>
+			<mx:Canvas width="100%" height="100%" id="medicationsCanvas"/>
+			<mx:Image id="clockMoonIcon" source="@Embed('resources/images/apps/medications/moon.png')" width="{SUN_MOON_ICON_SIZE}" height="{SUN_MOON_ICON_SIZE}" smoothBitmapContent="true" horizontalCenter="0" verticalCenter="{-SUN_MOON_ICON_CENTER_DISTANCE}"/>
+			<s:Label text="midn" styleName="hour" horizontalCenter="0" verticalCenter="{-SUN_MOON_ICON_CENTER_DISTANCE}"/>
+			<s:Label text="6am" styleName="hour" x="194" y="108"/>
+			<mx:Image id="clockSunIcon" source="@Embed('resources/images/apps/medications/sun.png')" width="{SUN_MOON_ICON_SIZE}" height="{SUN_MOON_ICON_SIZE}" smoothBitmapContent="true" horizontalCenter="0" verticalCenter="{SUN_MOON_ICON_CENTER_DISTANCE}"/>
+			<s:Label text="noon" styleName="hour" horizontalCenter="0" verticalCenter="{SUN_MOON_ICON_CENTER_DISTANCE}"/>
+			<s:Label text="6pm" styleName="hour" x="4" y="108"/>
+			<s:Ellipse width="{CLOCK_SIZE+1}" height="{CLOCK_SIZE+1}">
+				<s:stroke>
+					<s:SolidColorStroke weight="2" color="0x000000"/>
+				</s:stroke>
+			</s:Ellipse>
+			<mx:Canvas x="{(CLOCK_SIZE+1)/2}" y="{(CLOCK_SIZE+1)/2}" width="{CLOCK_SIZE/2}" height="{CLOCK_SIZE/2}" id="hourHandCanvas"/>
+			<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+				<s:Ellipse width="{CLOCK_CENTER_SIZE}" height="{CLOCK_CENTER_SIZE}">
+					<s:fill>
+						<s:SolidColor color="0x000000"/>
+					</s:fill>
+				</s:Ellipse>
+			</s:HGroup>
+		</s:Group>
+	</s:HGroup>-->
+</s:Group>

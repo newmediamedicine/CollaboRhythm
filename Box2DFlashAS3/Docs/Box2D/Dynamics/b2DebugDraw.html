@@ -1,0 +1,791 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../../style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="../../print.css" type="text/css" media="print">
+<meta content="b2DebugDraw,Box2D.Dynamics.b2DebugDraw,e_aabbBit,e_centerOfMassBit,e_controllerBit,e_jointBit,e_pairBit,e_shapeBit,AppendFlags,ClearFlags,DrawCircle,DrawPolygon,DrawSegment,DrawSolidCircle,DrawSolidPolygon,DrawTransform,GetAlpha,GetDrawScale,GetFillAlpha,GetFlags,GetLineThickness,GetSprite,GetXFormScale,SetAlpha,SetDrawScale,SetFillAlpha,SetFlags,SetLineThickness,SetSprite,SetXFormScale" name="keywords">
+<title>Box2D.Dynamics.b2DebugDraw</title>
+</head>
+<body>
+<script type="text/javascript" language="javascript" src="../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../cookies.js"></script><script type="text/javascript" language="javascript">
+<!--
+				asdocTitle = 'b2DebugDraw - Box2DFlash Documentation';
+				var baseRef = '../../';
+				window.onload = configPage;
+			--></script>
+<table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+<tr>
+<td align="left" class="titleTableTitle">Box2DFlash Documentation</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../all-classes.html')" href="../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../all-classes.html')" href="../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../index-list.html')" href="../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../index.html?Box2D/Dynamics/b2DebugDraw.html&amp;Box2D/Dynamics/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../images/logo.jpg"></td>
+</tr>
+<tr class="titleTableRow2">
+<td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;b2DebugDraw</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#propertySummary">Properties</a>&nbsp;| <a href="#methodSummary">Methods</a></td>
+</tr>
+<tr class="titleTableRow3">
+<td colspan="2">&nbsp;</td>
+</tr>
+</table>
+<script type="text/javascript" language="javascript">
+<!--
+if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Class b2DebugDraw"); titleBar_setSubNav(false,true,false,false,false,false,true,false,false,false,false,false,false,false);}
+--></script>
+<div class="MainContent">
+<table cellspacing="0" cellpadding="0" class="classHeaderTable">
+<tr>
+<td class="classHeaderTableLabel">Package</td><td><a onclick="javascript:loadClassListFrame('class-list.html')" href="package-detail.html">Box2D.Dynamics</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Class</td><td class="classSignature">public class b2DebugDraw</td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Source</td><td><a href="http://box2dflash.svn.sourceforge.net/viewvc/box2dflash/Source/Box2D/Dynamics/b2DebugDraw.as">b2DebugDraw.as</a></td>
+</tr>
+</table>
+<p></p>
+Implement and register this class with a b2World to provide debug drawing of physics
+entities in your game.
+<p></p>
+<br>
+<hr>
+</div>
+<a name="propertySummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Properties</div>
+<table id="summaryTableProperty" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#e_aabbBit">e_aabbBit</a> : uint = 0x0004<div class="summaryTableDescription">[static] Draw axis aligned bounding boxes </div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#e_centerOfMassBit">e_centerOfMassBit</a> : uint = 0x0010<div class="summaryTableDescription">[static] Draw center of mass frame </div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#e_controllerBit">e_controllerBit</a> : uint = 0x0020<div class="summaryTableDescription">[static] Draw controllers </div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#e_jointBit">e_jointBit</a> : uint = 0x0002<div class="summaryTableDescription">[static] Draw joint connections </div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#e_pairBit">e_pairBit</a> : uint = 0x0008<div class="summaryTableDescription">[static] Draw broad-phase pairs </div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#e_shapeBit">e_shapeBit</a> : uint = 0x0001<div class="summaryTableDescription">[static] Draw shapes </div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+</table>
+</div>
+<a name="methodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Methods</div>
+<table id="summaryTableMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#b2DebugDraw()">b2DebugDraw</a>()</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#AppendFlags()">AppendFlags</a>(flags:uint):void</div>
+<div class="summaryTableDescription">
+ Append flags to the current flags.</div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#ClearFlags()">ClearFlags</a>(flags:uint):void</div>
+<div class="summaryTableDescription">
+ Clear flags from the current flags.</div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#DrawCircle()">DrawCircle</a>(center:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>, radius:Number, color:<a href="../Common/b2Color.html">b2Color</a>):void</div>
+<div class="summaryTableDescription">
+ Draw a circle.</div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#DrawPolygon()">DrawPolygon</a>(vertices:Array, vertexCount:int, color:<a href="../Common/b2Color.html">b2Color</a>):void</div>
+<div class="summaryTableDescription">
+ Draw a closed polygon provided in CCW order.</div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#DrawSegment()">DrawSegment</a>(p1:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>, p2:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>, color:<a href="../Common/b2Color.html">b2Color</a>):void</div>
+<div class="summaryTableDescription">
+ Draw a line segment.</div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#DrawSolidCircle()">DrawSolidCircle</a>(center:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>, radius:Number, axis:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>, color:<a href="../Common/b2Color.html">b2Color</a>):void</div>
+<div class="summaryTableDescription">
+ Draw a solid circle.</div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#DrawSolidPolygon()">DrawSolidPolygon</a>(vertices:Vector, vertexCount:int, color:<a href="../Common/b2Color.html">b2Color</a>):void</div>
+<div class="summaryTableDescription">
+ Draw a solid closed polygon provided in CCW order.</div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#DrawTransform()">DrawTransform</a>(xf:<a href="../Common/Math/b2Transform.html">b2Transform</a>):void</div>
+<div class="summaryTableDescription">
+ Draw a transform.</div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetAlpha()">GetAlpha</a>():Number</div>
+<div class="summaryTableDescription">
+ Get the alpha value used for lines
+ </div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetDrawScale()">GetDrawScale</a>():Number</div>
+<div class="summaryTableDescription">
+ Get the draw
+ </div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetFillAlpha()">GetFillAlpha</a>():Number</div>
+<div class="summaryTableDescription">
+ Get the alpha value used for fills
+ </div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetFlags()">GetFlags</a>():uint</div>
+<div class="summaryTableDescription">
+ Get the drawing flags.</div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetLineThickness()">GetLineThickness</a>():Number</div>
+<div class="summaryTableDescription">
+ Get the line thickness
+ </div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetSprite()">GetSprite</a>():Sprite</div>
+<div class="summaryTableDescription">
+ Get the sprite
+ </div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetXFormScale()">GetXFormScale</a>():Number</div>
+<div class="summaryTableDescription">
+ Get the scale used for drawing XForms
+ </div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetAlpha()">SetAlpha</a>(alpha:Number):void</div>
+<div class="summaryTableDescription">
+ Set the alpha value used for lines
+ </div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetDrawScale()">SetDrawScale</a>(drawScale:Number):void</div>
+<div class="summaryTableDescription">
+ Set the draw scale
+ </div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetFillAlpha()">SetFillAlpha</a>(alpha:Number):void</div>
+<div class="summaryTableDescription">
+ Set the alpha value used for fills
+ </div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetFlags()">SetFlags</a>(flags:uint):void</div>
+<div class="summaryTableDescription">
+ Set the drawing flags.</div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetLineThickness()">SetLineThickness</a>(lineThickness:Number):void</div>
+<div class="summaryTableDescription">
+ Set the line thickness
+ </div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetSprite()">SetSprite</a>(sprite:Sprite):void</div>
+<div class="summaryTableDescription">
+ Set the sprite
+ </div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetXFormScale()">SetXFormScale</a>(xformScale:Number):void</div>
+<div class="summaryTableDescription">
+ Set the scale used for drawing XForms
+ </div>
+</td><td class="summaryTableOwnerCol">b2DebugDraw</td>
+</tr>
+</table>
+</div>
+<script type="text/javascript" language="javascript">
+<!--
+showHideInherited();
+--></script>
+<div class="MainContent">
+<a name="propertyDetail"></a>
+<div class="detailSectionHeader">Property detail</div>
+<a name="e_aabbBit"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">e_aabbBit</td><td class="detailHeaderType">property</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static var e_aabbBit:uint = 0x0004</code><p> Draw axis aligned bounding boxes </p></div>
+<a name="e_centerOfMassBit"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">e_centerOfMassBit</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static var e_centerOfMassBit:uint = 0x0010</code><p> Draw center of mass frame </p></div>
+<a name="e_controllerBit"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">e_controllerBit</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static var e_controllerBit:uint = 0x0020</code><p> Draw controllers </p></div>
+<a name="e_jointBit"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">e_jointBit</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static var e_jointBit:uint = 0x0002</code><p> Draw joint connections </p></div>
+<a name="e_pairBit"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">e_pairBit</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static var e_pairBit:uint = 0x0008</code><p> Draw broad-phase pairs </p></div>
+<a name="e_shapeBit"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">e_shapeBit</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static var e_shapeBit:uint = 0x0001</code><p> Draw shapes </p></div>
+<a name="constructorDetail"></a>
+<div class="detailSectionHeader">Constructor detail</div>
+<a name="b2DebugDraw()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2DebugDraw</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">constructor</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function b2DebugDraw()</code>
+</div>
+<a name="methodDetail"></a>
+<div class="detailSectionHeader">Method detail</div>
+<a name="AppendFlags()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">AppendFlags</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function AppendFlags(flags:uint):void</code><p>
+ Append flags to the current flags.
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">flags</span>:uint</code></td>
+</tr>
+</table>
+</div>
+<a name="ClearFlags()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">ClearFlags</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function ClearFlags(flags:uint):void</code><p>
+ Clear flags from the current flags.
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">flags</span>:uint</code></td>
+</tr>
+</table>
+</div>
+<a name="DrawCircle()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">DrawCircle</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function DrawCircle(center:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>, radius:Number, color:<a href="../Common/b2Color.html">b2Color</a>):void</code><p>
+ Draw a circle.
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">center</span>:<a href="../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">radius</span>:Number</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">color</span>:<a href="../Common/b2Color.html">b2Color</a></code></td>
+</tr>
+</table>
+</div>
+<a name="DrawPolygon()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">DrawPolygon</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function DrawPolygon(vertices:Array, vertexCount:int, color:<a href="../Common/b2Color.html">b2Color</a>):void</code><p>
+ Draw a closed polygon provided in CCW order.
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">vertices</span>:Array</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">vertexCount</span>:int</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">color</span>:<a href="../Common/b2Color.html">b2Color</a></code></td>
+</tr>
+</table>
+</div>
+<a name="DrawSegment()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">DrawSegment</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function DrawSegment(p1:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>, p2:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>, color:<a href="../Common/b2Color.html">b2Color</a>):void</code><p>
+ Draw a line segment.
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">p1</span>:<a href="../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">p2</span>:<a href="../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">color</span>:<a href="../Common/b2Color.html">b2Color</a></code></td>
+</tr>
+</table>
+</div>
+<a name="DrawSolidCircle()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">DrawSolidCircle</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function DrawSolidCircle(center:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>, radius:Number, axis:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>, color:<a href="../Common/b2Color.html">b2Color</a>):void</code><p>
+ Draw a solid circle.
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">center</span>:<a href="../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">radius</span>:Number</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">axis</span>:<a href="../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">color</span>:<a href="../Common/b2Color.html">b2Color</a></code></td>
+</tr>
+</table>
+</div>
+<a name="DrawSolidPolygon()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">DrawSolidPolygon</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function DrawSolidPolygon(vertices:Vector, vertexCount:int, color:<a href="../Common/b2Color.html">b2Color</a>):void</code><p>
+ Draw a solid closed polygon provided in CCW order.
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">vertices</span>:Vector</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">vertexCount</span>:int</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">color</span>:<a href="../Common/b2Color.html">b2Color</a></code></td>
+</tr>
+</table>
+</div>
+<a name="DrawTransform()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">DrawTransform</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function DrawTransform(xf:<a href="../Common/Math/b2Transform.html">b2Transform</a>):void</code><p>
+ Draw a transform. Choose your own length scale.
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">xf</span>:<a href="../Common/Math/b2Transform.html">b2Transform</a></code> &mdash; a transform.
+ </td>
+</tr>
+</table>
+</div>
+<a name="GetAlpha()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetAlpha</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetAlpha():Number</code><p>
+ Get the alpha value used for lines
+ </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Number</code></td>
+</tr>
+</table>
+</div>
+<a name="GetDrawScale()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetDrawScale</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetDrawScale():Number</code><p>
+ Get the draw
+ </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Number</code></td>
+</tr>
+</table>
+</div>
+<a name="GetFillAlpha()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetFillAlpha</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetFillAlpha():Number</code><p>
+ Get the alpha value used for fills
+ </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Number</code></td>
+</tr>
+</table>
+</div>
+<a name="GetFlags()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetFlags</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetFlags():uint</code><p>
+ Get the drawing flags.
+ </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>uint</code></td>
+</tr>
+</table>
+</div>
+<a name="GetLineThickness()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetLineThickness</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetLineThickness():Number</code><p>
+ Get the line thickness
+ </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Number</code></td>
+</tr>
+</table>
+</div>
+<a name="GetSprite()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetSprite</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetSprite():Sprite</code><p>
+ Get the sprite
+ </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Sprite</code></td>
+</tr>
+</table>
+</div>
+<a name="GetXFormScale()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetXFormScale</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetXFormScale():Number</code><p>
+ Get the scale used for drawing XForms
+ </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Number</code></td>
+</tr>
+</table>
+</div>
+<a name="SetAlpha()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetAlpha</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetAlpha(alpha:Number):void</code><p>
+ Set the alpha value used for lines
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">alpha</span>:Number</code></td>
+</tr>
+</table>
+</div>
+<a name="SetDrawScale()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetDrawScale</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetDrawScale(drawScale:Number):void</code><p>
+ Set the draw scale
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">drawScale</span>:Number</code></td>
+</tr>
+</table>
+</div>
+<a name="SetFillAlpha()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetFillAlpha</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetFillAlpha(alpha:Number):void</code><p>
+ Set the alpha value used for fills
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">alpha</span>:Number</code></td>
+</tr>
+</table>
+</div>
+<a name="SetFlags()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetFlags</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetFlags(flags:uint):void</code><p>
+ Set the drawing flags.
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">flags</span>:uint</code></td>
+</tr>
+</table>
+</div>
+<a name="SetLineThickness()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetLineThickness</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetLineThickness(lineThickness:Number):void</code><p>
+ Set the line thickness
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">lineThickness</span>:Number</code></td>
+</tr>
+</table>
+</div>
+<a name="SetSprite()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetSprite</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetSprite(sprite:Sprite):void</code><p>
+ Set the sprite
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">sprite</span>:Sprite</code></td>
+</tr>
+</table>
+</div>
+<a name="SetXFormScale()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetXFormScale</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetXFormScale(xformScale:Number):void</code><p>
+ Set the scale used for drawing XForms
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">xformScale</span>:Number</code></td>
+</tr>
+</table>
+</div>
+<br>
+<br>
+<hr>
+<br>
+<p></p>
+<center class="copyright">Box2DFlash 2.1a</center>
+</div>
+</body>
+</html>
+<!--Box2DFlash 2.1a-->

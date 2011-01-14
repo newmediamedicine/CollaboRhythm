@@ -1,0 +1,28 @@
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			 xmlns:s="library://ns.adobe.com/flex/spark" 
+			 xmlns:mx="library://ns.adobe.com/flex/mx"
+			 applicationComplete="main();">
+	<fx:Style source="CollaboRhythm.css"/>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		
+	</fx:Style>
+	
+	<fx:Script>
+		<![CDATA[
+			import collaboRhythm.workstation.AssetManager;
+			import collaboRhythm.workstation.controller.WorkstationController;
+			
+//			private var forceAssetManagerCompile:String = AssetManager.FONT_MYRIAD_PRO;
+			
+			private function main() : void
+			{
+				var workstationController:WorkstationController = new WorkstationController();
+				workstationController.main();
+			}
+		]]>
+	</fx:Script>
+</s:Application>
+
+  

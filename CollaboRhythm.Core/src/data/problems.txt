@@ -1,0 +1,247 @@
+<Reports>
+  <Summary total_document_count="7" limit="100" offset="0" order_by="-date_onset"/>
+  <Report>
+    <Meta>
+      <Document id="812a9488-f431-42dd-876a-ea6c524d617d" type="http://indivo.org/vocab/xml/documents#Problem" size="353" digest="72a4f11024ebfb4e431e0c2c0a84cb45a65037467ac5770ca2d3f3ee05e284c8" record_id="">
+        <createdAt>
+          2010-05-13T13:42:22+00:00
+        </createdAt>
+        <creator id="rpoole@records.media.mit.edu" type="Account">
+          <fullname>
+            Robert Poole
+          </fullname>
+        </creator>
+        <original id="812a9488-f431-42dd-876a-ea6c524d617d"/>
+        <status>
+          active
+        </status>
+      </Document>
+    </Meta>
+    <Item>
+      <Problem junk="http://indivo.org/vocab/xml/documents#">
+        <dateOnset>
+          2002-08-12
+        </dateOnset>
+        <name type="umls-snomed" value="313436004" abbrev="None">
+          Type II Diabetes Mellitus
+        </name>
+        <comments>
+          Diabetes
+        </comments>
+        <diagnosedBy>
+          Dr. James King
+        </diagnosedBy>
+      </Problem>
+    </Item>
+  </Report>
+  <Report>
+    <Meta>
+      <Document id="085ade28-7b53-4aa8-b87e-8c90152e6e17" type="http://indivo.org/vocab/xml/documents#Problem" size="366" digest="416517c42c327eda72a2c0c78d6f701ca9916f93f26ebadf9068ec63bfbcd65e" record_id="">
+        <createdAt>
+          2010-05-12T14:19:04+00:00
+        </createdAt>
+        <creator id="rpoole@records.media.mit.edu" type="Account">
+          <fullname>
+            Robert Poole
+          </fullname>
+        </creator>
+        <original id="085ade28-7b53-4aa8-b87e-8c90152e6e17"/>
+        <status>
+          active
+        </status>
+      </Document>
+    </Meta>
+    <Item>
+      <Problem junk="http://indivo.org/vocab/xml/documents#">
+        <dateOnset>
+          2002-07-11
+        </dateOnset>
+        <name type="umls-snomed" value="13644009" abbrev="None">
+          Hypercholesterolemia (disorder)
+        </name>
+        <comments>
+          High Cholesterol
+        </comments>
+        <diagnosedBy>
+          Dr. James King
+        </diagnosedBy>
+      </Problem>
+    </Item>
+  </Report>
+  <Report>
+    <Meta>
+      <Document id="053aa0f6-e10c-4359-a8d7-750fe580913e" type="http://indivo.org/vocab/xml/documents#Problem" size="371" digest="d9dc8adea04f038df5213a5cd20663f457d342f60fd4d22a200138469e0bfc20" record_id="">
+        <createdAt>
+          2010-05-12T14:24:30+00:00
+        </createdAt>
+        <creator id="rpoole@records.media.mit.edu" type="Account">
+          <fullname>
+            Robert Poole
+          </fullname>
+        </creator>
+        <original id="053aa0f6-e10c-4359-a8d7-750fe580913e"/>
+        <status>
+          active
+        </status>
+      </Document>
+    </Meta>
+    <Item>
+      <Problem junk="http://indivo.org/vocab/xml/documents#">
+        <dateOnset>
+          2002-05-16
+        </dateOnset>
+        <name type="umls-snomed" value="59621000" abbrev="None">
+          Essential hypertension (disorder)
+        </name>
+        <comments>
+          High Blood Pressure
+        </comments>
+        <diagnosedBy>
+          Dr. James King
+        </diagnosedBy>
+      </Problem>
+    </Item>
+  </Report>
+  <Report>
+    <Meta>
+      <Document id="bdb0f67f-5b8f-4e80-b03a-8f1c7ed11a4a" type="http://indivo.org/vocab/xml/documents#Problem" size="366" digest="8d66a6496d4e022206552ae818802057733babec7b353f2e788c5453ab407ab7" record_id="">
+        <createdAt>
+          2010-05-12T13:35:43+00:00
+        </createdAt>
+        <creator id="rpoole@records.media.mit.edu" type="Account">
+          <fullname>
+            Robert Poole
+          </fullname>
+        </creator>
+        <original id="bdb0f67f-5b8f-4e80-b03a-8f1c7ed11a4a"/>
+        <status>
+          active
+        </status>
+      </Document>
+    </Meta>
+    <Item>
+      <Problem junk="http://indivo.org/vocab/xml/documents#">
+        <dateOnset>
+          2001-02-20
+        </dateOnset>
+        <dateResolution>
+          2001-03-13
+        </dateResolution>
+        <name type="umls-snomed" value="38341003" abbrev="None">
+          Bronchitis
+        </name>
+        <diagnosedBy>
+          Dr. Alice Swanson
+        </diagnosedBy>
+      </Problem>
+    </Item>
+  </Report>
+  <Report>
+    <Meta>
+      <Document id="3298eaa2-8c7c-46ed-aeed-666933ebfef5" type="http://indivo.org/vocab/xml/documents#Problem" size="383" digest="9bcda80364e5e5248d42947b00578936cb6a446643d01ca85fb74c2d2efb76c8" record_id="">
+        <createdAt>
+          2010-05-12T13:25:56+00:00
+        </createdAt>
+        <creator id="rpoole@records.media.mit.edu" type="Account">
+          <fullname>
+            Robert Poole
+          </fullname>
+        </creator>
+        <original id="3298eaa2-8c7c-46ed-aeed-666933ebfef5"/>
+        <status>
+          active
+        </status>
+      </Document>
+    </Meta>
+    <Item>
+      <Problem junk="http://indivo.org/vocab/xml/documents#">
+        <dateOnset>
+          1987-05-03
+        </dateOnset>
+        <dateResolution>
+          1987-05-25
+        </dateResolution>
+        <name type="umls-snomed" value="38341003" abbrev="None">
+          Tinea Pedis
+        </name>
+        <comments>
+          Athlete's Foot
+        </comments>
+        <diagnosedBy>
+          Dr. Alice
+        </diagnosedBy>
+      </Problem>
+    </Item>
+  </Report>
+  <Report>
+    <Meta>
+      <Document id="d9b34240-050d-4916-9590-ecd3dc0dcd8c" type="http://indivo.org/vocab/xml/documents#Problem" size="367" digest="7c684c5bba8a5e36b421f55f4c41fc0bf58ed485b5e358156f543779bf2e847b" record_id="">
+        <createdAt>
+          2010-05-12T13:34:13+00:00
+        </createdAt>
+        <creator id="rpoole@records.media.mit.edu" type="Account">
+          <fullname>
+            Robert Poole
+          </fullname>
+        </creator>
+        <original id="d9b34240-050d-4916-9590-ecd3dc0dcd8c"/>
+        <status>
+          active
+        </status>
+      </Document>
+    </Meta>
+    <Item>
+      <Problem junk="http://indivo.org/vocab/xml/documents#">
+        <dateOnset>
+          1975-10-10
+        </dateOnset>
+        <dateResolution>
+          1976-05-21
+        </dateResolution>
+        <name type="umls-snomed" value="38341003" abbrev="None">
+          Lyme Disease
+        </name>
+        <diagnosedBy>
+          Dr. Allen Tucker
+        </diagnosedBy>
+      </Problem>
+    </Item>
+  </Report>
+  <Report>
+    <Meta>
+      <Document id="f65d2d88-9db1-4c8e-b7f7-d1285d1c083b" type="http://indivo.org/vocab/xml/documents#Problem" size="381" digest="073bd45ae117787bba017bf1d1fcc33ab7f038c9c5830231d887b56481f23411" record_id="">
+        <createdAt>
+          2010-05-12T13:30:40+00:00
+        </createdAt>
+        <creator id="rpoole@records.media.mit.edu" type="Account">
+          <fullname>
+            Robert Poole
+          </fullname>
+        </creator>
+        <original id="f65d2d88-9db1-4c8e-b7f7-d1285d1c083b"/>
+        <status>
+          active
+        </status>
+      </Document>
+    </Meta>
+    <Item>
+      <Problem junk="http://indivo.org/vocab/xml/documents#">
+        <dateOnset>
+          1940-11-10
+        </dateOnset>
+        <dateResolution>
+          1940-11-17
+        </dateResolution>
+        <name type="umls-snomed" value="38341003" abbrev="None">
+          Varicella
+        </name>
+        <comments>
+          Chicken Pox
+        </comments>
+        <diagnosedBy>
+          Dr. Johnston
+        </diagnosedBy>
+      </Problem>
+    </Item>
+  </Report>
+</Reports>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel
+	skinClass="skins.WidgetPanelSkin"
+	xmlns:resize="flex.utils.ui.resize.*"
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" width="500" height="300">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<fx:String id="text"><![CDATA[<p>Default app contents with <b>some</b> formatting.</p>]]></fx:String>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import flashx.textLayout.conversion.TextConverter;
+		]]>
+	</fx:Script>	
+	<s:RichText id="contentRichText"
+				textFlow="{TextConverter.importToFlow(text, TextConverter.TEXT_FIELD_HTML_FORMAT)}"
+				left="10" top="10" right="10" bottom="10"
+				horizontalCenter="0" verticalCenter="0" />
+
+</s:Panel>

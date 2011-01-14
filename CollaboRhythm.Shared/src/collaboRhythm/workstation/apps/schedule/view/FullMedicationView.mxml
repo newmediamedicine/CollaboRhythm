@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<view:FullScheduleItemViewBase name="MedicationView"
+						   xmlns:fx="http://ns.adobe.com/mxml/2009"
+						   xmlns:s="library://ns.adobe.com/flex/spark"
+						   xmlns:mx="library://ns.adobe.com/flex/mx"
+ xmlns:view="collaboRhythm.workstation.apps.schedule.view.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		
+		#medicationStrength {
+			font-size: 16;
+			font-weight: bold;
+		}
+		
+		#administration {
+			font-size: 12;
+		}
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+			import collaboRhythm.workstation.apps.medications.model.Medication;
+			import collaboRhythm.workstation.apps.schedule.model.MoveData;
+			
+			import mx.core.UIComponent;
+			
+			import spark.effects.Move;
+			
+			public static const MEDICATION_PICTURE_WIDTH:Number = 80;
+			public static const MEDICATION_WIDTH:Number = 320;
+			public static const MEDICATION_HEIGHT:Number = 82;
+			
+			[Bindable]
+			private var _medication:Medication; 
+			
+			public function get medication():Medication
+			{
+				return _medication;
+			}
+			
+			public function set medication(medication:Medication):void
+			{
+				_medication = medication;
+				scheduleItem = medication;
+				this.width = MEDICATION_WIDTH;
+				this.height = MEDICATION_HEIGHT;
+				
+				var color:uint = medication.color;
+				_medicationDot.graphics.beginFill(color, 1);
+				_medicationDot.graphics.drawEllipse(0, 0, 20, 20);
+				_medicationDot.graphics.endFill();	
+			}
+			
+			override public function stackingUpdateHandler(stackingUpdated:Boolean):void
+			{
+				if (stackingUpdated == true)
+				{
+					super.stackingUpdateHandler(stackingUpdated);
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:Group id="med" width="100%" height="100%">
+		<s:Rect id="outerRectangle" width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="{uint(_medication.collaborationColor)}" alpha="0.4"/>
+			</s:fill>
+			<s:stroke>
+				<s:SolidColorStroke color="0xFFFFFF" weight="1" alpha="0.5"/>
+			</s:stroke>
+		</s:Rect>
+		<mx:Image right="8" verticalCenter="0" source="@Embed(source='resources/images/icons/gripHorizontalNarrow.png')"/>
+		<s:Group id="medicationContent" left="1" right="29" top="1" bottom="1">
+			<s:Rect width="80" height="100%">
+				<s:fill>
+					<s:SolidColor color="0x000000"/>
+				</s:fill>
+			</s:Rect>
+			<mx:Image source="{_medication.imageURI}" width="{MEDICATION_PICTURE_WIDTH}" height="{MEDICATION_PICTURE_WIDTH}" smoothBitmapContent="true"/>
+			<mx:UIComponent width="20" height="20" left="57" top="4" id="_medicationDot"/>
+			<s:Label id="medicationStrength" text="{_medication.name} {_medication.strengthValue}{_medication.strengthUnit}" left="83" right="1" maxDisplayedLines="1" y="7"/>	
+			<s:Label id="indication" text="{_medication.indication} - Dr. James King" left="83" right="1" maxDisplayedLines="1" y="30" fontSize="13"/>
+			<s:Label id="administration" text="1 pill, by mouth, once a day" left="83" y="50" fontSize="13"/>
+			<s:Label id="instructions" text="Take with water" left="83" y="64" fontSize="13"/>
+		</s:Group>
+	</s:Group>
+</view:FullScheduleItemViewBase> 

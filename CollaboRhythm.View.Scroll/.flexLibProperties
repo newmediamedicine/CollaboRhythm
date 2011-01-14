@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="collaboRhythm.view.scroll.TouchScroller"/>
+    <classEntry path="collaboRhythm.view.scroll.TouchScrollingScrollerSkin"/>
+    <classEntry path="collaboRhythm.view.scroll.TouchScrollingListSkin"/>
+    <classEntry path="collaboRhythm.view.scroll.ITouchScrollerAdapter"/>
+    <classEntry path="collaboRhythm.view.scroll.TouchScrollingScroller"/>
+    <classEntry path="collaboRhythm.view.scroll.MoveSample"/>
+    <classEntry path="collaboRhythm.view.scroll.TouchScrollerEvent"/>
+    <classEntry path="collaboRhythm.view.scroll.TouchScrollingDataGrid"/>
+    <classEntry path="collaboRhythm.view.scroll.TouchScrollingList"/>
+    <classEntry path="collaboRhythm.view.scroll.SmoothScrollingDataGrid"/>
+  </includeClasses>
+  <includeResources>
+    <resourceEntry destPath="assets/cursors/hand.png" sourcePath="assets/cursors/hand.png"/>
+    <resourceEntry destPath="assets/cursors/handClosed.png" sourcePath="assets/cursors/handClosed.png"/>
+  </includeResources>
+  <namespaceManifests/>
+</flexLibProperties>

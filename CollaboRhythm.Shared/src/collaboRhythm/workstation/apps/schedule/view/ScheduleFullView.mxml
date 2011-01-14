@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"  
+		 width="100%" height="100%"
+		 resize="resizeHandler(event)" xmlns:view="collaboRhythm.workstation.apps.schedule.view.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[	
+			import collaboRhythm.workstation.apps.medications.model.Medication;
+			import collaboRhythm.workstation.apps.medications.model.MedicationsModel;
+			import collaboRhythm.workstation.apps.schedule.controller.ScheduleFullViewController;
+			import collaboRhythm.workstation.apps.schedule.model.AdherenceGroup;
+			import collaboRhythm.workstation.apps.schedule.model.Measurement;
+			import collaboRhythm.workstation.apps.schedule.model.MoveData;
+			import collaboRhythm.workstation.apps.schedule.model.ScheduleItemBase;
+			import collaboRhythm.workstation.apps.schedule.model.ScheduleModel;
+			
+			import mx.binding.utils.BindingUtils;
+			import mx.collections.ArrayCollection;
+			import mx.controls.sliderClasses.Slider;
+			import mx.effects.Effect;
+			import mx.effects.Resize;
+			import mx.events.CollectionEvent;
+			import mx.events.CollectionEventKind;
+			import mx.events.DragEvent;
+			import mx.events.EffectEvent;
+			import mx.events.ResizeEvent;
+			
+			import spark.effects.Animate;
+			import spark.effects.Fade;
+			import spark.effects.Move;
+			import spark.effects.animation.MotionPath;
+			import spark.effects.animation.SimpleMotionPath;
+			import spark.effects.easing.Bounce;
+			import spark.effects.easing.Power;
+			
+			public static const TIMELINE_VIEW_HEIGHT:Number = 50;
+			public static const CLOCK_VIEW_HEIGHT:Number = 250;
+			public static const ADHERENCE_WINDOW_INITIAL_HEIGHT:Number = 50;
+			
+			public static const DURATION:Number = 300;
+			public static const FRICTION:Number = 0.3;
+			
+			private var _scheduleFullViewController:ScheduleFullViewController;
+			private var _scheduleModel:ScheduleModel;
+			private var _scheduleItemsCollection:ArrayCollection;
+			private var _adherenceGroupsCollection:ArrayCollection;
+			private var _fullScheduleItemViews:Vector.<FullScheduleItemViewBase>;
+			private var _fullAdherenceGroupViews:Vector.<FullAdherenceGroupView>;
+			
+			public function initializeControllerModel(scheduleFullViewController:ScheduleFullViewController, scheduleModel:ScheduleModel):void 
+			{
+				_scheduleFullViewController = scheduleFullViewController;
+				_scheduleModel = scheduleModel;
+				_scheduleItemsCollection = _scheduleModel.scheduleItemsCollection;
+				_adherenceGroupsCollection = _scheduleModel.adherenceGroupsCollection;
+				_fullScheduleItemViews = new Vector.<FullScheduleItemViewBase>;
+				_fullAdherenceGroupViews = new Vector.<FullAdherenceGroupView>;
+				
+				fullSmartDrawerView.scheduleModel = scheduleModel;
+				fullSmartDrawerView.scheduleFullView = this;
+				
+				this.addEventListener(Event.RESIZE, resizeHandler);
+				
+				this.addEventListener(FullScheduleItemViewEvent.SCHEDULE_ITEM_GRAB, scheduleItemGrabHandler);
+				this.addEventListener(FullScheduleItemViewEvent.SCHEDULE_ITEM_MOVE, scheduleItemMoveHandler);
+				this.addEventListener(FullScheduleItemViewEvent.SCHEDULE_ITEM_DROP, scheduleItemDropHandler);
+				this.addEventListener(FullScheduleItemViewEvent.SMART_DRAWER_BEGIN_DRAG, smartDrawerBeginDragHandler);
+				this.addEventListener(FullScheduleItemViewEvent.SMART_DRAWER_MOVE, smartDrawerMoveHandler);
+				this.addEventListener(FullScheduleItemViewEvent.SMART_DRAWER_DROP, smartDrawerDropHandler);
+				this.addEventListener(FullScheduleItemViewEvent.MEDICATION_BEGIN_DRAG, medicationBeginDragHandler);
+				this.addEventListener(FullScheduleItemViewEvent.MEDICATION_MOVE, medicationMoveHandler);
+				this.addEventListener(FullScheduleItemViewEvent.MEDICATION_DROP, medicationDropHandler);
+				this.addEventListener(FullScheduleItemViewEvent.ADHERENCE_GROUP_BEGIN_DRAG, adherenceGroupBeginDragHandler);
+				this.addEventListener(FullScheduleItemViewEvent.ADHERENCE_GROUP_MOVE, adherenceGroupMoveHandler);
+				this.addEventListener(FullScheduleItemViewEvent.ADHERENCE_GROUP_DROP, adherenceGroupDropHandler);		
+				this.addEventListener(FullScheduleItemViewEvent.ADHERENCE_WINDOW_RESIZE, adherenceWindowResizeHandler);
+				
+				
+				_scheduleItemsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, scheduleItemsCollectionChangeHandler);
+				_adherenceGroupsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, adherenceGroupsCollectionChangeHandler);
+			}
+			
+			public function get fullScheduleItemViews():Vector.<FullScheduleItemViewBase>
+			{
+				return _fullScheduleItemViews;
+			}
+			
+			public function set fullScheduleItemViews(value:Vector.<FullScheduleItemViewBase>):void
+			{
+				_fullScheduleItemViews = value;
+			}
+			
+			public function get fullAdherenceGroupViews():Vector.<FullAdherenceGroupView>
+			{
+				return _fullAdherenceGroupViews;
+			}
+			
+			public function set fullAdherenceGroupViews(value:Vector.<FullAdherenceGroupView>):void
+			{
+				_fullAdherenceGroupViews = value;
+			}
+			
+			private function scheduleItemsCollectionChangeHandler(event:CollectionEvent):void
+			{
+				if (event.kind == CollectionEventKind.ADD)
+				{
+					for each (var scheduleItemAdded:ScheduleItemBase in event.items)
+					{
+						createScheduleItemView(scheduleItemAdded);
+					}
+				}
+			}
+			
+			private function adherenceGroupsCollectionChangeHandler(event:CollectionEvent):void
+			{
+				if (event.kind == CollectionEventKind.ADD)
+				{
+					for each (var adherenceGroupAdded:AdherenceGroup in event.items)
+					{
+						createAdherenceGroupView(adherenceGroupAdded);
+					}
+				}
+				else if (event.kind == CollectionEventKind.REMOVE)
+				{
+					for each (var adherenceGroupRemoved:AdherenceGroup in event.items)
+					{
+						destroyAdherenceGroupView(adherenceGroupRemoved);
+					}
+				}
+			}
+			
+			public function createScheduleItemView(scheduleItem:ScheduleItemBase):void
+			{
+				var className:String = getQualifiedClassName(scheduleItem);
+				if (className == "collaboRhythm.workstation.apps.medications.model::Medication")
+				{
+					var fullMedicationView:FullMedicationView = new FullMedicationView();
+					fullMedicationView.scheduleFullView = this;
+					fullMedicationView.scheduleModel = _scheduleModel;
+					fullMedicationView.medication = Medication(scheduleItem);
+					scheduleItemCanvas.addElement(fullMedicationView);
+					_fullScheduleItemViews.push(fullMedicationView);
+				}
+				else if (className == "collaboRhythm.workstation.apps.schedule.model::Measurement")
+				{
+					var fullMeasurementView:FullMeasurementView = new FullMeasurementView();
+					fullMeasurementView.scheduleFullView = this;
+					fullMeasurementView.scheduleModel = _scheduleModel;
+					fullMeasurementView.measurement = Measurement(scheduleItem);
+					scheduleItemCanvas.addElement(fullMeasurementView);
+					_fullScheduleItemViews.push(fullMeasurementView);
+				}
+			}
+			
+			public function createAdherenceGroupView(adherenceGroup:AdherenceGroup):void
+			{				
+				var adherenceGroupView:FullAdherenceGroupView = new FullAdherenceGroupView();
+				adherenceGroupView.scheduleFullView = this;
+				adherenceGroupView.scheduleModel = _scheduleModel;
+				adherenceGroupView.adherenceGroup = adherenceGroup;
+				if (adherenceGroup.scheduleItems.length == 1)
+				{
+					adherenceGroupView.alpha = 0;
+				}
+				scheduleItemCanvas.addElement(adherenceGroupView);
+				scheduleItemCanvas.setElementIndex(adherenceGroupView, 0);
+				_fullAdherenceGroupViews.push(adherenceGroupView);
+				
+				var adherenceWindowView:FullAdherenceWindowView = new FullAdherenceWindowView();
+				adherenceWindowView.scheduleFullView = this;
+				adherenceWindowView.scheduleModel = _scheduleModel;
+				adherenceWindowView.adherenceGroup = adherenceGroup;
+				adherenceWindowCanvas.addElement(adherenceWindowView);				
+				adherenceGroupView.fullAdherenceWindowView = adherenceWindowView;				
+			}
+			
+			public function destroyAdherenceGroupView(adherenceGroup:AdherenceGroup):void
+			{
+				for each (var adherenceGroupView:FullAdherenceGroupView in _fullAdherenceGroupViews)
+				{
+					if (adherenceGroupView.adherenceGroup == adherenceGroup)
+					{
+						var adherenceGroupViewIndex:Number = _fullAdherenceGroupViews.indexOf(adherenceGroupView);
+						_fullAdherenceGroupViews.splice(adherenceGroupViewIndex, 1);
+						scheduleItemCanvas.removeElement(adherenceGroupView);
+						
+						adherenceWindowCanvas.removeElement(adherenceGroupView.fullAdherenceWindowView);
+					}
+				}
+			}
+			
+			public function resizeHandler(event:ResizeEvent):void 
+			{
+				trace("ScheduleFullView resize width, height = " + this.width + ", " + this.height);
+				_scheduleModel.timeWidth = (this.width - (FullMedicationView.MEDICATION_WIDTH - (FullMedicationView.MEDICATION_PICTURE_WIDTH / 2) + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH)) / 26;
+			}
+			
+			public function scheduleItemGrabHandler(event:FullScheduleItemViewEvent):void
+			{
+				_scheduleFullViewController.moveScheduleItemStart(event.moveData);
+			}
+			
+			public function scheduleItemMoveHandler(event:FullScheduleItemViewEvent):void
+			{
+				_scheduleFullViewController.moveScheduleItem(event.moveData);
+			}
+			
+			public function scheduleItemDropHandler(event:FullScheduleItemViewEvent):void
+			{
+				_scheduleFullViewController.moveScheduleItemEnd(event.moveData);
+			}
+			
+			public function smartDrawerBeginDragHandler(event:FullScheduleItemViewEvent):void
+			{
+				_scheduleFullViewController.moveSmartDrawerStart(event.moveData);
+			}
+			
+			public function smartDrawerMoveHandler(event:FullScheduleItemViewEvent):void 
+			{			
+				_scheduleFullViewController.moveSmartDrawer(event.moveData);
+			}
+			
+			public function smartDrawerDropHandler(event:FullScheduleItemViewEvent):void
+			{
+				_scheduleFullViewController.moveSmartDrawerEnd(event.moveData);		
+			}
+			
+			public function medicationBeginDragHandler(event:FullScheduleItemViewEvent):void
+			{
+				_scheduleFullViewController.moveScheduleItemStart(event.moveData);
+			}
+			
+			public function medicationMoveHandler(event:FullScheduleItemViewEvent):void 
+			{			
+				_scheduleFullViewController.moveScheduleItem(event.moveData);
+			}
+			
+			public function medicationDropHandler(event:FullScheduleItemViewEvent):void
+			{
+				_scheduleFullViewController.moveScheduleItemEnd(event.moveData);		
+			}
+			
+			public function adherenceGroupBeginDragHandler(event:FullScheduleItemViewEvent):void
+			{
+				_scheduleFullViewController.moveAdherenceGroupStart(event.moveData);
+			}
+			
+			public function adherenceGroupMoveHandler(event:FullScheduleItemViewEvent):void
+			{
+				_scheduleFullViewController.moveAdherenceGroup(event.moveData);
+			}
+			
+			public function adherenceGroupDropHandler(event:FullScheduleItemViewEvent):void
+			{
+				_scheduleFullViewController.moveAdherenceGroupEnd(event.moveData);
+			}
+			
+			public function adherenceWindowResizeHandler(event:FullScheduleItemViewEvent):void
+			{
+				_scheduleFullViewController.resizeAdherenceWindow(event.moveData);
+			}
+		]]>
+	</fx:Script>
+	<s:Rect width="100%" top="0" bottom="{TIMELINE_VIEW_HEIGHT}">
+		<s:fill>
+			<s:SolidColor color="0xAAAAAA"/>
+		</s:fill>
+	</s:Rect>
+	<view:FullTimelineView id="timelineView" width="100%" height="{TIMELINE_VIEW_HEIGHT}" bottom="0"/>
+	<view:FullSmartDrawerView id="fullSmartDrawerView" bottom="{ADHERENCE_WINDOW_INITIAL_HEIGHT + TIMELINE_VIEW_HEIGHT}"/>
+	<mx:Canvas id="adherenceWindowCanvas" width="100%" top="0" bottom="0" height="100%" clipContent="false"/>
+	<mx:Canvas id="scheduleItemCanvas" width="100%" top="0" bottom="{TIMELINE_VIEW_HEIGHT}" clipContent="false"/>
+</s:Group>

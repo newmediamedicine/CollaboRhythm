@@ -1,0 +1,48 @@
+<Contact junk="http://indivo.org/vocab/xml/documents#">
+  <name>
+    <fullName>
+      Robert Poole
+    </fullName>
+    <givenName>
+      Robert
+    </givenName>
+    <familyName>
+      Poole
+    </familyName>
+  </name>
+  <email type="personal">
+    rpoole@records.media.mit.edu
+  </email>
+  <email type="work"/>
+  <address type="home">
+    <streetAddress>
+      84 Spruce Street
+    </streetAddress>
+    <postalCode>
+      02215
+    </postalCode>
+    <locality>
+      Boston
+    </locality>
+    <region>
+      Massachusetts
+    </region>
+    <country>
+      US
+    </country>
+    <timeZone>
+      -5GMT
+    </timeZone>
+  </address>
+  <location type="home">
+    <latitude/>
+    <longitude/>
+  </location>
+  <phoneNumber type="home">
+    1-555-555-4687
+  </phoneNumber>
+  <phoneNumber type="work">
+    1-555-555-5887
+  </phoneNumber>
+  <instantMessengerName protocol="aim"/>
+</Contact>

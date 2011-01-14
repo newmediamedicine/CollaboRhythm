@@ -1,0 +1,1178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../../style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="../../print.css" type="text/css" media="print">
+<meta content="b2World,Box2D.Dynamics.b2World,e_locked,e_newFixture,AddController,ClearForces,CreateBody,CreateController,CreateJoint,DestroyBody,DestroyController,DestroyJoint,DrawDebugData,GetBodyCount,GetBodyList,GetContactCount,GetContactList,GetGravity,GetGroundBody,GetJointCount,GetJointList,GetProxyCount,IsLocked,QueryAABB,QueryPoint,QueryShape,RayCast,RayCastAll,RayCastOne,RemoveController,SetBroadPhase,SetContactFilter,SetContactListener,SetContinuousPhysics,SetDebugDraw,SetDestructionListener,SetGravity,SetWarmStarting,Step,Validate" name="keywords">
+<title>Box2D.Dynamics.b2World</title>
+</head>
+<body>
+<script type="text/javascript" language="javascript" src="../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../cookies.js"></script><script type="text/javascript" language="javascript">
+<!--
+				asdocTitle = 'b2World - Box2DFlash Documentation';
+				var baseRef = '../../';
+				window.onload = configPage;
+			--></script>
+<table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+<tr>
+<td align="left" class="titleTableTitle">Box2DFlash Documentation</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../all-classes.html')" href="../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../all-classes.html')" href="../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../index-list.html')" href="../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../index.html?Box2D/Dynamics/b2World.html&amp;Box2D/Dynamics/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../images/logo.jpg"></td>
+</tr>
+<tr class="titleTableRow2">
+<td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;b2World</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#methodSummary">Methods</a>&nbsp;| <a href="#constantSummary">Constants</a></td>
+</tr>
+<tr class="titleTableRow3">
+<td colspan="2">&nbsp;</td>
+</tr>
+</table>
+<script type="text/javascript" language="javascript">
+<!--
+if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Class b2World"); titleBar_setSubNav(true,false,false,false,false,false,true,false,false,false,false,false,false,false);}
+--></script>
+<div class="MainContent">
+<table cellspacing="0" cellpadding="0" class="classHeaderTable">
+<tr>
+<td class="classHeaderTableLabel">Package</td><td><a onclick="javascript:loadClassListFrame('class-list.html')" href="package-detail.html">Box2D.Dynamics</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Class</td><td class="classSignature">public class b2World</td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Source</td><td><a href="http://box2dflash.svn.sourceforge.net/viewvc/box2dflash/Source/Box2D/Dynamics/b2World.as">b2World.as</a></td>
+</tr>
+</table>
+<p></p>
+The world class manages all physics entities, dynamic simulation,
+and asynchronous queries. 
+<p></p>
+<br>
+<hr>
+</div>
+<a name="methodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Methods</div>
+<table id="summaryTableMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#b2World()">b2World</a>(gravity:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>, doSleep:Boolean)</div>
+<div class="summaryTableDescription">
+ </div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#AddController()">AddController</a>(c:<a href="Controllers/b2Controller.html">b2Controller</a>):<a href="Controllers/b2Controller.html">b2Controller</a>
+</div>
+<div class="summaryTableDescription">
+  Add a controller to the world list
+  </div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#ClearForces()">ClearForces</a>():void</div>
+<div class="summaryTableDescription">
+  Call this after you are done with time steps to clear the forces.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#CreateBody()">CreateBody</a>(def:<a href="b2BodyDef.html">b2BodyDef</a>):<a href="../Dynamics/b2Body.html">b2Body</a>
+</div>
+<div class="summaryTableDescription">
+ Create a rigid body given a definition.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#CreateController()">CreateController</a>(controller:<a href="Controllers/b2Controller.html">b2Controller</a>):<a href="Controllers/b2Controller.html">b2Controller</a>
+</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#CreateJoint()">CreateJoint</a>(def:<a href="Joints/b2JointDef.html">b2JointDef</a>):<a href="Joints/b2Joint.html">b2Joint</a>
+</div>
+<div class="summaryTableDescription">
+ Create a joint to constrain bodies together.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#DestroyBody()">DestroyBody</a>(b:<a href="b2Body.html">b2Body</a>):void</div>
+<div class="summaryTableDescription">
+ Destroy a rigid body given a definition.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#DestroyController()">DestroyController</a>(controller:<a href="Controllers/b2Controller.html">b2Controller</a>):void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#DestroyJoint()">DestroyJoint</a>(j:<a href="Joints/b2Joint.html">b2Joint</a>):void</div>
+<div class="summaryTableDescription">
+ Destroy a joint.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#DrawDebugData()">DrawDebugData</a>():void</div>
+<div class="summaryTableDescription">
+  Call this to draw shapes and other debug draw data.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetBodyCount()">GetBodyCount</a>():int</div>
+<div class="summaryTableDescription">
+ Get the number of bodies.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetBodyList()">GetBodyList</a>():<a href="../Dynamics/b2Body.html">b2Body</a>
+</div>
+<div class="summaryTableDescription">
+ Get the world body list.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetContactCount()">GetContactCount</a>():int</div>
+<div class="summaryTableDescription">
+ Get the number of contacts (each may have 0 or more contact points).</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetContactList()">GetContactList</a>():<a href="Contacts/b2Contact.html">b2Contact</a>
+</div>
+<div class="summaryTableDescription">
+  Get the world contact list.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetGravity()">GetGravity</a>():<a href="../Common/Math/b2Vec2.html">b2Vec2</a>
+</div>
+<div class="summaryTableDescription">
+ Get the global gravity vector.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetGroundBody()">GetGroundBody</a>():<a href="../Dynamics/b2Body.html">b2Body</a>
+</div>
+<div class="summaryTableDescription">
+ The world provides a single static ground body with no collision shapes.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetJointCount()">GetJointCount</a>():int</div>
+<div class="summaryTableDescription">
+ Get the number of joints.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetJointList()">GetJointList</a>():<a href="Joints/b2Joint.html">b2Joint</a>
+</div>
+<div class="summaryTableDescription">
+ Get the world joint list.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetProxyCount()">GetProxyCount</a>():int</div>
+<div class="summaryTableDescription">
+ Get the number of broad-phase proxies.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#IsLocked()">IsLocked</a>():Boolean</div>
+<div class="summaryTableDescription">
+  Is the world locked (in the middle of a time step).</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#QueryAABB()">QueryAABB</a>(callback:Function, aabb:<a href="../Collision/b2AABB.html">b2AABB</a>):void</div>
+<div class="summaryTableDescription">
+  Query the world for all fixtures that potentially overlap the
+  provided AABB.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#QueryPoint()">QueryPoint</a>(callback:Function, p:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>):void</div>
+<div class="summaryTableDescription">
+  Query the world for all fixtures that contain a point.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#QueryShape()">QueryShape</a>(callback:Function, shape:<a href="../Collision/Shapes/b2Shape.html">b2Shape</a>, transform:<a href="../Common/Math/b2Transform.html">b2Transform</a> = null):void</div>
+<div class="summaryTableDescription">
+  Query the world for all fixtures that precisely overlap the
+  provided transformed shape.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#RayCast()">RayCast</a>(callback:Function, point1:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>, point2:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>):void</div>
+<div class="summaryTableDescription">
+  Ray-cast the world for all fixtures in the path of the ray.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#RayCastAll()">RayCastAll</a>(point1:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>, point2:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>):Vector</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#RayCastOne()">RayCastOne</a>(point1:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>, point2:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>):<a href="../Dynamics/b2Fixture.html">b2Fixture</a>
+</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#RemoveController()">RemoveController</a>(c:<a href="Controllers/b2Controller.html">b2Controller</a>):void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetBroadPhase()">SetBroadPhase</a>(broadPhase:<a href="../Collision/IBroadPhase.html">IBroadPhase</a>):void</div>
+<div class="summaryTableDescription">
+  Use the given object as a broadphase.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetContactFilter()">SetContactFilter</a>(filter:<a href="b2ContactFilter.html">b2ContactFilter</a>):void</div>
+<div class="summaryTableDescription">
+ Register a contact filter to provide specific control over collision.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetContactListener()">SetContactListener</a>(listener:<a href="b2ContactListener.html">b2ContactListener</a>):void</div>
+<div class="summaryTableDescription">
+ Register a contact event listener
+ </div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetContinuousPhysics()">SetContinuousPhysics</a>(flag:Boolean):void</div>
+<div class="summaryTableDescription">
+ Enable/disable continuous physics.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetDebugDraw()">SetDebugDraw</a>(debugDraw:<a href="b2DebugDraw.html">b2DebugDraw</a>):void</div>
+<div class="summaryTableDescription">
+ Register a routine for debug drawing.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetDestructionListener()">SetDestructionListener</a>(listener:<a href="b2DestructionListener.html">b2DestructionListener</a>):void</div>
+<div class="summaryTableDescription">
+ Destruct the world.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetGravity()">SetGravity</a>(gravity:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>):void</div>
+<div class="summaryTableDescription">
+ Change the global gravity vector.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetWarmStarting()">SetWarmStarting</a>(flag:Boolean):void</div>
+<div class="summaryTableDescription">
+ Enable/disable warm starting.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#Step()">Step</a>(dt:Number, velocityIterations:int, positionIterations:int):void</div>
+<div class="summaryTableDescription">
+ Take a time step.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#Validate()">Validate</a>():void</div>
+<div class="summaryTableDescription">
+ Perform validation of internal data structures.</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+</table>
+</div>
+<a name="constantSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Constants</div>
+<table id="summaryTableConstant" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Constant</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#e_locked">e_locked</a> : int = 0x0002<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#e_newFixture">e_newFixture</a> : int = 0x0001<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">b2World</td>
+</tr>
+</table>
+</div>
+<script type="text/javascript" language="javascript">
+<!--
+showHideInherited();
+--></script>
+<div class="MainContent">
+<a name="constructorDetail"></a>
+<div class="detailSectionHeader">Constructor detail</div>
+<a name="b2World()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">b2World</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">constructor</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function b2World(gravity:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>, doSleep:Boolean)</code><p>
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">gravity</span>:<a href="../Common/Math/b2Vec2.html">b2Vec2</a></code> &mdash; the world gravity vector.
+ </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">doSleep</span>:Boolean</code> &mdash; improve performance by not simulating inactive bodies.
+ </td>
+</tr>
+</table>
+</div>
+<a name="methodDetail"></a>
+<div class="detailSectionHeader">Method detail</div>
+<a name="AddController()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">AddController</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function AddController(c:<a href="Controllers/b2Controller.html">b2Controller</a>):<a href="Controllers/b2Controller.html">b2Controller</a></code><p>
+  Add a controller to the world list
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">c</span>:<a href="Controllers/b2Controller.html">b2Controller</a></code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="Controllers/b2Controller.html">b2Controller</a></code></td>
+</tr>
+</table>
+</div>
+<a name="ClearForces()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">ClearForces</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function ClearForces():void</code><p>
+  Call this after you are done with time steps to clear the forces. You normally
+  call this after each call to Step, unless you are performing sub-steps.
+  </p></div>
+<a name="CreateBody()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">CreateBody</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function CreateBody(def:<a href="b2BodyDef.html">b2BodyDef</a>):<a href="../Dynamics/b2Body.html">b2Body</a></code><p>
+ Create a rigid body given a definition. No reference to the definition
+ is retained.
+ </p><p>
+<font color="red">Warning: </font>This function is locked during callbacks.
+ </p>
+<span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">def</span>:<a href="b2BodyDef.html">b2BodyDef</a></code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../Dynamics/b2Body.html">b2Body</a></code></td>
+</tr>
+</table>
+</div>
+<a name="CreateController()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">CreateController</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function CreateController(controller:<a href="Controllers/b2Controller.html">b2Controller</a>):<a href="Controllers/b2Controller.html">b2Controller</a></code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">controller</span>:<a href="Controllers/b2Controller.html">b2Controller</a></code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="Controllers/b2Controller.html">b2Controller</a></code></td>
+</tr>
+</table>
+</div>
+<a name="CreateJoint()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">CreateJoint</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function CreateJoint(def:<a href="Joints/b2JointDef.html">b2JointDef</a>):<a href="Joints/b2Joint.html">b2Joint</a></code><p>
+ Create a joint to constrain bodies together. No reference to the definition
+ is retained. This may cause the connected bodies to cease colliding.
+ </p><p>
+<font color="red">Warning: </font>This function is locked during callbacks.
+ </p>
+<span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">def</span>:<a href="Joints/b2JointDef.html">b2JointDef</a></code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="Joints/b2Joint.html">b2Joint</a></code></td>
+</tr>
+</table>
+</div>
+<a name="DestroyBody()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">DestroyBody</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function DestroyBody(b:<a href="b2Body.html">b2Body</a>):void</code><p>
+ Destroy a rigid body given a definition. No reference to the definition
+ is retained. This function is locked during callbacks.
+ </p><p>
+<font color="red">Warning: </font>This function is locked during callbacks.
+ </p>
+<span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">b</span>:<a href="b2Body.html">b2Body</a></code></td>
+</tr>
+</table>
+</div>
+<a name="DestroyController()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">DestroyController</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function DestroyController(controller:<a href="Controllers/b2Controller.html">b2Controller</a>):void</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">controller</span>:<a href="Controllers/b2Controller.html">b2Controller</a></code></td>
+</tr>
+</table>
+</div>
+<a name="DestroyJoint()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">DestroyJoint</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function DestroyJoint(j:<a href="Joints/b2Joint.html">b2Joint</a>):void</code><p>
+ Destroy a joint. This may cause the connected bodies to begin colliding.
+ </p><p>
+<font color="red">Warning: </font>This function is locked during callbacks.
+ </p>
+<span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">j</span>:<a href="Joints/b2Joint.html">b2Joint</a></code></td>
+</tr>
+</table>
+</div>
+<a name="DrawDebugData()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">DrawDebugData</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function DrawDebugData():void</code><p>
+  Call this to draw shapes and other debug draw data.
+  </p></div>
+<a name="GetBodyCount()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetBodyCount</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetBodyCount():int</code><p>
+ Get the number of bodies.
+ </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>int</code></td>
+</tr>
+</table>
+</div>
+<a name="GetBodyList()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetBodyList</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetBodyList():<a href="../Dynamics/b2Body.html">b2Body</a></code><p>
+ Get the world body list. With the returned body, use b2Body::GetNext to get
+ the next body in the world list. A NULL body indicates the end of the list.
+ </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../Dynamics/b2Body.html">b2Body</a></code> &mdash; 
+                        the head of the world body list.
+ 
+                        
+                     </td>
+</tr>
+</table>
+</div>
+<a name="GetContactCount()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetContactCount</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetContactCount():int</code><p>
+ Get the number of contacts (each may have 0 or more contact points).
+ </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>int</code></td>
+</tr>
+</table>
+</div>
+<a name="GetContactList()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetContactList</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetContactList():<a href="Contacts/b2Contact.html">b2Contact</a></code><p>
+  Get the world contact list. With the returned contact, use b2Contact::GetNext to get
+  the next contact in the world list. A NULL contact indicates the end of the list.
+  </p><p>
+<font color="red">Warning: </font>contacts are 
+  </p>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="Contacts/b2Contact.html">b2Contact</a></code> &mdash; 
+                        the head of the world contact list.
+  
+                        
+                     </td>
+</tr>
+</table>
+</div>
+<a name="GetGravity()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetGravity</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetGravity():<a href="../Common/Math/b2Vec2.html">b2Vec2</a></code><p>
+ Get the global gravity vector.
+ </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+</table>
+</div>
+<a name="GetGroundBody()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetGroundBody</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetGroundBody():<a href="../Dynamics/b2Body.html">b2Body</a></code><p>
+ The world provides a single static ground body with no collision shapes.
+ You can use this to simplify the creation of joints and static shapes.
+ </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../Dynamics/b2Body.html">b2Body</a></code></td>
+</tr>
+</table>
+</div>
+<a name="GetJointCount()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetJointCount</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetJointCount():int</code><p>
+ Get the number of joints.
+ </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>int</code></td>
+</tr>
+</table>
+</div>
+<a name="GetJointList()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetJointList</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetJointList():<a href="Joints/b2Joint.html">b2Joint</a></code><p>
+ Get the world joint list. With the returned joint, use b2Joint::GetNext to get
+ the next joint in the world list. A NULL joint indicates the end of the list.
+ </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="Joints/b2Joint.html">b2Joint</a></code> &mdash; 
+                        the head of the world joint list.
+ 
+                        
+                     </td>
+</tr>
+</table>
+</div>
+<a name="GetProxyCount()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetProxyCount</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetProxyCount():int</code><p>
+ Get the number of broad-phase proxies.
+ </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>int</code></td>
+</tr>
+</table>
+</div>
+<a name="IsLocked()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">IsLocked</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function IsLocked():Boolean</code><p>
+  Is the world locked (in the middle of a time step).
+  </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code></td>
+</tr>
+</table>
+</div>
+<a name="QueryAABB()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">QueryAABB</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function QueryAABB(callback:Function, aabb:<a href="../Collision/b2AABB.html">b2AABB</a>):void</code><p>
+  Query the world for all fixtures that potentially overlap the
+  provided AABB.
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">callback</span>:Function</code> &mdash; a user implemented callback class. It should match signature
+  <code>function Callback(fixture:b2Fixture):Boolean</code>
+  Return true to continue to the next fixture.
+  </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">aabb</span>:<a href="../Collision/b2AABB.html">b2AABB</a></code> &mdash; the query box.
+  </td>
+</tr>
+</table>
+</div>
+<a name="QueryPoint()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">QueryPoint</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function QueryPoint(callback:Function, p:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>):void</code><p>
+  Query the world for all fixtures that contain a point.
+  </p><p>Note: This provides a feature specific to this port.</p>
+<span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">callback</span>:Function</code> &mdash; a user implemented callback class. It should match signature
+  <code>function Callback(fixture:b2Fixture):Boolean</code>
+  Return true to continue to the next fixture.
+  </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">p</span>:<a href="../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+</table>
+</div>
+<a name="QueryShape()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">QueryShape</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function QueryShape(callback:Function, shape:<a href="../Collision/Shapes/b2Shape.html">b2Shape</a>, transform:<a href="../Common/Math/b2Transform.html">b2Transform</a> = null):void</code><p>
+  Query the world for all fixtures that precisely overlap the
+  provided transformed shape.
+  </p><p>Note: This provides a feature specific to this port.</p>
+<span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">callback</span>:Function</code> &mdash; a user implemented callback class. It should match signature
+  <code>function Callback(fixture:b2Fixture):Boolean</code>
+  Return true to continue to the next fixture.
+  </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">shape</span>:<a href="../Collision/Shapes/b2Shape.html">b2Shape</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">transform</span>:<a href="../Common/Math/b2Transform.html">b2Transform</a></code> (default = <code>null</code>)<code></code></td>
+</tr>
+</table>
+</div>
+<a name="RayCast()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">RayCast</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function RayCast(callback:Function, point1:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>, point2:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>):void</code><p>
+  Ray-cast the world for all fixtures in the path of the ray. Your callback
+  Controls whether you get the closest point, any point, or n-points
+  The ray-cast ignores shapes that contain the starting point
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">callback</span>:Function</code> &mdash; A callback function which must be of signature:
+  <code>function Callback(fixture:b2Fixture,    // The fixture hit by the ray
+  point:b2Vec2,         // The point of initial intersection
+  normal:b2Vec2,        // The normal vector at the point of intersection
+  fraction:Number       // The fractional length along the ray of the intersection
+  ):Number
+  </code>
+  Callback should return the new length of the ray as a fraction of the original length.
+  By returning 0, you immediately terminate.
+  By returning 1, you continue wiht the original ray.
+  By returning the current fraction, you proceed to find the closest point.
+  </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">point1</span>:<a href="../Common/Math/b2Vec2.html">b2Vec2</a></code> &mdash; the ray starting point
+  </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">point2</span>:<a href="../Common/Math/b2Vec2.html">b2Vec2</a></code> &mdash; the ray ending point
+  </td>
+</tr>
+</table>
+</div>
+<a name="RayCastAll()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">RayCastAll</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function RayCastAll(point1:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>, point2:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>):Vector</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">point1</span>:<a href="../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">point2</span>:<a href="../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Vector</code></td>
+</tr>
+</table>
+</div>
+<a name="RayCastOne()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">RayCastOne</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function RayCastOne(point1:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>, point2:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>):<a href="../Dynamics/b2Fixture.html">b2Fixture</a></code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">point1</span>:<a href="../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">point2</span>:<a href="../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../Dynamics/b2Fixture.html">b2Fixture</a></code></td>
+</tr>
+</table>
+</div>
+<a name="RemoveController()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">RemoveController</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function RemoveController(c:<a href="Controllers/b2Controller.html">b2Controller</a>):void</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">c</span>:<a href="Controllers/b2Controller.html">b2Controller</a></code></td>
+</tr>
+</table>
+</div>
+<a name="SetBroadPhase()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetBroadPhase</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetBroadPhase(broadPhase:<a href="../Collision/IBroadPhase.html">IBroadPhase</a>):void</code><p>
+  Use the given object as a broadphase.
+  The old broadphase will not be cleanly emptied.
+  </p><p>
+<font color="red">Warning: </font>This function is locked during callbacks.
+  </p>
+<span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">broadPhase</span>:<a href="../Collision/IBroadPhase.html">IBroadPhase</a></code></td>
+</tr>
+</table>
+</div>
+<a name="SetContactFilter()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetContactFilter</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetContactFilter(filter:<a href="b2ContactFilter.html">b2ContactFilter</a>):void</code><p>
+ Register a contact filter to provide specific control over collision.
+ Otherwise the default filter is used (b2_defaultFilter).
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">filter</span>:<a href="b2ContactFilter.html">b2ContactFilter</a></code></td>
+</tr>
+</table>
+</div>
+<a name="SetContactListener()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetContactListener</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetContactListener(listener:<a href="b2ContactListener.html">b2ContactListener</a>):void</code><p>
+ Register a contact event listener
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">listener</span>:<a href="b2ContactListener.html">b2ContactListener</a></code></td>
+</tr>
+</table>
+</div>
+<a name="SetContinuousPhysics()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetContinuousPhysics</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetContinuousPhysics(flag:Boolean):void</code><p>
+ Enable/disable continuous physics. For testing.
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">flag</span>:Boolean</code></td>
+</tr>
+</table>
+</div>
+<a name="SetDebugDraw()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetDebugDraw</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetDebugDraw(debugDraw:<a href="b2DebugDraw.html">b2DebugDraw</a>):void</code><p>
+ Register a routine for debug drawing. The debug draw functions are called
+ inside the b2World::Step method, so make sure your renderer is ready to
+ consume draw commands when you call Step().
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">debugDraw</span>:<a href="b2DebugDraw.html">b2DebugDraw</a></code></td>
+</tr>
+</table>
+</div>
+<a name="SetDestructionListener()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetDestructionListener</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetDestructionListener(listener:<a href="b2DestructionListener.html">b2DestructionListener</a>):void</code><p>
+ Destruct the world. All physics entities are destroyed and all heap memory is released.
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">listener</span>:<a href="b2DestructionListener.html">b2DestructionListener</a></code></td>
+</tr>
+</table>
+</div>
+<a name="SetGravity()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetGravity</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetGravity(gravity:<a href="../Common/Math/b2Vec2.html">b2Vec2</a>):void</code><p>
+ Change the global gravity vector.
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">gravity</span>:<a href="../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+</table>
+</div>
+<a name="SetWarmStarting()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetWarmStarting</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetWarmStarting(flag:Boolean):void</code><p>
+ Enable/disable warm starting. For testing.
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">flag</span>:Boolean</code></td>
+</tr>
+</table>
+</div>
+<a name="Step()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">Step</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function Step(dt:Number, velocityIterations:int, positionIterations:int):void</code><p>
+ Take a time step. This performs collision detection, integration,
+ and constraint solution.
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">dt</span>:Number</code> &mdash; the amount of time to simulate, this should not vary.
+ </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">velocityIterations</span>:int</code> &mdash; for the velocity constraint solver.
+ </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">positionIterations</span>:int</code> &mdash; for the position constraint solver.
+ </td>
+</tr>
+</table>
+</div>
+<a name="Validate()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">Validate</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function Validate():void</code><p>
+ Perform validation of internal data structures.
+ </p></div>
+<a name="constantDetail"></a>
+<div class="detailSectionHeader">Constant detail</div>
+<a name="e_locked"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">e_locked</td><td class="detailHeaderType">constant</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const e_locked:int = 0x0002</code>
+</div>
+<a name="e_newFixture"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">e_newFixture</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const e_newFixture:int = 0x0001</code>
+</div>
+<br>
+<br>
+<hr>
+<br>
+<p></p>
+<center class="copyright">Box2DFlash 2.1a</center>
+</div>
+</body>
+</html>
+<!--Box2DFlash 2.1a-->

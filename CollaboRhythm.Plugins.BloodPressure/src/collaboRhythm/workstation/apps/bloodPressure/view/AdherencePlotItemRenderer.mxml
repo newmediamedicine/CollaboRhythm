@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				autoDrawBackground="false"
+				creationComplete="itemrenderer1_creationCompleteHandler(event)"
+				>
+	<fx:Script>
+		<![CDATA[
+			import mx.charts.series.items.PlotSeriesItem;
+			import mx.events.FlexEvent;
+
+			protected function itemrenderer1_creationCompleteHandler(event:FlexEvent):void
+			{
+				var adherence:String = (data as PlotSeriesItem).item.adherence;
+				if (adherence == "yes")
+				{
+					yesImage.visible = true;
+				}
+				else if (adherence == "no")
+				{
+					noImage.visible = true;
+				}
+				else if (adherence == "unreported")
+				{
+					unreportedImage.visible = true;
+				}
+//				image.source = 'resources/images/apps/bloodPressure/adherence_' + adherence + '.png';
+			}
+
+		]]>
+	</fx:Script>
+<!--	
+	<s:Label text="{(data as PlotSeriesItem).item.adherence}" visible="false"/>
+	<mx:Image bottom="{height / 2}" source="{'resources/images/apps/bloodPressure/adherence_' + (data as PlotSeriesItem).item.adherence + '.png'}"/>
+	-->
+	<mx:Image visible="false" smoothBitmapContent="true" id="yesImage" bottom="{height / 2}" source="@Embed('resources/images/apps/bloodPressure/adherence_yes.png')"/>
+	<mx:Image visible="false" smoothBitmapContent="true" id="noImage" bottom="{height / 2}" source="@Embed('resources/images/apps/bloodPressure/adherence_no.png')"/>
+	<mx:Image visible="false" smoothBitmapContent="true" id="unreportedImage" bottom="{height / 2}" source="@Embed('resources/images/apps/bloodPressure/adherence_unreported.png')"/>
+</s:ItemRenderer>

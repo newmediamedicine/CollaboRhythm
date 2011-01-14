@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preferences>
+  <mode>clinician</mode>
+  <userName>mloomis</userName>
+  <password>mloomis-password</password>
+  <rtmpBaseURI>rtmp://127.0.0.1</rtmpBaseURI>
+  <indivoServerBaseURL>http://records.media.mit.edu:8000</indivoServerBaseURL>
+  <chromeConsumerKey>collaboRhythmChrome</chromeConsumerKey>
+  <chromeConsumerSecret>collaboRhythmChrome_secret93452</chromeConsumerSecret>
+  
+<!--  
+	useSingleScreen - If no valid windowSettings.xml file exists or resetWindowSettings = true, then force the app to only use a single screen (one window)
+	resetWindowSettings - Ignore the windowSettings.xml and reset the position/size of all windows 
+	<resetWindowSettings>true</resetWindowSettings>
+  <useSingleScreen>true</useSingleScreen>
+  
+	targetDate can be used for a demo to change the current date
+	Note that the current time of day will not be changed (it will be based on real time) but the date will be offset to match the targetDate
+  <targetDate>2010/01/01</targetDate>
+-->
+</preferences>

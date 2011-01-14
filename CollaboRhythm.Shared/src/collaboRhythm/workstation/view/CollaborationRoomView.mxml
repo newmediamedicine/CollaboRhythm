@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:view="collaboRhythm.workstation.view.*"
+		 height="{COLLABORATION_ROOM_JOINED_USER_VIEW_HEIGHT + 2 * COLLABORATION_ROOM_USER_VIEW_SPACING}"
+		 visible="{determineCollaborationRoomViewVisibility(_collaborationModel.active)}">
+	<fx:Declarations>
+	</fx:Declarations>
+	<fx:Metadata>
+		[Event(name="hide", type="collaboRhythm.workstation.view.WorkstationViewEvent")]
+		[Event(name="show", type="collaboRhythm.workstation.view.WorkstationViewEvent")]
+	</fx:Metadata>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		
+		#title {
+			font-size: 20;
+			color: #FFFFFF;
+		}
+		
+		#requestingUserNameLabel {
+			font-size: 14;
+			color: #FFFFFF;
+		}
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[	
+			import collaboRhythm.workstation.controller.CollaborationController;
+			import collaboRhythm.workstation.controller.CollaborationEvent;
+			import collaboRhythm.workstation.model.CollaborationModel;
+			import collaboRhythm.workstation.model.User;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.CollectionEvent;
+			import mx.events.CollectionEventKind;
+			import mx.events.ResizeEvent;
+			
+			private var _collaborationController:CollaborationController;
+			[Bindable]
+			private var _collaborationModel:CollaborationModel;
+			[Bindable]
+			private var _collaborationRoomUsers:ArrayCollection;
+			[Bindable]
+			private var _localUser:User;
+			
+			private var _collaborationRoomUserViews:Vector.<CollaborationRoomUserView>;
+			private var _hidden:Boolean = true;
+			
+			public static const COLLABORATION_ROOM_LOCAL_USER_VIEW_WIDTH:Number = 142;
+			public static const COLLABORATION_ROOM_LOCAL_USER_VIEW_HEIGHT:Number = 135;
+			public static const COLLABORATION_ROOM_ENTERED_USER_VIEW_WIDTH:Number = 142;
+			public static const COLLABORATION_ROOM_ENTERED_USER_VIEW_HEIGHT:Number = 135;
+			public static const COLLABORATION_ROOM_JOINED_USER_VIEW_WIDTH:Number = 182;
+			public static const COLLABORATION_ROOM_JOINED_USER_VIEW_HEIGHT:Number = 165;
+			public static const COLLABORATION_ROOM_USER_VIEW_SPACING:Number = 15;
+
+			public function initializeModel(collaborationController:CollaborationController, collaborationModel:CollaborationModel):void 
+			{
+				_collaborationController = collaborationController;
+				_collaborationModel = collaborationModel;
+				_collaborationRoomUsers = collaborationModel.collaborationRoomUsers;
+				_collaborationRoomUsers.addEventListener(CollectionEvent.COLLECTION_CHANGE, collaboratingRemoteUsersChangeHandler);		
+				_collaborationRoomUserViews = new Vector.<CollaborationRoomUserView>; 
+				
+				_localUser = _collaborationModel.localUser;
+				createCollaborationRoomUserView(_localUser);
+			}		
+			
+			public function collaboratingRemoteUsersChangeHandler(event:CollectionEvent):void
+			{
+				var collaboratingRemoteUsers:ArrayCollection = ArrayCollection(event.target);
+				if (event.kind == CollectionEventKind.ADD)
+				{
+					for each (var collaboratingRemoteUserAdded:User in event.items)
+					{
+						createCollaborationRoomUserView(collaboratingRemoteUserAdded);
+					}
+				}
+				else if (event.kind == CollectionEventKind.REMOVE)
+				{
+					for each (var collaboratingRemoteUserRemoved:User in event.items)
+					{
+						destroyCollaborationRoomUserView(collaboratingRemoteUserRemoved);
+					}
+				}
+			}
+			
+			private function createCollaborationRoomUserView(user:User):void
+			{
+				var collaborationRoomUserView:CollaborationRoomUserView = new CollaborationRoomUserView();
+				collaborationRoomUserView.collaborationRoomView = this;
+				collaborationRoomUserView.user = user;
+				collaborationRoomUserView.collaborationModel = _collaborationModel;
+				collaborationRoomUserView.collaboratingRemoteUsers = _collaborationModel.collaborationRoomUsers;
+				collaborationRoomUserView.addEventListener(CollaborationEvent.LOCAL_USER_JOINED_COLLABORATION_ROOM_ANIMATION_COMPLETE, localUserJoinedCollaborationRoomHandler);
+				this.addElement(collaborationRoomUserView);
+				if (user != _localUser)
+				{
+					_collaborationRoomUserViews.push(collaborationRoomUserView);
+				}
+			}
+			
+			private function destroyCollaborationRoomUserView(collaboratingRemoteUser:User):void
+			{
+				for each (var collaboratingRemoteUserView:CollaborationRoomUserView in _collaborationRoomUserViews)
+				{
+					if (collaboratingRemoteUserView.user == collaboratingRemoteUser)
+					{
+						var collaboratingRemoteUserViewIndex:Number = _collaborationRoomUserViews.indexOf(collaboratingRemoteUserView);
+						_collaborationRoomUserViews.splice(collaboratingRemoteUserViewIndex, 1);
+						this.removeElement(collaboratingRemoteUserView);
+					}
+				}
+			}
+			
+			private function localUserJoinedCollaborationRoomHandler(event:CollaborationEvent):void
+			{
+				dispatchEvent(new CollaborationEvent(CollaborationEvent.LOCAL_USER_JOINED_COLLABORATION_ROOM_ANIMATION_COMPLETE, event.remoteUser));
+			}
+			
+			public function show():void
+			{
+				if (_hidden == true)
+				{
+					this.enabled = true;
+					this.dispatchEvent(new WorkstationViewEvent(WorkstationViewEvent.SHOW));
+					_hidden = false;
+				}
+			}
+			
+			public function hide():void
+			{
+				if (_hidden == false)
+				{
+					this.enabled = false;
+					this.dispatchEvent(new WorkstationViewEvent(WorkstationViewEvent.HIDE));
+					_hidden = true;
+				}
+				
+			}
+
+			private function determineCollaborationRoomViewVisibility(active:Boolean):Boolean
+			{
+				if (active == true)
+				{
+					show();
+				}
+				else
+				{
+					hide();	
+				}
+				return true
+			}
+			
+			private function determineTitleText(collaborationRoomConnectionStatus:String):String
+			{
+				if (collaborationRoomConnectionStatus == User.COLLABORATION_ROOM_ENTERED)
+				{
+					return "Collaboration Invitation";
+				}
+				else
+				{
+					return "Collaboration Room";
+				}
+			}
+			
+			private function determineJoinButtonVisibility(collaborationRoomConnectionStatus:String):Boolean
+			{
+				if (collaborationRoomConnectionStatus == User.COLLABORATION_ROOM_ENTERED)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			
+			private function determineInviteButtonVisibility(collaborationRoomConnectionStatus:String):Boolean
+			{
+				if (collaborationRoomConnectionStatus == User.COLLABORATION_ROOM_JOINED)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			
+			private function joinButton_clickHandler(event:MouseEvent):void
+			{
+				_collaborationController.joinCollaborationRoom();
+			}
+			
+			private function inviteButton_clickHandler(event:MouseEvent):void
+			{
+				_collaborationController.inviteUserToCollaborationRoom();
+			}
+			
+			private function exitButton_clickHandler(event:MouseEvent):void
+			{
+				_collaborationController.closeCollaborationRoom();
+			}
+		]]>
+	</fx:Script>
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="0x808285"/>
+		</s:fill>
+	</s:Rect>
+	<s:Label id="title" text="{determineTitleText(_localUser.collaborationRoomConnectionStatus)}" left="10" top="10"/>
+	<view:IconButton
+		id="joinButton" 
+		styleName="collaboRhythm.workstation.view.IconButton"
+		click="joinButton_clickHandler(event)"
+		icon="@Embed('resources/images/icons/buttonIcons/collaborationRoomView_Join.png')"
+		visible="{determineJoinButtonVisibility(_localUser.collaborationRoomConnectionStatus)}"
+		right="5" top="5"/>
+	<view:IconButton
+		id="inviteButton" 
+		styleName="collaboRhythm.workstation.view.IconButton"
+		click="inviteButton_clickHandler(event)"
+		icon="@Embed('resources/images/icons/buttonIcons/collaborationRoomView_Invite.png')"
+		visible="{determineInviteButtonVisibility(_localUser.collaborationRoomConnectionStatus)}"
+		right="5" top="5"/>
+	<view:IconButton
+		id="exitButton" 
+		styleName="collaboRhythm.workstation.view.IconButton"
+		click="exitButton_clickHandler(event)"
+		icon="@Embed('resources/images/icons/buttonIcons/collaborationRoomView_Exit.png')"
+		right="5" bottom="5"/>
+	<s:Line top="0" width="100%">
+		<s:stroke>
+			<s:SolidColorStroke color="0x000000"/>
+		</s:stroke>
+	</s:Line>
+</s:Group>

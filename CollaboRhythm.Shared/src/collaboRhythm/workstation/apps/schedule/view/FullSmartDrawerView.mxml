@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="390" height="500" mouseDown="beginDrag(event)" x="{_scheduleModel.drawerX}" visible="{animateDrawer(_scheduleModel.closeDrawer)}">
+	<fx:Declarations>
+		<s:Move id="show" target="{this}" xFrom="{this.x}" xTo="0" effectUpdate="_scheduleModel.drawerX = this.x"/>
+		<s:Move id="hide" target="{this}" xFrom="{this.x}" xTo="-340" effectUpdate="_scheduleModel.drawerX = this.x"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import collaboRhythm.workstation.apps.medications.model.Medication;
+			import collaboRhythm.workstation.apps.schedule.model.MoveData;
+			import collaboRhythm.workstation.apps.schedule.model.ScheduleItemBase;
+			import collaboRhythm.workstation.apps.schedule.model.ScheduleModel;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.CollectionEvent;
+			import mx.events.CollectionEventKind;
+			
+			[Bindable]
+			protected var _scheduleModel:ScheduleModel;
+			[Bindable]
+			protected var _scheduleFullView:ScheduleFullView;
+			[Bindable]
+			private var _smartDrawerItemsCollection:ArrayCollection;
+			
+			private var _offsetX:Number;
+			
+			public function get scheduleFullView():ScheduleFullView
+			{
+				return _scheduleFullView
+			}
+			
+			public function set scheduleFullView(value:ScheduleFullView):void
+			{
+				_scheduleFullView = value;
+			}
+			
+			public function get scheduleModel():ScheduleModel
+			{
+				return _scheduleModel;
+			}
+			
+			public function set scheduleModel(value:ScheduleModel):void
+			{
+				_scheduleModel = value;
+			}
+			
+			private function animateDrawer(closeDrawer:Boolean):Boolean
+			{
+				if (closeDrawer == true)
+				{
+					hide.play();
+				}
+				else
+				{
+					show.play();
+				}
+				
+				return true;
+			}
+			
+			private function beginDrag(event:MouseEvent):void
+			{	
+				if (_scheduleModel.locked == false && show.isPlaying == false && hide.isPlaying == false) 
+				{			
+					_scheduleFullView.addEventListener(MouseEvent.MOUSE_MOVE, analyzeDrag);
+					stage.addEventListener(MouseEvent.MOUSE_UP, endDrag);
+				
+					_offsetX = event.stageX - this.x;
+					
+					var moveData:MoveData = new MoveData();
+					dispatchEvent(new FullScheduleItemViewEvent(FullScheduleItemViewEvent.SMART_DRAWER_BEGIN_DRAG, moveData));
+				}
+			}
+			
+			private function analyzeDrag(event:MouseEvent):void
+			{
+				if (_scheduleModel.locked == false) 
+				{	
+					var xPosition:Number = event.stageX - _offsetX;
+					if (xPosition >= -340 && xPosition <= 0)
+					{
+						var moveData:MoveData = new MoveData();
+						moveData.xPosition = xPosition;
+						dispatchEvent(new FullScheduleItemViewEvent(FullScheduleItemViewEvent.SMART_DRAWER_MOVE, moveData));
+					}
+				}
+			}
+			
+			private function endDrag(event:MouseEvent):void
+			{
+				if (_scheduleModel.locked == false && event.eventPhase == EventPhase.BUBBLING_PHASE) 
+				{
+					_scheduleFullView.removeEventListener(MouseEvent.MOUSE_MOVE, analyzeDrag);
+					stage.removeEventListener(MouseEvent.MOUSE_UP, endDrag);
+					
+					this.stopDrag();
+					var moveData:MoveData = new MoveData();
+					dispatchEvent(new FullScheduleItemViewEvent(FullScheduleItemViewEvent.SMART_DRAWER_DROP, moveData));
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:Path data="L 340 0 L 340 180 L 390 220 L 390 280 L 340 320 L 340 500 L 0 500 L 0 0 z" width="100%" height="100%" top="0">  
+		<s:fill>
+			<s:SolidColor color="{uint(_scheduleModel.drawerColor)}" alpha="0.4"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke color="0xFFFFFF" weight="1" alpha="0.5"/>
+		</s:stroke>
+	</s:Path>
+	<mx:Image right="11" verticalCenter="0" source="@Embed(source='resources/images/icons/gripHorizontalWide.png')"/>
+	<s:filters>
+		<s:GlowFilter id="glowFilter"
+					  quality="3"
+					  alpha="0.2"
+					  color="0x000000"
+					  blurX="5"
+					  blurY="5"
+					  strength="5"/>
+	</s:filters>
+</s:Group>

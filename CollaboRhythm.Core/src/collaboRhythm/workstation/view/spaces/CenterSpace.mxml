@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:view="collaboRhythm.workstation.view.*"
+		 width="100%"
+		 height="100%"
+		 >
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:mask>
+		<s:Group>
+			<s:Rect width="{this.width}" height="{this.height}">
+				<s:fill>
+					<s:SolidColor/>
+				</s:fill>
+			</s:Rect>
+		</s:Group>
+	</s:mask>
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="0xBBBBBB"/>
+		</s:fill>
+	</s:Rect>
+	<s:Group x="0" y="0" width="100%" height="100%" id="fullContainer">
+		<!-- Application full views are dynamically loaded here -->
+	</s:Group>
+	<view:RemoteUsersListView id="remoteUsersView" x="0" height="100%"/>
+</s:Group>

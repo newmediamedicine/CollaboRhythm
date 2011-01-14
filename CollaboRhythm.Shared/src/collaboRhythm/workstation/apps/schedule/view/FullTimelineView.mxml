@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 resize="resizeHandler(event)">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		
+		.hour 
+		{
+			font-size: 16;
+			font-weight: bold;
+		}
+		
+		.hourDim 
+		{
+			color: #AAAAAA;
+			font-size: 16;
+			font-weight: bold;
+		}
+		
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[	
+			import mx.events.ResizeEvent;
+			
+			[Bindable]
+			private var _timeWidth:Number;
+			
+			public function resizeHandler(event:ResizeEvent):void
+			{
+				var timeWidth:Number = (this.width - (FullMedicationView.MEDICATION_WIDTH - (FullMedicationView.MEDICATION_PICTURE_WIDTH / 2) + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH)) / 26;
+				
+				if (timeWidth > 0 && timeWidth < 5000)
+				{
+					_timeWidth = timeWidth;
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:HGroup left="0" right="{FullMedicationView.MEDICATION_WIDTH - (FullMedicationView.MEDICATION_PICTURE_WIDTH / 2) + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH}" height="100%" gap="0">
+		<s:Rect width="28.85%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0xBFBFBF"/>
+			</s:fill>
+		</s:Rect>
+		<s:Rect width="46.15%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0xD7D7D7"/>
+			</s:fill>
+		</s:Rect>
+		<s:Rect width="25%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0xBFBFBF"/>
+			</s:fill>
+		</s:Rect>
+	</s:HGroup>
+	<s:HGroup width="{FullMedicationView.MEDICATION_WIDTH - (FullMedicationView.MEDICATION_PICTURE_WIDTH / 2) + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH}" right="0" height="100%" gap="0">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0xBFBFBF"/>
+			</s:fill>
+		</s:Rect>
+	</s:HGroup>
+	<s:HGroup left="0" right="{FullMedicationView.MEDICATION_WIDTH - (FullMedicationView.MEDICATION_PICTURE_WIDTH / 2) + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH}" height="100%" gap="0">
+		<s:Label text="11" styleName="hourDim" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="midn" styleName="hourDim" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="1" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="2" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="3" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="4" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="5" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="6" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="7" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="8" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="9" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="10" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="11" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Group width="3.85%" textAlign="center" height="100%">
+			<mx:Image source="@Embed('resources/images/apps/medications/sun.png')" width="48" height="48" smoothBitmapContent="true" horizontalCenter="0"/>
+			<s:Label text="noon" styleName="hour" textAlign="center" height="100%" verticalAlign="middle" horizontalCenter="0"/>
+		</s:Group>
+		<s:Label text="1" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="2" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="3" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="4" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="5" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="6" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="7" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="8" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="9" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="10" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="11" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Group width="3.75%" textAlign="center" height="100%">
+			<mx:Image source="@Embed('resources/images/apps/medications/moon.png')" width="48" height="48" smoothBitmapContent="true" horizontalCenter="0"/>
+			<s:Label text="midn" styleName="hour" textAlign="center" height="100%" verticalAlign="middle" horizontalCenter="0"/>
+		</s:Group>
+	</s:HGroup>
+	<s:HGroup width="{FullMedicationView.MEDICATION_WIDTH - (FullMedicationView.MEDICATION_PICTURE_WIDTH / 2) + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH}" right="0" height="100%" gap="0">
+		<s:Label text="1" styleName="hourDim" width="{_timeWidth}" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="2" styleName="hourDim" width="{_timeWidth}" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="3" styleName="hourDim" width="{_timeWidth}" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="4" styleName="hourDim" width="{_timeWidth}" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="5" styleName="hourDim" width="{_timeWidth}" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="6" styleName="hourDim" width="{_timeWidth}" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="7" styleName="hourDim" width="{_timeWidth}" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="8" styleName="hourDim" width="{_timeWidth}" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="9" styleName="hourDim" width="{_timeWidth}" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="10" styleName="hourDim" width="{_timeWidth}" textAlign="center" height="100%" verticalAlign="middle"/>
+		<s:Label text="11" styleName="hourDim" width="{_timeWidth}" textAlign="center" height="100%" verticalAlign="middle"/>
+	</s:HGroup>
+	<s:Line width="100%" top="0">
+		<s:stroke>
+			<s:SolidColorStroke color="0x777777"/>
+		</s:stroke>
+	</s:Line>
+</s:Group>

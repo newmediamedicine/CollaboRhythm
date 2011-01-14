@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 width="20" height="20"
+		 x="{calculateXPosition(_measurement.hour, _measurement.adherenceGroup.adherenceWindow, _scheduleWidgetView.adherenceGroupsGroup.height)}">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import collaboRhythm.workstation.apps.schedule.model.Measurement;
+			
+			import mx.binding.utils.BindingUtils;
+			import mx.binding.utils.ChangeWatcher;
+			
+			[Bindable]
+			private var _measurement:Measurement;
+			[Bindable]
+			private var _scheduleWidgetView:ScheduleWidgetView;
+			
+			public function get scheduleWidgetView():ScheduleWidgetView
+			{
+				return _scheduleWidgetView;
+			}
+			
+			public function set scheduleWidgetView(value:ScheduleWidgetView):void
+			{
+				_scheduleWidgetView = value;
+			} 
+			
+			public function get measurement():Measurement
+			{
+				return _measurement;
+			}
+			
+			public function set measurement(value:Measurement):void
+			{
+				_measurement = value;
+				var stackingUpdatedChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(stackingUpdateHandler, _measurement, "stackingUpdated");
+			}
+			
+			private function calculateXPosition(hour:Number, adherenceWindow:Number, adherenceGroupsGroupHeight:Number):Number
+			{
+				return calculateLocation();
+			}
+			
+			private function stackingUpdateHandler(stackingUpdated:Boolean):void
+			{
+				if (stackingUpdated == true)
+				{
+					calculateLocation();
+				}
+			}
+			
+			private function calculateLocation():Number
+			{
+				this.height = _scheduleWidgetView.adherenceGroupsGroup.height / 10;
+				this.width = _scheduleWidgetView.adherenceGroupsGroup.width / 10;
+				
+				var hour:Number = _measurement.hour;
+				var adherenceWindow:Number = _measurement.adherenceGroup.adherenceWindow;
+				
+				var startAngle:Number = hour*15 - adherenceWindow*15;
+				
+				var currentAngle:Number;
+				var coordinates:Array;
+				var row1:Array = new Array();
+				var row2:Array = new Array();
+				var row3:Array = new Array();
+				var medicationSpaces:Array = new Array();
+				
+				for (var currentHour:Number = 1; currentHour <= adherenceWindow * 2; currentHour++) {
+					currentAngle = startAngle + currentHour * 15 - 7.5;
+					coordinates = calculateCoordinates(currentAngle, _scheduleWidgetView.adherenceGroupsGroup.height / 10 * 4);
+					row1.push(coordinates);
+					if (currentHour % 2 == 0) 
+					{
+						currentAngle = startAngle + currentHour * 15 - 15;
+						coordinates = calculateCoordinates(currentAngle, _scheduleWidgetView.adherenceGroupsGroup.height / 10 * 2.75);
+						row2.push(coordinates);
+					}
+					if (currentHour % 4 == 0) 
+					{
+						currentAngle = startAngle + currentHour * 15 - 30;
+						coordinates = calculateCoordinates(currentAngle, _scheduleWidgetView.adherenceGroupsGroup.height / 10 * 1.5);
+						row3.push(coordinates);
+					}
+				}
+				medicationSpaces = row3.concat(row2);
+				medicationSpaces = medicationSpaces.concat(row1);
+				
+				var medicationIndex:Number = _measurement.adherenceGroup.scheduleItems.indexOf(_measurement);
+				
+				if (medicationIndex > medicationSpaces.length - 1) {
+					medicationIndex = medicationIndex % (medicationSpaces.length - 1);
+				}
+				
+				var medicationCoordinates:Array = medicationSpaces[medicationIndex];
+				this.x = medicationCoordinates[0] + _scheduleWidgetView.adherenceGroupsGroup.height / 2 - _scheduleWidgetView.adherenceGroupsGroup.height / 20;
+				this.y = medicationCoordinates[1] + _scheduleWidgetView.adherenceGroupsGroup.height / 2 - _scheduleWidgetView.adherenceGroupsGroup.height / 20;
+				
+				return medicationCoordinates[0] + _scheduleWidgetView.adherenceGroupsGroup.height / 2 - _scheduleWidgetView.adherenceGroupsGroup.height / 20;
+			}
+			
+			private function calculateCoordinates(angle:Number, radius:Number): Array {
+				var radians:Number = angle * (Math.PI / 180);
+				var x:Number = radius * Math.sin(radians);
+				var y:Number = -radius * Math.cos(radians);
+				var coordinates:Array = [x, y];
+				
+				return coordinates
+			}
+		]]>
+	</fx:Script>
+	<mx:Image source="@Embed(source='resources/images/apps/schedule/blood_pressure_measurement_widget.png')" smoothBitmapContent="true"/>
+</s:Group>

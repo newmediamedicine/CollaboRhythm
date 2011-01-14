@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="30" height="300"
+		 mouseOver="mouseOverHandler(event)"
+		 mouseOut="mouseOutHandler(event)"
+		 >
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import flash.filters.BitmapFilterQuality;
+			
+			import mx.managers.CursorManagerPriority;
+
+			[Embed(source="assets/horizontalMove.png")]
+			private var horizontalMoveCursor:Class;
+			private var horizontalMoveCursorId:int;
+
+			protected function mouseOverHandler(event:MouseEvent):void
+			{
+				// TODO: determine why this isn't working and fix; currently disabled because this results in no visible cursor
+//				horizontalMoveCursorId = this.cursorManager.setCursor(horizontalMoveCursor, CursorManagerPriority.LOW, -8, -8);
+			}
+
+			protected function mouseOutHandler(event:MouseEvent):void
+			{
+				if (horizontalMoveCursorId != 0)
+				{
+					this.cursorManager.removeCursor(horizontalMoveCursorId);
+					horizontalMoveCursorId = 0;
+				}
+			}
+
+		]]>
+	</fx:Script>
+	
+	<s:filters>
+		<s:DropShadowFilter blurX="5" blurY="5" distance="5" quality="{BitmapFilterQuality.MEDIUM}" 
+							angle="45" color="0x000000" alpha="0.4"/>
+		<s:BevelFilter distance="1" highlightAlpha="0.5" shadowAlpha="0.5"/>
+	</s:filters>
+	<s:Rect height="{this.height}" width="{this.width}">
+		<s:fill>
+			<s:SolidColor color="0x00FF00" alpha="0"/>
+		</s:fill>
+	</s:Rect>
+	<s:Line id="focusTimeLine" height="{this.height - 15}" 
+			x="15"
+			y="10">
+		<s:stroke>
+			<s:SolidColorStroke color="#4580AE" weight="2"/>
+		</s:stroke>  
+	</s:Line>
+	<s:Path id="focusTimeTopTriangle" data="M -15 0 L -15 2 L 0 17 L 15 2 L 15 0 z"
+			x="15"
+			y="-1">  
+		<s:fill>
+			<s:SolidColor color="#4580AE"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke weight="1" color="#000000" alpha="0"/>
+		</s:stroke>
+	</s:Path>
+	<s:Path id="focusTimeBottomTriangle" data="M -8 0 L -8 -2 L 0 -8 L 8 -2 L 8 0 z"
+			x="15"
+			y="{this.height + 1}">
+		<s:fill>
+			<s:SolidColor color="#4580AE"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke weight="1" color="#000000" alpha="0"/>
+		</s:stroke>
+	</s:Path>
+</s:Group>

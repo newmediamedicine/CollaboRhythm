@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="false" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="annotations.EventAnnotation"/>
+    <classEntry path="com.dougmccune.baseClasses.SliderBase"/>
+    <classEntry path="com.dougmccune.controls.HSlider"/>
+    <classEntry path="com.dougmccune.controls.McCuneChart"/>
+    <classEntry path="com.dougmccune.controls.VSlider"/>
+    <classEntry path="com.dougmccune.controls.sliderClasses.ExtendedSlider"/>
+    <classEntry path="com.dougmccune.controls.sliderClasses.SliderThumb"/>
+    <classEntry path="com.dougmccune.skins.SliderHighlightSkin"/>
+    <classEntry path="com.dougmccune.skins.SliderThumbHighlightSkin"/>
+    <classEntry path="skins.ColumnSeriesCustomRenderer"/>
+    <classEntry path="skins.GradientBox"/>
+    <classEntry path="skins.InnerAxisRenderer"/>
+    <classEntry path="skins.LineSeriesCustomRenderer"/>
+    <classEntry path="vo.AnnotationVO"/>
+    <classEntry path="com.dougmccune.controls.InclusiveDateTimeAxis"/>
+    <classEntry path="com.dougmccune.controls.DateTimeAxisExtended"/>
+    <classEntry path="com.dougmccune.skins.GreenProgressBarSkin"/>
+    <classEntry path="com.dougmccune.events.FocusTimeEvent"/>
+    <classEntry path="com.dougmccune.controls.ChartFocusTimeMarker"/>
+    <classEntry path="com.dougmccune.controls.TouchScrollingMcCuneChart"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<view:FullScheduleItemViewBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						   xmlns:s="library://ns.adobe.com/flex/spark" 
+						   xmlns:mx="library://ns.adobe.com/flex/mx"
+ xmlns:view="collaboRhythm.workstation.apps.schedule.view.*">
+	<fx:Declarations>
+		<s:Fade id="adherenceGroupFade" target="{this}"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import collaboRhythm.workstation.apps.schedule.model.AdherenceGroup;
+			import collaboRhythm.workstation.apps.schedule.model.MoveData;
+			import collaboRhythm.workstation.apps.schedule.model.ScheduleItemBase;
+			
+			import mx.binding.utils.BindingUtils;
+			import mx.binding.utils.ChangeWatcher;
+			
+			import spark.effects.Fade;
+			
+			public static const ADHERENCE_GROUP_BUFFER_WIDTH:Number = 10;
+			public static const ADHERENCE_GROUP_TOP_WIDTH:Number = 60;
+			
+			[Bindable]
+			private var _adherenceGroup:AdherenceGroup;
+			private var _fullAdherenceWindowView:FullAdherenceWindowView;
+			
+			public function get adherenceGroup():AdherenceGroup
+			{
+				return _adherenceGroup;
+			}
+			
+			public function set adherenceGroup(adherenceGroup:AdherenceGroup):void
+			{
+				_adherenceGroup = adherenceGroup;
+				scheduleItem = adherenceGroup;
+				this.width = FullMedicationView.MEDICATION_WIDTH + (2 * ADHERENCE_GROUP_BUFFER_WIDTH);
+				this.height = Math.floor(_adherenceGroup.scheduleItems.length * (FullMedicationView.MEDICATION_HEIGHT + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH) + FullAdherenceGroupView.ADHERENCE_GROUP_TOP_WIDTH);
+				
+				var adherenceGroupFadeChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(animateAdherenceGroupFade, _adherenceGroup, "show");
+				this.changeWatchers.push(adherenceGroupFadeChangeWatcher);
+			}
+			
+			public function get fullAdherenceWindowView():FullAdherenceWindowView
+			{
+				return _fullAdherenceWindowView;
+			}
+			
+			public function set fullAdherenceWindowView(value:FullAdherenceWindowView):void
+			{
+				_fullAdherenceWindowView = value;
+			}
+			
+			override public function determineXPosition(timeWidth:Number, xPosition:Number, hour:Number):Number
+			{
+				return Math.floor((hour + 1) * timeWidth + (timeWidth / 2) - (FullMedicationView.MEDICATION_PICTURE_WIDTH / 2) - ADHERENCE_GROUP_BUFFER_WIDTH);
+			}
+			
+			override public function determineYPosition(scheduleItemCanvasHeight:Number, yBottomPosition:Number):Number
+			{
+				var yPosition:Number = _scheduleFullView.scheduleItemCanvas.height - yBottomPosition - this.height;
+				if (adherenceGroup.active == true)
+				{
+					if (yPosition < 0)
+					{
+						yPosition = 0;
+					}
+					else if (yPosition > _scheduleFullView.scheduleItemCanvas.height - this.height)
+					{
+						yPosition = _scheduleFullView.scheduleItemCanvas.height - this.height;
+					}
+				}
+				else
+				{
+					if (yPosition < -ADHERENCE_GROUP_TOP_WIDTH)
+					{
+						yPosition = -ADHERENCE_GROUP_TOP_WIDTH;
+					}
+					else if (yPosition > _scheduleFullView.scheduleItemCanvas.height - this.height + ADHERENCE_GROUP_BUFFER_WIDTH)
+					{
+						yPosition = _scheduleFullView.scheduleItemCanvas.height - this.height + ADHERENCE_GROUP_BUFFER_WIDTH;
+					}
+				}
+				
+				fullAdherenceWindowView.height = _scheduleFullView.adherenceWindowCanvas.height - yPosition - this.height + ADHERENCE_GROUP_BUFFER_WIDTH;
+				return yPosition;
+			}
+			
+//			override public function stackingUpdateHandler(stackingUpdated:Boolean):void
+//			{
+//				if (stackingUpdated == true)
+//				{					
+//					this.height = Math.floor(_adherenceGroup.scheduleItems.length * (FullMedicationView.MEDICATION_HEIGHT + ADHERENCE_GROUP_BUFFER_WIDTH) + ADHERENCE_GROUP_TOP_WIDTH);
+//					if (_adherenceGroup.active == true)
+//					{
+//						super.stackingUpdateHandler(stackingUpdated);
+//						_adherenceGroup.active = false;
+//					}
+//					else
+//					{
+//						var scheduleItemActive:Boolean = false;
+//						for each (var scheduleItem:ScheduleItemBase in _adherenceGroup.scheduleItems)
+//						{
+//							if (scheduleItem.active == true)
+//							{
+//								scheduleItemActive = true;
+//							}
+//						}
+//						if (scheduleItemActive == true)
+//						{
+//							super.stackingUpdateHandler(stackingUpdated);
+//						}
+//						else
+//						{
+//							this.y = calculateYPosition();
+//							_adherenceGroup.yBottomPosition = _scheduleFullView.scheduleItemCanvas.height - this.y - this.height;
+//						}
+//					}
+//				}
+//			}
+			
+			override public function determineYPositions():Vector.<Number>
+			{
+				var yPositions:Vector.<Number> = new Vector.<Number>;
+				
+				var height:Number = Math.floor(_adherenceGroup.scheduleItems.length * (FullMedicationView.MEDICATION_HEIGHT + ADHERENCE_GROUP_BUFFER_WIDTH) + ADHERENCE_GROUP_TOP_WIDTH);
+				if (height != this.height)
+				{
+					this.height = height;
+					yPositions.push(calculateYPosition());
+				}
+				else
+				{
+					yPositions.push(this.y);
+				}
+				
+				yPositions.push(calculateYPosition());
+				
+				return yPositions;
+			}
+			
+			override public function calculateYPosition():Number
+			{
+				return Math.floor(_scheduleFullView.height - ScheduleFullView.TIMELINE_VIEW_HEIGHT - ScheduleFullView.ADHERENCE_WINDOW_INITIAL_HEIGHT - _adherenceGroup.stackNumber * FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH - (_adherenceGroup.scheduleItemsStacked + _adherenceGroup.scheduleItems.length) * (FullMedicationView.MEDICATION_HEIGHT + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH) - FullAdherenceGroupView.ADHERENCE_GROUP_TOP_WIDTH - _adherenceGroup.adherenceGroupsStacked * FullAdherenceGroupView.ADHERENCE_GROUP_TOP_WIDTH);
+			}
+			
+			public function animateAdherenceGroupFade(show:Boolean):void
+			{
+				if (_adherenceGroup.scheduleItems.length > 1)
+				{
+					this.visible = true;
+					if (show == false)
+					{
+						adherenceGroupFade.alphaFrom = this.alpha;
+						adherenceGroupFade.alphaTo = 0;
+						adherenceGroupFade.play();
+					}
+					else
+					{
+						adherenceGroupFade.alphaFrom = this.alpha;
+						adherenceGroupFade.alphaTo = 1;
+						adherenceGroupFade.play();
+					}
+				}
+				else
+				{
+					this.visible = false;
+				}
+			}
+			
+			override public function grabScheduleItemDispatch(moveData:MoveData):void
+			{
+				moveData.itemIndex = determineItemIndex();
+				dispatchEvent(new FullScheduleItemViewEvent(FullScheduleItemViewEvent.ADHERENCE_GROUP_BEGIN_DRAG, moveData));
+			}
+			
+			override public function moveScheduleItemDispatch(moveData:MoveData):void
+			{
+				moveData.itemIndex = determineItemIndex();
+				dispatchEvent(new FullScheduleItemViewEvent(FullScheduleItemViewEvent.ADHERENCE_GROUP_MOVE, moveData));
+			}
+			
+			override public function dropScheduleItemDispatch(moveData:MoveData):void
+			{
+				moveData.itemIndex = determineItemIndex();
+				dispatchEvent(new FullScheduleItemViewEvent(FullScheduleItemViewEvent.ADHERENCE_GROUP_DROP, moveData));
+			}
+			
+			private function determineItemIndex():Number
+			{
+				return scheduleModel.adherenceGroupsCollection.getItemIndex(_adherenceGroup);
+			}
+			
+			override public function determineGlowDistance(active:Boolean):Number
+			{
+				var distance:Number;
+				
+				if (active == true)
+				{
+					_scheduleFullView.scheduleItemCanvas.setElementIndex(this, _scheduleFullView.scheduleItemCanvas.numElements - 1);
+					for each (var fullscheduleItemView:FullScheduleItemViewBase in _scheduleFullView.fullScheduleItemViews)
+					{
+						if (_adherenceGroup.scheduleItems.indexOf(fullscheduleItemView.scheduleItem) != -1)
+						{
+							_scheduleFullView.scheduleItemCanvas.setElementIndex(fullscheduleItemView, _scheduleFullView.scheduleItemCanvas.numElements - 1);
+						}
+					}
+					distance = 10;
+				}
+				else
+				{
+					distance = 5;
+				}
+				
+				glowFilter.blurY = distance;
+				return distance
+			}
+		]]>
+	</fx:Script>
+	<s:Group width="100%" height="100%">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="{uint(_adherenceGroup.collaborationColor)}" alpha="0.4"/>
+			</s:fill>
+			<s:stroke>
+				<s:SolidColorStroke color="0xFFFFFF" alpha="0.5"/>
+			</s:stroke>
+		</s:Rect>
+		<mx:Image top="8" horizontalCenter="0" source="@Embed(source='resources/images/icons/gripHorizontalWide.png')"/>
+	</s:Group>
+</view:FullScheduleItemViewBase>

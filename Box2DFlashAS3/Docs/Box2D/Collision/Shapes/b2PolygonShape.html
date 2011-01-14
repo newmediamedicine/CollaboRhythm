@@ -1,0 +1,929 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../../../style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="../../../print.css" type="text/css" media="print">
+<meta content="b2PolygonShape,Box2D.Collision.Shapes.b2PolygonShape,AsArray,AsBox,AsEdge,AsOrientedBox,AsVector,ComputeAABB,ComputeCentroid,ComputeMass,ComputeSubmergedArea,Copy,GetNormals,GetSupport,GetSupportVertex,GetVertexCount,GetVertices,RayCast,Set,SetAsArray,SetAsBox,SetAsEdge,SetAsOrientedBox,SetAsVector,TestPoint" name="keywords">
+<title>Box2D.Collision.Shapes.b2PolygonShape</title>
+</head>
+<body>
+<script type="text/javascript" language="javascript" src="../../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../../cookies.js"></script><script type="text/javascript" language="javascript">
+<!--
+				asdocTitle = 'b2PolygonShape - Box2DFlash Documentation';
+				var baseRef = '../../../';
+				window.onload = configPage;
+			--></script>
+<table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+<tr>
+<td align="left" class="titleTableTitle">Box2DFlash Documentation</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../../all-classes.html')" href="../../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../all-classes.html')" href="../../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../index-list.html')" href="../../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../../index.html?Box2D/Collision/Shapes/b2PolygonShape.html&amp;Box2D/Collision/Shapes/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../../images/logo.jpg"></td>
+</tr>
+<tr class="titleTableRow2">
+<td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;b2PolygonShape</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#methodSummary">Methods</a>&nbsp;| <a href="#constantSummary">Constants</a></td>
+</tr>
+<tr class="titleTableRow3">
+<td colspan="2">&nbsp;</td>
+</tr>
+</table>
+<script type="text/javascript" language="javascript">
+<!--
+if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Class b2PolygonShape"); titleBar_setSubNav(true,false,false,false,false,false,true,false,false,false,false,false,false,false);}
+--></script>
+<div class="MainContent">
+<table cellspacing="0" cellpadding="0" class="classHeaderTable">
+<tr>
+<td class="classHeaderTableLabel">Package</td><td><a onclick="javascript:loadClassListFrame('class-list.html')" href="package-detail.html">Box2D.Collision.Shapes</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Class</td><td class="classSignature">public class b2PolygonShape</td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Inheritance</td><td class="inheritanceList">b2PolygonShape <img class="inheritArrow" alt="Inheritance" title="Inheritance" src="../../../images/inherit-arrow.gif"> <a href="b2Shape.html">b2Shape</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Source</td><td><a href="http://box2dflash.svn.sourceforge.net/viewvc/box2dflash/Source/Box2D/Collision/Shapes/b2PolygonShape.as">b2PolygonShape.as</a></td>
+</tr>
+</table>
+<p></p>
+Convex polygon. The vertices must be in CCW order for a right-handed
+coordinate system with the z-axis coming out of the screen.
+<p></p>
+<p>
+<span class="classHeaderTableLabel">See also</span>
+</p>
+<div class="seeAlso">b2PolygonDef</div>
+<br>
+<hr>
+</div>
+<a name="methodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Methods</div>
+<div class="showHideLinks">
+<div class="hideInheritedMethod" id="hideInheritedMethod">
+<a onclick="javascript:setInheritedVisible(false,'Method');" href="#methodSummary" class="showHideLink"><img src="../../../images/expanded.gif" class="showHideLinkImage"> Hide Inherited Public Methods</a>
+</div>
+<div class="showInheritedMethod" id="showInheritedMethod">
+<a onclick="javascript:setInheritedVisible(true,'Method');" href="#methodSummary" class="showHideLink"><img src="../../../images/collapsed.gif" class="showHideLinkImage"> Show Inherited Public Methods</a>
+</div>
+</div>
+<table id="summaryTableMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#AsArray()">AsArray</a>(vertices:Array, vertexCount:Number):<a href="../Shapes/b2PolygonShape.html">b2PolygonShape</a>
+</div>
+<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#AsBox()">AsBox</a>(hx:Number, hy:Number):<a href="../Shapes/b2PolygonShape.html">b2PolygonShape</a>
+</div>
+<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#AsEdge()">AsEdge</a>(v1:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>, v2:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>):<a href="../Shapes/b2PolygonShape.html">b2PolygonShape</a>
+</div>
+<div class="summaryTableDescription">[static]
+  Set this as a single edge.</div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#AsOrientedBox()">AsOrientedBox</a>(hx:Number, hy:Number, center:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a> = null, angle:Number = 0.0):<a href="../Shapes/b2PolygonShape.html">b2PolygonShape</a>
+</div>
+<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#AsVector()">AsVector</a>(vertices:Vector, vertexCount:Number):<a href="../Shapes/b2PolygonShape.html">b2PolygonShape</a>
+</div>
+<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#ComputeAABB()">ComputeAABB</a>(aabb:<a href="../b2AABB.html">b2AABB</a>, xf:<a href="../../Common/Math/b2Transform.html">b2Transform</a>):void</div>
+<div class="summaryTableDescription">
+  
+ Given a transform, compute the associated axis aligned bounding box for this shape.</div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#ComputeCentroid()">ComputeCentroid</a>(vs:Vector, count:uint):<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>
+</div>
+<div class="summaryTableDescription">[static]
+  Computes the centroid of the given polygon
+  </div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#ComputeMass()">ComputeMass</a>(massData:<a href="b2MassData.html">b2MassData</a>, density:Number):void</div>
+<div class="summaryTableDescription">
+ 
+ Compute the mass properties of this shape using its dimensions and density.</div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#ComputeSubmergedArea()">ComputeSubmergedArea</a>(normal:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>, offset:Number, xf:<a href="../../Common/Math/b2Transform.html">b2Transform</a>, c:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>):Number</div>
+<div class="summaryTableDescription">
+ 
+  Compute the volume and centroid of this shape intersected with a half plane
+  </div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#Copy()">Copy</a>():<a href="../Shapes/b2Shape.html">b2Shape</a>
+</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetNormals()">GetNormals</a>():Vector</div>
+<div class="summaryTableDescription">
+ Get the edge normal vectors.</div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetSupport()">GetSupport</a>(d:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>):int</div>
+<div class="summaryTableDescription">
+  Get the supporting vertex index in the given direction.</div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetSupportVertex()">GetSupportVertex</a>(d:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>):<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>
+</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+<tr class="hideInheritedMethod">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="b2Shape.html#GetType()">GetType</a>():int</div>
+<div class="summaryTableDescription">
+ Get the type of this shape.</div>
+</td><td class="summaryTableOwnerCol"><a href="b2Shape.html">b2Shape</a></td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetVertexCount()">GetVertexCount</a>():int</div>
+<div class="summaryTableDescription">
+ Get the vertex count.</div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#GetVertices()">GetVertices</a>():Vector</div>
+<div class="summaryTableDescription">
+ Get the vertices in local coordinates.</div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#RayCast()">RayCast</a>(output:<a href="../b2RayCastOutput.html">b2RayCastOutput</a>, input:<a href="../b2RayCastInput.html">b2RayCastInput</a>, transform:<a href="../../Common/Math/b2Transform.html">b2Transform</a>):Boolean</div>
+<div class="summaryTableDescription">
+  
+  Cast a ray against this shape.</div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#Set()">Set</a>(other:<a href="b2Shape.html">b2Shape</a>):void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetAsArray()">SetAsArray</a>(vertices:Array, vertexCount:Number = 0):void</div>
+<div class="summaryTableDescription">
+  Copy vertices.</div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetAsBox()">SetAsBox</a>(hx:Number, hy:Number):void</div>
+<div class="summaryTableDescription">
+ Build vertices to represent an axis-aligned box.</div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetAsEdge()">SetAsEdge</a>(v1:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>, v2:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>):void</div>
+<div class="summaryTableDescription">
+  Set this as a single edge.</div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetAsOrientedBox()">SetAsOrientedBox</a>(hx:Number, hy:Number, center:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a> = null, angle:Number = 0.0):void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SetAsVector()">SetAsVector</a>(vertices:Vector, vertexCount:Number = 0):void</div>
+<div class="summaryTableDescription">
+  Copy vertices.</div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+<tr class="hideInheritedMethod">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="b2Shape.html#TestOverlap()">TestOverlap</a>(shape1:<a href="../Shapes/b2Shape.html">b2Shape</a>, transform1:<a href="../../Common/Math/b2Transform.html">b2Transform</a>, shape2:<a href="../Shapes/b2Shape.html">b2Shape</a>, transform2:<a href="../../Common/Math/b2Transform.html">b2Transform</a>):Boolean</div>
+<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol"><a href="b2Shape.html">b2Shape</a></td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#TestPoint()">TestPoint</a>(xf:<a href="../../Common/Math/b2Transform.html">b2Transform</a>, p:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>):Boolean</div>
+<div class="summaryTableDescription">
+ 
+ Test a point for containment in this shape.</div>
+</td><td class="summaryTableOwnerCol">b2PolygonShape</td>
+</tr>
+</table>
+</div>
+<a name="constantSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Constants</div>
+<div class="showHideLinks">
+<div class="hideInheritedConstant" id="hideInheritedConstant">
+<a onclick="javascript:setInheritedVisible(false,'Constant');" href="#constantSummary" class="showHideLink"><img src="../../../images/expanded.gif" class="showHideLinkImage"> Hide Inherited Public Constants</a>
+</div>
+<div class="showInheritedConstant" id="showInheritedConstant">
+<a onclick="javascript:setInheritedVisible(true,'Constant');" href="#constantSummary" class="showHideLink"><img src="../../../images/collapsed.gif" class="showHideLinkImage"> Show Inherited Public Constants</a>
+</div>
+</div>
+<table id="summaryTableConstant" class="summaryTable hideInheritedConstant" cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Constant</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="hideInheritedConstant">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="b2Shape.html#e_hitCollide">e_hitCollide</a> : int = 1<div class="summaryTableDescription">[static]
+  Possible return values for TestSegment
+  </div>
+</td><td class="summaryTableOwnerCol"><a href="b2Shape.html">b2Shape</a></td>
+</tr>
+<tr class="hideInheritedConstant">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="b2Shape.html#e_missCollide">e_missCollide</a> : int = 0<div class="summaryTableDescription">[static] Return value for TestSegment indicating a miss.</div>
+</td><td class="summaryTableOwnerCol"><a href="b2Shape.html">b2Shape</a></td>
+</tr>
+<tr class="hideInheritedConstant">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="b2Shape.html#e_startsInsideCollide">e_startsInsideCollide</a> : int = -1<div class="summaryTableDescription">[static] Return value for TestSegment indicating that the segment starting point, p1, is already inside the shape.</div>
+</td><td class="summaryTableOwnerCol"><a href="b2Shape.html">b2Shape</a></td>
+</tr>
+</table>
+</div>
+<script type="text/javascript" language="javascript">
+<!--
+showHideInherited();
+--></script>
+<div class="MainContent">
+<a name="methodDetail"></a>
+<div class="detailSectionHeader">Method detail</div>
+<a name="AsArray()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">AsArray</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function AsArray(vertices:Array, vertexCount:Number):<a href="../Shapes/b2PolygonShape.html">b2PolygonShape</a></code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">vertices</span>:Array</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">vertexCount</span>:Number</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../Shapes/b2PolygonShape.html">b2PolygonShape</a></code></td>
+</tr>
+</table>
+</div>
+<a name="AsBox()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">AsBox</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function AsBox(hx:Number, hy:Number):<a href="../Shapes/b2PolygonShape.html">b2PolygonShape</a></code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">hx</span>:Number</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">hy</span>:Number</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../Shapes/b2PolygonShape.html">b2PolygonShape</a></code></td>
+</tr>
+</table>
+</div>
+<a name="AsEdge()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">AsEdge</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function AsEdge(v1:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>, v2:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>):<a href="../Shapes/b2PolygonShape.html">b2PolygonShape</a></code><p>
+  Set this as a single edge.
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">v1</span>:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">v2</span>:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../Shapes/b2PolygonShape.html">b2PolygonShape</a></code></td>
+</tr>
+</table>
+</div>
+<a name="AsOrientedBox()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">AsOrientedBox</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function AsOrientedBox(hx:Number, hy:Number, center:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a> = null, angle:Number = 0.0):<a href="../Shapes/b2PolygonShape.html">b2PolygonShape</a></code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">hx</span>:Number</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">hy</span>:Number</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">center</span>:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code> (default = <code>null</code>)<code></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">angle</span>:Number</code> (default = <code>0.0</code>)<code></code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../Shapes/b2PolygonShape.html">b2PolygonShape</a></code></td>
+</tr>
+</table>
+</div>
+<a name="AsVector()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">AsVector</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function AsVector(vertices:Vector, vertexCount:Number):<a href="../Shapes/b2PolygonShape.html">b2PolygonShape</a></code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">vertices</span>:Vector</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">vertexCount</span>:Number</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../Shapes/b2PolygonShape.html">b2PolygonShape</a></code></td>
+</tr>
+</table>
+</div>
+<a name="ComputeAABB()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">ComputeAABB</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public override function ComputeAABB(aabb:<a href="../b2AABB.html">b2AABB</a>, xf:<a href="../../Common/Math/b2Transform.html">b2Transform</a>):void</code><p>
+  
+ Given a transform, compute the associated axis aligned bounding box for this shape.
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">aabb</span>:<a href="../b2AABB.html">b2AABB</a></code> &mdash; returns the axis aligned box.
+ </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">xf</span>:<a href="../../Common/Math/b2Transform.html">b2Transform</a></code> &mdash; the world transform of the shape.
+ </td>
+</tr>
+</table>
+</div>
+<a name="ComputeCentroid()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">ComputeCentroid</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function ComputeCentroid(vs:Vector, count:uint):<a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code><p>
+  Computes the centroid of the given polygon
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">vs</span>:Vector</code> &mdash;  vector of b2Vec specifying a polygon
+  </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">count</span>:uint</code> &mdash; length of vs
+  </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code> &mdash; 
+                        the polygon centroid
+  
+                        
+                     </td>
+</tr>
+</table>
+</div>
+<a name="ComputeMass()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">ComputeMass</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public override function ComputeMass(massData:<a href="b2MassData.html">b2MassData</a>, density:Number):void</code><p>
+ 
+ Compute the mass properties of this shape using its dimensions and density.
+ The inertia tensor is computed about the local origin, not the centroid.
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">massData</span>:<a href="b2MassData.html">b2MassData</a></code> &mdash; returns the mass data for this shape.
+ </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">density</span>:Number</code></td>
+</tr>
+</table>
+</div>
+<a name="ComputeSubmergedArea()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">ComputeSubmergedArea</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public override function ComputeSubmergedArea(normal:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>, offset:Number, xf:<a href="../../Common/Math/b2Transform.html">b2Transform</a>, c:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>):Number</code><p>
+ 
+  Compute the volume and centroid of this shape intersected with a half plane
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">normal</span>:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code> &mdash; the surface normal
+  </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">offset</span>:Number</code> &mdash; the surface offset along normal
+  </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">xf</span>:<a href="../../Common/Math/b2Transform.html">b2Transform</a></code> &mdash; the shape transform
+  </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">c</span>:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code> &mdash; returns the centroid
+  </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Number</code> &mdash; the total volume less than offset along normal
+  </td>
+</tr>
+</table>
+</div>
+<a name="Copy()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">Copy</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public override function Copy():<a href="../Shapes/b2Shape.html">b2Shape</a></code>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../Shapes/b2Shape.html">b2Shape</a></code></td>
+</tr>
+</table>
+</div>
+<a name="GetNormals()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetNormals</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetNormals():Vector</code><p>
+ Get the edge normal vectors. There is one for each vertex.
+ </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Vector</code></td>
+</tr>
+</table>
+</div>
+<a name="GetSupport()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetSupport</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetSupport(d:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>):int</code><p>
+  Get the supporting vertex index in the given direction.
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">d</span>:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>int</code></td>
+</tr>
+</table>
+</div>
+<a name="GetSupportVertex()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetSupportVertex</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetSupportVertex(d:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>):<a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">d</span>:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+</table>
+</div>
+<a name="GetVertexCount()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetVertexCount</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetVertexCount():int</code><p>
+ Get the vertex count.
+ </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>int</code></td>
+</tr>
+</table>
+</div>
+<a name="GetVertices()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">GetVertices</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function GetVertices():Vector</code><p>
+ Get the vertices in local coordinates.
+ </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Vector</code></td>
+</tr>
+</table>
+</div>
+<a name="RayCast()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">RayCast</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public override function RayCast(output:<a href="../b2RayCastOutput.html">b2RayCastOutput</a>, input:<a href="../b2RayCastInput.html">b2RayCastInput</a>, transform:<a href="../../Common/Math/b2Transform.html">b2Transform</a>):Boolean</code><p>
+  
+  Cast a ray against this shape.
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">output</span>:<a href="../b2RayCastOutput.html">b2RayCastOutput</a></code> &mdash; the ray-cast results.
+  </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">input</span>:<a href="../b2RayCastInput.html">b2RayCastInput</a></code> &mdash; the ray-cast input parameters.
+  </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">transform</span>:<a href="../../Common/Math/b2Transform.html">b2Transform</a></code> &mdash; the transform to be applied to the shape.
+  </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code></td>
+</tr>
+</table>
+</div>
+<a name="Set()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">Set</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public override function Set(other:<a href="b2Shape.html">b2Shape</a>):void</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">other</span>:<a href="b2Shape.html">b2Shape</a></code></td>
+</tr>
+</table>
+</div>
+<a name="SetAsArray()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetAsArray</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetAsArray(vertices:Array, vertexCount:Number = 0):void</code><p>
+  Copy vertices. This assumes the vertices define a convex polygon.
+  It is assumed that the exterior is the the right of each edge.
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">vertices</span>:Array</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">vertexCount</span>:Number</code> (default = <code>0</code>)<code></code></td>
+</tr>
+</table>
+</div>
+<a name="SetAsBox()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetAsBox</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetAsBox(hx:Number, hy:Number):void</code><p>
+ Build vertices to represent an axis-aligned box.
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">hx</span>:Number</code> &mdash; the half-width.
+ </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">hy</span>:Number</code> &mdash; the half-height.
+ </td>
+</tr>
+</table>
+</div>
+<a name="SetAsEdge()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetAsEdge</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetAsEdge(v1:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>, v2:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>):void</code><p>
+  Set this as a single edge.
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">v1</span>:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">v2</span>:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code></td>
+</tr>
+</table>
+</div>
+<a name="SetAsOrientedBox()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetAsOrientedBox</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetAsOrientedBox(hx:Number, hy:Number, center:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a> = null, angle:Number = 0.0):void</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">hx</span>:Number</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">hy</span>:Number</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">center</span>:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code> (default = <code>null</code>)<code></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">angle</span>:Number</code> (default = <code>0.0</code>)<code></code></td>
+</tr>
+</table>
+</div>
+<a name="SetAsVector()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SetAsVector</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SetAsVector(vertices:Vector, vertexCount:Number = 0):void</code><p>
+  Copy vertices. This assumes the vertices define a convex polygon.
+  It is assumed that the exterior is the the right of each edge.
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">vertices</span>:Vector</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">vertexCount</span>:Number</code> (default = <code>0</code>)<code></code></td>
+</tr>
+</table>
+</div>
+<a name="TestPoint()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">TestPoint</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public override function TestPoint(xf:<a href="../../Common/Math/b2Transform.html">b2Transform</a>, p:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a>):Boolean</code><p>
+ 
+ Test a point for containment in this shape. This only works for convex shapes.
+ </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">xf</span>:<a href="../../Common/Math/b2Transform.html">b2Transform</a></code> &mdash; the shape world transform.
+ </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">p</span>:<a href="../../Common/Math/b2Vec2.html">b2Vec2</a></code> &mdash; a point in world coordinates.
+ </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code></td>
+</tr>
+</table>
+</div>
+<br>
+<br>
+<hr>
+<br>
+<p></p>
+<center class="copyright">Box2DFlash 2.1a</center>
+</div>
+</body>
+</html>
+<!--Box2DFlash 2.1a-->

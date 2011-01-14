@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:MobileApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					 xmlns:s="library://ns.adobe.com/flex/spark" 
+					 creationComplete="mobileapplication1_creationCompleteHandler(event)"
+					 firstView="collaboRhythm.mobile.view.MobileApplicationHome"
+					 
+					 >
+	<!--
+	-->
+	<fx:Script>
+		<![CDATA[
+			import collaboRhythm.mobile.controller.MobileApplicationController;
+			
+			import mx.events.FlexEvent;
+
+			protected function mobileapplication1_creationCompleteHandler(event:FlexEvent):void
+			{
+				main();
+			}
+
+			private function main() : void
+			{
+				var applicationController:MobileApplicationController = new MobileApplicationController(this);
+				applicationController.main();
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Style source="collaboRhythm/mobile/view/GlobalStyles.css"/>
+	<s:navigationContent> 		
+		<s:Button label="Home" click="navigator.popToFirstView()"/>		
+	</s:navigationContent>
+<!--
+	<s:ViewNavigator label="Home" width="100%" height="100%"
+					 firstView="collaboRhythm.mobile.view.MobileApplicationHome"/>
+	<s:ViewNavigator label="Details" width="100%" height="100%"
+					 firstView="collaboRhythm.mobile.view.FullContainerView"/>
+	<s:ViewNavigator label="Settings" width="100%" height="100%"
+					 firstView="collaboRhythm.mobile.view.WidgetContainerView"/>	
+	-->
+</s:MobileApplication>
