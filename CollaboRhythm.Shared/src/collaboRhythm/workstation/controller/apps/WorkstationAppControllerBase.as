@@ -58,20 +58,52 @@ package collaboRhythm.workstation.controller.apps
 		private var _topSpaceTransitionComponent:UIComponent;
 		private var _centerSpaceTransitionComponent:UIComponent;
 		
-		private var _applicationName:String;
+		private var _name:String;
 		
 		public function WorkstationAppControllerBase(widgetParentContainer:IVisualElementContainer, fullParentContainer:IVisualElementContainer)
 		{
 			_widgetParentContainer = widgetParentContainer;
 			_fullParentContainer = fullParentContainer;
 
-			widgetView = createWidgetView();
-			this.prepareWidgetView();
+			createAndPrepareWidgetView();
 			
-			fullView = createFullView();
-			this.prepareFullView();
+			if (_fullParentContainer)
+			{
+				fullView = createFullView();
+				this.prepareFullView();
+			}
 			
-			showWidgetAsDraggable(fullView != null);
+			if (widgetView)
+				showWidgetAsDraggable(fullView != null);
+		}
+		
+		public function createAndPrepareWidgetView():void
+		{
+			if (_widgetParentContainer && !widgetView)
+			{
+				widgetView = createWidgetView();
+				this.prepareWidgetView();
+			}
+		}
+
+		public function get widgetParentContainer():IVisualElementContainer
+		{
+			return _widgetParentContainer;
+		}
+
+		public function set widgetParentContainer(value:IVisualElementContainer):void
+		{
+			_widgetParentContainer = value;
+		}
+
+		public function get name():String
+		{
+			return _name;
+		}
+
+		public function set name(value:String):void
+		{
+			_name = value;
 		}
 
 		/**
@@ -753,8 +785,11 @@ package collaboRhythm.workstation.controller.apps
 		 */
 		public function initialize():void
 		{
-			widgetView.addEventListener("dragStart", dragStartHandler);
-			widgetView.addEventListener("dragEnd", dragEndHandler);
+			if (widgetView)
+			{
+				widgetView.addEventListener("dragStart", dragStartHandler);
+				widgetView.addEventListener("dragEnd", dragEndHandler);
+			}
 		}
 		
 		private function dragStartHandler(event:Event):void

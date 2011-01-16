@@ -1,10 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		xmlns:s="library://ns.adobe.com/flex/spark" title="WidgetContainerView">
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		gestureSwipe="gestureSwipeHandler(event)"
+		click="clickHandler(event)"
+		viewDeactivate="viewDeactivateHandler(event)"
+		mouseDown="mouseDownHandler(event)"
+		>
 	<s:layout>
 		<s:VerticalLayout/>
 	</s:layout>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import collaboRhythm.mobile.controller.WidgetContainerController;
+			import collaboRhythm.workstation.controller.apps.WorkstationAppControllerBase;
+			
+			import mx.events.FlexEvent;
+			
+			import spark.effects.SlideViewTransition;
+			
+			private var _widgetContainerController:WidgetContainerController;
+			private var _workstationAppController:WorkstationAppControllerBase;
+			private var _mouseDownX:Number;
+			private const _flickDelta:Number = 5;
+			
+			public function get workstationAppController():WorkstationAppControllerBase
+			{
+				return _workstationAppController;
+			}
+
+			public function set workstationAppController(value:WorkstationAppControllerBase):void
+			{
+				_workstationAppController = value;
+			}
+
+			public function set controller(value:WidgetContainerController):void
+			{
+				_widgetContainerController = value;
+			}
+
+			public function get controller():WidgetContainerController
+			{
+				return _widgetContainerController;
+			}
+			
+			private function gestureSwipeHandler(event:TransformGestureEvent):void
+			{
+//				if (controller)
+//					this.controller.gestureSwipeHandler(event);
+			}
+
+			protected function touchEndHandler(event:TouchEvent):void
+			{
+//				if (controller)
+//					this.controller.pushView();
+			}
+
+			protected function clickHandler(event:MouseEvent):void
+			{
+//				if (controller)
+//					this.controller.pushView();
+			}
+
+			protected function viewDeactivateHandler(event:FlexEvent):void
+			{
+				if (controller)
+					this.controller.deactivateView(this);
+			}
+
+			protected function mouseDownHandler(event:MouseEvent):void
+			{
+				_mouseDownX = event.stageX;
+				this.stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
+				this.stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
+				
+				this.includeInLayout = false;
+			}
+
+			protected function mouseMoveHandler(event:MouseEvent):void
+			{
+				this.x = event.stageX - _mouseDownX;
+			}
+
+			protected function mouseUpHandler(event:MouseEvent):void
+			{
+				this.stage.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
+				this.stage.removeEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
+
+				var deltaX:Number = event.stageX - _mouseDownX;
+				
+				var flicked:Boolean = false;
+				if (controller && deltaX > _flickDelta)
+					flicked = controller.popView();
+				else if (controller && deltaX < -_flickDelta)
+					flicked = controller.pushView();
+				
+				if (!flicked)
+					this.x = 0;
+
+				this.includeInLayout = true;
+			}
+
+		]]>
+	</fx:Script>
 </s:View>

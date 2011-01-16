@@ -13,6 +13,7 @@
 		@namespace mx "library://ns.adobe.com/flex/mx";
 		
 		.hour {
+			color: #000000;
 			font-size: 16;
 			font-weight: bold;
 		}
@@ -50,6 +51,8 @@
 			
 			public function initializeClock(scheduleModel:ScheduleModel):void
 			{
+//				trace("ScheduleWidgetView.initializeClock, width:", width, "height:", height);
+				
 				_scheduleModel = scheduleModel;
 				_scheduleItemsCollection = _scheduleModel.scheduleItemsCollection;
 				_adherenceGroupsCollection = _scheduleModel.adherenceGroupsCollection;

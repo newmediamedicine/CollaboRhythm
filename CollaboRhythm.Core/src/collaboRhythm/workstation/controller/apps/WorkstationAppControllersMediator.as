@@ -19,7 +19,10 @@ package collaboRhythm.workstation.controller.apps
 	import collaboRhythm.workstation.model.*;
 	
 	import flash.net.NetConnection;
+	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;
+	
+	import j2as3.collection.HashMap;
 	
 	import mx.core.IVisualElementContainer;
 	import mx.core.UIComponent;
@@ -39,8 +42,7 @@ package collaboRhythm.workstation.controller.apps
 		protected var _scheduleWidgetParentContainer:IVisualElementContainer;
 		private var _fullParentContainer:IVisualElementContainer;
 		private var _settings:Settings;
-		private var _workstationApps:Vector.<WorkstationAppControllerBase>;
-		private var _workstationAppNames:Vector.<String>
+		private var _workstationApps:HashMap;
 		protected var _healthRecordService:CommonHealthRecordService;
 		private var _collaborationRoomNetConnectionService:CollaborationRoomNetConnectionService;
 		private var _factory:WorkstationAppControllerFactory;
@@ -80,6 +82,11 @@ package collaboRhythm.workstation.controller.apps
 			if (_factory)
 				_factory.widgetParentContainer = value;
 		}
+		
+		public function get workstationApps():HashMap
+		{
+			return _workstationApps;
+		}
 
 		public function startApps(user:User):void
 		{
@@ -110,7 +117,7 @@ package collaboRhythm.workstation.controller.apps
 //				"Medical Equipment" + 
 //				"<p>The quick brown <b>fox jumps over</b> the lazy dogg.</p>"
 			
-			for each (app in _workstationApps)
+			for each (app in _workstationApps.values())
 			{
 				app.showWidget();
 			}
@@ -120,8 +127,7 @@ package collaboRhythm.workstation.controller.apps
 		{
 			closeApps();
 			
-			_workstationApps = new Vector.<WorkstationAppControllerBase>();
-			_workstationAppNames = new Vector.<String>();
+			_workstationApps = new HashMap();
 			_factory = new WorkstationAppControllerFactory();
 			_factory.widgetParentContainer = _widgetParentContainer;
 			_factory.fullParentContainer = _fullParentContainer;
@@ -132,7 +138,7 @@ package collaboRhythm.workstation.controller.apps
 		
 		public function reloadUserData(user:User):void
 		{
-			for each (var app:WorkstationAppControllerBase in _workstationApps)
+			for each (var app:WorkstationAppControllerBase in _workstationApps.values())
 			{
 				app.reloadUserData();
 			}
@@ -140,37 +146,37 @@ package collaboRhythm.workstation.controller.apps
 		
 		public function createApp(appClass:Class, appName:String):WorkstationAppControllerBase
 		{
-			var app:WorkstationAppControllerBase = _factory.createApp(appClass);
+			var app:WorkstationAppControllerBase = _factory.createApp(appClass, appName);
 			app.addEventListener(WorkstationAppEvent.SHOW_FULL_VIEW, showFullViewHandler);
-			_workstationApps.push(app);
-			_workstationAppNames.push(appName);
+			_workstationApps.put(appName, app);
 			return app;
 		}
 		
 		private function showFullViewHandler(event:WorkstationAppEvent):void
 		{	
-			//TODO: Fix this hack, did this so that could launch the blood pressure app from the blood pressure agent app
-			var applicationName:String;
-			if (event.applicationName == null)
+			if (event.workstationAppController == null)
 			{
-				var applicationIndex:Number = _workstationApps.indexOf(event.workstationAppController);
-				applicationName = _workstationAppNames[applicationIndex];
+				// TODO: use constant instead of magic string
+				showFullView(event.applicationName, "local");
 			}
 			else
 			{
-				applicationName = event.applicationName;
+				showFullViewResolved(event.workstationAppController, "local");
 			}
-			showFullView(applicationName, "local");
 		}
 		
 		private function showFullView(applicationName:String, source:String):void
 		{
-			var applicationIndex:Number = _workstationAppNames.indexOf(applicationName);
-			var application:WorkstationAppControllerBase = _workstationApps[applicationIndex];
-			
+			var workstationAppController:WorkstationAppControllerBase = _workstationApps[applicationName];
+			if (workstationAppController != null)
+				showFullViewResolved(workstationAppController, source);
+		}
+		
+		private function showFullViewResolved(workstationAppController:WorkstationAppControllerBase, source:String):void
+		{
 			for each (var app:WorkstationAppControllerBase in _workstationApps)
 			{
-				if (app != application)
+				if (app != workstationAppController)
 					app.hideFullView();
 				else
 					app.showFullView(null);
@@ -178,10 +184,9 @@ package collaboRhythm.workstation.controller.apps
 			
 			(_widgetParentContainer as UIComponent).validateNow();
 			
-			
 			if (source == "local")
 			{
-				_collaborationRoomNetConnectionService.netConnection.call("showFullView", null, _collaborationRoomNetConnectionService.localUserName, applicationName);
+				_collaborationRoomNetConnectionService.netConnection.call("showFullView", null, _collaborationRoomNetConnectionService.localUserName, workstationAppController.name);
 			}
 		}
 		
@@ -189,7 +194,7 @@ package collaboRhythm.workstation.controller.apps
 		{
 			if (_workstationApps != null)
 			{
-				for each (var app:WorkstationAppControllerBase in _workstationApps)
+				for each (var app:WorkstationAppControllerBase in _workstationApps.values())
 				{
 					app.close();
 				}

@@ -46,6 +46,11 @@ s|Label.WidgetGridLabel, s|Label.InactiveWidgetGridLabel
 	paddingTop: 5;
 }
 
+s|Label.WidgetGridLabel
+{
+	color: #000000;
+}
+
 s|Label.InactiveWidgetGridLabel
 {
 	color: #999999;

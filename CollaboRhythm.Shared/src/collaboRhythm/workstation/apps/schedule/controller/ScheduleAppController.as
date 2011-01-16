@@ -61,9 +61,15 @@ package collaboRhythm.workstation.apps.schedule.controller
 			{
 				_healthRecordService.loadMedications(_user);
 			}
-			(_widgetView as ScheduleWidgetView).initializeClock(_user.scheduleModel);
-			_scheduleFullViewController = new ScheduleFullViewController(_user.scheduleModel, _fullView as ScheduleFullView, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
-			_fullView.initializeControllerModel(_scheduleFullViewController, _user.scheduleModel);
+			
+			if (_widgetView)
+				(_widgetView as ScheduleWidgetView).initializeClock(_user.scheduleModel);
+			
+			if (_fullView)
+			{
+				_scheduleFullViewController = new ScheduleFullViewController(_user.scheduleModel, _fullView as ScheduleFullView, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
+				_fullView.initializeControllerModel(_scheduleFullViewController, _user.scheduleModel);
+			}
 		}
 		
 		public override function close():void

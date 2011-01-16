@@ -76,9 +76,13 @@ package collaboRhythm.workstation.apps.bloodPressure.controller
 				bloodPressureHealthRecordService.copyLoginResults(_healthRecordService);
 				bloodPressureHealthRecordService.loadBloodPressure(_user);
 			}
-			_widgetView.model = _user.bloodPressureModel;
-			_fullView.model = _user.bloodPressureModel;
-			_fullView.simulationView.initializeModel(_user.bloodPressureModel.simulation, _user.bloodPressureModel);
+			if (_widgetView)
+				_widgetView.model = _user.bloodPressureModel;
+			if (_fullView)
+			{
+				_fullView.model = _user.bloodPressureModel;
+				_fullView.simulationView.initializeModel(_user.bloodPressureModel.simulation, _user.bloodPressureModel);
+			}
 		}
 
 		override public function showWidgetAsDraggable(value:Boolean):void

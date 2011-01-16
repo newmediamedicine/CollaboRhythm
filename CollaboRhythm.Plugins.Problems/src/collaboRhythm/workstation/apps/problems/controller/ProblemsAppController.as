@@ -60,8 +60,11 @@ package collaboRhythm.workstation.apps.problems.controller
 			{
 				_healthRecordService.loadProblems(_user);
 			}
-			(_widgetView as ProblemsWidgetView).model = _user.problemsModel;
-			_fullView.model = _user.problemsModel;
+			if (_widgetView)
+				(_widgetView as ProblemsWidgetView).model = _user.problemsModel;
+
+			if (_fullView)
+				_fullView.model = _user.problemsModel;
 		}
 	}
 }

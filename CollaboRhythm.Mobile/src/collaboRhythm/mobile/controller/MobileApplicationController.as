@@ -1,6 +1,6 @@
 package collaboRhythm.mobile.controller
 {
-	import collaboRhythm.mobile.view.FullContainerView;
+	import collaboRhythm.mobile.view.WidgetContainerView;
 	import collaboRhythm.workstation.controller.ApplicationControllerBase;
 	import collaboRhythm.workstation.controller.CollaborationMediator;
 	import collaboRhythm.workstation.model.Settings;
@@ -19,6 +19,7 @@ package collaboRhythm.mobile.controller
 	{
 		private var _homeView:View;
 		private var _mobileApplication:CollaboRhythmMobileApplication;
+		private var _widgetContainerController:WidgetContainerController;
 		
 		public override function get collaborationRoomView():CollaborationRoomView
 		{
@@ -32,40 +33,54 @@ package collaboRhythm.mobile.controller
 		
 		public override function get widgetsContainer():IVisualElementContainer
 		{
-			return _mobileApplication.navigator.activeView;
+			return null;
 		}
 		
 		public override function get scheduleWidgetContainer():IVisualElementContainer
 		{
-			return _mobileApplication.navigator.activeView;
+			return null;
 		}
 		
 		public override function get fullContainer():IVisualElementContainer
 		{
-			return _mobileApplication.navigator.activeView;
+			return null;
 		}
 		
 		public function MobileApplicationController(mobileApplication:CollaboRhythmMobileApplication)
 		{
-//			_homeView = homeView;
 			_mobileApplication = mobileApplication;
-			
-			_mobileApplication.navigator.addEventListener(Event.COMPLETE, viewNavigator_TransitionCompleteHandler);
 		}
 		
-		private function viewNavigator_TransitionCompleteHandler(event:Event):void
+		private function viewNavigator_transitionCompleteHandler(event:Event):void
 		{
-//			if (_mobileApplication.navigator.activeView is FullContainerView)
-//				mobilecollaborationMediator.showFullView(_mobileApplication.navigator.activeView);
-//			else if (_mobileApplication.navigator.activeView is WidgetContainerView)
-//				mobilecollaborationMediator.showWidgetView(_mobileApplication.navigator.activeView);
+//			trace("viewNavigator_transitionCompleteHandler");
+		}
+
+		private function viewNavigator_addedHandler(event:Event):void
+		{
+			var navigator:ViewNavigator = _mobileApplication.navigator;
+//			var view:WidgetContainerView = navigator.getElementAt(navigator.numElements - 1) as WidgetContainerView;
+			var view:WidgetContainerView = event.target as WidgetContainerView;
+			if (view)
+			{
+				_widgetContainerController.initializeView(view);
+			}
 		}
 		
-		protected function get mobilecollaborationMediator():MobileCollaborationMediator
+		public function initializeActiveView():void
+		{
+			var view:WidgetContainerView = _mobileApplication.navigator.activeView as WidgetContainerView;
+			if (view)
+			{
+				_widgetContainerController.initializeView(view);
+			}
+		}
+		
+		protected function get mobileCollaborationMediator():MobileCollaborationMediator
 		{
 			return _collaborationMediator as MobileCollaborationMediator;
 		}
-
+		
 		public function main():void  
 		{
 			initLogging();
@@ -78,12 +93,11 @@ package collaboRhythm.mobile.controller
 			initializeComponents();
 			logger.info("Components initialized");
 			
-			// TODO: show the appropriate view
 			_collaborationMediator = new MobileCollaborationMediator(this);
 			
-//			initializeWindows();
-//			logger.info("Windows initialized");
-			//_homeView.addElement();
+			_widgetContainerController = new WidgetContainerController(_mobileApplication.navigator, _collaborationMediator);
+			_mobileApplication.navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
+			_mobileApplication.navigator.addEventListener(Event.ADDED, viewNavigator_addedHandler);
 		}
 		
 	}

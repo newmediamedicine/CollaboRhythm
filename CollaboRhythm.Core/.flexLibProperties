@@ -158,8 +158,8 @@
   <includeResources>
     <resourceEntry destPath="resources/chumby/chumby-clock.jpg" sourcePath="resources/chumby/chumby-clock.jpg"/>
     <resourceEntry destPath="resources/agent/linda.png" sourcePath="resources/agent/linda.png"/>
-    <resourceEntry destPath="resources/agent/linda.swf" sourcePath="resources/agent/linda.swf"/>
     <resourceEntry destPath="resources/images/icons/buttonIcons/collaborateButtonIcon.png" sourcePath="resources/images/icons/buttonIcons/collaborateButtonIcon.png"/>
+    <resourceEntry destPath="resources/agent/linda.swf" sourcePath="resources/agent/linda.swf"/>
     <resourceEntry destPath="resources/images/icons/buttonIcons/closeRecordButtonIcon.png" sourcePath="resources/images/icons/buttonIcons/closeRecordButtonIcon.png"/>
   </includeResources>
   <namespaceManifests/>

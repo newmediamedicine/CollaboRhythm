@@ -36,6 +36,11 @@ package collaboRhythm.workstation.controller
 		protected var usersModel:UsersModel;
 		protected var subjectUser:User;
 
+		public function get appControllersMediator():WorkstationAppControllersMediator
+		{
+			return _appControllersMediator;
+		}
+
 		protected function get applicationController():ApplicationControllerBase
 		{
 			throw Error("virtual function must be overriden in subclass");

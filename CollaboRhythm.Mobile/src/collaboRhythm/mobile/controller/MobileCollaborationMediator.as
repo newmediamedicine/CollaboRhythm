@@ -33,14 +33,11 @@ package collaboRhythm.mobile.controller
 		{
 			_appControllersMediator.initializeForUser(user);
 			var app:WorkstationAppControllerBase;
-//			app = _appControllersMediator.createApp(ProblemsAppController, "Problems");
-//			app.showWidget();
+			app = _appControllersMediator.createApp(ProblemsAppController, "Problems");
 			app = _appControllersMediator.createApp(ScheduleAppController, "Schedule");
-			app.showWidget();
-//			app = _appControllersMediator.createApp(BloodPressureAppController, "Blood Pressure");
-//			app.showWidget();
+			app = _appControllersMediator.createApp(BloodPressureAppController, "Blood Pressure");
+			
+			_mobileApplicationController.initializeActiveView();
 		}
-		
-//		public function 
 	}
 }
