@@ -63,7 +63,7 @@ package collaboRhythm.mobile.controller
 
 		public function pushView():Boolean
 		{
-			if (_collaborationMediator.appControllersMediator && widgetNavigationIndex + 1 < _collaborationMediator.appControllersMediator.workstationApps.size())
+			if (_collaborationMediator.appControllersMediator && widgetNavigationIndex + 1 < _collaborationMediator.appControllersMediator.workstationApps.length)
 			{
 				navigator.pushView(WidgetContainerView, null,
 					new SlideViewTransition( 300, SlideViewTransition.SLIDE_LEFT));
@@ -80,9 +80,9 @@ package collaboRhythm.mobile.controller
 			// 1067: Implicit coercion of a value of type collaboRhythm.mobile.controller:WidgetContainerController to an unrelated type collaboRhythm.mobile.controller:WidgetContainerController.
 			view.controller = this;
 
-			if (_collaborationMediator.appControllersMediator && widgetNavigationIndex >= 0 && widgetNavigationIndex < _collaborationMediator.appControllersMediator.workstationApps.size())
+			if (_collaborationMediator.appControllersMediator && widgetNavigationIndex >= 0 && widgetNavigationIndex < _collaborationMediator.appControllersMediator.workstationApps.length)
 			{
-				var app:WorkstationAppControllerBase = _collaborationMediator.appControllersMediator.workstationApps.values()[widgetNavigationIndex];
+				var app:WorkstationAppControllerBase = _collaborationMediator.appControllersMediator.workstationApps.getValueByIndex(widgetNavigationIndex);
 				view.workstationAppController = app;
 				if (app)
 				{
