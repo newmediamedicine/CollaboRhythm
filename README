@@ -22,7 +22,7 @@ Getting Started:
 4. Enter the URI: https://github.com/newmediamedicine/CollaboRhythm.git
 5. Click Next.
 6. For branch selection, “master” should be checked. Click Next to continue.
-7. Change the local path for your repository to an appropriate location. I added a folder called “Git Repositories” and used the following path: C:\Users\sgilroy\Git Repositories\CollaboRhythm
+7. Change the local path for your repository to an the directory where your workspace is located. You can find the path to your workspace by clicking on File -> Switch Workspace -> Other.
 8. Click OK.
 9. Right-click on the CollaboRhythm repository (the root node) and select “Import Projects…”
 10. “Working directory” should be selected. Click Next to continue.
