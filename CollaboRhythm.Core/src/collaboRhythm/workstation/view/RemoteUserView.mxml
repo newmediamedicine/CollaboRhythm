@@ -26,6 +26,7 @@
 		<![CDATA[
 			import castle.flexbridge.reflection.Void;
 			
+			import collaboRhythm.workstation.apps.problems.model.ProblemsModel;
 			import collaboRhythm.workstation.model.User;
 			
 			import flash.events.MouseEvent;
@@ -50,7 +51,8 @@
 				if(_remoteUser != null) 
 				{
 					renderProblems();
-					_remoteUser.problemsModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, problems_propertyChangeHandler);
+					var problemsModel:ProblemsModel = _remoteUser.getAppData(ProblemsModel.PROBLEMS_KEY, ProblemsModel) as ProblemsModel;
+					problemsModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, problems_propertyChangeHandler);
 				}
 			}   
 			
@@ -74,9 +76,10 @@
 				while (problemsParagraph.numChildren > 0)
 					problemsParagraph.removeChildAt(0);
 				
-				if (_remoteUser != null && _remoteUser.problemsModel != null)
+				if (problemsModel != null)
 				{
-					for each (var problemName:String in _remoteUser.problemsModel.problemsShortList)
+					var problemsModel:ProblemsModel = _remoteUser.getAppData(ProblemsModel.PROBLEMS_KEY, ProblemsModel) as ProblemsModel;
+					for each (var problemName:String in problemsModel.problemsShortList)
 					{
 						// add pipe to separate problems
 						if (problemsParagraph.numChildren > 0)
@@ -94,6 +97,15 @@
 						problemsParagraph.addChild(span);
 					}
 				}
+			}
+			
+			private function get problemsModel():ProblemsModel
+			{
+				if (_remoteUser != null && _remoteUser.appData[ProblemsModel.PROBLEMS_KEY] != null)
+				{
+					return _remoteUser.getAppData(ProblemsModel.PROBLEMS_KEY, ProblemsModel) as ProblemsModel;
+				}
+				return null;
 			}
 
 		]]>
@@ -124,7 +136,7 @@
 			</s:TextFlow>
 		</s:textFlow>
 	</s:RichText>
-	<s:RichText id="problems" fontSize="20" verticalAlign="bottom" bottom="2" height="42" left="105" right="2" lineHeight="20" visible="{_remoteUser.problemsModel.problemsShortList != null}">
+	<s:RichText id="problems" fontSize="20" verticalAlign="bottom" bottom="2" height="42" left="105" right="2" lineHeight="20" visible="{problemsModel.problemsShortList != null}">
 		<s:textFlow>	
 			<s:TextFlow>
 				<s:p id="problemsParagraph" color="0x000066">

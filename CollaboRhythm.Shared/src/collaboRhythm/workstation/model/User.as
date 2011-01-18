@@ -2,13 +2,14 @@ package collaboRhythm.workstation.model
 {	
 	import collaboRhythm.workstation.apps.bloodPressure.model.BloodPressureModel;
 	import collaboRhythm.workstation.apps.medications.model.MedicationsModel;
-	import collaboRhythm.workstation.apps.problems.model.ProblemsModel;
 	import collaboRhythm.workstation.apps.schedule.model.ScheduleModel;
 	
 	import flash.events.NetStatusEvent;
 	import flash.media.Video;
 	import flash.net.NetStream;
+	import flash.net.getClassByAlias;
 	import flash.utils.flash_proxy;
+	import flash.utils.getQualifiedClassName;
 	
 	import j2as3.collection.HashMap;
 	
@@ -53,12 +54,11 @@ package collaboRhythm.workstation.model
 		private var _netStream:NetStream;
 		private var _collaborationColor:String = "0xFFFFFF";
 		
-		private var _problemsModel:ProblemsModel = new ProblemsModel();
 		private var _medicationsModel:MedicationsModel = new MedicationsModel();
 		private var _scheduleModel:ScheduleModel;
 		private var _bloodPressureModel:BloodPressureModel = new BloodPressureModel();
 		
-//		private var _appData:HashMap = new HashMap();
+		private var _appData:HashMap = new HashMap();
 		
 		public function User(recordId:String)
 		{
@@ -263,16 +263,6 @@ package collaboRhythm.workstation.model
 			_scheduleModel = value;
 		}
 		
-		public function get problemsModel():ProblemsModel
-		{
-			return _problemsModel;
-		}
-		
-		private function set problemsModel(value:ProblemsModel):void
-		{
-			_problemsModel = value;
-		}
-		
 		public function get medicationsModel():MedicationsModel
 		{
 			return _medicationsModel;
@@ -293,9 +283,19 @@ package collaboRhythm.workstation.model
 			_bloodPressureModel = value;
 		}
 		
-//		public function get appData():HashMap
-//		{
-//			return _appData;
-//		}
+		public function get appData():HashMap
+		{
+			return _appData;
+		}
+		
+		public function getAppData(key:String, type:Class):Object
+		{
+			var data:Object = appData[key] as type;
+			if (data)
+				return data;
+			else
+				throw new Error("appData on User does not contain a " + (type as Class).toString() + " for key " + key); 
+
+		}
 	}
 }

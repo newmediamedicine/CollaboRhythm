@@ -94,7 +94,7 @@ package collaboRhythm.workstation.controller.apps
 			
 			var app:WorkstationAppControllerBase;
 			
-			app = createApp(ProblemsAppController, "Problems");
+//			app = createApp(ProblemsAppController, "Problems");
 			app = createApp(MedicationsAppController, "Medications");
 			app = createApp(EquipmentAppController, "Equipment");
 			app = createApp(ProceduresAppController, "Procedures");
