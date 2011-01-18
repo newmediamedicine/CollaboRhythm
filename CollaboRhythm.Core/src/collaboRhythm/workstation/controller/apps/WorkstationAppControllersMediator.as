@@ -18,11 +18,11 @@ package collaboRhythm.workstation.controller.apps
 	import collaboRhythm.workstation.apps.vitals.controller.VitalsAppController;
 	import collaboRhythm.workstation.model.*;
 	
+	import com.theory9.data.types.OrderedMap;
+	
 	import flash.net.NetConnection;
 	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;
-	
-	import j2as3.collection.HashMap;
 	
 	import mx.core.IVisualElementContainer;
 	import mx.core.UIComponent;
@@ -42,7 +42,7 @@ package collaboRhythm.workstation.controller.apps
 		protected var _scheduleWidgetParentContainer:IVisualElementContainer;
 		private var _fullParentContainer:IVisualElementContainer;
 		private var _settings:Settings;
-		private var _workstationApps:HashMap;
+		private var _workstationApps:OrderedMap;
 		protected var _healthRecordService:CommonHealthRecordService;
 		private var _collaborationRoomNetConnectionService:CollaborationRoomNetConnectionService;
 		private var _factory:WorkstationAppControllerFactory;
@@ -83,7 +83,7 @@ package collaboRhythm.workstation.controller.apps
 				_factory.widgetParentContainer = value;
 		}
 		
-		public function get workstationApps():HashMap
+		public function get workstationApps():OrderedMap
 		{
 			return _workstationApps;
 		}
@@ -117,7 +117,7 @@ package collaboRhythm.workstation.controller.apps
 //				"Medical Equipment" + 
 //				"<p>The quick brown <b>fox jumps over</b> the lazy dogg.</p>"
 			
-			for each (app in _workstationApps.values())
+			for each (app in _workstationApps)
 			{
 				app.showWidget();
 			}
@@ -127,7 +127,7 @@ package collaboRhythm.workstation.controller.apps
 		{
 			closeApps();
 			
-			_workstationApps = new HashMap();
+			_workstationApps = new OrderedMap();
 			_factory = new WorkstationAppControllerFactory();
 			_factory.widgetParentContainer = _widgetParentContainer;
 			_factory.fullParentContainer = _fullParentContainer;
@@ -138,7 +138,7 @@ package collaboRhythm.workstation.controller.apps
 		
 		public function reloadUserData(user:User):void
 		{
-			for each (var app:WorkstationAppControllerBase in _workstationApps.values())
+			for each (var app:WorkstationAppControllerBase in _workstationApps)
 			{
 				app.reloadUserData();
 			}
@@ -148,7 +148,7 @@ package collaboRhythm.workstation.controller.apps
 		{
 			var app:WorkstationAppControllerBase = _factory.createApp(appClass, appName);
 			app.addEventListener(WorkstationAppEvent.SHOW_FULL_VIEW, showFullViewHandler);
-			_workstationApps.put(appName, app);
+			_workstationApps.addKeyValue(appName, app);
 			return app;
 		}
 		
@@ -167,7 +167,7 @@ package collaboRhythm.workstation.controller.apps
 		
 		private function showFullView(applicationName:String, source:String):void
 		{
-			var workstationAppController:WorkstationAppControllerBase = _workstationApps[applicationName];
+			var workstationAppController:WorkstationAppControllerBase = _workstationApps.getValueByKey(applicationName);
 			if (workstationAppController != null)
 				showFullViewResolved(workstationAppController, source);
 		}
@@ -194,7 +194,7 @@ package collaboRhythm.workstation.controller.apps
 		{
 			if (_workstationApps != null)
 			{
-				for each (var app:WorkstationAppControllerBase in _workstationApps.values())
+				for each (var app:WorkstationAppControllerBase in _workstationApps)
 				{
 					app.close();
 				}

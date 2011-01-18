@@ -33,9 +33,9 @@ package collaboRhythm.mobile.controller
 		{
 			_appControllersMediator.initializeForUser(user);
 			var app:WorkstationAppControllerBase;
-			app = _appControllersMediator.createApp(ProblemsAppController, "Problems");
 			app = _appControllersMediator.createApp(ScheduleAppController, "Schedule");
 			app = _appControllersMediator.createApp(BloodPressureAppController, "Blood Pressure");
+			app = _appControllersMediator.createApp(ProblemsAppController, "Problems");
 			
 			_mobileApplicationController.initializeActiveView();
 		}

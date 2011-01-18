@@ -17,6 +17,7 @@
 			import collaboRhythm.mobile.controller.WidgetContainerController;
 			import collaboRhythm.workstation.controller.apps.WorkstationAppControllerBase;
 			
+			import mx.core.IButton;
 			import mx.events.FlexEvent;
 			
 			import spark.effects.SlideViewTransition;
@@ -72,6 +73,9 @@
 
 			protected function mouseDownHandler(event:MouseEvent):void
 			{
+				if (event.target is IButton)
+					return;
+				
 				_mouseDownX = event.stageX;
 				this.stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
 				this.stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);

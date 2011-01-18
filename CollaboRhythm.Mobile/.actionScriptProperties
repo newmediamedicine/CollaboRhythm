@@ -65,10 +65,10 @@
   <flashCatalyst validateFlashCatalystCompatibility="false"/>
   <buildTargets>
     <buildTarget androidSettingsVersion="1" buildTargetName="com.adobe.flexide.multiplatform.android.platform">
+      <multiPlatformSettings enabled="true" platformID="com.adobe.flexide.multiplatform.android.platform" version="2"/>
       <airSettings airCertificatePath="" airTimestamp="true" version="1">
         <airExcludes/>
       </airSettings>
-      <multiPlatformSettings enabled="true" platformID="com.adobe.flexide.multiplatform.android.platform" version="2"/>
       <actionScriptSettings version="1"/>
     </buildTarget>
   </buildTargets>
