@@ -1,5 +1,6 @@
 package collaboRhythm.mobile.controller
 {
+	import collaboRhythm.plugins.microhponeExamples.controller.MicrophoneExamplesAppController;
 	import collaboRhythm.workstation.apps.bloodPressure.controller.BloodPressureAppController;
 	import collaboRhythm.workstation.apps.problems.controller.ProblemsAppController;
 	import collaboRhythm.workstation.apps.schedule.controller.ScheduleAppController;
@@ -33,6 +34,7 @@ package collaboRhythm.mobile.controller
 		{
 			_appControllersMediator.initializeForUser(user);
 			var app:WorkstationAppControllerBase;
+			app = _appControllersMediator.createApp(MicrophoneExamplesAppController, "Sound Recorder");
 			app = _appControllersMediator.createApp(ScheduleAppController, "Schedule");
 			app = _appControllersMediator.createApp(BloodPressureAppController, "Blood Pressure");
 			app = _appControllersMediator.createApp(ProblemsAppController, "Problems");

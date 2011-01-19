@@ -17,6 +17,7 @@
       <libraryPathEntry kind="3" linkType="1" path="/CollaboRhythm.Plugins.Problems/bin/CollaboRhythm.Plugins.Problems.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="/CollaboRhythm.Shared/bin/CollaboRhythm.Shared.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="/CollaboRhythm.Plugins.BloodPressure/bin/CollaboRhythm.Plugins.BloodPressure.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="/CollaboRhythm.Plugins.MicrophoneExamples/bin/CollaboRhythm.Plugins.MicrophoneExamples.swc" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>

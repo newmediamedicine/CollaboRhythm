@@ -20,12 +20,15 @@
 			import mx.core.IButton;
 			import mx.events.FlexEvent;
 			
+			import spark.components.supportClasses.ButtonBase;
 			import spark.effects.SlideViewTransition;
 			
 			private var _widgetContainerController:WidgetContainerController;
 			private var _workstationAppController:WorkstationAppControllerBase;
 			private var _mouseDownX:Number;
-			private const _flickDelta:Number = 5;
+			private var _isFlicking:Boolean;
+			private const _flickStartDelta:Number = 10;
+			private const _flickDelta:Number = 10;
 			
 			public function get workstationAppController():WorkstationAppControllerBase
 			{
@@ -73,7 +76,8 @@
 
 			protected function mouseDownHandler(event:MouseEvent):void
 			{
-				if (event.target is IButton)
+				_isFlicking = false;
+				if (event.target is IButton || event.target is ButtonBase)
 					return;
 				
 				_mouseDownX = event.stageX;
@@ -85,14 +89,20 @@
 
 			protected function mouseMoveHandler(event:MouseEvent):void
 			{
-				this.x = event.stageX - _mouseDownX;
+				var deltaX:Number = event.stageX - _mouseDownX;
+				if (_isFlicking || Math.abs(deltaX) > _flickStartDelta)
+				{
+					_isFlicking = true;
+					this.x = event.stageX - _mouseDownX;
+				}
 			}
 
 			protected function mouseUpHandler(event:MouseEvent):void
 			{
 				this.stage.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
 				this.stage.removeEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
-
+				_isFlicking = false;
+				
 				var deltaX:Number = event.stageX - _mouseDownX;
 				
 				var flicked:Boolean = false;
