@@ -150,15 +150,8 @@ package collaboRhythm.workstation.controller
 						child.scaleY = scale;
 					}
 				}
-				//				window.scaleX = scale;
-				//				window.scaleY = scale;
 			}
 		}
-
-//		public function get clockView():ClockView
-//		{
-//			return _leftSpace.commonClockView;
-//		}
 
 		public function get workstationCommandBarView():WorkstationCommandBarView
 		{
