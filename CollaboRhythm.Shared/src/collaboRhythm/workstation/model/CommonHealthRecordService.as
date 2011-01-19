@@ -13,7 +13,6 @@ package collaboRhythm.workstation.model
 {
 	import collaboRhythm.workstation.apps.bloodPressure.model.BloodPressureModel;
 	import collaboRhythm.workstation.apps.medications.model.MedicationsModel;
-	import collaboRhythm.workstation.apps.problems.model.ProblemsModel;
 	import collaboRhythm.workstation.model.services.ICurrentDateSource;
 	import collaboRhythm.workstation.model.services.WorkstationKernel;
 	
@@ -65,15 +64,6 @@ package collaboRhythm.workstation.model
 			loadContact(remoteUserModel.localUser);
 		}
 		
-		public function loadAllProblems(remoteUserModel:UsersModel):void
-		{
-			for each (var user:User in remoteUserModel.remoteUsers)
-			{
-				loadProblems(user);
-			}
-			loadProblems(remoteUserModel.localUser);
-		}
-		
 		public function loadDemographics(user:User):void
 		{
 			user.demographics = new UserDemographics();
@@ -98,17 +88,6 @@ package collaboRhythm.workstation.model
 			//			user.medicationsModel = new MedicationsModel();
 			if (user.recordId != null && accessKey != null && accessSecret != null)
 				_pha.reports_minimal_X_GET(params, null, null, null, user.recordId, "medications", accessKey, accessSecret, user);
-		}
-		
-		public function loadProblems(user:User):void
-		{
-			var params:URLVariables = new URLVariables();
-			params["order_by"] = "-date_onset";
-			
-			// now the user already had an empty ProblemsModel when created, and a variable called initialized is used to see if it has been populated, allowing for early binding -- start with an empty ProblemsModel so that views can bind to the instance before the data is finished loading
-			//			user.problemsModel = new ProblemsModel();
-			if (user.recordId != null && accessKey != null && accessSecret != null)
-				_pha.reports_minimal_X_GET(params, null, null, null, user.recordId, "problems", accessKey, accessSecret, user);
 		}
 		
 		//		/**
@@ -162,8 +141,8 @@ package collaboRhythm.workstation.model
 					user.medicationsModel.rawData = responseXml;
 					user.medicationsModel.isLoading = false;
 				}
-				else if (event.urlRequest.url.indexOf("/problems") > -1)
-					user.problemsModel.rawData = responseXml;
+				else
+					throw new Error("Unhandled request: " + event.urlRequest.url);
 			}
 			else
 			{

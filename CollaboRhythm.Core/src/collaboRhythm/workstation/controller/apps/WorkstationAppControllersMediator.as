@@ -128,7 +128,7 @@ package collaboRhythm.workstation.controller.apps
 //				"Medical Equipment" + 
 //				"<p>The quick brown <b>fox jumps over</b> the lazy dogg.</p>"
 			
-			for each (app in _workstationApps)
+			for each (app in _workstationApps.values())
 			{
 				app.showWidget();
 			}
@@ -149,7 +149,7 @@ package collaboRhythm.workstation.controller.apps
 		
 		public function reloadUserData(user:User):void
 		{
-			for each (var app:WorkstationAppControllerBase in _workstationApps)
+			for each (var app:WorkstationAppControllerBase in _workstationApps.values())
 			{
 				app.reloadUserData();
 			}
@@ -185,7 +185,7 @@ package collaboRhythm.workstation.controller.apps
 		
 		private function showFullViewResolved(workstationAppController:WorkstationAppControllerBase, source:String):void
 		{
-			for each (var app:WorkstationAppControllerBase in _workstationApps)
+			for each (var app:WorkstationAppControllerBase in _workstationApps.values())
 			{
 				if (app != workstationAppController)
 					app.hideFullView();
@@ -205,7 +205,7 @@ package collaboRhythm.workstation.controller.apps
 		{
 			if (_workstationApps != null)
 			{
-				for each (var app:WorkstationAppControllerBase in _workstationApps)
+				for each (var app:WorkstationAppControllerBase in _workstationApps.values())
 				{
 					app.close();
 				}

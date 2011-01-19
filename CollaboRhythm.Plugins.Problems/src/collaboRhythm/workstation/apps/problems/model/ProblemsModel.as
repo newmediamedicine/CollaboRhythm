@@ -21,6 +21,7 @@ package collaboRhythm.workstation.apps.problems.model
 		private var _problemsShortList:ArrayCollection;
 		private var _problemsSummary:String
 		private var _initialized:Boolean = false;
+		public static const PROBLEMS_KEY:String = "problems";
 		
 		public function ProblemsModel()
 		{
@@ -91,7 +92,7 @@ package collaboRhythm.workstation.apps.problems.model
 		
 		private function createProblemsCollection():void
 		{
-			for each (var problemXml:XML in rawData.Report.Item.Problem)
+			for each (var problemXml:XML in _rawData.Report.Item.Problem)
 			{
 				var problem:Problem = new Problem(problemXml);
 				_problemsCollection.addItem(problem);

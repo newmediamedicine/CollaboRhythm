@@ -13,6 +13,7 @@ package collaboRhythm.workstation.controller
 {
 	import castle.flexbridge.kernel.IKernel;
 	
+	import collaboRhythm.workstation.apps.problems.model.ProblemsHealthRecordService;
 	import collaboRhythm.workstation.controller.apps.WorkstationAppControllersMediator;
 	import collaboRhythm.workstation.model.*;
 	import collaboRhythm.workstation.model.services.WorkstationKernel;
@@ -98,7 +99,10 @@ package collaboRhythm.workstation.controller
 			{
 				healthRecordService.loadDemographics(user);
 				healthRecordService.loadContact(user);
-				healthRecordService.loadProblems(user);
+
+				var problemsHealthRecordService:ProblemsHealthRecordService = new ProblemsHealthRecordService(healthRecordService.consumerKey, healthRecordService.consumerSecret, healthRecordService.baseURL);
+				problemsHealthRecordService.copyLoginResults(healthRecordService);
+				problemsHealthRecordService.loadProblems(user);
 			}
 			
 			if (_remoteUsersController)
@@ -125,7 +129,11 @@ package collaboRhythm.workstation.controller
 				healthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE, healthRecordService_completeHandler);
 				healthRecordService.loadAllDemographics(usersModel);
 				healthRecordService.loadAllContact(usersModel);
-				healthRecordService.loadAllProblems(usersModel);
+				
+				// problems are needed for the users list
+				var problemsHealthRecordService:ProblemsHealthRecordService = new ProblemsHealthRecordService(healthRecordService.consumerKey, healthRecordService.consumerSecret, healthRecordService.baseURL);
+				problemsHealthRecordService.copyLoginResults(healthRecordService);
+				problemsHealthRecordService.loadAllProblems(usersModel);
 			}
 		}
 		

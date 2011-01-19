@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
-    <classEntry path="collaboRhythm.workstation.apps.problems.model.ProblemsModel"/>
-    <classEntry path="collaboRhythm.workstation.apps.problems.model.Problem"/>
     <classEntry path="collaboRhythm.workstation.controller.apps.WorkstationAppDragData"/>
     <classEntry path="collaboRhythm.workstation.controller.apps.WorkstationAppControllerBase"/>
     <classEntry path="collaboRhythm.workstation.controller.apps.WorkstationAppEvent"/>

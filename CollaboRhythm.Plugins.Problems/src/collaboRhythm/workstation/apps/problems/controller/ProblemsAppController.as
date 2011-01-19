@@ -11,6 +11,8 @@
 */
 package collaboRhythm.workstation.apps.problems.controller
 {
+	import collaboRhythm.workstation.apps.problems.model.ProblemsHealthRecordService;
+	import collaboRhythm.workstation.apps.problems.model.ProblemsModel;
 	import collaboRhythm.workstation.apps.problems.view.ProblemsFullView;
 	import collaboRhythm.workstation.apps.problems.view.ProblemsWidgetView;
 	import collaboRhythm.workstation.controller.apps.WorkstationAppControllerBase;
@@ -52,7 +54,7 @@ package collaboRhythm.workstation.apps.problems.controller
 		{
 			var newWidgetView:ProblemsWidgetView = new ProblemsWidgetView();
 			if (_user != null)
-				newWidgetView.model = _user.problemsModel;
+				newWidgetView.model = _user.getAppData(ProblemsModel.PROBLEMS_KEY, ProblemsModel) as ProblemsModel;
 			return newWidgetView;
 		}
 		
@@ -60,22 +62,37 @@ package collaboRhythm.workstation.apps.problems.controller
 		{
 			var newFullView:ProblemsFullView = new ProblemsFullView();
 			if (_user != null)
-				newFullView.model = _user.problemsModel;
+				newFullView.model = _user.getAppData(ProblemsModel.PROBLEMS_KEY, ProblemsModel) as ProblemsModel;
 			return newFullView;
+		}
+		
+		private function get problemsModel():ProblemsModel
+		{
+			if (_user != null)
+			{
+				if (_user.appData[ProblemsModel.PROBLEMS_KEY] == null)
+				{
+					_user.appData[ProblemsModel.PROBLEMS_KEY] = new ProblemsModel();
+				}
+				return _user.getAppData(ProblemsModel.PROBLEMS_KEY, ProblemsModel) as ProblemsModel;
+			}
+			return null;
 		}
 		
 		public override function initialize():void
 		{
 			super.initialize();
-			if (_user.problemsModel.initialized == false)
+			if (problemsModel.initialized == false)
 			{
-				_healthRecordService.loadProblems(_user);
+				var problemsHealthRecordService:ProblemsHealthRecordService = new ProblemsHealthRecordService(_healthRecordService.consumerKey, _healthRecordService.consumerSecret, _healthRecordService.baseURL);
+				problemsHealthRecordService.copyLoginResults(_healthRecordService);
+				problemsHealthRecordService.loadProblems(_user);
 			}
 			if (_widgetView)
-				(_widgetView as ProblemsWidgetView).model = _user.problemsModel;
+				(_widgetView as ProblemsWidgetView).model = problemsModel;
 
 			if (_fullView)
-				_fullView.model = _user.problemsModel;
+				_fullView.model = problemsModel;
 		}
 	}
 }
