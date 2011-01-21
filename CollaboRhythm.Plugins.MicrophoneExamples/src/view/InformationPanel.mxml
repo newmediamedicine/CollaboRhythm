@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+	gap="8">
+	<fx:Script>
+		<![CDATA[
+			[Bindable]
+			public var applicationVersion:String = "";
+		]]>
+	</fx:Script>
+	<s:Label styleName="micExTitleText" text="CREDITS {applicationVersion}" />
+
+	<s:Line width="100%">
+		<s:stroke>
+			<s:SolidColorStroke color="0xffffff" weight="2" />
+		</s:stroke>
+	</s:Line>
+	<mx:Spacer height="0" />
+		<s:Label styleName="micExTitleTextBlack" text="Application Author: "/>
+		<s:Label styleName="micExInfoText" text="Renaun Erickson" />
+		<s:Label styleName="micExTitleTextBlack" text="Pitch Detection Code: "/>
+		<s:Label styleName="micExInfoText" text="John Montgomery (psychicorigami.com) AS3 port Benjamin Dobler" />
+		<s:Label styleName="micExInfoText" text="Modified by Renaun Erickson" />
+	
+
+</s:VGroup>

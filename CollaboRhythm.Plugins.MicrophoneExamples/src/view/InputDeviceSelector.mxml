@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+////////////////////////////////////////////////////////////////////////////////
+//
+//  ADOBE SYSTEMS INCORPORATED
+//  Copyright 2009 Adobe Systems Incorporated
+//  All Rights Reserved.
+//
+//  NOTICE: Adobe permits you to use, modify, and distribute this file
+//  in accordance with the terms of the license agreement accompanying it.
+//
+////////////////////////////////////////////////////////////////////////////////
+-->
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 skinClass="controls.skins.ControlsBoxSkin"
+		   styleName="micExComboBoxDropDown"
+		creationComplete="init()"
+		   >
+<!--
+	-->
+	<fx:Script>
+		<![CDATA[
+			import collaboRhythm.plugins.microhponeExamples.model.InputDeviceSelectorModel;
+			
+			import flash.filters.DropShadowFilter;
+			import flash.media.Microphone;
+			
+			import mx.events.ItemClickEvent;
+			
+			import spark.components.RadioButton;
+			
+			private var _model:InputDeviceSelectorModel;
+			
+			[Bindable]
+			public function get model():InputDeviceSelectorModel
+			{
+				return _model;
+			}
+
+			public function set model(value:InputDeviceSelectorModel):void
+			{
+				_model = value;
+			}
+
+			private function init():void
+			{
+				filters = [new DropShadowFilter()];
+				
+				if (model.names == null)
+				{
+					model.initialize();
+				}
+				
+				for (var i:int = 0;i < model.names.length;i++)
+				{
+					var radioItem:RadioButton = new RadioButton();
+					radioItem.styleName = "vbButtonsRadioItem";
+					radioItem.label = model.names[i];
+					if (model.micSelectedIndex == -1)
+					{
+						if (model.defaultMic.name == model.names[i])
+							radioItem.selected = true;
+					}
+					else
+					{
+						if (i == model.micSelectedIndex)
+							radioItem.selected = true;
+					}
+					radioItem.groupName = "grpRadio";
+					vbButtons.addElement(radioItem);
+				}
+			}
+			
+			private function changeMic(event:ItemClickEvent):void
+			{
+				var names:Array = Microphone.names;
+				for (var i:int = 0;i < names.length;i++)
+				{
+					if (event.currentTarget.selectedValue == names[i])
+					{
+						model.micSelectedIndex = i;
+						model.micName = model.names[i];
+					}
+				}
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:RadioButtonGroup id="grpRadio" itemClick="changeMic(event)" />	
+	</fx:Declarations>
+	<s:Label styleName="micExInfoText" text="Select An Input Device:" left="6" top="6" />
+	<s:VGroup id="vbButtons" left="6" right="6" top="22" bottom="6" gap="5" />
+</s:SkinnableContainer>
