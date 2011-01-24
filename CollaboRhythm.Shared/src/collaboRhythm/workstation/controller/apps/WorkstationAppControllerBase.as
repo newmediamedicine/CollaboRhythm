@@ -73,16 +73,12 @@ package collaboRhythm.workstation.controller.apps
 		
 		public function WorkstationAppControllerBase(widgetParentContainer:IVisualElementContainer, fullParentContainer:IVisualElementContainer)
 		{
+			name = defaultName;
+
 			_widgetParentContainer = widgetParentContainer;
 			_fullParentContainer = fullParentContainer;
 
 			createAndPrepareWidgetView();
-			
-			if (_fullParentContainer)
-			{
-				fullView = createFullView();
-				this.prepareFullView();
-			}
 			
 			if (widgetView)
 				showWidgetAsDraggable(fullView != null);
@@ -107,6 +103,11 @@ package collaboRhythm.workstation.controller.apps
 			_widgetParentContainer = value;
 		}
 
+		public function get defaultName():String
+		{
+			return null;
+		}
+		
 		public function get name():String
 		{
 			return _name;
@@ -261,13 +262,19 @@ package collaboRhythm.workstation.controller.apps
 			if (fullView != null)
 			{
 				fullView.visible = false;
-				_fullParentContainer.addElement(fullView);
+				if (fullView.parent == null)
+					_fullParentContainer.addElement(fullView);
 			}
+		}
+		
+		public function get isFullViewSupported():Boolean
+		{
+			return false;
 		}
 		
 		public function canShowFullView():Boolean
 		{
-			if (fullView == null || (topSpaceTransitionComponent != null && topSpaceTransitionComponent.visible))
+			if (!isFullViewSupported || (topSpaceTransitionComponent != null && topSpaceTransitionComponent.visible))
 				return false;
 			
 			if (PREVENT_RE_SHOWING_FULL_VIEW)
@@ -395,11 +402,17 @@ package collaboRhythm.workstation.controller.apps
 				this.dispatchEvent(new WorkstationAppEvent(WorkstationAppEvent.SHOW_FULL_VIEW, this));
 		}
 
+		protected function get shouldShowFullViewOnWidgetClick():Boolean
+		{
+			// TODO: come up with a better way to detect "workstation" mode
+			return _fullParentContainer != null;
+		}
+		
 		private function widgetClickHandler(event:MouseEvent):void
 		{
 //			trace("widgetClickHandler");
 			
-			if (canShowFullView() && isShowFullViewClickEvent(event))
+			if (shouldShowFullViewOnWidgetClick && canShowFullView() && isShowFullViewClickEvent(event))
 				this.dispatchEvent(new WorkstationAppEvent(WorkstationAppEvent.SHOW_FULL_VIEW, this));
 		}
 		
@@ -595,6 +608,12 @@ package collaboRhythm.workstation.controller.apps
 		
 		public function showFullView(startRect:Rect):void
 		{
+			if (_fullParentContainer && fullView == null)
+			{
+				fullView = createFullView();
+				this.prepareFullView();
+			}
+			
 			if (canShowFullView())
 			{
 				showFullViewStart();
@@ -602,6 +621,7 @@ package collaboRhythm.workstation.controller.apps
 				showWidgetAsDraggable(false);
 				showWidgetAsSelected(true);
 				
+				fullView.validateNow();
 				var bitmapData:BitmapData = ImageSnapshot.captureBitmapData(fullView);
 				
 				topSpaceTransitionComponent = createBitmapComponent(bitmapData);
@@ -667,8 +687,11 @@ package collaboRhythm.workstation.controller.apps
 		{
 			var bitmapComponent:UIComponent = new UIComponent();
 			bitmapComponent.graphics.lineStyle(0,0,0);
-			bitmapComponent.graphics.beginBitmapFill(bitmapData, null, false, true);
-			bitmapComponent.graphics.drawRect(0, 0, bitmapData.width, bitmapData.height);
+			if (bitmapData)
+			{
+				bitmapComponent.graphics.beginBitmapFill(bitmapData, null, false, true);
+				bitmapComponent.graphics.drawRect(0, 0, bitmapData.width, bitmapData.height);
+			}
 			return bitmapComponent;
 		}
 		

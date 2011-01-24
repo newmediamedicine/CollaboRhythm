@@ -496,7 +496,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 						<mx:Canvas id="annotationCanvas" width="100%" height="100%" 
 								   horizontalScrollPolicy="off" verticalScrollPolicy="off"/>
 						<s:Group width="100%" height="100%">
-							<mx:ProgressBar id="fpsBar" right="0" width="200" mode="manual" label="" visible="{_showFps}" barSkin="com.dougmccune.skins.GreenProgressBarSkin"/>
+<!--							<mx:ProgressBar id="fpsBar" right="0" width="200" mode="manual" label="" visible="{_showFps}"/>-->
 							<s:Label id="fpsLabel" right="0" text="FPS: ???" visible="{_showFps}" styleName="MainChartTitleLabel">
 							</s:Label>
 						</s:Group>
@@ -989,7 +989,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 			public function updateFocusTime(value:Number):void
 			{
-				trace("_focusTime " + (new Date(_focusTime)).toString() + " value " + (new Date(value)).toString() + " focusTimeMarker.x " + focusTimeMarker.x);
+//				trace("_focusTime " + (new Date(_focusTime)).toString() + " value " + (new Date(value)).toString() + " focusTimeMarker.x " + focusTimeMarker.x);
 				_focusTime = Math.max(leftRangeTime, Math.min(rightRangeTime, value));
 				
 				var cache:Array = [ { from: _focusTime, to: 0 } ];   
@@ -1331,7 +1331,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 							totalDiff.toFixed(0) + "\n" +
 							"count: " + _performanceCounter["updateMainDataSource"];
 						
-						fpsBar.setProgress(averageFps, this.stage.frameRate);
+//						fpsBar.setProgress(averageFps, this.stage.frameRate);
 					}
 					_lastUpdate = now;
 

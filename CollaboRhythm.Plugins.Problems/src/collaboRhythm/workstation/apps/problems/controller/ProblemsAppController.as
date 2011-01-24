@@ -35,6 +35,11 @@ package collaboRhythm.workstation.apps.problems.controller
 			_widgetView = value as ProblemsWidgetView;
 		}
 		
+		public override function get isFullViewSupported():Boolean
+		{
+			return true;
+		}
+		
 		public override function get fullView():UIComponent
 		{
 			return _fullView;
@@ -91,8 +96,19 @@ package collaboRhythm.workstation.apps.problems.controller
 			if (_widgetView)
 				(_widgetView as ProblemsWidgetView).model = problemsModel;
 
+			prepareFullView();
+		}
+		
+		protected override function prepareFullView():void
+		{
+			super.prepareFullView();
 			if (_fullView)
 				_fullView.model = problemsModel;
+		}
+
+		public override function get defaultName():String
+		{
+			return "Problems";
 		}
 	}
 }

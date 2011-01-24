@@ -70,9 +70,18 @@ package collaboRhythm.workstation.apps.bloodPressureAgent.controller
 		{
 			super.initialize();
 //			(_widgetView as BloodPressureWidgetView).initializeClock(_user.scheduleModel);
-			_bloodPressureFullViewController = new BloodPressureAgentFullViewController(_fullView as BloodPressureAgentFullView);
-			_bloodPressureFullViewController.addEventListener(WorkstationAppEvent.SHOW_FULL_VIEW, launchBloodPressureFullViewHandler);
-			_fullView.initializeControllerModel(_bloodPressureFullViewController, user.bloodPressureModel);
+			prepareFullView();
+		}
+		
+		protected override function prepareFullView():void
+		{
+			super.prepareFullView();
+			if (_fullView)
+			{
+				_bloodPressureFullViewController = new BloodPressureAgentFullViewController(_fullView as BloodPressureAgentFullView);
+				_bloodPressureFullViewController.addEventListener(WorkstationAppEvent.SHOW_FULL_VIEW, launchBloodPressureFullViewHandler);
+				_fullView.initializeControllerModel(_bloodPressureFullViewController, user.bloodPressureModel);
+			}
 		}
 		
 		private function launchBloodPressureFullViewHandler(event:WorkstationAppEvent):void
@@ -87,7 +96,8 @@ package collaboRhythm.workstation.apps.bloodPressureAgent.controller
 		
 		override public function reloadUserData():void
 		{
-			_fullView.refresh();
+			if (_fullView)
+				_fullView.refresh();
 		}
 	}
 }

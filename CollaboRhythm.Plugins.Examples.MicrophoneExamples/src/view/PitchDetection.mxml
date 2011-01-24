@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+////////////////////////////////////////////////////////////////////////////////
+//
+//  ADOBE SYSTEMS INCORPORATED
+//  Copyright 2010 Adobe Systems Incorporated
+//  All Rights Reserved.
+//
+//  NOTICE: Adobe permits you to use, modify, and distribute this file
+//  in accordance with the terms of the license agreement accompanying it.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+The code is adapted from: 
+http://www.psychicorigami.com/2009/01/17/a-5k-java-guitar-tuner/
+
+The original code's license can be found at:
+http://www.psychicorigami.com/license/
+
+Credit goes to the original author: 
+John Montgomery
+
+The original code has been modified:
+ActionScript port by Benjamin Dobler
+Modifications by Renaun Erickson
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:view="view.*"
+		hide="stop()">
+	<fx:Script>
+		<![CDATA[		
+			import flash.events.SampleDataEvent;
+			
+			[Bindable]
+			public var micSelector:InputDeviceSelector;
+			
+			private var mic:Microphone;
+			private var FREQUENCIES:Array=[174.61, 164.81, 155.56, 146.83, 138.59, 130.81, 123.47, 116.54, 110.00, 103.83, 98.00, 92.50, 87.31, 82.41, 77.78];
+			private var NAME:Array=["F", "E", "D#", "D", "C#", "C", "B", "A#", "A", "G#", "G", "F#", "F", "E", "D#"];
+			private var samplesCount:int = 512;
+			private var dataV:Vector.<int> = new Vector.<int>(samplesCount,true);
+			
+			private function stop():void
+			{
+				btnRecord.selected = false;
+				recordSound();
+			}
+			private function recordSound():void
+			{
+				if (btnRecord.selected)
+				{
+					start();
+				}
+				else
+				{	
+					if (mic)
+						mic.removeEventListener(SampleDataEvent.SAMPLE_DATA, dataHandler);
+				}
+			}
+
+			private function start():void 
+			{
+				mic = Microphone.getMicrophone();
+				mic.rate = 44;
+				mic.setSilenceLevel(5, 100);
+				mic.addEventListener(SampleDataEvent.SAMPLE_DATA, dataHandler);
+			}
+
+			private function dataHandler(event:SampleDataEvent):void 
+			{
+				findFrequency(event.data);
+			}
+			private function findFrequency(bytes:ByteArray):void
+			{
+				var prevDiff:Number = 0;
+				var prevDx:Number = 0;
+				var maxDiff:Number = 0;
+				var sampleLen:int = 0;
+				var diff:Number = 0;
+				if (bytes.length < samplesCount * 4)
+					return;
+				
+				var len2:int = samplesCount/2;
+				var i:uint;				
+					
+				for(i=0; i < samplesCount; i++) {
+					dataV[i] = bytes.readFloat() * 44100;  // 44100 is arbitrary because we have float point, the original code was 16bit which is 64k/2
+				}
+				for (i=0; i < len2; i++) 
+				{
+					diff = 0;
+					var test2:int = 0;
+					for (var j:int=0; j < len2; j++) 
+					{
+						diff += Math.abs(dataV[j] - dataV[i + j]);
+					}
+					var dx:Number = prevDiff - diff;
+					// change of sign in dx
+					if (dx < 0 && prevDx > 0
+						&& diff < (0.1 * maxDiff))
+					{
+						if (sampleLen == 0) {
+						sampleLen = i - 1;
+						}
+					}
+					prevDx = dx;
+					prevDiff = diff;
+					if (diff > maxDiff)
+						maxDiff = diff;
+				}
+
+				if (sampleLen > 0) {
+					var frequency:Number=(44100 / sampleLen);					
+					var note:int = closestNote(normaliseFreq(frequency));
+					note_tx.text = NAME[note];
+					var justNote:String = String(NAME[note]).charAt(0);
+					//slider.value=frequency;
+					if (frequency < 475)
+					{
+						var notes1:Object = {C:31,D:26,E:21,F:16,G:11,A:6};
+						var notes1Sharp:Object = {C:47,D:42,E:37,F:32,G:27,A:22};
+						if (notes1[justNote] == null)
+							return;
+						
+						noteupwbar.visible = (justNote == "C")
+							
+						noteupwbar.verticalCenter = notes1[justNote];
+						noteup.verticalCenter = notes1[justNote];
+						sharp.verticalCenter = notes1Sharp[justNote];
+						noteup.visible = !noteupwbar.visible;
+						notedown.visible = false;
+						sharp.visible = (note_tx.text.length > 1);
+					} 
+					else
+					{
+						var notes2:Object = {B:31,C:36,D:41,E:46,F:51,G:56};
+						var notes2Sharp:Object = {C:47,D:42,E:37,F:32,G:27,A:22};
+						if (notes2[justNote] == null)
+							return
+						notedown.verticalCenter = notes2[justNote];
+						sharp.verticalCenter = notes2Sharp[justNote];
+						noteup.visible = false;
+						noteupwbar.visible = false;
+						notedown.visible = true;
+						sharp.visible = (note_tx.text.length > 1);
+					}
+				}
+			}
+
+			private function closestNote(hz:Number):int 
+			{
+				var minDist:Number = Number.MAX_VALUE;
+				var minFreq:int = -1;
+				for (var i:int = 0; i < FREQUENCIES.length; i++) 
+				{
+					var dist:Number = Math.abs(FREQUENCIES[i] - hz);
+					if (dist < minDist) 
+					{
+						minDist = dist;
+						minFreq = i;
+					}
+				}
+				return minFreq;
+			}
+
+			private function normaliseFreq(hz:Number):Number 
+			{
+				// get hz into a standard range to make things easier to deal with
+				while (hz < 82.41)
+					hz = 2 * hz;
+				while (hz > 164.81)
+					hz = 0.5 * hz;
+				return hz;
+			}
+		]]>
+	</fx:Script>
+	<s:ToggleButton id="btnRecord" click="recordSound()" left="10"
+		styleName="recordButton" />
+	<s:Label styleName="micExTitleTextBlack" text="Start Sampling to Determine the Pitch of the Audio" 
+			  bottom="6" horizontalCenter="0" />
+	<s:Label styleName="footerPTText" text="{micSelector.model.micName}" click="micSelector.visible = !micSelector.visible"
+			  y="0" left="50" />
+		
+	<s:Label id="note_tx" text="Note"
+		verticalCenter="-48" horizontalCenter="0" styleName="micExTitleTextBlack" fontSize="32"/>
+	
+	<s:SkinnableComponent left="15" right="15" bottom="31" height="80" 
+						  skinClass="controls.skins.ControlsBoxSkin" />
+	
+	<s:BitmapImage source="@Embed('embed_assets/pitch/musicstaff.png')" left="15" bottom="31" />
+	<s:BitmapImage source="@Embed('embed_assets/pitch/notedown.png')"
+			  verticalCenter="31" horizontalCenter="0" id="notedown" visible="false" />
+	<s:BitmapImage source="@Embed('embed_assets/pitch/noteup.png')" 
+			  verticalCenter="16" horizontalCenter="0" id="noteup" visible="false" />
+	<s:BitmapImage source="@Embed('embed_assets/pitch/noteupwbar.png')" 
+			  verticalCenter="16" horizontalCenter="-1" id="noteupwbar" visible="false" />
+	<s:BitmapImage source="@Embed('embed_assets/pitch/sharp.png')" 
+			  verticalCenter="32" horizontalCenter="-15" id="sharp" visible="false" />
+		
+</s:Group>

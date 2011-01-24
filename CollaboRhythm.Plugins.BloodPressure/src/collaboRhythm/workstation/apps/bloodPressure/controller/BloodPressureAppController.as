@@ -37,6 +37,11 @@ package collaboRhythm.workstation.apps.bloodPressure.controller
 			_widgetView = value as BloodPressureWidgetView;
 		}
 		
+		public override function get isFullViewSupported():Boolean
+		{
+			return true;
+		}
+		
 		public override function get fullView():UIComponent
 		{
 			return _fullView;
@@ -89,6 +94,13 @@ package collaboRhythm.workstation.apps.bloodPressure.controller
 			}
 			if (_widgetView)
 				_widgetView.model = _user.bloodPressureModel;
+			
+			prepareFullView();
+		}
+		
+		override protected function prepareFullView():void
+		{
+			super.prepareFullView();
 			if (_fullView)
 			{
 				_fullView.model = _user.bloodPressureModel;
@@ -128,6 +140,11 @@ package collaboRhythm.workstation.apps.bloodPressure.controller
 			super.close();
 			
 			_fullView.simulationView.isRunning = false;
+		}
+
+		public override function get defaultName():String
+		{
+			return "Blood Pressure Review";
 		}
 	}
 }

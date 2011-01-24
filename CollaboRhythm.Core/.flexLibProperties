@@ -154,6 +154,7 @@
     <classEntry path="collaboRhythm.workstation.controller.ApplicationControllerBase"/>
     <classEntry path="collaboRhythm.workstation.controller.CollaborationMediatorBase"/>
     <classEntry path="collaboRhythm.workstation.controller.apps.WorkstationAppControllersMediator"/>
+    <classEntry path="collaboRhythm.core.pluginsManagement.PluginLoader"/>
   </includeClasses>
   <includeResources>
     <resourceEntry destPath="resources/chumby/chumby-clock.jpg" sourcePath="resources/chumby/chumby-clock.jpg"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<actionScriptProperties analytics="false" mainApplicationPath="CollaboRhythm.Plugins.BloodPressure.as" projectUUID="f5ae2a42-64d0-491d-8450-f649179b945b" version="7">
-  <compiler additionalCompilerArguments="-locale en_US" autoRSLOrdering="true" copyDependentFiles="false" fteInMXComponents="false" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="true" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
+<actionScriptProperties analytics="false" mainApplicationPath="BloodPressureMain.mxml" projectUUID="f5ae2a42-64d0-491d-8450-f649179b945b" version="7">
+  <compiler additionalCompilerArguments="-locale en_US" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-debug" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="true" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
     <compilerSourcePath/>
     <libraryPath defaultLinkType="0">
       <libraryPathEntry kind="4" path="">
@@ -8,19 +8,33 @@
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/flex.swc" useDefaultLinkType="false"/>
         </excludedEntries>
       </libraryPathEntry>
+      <libraryPathEntry kind="1" linkType="1" path="libs"/>
       <libraryPathEntry kind="3" linkType="1" path="/CollaboRhythm.Shared/bin/CollaboRhythm.Shared.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="/CollaboRhythm.View.Scroll/bin/CollaboRhythm.View.Scroll.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="/Box2DFlashAS3/bin/Box2DFlashAS3.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="/ChartBackgroundsLib/bin/ChartBackgroundsLib.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="/McCuneChart/bin/McCuneChart.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="/indivo_client_flash/bin/indivo_client_flash.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="/CollaboRhythm.Shared.PluginsSupport/bin/CollaboRhythm.Shared.PluginsSupport.swc" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
   <applications>
-    <application path="CollaboRhythm.Plugins.BloodPressure.as"/>
+    <application path="BloodPressureMain.mxml">
+      <airExcludes/>
+    </application>
   </applications>
-  <modules/>
+  <modules>
+    <module application="src/CollaboRhythm.Plugins.BloodPressure.as" destPath="BloodPressurePluginModule.swf" optimize="false" sourcePath="src/collaboRhythm/workstation/apps/bloodPressure/controller/BloodPressurePluginModule.as"/>
+  </modules>
   <buildCSSFiles/>
   <flashCatalyst validateFlashCatalystCompatibility="false"/>
+  <buildTargets>
+    <buildTarget buildTargetName="default">
+      <airSettings airCertificatePath="" airTimestamp="true" version="1">
+        <airExcludes/>
+      </airSettings>
+      <actionScriptSettings version="1"/>
+    </buildTarget>
+  </buildTargets>
 </actionScriptProperties>

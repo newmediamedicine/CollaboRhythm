@@ -34,6 +34,11 @@ package collaboRhythm.workstation.apps.schedule.controller
 			_widgetView = value as ScheduleWidgetView;
 		}
 		
+		public override function get isFullViewSupported():Boolean
+		{
+			return true;
+		}
+		
 		public override function get fullView():UIComponent
 		{
 			return _fullView;
@@ -60,8 +65,6 @@ package collaboRhythm.workstation.apps.schedule.controller
 		protected override function createFullView():UIComponent
 		{
 			var newFullView:ScheduleFullView = new ScheduleFullView();
-			if (_user != null)
-				newFullView.initializeControllerModel(null, _user.scheduleModel);
 			return newFullView;
 		}
 		
@@ -76,6 +79,12 @@ package collaboRhythm.workstation.apps.schedule.controller
 			if (_widgetView)
 				(_widgetView as ScheduleWidgetView).initializeClock(_user.scheduleModel);
 			
+			prepareFullView();
+		}
+		
+		protected override function prepareFullView():void
+		{
+			super.prepareFullView();
 			if (_fullView)
 			{
 				_scheduleFullViewController = new ScheduleFullViewController(_user.scheduleModel, _fullView as ScheduleFullView, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
@@ -95,6 +104,11 @@ package collaboRhythm.workstation.apps.schedule.controller
 //			{
 //				medicationView.unwatchAll();
 //			}
+		}
+		
+		public override function get defaultName():String
+		{
+			return "Schedule";
 		}
 	}
 }

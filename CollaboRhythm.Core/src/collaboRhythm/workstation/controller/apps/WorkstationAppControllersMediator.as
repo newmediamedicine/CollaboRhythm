@@ -11,8 +11,10 @@
 */
 package collaboRhythm.workstation.controller.apps
 {
+	import castle.flexbridge.reflection.Void;
+	
+	import collaboRhythm.shared.pluginsSupport.IFactoryContainer;
 	import collaboRhythm.workstation.apps.allergies.controller.AllergiesAppController;
-	import collaboRhythm.workstation.apps.bloodPressure.controller.BloodPressureAppController;
 	import collaboRhythm.workstation.apps.bloodPressureAgent.controller.BloodPressureAgentAppController;
 	import collaboRhythm.workstation.apps.equipment.controller.EquipmentAppController;
 	import collaboRhythm.workstation.apps.familyHistory.controller.FamilyHistoryAppController;
@@ -32,9 +34,12 @@ package collaboRhythm.workstation.controller.apps
 	import com.theory9.data.types.OrderedMap;
 	
 	import flash.net.NetConnection;
+	import flash.net.getClassByAlias;
 	import flash.utils.Dictionary;
+	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
 	
+	import mx.core.IFactory;
 	import mx.core.IVisualElementContainer;
 	import mx.core.UIComponent;
 	
@@ -57,8 +62,17 @@ package collaboRhythm.workstation.controller.apps
 		protected var _healthRecordService:CommonHealthRecordService;
 		private var _collaborationRoomNetConnectionService:CollaborationRoomNetConnectionService;
 		private var _factory:WorkstationAppControllerFactory;
+		private var _factoryContainer:IFactoryContainer;
 		
-		public function WorkstationAppControllersMediator(widgetParentContainer:IVisualElementContainer, scheduleWidgetParentContainer:IVisualElementContainer, fullParentContainer:IVisualElementContainer, settings:Settings, healthRecordService:CommonHealthRecordService, collabortionNetConnectionService:CollaborationRoomNetConnectionService)
+		public function WorkstationAppControllersMediator(
+			widgetParentContainer:IVisualElementContainer,
+			scheduleWidgetParentContainer:IVisualElementContainer,
+			fullParentContainer:IVisualElementContainer,
+			settings:Settings,
+			healthRecordService:CommonHealthRecordService,
+			collabortionNetConnectionService:CollaborationRoomNetConnectionService,
+			factoryContainer:IFactoryContainer
+		)
 		{
 			_widgetParentContainer = widgetParentContainer;
 			_scheduleWidgetParentContainer = scheduleWidgetParentContainer;
@@ -66,8 +80,14 @@ package collaboRhythm.workstation.controller.apps
 			_settings = settings;
 			_healthRecordService = healthRecordService;
 			_collaborationRoomNetConnectionService = collabortionNetConnectionService;
+			_factoryContainer = factoryContainer;
 			
 			_collaborationRoomNetConnectionService.netConnection.client.showFullView = showFullView;
+		}
+		
+		protected function get factoryContainer():IFactoryContainer
+		{
+			return _factoryContainer;
 		}
 		
 		public function get fullParentContainer():IVisualElementContainer
@@ -120,8 +140,10 @@ package collaboRhythm.workstation.controller.apps
 			
 			_factory.widgetParentContainer = _scheduleWidgetParentContainer;
 			app = createApp(ScheduleAppController, "Schedule");
-			app = createApp(BloodPressureAgentAppController, "Blood Pressure");
-			app = createApp(BloodPressureAppController, "Blood Pressure Review");
+			app = createApp(BloodPressureAgentAppController, "Blood Pressure Agent");
+//			app = createApp(BloodPressureAppController, "Blood Pressure Review");
+			
+			createDynamicApps();
 			
 //			app = createApp(RichTextAppController);
 //			(app as RichTextAppController).text =
@@ -131,6 +153,18 @@ package collaboRhythm.workstation.controller.apps
 			for each (app in _workstationApps.values())
 			{
 				app.showWidget();
+			}
+		}
+		
+		public function createDynamicApps():void
+		{
+			var factories:Vector.<IFactory> = factoryContainer.getFactories(AppControllerInfo);
+			
+			for each (var appControllerInfoFactory:IFactory in factories)
+			{
+				var appControllerInfo:AppControllerInfo = appControllerInfoFactory.newInstance() as AppControllerInfo;
+				
+				createApp(appControllerInfo.appControllerClass);
 			}
 		}
 		
@@ -155,9 +189,10 @@ package collaboRhythm.workstation.controller.apps
 			}
 		}
 		
-		public function createApp(appClass:Class, appName:String):WorkstationAppControllerBase
+		public function createApp(appClass:Class, appName:String=null):WorkstationAppControllerBase
 		{
 			var app:WorkstationAppControllerBase = _factory.createApp(appClass, appName);
+			appName = app.name;
 			app.addEventListener(WorkstationAppEvent.SHOW_FULL_VIEW, showFullViewHandler);
 			_workstationApps.addKeyValue(appName, app);
 			return app;

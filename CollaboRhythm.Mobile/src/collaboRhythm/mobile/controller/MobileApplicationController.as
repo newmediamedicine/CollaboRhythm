@@ -18,7 +18,11 @@ package collaboRhythm.mobile.controller
 	import collaboRhythm.workstation.view.CollaborationRoomView;
 	import collaboRhythm.workstation.view.RemoteUsersListView;
 	
+	import flash.desktop.NativeApplication;
 	import flash.events.Event;
+	import flash.events.KeyboardEvent;
+	import flash.filesystem.File;
+	import flash.ui.Keyboard;
 	
 	import mx.core.IVisualElementContainer;
 	
@@ -109,7 +113,28 @@ package collaboRhythm.mobile.controller
 			_widgetContainerController = new WidgetContainerController(_mobileApplication.navigator, _collaborationMediator);
 			_mobileApplication.navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
 			_mobileApplication.navigator.addEventListener(Event.ADDED, viewNavigator_addedHandler);
+			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 		}
+		
+		public function keyDownHandler(event:KeyboardEvent):void
+		{
+			switch (event.keyCode)
+			{
+				case Keyboard.BACK:
+					event.preventDefault();
+					trace("Back key is pressed."); 
+					break; 
+				case Keyboard.MENU: 
+					trace("Menu key is pressed.");
+					
+					trace("  applicationStorageDirectory", File.applicationStorageDirectory.nativePath);
+					trace("  applicationDirectory", File.applicationDirectory.nativePath);
+					break; 
+				case Keyboard.SEARCH: 
+					trace("Search key is pressed."); 
+					break; 
+			} 
+		} 
 		
 	}
 }

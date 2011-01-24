@@ -93,6 +93,7 @@
     <classEntry path="collaboRhythm.workstation.apps.bloodPressureAgent.controller.BloodPressureAgentAppController"/>
     <classEntry path="collaboRhythm.workstation.apps.bloodPressureAgent.view.BloodPressureAgentWidgetView"/>
     <classEntry path="collaboRhythm.workstation.apps.bloodPressureAgent.view.BloodPressureAgentFullView"/>
+    <classEntry path="collaboRhythm.workstation.controller.apps.AppControllerInfo"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

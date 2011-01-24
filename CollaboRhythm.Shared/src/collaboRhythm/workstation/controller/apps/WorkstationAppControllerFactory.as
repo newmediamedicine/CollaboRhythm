@@ -87,7 +87,7 @@ package collaboRhythm.workstation.controller.apps
 			_collaborationRoomNetConnectionServiceProxy = value;
 		}
 
-		public function createApp(appClass:Class, appName:String):WorkstationAppControllerBase
+		public function createApp(appClass:Class, appName:String=null):WorkstationAppControllerBase
 		{
 			// TODO:
 //			var appClass:Class = getClassByAlias(appType);
@@ -101,7 +101,9 @@ package collaboRhythm.workstation.controller.apps
 			
 			var app:WorkstationAppControllerBase = appObject as WorkstationAppControllerBase; 
 			
-			app.name = appName;
+			if (appName != null)
+				app.name = appName;
+			
 			app.healthRecordService = _healthRecordService;
 			app.user = _user;
 			app.collaborationRoomNetConnectionServiceProxy = _collaborationRoomNetConnectionServiceProxy;
