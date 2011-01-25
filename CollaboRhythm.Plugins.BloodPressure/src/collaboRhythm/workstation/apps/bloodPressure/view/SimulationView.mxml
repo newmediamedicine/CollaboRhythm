@@ -13,7 +13,9 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 width="260" height="800" 		 resize="resizeHandler(event)"
+		 width="260" height="800"
+		 clipAndEnableScrolling="true"
+		 resize="resizeHandler(event)"
 		 creationComplete="creationCompleteHandler(event)" xmlns:view="collaboRhythm.workstation.apps.bloodPressure.view.*">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
@@ -76,12 +78,10 @@
 			private static const maxPlugRatio:Number = 2.0;
 			private static const goalConcentration:Number = 0.05;
 			private static const medicationGroupMinHeight:Number = 40;
-			private static const medicationGroupUnscaledWidth:Number = 240;
-			private static const aspectRatioMin:Number = 0.85;
-			private static const aspectRatioMax:Number = 1.25;
 			
 			[Bindable]
 			private var _simulationModel:SimulationModel;
+			[Bindable]
 			private var _bloodPressureModel:BloodPressureModel;
 			
 			public function get isRunning():Boolean
@@ -186,9 +186,6 @@
 				else
 				{
 					simulationImageAdherence.visible = false;
-//					metforminLow.visible = false;
-//					metforminMiddle.visible = false;
-//					metforminGoal.visible = false;
 				}
 			}
 					
@@ -203,38 +200,41 @@
 			
 			private function resizeChildren():void
 			{
-				if (_medicationOnlyMode)
+				if (this.height > 0 && this.width > 0)
 				{
-					bloodPressureMeter.visible = false;
-					bodyGroup.visible = false;
-					systolicLabel.visible = false;
-					
-					medicationGroup.right = NaN;
-					medicationGroup.top = NaN;
-					if (this.measuredHeight > medicationGroupMinHeight)
+					if (_medicationOnlyMode)
 					{
-						medicationGroup.height = NaN;
-						medicationGroup.percentHeight = 100;
+						bloodPressureMeter.visible = false;
+						bodyGroup.visible = false;
+						systolicLabel.visible = false;
+						
+						medicationGroup.right = NaN;
+						medicationGroup.top = NaN;
+						if (this.measuredHeight > medicationGroupMinHeight)
+						{
+							medicationGroup.height = NaN;
+							medicationGroup.percentHeight = 100;
+						}
+						else
+						{
+							medicationGroup.percentHeight = NaN;
+							medicationGroup.height = medicationGroupMinHeight;
+						}
 					}
 					else
 					{
+						bloodPressureMeter.visible = true;
+						bodyGroup.visible = true;
+						systolicLabel.visible = true;
+						
+						medicationGroup.right = 10;
+						medicationGroup.top = 10;
 						medicationGroup.percentHeight = NaN;
-						medicationGroup.height = medicationGroupMinHeight;
+						medicationGroup.height = Math.max(medicationGroupMinHeight, this.height - bodyGroup.height - medicationGroup.y);
 					}
-				}
-				else
-				{
-					bloodPressureMeter.visible = true;
-					bodyGroup.visible = true;
-					systolicLabel.visible = true;
 					
-					medicationGroup.right = 20;
-					medicationGroup.top = 10;
-					medicationGroup.percentHeight = NaN;
-					medicationGroup.height = Math.max(medicationGroupMinHeight, bodyGroup.y - medicationGroup.y);
+					medicationGroup.width = this.width;
 				}
-				
-				medicationGroup.width = this.width;
 			}
 
 			protected function resizeHandler(event:ResizeEvent):void
@@ -247,48 +247,11 @@
 				resizeChildren();
 			}
 
-			protected function medicationGroup_resizeHandler(event:ResizeEvent):void
-			{
-				if (medicationGroup.width > 0 && medicationGroup.height > 0)
-				{
-					// constrain the aspect ratio by changing the percentWidth/percentHeight when appropriate
-					var aspectRatio:Number = medicationGroup.width / medicationGroup.height;
-					
-//					aspectRatio = Math.max(aspectRatioMin, Math.min(aspectRatioMax, aspectRatio));
-					if (aspectRatio > aspectRatioMax)
-					{
-//						nephronSimulationView.height = medicationGroup.measuredHeight;
-//						nephronSimulationView.width = medicationGroup.measuredHeight * aspectRatioMax;
-						nephronSimulationView.percentHeight = 100;
-//						nephronSimulationView.percentWidth = 100 * medicationGroup.width / (medicationGroup.height * aspectRatioMax);
-						nephronSimulationView.percentWidth = 100 * aspectRatioMax / aspectRatio;
-					}
-					else if (aspectRatio < aspectRatioMin)
-					{
-//						nephronSimulationView.height = medicationGroup.measuredWidth / aspectRatioMin;
-//						nephronSimulationView.width = medicationGroup.measuredWidth;
-//						nephronSimulationView.percentHeight = 100 * medicationGroup.height / (medicationGroup.width / aspectRatioMin);
-						nephronSimulationView.percentHeight = 100 * aspectRatio / aspectRatioMin;
-						nephronSimulationView.percentWidth = 100;
-					}
-					else
-					{
-//						nephronSimulationView.height = medicationGroup.measuredHeight;
-//						nephronSimulationView.width = medicationGroup.measuredWidth;
-						nephronSimulationView.percentHeight = 100;
-						nephronSimulationView.percentWidth = 100;
-					}
-					
-					nephronSimulationView.scaleX = nephronSimulationView.percentWidth / 100 * medicationGroup.width / medicationGroupUnscaledWidth;
-					nephronSimulationView.scaleY = nephronSimulationView.scaleX;
-				}
-			}
-
 		]]>
 	</fx:Script>
 	<s:Group id="bodyGroup" bottom="10" right="20" >
-		<mx:Image id="simulationNoAdherenceImage" height="564" width="222" bottom="0" source="@Embed(source='resources/images/apps/bloodPressure/simulationNoAdherence.png')" smoothBitmapContent="true" visible="true"/>
-		<mx:Image id="simulationImageAdherence" bottom="0" source="@Embed(source='resources/images/apps/bloodPressure/simulation.png')" smoothBitmapContent="true" visible="false"/>
+		<mx:Image id="simulationNoAdherenceImage" height="564" width="222" bottom="0" source="@Embed(source='resources/images/apps/bloodPressure/simulationNoAdherence.png')" smoothBitmapContent="true" visible="{!_bloodPressureModel.showAdherence}"/>
+		<mx:Image id="simulationImageAdherence" bottom="0" source="@Embed(source='resources/images/apps/bloodPressure/simulation.png')" smoothBitmapContent="true" visible="{_bloodPressureModel.showAdherence}"/>
 		<!--
 		height="586" width="222" 
 		
@@ -379,33 +342,10 @@
 			</s:stroke>
 		</s:Rect>
 	</s:Group>
-	<s:Group id="medicationGroup" right="20" top="10" height="50" width="240" doubleClickEnabled="true" doubleClick="medicationGroup_doubleClickHandler(event)" resize="medicationGroup_resizeHandler(event)">
-	<!--
-	height="{bodyGroup.y - medicationGroup.y}"
-		<mx:Image id="metforminLow" height="100%" source="@Embed(source='resources/images/apps/bloodPressure/metforminLow.png')" smoothBitmapContent="true" visible="false" alpha="{updateMetforminImage(_simulationModel.concentration)}"/>
-		<mx:Image id="metforminMiddle" height="100%" source="@Embed(source='resources/images/apps/bloodPressure/metforminMiddle.png')" smoothBitmapContent="true" visible="false"/>
-		<mx:Image id="metforminGoal" height="100%" source="@Embed(source='resources/images/apps/bloodPressure/metforminGoal.png')" smoothBitmapContent="true" visible="false"/>
-		<s:Rect  id="nephronSimulationViewRect" width="{medicationGroup.width}" height="{medicationGroup.height}" verticalCenter="0" horizontalCenter="0">
-			<s:fill>
-				<s:SolidColor color="0x0000FF" alpha="0.5"/>
-			</s:fill>
-		</s:Rect>
-	-->
-		<view:NephronSimulationView id="nephronSimulationView" width="{medicationGroup.width}" height="{medicationGroup.height}" verticalCenter="0" horizontalCenter="0" plugRatio="{updateNephronSimulation(_simulationModel.concentration)}"/>
+	<s:Group id="medicationGroup" right="10" top="10" height="50" width="240" doubleClickEnabled="true" doubleClick="medicationGroup_doubleClickHandler(event)">
+		<s:layout>
+			<view:ScaleToFitLayout unscaledWidth="240" aspectRatioMin="0.85" aspectRatioMax="1.25"/>
+		</s:layout>
+		<view:NephronSimulationView id="nephronSimulationView" plugRatio="{updateNephronSimulation(_simulationModel.concentration)}"/>
 	</s:Group>
-<!--	<s:VGroup id="simulationGroup" height="100%" width="300" gap="0" paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5">
-		<s:Label width="100%">Blood Pressure Simulation</s:Label>
-		<s:Label width="100%">Focus Date:
-		{model.simulation.date.toString()}</s:Label>
-		<s:Label width="100%">Previous Data Point Date:
-		{model.simulation.dataPointDate.toString()}</s:Label>
-		<s:Label width="100%" fontSize="16">Systolic: {model.simulation.systolic}</s:Label>
-		<s:Label width="100%">Diastolic: {model.simulation.diastolic}</s:Label>
-		<s:Label width="100%">Medication Concentration: {model.simulation.concentration}</s:Label>
-		<mx:Image id="simulationImage" source="@Embed(source='resources/images/apps/bloodPressure/circulatorySystemWarning.png')" height="250" smoothBitmapContent="true">
-			<mx:filters>
-				<s:GlowFilter id="simulationGlow" color="0xFF0000" blurX="32" blurY="32"/>
-			</mx:filters>
-		</mx:Image>
-	</s:VGroup>-->
 </s:Group>

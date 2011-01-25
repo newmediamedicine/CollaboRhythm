@@ -139,7 +139,8 @@ package collaboRhythm.workstation.apps.bloodPressure.controller
 		{
 			super.close();
 			
-			_fullView.simulationView.isRunning = false;
+			if (_fullView)
+				_fullView.simulationView.isRunning = false;
 		}
 
 		public override function get defaultName():String

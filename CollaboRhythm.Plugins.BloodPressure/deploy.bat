@@ -1,0 +1,4 @@
+xcopy /Y bin-debug\collaboRhythm\workstation\apps\bloodPressure\controller\BloodPressurePluginModule.swf "C:\Users\sgilroy\AppData\Roaming\CollaboRhythm.Workstation\Local Store\plugins"
+xcopy /Y bin-debug\collaboRhythm\workstation\apps\bloodPressure\controller\BloodPressurePluginModule.swf "C:\Users\sgilroy\AppData\Roaming\CollaboRhythm.Mobile.debug\Local Store\plugins"
+"C:\Program Files (x86)\Android\android-sdk-windows\platform-tools\adb" push bin-debug\collaboRhythm\workstation\apps\bloodPressure\controller\BloodPressurePluginModule.swf "/data/local/air.CollaboRhythm.Mobile.debug/CollaboRhythm.Mobile.debug/Local Store/plugins"
+@echo Deployment complete.

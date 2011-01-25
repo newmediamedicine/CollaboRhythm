@@ -25,15 +25,9 @@
 			import Box2D.Common.Math.*;
 			import Box2D.Dynamics.*;
 			import Box2D.Dynamics.Joints.b2Joint;
-			import Box2D.Dynamics.Joints.b2JointDef;
 			import Box2D.Dynamics.Joints.b2MouseJoint;
 			import Box2D.Dynamics.Joints.b2MouseJointDef;
 			import Box2D.Dynamics.Joints.b2WeldJointDef;
-			
-			import com.hurlant.crypto.symmetric.NullPad;
-			
-			import flash.display.Sprite;
-			import flash.events.Event;
 			
 			import mx.core.IVisualElement;
 			import mx.core.UIComponent;
