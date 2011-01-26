@@ -9,9 +9,11 @@
  *
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
 */
-package collaboRhythm.workstation.apps.bloodPressure.view
+package collaboRhythm.shared.bloodSolutesSimulation.view
 {
 	import Box2D.Dynamics.Contacts.b2Contact;
+	import Box2D.Dynamics.Joints.b2Joint;
+	import Box2D.Dynamics.Joints.b2WeldJointDef;
 	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2ContactListener;
 	
@@ -46,6 +48,21 @@ package collaboRhythm.workstation.apps.bloodPressure.view
 				bodyInfoB.hasBeenBlocked = true;
 			else if (bodyInfoA.isSolute && bodyInfoB.isSolute && bodyInfoA.hasBeenBlocked)
 				bodyInfoB.hasBeenBlocked = true;
+			else if (bodyInfoA.isAntibody && bodyInfoA.plugJoint == null && bodyInfoB.isSolute && bodyInfoB.plugJoint == null)
+				bindAntibodyToSolute(bodyInfoA, bodyInfoB);
+		}
+		
+		private function bindAntibodyToSolute(antibody:BodyInfo, solute:BodyInfo):void
+		{
+			var jointDef:b2WeldJointDef = new b2WeldJointDef();
+			jointDef.bodyA = antibody.body;
+			jointDef.bodyB = solute.body;
+//			jointDef.localAnchorA = new;
+			jointDef.collideConnected = false;
+			var joint:b2Joint = antibody.body.GetWorld().CreateJoint(jointDef);
+			
+			antibody.plugJoint = joint;
+			solute.plugJoint = joint;
 		}
 	}
 }

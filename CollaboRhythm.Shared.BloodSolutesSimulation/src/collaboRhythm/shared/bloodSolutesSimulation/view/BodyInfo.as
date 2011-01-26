@@ -9,10 +9,11 @@
  *
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
 */
-package collaboRhythm.workstation.apps.bloodPressure.view
+package collaboRhythm.shared.bloodSolutesSimulation.view
 {
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.Joints.b2Joint;
+	import Box2D.Dynamics.b2Body;
 	
 	import flash.display.Sprite;
 
@@ -22,15 +23,27 @@ package collaboRhythm.workstation.apps.bloodPressure.view
 		private var _pumpAffinity:int;
 		private var _isSolute:Boolean;
 		private var _isPlug:Boolean;
+		private var _isAntibody:Boolean;
 		private var _hasBeenBlocked:Boolean;
 		private var _index:int;
 		private var _shouldBeDestroyed:Boolean;
 		private var _plugJoint:b2Joint;
 		private var _stuckTime:Number = 0;
 		private var _stuckPosition:b2Vec2;
+		private var _body:b2Body;
 		
 		public function BodyInfo()
 		{
+		}
+
+		public function get body():b2Body
+		{
+			return _body;
+		}
+
+		public function set body(value:b2Body):void
+		{
+			_body = value;
 		}
 
 		public function get stuckPosition():b2Vec2
@@ -131,6 +144,16 @@ package collaboRhythm.workstation.apps.bloodPressure.view
 		public function set isPlug(value:Boolean):void
 		{
 			_isPlug = value;
+		}
+
+		public function get isAntibody():Boolean
+		{
+			return _isAntibody;
+		}
+
+		public function set isAntibody(value:Boolean):void
+		{
+			_isAntibody = value;
 		}
 
 	}

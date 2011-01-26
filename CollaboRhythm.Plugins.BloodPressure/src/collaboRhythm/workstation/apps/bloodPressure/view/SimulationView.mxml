@@ -16,7 +16,7 @@
 		 width="260" height="800"
 		 clipAndEnableScrolling="true"
 		 resize="resizeHandler(event)"
-		 creationComplete="creationCompleteHandler(event)" xmlns:view="collaboRhythm.workstation.apps.bloodPressure.view.*">
+		 creationComplete="creationCompleteHandler(event)" xmlns:view="collaboRhythm.workstation.apps.bloodPressure.view.*" xmlns:view1="collaboRhythm.shared.bloodSolutesSimulation.view.*">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -344,8 +344,8 @@
 	</s:Group>
 	<s:Group id="medicationGroup" right="10" top="10" height="50" width="240" doubleClickEnabled="true" doubleClick="medicationGroup_doubleClickHandler(event)">
 		<s:layout>
-			<view:ScaleToFitLayout unscaledWidth="240" aspectRatioMin="0.85" aspectRatioMax="1.25"/>
+			<view1:ScaleToFitLayout unscaledWidth="240" aspectRatioMin="0.85" aspectRatioMax="1.25"/>
 		</s:layout>
-		<view:NephronSimulationView id="nephronSimulationView" plugRatio="{updateNephronSimulation(_simulationModel.concentration)}"/>
+		<view1:BloodSolutesSimulationView id="nephronSimulationView" plugRatio="{updateNephronSimulation(_simulationModel.concentration)}"/>
 	</s:Group>
 </s:Group>

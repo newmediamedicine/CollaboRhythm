@@ -1,4 +1,4 @@
-package collaboRhythm.workstation.apps.bloodPressure.view
+package collaboRhythm.shared.bloodSolutesSimulation.view
 {
 	import flash.geom.PerspectiveProjection;
 	

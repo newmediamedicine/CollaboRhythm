@@ -16,6 +16,7 @@
       <libraryPathEntry kind="3" linkType="1" path="/McCuneChart/bin/McCuneChart.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="/indivo_client_flash/bin/indivo_client_flash.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="/CollaboRhythm.Shared.PluginsSupport/bin/CollaboRhythm.Shared.PluginsSupport.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="/CollaboRhythm.Shared.BloodSolutesSimulation/bin/CollaboRhythm.Shared.BloodSolutesSimulation.swc" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
