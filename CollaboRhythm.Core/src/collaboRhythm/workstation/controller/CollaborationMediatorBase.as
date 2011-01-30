@@ -13,7 +13,7 @@ package collaboRhythm.workstation.controller
 {
 	import castle.flexbridge.kernel.IKernel;
 	
-	import collaboRhythm.shared.pluginsSupport.IFactoryContainer;
+	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
 	import collaboRhythm.workstation.apps.problems.model.ProblemsHealthRecordService;
 	import collaboRhythm.workstation.controller.apps.WorkstationAppControllersMediator;
 	import collaboRhythm.workstation.model.*;
@@ -126,7 +126,7 @@ package collaboRhythm.workstation.controller
 					settings,
 					healthRecordService,
 					_collaborationController.collaborationModel.collaborationRoomNetConnectionService,
-					applicationController.factoryContainer
+					applicationController.componentContainer
 				);
 				
 				healthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE, healthRecordService_completeHandler);

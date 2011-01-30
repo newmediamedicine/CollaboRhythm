@@ -2,6 +2,6 @@ package collaboRhythm.shared.pluginsSupport
 {
 	public interface IPlugin
 	{
-		function registerFactories(factoryMediator:IFactoryContainer):void;
+		function registerComponents(componentContainer:IComponentContainer):void;
 	}
 }

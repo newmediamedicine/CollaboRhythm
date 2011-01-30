@@ -14,9 +14,9 @@ package collaboRhythm.workstation.controller
 	import castle.flexbridge.kernel.DefaultKernel;
 	import castle.flexbridge.kernel.IKernel;
 	
-	import collaboRhythm.core.pluginsManagement.DefaultFactoryContainer;
+	import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
 	import collaboRhythm.core.pluginsManagement.PluginLoader;
-	import collaboRhythm.shared.pluginsSupport.IFactoryContainer;
+	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
 	import collaboRhythm.workstation.model.Settings;
 	import collaboRhythm.workstation.model.User;
 	import collaboRhythm.workstation.model.services.DefaultCurrentDateSource;
@@ -67,12 +67,12 @@ package collaboRhythm.workstation.controller
 		protected var _settings:Settings;
 		protected var _collaborationMediator:CollaborationMediatorBase;
 		protected var logger:ILogger;
-		protected var _factoryContainer:IFactoryContainer;
+		protected var _componentContainer:IComponentContainer;
 		protected var _pluginLoader:PluginLoader;
 		
-		public function get factoryContainer():IFactoryContainer
+		public function get componentContainer():IComponentContainer
 		{
-			return _factoryContainer;
+			return _componentContainer;
 		}
 
 		public function get settings():Settings
@@ -183,9 +183,9 @@ package collaboRhythm.workstation.controller
 			dateSource.targetDate = _settings.targetDate;
 			_kernel.registerComponentInstance("CurrentDateSource", ICurrentDateSource, dateSource);
 			
-			_factoryContainer = new DefaultFactoryContainer();
+			_componentContainer = new DefaultComponentContainer();
 			_pluginLoader = new PluginLoader();
-			_pluginLoader.factoryContainer = factoryContainer;
+			_pluginLoader.componentContainer = componentContainer;
 			_pluginLoader.loadPlugins();
 		}
 		

@@ -1,27 +1,24 @@
 package collaboRhythm.plugins.examples.microphoneExamples.controller
 {
-	import collaboRhythm.shared.pluginsSupport.IFactoryContainer;
+	import castle.flexbridge.reflection.ReflectionUtils;
+	
+	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
 	import collaboRhythm.workstation.controller.apps.AppControllerInfo;
 	
-	import mx.core.IFactory;
 	import mx.modules.ModuleBase;
 	
-	public class MicrophoneExamplesPluginModule extends ModuleBase implements IPlugin, IFactory
+	public class MicrophoneExamplesPluginModule extends ModuleBase implements IPlugin
 	{
 		public function MicrophoneExamplesPluginModule()
 		{
 			super();
 		}
 		
-		public function registerFactories(factoryMediator:IFactoryContainer):void
+		public function registerComponents(componentContainer:IComponentContainer):void
 		{
-			factoryMediator.addFactory(this, AppControllerInfo);
-		}
-		
-		public function newInstance():*
-		{
-			return new AppControllerInfo(MicrophoneExamplesAppController);
+			var typeName:String = ReflectionUtils.getClassInfo(MicrophoneExamplesAppController).name;
+			componentContainer.registerComponentInstance(typeName, AppControllerInfo, new AppControllerInfo(MicrophoneExamplesAppController));
 		}
 	}
 }

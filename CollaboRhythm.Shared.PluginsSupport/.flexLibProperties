@@ -2,7 +2,7 @@
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
     <classEntry path="collaboRhythm.shared.pluginsSupport.IPlugin"/>
-    <classEntry path="collaboRhythm.shared.pluginsSupport.IFactoryContainer"/>
+    <classEntry path="collaboRhythm.shared.pluginsSupport.IComponentContainer"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

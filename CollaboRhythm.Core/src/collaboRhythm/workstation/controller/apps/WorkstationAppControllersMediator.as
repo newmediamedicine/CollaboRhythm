@@ -13,7 +13,7 @@ package collaboRhythm.workstation.controller.apps
 {
 	import castle.flexbridge.reflection.Void;
 	
-	import collaboRhythm.shared.pluginsSupport.IFactoryContainer;
+	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
 	import collaboRhythm.workstation.apps.allergies.controller.AllergiesAppController;
 	import collaboRhythm.workstation.apps.bloodPressureAgent.controller.BloodPressureAgentAppController;
 	import collaboRhythm.workstation.apps.equipment.controller.EquipmentAppController;
@@ -62,7 +62,7 @@ package collaboRhythm.workstation.controller.apps
 		protected var _healthRecordService:CommonHealthRecordService;
 		private var _collaborationRoomNetConnectionService:CollaborationRoomNetConnectionService;
 		private var _factory:WorkstationAppControllerFactory;
-		private var _factoryContainer:IFactoryContainer;
+		private var _componentContainer:IComponentContainer;
 		
 		public function WorkstationAppControllersMediator(
 			widgetParentContainer:IVisualElementContainer,
@@ -71,7 +71,7 @@ package collaboRhythm.workstation.controller.apps
 			settings:Settings,
 			healthRecordService:CommonHealthRecordService,
 			collabortionNetConnectionService:CollaborationRoomNetConnectionService,
-			factoryContainer:IFactoryContainer
+			componentContainer:IComponentContainer
 		)
 		{
 			_widgetParentContainer = widgetParentContainer;
@@ -80,14 +80,14 @@ package collaboRhythm.workstation.controller.apps
 			_settings = settings;
 			_healthRecordService = healthRecordService;
 			_collaborationRoomNetConnectionService = collabortionNetConnectionService;
-			_factoryContainer = factoryContainer;
+			_componentContainer = componentContainer;
 			
 			_collaborationRoomNetConnectionService.netConnection.client.showFullView = showFullView;
 		}
 		
-		protected function get factoryContainer():IFactoryContainer
+		protected function get componentContainer():IComponentContainer
 		{
-			return _factoryContainer;
+			return _componentContainer;
 		}
 		
 		public function get fullParentContainer():IVisualElementContainer
@@ -158,13 +158,11 @@ package collaboRhythm.workstation.controller.apps
 		
 		public function createDynamicApps():void
 		{
-			var factories:Vector.<IFactory> = factoryContainer.getFactories(AppControllerInfo);
+			var infoArray:Array = componentContainer.resolveAll(AppControllerInfo);
 			
-			for each (var appControllerInfoFactory:IFactory in factories)
+			for each (var info:AppControllerInfo in infoArray)
 			{
-				var appControllerInfo:AppControllerInfo = appControllerInfoFactory.newInstance() as AppControllerInfo;
-				
-				createApp(appControllerInfo.appControllerClass);
+				createApp(info.appControllerClass);
 			}
 		}
 		

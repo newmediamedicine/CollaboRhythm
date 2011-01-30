@@ -1,6 +1,6 @@
 package collaboRhythm.core.pluginsManagement
 {
-	import collaboRhythm.shared.pluginsSupport.IFactoryContainer;
+	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
 	
 	import flash.filesystem.File;
@@ -20,7 +20,7 @@ package collaboRhythm.core.pluginsManagement
 		private var moduleLoaders:Vector.<ModuleLoader> = new Vector.<ModuleLoader>();
 		private var _applicationPluginsDirectoryPath:String;
 		private var _userPluginsDirectoryPath:String;
-		private var _factoryContainer:IFactoryContainer;
+		private var _componentContainer:IComponentContainer;
 		
 		private static const PLUGINS_DIRECTORY_NAME:String = "plugins";
 		
@@ -34,14 +34,14 @@ package collaboRhythm.core.pluginsManagement
 			_userPluginsDirectoryPath = _userPluginsDirectoryPath.replace("/data/data", "/data/local");
 		}
 		
-		public function get factoryContainer():IFactoryContainer
+		public function get componentContainer():IComponentContainer
 		{
-			return _factoryContainer;
+			return _componentContainer;
 		}
 
-		public function set factoryContainer(value:IFactoryContainer):void
+		public function set componentContainer(value:IComponentContainer):void
 		{
-			_factoryContainer = value;
+			_componentContainer = value;
 		}
 
 		public function get userPluginsDirectoryPath():String
@@ -98,7 +98,7 @@ package collaboRhythm.core.pluginsManagement
 			{
 				loadedPlugins.push(plugin);
 				
-				plugin.registerFactories(factoryContainer);
+				plugin.registerComponents(componentContainer);
 			}
 		}
 		
