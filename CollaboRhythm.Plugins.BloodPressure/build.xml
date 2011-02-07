@@ -6,7 +6,7 @@
 		three locations:
 			1. The plugins folder on the local development machine for CollaboRhythm.Workstation (which should be run/debugged locally)
 			2. The plugins folder on the local development machine for CollaboRhythm.Mobile (which should be run/debugged locally via the emulator)
-			3. The plugins folder on the a connected Android device for CollaboRhythm.Mobile (which should be run/debugged on the device)
+			3. The plugins folder on a connected Android device for CollaboRhythm.Mobile (which should be run/debugged on the device)
 			
 		Note that this script does NOT currently build the plugin project. Instead, it relies on Flash Builder to build the project and generate
 		the appropriate module SWF. This script is ONLY for deploying the plugin.
