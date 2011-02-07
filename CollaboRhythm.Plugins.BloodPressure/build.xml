@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="CollaboRhythm.Plugins.BloodPressure">
+
+	<!--
+		This is a build script for deploying a CollaboRhythm plugin. It currently deploys the plugin to
+		three locations:
+			1. The plugins folder on the local development machine for CollaboRhythm.Workstation (which should be run/debugged locally)
+			2. The plugins folder on the local development machine for CollaboRhythm.Mobile (which should be run/debugged locally via the emulator)
+			3. The plugins folder on the a connected Android device for CollaboRhythm.Mobile (which should be run/debugged on the device)
+			
+		Note that this script does NOT currently build the plugin project. Instead, it relies on Flash Builder to build the project and generate
+		the appropriate module SWF. This script is ONLY for deploying the plugin.
+	-->
+	
+	<property environment="env"/>
+	<property name="app.data" location="${user.home}/AppData/Roaming" />
+	<property name="collaboRhythm.workstation.pluginsPath" location="${app.data}/CollaboRhythm.Workstation/Local Store/plugins" />
+	<property name="collaboRhythm.mobile-emulator.pluginsPath" location="${app.data}/CollaboRhythm.Mobile.debug/Local Store/plugins" />
+	<property name="collaboRhythm.mobile-device.pluginsPath" value="/data/local/air.CollaboRhythm.Mobile.debug/CollaboRhythm.Mobile.debug/Local Store/plugins" />
+	
+	<!--
+		The sdk.dir is the path to the Android SDK on your local machine.
+		To override this value on your local machine, you should create a file named "local.properties" in the same directory as this build.xml file.
+		This is generally done using the 'android' tool, but you can also create the file manually.
+		In local.properties, define a value for sdk.dir. For example:
+		 
+		sdk.dir=C:\\Program Files (x86)\\Android\\android-sdk-windows
+	-->
+	<property name="sdk.dir" value="C:\\Program Files (x86)\\Android\\android-sdk-windows" />
+	
+    <!-- The local.properties file is created and updated by the 'android' tool.
+         It contains the path to the SDK. It should *NOT* be checked in in Version
+         Control Systems. -->
+    <property file="local.properties" />
+	
+    <!-- The build.properties file can be created by you and is never touched
+         by the 'android' tool. This is the place to change some of the default property values
+         used by the Ant rules.
+         Here are some properties you may want to change/update:
+
+         application.package
+             the name of your application package as defined in the manifest. Used by the
+             'uninstall' rule.
+         source.dir
+             the name of the source directory. Default is 'src'.
+         out.dir
+             the name of the output directory. Default is 'bin'.
+
+         Properties related to the SDK location or the project target should be updated
+          using the 'android' tool with the 'update' action.
+
+         This file is an integral part of the build system for your application and
+         should be checked in in Version Control Systems.
+
+         -->
+    <property file="build.properties" />
+	
+	
+	<!-- Check for the build.properties file and force the user to create one before compiling. -->
+<!--	<available file="build.properties" filePath="." property="customBuildPropertiesExist" />-->
+<!--	<fail unless="customBuildPropertiesExist" message="You must create a file called 'build.properties' with your local settings in order to use ant with this project." />-->
+<!--	<property file="build.properties" />-->
+<!--	<echo message="Successfully loaded properties." />-->
+	
+    <!-- The default.properties file is created and updated by the 'android' tool, as well
+         as ADT.
+         This file is an integral part of the build system for your application and
+         should be checked in in Version Control Systems. -->
+    <property file="default.properties" />
+	
+    <!-- Custom Android task to deal with the project target, and import the proper rules.
+         This requires ant 1.6.0 or above. -->
+    <path id="android.antlibs">
+        <pathelement path="${sdk.dir}/tools/lib/anttasks.jar" />
+        <pathelement path="${sdk.dir}/tools/lib/sdklib.jar" />
+        <pathelement path="${sdk.dir}/tools/lib/androidprefs.jar" />
+        <pathelement path="${sdk.dir}/tools/lib/apkbuilder.jar" />
+        <pathelement path="${sdk.dir}/tools/lib/jarutils.jar" />
+    </path>
+
+    <taskdef name="setup"
+        classname="com.android.ant.SetupTask"
+        classpathref="android.antlibs" />
+
+    <!-- Execute the Android Setup task that will setup some properties specific to the target,
+         and import the build rules files.
+
+         The rules file is imported from
+            <SDK>/platforms/<target_platform>/templates/android_rules.xml
+
+         To customize some build steps for your project:
+         - copy the content of the main node <project> from android_rules.xml
+         - paste it in this build.xml below the <setup /> task.
+         - disable the import by changing the setup task below to <setup import="false" />
+
+         This will ensure that the properties are setup correctly but that your customized
+         build steps are used.
+    -->
+<!--    <setup import="false" /> -->
+
+<!-- TODO: Use contributed taskdef to do a "for" loop
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath>
+            <pathelement location="/path/to/ant-contrib-1.0b3.jar"/>
+        </classpath>
+    </taskdef>
+-->
+	
+	<!-- Add this snippet to your build.xml to get flex ant tasks to work without having to copy the jar into the ant/lib folder -->
+	
+	<!-- Optional: define these two values in your build.properties file. -->
+	<!--The version of the Flex SDK you are using. -->
+	<property name="flex.sdkVersion" value="4.5.0" />
+	<!-- The home directory for flex on your computer. -->
+	<property name="flex.path" location="C:/Program Files (x86)/Adobe/Adobe Flash Builder Burrito" />
+	
+	<!-- The Location of FlexSDK on your Computer -->
+	<property name="flex.sdkPath" location="${flex.path}/sdks/${flex.sdkVersion}"/>
+	<property name="FLEX_HOME" location="${flex.sdkPath}" description="Required by flex ant tasks" />
+	<!-- The Location of flex compilers on your Computer -->
+	<property name="flex.binaryPath" location="${flex.sdkPath}/bin"/>
+	
+	<!-- path to the flex task libraries. -->
+	<path id="flextasks.classpath">
+		<fileset dir="${FLEX_HOME}/ant/lib">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	<typedef resource="flexTasks.tasks" classpathref="flextasks.classpath" />
+	
+	<!--
+		The Location of your Application Classes on your Computer
+		NOTE: This Path should be reletive to the build.xml file.
+		NOTE: ${basedir} is an ant property that represents the directory holding the build.xml file
+	-->
+	<property name="project.sourcePath" location="${basedir}/src"/>
+	<property name="project.libraryPath" location="${basedir}/libs"/>
+	
+	<!-- The Location you wish to output to on your Computer -->
+	<property name="project.output.binaryPath" location="${basedir}/bin-debug"/>
+	<property name="project.output.fileName" value="MyApp" />
+	
+	<target name="build" description="Compiles source into a SWF.">
+		<echo>Compiling SWF.</echo>
+		<mxmlc file="MyApp.mxml" output="${project.output.binaryPath}/${project.output.fileName}.swf">
+			<source-path path-element="${project.sourcePath}" />
+			<library-path dir="${project.libraryPath}" includes="*" />
+		</mxmlc>
+		<echo>Success! Created ${project.output.fileName}.swf</echo>
+	</target>
+	
+	<!-- Copy all modules. Note that we don't have a good way to distinguish module SWFs from other SWFs,
+		 so we are relying on the convention of including Module or Plugin in the name of the plugin module SWFs -->
+	
+	<!--
+		TODO: Support multiple plugin SWFs; currently, if there is more than one SWF that matches the criteria,
+		${toString:project.output.modulePaths} will look like first.swf;second.swf and the adb push will fail.
+	-->
+    <path id="project.output.modulePaths">
+		<fileset id="project.output.modulePaths.fileset" dir="${project.output.binaryPath}" casesensitive="no">
+		  <include name="**/*Module*.swf"/>
+		  <include name="**/*Plugin*.swf"/>
+		</fileset>
+    </path>
+	
+	<echo>Deploying plugin: ${toString:project.output.modulePaths}</echo>
+		
+	<copy todir="${collaboRhythm.workstation.pluginsPath}" flatten="true" verbose="true">
+		<fileset refid="project.output.modulePaths.fileset" />
+	</copy>
+	<copy todir="${collaboRhythm.mobile-emulator.pluginsPath}" flatten="true" verbose="true">
+		<fileset refid="project.output.modulePaths.fileset" />
+	</copy>
+	
+	<echo>Pushing ${toString:project.output.modulePaths} to ${collaboRhythm.mobile-device.pluginsPath}</echo>
+	<exec executable="${sdk.dir}/platform-tools/adb">
+		<arg value="push"/>
+		<arg value="${toString:project.output.modulePaths}"/> <!-- Note: this only works if there is just one matching plugin file -->
+		<arg value="${collaboRhythm.mobile-device.pluginsPath}"/>
+	</exec>
+	
+	<echo>Deployment of plugin complete. ------------------------|</echo>
+</project>
