@@ -20,14 +20,12 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[	
-			import collaboRhythm.workstation.apps.medications.model.Medication;
-			import collaboRhythm.workstation.apps.medications.model.MedicationsModel;
-			import collaboRhythm.workstation.apps.schedule.controller.ScheduleFullViewController;
 			import collaboRhythm.workstation.apps.schedule.model.AdherenceGroup;
-			import collaboRhythm.workstation.apps.schedule.model.Measurement;
+			import collaboRhythm.workstation.apps.schedule.model.ScheduleModel;
 			import collaboRhythm.workstation.apps.schedule.model.MoveData;
 			import collaboRhythm.workstation.apps.schedule.model.ScheduleItemBase;
-			import collaboRhythm.workstation.apps.schedule.model.ScheduleModel;
+			import collaboRhythm.workstation.apps.schedule.model.Measurement;
+			import collaboRhythm.workstation.apps.schedule.controller.ScheduleFullViewController;
 			
 			import mx.binding.utils.BindingUtils;
 			import mx.collections.ArrayCollection;
@@ -60,7 +58,7 @@
 			private var _scheduleItemsCollection:ArrayCollection;
 			private var _adherenceGroupsCollection:ArrayCollection;
 			private var _fullScheduleItemViews:Vector.<FullScheduleItemViewBase>;
-			private var _fullAdherenceGroupViews:Vector.<FullAdherenceGroupView>;
+			private var _fullAdherenceGroupViews:Vector.<FullAdherenceGroupView>;			
 			
 			public function initializeControllerModel(scheduleFullViewController:ScheduleFullViewController, scheduleModel:ScheduleModel):void 
 			{
@@ -152,7 +150,7 @@
 					var fullMedicationView:FullMedicationView = new FullMedicationView();
 					fullMedicationView.scheduleFullView = this;
 					fullMedicationView.scheduleModel = _scheduleModel;
-					fullMedicationView.medication = Medication(scheduleItem);
+					fullMedicationView.medication = scheduleItem;
 					scheduleItemCanvas.addElement(fullMedicationView);
 					_fullScheduleItemViews.push(fullMedicationView);
 				}

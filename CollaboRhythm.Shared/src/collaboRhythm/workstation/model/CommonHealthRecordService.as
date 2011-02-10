@@ -12,7 +12,6 @@
 package collaboRhythm.workstation.model
 {
 	import collaboRhythm.workstation.apps.bloodPressure.model.BloodPressureModel;
-	import collaboRhythm.workstation.apps.medications.model.MedicationsModel;
 	import collaboRhythm.workstation.model.services.ICurrentDateSource;
 	import collaboRhythm.workstation.model.services.WorkstationKernel;
 	
@@ -78,17 +77,17 @@ package collaboRhythm.workstation.model
 				_pha.special_contactGET(null, null, null, user.recordId, accessKey, accessSecret, user);
 		}
 		
-		public function loadMedications(user:User):void
-		{
-			user.medicationsModel.isLoading = true;
-			var params:URLVariables = new URLVariables();
-			params["order_by"] = "-date_started";
-			
-			// now the user already had an empty MedicationsModel when created, and a variable called initialized is used to see if it has been populated, allowing for early binding -- start with an empty MedicationsModel so that views can bind to the instance before the data is finished loading
-			//			user.medicationsModel = new MedicationsModel();
-			if (user.recordId != null && accessKey != null && accessSecret != null)
-				_pha.reports_minimal_X_GET(params, null, null, null, user.recordId, "medications", accessKey, accessSecret, user);
-		}
+//		public function loadMedications(user:User):void
+//		{
+//			user.medicationsModel.isLoading = true;
+//			var params:URLVariables = new URLVariables();
+//			params["order_by"] = "-date_started";
+//			
+//			// now the user already had an empty MedicationsModel when created, and a variable called initialized is used to see if it has been populated, allowing for early binding -- start with an empty MedicationsModel so that views can bind to the instance before the data is finished loading
+//			//			user.medicationsModel = new MedicationsModel();
+//			if (user.recordId != null && accessKey != null && accessSecret != null)
+//				_pha.reports_minimal_X_GET(params, null, null, null, user.recordId, "medications", accessKey, accessSecret, user);
+//		}
 		
 		//		/**
 		//		 * Called when HTTPService call completes the data load of the XML chart info.
@@ -130,20 +129,20 @@ package collaboRhythm.workstation.model
 				if (user.contact.userName != null)
 					this.dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE));
 			}
-			else if (responseXml.name() == "Reports")
-			{
-				user = event.userData as User;
-				
-				//						if (responseXml.Report.Item.Medication
-				
-				if (event.urlRequest.url.indexOf("/medications") > -1)
-				{
-					user.medicationsModel.rawData = responseXml;
-					user.medicationsModel.isLoading = false;
-				}
-				else
-					throw new Error("Unhandled request: " + event.urlRequest.url);
-			}
+//			else if (responseXml.name() == "Reports")
+//			{
+//				user = event.userData as User;
+//				
+//				//						if (responseXml.Report.Item.Medication
+//				
+//				if (event.urlRequest.url.indexOf("/medications") > -1)
+//				{
+//					user.medicationsModel.rawData = responseXml;
+//					user.medicationsModel.isLoading = false;
+//				}
+//				else
+//					throw new Error("Unhandled request: " + event.urlRequest.url);
+//			}
 			else
 			{
 				throw new Error("Unhandled response data: " + responseXml.name() + " " + responseXml);

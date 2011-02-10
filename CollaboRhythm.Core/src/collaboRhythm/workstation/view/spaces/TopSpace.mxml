@@ -34,7 +34,6 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.workstation.apps.schedule.view.ScheduleWidgetView;
 			import collaboRhythm.workstation.view.apps.WidgetGridItemRenderer;
 			import collaboRhythm.view.scroll.TouchScrollingScrollerSkin;
 			

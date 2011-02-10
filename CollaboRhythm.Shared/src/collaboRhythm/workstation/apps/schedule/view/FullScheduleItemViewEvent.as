@@ -11,6 +11,8 @@
 */
 package collaboRhythm.workstation.apps.schedule.view
 {
+
+	
 	import collaboRhythm.workstation.apps.schedule.model.MoveData;
 	
 	import flash.events.Event;

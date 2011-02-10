@@ -14,19 +14,25 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" 
 		 width="20" height="20"
-		 x="{calculateXPosition(_measurement.hour, _measurement.adherenceGroup.adherenceWindow, _scheduleWidgetView.adherenceGroupsGroup.height)}">
+		 x="{calculateXPosition(_medication.hour, _medication.adherenceGroup.adherenceWindow, _scheduleWidgetView.adherenceGroupsGroup.height)}"
+		 visible="{_medication.scheduled}">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
+			import collaboRhythm.workstation.apps.schedule.controller.ScheduleFullViewController;
+			import collaboRhythm.workstation.apps.schedule.model.AdherenceGroup;
 			import collaboRhythm.workstation.apps.schedule.model.Measurement;
+			import collaboRhythm.workstation.apps.schedule.model.MoveData;
+			import collaboRhythm.workstation.apps.schedule.model.ScheduleItemBase;
+			import collaboRhythm.workstation.apps.schedule.model.ScheduleModel;
 			
 			import mx.binding.utils.BindingUtils;
 			import mx.binding.utils.ChangeWatcher;
 			
 			[Bindable]
-			private var _measurement:Measurement;
+			private var _medication:ScheduleItemBase;
 			[Bindable]
 			private var _scheduleWidgetView:ScheduleWidgetView;
 			
@@ -38,21 +44,25 @@
 			public function set scheduleWidgetView(value:ScheduleWidgetView):void
 			{
 				_scheduleWidgetView = value;
-			} 
-			
-			public function get measurement():Measurement
-			{
-				return _measurement;
 			}
 			
-			public function set measurement(value:Measurement):void
+			public function get medication():ScheduleItemBase
 			{
-				_measurement = value;
-				var stackingUpdatedChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(stackingUpdateHandler, _measurement, "stackingUpdated");
+				return _medication;
+			}
+			
+			public function set medication(value:ScheduleItemBase):void
+			{
+				_medication = value;
+				var stackingUpdatedChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(stackingUpdateHandler, _medication, "stackingUpdated");
 			}
 			
 			private function calculateXPosition(hour:Number, adherenceWindow:Number, adherenceGroupsGroupHeight:Number):Number
 			{
+				if (_medication.scheduled == true)
+				{
+					this.visible = true;
+				}
 				return calculateLocation();
 			}
 			
@@ -60,7 +70,10 @@
 			{
 				if (stackingUpdated == true)
 				{
-					calculateLocation();
+					if (_medication.scheduled == true)
+					{
+						calculateLocation();
+					}
 				}
 			}
 			
@@ -69,8 +82,8 @@
 				this.height = _scheduleWidgetView.adherenceGroupsGroup.height / 10;
 				this.width = _scheduleWidgetView.adherenceGroupsGroup.width / 10;
 				
-				var hour:Number = _measurement.hour;
-				var adherenceWindow:Number = _measurement.adherenceGroup.adherenceWindow;
+				var hour:Number = _medication.hour;
+				var adherenceWindow:Number = _medication.adherenceGroup.adherenceWindow;
 				
 				var startAngle:Number = hour*15 - adherenceWindow*15;
 				
@@ -101,7 +114,7 @@
 				medicationSpaces = row3.concat(row2);
 				medicationSpaces = medicationSpaces.concat(row1);
 				
-				var medicationIndex:Number = _measurement.adherenceGroup.scheduleItems.indexOf(_measurement);
+				var medicationIndex:Number = _medication.adherenceGroup.scheduleItems.indexOf(_medication);
 				
 				if (medicationIndex > medicationSpaces.length - 1) {
 					medicationIndex = medicationIndex % (medicationSpaces.length - 1);
@@ -124,5 +137,9 @@
 			}
 		]]>
 	</fx:Script>
-	<mx:Image source="@Embed(source='resources/images/apps/schedule/blood_pressure_measurement_widget.png')" smoothBitmapContent="true"/>
+<!--	<s:Ellipse width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="{_medication.color}"/>
+		</s:fill>
+	</s:Ellipse>-->
 </s:Group>

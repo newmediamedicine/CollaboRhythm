@@ -21,7 +21,7 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.workstation.apps.medications.model.MedicationsModel;
+			import collaboRhythm.workstation.apps.schedule.model.AdherenceGroup;
 			import collaboRhythm.workstation.apps.schedule.model.MoveData;
 			import collaboRhythm.workstation.apps.schedule.model.ScheduleItemBase;
 			import collaboRhythm.workstation.apps.schedule.model.ScheduleModel;

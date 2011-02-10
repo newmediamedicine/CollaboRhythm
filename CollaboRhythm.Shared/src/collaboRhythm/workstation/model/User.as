@@ -12,8 +12,6 @@
 package collaboRhythm.workstation.model
 {	
 	import collaboRhythm.workstation.apps.bloodPressure.model.BloodPressureModel;
-	import collaboRhythm.workstation.apps.medications.model.MedicationsModel;
-	import collaboRhythm.workstation.apps.schedule.model.ScheduleModel;
 	
 	import flash.events.NetStatusEvent;
 	import flash.media.Video;
@@ -65,8 +63,6 @@ package collaboRhythm.workstation.model
 		private var _netStream:NetStream;
 		private var _collaborationColor:String = "0xFFFFFF";
 		
-		private var _medicationsModel:MedicationsModel = new MedicationsModel();
-		private var _scheduleModel:ScheduleModel;
 		private var _bloodPressureModel:BloodPressureModel = new BloodPressureModel();
 		
 		private var _appData:HashMap = new HashMap();
@@ -76,7 +72,7 @@ package collaboRhythm.workstation.model
 			_recordId = recordId;
 
 			// TODO: how can we eliminate this dependency so that schedule and medications can be independent plugins?
-			_scheduleModel = new ScheduleModel(_medicationsModel)
+//			_scheduleModel = new ScheduleModel(_medicationsModel)
 		}
 
 //		public function get firstName():String
@@ -262,26 +258,6 @@ package collaboRhythm.workstation.model
 		public function set collaborationColor(value:String):void
 		{
 			_collaborationColor = value;
-		}
-		
-		public function get scheduleModel():ScheduleModel
-		{
-			return _scheduleModel;
-		}
-		
-		private function set scheduleModel(value:ScheduleModel):void
-		{
-			_scheduleModel = value;
-		}
-		
-		public function get medicationsModel():MedicationsModel
-		{
-			return _medicationsModel;
-		}
-		
-		private function set medicationsModel(value:MedicationsModel):void
-		{
-			_medicationsModel = value;
 		}
 
 		public function get bloodPressureModel():BloodPressureModel

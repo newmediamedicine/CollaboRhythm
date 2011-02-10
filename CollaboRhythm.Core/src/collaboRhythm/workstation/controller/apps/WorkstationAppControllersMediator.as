@@ -22,11 +22,9 @@ package collaboRhythm.workstation.controller.apps
 	import collaboRhythm.workstation.apps.imaging.controller.ImagingAppController;
 	import collaboRhythm.workstation.apps.immunizations.controller.ImmunizationsAppController;
 	import collaboRhythm.workstation.apps.labs.controller.LabsAppController;
-	import collaboRhythm.workstation.apps.medications.controller.MedicationsAppController;
 	import collaboRhythm.workstation.apps.problems.controller.ProblemsAppController;
 	import collaboRhythm.workstation.apps.procedures.controller.ProceduresAppController;
 	import collaboRhythm.workstation.apps.procedures.view.ProceduresWidgetView;
-	import collaboRhythm.workstation.apps.schedule.controller.ScheduleAppController;
 	import collaboRhythm.workstation.apps.socialHistory.controller.SocialHistoryAppController;
 	import collaboRhythm.workstation.apps.vitals.controller.VitalsAppController;
 	import collaboRhythm.workstation.model.*;
@@ -126,7 +124,6 @@ package collaboRhythm.workstation.controller.apps
 			var app:WorkstationAppControllerBase;
 			
 			app = createApp(ProblemsAppController, "Problems");
-			app = createApp(MedicationsAppController, "Medications");
 			app = createApp(EquipmentAppController, "Equipment");
 			app = createApp(ProceduresAppController, "Procedures");
 			app = createApp(AllergiesAppController, "Allergies");
@@ -139,7 +136,6 @@ package collaboRhythm.workstation.controller.apps
 			app = createApp(ImagingAppController, "Imaging");
 			
 			_factory.widgetParentContainer = _scheduleWidgetParentContainer;
-			app = createApp(ScheduleAppController, "Schedule");
 			app = createApp(BloodPressureAgentAppController, "Blood Pressure Agent");
 //			app = createApp(BloodPressureAppController, "Blood Pressure Review");
 			

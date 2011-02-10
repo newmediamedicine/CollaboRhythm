@@ -32,31 +32,15 @@
     <classEntry path="com.brooksandrus.utils.ISO8601Util"/>
     <classEntry path="collaboRhythm.workstation.apps.allergies.controller.AllergiesAppController"/>
     <classEntry path="collaboRhythm.workstation.apps.allergies.view.AllergiesWidgetView"/>
-    <classEntry path="collaboRhythm.workstation.apps.medications.controller.MedicationsAppController"/>
-    <classEntry path="collaboRhythm.workstation.apps.medications.view.MedicationsWidgetView"/>
-    <classEntry path="collaboRhythm.workstation.apps.medications.model.MedicationsModel"/>
-    <classEntry path="collaboRhythm.workstation.apps.medications.model.Medication"/>
-    <classEntry path="collaboRhythm.workstation.apps.schedule.model.Measurement"/>
-    <classEntry path="collaboRhythm.workstation.apps.schedule.controller.ScheduleAppController"/>
-    <classEntry path="collaboRhythm.workstation.apps.schedule.model.ScheduleModel"/>
-    <classEntry path="collaboRhythm.workstation.apps.schedule.model.ScheduleItemBase"/>
     <classEntry path="collaboRhythm.workstation.apps.schedule.view.FullScheduleItemViewBase"/>
     <classEntry path="collaboRhythm.workstation.apps.schedule.view.ScheduleFullView"/>
-    <classEntry path="collaboRhythm.workstation.apps.schedule.view.ScheduleWidgetView"/>
     <classEntry path="collaboRhythm.workstation.apps.schedule.view.FullMedicationView"/>
     <classEntry path="collaboRhythm.workstation.apps.schedule.view.FullMeasurementView"/>
-    <classEntry path="collaboRhythm.workstation.apps.schedule.model.AdherenceGroup"/>
-    <classEntry path="collaboRhythm.workstation.apps.schedule.view.WidgetMeasurementView"/>
-    <classEntry path="collaboRhythm.workstation.apps.schedule.model.Time"/>
     <classEntry path="collaboRhythm.workstation.apps.schedule.view.FullTimelineView"/>
-    <classEntry path="collaboRhythm.workstation.apps.schedule.view.WidgetAdherenceWindowView"/>
     <classEntry path="collaboRhythm.workstation.apps.schedule.view.FullAdherenceWindowView"/>
     <classEntry path="collaboRhythm.workstation.apps.schedule.view.FullAdherenceGroupView"/>
-    <classEntry path="collaboRhythm.workstation.apps.schedule.view.WidgetMedicationView"/>
     <classEntry path="collaboRhythm.workstation.apps.schedule.view.FullScheduleItemViewEvent"/>
-    <classEntry path="collaboRhythm.workstation.apps.schedule.model.MoveData"/>
     <classEntry path="collaboRhythm.workstation.apps.schedule.view.FullSmartDrawerView"/>
-    <classEntry path="collaboRhythm.workstation.apps.schedule.controller.ScheduleFullViewController"/>
     <classEntry path="collaboRhythm.workstation.controller.CollaborationController"/>
     <classEntry path="collaboRhythm.workstation.controller.CollaborationEvent"/>
     <classEntry path="collaboRhythm.workstation.view.DemographicsFullView"/>
@@ -94,6 +78,13 @@
     <classEntry path="collaboRhythm.workstation.apps.bloodPressureAgent.view.BloodPressureAgentWidgetView"/>
     <classEntry path="collaboRhythm.workstation.apps.bloodPressureAgent.view.BloodPressureAgentFullView"/>
     <classEntry path="collaboRhythm.workstation.controller.apps.AppControllerInfo"/>
+    <classEntry path="collaboRhythm.workstation.apps.schedule.model.ScheduleItemBase"/>
+    <classEntry path="collaboRhythm.workstation.apps.schedule.model.Measurement"/>
+    <classEntry path="collaboRhythm.workstation.apps.schedule.model.ScheduleModel"/>
+    <classEntry path="collaboRhythm.workstation.apps.schedule.model.MoveData"/>
+    <classEntry path="collaboRhythm.workstation.apps.schedule.model.AdherenceGroup"/>
+    <classEntry path="collaboRhythm.workstation.apps.schedule.model.Time"/>
+    <classEntry path="collaboRhythm.workstation.apps.schedule.controller.ScheduleFullViewController"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

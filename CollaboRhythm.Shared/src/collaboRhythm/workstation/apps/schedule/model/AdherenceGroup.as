@@ -11,7 +11,6 @@
 */
 package collaboRhythm.workstation.apps.schedule.model
 {
-	import collaboRhythm.workstation.apps.medications.model.Medication;
 	import collaboRhythm.workstation.apps.schedule.view.FullAdherenceGroupView;
 	import collaboRhythm.workstation.apps.schedule.view.FullMedicationView;
 	

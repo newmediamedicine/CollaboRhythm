@@ -11,6 +11,7 @@
 */
 package collaboRhythm.workstation.apps.schedule.model
 {
+
 	[Bindable]
 	public class Measurement extends ScheduleItemBase
 	{

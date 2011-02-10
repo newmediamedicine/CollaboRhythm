@@ -12,7 +12,6 @@
 package collaboRhythm.mobile.controller
 {
 	import collaboRhythm.workstation.apps.problems.controller.ProblemsAppController;
-	import collaboRhythm.workstation.apps.schedule.controller.ScheduleAppController;
 	import collaboRhythm.workstation.controller.ApplicationControllerBase;
 	import collaboRhythm.workstation.controller.CollaborationMediatorBase;
 	import collaboRhythm.workstation.controller.apps.WorkstationAppControllerBase;
@@ -44,7 +43,6 @@ package collaboRhythm.mobile.controller
 			_appControllersMediator.initializeForUser(user);
 			var app:WorkstationAppControllerBase;
 			_appControllersMediator.createDynamicApps();
-			app = _appControllersMediator.createApp(ScheduleAppController, "Schedule");
 //			app = _appControllersMediator.createApp(BloodPressureAppController, "Blood Pressure");
 			app = _appControllersMediator.createApp(ProblemsAppController, "Problems");
 			

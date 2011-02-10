@@ -9,10 +9,12 @@
  *
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
 */
-package collaboRhythm.workstation.apps.schedule.controller
+package collaboRhythm.plugins.schedule.controller
 {
+	import collaboRhythm.plugins.schedule.view.ScheduleWidgetView;
+	import collaboRhythm.workstation.apps.schedule.controller.ScheduleFullViewController;
+	import collaboRhythm.workstation.apps.schedule.model.ScheduleModel;
 	import collaboRhythm.workstation.apps.schedule.view.ScheduleFullView;
-	import collaboRhythm.workstation.apps.schedule.view.ScheduleWidgetView;
 	import collaboRhythm.workstation.controller.apps.WorkstationAppControllerBase;
 	
 	import mx.core.IVisualElementContainer;
@@ -58,7 +60,7 @@ package collaboRhythm.workstation.apps.schedule.controller
 		{
 			var newWidgetView:ScheduleWidgetView = new ScheduleWidgetView();
 			if (_user != null)
-				newWidgetView.initializeClock(_user.scheduleModel);
+				newWidgetView.init(_user.getAppData(ScheduleModel.SCHEDULE_KEY, ScheduleModel) as ScheduleModel);
 			return newWidgetView;
 		}
 		
@@ -68,28 +70,36 @@ package collaboRhythm.workstation.apps.schedule.controller
 			return newFullView;
 		}
 		
+		private function get scheduleModel():ScheduleModel
+		{
+			if (_user != null)
+			{
+				if (_user.appData[ScheduleModel.SCHEDULE_KEY] == null)
+				{
+					_user.appData[ScheduleModel.SCHEDULE_KEY] = new ScheduleModel();
+				}
+				return _user.getAppData(ScheduleModel.SCHEDULE_KEY, ScheduleModel) as ScheduleModel;
+			}
+			return null;
+		}
+		
 		public override function initialize():void
 		{
 			super.initialize();
-			if (!_user.medicationsModel.initialized && !_user.medicationsModel.isLoading)
-			{
-				_healthRecordService.loadMedications(_user);
-			}
 			
 			if (_widgetView)
-				(_widgetView as ScheduleWidgetView).initializeClock(_user.scheduleModel);
-			
-			prepareFullView();
+				(_widgetView as ScheduleWidgetView).init(scheduleModel);
+//			prepareFullView();
 		}
 		
 		protected override function prepareFullView():void
 		{
-			super.prepareFullView();
-			if (_fullView)
-			{
-				_scheduleFullViewController = new ScheduleFullViewController(_user.scheduleModel, _fullView as ScheduleFullView, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
-				_fullView.initializeControllerModel(_scheduleFullViewController, _user.scheduleModel);
-			}
+//			super.prepareFullView();
+//			if (_fullView)
+//			{
+//				_scheduleFullViewController = new ScheduleFullViewController(_user.scheduleModel, _fullView as ScheduleFullView, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
+//				_fullView.initializeControllerModel(_scheduleFullViewController, _user.scheduleModel);
+//			}
 		}
 		
 		public override function close():void

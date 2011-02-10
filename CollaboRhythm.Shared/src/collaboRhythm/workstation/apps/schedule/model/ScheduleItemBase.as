@@ -12,6 +12,12 @@
 package collaboRhythm.workstation.apps.schedule.model
 {
 	import collaboRhythm.workstation.apps.schedule.view.FullAdherenceGroupView;
+	import collaboRhythm.workstation.apps.schedule.model.AdherenceGroup;
+	import collaboRhythm.workstation.apps.schedule.model.ScheduleModel;
+	import collaboRhythm.workstation.apps.schedule.model.MoveData;
+	import collaboRhythm.workstation.apps.schedule.model.ScheduleItemBase;
+	import collaboRhythm.workstation.apps.schedule.model.Measurement;
+	import collaboRhythm.workstation.apps.schedule.controller.ScheduleFullViewController;
 
 	[Bindable]
 	public class ScheduleItemBase

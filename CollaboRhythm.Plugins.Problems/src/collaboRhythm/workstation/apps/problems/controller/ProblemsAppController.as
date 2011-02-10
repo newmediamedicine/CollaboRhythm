@@ -93,17 +93,24 @@ package collaboRhythm.workstation.apps.problems.controller
 				problemsHealthRecordService.copyLoginResults(_healthRecordService);
 				problemsHealthRecordService.loadProblems(_user);
 			}
+
 			if (_widgetView)
 				(_widgetView as ProblemsWidgetView).model = problemsModel;
-
 			prepareFullView();
 		}
+		
+//		protected override function prepareWidgetView():void
+//		{
+//			super.prepareWidgetView()();
+//			if (_widgetView)
+//				(_widgetView as ProblemsWidgetView).model = problemsModel;
+//		}
 		
 		protected override function prepareFullView():void
 		{
 			super.prepareFullView();
 			if (_fullView)
-				_fullView.model = problemsModel;
+				(_fullView as ProblemsFullView).model = problemsModel;
 		}
 
 		public override function get defaultName():String

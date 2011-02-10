@@ -11,7 +11,6 @@
 */
 package collaboRhythm.workstation.apps.schedule.model
 {
-	import collaboRhythm.workstation.apps.medications.model.Medication;
 
 	public class Time
 	{
@@ -43,13 +42,13 @@ package collaboRhythm.workstation.apps.schedule.model
 			_adherenceGroup = value;
 		}
 		
-		public function removeMedication(medication:Medication):void
+		public function removeMedication(medication:ScheduleItemBase):void
 		{
 			var medicationIndex:Number = _scheduleItems.indexOf(medication);
 			_scheduleItems.splice(medicationIndex, 1);
 		}
 		
-		public function addMedication(medication:Medication):void
+		public function addMedication(medication:ScheduleItemBase):void
 		{
 			_scheduleItems.push(medication);
 		}

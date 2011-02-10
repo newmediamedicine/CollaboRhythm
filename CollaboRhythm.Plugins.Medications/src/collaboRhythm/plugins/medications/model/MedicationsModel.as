@@ -9,7 +9,7 @@
  *
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
 */
-package collaboRhythm.workstation.apps.medications.model
+package collaboRhythm.plugins.medications.model
 {
 	import flash.xml.XMLNode;
 	
@@ -25,6 +25,7 @@ package collaboRhythm.workstation.apps.medications.model
 		private var _shortMedicationsCollection:ArrayCollection;
 		private var _initialized:Boolean = false;
 		private var _isLoading:Boolean = false;
+		public static const MEDICATIONS_KEY:String = "medications";
 		
 		public function MedicationsModel()
 		{

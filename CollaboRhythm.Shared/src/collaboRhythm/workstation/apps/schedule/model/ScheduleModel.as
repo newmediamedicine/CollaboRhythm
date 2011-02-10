@@ -11,8 +11,6 @@
 */
 package collaboRhythm.workstation.apps.schedule.model
 {
-	import collaboRhythm.workstation.apps.medications.model.Medication;
-	import collaboRhythm.workstation.apps.medications.model.MedicationsModel;
 	import collaboRhythm.workstation.apps.schedule.view.FullAdherenceGroupView;
 	import collaboRhythm.workstation.apps.schedule.view.FullMedicationView;
 	import collaboRhythm.workstation.apps.schedule.view.FullScheduleItemViewBase;
@@ -32,7 +30,6 @@ package collaboRhythm.workstation.apps.schedule.model
 		private var _closeDrawer:Boolean = true;
 		private var _drawerX:Number = -340;
 		private var _drawerColor:String = "0xFFFFFF";
-		private var _medicationsModel:MedicationsModel;
 		private var _scheduleItemsCollection:ArrayCollection = new ArrayCollection();
 		private var _scheduleItemsDictionary:Dictionary = new Dictionary();
 		private var _adherenceGroupsCollection:ArrayCollection = new ArrayCollection();
@@ -41,19 +38,20 @@ package collaboRhythm.workstation.apps.schedule.model
 		private var _locked:Boolean = false;
 		private var _initialized:Boolean = false;
 		private var _currentDateSource:ICurrentDateSource;
+		public static const SCHEDULE_KEY:String = "schedule";
 		
-		public function ScheduleModel(medicationsModel:MedicationsModel)
+		public function ScheduleModel()
 		{		
-			_medicationsModel = medicationsModel;
+//			_medicationsModel = medicationsModel;
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
-			if (!_medicationsModel.initialized)
-			{
-				BindingUtils.bindSetter(addMedicationsToScheduleItems, _medicationsModel, "initialized");
-			}
-			else
-			{
-				addMedicationsToScheduleItems(true);
-			}
+//			if (!_medicationsModel.initialized)
+//			{
+//				BindingUtils.bindSetter(addMedicationsToScheduleItems, _medicationsModel, "initialized");
+//			}
+//			else
+//			{
+//				addMedicationsToScheduleItems(true);
+//			}
 		}
 
 		public function get closeDrawer():Boolean
@@ -168,27 +166,27 @@ package collaboRhythm.workstation.apps.schedule.model
 		{
 			if (initialized == true)
 			{
-				for each (var medication:Medication in _medicationsModel.medicationsCollection)
-				{
-					// HACK
-//					if (medication.brandName == "Hydrochlorothiazide")
-//					{
-//						medication.scheduled = false;
-//					}
-//					else
-//					{
-//						medication.scheduled = true;
-//					}
-					medication.scheduled = true;
-					medication.scheduleModel = this;
-					addScheduleItem(medication.documentID, medication);
-				}
-				
-				// HACK
-				var bloodPressureMeasurement:Measurement = new Measurement();
-				bloodPressureMeasurement.scheduled = true;
-				bloodPressureMeasurement.scheduleModel = this;
-				addScheduleItem(bloodPressureMeasurement.documentID, bloodPressureMeasurement);
+//				for each (var medication:Medication in _medicationsModel.medicationsCollection)
+//				{
+//					// HACK
+////					if (medication.brandName == "Hydrochlorothiazide")
+////					{
+////						medication.scheduled = false;
+////					}
+////					else
+////					{
+////						medication.scheduled = true;
+////					}
+//					medication.scheduled = true;
+//					medication.scheduleModel = this;
+//					addScheduleItem(medication.documentID, medication);
+//				}
+//				
+//				// HACK
+//				var bloodPressureMeasurement:Measurement = new Measurement();
+//				bloodPressureMeasurement.scheduled = true;
+//				bloodPressureMeasurement.scheduleModel = this;
+//				addScheduleItem(bloodPressureMeasurement.documentID, bloodPressureMeasurement);
 				
 				determineStacking();
 			}
@@ -269,15 +267,15 @@ package collaboRhythm.workstation.apps.schedule.model
 				{
 					
 					// HACK
-					var className:String = getQualifiedClassName(scheduleItem);
-					if (className == "collaboRhythm.workstation.apps.medications.model::Medication")
-					{
-						closeDrawer = false;
-						var itemIndex:Number = _medicationsModel.shortMedicationsCollection.getItemIndex(scheduleItem);
-						_medicationsModel.shortMedicationsCollection.removeItemAt(itemIndex);
-						scheduleItem.scheduled = false;
-						removeScheduleItemFromAdherenceGroup(scheduleItem);
-					}
+//					var className:String = getQualifiedClassName(scheduleItem);
+//					if (className == "collaboRhythm.workstation.apps.medications.model::Medication")
+//					{
+//						closeDrawer = false;
+//						var itemIndex:Number = _medicationsModel.shortMedicationsCollection.getItemIndex(scheduleItem);
+//						_medicationsModel.shortMedicationsCollection.removeItemAt(itemIndex);
+//						scheduleItem.scheduled = false;
+//						removeScheduleItemFromAdherenceGroup(scheduleItem);
+//					}
 					
 				}
 				scheduleItem.xPosition = moveData.xPosition;
@@ -315,15 +313,15 @@ package collaboRhythm.workstation.apps.schedule.model
 				{
 					
 					// HACK
-					className = getQualifiedClassName(scheduleItem);
-					if (className == "collaboRhythm.workstation.apps.medications.model::Medication")
-					{
-						closeDrawer = true;
-						_medicationsModel.shortMedicationsCollection.addItem(scheduleItem);
-						scheduleItem.scheduled = true
-						addScheduleItemToNewAdherenceGroup(scheduleItem, moveData.hour, moveData.yBottomPosition, 2);
-						scheduleItem.updateHour(moveData.hour);
-					}
+//					className = getQualifiedClassName(scheduleItem);
+//					if (className == "collaboRhythm.workstation.apps.medications.model::Medication")
+//					{
+//						closeDrawer = true;
+//						_medicationsModel.shortMedicationsCollection.addItem(scheduleItem);
+//						scheduleItem.scheduled = true
+//						addScheduleItemToNewAdherenceGroup(scheduleItem, moveData.hour, moveData.yBottomPosition, 2);
+//						scheduleItem.updateHour(moveData.hour);
+//					}
 					
 				}
 			}	
