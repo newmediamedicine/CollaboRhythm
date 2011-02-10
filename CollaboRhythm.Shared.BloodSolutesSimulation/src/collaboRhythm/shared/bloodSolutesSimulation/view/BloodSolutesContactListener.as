@@ -17,9 +17,9 @@ package collaboRhythm.shared.bloodSolutesSimulation.view
 	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2ContactListener;
 	
-	public class NephronContactListener extends b2ContactListener
+	public class BloodSolutesContactListener extends b2ContactListener
 	{
-		public function NephronContactListener()
+		public function BloodSolutesContactListener()
 		{
 			super();
 		}
@@ -57,7 +57,6 @@ package collaboRhythm.shared.bloodSolutesSimulation.view
 			var jointDef:b2WeldJointDef = new b2WeldJointDef();
 			jointDef.bodyA = antibody.body;
 			jointDef.bodyB = solute.body;
-//			jointDef.localAnchorA = new;
 			jointDef.collideConnected = false;
 			var joint:b2Joint = antibody.body.GetWorld().CreateJoint(jointDef);
 			

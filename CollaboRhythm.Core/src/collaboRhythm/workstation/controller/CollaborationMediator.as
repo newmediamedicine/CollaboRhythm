@@ -195,21 +195,19 @@
 			closeRecord();
 		}
 		
-		private function closeRecord():void
+		public override function closeRecord():void
 		{
+			super.closeRecord();
+			
 			// TODO: add support for closing/opening records in patient mode (or some mode for families/friends).
 			// This will probably require separating remote users into two lists: those who have access to the local user's record and those who the local user has access to.  
 			
-			// prevent closing the record unless we are in clinician mode
-			if (settings.isClinicianMode)
-			{
-				subjectUser = null;
-				closeVideoWindows();
-				_appControllersMediator.closeApps();
-				_remoteUsersController.show();
-				_workstationCommandBarController.hide();
-				_demographicsController.hide();
-			}
+			_subjectUser = null;
+			closeVideoWindows();
+			_appControllersMediator.closeApps();
+			_remoteUsersController.show();
+			_workstationCommandBarController.hide();
+			_demographicsController.hide();
 		}
 		
 		public function switchRecords(user:User):void

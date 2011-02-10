@@ -47,7 +47,12 @@ package collaboRhythm.workstation.controller
 		protected var settings:Settings;
 		protected var healthRecordService:CommonHealthRecordService;
 		protected var usersModel:UsersModel;
-		protected var subjectUser:User;
+		protected var _subjectUser:User;
+
+		public function get subjectUser():User
+		{
+			return _subjectUser;
+		}
 
 		public function get appControllersMediator():WorkstationAppControllersMediator
 		{
@@ -202,7 +207,7 @@ package collaboRhythm.workstation.controller
 				// make sure the user/record isn't already open
 				if (subjectUser != user)
 				{
-					subjectUser = user;
+					_subjectUser = user;
 					
 					openValidatedUser(user);
 				}
@@ -211,6 +216,17 @@ package collaboRhythm.workstation.controller
 		
 		protected function openValidatedUser(user:User):void
 		{
+		}
+		
+		public function closeRecord():void
+		{
+			appControllersMediator.closeApps();
+			_subjectUser = null;
+		}
+		
+		public function reloadPlugins():void
+		{
+			applicationController.reloadPlugins();
 		}
 	}
 }

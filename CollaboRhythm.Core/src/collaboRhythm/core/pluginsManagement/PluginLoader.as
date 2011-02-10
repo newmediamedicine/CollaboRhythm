@@ -3,21 +3,26 @@ package collaboRhythm.core.pluginsManagement
 	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
 	
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
 	import flash.utils.ByteArray;
 	
+	import mx.collections.ArrayCollection;
 	import mx.core.IFlexModuleFactory;
 	import mx.events.ModuleEvent;
 	import mx.modules.IModule;
 	import mx.modules.IModuleInfo;
 	import mx.modules.ModuleLoader;
 
-	public class PluginLoader
+	[Event(name="complete", type="flash.events.Event")]
+	public class PluginLoader extends EventDispatcher
 	{
 		private var loadedPlugins:Vector.<IPlugin> = new Vector.<IPlugin>();
 		private var moduleLoaders:Vector.<ModuleLoader> = new Vector.<ModuleLoader>();
+		private var pendingModuleLoaders:ArrayCollection = new ArrayCollection(); // list of loaders which are in the middle of loading
 		private var _applicationPluginsDirectoryPath:String;
 		private var _userPluginsDirectoryPath:String;
 		private var _componentContainer:IComponentContainer;
@@ -84,6 +89,7 @@ package collaboRhythm.core.pluginsManagement
 			stream.readBytes(moduleBytes);
 			
 			moduleLoaders.push(moduleLoader);
+			pendingModuleLoaders.addItem(moduleLoader);
 			moduleLoader.loadModule(file.nativePath, moduleBytes);
 		}
 		
@@ -100,6 +106,20 @@ package collaboRhythm.core.pluginsManagement
 				
 				plugin.registerComponents(componentContainer);
 			}
+			
+			var moduleLoader:ModuleLoader = event.target as ModuleLoader;
+			if (!moduleLoader)
+				throw new Error("event.target was not a ModuleLoader");
+			
+			var loaderIndex:int = pendingModuleLoaders.getItemIndex(moduleLoader);
+			
+			if (loaderIndex == -1)
+				throw new Error("loader not found in pendingModuleLoaders");
+				
+			pendingModuleLoaders.removeItemAt(loaderIndex);
+			
+			if (pendingModuleLoaders.length == 0)
+				dispatchEvent(new Event(Event.COMPLETE));
 		}
 		
 		protected function moduleLoader_errorHandler(event:ModuleEvent):void
@@ -107,5 +127,14 @@ package collaboRhythm.core.pluginsManagement
 			trace(event.errorText);
 		}
 		
+		public function unloadPlugins():void
+		{
+			for each (var moduleLoader:ModuleLoader in moduleLoaders)
+			{
+				moduleLoader.unloadModule();
+			}
+			moduleLoaders = new Vector.<ModuleLoader>();
+			loadedPlugins = new Vector.<IPlugin>();
+		}
 	}
 }

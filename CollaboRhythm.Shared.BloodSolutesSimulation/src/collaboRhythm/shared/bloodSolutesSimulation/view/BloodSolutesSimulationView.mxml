@@ -17,6 +17,8 @@
 		 width="400" height="300"
 		 focusEnabled="true"
 		 creationComplete="creationCompleteHandler(event)"
+		 addedToStage="addedToStageHandler(event)"
+		 removedFromStage="removedFromStageHandler(event)"
 		 keyDown="group1_keyDownHandler(event)"
 		 >
 	<fx:Script>
@@ -30,6 +32,8 @@
 			import Box2D.Dynamics.Joints.b2MouseJointDef;
 			import Box2D.Dynamics.Joints.b2WeldJoint;
 			import Box2D.Dynamics.Joints.b2WeldJointDef;
+			
+			import flash.utils.getQualifiedClassName;
 			
 			import mx.core.IButton;
 			import mx.core.IVisualElement;
@@ -60,7 +64,6 @@
 			private var _antibodyRatio:Number = 0;
 			private var _soluteInBloodRatio:Number = 0.25;
 			
-//			private const numSoluteBodies:int = 200;
 			private var _soluteConcentration:Number = 1; // bodies per square meter (in world space)
 
 			private var _soluteBodies:Vector.<b2Body> = new Vector.<b2Body>();
@@ -93,7 +96,6 @@
 
 			private var snapDistanceEpsilon:Number = plugWidth * 0.5 / _worldRatio;
 			private var snapAngleEpsilon:Number = 2 * Math.PI * 0.1;
-//			private const stuckVelocityEpsilon:Number = 1.0;
 			private const stuckDisplacementEpsilon:Number = soluteWidth * 0.25 / _worldRatio;
 			private const plugStuckTimeThreshold:Number = 3.0;
 			private const plugStuckTimePassThroughWallThreshold:Number = 0.5;
@@ -351,14 +353,17 @@
 
 			public function set isRunning(value:Boolean):void
 			{
-				_isRunning = value;
-				
-				if (_isRunning)
-					this.addEventListener(Event.ENTER_FRAME, enterFrameHandler, false, 0, true);
-				else
-					this.removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
-				
-				trace("Debug trace for performance issues: NephronSimulationView.isRunning", _isRunning);
+				if (_isRunning != value)
+				{
+					_isRunning = value;
+					
+					if (_isRunning)
+						this.addEventListener(Event.ENTER_FRAME, enterFrameHandler, false, 0, true);
+					else
+						this.removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
+					
+//					trace("Debug trace for performance issues: " + getQualifiedClassName(this) + " " + this.id + " isRunning", _isRunning);
+				}
 			}
 			
 
@@ -381,7 +386,7 @@
 				// Construct a world object
 				_world = new b2World(gravity, doSleep);
 				
-				_world.SetContactListener(new NephronContactListener());
+				_world.SetContactListener(new BloodSolutesContactListener());
 				
 				// set debug draw
 				var debugDraw:b2DebugDraw = new b2DebugDraw();
@@ -420,9 +425,6 @@
 //				showDebug = false;
 			}
 			
-			private var _mouseDragging:Boolean = false;
-//			private var _mouseDownX:Number;
-//			private var _mouseDownY:Number;
 			private var mouseDragX:Number;
 			private var mouseDragY:Number;
 			private var mouseDown:Boolean;
@@ -485,7 +487,6 @@
 			{
 				this.stage.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
 				this.stage.removeEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
-				_mouseDragging = false;
 				mouseDown = false;
 				
 				// mouse release
@@ -1341,7 +1342,11 @@
 					{
 						var bodyInfo:BodyInfo = body.GetUserData() as BodyInfo;
 						
-						if (bodyInfo.plugJoint == null)
+						if (bodyInfo.plugJoint && bodyInfo.isPlug)
+						{
+							// no forces for a plug that has a joint (just leave it in place)
+						}
+						else
 						{
 							updateBodyStuckTime(body, bodyInfo);
 							
@@ -1771,22 +1776,22 @@
 				}
 			}
 
+			protected function addedToStageHandler(event:Event):void
+			{
+				isRunning = true;
+			}
+			
+			protected function removedFromStageHandler(event:Event):void
+			{
+				isRunning = false;
+				this.removeEventListener(MouseEvent.CLICK, mouseClickHandler);
+				this.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
+			}
 		]]>
 	</fx:Script>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-<!--
-	<s:mask>
-		<s:Group>
-			<s:Rect width="{this.width}" height="{this.height}">
-				<s:fill>
-					<s:SolidColor/>
-				</s:fill>
-			</s:Rect>
-		</s:Group>
-	</s:mask>
-	-->
 	<s:Rect width="{this.width}" height="{this.height}">
 		<s:fill>
 			<s:SolidColor color="0xFF0000" alpha="0.5"/>

@@ -25,5 +25,11 @@ package collaboRhythm.shared.pluginsSupport
 		 * @return The array of resolved services, possibly empty.
 		 */
 		function resolveAll(serviceType:Class):Array /*of the service type*/;
+		
+		/**
+		 * Removes all instances of all components that have been registered. 
+		 * 
+		 */
+		function removeAllComponents():void;
 	}
 }

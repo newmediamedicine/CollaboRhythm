@@ -16,7 +16,9 @@
 		 width="260" height="800"
 		 clipAndEnableScrolling="true"
 		 resize="resizeHandler(event)"
-		 creationComplete="creationCompleteHandler(event)" xmlns:view="collaboRhythm.workstation.apps.bloodPressure.view.*" xmlns:view1="collaboRhythm.shared.bloodSolutesSimulation.view.*">
+		 creationComplete="creationCompleteHandler(event)"
+		 xmlns:view="collaboRhythm.workstation.apps.bloodPressure.view.*"
+		 xmlns:view1="collaboRhythm.shared.bloodSolutesSimulation.view.*">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>

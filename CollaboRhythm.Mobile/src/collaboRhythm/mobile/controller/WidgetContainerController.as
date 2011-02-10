@@ -11,8 +11,7 @@
 */
 package collaboRhythm.mobile.controller
 {
-	import castle.flexbridge.reflection.Void;
-	
+	import collaboRhythm.core.pluginsManagement.PluginEvent;
 	import collaboRhythm.mobile.view.WidgetContainerView;
 	import collaboRhythm.workstation.controller.CollaborationMediatorBase;
 	import collaboRhythm.workstation.controller.apps.WorkstationAppControllerBase;
@@ -90,6 +89,7 @@ package collaboRhythm.mobile.controller
 			// FIXME: occasionally I get the following compile error; casting as WidgetContainerController does not help; clean or otherwise rebuilding the project generally resolved the error
 			// 1067: Implicit coercion of a value of type collaboRhythm.mobile.controller:WidgetContainerController to an unrelated type collaboRhythm.mobile.controller:WidgetContainerController.
 			view.controller = this;
+			view.addEventListener(PluginEvent.RELOAD_REQUEST, view_reloadRequestHandler);
 
 			if (_collaborationMediator.appControllersMediator && widgetNavigationIndex >= 0 && widgetNavigationIndex < _collaborationMediator.appControllersMediator.workstationApps.length)
 			{
@@ -109,10 +109,21 @@ package collaboRhythm.mobile.controller
 			}
 		}
 		
+		public function view_reloadRequestHandler(event:PluginEvent):void
+		{
+			_collaborationMediator.reloadPlugins();
+		}
+		
 		public function deactivateView(view:WidgetContainerView):void
 		{
+			view.removeEventListener(PluginEvent.RELOAD_REQUEST, view_reloadRequestHandler);
 			var app:WorkstationAppControllerBase = view.workstationAppController;
-			app.widgetView = null;
+			app.close();
+		}
+		
+		public function toggleMenu(view:WidgetContainerView):void
+		{
+			view.toggleMenu();
 		}
 	}
 }

@@ -66,6 +66,11 @@ package collaboRhythm.shared.bloodSolutesSimulation.view
 			_stuckTime = value;
 		}
 
+		/**
+		 * The joint for this body (for attaching an antibody to a solute, or a plug to a pump location). 
+		 * @return the joint or null if there is no joint
+		 * 
+		 */
 		public function get plugJoint():b2Joint
 		{
 			return _plugJoint;
