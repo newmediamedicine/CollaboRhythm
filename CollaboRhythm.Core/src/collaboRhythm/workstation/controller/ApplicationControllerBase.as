@@ -185,9 +185,33 @@ package collaboRhythm.workstation.controller
 			
 			_componentContainer = new DefaultComponentContainer();
 			_pluginLoader = new PluginLoader();
+			_pluginLoader.addEventListener(Event.COMPLETE, pluginLoader_complete);
 			_pluginLoader.componentContainer = componentContainer;
 			_pluginLoader.loadPlugins();
 		}
 		
+		public function reloadPlugins():void
+		{
+			_reloadWithUser = _collaborationMediator.subjectUser;
+			
+			_collaborationMediator.closeRecord();
+			_componentContainer.removeAllComponents();
+			_pluginLoader.unloadPlugins();
+
+			_pluginLoader.loadPlugins();
+		}
+		
+		private function pluginLoader_complete(event:Event):void
+		{
+			handlePluginsLoaded();
+		}
+		
+		protected var _reloadWithUser:User;
+		
+		protected function handlePluginsLoaded():void
+		{
+			if (_reloadWithUser)
+				_collaborationMediator.openRecord(_reloadWithUser);
+		}
 	}
 }

@@ -538,9 +538,7 @@ package collaboRhythm.workstation.controller.apps
 			move.xTo = toPosition.x;
 			move.yTo = toPosition.y;
 			move.duration = duration;
-//			move.addEventListener(EffectEvent.EFFECT_END, showFullViewMoveEndHandler);
-			parallel.addEventListener(EffectEvent.EFFECT_END, showFullViewMoveEndHandler);
-//			move.play();
+			parallel.addEventListener(EffectEvent.EFFECT_END, showFullViewParallelEffectEndHandler, false, 0, true);
 			
 			if (shouldResize)
 			{
@@ -550,7 +548,6 @@ package collaboRhythm.workstation.controller.apps
 				resize.heightFrom = widgetView.height;
 				resize.widthTo = (_fullParentContainer as UIComponent).width;
 				resize.heightTo = (_fullParentContainer as UIComponent).height;
-				resize.addEventListener(EffectEvent.EFFECT_END, showFullViewResizeEndHandler);
 				resize.duration = duration;
 //				resize.play();
 				
@@ -697,26 +694,21 @@ package collaboRhythm.workstation.controller.apps
 		
 		private var _traceEventHandlers:Boolean = false;
 
-		public function showFullViewMoveEndHandler(event:EffectEvent):void
+		public function showFullViewParallelEffectEndHandler(event:EffectEvent):void
 		{
 			if (_traceEventHandlers)
 				trace(this + ".showFullViewMoveEndHandler");
+			
+			var parallel:Parallel = event.target as Parallel;
+			if (!parallel)
+				throw new Error("event.target was not a Parallel effect; unable to remove event listener");
+			
+			parallel.removeEventListener(EffectEvent.EFFECT_END, showFullViewParallelEffectEndHandler);
 
 			fullView.alpha = 1;
 			fullView.visible = true;
 			
 			hideOtherFullViews();
-			
-//			fullView.percentWidth = 100;
-//			fullView.percentHeight = 100;
-//			fullView.width = NaN;
-//			fullView.height = NaN;
-			
-			// make sure the view is on top of any siblings
-//			(fullView.parent as IVisualElementContainer).setElementIndex(fullView, (fullView.parent as IVisualElementContainer).numElements - 1);
-			
-			// make sure the parent resizes the full view immediately; otherwise, the contents of the full view can get sized incorrectly
-//			(fullView.parent as UIComponent).validateNow();
 			
 			removeFromParent(topSpaceTransitionComponent);
 			topSpaceTransitionComponent = null;
@@ -740,12 +732,6 @@ package collaboRhythm.workstation.controller.apps
 			}
 		}
 
-		public function showFullViewResizeEndHandler(event:EffectEvent):void
-		{
-			if (_traceEventHandlers)
-				trace(this + ".showFullViewResizeEndHandler");
-		}
-		
 		public function hideFullView():void
 		{
 			showWidgetAsDraggable(fullView != null);
@@ -771,7 +757,7 @@ package collaboRhythm.workstation.controller.apps
 				fade.alphaTo = 1;
 				fade.duration = 1500;
 				fade.play();
-				fade.addEventListener(EffectEvent.EFFECT_END, hideFullViewFadeEndHandler);
+				fade.addEventListener(EffectEvent.EFFECT_END, hideFullViewFadeEndHandler, false, 0, true);
 			}
 			else
 			{
@@ -796,20 +782,34 @@ package collaboRhythm.workstation.controller.apps
 		{
 			// TODO: ensure that the views are completely destructed and removed from memory (remove and references, event listeners)
 			
-			if(widgetView.parent != null)
+			if (widgetView != null && widgetView.parent != null)
 			{
 				if (widgetView.parent is IVisualElementContainer)
 					(widgetView.parent as IVisualElementContainer).removeElement(widgetView);
 				else
 					widgetView.parent.removeChild(widgetView);
+				
 			}
 			
-			if(fullView != null && fullView.parent != null)
+			if (widgetView)
+			{
+				widgetView.removeEventListener(MouseEvent.CLICK, widgetClickHandler);
+				widgetView.removeEventListener(MouseEvent.MOUSE_DOWN, widgetMouseDownHandler);
+				widgetView.accessibilityProperties = null;
+				widgetView = null;
+			}
+			
+			if (fullView != null && fullView.parent != null)
 			{
 				if (fullView.parent is IVisualElementContainer)
 					(fullView.parent as IVisualElementContainer).removeElement(fullView);
 				else
 					fullView.parent.removeChild(fullView);
+			}
+			
+			if (fullView)
+			{
+				fullView = null;
 			}
 		}
 		
@@ -819,88 +819,6 @@ package collaboRhythm.workstation.controller.apps
 		 */
 		public function initialize():void
 		{
-			if (widgetView)
-			{
-				widgetView.addEventListener("dragStart", dragStartHandler);
-				widgetView.addEventListener("dragEnd", dragEndHandler);
-			}
-		}
-		
-		private function dragStartHandler(event:Event):void
-		{
-			var widgetParentContainerGroup:Group = _widgetParentContainer as Group;
-			// turn off tiling
-			if (widgetParentContainerGroup != null)
-			{
-				var moveComponent:UIComponent = event.target as UIComponent;
-				if (moveComponent != null && !(widgetParentContainerGroup.layout is BasicLayout))
-				{
-					_widgetParentContainerLayout = widgetParentContainerGroup.layout; 
-					widgetParentContainerGroup.layout = new BasicLayout();
-					
-					// move above all others
-					if (widgetParentContainerGroup == moveComponent.parent)
-					{
-						var index:int = widgetParentContainerGroup.getChildIndex(moveComponent);
-						var last:int = widgetParentContainerGroup.numChildren - 1;
-						if (index != last)
-						{
-							widgetParentContainerGroup.setElementIndex(moveComponent, last);
-						}
-					}
-				}
-			}
-		}
-		
-		private function dragEndHandler(event:Event):void
-		{
-			var widgetParentContainerGroup:Group = _widgetParentContainer as Group;
-			// set an appropriate index based on the new position and re-enable the tile layout
-			if (widgetParentContainerGroup != null)
-			{
-				var moveComponent:UIComponent = event.target as UIComponent;
-				if (moveComponent != null)
-				{
-					var minDistance:Number = Number.MAX_VALUE;
-					var moveToIndex:int = -1;
-					for (var index:int = 0; index < _widgetParentContainer.numElements; index++)
-					{
-						var tiledComponent:UIComponent = _widgetParentContainer.getElementAt(index) as UIComponent;
-						if (tiledComponent != null)
-						{
-							var distance:Number = distanceFrom(moveComponent, tiledComponent);
-							if (tiledComponent != moveComponent && Math.abs(distance) < Math.abs(minDistance))
-							{
-								minDistance = distance;
-								if (distance > 0)
-									moveToIndex = index + 1;
-								else
-									moveToIndex = index;
-							}
-						}
-					}
-					
-					if (moveToIndex != -1)
-						_widgetParentContainer.setElementIndex(moveComponent, moveToIndex);
-				}
-				
-				// TODO: remove this hack
-				widgetParentContainerGroup.layout = _widgetParentContainerLayout;
-//				((_widgetParentContainer as UIComponent).parent.parent as TopSpace).enableContainerLayout();
-			}
-		}
-		
-		private function distanceFrom(moveComponent:UIComponent, tiledComponent:UIComponent):int
-		{
-			// in the same row?
-			if (moveComponent.y >= tiledComponent.y && moveComponent.y <= tiledComponent.y + tiledComponent.height)
-			{
-				return moveComponent.x - (tiledComponent.x + (tiledComponent.width / 2));
-			}
-			else
-			{
-				return Number.MAX_VALUE;
-			}
 		}
 		
 		public function reloadUserData():void

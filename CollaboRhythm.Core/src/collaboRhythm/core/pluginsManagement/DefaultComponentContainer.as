@@ -33,5 +33,10 @@ package collaboRhythm.core.pluginsManagement
 			var typeName:String = ReflectionUtils.getClassInfo(serviceType).name;
 			return componentArraysByType[typeName];
 		}
+		
+		public function removeAllComponents():void
+		{
+			componentArraysByType = new Dictionary();
+		}
 	}
 }

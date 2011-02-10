@@ -66,7 +66,7 @@ package collaboRhythm.shared.bloodSolutesSimulation.view
 			var layoutTarget:GroupBase = target;
 			if (layoutTarget)
 			{
-				trace("ScaleToFitLayout.updateDisplayList w, h", w, h, "width, height", layoutTarget.width, layoutTarget.height);
+//				trace("ScaleToFitLayout.updateDisplayList w, h", w, h, "width, height", layoutTarget.width, layoutTarget.height);
 				var count:uint = target.numElements;
 				
 				for (var i:int = 0; i < count; i++)

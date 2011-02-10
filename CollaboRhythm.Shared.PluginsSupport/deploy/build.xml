@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="CollaboRhythm.Shared.PluginsSupport.PluginDeployment" default="deploy">
+
+	<!--
+		This is a build script for deploying a CollaboRhythm plugin. It currently deploys the plugin to
+		three locations:
+			1. The plugins folder on the local development machine for CollaboRhythm.Workstation (which should be run/debugged locally)
+			2. The plugins folder on the local development machine for CollaboRhythm.Mobile (which should be run/debugged locally via the emulator)
+			3. The plugins folder on a connected Android device for CollaboRhythm.Mobile (which should be run/debugged on the device)
+			
+		Note that this script does NOT currently build the plugin project. Instead, it relies on Flash Builder to build the project and generate
+		the appropriate module SWF. This script is ONLY for deploying the plugin.
+	-->
+	
+	<!--
+		The sdk.dir is the path to the Android SDK on your local machine.
+		To override this value on your local machine, you should
+			1. Attempt to deploy using this script. Thid should create a file named local.properties in the working directory.
+			2. Open the local.properties file.
+			3. Modify the value for sdk.dir and save the file.
+			4. Attempt to deploy again.
+			
+		Creating a local.properties file can (in theory) also be done using the 'android' tool.
+
+		local.properties should *NOT* be checked in in Version Control Systems.
+	-->
+	
+	<property environment="env"/>
+	<property name="app.data" location="${user.home}/AppData/Roaming" />
+
+	<propertyfile
+		file="local.properties"
+		comment="Local properties for CollaboRhythm plugin deployment. This file must *NOT* be checked in Version Control Systems, as it contains information specific to your local configuration.">
+		<entry key="collaboRhythm.pluginDeployment.deploymentCount" type="int" default="0" operation="+" />
+		<entry key="sdk.dir" default="C:\Program Files (x86)\myAndroid\android-sdk-windows" />
+		<entry key="collaboRhythm.workstation.pluginsPath" default="${app.data}/CollaboRhythm.Workstation/Local Store/plugins" />
+		<entry key="collaboRhythm.mobile-emulator.pluginsPath" default="${app.data}/CollaboRhythm.Mobile.debug/Local Store/plugins" />
+		<entry key="collaboRhythm.mobile-device.pluginsPath" default="/data/local/air.CollaboRhythm.Mobile.debug/CollaboRhythm.Mobile.debug/Local Store/plugins" />
+	</propertyfile>
+	
+<!--		<entry key="collaboRhythm.pluginDeployment.lastDeployedDate" type="date" value="now" pattern="EEE, dd MMM yyyy HH:mm:ss z"/> -->
+	<property file="local.properties" />
+
+	<!-- The build.properties file can be created by you and is never touched
+         by the 'android' tool. This is the place to change some of the default property values
+         used by the Ant rules.
+         Here are some properties you may want to change/update:
+
+         application.package
+             the name of your application package as defined in the manifest. Used by the
+             'uninstall' rule.
+         source.dir
+             the name of the source directory. Default is 'src'.
+         out.dir
+             the name of the output directory. Default is 'bin'.
+
+         Properties related to the SDK location or the project target should be updated
+          using the 'android' tool with the 'update' action.
+
+         This file is an integral part of the build system for your application and
+         should be checked in in Version Control Systems.
+
+         -->
+    <property file="build.properties" />
+	
+    <!-- The default.properties file is created and updated by the 'android' tool, as well
+         as ADT.
+         This file is an integral part of the build system for your application and
+         should be checked in in Version Control Systems. -->
+    <property file="default.properties" />
+
+<!-- TODO: Use contributed taskdef to do a "for" loop
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath>
+            <pathelement location="/path/to/ant-contrib-1.0b3.jar"/>
+        </classpath>
+    </taskdef>
+-->
+
+	<!-- The Location you wish to output to on your Computer -->
+	<property name="project.output.binaryPath" location="${basedir}/bin-debug"/>
+	
+	<target name="deploy" description="Deploys the plugin modules.">
+	
+		<!-- Copy all modules. Note that we don't have a good way to distinguish module SWFs from other SWFs,
+			 so we are relying on the convention of including Module or Plugin in the name of the plugin module SWFs -->
+		
+		<!--
+			TODO: Support multiple plugin SWFs; currently, if there is more than one SWF that matches the criteria,
+			${toString:project.output.modulePaths} will look like first.swf;second.swf and the adb push will fail.
+		-->
+	    <path id="project.output.modulePaths">
+			<fileset id="project.output.modulePaths.fileset" dir="${project.output.binaryPath}" casesensitive="no">
+			  <include name="**/*Module*.swf"/>
+			  <include name="**/*Plugin*.swf"/>
+			</fileset>
+	    </path>
+		
+		<echoproperties>
+			<propertyset>
+				<propertyref prefix="sdk.dir"/>
+			</propertyset>
+			<propertyset>
+				<propertyref prefix="collaboRhythm."/>
+			</propertyset>
+		</echoproperties>
+		
+		<echo>Basedir: ${basedir}</echo>
+		<echo>Deploying plugin: ${toString:project.output.modulePaths}</echo>
+			
+		<copy todir="${collaboRhythm.workstation.pluginsPath}" flatten="true" verbose="true">
+			<fileset refid="project.output.modulePaths.fileset" />
+		</copy>
+		<copy todir="${collaboRhythm.mobile-emulator.pluginsPath}" flatten="true" verbose="true">
+			<fileset refid="project.output.modulePaths.fileset" />
+		</copy>
+		
+		<echo>Pushing ${toString:project.output.modulePaths} to ${collaboRhythm.mobile-device.pluginsPath}</echo>
+		<exec executable="${sdk.dir}/platform-tools/adb">
+			<arg value="push"/>
+			<arg value="${toString:project.output.modulePaths}"/> <!-- Note: this only works if there is just one matching plugin file -->
+			<arg value="${collaboRhythm.mobile-device.pluginsPath}"/>
+		</exec>
+		
+		<echo>Deployment of plugin complete. ------------------------|</echo>
+	</target>
+</project>

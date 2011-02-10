@@ -23,6 +23,7 @@ package collaboRhythm.mobile.controller
 	import flash.events.KeyboardEvent;
 	import flash.filesystem.File;
 	import flash.ui.Keyboard;
+	import flash.ui.KeyboardType;
 	
 	import mx.core.IVisualElementContainer;
 	
@@ -122,17 +123,26 @@ package collaboRhythm.mobile.controller
 			{
 				case Keyboard.BACK:
 					event.preventDefault();
+					NativeApplication.nativeApplication.exit();
 					trace("Back key is pressed."); 
 					break; 
 				case Keyboard.MENU: 
-					trace("Menu key is pressed.");
+					if (_widgetContainerController != null)
+					{
+						var view:WidgetContainerView = _mobileApplication.navigator.activeView as WidgetContainerView;
+						if (view)
+						{
+							_widgetContainerController.toggleMenu(view);
+						}
+					}
 					
-					trace("  applicationStorageDirectory", File.applicationStorageDirectory.nativePath);
-					trace("  applicationDirectory", File.applicationDirectory.nativePath);
 					break; 
 				case Keyboard.SEARCH: 
 					trace("Search key is pressed."); 
-					break; 
+					break;
+				case Keyboard.HOME:
+					event.preventDefault();
+					break;
 			} 
 		} 
 		
