@@ -74,10 +74,5 @@ package collaboRhythm.workstation.apps.medications.controller
 			}
 			(_widgetView as MedicationsWidgetView).model = _user.medicationsModel;
 		}
-		
-		public override function close():void
-		{
-			super.close();
-		}
 	}
 }

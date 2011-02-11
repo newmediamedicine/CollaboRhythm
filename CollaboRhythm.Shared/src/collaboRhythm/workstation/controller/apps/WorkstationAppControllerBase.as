@@ -778,7 +778,17 @@ package collaboRhythm.workstation.controller.apps
 		{
 		}
 		
-		public function close():void
+		/**
+		 * Removes the widget and full views from their respective parents and sets the corresponding references to null
+		 * to allow for garbage collection. This method is called when the view(s) for the app are no longer needed.
+		 * Any model or view state data that this app needs (perhaps in user.appData) should NOT be removed here because
+		 * the view(s) may be subsequently re-created and their state should be restored if this happens.
+		 * <p>
+		 * Subclasses may override this and provide additional cleanup if required
+		 * before or after super.destroyViews().  
+		 * 
+		 */
+		public function destroyViews():void
 		{
 			// TODO: ensure that the views are completely destructed and removed from memory (remove and references, event listeners)
 			
@@ -809,6 +819,7 @@ package collaboRhythm.workstation.controller.apps
 			
 			if (fullView)
 			{
+				fullView.accessibilityProperties = null;
 				fullView = null;
 			}
 		}
@@ -822,6 +833,23 @@ package collaboRhythm.workstation.controller.apps
 		}
 		
 		public function reloadUserData():void
+		{
+			// to be implemented by subclasses
+		}
+		
+		public function close():void
+		{
+			destroyViews();
+			removeUserData();
+		}
+		
+		/**
+		 * Removes any references to user data owned by this app on the User object.
+		 * This is called when closing the user/record and/or when closing or reloading the whole application.
+		 * <p>
+		 * Sublcasses should override this method if they have added any data to the User, such as on User.appData.
+		 */
+		protected function removeUserData():void
 		{
 			// to be implemented by subclasses
 		}

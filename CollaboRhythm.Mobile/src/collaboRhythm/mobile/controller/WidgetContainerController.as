@@ -118,7 +118,8 @@ package collaboRhythm.mobile.controller
 		{
 			view.removeEventListener(PluginEvent.RELOAD_REQUEST, view_reloadRequestHandler);
 			var app:WorkstationAppControllerBase = view.workstationAppController;
-			app.close();
+			// TODO: perhaps only the widget/mobile view should be destroyed here?
+			app.destroyViews();
 		}
 		
 		public function toggleMenu(view:WidgetContainerView):void

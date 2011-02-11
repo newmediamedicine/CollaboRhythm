@@ -92,20 +92,6 @@ package collaboRhythm.workstation.apps.schedule.controller
 			}
 		}
 		
-		public override function close():void
-		{
-			super.close();
-//			for each (var adherenceGroupView:AdherenceGroupView in _fullView.adherenceGroupViews)
-//			{
-//				adherenceGroupView.unwatchAll();
-//				adherenceGroupView.adherenceWindowView.unwatchAll();
-//			}
-//			for each (var medicationView:MedicationView in _fullView.medicationViews)
-//			{
-//				medicationView.unwatchAll();
-//			}
-		}
-		
 		public override function get defaultName():String
 		{
 			return "Schedule";
