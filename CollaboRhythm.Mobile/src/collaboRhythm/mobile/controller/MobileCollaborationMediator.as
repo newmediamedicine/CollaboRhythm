@@ -11,13 +11,11 @@
 */
 package collaboRhythm.mobile.controller
 {
+	import collaboRhythm.core.controller.ApplicationControllerBase;
+	import collaboRhythm.core.controller.CollaborationMediatorBase;
 	import collaboRhythm.workstation.apps.problems.controller.ProblemsAppController;
-	import collaboRhythm.workstation.controller.ApplicationControllerBase;
-	import collaboRhythm.workstation.controller.CollaborationMediatorBase;
 	import collaboRhythm.workstation.controller.apps.WorkstationAppControllerBase;
 	import collaboRhythm.workstation.model.User;
-	
-	import flash.utils.flash_proxy;
 
 	public class MobileCollaborationMediator extends CollaborationMediatorBase
 	{

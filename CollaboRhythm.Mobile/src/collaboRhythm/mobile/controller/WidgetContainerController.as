@@ -13,13 +13,11 @@ package collaboRhythm.mobile.controller
 {
 	import collaboRhythm.core.pluginsManagement.PluginEvent;
 	import collaboRhythm.mobile.view.WidgetContainerView;
-	import collaboRhythm.workstation.controller.CollaborationMediatorBase;
+	import collaboRhythm.core.controller.CollaborationMediatorBase;
 	import collaboRhythm.workstation.controller.apps.WorkstationAppControllerBase;
 	
-	import flash.events.TouchEvent;
 	import flash.events.TransformGestureEvent;
 	
-	import spark.components.View;
 	import spark.components.ViewNavigator;
 	import spark.effects.SlideViewTransition;
 
@@ -118,7 +116,8 @@ package collaboRhythm.mobile.controller
 		{
 			view.removeEventListener(PluginEvent.RELOAD_REQUEST, view_reloadRequestHandler);
 			var app:WorkstationAppControllerBase = view.workstationAppController;
-			app.close();
+			// TODO: perhaps only the widget/mobile view should be destroyed here?
+			app.destroyViews();
 		}
 		
 		public function toggleMenu(view:WidgetContainerView):void

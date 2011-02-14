@@ -89,11 +89,6 @@ package collaboRhythm.workstation.apps.bloodPressureAgent.controller
 			dispatchEvent(new WorkstationAppEvent(WorkstationAppEvent.SHOW_FULL_VIEW, null, null, event.applicationName));
 		}
 		
-		public override function close():void
-		{
-			super.close();
-		}
-		
 		override public function reloadUserData():void
 		{
 			if (_fullView)

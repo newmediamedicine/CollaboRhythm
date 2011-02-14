@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ ~ Copyright 2011 John Moore, Scott Gilroy
+ ~
+ ~ This file is part of CollaboRhythm.
+ ~
+ ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ ~
+ ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ ~
+ ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 xmlns:view="collaboRhythm.workstation.view.*"
+		 height="100">
+	<fx:Declarations>
+		<s:Animate id="showEffect" target="{this}">
+			<s:motionPaths>
+				<s:SimpleMotionPath property="y" valueFrom="-{this.height}" valueTo="0"/>
+			</s:motionPaths>
+		</s:Animate>
+		<s:Animate id="hideEffect" target="{this}">
+			<s:motionPaths>
+				<s:SimpleMotionPath property="y" valueFrom="0" valueTo="-{this.height}"/>
+			</s:motionPaths>
+		</s:Animate>
+		<s:Animate id="currentDateShowEffect" target="{this.currentDateBorderContainer}" duration="1000" startDelay="500">
+			<s:motionPaths>
+				<s:SimpleMotionPath property="y" valueFrom="{-this.currentDateBorderContainer.height - 13}" valueTo="-13"/>
+			</s:motionPaths>
+			<s:easer>
+				<s:Power easeInFraction="0" exponent="4" />
+			</s:easer>
+		</s:Animate>
+		<s:Animate id="currentDateHideEffect" target="{this.currentDateBorderContainer}" duration="1000" startDelay="500">
+			<s:motionPaths>
+				<s:SimpleMotionPath property="y" valueTo="{-this.currentDateBorderContainer.height - 13}" valueFrom="-13"/>
+			</s:motionPaths>
+			<s:easer>
+				<s:Power easeInFraction="1" exponent="4" />
+			</s:easer>
+		</s:Animate>
+		<s:Animate id="dateChangeEffect" target="{currentDateGlow}" duration="2000" startDelay="500">
+			<s:motionPaths>
+				<s:SimpleMotionPath property="alpha" valueFrom="1" valueTo="0"/>
+			</s:motionPaths>
+		</s:Animate>
+	</fx:Declarations>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		
+		#fullName
+		{
+			font-size: 36;
+			font-weight: bold;
+		}
+		
+		.IconButton
+		{
+			skin-class: ClassReference("collaboRhythm.workstation.view.IconButtonSkin");
+		}
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[			
+			import collaboRhythm.core.controller.WorkstationCommandBarController;
+			import collaboRhythm.workstation.model.User;
+			import collaboRhythm.workstation.model.WorkstationCommandBarModel;
+			import collaboRhythm.workstation.model.services.DemoCurrentDateSource;
+			
+			import mx.events.FlexEvent;
+			import mx.events.PropertyChangeEvent;
+			
+			[Bindable]
+			private var _workstationCommandBarController:WorkstationCommandBarController;
+
+			[Bindable]
+			private var _model:WorkstationCommandBarModel;
+			
+			private static const SEPARATOR_COLOR:String = "0xA7A9AC";
+			
+			public function initializeController(workstationCommandBarController:WorkstationCommandBarController, model:WorkstationCommandBarModel):void 
+			{
+				_workstationCommandBarController = workstationCommandBarController;
+				_model = model;
+				
+				var demoCurrentDataSource:DemoCurrentDateSource = _model.currentDateSource as DemoCurrentDateSource
+				if (demoCurrentDataSource != null)
+					demoCurrentDataSource.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, currentDateSource_propertyChangeHandler);
+			}
+
+			private function closeRecordButton_clickHandler(event:MouseEvent):void
+			{
+				_workstationCommandBarController.closeRecord();
+			}
+			
+			private function collaborateButtonHandler(event:MouseEvent):void
+			{
+				_workstationCommandBarController.collaborateWithUser();
+			}
+			
+			private function determineCollaborateButtonEnabled(collaborationLobbyConnectionStatus:String):Boolean
+			{
+				return _model.allowCollaboration;
+			}
+
+			protected function currentDateSource_propertyChangeHandler(event:PropertyChangeEvent):void
+			{
+				if (event.property == "currentDate")
+				{
+					var oldDemoMode:Boolean = event.oldValue != null && !isNaN(event.oldValue as Number) && event.oldValue != 0; 
+					var demoMode:Boolean = event.newValue != null && !isNaN(event.newValue as Number) && event.newValue != 0; 
+					
+					if (!oldDemoMode && demoMode)
+					{
+						currentDateShowEffect.stop();
+						currentDateHideEffect.stop();
+						dateChangeEffect.stop();
+						
+						currentDateShowEffect.play();
+						dateChangeEffect.play();
+					}
+					else if (oldDemoMode && !demoMode)
+					{
+						currentDateShowEffect.stop();
+						currentDateHideEffect.stop();
+						dateChangeEffect.end();
+						
+						currentDateHideEffect.play();
+					}
+					else
+					{
+						currentDateShowEffect.end();
+						currentDateHideEffect.stop();
+						dateChangeEffect.stop();
+
+						dateChangeEffect.play();
+					}
+				}
+			}
+
+		]]>
+	</fx:Script>	
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="0xDDDDDD"/>
+		</s:fill>
+	</s:Rect>
+	<mx:Image source="{_model.subjectUser.contact.imageURI}" width="99" height="99" top="1" smoothBitmapContent="true"/>
+	<s:Label 
+		id="fullName"
+		text="{_model.subjectUser.contact.givenName} {_model.subjectUser.contact.familyName}"
+		left="110" top="22"
+	/>
+	<s:RichText id="demographics" fontSize="28" left="106" top="60">
+		<s:textFlow>	
+			<s:TextFlow>
+				<s:p>
+					<s:span text="{_model.subjectUser.demographics.age}"/> <s:span color="{SEPARATOR_COLOR}">|</s:span>
+					<s:span text="{_model.subjectUser.demographics.ethnicity}"/> <s:span color="{SEPARATOR_COLOR}">|</s:span>
+					<s:span text="{_model.subjectUser.demographics.gender}"/>
+				</s:p>
+			</s:TextFlow>
+		</s:textFlow>
+	</s:RichText>
+	<s:HGroup 
+		id="commandBarRightGroup"
+		right="0" height="100%"
+		gap="10" paddingTop="5" paddingBottom="5" paddingLeft="5" paddingRight="5">
+		<s:Group 
+			id="currentDateGroup"
+			>
+			<s:BorderContainer
+				id="currentDateBorderContainer"
+				y="{-this.currentDateBorderContainer.height - 13}"
+				height="{commandBarRightGroup.height - 8}"
+				borderWeight="4"
+				borderColor="#FFFFFFF"
+				backgroundColor="#FF0000"
+				cornerRadius="8"
+				>
+				<!--
+				visible="{_model.currentDateSource.currentDate != null}"
+				-->
+				<s:VGroup
+					top="13"
+					paddingLeft="5"
+					paddingRight="5"
+					paddingBottom="5"
+					fontSize="16"
+					color="#FFFFFF"
+					gap="0"
+					>
+					<s:Label text="::Demo Mode::" fontWeight="bold" textAlign="center"/>
+					<s:Label
+						id="currentDate"
+						text="&#13;Current Date:&#13;{_model.currentDateSource.currentDate.toDateString()}"
+						/>
+				</s:VGroup>
+				<s:filters>
+					<s:DropShadowFilter id="currentDateShadow" blurX="6" blurY="6"/>
+					<s:GlowFilter id="currentDateGlow" blurX="12" blurY="12" color="#00FF00" quality="2" strength="4" alpha="0"/>
+				</s:filters>
+			</s:BorderContainer>
+		</s:Group>
+
+		<view:IconButton
+			id="collaborateButton"
+			styleName="IconButton"
+			click="collaborateButtonHandler(event)"
+			icon="@Embed(source='resources/images/icons/buttonIcons/collaborateButtonIcon.png')"
+			enabled="{determineCollaborateButtonEnabled(_model.subjectUser.collaborationLobbyConnectionStatus)}"
+		/>
+		<view:IconButton
+			id="closeRecordButton"
+			styleName="IconButton"
+			click="closeRecordButton_clickHandler(event)"
+			icon="@Embed(source='resources/images/icons/buttonIcons/closeRecordButtonIcon.png')"
+			enabled="{_model.allowCloseRecord}"
+		/>
+	</s:HGroup>
+	<s:Line bottom="0" width="100%">
+		<s:stroke>
+			<s:SolidColorStroke color="0x000000"/>
+		</s:stroke>
+	</s:Line>	
+</s:Group>

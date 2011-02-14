@@ -14,7 +14,6 @@ package collaboRhythm.core.pluginsManagement
 	import mx.collections.ArrayCollection;
 	import mx.core.IFlexModuleFactory;
 	import mx.events.ModuleEvent;
-	import mx.modules.IModule;
 	import mx.modules.IModuleInfo;
 	import mx.modules.ModuleLoader;
 
@@ -131,6 +130,8 @@ package collaboRhythm.core.pluginsManagement
 		protected function moduleLoader_errorHandler(event:ModuleEvent):void
 		{
 			trace(event.errorText);
+			
+			// TODO: update pendingModuleLoaders as in moduleLoader_readyHandler
 		}
 		
 		public function unloadPlugins():void

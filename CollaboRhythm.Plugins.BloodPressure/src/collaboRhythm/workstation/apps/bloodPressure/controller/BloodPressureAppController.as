@@ -12,6 +12,7 @@
 package collaboRhythm.workstation.apps.bloodPressure.controller
 {
 	import collaboRhythm.workstation.apps.bloodPressure.model.BloodPressureHealthRecordService;
+	import collaboRhythm.workstation.apps.bloodPressure.model.BloodPressureModel;
 	import collaboRhythm.workstation.apps.bloodPressure.view.BloodPressureFullView;
 	import collaboRhythm.workstation.apps.bloodPressure.view.BloodPressureWidgetView;
 	import collaboRhythm.workstation.controller.apps.WorkstationAppControllerBase;
@@ -88,14 +89,19 @@ package collaboRhythm.workstation.apps.bloodPressure.controller
 			super.initialize();
 			if (_user.bloodPressureModel.data == null)
 			{
-				var bloodPressureHealthRecordService:BloodPressureHealthRecordService = new BloodPressureHealthRecordService(_healthRecordService.consumerKey, _healthRecordService.consumerSecret, _healthRecordService.baseURL);
-				bloodPressureHealthRecordService.copyLoginResults(_healthRecordService);
-				bloodPressureHealthRecordService.loadBloodPressure(_user);
+				loadBloodPressureData();
 			}
 			if (_widgetView)
 				_widgetView.model = _user.bloodPressureModel;
 			
 			prepareFullView();
+		}
+		
+		protected function loadBloodPressureData():void
+		{
+			var bloodPressureHealthRecordService:BloodPressureHealthRecordService = new BloodPressureHealthRecordService(_healthRecordService.consumerKey, _healthRecordService.consumerSecret, _healthRecordService.baseURL);
+			bloodPressureHealthRecordService.copyLoginResults(_healthRecordService);
+			bloodPressureHealthRecordService.loadBloodPressure(_user);
 		}
 		
 		override protected function prepareFullView():void
@@ -118,11 +124,14 @@ package collaboRhythm.workstation.apps.bloodPressure.controller
 		
 		override public function reloadUserData():void
 		{
-			//TODO: Determine a strategy for reloading data and refreshing views
-//			_healthRecordService.loadBloodPressure(_user);
-			_fullView.refresh();
-			_widgetView.refresh();
-			_fullView.simulationView.refresh();
+			loadBloodPressureData();
+			if (_fullView)
+			{
+				_fullView.refresh();
+				_fullView.simulationView.refresh();
+			}
+			if (_widgetView)
+				_widgetView.refresh();
 		}
 		
 		override protected function showFullViewComplete():void
@@ -135,17 +144,22 @@ package collaboRhythm.workstation.apps.bloodPressure.controller
 			_fullView.simulationView.isRunning = false;
 		}
 		
-		override public function close():void
+		override public function destroyViews():void
 		{
-			super.close();
-			
 			if (_fullView)
 				_fullView.simulationView.isRunning = false;
+
+			super.destroyViews();
 		}
 
 		public override function get defaultName():String
 		{
 			return "Blood Pressure Review";
+		}
+		
+		override protected function removeUserData():void
+		{
+			user.bloodPressureModel = new BloodPressureModel();
 		}
 	}
 }
