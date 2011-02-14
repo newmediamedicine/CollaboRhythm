@@ -11,7 +11,11 @@
 */
 package collaboRhythm.plugins.medications.model
 {
-	import collaboRhythm.workstation.apps.schedule.model.ScheduleItemBase;
+	import collaboRhythm.plugins.medications.view.FullMedicationView;
+	import collaboRhythm.plugins.medications.view.ScheduleItemWidgetViewMedication;
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
+	import collaboRhythm.plugins.schedule.shared.view.FullScheduleItemViewBase;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase;
 	import collaboRhythm.workstation.model.HealthRecordServiceBase;
 	import collaboRhythm.workstation.model.services.ICurrentDateSource;
 	import collaboRhythm.workstation.model.services.WorkstationKernel;
@@ -50,7 +54,7 @@ package collaboRhythm.plugins.medications.model
 			_strengthValue = medicationReportXML.Item.Medication.strength.value;
 			_strengthUnit = medicationReportXML.Item.Medication.strength.unit.@value;
 			_frequency = medicationReportXML.Item.Medication.frequency;
-			_imageURI = "resources/images/apps/medications/" + _name + "_front.jpg";
+			_imageURI = "assets/images/" + _name + "_front.jpg";
 			
 			// hack: no indication in data now, so set it here for the moment
 			if (_name == "Metformin")
@@ -209,6 +213,20 @@ package collaboRhythm.plugins.medications.model
 		private function set imageURI(value:String):void
 		{
 			_imageURI = value;
+		}
+		
+		public override function createScheduleItemWidgetView():ScheduleItemWidgetViewBase
+		{
+			var widgetMedicationView:ScheduleItemWidgetViewMedication = new ScheduleItemWidgetViewMedication();
+			widgetMedicationView.medication = this;
+			return widgetMedicationView;
+		}
+			
+		public override function createScheduleItemFullView():FullScheduleItemViewBase
+		{
+			var fullMedicationView:FullMedicationView = new FullMedicationView();
+			fullMedicationView.medication = this;
+			return fullMedicationView;
 		}
 	}
 }

@@ -9,11 +9,9 @@
  *
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
 */
-package collaboRhythm.workstation.apps.schedule.model
+package collaboRhythm.plugins.schedule.shared.model
 {
-	import collaboRhythm.workstation.apps.schedule.view.FullAdherenceGroupView;
-	import collaboRhythm.workstation.apps.schedule.view.FullMedicationView;
-	import collaboRhythm.workstation.apps.schedule.view.FullScheduleItemViewBase;
+	import collaboRhythm.plugins.schedule.shared.view.FullAdherenceGroupView;
 	import collaboRhythm.workstation.model.services.ICurrentDateSource;
 	import collaboRhythm.workstation.model.services.WorkstationKernel;
 	
@@ -141,10 +139,10 @@ package collaboRhythm.workstation.apps.schedule.model
 			_initialized = value;
 		}
 		
-		private function addScheduleItem(documentID:String, scheduleItem:ScheduleItemBase):void
+		public function addScheduleItem(documentID:String, scheduleItem:ScheduleItemBase):void
 		{
-			_scheduleItemsCollection.addItem(scheduleItem);
-			_scheduleItemsDictionary[documentID] = scheduleItem;
+			// TODO: Revise scheduled vs. unscheduled
+			scheduleItem.scheduled = true;
 			if (scheduleItem.scheduled == true)
 			{
 				var adherenceGroup:AdherenceGroup;
@@ -160,38 +158,10 @@ package collaboRhythm.workstation.apps.schedule.model
 				}
 				scheduleItem.adherenceGroup = adherenceGroup;
 			}
+			_scheduleItemsCollection.addItem(scheduleItem);
+			_scheduleItemsDictionary[documentID] = scheduleItem;
 		}
-		
-		private function addMedicationsToScheduleItems(initialized:Boolean):void
-		{
-			if (initialized == true)
-			{
-//				for each (var medication:Medication in _medicationsModel.medicationsCollection)
-//				{
-//					// HACK
-////					if (medication.brandName == "Hydrochlorothiazide")
-////					{
-////						medication.scheduled = false;
-////					}
-////					else
-////					{
-////						medication.scheduled = true;
-////					}
-//					medication.scheduled = true;
-//					medication.scheduleModel = this;
-//					addScheduleItem(medication.documentID, medication);
-//				}
-//				
-//				// HACK
-//				var bloodPressureMeasurement:Measurement = new Measurement();
-//				bloodPressureMeasurement.scheduled = true;
-//				bloodPressureMeasurement.scheduleModel = this;
-//				addScheduleItem(bloodPressureMeasurement.documentID, bloodPressureMeasurement);
 				
-				determineStacking();
-			}
-		}
-		
 		public function moveSmartDrawerStart(moveData:MoveData, collaborationColor:String):void
 		{
 			drawerColor = collaborationColor;
@@ -440,7 +410,8 @@ package collaboRhythm.workstation.apps.schedule.model
 			var adherenceGroupsStacked:Number = 0;
 			var groupFromRight:Number = 0;
 			var previousStackHasAdherenceGroup:Boolean = false;
-			var scheduleItemsPerHour:Number = Math.ceil((FullMedicationView.MEDICATION_WIDTH - FullMedicationView.MEDICATION_PICTURE_WIDTH / 2 + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH) / timeWidth);
+			//TODO: fix static medication width reference;
+			var scheduleItemsPerHour:Number = 5;//Math.ceil((FullMedicationView.MEDICATION_WIDTH - FullMedicationView.MEDICATION_PICTURE_WIDTH / 2 + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH) / timeWidth);
 			
 			for (var currentHour:Number = 24; currentHour >= 1; currentHour--) {
 				if (_adherenceGroupsVector[currentHour-1] != null)

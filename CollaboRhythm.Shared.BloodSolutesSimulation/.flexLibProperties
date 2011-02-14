@@ -2,7 +2,6 @@
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
     <classEntry path="collaboRhythm.shared.bloodSolutesSimulation.view.BloodSolutesSimulationView"/>
-    <classEntry path="collaboRhythm.shared.bloodSolutesSimulation.view.BloodSolutesContactListener"/>
     <classEntry path="collaboRhythm.shared.bloodSolutesSimulation.view.BodyInfo"/>
     <classEntry path="collaboRhythm.shared.bloodSolutesSimulation.view.ScaleToFitLayout"/>
   </includeClasses>

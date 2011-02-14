@@ -14,6 +14,7 @@ package collaboRhythm.plugins.medications.controller
 	import collaboRhythm.plugins.medications.model.MedicationsHealthRecordService;
 	import collaboRhythm.plugins.medications.model.MedicationsModel;
 	import collaboRhythm.plugins.medications.view.MedicationsWidgetView;
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
 	import collaboRhythm.workstation.controller.apps.WorkstationAppControllerBase;
 	
 	import flash.display.DisplayObject;
@@ -60,7 +61,7 @@ package collaboRhythm.plugins.medications.controller
 		{
 			var newWidgetView:MedicationsWidgetView = new MedicationsWidgetView();
 			if (_user != null)
-				newWidgetView.model = _user.getAppData(MedicationsModel.MEDICATIONS_KEY, MedicationsModel) as MedicationsModel;
+				newWidgetView.model = medicationsModel;
 			return newWidgetView;
 		}
 		
@@ -78,9 +79,22 @@ package collaboRhythm.plugins.medications.controller
 			{
 				if (_user.appData[MedicationsModel.MEDICATIONS_KEY] == null)
 				{
-					_user.appData[MedicationsModel.MEDICATIONS_KEY] = new MedicationsModel();
+					_user.appData[MedicationsModel.MEDICATIONS_KEY] = new MedicationsModel(scheduleModel);
 				}
 				return _user.getAppData(MedicationsModel.MEDICATIONS_KEY, MedicationsModel) as MedicationsModel;
+			}
+			return null;
+		}
+		
+		private function get scheduleModel():ScheduleModel
+		{
+			if (_user != null)
+			{
+				if (_user.appData[ScheduleModel.SCHEDULE_KEY] == null)
+				{
+					_user.appData[ScheduleModel.SCHEDULE_KEY] = new ScheduleModel();
+				}
+				return _user.getAppData(ScheduleModel.SCHEDULE_KEY, ScheduleModel) as ScheduleModel;
 			}
 			return null;
 		}

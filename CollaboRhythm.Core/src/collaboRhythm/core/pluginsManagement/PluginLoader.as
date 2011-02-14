@@ -8,6 +8,7 @@ package collaboRhythm.core.pluginsManagement
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
+	import flash.system.ApplicationDomain;
 	import flash.utils.ByteArray;
 	
 	import mx.collections.ArrayCollection;
@@ -90,6 +91,11 @@ package collaboRhythm.core.pluginsManagement
 			
 			moduleLoaders.push(moduleLoader);
 			pendingModuleLoaders.addItem(moduleLoader);
+			// TODO: determine if this is the best approach
+			// The problem is that, if two different plugins create instances of the same class from a shared library, but there is no instance of that class in the shared library, then they will each have their own version of that class
+			// By changing the application domain from the child domain to the current domain, this problem does not exist becasue all of the modules are in the same domain
+			// http://livedocs.adobe.com/flex/3/html/help.html?content=modular_2.html
+			moduleLoader.applicationDomain = ApplicationDomain.currentDomain;
 			moduleLoader.loadModule(file.nativePath, moduleBytes);
 		}
 		

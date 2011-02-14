@@ -10,11 +10,11 @@
  ~
  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<view:FullScheduleItemViewBase name="MeasurementView"
+<view1:FullScheduleItemViewBase name="MeasurementView"
 							   xmlns:fx="http://ns.adobe.com/mxml/2009"
 							   xmlns:s="library://ns.adobe.com/flex/spark"
 							   xmlns:mx="library://ns.adobe.com/flex/mx"
- xmlns:view="collaboRhythm.workstation.apps.schedule.view.*">
+ xmlns:view="collaboRhythm.workstation.apps.schedule.view.*" xmlns:view1="collaboRhythm.plugins.schedule.shared.view.*">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -33,12 +33,12 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.workstation.apps.schedule.model.AdherenceGroup;
-			import collaboRhythm.workstation.apps.schedule.model.ScheduleModel;
-			import collaboRhythm.workstation.apps.schedule.model.MoveData;
-			import collaboRhythm.workstation.apps.schedule.model.ScheduleItemBase;
-			import collaboRhythm.workstation.apps.schedule.model.Measurement;
-			import collaboRhythm.workstation.apps.schedule.controller.ScheduleFullViewController;
+			import collaboRhythm.plugins.schedule.shared.model.AdherenceGroup;
+			import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
+			import collaboRhythm.plugins.schedule.shared.model.MoveData;
+			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
+			import collaboRhythm.plugins.schedule.shared.model.Measurement;
+			import collaboRhythm.plugins.schedule.shared.controller.ScheduleFullViewController;
 			
 			import mx.core.UIComponent;
 			
@@ -82,7 +82,7 @@
 				<s:SolidColorStroke color="0xFFFFFF" weight="1" alpha="0.5"/>
 			</s:stroke>
 		</s:Rect>
-		<mx:Image right="8" verticalCenter="0" source="@Embed(source='resources/images/icons/gripHorizontalNarrow.png')"/>
+		<mx:Image right="8" verticalCenter="0" source="@Embed(source='assets/images/gripHorizontalNarrow.png')"/>
 		<s:Group id="medicationContent" left="1" right="29" top="1" bottom="1">
 			<s:Rect width="80" height="100%">
 				<s:fill>
@@ -90,11 +90,11 @@
 				</s:fill>
 			</s:Rect>
 			<mx:Image source="{_measurement.imageURI}" width="{MEDICATION_PICTURE_WIDTH}" height="{MEDICATION_PICTURE_WIDTH}" smoothBitmapContent="true"/>
-			<mx:Image source="@Embed(source='resources/images/apps/schedule/blood_pressure_measurement_widget.png')" smoothBitmapContent="true" left="57" top="4"/>
+			<mx:Image source="@Embed(source='assets/images/blood_pressure_measurement_widget.png')" smoothBitmapContent="true" left="57" top="4"/>
 			<s:Label id="description" text="{_measurement.description}" left="83" right="1" maxDisplayedLines="1" y="7"/>	
 			<s:Label id="indication" text="{_measurement.indication} - Dr. James King" left="83" right="1" maxDisplayedLines="1" y="30" fontSize="13"/>
 			<s:Label id="administration" text="{_measurement.administration}" left="83" y="50" fontSize="13"/>
 			<s:Label id="instructions" text="{_measurement.instructions}" left="83" y="64" fontSize="13"/>
 		</s:Group>
 	</s:Group>
-</view:FullScheduleItemViewBase> 
+</view1:FullScheduleItemViewBase> 

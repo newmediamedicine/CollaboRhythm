@@ -15,7 +15,7 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 clipAndEnableScrolling="true" xmlns:images="assets.images.*"
 		 resize="resizeClock()"
-		 creationComplete="startClock()"
+		 creationComplete="initializeClock()"
 		 >
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
@@ -32,50 +32,46 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[	
-			import castle.flexbridge.reflection.Void;
+			import collaboRhythm.plugins.schedule.shared.model.AdherenceGroup;
+			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
+			import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
+			import collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase;
 			
-			import collaboRhythm.workstation.apps.schedule.controller.ScheduleFullViewController;
-			import collaboRhythm.workstation.apps.schedule.model.AdherenceGroup;
-			import collaboRhythm.workstation.apps.schedule.model.Measurement;
-			import collaboRhythm.workstation.apps.schedule.model.MoveData;
-			import collaboRhythm.workstation.apps.schedule.model.ScheduleItemBase;
-			import collaboRhythm.workstation.apps.schedule.model.ScheduleModel;
-			
-			import com.leebrimelow.drawing.Wedge;
-			
-			import mx.binding.utils.BindingUtils;
 			import mx.collections.ArrayCollection;
-			import mx.core.UIComponent;
 			import mx.events.CollectionEvent;
 			import mx.events.CollectionEventKind;
 					
 			[Bindable]
 			private var _scheduleModel:ScheduleModel;
+			[Bindable]
+			private var _scheduleClockResized:Boolean = false;
 			private var _scheduleItemsCollection:ArrayCollection;
 			private var _adherenceGroupsCollection:ArrayCollection;
-			private var _widgetMedicationViews:Vector.<WidgetMedicationView>;
-			private var _widgetAdherenceWindowViews:Vector.<WidgetAdherenceWindowView>;
+			private var _widgetScheduleItemViews:Vector.<ScheduleItemWidgetViewBase> = new Vector.<ScheduleItemWidgetViewBase>;
+			private var _widgetAdherenceWindowViews:Vector.<WidgetAdherenceWindowView> = new Vector.<WidgetAdherenceWindowView>;
 			
 			public function init(scheduleModel:ScheduleModel):void
 			{
 				_scheduleModel = scheduleModel;
-			}
-			
-			// TODO
-			public function initializeClock(scheduleModel:ScheduleModel):void
-			{				
-				_scheduleModel = scheduleModel;
-				_scheduleItemsCollection = _scheduleModel.scheduleItemsCollection;
-				_adherenceGroupsCollection = _scheduleModel.adherenceGroupsCollection;
-				_widgetMedicationViews = new Vector.<WidgetMedicationView>;
-				_widgetAdherenceWindowViews = new Vector.<WidgetAdherenceWindowView>;
 				
+				_scheduleItemsCollection = _scheduleModel.scheduleItemsCollection;
 				_scheduleItemsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, scheduleItemsCollectionChangeHandler);
-				_adherenceGroupsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, adherenceGroupsCollectionChangeHandler);		
+				_adherenceGroupsCollection = _scheduleModel.adherenceGroupsCollection;
+				_adherenceGroupsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, adherenceGroupsCollectionChangeHandler);	
 			}
 			
-			private function startClock():void
+			private function initializeClock():void
 			{
+				for each (var scheduleItem:ScheduleItemBase in _scheduleItemsCollection)
+				{
+					createScheduleItemView(scheduleItem);
+				}
+				
+				for each (var adherenceGroup:AdherenceGroup in _adherenceGroupsCollection)
+				{
+					createAdherenceWindowView(adherenceGroup);
+				}
+				
 				updateTime();
 				
 				// creates a Timer that fires an event once per 10 minutes
@@ -143,31 +139,17 @@
 
 			public function createScheduleItemView(scheduleItem:ScheduleItemBase):void
 			{
-				var className:String = getQualifiedClassName(scheduleItem);
-				if (className == "collaboRhythm.workstation.apps.medications.model::Medication")
-				{
-					var widgetMedicationView:WidgetMedicationView = new WidgetMedicationView();
-					widgetMedicationView.medication = scheduleItem;
-					widgetMedicationView.scheduleWidgetView = this;
-					medicationsGroup.addElement(widgetMedicationView);
-					_widgetMedicationViews.push(widgetMedicationView);
-				}
-				else if (className == "collaboRhythm.workstation.apps.schedule.model::Measurement")
-				{
-					var widgetMeasurementView:WidgetMeasurementView = new WidgetMeasurementView();
-					widgetMeasurementView.measurement = Measurement(scheduleItem);
-					widgetMeasurementView.scheduleWidgetView = this;
-					medicationsGroup.addElement(widgetMeasurementView);
-//					_widgetMedicationViews.push(widgetMeasurementView);
-				}
+				var widgetScheduleItemView:ScheduleItemWidgetViewBase = scheduleItem.createScheduleItemWidgetView();
+				widgetScheduleItemView.init(scheduleItem, scheduleItemsGroup);
+				scheduleItemsGroup.addElement(widgetScheduleItemView);
+				_widgetScheduleItemViews.push(widgetScheduleItemView);
 			}
 			
 			public function createAdherenceWindowView(adherenceGroup:AdherenceGroup):void
 			{				
 				var widgetAdherenceWindowView:WidgetAdherenceWindowView = new WidgetAdherenceWindowView();
-				widgetAdherenceWindowView.adherenceGroup = adherenceGroup;
-				widgetAdherenceWindowView.scheduleWidgetView = this;
-				adherenceGroupsGroup.addElement(widgetAdherenceWindowView);
+				widgetAdherenceWindowView.init(adherenceGroup, adherenceWindowsGroup);
+				adherenceWindowsGroup.addElement(widgetAdherenceWindowView);
 				_widgetAdherenceWindowViews.push(widgetAdherenceWindowView);		
 			}
 			
@@ -179,7 +161,7 @@
 					{
 						var clockAdherenceWindowViewIndex:Number = _widgetAdherenceWindowViews.indexOf(widgetAdherenceWindowView);
 						_widgetAdherenceWindowViews.splice(clockAdherenceWindowViewIndex, 1);
-						adherenceGroupsGroup.removeElement(widgetAdherenceWindowView);
+						adherenceWindowsGroup.removeElement(widgetAdherenceWindowView);
 					}
 				}
 			}
@@ -188,26 +170,30 @@
 			{
 				if (this.width < this.height)
 				{
-					medicationsGroup.width = medicationsGroup.height = this.width;
+					scheduleItemsGroup.width = scheduleItemsGroup.height = this.width;
+					adherenceWindowsGroup.width = adherenceWindowsGroup.height = this.width;
 					clockBackground.width = clockBackground.height = this.width;
 					clockForeground.width = clockForeground.height = this.width;
 					clockHand.width = clockHand.height = this.width / 2;
 				}
 				else
 				{
-					medicationsGroup.width = medicationsGroup.height = this.height;
+					scheduleItemsGroup.width = scheduleItemsGroup.height = this.height;
+					adherenceWindowsGroup.width = adherenceWindowsGroup.height = this.height;
 					clockBackground.width = clockBackground.height = this.height;
 					clockForeground.width = clockForeground.height = this.height;
 					clockHand.width = clockHand.height = this.height / 2;
 				}
 				clockHand.x = this.width / 2;
 				clockHand.y = this.height / 2;
+				
+				
 			}
 		]]>
 	</fx:Script>
 	<images:clockBackground id="clockBackground" horizontalCenter="0" verticalCenter="0" />
-	<s:Group id="adherenceGroupsGroup" top="10" left="10" bottom="10" right="10"/>
-	<s:Group id="medicationsGroup" horizontalCenter="0" verticalCenter="0" />
+	<s:Group id="adherenceWindowsGroup" horizontalCenter="0" verticalCenter="0" />
+	<s:Group id="scheduleItemsGroup" horizontalCenter="0" verticalCenter="0" />
 	<images:clockHand id="clockHand" />
 	<images:clockForeground id="clockForeground" horizontalCenter="0" verticalCenter="0" />
 </s:Group>

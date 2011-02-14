@@ -9,10 +9,9 @@
  *
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
 */
-package collaboRhythm.workstation.apps.schedule.model
+package collaboRhythm.plugins.schedule.shared.model
 {
-	import collaboRhythm.workstation.apps.schedule.view.FullAdherenceGroupView;
-	import collaboRhythm.workstation.apps.schedule.view.FullMedicationView;
+	import collaboRhythm.plugins.schedule.shared.view.FullAdherenceGroupView;
 	
 	import mx.collections.ArrayCollection;
 	import mx.core.UIComponent;
@@ -101,7 +100,9 @@ package collaboRhythm.workstation.apps.schedule.model
 			for each (var scheduleItem:ScheduleItemBase in scheduleItems)
 			{
 				scheduleItem.updateHour(moveData.hour);
-				scheduleItem.yBottomPosition = moveData.yBottomPosition + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH + index * (FullMedicationView.MEDICATION_HEIGHT + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH);
+				//TODO: Fix static numbers for heights
+				scheduleItem.yBottomPosition = moveData.yBottomPosition + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH + index * (100 + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH);
+//				(FullMedicationView.MEDICATION_HEIGHT + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH);
 				index += 1;
 			}
 		}

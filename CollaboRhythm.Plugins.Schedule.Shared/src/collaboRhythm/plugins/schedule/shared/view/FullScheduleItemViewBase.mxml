@@ -21,13 +21,14 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.workstation.apps.schedule.model.AdherenceGroup;
-			import collaboRhythm.workstation.apps.schedule.model.MoveData;
-			import collaboRhythm.workstation.apps.schedule.model.ScheduleItemBase;
-			import collaboRhythm.workstation.apps.schedule.model.ScheduleModel;
+			import collaboRhythm.plugins.schedule.shared.model.AdherenceGroup;
+			import collaboRhythm.plugins.schedule.shared.model.MoveData;
+			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
+			import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
 			
 			import mx.binding.utils.BindingUtils;
 			import mx.binding.utils.ChangeWatcher;
+			import mx.containers.Canvas;
 			import mx.events.EffectEvent;
 			
 			import resources.physics.AccelerationEaser;
@@ -38,9 +39,17 @@
 			protected var _scheduleModel:ScheduleModel;
 			[Bindable]
 			protected var _scheduleFullView:ScheduleFullView;
+			[Bindable]
+			private var _scheduleItemsCanvas:Canvas;
 			private var _offsetX:Number;
 			private var _offsetY:Number;
 			private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>;
+			
+			public function init(scheduleItem:ScheduleItemBase, scheduleItemsCanvas:Canvas):void
+			{
+				_scheduleItem = scheduleItem;
+				_scheduleItemsCanvas = scheduleItemsCanvas;
+			}
 			
 			public function get scheduleItem():ScheduleItemBase
 			{
@@ -133,7 +142,8 @@
 					}
 					else
 					{
-						moveData.hour = Math.floor((xPosition - (_scheduleModel.timeWidth / 2) + (FullMedicationView.MEDICATION_PICTURE_WIDTH / 2)) / _scheduleModel.timeWidth) - 1;
+						//TODO: Fix static medication size
+						moveData.hour = Math.floor((xPosition - (_scheduleModel.timeWidth / 2) + (300 / 2)) / _scheduleModel.timeWidth) - 1;
 					}
 					
 					moveScheduleItemDispatch(moveData);
@@ -169,7 +179,8 @@
 			{
 				if (_scheduleItem.scheduled == true)
 				{
-					return Math.floor((hour + 1) * timeWidth + (timeWidth / 2) - (FullMedicationView.MEDICATION_PICTURE_WIDTH / 2));
+					//TODO: Fix static medication size
+					return Math.floor((hour + 1) * timeWidth + (timeWidth / 2) - (300 / 2));
 				}
 				else
 				{
@@ -197,13 +208,17 @@
 					if (_scheduleItem.scheduled == true)
 					{
 						var index:Number = _scheduleItem.adherenceGroup.scheduleItems.indexOf(_scheduleItem);
-						if (yPosition < FullAdherenceGroupView.ADHERENCE_GROUP_TOP_WIDTH + (_scheduleItem.adherenceGroup.scheduleItems.length - index - 1) * (FullMedicationView.MEDICATION_HEIGHT + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH))
+						//TODO: Fix static medication size
+						if (yPosition < FullAdherenceGroupView.ADHERENCE_GROUP_TOP_WIDTH + (_scheduleItem.adherenceGroup.scheduleItems.length - index - 1) * (100 + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH))
 						{
-							yPosition = FullAdherenceGroupView.ADHERENCE_GROUP_TOP_WIDTH + (_scheduleItem.adherenceGroup.scheduleItems.length - index - 1) * (FullMedicationView.MEDICATION_HEIGHT + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH);
+							//TODO: Fix static medication size
+							yPosition = FullAdherenceGroupView.ADHERENCE_GROUP_TOP_WIDTH + (_scheduleItem.adherenceGroup.scheduleItems.length - index - 1) * (100 + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH);
 						}
-						else if (yPosition > _scheduleFullView.scheduleItemCanvas.height - ((index + 1) * (FullMedicationView.MEDICATION_HEIGHT + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH)))
+						//TODO: Fix static medication size
+						else if (yPosition > _scheduleFullView.scheduleItemCanvas.height - ((index + 1) * (100 + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH)))
 						{
-							yPosition = _scheduleFullView.scheduleItemCanvas.height - ((index + 1) * (FullMedicationView.MEDICATION_HEIGHT + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH));	
+							//TODO: Fix static medication size
+							yPosition = _scheduleFullView.scheduleItemCanvas.height - ((index + 1) * (100 + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH));	
 						}
 					}
 					else
@@ -252,7 +267,8 @@
 				var yPosition:Number;
 				if (_scheduleItem.scheduled == true)
 				{
-					yPosition = Math.floor(_scheduleFullView.height - ScheduleFullView.TIMELINE_VIEW_HEIGHT - ScheduleFullView.ADHERENCE_WINDOW_INITIAL_HEIGHT - _scheduleItem.stackNumber * FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH - _scheduleItem.scheduleItemsStacked * (FullMedicationView.MEDICATION_HEIGHT + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH) - _scheduleItem.adherenceGroupsStacked * FullAdherenceGroupView.ADHERENCE_GROUP_TOP_WIDTH);
+					//TODO: Fix static medication size
+					yPosition = Math.floor(_scheduleFullView.height - ScheduleFullView.TIMELINE_VIEW_HEIGHT - ScheduleFullView.ADHERENCE_WINDOW_INITIAL_HEIGHT - _scheduleItem.stackNumber * FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH - _scheduleItem.scheduleItemsStacked * (100 + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH) - _scheduleItem.adherenceGroupsStacked * FullAdherenceGroupView.ADHERENCE_GROUP_TOP_WIDTH);
 				}
 				else
 				{

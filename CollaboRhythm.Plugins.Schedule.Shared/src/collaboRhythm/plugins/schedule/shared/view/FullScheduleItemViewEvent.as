@@ -9,11 +9,11 @@
  *
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
 */
-package collaboRhythm.workstation.apps.schedule.view
+package collaboRhythm.plugins.schedule.shared.view
 {
 
 	
-	import collaboRhythm.workstation.apps.schedule.model.MoveData;
+	import collaboRhythm.plugins.schedule.shared.model.MoveData;
 	
 	import flash.events.Event;
 	

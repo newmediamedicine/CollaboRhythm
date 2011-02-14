@@ -14,18 +14,19 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"  
 		 width="100%" height="100%"
-		 resize="resizeHandler(event)" xmlns:view="collaboRhythm.workstation.apps.schedule.view.*">
+		 resize="resizeHandler(event)" xmlns:view="collaboRhythm.workstation.apps.schedule.view.*" xmlns:view1="collaboRhythm.plugins.schedule.shared.view.*"
+		 creationComplete="initializeView()">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[	
-			import collaboRhythm.workstation.apps.schedule.model.AdherenceGroup;
-			import collaboRhythm.workstation.apps.schedule.model.ScheduleModel;
-			import collaboRhythm.workstation.apps.schedule.model.MoveData;
-			import collaboRhythm.workstation.apps.schedule.model.ScheduleItemBase;
-			import collaboRhythm.workstation.apps.schedule.model.Measurement;
-			import collaboRhythm.workstation.apps.schedule.controller.ScheduleFullViewController;
+			import collaboRhythm.plugins.schedule.shared.controller.ScheduleFullViewController;
+			import collaboRhythm.plugins.schedule.shared.model.AdherenceGroup;
+			import collaboRhythm.plugins.schedule.shared.model.Measurement;
+			import collaboRhythm.plugins.schedule.shared.model.MoveData;
+			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
+			import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
 			
 			import mx.binding.utils.BindingUtils;
 			import mx.collections.ArrayCollection;
@@ -60,7 +61,7 @@
 			private var _fullScheduleItemViews:Vector.<FullScheduleItemViewBase>;
 			private var _fullAdherenceGroupViews:Vector.<FullAdherenceGroupView>;			
 			
-			public function initializeControllerModel(scheduleFullViewController:ScheduleFullViewController, scheduleModel:ScheduleModel):void 
+			public function init(scheduleFullViewController:ScheduleFullViewController, scheduleModel:ScheduleModel):void 
 			{
 				_scheduleFullViewController = scheduleFullViewController;
 				_scheduleModel = scheduleModel;
@@ -88,9 +89,21 @@
 				this.addEventListener(FullScheduleItemViewEvent.ADHERENCE_GROUP_DROP, adherenceGroupDropHandler);		
 				this.addEventListener(FullScheduleItemViewEvent.ADHERENCE_WINDOW_RESIZE, adherenceWindowResizeHandler);
 				
-				
 				_scheduleItemsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, scheduleItemsCollectionChangeHandler);
 				_adherenceGroupsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, adherenceGroupsCollectionChangeHandler);
+			}
+			
+			private function initializeView():void
+			{
+				for each (var scheduleItem:ScheduleItemBase in _scheduleItemsCollection)
+				{
+					createScheduleItemView(scheduleItem);
+				}
+				
+//				for each (var adherenceGroup:AdherenceGroup in _adherenceGroupsCollection)
+//				{
+//					createAdherenceGroupView(adherenceGroup);
+//				}
 			}
 			
 			public function get fullScheduleItemViews():Vector.<FullScheduleItemViewBase>
@@ -144,25 +157,10 @@
 			
 			public function createScheduleItemView(scheduleItem:ScheduleItemBase):void
 			{
-				var className:String = getQualifiedClassName(scheduleItem);
-				if (className == "collaboRhythm.workstation.apps.medications.model::Medication")
-				{
-					var fullMedicationView:FullMedicationView = new FullMedicationView();
-					fullMedicationView.scheduleFullView = this;
-					fullMedicationView.scheduleModel = _scheduleModel;
-					fullMedicationView.medication = scheduleItem;
-					scheduleItemCanvas.addElement(fullMedicationView);
-					_fullScheduleItemViews.push(fullMedicationView);
-				}
-				else if (className == "collaboRhythm.workstation.apps.schedule.model::Measurement")
-				{
-					var fullMeasurementView:FullMeasurementView = new FullMeasurementView();
-					fullMeasurementView.scheduleFullView = this;
-					fullMeasurementView.scheduleModel = _scheduleModel;
-					fullMeasurementView.measurement = Measurement(scheduleItem);
-					scheduleItemCanvas.addElement(fullMeasurementView);
-					_fullScheduleItemViews.push(fullMeasurementView);
-				}
+				var fullScheduleItemView:FullScheduleItemViewBase = scheduleItem.createScheduleItemFullView();
+				fullScheduleItemView.init(scheduleItem, scheduleItemCanvas);
+				scheduleItemCanvas.addElement(fullScheduleItemView);
+				_fullScheduleItemViews.push(fullScheduleItemView);
 			}
 			
 			public function createAdherenceGroupView(adherenceGroup:AdherenceGroup):void
@@ -205,7 +203,8 @@
 			public function resizeHandler(event:ResizeEvent):void 
 			{
 				trace("ScheduleFullView resize width, height = " + this.width + ", " + this.height);
-				_scheduleModel.timeWidth = (this.width - (FullMedicationView.MEDICATION_WIDTH - (FullMedicationView.MEDICATION_PICTURE_WIDTH / 2) + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH)) / 26;
+				//TODO: Fix static size
+				_scheduleModel.timeWidth = (this.width - (300 - (300 / 2) + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH)) / 26;
 			}
 			
 			public function scheduleItemGrabHandler(event:FullScheduleItemViewEvent):void
@@ -279,8 +278,8 @@
 			<s:SolidColor color="0xAAAAAA"/>
 		</s:fill>
 	</s:Rect>
-	<view:FullTimelineView id="timelineView" width="100%" height="{TIMELINE_VIEW_HEIGHT}" bottom="0"/>
-	<view:FullSmartDrawerView id="fullSmartDrawerView" bottom="{ADHERENCE_WINDOW_INITIAL_HEIGHT + TIMELINE_VIEW_HEIGHT}"/>
+	<view1:FullTimelineView id="timelineView" width="100%" height="{TIMELINE_VIEW_HEIGHT}" bottom="0"/>
+	<view1:FullSmartDrawerView id="fullSmartDrawerView" bottom="{ADHERENCE_WINDOW_INITIAL_HEIGHT + TIMELINE_VIEW_HEIGHT}"/>
 	<mx:Canvas id="adherenceWindowCanvas" width="100%" top="0" bottom="0" height="100%" clipContent="false"/>
 	<mx:Canvas id="scheduleItemCanvas" width="100%" top="0" bottom="{TIMELINE_VIEW_HEIGHT}" clipContent="false"/>
 </s:Group>

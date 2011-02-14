@@ -13,35 +13,49 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 width="100%" height="100%"
-		 x="{calculateXPosition(_adherenceGroup.hour, _adherenceGroup.adherenceWindow, _scheduleWidgetView.adherenceGroupsGroup.height)}">
+		 width="100%" height="100%">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.workstation.apps.schedule.model.AdherenceGroup;
-			import collaboRhythm.workstation.apps.schedule.model.MoveData;
-			import collaboRhythm.workstation.apps.schedule.model.ScheduleModel;
+			import castle.flexbridge.reflection.Void;
+			
+			import collaboRhythm.plugins.schedule.shared.model.AdherenceGroup;
+			import collaboRhythm.plugins.schedule.shared.model.MoveData;
+			import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
 			
 			import com.leebrimelow.drawing.Wedge;
 			
 			import mx.binding.utils.BindingUtils;
 			import mx.binding.utils.ChangeWatcher;
+			import mx.core.IVisualElement;
 			
 			[Bindable]
 			private var _adherenceGroup:AdherenceGroup;
 			[Bindable]
-			private var _scheduleWidgetView:ScheduleWidgetView;
+			private var _adherenceWindowsGroup:IVisualElement;
 			
-			public function get scheduleWidgetView():ScheduleWidgetView
+			public function init(adherenceGroup:AdherenceGroup, adherenceWindowsGroup:IVisualElement):void
 			{
-				return _scheduleWidgetView;
+				_adherenceGroup = adherenceGroup;
+				_adherenceWindowsGroup = adherenceWindowsGroup;
+				
+				var hourChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(locationChangeHandler, _adherenceGroup, "hour");
+				var adherenceWindowChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(locationChangeHandler, _adherenceGroup, "adherenceWindow");
+				var widthChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(locationChangeHandler, _adherenceWindowsGroup, "width");
+				var heightChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(locationChangeHandler, _adherenceWindowsGroup, "height");
+				var stackingUpdatedChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(stackingUpdateHandler, _adherenceGroup, "stackingUpdated");
+			}
+			
+			public function get adherenceWindowsGroup():IVisualElement
+			{
+				return _adherenceWindowsGroup;
 			}
 
-			public function set scheduleWidgetView(value:ScheduleWidgetView):void
+			public function set adherenceWindowsGroup(value:IVisualElement):void
 			{
-				_scheduleWidgetView = value;
+				_adherenceWindowsGroup = value;
 			}
 
 			public function get adherenceGroup():AdherenceGroup
@@ -52,14 +66,8 @@
 			public function set adherenceGroup(value:AdherenceGroup):void
 			{
 				_adherenceGroup = value;
-				var stackingUpdatedChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(stackingUpdateHandler, _adherenceGroup, "stackingUpdated");
 			}
-			
-			private function calculateXPosition(hour:Number, adherenceWindow:Number, adherenceGroupsGroupHeight:Number):Number
-			{
-				return calculateLocation();
-			}
-			
+						
 			private function stackingUpdateHandler(stackingUpdated:Boolean):void
 			{
 				if (stackingUpdated == true)
@@ -68,7 +76,12 @@
 				}
 			}
 			
-			private function calculateLocation():Number
+			private function locationChangeHandler(change:Number):void
+			{
+				calculateLocation();
+			}
+			
+			private function calculateLocation():void
 			{
 				adherenceWindowCanvas.graphics.clear();
 				
@@ -79,10 +92,8 @@
 				var arc:Number = 2*adherenceWindow*15;
 				
 				adherenceWindowCanvas.graphics.beginFill(0xFFFFFF, 0.5);
-				Wedge.draw(adherenceWindowCanvas, _scheduleWidgetView.adherenceGroupsGroup.width/2, _scheduleWidgetView.adherenceGroupsGroup.width/2, _scheduleWidgetView.adherenceGroupsGroup.width/2, arc, startAngle - 90);
+				Wedge.draw(adherenceWindowCanvas, _adherenceWindowsGroup.width/2, _adherenceWindowsGroup.width/2, _adherenceWindowsGroup.width/2 - 1, arc, startAngle - 90);
 				adherenceWindowCanvas.graphics.endFill();
-				
-				return 0;
 			}
 		]]>
 	</fx:Script>

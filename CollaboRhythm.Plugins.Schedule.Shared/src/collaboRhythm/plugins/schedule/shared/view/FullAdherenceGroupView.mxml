@@ -10,21 +10,21 @@
  ~
  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<view:FullScheduleItemViewBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<view1:FullScheduleItemViewBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
 						   xmlns:s="library://ns.adobe.com/flex/spark" 
 						   xmlns:mx="library://ns.adobe.com/flex/mx"
- xmlns:view="collaboRhythm.workstation.apps.schedule.view.*">
+ xmlns:view="collaboRhythm.workstation.apps.schedule.view.*" xmlns:view1="collaboRhythm.plugins.schedule.shared.view.*">
 	<fx:Declarations>
 		<s:Fade id="adherenceGroupFade" target="{this}"/>
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.workstation.apps.schedule.model.AdherenceGroup;
-			import collaboRhythm.workstation.apps.schedule.model.ScheduleModel;
-			import collaboRhythm.workstation.apps.schedule.model.MoveData;
-			import collaboRhythm.workstation.apps.schedule.model.ScheduleItemBase;
-			import collaboRhythm.workstation.apps.schedule.model.Measurement;
-			import collaboRhythm.workstation.apps.schedule.controller.ScheduleFullViewController;
+			import collaboRhythm.plugins.schedule.shared.model.AdherenceGroup;
+			import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
+			import collaboRhythm.plugins.schedule.shared.model.MoveData;
+			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
+			import collaboRhythm.plugins.schedule.shared.model.Measurement;
+			import collaboRhythm.plugins.schedule.shared.controller.ScheduleFullViewController;
 			
 			import mx.binding.utils.BindingUtils;
 			import mx.binding.utils.ChangeWatcher;
@@ -47,8 +47,10 @@
 			{
 				_adherenceGroup = adherenceGroup;
 				scheduleItem = adherenceGroup;
-				this.width = FullMedicationView.MEDICATION_WIDTH + (2 * ADHERENCE_GROUP_BUFFER_WIDTH);
-				this.height = Math.floor(_adherenceGroup.scheduleItems.length * (FullMedicationView.MEDICATION_HEIGHT + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH) + FullAdherenceGroupView.ADHERENCE_GROUP_TOP_WIDTH);
+				//TODO: Fix static medication size
+				this.width = 300 + (2 * ADHERENCE_GROUP_BUFFER_WIDTH);
+				//TODO: Fix static medication size
+				this.height = Math.floor(_adherenceGroup.scheduleItems.length * (100 + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH) + FullAdherenceGroupView.ADHERENCE_GROUP_TOP_WIDTH);
 				
 				var adherenceGroupFadeChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(animateAdherenceGroupFade, _adherenceGroup, "show");
 				this.changeWatchers.push(adherenceGroupFadeChangeWatcher);
@@ -66,7 +68,8 @@
 			
 			override public function determineXPosition(timeWidth:Number, xPosition:Number, hour:Number):Number
 			{
-				return Math.floor((hour + 1) * timeWidth + (timeWidth / 2) - (FullMedicationView.MEDICATION_PICTURE_WIDTH / 2) - ADHERENCE_GROUP_BUFFER_WIDTH);
+				//TODO: Fix static medication size
+				return Math.floor((hour + 1) * timeWidth + (timeWidth / 2) - (300 / 2) - ADHERENCE_GROUP_BUFFER_WIDTH);
 			}
 			
 			override public function determineYPosition(scheduleItemCanvasHeight:Number, yBottomPosition:Number):Number
@@ -136,7 +139,8 @@
 			{
 				var yPositions:Vector.<Number> = new Vector.<Number>;
 				
-				var height:Number = Math.floor(_adherenceGroup.scheduleItems.length * (FullMedicationView.MEDICATION_HEIGHT + ADHERENCE_GROUP_BUFFER_WIDTH) + ADHERENCE_GROUP_TOP_WIDTH);
+				//TODO: Fix static medication size
+				var height:Number = Math.floor(_adherenceGroup.scheduleItems.length * (100 + ADHERENCE_GROUP_BUFFER_WIDTH) + ADHERENCE_GROUP_TOP_WIDTH);
 				if (height != this.height)
 				{
 					this.height = height;
@@ -154,7 +158,8 @@
 			
 			override public function calculateYPosition():Number
 			{
-				return Math.floor(_scheduleFullView.height - ScheduleFullView.TIMELINE_VIEW_HEIGHT - ScheduleFullView.ADHERENCE_WINDOW_INITIAL_HEIGHT - _adherenceGroup.stackNumber * FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH - (_adherenceGroup.scheduleItemsStacked + _adherenceGroup.scheduleItems.length) * (FullMedicationView.MEDICATION_HEIGHT + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH) - FullAdherenceGroupView.ADHERENCE_GROUP_TOP_WIDTH - _adherenceGroup.adherenceGroupsStacked * FullAdherenceGroupView.ADHERENCE_GROUP_TOP_WIDTH);
+				//TODO: Fix static medication size
+				return Math.floor(_scheduleFullView.height - ScheduleFullView.TIMELINE_VIEW_HEIGHT - ScheduleFullView.ADHERENCE_WINDOW_INITIAL_HEIGHT - _adherenceGroup.stackNumber * FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH - (_adherenceGroup.scheduleItemsStacked + _adherenceGroup.scheduleItems.length) * (100 + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH) - FullAdherenceGroupView.ADHERENCE_GROUP_TOP_WIDTH - _adherenceGroup.adherenceGroupsStacked * FullAdherenceGroupView.ADHERENCE_GROUP_TOP_WIDTH);
 			}
 			
 			public function animateAdherenceGroupFade(show:Boolean):void
@@ -239,6 +244,6 @@
 				<s:SolidColorStroke color="0xFFFFFF" alpha="0.5"/>
 			</s:stroke>
 		</s:Rect>
-		<mx:Image top="8" horizontalCenter="0" source="@Embed(source='resources/images/icons/gripHorizontalWide.png')"/>
+		<mx:Image top="8" horizontalCenter="0" source="@Embed(source='assets/images/gripHorizontalWide.png')"/>
 	</s:Group>
-</view:FullScheduleItemViewBase>
+</view1:FullScheduleItemViewBase>

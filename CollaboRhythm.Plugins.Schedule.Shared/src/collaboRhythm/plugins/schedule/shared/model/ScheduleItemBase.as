@@ -9,15 +9,10 @@
  *
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
 */
-package collaboRhythm.workstation.apps.schedule.model
+package collaboRhythm.plugins.schedule.shared.model
 {
-	import collaboRhythm.workstation.apps.schedule.view.FullAdherenceGroupView;
-	import collaboRhythm.workstation.apps.schedule.model.AdherenceGroup;
-	import collaboRhythm.workstation.apps.schedule.model.ScheduleModel;
-	import collaboRhythm.workstation.apps.schedule.model.MoveData;
-	import collaboRhythm.workstation.apps.schedule.model.ScheduleItemBase;
-	import collaboRhythm.workstation.apps.schedule.model.Measurement;
-	import collaboRhythm.workstation.apps.schedule.controller.ScheduleFullViewController;
+	import collaboRhythm.plugins.schedule.shared.view.FullScheduleItemViewBase;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase;
 
 	[Bindable]
 	public class ScheduleItemBase
@@ -206,6 +201,20 @@ package collaboRhythm.workstation.apps.schedule.model
 			{
 				hour = newHour;
 			}
+		}
+		
+		public function createScheduleItemWidgetView():ScheduleItemWidgetViewBase
+		{
+			// to be implemented by subclasses
+			var scheduleItemWidgetView:ScheduleItemWidgetViewBase = new ScheduleItemWidgetViewBase();
+			return scheduleItemWidgetView;
+		}
+		
+		public function createScheduleItemFullView():FullScheduleItemViewBase
+		{
+			// to be implemented by subclasses
+			var fullScheduleItemView:FullScheduleItemViewBase = new FullScheduleItemViewBase();
+			return fullScheduleItemView;
 		}
 	}
 }

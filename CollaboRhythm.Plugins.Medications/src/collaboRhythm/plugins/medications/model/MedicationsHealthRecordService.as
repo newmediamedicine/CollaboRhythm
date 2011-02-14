@@ -1,5 +1,6 @@
 package collaboRhythm.plugins.medications.model
 {
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
 	import collaboRhythm.workstation.model.HealthRecordServiceBase;
 	import collaboRhythm.workstation.model.User;
 	import collaboRhythm.workstation.model.UsersModel;
@@ -28,7 +29,7 @@ package collaboRhythm.plugins.medications.model
 		{
 			if (user.appData[MedicationsModel.MEDICATIONS_KEY] == null)
 			{
-				user.appData[MedicationsModel.MEDICATIONS_KEY] = new MedicationsModel();
+				user.appData[MedicationsModel.MEDICATIONS_KEY] = new MedicationsModel(scheduleModel(user));
 			}
 			
 			var params:URLVariables = new URLVariables();
@@ -38,6 +39,19 @@ package collaboRhythm.plugins.medications.model
 			//			user.medicationsModel = new MedicationsModel();
 			if (user.recordId != null && accessKey != null && accessSecret != null)
 				_pha.reports_minimal_X_GET(params, null, null, null, user.recordId, "medications", accessKey, accessSecret, user);
+		}
+		
+		private function scheduleModel(user:User):ScheduleModel
+		{
+			if (user != null)
+			{
+				if (user.appData[ScheduleModel.SCHEDULE_KEY] == null)
+				{
+					user.appData[ScheduleModel.SCHEDULE_KEY] = new ScheduleModel();
+				}
+				return user.getAppData(ScheduleModel.SCHEDULE_KEY, ScheduleModel) as ScheduleModel;
+			}
+			return null;
 		}
 		
 		protected override function handleResponse(event:IndivoClientEvent, responseXml:XML):void

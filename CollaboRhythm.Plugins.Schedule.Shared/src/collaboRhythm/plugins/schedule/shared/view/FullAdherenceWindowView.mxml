@@ -24,9 +24,9 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[		
-			import collaboRhythm.workstation.apps.schedule.model.AdherenceGroup;
-			import collaboRhythm.workstation.apps.schedule.model.MoveData;
-			import collaboRhythm.workstation.apps.schedule.model.ScheduleModel;
+			import collaboRhythm.plugins.schedule.shared.model.AdherenceGroup;
+			import collaboRhythm.plugins.schedule.shared.model.MoveData;
+			import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
 			
 			import mx.binding.utils.BindingUtils;
 			import mx.binding.utils.ChangeWatcher;
@@ -53,7 +53,7 @@
 			private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>;
 			private var _scheduleItemCanvasHeight:Number = 0;
 			
-			[Embed("resources/cursors/horizontalResize.png")]
+			[Embed("assets/cursors/horizontalResize.png")]
 			private var _horizontalResizeCursorClass:Class;
 			
 			public function get adherenceGroup():AdherenceGroup
@@ -128,7 +128,8 @@
 			
 			public function calculateHeight():Number
 			{
-				return Math.floor(ScheduleFullView.TIMELINE_VIEW_HEIGHT + ScheduleFullView.ADHERENCE_WINDOW_INITIAL_HEIGHT + (_adherenceGroup.stackNumber + 1) * FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH + _adherenceGroup.scheduleItemsStacked * (FullMedicationView.MEDICATION_HEIGHT + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH) + _adherenceGroup.adherenceGroupsStacked * FullAdherenceGroupView.ADHERENCE_GROUP_TOP_WIDTH);
+				//TODO: Fix static reference to medication size
+				return Math.floor(ScheduleFullView.TIMELINE_VIEW_HEIGHT + ScheduleFullView.ADHERENCE_WINDOW_INITIAL_HEIGHT + (_adherenceGroup.stackNumber + 1) * FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH + _adherenceGroup.scheduleItemsStacked * (100 + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH) + _adherenceGroup.adherenceGroupsStacked * FullAdherenceGroupView.ADHERENCE_GROUP_TOP_WIDTH);
 			}
 			
 			private function resizeEffectEnd(event:EffectEvent):void

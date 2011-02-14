@@ -11,6 +11,9 @@
 */
 package collaboRhythm.plugins.medications.model
 {
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
+	
 	import flash.xml.XMLNode;
 	
 	import mx.collections.ArrayCollection;
@@ -20,6 +23,7 @@ package collaboRhythm.plugins.medications.model
 	[Bindable]
 	public class MedicationsModel
 	{
+		private var _scheduleModel:ScheduleModel;
 		private var _rawData:XML;
 		private var _medicationsCollection:ArrayCollection;
 		private var _shortMedicationsCollection:ArrayCollection;
@@ -27,8 +31,9 @@ package collaboRhythm.plugins.medications.model
 		private var _isLoading:Boolean = false;
 		public static const MEDICATIONS_KEY:String = "medications";
 		
-		public function MedicationsModel()
+		public function MedicationsModel(scheduleModel:ScheduleModel)
 		{
+			_scheduleModel = scheduleModel;
 			_medicationsCollection = new ArrayCollection();
 			_shortMedicationsCollection = new ArrayCollection();
 		}
@@ -93,10 +98,9 @@ package collaboRhythm.plugins.medications.model
 				if (medication.dateStopped == null)
 				{
 					_medicationsCollection.addItem(medication);
-//					if (medication.name != "Hydrochlorothiazide")
-//					{
-						_shortMedicationsCollection.addItem(medication);
-//					}
+					_shortMedicationsCollection.addItem(medication);
+	
+					_scheduleModel.addScheduleItem(medication.documentID, medication);
 				}
 			}
 		}
