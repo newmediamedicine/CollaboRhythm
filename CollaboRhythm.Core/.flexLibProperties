@@ -132,37 +132,20 @@
     <classEntry path="workstation.model.CollaborationRoomNetConnectionService"/>
     <classEntry path="workstation.model.HealthRecordServiceBase"/>
     <classEntry path="workstation.view.WorkstationViewEvent"/>
-    <classEntry path="collaboRhythm.workstation.controller.CollaborationMediator"/>
-    <classEntry path="collaboRhythm.workstation.controller.RemoteUserController"/>
-    <classEntry path="collaboRhythm.workstation.controller.DemographicsController"/>
-    <classEntry path="collaboRhythm.workstation.controller.WorkstationController"/>
-    <classEntry path="collaboRhythm.workstation.controller.WorkstationCommandBarController"/>
-    <classEntry path="collaboRhythm.workstation.model.settings.WindowState"/>
-    <classEntry path="collaboRhythm.workstation.model.settings.ComponentLayout"/>
-    <classEntry path="collaboRhythm.workstation.model.settings.WindowSettingsDataStore"/>
-    <classEntry path="collaboRhythm.workstation.model.settings.WindowSettings"/>
-    <classEntry path="collaboRhythm.workstation.view.spaces.SingleWindowSpaceCombination"/>
-    <classEntry path="collaboRhythm.workstation.view.spaces.CenterSpace"/>
-    <classEntry path="collaboRhythm.workstation.view.spaces.TopSpace"/>
-    <classEntry path="collaboRhythm.workstation.view.spaces.RightSpace"/>
-    <classEntry path="collaboRhythm.workstation.view.spaces.LeftSpace"/>
-    <classEntry path="collaboRhythm.workstation.view.WorkstationCommandBarView"/>
-    <classEntry path="collaboRhythm.workstation.view.WorkstationWindow"/>
-    <classEntry path="collaboRhythm.workstation.view.RemoteUsersListView"/>
-    <classEntry path="collaboRhythm.workstation.view.RemoteUserView"/>
-    <classEntry path="collaboRhythm.workstation.AssetManager"/>
-    <classEntry path="collaboRhythm.workstation.controller.ApplicationControllerBase"/>
-    <classEntry path="collaboRhythm.workstation.controller.CollaborationMediatorBase"/>
-    <classEntry path="collaboRhythm.workstation.controller.apps.WorkstationAppControllersMediator"/>
+    <classEntry path="collaboRhythm.core.controller.RemoteUserController"/>
+    <classEntry path="collaboRhythm.core.controller.DemographicsController"/>
+    <classEntry path="collaboRhythm.core.controller.WorkstationCommandBarController"/>
+    <classEntry path="collaboRhythm.core.view.WorkstationCommandBarView"/>
+    <classEntry path="collaboRhythm.core.view.RemoteUsersListView"/>
+    <classEntry path="collaboRhythm.core.view.RemoteUserView"/>
+    <classEntry path="collaboRhythm.core.AssetManager"/>
+    <classEntry path="collaboRhythm.core.controller.ApplicationControllerBase"/>
+    <classEntry path="collaboRhythm.core.controller.CollaborationMediatorBase"/>
+    <classEntry path="collaboRhythm.core.controller.apps.WorkstationAppControllersMediator"/>
     <classEntry path="collaboRhythm.core.pluginsManagement.PluginLoader"/>
     <classEntry path="collaboRhythm.core.pluginsManagement.PluginEvent"/>
   </includeClasses>
   <includeResources>
-    <resourceEntry destPath="resources/chumby/chumby-clock.jpg" sourcePath="resources/chumby/chumby-clock.jpg"/>
-    <resourceEntry destPath="resources/agent/linda.png" sourcePath="resources/agent/linda.png"/>
-    <resourceEntry destPath="resources/agent/linda.swf" sourcePath="resources/agent/linda.swf"/>
-    <resourceEntry destPath="resources/images/icons/buttonIcons/collaborateButtonIcon.png" sourcePath="resources/images/icons/buttonIcons/collaborateButtonIcon.png"/>
-    <resourceEntry destPath="resources/images/icons/buttonIcons/closeRecordButtonIcon.png" sourcePath="resources/images/icons/buttonIcons/closeRecordButtonIcon.png"/>
   </includeResources>
   <namespaceManifests/>
 </flexLibProperties>

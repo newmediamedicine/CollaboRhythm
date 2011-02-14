@@ -29,7 +29,7 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[	
-			import collaboRhythm.workstation.controller.RemoteUserController;
+			import collaboRhythm.core.controller.RemoteUserController;
 			import collaboRhythm.workstation.model.User;
 			import collaboRhythm.workstation.model.UsersModel;
 			
@@ -145,7 +145,7 @@
 		paddingBottom="0"
 		>
 		<scroll:columns>
-			<mx:DataGridColumn id="remoteUserListColumn" itemRenderer="collaboRhythm.workstation.view.RemoteUserView" sortCompareFunction="sortCompare"/>
+			<mx:DataGridColumn id="remoteUserListColumn" itemRenderer="collaboRhythm.core.view.RemoteUserView" sortCompareFunction="sortCompare"/>
 		</scroll:columns>
 	</scroll:TouchScrollingDataGrid>
 		

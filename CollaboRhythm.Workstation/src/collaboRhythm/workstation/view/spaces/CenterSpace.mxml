@@ -15,7 +15,7 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:view="collaboRhythm.workstation.view.*"
 		 width="100%"
-		 height="100%"
+		 height="100%" xmlns:view1="collaboRhythm.core.view.*"
 		 >
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
@@ -37,5 +37,5 @@
 	<s:Group x="0" y="0" width="100%" height="100%" id="fullContainer">
 		<!-- Application full views are dynamically loaded here -->
 	</s:Group>
-	<view:RemoteUsersListView id="remoteUsersView" x="0" height="100%"/>
+	<view1:RemoteUsersListView id="remoteUsersView" x="0" height="100%"/>
 </s:Group>

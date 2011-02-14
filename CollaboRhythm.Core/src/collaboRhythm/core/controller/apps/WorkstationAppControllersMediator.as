@@ -9,10 +9,8 @@
  *
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
 */
-package collaboRhythm.workstation.controller.apps
+package collaboRhythm.core.controller.apps
 {
-	import castle.flexbridge.reflection.Void;
-	
 	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
 	import collaboRhythm.workstation.apps.allergies.controller.AllergiesAppController;
 	import collaboRhythm.workstation.apps.bloodPressureAgent.controller.BloodPressureAgentAppController;
@@ -25,28 +23,19 @@ package collaboRhythm.workstation.controller.apps
 	import collaboRhythm.workstation.apps.medications.controller.MedicationsAppController;
 	import collaboRhythm.workstation.apps.problems.controller.ProblemsAppController;
 	import collaboRhythm.workstation.apps.procedures.controller.ProceduresAppController;
-	import collaboRhythm.workstation.apps.procedures.view.ProceduresWidgetView;
 	import collaboRhythm.workstation.apps.schedule.controller.ScheduleAppController;
 	import collaboRhythm.workstation.apps.socialHistory.controller.SocialHistoryAppController;
 	import collaboRhythm.workstation.apps.vitals.controller.VitalsAppController;
+	import collaboRhythm.workstation.controller.apps.AppControllerInfo;
+	import collaboRhythm.workstation.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.workstation.controller.apps.WorkstationAppControllerFactory;
+	import collaboRhythm.workstation.controller.apps.WorkstationAppEvent;
 	import collaboRhythm.workstation.model.*;
 	
 	import com.theory9.data.types.OrderedMap;
 	
-	import flash.net.NetConnection;
-	import flash.net.getClassByAlias;
-	import flash.utils.Dictionary;
-	import flash.utils.getDefinitionByName;
-	import flash.utils.getQualifiedClassName;
-	
-	import mx.core.IFactory;
 	import mx.core.IVisualElementContainer;
 	import mx.core.UIComponent;
-	
-	import org.indivo.client.Pha;
-	
-	import spark.components.Group;
-	import spark.components.TileGroup;
 
 	/**
 	 * Responsible for creating the collection of workstation apps and adding them to the parent container. 

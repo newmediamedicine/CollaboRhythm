@@ -11,37 +11,29 @@
 */
  package collaboRhythm.workstation.controller
 {
-	import castle.flexbridge.kernel.IKernel;
-	
-	import collaboRhythm.workstation.controller.apps.WorkstationAppControllersMediator;
 	import collaboRhythm.workstation.model.*;
-	import collaboRhythm.workstation.model.services.WorkstationKernel;
 	import collaboRhythm.workstation.view.WorkstationWindow;
 	
 	import flash.display.Screen;
-	import flash.events.Event;
 	import flash.filesystem.File;
-	import flash.utils.getQualifiedClassName;
-	
-	import mx.core.IVisualElementContainer;
-	import mx.events.PropertyChangeEvent;
-	import mx.events.PropertyChangeEventKind;
-	import mx.logging.ILogger;
-	import mx.logging.Log;
-	import mx.states.AddChild;
 	
 	import org.osmf.events.MediaPlayerStateChangeEvent;
 	
 	import spark.components.VideoPlayer;
+	import collaboRhythm.core.controller.ApplicationControllerBase;
+	import collaboRhythm.core.controller.CollaborationMediatorBase;
+	import collaboRhythm.core.controller.DemographicsController;
+	import collaboRhythm.core.controller.RemoteUserController;
+	import collaboRhythm.core.controller.WorkstationCommandBarController;
 	
 	/**
 	 * The collaboration mediator for the workstation (desktop) application. 
 	 * @author sgilroy
 	 * 
 	 */
-	public class CollaborationMediator extends CollaborationMediatorBase
+	public class WorkstationCollaborationMediator extends CollaborationMediatorBase
 	{
-		private var _workstationController:WorkstationController;
+		private var _workstationController:WorkstationApplicationController;
 		private var _workstationCommandBarController:WorkstationCommandBarController;
 		private var videoWindows:Vector.<WorkstationWindow>;
 		
@@ -50,7 +42,7 @@
 			return _workstationController;
 		}
 		
-		public function CollaborationMediator(workstationController:WorkstationController)
+		public function WorkstationCollaborationMediator(workstationController:WorkstationApplicationController)
 		{
 			_workstationController = workstationController;
 			super();

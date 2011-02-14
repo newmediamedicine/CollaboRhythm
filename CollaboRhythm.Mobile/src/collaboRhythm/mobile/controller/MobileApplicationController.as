@@ -12,24 +12,20 @@
 package collaboRhythm.mobile.controller
 {
 	import collaboRhythm.mobile.view.WidgetContainerView;
-	import collaboRhythm.workstation.controller.ApplicationControllerBase;
-	import collaboRhythm.workstation.controller.CollaborationMediator;
+	import collaboRhythm.core.controller.ApplicationControllerBase;
 	import collaboRhythm.workstation.model.Settings;
 	import collaboRhythm.workstation.view.CollaborationRoomView;
-	import collaboRhythm.workstation.view.RemoteUsersListView;
+	import collaboRhythm.core.view.RemoteUsersListView;
 	
 	import flash.desktop.NativeApplication;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
-	import flash.filesystem.File;
 	import flash.ui.Keyboard;
-	import flash.ui.KeyboardType;
 	
 	import mx.core.IVisualElementContainer;
 	
 	import spark.components.View;
 	import spark.components.ViewNavigator;
-	import spark.effects.ViewTransition;
 
 	public class MobileApplicationController extends ApplicationControllerBase
 	{

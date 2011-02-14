@@ -65,7 +65,7 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[			
-			import collaboRhythm.workstation.controller.WorkstationCommandBarController;
+			import collaboRhythm.core.controller.WorkstationCommandBarController;
 			import collaboRhythm.workstation.model.User;
 			import collaboRhythm.workstation.model.WorkstationCommandBarModel;
 			import collaboRhythm.workstation.model.services.DemoCurrentDateSource;

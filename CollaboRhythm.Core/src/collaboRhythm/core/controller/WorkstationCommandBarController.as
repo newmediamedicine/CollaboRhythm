@@ -9,32 +9,27 @@
  *
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
 */
-package collaboRhythm.workstation.controller
+package collaboRhythm.core.controller
 {
+	import collaboRhythm.core.view.WorkstationCommandBarView;
+	import collaboRhythm.workstation.controller.CollaborationEvent;
 	import collaboRhythm.workstation.model.Settings;
 	import collaboRhythm.workstation.model.User;
 	import collaboRhythm.workstation.model.UsersModel;
 	import collaboRhythm.workstation.model.WorkstationCommandBarModel;
 	import collaboRhythm.workstation.model.services.ICurrentDateSource;
 	import collaboRhythm.workstation.model.services.WorkstationKernel;
-	import collaboRhythm.workstation.view.WorkstationCommandBarView;
 	
 	import flash.events.EventDispatcher;
 	
-	import mx.core.IVisualElementContainer;
-	import mx.effects.Move;
 	import mx.events.EffectEvent;
-	
-	import spark.components.Group;
-	import spark.effects.Resize;
 
 	/**
-	 * 
-	 * @author jom
-	 * 
 	 * Coordinates interactions between the WorkstationCommandBarView and the UserModel classes.
 	 * Currently, this simply includes setting the remoteUser currently active in the workstationCommandBarView.  
 	 * It dispatches an event for sending a collaboration request that is listened for by the CollaborationMediator in order to coordinate interaction with the RemoteUserController. 
+	 * 
+	 * @author jom
 	 * 
 	 */
 	public class WorkstationCommandBarController extends EventDispatcher

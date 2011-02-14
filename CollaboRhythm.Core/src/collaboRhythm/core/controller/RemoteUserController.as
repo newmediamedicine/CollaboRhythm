@@ -9,22 +9,14 @@
  *
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
 */
-package collaboRhythm.workstation.controller
+package collaboRhythm.core.controller
 {
-	import castle.flexbridge.reflection.Void;
-	
-	import collaboRhythm.workstation.model.Settings;
+	import collaboRhythm.core.view.RemoteUsersListView;
+	import collaboRhythm.workstation.controller.CollaborationEvent;
 	import collaboRhythm.workstation.model.User;
 	import collaboRhythm.workstation.model.UsersModel;
-	import collaboRhythm.workstation.view.RemoteUserView;
-	import collaboRhythm.workstation.view.RemoteUsersListView;
 	
 	import flash.events.EventDispatcher;
-	
-	import mx.collections.ArrayCollection;
-	import mx.core.IVisualElementContainer;
-	
-	import spark.effects.Move;
 	
 	/**
 	 * 

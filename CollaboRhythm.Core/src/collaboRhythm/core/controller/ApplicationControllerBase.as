@@ -9,57 +9,31 @@
  *
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
 */
-package collaboRhythm.workstation.controller
+package collaboRhythm.core.controller
 {
-	import castle.flexbridge.kernel.DefaultKernel;
 	import castle.flexbridge.kernel.IKernel;
 	
 	import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
 	import collaboRhythm.core.pluginsManagement.PluginLoader;
+	import collaboRhythm.core.view.RemoteUsersListView;
 	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
 	import collaboRhythm.workstation.model.Settings;
 	import collaboRhythm.workstation.model.User;
-	import collaboRhythm.workstation.model.services.DefaultCurrentDateSource;
 	import collaboRhythm.workstation.model.services.DemoCurrentDateSource;
 	import collaboRhythm.workstation.model.services.ICurrentDateSource;
 	import collaboRhythm.workstation.model.services.WorkstationKernel;
-	import collaboRhythm.workstation.model.settings.ComponentLayout;
-	import collaboRhythm.workstation.model.settings.WindowSettings;
-	import collaboRhythm.workstation.model.settings.WindowSettingsDataStore;
-	import collaboRhythm.workstation.model.settings.WindowState;
 	import collaboRhythm.workstation.view.CollaborationRoomView;
-	import collaboRhythm.workstation.view.RemoteUsersListView;
-	import collaboRhythm.workstation.view.WorkstationCommandBarView;
-	import collaboRhythm.workstation.view.spaces.CenterSpace;
-	import collaboRhythm.workstation.view.spaces.LeftSpace;
-	import collaboRhythm.workstation.view.spaces.RightSpace;
-	import collaboRhythm.workstation.view.spaces.SingleWindowSpaceCombination;
-	import collaboRhythm.workstation.view.spaces.TopSpace;
 	
 	import com.daveoncode.logging.LogFileTarget;
 	
-	import flash.desktop.NativeApplication;
-	import flash.display.DisplayObject;
-	import flash.display.DisplayObjectContainer;
-	import flash.display.NativeWindow;
-	import flash.display.Screen;
 	import flash.events.Event;
 	import flash.filesystem.File;
-	import flash.geom.Rectangle;
-	import flash.ui.Keyboard;
-	import flash.utils.flash_proxy;
 	import flash.utils.getQualifiedClassName;
 	
-	import mx.containers.DividedBox;
-	import mx.core.IUIComponent;
-	import mx.core.IVisualElement;
 	import mx.core.IVisualElementContainer;
-	import mx.core.UIComponent;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 	import mx.logging.LogEventLevel;
-	
-	import spark.components.Window;
 
 	public class ApplicationControllerBase
 	{

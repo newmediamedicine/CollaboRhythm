@@ -9,32 +9,21 @@
  *
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
 */
-package collaboRhythm.workstation.controller
+package collaboRhythm.core.controller
 {
 	import castle.flexbridge.kernel.IKernel;
 	
-	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
+	import collaboRhythm.core.controller.apps.WorkstationAppControllersMediator;
 	import collaboRhythm.workstation.apps.problems.model.ProblemsHealthRecordService;
-	import collaboRhythm.workstation.controller.apps.WorkstationAppControllersMediator;
+	import collaboRhythm.workstation.controller.CollaborationController;
+	import collaboRhythm.workstation.controller.CollaborationEvent;
 	import collaboRhythm.workstation.model.*;
 	import collaboRhythm.workstation.model.services.WorkstationKernel;
-	import collaboRhythm.workstation.view.WorkstationWindow;
 	
-	import flash.display.Screen;
-	import flash.events.Event;
-	import flash.filesystem.File;
 	import flash.utils.getQualifiedClassName;
 	
-	import mx.core.IVisualElementContainer;
-	import mx.events.PropertyChangeEvent;
-	import mx.events.PropertyChangeEventKind;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
-	import mx.states.AddChild;
-	
-	import org.osmf.events.MediaPlayerStateChangeEvent;
-	
-	import spark.components.VideoPlayer;
 	
 	public class CollaborationMediatorBase
 	{

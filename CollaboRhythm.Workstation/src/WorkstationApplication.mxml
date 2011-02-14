@@ -22,14 +22,14 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.workstation.AssetManager;
-			import collaboRhythm.workstation.controller.WorkstationController;
+			import collaboRhythm.core.AssetManager;
+			import collaboRhythm.workstation.controller.WorkstationApplicationController;
 			
 //			private var forceAssetManagerCompile:String = AssetManager.FONT_MYRIAD_PRO;
 			
 			private function main() : void
 			{
-				var workstationController:WorkstationController = new WorkstationController();
+				var workstationController:WorkstationApplicationController = new WorkstationApplicationController();
 				workstationController.main();
 			}
 		]]>

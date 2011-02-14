@@ -11,29 +11,19 @@
 */
 package collaboRhythm.workstation.controller
 {
-	import castle.flexbridge.kernel.DefaultKernel;
-	import castle.flexbridge.kernel.IKernel;
-	
 	import collaboRhythm.workstation.model.Settings;
-	import collaboRhythm.workstation.model.User;
-	import collaboRhythm.workstation.model.services.DefaultCurrentDateSource;
-	import collaboRhythm.workstation.model.services.DemoCurrentDateSource;
-	import collaboRhythm.workstation.model.services.ICurrentDateSource;
-	import collaboRhythm.workstation.model.services.WorkstationKernel;
 	import collaboRhythm.workstation.model.settings.ComponentLayout;
 	import collaboRhythm.workstation.model.settings.WindowSettings;
 	import collaboRhythm.workstation.model.settings.WindowSettingsDataStore;
 	import collaboRhythm.workstation.model.settings.WindowState;
 	import collaboRhythm.workstation.view.CollaborationRoomView;
-	import collaboRhythm.workstation.view.RemoteUsersListView;
-	import collaboRhythm.workstation.view.WorkstationCommandBarView;
+	import collaboRhythm.core.view.RemoteUsersListView;
+	import collaboRhythm.core.view.WorkstationCommandBarView;
 	import collaboRhythm.workstation.view.spaces.CenterSpace;
 	import collaboRhythm.workstation.view.spaces.LeftSpace;
 	import collaboRhythm.workstation.view.spaces.RightSpace;
 	import collaboRhythm.workstation.view.spaces.SingleWindowSpaceCombination;
 	import collaboRhythm.workstation.view.spaces.TopSpace;
-	
-	import com.daveoncode.logging.LogFileTarget;
 	
 	import flash.desktop.NativeApplication;
 	import flash.display.DisplayObject;
@@ -41,29 +31,21 @@ package collaboRhythm.workstation.controller
 	import flash.display.NativeWindow;
 	import flash.display.Screen;
 	import flash.events.Event;
-	import flash.filesystem.File;
-	import flash.geom.Rectangle;
 	import flash.ui.Keyboard;
-	import flash.utils.flash_proxy;
-	import flash.utils.getQualifiedClassName;
 	
 	import mx.containers.DividedBox;
 	import mx.core.IUIComponent;
 	import mx.core.IVisualElement;
 	import mx.core.IVisualElementContainer;
 	import mx.core.UIComponent;
-	import mx.logging.ILogger;
-	import mx.logging.Log;
-	import mx.logging.LogEventLevel;
-	
-	import spark.components.Window;
+	import collaboRhythm.core.controller.ApplicationControllerBase;
 
 	/**
 	 * Top level controller for the whole application. Responsible for creating and managing the windows of the application. 
 	 */
-	public class WorkstationController extends ApplicationControllerBase
+	public class WorkstationApplicationController extends ApplicationControllerBase
 	{
-		public function WorkstationController()
+		public function WorkstationApplicationController()
 		{
 			NativeApplication.nativeApplication.addEventListener(Event.EXITING, onExiting);
 		}
@@ -242,7 +224,7 @@ package collaboRhythm.workstation.controller
 				_widgetsContainer = _fullContainer;
 			}
 			
-			_collaborationMediator = new CollaborationMediator(this);
+			_collaborationMediator = new WorkstationCollaborationMediator(this);
 		}
 		
 		private function resetWindows():void
