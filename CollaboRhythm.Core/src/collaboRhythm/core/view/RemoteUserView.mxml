@@ -37,8 +37,8 @@
 		<![CDATA[
 			import castle.flexbridge.reflection.Void;
 			
-			import collaboRhythm.workstation.apps.problems.model.ProblemsModel;
-			import collaboRhythm.workstation.model.User;
+			import collaboRhythm.plugins.problems.model.ProblemsModel;
+			import collaboRhythm.shared.model.User;
 			
 			import flash.events.MouseEvent;
 			

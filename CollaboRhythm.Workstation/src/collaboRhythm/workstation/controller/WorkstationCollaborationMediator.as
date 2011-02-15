@@ -11,7 +11,7 @@
 */
  package collaboRhythm.workstation.controller
 {
-	import collaboRhythm.workstation.model.*;
+	import collaboRhythm.shared.model.*;
 	import collaboRhythm.workstation.view.WorkstationWindow;
 	
 	import flash.display.Screen;
@@ -25,6 +25,7 @@
 	import collaboRhythm.core.controller.DemographicsController;
 	import collaboRhythm.core.controller.RemoteUserController;
 	import collaboRhythm.core.controller.WorkstationCommandBarController;
+	import collaboRhythm.shared.controller.CollaborationEvent;
 	
 	/**
 	 * The collaboration mediator for the workstation (desktop) application. 

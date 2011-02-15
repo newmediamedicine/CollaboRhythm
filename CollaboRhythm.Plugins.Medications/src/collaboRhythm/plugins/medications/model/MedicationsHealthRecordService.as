@@ -1,9 +1,9 @@
 package collaboRhythm.plugins.medications.model
 {
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
-	import collaboRhythm.workstation.model.HealthRecordServiceBase;
-	import collaboRhythm.workstation.model.User;
-	import collaboRhythm.workstation.model.UsersModel;
+	import collaboRhythm.shared.model.HealthRecordServiceBase;
+	import collaboRhythm.shared.model.User;
+	import collaboRhythm.shared.model.UsersModel;
 	
 	import flash.net.URLVariables;
 	

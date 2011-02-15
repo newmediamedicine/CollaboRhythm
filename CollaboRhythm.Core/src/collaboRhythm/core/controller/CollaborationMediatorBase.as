@@ -14,11 +14,11 @@ package collaboRhythm.core.controller
 	import castle.flexbridge.kernel.IKernel;
 	
 	import collaboRhythm.core.controller.apps.WorkstationAppControllersMediator;
-	import collaboRhythm.workstation.apps.problems.model.ProblemsHealthRecordService;
-	import collaboRhythm.workstation.controller.CollaborationController;
-	import collaboRhythm.workstation.controller.CollaborationEvent;
-	import collaboRhythm.workstation.model.*;
-	import collaboRhythm.workstation.model.services.WorkstationKernel;
+	import collaboRhythm.plugins.problems.model.ProblemsHealthRecordService;
+	import collaboRhythm.shared.controller.CollaborationController;
+	import collaboRhythm.shared.controller.CollaborationEvent;
+	import collaboRhythm.shared.model.*;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
 	
 	import flash.utils.getQualifiedClassName;
 	

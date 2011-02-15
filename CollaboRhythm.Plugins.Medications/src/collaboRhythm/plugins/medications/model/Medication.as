@@ -16,9 +16,9 @@ package collaboRhythm.plugins.medications.model
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
 	import collaboRhythm.plugins.schedule.shared.view.FullScheduleItemViewBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase;
-	import collaboRhythm.workstation.model.HealthRecordServiceBase;
-	import collaboRhythm.workstation.model.services.ICurrentDateSource;
-	import collaboRhythm.workstation.model.services.WorkstationKernel;
+	import collaboRhythm.shared.model.HealthRecordServiceBase;
+	import collaboRhythm.shared.model.services.ICurrentDateSource;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
 	
 	import mx.core.UIComponent;
 

@@ -15,7 +15,7 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.plugins.schedule.shared.controller.ScheduleFullViewController;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleFullView;
-	import collaboRhythm.workstation.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 	
 	import mx.core.IVisualElementContainer;
 	import mx.core.UIComponent;

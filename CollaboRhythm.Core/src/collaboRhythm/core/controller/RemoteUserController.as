@@ -12,9 +12,9 @@
 package collaboRhythm.core.controller
 {
 	import collaboRhythm.core.view.RemoteUsersListView;
-	import collaboRhythm.workstation.controller.CollaborationEvent;
-	import collaboRhythm.workstation.model.User;
-	import collaboRhythm.workstation.model.UsersModel;
+	import collaboRhythm.shared.controller.CollaborationEvent;
+	import collaboRhythm.shared.model.User;
+	import collaboRhythm.shared.model.UsersModel;
 	
 	import flash.events.EventDispatcher;
 	

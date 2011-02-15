@@ -4,7 +4,7 @@ package collaboRhythm.plugins.examples.microphoneExamples.controller
 	
 	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
-	import collaboRhythm.workstation.controller.apps.AppControllerInfo;
+	import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	
 	import mx.modules.ModuleBase;
 	

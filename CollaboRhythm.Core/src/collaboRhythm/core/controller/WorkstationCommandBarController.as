@@ -12,13 +12,13 @@
 package collaboRhythm.core.controller
 {
 	import collaboRhythm.core.view.WorkstationCommandBarView;
-	import collaboRhythm.workstation.controller.CollaborationEvent;
-	import collaboRhythm.workstation.model.Settings;
-	import collaboRhythm.workstation.model.User;
-	import collaboRhythm.workstation.model.UsersModel;
-	import collaboRhythm.workstation.model.WorkstationCommandBarModel;
-	import collaboRhythm.workstation.model.services.ICurrentDateSource;
-	import collaboRhythm.workstation.model.services.WorkstationKernel;
+	import collaboRhythm.shared.controller.CollaborationEvent;
+	import collaboRhythm.shared.model.Settings;
+	import collaboRhythm.shared.model.User;
+	import collaboRhythm.shared.model.UsersModel;
+	import collaboRhythm.shared.model.WorkstationCommandBarModel;
+	import collaboRhythm.shared.model.services.ICurrentDateSource;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
 	
 	import flash.events.EventDispatcher;
 	

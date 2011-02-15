@@ -13,7 +13,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 xmlns:view="collaboRhythm.workstation.view.*"
+		 xmlns:view="collaboRhythm.shared.view.*"
 		 width="100%"
 		 height="100%" xmlns:view1="collaboRhythm.core.view.*"
 		 >

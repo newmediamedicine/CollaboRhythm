@@ -2,7 +2,7 @@ package collaboRhythm.plugins.examples.microphoneExamples.controller
 {
 	import collaboRhythm.plugins.examples.microphoneExamples.model.MicrophoneExamplesModel;
 	import collaboRhythm.plugins.examples.microphoneExamples.view.MicrophoneExamplesWidgetView;
-	import collaboRhythm.workstation.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 	
 	import mx.core.IVisualElementContainer;
 	import mx.core.UIComponent;

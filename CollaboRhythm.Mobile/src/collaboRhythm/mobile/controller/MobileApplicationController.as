@@ -11,23 +11,23 @@
 */
 package collaboRhythm.mobile.controller
 {
-	import collaboRhythm.mobile.view.WidgetContainerView;
-	import collaboRhythm.core.controller.ApplicationControllerBase;
-	import collaboRhythm.workstation.model.Settings;
-	import collaboRhythm.workstation.view.CollaborationRoomView;
-	import collaboRhythm.core.view.RemoteUsersListView;
-	
-	import flash.desktop.NativeApplication;
-	import flash.events.Event;
-	import flash.events.KeyboardEvent;
-	import flash.ui.Keyboard;
-	
-	import mx.core.IVisualElementContainer;
-	
-	import spark.components.View;
-	import spark.components.ViewNavigator;
+import collaboRhythm.core.controller.ApplicationControllerBase;
+import collaboRhythm.core.view.RemoteUsersListView;
+import collaboRhythm.mobile.view.WidgetContainerView;
+import collaboRhythm.shared.model.Settings;
+import collaboRhythm.shared.view.CollaborationRoomView;
 
-	public class MobileApplicationController extends ApplicationControllerBase
+import flash.desktop.NativeApplication;
+import flash.events.Event;
+import flash.events.KeyboardEvent;
+import flash.ui.Keyboard;
+
+import mx.core.IVisualElementContainer;
+
+import spark.components.View;
+import spark.components.ViewNavigator;
+
+public class MobileApplicationController extends ApplicationControllerBase
 	{
 		private var _homeView:View;
 		private var _mobileApplication:CollaboRhythmMobileApplication;

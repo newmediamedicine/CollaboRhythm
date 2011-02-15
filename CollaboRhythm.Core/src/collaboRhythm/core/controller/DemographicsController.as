@@ -11,8 +11,8 @@
 */
 package collaboRhythm.core.controller
 {
-	import collaboRhythm.workstation.model.User;
-	import collaboRhythm.workstation.view.DemographicsFullView;
+	import collaboRhythm.shared.model.User;
+	import collaboRhythm.shared.view.DemographicsFullView;
 	
 	import mx.core.IVisualElementContainer;
 	

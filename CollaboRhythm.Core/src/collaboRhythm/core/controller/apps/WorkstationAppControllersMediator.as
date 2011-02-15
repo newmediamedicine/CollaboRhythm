@@ -11,24 +11,24 @@
 */
 package collaboRhythm.core.controller.apps
 {
+	import collaboRhythm.plugins.problems.controller.ProblemsAppController;
+	import collaboRhythm.shared.apps.allergies.controller.AllergiesAppController;
+	import collaboRhythm.shared.apps.bloodPressureAgent.controller.BloodPressureAgentAppController;
+	import collaboRhythm.shared.apps.equipment.controller.EquipmentAppController;
+	import collaboRhythm.shared.apps.familyHistory.controller.FamilyHistoryAppController;
+	import collaboRhythm.shared.apps.genetics.controller.GeneticsAppController;
+	import collaboRhythm.shared.apps.imaging.controller.ImagingAppController;
+	import collaboRhythm.shared.apps.immunizations.controller.ImmunizationsAppController;
+	import collaboRhythm.shared.apps.labs.controller.LabsAppController;
+	import collaboRhythm.shared.apps.procedures.controller.ProceduresAppController;
+	import collaboRhythm.shared.apps.socialHistory.controller.SocialHistoryAppController;
+	import collaboRhythm.shared.apps.vitals.controller.VitalsAppController;
+	import collaboRhythm.shared.controller.apps.AppControllerInfo;
+	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.WorkstationAppControllerFactory;
+	import collaboRhythm.shared.controller.apps.WorkstationAppEvent;
+	import collaboRhythm.shared.model.*;
 	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
-	import collaboRhythm.workstation.apps.allergies.controller.AllergiesAppController;
-	import collaboRhythm.workstation.apps.bloodPressureAgent.controller.BloodPressureAgentAppController;
-	import collaboRhythm.workstation.apps.equipment.controller.EquipmentAppController;
-	import collaboRhythm.workstation.apps.familyHistory.controller.FamilyHistoryAppController;
-	import collaboRhythm.workstation.apps.genetics.controller.GeneticsAppController;
-	import collaboRhythm.workstation.apps.imaging.controller.ImagingAppController;
-	import collaboRhythm.workstation.apps.immunizations.controller.ImmunizationsAppController;
-	import collaboRhythm.workstation.apps.labs.controller.LabsAppController;
-	import collaboRhythm.workstation.apps.problems.controller.ProblemsAppController;
-	import collaboRhythm.workstation.apps.procedures.controller.ProceduresAppController;
-	import collaboRhythm.workstation.apps.socialHistory.controller.SocialHistoryAppController;
-	import collaboRhythm.workstation.apps.vitals.controller.VitalsAppController;
-	import collaboRhythm.workstation.controller.apps.AppControllerInfo;
-	import collaboRhythm.workstation.controller.apps.WorkstationAppControllerBase;
-	import collaboRhythm.workstation.controller.apps.WorkstationAppControllerFactory;
-	import collaboRhythm.workstation.controller.apps.WorkstationAppEvent;
-	import collaboRhythm.workstation.model.*;
 	
 	import com.theory9.data.types.OrderedMap;
 	

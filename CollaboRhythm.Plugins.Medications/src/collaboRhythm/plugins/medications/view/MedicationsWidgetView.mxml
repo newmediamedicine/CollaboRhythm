@@ -24,8 +24,8 @@
 	<fx:Script>
 		<![CDATA[
 			import collaboRhythm.plugins.medications.model.MedicationsModel;
-			import collaboRhythm.workstation.controller.apps.WorkstationAppControllerBase;
-			import collaboRhythm.workstation.view.apps.WidgetGridItemRenderer;
+			import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+			import collaboRhythm.shared.view.apps.WidgetGridItemRenderer;
 			
 			[Bindable]
 			private var _model:MedicationsModel;
@@ -56,10 +56,10 @@
 			<mx:Image source="@Embed(source='assets/images/medications-watermark.png')" styleName="WidgetWatermarkImage" width="60%" height="60%" alpha="{WorkstationAppControllerBase.WIDGET_WATERMARK_ALPHA}" smoothBitmapContent="true"/>
 			<scroll:TouchScrollingDataGrid id="widgetGrid" styleName="WidgetGrid" useHorizontalTouchScrolling="false" showHeaders="false" selectable="false" useRollOver="false" width="100%" height="100%" dataProvider="{_model.medicationsCollection.list}">
 				<scroll:columns>
-					<mx:DataGridColumn headerText="Name" dataField="name" width="160" itemRenderer="collaboRhythm.workstation.view.apps.WidgetGridItemRenderer"/>
-					<mx:DataGridColumn headerText="Strength" dataField="strengthLabelText" itemRenderer="collaboRhythm.workstation.view.apps.WidgetGridItemRenderer"/>
-					<mx:DataGridColumn headerText="Dose" dataField="doseLabelText" itemRenderer="collaboRhythm.workstation.view.apps.WidgetGridItemRenderer"/>
-					<mx:DataGridColumn headerText="Frequency" dataField="frequency" width="120" itemRenderer="collaboRhythm.workstation.view.apps.WidgetGridItemRenderer"/>
+					<mx:DataGridColumn headerText="Name" dataField="name" width="160" itemRenderer="collaboRhythm.shared.view.apps.WidgetGridItemRenderer"/>
+					<mx:DataGridColumn headerText="Strength" dataField="strengthLabelText" itemRenderer="collaboRhythm.shared.view.apps.WidgetGridItemRenderer"/>
+					<mx:DataGridColumn headerText="Dose" dataField="doseLabelText" itemRenderer="collaboRhythm.shared.view.apps.WidgetGridItemRenderer"/>
+					<mx:DataGridColumn headerText="Frequency" dataField="frequency" width="120" itemRenderer="collaboRhythm.shared.view.apps.WidgetGridItemRenderer"/>
 				</scroll:columns>
 			</scroll:TouchScrollingDataGrid>
 		</s:NavigatorContent>

@@ -11,7 +11,7 @@
 */
 package collaboRhythm.plugins.schedule.shared.model
 {
-	import collaboRhythm.workstation.model.services.WorkstationKernel;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
 	
 	public class MoveData
 	{

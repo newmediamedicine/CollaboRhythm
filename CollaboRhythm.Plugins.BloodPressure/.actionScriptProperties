@@ -26,7 +26,7 @@
     </application>
   </applications>
   <modules>
-    <module application="src/CollaboRhythm.Plugins.BloodPressure.as" destPath="BloodPressurePluginModule.swf" optimize="false" sourcePath="src/collaboRhythm/workstation/apps/bloodPressure/controller/BloodPressurePluginModule.as"/>
+    <module application="src/CollaboRhythm.Plugins.BloodPressure.as" destPath="BloodPressurePluginModule.swf" optimize="false" sourcePath="src/collaboRhythm/plugins/bloodPressure/controller/BloodPressurePluginModule.as"/>
   </modules>
   <buildCSSFiles/>
   <flashCatalyst validateFlashCatalystCompatibility="false"/>

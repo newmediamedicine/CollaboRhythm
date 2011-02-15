@@ -30,8 +30,8 @@
 	<fx:Script>
 		<![CDATA[	
 			import collaboRhythm.core.controller.RemoteUserController;
-			import collaboRhythm.workstation.model.User;
-			import collaboRhythm.workstation.model.UsersModel;
+			import collaboRhythm.shared.model.User;
+			import collaboRhythm.shared.model.UsersModel;
 			
 			import mx.collections.ArrayCollection;
 			import mx.events.DataGridEvent;

@@ -15,7 +15,7 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx" 
 		 xmlns:view="collaboRhythm.workstation.view.*"
 		 xmlns:scroll="collaboRhythm.view.scroll.*" 
-		 width="100%" height="100%" xmlns:view1="collaboRhythm.core.view.*" >
+		 width="100%" height="100%" xmlns:view1="collaboRhythm.core.view.*" xmlns:view2="collaboRhythm.shared.view.*" >
 	<fx:Declarations>
 		<s:Move id="showCollaborationRoomEffect" target="{collaborationRoomView}" yBy="{collaborationRoomView.height}" effectUpdate="showCollaborationRoomEffect_effectUpdateEvent(event)"/>
 		<s:Move id="hideCollaborationRoomEffect" target="{collaborationRoomView}" yBy="{-collaborationRoomView.height}" effectUpdate="showCollaborationRoomEffect_effectUpdateEvent(event)"/>
@@ -34,7 +34,7 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.workstation.view.apps.WidgetGridItemRenderer;
+			import collaboRhythm.shared.view.apps.WidgetGridItemRenderer;
 			import collaboRhythm.view.scroll.TouchScrollingScrollerSkin;
 			
 			import flash.utils.getDefinitionByName;
@@ -282,7 +282,7 @@
 	</s:mask>
 	<s:Group id="topBar" height="100" width="100%">
 		<view1:WorkstationCommandBarView id="workstationCommandBarView" width="100%" y="0"/>
-		<view:CollaborationRoomView id="collaborationRoomView" width="100%" y="0" show="collaborationRoomView_showHandler(event)" hide="collaborationRoomView_hideHandler(event)"/>
+		<view2:CollaborationRoomView id="collaborationRoomView" width="100%" y="0" show="collaborationRoomView_showHandler(event)" hide="collaborationRoomView_hideHandler(event)"/>
 	</s:Group>
 	<s:Rect width="100%" top="{topBar.height}" bottom="0">
 		<s:fill>

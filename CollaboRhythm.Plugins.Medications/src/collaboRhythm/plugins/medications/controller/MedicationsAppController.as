@@ -15,7 +15,7 @@ package collaboRhythm.plugins.medications.controller
 	import collaboRhythm.plugins.medications.model.MedicationsModel;
 	import collaboRhythm.plugins.medications.view.MedicationsWidgetView;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
-	import collaboRhythm.workstation.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 	
 	import flash.display.DisplayObject;
 	

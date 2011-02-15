@@ -16,13 +16,13 @@ package collaboRhythm.core.controller
 	import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
 	import collaboRhythm.core.pluginsManagement.PluginLoader;
 	import collaboRhythm.core.view.RemoteUsersListView;
+	import collaboRhythm.shared.model.Settings;
+	import collaboRhythm.shared.model.User;
+	import collaboRhythm.shared.model.services.DemoCurrentDateSource;
+	import collaboRhythm.shared.model.services.ICurrentDateSource;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
 	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
-	import collaboRhythm.workstation.model.Settings;
-	import collaboRhythm.workstation.model.User;
-	import collaboRhythm.workstation.model.services.DemoCurrentDateSource;
-	import collaboRhythm.workstation.model.services.ICurrentDateSource;
-	import collaboRhythm.workstation.model.services.WorkstationKernel;
-	import collaboRhythm.workstation.view.CollaborationRoomView;
+	import collaboRhythm.shared.view.CollaborationRoomView;
 	
 	import com.daveoncode.logging.LogFileTarget;
 	

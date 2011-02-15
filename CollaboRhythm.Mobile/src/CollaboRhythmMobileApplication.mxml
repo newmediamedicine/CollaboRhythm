@@ -21,24 +21,21 @@
 	<fx:Style source="collaboRhythm/mobile/view/GlobalStyles.css"/>
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.mobile.controller.MobileApplicationController;
-			
-			import mx.events.FlexEvent;
-			
-			private var _applicationController:MobileApplicationController;
+        import collaboRhythm.mobile.controller.MobileApplicationController;
 
-			protected function creationCompleteHandler(event:FlexEvent):void
-			{
-				main();
-			}
+        import mx.events.FlexEvent;
 
-			private function main() : void
-			{
-				_applicationController = new MobileApplicationController(this);
-				_applicationController.main();
-			}
-			
-		]]>
+        private var _applicationController:MobileApplicationController;
+
+        protected function creationCompleteHandler(event:FlexEvent):void {
+            main();
+        }
+
+        private function main():void {
+            _applicationController = new MobileApplicationController(this);
+            _applicationController.main();
+        }
+        ]]>
 	</fx:Script>
 	<s:navigationContent> 		
 		<s:Button label="Home" click="navigator.popToFirstView()"/>		

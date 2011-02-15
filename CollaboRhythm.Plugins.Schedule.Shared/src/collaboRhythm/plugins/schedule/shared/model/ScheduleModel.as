@@ -12,8 +12,8 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
 	import collaboRhythm.plugins.schedule.shared.view.FullAdherenceGroupView;
-	import collaboRhythm.workstation.model.services.ICurrentDateSource;
-	import collaboRhythm.workstation.model.services.WorkstationKernel;
+	import collaboRhythm.shared.model.services.ICurrentDateSource;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
 	
 	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;

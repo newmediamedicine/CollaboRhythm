@@ -11,12 +11,12 @@
 */
 package collaboRhythm.workstation.controller
 {
-	import collaboRhythm.workstation.model.Settings;
+	import collaboRhythm.shared.model.Settings;
 	import collaboRhythm.workstation.model.settings.ComponentLayout;
 	import collaboRhythm.workstation.model.settings.WindowSettings;
 	import collaboRhythm.workstation.model.settings.WindowSettingsDataStore;
 	import collaboRhythm.workstation.model.settings.WindowState;
-	import collaboRhythm.workstation.view.CollaborationRoomView;
+	import collaboRhythm.shared.view.CollaborationRoomView;
 	import collaboRhythm.core.view.RemoteUsersListView;
 	import collaboRhythm.core.view.WorkstationCommandBarView;
 	import collaboRhythm.workstation.view.spaces.CenterSpace;

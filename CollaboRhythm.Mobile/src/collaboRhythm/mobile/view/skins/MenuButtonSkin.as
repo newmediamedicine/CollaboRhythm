@@ -1,16 +1,11 @@
 package collaboRhythm.mobile.view.skins
 {
-	import collaboRhythm.mobile.view.skins.supportClasses.MenuButtonDown;
-	import collaboRhythm.mobile.view.skins.supportClasses.MenuButtonUp;
-	
-	import flash.display.GradientType;
-	import flash.geom.Matrix;
-	
-	import mx.utils.ColorUtil;
-	
-	import spark.skins.mobile.ButtonSkin;
-	
-	public class MenuButtonSkin extends ButtonSkin
+import collaboRhythm.mobile.view.skins.supportClasses.MenuButtonDown;
+import collaboRhythm.mobile.view.skins.supportClasses.MenuButtonUp;
+
+import spark.skins.mobile.ButtonSkin;
+
+public class MenuButtonSkin extends ButtonSkin
 	{
 		public function MenuButtonSkin()
 		{

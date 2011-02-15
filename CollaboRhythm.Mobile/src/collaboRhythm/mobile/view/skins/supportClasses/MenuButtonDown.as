@@ -1,10 +1,10 @@
 package collaboRhythm.mobile.view.skins.supportClasses
 {
-	import flash.display.Graphics;
-	
-	import spark.core.SpriteVisualElement;
-	
-	public class MenuButtonDown extends SpriteVisualElement
+import flash.display.Graphics;
+
+import spark.core.SpriteVisualElement;
+
+public class MenuButtonDown extends SpriteVisualElement
 	{
 		public function MenuButtonDown()
 		{

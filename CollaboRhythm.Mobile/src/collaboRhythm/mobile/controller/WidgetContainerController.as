@@ -11,17 +11,17 @@
 */
 package collaboRhythm.mobile.controller
 {
-	import collaboRhythm.core.pluginsManagement.PluginEvent;
-	import collaboRhythm.mobile.view.WidgetContainerView;
-	import collaboRhythm.core.controller.CollaborationMediatorBase;
-	import collaboRhythm.workstation.controller.apps.WorkstationAppControllerBase;
-	
-	import flash.events.TransformGestureEvent;
-	
-	import spark.components.ViewNavigator;
-	import spark.effects.SlideViewTransition;
+import collaboRhythm.core.controller.CollaborationMediatorBase;
+import collaboRhythm.core.pluginsManagement.PluginEvent;
+import collaboRhythm.mobile.view.WidgetContainerView;
+import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 
-	public class WidgetContainerController
+import flash.events.TransformGestureEvent;
+
+import spark.components.ViewNavigator;
+import spark.effects.SlideViewTransition;
+
+public class WidgetContainerController
 	{
 		private var _navigator:ViewNavigator;
 		private var _collaborationMediator:CollaborationMediatorBase;

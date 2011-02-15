@@ -14,8 +14,8 @@ package collaboRhythm.plugins.schedule.shared.controller
 	import collaboRhythm.plugins.schedule.shared.model.MoveData;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleFullView;
-	import collaboRhythm.workstation.model.CollaborationRoomNetConnectionServiceProxy;
-	import collaboRhythm.workstation.model.User;
+	import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
+	import collaboRhythm.shared.model.User;
 	
 	public class ScheduleFullViewController
 	{
