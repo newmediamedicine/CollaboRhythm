@@ -72,7 +72,7 @@
 	</fx:Declarations>
 	<mx:ViewStack id="viewstack1" width="100%" height="100%">
 		<s:NavigatorContent label="gridContent" width="100%" height="100%">
-			<mx:Image source="@Embed(source='resources/images/apps/vitals-watermark.png')" styleName="WidgetWatermarkImage" width="60%" height="60%" alpha="{WorkstationAppControllerBase.WIDGET_WATERMARK_ALPHA}" smoothBitmapContent="true"/>
+			<mx:Image source="@Embed(source='/resources/images/apps/vitals-watermark.png')" styleName="WidgetWatermarkImage" width="60%" height="60%" alpha="{WorkstationAppControllerBase.WIDGET_WATERMARK_ALPHA}" smoothBitmapContent="true"/>
 			<scroll:TouchScrollingDataGrid id="widgetGrid" styleName="WidgetGrid" useHorizontalTouchScrolling="false" showHeaders="false" selectable="false" useRollOver="false" width="100%" height="100%" dataProvider="{_model.VitalSign}">
 				<scroll:columns>
 					<mx:DataGridColumn headerText="Name" dataField="name" itemRenderer="collaboRhythm.workstation.view.apps.WidgetGridItemRenderer"/>

@@ -154,11 +154,11 @@
 	<s:Button id="multipleChoiceButton6" styleName="buttonText" top="430" right="240" width="200" height="100" label="No, none of these" click="multipleChoiceButton6_clickHandler(event)" visible="false"/>
 	<s:Button id="whyDoYouAskButton" styleName="buttonText" top="550" right="240" width="200" height="100" label="Why do you ask?" click="whyDoYouAsk_clickHandler(event)" visible="false"/>
 	<s:Button id="okButton" styleName="buttonText" bottom="20" height="100" right="220" width="350" label="OK" click="okButton_clickHandler(event)" visible="false"/>
-	<mx:Image id="instructions1Image" source="@Embed(source='resources/images/apps/bloodPressureAgent/instructions1.jpg')" top="50" right="300" smoothBitmapContent="true" visible="false"/>
-	<mx:Image id="instructions2Image" source="@Embed(source='resources/images/apps/bloodPressureAgent/instructions2.jpg')" top="50" right="300" smoothBitmapContent="true" visible="false"/>
-	<mx:Image id="instructions3Image" source="@Embed(source='resources/images/apps/bloodPressureAgent/instructions3.jpg')" top="50" right="300" smoothBitmapContent="true" visible="false"/>
-	<mx:Image id="instructions4Image" source="@Embed(source='resources/images/apps/bloodPressureAgent/instructions4.jpg')" top="50" right="300" smoothBitmapContent="true" visible="false"/>
+	<mx:Image id="instructions1Image" source="@Embed(source='/resources/images/apps/bloodPressureAgent/instructions1.jpg')" top="50" right="300" smoothBitmapContent="true" visible="false"/>
+	<mx:Image id="instructions2Image" source="@Embed(source='/resources/images/apps/bloodPressureAgent/instructions2.jpg')" top="50" right="300" smoothBitmapContent="true" visible="false"/>
+	<mx:Image id="instructions3Image" source="@Embed(source='/resources/images/apps/bloodPressureAgent/instructions3.jpg')" top="50" right="300" smoothBitmapContent="true" visible="false"/>
+	<mx:Image id="instructions4Image" source="@Embed(source='/resources/images/apps/bloodPressureAgent/instructions4.jpg')" top="50" right="300" smoothBitmapContent="true" visible="false"/>
 	<s:Button id="skipToEnd" styleName="buttonText" bottom="20" right="20" width="100" height="100" label="Skip" click="skipToEnd_clickHandler(event)" visible="false"/>
-	<mx:Image id="hypertensionEducation" source="@Embed(source='resources/images/apps/bloodPressureAgent/hypertensionEducation.PNG')" bottom="130" right="20" smoothBitmapContent="true" visible="false"/>
-	<mx:Image id="oddcastPowered" source="@Embed(source='resources/images/apps/bloodPressureAgent/oddcast.PNG')" top="10" left="10" smoothBitmapContent="true" visible="true"/>
+	<mx:Image id="hypertensionEducation" source="@Embed(source='/resources/images/apps/bloodPressureAgent/hypertensionEducation.PNG')" bottom="130" right="20" smoothBitmapContent="true" visible="false"/>
+	<mx:Image id="oddcastPowered" source="@Embed(source='/resources/images/apps/bloodPressureAgent/oddcast.PNG')" top="10" left="10" smoothBitmapContent="true" visible="true"/>
 </s:Group>

@@ -129,11 +129,11 @@ package collaboRhythm.view.scroll
 		// time (in milliseconds) spent doing update of inertia and position for scrolling (only used for performance testing)
 		private var _updateDuration:Number = 0;
 
-		[Embed(source="assets/cursors/hand.png")]
+		[Embed(source="/assets/cursors/hand.png")]
 		private static const grabCursor:Class;
 		private var grabCursorId:int;
 		
-		[Embed(source="assets/cursors/handClosed.png")]
+		[Embed(source="/assets/cursors/handClosed.png")]
 		private static const grabbingCursor:Class;
 		private var grabbingCursorId:int;
 		

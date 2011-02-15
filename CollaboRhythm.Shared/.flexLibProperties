@@ -32,6 +32,9 @@
     <classEntry path="com.brooksandrus.utils.ISO8601Util"/>
     <classEntry path="collaboRhythm.workstation.apps.allergies.controller.AllergiesAppController"/>
     <classEntry path="collaboRhythm.workstation.apps.allergies.view.AllergiesWidgetView"/>
+    <classEntry path="collaboRhythm.workstation.apps.schedule.view.WidgetMeasurementView"/>
+    <classEntry path="collaboRhythm.workstation.apps.schedule.view.WidgetAdherenceWindowView"/>
+    <classEntry path="collaboRhythm.workstation.apps.schedule.view.WidgetMedicationView"/>
     <classEntry path="collaboRhythm.workstation.controller.CollaborationController"/>
     <classEntry path="collaboRhythm.workstation.controller.CollaborationEvent"/>
     <classEntry path="collaboRhythm.workstation.view.DemographicsFullView"/>

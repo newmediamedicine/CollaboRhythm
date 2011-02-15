@@ -96,7 +96,7 @@
 		<s:Label text="10" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
 		<s:Label text="11" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
 <!--		<s:Group width="3.85%" textAlign="center" height="100%">
-			<mx:Image source="@Embed('resources/images/apps/medications/sun.png')" width="48" height="48" smoothBitmapContent="true" horizontalCenter="0"/>
+			<mx:Image source="@Embed('/resources/images/apps/medications/sun.png')" width="48" height="48" smoothBitmapContent="true" horizontalCenter="0"/>
 			<s:Label text="noon" styleName="hour" textAlign="center" height="100%" verticalAlign="middle" horizontalCenter="0"/>
 		</s:Group>-->
 		<s:Label text="1" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
@@ -111,7 +111,7 @@
 		<s:Label text="10" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
 		<s:Label text="11" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
 <!--		<s:Group width="3.75%" textAlign="center" height="100%">
-			<mx:Image source="@Embed('resources/images/apps/medications/moon.png')" width="48" height="48" smoothBitmapContent="true" horizontalCenter="0"/>
+			<mx:Image source="@Embed('/resources/images/apps/medications/moon.png')" width="48" height="48" smoothBitmapContent="true" horizontalCenter="0"/>
 			<s:Label text="midn" styleName="hour" textAlign="center" height="100%" verticalAlign="middle" horizontalCenter="0"/>
 		</s:Group>-->
 	</s:HGroup>

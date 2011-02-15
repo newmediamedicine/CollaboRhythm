@@ -252,8 +252,8 @@
 		]]>
 	</fx:Script>
 	<s:Group id="bodyGroup" bottom="10" right="20" >
-		<mx:Image id="simulationNoAdherenceImage" height="564" width="222" bottom="0" source="@Embed(source='resources/images/apps/bloodPressure/simulationNoAdherence.png')" smoothBitmapContent="true" visible="{!_bloodPressureModel.showAdherence}"/>
-		<mx:Image id="simulationImageAdherence" bottom="0" source="@Embed(source='resources/images/apps/bloodPressure/simulation.png')" smoothBitmapContent="true" visible="{_bloodPressureModel.showAdherence}"/>
+		<mx:Image id="simulationNoAdherenceImage" height="564" width="222" bottom="0" source="@Embed(source='/resources/images/apps/bloodPressure/simulationNoAdherence.png')" smoothBitmapContent="true" visible="{!_bloodPressureModel.showAdherence}"/>
+		<mx:Image id="simulationImageAdherence" bottom="0" source="@Embed(source='/resources/images/apps/bloodPressure/simulation.png')" smoothBitmapContent="true" visible="{_bloodPressureModel.showAdherence}"/>
 		<!--
 		height="586" width="222" 
 		

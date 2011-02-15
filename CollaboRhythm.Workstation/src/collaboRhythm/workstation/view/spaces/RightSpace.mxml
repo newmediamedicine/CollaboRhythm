@@ -21,5 +21,5 @@
 			<s:SolidColor color="0xFFFFFF"/>
 		</s:fill>
 	</s:Rect>
-	<mx:Image source="@Embed(source='resources/chumby/chumby-clock.jpg')" smoothBitmapContent="true" height="50%" width="50%" horizontalAlign="center" verticalAlign="bottom" right="0" top="0"/>
+	<mx:Image source="@Embed(source='/resources/chumby/chumby-clock.jpg')" smoothBitmapContent="true" height="50%" width="50%" horizontalAlign="center" verticalAlign="bottom" right="0" top="0"/>
 </s:Group>

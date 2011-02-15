@@ -63,8 +63,8 @@
 				</s:stroke>
 			</s:Line>
 			<s:HGroup id="menuGroupContent" width="100%" gap="2" render="menuGroupContent_renderHandler(event)">
-				<s:Button id="refreshButton" width="100%" icon="@Embed('assets/images/ic_menu_refresh.png')" skinClass="collaboRhythm.mobile.view.skins.MenuButtonSkin" label="Refresh" click="refreshButton_clickHandler(event)" />
-				<s:Button id="quitButton" width="100%" icon="@Embed('assets/images/ic_menu_close_clear_cancel.png')" skinClass="collaboRhythm.mobile.view.skins.MenuButtonSkin" label="Quit" click="quitButton_clickHandler(event)" />
+				<s:Button id="refreshButton" width="100%" icon="@Embed('/assets/images/ic_menu_refresh.png')" skinClass="collaboRhythm.mobile.view.skins.MenuButtonSkin" label="Refresh" click="refreshButton_clickHandler(event)" />
+				<s:Button id="quitButton" width="100%" icon="@Embed('/assets/images/ic_menu_close_clear_cancel.png')" skinClass="collaboRhythm.mobile.view.skins.MenuButtonSkin" label="Quit" click="quitButton_clickHandler(event)" />
 			</s:HGroup>
 		</s:VGroup>
 	</s:Group>

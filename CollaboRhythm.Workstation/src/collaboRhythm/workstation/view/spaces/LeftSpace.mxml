@@ -32,5 +32,5 @@
 		</s:fill>
 	</s:Rect>
 <!--	<view:ClockView id="commonClockView" width="100%" click="clockview1_clickHandler(event)"/>-->
-	<mx:Image source="@Embed(source='resources/agent/linda.png')" smoothBitmapContent="true" height="100%" horizontalCenter="0" width="100%" horizontalAlign="center" verticalAlign="bottom"/>
+	<mx:Image source="@Embed(source='/resources/agent/linda.png')" smoothBitmapContent="true" height="100%" horizontalCenter="0" width="100%" horizontalAlign="center" verticalAlign="bottom"/>
 </s:Group>

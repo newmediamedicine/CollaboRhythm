@@ -160,10 +160,10 @@
 	</s:RichText>
 
 	<!--
-	<mx:Image right="5" top="5" height="32" width="32" source="@Embed(source='resources/images/icons/{_remoteUser.collaborationLobbyConnectionStatus}.png')" smoothBitmapContent="true"/>
+	<mx:Image right="5" top="5" height="32" width="32" source="@Embed(source='/resources/images/icons/{_remoteUser.collaborationLobbyConnectionStatus}.png')" smoothBitmapContent="true"/>
 	-->
-	<mx:Image right="5" top="5" height="32" width="32" source="@Embed(source='resources/images/icons/CollaborationLobbyAvailable.png')" smoothBitmapContent="true" visible="{_remoteUser.collaborationLobbyConnectionStatus == User.COLLABORATION_LOBBY_AVAILABLE}"/>
-	<mx:Image right="5" top="5" height="32" width="32" source="@Embed(source='resources/images/icons/CollaborationLobbyNotConnected.png')" smoothBitmapContent="true" visible="{_remoteUser.collaborationLobbyConnectionStatus == User.COLLABORATION_LOBBY_NOT_CONNECTED}"/>
+	<mx:Image right="5" top="5" height="32" width="32" source="@Embed(source='/resources/images/icons/CollaborationLobbyAvailable.png')" smoothBitmapContent="true" visible="{_remoteUser.collaborationLobbyConnectionStatus == User.COLLABORATION_LOBBY_AVAILABLE}"/>
+	<mx:Image right="5" top="5" height="32" width="32" source="@Embed(source='/resources/images/icons/CollaborationLobbyNotConnected.png')" smoothBitmapContent="true" visible="{_remoteUser.collaborationLobbyConnectionStatus == User.COLLABORATION_LOBBY_NOT_CONNECTED}"/>
 	<s:Line left="0" right="0" xFrom="0" xTo="1" bottom="0">
 		<s:stroke>
 			<s:SolidColorStroke color="0x000000"/>

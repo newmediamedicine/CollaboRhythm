@@ -45,7 +45,7 @@
 	<s:Label text="{(data as PlotSeriesItem).item.adherence}" visible="false"/>
 	<mx:Image bottom="{height / 2}" source="{'resources/images/apps/bloodPressure/adherence_' + (data as PlotSeriesItem).item.adherence + '.png'}"/>
 	-->
-	<mx:Image visible="false" smoothBitmapContent="true" id="yesImage" bottom="{height / 2}" source="@Embed('resources/images/apps/bloodPressure/adherence_yes.png')"/>
-	<mx:Image visible="false" smoothBitmapContent="true" id="noImage" bottom="{height / 2}" source="@Embed('resources/images/apps/bloodPressure/adherence_no.png')"/>
-	<mx:Image visible="false" smoothBitmapContent="true" id="unreportedImage" bottom="{height / 2}" source="@Embed('resources/images/apps/bloodPressure/adherence_unreported.png')"/>
+	<mx:Image visible="false" smoothBitmapContent="true" id="yesImage" bottom="{height / 2}" source="@Embed('/resources/images/apps/bloodPressure/adherence_yes.png')"/>
+	<mx:Image visible="false" smoothBitmapContent="true" id="noImage" bottom="{height / 2}" source="@Embed('/resources/images/apps/bloodPressure/adherence_no.png')"/>
+	<mx:Image visible="false" smoothBitmapContent="true" id="unreportedImage" bottom="{height / 2}" source="@Embed('/resources/images/apps/bloodPressure/adherence_unreported.png')"/>
 </s:ItemRenderer>

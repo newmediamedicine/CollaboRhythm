@@ -2093,7 +2093,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 			private var focusTimeFirstMousePos:Point;
 			private var focusTimeFirstPos:Point;
 
-			[Embed(source="assets/horizontalMove.png")]
+			[Embed(source="/assets/horizontalMove.png")]
 			private var horizontalMoveCursor:Class;
 			private var horizontalMoveCursorId:int;
 
