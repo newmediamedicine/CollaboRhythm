@@ -12,18 +12,18 @@
 package collaboRhythm.plugins.bloodPressure.model
 {
 	import collaboRhythm.shared.model.HealthRecordServiceBase;
-	import collaboRhythm.shared.model.HealthRecordServiceEvent;
 	import collaboRhythm.shared.model.User;
-	
+	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
+
 	import com.brooksandrus.utils.ISO8601Util;
-	
+
 	import flash.xml.XMLDocument;
-	
+
 	import mx.collections.ArrayCollection;
 	import mx.rpc.xml.SimpleXMLDecoder;
-	
+
 	import org.indivo.client.IndivoClientEvent;
-	
+
 	public class BloodPressureHealthRecordService extends HealthRecordServiceBase
 	{
 		public function BloodPressureHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String)
@@ -107,10 +107,9 @@ package collaboRhythm.plugins.bloodPressure.model
 				
 				if (responseXml.Document.length() > 0)
 				{
-					if (responseXml.Document[0].attribute("id").length() != 1)
-						throw new Error("Document does not have expected id attribute");
-					
-					_pha.documents_XGET(null, null, null, user.recordId, responseXml.Document[0].@id.toString(), accessKey, accessSecret, user); 
+					var metadata:DocumentMetadata = DocumentMetadata.createDocumentMetadata(responseXml.Document[0]);
+					user.registerDocument(metadata, user.bloodPressureModel);
+					_pha.documents_XGET(null, null, null, user.recordId, metadata.id, accessKey, accessSecret, user);
 				}
 			}
 			else if (responseXml.name() == "BloodPressureData")
@@ -142,8 +141,6 @@ package collaboRhythm.plugins.bloodPressure.model
 					}
 				}
 				
-				//				user.bloodPressureModel.rawData = XML(stream.readUTFBytes(stream.bytesAvailable));
-				//				user.bloodPressureModel.data = new ArrayCollection(ArrayUtil.toArray(XML(stream.readUTFBytes(stream.bytesAvailable))));
 				user.bloodPressureModel.data = data;
 			}
 			else
@@ -151,7 +148,7 @@ package collaboRhythm.plugins.bloodPressure.model
 				throw new Error("Unexpected response: " + responseXml);
 			}
 		}
-		
+
 		private function xmlToArrayCollection(xml:XML):ArrayCollection
 		{                 
 			var xmlDoc:XMLDocument = new XMLDocument(xml.toString());

@@ -18,7 +18,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 		public function registerComponents(componentContainer:IComponentContainer):void
 		{
 			var typeName:String = ReflectionUtils.getClassInfo(BloodPressureAppController).name;
-			componentContainer.registerComponentInstance(typeName, AppControllerInfo, new AppControllerInfo(BloodPressureAppController));
+			componentContainer.registerComponentInstance(typeName, AppControllerInfo, new AppControllerInfo(BloodPressureAppController ));
 		}
 	}
 }

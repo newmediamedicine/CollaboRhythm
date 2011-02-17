@@ -29,6 +29,8 @@
 			private var _scheduleItem:ScheduleItemBaseOld;
 			[Bindable]
 			private var _medicationsGroup:IVisualElement;
+
+			public static const SCHEDULE_ITEM_WIDGET_VIEW:String = "scheduleItemWidgetView";
 			
 			public function init(scheduleItem:ScheduleItemBaseOld, medicationsGroup:IVisualElement):void
 			{

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- ~ Copyright 2011 John Moore, Scott Gilroy
- ~
- ~ This file is part of CollaboRhythm.
- ~
- ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- ~
- ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- ~
- ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
- -->
+~ Copyright 2011 John Moore, Scott Gilroy
+~
+~ This file is part of CollaboRhythm.
+~
+~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+~
+~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+~
+~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
@@ -41,7 +41,7 @@
 			import mx.collections.ArrayCollection;
 			import mx.events.CollectionEvent;
 			import mx.events.CollectionEventKind;
-					
+			
 			[Bindable]
 			private var _scheduleModel:ScheduleModel;
 			[Bindable]
@@ -72,15 +72,15 @@
 					createScheduleGroupView(scheduleGroup);
 				}
 				
-//				for each (var scheduleItem:ScheduleItemBase in _scheduleItemsCollection)
-//				{
-//					createScheduleItemView(scheduleItem);
-//				}
-//				
-//				for each (var adherenceGroup:AdherenceGroup in _adherenceGroupsCollection)
-//				{
-//					createAdherenceWindowView(adherenceGroup);
-//				}
+				//				for each (var scheduleItem:ScheduleItemBase in _scheduleItemsCollection)
+				//				{
+				//					createScheduleItemView(scheduleItem);
+				//				}
+				//				
+				//				for each (var adherenceGroup:AdherenceGroup in _adherenceGroupsCollection)
+				//				{
+				//					createAdherenceWindowView(adherenceGroup);
+				//				}
 				
 				updateTime();
 				
@@ -164,33 +164,33 @@
 					}
 				}
 			}
-
+			
 			public function createScheduleItemView(scheduleItem:ScheduleItemBase):void
 			{
-//				var widgetScheduleItemView:ScheduleItemWidgetViewBase = scheduleItem.createScheduleItemWidgetView();
-//				widgetScheduleItemView.init(scheduleItem, scheduleItemsGroup);
-//				scheduleItemsGroup.addElement(widgetScheduleItemView);
-//				_widgetScheduleItemViews.push(widgetScheduleItemView);
+				//				var widgetScheduleItemView:ScheduleItemWidgetViewBase = scheduleItem.createScheduleItemWidgetView();
+				//				widgetScheduleItemView.init(scheduleItem, scheduleItemsGroup);
+				//				scheduleItemsGroup.addElement(widgetScheduleItemView);
+				//				_widgetScheduleItemViews.push(widgetScheduleItemView);
 			}
 			
 			public function createAdherenceWindowView(adherenceGroup:AdherenceGroup):void
 			{				
-//				var widgetAdherenceWindowView:WidgetAdherenceWindowView = new WidgetAdherenceWindowView();
-//				widgetAdherenceWindowView.init(adherenceGroup, adherenceWindowsGroup);
-//				adherenceWindowsGroup.addElement(widgetAdherenceWindowView);
-//				_widgetAdherenceWindowViews.push(widgetAdherenceWindowView);		
+				//				var widgetAdherenceWindowView:WidgetAdherenceWindowView = new WidgetAdherenceWindowView();
+				//				widgetAdherenceWindowView.init(adherenceGroup, adherenceWindowsGroup);
+				//				adherenceWindowsGroup.addElement(widgetAdherenceWindowView);
+				//				_widgetAdherenceWindowViews.push(widgetAdherenceWindowView);		
 			}
 			
 			public function destroyAdherenceWindowView(adherenceGroup:AdherenceGroup):void
 			{
 				for each (var widgetAdherenceWindowView:ScheduleGroupWidgetView in _widgetAdherenceWindowViews)
 				{
-//					if (widgetAdherenceWindowView.adherenceGroup == adherenceGroup)
-//					{
-//						var clockAdherenceWindowViewIndex:Number = _widgetAdherenceWindowViews.indexOf(widgetAdherenceWindowView);
-//						_widgetAdherenceWindowViews.splice(clockAdherenceWindowViewIndex, 1);
-//						adherenceWindowsGroup.removeElement(widgetAdherenceWindowView);
-//					}
+					//					if (widgetAdherenceWindowView.adherenceGroup == adherenceGroup)
+					//					{
+					//						var clockAdherenceWindowViewIndex:Number = _widgetAdherenceWindowViews.indexOf(widgetAdherenceWindowView);
+					//						_widgetAdherenceWindowViews.splice(clockAdherenceWindowViewIndex, 1);
+					//						adherenceWindowsGroup.removeElement(widgetAdherenceWindowView);
+					//					}
 				}
 			}
 			

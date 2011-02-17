@@ -37,7 +37,7 @@ package collaboRhythm.plugins.medications.model
 			{
 				if (user.appData[MedicationsModel.MEDICATIONS_KEY] == null)
 				{
-					user.appData[MedicationsModel.MEDICATIONS_KEY] = new MedicationsModel();
+					user.appData[MedicationsModel.MEDICATIONS_KEY] = new MedicationsModel(user);
 				}
 				return user.getAppData(MedicationsModel.MEDICATIONS_KEY, MedicationsModel) as MedicationsModel;
 			}

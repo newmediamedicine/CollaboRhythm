@@ -16,29 +16,26 @@ package collaboRhythm.plugins.schedule.shared.model
 	import collaboRhythm.shared.model.CodedValue;
 	import collaboRhythm.shared.model.HealthRecordHelperMethods;
 	import collaboRhythm.shared.model.HealthRecordServiceBase;
+	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 
 	[Bindable]
-	public class ScheduleItemBase
+	public class ScheduleItemBase extends DocumentMetadata
 	{
-		private var _id:String;
+		protected var _scheduleItemXML:XML
 		private var _name:CodedValue;
 		private var _scheduledBy:String;
 		private var _dateTimeScheduled:Date;
 		private var _instructions:String;
 //		private var _scheduledAction:String;
 
-		public function ScheduleItemBase(documentID:String, scheduleItemXML:XML):void
+		public function ScheduleItemBase(scheduleItemReportXML:XML, scheduleItemElementName:String):void
 		{
-			_id = documentID;
-			_name = HealthRecordHelperMethods.codedValueFromXml(scheduleItemXML.name[0]);
-			_scheduledBy = scheduleItemXML.scheduledBy;
-			_dateTimeScheduled = HealthRecordServiceBase.parseDate(scheduleItemXML.dateTimeScheduled.toString());
-			_instructions = scheduleItemXML.instructions;
-		}
-		
-		public function get id():String
-		{
-			return _id;
+			parseDocumentMetadata(scheduleItemReportXML.Meta.Document[0], this);
+			_scheduleItemXML = scheduleItemReportXML.Item.elements(scheduleItemElementName)[0];
+			_name = HealthRecordHelperMethods.codedValueFromXml(_scheduleItemXML.name[0]);
+			_scheduledBy = _scheduleItemXML.scheduledBy;
+			_dateTimeScheduled = HealthRecordServiceBase.parseDate(_scheduleItemXML.dateTimeScheduled.toString());
+			_instructions = _scheduleItemXML.instructions;
 		}
 		
 		public function get name():CodedValue

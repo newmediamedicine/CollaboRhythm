@@ -20,15 +20,16 @@ package collaboRhythm.plugins.medications.model
 	import collaboRhythm.shared.model.HealthRecordHelperMethods;
 	import collaboRhythm.shared.model.HealthRecordServiceBase;
 	import collaboRhythm.shared.model.ValueAndUnit;
+	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
+	import collaboRhythm.shared.model.healthRecord.IDocumentMetadata;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	
 	import mx.core.UIComponent;
 
 	[Bindable]
-	public class Medication
+	public class Medication extends DocumentMetadata
 	{
-		private var _id:String;
 		private var _name:CodedValue;
 		private var _orderType:String;
 		private var _orderedBy:String;
@@ -54,8 +55,8 @@ package collaboRhythm.plugins.medications.model
 		private var _currentDateSource:ICurrentDateSource;
 		
 		public function Medication(medicationReportXML:XML)
-		{		
-			_id = medicationReportXML.Meta.Document.@id;
+		{
+			parseDocumentMetadata(medicationReportXML.Meta.Document[0], this);
 			var medicationXML:XML = medicationReportXML.Item.Medication[0];
 			_name = HealthRecordHelperMethods.codedValueFromXml(medicationXML.name[0]);
 			_orderType = medicationXML.orderType;
@@ -84,11 +85,6 @@ package collaboRhythm.plugins.medications.model
 //			_imageURI = "assets/images/" + _name + "_front.jpg";
 						
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
-		}
-		
-		public function get id():String
-		{
-			return _id;
 		}
 		
 		public function get name():CodedValue

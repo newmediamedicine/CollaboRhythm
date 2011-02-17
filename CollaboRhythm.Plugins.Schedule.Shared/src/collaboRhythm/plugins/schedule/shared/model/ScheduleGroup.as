@@ -14,8 +14,9 @@ package collaboRhythm.plugins.schedule.shared.model
 	import castle.flexbridge.reflection.Void;
 	
 	import collaboRhythm.shared.model.HealthRecordServiceBase;
+	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 
-	public class ScheduleGroup
+	public class ScheduleGroup extends DocumentMetadata
 	{
 		private var _id:String;
 		private var _scheduledBy:String;
@@ -27,8 +28,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		
 		public function ScheduleGroup(scheduleGroupReportXML:XML)
 		{
-			
-			_id = scheduleGroupReportXML.Meta.Document.@id;
+			parseDocumentMetadata(scheduleGroupReportXML.Meta.Document[0], this);
 			var scheduleGroupXML:XML = scheduleGroupReportXML.Item.ScheduleGroup[0];
 			_scheduledBy = scheduleGroupXML.scheduledBy;
 			_dateTimeScheduled = HealthRecordServiceBase.parseDate(scheduleGroupXML.dateTimeScheduled.toString());
@@ -40,11 +40,6 @@ package collaboRhythm.plugins.schedule.shared.model
 				var scheduleItemID:String = scheduleItemXML.@id;
 				_scheduleItems.push(scheduleItemID);
 			}
-		}
-
-		public function get id():String
-		{
-			return _id;
 		}
 
 		public function get scheduledBy():String

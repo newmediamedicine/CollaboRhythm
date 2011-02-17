@@ -79,7 +79,7 @@ package collaboRhythm.plugins.medications.controller
 			{
 				if (_user.appData[MedicationsModel.MEDICATIONS_KEY] == null)
 				{
-					_user.appData[MedicationsModel.MEDICATIONS_KEY] = new MedicationsModel();
+					_user.appData[MedicationsModel.MEDICATIONS_KEY] = new MedicationsModel(user);
 				}
 				return _user.getAppData(MedicationsModel.MEDICATIONS_KEY, MedicationsModel) as MedicationsModel;
 			}

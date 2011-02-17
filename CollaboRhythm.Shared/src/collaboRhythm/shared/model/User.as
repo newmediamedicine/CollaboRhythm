@@ -10,26 +10,20 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
 */
 package collaboRhythm.shared.model
-{	
+{
 	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
-	
-	import flash.events.NetStatusEvent;
+
+	import collaboRhythm.shared.model.healthRecord.IDocumentMetadata;
+
 	import flash.media.Video;
 	import flash.net.NetStream;
-	import flash.net.getClassByAlias;
-	import flash.utils.flash_proxy;
-	import flash.utils.getQualifiedClassName;
-	
+
 	import j2as3.collection.HashMap;
-	
-	import mx.events.PropertyChangeEvent;
 
 	/**
-	 * 
-	 * @author jom
-	 * 
 	 * Models all of the data for a user, whether that user is a local user or a remote user.
-	 * 
+	 *
+	 * @author jom
 	 */
 	[Bindable]
 	public class User
@@ -53,8 +47,6 @@ package collaboRhythm.shared.model
 		
 		private var _accountId:String;
 		private var _recordId:String;
-//		private var _accessKey:String;
-//		private var _accessSecret:String;
 		private var _isOwnedByLocalAccount:Boolean;
 		
 		private var _collaborationLobbyConnectionStatus:String = COLLABORATION_LOBBY_NOT_CONNECTED;
@@ -66,63 +58,13 @@ package collaboRhythm.shared.model
 		private var _bloodPressureModel:BloodPressureModel = new BloodPressureModel();
 		
 		private var _appData:HashMap = new HashMap();
+		private var _documentsById:HashMap = new HashMap();
 		
 		public function User(recordId:String)
 		{
 			_recordId = recordId;
-
-			// TODO: how can we eliminate this dependency so that schedule and medications can be independent plugins?
-//			_scheduleModel = new ScheduleModel(_medicationsModel)
 		}
 
-//		public function get firstName():String
-//		{
-////			return _firstName;
-//			return _contact ? _contact.givenName : null;
-//		}
-		
-//		private function set firstName(value:String):void
-//		{
-//			_firstName = value;
-//		}
-		
-//		public function get lastName():String
-//		{
-////			return _lastName;
-//			return _contact ? _contact.familyName : null;
-//		}
-		
-//		private function set lastName(value:String):void
-//		{
-//			_lastName = value;
-//		}
-		
-//		public function get userName():String
-//		{
-//////			return _userName;
-////			if (firstName != null && lastName != null)
-////				return firstName.substr(0, 1).toLowerCase() + lastName.toLowerCase();
-////			else
-//				return null;
-//		}
-//		
-////		private function set userName(value:String):void
-////		{
-////			_userName = value;
-//////			imageURI = "resources/images/users/" + _userName + ".jpg";
-////		}
-//		
-//		public function get imageURI():String
-//		{
-////			return _imageURI;
-//			return userName ? "resources/images/users/" + userName + ".jpg" : null;			
-//		}
-		
-//		private function set imageURI(value:String):void
-//		{
-//			_imageURI = value;
-//		}
-		
 		public function get isOwnedByLocalAccount():Boolean
 		{
 			return _isOwnedByLocalAccount;
@@ -151,23 +93,8 @@ package collaboRhythm.shared.model
 		public function set contact(value:Contact):void
 		{
 			_contact = value;
-//			if (_contact != null)
-//				_contact.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, contact_propertyChangeHandler);
-			
-//			firstName = _contact.givenName;
-//			lastName = _contact.familyName;
-			
+
 			// TODO: store the images with the record (as a binary document) or use some other identifier for the file name
-//			imageURI = "resources/images/users/" + firstName.substr(0, 1).toLowerCase() + lastName.toLowerCase() + ".jpg";
-		}
-		
-		private function contact_propertyChangeHandler(event:PropertyChangeEvent):void
-		{
-//			if (event.property == "familyName")
-//				this.dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, "lastName", null, this.lastName));
-//			if (event.property == "givenName")
-//				this.dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, "firstName", null, this.firstName));
-//				this.firstName = contact.givenName; 
 		}
 		
 		public function get accountId():String
@@ -175,51 +102,26 @@ package collaboRhythm.shared.model
 			return _accountId;
 		}
 
-		private function set accountId(value:String):void
+		public function set accountId(accountId:String):void
 		{
-			_accountId = value;
+			_accountId = accountId;
 		}
-		
+
 		public function get recordId():String
 		{
 			return _recordId;
 		}
 
-		private function set recordId(value:String):void
-		{
-			_recordId = value;
-		}
-
-//		public function get accessKey():String
-//		{
-//			return _accessKey;
-//		}
-//		
-//		private function set accessKey(value:String):void
-//		{
-//			_accessKey = value;
-//		}
-//		
-//		public function get accessSecret():String
-//		{
-//			return _accessSecret;
-//		}
-//		
-//		private function set accessSecret(value:String):void
-//		{
-//			_accessSecret = value;
-//		}
-	
 		public function get collaborationLobbyConnectionStatus():String
 		{
 			return _collaborationLobbyConnectionStatus;
 		}
-		
-		private function set collaborationLobbyConnectionStatus(value:String):void
+
+		public function set collaborationLobbyConnectionStatus(collaborationLobbyConnectionStatus:String):void
 		{
-			_collaborationLobbyConnectionStatus = value;
+			_collaborationLobbyConnectionStatus = collaborationLobbyConnectionStatus;
 		}
-		
+
 		public function get collaborationRoomConnectionStatus():String
 		{
 			return _collaborationRoomConnectionStatus;
@@ -264,12 +166,12 @@ package collaboRhythm.shared.model
 		{
 			return _bloodPressureModel;
 		}
-		
-		private function set bloodPressureModel(value:BloodPressureModel):void
+
+		public function set bloodPressureModel(bloodPressureModel:BloodPressureModel):void
 		{
-			_bloodPressureModel = value;
+			_bloodPressureModel = bloodPressureModel;
 		}
-		
+
 		public function get appData():HashMap
 		{
 			return _appData;
@@ -282,7 +184,44 @@ package collaboRhythm.shared.model
 				return data;
 			else
 				throw new Error("appData on User does not contain a " + (type as Class).toString() + " for key " + key); 
+		}
 
+		/**
+		 * Registers the document with the specified metadata. The metadata (such as the id) can later be used to
+		 * resolve (retrieve) the document object.
+		 * @param metadata The metadata describing the document.
+		 * @param document The data object representing the document itself. Note that the metadata and the document
+		 * can be one in the same if the document implements IDocumentMetadata.
+		 */
+		public function registerDocument(metadata:IDocumentMetadata, document:Object):void
+		{
+			_documentsById[metadata.id] = document;
+		}
+
+		/**
+		 * Resolves (retrieves) an object representation of a document which has been registered on the User with the
+		 * specified id. Optionally performs type checking if documentClass is specified.
+		 * @param id The unique id of the document. This should uniquely identify the document in the context of the
+		 * backend health record service and in CollaboRhythm.
+		 * @param documentClass The expected Class of the document object (optional). If the documentClass is specified
+		 * but there is no object that can be cast to the Class, then an error will be thrown.
+		 * @return The document object registered for the specified id, if any. Otherwise null.
+		 */
+		public function resolveDocumentById(id:String, documentClass:Class=null):Object
+		{
+			var data:Object = _documentsById[id];
+
+			if (documentClass)
+			{
+				data = data as documentClass;
+
+				if (data)
+					return data;
+				else
+					throw new Error("User does not contain a document object that is a " + (documentClass as Class).toString() + " Class for id " + id);
+			}
+			else
+				return data;
 		}
 	}
 }

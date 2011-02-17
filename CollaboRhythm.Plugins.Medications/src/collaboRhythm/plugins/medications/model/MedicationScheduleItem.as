@@ -18,15 +18,15 @@ package collaboRhythm.plugins.medications.model
 	public class MedicationScheduleItem extends ScheduleItemBase
 	{
 		private var _dose:ValueAndUnit;
+		private var _scheduledActionID:String;
 		private var _scheduledAction:Medication;
 
 		public function MedicationScheduleItem(scheduleItemReportXML:XML):void
 		{
-			var scheduleItemXML:XML = scheduleItemReportXML.Item.MedicationScheduleItem[0];
-			super(scheduleItemReportXML.Meta.Document.@id, scheduleItemXML);
+			super(scheduleItemReportXML, "MedicationScheduleItem");
 			
-			_dose = new ValueAndUnit(scheduleItemXML.dose.value, HealthRecordHelperMethods.codedValueFromXml(scheduleItemXML.dose.unit[0]));
-			var scheduledActionID:String = scheduleItemReportXML.Meta.Document.relatesTo.relation.relatedDocument.@id;
+			_dose = new ValueAndUnit(_scheduleItemXML.dose.value, HealthRecordHelperMethods.codedValueFromXml(_scheduleItemXML.dose.unit[0]));
+			_scheduledActionID = scheduleItemReportXML.Meta.Document.relatesTo.relation.relatedDocument.@id;
 		}
 		
 		public function get dose():ValueAndUnit
@@ -34,9 +34,19 @@ package collaboRhythm.plugins.medications.model
 			return _dose;
 		}
 		
+		public function get scheduledActionID():String
+		{
+			return _scheduledActionID;
+		}
+		
 		public function get scheduledAction():Medication
 		{
 			return _scheduledAction;
+		}
+		
+		public function set scheduledAction(value:Medication):void
+		{
+			_scheduledAction = value;
 		}
 	}
 }

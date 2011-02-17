@@ -14,6 +14,7 @@ package collaboRhythm.plugins.medications.model
 	import collaboRhythm.plugins.medications.controller.MedicationsAppController;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
+	import collaboRhythm.shared.model.User;
 	
 	import flash.xml.XMLNode;
 	
@@ -24,6 +25,7 @@ package collaboRhythm.plugins.medications.model
 	[Bindable]
 	public class MedicationsModel
 	{
+		private var _user:User;
 		private var _medicationsReportXML:XML;
 		private var _medicationScheduleItemsReportXML:XML;
 		private var _rawData:XML;
@@ -34,8 +36,9 @@ package collaboRhythm.plugins.medications.model
 		private var _isLoading:Boolean = false;
 		public static const MEDICATIONS_KEY:String = "medications";
 		
-		public function MedicationsModel()
+		public function MedicationsModel(user:User)
 		{
+			_user = user;
 		}
 		
 		public function get medicationsReportXML():XML
@@ -136,6 +139,7 @@ package collaboRhythm.plugins.medications.model
 			for each (var medicationReportXML:XML in _medicationsReportXML.Report)
 			{
 				var medication:Medication = new Medication(medicationReportXML);
+				_user.registerDocument(medication, medication);
 				_medicationsCollection.addItem(medication);
 			}
 		}
@@ -145,6 +149,8 @@ package collaboRhythm.plugins.medications.model
 			for each (var medicationScheduleItemReport:XML in _medicationScheduleItemsReportXML.Report)
 			{
 				var medicationScheduleItem:MedicationScheduleItem = new MedicationScheduleItem(medicationScheduleItemReport);
+				_user.registerDocument(medicationScheduleItem, medicationScheduleItem);
+				medicationScheduleItem.scheduledAction = _user.resolveDocumentById(medicationScheduleItem.scheduledActionID, Medication) as Medication;
 				_medicationScheduleItemsCollection.addItem(medicationScheduleItem);
 			}
 		}
