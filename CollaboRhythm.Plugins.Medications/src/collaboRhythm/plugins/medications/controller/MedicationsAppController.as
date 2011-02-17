@@ -79,22 +79,9 @@ package collaboRhythm.plugins.medications.controller
 			{
 				if (_user.appData[MedicationsModel.MEDICATIONS_KEY] == null)
 				{
-					_user.appData[MedicationsModel.MEDICATIONS_KEY] = new MedicationsModel(scheduleModel);
+					_user.appData[MedicationsModel.MEDICATIONS_KEY] = new MedicationsModel();
 				}
 				return _user.getAppData(MedicationsModel.MEDICATIONS_KEY, MedicationsModel) as MedicationsModel;
-			}
-			return null;
-		}
-		
-		private function get scheduleModel():ScheduleModel
-		{
-			if (_user != null)
-			{
-				if (_user.appData[ScheduleModel.SCHEDULE_KEY] == null)
-				{
-					_user.appData[ScheduleModel.SCHEDULE_KEY] = new ScheduleModel();
-				}
-				return _user.getAppData(ScheduleModel.SCHEDULE_KEY, ScheduleModel) as ScheduleModel;
 			}
 			return null;
 		}

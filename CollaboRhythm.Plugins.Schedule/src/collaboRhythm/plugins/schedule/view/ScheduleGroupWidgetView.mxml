@@ -23,6 +23,7 @@
 			
 			import collaboRhythm.plugins.schedule.shared.model.AdherenceGroup;
 			import collaboRhythm.plugins.schedule.shared.model.MoveData;
+			import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
 			
 			import com.leebrimelow.drawing.Wedge;
@@ -32,42 +33,32 @@
 			import mx.core.IVisualElement;
 			
 			[Bindable]
-			private var _adherenceGroup:AdherenceGroup;
+			private var _scheduleGroup:ScheduleGroup;
 			[Bindable]
-			private var _adherenceWindowsGroup:IVisualElement;
+			private var _scheduleGroupContainer:Group;
 			
-			public function init(adherenceGroup:AdherenceGroup, adherenceWindowsGroup:IVisualElement):void
+			public function init(scheduleGroup:ScheduleGroup, scheduleGroupContainer:Group):void
 			{
-				_adherenceGroup = adherenceGroup;
-				_adherenceWindowsGroup = adherenceWindowsGroup;
+				_scheduleGroup = scheduleGroup;
+				_scheduleGroupContainer = scheduleGroupContainer;
 				
-				var hourChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(locationChangeHandler, _adherenceGroup, "hour");
-				var adherenceWindowChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(locationChangeHandler, _adherenceGroup, "adherenceWindow");
-				var widthChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(locationChangeHandler, _adherenceWindowsGroup, "width");
-				var heightChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(locationChangeHandler, _adherenceWindowsGroup, "height");
-				var stackingUpdatedChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(stackingUpdateHandler, _adherenceGroup, "stackingUpdated");
+				var dateTimeStartChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(locationChangeHandler, _scheduleGroup, "dateTimeStart");
+				var dateTimeEndChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(locationChangeHandler, _scheduleGroup, "dateTimeEnd");
+				var widthChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(locationChangeHandler, _scheduleGroupContainer, "width");
+				var heightChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(locationChangeHandler, _scheduleGroupContainer, "height");
+//				var stackingUpdatedChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(stackingUpdateHandler, _scheduleGroup, "stackingUpdated");
 			}
 			
-			public function get adherenceWindowsGroup():IVisualElement
+			public function get scheduleGroup():ScheduleGroup
 			{
-				return _adherenceWindowsGroup;
-			}
-
-			public function set adherenceWindowsGroup(value:IVisualElement):void
-			{
-				_adherenceWindowsGroup = value;
-			}
-
-			public function get adherenceGroup():AdherenceGroup
-			{
-				return _adherenceGroup;
+				return _scheduleGroup;
 			}
 			
-			public function set adherenceGroup(value:AdherenceGroup):void
+			public function get scheduleGroupContainer():Group
 			{
-				_adherenceGroup = value;
+				return _scheduleGroupContainer;
 			}
-						
+									
 			private function stackingUpdateHandler(stackingUpdated:Boolean):void
 			{
 				if (stackingUpdated == true)
@@ -83,19 +74,21 @@
 			
 			private function calculateLocation():void
 			{
-				adherenceWindowCanvas.graphics.clear();
+				this.graphics.clear();
 				
-				var hour:Number = _adherenceGroup.hour;
-				var adherenceWindow:Number = _adherenceGroup.adherenceWindow;
+				var startAngle:Number = calculateAngleFromDate(_scheduleGroup.dateTimeStart);
+				var endAngle:Number = calculateAngleFromDate(_scheduleGroup.dateTimeEnd);
+				var arc:Number = endAngle - startAngle;
 				
-				var startAngle:Number = hour*15 - adherenceWindow*15;
-				var arc:Number = 2*adherenceWindow*15;
-				
-				adherenceWindowCanvas.graphics.beginFill(0xFFFFFF, 0.5);
-				Wedge.draw(adherenceWindowCanvas, _adherenceWindowsGroup.width/2, _adherenceWindowsGroup.width/2, _adherenceWindowsGroup.width/2 - 1, arc, startAngle - 90);
-				adherenceWindowCanvas.graphics.endFill();
+				this.graphics.beginFill(0xFFFFFF, 0.5);
+				Wedge.draw(this, _scheduleGroupContainer.width/2, _scheduleGroupContainer.width/2, _scheduleGroupContainer.width/2 - 1, arc, startAngle - 90);
+				this.graphics.endFill();
+			}
+			
+			private function calculateAngleFromDate(date:Date):Number
+			{
+				return 15 * date.hours + 0.25 * date.minutes;
 			}
 		]]>
 	</fx:Script>
-	<mx:Canvas id="adherenceWindowCanvas" width="100%" height="100%"/>
 </s:Group>

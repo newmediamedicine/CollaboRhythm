@@ -23,7 +23,7 @@
 		<![CDATA[
 			import collaboRhythm.plugins.schedule.shared.model.AdherenceGroup;
 			import collaboRhythm.plugins.schedule.shared.model.MoveData;
-			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
+			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBaseOld;
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
 			
 			import mx.binding.utils.BindingUtils;
@@ -34,7 +34,7 @@
 			import resources.physics.AccelerationEaser;
 			
 			[Bindable]
-			protected var _scheduleItem:ScheduleItemBase;
+			protected var _scheduleItem:ScheduleItemBaseOld;
 			[Bindable]
 			protected var _scheduleModel:ScheduleModel;
 			[Bindable]
@@ -45,18 +45,18 @@
 			private var _offsetY:Number;
 			private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>;
 			
-			public function init(scheduleItem:ScheduleItemBase, scheduleItemsCanvas:Canvas):void
+			public function init(scheduleItem:ScheduleItemBaseOld, scheduleItemsCanvas:Canvas):void
 			{
 				_scheduleItem = scheduleItem;
 				_scheduleItemsCanvas = scheduleItemsCanvas;
 			}
 			
-			public function get scheduleItem():ScheduleItemBase
+			public function get scheduleItem():ScheduleItemBaseOld
 			{
 				return _scheduleItem;
 			}
 			
-			public function set scheduleItem(value:ScheduleItemBase):void
+			public function set scheduleItem(value:ScheduleItemBaseOld):void
 			{
 				_scheduleItem = value;
 				

@@ -16,217 +16,222 @@ package collaboRhythm.plugins.medications.model
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
 	import collaboRhythm.plugins.schedule.shared.view.FullScheduleItemViewBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase;
+	import collaboRhythm.shared.model.CodedValue;
+	import collaboRhythm.shared.model.HealthRecordHelperMethods;
 	import collaboRhythm.shared.model.HealthRecordServiceBase;
+	import collaboRhythm.shared.model.ValueAndUnit;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	
 	import mx.core.UIComponent;
 
 	[Bindable]
-	public class Medication extends ScheduleItemBase
+	public class Medication
 	{
-		private var _dateStarted:Date;
-		private var _dateStopped:Date;
-		private var _name:String;
-		private var _brandName:String;
-		private var _doseValue:Number;
-		private var _doseUnit:String;
-		private var _route:String;
-		private var _strengthValue:Number;
-		private var _strengthUnit:String;
-		private var _frequency:String;
+		private var _id:String;
+		private var _name:CodedValue;
+		private var _orderType:String;
+		private var _orderedBy:String;
+		private var _dateTimeOrdered:Date;
+		private var _dateTimeExpires:Date;
 		private var _indication:String;
-		private var _color:uint;
-		private var _imageURI:String;
+		private var _activeIngredients:Vector.<ActiveIngredient> = new Vector.<ActiveIngredient>;
+		private var _dose:ValueAndUnit;
+		private var _form:CodedValue;
+		private var _route:CodedValue;
+		private var _frequency:CodedValue;
+		private var _amountOrdered:ValueAndUnit;
+		private var _refills:Number;
+		private var _substitutionPermitted:Boolean;
+		private var _instructions:String;
+		private var _dateTimeStarted:Date;
+		private var _dateTimeStopped:Date;
+		private var _reasonStopped:String;
+
+//		private var _color:uint;
+//		private var _imageURI:String;
 				
 		private var _currentDateSource:ICurrentDateSource;
 		
 		public function Medication(medicationReportXML:XML)
-		{			
-			documentID = medicationReportXML.Meta.Document.@id;		
-			_dateStarted = HealthRecordServiceBase.parseDate(medicationReportXML.Item.Medication.dateStarted.toString());
-			_dateStopped = HealthRecordServiceBase.parseDate(medicationReportXML.Item.Medication.dateStopped.toString());
-			_name = medicationReportXML.Item.Medication.name;
-			_brandName = medicationReportXML.Item.Medication.brandName;
-			_doseValue = medicationReportXML.Item.Medication.dose.value;
-			_doseUnit = medicationReportXML.Item.Medication.dose.unit.@value;
-			_route = medicationReportXML.Item.Medication.route;
-			_strengthValue = medicationReportXML.Item.Medication.strength.value;
-			_strengthUnit = medicationReportXML.Item.Medication.strength.unit.@value;
-			_frequency = medicationReportXML.Item.Medication.frequency;
-			_imageURI = "assets/images/" + _name + "_front.jpg";
-			
-			// hack: no indication in data now, so set it here for the moment
-			if (_name == "Metformin")
+		{		
+			_id = medicationReportXML.Meta.Document.@id;
+			var medicationXML:XML = medicationReportXML.Item.Medication[0];
+			_name = HealthRecordHelperMethods.codedValueFromXml(medicationXML.name[0]);
+			_orderType = medicationXML.orderType;
+			_orderedBy = medicationXML.orderedBy;
+			_dateTimeOrdered = HealthRecordServiceBase.parseDate(medicationXML.dateTimeOrdered.toString());
+			_dateTimeExpires = HealthRecordServiceBase.parseDate(medicationXML.dateTimeExpires.toString());
+			_indication = medicationXML.indication;
+			for each (var activeIngredientXML:XML in medicationXML.activeIngredients.activeIngredient)
 			{
-				_indication = "Diabetes";
-				_color = 0xabbdab;
+				var strength:ValueAndUnit = new ValueAndUnit(activeIngredientXML.strength.value, HealthRecordHelperMethods.codedValueFromXml(activeIngredientXML.strength.unit[0]));
+				var activeIngredient:ActiveIngredient = new ActiveIngredient(HealthRecordHelperMethods.codedValueFromXml(activeIngredientXML.name[0]), strength);
+				_activeIngredients.push(activeIngredient);
 			}
-			else if (_name == "Hydrochlorothiazide")
-			{
-				_indication = "High Blood Pressure";
-				_color = 0x8295a8;
-			}
-			else if (_name == "Simvastatin")
-			{
-				_indication = "High Cholesterol";
-				_color = 0xAF897A;
-			}
-			
+			_dose = new ValueAndUnit(medicationXML.dose.value, HealthRecordHelperMethods.codedValueFromXml(medicationXML.dose.unit[0]));
+			_form = HealthRecordHelperMethods.codedValueFromXml(medicationXML.form[0]);
+			_route = HealthRecordHelperMethods.codedValueFromXml(medicationXML.route[0]);
+			_frequency = HealthRecordHelperMethods.codedValueFromXml(medicationXML.frequency[0]);
+			_amountOrdered = new ValueAndUnit(medicationXML.amountOrdered.value, HealthRecordHelperMethods.codedValueFromXml(medicationXML.amountOrdered.unit[0]));
+			_refills = Number(medicationXML.refills);
+			_substitutionPermitted = Boolean(medicationXML.substitutionPermitted);
+			_instructions = medicationXML.instructions;
+			_dateTimeStarted = HealthRecordServiceBase.parseDate(medicationXML.dateStarted.toString());
+			_dateTimeStopped = HealthRecordServiceBase.parseDate(medicationXML.dateStopped.toString());
+			_reasonStopped = medicationXML.reasonStopped;
+
+//			_imageURI = "assets/images/" + _name + "_front.jpg";
+						
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
-
-		public function get dateStopped():Date
+		
+		public function get id():String
 		{
-			return _dateStopped;
+			return _id;
 		}
-
-		private function set dateStopped(value:Date):void
-		{
-			_dateStopped = value;
-		}
-
-		public function get isInactive():Boolean
-		{
-			if (_dateStopped != null)
-			{
-				return _dateStopped < _currentDateSource.now();
-			}
-			return false;
-		}
-
-		public function get name():String
+		
+		public function get name():CodedValue
 		{
 			return _name;
 		}
 		
-		private function set name(value:String):void
+		public function get orderType():String
 		{
-			_name = value;
+			return _orderType;
 		}
 		
-		public function get brandName():String
+		public function get orderedBy():String
 		{
-			return _brandName;
-		}
-		
-		private function set brandName(value:String):void
-		{
-			_brandName = value;
-		}
-		
-		public function get doseValue():Number
-		{
-			return _doseValue;
+			return _orderedBy;
 		}
 
-		private function set doseValue(value:Number):void
+		public function get dateTimeOrdered():Date
 		{
-			_doseValue = value;
+			return _dateTimeOrdered;
 		}
 
-		public function get doseUnit():String
+		public function get dateTimeExpires():Date
 		{
-			return _doseUnit;
+			return _dateTimeExpires;
 		}
 
-		private function set doseUnit(value:String):void
-		{
-			_doseUnit = value;
-		}
-		
-		public function get doseLabelText():String
-		{
-			return this.doseValue + " " + this.doseUnit;
-		}
-
-		public function get route():String
-		{
-			return _route;
-		}
-
-		private function set route(value:String):void
-		{
-			_route = value;
-		}
-
-		public function get strengthValue():Number
-		{
-			return _strengthValue;
-		}
-
-		private function set strengthValue(value:Number):void
-		{
-			_strengthValue = value;
-		}
-
-		public function get strengthUnit():String
-		{
-			return _strengthUnit;
-		}
-
-		private function set strengthUnit(value:String):void
-		{
-			_strengthUnit = value;
-		}
-		
-		public function get strengthLabelText():String
-		{
-			return this.strengthValue + " " + this.strengthUnit;
-		}
-
-		public function get frequency():String
-		{
-			return _frequency;
-		}
-
-		private function set frequency(value:String):void
-		{
-			_frequency = value;
-		}
-		
 		public function get indication():String
 		{
 			return _indication;
 		}
-		
-		private function set indication(value:String):void
+
+		public function get activeIngredients():Vector.<ActiveIngredient>
 		{
-			_indication = value;
-		}
-		
-		public function get color():uint
-		{
-			return _color;
-		}
-		
-		private function set color(value:uint):void
-		{
-			_color = value;
+			return _activeIngredients;
 		}
 
-		public function get imageURI():String
+		public function get dose():ValueAndUnit
 		{
-			return _imageURI;
+			return _dose;
+		}
+
+		public function get form():CodedValue
+		{
+			return _form;
+		}
+
+		public function get route():CodedValue
+		{
+			return _route;
+		}
+
+		public function get frequency():CodedValue
+		{
+			return _frequency;
+		}
+
+		public function get amountOrdered():ValueAndUnit
+		{
+			return _amountOrdered;
+		}
+
+		public function get refills():Number
+		{
+			return _refills;
+		}
+
+		public function get substitutionPermitted():Boolean
+		{
+			return _substitutionPermitted;
+		}
+
+		public function get instructions():String
+		{
+			return _instructions;
+		}
+
+		public function get dateTimeStarted():Date
+		{
+			return _dateTimeStarted;
+		}
+
+		public function get dateTimeStopped():Date
+		{
+			return _dateTimeStopped;
+		}
+
+		public function get reasonStopped():String
+		{
+			return _reasonStopped;
+		}
+
+		public function get isInactive():Boolean
+		{
+			if (_dateTimeStopped != null)
+			{
+				return _dateTimeStopped < _currentDateSource.now();
+			}
+			return false;
 		}
 		
-		private function set imageURI(value:String):void
+		public function get nameLabelText():String
 		{
-			_imageURI = value;
+			return _activeIngredients[0].name.text;
 		}
 		
-		public override function createScheduleItemWidgetView():ScheduleItemWidgetViewBase
+		public function get strengthLabelText():String
 		{
-			var widgetMedicationView:ScheduleItemWidgetViewMedication = new ScheduleItemWidgetViewMedication();
-			widgetMedicationView.medication = this;
-			return widgetMedicationView;
+			return _activeIngredients[0].strength.value + " " + _activeIngredients[0].strength.unit.abbrev;
 		}
-			
-		public override function createScheduleItemFullView():FullScheduleItemViewBase
+		
+		public function get doseLabelText():String
 		{
-			var fullMedicationView:FullMedicationView = new FullMedicationView();
-			fullMedicationView.medication = this;
-			return fullMedicationView;
+			return _dose.value + " " + _dose.unit.abbrev;
 		}
+		
+		public function get frequencyLabelText():String
+		{
+			return _frequency.text;
+		}
+
+//		public function get imageURI():String
+//		{
+//			return _imageURI;
+//		}
+//		
+//		private function set imageURI(value:String):void
+//		{
+//			_imageURI = value;
+//		}
+		
+//		public override function createScheduleItemWidgetView():ScheduleItemWidgetViewBase
+//		{
+//			var widgetMedicationView:ScheduleItemWidgetViewMedication = new ScheduleItemWidgetViewMedication();
+//			widgetMedicationView.medication = this;
+//			return widgetMedicationView;
+//		}
+//			
+//		public override function createScheduleItemFullView():FullScheduleItemViewBase
+//		{
+//			var fullMedicationView:FullMedicationView = new FullMedicationView();
+//			fullMedicationView.medication = this;
+//			return fullMedicationView;
+//		}
 	}
 }

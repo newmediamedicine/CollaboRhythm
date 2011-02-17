@@ -23,9 +23,8 @@
 		<![CDATA[	
 			import collaboRhythm.plugins.schedule.shared.controller.ScheduleFullViewController;
 			import collaboRhythm.plugins.schedule.shared.model.AdherenceGroup;
-			import collaboRhythm.plugins.schedule.shared.model.Measurement;
 			import collaboRhythm.plugins.schedule.shared.model.MoveData;
-			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
+			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBaseOld;
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
 			
 			import mx.binding.utils.BindingUtils;
@@ -95,7 +94,7 @@
 			
 			private function initializeView():void
 			{
-				for each (var scheduleItem:ScheduleItemBase in _scheduleItemsCollection)
+				for each (var scheduleItem:ScheduleItemBaseOld in _scheduleItemsCollection)
 				{
 					createScheduleItemView(scheduleItem);
 				}
@@ -130,7 +129,7 @@
 			{
 				if (event.kind == CollectionEventKind.ADD)
 				{
-					for each (var scheduleItemAdded:ScheduleItemBase in event.items)
+					for each (var scheduleItemAdded:ScheduleItemBaseOld in event.items)
 					{
 						createScheduleItemView(scheduleItemAdded);
 					}
@@ -155,7 +154,7 @@
 				}
 			}
 			
-			public function createScheduleItemView(scheduleItem:ScheduleItemBase):void
+			public function createScheduleItemView(scheduleItem:ScheduleItemBaseOld):void
 			{
 				var fullScheduleItemView:FullScheduleItemViewBase = scheduleItem.createScheduleItemFullView();
 				fullScheduleItemView.init(scheduleItem, scheduleItemCanvas);

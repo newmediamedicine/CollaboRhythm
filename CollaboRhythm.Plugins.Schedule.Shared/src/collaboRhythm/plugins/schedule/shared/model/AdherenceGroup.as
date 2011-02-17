@@ -17,15 +17,15 @@ package collaboRhythm.plugins.schedule.shared.model
 	import mx.core.UIComponent;
 	
 	[Bindable]
-	public class AdherenceGroup extends ScheduleItemBase
+	public class AdherenceGroup extends ScheduleItemBaseOld
 	{
-		private var _scheduleItems:Vector.<ScheduleItemBase>;
+		private var _scheduleItems:Vector.<ScheduleItemBaseOld>;
 		private var _adherenceWindow:Number;
 		private var _medicationSpaces:Array;
 		private var _groupFromRight:Number = 1;
 		private var _show:Boolean = false;
 		
-		public function AdherenceGroup(hour:Number, scheduleItems:Vector.<ScheduleItemBase>)
+		public function AdherenceGroup(hour:Number, scheduleItems:Vector.<ScheduleItemBaseOld>)
 		{
 			_scheduleItems = scheduleItems;
 			this.hour = hour;
@@ -33,12 +33,12 @@ package collaboRhythm.plugins.schedule.shared.model
 			scheduled = true;
 		}
 		
-		public function get scheduleItems():Vector.<ScheduleItemBase>
+		public function get scheduleItems():Vector.<ScheduleItemBaseOld>
 		{
 			return _scheduleItems;
 		}
 		
-		public function set scheduleItems(value:Vector.<ScheduleItemBase>):void
+		public function set scheduleItems(value:Vector.<ScheduleItemBaseOld>):void
 		{
 			_scheduleItems = value;
 		}
@@ -83,7 +83,7 @@ package collaboRhythm.plugins.schedule.shared.model
 			_show = value;
 		}
 		
-		public function addScheduleItem(scheduleItem:ScheduleItemBase):void
+		public function addScheduleItem(scheduleItem:ScheduleItemBaseOld):void
 		{
 			_scheduleItems.push(scheduleItem);
 		}
@@ -97,7 +97,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		public function moveScheduledItems(moveData:MoveData):void
 		{
 			var index:Number = 0
-			for each (var scheduleItem:ScheduleItemBase in scheduleItems)
+			for each (var scheduleItem:ScheduleItemBaseOld in scheduleItems)
 			{
 				scheduleItem.updateHour(moveData.hour);
 				//TODO: Fix static numbers for heights

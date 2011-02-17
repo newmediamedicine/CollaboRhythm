@@ -1,11 +1,11 @@
 package collaboRhythm.plugins.microhponeExamples.controller
 {
 	import collaboRhythm.plugins.microhponeExamples.model.MicrophoneExamplesModel;
-	import collaboRhythm.workstation.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.plugins.microhponeExamples.view.MicrophoneExamplesWidgetView;
+	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 	
 	import mx.core.IVisualElementContainer;
 	import mx.core.UIComponent;
-	import collaboRhythm.plugins.microhponeExamples.view.MicrophoneExamplesWidgetView;
 	
 	public class MicrophoneExamplesAppController extends WorkstationAppControllerBase
 	{

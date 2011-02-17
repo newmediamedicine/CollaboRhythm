@@ -11,10 +11,11 @@
 */
 package collaboRhythm.plugins.schedule.controller
 {
-	import collaboRhythm.plugins.schedule.view.ScheduleWidgetView;
+	import collaboRhythm.plugins.schedule.model.ScheduleHealthRecordService;
 	import collaboRhythm.plugins.schedule.shared.controller.ScheduleFullViewController;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleFullView;
+	import collaboRhythm.plugins.schedule.view.ScheduleWidgetView;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 	
 	import mx.core.IVisualElementContainer;
@@ -89,6 +90,13 @@ package collaboRhythm.plugins.schedule.controller
 		public override function initialize():void
 		{
 			super.initialize();
+			
+			if (scheduleModel.initialized == false)
+			{
+				var scheduleHealthRecordService:ScheduleHealthRecordService = new ScheduleHealthRecordService(_healthRecordService.consumerKey, _healthRecordService.consumerSecret, _healthRecordService.baseURL);
+				scheduleHealthRecordService.copyLoginResults(_healthRecordService);
+				scheduleHealthRecordService.loadScheduleGroups(_user);
+			}
 			
 			if (_widgetView)
 				(_widgetView as ScheduleWidgetView).init(scheduleModel);

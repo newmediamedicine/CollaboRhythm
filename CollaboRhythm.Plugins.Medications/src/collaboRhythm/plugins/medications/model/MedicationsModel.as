@@ -11,6 +11,7 @@
 */
 package collaboRhythm.plugins.medications.model
 {
+	import collaboRhythm.plugins.medications.controller.MedicationsAppController;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
 	
@@ -23,21 +24,43 @@ package collaboRhythm.plugins.medications.model
 	[Bindable]
 	public class MedicationsModel
 	{
-		private var _scheduleModel:ScheduleModel;
+		private var _medicationsReportXML:XML;
+		private var _medicationScheduleItemsReportXML:XML;
 		private var _rawData:XML;
-		private var _medicationsCollection:ArrayCollection;
-		private var _shortMedicationsCollection:ArrayCollection;
+		private var _medicationsCollection:ArrayCollection = new ArrayCollection();
+		private var _medicationScheduleItemsCollection:ArrayCollection = new ArrayCollection();
+		private var _shortMedicationsCollection:ArrayCollection = new ArrayCollection();
 		private var _initialized:Boolean = false;
 		private var _isLoading:Boolean = false;
 		public static const MEDICATIONS_KEY:String = "medications";
 		
-		public function MedicationsModel(scheduleModel:ScheduleModel)
+		public function MedicationsModel()
 		{
-			_scheduleModel = scheduleModel;
-			_medicationsCollection = new ArrayCollection();
-			_shortMedicationsCollection = new ArrayCollection();
 		}
 		
+		public function get medicationsReportXML():XML
+		{
+			return _medicationsReportXML;
+		}
+		
+		public function set medicationsReportXML(value:XML):void
+		{
+			_medicationsReportXML = value;
+			createMedicationsCollection();
+		}
+		
+		public function get medicationScheduleItemsReportXML():XML
+		{
+			return _medicationScheduleItemsReportXML;
+		}
+
+		public function set medicationScheduleItemsReportXML(value:XML):void
+		{
+			_medicationScheduleItemsReportXML = value;
+			createMedicationScheduleItemsCollection();
+			_initialized = true;
+		}
+
 		public function get isLoading():Boolean
 		{
 			return _isLoading;
@@ -66,7 +89,7 @@ package collaboRhythm.plugins.medications.model
 		public function set rawData(value:XML):void
 		{
 			_rawData = value;
-			createMedicationsCollection();
+//			createMedicationsCollection();
 			initialized = true;
 		}
 
@@ -90,18 +113,39 @@ package collaboRhythm.plugins.medications.model
 			_initialized = value;
 		}
 		
+//		public function addMedication(documentID:String, medicationXML:XML):void
+//		{
+//			var medication:Medication = new Medication(documentID, medicationXML);
+//			_medicationsCollection.addItem(medication);
+//		}
+//		
+//		public function addMedicationScheduleItem(documentID:String, medicationScheduleItemXML:XML):void
+//		{
+//			var medicationScheduleItem:MedicationScheduleItem = new MedicationScheduleItem(documentID, medicationScheduleItemXML);
+//		}
+//		
+//		public function linkMedication(medicationScheduleItemID:String, medicationID:String):void
+//		{
+//			var medicationScheduleItem:MedicationsAppController = 
+//			var medication:Medication = 
+//			medicationScheduleItem.scheduledAction(medication);
+//		}
+		
 		private function createMedicationsCollection():void
 		{
-			for each (var medicationReportXML:XML in _rawData.Report)
+			for each (var medicationReportXML:XML in _medicationsReportXML.Report)
 			{
 				var medication:Medication = new Medication(medicationReportXML);
-				if (medication.dateStopped == null)
-				{
-					_medicationsCollection.addItem(medication);
-					_shortMedicationsCollection.addItem(medication);
-	
-					_scheduleModel.addScheduleItem(medication.documentID, medication);
-				}
+				_medicationsCollection.addItem(medication);
+			}
+		}
+		
+		private function createMedicationScheduleItemsCollection():void
+		{
+			for each (var medicationScheduleItemReport:XML in _medicationScheduleItemsReportXML.Report)
+			{
+				var medicationScheduleItem:MedicationScheduleItem = new MedicationScheduleItem(medicationScheduleItemReport);
+				_medicationScheduleItemsCollection.addItem(medicationScheduleItem);
 			}
 		}
 	}

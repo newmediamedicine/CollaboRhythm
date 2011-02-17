@@ -23,7 +23,6 @@
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
 			import collaboRhythm.plugins.schedule.shared.model.MoveData;
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
-			import collaboRhythm.plugins.schedule.shared.model.Measurement;
 			import collaboRhythm.plugins.schedule.shared.controller.ScheduleFullViewController;
 			
 			import mx.binding.utils.BindingUtils;
@@ -46,7 +45,7 @@
 			public function set adherenceGroup(adherenceGroup:AdherenceGroup):void
 			{
 				_adherenceGroup = adherenceGroup;
-				scheduleItem = adherenceGroup;
+//				scheduleItem = adherenceGroup;
 				//TODO: Fix static medication size
 				this.width = 300 + (2 * ADHERENCE_GROUP_BUFFER_WIDTH);
 				//TODO: Fix static medication size

@@ -4,12 +4,10 @@
     <classEntry path="collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase"/>
     <classEntry path="collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase"/>
     <classEntry path="collaboRhythm.plugins.schedule.shared.controller.ScheduleFullViewController"/>
-    <classEntry path="collaboRhythm.plugins.schedule.shared.model.Measurement"/>
     <classEntry path="collaboRhythm.plugins.schedule.shared.model.ScheduleModel"/>
     <classEntry path="collaboRhythm.plugins.schedule.shared.model.Time"/>
     <classEntry path="collaboRhythm.plugins.schedule.shared.model.MoveData"/>
     <classEntry path="collaboRhythm.plugins.schedule.shared.model.AdherenceGroup"/>
-    <classEntry path="collaboRhythm.plugins.schedule.shared.view.FullMeasurementView"/>
     <classEntry path="collaboRhythm.plugins.schedule.shared.view.FullSmartDrawerView"/>
     <classEntry path="collaboRhythm.plugins.schedule.shared.view.FullTimelineView"/>
     <classEntry path="collaboRhythm.plugins.schedule.shared.view.FullScheduleItemViewBase"/>
@@ -17,6 +15,9 @@
     <classEntry path="collaboRhythm.plugins.schedule.shared.view.FullAdherenceGroupView"/>
     <classEntry path="collaboRhythm.plugins.schedule.shared.view.FullScheduleItemViewEvent"/>
     <classEntry path="collaboRhythm.plugins.schedule.shared.view.ScheduleFullView"/>
+    <classEntry path="collaboRhythm.plugins.schedule.shared.model.ScheduleItemBaseOld"/>
+    <classEntry path="collaboRhythm.plugins.schedule.shared.model.ScheduleGroup"/>
+    <classEntry path="collaboRhythm.plugins.schedule.shared.model.RecurrenceRule"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

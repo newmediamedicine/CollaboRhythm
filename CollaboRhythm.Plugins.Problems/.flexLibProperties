@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
-    <classEntry path="collaboRhythm.plugins.problems.controller.ProblemsAppController"/>
-    <classEntry path="collaboRhythm.plugins.problems.view.ProblemsWidgetView"/>
-    <classEntry path="collaboRhythm.plugins.problems.view.ProblemsFullView"/>
-    <classEntry path="collaboRhythm.plugins.problems.view.ProblemsWidgetGridLabel"/>
-    <classEntry path="collaboRhythm.plugins.problems.model.ProblemsModel"/>
-    <classEntry path="collaboRhythm.plugins.problems.model.Problem"/>
-    <classEntry path="collaboRhythm.plugins.problems.model.ProblemsHealthRecordService"/>
+    <classEntry path="collaboRhythm.workstation.apps.problems.controller.ProblemsAppController"/>
+    <classEntry path="collaboRhythm.workstation.apps.problems.view.ProblemsWidgetView"/>
+    <classEntry path="collaboRhythm.workstation.apps.problems.view.ProblemsFullView"/>
+    <classEntry path="collaboRhythm.workstation.apps.problems.view.ProblemsWidgetGridLabel"/>
   </includeClasses>
   <includeResources>
     <resourceEntry destPath="resources/images/apps/problems-watermark.png" sourcePath="resources/images/apps/problems-watermark.png"/>

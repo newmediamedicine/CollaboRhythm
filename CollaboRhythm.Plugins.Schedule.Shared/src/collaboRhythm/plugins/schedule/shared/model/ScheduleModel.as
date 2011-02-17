@@ -11,6 +11,8 @@
 */
 package collaboRhythm.plugins.schedule.shared.model
 {
+	import castle.flexbridge.reflection.Void;
+	
 	import collaboRhythm.plugins.schedule.shared.view.FullAdherenceGroupView;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
@@ -25,6 +27,8 @@ package collaboRhythm.plugins.schedule.shared.model
 	[Bindable]
 	public class ScheduleModel
 	{
+		private var _scheduleGroupsReportXML:XML;
+		private var _scheduleGroupsCollection:ArrayCollection = new ArrayCollection();
 		private var _closeDrawer:Boolean = true;
 		private var _drawerX:Number = -340;
 		private var _drawerColor:String = "0xFFFFFF";
@@ -50,6 +54,32 @@ package collaboRhythm.plugins.schedule.shared.model
 //			{
 //				addMedicationsToScheduleItems(true);
 //			}
+		}
+
+		public function get scheduleGroupsReportXML():XML
+		{
+			return _scheduleGroupsReportXML;
+		}
+
+		public function set scheduleGroupsReportXML(value:XML):void
+		{
+			_scheduleGroupsReportXML = value;
+			createScheduleGroupsCollection();
+			_initialized = true;
+		}
+		
+		public function get scheduleGroupsCollection():ArrayCollection
+		{
+			return _scheduleGroupsCollection;
+		}
+		
+		public function createScheduleGroupsCollection():void
+		{
+			for each (var scheduleGroupReport:XML in _scheduleGroupsReportXML.Report)
+			{
+				var scheduleGroup:ScheduleGroup = new ScheduleGroup(scheduleGroupReport);
+				_scheduleGroupsCollection.addItem(scheduleGroup);
+			}
 		}
 
 		public function get closeDrawer():Boolean
@@ -80,7 +110,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		public function set drawerX(value:Number):void
 		{
 			_drawerX = value;
-			for each (var scheduleItem:ScheduleItemBase in _scheduleItemsCollection)
+			for each (var scheduleItem:ScheduleItemBaseOld in _scheduleItemsCollection)
 			{
 				if (scheduleItem.scheduled == false)
 				{
@@ -139,7 +169,12 @@ package collaboRhythm.plugins.schedule.shared.model
 			_initialized = value;
 		}
 		
-		public function addScheduleItem(documentID:String, scheduleItem:ScheduleItemBase):void
+//		public function addScheduleGroup(documentID:String, scheduleGroupXML:XML):void
+//		{
+//			var scheduleGroup:ScheduleGroup = new ScheduleGroup(documentID, scheduleGroupXML);
+//		}
+		
+		public function addScheduleItem(documentID:String, scheduleItem:ScheduleItemBaseOld):void
 		{
 			// TODO: Revise scheduled vs. unscheduled
 			scheduleItem.scheduled = true;
@@ -180,7 +215,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		
 		public function moveScheduleItemStart(moveData:MoveData, collaborationColor:String):void
 		{
-			var scheduleItem:ScheduleItemBase = _scheduleItemsDictionary[moveData.documentID];
+			var scheduleItem:ScheduleItemBaseOld = _scheduleItemsDictionary[moveData.documentID];
 			if (scheduleItem.scheduled == true)
 			{
 				closeDrawer = true;
@@ -194,7 +229,7 @@ package collaboRhythm.plugins.schedule.shared.model
 			}
 		}
 		
-		private function removeScheduleItemFromAdherenceGroup(scheduleItem:ScheduleItemBase):void
+		private function removeScheduleItemFromAdherenceGroup(scheduleItem:ScheduleItemBaseOld):void
 		{
 			if (scheduleItem.adherenceGroup.scheduleItems.length == 1)
 			{
@@ -213,9 +248,9 @@ package collaboRhythm.plugins.schedule.shared.model
 			_adherenceGroupsCollection.removeItemAt(adherenceGroupIndex);
 		}
 		
-		private function addScheduleItemToNewAdherenceGroup(scheduleItem:ScheduleItemBase, hour:Number, yBottomPosition:Number, adherenceWindow:Number):AdherenceGroup
+		private function addScheduleItemToNewAdherenceGroup(scheduleItem:ScheduleItemBaseOld, hour:Number, yBottomPosition:Number, adherenceWindow:Number):AdherenceGroup
 		{
-			var scheduleItems:Vector.<ScheduleItemBase> = new Vector.<ScheduleItemBase>;
+			var scheduleItems:Vector.<ScheduleItemBaseOld> = new Vector.<ScheduleItemBaseOld>;
 			scheduleItems.push(scheduleItem);
 			var adherenceGroup:AdherenceGroup = new AdherenceGroup(hour, scheduleItems);
 			adherenceGroup.adherenceWindow = adherenceWindow;
@@ -228,7 +263,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		
 		public function moveScheduleItem(moveData:MoveData):void
 		{
-			var scheduleItem:ScheduleItemBase = _scheduleItemsDictionary[moveData.documentID];
+			var scheduleItem:ScheduleItemBaseOld = _scheduleItemsDictionary[moveData.documentID];
 			scheduleItem.yBottomPosition = moveData.yBottomPosition;
 				
 			if (moveData.hour < 1)
@@ -267,7 +302,7 @@ package collaboRhythm.plugins.schedule.shared.model
 						{
 							var adherenceWindow:Number = scheduleItem.adherenceGroup.adherenceWindow;
 							removeScheduleItemFromAdherenceGroup(scheduleItem);
-							addScheduleItemToNewAdherenceGroup(scheduleItem, moveData.hour, moveData.yBottomPosition, adherenceWindow);
+//							addScheduleItemToNewAdherenceGroup(scheduleItem, moveData.hour, moveData.yBottomPosition, adherenceWindow);
 						}
 												
 						scheduleItem.updateHour(moveData.hour);
@@ -299,7 +334,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		
 		public function moveScheduleItemEnd(moveData:MoveData):void
 		{
-			var scheduleItem:ScheduleItemBase = _scheduleItemsDictionary[moveData.documentID];
+			var scheduleItem:ScheduleItemBaseOld = _scheduleItemsDictionary[moveData.documentID];
 			if (scheduleItem.firstMove == false && scheduleItem.scheduled == true)
 			{
 				if (_adherenceGroupsVector[scheduleItem.hour - 1] == null)
@@ -362,9 +397,9 @@ package collaboRhythm.plugins.schedule.shared.model
 				var newAdherenceGroup:AdherenceGroup = _adherenceGroupsVector[adherenceGroup.hour-1];
 				var adherenceGroupIndex:Number = _adherenceGroupsCollection.getItemIndex(adherenceGroup);
 				_adherenceGroupsCollection.removeItemAt(adherenceGroupIndex);
-				for each (var scheduleItem:ScheduleItemBase in adherenceGroup.scheduleItems)
+				for each (var scheduleItem:ScheduleItemBaseOld in adherenceGroup.scheduleItems)
 				{
-					newAdherenceGroup.addScheduleItem(scheduleItem);
+//					newAdherenceGroup.addScheduleItem(scheduleItem);
 					scheduleItem.adherenceGroup = newAdherenceGroup;
 				}
 			}
@@ -453,7 +488,7 @@ package collaboRhythm.plugins.schedule.shared.model
 						previousStackHasAdherenceGroup = false;
 					}
 					
-					for each (var adherenceGroupScheduleItem:ScheduleItemBase in adherenceGroup.scheduleItems)
+					for each (var adherenceGroupScheduleItem:ScheduleItemBaseOld in adherenceGroup.scheduleItems)
 					{
 						scheduleItemsStacked += 1;
 						adherenceGroupScheduleItem.stackNumber = stackNumber;
@@ -466,7 +501,7 @@ package collaboRhythm.plugins.schedule.shared.model
 				}
 			}
 			
-			for each (var scheduleItem:ScheduleItemBase in _scheduleItemsCollection)
+			for each (var scheduleItem:ScheduleItemBaseOld in _scheduleItemsCollection)
 			{
 				if (scheduleItem.scheduled == false)
 				{

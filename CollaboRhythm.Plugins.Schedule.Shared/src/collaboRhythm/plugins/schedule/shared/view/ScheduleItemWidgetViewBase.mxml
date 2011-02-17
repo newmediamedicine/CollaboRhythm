@@ -19,18 +19,18 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
+			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBaseOld;
 			
 			import mx.binding.utils.BindingUtils;
 			import mx.binding.utils.ChangeWatcher;
 			import mx.core.IVisualElement;
 			
 			[Bindable]
-			private var _scheduleItem:ScheduleItemBase;
+			private var _scheduleItem:ScheduleItemBaseOld;
 			[Bindable]
 			private var _medicationsGroup:IVisualElement;
 			
-			public function init(scheduleItem:ScheduleItemBase, medicationsGroup:IVisualElement):void
+			public function init(scheduleItem:ScheduleItemBaseOld, medicationsGroup:IVisualElement):void
 			{
 				_scheduleItem = scheduleItem;
 				_medicationsGroup = medicationsGroup;
@@ -42,12 +42,12 @@
 				var stackingUpdatedChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(stackingUpdateHandler, _scheduleItem, "stackingUpdated");
 			}
 			
-			public function get scheduleItem():ScheduleItemBase
+			public function get scheduleItem():ScheduleItemBaseOld
 			{
 				return _scheduleItem;
 			}
 			
-			public function set scheduleItem(value:ScheduleItemBase):void
+			public function set scheduleItem(value:ScheduleItemBaseOld):void
 			{
 				_scheduleItem = value;
 			}

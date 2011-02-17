@@ -33,6 +33,7 @@
 	<fx:Script>
 		<![CDATA[	
 			import collaboRhythm.plugins.schedule.shared.model.AdherenceGroup;
+			import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
 			import collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase;
@@ -45,14 +46,18 @@
 			private var _scheduleModel:ScheduleModel;
 			[Bindable]
 			private var _scheduleClockResized:Boolean = false;
+			private var _scheduleGroupsCollection:ArrayCollection;
 			private var _scheduleItemsCollection:ArrayCollection;
 			private var _adherenceGroupsCollection:ArrayCollection;
 			private var _widgetScheduleItemViews:Vector.<ScheduleItemWidgetViewBase> = new Vector.<ScheduleItemWidgetViewBase>;
-			private var _widgetAdherenceWindowViews:Vector.<WidgetAdherenceWindowView> = new Vector.<WidgetAdherenceWindowView>;
+			private var _widgetAdherenceWindowViews:Vector.<ScheduleGroupWidgetView> = new Vector.<ScheduleGroupWidgetView>;
 			
 			public function init(scheduleModel:ScheduleModel):void
 			{
 				_scheduleModel = scheduleModel;
+				
+				_scheduleGroupsCollection = _scheduleModel.scheduleGroupsCollection;
+				_scheduleGroupsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, scheduleGroupsCollectionChangeHandler);
 				
 				_scheduleItemsCollection = _scheduleModel.scheduleItemsCollection;
 				_scheduleItemsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, scheduleItemsCollectionChangeHandler);
@@ -62,15 +67,20 @@
 			
 			private function initializeClock():void
 			{
-				for each (var scheduleItem:ScheduleItemBase in _scheduleItemsCollection)
+				for each (var scheduleGroup:ScheduleGroup in _scheduleGroupsCollection)
 				{
-					createScheduleItemView(scheduleItem);
+					createScheduleGroupView(scheduleGroup);
 				}
 				
-				for each (var adherenceGroup:AdherenceGroup in _adherenceGroupsCollection)
-				{
-					createAdherenceWindowView(adherenceGroup);
-				}
+//				for each (var scheduleItem:ScheduleItemBase in _scheduleItemsCollection)
+//				{
+//					createScheduleItemView(scheduleItem);
+//				}
+//				
+//				for each (var adherenceGroup:AdherenceGroup in _adherenceGroupsCollection)
+//				{
+//					createAdherenceWindowView(adherenceGroup);
+//				}
 				
 				updateTime();
 				
@@ -108,6 +118,24 @@
 				_scheduleModel = value;
 			}
 			
+			public function scheduleGroupsCollectionChangeHandler(event:CollectionEvent):void
+			{
+				if (event.kind == CollectionEventKind.ADD)
+				{
+					for each (var scheduleGroupAdded:ScheduleGroup in event.items)
+					{
+						createScheduleGroupView(scheduleGroupAdded);
+					}
+				}
+			}
+			
+			public function createScheduleGroupView(scheduleGroup:ScheduleGroup):void
+			{
+				var scheduleGroupView:ScheduleGroupWidgetView = new ScheduleGroupWidgetView();
+				scheduleGroupView.init(scheduleGroup, scheduleGroupContainer);
+				scheduleGroupContainer.addElement(scheduleGroupView);
+			}
+			
 			public function scheduleItemsCollectionChangeHandler(event:CollectionEvent):void
 			{
 				if (event.kind == CollectionEventKind.ADD)
@@ -139,30 +167,30 @@
 
 			public function createScheduleItemView(scheduleItem:ScheduleItemBase):void
 			{
-				var widgetScheduleItemView:ScheduleItemWidgetViewBase = scheduleItem.createScheduleItemWidgetView();
-				widgetScheduleItemView.init(scheduleItem, scheduleItemsGroup);
-				scheduleItemsGroup.addElement(widgetScheduleItemView);
-				_widgetScheduleItemViews.push(widgetScheduleItemView);
+//				var widgetScheduleItemView:ScheduleItemWidgetViewBase = scheduleItem.createScheduleItemWidgetView();
+//				widgetScheduleItemView.init(scheduleItem, scheduleItemsGroup);
+//				scheduleItemsGroup.addElement(widgetScheduleItemView);
+//				_widgetScheduleItemViews.push(widgetScheduleItemView);
 			}
 			
 			public function createAdherenceWindowView(adherenceGroup:AdherenceGroup):void
 			{				
-				var widgetAdherenceWindowView:WidgetAdherenceWindowView = new WidgetAdherenceWindowView();
-				widgetAdherenceWindowView.init(adherenceGroup, adherenceWindowsGroup);
-				adherenceWindowsGroup.addElement(widgetAdherenceWindowView);
-				_widgetAdherenceWindowViews.push(widgetAdherenceWindowView);		
+//				var widgetAdherenceWindowView:WidgetAdherenceWindowView = new WidgetAdherenceWindowView();
+//				widgetAdherenceWindowView.init(adherenceGroup, adherenceWindowsGroup);
+//				adherenceWindowsGroup.addElement(widgetAdherenceWindowView);
+//				_widgetAdherenceWindowViews.push(widgetAdherenceWindowView);		
 			}
 			
 			public function destroyAdherenceWindowView(adherenceGroup:AdherenceGroup):void
 			{
-				for each (var widgetAdherenceWindowView:WidgetAdherenceWindowView in _widgetAdherenceWindowViews)
+				for each (var widgetAdherenceWindowView:ScheduleGroupWidgetView in _widgetAdherenceWindowViews)
 				{
-					if (widgetAdherenceWindowView.adherenceGroup == adherenceGroup)
-					{
-						var clockAdherenceWindowViewIndex:Number = _widgetAdherenceWindowViews.indexOf(widgetAdherenceWindowView);
-						_widgetAdherenceWindowViews.splice(clockAdherenceWindowViewIndex, 1);
-						adherenceWindowsGroup.removeElement(widgetAdherenceWindowView);
-					}
+//					if (widgetAdherenceWindowView.adherenceGroup == adherenceGroup)
+//					{
+//						var clockAdherenceWindowViewIndex:Number = _widgetAdherenceWindowViews.indexOf(widgetAdherenceWindowView);
+//						_widgetAdherenceWindowViews.splice(clockAdherenceWindowViewIndex, 1);
+//						adherenceWindowsGroup.removeElement(widgetAdherenceWindowView);
+//					}
 				}
 			}
 			
@@ -171,7 +199,7 @@
 				if (this.width < this.height)
 				{
 					scheduleItemsGroup.width = scheduleItemsGroup.height = this.width;
-					adherenceWindowsGroup.width = adherenceWindowsGroup.height = this.width;
+					scheduleGroupContainer.width = scheduleGroupContainer.height = this.width;
 					clockBackground.width = clockBackground.height = this.width;
 					clockForeground.width = clockForeground.height = this.width;
 					clockHand.width = clockHand.height = this.width / 2;
@@ -179,7 +207,7 @@
 				else
 				{
 					scheduleItemsGroup.width = scheduleItemsGroup.height = this.height;
-					adherenceWindowsGroup.width = adherenceWindowsGroup.height = this.height;
+					scheduleGroupContainer.width = scheduleGroupContainer.height = this.height;
 					clockBackground.width = clockBackground.height = this.height;
 					clockForeground.width = clockForeground.height = this.height;
 					clockHand.width = clockHand.height = this.height / 2;
@@ -192,7 +220,7 @@
 		]]>
 	</fx:Script>
 	<images:clockBackground id="clockBackground" horizontalCenter="0" verticalCenter="0" />
-	<s:Group id="adherenceWindowsGroup" horizontalCenter="0" verticalCenter="0" />
+	<s:Group id="scheduleGroupContainer" horizontalCenter="0" verticalCenter="0" />
 	<s:Group id="scheduleItemsGroup" horizontalCenter="0" verticalCenter="0" />
 	<images:clockHand id="clockHand" />
 	<images:clockForeground id="clockForeground" horizontalCenter="0" verticalCenter="0" />
