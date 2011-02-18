@@ -49,7 +49,7 @@ package collaboRhythm.shared.model.healthRecord
 		 * Factory method parses the metadata from the document XML and returns a new DocumentMetadata.
 		 * @param documentXml The document XML. The root node of the XML should be Document, and it should have metadata
 		 * attributes: id and type.
-		 * @return The metadata object.
+		 * @return The new metadata object with values parsed from the XML.
 		 */
 		public static function createDocumentMetadata(documentXml:XML):DocumentMetadata
 		{
