@@ -1446,6 +1446,36 @@ public class Pha extends EventDispatcher implements WikiTestable
                 "GET", requestUrl, accessToken, accessTokenSecret, null, params, userData);
     }
 
+	/** get the vitals for a category from an Indivo record
+	 * @param params becomes ?{query_string} at end of URL.
+	 *     See <b>params param</b> note in the class description, above.
+	 * See GET /records/{record_id}/reports/minimal/vitals/{category}/
+	 *
+	 * @param consumerKey OAuth consumer key, assigned to your application by the Indivo service provider
+	 * @param consumerSecret OAuth consumer secret, assigned to your application by the Indivo service provider
+	 * @param installationURL base URL of the Indivo server
+	 * @param recordId record ID
+	 * @param category type of measurement
+	 * @param accessToken OAuth token for access to record
+	 * @param accessTokenSecret OAuth token secret for access to record
+	 */
+	public function reports_minimal_vitals_X_GET(
+		params:Object,
+		consumerKey:String,
+		consumerSecret:String,
+		installationURL:String,
+		recordId:String,
+		category:String,
+		accessToken:String,
+		accessTokenSecret:String,
+		userData:Object=null):void {
+		var requestUrl:String= "records/" + recordId + "/reports/minimal/vitals/" + category + "/";
+		
+		phaRequest(
+			consumerKey, consumerSecret, installationURL,
+			"GET", requestUrl, accessToken, accessTokenSecret, null, params, userData);
+	}
+	
 
     /** GET /records/{record_id}/reports/minimal/medications/ 
     * @param params becomes ?{query_string} at end of URL.

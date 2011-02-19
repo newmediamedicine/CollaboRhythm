@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:ai="http://ns.adobe.com/ai/2008">
+	<s:Ellipse id="map0" x="120.5" y="120.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor"  color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map3" x="120.5" y="60.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor"  color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map2" x="162.5" y="77.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor"  color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map1" x="180.5" y="120.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map8" x="162.5" y="162.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map7" x="120.5" y="180.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map6" x="77.5" y="162.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map5" x="60.5" y="120.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map4" x="77.5" y="77.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map13" x="120.5" y="0.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map11" x="204.5" y="35.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map9" x="240.5" y="120.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map23" x="204.5" y="204.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#ffffff"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse height="40" ai:knockout="0" width="40" x="35.5" y="204.5">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map19" x="35.5" y="204.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map21" x="120.5" y="240.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map17" x="0.5" y="120.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map15" x="32.5" y="38.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map14" x="71.5" y="10.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map12" x="167.5" y="9.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map10" x="230.5" y="73.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map24" x="230.5" y="166.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#ffffff"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map22" x="165.5" y="231.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map20" x="74.5" y="231.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map18" x="9.5" y="165.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+	<s:Ellipse id="map16" x="8.5" y="76.5" width="40" height="40" ai:knockout="0">
+		<s:fill>
+			<s:SolidColor id="fillSolidColor" color="#000000" alpha="0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Ellipse>
+</s:Group>
