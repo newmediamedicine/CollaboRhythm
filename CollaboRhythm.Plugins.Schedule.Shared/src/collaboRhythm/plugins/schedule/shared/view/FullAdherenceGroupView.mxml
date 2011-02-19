@@ -243,6 +243,6 @@
 				<s:SolidColorStroke color="0xFFFFFF" alpha="0.5"/>
 			</s:stroke>
 		</s:Rect>
-		<mx:Image top="8" horizontalCenter="0" source="@Embed(source='assets/images/gripHorizontalWide.png')"/>
+		<mx:Image top="8" horizontalCenter="0" source="@Embed(source='/assets/images/gripHorizontalWide.png')"/>
 	</s:Group>
 </view1:FullScheduleItemViewBase>

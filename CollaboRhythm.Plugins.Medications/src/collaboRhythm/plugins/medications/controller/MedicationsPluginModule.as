@@ -12,11 +12,13 @@
 package collaboRhythm.plugins.medications.controller
 {
 	import castle.flexbridge.reflection.ReflectionUtils;
-	
+
+	import collaboRhythm.plugins.schedule.shared.controller.ScheduleAppControllerInfo;
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
+	import collaboRhythm.shared.controller.apps.AppOrderConstraint;
 	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
-	
+
 	import mx.modules.ModuleBase;
 
 	public class MedicationsPluginModule extends ModuleBase implements IPlugin
@@ -29,8 +31,12 @@ package collaboRhythm.plugins.medications.controller
 		public function registerComponents(componentContainer:IComponentContainer):void
 		{
 			var typeName:String = ReflectionUtils.getClassInfo(MedicationsAppController).name;
+			var appControllerInfo:AppControllerInfo = new AppControllerInfo(MedicationsAppController);
+			var afterScheduleAppOrderConstraint:AppOrderConstraint = new AppOrderConstraint(AppOrderConstraint.ORDER_BEFORE,
+																							ScheduleAppControllerInfo.APP_ID);
+			appControllerInfo.initializationOrderConstraints.push(afterScheduleAppOrderConstraint);
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
-														 new AppControllerInfo(MedicationsAppController));
+														 appControllerInfo);
 		}
 	}
 }

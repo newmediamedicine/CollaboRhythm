@@ -121,7 +121,7 @@
 			<s:SolidColorStroke color="0xFFFFFF" weight="1" alpha="0.5"/>
 		</s:stroke>
 	</s:Path>
-	<mx:Image right="11" verticalCenter="0" source="@Embed(source='assets/images/gripHorizontalWide.png')"/>
+	<mx:Image right="11" verticalCenter="0" source="@Embed(source='/assets/images/gripHorizontalWide.png')"/>
 	<s:filters>
 		<s:GlowFilter id="glowFilter"
 					  quality="3"

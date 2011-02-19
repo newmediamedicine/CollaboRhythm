@@ -53,7 +53,7 @@
 			private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>;
 			private var _scheduleItemCanvasHeight:Number = 0;
 			
-			[Embed("assets/cursors/horizontalResize.png")]
+			[Embed("/assets/cursors/horizontalResize.png")]
 			private var _horizontalResizeCursorClass:Class;
 			
 			public function get adherenceGroup():AdherenceGroup
