@@ -782,7 +782,7 @@
 											creationComplete="cataractDensityMapChart_creationCompleteHandler(event)"
 											initialize="cataractDensityMapChart_initializeHandler(event)"
 											sliderVisible="false"
-											mainChartTitle="Cataract Map Max Value (Range 0 to 10)"
+											mainChartTitle="Cataract Map Max Value (Range 0 to 9)"
 											seriesName="densityMapMax"
 											data="{model.data}"
 											today="{model.currentDateSource.now()}"

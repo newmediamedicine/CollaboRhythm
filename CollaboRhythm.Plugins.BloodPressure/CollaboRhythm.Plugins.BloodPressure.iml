@@ -30,6 +30,35 @@
         <CSS_FILES_LIST />
       </configuration>
     </facet>
+    <facet type="flex" name="AIR Module 1">
+      <configuration flex_sdk="4.5.0 AIR">
+        <option name="DO_BUILD" value="true" />
+        <option name="OUTPUT_TYPE" value="Application" />
+        <option name="USE_DEFAULT_SDK_CONFIG_FILE" value="true" />
+        <option name="USE_CUSTOM_CONFIG_FILE" value="false" />
+        <option name="CUSTOM_CONFIG_FILE" value="" />
+        <option name="USE_CUSTOM_CONFIG_FILE_FOR_TESTS" value="false" />
+        <option name="CUSTOM_CONFIG_FILE_FOR_TESTS" value="" />
+        <option name="APPLICATION_ENTRY_POINT" value="" />
+        <option name="MAIN_CLASS" value="collaboRhythm.plugins.bloodPressure.controller.BloodPressurePluginModule" />
+        <option name="OUTPUT_FILE_NAME" value="BloodPressurePluginModule.swf" />
+        <option name="USE_FACET_COMPILE_OUTPUT_PATH" value="false" />
+        <option name="FACET_COMPILE_OUTPUT_PATH" value="$MODULE_DIR$/bin-debug" />
+        <option name="FACET_COMPILE_OUTPUT_PATH_FOR_TESTS" value="$MODULE_DIR$/bin-debug" />
+        <option name="INCLUDE_RESOURCE_FILES_IN_SWC" value="false" />
+        <option name="TARGET_PLAYER_VERSION" value="10.1" />
+        <option name="STATIC_LINK_RUNTIME_SHARED_LIBRARIES" value="true" />
+        <option name="USE_LOCALE_SETTINGS" value="false" />
+        <option name="LOCALE" value="en_US" />
+        <option name="ADDITIONAL_COMPILER_OPTIONS" value="-locale en_US" />
+        <option name="PATH_TO_SERVICES_CONFIG_XML" value="" />
+        <option name="CONTEXT_ROOT" value="" />
+        <option name="VERSION" value="3" />
+        <NAMESPACE_AND_MANIFEST_FILE_INFO_LIST />
+        <CONDITIONAL_COMPILATION_DEFINITION_LIST />
+        <CSS_FILES_LIST />
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/bin-debug" />
@@ -40,88 +69,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library name="Imported from Flash/Flex Builder: CollaboRhythm.Shared.BloodSolutesSimulation">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/CollaboRhythm.Shared.BloodSolutesSimulation/bin/CollaboRhythm.Shared.BloodSolutesSimulation.swc!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Imported from Flash/Flex Builder: CollaboRhythm.Shared.PluginsSupport">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/CollaboRhythm.Shared.PluginsSupport/bin/CollaboRhythm.Shared.PluginsSupport.swc!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Imported from Flash/Flex Builder: Box2DFlashAS3">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/Box2DFlashAS3/bin/Box2DFlashAS3.swc!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Imported from Flash/Flex Builder: ChartBackgroundsLib">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/ChartBackgroundsLib/bin/ChartBackgroundsLib.swc!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Imported from Flash/Flex Builder: McCuneChart">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/McCuneChart/bin/McCuneChart.swc!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Imported from Flash/Flex Builder: CollaboRhythm.Shared">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/CollaboRhythm.Shared/bin/CollaboRhythm.Shared.swc!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Imported from Flash/Flex Builder: CollaboRhythm.View.Scroll">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/CollaboRhythm.View.Scroll/bin/CollaboRhythm.View.Scroll.swc!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Imported from Flash/Flex Builder: indivo_client_flash">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/indivo_client_flash/bin/indivo_client_flash.swc!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Imported from Flash/Flex Builder: libs">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/libs" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-        <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
-      </library>
-    </orderEntry>
     <orderEntry type="module-library">
       <library name="AUTOGENERATED library equal to Flex SDK 4.5.0 AIR">
         <CLASSES>
@@ -190,6 +137,88 @@
           <root url="file://$PROJECT_FRAMEWORKS$/projects/utilities/src" />
           <root url="file://$PROJECT_FRAMEWORKS$/projects/wireframe/src" />
         </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Imported from Flash/Flex Builder: CollaboRhythm.Shared.BloodSolutesSimulation">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../CollaboRhythm.Shared.BloodSolutesSimulation/bin/CollaboRhythm.Shared.BloodSolutesSimulation.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Imported from Flash/Flex Builder: CollaboRhythm.Shared.PluginsSupport">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../CollaboRhythm.Shared.PluginsSupport/bin/CollaboRhythm.Shared.PluginsSupport.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Imported from Flash/Flex Builder: Box2DFlashAS3">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/Box2DFlashAS3/bin/Box2DFlashAS3.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Imported from Flash/Flex Builder: ChartBackgroundsLib">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/ChartBackgroundsLib/bin/ChartBackgroundsLib.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Imported from Flash/Flex Builder: McCuneChart">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/McCuneChart/bin/McCuneChart.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Imported from Flash/Flex Builder: CollaboRhythm.Shared">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../CollaboRhythm.Shared/bin/CollaboRhythm.Shared.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Imported from Flash/Flex Builder: CollaboRhythm.View.Scroll">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../CollaboRhythm.View.Scroll/bin/CollaboRhythm.View.Scroll.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Imported from Flash/Flex Builder: indivo_client_flash">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/indivo_client_flash/bin/indivo_client_flash.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Imported from Flash/Flex Builder: libs">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/libs" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
   </component>

@@ -42,6 +42,7 @@
 			
 			public function set model(value:CataractMapModel):void
 			{
+				trace("set model");
 				_model = value;
 				refresh();
 				
@@ -64,5 +65,10 @@
 		]]>
 	</fx:Script>
 	
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="#FFFFFF"/>
+		</s:fill>
+	</s:Rect>
 	<view:CataractMapDiagram id="cataractMapSimulation"/>
 </s:Group>
