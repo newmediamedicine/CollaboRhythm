@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+~ Copyright 2011 John Moore, Scott Gilroy
+~
+~ This file is part of CollaboRhythm.
+~
+~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+~
+~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+~
+~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<view:ScheduleItemFullViewBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:view="collaboRhythm.plugins.schedule.shared.view.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		#medicationStrength {
+			font-size: 16;
+			font-weight: bold;
+		}
+		
+		#administration {
+			font-size: 12;
+		}
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+			import collaboRhythm.plugins.medications.model.Medication;
+			
+			[Bindable]
+			private var _medication:Medication;
+			
+			public function get medication():Medication
+			{
+				return _medication;
+			}
+			
+			public function set medication(value:Medication):void
+			{
+				_medication = value;
+			}
+		]]>
+	</fx:Script>
+	<s:Group id="med" width="100%" height="100%">
+		<s:Rect id="outerRectangle" width="100%" height="100%">
+			<s:fill>
+				<!--TODO: Reimplement coloring during collaboration-->
+				<s:SolidColor color="0xFFFFFF" alpha="0.4"/>
+			</s:fill>
+			<s:stroke>
+				<s:SolidColorStroke color="0xFFFFFF" weight="1" alpha="0.5"/>
+			</s:stroke>
+		</s:Rect>
+		<mx:Image right="8" verticalCenter="0" source="@Embed(source='assets/images/gripHorizontalNarrow.png')"/>
+		<s:Group id="medicationContent" left="1" right="29" top="1" bottom="1">
+			<s:Rect width="80" height="100%">
+				<s:fill>
+					<s:SolidColor color="0x000000"/>
+				</s:fill>
+			</s:Rect>
+			<!--<mx:Image source="{_medication.imageURI}" width="{MEDICATION_PICTURE_WIDTH}" height="{MEDICATION_PICTURE_WIDTH}" smoothBitmapContent="true"/>-->
+			<!--<mx:UIComponent width="20" height="20" left="57" top="4" id="_medicationDot"/>-->
+			<s:Label id="medicationStrength" text="{_medication.nameLabelText} {_medication.strengthLabelText}" left="83" right="1" maxDisplayedLines="1" y="7"/>	
+			<s:Label id="indication" text="{_medication.indication} - Dr. James King" left="83" right="1" maxDisplayedLines="1" y="30" fontSize="13"/>
+			<s:Label id="administration" text="{_medication.doseLabelText}, {_medication.route.text}, {_medication.frequency.text}" left="83" y="50" fontSize="13"/>
+			<s:Label id="instructions" text="{_medication.instructions}" left="83" right="1" y="64" fontSize="13" maxDisplayedLines="1"/>
+		</s:Group>
+	</s:Group>
+</view:ScheduleItemFullViewBase>

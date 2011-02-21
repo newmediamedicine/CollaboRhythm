@@ -11,7 +11,7 @@
  */
 package collaboRhythm.plugins.schedule.shared.model
 {
-	import collaboRhythm.plugins.schedule.shared.view.FullScheduleItemViewBase;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemFullViewBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase;
 	
 	[Bindable]
@@ -210,10 +210,10 @@ package collaboRhythm.plugins.schedule.shared.model
 			return scheduleItemWidgetView;
 		}
 		
-		public function createScheduleItemFullView():FullScheduleItemViewBase
+		public function createScheduleItemFullView():ScheduleItemFullViewBase
 		{
 			// to be implemented by subclasses
-			var fullScheduleItemView:FullScheduleItemViewBase = new FullScheduleItemViewBase();
+			var fullScheduleItemView:ScheduleItemFullViewBase = new ScheduleItemFullViewBase();
 			return fullScheduleItemView;
 		}
 	}

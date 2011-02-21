@@ -223,7 +223,7 @@
 					}
 					else
 					{
-						yPosition = _scheduleFullView.height - Number(_scheduleFullView.fullSmartDrawerView.bottom) - this.height - FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH;
+						yPosition = 10;//_scheduleFullView.height - Number(_scheduleFullView.fullSmartDrawerView.bottom) - this.height - FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH;
 					}
 				}
 
@@ -272,7 +272,7 @@
 				}
 				else
 				{
-					yPosition = _scheduleFullView.height - Number(_scheduleFullView.fullSmartDrawerView.bottom) - this.height - FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH;
+					yPosition = 10;//_scheduleFullView.height - Number(_scheduleFullView.fullSmartDrawerView.bottom) - this.height - FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH;
 				}	
 				
 				return yPosition;
@@ -284,11 +284,11 @@
 				scheduleItem.active = false;
 				if (_scheduleItem.scheduled == true)
 				{
-					scheduleItem.yBottomPosition = _scheduleFullView.scheduleItemCanvas.height - this.y - this.height;
+					scheduleItem.yBottomPosition = 10;// _scheduleFullView.scheduleItemCanvas.height - this.y - this.height;
 				}
 				else
 				{
-					scheduleItem.yBottomPosition = _scheduleFullView.fullSmartDrawerView.bottom + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH;
+					scheduleItem.yBottomPosition = 10;//_scheduleFullView.fullSmartDrawerView.bottom + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH;
 				}
 			}
 			

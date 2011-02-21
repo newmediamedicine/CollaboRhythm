@@ -14,8 +14,8 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 clipAndEnableScrolling="true" xmlns:images="assets.images.*"
-		 resize="resizeClock()"
-		 creationComplete="initializeClock()"
+		 resize="resizeHandler()"
+		 creationComplete="creationCompleteHandler()"
 		 >
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
@@ -32,9 +32,7 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[	
-			import collaboRhythm.plugins.schedule.shared.model.AdherenceGroup;
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
 			import collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase;
 			
@@ -57,31 +55,23 @@
 				_scheduleModel = scheduleModel;
 				
 				_scheduleGroupsCollection = _scheduleModel.scheduleGroupsCollection;
-				_scheduleGroupsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, scheduleGroupsCollectionChangeHandler);
-				
-				_scheduleItemsCollection = _scheduleModel.scheduleItemsCollection;
-				_scheduleItemsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, scheduleItemsCollectionChangeHandler);
-				_adherenceGroupsCollection = _scheduleModel.adherenceGroupsCollection;
-				_adherenceGroupsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, adherenceGroupsCollectionChangeHandler);	
+				_scheduleGroupsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, scheduleGroupsCollectionChangeHandler);				
+//				_scheduleItemsCollection = _scheduleModel.scheduleItemsCollection;
+//				_scheduleItemsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, scheduleItemsCollectionChangeHandler);
 			}
 			
-			private function initializeClock():void
+			private function creationCompleteHandler():void
 			{
 				for each (var scheduleGroup:ScheduleGroup in _scheduleGroupsCollection)
 				{
 					createScheduleGroupView(scheduleGroup);
 				}
-				
-				//				for each (var scheduleItem:ScheduleItemBase in _scheduleItemsCollection)
-				//				{
-				//					createScheduleItemView(scheduleItem);
-				//				}
-				//				
-				//				for each (var adherenceGroup:AdherenceGroup in _adherenceGroupsCollection)
-				//				{
-				//					createAdherenceWindowView(adherenceGroup);
-				//				}
-				
+//				
+//				for each (var scheduleItem:ScheduleItemBase in _scheduleItemsCollection)
+//				{
+//					createScheduleItemView(scheduleItem);
+//				}
+					
 				updateTime();
 				
 				// creates a Timer that fires an event once per 10 minutes
@@ -127,101 +117,107 @@
 						createScheduleGroupView(scheduleGroupAdded);
 					}
 				}
+				else if (event.kind == CollectionEventKind.REMOVE)
+				{
+					for each (var scheduleGroupRemoved:ScheduleGroup in event.items)
+					{
+						destroyScheduleGroupView(scheduleGroupRemoved);
+					}
+				}
 			}
+//			
+//			public function scheduleItemsCollectionChangeHandler(event:CollectionEvent):void
+//			{
+//				if (event.kind == CollectionEventKind.ADD)
+//				{
+//					for each (var scheduleItemAdded:ScheduleItemBase in event.items)
+//					{
+//						createScheduleItemView(scheduleItemAdded);
+//					}
+//				}
+//			}
+//			
+//			public function adherenceGroupsCollectionChangeHandler(event:CollectionEvent):void
+//			{
+//				if (event.kind == CollectionEventKind.ADD)
+//				{
+//					for each (var adherenceGroupAdded:AdherenceGroup in event.items)
+//					{
+//						createAdherenceWindowView(adherenceGroupAdded);
+//					}
+//				}
+//				else if (event.kind == CollectionEventKind.REMOVE)
+//				{
+//					for each (var adherenceGroupRemoved:AdherenceGroup in event.items)
+//					{
+//						destroyAdherenceWindowView(adherenceGroupRemoved);
+//					}
+//				}
+//			}
+			
 			
 			public function createScheduleGroupView(scheduleGroup:ScheduleGroup):void
 			{
-				var scheduleGroupView:ScheduleGroupWidgetView = new ScheduleGroupWidgetView();
-				scheduleGroupView.init(scheduleGroup, scheduleGroupContainer);
-				scheduleGroupContainer.addElement(scheduleGroupView);
+				var scheduleGroupWidgetView:ScheduleGroupWidgetView = new ScheduleGroupWidgetView();
+				scheduleGroupWidgetView.init(scheduleGroup, scheduleGroupsContainer);
+				scheduleGroupsContainer.addElement(scheduleGroupWidgetView);
 			}
 			
-			public function scheduleItemsCollectionChangeHandler(event:CollectionEvent):void
+//			public function createScheduleItemView(scheduleItem:ScheduleItemBase):void
+//			{
+//				var scheduleItemWidgetView:ScheduleItemWidgetViewBase = scheduleItem.createScheduleItemWidgetView();
+//				scheduleItemWidgetView.init(scheduleItem, scheduleItemsContainer);
+//				scheduleItemsContainer.addElement(scheduleItemWidgetView);
+////				_widgetScheduleItemViews.push(scheduleItemWidgetView);
+//			}
+			
+//			public function createAdherenceWindowView(adherenceGroup:AdherenceGroup):void
+//			{				
+//				//				var widgetAdherenceWindowView:WidgetAdherenceWindowView = new WidgetAdherenceWindowView();
+//				//				widgetAdherenceWindowView.init(adherenceGroup, adherenceWindowsGroup);
+//				//				adherenceWindowsGroup.addElement(widgetAdherenceWindowView);
+//				//				_widgetAdherenceWindowViews.push(widgetAdherenceWindowView);		
+//			}
+			
+			public function destroyScheduleGroupView(scheduleGroup:ScheduleGroup):void
 			{
-				if (event.kind == CollectionEventKind.ADD)
-				{
-					for each (var scheduleItemAdded:ScheduleItemBase in event.items)
-					{
-						createScheduleItemView(scheduleItemAdded);
-					}
-				}
-			}
-			
-			public function adherenceGroupsCollectionChangeHandler(event:CollectionEvent):void
-			{
-				if (event.kind == CollectionEventKind.ADD)
-				{
-					for each (var adherenceGroupAdded:AdherenceGroup in event.items)
-					{
-						createAdherenceWindowView(adherenceGroupAdded);
-					}
-				}
-				else if (event.kind == CollectionEventKind.REMOVE)
-				{
-					for each (var adherenceGroupRemoved:AdherenceGroup in event.items)
-					{
-						destroyAdherenceWindowView(adherenceGroupRemoved);
-					}
-				}
-			}
-			
-			public function createScheduleItemView(scheduleItem:ScheduleItemBase):void
-			{
-				//				var widgetScheduleItemView:ScheduleItemWidgetViewBase = scheduleItem.createScheduleItemWidgetView();
-				//				widgetScheduleItemView.init(scheduleItem, scheduleItemsGroup);
-				//				scheduleItemsGroup.addElement(widgetScheduleItemView);
-				//				_widgetScheduleItemViews.push(widgetScheduleItemView);
-			}
-			
-			public function createAdherenceWindowView(adherenceGroup:AdherenceGroup):void
-			{				
-				//				var widgetAdherenceWindowView:WidgetAdherenceWindowView = new WidgetAdherenceWindowView();
-				//				widgetAdherenceWindowView.init(adherenceGroup, adherenceWindowsGroup);
-				//				adherenceWindowsGroup.addElement(widgetAdherenceWindowView);
-				//				_widgetAdherenceWindowViews.push(widgetAdherenceWindowView);		
-			}
-			
-			public function destroyAdherenceWindowView(adherenceGroup:AdherenceGroup):void
-			{
-				for each (var widgetAdherenceWindowView:ScheduleGroupWidgetView in _widgetAdherenceWindowViews)
-				{
+//				for each (var widgetAdherenceWindowView:ScheduleGroupWidgetView in _widgetAdherenceWindowViews)
+//				{
 					//					if (widgetAdherenceWindowView.adherenceGroup == adherenceGroup)
 					//					{
 					//						var clockAdherenceWindowViewIndex:Number = _widgetAdherenceWindowViews.indexOf(widgetAdherenceWindowView);
 					//						_widgetAdherenceWindowViews.splice(clockAdherenceWindowViewIndex, 1);
 					//						adherenceWindowsGroup.removeElement(widgetAdherenceWindowView);
 					//					}
-				}
+//				}
 			}
 			
-			private function resizeClock():void
+			private function resizeHandler():void
 			{
 				if (this.width < this.height)
 				{
-					scheduleItemsGroup.width = scheduleItemsGroup.height = this.width;
-					scheduleGroupContainer.width = scheduleGroupContainer.height = this.width;
+					scheduleItemsContainer.width = scheduleItemsContainer.height = this.width;
+					scheduleGroupsContainer.width = scheduleGroupsContainer.height = this.width;
 					clockBackground.width = clockBackground.height = this.width;
 					clockForeground.width = clockForeground.height = this.width;
 					clockHand.width = clockHand.height = this.width / 2;
 				}
 				else
 				{
-					scheduleItemsGroup.width = scheduleItemsGroup.height = this.height;
-					scheduleGroupContainer.width = scheduleGroupContainer.height = this.height;
+					scheduleItemsContainer.width = scheduleItemsContainer.height = this.height;
+					scheduleGroupsContainer.width = scheduleGroupsContainer.height = this.height;
 					clockBackground.width = clockBackground.height = this.height;
 					clockForeground.width = clockForeground.height = this.height;
 					clockHand.width = clockHand.height = this.height / 2;
 				}
 				clockHand.x = this.width / 2;
 				clockHand.y = this.height / 2;
-				
-				
 			}
 		]]>
 	</fx:Script>
 	<images:clockBackground id="clockBackground" horizontalCenter="0" verticalCenter="0" />
-	<s:Group id="scheduleGroupContainer" horizontalCenter="0" verticalCenter="0" />
-	<s:Group id="scheduleItemsGroup" horizontalCenter="0" verticalCenter="0" />
+	<s:Group id="scheduleGroupsContainer" horizontalCenter="0" verticalCenter="0" />
+	<s:Group id="scheduleItemsContainer" horizontalCenter="0" verticalCenter="0" />
 	<images:clockHand id="clockHand" />
 	<images:clockForeground id="clockForeground" horizontalCenter="0" verticalCenter="0" />
 </s:Group>

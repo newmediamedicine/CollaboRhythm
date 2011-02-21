@@ -13,7 +13,8 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 width="100%" height="100%">
+		 width="100%" height="100%"
+		 creationComplete="creationCompleteHandler()">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -24,29 +25,49 @@
 			import collaboRhythm.plugins.schedule.shared.model.AdherenceGroup;
 			import collaboRhythm.plugins.schedule.shared.model.MoveData;
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
+			import collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase;
 			
 			import com.leebrimelow.drawing.Wedge;
 			
 			import mx.binding.utils.BindingUtils;
 			import mx.binding.utils.ChangeWatcher;
+			import mx.collections.ArrayCollection;
 			import mx.core.IVisualElement;
+			import mx.events.CollectionEvent;
+			import mx.events.CollectionEventKind;
 			
 			[Bindable]
 			private var _scheduleGroup:ScheduleGroup;
 			[Bindable]
-			private var _scheduleGroupContainer:Group;
+			private var _scheduleGroupsContainer:Group;
+			private var _scheduleItemsCollection:ArrayCollection;
+			private var _scheduleItemWidgetViews:Vector.<ScheduleItemWidgetViewBase> = new Vector.<ScheduleItemWidgetViewBase>;
 			
-			public function init(scheduleGroup:ScheduleGroup, scheduleGroupContainer:Group):void
+			public function init(scheduleGroup:ScheduleGroup, scheduleGroupsContainer:Group):void
 			{
 				_scheduleGroup = scheduleGroup;
-				_scheduleGroupContainer = scheduleGroupContainer;
+				_scheduleGroupsContainer = scheduleGroupsContainer;
+				_scheduleItemsCollection = scheduleGroup.scheduleItemsCollection;
 				
-				var dateTimeStartChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(locationChangeHandler, _scheduleGroup, "dateTimeStart");
-				var dateTimeEndChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(locationChangeHandler, _scheduleGroup, "dateTimeEnd");
-				var widthChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(locationChangeHandler, _scheduleGroupContainer, "width");
-				var heightChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(locationChangeHandler, _scheduleGroupContainer, "height");
+				_scheduleItemsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, scheduleItemsCollectionChangeHandler);	
+				
+				var dateTimeStartChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroup, "dateTimeStart");
+				var dateTimeEndChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroup, "dateTimeEnd");
+				var widthChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroupsContainer, "width");
+				var heightChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroupsContainer, "height");
 //				var stackingUpdatedChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(stackingUpdateHandler, _scheduleGroup, "stackingUpdated");
+			}
+			
+			private function creationCompleteHandler():void
+			{
+				for each (var scheduleItem:ScheduleItemBase in _scheduleItemsCollection)
+				{
+					createScheduleItemWidgetView(scheduleItem);
+				}
+				
+				updateView();
 			}
 			
 			public function get scheduleGroup():ScheduleGroup
@@ -54,34 +75,83 @@
 				return _scheduleGroup;
 			}
 			
-			public function get scheduleGroupContainer():Group
+			public function get scheduleGroupsContainer():Group
 			{
-				return _scheduleGroupContainer;
+				return _scheduleGroupsContainer;
+			}
+			
+			public function scheduleItemsCollectionChangeHandler(event:CollectionEvent):void
+			{
+				if (event.kind == CollectionEventKind.ADD)
+				{
+					for each (var scheduleItemAdded:ScheduleItemBase in event.items)
+					{
+						createScheduleItemWidgetView(scheduleItemAdded);
+					}
+				}
+				else if (event.kind == CollectionEventKind.REMOVE)
+				{
+					for each (var scheduleItemRemoved:ScheduleItemBase in event.items)
+					{
+						destroyScheduleItemWidgetView(scheduleItemRemoved);
+					}
+				}
+				
+				updateView();
+			}
+			
+			public function createScheduleItemWidgetView(scheduleItem:ScheduleItemBase):void
+			{
+				var scheduleItemWidgetView:ScheduleItemWidgetViewBase = scheduleItem.createScheduleItemWidgetView();
+				scheduleItemWidgetView.init(scheduleItem, scheduleItemsContainer);
+				scheduleItemsContainer.addElement(scheduleItemWidgetView);
+				_scheduleItemWidgetViews.push(scheduleItemWidgetView);
+			}
+			
+			public function destroyScheduleItemWidgetView(scheduleGroup:ScheduleItemBase):void
+			{
+
 			}
 									
 			private function stackingUpdateHandler(stackingUpdated:Boolean):void
 			{
 				if (stackingUpdated == true)
 				{
-					calculateLocation();
+					updateView();
 				}
 			}
 			
-			private function locationChangeHandler(change:Number):void
+			private function sizeChangeHandler(change:Number):void
 			{
-				calculateLocation();
+				updateView();
 			}
 			
-			private function calculateLocation():void
-			{
-				this.graphics.clear();
-				
+			private function updateView():void
+			{			
 				var startAngle:Number = calculateAngleFromDate(_scheduleGroup.dateTimeStart);
 				var endAngle:Number = calculateAngleFromDate(_scheduleGroup.dateTimeEnd);
+				
+				drawScheduleGroup(startAngle, endAngle);
+				
+				var scheduleItemSize:Number = _scheduleGroupsContainer.height / 10;
+				var scheduleItemPositions:Array = determineScheduleItemPositions(scheduleItemSize, startAngle, endAngle);
+				
+				for each (var scheduleItemWidgetView:ScheduleItemWidgetViewBase in _scheduleItemWidgetViews)
+				{
+					var scheduleItemPosition:Array = scheduleItemPositions.pop();
+					scheduleItemWidgetView.width = scheduleItemWidgetView.height = scheduleItemSize;
+					scheduleItemWidgetView.x = scheduleItemPosition[0];
+					scheduleItemWidgetView.y = scheduleItemPosition[1];
+				}
+			}
+			
+			private function drawScheduleGroup(startAngle:Number, endAngle:Number):void
+			{
 				var arc:Number = endAngle - startAngle;
 				
+				this.graphics.clear();
 				this.graphics.beginFill(0xFFFFFF, 0.5);
-				Wedge.draw(this, _scheduleGroupContainer.width/2, _scheduleGroupContainer.width/2, _scheduleGroupContainer.width/2 - 1, arc, startAngle - 90);
+				Wedge.draw(this, _scheduleGroupsContainer.width/2, _scheduleGroupsContainer.width/2, _scheduleGroupsContainer.width/2 - 1, arc, startAngle - 90);
 				this.graphics.endFill();
 			}
 			
@@ -89,6 +159,51 @@
 			{
 				return 15 * date.hours + 0.25 * date.minutes;
 			}
+			
+			private function determineScheduleItemPositions(scheduleItemSize:Number, startAngle:Number, endAngle:Number):Array
+			{						
+				startAngle += 15;
+				var positionAngle:Number;
+				var totalAngle:Number = 15;
+				var coordinates:Array;
+				var row1:Array = new Array();
+				var row2:Array = new Array();
+				var row3:Array = new Array();
+				var scheduleItemPositions:Array = new Array();
+				
+				for (var currentAngle:Number = startAngle; currentAngle <= endAngle; currentAngle += 15 ) {
+					positionAngle = currentAngle - 7.5;
+					coordinates = calculateCoordinates(positionAngle, scheduleItemSize * 4.25, scheduleItemSize);
+					row1.push(coordinates);
+					if (totalAngle % 30 == 0) 
+					{
+						positionAngle = currentAngle - 15;
+						coordinates = calculateCoordinates(positionAngle, scheduleItemSize * 2.75, scheduleItemSize);
+						row2.push(coordinates);
+					}
+					if (totalAngle % 60 == 0) 
+					{
+						positionAngle = currentAngle - 30;
+						coordinates = calculateCoordinates(positionAngle, scheduleItemSize * 1.5, scheduleItemSize);
+						row3.push(coordinates);
+					}
+					totalAngle += 15;
+				}
+				scheduleItemPositions = row1.concat(row2);
+				scheduleItemPositions = scheduleItemPositions.concat(row3);
+				
+				return scheduleItemPositions;
+			}
+			
+			private function calculateCoordinates(angle:Number, radius:Number, scheduleItemSize:Number): Array {
+				var radians:Number = angle * (Math.PI / 180);
+				var x:Number = radius * Math.sin(radians) + _scheduleGroupsContainer.width/2 - scheduleItemSize/2;
+				var y:Number = -radius * Math.cos(radians) + _scheduleGroupsContainer.height/2 - scheduleItemSize/2;
+				var coordinates:Array = [x, y];
+				
+				return coordinates
+			}
 		]]>
 	</fx:Script>
+	<s:Group id="scheduleItemsContainer" width="100%" height="100%" />
 </s:Group>

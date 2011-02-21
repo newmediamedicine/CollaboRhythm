@@ -11,10 +11,7 @@
 */
 package collaboRhythm.plugins.schedule.shared.model
 {
-	import collaboRhythm.plugins.schedule.shared.view.FullAdherenceGroupView;
 	
-	import mx.collections.ArrayCollection;
-	import mx.core.UIComponent;
 	
 	[Bindable]
 	public class AdherenceGroup extends ScheduleItemBaseOld
@@ -90,8 +87,8 @@ package collaboRhythm.plugins.schedule.shared.model
 		
 		public function moveAdherenceGroup(moveData:MoveData):void
 		{
-			updateHour(moveData.hour);
-			yBottomPosition = moveData.yBottomPosition - FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH;
+//			updateHour(moveData.hour);
+//			yBottomPosition = moveData.yBottomPosition - FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH;
 		}
 		
 		public function moveScheduledItems(moveData:MoveData):void
@@ -99,11 +96,11 @@ package collaboRhythm.plugins.schedule.shared.model
 			var index:Number = 0
 			for each (var scheduleItem:ScheduleItemBaseOld in scheduleItems)
 			{
-				scheduleItem.updateHour(moveData.hour);
-				//TODO: Fix static numbers for heights
-				scheduleItem.yBottomPosition = moveData.yBottomPosition + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH + index * (100 + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH);
-//				(FullMedicationView.MEDICATION_HEIGHT + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH);
-				index += 1;
+//				scheduleItem.updateHour(moveData.hour);
+//				//TODO: Fix static numbers for heights
+//				scheduleItem.yBottomPosition = moveData.yBottomPosition + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH + index * (100 + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH);
+////				(FullMedicationView.MEDICATION_HEIGHT + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH);
+//				index += 1;
 			}
 		}
 	}

@@ -145,9 +145,14 @@ package collaboRhythm.core.controller.apps
 		{
 			var infoArray:Array = componentContainer.resolveAll(AppControllerInfo);
 			
-			for each (var info:AppControllerInfo in infoArray)
+//			for each (var info:AppControllerInfo in infoArray)
+//			{
+//				createApp(info.appControllerClass);
+//			}
+			//HACK
+			for (var i:Number = infoArray.length-1; i >= 0; i--)
 			{
-				createApp(info.appControllerClass);
+				createApp(infoArray[i].appControllerClass);
 			}
 		}
 		

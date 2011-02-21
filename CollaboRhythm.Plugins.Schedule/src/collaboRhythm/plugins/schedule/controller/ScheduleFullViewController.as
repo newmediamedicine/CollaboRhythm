@@ -9,11 +9,11 @@
  *
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
 */
-package collaboRhythm.plugins.schedule.shared.controller
+package collaboRhythm.plugins.schedule.controller
 {
 	import collaboRhythm.plugins.schedule.shared.model.MoveData;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleFullView;
+	import collaboRhythm.plugins.schedule.view.ScheduleFullView;
 	import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.User;
 	

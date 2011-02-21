@@ -12,9 +12,8 @@
 package collaboRhythm.plugins.schedule.controller
 {
 	import collaboRhythm.plugins.schedule.model.ScheduleHealthRecordService;
-	import collaboRhythm.plugins.schedule.shared.controller.ScheduleFullViewController;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleFullView;
+	import collaboRhythm.plugins.schedule.view.ScheduleFullView;
 	import collaboRhythm.plugins.schedule.view.ScheduleWidgetView;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 	
@@ -80,7 +79,7 @@ package collaboRhythm.plugins.schedule.controller
 			{
 				if (_user.appData[ScheduleModel.SCHEDULE_KEY] == null)
 				{
-					_user.appData[ScheduleModel.SCHEDULE_KEY] = new ScheduleModel();
+					_user.appData[ScheduleModel.SCHEDULE_KEY] = new ScheduleModel(_user);
 				}
 				return _user.getAppData(ScheduleModel.SCHEDULE_KEY, ScheduleModel) as ScheduleModel;
 			}

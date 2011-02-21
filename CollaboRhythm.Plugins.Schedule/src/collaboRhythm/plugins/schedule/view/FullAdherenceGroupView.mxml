@@ -10,10 +10,10 @@
  ~
  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<view1:FullScheduleItemViewBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<view2:FullScheduleItemViewBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
 						   xmlns:s="library://ns.adobe.com/flex/spark" 
 						   xmlns:mx="library://ns.adobe.com/flex/mx"
- xmlns:view="collaboRhythm.workstation.apps.schedule.view.*" xmlns:view1="collaboRhythm.plugins.schedule.shared.view.*">
+ xmlns:view="collaboRhythm.workstation.apps.schedule.view.*" xmlns:view1="collaboRhythm.plugins.schedule.shared.view.*" xmlns:view2="collaboRhythm.plugins.schedule.view.*">
 	<fx:Declarations>
 		<s:Fade id="adherenceGroupFade" target="{this}"/>
 	</fx:Declarations>
@@ -23,7 +23,7 @@
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
 			import collaboRhythm.plugins.schedule.shared.model.MoveData;
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
-			import collaboRhythm.plugins.schedule.shared.controller.ScheduleFullViewController;
+			import collaboRhythm.plugins.schedule.controller.ScheduleFullViewController;
 			
 			import mx.binding.utils.BindingUtils;
 			import mx.binding.utils.ChangeWatcher;
@@ -210,27 +210,28 @@
 			
 			override public function determineGlowDistance(active:Boolean):Number
 			{
-				var distance:Number;
-				
-				if (active == true)
-				{
-					_scheduleFullView.scheduleItemCanvas.setElementIndex(this, _scheduleFullView.scheduleItemCanvas.numElements - 1);
-					for each (var fullscheduleItemView:FullScheduleItemViewBase in _scheduleFullView.fullScheduleItemViews)
-					{
-						if (_adherenceGroup.scheduleItems.indexOf(fullscheduleItemView.scheduleItem) != -1)
-						{
-							_scheduleFullView.scheduleItemCanvas.setElementIndex(fullscheduleItemView, _scheduleFullView.scheduleItemCanvas.numElements - 1);
-						}
-					}
-					distance = 10;
-				}
-				else
-				{
-					distance = 5;
-				}
-				
-				glowFilter.blurY = distance;
-				return distance
+//				var distance:Number;
+//				
+//				if (active == true)
+//				{
+//					_scheduleFullView.scheduleItemCanvas.setElementIndex(this, _scheduleFullView.scheduleItemCanvas.numElements - 1);
+//					for each (var fullscheduleItemView:FullScheduleItemViewBase in _scheduleFullView.fullScheduleItemViews)
+//					{
+//						if (_adherenceGroup.scheduleItems.indexOf(fullscheduleItemView.scheduleItem) != -1)
+//						{
+//							_scheduleFullView.scheduleItemCanvas.setElementIndex(fullscheduleItemView, _scheduleFullView.scheduleItemCanvas.numElements - 1);
+//						}
+//					}
+//					distance = 10;
+//				}
+//				else
+//				{
+//					distance = 5;
+//				}
+//				
+//				glowFilter.blurY = distance;
+//				return distance
+				return 10;
 			}
 		]]>
 	</fx:Script>
@@ -245,4 +246,4 @@
 		</s:Rect>
 		<mx:Image top="8" horizontalCenter="0" source="@Embed(source='assets/images/gripHorizontalWide.png')"/>
 	</s:Group>
-</view1:FullScheduleItemViewBase>
+</view2:FullScheduleItemViewBase>

@@ -11,7 +11,11 @@
  */
 package collaboRhythm.plugins.medications.model
 {
+	import collaboRhythm.plugins.medications.view.MedicationScheduleItemFullView;
+	import collaboRhythm.plugins.medications.view.MedicationScheduleItemWidgetView;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemFullViewBase;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase;
 	import collaboRhythm.shared.model.HealthRecordHelperMethods;
 	import collaboRhythm.shared.model.ValueAndUnit;
 	
@@ -47,6 +51,22 @@ package collaboRhythm.plugins.medications.model
 		public function set scheduledAction(value:Medication):void
 		{
 			_scheduledAction = value;
+		}
+		
+		public override function createScheduleItemWidgetView():ScheduleItemWidgetViewBase
+		{
+			// to be implemented by subclasses
+			var medicationScheduleItemWidgetView:MedicationScheduleItemWidgetView = new MedicationScheduleItemWidgetView();
+			medicationScheduleItemWidgetView.medication = _scheduledAction;
+			return medicationScheduleItemWidgetView;
+		}
+		
+		public override function createScheduleItemFullView():ScheduleItemFullViewBase
+		{
+			// to be implemented by subclasses
+			var medicationScheduleItemFullView:MedicationScheduleItemFullView = new MedicationScheduleItemFullView();
+			medicationScheduleItemFullView.medication = _scheduledAction;
+			return medicationScheduleItemFullView;
 		}
 	}
 }
