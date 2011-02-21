@@ -84,7 +84,7 @@ package collaboRhythm.plugins.cataractMap.controller
 		public override function initialize():void
 		{
 			super.initialize();
-			if ((_user.getAppData(CataractMapModel.CATARACT_MAP_KEY, CataractMapModel) as CataractMapModel).data == null)
+			if (_user.appData[CataractMapModel.CATARACT_MAP_KEY] == null)
 			{
 				loadCataractMapData();
 			}
@@ -133,25 +133,25 @@ package collaboRhythm.plugins.cataractMap.controller
 		
 		override protected function showFullViewComplete():void
 		{
-			_fullView.simulationView.isRunning = true;
+//			_fullView.simulationView.isRunning = true;
 		}
 		
 		override protected function hideFullViewComplete():void
 		{
-			_fullView.simulationView.isRunning = false;
+//			_fullView.simulationView.isRunning = false;
 		}
 		
 		override public function destroyViews():void
 		{
-			if (_fullView)
-				_fullView.simulationView.isRunning = false;
+//			if (_fullView)
+//				_fullView.simulationView.isRunning = false;
 
 			super.destroyViews();
 		}
 
 		public override function get defaultName():String
 		{
-			return "Blood Pressure Review";
+			return "Cataract Map";
 		}
 		
 		override protected function removeUserData():void

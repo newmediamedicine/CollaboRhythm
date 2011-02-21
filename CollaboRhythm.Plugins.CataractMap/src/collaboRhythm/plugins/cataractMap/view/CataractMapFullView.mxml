@@ -36,8 +36,8 @@
 					   itemRenderer="mx.charts.renderers.CrossItemRenderer" 
 		-->
 		
-		<mx:LineSeries id="systolicSeries" name="systolic" xField="date" yField="systolic" 
-					   updateComplete="cataractMapChart.seriesComplete();" 
+		<mx:LineSeries id="cataractDensityMapMaxSeries" name="densityMapMax" xField="date" yField="densityMapMax" 
+					   updateComplete="cataractDensityMapChart.seriesComplete();" 
 					   form="segment"
 					   filterDataValues="none"
 					   >
@@ -65,132 +65,24 @@
 			</mx:stroke>
 	
 		</mx:LineSeries>
-		<mx:LineSeries id="diastolicSeries" name="diastolic" xField="date" yField="diastolic" 
-					   updateComplete="cataractMapChart.seriesComplete();"
-					   form="segment" 
-					   filterDataValues="none"
-					   >
-			<!--
-			<mx:lineSegmentRenderer>
-				<fx:Component>
-					<visualization:DashedLineRenderer pattern="20, 5, 5, 5" />
-				</fx:Component>
-			</mx:lineSegmentRenderer>
-			<mx:itemRenderer>
-				<fx:Component>
-					<view:CataractMapPlotItemRenderer/>
-				</fx:Component>
-			</mx:itemRenderer>
-			-->
-			<mx:lineStroke>
-				<s:SolidColorStroke 
-					color="0x4252A4" 
-					weight="1" 
-					alpha=".25"
-					/>
-			</mx:lineStroke>
-			<mx:stroke>
-				<s:SolidColorStroke weight="1" color="0x4252A4" alpha="0.5"/>
-			</mx:stroke>
-		
-		</mx:LineSeries>
 
-		<mx:LineSeries id="systolicRangeSeries" name="systolic" xField="date" yField="systolic" 
-					   form="segment" 
-					   filterDataValues="none"
-					   >
-			<mx:lineStroke>
-				<s:SolidColorStroke 
-					color="0x4252A4" 
-					weight="1" 
-					/>
-			</mx:lineStroke>
-		</mx:LineSeries>
-		<mx:LineSeries id="diastolicRangeSeries" name="diastolic" xField="date" yField="diastolic" 
-					   form="segment" 
-					   filterDataValues="none"
-					   >
-			<mx:lineStroke>
-				<s:SolidColorStroke 
-					color="0x4252A4" 
-					weight="1" 
-					alpha="0.3"
-					/>
-			</mx:lineStroke>
-		</mx:LineSeries>
-<!--		
-		<mx:AreaSeries id="heartRateSeries" name="heart rate" xField="date" yField="heartRate" 
-					   fill="{new SolidColor(0x4252A4, .75)}" 
-					   radius="2.5" form="segment"
-					   itemRenderer="skins.LineSeriesCustomRenderer" 
-					   updateComplete="heartRateChart.seriesComplete();"
-					   filterDataValues="none"
-					   />
--->		
-		<mx:LineSeries id="concentrationSeries" name="concentration" xField="date" yField="concentration" 
-					   radius="2.5"
-					   form="curve"
-					   itemRenderer="skins.LineSeriesCustomRenderer" 
-					   updateComplete="adherenceChart.seriesComplete();"
-					   filterDataValues="none"
-					   >
-			<mx:lineStroke>
-				<s:SolidColorStroke 
-					color="0x4252A4" 
-					weight="1" 
-					alpha="1"
-					/>
-			</mx:lineStroke>
-		</mx:LineSeries>
-
-		<mx:LineSeries id="concentrationRangeSeries" name="concentration" xField="date" yField="concentration" 
-					   radius="2.5"
-					   form="curve"
-					   itemRenderer="skins.LineSeriesCustomRenderer"
-					   filterDataValues="none"
-					   >
-			<mx:lineStroke>
-				<s:SolidColorStroke 
-					color="0x4252A4" 
-					weight="1" 
-					alpha="1"
-					/>
-			</mx:lineStroke>
-		</mx:LineSeries>
-		<!-- TODO: position the adherence series without the hack of using adherencePosition -->
-		<mx:PlotSeries id="adherenceSeries" name="adherence" xField="date" yField="adherencePosition"
-					   itemRenderer="collaboRhythm.plugins.cataractMap.view.AdherencePlotItemRenderer"
-					   filterFunction="adherenceSeriesFilter"
-					   />
-		
 		<mx:DateFormatter id="fullDateFormat" formatString="YYYY-MM-DD" />
 		
 		<dataShapes:DataDrawingCanvas id="cataractMapMainCanvas" includeInRanges="true">
-			<s:Label id="systolicZoneLabel" text="Systolic Normal (90 - 120)" styleName="ZoneLabel" color="{GOAL_ZONE_COLOR}"/>
 			<!--
+			<s:Label id="systolicZoneLabel" text="Systolic Normal (90 - 120)" styleName="ZoneLabel" color="{GOAL_ZONE_COLOR}"/>
 			<s:Label id="diastolicZoneLabel" text="Diastolic Normal (60 - 80)" styleName="ZoneLabel" color="{GOAL_ZONE_COLOR}"/>
 			-->
-		</dataShapes:DataDrawingCanvas>
-		
-		<dataShapes:DataDrawingCanvas id="adherenceMainCanvas" includeInRanges="true">
-			<s:Label id="goalMedicationZoneLabel" text="Goal Medication Concentration (0.05 - 0.35)" styleName="ZoneLabel" color="{GOAL_ZONE_COLOR}">
-<!--
-				<s:filters>
-					<s:GlowFilter blurX="12" blurY="12" color="#FFFFFF" quality="2" strength="4"/>
-				</s:filters>
-				-->
-			</s:Label>
 		</dataShapes:DataDrawingCanvas>
 		
 		<dataShapes:DataDrawingCanvas id="cataractMapRangeCanvas" includeInRanges="true" height="100%" width="100%">
 		</dataShapes:DataDrawingCanvas>
 		
-		<dataShapes:DataDrawingCanvas id="adherenceRangeCanvas" includeInRanges="true" height="100" width="400">
-		</dataShapes:DataDrawingCanvas>
 	</fx:Declarations>
 	
 	<fx:Script>
 		<![CDATA[
+			import collaboRhythm.plugins.cataractMap.model.CataractMapDataItem;
 			import collaboRhythm.plugins.cataractMap.model.CataractMapModel;
 			import collaboRhythm.shared.model.StringUtils;
 			import collaboRhythm.view.scroll.TouchScrollerEvent;
@@ -296,7 +188,7 @@
 				
 				if (canvas == cataractMapMainCanvas)
 				{
-					canvas.updateDataChild(systolicZoneLabel, {left: Edge.LEFT, top: 120});
+//					canvas.updateDataChild(systolicZoneLabel, {left: Edge.LEFT, top: 120});
 	//				canvas.updateDataChild(diastolicZoneLabel, {left: Edge.LEFT, bottom: 60});
 				}
 			}
@@ -314,10 +206,10 @@
 				canvas.drawRect([Edge.LEFT, -1], 0.35, [Edge.RIGHT, 1], 0.05);
 				canvas.endFill();
 				
-				if (canvas == adherenceMainCanvas)
-				{
-					canvas.updateDataChild(goalMedicationZoneLabel, {left: Edge.LEFT, top: 0.35});
-				}
+//				if (canvas == adherenceMainCanvas)
+//				{
+//					canvas.updateDataChild(goalMedicationZoneLabel, {left: Edge.LEFT, top: 0.35});
+//				}
 			}
 			
 //			private function offsetDataToToday(data:ArrayCollection, newDate:Date):void
@@ -343,39 +235,12 @@
 				Alert.show("Error retrieving XML data", "Error");
 			}
 
-
-			protected function cataractMapChart_creationCompleteHandler(event:FlexEvent):void
-			{
-				if (_traceEventHandlers)
-					trace(this + ".cataractMapChart_creationCompleteHandler");
-
-				var mcCuneChart:McCuneChart = McCuneChart(event.target);
-
-				mcCuneChart.mainChart.series = new Array();
-				mcCuneChart.mainChart.series.push(systolicSeries);
-				mcCuneChart.mainChart.series.push(diastolicSeries);
-				
-				mcCuneChart.rangeChart.series = new Array();
-				mcCuneChart.rangeChart.series.push(systolicRangeSeries);
-				mcCuneChart.rangeChart.series.push(diastolicRangeSeries);
-				
-				var verticalAxis:LinearAxis = mcCuneChart.mainChart.verticalAxis as LinearAxis;
-				verticalAxis.minimum = 40;
-				verticalAxis.maximum = 160;
-				
-				verticalAxis = mcCuneChart.rangeChart.verticalAxis as LinearAxis;
-				verticalAxis.minimum = 40;
-				verticalAxis.maximum = 160;
-				
-//				synchronizeDateLimits();
-			}
-			
 			private function synchronizeDateLimits():void
 			{
 				var charts:Vector.<TouchScrollingMcCuneChart> = new Vector.<TouchScrollingMcCuneChart>();
-				charts.push(adherenceChart);
-				charts.push(cataractMapChart);
-				charts.push(heartRateChart);
+				charts.push(cataractDensityMapChart);
+//				charts.push(cataractMapChart);
+//				charts.push(heartRateChart);
 				
 				var minimum:Number = charts[0].minimumTime; 
 				var maximum:Number = charts[0].maximumTime;
@@ -385,40 +250,39 @@
 					maximum = Math.min(maximum, chart.maximumTime);
 				}
 
-				for each (chart in charts)
-				{
-					chart.minimumTime = minimum;
-					chart.maximumTime = maximum;
-				}
+//				for each (chart in charts)
+//				{
+//					chart.minimumTime = minimum;
+//					chart.maximumTime = maximum;
+//				}
 			}
 
-			protected function adherenceChart_creationCompleteHandler(event:FlexEvent):void
+			protected function cataractDensityMapChart_creationCompleteHandler(event:FlexEvent):void
 			{
 				if (_traceEventHandlers)
-					trace("adherenceChart_creationCompleteHandler")
+					trace("cataractDensityMapChart_creationCompleteHandler")
 				var mcCuneChart:McCuneChart = McCuneChart(event.target);
 
-				mcCuneChart.mainChart.series = new Array();
-				mcCuneChart.mainChart.series.push(adherenceSeries);
-				mcCuneChart.mainChart.series.push(concentrationSeries);
-				
-				mcCuneChart.rangeChart.series = new Array();
-				mcCuneChart.rangeChart.series.push(concentrationRangeSeries);
+//				mcCuneChart.mainChart.series = new Array();
+//				mcCuneChart.mainChart.series.push(cataractDensityMapMaxSeries);
+//				
+//				mcCuneChart.rangeChart.series = new Array();
+//				mcCuneChart.rangeChart.series.push(cataractDensityMapMaxSeries);
 
 				var verticalAxis:LinearAxis = mcCuneChart.mainChart.verticalAxis as LinearAxis;
 				verticalAxis.minimum = 0;
-				verticalAxis.maximum = 0.4;
+				verticalAxis.maximum = 9;
 				
 				verticalAxis = mcCuneChart.rangeChart.verticalAxis as LinearAxis;
 				verticalAxis.minimum = 0;
-				verticalAxis.maximum = 0.4;
+				verticalAxis.maximum = 9;
 			}
 			
-			protected function adherenceChart_initializeHandler(event:FlexEvent):void
+			protected function cataractDensityMapChart_initializeHandler(event:FlexEvent):void
 			{
 				// TODO Auto-generated method stub
 				if (_traceEventHandlers)
-					trace("adherenceChart_initializeHandler");
+					trace("cataractDensityMapChart_initializeHandler");
 			}
 			
 			protected function heartRateChart_creationCompleteHandler(event:FlexEvent):void
@@ -430,21 +294,21 @@
 				verticalAxis.maximum = 100;
 			}
 
-			protected function adherenceChart_seriesCompleteHandler(event:Event):void
+			protected function cataractDensityMapChart_seriesCompleteHandler(event:Event):void
 			{
 				if (_traceEventHandlers)
-					trace("adherenceChart_seriesCompleteHandler");
+					trace("cataractDensityMapChart_seriesCompleteHandler");
 				var mcCuneChart:McCuneChart = McCuneChart(event.target);
 
-				mcCuneChart.mainChart.backgroundElements.push(adherenceMainCanvas);
-				drawAdherenceData(adherenceMainCanvas);
-				mcCuneChart.rangeChart.backgroundElements.push(adherenceRangeCanvas);
-				drawAdherenceData(adherenceRangeCanvas);
+//				mcCuneChart.mainChart.backgroundElements.push(adherenceMainCanvas);
+//				drawAdherenceData(adherenceMainCanvas);
+//				mcCuneChart.rangeChart.backgroundElements.push(adherenceRangeCanvas);
+//				drawAdherenceData(adherenceRangeCanvas);
 			}
 			
-//			protected function adherenceChart_doubleClickHandler(event:MouseEvent):void
+//			protected function cataractDensityMapChart_doubleClickHandler(event:MouseEvent):void
 //			{
-//				var mcCuneChart:McCuneChart = adherenceChart;
+//				var mcCuneChart:McCuneChart = cataractDensityMapChart;
 //				
 //				mcCuneChart.rangeChart.horizontalAxis.dataChanged();
 //				mcCuneChart.rangeChart.verticalAxis.dataChanged();
@@ -534,7 +398,7 @@
 				}
 				setSingleChartMode(visibleCharts[0], false);
 
-				visibleCharts = getVisibleCharts(allCharts, null, _singleChartMode, model.showAdherence, model.showHeartRate);
+				visibleCharts = getVisibleCharts(allCharts, null, _singleChartMode);
 				
 				this.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 				
@@ -556,7 +420,7 @@
 				synchronizedTrial.stop(_benchmarkFrameCount);
 
 				var allCharts:Vector.<TouchScrollingMcCuneChart> = getAllCharts();
-				individualChartsQueue = getVisibleCharts(allCharts, null, _singleChartMode, model.showAdherence, model.showHeartRate);
+				individualChartsQueue = getVisibleCharts(allCharts, null, _singleChartMode);
 				
 				startIndividualTrial();
 			}
@@ -739,7 +603,7 @@
 				return allCharts;
 			}
 
-			protected function getVisibleCharts(allCharts:Vector.<TouchScrollingMcCuneChart>, targetChart:TouchScrollingMcCuneChart, singleChartMode:Boolean, showAdherence:Boolean, showHeartRate:Boolean):Vector.<TouchScrollingMcCuneChart>
+			protected function getVisibleCharts(allCharts:Vector.<TouchScrollingMcCuneChart>, targetChart:TouchScrollingMcCuneChart, singleChartMode:Boolean):Vector.<TouchScrollingMcCuneChart>
 			{
 				var visibleCharts:Vector.<TouchScrollingMcCuneChart> = new Vector.<TouchScrollingMcCuneChart>();
 				for each (var chart:TouchScrollingMcCuneChart in allCharts)
@@ -747,16 +611,6 @@
 					if (singleChartMode)
 					{
 						if (chart == targetChart)
-							visibleCharts.push(chart);
-					}
-					else if (chart == adherenceChart)
-					{
-						if (showAdherence)
-							visibleCharts.push(chart);
-					}
-					else if (chart == heartRateChart)
-					{
-						if (showHeartRate)
 							visibleCharts.push(chart);
 					}
 					else
@@ -861,7 +715,7 @@
 				if (targetChart == null || _scrollTargetChart != targetChart)
 				{
 					var allCharts:Vector.<TouchScrollingMcCuneChart> = getAllCharts();
-					_visibleCharts = getVisibleCharts(allCharts, targetChart, _singleChartMode, model.showAdherence, model.showHeartRate);
+					_visibleCharts = getVisibleCharts(allCharts, targetChart, _singleChartMode);
 					_nonTargetCharts = getVisibleNonTargetCharts(_visibleCharts, targetChart);
 					_scrollTargetChart = targetChart;
 				}
@@ -871,23 +725,10 @@
 			{
 				model.simulation.date = new Date(targetChart.focusTime);
 				
-				var cataractMapDataPoint:Object = cataractMapChart.findPreviousDataPoint(model.simulation.date.time);
-				var concentrationDataPoint:Object = adherenceChart.findPreviousDataPoint(model.simulation.date.time);
+				var cataractMapDataPoint:CataractMapDataItem = cataractDensityMapChart.findPreviousDataPoint(model.simulation.date.time) as CataractMapDataItem;
 				
 				model.simulation.dataPointDate = cataractMapDataPoint == null ? null : cataractMapDataPoint.date;
-				model.simulation.systolic = cataractMapDataPoint == null ? NaN : cataractMapDataPoint.systolic;
-				model.simulation.diastolic = cataractMapDataPoint == null ? NaN : cataractMapDataPoint.diastolic;
-				
-				var hypertensionSeverity:Number = 0;
-				if (!isNaN(model.simulation.systolic))
-				{
-					hypertensionSeverity = Math.max(0, (model.simulation.systolic - 120) / 20);
-				}
-				
-//				simulationGlow.alpha = hypertensionSeverity; 
-				
-				// TODO: show the date for the concentration data point
-				model.simulation.concentration = concentrationDataPoint == null ? NaN : concentrationDataPoint.concentration;
+				model.simulation.cataractMapDataItem = cataractMapDataPoint;
 			}
 
 			private var simulationOnlyViewMode:Boolean = false;
@@ -931,36 +772,18 @@
 	<s:HGroup height="100%" width="100%">
 		<s:VGroup id="chartsGroup" height="100%" width="100%" gap="15" paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5">
 			<!--
-			<view:TouchScrollingMcCuneChart id="adherenceChart" height="100%" width="100%" creationComplete="adherenceChart_creationCompleteHandler(event)"
+			<view:TouchScrollingMcCuneChart id="cataractDensityMapChart" height="100%" width="100%" creationComplete="cataractDensityMapChart_creationCompleteHandler(event)"
 											mainChartTitle="Hydrochlorothiazide Adherence (mg/L)"
 											seriesName="concentration"
 											data="{model.adherenceDataCollection}"
 											/>
 			-->
-			<controls:TouchScrollingMcCuneChart id="adherenceChart" height="100%" width="100%"
-											creationComplete="adherenceChart_creationCompleteHandler(event)"
-											initialize="adherenceChart_initializeHandler(event)"
+			<controls:TouchScrollingMcCuneChart id="cataractDensityMapChart" height="100%" width="100%"
+											creationComplete="cataractDensityMapChart_creationCompleteHandler(event)"
+											initialize="cataractDensityMapChart_initializeHandler(event)"
 											sliderVisible="false"
-											mainChartTitle="Hydrochlorothiazide Adherence (mg/L)"
-											seriesName="concentration"
-											data="{model.showAdherence ? model.adherenceDataCollection : null}"
-											today="{model.currentDateSource.now()}"
-											showFps="{model.showFps}"
-											doubleClickEnabled="true"
-											doubleClick="chart_doubleClickHandler(event)"
-											scroll="chart_scrollHandler(event)"
-											scrollStart="chart_scrollStartHandler(event)"
-											scrollStop="chart_scrollStopHandler(event)"
-											focusTimeChange="chart_focusTimeChangeHandler(event)"
-											seriesComplete="adherenceChart_seriesCompleteHandler(event)"
-											/>
-			<controls:TouchScrollingMcCuneChart id="cataractMapChart" height="100%" width="100%"
-											creationComplete="cataractMapChart_creationCompleteHandler(event)"
-											headerVisible="false"
-											topBorderVisible="false"
-											sliderVisible="false"
-											mainChartTitle="Blood Pressure (mmHg)"
-											seriesName="systolic"
+											mainChartTitle="Cataract Map Max Value (Range 0 to 10)"
+											seriesName="densityMapMax"
 											data="{model.data}"
 											today="{model.currentDateSource.now()}"
 											showFps="{model.showFps}"
@@ -970,27 +793,11 @@
 											scrollStart="chart_scrollStartHandler(event)"
 											scrollStop="chart_scrollStopHandler(event)"
 											focusTimeChange="chart_focusTimeChangeHandler(event)"
-											seriesComplete="cataractMapChart_seriesCompleteHandler(event)"
+											seriesComplete="cataractDensityMapChart_seriesCompleteHandler(event)"
 											/>
-			<controls:TouchScrollingMcCuneChart id="heartRateChart" height="100%" width="100%"
-											creationComplete="heartRateChart_creationCompleteHandler(event)"
-											headerVisible="false"
-											topBorderVisible="false"
-											mainChartTitle="Heart Rate (BPM)"
-											seriesName="heartRate"
-											data="{model.showHeartRate ? model.data : null}"
-											today="{model.currentDateSource.now()}"
-											showFps="{model.showFps}"
-											doubleClickEnabled="true"
-											doubleClick="chart_doubleClickHandler(event)"
-											scroll="chart_scrollHandler(event)"
-											scrollStart="chart_scrollStartHandler(event)"
-											scrollStop="chart_scrollStopHandler(event)"
-											focusTimeChange="chart_focusTimeChangeHandler(event)"
-											seriesComplete="heartRateChart_seriesCompleteHandler(event)"
-											/>
+
 		</s:VGroup>
-		<view:SimulationView id="simulationView" height="100%" width="260" doubleClickEnabled="true" doubleClick="simulationView_doubleClickHandler(event)"/>			
+		<view:SimulationView id="simulationView" height="100%" width="300" doubleClickEnabled="true" doubleClick="simulationView_doubleClickHandler(event)"/>			
 	</s:HGroup>
 	
 <!--

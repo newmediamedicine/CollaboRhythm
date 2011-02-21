@@ -25,7 +25,7 @@ package collaboRhythm.plugins.cataractMap.model
 		private var _currentDateSource:ICurrentDateSource;
 		private var _adherenceDataCollection:ArrayCollection;
 		private var _showFps:Boolean;
-		private var _simulation:SimulationModel;
+		private var _simulation:SimulationModel = new SimulationModel();
 		public static const CATARACT_MAP_KEY:String = "cataractMap";
 
 		public function get rawData():XML
@@ -246,7 +246,7 @@ package collaboRhythm.plugins.cataractMap.model
 		public function set data(value:ArrayCollection):void
 		{
 			_data = value;
-			calculateAdherenceCurve();
+//			calculateAdherenceCurve();
 		}
 
 		public function get currentDateSource():ICurrentDateSource

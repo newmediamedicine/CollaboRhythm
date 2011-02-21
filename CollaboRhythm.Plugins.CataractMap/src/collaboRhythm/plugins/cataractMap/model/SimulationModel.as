@@ -19,9 +19,20 @@ package collaboRhythm.plugins.cataractMap.model
 		private var _systolic:Number;
 		private var _diastolic:Number;
 		private var _concentration:Number;
+		private var _cataractMapDataItem:CataractMapDataItem
 		
 		public function SimulationModel()
 		{
+		}
+
+		public function get cataractMapDataItem():CataractMapDataItem
+		{
+			return _cataractMapDataItem;
+		}
+
+		public function set cataractMapDataItem(value:CataractMapDataItem):void
+		{
+			_cataractMapDataItem = value;
 		}
 
 		public function get dataPointDate():Date

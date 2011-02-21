@@ -91,7 +91,7 @@
 			
 			private function updateSimulation(value:Number):Number
 			{
-
+				return 0;
 			}
 			
 			public function refresh():void
@@ -118,4 +118,5 @@
 
 		]]>
 	</fx:Script>
+	<view:CataractMapDiagram id="cataractMapDiagram" width="100%" height="100%" densityMap="{_simulationModel.cataractMapDataItem.densityMap}"/>
 </s:Group>

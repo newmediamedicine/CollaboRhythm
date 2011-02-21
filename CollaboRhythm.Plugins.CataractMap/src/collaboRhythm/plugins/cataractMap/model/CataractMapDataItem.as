@@ -5,7 +5,7 @@ package collaboRhythm.plugins.cataractMap.model
 	{
 		private var _date:Date;
 		private var _isCataract:Boolean;
-		private var _densityMapAverage:Number;
+		private var _densityMapMax:Number;
 		private var _densityMap:Vector.<Number>;
 		private var _locationMap:Vector.<Boolean>;
 		
@@ -23,14 +23,14 @@ package collaboRhythm.plugins.cataractMap.model
 			_isCataract = value;
 		}
 
-		public function get densityMapAverage():Number
+		public function get densityMapMax():Number
 		{
-			return _densityMapAverage;
+			return _densityMapMax;
 		}
 
-		public function set densityMapAverage(value:Number):void
+		public function set densityMapMax(value:Number):void
 		{
-			_densityMapAverage = value;
+			_densityMapMax = value;
 		}
 
 		public function get densityMap():Vector.<Number>

@@ -16,6 +16,7 @@ package collaboRhythm.plugins.cataractMap.model
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 	
 	import com.brooksandrus.utils.ISO8601Util;
+	import com.hurlant.crypto.symmetric.NullPad;
 	
 	import flash.net.URLVariables;
 	import flash.xml.XMLDocument;
@@ -40,7 +41,7 @@ package collaboRhythm.plugins.cataractMap.model
 			}
 			
 			var params:URLVariables = new URLVariables();
-			params["order_by"] = "-date_measured";
+			params["order_by"] = "date_measured";
 			
 			if (user.recordId != null && accessKey != null && accessSecret != null)
 				_pha.reports_minimal_vitals_X_GET(params, null, null, null, user.recordId, "Cataract_Map", accessKey, accessSecret, user);
@@ -79,21 +80,37 @@ package collaboRhythm.plugins.cataractMap.model
 			
 			for each (var itemXml:XML in responseXml.Report.Item.VitalSign)
 			{
-				var cataractMapDataItem:CataractMapDataItem = new CataractMapDataItem();
+				var item:CataractMapDataItem = new CataractMapDataItem();
 				var dateMeasuredString:String = itemXml.dateMeasured.toString();
-				cataractMapDataItem.date = dateUtil.parseDateTimeString(dateMeasuredString);
+				item.date = dateUtil.parseDateTimeString(dateMeasuredString);
 				
 				// TODO: parse the data properly
-				cataractMapDataItem.densityMapAverage = new Number(itemXml.value.toString());
+//				cataractMapDataItem.densityMapMax = new Number(itemXml.value.toString());
+//				cataractMapDataItem.densityMapMax = Math.random() * 9;
+				parseDensityMap(itemXml.comments.toString(), item);
 				
-				if (cataractMapDataItem.date.time > nowTime)
+				if (item.date.time > nowTime)
 				{
 					break;
 				}
 
-				data.addItem(cataractMapDataItem);
+				data.addItem(item);
 			}
 			return data;
+		}
+		
+		private function parseDensityMap(densityMapString:String, item:CataractMapDataItem):void
+		{
+			var densityArray:Array = densityMapString.split(",");
+			item.densityMap = new Vector.<Number>();
+			
+			var max:Number = 0;
+			for (var i:int = 0; i < densityArray.length; i++)
+			{
+				item.densityMap[i] = densityArray[i];
+				max = Math.max(max, densityArray[i]);
+			}
+			item.densityMapMax = max;
 		}
 
 		private function xmlToArrayCollection(xml:XML):ArrayCollection
