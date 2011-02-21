@@ -12,6 +12,7 @@
 package collaboRhythm.plugins.medications.model
 {
 	import collaboRhythm.plugins.medications.controller.MedicationsAppController;
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
 	import collaboRhythm.shared.model.User;
@@ -151,6 +152,8 @@ package collaboRhythm.plugins.medications.model
 				var medicationScheduleItem:MedicationScheduleItem = new MedicationScheduleItem(medicationScheduleItemReport);
 				_user.registerDocument(medicationScheduleItem, medicationScheduleItem);
 				medicationScheduleItem.scheduledAction = _user.resolveDocumentById(medicationScheduleItem.scheduledActionID, Medication) as Medication;
+				var scheduleGroup:ScheduleGroup = _user.resolveDocumentById(medicationScheduleItem.scheduleGroupID, ScheduleGroup) as ScheduleGroup;
+				scheduleGroup.scheduleItemsCollection.addItem(medicationScheduleItem);
 				_medicationScheduleItemsCollection.addItem(medicationScheduleItem);
 			}
 		}

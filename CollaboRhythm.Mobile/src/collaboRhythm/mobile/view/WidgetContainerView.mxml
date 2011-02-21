@@ -10,11 +10,11 @@
  ~
  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		gestureSwipe="gestureSwipeHandler(event)"
 		click="clickHandler(event)"
-		viewDeactivate="viewDeactivateHandler(event)"
+		removedFromStage="removedFromStageHandler(event)"
 		mouseDown="mouseDownHandler(event)" xmlns:mx="library://ns.adobe.com/flex/mx"
 		>
 	<s:layout>
@@ -27,9 +27,9 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 		<s:Sequence id="showMenuEffect" target="{menuGroup}">
 			<s:children>
-				<s:SetAction property="visible" value="true" />
+				<s:SetAction property="visible" value="true"/>
 				<s:Parallel duration="200">
-					<s:Fade alphaFrom="0" alphaTo="1" />
+					<s:Fade alphaFrom="0" alphaTo="1"/>
 					<s:Animate>
 						<s:motionPaths>
 							<s:SimpleMotionPath property="y" valueFrom="{menuGroupContent.height}" valueTo="0"/>
@@ -41,21 +41,22 @@
 		<s:Sequence id="hideMenuEffect" target="{menuGroup}">
 			<s:children>
 				<s:Parallel duration="200">
-					<s:Fade alphaFrom="1" alphaTo="0" />
+					<s:Fade alphaFrom="1" alphaTo="0"/>
 					<s:Animate>
 						<s:motionPaths>
 							<s:SimpleMotionPath property="y" valueFrom="0" valueTo="{menuGroupContent.height}"/>
 						</s:motionPaths>
 					</s:Animate>
 				</s:Parallel>
-				<s:SetAction property="visible" value="false" />
+				<s:SetAction property="visible" value="false"/>
 			</s:children>
 		</s:Sequence>
 	</fx:Declarations>
-	
+
 	<!-- TODO: move the menu out of this view -->
 	<s:Group id="menuGroup" width="{this.width}" height="{this.height}" includeInLayout="false" visible="false">
-		<s:Group id="menuTransparentOverlay" width="100%" height="100%" mouseEnabled="true" mouseEnabledWhereTransparent="true" click="hideMenu();" />
+		<s:Group id="menuTransparentOverlay" width="100%" height="100%" mouseEnabled="true"
+				 mouseEnabledWhereTransparent="true" click="hideMenu();"/>
 		<s:VGroup gap="0" width="100%" bottom="0">
 			<s:Line width="100%">
 				<s:stroke>
@@ -63,156 +64,185 @@
 				</s:stroke>
 			</s:Line>
 			<s:HGroup id="menuGroupContent" width="100%" gap="2" render="menuGroupContent_renderHandler(event)">
-				<s:Button id="refreshButton" width="100%" icon="@Embed('/assets/images/ic_menu_refresh.png')" skinClass="collaboRhythm.mobile.view.skins.MenuButtonSkin" label="Refresh" click="refreshButton_clickHandler(event)" />
-				<s:Button id="quitButton" width="100%" icon="@Embed('/assets/images/ic_menu_close_clear_cancel.png')" skinClass="collaboRhythm.mobile.view.skins.MenuButtonSkin" label="Quit" click="quitButton_clickHandler(event)" />
+				<s:Button id="refreshButton" width="100%" icon="@Embed('/assets/images/ic_menu_refresh.png')"
+						  skinClass="collaboRhythm.mobile.view.skins.MenuButtonSkin" label="Refresh"
+						  click="refreshButton_clickHandler(event)"/>
+				<s:Button id="quitButton" width="100%" icon="@Embed('/assets/images/ic_menu_close_clear_cancel.png')"
+						  skinClass="collaboRhythm.mobile.view.skins.MenuButtonSkin" label="Quit"
+						  click="quitButton_clickHandler(event)"/>
 			</s:HGroup>
 		</s:VGroup>
 	</s:Group>
 
 	<fx:Script>
 		<![CDATA[
-        import collaboRhythm.core.pluginsManagement.PluginEvent;
-        import collaboRhythm.mobile.controller.WidgetContainerController;
-        import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+		import collaboRhythm.core.pluginsManagement.PluginEvent;
+		import collaboRhythm.mobile.controller.WidgetContainerController;
+		import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 
-        import mx.core.IButton;
-        import mx.core.IVisualElement;
-        import mx.events.FlexEvent;
+		import mx.core.IButton;
+		import mx.core.IVisualElement;
+		import mx.events.FlexEvent;
 
-        import spark.components.supportClasses.ButtonBase;
+		import spark.components.supportClasses.ButtonBase;
 
-        private var _widgetContainerController:WidgetContainerController;
-        private var _workstationAppController:WorkstationAppControllerBase;
-        private var _mouseDownX:Number;
-        private var _isFlicking:Boolean;
-        private const _flickStartDelta:Number = 10;
-        private const _flickDelta:Number = 10;
+		private var _widgetContainerController:WidgetContainerController;
+		private var _workstationAppController:WorkstationAppControllerBase;
+		private var _mouseDownX:Number;
+		private var _isFlicking:Boolean;
+		private const _flickStartDelta:Number = 10;
+		private const _flickDelta:Number = 10;
 
-        public function get workstationAppController():WorkstationAppControllerBase {
-            return _workstationAppController;
-        }
+		public function get workstationAppController():WorkstationAppControllerBase
+		{
+			return _workstationAppController;
+		}
 
-        public function set workstationAppController(value:WorkstationAppControllerBase):void {
-            _workstationAppController = value;
-        }
+		public function set workstationAppController(value:WorkstationAppControllerBase):void
+		{
+			_workstationAppController = value;
+		}
 
-        public function set controller(value:WidgetContainerController):void {
-            _widgetContainerController = value;
-        }
+		public function set controller(value:WidgetContainerController):void
+		{
+			_widgetContainerController = value;
+		}
 
-        public function get controller():WidgetContainerController {
-            return _widgetContainerController;
-        }
+		public function get controller():WidgetContainerController
+		{
+			return _widgetContainerController;
+		}
 
-        private function gestureSwipeHandler(event:TransformGestureEvent):void {
-            //				if (controller)
-            //					this.controller.gestureSwipeHandler(event);
-        }
+		private function gestureSwipeHandler(event:TransformGestureEvent):void
+		{
+			//				if (controller)
+			//					this.controller.gestureSwipeHandler(event);
+		}
 
-        protected function touchEndHandler(event:TouchEvent):void {
-            //				if (controller)
-            //					this.controller.pushView();
-        }
+		protected function touchEndHandler(event:TouchEvent):void
+		{
+			//				if (controller)
+			//					this.controller.pushView();
+		}
 
-        protected function clickHandler(event:MouseEvent):void {
-            //				if (controller)
-            //					this.controller.pushView();
-        }
+		protected function clickHandler(event:MouseEvent):void
+		{
+			//				if (controller)
+			//					this.controller.pushView();
+		}
 
-        protected function viewDeactivateHandler(event:FlexEvent):void {
-            if (controller) {
-                this.controller.deactivateView(this);
-                _widgetContainerController = null;
-                _workstationAppController = null;
-            }
-        }
+		protected function removedFromStageHandler(event:Event):void
+		{
+			if (controller)
+			{
+				this.controller.destroyView(this);
+				_widgetContainerController = null;
+				_workstationAppController = null;
+			}
+		}
 
-        protected function mouseDownHandler(event:MouseEvent):void {
-            if (!isMenuVisible) {
-                _isFlicking = false;
-                if (event.target is IButton || event.target is ButtonBase)
-                    return;
+		protected function mouseDownHandler(event:MouseEvent):void
+		{
+			if (!isMenuVisible)
+			{
+				_isFlicking = false;
+				if (event.target is IButton || event.target is ButtonBase)
+					return;
 
-                _mouseDownX = event.stageX;
-                this.stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
-                this.stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
+				_mouseDownX = event.stageX;
+				this.stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
+				this.stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
 
-                this.includeInLayout = false;
-            }
-        }
+				this.includeInLayout = false;
+			}
+		}
 
-        protected function mouseMoveHandler(event:MouseEvent):void {
-            var deltaX:Number = event.stageX - _mouseDownX;
-            if (_isFlicking || Math.abs(deltaX) > _flickStartDelta) {
-                _isFlicking = true;
-                this.x = event.stageX - _mouseDownX;
-            }
-        }
+		protected function mouseMoveHandler(event:MouseEvent):void
+		{
+			var deltaX:Number = event.stageX - _mouseDownX;
+			if (_isFlicking || Math.abs(deltaX) > _flickStartDelta)
+			{
+				_isFlicking = true;
+				this.x = event.stageX - _mouseDownX;
+			}
+		}
 
-        protected function mouseUpHandler(event:MouseEvent):void {
-            this.stage.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
-            this.stage.removeEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
-            _isFlicking = false;
+		protected function mouseUpHandler(event:MouseEvent):void
+		{
+			this.stage.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
+			this.stage.removeEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
+			_isFlicking = false;
 
-            var deltaX:Number = event.stageX - _mouseDownX;
+			var deltaX:Number = event.stageX - _mouseDownX;
 
-            var flicked:Boolean = false;
-            if (controller && deltaX > _flickDelta)
-                flicked = controller.popView();
-            else if (controller && deltaX < -_flickDelta)
-                flicked = controller.pushView();
+			var flicked:Boolean = false;
+			if (controller && deltaX > _flickDelta)
+				flicked = controller.popView();
+			else if (controller && deltaX < -_flickDelta)
+				flicked = controller.pushView();
 
-            if (!flicked)
-                this.x = 0;
+			if (!flicked)
+				this.x = 0;
 
-            this.includeInLayout = true;
-        }
+			// TODO: figure out why the view is getting resized during the transition off the screen and fix it
+			// This is probably due to the call to currentView.includeInLayout = true; in ViewNavigator.viewAdded()
+			// One solution may be to subclass ViewNavigator and change the behavior of viewAdded so it only sets includeInLayout = true
+			// if it was true to begin with. I think a new ViewNavigator subclass can be used by creating a custom MobileApplicationSkin.
+		}
 
-        public function showMenu():void {
-            hideMenuEffect.stop();
-            setElementIndex(menuGroup, numElements - 1);
-            showMenuEffect.play();
-        }
+		public function showMenu():void
+		{
+			hideMenuEffect.stop();
+			setElementIndex(menuGroup, numElements - 1);
+			showMenuEffect.play();
+		}
 
-        public function hideMenu():void {
-            showMenuEffect.stop();
-            hideMenuEffect.play();
-        }
+		public function hideMenu():void
+		{
+			showMenuEffect.stop();
+			hideMenuEffect.play();
+		}
 
-        public function toggleMenu():void {
-            if (isMenuVisible)
-                hideMenu();
-            else
-                showMenu();
-        }
+		public function toggleMenu():void
+		{
+			if (isMenuVisible)
+				hideMenu();
+			else
+				showMenu();
+		}
 
-        public function get isMenuVisible():Boolean {
-            return menuGroup.visible;
-        }
+		public function get isMenuVisible():Boolean
+		{
+			return menuGroup.visible;
+		}
 
-        protected function refreshButton_clickHandler(event:MouseEvent):void {
-            hideMenu();
-            dispatchEvent(new PluginEvent(PluginEvent.RELOAD_REQUEST));
-        }
-
-
-        protected function quitButton_clickHandler(event:MouseEvent):void {
-            hideMenu();
-            NativeApplication.nativeApplication.exit();
-        }
+		protected function refreshButton_clickHandler(event:MouseEvent):void
+		{
+			hideMenu();
+			dispatchEvent(new PluginEvent(PluginEvent.RELOAD_REQUEST));
+		}
 
 
-        protected function menuGroupContent_renderHandler(event:Event):void {
-            var g:Graphics = menuGroupContent.graphics;
-            g.clear();
-            g.lineStyle(2, 0x333333, 0.8);
+		protected function quitButton_clickHandler(event:MouseEvent):void
+		{
+			hideMenu();
+			NativeApplication.nativeApplication.exit();
+		}
 
-            for (var i:int = 0; i < menuGroupContent.numElements - 1; i++) {
-                var element:IVisualElement = menuGroupContent.getElementAt(i);
-                g.moveTo(element.x + element.width + 1, element.y);
-                g.lineTo(element.x + element.width + 1, element.y + element.height);
-            }
-        }
-        ]]>
+
+		protected function menuGroupContent_renderHandler(event:Event):void
+		{
+			var g:Graphics = menuGroupContent.graphics;
+			g.clear();
+			g.lineStyle(2, 0x333333, 0.8);
+
+			for (var i:int = 0; i < menuGroupContent.numElements - 1; i++)
+			{
+				var element:IVisualElement = menuGroupContent.getElementAt(i);
+				g.moveTo(element.x + element.width + 1, element.y);
+				g.lineTo(element.x + element.width + 1, element.y + element.height);
+			}
+		}
+		]]>
 	</fx:Script>
 </s:View>

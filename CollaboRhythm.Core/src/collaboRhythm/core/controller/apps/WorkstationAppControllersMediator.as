@@ -11,6 +11,8 @@
 */
 package collaboRhythm.core.controller.apps
 {
+	import castle.flexbridge.collections.ArrayUtils;
+
 	import collaboRhythm.plugins.problems.controller.ProblemsAppController;
 	import collaboRhythm.shared.apps.allergies.controller.AllergiesAppController;
 	import collaboRhythm.shared.apps.bloodPressureAgent.controller.BloodPressureAgentAppController;
@@ -24,6 +26,7 @@ package collaboRhythm.core.controller.apps
 	import collaboRhythm.shared.apps.socialHistory.controller.SocialHistoryAppController;
 	import collaboRhythm.shared.apps.vitals.controller.VitalsAppController;
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
+	import collaboRhythm.shared.controller.apps.AppOrderConstraint;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerFactory;
 	import collaboRhythm.shared.controller.apps.WorkstationAppEvent;
@@ -31,9 +34,11 @@ package collaboRhythm.core.controller.apps
 	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
 	
 	import com.theory9.data.types.OrderedMap;
-	
+
+	import mx.collections.ArrayCollection;
 	import mx.core.IVisualElementContainer;
 	import mx.core.UIComponent;
+	import mx.utils.ArrayUtil;
 
 	/**
 	 * Responsible for creating the collection of workstation apps and adding them to the parent container. 
@@ -144,16 +149,81 @@ package collaboRhythm.core.controller.apps
 		public function createDynamicApps():void
 		{
 			var infoArray:Array = componentContainer.resolveAll(AppControllerInfo);
-			
-//			for each (var info:AppControllerInfo in infoArray)
-//			{
-//				createApp(info.appControllerClass);
-//			}
-			//HACK
-			for (var i:Number = infoArray.length-1; i >= 0; i--)
+
+			infoArray = orderAppsByInitializationOrderConstraints(infoArray);
+
+			for each (var info:AppControllerInfo in infoArray)
 			{
-				createApp(infoArray[i].appControllerClass);
+				createApp(info.appControllerClass);
 			}
+		}
+
+		private function orderAppsByInitializationOrderConstraints(infoArray:Array):Array
+		{
+			// copy the array so we can look at each app's contstraints once
+			var originalOrder:Array = infoArray;
+			var newOrder:ArrayCollection = new ArrayCollection(infoArray);
+
+			// TODO: revise this algorithm to only move items down in the order so that multiple before and after constraints can be used together
+
+			for each (var appInfo:AppControllerInfo in originalOrder)
+			{
+				if (appInfo.initializationOrderConstraints.length > 0)
+				{
+					var newIndex:int = -1;
+
+					for each (var constraint:AppOrderConstraint in appInfo.initializationOrderConstraints)
+					{
+						var otherAppIndex:int = 0;
+						for each (var otherAppInfo:AppControllerInfo in newOrder)
+						{
+							if (constraint.appMatches(otherAppInfo))
+							{
+								// Determine the newIndex based on the constraint; only update the index if the
+								// constraint is not currently satisfied
+								if (constraint.relativeOrder == AppOrderConstraint.ORDER_AFTER && (newIndex == -1 || otherAppIndex > newIndex))
+								{
+									newIndex = otherAppIndex + 1;
+								}
+								if (constraint.relativeOrder == AppOrderConstraint.ORDER_BEFORE && (newIndex == -1 || otherAppIndex < newIndex))
+								{
+									newIndex = otherAppIndex;
+								}
+							}
+							otherAppIndex++;
+						}
+					}
+
+					if (newIndex != -1)
+					{
+						// move the appInfo to the appropriate place
+						var currentIndex:int = newOrder.getItemIndex(appInfo);
+						if (newIndex != currentIndex)
+						{
+							newOrder.addItemAt(appInfo, newIndex);
+							if (newIndex < currentIndex)
+							{
+								// the currentIndex needs adjusting if are moving the item up in the order
+								currentIndex++;
+							}
+							newOrder.removeItemAt(currentIndex);
+						}
+					}
+				}
+			}
+
+//			trace(arrayCollectionToStringForTrace(newOrder));
+			return newOrder.toArray();
+		}
+
+		private function arrayCollectionToStringForTrace(arrayCollection:ArrayCollection):String
+		{
+			var result:String;
+			for each (var item:Object in arrayCollection)
+			{
+				result += item.toString() + "\n";
+			}
+			return result;
 		}
 		
 		public function initializeForUser(user:User):void

@@ -25,7 +25,9 @@
       <airExcludes/>
     </application>
   </applications>
-  <modules/>
+  <modules>
+    <module application="src/BloodPressureMain.mxml" destPath="BloodPressurePluginModule.swf" optimize="false" sourcePath="src/collaboRhythm/plugins/bloodPressure/controller/BloodPressurePluginModule.as"/>
+  </modules>
   <buildCSSFiles/>
   <flashCatalyst validateFlashCatalystCompatibility="false"/>
   <buildTargets>

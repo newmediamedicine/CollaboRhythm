@@ -189,14 +189,14 @@ Modifications by Renaun Erickson
 	<s:SkinnableComponent left="15" right="15" bottom="31" height="80" 
 						  skinClass="controls.skins.ControlsBoxSkin" />
 	
-	<s:BitmapImage source="@Embed('embed_assets/pitch/musicstaff.png')" left="15" bottom="31" />
-	<s:BitmapImage source="@Embed('embed_assets/pitch/notedown.png')"
+	<s:BitmapImage source="@Embed('/embed_assets/pitch/musicstaff.png')" left="15" bottom="31" />
+	<s:BitmapImage source="@Embed('/embed_assets/pitch/notedown.png')"
 			  verticalCenter="31" horizontalCenter="0" id="notedown" visible="false" />
-	<s:BitmapImage source="@Embed('embed_assets/pitch/noteup.png')" 
+	<s:BitmapImage source="@Embed('/embed_assets/pitch/noteup.png')" 
 			  verticalCenter="16" horizontalCenter="0" id="noteup" visible="false" />
-	<s:BitmapImage source="@Embed('embed_assets/pitch/noteupwbar.png')" 
+	<s:BitmapImage source="@Embed('/embed_assets/pitch/noteupwbar.png')" 
 			  verticalCenter="16" horizontalCenter="-1" id="noteupwbar" visible="false" />
-	<s:BitmapImage source="@Embed('embed_assets/pitch/sharp.png')" 
+	<s:BitmapImage source="@Embed('/embed_assets/pitch/sharp.png')" 
 			  verticalCenter="32" horizontalCenter="-15" id="sharp" visible="false" />
 		
 </s:Group>

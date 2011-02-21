@@ -23,7 +23,7 @@
 	</fx:Declarations>
 	<s:states> <s:State name="normal"/> <s:State name="disabled"/> <s:State name="normalAndInactive"/> </s:states>
 	<mx:VDividedBox width="100%" height="100%">
-		<spaces:TopSpace id="topSpace" width="100%" height="25%" minHeight="300"/>
+		<spaces:TopSpace id="topSpace" width="100%" height="25%"/>
 		<spaces:CenterSpace id="centerSpace" width="100%" height="75%"/>
 	</mx:VDividedBox>
 </s:Group>

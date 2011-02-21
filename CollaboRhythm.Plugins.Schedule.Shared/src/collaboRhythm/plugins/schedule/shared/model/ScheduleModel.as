@@ -80,11 +80,7 @@ package collaboRhythm.plugins.schedule.shared.model
 			for each (var scheduleGroupReport:XML in _scheduleGroupsReportXML.Report)
 			{
 				var scheduleGroup:ScheduleGroup = new ScheduleGroup(scheduleGroupReport);
-				for each (var scheduleItemID:String in scheduleGroup.scheduleItemIDs)
-				{
-					var scheduleItem:ScheduleItemBase = _user.resolveDocumentById(scheduleItemID) as ScheduleItemBase;
-					scheduleGroup.addScheduleItem(scheduleItem);
-				}
+				_user.registerDocument(scheduleGroup, scheduleGroup);
 				_scheduleGroupsCollection.addItem(scheduleGroup);
 			}
 		}

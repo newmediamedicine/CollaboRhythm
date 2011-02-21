@@ -29,7 +29,6 @@ package collaboRhythm.plugins.schedule.shared.model
 		private var _dateTimeStart:Date;
 		private var _dateTimeEnd:Date;
 		private var _recurrenceRule:RecurrenceRule;
-		private var _scheduleItemIDs:Vector.<String> = new Vector.<String>;
 		private var _scheduleItemsCollection:ArrayCollection = new ArrayCollection();
 		
 		public function ScheduleGroup(scheduleGroupReportXML:XML)
@@ -41,11 +40,6 @@ package collaboRhythm.plugins.schedule.shared.model
 			_dateTimeStart = DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeStart.toString());
 			_dateTimeEnd = DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeEnd.toString());
 			_recurrenceRule = new RecurrenceRule(scheduleGroupXML.recurrenceRule.frequency, Number(scheduleGroupXML.recurrenceRule.count))
-			for each (var scheduleItemXML:XML in scheduleGroupReportXML.Meta.Document.relatesTo.relation.relatedDocument)
-			{
-				var scheduleItemID:String = scheduleItemXML.@id;
-				_scheduleItemIDs.push(scheduleItemID);
-			}
 		}
 
 		public function get scheduledBy():String
@@ -76,11 +70,6 @@ package collaboRhythm.plugins.schedule.shared.model
 		public function get recurrenceRule():RecurrenceRule
 		{
 			return _recurrenceRule;
-		}
-		
-		public function get scheduleItemIDs():Vector.<String>
-		{
-			return _scheduleItemIDs;
 		}
 		
 		public function get scheduleItemsCollection():ArrayCollection

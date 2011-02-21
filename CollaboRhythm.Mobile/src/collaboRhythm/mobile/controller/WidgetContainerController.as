@@ -74,7 +74,7 @@ public class WidgetContainerController
 			if (_collaborationMediator.appControllersMediator && widgetNavigationIndex + 1 < _collaborationMediator.appControllersMediator.workstationApps.length)
 			{
 				navigator.pushView(WidgetContainerView, null,
-					new SlideViewTransition( 300, SlideViewTransition.SLIDE_LEFT));
+					new SlideViewTransition(300, SlideViewTransition.SLIDE_LEFT));
 				
 				return true;
 			}
@@ -103,6 +103,7 @@ public class WidgetContainerController
 					app.widgetView.percentHeight = 100;
 //					app.initialize();
 					app.showWidget();
+					trace("initializeView", app.name);
 				}
 			}
 		}
@@ -112,11 +113,12 @@ public class WidgetContainerController
 			_collaborationMediator.reloadPlugins();
 		}
 		
-		public function deactivateView(view:WidgetContainerView):void
+		public function destroyView(view:WidgetContainerView):void
 		{
 			view.removeEventListener(PluginEvent.RELOAD_REQUEST, view_reloadRequestHandler);
 			var app:WorkstationAppControllerBase = view.workstationAppController;
 			// TODO: perhaps only the widget/mobile view should be destroyed here?
+			trace("destroyView", app.name);
 			app.destroyViews();
 		}
 		

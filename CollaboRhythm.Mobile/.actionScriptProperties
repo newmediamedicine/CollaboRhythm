@@ -53,7 +53,6 @@
       <libraryPathEntry kind="1" linkType="1" path="libs"/>
       <libraryPathEntry autoExtract="true" kind="3" linkType="3" path="/CollaboRhythm.Core/bin/CollaboRhythm.Core.swc" rslUrl="CollaboRhythm.Core.swf" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="/CollaboRhythm.Plugins.Problems/bin/CollaboRhythm.Plugins.Problems.swc" useDefaultLinkType="false"/>
-      <libraryPathEntry kind="3" linkType="1" path="/CollaboRhythm.Shared/bin/CollaboRhythm.Shared.swc" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
@@ -67,7 +66,7 @@
   <flashCatalyst validateFlashCatalystCompatibility="false"/>
   <buildTargets>
     <buildTarget androidSettingsVersion="1" buildTargetName="com.adobe.flexide.multiplatform.android.platform">
-      <airSettings airCertificatePath="C:/Users/sgilroy/Git Repositories/CollaboRhythm/CollaboRhythm.Shared/src/resources/certificate/certificate.p12" airTimestamp="true" version="1">
+      <airSettings airCertificatePath="" airTimestamp="true" version="1">
         <airExcludes/>
       </airSettings>
       <multiPlatformSettings enabled="true" platformID="com.adobe.flexide.multiplatform.android.platform" version="2"/>
