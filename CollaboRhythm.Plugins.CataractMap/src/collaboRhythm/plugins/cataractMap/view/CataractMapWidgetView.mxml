@@ -12,56 +12,47 @@
  -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" height="100%" xmlns:view="collaboRhythm.plugins.cataractMap.view.*">
+		 height="100%"
+		 xmlns:view="collaboRhythm.plugins.cataractMap.view.*">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<fx:Style>
-		@namespace s "library://ns.adobe.com/flex/spark";
-		@namespace mx "library://ns.adobe.com/flex/mx";
-		
-
-		
-	</fx:Style>
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.plugins.cataractMap.model.CataractMapModel;
-			import collaboRhythm.shared.controller.CollaborationEvent;
-			
-			import mx.events.CollectionEvent;
-			import mx.events.PropertyChangeEvent;
-			
-			
-			[Bindable]
-			private var _model:CataractMapModel;
-			
-			public function get model():CataractMapModel
+		import collaboRhythm.plugins.cataractMap.model.CataractMapModel;
+
+		import mx.events.PropertyChangeEvent;
+
+		[Bindable]
+		private var _model:CataractMapModel;
+
+		public function get model():CataractMapModel
+		{
+			return _model;
+		}
+
+		public function set model(value:CataractMapModel):void
+		{
+			trace("set model");
+			_model = value;
+			refresh();
+
+			_model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, model_propertyChangeHandler);
+		}
+
+		private function model_propertyChangeHandler(event:PropertyChangeEvent):void
+		{
+			refresh();
+		}
+
+
+		public function refresh():void
+		{
+			if (_model != null && _model.data != null)
 			{
-				return _model;
+				cataractMapSimulation.densityMap = _model.data.getItemAt(_model.data.length - 1).densityMap
 			}
-			
-			public function set model(value:CataractMapModel):void
-			{
-				trace("set model");
-				_model = value;
-				refresh();
-				
-				_model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, model_propertyChangeHandler);
-			}
-			
-			private function model_propertyChangeHandler(event:PropertyChangeEvent):void
-			{
-				refresh();
-			}
-			
-			
-			public function refresh():void
-			{
-				if (_model != null && _model.data != null)
-				{
-					cataractMapSimulation.densityMap = _model.data.getItemAt(_model.data.length-1).densityMap
-				}
-			}
+		}
 		]]>
 	</fx:Script>
 	

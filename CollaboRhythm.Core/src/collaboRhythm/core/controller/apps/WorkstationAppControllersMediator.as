@@ -212,7 +212,18 @@ package collaboRhythm.core.controller.apps
 				}
 			}
 
+//			trace(arrayCollectionToStringForTrace(newOrder));
 			return newOrder.toArray();
+		}
+
+		private function arrayCollectionToStringForTrace(arrayCollection:ArrayCollection):String
+		{
+			var result:String;
+			for each (var item:Object in arrayCollection)
+			{
+				result += item.toString() + "\n";
+			}
+			return result;
 		}
 		
 		public function initializeForUser(user:User):void

@@ -13,17 +13,13 @@ package collaboRhythm.plugins.cataractMap.model
 {
 	import collaboRhythm.shared.model.HealthRecordServiceBase;
 	import collaboRhythm.shared.model.User;
-	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
-	
+
 	import com.brooksandrus.utils.ISO8601Util;
-	import com.hurlant.crypto.symmetric.NullPad;
-	
+
 	import flash.net.URLVariables;
-	import flash.xml.XMLDocument;
-	
+
 	import mx.collections.ArrayCollection;
-	import mx.rpc.xml.SimpleXMLDecoder;
-	
+
 	import org.indivo.client.IndivoClientEvent;
 
 	public class CataractMapHealthRecordService extends HealthRecordServiceBase
@@ -85,8 +81,6 @@ package collaboRhythm.plugins.cataractMap.model
 				item.date = dateUtil.parseDateTimeString(dateMeasuredString);
 				
 				// TODO: parse the data properly
-//				cataractMapDataItem.densityMapMax = new Number(itemXml.value.toString());
-//				cataractMapDataItem.densityMapMax = Math.random() * 9;
 				parseDensityMap(itemXml.comments.toString(), item);
 				
 				if (item.date.time > nowTime)
@@ -113,25 +107,6 @@ package collaboRhythm.plugins.cataractMap.model
 			item.densityMapMax = max;
 		}
 
-		private function xmlToArrayCollection(xml:XML):ArrayCollection
-		{                 
-			var xmlDoc:XMLDocument = new XMLDocument(xml.toString());
-			var decoder:SimpleXMLDecoder = new SimpleXMLDecoder(true);
-			var resultObj:Object = decoder.decodeXML(xmlDoc);
-			//			var ac:ArrayCollection = new ArrayCollection(new Array(resultObj.root.list.source.item));
-			var ac:ArrayCollection = resultObj.CataractMapData.data;
-			return ac;
-			//			var temp:String = '<items>' + xml.toString() + '</items>';
-			//			xml = XML(temp);
-			//			var xmlDoc:XMLDocument = new XMLDocument(xml.toString());
-			//			var decoder:SimpleXMLDecoder = new SimpleXMLDecoder(true);
-			//			var resultObj:Object = decoder.decodeXML(xmlDoc);
-			//			var ac:ArrayCollection;
-			//			ac = new ArrayCollection();
-			//			ac.addItem(resultObj.items);
-			//			return ac;    
-		}		
-		
 		protected override function handleError(event:IndivoClientEvent):void
 		{
 			

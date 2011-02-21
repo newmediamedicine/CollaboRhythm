@@ -42,5 +42,11 @@ package collaboRhythm.shared.controller.apps
 		{
 			return ReflectionUtils.getClassInfo(appControllerClass).name;
 		}
+
+
+		public function toString():String
+		{
+			return "AppControllerInfo{appId=" + appId + "}";
+		}
 	}
 }

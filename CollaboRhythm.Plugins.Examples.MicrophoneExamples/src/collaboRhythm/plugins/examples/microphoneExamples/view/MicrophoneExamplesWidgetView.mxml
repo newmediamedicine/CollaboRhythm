@@ -129,7 +129,7 @@
 	<s:SkinnableContainer 
 		skinClass="controls.skins.TopBarSkin" width="100%">
 		<s:Group y="8" mouseDown="startMove(event)" mouseUp="movingReferenceEvent = null">
-			<s:BitmapImage source="@Embed('embed_assets/mic16.png')" />
+			<s:BitmapImage source="@Embed('/embed_assets/mic16.png')" />
 			<s:Label text="MICROPHONE" styleName="micExTitleText" x="18" y="3" backgroundAlpha="0" />
 			<s:Label id="txtExample" text="{model.viewName}" x="100" y="3" styleName="micExTitleTextGrey" backgroundAlpha="0" />
 		</s:Group>

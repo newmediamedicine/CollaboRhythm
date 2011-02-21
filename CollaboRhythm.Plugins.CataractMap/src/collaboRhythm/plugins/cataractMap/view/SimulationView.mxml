@@ -18,104 +18,57 @@
 		 resize="resizeHandler(event)"
 		 creationComplete="creationCompleteHandler(event)"
 		 xmlns:view="collaboRhythm.plugins.cataractMap.view.*"
-		 xmlns:view1="collaboRhythm.shared.bloodSolutesSimulation.view.*">
+		>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 		@namespace mx "library://ns.adobe.com/flex/mx";
-		
-		.tension 
-		{
-			font-size: 20;
-		}
-		
- 		#hypertensionLabel 
-		{
-			color: red;
-			text-alpha: 0.5;
-		} 
-		
-		#prehypertensionLabel 
-		{
-			color: "0xF7941E";
-			text-alpha: 0.9;
-		} 
-		
-		#normotensionLabel 
-		{
-			color: green;
-			text-alpha: 0.5;
-		} 
-		
-		#hypotensionLabel 
-		{
-			color: red;
-			text-alpha: 0.5;
-		}  
-		
-		.scale
-		{
-			font-size: 16;
-		}
-		
-		#systolicLabel
-		{
-			font-size: 24;
-		}
-		
+
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.plugins.cataractMap.model.CataractMapModel;
-			import collaboRhythm.plugins.cataractMap.model.SimulationModel;
-			
-			import mx.events.FlexEvent;
-			import mx.events.ResizeEvent;
+		import collaboRhythm.plugins.cataractMap.model.CataractMapModel;
+		import collaboRhythm.plugins.cataractMap.model.SimulationModel;
 
-			
-			[Bindable]
-			private var _simulationModel:SimulationModel;
-			[Bindable]
-			private var _cataractMapModel:CataractMapModel;
-			
-			
-			
-			public function initializeModel(simulationModel:SimulationModel, cataractMapModel:CataractMapModel):void
-			{
-				_simulationModel = simulationModel;
-				_cataractMapModel = cataractMapModel;
-			}
-			
-			
-			private function updateSimulation(value:Number):Number
-			{
-				return 0;
-			}
-			
-			public function refresh():void
-			{
+		import mx.events.FlexEvent;
+		import mx.events.ResizeEvent;
 
-			}
-			
-			private function resizeChildren():void
-			{
-				if (this.height > 0 && this.width > 0)
-				{
-				}
-			}
 
-			protected function resizeHandler(event:ResizeEvent):void
-			{
-				resizeChildren();
-			}
+		[Bindable]
+		private var _simulationModel:SimulationModel;
+		[Bindable]
+		private var _cataractMapModel:CataractMapModel;
 
-			protected function creationCompleteHandler(event:FlexEvent):void
-			{
-				resizeChildren();
-			}
 
+		public function initializeModel(simulationModel:SimulationModel, cataractMapModel:CataractMapModel):void
+		{
+			_simulationModel = simulationModel;
+			_cataractMapModel = cataractMapModel;
+		}
+
+		public function refresh():void
+		{
+
+		}
+
+		private function resizeChildren():void
+		{
+			if (this.height > 0 && this.width > 0)
+			{
+			}
+		}
+
+		protected function resizeHandler(event:ResizeEvent):void
+		{
+			resizeChildren();
+		}
+
+		protected function creationCompleteHandler(event:FlexEvent):void
+		{
+			resizeChildren();
+		}
 		]]>
 	</fx:Script>
 	<view:CataractMapDiagram id="cataractMapDiagram" width="100%" height="100%" densityMap="{_simulationModel.cataractMapDataItem.densityMap}"/>

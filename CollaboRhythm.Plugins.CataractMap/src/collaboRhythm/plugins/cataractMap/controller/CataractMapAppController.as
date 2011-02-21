@@ -156,7 +156,7 @@ package collaboRhythm.plugins.cataractMap.controller
 		
 		override protected function removeUserData():void
 		{
-			user.appData[CataractMapModel.CATARACT_MAP_KEY] = new CataractMapModel();
+			user.appData[CataractMapModel.CATARACT_MAP_KEY] = null;
 		}
 	}
 }

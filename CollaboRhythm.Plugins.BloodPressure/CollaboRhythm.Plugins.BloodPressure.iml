@@ -160,7 +160,7 @@
     <orderEntry type="module-library">
       <library name="Imported from Flash/Flex Builder: Box2DFlashAS3">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/Box2DFlashAS3/bin/Box2DFlashAS3.swc!/" />
+          <root url="jar://$MODULE_DIR$/../Box2DFlashAS3/bin/Box2DFlashAS3.swc!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -169,7 +169,7 @@
     <orderEntry type="module-library">
       <library name="Imported from Flash/Flex Builder: ChartBackgroundsLib">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/ChartBackgroundsLib/bin/ChartBackgroundsLib.swc!/" />
+          <root url="jar://$MODULE_DIR$/../ChartBackgroundsLib/bin/ChartBackgroundsLib.swc!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -178,7 +178,7 @@
     <orderEntry type="module-library">
       <library name="Imported from Flash/Flex Builder: McCuneChart">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/McCuneChart/bin/McCuneChart.swc!/" />
+          <root url="jar://$MODULE_DIR$/../McCuneChart/bin/McCuneChart.swc!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -205,7 +205,7 @@
     <orderEntry type="module-library">
       <library name="Imported from Flash/Flex Builder: indivo_client_flash">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/indivo_client_flash/bin/indivo_client_flash.swc!/" />
+          <root url="jar://$MODULE_DIR$/../indivo_client_flash/bin/indivo_client_flash.swc!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

@@ -13,46 +13,20 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 xmlns:flare="flare.vis.*"
-		 xmlns:dataShapes="qs.charts.dataShapes.*" 
-		 width="100%" height="100%" xmlns:flex="flare.flex.*"
+		 xmlns:dataShapes="qs.charts.dataShapes.*"
+		 width="100%" height="100%"
 		 creationComplete="group1_creationCompleteHandler(event)"  xmlns:controls="com.dougmccune.controls.*"
 		 keyDown="group1_keyDownHandler(event)" xmlns:view="collaboRhythm.plugins.cataractMap.view.*"
 		 >
 	<fx:Style source="/collaboRhythm/plugins/cataractMap/view/ChartStyles.css" />
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
-<!--
-		<mx:HTTPService id="stockInfo" url="data/blood_pressure_data.xml" result="dataResult(event)" fault="faultResult(event)" resultFormat="object" />
-		<s:Resize id="heartBeat" 
-				duration="1000" 
-				target="{heartEllipse}"
-				repeatCount="0"
-				repeatBehavior="loop"
-				widthTo="{otherVisualization.width * 0.80}"
-				widthFrom="{otherVisualization.width * 0.60}"
-				/>
-					   itemRenderer="collaboRhythm.workstation.apps.cataractMap.view.SystolicItemRenderer2" 
-					   itemRenderer="mx.charts.renderers.CrossItemRenderer" 
-		-->
-		
+
 		<mx:LineSeries id="cataractDensityMapMaxSeries" name="densityMapMax" xField="date" yField="densityMapMax" 
 					   updateComplete="cataractDensityMapChart.seriesComplete();" 
 					   form="segment"
 					   filterDataValues="none"
 					   >
-<!--
-			<mx:lineSegmentRenderer>
-				<fx:Component>
-					<visualization:DashedLineRenderer />
-				</fx:Component>
-			</mx:lineSegmentRenderer>
-			<mx:itemRenderer>
-				<fx:Component>
-					<view:CataractMapPlotItemRenderer deltaY="-8"/>
-				</fx:Component>
-			</mx:itemRenderer>
-			-->
 			<mx:lineStroke>
 				<s:SolidColorStroke 
 					color="0x4252A4" 
@@ -69,10 +43,6 @@
 		<mx:DateFormatter id="fullDateFormat" formatString="YYYY-MM-DD" />
 		
 		<dataShapes:DataDrawingCanvas id="cataractMapMainCanvas" includeInRanges="true">
-			<!--
-			<s:Label id="systolicZoneLabel" text="Systolic Normal (90 - 120)" styleName="ZoneLabel" color="{GOAL_ZONE_COLOR}"/>
-			<s:Label id="diastolicZoneLabel" text="Diastolic Normal (60 - 80)" styleName="ZoneLabel" color="{GOAL_ZONE_COLOR}"/>
-			-->
 		</dataShapes:DataDrawingCanvas>
 		
 		<dataShapes:DataDrawingCanvas id="cataractMapRangeCanvas" includeInRanges="true" height="100%" width="100%">
@@ -173,24 +143,6 @@
 					trace(this + ".drawCataractMapData");
 				
 				canvas.clear();
-				
-				canvas.lineStyle(1, GOAL_ZONE_COLOR);
-				
-				// systolic normal
-				canvas.beginFill(GOAL_ZONE_COLOR, 0.2);
-				canvas.drawRect([Edge.LEFT, -1], 120, [Edge.RIGHT, 1], 90);
-				canvas.endFill();
-				
-//				// diastolic normal
-//				canvas.beginFill(GOAL_ZONE_COLOR, 0.2);
-//				canvas.drawRect(Edge.LEFT, 80, Edge.RIGHT, 60);
-//				canvas.endFill();
-				
-				if (canvas == cataractMapMainCanvas)
-				{
-//					canvas.updateDataChild(systolicZoneLabel, {left: Edge.LEFT, top: 120});
-	//				canvas.updateDataChild(diastolicZoneLabel, {left: Edge.LEFT, bottom: 60});
-				}
 			}
 			
 			public function drawAdherenceData(canvas:DataDrawingCanvas):void
@@ -199,33 +151,7 @@
 					trace(this + ".drawAdherenceData");
 				
 				canvas.clear();
-				
-				canvas.lineStyle(1, GOAL_ZONE_COLOR);
-				
-				canvas.beginFill(GOAL_ZONE_COLOR, 0.2);
-				canvas.drawRect([Edge.LEFT, -1], 0.35, [Edge.RIGHT, 1], 0.05);
-				canvas.endFill();
-				
-//				if (canvas == adherenceMainCanvas)
-//				{
-//					canvas.updateDataChild(goalMedicationZoneLabel, {left: Edge.LEFT, top: 0.35});
-//				}
 			}
-			
-//			private function offsetDataToToday(data:ArrayCollection, newDate:Date):void
-//			{
-//				var lastDate:Date = cataractMapChart.dateParse(data[data.length - 1].date);
-//				var delta:Number = newDate.time - lastDate.time;
-//				
-//				for each (var dataItem:Object in data)
-//				{
-//					var dataItemDate:Date = cataractMapChart.dateParse(dataItem.date);
-//					dataItemDate.time += delta;
-//					var formattedDate:String = fullDateFormat.format(dataItemDate);
-//					
-//					dataItem.date = formattedDate;
-//				}
-//			}
 			
 			/**
 			 * If an error occurs loading the XML chart info
@@ -239,9 +165,7 @@
 			{
 				var charts:Vector.<TouchScrollingMcCuneChart> = new Vector.<TouchScrollingMcCuneChart>();
 				charts.push(cataractDensityMapChart);
-//				charts.push(cataractMapChart);
-//				charts.push(heartRateChart);
-				
+
 				var minimum:Number = charts[0].minimumTime; 
 				var maximum:Number = charts[0].maximumTime;
 				for each (var chart:TouchScrollingMcCuneChart in charts)
@@ -250,11 +174,11 @@
 					maximum = Math.min(maximum, chart.maximumTime);
 				}
 
-//				for each (chart in charts)
-//				{
-//					chart.minimumTime = minimum;
-//					chart.maximumTime = maximum;
-//				}
+				for each (chart in charts)
+				{
+					chart.minimumTime = minimum;
+					chart.maximumTime = maximum;
+				}
 			}
 
 			protected function cataractDensityMapChart_creationCompleteHandler(event:FlexEvent):void
@@ -263,11 +187,11 @@
 					trace("cataractDensityMapChart_creationCompleteHandler")
 				var mcCuneChart:McCuneChart = McCuneChart(event.target);
 
-//				mcCuneChart.mainChart.series = new Array();
-//				mcCuneChart.mainChart.series.push(cataractDensityMapMaxSeries);
-//				
-//				mcCuneChart.rangeChart.series = new Array();
-//				mcCuneChart.rangeChart.series.push(cataractDensityMapMaxSeries);
+				mcCuneChart.mainChart.series = new Array();
+				mcCuneChart.mainChart.series.push(cataractDensityMapMaxSeries);
+
+				mcCuneChart.rangeChart.series = new Array();
+				mcCuneChart.rangeChart.series.push(cataractDensityMapMaxSeries);
 
 				var verticalAxis:LinearAxis = mcCuneChart.mainChart.verticalAxis as LinearAxis;
 				verticalAxis.minimum = 0;
@@ -782,7 +706,7 @@
 											creationComplete="cataractDensityMapChart_creationCompleteHandler(event)"
 											initialize="cataractDensityMapChart_initializeHandler(event)"
 											sliderVisible="false"
-											mainChartTitle="Cataract Map Max Value (Range 0 to 9)"
+											mainChartTitle="Cataract Severity (Range 0 to 9)"
 											seriesName="densityMapMax"
 											data="{model.data}"
 											today="{model.currentDateSource.now()}"
