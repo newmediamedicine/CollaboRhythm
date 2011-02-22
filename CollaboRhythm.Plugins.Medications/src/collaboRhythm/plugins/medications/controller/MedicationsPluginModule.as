@@ -32,8 +32,7 @@ package collaboRhythm.plugins.medications.controller
 		{
 			var typeName:String = ReflectionUtils.getClassInfo(MedicationsAppController).name;
 			var appControllerInfo:AppControllerInfo = new AppControllerInfo(MedicationsAppController);
-			var afterScheduleAppOrderConstraint:AppOrderConstraint = new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER,
-																							ScheduleAppControllerInfo.APP_ID);
+			var afterScheduleAppOrderConstraint:AppOrderConstraint = new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER,	ScheduleAppControllerInfo.APP_ID);
 			appControllerInfo.initializationOrderConstraints.push(afterScheduleAppOrderConstraint);
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
 														 appControllerInfo);
