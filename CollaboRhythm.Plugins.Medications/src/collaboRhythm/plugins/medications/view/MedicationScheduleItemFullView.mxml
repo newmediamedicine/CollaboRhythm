@@ -57,7 +57,7 @@
 				<s:SolidColorStroke color="0xFFFFFF" weight="1" alpha="0.5"/>
 			</s:stroke>
 		</s:Rect>
-		<mx:Image right="8" verticalCenter="0" source="@Embed(source='assets/images/gripHorizontalNarrow.png')"/>
+		<mx:Image right="8" verticalCenter="0" source="@Embed(source='/assets/images/gripHorizontalNarrow.png')"/>
 		<s:Group id="medicationContent" left="1" right="29" top="1" bottom="1">
 			<s:Rect width="80" height="100%">
 				<s:fill>

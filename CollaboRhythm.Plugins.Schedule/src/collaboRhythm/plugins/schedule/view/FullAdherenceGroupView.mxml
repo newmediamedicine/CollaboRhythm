@@ -18,7 +18,7 @@
 <view2:FullScheduleItemViewBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
 						   xmlns:s="library://ns.adobe.com/flex/spark" 
 						   xmlns:mx="library://ns.adobe.com/flex/mx"
- xmlns:view="collaboRhythm.workstation.apps.schedule.view.*" xmlns:view1="collaboRhythm.plugins.schedule.shared.view.*" xmlns:view2="collaboRhythm.plugins.schedule.view.*">
+ 						   xmlns:view2="collaboRhythm.plugins.schedule.view.*">
 	<fx:Declarations>
 		<s:Fade id="adherenceGroupFade" target="{this}"/>
 	</fx:Declarations>
@@ -249,6 +249,6 @@
 				<s:SolidColorStroke color="0xFFFFFF" alpha="0.5"/>
 			</s:stroke>
 		</s:Rect>
-		<mx:Image top="8" horizontalCenter="0" source="@Embed(source='assets/images/gripHorizontalWide.png')"/>
+		<mx:Image top="8" horizontalCenter="0" source="@Embed(source='/assets/images/gripHorizontalWide.png')"/>
 	</s:Group>
 </view2:FullScheduleItemViewBase>

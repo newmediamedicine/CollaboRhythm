@@ -184,7 +184,7 @@
 			<s:SolidColorStroke color="0xFFFFFF" alpha="0.5"/>
 		</s:stroke>
 	</s:Rect>
-	<mx:Image top="8" horizontalCenter="0" source="@Embed(source='assets/images/gripHorizontalWide.png')"/>
+	<mx:Image top="8" horizontalCenter="0" source="@Embed(source='/assets/images/gripHorizontalWide.png')"/>
 	<s:VGroup id="scheduleItemsContainer" left="{SCHEDULE_GROUP_FULL_VIEW_BUFFER_WIDTH}" right="{SCHEDULE_GROUP_FULL_VIEW_BUFFER_WIDTH}" top="{SCHEDULE_GROUP_FULL_VIEW_TOP_WIDTH}" bottom="{SCHEDULE_GROUP_FULL_VIEW_BUFFER_WIDTH}" gap="{SCHEDULE_GROUP_FULL_VIEW_BUFFER_WIDTH}"/>
 	<s:filters>
 		<s:GlowFilter id="glowFilter"
