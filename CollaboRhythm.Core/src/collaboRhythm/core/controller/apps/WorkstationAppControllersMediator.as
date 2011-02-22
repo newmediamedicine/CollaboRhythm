@@ -131,8 +131,14 @@ package collaboRhythm.core.controller.apps
 			
 			_factory.widgetParentContainer = _scheduleWidgetParentContainer;
 			app = createApp(BloodPressureAgentAppController, "Blood Pressure Agent");
-
+//			app = createApp(BloodPressureAppController, "Blood Pressure Review");
+			
 			createDynamicApps();
+			
+//			app = createApp(RichTextAppController);
+//			(app as RichTextAppController).text =
+//				"Medical Equipment" + 
+//				"<p>The quick brown <b>fox jumps over</b> the lazy dogg.</p>"
 			
 			for each (app in _workstationApps.values())
 			{

@@ -47,7 +47,7 @@ package collaboRhythm.plugins.schedule.model
 			{
 				if (user.appData[ScheduleModel.SCHEDULE_KEY] == null)
 				{
-					user.appData[ScheduleModel.SCHEDULE_KEY] = new ScheduleModel();
+					user.appData[ScheduleModel.SCHEDULE_KEY] = new ScheduleModel(user);
 				}
 				return user.getAppData(ScheduleModel.SCHEDULE_KEY, ScheduleModel) as ScheduleModel;
 			}
@@ -55,12 +55,7 @@ package collaboRhythm.plugins.schedule.model
 		}
 		
 		public function loadScheduleGroups(user:User):void
-		{
-			if (user.appData[ScheduleModel.SCHEDULE_KEY] == null)
-			{
-				user.appData[ScheduleModel.SCHEDULE_KEY] = new ScheduleModel();
-			}
-			
+		{			
 			var params:URLVariables = new URLVariables();
 			//			params["order_by"] = "-date_onset";
 			

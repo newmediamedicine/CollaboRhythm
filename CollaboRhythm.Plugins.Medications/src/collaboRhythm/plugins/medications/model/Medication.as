@@ -11,21 +11,14 @@
 */
 package collaboRhythm.plugins.medications.model
 {
-	import collaboRhythm.plugins.medications.view.FullMedicationView;
-	import collaboRhythm.plugins.medications.view.ScheduleItemWidgetViewMedication;
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
-	import collaboRhythm.plugins.schedule.shared.view.FullScheduleItemViewBase;
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase;
 	import collaboRhythm.shared.model.CodedValue;
 	import collaboRhythm.shared.model.HealthRecordHelperMethods;
-	import collaboRhythm.shared.model.HealthRecordServiceBase;
 	import collaboRhythm.shared.model.ValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
-	import collaboRhythm.shared.model.healthRecord.IDocumentMetadata;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	
-	import mx.core.UIComponent;
+	import com.adobe.utils.DateUtil;
 
 	[Bindable]
 	public class Medication extends DocumentMetadata
@@ -61,8 +54,8 @@ package collaboRhythm.plugins.medications.model
 			_name = HealthRecordHelperMethods.codedValueFromXml(medicationXML.name[0]);
 			_orderType = medicationXML.orderType;
 			_orderedBy = medicationXML.orderedBy;
-			_dateTimeOrdered = HealthRecordServiceBase.parseDate(medicationXML.dateTimeOrdered.toString());
-			_dateTimeExpires = HealthRecordServiceBase.parseDate(medicationXML.dateTimeExpires.toString());
+			_dateTimeOrdered = DateUtil.parseW3CDTF(medicationXML.dateTimeOrdered.toString());
+			_dateTimeExpires = DateUtil.parseW3CDTF(medicationXML.dateTimeExpires.toString());
 			_indication = medicationXML.indication;
 			for each (var activeIngredientXML:XML in medicationXML.activeIngredients.activeIngredient)
 			{
@@ -78,8 +71,8 @@ package collaboRhythm.plugins.medications.model
 			_refills = Number(medicationXML.refills);
 			_substitutionPermitted = Boolean(medicationXML.substitutionPermitted);
 			_instructions = medicationXML.instructions;
-			_dateTimeStarted = HealthRecordServiceBase.parseDate(medicationXML.dateStarted.toString());
-			_dateTimeStopped = HealthRecordServiceBase.parseDate(medicationXML.dateStopped.toString());
+			_dateTimeStarted = DateUtil.parseW3CDTF(medicationXML.dateStarted.toString());
+			_dateTimeStopped = DateUtil.parseW3CDTF(medicationXML.dateStopped.toString());
 			_reasonStopped = medicationXML.reasonStopped;
 
 //			_imageURI = "assets/images/" + _name + "_front.jpg";
@@ -193,7 +186,7 @@ package collaboRhythm.plugins.medications.model
 		
 		public function get strengthLabelText():String
 		{
-			return _activeIngredients[0].strength.value + " " + _activeIngredients[0].strength.unit.abbrev;
+			return _activeIngredients[0].strength.value + _activeIngredients[0].strength.unit.abbrev;
 		}
 		
 		public function get doseLabelText():String

@@ -9,7 +9,7 @@
  *
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
 */
-package collaboRhythm.plugins.schedule.shared.view
+package collaboRhythm.plugins.schedule.view
 {
 
 	

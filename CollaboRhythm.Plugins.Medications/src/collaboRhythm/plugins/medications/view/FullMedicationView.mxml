@@ -10,11 +10,11 @@
  ~
  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<view:FullScheduleItemViewBase name="MedicationView"
+<view1:FullScheduleItemViewBase name="MedicationView"
 						   xmlns:fx="http://ns.adobe.com/mxml/2009"
 						   xmlns:s="library://ns.adobe.com/flex/spark"
 						   xmlns:mx="library://ns.adobe.com/flex/mx"
-							xmlns:view="collaboRhythm.plugins.schedule.shared.view.*">
+							xmlns:view="collaboRhythm.plugins.schedule.shared.view.*" xmlns:view1="collaboRhythm.plugins.schedule.view.*">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -94,4 +94,4 @@
 			<s:Label id="instructions" text="Take with water" left="83" y="64" fontSize="13"/>
 		</s:Group>
 	</s:Group>
-</view:FullScheduleItemViewBase> 
+</view1:FullScheduleItemViewBase> 

@@ -15,6 +15,11 @@ package collaboRhythm.plugins.schedule.shared.model
 	
 	import collaboRhythm.shared.model.HealthRecordServiceBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
+	
+	import com.adobe.utils.DateUtil;
+	
+	import mx.collections.ArrayCollection;
+	import mx.controls.DateField;
 
 	public class ScheduleGroup extends DocumentMetadata
 	{
@@ -24,22 +29,17 @@ package collaboRhythm.plugins.schedule.shared.model
 		private var _dateTimeStart:Date;
 		private var _dateTimeEnd:Date;
 		private var _recurrenceRule:RecurrenceRule;
-		private var _scheduleItems:Vector.<String> = new Vector.<String>;
+		private var _scheduleItemsCollection:ArrayCollection = new ArrayCollection();
 		
 		public function ScheduleGroup(scheduleGroupReportXML:XML)
 		{
 			parseDocumentMetadata(scheduleGroupReportXML.Meta.Document[0], this);
 			var scheduleGroupXML:XML = scheduleGroupReportXML.Item.ScheduleGroup[0];
 			_scheduledBy = scheduleGroupXML.scheduledBy;
-			_dateTimeScheduled = HealthRecordServiceBase.parseDate(scheduleGroupXML.dateTimeScheduled.toString());
-			_dateTimeStart = HealthRecordServiceBase.parseDate(scheduleGroupXML.dateTimeStart.toString());
-			_dateTimeEnd = HealthRecordServiceBase.parseDate(scheduleGroupXML.dateTimeEnd.toString());
+			_dateTimeScheduled = DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeScheduled.toString());
+			_dateTimeStart = DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeStart.toString());
+			_dateTimeEnd = DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeEnd.toString());
 			_recurrenceRule = new RecurrenceRule(scheduleGroupXML.recurrenceRule.frequency, Number(scheduleGroupXML.recurrenceRule.count))
-			for each (var scheduleItemXML:XML in scheduleGroupReportXML.Meta.Document.relatesTo.relation.relatedDocument)
-			{
-				var scheduleItemID:String = scheduleItemXML.@id;
-				_scheduleItems.push(scheduleItemID);
-			}
 		}
 
 		public function get scheduledBy():String
@@ -72,14 +72,14 @@ package collaboRhythm.plugins.schedule.shared.model
 			return _recurrenceRule;
 		}
 		
-		public function get scheduleItems():Vector.<String>
+		public function get scheduleItemsCollection():ArrayCollection
 		{
-			return _scheduleItems;
+			return _scheduleItemsCollection;
 		}
 		
-		public function addScheduleItem(scheduleItem:String):void
+		public function addScheduleItem(scheduleItem:ScheduleItemBase):void
 		{
-			_scheduleItems.push(scheduleItem);
+			_scheduleItemsCollection.addItem(scheduleItem);
 		}
 	}
 }

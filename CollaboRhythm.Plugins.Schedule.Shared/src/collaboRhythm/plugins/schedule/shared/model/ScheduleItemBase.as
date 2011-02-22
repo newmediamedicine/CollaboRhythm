@@ -11,12 +11,13 @@
 */
 package collaboRhythm.plugins.schedule.shared.model
 {
-	import collaboRhythm.plugins.schedule.shared.view.FullScheduleItemViewBase;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemFullViewBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase;
 	import collaboRhythm.shared.model.CodedValue;
 	import collaboRhythm.shared.model.HealthRecordHelperMethods;
-	import collaboRhythm.shared.model.HealthRecordServiceBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
+	
+	import com.adobe.utils.DateUtil;
 
 	[Bindable]
 	public class ScheduleItemBase extends DocumentMetadata
@@ -34,7 +35,7 @@ package collaboRhythm.plugins.schedule.shared.model
 			_scheduleItemXML = scheduleItemReportXML.Item.elements(scheduleItemElementName)[0];
 			_name = HealthRecordHelperMethods.codedValueFromXml(_scheduleItemXML.name[0]);
 			_scheduledBy = _scheduleItemXML.scheduledBy;
-			_dateTimeScheduled = HealthRecordServiceBase.parseDate(_scheduleItemXML.dateTimeScheduled.toString());
+			_dateTimeScheduled = DateUtil.parseW3CDTF(_scheduleItemXML.dateTimeScheduled.toString());
 			_instructions = _scheduleItemXML.instructions;
 		}
 		
@@ -56,6 +57,20 @@ package collaboRhythm.plugins.schedule.shared.model
 		public function get instructions():String
 		{
 			return _instructions;
+		}
+		
+		public function createScheduleItemWidgetView():ScheduleItemWidgetViewBase
+		{
+			// to be implemented by subclasses
+			var scheduleItemWidgetView:ScheduleItemWidgetViewBase = new ScheduleItemWidgetViewBase();
+			return scheduleItemWidgetView;
+		}
+		
+		public function createScheduleItemFullView():ScheduleItemFullViewBase
+		{
+			// to be implemented by subclasses
+			var fullScheduleItemView:ScheduleItemFullViewBase = new ScheduleItemFullViewBase();
+			return fullScheduleItemView;
 		}
 		
 //		public function get scheduledAction():String

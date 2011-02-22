@@ -11,22 +11,18 @@
 */
 package collaboRhythm.plugins.schedule.shared.model
 {
-	import castle.flexbridge.reflection.Void;
-	
-	import collaboRhythm.plugins.schedule.shared.view.FullAdherenceGroupView;
+	import collaboRhythm.shared.model.User;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	
 	import flash.utils.Dictionary;
-	import flash.utils.getQualifiedClassName;
 	
-	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayCollection;
-	import mx.rpc.xml.SchemaTypeRegistry;
 	
 	[Bindable]
 	public class ScheduleModel
 	{
+		private var _user:User;
 		private var _scheduleGroupsReportXML:XML;
 		private var _scheduleGroupsCollection:ArrayCollection = new ArrayCollection();
 		private var _closeDrawer:Boolean = true;
@@ -42,8 +38,9 @@ package collaboRhythm.plugins.schedule.shared.model
 		private var _currentDateSource:ICurrentDateSource;
 		public static const SCHEDULE_KEY:String = "schedule";
 		
-		public function ScheduleModel()
+		public function ScheduleModel(user:User)
 		{		
+			_user = user;
 //			_medicationsModel = medicationsModel;
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 //			if (!_medicationsModel.initialized)
@@ -54,6 +51,11 @@ package collaboRhythm.plugins.schedule.shared.model
 //			{
 //				addMedicationsToScheduleItems(true);
 //			}
+		}
+
+		public function get user():User
+		{
+			return _user;
 		}
 
 		public function get scheduleGroupsReportXML():XML
@@ -78,6 +80,7 @@ package collaboRhythm.plugins.schedule.shared.model
 			for each (var scheduleGroupReport:XML in _scheduleGroupsReportXML.Report)
 			{
 				var scheduleGroup:ScheduleGroup = new ScheduleGroup(scheduleGroupReport);
+				_user.registerDocument(scheduleGroup, scheduleGroup);
 				_scheduleGroupsCollection.addItem(scheduleGroup);
 			}
 		}

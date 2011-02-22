@@ -11,7 +11,12 @@
  */
 package collaboRhythm.plugins.medications.model
 {
+	import collaboRhythm.plugins.medications.view.MedicationScheduleItemFullView;
+	import collaboRhythm.plugins.medications.view.MedicationScheduleItemWidgetView;
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemFullViewBase;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase;
 	import collaboRhythm.shared.model.HealthRecordHelperMethods;
 	import collaboRhythm.shared.model.ValueAndUnit;
 	
@@ -20,6 +25,7 @@ package collaboRhythm.plugins.medications.model
 		private var _dose:ValueAndUnit;
 		private var _scheduledActionID:String;
 		private var _scheduledAction:Medication;
+		private var _scheduleGroupID:String;
 
 		public function MedicationScheduleItem(scheduleItemReportXML:XML):void
 		{
@@ -27,6 +33,7 @@ package collaboRhythm.plugins.medications.model
 			
 			_dose = new ValueAndUnit(_scheduleItemXML.dose.value, HealthRecordHelperMethods.codedValueFromXml(_scheduleItemXML.dose.unit[0]));
 			_scheduledActionID = scheduleItemReportXML.Meta.Document.relatesTo.relation.relatedDocument.@id;
+			_scheduleGroupID =  scheduleItemReportXML.Meta.Document.isRelatedFrom.relation.relatedDocument.@id;
 		}
 		
 		public function get dose():ValueAndUnit
@@ -47,6 +54,27 @@ package collaboRhythm.plugins.medications.model
 		public function set scheduledAction(value:Medication):void
 		{
 			_scheduledAction = value;
+		}
+		
+		public function get scheduleGroupID():String
+		{
+			return _scheduleGroupID;
+		}
+		
+		public override function createScheduleItemWidgetView():ScheduleItemWidgetViewBase
+		{
+			// to be implemented by subclasses
+			var medicationScheduleItemWidgetView:MedicationScheduleItemWidgetView = new MedicationScheduleItemWidgetView();
+			medicationScheduleItemWidgetView.medication = _scheduledAction;
+			return medicationScheduleItemWidgetView;
+		}
+		
+		public override function createScheduleItemFullView():ScheduleItemFullViewBase
+		{
+			// to be implemented by subclasses
+			var medicationScheduleItemFullView:MedicationScheduleItemFullView = new MedicationScheduleItemFullView();
+			medicationScheduleItemFullView.medication = _scheduledAction;
+			return medicationScheduleItemFullView;
 		}
 	}
 }
