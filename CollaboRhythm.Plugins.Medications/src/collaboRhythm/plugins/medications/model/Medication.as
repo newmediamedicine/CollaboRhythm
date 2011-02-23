@@ -12,13 +12,12 @@
 package collaboRhythm.plugins.medications.model
 {
 	import collaboRhythm.shared.model.CodedValue;
+	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.HealthRecordHelperMethods;
 	import collaboRhythm.shared.model.ValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
-	
-	import com.adobe.utils.DateUtil;
 
 	[Bindable]
 	public class Medication extends DocumentMetadata

@@ -10,7 +10,7 @@
       </libraryPathEntry>
       <libraryPathEntry kind="3" linkType="1" path="/CollaboRhythm.Shared/bin/CollaboRhythm.Shared.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="/CollaboRhythm.View.Scroll/bin/CollaboRhythm.View.Scroll.swc" useDefaultLinkType="false"/>
-      <libraryPathEntry kind="3" linkType="1" path="/as3corelib/bin/as3corelib.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="1" linkType="1" path="libs"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>

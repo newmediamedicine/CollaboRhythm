@@ -14,10 +14,9 @@ package collaboRhythm.plugins.schedule.shared.model
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemFullViewBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase;
 	import collaboRhythm.shared.model.CodedValue;
+	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.HealthRecordHelperMethods;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
-	
-	import com.adobe.utils.DateUtil;
 
 	[Bindable]
 	public class ScheduleItemBase extends DocumentMetadata

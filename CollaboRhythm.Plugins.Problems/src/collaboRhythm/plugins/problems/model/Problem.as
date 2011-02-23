@@ -11,11 +11,9 @@
 */
 package collaboRhythm.plugins.problems.model
 {
-	import collaboRhythm.shared.model.HealthRecordServiceBase;
+	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
-	
-	import com.adobe.utils.DateUtil;
 
 	[Bindable]
 	public class Problem
@@ -30,11 +28,11 @@ package collaboRhythm.plugins.problems.model
 		{
 			_name = problemXml.name;
 			_commonName = problemXml.comments;
-			_dateOnset = DateUtil.parseW3CDTF(problemXml.dateOnset.toString());
-			_dateResolution = DateUtil.parseW3CDTF(problemXml.dateResolution.toString());
+			_dateOnset =  DateUtil.parseW3CDTF(problemXml.dateOnset.toString());
+			_dateResolution =  DateUtil.parseW3CDTF(problemXml.dateResolution.toString());
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
-		
+
 		public function get commonNameLabel():String
 		{
 			if (_commonName != null && _commonName.length > 0)

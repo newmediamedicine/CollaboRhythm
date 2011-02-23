@@ -11,15 +11,10 @@
  */
 package collaboRhythm.plugins.schedule.shared.model
 {
-	import castle.flexbridge.reflection.Void;
-	
-	import collaboRhythm.shared.model.HealthRecordServiceBase;
+	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
-	
-	import com.adobe.utils.DateUtil;
-	
+
 	import mx.collections.ArrayCollection;
-	import mx.controls.DateField;
 
 	public class ScheduleGroup extends DocumentMetadata
 	{
