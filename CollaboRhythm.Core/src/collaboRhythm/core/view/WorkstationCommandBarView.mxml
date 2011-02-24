@@ -213,14 +213,14 @@
 
 		<view1:IconButton
 			id="collaborateButton"
-			styleName="collaboRhythm.shared.view.IconButton"
+			styleName="IconButton"
 			click="collaborateButtonHandler(event)"
 			icon="@Embed(source='/resources/images/icons/buttonIcons/collaborateButtonIcon.png')"
 			enabled="{determineCollaborateButtonEnabled(_model.subjectUser.collaborationLobbyConnectionStatus)}"
 		/>
 		<view1:IconButton
 			id="closeRecordButton"
-			styleName="collaboRhythm.shared.view.IconButton"
+			styleName="IconButton"
 			click="closeRecordButton_clickHandler(event)"
 			icon="@Embed(source='/resources/images/icons/buttonIcons/closeRecordButtonIcon.png')"
 			enabled="{_model.allowCloseRecord}"

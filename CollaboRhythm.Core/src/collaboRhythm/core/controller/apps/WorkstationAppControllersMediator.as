@@ -67,7 +67,7 @@ package collaboRhythm.core.controller.apps
 			fullParentContainer:IVisualElementContainer,
 			settings:Settings,
 			healthRecordService:CommonHealthRecordService,
-			collabortionNetConnectionService:CollaborationRoomNetConnectionService,
+			collaborationRoomNetConnectionService:CollaborationRoomNetConnectionService,
 			componentContainer:IComponentContainer
 		)
 		{
@@ -76,7 +76,7 @@ package collaboRhythm.core.controller.apps
 			_fullParentContainer = fullParentContainer;
 			_settings = settings;
 			_healthRecordService = healthRecordService;
-			_collaborationRoomNetConnectionService = collabortionNetConnectionService;
+			_collaborationRoomNetConnectionService = collaborationRoomNetConnectionService;
 			_componentContainer = componentContainer;
 			
 			_collaborationRoomNetConnectionService.netConnection.client.showFullView = showFullView;
@@ -136,15 +136,9 @@ package collaboRhythm.core.controller.apps
 			
 			_factory.widgetParentContainer = _scheduleWidgetParentContainer;
 			app = createApp(BloodPressureAgentAppController, "Blood Pressure Agent");
-//			app = createApp(BloodPressureAppController, "Blood Pressure Review");
-			
+
 			createDynamicApps();
-			
-//			app = createApp(RichTextAppController);
-//			(app as RichTextAppController).text =
-//				"Medical Equipment" + 
-//				"<p>The quick brown <b>fox jumps over</b> the lazy dogg.</p>"
-			
+
 			for each (app in _workstationApps.values())
 			{
 				app.showWidget();
@@ -165,13 +159,12 @@ package collaboRhythm.core.controller.apps
 
 		private function orderAppsByInitializationOrderConstraints(infoArray:Array):Array
 		{
-			// copy the array so we can look at each app's contstraints once
-			var originalOrder:Array = infoArray;
+			// copy the array so we can look at each app's constraints once
 			var newOrder:ArrayCollection = new ArrayCollection(infoArray);
 
 			// TODO: revise this algorithm to only move items down in the order so that multiple before and after constraints can be used together
 
-			for each (var appInfo:AppControllerInfo in originalOrder)
+			for each (var appInfo:AppControllerInfo in infoArray)
 			{
 				if (appInfo.initializationOrderConstraints.length > 0)
 				{
