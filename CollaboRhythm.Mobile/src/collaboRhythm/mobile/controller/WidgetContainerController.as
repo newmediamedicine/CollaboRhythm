@@ -100,15 +100,12 @@ public class WidgetContainerController
 				view.workstationAppController = app;
 				if (app)
 				{
-//					trace("initializeView with app", app.name);
 					view.title = app.name;
 					app.widgetParentContainer = view;
 					app.createAndPrepareWidgetView();
 					app.widgetView.percentWidth = 100;
 					app.widgetView.percentHeight = 100;
-//					app.initialize();
 					app.showWidget();
-					trace("initializeView", app.name);
 				}
 			}
 		}
@@ -123,7 +120,6 @@ public class WidgetContainerController
 			view.removeEventListener(PluginEvent.RELOAD_REQUEST, view_reloadRequestHandler);
 			var app:WorkstationAppControllerBase = view.workstationAppController;
 			// TODO: perhaps only the widget/mobile view should be destroyed here?
-			trace("destroyView", app.name);
 			app.destroyViews();
 		}
 		

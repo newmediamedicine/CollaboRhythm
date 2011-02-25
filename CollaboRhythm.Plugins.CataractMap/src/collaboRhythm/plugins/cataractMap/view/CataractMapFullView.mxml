@@ -189,7 +189,7 @@
 			protected function cataractDensityMapChart_creationCompleteHandler(event:FlexEvent):void
 			{
 				if (_traceEventHandlers)
-					trace("cataractDensityMapChart_creationCompleteHandler")
+					trace("cataractDensityMapChart_creationCompleteHandler");
 				var mcCuneChart:McCuneChart = McCuneChart(event.target);
 
 //				mcCuneChart.mainChart.series = new Array();

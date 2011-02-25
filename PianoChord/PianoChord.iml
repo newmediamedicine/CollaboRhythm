@@ -89,8 +89,11 @@
           <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/spark_rb.swc!/" />
           <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/textLayout_rb.swc!/" />
           <root url="jar://$PROJECT_FRAMEWORKS$/libs/mobile/mobilecomponents.swc!/" />
+          <root url="jar://$PROJECT_FRAMEWORKS$/themes/Mobile/mobile.swc!/" />
         </CLASSES>
-        <JAVADOC />
+        <JAVADOC>
+          <root url="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/" />
+        </JAVADOC>
         <SOURCES>
           <root url="file://$PROJECT_FRAMEWORKS$/projects/air/ApplicationUpdater/src" />
           <root url="file://$PROJECT_FRAMEWORKS$/projects/air/Core/src" />

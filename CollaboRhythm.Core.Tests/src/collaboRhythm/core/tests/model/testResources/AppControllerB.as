@@ -14,22 +14,15 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.shared.pluginsSupport
+package collaboRhythm.core.tests.model.testResources
 {
-	import mx.modules.IModule;
+	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 
-	/**
-	 * A CollaboRhythm plugin. Plugins must implement this interface as well as IModule.
-	 */
-	public interface IPlugin extends IModule
+	public class AppControllerB extends WorkstationAppControllerBase
 	{
-		/**
-		 * Registers components that this plugin provides. Plugins should implement this method in order to provide
-		 * known components or services which the core application or other plugins can use.
-		 *
-		 * @param componentContainer The shared component container with which the plugin should register components
-		 * and which the core application and other plugins will use to resolve registered components.
-		 */
-		function registerComponents(componentContainer:IComponentContainer):void;
+		public function AppControllerB()
+		{
+			super(null, null);
+		}
 	}
 }
