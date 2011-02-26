@@ -17,13 +17,14 @@
 package collaboRhythm.plugins.bloodPressure.controller
 {
 	import castle.flexbridge.reflection.ReflectionUtils;
-	
+
+	import collaboRhythm.shared.controller.apps.AppOrderConstraint;
 	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
-	
+
 	import mx.modules.ModuleBase;
-	
+
 	public class BloodPressurePluginModule extends ModuleBase implements IPlugin
 	{
 		public function BloodPressurePluginModule()
@@ -34,7 +35,16 @@ package collaboRhythm.plugins.bloodPressure.controller
 		public function registerComponents(componentContainer:IComponentContainer):void
 		{
 			var typeName:String = ReflectionUtils.getClassInfo(BloodPressureAppController).name;
-			componentContainer.registerComponentInstance(typeName, AppControllerInfo, new AppControllerInfo(BloodPressureAppController ));
+			var mainAppControllerInfo:AppControllerInfo = new AppControllerInfo(BloodPressureAppController);
+			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
+														 mainAppControllerInfo);
+
+			typeName = ReflectionUtils.getClassInfo(BloodPressureChartAppController).name;
+			var chartAppControllerInfo:AppControllerInfo = new AppControllerInfo(BloodPressureChartAppController);
+			chartAppControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER,
+																						 mainAppControllerInfo.appId));
+			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
+														 chartAppControllerInfo);
 		}
 	}
 }

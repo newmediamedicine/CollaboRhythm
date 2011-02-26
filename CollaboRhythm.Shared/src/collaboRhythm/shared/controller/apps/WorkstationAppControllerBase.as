@@ -251,12 +251,15 @@ package collaboRhythm.shared.controller.apps
 			
 //			Multitouch.inputMode = MultitouchInputMode.GESTURE;
 //			widgetView.addEventListener(TransformGestureEvent.GESTURE_PAN, widgetPanHandler);
-			
-			widgetView.addEventListener(MouseEvent.CLICK, widgetClickHandler);
-			widgetView.addEventListener(MouseEvent.MOUSE_DOWN, widgetMouseDownHandler);
-			
-			widgetView.visible = false;
-			_widgetParentContainer.addElement(widgetView);
+
+			if (widgetView != null)
+			{
+				widgetView.addEventListener(MouseEvent.CLICK, widgetClickHandler);
+				widgetView.addEventListener(MouseEvent.MOUSE_DOWN, widgetMouseDownHandler);
+
+				widgetView.visible = false;
+				_widgetParentContainer.addElement(widgetView);
+			}
 		}
 		
 		/**

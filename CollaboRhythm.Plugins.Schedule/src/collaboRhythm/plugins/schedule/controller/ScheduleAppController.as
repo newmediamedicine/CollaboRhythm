@@ -135,5 +135,10 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			return "Schedule";
 		}
+
+		override protected function removeUserData():void
+		{
+			user.appData[ScheduleModel.SCHEDULE_KEY] = null;
+		}
 	}
 }

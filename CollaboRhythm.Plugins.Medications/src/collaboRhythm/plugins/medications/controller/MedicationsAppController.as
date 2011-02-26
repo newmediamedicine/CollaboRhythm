@@ -124,5 +124,10 @@ package collaboRhythm.plugins.medications.controller
 		{
 			super.close();
 		}
+
+		override protected function removeUserData():void
+		{
+			user.appData[MedicationsModel.MEDICATIONS_KEY] = null;
+		}
 	}
 }

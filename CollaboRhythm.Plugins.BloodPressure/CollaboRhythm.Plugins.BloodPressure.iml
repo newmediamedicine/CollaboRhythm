@@ -140,78 +140,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="Imported from Flash/Flex Builder: CollaboRhythm.Shared.BloodSolutesSimulation">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../CollaboRhythm.Shared.BloodSolutesSimulation/bin/CollaboRhythm.Shared.BloodSolutesSimulation.swc!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Imported from Flash/Flex Builder: CollaboRhythm.Shared.PluginsSupport">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../CollaboRhythm.Shared.PluginsSupport/bin/CollaboRhythm.Shared.PluginsSupport.swc!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Imported from Flash/Flex Builder: Box2DFlashAS3">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../Box2DFlashAS3/bin/Box2DFlashAS3.swc!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Imported from Flash/Flex Builder: ChartBackgroundsLib">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../ChartBackgroundsLib/bin/ChartBackgroundsLib.swc!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Imported from Flash/Flex Builder: McCuneChart">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../McCuneChart/bin/McCuneChart.swc!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Imported from Flash/Flex Builder: CollaboRhythm.Shared">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../CollaboRhythm.Shared/bin/CollaboRhythm.Shared.swc!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Imported from Flash/Flex Builder: CollaboRhythm.View.Scroll">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../CollaboRhythm.View.Scroll/bin/CollaboRhythm.View.Scroll.swc!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Imported from Flash/Flex Builder: indivo_client_flash">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../indivo_client_flash/bin/indivo_client_flash.swc!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
       <library name="Imported from Flash/Flex Builder: libs">
         <CLASSES>
           <root url="file://$MODULE_DIR$/libs" />
@@ -221,6 +149,14 @@
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="Box2DFlashAS3" />
+    <orderEntry type="module" module-name="ChartBackgroundsLib" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.BloodSolutesSimulation" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" />
+    <orderEntry type="module" module-name="CollaboRhythm.View.Scroll" />
+    <orderEntry type="module" module-name="indivo_client_flash" />
+    <orderEntry type="module" module-name="McCuneChart" />
   </component>
 </module>
 
