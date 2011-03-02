@@ -16,45 +16,46 @@
  */
 package collaboRhythm.shared.controller.apps
 {
-	import collaboRhythm.shared.view.apps.RichTextWidgetView;
-	
 	import mx.core.IVisualElementContainer;
-	import mx.core.UIComponent;
-	
-	public class RichTextAppController extends WorkstationAppControllerBase
+
+	public class AppControllerConstructorParams
 	{
-		private var _text:String;
-		private var _widgetView:RichTextWidgetView;
-		
-		public override function get widgetView():UIComponent
+		private var _widgetParentContainer:IVisualElementContainer;
+		private var _fullParentContainer:IVisualElementContainer;
+		private var _isWorkstationMode:Boolean;
+
+		public function AppControllerConstructorParams()
 		{
-			return _widgetView;
-		}
-		
-		public override function set widgetView(value:UIComponent):void
-		{
-			_widgetView = value as RichTextWidgetView;
-		}
-		
-		public function get text():String
-		{
-			return _text;
-		}
-		
-		public function set text(value:String):void
-		{
-			_text = value;
-			(_widgetView as RichTextWidgetView).text = value;
 		}
 
-		public function RichTextAppController(constructorParams:AppControllerConstructorParams)
+		public function get widgetParentContainer():IVisualElementContainer
 		{
-			super(constructorParams);
+			return _widgetParentContainer;
 		}
-		
-		protected override function createWidgetView():UIComponent
+
+		public function set widgetParentContainer(value:IVisualElementContainer):void
 		{
-			return new RichTextWidgetView();
+			_widgetParentContainer = value;
+		}
+
+		public function get fullParentContainer():IVisualElementContainer
+		{
+			return _fullParentContainer;
+		}
+
+		public function set fullParentContainer(value:IVisualElementContainer):void
+		{
+			_fullParentContainer = value;
+		}
+
+		public function get isWorkstationMode():Boolean
+		{
+			return _isWorkstationMode;
+		}
+
+		public function set isWorkstationMode(value:Boolean):void
+		{
+			_isWorkstationMode = value;
 		}
 	}
 }

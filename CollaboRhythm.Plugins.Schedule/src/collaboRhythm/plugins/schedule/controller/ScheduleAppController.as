@@ -20,11 +20,11 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
 	import collaboRhythm.plugins.schedule.view.ScheduleFullView;
 	import collaboRhythm.plugins.schedule.view.ScheduleWidgetView;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-	
-	import mx.core.IVisualElementContainer;
+
 	import mx.core.UIComponent;
-	
+
 	public class ScheduleAppController extends WorkstationAppControllerBase
 	{
 		private var _scheduleFullViewController:ScheduleFullViewController;
@@ -56,9 +56,9 @@ package collaboRhythm.plugins.schedule.controller
 			_fullView = value as ScheduleFullView;
 		}
 		
-		public function ScheduleAppController(widgetParentContainer:IVisualElementContainer, fullParentContainer:IVisualElementContainer)
+		public function ScheduleAppController(constructorParams:AppControllerConstructorParams)
 		{
-			super(widgetParentContainer, fullParentContainer);
+			super(constructorParams);
 		}
 		
 		protected override function createWidgetView():UIComponent

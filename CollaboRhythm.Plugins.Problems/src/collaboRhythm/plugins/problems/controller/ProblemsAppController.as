@@ -20,11 +20,11 @@ package collaboRhythm.plugins.problems.controller
 	import collaboRhythm.plugins.problems.model.ProblemsModel;
 	import collaboRhythm.plugins.problems.view.ProblemsFullView;
 	import collaboRhythm.plugins.problems.view.ProblemsWidgetView;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-	
-	import mx.core.IVisualElementContainer;
+
 	import mx.core.UIComponent;
-	
+
 	public class ProblemsAppController extends WorkstationAppControllerBase
 	{
 		private var _widgetView:ProblemsWidgetView;
@@ -55,9 +55,9 @@ package collaboRhythm.plugins.problems.controller
 			_fullView = value as ProblemsFullView;
 		}
 
-		public function ProblemsAppController(widgetParentContainer:IVisualElementContainer, fullParentContainer:IVisualElementContainer)
+		public function ProblemsAppController(constructorParams:AppControllerConstructorParams)
 		{
-			super(widgetParentContainer, fullParentContainer);
+			super(constructorParams);
 		}
 		
 		protected override function createWidgetView():UIComponent

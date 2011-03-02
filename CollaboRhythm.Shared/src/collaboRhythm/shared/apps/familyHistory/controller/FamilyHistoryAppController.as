@@ -17,12 +17,13 @@
 package collaboRhythm.shared.apps.familyHistory.controller
 {
 //	import collaboRhythm.workstation.apps.familyHistory.view.FamilyHistoryFullView;
+
 	import collaboRhythm.shared.apps.familyHistory.view.FamilyHistoryWidgetView;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-	
-	import mx.core.IVisualElementContainer;
+
 	import mx.core.UIComponent;
-	
+
 	public class FamilyHistoryAppController extends WorkstationAppControllerBase
 	{
 		private var _widgetView:FamilyHistoryWidgetView;
@@ -48,9 +49,9 @@ package collaboRhythm.shared.apps.familyHistory.controller
 //			_fullView = value as FamilyHistoryFullView;
 //		}
 		
-		public function FamilyHistoryAppController(widgetParentContainer:IVisualElementContainer, fullParentContainer:IVisualElementContainer)
+		public function FamilyHistoryAppController(constructorParams:AppControllerConstructorParams)
 		{
-			super(widgetParentContainer, fullParentContainer);
+			super(constructorParams);
 		}
 		
 		protected override function createWidgetView():UIComponent

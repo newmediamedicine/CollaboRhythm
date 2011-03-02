@@ -20,7 +20,7 @@
 		 width="100%" height="100%"
 		>
 	<fx:Style source="/collaboRhythm/plugins/bloodPressure/view/ChartStyles.css" />
-	<view:BloodPressureFullView id="bloodPressureFullView" width="100%" height="100%" />
+	<view:BloodPressureFullView id="bloodPressureFullView" width="100%" height="100%" rangeChartVisible="false"/>
 	<fx:Script>
 		<![CDATA[
 		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;

@@ -17,12 +17,13 @@
 package collaboRhythm.shared.apps.immunizations.controller
 {
 //	import collaboRhythm.workstation.apps.immunizations.view.ImmunizationsFullView;
+
 	import collaboRhythm.shared.apps.immunizations.view.ImmunizationsWidgetView;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-	
-	import mx.core.IVisualElementContainer;
+
 	import mx.core.UIComponent;
-	
+
 	public class ImmunizationsAppController extends WorkstationAppControllerBase
 	{
 		private var _widgetView:ImmunizationsWidgetView;
@@ -48,9 +49,9 @@ package collaboRhythm.shared.apps.immunizations.controller
 //			_fullView = value as ImmunizationsFullView;
 //		}
 		
-		public function ImmunizationsAppController(widgetParentContainer:IVisualElementContainer, fullParentContainer:IVisualElementContainer)
+		public function ImmunizationsAppController(constructorParams:AppControllerConstructorParams)
 		{
-			super(widgetParentContainer, fullParentContainer);
+			super(constructorParams);
 		}
 		
 		protected override function createWidgetView():UIComponent

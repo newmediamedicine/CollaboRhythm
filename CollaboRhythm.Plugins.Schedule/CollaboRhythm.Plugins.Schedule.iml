@@ -142,24 +142,6 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Imported from Flash/Flex Builder: CollaboRhythm.Shared">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../CollaboRhythm.Shared/bin/CollaboRhythm.Shared.swc!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Imported from Flash/Flex Builder: CollaboRhythm.Shared.PluginsSupport">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../CollaboRhythm.Shared.PluginsSupport/bin/CollaboRhythm.Shared.PluginsSupport.swc!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="module" module-name="CollaboRhythm.Plugins.Schedule.Shared" />
     <orderEntry type="module-library">
       <library name="Imported from Flash/Flex Builder: libs">
@@ -171,6 +153,8 @@
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="CollaboRhythm.Shared" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" />
   </component>
 </module>
 

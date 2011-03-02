@@ -163,6 +163,7 @@ package collaboRhythm.core.controller.apps
 			_factory.healthRecordService = _healthRecordService;
 			_factory.user = user;
 			_factory.collaborationRoomNetConnectionServiceProxy = _collaborationRoomNetConnectionService.createProxy();
+			_factory.isWorkstationMode = _settings.isWorkstationMode;
 		}
 		
 		public function reloadUserData(user:User):void

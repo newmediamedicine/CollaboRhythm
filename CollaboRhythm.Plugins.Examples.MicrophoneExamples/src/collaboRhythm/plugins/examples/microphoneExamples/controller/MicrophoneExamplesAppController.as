@@ -18,11 +18,11 @@ package collaboRhythm.plugins.examples.microphoneExamples.controller
 {
 	import collaboRhythm.plugins.examples.microphoneExamples.model.MicrophoneExamplesModel;
 	import collaboRhythm.plugins.examples.microphoneExamples.view.MicrophoneExamplesWidgetView;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-	
-	import mx.core.IVisualElementContainer;
+
 	import mx.core.UIComponent;
-	
+
 	public class MicrophoneExamplesAppController extends WorkstationAppControllerBase
 	{
 		private var _widgetView:MicrophoneExamplesWidgetView;
@@ -39,9 +39,9 @@ package collaboRhythm.plugins.examples.microphoneExamples.controller
 			_widgetView = value as MicrophoneExamplesWidgetView;
 		}
 		
-		public function MicrophoneExamplesAppController(widgetParentContainer:IVisualElementContainer, fullParentContainer:IVisualElementContainer)
+		public function MicrophoneExamplesAppController(constructorParams:AppControllerConstructorParams)
 		{
-			super(widgetParentContainer, fullParentContainer);
+			super(constructorParams);
 		}
 		
 		protected override function createWidgetView():UIComponent

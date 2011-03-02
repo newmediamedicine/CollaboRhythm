@@ -20,11 +20,11 @@ package collaboRhythm.plugins.cataractMap.controller
 	import collaboRhythm.plugins.cataractMap.model.CataractMapModel;
 	import collaboRhythm.plugins.cataractMap.view.CataractMapFullView;
 	import collaboRhythm.plugins.cataractMap.view.CataractMapWidgetView;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-	
-	import mx.core.IVisualElementContainer;
+
 	import mx.core.UIComponent;
-	
+
 	public class CataractMapAppController extends WorkstationAppControllerBase
 	{
 		private var _widgetView:CataractMapWidgetView;
@@ -55,9 +55,9 @@ package collaboRhythm.plugins.cataractMap.controller
 			_fullView = value as CataractMapFullView;
 		}
 		
-		public function CataractMapAppController(widgetParentContainer:IVisualElementContainer, fullParentContainer:IVisualElementContainer)
+		public function CataractMapAppController(constructorParams:AppControllerConstructorParams)
 		{
-			super(widgetParentContainer, fullParentContainer);
+			super(constructorParams);
 		}
 
 //		override public function showWidget(left:Number=-1, top:Number=-1):void

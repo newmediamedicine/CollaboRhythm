@@ -241,6 +241,19 @@
 		private var _model:BloodPressureModel;
 		private var _traceEventHandlers:Boolean = false;
 
+		public function get rangeChartVisible():Boolean
+		{
+			return bloodPressureChart.rangeChartVisible;
+		}
+
+		public function set rangeChartVisible(value:Boolean):void
+		{
+			for each (var chart:McCuneChart in getAllCharts())
+			{
+				chart.rangeChartVisible = value;
+			}
+		}
+		
 		[Bindable]
 		public function get model():BloodPressureModel
 		{

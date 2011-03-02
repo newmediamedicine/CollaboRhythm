@@ -183,25 +183,16 @@ OTHER DEALINGS IN THE SOFTWARE.
 			
 			<!-- bottom chart with divided box for range selection -->
 			<mx:Canvas id="rangeChartContainer" 	
-					   x="{SLIDER_SCROLL_BUTTON_WIDTH}" y="{mainChartVolumeContainer.y + mainChartVolumeContainer.height + gapMainRange - RANGE_CHART_OVERLAP}" 
-					   width="{mainChartContainer.width}" height="{RANGE_CHART_HEIGHT}" 
+					   x="{SLIDER_SCROLL_BUTTON_WIDTH}" y="{mainChartVolumeContainer.y + mainChartVolumeContainer.height + groupBetweenMainRange.height - RANGE_CHART_OVERLAP}"
+					   width="{mainChartContainer.width}" height="{rangeChartVisible ? RANGE_CHART_HEIGHT : 0}"
+					   visible="{rangeChartVisible}"
 					   horizontalScrollPolicy="off" verticalScrollPolicy="off" 
 					   styleName="canvasContainerStyles" 
 					   borderStyle="none"
 					   >
-				<!-- TODO
-				borderSides="left right" 
-				-->
-
-				<!--
-				<mx:AreaChart x="-3" y="0" id="rangeChart" 	
+				<mx:AreaChart x="0" y="0" id="rangeChart"
 							  showDataTips="false" dataProvider="{rangeData}" 
-							  width="{mainChartContainer.width}" height="{RANGE_CHART_HEIGHT}">
-				-->
-				
-				<mx:AreaChart x="0" y="0" id="rangeChart" 	
-							  showDataTips="false" dataProvider="{rangeData}" 
-							  width="100%" height="{RANGE_CHART_HEIGHT}"
+							  width="100%" height="{rangeChartContainer.height}"
 							  gutterLeft="0"
 							  gutterRight="0"
 							  gutterTop="0"
@@ -369,7 +360,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 			<mx:Canvas id="mainChartContainer" 
 					   x="{SLIDER_SCROLL_BUTTON_WIDTH}" y="{header.height}"
 					   width="{chartsGroup.width - SLIDER_SCROLL_BUTTON_WIDTH * 2}"
-					   height="{appContainer.height - header.height - mainChartVolumeContainer.height - gapMainRange - RANGE_CHART_HEIGHT - rangeSelectorContainer.height + RANGE_CHART_OVERLAP - footer.height}" 
+					   height="{appContainer.height - header.height - mainChartVolumeContainer.height - groupBetweenMainRange.height - rangeChartContainer.height - rangeSelectorContainer.height + RANGE_CHART_OVERLAP - footer.height}"
 					   horizontalScrollPolicy="off" verticalScrollPolicy="off" 
 					   styleName="canvasContainerStyles"
 					   borderStyle="none"
@@ -566,7 +557,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 					 x="{SLIDER_SCROLL_BUTTON_WIDTH}" 
 					 y="{mainChartContainer.y + mainChartContainer.height}"
 					 width="{mainChartContainer.width}"
-					 height="{gapMainRange}"
+					 height="{rangeChartVisible ? gapMainRange : 0}"
+					 visible="{rangeChartVisible}"
 					 >
 				<!--
 				<s:Line xFrom="0" yFrom="0" xTo="{leftBox.width}" yTo="{gapMainRange}">
@@ -936,6 +928,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 			[Bindable] public var sliderVisible:Boolean = true;
 			[Bindable] public var topBorderVisible:Boolean = true;
 			[Bindable] public var volumeVisible:Boolean = false;
+			[Bindable] public var rangeChartVisible:Boolean = true;
 			[Bindable] public var seriesName:String = "close";
 			
 			private var _today:Date;
@@ -2108,7 +2101,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 				// TODO: determine why this isn't working and fix; currently disabled because this results in no visible cursor
 //				horizontalMoveCursorId = this.cursorManager.setCursor(horizontalMoveCursor, CursorManagerPriority.MEDIUM, -8, -8);
 				
-//				event.stopImmediatePropagation();
+				event.stopImmediatePropagation();
 			}
 
 			protected function focusTimeGroup_mouseMoveHandler(event:MouseEvent):void

@@ -19,7 +19,8 @@ package collaboRhythm.mobile.controller
 import collaboRhythm.core.controller.ApplicationControllerBase;
 import collaboRhythm.core.view.RemoteUsersListView;
 import collaboRhythm.mobile.view.WidgetContainerView;
-import collaboRhythm.shared.model.Settings;
+	import collaboRhythm.shared.controller.apps.AppControllerInfo;
+	import collaboRhythm.shared.model.Settings;
 import collaboRhythm.shared.view.CollaborationRoomView;
 
 import flash.desktop.NativeApplication;
@@ -106,10 +107,18 @@ public class MobileApplicationController extends ApplicationControllerBase
 			_settings = new Settings();
 			_settings.isWorkstationMode = false;
 			logger.info("Settings initialized");
-			
+			logger.info("  Application settings file: " + _settings.applicationSettingsFile.nativePath);
+			logger.info("  User settings file: " + _settings.userSettingsFile.nativePath);
+			logger.info("  Mode: " + _settings.mode);
+			logger.info("  Username: " + _settings.userName);
+
 			initializeComponents();
 			logger.info("Components initialized");
-			
+			logger.info("  User plugins directory: " + _pluginLoader.userPluginsDirectoryPath);
+			logger.info("  Number of loaded plugins: " + _pluginLoader.numPluginsLoaded);
+			var array:Array = _componentContainer.resolveAll(AppControllerInfo);
+			logger.info("  Number of registered AppControllerInfo objects (apps): " + (array ? array.length : 0));
+
 			_collaborationMediator = new MobileCollaborationMediator(this);
 			
 			_widgetContainerController = new WidgetContainerController(_mobileApplication.navigator, _collaborationMediator);

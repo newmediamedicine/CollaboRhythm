@@ -17,12 +17,13 @@
 package collaboRhythm.shared.apps.vitals.controller
 {
 //	import collaboRhythm.workstation.apps.vitals.view.VitalsFullView;
+
 	import collaboRhythm.shared.apps.vitals.view.VitalsWidgetView;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-	
-	import mx.core.IVisualElementContainer;
+
 	import mx.core.UIComponent;
-	
+
 	public class VitalsAppController extends WorkstationAppControllerBase
 	{
 		private var _widgetView:VitalsWidgetView;
@@ -48,9 +49,9 @@ package collaboRhythm.shared.apps.vitals.controller
 //			_fullView = value as VitalsFullView;
 //		}
 		
-		public function VitalsAppController(widgetParentContainer:IVisualElementContainer, fullParentContainer:IVisualElementContainer)
+		public function VitalsAppController(constructorParams:AppControllerConstructorParams)
 		{
-			super(widgetParentContainer, fullParentContainer);
+			super(constructorParams);
 		}
 		
 		protected override function createWidgetView():UIComponent

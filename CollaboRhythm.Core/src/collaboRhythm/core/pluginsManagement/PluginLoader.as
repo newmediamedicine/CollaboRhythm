@@ -48,7 +48,12 @@ package collaboRhythm.core.pluginsManagement
 
 		private static const PLUGINS_DIRECTORY_NAME:String = "plugins";
 		private var completedModuleLoaders:ArrayCollection;
-		
+
+		public function get numPluginsLoaded():int
+		{
+			return loadedPlugins.length;
+		}
+
 		public function PluginLoader()
 		{
 			_applicationPluginsDirectoryPath = File.applicationDirectory.resolvePath(PLUGINS_DIRECTORY_NAME).nativePath;

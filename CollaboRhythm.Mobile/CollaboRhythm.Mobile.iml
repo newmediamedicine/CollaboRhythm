@@ -163,6 +163,8 @@
     </orderEntry>
     <orderEntry type="library" name="mobilecomponents" level="project" />
     <orderEntry type="library" name="mobile" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Android 2.2 Platform" level="application" />
+    <orderEntry type="module" module-name="CollaboRhythm.View.Scroll" />
   </component>
 </module>
 

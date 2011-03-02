@@ -17,12 +17,13 @@
 package collaboRhythm.shared.apps.imaging.controller
 {
 //	import collaboRhythm.workstation.apps.imaging.view.ImagingFullView;
+
 	import collaboRhythm.shared.apps.imaging.view.ImagingWidgetView;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-	
-	import mx.core.IVisualElementContainer;
+
 	import mx.core.UIComponent;
-	
+
 	public class ImagingAppController extends WorkstationAppControllerBase
 	{
 		private var _widgetView:ImagingWidgetView;
@@ -48,9 +49,9 @@ package collaboRhythm.shared.apps.imaging.controller
 //			_fullView = value as ImagingFullView;
 //		}
 		
-		public function ImagingAppController(widgetParentContainer:IVisualElementContainer, fullParentContainer:IVisualElementContainer)
+		public function ImagingAppController(constructorParams:AppControllerConstructorParams)
 		{
-			super(widgetParentContainer, fullParentContainer);
+			super(constructorParams);
 		}
 		
 		protected override function createWidgetView():UIComponent

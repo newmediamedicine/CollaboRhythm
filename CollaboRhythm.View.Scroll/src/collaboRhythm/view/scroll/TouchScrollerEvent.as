@@ -22,7 +22,7 @@ package collaboRhythm.view.scroll
 	 * A <c>TouchScrollerEvent</c> object is dispatched into the event flow whenever scrolling by touch or mouse dragging starts.
 	 * 
 	 * @author sgilroy
-	 * @see collaboRhythm.workstation.view.scroll.TouchScroller
+	 * @see collaboRhythm.view.scroll.TouchScroller
 	 */
 	public class TouchScrollerEvent extends Event
 	{

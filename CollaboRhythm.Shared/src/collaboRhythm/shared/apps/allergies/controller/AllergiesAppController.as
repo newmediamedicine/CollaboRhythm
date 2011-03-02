@@ -17,12 +17,13 @@
 package collaboRhythm.shared.apps.allergies.controller
 {
 //	import collaboRhythm.workstation.apps.allergies.view.AllergiesFullView;
+
 	import collaboRhythm.shared.apps.allergies.view.AllergiesWidgetView;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-	
-	import mx.core.IVisualElementContainer;
+
 	import mx.core.UIComponent;
-	
+
 	public class AllergiesAppController extends WorkstationAppControllerBase
 	{
 		private var _widgetView:AllergiesWidgetView;
@@ -48,9 +49,9 @@ package collaboRhythm.shared.apps.allergies.controller
 //			_fullView = value as AllergiesFullView;
 //		}
 		
-		public function AllergiesAppController(widgetParentContainer:IVisualElementContainer, fullParentContainer:IVisualElementContainer)
+		public function AllergiesAppController(constructorParams:AppControllerConstructorParams)
 		{
-			super(widgetParentContainer, fullParentContainer);
+			super(constructorParams);
 		}
 		
 		protected override function createWidgetView():UIComponent

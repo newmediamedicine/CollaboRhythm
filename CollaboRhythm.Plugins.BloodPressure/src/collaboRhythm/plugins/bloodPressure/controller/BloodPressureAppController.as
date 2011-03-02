@@ -17,17 +17,14 @@
 package collaboRhythm.plugins.bloodPressure.controller
 {
 	import collaboRhythm.plugins.bloodPressure.model.BloodPressureHealthRecordService;
-	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureFullView;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureWidgetView;
+	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-	import collaboRhythm.shared.controller.apps.WorkstationAppEvent;
-	
-	import flash.events.MouseEvent;
-	
-	import mx.core.IVisualElementContainer;
+
 	import mx.core.UIComponent;
-	
+
 	public class BloodPressureAppController extends WorkstationAppControllerBase
 	{
 		private var _widgetView:BloodPressureWidgetView;
@@ -58,9 +55,9 @@ package collaboRhythm.plugins.bloodPressure.controller
 			_fullView = value as BloodPressureFullView;
 		}
 		
-		public function BloodPressureAppController(widgetParentContainer:IVisualElementContainer, fullParentContainer:IVisualElementContainer)
+		public function BloodPressureAppController(constructorParams:AppControllerConstructorParams)
 		{
-			super(widgetParentContainer, fullParentContainer);
+			super(constructorParams);
 		}
 
 //		override public function showWidget(left:Number=-1, top:Number=-1):void

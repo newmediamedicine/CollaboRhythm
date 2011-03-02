@@ -17,12 +17,13 @@
 package collaboRhythm.shared.apps.genetics.controller
 {
 //	import collaboRhythm.workstation.apps.genetics.view.GeneticsFullView;
+
 	import collaboRhythm.shared.apps.genetics.view.GeneticsWidgetView;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-	
-	import mx.core.IVisualElementContainer;
+
 	import mx.core.UIComponent;
-	
+
 	public class GeneticsAppController extends WorkstationAppControllerBase
 	{
 		private var _widgetView:GeneticsWidgetView;
@@ -48,9 +49,9 @@ package collaboRhythm.shared.apps.genetics.controller
 //			_fullView = value as GeneticsFullView;
 //		}
 		
-		public function GeneticsAppController(widgetParentContainer:IVisualElementContainer, fullParentContainer:IVisualElementContainer)
+		public function GeneticsAppController(constructorParams:AppControllerConstructorParams)
 		{
-			super(widgetParentContainer, fullParentContainer);
+			super(constructorParams);
 		}
 		
 		protected override function createWidgetView():UIComponent

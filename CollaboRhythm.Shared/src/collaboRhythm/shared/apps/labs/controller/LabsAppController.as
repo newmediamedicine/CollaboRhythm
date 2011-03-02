@@ -17,12 +17,13 @@
 package collaboRhythm.shared.apps.labs.controller
 {
 //	import collaboRhythm.workstation.apps.labs.view.LabsFullView;
+
 	import collaboRhythm.shared.apps.labs.view.LabsWidgetView;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-	
-	import mx.core.IVisualElementContainer;
+
 	import mx.core.UIComponent;
-	
+
 	public class LabsAppController extends WorkstationAppControllerBase
 	{
 		private var _widgetView:LabsWidgetView;
@@ -48,9 +49,9 @@ package collaboRhythm.shared.apps.labs.controller
 //			_fullView = value as LabsFullView;
 //		}
 		
-		public function LabsAppController(widgetParentContainer:IVisualElementContainer, fullParentContainer:IVisualElementContainer)
+		public function LabsAppController(constructorParams:AppControllerConstructorParams)
 		{
-			super(widgetParentContainer, fullParentContainer);
+			super(constructorParams);
 		}
 		
 		protected override function createWidgetView():UIComponent

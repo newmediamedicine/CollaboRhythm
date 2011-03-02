@@ -17,12 +17,13 @@
 package collaboRhythm.shared.apps.equipment.controller
 {
 //	import collaboRhythm.workstation.apps.equipment.view.EquipmentFullView;
+
 	import collaboRhythm.shared.apps.equipment.view.EquipmentWidgetView;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-	
-	import mx.core.IVisualElementContainer;
+
 	import mx.core.UIComponent;
-	
+
 	public class EquipmentAppController extends WorkstationAppControllerBase
 	{
 		private var _widgetView:EquipmentWidgetView;
@@ -48,9 +49,9 @@ package collaboRhythm.shared.apps.equipment.controller
 //			_fullView = value as EquipmentFullView;
 //		}
 		
-		public function EquipmentAppController(widgetParentContainer:IVisualElementContainer, fullParentContainer:IVisualElementContainer)
+		public function EquipmentAppController(constructorParams:AppControllerConstructorParams)
 		{
-			super(widgetParentContainer, fullParentContainer);
+			super(constructorParams);
 		}
 		
 		protected override function createWidgetView():UIComponent

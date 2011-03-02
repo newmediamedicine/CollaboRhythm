@@ -37,6 +37,7 @@ package collaboRhythm.shared.controller.apps
 		private var _healthRecordService:CommonHealthRecordService;
 		private var _user:User;
 		private var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
+		private var _isWorkstationMode:Boolean;
 		
 		public function WorkstationAppControllerFactory()
 		{
@@ -92,20 +93,29 @@ package collaboRhythm.shared.controller.apps
 			_collaborationRoomNetConnectionServiceProxy = value;
 		}
 
+		public function get isWorkstationMode():Boolean
+		{
+			return _isWorkstationMode;
+		}
+
+		public function set isWorkstationMode(value:Boolean):void
+		{
+			_isWorkstationMode = value;
+		}
+
 		public function createApp(appClass:Class, appName:String=null):WorkstationAppControllerBase
 		{
-			// TODO:
-//			var appClass:Class = getClassByAlias(appType);
-//			if (appClass == null)
-//				throw new Error("Unable to get class for app: " + appType);
-			
-			// TODO: eliminate constructor parameters and just use properties instead to make it easier to implement/maintain sub-classes of WorkstationAppController
-			var appObject:Object = new appClass(_widgetParentContainer, _fullParentContainer);
+			var constructorParams:AppControllerConstructorParams = new AppControllerConstructorParams();
+			constructorParams.widgetParentContainer = _widgetParentContainer;
+			constructorParams.fullParentContainer = _fullParentContainer;
+			constructorParams.isWorkstationMode = _isWorkstationMode;
+
+			var appObject:Object = new appClass(constructorParams);
 			if (appObject == null)
 				throw new Error("Unable to create instance of app: " + appClass);
 			
-			var app:WorkstationAppControllerBase = appObject as WorkstationAppControllerBase; 
-			
+			var app:WorkstationAppControllerBase = appObject as WorkstationAppControllerBase;
+
 			if (appName != null)
 				app.name = appName;
 			

@@ -93,13 +93,27 @@ package collaboRhythm.shared.model
 
 		private function readSettings():void
 		{
-			var file:File = File.applicationDirectory.resolvePath("resources").resolvePath(SETTINGS_FILE_NAME);
+			var file:File = applicationSettingsFile;
 			
 			readSettingsFromFile(file);
 
-			file = File.applicationStorageDirectory.resolvePath(SETTINGS_FILE_NAME);
+			file = userSettingsFile;
 
 			readSettingsFromFile(file);
+		}
+
+		public function get userSettingsFile():File
+		{
+			// Use /data/local instead of /data/data because attempting to write to /data/data fails with the error "failed to copy '<source>' to '<dest>': Permission denied"
+			// TODO: figure out how to write to the appropriate /data/data directory using "adb push" and avoid using /data/local
+			var nativePath:String = File.applicationStorageDirectory.resolvePath(SETTINGS_FILE_NAME).nativePath;
+			nativePath = nativePath.replace("/data/data", "/data/local");
+			return new File(nativePath);
+		}
+
+		public function get applicationSettingsFile():File
+		{
+			return File.applicationDirectory.resolvePath("resources").resolvePath(SETTINGS_FILE_NAME);
 		}
 		
 		private function readSettingsFromFile(file:File):void

@@ -17,18 +17,18 @@
 package collaboRhythm.plugins.bloodPressure.controller
 {
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureMobileChartView;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 
-	import mx.core.IVisualElementContainer;
 	import mx.core.UIComponent;
 
 	public class BloodPressureChartAppController extends WorkstationAppControllerBase
 	{
 		private var _widgetView:BloodPressureMobileChartView;
 
-		public function BloodPressureChartAppController(widgetParentContainer:IVisualElementContainer, fullParentContainer:IVisualElementContainer)
+		public function BloodPressureChartAppController(constructorParams:AppControllerConstructorParams)
 		{
-			super(widgetParentContainer, fullParentContainer);
+			super(constructorParams);
 		}
 
 		override public function get defaultName():String
@@ -48,10 +48,15 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 		protected override function createWidgetView():UIComponent
 		{
-			_widgetView = new BloodPressureMobileChartView();
-			if (_widgetView)
-				_widgetView.model = _user.bloodPressureModel;
-			return _widgetView;
+			if (isMobileMode)
+			{
+				_widgetView = new BloodPressureMobileChartView();
+				if (_widgetView && _user)
+					_widgetView.model = _user.bloodPressureModel;
+				return _widgetView;
+			}
+			else
+				return null;
 		}
 
 		public override function initialize():void
@@ -63,7 +68,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 		override protected function prepareWidgetView():void
 		{
 			super.prepareWidgetView();
-			if (_widgetView)
+			if (_widgetView && _user)
 				_widgetView.model = _user.bloodPressureModel;
 		}
 	}

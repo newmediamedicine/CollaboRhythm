@@ -39,7 +39,7 @@ package collaboRhythm.view.scroll
 	 * for scrollable components using composition (instead of inheritance). 
 	 * 
 	 * @author sgilroy
-	 * @see collaboRhythm.workstation.view.scroll.ITouchScrollerAdapter
+	 * @see collaboRhythm.view.scroll.ITouchScrollerAdapter
 	 */
 	public class TouchScroller extends EventDispatcher
 	{
@@ -76,9 +76,9 @@ package collaboRhythm.view.scroll
 		private var _frameTime:Number = 0;
 		
 		// flag is true when mouse or touch events are being interpreted as scrolling events and should not be propogated to other event listeners 
-		private var _shouldStopMouseAndTouchEventPropogation:Boolean = false;
+		private var _shouldStopMouseAndTouchEventPropagation:Boolean = false;
 		// flag is true when scrolling is being performed in some parent of the corresponding component (scroll start event detected) and thus any subsequent click event should not be propogated
-		private var _shouldStopClickEventPropogation:Boolean = false;
+		private var _shouldStopClickEventPropagation:Boolean = false;
 		// flag is true when there is a mouse down event right after a touch begin; when this happens, the mouse events are considered redundant and ignored
 		private var _treatMouseEventsAsRedundant:Boolean = false;
 		
@@ -101,7 +101,7 @@ package collaboRhythm.view.scroll
 		private var _firstContentPos:Point = new Point();
 		// difference of mouse movement for flick gesture
 		private var _diff:Point = new Point();
-		// scroll inhertia power
+		// scroll inertia power
 		private var _inertia:Point = new Point();
 		// edge spring force
 		private var _edgeSpring:Point = new Point();
@@ -398,7 +398,7 @@ package collaboRhythm.view.scroll
 			// ignore all events for buttons (such as buttons in scroll bars)
 			if (e.target is spark.components.Button || e.target is mx.controls.Button)
 			{
-				return false;	
+				return false;
 			}
 			
 			return true;
@@ -407,8 +407,8 @@ package collaboRhythm.view.scroll
 		private function initializeStartPosition(event:Event):void
 		{
 			_isDragging = false;
-			_shouldStopMouseAndTouchEventPropogation = false;
-			_shouldStopClickEventPropogation = false;
+			_shouldStopMouseAndTouchEventPropagation = false;
+			_shouldStopClickEventPropagation = false;
 			
 			_moveSamplesStack = new Vector.<MoveSample>();
 			_moveSamplesStack.push(new MoveSample(_firstPos.x, _firstPos.y, new Date(), null));
@@ -451,9 +451,9 @@ package collaboRhythm.view.scroll
 			//			trace("touchMoveHandler firstScrollPos.y: " + firstScrollPos.y.toFixed(2) + " totalY: " + totalY.toFixed(2) + " old: " + verticalScrollPosition.toFixed(2));
 			doScrollMove(e, _touchX, _touchY, _useTouchMoveThreshold ? _touchMoveThreshold : 0);
 			
-//			trace("  should stop propagation:", _shouldStopMouseAndTouchEventPropogation, "isDragging", _isDragging);
+//			trace("  should stop propagation:", _shouldStopMouseAndTouchEventPropagation, "isDragging", _isDragging);
 			
-			if (_shouldStopMouseAndTouchEventPropogation)
+			if (_shouldStopMouseAndTouchEventPropagation)
 				e.stopImmediatePropagation();
 		}
 		
@@ -482,8 +482,8 @@ package collaboRhythm.view.scroll
 				_isTouchMove = false;
 				doScrollMove(e, _adapter.component.mouseX, _adapter.component.mouseY);
 				
-//				trace("  should stop propagation:", _shouldStopMouseAndTouchEventPropogation, "isDragging", _isDragging);
-				if (_shouldStopMouseAndTouchEventPropogation)
+//				trace("  should stop propagation:", _shouldStopMouseAndTouchEventPropagation, "isDragging", _isDragging);
+				if (_shouldStopMouseAndTouchEventPropagation)
 					e.stopImmediatePropagation();
 			}
 		}
@@ -599,8 +599,8 @@ package collaboRhythm.view.scroll
 //			grabbingCursorId = _adapter.component.cursorManager.setCursor(grabbingCursor, CursorManagerPriority.MEDIUM, -8, -8);
 
 			_isDragging = true;
-			_shouldStopMouseAndTouchEventPropogation = true;
-			_shouldStopClickEventPropogation = true;
+			_shouldStopMouseAndTouchEventPropagation = true;
+			_shouldStopClickEventPropagation = true;
 			this.dispatchEvent(new TouchScrollerEvent(TouchScrollerEvent.SCROLL_START, _adapter.component));
 			event.target.dispatchEvent(new TouchScrollerEvent(TouchScrollerEvent.SCROLL_START, _adapter.component, true));
 		}
@@ -608,15 +608,15 @@ package collaboRhythm.view.scroll
 		private function scrollStartHandler(event:TouchScrollerEvent):void
 		{
 			if (_traceEventHandlers)
-				trace(traceInstanceDescription + ".scrollStartHandler, stop? " + _shouldStopMouseAndTouchEventPropogation + ", stop click? " + (event.scrollTarget != _adapter.component) + ", target: " + event.target + ", scrollTarget: " + event.scrollTarget);
+				trace(traceInstanceDescription + ".scrollStartHandler, stop? " + _shouldStopMouseAndTouchEventPropagation + ", stop click? " + (event.scrollTarget != _adapter.component) + ", target: " + event.target + ", scrollTarget: " + event.scrollTarget);
 
-			// if some other component (a parent component) is scrolling, we should not propogate mouse and touch events (especially mouse click) 
+			// if some other component (a parent component) is scrolling, we should not propagate mouse and touch events (especially mouse click)
 			if (event.scrollTarget != _adapter.component)
 			{
-//				_shouldStopMouseAndTouchEventPropogation = true;
+//				_shouldStopMouseAndTouchEventPropagation = true;
 //				removeTouchEventHandlers();
 //				removeMouseEventHandlers();
-				_shouldStopClickEventPropogation = true;
+				_shouldStopClickEventPropagation = true;
 
 //				removeTouchEventHandlers();
 //				removeMouseEventHandlers();
@@ -680,7 +680,7 @@ package collaboRhythm.view.scroll
 		private function touchEndHandler(e:TouchEvent):void 
 		{
 			if (_traceEventHandlers)
-				trace(traceInstanceDescription + ".touchEndHandler, stop? " + _shouldStopMouseAndTouchEventPropogation);
+				trace(traceInstanceDescription + ".touchEndHandler, stop? " + _shouldStopMouseAndTouchEventPropagation);
 			
 			removeTouchEventHandlers();
 			removeMouseEventHandlers();
@@ -690,15 +690,13 @@ package collaboRhythm.view.scroll
 			
 			doFlick(e);
 			
-//			if (_shouldStopMouseAndTouchEventPropogation)
+//			if (_shouldStopMouseAndTouchEventPropagation)
 //				e.stopImmediatePropagation();
 		}
 		
 		private function removeTouchEventHandlers():void
 		{
-//			_adapter.component.removeEventListener(TouchEvent.TOUCH_MOVE, touchMoveHandler);
 			_adapter.component.stage.removeEventListener(TouchEvent.TOUCH_MOVE, touchMoveHandler);
-//			_adapter.component.removeEventListener(TouchEvent.TOUCH_END, touchEndHandler);
 			_adapter.component.stage.removeEventListener(TouchEvent.TOUCH_END, touchEndHandler);
 		}
 		
@@ -716,7 +714,7 @@ package collaboRhythm.view.scroll
 		private function mouseUpHandler(e:MouseEvent):void 
 		{
 			if (_traceEventHandlers)
-				trace(traceInstanceDescription + ".mouseUpHandler, stop? " + _shouldStopMouseAndTouchEventPropogation + ", move samples: " + _moveSamplesStack.length + ", target: " + e.target);
+				trace(traceInstanceDescription + ".mouseUpHandler, stop? " + _shouldStopMouseAndTouchEventPropagation + ", move samples: " + _moveSamplesStack.length + ", target: " + e.target);
 			
 //			if (e.target is WindowedSystemManager) return;
 			
@@ -730,7 +728,7 @@ package collaboRhythm.view.scroll
 			{
 				doFlick(e);
 				
-//				if (_shouldStopMouseAndTouchEventPropogation)
+//				if (_shouldStopMouseAndTouchEventPropagation)
 //					e.stopImmediatePropagation();
 			}
 		}
@@ -744,13 +742,13 @@ package collaboRhythm.view.scroll
 		private function mouseClickHandler(e:MouseEvent):void 
 		{
 			if (_traceEventHandlers)
-				trace(traceInstanceDescription + ".mouseClickHandler, stop? " + _shouldStopMouseAndTouchEventPropogation + ", moved? " + componentMoved() + ", target: " + e.target);
+				trace(traceInstanceDescription + ".mouseClickHandler, stop? " + _shouldStopMouseAndTouchEventPropagation + ", moved? " + componentMoved() + ", target: " + e.target);
 			
 			_adapter.component.removeEventListener(MouseEvent.CLICK, mouseClickHandler);
 			if (_adapter.component.stage != null)
 				_adapter.component.stage.removeEventListener(MouseEvent.CLICK, mouseClickHandler);
 
-			if (_shouldStopMouseAndTouchEventPropogation || _shouldStopClickEventPropogation || componentMoved())
+			if (_shouldStopMouseAndTouchEventPropagation || _shouldStopClickEventPropagation || componentMoved())
 				e.stopImmediatePropagation();
 		}
 		

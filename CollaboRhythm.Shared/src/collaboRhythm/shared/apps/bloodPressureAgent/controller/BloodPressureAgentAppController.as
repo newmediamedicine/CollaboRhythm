@@ -18,10 +18,10 @@ package collaboRhythm.shared.apps.bloodPressureAgent.controller
 {
 	import collaboRhythm.shared.apps.bloodPressureAgent.view.BloodPressureAgentFullView;
 	import collaboRhythm.shared.apps.bloodPressureAgent.view.BloodPressureAgentWidgetView;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 	import collaboRhythm.shared.controller.apps.WorkstationAppEvent;
-	
-	import mx.core.IVisualElementContainer;
+
 	import mx.core.UIComponent;
 
 	public class BloodPressureAgentAppController extends WorkstationAppControllerBase
@@ -50,9 +50,9 @@ package collaboRhythm.shared.apps.bloodPressureAgent.controller
 			_fullView = value as BloodPressureAgentFullView;
 		}
 		
-		public function BloodPressureAgentAppController(widgetParentContainer:IVisualElementContainer, fullParentContainer:IVisualElementContainer)
+		public function BloodPressureAgentAppController(constructorParams:AppControllerConstructorParams)
 		{
-			super(widgetParentContainer, fullParentContainer);
+			super(constructorParams);
 		}
 		
 		protected override function createWidgetView():UIComponent

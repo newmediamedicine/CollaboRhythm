@@ -85,6 +85,8 @@
 		import collaboRhythm.mobile.controller.WidgetContainerController;
 		import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 
+		import collaboRhythm.view.scroll.TouchScrollerEvent;
+
 		import mx.core.IButton;
 		import mx.core.IVisualElement;
 		import mx.events.FlexEvent;
@@ -97,6 +99,9 @@
 		private var _isFlicking:Boolean;
 		private const _flickStartDelta:Number = 10;
 		private const _flickDelta:Number = 10;
+		private var _traceEventHandlers:Boolean = false;
+		private var _isListeningForMouseMove:Boolean;
+		private var _shouldIgnoreNextMouseDown:Boolean;
 
 		public function get workstationAppController():WorkstationAppControllerBase
 		{
@@ -116,6 +121,29 @@
 		public function get controller():WidgetContainerController
 		{
 			return _widgetContainerController;
+		}
+
+		override protected function initializationComplete():void
+		{
+			super.initializationComplete();
+
+			this.addEventListener(TouchScrollerEvent.SCROLL_START, scrollStartHandler, false, 0, true);
+		}
+
+		private function scrollStartHandler(event:TouchScrollerEvent):void
+		{
+			if (_traceEventHandlers)
+				trace(traceInstanceDescription + ".scrollStartHandler");
+
+			if (_isListeningForMouseMove)
+				removeMouseEventListeners();
+			else
+				_shouldIgnoreNextMouseDown = true;
+		}
+
+		private function get traceInstanceDescription():String
+		{
+			return "WidgetContainerView";
 		}
 
 		private function gestureSwipeHandler(event:TransformGestureEvent):void
@@ -148,7 +176,7 @@
 
 		protected function mouseDownHandler(event:MouseEvent):void
 		{
-			if (!isMenuVisible)
+			if (!isMenuVisible && !_shouldIgnoreNextMouseDown)
 			{
 				_isFlicking = false;
 				if (event.target is IButton || event.target is ButtonBase)
@@ -157,13 +185,18 @@
 				_mouseDownX = event.stageX;
 				this.stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
 				this.stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
+				_isListeningForMouseMove = true;
 
 				this.includeInLayout = false;
 			}
+			_shouldIgnoreNextMouseDown = false;
 		}
 
 		protected function mouseMoveHandler(event:MouseEvent):void
 		{
+			if (_traceEventHandlers)
+				trace(traceInstanceDescription + ".mouseMoveHandler");
+
 			var deltaX:Number = event.stageX - _mouseDownX;
 			if (_isFlicking || Math.abs(deltaX) > _flickStartDelta)
 			{
@@ -174,10 +207,10 @@
 
 		protected function mouseUpHandler(event:MouseEvent):void
 		{
-			this.stage.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
-			this.stage.removeEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
-			_isFlicking = false;
+			if (_traceEventHandlers)
+				trace(traceInstanceDescription + ".mouseUpHandler");
 
+			removeMouseEventListeners();
 			var deltaX:Number = event.stageX - _mouseDownX;
 
 			var flicked:Boolean = false;
@@ -247,6 +280,14 @@
 				g.moveTo(element.x + element.width + 1, element.y);
 				g.lineTo(element.x + element.width + 1, element.y + element.height);
 			}
+		}
+
+		private function removeMouseEventListeners():void
+		{
+			this.stage.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
+			this.stage.removeEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
+			_isFlicking = false;
+			_isListeningForMouseMove = false;
 		}
 		]]>
 	</fx:Script>

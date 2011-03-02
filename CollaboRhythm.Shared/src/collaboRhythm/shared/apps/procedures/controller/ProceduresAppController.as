@@ -17,12 +17,13 @@
 package collaboRhythm.shared.apps.procedures.controller
 {
 //	import collaboRhythm.workstation.apps.procedures.view.ProceduresFullView;
+
 	import collaboRhythm.shared.apps.procedures.view.ProceduresWidgetView;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-	
-	import mx.core.IVisualElementContainer;
+
 	import mx.core.UIComponent;
-	
+
 	public class ProceduresAppController extends WorkstationAppControllerBase
 	{
 		private var _widgetView:ProceduresWidgetView;
@@ -48,9 +49,9 @@ package collaboRhythm.shared.apps.procedures.controller
 //			_fullView = value as ProceduresFullView;
 //		}
 		
-		public function ProceduresAppController(widgetParentContainer:IVisualElementContainer, fullParentContainer:IVisualElementContainer)
+		public function ProceduresAppController(constructorParams:AppControllerConstructorParams)
 		{
-			super(widgetParentContainer, fullParentContainer);
+			super(constructorParams);
 		}
 		
 		protected override function createWidgetView():UIComponent

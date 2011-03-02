@@ -19,12 +19,9 @@ package collaboRhythm.plugins.medications.controller
 	import collaboRhythm.plugins.medications.model.MedicationsHealthRecordService;
 	import collaboRhythm.plugins.medications.model.MedicationsModel;
 	import collaboRhythm.plugins.medications.view.MedicationsWidgetView;
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-	
-	import flash.display.DisplayObject;
-	
-	import mx.core.IVisualElementContainer;
+
 	import mx.core.UIComponent;
 
 	public class MedicationsAppController extends WorkstationAppControllerBase
@@ -57,9 +54,9 @@ package collaboRhythm.plugins.medications.controller
 //			_fullView = value as MedicationsTimelineFullView;
 //		}
 		
-		public function MedicationsAppController(widgetParentContainer:IVisualElementContainer, fullParentContainer:IVisualElementContainer)
+		public function MedicationsAppController(constructorParams:AppControllerConstructorParams)
 		{
-			super(widgetParentContainer, fullParentContainer);
+			super(constructorParams);
 		}
 
 		protected override function createWidgetView():UIComponent

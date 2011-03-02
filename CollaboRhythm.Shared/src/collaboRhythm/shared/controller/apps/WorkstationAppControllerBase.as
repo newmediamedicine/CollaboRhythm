@@ -61,7 +61,6 @@ package collaboRhythm.shared.controller.apps
 		public static const WIDGET_WATERMARK_ALPHA:Number = 0.2;
 		public static const DEBUG_BUTTON_ALPHA:Number = 0.2;
 		public static const DEBUG_BUTTON_VISIBLE:Boolean = false;
-		public static const WIDGET_HEIGHT:Number = 165;
 		public static const PREVENT_RE_SHOWING_FULL_VIEW:Boolean = true;
 		
 		protected var _widgetParentContainer:IVisualElementContainer;
@@ -75,20 +74,32 @@ package collaboRhythm.shared.controller.apps
 		private var _centerSpaceTransitionComponent:UIComponent;
 		
 		private var _name:String;
+		private var _isWorkstationMode:Boolean;
 		
-		public function WorkstationAppControllerBase(widgetParentContainer:IVisualElementContainer, fullParentContainer:IVisualElementContainer)
+		public function WorkstationAppControllerBase(constructorParams:AppControllerConstructorParams)
 		{
 			name = defaultName;
 
-			_widgetParentContainer = widgetParentContainer;
-			_fullParentContainer = fullParentContainer;
+			_widgetParentContainer = constructorParams.widgetParentContainer;
+			_fullParentContainer = constructorParams.fullParentContainer;
+			_isWorkstationMode = constructorParams.isWorkstationMode;
 
 			createAndPrepareWidgetView();
 			
 			if (widgetView)
 				showWidgetAsDraggable(fullView != null);
 		}
-		
+
+		public function get isWorkstationMode():Boolean
+		{
+			return _isWorkstationMode;
+		}
+
+		public function get isMobileMode():Boolean
+		{
+			return !isWorkstationMode;
+		}
+
 		public function createAndPrepareWidgetView():void
 		{
 			if (_widgetParentContainer && !widgetView)
@@ -247,11 +258,6 @@ package collaboRhythm.shared.controller.apps
 		 */
 		protected function prepareWidgetView():void
 		{
-//			widgetView.height = WIDGET_HEIGHT;
-			
-//			Multitouch.inputMode = MultitouchInputMode.GESTURE;
-//			widgetView.addEventListener(TransformGestureEvent.GESTURE_PAN, widgetPanHandler);
-
 			if (widgetView != null)
 			{
 				widgetView.addEventListener(MouseEvent.CLICK, widgetClickHandler);
@@ -318,12 +324,14 @@ package collaboRhythm.shared.controller.apps
 		
 		public function showWidgetAsDraggable(value:Boolean):void
 		{
-			widgetView.setStyle("dropShadowVisible", value);
+			if (widgetView)
+				widgetView.setStyle("dropShadowVisible", value);
 		}
 		
 		public function showWidgetAsSelected(value:Boolean):void
 		{
-			widgetView.setStyle("selected", value);
+			if (widgetView)
+				widgetView.setStyle("selected", value);
 		}
 		
 		public function makeDroppable( component:IUIComponent ):void
@@ -336,10 +344,10 @@ package collaboRhythm.shared.controller.apps
 			
 			component.addEventListener(DragEvent.DRAG_EXIT, dragExitHandler);
 			
-			component.addEventListener(DragEvent.DRAG_COMPLETE, dragComleteHandler);
+			component.addEventListener(DragEvent.DRAG_COMPLETE, dragCompleteHandler);
 		}
 		
-		public function dragComleteHandler(dragEvent:DragEvent):void
+		public function dragCompleteHandler(dragEvent:DragEvent):void
 		{
 			var dragSource:DragSource = dragEvent.dragSource;
 			var dragInitiator:IUIComponent = dragEvent.dragInitiator;
@@ -453,35 +461,13 @@ package collaboRhythm.shared.controller.apps
 		
 		public function showWidget(left:Number=-1, top:Number=-1):void
 		{
-			if (left != -1 && top != -1)
-				widgetView.move(left, top);
+			if (widgetView)
+			{
+				if (left != -1 && top != -1)
+					widgetView.move(left, top);
 
-//			var move:Move = new Move(widgetView);
-//			move.xTo = widgetView.x;
-//			move.xFrom = _widgetParentContainer.width / 2;
-//			move.yTo = widgetView.y;
-//			move.yFrom = _widgetParentContainer.height;
-//			move.play();
-			
-//			var resize:Resize = new Resize(widgetView);
-//			resize.widthTo = 400;
-//			resize.widthFrom = 10;
-//			resize.heightTo = 300;
-//			resize.heightFrom = 10;
-//			resize.disableLayout = true;
-//			resize.play();
-			
-//			var spin:Rotate = new Rotate(widgetView);
-//			spin.angleBy = 360;
-//			spin.play();
-			
-//			var fade:Fade = new Fade(widgetView);
-//			fade.alphaFrom = 0;
-//			fade.alphaTo = 1;
-//			fade.duration = 2000;
-//			fade.play();
-			
-			widgetView.visible = true;
+				widgetView.visible = true;
+			}
 		}
 		
 		/**
@@ -489,7 +475,7 @@ package collaboRhythm.shared.controller.apps
 		 * Will convert values correctly even if the two components are from different stages (different windows). 
 		 * @param from Component to use for the "from" the local coordinates  
 		 * @param to
-		 * @return A point in the coordinat system of the "to" component.
+		 * @return A point in the coordinate system of the "to" component.
 		 * 
 		 */
 		public static function localToLocal(from:UIComponent, to:UIComponent, fromPoint:Point=null):Point
@@ -780,7 +766,7 @@ package collaboRhythm.shared.controller.apps
 		}
 		
 		/**
-		 * Called after hidding the full view is complete. Override in subclasses to change behavior for hidding full view. 
+		 * Called after hiding the full view is complete. Override in subclasses to change behavior for hiding full view.
 		 */
 		protected function hideFullViewComplete():void
 		{
