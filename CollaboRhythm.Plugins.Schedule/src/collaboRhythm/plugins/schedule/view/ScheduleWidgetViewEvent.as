@@ -16,24 +16,26 @@
  */
 package collaboRhythm.plugins.schedule.view
 {
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+	
 	import flash.events.Event;
 	
-	public class AdherenceWindowWidgetViewEvent extends Event
+	public class ScheduleWidgetViewEvent extends Event
 	{
-		public static const ADHERENCE_GROUP_HOUR_CHANGED:String = "AdherenceGroupHourChanged";
-		public static const ADHERENCE_GROUP_WINDOW_CHANGED:String = "AdherenceGroupWindowChanged";
+		public static const SCHEDULE_GROUP_CLOCK_VIEW_CLICK:String = "ScheduleGroupClockViewClick";
+		public static const SCHEDULE_GROUP_REPORTING_VIEW_BACK:String = "ScheduleGroupReportingViewBack";
 		
-		private var _widgetAdherenceWindowView:ScheduleGroupClockView;
+		private var _scheduleGroup:ScheduleGroup;
 		
-		public function AdherenceWindowWidgetViewEvent(type:String, widgetAdherenceWindowView:ScheduleGroupClockView, bubbles:Boolean=false, cancelable:Boolean=false)
-		{
-			super(type, bubbles, cancelable);
-			_widgetAdherenceWindowView = widgetAdherenceWindowView;
+		public function ScheduleWidgetViewEvent(type:String, scheduleGroup:ScheduleGroup = null)
+		{		
+			super(type, true);
+			_scheduleGroup = scheduleGroup;
 		}
-		
-		public function get widgetAdherenceWindowView():ScheduleGroupClockView
+
+		public function get scheduleGroup():ScheduleGroup
 		{
-			return _widgetAdherenceWindowView;
+			return _scheduleGroup;
 		}
 	}
 }

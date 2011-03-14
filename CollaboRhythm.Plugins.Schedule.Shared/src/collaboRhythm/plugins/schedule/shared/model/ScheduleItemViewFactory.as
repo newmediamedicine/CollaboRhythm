@@ -18,7 +18,7 @@ package collaboRhythm.plugins.schedule.shared.model
 {
 	import castle.flexbridge.reflection.ReflectionUtils;
 
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
 	import collaboRhythm.shared.model.healthRecord.IDocumentMetadata;
 	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
 
@@ -62,18 +62,18 @@ package collaboRhythm.plugins.schedule.shared.model
 			return documentViewDescriptor.documentType + "." + documentViewDescriptor.viewType;
 		}
 
-		public function createWidgetView(scheduleItem:IDocumentMetadata):ScheduleItemWidgetViewBase
+		public function createWidgetView(scheduleItem:IDocumentMetadata):ScheduleItemClockViewBase
 		{
-			var key:String = scheduleItem.type + "." + ScheduleItemWidgetViewBase.SCHEDULE_ITEM_WIDGET_VIEW;
+			var key:String = scheduleItem.type + "." + ScheduleItemClockViewBase.SCHEDULE_ITEM_WIDGET_VIEW;
 			var viewClass:Class = _viewClassesMap.getValueByKey(key);
 
 			var view:Object = new viewClass();
 			if (!view)
 				throw new Error("Failed to create new instance of view class " + ReflectionUtils.getClassInfo(viewClass).name + " for " + key);
 
-			var widgetView:ScheduleItemWidgetViewBase = view as ScheduleItemWidgetViewBase;
+			var widgetView:ScheduleItemClockViewBase = view as ScheduleItemClockViewBase;
 			if (!widgetView)
-				throw new Error("Failed to cast view instance as " + ReflectionUtils.getClassInfo(ScheduleItemWidgetViewBase).name + " for " + key);
+				throw new Error("Failed to cast view instance as " + ReflectionUtils.getClassInfo(ScheduleItemClockViewBase).name + " for " + key);
 			
 			return widgetView;
 		}

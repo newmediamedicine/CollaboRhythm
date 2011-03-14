@@ -15,7 +15,7 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<view:ScheduleItemFullViewBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<view:ScheduleItemTimelineViewBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:view="collaboRhythm.plugins.schedule.shared.view.*">
@@ -64,7 +64,7 @@
 		</s:Rect>
 		<mx:Image right="8" verticalCenter="0" source="@Embed(source='/assets/images/gripHorizontalNarrow.png')"/>
 		<s:Group id="medicationContent" left="1" right="29" top="1" bottom="1">
-			<s:Rect width="80" height="100%">
+			<s:Rect width="{SCHEDULE_ITEM_FULL_VIEW_PICTURE_WIDTH}" height="100%">
 				<s:fill>
 					<s:SolidColor color="0x000000"/>
 				</s:fill>
@@ -77,4 +77,4 @@
 			<s:Label id="instructions" text="{_medication.instructions}" left="83" right="1" y="64" fontSize="13" maxDisplayedLines="1"/>
 		</s:Group>
 	</s:Group>
-</view:ScheduleItemFullViewBase>
+</view:ScheduleItemTimelineViewBase>

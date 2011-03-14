@@ -27,9 +27,18 @@ package collaboRhythm.plugins.schedule.shared.model
 	[Bindable]
 	public class ScheduleModel
 	{
+		public static const SCHEDULE_CLOCK_VIEW:String = "ScheduleClockView";
+		public static const SCHEDULE_GROUP_REPORTING_VIEW:String = "ScheduleGroupReportingView";
+		
 		private var _user:User;
+		private var _initialized:Boolean = false;
 		private var _scheduleGroupsReportXML:XML;
 		private var _scheduleGroupsCollection:ArrayCollection = new ArrayCollection();
+		private var _currentWidgetView:String = SCHEDULE_CLOCK_VIEW;
+		private var _currentScheduleGroup:ScheduleGroup;
+		private var _timeWidth:Number;
+		
+		
 		private var _closeDrawer:Boolean = true;
 		private var _drawerX:Number = -340;
 		private var _drawerColor:String = "0xFFFFFF";
@@ -37,9 +46,9 @@ package collaboRhythm.plugins.schedule.shared.model
 		private var _scheduleItemsDictionary:Dictionary = new Dictionary();
 		private var _adherenceGroupsCollection:ArrayCollection = new ArrayCollection();
 		private var _adherenceGroupsVector:Vector.<AdherenceGroup> = new Vector.<AdherenceGroup>(24);
-		private var _timeWidth:Number;
+
 		private var _locked:Boolean = false;
-		private var _initialized:Boolean = false;
+
 		private var _currentDateSource:ICurrentDateSource;
 		public static const SCHEDULE_KEY:String = "schedule";
 		
@@ -63,6 +72,16 @@ package collaboRhythm.plugins.schedule.shared.model
 			return _user;
 		}
 
+		public function get initialized():Boolean
+		{
+			return _initialized;
+		}
+		
+		public function set initialized(value:Boolean):void
+		{
+			_initialized = value;
+		}
+
 		public function get scheduleGroupsReportXML():XML
 		{
 			return _scheduleGroupsReportXML;
@@ -80,7 +99,32 @@ package collaboRhythm.plugins.schedule.shared.model
 			return _scheduleGroupsCollection;
 		}
 		
-		public function createScheduleGroupsCollection():void
+		public function get currentWidgetView():String
+		{
+			return _currentWidgetView;
+		}
+		
+		public function set currentWidgetView(value:String):void
+		{
+			_currentWidgetView = value;
+		}
+		
+		public function get currentScheduleGroup():ScheduleGroup
+		{
+			return _currentScheduleGroup;
+		}
+		
+		public function get timeWidth():Number
+		{
+			return _timeWidth;
+		}
+		
+		public function set timeWidth(value:Number):void
+		{
+			_timeWidth = value;
+		}
+		
+		private function createScheduleGroupsCollection():void
 		{
 			for each (var scheduleGroupReport:XML in _scheduleGroupsReportXML.Report)
 			{
@@ -89,6 +133,53 @@ package collaboRhythm.plugins.schedule.shared.model
 				_scheduleGroupsCollection.addItem(scheduleGroup);
 			}
 		}
+		
+		public function openScheduleGroupReportingView(scheduleGroup:ScheduleGroup):void
+		{
+			_currentScheduleGroup = scheduleGroup;
+			currentWidgetView = SCHEDULE_GROUP_REPORTING_VIEW;
+		}
+		
+		public function closeScheduleGroupReportingView():void
+		{
+			currentWidgetView = SCHEDULE_CLOCK_VIEW;
+		}
+		
+		public function createAdherenceItem(scheduleGroup:ScheduleGroup, scheduleItem:ScheduleItemBase, adherenceItem:AdherenceItem):void
+		{
+			scheduleItem.adherenceItem = adherenceItem;
+			var reportingCompleted:Boolean = true;
+			for each (var scheduleItem:ScheduleItemBase in scheduleGroup.scheduleItemsCollection)
+			{
+				if (!scheduleItem.adherenceItem)
+				{
+					reportingCompleted = false;
+				}
+			}
+			if (reportingCompleted)
+			{
+				currentWidgetView = SCHEDULE_CLOCK_VIEW;
+			}
+		}
+		
+		public function highlightScheduleGroup(moveData:MoveData):void
+		{
+			var scheduleGroup:ScheduleGroup = _user.resolveDocumentById(moveData.id, ScheduleGroup) as ScheduleGroup;
+			scheduleGroup.moving = true;
+		}
+		
+		public function moveScheduleGroup(moveData:MoveData):void
+		{
+			trace(moveData.x);
+			var scheduleGroup:ScheduleGroup = _user.resolveDocumentById(moveData.id, ScheduleGroup) as ScheduleGroup;
+			var scheduleGroupDuration:Number = scheduleGroup.dateTimeEnd.time - scheduleGroup.dateTimeStart.time;
+			scheduleGroup.dateTimeStart.hours = Math.floor(moveData.x / timeWidth) - 3;
+			scheduleGroup.dateTimeEnd = new Date(scheduleGroup.dateTimeStart.time + scheduleGroupDuration);			
+		}
+		
+		
+		
+		
 
 		public function get closeDrawer():Boolean
 		{
@@ -147,16 +238,6 @@ package collaboRhythm.plugins.schedule.shared.model
 			_adherenceGroupsCollection = value;
 		}
 		
-		public function get timeWidth():Number
-		{
-			return _timeWidth;
-		}
-		
-		public function set timeWidth(value:Number):void
-		{
-			_timeWidth = value;
-		}
-		
 		public function get locked():Boolean
 		{
 			return _locked;
@@ -167,15 +248,7 @@ package collaboRhythm.plugins.schedule.shared.model
 			_locked = value;
 		}
 		
-		public function get initialized():Boolean
-		{
-			return _initialized;
-		}
-		
-		public function set initialized(value:Boolean):void
-		{
-			_initialized = value;
-		}
+
 		
 //		public function addScheduleGroup(documentID:String, scheduleGroupXML:XML):void
 //		{
@@ -223,7 +296,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		
 		public function moveScheduleItemStart(moveData:MoveData, collaborationColor:String):void
 		{
-			var scheduleItem:ScheduleItemBaseOld = _scheduleItemsDictionary[moveData.documentID];
+			var scheduleItem:ScheduleItemBaseOld = _scheduleItemsDictionary[moveData.id];
 			if (scheduleItem.scheduled == true)
 			{
 				closeDrawer = true;
@@ -271,7 +344,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		
 		public function moveScheduleItem(moveData:MoveData):void
 		{
-			var scheduleItem:ScheduleItemBaseOld = _scheduleItemsDictionary[moveData.documentID];
+			var scheduleItem:ScheduleItemBaseOld = _scheduleItemsDictionary[moveData.id];
 			scheduleItem.yBottomPosition = moveData.yBottomPosition;
 				
 			if (moveData.hour < 1)
@@ -342,7 +415,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		
 		public function moveScheduleItemEnd(moveData:MoveData):void
 		{
-			var scheduleItem:ScheduleItemBaseOld = _scheduleItemsDictionary[moveData.documentID];
+			var scheduleItem:ScheduleItemBaseOld = _scheduleItemsDictionary[moveData.id];
 			if (scheduleItem.firstMove == false && scheduleItem.scheduled == true)
 			{
 				if (_adherenceGroupsVector[scheduleItem.hour - 1] == null)

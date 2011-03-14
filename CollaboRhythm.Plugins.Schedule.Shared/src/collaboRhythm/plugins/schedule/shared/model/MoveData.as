@@ -20,16 +20,70 @@ package collaboRhythm.plugins.schedule.shared.model
 	
 	public class MoveData
 	{
-		private var _itemIndex:Number;
-		private var _documentID:String;
+		private var _id:String;
+		private var _x:Number;
+		private var _y:Number;
+		private var _width:Number;
+		private var _height:Number;
 		private var _hour:Number;
 		private var _xPosition:Number;
 		private var _yBottomPosition:Number;
 		private var _adherenceWindow:Number;
 		private var _color:uint;
+		private var _itemIndex:Number;
 		
 		public function MoveData()
 		{
+		}
+		
+		public function get id():String
+		{
+			return _id;
+		}
+		
+		public function set id(value:String):void
+		{
+			_id = value;
+		}
+		
+		public function get x():Number
+		{
+			return _x;
+		}
+		
+		public function set x(value:Number):void
+		{
+			_x = value;
+		}
+		
+		public function get y():Number
+		{
+			return _y;
+		}
+		
+		public function set y(value:Number):void
+		{
+			_y = value;
+		}
+		
+		public function get width():Number
+		{
+			return _width;
+		}
+		
+		public function set width(value:Number):void
+		{
+			_width = value;
+		}
+		
+		public function get height():Number
+		{
+			return _height;
+		}
+		
+		public function set height(value:Number):void
+		{
+			_height = value;
 		}
 		
 		public function get hour():Number
@@ -72,15 +126,7 @@ package collaboRhythm.plugins.schedule.shared.model
 			_itemIndex = value;
 		}
 
-		public function get documentID():String
-		{
-			return _documentID;
-		}
 
-		public function set documentID(value:String):void
-		{
-			_documentID = value;
-		}
 		
 		public function get adherenceWindow():Number
 		{
@@ -101,5 +147,6 @@ package collaboRhythm.plugins.schedule.shared.model
 		{
 			_color = value;
 		}
+
 	}
 }

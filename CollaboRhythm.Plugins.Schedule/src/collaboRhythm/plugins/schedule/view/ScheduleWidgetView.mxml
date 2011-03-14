@@ -18,7 +18,8 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 clipAndEnableScrolling="true" xmlns:images="assets.images.*"
+		 xmlns:images="assets.images.*"
+		 clipAndEnableScrolling="true" 
 		 resize="resizeHandler()"
 		 creationComplete="creationCompleteHandler()"
 		 >
@@ -37,10 +38,16 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[	
+			import collaboRhythm.plugins.schedule.controller.ScheduleWidgetViewController;
+			import collaboRhythm.plugins.schedule.shared.model.AdherenceItem;
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
-			import collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase;
+			import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
+			import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEventHandler;
 			
+			import mx.binding.utils.BindingUtils;
+			import mx.binding.utils.ChangeWatcher;
 			import mx.collections.ArrayCollection;
 			import mx.events.CollectionEvent;
 			import mx.events.CollectionEventKind;
@@ -48,21 +55,34 @@
 			[Bindable]
 			private var _scheduleModel:ScheduleModel;
 			[Bindable]
-			private var _scheduleClockResized:Boolean = false;
+			private var _scheduleWidgetViewController:ScheduleWidgetViewController;
 			private var _scheduleGroupsCollection:ArrayCollection;
 			private var _scheduleItemsCollection:ArrayCollection;
-			private var _adherenceGroupsCollection:ArrayCollection;
-			private var _widgetScheduleItemViews:Vector.<ScheduleItemWidgetViewBase> = new Vector.<ScheduleItemWidgetViewBase>;
-			private var _widgetAdherenceWindowViews:Vector.<ScheduleGroupWidgetView> = new Vector.<ScheduleGroupWidgetView>;
-			
-			public function init(scheduleModel:ScheduleModel):void
+			private var _scheduleGroupReportingView:ScheduleGroupReportingView;
+
+			public function init(scheduleWidgetViewController:ScheduleWidgetViewController, scheduleModel:ScheduleModel):void
 			{
 				_scheduleModel = scheduleModel;
+				_scheduleWidgetViewController = scheduleWidgetViewController;
 				
 				_scheduleGroupsCollection = _scheduleModel.scheduleGroupsCollection;
-				_scheduleGroupsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, scheduleGroupsCollectionChangeHandler);				
-//				_scheduleItemsCollection = _scheduleModel.scheduleItemsCollection;
-//				_scheduleItemsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, scheduleItemsCollectionChangeHandler);
+				_scheduleGroupsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, scheduleGroupsCollectionChangeHandler);	
+
+				this.addEventListener(ScheduleWidgetViewEvent.SCHEDULE_GROUP_CLOCK_VIEW_CLICK, scheduleGroupClockViewClickHandler);
+				this.addEventListener(ScheduleWidgetViewEvent.SCHEDULE_GROUP_REPORTING_VIEW_BACK, scheduleGroupReportingViewBackHandler);
+				this.addEventListener(ScheduleItemReportingViewEventHandler.ADHERENCE_ITEM_CREATED, scheduleItemReportingViewEventHandler);
+				
+				var currentViewWatcher:ChangeWatcher = BindingUtils.bindSetter(currentViewChangeHandler, _scheduleModel, "currentWidgetView");
+			}
+						
+			public function get scheduleGroupReportingView():ScheduleGroupReportingView
+			{
+				return _scheduleGroupReportingView;
+			}
+			
+			public function set scheduleGroupReportingView(value:ScheduleGroupReportingView):void
+			{
+				_scheduleGroupReportingView = value;
 			}
 			
 			private function creationCompleteHandler():void
@@ -71,11 +91,6 @@
 				{
 					createScheduleGroupView(scheduleGroup);
 				}
-//				
-//				for each (var scheduleItem:ScheduleItemBase in _scheduleItemsCollection)
-//				{
-//					createScheduleItemView(scheduleItem);
-//				}
 					
 				updateTime();
 				
@@ -129,60 +144,14 @@
 						destroyScheduleGroupView(scheduleGroupRemoved);
 					}
 				}
-			}
-//			
-//			public function scheduleItemsCollectionChangeHandler(event:CollectionEvent):void
-//			{
-//				if (event.kind == CollectionEventKind.ADD)
-//				{
-//					for each (var scheduleItemAdded:ScheduleItemBase in event.items)
-//					{
-//						createScheduleItemView(scheduleItemAdded);
-//					}
-//				}
-//			}
-//			
-//			public function adherenceGroupsCollectionChangeHandler(event:CollectionEvent):void
-//			{
-//				if (event.kind == CollectionEventKind.ADD)
-//				{
-//					for each (var adherenceGroupAdded:AdherenceGroup in event.items)
-//					{
-//						createAdherenceWindowView(adherenceGroupAdded);
-//					}
-//				}
-//				else if (event.kind == CollectionEventKind.REMOVE)
-//				{
-//					for each (var adherenceGroupRemoved:AdherenceGroup in event.items)
-//					{
-//						destroyAdherenceWindowView(adherenceGroupRemoved);
-//					}
-//				}
-//			}
-			
+			}		
 			
 			public function createScheduleGroupView(scheduleGroup:ScheduleGroup):void
 			{
-				var scheduleGroupWidgetView:ScheduleGroupWidgetView = new ScheduleGroupWidgetView();
+				var scheduleGroupWidgetView:ScheduleGroupClockView = new ScheduleGroupClockView();
 				scheduleGroupWidgetView.init(scheduleGroup, scheduleGroupsContainer);
 				scheduleGroupsContainer.addElement(scheduleGroupWidgetView);
 			}
-			
-//			public function createScheduleItemView(scheduleItem:ScheduleItemBase):void
-//			{
-//				var scheduleItemWidgetView:ScheduleItemWidgetViewBase = scheduleItem.createScheduleItemWidgetView();
-//				scheduleItemWidgetView.init(scheduleItem, scheduleItemsContainer);
-//				scheduleItemsContainer.addElement(scheduleItemWidgetView);
-////				_widgetScheduleItemViews.push(scheduleItemWidgetView);
-//			}
-			
-//			public function createAdherenceWindowView(adherenceGroup:AdherenceGroup):void
-//			{				
-//				//				var widgetAdherenceWindowView:WidgetAdherenceWindowView = new WidgetAdherenceWindowView();
-//				//				widgetAdherenceWindowView.init(adherenceGroup, adherenceWindowsGroup);
-//				//				adherenceWindowsGroup.addElement(widgetAdherenceWindowView);
-//				//				_widgetAdherenceWindowViews.push(widgetAdherenceWindowView);		
-//			}
 			
 			public function destroyScheduleGroupView(scheduleGroup:ScheduleGroup):void
 			{
@@ -218,11 +187,49 @@
 				clockHand.x = this.width / 2;
 				clockHand.y = this.height / 2;
 			}
+			
+			private function scheduleGroupClockViewClickHandler(event:ScheduleWidgetViewEvent):void
+			{
+				var scheduleGroup:ScheduleGroup = event.scheduleGroup;
+				_scheduleWidgetViewController.openScheduleGroupReportingView(scheduleGroup);
+			}
+			
+			private function scheduleGroupReportingViewBackHandler(event:ScheduleWidgetViewEvent):void
+			{
+				_scheduleWidgetViewController.closeScheduleGroupReportingView(); 
+			}
+			
+			private function scheduleItemReportingViewEventHandler(event:ScheduleItemReportingViewEventHandler):void
+			{
+				var scheduleItem:ScheduleItemBase = event.scheduleItem;
+				var adherenceItem:AdherenceItem = event.adherenceItem;
+				_scheduleWidgetViewController.createAdherenceItem(scheduleGroupReportingView.scheduleGroup, scheduleItem, adherenceItem);
+			}
+			
+			private function currentViewChangeHandler(change:String):void
+			{
+				if (change == ScheduleModel.SCHEDULE_CLOCK_VIEW && _scheduleGroupReportingView)
+				{
+					this.removeElement(_scheduleGroupReportingView);
+					scheduleGroupReportingView = null;
+				}
+				else if (change == ScheduleModel.SCHEDULE_GROUP_REPORTING_VIEW)
+				{
+					showScheduleGroupReportingView()
+				}
+			}
+			
+			public function showScheduleGroupReportingView():void
+			{
+				scheduleGroupReportingView = new ScheduleGroupReportingView();
+				scheduleGroupReportingView.init(_scheduleModel.currentScheduleGroup);
+				this.addElement(scheduleGroupReportingView );
+			}
 		]]>
 	</fx:Script>
-	<images:clockBackground id="clockBackground" horizontalCenter="0" verticalCenter="0" />
+	<images:clockBackground id="clockBackground" horizontalCenter="0" verticalCenter="0" mouseEnabled="false" mouseChildren="false"/>
 	<s:Group id="scheduleGroupsContainer" horizontalCenter="0" verticalCenter="0" />
 	<s:Group id="scheduleItemsContainer" horizontalCenter="0" verticalCenter="0" />
-	<images:clockHand id="clockHand" />
-	<images:clockForeground id="clockForeground" horizontalCenter="0" verticalCenter="0" />
+	<images:clockHand id="clockHand" mouseEnabled="false" mouseChildren="false"/>
+	<images:clockForeground id="clockForeground" horizontalCenter="0" verticalCenter="0" mouseEnabled="false" mouseChildren="false"/>
 </s:Group>

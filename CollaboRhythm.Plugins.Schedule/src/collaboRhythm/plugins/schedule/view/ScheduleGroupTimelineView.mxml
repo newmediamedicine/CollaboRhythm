@@ -18,17 +18,19 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-
+		 xmlns:view="collaboRhythm.plugins.schedule.view.*"
 		 creationComplete="creationCompleteHandler()"
-		 resize="resizeHandler()" xmlns:view="collaboRhythm.plugins.schedule.view.*">
+		 resize="resizeHandler()" 
+		 mouseDown="mouseDownHandler(event)">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
+			import collaboRhythm.plugins.schedule.shared.model.MoveData;
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
-			import collaboRhythm.plugins.schedule.shared.view.ScheduleItemFullViewBase;
+			import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
 			
 			import com.adobe.utils.DateUtil;
 			
@@ -47,9 +49,12 @@
 			private var _scheduleGroupsContainer:Group;
 			private var _scheduleItemsCollection:ArrayCollection;
 			private var _scheduleFullView:ScheduleFullView
-			private var _scheduleItemFullViews:Vector.<ScheduleItemFullViewBase> = new Vector.<ScheduleItemFullViewBase>;
+			private var _scheduleItemFullViews:Vector.<ScheduleItemTimelineViewBase> = new Vector.<ScheduleItemTimelineViewBase>;
 			private var _scheduleGroupSpotlightView:FullAdherenceWindowView = new FullAdherenceWindowView;
 			private var _creationComplete:Boolean = false;
+			
+			private var _mouseDownOffsetX:Number;
+			private var _mouseDownOffsetY:Number;
 			
 			public function init(scheduleGroup:ScheduleGroup, scheduleGroupsContainer:Group, scheduleFullView:ScheduleFullView):void
 			{
@@ -62,8 +67,6 @@
 				
 				var dateTimeStartChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(timeChangeHandler, _scheduleGroup, "dateTimeStart");
 				var dateTimeEndChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(timeChangeHandler, _scheduleGroup, "dateTimeEnd");
-//				var widthChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroupsContainer, "width");
-//				var heightChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroupsContainer, "height");
 				//				var stackingUpdatedChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(stackingUpdateHandler, _scheduleGroup, "stackingUpdated");
 				
 				_scheduleFullView.scheduleGroupSpotlightsContainer.addElement(_scheduleGroupSpotlightView);
@@ -112,7 +115,7 @@
 			
 			public function createScheduleItemFullView(scheduleItem:ScheduleItemBase):void
 			{
-				var scheduleItemFullView:ScheduleItemFullViewBase = scheduleItem.createScheduleItemFullView();
+				var scheduleItemFullView:ScheduleItemTimelineViewBase = scheduleItem.createScheduleItemTimelineView();
 				scheduleItemFullView.init(scheduleItem, scheduleItemsContainer);
 				scheduleItemsContainer.addElement(scheduleItemFullView);
 				_scheduleItemFullViews.push(scheduleItemFullView);
@@ -156,7 +159,7 @@
 				var dateTimeMiddle:Date = new Date();
 				dateTimeMiddle.setTime(_scheduleGroup.dateTimeStart.time + (_scheduleGroup.dateTimeEnd.time - _scheduleGroup.dateTimeStart.time) / 2);
 								
-				return Math.floor((dateTimeMiddle.hours + 1 + dateTimeMiddle.minutes / 60) * _scheduleFullView.timeWidth + (_scheduleFullView.timeWidth / 2) - (ScheduleItemFullViewBase.SCHEDULE_ITEM_FULL_VIEW_PICTURE_WIDTH / 2) - SCHEDULE_GROUP_FULL_VIEW_BUFFER_WIDTH);
+				return Math.floor((dateTimeMiddle.hours + 1 + dateTimeMiddle.minutes / 60) * _scheduleFullView.timeWidth + (_scheduleFullView.timeWidth / 2) - (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_FULL_VIEW_PICTURE_WIDTH / 2) - SCHEDULE_GROUP_FULL_VIEW_BUFFER_WIDTH);
 			}
 			
 			private function calculateYPosition():Number
@@ -171,16 +174,63 @@
 			
 			private function calculateSpotlightXPosition():Number
 			{
-				return Math.floor(this.x + SCHEDULE_GROUP_FULL_VIEW_BUFFER_WIDTH + ScheduleItemFullViewBase.SCHEDULE_ITEM_FULL_VIEW_PICTURE_WIDTH / 2 - _scheduleGroupSpotlightView.width / 2);
+				return Math.floor(this.x + SCHEDULE_GROUP_FULL_VIEW_BUFFER_WIDTH + ScheduleItemTimelineViewBase.SCHEDULE_ITEM_FULL_VIEW_PICTURE_WIDTH / 2 - _scheduleGroupSpotlightView.width / 2);
 			}
 			
 			private function calculateSpotlightHeight():Number
 			{
 				return Math.floor(_scheduleFullView.height - (this.y + this.height - SCHEDULE_GROUP_FULL_VIEW_BUFFER_WIDTH));
 			}
+			
+			private function mouseDownHandler(event:MouseEvent):void
+			{
+				_mouseDownOffsetX = event.localX;
+				_mouseDownOffsetY = event.localY;
+//				var localCoordinates:Point = this.globalToLocal(new Point(event.stageX, event.stageY));
+//				_offsetX = localCoordinates.x;
+//				_offsetY = localCoordinates.y;	
+//				
+				stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
+				stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
+//				
+				var moveData:MoveData = new MoveData();
+				moveData.id = scheduleGroup.id;
+				dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_DOWN, moveData));
+//				grabScheduleItemDispatch(moveData);
+			}
+			
+			private function mouseMoveHandler(event:MouseEvent):void
+			{
+				var globalCoordinates:Point = _scheduleGroupsContainer.globalToLocal(new Point(event.stageX - _mouseDownOffsetX, event.stageY - _mouseDownOffsetY));				
+				
+				var moveData:MoveData = new MoveData();
+				moveData.id = scheduleGroup.id;
+				moveData.x = globalCoordinates.x;
+				moveData.y = globalCoordinates.y;
+				moveData.width = _scheduleGroupsContainer.width;
+				moveData.height = _scheduleGroupsContainer.height;
+				dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_MOVE, moveData));
+//				moveData.yBottomPosition = yBottomPosition;
+//				if (_scheduleItem.scheduled == true)
+//				{
+//					moveData.hour = Math.floor(xPosition / _scheduleModel.timeWidth);
+//				}
+//				else
+//				{
+//					//TODO: Fix static medication size
+//					moveData.hour = Math.floor((xPosition - (_scheduleModel.timeWidth / 2) + (300 / 2)) / _scheduleModel.timeWidth) - 1;
+//				}
+				
+//				moveScheduleItemDispatch(moveData);
+			}
+			
+			private function mouseUpHandler(event:MouseEvent):void
+			{
+				stage.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
+				stage.removeEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
+			}
 		]]>
 	</fx:Script>
-	
 	<s:Rect width="100%" height="100%">
 		<s:fill>
 			<s:SolidColor color="0xFFFFFF" alpha="0.4"/>

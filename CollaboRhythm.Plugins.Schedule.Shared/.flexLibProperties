@@ -2,7 +2,7 @@
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
     <classEntry path="collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase"/>
-    <classEntry path="collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase"/>
+    <classEntry path="collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase"/>
     <classEntry path="collaboRhythm.plugins.schedule.shared.model.ScheduleModel"/>
     <classEntry path="collaboRhythm.plugins.schedule.shared.model.Time"/>
     <classEntry path="collaboRhythm.plugins.schedule.shared.model.MoveData"/>
@@ -10,7 +10,11 @@
     <classEntry path="collaboRhythm.plugins.schedule.shared.model.ScheduleItemBaseOld"/>
     <classEntry path="collaboRhythm.plugins.schedule.shared.model.ScheduleGroup"/>
     <classEntry path="collaboRhythm.plugins.schedule.shared.model.RecurrenceRule"/>
-    <classEntry path="collaboRhythm.plugins.schedule.shared.view.ScheduleItemFullViewBase"/>
+    <classEntry path="collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase"/>
+    <classEntry path="collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase"/>
+    <classEntry path="collaboRhythm.plugins.schedule.shared.model.AdherenceItem"/>
+    <classEntry path="collaboRhythm.plugins.schedule.shared.model.AdministrationBase"/>
+    <classEntry path="collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEventHandler"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

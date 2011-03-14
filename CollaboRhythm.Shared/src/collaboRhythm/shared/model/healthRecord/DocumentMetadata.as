@@ -19,6 +19,7 @@ package collaboRhythm.shared.model.healthRecord
 	/**
 	 * Basic implementation of document metadata for a health record document, such as a Problem or Medication.
 	 */
+	[Bindable]
 	public class DocumentMetadata implements IDocumentMetadata
 	{
 		private var _id:String;

@@ -14,26 +14,16 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.plugins.schedule.view
+package collaboRhythm.plugins.schedule.shared.model
 {
-	import flash.events.Event;
-	
-	public class AdherenceWindowWidgetViewEvent extends Event
+	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
+
+	public class AdministrationBase extends DocumentMetadata
 	{
-		public static const ADHERENCE_GROUP_HOUR_CHANGED:String = "AdherenceGroupHourChanged";
-		public static const ADHERENCE_GROUP_WINDOW_CHANGED:String = "AdherenceGroupWindowChanged";
-		
-		private var _widgetAdherenceWindowView:ScheduleGroupClockView;
-		
-		public function AdherenceWindowWidgetViewEvent(type:String, widgetAdherenceWindowView:ScheduleGroupClockView, bubbles:Boolean=false, cancelable:Boolean=false)
+		public function AdministrationBase()
 		{
-			super(type, bubbles, cancelable);
-			_widgetAdherenceWindowView = widgetAdherenceWindowView;
 		}
 		
-		public function get widgetAdherenceWindowView():ScheduleGroupClockView
-		{
-			return _widgetAdherenceWindowView;
-		}
+		
 	}
 }

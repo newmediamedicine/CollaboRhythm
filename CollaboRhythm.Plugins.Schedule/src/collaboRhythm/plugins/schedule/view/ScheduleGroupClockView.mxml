@@ -19,7 +19,9 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 width="100%" height="100%"
-		 creationComplete="creationCompleteHandler()">
+		 creationComplete="creationCompleteHandler()"
+		 mouseEnabledWhereTransparent="false"
+		 click="clickHandler(event)">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -32,7 +34,7 @@
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
-			import collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase;
+			import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
 			
 			import com.leebrimelow.drawing.Wedge;
 			
@@ -48,7 +50,7 @@
 			[Bindable]
 			private var _scheduleGroupsContainer:Group;
 			private var _scheduleItemsCollection:ArrayCollection;
-			private var _scheduleItemWidgetViews:Vector.<ScheduleItemWidgetViewBase> = new Vector.<ScheduleItemWidgetViewBase>;
+			private var _scheduleItemClockViews:Vector.<ScheduleItemClockViewBase> = new Vector.<ScheduleItemClockViewBase>;
 			
 			public function init(scheduleGroup:ScheduleGroup, scheduleGroupsContainer:Group):void
 			{
@@ -69,7 +71,7 @@
 			{
 				for each (var scheduleItem:ScheduleItemBase in _scheduleItemsCollection)
 				{
-					createScheduleItemWidgetView(scheduleItem);
+					createScheduleItemClockView(scheduleItem);
 				}
 				
 				updateView();
@@ -91,29 +93,29 @@
 				{
 					for each (var scheduleItemAdded:ScheduleItemBase in event.items)
 					{
-						createScheduleItemWidgetView(scheduleItemAdded);
+						createScheduleItemClockView(scheduleItemAdded);
 					}
 				}
 				else if (event.kind == CollectionEventKind.REMOVE)
 				{
 					for each (var scheduleItemRemoved:ScheduleItemBase in event.items)
 					{
-						destroyScheduleItemWidgetView(scheduleItemRemoved);
+						destroyScheduleItemClockView(scheduleItemRemoved);
 					}
 				}
 				
 				updateView();
 			}
 			
-			public function createScheduleItemWidgetView(scheduleItem:ScheduleItemBase):void
+			public function createScheduleItemClockView(scheduleItem:ScheduleItemBase):void
 			{
-				var scheduleItemWidgetView:ScheduleItemWidgetViewBase = scheduleItem.createScheduleItemWidgetView();
-				scheduleItemWidgetView.init(scheduleItem, scheduleItemsContainer);
-				scheduleItemsContainer.addElement(scheduleItemWidgetView);
-				_scheduleItemWidgetViews.push(scheduleItemWidgetView);
+				var scheduleItemClockView:ScheduleItemClockViewBase = scheduleItem.createScheduleItemClockView();
+				scheduleItemClockView.init(scheduleItem, scheduleItemsContainer);
+				scheduleItemsContainer.addElement(scheduleItemClockView);
+				_scheduleItemClockViews.push(scheduleItemClockView);
 			}
 			
-			public function destroyScheduleItemWidgetView(scheduleGroup:ScheduleItemBase):void
+			public function destroyScheduleItemClockView(scheduleGroup:ScheduleItemBase):void
 			{
 
 			}
@@ -141,7 +143,7 @@
 				var scheduleItemSize:Number = _scheduleGroupsContainer.height / 10;
 				var scheduleItemPositions:Array = determineScheduleItemPositions(scheduleItemSize, startAngle, endAngle);
 				
-				for each (var scheduleItemWidgetView:ScheduleItemWidgetViewBase in _scheduleItemWidgetViews)
+				for each (var scheduleItemWidgetView:ScheduleItemClockViewBase in _scheduleItemClockViews)
 				{
 					var scheduleItemPosition:Array = scheduleItemPositions.pop();
 					scheduleItemWidgetView.width = scheduleItemWidgetView.height = scheduleItemSize;
@@ -200,7 +202,8 @@
 				return scheduleItemPositions;
 			}
 			
-			private function calculateCoordinates(angle:Number, radius:Number, scheduleItemSize:Number): Array {
+			private function calculateCoordinates(angle:Number, radius:Number, scheduleItemSize:Number):Array 
+			{
 				var radians:Number = angle * (Math.PI / 180);
 				var x:Number = radius * Math.sin(radians) + _scheduleGroupsContainer.width/2 - scheduleItemSize/2;
 				var y:Number = -radius * Math.cos(radians) + _scheduleGroupsContainer.height/2 - scheduleItemSize/2;
@@ -208,6 +211,12 @@
 				
 				return coordinates
 			}
+
+			protected function clickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new ScheduleWidgetViewEvent(ScheduleWidgetViewEvent.SCHEDULE_GROUP_CLOCK_VIEW_CLICK, _scheduleGroup));
+			}
+
 		]]>
 	</fx:Script>
 	<s:Group id="scheduleItemsContainer" width="100%" height="100%" />

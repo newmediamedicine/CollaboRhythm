@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~
+~ Copyright 2011 John Moore, Scott Gilroy
+~
+~ This file is part of CollaboRhythm.
+~
+~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+~ version.
+~
+~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+~ details.
+~
+~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+~ <http://www.gnu.org/licenses/>.
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 addedToStage="addedToStage()"
+		 removedFromStage="removedFromStage()"
+		 width="100%" height="100%">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
+			import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
+			import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
+			
+			private var _scheduleGroup:ScheduleGroup;
+			
+			public function init(scheduleGroup:ScheduleGroup):void
+			{
+				_scheduleGroup = scheduleGroup;
+				createScheduleItems();
+			}
+			
+			public function get scheduleGroup():ScheduleGroup
+			{
+				return _scheduleGroup;
+			}
+			
+			private function addedToStage():void
+			{
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+			}
+			
+			private function removedFromStage():void
+			{
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+			}
+			
+			private function onKeyDown(event:KeyboardEvent):void
+			{
+				if (event.keyCode == Keyboard.BACK)
+				{
+					event.preventDefault();
+					event.stopImmediatePropagation();
+					dispatchEvent(new ScheduleWidgetViewEvent(ScheduleWidgetViewEvent.SCHEDULE_GROUP_REPORTING_VIEW_BACK, _scheduleGroup));
+				}
+			}
+			
+			private function createScheduleItems():void
+			{
+				for each (var scheduleItem:ScheduleItemBase in _scheduleGroup.scheduleItemsCollection)
+				{
+					var scheduleItemReportingView:ScheduleItemReportingViewBase = scheduleItem.createScheduleItemReportingView();
+					scheduleItemReportingView.init(scheduleItem);
+					scheduleItemsContainer.addElement(scheduleItemReportingView);
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="0xAAAAAA"/>
+		</s:fill>
+	</s:Rect>
+	<s:VGroup id="scheduleItemsContainer" width="100%" height="100%" gap="0"/>
+</s:Group>

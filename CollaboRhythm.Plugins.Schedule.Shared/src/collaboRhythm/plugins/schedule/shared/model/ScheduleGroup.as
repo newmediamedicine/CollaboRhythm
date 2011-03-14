@@ -18,9 +18,10 @@ package collaboRhythm.plugins.schedule.shared.model
 {
 	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
-
+	
 	import mx.collections.ArrayCollection;
 
+	[Bindable]
 	public class ScheduleGroup extends DocumentMetadata
 	{
 		private var _id:String;
@@ -30,6 +31,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		private var _dateTimeEnd:Date;
 		private var _recurrenceRule:RecurrenceRule;
 		private var _scheduleItemsCollection:ArrayCollection = new ArrayCollection();
+		private var _moving:Boolean = false;
 		
 		public function ScheduleGroup(scheduleGroupReportXML:XML)
 		{
@@ -61,15 +63,35 @@ package collaboRhythm.plugins.schedule.shared.model
 		{
 			return _dateTimeStart;
 		}
+		
+		public function set dateTimeStart(value:Date):void
+		{
+			_dateTimeStart = value;
+		}
 
 		public function get dateTimeEnd():Date
 		{
 			return _dateTimeEnd;
 		}
+		
+		public function set dateTimeEnd(value:Date):void
+		{
+			_dateTimeEnd = value;
+		}
 
 		public function get recurrenceRule():RecurrenceRule
 		{
 			return _recurrenceRule;
+		}
+		
+		public function get moving():Boolean
+		{
+			return _moving;
+		}
+		
+		public function set moving(value:Boolean):void
+		{
+			_moving = value;
 		}
 		
 		public function get scheduleItemsCollection():ArrayCollection

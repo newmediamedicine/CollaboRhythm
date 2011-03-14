@@ -16,8 +16,9 @@
  */
 package collaboRhythm.plugins.schedule.shared.model
 {
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemFullViewBase;
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
 	import collaboRhythm.shared.model.CodedValue;
 	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.HealthRecordHelperMethods;
@@ -31,8 +32,9 @@ package collaboRhythm.plugins.schedule.shared.model
 		private var _scheduledBy:String;
 		private var _dateTimeScheduled:Date;
 		private var _instructions:String;
-//		private var _scheduledAction:String;
-
+		private var _adherenceItemID:String;
+		private var _adherenceItem:AdherenceItem;
+		
 		public function ScheduleItemBase(scheduleItemReportXML:XML, scheduleItemElementName:String):void
 		{
 			parseDocumentMetadata(scheduleItemReportXML.Meta.Document[0], this);
@@ -63,18 +65,35 @@ package collaboRhythm.plugins.schedule.shared.model
 			return _instructions;
 		}
 		
-		public function createScheduleItemWidgetView():ScheduleItemWidgetViewBase
+		public function get adherenceItem():AdherenceItem
+		{
+			return _adherenceItem;
+		}
+		
+		public function set adherenceItem(value:AdherenceItem):void
+		{
+			_adherenceItem = value;
+		}
+		
+		public function createScheduleItemClockView():ScheduleItemClockViewBase
 		{
 			// to be implemented by subclasses
-			var scheduleItemWidgetView:ScheduleItemWidgetViewBase = new ScheduleItemWidgetViewBase();
+			var scheduleItemClockView:ScheduleItemClockViewBase = new ScheduleItemClockViewBase();
+			return scheduleItemClockView;
+		}
+		
+		public function createScheduleItemReportingView():ScheduleItemReportingViewBase
+		{
+			// to be implemented by subclasses
+			var scheduleItemWidgetView:ScheduleItemReportingViewBase = new ScheduleItemReportingViewBase();
 			return scheduleItemWidgetView;
 		}
 		
-		public function createScheduleItemFullView():ScheduleItemFullViewBase
+		public function createScheduleItemTimelineView():ScheduleItemTimelineViewBase
 		{
 			// to be implemented by subclasses
-			var fullScheduleItemView:ScheduleItemFullViewBase = new ScheduleItemFullViewBase();
-			return fullScheduleItemView;
+			var scheduleItemFullView:ScheduleItemTimelineViewBase = new ScheduleItemTimelineViewBase();
+			return scheduleItemFullView;
 		}
 		
 //		public function get scheduledAction():String

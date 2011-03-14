@@ -22,11 +22,12 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.plugins.schedule.view.ScheduleWidgetView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-
+	
 	import mx.core.UIComponent;
 
 	public class ScheduleAppController extends WorkstationAppControllerBase
 	{
+		private var _scheduleWidgetViewController:ScheduleWidgetViewController;
 		private var _scheduleFullViewController:ScheduleFullViewController;
 		private var _widgetView:ScheduleWidgetView;
 		private var _fullView:ScheduleFullView;
@@ -65,7 +66,10 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			var newWidgetView:ScheduleWidgetView = new ScheduleWidgetView();
 			if (_user != null)
-				newWidgetView.init(scheduleModel);
+			{
+				_scheduleWidgetViewController = new ScheduleWidgetViewController(scheduleModel, newWidgetView, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
+				newWidgetView.init(_scheduleWidgetViewController, scheduleModel);
+			}
 			return newWidgetView;
 		}
 		
@@ -73,8 +77,10 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			var newFullView:ScheduleFullView = new ScheduleFullView();
 			if (_user != null)
-				_scheduleFullViewController = new ScheduleFullViewController(scheduleModel, _fullView as ScheduleFullView, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
+			{
+				_scheduleFullViewController = new ScheduleFullViewController(scheduleModel, newFullView, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
 				newFullView.init(_scheduleFullViewController, scheduleModel);
+			}
 			return newFullView;
 		}
 		
@@ -103,19 +109,27 @@ package collaboRhythm.plugins.schedule.controller
 			}
 			
 			if (_widgetView)
-				(_widgetView as ScheduleWidgetView).init(scheduleModel);
+			{
+				_scheduleWidgetViewController = new ScheduleWidgetViewController(scheduleModel, _widgetView, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
+				(_widgetView as ScheduleWidgetView).init(_scheduleWidgetViewController, scheduleModel);
+			}
 			prepareFullView();
 		}
 		
-		protected override function prepareFullView():void
-		{
-			super.prepareFullView();
-//			if (_fullView)
-//			{
-//				_scheduleFullViewController = new ScheduleFullViewController(scheduleModel, _fullView as ScheduleFullView, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
-//				_fullView.init(_scheduleFullViewController, scheduleModel);
-//			}
-		}
+//		protected override function prepareWidgetView():void
+//		{
+//			
+//		}
+//		
+//		protected override function prepareFullView():void
+//		{
+//			super.prepareFullView();
+////			if (_fullView)
+////			{
+////				_scheduleFullViewController = new ScheduleFullViewController(scheduleModel, _fullView as ScheduleFullView, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
+////				_fullView.init(_scheduleFullViewController, scheduleModel);
+////			}
+//		}
 		
 		public override function close():void
 		{
