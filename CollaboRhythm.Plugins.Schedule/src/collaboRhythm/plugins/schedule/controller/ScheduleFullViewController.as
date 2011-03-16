@@ -38,14 +38,19 @@ package collaboRhythm.plugins.schedule.controller
 			_collaborationRoomNetConnectionServiceProxy.synchronizeHandler = this;
 		}
 		
-		public function highlightScheduleGroup(moveData:MoveData):void
+		public function grabScheduleGroup(moveData:MoveData):void
 		{
-			_scheduleModel.highlightScheduleGroup(moveData);
+			_scheduleModel.grabScheduleGroup(moveData);
 		}
 		
 		public function moveScheduleGroup(moveData:MoveData):void
 		{
-			_scheduleModel.moveScheduleGroup(moveData);
+			_scheduleModel.moveScheduleGroup(moveData, _scheduleFullView.width, _scheduleFullView.height, _scheduleFullView.timeWidth);
+		}
+		
+		public function dropScheduleGroup(moveData:MoveData):void
+		{
+			_scheduleModel.dropScheduleGroup(moveData);
 		}
 		
 //		public function moveSmartDrawerStart(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void

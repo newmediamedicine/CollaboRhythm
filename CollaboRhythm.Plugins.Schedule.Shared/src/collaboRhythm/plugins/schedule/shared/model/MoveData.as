@@ -21,10 +21,12 @@ package collaboRhythm.plugins.schedule.shared.model
 	public class MoveData
 	{
 		private var _id:String;
-		private var _x:Number;
-		private var _y:Number;
-		private var _width:Number;
-		private var _height:Number;
+		private var _objectMouseX:Number;
+		private var _objectMouseY:Number;
+		private var _containerMouseX:Number;
+		private var _containerMouseY:Number;
+		private var _containerWidth:Number;
+		private var _containerHeight:Number;
 		private var _hour:Number;
 		private var _xPosition:Number;
 		private var _yBottomPosition:Number;
@@ -46,44 +48,64 @@ package collaboRhythm.plugins.schedule.shared.model
 			_id = value;
 		}
 		
-		public function get x():Number
+		public function get objectMouseX():Number
 		{
-			return _x;
+			return _objectMouseX;
 		}
 		
-		public function set x(value:Number):void
+		public function set objectMouseX(value:Number):void
 		{
-			_x = value;
+			_objectMouseX = value;
 		}
 		
-		public function get y():Number
+		public function get objectMouseY():Number
 		{
-			return _y;
+			return _objectMouseY;
 		}
 		
-		public function set y(value:Number):void
+		public function set objectMouseY(value:Number):void
 		{
-			_y = value;
+			_objectMouseY = value;
+		}
+
+		public function get containerMouseX():Number
+		{
+			return _containerMouseX;
 		}
 		
-		public function get width():Number
+		public function set containerMouseX(value:Number):void
 		{
-			return _width;
+			_containerMouseX = value;
 		}
 		
-		public function set width(value:Number):void
+		public function get containerMouseY():Number
 		{
-			_width = value;
+			return _containerMouseY;
 		}
 		
-		public function get height():Number
+		public function set containerMouseY(value:Number):void
 		{
-			return _height;
+			_containerMouseY = value;
 		}
 		
-		public function set height(value:Number):void
+		public function get containerWidth():Number
 		{
-			_height = value;
+			return _containerWidth;
+		}
+		
+		public function set containerWidth(value:Number):void
+		{
+			_containerWidth = value;
+		}
+		
+		public function get containerHeight():Number
+		{
+			return _containerHeight;
+		}
+		
+		public function set containerHeight(value:Number):void
+		{
+			_containerHeight = value;
 		}
 		
 		public function get hour():Number

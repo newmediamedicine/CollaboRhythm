@@ -145,10 +145,13 @@
 				
 				for each (var scheduleItemWidgetView:ScheduleItemClockViewBase in _scheduleItemClockViews)
 				{
-					var scheduleItemPosition:Array = scheduleItemPositions.pop();
 					scheduleItemWidgetView.width = scheduleItemWidgetView.height = scheduleItemSize;
-					scheduleItemWidgetView.x = scheduleItemPosition[0];
-					scheduleItemWidgetView.y = scheduleItemPosition[1];
+					if (scheduleItemPositions.length > 0)
+					{
+						var scheduleItemPosition:Array = scheduleItemPositions.pop();
+						scheduleItemWidgetView.x = scheduleItemPosition[0];
+						scheduleItemWidgetView.y = scheduleItemPosition[1];
+					}
 				}
 			}
 			

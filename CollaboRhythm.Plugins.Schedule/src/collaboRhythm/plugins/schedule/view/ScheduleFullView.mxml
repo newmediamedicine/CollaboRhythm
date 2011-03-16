@@ -81,6 +81,7 @@
 				
 				this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_DOWN, scheduleGroupTimelineViewMouseDownHandler);
 				this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_MOVE, scheduleGroupTimelineViewMouseMoveHandler);
+				this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_UP, scheduleGroupTimelineViewMouseUpHandler);
 				
 //				_scheduleItemsCollection = _scheduleModel.scheduleItemsCollection;
 //				_adherenceGroupsCollection = _scheduleModel.adherenceGroupsCollection;
@@ -157,7 +158,7 @@
 			public function resizeHandler(event:ResizeEvent):void 
 			{
 				_timeWidth = (this.width - ScheduleItemTimelineViewBase.SCHEDULE_ITEM_FULL_VIEW_WIDTH + (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_FULL_VIEW_PICTURE_WIDTH / 2) - ScheduleGroupTimelineView.SCHEDULE_GROUP_FULL_VIEW_BUFFER_WIDTH) / 26; 
-				_scheduleModel.timeWidth = _timeWidth;
+//				_scheduleModel.timeWidth = _timeWidth;
 			}
 
 			public function get timeWidth():Number
@@ -167,12 +168,17 @@
 			
 			private function scheduleGroupTimelineViewMouseDownHandler(event:ScheduleTimelineViewEvent):void
 			{
-				_scheduleFullViewController.highlightScheduleGroup(event.moveData);
+				_scheduleFullViewController.grabScheduleGroup(event.moveData);
 			}
 			
 			private function scheduleGroupTimelineViewMouseMoveHandler(event:ScheduleTimelineViewEvent):void
 			{
 				_scheduleFullViewController.moveScheduleGroup(event.moveData);
+			}
+			
+			private function scheduleGroupTimelineViewMouseUpHandler(event:ScheduleTimelineViewEvent):void
+			{
+				_scheduleFullViewController.dropScheduleGroup(event.moveData);
 			}
 			
 //			public function get fullScheduleItemViews():Vector.<FullScheduleItemViewBase>
