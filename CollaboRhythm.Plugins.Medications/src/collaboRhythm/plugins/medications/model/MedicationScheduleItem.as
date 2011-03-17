@@ -40,9 +40,9 @@ package collaboRhythm.plugins.medications.model
 		{
 			super(scheduleItemReportXML, "MedicationScheduleItem");
 			
-			_dose = new ValueAndUnit(_scheduleItemXML.dose.value, HealthRecordHelperMethods.codedValueFromXml(_scheduleItemXML.dose.unit[0]));
+			_dose = new ValueAndUnit(scheduleItemXML.dose.value, HealthRecordHelperMethods.codedValueFromXml(scheduleItemXML.dose.unit[0]));
 			_scheduledActionID = scheduleItemReportXML.Meta.Document.relatesTo.relation.relatedDocument.@id;
-			_scheduleGroupID =  scheduleItemReportXML.Meta.Document.isRelatedFrom.relation.relatedDocument.@id;
+			_scheduleGroupID =  scheduleItemReportXML.Meta.Document.isRelatedFrom.relation.relatedDocument[0].@id;
 		}
 		
 		public function get dose():ValueAndUnit

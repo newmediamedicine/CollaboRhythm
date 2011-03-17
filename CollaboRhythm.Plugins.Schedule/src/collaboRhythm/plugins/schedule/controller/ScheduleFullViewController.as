@@ -24,13 +24,15 @@ package collaboRhythm.plugins.schedule.controller
 	
 	public class ScheduleFullViewController
 	{
+		private var _isWorkstationMode:Boolean;
 		private var _scheduleModel:ScheduleModel;
 		private var _scheduleFullView:ScheduleFullView;
 		private var _localUserName:String;
 		private var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
 		
-		public function ScheduleFullViewController(scheduleModel:ScheduleModel, scheduleFullView:ScheduleFullView, localUserName:String, collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy)
+		public function ScheduleFullViewController(isWorkstationMode:Boolean, scheduleModel:ScheduleModel, scheduleFullView:ScheduleFullView, localUserName:String, collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy)
 		{
+			_isWorkstationMode = isWorkstationMode;
 			_scheduleModel = scheduleModel;
 			_scheduleFullView = scheduleFullView;
 			_localUserName = localUserName;
@@ -51,6 +53,21 @@ package collaboRhythm.plugins.schedule.controller
 		public function dropScheduleGroup(moveData:MoveData):void
 		{
 			_scheduleModel.dropScheduleGroup(moveData);
+		}
+		
+		public function grabScheduleGroupSpotlight(moveData:MoveData):void
+		{
+			_scheduleModel.grabScheduleGroupSpotlight(moveData);
+		}
+		
+		public function resizeScheduleGroupSpotlight(moveData:MoveData, leftEdge:Boolean):void
+		{
+			_scheduleModel.resizeScheduleGroupSpotlight(moveData, _scheduleFullView.width, _scheduleFullView.height, _scheduleFullView.timeWidth, leftEdge);
+		}
+		
+		public function dropScheduleGroupSpotlight(moveData:MoveData):void
+		{
+			_scheduleModel.dropScheduleGroupSpotlight(moveData);
 		}
 		
 //		public function moveSmartDrawerStart(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void

@@ -18,8 +18,8 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 width="{SCHEDULE_ITEM_FULL_VIEW_WIDTH}"
-		 height="{SCHEDULE_ITEM_FULL_VIEW_HEIGHT}">
+		 width="{SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH}"
+		 height="{SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT}">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -27,10 +27,10 @@
 		<![CDATA[
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
 			
-			public static const SCHEDULE_ITEM_FULL_VIEW_PICTURE_WIDTH:Number = 80;
-			public static const SCHEDULE_ITEM_FULL_VIEW_PICTURE_HEIGHT:Number = 80;
-			public static const SCHEDULE_ITEM_FULL_VIEW_WIDTH:Number = 320;
-			public static const SCHEDULE_ITEM_FULL_VIEW_HEIGHT:Number = 82;
+			public static const SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH:Number = 80;
+			public static const SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_HEIGHT:Number = 80;
+			public static const SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH:Number = 320;
+			public static const SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT:Number = 82;
 			
 			[Bindable]
 			private var _scheduleItem:ScheduleItemBase;

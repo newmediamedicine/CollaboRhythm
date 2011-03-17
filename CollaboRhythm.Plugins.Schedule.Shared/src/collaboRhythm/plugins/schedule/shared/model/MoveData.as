@@ -27,6 +27,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		private var _containerMouseY:Number;
 		private var _containerWidth:Number;
 		private var _containerHeight:Number;
+				
 		private var _hour:Number;
 		private var _xPosition:Number;
 		private var _yBottomPosition:Number;
@@ -107,6 +108,10 @@ package collaboRhythm.plugins.schedule.shared.model
 		{
 			_containerHeight = value;
 		}
+		
+		
+		
+		
 		
 		public function get hour():Number
 		{

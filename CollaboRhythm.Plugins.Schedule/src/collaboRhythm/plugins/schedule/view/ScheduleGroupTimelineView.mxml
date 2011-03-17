@@ -52,7 +52,7 @@
 			private var _scheduleItemsCollection:ArrayCollection;
 			private var _scheduleFullView:ScheduleFullView
 			private var _scheduleItemFullViews:Vector.<ScheduleItemTimelineViewBase> = new Vector.<ScheduleItemTimelineViewBase>;
-			private var _scheduleGroupSpotlightView:FullAdherenceWindowView = new FullAdherenceWindowView;
+			private var _scheduleGroupSpotlightView:ScheduleGroupSpotlightView = new ScheduleGroupSpotlightView;
 			private var _creationComplete:Boolean = false;
 			
 			private var _mouseDownOffsetX:Number;
@@ -69,12 +69,11 @@
 				
 				var initializedChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(initializedChangeHandler, _scheduleGroup.scheduleModel, "initialized");
 				var dateTimeCenterChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(dateTimeCenterChangeHandler, _scheduleGroup, "dateTimeCenter");
-//				var dateTimeStartChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(timeChangeHandler, _scheduleGroup, "dateTimeStart");
-//				var dateTimeEndChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(timeChangeHandler, _scheduleGroup, "dateTimeEnd");
 				var yPositionChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(yPositionChangeHandler, _scheduleGroup, "yPosition");
 				var stackingUpdatedChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(stackingUpdatedChangeHandler, _scheduleGroup, "stackingUpdated");
 				
-				_scheduleFullView.scheduleGroupSpotlightsContainer.addElement(_scheduleGroupSpotlightView);
+				_scheduleGroupSpotlightView.init(_scheduleGroup, _scheduleGroupsContainer, _scheduleFullView);
+				_scheduleFullView.scheduleGroupSpotlightViewsContainer.addElement(_scheduleGroupSpotlightView);
 			}
 			
 			private function creationCompleteHandler():void
@@ -223,8 +222,8 @@
 			private function updateXPosition():void
 			{
 				this.x = calculateXPosition();
-				_scheduleGroupSpotlightView.width = calculateSpotlightWidth();
-				_scheduleGroupSpotlightView.x = calculateSpotlightXPosition();
+//				_scheduleGroupSpotlightView.width = calculateSpotlightWidth();
+//				_scheduleGroupSpotlightView.x = calculateSpotlightXPosition();
 			}
 			
 			private function updateYPosition():void
@@ -235,7 +234,7 @@
 			
 			private function calculateXPosition():Number
 			{				
-				return Math.floor((scheduleGroup.dateTimeCenter.hours + 1 + scheduleGroup.dateTimeCenter.minutes / 60) * _scheduleFullView.timeWidth + (_scheduleFullView.timeWidth / 2) - (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_FULL_VIEW_PICTURE_WIDTH / 2) - SCHEDULE_GROUP_FULL_VIEW_BUFFER_WIDTH);
+				return Math.floor((scheduleGroup.dateTimeCenter.hours + 1 + scheduleGroup.dateTimeCenter.minutes / 60) * _scheduleFullView.timeWidth + (_scheduleFullView.timeWidth / 2) - (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2) - SCHEDULE_GROUP_FULL_VIEW_BUFFER_WIDTH);
 			}
 			
 			private function calculateYPosition():Number
@@ -272,7 +271,7 @@
 			
 			private function calculateSpotlightXPosition():Number
 			{
-				return Math.floor(this.x + SCHEDULE_GROUP_FULL_VIEW_BUFFER_WIDTH + ScheduleItemTimelineViewBase.SCHEDULE_ITEM_FULL_VIEW_PICTURE_WIDTH / 2 - _scheduleGroupSpotlightView.width / 2);
+				return Math.floor(this.x + SCHEDULE_GROUP_FULL_VIEW_BUFFER_WIDTH + ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2 - _scheduleGroupSpotlightView.width / 2);
 			}
 			
 			private function calculateSpotlightHeight():Number

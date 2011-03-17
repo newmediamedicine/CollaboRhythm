@@ -29,9 +29,9 @@
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
 			
-			public static const SCHEDULE_ITEM_REPORTING_VIEW_PICTURE_WIDTH:Number = 100;
-			public static const SCHEDULE_ITEM_REPORTING_VIEW_PICTURE_HEIGHT:Number = 100;
-			public static const SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT:Number = 102;
+			public static const SCHEDULE_ITEM_REPORTING_VIEW_PICTURE_WIDTH:Number = 120;
+			public static const SCHEDULE_ITEM_REPORTING_VIEW_PICTURE_HEIGHT:Number = 120;
+			public static const SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT:Number = 122;
 			
 			[Bindable]
 			private var _scheduleItem:ScheduleItemBase;

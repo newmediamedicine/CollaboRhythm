@@ -19,6 +19,8 @@ package collaboRhythm.plugins.schedule.shared.model
 	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 	
+	import com.adobe.utils.DateUtil;
+	
 	import mx.collections.ArrayCollection;
 
 	[Bindable]
@@ -35,6 +37,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		private var _scheduleModel:ScheduleModel;
 		private var _dateTimeCenter:Date;
 		
+		private var _changed:Boolean = false;
 		private var _moving:Boolean = false;
 		private var _dateTimeCenterPreMove:Date;
 		private var _dateTimeStartPreMove:Date;
@@ -53,13 +56,27 @@ package collaboRhythm.plugins.schedule.shared.model
 			parseDocumentMetadata(scheduleGroupReportXML.Meta.Document[0], this);
 			var scheduleGroupXML:XML = scheduleGroupReportXML.Item.ScheduleGroup[0];
 			_scheduledBy = scheduleGroupXML.scheduledBy;
-			_dateTimeScheduled = DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeScheduled.toString());
-			_dateTimeStart = DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeStart.toString());
-			_dateTimeEnd = DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeEnd.toString());
+			_dateTimeScheduled = collaboRhythm.shared.model.DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeScheduled.toString());
+			_dateTimeStart = collaboRhythm.shared.model.DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeStart.toString());
+			_dateTimeEnd = collaboRhythm.shared.model.DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeEnd.toString());
 			_recurrenceRule = new RecurrenceRule(scheduleGroupXML.recurrenceRule.frequency, Number(scheduleGroupXML.recurrenceRule.count));
 				
 			_scheduleModel = scheduleModel;
 			_dateTimeCenter = new Date(dateTimeStart.time + (dateTimeEnd.time - dateTimeStart.time) / 2);
+		}
+
+		public function convertToXML():XML
+		{
+			var scheduleGroupDocument:XML = <ScheduleGroup/>;
+			scheduleGroupDocument.@xmlns = "http://indivo.org/vocab/xml/documents#";
+			scheduleGroupDocument.scheduledBy = scheduledBy;
+			scheduleGroupDocument.dateTimeScheduled = com.adobe.utils.DateUtil.toW3CDTF(dateTimeScheduled);
+			scheduleGroupDocument.dateTimeStart = com.adobe.utils.DateUtil.toW3CDTF(dateTimeStart);
+			scheduleGroupDocument.dateTimeEnd = com.adobe.utils.DateUtil.toW3CDTF(dateTimeEnd);
+			scheduleGroupDocument.recurrenceRule.frequency = recurrenceRule.frequency;
+			scheduleGroupDocument.recurrenceRule.count = recurrenceRule.count;
+			
+			return scheduleGroupDocument;
 		}
 
 		public function get scheduledBy():String
@@ -123,6 +140,16 @@ package collaboRhythm.plugins.schedule.shared.model
 			{
 				dateTimeStart = new Date(_dateTimeCenter.time - (_dateTimeEndPreMove.time - _dateTimeStartPreMove.time) / 2);
 			}			
+		}
+		
+		public function get changed():Boolean
+		{
+			return _changed;
+		}
+		
+		public function set changed(value:Boolean):void
+		{
+			_changed = value;
 		}
 
 		public function get moving():Boolean

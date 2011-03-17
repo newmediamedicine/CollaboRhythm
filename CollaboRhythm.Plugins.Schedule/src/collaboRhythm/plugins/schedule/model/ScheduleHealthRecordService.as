@@ -68,14 +68,37 @@ package collaboRhythm.plugins.schedule.model
 				_pha.reports_minimal_X_GET(params, null, null, null, user.recordId, "schedulegroups", accessKey, accessSecret, new ReportRequestDetails(user, "scheduleGroups"));
 		}
 		
+		public function archiveScheduleGroup(user:User, documentID:String):void
+		{
+			if (user.recordId != null && accessKey != null && accessSecret != null)
+				_pha.documents_X_setStatusPOST(null, null, null, user.recordId, documentID, accessKey, accessSecret, "reason=schedulechanged&status=archived");
+		}
+		
+		public function createScheduleGroup(user:User, document:XML, relatedDocumentIDs:Vector.<String>):void
+		{
+			if (user.recordId != null && accessKey != null && accessSecret != null)
+				_pha.documents_POST(null, null, null, user.recordId, accessKey, accessSecret, document, new CreateScheduleGroupDetails(user, relatedDocumentIDs));
+		}
+		
 		private function handleScheduleGroupsReport(user:User, scheduleModel:ScheduleModel, responseXML:XML):void
 		{
 			scheduleModel.scheduleGroupsReportXML = responseXML;
 		}
 		
+		private function handleScheduleGroupCreated(user:User, responseXML:XML, relatedDocumentIDs:Vector.<String>):void
+		{
+			for each (var relatedDocumentID:String in relatedDocumentIDs)
+			{
+				_pha.documents_X_rels_X_XPUT(null, null, null, user.recordId, responseXML.@id, "ScheduleItem", relatedDocumentID, accessKey, accessSecret);
+			}
+		}
+		
 		protected override function handleResponse(event:IndivoClientEvent, responseXML:XML):void
 		{
-			var user:User = event.userData.user as User;
+			if (event.userData)
+			{
+				var user:User = event.userData.user as User;
+			}
 			var scheduleModel:ScheduleModel = getScheduleModel(user);
 			
 			if (responseXML.name() == "Reports")
@@ -84,6 +107,14 @@ package collaboRhythm.plugins.schedule.model
 				{
 					handleScheduleGroupsReport(user, scheduleModel, responseXML);
 				}
+			}
+			else if (responseXML.name() == "Document")
+			{
+				handleScheduleGroupCreated(user, responseXML, event.userData.scheduleItemIDs);
+			}
+			else if (responseXML.name() == "ok")
+			{
+				//currently no further action
 			}
 			else
 			{

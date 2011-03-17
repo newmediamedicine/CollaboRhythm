@@ -43,6 +43,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		private var _timeWidth:Number;
 		private var _stackingUpdated:Boolean = false;
 		
+		private var logger:ILogger;
 		
 		private var _closeDrawer:Boolean = true;
 		private var _drawerX:Number = -340;
@@ -59,7 +60,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		
 		public function ScheduleModel(user:User)
 		{		
-		
+			logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_user = user;
 //			_medicationsModel = medicationsModel;
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
@@ -213,6 +214,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		public function dropScheduleGroup(moveData:MoveData):void
 		{
 			var scheduleGroup:ScheduleGroup = _user.resolveDocumentById(moveData.id, ScheduleGroup) as ScheduleGroup;
+			scheduleGroup.changed = true;
 			scheduleGroup.moving = false;
 			determineStacking();
 		}
@@ -271,7 +273,40 @@ package collaboRhythm.plugins.schedule.shared.model
 			stackingUpdated = true;
 		}
 		
+		public function grabScheduleGroupSpotlight(moveData:MoveData):void
+		{
+			var scheduleGroup:ScheduleGroup = _user.resolveDocumentById(moveData.id, ScheduleGroup) as ScheduleGroup;
+			scheduleGroup.dateTimeCenterPreMove = scheduleGroup.dateTimeCenter;
+			scheduleGroup.dateTimeStartPreMove = scheduleGroup.dateTimeStart;
+			scheduleGroup.dateTimeEndPreMove = scheduleGroup.dateTimeEnd;
+			scheduleGroup.containerMouseDownX = moveData.containerMouseX;
+			scheduleGroup.containerMouseDownY = moveData.containerMouseY;
+		}
 		
+		public function resizeScheduleGroupSpotlight(moveData:MoveData, scheduleFullViewWidth:Number, scheduleFullViewHeight:Number, timeWidth:Number, leftEdge:Boolean):void
+		{
+			var scheduleGroup:ScheduleGroup = _user.resolveDocumentById(moveData.id, ScheduleGroup) as ScheduleGroup;
+			var scaleFactorX:Number = moveData.containerWidth / scheduleFullViewWidth;
+			var scaleFactorY:Number = moveData.containerHeight / scheduleFullViewHeight;
+			var hourChange:Number = Math.round(((moveData.containerMouseX - scheduleGroup.containerMouseDownX) * scaleFactorX) / timeWidth);
+			logger.info(String(hourChange));
+			if (leftEdge)
+			{
+				hourChange *= -1;
+			}
+			var durationPreMove:Number = (scheduleGroup.dateTimeEndPreMove.time - scheduleGroup.dateTimeStartPreMove.time) / (60 * 60 * 1000);
+			if (scheduleGroup.dateTimeStartPreMove.hours - hourChange >= 0 && scheduleGroup.dateTimeEndPreMove.hours + hourChange <= 23 && hourChange * 2 + durationPreMove <= 6 && hourChange * 2 + durationPreMove >= 2 )
+			{
+				scheduleGroup.dateTimeStart = new Date(scheduleGroup.dateTimeStartPreMove.time - (hourChange * 60 * 60 * 1000));
+				scheduleGroup.dateTimeEnd = new Date(scheduleGroup.dateTimeEndPreMove.time + (hourChange * 60 * 60 * 1000));
+			}
+		}
+		
+		public function dropScheduleGroupSpotlight(moveData:MoveData):void
+		{
+			var scheduleGroup:ScheduleGroup = _user.resolveDocumentById(moveData.id, ScheduleGroup) as ScheduleGroup;
+			scheduleGroup.changed = true;
+		}
 		
 		
 		

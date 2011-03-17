@@ -10,6 +10,11 @@ package collaboRhythm.plugins.schedule.view
 		public static const SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_MOVE:String = "ScheduleGroupTimelineViewMouseMove";
 		public static const SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_UP:String = "ScheduleGroupTimelineViewMouseUp";
 		
+		public static const SCHEDULE_GROUP_SPOTLIGHT_VIEW_MOUSE_DOWN:String = "ScheduleGroupSpotlightViewMouseDown";
+		public static const SCHEDULE_GROUP_SPOTLIGHT_VIEW_LEFT_MOUSE_MOVE:String = "ScheduleGroupSpotlightViewLeftMouseMove";
+		public static const SCHEDULE_GROUP_SPOTLIGHT_VIEW_RIGHT_MOUSE_MOVE:String = "ScheduleGroupSpotlightViewRightMouseMove";
+		public static const SCHEDULE_GROUP_SPOTLIGHT_VIEW_MOUSE_UP:String = "ScheduleGroupSpotlightViewMouseUp";
+		
 		private var _moveData:MoveData;
 		
 		public function ScheduleTimelineViewEvent(type:String, moveData:MoveData)

@@ -27,13 +27,15 @@ package collaboRhythm.plugins.schedule.controller
 
 	public class ScheduleWidgetViewController
 	{
+		private var _isWorkstationMode:Boolean;
 		private var _scheduleModel:ScheduleModel;
 		private var _scheduleWidgetView:ScheduleWidgetView;
 		private var _localUserName:String;
 		private var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
 		
-		public function ScheduleWidgetViewController(scheduleModel:ScheduleModel, scheduleWidgetView:ScheduleWidgetView, localUserName:String, collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy)
+		public function ScheduleWidgetViewController(isWorkstationMode:Boolean, scheduleModel:ScheduleModel, scheduleWidgetView:ScheduleWidgetView, localUserName:String, collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy)
 		{
+			_isWorkstationMode = isWorkstationMode;
 			_scheduleModel = scheduleModel;
 			_scheduleWidgetView = scheduleWidgetView;
 			_localUserName = localUserName;
@@ -43,7 +45,10 @@ package collaboRhythm.plugins.schedule.controller
 		
 		public function openScheduleGroupReportingView(scheduleGroup:ScheduleGroup):void
 		{
-			_scheduleModel.openScheduleGroupReportingView(scheduleGroup);
+			if (!_isWorkstationMode)
+			{
+				_scheduleModel.openScheduleGroupReportingView(scheduleGroup);
+			}
 		}
 		
 		public function closeScheduleGroupReportingView():void

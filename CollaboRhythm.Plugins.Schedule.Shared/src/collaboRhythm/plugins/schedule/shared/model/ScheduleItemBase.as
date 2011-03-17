@@ -27,7 +27,7 @@ package collaboRhythm.plugins.schedule.shared.model
 	[Bindable]
 	public class ScheduleItemBase extends DocumentMetadata
 	{
-		protected var _scheduleItemXML:XML
+		private var _scheduleItemXML:XML
 		private var _name:CodedValue;
 		private var _scheduledBy:String;
 		private var _dateTimeScheduled:Date;
@@ -43,6 +43,11 @@ package collaboRhythm.plugins.schedule.shared.model
 			_scheduledBy = _scheduleItemXML.scheduledBy;
 			_dateTimeScheduled = DateUtil.parseW3CDTF(_scheduleItemXML.dateTimeScheduled.toString());
 			_instructions = _scheduleItemXML.instructions;
+		}
+		
+		public function get scheduleItemXML():XML
+		{
+			return _scheduleItemXML;
 		}
 		
 		public function get name():CodedValue
