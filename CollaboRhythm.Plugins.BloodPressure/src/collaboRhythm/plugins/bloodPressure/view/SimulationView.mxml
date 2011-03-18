@@ -15,9 +15,9 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:view2="collaboRhythm.shared.view.*"
 		 width="260" height="800"
 		 clipAndEnableScrolling="true"
 		 resize="resizeHandler(event)"
@@ -30,235 +30,232 @@
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 		@namespace mx "library://ns.adobe.com/flex/mx";
-		
-		.tension 
-		{
+
+		.tension {
 			font-size: 20;
 		}
-		
- 		#hypertensionLabel 
-		{
+
+		#hypertensionLabel {
 			color: red;
 			text-alpha: 0.5;
-		} 
-		
-		#prehypertensionLabel 
-		{
+		}
+
+		#prehypertensionLabel {
 			color: "0xF7941E";
 			text-alpha: 0.9;
-		} 
-		
-		#normotensionLabel 
-		{
+		}
+
+		#normotensionLabel {
 			color: green;
 			text-alpha: 0.5;
-		} 
-		
-		#hypotensionLabel 
-		{
+		}
+
+		#hypotensionLabel {
 			color: red;
 			text-alpha: 0.5;
-		}  
-		
-		.scale
-		{
+		}
+
+		.scale {
 			font-size: 16;
 		}
-		
-		#systolicLabel
-		{
+
+		#systolicLabel {
 			font-size: 24;
 		}
-		
+
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
-			import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
-			
-			import mx.events.FlexEvent;
-			import mx.events.ResizeEvent;
-			
-			public static const red:uint = 0xED1C24;
-			public static const orange:uint = 0xF7941E;
-			public static const green:uint = 0x00A651;
-			private static const maxPlugRatio:Number = 2.0;
-			private static const goalConcentration:Number = 0.05;
-			private static const medicationGroupMinHeight:Number = 40;
-			
-			[Bindable]
-			private var _simulationModel:SimulationModel;
-			[Bindable]
-			private var _bloodPressureModel:BloodPressureModel;
-			
-			public function get isRunning():Boolean
-			{
-				return nephronSimulationView.isRunning;
-			}
-			
-			public function set isRunning(value:Boolean):void
-			{
-				nephronSimulationView.isRunning = value;
-			}
-			
-			public function initializeModel(simulationModel:SimulationModel, bloodPressureModel:BloodPressureModel):void
-			{
-				_simulationModel = simulationModel;
-				_bloodPressureModel = bloodPressureModel;
-			}
-			
-			public function updateBloodPressureHeight(simulationModelSystolic:Number):Number
-			{
-				systolicLabel.text = String(simulationModelSystolic);
-				
-				if (simulationModelSystolic < 90)
-				{
-					bloodPressureRectFill.color = red;
-					
-					hypotensionRectFill.alpha = 0.5;
-					normotensionRectFill.alpha = 0.10;
-					prehypertensionRectFill.alpha = 0.10;
-					hypertensionRectFill.alpha = 0.10;
-					
-					systolicLabel.setStyle("color", red);
-				}
-				else if (simulationModelSystolic < 120)
-				{
-					bloodPressureRectFill.color = green;
-					
-					hypotensionRectFill.alpha = 0.10;
-					normotensionRectFill.alpha = 0.5;
-					prehypertensionRectFill.alpha = 0.10;
-					hypertensionRectFill.alpha = 0.10;
-					
-					systolicLabel.setStyle("color", green);
-				}
-				else if (simulationModelSystolic < 130)
-				{
-					bloodPressureRectFill.color = orange;
-					
-					hypotensionRectFill.alpha = 0.10;
-					normotensionRectFill.alpha = 0.10;
-					prehypertensionRectFill.alpha = 0.3;
-					hypertensionRectFill.alpha = 0.10;
-					
-					systolicLabel.setStyle("color", orange);
-				}
-				else
-				{
-					bloodPressureRectFill.color = red;
-					
-					hypotensionRectFill.alpha = 0.10;
-					normotensionRectFill.alpha = 0.10;
-					prehypertensionRectFill.alpha = 0.10;
-					hypertensionRectFill.alpha = 0.5;
-					
-					systolicLabel.setStyle("color", red);
-				}
-				
-				return (simulationModelSystolic - 80) * (200 / 80);
-			}
-			
-			private function updateNephronSimulation(concentration:Number):Number
-			{
-				// TODO: hide simulation (?) when concentration is undefined; for now, treat undefined values as 0 concentration
-				if (isNaN(concentration))
-					concentration = 0;
-				
-				if (concentration < goalConcentration * 0.5)
-				{
-					nephronSimulationView.soluteInBloodRatio = 0.95;
-				}
-				else if (concentration < goalConcentration)
-				{
-					nephronSimulationView.soluteInBloodRatio = 0.75;
-				}
-				else
-				{
-					nephronSimulationView.soluteInBloodRatio = 0.05;
-				}
-				
-				// limit the number of plugs to 2x the number of gaps
-				nephronSimulationView.plugRatio = Math.min(maxPlugRatio, concentration / goalConcentration);
+		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
+		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 
-				return nephronSimulationView.plugRatio;
-			}
-			
-			public function refresh():void
+		import mx.events.FlexEvent;
+		import mx.events.ResizeEvent;
+
+		public static const red:uint = 0xED1C24;
+		public static const orange:uint = 0xF7941E;
+		public static const green:uint = 0x00A651;
+		private static const maxPlugRatio:Number = 2.0;
+		private static const goalConcentration:Number = 0.05;
+		private static const medicationGroupMinHeight:Number = 40;
+
+		[Bindable]
+		private var _simulationModel:SimulationModel;
+		[Bindable]
+		private var _bloodPressureModel:BloodPressureModel;
+
+		public function get isRunning():Boolean
+		{
+			return nephronSimulationView.isRunning;
+		}
+
+		public function set isRunning(value:Boolean):void
+		{
+			nephronSimulationView.isRunning = value;
+		}
+
+		public function initializeModel(simulationModel:SimulationModel, bloodPressureModel:BloodPressureModel):void
+		{
+			_simulationModel = simulationModel;
+			_bloodPressureModel = bloodPressureModel;
+		}
+
+		public function updateBloodPressureHeight(simulationModelSystolic:Number):Number
+		{
+			systolicLabel.text = String(simulationModelSystolic);
+
+			if (simulationModelSystolic < 90)
 			{
-				if (_bloodPressureModel.showAdherence == true)
-				{
-					simulationImageAdherence.visible = true;
-				}
-				else
-				{
-					simulationImageAdherence.visible = false;
-				}
+				bloodPressureRectFill.color = red;
+
+				hypotensionRectFill.alpha = 0.5;
+				normotensionRectFill.alpha = 0.10;
+				prehypertensionRectFill.alpha = 0.10;
+				hypertensionRectFill.alpha = 0.10;
+
+				systolicLabel.setStyle("color", red);
 			}
-					
-			private var _medicationOnlyMode:Boolean = false;
-			
-			protected function medicationGroup_doubleClickHandler(event:MouseEvent):void
+			else if (simulationModelSystolic < 120)
 			{
-				_medicationOnlyMode = !_medicationOnlyMode;
-				
-				resizeChildren();
+				bloodPressureRectFill.color = green;
+
+				hypotensionRectFill.alpha = 0.10;
+				normotensionRectFill.alpha = 0.5;
+				prehypertensionRectFill.alpha = 0.10;
+				hypertensionRectFill.alpha = 0.10;
+
+				systolicLabel.setStyle("color", green);
 			}
-			
-			private function resizeChildren():void
+			else if (simulationModelSystolic < 130)
 			{
-				if (this.height > 0 && this.width > 0)
+				bloodPressureRectFill.color = orange;
+
+				hypotensionRectFill.alpha = 0.10;
+				normotensionRectFill.alpha = 0.10;
+				prehypertensionRectFill.alpha = 0.3;
+				hypertensionRectFill.alpha = 0.10;
+
+				systolicLabel.setStyle("color", orange);
+			}
+			else
+			{
+				bloodPressureRectFill.color = red;
+
+				hypotensionRectFill.alpha = 0.10;
+				normotensionRectFill.alpha = 0.10;
+				prehypertensionRectFill.alpha = 0.10;
+				hypertensionRectFill.alpha = 0.5;
+
+				systolicLabel.setStyle("color", red);
+			}
+
+			return (simulationModelSystolic - 80) * (200 / 80);
+		}
+
+		private function updateNephronSimulation(concentration:Number):Number
+		{
+			// TODO: hide simulation (?) when concentration is undefined; for now, treat undefined values as 0 concentration
+			if (isNaN(concentration))
+				concentration = 0;
+
+			if (concentration < goalConcentration * 0.5)
+			{
+				nephronSimulationView.soluteInBloodRatio = 0.95;
+			}
+			else if (concentration < goalConcentration)
+			{
+				nephronSimulationView.soluteInBloodRatio = 0.75;
+			}
+			else
+			{
+				nephronSimulationView.soluteInBloodRatio = 0.05;
+			}
+
+			// limit the number of plugs to 2x the number of gaps
+			nephronSimulationView.plugRatio = Math.min(maxPlugRatio, concentration / goalConcentration);
+
+			return nephronSimulationView.plugRatio;
+		}
+
+		public function refresh():void
+		{
+			if (_bloodPressureModel.showAdherence == true)
+			{
+				simulationImageAdherence.visible = true;
+			}
+			else
+			{
+				simulationImageAdherence.visible = false;
+			}
+		}
+
+		private var _medicationOnlyMode:Boolean = false;
+
+		protected function medicationGroup_doubleClickHandler(event:MouseEvent):void
+		{
+			_medicationOnlyMode = !_medicationOnlyMode;
+
+			resizeChildren();
+		}
+
+		private function resizeChildren():void
+		{
+			if (this.height > 0 && this.width > 0)
+			{
+				if (_medicationOnlyMode)
 				{
-					if (_medicationOnlyMode)
+					bloodPressureMeter.visible = false;
+					bodyGroup.visible = false;
+					systolicLabel.visible = false;
+
+					medicationGroup.right = NaN;
+					medicationGroup.top = NaN;
+					if (this.measuredHeight > medicationGroupMinHeight)
 					{
-						bloodPressureMeter.visible = false;
-						bodyGroup.visible = false;
-						systolicLabel.visible = false;
-						
-						medicationGroup.right = NaN;
-						medicationGroup.top = NaN;
-						if (this.measuredHeight > medicationGroupMinHeight)
-						{
-							medicationGroup.height = NaN;
-							medicationGroup.percentHeight = 100;
-						}
-						else
-						{
-							medicationGroup.percentHeight = NaN;
-							medicationGroup.height = medicationGroupMinHeight;
-						}
+						medicationGroup.height = NaN;
+						medicationGroup.percentHeight = 100;
 					}
 					else
 					{
-						bloodPressureMeter.visible = true;
-						bodyGroup.visible = true;
-						systolicLabel.visible = true;
-						
-						medicationGroup.right = 10;
-						medicationGroup.top = 10;
 						medicationGroup.percentHeight = NaN;
-						medicationGroup.height = Math.max(medicationGroupMinHeight, this.height - bodyGroup.height - medicationGroup.y);
+						medicationGroup.height = medicationGroupMinHeight;
 					}
-					
-					medicationGroup.width = this.width;
 				}
-			}
+				else
+				{
+					bloodPressureMeter.visible = true;
+					bodyGroup.visible = true;
+					systolicLabel.visible = true;
 
-			protected function resizeHandler(event:ResizeEvent):void
-			{
-				resizeChildren();
-			}
+					medicationGroup.right = 10;
+					medicationGroup.top = 10;
+					medicationGroup.percentHeight = NaN;
+					medicationGroup.height = Math.max(medicationGroupMinHeight,
+													  this.height - bodyGroup.height - medicationGroup.y);
+				}
 
-			protected function creationCompleteHandler(event:FlexEvent):void
-			{
-				resizeChildren();
+				medicationGroup.width = this.width;
 			}
+		}
 
+		protected function resizeHandler(event:ResizeEvent):void
+		{
+			resizeChildren();
+		}
+
+		protected function creationCompleteHandler(event:FlexEvent):void
+		{
+			resizeChildren();
+		}
 		]]>
 	</fx:Script>
-	<s:Group id="bodyGroup" bottom="10" right="20" >
-		<mx:Image id="simulationNoAdherenceImage" height="564" width="222" bottom="0" source="@Embed(source='/resources/images/apps/bloodPressure/simulationNoAdherence.png')" smoothBitmapContent="true" visible="{!_bloodPressureModel.showAdherence}"/>
-		<mx:Image id="simulationImageAdherence" bottom="0" source="@Embed(source='/resources/images/apps/bloodPressure/simulation.png')" smoothBitmapContent="true" visible="{_bloodPressureModel.showAdherence}"/>
+	<s:Group id="bodyGroup" bottom="10" right="20">
+		<mx:Image id="simulationNoAdherenceImage" height="564" width="222" bottom="0"
+				  source="@Embed(source='/resources/images/apps/bloodPressure/simulationNoAdherence.png')"
+				  smoothBitmapContent="true" visible="{!_bloodPressureModel.showAdherence}"/>
+		<mx:Image id="simulationImageAdherence" bottom="0"
+				  source="@Embed(source='/resources/images/apps/bloodPressure/simulation.png')"
+				  smoothBitmapContent="true" visible="{_bloodPressureModel.showAdherence}"/>
 		<!--
 		height="586" width="222" 
 		
@@ -299,7 +296,8 @@
 						<s:SolidColor id="prehypertensionRectFill" color="{orange}" alpha="0.15"/>
 					</s:fill>
 				</s:Rect>
-				<s:Label id="prehypertensionLabel"  styleName="tension" left="45" text="Prehypertension" verticalCenter="0"/>
+				<s:Label id="prehypertensionLabel" styleName="tension" left="45" text="Prehypertension"
+						 verticalCenter="0"/>
 			</s:Group>
 			<s:Group width="100%" height="37.5%">
 				<s:Label styleName="scale" text="90" textAlign="right" right="187" bottom="-9"/>
@@ -313,10 +311,10 @@
 						<s:SolidColor id="normotensionRectFill" color="green" alpha="0.15"/>
 					</s:fill>
 				</s:Rect>
-				<s:Label id="normotensionLabel"  styleName="tension" left="45" text="Normal" verticalCenter="0"/>
+				<s:Label id="normotensionLabel" styleName="tension" left="45" text="Normal" verticalCenter="0"/>
 			</s:Group>
 			<s:Group width="100%" height="12.5%">
-<!--				<s:Label styleName="scale" text="80" textAlign="right" right="187" bottom="-8"/>
+				<!--				<s:Label styleName="scale" text="80" textAlign="right" right="187" bottom="-8"/>
 				<s:Line left="15" right="0" bottom="1">
 					<s:stroke>
 						<s:SolidColorStroke weight="0.5" color="0x000000" alpha="0.25"/>
@@ -327,7 +325,7 @@
 						<s:SolidColor id="hypotensionRectFill" color="red" alpha="0.15"/>
 					</s:fill>
 				</s:Rect>
-				<s:Label id="hypotensionLabel"  styleName="tension" left="45" text="Hypotension" verticalCenter="0"/>
+				<s:Label id="hypotensionLabel" styleName="tension" left="45" text="Hypotension" verticalCenter="0"/>
 			</s:Group>
 		</s:VGroup>
 		<s:Rect left="20" right="0" height="100%">
@@ -335,24 +333,27 @@
 				<s:SolidColorStroke weight="1" color="0x000000" alpha="0.25"/>
 			</s:stroke>
 		</s:Rect>
-		<s:Rect id="bloodPressureRect" bottom="0" left="20" width="20" height="{updateBloodPressureHeight(_simulationModel.systolic)}">
+		<s:Rect id="bloodPressureRect" bottom="0" left="20" width="20"
+				height="{updateBloodPressureHeight(_simulationModel.systolic)}">
 			<s:fill>
 				<s:SolidColor id="bloodPressureRectFill"/>
 			</s:fill>
 			<s:stroke>
 				<s:SolidColorStroke weight="0.5" color="0x000000" alpha="0.25"/>
 			</s:stroke>
-		</s:Rect> 
+		</s:Rect>
 		<s:Rect left="20" width="20" height="100%">
 			<s:stroke>
 				<s:SolidColorStroke weight="1" color="0x000000"/>
 			</s:stroke>
 		</s:Rect>
 	</s:Group>
-	<s:Group id="medicationGroup" right="10" top="10" height="50" width="240" doubleClickEnabled="true" doubleClick="medicationGroup_doubleClickHandler(event)">
+	<s:Group id="medicationGroup" right="10" top="10" height="50" width="240" doubleClickEnabled="true"
+			 doubleClick="medicationGroup_doubleClickHandler(event)">
 		<s:layout>
-			<view1:ScaleToFitLayout unscaledWidth="240" aspectRatioMin="0.85" aspectRatioMax="1.25"/>
+			<view2:ScaleToFitLayout unscaledWidth="240" aspectRatioMin="0.85" aspectRatioMax="1.25"/>
 		</s:layout>
-		<view1:BloodSolutesSimulationView id="nephronSimulationView" plugRatio="{updateNephronSimulation(_simulationModel.concentration)}"/>
+		<view1:BloodSolutesSimulationView id="nephronSimulationView"
+										  plugRatio="{updateNephronSimulation(_simulationModel.concentration)}"/>
 	</s:Group>
 </s:Group>

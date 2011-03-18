@@ -149,6 +149,11 @@ package collaboRhythm.core.controller.apps
 
 			for each (var info:AppControllerInfo in infoArray)
 			{
+				if (info.groupWidgetViewWithSchedule)
+					_factory.widgetParentContainer = _scheduleWidgetParentContainer;
+				else
+					_factory.widgetParentContainer = _widgetParentContainer;
+
 				createApp(info.appControllerClass);
 			}
 		}
