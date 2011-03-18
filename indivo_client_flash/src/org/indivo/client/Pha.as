@@ -165,7 +165,7 @@ public class Pha extends EventDispatcher implements WikiTestable
         }
         phaAdminUtils = new PhaAdminUtils(instanceConsumerKey, instanceConsumerSecret);
         constructorHelper();
-        logger = Log.getLogger(getQualifiedClassName(this).split("::")[1]);
+        logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
         
         //oauthConsumer = new DefaultOAuthConsumer(
         //        instanceConsumerKey, instanceConsumerSecret, SignatureMethod.HMAC_SHA1);
@@ -1795,7 +1795,7 @@ public class Pha extends EventDispatcher implements WikiTestable
             phaTokenSecret:String,
             requestXml:String):URLRequest
 	{
-        logger.info("relativePath, requestXml: " + relativePath + '\n' + requestXml + "\n\n");
+        logger.info(reqMeth + " " + relativePath + (params ? ", params=" + params.toString() : "") + (requestXml ? ", requestXml=" + requestXml : ""));
 
 		var queryString0:String = getQueryStringFromParams(params);
 		
@@ -1804,10 +1804,10 @@ public class Pha extends EventDispatcher implements WikiTestable
             phaBase0 = foreignURL;
         }
 
-        logger.info("phaAdminUtils: " + phaAdminUtils
-            + " -- phaBase0: " + phaBase0
-            + " -- relativePath: " + relativePath
-            + " -- queryString: " + queryString0);
+//        logger.info("phaAdminUtils: " + phaAdminUtils
+//            + " -- phaBase0: " + phaBase0
+//            + " -- relativePath: " + relativePath
+//            + " -- queryString: " + queryString0);
         var phaURLString:String= phaBase0 + relativePath;
 
 		var contentType:String= null;

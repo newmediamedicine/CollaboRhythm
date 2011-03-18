@@ -16,7 +16,7 @@
  */
 package collaboRhythm.plugins.problems.model
 {
-	import collaboRhythm.shared.model.HealthRecordServiceBase;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
 	import collaboRhythm.shared.model.User;
 	import collaboRhythm.shared.model.UsersModel;
 	

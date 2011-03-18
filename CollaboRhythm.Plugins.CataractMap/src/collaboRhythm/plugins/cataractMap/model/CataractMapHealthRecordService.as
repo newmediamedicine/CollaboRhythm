@@ -16,10 +16,9 @@
  */
 package collaboRhythm.plugins.cataractMap.model
 {
-	import collaboRhythm.shared.model.HealthRecordServiceBase;
+	import collaboRhythm.shared.model.DateUtil;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
 	import collaboRhythm.shared.model.User;
-
-	import com.brooksandrus.utils.ISO8601Util;
 
 	import flash.net.URLVariables;
 
@@ -74,16 +73,15 @@ package collaboRhythm.plugins.cataractMap.model
 		private function parseReportData(responseXml:XML):ArrayCollection
 		{
 			var data:ArrayCollection = new ArrayCollection();
-			
+
 			// trim off any data that is from the future (according to ICurrentDateSource); note that we assume the data is in ascending order by date
 			var nowTime:Number = _currentDateSource.now().time;
-			var dateUtil:ISO8601Util = new ISO8601Util();
-			
+
 			for each (var itemXml:XML in responseXml.Report.Item.VitalSign)
 			{
 				var item:CataractMapDataItem = new CataractMapDataItem();
 				var dateMeasuredString:String = itemXml.dateMeasured.toString();
-				item.date = dateUtil.parseDateTimeString(dateMeasuredString);
+				item.date = DateUtil.parseW3CDTF(dateMeasuredString);
 				
 				// TODO: parse the data properly
 				parseDensityMap(itemXml.comments.toString(), item);
@@ -110,11 +108,6 @@ package collaboRhythm.plugins.cataractMap.model
 				max = Math.max(max, densityArray[i]);
 			}
 			item.densityMapMax = max;
-		}
-
-		protected override function handleError(event:IndivoClientEvent):void
-		{
-			
 		}
 	}
 }

@@ -16,16 +16,10 @@
  */
 package collaboRhythm.shared.model
 {
-	public class HealthRecordHelperMethods
+	public interface IDataItem
 	{
-		public function HealthRecordHelperMethods()
-		{
-		}
-		
-		public static function codedValueFromXml(valueXml:XML):CodedValue
-		{
-			var codedValue:CodedValue = new CodedValue(valueXml.@type, valueXml.@value, valueXml.@abbrev, valueXml.toString());
-			return codedValue;
-		}
+		function get date():Date;
+
+		function set date(value:Date):void;
 	}
 }

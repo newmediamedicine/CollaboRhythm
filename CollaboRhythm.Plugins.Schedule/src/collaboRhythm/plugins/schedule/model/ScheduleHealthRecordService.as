@@ -18,7 +18,7 @@ package collaboRhythm.plugins.schedule.model
 {
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
 	import collaboRhythm.shared.model.ReportRequestDetails;
-	import collaboRhythm.shared.model.HealthRecordServiceBase;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
 	import collaboRhythm.shared.model.User;
 	import collaboRhythm.shared.model.UsersModel;
 	

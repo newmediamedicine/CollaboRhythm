@@ -23,6 +23,8 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.controller.CollaborationController;
 	import collaboRhythm.shared.controller.CollaborationEvent;
 	import collaboRhythm.shared.model.*;
+	import collaboRhythm.shared.model.healthRecord.CommonHealthRecordService;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	
 	import flash.utils.getQualifiedClassName;
@@ -38,7 +40,7 @@ package collaboRhythm.core.controller
 		protected var _demographicsController:DemographicsController;
 		protected var _kernel:IKernel;
 		protected var logger:ILogger;
-		protected var settings:Settings;
+		private var _settings:Settings;
 		protected var healthRecordService:CommonHealthRecordService;
 		protected var usersModel:UsersModel;
 		protected var _subjectUser:User;
@@ -63,15 +65,15 @@ package collaboRhythm.core.controller
 			logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_kernel = WorkstationKernel.instance;
 			
-			settings = applicationController.settings;
+			_settings = applicationController.settings;
 			
-			if (settings.isPatientMode)
+			if (_settings.isPatientMode)
 				prepareForPatientMode();
 			
-			healthRecordService = new CommonHealthRecordService(settings.chromeConsumerKey, settings.chromeConsumerSecret, settings.indivoServerBaseURL);
+			healthRecordService = new CommonHealthRecordService(_settings.chromeConsumerKey, _settings.chromeConsumerSecret, _settings.indivoServerBaseURL);
 			
 			healthRecordService.addEventListener(HealthRecordServiceEvent.LOGIN_COMPLETE, loginCompleteHandler);
-			healthRecordService.login(settings.chromeConsumerKey, settings.chromeConsumerSecret, settings.userName, settings.password);
+			healthRecordService.login(_settings.chromeConsumerKey, _settings.chromeConsumerSecret, _settings.userName, _settings.password);
 		}
 		
 		protected function prepareForPatientMode():void
@@ -81,7 +83,8 @@ package collaboRhythm.core.controller
 		
 		private function loginCompleteHandler(event:HealthRecordServiceEvent):void
 		{
-			usersModel = new UsersModel(settings, healthRecordService);
+			logger.info("Login complete.");
+			usersModel = new UsersModel(_settings, healthRecordService);
 			usersModel.usersHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE, usersHealthRecordService_completeHandler);
 			usersModel.usersHealthRecordService.addEventListener(HealthRecordServiceEvent.UPDATE, usersHealthRecordService_updateHandler);
 			usersModel.usersHealthRecordService.populateRemoteUsers();
@@ -113,7 +116,7 @@ package collaboRhythm.core.controller
 		{
 			if (healthRecordService.isLoginComplete && usersModel.remoteUsersPopulated && _collaborationController == null)
 			{
-				_collaborationController = new CollaborationController(applicationController.collaborationRoomView, usersModel, settings);
+				_collaborationController = new CollaborationController(applicationController.collaborationRoomView, usersModel, _settings);
 				logger.info("CollaborationController created");
 				
 				initializeControllersForUser();
@@ -122,7 +125,7 @@ package collaboRhythm.core.controller
 					applicationController.widgetsContainer,
 					applicationController.scheduleWidgetContainer,
 					applicationController.fullContainer,
-					settings,
+					_settings,
 					healthRecordService,
 					_collaborationController.collaborationModel.collaborationRoomNetConnectionService,
 					applicationController.componentContainer
@@ -150,7 +153,7 @@ package collaboRhythm.core.controller
 				_remoteUsersController.sortView();
 			}
 			
-			if (settings.isPatientMode)
+			if (_settings.isPatientMode)
 			{
 				openRecord(usersModel.localUser);
 			}
@@ -221,6 +224,11 @@ package collaboRhythm.core.controller
 		public function reloadPlugins():void
 		{
 			applicationController.reloadPlugins();
+		}
+
+		public function get settings():Settings
+		{
+			return _settings;
 		}
 	}
 }

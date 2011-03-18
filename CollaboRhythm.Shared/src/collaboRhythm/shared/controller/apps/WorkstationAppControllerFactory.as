@@ -17,7 +17,7 @@
 package collaboRhythm.shared.controller.apps
 {
 	import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
-	import collaboRhythm.shared.model.CommonHealthRecordService;
+	import collaboRhythm.shared.model.healthRecord.CommonHealthRecordService;
 	import collaboRhythm.shared.model.User;
 	
 	import flash.net.getClassByAlias;

@@ -22,7 +22,7 @@ package collaboRhythm.plugins.medications.model
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemFullViewBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase;
-	import collaboRhythm.shared.model.HealthRecordHelperMethods;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
 	import collaboRhythm.shared.model.ValueAndUnit;
 	
 	public class MedicationScheduleItem extends ScheduleItemBase

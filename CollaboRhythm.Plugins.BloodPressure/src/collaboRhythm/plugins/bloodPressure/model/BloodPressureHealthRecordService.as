@@ -16,12 +16,11 @@
  */
 package collaboRhythm.plugins.bloodPressure.model
 {
-	import collaboRhythm.shared.model.HealthRecordServiceBase;
+	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.User;
-	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
 
-	import com.brooksandrus.utils.ISO8601Util;
-
+	import flash.net.URLVariables;
 	import flash.xml.XMLDocument;
 
 	import mx.collections.ArrayCollection;
@@ -31,6 +30,9 @@ package collaboRhythm.plugins.bloodPressure.model
 
 	public class BloodPressureHealthRecordService extends HealthRecordServiceBase
 	{
+		private const systolicCategory:String = "Blood Pressure Systolic";
+		private const diastolicCategory:String = "Blood Pressure Diastolic";
+
 		public function BloodPressureHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String)
 		{
 			super(consumerKey, consumerSecret, baseURL);
@@ -38,120 +40,124 @@ package collaboRhythm.plugins.bloodPressure.model
 		
 		public function loadBloodPressure(user:User):void
 		{
-//			// Note that the file path is based on the userName
-//			//			// TODO: use the Indivo server instead of a file
-//			var dataFile:File = File.applicationDirectory.resolvePath("data").resolvePath(user.contact.userName).resolvePath("blood_pressure_data.xml");
-//			if (dataFile.exists)
-//			{
-//				var stream:FileStream = new FileStream();
-//				stream.open(dataFile, FileMode.READ);
-//				
-//				var data:ArrayCollection = xmlToArrayCollection(XML(stream.readUTFBytes(stream.bytesAvailable)));
-//				
-//				// trim off any data that is from the future (according to ICurrentDateSource); note that we assume the data is in ascending order by date
-//				var nowTime:Number = _currentDateSource.now().time;
-//				var dateUtil:ISO8601Util = new ISO8601Util();
-//				
-//				for (var i:int = 0; i < data.length; i++)
-//				{
-//					var dataItem:Object = data[i];
-//					
-//					// convert each date from a string to a Date object
-//					dataItem.date = dateUtil.parseDateTimeString(dataItem.date);
-//					
-//					if (dataItem.date.time > nowTime)
-//					{
-//						if (i > 1)
-//							data.source = data.source.slice(0, i - 1);
-//						else
-//							data.source = [];
-//						break;
-//					}
-//				}
-//				
-//				//				user.bloodPressureModel.rawData = XML(stream.readUTFBytes(stream.bytesAvailable));
-//				//				user.bloodPressureModel.data = new ArrayCollection(ArrayUtil.toArray(XML(stream.readUTFBytes(stream.bytesAvailable))));
-//				user.bloodPressureModel.data = data;
-//				stream.close();
-//				
-//				//				var httpService:HTTPService = new HTTPService(dataFile.nativePath);
-//				//				//			httpService.resultFormat = "e4x";
-//				//				
-//				//				//			result="dataResult(event)" fault="faultResult(event)" resultFormat="object" />
-//				//				
-//				//				httpService.addEventListener(ResultEvent.RESULT, bloodPressureHttpService_result);
-//				//				httpService.addEventListener(FaultEvent.FAULT, bloodPressureHttpService_fault);
-//				//				
-//				//				httpService.send();
-//			}
-//			else
-//			{
-//				trace("File not found:", dataFile.nativePath);
-//			}
-			
-//			var params:URLVariables = new URLVariables();
-//			params["order_by"] = "-date_started";
-			
-			// now the user already had an empty MedicationsModel when created, and a variable called initialized is used to see if it has been populated, allowing for early binding -- start with an empty MedicationsModel so that views can bind to the instance before the data is finished loading
-			//			user.medicationsModel = new MedicationsModel();
+			// clear any existing data
+			user.bloodPressureModel.data = null;
+			user.bloodPressureModel.isSystolicReportLoaded = false;
+			user.bloodPressureModel.isDiastolicReportLoaded = false;
+
+			var params:URLVariables = new URLVariables();
+			params["order_by"] = "date_measured";
+
 			if (user.recordId != null && accessKey != null && accessSecret != null)
-				_pha.documents_type_X_GET(null, null, null, null, user.recordId, "BloodPressureData", accessKey, accessSecret, user);
-			
+			{
+				_pha.reports_minimal_vitals_X_GET(params, null, null, null, user.recordId, systolicCategory, accessKey,
+												  accessSecret,
+												  new BloodPressureReportUserData(user, systolicCategory));
+				_pha.reports_minimal_vitals_X_GET(params, null, null, null, user.recordId, diastolicCategory, accessKey,
+												  accessSecret,
+												  new BloodPressureReportUserData(user, diastolicCategory));
+			}
 		}
 		
 		protected override function handleResponse(event:IndivoClientEvent, responseXml:XML):void
 		{
-			if (responseXml.name() == "Documents")
+			if (responseXml.localName() == "Reports")
 			{
-				if (responseXml.Document.length() > 1 )
-					throw new Error("There must be only 1 (or 0) BloodPressureData documents. Unexpected number of documents in response: " + responseXml.Document.length() + " " + responseXml);
-				
-				var user:User = event.userData as User;
+				var bloodPressureReportUserData:BloodPressureReportUserData = event.userData as BloodPressureReportUserData;
+				if (bloodPressureReportUserData == null)
+					throw new Error("userData must be a BloodPressureReportUserData object");
+
+				var user:User = bloodPressureReportUserData.user;
 				if (user == null)
-					throw new Error("userData must be a User object");
-				
-				if (responseXml.Document.length() > 0)
+					throw new Error("userData.user must be a User object");
+
+				if (responseXml.Report.Item.VitalSign.length() > 0)
 				{
-					var metadata:DocumentMetadata = DocumentMetadata.createDocumentMetadata(responseXml.Document[0]);
-					user.registerDocument(metadata, user.bloodPressureModel);
-					_pha.documents_XGET(null, null, null, user.recordId, metadata.id, accessKey, accessSecret, user);
-				}
-			}
-			else if (responseXml.name() == "BloodPressureData")
-			{
-				user = event.userData as User;
-				if (user == null)
-					throw new Error("userData must be a User object");
-				
-				var data:ArrayCollection = xmlToArrayCollection(responseXml);
-				
-				// trim off any data that is from the future (according to ICurrentDateSource); note that we assume the data is in ascending order by date
-				var nowTime:Number = _currentDateSource.now().time;
-				var dateUtil:ISO8601Util = new ISO8601Util();
-				
-				for (var i:int = 0; i < data.length; i++)
-				{
-					var dataItem:Object = data[i];
+					user.bloodPressureModel.data = parseReportData(responseXml,
+																   getFieldNameFromCategory(bloodPressureReportUserData.category),
+																   user.bloodPressureModel.data);
 					
-					// convert each date from a string to a Date object
-					dataItem.date = dateUtil.parseDateTimeString(dataItem.date);
-					
-					if (dataItem.date.time > nowTime)
-					{
-						if (i > 1)
-							data.source = data.source.slice(0, i - 1);
-						else
-							data.source = [];
-						break;
-					}
+					if (bloodPressureReportUserData.category == systolicCategory)
+						user.bloodPressureModel.isSystolicReportLoaded = true;
+					else if (bloodPressureReportUserData.category == diastolicCategory)
+						user.bloodPressureModel.isDiastolicReportLoaded = true;
 				}
-				
-				user.bloodPressureModel.data = data;
 			}
 			else
 			{
 				throw new Error("Unexpected response: " + responseXml);
 			}
+		}
+
+		private function getFieldNameFromCategory(category:String):String
+		{
+			if (category == systolicCategory)
+				return "systolic";
+			else if (category == diastolicCategory)
+				return "diastolic";
+			else
+				throw new Error("Unhandled category value " + category)
+		}
+
+		private function parseReportData(responseXml:XML, valueFieldName:String,
+										 data:ArrayCollection=null):ArrayCollection
+		{
+			var searchForExistingData:Boolean;
+			if (data == null)
+				data = new ArrayCollection();
+			else
+				searchForExistingData = true;
+
+			// trim off any data that is from the future (according to ICurrentDateSource); note that we assume the data is in ascending order by date
+			var nowTime:Number = _currentDateSource.now().time;
+
+			var i:int = 0;
+
+			for each (var itemXml:XML in responseXml.Report.Item.VitalSign)
+			{
+				var dateMeasuredString:String = itemXml.dateMeasured.toString();
+				var dateMeasured:Date = DateUtil.parseW3CDTF(dateMeasuredString);
+
+				var item:BloodPressureDataItem;
+				if (searchForExistingData)
+				{
+					if (data.length > i && datesAreClose(data[i].date, dateMeasured))
+					{
+						item = data[i];
+						i++;
+					}
+					else
+					{
+						// TODO: implement searching; implement creating a new instance if not found
+						throw new Error("Date does not match for index " + i.toString() +
+												". Expected: " + dateMeasured.toString() +
+												" Found: " + ((data.length > i) ? data[i].date.toString() : "(data.length = " + data.length + ")"));
+					}
+				}
+				else
+				{
+					item = new BloodPressureDataItem();
+					data.addItem(item);
+				}
+
+				item.date = dateMeasured;
+
+				item[valueFieldName] = itemXml.value.toString();
+
+				// TODO: should we do anything with unit, site, or position?
+				if (item.date.time > nowTime)
+				{
+					break;
+				}
+			}
+			return data;
+		}
+
+		private static const millisecondsPerHour:int = 1000 * 60 * 60;
+
+		private function datesAreClose(date1:Date, date2:Date):Boolean
+		{
+			return (Math.abs(date1.time - date2.time) < millisecondsPerHour * 12);
 		}
 
 		private function xmlToArrayCollection(xml:XML):ArrayCollection
@@ -172,10 +178,5 @@ package collaboRhythm.plugins.bloodPressure.model
 			//			ac.addItem(resultObj.items);
 			//			return ac;    
 		}		
-		
-		protected override function handleError(event:IndivoClientEvent):void
-		{
-			
-		}
 	}
 }

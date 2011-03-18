@@ -16,8 +16,10 @@
  */
 package collaboRhythm.plugins.cataractMap.model
 {
+	import collaboRhythm.shared.model.IDataItem;
+
 	[Bindable]
-	public class CataractMapDataItem
+	public class CataractMapDataItem implements IDataItem
 	{
 		private var _date:Date;
 		private var _isCataract:Boolean;

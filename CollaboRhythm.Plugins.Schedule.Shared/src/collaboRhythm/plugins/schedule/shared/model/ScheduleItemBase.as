@@ -20,7 +20,7 @@ package collaboRhythm.plugins.schedule.shared.model
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase;
 	import collaboRhythm.shared.model.CodedValue;
 	import collaboRhythm.shared.model.DateUtil;
-	import collaboRhythm.shared.model.HealthRecordHelperMethods;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 
 	[Bindable]

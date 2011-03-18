@@ -21,6 +21,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
 	import collaboRhythm.core.pluginsManagement.PluginLoader;
 	import collaboRhythm.core.view.RemoteUsersListView;
+	import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	import collaboRhythm.shared.model.Settings;
 	import collaboRhythm.shared.model.User;
 	import collaboRhythm.shared.model.services.DemoCurrentDateSource;
@@ -92,7 +93,7 @@ package collaboRhythm.core.controller
 		{
 			// The log file will be placed under applicationStorageDirectory folder
 			var path:String = File.applicationStorageDirectory.resolvePath("collaboRhythm.log").nativePath;
-			
+
 			var targetFile:File = new File(path);
 			
 			/* Create a target. */
@@ -189,6 +190,10 @@ package collaboRhythm.core.controller
 		
 		protected function handlePluginsLoaded():void
 		{
+			logger.info("Plugins loaded.");
+			var array:Array = _componentContainer.resolveAll(AppControllerInfo);
+			logger.info("  Number of registered AppControllerInfo objects (apps): " + (array ? array.length : 0));
+
 			if (_reloadWithUser)
 				_collaborationMediator.openRecord(_reloadWithUser);
 		}

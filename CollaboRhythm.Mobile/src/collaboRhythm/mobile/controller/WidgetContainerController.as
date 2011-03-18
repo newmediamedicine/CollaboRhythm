@@ -18,12 +18,16 @@ package collaboRhythm.mobile.controller
 {
 import collaboRhythm.core.controller.CollaborationMediatorBase;
 import collaboRhythm.core.pluginsManagement.PluginEvent;
-import collaboRhythm.mobile.view.WidgetContainerView;
+	import collaboRhythm.core.pluginsManagement.PluginLoader;
+	import collaboRhythm.mobile.view.WidgetContainerView;
 import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 
-import flash.events.TransformGestureEvent;
+	import flash.desktop.NativeApplication;
+	import flash.events.TransformGestureEvent;
 
-import spark.components.ViewNavigator;
+	import flash.filesystem.File;
+
+	import spark.components.ViewNavigator;
 import spark.effects.SlideViewTransition;
 
 public class WidgetContainerController
@@ -89,6 +93,46 @@ public class WidgetContainerController
 		
 		public function initializeView(view:WidgetContainerView):void
 		{
+			view.infoData =
+				<root>
+					<InfoItem>
+						<name>Application Directory</name>
+						<value>{File.applicationDirectory.nativePath}</value>
+					</InfoItem>
+					<InfoItem>
+						<name>Application Storage (User) Directory</name>
+						<value>{File.applicationStorageDirectory.nativePath}</value>
+					</InfoItem>
+					<InfoItem>
+						<name>Mode</name>
+						<value>{this._collaborationMediator.settings.mode}</value>
+					</InfoItem>
+					<InfoItem>
+						<name>Username</name>
+						<value>{this._collaborationMediator.settings.userName}</value>
+					</InfoItem>
+					<InfoItem>
+						<name>Indivo Server URL</name>
+						<value>{this._collaborationMediator.settings.indivoServerBaseURL}</value>
+					</InfoItem>
+					<InfoItem>
+						<name>User settings file</name>
+						<value>{this._collaborationMediator.settings.userSettingsFile.nativePath}</value>
+					</InfoItem>
+					<InfoItem>
+						<name>Application settings file</name>
+						<value>{this._collaborationMediator.settings.applicationSettingsFile.nativePath}</value>
+					</InfoItem>
+					<InfoItem>
+						<name>Num Plugin Files</name>
+						<value>{getNumPluginFiles()}</value>
+					</InfoItem>
+					<InfoItem>
+						<name>Num Dynamic Apps</name>
+						<value>{this._collaborationMediator.appControllersMediator ? this._collaborationMediator.appControllersMediator.numDynamicApps : "(not loaded)"}</value>
+					</InfoItem>
+				</root>;
+
 			// FIXME: occasionally I get the following compile error; casting as WidgetContainerController does not help; clean or otherwise rebuilding the project generally resolved the error
 			// 1067: Implicit coercion of a value of type collaboRhythm.mobile.controller:WidgetContainerController to an unrelated type collaboRhythm.mobile.controller:WidgetContainerController.
 			view.controller = this;
@@ -108,6 +152,14 @@ public class WidgetContainerController
 					app.showWidget();
 				}
 			}
+		}
+
+		private function getNumPluginFiles():int
+		{
+			var num:int;
+			var pluginLoader:PluginLoader = new PluginLoader();
+			num = pluginLoader.getNumPluginFiles();
+			return num;
 		}
 		
 		public function view_reloadRequestHandler(event:PluginEvent):void

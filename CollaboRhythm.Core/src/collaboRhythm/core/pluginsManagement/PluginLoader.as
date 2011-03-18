@@ -18,6 +18,7 @@ package collaboRhythm.core.pluginsManagement
 {
 	import castle.flexbridge.reflection.ReflectionUtils;
 
+	import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
 	
@@ -28,10 +29,14 @@ package collaboRhythm.core.pluginsManagement
 	import flash.filesystem.FileStream;
 	import flash.system.ApplicationDomain;
 	import flash.utils.ByteArray;
-	
+
+	import flash.utils.getQualifiedClassName;
+
 	import mx.collections.ArrayCollection;
 	import mx.core.IFlexModuleFactory;
 	import mx.events.ModuleEvent;
+	import mx.logging.ILogger;
+	import mx.logging.Log;
 	import mx.modules.IModuleInfo;
 	import mx.modules.ModuleLoader;
 
@@ -48,6 +53,7 @@ package collaboRhythm.core.pluginsManagement
 
 		private static const PLUGINS_DIRECTORY_NAME:String = "plugins";
 		private var completedModuleLoaders:ArrayCollection;
+		protected var logger:ILogger;
 
 		public function get numPluginsLoaded():int
 		{
@@ -56,6 +62,8 @@ package collaboRhythm.core.pluginsManagement
 
 		public function PluginLoader()
 		{
+			logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+
 			_applicationPluginsDirectoryPath = File.applicationDirectory.resolvePath(PLUGINS_DIRECTORY_NAME).nativePath;
 			_userPluginsDirectoryPath = File.applicationStorageDirectory.resolvePath(PLUGINS_DIRECTORY_NAME).nativePath;
 
@@ -87,6 +95,13 @@ package collaboRhythm.core.pluginsManagement
 		public function loadPlugins():void
 		{
 			var files:Array = getPluginFiles(userPluginsDirectoryPath);
+
+			var pluginFilesMessage:String =
+				"Loading plugin files:\n" +
+				fileArrayToStringForTrace(files);
+			logger.info(pluginFilesMessage);
+			trace(pluginFilesMessage);
+
 			loadedPlugins = new Vector.<IPlugin>(files.length);
 			pendingModuleLoaders = new ArrayCollection();
 			completedModuleLoaders = new ArrayCollection();
@@ -106,7 +121,6 @@ package collaboRhythm.core.pluginsManagement
 				var directoryListing:Array = directory.getDirectoryListing();
 				// TODO: remove (or recursively load) directories from the list
 				directoryListing.sortOn("nativePath");
-				trace(fileArrayToStringForTrace(directoryListing));
 				return directoryListing;
 			}
 			else
@@ -166,6 +180,8 @@ package collaboRhythm.core.pluginsManagement
 
 				loadedPlugins[loaderIndex] = plugin;
 
+				logger.info("Plugin " + getQualifiedClassName(plugin) + " loaded successfully from " + moduleInfo.url);
+
 				// Note that we do not register components yet; wait and register components for each plugin in the same
 				// order that the plugins were read from file
 			}
@@ -212,6 +228,8 @@ package collaboRhythm.core.pluginsManagement
 			{
 				plugin.registerComponents(componentContainer);
 			}
+
+			logger.info("Registered all components. Num AppControllerInfo: " + componentContainer.resolveAll(AppControllerInfo).length);
 		}
 
 		private function removeNullItems(plugins:Vector.<IPlugin>):Vector.<IPlugin>
@@ -257,6 +275,12 @@ package collaboRhythm.core.pluginsManagement
 			loadedPlugins = new Vector.<IPlugin>();
 			pendingModuleLoaders = null;
 			completedModuleLoaders = null;
+		}
+
+		public function getNumPluginFiles():int
+		{
+			var files:Array = getPluginFiles(userPluginsDirectoryPath);
+			return files.length;
 		}
 	}
 }

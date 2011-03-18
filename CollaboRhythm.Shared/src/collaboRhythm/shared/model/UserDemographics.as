@@ -17,7 +17,8 @@
 package collaboRhythm.shared.model
 {
 	import castle.flexbridge.common.NotSupportedError;
-	
+
+	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	

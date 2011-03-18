@@ -16,11 +16,14 @@
   ~ <http://www.gnu.org/licenses/>.
   -->
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
-		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:scroll="collaboRhythm.view.scroll.*"
 		gestureSwipe="gestureSwipeHandler(event)"
 		click="clickHandler(event)"
 		removedFromStage="removedFromStageHandler(event)"
 		mouseDown="mouseDownHandler(event)" xmlns:mx="library://ns.adobe.com/flex/mx"
+		preinitialize="preinitializeHandler(event)"
+		addedToStage="addedToStageHandler(event)"
+		added="addedHandler(event)"
 		>
 	<s:layout>
 		<s:VerticalLayout/>
@@ -56,10 +59,36 @@
 				<s:SetAction property="visible" value="false"/>
 			</s:children>
 		</s:Sequence>
+		<s:Sequence id="showInfoEffect" target="{infoGroup}">
+			<s:children>
+				<s:SetAction property="visible" value="true"/>
+				<s:Parallel duration="200">
+					<s:Fade alphaFrom="0" alphaTo="1"/>
+					<s:Animate>
+						<s:motionPaths>
+							<s:SimpleMotionPath property="y" valueFrom="{infoGroupContent.height}" valueTo="0"/>
+						</s:motionPaths>
+					</s:Animate>
+				</s:Parallel>
+			</s:children>
+		</s:Sequence>
+		<s:Sequence id="hideInfoEffect" target="{infoGroup}">
+			<s:children>
+				<s:Parallel duration="200">
+					<s:Fade alphaFrom="1" alphaTo="0"/>
+					<s:Animate>
+						<s:motionPaths>
+							<s:SimpleMotionPath property="y" valueFrom="0" valueTo="{infoGroupContent.height}"/>
+						</s:motionPaths>
+					</s:Animate>
+				</s:Parallel>
+				<s:SetAction property="visible" value="false"/>
+			</s:children>
+		</s:Sequence>
 	</fx:Declarations>
 
 	<!-- TODO: move the menu out of this view -->
-	<s:Group id="menuGroup" width="{this.width}" height="{this.height}" includeInLayout="false" visible="false">
+	<s:VGroup id="menuGroup" width="{this.width}" height="{this.height}" includeInLayout="false" visible="false">
 		<s:Group id="menuTransparentOverlay" width="100%" height="100%" mouseEnabled="true"
 				 mouseEnabledWhereTransparent="true" click="hideMenu();"/>
 		<s:VGroup gap="0" width="100%" bottom="0">
@@ -69,6 +98,9 @@
 				</s:stroke>
 			</s:Line>
 			<s:HGroup id="menuGroupContent" width="100%" gap="2" render="menuGroupContent_renderHandler(event)">
+				<s:Button id="infoButton" width="100%" icon="@Embed('/assets/images/ic_menu_info_details.png')"
+						  skinClass="collaboRhythm.mobile.view.skins.MenuButtonSkin" label="Info"
+						  click="infoButton_clickHandler(event)"/>
 				<s:Button id="refreshButton" width="100%" icon="@Embed('/assets/images/ic_menu_refresh.png')"
 						  skinClass="collaboRhythm.mobile.view.skins.MenuButtonSkin" label="Refresh"
 						  click="refreshButton_clickHandler(event)"/>
@@ -77,18 +109,48 @@
 						  click="quitButton_clickHandler(event)"/>
 			</s:HGroup>
 		</s:VGroup>
-	</s:Group>
-
+	</s:VGroup>
+	
+	<s:VGroup id="infoGroup" width="{this.width}" height="{this.height}" includeInLayout="false" visible="false">
+		<s:Group id="infoTransparentOverlay" width="100%" height="100%" mouseEnabled="true"
+				 mouseEnabledWhereTransparent="true" click="hideInfo();"/>
+		<s:Group width="100%" bottom="0">
+			<s:Rect width="100%" height="100%">
+				<s:fill>
+					<s:SolidColor color="#000000" alpha="0.8"/>
+				</s:fill>
+			</s:Rect>
+			<s:VGroup id="infoGroupContent" width="100%" gap="0">
+				<s:Line width="100%">
+					<s:stroke>
+						<s:SolidColorStroke weight="3" color="#666666" caps="square" alpha="0.8"/>
+					</s:stroke>
+				</s:Line>
+				<s:Label text="Log"/>
+				<s:TextArea id="logTextArea" width="100%" height="200" fontSize="14" selectable="true" editable="false"/>
+				<scroll:TouchScrollingDataGrid id="infoGrid" width="100%" height="100%" dataProvider="{infoData.InfoItem}" editable="false" chromeColor="#AAAAFF"
+						styleName="ApplicationInfoGrid" useHorizontalTouchScrolling="false" useVerticalTouchScrolling="true" showHeaders="true" selectable="false" useRollOver="false" variableRowHeight="true">
+					<scroll:columns>
+						<mx:DataGridColumn headerText="" dataField="name" width="90"/>
+						<mx:DataGridColumn headerText="Info" dataField="value" wordWrap="true"/>
+					</scroll:columns>
+				</scroll:TouchScrollingDataGrid>
+			</s:VGroup>
+		</s:Group>
+	</s:VGroup>
+	
 	<fx:Script>
 		<![CDATA[
 		import collaboRhythm.core.pluginsManagement.PluginEvent;
 		import collaboRhythm.mobile.controller.WidgetContainerController;
 		import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-
 		import collaboRhythm.view.scroll.TouchScrollerEvent;
+
+		import com.daveoncode.logging.LogFileTarget;
 
 		import mx.core.IButton;
 		import mx.core.IVisualElement;
+
 		import mx.events.FlexEvent;
 
 		import spark.components.supportClasses.ButtonBase;
@@ -102,6 +164,7 @@
 		private var _traceEventHandlers:Boolean = false;
 		private var _isListeningForMouseMove:Boolean;
 		private var _shouldIgnoreNextMouseDown:Boolean;
+		private var _infoData:XML;
 
 		public function get workstationAppController():WorkstationAppControllerBase
 		{
@@ -128,6 +191,21 @@
 			super.initializationComplete();
 
 			this.addEventListener(TouchScrollerEvent.SCROLL_START, scrollStartHandler, false, 0, true);
+
+			if (infoData == null)
+			{
+				infoData =
+						<root>
+							<InfoItem>
+								<name>Application Directory</name>
+								<value>{File.applicationDirectory.nativePath}</value>
+							</InfoItem>
+							<InfoItem>
+								<name>Application Storage Directory</name>
+								<value>{File.applicationStorageDirectory.nativePath}</value>
+							</InfoItem>
+						</root>;
+			}
 		}
 
 		private function scrollStartHandler(event:TouchScrollerEvent):void
@@ -230,15 +308,66 @@
 
 		public function showMenu():void
 		{
+			if (isInfoVisible)
+				hideInfo();
+			
 			hideMenuEffect.stop();
 			setElementIndex(menuGroup, numElements - 1);
 			showMenuEffect.play();
+		}
+
+		public function showInfo():void
+		{
+			hideInfoEffect.stop();
+			setElementIndex(infoGroup, numElements - 1);
+			showInfoEffect.play();
+
+			logTextArea.text = getLogFileText();
+			logTextArea.selectRange(logTextArea.text.length, logTextArea.text.length);
+			logTextArea.scrollToRange(logTextArea.text.length, logTextArea.text.length);
+			logTextArea.setFocus();
+		}
+
+		private function getLogFileText():String
+		{
+			var logTarget:LogFileTarget = LogFileTarget.getInstance();
+			var file:File = logTarget.file;
+
+			if (!file.exists)
+				return "";
+
+			var fileStream:FileStream = new FileStream();
+
+			try
+			{
+				fileStream.open(file, FileMode.READ);
+			}
+			catch (error:Error)
+			{
+				trace("File exists but could not be read: ", file.nativePath);
+				return "";
+			}
+
+			// TODO: read the last 20 lines of text
+			// grab a reasonable chunk of text from the end of the log file
+			fileStream.position = Math.max(0, fileStream.bytesAvailable - 1024 * 8);
+			var logText:String = fileStream.readUTFBytes(fileStream.bytesAvailable);
+			logText = logText.substring(logText.indexOf("\n"));
+			fileStream.close();
+
+			return logText;
 		}
 
 		public function hideMenu():void
 		{
 			showMenuEffect.stop();
 			hideMenuEffect.play();
+		}
+
+		public function hideInfo():void
+		{
+			showInfoEffect.stop();
+			hideInfoEffect.play();
 		}
 
 		public function toggleMenu():void
@@ -254,19 +383,28 @@
 			return menuGroup.visible;
 		}
 
+		public function get isInfoVisible():Boolean
+		{
+			return infoGroup.visible;
+		}
+
+		protected function infoButton_clickHandler(event:MouseEvent):void
+		{
+			hideMenu();
+			showInfo();
+		}
+
 		protected function refreshButton_clickHandler(event:MouseEvent):void
 		{
 			hideMenu();
 			dispatchEvent(new PluginEvent(PluginEvent.RELOAD_REQUEST));
 		}
 
-
 		protected function quitButton_clickHandler(event:MouseEvent):void
 		{
 			hideMenu();
 			NativeApplication.nativeApplication.exit();
 		}
-
 
 		protected function menuGroupContent_renderHandler(event:Event):void
 		{
@@ -288,6 +426,32 @@
 			this.stage.removeEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
 			_isFlicking = false;
 			_isListeningForMouseMove = false;
+		}
+
+		[Bindable]
+		public function get infoData():XML
+		{
+			return _infoData;
+		}
+
+		public function set infoData(value:XML):void
+		{
+			_infoData = value;
+		}
+
+		private function preinitializeHandler(event:FlexEvent):void
+		{
+			trace("WidgetContainerView.preinitializeHandler");
+		}
+
+		private function addedToStageHandler(event:Event):void
+		{
+			trace("WidgetContainerView.addedToStageHandler");
+		}
+
+		private function addedHandler(event:Event):void
+		{
+//			trace("WidgetContainerView.addedHandler");
 		}
 		]]>
 	</fx:Script>

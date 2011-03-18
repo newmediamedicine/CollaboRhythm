@@ -16,6 +16,10 @@
  */
 package collaboRhythm.shared.model
 {
+	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
+
+	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
+
 	import flash.errors.IllegalOperationError;
 	
 	import j2as3.collection.HashMap;
@@ -133,6 +137,8 @@ package collaboRhythm.shared.model
 
 		protected override function handleError(event:IndivoClientEvent):void
 		{
+			super.handleError(event);
+			
 			// TODO: remove the appropriate pending request
 			throw new Error("Unexpected (and currently unhandled) response from server: " + event.response);
 		}

@@ -54,8 +54,7 @@ public class PhaAdminUtils {
 
     public function PhaAdminUtils(defaultConsumerKey:String, defaultConsumerSecret:String)
 	{
-//		trace(getQualifiedClassName(this).split("::")[1]);
-		logger = Log.getLogger(getQualifiedClassName(this).split("::")[1]);
+		logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 //		documentBuilderFactory = DocumentBuilderFactory.newInstance();
 //		try {
 //			documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -115,7 +114,6 @@ public class PhaAdminUtils {
 //        var adminURL:String= null;
         var urlRequest:URLRequest= null;
 
-		logger.info("adminURLString + queryStringBuff:" + adminURLString + queryStringBuff.toString() + "!");
 		adminURLString = adminURLString + queryStringBuff.toString();
         urlRequest = new URLRequest(adminURLString);
         urlRequest.method = reqMethodStr;

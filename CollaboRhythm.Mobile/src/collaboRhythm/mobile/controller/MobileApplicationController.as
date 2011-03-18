@@ -76,8 +76,6 @@ public class MobileApplicationController extends ApplicationControllerBase
 
 		private function viewNavigator_addedHandler(event:Event):void
 		{
-			var navigator:ViewNavigator = _mobileApplication.navigator;
-//			var view:WidgetContainerView = navigator.getElementAt(navigator.numElements - 1) as WidgetContainerView;
 			var view:WidgetContainerView = event.target as WidgetContainerView;
 			if (view)
 			{
@@ -113,11 +111,9 @@ public class MobileApplicationController extends ApplicationControllerBase
 			logger.info("  Username: " + _settings.userName);
 
 			initializeComponents();
-			logger.info("Components initialized");
+			logger.info("Components initialized. Asynchronous plugin loading initiated.");
 			logger.info("  User plugins directory: " + _pluginLoader.userPluginsDirectoryPath);
 			logger.info("  Number of loaded plugins: " + _pluginLoader.numPluginsLoaded);
-			var array:Array = _componentContainer.resolveAll(AppControllerInfo);
-			logger.info("  Number of registered AppControllerInfo objects (apps): " + (array ? array.length : 0));
 
 			_collaborationMediator = new MobileCollaborationMediator(this);
 			
@@ -125,6 +121,8 @@ public class MobileApplicationController extends ApplicationControllerBase
 			_mobileApplication.navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
 			_mobileApplication.navigator.addEventListener(Event.ADDED, viewNavigator_addedHandler);
 			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
+
+			initializeActiveView();
 		}
 		
 		public function keyDownHandler(event:KeyboardEvent):void

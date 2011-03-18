@@ -228,5 +228,10 @@ package collaboRhythm.shared.model
 			else
 				return data;
 		}
+
+		public function toString():String
+		{
+			return "User{_userName=" + String(_userName) + ",_accountId=" + String(_accountId) + ",_recordId=" + String(_recordId) + "}";
+		}
 	}
 }

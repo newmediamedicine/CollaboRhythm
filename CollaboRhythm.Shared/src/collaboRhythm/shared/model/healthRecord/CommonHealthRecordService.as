@@ -14,9 +14,12 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.shared.model
+package collaboRhythm.shared.model.healthRecord
 {
+	import collaboRhythm.shared.model.*;
 	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	

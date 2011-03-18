@@ -16,6 +16,9 @@
  */
 package collaboRhythm.shared.model
 {
+	import collaboRhythm.shared.model.healthRecord.CommonHealthRecordService;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
+
 	import flash.errors.IllegalOperationError;
 	
 	import j2as3.collection.HashMap;

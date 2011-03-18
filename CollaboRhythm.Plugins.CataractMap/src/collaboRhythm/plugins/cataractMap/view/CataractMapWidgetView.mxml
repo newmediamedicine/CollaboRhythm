@@ -52,7 +52,7 @@
 
 		public function refresh():void
 		{
-			if (_model != null && _model.data != null)
+			if (_model != null && _model.data != null && _model.data.length > 0)
 			{
 				cataractMapSimulation.densityMap = _model.data.getItemAt(_model.data.length - 1).densityMap
 			}

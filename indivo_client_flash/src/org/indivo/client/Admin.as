@@ -332,9 +332,8 @@ public class Admin extends EventDispatcher implements WikiTestable
 			this.dispatchEvent(new IndivoClientEvent(new XML(inputString), null, userData)); 
 		}
 
-        logger.info("adminURLString, relativePath, requestXmlOrParams: "
-                + adminURLString + ", " + relativePath + '\n' + requestXmlOrParams + "\n\n");
-        
+		logger.info(reqMeth + " " + relativePath + (requestXmlOrParams ? ", requestXmlOrParams=" + requestXmlOrParams : ""));
+
         var contentType:String= null;
         if (requestXmlOrParams != null && requestXmlOrParams.length > 0) {
             if (requestXmlOrParams.charAt(0) == '<') {

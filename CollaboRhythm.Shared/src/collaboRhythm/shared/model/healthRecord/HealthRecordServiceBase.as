@@ -14,8 +14,9 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.shared.model
+package collaboRhythm.shared.model.healthRecord
 {
+	import collaboRhythm.shared.model.*;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	
@@ -27,10 +28,13 @@ package collaboRhythm.shared.model
 	import flash.filesystem.FileStream;
 	import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
+	import flash.utils.getQualifiedClassName;
 	import flash.xml.XMLDocument;
 	
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
+	import mx.logging.ILogger;
+	import mx.logging.Log;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.http.HTTPService;
@@ -42,8 +46,8 @@ package collaboRhythm.shared.model
 	import org.indivo.client.IndivoClientEvent;
 	import org.indivo.client.Pha;
 
-	[Event(name="loginComplete", type="collaboRhythm.shared.model.HealthRecordServiceEvent")]
-	[Event(name="complete", type="collaboRhythm.shared.model.HealthRecordServiceEvent")]
+	[Event(name="loginComplete", type="collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent")]
+	[Event(name="complete", type="collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent")]
 	
 	public class HealthRecordServiceBase extends EventDispatcher
 	{
@@ -60,9 +64,12 @@ package collaboRhythm.shared.model
 		private var _accessSecret:String;
 		private var _accountId:String;
 		protected var _isLoginComplete:Boolean;
-		
+		protected var logger:ILogger;
+
 		public function HealthRecordServiceBase(consumerKey:String, consumerSecret:String, baseURL:String)
 		{
+			logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 
 //			var consumerKey:String = "authentication-helper@apps.nmm.media.mit.edu";
@@ -175,6 +182,8 @@ package collaboRhythm.shared.model
 		{
 			if (event.type == IndivoClientEvent.COMPLETE)
 			{
+				logger.info("Login complete. " + event.response.toXMLString());
+
 				var responseXml:XML = event.response;
 				var responseText:String = responseXml.toString();
 				
@@ -205,6 +214,7 @@ package collaboRhythm.shared.model
 				
 				//				this.status = errorStatus;
 				trace(errorStatus);
+				logger.error("Login failed. Unhandled Indivo client error: " + event.toString());
 			}
 		}
 		
@@ -277,7 +287,8 @@ package collaboRhythm.shared.model
 		 */
 		protected function handleError(event:IndivoClientEvent):void
 		{
-			// Base class does nothing. Subclasses should override.
+			// TODO: should we retry? warn the user?
+			logger.error("Unhandled Indivo client error: " + event.toString());
 		}
 		
 		/**

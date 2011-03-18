@@ -33,6 +33,7 @@ package collaboRhythm.core.controller.apps
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerFactory;
 	import collaboRhythm.shared.controller.apps.WorkstationAppEvent;
 	import collaboRhythm.shared.model.*;
+	import collaboRhythm.shared.model.healthRecord.CommonHealthRecordService;
 	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
 
 	import com.theory9.data.types.OrderedMap;
@@ -150,6 +151,12 @@ package collaboRhythm.core.controller.apps
 			{
 				createApp(info.appControllerClass);
 			}
+		}
+
+		public function get numDynamicApps():int
+		{
+			var infoArray:Array = componentContainer.resolveAll(AppControllerInfo);
+			return infoArray.length;
 		}
 
 		public function initializeForUser(user:User):void

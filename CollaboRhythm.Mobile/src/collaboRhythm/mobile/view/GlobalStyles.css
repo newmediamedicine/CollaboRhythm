@@ -41,6 +41,16 @@ mx|DataGrid.WidgetGrid
 	font-size: 14pt;
 }
 
+mx|DataGrid.ApplicationInfoGrid
+{
+    color: #000000;
+	selection-color: #C1FFC5;
+	roll-over-color: #7CFF77;
+	contentBackgroundAlpha: 0.0;
+	/*alternatingItemColors: ClassReference(null); *//* no colors so that background (watermark) can show through */
+	font-size: 14pt;
+}
+
 mx|Image.WidgetWatermarkImage
 {
 	alpha: 0.2; /* Note: this doesn't work */
