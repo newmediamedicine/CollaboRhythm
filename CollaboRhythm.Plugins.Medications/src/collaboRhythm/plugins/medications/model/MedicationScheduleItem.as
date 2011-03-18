@@ -16,15 +16,19 @@
  */
 package collaboRhythm.plugins.medications.model
 {
-	import collaboRhythm.plugins.medications.view.MedicationScheduleItemFullView;
-	import collaboRhythm.plugins.medications.view.MedicationScheduleItemWidgetView;
+	import collaboRhythm.plugins.medications.view.MedicationScheduleItemClockView;
+	import collaboRhythm.plugins.medications.view.MedicationScheduleItemTimelineView;
+	import collaboRhythm.plugins.medications.view.MedicationScheduleItemReportingView;
+	import collaboRhythm.plugins.schedule.shared.model.AdherenceItem;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemFullViewBase;
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
 	import collaboRhythm.shared.model.ValueAndUnit;
 	
+	[Bindable]
 	public class MedicationScheduleItem extends ScheduleItemBase
 	{
 		private var _dose:ValueAndUnit;
@@ -36,9 +40,9 @@ package collaboRhythm.plugins.medications.model
 		{
 			super(scheduleItemReportXML, "MedicationScheduleItem");
 			
-			_dose = new ValueAndUnit(_scheduleItemXML.dose.value, HealthRecordHelperMethods.codedValueFromXml(_scheduleItemXML.dose.unit[0]));
+			_dose = new ValueAndUnit(scheduleItemXML.dose.value, HealthRecordHelperMethods.codedValueFromXml(scheduleItemXML.dose.unit[0]));
 			_scheduledActionID = scheduleItemReportXML.Meta.Document.relatesTo.relation.relatedDocument.@id;
-			_scheduleGroupID =  scheduleItemReportXML.Meta.Document.isRelatedFrom.relation.relatedDocument.@id;
+			_scheduleGroupID =  scheduleItemReportXML.Meta.Document.isRelatedFrom.relation.relatedDocument[0].@id;
 		}
 		
 		public function get dose():ValueAndUnit
@@ -66,18 +70,25 @@ package collaboRhythm.plugins.medications.model
 			return _scheduleGroupID;
 		}
 		
-		public override function createScheduleItemWidgetView():ScheduleItemWidgetViewBase
+		public override function createScheduleItemClockView():ScheduleItemClockViewBase
 		{
-			// to be implemented by subclasses
-			var medicationScheduleItemWidgetView:MedicationScheduleItemWidgetView = new MedicationScheduleItemWidgetView();
+			var medicationScheduleItemClockView:MedicationScheduleItemClockView = new MedicationScheduleItemClockView();
+			medicationScheduleItemClockView.medication = _scheduledAction;
+			medicationScheduleItemClockView.medicationScheduleItem = this;
+			return medicationScheduleItemClockView;
+		}
+		
+		public override function createScheduleItemReportingView():ScheduleItemReportingViewBase
+		{
+			var medicationScheduleItemWidgetView:MedicationScheduleItemReportingView = new MedicationScheduleItemReportingView();
 			medicationScheduleItemWidgetView.medication = _scheduledAction;
+			medicationScheduleItemWidgetView.medicationScheduleItem = this;
 			return medicationScheduleItemWidgetView;
 		}
 		
-		public override function createScheduleItemFullView():ScheduleItemFullViewBase
+		public override function createScheduleItemTimelineView():ScheduleItemTimelineViewBase
 		{
-			// to be implemented by subclasses
-			var medicationScheduleItemFullView:MedicationScheduleItemFullView = new MedicationScheduleItemFullView();
+			var medicationScheduleItemFullView:MedicationScheduleItemTimelineView = new MedicationScheduleItemTimelineView();
 			medicationScheduleItemFullView.medication = _scheduledAction;
 			return medicationScheduleItemFullView;
 		}

@@ -126,7 +126,7 @@
 			
 			public function grabScheduleItemDispatch(moveData:MoveData):void
 			{
-				moveData.documentID = _scheduleItem.documentID;
+				moveData.id = _scheduleItem.documentID;
 				dispatchEvent(new FullScheduleItemViewEvent(FullScheduleItemViewEvent.SCHEDULE_ITEM_GRAB, moveData));
 			}
 			
@@ -157,7 +157,7 @@
 			
 			public function moveScheduleItemDispatch(moveData:MoveData):void
 			{
-				moveData.documentID = _scheduleItem.documentID;
+				moveData.id = _scheduleItem.documentID;
 				dispatchEvent(new FullScheduleItemViewEvent(FullScheduleItemViewEvent.SCHEDULE_ITEM_MOVE, moveData));
 			}
 			
@@ -176,7 +176,7 @@
 			
 			public function dropScheduleItemDispatch(moveData:MoveData):void
 			{
-				moveData.documentID = _scheduleItem.documentID;
+				moveData.id = _scheduleItem.documentID;
 				dispatchEvent(new FullScheduleItemViewEvent(FullScheduleItemViewEvent.SCHEDULE_ITEM_DROP, moveData));
 			}
 			

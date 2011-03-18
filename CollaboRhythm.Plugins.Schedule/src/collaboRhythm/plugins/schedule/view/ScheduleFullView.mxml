@@ -33,7 +33,7 @@
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBaseOld;
 			import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
-			import collaboRhythm.plugins.schedule.shared.view.ScheduleItemFullViewBase;
+			import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
 			
 			import mx.binding.utils.BindingUtils;
 			import mx.collections.ArrayCollection;
@@ -78,6 +78,15 @@
 				_scheduleGroupsCollection = _scheduleModel.scheduleGroupsCollection;
 				
 				_scheduleGroupsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, scheduleGroupsCollectionChangeHandler);
+				
+				this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_DOWN, scheduleGroupTimelineViewMouseDownHandler);
+				this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_MOVE, scheduleGroupTimelineViewMouseMoveHandler);
+				this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_UP, scheduleGroupTimelineViewMouseUpHandler);
+				
+				this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_SPOTLIGHT_VIEW_MOUSE_DOWN, scheduleGroupSpotlightViewMouseDownHandler);
+				this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_SPOTLIGHT_VIEW_LEFT_MOUSE_MOVE, scheduleGroupSpotlightViewLeftMouseMoveHandler);
+				this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_SPOTLIGHT_VIEW_RIGHT_MOUSE_MOVE, scheduleGroupSpotlightViewRightMouseMoveHandler);
+				this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_SPOTLIGHT_VIEW_MOUSE_UP, scheduleGroupSpotlightViewMouseUpHandler);
 				
 //				_scheduleItemsCollection = _scheduleModel.scheduleItemsCollection;
 //				_adherenceGroupsCollection = _scheduleModel.adherenceGroupsCollection;
@@ -140,7 +149,7 @@
 			
 			public function createScheduleGroupView(scheduleGroup:ScheduleGroup):void
 			{
-				var scheduleGroupFullView:ScheduleGroupFullView = new ScheduleGroupFullView();
+				var scheduleGroupFullView:ScheduleGroupTimelineView = new ScheduleGroupTimelineView();
 				scheduleGroupFullView.init(scheduleGroup, scheduleGroupsContainer, this);
 				scheduleGroupsContainer.addElement(scheduleGroupFullView);
 			}
@@ -153,12 +162,48 @@
 			
 			public function resizeHandler(event:ResizeEvent):void 
 			{
-				_timeWidth = (this.width - ScheduleItemFullViewBase.SCHEDULE_ITEM_FULL_VIEW_WIDTH + (ScheduleItemFullViewBase.SCHEDULE_ITEM_FULL_VIEW_PICTURE_WIDTH / 2) - ScheduleGroupFullView.SCHEDULE_GROUP_FULL_VIEW_BUFFER_WIDTH) / 26; 
+				_timeWidth = (this.width - ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH + (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2) - ScheduleGroupTimelineView.SCHEDULE_GROUP_FULL_VIEW_BUFFER_WIDTH) / 26; 
+//				_scheduleModel.timeWidth = _timeWidth;
 			}
 
 			public function get timeWidth():Number
 			{
 				return _timeWidth;
+			}
+			
+			private function scheduleGroupTimelineViewMouseDownHandler(event:ScheduleTimelineViewEvent):void
+			{
+				_scheduleFullViewController.grabScheduleGroup(event.moveData);
+			}
+			
+			private function scheduleGroupTimelineViewMouseMoveHandler(event:ScheduleTimelineViewEvent):void
+			{
+				_scheduleFullViewController.moveScheduleGroup(event.moveData);
+			}
+			
+			private function scheduleGroupTimelineViewMouseUpHandler(event:ScheduleTimelineViewEvent):void
+			{
+				_scheduleFullViewController.dropScheduleGroup(event.moveData);
+			}
+			
+			private function scheduleGroupSpotlightViewMouseDownHandler(event:ScheduleTimelineViewEvent):void
+			{
+				_scheduleFullViewController.grabScheduleGroupSpotlight(event.moveData);
+			}
+			
+			private function scheduleGroupSpotlightViewLeftMouseMoveHandler(event:ScheduleTimelineViewEvent):void
+			{
+				_scheduleFullViewController.resizeScheduleGroupSpotlight(event.moveData, true);
+			}
+			
+			private function scheduleGroupSpotlightViewRightMouseMoveHandler(event:ScheduleTimelineViewEvent):void
+			{
+				_scheduleFullViewController.resizeScheduleGroupSpotlight(event.moveData, false);
+			}
+			
+			private function scheduleGroupSpotlightViewMouseUpHandler(event:ScheduleTimelineViewEvent):void
+			{
+				_scheduleFullViewController.dropScheduleGroupSpotlight(event.moveData);
 			}
 			
 //			public function get fullScheduleItemViews():Vector.<FullScheduleItemViewBase>
@@ -312,7 +357,7 @@
 	</s:Rect>
 	<view2:FullTimelineView id="timelineView" width="100%" height="{TIMELINE_VIEW_HEIGHT}" bottom="0"/>
 	<!--<view2:FullSmartDrawerView id="fullSmartDrawerView" bottom="{ADHERENCE_WINDOW_INITIAL_HEIGHT + TIMELINE_VIEW_HEIGHT}"/>-->
-	<s:Group id="scheduleGroupSpotlightsContainer" width="100%" height="100%" clipAndEnableScrolling="true"/>
+	<s:Group id="scheduleGroupSpotlightViewsContainer" width="100%" height="100%" clipAndEnableScrolling="true"/>
 	<s:Group id="scheduleGroupsContainer" width="100%" top="0" bottom="{TIMELINE_VIEW_HEIGHT}" clipAndEnableScrolling="true"/>
 	
 	<s:Group id="adherenceWindowCanvas" width="100%" height="100%" clipAndEnableScrolling="false"/>

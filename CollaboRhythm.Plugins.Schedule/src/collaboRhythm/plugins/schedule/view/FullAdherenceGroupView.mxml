@@ -40,7 +40,7 @@
 			
 			[Bindable]
 			private var _adherenceGroup:AdherenceGroup;
-			private var _fullAdherenceWindowView:FullAdherenceWindowView;
+			private var _fullAdherenceWindowView:ScheduleGroupSpotlightView;
 			
 			public function get adherenceGroup():AdherenceGroup
 			{
@@ -60,12 +60,12 @@
 				this.changeWatchers.push(adherenceGroupFadeChangeWatcher);
 			}
 			
-			public function get fullAdherenceWindowView():FullAdherenceWindowView
+			public function get fullAdherenceWindowView():ScheduleGroupSpotlightView
 			{
 				return _fullAdherenceWindowView;
 			}
 			
-			public function set fullAdherenceWindowView(value:FullAdherenceWindowView):void
+			public function set fullAdherenceWindowView(value:ScheduleGroupSpotlightView):void
 			{
 				_fullAdherenceWindowView = value;
 			}

@@ -62,14 +62,22 @@ package collaboRhythm.plugins.schedule.model
 		public function loadScheduleGroups(user:User):void
 		{			
 			var params:URLVariables = new URLVariables();
-			//			params["order_by"] = "-date_onset";
 			
 			// now the user already had an empty SchedulesModel when created, and a variable called initialized is used to see if it has been populated, allowing for early binding -- start with an empty SchedulesModel so that views can bind to the instance before the data is finished loading
-			//			user.medicationsModel = new SchedulesModel();
 			if (user.recordId != null && accessKey != null && accessSecret != null)
-//				TODO: currently this is a hack imitating the scheduleGroups report that we want to implement
-//				_pha.reports_minimal_X_GET(params, null, null, null, user.recordId, "scheduleGroups", accessKey, accessSecret, new DocumentRequestDetails(user, "scheduleGroups"));
-				handleScheduleGroupsReport(user, getScheduleModel(user), scheduleGroupsReport);
+				_pha.reports_minimal_X_GET(params, null, null, null, user.recordId, "schedulegroups", accessKey, accessSecret, new ReportRequestDetails(user, "scheduleGroups"));
+		}
+		
+		public function archiveScheduleGroup(user:User, documentID:String):void
+		{
+			if (user.recordId != null && accessKey != null && accessSecret != null)
+				_pha.documents_X_setStatusPOST(null, null, null, user.recordId, documentID, accessKey, accessSecret, "reason=schedulechanged&status=archived");
+		}
+		
+		public function createScheduleGroup(user:User, document:XML, relatedDocumentIDs:Vector.<String>):void
+		{
+			if (user.recordId != null && accessKey != null && accessSecret != null)
+				_pha.documents_POST(null, null, null, user.recordId, accessKey, accessSecret, document, new CreateScheduleGroupDetails(user, relatedDocumentIDs));
 		}
 		
 		private function handleScheduleGroupsReport(user:User, scheduleModel:ScheduleModel, responseXML:XML):void
@@ -77,9 +85,20 @@ package collaboRhythm.plugins.schedule.model
 			scheduleModel.scheduleGroupsReportXML = responseXML;
 		}
 		
+		private function handleScheduleGroupCreated(user:User, responseXML:XML, relatedDocumentIDs:Vector.<String>):void
+		{
+			for each (var relatedDocumentID:String in relatedDocumentIDs)
+			{
+				_pha.documents_X_rels_X_XPUT(null, null, null, user.recordId, responseXML.@id, "ScheduleItem", relatedDocumentID, accessKey, accessSecret);
+			}
+		}
+		
 		protected override function handleResponse(event:IndivoClientEvent, responseXML:XML):void
 		{
-			var user:User;
+			if (event.userData)
+			{
+				var user:User = event.userData.user as User;
+			}
 			var scheduleModel:ScheduleModel = getScheduleModel(user);
 			
 			if (responseXML.name() == "Reports")
@@ -89,83 +108,18 @@ package collaboRhythm.plugins.schedule.model
 					handleScheduleGroupsReport(user, scheduleModel, responseXML);
 				}
 			}
-//			if (responseXml.name() == "Documents")
-//			{			
-//				user = event.userData as User;
-//				if (user == null)
-//					throw new Error("userData must be a User object");
-//				
-//				_scheduleModel = user.getAppData(ScheduleModel.SCHEDULE_KEY, ScheduleModel) as ScheduleModel;
-//				
-//				if (responseXml.Document.length() > 0)
-//				{
-//					_currentScheduleDocument = 0;
-//					_numScheduleDocuments = responseXml.Document.length();
-//					
-//					if (responseXml.Document[0].attribute("id").length() != 1)
-//						throw new Error("Document does not have expected id attribute");
-//					
-//					for each (var responseDocument:XML in responseXml.Document)
-//					{
-//						_pha.documents_XGET(null, null, null, user.recordId, responseDocument.@id.toString(), accessKey, accessSecret, new DocumentRequestDetails(user, responseDocument.@id.toString()));
-//					}
-//				}
-//			}
-//			else if (responseXml.name() == "ScheduleGroup")
-//			{
-//				user = event.userData.user as User;
-//				if (user == null)
-//					throw new Error("userData must be a User object");
-//				
-//				_scheduleModel.addScheduleGroup(event.userData.documentID, responseXml);
-//				
-//				_currentScheduleDocument += 1;
-//				if (_currentScheduleDocument == _numScheduleDocuments - 1)
-//				{
-//					_scheduleModel.initialized = true;
-//				}
-//			}
+			else if (responseXML.name() == "Document")
+			{
+				handleScheduleGroupCreated(user, responseXML, event.userData.scheduleItemIDs);
+			}
+			else if (responseXML.name() == "ok")
+			{
+				//currently no further action
+			}
 			else
 			{
 				throw new Error("Unhandled response data: " + responseXML.name() + " " + responseXML);
 			}
 		}
-		
-		private var scheduleGroupsReport:XML = <Reports>
-  <Summary total_document_count="1" limit="100" offset="0" order_by="-created_at"/>
-<Report>
-    <Meta>
-       <Document id="b5390d4f-1f20-45fe-8be2-a4f08d4ee7ce" type="http://indivo.org/vocab/xml/documents#ScheduleGroup" size="402" digest="e02bd19dc7f65518e3f139875913815fe40a6d314bffa4dd32e1e5656fa1a075" record_id="6d4d246f-b518-4d03-a353-07b2f84f65ca">
-    <createdAt>2011-02-16T22:20:09Z</createdAt>
-    <creator id="gwhite@records.media.mit.edu" type="Account">
-      <fullname>George White</fullname>
-    </creator>
-    <original id="b5390d4f-1f20-45fe-8be2-a4f08d4ee7ce"/>
-    <latest id="b5390d4f-1f20-45fe-8be2-a4f08d4ee7ce" createdAt="2011-02-16T22:20:09Z" createdBy="gwhite@records.media.mit.edu"/>
-    <status>active</status>
-    <nevershare>false</nevershare>
-    <relatesTo>
-      <relation type="http://indivo.org/vocab/documentrels#scheduleItem" count="2">
-<relatedDocument id="138a12fb-14b4-48bb-a71a-9db2742354ce"/>
-<relatedDocument id="298323ab-e0b2-4bd6-8d1a-f964d242fb7c"/>
-      </relation>
-    </relatesTo>
-  </Document>
-  </Meta>
-    <Item>
-      <ScheduleGroup junk="http://indivo.org/vocab/xml/documents#">
-  <scheduledBy>jking@records.media.mit.edu</scheduledBy>
-  <dateTimeScheduled>2011-02-14T09:00:00-04:00</dateTimeScheduled>
-  <dateTimeStart>2011-02-15T06:00:00-04:00</dateTimeStart>
-  <dateTimeEnd>2011-02-15T10:00:00-04:00</dateTimeEnd>
-  <recurrenceRule>
-    <frequency>DAILY</frequency>
-    <count>90</count>
-  </recurrenceRule>
-</ScheduleGroup>
-</Item>
-</Report>
-</Reports>
-
 	}
 }

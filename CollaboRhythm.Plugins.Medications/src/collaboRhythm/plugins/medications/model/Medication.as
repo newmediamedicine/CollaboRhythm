@@ -46,8 +46,8 @@ package collaboRhythm.plugins.medications.model
 		private var _dateTimeStopped:Date;
 		private var _reasonStopped:String;
 
-//		private var _color:uint;
-//		private var _imageURI:String;
+		//TODO: Automate color selection
+		private var _color:uint = 0x000000;
 				
 		private var _currentDateSource:ICurrentDateSource;
 		
@@ -78,15 +78,37 @@ package collaboRhythm.plugins.medications.model
 			_dateTimeStarted = DateUtil.parseW3CDTF(medicationXML.dateStarted.toString());
 			_dateTimeStopped = DateUtil.parseW3CDTF(medicationXML.dateStopped.toString());
 			_reasonStopped = medicationXML.reasonStopped;
-
-//			_imageURI = "assets/images/" + _name + "_front.jpg";
-						
+			
+			if (name.value == "617320")
+			{
+				_color = 0xb38f81;
+			}
+			else if (name.value == "310798")
+			{
+				_color = 0x7f90aa;
+			}
+					
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
+
+		public function get color():uint
+		{
+			return _color;
+		}
 		
+		private function set color(value:uint):void
+		{
+			_color = value;
+		}
+
 		public function get name():CodedValue
 		{
 			return _name;
+		}
+		
+		private function set name(value:CodedValue):void
+		{
+			_name = value;
 		}
 		
 		public function get orderType():String
@@ -94,34 +116,69 @@ package collaboRhythm.plugins.medications.model
 			return _orderType;
 		}
 		
+		private function set orderType(value:String):void
+		{
+			_orderType = value;
+		}
+		
 		public function get orderedBy():String
 		{
 			return _orderedBy;
+		}
+		
+		private function set orderedBy(value:String):void
+		{
+			_orderedBy = value;
 		}
 
 		public function get dateTimeOrdered():Date
 		{
 			return _dateTimeOrdered;
 		}
+		
+		private function set dateTimeOrdered(value:Date):void
+		{
+			_dateTimeOrdered = value;
+		}
 
 		public function get dateTimeExpires():Date
 		{
 			return _dateTimeExpires;
+		}
+		
+		private function set dateTimeExpires(value:Date):void
+		{
+			_dateTimeExpires = value;
 		}
 
 		public function get indication():String
 		{
 			return _indication;
 		}
+		
+		private function set indication(value:String):void
+		{
+			_indication = value;
+		}
 
 		public function get activeIngredients():Vector.<ActiveIngredient>
 		{
 			return _activeIngredients;
 		}
+		
+		private function set activeIngredients(value:Vector.<ActiveIngredient>):void
+		{
+			_activeIngredients = value;
+		}
 
 		public function get dose():ValueAndUnit
 		{
 			return _dose;
+		}
+		
+		private function set dose(value:ValueAndUnit):void
+		{
+			_dose = value;
 		}
 
 		public function get form():CodedValue
@@ -129,49 +186,99 @@ package collaboRhythm.plugins.medications.model
 			return _form;
 		}
 
+		private function set form(value:CodedValue):void
+		{
+			_form = value;
+		}
+		
 		public function get route():CodedValue
 		{
 			return _route;
 		}
 
+		private function set route(value:CodedValue):void
+		{
+			_route = value;
+		}
+		
 		public function get frequency():CodedValue
 		{
 			return _frequency;
 		}
 
+		private function set frequency(value:CodedValue):void
+		{
+			_frequency = value;
+		}
+		
 		public function get amountOrdered():ValueAndUnit
 		{
 			return _amountOrdered;
 		}
-
+		
+		private function set amountOrdered(value:ValueAndUnit):void
+		{
+			_amountOrdered = value;
+		}
+		
 		public function get refills():Number
 		{
 			return _refills;
+		}
+
+		private function set refills(value:Number):void
+		{
+			_refills = value;
 		}
 
 		public function get substitutionPermitted():Boolean
 		{
 			return _substitutionPermitted;
 		}
+		
+		private function set substitutionPermitted(value:Boolean):void
+		{
+			_substitutionPermitted = value;
+		}
 
 		public function get instructions():String
 		{
 			return _instructions;
 		}
-
+		
+		private function set instructions(value:String):void
+		{
+			_instructions = value;
+		}
+		
 		public function get dateTimeStarted():Date
 		{
 			return _dateTimeStarted;
 		}
-
+		
+		private function set dateTimeStarted(value:Date):void
+		{
+			_dateTimeStarted = value;
+		}
+		
 		public function get dateTimeStopped():Date
 		{
 			return _dateTimeStopped;
+		}
+		
+		private function set dateTimeStopped(value:Date):void
+		{
+			_dateTimeStopped = value;
 		}
 
 		public function get reasonStopped():String
 		{
 			return _reasonStopped;
+		}
+		
+		private function set reasonStopped(value:String):void
+		{
+			_reasonStopped = value;
 		}
 
 		public function get isInactive():Boolean

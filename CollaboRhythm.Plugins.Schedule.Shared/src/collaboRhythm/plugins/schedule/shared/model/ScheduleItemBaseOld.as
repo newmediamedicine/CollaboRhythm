@@ -16,8 +16,8 @@
  */
 package collaboRhythm.plugins.schedule.shared.model
 {
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemFullViewBase;
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemWidgetViewBase;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
 	
 	[Bindable]
 	public class ScheduleItemBaseOld
@@ -208,17 +208,17 @@ package collaboRhythm.plugins.schedule.shared.model
 			}
 		}
 		
-		public function createScheduleItemWidgetView():ScheduleItemWidgetViewBase
+		public function createScheduleItemWidgetView():ScheduleItemClockViewBase
 		{
 			// to be implemented by subclasses
-			var scheduleItemWidgetView:ScheduleItemWidgetViewBase = new ScheduleItemWidgetViewBase();
+			var scheduleItemWidgetView:ScheduleItemClockViewBase = new ScheduleItemClockViewBase();
 			return scheduleItemWidgetView;
 		}
 		
-		public function createScheduleItemFullView():ScheduleItemFullViewBase
+		public function createScheduleItemFullView():ScheduleItemTimelineViewBase
 		{
 			// to be implemented by subclasses
-			var fullScheduleItemView:ScheduleItemFullViewBase = new ScheduleItemFullViewBase();
+			var fullScheduleItemView:ScheduleItemTimelineViewBase = new ScheduleItemTimelineViewBase();
 			return fullScheduleItemView;
 		}
 	}

@@ -24,13 +24,15 @@ package collaboRhythm.plugins.schedule.controller
 	
 	public class ScheduleFullViewController
 	{
+		private var _isWorkstationMode:Boolean;
 		private var _scheduleModel:ScheduleModel;
 		private var _scheduleFullView:ScheduleFullView;
 		private var _localUserName:String;
 		private var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
 		
-		public function ScheduleFullViewController(scheduleModel:ScheduleModel, scheduleFullView:ScheduleFullView, localUserName:String, collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy)
+		public function ScheduleFullViewController(isWorkstationMode:Boolean, scheduleModel:ScheduleModel, scheduleFullView:ScheduleFullView, localUserName:String, collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy)
 		{
+			_isWorkstationMode = isWorkstationMode;
 			_scheduleModel = scheduleModel;
 			_scheduleFullView = scheduleFullView;
 			_localUserName = localUserName;
@@ -38,138 +40,168 @@ package collaboRhythm.plugins.schedule.controller
 			_collaborationRoomNetConnectionServiceProxy.synchronizeHandler = this;
 		}
 		
-		public function moveSmartDrawerStart(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void
+		public function grabScheduleGroup(moveData:MoveData):void
 		{
-			if (userName == "")
-			{
-				_collaborationRoomNetConnectionServiceProxy.sendCollaborationSynchronization("moveSmartDrawerStart", moveData);	
-				collaborationColor = _collaborationRoomNetConnectionServiceProxy.getLocalUserCollaborationColor();
-			}
-			
-			_scheduleModel.moveSmartDrawerStart(moveData, collaborationColor);
-			
-			if (userName != "")
-			{
-				_scheduleModel.locked = true;		
-			}	
+			_scheduleModel.grabScheduleGroup(moveData);
 		}
 		
-		public function moveSmartDrawer(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void
-		{		
-			_scheduleModel.moveSmartDrawer(moveData, collaborationColor);
-			
-			if (userName == "")
-			{
-				_collaborationRoomNetConnectionServiceProxy.sendCollaborationSynchronization("moveSmartDrawer", moveData);	
-			}
+		public function moveScheduleGroup(moveData:MoveData):void
+		{
+			_scheduleModel.moveScheduleGroup(moveData, _scheduleFullView.width, _scheduleFullView.height, _scheduleFullView.timeWidth);
 		}
 		
-		public function moveSmartDrawerEnd(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void
+		public function dropScheduleGroup(moveData:MoveData):void
 		{
-			_scheduleModel.moveSmartDrawerEnd(moveData, collaborationColor);
-			
-			if (userName == "")
-			{
-				_collaborationRoomNetConnectionServiceProxy.sendCollaborationSynchronization("moveSmartDrawerEnd", moveData);
-			}
-			else
-			{
-				_scheduleModel.locked = false;
-			}
+			_scheduleModel.dropScheduleGroup(moveData);
 		}
 		
-		public function moveScheduleItemStart(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void
-		{	
-			if (userName == "")
-			{
-				_collaborationRoomNetConnectionServiceProxy.sendCollaborationSynchronization("moveScheduleItemStart", moveData);	
-				collaborationColor = _collaborationRoomNetConnectionServiceProxy.getLocalUserCollaborationColor();
-			}
-			
-			_scheduleModel.moveScheduleItemStart(moveData, collaborationColor);
-			
-			if (userName != "")
-			{
-				_scheduleModel.locked = true;		
-			}
+		public function grabScheduleGroupSpotlight(moveData:MoveData):void
+		{
+			_scheduleModel.grabScheduleGroupSpotlight(moveData);
 		}
 		
-		public function moveScheduleItem(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void
+		public function resizeScheduleGroupSpotlight(moveData:MoveData, leftEdge:Boolean):void
 		{
-			_scheduleModel.moveScheduleItem(moveData);
-			
-			if (userName == "")
-			{
-				_collaborationRoomNetConnectionServiceProxy.sendCollaborationSynchronization("moveScheduleItem", moveData);
-			}
+			_scheduleModel.resizeScheduleGroupSpotlight(moveData, _scheduleFullView.width, _scheduleFullView.height, _scheduleFullView.timeWidth, leftEdge);
 		}
 		
-		public function moveScheduleItemEnd(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void
+		public function dropScheduleGroupSpotlight(moveData:MoveData):void
 		{
-			_scheduleModel.moveScheduleItemEnd(moveData);
-			
-			if (userName == "")
-			{
-				_collaborationRoomNetConnectionServiceProxy.sendCollaborationSynchronization("moveScheduleItemEnd", moveData);
-			}
-			else
-			{
-				_scheduleModel.locked = false;
-			}
+			_scheduleModel.dropScheduleGroupSpotlight(moveData);
 		}
 		
-		public function moveAdherenceGroupStart(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void
-		{
-			if (userName == "")
-			{
-				_collaborationRoomNetConnectionServiceProxy.sendCollaborationSynchronization("moveAdherenceGroupStart", moveData);
-				collaborationColor = _collaborationRoomNetConnectionServiceProxy.getLocalUserCollaborationColor();
-			}
-			
-			_scheduleModel.moveAdherenceGroupStart(moveData, collaborationColor);
-			
-			if (userName != "")
-			{
-				_scheduleModel.locked = true;
-			}
-		}
-		
-		public function moveAdherenceGroup(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void
-		{
-			_scheduleModel.moveAdherenceGroup(moveData);
-			
-			if (userName == "")
-			{
-				_collaborationRoomNetConnectionServiceProxy.sendCollaborationSynchronization("moveAdherenceGroup", moveData);
-			}
-		}
-		
-		public function moveAdherenceGroupEnd(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void
-		{
-			_scheduleModel.moveAdherenceGroupEnd(moveData);
-			
-			if (userName == "")
-			{
-				_collaborationRoomNetConnectionServiceProxy.sendCollaborationSynchronization("moveAdherenceGroupEnd", moveData);
-			}
-			else
-			{
-				_scheduleModel.locked = false;
-			}
-		}	
-		
-		public function resizeAdherenceWindow(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void
-		{
-			_scheduleModel.resizeAdherenceWindow(moveData);
-			
-			if (userName == "")
-			{
-				_collaborationRoomNetConnectionServiceProxy.sendCollaborationSynchronization("resizeAdherenceWindow", moveData);
-			}
-			else
-			{
-				_scheduleModel.locked = false;
-			}
-		}	
+//		public function moveSmartDrawerStart(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void
+//		{
+//			if (userName == "")
+//			{
+//				_collaborationRoomNetConnectionServiceProxy.sendCollaborationSynchronization("moveSmartDrawerStart", moveData);	
+//				collaborationColor = _collaborationRoomNetConnectionServiceProxy.getLocalUserCollaborationColor();
+//			}
+//			
+//			_scheduleModel.moveSmartDrawerStart(moveData, collaborationColor);
+//			
+//			if (userName != "")
+//			{
+//				_scheduleModel.locked = true;		
+//			}	
+//		}
+//		
+//		public function moveSmartDrawer(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void
+//		{		
+//			_scheduleModel.moveSmartDrawer(moveData, collaborationColor);
+//			
+//			if (userName == "")
+//			{
+//				_collaborationRoomNetConnectionServiceProxy.sendCollaborationSynchronization("moveSmartDrawer", moveData);	
+//			}
+//		}
+//		
+//		public function moveSmartDrawerEnd(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void
+//		{
+//			_scheduleModel.moveSmartDrawerEnd(moveData, collaborationColor);
+//			
+//			if (userName == "")
+//			{
+//				_collaborationRoomNetConnectionServiceProxy.sendCollaborationSynchronization("moveSmartDrawerEnd", moveData);
+//			}
+//			else
+//			{
+//				_scheduleModel.locked = false;
+//			}
+//		}
+//		
+//		public function moveScheduleItemStart(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void
+//		{	
+//			if (userName == "")
+//			{
+//				_collaborationRoomNetConnectionServiceProxy.sendCollaborationSynchronization("moveScheduleItemStart", moveData);	
+//				collaborationColor = _collaborationRoomNetConnectionServiceProxy.getLocalUserCollaborationColor();
+//			}
+//			
+//			_scheduleModel.moveScheduleItemStart(moveData, collaborationColor);
+//			
+//			if (userName != "")
+//			{
+//				_scheduleModel.locked = true;		
+//			}
+//		}
+//		
+//		public function moveScheduleItem(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void
+//		{
+//			_scheduleModel.moveScheduleItem(moveData);
+//			
+//			if (userName == "")
+//			{
+//				_collaborationRoomNetConnectionServiceProxy.sendCollaborationSynchronization("moveScheduleItem", moveData);
+//			}
+//		}
+//		
+//		public function moveScheduleItemEnd(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void
+//		{
+//			_scheduleModel.moveScheduleItemEnd(moveData);
+//			
+//			if (userName == "")
+//			{
+//				_collaborationRoomNetConnectionServiceProxy.sendCollaborationSynchronization("moveScheduleItemEnd", moveData);
+//			}
+//			else
+//			{
+//				_scheduleModel.locked = false;
+//			}
+//		}
+//		
+//		public function moveAdherenceGroupStart(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void
+//		{
+//			if (userName == "")
+//			{
+//				_collaborationRoomNetConnectionServiceProxy.sendCollaborationSynchronization("moveAdherenceGroupStart", moveData);
+//				collaborationColor = _collaborationRoomNetConnectionServiceProxy.getLocalUserCollaborationColor();
+//			}
+//			
+//			_scheduleModel.moveAdherenceGroupStart(moveData, collaborationColor);
+//			
+//			if (userName != "")
+//			{
+//				_scheduleModel.locked = true;
+//			}
+//		}
+//		
+//		public function moveAdherenceGroup(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void
+//		{
+//			_scheduleModel.moveAdherenceGroup(moveData);
+//			
+//			if (userName == "")
+//			{
+//				_collaborationRoomNetConnectionServiceProxy.sendCollaborationSynchronization("moveAdherenceGroup", moveData);
+//			}
+//		}
+//		
+//		public function moveAdherenceGroupEnd(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void
+//		{
+//			_scheduleModel.moveAdherenceGroupEnd(moveData);
+//			
+//			if (userName == "")
+//			{
+//				_collaborationRoomNetConnectionServiceProxy.sendCollaborationSynchronization("moveAdherenceGroupEnd", moveData);
+//			}
+//			else
+//			{
+//				_scheduleModel.locked = false;
+//			}
+//		}	
+//		
+//		public function resizeAdherenceWindow(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void
+//		{
+//			_scheduleModel.resizeAdherenceWindow(moveData);
+//			
+//			if (userName == "")
+//			{
+//				_collaborationRoomNetConnectionServiceProxy.sendCollaborationSynchronization("resizeAdherenceWindow", moveData);
+//			}
+//			else
+//			{
+//				_scheduleModel.locked = false;
+//			}
+//		}	
 	}
 }

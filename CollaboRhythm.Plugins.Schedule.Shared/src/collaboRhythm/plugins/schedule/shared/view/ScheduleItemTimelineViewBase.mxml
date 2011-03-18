@@ -15,35 +15,47 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<view:ScheduleItemWidgetViewBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 xmlns:view="collaboRhythm.plugins.schedule.shared.view.*"
-		 width="20" height="20">
+		 width="{SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH}"
+		 height="{SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT}">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.plugins.medications.model.Medication;
+			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
+			
+			public static const SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH:Number = 80;
+			public static const SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_HEIGHT:Number = 80;
+			public static const SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH:Number = 320;
+			public static const SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT:Number = 82;
 			
 			[Bindable]
-			private var _medication:Medication;
+			private var _scheduleItem:ScheduleItemBase;
+			[Bindable]
+			private var _scheduleItemsContainer:Group;
 			
-			public function get medication():Medication
+			public function init(scheduleItem:ScheduleItemBase, scheduleItemsContainer:Group):void
 			{
-				return _medication;
+				_scheduleItem = scheduleItem;
+				_scheduleItemsContainer = scheduleItemsContainer;
 			}
 			
-			public function set medication(value:Medication):void
+			public function get scheduleItem():ScheduleItemBase
 			{
-				_medication = value;
+				return _scheduleItem;
 			}
 		]]>
 	</fx:Script>
-	<s:Ellipse width="100%" height="100%">
-		<s:fill>
-			<s:SolidColor color="0x000000"/>
-		</s:fill>
-	</s:Ellipse>
-</view:ScheduleItemWidgetViewBase>
+	<s:filters>
+		<s:GlowFilter id="glowFilter"
+					  quality="3"
+					  alpha="0.2"
+					  color="0x000000"
+					  blurX="5"
+					  blurY="5"
+					  strength="5"/>
+	</s:filters>
+</s:Group>

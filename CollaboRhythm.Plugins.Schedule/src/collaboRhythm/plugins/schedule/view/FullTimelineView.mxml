@@ -42,7 +42,7 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[	
-			import collaboRhythm.plugins.schedule.shared.view.ScheduleItemFullViewBase;
+			import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
 			
 			import mx.events.ResizeEvent;
 			
@@ -61,7 +61,7 @@
 			}
 		]]>
 	</fx:Script>
-	<s:HGroup left="0" right="{ScheduleItemFullViewBase.SCHEDULE_ITEM_FULL_VIEW_WIDTH - (ScheduleItemFullViewBase.SCHEDULE_ITEM_FULL_VIEW_PICTURE_WIDTH / 2) + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH}" height="100%" gap="0">
+	<s:HGroup left="0" right="{ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH - (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2) + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH}" height="100%" gap="0">
 		<s:Rect width="28.85%" height="100%">
 			<s:fill>
 				<s:SolidColor color="0xBFBFBF"/>
@@ -78,14 +78,14 @@
 			</s:fill>
 		</s:Rect>
 	</s:HGroup>
-	<s:HGroup width="{ScheduleItemFullViewBase.SCHEDULE_ITEM_FULL_VIEW_WIDTH - (ScheduleItemFullViewBase.SCHEDULE_ITEM_FULL_VIEW_PICTURE_WIDTH / 2) + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH}" right="0" height="100%" gap="0">
+	<s:HGroup width="{ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH - (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2) + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH}" right="0" height="100%" gap="0">
 		<s:Rect width="100%" height="100%">
 			<s:fill>
 				<s:SolidColor color="0xBFBFBF"/>
 			</s:fill>
 		</s:Rect>
 	</s:HGroup>
-	<s:HGroup left="0" right="{ScheduleItemFullViewBase.SCHEDULE_ITEM_FULL_VIEW_WIDTH - (ScheduleItemFullViewBase.SCHEDULE_ITEM_FULL_VIEW_PICTURE_WIDTH / 2) + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH}" height="100%" gap="0">
+	<s:HGroup left="0" right="{ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH - (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2) + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH}" height="100%" gap="0">
 		<s:Label text="11" styleName="hourDim" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
 		<s:Label text="midn" styleName="hourDim" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
 		<s:Label text="1" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
@@ -119,7 +119,7 @@
 			<s:Label text="midn" styleName="hour" textAlign="center" height="100%" verticalAlign="middle" horizontalCenter="0"/>
 		</s:Group>
 	</s:HGroup>
-	<s:HGroup width="{ScheduleItemFullViewBase.SCHEDULE_ITEM_FULL_VIEW_WIDTH - (ScheduleItemFullViewBase.SCHEDULE_ITEM_FULL_VIEW_PICTURE_WIDTH / 2) + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH}" right="0" height="100%" gap="0">
+	<s:HGroup width="{ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH - (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2) + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH}" right="0" height="100%" gap="0">
 		<s:Label text="1" styleName="hourDim" width="{_timeWidth}" textAlign="center" height="100%" verticalAlign="middle"/>
 		<s:Label text="2" styleName="hourDim" width="{_timeWidth}" textAlign="center" height="100%" verticalAlign="middle"/>
 		<s:Label text="3" styleName="hourDim" width="{_timeWidth}" textAlign="center" height="100%" verticalAlign="middle"/>

@@ -15,7 +15,7 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<view:ScheduleItemWidgetViewBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<view:ScheduleItemClockViewBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" 
 		 xmlns:view="collaboRhythm.plugins.schedule.shared.view.*">
@@ -47,4 +47,4 @@
 			<s:SolidColor color="{_medication.color}"/>
 		</s:fill>
 	</s:Ellipse>
-</view:ScheduleItemWidgetViewBase>
+</view:ScheduleItemClockViewBase>
