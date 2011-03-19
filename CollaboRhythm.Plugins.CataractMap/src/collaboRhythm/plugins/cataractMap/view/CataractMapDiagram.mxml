@@ -17,9 +17,9 @@
   -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:view="collaboRhythm.shared.view.*" width="400" height="300">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:view="collaboRhythm.shared.view.*" width="290" height="290">
 	<s:layout>
-		<view:ScaleToFitLayout unscaledWidth="290" aspectRatioMin="1" aspectRatioMax="1"/>
+		<view:ScaleToFitLayout unscaledWidth="{map9.x + map9.width}" aspectRatioMin="1" aspectRatioMax="1"/>
 	</s:layout>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
