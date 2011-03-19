@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="2.0" viewHeight="20" viewWidth="20" ai:appVersion="15.0.0.399" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+  <Library/>
+  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="20" d:pageWidth="20" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:objID="16d78700" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+      <Path x="-0.000134198" y="-7.52004e-005" winding="nonZero" ai:objID="1880a900" ai:seqID="3" data="M10.0319 3.46541C10.0319 3.46541 11.8488 -1.25823 16.3078 0.324294 20.0358 1.64705 20.8947 6.71199 19.0924 10.547 17.11 14.7642 10.0319 20.0001 10.0319 20.0001L9.96791 20.0001C9.96791 20.0001 2.88978 14.7642 0.907849 10.547 -0.894885 6.71199 -0.0359986
+ 1.64705 3.69203 0.324294 8.1515 -1.25823 9.96791 3.46541 9.96791 3.46541L10.0319 3.46541Z">
+        <fill>
+          <SolidColor color="#D66565"/>
+        </fill>
+      </Path>
+      <Path x="3.33594" y="14.1675" winding="nonZero" flm:variant="1" d:id="3" data="M1.01355 -0.0311584C1.4003 0.0311584 2.01376 0.0934753 2.81393 0.0934753 4.28091 0.0934753 5.29446 -0.218109 5.90793 -0.888016 6.37469 -1.38655 6.68143 -2.08762 6.68143 -2.99121 6.68143 -4.54913 5.68121 -5.37483 4.8277 -5.60852L4.8277 -5.65526
+C5.76123 -6.04474 6.34802 -6.93275 6.34802 -7.96098 6.34802 -8.78668 6.05463 -9.40985 5.58786 -9.81491 5.04108 -10.3446 4.29425 -10.5783 3.134 -10.5783 2.33383 -10.5783 1.52032 -10.4848 1.01355 -10.3446ZM2.1738 -9.44101C2.3605 -9.48775 2.66724
+ -9.53448 3.20068 -9.53448 4.37427 -9.53448 5.1611 -9.03595 5.1611 -7.82077 5.1611 -6.80812 4.44095 -6.04474 3.22736 -6.04474L2.1738 -6.04474ZM2.1738 -5.03209 3.134 -5.03209C4.40094 -5.03209 5.4545 -4.4245 5.4545 -3.00679 5.4545 -1.48003 4.3476
+ -0.965912 3.14734 -0.965912 2.73392 -0.965912 2.41385 -0.981491 2.1738 -1.02823ZM8.24001 0 9.40025 0 9.40025 -4.20639C9.66698 -4.12849 9.98705 -4.11292 10.3338 -4.11292 11.4674 -4.11292 12.4542 -4.5024 13.081 -5.26578 13.5345 -5.81105 13.7745
+ -6.55885 13.7745 -7.50919 13.7745 -8.44394 13.4678 -9.20732 12.9877 -9.70586 12.4542 -10.2667 11.6141 -10.5783 10.4671 -10.5783 9.53362 -10.5783 8.80013 -10.4848 8.24001 -10.3758ZM9.40025 -9.39427C9.6003 -9.45659 9.98705 -9.50333 10.4938 -9.50333
+ 11.7608 -9.50333 12.6143 -8.83342 12.6143 -7.43129 12.6143 -6.01358 11.7608 -5.20346 10.3605 -5.20346 9.97371 -5.20346 9.65364 -5.23462 9.40025 -5.31252Z">
+        <fill>
+          <SolidColor color="#A84242"/>
+        </fill>
+      </Path>
+    </Group>
+  </Group>
+  <Private variant:using="" mngo:using="" xmlns:mngo="http://ns.adobe.com/flamingo/apd" xmlns:variant="http://ns.adobe.com/flame/2008/apd">
+    <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="FF434DB03C02E8C75B3165895A9F8FF6" flm:original="1" d:ref="#3">
+      <variant:RichText x="3.33594" y="14.1675" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="188ccb00" ai:seqID="4" d:id="4">
+        <variant:content><variant:p fontFamily="Arial" d:id="5"><variant:span fontFamily="Arial" d:id="6">BP</variant:span></variant:p></variant:content>
+      </variant:RichText>
+    </mngo:VariantContent>
+    <ai:PrivateElement d:ref="#1">
+      <ai:SaveOptions>
+        <ai:Dict data="I preserveTextPolicy 4 I expandBlendsOption 5 I rasterizeResolution 72 B downsampleLinkedImages 0 I preserveGradientPolicy 4 I preserveFilterPolicy 3 B includeObjectOutsideArtboard 0 I versionKey 2 B includeSymbol 0 B aiEditCap 1 B writeImages 1 B includeXMP 0 "/>
+      </ai:SaveOptions>
+      <ai:DocData base="BloodPressureScheduleItemClockView.assets/images" rulerCanvasDiffH="640.5" rulerCanvasDiffV="360.5">
+        <ai:DocRasterSettings>
+          <ai:Dict data="R padd 36 B mask 0 B spot 1 B alis 0 I dpi. 300 I colr 4 "/>
+        </ai:DocRasterSettings>
+      </ai:DocData>
+      <ai:AutoGenImageList>
+        <ai:Dict/>
+      </ai:AutoGenImageList>
+    </ai:PrivateElement>
+    <ai:PrivateElement flm:hashcode="9CF627DD16260C887BC4C7BD68641A43" d:ref="#2">
+      <ai:LayerOptions color="5 79.31 257 128.502"/>
+    </ai:PrivateElement>
+    <ATE:ATEAttributes ATE:C_autoLeading="true" ATE:C_baseLine="normal" ATE:C_baselineShift="0" ATE:C_charRotation="0" ATE:C_color="#a84242" ATE:C_fill="true" ATE:C_fillFirst="true" ATE:C_fillOverprint="false" ATE:C_fillVisible="true" ATE:C_font="MyriadPro-Regular" ATE:C_fontCaps="normal" ATE:C_fontSize="15.5726" ATE:C_horizontalScale="0.856193" ATE:C_kerning="metric" ATE:C_leading="18.6871" ATE:C_lineCapType="buttCap" ATE:C_lineDashOffset="0" ATE:C_lineJoinType="miterJoin" ATE:C_lineWidth="1" ATE:C_miterLimit="10" ATE:C_noBreak="false" ATE:C_strikethroughPos="off" ATE:C_stroke="false" ATE:C_strokeOverprint="false" ATE:C_strokeVisible="true" ATE:C_tracking="0" ATE:C_underlineOffset="0" ATE:C_underlinePos="off" ATE:C_verticalScale="1" ATE:JC_leftAki="-1" ATE:JC_rightAki="-1" ATE:JC_styleRunAlign="byRomanHori_centerVertical" ATE:JC_tusme="0" ATE:JO_japAltFeature="default" ATE:JO_kana="false" ATE:JO_language="english" ATE:JO_proportionalMetrics="false" ATE:JO_romanItalics="false" ATE:JO_ruby="false" ATE:JP_autoTCY="0" ATE:JP_burasagariType="none" ATE:JP_hangingRoman="false" ATE:JP_kurikaeshiMojiShori="false" ATE:JP_leadingType="roman" ATE:MC_diacVPosition="openType" ATE:MC_diacXPos="0" ATE:MC_diacYPos="0" ATE:MC_digitSet="default" ATE:MC_directionOverride="default" ATE:MC_kashidas="default" ATE:MO_justificationAlt="false" ATE:MO_overlapSwash="false" ATE:MO_stretchedAlt="false" ATE:MP_justificationMethod="default" ATE:O_alternateLigatures="false" ATE:O_connectionForms="true" ATE:O_contextualLigatures="true" ATE:O_discretionaryLigatures="false" ATE:O_figureStyle="default" ATE:O_fontOTPos="normal" ATE:O_fractions="false" ATE:O_ligature="true" ATE:O_oldStyle="false" ATE:O_ordinals="false" ATE:O_ornaments="false" ATE:O_stylisticAlternates="false" ATE:O_swash="false" ATE:O_titling="false" ATE:P_autoHyphenate="true" ATE:P_autoLeadingPercentage="1.2" ATE:P_composerEngine="latinCJK" ATE:P_consecutiveHyphenLimit="0" ATE:P_defaultTabWidth="39.9995" ATE:P_endIndent="0" ATE:P_everyLineComposer="false" ATE:P_firstlineIndent="0" ATE:P_glyphScaling="1" ATE:P_hyphenateCapitalized="true" ATE:P_hyphenatedWordSize="6" ATE:P_hyphenationPreference="0.5" ATE:P_hyphenationZone="36" ATE:P_letterSpacing="0" ATE:P_maxGlyphScaling="1" ATE:P_maxLetterSpacing="0" ATE:P_maxWordSpacing="1.33" ATE:P_minGlyphScaling="1" ATE:P_minLetterSpacing="0" ATE:P_minWordSpacing="0.8" ATE:P_paragraphDirection="ltr" ATE:P_postHyphenSize="2" ATE:P_preHyphenSize="2" ATE:P_singleWordJustif="fullJustifyLastLineFull" ATE:P_spaceAfter="0" ATE:P_spaceBefore="0" ATE:P_startIndent="0" ATE:P_textAlign="left" ATE:P_wordSpacing="1" ATE:TA_columnCount="1" ATE:TA_height="0" ATE:TA_lineOrientation="horiz" ATE:TA_spacing="0" ATE:TA_width="0" ATE:T_baselineDirection="withStream" ATE:T_leftRightAdjust="0" ATE:T_upDownAdjust="0" ATE:W_lineCount="2" ATE:W_lineGap="0" ATE:W_orphanAmount="2" ATE:W_scale="0.5" ATE:W_warichuEnabled="false" ATE:W_warichuJustification="autoJustify" ATE:W_widowAmount="2" flm:hashcode="AD89AF20E6C2FD780E43A3CFC05141CB" d:ref="#4"/>
+    <ATE:ATEAttributes ATE:C_kerning="metric" d:ref="#5"/>
+    <ATE:ATEAttributes ATE:C_kerning="metric" d:ref="#6"/>
+  </Private>
+</Graphic>

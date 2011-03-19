@@ -120,7 +120,8 @@ package collaboRhythm.core.pluginsManagement
 			{
 				var directoryListing:Array = directory.getDirectoryListing();
 				// TODO: remove (or recursively load) directories from the list
-				directoryListing.sortOn("nativePath");
+				// TODO: remove Array.DESCENDING, this is a hack for ordering loading
+				directoryListing.sortOn("nativePath", Array.DESCENDING);
 				return directoryListing;
 			}
 			else

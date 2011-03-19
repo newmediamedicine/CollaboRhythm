@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~
+~ Copyright 2011 John Moore, Scott Gilroy
+~
+~ This file is part of CollaboRhythm.
+~
+~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+~ version.
+~
+~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+~ details.
+~
+~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+~ <http://www.gnu.org/licenses/>.
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="creationComplete()"
+		 width="100%" height="100%">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[	
+		
+			private var _avatarLoader:Loader;
+			private var _vHostPlayer:MovieClip;
+			
+			public function creationComplete():void
+			{
+//				Security.allowDomain("content.oddcast.com");
+				
+				_avatarLoader = new Loader();
+				var urlRequest:URLRequest = new URLRequest("http://content.oddcast.com/vhss/vhss_v5.swf?doc=http%3A%2F%2Fvhss-d.oddcast.com%2Fphp%2FplayScene%2Facc%3D516572%2Fss%3D1779797%2Fsl%3D2057315&acc=516572&bgcolor=0x&embedid=80ec2b5f44fccfc450f67be31743ba4b");
+				
+				uiComponent.addChild(_avatarLoader);
+				
+				_avatarLoader.scaleX = _avatarLoader.scaleY = 0.5;
+//				_avatarLoader.x = -230;
+//				_avatarLoader.y = -100;
+				_avatarLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, avatarLoaderCompleteHandler)
+				_avatarLoader.load(urlRequest);
+			}
+			
+			private function avatarLoaderCompleteHandler(event:Event):void
+			{
+				_vHostPlayer = MovieClip(_avatarLoader.content);
+				_vHostPlayer.addEventListener("vh_sceneLoaded", saySomething);
+				//	vh_player = addEventListener("vh_aiResponse", vh_aiResponse);
+				//vh_player.addEventListener("vh_audioLoaded", vh_audioLoaded);
+				//	vh_player = addEventListener("vh_audioProgress", vh_audioProgress);
+				//	vh_player = addEventListener("vh_talkEnded", vh_talkEnded);
+				//	vh_player = addEventListener("vh_talkStarted", vh_talkStarted);
+			}
+			
+			private function saySomething(event:Event):void
+			{
+				sayText("hello there john, this is pimp shit");
+			}
+			
+			private function sayText(text:String):void
+			{
+				_vHostPlayer.sayText(text, 1, 1, 2);
+			}
+		]]>
+	</fx:Script>
+	<mx:UIComponent id="uiComponent" width="100%" height="100%"/>
+</s:Group>

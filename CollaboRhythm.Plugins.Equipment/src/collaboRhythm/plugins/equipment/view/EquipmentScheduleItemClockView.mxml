@@ -96,7 +96,7 @@
 			}
 		]]>
 	</fx:Script>
-
+	<images:BloodPressureScheduleItemClockView width="100%" height="100%"/>
 	<images:check width="70%" height="70%" verticalCenter="0" horizontalCenter="0" visible="{determineCheckVisible(_equipmentScheduleItem.adherenceItem)}" filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}" />
 	<images:x width="70%" height="70%"  verticalCenter="0" horizontalCenter="0" visible="{determineXVisible(_equipmentScheduleItem.adherenceItem)}" filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}"/>
 </view:ScheduleItemClockViewBase>

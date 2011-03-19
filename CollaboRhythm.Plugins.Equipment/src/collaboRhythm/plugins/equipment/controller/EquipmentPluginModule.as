@@ -18,7 +18,9 @@ package collaboRhythm.plugins.equipment.controller
 {
 	import castle.flexbridge.reflection.ReflectionUtils;
 	
+	import collaboRhythm.plugins.schedule.shared.controller.ScheduleAppControllerInfo;
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
+	import collaboRhythm.shared.controller.apps.AppOrderConstraint;
 	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
 	
@@ -34,7 +36,11 @@ package collaboRhythm.plugins.equipment.controller
 		public function registerComponents(componentContainer:IComponentContainer):void
 		{
 			var typeName:String = ReflectionUtils.getClassInfo(EquipmentAppController).name;
-			componentContainer.registerComponentInstance(typeName, AppControllerInfo, new AppControllerInfo(EquipmentAppController));
+			var appControllerInfo:AppControllerInfo = new AppControllerInfo(EquipmentAppController);
+			var afterScheduleAppOrderConstraint:AppOrderConstraint = new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER, ScheduleAppControllerInfo.APP_ID);
+			appControllerInfo.groupWidgetViewWithSchedule = false;
+			appControllerInfo.initializationOrderConstraints.push(afterScheduleAppOrderConstraint);
+			componentContainer.registerComponentInstance(typeName, AppControllerInfo, appControllerInfo);
 		}
 
 	}

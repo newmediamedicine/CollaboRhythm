@@ -31,7 +31,7 @@
 			font-size: 15;
 		}
 		
-		#equipmentStrength {
+		#equipmentName {
 			font-size: 20;
 			font-weight: bold;
 		}	
@@ -79,6 +79,8 @@
 			
 			private function adherenceButtonClickHandler(event:MouseEvent):void
 			{
+				var avatarView:AvatarView = new AvatarView();
+				_parentGroup.addElement(avatarView);
 //				var vitalSign:VitalSign = new VitalSign();
 //				vitalSign.init(_equipment.name, "gwhite@records.media.mit.edu", new Date(), new Date(), _equipment.dose);
 //				var adherenceItem:AdherenceItem = new AdherenceItem();
@@ -128,6 +130,7 @@
 				</s:Rect>
 				<!--TODO: Fix images-->
 				<mx:Image name="foraImage" source="@Embed(source='/assets/images/fora.jpg')" width="100%" height="100%" smoothBitmapContent="true"/>
+				<images:BloodPressureScheduleItemClockView width="22%" height="22%" right="4" top="4"/>
 			</s:Group>
 			<s:Group id="descriptionRegion" height="100%" left="{imageRegion.width}" right="{buttonRegion.width}">
 				<s:Group left="5" right="5" top="5" bottom="5">
@@ -138,14 +141,14 @@
 				</s:Group>
 			</s:Group>
 			<s:Group id="buttonRegion" right="0" width="{this.height / 2 + 5}" height="100%">
-<!--				<s:VGroup left="0" right="5" height="100%">
+				<s:VGroup left="0" right="5" height="100%">
 					<s:Group width="100%" height="50%">
-						<s:Button id="adherenceButton" skinClass="collaboRhythm.plugins.equipments.view.AdherenceButtonSkin" click="adherenceButtonClickHandler(event)" width="100%" top="5" bottom="0"/>
+						<s:Button id="adherenceButton" skinClass="collaboRhythm.plugins.equipment.view.AdherenceButtonSkin" click="adherenceButtonClickHandler(event)" width="100%" top="5" bottom="0"/>
 					</s:Group>
 					<s:Group width="100%" height="50%">
-						<s:Button id="nonadherenceButton" skinClass="collaboRhythm.plugins.equipments.view.NonadherenceButtonSkin" click="nonadherenceButtonClickHandler(event)" width="100%" top="0" bottom="5"/>
+						<s:Button id="nonadherenceButton" skinClass="collaboRhythm.plugins.equipment.view.NonadherenceButtonSkin" click="nonadherenceButtonClickHandler(event)" width="100%" top="0" bottom="5"/>
 					</s:Group>
-				</s:VGroup>-->
+				</s:VGroup>
 			</s:Group>
 		</s:Group>
 	</s:Group>

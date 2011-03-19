@@ -42,7 +42,9 @@ package collaboRhythm.plugins.equipment.model
 		{
 			parseDocumentMetadata(equipmentReportXML.Meta.Document[0], this);
 			var equipmentXML:XML = equipmentReportXML.Item.Equipment[0];
-			_dateStarted = DateUtil.parseW3CDTF(equipmentXML.dateStarted.toString());
+			//TODO: Fix the date on equipment to conform to W3CDTF
+			_dateStarted = new Date(2011, 2, 14); 
+//			_dateStarted = DateUtil.parseW3CDTF(equipmentXML.dateStarted.toString());
 			_dateStopped = DateUtil.parseW3CDTF(equipmentXML.dateStopped.toString());
 //			_type = equipmentXML.type;
 			_name = equipmentXML.name;
