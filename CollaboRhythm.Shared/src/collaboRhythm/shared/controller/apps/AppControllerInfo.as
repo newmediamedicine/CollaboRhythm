@@ -22,6 +22,7 @@ package collaboRhythm.shared.controller.apps
 	{
 		private var _appControllerClass:Class;
 		private var _initializationOrderConstraints:Vector.<AppOrderConstraint> = new Vector.<AppOrderConstraint>();
+		private var _groupWidgetViewWithSchedule:Boolean = true;
 
 		public function AppControllerInfo(appControllerClass:Class)
 		{
@@ -52,6 +53,19 @@ package collaboRhythm.shared.controller.apps
 		public function toString():String
 		{
 			return "AppControllerInfo{appId=" + appId + "}";
+		}
+
+		/**
+		 * If true, the widget view of this app will be grouped with the schedule widget. Default is true.
+		 */
+		public function get groupWidgetViewWithSchedule():Boolean
+		{
+			return _groupWidgetViewWithSchedule;
+		}
+
+		public function set groupWidgetViewWithSchedule(value:Boolean):void
+		{
+			_groupWidgetViewWithSchedule = value;
 		}
 	}
 }

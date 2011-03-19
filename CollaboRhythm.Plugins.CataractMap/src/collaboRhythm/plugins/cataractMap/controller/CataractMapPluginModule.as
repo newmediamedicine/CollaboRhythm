@@ -34,7 +34,9 @@ package collaboRhythm.plugins.cataractMap.controller
 		public function registerComponents(componentContainer:IComponentContainer):void
 		{
 			var typeName:String = ReflectionUtils.getClassInfo(CataractMapAppController).name;
-			componentContainer.registerComponentInstance(typeName, AppControllerInfo, new AppControllerInfo(CataractMapAppController));
+			var appControllerInfo:AppControllerInfo = new AppControllerInfo(CataractMapAppController);
+			appControllerInfo.groupWidgetViewWithSchedule = false;
+			componentContainer.registerComponentInstance(typeName, AppControllerInfo, appControllerInfo);
 		}
 	}
 }

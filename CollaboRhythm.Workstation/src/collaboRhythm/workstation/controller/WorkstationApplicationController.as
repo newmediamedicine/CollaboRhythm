@@ -508,6 +508,10 @@ package collaboRhythm.workstation.controller
 				{
 					testLogging();
 				}
+				else if (event.keyCode == Keyboard.F5)
+				{
+					_collaborationMediator.reloadPlugins();
+				}
 			}
 			else if (event.ctrlKey && event.altKey)
 			{
