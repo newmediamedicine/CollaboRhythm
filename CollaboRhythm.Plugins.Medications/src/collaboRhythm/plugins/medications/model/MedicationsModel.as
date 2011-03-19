@@ -40,6 +40,7 @@ package collaboRhythm.plugins.medications.model
 		private var _shortMedicationsCollection:ArrayCollection = new ArrayCollection();
 		private var _initialized:Boolean = false;
 		private var _isLoading:Boolean = false;
+		
 		public static const MEDICATIONS_KEY:String = "medications";
 		
 		public function MedicationsModel(user:User)
@@ -70,26 +71,6 @@ package collaboRhythm.plugins.medications.model
 			_initialized = true;
 		}
 
-		public function get isLoading():Boolean
-		{
-			return _isLoading;
-		}
-
-		public function set isLoading(value:Boolean):void
-		{
-			_isLoading = value;
-		}
-
-		public function get shortMedicationsCollection():ArrayCollection
-		{
-			return _shortMedicationsCollection;
-		}
-
-		public function set shortMedicationsCollection(value:ArrayCollection):void
-		{
-			_shortMedicationsCollection = value;
-		}
-
 		public function get rawData():XML
 		{
 			return _rawData;
@@ -111,6 +92,16 @@ package collaboRhythm.plugins.medications.model
 		{
 			_medicationsCollection = value;
 		}
+				
+		public function get shortMedicationsCollection():ArrayCollection
+		{
+			return _shortMedicationsCollection;
+		}
+		
+		public function set shortMedicationsCollection(value:ArrayCollection):void
+		{
+			_shortMedicationsCollection = value;
+		}
 		
 		public function get initialized():Boolean
 		{
@@ -120,6 +111,16 @@ package collaboRhythm.plugins.medications.model
 		public function set initialized(value:Boolean):void
 		{
 			_initialized = value;
+		}
+		
+		public function get isLoading():Boolean
+		{
+			return _isLoading;
+		}
+		
+		public function set isLoading(value:Boolean):void
+		{
+			_isLoading = value;
 		}
 		
 //		public function addMedication(documentID:String, medicationXML:XML):void
@@ -154,12 +155,16 @@ package collaboRhythm.plugins.medications.model
 		{
 			for each (var medicationScheduleItemReport:XML in _medicationScheduleItemsReportXML.Report)
 			{
-				var medicationScheduleItem:MedicationScheduleItem = new MedicationScheduleItem(medicationScheduleItemReport);
-				_user.registerDocument(medicationScheduleItem, medicationScheduleItem);
-				medicationScheduleItem.scheduledAction = _user.resolveDocumentById(medicationScheduleItem.scheduledActionID, Medication) as Medication;
-				var scheduleGroup:ScheduleGroup = _user.resolveDocumentById(medicationScheduleItem.scheduleGroupID, ScheduleGroup) as ScheduleGroup;
-				scheduleGroup.scheduleItemsCollection.addItem(medicationScheduleItem);
-				_medicationScheduleItemsCollection.addItem(medicationScheduleItem);
+				//TODO: Remove this hack when EquimpmentScheduleItems have been implemented
+				if (!(medicationScheduleItemReport.Item.MedicationScheduleItem.name.toString() == "Fora D15b"))
+				{
+					var medicationScheduleItem:MedicationScheduleItem = new MedicationScheduleItem(medicationScheduleItemReport);
+					_user.registerDocument(medicationScheduleItem, medicationScheduleItem);
+					medicationScheduleItem.scheduledAction = _user.resolveDocumentById(medicationScheduleItem.scheduledActionID, Medication) as Medication;
+					var scheduleGroup:ScheduleGroup = _user.resolveDocumentById(medicationScheduleItem.scheduleGroupID, ScheduleGroup) as ScheduleGroup;
+					scheduleGroup.scheduleItemsCollection.addItem(medicationScheduleItem);
+					_medicationScheduleItemsCollection.addItem(medicationScheduleItem);
+				}
 			}
 		}
 	}

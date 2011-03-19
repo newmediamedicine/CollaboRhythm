@@ -19,7 +19,6 @@ package collaboRhythm.core.controller.apps
 	import collaboRhythm.plugins.problems.controller.ProblemsAppController;
 	import collaboRhythm.shared.apps.allergies.controller.AllergiesAppController;
 	import collaboRhythm.shared.apps.bloodPressureAgent.controller.BloodPressureAgentAppController;
-	import collaboRhythm.shared.apps.equipment.controller.EquipmentAppController;
 	import collaboRhythm.shared.apps.familyHistory.controller.FamilyHistoryAppController;
 	import collaboRhythm.shared.apps.genetics.controller.GeneticsAppController;
 	import collaboRhythm.shared.apps.imaging.controller.ImagingAppController;
@@ -119,7 +118,6 @@ package collaboRhythm.core.controller.apps
 			var app:WorkstationAppControllerBase;
 			
 			app = createApp(ProblemsAppController, "Problems");
-			app = createApp(EquipmentAppController, "Equipment");
 			app = createApp(ProceduresAppController, "Procedures");
 			app = createApp(AllergiesAppController, "Allergies");
 			app = createApp(ImmunizationsAppController, "Immunizations");

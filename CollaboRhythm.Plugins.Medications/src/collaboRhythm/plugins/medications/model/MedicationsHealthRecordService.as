@@ -29,8 +29,6 @@ package collaboRhythm.plugins.medications.model
 	
 	public class MedicationsHealthRecordService extends HealthRecordServiceBase
 	{
-		private var _numMedicationDocuments:Number;		
-		private var _currentMedicationDocument:Number;
 		private var _medicationsModel:MedicationsModel;
 		
 		public function MedicationsHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String)

@@ -18,15 +18,18 @@ package collaboRhythm.plugins.medications.model
 {
 	import collaboRhythm.shared.model.CodedValue;
 	import collaboRhythm.shared.model.DateUtil;
-	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
 	import collaboRhythm.shared.model.ValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
 	[Bindable]
 	public class Medication extends DocumentMetadata
 	{
+		private static const ATORVASTATIN_RXCUI:String = "617320";
+		private static const HYDROCHLOROTHIAZIDE_RXCUI:String = "310798";
+		
 		private var _name:CodedValue;
 		private var _orderType:String;
 		private var _orderedBy:String;
@@ -79,11 +82,12 @@ package collaboRhythm.plugins.medications.model
 			_dateTimeStopped = DateUtil.parseW3CDTF(medicationXML.dateStopped.toString());
 			_reasonStopped = medicationXML.reasonStopped;
 			
-			if (name.value == "617320")
+			//TODO: Automate the color selection process
+			if (name.value == ATORVASTATIN_RXCUI)
 			{
 				_color = 0xb38f81;
 			}
-			else if (name.value == "310798")
+			else if (name.value == HYDROCHLOROTHIAZIDE_RXCUI)
 			{
 				_color = 0x7f90aa;
 			}

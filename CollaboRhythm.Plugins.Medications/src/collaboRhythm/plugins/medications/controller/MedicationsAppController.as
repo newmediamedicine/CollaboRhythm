@@ -29,6 +29,11 @@ package collaboRhythm.plugins.medications.controller
 		private var _widgetView:MedicationsWidgetView;
 //		private var _fullView:MedicationsTimelineFullView;
 		
+		public function MedicationsAppController(constructorParams:AppControllerConstructorParams)
+		{
+			super(constructorParams);
+		}
+		
 		public override function get widgetView():UIComponent
 		{
 			return _widgetView;			
@@ -53,11 +58,6 @@ package collaboRhythm.plugins.medications.controller
 //		{
 //			_fullView = value as MedicationsTimelineFullView;
 //		}
-		
-		public function MedicationsAppController(constructorParams:AppControllerConstructorParams)
-		{
-			super(constructorParams);
-		}
 
 		protected override function createWidgetView():UIComponent
 		{
