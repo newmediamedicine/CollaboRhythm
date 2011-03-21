@@ -94,6 +94,7 @@ package collaboRhythm.core.pluginsManagement
 
 		public function loadPlugins():void
 		{
+			logger.info("Preparing to load plugins from " + userPluginsDirectoryPath);
 			var files:Array = getPluginFiles(userPluginsDirectoryPath);
 
 			var pluginFilesMessage:String =
