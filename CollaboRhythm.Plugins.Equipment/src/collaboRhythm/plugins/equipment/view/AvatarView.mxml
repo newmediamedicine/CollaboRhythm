@@ -28,6 +28,16 @@
 		
 			private var _avatarLoader:Loader;
 			private var _vHostPlayer:MovieClip;
+			private var _bloodPressureMeasurementStep:Number = 1;
+			
+			private var _socket:Socket = new Socket();
+			private var _bloodPressureResult:Number = 1;
+			[Bindable]
+			private var _systolic:Number;
+			[Bindable]
+			private var _diastolic:Number;
+			[Bindable]
+			private var _heartRate:Number;
 			
 			public function creationComplete():void
 			{
@@ -38,34 +48,135 @@
 				
 				uiComponent.addChild(_avatarLoader);
 				
-				_avatarLoader.scaleX = _avatarLoader.scaleY = 0.5;
-//				_avatarLoader.x = -230;
-//				_avatarLoader.y = -100;
+				_avatarLoader.scaleX = _avatarLoader.scaleY = 1.7;
+				_avatarLoader.x = -120;
+				_avatarLoader.y = 50;
 				_avatarLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, avatarLoaderCompleteHandler)
 				_avatarLoader.load(urlRequest);
+				
+				connectSocket();
 			}
 			
 			private function avatarLoaderCompleteHandler(event:Event):void
 			{
 				_vHostPlayer = MovieClip(_avatarLoader.content);
-				_vHostPlayer.addEventListener("vh_sceneLoaded", saySomething);
+				_vHostPlayer.addEventListener("vh_sceneLoaded", vHostPlayerSceneLoadedHandler);
 				//	vh_player = addEventListener("vh_aiResponse", vh_aiResponse);
 				//vh_player.addEventListener("vh_audioLoaded", vh_audioLoaded);
 				//	vh_player = addEventListener("vh_audioProgress", vh_audioProgress);
-				//	vh_player = addEventListener("vh_talkEnded", vh_talkEnded);
+				_vHostPlayer.addEventListener("vh_talkEnded", vHostPlayerTalkEndedHandler);
 				//	vh_player = addEventListener("vh_talkStarted", vh_talkStarted);
 			}
 			
-			private function saySomething(event:Event):void
+			private function vHostPlayerSceneLoadedHandler(event:Event):void
 			{
-				sayText("hello there john, this is pimp shit");
+				sayText("Hello Robert, great to see you today. Ready to take your blood pressure?");
+			}
+			
+			private function vHostPlayerTalkEndedHandler(event:Event):void
+			{
+				okButton.enabled = true;
+			}	
+			
+			private function okButtonClick():void
+			{
+				okButton.enabled = false
+				switch (_bloodPressureMeasurementStep)
+				{
+					case 1:
+						foraCuffLocationImage.visible = true;
+						sayText("To take your blood pressure, first slide the cuff on your arm. Make sure that the red line is on the inside of your arm at the elbow as you see here");
+						break;
+					case 2:
+						okButton.visible = false;
+						foraCuffLocationImage.visible = false;
+						foraButtonPushImage.visible = true;
+						sayText("Now push the large blue button on the bottom right of the device as you see here. Once the measurement is complete, I will grab it from the device for you.");
+						break;
+				}
+				_bloodPressureMeasurementStep += 1;
 			}
 			
 			private function sayText(text:String):void
 			{
 				_vHostPlayer.sayText(text, 1, 1, 2);
 			}
+			
+			private function connectSocket():void
+			{
+				_socket.addEventListener(Event.CONNECT, onConnect);
+				_socket.addEventListener(Event.CLOSE, onClose);
+				_socket.addEventListener(IOErrorEvent.IO_ERROR, onError);
+				_socket.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onSecurityError);
+				_socket.addEventListener(ProgressEvent.SOCKET_DATA, onData);
+				_socket.connect("localhost", 8080);
+//				connectionStatusText.text = "attempting to connect...";
+			}
+			
+			private function onConnect(e:Event):void
+			{
+//				connectionStatusText.text = "connected";
+			}
+			
+			private function onClose(e:Event):void
+			{
+//				connectionStatusText.text = "disconnected";
+			}
+			
+			private function onData(e:ProgressEvent):void
+			{
+				if (_bloodPressureResult == 1)
+				{
+					_systolic = _socket.readInt();
+				} 
+				else if (_bloodPressureResult == 2)
+				{
+					_diastolic = _socket.readInt();
+				}
+				else if (_bloodPressureResult == 3)
+				{
+					_heartRate = _socket.readInt();
+					foraButtonPushImage.visible = false;
+					sayText("Robert, your blood pressure is " + String(_systolic) + " over " + String(_diastolic) + " and your heart rate is " + String(_heartRate) + ".");
+				}
+			}
+			
+			private function onError(e:IOErrorEvent):void
+			{
+//				errorText.text = e.text;
+			}
+			
+			private function onSecurityError(e:SecurityErrorEvent):void
+			{
+//				errorText.text = e.text;
+			}
+			
+			private function sendMessage():void
+			{
+				_socket.writeUTF("hello\n");
+			}
 		]]>
 	</fx:Script>
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="0xAAAAAA"/>
+		</s:fill>
+	</s:Rect>
 	<mx:UIComponent id="uiComponent" width="100%" height="100%"/>
+	<mx:Image id="foraCuffLocationImage" source="@Embed(source='/assets/images/foraCuffLocation.jpg')" width="100%" height="100%" smoothBitmapContent="true" maintainAspectRatio="false" visible="false"/>
+	<mx:Image id="foraButtonPushImage" source="@Embed(source='/assets/images/foraButtonPush.jpg')" width="100%" height="100%" smoothBitmapContent="true" maintainAspectRatio="false" visible="false"/>
+	<s:Button id="okButton" label="OK" click="okButtonClick()" width="300" height="100" horizontalCenter="0" top="20" enabled="false"/>
+	<s:Group id="bloodPressureResultGroup" width="100%" height="100%">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0xAAAAAA"/>
+			</s:fill>
+		</s:Rect>
+		<s:Label id="systolicLabel" text="systolic" top="20"/>
+		<s:Label id="systolicResult" text="{_systolic}" top="20" horizontalCenter="0"/>
+		<s:Label id="diastolicLabel" text="diastolic" top="60"/>	
+		<s:Label id="diastolicResult" text="{_diastolic}" top="60" horizontalCenter="0"/>
+		<s:Label id="heartRateLabel" text="heart rate" top="100"/>
+		<s:Label id="heartRateResult" text="{_heartRate}" top="100" horizontalCenter="0"/>
+	</s:Group>
 </s:Group>

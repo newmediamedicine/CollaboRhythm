@@ -22,6 +22,20 @@
 	
 	<!--location of property file -->
 	<property file="${basedir}/build.properties" description="your specific properties for builds" />
+	
+	<propertyfile
+		file="bin-debug/local.properties"
+		comment="Local properties for CollaboRhythm plugin deployment. This file must *NOT* be checked in Version Control Systems, as it contains information specific to your local configuration.">
+		<entry key="collaboRhythm.pluginDeployment.deploymentCount" type="int" default="0" operation="+" />
+		<entry key="ANDROID_SDK" default="C:\Program Files (x86)\Android\android-sdk-windows" />
+		<entry key="collaboRhythm.workstation.pluginsPath" default="${app.data}/CollaboRhythm.Workstation/Local Store/plugins" />
+		<entry key="collaboRhythm.mobile-emulator.pluginsPath" default="${app.data}/CollaboRhythm.Mobile.debug/Local Store/plugins" />
+		<entry key="collaboRhythm.mobile-device.pluginsPath" default="/data/local/air.CollaboRhythm.Mobile.debug/CollaboRhythm.Mobile.debug/Local Store/plugins" />
+	</propertyfile>
+	
+<!--		<entry key="collaboRhythm.pluginDeployment.lastDeployedDate" type="date" value="now" pattern="EEE, dd MMM yyyy HH:mm:ss z"/> -->
+	<property file="bin-debug/local.properties" />
+	
 	<property file="${basedir}/base.properties" description="base properties for builds" />
 	
 	<!-- additional tasks -->
