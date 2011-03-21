@@ -166,7 +166,8 @@ public class Pha extends EventDispatcher implements WikiTestable
         phaAdminUtils = new PhaAdminUtils(instanceConsumerKey, instanceConsumerSecret);
         constructorHelper();
         logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
-        
+		logger.info("Base URL: " + this.phaBase);
+
         //oauthConsumer = new DefaultOAuthConsumer(
         //        instanceConsumerKey, instanceConsumerSecret, SignatureMethod.HMAC_SHA1);
     }

@@ -96,9 +96,8 @@ public class Admin extends EventDispatcher implements WikiTestable
         if (adminBase.length > 0 && adminBase.charAt(adminBase.length -1) != '/') {
             this.adminBase += '/';
         }
-//        logger = LogFactory.getLog(this.getClass());
-		logger = Log.getLogger(getQualifiedClassName(this).split("::")[1]);
-        logger.info("adminBase: " + this.adminBase);
+		logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+        logger.info("Base URL: " + this.adminBase);
 
 //        oauthConsumer = new DefaultOAuthConsumer(oauthConsumerKey, consumerSecret, SignatureMethod.HMAC_SHA1);
         

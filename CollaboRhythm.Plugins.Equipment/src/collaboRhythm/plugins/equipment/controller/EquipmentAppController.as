@@ -126,5 +126,10 @@ package collaboRhythm.plugins.equipment.controller
 		{
 			user.appData[EquipmentModel.EQUIPMENT_KEY] = null;
 		}
+
+		public override function get defaultName():String
+		{
+			return "Equipment";
+		}
 	}
 }

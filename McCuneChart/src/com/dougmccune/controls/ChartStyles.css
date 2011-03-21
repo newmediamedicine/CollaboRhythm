@@ -42,6 +42,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 		gutterLeft: 0;
 		gutterRight: 0;
 	}
+
+    .mainChartHorizontalAxisStyle, .mainChartVerticalAxisStyle
+    {
+        color: #000000;
+    }
 	
 	.canvasContainerStyles
 	{
