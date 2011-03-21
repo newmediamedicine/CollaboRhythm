@@ -18,6 +18,7 @@ package collaboRhythm.plugins.bloodPressure.model
 {
 	import collaboRhythm.shared.model.IDataItem;
 
+	[Bindable]
 	public class BloodPressureDataItem implements IDataItem
 	{
 		private var _date:Date;

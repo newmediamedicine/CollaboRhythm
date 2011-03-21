@@ -21,6 +21,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 	import mx.collections.ArrayCollection;
 
+	[Bindable]
 	public class BloodPressureModel
 	{
 //		private var _rawData:XML;
@@ -34,7 +35,6 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		private var _isSystolicReportLoaded:Boolean = false;
 		private var _isDiastolicReportLoaded:Boolean = false;
 
-		[Bindable]
 		public function get simulation():SimulationModel
 		{
 			return _simulation;
@@ -55,7 +55,6 @@ package collaboRhythm.shared.apps.bloodPressure.model
 			return _showAdherence;
 		}
 
-		[Bindable]
 		public function get showFps():Boolean
 		{
 			return _showFps;
@@ -67,7 +66,6 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		}
 
 
-		[Bindable]
 		public function get adherenceDataCollection():ArrayCollection
 		{
 			return _adherenceDataCollection;
@@ -253,7 +251,6 @@ package collaboRhythm.shared.apps.bloodPressure.model
 			return singleCurve;
 		}
 
-		[Bindable]
 		public function get data():ArrayCollection
 		{
 			return _data;
@@ -270,7 +267,6 @@ package collaboRhythm.shared.apps.bloodPressure.model
 			return _currentDateSource;
 		}
 
-		[Bindable]
 		public function get isSystolicReportLoaded():Boolean
 		{
 			return _isSystolicReportLoaded;
@@ -281,7 +277,6 @@ package collaboRhythm.shared.apps.bloodPressure.model
 			_isSystolicReportLoaded = value;
 		}
 
-		[Bindable]
 		public function get isDiastolicReportLoaded():Boolean
 		{
 			return _isDiastolicReportLoaded;
@@ -290,6 +285,21 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public function set isDiastolicReportLoaded(value:Boolean):void
 		{
 			_isDiastolicReportLoaded = value;
+		}
+
+		public function set currentDateSource(value:ICurrentDateSource):void
+		{
+			_currentDateSource = value;
+		}
+
+		public function set showAdherence(value:Boolean):void
+		{
+			_showAdherence = value;
+		}
+
+		public function set showHeartRate(value:Boolean):void
+		{
+			_showHeartRate = value;
 		}
 	}
 }

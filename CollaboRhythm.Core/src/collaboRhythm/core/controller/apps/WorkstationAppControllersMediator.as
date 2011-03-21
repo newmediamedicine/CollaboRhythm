@@ -188,6 +188,10 @@ package collaboRhythm.core.controller.apps
 		{
 			var app:WorkstationAppControllerBase = _factory.createApp(appClass, appName);
 			appName = app.name;
+
+			if (appName == null)
+				throw new Error("appName must not be null; app controller should override defaultName property");
+
 			app.addEventListener(WorkstationAppEvent.SHOW_FULL_VIEW, showFullViewHandler);
 			_workstationApps.addKeyValue(appName, app);
 			return app;

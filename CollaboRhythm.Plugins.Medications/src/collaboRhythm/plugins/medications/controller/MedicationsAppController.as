@@ -126,5 +126,10 @@ package collaboRhythm.plugins.medications.controller
 		{
 			user.appData[MedicationsModel.MEDICATIONS_KEY] = null;
 		}
+
+		override public function get defaultName():String
+		{
+			return "Medications";
+		}
 	}
 }
