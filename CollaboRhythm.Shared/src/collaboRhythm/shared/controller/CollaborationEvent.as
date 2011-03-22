@@ -23,6 +23,7 @@ package collaboRhythm.shared.controller
 	public class CollaborationEvent extends Event
 	{
 		public static const COLLABORATE_WITH_USER:String = "CollaborateWithUser";
+		public static const RECORD_VIDEO:String = "RecordVideo";
 
 		public static const OPEN_RECORD:String = "OpenRecord";
 		public static const CLOSE_RECORD:String = "CloseRecord";

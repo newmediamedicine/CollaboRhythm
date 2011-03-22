@@ -92,6 +92,7 @@
 			_remoteUsersController.addEventListener(CollaborationEvent.OPEN_RECORD, openRecordHandler);
 			
 			_workstationCommandBarController.addEventListener(CollaborationEvent.COLLABORATE_WITH_USER, collaborateWithUserHandler);
+			_workstationCommandBarController.addEventListener(CollaborationEvent.RECORD_VIDEO, recordVideoHandler);
 			_workstationCommandBarController.addEventListener(CollaborationEvent.CLOSE_RECORD, closeRecordHandler);
 			_workstationCommandBarController.addEventListener(CollaborationEvent.RECORD_CLOSED, recordClosedHandler);
 		}

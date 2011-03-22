@@ -33,6 +33,7 @@ package collaboRhythm.plugins.schedule.shared.model
 	{
 		public static const SCHEDULE_CLOCK_VIEW:String = "ScheduleClockView";
 		public static const SCHEDULE_GROUP_REPORTING_VIEW:String = "ScheduleGroupReportingView";
+		public static const BLOOD_PRESSURE_REPORTING_VIEW:String = "BloodPressureReportingView";
 		
 		private var _user:User;
 		private var _initialized:Boolean = false;

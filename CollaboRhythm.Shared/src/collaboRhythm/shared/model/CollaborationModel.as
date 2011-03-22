@@ -49,6 +49,7 @@ package collaboRhythm.shared.model
 		private var _collaborationRoomUsers:ArrayCollection;
 		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
 		private var _collaborationRoomNetConnectionService:CollaborationRoomNetConnectionService;
+		private var _recordVideo:Boolean = false;
 		
 		public function CollaborationModel(settings:Settings, usersModel:UsersModel)
 		{
@@ -171,6 +172,16 @@ package collaboRhythm.shared.model
 			return _collaborationRoomNetConnectionService;
 		}
 		
+		public function get recordVideo():Boolean
+		{
+			return _recordVideo;
+		}
+		
+		public function set recordVideo(value:Boolean):void
+		{
+			_recordVideo = value;
+		}
+		
 		public function get collaborationRoomUsers():ArrayCollection
 		{
 			return _collaborationRoomUsers;
@@ -209,6 +220,11 @@ package collaboRhythm.shared.model
 			_roomID = "";
 			_passWord = "";
 			localUser.collaborationColor = "0x000000";
+		}
+		
+		public function closeRecordVideoView():void
+		{
+			recordVideo = false;
 		}
 	}
 }

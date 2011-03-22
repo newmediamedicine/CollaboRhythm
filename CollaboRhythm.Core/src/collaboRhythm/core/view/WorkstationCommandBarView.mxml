@@ -101,6 +101,11 @@
 				_workstationCommandBarController.closeRecord();
 			}
 			
+			private function recordVideoButtonHandler(event:MouseEvent):void
+			{
+				_workstationCommandBarController.recordVideo();
+			}
+			
 			private function collaborateButtonHandler(event:MouseEvent):void
 			{
 				_workstationCommandBarController.collaborateWithUser();
@@ -210,7 +215,11 @@
 				</s:filters>
 			</s:BorderContainer>
 		</s:Group>
-
+		<s:Button
+			id="recordVideoButton"
+			click="recordVideoButtonHandler(event)"
+			top="10" height="90" width="100" label="Record"
+			/>
 		<view1:IconButton
 			id="collaborateButton"
 			styleName="IconButton"

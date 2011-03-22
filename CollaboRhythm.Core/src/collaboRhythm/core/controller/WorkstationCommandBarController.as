@@ -92,6 +92,11 @@ package collaboRhythm.core.controller
 			dispatchEvent(new CollaborationEvent(CollaborationEvent.COLLABORATE_WITH_USER, _remoteUser));
 		}
 		
+		public function recordVideo():void
+		{
+			dispatchEvent(new CollaborationEvent(CollaborationEvent.RECORD_VIDEO, _remoteUser));
+		}
+		
 		public function hideEndHandler(event:EffectEvent):void
 		{
 			dispatchEvent(new CollaborationEvent(CollaborationEvent.RECORD_CLOSED, _remoteUser));

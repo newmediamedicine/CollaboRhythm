@@ -116,7 +116,7 @@ package collaboRhythm.core.controller
 		{
 			if (healthRecordService.isLoginComplete && usersModel.remoteUsersPopulated && _collaborationController == null)
 			{
-				_collaborationController = new CollaborationController(applicationController.collaborationRoomView, usersModel, _settings);
+				_collaborationController = new CollaborationController(applicationController.collaborationRoomView, applicationController.recordVideoView, usersModel, _settings);
 				logger.info("CollaborationController created");
 				
 				initializeControllersForUser();
@@ -163,6 +163,12 @@ package collaboRhythm.core.controller
 		{
 			var subjectUser:User = event.remoteUser;
 			_collaborationController.collaborateWithUserHandler(subjectUser);
+		}
+		
+		public function recordVideoHandler(event:CollaborationEvent):void
+		{
+			var user:User = event.remoteUser;
+			_collaborationController.recordVideoHandler(subjectUser);
 		}
 		
 		public function localUserJoinedCollaborationRoomAnimationCompleteHandler(event:CollaborationEvent):void

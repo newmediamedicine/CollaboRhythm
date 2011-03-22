@@ -24,6 +24,7 @@ package collaboRhythm.plugins.schedule.view
 	{
 		public static const SCHEDULE_GROUP_CLOCK_VIEW_CLICK:String = "ScheduleGroupClockViewClick";
 		public static const SCHEDULE_GROUP_REPORTING_VIEW_BACK:String = "ScheduleGroupReportingViewBack";
+		public static const PLAY_VIDEO_VIEW_BACK:String = "PlayVideoViewBack";
 		
 		private var _scheduleGroup:ScheduleGroup;
 		

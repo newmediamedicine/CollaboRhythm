@@ -56,7 +56,8 @@
 			private var _equipment:Equipment;
 			[Bindable]
 			private var _equipmentScheduleItem:EquipmentScheduleItem
-			
+			private var _bloodPressureReportingView:BloodPressureReportingView;
+					
 			public function get equipment():Equipment
 			{
 				return _equipment;
@@ -79,8 +80,11 @@
 			
 			private function adherenceButtonClickHandler(event:MouseEvent):void
 			{
-				var avatarView:AvatarView = new AvatarView();
-				_parentGroup.addElement(avatarView);
+				_bloodPressureReportingView = new BloodPressureReportingView();
+				_bloodPressureReportingView.percentWidth = 100;
+				_bloodPressureReportingView.percentHeight = 100;
+				_bloodPressureReportingView.init(this);
+				_parentGroup.addElement(_bloodPressureReportingView);
 //				var vitalSign:VitalSign = new VitalSign();
 //				vitalSign.init(_equipment.name, "gwhite@records.media.mit.edu", new Date(), new Date(), _equipment.dose);
 //				var adherenceItem:AdherenceItem = new AdherenceItem();
@@ -88,6 +92,15 @@
 //				adherenceItem.adherenceResult = vitalSign;
 //				
 //				dispatchAdherenceItemEvent(adherenceItem);
+			}
+			
+			public function bloodPressureReportingResult(systolic:String, diastolic:String, heartRate:String):void
+			{
+				_parentGroup.removeElement(_bloodPressureReportingView);
+				var adherenceItem:AdherenceItem = new AdherenceItem();
+				adherenceItem.init(_equipment.name, "gwhite@records.media.mit.edu", new Date(), true);
+				
+				dispatchAdherenceItemEvent(adherenceItem);
 			}
 			
 			private function nonadherenceButtonClickHandler(event:MouseEvent):void

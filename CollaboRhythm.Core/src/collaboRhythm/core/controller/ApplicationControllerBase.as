@@ -29,6 +29,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
 	import collaboRhythm.shared.view.CollaborationRoomView;
+	import collaboRhythm.shared.view.RecordVideoView;
 	
 	import com.daveoncode.logging.LogFileTarget;
 	
@@ -61,6 +62,11 @@ package collaboRhythm.core.controller
 		}
 		
 		public function get collaborationRoomView():CollaborationRoomView
+		{
+			throw new Error("virtual function must be overriden in subclass");
+		}
+		
+		public function get recordVideoView():RecordVideoView
 		{
 			throw new Error("virtual function must be overriden in subclass");
 		}

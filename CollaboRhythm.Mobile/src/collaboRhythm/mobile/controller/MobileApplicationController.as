@@ -19,9 +19,10 @@ package collaboRhythm.mobile.controller
 import collaboRhythm.core.controller.ApplicationControllerBase;
 import collaboRhythm.core.view.RemoteUsersListView;
 import collaboRhythm.mobile.view.WidgetContainerView;
-	import collaboRhythm.shared.controller.apps.AppControllerInfo;
-	import collaboRhythm.shared.model.Settings;
+import collaboRhythm.shared.controller.apps.AppControllerInfo;
+import collaboRhythm.shared.model.Settings;
 import collaboRhythm.shared.view.CollaborationRoomView;
+import collaboRhythm.shared.view.RecordVideoView;
 
 import flash.desktop.NativeApplication;
 import flash.events.Event;
@@ -40,6 +41,11 @@ public class MobileApplicationController extends ApplicationControllerBase
 		private var _widgetContainerController:WidgetContainerController;
 		
 		public override function get collaborationRoomView():CollaborationRoomView
+		{
+			return null;
+		}
+		
+		public override function get recordVideoView():RecordVideoView
 		{
 			return null;
 		}

@@ -59,6 +59,7 @@
 			private var _scheduleGroupsCollection:ArrayCollection;
 			private var _scheduleItemsCollection:ArrayCollection;
 			private var _scheduleGroupReportingView:ScheduleGroupReportingView;
+			private var _playVideoView:PlayVideoView;
 
 			public function init(scheduleWidgetViewController:ScheduleWidgetViewController, scheduleModel:ScheduleModel):void
 			{
@@ -70,6 +71,7 @@
 
 				this.addEventListener(ScheduleWidgetViewEvent.SCHEDULE_GROUP_CLOCK_VIEW_CLICK, scheduleGroupClockViewClickHandler);
 				this.addEventListener(ScheduleWidgetViewEvent.SCHEDULE_GROUP_REPORTING_VIEW_BACK, scheduleGroupReportingViewBackHandler);
+				this.addEventListener(ScheduleWidgetViewEvent.PLAY_VIDEO_VIEW_BACK, playVideoViewBackHandler);
 				this.addEventListener(ScheduleItemReportingViewEventHandler.ADHERENCE_ITEM_CREATED, scheduleItemReportingViewEventHandler);
 				
 				var currentViewWatcher:ChangeWatcher = BindingUtils.bindSetter(currentViewChangeHandler, _scheduleModel, "currentWidgetView");
@@ -199,6 +201,11 @@
 				_scheduleWidgetViewController.closeScheduleGroupReportingView(); 
 			}
 			
+			private function playVideoViewBackHandler(event:ScheduleWidgetViewEvent):void
+			{
+				this.removeElement(_playVideoView);
+			}
+			
 			private function scheduleItemReportingViewEventHandler(event:ScheduleItemReportingViewEventHandler):void
 			{
 				var scheduleItem:ScheduleItemBase = event.scheduleItem;
@@ -225,6 +232,12 @@
 				scheduleGroupReportingView.init(_scheduleModel.currentScheduleGroup);
 				this.addElement(scheduleGroupReportingView );
 			}
+			
+			private function playVideoButtonClickHandler():void
+			{
+				_playVideoView = new PlayVideoView();
+				this.addElement(_playVideoView);
+			}
 		]]>
 	</fx:Script>
 	<images:clockBackground id="clockBackground" horizontalCenter="0" verticalCenter="0" mouseEnabled="false" mouseChildren="false"/>
@@ -232,4 +245,5 @@
 	<s:Group id="scheduleItemsContainer" horizontalCenter="0" verticalCenter="0" />
 	<images:clockHand id="clockHand" mouseEnabled="false" mouseChildren="false"/>
 	<images:clockForeground id="clockForeground" horizontalCenter="0" verticalCenter="0" mouseEnabled="false" mouseChildren="false"/>
+	<s:Button id="playVideoButton" left="5" bottom="5" width="75" height="75" visible="{!_scheduleWidgetViewController.isWorkstationMode}" click="playVideoButtonClickHandler()"/>
 </s:Group>

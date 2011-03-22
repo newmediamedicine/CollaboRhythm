@@ -16,14 +16,16 @@
  */
 package collaboRhythm.workstation.controller
 {
+	import collaboRhythm.core.controller.ApplicationControllerBase;
+	import collaboRhythm.core.view.RemoteUsersListView;
+	import collaboRhythm.core.view.WorkstationCommandBarView;
 	import collaboRhythm.shared.model.Settings;
+	import collaboRhythm.shared.view.CollaborationRoomView;
+	import collaboRhythm.shared.view.RecordVideoView;
 	import collaboRhythm.workstation.model.settings.ComponentLayout;
 	import collaboRhythm.workstation.model.settings.WindowSettings;
 	import collaboRhythm.workstation.model.settings.WindowSettingsDataStore;
 	import collaboRhythm.workstation.model.settings.WindowState;
-	import collaboRhythm.shared.view.CollaborationRoomView;
-	import collaboRhythm.core.view.RemoteUsersListView;
-	import collaboRhythm.core.view.WorkstationCommandBarView;
 	import collaboRhythm.workstation.view.spaces.CenterSpace;
 	import collaboRhythm.workstation.view.spaces.LeftSpace;
 	import collaboRhythm.workstation.view.spaces.RightSpace;
@@ -43,7 +45,6 @@ package collaboRhythm.workstation.controller
 	import mx.core.IVisualElement;
 	import mx.core.IVisualElementContainer;
 	import mx.core.UIComponent;
-	import collaboRhythm.core.controller.ApplicationControllerBase;
 
 	/**
 	 * Top level controller for the whole application. Responsible for creating and managing the windows of the application. 
@@ -153,6 +154,11 @@ package collaboRhythm.workstation.controller
 		public override function get collaborationRoomView():CollaborationRoomView
 		{
 			return _topSpace.collaborationRoomView;
+		}
+		
+		public override function get recordVideoView():RecordVideoView
+		{
+			return _topSpace.recordVideoView;
 		}
 
 		public function get fullScreen():Boolean

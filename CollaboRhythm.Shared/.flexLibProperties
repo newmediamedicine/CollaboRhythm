@@ -31,6 +31,7 @@
     <classEntry path="collaboRhythm.shared.model.CodedValue"/>
     <classEntry path="collaboRhythm.shared.model.ValueAndUnit"/>
     <classEntry path="collaboRhythm.shared.model.ReportRequestDetails"/>
+    <classEntry path="collaboRhythm.shared.view.RecordVideoView"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

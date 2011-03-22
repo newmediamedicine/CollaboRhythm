@@ -43,6 +43,11 @@ package collaboRhythm.plugins.schedule.controller
 			_collaborationRoomNetConnectionServiceProxy.synchronizeHandler = this;
 		}
 		
+		public function get isWorkstationMode():Boolean
+		{
+			return _isWorkstationMode;
+		}
+
 		public function openScheduleGroupReportingView(scheduleGroup:ScheduleGroup):void
 		{
 			if (!_isWorkstationMode)
