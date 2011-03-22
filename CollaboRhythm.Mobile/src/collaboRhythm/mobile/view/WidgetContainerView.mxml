@@ -40,7 +40,7 @@
 					<s:Fade alphaFrom="0" alphaTo="1"/>
 					<s:Animate>
 						<s:motionPaths>
-							<s:SimpleMotionPath property="y" valueFrom="{menuGroupContent.height}" valueTo="0"/>
+							<s:SimpleMotionPath property="y" valueFrom="{menuGroup.height}" valueTo="0"/>
 						</s:motionPaths>
 					</s:Animate>
 				</s:Parallel>
@@ -52,7 +52,7 @@
 					<s:Fade alphaFrom="1" alphaTo="0"/>
 					<s:Animate>
 						<s:motionPaths>
-							<s:SimpleMotionPath property="y" valueFrom="0" valueTo="{menuGroupContent.height}"/>
+							<s:SimpleMotionPath property="y" valueFrom="0" valueTo="{menuGroup.height}"/>
 						</s:motionPaths>
 					</s:Animate>
 				</s:Parallel>
@@ -97,7 +97,26 @@
 					<s:SolidColorStroke weight="3" color="#666666" caps="square" alpha="0.8"/>
 				</s:stroke>
 			</s:Line>
-			<s:HGroup id="menuGroupContent" width="100%" gap="2" render="menuGroupContent_renderHandler(event)">
+			<s:HGroup id="menuGroupContent1" width="100%" gap="2" render="menuGroupContent_renderHandler(event)">
+				<s:Button id="demo1Button" width="100%" icon="@Embed('/assets/images/ic_menu_refresh.png')"
+						  skinClass="collaboRhythm.mobile.view.skins.MenuButtonSkin" label="Demo1"
+						  click="demo1Button_clickHandler(event)"/>
+				<s:Button id="demo2Button" width="100%" icon="@Embed('/assets/images/ic_menu_refresh.png')"
+						  skinClass="collaboRhythm.mobile.view.skins.MenuButtonSkin" label="Demo2"
+						  click="demo2Button_clickHandler(event)"/>
+				<s:Button id="demo3Button" width="100%" icon="@Embed('/assets/images/ic_menu_refresh.png')"
+						  skinClass="collaboRhythm.mobile.view.skins.MenuButtonSkin" label="Demo3"
+						  click="demo3Button_clickHandler(event)"/>
+				<s:Button id="demoOffButton" width="100%" icon="@Embed('/assets/images/ic_menu_refresh.png')"
+						  skinClass="collaboRhythm.mobile.view.skins.MenuButtonSkin" label="Demo Off"
+						  click="demoOffButton_clickHandler(event)"/>
+			</s:HGroup>
+			<s:Line width="100%">
+				<s:stroke>
+					<s:SolidColorStroke weight="1" color="#666666" caps="square" alpha="0.8"/>
+				</s:stroke>
+			</s:Line>
+			<s:HGroup id="menuGroupContent2" width="100%" gap="2" render="menuGroupContent_renderHandler(event)">
 				<s:Button id="infoButton" width="100%" icon="@Embed('/assets/images/ic_menu_info_details.png')"
 						  skinClass="collaboRhythm.mobile.view.skins.MenuButtonSkin" label="Info"
 						  click="infoButton_clickHandler(event)"/>
@@ -138,12 +157,18 @@
 			</s:VGroup>
 		</s:Group>
 	</s:VGroup>
-	
+
+<!--
+	<busyindicator:BusyIndicator id="busyIndicator" busy="true" width="100%" height="100%" includeInLayout="true"
+								 initialize="busyIndicator_initializeHandler(event)" />
+-->
+
 	<fx:Script>
 		<![CDATA[
 		import collaboRhythm.core.pluginsManagement.PluginEvent;
 		import collaboRhythm.mobile.controller.WidgetContainerController;
 		import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+		import collaboRhythm.shared.model.services.DemoEvent;
 		import collaboRhythm.view.scroll.TouchScrollerEvent;
 
 		import com.daveoncode.logging.LogFileTarget;
@@ -165,6 +190,12 @@
 		private var _isListeningForMouseMove:Boolean;
 		private var _shouldIgnoreNextMouseDown:Boolean;
 		private var _infoData:XML;
+
+//		protected function busyIndicator_initializeHandler(event:FlexEvent):void
+//		{
+//			busyIndicator.setStyle("source", "assets/animation1.swf");
+//			busyIndicator.setStyle("scale", true);
+//		}
 
 		public function get workstationAppController():WorkstationAppControllerBase
 		{
@@ -388,6 +419,30 @@
 			return infoGroup.visible;
 		}
 
+		protected function demo1Button_clickHandler(event:MouseEvent):void
+		{
+			hideMenu();
+			dispatchEvent(new DemoEvent(DemoEvent.CHANGE_DEMO_DATE, new Date("2010/1/1")));
+		}
+
+		protected function demo2Button_clickHandler(event:MouseEvent):void
+		{
+			hideMenu();
+			dispatchEvent(new DemoEvent(DemoEvent.CHANGE_DEMO_DATE, new Date("2010/1/7")));
+		}
+
+		protected function demo3Button_clickHandler(event:MouseEvent):void
+		{
+			hideMenu();
+			dispatchEvent(new DemoEvent(DemoEvent.CHANGE_DEMO_DATE, new Date("2010/1/13")));
+		}
+
+		protected function demoOffButton_clickHandler(event:MouseEvent):void
+		{
+			hideMenu();
+			dispatchEvent(new DemoEvent(DemoEvent.CHANGE_DEMO_DATE, null));
+		}
+
 		protected function infoButton_clickHandler(event:MouseEvent):void
 		{
 			hideMenu();
@@ -408,6 +463,7 @@
 
 		protected function menuGroupContent_renderHandler(event:Event):void
 		{
+			var menuGroupContent:Group = event.target as Group;
 			var g:Graphics = menuGroupContent.graphics;
 			g.clear();
 			g.lineStyle(2, 0x333333, 0.8);
@@ -441,12 +497,14 @@
 
 		private function preinitializeHandler(event:FlexEvent):void
 		{
-			trace("WidgetContainerView.preinitializeHandler");
+			if (_traceEventHandlers)
+				trace("WidgetContainerView.preinitializeHandler");
 		}
 
 		private function addedToStageHandler(event:Event):void
 		{
-			trace("WidgetContainerView.addedToStageHandler");
+			if (_traceEventHandlers)
+				trace("WidgetContainerView.addedToStageHandler");
 		}
 
 		private function addedHandler(event:Event):void

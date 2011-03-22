@@ -62,7 +62,31 @@ import mx.charts.ChartItem;
 		private var _textFormat:TextFormat = new TextFormat("Myriad Pro, Verdana, Helvetica, Arial", 16, 0, true);
 
 		private var _model:BloodPressureModel;
-		private var _traceEventHandlers:Boolean = false;
+		private var _traceEventHandlers:Boolean = true;
+		private var _showFocusTimeMarker:Boolean = true;
+		private var _scrollEnabled:Boolean = true;
+
+		[Bindable]
+		public function get scrollEnabled():Boolean
+		{
+			return _scrollEnabled;
+		}
+
+		public function set scrollEnabled(value:Boolean):void
+		{
+			_scrollEnabled = value;
+		}
+
+		[Bindable]
+		public function get showFocusTimeMarker():Boolean
+		{
+			return _showFocusTimeMarker;
+		}
+
+		public function set showFocusTimeMarker(value:Boolean):void
+		{
+			_showFocusTimeMarker = value;
+		}
 
 		public function get rangeChartVisible():Boolean
 		{
@@ -109,7 +133,6 @@ import mx.charts.ChartItem;
 
 		protected function group1_creationCompleteHandler(event:FlexEvent):void
 		{
-			logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			refresh();
 			simulationOnlyViewMode = false;
 			updateComponentsForSimulationOnlyViewMode();
@@ -210,6 +233,8 @@ import mx.charts.ChartItem;
 			verticalAxis.maximum = 160;
 
 //				synchronizeDateLimits();
+
+			updateBloodPressureChartBackgroundElements(mcCuneChart);
 		}
 
 		private function synchronizeDateLimits():void
@@ -217,7 +242,7 @@ import mx.charts.ChartItem;
 			var charts:Vector.<TouchScrollingMcCuneChart> = new Vector.<TouchScrollingMcCuneChart>();
 			charts.push(adherenceChart);
 			charts.push(bloodPressureChart);
-			charts.push(heartRateChart);
+//			charts.push(heartRateChart);
 
 			var minimum:Number = charts[0].minimumTime;
 			var maximum:Number = charts[0].maximumTime;
@@ -237,7 +262,7 @@ import mx.charts.ChartItem;
 		protected function adherenceChart_creationCompleteHandler(event:FlexEvent):void
 		{
 			if (_traceEventHandlers)
-				trace("adherenceChart_creationCompleteHandler")
+				trace("adherenceChart_creationCompleteHandler");
 			var mcCuneChart:McCuneChart = McCuneChart(event.target);
 
 			mcCuneChart.mainChart.series = new Array();
@@ -254,6 +279,8 @@ import mx.charts.ChartItem;
 			verticalAxis = mcCuneChart.rangeChart.verticalAxis as LinearAxis;
 			verticalAxis.minimum = 0;
 			verticalAxis.maximum = 0.4;
+
+			updateAdherenceChartSeriesCompleteHandler(mcCuneChart);
 		}
 
 		protected function adherenceChart_initializeHandler(event:FlexEvent):void
@@ -272,42 +299,32 @@ import mx.charts.ChartItem;
 			verticalAxis.maximum = 100;
 		}
 
-		protected function adherenceChart_seriesCompleteHandler(event:Event):void
+		private function updateAdherenceChartSeriesCompleteHandler(mcCuneChart:McCuneChart):void
 		{
-			if (_traceEventHandlers)
-				trace("adherenceChart_seriesCompleteHandler");
-			var mcCuneChart:McCuneChart = McCuneChart(event.target);
-
 			mcCuneChart.mainChart.backgroundElements.push(adherenceMainCanvas);
 			drawAdherenceData(adherenceMainCanvas);
 			mcCuneChart.rangeChart.backgroundElements.push(adherenceRangeCanvas);
 			drawAdherenceData(adherenceRangeCanvas);
 		}
 
-		//			protected function adherenceChart_doubleClickHandler(event:MouseEvent):void
-		//			{
-		//				var mcCuneChart:McCuneChart = adherenceChart;
-		//
-		//				mcCuneChart.rangeChart.horizontalAxis.dataChanged();
-		//				mcCuneChart.rangeChart.verticalAxis.dataChanged();
-		//
-		//				mcCuneChart.mainChart.backgroundElements.push(adherenceMainCanvas);
-		//				drawAdherenceData(adherenceMainCanvas);
-		//				mcCuneChart.rangeChart.backgroundElements.push(adherenceRangeCanvas);
-		//				drawAdherenceData(adherenceRangeCanvas);
-		//				mcCuneChart.validateNow();
-		//			}
+		protected function adherenceChart_seriesCompleteHandler(event:Event):void
+		{
+			if (_traceEventHandlers)
+				trace("adherenceChart_seriesCompleteHandler");
+		}
+
+		private function updateBloodPressureChartBackgroundElements(mcCuneChart:McCuneChart):void
+		{
+			mcCuneChart.mainChart.backgroundElements.push(bloodPressureMainCanvas);
+			drawBloodPressureData(bloodPressureMainCanvas);
+			mcCuneChart.rangeChart.backgroundElements.push(bloodPressureRangeCanvas);
+			drawBloodPressureData(bloodPressureRangeCanvas);
+		}
 
 		protected function bloodPressureChart_seriesCompleteHandler(event:Event):void
 		{
 			if (_traceEventHandlers)
 				trace("bloodPressureChart_seriesCompleteHandler");
-			var mcCuneChart:McCuneChart = McCuneChart(event.target);
-
-			mcCuneChart.mainChart.backgroundElements.push(bloodPressureMainCanvas);
-			drawBloodPressureData(bloodPressureMainCanvas);
-			mcCuneChart.rangeChart.backgroundElements.push(bloodPressureRangeCanvas);
-			drawBloodPressureData(bloodPressureRangeCanvas);
 		}
 
 		protected function heartRateChart_seriesCompleteHandler(event:Event):void
@@ -605,11 +622,11 @@ import mx.charts.ChartItem;
 					if (showAdherence)
 						visibleCharts.push(chart);
 				}
-				else if (chart == heartRateChart)
-				{
-					if (showHeartRate)
-						visibleCharts.push(chart);
-				}
+//				else if (chart == heartRateChart)
+//				{
+//					if (showHeartRate)
+//						visibleCharts.push(chart);
+//				}
 				else
 				{
 					visibleCharts.push(chart);
@@ -809,10 +826,7 @@ import mx.charts.ChartItem;
 			return _initialDurationTime;
 		}
 
-		protected var logger:ILogger;
 		public function set initialDurationTime(value:Number):void
 		{
-			logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
-			logger.info("initialDurationTime=" + value);
 			_initialDurationTime = value;
 		}

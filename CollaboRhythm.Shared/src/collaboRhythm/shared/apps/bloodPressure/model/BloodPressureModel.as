@@ -113,6 +113,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		}
 		
 		private var matchStartDateOfSource:Boolean = true;
+		private var _completeData:ArrayCollection;
 
 		public function calculateAdherenceCurve():void
 		{
@@ -259,7 +260,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public function set data(value:ArrayCollection):void
 		{
 			_data = value;
-			calculateAdherenceCurve();
+			updateCompleteData();
 		}
 
 		public function get currentDateSource():ICurrentDateSource
@@ -275,6 +276,12 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public function set isSystolicReportLoaded(value:Boolean):void
 		{
 			_isSystolicReportLoaded = value;
+			updateCompleteData();
+		}
+
+		private function updateCompleteData():void
+		{
+			completeData = (isSystolicReportLoaded && isDiastolicReportLoaded) ? data : null;
 		}
 
 		public function get isDiastolicReportLoaded():Boolean
@@ -285,6 +292,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public function set isDiastolicReportLoaded(value:Boolean):void
 		{
 			_isDiastolicReportLoaded = value;
+			updateCompleteData();
 		}
 
 		public function set currentDateSource(value:ICurrentDateSource):void
@@ -300,6 +308,17 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public function set showHeartRate(value:Boolean):void
 		{
 			_showHeartRate = value;
+		}
+
+		public function get completeData():ArrayCollection
+		{
+			return _completeData;
+		}
+
+		public function set completeData(value:ArrayCollection):void
+		{
+			_completeData = value;
+//			calculateAdherenceCurve();
 		}
 	}
 }

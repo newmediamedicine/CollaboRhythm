@@ -21,7 +21,8 @@ import collaboRhythm.core.view.RemoteUsersListView;
 import collaboRhythm.mobile.view.WidgetContainerView;
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	import collaboRhythm.shared.model.Settings;
-import collaboRhythm.shared.view.CollaborationRoomView;
+	import collaboRhythm.shared.model.services.DemoEvent;
+	import collaboRhythm.shared.view.CollaborationRoomView;
 
 import flash.desktop.NativeApplication;
 import flash.events.Event;
@@ -79,7 +80,7 @@ public class MobileApplicationController extends ApplicationControllerBase
 			var view:WidgetContainerView = event.target as WidgetContainerView;
 			if (view)
 			{
-				_widgetContainerController.initializeView(view);
+				initializeView(view);
 			}
 		}
 		
@@ -88,8 +89,19 @@ public class MobileApplicationController extends ApplicationControllerBase
 			var view:WidgetContainerView = _mobileApplication.navigator.activeView as WidgetContainerView;
 			if (view)
 			{
-				_widgetContainerController.initializeView(view);
+				initializeView(view);
 			}
+		}
+
+	private function initializeView(view:WidgetContainerView):void
+	{
+		_widgetContainerController.initializeView(view);
+		view.addEventListener(DemoEvent.CHANGE_DEMO_DATE, view_changeDemoDateHandler);
+	}
+
+		private function view_changeDemoDateHandler(event:DemoEvent):void
+		{
+			targetDate = event.targetDate;
 		}
 		
 		protected function get mobileCollaborationMediator():MobileCollaborationMediator

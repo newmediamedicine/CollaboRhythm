@@ -176,6 +176,30 @@ private var highlightedItem:ChartItem;
 
 [Bindable]
 private var gapMainRange:Number = 15;
+private var _showFocusTimeMarker:Boolean = true;
+private var _scrollEnabled:Boolean = true;
+
+[Bindable]
+public function get scrollEnabled():Boolean
+{
+	return _scrollEnabled;
+}
+
+public function set scrollEnabled(value:Boolean):void
+{
+	_scrollEnabled = value;
+}
+
+[Bindable]
+public function get showFocusTimeMarker():Boolean
+{
+	return _showFocusTimeMarker;
+}
+
+public function set showFocusTimeMarker(value:Boolean):void
+{
+	_showFocusTimeMarker = value;
+}
 
 [Bindable]
 public function get leftRangeTime():Number
@@ -262,18 +286,16 @@ private function getLeftBoxWidth(leftBoxWidth:Number, middleBoxX:Number, rightBo
 	return groupBetweenMainRange.width - rightBox.width - middleBox.width;
 }
 
-/* STEP 1 */
-/**
- * Application creationComplete
- */
-private function createComplete():void
+private function creationCompleteHandler(event:Event):void
 {
-//				stockInfo.send();
+	_isCreationComplete = true;
+	initializeFromData();
+	
 	if (_showFps)
 		this.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 }
 
-private var _data:ArrayCollection;
+private var _data:ArrayCollection = new ArrayCollection();
 
 public function get data():ArrayCollection
 {
@@ -281,13 +303,23 @@ public function get data():ArrayCollection
 }
 
 private var _initialDurationTime:Number = defaultInitialDurationTime;
+private var _isCreationComplete:Boolean;
 
-public function set data(value:ArrayCollection):void
+public function get isCreationComplete():Boolean
 {
-	if (value)
+	return _isCreationComplete;
+}
+
+private function initializeFromData():void
+{
+	if (isCreationComplete)
 	{
+		if (_data == null)
+		{
+			throw new Error("data must not be null");
+		}
+
 		allowUpdateComplete = true;
-		_data = value;
 
 		rangeData = _data;
 
@@ -299,38 +331,53 @@ public function set data(value:ArrayCollection):void
 			trace("Error setting mainData: " + e.message);
 		}
 
-		//setting default range values for loading
-		var i0:Number = 0;
-		try
+		if (rangeData.length > 0)
 		{
-			var i1:Number = rangeData.source.length - 1;
-		} catch(e:Error)
-		{
-			trace("Error setting i1: " + e.message);
+			//setting default range values for loading
+			var i0:Number = 0;
+			try
+			{
+				var i1:Number = rangeData.source.length - 1;
+			} catch(e:Error)
+			{
+				trace("Error setting i1: " + e.message);
+			}
+			t0 = dateParse(rangeData.source[i0].date).time;
+			t1 = dateParse(rangeData.source[i1].date).time;
+
+			try
+			{
+				rightRangeTime = t1;
+			} catch(e:Error)
+			{
+				trace("Error setting rightRangeTime: " + e.message);
+			}
+
+			try
+			{
+				leftRangeTime = Math.max(t0, t1 - initialDurationTime);
+			} catch(e:Error)
+			{
+				trace("Error setting leftRangeTime: " + e.message);
+			}
+
+	//				calculateIndicatorConversionRatio();
+
+			calculateRangeDataRatio();
 		}
-		t0 = dateParse(rangeData.source[i0].date).time;
-		t1 = dateParse(rangeData.source[i1].date).time;
-
-		try
-		{
-			rightRangeTime = t1;
-		} catch(e:Error)
-		{
-			trace("Error setting rightRangeTime: " + e.message);
-		}
-
-		try
-		{
-			leftRangeTime = Math.max(t0, t1 - initialDurationTime);
-		} catch(e:Error)
-		{
-			trace("Error setting leftRangeTime: " + e.message);
-		}
-
-//				calculateIndicatorConversionRatio();
-
-		calculateRangeDataRatio();
 	}
+}
+
+public function set data(value:ArrayCollection):void
+{
+	if (value == null)
+	{
+//		throw new Error("data must not be null");
+		value = new ArrayCollection();
+	}
+
+	_data = value;
+	initializeFromData();
 }
 
 //			private function calculateIndicatorConversionRatio():void
@@ -392,7 +439,7 @@ public function seriesComplete():void
 		allowUpdateComplete = false;
 		updateBoxFromSlider = true;
 		rightRangeTime = t1;
-		leftRangeTime = Math.max(t0, t1 - defaultInitialDurationTime);
+		leftRangeTime = Math.max(t0, t1 - initialDurationTime);
 		updateBox();
 		callLater(refreshAnnotations);
 		this.visible = true;
@@ -530,22 +577,17 @@ private function sliceMainData():void
 	}
 
 //				trace("slicing in", this.id, i0, i1);
-	mainData.source = rangeData.source.slice(i0, i1);
+	mainData.source = rangeData.source.slice(i0, i1 + 1);
 //				mainData.source = rangeData.source.slice(0, rangeData.source.length);
 //				mainChart.validateNow();
 }
 
 private function updateMainDataSource():void
 {
-//				mainData.source = rangeData.source.slice(leftIndicator.x, rightIndicator.x);
-//				var i0:int = Math.max(0, Math.floor(leftIndicator.x) - 10);
-//				var i1:int = Math.min(rangeData.source.length, Math.ceil(rightIndicator.x) + 10);
-
-//				mainData.source = rangeData.source.slice(i0, i1);
-//				mainData.source = rangeData.source;
-//				mainData = new ArrayCollection(_data.source);
-
-//				sliceMainData();
+	if (!scrollEnabled)
+	{
+		sliceMainData();
+	}
 
 	var minimum:Number = leftRangeTime;
 	var maximum:Number = rightRangeTime;

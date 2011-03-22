@@ -103,7 +103,7 @@ package collaboRhythm.plugins.bloodPressure.model
 										 data:ArrayCollection=null):ArrayCollection
 		{
 			var searchForExistingData:Boolean;
-			if (data == null)
+			if (data == null || data.length == 0)
 				data = new ArrayCollection();
 			else
 				searchForExistingData = true;
