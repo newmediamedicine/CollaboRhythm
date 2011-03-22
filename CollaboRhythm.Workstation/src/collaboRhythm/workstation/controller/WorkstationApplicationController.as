@@ -532,24 +532,30 @@ package collaboRhythm.workstation.controller
 			}
 			else if (event.keyCode == Keyboard.F1)
 			{
-				targetDate = new Date("2010/1/13");
+				useDemoPreset(0);
 			}
 			else if (event.keyCode == Keyboard.F2)
 			{
-				targetDate = new Date("2010/1/14");
+				useDemoPreset(1);
 			}
 			else if (event.keyCode == Keyboard.F3)
 			{
-				targetDate = new Date("2010/2/4");
+				useDemoPreset(2);
 			}
 			else if (event.keyCode == Keyboard.F4)
 			{
-				targetDate = new Date("2010/2/17");
+				useDemoPreset(3);
 			}
 			else if (event.keyCode == Keyboard.F5)
 			{
 				targetDate = null;
 			}
+		}
+
+		private function useDemoPreset(demoPresetIndex:int):void
+		{
+			if (_settings.demoDatePresets && _settings.demoDatePresets.length > demoPresetIndex)
+				targetDate = _settings.demoDatePresets[demoPresetIndex];
 		}
 		
 		private function changeZoom(zoomDelta:Number):void

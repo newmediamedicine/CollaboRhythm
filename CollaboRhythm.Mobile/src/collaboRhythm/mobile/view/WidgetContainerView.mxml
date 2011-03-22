@@ -99,13 +99,13 @@
 			</s:Line>
 			<s:HGroup id="menuGroupContent1" width="100%" gap="2" render="menuGroupContent_renderHandler(event)">
 				<s:Button id="demo1Button" width="100%" icon="@Embed('/assets/images/ic_menu_refresh.png')"
-						  skinClass="collaboRhythm.mobile.view.skins.MenuButtonSkin" label="Demo1"
+						  skinClass="collaboRhythm.mobile.view.skins.MenuButtonSkin" label="{getDemoButtonLabel(demoDatePresets, 0)}"
 						  click="demo1Button_clickHandler(event)"/>
 				<s:Button id="demo2Button" width="100%" icon="@Embed('/assets/images/ic_menu_refresh.png')"
-						  skinClass="collaboRhythm.mobile.view.skins.MenuButtonSkin" label="Demo2"
+						  skinClass="collaboRhythm.mobile.view.skins.MenuButtonSkin" label="{getDemoButtonLabel(demoDatePresets, 1)}"
 						  click="demo2Button_clickHandler(event)"/>
 				<s:Button id="demo3Button" width="100%" icon="@Embed('/assets/images/ic_menu_refresh.png')"
-						  skinClass="collaboRhythm.mobile.view.skins.MenuButtonSkin" label="Demo3"
+						  skinClass="collaboRhythm.mobile.view.skins.MenuButtonSkin" label="{getDemoButtonLabel(demoDatePresets, 2)}"
 						  click="demo3Button_clickHandler(event)"/>
 				<s:Button id="demoOffButton" width="100%" icon="@Embed('/assets/images/ic_menu_refresh.png')"
 						  skinClass="collaboRhythm.mobile.view.skins.MenuButtonSkin" label="Demo Off"
@@ -178,6 +178,8 @@
 
 		import mx.events.FlexEvent;
 
+		import mx.formatters.DateFormatter;
+
 		import spark.components.supportClasses.ButtonBase;
 
 		private var _widgetContainerController:WidgetContainerController;
@@ -190,12 +192,24 @@
 		private var _isListeningForMouseMove:Boolean;
 		private var _shouldIgnoreNextMouseDown:Boolean;
 		private var _infoData:XML;
+		private var _demoDatePresets:Vector.<Date>;
 
-//		protected function busyIndicator_initializeHandler(event:FlexEvent):void
-//		{
-//			busyIndicator.setStyle("source", "assets/animation1.swf");
-//			busyIndicator.setStyle("scale", true);
-//		}
+		[Bindable]
+		public function get demoDatePresets():Vector.<Date>
+		{
+			return _demoDatePresets;
+		}
+
+		public function set demoDatePresets(value:Vector.<Date>):void
+		{
+			_demoDatePresets = value;
+		}
+
+		//		protected function busyIndicator_initializeHandler(event:FlexEvent):void
+		//		{
+		//			busyIndicator.setStyle("source", "assets/animation1.swf");
+		//			busyIndicator.setStyle("scale", true);
+		//		}
 
 		public function get workstationAppController():WorkstationAppControllerBase
 		{
@@ -341,7 +355,7 @@
 		{
 			if (isInfoVisible)
 				hideInfo();
-			
+
 			hideMenuEffect.stop();
 			setElementIndex(menuGroup, numElements - 1);
 			showMenuEffect.play();
@@ -421,20 +435,17 @@
 
 		protected function demo1Button_clickHandler(event:MouseEvent):void
 		{
-			hideMenu();
-			dispatchEvent(new DemoEvent(DemoEvent.CHANGE_DEMO_DATE, new Date("2010/1/1")));
+			useDemoPreset(0);
 		}
 
 		protected function demo2Button_clickHandler(event:MouseEvent):void
 		{
-			hideMenu();
-			dispatchEvent(new DemoEvent(DemoEvent.CHANGE_DEMO_DATE, new Date("2010/1/7")));
+			useDemoPreset(1);
 		}
 
 		protected function demo3Button_clickHandler(event:MouseEvent):void
 		{
-			hideMenu();
-			dispatchEvent(new DemoEvent(DemoEvent.CHANGE_DEMO_DATE, new Date("2010/1/13")));
+			useDemoPreset(2);
 		}
 
 		protected function demoOffButton_clickHandler(event:MouseEvent):void
@@ -510,6 +521,26 @@
 		private function addedHandler(event:Event):void
 		{
 //			trace("WidgetContainerView.addedHandler");
+		}
+
+		private function useDemoPreset(demoPresetIndex:int):void
+		{
+			hideMenu();
+			if (demoDatePresets && demoDatePresets.length > demoPresetIndex)
+				dispatchEvent(new DemoEvent(DemoEvent.CHANGE_DEMO_DATE, demoDatePresets[demoPresetIndex]));
+		}
+
+		private function getDemoButtonLabel(datesVector:Vector.<Date>, demoPresetIndex:int):String
+		{
+			var dateFormatter:DateFormatter = new DateFormatter();
+			dateFormatter.formatString = "M/D/YYY";
+			var demoDate:String;
+			if (datesVector && datesVector.length > demoPresetIndex)
+				demoDate = dateFormatter.format(datesVector[demoPresetIndex]);
+			else
+				demoDate = "<none>";
+
+			return demoDate;
 		}
 		]]>
 	</fx:Script>

@@ -96,6 +96,7 @@ public class MobileApplicationController extends ApplicationControllerBase
 	private function initializeView(view:WidgetContainerView):void
 	{
 		_widgetContainerController.initializeView(view);
+		view.demoDatePresets = _settings.demoDatePresets;
 		view.addEventListener(DemoEvent.CHANGE_DEMO_DATE, view_changeDemoDateHandler);
 	}
 

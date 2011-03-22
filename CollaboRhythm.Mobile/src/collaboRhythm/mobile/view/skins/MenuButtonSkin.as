@@ -33,7 +33,7 @@ public class MenuButtonSkin extends ButtonSkin
 			
 			setStyle("iconPlacement", "top");
 			setStyle("cornerRadius", 0);
-			setStyle("fontSize", 24);
+			setStyle("fontSize", 20);
 			setStyle("fontWeight", "normal");
 			setStyle("chromeColor", 0x000000);
 		}
