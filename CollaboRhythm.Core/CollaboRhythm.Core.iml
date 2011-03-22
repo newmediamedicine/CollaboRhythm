@@ -47,7 +47,6 @@
     <orderEntry type="module" module-name="Box2DFlashAS3" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared" />
     <orderEntry type="module" module-name="CollaboRhythm.View.Scroll" />
-    <orderEntry type="module" module-name="McCuneChart" />
     <orderEntry type="module-library">
       <library name="Imported from Flash/Flex Builder: libs">
         <CLASSES>

@@ -35,7 +35,19 @@ package collaboRhythm.shared.model
 		private var _resetWindowSettings:Boolean;
 		private var _targetDate:Date;
 		private var _isWorkstationMode:Boolean;
-		
+		private var _demoDatePresets:Vector.<Date>;
+
+		public function get demoDatePresets():Vector.<Date>
+		{
+			return _demoDatePresets;
+		}
+
+		public function set demoDatePresets(value:Vector.<Date>):void
+		{
+			_demoDatePresets = value;
+		}
+
+
 		public function Settings()
 		{
 			readSettings();
@@ -163,8 +175,20 @@ package collaboRhythm.shared.model
 				_resetWindowSettings = preferencesXML.resetWindowSettings.toString() == true.toString();
 			if (preferencesXML.targetDate.length() == 1)
 				_targetDate = new Date(preferencesXML.targetDate.toString());
+			if (preferencesXML.demoDatePresets.length() == 1)
+				_demoDatePresets = parseDatesFromXml(preferencesXML.demoDatePresets.demoDatePreset);
 			
 			_isWorkstationMode = true;
+		}
+
+		private function parseDatesFromXml(datesXmlList:XMLList):Vector.<Date>
+		{
+			var datesVector:Vector.<Date> = new Vector.<Date>();
+			for each (var xmlItem:XML in datesXmlList)
+			{
+				datesVector.push(DateUtil.parseW3CDTF(xmlItem.toString(), false));
+			}
+			return datesVector;
 		}
 
 		public function get userName():String

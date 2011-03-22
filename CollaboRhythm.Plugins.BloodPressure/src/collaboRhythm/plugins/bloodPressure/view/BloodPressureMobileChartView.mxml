@@ -24,6 +24,9 @@
 								rangeChartVisible="false"
 								chartFooterVisible="false"
 								chartsOnlyViewMode="true"
+								showFocusTimeMarker="false"
+								initialDurationTime="{7 * McCuneChart.DAYS_TO_MILLISECONDS}"
+								scrollEnabled="false"
 			/>
 	<fx:Script>
 		<![CDATA[
@@ -38,7 +41,6 @@
 
 		public function set model(model:BloodPressureModel):void
 		{
-			bloodPressureFullView.initialDurationTime = 7 * McCuneChart.DAYS_TO_MILLISECONDS;
 			bloodPressureFullView.model = model;
 		}
 
@@ -46,6 +48,12 @@
 		{
 			super.initializationComplete();
 		}
+
+		public function refresh():void
+		{
+			bloodPressureFullView.refresh();
+		}
+
 		]]>
 	</fx:Script>
 </s:Group>

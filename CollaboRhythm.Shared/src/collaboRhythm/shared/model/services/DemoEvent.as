@@ -14,38 +14,29 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.plugins.bloodPressure.model
+package collaboRhythm.shared.model.services
 {
-	import collaboRhythm.shared.model.User;
+	import flash.events.Event;
 
-	/**
-	 * Data used by the response handler in the health record service when a blood pressure report is returned.
-	 */
-	public class BloodPressureReportUserData
+	public class DemoEvent extends Event
 	{
-		private var _user:User;
-		private var _report:String;
-		private var _category:String;
-		public function BloodPressureReportUserData(user:User, report:String, category:String=null)
+		private var _targetDate:Date;
+		public static const CHANGE_DEMO_DATE:String = "changeDemoDate";
+
+		public function DemoEvent(type:String, targetDate:Date, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
-			_user = user;
-			_report = report;
-			_category = category;
+			super(type, bubbles, cancelable);
+			this.targetDate = targetDate;
 		}
 
-		public function get user():User
+		public function get targetDate():Date
 		{
-			return _user;
+			return _targetDate;
 		}
 
-		public function get category():String
+		public function set targetDate(targetDate:Date):void
 		{
-			return _category;
-		}
-
-		public function get report():String
-		{
-			return _report;
+			_targetDate = targetDate;
 		}
 	}
 }

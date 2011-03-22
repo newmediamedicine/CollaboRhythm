@@ -71,5 +71,11 @@ package collaboRhythm.plugins.bloodPressure.controller
 			if (_widgetView && _user)
 				_widgetView.model = _user.bloodPressureModel;
 		}
+
+		override public function reloadUserData():void
+		{
+			if (_widgetView)
+				_widgetView.refresh();
+		}
 	}
 }

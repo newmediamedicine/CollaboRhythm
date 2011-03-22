@@ -26,21 +26,7 @@
 	<fx:Style source="/collaboRhythm/plugins/bloodPressure/view/ChartStyles.css" />
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
-<!--
-		<mx:HTTPService id="stockInfo" url="data/blood_pressure_data.xml" result="dataResult(event)" fault="faultResult(event)" resultFormat="object" />
-		<s:Resize id="heartBeat" 
-				duration="1000" 
-				target="{heartEllipse}"
-				repeatCount="0"
-				repeatBehavior="loop"
-				widthTo="{otherVisualization.width * 0.80}"
-				widthFrom="{otherVisualization.width * 0.60}"
-				/>
-					   itemRenderer="collaboRhythm.workstation.apps.bloodPressure.view.SystolicItemRenderer2" 
-					   itemRenderer="mx.charts.renderers.CrossItemRenderer" 
-		-->
-		
-		<mx:LineSeries id="systolicSeries" name="systolic" xField="date" yField="systolic" 
+		<mx:LineSeries id="systolicSeries" name="systolic" xField="date" yField="systolic"
 					   updateComplete="bloodPressureChart.seriesComplete();" 
 					   form="segment"
 					   filterDataValues="none"
@@ -175,7 +161,7 @@
 			<s:Label id="diastolicZoneLabel" text="Diastolic Normal (60 - 80)" styleName="ZoneLabel" color="{GOAL_ZONE_COLOR}"/>
 			-->
 		</dataShapes:DataDrawingCanvas>
-		
+
 		<dataShapes:DataDrawingCanvas id="adherenceMainCanvas" includeInRanges="true">
 			<s:Label id="goalMedicationZoneLabel" text="Goal Medication Concentration (0.05 - 0.35)" styleName="ZoneLabel" color="{GOAL_ZONE_COLOR}">
 <!--
@@ -232,6 +218,8 @@
 											focusTimeChange="chart_focusTimeChangeHandler(event)"
 											seriesComplete="adherenceChart_seriesCompleteHandler(event)"
 											initialDurationTime="{initialDurationTime}"
+											showFocusTimeMarker="{showFocusTimeMarker}"
+											scrollEnabled="{scrollEnabled}"
 											/>
 			<controls:TouchScrollingMcCuneChart id="bloodPressureChart" height="100%" width="100%"
 											creationComplete="bloodPressureChart_creationCompleteHandler(event)"
@@ -240,7 +228,7 @@
 											sliderVisible="false"
 											mainChartTitle="Blood Pressure (mmHg)"
 											seriesName="systolic"
-											data="{model.data}"
+											data="{model.completeData}"
 											today="{model.currentDateSource.now()}"
 											showFps="{model.showFps}"
 											doubleClickEnabled="true"
@@ -251,7 +239,10 @@
 											focusTimeChange="chart_focusTimeChangeHandler(event)"
 											seriesComplete="bloodPressureChart_seriesCompleteHandler(event)"
 											initialDurationTime="{initialDurationTime}"
+											showFocusTimeMarker="{showFocusTimeMarker}"
+											scrollEnabled="{scrollEnabled}"
 											/>
+<!--
 			<controls:TouchScrollingMcCuneChart id="heartRateChart" height="100%" width="100%"
 											creationComplete="heartRateChart_creationCompleteHandler(event)"
 											headerVisible="false"
@@ -269,27 +260,11 @@
 											focusTimeChange="chart_focusTimeChangeHandler(event)"
 											seriesComplete="heartRateChart_seriesCompleteHandler(event)"
 											initialDurationTime="{initialDurationTime}"
+											showFocusTimeMarker="{showFocusTimeMarker}"
+											scrollEnabled="{scrollEnabled}"
 											/>
+-->
 		</s:VGroup>
 		<view:SimulationView id="simulationView" height="100%" width="260" doubleClickEnabled="true" doubleClick="simulationView_doubleClickHandler(event)"/>			
 	</s:HGroup>
-	
-<!--
-	<s:VGroup height="100%" width="100%">
-		<view:TouchScrollingFlareVis id="flareVis1" height="30%" width="100%" 
-									 margin="50"
-									 scroll="flareVis1_scrollHandler(event)"
-									 />
-	</s:VGroup>
-	<mx:HDividedBox height="100%" width="100%">
-		<s:BorderContainer id="otherVisualization" borderWeight="3" height="100%" width="10%" click="otherVisualization_clickHandler(event)">
-			<s:Ellipse id="heartEllipse" horizontalCenter="0" width="{otherVisualization.width * 0.80}" height="{heartEllipse.width}">
-				<s:fill>
-					<s:SolidColor color="#FF0000"/>
-				</s:fill>
-			</s:Ellipse>
-		</s:BorderContainer>
-			
-	</mx:HDividedBox>
--->
 </s:Group>

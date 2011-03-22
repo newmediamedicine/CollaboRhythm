@@ -30,7 +30,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 	xmlns:mccune="com.dougmccune.controls.*"
 	xmlns:skins="skins.*"
 	xmlns:annotations="annotations.*"
-	creationComplete="createComplete()"
+	creationComplete="creationCompleteHandler(event)"
 	visible="false"
 	width="1024"
 	height="600" xmlns:baseClasses="com.dougmccune.baseClasses.*"
@@ -630,6 +630,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 				mouseEnabled="true"
 				mouseEnabledWhereTransparent="true"
 				mouseDown="focusTimeGroup_mouseDownHandler(event)"
+				visible="{showFocusTimeMarker}"
 				/>
 			
 			<!-- scroll bar and slider component for range selector -->

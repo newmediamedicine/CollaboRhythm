@@ -177,7 +177,7 @@ package collaboRhythm.core.controller
 		
 		public function changeDemoDate():void
 		{
-			var user:User = _demographicsController.remoteUser;
+			var user:User = subjectUser;
 			if (user != null)
 			{
 				_appControllersMediator.reloadUserData(user);
