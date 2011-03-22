@@ -24,10 +24,12 @@ package collaboRhythm.plugins.bloodPressure.model
 	public class BloodPressureReportUserData
 	{
 		private var _user:User;
+		private var _report:String;
 		private var _category:String;
-		public function BloodPressureReportUserData(user:User, category:String)
+		public function BloodPressureReportUserData(user:User, report:String, category:String=null)
 		{
 			_user = user;
+			_report = report;
 			_category = category;
 		}
 
@@ -39,6 +41,11 @@ package collaboRhythm.plugins.bloodPressure.model
 		public function get category():String
 		{
 			return _category;
+		}
+
+		public function get report():String
+		{
+			return _report;
 		}
 	}
 }

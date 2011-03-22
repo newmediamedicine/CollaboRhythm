@@ -111,6 +111,14 @@ import mx.charts.ChartItem;
 		{
 			_model = value;
 			refresh();
+
+			_model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, model_propertyChangeHandler, false, 0, true);
+		}
+
+		private function model_propertyChangeHandler(event:PropertyChangeEvent):void
+		{
+			if (event.property == "showAdherence")
+				setSingleChartMode(null, false);
 		}
 
 		public function refresh():void

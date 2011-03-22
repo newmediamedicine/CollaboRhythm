@@ -24,9 +24,9 @@
 	<chromeConsumerKey>collaboRhythmChrome</chromeConsumerKey>
 	<chromeConsumerSecret>collaboRhythmChrome_secret93452</chromeConsumerSecret>
 	<demoDatePresets>
-		<demoDatePreset>2010-01-01T00:00:00-5:00</demoDatePreset>
 		<demoDatePreset>2010-01-07T00:00:00-5:00</demoDatePreset>
-		<demoDatePreset>2010-01-14T00:00:00-5:00</demoDatePreset>
+		<demoDatePreset>2010-02-08T00:00:00-5:00</demoDatePreset>
+		<demoDatePreset>2010-02-13T00:00:00-5:00</demoDatePreset>
 	</demoDatePresets>
 
 <!--  

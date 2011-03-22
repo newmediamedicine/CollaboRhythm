@@ -29,11 +29,11 @@
 			protected function itemrenderer1_creationCompleteHandler(event:FlexEvent):void
 			{
 				var adherence:String = (data as PlotSeriesItem).item.adherence;
-				if (adherence == "yes")
+				if (adherence == "true")
 				{
 					yesImage.visible = true;
 				}
-				else if (adherence == "no")
+				else if (adherence == "false")
 				{
 					noImage.visible = true;
 				}

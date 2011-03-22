@@ -114,10 +114,13 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		
 		private var matchStartDateOfSource:Boolean = true;
 		private var _completeData:ArrayCollection;
+		private var _adherenceData:ArrayCollection;
 
 		public function calculateAdherenceCurve():void
 		{
-			if (_data && _data.length > 0)
+			showAdherence = false;
+
+			if (adherenceData && adherenceData.length > 0)
 			{
 				var singleCurve:Array = calculateSingleDoseCurve();
 
@@ -125,89 +128,83 @@ package collaboRhythm.shared.apps.bloodPressure.model
 				var previousAdherenceIndex:int = 0; // index into adherenceDataCollection for beginning of previous curve
 
 				var nowTime:Number = currentDateSource.now().time;
-				var lastAdherenceDate:Date = _data[_data.length - 1]["date"];
+				var lastAdherenceDate:Date = adherenceData[adherenceData.length - 1]["date"];
 				nowTime = Math.min(nowTime, lastAdherenceDate.time);
 
 				if (matchStartDateOfSource)
 				{
 					// start with a date for the curve that matches the first data point in the main data set
-					if (_data.length > 0)
-						extendAdherenceCurveCollection(adherenceCurveCollection, _data[0].date, 1, nowTime);
+					if (adherenceData.length > 0 && data && data.length > 0)
+						extendAdherenceCurveCollection(adherenceCurveCollection, data[0].date, 1, nowTime);
 				}
 
-				_showAdherence = false;
-
-				for each (var dataItem:Object in _data)
+				for each (var dataItem:AdherenceItem in adherenceData)
 				{
-	//				trace("Current date", dataItem.date);
-					if (dataItem.hasOwnProperty("adherence"))
+					showAdherence = true;
+
+					var adherent:Boolean = dataItem.administered;
+					var intervalsToAdvance:int;
+					if (adherenceCurveCollection.length > 0)
 					{
-						_showAdherence = true;
+						// determine where in the curve to align this curve
+						var previousDate:Date = adherenceCurveCollection[previousAdherenceIndex].date;
 
-						var adherent:Boolean = dataItem["adherence"] == "yes";
-						var intervalsToAdvance:int;
-						if (adherenceCurveCollection.length > 0)
-						{
-							// determine where in the curve to align this curve
-							var previousDate:Date = adherenceCurveCollection[previousAdherenceIndex].date;
+						// validate that the current date is not before the previous date
+						if (dataItem.date.time < previousDate.time)
+							throw new Error("Dates are not in ascending order: " + previousDate.toString() + ", " + dataItem.date.toString());
 
-							// validate that the current date is not before the previous date
-							if (dataItem.date.time < previousDate.time)
-								throw new Error("Dates are not in ascending order: " + previousDate.toString() + ", " + dataItem.date.toString());
-
-							intervalsToAdvance = (dataItem.date.time - previousDate.time) / intervalDuration;
-						}
-						else
-						{
-							intervalsToAdvance = 0;
-						}
-
-						var additionalIntervalsRequired:int;
-						var extensionStartDate:Date;
-						var currentAdherenceIndex:int;
-
-						if (previousAdherenceIndex + intervalsToAdvance > adherenceCurveCollection.length - 1)
-						{
-							// curve of current dose starts beyond the end of the complete curve (end of previous curve)
-							currentAdherenceIndex = adherenceCurveCollection.length;
-							additionalIntervalsRequired = adherent ? singleCurve.length : 1;
-							extensionStartDate = dataItem.date;
-						}
-						else
-						{
-							// curve of current dose overlaps complete curve (starts before the end of the previous curve)
-							currentAdherenceIndex = previousAdherenceIndex + intervalsToAdvance;
-							var intervalsAvailable:int = adherenceCurveCollection.length - 1 - currentAdherenceIndex;
-							additionalIntervalsRequired = (adherent ? singleCurve.length : 1) - intervalsAvailable;
-							extensionStartDate = new Date(adherenceCurveCollection[adherenceCurveCollection.length - 1].date.time + intervalDuration);
-						}
-
-						extendAdherenceCurveCollection(adherenceCurveCollection, extensionStartDate,
-													   additionalIntervalsRequired, nowTime);
-
-						if (currentAdherenceIndex >= adherenceCurveCollection.length)
-							break;
-
-						// TODO: ensure we have the exact time instead of nearest hour
-						adherenceCurveCollection[currentAdherenceIndex]["adherence"] = dataItem["adherence"];
-						adherenceCurveCollection[currentAdherenceIndex]["adherencePosition"] = 0;
-
-						if (adherent)
-						{
-							var index:Number = 0;
-							for each (var value:Number in singleCurve)
-							{
-								if (currentAdherenceIndex + index >= adherenceCurveCollection.length)
-									break;
-
-								adherenceCurveCollection[currentAdherenceIndex + index]["concentration"] += value;
-								index += 1;
-							}
-						}
-
-						// prepare for next iteration
-						previousAdherenceIndex = currentAdherenceIndex;
+						intervalsToAdvance = (dataItem.date.time - previousDate.time) / intervalDuration;
 					}
+					else
+					{
+						intervalsToAdvance = 0;
+					}
+
+					var additionalIntervalsRequired:int;
+					var extensionStartDate:Date;
+					var currentAdherenceIndex:int;
+
+					if (previousAdherenceIndex + intervalsToAdvance > adherenceCurveCollection.length - 1)
+					{
+						// curve of current dose starts beyond the end of the complete curve (end of previous curve)
+						currentAdherenceIndex = adherenceCurveCollection.length;
+						additionalIntervalsRequired = adherent ? singleCurve.length : 1;
+						extensionStartDate = dataItem.date;
+					}
+					else
+					{
+						// curve of current dose overlaps complete curve (starts before the end of the previous curve)
+						currentAdherenceIndex = previousAdherenceIndex + intervalsToAdvance;
+						var intervalsAvailable:int = adherenceCurveCollection.length - 1 - currentAdherenceIndex;
+						additionalIntervalsRequired = (adherent ? singleCurve.length : 1) - intervalsAvailable;
+						extensionStartDate = new Date(adherenceCurveCollection[adherenceCurveCollection.length - 1].date.time + intervalDuration);
+					}
+
+					extendAdherenceCurveCollection(adherenceCurveCollection, extensionStartDate,
+												   additionalIntervalsRequired, nowTime);
+
+					if (currentAdherenceIndex >= adherenceCurveCollection.length)
+						break;
+
+					// TODO: ensure we have the exact time instead of nearest hour
+					adherenceCurveCollection[currentAdherenceIndex]["adherence"] = dataItem.administered;
+					adherenceCurveCollection[currentAdherenceIndex]["adherencePosition"] = 0;
+
+					if (adherent)
+					{
+						var index:Number = 0;
+						for each (var value:Number in singleCurve)
+						{
+							if (currentAdherenceIndex + index >= adherenceCurveCollection.length)
+								break;
+
+							adherenceCurveCollection[currentAdherenceIndex + index]["concentration"] += value;
+							index += 1;
+						}
+					}
+
+					// prepare for next iteration
+					previousAdherenceIndex = currentAdherenceIndex;
 				}
 
 				var lastConcentrationCurveDate:Date = adherenceCurveCollection[adherenceCurveCollection.length - 1].date;
@@ -318,7 +315,37 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public function set completeData(value:ArrayCollection):void
 		{
 			_completeData = value;
-//			calculateAdherenceCurve();
+
+			if (_completeData)
+			{
+				extendBeginningOfAdherenceCurveCollection()
+			}
+		}
+
+		private function extendBeginningOfAdherenceCurveCollection():void
+		{
+			if (matchStartDateOfSource)
+			{
+				// start with a date for the curve that matches the first data point in the main data set
+				if (adherenceDataCollection && adherenceDataCollection.length > 0 && data && data.length > 0)
+				{
+					var dataItem:Object = new Object();
+					dataItem["date"] = data[0].date;
+					dataItem["concentration"] = 0;
+					adherenceDataCollection.addItemAt(dataItem, 0);
+				}
+			}
+		}
+
+		public function set adherenceData(adherenceData:ArrayCollection):void
+		{
+			_adherenceData = adherenceData;
+			calculateAdherenceCurve();
+		}
+
+		public function get adherenceData():ArrayCollection
+		{
+			return _adherenceData;
 		}
 	}
 }

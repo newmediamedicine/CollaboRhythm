@@ -48,6 +48,12 @@
 		{
 			super.initializationComplete();
 		}
+
+		public function refresh():void
+		{
+			bloodPressureFullView.refresh();
+		}
+
 		]]>
 	</fx:Script>
 </s:Group>
