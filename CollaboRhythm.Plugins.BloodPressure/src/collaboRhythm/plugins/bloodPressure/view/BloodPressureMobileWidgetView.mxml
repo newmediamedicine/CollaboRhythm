@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:view="collaboRhythm.shared.bloodSolutesSimulation.view.*"
+		 xmlns:view2="collaboRhythm.shared.view.*"
+		 implements="collaboRhythm.plugins.bloodPressure.view.IBloodPressureWidgetView">
+	<s:layout>
+		<view2:ScaleToFitLayout unscaledWidth="160" aspectRatioMin="0.85" aspectRatioMax="1.25"/>
+	</s:layout>
+	<view:BloodSolutesSimulationView id="nephronSimulationView"
+									  width="100%" height="100%"/>
+	
+	<fx:Script>
+		<![CDATA[
+		import collaboRhythm.shared.apps.bloodPressure.model.AdherenceItem;
+		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
+
+		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
+
+		import mx.events.PropertyChangeEvent;
+
+		[Bindable]
+		private var _model:BloodPressureModel;
+
+		public function get model():BloodPressureModel
+		{
+			return _model;
+		}
+
+		public function set model(value:BloodPressureModel):void
+		{
+			_model = value;
+			refresh();
+
+			_model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, model_propertyChangeHandler);
+		}
+
+		private function model_propertyChangeHandler(event:PropertyChangeEvent):void
+		{
+			refresh();
+		}
+
+		public function refresh():void
+		{
+			if (_model != null && _model.isAdherenceLoaded)
+			{
+				var concentration:Number = 0;
+				if (_model.adherenceDataCollection != null && _model.adherenceDataCollection.length > 0)
+				{
+					var mostRecentConcentrationItem:Object = _model.adherenceDataCollection.getItemAt(_model.adherenceDataCollection.length - 1);
+					concentration = mostRecentConcentrationItem["concentration"];
+				}
+				nephronSimulationView.plugRatio = updateNephronSimulation(concentration);
+			}
+		}
+
+		private function updateNephronSimulation(concentration:Number):Number
+		{
+			// TODO: hide simulation (?) when concentration is undefined; for now, treat undefined values as 0 concentration
+			if (isNaN(concentration))
+				concentration = 0;
+
+			if (concentration < SimulationModel.goalConcentration * 0.5)
+			{
+				nephronSimulationView.soluteInBloodRatio = 0.95;
+			}
+			else if (concentration < SimulationModel.goalConcentration)
+			{
+				nephronSimulationView.soluteInBloodRatio = 0.75;
+			}
+			else
+			{
+				nephronSimulationView.soluteInBloodRatio = 0.05;
+			}
+
+			// limit the number of plugs to 2x the number of gaps
+			nephronSimulationView.plugRatio = Math.min(SimulationModel.maxPlugRatio,
+													   concentration / SimulationModel.goalConcentration);
+
+			return nephronSimulationView.plugRatio;
+		}
+
+		]]>
+	</fx:Script>
+</s:Group>

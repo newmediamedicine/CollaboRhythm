@@ -17,7 +17,9 @@
   -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" height="100%">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" height="100%"
+		 implements="collaboRhythm.plugins.bloodPressure.view.IBloodPressureWidgetView"
+		>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -67,97 +69,95 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
-			import collaboRhythm.shared.controller.CollaborationEvent;
-			
-			import mx.events.CollectionEvent;
-			import mx.events.PropertyChangeEvent;
-			
-			public static const red:uint = 0xED1C24;
-			public static const orange:uint = 0xF7941E;
-			public static const green:uint = 0x00A651;
-			
-			[Bindable]
-			private var _model:BloodPressureModel;
-			
-			public function get model():BloodPressureModel
+		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
+
+		import mx.events.PropertyChangeEvent;
+
+		public static const red:uint = 0xED1C24;
+		public static const orange:uint = 0xF7941E;
+		public static const green:uint = 0x00A651;
+
+		[Bindable]
+		private var _model:BloodPressureModel;
+
+		public function get model():BloodPressureModel
+		{
+			return _model;
+		}
+
+		public function set model(value:BloodPressureModel):void
+		{
+			_model = value;
+			refresh();
+
+			_model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, model_propertyChangeHandler);
+		}
+
+		private function model_propertyChangeHandler(event:PropertyChangeEvent):void
+		{
+			refresh();
+		}
+
+		public function updateBloodPressureHeight(simulationModelSystolic:Number):void
+		{
+			systolicLabel.text = String(simulationModelSystolic);
+
+			if (simulationModelSystolic < 90)
 			{
-				return _model;
+				bloodPressureRectFill.color = red;
+
+				hypotensionRectFill.alpha = 0.5;
+				normotensionRectFill.alpha = 0.10;
+				prehypertensionRectFill.alpha = 0.10;
+				hypertensionRectFill.alpha = 0.10;
+
+				systolicLabel.setStyle("color", red);
 			}
-			
-			public function set model(value:BloodPressureModel):void
+			else if (simulationModelSystolic < 120)
 			{
-				_model = value;
-				refresh();
-				
-				_model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, model_propertyChangeHandler);
+				bloodPressureRectFill.color = green;
+
+				hypotensionRectFill.alpha = 0.10;
+				normotensionRectFill.alpha = 0.5;
+				prehypertensionRectFill.alpha = 0.10;
+				hypertensionRectFill.alpha = 0.10;
+
+				systolicLabel.setStyle("color", green);
 			}
-			
-			private function model_propertyChangeHandler(event:PropertyChangeEvent):void
+			else if (simulationModelSystolic < 130)
 			{
-				refresh();
+				bloodPressureRectFill.color = orange;
+
+				hypotensionRectFill.alpha = 0.10;
+				normotensionRectFill.alpha = 0.10;
+				prehypertensionRectFill.alpha = 0.3;
+				hypertensionRectFill.alpha = 0.10;
+
+				systolicLabel.setStyle("color", orange);
 			}
-			
-			public function updateBloodPressureHeight(simulationModelSystolic:Number):void
-			{				
-				systolicLabel.text = String(simulationModelSystolic);
-				
-				if (simulationModelSystolic < 90)
-				{
-					bloodPressureRectFill.color = red;
-					
-					hypotensionRectFill.alpha = 0.5;
-					normotensionRectFill.alpha = 0.10;
-					prehypertensionRectFill.alpha = 0.10;
-					hypertensionRectFill.alpha = 0.10;
-					
-					systolicLabel.setStyle("color", red);
-				}
-				else if (simulationModelSystolic < 120)
-				{
-					bloodPressureRectFill.color = green;
-					
-					hypotensionRectFill.alpha = 0.10;
-					normotensionRectFill.alpha = 0.5;
-					prehypertensionRectFill.alpha = 0.10;
-					hypertensionRectFill.alpha = 0.10;
-					
-					systolicLabel.setStyle("color", green);
-				}
-				else if (simulationModelSystolic < 130)
-				{
-					bloodPressureRectFill.color = orange;
-					
-					hypotensionRectFill.alpha = 0.10;
-					normotensionRectFill.alpha = 0.10;
-					prehypertensionRectFill.alpha = 0.3;
-					hypertensionRectFill.alpha = 0.10;
-					
-					systolicLabel.setStyle("color", orange);
-				}
-				else
-				{
-					bloodPressureRectFill.color = red;
-					
-					hypotensionRectFill.alpha = 0.10;
-					normotensionRectFill.alpha = 0.10;
-					prehypertensionRectFill.alpha = 0.10;
-					hypertensionRectFill.alpha = 0.5;
-					
-					systolicLabel.setStyle("color", red);
-				}
-				
-				bloodPressureRect.height = (simulationModelSystolic - 80) * (200 / 80);
-			}
-			
-			public function refresh():void
+			else
 			{
-				if (_model != null && _model.data != null && _model.isSystolicReportLoaded)
-				{
-					var simulationModelSystolic:Number = _model.data.getItemAt(_model.data.length-1)["systolic"];
-					updateBloodPressureHeight(simulationModelSystolic);
-				}
+				bloodPressureRectFill.color = red;
+
+				hypotensionRectFill.alpha = 0.10;
+				normotensionRectFill.alpha = 0.10;
+				prehypertensionRectFill.alpha = 0.10;
+				hypertensionRectFill.alpha = 0.5;
+
+				systolicLabel.setStyle("color", red);
 			}
+
+			bloodPressureRect.height = (simulationModelSystolic - 80) * (200 / 80);
+		}
+
+		public function refresh():void
+		{
+			if (_model != null && _model.data != null && _model.isSystolicReportLoaded)
+			{
+				var simulationModelSystolic:Number = _model.data.getItemAt(_model.data.length - 1)["systolic"];
+				updateBloodPressureHeight(simulationModelSystolic);
+			}
+		}
 		]]>
 	</fx:Script>
 	

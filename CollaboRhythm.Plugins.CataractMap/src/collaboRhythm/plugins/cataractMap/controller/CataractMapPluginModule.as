@@ -17,7 +17,8 @@
 package collaboRhythm.plugins.cataractMap.controller
 {
 	import castle.flexbridge.reflection.ReflectionUtils;
-	
+
+	import collaboRhythm.shared.controller.apps.AppOrderConstraint;
 	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
@@ -36,6 +37,7 @@ package collaboRhythm.plugins.cataractMap.controller
 			var typeName:String = ReflectionUtils.getClassInfo(CataractMapAppController).name;
 			var appControllerInfo:AppControllerInfo = new AppControllerInfo(CataractMapAppController);
 			appControllerInfo.groupWidgetViewWithSchedule = false;
+			appControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER, "collaboRhythm.plugins.bloodPressure.controller::BloodPressureAppController"));
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo, appControllerInfo);
 		}
 	}

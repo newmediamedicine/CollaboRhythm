@@ -24,7 +24,11 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		private var _systolic:Number;
 		private var _diastolic:Number;
 		private var _concentration:Number;
-		
+
+		public static const maxPlugRatio:Number = 2.0;
+
+		public static const goalConcentration:Number = 0.05;
+
 		public function SimulationModel()
 		{
 		}

@@ -115,6 +115,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		private var matchStartDateOfSource:Boolean = true;
 		private var _completeData:ArrayCollection;
 		private var _adherenceData:ArrayCollection;
+		private var _isAdherenceLoaded:Boolean;
 
 		public function calculateAdherenceCurve():void
 		{
@@ -223,6 +224,18 @@ package collaboRhythm.shared.apps.bloodPressure.model
 				// no adherence data; use an empty ArrayCollection
 				adherenceDataCollection = new ArrayCollection();
 			}
+
+			isAdherenceLoaded = true;
+		}
+
+		public function get isAdherenceLoaded():Boolean
+		{
+			return _isAdherenceLoaded;
+		}
+
+		public function set isAdherenceLoaded(isAdherenceLoaded:Boolean):void
+		{
+			_isAdherenceLoaded = isAdherenceLoaded;
 		}
 		
 		private function calculateSingleDoseCurve():Array

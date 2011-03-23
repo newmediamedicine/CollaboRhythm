@@ -62,7 +62,7 @@ import mx.charts.ChartItem;
 		private var _textFormat:TextFormat = new TextFormat("Myriad Pro, Verdana, Helvetica, Arial", 16, 0, true);
 
 		private var _model:BloodPressureModel;
-		private var _traceEventHandlers:Boolean = true;
+		private var _traceEventHandlers:Boolean = false;
 		private var _showFocusTimeMarker:Boolean = true;
 		private var _scrollEnabled:Boolean = true;
 
