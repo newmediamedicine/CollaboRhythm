@@ -36,12 +36,12 @@
 		</s:fill>
 	</s:Rect>
 	<s:HGroup width="{this.width}" height="{this.height}" gap="0">
-		<s:Rect id="bloodAreaBackgroundRect" width="100%" height="100%">
+		<s:Rect id="bloodAreaBackgroundRect" width="{this.width * bloodAreaPercentWidth}" height="100%">
 			<s:fill>
 				<s:SolidColor color="0x974e57"/>
 			</s:fill>
 		</s:Rect>
-		<s:Rect id="rightAreaBackgroundRect" width="100%" height="100%">
+		<s:Rect id="rightAreaBackgroundRect" width="{this.width * (1 - bloodAreaPercentWidth)}" height="100%">
 			<s:fill>
 				<s:SolidColor color="0xfcf3a0"/>
 			</s:fill>

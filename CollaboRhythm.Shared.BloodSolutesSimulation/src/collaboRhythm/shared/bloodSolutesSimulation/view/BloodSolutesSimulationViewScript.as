@@ -57,17 +57,21 @@ public static const _worldRatio:int = 30;
 private var _plugRatio:Number = 0.5;
 private var _antibodyRatio:Number = 0;
 private var _soluteInBloodRatio:Number = 0.25;
-private var _bloodVesselPercentWidth:Number = 0.5;
+private var _bloodAreaPercentWidth:Number = 0.5;
 
 [Bindable]
-public function get bloodVesselPercentWidth():Number
+public function get bloodAreaPercentWidth():Number
 {
-	return _bloodVesselPercentWidth;
+	return _bloodAreaPercentWidth;
 }
 
-public function set bloodVesselPercentWidth(value:Number):void
+public function set bloodAreaPercentWidth(value:Number):void
 {
-	_bloodVesselPercentWidth = value;
+	if (_bloodAreaPercentWidth != value)
+	{
+		_bloodAreaPercentWidth = value;
+		resizeWorld();
+	}
 }
 
 private var _soluteConcentration:Number = 1; // bodies per square meter (in world space)
@@ -1143,7 +1147,7 @@ private function createDynamicWallRects():void
 	_pumps = new Vector.<b2Vec2>();
 	for (var i:int = 0; i < numWallPieces; i++)
 	{
-		var wallX:Number = wallsGroup.width / 2;
+		var wallX:Number = wallsGroup.width * bloodAreaPercentWidth;
 		var wallY:Number = currentY + wallHeight / 2;
 
 		var wallSprite:Sprite = new Sprite();
@@ -1154,7 +1158,7 @@ private function createDynamicWallRects():void
 		if (currentY < wallsGroup.height)
 		{
 			var pumpPos:b2Vec2 = new b2Vec2();
-			pumpPos.x = (wallsGroup.width / 2) / _worldRatio;
+			pumpPos.x = (wallsGroup.width * bloodAreaPercentWidth) / _worldRatio;
 			pumpPos.y = (currentY - plugHeight / 2) / _worldRatio;
 			_pumps.push(pumpPos);
 		}
@@ -1324,8 +1328,8 @@ public function enterFrameHandler(e:Event):void
 		// Update mouse joint
 		mouseDrag();
 
-		pumpZoneLeft = wallsGroup.width / 2 - plugWidth / 2 - soluteWidth * 0.6;
-		pumpZoneRight = wallsGroup.width / 2 + plugWidth / 2 + soluteWidth * 0.6;
+		pumpZoneLeft = wallsGroup.width * bloodAreaPercentWidth - plugWidth / 2 - soluteWidth * 0.6;
+		pumpZoneRight = wallsGroup.width * bloodAreaPercentWidth + plugWidth / 2 + soluteWidth * 0.6;
 
 		applyForces();
 
@@ -1468,7 +1472,7 @@ private function applyPumpForce(body:b2Body, bodyInfo:BodyInfo):void
 				}
 				else
 				{
-					pumpRange = wallsGroup.width / 2 / _worldRatio;
+					pumpRange = wallsGroup.width * bloodAreaPercentWidth / _worldRatio;
 					pumpStrength = 60;
 
 					if (!bodyInfo.shouldBeDestroyed)
@@ -1648,9 +1652,9 @@ private function hasMouseJoint(body:b2Body):Boolean
 private function getBodyPosX(ratioOnLeft:Number):Number
 {
 	if (Math.random() <= ratioOnLeft)
-		return (Math.random() * 0.5) * this.width / _worldRatio;
+		return (Math.random() * bloodAreaPercentWidth) * this.width / _worldRatio;
 	else
-		return (0.5 + Math.random() * 0.5) * this.width / _worldRatio;
+		return (bloodAreaPercentWidth + Math.random() * (1 - bloodAreaPercentWidth)) * this.width / _worldRatio;
 }
 
 private function getNearestPump(pos:b2Vec2):b2Vec2
