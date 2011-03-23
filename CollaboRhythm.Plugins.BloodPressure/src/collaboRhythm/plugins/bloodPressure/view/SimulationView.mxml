@@ -75,8 +75,6 @@
 		public static const red:uint = 0xED1C24;
 		public static const orange:uint = 0xF7941E;
 		public static const green:uint = 0x00A651;
-		private static const maxPlugRatio:Number = 2.0;
-		private static const goalConcentration:Number = 0.05;
 		private static const medicationGroupMinHeight:Number = 40;
 
 		[Bindable]
@@ -158,11 +156,11 @@
 			if (isNaN(concentration))
 				concentration = 0;
 
-			if (concentration < goalConcentration * 0.5)
+			if (concentration < SimulationModel.goalConcentration * 0.5)
 			{
 				nephronSimulationView.soluteInBloodRatio = 0.95;
 			}
-			else if (concentration < goalConcentration)
+			else if (concentration < SimulationModel.goalConcentration)
 			{
 				nephronSimulationView.soluteInBloodRatio = 0.75;
 			}
@@ -172,7 +170,8 @@
 			}
 
 			// limit the number of plugs to 2x the number of gaps
-			nephronSimulationView.plugRatio = Math.min(maxPlugRatio, concentration / goalConcentration);
+			nephronSimulationView.plugRatio = Math.min(SimulationModel.maxPlugRatio,
+													   concentration / SimulationModel.goalConcentration);
 
 			return nephronSimulationView.plugRatio;
 		}

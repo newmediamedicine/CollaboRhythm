@@ -157,6 +157,7 @@
     <orderEntry type="module" module-name="CollaboRhythm.View.Scroll" />
     <orderEntry type="module" module-name="indivo_client_flash" />
     <orderEntry type="module" module-name="McCuneChart" />
+    <orderEntry type="module" module-name="CollaboRhythm.Plugins.Schedule.Shared" />
   </component>
 </module>
 

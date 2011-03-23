@@ -18,7 +18,9 @@ package collaboRhythm.plugins.bloodPressure.controller
 {
 	import collaboRhythm.plugins.bloodPressure.model.BloodPressureHealthRecordService;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureFullView;
-	import collaboRhythm.plugins.bloodPressure.view.BloodPressureWidgetView;
+	import collaboRhythm.plugins.bloodPressure.view.BloodPressureMeterView;
+	import collaboRhythm.plugins.bloodPressure.view.BloodPressureMobileWidgetView;
+	import collaboRhythm.plugins.bloodPressure.view.IBloodPressureWidgetView;
 	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
@@ -27,17 +29,17 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 	public class BloodPressureAppController extends WorkstationAppControllerBase
 	{
-		private var _widgetView:BloodPressureWidgetView;
+		private var _widgetView:IBloodPressureWidgetView;
 		private var _fullView:BloodPressureFullView;
 
 		public override function get widgetView():UIComponent
 		{
-			return _widgetView;
+			return _widgetView as UIComponent;
 		}
 
 		public override function set widgetView(value:UIComponent):void
 		{
-			_widgetView = value as BloodPressureWidgetView;
+			_widgetView = value as IBloodPressureWidgetView;
 		}
 		
 		public override function get isFullViewSupported():Boolean
@@ -72,10 +74,16 @@ package collaboRhythm.plugins.bloodPressure.controller
 		
 		protected override function createWidgetView():UIComponent
 		{
-			var newWidgetView:BloodPressureWidgetView = new BloodPressureWidgetView();
+			var newWidgetView:IBloodPressureWidgetView;
+			if (isWorkstationMode)
+				newWidgetView = new BloodPressureMeterView();
+			else
+				newWidgetView = new BloodPressureMobileWidgetView();
+
 			if (_user != null)
 				newWidgetView.model = _user.bloodPressureModel;
-			return newWidgetView;
+
+			return newWidgetView as UIComponent;
 		}
 		
 		protected override function createFullView():UIComponent

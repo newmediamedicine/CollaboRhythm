@@ -18,6 +18,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 {
 	import castle.flexbridge.reflection.ReflectionUtils;
 
+	import collaboRhythm.plugins.schedule.shared.controller.ScheduleAppControllerInfo;
 	import collaboRhythm.shared.controller.apps.AppOrderConstraint;
 	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
@@ -34,18 +35,23 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 		public function registerComponents(componentContainer:IComponentContainer):void
 		{
-			var typeName:String = ReflectionUtils.getClassInfo(BloodPressureAppController).name;
-			var mainAppControllerInfo:AppControllerInfo = new AppControllerInfo(BloodPressureAppController);
-			mainAppControllerInfo.groupWidgetViewWithSchedule = false;
-			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
-														 mainAppControllerInfo);
+			var typeName:String;
 
 			typeName = ReflectionUtils.getClassInfo(BloodPressureChartAppController).name;
 			var chartAppControllerInfo:AppControllerInfo = new AppControllerInfo(BloodPressureChartAppController);
 			chartAppControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER,
-																						 mainAppControllerInfo.appId));
+																							  ScheduleAppControllerInfo.APP_ID));
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
 														 chartAppControllerInfo);
+
+			typeName = ReflectionUtils.getClassInfo(BloodPressureAppController).name;
+			var mainAppControllerInfo:AppControllerInfo = new AppControllerInfo(BloodPressureAppController);
+			mainAppControllerInfo.groupWidgetViewWithSchedule = false;
+			mainAppControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER,
+																							  chartAppControllerInfo.appId));
+			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
+														 mainAppControllerInfo);
+
 		}
 	}
 }
