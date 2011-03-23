@@ -209,7 +209,11 @@ package collaboRhythm.core.pluginsManagement
 		{
 			var pendingLoaderIndex:int = pendingModuleLoaders.getItemIndex(moduleLoader);
 			if (pendingLoaderIndex == -1)
-				throw new Error("loader not found in pendingModuleLoaders");
+			{
+				var message:String = "Error: module loader " + moduleLoader.url + " not found in pendingModuleLoaders.";
+				logger.error(message);
+				throw new Error(message);
+			}
 
 			pendingModuleLoaders.removeItemAt(pendingLoaderIndex);
 
@@ -261,6 +265,7 @@ package collaboRhythm.core.pluginsManagement
 			}
 
 			trace(event.errorText);
+			logger.error("Error loading module " + moduleLoader.url + " " + event.errorText);
 
 			// TODO: update pendingModuleLoaders as in moduleLoader_readyHandler
 			finishWithModuleLoader(moduleLoader);
