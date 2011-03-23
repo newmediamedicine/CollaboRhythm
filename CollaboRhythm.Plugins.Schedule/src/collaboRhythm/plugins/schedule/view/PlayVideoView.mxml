@@ -38,7 +38,7 @@
 				_netConnection.addEventListener(NetStatusEvent.NET_STATUS, netConnectionConnectHandler);
 				_netConnection.connect("rtmp://18.85.55.246/recordings");
 				
-				_video = new Video(240, 180);
+				_video = new Video(480, 360);
 				videoUIComponent.addChild(_video);
 			}
 			
@@ -89,5 +89,5 @@
 			<s:SolidColor color="0xAAAAAA"/>
 		</s:fill>
 	</s:Rect>
-	<mx:UIComponent id="videoUIComponent" width="240" height="180" horizontalCenter="0" verticalCenter="0"/>
+	<mx:UIComponent id="videoUIComponent" width="480" height="360" horizontalCenter="0" verticalCenter="0"/>
 </s:Group>

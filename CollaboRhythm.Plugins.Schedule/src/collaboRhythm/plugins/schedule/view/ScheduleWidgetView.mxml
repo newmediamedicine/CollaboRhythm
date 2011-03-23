@@ -21,7 +21,7 @@
 		 xmlns:images="assets.images.*"
 		 clipAndEnableScrolling="true" 
 		 resize="resizeHandler()"
-		 creationComplete="creationCompleteHandler()"
+		 creationComplete="creationCompleteHandler()" xmlns:view="collaboRhythm.shared.view.*"
 		 >
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
@@ -245,5 +245,5 @@
 	<s:Group id="scheduleItemsContainer" horizontalCenter="0" verticalCenter="0" />
 	<images:clockHand id="clockHand" mouseEnabled="false" mouseChildren="false"/>
 	<images:clockForeground id="clockForeground" horizontalCenter="0" verticalCenter="0" mouseEnabled="false" mouseChildren="false"/>
-	<s:Button id="playVideoButton" left="5" bottom="5" width="75" height="75" visible="{!_scheduleWidgetViewController.isWorkstationMode}" click="playVideoButtonClickHandler()"/>
+	<view:IconButton styleName="IconButton" icon="@Embed(source='/assets/images/video.png')" id="playVideoButton" left="5" bottom="5" visible="{!_scheduleWidgetViewController.isWorkstationMode}" click="playVideoButtonClickHandler()"/>
 </s:Group>

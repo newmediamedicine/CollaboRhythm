@@ -20,10 +20,19 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 creationComplete="creationComplete()"
 		 visible="{determineRecordVideoViewVisibility(_collaborationModel.recordVideo)}"
-		 height="180">
+		 height="200" xmlns:view="collaboRhythm.shared.view.*">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		
+		#recordVideoButton {
+			font-size: 15;
+			font-weight: bold;
+		}	
+
+	</fx:Style>
 	<fx:Metadata>
 		[Event(name="hide", type="collaboRhythm.shared.view.WorkstationViewEvent")]
 		[Event(name="show", type="collaboRhythm.shared.view.WorkstationViewEvent")]
@@ -71,15 +80,10 @@
 			
 			private function recordVideoButtonClickHandler():void
 			{
-				if (_recording)
+				if (!_recording)
 				{
-					_netStream.close();
-					_recording = false;
-					recordVideoButton.label = "Record";
-				}
-				else
-				{
-					recordVideoButton.label = "Stop";
+					recordVideoButton.visible = false;
+					stopVideoButton.visible = true;
 					_video.attachCamera(_camera);
 					if (_netStream)
 					{
@@ -87,6 +91,18 @@
 						_netStream.publish("test", "record");
 					}
 					_recording = true;
+				}
+			}
+			
+			private function stopVideoButtonClickHandler():void
+			{
+				if (_recording)
+				{
+					_netStream.close();
+					_recording = false;
+					recordVideoButton.visible = true;
+					stopVideoButton.visible = false;
+					
 				}
 			}
 			
@@ -144,9 +160,10 @@
 			<s:SolidColor color="0xFFFFFF"/>
 		</s:fill>
 	</s:Rect>
-	<mx:UIComponent id="videoUIComponent" width="120" height="160" horizontalCenter="0" verticalCenter="0"/>
-	<s:Button id="recordVideoButton" label="Record" width="160" height="160" horizontalCenter="200" verticalCenter="0" click="recordVideoButtonClickHandler()"/>
-	<s:Button id="close" label="Close" width="240" height="180" verticalCenter="0" right="10" click="closeClickHandler()"/>
+	<mx:UIComponent id="videoUIComponent" width="240" height="180" horizontalCenter="0" verticalCenter="0"/>
+	<view:IconButton id="recordVideoButton" styleName="IconButton" icon="@Embed(source='/resources/images/icons/buttonIcons/record.png')" horizontalCenter="350" verticalCenter="0" click="recordVideoButtonClickHandler()" visible="true"/>
+	<view:IconButton id="stopVideoButton" styleName="IconButton" icon="@Embed(source='/resources/images/icons/buttonIcons/stop.png')" horizontalCenter="350" verticalCenter="0" click="stopVideoButtonClickHandler()" visible="false"/>
+	<view:IconButton id="close" styleName="IconButton" icon="@Embed(source='/resources/images/icons/buttonIcons/closeRecordButtonIcon.png')" verticalCenter="0" right="10" click="closeClickHandler()"/>
 	<s:Line top="0" width="100%">
 		<s:stroke>
 			<s:SolidColorStroke color="0x000000"/>

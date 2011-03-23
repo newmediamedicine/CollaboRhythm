@@ -215,10 +215,12 @@
 				</s:filters>
 			</s:BorderContainer>
 		</s:Group>
-		<s:Button
+		<view1:IconButton
 			id="recordVideoButton"
+			styleName="IconButton"
 			click="recordVideoButtonHandler(event)"
-			top="10" height="90" width="100" label="Record"
+			icon="@Embed(source='/resources/images/icons/buttonIcons/video.png')"
+			verticalCenter="0"
 			/>
 		<view1:IconButton
 			id="collaborateButton"
