@@ -74,7 +74,16 @@ viewport property to link them together.
         }
     ]]>
     </fx:Script>
-        
+
+	<s:mask>
+		<s:Group>
+			<s:Rect width="{this.width}" height="{this.height}">
+				<s:fill>
+					<s:SolidColor/>
+				</s:fill>
+			</s:Rect>
+		</s:Group>
+	</s:mask>
 	<s:Group x="0" y="0" width="{this.width}" height="{this.height}" id="viewportContainer"/>
 	
     <!---  A vertical scrollbar that lets you control the portion of data that is displayed 

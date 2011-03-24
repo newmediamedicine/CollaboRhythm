@@ -20,19 +20,16 @@ package collaboRhythm.view.scroll
 	import flash.events.IEventDispatcher;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
-	
+
 	import mx.core.IUIComponent;
-	import mx.core.IVisualElement;
-	import mx.core.IVisualElementContainer;
 	import mx.core.UIComponent;
 	import mx.events.PropertyChangeEvent;
-	
+
 	import spark.components.Group;
-	import spark.components.IItemRenderer;
 	import spark.components.Scroller;
 	import spark.core.IViewport;
 	import spark.effects.Fade;
-	
+
 	/**
 	 * Scroller component with the addition of touch scrolling. Click or touch in the content area and drag to scroll.
 	 * If drag or touch ends while moving, scrolling will continue with inertia.
@@ -91,7 +88,7 @@ package collaboRhythm.view.scroll
 			_touchScroller = new TouchScroller(this);
 			_touchScroller.addEventListener(TouchScrollerEvent.SCROLL_START, scrollStartHandler);
 		}
-		
+
 		//----------------------------------
 		//  viewport - default property
 		//----------------------------------    
@@ -184,7 +181,7 @@ package collaboRhythm.view.scroll
 		{
 			if (skin)
 			{
-				skin.invalidateSize()
+				skin.invalidateSize();
 				skin.invalidateDisplayList();
 			}
 		}
