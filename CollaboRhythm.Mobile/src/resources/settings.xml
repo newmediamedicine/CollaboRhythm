@@ -15,9 +15,9 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<preferences>
+<settings xmlns="http://collaborhythm.org/application/settings">
 	<mode>patient</mode>
-	<userName>gwhite</userName>
+	<username>gwhite</username>
 	<password>gwhite-password</password>
 	<rtmpBaseURI>rtmp://127.0.0.1</rtmpBaseURI>
 	<indivoServerBaseURL>http://records.media.mit.edu:8000</indivoServerBaseURL>
@@ -29,7 +29,7 @@
 		<demoDatePreset>2010-02-13T00:00:00-5:00</demoDatePreset>
 	</demoDatePresets>
 
-<!--  
+<!--
 	useSingleScreen - If no valid windowSettings.xml file exists or resetWindowSettings = true, then force the app to only use a single screen (one window)
 	resetWindowSettings - Ignore the windowSettings.xml and reset the position/size of all windows 
 	<resetWindowSettings>true</resetWindowSettings>
@@ -39,4 +39,4 @@
 	Note that the current time of day will not be changed (it will be based on real time) but the date will be offset to match the targetDate
   <targetDate>2010/01/01</targetDate>
 -->
-</preferences>
+</settings>

@@ -26,6 +26,8 @@ package collaboRhythm.shared.apps.immunizations.controller
 
 	public class ImmunizationsAppController extends WorkstationAppControllerBase
 	{
+		public static const DEFAULT_NAME:String = "Immunizations";
+
 		private var _widgetView:ImmunizationsWidgetView;
 //		private var _fullView:ImmunizationsFullView;
 		
@@ -73,6 +75,11 @@ package collaboRhythm.shared.apps.immunizations.controller
 //			}
 //			(_widgetView as ImmunizationsWidgetView).model = _sharedUser.immunizations;
 //			_fullView.model = _sharedUser.immunizations;
+		}
+
+		override public function get defaultName():String
+		{
+			return DEFAULT_NAME;
 		}
 	}
 }

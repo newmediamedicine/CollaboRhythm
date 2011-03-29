@@ -26,6 +26,8 @@ package collaboRhythm.shared.apps.genetics.controller
 
 	public class GeneticsAppController extends WorkstationAppControllerBase
 	{
+		public static const DEFAULT_NAME:String = "Genetics";
+
 		private var _widgetView:GeneticsWidgetView;
 //		private var _fullView:GeneticsFullView;
 		
@@ -73,6 +75,11 @@ package collaboRhythm.shared.apps.genetics.controller
 //			}
 //			(_widgetView as GeneticsWidgetView).model = _sharedUser.genetics;
 //			_fullView.model = _sharedUser.genetics;
+		}
+
+		override public function get defaultName():String
+		{
+			return DEFAULT_NAME;
 		}
 	}
 }

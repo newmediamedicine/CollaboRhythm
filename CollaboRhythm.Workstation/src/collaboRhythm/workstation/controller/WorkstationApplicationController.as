@@ -19,7 +19,7 @@ package collaboRhythm.workstation.controller
 	import collaboRhythm.core.controller.ApplicationControllerBase;
 	import collaboRhythm.core.view.RemoteUsersListView;
 	import collaboRhythm.core.view.WorkstationCommandBarView;
-	import collaboRhythm.shared.model.Settings;
+	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.view.CollaborationRoomView;
 	import collaboRhythm.shared.view.RecordVideoView;
 	import collaboRhythm.workstation.model.settings.ComponentLayout;
@@ -143,7 +143,7 @@ package collaboRhythm.workstation.controller
 
 		public function get workstationCommandBarView():WorkstationCommandBarView
 		{
-			return _topSpace.workstationCommandBarView;
+			return _topSpace.topBar.workstationCommandBarView;
 		}
 
 		public override function get remoteUsersView():RemoteUsersListView
@@ -153,12 +153,12 @@ package collaboRhythm.workstation.controller
 		
 		public override function get collaborationRoomView():CollaborationRoomView
 		{
-			return _topSpace.collaborationRoomView;
+			return _topSpace.topBar.collaborationRoomView;
 		}
 		
 		public override function get recordVideoView():RecordVideoView
 		{
-			return _topSpace.recordVideoView;
+			return _topSpace.topBar.recordVideoView;
 		}
 
 		public function get fullScreen():Boolean
@@ -201,7 +201,7 @@ package collaboRhythm.workstation.controller
 			initLogging();
 			logger.info("Logging initialized");
 			
-			_settings = new Settings();
+			initializeSettings();
 			logger.info("Settings initialized");
 
 			initializeComponents();

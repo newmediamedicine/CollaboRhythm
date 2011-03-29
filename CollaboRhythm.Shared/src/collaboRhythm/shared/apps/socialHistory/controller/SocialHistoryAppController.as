@@ -26,6 +26,8 @@ package collaboRhythm.shared.apps.socialHistory.controller
 
 	public class SocialHistoryAppController extends WorkstationAppControllerBase
 	{
+		public static const DEFAULT_NAME:String = "Social History";
+
 		private var _widgetView:SocialHistoryWidgetView;
 //		private var _fullView:SocialHistoryFullView;
 				
@@ -73,6 +75,11 @@ package collaboRhythm.shared.apps.socialHistory.controller
 //			}
 //			(_widgetView as SocialHistoryWidgetView).model = _sharedUser.socialHistory;
 //			_fullView.model = _sharedUser.socialHistory;
+		}
+
+		override public function get defaultName():String
+		{
+			return DEFAULT_NAME;
 		}
 	}
 }

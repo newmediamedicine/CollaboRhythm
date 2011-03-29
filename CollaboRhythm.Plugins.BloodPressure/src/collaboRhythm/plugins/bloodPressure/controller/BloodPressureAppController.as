@@ -29,8 +29,10 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 	public class BloodPressureAppController extends WorkstationAppControllerBase
 	{
-		private var _widgetView:IBloodPressureWidgetView;
+		public static const DEFAULT_NAME:String = "Blood Pressure Review";
+
 		private var _fullView:BloodPressureFullView;
+		private var _widgetView:IBloodPressureWidgetView;
 
 		public override function get widgetView():UIComponent
 		{
@@ -41,37 +43,37 @@ package collaboRhythm.plugins.bloodPressure.controller
 		{
 			_widgetView = value as IBloodPressureWidgetView;
 		}
-		
+
 		public override function get isFullViewSupported():Boolean
 		{
 			return true;
 		}
-		
+
 		public override function get fullView():UIComponent
 		{
 			return _fullView;
 		}
-		
+
 		public override function set fullView(value:UIComponent):void
 		{
 			_fullView = value as BloodPressureFullView;
 		}
-		
+
 		public function BloodPressureAppController(constructorParams:AppControllerConstructorParams)
 		{
 			super(constructorParams);
 		}
-
 //		override public function showWidget(left:Number=-1, top:Number=-1):void
 //		{
-//			// do nothing	
+//			// do nothing
 //		}
 //
 //		override protected function prepareWidgetView():void
 //		{
 //			// do nothing
+
 //		}
-		
+
 		protected override function createWidgetView():UIComponent
 		{
 			var newWidgetView:IBloodPressureWidgetView;
@@ -85,7 +87,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 			return newWidgetView as UIComponent;
 		}
-		
+
 		protected override function createFullView():UIComponent
 		{
 			var newFullView:BloodPressureFullView = new BloodPressureFullView();
@@ -93,7 +95,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 				newFullView.model = _user.bloodPressureModel;
 			return newFullView;
 		}
-		
+
 		public override function initialize():void
 		{
 			super.initialize();
@@ -103,17 +105,17 @@ package collaboRhythm.plugins.bloodPressure.controller
 			}
 			if (_widgetView)
 				_widgetView.model = _user.bloodPressureModel;
-			
+
 			prepareFullView();
 		}
-		
+
 		protected function loadBloodPressureData():void
 		{
 			var bloodPressureHealthRecordService:BloodPressureHealthRecordService = new BloodPressureHealthRecordService(_healthRecordService.consumerKey, _healthRecordService.consumerSecret, _healthRecordService.baseURL);
 			bloodPressureHealthRecordService.copyLoginResults(_healthRecordService);
 			bloodPressureHealthRecordService.loadBloodPressure(_user);
 		}
-		
+
 		override protected function prepareFullView():void
 		{
 			super.prepareFullView();
@@ -127,11 +129,11 @@ package collaboRhythm.plugins.bloodPressure.controller
 		override public function showWidgetAsDraggable(value:Boolean):void
 		{
 		}
-		
+
 		override public function showWidgetAsSelected(value:Boolean):void
 		{
 		}
-		
+
 		override public function reloadUserData():void
 		{
 			loadBloodPressureData();
@@ -143,17 +145,17 @@ package collaboRhythm.plugins.bloodPressure.controller
 			if (_widgetView)
 				_widgetView.refresh();
 		}
-		
+
 		override protected function showFullViewComplete():void
 		{
 			_fullView.simulationView.isRunning = true;
 		}
-		
+
 		override protected function hideFullViewComplete():void
 		{
 			_fullView.simulationView.isRunning = false;
 		}
-		
+
 		override public function destroyViews():void
 		{
 			if (_fullView)
@@ -164,7 +166,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 		public override function get defaultName():String
 		{
-			return "Blood Pressure Review";
+			return DEFAULT_NAME;
 		}
 		
 		override protected function removeUserData():void

@@ -26,6 +26,8 @@ package collaboRhythm.shared.apps.imaging.controller
 
 	public class ImagingAppController extends WorkstationAppControllerBase
 	{
+		public static const DEFAULT_NAME:String = "Imaging";
+
 		private var _widgetView:ImagingWidgetView;
 //		private var _fullView:ImagingFullView;
 		
@@ -73,6 +75,11 @@ package collaboRhythm.shared.apps.imaging.controller
 //			}
 //			(_widgetView as ImagingWidgetView).model = _sharedUser.imaging;
 //			_fullView.model = _sharedUser.imaging;
+		}
+
+		override public function get defaultName():String
+		{
+			return DEFAULT_NAME;
 		}
 	}
 }

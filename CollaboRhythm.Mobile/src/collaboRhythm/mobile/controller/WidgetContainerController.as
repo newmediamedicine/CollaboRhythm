@@ -109,7 +109,7 @@ public class WidgetContainerController
 					</InfoItem>
 					<InfoItem>
 						<name>Username</name>
-						<value>{this._collaborationMediator.settings.userName}</value>
+						<value>{this._collaborationMediator.settings.username}</value>
 					</InfoItem>
 					<InfoItem>
 						<name>Indivo Server URL</name>
@@ -117,11 +117,11 @@ public class WidgetContainerController
 					</InfoItem>
 					<InfoItem>
 						<name>User settings file</name>
-						<value>{this._collaborationMediator.settings.userSettingsFile.nativePath}</value>
+						<value>{this._collaborationMediator.settingsFileStore.userSettingsFile.nativePath}</value>
 					</InfoItem>
 					<InfoItem>
 						<name>Application settings file</name>
-						<value>{this._collaborationMediator.settings.applicationSettingsFile.nativePath}</value>
+						<value>{this._collaborationMediator.settingsFileStore.applicationSettingsFile.nativePath}</value>
 					</InfoItem>
 					<InfoItem>
 						<name>Num Plugin Files</name>
@@ -172,7 +172,8 @@ public class WidgetContainerController
 			view.removeEventListener(PluginEvent.RELOAD_REQUEST, view_reloadRequestHandler);
 			var app:WorkstationAppControllerBase = view.workstationAppController;
 			// TODO: perhaps only the widget/mobile view should be destroyed here?
-			app.destroyViews();
+			if (app)
+				app.destroyViews();
 		}
 		
 		public function toggleMenu(view:WidgetContainerView):void

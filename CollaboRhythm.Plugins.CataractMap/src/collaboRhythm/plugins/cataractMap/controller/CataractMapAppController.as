@@ -27,8 +27,10 @@ package collaboRhythm.plugins.cataractMap.controller
 
 	public class CataractMapAppController extends WorkstationAppControllerBase
 	{
-		private var _widgetView:CataractMapWidgetView;
+		public static const DEFAULT_NAME:String = "Cataract Map";
+
 		private var _fullView:CataractMapFullView;
+		private var _widgetView:CataractMapWidgetView;
 
 		public override function get widgetView():UIComponent
 		{
@@ -39,37 +41,37 @@ package collaboRhythm.plugins.cataractMap.controller
 		{
 			_widgetView = value as CataractMapWidgetView;
 		}
-		
+
 		public override function get isFullViewSupported():Boolean
 		{
 			return true;
 		}
-		
+
 		public override function get fullView():UIComponent
 		{
 			return _fullView;
 		}
-		
+
 		public override function set fullView(value:UIComponent):void
 		{
 			_fullView = value as CataractMapFullView;
 		}
-		
+
 		public function CataractMapAppController(constructorParams:AppControllerConstructorParams)
 		{
 			super(constructorParams);
 		}
-
 //		override public function showWidget(left:Number=-1, top:Number=-1):void
 //		{
-//			// do nothing	
+//			// do nothing
 //		}
 //
 //		override protected function prepareWidgetView():void
 //		{
 //			// do nothing
+
 //		}
-		
+
 		protected override function createWidgetView():UIComponent
 		{
 			var newWidgetView:CataractMapWidgetView = new CataractMapWidgetView();
@@ -77,7 +79,7 @@ package collaboRhythm.plugins.cataractMap.controller
 				newWidgetView.model = _user.getAppData(CataractMapModel.CATARACT_MAP_KEY, CataractMapModel) as CataractMapModel;
 			return newWidgetView;
 		}
-		
+
 		protected override function createFullView():UIComponent
 		{
 			var newFullView:CataractMapFullView = new CataractMapFullView();
@@ -85,7 +87,7 @@ package collaboRhythm.plugins.cataractMap.controller
 				newFullView.model = _user.getAppData(CataractMapModel.CATARACT_MAP_KEY, CataractMapModel) as CataractMapModel;
 			return newFullView;
 		}
-		
+
 		public override function initialize():void
 		{
 			super.initialize();
@@ -95,17 +97,17 @@ package collaboRhythm.plugins.cataractMap.controller
 			}
 			if (_widgetView)
 				_widgetView.model = _user.getAppData(CataractMapModel.CATARACT_MAP_KEY, CataractMapModel) as CataractMapModel;
-			
+
 			prepareFullView();
 		}
-		
+
 		protected function loadCataractMapData():void
 		{
 			var cataractMapHealthRecordService:CataractMapHealthRecordService = new CataractMapHealthRecordService(_healthRecordService.consumerKey, _healthRecordService.consumerSecret, _healthRecordService.baseURL);
 			cataractMapHealthRecordService.copyLoginResults(_healthRecordService);
 			cataractMapHealthRecordService.loadCataractMap(_user);
 		}
-		
+
 		override protected function prepareFullView():void
 		{
 			super.prepareFullView();
@@ -119,11 +121,11 @@ package collaboRhythm.plugins.cataractMap.controller
 		override public function showWidgetAsDraggable(value:Boolean):void
 		{
 		}
-		
+
 		override public function showWidgetAsSelected(value:Boolean):void
 		{
 		}
-		
+
 		override public function reloadUserData():void
 		{
 			loadCataractMapData();
@@ -135,17 +137,17 @@ package collaboRhythm.plugins.cataractMap.controller
 			if (_widgetView)
 				_widgetView.refresh();
 		}
-		
+
 		override protected function showFullViewComplete():void
 		{
 //			_fullView.simulationView.isRunning = true;
 		}
-		
+
 		override protected function hideFullViewComplete():void
 		{
 //			_fullView.simulationView.isRunning = false;
 		}
-		
+
 		override public function destroyViews():void
 		{
 //			if (_fullView)
@@ -156,7 +158,7 @@ package collaboRhythm.plugins.cataractMap.controller
 
 		public override function get defaultName():String
 		{
-			return "Cataract Map";
+			return DEFAULT_NAME;
 		}
 		
 		override protected function removeUserData():void

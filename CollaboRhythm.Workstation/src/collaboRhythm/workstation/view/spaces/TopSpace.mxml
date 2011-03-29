@@ -17,296 +17,13 @@
   -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" 
 		 xmlns:view="collaboRhythm.workstation.view.*"
-		 xmlns:scroll="collaboRhythm.view.scroll.*" 
-		 width="100%" height="100%" xmlns:view1="collaboRhythm.core.view.*" xmlns:view2="collaboRhythm.shared.view.*" >
+		 width="100%" height="100%"
+		 resize="resizeHandler(event)"
+		 creationComplete="creationCompleteHandler(event)"
+		>
 	<fx:Declarations>
-		<s:Move id="showCollaborationRoomEffect" target="{collaborationRoomView}" yBy="{collaborationRoomView.height}" effectUpdate="showCollaborationRoomEffect_effectUpdateEvent(event)"/>
-		<s:Move id="hideCollaborationRoomEffect" target="{collaborationRoomView}" yBy="{-collaborationRoomView.height}" effectUpdate="showCollaborationRoomEffect_effectUpdateEvent(event)"/>
-		
-		<s:Move id="showVideoRecordingViewEffect" target="{recordVideoView}" yBy="{recordVideoView.height}" effectUpdate="showVideoRecordingViewEffect_effectUpdateEvent(event)"/>
-		<s:Move id="hideVideoRecordingViewEffect" target="{recordVideoView}" yBy="{-recordVideoView.height}" effectUpdate="showVideoRecordingViewEffect_effectUpdateEvent(event)"/>
-
-		<s:Animate id="contractWidgetsScrollerEffect" target="{widgetsScroller}">
-			<s:motionPaths>
-				<s:SimpleMotionPath property="bottom" valueBy="{collaborationRoomView.height}"/>
-			</s:motionPaths>
-		</s:Animate>
-		<s:Animate id="expandWidgetsScrollerEffect" target="{widgetsScroller}">
-			<s:motionPaths>
-				<s:SimpleMotionPath property="bottom" valueBy="{-collaborationRoomView.height}"/>
-			</s:motionPaths>
-		</s:Animate>
 	</fx:Declarations>
-	
-	<fx:Script>
-		<![CDATA[
-			import collaboRhythm.shared.view.apps.WidgetGridItemRenderer;
-			import collaboRhythm.view.scroll.TouchScrollingScrollerSkin;
-			
-			import flash.utils.getDefinitionByName;
-			
-			import mx.containers.VDividedBox;
-			import mx.core.IVisualElement;
-			import mx.core.IVisualElementContainer;
-			import mx.events.EffectEvent;
-			import mx.events.ResizeEvent;
-			
-			import skins.WidgetPanelSkin;
-			
-			import spark.components.Panel;
-			import spark.effects.Move;
-			import spark.effects.Resize;
-			import spark.events.ElementExistenceEvent;
-			import spark.layouts.TileLayout;
-			
-			private var _oldColumnCount:int = 0;
-			private var _oldRowCount:int = 0;
-			private var _widgetBarStartHeight:Number;
-			
-			public function get widgetsContainer():Group
-			{
-				return myWidgetsContainer;
-			}
-			
-			private function resizeWidgets():void
-			{
-//				trace("resizeWidgets", widgetsScroller.width.toFixed(2), widgetsScroller.height.toFixed(2)); 
-				
-				var horizontalPadding:Number = widgetsPaddingLayout.paddingLeft + widgetsPaddingLayout.paddingRight;
-				var verticalPadding:Number = widgetsPaddingLayout.paddingTop + widgetsPaddingLayout.paddingBottom;
-				
-				const minRowHeight:Number = 160;
-				const minColumnWidth:Number = 420;
-				
-				const horizontalGap:Number = 10;
-				const verticalGap:Number = 10;
-				// TODO: consider gap and variable row heights; current consideration of minRowHeight is only approximate
-				var rowCount:int = Math.max(1, Math.min(4, (widgetsScroller.height / minRowHeight)));
-				const columnCount:int = Math.ceil(myWidgetsContainer.numElements / rowCount);
-				
-				var useTransitionEffects:Boolean = false;
-				if (rowCount != _oldRowCount || columnCount != _oldColumnCount)
-				{
-					useTransitionEffects = true;
-				}
-				
-				const horizontalGapTotal:Number = Math.max(0, (columnCount - 1)) * horizontalGap;
-				const verticalGapTotal:Number = Math.max(0, (rowCount - 1)) * verticalGap;
-				var columnWidth:Number = Math.floor((widgetsScroller.width - horizontalPadding - horizontalGapTotal) / columnCount);
-				
-				if (columnWidth < minColumnWidth)
-				{
-					columnWidth = minColumnWidth;
-					// Use minHeight instead of height because height is 0 during initialization (before resize events)
-					// NOTE: this may not work if a custom skin is used for the Scroller or the HScrollBar inside it
-					// spark.skins.spark.HScrollBarSkin
-					verticalPadding += widgetsScroller.horizontalScrollBar.minHeight;
-				}
-				
-				var verticalSpace:Number = (widgetsScroller.height - verticalPadding - verticalGapTotal);
-				var rowHeights:Vector.<Number> = getRowHeights(verticalSpace, rowCount);
-				
-				var column:int = 0;
-				var row:int = 0;
-				var currentY:Number = 0;
-				
-				for (var i:int = 0; i < myWidgetsContainer.numElements; i++)
-				{
-					var widget:IVisualElement = myWidgetsContainer.getElementAt(i);
-					var resize:Resize = getResizeEffect(widget);
-					if ((useTransitionEffects && resize != null) || (resize != null && resize.isPlaying))
-					{
-						resize.stop();
-						resize.widthFrom = widget.width;
-						resize.heightFrom = widget.height;
-						resize.widthTo = columnWidth;
-						resize.heightTo = rowHeights[row];
-						resize.play();
-					}
-					else
-					{
-						widget.width = columnWidth;
-						widget.height = rowHeights[row];
-					}
-					
-					var newX:Number = column * columnWidth + column * horizontalGap;
-					var newY:Number = currentY;
-					
-					var move:Move = getMoveEffect(widget);
-					if ((useTransitionEffects && move != null) || (move != null && move.isPlaying))
-					{
-						move.stop();
-						move.xFrom = widget.x;
-						move.yFrom = widget.y;
-						move.xTo = newX;
-						move.yTo = newY;
-						move.play();
-					}
-					else
-					{
-						widget.x = newX;
-						widget.y = newY;
-					}
-
-					column++;
-					if (column == columnCount)
-					{
-						column = 0;
-						currentY += rowHeights[row] + verticalGap;
-						row++;
-					}
-				}
-				
-				_oldRowCount = rowCount;
-				_oldColumnCount = columnCount;
-			}
-			
-			private function getMoveEffect(widget:IVisualElement):Move
-			{
-				var widgetPanelSkin:WidgetPanelSkin = getWidgetPanelSkin(widget);
-				if (widgetPanelSkin != null)
-				{
-					return widgetPanelSkin.moveEffect;
-				}
-				return null;
-			}
-
-			private function getResizeEffect(widget:IVisualElement):Resize
-			{
-				var widgetPanelSkin:WidgetPanelSkin = getWidgetPanelSkin(widget);
-				if (widgetPanelSkin != null)
-				{
-					return widgetPanelSkin.resizeEffect;
-				}
-				return null;
-			}
-			
-			private function getWidgetPanelSkin(widget:IVisualElement):WidgetPanelSkin
-			{
-				var widgetPanel:Panel = widget as Panel;
-				if (widgetPanel != null)
-				{
-					return widgetPanel.skin as WidgetPanelSkin;
-				}
-				return null;
-			}
-			
-			private function getRowHeights(verticalSpace:Number, rowCount:int):Vector.<Number>
-			{
-				var verticalSpaceRemaining:Number = verticalSpace;
-				var verticalSpacePercentRemaining:Number = 1;
-				var rowHeights:Vector.<Number> = new Vector.<Number>(rowCount);
-				for (var i:int = 0; i < rowCount; i++)
-				{
-					var portionPercent:Number = verticalSpacePercentRemaining / (rowCount - i);
-					if (i == rowCount - 1)
-						portionPercent = verticalSpacePercentRemaining;
-					else if (i == 0)
-						portionPercent += 0.10;
-					else if (i == 1)
-						portionPercent += 0.05;
-					
-					verticalSpacePercentRemaining -= portionPercent;
-					
-					var portion:Number = verticalSpace * portionPercent;
-					
-					// use whole number values to avoid making the borders flicker (or other aliasing issues)
-					if (i < rowCount - 1)
-						rowHeights[i] = Math.round(portion);
-					else
-						rowHeights[i] = Math.round(verticalSpaceRemaining);
-					
-					verticalSpaceRemaining -= rowHeights[i]; 
-				}
-				
-				return rowHeights;
-			}
-			
-			private function scaleWidgetsContainer():void
-			{
-				var desiredWidth:Number = widgetsBorderContainer.width;
-				var containerUnscaledWidth:Number;
-				
-				if (widgetsContainer.scaleX != Number.POSITIVE_INFINITY && widgetsContainer.scaleX != 0)
-					containerUnscaledWidth = widgetsContainer.width / widgetsContainer.scaleX;
-				else
-					containerUnscaledWidth = widgetsContainer.width; 
-				
-				var scale:Number = desiredWidth / containerUnscaledWidth;
-				widgetsContainer.scaleX = scale;
-				widgetsContainer.scaleY = scale;
-			}
-			
-			protected function myWidgetsContainer_elementAddHandler(event:ElementExistenceEvent):void
-			{
-				resizeWidgets();
-			}
-
-			protected function widgetsScroller_resizeHandler(event:ResizeEvent):void
-			{
-				resizeWidgets();
-			}
-
-			protected function collaborationRoomView_showHandler(event:Event):void
-			{
-				_widgetBarStartHeight = widgetBar.height;
-				showCollaborationRoomEffect.play();
-			}
-
-			protected function collaborationRoomView_hideHandler(event:Event):void
-			{
-				_widgetBarStartHeight = widgetBar.height;
-				hideCollaborationRoomEffect.play();
-			}
-			
-			protected function videoRecordingView_showHandler(event:Event):void
-			{
-				_widgetBarStartHeight = widgetBar.height;
-				showVideoRecordingViewEffect.play();
-			}
-			
-			protected function videoRecordingView_hideHandler(event:Event):void
-			{
-				_widgetBarStartHeight = widgetBar.height;
-				hideVideoRecordingViewEffect.play();
-			}
-			
-			private function showCollaborationRoomEffect_effectUpdateEvent(event:EffectEvent):void
-			{
-				var collaborationRoomViewY:Number = Math.round(collaborationRoomView.y);
-				var parentBox:VDividedBox = VDividedBox(this.parent);
-				if (collaborationRoomViewY < (workstationCommandBarView.height - collaborationRoomView.height))
-				{
-					parentBox.getDividerAt(0).y = _widgetBarStartHeight + workstationCommandBarView.height;
-					topBar.height = workstationCommandBarView.height;
-				}
-				else
-				{
-					parentBox.getDividerAt(0).y = _widgetBarStartHeight + collaborationRoomViewY + collaborationRoomView.height;
-					topBar.height = collaborationRoomViewY + collaborationRoomView.height;
-				}
-			}
-			
-			private function showVideoRecordingViewEffect_effectUpdateEvent(event:EffectEvent):void
-			{
-				var videoRecordingViewY:Number = Math.round(recordVideoView.y);
-				var parentBox:VDividedBox = VDividedBox(this.parent);
-				if (videoRecordingViewY < (workstationCommandBarView.height - recordVideoView.height))
-				{
-					parentBox.getDividerAt(0).y = _widgetBarStartHeight + workstationCommandBarView.height;
-					topBar.height = workstationCommandBarView.height;
-				}
-				else
-				{
-					parentBox.getDividerAt(0).y = _widgetBarStartHeight + videoRecordingViewY + recordVideoView.height;
-					topBar.height = videoRecordingViewY + recordVideoView.height;
-				}
-			}
-
-		]]>
-	</fx:Script>
 	<s:mask>
 		<s:Group>
 			<s:Rect width="{this.width}" height="{this.height}">
@@ -316,42 +33,70 @@
 			</s:Rect>
 		</s:Group>
 	</s:mask>
-	<s:Group id="topBar" height="100" width="100%">
-		<view1:WorkstationCommandBarView id="workstationCommandBarView" width="100%" y="0"/>
-		<view2:CollaborationRoomView id="collaborationRoomView" width="100%" y="0" show="collaborationRoomView_showHandler(event)" hide="collaborationRoomView_hideHandler(event)"/>
-		<view2:RecordVideoView id="recordVideoView" width="100%" y="0" show="videoRecordingView_showHandler(event)" hide="videoRecordingView_hideHandler(event)" />
-	</s:Group>
+	<view:TopBarView id="topBar" height="100" width="100%"/>
 	<s:Rect width="100%" top="{topBar.height}" bottom="0">
 		<s:fill>
 			<s:SolidColor color="0xBBBBBB"/>
 		</s:fill>
 	</s:Rect>
-	<s:Group id="widgetBar" width="100%" top="{topBar.height}" bottom="0">
+	<s:Group id="widgetBar" width="100%" top="{topBar.height}" bottom="0" clipAndEnableScrolling="true">
 		<s:layout>
 			<s:HorizontalLayout paddingTop="0" paddingBottom="0" paddingLeft="0" paddingRight="0"/>
 		</s:layout>
-		<s:Group id="scheduleWidgetContainer" left="0" height="100%" >
-			<!--
-			width="{ScheduleWidgetView.CLOCK_SIZE + 20}"
-			-->
-			<s:layout>
-				<s:HorizontalLayout paddingTop="0" paddingBottom="0" paddingLeft="0" paddingRight="0"/>
-			</s:layout>
-			<!-- Add the schedule widget dynamically here -->
-		</s:Group>
-		<scroll:TouchScrollingScroller id="widgetsScroller" width="100%" height="100%" resize="widgetsScroller_resizeHandler(event)" skinClass="collaboRhythm.view.scroll.TouchScrollingScrollerSkin" useVerticalTouchScrolling="false">
-			<!--
-			left="{ScheduleWidgetView.CLOCK_SIZE + 20}"
-			right="0" 
-			-->
-			<s:Group id="widgetsBorderContainer" width="100%" height="100%">
-				<s:layout>
-					<s:VerticalLayout id="widgetsPaddingLayout" paddingTop="10" paddingBottom="10" paddingLeft="10" paddingRight="10"/>
-				</s:layout>
-				<s:Group id="myWidgetsContainer" elementAdd="myWidgetsContainer_elementAddHandler(event)" clipAndEnableScrolling="false">
-					<!-- Widget views are dynamically added as children here -->
-				</s:Group>
-			</s:Group>
-		</scroll:TouchScrollingScroller>
+		<view:TiledWidgetsContainerView id="customTiledWidgetsContainerView" height="200" maxColumnWidth="200"/>
+		<view:TiledWidgetsContainerView id="standardTiledWidgetsContainerView" width="100%" height="100%" />
 	</s:Group>
+	<fx:Script><![CDATA[
+		import mx.events.FlexEvent;
+
+		import mx.events.ResizeEvent;
+
+		import spark.layouts.VerticalLayout;
+
+		private static const widgetContainersHorizontalThreshold:Number = 400;
+		private var isWidgetContainersLayoutHorizontal:Boolean = true;
+
+		public function get widgetsContainer():Group
+		{
+			return standardTiledWidgetsContainerView.widgetsContainer;
+		}
+
+		public function get scheduleWidgetContainer():Group
+		{
+			return customTiledWidgetsContainerView.widgetsContainer;
+		}
+
+		private function resizeHandler(event:ResizeEvent):void
+		{
+			applyAppropriateLayout();
+		}
+
+		private function applyAppropriateLayout():void
+		{
+			if (widgetBar.height < widgetContainersHorizontalThreshold)
+			{
+				if (!isWidgetContainersLayoutHorizontal)
+				{
+					widgetBar.layout = new HorizontalLayout();
+					widgetBar.setElementIndex(customTiledWidgetsContainerView, 0);
+					isWidgetContainersLayoutHorizontal = true;
+				}
+			}
+			else
+			{
+				if (isWidgetContainersLayoutHorizontal)
+				{
+					widgetBar.layout = new VerticalLayout();
+					widgetBar.setElementIndex(standardTiledWidgetsContainerView, 0);
+					isWidgetContainersLayoutHorizontal = false;
+				}
+			}
+		}
+
+		private function creationCompleteHandler(event:FlexEvent):void
+		{
+			applyAppropriateLayout();
+		}
+		]]>
+	</fx:Script>
 </s:Group>

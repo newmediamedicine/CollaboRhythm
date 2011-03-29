@@ -15,9 +15,9 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<preferences>
+<settings xmlns="http://collaborhythm.org/application/settings">
 	<mode>clinician</mode>
-	<userName>mloomis</userName>
+	<username>mloomis</username>
 	<password>mloomis-password</password>
 	<rtmpBaseURI>rtmp://127.0.0.1</rtmpBaseURI>
 	<indivoServerBaseURL>http://records.media.mit.edu:8000</indivoServerBaseURL>
@@ -29,6 +29,36 @@
 		<demoDatePreset>2010-02-04T00:00:00-5:00</demoDatePreset>
 		<demoDatePreset>2010-02-17T00:00:00-5:00</demoDatePreset>
 	</demoDatePresets>
+	<appGroups>
+		<appGroup id="standard">
+			<appDescriptors>
+				<appDescriptor>collaboRhythm.plugins.problems.controller::ProblemsAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.shared.apps.procedures.controller::ProceduresAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.shared.apps.immunizations.controller::ImmunizationsAppController</appDescriptor>
+
+				<appDescriptor>collaboRhythm.plugins.medications.controller::MedicationsAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.shared.apps.allergies.controller::AllergiesAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.plugins.equipment.controller::EquipmentAppController</appDescriptor>
+
+				<appDescriptor>collaboRhythm.shared.apps.genetics.controller::GeneticsAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.shared.apps.familyHistory.controller::FamilyHistoryAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.shared.apps.socialHistory.controller::SocialHistoryAppController</appDescriptor>
+
+				<appDescriptor>collaboRhythm.shared.apps.vitals.controller::VitalsAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.shared.apps.labs.controller::LabsAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.shared.apps.imaging.controller::ImagingAppController</appDescriptor>
+			</appDescriptors>
+		</appGroup>
+		<appGroup id="custom">
+			<appDescriptors>
+				<appDescriptor>collaboRhythm.plugins.schedule.controller::ScheduleAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.shared.apps.bloodPressureAgent.controller::BloodPressureAgentAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::BloodPressureChartAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::BloodPressureAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.plugins.cataractMap.controller::CataractMapAppController</appDescriptor>
+			</appDescriptors>
+		</appGroup>
+	</appGroups>
 
 <!--  
 	useSingleScreen - If no valid windowSettings.xml file exists or resetWindowSettings = true, then force the app to only use a single screen (one window)
@@ -40,4 +70,4 @@
 	Note that the current time of day will not be changed (it will be based on real time) but the date will be offset to match the targetDate
   <targetDate>2010/01/01</targetDate>
 -->
-</preferences>
+</settings>

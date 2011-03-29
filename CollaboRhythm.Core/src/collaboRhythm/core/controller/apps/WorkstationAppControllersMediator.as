@@ -16,6 +16,8 @@
  */
 package collaboRhythm.core.controller.apps
 {
+	import castle.flexbridge.reflection.ReflectionUtils;
+
 	import collaboRhythm.plugins.problems.controller.ProblemsAppController;
 	import collaboRhythm.shared.apps.allergies.controller.AllergiesAppController;
 	import collaboRhythm.shared.apps.bloodPressureAgent.controller.BloodPressureAgentAppController;
@@ -33,12 +35,22 @@ package collaboRhythm.core.controller.apps
 	import collaboRhythm.shared.controller.apps.WorkstationAppEvent;
 	import collaboRhythm.shared.model.*;
 	import collaboRhythm.shared.model.healthRecord.CommonHealthRecordService;
+	import collaboRhythm.shared.model.settings.AppGroupDescriptor;
+	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
 
 	import com.theory9.data.types.OrderedMap;
 
+	import flash.net.getClassByAlias;
+	import flash.net.registerClassAlias;
+
+	import flash.utils.getQualifiedClassName;
+
+	import mx.collections.ArrayCollection;
 	import mx.core.IVisualElementContainer;
 	import mx.core.UIComponent;
+	import mx.logging.ILogger;
+	import mx.logging.Log;
 
 	/**
 	 * Responsible for creating the collection of workstation apps and adding them to the parent container. 
@@ -55,7 +67,13 @@ package collaboRhythm.core.controller.apps
 		private var _collaborationRoomNetConnectionService:CollaborationRoomNetConnectionService;
 		private var _factory:WorkstationAppControllerFactory;
 		private var _componentContainer:IComponentContainer;
-		
+		private static const STANDARD_APP_GROUP:String = "standard";
+		private static const CUSTOM_APP_GROUP:String = "custom";
+		private var _currentAppGroup:AppGroup;
+		private var _appGroups:OrderedMap; // of AppGroup
+		private var dynamicAppDictionary:OrderedMap;
+		protected var logger:ILogger;
+
 		public function WorkstationAppControllersMediator(
 			widgetParentContainer:IVisualElementContainer,
 			scheduleWidgetParentContainer:IVisualElementContainer,
@@ -66,6 +84,7 @@ package collaboRhythm.core.controller.apps
 			componentContainer:IComponentContainer
 		)
 		{
+			logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_widgetParentContainer = widgetParentContainer;
 			_scheduleWidgetParentContainer = scheduleWidgetParentContainer;
 			_fullParentContainer = fullParentContainer;
@@ -111,36 +130,107 @@ package collaboRhythm.core.controller.apps
 			return _workstationApps;
 		}
 
-		public function startApps(user:User):void
+		/**
+		 * Creates and starts (shows widgets for) all the apps for CollaboRhythm.Workstation. Apps in the first group
+		 * in settings.appGroups (if any) are put in the widgetParentContainer. Apps in the second group (if any) are
+		 * put in scheduleWidgetParentContainer.
+		 * @param user The user to initialize the apps for.
+		 */
+		public function createAndStartWorkstationApps(user:User):void
 		{
 			initializeForUser(user);
-			
-			var app:WorkstationAppControllerBase;
-			
-			app = createApp(ProblemsAppController, "Problems");
-			app = createApp(ProceduresAppController, "Procedures");
-			app = createApp(AllergiesAppController, "Allergies");
-			app = createApp(ImmunizationsAppController, "Immunizations");
-			app = createApp(GeneticsAppController, "Genetics");
-			app = createApp(FamilyHistoryAppController, "Family History");
-			app = createApp(SocialHistoryAppController, "Social History");
-			app = createApp(VitalsAppController, "Vitals");
-			app = createApp(LabsAppController, "Labs");
-			app = createApp(ImagingAppController, "Imaging");
-			
+
+			// TODO: find the groups by id instead of index
+			createAppsForGroup(0);
 			_factory.widgetParentContainer = _scheduleWidgetParentContainer;
-			app = createApp(BloodPressureAgentAppController, "Blood Pressure Agent");
+			createAppsForGroup(1);
 
-			createDynamicApps();
+			showAllWidgets();
+		}
 
+		/**
+		 * Creates all the apps for CollaboRhythm.Mobile. Apps in the first group in settings.appGroups (if any) are
+		 * created and initialized, ready for navigation. If no groups are specified in settings.appGroups, a group
+		 * is automatically created from all dynamic apps.
+		 * @param user The user to initialize the apps for.
+		 */
+		public function createMobileApps(user:User):void
+		{
+			initializeForUser(user);
+			if (_settings.appGroups && _settings.appGroups.length > 0)
+				createAppsForGroup(0);
+			else
+				createDynamicApps();
+		}
+
+		private function createAppsForGroup(groupIndex:int):void
+		{
+			// TODO: find another way to load the static app controller classes dynamically
+			// the following "force" variables exist only to ensure that subsequent calls to getClassByAlias() will work
+			var forceProblems:ProblemsAppController;
+			var forceProcedures:ProceduresAppController;
+			var forceImmunizations:ImmunizationsAppController;
+			var forceAllergies:AllergiesAppController;
+			var forceGenetics:GeneticsAppController;
+			var forceFamilyHistory:FamilyHistoryAppController;
+			var forceSocialHistory:SocialHistoryAppController;
+			var forceVitals:VitalsAppController;
+			var forceLabs:LabsAppController;
+			var forceImaging:ImagingAppController;
+			var forceBloodPressureAgent:BloodPressureAgentAppController;
+
+			if (_settings.appGroups && _settings.appGroups.length > groupIndex)
+			{
+				var appGroupDescriptor:AppGroupDescriptor = _settings.appGroups[groupIndex] as AppGroupDescriptor;
+
+				initializeAppGroup(appGroupDescriptor.id);
+
+				for each (var appDescriptor:String in appGroupDescriptor.appDescriptors)
+				{
+					var appClass:Class = dynamicAppDictionary.getValueByKey(appDescriptor);
+
+					if (appClass == null)
+					{
+						try
+						{
+							appClass = ReflectionUtils.getClassByName(appDescriptor.replace("::", "."));
+						}
+						catch(e:Error)
+						{
+							logger.error("Error attempting to getClassByAlias: " + e.message);
+						}
+					}
+
+					if (appClass)
+						createApp(appClass);
+					else
+						logger.error("Failed to get instance of app controller class: " + appDescriptor + " for app group #" + groupIndex + " (" + appGroupDescriptor.id + ")");
+				}
+			}
+		}
+
+		private function showAllWidgets():void
+		{
+			var app:WorkstationAppControllerBase;
 			for each (app in _workstationApps.values())
 			{
 				app.showWidget();
 			}
 		}
-		
-		public function createDynamicApps():void
+
+		private function initializeAppGroup(appGroupId:String):void
 		{
+			_currentAppGroup = new AppGroup();
+			_currentAppGroup.id = appGroupId;
+			_appGroups.addKeyValue(appGroupId, _currentAppGroup);
+		}
+
+		private function createDynamicApps():void
+		{
+			logger.warn("Warning: no app groups specified in settings; creating standard app group from all dynamic apps");
+
+			initializeAppGroup(STANDARD_APP_GROUP);
+
 			var infoArray:Array = componentContainer.resolveAll(AppControllerInfo);
 
 			infoArray = AppControllersSorter.orderAppsByInitializationOrderConstraints(infoArray);
@@ -162,10 +252,12 @@ package collaboRhythm.core.controller.apps
 			return infoArray.length;
 		}
 
-		public function initializeForUser(user:User):void
+		private function initializeForUser(user:User):void
 		{
 			closeApps();
-			
+
+			_appGroups = new OrderedMap();
+			initializeDynamicAppLookup();
 			_workstationApps = new OrderedMap();
 			_factory = new WorkstationAppControllerFactory();
 			_factory.widgetParentContainer = _widgetParentContainer;
@@ -174,6 +266,19 @@ package collaboRhythm.core.controller.apps
 			_factory.user = user;
 			_factory.collaborationRoomNetConnectionServiceProxy = _collaborationRoomNetConnectionService.createProxy();
 			_factory.isWorkstationMode = _settings.isWorkstationMode;
+		}
+
+		private function initializeDynamicAppLookup():void
+		{
+			dynamicAppDictionary = new OrderedMap();
+
+			var infoArray:Array = componentContainer.resolveAll(AppControllerInfo);
+
+			for each (var info:AppControllerInfo in infoArray)
+			{
+				dynamicAppDictionary.addKeyValue(info.appId, info.appControllerClass);
+				registerClassAlias(info.appId.replace("::", "."), info.appControllerClass)
+			}
 		}
 		
 		public function reloadUserData(user:User):void
@@ -187,6 +292,8 @@ package collaboRhythm.core.controller.apps
 		public function createApp(appClass:Class, appName:String=null):WorkstationAppControllerBase
 		{
 			var app:WorkstationAppControllerBase = _factory.createApp(appClass, appName);
+			if (_currentAppGroup)
+				_currentAppGroup.apps.push(app);
 			appName = app.name;
 
 			if (appName == null)
@@ -242,6 +349,26 @@ package collaboRhythm.core.controller.apps
 				for each (var app:WorkstationAppControllerBase in _workstationApps.values())
 				{
 					app.close();
+				}
+			}
+
+			_currentAppGroup = null;
+			_appGroups = null;
+		}
+
+		/**
+		 * Updates settings.appGroups with AppGroupDescriptor instances based on the AppGroup instances currently in use.
+		 */
+		public function updateAppGroupSettings():void
+		{
+			_settings.appGroups = new ArrayCollection();
+
+			if (_appGroups)
+			{
+				for each (var appGroup:AppGroup in _appGroups.values())
+				{
+					_settings.appGroups.addItem(new AppGroupDescriptor(appGroup.id,
+																	   appGroup.appDescriptors));
 				}
 			}
 		}

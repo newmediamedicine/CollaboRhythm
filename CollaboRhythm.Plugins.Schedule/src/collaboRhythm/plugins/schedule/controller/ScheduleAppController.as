@@ -29,6 +29,8 @@ package collaboRhythm.plugins.schedule.controller
 
 	public class ScheduleAppController extends WorkstationAppControllerBase
 	{
+		public static const DEFAULT_NAME:String = "Schedule";
+
 		private var _scheduleHealthRecordService:ScheduleHealthRecordService;
 		private var _scheduleWidgetViewController:ScheduleWidgetViewController;
 		private var _scheduleFullViewController:ScheduleFullViewController;
@@ -162,10 +164,10 @@ package collaboRhythm.plugins.schedule.controller
 //				medicationView.unwatchAll();
 //			}
 		}
-		
+
 		public override function get defaultName():String
 		{
-			return "Schedule";
+			return DEFAULT_NAME;
 		}
 
 		override protected function removeUserData():void

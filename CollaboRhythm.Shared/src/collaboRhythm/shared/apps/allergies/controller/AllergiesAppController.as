@@ -26,6 +26,8 @@ package collaboRhythm.shared.apps.allergies.controller
 
 	public class AllergiesAppController extends WorkstationAppControllerBase
 	{
+		public static const DEFAULT_NAME:String = "Allergies";
+
 		private var _widgetView:AllergiesWidgetView;
 //		private var _fullView:AllergiesFullView;
 		
@@ -73,6 +75,11 @@ package collaboRhythm.shared.apps.allergies.controller
 //			}
 //			(_widgetView as AllergiesWidgetView).model = _sharedUser.allergies;
 //			_fullView.model = _sharedUser.allergies;
+		}
+
+		override public function get defaultName():String
+		{
+			return DEFAULT_NAME;
 		}
 	}
 }

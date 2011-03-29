@@ -17,7 +17,7 @@
 package collaboRhythm.shared.controller
 {
 	import collaboRhythm.shared.model.CollaborationModel;
-	import collaboRhythm.shared.model.Settings;
+	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.model.User;
 	import collaboRhythm.shared.model.UsersModel;
 	import collaboRhythm.shared.view.CollaborationRoomView;

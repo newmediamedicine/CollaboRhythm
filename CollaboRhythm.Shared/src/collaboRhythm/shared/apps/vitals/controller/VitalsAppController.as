@@ -26,6 +26,8 @@ package collaboRhythm.shared.apps.vitals.controller
 
 	public class VitalsAppController extends WorkstationAppControllerBase
 	{
+		public static const DEFAULT_NAME:String = "Vitals";
+
 		private var _widgetView:VitalsWidgetView;
 //		private var _fullView:VitalsFullView;
 		
@@ -73,6 +75,11 @@ package collaboRhythm.shared.apps.vitals.controller
 //			}
 //			(_widgetView as VitalsWidgetView).model = _sharedUser.vitals;
 //			_fullView.model = _sharedUser.vitals;
+		}
+
+		override public function get defaultName():String
+		{
+			return DEFAULT_NAME;
 		}
 	}
 }

@@ -46,7 +46,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 			typeName = ReflectionUtils.getClassInfo(BloodPressureAppController).name;
 			var mainAppControllerInfo:AppControllerInfo = new AppControllerInfo(BloodPressureAppController);
-			mainAppControllerInfo.groupWidgetViewWithSchedule = false;
+			mainAppControllerInfo.groupWidgetViewWithSchedule = true;
 			mainAppControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER,
 																							  chartAppControllerInfo.appId));
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo,

@@ -19,7 +19,9 @@ package collaboRhythm.shared.model
 	import castle.flexbridge.kernel.IKernel;
 	
 	import collaboRhythm.shared.model.services.WorkstationKernel;
-	
+
+	import collaboRhythm.shared.model.settings.Settings;
+
 	import flash.events.NetStatusEvent;
 	
 	import mx.collections.ArrayCollection;

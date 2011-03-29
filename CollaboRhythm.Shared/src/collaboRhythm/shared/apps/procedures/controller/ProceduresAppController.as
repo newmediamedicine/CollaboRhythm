@@ -26,6 +26,8 @@ package collaboRhythm.shared.apps.procedures.controller
 
 	public class ProceduresAppController extends WorkstationAppControllerBase
 	{
+		public static const DEFAULT_NAME:String = "Procedures";
+
 		private var _widgetView:ProceduresWidgetView;
 //		private var _fullView:ProceduresFullView;
 		
@@ -73,6 +75,11 @@ package collaboRhythm.shared.apps.procedures.controller
 //			}
 //			(_widgetView as ProceduresWidgetView).model = _sharedUser.procedures;
 //			_fullView.model = _sharedUser.procedures;
+		}
+
+		override public function get defaultName():String
+		{
+			return DEFAULT_NAME;
 		}
 	}
 }

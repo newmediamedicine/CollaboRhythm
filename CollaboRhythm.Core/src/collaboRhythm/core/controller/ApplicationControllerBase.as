@@ -17,26 +17,27 @@
 package collaboRhythm.core.controller
 {
 	import castle.flexbridge.kernel.IKernel;
-	
+
 	import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
 	import collaboRhythm.core.pluginsManagement.PluginLoader;
 	import collaboRhythm.core.view.RemoteUsersListView;
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
-	import collaboRhythm.shared.model.Settings;
 	import collaboRhythm.shared.model.User;
 	import collaboRhythm.shared.model.services.DemoCurrentDateSource;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
+	import collaboRhythm.shared.model.settings.Settings;
+	import collaboRhythm.shared.model.settings.SettingsFileStore;
 	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
 	import collaboRhythm.shared.view.CollaborationRoomView;
 	import collaboRhythm.shared.view.RecordVideoView;
-	
+
 	import com.daveoncode.logging.LogFileTarget;
-	
+
 	import flash.events.Event;
 	import flash.filesystem.File;
 	import flash.utils.getQualifiedClassName;
-	
+
 	import mx.core.IVisualElementContainer;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
@@ -45,6 +46,7 @@ package collaboRhythm.core.controller
 	public class ApplicationControllerBase
 	{
 		protected var _kernel:IKernel;
+		protected var _settingsFileStore:SettingsFileStore;
 		protected var _settings:Settings;
 		protected var _collaborationMediator:CollaborationMediatorBase;
 		protected var logger:ILogger;
@@ -202,6 +204,18 @@ package collaboRhythm.core.controller
 
 			if (_reloadWithUser)
 				_collaborationMediator.openRecord(_reloadWithUser);
+		}
+
+		protected function initializeSettings():void
+		{
+			_settingsFileStore = new SettingsFileStore();
+			_settingsFileStore.readSettings();
+			_settings = _settingsFileStore.settings;
+		}
+
+		public function get settingsFileStore():SettingsFileStore
+		{
+			return _settingsFileStore;
 		}
 	}
 }

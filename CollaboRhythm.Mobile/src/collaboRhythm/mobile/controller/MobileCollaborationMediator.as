@@ -43,12 +43,7 @@ public class MobileCollaborationMediator extends CollaborationMediatorBase
 		
 		protected override function openValidatedUser(user:User):void
 		{
-			_appControllersMediator.initializeForUser(user);
-			var app:WorkstationAppControllerBase;
-			_appControllersMediator.createDynamicApps();
-//			app = _appControllersMediator.createApp(BloodPressureAppController, "Blood Pressure");
-			app = _appControllersMediator.createApp(ProblemsAppController, "Problems");
-			
+			_appControllersMediator.createMobileApps(user);
 			_mobileApplicationController.initializeActiveView();
 		}
 	}

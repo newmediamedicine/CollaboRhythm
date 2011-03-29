@@ -62,7 +62,7 @@
 		protected override function openValidatedUser(user:User):void
 		{
 			//			_workstationController.topSpace.enableContainerLayout();
-			_appControllersMediator.startApps(user);
+			_appControllersMediator.createAndStartWorkstationApps(user);
 			_remoteUsersController.hide();
 			_workstationCommandBarController.remoteUser = user;
 			_workstationCommandBarController.show();

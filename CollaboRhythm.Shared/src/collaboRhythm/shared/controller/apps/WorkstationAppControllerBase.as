@@ -30,7 +30,9 @@ package collaboRhythm.shared.controller.apps
 	import flash.geom.Point;
 	import flash.ui.Multitouch;
 	import flash.ui.MultitouchInputMode;
-	
+
+	import flash.utils.getQualifiedClassName;
+
 	import mx.controls.Image;
 	import mx.core.DragSource;
 	import mx.core.IUIComponent;
@@ -846,6 +848,11 @@ package collaboRhythm.shared.controller.apps
 		protected function removeUserData():void
 		{
 			// to be implemented by subclasses
+		}
+
+		public function get appClassName():String
+		{
+			return getQualifiedClassName(this);
 		}
 	}
 }

@@ -16,26 +16,23 @@
  */
 package collaboRhythm.mobile.controller
 {
-import collaboRhythm.core.controller.ApplicationControllerBase;
-import collaboRhythm.core.view.RemoteUsersListView;
-import collaboRhythm.mobile.view.WidgetContainerView;
-import collaboRhythm.shared.controller.apps.AppControllerInfo;
-import collaboRhythm.shared.model.Settings;
-import collaboRhythm.shared.model.services.DemoEvent;
-import collaboRhythm.shared.view.CollaborationRoomView;
-import collaboRhythm.shared.view.RecordVideoView;
+	import collaboRhythm.core.controller.ApplicationControllerBase;
+	import collaboRhythm.core.view.RemoteUsersListView;
+	import collaboRhythm.mobile.view.WidgetContainerView;
+	import collaboRhythm.shared.model.services.DemoEvent;
+	import collaboRhythm.shared.view.CollaborationRoomView;
+	import collaboRhythm.shared.view.RecordVideoView;
 
-import flash.desktop.NativeApplication;
-import flash.events.Event;
-import flash.events.KeyboardEvent;
-import flash.ui.Keyboard;
+	import flash.desktop.NativeApplication;
+	import flash.events.Event;
+	import flash.events.KeyboardEvent;
+	import flash.ui.Keyboard;
 
-import mx.core.IVisualElementContainer;
+	import mx.core.IVisualElementContainer;
 
-import spark.components.View;
-import spark.components.ViewNavigator;
+	import spark.components.View;
 
-public class MobileApplicationController extends ApplicationControllerBase
+	public class MobileApplicationController extends ApplicationControllerBase
 	{
 		private var _homeView:View;
 		private var _mobileApplication:CollaboRhythmMobileApplication;
@@ -120,14 +117,14 @@ public class MobileApplicationController extends ApplicationControllerBase
 		{
 			initLogging();
 			logger.info("Logging initialized");
-			
-			_settings = new Settings();
+
+			initializeSettings();
 			_settings.isWorkstationMode = false;
 			logger.info("Settings initialized");
-			logger.info("  Application settings file: " + _settings.applicationSettingsFile.nativePath);
-			logger.info("  User settings file: " + _settings.userSettingsFile.nativePath);
+			logger.info("  Application settings file: " + _settingsFileStore.applicationSettingsFile.nativePath);
+			logger.info("  User settings file: " + _settingsFileStore.userSettingsFile.nativePath);
 			logger.info("  Mode: " + _settings.mode);
-			logger.info("  Username: " + _settings.userName);
+			logger.info("  Username: " + _settings.username);
 
 			initializeComponents();
 			logger.info("Components initialized. Asynchronous plugin loading initiated.");
@@ -143,8 +140,8 @@ public class MobileApplicationController extends ApplicationControllerBase
 
 			initializeActiveView();
 		}
-		
-		public function keyDownHandler(event:KeyboardEvent):void
+
+	public function keyDownHandler(event:KeyboardEvent):void
 		{
 			switch (event.keyCode)
 			{

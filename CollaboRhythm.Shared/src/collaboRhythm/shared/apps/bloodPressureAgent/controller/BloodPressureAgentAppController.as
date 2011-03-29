@@ -26,6 +26,8 @@ package collaboRhythm.shared.apps.bloodPressureAgent.controller
 
 	public class BloodPressureAgentAppController extends WorkstationAppControllerBase
 	{
+		public static const DEFAULT_NAME:String = "Blood Pressure Agent";
+
 		private var _bloodPressureFullViewController:BloodPressureAgentFullViewController;
 		private var _widgetView:BloodPressureAgentWidgetView;
 		private var _fullView:BloodPressureAgentFullView;
@@ -57,7 +59,8 @@ package collaboRhythm.shared.apps.bloodPressureAgent.controller
 		
 		protected override function createWidgetView():UIComponent
 		{
-			var newWidgetView:BloodPressureAgentWidgetView = new BloodPressureAgentWidgetView();
+			var newWidgetView:BloodPressureAgentWidgetView;
+//			newWidgetView = new BloodPressureAgentWidgetView();
 //			if (_user != null)
 //				newWidgetView.initializeClock(_user.scheduleModel);
 			return newWidgetView;
@@ -98,6 +101,11 @@ package collaboRhythm.shared.apps.bloodPressureAgent.controller
 		{
 			if (_fullView)
 				_fullView.refresh();
+		}
+
+		override public function get defaultName():String
+		{
+			return DEFAULT_NAME;
 		}
 	}
 }

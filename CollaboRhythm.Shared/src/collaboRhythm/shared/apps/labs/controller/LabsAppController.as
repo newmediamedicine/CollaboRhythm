@@ -26,6 +26,8 @@ package collaboRhythm.shared.apps.labs.controller
 
 	public class LabsAppController extends WorkstationAppControllerBase
 	{
+		public static const DEFAULT_NAME:String = "Labs";
+
 		private var _widgetView:LabsWidgetView;
 //		private var _fullView:LabsFullView;
 		
@@ -73,6 +75,11 @@ package collaboRhythm.shared.apps.labs.controller
 //			}
 //			(_widgetView as LabsWidgetView).model = _sharedUser.labs;
 //			_fullView.model = _sharedUser.labs;
+		}
+
+		override public function get defaultName():String
+		{
+			return DEFAULT_NAME;
 		}
 	}
 }

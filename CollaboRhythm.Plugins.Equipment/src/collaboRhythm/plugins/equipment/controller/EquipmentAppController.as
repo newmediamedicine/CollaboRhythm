@@ -26,6 +26,8 @@ package collaboRhythm.plugins.equipment.controller
 	
 	public class EquipmentAppController extends WorkstationAppControllerBase
 	{
+		public static const DEFAULT_NAME:String = "Equipment";
+
 		private var _widgetView:EquipmentWidgetView;
 		//		private var _fullView:EquipmentTimelineFullView;
 		
@@ -129,7 +131,7 @@ package collaboRhythm.plugins.equipment.controller
 
 		public override function get defaultName():String
 		{
-			return "Equipment";
+			return DEFAULT_NAME;
 		}
 	}
 }

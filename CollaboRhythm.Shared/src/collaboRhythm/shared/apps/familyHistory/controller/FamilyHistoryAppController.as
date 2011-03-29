@@ -26,6 +26,8 @@ package collaboRhythm.shared.apps.familyHistory.controller
 
 	public class FamilyHistoryAppController extends WorkstationAppControllerBase
 	{
+		public static const DEFAULT_NAME:String = "Family History";
+
 		private var _widgetView:FamilyHistoryWidgetView;
 //		private var _fullView:FamilyHistoryFullView;
 		
@@ -73,6 +75,11 @@ package collaboRhythm.shared.apps.familyHistory.controller
 //			}
 //			(_widgetView as FamilyHistoryWidgetView).model = _sharedUser.familyHistory;
 //			_fullView.model = _sharedUser.familyHistory;
+		}
+
+		override public function get defaultName():String
+		{
+			return DEFAULT_NAME;
 		}
 	}
 }

@@ -18,7 +18,7 @@ package collaboRhythm.core.controller
 {
 	import collaboRhythm.core.view.WorkstationCommandBarView;
 	import collaboRhythm.shared.controller.CollaborationEvent;
-	import collaboRhythm.shared.model.Settings;
+	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.model.User;
 	import collaboRhythm.shared.model.UsersModel;
 	import collaboRhythm.shared.model.WorkstationCommandBarModel;

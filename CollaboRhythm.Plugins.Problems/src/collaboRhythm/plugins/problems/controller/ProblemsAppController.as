@@ -27,6 +27,8 @@ package collaboRhythm.plugins.problems.controller
 
 	public class ProblemsAppController extends WorkstationAppControllerBase
 	{
+		public static const DEFAULT_NAME:String = "Problems";
+
 		private var _widgetView:ProblemsWidgetView;
 		private var _fullView:ProblemsFullView;
 			
@@ -92,7 +94,7 @@ package collaboRhythm.plugins.problems.controller
 		public override function initialize():void
 		{
 			super.initialize();
-			if (problemsModel.initialized == false)
+			if (!problemsModel.initialized)
 			{
 				var problemsHealthRecordService:ProblemsHealthRecordService = new ProblemsHealthRecordService(_healthRecordService.consumerKey, _healthRecordService.consumerSecret, _healthRecordService.baseURL);
 				problemsHealthRecordService.copyLoginResults(_healthRecordService);
@@ -120,7 +122,7 @@ package collaboRhythm.plugins.problems.controller
 
 		public override function get defaultName():String
 		{
-			return "Problems";
+			return DEFAULT_NAME;
 		}
 	}
 }

@@ -19,6 +19,8 @@ package collaboRhythm.shared.model
 	import collaboRhythm.shared.model.healthRecord.CommonHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
 
+	import collaboRhythm.shared.model.settings.Settings;
+
 	import flash.errors.IllegalOperationError;
 	
 	import j2as3.collection.HashMap;
@@ -47,7 +49,7 @@ package collaboRhythm.shared.model
 		
 		public function UsersModel(settings:Settings, healthRecordService:CommonHealthRecordService)
 		{		
-			_localUserName = settings.userName;
+			_localUserName = settings.username;
 			
 //			_usersDatabaseService = new UserDatabaseService(this);
 			_usersHealthRecordService = new UsersHealthRecordService(this, healthRecordService.consumerKey, healthRecordService.consumerSecret, healthRecordService.baseURL);

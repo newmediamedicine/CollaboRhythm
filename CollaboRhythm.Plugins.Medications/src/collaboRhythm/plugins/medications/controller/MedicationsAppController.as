@@ -26,6 +26,8 @@ package collaboRhythm.plugins.medications.controller
 
 	public class MedicationsAppController extends WorkstationAppControllerBase
 	{
+		public static const DEFAULT_NAME:String = "Medications";
+
 		private var _widgetView:MedicationsWidgetView;
 //		private var _fullView:MedicationsTimelineFullView;
 		
@@ -129,7 +131,7 @@ package collaboRhythm.plugins.medications.controller
 
 		override public function get defaultName():String
 		{
-			return "Medications";
+			return DEFAULT_NAME;
 		}
 	}
 }

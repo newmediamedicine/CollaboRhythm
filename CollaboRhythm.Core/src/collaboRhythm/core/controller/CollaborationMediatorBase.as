@@ -26,7 +26,11 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.model.healthRecord.CommonHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
-	
+
+	import collaboRhythm.shared.model.settings.Settings;
+
+	import collaboRhythm.shared.model.settings.SettingsFileStore;
+
 	import flash.utils.getQualifiedClassName;
 	
 	import mx.logging.ILogger;
@@ -41,6 +45,7 @@ package collaboRhythm.core.controller
 		protected var _kernel:IKernel;
 		protected var logger:ILogger;
 		private var _settings:Settings;
+		private var _settingsFileStore:SettingsFileStore;
 		protected var healthRecordService:CommonHealthRecordService;
 		protected var usersModel:UsersModel;
 		protected var _subjectUser:User;
@@ -66,6 +71,7 @@ package collaboRhythm.core.controller
 			_kernel = WorkstationKernel.instance;
 			
 			_settings = applicationController.settings;
+			_settingsFileStore = applicationController.settingsFileStore;
 			
 			if (_settings.isPatientMode)
 				prepareForPatientMode();
@@ -73,7 +79,7 @@ package collaboRhythm.core.controller
 			healthRecordService = new CommonHealthRecordService(_settings.chromeConsumerKey, _settings.chromeConsumerSecret, _settings.indivoServerBaseURL);
 			
 			healthRecordService.addEventListener(HealthRecordServiceEvent.LOGIN_COMPLETE, loginCompleteHandler);
-			healthRecordService.login(_settings.chromeConsumerKey, _settings.chromeConsumerSecret, _settings.userName, _settings.password);
+			healthRecordService.login(_settings.chromeConsumerKey, _settings.chromeConsumerSecret, _settings.username, _settings.password);
 		}
 		
 		protected function prepareForPatientMode():void
@@ -213,6 +219,13 @@ package collaboRhythm.core.controller
 					_subjectUser = user;
 					
 					openValidatedUser(user);
+
+					if (_appControllersMediator)
+						_appControllersMediator.updateAppGroupSettings();
+
+					// TODO: update the user settings file with any settings that are not included (or differ from) the default application settings
+					if (_settingsFileStore)
+						_settingsFileStore.encodeToXML();
 				}
 			}
 		}
@@ -235,6 +248,11 @@ package collaboRhythm.core.controller
 		public function get settings():Settings
 		{
 			return _settings;
+		}
+
+		public function get settingsFileStore():SettingsFileStore
+		{
+			return _settingsFileStore;
 		}
 	}
 }

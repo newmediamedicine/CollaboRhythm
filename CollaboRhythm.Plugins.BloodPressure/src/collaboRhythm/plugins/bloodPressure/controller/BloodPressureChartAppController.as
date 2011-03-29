@@ -24,6 +24,8 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 	public class BloodPressureChartAppController extends WorkstationAppControllerBase
 	{
+		public static const DEFAULT_NAME:String = "Blood Pressure Chart";
+
 		private var _widgetView:BloodPressureMobileChartView;
 
 		public function BloodPressureChartAppController(constructorParams:AppControllerConstructorParams)
@@ -33,7 +35,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 		override public function get defaultName():String
 		{
-			return "Blood Pressure Chart";
+			return DEFAULT_NAME;
 		}
 
 		override public function get widgetView():UIComponent

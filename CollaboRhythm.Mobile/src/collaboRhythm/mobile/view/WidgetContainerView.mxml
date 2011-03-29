@@ -173,6 +173,7 @@
 
 		import com.daveoncode.logging.LogFileTarget;
 
+		import mx.collections.ArrayCollection;
 		import mx.core.IButton;
 		import mx.core.IVisualElement;
 
@@ -192,15 +193,15 @@
 		private var _isListeningForMouseMove:Boolean;
 		private var _shouldIgnoreNextMouseDown:Boolean;
 		private var _infoData:XML;
-		private var _demoDatePresets:Vector.<Date>;
+		private var _demoDatePresets:ArrayCollection;
 
 		[Bindable]
-		public function get demoDatePresets():Vector.<Date>
+		public function get demoDatePresets():ArrayCollection
 		{
 			return _demoDatePresets;
 		}
 
-		public function set demoDatePresets(value:Vector.<Date>):void
+		public function set demoDatePresets(value:ArrayCollection):void
 		{
 			_demoDatePresets = value;
 		}
@@ -530,13 +531,13 @@
 				dispatchEvent(new DemoEvent(DemoEvent.CHANGE_DEMO_DATE, demoDatePresets[demoPresetIndex]));
 		}
 
-		private function getDemoButtonLabel(datesVector:Vector.<Date>, demoPresetIndex:int):String
+		private function getDemoButtonLabel(datesCollection:ArrayCollection, demoPresetIndex:int):String
 		{
 			var dateFormatter:DateFormatter = new DateFormatter();
 			dateFormatter.formatString = "M/D/YYY";
 			var demoDate:String;
-			if (datesVector && datesVector.length > demoPresetIndex)
-				demoDate = dateFormatter.format(datesVector[demoPresetIndex]);
+			if (datesCollection && datesCollection.length > demoPresetIndex)
+				demoDate = dateFormatter.format(datesCollection[demoPresetIndex]);
 			else
 				demoDate = "<none>";
 

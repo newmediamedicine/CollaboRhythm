@@ -191,8 +191,11 @@ package collaboRhythm.shared.model
 		
 		public function connectLocalUserVideoStream():void
 		{
-			publishLocalUserVideoStream();
-			_netConnection.call("videoStreamConnected", null, _localUserName); 
+			if (_netConnection && _netConnection.connected)
+			{
+				publishLocalUserVideoStream();
+				_netConnection.call("videoStreamConnected", null, _localUserName);
+			}
 		}
 		
 		private function reconnectLocalUserVideoStream():void
