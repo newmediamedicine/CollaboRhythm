@@ -84,12 +84,12 @@
 
 		public function get isRunning():Boolean
 		{
-			return nephronSimulationView.isRunning;
+			return hydrochlorothiazideSimulationView.isRunning;
 		}
 
 		public function set isRunning(value:Boolean):void
 		{
-			nephronSimulationView.isRunning = value;
+			hydrochlorothiazideSimulationView.isRunning = value;
 		}
 
 		public function initializeModel(simulationModel:SimulationModel, bloodPressureModel:BloodPressureModel):void
@@ -148,35 +148,6 @@
 			}
 
 			return (simulationModelSystolic - 80) * (200 / 80);
-		}
-
-		private function updateNephronSimulation(concentration:Number):Number
-		{
-			// TODO: hide simulation (?) when concentration is undefined; for now, treat undefined values as 0 concentration
-			if (isNaN(concentration))
-				concentration = 0;
-
-			if (concentration < SimulationModel.goalConcentration * 0.5)
-			{
-				nephronSimulationView.soluteInBloodRatio = 0.95;
-			}
-			else if (concentration < SimulationModel.goalConcentration)
-			{
-				nephronSimulationView.soluteInBloodRatio = 0.75;
-			}
-			else
-			{
-				nephronSimulationView.soluteInBloodRatio = 0.05;
-			}
-
-			// limit the number of plugs to 2x the number of gaps
-			nephronSimulationView.plugRatio = Math.min(SimulationModel.maxPlugRatio,
-													   concentration / SimulationModel.goalConcentration);
-
-			// TODO: move the bloodAreaPercentWidth in a more appropriate way
-			nephronSimulationView.bloodAreaPercentWidth = Math.min(0.75, Math.max(0.25, 1 - (concentration / SimulationModel.goalConcentration)));
-
-			return nephronSimulationView.plugRatio;
 		}
 
 		public function refresh():void
@@ -355,7 +326,7 @@
 		<s:layout>
 			<view2:ScaleToFitLayout unscaledWidth="240" aspectRatioMin="0.85" aspectRatioMax="1.25"/>
 		</s:layout>
-		<view1:BloodSolutesSimulationView id="nephronSimulationView"
-										  plugRatio="{updateNephronSimulation(_simulationModel.concentration)}"/>
+		<view:HydrochlorothiazideSimulationView id="hydrochlorothiazideSimulationView"
+										  concentration="{_simulationModel.concentration}"/>
 	</s:Group>
 </s:Group>

@@ -17,12 +17,12 @@
   -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:view="collaboRhythm.shared.bloodSolutesSimulation.view.*"
-		 xmlns:view2="collaboRhythm.shared.view.*"
+		 xmlns:view2="collaboRhythm.shared.view.*" xmlns:view3="collaboRhythm.plugins.bloodPressure.view.*"
 		 implements="collaboRhythm.plugins.bloodPressure.view.IBloodPressureWidgetView">
 	<s:layout>
 		<view2:ScaleToFitLayout unscaledWidth="160" aspectRatioMin="0.85" aspectRatioMax="1.25"/>
 	</s:layout>
-	<view:BloodSolutesSimulationView id="nephronSimulationView"
+	<view3:HydrochlorothiazideSimulationView id="hydrochlorothiazideSimulationView"
 									  width="100%" height="100%"/>
 	
 	<fx:Script>
@@ -65,34 +65,8 @@
 					var mostRecentConcentrationItem:Object = _model.adherenceDataCollection.getItemAt(_model.adherenceDataCollection.length - 1);
 					concentration = mostRecentConcentrationItem["concentration"];
 				}
-				nephronSimulationView.plugRatio = updateNephronSimulation(concentration);
+				hydrochlorothiazideSimulationView.concentration = concentration;
 			}
-		}
-
-		private function updateNephronSimulation(concentration:Number):Number
-		{
-			// TODO: hide simulation (?) when concentration is undefined; for now, treat undefined values as 0 concentration
-			if (isNaN(concentration))
-				concentration = 0;
-
-			if (concentration < SimulationModel.goalConcentration * 0.5)
-			{
-				nephronSimulationView.soluteInBloodRatio = 0.95;
-			}
-			else if (concentration < SimulationModel.goalConcentration)
-			{
-				nephronSimulationView.soluteInBloodRatio = 0.75;
-			}
-			else
-			{
-				nephronSimulationView.soluteInBloodRatio = 0.05;
-			}
-
-			// limit the number of plugs to 2x the number of gaps
-			nephronSimulationView.plugRatio = Math.min(SimulationModel.maxPlugRatio,
-													   concentration / SimulationModel.goalConcentration);
-
-			return nephronSimulationView.plugRatio;
 		}
 
 		]]>

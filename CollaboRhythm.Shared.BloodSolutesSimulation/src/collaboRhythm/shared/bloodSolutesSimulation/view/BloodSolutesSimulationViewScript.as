@@ -31,10 +31,14 @@ import flash.utils.getQualifiedClassName;
 import mx.core.IButton;
 import mx.core.IVisualElement;
 import mx.core.UIComponent;
+import mx.effects.Effect;
 import mx.events.FlexEvent;
 import mx.events.ResizeEvent;
 
 import spark.components.supportClasses.ButtonBase;
+import spark.effects.Animate;
+import spark.effects.animation.MotionPath;
+import spark.effects.animation.SimpleMotionPath;
 import spark.primitives.Rect;
 
 private var _world:b2World;
@@ -57,7 +61,11 @@ public static const _worldRatio:int = 30;
 private var _plugRatio:Number = 0.5;
 private var _antibodyRatio:Number = 0;
 private var _soluteInBloodRatio:Number = 0.25;
+private var _soluteInBloodRatioAnimated:Number = NaN;
+private var _soluteInBloodRatioEffect:Animate = new Animate(this);
 private var _bloodAreaPercentWidth:Number = 0.5;
+private var _bloodAreaPercentWidthAnimated:Number = NaN;
+private var _bloodAreaPercentWidthEffect:Animate = new Animate(this);
 
 [Bindable]
 public function get bloodAreaPercentWidth():Number
@@ -69,8 +77,48 @@ public function set bloodAreaPercentWidth(value:Number):void
 {
 	if (_bloodAreaPercentWidth != value)
 	{
+		var oldValue:Number = _bloodAreaPercentWidth;
 		_bloodAreaPercentWidth = value;
-		resizeWorld();
+		moveBodiesForBloodAreaPercentWidth(oldValue);
+	}
+}
+
+[Bindable]
+public function get bloodAreaPercentWidthAnimated():Number
+{
+	return _bloodAreaPercentWidthAnimated;
+}
+
+public function set bloodAreaPercentWidthAnimated(value:Number):void
+{
+	if (_bloodAreaPercentWidthAnimated != value)
+	{
+		_bloodAreaPercentWidthAnimated = value;
+		_bloodAreaPercentWidthEffect.stop();
+		var motionPath:SimpleMotionPath = new SimpleMotionPath("bloodAreaPercentWidth", bloodAreaPercentWidth, _bloodAreaPercentWidthAnimated);
+		_bloodAreaPercentWidthEffect.motionPaths = new <MotionPath>[motionPath];
+		_bloodAreaPercentWidthEffect.duration = 3000;
+		_bloodAreaPercentWidthEffect.startDelay = 2000;
+		_bloodAreaPercentWidthEffect.play();
+	}
+}
+
+[Bindable]
+public function get soluteInBloodRatioAnimated():Number
+{
+	return _soluteInBloodRatioAnimated;
+}
+
+public function set soluteInBloodRatioAnimated(value:Number):void
+{
+	if (_soluteInBloodRatioAnimated != value)
+	{
+		_soluteInBloodRatioAnimated = value;
+		_soluteInBloodRatioEffect.stop();
+		var motionPath:SimpleMotionPath = new SimpleMotionPath("soluteInBloodRatio", soluteInBloodRatio, _soluteInBloodRatioAnimated);
+		_soluteInBloodRatioEffect.motionPaths = new <MotionPath>[motionPath];
+		_soluteInBloodRatioEffect.duration = 5000;
+		_soluteInBloodRatioEffect.play();
 	}
 }
 
@@ -1756,6 +1804,21 @@ private function resizeWorld():void
 	}
 }
 
+private function moveBodiesForBloodAreaPercentWidth(oldBloodAreaPercentWidth:Number):void
+{
+	if (_world != null)
+	{
+		if (isWorldBigEnough)
+		{
+			removeWallBodies();
+			createDynamicWallRects();
+			createWallBodies();
+
+			moveDynamicBodiesForBloodAreaPercentWidth(oldBloodAreaPercentWidth);
+		}
+	}
+}
+
 private function get isWorldBigEnough():Boolean
 {
 	return this.wallsGroup.width / _worldRatio >= minWorldWidth && this.wallsGroup.height / _worldRatio >= minWorldHeight;
@@ -1779,6 +1842,40 @@ private function moveDynamicBodiesAfterResize(resizeFactorX:Number, resizeFactor
 
 			pos.x *= resizeFactorX;
 			pos.y *= resizeFactorY;
+			body.SetPosition(pos);
+
+			updateSpriteFromBody(body, pos, sprite);
+		}
+	}
+}
+
+private function moveDynamicBodiesForBloodAreaPercentWidth(oldBloodAreaPercentWidth:Number):void
+{
+	// Go through body list and update sprite positions/rotations
+	for (var body:b2Body = _world.GetBodyList(); body; body = body.GetNext())
+	{
+		if (body.GetMass() > 0 && body.GetUserData() is BodyInfo)
+		{
+			var bodyInfo:BodyInfo = body.GetUserData() as BodyInfo;
+			var sprite:Sprite = bodyInfo.sprite;
+			var pos:b2Vec2 = body.GetPosition();
+
+			if (bodyInfo != null && bodyInfo.plugJoint)
+			{
+				destroyJoint(bodyInfo);
+			}
+
+			var resizeFactorX:Number = bloodAreaPercentWidth / oldBloodAreaPercentWidth;
+			var w:Number = wallsGroup.width / _worldRatio;
+			if (pos.x < w * oldBloodAreaPercentWidth)
+			{
+				pos.x *= resizeFactorX;
+			}
+			else
+			{
+				var slope:Number = (1 - bloodAreaPercentWidth) / (1 - oldBloodAreaPercentWidth);
+				pos.x = slope * pos.x + w - slope * w;
+			}
 			body.SetPosition(pos);
 
 			updateSpriteFromBody(body, pos, sprite);

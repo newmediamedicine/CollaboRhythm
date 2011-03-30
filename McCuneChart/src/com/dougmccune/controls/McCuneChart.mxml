@@ -39,17 +39,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 	<fx:Style source="ChartStyles.css" />
 	
 	<fx:Declarations>
-		<!-- background elements for main chart -->
-		<fx:Array id="backgroundContents">
-			<mx:GridLines id="backgroundGrid" 
-						  verticalStroke="{new Stroke(0xCCCCCC, 1)}" />
-			<!--
-						  horizontalStroke="{new Stroke(0xCCCCCC, 1)}" 
-			-->
-		</fx:Array>
-		
-		<mx:HTTPService id="stockInfo" url="data/adobe_stock_info.xml" result="dataResult(event)" fault="faultResult(event)" resultFormat="object" />
-		
 		<mx:DateFormatter id="fullDateFormat" formatString="YYYY-MM-DD" />
 		<mx:DateFormatter id="labelYearFormatter" formatString="YYYY" />
 		<mx:DateFormatter id="labelMonthFormatter" formatString="MMM YYYY" />
@@ -191,7 +180,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 					   borderStyle="none"
 					   >
 				<mx:AreaChart x="0" y="0" id="rangeChart"
-							  showDataTips="false" dataProvider="{rangeData}" 
+							  showDataTips="false" dataProvider="{rangeChartVisible ? rangeData : null}"
 							  width="100%" height="{rangeChartContainer.height}"
 							  gutterLeft="0"
 							  gutterRight="0"
@@ -396,12 +385,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 							  horizontalAxisStyleNames="mainChartHorizontalAxisStyle"
 							  verticalAxisStyleNames="mainChartVerticalAxisStyle"
 							  >
-					<!--
-							  click="selectChartDataPoint()"
-					mouseDown="setMouseDown(mainChart);"
-					x="-2" y="0" 
-					backgroundElements="{backgroundContents}"
-					-->
 					<mx:backgroundElements>
 						<mx:GridLines gridDirection="both" verticalChangeCount="1" horizontalChangeCount="1">
 							<mx:verticalStroke>
