@@ -76,6 +76,7 @@ package collaboRhythm.mobile.controller
 		private function viewNavigator_transitionCompleteHandler(event:Event):void
 		{
 //			trace("viewNavigator_transitionCompleteHandler");
+			_mobileApplication.busy = false;
 		}
 
 		private function viewNavigator_addedHandler(event:Event):void
@@ -83,6 +84,7 @@ package collaboRhythm.mobile.controller
 			var view:WidgetContainerView = event.target as WidgetContainerView;
 			if (view)
 			{
+				_mobileApplication.busy = true;
 				initializeView(view);
 			}
 		}
@@ -93,6 +95,9 @@ package collaboRhythm.mobile.controller
 			if (view)
 			{
 				initializeView(view);
+
+				if (_collaborationMediator && _collaborationMediator.subjectUser)
+					_mobileApplication.busy = false;
 			}
 		}
 

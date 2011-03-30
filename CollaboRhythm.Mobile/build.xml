@@ -149,9 +149,9 @@
 			<arg value="${BUILD_DIR}"/>
 			<arg value="${APP_ROOT_FILE}"/>
 			<arg value="-C"/>
-			<arg value="${basedir}"/>
-			<!--<arg value="${ASSETS_DIR}"/>-->
-			<arg value="${DEBUG_DIR}/resources"/>
+			<arg value="${DEBUG_DIR}"/>
+			<arg value="resources"/>
+			<arg value="assets"/>
 		</java>
 	</target>
 	

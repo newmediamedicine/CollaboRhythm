@@ -19,6 +19,7 @@
 					 xmlns:s="library://ns.adobe.com/flex/spark" 
 					 creationComplete="creationCompleteHandler(event)"
 					 firstView="collaboRhythm.mobile.view.WidgetContainerView"
+					 skinClass="collaboRhythm.mobile.view.skins.CollaboRhythmMobileApplicationSkin"
 					 >
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
@@ -30,7 +31,15 @@
 
         import mx.events.FlexEvent;
 
-        private var _applicationController:MobileApplicationController;
+		import net.flashdan.containers.busyindicator.BusyIndicator;
+
+		private var _applicationController:MobileApplicationController;
+
+		[SkinPart(required="false")]
+		/**
+		 * Busy indicator for letting the user know that the app is busy loading.
+		 */
+		public var busyIndicator:BusyIndicator;
 
         protected function creationCompleteHandler(event:FlexEvent):void {
             main();
@@ -40,6 +49,11 @@
             _applicationController = new MobileApplicationController(this);
             _applicationController.main();
         }
+
+		public function set busy(busy:Boolean):void
+		{
+			busyIndicator.busy = busy;
+		}
         ]]>
 	</fx:Script>
 	<s:navigationContent> 		
