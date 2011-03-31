@@ -26,6 +26,10 @@
 
 		private var _concentration:Number;
 
+		/**
+		 * Concentration of hydrochlorothiazide in the blood.
+		 */
+		[Bindable]
 		public function get concentration():Number
 		{
 			return _concentration;
@@ -43,23 +47,10 @@
 			if (isNaN(concentration))
 				concentration = 0;
 
-//			if (concentration < SimulationModel.goalConcentration * 0.5)
-//			{
-//				this.soluteInBloodRatio = 0.95;
-//			}
-//			else if (concentration < SimulationModel.goalConcentration)
-//			{
-//				this.soluteInBloodRatio = 0.75;
-//			}
-//			else
-//			{
-//				this.soluteInBloodRatio = 0.05;
-//			}
-
-			this.soluteInBloodRatioAnimated = linearTransform(concentration, 0, SimulationModel.goalConcentration, 0.95, 0.05);
-
 			// limit the number of plugs to 2x the number of gaps
 			this.plugRatio = Math.min(SimulationModel.maxPlugRatio, concentration / SimulationModel.goalConcentration);
+
+			this.soluteInBloodRatioAnimated = linearTransform(concentration, 0, SimulationModel.goalConcentration, 0.95, 0.05);
 
 			// TODO: move the bloodAreaPercentWidth in a more appropriate way
 			this.bloodAreaPercentWidthAnimated = linearTransform(concentration, 0, SimulationModel.goalConcentration, 0.6, 0.4);

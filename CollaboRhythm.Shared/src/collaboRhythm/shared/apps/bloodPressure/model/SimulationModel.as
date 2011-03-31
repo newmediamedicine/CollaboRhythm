@@ -16,6 +16,9 @@
  */
 package collaboRhythm.shared.apps.bloodPressure.model
 {
+	/**
+	 * Represents the data used by the blood pressure simulation.
+	 */
 	[Bindable]
 	public class SimulationModel
 	{
@@ -25,8 +28,15 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		private var _diastolic:Number;
 		private var _concentration:Number;
 
+		/**
+		 * Maximum value to use for the plugRatio, the ratio of plugs (medication) to gaps, in the simulation.
+		 */
 		public static const maxPlugRatio:Number = 2.0;
 
+		/**
+		 * Goal value for the concentration of medication in the blood. A concentration at or above goalConcentration
+		 * will result in ideal functioning of the medication.
+		 */
 		public static const goalConcentration:Number = 0.05;
 
 		public function SimulationModel()
