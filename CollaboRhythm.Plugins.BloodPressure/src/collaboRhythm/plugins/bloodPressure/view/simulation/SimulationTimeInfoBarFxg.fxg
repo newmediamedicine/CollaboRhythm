@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="1.0" viewHeight="50" viewWidth="500" ai:appVersion="14.0.0.367" d:id="1" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ai="http://ns.adobe.com/ai/2008" xmlns:d="http://ns.adobe.com/fxg/2008/dt">
+  <Group d:id="2" d:type="layer" d:userLabel="Layer 1">
+    <Group>
+      <Group>
+        <Path alpha="0.5" winding="nonZero" data="M499.5 44.5996C499.5 47.3066 497.267 49.5 494.51 49.5L5.49023 49.5C2.73389 49.5 0.5 47.3066 0.5 44.5996L0.5 5.3999C0.5 2.69336 2.73389 0.5 5.49023 0.5L494.51 0.5C497.267 0.5 499.5 2.69336 499.5 5.3999L499.5 44.5996Z" >
+          <fill>
+            <SolidColor color="#bad5f0"/>
+          </fill>
+        </Path>
+        <Path winding="nonZero" data="M499.5 44.5996C499.5 47.3066 497.267 49.5 494.51 49.5L5.49023 49.5C2.73389 49.5 0.5 47.3066 0.5 44.5996L0.5 5.3999C0.5 2.69336 2.73389 0.5 5.49023 0.5L494.51 0.5C497.267 0.5 499.5 2.69336 499.5 5.3999L499.5 44.5996Z" >
+          <stroke>
+            <SolidColorStroke color="#414042" caps="none" weight="1" joints="miter" miterLimit="10"/>
+          </stroke>
+        </Path>
+        <TextGraphic width="299.161" height="25.5913" textAlign="center" fontFamily="Myriad Pro" fontSize="23.52" lineHeight="120%" whiteSpaceCollapse="preserve" kerning="on" x="200.1" y="16.1802" ai:knockout="0">
+          <content><p><span>2/14/2011 @ 08:00pm</span></p></content>
+        </TextGraphic>
+      </Group>
+      <Group>
+        <Path winding="nonZero" data="M200.1 44.5996C200.1 47.3066 197.867 49.5 195.11 49.5L5.49023 49.5C2.73389 49.5 0.5 47.3066 0.5 44.5996L0.5 5.3999C0.5 2.69336 2.73389 0.5 5.49023 0.5L195.11 0.5C197.867 0.5 200.1 2.69336 200.1 5.3999L200.1 44.5996Z" >
+          <fill>
+            <SolidColor color="#bad5f0"/>
+          </fill>
+          <stroke>
+            <SolidColorStroke color="#414042" caps="none" weight="1" joints="miter" miterLimit="10"/>
+          </stroke>
+        </Path>
+        <TextGraphic width="198.399" height="25.5913" textAlign="center" fontFamily="Myriad Pro" fontSize="23.52" lineHeight="120%" whiteSpaceCollapse="preserve" kerning="on" x="1.0127" y="16.1802" ai:knockout="0">
+          <content><p><span>History Mode</span></p></content>
+        </TextGraphic>
+      </Group>
+    </Group>
+  </Group>
+  <Private>
+    <ai:PrivateElement d:ref="#1">
+      <ai:SaveOptions>
+        <ai:Dictionary>
+          <ai:DictEntry name="writeImages" value="1" valueType="Boolean"/>
+          <ai:DictEntry name="versionKey" value="1" valueType="Integer"/>
+          <ai:DictEntry name="aiEditCap" value="1" valueType="Boolean"/>
+          <ai:DictEntry name="includeXMP" value="0" valueType="Boolean"/>
+          <ai:DictEntry name="includeSymbol" value="0" valueType="Boolean"/>
+          <ai:DictEntry name="preserveGradientPolicy" value="3" valueType="Integer"/>
+          <ai:DictEntry name="rasterizeResolution" value="72" valueType="Integer"/>
+          <ai:DictEntry name="clipToActiveArtboard" value="1" valueType="Boolean"/>
+          <ai:DictEntry name="preserveTextPolicy" value="3" valueType="Integer"/>
+          <ai:DictEntry name="downsampleLinkedImages" value="0" valueType="Boolean"/>
+          <ai:DictEntry name="preserveFilterPolicy" value="3" valueType="Integer"/>
+        </ai:Dictionary>
+      </ai:SaveOptions>
+      <ai:DocData base="SimulationTimeInfoBarFxg.assets/images"/>
+      <ai:Artboards originOffsetH="149" originOffsetV="324.5" rulerCanvasDiffH="399" rulerCanvasDiffV="-300" zoom="3">
+        <ai:Artboard active="1" bottom="274.5" index="0" left="149" right="649" top="324.5"/>
+        <ai:ArtboardsParam all="0" range="" type="0"/>
+      </ai:Artboards>
+    </ai:PrivateElement>
+    <ai:PrivateElement d:ref="#2">
+      <ai:LayerOptions colorType="ThreeColor">
+        <ai:ThreeColor blue="257" green="128.502" red="79.31"/>
+      </ai:LayerOptions>
+    </ai:PrivateElement>
+  </Private>
+</Graphic>

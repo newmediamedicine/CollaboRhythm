@@ -123,11 +123,19 @@ package collaboRhythm.plugins.equipment.model
 				if (equipmentScheduleItemReport.Item.MedicationScheduleItem.name.toString() == "Fora D15b")
 				{
 					var equipmentScheduleItem:EquipmentScheduleItem = new EquipmentScheduleItem(equipmentScheduleItemReport);
-					_user.registerDocument(equipmentScheduleItem, equipmentScheduleItem);
-					equipmentScheduleItem.scheduledAction = _user.resolveDocumentById(equipmentScheduleItem.scheduledActionID, Equipment) as Equipment;
-					var scheduleGroup:ScheduleGroup = _user.resolveDocumentById(equipmentScheduleItem.scheduleGroupID, ScheduleGroup) as ScheduleGroup;
-					scheduleGroup.scheduleItemsCollection.addItem(equipmentScheduleItem);
-					_equipmentScheduleItemsCollection.addItem(equipmentScheduleItem);
+					if (_user.containsDocumentById(equipmentScheduleItem.scheduledActionID))
+					{
+						equipmentScheduleItem.scheduledAction = _user.resolveDocumentById(equipmentScheduleItem.scheduledActionID,
+																						  Equipment) as Equipment;
+						if (_user.containsDocumentById(equipmentScheduleItem.scheduleGroupID))
+						{
+							var scheduleGroup:ScheduleGroup = _user.resolveDocumentById(equipmentScheduleItem.scheduleGroupID,
+																						ScheduleGroup) as ScheduleGroup;
+							_user.registerDocument(equipmentScheduleItem, equipmentScheduleItem);
+							scheduleGroup.scheduleItemsCollection.addItem(equipmentScheduleItem);
+							_equipmentScheduleItemsCollection.addItem(equipmentScheduleItem);
+						}
+					}
 				}
 			}
 		}

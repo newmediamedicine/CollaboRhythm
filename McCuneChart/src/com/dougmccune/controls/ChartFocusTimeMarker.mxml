@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:controls="com.dougmccune.controls.*"
 		 width="30" height="300"
 		 mouseOver="mouseOverHandler(event)"
 		 mouseOut="mouseOutHandler(event)"
-		 >
+		>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -47,7 +47,8 @@
 			<s:SolidColor color="0x00FF00" alpha="0"/>
 		</s:fill>
 	</s:Rect>
-	<s:Line id="focusTimeLine" height="{this.height - 15}" 
+<!--
+	<s:Line id="focusTimeLine" height="{this.height - 15}"
 			x="15"
 			y="10">
 		<s:stroke>
@@ -74,4 +75,31 @@
 			<s:SolidColorStroke weight="1" color="#000000" alpha="0"/>
 		</s:stroke>
 	</s:Path>
+-->
+	<s:Group id="markerGroup" height="100%" x="{-(markerGroup.width - this.width) / 2}">
+		<controls:ChartFocusTimeMarkerTop id="markerTop" horizontalCenter="0"/>
+<!--
+x="{-(markerTop.width - this.width) / 2}"
+		<controls:ChartFocusTimeMarkerMiddle id="markerMiddle" x="{-(markerMiddle.width - this.width) / 2}" percentHeight="100" resizeMode="noScale"/>
+-->
+		<s:Group id="markerMiddle" height="{this.height - markerTop.height - markerBottom.height + 2}" y="{markerTop.height}">
+		  <s:Rect x="{-2 + (markerGroup.width - this.width)}" alpha="0.5" width="4" height="100%">
+			<s:fill>
+			  <s:SolidColor color="#b9d5ef"/>
+			</s:fill>
+		  </s:Rect>
+		  <s:Line x="{-2 + (markerGroup.width - this.width)}" height="100%">
+			<s:stroke>
+			  <s:SolidColorStroke color="#231f20" caps="none" weight="1" joints="miter" miterLimit="10"/>
+			</s:stroke>
+		  </s:Line>
+		  <s:Line x="{2 + (markerGroup.width - this.width)}" height="100%">
+			<s:stroke>
+			  <s:SolidColorStroke color="#231f20" caps="none" weight="1" joints="miter" miterLimit="10"/>
+			</s:stroke>
+		  </s:Line>
+		</s:Group>
+		
+		<controls:ChartFocusTimeMarkerBottom id="markerBottom" horizontalCenter="0" bottom="0"/>
+	</s:Group>
 </s:Group>

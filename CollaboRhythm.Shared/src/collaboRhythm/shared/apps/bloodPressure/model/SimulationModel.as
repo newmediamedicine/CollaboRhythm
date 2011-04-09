@@ -16,6 +16,8 @@
  */
 package collaboRhythm.shared.apps.bloodPressure.model
 {
+	import mx.events.PropertyChangeEvent;
+
 	/**
 	 * Represents the data used by the blood pressure simulation.
 	 */
@@ -38,9 +40,14 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		 * will result in ideal functioning of the medication.
 		 */
 		public static const goalConcentration:Number = 0.05;
+		private var _mode:String;
+		private var _modeLabel:String;
+		public static const MOST_RECENT_MODE:String = "mostRecentMode";
+		public static const HISTORY_MODE:String = "historyMode";
 
 		public function SimulationModel()
 		{
+			mode = MOST_RECENT_MODE;
 		}
 
 		public function get dataPointDate():Date
@@ -93,5 +100,41 @@ package collaboRhythm.shared.apps.bloodPressure.model
 			_concentration = value;
 		}
 
+		public function get mode():String
+		{
+			return _mode;
+		}
+
+		public function set mode(value:String):void
+		{
+			_mode = value;
+			modeLabel = determineModeLabel();
+		}
+
+		private function determineModeLabel():String
+		{
+			switch (mode)
+			{
+				case MOST_RECENT_MODE:
+					return "Latest Data Mode";
+					break;
+				case HISTORY_MODE:
+					return "History Mode";
+					break;
+				default:
+					throw new Error("Unsupported mode: " + mode);
+					break;
+			}
+		}
+
+		public function get modeLabel():String
+		{
+			return _modeLabel;
+		}
+
+		public function set modeLabel(value:String):void
+		{
+			_modeLabel = value;
+		}
 	}
 }

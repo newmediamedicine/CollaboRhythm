@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		height="50" width="500"
+		>
+	<s:Path alpha="0.5" winding="nonZero"
+			data="M499.5 44.5996C499.5 47.3066 497.267 49.5 494.51 49.5L5.49023 49.5C2.73389 49.5 0.5 47.3066 0.5 44.5996L0.5 5.3999C0.5 2.69336 2.73389 0.5 5.49023 0.5L494.51 0.5C497.267 0.5 499.5 2.69336 499.5 5.3999L499.5 44.5996Z">
+		<s:fill>
+			<s:SolidColor color="#bad5f0"/>
+		</s:fill>
+	</s:Path>
+	<s:Path winding="nonZero"
+			data="M499.5 44.5996C499.5 47.3066 497.267 49.5 494.51 49.5L5.49023 49.5C2.73389 49.5 0.5 47.3066 0.5 44.5996L0.5 5.3999C0.5 2.69336 2.73389 0.5 5.49023 0.5L494.51 0.5C497.267 0.5 499.5 2.69336 499.5 5.3999L499.5 44.5996Z">
+		<s:stroke>
+			<s:SolidColorStroke color="#414042" caps="none" weight="1" joints="miter" miterLimit="10"/>
+		</s:stroke>
+	</s:Path>
+	<s:Label id="simulationDateLabel" width="300" height="26" textAlign="center" fontFamily="Myriad Pro" fontSize="24"
+			 lineHeight="120%" kerning="on" x="200.5" y="16.5">
+		<s:text>{dateString}</s:text>
+	</s:Label>
+	<s:Path winding="nonZero"
+			data="M200.1 44.5996C200.1 47.3066 197.867 49.5 195.11 49.5L5.49023 49.5C2.73389 49.5 0.5 47.3066 0.5 44.5996L0.5 5.3999C0.5 2.69336 2.73389 0.5 5.49023 0.5L195.11 0.5C197.867 0.5 200.1 2.69336 200.1 5.3999L200.1 44.5996Z">
+		<s:fill>
+			<s:SolidColor color="#bad5f0"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke color="#414042" caps="none" weight="1" joints="miter" miterLimit="10"/>
+		</s:stroke>
+	</s:Path>
+	<s:Label id="modeLabel" width="200" height="26" textAlign="center" fontFamily="Myriad Pro" fontSize="24"
+			 lineHeight="120%" kerning="on" x="1" y="16.5">
+		<s:text>{mode}</s:text>
+	</s:Label>
+	<fx:Script><![CDATA[
+		private var _mode:String;
+		private var _dateString:String;
+
+		[Bindable]
+		public function get mode():String
+		{
+			return _mode;
+		}
+
+		public function set mode(value:String):void
+		{
+			_mode = value;
+		}
+
+		[Bindable]
+		public function get dateString():String
+		{
+			return _dateString;
+		}
+
+		public function set dateString(value:String):void
+		{
+			_dateString = value;
+		}
+		]]></fx:Script>
+</s:Group>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="1.0" viewHeight="2" viewWidth="61" ai:appVersion="14.0.0.367" d:id="1" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ai="http://ns.adobe.com/ai/2008" xmlns:d="http://ns.adobe.com/fxg/2008/dt">
+  <Group x="28" y="-0.5" d:id="2" d:type="layer" d:userLabel="Layer 1">
+    <Rect x="0.5" alpha="0.5" width="4" height="3.5" ai:knockout="0">
+      <fill>
+        <SolidColor color="#b9d5ef"/>
+      </fill>
+    </Rect>
+    <Path winding="nonZero" ai:knockout="0" data="M0.5 0L0.5 3.5 4.5 3.5 4.5 0" >
+      <stroke>
+        <SolidColorStroke color="#231f20" caps="none" weight="1" joints="miter" miterLimit="10"/>
+      </stroke>
+    </Path>
+  </Group>
+  <Private>
+    <ai:PrivateElement d:ref="#1">
+      <ai:SaveOptions>
+        <ai:Dictionary>
+          <ai:DictEntry name="writeImages" value="1" valueType="Boolean"/>
+          <ai:DictEntry name="aiEditCap" value="1" valueType="Boolean"/>
+          <ai:DictEntry name="versionKey" value="1" valueType="Integer"/>
+          <ai:DictEntry name="includeSymbol" value="0" valueType="Boolean"/>
+          <ai:DictEntry name="includeXMP" value="0" valueType="Boolean"/>
+          <ai:DictEntry name="preserveTextPolicy" value="3" valueType="Integer"/>
+          <ai:DictEntry name="preserveGradientPolicy" value="3" valueType="Integer"/>
+          <ai:DictEntry name="preserveFilterPolicy" value="3" valueType="Integer"/>
+          <ai:DictEntry name="downsampleLinkedImages" value="0" valueType="Boolean"/>
+          <ai:DictEntry name="clipToActiveArtboard" value="1" valueType="Boolean"/>
+          <ai:DictEntry name="rasterizeResolution" value="72" valueType="Integer"/>
+        </ai:Dictionary>
+      </ai:SaveOptions>
+      <ai:DocData base="ChartFocusTimeMarkerBottom.assets/images"/>
+      <ai:Artboards originOffsetH="369.5" originOffsetV="161.5" rulerCanvasDiffH="400" rulerCanvasDiffV="-160.5" zoom="48">
+        <ai:Artboard active="1" bottom="159.5" index="0" left="369.5" right="430.5" top="161.5"/>
+        <ai:ArtboardsParam all="0" range="" type="0"/>
+      </ai:Artboards>
+    </ai:PrivateElement>
+    <ai:PrivateElement d:ref="#2">
+      <ai:LayerOptions colorType="ThreeColor">
+        <ai:ThreeColor blue="257" green="128.502" red="79.31"/>
+      </ai:LayerOptions>
+    </ai:PrivateElement>
+  </Private>
+</Graphic>

@@ -21,6 +21,7 @@ import com.dougmccune.events.FocusTimeEvent;
 
 import flash.events.Event;
 import flash.filters.BitmapFilterQuality;
+import flash.globalization.DateTimeFormatter;
 import flash.sampler.NewObjectSample;
 import flash.utils.flash_proxy;
 
@@ -38,6 +39,7 @@ import mx.core.IFlexDisplayObject;
 import mx.core.mx_internal;
 import mx.effects.Move;
 import mx.effects.easing.Cubic;
+import mx.events.CollectionEvent;
 import mx.events.DividerEvent;
 import mx.events.EffectEvent;
 import mx.events.ResizeEvent;
@@ -70,6 +72,8 @@ private var VOLUME_CHART_HEIGHT:Number = 50;
 private var RANGE_CHART_HEIGHT:Number = 80;
 private const RANGE_CHART_OVERLAP:Number = 1;
 private const SLIDER_SCROLL_BUTTON_WIDTH:Number = 16;
+private const FOOTER_HEIGHT:Number = 65;
+private const PADDING_BOTTOM:Number = 15;
 
 //			[Bindable] private var MAIN_CHART_HEIGHT:Number = 600;
 //the sliced data to appear in the upper area chart, and column volume chart
@@ -178,6 +182,7 @@ private var highlightedItem:ChartItem;
 private var gapMainRange:Number = 15;
 private var _showFocusTimeMarker:Boolean = true;
 private var _scrollEnabled:Boolean = true;
+private var _traceEvents:Boolean = false;
 
 [Bindable]
 public function get scrollEnabled():Boolean
@@ -364,6 +369,13 @@ private function initializeFromData():void
 	//				calculateIndicatorConversionRatio();
 
 			calculateRangeDataRatio();
+
+			if (_traceEvents)
+				trace(traceEventsPrefix + "initializeFromData leftRangeTime", traceDate(leftRangeTime), "rightRangeTime",
+					  traceDate(rightRangeTime), "minimumTime", traceDate(minimumTime), "maximumTime", traceDate(maximumTime),
+					  "t0", traceDate(t0), "t1", traceDate(t1)
+					  );
+
 		}
 	}
 }
@@ -376,7 +388,14 @@ public function set data(value:ArrayCollection):void
 		value = new ArrayCollection();
 	}
 
+	_data.removeEventListener(CollectionEvent.COLLECTION_CHANGE, data_collectionChange);
 	_data = value;
+	_data.addEventListener(CollectionEvent.COLLECTION_CHANGE, data_collectionChange, false, 0, true);
+	initializeFromData();
+}
+
+private function data_collectionChange(event:CollectionEvent):void
+{
 	initializeFromData();
 }
 
@@ -611,6 +630,9 @@ private function updateMainDataSource():void
 
 	if (_performanceCounter != null)
 		_performanceCounter["updateMainDataSource"] += 1;
+
+	if (_traceEvents)
+		trace(traceEventsPrefix + "updateMainDataSource leftRangeTime", traceDate(leftRangeTime), "rightRangeTime", traceDate(rightRangeTime), "minimumTime", traceDate(minimumTime), "maximumTime", traceDate(maximumTime));
 }
 
 private function updateFps():void
@@ -1388,22 +1410,24 @@ public function set today(value:Date):void
 
 public function get maximumDate():Date
 {
-	return (this.rangeChart.horizontalAxis as DateTimeAxis).maximum;
+//	return (this.rangeChart.horizontalAxis as DateTimeAxis).maximum;
+	return (rangeData && rangeData.length > 0) ? rangeData[rangeData.length - 1].date : null;
 }
 
 public function get maximumTime():Number
 {
-	return (this.rangeChart.horizontalAxis as DateTimeAxis).maximum.time;
+	return maximumDate ? maximumDate.time : NaN;
 }
 
 public function get minimumDate():Date
 {
-	return (this.rangeChart.horizontalAxis as DateTimeAxis).minimum;
+//	return (this.rangeChart.horizontalAxis as DateTimeAxis).minimum;
+	return (rangeData && rangeData.length > 0) ? rangeData[0].date : null;
 }
 
 public function get minimumTime():Number
 {
-	return (this.rangeChart.horizontalAxis as DateTimeAxis).minimum.time;
+	return minimumDate ? minimumDate.time : NaN;
 }
 
 public function set minimumTime(value:Number):void
@@ -1413,6 +1437,8 @@ public function set minimumTime(value:Number):void
 
 public function set maximumTime(value:Number):void
 {
+	if (_traceEvents)
+		trace(traceEventsPrefix + "set maximumTime", traceDate(value), "old value", traceDate(maximumTime));
 	(this.rangeChart.horizontalAxis as DateTimeAxis).maximum.time = value;
 }
 
@@ -1438,16 +1464,26 @@ protected function focusTimeGroup_mouseDownHandler(event:MouseEvent):void
 	event.stopImmediatePropagation();
 }
 
+private function get focusTimeMarkerMinX():Number
+{
+	var mainHorizontalAxisLeft:Number = mainChartContainer.x + mainChart.x + mainChart.computedGutters.left;
+	var xMin:Number = mainHorizontalAxisLeft - focusTimeMarker.width / 2;
+	return xMin;
+}
+private function get focusTimeMarkerMaxX():Number
+{
+	var mainHorizontalAxisRight:Number = mainChartContainer.x + mainChart.x + mainChart.width - mainChart.computedGutters.right;
+	var xMax:Number = mainHorizontalAxisRight - focusTimeMarker.width / 2;
+	return xMax;
+}
 protected function focusTimeGroup_mouseMoveHandler(event:MouseEvent):void
 {
 	var currentMousePos:Point = this.globalToLocal(event.target.localToGlobal(new Point(event.localX,
 																						event.localY)));
 
 //				trace("focusTimeFirstPos.x", focusTimeFirstPos.x, "currentMousePos.x", currentMousePos.x, "focusTimeFirstMousePos.x", focusTimeFirstMousePos.x);
-	var mainHorizontalAxisLeft:Number = mainChartContainer.x + mainChart.x + mainChart.computedGutters.left;
-	var mainHorizontalAxisRight:Number = mainChartContainer.x + mainChart.x + mainChart.width - mainChart.computedGutters.right;
-	focusTimeMarker.x = Math.max(mainHorizontalAxisLeft - focusTimeMarker.width / 2,
-								 Math.min(mainHorizontalAxisRight - focusTimeMarker.width / 2,
+	focusTimeMarker.x = Math.max(focusTimeMarkerMinX,
+								 Math.min(focusTimeMarkerMaxX,
 										  focusTimeFirstPos.x + currentMousePos.x - focusTimeFirstMousePos.x));
 
 	updateFocusTimeValueFromPosition();
@@ -1500,4 +1536,30 @@ public function get initialDurationTime():Number
 public function set initialDurationTime(value:Number):void
 {
 	_initialDurationTime = value;
+}
+
+private function traceDate(dateValue:Number):String
+{
+	var date:Date = new Date(dateValue);
+	var formatter:DateTimeFormatter = new DateTimeFormatter("en-US");//, DateTimeStyle.SHORT, DateTimeStyle.SHORT);
+	formatter.setDateTimePattern("yyyy-MM-dd'T'HH:mm");
+//	formatter.setDateTimePattern("M/d/yyyy @ h:mma");
+//	formatter.useUTC = true;
+	return formatter.formatUTC(date);
+//	return "test!";
+//	return date.toUTCString();
+}
+
+private function get traceEventsPrefix():String
+{
+	return this.id + ".";
+}
+
+public function get isFocusOnMaximumTime():Boolean
+{
+	if (_traceEvents)
+		trace(traceEventsPrefix + "isFocusOnMaximumTime focusTime", traceDate(focusTime), "maximumTime", traceDate(maximumTime),
+			  "focusTimeMarker.x", focusTimeMarker.x, "focusTimeMarkerMaxX", focusTimeMarkerMaxX, "rightRangeTime",
+			  traceDate(rightRangeTime), "maximumTime", traceDate(maximumTime));
+	return focusTime >= maximumTime || (focusTimeMarker.x == focusTimeMarkerMaxX && rightRangeTime >= maximumTime);
 }

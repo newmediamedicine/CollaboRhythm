@@ -52,6 +52,7 @@ package collaboRhythm.core.controller
 		protected var logger:ILogger;
 		protected var _componentContainer:IComponentContainer;
 		protected var _pluginLoader:PluginLoader;
+		protected var _reloadWithFullView:String;
 		
 		public function get componentContainer():IComponentContainer
 		{
@@ -181,7 +182,8 @@ package collaboRhythm.core.controller
 		public function reloadPlugins():void
 		{
 			_reloadWithUser = _collaborationMediator.subjectUser;
-			
+			_reloadWithFullView = _collaborationMediator.currentFullView;
+
 			_collaborationMediator.closeRecord();
 			_componentContainer.removeAllComponents();
 			_pluginLoader.unloadPlugins();
@@ -204,6 +206,9 @@ package collaboRhythm.core.controller
 
 			if (_reloadWithUser)
 				_collaborationMediator.openRecord(_reloadWithUser);
+
+			if (_reloadWithFullView)
+				_collaborationMediator.appControllersMediator.showFullView(_reloadWithFullView);
 		}
 
 		protected function initializeSettings():void

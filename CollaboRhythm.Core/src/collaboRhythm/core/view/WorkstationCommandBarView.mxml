@@ -155,7 +155,7 @@
 	</fx:Script>	
 	<s:Rect width="100%" height="100%">
 		<s:fill>
-			<s:SolidColor color="0xDDDDDD"/>
+			<s:SolidColor color="#E6E7E8"/>
 		</s:fill>
 	</s:Rect>
 	<mx:Image source="{_model.subjectUser.contact.imageURI}" width="99" height="99" top="1" smoothBitmapContent="true"/>

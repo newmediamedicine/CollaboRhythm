@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:view2="collaboRhythm.shared.view.*"
+		  xmlns:simulation="collaboRhythm.plugins.bloodPressure.view.simulation.*"
+		  width="260" height="800"
+		  clipAndEnableScrolling="true"
+		  resize="resizeHandler(event)"
+		  creationComplete="creationCompleteHandler(event)"
+		  xmlns:view1="collaboRhythm.shared.bloodSolutesSimulation.view.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<s:DateTimeFormatter id="simulationDateFormatter" dateTimePattern="M/d/yyyy @ h:mma"/>
+		<!--<viewStackEffects:FadeZoom id="effect"/>-->
+		<s:Fade id="effect" duration="{effectDuration}"/>
+		<s:Fade id="fadeIn" alphaFrom="0" alphaTo="1" duration="{effectDuration}"/>
+		<s:Fade id="fadeOut" alphaFrom="1" alphaTo="0" duration="{effectDuration}"/>
+		<s:Parallel id="showSimulationEffect" duration="{effectDuration}">
+			<s:Fade alphaFrom="0" alphaTo="1"/>
+			<mx:Zoom zoomWidthFrom="0.4" zoomWidthTo="1" zoomHeightFrom="0.4" zoomHeightTo="1"/>
+			<s:Move xFrom="80" yFrom="450" xTo="0" yTo="0"/>
+		</s:Parallel>
+		<s:Parallel id="hideSimulationEffect" duration="{effectDuration}">
+			<s:Fade alphaFrom="1" alphaTo="0"/>
+			<mx:Zoom zoomWidthFrom="1" zoomWidthTo="4" zoomHeightFrom="1" zoomHeightTo="4"/>
+		</s:Parallel>
+		<s:Parallel id="hideWholeBodyEffect" duration="{effectDuration}">
+			<s:Fade alphaFrom="1" alphaTo="0"/>
+			<mx:Zoom zoomWidthFrom="1" zoomWidthTo="2" zoomHeightFrom="1" zoomHeightTo="2"/>
+		</s:Parallel>
+	</fx:Declarations>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+
+		.tension {
+			font-size: 20;
+		}
+
+		#hypertensionLabel {
+			color: red;
+			text-alpha: 0.5;
+		}
+
+		#prehypertensionLabel {
+			color: "0xF7941E";
+			text-alpha: 0.9;
+		}
+
+		#normotensionLabel {
+			color: green;
+			text-alpha: 0.5;
+		}
+
+		#hypotensionLabel {
+			color: red;
+			text-alpha: 0.5;
+		}
+
+		.scale {
+			font-size: 16;
+		}
+
+		#systolicLabel {
+			font-size: 24;
+		}
+
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
+		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
+
+		import mx.events.FlexEvent;
+		import mx.events.ResizeEvent;
+
+		public static const red:uint = 0xED1C24;
+		public static const orange:uint = 0xF7941E;
+		public static const green:uint = 0x00A651;
+		private static const medicationGroupMinHeight:Number = 40;
+		private static const effectDuration:Number = 2000;
+
+		[Bindable]
+		private var _simulationModel:SimulationModel;
+		[Bindable]
+		private var _bloodPressureModel:BloodPressureModel;
+
+		public function get isRunning():Boolean
+		{
+//			return hydrochlorothiazideSimulationView.isRunning;
+			return false;
+		}
+
+		public function set isRunning(value:Boolean):void
+		{
+//			hydrochlorothiazideSimulationView.isRunning = value;
+		}
+
+		public function initializeModel(simulationModel:SimulationModel, bloodPressureModel:BloodPressureModel):void
+		{
+			_simulationModel = simulationModel;
+			_bloodPressureModel = bloodPressureModel;
+		}
+
+		public function refresh():void
+		{
+			if (_bloodPressureModel.showAdherence == true)
+			{
+			}
+			else
+			{
+			}
+		}
+
+		private var _medicationOnlyMode:Boolean = false;
+
+		protected function medicationGroup_doubleClickHandler(event:MouseEvent):void
+		{
+			_medicationOnlyMode = !_medicationOnlyMode;
+
+			resizeChildren();
+		}
+
+		private function resizeChildren():void
+		{
+			if (this.height > 0 && this.width > 0)
+			{
+				if (_medicationOnlyMode)
+				{
+				}
+				else
+				{
+				}
+			}
+		}
+
+		protected function resizeHandler(event:ResizeEvent):void
+		{
+			resizeChildren();
+		}
+
+		protected function creationCompleteHandler(event:FlexEvent):void
+		{
+			resizeChildren();
+		}
+
+//		private function simulationContentViewStack_click(event:Event):void
+//		{
+//			simulationContentViewStack.selectedIndex = (simulationContentViewStack.selectedIndex + 1) % simulationContentViewStack.length;
+//		}
+		]]>
+	</fx:Script>
+	<s:Group id="simulationContentHolder" width="100%" height="100%">
+		<s:layout>
+			<view2:ScaleToFitLayout unscaledWidth="{simulationContentGroup.width}"
+									aspectRatioMin="{simulationContentGroup.width / simulationContentGroup.height}"
+									aspectRatioMax="{simulationContentGroup.width / simulationContentGroup.height}"/>
+		</s:layout>
+
+		<s:Group id="simulationContentGroup" width="800" height="730">
+			<s:Group id="hypertensionWholeBodyGroup" width="100%" height="100%">
+				<s:showEffect>
+					<s:Fade alphaFrom="0" alphaTo="1" duration="{effectDuration}"/>
+				</s:showEffect>
+				<s:hideEffect>
+					<s:Parallel duration="{effectDuration}">
+						<s:Fade alphaFrom="1" alphaTo="0"/>
+					</s:Parallel>
+				</s:hideEffect>
+				<simulation:HypertensionWholeBody id="hypertensionWholeBody"
+												  percentWidth="100" percentHeight="100"
+												  click="dispatchEvent(new SimulationLevelEvent(SimulationLevelEvent.DRILL_DOWN_LEVEL, true));
+														 hypertensionCirculatorySystemGroup.visible = true; hypertensionWholeBodyGroup.visible = false;"/>
+			</s:Group>
+			<s:Group id="hypertensionCirculatorySystemGroup" width="100%" height="100%" visible="false">
+				<s:showEffect>
+					<s:Parallel duration="{effectDuration}">
+						<s:Fade alphaFrom="0" alphaTo="1"/>
+						<mx:Zoom zoomWidthFrom="0.5" zoomWidthTo="1" zoomHeightFrom="0.5" zoomHeightTo="1"/>
+						<s:Move yFrom="-100" yTo="0"/>
+					</s:Parallel>
+				</s:showEffect>
+				<s:hideEffect>
+					<s:Parallel duration="{effectDuration}">
+						<s:Fade alphaFrom="1" alphaTo="0"/>
+					</s:Parallel>
+				</s:hideEffect>
+<!--
+				<s:hideEffect>
+					<s:Parallel duration="{effectDuration}">
+						<s:Fade alphaFrom="1" alphaTo="0.5"/>
+						<mx:Zoom zoomWidthFrom="1" zoomWidthTo="1.1" zoomHeightFrom="1" zoomHeightTo="1.1"/>
+					</s:Parallel>
+				</s:hideEffect>
+-->
+				<simulation:SimulationLevelPanel width="100%" height="100%"
+												 title="Circulatory System"
+												 enableBack="true"
+												 backUpLevel="hypertensionWholeBodyGroup.visible = true; hypertensionCirculatorySystemGroup.visible = false;">
+					<simulation:titleContent>
+						<simulation:HypertensionTitle/>
+					</simulation:titleContent>
+					<simulation:simulationContent>
+						<simulation:HypertensionCirculatorySystem id="hypertensionCirculatorySystem"
+																  click="dispatchEvent(new SimulationLevelEvent(SimulationLevelEvent.DRILL_DOWN_LEVEL, true));
+																		   hypertensionHydrochlorothiazideGroup.visible = true; hypertensionCirculatorySystemGroup.visible = false;"/>
+					</simulation:simulationContent>
+				</simulation:SimulationLevelPanel>
+			</s:Group>
+			<s:Group id="hypertensionHydrochlorothiazideGroup" width="100%" height="100%" visible="false">
+				<s:showEffect>
+					<s:Parallel duration="{effectDuration}">
+						<s:Fade alphaFrom="0" alphaTo="1"/>
+						<mx:Zoom zoomWidthFrom="0.01" zoomWidthTo="1" zoomHeightFrom="0.01" zoomHeightTo="1"/>
+						<s:Move xFrom="188" yFrom="819" xTo="0" yTo="0"/>
+					</s:Parallel>
+				</s:showEffect>
+				<s:hideEffect>
+					<s:Parallel duration="{effectDuration}">
+						<s:Fade alphaFrom="1" alphaTo="0"/>
+					</s:Parallel>
+				</s:hideEffect>
+				<simulation:SimulationLevelPanel width="100%" height="100%"
+												 title="Hydrochlorothiazide"
+												 enableBack="true"
+												 backUpLevel="hypertensionCirculatorySystemGroup.visible = true; hypertensionHydrochlorothiazideGroup.visible = false;">
+					<simulation:titleContent>
+						<simulation:HydrochlorothiazideTitle/>
+					</simulation:titleContent>
+					<simulation:simulationContent>
+						<simulation:HypertensionHydrochlorothiazide id="hypertensionHydrochlorothiazide"/>
+						<s:Group x="0" y="81.4395" width="362" height="545">
+							<s:layout>
+								<view2:ScaleToFitLayout unscaledWidth="160" aspectRatioMin="0.85" aspectRatioMax="1.25"/>
+							</s:layout>
+							<simulation:HydrochlorothiazideSimulationView id="hydrochlorothiazideSimulationView"
+																		  concentration="{_simulationModel.concentration}"
+																		  isRunning="{hypertensionHydrochlorothiazideGroup.visible}"
+									/>
+						</s:Group>
+					</simulation:simulationContent>
+				</simulation:SimulationLevelPanel>
+			</s:Group>
+		</s:Group>
+	</s:Group>
+	<s:Group width="100%">
+		<!-- TODO: scale the info bar down instead of clipping it if there is not enough space -->
+		<simulation:SimulationTimeInfoBar id="timeInfoBar" x="{(this.width - timeInfoBar.width) / 2}" mode="{_simulationModel.modeLabel}" dateString="{simulationDateFormatter.format(_simulationModel.date).toLowerCase()}"/>
+<!--
+		<s:Label text="{'this.width=' + this.width + ' simulationContentHolder.width=' + simulationContentHolder.width}"/>
+-->
+	</s:Group>
+</s:VGroup>

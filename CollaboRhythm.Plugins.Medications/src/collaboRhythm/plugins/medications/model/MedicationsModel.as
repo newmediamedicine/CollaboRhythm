@@ -159,11 +159,18 @@ package collaboRhythm.plugins.medications.model
 				if (!(medicationScheduleItemReport.Item.MedicationScheduleItem.name.toString() == "Fora D15b"))
 				{
 					var medicationScheduleItem:MedicationScheduleItem = new MedicationScheduleItem(medicationScheduleItemReport);
-					_user.registerDocument(medicationScheduleItem, medicationScheduleItem);
-					medicationScheduleItem.scheduledAction = _user.resolveDocumentById(medicationScheduleItem.scheduledActionID, Medication) as Medication;
-					var scheduleGroup:ScheduleGroup = _user.resolveDocumentById(medicationScheduleItem.scheduleGroupID, ScheduleGroup) as ScheduleGroup;
-					scheduleGroup.scheduleItemsCollection.addItem(medicationScheduleItem);
-					_medicationScheduleItemsCollection.addItem(medicationScheduleItem);
+					if (_user.containsDocumentById(medicationScheduleItem.scheduledActionID))
+					{
+						medicationScheduleItem.scheduledAction = _user.resolveDocumentById(medicationScheduleItem.scheduledActionID, Medication) as Medication;
+						if (_user.containsDocumentById(medicationScheduleItem.scheduleGroupID))
+						{
+							var scheduleGroup:ScheduleGroup = _user.resolveDocumentById(medicationScheduleItem.scheduleGroupID,
+																						ScheduleGroup) as ScheduleGroup;
+							_user.registerDocument(medicationScheduleItem, medicationScheduleItem);
+							scheduleGroup.scheduleItemsCollection.addItem(medicationScheduleItem);
+							_medicationScheduleItemsCollection.addItem(medicationScheduleItem);
+						}
+					}
 				}
 			}
 		}

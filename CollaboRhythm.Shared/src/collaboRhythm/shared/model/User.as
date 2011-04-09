@@ -233,5 +233,16 @@ package collaboRhythm.shared.model
 		{
 			return "User{_userName=" + String(_userName) + ",_accountId=" + String(_accountId) + ",_recordId=" + String(_recordId) + "}";
 		}
+
+		public function containsDocumentById(id:String):Boolean
+		{
+			var data:Object = _documentsById[id];
+			return data != null;
+		}
+
+		public function clearDocuments():void
+		{
+			_documentsById = new HashMap();
+		}
 	}
 }

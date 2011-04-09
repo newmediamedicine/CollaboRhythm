@@ -35,6 +35,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 	width="1024"
 	height="600" xmlns:baseClasses="com.dougmccune.baseClasses.*"
 	>
+	<s:layout>
+		<mccune:ChildIndependentLayout/>
+	</s:layout>
 	
 	<fx:Style source="ChartStyles.css" />
 	
@@ -85,14 +88,14 @@ OTHER DEALINGS IN THE SOFTWARE.
 		</s:fill>
 	</s:Rect>
 	-->
-	<s:HGroup id="appContainer" width="100%" height="100%" clipAndEnableScrolling="true">
+	<s:HGroup id="appContainer" width="{this.width}" height="{this.height}">
 		<!--
 		-->
 		<s:Group id="chartsGroup"
 				 width.hideAnnotationControls="{appContainer.width - 1}"
 				 width.showAnnotationControls="{appContainer.width - 50 - annotationsBox.width}" 
-				 height="100%"
-				 clipAndEnableScrolling="true">
+				 height="{appContainer.height}"
+				 >
 			
 			<!-- volume column (bar) chart -->
 			<!--
@@ -723,23 +726,23 @@ OTHER DEALINGS IN THE SOFTWARE.
 					 x="{mainChartContainer.x}"
 					 y="{rangeSelectorContainer.y + rangeSelectorContainer.height}"
 					 width="{mainChartContainer.width}"
-					 height="{footerVisible ? 65 : 0}"
+					 height="{footerVisible ? FOOTER_HEIGHT : 0}"
 					 horizontalGap="15" horizontalAlign="left" 
 					 verticalAlign="middle"
 					 paddingTop="15"
 					 paddingBottom="0"
 					 fontSize="20">
-				<s:Button fontWeight="normal" label="1 week" 
-							   width="115" height="50"
+				<s:Button styleName="rangeButton" fontWeight="normal" label="1 week"
+							   width="115" height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
 							   click="showAnnotations = false; moveSlider(leftIndicator, rightRangeTime - 7 * DAYS_TO_MILLISECONDS, true);"  />
-				<s:Button fontWeight="normal" label="1 month" 
-							   width="115" height="50"
+				<s:Button styleName="rangeButton" fontWeight="normal" label="1 month"
+							   width="115" height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
 							   click="showAnnotations = false; moveSlider(leftIndicator, rightRangeTime - 31 * DAYS_TO_MILLISECONDS, true);" />
-				<s:Button fontWeight="normal" label="1 year" 
-							   width="115" height="50" 
+				<s:Button styleName="rangeButton" fontWeight="normal" label="1 year"
+							   width="115" height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
 							   click="showAnnotations = false; moveSlider(leftIndicator, rightRangeTime - 365 * DAYS_TO_MILLISECONDS, true);" />
-				<s:Button fontWeight="normal" label="max" 
-							   width="115" height="50" 
+				<s:Button styleName="rangeButton" fontWeight="normal" label="max"
+							   width="115" height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
 							   click="showAnnotations = false; moveSlider(leftIndicator, t0, true); moveSlider(rightIndicator, t1, true);" />
 				<mx:Spacer width="100%" />
 				<!--
@@ -751,8 +754,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 				<s:ToggleButton id="showBtnFooter" visible="false" label.hideAnnotationControls="Show Annotations" label.showAnnotationControls="Hide Annotations"
 								click="showBtn_clickHandler(event)"/>
 				-->
-				<s:Button id="todayLinkButton" label="Today" 
-						  height="50"
+				<s:Button styleName="rangeButton"
+						  id="todayLinkButton" label="Today"
+						  height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
 						  click="todayLinkButton_clickHandler(event)"
 						  width="115"/>
 			</mx:HBox>

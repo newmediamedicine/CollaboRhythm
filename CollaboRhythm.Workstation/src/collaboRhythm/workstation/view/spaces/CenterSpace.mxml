@@ -34,9 +34,9 @@
 			</s:Rect>
 		</s:Group>
 	</s:mask>
-	<s:Rect width="100%" height="100%">
+	<s:Rect height="100%" width="100%">
 		<s:fill>
-			<s:SolidColor color="0xBBBBBB"/>
+			<s:SolidColor color="#E6E7E8"/>
 		</s:fill>
 	</s:Rect>
 	<s:Group x="0" y="0" width="100%" height="100%" id="fullContainer">

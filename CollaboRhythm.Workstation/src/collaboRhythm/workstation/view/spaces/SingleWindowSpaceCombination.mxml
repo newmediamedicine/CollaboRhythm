@@ -27,6 +27,11 @@
 		
 	</fx:Declarations>
 	<s:states> <s:State name="normal"/> <s:State name="disabled"/> <s:State name="normalAndInactive"/> </s:states>
+	<s:Rect height="100%" width="100%">
+		<s:fill>
+			<s:SolidColor color="#F1F2F2"/>
+		</s:fill>
+	</s:Rect>
 	<mx:VDividedBox width="100%" height="100%">
 		<spaces:TopSpace id="topSpace" width="100%" height="25%"/>
 		<spaces:CenterSpace id="centerSpace" width="100%" height="75%"/>

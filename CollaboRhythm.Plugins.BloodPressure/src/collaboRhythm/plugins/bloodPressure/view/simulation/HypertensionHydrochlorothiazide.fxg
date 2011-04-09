@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="1.0" viewHeight="660" viewWidth="800" ai:appVersion="14.0.0.367" d:id="1" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ai="http://ns.adobe.com/ai/2008" xmlns:d="http://ns.adobe.com/fxg/2008/dt">
+  <Group x="32.0264" y="0.84375" d:id="2" d:type="layer" d:userLabel="Layer 1">
+    <Path winding="nonZero" ai:knockout="0" data="M767.974 294.458C767.974 297.686 762.958 300.302 756.773 300.302L352.99 300.302C346.804 300.302 341.792 297.686 341.792 294.458L341.792 246.146C341.792 242.919 346.804 240.302 352.99 240.302L756.773 240.302C762.958 240.302 767.974 242.919
+ 767.974 246.146L767.974 294.458Z" >
+      <fill>
+        <SolidColor color="#e6e6e6"/>
+      </fill>
+      <stroke>
+        <SolidColorStroke caps="none" weight="1" joints="miter" miterLimit="10"/>
+      </stroke>
+    </Path>
+    <TextGraphic width="21.0195" height="43.9805" fontFamily="Myriad Pro" fontSize="40" lineHeight="120%" color="#939598" whiteSpaceCollapse="preserve" kerning="on" x="355.025" y="254.023" ai:knockout="0">
+      <content><p><span>3</span></p></content>
+    </TextGraphic>
+    <TextGraphic width="340.983" height="26.5879" fontFamily="Myriad Pro" fontSize="24" lineHeight="120%" color="#0fb727" whiteSpaceCollapse="preserve" kerning="on" x="388.713" y="263.384" ai:knockout="0">
+      <content><p><span>Urine salt concentration increased</span></p></content>
+    </TextGraphic>
+    <Path winding="nonZero" ai:knockout="0" data="M767.974 377.111C767.974 380.339 762.958 382.955 756.773 382.955L352.99 382.955C346.804 382.955 341.792 380.339 341.792 377.111L341.792 328.8C341.792 325.572 346.804 322.955 352.99 322.955L756.773 322.955C762.958 322.955 767.974 325.572
+ 767.974 328.8L767.974 377.111Z" >
+      <fill>
+        <SolidColor color="#e6e6e6"/>
+      </fill>
+      <stroke>
+        <SolidColorStroke caps="none" weight="1" joints="miter" miterLimit="10"/>
+      </stroke>
+    </Path>
+    <TextGraphic width="21.0195" height="43.9805" fontFamily="Myriad Pro" fontSize="40" lineHeight="120%" color="#939598" whiteSpaceCollapse="preserve" kerning="on" x="355.025" y="336.679" ai:knockout="0">
+      <content><p><span>4</span></p></content>
+    </TextGraphic>
+    <TextGraphic width="236.464" height="26.5879" fontFamily="Myriad Pro" fontSize="24" lineHeight="120%" color="#0fb727" whiteSpaceCollapse="preserve" kerning="on" x="388.713" y="346.037" ai:knockout="0">
+      <content><p><span>Urine volume increased</span></p></content>
+    </TextGraphic>
+    <Path winding="nonZero" ai:knockout="0" data="M767.974 460.692C767.974 463.919 762.958 466.535 756.773 466.535L352.99 466.535C346.804 466.535 341.792 463.919 341.792 460.692L341.792 412.379C341.792 409.152 346.804 406.535 352.99 406.535L756.773 406.535C762.958 406.535 767.974 409.152
+ 767.974 412.379L767.974 460.692Z" >
+      <fill>
+        <SolidColor color="#e6e6e6"/>
+      </fill>
+      <stroke>
+        <SolidColorStroke caps="none" weight="1" joints="miter" miterLimit="10"/>
+      </stroke>
+    </Path>
+    <TextGraphic width="21.0195" height="43.9805" fontFamily="Myriad Pro" fontSize="40" lineHeight="120%" color="#939598" whiteSpaceCollapse="preserve" kerning="on" x="355.025" y="420.259" ai:knockout="0">
+      <content><p><span>5</span></p></content>
+    </TextGraphic>
+    <TextGraphic width="326.799" height="26.5879" fontFamily="Myriad Pro" fontSize="24" lineHeight="120%" color="#0fb727" whiteSpaceCollapse="preserve" kerning="on" x="388.713" y="429.618" ai:knockout="0">
+      <content><p><span>Venous blood volume decreased</span></p></content>
+    </TextGraphic>
+    <Path winding="nonZero" ai:knockout="0" data="M767.974 543.347C767.974 546.573 762.958 549.19 756.773 549.19L352.99 549.19C346.804 549.19 341.792 546.573 341.792 543.347L341.792 495.033C341.792 491.808 346.804 489.19 352.99 489.19L756.773 489.19C762.958 489.19 767.974 491.808 767.974
+ 495.033L767.974 543.347Z" >
+      <fill>
+        <SolidColor color="#e6e6e6"/>
+      </fill>
+      <stroke>
+        <SolidColorStroke caps="none" weight="1" joints="miter" miterLimit="10"/>
+      </stroke>
+    </Path>
+    <TextGraphic width="21.0195" height="43.9805" fontFamily="Myriad Pro" fontSize="40" lineHeight="120%" color="#939598" whiteSpaceCollapse="preserve" kerning="on" x="355.025" y="502.912" ai:knockout="0">
+      <content><p><span>6</span></p></content>
+    </TextGraphic>
+    <TextGraphic width="274.069" height="26.5879" fontFamily="Myriad Pro" fontSize="24" lineHeight="120%" color="#0fb727" whiteSpaceCollapse="preserve" kerning="on" x="388.713" y="512.272" ai:knockout="0">
+      <content><p><span>Preload on heart decreased</span></p></content>
+    </TextGraphic>
+    <Path winding="nonZero" ai:knockout="0" data="M767.974 622.639C767.974 625.865 762.958 628.482 756.773 628.482L352.99 628.482C346.804 628.482 341.792 625.865 341.792 622.639L341.792 574.325C341.792 571.1 346.804 568.482 352.99 568.482L756.773 568.482C762.958 568.482 767.974 571.1 767.974
+ 574.325L767.974 622.639Z" >
+      <fill>
+        <SolidColor color="#e6e6e6"/>
+      </fill>
+      <stroke>
+        <SolidColorStroke caps="none" weight="1" joints="miter" miterLimit="10"/>
+      </stroke>
+    </Path>
+    <TextGraphic width="21.0195" height="43.9805" fontFamily="Myriad Pro" fontSize="40" lineHeight="120%" color="#939598" whiteSpaceCollapse="preserve" kerning="on" x="355.025" y="582.204" ai:knockout="0">
+      <content><p><span>7</span></p></content>
+    </TextGraphic>
+    <TextGraphic width="256.958" height="26.5879" fontFamily="Myriad Pro" fontSize="24" lineHeight="120%" color="#0fb727" whiteSpaceCollapse="preserve" kerning="on" x="388.713" y="591.564" ai:knockout="0">
+      <content><p><span>Blood pressure decreased</span></p></content>
+    </TextGraphic>
+    <Path winding="nonZero" ai:knockout="0" data="M767.974 135.304C767.974 138.531 762.958 141.148 756.773 141.148L352.99 141.148C346.804 141.148 341.792 138.531 341.792 135.304L341.792 86.9912C341.792 83.7651 346.804 81.1484 352.99 81.1484L756.773 81.1484C762.958 81.1484 767.974 83.7651
+ 767.974 86.9912L767.974 135.304Z" >
+      <fill>
+        <SolidColor color="#e6e6e6"/>
+      </fill>
+      <stroke>
+        <SolidColorStroke caps="none" weight="1" joints="miter" miterLimit="10"/>
+      </stroke>
+    </Path>
+    <TextGraphic width="21.0195" height="43.9805" fontFamily="Myriad Pro" fontSize="40" lineHeight="120%" color="#939598" whiteSpaceCollapse="preserve" kerning="on" x="355.025" y="94.8701" ai:knockout="0">
+      <content><p><span>1</span></p></content>
+    </TextGraphic>
+    <TextGraphic width="336.424" height="26.5879" fontFamily="Myriad Pro" fontSize="24" lineHeight="120%" color="#0fb727" whiteSpaceCollapse="preserve" kerning="on" x="388.713" y="104.23" ai:knockout="0">
+      <content><p><span>Hydrochlorothiazide conc. at goal</span></p></content>
+    </TextGraphic>
+    <Path winding="nonZero" ai:knockout="0" data="M767.974 214.308C767.974 217.535 762.958 220.151 756.773 220.151L352.99 220.151C346.804 220.151 341.792 217.535 341.792 214.308L341.792 165.995C341.792 162.77 346.804 160.151 352.99 160.151L756.773 160.151C762.958 160.151 767.974 162.77
+ 767.974 165.995L767.974 214.308Z" >
+      <fill>
+        <SolidColor color="#e6e6e6"/>
+      </fill>
+      <stroke>
+        <SolidColorStroke caps="none" weight="1" joints="miter" miterLimit="10"/>
+      </stroke>
+    </Path>
+    <TextGraphic width="21.0195" height="43.9805" fontFamily="Myriad Pro" fontSize="40" lineHeight="120%" color="#939598" whiteSpaceCollapse="preserve" kerning="on" x="355.025" y="173.875" ai:knockout="0">
+      <content><p><span>2</span></p></content>
+    </TextGraphic>
+    <TextGraphic width="332.823" height="26.5879" fontFamily="Myriad Pro" fontSize="24" lineHeight="120%" color="#0fb727" whiteSpaceCollapse="preserve" kerning="on" x="388.713" y="183.234" ai:knockout="0">
+      <content><p><span>Salt channels in nephron blocked</span></p></content>
+    </TextGraphic>
+    <TextGraphic width="708.971" height="39.6323" fontFamily="Myriad Pro" fontSize="36" lineHeight="120%" whiteSpaceCollapse="preserve" kerning="on" y="4.57275" ai:knockout="0">
+      <content><p><span>Kidney -> Nephron -> Distal Convoluted Tubule</span></p></content>
+    </TextGraphic>
+    <Path winding="nonZero" ai:knockout="0" data="M755.36 126.167L738.3 118.412 738.3 107.556 755.36 100.576 755.36 126.167Z" >
+      <fill>
+        <SolidColor color="#00a551"/>
+      </fill>
+      <stroke>
+        <SolidColorStroke color="#231f20" caps="none" weight="1" joints="miter" miterLimit="4"/>
+      </stroke>
+    </Path>
+    <Line xFrom="737.579" yFrom="183.929" xTo="756.08" yTo="175.271" ai:knockout="0">
+      <stroke>
+        <SolidColorStroke color="#231f20" caps="none" weight="1" joints="miter" miterLimit="4"/>
+      </stroke>
+    </Line>
+    <Line xFrom="756.08" yFrom="207.034" xTo="737.579" yTo="197.409" ai:knockout="0">
+      <stroke>
+        <SolidColorStroke color="#231f20" caps="none" weight="1" joints="miter" miterLimit="4"/>
+      </stroke>
+    </Line>
+    <Path winding="nonZero" ai:knockout="0" data="M755.36 203.946L738.3 196.193 738.3 185.336 755.36 178.357 755.36 203.946Z" >
+      <fill>
+        <SolidColor color="#00a551"/>
+      </fill>
+      <stroke>
+        <SolidColorStroke color="#231f20" caps="none" weight="1" joints="miter" miterLimit="4"/>
+      </stroke>
+    </Path>
+    <Rect x="734.463" y="266.685" width="16.8193" height="18.6846" ai:knockout="0">
+      <fill>
+        <SolidColor color="#a8a4d1"/>
+      </fill>
+      <stroke>
+        <SolidColorStroke color="#231f20" caps="none" weight="1" joints="miter" miterLimit="4"/>
+      </stroke>
+    </Rect>
+    <Path winding="nonZero" ai:knockout="0" data="M763.175 264.4L751.284 277.61 739.389 264.4 751.284 251.187 763.175 264.4Z" >
+      <fill>
+        <SolidColor color="#daafd1"/>
+      </fill>
+      <stroke>
+        <SolidColorStroke color="#231f20" caps="none" weight="1" joints="miter" miterLimit="4"/>
+      </stroke>
+    </Path>
+  </Group>
+  <Group y="81.4395" d:id="3" d:type="layer" d:userLabel="Layer 2">
+    <Rect alpha="0.25" width="362" height="545" ai:knockout="0"/>
+  </Group>
+  <Private>
+    <ai:PrivateElement d:ref="#1">
+      <ai:SaveOptions>
+        <ai:Dictionary>
+          <ai:DictEntry name="writeImages" value="1" valueType="Boolean"/>
+          <ai:DictEntry name="aiEditCap" value="1" valueType="Boolean"/>
+          <ai:DictEntry name="versionKey" value="1" valueType="Integer"/>
+          <ai:DictEntry name="includeSymbol" value="0" valueType="Boolean"/>
+          <ai:DictEntry name="includeXMP" value="0" valueType="Boolean"/>
+          <ai:DictEntry name="preserveTextPolicy" value="3" valueType="Integer"/>
+          <ai:DictEntry name="preserveGradientPolicy" value="3" valueType="Integer"/>
+          <ai:DictEntry name="preserveFilterPolicy" value="3" valueType="Integer"/>
+          <ai:DictEntry name="downsampleLinkedImages" value="0" valueType="Boolean"/>
+          <ai:DictEntry name="clipToActiveArtboard" value="1" valueType="Boolean"/>
+          <ai:DictEntry name="rasterizeResolution" value="72" valueType="Integer"/>
+        </ai:Dictionary>
+      </ai:SaveOptions>
+      <ai:DocData base="HypertensionHydrochlorothiazide.assets/images"/>
+      <ai:Artboards originOffsetH="0" originOffsetV="629.439" rulerCanvasDiffH="400" rulerCanvasDiffV="-299.439" zoom="1">
+        <ai:Artboard active="1" bottom="-30.561" index="0" right="800" top="629.439"/>
+        <ai:ArtboardsParam all="0" range="" type="0"/>
+      </ai:Artboards>
+    </ai:PrivateElement>
+    <ai:PrivateElement d:ref="#2">
+      <ai:LayerOptions colorType="ThreeColor">
+        <ai:ThreeColor blue="257" green="128.502" red="79.31"/>
+      </ai:LayerOptions>
+    </ai:PrivateElement>
+    <ai:PrivateElement d:ref="#3">
+      <ai:LayerOptions colorType="ThreeColor">
+        <ai:ThreeColor blue="79.31" green="79.31" red="257"/>
+      </ai:LayerOptions>
+    </ai:PrivateElement>
+  </Private>
+</Graphic>

@@ -36,7 +36,7 @@
 	<view:TopBarView id="topBar" height="100" width="100%"/>
 	<s:Rect width="100%" top="{topBar.height}" bottom="0">
 		<s:fill>
-			<s:SolidColor color="0xBBBBBB"/>
+			<s:SolidColor color="#E6E7E8"/>
 		</s:fill>
 	</s:Rect>
 	<s:Group id="widgetBar" width="100%" top="{topBar.height}" bottom="0" clipAndEnableScrolling="true">

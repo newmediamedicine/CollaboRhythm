@@ -53,6 +53,9 @@ package collaboRhythm.shared.view
 				layoutTarget.invalidateDisplayList();
 		}
 
+		/**
+		 * Minimum ratio of width to height.
+		 */
 		public function get aspectRatioMin():Number
 		{
 			return _aspectRatioMin;
@@ -64,6 +67,9 @@ package collaboRhythm.shared.view
 			invalidateIfInitialized();
 		}
 
+		/**
+		 * Maximum ratio of width to height.
+		 */
 		public function get aspectRatioMax():Number
 		{
 			return _aspectRatioMax;

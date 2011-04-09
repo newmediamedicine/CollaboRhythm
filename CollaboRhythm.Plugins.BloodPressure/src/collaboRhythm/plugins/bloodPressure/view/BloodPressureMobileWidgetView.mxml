@@ -17,14 +17,15 @@
   -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:view="collaboRhythm.shared.bloodSolutesSimulation.view.*"
-		 xmlns:view2="collaboRhythm.shared.view.*" xmlns:view3="collaboRhythm.plugins.bloodPressure.view.*"
+		 xmlns:view2="collaboRhythm.shared.view.*"
+		 xmlns:simulation="collaboRhythm.plugins.bloodPressure.view.simulation.*"
 		 implements="collaboRhythm.plugins.bloodPressure.view.IBloodPressureWidgetView">
 	<s:layout>
 		<view2:ScaleToFitLayout unscaledWidth="160" aspectRatioMin="0.85" aspectRatioMax="1.25"/>
 	</s:layout>
-	<view3:HydrochlorothiazideSimulationView id="hydrochlorothiazideSimulationView"
-									  width="100%" height="100%"/>
-	
+	<simulation:HydrochlorothiazideSimulationView id="hydrochlorothiazideSimulationView"
+												  width="100%" height="100%"/>
+
 	<fx:Script>
 		<![CDATA[
 		import collaboRhythm.shared.apps.bloodPressure.model.AdherenceItem;

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="1.0" viewHeight="60" viewWidth="61" ai:appVersion="14.0.0.367" d:id="1" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ai="http://ns.adobe.com/ai/2008" xmlns:d="http://ns.adobe.com/fxg/2008/dt">
+  <Library/>
+  <Group x="0.5" y="-2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+    <Group x="14.5" y="10.5">
+      <Path alpha="0.5" winding="nonZero" ai:knockout="0" data="M13 38C13 39.1045 12.1045 40 11 40L11 40C9.89551 40 9 39.1045 9 38L9 2C9 0.895508 9.89551 0 11 0L11 0C12.1045 0 13 0.895508 13 2L13 38Z" >
+        <fill>
+          <SolidColor color="#ffffff"/>
+        </fill>
+      </Path>
+      <Path alpha="0.5" winding="nonZero" ai:knockout="0" data="M22 38C22 39.1045 21.1045 40 20 40L20 40C18.8955 40 18 39.1045 18 38L18 2C18 0.895508 18.8955 0 20 0L20 0C21.1045 0 22 0.895508 22 2L22 38Z" >
+        <fill>
+          <SolidColor color="#ffffff"/>
+        </fill>
+      </Path>
+      <Path alpha="0.5" winding="nonZero" ai:knockout="0" data="M4 34C4 35.1045 3.10449 36 2 36L2 36C0.895508 36 0 35.1045 0 34L0 6C0 4.89551 0.895508 4 2 4L2 4C3.10449 4 4 4.89551 4 6L4 34Z" >
+        <fill>
+          <SolidColor color="#ffffff"/>
+        </fill>
+      </Path>
+      <Path alpha="0.5" winding="nonZero" ai:knockout="0" data="M32 34C32 35.1045 31.1045 36 30 36L30 36C28.8955 36 28 35.1045 28 34L28 6C28 4.89551 28.8955 4 30 4L30 4C31.1045 4 32 4.89551 32 6L32 34Z" >
+        <fill>
+          <SolidColor color="#ffffff"/>
+        </fill>
+      </Path>
+    </Group>
+    <Path alpha="0.5" winding="nonZero" ai:knockout="0" d:locked="true" data="M32 62.0005L32 60.5 60 52.5 60 0.5 0 0.5 0 52.5 28 60.5 28 62.0005 32 62.0005" >
+      <fill>
+        <SolidColor color="#b9d5ef"/>
+      </fill>
+    </Path>
+    <Path winding="nonZero" ai:knockout="0" data="M32.5 63.0005L32.5 60.5 60.5 52.5 60.5 0.5 0.5 0.5 0.5 52.5 28.5 60.5 28.5 63.0005" >
+      <stroke>
+        <SolidColorStroke color="#231f20" caps="none" weight="1" joints="miter" miterLimit="10"/>
+      </stroke>
+    </Path>
+    <Rect x="0.5" y="0.5" width="60" height="4" ai:knockout="0">
+      <fill>
+        <SolidColor color="#b9d5ef"/>
+      </fill>
+      <stroke>
+        <SolidColorStroke color="#231f20" caps="none" weight="1" joints="miter" miterLimit="10"/>
+      </stroke>
+    </Rect>
+    <Group x="14" y="10">
+      <Path winding="nonZero" ai:knockout="0" data="M13.5 38.5C13.5 39.6045 12.6045 40.5 11.5 40.5L11.5 40.5C10.3955 40.5 9.5 39.6045 9.5 38.5L9.5 2.5C9.5 1.39551 10.3955 0.5 11.5 0.5L11.5 0.5C12.6045 0.5 13.5 1.39551 13.5 2.5L13.5 38.5Z" >
+        <fill>
+          <SolidColor color="#b9d5ef"/>
+        </fill>
+        <stroke>
+          <SolidColorStroke color="#231f20" caps="none" weight="1" joints="miter" miterLimit="10"/>
+        </stroke>
+      </Path>
+      <Path winding="nonZero" ai:knockout="0" data="M22.5 38.5C22.5 39.6045 21.6045 40.5 20.5 40.5L20.5 40.5C19.3955 40.5 18.5 39.6045 18.5 38.5L18.5 2.5C18.5 1.39551 19.3955 0.5 20.5 0.5L20.5 0.5C21.6045 0.5 22.5 1.39551 22.5 2.5L22.5 38.5Z" >
+        <fill>
+          <SolidColor color="#b9d5ef"/>
+        </fill>
+        <stroke>
+          <SolidColorStroke color="#231f20" caps="none" weight="1" joints="miter" miterLimit="10"/>
+        </stroke>
+      </Path>
+      <Path winding="nonZero" ai:knockout="0" data="M4.5 34.5C4.5 35.6045 3.60449 36.5 2.5 36.5L2.5 36.5C1.39551 36.5 0.5 35.6045 0.5 34.5L0.5 6.5C0.5 5.39551 1.39551 4.5 2.5 4.5L2.5 4.5C3.60449 4.5 4.5 5.39551 4.5 6.5L4.5 34.5Z" >
+        <fill>
+          <SolidColor color="#b9d5ef"/>
+        </fill>
+        <stroke>
+          <SolidColorStroke color="#231f20" caps="none" weight="1" joints="miter" miterLimit="10"/>
+        </stroke>
+      </Path>
+      <Path winding="nonZero" ai:knockout="0" data="M32.5 34.5C32.5 35.6045 31.6045 36.5 30.5 36.5L30.5 36.5C29.3955 36.5 28.5 35.6045 28.5 34.5L28.5 6.5C28.5 5.39551 29.3955 4.5 30.5 4.5L30.5 4.5C31.6045 4.5 32.5 5.39551 32.5 6.5L32.5 34.5Z" >
+        <fill>
+          <SolidColor color="#b9d5ef"/>
+        </fill>
+        <stroke>
+          <SolidColorStroke color="#231f20" caps="none" weight="1" joints="miter" miterLimit="10"/>
+        </stroke>
+      </Path>
+    </Group>
+    <Path winding="nonZero" ai:knockout="0" data="M60 4.5" >
+      <fill>
+        <SolidColor color="#b9d5ef"/>
+      </fill>
+      <stroke>
+        <SolidColorStroke color="#231f20" caps="none" weight="1" joints="miter" miterLimit="10"/>
+      </stroke>
+    </Path>
+    <Path winding="nonZero" ai:knockout="0" data="M0.5 4.5" >
+      <fill>
+        <SolidColor color="#b9d5ef"/>
+      </fill>
+      <stroke>
+        <SolidColorStroke color="#231f20" caps="none" weight="1" joints="miter" miterLimit="10"/>
+      </stroke>
+    </Path>
+  </Group>
+  <Private>
+    <ai:PrivateElement d:ref="#1">
+      <ai:SaveOptions>
+        <ai:Dictionary>
+          <ai:DictEntry name="writeImages" value="1" valueType="Boolean"/>
+          <ai:DictEntry name="aiEditCap" value="1" valueType="Boolean"/>
+          <ai:DictEntry name="versionKey" value="1" valueType="Integer"/>
+          <ai:DictEntry name="includeSymbol" value="0" valueType="Boolean"/>
+          <ai:DictEntry name="includeXMP" value="0" valueType="Boolean"/>
+          <ai:DictEntry name="preserveTextPolicy" value="3" valueType="Integer"/>
+          <ai:DictEntry name="preserveGradientPolicy" value="3" valueType="Integer"/>
+          <ai:DictEntry name="preserveFilterPolicy" value="3" valueType="Integer"/>
+          <ai:DictEntry name="downsampleLinkedImages" value="0" valueType="Boolean"/>
+          <ai:DictEntry name="clipToActiveArtboard" value="1" valueType="Boolean"/>
+          <ai:DictEntry name="rasterizeResolution" value="72" valueType="Integer"/>
+        </ai:Dictionary>
+      </ai:SaveOptions>
+      <ai:DocData base="ChartFocusTimeMarkerTop.assets/images"/>
+      <ai:Artboards originOffsetH="369.5" originOffsetV="440.5" rulerCanvasDiffH="400.5" rulerCanvasDiffV="-299.5" zoom="32">
+        <ai:Artboard active="1" bottom="380.5" index="0" left="369.5" right="430.5" top="440.5"/>
+        <ai:ArtboardsParam all="0" range="" type="0"/>
+      </ai:Artboards>
+    </ai:PrivateElement>
+    <ai:PrivateElement d:ref="#2">
+      <ai:LayerOptions colorType="ThreeColor">
+        <ai:ThreeColor blue="257" green="128.502" red="79.31"/>
+      </ai:LayerOptions>
+    </ai:PrivateElement>
+  </Private>
+</Graphic>

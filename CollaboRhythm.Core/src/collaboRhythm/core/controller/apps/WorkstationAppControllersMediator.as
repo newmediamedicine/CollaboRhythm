@@ -73,6 +73,7 @@ package collaboRhythm.core.controller.apps
 		private var _appGroups:OrderedMap; // of AppGroup
 		private var dynamicAppDictionary:OrderedMap;
 		protected var logger:ILogger;
+		private var _currentFullView:String;
 
 		public function WorkstationAppControllersMediator(
 			widgetParentContainer:IVisualElementContainer,
@@ -317,7 +318,7 @@ package collaboRhythm.core.controller.apps
 			}
 		}
 		
-		private function showFullView(applicationName:String, source:String):void
+		public function showFullView(applicationName:String, source:String="local"):void
 		{
 			var workstationAppController:WorkstationAppControllerBase = _workstationApps.getValueByKey(applicationName);
 			if (workstationAppController != null)
@@ -326,6 +327,9 @@ package collaboRhythm.core.controller.apps
 		
 		private function showFullViewResolved(workstationAppController:WorkstationAppControllerBase, source:String):void
 		{
+			// TODO: use app id instead of name
+			currentFullView = workstationAppController.name;
+
 			for each (var app:WorkstationAppControllerBase in _workstationApps.values())
 			{
 				if (app != workstationAppController)
@@ -341,6 +345,16 @@ package collaboRhythm.core.controller.apps
 				_collaborationRoomNetConnectionService.netConnection.call("showFullView", null, _collaborationRoomNetConnectionService.localUserName, workstationAppController.name);
 			}
 		}
+
+		public function get currentFullView():String
+		{
+			return _currentFullView;
+		}
+
+		public function set currentFullView(currentFullView:String):void
+		{
+			_currentFullView = currentFullView;
+		}
 		
 		public function closeApps():void
 		{
@@ -352,6 +366,7 @@ package collaboRhythm.core.controller.apps
 				}
 			}
 
+			_currentFullView = null;
 			_currentAppGroup = null;
 			_appGroups = null;
 		}

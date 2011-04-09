@@ -237,6 +237,9 @@ package collaboRhythm.core.controller
 		public function closeRecord():void
 		{
 			appControllersMediator.closeApps();
+			if (_subjectUser)
+				_subjectUser.clearDocuments();
+
 			_subjectUser = null;
 		}
 		
@@ -253,6 +256,11 @@ package collaboRhythm.core.controller
 		public function get settingsFileStore():SettingsFileStore
 		{
 			return _settingsFileStore;
+		}
+
+		public function get currentFullView():String
+		{
+			return _appControllersMediator ? _appControllersMediator.currentFullView : null;
 		}
 	}
 }

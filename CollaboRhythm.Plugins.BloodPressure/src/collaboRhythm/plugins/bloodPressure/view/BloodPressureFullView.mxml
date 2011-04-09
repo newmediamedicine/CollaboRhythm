@@ -15,23 +15,25 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark" 
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:dataShapes="qs.charts.dataShapes.*"
+		 xmlns:simulation="collaboRhythm.plugins.bloodPressure.view.simulation.*"
 		 width="100%" height="100%"
-		 creationComplete="group1_creationCompleteHandler(event)"  xmlns:controls="com.dougmccune.controls.*"
+		 creationComplete="group1_creationCompleteHandler(event)" xmlns:controls="com.dougmccune.controls.*"
 		 keyDown="group1_keyDownHandler(event)" xmlns:view="collaboRhythm.plugins.bloodPressure.view.*"
-		 >
-	<fx:Style source="/collaboRhythm/plugins/bloodPressure/view/ChartStyles.css" />
+		 clipAndEnableScrolling="true"
+		>
+	<fx:Style source="/collaboRhythm/plugins/bloodPressure/view/ChartStyles.css"/>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 		<mx:LineSeries id="systolicSeries" name="systolic" xField="date" yField="systolic"
-					   updateComplete="bloodPressureChart.seriesComplete();" 
+					   updateComplete="bloodPressureChart.seriesComplete();"
 					   form="segment"
 					   filterDataValues="none"
-					   >
-<!--
+				>
+			<!--
 			<mx:lineSegmentRenderer>
 				<fx:Component>
 					<visualization:DashedLineRenderer />
@@ -44,22 +46,22 @@
 				</fx:Component>
 			</mx:itemRenderer>
 			<mx:lineStroke>
-				<s:SolidColorStroke 
-					color="0x4252A4" 
-					weight="1" 
-					alpha=".25"
-					/>
+				<s:SolidColorStroke
+						color="0x4252A4"
+						weight="1"
+						alpha=".25"
+						/>
 			</mx:lineStroke>
 			<mx:stroke>
 				<s:SolidColorStroke weight="1" color="0x4252A4"/>
 			</mx:stroke>
-	
+
 		</mx:LineSeries>
-		<mx:LineSeries id="diastolicSeries" name="diastolic" xField="date" yField="diastolic" 
+		<mx:LineSeries id="diastolicSeries" name="diastolic" xField="date" yField="diastolic"
 					   updateComplete="bloodPressureChart.seriesComplete();"
-					   form="segment" 
+					   form="segment"
 					   filterDataValues="none"
-					   >
+				>
 			<!--
 			<mx:lineSegmentRenderer>
 				<fx:Component>
@@ -73,42 +75,42 @@
 				</fx:Component>
 			</mx:itemRenderer>
 			<mx:lineStroke>
-				<s:SolidColorStroke 
-					color="0x4252A4" 
-					weight="1" 
-					alpha=".25"
-					/>
+				<s:SolidColorStroke
+						color="0x4252A4"
+						weight="1"
+						alpha=".25"
+						/>
 			</mx:lineStroke>
 			<mx:stroke>
 				<s:SolidColorStroke weight="1" color="0x4252A4" alpha="0.5"/>
 			</mx:stroke>
-		
+
 		</mx:LineSeries>
 
-		<mx:LineSeries id="systolicRangeSeries" name="systolic" xField="date" yField="systolic" 
-					   form="segment" 
+		<mx:LineSeries id="systolicRangeSeries" name="systolic" xField="date" yField="systolic"
+					   form="segment"
 					   filterDataValues="none"
-					   >
+				>
 			<mx:lineStroke>
-				<s:SolidColorStroke 
-					color="0x4252A4" 
-					weight="1" 
-					/>
+				<s:SolidColorStroke
+						color="0x4252A4"
+						weight="1"
+						/>
 			</mx:lineStroke>
 		</mx:LineSeries>
-		<mx:LineSeries id="diastolicRangeSeries" name="diastolic" xField="date" yField="diastolic" 
-					   form="segment" 
+		<mx:LineSeries id="diastolicRangeSeries" name="diastolic" xField="date" yField="diastolic"
+					   form="segment"
 					   filterDataValues="none"
-					   >
+				>
 			<mx:lineStroke>
-				<s:SolidColorStroke 
-					color="0x4252A4" 
-					weight="1" 
-					alpha="0.3"
-					/>
+				<s:SolidColorStroke
+						color="0x4252A4"
+						weight="1"
+						alpha="0.3"
+						/>
 			</mx:lineStroke>
 		</mx:LineSeries>
-<!--		
+		<!--
 		<mx:AreaSeries id="heartRateSeries" name="heart rate" xField="date" yField="heartRate" 
 					   fill="{new SolidColor(0x4252A4, .75)}" 
 					   radius="2.5" form="segment"
@@ -116,84 +118,83 @@
 					   updateComplete="heartRateChart.seriesComplete();"
 					   filterDataValues="none"
 					   />
--->		
-		<mx:LineSeries id="concentrationSeries" name="concentration" xField="date" yField="concentration" 
+-->
+		<mx:LineSeries id="concentrationSeries" name="concentration" xField="date" yField="concentration"
 					   radius="2.5"
 					   form="curve"
-					   itemRenderer="skins.LineSeriesCustomRenderer" 
+					   itemRenderer="skins.LineSeriesCustomRenderer"
 					   updateComplete="adherenceChart.seriesComplete();"
 					   filterDataValues="none"
-					   >
+				>
 			<mx:lineStroke>
-				<s:SolidColorStroke 
-					color="0x4252A4" 
-					weight="1" 
-					alpha="1"
-					/>
+				<s:SolidColorStroke
+						color="0x4252A4"
+						weight="1"
+						alpha="1"
+						/>
 			</mx:lineStroke>
 		</mx:LineSeries>
 
-		<mx:LineSeries id="concentrationRangeSeries" name="concentration" xField="date" yField="concentration" 
+		<mx:LineSeries id="concentrationRangeSeries" name="concentration" xField="date" yField="concentration"
 					   radius="2.5"
 					   form="curve"
 					   itemRenderer="skins.LineSeriesCustomRenderer"
 					   filterDataValues="none"
-					   >
+				>
 			<mx:lineStroke>
-				<s:SolidColorStroke 
-					color="0x4252A4" 
-					weight="1" 
-					alpha="1"
-					/>
+				<s:SolidColorStroke
+						color="0x4252A4"
+						weight="1"
+						alpha="1"
+						/>
 			</mx:lineStroke>
 		</mx:LineSeries>
 		<!-- TODO: position the adherence series without the hack of using adherencePosition -->
 		<mx:PlotSeries id="adherenceSeries" name="adherence" xField="date" yField="adherencePosition"
 					   itemRenderer="collaboRhythm.plugins.bloodPressure.view.AdherencePlotItemRenderer"
 					   filterFunction="adherenceSeriesFilter"
-					   />
-		
-		<mx:DateFormatter id="fullDateFormat" formatString="YYYY-MM-DD" />
-		
+				/>
+
+		<mx:DateFormatter id="fullDateFormat" formatString="YYYY-MM-DD"/>
+
 		<dataShapes:DataDrawingCanvas id="bloodPressureMainCanvas" includeInRanges="true">
-			<s:Label id="systolicZoneLabel" text="Systolic Normal (90 - 120)" styleName="ZoneLabel" color="{GOAL_ZONE_COLOR}"/>
+			<s:Label id="systolicZoneLabel" text="Systolic Normal (90 - 120)" styleName="ZoneLabel"
+					 color="{GOAL_ZONE_COLOR}"/>
 			<!--
 			<s:Label id="diastolicZoneLabel" text="Diastolic Normal (60 - 80)" styleName="ZoneLabel" color="{GOAL_ZONE_COLOR}"/>
 			-->
 		</dataShapes:DataDrawingCanvas>
 
 		<dataShapes:DataDrawingCanvas id="adherenceMainCanvas" includeInRanges="true">
-			<s:Label id="goalMedicationZoneLabel" text="Goal Medication Concentration (0.05 - 0.35)" styleName="ZoneLabel" color="{GOAL_ZONE_COLOR}">
-<!--
+			<s:Label id="goalMedicationZoneLabel" text="Goal Medication Concentration (0.05 - 0.35)"
+					 styleName="ZoneLabel" color="{GOAL_ZONE_COLOR}">
+				<!--
 				<s:filters>
 					<s:GlowFilter blurX="12" blurY="12" color="#FFFFFF" quality="2" strength="4"/>
 				</s:filters>
 				-->
 			</s:Label>
 		</dataShapes:DataDrawingCanvas>
-		
+
 		<dataShapes:DataDrawingCanvas id="bloodPressureRangeCanvas" includeInRanges="true" height="100%" width="100%">
 		</dataShapes:DataDrawingCanvas>
-		
+
 		<dataShapes:DataDrawingCanvas id="adherenceRangeCanvas" includeInRanges="true" height="100" width="400">
 		</dataShapes:DataDrawingCanvas>
 	</fx:Declarations>
-	
+
 	<fx:Script source="BloodPressureFullViewScript.as"/>
 
 	<s:Rect height="100%" width="100%">
 		<s:fill>
-			<!--
-			<s:SolidColor color="0xFFFFFF"/>
-			-->
-			<s:LinearGradient rotation="90">
-				<s:GradientEntry color="#FFFFFF" />
-				<s:GradientEntry color="#CCCCCC" />
-			</s:LinearGradient>
+			<s:SolidColor color="#F1F2F2"/>
 		</s:fill>
 	</s:Rect>
-	<s:HGroup height="100%" width="100%">
-		<s:VGroup id="chartsGroup" height="100%" width="100%" gap="15" paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5">
+	<mx:HDividedBox height="100%" width="100%" paddingRight="10" clipContent="true" horizontalScrollPolicy="off" verticalScrollPolicy="off" dividerColor="#F1F2F2" dividerAlpha="0.75" backgroundColor="#E6E7E8">
+
+
+		<s:VGroup id="chartsGroup" height="100%" width="100%" gap="15" paddingLeft="5" paddingRight="5" paddingTop="5"
+				  paddingBottom="5">
 			<!--
 			<view:TouchScrollingMcCuneChart id="adherenceChart" height="100%" width="100%" creationComplete="adherenceChart_creationCompleteHandler(event)"
 											mainChartTitle="Hydrochlorothiazide Adherence (mg/L)"
@@ -202,47 +203,47 @@
 											/>
 			-->
 			<controls:TouchScrollingMcCuneChart id="adherenceChart" height="100%" width="100%"
-											creationComplete="adherenceChart_creationCompleteHandler(event)"
-											initialize="adherenceChart_initializeHandler(event)"
-											sliderVisible="false"
-											mainChartTitle="Hydrochlorothiazide Adherence (mg/L)"
-											seriesName="concentration"
-											data="{model.showAdherence ? model.adherenceDataCollection : null}"
-											today="{model.currentDateSource.now()}"
-											showFps="{model.showFps}"
-											doubleClickEnabled="true"
-											doubleClick="chart_doubleClickHandler(event)"
-											scroll="chart_scrollHandler(event)"
-											scrollStart="chart_scrollStartHandler(event)"
-											scrollStop="chart_scrollStopHandler(event)"
-											focusTimeChange="chart_focusTimeChangeHandler(event)"
-											seriesComplete="adherenceChart_seriesCompleteHandler(event)"
-											initialDurationTime="{initialDurationTime}"
-											showFocusTimeMarker="{showFocusTimeMarker}"
-											scrollEnabled="{scrollEnabled}"
-											/>
+												creationComplete="adherenceChart_creationCompleteHandler(event)"
+												initialize="adherenceChart_initializeHandler(event)"
+												sliderVisible="false"
+												mainChartTitle="Hydrochlorothiazide Adherence (mg/L)"
+												seriesName="concentration"
+												data="{model.showAdherence ? model.adherenceDataCollection : null}"
+												today="{model.currentDateSource.now()}"
+												showFps="{model.showFps}"
+												doubleClickEnabled="true"
+												doubleClick="chart_doubleClickHandler(event)"
+												scroll="chart_scrollHandler(event)"
+												scrollStart="chart_scrollStartHandler(event)"
+												scrollStop="chart_scrollStopHandler(event)"
+												focusTimeChange="chart_focusTimeChangeHandler(event)"
+												seriesComplete="adherenceChart_seriesCompleteHandler(event)"
+												initialDurationTime="{initialDurationTime}"
+												showFocusTimeMarker="{showFocusTimeMarker}"
+												scrollEnabled="{scrollEnabled}"
+					/>
 			<controls:TouchScrollingMcCuneChart id="bloodPressureChart" height="100%" width="100%"
-											creationComplete="bloodPressureChart_creationCompleteHandler(event)"
-											headerVisible="false"
-											topBorderVisible="false"
-											sliderVisible="false"
-											mainChartTitle="Blood Pressure (mmHg)"
-											seriesName="systolic"
-											data="{model.completeData}"
-											today="{model.currentDateSource.now()}"
-											showFps="{model.showFps}"
-											doubleClickEnabled="true"
-											doubleClick="chart_doubleClickHandler(event)"
-											scroll="chart_scrollHandler(event)"
-											scrollStart="chart_scrollStartHandler(event)"
-											scrollStop="chart_scrollStopHandler(event)"
-											focusTimeChange="chart_focusTimeChangeHandler(event)"
-											seriesComplete="bloodPressureChart_seriesCompleteHandler(event)"
-											initialDurationTime="{initialDurationTime}"
-											showFocusTimeMarker="{showFocusTimeMarker}"
-											scrollEnabled="{scrollEnabled}"
-											/>
-<!--
+												creationComplete="bloodPressureChart_creationCompleteHandler(event)"
+												headerVisible="false"
+												topBorderVisible="false"
+												sliderVisible="false"
+												mainChartTitle="Blood Pressure (mmHg)"
+												seriesName="systolic"
+												data="{model.completeData}"
+												today="{model.currentDateSource.now()}"
+												showFps="{model.showFps}"
+												doubleClickEnabled="true"
+												doubleClick="chart_doubleClickHandler(event)"
+												scroll="chart_scrollHandler(event)"
+												scrollStart="chart_scrollStartHandler(event)"
+												scrollStop="chart_scrollStopHandler(event)"
+												focusTimeChange="chart_focusTimeChangeHandler(event)"
+												seriesComplete="bloodPressureChart_seriesCompleteHandler(event)"
+												initialDurationTime="{initialDurationTime}"
+												showFocusTimeMarker="{showFocusTimeMarker}"
+												scrollEnabled="{scrollEnabled}"
+					/>
+			<!--
 			<controls:TouchScrollingMcCuneChart id="heartRateChart" height="100%" width="100%"
 											creationComplete="heartRateChart_creationCompleteHandler(event)"
 											headerVisible="false"
@@ -265,6 +266,13 @@
 											/>
 -->
 		</s:VGroup>
-		<view:SimulationView id="simulationView" height="100%" width="260" doubleClickEnabled="true" doubleClick="simulationView_doubleClickHandler(event)"/>			
-	</s:HGroup>
+		<s:VGroup id="simulationGroup" height="100%" gap="15" paddingLeft="5" paddingRight="5" paddingTop="5"
+				  clipAndEnableScrolling="true"
+				  paddingBottom="13"
+				  width="{SIMULATION_VIEW_WIDTH + simulationGroup.paddingLeft + simulationGroup.paddingRight}"
+				> <!-- TODO: paddingBottom should be the same as the chartsGroup, but one or both of these components have some internal padding (the McCuneChart currently has an extra 15 paddingBottom "built in" to the footer) -->
+			<simulation:SimulationView id="simulationView" height="100%" width="100%" doubleClickEnabled="true"
+									   doubleClick="simulationView_doubleClickHandler(event)"/>
+		</s:VGroup>
+	</mx:HDividedBox>
 </s:Group>
