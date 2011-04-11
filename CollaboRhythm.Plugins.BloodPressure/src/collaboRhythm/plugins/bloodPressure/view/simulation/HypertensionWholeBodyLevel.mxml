@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<simulation:SimulationLevelGroup
+		xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:simulation="collaboRhythm.plugins.bloodPressure.view.simulation.*"
+		width="100%" height="100%">
+	<simulation:showEffect>
+		<s:Fade alphaFrom="0" alphaTo="1"/>
+	</simulation:showEffect>
+	<simulation:hideEffect>
+		<s:Fade alphaFrom="1" alphaTo="0"/>
+	</simulation:hideEffect>
+	<simulation:HypertensionWholeBody id="hypertensionWholeBody"
+									  percentWidth="100" percentHeight="100"
+									  />
+	<simulation:ContentButton
+			x="{367.072 + 25.6045}" y="{126.56 + 1.5}"
+			width="400" height="60"
+			cornerRadius="5"
+			chromeColor="#D1D3D4"
+			fontFamily="Myriad Pro Light" fontSize="30" fontWeight="bold" lineHeight="120%" color="#79a873" kerning="on"
+			label="Hypertension"
+			click="dispatchEvent(new SimulationLevelEvent(SimulationLevelEvent.DRILL_DOWN_LEVEL, true));"
+			>
+		<simulation:leftContent>
+			<simulation:ProblemsIcon left="15" verticalCenter="0"/>
+		</simulation:leftContent>
+		<simulation:rightContent>
+			<simulation:GaugeBackground right="10" verticalCenter="0"/>
+		</simulation:rightContent>
+	</simulation:ContentButton>
+	<fx:Script><![CDATA[
+
+
+		]]></fx:Script>
+</simulation:SimulationLevelGroup>

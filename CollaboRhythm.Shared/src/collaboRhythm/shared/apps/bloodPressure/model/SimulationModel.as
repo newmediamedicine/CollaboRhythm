@@ -40,10 +40,14 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		 * will result in ideal functioning of the medication.
 		 */
 		public static const goalConcentration:Number = 0.05;
+
+		public static const SYSTOLIC_HYPERTENSIVE_THRESHOLD:Number = 120;
+
 		private var _mode:String;
 		private var _modeLabel:String;
 		public static const MOST_RECENT_MODE:String = "mostRecentMode";
 		public static const HISTORY_MODE:String = "historyMode";
+		private var _isHypertensive:Boolean;
 
 		public function SimulationModel()
 		{
@@ -78,6 +82,8 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public function set systolic(value:Number):void
 		{
 			_systolic = value;
+			isHypertensive = systolic > SYSTOLIC_HYPERTENSIVE_THRESHOLD;
+
 		}
 
 		public function get diastolic():Number
@@ -135,6 +141,16 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public function set modeLabel(value:String):void
 		{
 			_modeLabel = value;
+		}
+
+		public function get isHypertensive():Boolean
+		{
+			return _isHypertensive;
+		}
+
+		public function set isHypertensive(isHypertensive:Boolean):void
+		{
+			_isHypertensive = isHypertensive;
 		}
 	}
 }

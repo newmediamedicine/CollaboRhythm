@@ -591,11 +591,14 @@ protected function setSingleChartMode(targetChart:TouchScrollingMcCuneChart, mod
 protected function getAllCharts():Vector.<TouchScrollingMcCuneChart>
 {
 	var allCharts:Vector.<TouchScrollingMcCuneChart> = new Vector.<TouchScrollingMcCuneChart>();
-	for (var i:int = 0; i < chartsGroup.numElements; i++)
+	if (chartsGroup)
 	{
-		var chart:TouchScrollingMcCuneChart = chartsGroup.getElementAt(i) as TouchScrollingMcCuneChart;
-		if (chart != null)
-			allCharts.push(chart);
+		for (var i:int = 0; i < chartsGroup.numElements; i++)
+		{
+			var chart:TouchScrollingMcCuneChart = chartsGroup.getElementAt(i) as TouchScrollingMcCuneChart;
+			if (chart != null)
+				allCharts.push(chart);
+		}
 	}
 	return allCharts;
 }

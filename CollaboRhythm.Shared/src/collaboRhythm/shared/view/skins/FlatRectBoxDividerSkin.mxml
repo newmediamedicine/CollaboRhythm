@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx">
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="disabled"/>
+	</s:states>
+
+	<s:Rect horizontalCenter="0" width="10000" height="10" verticalCenter="0">
+		<s:fill>
+			<s:SolidColor color="#FFFFFF"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke color="#A7A9AC"/>
+		</s:stroke>
+	</s:Rect>
+
+	<s:Rect top="-2" width="20" height="1">
+		<s:fill>
+			<s:SolidColor color="#A7A9AC"/>
+		</s:fill>
+	</s:Rect>
+
+	<s:Rect top="0" width="20" height="1">
+		<s:fill>
+			<s:SolidColor color="#A7A9AC"/>
+		</s:fill>
+	</s:Rect>
+
+	<s:Rect top="2" width="20" height="1">
+		<s:fill>
+			<s:SolidColor color="#A7A9AC"/>
+		</s:fill>
+	</s:Rect>
+
+</s:Skin>

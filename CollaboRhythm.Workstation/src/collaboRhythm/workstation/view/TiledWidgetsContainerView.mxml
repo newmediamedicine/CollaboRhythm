@@ -37,7 +37,7 @@
 		import mx.core.IVisualElement;
 		import mx.events.ResizeEvent;
 
-		import skins.WidgetPanelSkin;
+		import collaboRhythm.shared.view.skins.WidgetPanelSkin;
 
 		import spark.components.Panel;
 		import spark.effects.Move;
@@ -110,7 +110,7 @@
 		{
 			_maxColumnWidth = value;
 			if (maxColumnWidth < minColumnWidth)
-			minColumnWidth = Math.min(minColumnWidth, maxColumnWidth);
+				minColumnWidth = Math.min(minColumnWidth, maxColumnWidth);
 		}
 
 		public function get maxRowHeight():Number
@@ -122,7 +122,7 @@
 		{
 			_maxRowHeight = value;
 			if (maxRowHeight < minRowHeight)
-			minRowHeight = Math.min(minRowHeight, maxRowHeight);
+				minRowHeight = Math.min(minRowHeight, maxRowHeight);
 		}
 
 		public function get widgetsContainer():Group

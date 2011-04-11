@@ -24,6 +24,7 @@
 		 creationComplete="group1_creationCompleteHandler(event)" xmlns:controls="com.dougmccune.controls.*"
 		 keyDown="group1_keyDownHandler(event)" xmlns:view="collaboRhythm.plugins.bloodPressure.view.*"
 		 clipAndEnableScrolling="true"
+		 implements="mx.managers.IFocusManagerComponent"
 		>
 	<fx:Style source="/collaboRhythm/plugins/bloodPressure/view/ChartStyles.css"/>
 	<fx:Declarations>
@@ -185,12 +186,7 @@
 
 	<fx:Script source="BloodPressureFullViewScript.as"/>
 
-	<s:Rect height="100%" width="100%">
-		<s:fill>
-			<s:SolidColor color="#F1F2F2"/>
-		</s:fill>
-	</s:Rect>
-	<mx:HDividedBox height="100%" width="100%" paddingRight="10" clipContent="true" horizontalScrollPolicy="off" verticalScrollPolicy="off" dividerColor="#F1F2F2" dividerAlpha="0.75" backgroundColor="#E6E7E8">
+	<mx:HDividedBox height="100%" width="100%" paddingRight="10" clipContent="true" horizontalScrollPolicy="off" verticalScrollPolicy="off" backgroundColor="#F1F2F2" dividerSkin="collaboRhythm.shared.view.skins.FlatRectBoxDividerSkin">
 
 
 		<s:VGroup id="chartsGroup" height="100%" width="100%" gap="15" paddingLeft="5" paddingRight="5" paddingTop="5"

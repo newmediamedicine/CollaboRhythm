@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="1.0" viewHeight="41" viewWidth="41.0005" ai:appVersion="14.0.0.367" d:id="1" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ai="http://ns.adobe.com/ai/2008" xmlns:d="http://ns.adobe.com/fxg/2008/dt">
+  <Library/>
+  <Group d:id="2" d:type="layer" d:userLabel="Layer 1">
+    <Path winding="nonZero" ai:knockout="0" data="M13.6313 29.4766L29.4751 13.6299 19.77 3.92383C15.2837 -0.5625 8.1001 -0.651367 3.7251 3.72607 -0.649902 8.10107 -0.563965 15.2847 3.92432 19.77L13.6313 29.4766Z" >
+      <fill>
+        <SolidColor color="#b2b2b2"/>
+      </fill>
+      <stroke>
+        <SolidColorStroke color="#808080" caps="none" weight="1" joints="miter" miterLimit="10"/>
+      </stroke>
+    </Path>
+    <Path winding="nonZero" ai:knockout="0" data="M28.6841 14.4219L14.4224 28.6836 23.1567 37.4199C27.1938 41.4551 33.6587 41.5361 37.6001 37.5986 41.5376 33.6602 41.4556 27.1953 37.4204 23.1563L28.6841 14.4219Z" >
+      <fill>
+        <SolidColor color="#ffffff"/>
+      </fill>
+      <stroke>
+        <SolidColorStroke color="#808080" caps="none" weight="1" joints="miter" miterLimit="10"/>
+      </stroke>
+    </Path>
+  </Group>
+  <Private>
+    <ai:PrivateElement d:ref="#1">
+      <ai:SaveOptions>
+        <ai:Dictionary>
+          <ai:DictEntry name="writeImages" value="1" valueType="Boolean"/>
+          <ai:DictEntry name="aiEditCap" value="1" valueType="Boolean"/>
+          <ai:DictEntry name="versionKey" value="1" valueType="Integer"/>
+          <ai:DictEntry name="includeSymbol" value="0" valueType="Boolean"/>
+          <ai:DictEntry name="includeXMP" value="0" valueType="Boolean"/>
+          <ai:DictEntry name="preserveTextPolicy" value="3" valueType="Integer"/>
+          <ai:DictEntry name="preserveGradientPolicy" value="3" valueType="Integer"/>
+          <ai:DictEntry name="preserveFilterPolicy" value="3" valueType="Integer"/>
+          <ai:DictEntry name="downsampleLinkedImages" value="0" valueType="Boolean"/>
+          <ai:DictEntry name="clipToActiveArtboard" value="1" valueType="Boolean"/>
+          <ai:DictEntry name="rasterizeResolution" value="72" valueType="Integer"/>
+        </ai:Dictionary>
+      </ai:SaveOptions>
+      <ai:DocData base="MedicationIcon.assets/images"/>
+      <ai:Artboards originOffsetH="379.5" originOffsetV="320.5" rulerCanvasDiffH="400.5" rulerCanvasDiffV="-299.5" zoom="2.29">
+        <ai:Artboard active="1" bottom="279.5" index="0" left="379.5" right="420.5" top="320.5"/>
+        <ai:ArtboardsParam all="0" range="" type="0"/>
+      </ai:Artboards>
+    </ai:PrivateElement>
+    <ai:PrivateElement d:ref="#2">
+      <ai:LayerOptions colorType="ThreeColor">
+        <ai:ThreeColor blue="257" green="128.502" red="79.31"/>
+      </ai:LayerOptions>
+    </ai:PrivateElement>
+  </Private>
+</Graphic>

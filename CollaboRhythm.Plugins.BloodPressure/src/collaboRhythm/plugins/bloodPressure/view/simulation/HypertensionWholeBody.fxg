@@ -289,68 +289,16 @@ L143.977 236.02 140.753 235.402C140.753 235.402 141.554 235.404 141.624 234.701 
         </Line>
       </Group>
     </Group>
-    <Group x="367.072" y="126.56" ai:knockout="0">
-      <Path winding="nonZero" ai:knockout="0" data="M5 59.5C2.51855 59.5 0.5 57.4814 0.5 55L0.5 5C0.5 2.51855 2.51855 0.5 5 0.5L395 0.5C397.481 0.5 399.5 2.51855 399.5 5L399.5 55C399.5 57.4814 397.481 59.5 395 59.5L5 59.5Z" >
-        <fill>
-          <SolidColor color="#d1d3d4"/>
-        </fill>
-      </Path>
+    <Group x="367.072" y="126.56" visible="false" d:userLabel="hypertensionGroup">
       <Group ai:knockout="0">
-        <Path winding="nonZero" ai:knockout="0" data="M395 1C397.206 1 399 2.79443 399 5L399 55C399 57.2056 397.206 59 395 59L5 59C2.79443 59 1 57.2056 1 55L1 5C1 2.79443 2.79443 1 5 1L395 1M395 0L5 0C2.23828 0 0 2.23877 0 5L0 55C0 57.7617 2.23828 60 5 60L395 60C397.762 60 400 57.7617 400
- 55L400 5C400 2.23877 397.762 0 395 0L395 0Z" >
+        <Path winding="nonZero" ai:knockout="0" data="M5 59.5C2.51855 59.5 0.5 57.4814 0.5 55L0.5 5C0.5 2.51855 2.51855 0.5 5 0.5L395 0.5C397.481 0.5 399.5 2.51855 399.5 5L399.5 55C399.5 57.4814 397.481 59.5 395 59.5L5 59.5Z" >
           <fill>
-            <SolidColor/>
+            <SolidColor color="#d1d3d4"/>
           </fill>
         </Path>
-      </Group>
-    </Group>
-    <Path winding="nonZero" ai:knockout="0" data="M417.072 147.671L417.072 165.449 405.961 165.375 405.961 176.56 388.184 176.56 388.184 165.597 377.072 165.449 377.072 147.671 388.184 147.671 388.184 136.56 405.961 136.56 405.961 147.671 417.072 147.671Z" >
-      <fill>
-        <SolidColor color="#b2b2b2"/>
-      </fill>
-      <stroke>
-        <SolidColorStroke color="#808080" caps="none" weight="1" joints="miter" miterLimit="10"/>
-      </stroke>
-    </Path>
-    <Path alpha="0.6" winding="nonZero" ai:knockout="0" data="M733.665 176.56L717.072 176.56 677.072 176.56C677.072 154.47 694.981 136.56 717.073 136.56 739.163 136.56 757.072 154.47 757.072 176.56L733.665 176.56Z" >
-      <fill>
-        <SolidColor color="#79a873"/>
-      </fill>
-    </Path>
-    <Path winding="nonZero" ai:knockout="0" data="M717.072 176.56L677.072 176.56C677.072 164.376 682.521 153.464 691.115 146.127L717.072 176.56Z" >
-      <fill>
-        <SolidColor color="#fff3ab"/>
-      </fill>
-    </Path>
-    <Path alpha="0.7" winding="nonZero" ai:knockout="0" data="M717.072 176.56L677.072 176.56C677.072 171.742 677.925 167.122 679.486 162.843L717.072 176.56Z" >
-      <fill>
-        <SolidColor color="#c64a5c"/>
-      </fill>
-    </Path>
-    <Path winding="nonZero" ai:knockout="0" data="M717.072 176.56L757.072 176.56C757.072 164.376 751.623 153.464 743.029 146.127L717.072 176.56Z" >
-      <fill>
-        <SolidColor color="#fff3ab"/>
-      </fill>
-    </Path>
-    <Path alpha="0.7" winding="nonZero" ai:knockout="0" data="M717.072 176.56L757.072 176.56C757.072 171.742 756.219 167.122 754.658 162.843L717.072 176.56Z" >
-      <fill>
-        <SolidColor color="#c64a5c"/>
-      </fill>
-    </Path>
-    <Path winding="nonZero" ai:knockout="0" data="M677.072 176.56C677.072 154.47 694.981 136.56 717.073 136.56 739.163 136.56 757.072 154.47 757.072 176.56L677.072 176.56Z" >
-      <stroke>
-        <SolidColorStroke caps="none" weight="1" joints="miter" miterLimit="10"/>
-      </stroke>
-    </Path>
-    <Group x="713.062" y="148.843" ai:knockout="0">
-      <Group>
-        <Line xFrom="4.01074" yFrom="25" xTo="4.01074" yTo="5.74121" ai:knockout="0">
-          <stroke>
-            <SolidColorStroke caps="none" weight="2" joints="miter" miterLimit="10"/>
-          </stroke>
-        </Line>
-        <Group>
-          <Path winding="nonZero" ai:knockout="0" data="M7.97754 6.9082L3.98926 0 0 6.9082 7.97754 6.9082Z" >
+        <Group ai:knockout="0">
+          <Path winding="nonZero" ai:knockout="0" data="M395 1C397.206 1 399 2.79443 399 5L399 55C399 57.2056 397.206 59 395 59L5 59C2.79443 59 1 57.2056 1 55L1 5C1 2.79443 2.79443 1 5 1L395 1M395 0L5 0C2.23828 0 0 2.23877 0 5L0 55C0 57.7617 2.23828 60 5 60L395 60C397.762 60 400 57.7617 400
+ 55L400 5C400 2.23877 397.762 0 395 0L395 0Z" >
             <fill>
               <SolidColor/>
             </fill>
@@ -358,14 +306,6 @@ L143.977 236.02 140.753 235.402C140.753 235.402 141.554 235.404 141.624 234.701 
         </Group>
       </Group>
     </Group>
-    <Ellipse x="714.572" y="174.06" width="5" height="5" ai:knockout="0">
-      <stroke>
-        <SolidColorStroke caps="none" weight="3" joints="miter" miterLimit="10"/>
-      </stroke>
-    </Ellipse>
-    <TextGraphic width="242.267" height="40" fontFamily="Myriad Pro Light" fontSize="30" fontWeight="bold" lineHeight="120%" color="#79a873" whiteSpaceCollapse="preserve" kerning="on" x="427.072" y="146.56" ai:knockout="0">
-      <content><p><span>Hypertension</span></p></content>
-    </TextGraphic>
   </Group>
   <Private>
     <ai:PrivateElement d:ref="#1">
@@ -385,7 +325,7 @@ L143.977 236.02 140.753 235.402C140.753 235.402 141.554 235.404 141.624 234.701 
         </ai:Dictionary>
       </ai:SaveOptions>
       <ai:DocData base="HypertensionWholeBody.assets/images"/>
-      <ai:Artboards originOffsetH="-171.932" originOffsetV="747.059" rulerCanvasDiffH="228.068" rulerCanvasDiffV="-382.059" zoom="2">
+      <ai:Artboards originOffsetH="-171.932" originOffsetV="747.059" rulerCanvasDiffH="228.068" rulerCanvasDiffV="-382.059" zoom="1">
         <ai:Artboard active="1" bottom="17.059" index="0" left="-171.932" right="628.068" top="747.059"/>
         <ai:ArtboardsParam all="0" range="" type="0"/>
       </ai:Artboards>

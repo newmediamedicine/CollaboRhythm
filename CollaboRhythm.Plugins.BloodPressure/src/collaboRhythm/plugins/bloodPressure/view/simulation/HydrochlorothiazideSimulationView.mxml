@@ -20,6 +20,7 @@
 								 xmlns:view="collaboRhythm.shared.bloodSolutesSimulation.view.*"
 								 width="100%"
 								 height="100%"
+								 bloodAreaBackgroundColor="#0B5874"
 		>
 	<fx:Script><![CDATA[
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;

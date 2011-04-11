@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="1.0" viewHeight="40" viewWidth="80" ai:appVersion="14.0.0.367" d:id="1" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ai="http://ns.adobe.com/ai/2008" xmlns:d="http://ns.adobe.com/fxg/2008/dt">
+  <Library/>
+  <Group d:id="2" d:type="layer" d:userLabel="Layer 1">
+    <Path alpha="0.6" winding="nonZero" ai:knockout="0" data="M56.5928 40L40 40 0 40C0 17.9097 17.9092 0 40.001 0 62.0908 0 80 17.9097 80 40L56.5928 40" >
+      <fill>
+        <SolidColor color="#79a873"/>
+      </fill>
+    </Path>
+    <Path winding="nonZero" ai:knockout="0" data="M40 40L0 40C0 27.8164 5.4502 16.9043 14.0439 9.56689L40 40Z" >
+      <fill>
+        <SolidColor color="#fff3ab"/>
+      </fill>
+    </Path>
+    <Path alpha="0.7" winding="nonZero" ai:knockout="0" data="M40 40L0 40C0 35.1816 0.852539 30.5615 2.41406 26.2832L40 40Z" >
+      <fill>
+        <SolidColor color="#c64a5c"/>
+      </fill>
+    </Path>
+    <Path winding="nonZero" ai:knockout="0" data="M40 40L80 40C80 27.8164 74.5498 16.9043 65.9561 9.56689L40 40Z" >
+      <fill>
+        <SolidColor color="#fff3ab"/>
+      </fill>
+    </Path>
+    <Path alpha="0.7" winding="nonZero" ai:knockout="0" data="M40 40L80 40C80 35.1816 79.1475 30.5615 77.5859 26.2832L40 40Z" >
+      <fill>
+        <SolidColor color="#c64a5c"/>
+      </fill>
+    </Path>
+    <Group ai:knockout="0">
+      <Path winding="nonZero" ai:knockout="0" data="M40.001 1C61.1699 1 78.4541 17.9561 78.9873 39L1.0127 39C1.54541 17.9561 18.8306 1 40.001 1M40.001 0C17.9092 0 0 17.9097 0 40L80 40C80 17.9097 62.0908 0 40.001 0L40.001 0Z" >
+        <fill>
+          <SolidColor/>
+        </fill>
+      </Path>
+    </Group>
+    <Group x="35.9893" y="13.7837" ai:knockout="0">
+      <Group>
+        <Line xFrom="4.01074" yFrom="24.9995" xTo="4.01074" yTo="5.74121" ai:knockout="0">
+          <stroke>
+            <SolidColorStroke caps="none" weight="2" joints="miter" miterLimit="10"/>
+          </stroke>
+        </Line>
+        <Group>
+          <Path winding="nonZero" ai:knockout="0" data="M7.97754 6.9082L3.98926 0 0 6.9082 7.97754 6.9082Z" >
+            <fill>
+              <SolidColor/>
+            </fill>
+          </Path>
+        </Group>
+      </Group>
+    </Group>
+    <Ellipse x="38.5" y="38" width="3" height="3" ai:knockout="0">
+      <stroke>
+        <SolidColorStroke caps="none" weight="3" joints="miter" miterLimit="10"/>
+      </stroke>
+    </Ellipse>
+  </Group>
+  <Private>
+    <ai:PrivateElement d:ref="#1">
+      <ai:SaveOptions>
+        <ai:Dictionary>
+          <ai:DictEntry name="writeImages" value="1" valueType="Boolean"/>
+          <ai:DictEntry name="aiEditCap" value="1" valueType="Boolean"/>
+          <ai:DictEntry name="versionKey" value="1" valueType="Integer"/>
+          <ai:DictEntry name="includeSymbol" value="0" valueType="Boolean"/>
+          <ai:DictEntry name="includeXMP" value="0" valueType="Boolean"/>
+          <ai:DictEntry name="preserveTextPolicy" value="3" valueType="Integer"/>
+          <ai:DictEntry name="preserveGradientPolicy" value="3" valueType="Integer"/>
+          <ai:DictEntry name="preserveFilterPolicy" value="3" valueType="Integer"/>
+          <ai:DictEntry name="downsampleLinkedImages" value="0" valueType="Boolean"/>
+          <ai:DictEntry name="clipToActiveArtboard" value="1" valueType="Boolean"/>
+          <ai:DictEntry name="rasterizeResolution" value="72" valueType="Integer"/>
+        </ai:Dictionary>
+      </ai:SaveOptions>
+      <ai:DocData base="GuageBackground.assets/images"/>
+      <ai:Artboards originOffsetH="364.625" originOffsetV="321" rulerCanvasDiffH="400.5" rulerCanvasDiffV="-299.5" zoom="16">
+        <ai:Artboard active="1" bottom="281" index="0" left="364.625" right="444.625" top="321"/>
+        <ai:ArtboardsParam all="0" range="" type="0"/>
+      </ai:Artboards>
+    </ai:PrivateElement>
+    <ai:PrivateElement d:ref="#2">
+      <ai:LayerOptions colorType="ThreeColor">
+        <ai:ThreeColor blue="257" green="128.502" red="79.31"/>
+      </ai:LayerOptions>
+    </ai:PrivateElement>
+  </Private>
+</Graphic>

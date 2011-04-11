@@ -9,15 +9,6 @@
         <SolidColorStroke caps="none" weight="1" joints="miter" miterLimit="10"/>
       </stroke>
     </Rect>
-    <Path winding="nonZero" ai:knockout="0" data="M780.5 601.664C780.5 604.424 778.262 606.664 775.5 606.664L385.5 606.664C382.738 606.664 380.5 604.424 380.5 601.664L380.5 551.664C380.5 548.901 382.738 546.664 385.5 546.664L775.5 546.664C778.262 546.664 780.5 548.901 780.5 551.664L780.5
- 601.664Z" >
-      <fill>
-        <SolidColor color="#d1d3d4"/>
-      </fill>
-      <stroke>
-        <SolidColorStroke color="#58595b" caps="none" weight="1" joints="miter" miterLimit="10"/>
-      </stroke>
-    </Path>
     <Path winding="nonZero" data="M19.2793 462.026C31.1631 509.094 42.3193 567.341 61.8633 542.702 79.4941 520.471 64.2314 493.295 76.9258 478.995 100.578 452.343 147.752 435.313 147.752 435.313L147.752 438.893C147.752 438.893 78.877 473.966 78.5684 493.974 78.2598 513.981
  143.805 510.375 143.805 510.375L143.805 516.209C143.805 516.209 74.501 508.231 77.1611 526.143 79.9648 545.021 100.578 539.129 100.578 539.129L100.578 545.52C100.578 545.52 68.5293 537.961 70.6689 557.967 72.8027 577.973 134.029 575.606 134.029
  575.606L134.029 581.164C134.029 581.164 79.1982 572.19 77.7021 589.645 75.7773 612.084 132.99 608.067 132.99 608.067L132.99 613.899C132.99 613.899 81.5596 605.764 87.7607 621.879 93.9658 637.992 125.521 634.21 125.521 634.21L125.521 642.546C125.521
@@ -358,76 +349,86 @@ C169.21 152.266 170.441 110.173 155.375 98.9043 139.953 87.3682 104.513 86.1396 
         </Group>
       </Group>
     </Group>
-    <TextGraphic width="255" height="47.998" fontFamily="Myriad Pro" fontSize="26" lineHeight="120%" color="#79a873" whiteSpaceCollapse="preserve" kerning="on" x="440.5" y="568.446" ai:knockout="0">
-      <content><p><span>Hydroclorothiazide</span></p></content>
-    </TextGraphic>
-    <Path winding="nonZero" ai:knockout="0" data="M403.631 585.639L419.475 569.792 409.77 560.086C405.283 555.6 398.1 555.511 393.725 559.889 389.35 564.264 389.436 571.448 393.924 575.932L403.631 585.639Z" >
-      <fill>
-        <SolidColor color="#b2b2b2"/>
-      </fill>
-      <stroke>
-        <SolidColorStroke color="#808080" caps="none" weight="1" joints="miter" miterLimit="10"/>
-      </stroke>
-    </Path>
-    <Path winding="nonZero" ai:knockout="0" data="M418.684 570.584L404.422 584.846 413.156 593.583C417.193 597.618 423.658 597.699 427.6 593.761 431.537 589.823 431.455 583.358 427.42 579.319L418.684 570.584Z" >
-      <fill>
-        <SolidColor color="#ffffff"/>
-      </fill>
-      <stroke>
-        <SolidColorStroke color="#808080" caps="none" weight="1" joints="miter" miterLimit="10"/>
-      </stroke>
-    </Path>
-    <Path alpha="0.6" winding="nonZero" ai:knockout="0" data="M747.093 596.664L730.5 596.664 690.5 596.664C690.5 574.573 708.409 556.664 730.501 556.664 752.591 556.664 770.5 574.573 770.5 596.664L747.093 596.664Z" >
-      <fill>
-        <SolidColor color="#79a873"/>
-      </fill>
-    </Path>
-    <Path winding="nonZero" ai:knockout="0" data="M730.5 596.664L690.5 596.664C690.5 584.479 695.95 573.567 704.544 566.229L730.5 596.664Z" >
-      <fill>
-        <SolidColor color="#fff3ab"/>
-      </fill>
-    </Path>
-    <Path alpha="0.7" winding="nonZero" ai:knockout="0" data="M730.5 596.664L690.5 596.664C690.5 591.844 691.354 587.224 692.914 582.946L730.5 596.664Z" >
-      <fill>
-        <SolidColor color="#c64a5c"/>
-      </fill>
-    </Path>
-    <Path winding="nonZero" ai:knockout="0" data="M730.5 596.664L770.5 596.664C770.5 584.479 765.05 573.567 756.456 566.229L730.5 596.664Z" >
-      <fill>
-        <SolidColor color="#fff3ab"/>
-      </fill>
-    </Path>
-    <Path alpha="0.7" winding="nonZero" ai:knockout="0" data="M730.5 596.664L770.5 596.664C770.5 591.844 769.646 587.224 768.086 582.946L730.5 596.664Z" >
-      <fill>
-        <SolidColor color="#c64a5c"/>
-      </fill>
-    </Path>
-    <Path winding="nonZero" ai:knockout="0" data="M690.5 596.664C690.5 574.573 708.409 556.664 730.501 556.664 752.591 556.664 770.5 574.573 770.5 596.664L690.5 596.664Z" >
-      <stroke>
-        <SolidColorStroke caps="none" weight="1" joints="miter" miterLimit="10"/>
-      </stroke>
-    </Path>
-    <Group x="726.489" y="570.446" ai:knockout="0">
-      <Group>
-        <Line xFrom="4.01074" yFrom="25" xTo="4.01074" yTo="5.74219" ai:knockout="0">
-          <stroke>
-            <SolidColorStroke caps="none" weight="2" joints="miter" miterLimit="10"/>
-          </stroke>
-        </Line>
+    <Group x="380" y="546.164" visible="false">
+      <Path winding="nonZero" ai:knockout="0" data="M400.5 55.5C400.5 58.2607 398.262 60.5 395.5 60.5L5.5 60.5C2.73779 60.5 0.5 58.2607 0.5 55.5L0.5 5.5C0.5 2.7373 2.73779 0.5 5.5 0.5L395.5 0.5C398.262 0.5 400.5 2.7373 400.5 5.5L400.5 55.5Z" >
+        <fill>
+          <SolidColor color="#d1d3d4"/>
+        </fill>
+        <stroke>
+          <SolidColorStroke color="#58595b" caps="none" weight="1" joints="miter" miterLimit="10"/>
+        </stroke>
+      </Path>
+      <TextGraphic width="255" height="47.998" fontFamily="Myriad Pro" fontSize="26" lineHeight="120%" color="#79a873" whiteSpaceCollapse="preserve" kerning="on" x="60.5" y="22.2822" ai:knockout="0">
+        <content><p><span>Hydroclorothiazide</span></p></content>
+      </TextGraphic>
+      <Path winding="nonZero" ai:knockout="0" data="M23.6309 39.4756L39.4746 23.6289 29.7695 13.9229C25.2832 9.43652 18.0996 9.34766 13.7246 13.7256 9.3501 18.1006 9.43604 25.2842 13.9238 29.7686L23.6309 39.4756Z" >
+        <fill>
+          <SolidColor color="#b2b2b2"/>
+        </fill>
+        <stroke>
+          <SolidColorStroke color="#808080" caps="none" weight="1" joints="miter" miterLimit="10"/>
+        </stroke>
+      </Path>
+      <Path winding="nonZero" ai:knockout="0" data="M38.6836 24.4209L24.4219 38.6826 33.1563 47.4199C37.1934 51.4541 43.6582 51.5352 47.5996 47.5977 51.5371 43.6592 51.4551 37.1943 47.4199 33.1553L38.6836 24.4209Z" >
+        <fill>
+          <SolidColor color="#ffffff"/>
+        </fill>
+        <stroke>
+          <SolidColorStroke color="#808080" caps="none" weight="1" joints="miter" miterLimit="10"/>
+        </stroke>
+      </Path>
+      <Path alpha="0.6" winding="nonZero" ai:knockout="0" data="M367.093 50.5L350.5 50.5 310.5 50.5C310.5 28.4092 328.409 10.5 350.501 10.5 372.591 10.5 390.5 28.4092 390.5 50.5L367.093 50.5Z" >
+        <fill>
+          <SolidColor color="#79a873"/>
+        </fill>
+      </Path>
+      <Path winding="nonZero" ai:knockout="0" data="M350.5 50.5L310.5 50.5C310.5 38.3154 315.95 27.4033 324.544 20.0654L350.5 50.5Z" >
+        <fill>
+          <SolidColor color="#fff3ab"/>
+        </fill>
+      </Path>
+      <Path alpha="0.7" winding="nonZero" ai:knockout="0" data="M350.5 50.5L310.5 50.5C310.5 45.6807 311.354 41.0605 312.914 36.7822L350.5 50.5Z" >
+        <fill>
+          <SolidColor color="#c64a5c"/>
+        </fill>
+      </Path>
+      <Path winding="nonZero" ai:knockout="0" data="M350.5 50.5L390.5 50.5C390.5 38.3154 385.05 27.4033 376.456 20.0654L350.5 50.5Z" >
+        <fill>
+          <SolidColor color="#fff3ab"/>
+        </fill>
+      </Path>
+      <Path alpha="0.7" winding="nonZero" ai:knockout="0" data="M350.5 50.5L390.5 50.5C390.5 45.6807 389.646 41.0605 388.086 36.7822L350.5 50.5Z" >
+        <fill>
+          <SolidColor color="#c64a5c"/>
+        </fill>
+      </Path>
+      <Path winding="nonZero" ai:knockout="0" data="M310.5 50.5C310.5 28.4092 328.409 10.5 350.501 10.5 372.591 10.5 390.5 28.4092 390.5 50.5L310.5 50.5Z" >
+        <stroke>
+          <SolidColorStroke caps="none" weight="1" joints="miter" miterLimit="10"/>
+        </stroke>
+      </Path>
+      <Group x="346.489" y="24.2822" ai:knockout="0">
         <Group>
-          <Path winding="nonZero" ai:knockout="0" data="M7.97754 6.9082L3.98926 0 0 6.9082 7.97754 6.9082Z" >
-            <fill>
-              <SolidColor/>
-            </fill>
-          </Path>
+          <Line xFrom="4.01074" yFrom="25" xTo="4.01074" yTo="5.74219" ai:knockout="0">
+            <stroke>
+              <SolidColorStroke caps="none" weight="2" joints="miter" miterLimit="10"/>
+            </stroke>
+          </Line>
+          <Group>
+            <Path winding="nonZero" ai:knockout="0" data="M7.97754 6.9082L3.98926 0 0 6.9082 7.97754 6.9082Z" >
+              <fill>
+                <SolidColor/>
+              </fill>
+            </Path>
+          </Group>
         </Group>
       </Group>
+      <Ellipse x="349" y="48.5" width="3" height="3" ai:knockout="0">
+        <stroke>
+          <SolidColorStroke caps="none" weight="3" joints="miter" miterLimit="10"/>
+        </stroke>
+      </Ellipse>
     </Group>
-    <Ellipse x="729" y="594.664" width="3" height="3" ai:knockout="0">
-      <stroke>
-        <SolidColorStroke caps="none" weight="3" joints="miter" miterLimit="10"/>
-      </stroke>
-    </Ellipse>
     <Group x="400" y="487.879">
       <Path winding="nonZero" ai:knockout="0" data="M360.5 45.5C360.5 48.2617 358.262 50.5 355.5 50.5L5.5 50.5C2.73828 50.5 0.5 48.2617 0.5 45.5L0.5 5.5C0.5 2.73828 2.73828 0.5 5.5 0.5L355.5 0.5C358.262 0.5 360.5 2.73828 360.5 5.5L360.5 45.5Z" >
         <fill>
