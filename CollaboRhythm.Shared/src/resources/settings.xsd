@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<xs:schema id="settings"
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   xmlns="http://collaborhythm.org/application/settings"
+		   targetNamespace="http://collaborhythm.org/application/settings"
+		   attributeFormDefault="unqualified"
+		   elementFormDefault="qualified"
+		>
+
+	<xs:element name="settings" type="settings"/>
+
+	<xs:complexType name="settings">
+		<xs:all>
+			<xs:element name="mode" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Clinician mode will start the application with a list of a records that the current user has
+						access to. The clinician will be able to pick which patient record to open. Clinician mode is
+						not supported in CollaboRhythm.Mobile.
+						Patient mode will open the patient's record immediately.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="clinician"/>
+						<xs:enumeration value="patient"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element type="xs:string" name="username" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="xs:string" name="password" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="xs:string" name="rtmpBaseURI" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="xs:string" name="indivoServerBaseURL" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="xs:string" name="chromeConsumerKey" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="xs:string" name="chromeConsumerSecret" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="xs:boolean" name="useSingleScreen" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						If no valid windowSettings.xml file exists or resetWindowSettings = true, then force the app to
+						only use a single screen (one window)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element type="xs:boolean" name="resetWindowSettings" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Ignore the windowSettings.xml and reset the position/size of all windows
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element type="xs:dateTime" name="targetDate" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						The targetDate can be used for a demo to change the current date.
+						Note that the current time of day will not be changed (it will be based on real time) but the
+						date will be offset to match the targetDate
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="demoDatePresets" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Collection of Date values (dateTime) which can be used to simulate changing the current
+						date/time to an arbitrary date/time for demo purposes.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element type="xs:dateTime" name="demoDatePreset" maxOccurs="unbounded" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="appGroups" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Collection of appGroups describing the groups of apps used in the application, and the
+						order in which the apps should appear.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="appGroup" type="appGroup" maxOccurs="unbounded" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="appGroup">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				An app group specifies a group of apps (appDescriptors) that should appear together within the
+				application.
+				The order and grouping of apps will determine where and in what order the widget views of the apps are
+				shown.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="appDescriptors" minOccurs="1" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element type="xs:string" name="appDescriptor" maxOccurs="unbounded" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+		<xs:attribute type="xs:string" name="id"/>
+	</xs:complexType>
+</xs:schema>
