@@ -20,7 +20,9 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:simulation="collaboRhythm.plugins.bloodPressure.view.simulation.*"
+		xmlns:gauge="collaboRhythm.plugins.bloodPressure.view.simulation.gauge.*"
 		width="100%" height="100%">
+
 	<simulation:showEffect>
 		<s:Fade alphaFrom="0" alphaTo="1"/>
 	</simulation:showEffect>
@@ -35,7 +37,7 @@
 			width="400" height="60"
 			cornerRadius="5"
 			chromeColor="#D1D3D4"
-			fontFamily="Myriad Pro Light" fontSize="30" fontWeight="bold" lineHeight="120%" color="#79a873" kerning="on"
+			fontFamily="Myriad Pro Light" fontSize="30" fontWeight="bold" lineHeight="120%" color="#000000" kerning="on"
 			label="Hypertension"
 			click="dispatchEvent(new SimulationLevelEvent(SimulationLevelEvent.DRILL_DOWN_LEVEL, true));"
 			>
@@ -43,7 +45,22 @@
 			<simulation:ProblemsIcon left="15" verticalCenter="0"/>
 		</simulation:leftContent>
 		<simulation:rightContent>
-			<simulation:GaugeBackground right="10" verticalCenter="0"/>
+<!--
+			<controls:DegrafaGauge id="gauge" diameter="80" right="10" verticalCenter="0" styleName="gaugeSkin"
+				startAngle="45"  minimum="0" maximum="180"
+				endAngle="315" 
+				labelStyleName="gaugeLabel" labelFormatter="{formatter}"
+				value="{simulationModel.systolic}"
+				/>
+-->
+			<gauge:Gauge id="gauge" right="10" verticalCenter="0"
+						 valueMinimum="70"
+						 valueLow1="85"
+						 valueLow0="90"
+						 valueHigh0="120"
+						 valueHigh1="140"
+						 valueMaximum="180"
+						 value="{simulationModel.systolic}"/>
 		</simulation:rightContent>
 	</simulation:ContentButton>
 	<fx:Script><![CDATA[

@@ -57,12 +57,12 @@
 			this.bloodAreaPercentWidthAnimated = linearTransform(concentration, 0, SimulationModel.goalConcentration, 0.6, 0.4);
 		}
 
-		private function linearTransform(value:Number, min:Number, max:Number, min2:Number, max2:Number):Number
+		private static function linearTransform(value:Number, min:Number, max:Number, min2:Number, max2:Number):Number
 		{
 			return min2 + percentOfRange(value, min, max) * (max2 - min2);
 		}
 
-		private function percentOfRange(value:Number, min:Number, max:Number):Number
+		private static function percentOfRange(value:Number, min:Number, max:Number):Number
 		{
 			return Math.max(0, Math.min(1, (value - min) / (max - min)));
 		}

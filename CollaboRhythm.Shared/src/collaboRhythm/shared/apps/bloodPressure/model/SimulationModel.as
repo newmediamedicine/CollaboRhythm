@@ -40,6 +40,9 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		 * will result in ideal functioning of the medication.
 		 */
 		public static const goalConcentration:Number = 0.05;
+		public static const goalConcentrationHigh0:Number = 0.35;
+		public static const goalConcentrationHigh1:Number = 0.45;
+		public static const concentrationMaximum:Number = 1;
 
 		public static const SYSTOLIC_HYPERTENSIVE_THRESHOLD:Number = 120;
 

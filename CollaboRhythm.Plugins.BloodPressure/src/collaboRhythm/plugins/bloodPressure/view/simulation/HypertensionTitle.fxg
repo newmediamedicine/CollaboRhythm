@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Graphic version="1.0" viewHeight="60" viewWidth="400" ai:appVersion="14.0.0.367" d:id="1" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ai="http://ns.adobe.com/ai/2008" xmlns:d="http://ns.adobe.com/fxg/2008/dt">
   <Group d:id="2" d:type="layer" d:userLabel="Layer 1">
-    <Group ai:knockout="0">
-      <Path winding="nonZero" ai:knockout="0" data="M5 59.5C2.51855 59.5 0.5 57.4814 0.5 55L0.5 5C0.5 2.51855 2.51855 0.5 5 0.5L395 0.5C397.481 0.5 399.5 2.51855 399.5 5L399.5 55C399.5 57.4814 397.481 59.5 395 59.5L5 59.5Z" >
+    <Group ai:knockout="0" d:locked="true">
+      <Path winding="nonZero" ai:knockout="0" data="M5 59.5C2.51855 59.5 0.5 57.4814 0.5 55L0.5 5C0.5 2.51855 2.51855 0.5 5 0.5L395 0.5C397.48 0.5 399.5 2.51855 399.5 5L399.5 55C399.5 57.4814 397.48 59.5 395 59.5L5 59.5Z" >
         <fill>
           <SolidColor color="#ffffff"/>
         </fill>
       </Path>
-      <Path winding="nonZero" ai:knockout="0" data="M395 1C397.206 1 399 2.79443 399 5L399 55C399 57.2061 397.206 59 395 59L5 59C2.79443 59 1 57.2061 1 55L1 5C1 2.79443 2.79443 1 5 1L395 1M395 0L5 0C2.23828 0 0 2.23877 0 5L0 55C0 57.7617 2.23828 60 5 60L395 60C397.762 60 400 57.7617 400
+      <Path winding="nonZero" ai:knockout="0" data="M395 1C397.206 1 399 2.79443 399 5L399 55C399 57.2061 397.206 59 395 59L5 59C2.79443 59 1 57.2061 1 55L1 5C1 2.79443 2.79443 1 5 1L395 1ZM395 0L5 0C2.23828 0 0 2.23877 0 5L0 55C0 57.7617 2.23828 60 5 60L395 60C397.762 60 400 57.7617 400
  55L400 5C400 2.23877 397.762 0 395 0L395 0Z" >
         <fill>
           <SolidColor/>
@@ -22,58 +22,7 @@
         <SolidColorStroke color="#808080" caps="none" weight="1" joints="miter" miterLimit="10"/>
       </stroke>
     </Path>
-    <Path alpha="0.6" winding="nonZero" ai:knockout="0" data="M366.593 50L350 50 310 50C310 27.9097 327.909 10 350.001 10 372.091 10 390 27.9097 390 50L366.593 50Z" >
-      <fill>
-        <SolidColor color="#79a873"/>
-      </fill>
-    </Path>
-    <Path winding="nonZero" ai:knockout="0" data="M350 50L310 50C310 37.8164 315.449 26.9038 324.043 19.5669L350 50Z" >
-      <fill>
-        <SolidColor color="#fff3ab"/>
-      </fill>
-    </Path>
-    <Path alpha="0.7" winding="nonZero" ai:knockout="0" data="M350 50L310 50C310 45.1816 310.853 40.5615 312.414 36.2832L350 50Z" >
-      <fill>
-        <SolidColor color="#c64a5c"/>
-      </fill>
-    </Path>
-    <Path winding="nonZero" ai:knockout="0" data="M350 50L390 50C390 37.8164 384.551 26.9038 375.957 19.5669L350 50Z" >
-      <fill>
-        <SolidColor color="#fff3ab"/>
-      </fill>
-    </Path>
-    <Path alpha="0.7" winding="nonZero" ai:knockout="0" data="M350 50L390 50C390 45.1816 389.146 40.5615 387.586 36.2832L350 50Z" >
-      <fill>
-        <SolidColor color="#c64a5c"/>
-      </fill>
-    </Path>
-    <Path winding="nonZero" ai:knockout="0" data="M310 50C310 27.9097 327.909 10 350.001 10 372.091 10 390 27.9097 390 50L310 50Z" >
-      <stroke>
-        <SolidColorStroke caps="none" weight="1" joints="miter" miterLimit="10"/>
-      </stroke>
-    </Path>
-    <Group x="345.989" y="22.2832" ai:knockout="0">
-      <Group>
-        <Line xFrom="4.01074" yFrom="25" xTo="4.01074" yTo="5.74121" ai:knockout="0">
-          <stroke>
-            <SolidColorStroke caps="none" weight="2" joints="miter" miterLimit="10"/>
-          </stroke>
-        </Line>
-        <Group>
-          <Path winding="nonZero" ai:knockout="0" data="M7.97754 6.9082L3.98926 0 0 6.9082 7.97754 6.9082Z" >
-            <fill>
-              <SolidColor/>
-            </fill>
-          </Path>
-        </Group>
-      </Group>
-    </Group>
-    <Ellipse x="347.5" y="47.5" width="5" height="5" ai:knockout="0">
-      <stroke>
-        <SolidColorStroke caps="none" weight="3" joints="miter" miterLimit="10"/>
-      </stroke>
-    </Ellipse>
-    <TextGraphic width="242.267" height="40" fontFamily="Myriad Pro Light" fontSize="30" fontWeight="bold" lineHeight="120%" color="#79a873" whiteSpaceCollapse="preserve" kerning="on" x="60" y="20" ai:knockout="0">
+    <TextGraphic width="242.267" height="40" fontFamily="Myriad Pro Light" fontSize="30" fontWeight="bold" lineHeight="120%" whiteSpaceCollapse="preserve" kerning="on" x="60" y="20" ai:knockout="0">
       <content><p><span>Hypertension</span></p></content>
     </TextGraphic>
   </Group>
@@ -81,21 +30,21 @@
     <ai:PrivateElement d:ref="#1">
       <ai:SaveOptions>
         <ai:Dictionary>
-          <ai:DictEntry name="writeImages" value="1" valueType="Boolean"/>
-          <ai:DictEntry name="aiEditCap" value="1" valueType="Boolean"/>
-          <ai:DictEntry name="versionKey" value="1" valueType="Integer"/>
-          <ai:DictEntry name="includeSymbol" value="0" valueType="Boolean"/>
-          <ai:DictEntry name="includeXMP" value="0" valueType="Boolean"/>
-          <ai:DictEntry name="preserveTextPolicy" value="3" valueType="Integer"/>
-          <ai:DictEntry name="preserveGradientPolicy" value="3" valueType="Integer"/>
-          <ai:DictEntry name="preserveFilterPolicy" value="3" valueType="Integer"/>
-          <ai:DictEntry name="downsampleLinkedImages" value="0" valueType="Boolean"/>
-          <ai:DictEntry name="clipToActiveArtboard" value="1" valueType="Boolean"/>
           <ai:DictEntry name="rasterizeResolution" value="72" valueType="Integer"/>
+          <ai:DictEntry name="clipToActiveArtboard" value="1" valueType="Boolean"/>
+          <ai:DictEntry name="downsampleLinkedImages" value="0" valueType="Boolean"/>
+          <ai:DictEntry name="preserveFilterPolicy" value="3" valueType="Integer"/>
+          <ai:DictEntry name="preserveGradientPolicy" value="3" valueType="Integer"/>
+          <ai:DictEntry name="preserveTextPolicy" value="3" valueType="Integer"/>
+          <ai:DictEntry name="includeXMP" value="0" valueType="Boolean"/>
+          <ai:DictEntry name="writeImages" value="1" valueType="Boolean"/>
+          <ai:DictEntry name="includeSymbol" value="0" valueType="Boolean"/>
+          <ai:DictEntry name="versionKey" value="1" valueType="Integer"/>
+          <ai:DictEntry name="aiEditCap" value="1" valueType="Boolean"/>
         </ai:Dictionary>
       </ai:SaveOptions>
       <ai:DocData base="HypertensionTitle.assets/images"/>
-      <ai:Artboards originOffsetH="200" originOffsetV="332" rulerCanvasDiffH="400" rulerCanvasDiffV="-302" zoom="4">
+      <ai:Artboards originOffsetH="200" originOffsetV="332" rulerCanvasDiffH="400" rulerCanvasDiffV="-302" zoom="1">
         <ai:Artboard active="1" bottom="272" index="0" left="200" right="600" top="332"/>
         <ai:ArtboardsParam all="0" range="" type="0"/>
       </ai:Artboards>
