@@ -24,8 +24,43 @@
 		 creationComplete="creationCompleteHandler(event)"
 		 addedToStage="addedToStageHandler(event)"
 		 removedFromStage="removedFromStageHandler(event)"
-		 keyDown="group1_keyDownHandler(event)"
+		 keyDown="keyDownHandler(event)"
+		 added="addedHandler(event)"
 		 >
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:Rect width="{this.width}" height="{this.height}">
+		<s:fill>
+			<s:SolidColor color="0xFF0000" alpha="0.5"/>
+		</s:fill>
+	</s:Rect>
+	<s:HGroup width="{this.width}" height="{this.height}" gap="0">
+		<s:Rect id="bloodAreaBackgroundRect" width="{Math.round(this.width * bloodAreaPercentWidth)}" height="100%">
+			<s:fill>
+				<s:SolidColor color="0x974e57"/>
+			</s:fill>
+		</s:Rect>
+		<s:Rect id="rightAreaBackgroundRect" width="{this.width * (1 - bloodAreaPercentWidth)}" height="100%">
+			<s:fill>
+				<s:SolidColor color="0xfcf3a0"/>
+			</s:fill>
+		</s:Rect>
+	</s:HGroup>
+	<s:Group id="wallsGroup" width="{this.width}" height="{this.height}" clipAndEnableScrolling="true" resize="wallsGroup_resizeHandler(event)">
+		<s:Rect id="leftWall" width="100" x="-98.5" height="{wallsGroup.height + 200}" verticalCenter="0">
+			<s:stroke>
+				<s:SolidColorStroke color="0x222222" weight="3"/>
+			</s:stroke>
+		</s:Rect>
+		<s:Rect id="rightWall" width="100" right="-100" height="{wallsGroup.height + 200}" verticalCenter="0">
+			<s:stroke>
+				<s:SolidColorStroke color="0x222222" weight="3"/>
+			</s:stroke>
+		</s:Rect>
+	</s:Group>
+	<mx:UIComponent id="spriteContainer" width="{this.width}" height="{this.height}" focusEnabled="true" keyDown="keyDownHandler(event)"/>
+
 	<fx:Script><![CDATA[
 		import Box2D.Collision.*;
 		import Box2D.Collision.Shapes.*;
@@ -103,15 +138,25 @@
 
 		public function set bloodAreaPercentWidthAnimated(value:Number):void
 		{
-			if (_bloodAreaPercentWidthAnimated != value)
+			if (shouldForceEquilibrium)
 			{
 				_bloodAreaPercentWidthAnimated = value;
-				_bloodAreaPercentWidthEffect.stop();
-				var motionPath:SimpleMotionPath = new SimpleMotionPath("bloodAreaPercentWidth", bloodAreaPercentWidth, _bloodAreaPercentWidthAnimated);
-				_bloodAreaPercentWidthEffect.motionPaths = new <MotionPath>[motionPath];
-				_bloodAreaPercentWidthEffect.duration = 3000;
-				_bloodAreaPercentWidthEffect.startDelay = 2000;
-				_bloodAreaPercentWidthEffect.play();
+				bloodAreaPercentWidth = value;
+			}
+			else
+			{
+				if (_bloodAreaPercentWidthAnimated != value)
+				{
+					_bloodAreaPercentWidthAnimated = value;
+					_bloodAreaPercentWidthEffect.stop();
+					var motionPath:SimpleMotionPath = new SimpleMotionPath("bloodAreaPercentWidth",
+																		   bloodAreaPercentWidth,
+																		   _bloodAreaPercentWidthAnimated);
+					_bloodAreaPercentWidthEffect.motionPaths = new <MotionPath>[motionPath];
+					_bloodAreaPercentWidthEffect.duration = 3000;
+					_bloodAreaPercentWidthEffect.startDelay = 2000;
+					_bloodAreaPercentWidthEffect.play();
+				}
 			}
 		}
 
@@ -123,14 +168,23 @@
 
 		public function set soluteInBloodRatioAnimated(value:Number):void
 		{
-			if (_soluteInBloodRatioAnimated != value)
+			if (shouldForceEquilibrium)
 			{
 				_soluteInBloodRatioAnimated = value;
-				_soluteInBloodRatioEffect.stop();
-				var motionPath:SimpleMotionPath = new SimpleMotionPath("soluteInBloodRatio", soluteInBloodRatio, _soluteInBloodRatioAnimated);
-				_soluteInBloodRatioEffect.motionPaths = new <MotionPath>[motionPath];
-				_soluteInBloodRatioEffect.duration = 5000;
-				_soluteInBloodRatioEffect.play();
+				soluteInBloodRatio = value;
+			}
+			else
+			{
+				if (_soluteInBloodRatioAnimated != value)
+				{
+					_soluteInBloodRatioAnimated = value;
+					_soluteInBloodRatioEffect.stop();
+					var motionPath:SimpleMotionPath = new SimpleMotionPath("soluteInBloodRatio", soluteInBloodRatio,
+																		   _soluteInBloodRatioAnimated);
+					_soluteInBloodRatioEffect.motionPaths = new <MotionPath>[motionPath];
+					_soluteInBloodRatioEffect.duration = 5000;
+					_soluteInBloodRatioEffect.play();
+				}
 			}
 		}
 
@@ -191,6 +245,58 @@
 		private var _soluteFillColor2:uint = 0xdcb0d2;
 		private var _plugFillColor:uint = 0x00a651;
 		private var _antibodyFillColor:uint = 0x00a651;
+		private var _explicitRunningDisabled:Boolean;
+
+		public function get explicitRunningDisabled():Boolean
+		{
+			return _explicitRunningDisabled;
+		}
+
+		public function set explicitRunningDisabled(value:Boolean):void
+		{
+			_explicitRunningDisabled = value;
+		}
+
+		private function addedHandler(event:Event):void
+		{
+			if (event.target == this)
+			{
+				// listen to visible property change on all ancestors
+				listenToAncestorsVisible();
+				updateIsRunning();
+			}
+		}
+
+		public static function isVisible(obj:DisplayObject):Boolean
+		{
+			while (obj && obj.visible)
+			{
+				obj = obj.parent;
+			}
+			return obj == null || obj.visible;
+		}
+
+		private function listenToAncestorsVisible():void
+		{
+			var obj:DisplayObject = this;
+			while (obj)
+			{
+				obj.addEventListener(FlexEvent.HIDE, ancestor_hideShowHandler, false, 0, true);
+				obj.addEventListener(FlexEvent.SHOW, ancestor_hideShowHandler, false, 0, true);
+				obj = obj.parent;
+			}
+
+		}
+
+		private function ancestor_hideShowHandler(event:FlexEvent):void
+		{
+			updateIsRunning();
+		}
+
+		private function updateIsRunning():void
+		{
+			isRunning = !explicitRunningDisabled && isVisible(this);
+		}
 
 		[Bindable]
 		public function get soluteFillColorRatio():Number
@@ -343,6 +449,8 @@
 		public function set soluteInBloodRatio(value:Number):void
 		{
 			_soluteInBloodRatio = value;
+			if (shouldForceEquilibrium)
+				resetSoluteBodyPositions();
 		}
 
 		public function get plugRatio():Number
@@ -432,7 +540,7 @@
 				else
 					this.removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
 
-		//					trace("Debug trace for performance issues: " + getQualifiedClassName(this) + " " + this.id + " isRunning", _isRunning);
+//				trace("Debug trace for performance issues: " + getQualifiedClassName(this) + " " + this.id + " isRunning", _isRunning);
 			}
 		}
 
@@ -445,7 +553,7 @@
 		private function initializeDynamicElements():void
 		{
 			this.addEventListener(MouseEvent.CLICK, mouseClickHandler);
-		//				this.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
+			//				this.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 
 			// Define the gravity vector
 			var gravity:b2Vec2 = new b2Vec2(0.0, 0.0);
@@ -476,7 +584,7 @@
 
 			var numSoluteBodies:int = calculateNumSoluteBodies();
 			createSoluteBodies(numSoluteBodies);
-		//				createPlugBodies(4);
+			//				createPlugBodies(4);
 			changePlugBodiesPopulation(calculateNumPlugs());
 			changeAntibodyBodiesPopulation(calculateNumAntibodies());
 
@@ -492,7 +600,7 @@
 
 			this.addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
 
-		//				showDebug = false;
+			//				showDebug = false;
 		}
 
 		private var mouseDragX:Number;
@@ -511,8 +619,8 @@
 			if (m_mouseJoint)
 				throw new Error("Mouse joint was not null on mouse down");
 
-		//				_mouseDownX = event.stageX;
-		//				_mouseDownY = event.stageY;
+			//				_mouseDownX = event.stageX;
+			//				_mouseDownY = event.stageY;
 			updateMouseWorld(event.stageX, event.stageY);
 
 			var body:b2Body = getBodyAtMouse();
@@ -595,7 +703,7 @@
 				bodyDef = new b2BodyDef();
 				bodyDef.type = b2Body.b2_dynamicBody;
 				bodyDef.position.x = getBodyPosX(soluteInBloodRatio);
-				bodyDef.position.y = Math.random() * this.height / _worldRatio;
+				bodyDef.position.y = getRandomBodyPosY();
 				bodyDef.linearVelocity.y = flowVelocity;
 				bodyDef.linearVelocity.x = 0;
 				bodyDef.angle = Math.random() * Math.PI;
@@ -618,7 +726,7 @@
 					sprite.graphics.lineStyle(1);
 
 					sprite.graphics.beginFill(color);
-					sprite.graphics.drawRect(-spriteWidth/2, -spriteHeight/2, spriteWidth, spriteHeight);
+					sprite.graphics.drawRect(-spriteWidth / 2, -spriteHeight / 2, spriteWidth, spriteHeight);
 					sprite.graphics.endFill();
 
 					boxShape = new b2PolygonShape();
@@ -633,7 +741,7 @@
 					sprite = new Sprite();
 					sprite.graphics.lineStyle(1);
 					sprite.graphics.beginFill(color);
-					sprite.graphics.drawCircle(0, 0, spriteWidth/2);
+					sprite.graphics.drawCircle(0, 0, spriteWidth / 2);
 					sprite.graphics.endFill();
 
 					circleShape = new b2CircleShape(rX);
@@ -714,15 +822,6 @@
 				var shapeWidth:Number = plugWidth / _worldRatio;
 				var shapeHeight:Number = plugHeight / _worldRatio;
 
-				// create generic body definition
-				bodyDef = new b2BodyDef();
-				bodyDef.type = b2Body.b2_dynamicBody;
-				// plug (medication) enters through the left stream (blood)
-				bodyDef.position.x = getBodyPosX(0);
-				bodyDef.position.y = -shapeHeight; // start above top edge
-				bodyDef.linearVelocity.y = flowVelocity;
-				bodyDef.linearVelocity.x = 0;
-
 				// Trapezoid shape with vertices in the following order (turned on it's side here for convenience):
 				//   0---3    +->Y
 				//  /  +  \   V
@@ -730,10 +829,10 @@
 
 				shape = new b2PolygonShape();
 				var vertices:Vector.<b2Vec2> = new Vector.<b2Vec2>();
-				vertices.push(new b2Vec2(-shapeWidth/2, -shapeHeight/4));
-				vertices.push(new b2Vec2(+shapeWidth/2, -shapeHeight/2));
-				vertices.push(new b2Vec2(+shapeWidth/2, +shapeHeight/2));
-				vertices.push(new b2Vec2(-shapeWidth/2, +shapeHeight/4));
+				vertices.push(new b2Vec2(-shapeWidth / 2, -shapeHeight / 4));
+				vertices.push(new b2Vec2(+shapeWidth / 2, -shapeHeight / 2));
+				vertices.push(new b2Vec2(+shapeWidth / 2, +shapeHeight / 2));
+				vertices.push(new b2Vec2(-shapeWidth / 2, +shapeHeight / 4));
 				shape.SetAsVector(vertices, 4);
 
 				sprite = new Sprite();
@@ -747,7 +846,11 @@
 				bodyInfo.sprite = sprite;
 				bodyInfo.isPlug = true;
 				bodyInfo.pumpAffinity = pickPlugPumpAffinity(bodyInfo);
-				bodyDef.userData = bodyInfo;
+
+				// create generic body definition
+				bodyDef = new b2BodyDef();
+				bodyDef.type = b2Body.b2_dynamicBody;
+				initializePlugBody(bodyDef, shapeHeight, bodyInfo);
 
 				fixtureDef = new b2FixtureDef();
 				fixtureDef.shape = shape;
@@ -755,7 +858,7 @@
 				fixtureDef.friction = 0.5;
 				fixtureDef.restitution = 0.2;
 				fixtureDef.filter.categoryBits = 0x0004;
-				fixtureDef.filter.maskBits  = plugMaskBits;
+				fixtureDef.filter.maskBits = plugMaskBits;
 
 				body = _world.CreateBody(bodyDef);
 				bodyInfo.body = body;
@@ -841,7 +944,8 @@
 				sprite = new Sprite();
 				sprite.graphics.lineStyle(1);
 				sprite.graphics.beginFill(antibodyFillColor);
-				drawVertices(sprite.graphics, getAntibodyVertices(shapeWidth, shapeHeight, shapeThickness, false), _worldRatio);
+				drawVertices(sprite.graphics, getAntibodyVertices(shapeWidth, shapeHeight, shapeThickness, false),
+							 _worldRatio);
 				sprite.graphics.endFill();
 
 				var bodyInfo:BodyInfo = new BodyInfo();
@@ -856,8 +960,8 @@
 				fixtureDef.density = 1.0;
 				fixtureDef.friction = 0.5;
 				fixtureDef.restitution = 0.2;
-		//					fixtureDef.filter.categoryBits = 0x0008;
-		//					fixtureDef.filter.maskBits  = antibodyMaskBits;
+				//					fixtureDef.filter.categoryBits = 0x0008;
+				//					fixtureDef.filter.maskBits  = antibodyMaskBits;
 
 				body = _world.CreateBody(bodyDef);
 				bodyInfo.body = body;
@@ -871,26 +975,27 @@
 			}
 		}
 
-		private function getAntibodyVertices(shapeWidth:Number, shapeHeight:Number, shapeThickness:Number, makeConvex:Boolean):Vector.<b2Vec2>
+		private function getAntibodyVertices(shapeWidth:Number, shapeHeight:Number, shapeThickness:Number,
+											 makeConvex:Boolean):Vector.<b2Vec2>
 		{
 			var vertices:Vector.<b2Vec2> = new Vector.<b2Vec2>();
 
 			const v:Number = -0.9;
 
-			vertices.push(new b2Vec2(+shapeThickness/2, v * shapeHeight));
+			vertices.push(new b2Vec2(+shapeThickness / 2, v * shapeHeight));
 			if (!makeConvex)
-				vertices.push(new b2Vec2(+shapeThickness/2, (v + 0.7) * shapeHeight));
-			vertices.push(new b2Vec2(+shapeWidth/2, (v + 1) * shapeHeight));
+				vertices.push(new b2Vec2(+shapeThickness / 2, (v + 0.7) * shapeHeight));
+			vertices.push(new b2Vec2(+shapeWidth / 2, (v + 1) * shapeHeight));
 			if (!makeConvex)
 			{
-				vertices.push(new b2Vec2(+shapeWidth/2 - shapeThickness, (v + 1) * shapeHeight));
+				vertices.push(new b2Vec2(+shapeWidth / 2 - shapeThickness, (v + 1) * shapeHeight));
 				vertices.push(new b2Vec2(0, (v + 0.7) * shapeHeight + shapeThickness / 2));
-				vertices.push(new b2Vec2(-shapeWidth/2 + shapeThickness, (v + 1) * shapeHeight));
+				vertices.push(new b2Vec2(-shapeWidth / 2 + shapeThickness, (v + 1) * shapeHeight));
 			}
-			vertices.push(new b2Vec2(-shapeWidth/2, (v + 1) * shapeHeight));
+			vertices.push(new b2Vec2(-shapeWidth / 2, (v + 1) * shapeHeight));
 			if (!makeConvex)
-				vertices.push(new b2Vec2(-shapeThickness/2, (v + 0.7) * shapeHeight));
-			vertices.push(new b2Vec2(-shapeThickness/2, v * shapeHeight));
+				vertices.push(new b2Vec2(-shapeThickness / 2, (v + 0.7) * shapeHeight));
+			vertices.push(new b2Vec2(-shapeThickness / 2, v * shapeHeight));
 
 			return vertices;
 		}
@@ -912,10 +1017,17 @@
 			//       4 -> 1, 3, 0, 2
 			//       5 -> 1, 3, 0, 2, 4
 			//       6 -> 1, 3, 5, 0, 2, 4
+			var pumpIndex:int;
 			if (bodyInfo.index * 2 + 1 < numGaps)
-				return bodyInfo.index * 2 + 1;
+				pumpIndex = bodyInfo.index * 2 + 1;
 			else
-				return (bodyInfo.index - Math.floor(numGaps / 2)) * 2;
+				pumpIndex = (bodyInfo.index - Math.floor(numGaps / 2)) * 2;
+
+			// make sure we have an index within the valid range
+			if (pumpIndex < numGaps && pumpIndex >= 0)
+				return pumpIndex;
+			else
+				return -1;
 		}
 
 		private function removeSoluteBodies(numBodiesToRemove:int, delayDestruction:Boolean = true):void
@@ -928,7 +1040,8 @@
 
 				if (bodyInfo == null || bodyInfo.sprite != sprite)
 				{
-					trace("Unable to remove solute body; sprite did not match. Bodies:", _soluteBodies.length, "Sprites:", _soluteSprites.length);
+					trace("Unable to remove solute body; sprite did not match. Bodies:", _soluteBodies.length,
+						  "Sprites:", _soluteSprites.length);
 					_soluteBodies.push(body);
 					_soluteSprites.push(sprite);
 					return;
@@ -1004,7 +1117,8 @@
 
 				if (bodyInfo == null || bodyInfo.sprite != sprite)
 				{
-					trace("Unable to remove plug body; sprite did not match. Bodies:", _plugBodies.length, "Sprites:", _plugSprites.length);
+					trace("Unable to remove plug body; sprite did not match. Bodies:", _plugBodies.length, "Sprites:",
+						  _plugSprites.length);
 					_plugBodies.push(body);
 					_plugSprites.push(sprite);
 					return;
@@ -1019,7 +1133,7 @@
 						{
 							var pos:b2Vec2 = body.GetPosition();
 
-							// eject the plug incase it is stuck in the wall
+							// eject the plug in case it is stuck in the wall
 							body.SetPosition(new b2Vec2(pos.x + 0.1, pos.y));
 						}
 					}
@@ -1046,7 +1160,8 @@
 
 				if (bodyInfo == null || bodyInfo.sprite != sprite)
 				{
-					trace("Unable to remove antibody body; sprite did not match. Bodies:", _antibodyBodies.length, "Sprites:", _antibodySprites.length);
+					trace("Unable to remove antibody body; sprite did not match. Bodies:", _antibodyBodies.length,
+						  "Sprites:", _antibodySprites.length);
 					_antibodyBodies.push(body);
 					_antibodySprites.push(sprite);
 					return;
@@ -1146,7 +1261,7 @@
 			else if (delta < 0)
 			{
 				// remove bodies
-				removePlugBodies(-delta);
+				removePlugBodies(-delta, !shouldForceEquilibrium);
 
 				// reset pump affinities on existing plugs
 				resetPlugPumpAffinities();
@@ -1178,7 +1293,27 @@
 			{
 				var bodyInfo:BodyInfo = body.GetUserData() as BodyInfo;
 				if (bodyInfo != null)
+				{
+					var oldPumpAffinity:int = bodyInfo.pumpAffinity;
 					bodyInfo.pumpAffinity = pickPlugPumpAffinity(bodyInfo);
+
+					if (shouldForceEquilibrium && oldPumpAffinity != bodyInfo.pumpAffinity)
+						updatePlugPosition(body, bodyInfo);
+				}
+			}
+		}
+
+		private function resetSoluteBodyPositions():void
+		{
+			for each (var body:b2Body in _soluteBodies)
+			{
+				var bodyInfo:BodyInfo = body.GetUserData() as BodyInfo;
+				if (bodyInfo != null)
+				{
+					body.SetPosition(new b2Vec2(getBodyPosX(soluteInBloodRatio), getRandomBodyPosY()));
+					body.SetLinearVelocity(new b2Vec2(0, flowVelocity));
+					bodyInfo.pumpAffinity = pickSolutePumpAffinity();
+				}
 			}
 		}
 
@@ -1211,7 +1346,8 @@
 				var wallY:Number = currentY + wallHeight / 2;
 
 				var wallSprite:Sprite = new Sprite();
-				var vertices:Vector.<b2Vec2> = createWallBody(wallX, wallY, plugWidth, wallHeight, wallTaper, wallSprite);
+				var vertices:Vector.<b2Vec2> = createWallBody(wallX, wallY, plugWidth, wallHeight, wallTaper,
+															  wallSprite);
 				createWallVisual(wallX, wallY, vertices, wallSprite);
 				currentY += gapToGapSpacing;
 
@@ -1251,7 +1387,8 @@
 			wallsGroup.addElement(wallRect);
 		}
 
-		private function createWallBody(wallX:Number, wallY:Number, wallWidth:Number, wallHeight:Number, wallTaper:Number, wallSprite:Sprite):Vector.<b2Vec2>
+		private function createWallBody(wallX:Number, wallY:Number, wallWidth:Number, wallHeight:Number,
+										wallTaper:Number, wallSprite:Sprite):Vector.<b2Vec2>
 		{
 			var shapeWidth:Number = wallWidth / _worldRatio;
 			var shapeHeight:Number = wallHeight / _worldRatio;
@@ -1270,10 +1407,10 @@
 
 			var shape:b2PolygonShape = new b2PolygonShape();
 			var vertices:Vector.<b2Vec2> = new Vector.<b2Vec2>();
-			vertices.push(new b2Vec2(-shapeWidth/2, -shapeHeight/2 - (pumpDirectionReversed ? 0 : shapeTaper)));
-			vertices.push(new b2Vec2(+shapeWidth/2, -shapeHeight/2 - (pumpDirectionReversed ? shapeTaper : 0)));
-			vertices.push(new b2Vec2(+shapeWidth/2, +shapeHeight/2 + (pumpDirectionReversed ? shapeTaper : 0)));
-			vertices.push(new b2Vec2(-shapeWidth/2, +shapeHeight/2 + (pumpDirectionReversed ? 0 : shapeTaper)));
+			vertices.push(new b2Vec2(-shapeWidth / 2, -shapeHeight / 2 - (pumpDirectionReversed ? 0 : shapeTaper)));
+			vertices.push(new b2Vec2(+shapeWidth / 2, -shapeHeight / 2 - (pumpDirectionReversed ? shapeTaper : 0)));
+			vertices.push(new b2Vec2(+shapeWidth / 2, +shapeHeight / 2 + (pumpDirectionReversed ? shapeTaper : 0)));
+			vertices.push(new b2Vec2(-shapeWidth / 2, +shapeHeight / 2 + (pumpDirectionReversed ? 0 : shapeTaper)));
 			shape.SetAsVector(vertices, 4);
 
 			var fixtureDef:b2FixtureDef = new b2FixtureDef();
@@ -1322,11 +1459,12 @@
 
 					bodyDef = new b2BodyDef();
 					bodyDef.type = b2Body.b2_staticBody;
-					bodyDef.position.Set((wallRect.x + wallRect.width / 2) / _worldRatio, (wallRect.y + wallRect.height / 2) / _worldRatio);
+					bodyDef.position.Set((wallRect.x + wallRect.width / 2) / _worldRatio,
+										 (wallRect.y + wallRect.height / 2) / _worldRatio);
 					bodyDef.userData = wallRect;
 
 					boxShape = new b2PolygonShape();
-					boxShape.SetAsBox(wallRect.width/_worldRatio/2, wallRect.height/_worldRatio/2);
+					boxShape.SetAsBox(wallRect.width / _worldRatio / 2, wallRect.height / _worldRatio / 2);
 
 					var fixtureDef:b2FixtureDef = new b2FixtureDef();
 					fixtureDef.shape = boxShape;
@@ -1358,7 +1496,8 @@
 
 				if (body.GetUserData() as Sprite != sprite)
 				{
-					trace("Unable to remove wall body; sprite did not match. Bodies:", _wallBodies.length, "Sprites:", _wallSprites.length);
+					trace("Unable to remove wall body; sprite did not match. Bodies:", _wallBodies.length, "Sprites:",
+						  _wallSprites.length);
 					_wallBodies.push(body);
 					_wallSprites.push(sprite);
 					return;
@@ -1373,7 +1512,7 @@
 
 		private function mouseClickHandler(e:MouseEvent):void
 		{
-		//				showDebug = !showDebug;
+			//				showDebug = !showDebug;
 		}
 
 		private function get verticalRecycleMaximum():Number
@@ -1394,7 +1533,8 @@
 				applyForces();
 
 				_world.Step(_timeStep, _velocityIterations, _positionIterations);
-				if (_showDebug) {
+				if (_showDebug)
+				{
 					_world.DrawDebugData();
 				}
 				_world.ClearForces();
@@ -1503,11 +1643,11 @@
 					{
 						// change pump affinity if the solute is very near/inside the wall (accidentally within another pump)
 						if (pos.x > pumpZoneLeft / _worldRatio &&
-							pos.y < pumpZoneRight / _worldRatio)
+								pos.y < pumpZoneRight / _worldRatio)
 							bodyInfo.pumpAffinity = getNearestPumpIndex(pos);
 					}
 
-					pumpPos = _pumps[bodyInfo.pumpAffinity];
+					pumpPos = getPumpPos(bodyInfo.pumpAffinity);
 
 					var pumpForce:b2Vec2 = new b2Vec2();
 					pumpForce.SetV(pumpPos);
@@ -1550,7 +1690,8 @@
 								if (currentAngle > Math.PI)
 									currentAngle -= 2 * Math.PI;
 
-								var torque:Number = Math.max(minTorque, Math.min(maxTorque, (targetAngle - currentAngle) * body.GetMass() * _timeStep)) * torqueStrength;
+								var torque:Number = Math.max(minTorque, Math.min(maxTorque,
+																				 (targetAngle - currentAngle) * body.GetMass() * _timeStep)) * torqueStrength;
 								body.ApplyTorque(torque);
 
 								body.SetAngularDamping(10);
@@ -1566,11 +1707,17 @@
 						}
 					}
 
-					pumpForce.Multiply(Math.max(0, (pumpRange - distance) / pumpRange) * pumpStrength * body.GetMass() * _timeStep);
+					pumpForce.Multiply(Math.max(0,
+												(pumpRange - distance) / pumpRange) * pumpStrength * body.GetMass() * _timeStep);
 
 					body.ApplyImpulse(pumpForce, body.GetWorldCenter());
 				}
 			}
+		}
+
+		private function getPumpPos(index:int):b2Vec2
+		{
+			return _pumps[index];
 		}
 
 		private function isBodyOnOutputSideOfPump(pos:b2Vec2, pumpPos:b2Vec2):Boolean
@@ -1697,7 +1844,7 @@
 				var filter:b2FilterData = body.GetFixtureList().GetFilterData();
 				if (filter.maskBits != plugMaskBits)
 				{
-		//						trace("plug maskBits reset");
+					//						trace("plug maskBits reset");
 					filter.maskBits = plugMaskBits;
 					body.GetFixtureList().SetFilterData(filter);
 				}
@@ -1715,6 +1862,11 @@
 				return (Math.random() * bloodAreaPercentWidth) * this.width / _worldRatio;
 			else
 				return (bloodAreaPercentWidth + Math.random() * (1 - bloodAreaPercentWidth)) * this.width / _worldRatio;
+		}
+
+		private function getRandomBodyPosY():Number
+		{
+			return Math.random() * this.height / _worldRatio;
 		}
 
 		private function getNearestPump(pos:b2Vec2):b2Vec2
@@ -1740,8 +1892,8 @@
 			mouseDragX = Math.max(0, Math.min(this.width, mouseDragX));
 			mouseDragY = Math.max(0, Math.min(this.height, mouseDragY));
 
-			mouseXWorldPhys = (mouseDragX)/_worldRatio;
-			mouseYWorldPhys = (mouseDragY)/_worldRatio;
+			mouseXWorldPhys = (mouseDragX) / _worldRatio;
+			mouseYWorldPhys = (mouseDragY) / _worldRatio;
 
 			mouseXWorld = (mouseDragX);
 			mouseYWorld = (mouseDragY);
@@ -1782,6 +1934,7 @@
 				}
 				return true;
 			}
+
 			_world.QueryAABB(getBodyCallback, aabb);
 			return body;
 		}
@@ -1808,8 +1961,8 @@
 					moveDynamicBodiesAfterResize(this.wallsGroup.width / oldWidth, this.wallsGroup.height / oldHeight);
 					changePlugBodiesPopulation(calculateNumPlugs());
 					// TODO: move the existing plugs to appropriate positions so we don't have to re-create them all
-		//					removePlugBodies(_plugBodies.length, false);
-		//					createPlugBodies(calculateNumPlugs());
+					//					removePlugBodies(_plugBodies.length, false);
+					//					createPlugBodies(calculateNumPlugs());
 					changeSoluteBodiesPopulation(calculateNumSoluteBodies());
 					changeAntibodyBodiesPopulation(calculateNumAntibodies());
 				}
@@ -1907,40 +2060,53 @@
 			this.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
 		}
 
+		/**
+		 * Returns true if changes should be applied in such a way that equilibrium is achieved instantly.
+		 * Returns false if changes to state (such as new plugs being added which should block gaps) should be delayed,
+		 * and equilibrium should be reached naturally over time.
+		 */
+		private function get shouldForceEquilibrium():Boolean
+		{
+			return !isRunning;
+//			return true;
+		}
+
+		private function updatePlugPosition(body:b2Body, bodyInfo:BodyInfo):void
+		{
+			if (bodyInfo.pumpAffinity == -1)
+			{
+				body.SetPosition(new b2Vec2(getBodyPosX(0), getRandomBodyPosY()));
+				body.SetLinearVelocity(new b2Vec2(0, flowVelocity));
+			}
+			else
+			{
+				body.SetPosition(getPumpPos(bodyInfo.pumpAffinity));
+				body.SetLinearVelocity(new b2Vec2());
+			}
+		}
+
+		private function initializePlugBody(bodyDef:b2BodyDef, shapeHeight:Number, bodyInfo:BodyInfo):void
+		{
+			if (!shouldForceEquilibrium || bodyInfo.pumpAffinity == -1)
+			{
+				// plug (medication) enters through the right stream (urine)
+				bodyDef.position.x = getBodyPosX(0);
+				if (shouldForceEquilibrium)
+					bodyDef.position.y = getRandomBodyPosY();
+				else
+					bodyDef.position.y = -shapeHeight;
+				bodyDef.linearVelocity.x = 0;
+				bodyDef.linearVelocity.y = flowVelocity;
+			}
+			else
+			{
+				bodyDef.position = getPumpPos(bodyInfo.pumpAffinity);
+				// bodyDef.linearVelocity.x = 0;
+				// bodyDef.linearVelocity.y = 0;
+				// bodyDef.angularVelocity = 0;
+			}
+
+			bodyDef.userData = bodyInfo;
+		}
 		]]></fx:Script>
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
-	<s:Rect width="{this.width}" height="{this.height}">
-		<s:fill>
-			<s:SolidColor color="0xFF0000" alpha="0.5"/>
-		</s:fill>
-	</s:Rect>
-	<s:HGroup width="{this.width}" height="{this.height}" gap="0">
-		<s:Rect id="bloodAreaBackgroundRect" width="{Math.round(this.width * bloodAreaPercentWidth)}" height="100%">
-			<s:fill>
-				<s:SolidColor color="0x974e57"/>
-			</s:fill>
-		</s:Rect>
-		<s:Rect id="rightAreaBackgroundRect" width="{this.width * (1 - bloodAreaPercentWidth)}" height="100%">
-			<s:fill>
-				<s:SolidColor color="0xfcf3a0"/>
-			</s:fill>
-		</s:Rect>
-	</s:HGroup>
-	<s:Group id="wallsGroup" width="{this.width}" height="{this.height}" clipAndEnableScrolling="true" resize="wallsGroup_resizeHandler(event)">
-		<s:Rect id="leftWall" width="100" x="-98.5" height="{wallsGroup.height + 200}" verticalCenter="0">
-			<s:stroke>
-				<s:SolidColorStroke color="0x222222" weight="3"/>
-			</s:stroke>
-		</s:Rect>
-		<s:Rect id="rightWall" width="100" right="-100" height="{wallsGroup.height + 200}" verticalCenter="0">
-			<s:stroke>
-				<s:SolidColorStroke color="0x222222" weight="3"/>
-			</s:stroke>
-		</s:Rect>
-	</s:Group>
-	<mx:UIComponent id="spriteContainer" width="{this.width}" height="{this.height}" focusEnabled="true" keyDown="group1_keyDownHandler(event)"/>
-	<!--
-	-->
 </s:Group>

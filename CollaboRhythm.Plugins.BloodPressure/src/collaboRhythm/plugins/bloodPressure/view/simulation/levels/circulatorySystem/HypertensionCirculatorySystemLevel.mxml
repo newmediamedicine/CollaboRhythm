@@ -21,71 +21,56 @@
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:simulation="collaboRhythm.plugins.bloodPressure.view.simulation.*"
 		xmlns:gauge="collaboRhythm.plugins.bloodPressure.view.simulation.gauge.*"
+		xmlns:circulatorysystem="collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySystem.*"
 		width="100%" height="100%">
-	<simulation:showEffect>
-		<s:Parallel>
-			<s:Fade alphaFrom="0" alphaTo="1"/>
-			<mx:Zoom zoomWidthFrom="0.3" zoomWidthTo="1" zoomHeightFrom="0.3" zoomHeightTo="1"/>
-			<s:Move yFrom="68" yTo="0" xFrom="143" xTo="0"/>
-		</s:Parallel>
-	</simulation:showEffect>
-	<simulation:hideEffect>
-		<s:Parallel>
-			<s:Fade alphaFrom="1" alphaTo="0"/>
-		</s:Parallel>
-	</simulation:hideEffect>
 	<simulation:SimulationLevelPanel width="100%" height="100%"
 									 title="Circulatory System"
 									 enableBack="true"
 									 backUpLevel="dispatchEvent(new SimulationLevelEvent(SimulationLevelEvent.BACK_UP_LEVEL))">
 		<simulation:titleContent>
-			<s:Group id="hypertensionTitle" horizontalCenter="0" width="400">
-				<simulation:HypertensionTitle/>
-			</s:Group>
-			<gauge:Gauge id="hypertensionGauge" x="{hypertensionTitle.x + hypertensionTitle.width - hypertensionGauge.width - 10}" verticalCenter="0"
-						 valueMinimum="70"
-						 valueLow1="85"
-						 valueLow0="90"
-						 valueHigh0="120"
-						 valueHigh1="140"
-						 valueMaximum="180"
-						 value="{simulationModel.systolic}"/>
+			<simulation:ContentLabel
+					id="hypertensionTitle" horizontalCenter="0"
+					width="400" height="60"
+					text="Hypertension"
+					color="{simulationModel.systolicSeverityColor}"
+					>
+				<simulation:leftContent>
+					<simulation:ProblemsIcon left="15" verticalCenter="0"/>
+				</simulation:leftContent>
+				<simulation:rightContent>
+					<simulation:HypertensionGauge id="hypertensionGauge" right="10" verticalCenter="0"
+												   value="{simulationModel.systolic}"/>
+				</simulation:rightContent>
+			</simulation:ContentLabel>
+
 
 		</simulation:titleContent>
 		<simulation:simulationContent>
-			<simulation:HypertensionCirculatorySystem1 id="hypertensionCirculatorySystem1"
-													   visible="{simulationModel.concentration &gt;= SimulationModel.goalConcentration}"
+			<circulatorysystem:HypertensionCirculatorySystem1 id="hypertensionCirculatorySystem1"
+													   visible="{simulationModel.concentration &gt;= SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"
 					/>
-			<simulation:HypertensionCirculatorySystem2 id="hypertensionCirculatorySystem2"
-													   visible="{simulationModel.concentration &lt; SimulationModel.goalConcentration}"
+			<circulatorysystem:HypertensionCirculatorySystem2 id="hypertensionCirculatorySystem2"
+													   visible="{simulationModel.concentration &lt; SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"
 					/>
 			<simulation:ContentButton
 					x="{380 + 9.5}" y="{546.164 + 3.91846}"
 					width="400" height="60"
-					cornerRadius="5"
-					chromeColor="#D1D3D4"
-					fontFamily="Myriad Pro Light" fontSize="26" fontWeight="bold" lineHeight="120%" color="#000000"
-					kerning="on"
+					fontSize="26"
 					label="Hydrochlorothiazide"
-					click="dispatchEvent(new SimulationLevelEvent(SimulationLevelEvent.DRILL_DOWN_LEVEL, true));">
+					color="{simulationModel.concentrationSeverityColor}"
+					click="dispatchEvent(new SimulationLevelEvent(SimulationLevelEvent.DRILL_DOWN_LEVEL, 0.02, 0.02, 159, 646));">
 				<simulation:leftContent>
 					<simulation:MedicationsIcon left="15" verticalCenter="0"/>
 				</simulation:leftContent>
 				<simulation:rightContent>
-					<gauge:GaugeBackground right="10" verticalCenter="0"/>
-					<gauge:Gauge id="hydrochlorothiazideGauge" right="10" verticalCenter="0"
-						 valueMinimum="0"
-						 valueLow1="{0.5 * SimulationModel.goalConcentration}"
-						 valueLow0="{SimulationModel.goalConcentration}"
-						 valueHigh0="{SimulationModel.goalConcentrationHigh0}"
-						 valueHigh1="{SimulationModel.goalConcentrationHigh1}"
-						 valueMaximum="{SimulationModel.concentrationMaximum}"
-						 value="{simulationModel.concentration}"/>
+					<simulation:HydrochlorothiazideGauge id="hydrochlorothiazideGauge" right="10" verticalCenter="0"
+								 value="{simulationModel.concentration}"/>
 				</simulation:rightContent>
 			</simulation:ContentButton>
 		</simulation:simulationContent>
 	</simulation:SimulationLevelPanel>
 	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.bloodPressure.view.simulation.*;
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 		]]></fx:Script>
 </simulation:SimulationLevelGroup>

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="mobile" type="flex">
+    <CLASSES>
+      <root url="jar://$PROJECT_FRAMEWORKS$/themes/Mobile/mobile.swc!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

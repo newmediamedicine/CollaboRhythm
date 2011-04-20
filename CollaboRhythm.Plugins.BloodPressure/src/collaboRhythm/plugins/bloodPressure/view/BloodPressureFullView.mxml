@@ -928,7 +928,7 @@
 		//				simulationGlow.alpha = hypertensionSeverity;
 
 			// TODO: show the date for the concentration data point
-			model.simulation.concentration = concentrationDataPoint == null ? NaN : concentrationDataPoint.concentration;
+			model.simulation.concentration = concentrationDataPoint == null ? 0 : concentrationDataPoint.concentration;
 
 			if (targetChart.isFocusOnMaximumTime)
 			{

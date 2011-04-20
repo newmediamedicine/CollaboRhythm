@@ -23,9 +23,58 @@ package collaboRhythm.plugins.bloodPressure.view.simulation
 		public static const DRILL_DOWN_LEVEL:String = "drillDownLevel";
 		public static const BACK_UP_LEVEL:String = "backUpLevel";
 
-		public function SimulationLevelEvent(type:String, bubbles:Boolean = false, cancelable:Boolean = false)
+		private var _zoomWidthFrom:Number;
+		private var _zoomHeightFrom:Number;
+		private var _xFrom:Number;
+		private var _yFrom:Number;
+
+		public function SimulationLevelEvent(type:String, zoomWidthFrom:Number=NaN, zoomHeightFrom:Number=NaN, xFrom:Number=NaN, yFrom:Number=NaN, bubbles:Boolean = false, cancelable:Boolean = false)
 		{
 			super(type, bubbles, cancelable);
+			_zoomWidthFrom = zoomWidthFrom;
+			_zoomHeightFrom = zoomHeightFrom;
+			_xFrom = xFrom;
+			_yFrom = yFrom;
+		}
+
+		public function get zoomWidthFrom():Number
+		{
+			return _zoomWidthFrom;
+		}
+
+		public function set zoomWidthFrom(value:Number):void
+		{
+			_zoomWidthFrom = value;
+		}
+
+		public function get zoomHeightFrom():Number
+		{
+			return _zoomHeightFrom;
+		}
+
+		public function set zoomHeightFrom(value:Number):void
+		{
+			_zoomHeightFrom = value;
+		}
+
+		public function get xFrom():Number
+		{
+			return _xFrom;
+		}
+
+		public function set xFrom(value:Number):void
+		{
+			_xFrom = value;
+		}
+
+		public function get yFrom():Number
+		{
+			return _yFrom;
+		}
+
+		public function set yFrom(value:Number):void
+		{
+			_yFrom = value;
 		}
 	}
 }

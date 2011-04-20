@@ -34,7 +34,7 @@
 	<gauge:GaugeBackground/>
 	<gauge:GaugeNeedle id="needle" x="{this.width / 2}" y="{this.height}" visible="false">
 		<gauge:filters>
-			<s:DropShadowFilter alpha="0.3"/>
+			<s:DropShadowFilter alpha="0.4"/>
 		</gauge:filters>
 	</gauge:GaugeNeedle>
 <!--

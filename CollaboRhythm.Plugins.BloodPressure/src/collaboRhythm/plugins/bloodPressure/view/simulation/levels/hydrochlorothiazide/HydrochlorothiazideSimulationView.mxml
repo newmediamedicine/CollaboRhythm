@@ -25,6 +25,10 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 
+		import mx.core.Application;
+		import mx.core.FlexGlobals;
+		import mx.events.FlexEvent;
+
 		private var _concentration:Number;
 
 		/**
@@ -49,12 +53,17 @@
 				concentration = 0;
 
 			// limit the number of plugs to 2x the number of gaps
-			this.plugRatio = Math.min(SimulationModel.maxPlugRatio, concentration / SimulationModel.goalConcentration);
+			this.plugRatio = Math.min(SimulationModel.maxPlugRatio,
+									  concentration / SimulationModel.HYDROCHLOROTHIAZIDE_GOAL);
 
-			this.soluteInBloodRatioAnimated = linearTransform(concentration, 0, SimulationModel.goalConcentration, 0.95, 0.05);
+			this.soluteInBloodRatioAnimated = linearTransform(concentration, 0,
+															  SimulationModel.HYDROCHLOROTHIAZIDE_GOAL, 0.95,
+															  0.05);
 
 			// TODO: move the bloodAreaPercentWidth in a more appropriate way
-			this.bloodAreaPercentWidthAnimated = linearTransform(concentration, 0, SimulationModel.goalConcentration, 0.6, 0.4);
+			this.bloodAreaPercentWidthAnimated = linearTransform(concentration, 0,
+																 SimulationModel.HYDROCHLOROTHIAZIDE_GOAL,
+																 0.6, 0.4);
 		}
 
 		private static function linearTransform(value:Number, min:Number, max:Number, min2:Number, max2:Number):Number
@@ -66,6 +75,5 @@
 		{
 			return Math.max(0, Math.min(1, (value - min) / (max - min)));
 		}
-
 		]]></fx:Script>
 </view:BloodSolutesSimulationView>

@@ -39,18 +39,58 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		 * Goal value for the concentration of medication in the blood. A concentration at or above goalConcentration
 		 * will result in ideal functioning of the medication.
 		 */
-		public static const goalConcentration:Number = 0.05;
-		public static const goalConcentrationHigh0:Number = 0.35;
-		public static const goalConcentrationHigh1:Number = 0.45;
-		public static const concentrationMaximum:Number = 1;
+		public static const HYDROCHLOROTHIAZIDE_MINIMUM:Number = 0;
+		public static const HYDROCHLOROTHIAZIDE_LOW:Number = HYDROCHLOROTHIAZIDE_GOAL / 2;
+		public static const HYDROCHLOROTHIAZIDE_GOAL:Number = 0.05;
+		public static const HYDROCHLOROTHIAZIDE_HIGH0:Number = 0.35;
+		public static const HYDROCHLOROTHIAZIDE_HIGH1:Number = 0.45;
+		public static const HYDROCHLOROTHIAZIDE_MAXIMUM:Number = 1;
 
-		public static const SYSTOLIC_HYPERTENSIVE_THRESHOLD:Number = 120;
+		/**
+		 * Values lower than this are considered "very highly" hypotensive. Note that his value has been chosen somewhat arbitrarily.
+		 */
+		public static const SYSTOLIC_HYPOTENSION2:Number = 30;
+		/**
+		 * Values lower than this are considered "highly" hypotensive. Note that his value has been chosen somewhat arbitrarily.
+		 */
+		public static const SYSTOLIC_HYPOTENSION1:Number = 60;
+		/**
+		 * Values lower than this are considered hypotensive.
+		 */
+		public static const SYSTOLIC_HYPOTENSION0:Number = 90;
+		public static const SYSTOLIC_PREHYPERTENSION:Number = 120;
+		public static const SYSTOLIC_HYPERTENSION_STAGE1:Number = 140;
+		public static const SYSTOLIC_HYPERTENSION_STAGE2:Number = 160;
+		public static const SYSTOLIC_HYPERTENSION_CRISIS:Number = 180;
+
+		private static const SEVERITY_COLOR_HIGH:uint = 0xED1C24;
+		private static const SEVERITY_COLOR_MEDIUM:uint = 0xF7941E;
+		private static const SEVERITY_COLOR_GOAL:uint = 0x00A651;
+		private static const systolicColors:Vector.<uint> = new <uint>[
+			SEVERITY_COLOR_HIGH,
+			SEVERITY_COLOR_MEDIUM,
+			SEVERITY_COLOR_GOAL,
+			SEVERITY_COLOR_MEDIUM,
+			SEVERITY_COLOR_HIGH];
+		private static const systolicRanges:Vector.<Number> = new <Number>[
+			SYSTOLIC_HYPOTENSION1,
+			SYSTOLIC_HYPOTENSION0,
+			SYSTOLIC_PREHYPERTENSION,
+			SYSTOLIC_HYPERTENSION_STAGE1];
+		private static const concentrationColors:Vector.<uint> = systolicColors;
+		private static const concentrationRanges:Vector.<Number> = new <Number>[
+			HYDROCHLOROTHIAZIDE_LOW,
+			HYDROCHLOROTHIAZIDE_GOAL,
+			HYDROCHLOROTHIAZIDE_HIGH0,
+			HYDROCHLOROTHIAZIDE_HIGH1];
 
 		private var _mode:String;
 		private var _modeLabel:String;
 		public static const MOST_RECENT_MODE:String = "mostRecentMode";
 		public static const HISTORY_MODE:String = "historyMode";
 		private var _isHypertensive:Boolean;
+		private var _systolicSeverityColor:uint;
+		private var _concentrationSeverityColor:uint;
 
 		public function SimulationModel()
 		{
@@ -85,8 +125,21 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public function set systolic(value:Number):void
 		{
 			_systolic = value;
-			isHypertensive = systolic > SYSTOLIC_HYPERTENSIVE_THRESHOLD;
+			isHypertensive = systolic > SYSTOLIC_HYPERTENSION_STAGE1;
+			systolicSeverityColor = determineSeverityColor(systolic, systolicColors, systolicRanges);
+		}
 
+		private function determineSeverityColor(value:Number, colors:Vector.<uint>, valueRanges:Vector.<Number>):uint
+		{
+			if (colors.length != valueRanges.length + 1)
+				throw new Error("The colors vector must have one element fewer than valueRanges.");
+
+			for (var i:int = 0; i < systolicRanges.length; i++)
+			{
+				if (value < valueRanges[i])
+					return colors[i];
+			}
+			return colors[colors.length - 1];
 		}
 
 		public function get diastolic():Number
@@ -107,6 +160,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public function set concentration(value:Number):void
 		{
 			_concentration = value;
+			concentrationSeverityColor = determineSeverityColor(value, concentrationColors, concentrationRanges);
 		}
 
 		public function get mode():String
@@ -125,7 +179,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 			switch (mode)
 			{
 				case MOST_RECENT_MODE:
-					return "Latest Data Mode";
+					return "Present Mode";
 					break;
 				case HISTORY_MODE:
 					return "History Mode";
@@ -154,6 +208,26 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public function set isHypertensive(isHypertensive:Boolean):void
 		{
 			_isHypertensive = isHypertensive;
+		}
+
+		public function get systolicSeverityColor():uint
+		{
+			return _systolicSeverityColor;
+		}
+
+		public function set systolicSeverityColor(value:uint):void
+		{
+			_systolicSeverityColor = value;
+		}
+
+		public function get concentrationSeverityColor():uint
+		{
+			return _concentrationSeverityColor;
+		}
+
+		public function set concentrationSeverityColor(value:uint):void
+		{
+			_concentrationSeverityColor = value;
 		}
 	}
 }

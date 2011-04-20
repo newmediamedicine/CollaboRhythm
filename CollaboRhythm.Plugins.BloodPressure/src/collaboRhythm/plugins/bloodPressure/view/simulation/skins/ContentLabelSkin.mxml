@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+
+<!--- The default skin class for a ContentLabel.
+
+    @see spark.components.Panel
+
+    @langversion 3.0
+    @playerversion Flash 10
+    @playerversion AIR 1.5
+    @productversion Flex 4
+-->
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" 
+             xmlns:fb="http://ns.adobe.com/flashbuilder/2009" minWidth="21" minHeight="21">
+    
+    <fx:Metadata>
+        <![CDATA[ 
+        /** 
+         * @copy spark.skins.spark.ApplicationSkin#hostComponent
+         */
+        [HostComponent("collaboRhythm.plugins.bloodPressure.view.simulation.ContentLabel")]
+        ]]>
+    </fx:Metadata> 
+    
+    <fx:Script fb:purpose="styling">
+		/* Define the skin elements that should not be colorized. 
+		For button, the graphics are colorized but the label and content are not. */
+		static private const exclusions:Array = ["labelDisplay", "leftGroup", "rightGroup"];
+        
+        /**
+         * @private
+         */  
+        override public function get colorizeExclusions():Array {return exclusions;}
+        
+        /**
+         * @private
+         */
+        override protected function initializationComplete():void
+        {
+            useChromeColor = true;
+            super.initializationComplete();
+        }
+        
+        /**
+         * @private
+         */
+		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number) : void
+		{
+			var cr:Number = getStyle("cornerRadius");
+
+			if (cornerRadius != cr)
+			{
+				cornerRadius = cr;
+				fill.radiusX = cornerRadius;
+				border.radiusX = cornerRadius;
+			}
+
+			super.updateDisplayList(unscaledWidth, unscaledHeight);
+		}
+        
+        private var cornerRadius:Number = 2;
+    </fx:Script>
+
+    <!-- layer 2: fill -->
+    <!--- @private -->
+    <s:Rect id="fill" left="1" right="1" top="1" bottom="1" radiusX="2">
+        <s:fill>
+            <s:SolidColor color="0xFFFFFF"/>
+        </s:fill>
+    </s:Rect>
+
+    <!-- layer 7: border - put on top of the fill so it doesn't disappear when scale is less than 1 -->
+    <!--- @private -->
+    <s:Rect id="border" left="0" right="0" top="0" bottom="0" width="69" height="20" radiusX="2">
+        <s:stroke>
+			<s:SolidColorStroke color="0x000000"/>
+        </s:stroke>
+    </s:Rect>
+
+	<!--- @copy spark.components.SkinnableContainer#leftGroup -->
+	<s:Group id="leftGroup" verticalCenter="0" minWidth="0" minHeight="0">
+		<!-- leftContent will be added here -->
+	</s:Group>
+
+	<!-- layer 8: text -->
+	<!--- @copy spark.components.supportClasses.ButtonBase#labelDisplay -->
+	<s:Label id="labelDisplay"
+		x="{leftGroup.x + leftGroup.width + 10}"
+		verticalAlign="middle"
+		maxDisplayedLines="1"
+		verticalCenter="1"
+		top="2" bottom="2">
+	</s:Label>
+
+	<!--
+	  Note: setting the minimum size to 0 here so that changes to the host component's
+	  size will not be thwarted by this skin part's minimum size.   This is a compromise,
+	  more about it here: http://bugs.adobe.com/jira/browse/SDK-21143
+  -->
+	<!--- @copy spark.components.SkinnableContainer#rightContentGroup -->
+	<s:Group id="rightGroup" verticalCenter="0" right="0" minWidth="0" minHeight="0">
+	</s:Group>
+</s:SparkSkin>
+

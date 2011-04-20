@@ -19,6 +19,9 @@
 		  xmlns:s="library://ns.adobe.com/flex/spark"
 		  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:view2="collaboRhythm.shared.view.*"
 		  xmlns:simulation="collaboRhythm.plugins.bloodPressure.view.simulation.*"
+		  xmlns:hydrochlorothiazide="collaboRhythm.plugins.bloodPressure.view.simulation.levels.hydrochlorothiazide.*"
+		  xmlns:circulatorysystem="collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySystem.*"
+		  xmlns:wholebody="collaboRhythm.plugins.bloodPressure.view.simulation.levels.wholeBody.*"
 		  width="260" height="800"
 		  clipAndEnableScrolling="true"
 		  resize="resizeHandler(event)"
@@ -29,23 +32,36 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 		<s:DateTimeFormatter id="simulationDateFormatter" dateTimePattern="M/d/yyyy @ h:mma"/>
-		<!--<viewStackEffects:FadeZoom id="effect"/>-->
-		<s:Fade id="effect" duration="{effectDuration}"/>
-		<s:Fade id="fadeIn" alphaFrom="0" alphaTo="1" duration="{effectDuration}"/>
-		<s:Fade id="fadeOut" alphaFrom="1" alphaTo="0" duration="{effectDuration}"/>
-		<s:Parallel id="showSimulationEffect" duration="{effectDuration}">
-			<s:Fade alphaFrom="0" alphaTo="1"/>
-			<mx:Zoom zoomWidthFrom="0.4" zoomWidthTo="1" zoomHeightFrom="0.4" zoomHeightTo="1"/>
-			<s:Move xFrom="80" yFrom="450" xTo="0" yTo="0"/>
+
+		<s:Sine id="sineEasing"
+				easeInFraction="0.9"/>
+		<s:Power id="powerEasingIn"
+				 exponent="2" easeInFraction="0.9"/>
+		<s:Power id="powerEasingOut"
+				 exponent="2" easeInFraction="0.1"/>
+
+		<!--<mx:Zoom id="drillDownShowZoom" zoomWidthFrom="0.3" zoomWidthTo="1" zoomHeightFrom="0.3" zoomHeightTo="1"/>-->
+		<s:Parallel id="drillDownShowEffect" duration="{effectDuration}"
+					effectEnd="drillDownShowEffect_effectEnd(event)">
+			<s:Fade id="drillDownShowFade" alphaFrom="0" alphaTo="1" duration="{effectDuration}"
+					easer="{powerEasingOut}"/>
+			<s:Scale id="drillDownShowZoom" scaleXTo="1" scaleYTo="1" duration="{effectDuration}"
+					 easer="{powerEasingIn}"/>
+			<s:Move id="drillDownShowMove" xTo="0" yTo="0" duration="{effectDuration}" easer="{powerEasingIn}"/>
 		</s:Parallel>
-		<s:Parallel id="hideSimulationEffect" duration="{effectDuration}">
-			<s:Fade alphaFrom="1" alphaTo="0"/>
-			<mx:Zoom zoomWidthFrom="1" zoomWidthTo="4" zoomHeightFrom="1" zoomHeightTo="4"/>
+		<s:Fade id="drillDownHideEffect" duration="{effectDuration}" alphaFrom="1" alphaTo="0"
+				effectEnd="drillDownHideEffect_effectEnd(event);"/>
+
+		<!--<mx:Zoom id="backUpHideZoom" zoomWidthFrom="1" zoomWidthTo="0.3" zoomHeightFrom="1" zoomHeightTo="0.3"/>-->
+		<s:Parallel id="backUpHideEffect" duration="{effectDuration}" effectEnd="backUpHideEffect_effectEnd(event)">
+			<s:Fade id="backUpHideFade" alphaFrom="1" alphaTo="0" duration="{effectDuration}" easer="{powerEasingIn}"/>
+			<s:Scale id="backUpHideZoom" scaleXFrom="1" scaleYFrom="1" duration="{effectDuration}"
+					 easer="{powerEasingOut}"/>
+			<s:Move id="backUpHideMove" xFrom="0" yFrom="0" duration="{effectDuration}" easer="{powerEasingOut}"/>
 		</s:Parallel>
-		<s:Parallel id="hideWholeBodyEffect" duration="{effectDuration}">
-			<s:Fade alphaFrom="1" alphaTo="0"/>
-			<mx:Zoom zoomWidthFrom="1" zoomWidthTo="2" zoomHeightFrom="1" zoomHeightTo="2"/>
-		</s:Parallel>
+		<s:Fade id="backUpShowEffect" duration="{effectDuration}" alphaFrom="0" alphaTo="1"
+				effectEnd="backUpShowEffect_effectEnd(event);"/>
+
 	</fx:Declarations>
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
@@ -88,8 +104,12 @@
 		<![CDATA[
 		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
+		import collaboRhythm.shared.view.BitmapCopyComponent;
 
+		import mx.core.IVisualElementContainer;
 		import mx.core.UIComponent;
+		import mx.effects.Effect;
+		import mx.events.EffectEvent;
 		import mx.events.FlexEvent;
 		import mx.events.ResizeEvent;
 
@@ -97,7 +117,7 @@
 		public static const orange:uint = 0xF7941E;
 		public static const green:uint = 0x00A651;
 		private static const medicationGroupMinHeight:Number = 40;
-		private static const effectDuration:Number = 500;
+		private static const effectDuration:Number = 800;
 
 		[Bindable]
 		private var _simulationModel:SimulationModel;
@@ -163,11 +183,6 @@
 			resizeChildren();
 		}
 
-		//		private function simulationContentViewStack_click(event:Event):void
-		//		{
-		//			simulationContentViewStack.selectedIndex = (simulationContentViewStack.selectedIndex + 1) % simulationContentViewStack.length;
-		//		}
-
 		[Bindable]
 		private var adjustmentTarget:UIComponent;
 
@@ -194,7 +209,7 @@
 						dx++;
 						break;
 				}
-				
+
 				if (event.altKey && dy != 0)
 				{
 					var scaleFactor:Number = 0.1;
@@ -216,6 +231,114 @@
 				}
 			}
 		}
+
+		private var _drillDownEventStack:Vector.<SimulationLevelEvent> = new Vector.<SimulationLevelEvent>();
+
+		private function drillDown(event:SimulationLevelEvent, componentToShow:UIComponent,
+								   componentToHide:UIComponent):void
+		{
+			stopLevelChangeEffects(componentToShow, componentToHide);
+
+			var hideEffectTarget:UIComponent = createBitmapCopy(componentToHide);
+			var showEffectTarget:UIComponent = createBitmapCopy(componentToShow);
+
+			_drillDownEventStack.push(event);
+
+			drillDownHideEffect.target = hideEffectTarget;
+			drillDownShowEffect.target = showEffectTarget;
+
+			drillDownShowZoom.scaleXFrom = event.zoomWidthFrom;
+			drillDownShowZoom.scaleYFrom = event.zoomHeightFrom;
+			drillDownShowMove.xFrom = event.xFrom;
+			drillDownShowMove.yFrom = event.yFrom;
+
+			drillDownHideEffect.play();
+			drillDownShowEffect.play();
+		}
+
+		private function backUp(event:SimulationLevelEvent, componentToShow:UIComponent,
+								componentToHide:UIComponent):void
+		{
+			stopLevelChangeEffects(componentToShow, componentToHide);
+			var hideEffectTarget:UIComponent = createBitmapCopy(componentToHide);
+			var showEffectTarget:UIComponent = createBitmapCopy(componentToShow);
+
+			var previousDrillDownEvent:SimulationLevelEvent = _drillDownEventStack.pop();
+
+			backUpHideEffect.target = hideEffectTarget;
+			backUpShowEffect.target = showEffectTarget;
+			if (previousDrillDownEvent)
+			{
+				backUpHideZoom.scaleXTo = previousDrillDownEvent.zoomWidthFrom;
+				backUpHideZoom.scaleYTo = previousDrillDownEvent.zoomHeightFrom;
+				backUpHideMove.xTo = previousDrillDownEvent.xFrom;
+				backUpHideMove.yTo = previousDrillDownEvent.yFrom;
+			}
+
+			backUpHideEffect.play();
+			backUpShowEffect.play();
+		}
+
+		private function stopLevelChangeEffects(componentToShow:UIComponent, componentToHide:UIComponent):void
+		{
+			drillDownHideEffect.stop();
+			drillDownShowEffect.stop();
+			backUpHideEffect.stop();
+			backUpShowEffect.stop();
+
+			componentToShow.endEffectsStarted();
+			componentToHide.endEffectsStarted();
+		}
+
+		private function createBitmapCopy(sourceComponent:UIComponent):BitmapCopyComponent
+		{
+			var copyComponent:BitmapCopyComponent = BitmapCopyComponent.createFromComponent(sourceComponent);
+			copyComponent.replaceSource();
+			return copyComponent;
+		}
+
+		private var _traceEventHandlers:Boolean = false;
+
+		private function drillDownHideEffect_effectEnd(event:EffectEvent):void
+		{
+			if (_traceEventHandlers)
+				trace('drillDownHideEffect effectEnd');
+			(event.target as Effect).target.visible = false;
+			finishEffectOnBitmapCopyComponent(event);
+		}
+
+		private function finishEffectOnBitmapCopyComponent(event:EffectEvent):void
+		{
+			var component:BitmapCopyComponent = (event.target as Effect).target as BitmapCopyComponent;
+			if (component)
+			{
+				component.finish();
+			}
+		}
+
+		private function drillDownShowEffect_effectEnd(event:EffectEvent):void
+		{
+			if (_traceEventHandlers)
+				trace("drillDownShowEffect_effectEnd");
+			(event.target as Effect).target.visible = true;
+			finishEffectOnBitmapCopyComponent(event);
+		}
+
+		private function backUpHideEffect_effectEnd(event:EffectEvent):void
+		{
+			if (_traceEventHandlers)
+				trace("backUpHideEffect_effectEnd");
+			(event.target as Effect).target.visible = false;
+			finishEffectOnBitmapCopyComponent(event);
+		}
+
+		private function backUpShowEffect_effectEnd(event:EffectEvent):void
+		{
+			if (_traceEventHandlers)
+				trace('backUpShowEffect effectEnd');
+			(event.target as Effect).target.visible = true;
+			finishEffectOnBitmapCopyComponent(event);
+		}
 		]]>
 	</fx:Script>
 	<s:Group id="simulationContentHolder" width="100%" height="100%">
@@ -226,24 +349,32 @@
 		</s:layout>
 
 		<s:Group id="simulationContentGroup" width="800" height="730">
-			<simulation:HypertensionWholeBodyLevel id="hypertensionWholeBodyGroup" width="100%" height="100%" simulationModel="{_simulationModel}"
-					drillDownLevel="hypertensionCirculatorySystemGroup.visible = true; hypertensionWholeBodyGroup.visible = false;"/>
+			<wholebody:HypertensionWholeBodyLevel id="hypertensionWholeBodyGroup" width="100%" height="100%"
+												   simulationModel="{_simulationModel}"
+												   drillDownLevel="drillDown(event, hypertensionCirculatorySystemGroup, hypertensionWholeBodyGroup)"/>
 
-			<simulation:HypertensionCirculatorySystemLevel id="hypertensionCirculatorySystemGroup" width="100%" height="100%" visible="false" simulationModel="{_simulationModel}"
-					backUpLevel="hypertensionWholeBodyGroup.visible = true; hypertensionCirculatorySystemGroup.visible = false;"
-					drillDownLevel="hypertensionHydrochlorothiazideGroup.visible = true; hypertensionCirculatorySystemGroup.visible = false;"/>
+			<circulatorysystem:HypertensionCirculatorySystemLevel id="hypertensionCirculatorySystemGroup" width="100%"
+																  height="100%" visible="false"
+																  simulationModel="{_simulationModel}"
+																  backUpLevel="backUp(event, hypertensionWholeBodyGroup, hypertensionCirculatorySystemGroup)"
+																  drillDownLevel="drillDown(event, hypertensionHydrochlorothiazideGroup, hypertensionCirculatorySystemGroup)"/>
 
-			<simulation:HypertensionHydrochlorothiazideLevel id="hypertensionHydrochlorothiazideGroup" width="100%" height="100%" visible="false" simulationModel="{_simulationModel}"
-					backUpLevel="hypertensionCirculatorySystemGroup.visible = true; hypertensionHydrochlorothiazideGroup.visible = false;"/>
+			<hydrochlorothiazide:HypertensionHydrochlorothiazideLevel id="hypertensionHydrochlorothiazideGroup"
+																	  width="100%"
+																	  height="100%" visible="false"
+																	  simulationModel="{_simulationModel}"
+																	  backUpLevel="backUp(event, hypertensionCirculatorySystemGroup, hypertensionHydrochlorothiazideGroup)"/>
 		</s:Group>
 	</s:Group>
-<!--
+	<!--
 	<s:Label text="{adjustmentTarget.x + ', ' + adjustmentTarget.y + ' ' + adjustmentTarget.scaleX}"/>
 -->
 	<s:Group width="100%">
 		<!-- TODO: scale the info bar down instead of clipping it if there is not enough space -->
-		<simulation:SimulationTimeInfoBar id="timeInfoBar" x="{(this.width - timeInfoBar.width) / 2}" mode="{_simulationModel.modeLabel}" dateString="{simulationDateFormatter.format(_simulationModel.date).toLowerCase()}"/>
-<!--
+		<simulation:SimulationTimeInfoBar id="timeInfoBar" x="{(this.width - timeInfoBar.width) / 2}"
+										  mode="{_simulationModel.modeLabel}"
+										  dateString="{simulationDateFormatter.format(_simulationModel.date).toLowerCase()}"/>
+		<!--
 		<s:Label text="{'this.width=' + this.width + ' simulationContentHolder.width=' + simulationContentHolder.width}"/>
 -->
 	</s:Group>

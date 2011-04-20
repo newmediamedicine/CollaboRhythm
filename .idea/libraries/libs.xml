@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="libs" type="flex">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Schedule.Shared/libs" />
+      <root url="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Schedule.Shared/libs" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Schedule.Shared/libs" recursive="false" />
+  </library>
+</component>

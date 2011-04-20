@@ -18,18 +18,57 @@ package collaboRhythm.plugins.bloodPressure.view.simulation
 {
 	import collaboRhythm.plugins.bloodPressure.view.simulation.skins.ContentButtonSkin;
 
+	import collaboRhythm.plugins.bloodPressure.view.simulation.skins.ContentLabelSkin;
+
+	import flash.events.Event;
+
 	import mx.core.FlexGlobals;
+	import mx.core.UIComponent;
 	import mx.core.mx_internal;
 	import mx.styles.CSSStyleDeclaration;
 	import mx.utils.BitFlagUtil;
 
 	import spark.components.Button;
 	import spark.components.Group;
+	import spark.components.supportClasses.SkinnableComponent;
+	import spark.core.IDisplayText;
 	import spark.layouts.supportClasses.LayoutBase;
 
 	use namespace mx_internal;
 
-	public class ContentButton extends Button
+	/**
+	 *  @copy flashx.textLayout.formats.ITextLayoutFormat#color
+	 *
+	 *  @langversion 3.0
+	 *  @playerversion Flash 10
+	 *  @playerversion AIR 1.5
+	 *  @productversion Flex 4
+	 */
+	[Style(name="color", type="uint", format="Color", inherit="yes")]
+
+	/**
+	 *  @copy flashx.textLayout.formats.ITextLayoutFormat#fontSize
+	 *
+	 *  @langversion 3.0
+	 *  @playerversion Flash 10
+	 *  @playerversion AIR 1.5
+	 *  @productversion Flex 4
+	 */
+	[Style(name="fontSize", type="Number", format="Length", inherit="yes", minValue="1.0", maxValue="720.0")]
+
+	/**
+	 *  The radius of the corners of this component.
+	 *
+	 *  @default 4
+	 *
+	 *  @langversion 3.0
+	 *  @playerversion Flash 10
+	 *  @playerversion AIR 1.5
+	 *  @productversion Flex 4
+	 */
+	[Style(name="cornerRadius", type="Number", format="Length", inherit="no", theme="spark", minValue="0.0")]
+
+	public class ContentLabel extends SkinnableComponent implements IDisplayText
 	{
 		//--------------------------------------------------------------------------
 		//
@@ -68,21 +107,22 @@ package collaboRhythm.plugins.bloodPressure.view.simulation
 		 */
 		protected var contentGroupLayouts:Array = [null, null];
 
+		private var _text:String;
+
 		// http://flexdevtips.blogspot.com/2009/03/setting-default-styles-for-custom.html
 		private static var classConstructed:Boolean = classConstruct();
 
 		private static function classConstruct():Boolean
 		{
 			if (!FlexGlobals.topLevelApplication.styleManager.
-					getStyleDeclaration("collaboRhythm.plugins.bloodPressure.view.simulation.ContentButton"))
+					getStyleDeclaration("collaboRhythm.plugins.bloodPressure.view.simulation.ContentLabel"))
 			{
 				// No CSS definition for StyledRectangle,  so create and set default values
 				var styleDeclaration:CSSStyleDeclaration = new CSSStyleDeclaration();
 				styleDeclaration.defaultFactory = function():void
 				{
-					this.skinClass = ContentButtonSkin;
+					this.skinClass = ContentLabelSkin;
 					this.cornerRadius = 5;
-					this.chromeColor = 0xD1D3D4;
 					this.fontFamily = "Myriad Pro Light";
 					this.fontSize = "30";
 					this.fontWeight = "bold";
@@ -91,12 +131,12 @@ package collaboRhythm.plugins.bloodPressure.view.simulation
 				};
 
 				FlexGlobals.topLevelApplication.styleManager.
-						setStyleDeclaration("collaboRhythm.plugins.bloodPressure.view.simulation.ContentButton", styleDeclaration, true);
+						setStyleDeclaration("collaboRhythm.plugins.bloodPressure.view.simulation.ContentLabel", styleDeclaration, true);
 			}
 			return true;
 		}
 
-		public function ContentButton()
+		public function ContentLabel()
 		{
 		}
 
@@ -106,6 +146,18 @@ package collaboRhythm.plugins.bloodPressure.view.simulation
 		//
 		//--------------------------------------------------------------------------
 		
+		[SkinPart(required="false")]
+
+		/**
+		 *  A skin part that defines the label of the button.
+		 *
+		 *  @langversion 3.0
+		 *  @playerversion Flash 10
+		 *  @playerversion AIR 1.5
+		 *  @productversion Flex 4
+		 */
+		public var labelDisplay:IDisplayText;
+
 		//----------------------------------------
 		// Navigator Controls
 		//----------------------------------------
@@ -331,6 +383,16 @@ package collaboRhythm.plugins.bloodPressure.view.simulation
 				group = rightGroup;
 				index = RIGHT_GROUP_PROPERTIES_INDEX;
 			}
+			else if (instance == labelDisplay)
+			{
+				labelDisplay.addEventListener("isTruncatedChanged",
+											  labelDisplay_isTruncatedChangedHandler);
+
+				// Push down to the part only if the label was explicitly set
+				if (_text !== null)
+					labelDisplay.text = text;
+			}
+
 
 			if (index > -1)
 			{
@@ -377,6 +439,12 @@ package collaboRhythm.plugins.bloodPressure.view.simulation
 				group = rightGroup;
 				index = RIGHT_GROUP_PROPERTIES_INDEX;
 			}
+			else if (instance == labelDisplay)
+			{
+				labelDisplay.removeEventListener("isTruncatedChanged",
+												 labelDisplay_isTruncatedChangedHandler);
+			}
+
 
 			if (index > -1)
 			{
@@ -393,6 +461,37 @@ package collaboRhythm.plugins.bloodPressure.view.simulation
 				group.mxmlContent = null;
 				group.layout = null;
 			}
+		}
+
+		public function get text():String
+		{
+			return _text;
+		}
+
+		public function set text(value:String):void
+		{
+			_text = value;
+
+			// Push to the optional labelDisplay skin part
+			if (labelDisplay)
+				labelDisplay.text = value;
+		}
+
+		public function get isTruncated():Boolean
+		{
+			return false;
+		}
+
+		/**
+		 *  @private
+		 */
+		private function labelDisplay_isTruncatedChangedHandler(event:Event):void
+		{
+			var isTruncated:Boolean = labelDisplay.isTruncated;
+
+			// If the label is truncated, show the whole label string as a tooltip.
+			// We set super.toolTip to avoid setting our own _explicitToolTip.
+			super.toolTip = isTruncated ? labelDisplay.text : null;
 		}
 	}
 }

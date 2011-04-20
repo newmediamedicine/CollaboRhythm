@@ -22,49 +22,47 @@
 		xmlns:simulation="collaboRhythm.plugins.bloodPressure.view.simulation.*"
 		xmlns:view2="collaboRhythm.shared.view.*"
 		xmlns:gauge="collaboRhythm.plugins.bloodPressure.view.simulation.gauge.*"
+		xmlns:hydrochlorothiazide="collaboRhythm.plugins.bloodPressure.view.simulation.levels.hydrochlorothiazide.*"
 		width="100%" height="100%">
-	<simulation:showEffect>
-		<s:Parallel>
-			<s:Fade alphaFrom="0" alphaTo="1"/>
-			<mx:Zoom zoomWidthFrom="0.02" zoomWidthTo="1" zoomHeightFrom="0.02" zoomHeightTo="1"/>
-			<s:Move xFrom="159" yFrom="646" xTo="0" yTo="0"/>
-		</s:Parallel>
-	</simulation:showEffect>
-	<simulation:hideEffect>
-		<s:Fade alphaFrom="1" alphaTo="0"/>
-	</simulation:hideEffect>
 	<simulation:SimulationLevelPanel width="100%" height="100%"
 									 title="Hydrochlorothiazide"
 									 enableBack="true"
 									 backUpLevel="dispatchEvent(new SimulationLevelEvent(SimulationLevelEvent.BACK_UP_LEVEL))">
 		<simulation:titleContent>
-			<s:Group id="hypertensionTitle" horizontalCenter="0" width="400">
-				<simulation:HypertensionTitle/>
-			</s:Group>
-			<gauge:Gauge id="hypertensionGauge" x="{hypertensionTitle.x + hypertensionTitle.width - hypertensionGauge.width - 10}" verticalCenter="0"
-						 valueMinimum="70"
-						 valueLow1="85"
-						 valueLow0="90"
-						 valueHigh0="120"
-						 valueHigh1="140"
-						 valueMaximum="180"
-						 value="{simulationModel.systolic}"/>
+			<simulation:ContentLabel id="hydrochlorothiazideTitle" horizontalCenter="0"
+					width="400" height="60"
+					fontSize="26"
+					text="Hydrochlorothiazide"
+					color="{simulationModel.concentrationSeverityColor}"
+					>
+				<simulation:leftContent>
+					<simulation:MedicationsIcon left="15" verticalCenter="0"/>
+				</simulation:leftContent>
+				<simulation:rightContent>
+					<simulation:HydrochlorothiazideGauge id="hydrochlorothiazideGauge" right="10" verticalCenter="0"
+								 value="{simulationModel.concentration}"/>
+				</simulation:rightContent>
+			</simulation:ContentLabel>
 		</simulation:titleContent>
 		<simulation:simulationContent>
-			<simulation:HypertensionHydrochlorothiazide1 visible="{simulationModel.concentration &lt; SimulationModel.goalConcentration / 2}"/>
-			<simulation:HypertensionHydrochlorothiazide2 visible="{simulationModel.concentration &gt;= SimulationModel.goalConcentration / 2 &amp;&amp; simulationModel.concentration &lt; SimulationModel.goalConcentration}"/>
-			<simulation:HypertensionHydrochlorothiazide3 visible="{simulationModel.concentration &gt;= SimulationModel.goalConcentration}"/>
+			<hydrochlorothiazide:HypertensionHydrochlorothiazide1
+					visible="{simulationModel.concentration &lt; SimulationModel.HYDROCHLOROTHIAZIDE_LOW}"/>
+			<hydrochlorothiazide:HypertensionHydrochlorothiazide2
+					visible="{simulationModel.concentration &gt;= SimulationModel.HYDROCHLOROTHIAZIDE_LOW &amp;&amp; simulationModel.concentration &lt; SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"/>
+			<hydrochlorothiazide:HypertensionHydrochlorothiazide3
+					visible="{simulationModel.concentration &gt;= SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"/>
 			<s:Group x="0" y="81.4395" width="362" height="545">
 				<s:layout>
 					<view2:ScaleToFitLayout unscaledWidth="160" aspectRatioMin="0.85" aspectRatioMax="1.25"/>
 				</s:layout>
-				<simulation:HydrochlorothiazideSimulationView id="hydrochlorothiazideSimulationView"
+				<hydrochlorothiazide:HydrochlorothiazideSimulationView id="hydrochlorothiazideSimulationView"
 															  concentration="{simulationModel.concentration}"
 						/>
 			</s:Group>
 		</simulation:simulationContent>
 	</simulation:SimulationLevelPanel>
 	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.bloodPressure.view.simulation.*;
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 		]]></fx:Script>
 </simulation:SimulationLevelGroup>

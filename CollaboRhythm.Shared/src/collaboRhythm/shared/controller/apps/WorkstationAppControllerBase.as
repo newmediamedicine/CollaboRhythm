@@ -19,7 +19,9 @@ package collaboRhythm.shared.controller.apps
 	import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.healthRecord.CommonHealthRecordService;
 	import collaboRhythm.shared.model.User;
-	
+
+	import collaboRhythm.shared.view.BitmapCopyComponent;
+
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
 	import flash.display.Stage;
@@ -617,8 +619,8 @@ package collaboRhythm.shared.controller.apps
 				fullView.validateNow();
 				var bitmapData:BitmapData = ImageSnapshot.captureBitmapData(fullView);
 				
-				topSpaceTransitionComponent = createBitmapComponent(bitmapData);
-				centerSpaceTransitionComponent = createBitmapComponent(bitmapData);
+				topSpaceTransitionComponent = BitmapCopyComponent.createFromBitmap(bitmapData, fullView);
+				centerSpaceTransitionComponent = BitmapCopyComponent.createFromBitmap(bitmapData, fullView);
 				
 				fullView.visible = false;
 //				(fullView.parent as IVisualElementContainer).setElementIndex(fullView, (fullView.parent as IVisualElementContainer).numElements - 1);
@@ -674,18 +676,6 @@ package collaboRhythm.shared.controller.apps
 		 */
 		protected function showFullViewComplete():void
 		{
-		}
-		
-		private function createBitmapComponent(bitmapData:BitmapData):UIComponent
-		{
-			var bitmapComponent:UIComponent = new UIComponent();
-			bitmapComponent.graphics.lineStyle(0,0,0);
-			if (bitmapData)
-			{
-				bitmapComponent.graphics.beginBitmapFill(bitmapData, null, false, true);
-				bitmapComponent.graphics.drawRect(0, 0, bitmapData.width, bitmapData.height);
-			}
-			return bitmapComponent;
 		}
 		
 		private var _traceEventHandlers:Boolean = false;
