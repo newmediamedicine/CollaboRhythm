@@ -21,7 +21,7 @@ package collaboRhythm.shared.model.settings
 	import flash.filesystem.FileStream;
 	import flash.utils.ByteArray;
 	import flash.utils.getQualifiedClassName;
-
+	
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 	import mx.rpc.xml.Schema;
@@ -53,7 +53,13 @@ package collaboRhythm.shared.model.settings
 
 		private function loadSchema():void
 		{
-			var byteArray:ByteArray = new settingsSchema();
+			var byteArray:ByteArray = new settingsSchema;
+			if (byteArray.length == 0)
+				byteArray = new settingsSchema();
+			
+			if (byteArray.length == 0)
+				throw new Error("Failed to load embedded settings.xsd schema.");
+				
 			schema = new Schema(new XML(byteArray.readUTFBytes(byteArray.length)));
 
 			schemaManager = new SchemaManager();
