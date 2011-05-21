@@ -57,646 +57,618 @@
 	
 	<fx:Script>
 		<![CDATA[
-		import collaboRhythm.plugins.cataractMap.model.CataractMapDataItem;
-		import collaboRhythm.plugins.cataractMap.model.CataractMapModel;
-		import collaboRhythm.shared.model.StringUtils;
-		import collaboRhythm.view.scroll.TouchScrollerEvent;
+        import collaboRhythm.plugins.cataractMap.model.CataractMapDataItem;
+        import collaboRhythm.plugins.cataractMap.model.CataractMapModel;
+        import collaboRhythm.shared.model.StringUtils;
+        import collaboRhythm.view.scroll.TouchScrollerEvent;
 
-		import com.dougmccune.controls.McCuneChart;
-		import com.dougmccune.controls.TouchScrollingMcCuneChart;
-		import com.dougmccune.events.FocusTimeEvent;
+        import com.dougmccune.controls.ScrubChart;
+        import com.dougmccune.controls.TouchScrollingScrubChart;
+        import com.dougmccune.events.FocusTimeEvent;
 
-		import flash.events.MouseEvent;
-		import flash.profiler.showRedrawRegions;
+        import mx.charts.ChartItem;
+        import mx.charts.LinearAxis;
+        import mx.controls.Alert;
+        import mx.effects.Sequence;
+        import mx.events.EffectEvent;
+        import mx.events.FlexEvent;
+        import mx.events.ScrollEvent;
+        import mx.rpc.events.FaultEvent;
 
-		import mx.charts.ChartItem;
-		import mx.charts.LinearAxis;
-		import mx.charts.renderers.TriangleItemRenderer;
-		import mx.collections.ArrayCollection;
-		import mx.containers.Canvas;
-		import mx.controls.Alert;
-		import mx.controls.LinkButton;
-		import mx.effects.Sequence;
-		import mx.events.EffectEvent;
-		import mx.events.FlexEvent;
-		import mx.events.PropertyChangeEvent;
-		import mx.events.ResizeEvent;
-		import mx.events.ScrollEvent;
-		import mx.events.TweenEvent;
-		import mx.graphics.SolidColor;
-		import mx.graphics.SolidColorStroke;
-		import mx.graphics.Stroke;
-		import mx.rpc.events.FaultEvent;
-		import mx.rpc.events.ResultEvent;
-		import mx.utils.StringUtil;
+        import qs.charts.dataShapes.Edge;
 
-		import qs.charts.dataShapes.Edge;
+        import spark.effects.Animate;
+        import spark.effects.animation.MotionPath;
+        import spark.effects.animation.SimpleMotionPath;
+        import spark.effects.easing.Linear;
 
-		import spark.effects.Animate;
-		import spark.effects.animation.MotionPath;
-		import spark.effects.animation.SimpleMotionPath;
-		import spark.effects.easing.Linear;
-		import spark.effects.easing.Power;
+        private var _textFormat:TextFormat = new TextFormat("Myriad Pro, Verdana, Helvetica, Arial", 16, 0, true);
 
-		private var _textFormat:TextFormat = new TextFormat("Myriad Pro, Verdana, Helvetica, Arial", 16, 0, true);
+        private var _model:CataractMapModel;
+        private var _traceEventHandlers:Boolean = false;
 
-		private var _model:CataractMapModel;
-		private var _traceEventHandlers:Boolean = false;
+        [Bindable]
+        public function get model():CataractMapModel
+        {
+            return _model;
+        }
 
-		[Bindable]
-		public function get model():CataractMapModel
-		{
-			return _model;
-		}
+        public function set model(value:CataractMapModel):void
+        {
+            _model = value;
+            refresh();
+        }
 
-		public function set model(value:CataractMapModel):void
-		{
-			_model = value;
-			refresh();
-		}
+        public function refresh():void
+        {
+            if (chartsGroup)
+                setSingleChartMode(null, false);
+        }
 
-		public function refresh():void
-		{
-			if (chartsGroup)
-				setSingleChartMode(null, false);
-		}
+        private function adherenceSeriesFilter(cache:Array):Array
+        {
+            var filteredCache:Array = new Array();
 
-		private function adherenceSeriesFilter(cache:Array):Array
-		{
-			var filteredCache:Array = new Array();
+            for each (var element:ChartItem in cache)
+            {
+                if (element.item.hasOwnProperty("adherence"))
+                    filteredCache.push(element);
+            }
 
-			for each (var element:ChartItem in cache)
-			{
-				if (element.item.hasOwnProperty("adherence"))
-					filteredCache.push(element);
-			}
+            return filteredCache;
+        }
 
-			return filteredCache;
-		}
+        protected function group1_creationCompleteHandler(event:FlexEvent):void
+        {
+            refresh();
+            simulationOnlyViewMode = false;
+            updateComponentsForSimulationOnlyViewMode();
+        }
 
-		protected function group1_creationCompleteHandler(event:FlexEvent):void
-		{
-			refresh();
-			simulationOnlyViewMode = false;
-			updateComponentsForSimulationOnlyViewMode();
-		}
+        private const GOAL_ZONE_COLOR:uint = 0x8DCB86;
 
-		private const GOAL_ZONE_COLOR:uint = 0x8DCB86;
+        public function drawCataractMapData(canvas:DataDrawingCanvas):void
+        {
+            if (_traceEventHandlers)
+                trace(this + ".drawCataractMapData");
 
-		public function drawCataractMapData(canvas:DataDrawingCanvas):void
-		{
-			if (_traceEventHandlers)
-				trace(this + ".drawCataractMapData");
+            canvas.clear();
+        }
 
-			canvas.clear();
-		}
+        public function drawAdherenceData(canvas:DataDrawingCanvas):void
+        {
+            if (_traceEventHandlers)
+                trace(this + ".drawAdherenceData");
 
-		public function drawAdherenceData(canvas:DataDrawingCanvas):void
-		{
-			if (_traceEventHandlers)
-				trace(this + ".drawAdherenceData");
+            canvas.clear();
+        }
 
-			canvas.clear();
-		}
+        /**
+         * If an error occurs loading the XML chart info
+         */
+        private function faultResult(event:FaultEvent):void
+        {
+            Alert.show("Error retrieving XML data", "Error");
+        }
 
-		/**
-		 * If an error occurs loading the XML chart info
-		 */
-		private function faultResult(event:FaultEvent):void
-		{
-			Alert.show("Error retrieving XML data", "Error");
-		}
+        private function synchronizeDateLimits():void
+        {
+            var charts:Vector.<TouchScrollingScrubChart> = new Vector.<TouchScrollingScrubChart>();
+            charts.push(cataractDensityMapChart);
 
-		private function synchronizeDateLimits():void
-		{
-			var charts:Vector.<TouchScrollingMcCuneChart> = new Vector.<TouchScrollingMcCuneChart>();
-			charts.push(cataractDensityMapChart);
+            var minimum:Number = charts[0].minimumTime;
+            var maximum:Number = charts[0].maximumTime;
+            for each (var chart:TouchScrollingScrubChart in charts)
+            {
+                minimum = Math.max(minimum, chart.minimumTime);
+                maximum = Math.min(maximum, chart.maximumTime);
+            }
 
-			var minimum:Number = charts[0].minimumTime;
-			var maximum:Number = charts[0].maximumTime;
-			for each (var chart:TouchScrollingMcCuneChart in charts)
-			{
-				minimum = Math.max(minimum, chart.minimumTime);
-				maximum = Math.min(maximum, chart.maximumTime);
-			}
+            for each (chart in charts)
+            {
+                chart.minimumTime = minimum;
+                chart.maximumTime = maximum;
+            }
+        }
 
-			for each (chart in charts)
-			{
-				chart.minimumTime = minimum;
-				chart.maximumTime = maximum;
-			}
-		}
+        protected function cataractDensityMapChart_creationCompleteHandler(event:FlexEvent):void
+        {
+            if (_traceEventHandlers)
+                trace("cataractDensityMapChart_creationCompleteHandler");
+            var scrubChart:ScrubChart = ScrubChart(event.target);
 
-		protected function cataractDensityMapChart_creationCompleteHandler(event:FlexEvent):void
-		{
-			if (_traceEventHandlers)
-				trace("cataractDensityMapChart_creationCompleteHandler");
-			var mcCuneChart:McCuneChart = McCuneChart(event.target);
-
-//				mcCuneChart.mainChart.series = new Array();
-//				mcCuneChart.mainChart.series.push(cataractDensityMapMaxSeries);
+//				scrubChart.mainChart.series = new Array();
+//				scrubChart.mainChart.series.push(cataractDensityMapMaxSeries);
 //
-//				mcCuneChart.rangeChart.series = new Array();
-//				mcCuneChart.rangeChart.series.push(cataractDensityMapMaxSeries);
+//				scrubChart.rangeChart.series = new Array();
+//				scrubChart.rangeChart.series.push(cataractDensityMapMaxSeries);
 
-			var verticalAxis:LinearAxis = mcCuneChart.mainChart.verticalAxis as LinearAxis;
-			verticalAxis.minimum = 0;
-			verticalAxis.maximum = 9;
+            var verticalAxis:LinearAxis = scrubChart.mainChart.verticalAxis as LinearAxis;
+            verticalAxis.minimum = 0;
+            verticalAxis.maximum = 9;
 
-			verticalAxis = mcCuneChart.rangeChart.verticalAxis as LinearAxis;
-			verticalAxis.minimum = 0;
-			verticalAxis.maximum = 9;
-		}
+            verticalAxis = scrubChart.rangeChart.verticalAxis as LinearAxis;
+            verticalAxis.minimum = 0;
+            verticalAxis.maximum = 9;
+        }
 
-		protected function cataractDensityMapChart_initializeHandler(event:FlexEvent):void
-		{
-			// TODO Auto-generated method stub
-			if (_traceEventHandlers)
-				trace("cataractDensityMapChart_initializeHandler");
-		}
+        protected function cataractDensityMapChart_initializeHandler(event:FlexEvent):void
+        {
+            // TODO Auto-generated method stub
+            if (_traceEventHandlers)
+                trace("cataractDensityMapChart_initializeHandler");
+        }
 
-		protected function heartRateChart_creationCompleteHandler(event:FlexEvent):void
-		{
-			var mcCuneChart:McCuneChart = McCuneChart(event.target);
+        protected function heartRateChart_creationCompleteHandler(event:FlexEvent):void
+        {
+            var scrubChart:ScrubChart = ScrubChart(event.target);
 
-			var verticalAxis:LinearAxis = mcCuneChart.mainChart.verticalAxis as LinearAxis;
-			verticalAxis.minimum = 50;
-			verticalAxis.maximum = 100;
-		}
+            var verticalAxis:LinearAxis = scrubChart.mainChart.verticalAxis as LinearAxis;
+            verticalAxis.minimum = 50;
+            verticalAxis.maximum = 100;
+        }
 
-		protected function cataractDensityMapChart_seriesCompleteHandler(event:Event):void
-		{
-			if (_traceEventHandlers)
-				trace("cataractDensityMapChart_seriesCompleteHandler");
-			var mcCuneChart:McCuneChart = McCuneChart(event.target);
+        protected function cataractDensityMapChart_seriesCompleteHandler(event:Event):void
+        {
+            if (_traceEventHandlers)
+                trace("cataractDensityMapChart_seriesCompleteHandler");
+            var scrubChart:ScrubChart = ScrubChart(event.target);
 
-//				mcCuneChart.mainChart.backgroundElements.push(adherenceMainCanvas);
+//				scrubChart.mainChart.backgroundElements.push(adherenceMainCanvas);
 //				drawAdherenceData(adherenceMainCanvas);
-//				mcCuneChart.rangeChart.backgroundElements.push(adherenceRangeCanvas);
+//				scrubChart.rangeChart.backgroundElements.push(adherenceRangeCanvas);
 //				drawAdherenceData(adherenceRangeCanvas);
-		}
+        }
 
-		//			protected function cataractDensityMapChart_doubleClickHandler(event:MouseEvent):void
-		//			{
-		//				var mcCuneChart:McCuneChart = cataractDensityMapChart;
-		//
-		//				mcCuneChart.rangeChart.horizontalAxis.dataChanged();
-		//				mcCuneChart.rangeChart.verticalAxis.dataChanged();
-		//
-		//				mcCuneChart.mainChart.backgroundElements.push(adherenceMainCanvas);
-		//				drawAdherenceData(adherenceMainCanvas);
-		//				mcCuneChart.rangeChart.backgroundElements.push(adherenceRangeCanvas);
-		//				drawAdherenceData(adherenceRangeCanvas);
-		//				mcCuneChart.validateNow();
-		//			}
+        //			protected function cataractDensityMapChart_doubleClickHandler(event:MouseEvent):void
+        //			{
+        //				var scrubChart:ScrubChart = cataractDensityMapChart;
+        //
+        //				scrubChart.rangeChart.horizontalAxis.dataChanged();
+        //				scrubChart.rangeChart.verticalAxis.dataChanged();
+        //
+        //				scrubChart.mainChart.backgroundElements.push(adherenceMainCanvas);
+        //				drawAdherenceData(adherenceMainCanvas);
+        //				scrubChart.rangeChart.backgroundElements.push(adherenceRangeCanvas);
+        //				drawAdherenceData(adherenceRangeCanvas);
+        //				scrubChart.validateNow();
+        //			}
 
-		protected function cataractMapChart_seriesCompleteHandler(event:Event):void
-		{
-			if (_traceEventHandlers)
-				trace("cataractMapChart_seriesCompleteHandler");
-			var mcCuneChart:McCuneChart = McCuneChart(event.target);
+        protected function cataractMapChart_seriesCompleteHandler(event:Event):void
+        {
+            if (_traceEventHandlers)
+                trace("cataractMapChart_seriesCompleteHandler");
+            var scrubChart:ScrubChart = ScrubChart(event.target);
 
-			mcCuneChart.mainChart.backgroundElements.push(cataractMapMainCanvas);
-			drawCataractMapData(cataractMapMainCanvas);
-			mcCuneChart.rangeChart.backgroundElements.push(cataractMapRangeCanvas);
-			drawCataractMapData(cataractMapRangeCanvas);
-		}
+            scrubChart.mainChart.backgroundElements.push(cataractMapMainCanvas);
+            drawCataractMapData(cataractMapMainCanvas);
+            scrubChart.rangeChart.backgroundElements.push(cataractMapRangeCanvas);
+            drawCataractMapData(cataractMapRangeCanvas);
+        }
 
-		protected function heartRateChart_seriesCompleteHandler(event:Event):void
-		{
-			// TODO Auto-generated method stub
-		}
+        protected function heartRateChart_seriesCompleteHandler(event:Event):void
+        {
+            // TODO Auto-generated method stub
+        }
 
-		protected function group1_keyDownHandler(event:KeyboardEvent):void
-		{
-			if (event.altKey && event.ctrlKey && event.keyCode == Keyboard.F)
-			{
-				model.showFps = !model.showFps;
-			}
-			else if (event.altKey && event.ctrlKey)
-			{
-				switch (event.keyCode)
-				{
-					case (Keyboard.NUMBER_1):
-					{
-						this.stage.frameRate = 0;
-						break;
-					}
-					case (Keyboard.NUMBER_2):
-					{
-						this.stage.frameRate = 24;
-						break;
-					}
-					case (Keyboard.NUMBER_6):
-					{
-						this.stage.frameRate = 60;
-						break;
-					}
-					case (Keyboard.NUMBER_7):
-					{
-						this.stage.frameRate = 120;
-						break;
-					}
-					case Keyboard.B:
-					{
-						runScrollingBenchmark();
-						break;
-					}
-				}
-			}
-		}
+        protected function group1_keyDownHandler(event:KeyboardEvent):void
+        {
+            if (event.altKey && event.ctrlKey && event.keyCode == Keyboard.F)
+            {
+                model.showFps = !model.showFps;
+            }
+            else if (event.altKey && event.ctrlKey)
+            {
+                switch (event.keyCode)
+                {
+                    case (Keyboard.NUMBER_1):
+                    {
+                        this.stage.frameRate = 0;
+                        break;
+                    }
+                    case (Keyboard.NUMBER_2):
+                    {
+                        this.stage.frameRate = 24;
+                        break;
+                    }
+                    case (Keyboard.NUMBER_6):
+                    {
+                        this.stage.frameRate = 60;
+                        break;
+                    }
+                    case (Keyboard.NUMBER_7):
+                    {
+                        this.stage.frameRate = 120;
+                        break;
+                    }
+                    case Keyboard.B:
+                    {
+                        runScrollingBenchmark();
+                        break;
+                    }
+                }
+            }
+        }
 
-		private const benchmarkTrialDuration:Number = 2000;
-		private var _benchmarkFrameCount:int;
-		private var completeTrial:BenchmarkTrial;
-		private var synchronizedTrial:BenchmarkTrial;
-		private var individualTrials:Vector.<BenchmarkTrial>;
-		private var individualChartsQueue:Vector.<TouchScrollingMcCuneChart>;
-		//			private var adherenceTrial:BenchmarkTrial;
-		//			private var cataractMapTrial:BenchmarkTrial;
-		//			private var heartRateTrial:BenchmarkTrial;
-		public function runScrollingBenchmark():void
-		{
-			_benchmarkFrameCount = 0;
+        private const benchmarkTrialDuration:Number = 2000;
+        private var _benchmarkFrameCount:int;
+        private var completeTrial:BenchmarkTrial;
+        private var synchronizedTrial:BenchmarkTrial;
+        private var individualTrials:Vector.<BenchmarkTrial>;
+        private var individualChartsQueue:Vector.<TouchScrollingScrubChart>;
+        //			private var adherenceTrial:BenchmarkTrial;
+        //			private var cataractMapTrial:BenchmarkTrial;
+        //			private var heartRateTrial:BenchmarkTrial;
+        public function runScrollingBenchmark():void
+        {
+            _benchmarkFrameCount = 0;
 
-			var allCharts:Vector.<TouchScrollingMcCuneChart> = getAllCharts();
-			var visibleCharts:Vector.<TouchScrollingMcCuneChart> = new Vector.<TouchScrollingMcCuneChart>();
-			for each (var chart:TouchScrollingMcCuneChart in allCharts)
-			{
-				if (chart.visible)
-					visibleCharts.push(chart);
-			}
-			setSingleChartMode(visibleCharts[0], false);
+            var allCharts:Vector.<TouchScrollingScrubChart> = getAllCharts();
+            var visibleCharts:Vector.<TouchScrollingScrubChart> = new Vector.<TouchScrollingScrubChart>();
+            for each (var chart:TouchScrollingScrubChart in allCharts)
+            {
+                if (chart.visible)
+                    visibleCharts.push(chart);
+            }
+            setSingleChartMode(visibleCharts[0], false);
 
-			visibleCharts = getVisibleCharts(allCharts, null, _singleChartMode);
+            visibleCharts = getVisibleCharts(allCharts, null, _singleChartMode);
 
-			this.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
+            this.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 
-			individualTrials = new Vector.<BenchmarkTrial>();
-			completeTrial = new BenchmarkTrial();
-			completeTrial.name = "Overall";
-			individualTrials.push(completeTrial);
-			completeTrial.start(_benchmarkFrameCount);
-			synchronizedTrial = new BenchmarkTrial();
-			synchronizedTrial.name = "Synchronized";
-			individualTrials.push(synchronizedTrial);
-			synchronizedTrial.start(_benchmarkFrameCount);
+            individualTrials = new Vector.<BenchmarkTrial>();
+            completeTrial = new BenchmarkTrial();
+            completeTrial.name = "Overall";
+            individualTrials.push(completeTrial);
+            completeTrial.start(_benchmarkFrameCount);
+            synchronizedTrial = new BenchmarkTrial();
+            synchronizedTrial.name = "Synchronized";
+            individualTrials.push(synchronizedTrial);
+            synchronizedTrial.start(_benchmarkFrameCount);
 
-			doScrollTest(visibleCharts[0], 1, benchmarkTrialDuration, benchmarkStep2);
-		}
+            doScrollTest(visibleCharts[0], 1, benchmarkTrialDuration, benchmarkStep2);
+        }
 
-		private function benchmarkStep2(event:Event):void
-		{
-			synchronizedTrial.stop(_benchmarkFrameCount);
+        private function benchmarkStep2(event:Event):void
+        {
+            synchronizedTrial.stop(_benchmarkFrameCount);
 
-			var allCharts:Vector.<TouchScrollingMcCuneChart> = getAllCharts();
-			individualChartsQueue = getVisibleCharts(allCharts, null, _singleChartMode);
+            var allCharts:Vector.<TouchScrollingScrubChart> = getAllCharts();
+            individualChartsQueue = getVisibleCharts(allCharts, null, _singleChartMode);
 
-			startIndividualTrial();
-		}
+            startIndividualTrial();
+        }
 
-		private function startIndividualTrial():void
-		{
-			setSingleChartMode(individualChartsQueue[0], true);
-			var trial:BenchmarkTrial = new BenchmarkTrial();
-			trial.name = individualChartsQueue[0].id;
-			individualTrials.push(trial);
-			trial.start(_benchmarkFrameCount);
-			doScrollTest(individualChartsQueue[0], 1, benchmarkTrialDuration, benchmarkStep3);
-		}
+        private function startIndividualTrial():void
+        {
+            setSingleChartMode(individualChartsQueue[0], true);
+            var trial:BenchmarkTrial = new BenchmarkTrial();
+            trial.name = individualChartsQueue[0].id;
+            individualTrials.push(trial);
+            trial.start(_benchmarkFrameCount);
+            doScrollTest(individualChartsQueue[0], 1, benchmarkTrialDuration, benchmarkStep3);
+        }
 
-		private function stopIndividualTrial():void
-		{
-			individualTrials[individualTrials.length - 1].stop(_benchmarkFrameCount);
-			setSingleChartMode(individualChartsQueue[0], false);
-			individualChartsQueue.shift();
-		}
+        private function stopIndividualTrial():void
+        {
+            individualTrials[individualTrials.length - 1].stop(_benchmarkFrameCount);
+            setSingleChartMode(individualChartsQueue[0], false);
+            individualChartsQueue.shift();
+        }
 
-		private function benchmarkStep3(event:Event):void
-		{
-			stopIndividualTrial();
+        private function benchmarkStep3(event:Event):void
+        {
+            stopIndividualTrial();
 
-			if (individualChartsQueue.length > 0)
-				startIndividualTrial();
-			else
-			{
-				completeTrial.stop(_benchmarkFrameCount);
+            if (individualChartsQueue.length > 0)
+                startIndividualTrial();
+            else
+            {
+                completeTrial.stop(_benchmarkFrameCount);
 
-				trace("======= Benchmark Results ========");
+                trace("======= Benchmark Results ========");
 //					trace("  Overall:        ", completeTrial.fps.toFixed(2));
 //					trace("  Synchronized:   ", synchronizedTrial.fps.toFixed(2));
 //					trace("  Adherence:      ", adherenceTrial.fps.toFixed(2));
 //					trace("  Blood Pressure: ", cataractMapTrial.fps.toFixed(2));
 //					trace("  Heart Rate:     ", heartRateTrial.fps.toFixed(2));
 
-				for each (var trial:BenchmarkTrial in individualTrials)
-				{
-					trace("  " + StringUtils.padRight(trial.name + ":", " ", 20), trial.fps.toFixed(2));
-				}
-			}
-		}
+                for each (var trial:BenchmarkTrial in individualTrials)
+                {
+                    trace("  " + StringUtils.padRight(trial.name + ":", " ", 20), trial.fps.toFixed(2));
+                }
+            }
+        }
 
-		//			private function benchmarkStep4(event:Event):void
-		//			{
-		//				cataractMapTrial.stop(_benchmarkFrameCount);
-		//				setSingleChartMode(cataractMapChart, false);
-		//				setSingleChartMode(heartRateChart, true);
-		//				heartRateTrial = new BenchmarkTrial();
-		//				heartRateTrial.start(_benchmarkFrameCount);
-		//				doScrollTest(heartRateChart, 1, 6000, benchmarkStep5);
-		//			}
+        //			private function benchmarkStep4(event:Event):void
+        //			{
+        //				cataractMapTrial.stop(_benchmarkFrameCount);
+        //				setSingleChartMode(cataractMapChart, false);
+        //				setSingleChartMode(heartRateChart, true);
+        //				heartRateTrial = new BenchmarkTrial();
+        //				heartRateTrial.start(_benchmarkFrameCount);
+        //				doScrollTest(heartRateChart, 1, 6000, benchmarkStep5);
+        //			}
 
-		//			private function benchmarkStep5(event:Event):void
-		//			{
-		//				heartRateTrial.stop(_benchmarkFrameCount);
-		//				setSingleChartMode(heartRateChart, false);
-		//
-		//			}
+        //			private function benchmarkStep5(event:Event):void
+        //			{
+        //				heartRateTrial.stop(_benchmarkFrameCount);
+        //				setSingleChartMode(heartRateChart, false);
+        //
+        //			}
 
-		private function doScrollTest(chart:TouchScrollingMcCuneChart, screensToScroll:Number, timeToScroll:Number,
-									  effectEndHandler:Function):void
-		{
-			var scrollRightAnimate:Animate = new Animate(chart);
+        private function doScrollTest(chart:TouchScrollingScrubChart, screensToScroll:Number, timeToScroll:Number,
+                                      effectEndHandler:Function):void
+        {
+            var scrollRightAnimate:Animate = new Animate(chart);
 //				scrollRightAnimate.easer = new Power(0.5, 3);
-			scrollRightAnimate.easer = new Linear();
-			scrollRightAnimate.duration = timeToScroll;
+            scrollRightAnimate.easer = new Linear();
+            scrollRightAnimate.duration = timeToScroll;
 //				scrollRightAnimate.addEventListener(TweenEvent.TWEEN_UPDATE, function():void { this.validateNow(); });
 //				scrollRightAnimate.addEventListener(EffectEvent.EFFECT_END, effectEndHandler);
-			scrollRightAnimate.motionPaths = new Vector.<MotionPath>();
+            scrollRightAnimate.motionPaths = new Vector.<MotionPath>();
 
-			var scrollRightPath:SimpleMotionPath = new SimpleMotionPath();
-			scrollRightPath.property = "contentPositionX";
+            var scrollRightPath:SimpleMotionPath = new SimpleMotionPath();
+            scrollRightPath.property = "contentPositionX";
 //				scrollRightPath.valueFrom = -chart.scrollableAreaWidth + chart.panelWidth;
-			scrollRightPath.valueFrom = chart.contentPositionX;
-			scrollRightPath.valueTo = scrollRightPath.valueFrom + chart.panelWidth * screensToScroll;
-			scrollRightAnimate.motionPaths.push(scrollRightPath);
+            scrollRightPath.valueFrom = chart.contentPositionX;
+            scrollRightPath.valueTo = scrollRightPath.valueFrom + chart.panelWidth * screensToScroll;
+            scrollRightAnimate.motionPaths.push(scrollRightPath);
 
-			var scrollLeftAnimate:Animate = new Animate(chart);
+            var scrollLeftAnimate:Animate = new Animate(chart);
 //				scrollLeftAnimate.easer = new Power(0.5, 3);
-			scrollLeftAnimate.easer = new Linear();
-			scrollLeftAnimate.duration = timeToScroll;
+            scrollLeftAnimate.easer = new Linear();
+            scrollLeftAnimate.duration = timeToScroll;
 //				scrollLeftAnimate.addEventListener(EffectEvent.EFFECT_END, effectEndHandler);
-			scrollLeftAnimate.motionPaths = new Vector.<MotionPath>();
+            scrollLeftAnimate.motionPaths = new Vector.<MotionPath>();
 
-			var scrollLeftPath:SimpleMotionPath = new SimpleMotionPath();
-			scrollLeftPath.property = "contentPositionX";
-			scrollLeftPath.valueTo = scrollRightPath.valueFrom;
-			scrollLeftAnimate.motionPaths.push(scrollLeftPath);
+            var scrollLeftPath:SimpleMotionPath = new SimpleMotionPath();
+            scrollLeftPath.property = "contentPositionX";
+            scrollLeftPath.valueTo = scrollRightPath.valueFrom;
+            scrollLeftAnimate.motionPaths.push(scrollLeftPath);
 
-			var sequence:Sequence = new Sequence(chart);
-			sequence.addChild(scrollRightAnimate);
-			sequence.addChild(scrollLeftAnimate);
-			sequence.addEventListener(EffectEvent.EFFECT_END, effectEndHandler);
+            var sequence:Sequence = new Sequence(chart);
+            sequence.addChild(scrollRightAnimate);
+            sequence.addChild(scrollLeftAnimate);
+            sequence.addEventListener(EffectEvent.EFFECT_END, effectEndHandler);
 
-			sequence.play();
-		}
+            sequence.play();
+        }
 
-		private function enterFrameHandler(event:Event):void
-		{
-			_benchmarkFrameCount++;
-		}
+        private function enterFrameHandler(event:Event):void
+        {
+            _benchmarkFrameCount++;
+        }
 
-		private var _singleChartMode:Boolean = false;
+        private var _singleChartMode:Boolean = false;
 
-		protected function chart_doubleClickHandler(event:MouseEvent):void
-		{
-			var targetChart:TouchScrollingMcCuneChart = TouchScrollingMcCuneChart(event.currentTarget);
+        protected function chart_doubleClickHandler(event:MouseEvent):void
+        {
+            var targetChart:TouchScrollingScrubChart = TouchScrollingScrubChart(event.currentTarget);
 
-			setSingleChartMode(targetChart, !_singleChartMode);
-		}
+            setSingleChartMode(targetChart, !_singleChartMode);
+        }
 
-		protected function setSingleChartMode(targetChart:TouchScrollingMcCuneChart, mode:Boolean):void
-		{
-			_singleChartMode = mode;
+        protected function setSingleChartMode(targetChart:TouchScrollingScrubChart, mode:Boolean):void
+        {
+            _singleChartMode = mode;
 
-			_scrollTargetChart = null;
-			updateChartsCache(targetChart);
+            _scrollTargetChart = null;
+            updateChartsCache(targetChart);
 
-//				targetChart.headerVisible = true;
-//				targetChart.sliderVisible = true;
-//				targetChart.topBorderVisible = true;
+            var allCharts:Vector.<TouchScrollingScrubChart> = getAllCharts();
+            for (var i:int = 0; i < _visibleCharts.length; i++)
+            {
+                var chart:TouchScrollingScrubChart = _visibleCharts[i] as TouchScrollingScrubChart;
 
-			var allCharts:Vector.<TouchScrollingMcCuneChart> = getAllCharts();
-//				var visibleCharts:Vector.<TouchScrollingMcCuneChart> = getVisibleCharts(allCharts, targetChart, _singleChartMode, model.showAdherence, model.showHeartRate);
-//				var otherCharts:Vector.<TouchScrollingMcCuneChart> = getOtherCharts(targetChart);
-//				for (var i:int = 0; i < chartsGroup.numElements; i++)
-//				{
-//					var chart:TouchScrollingMcCuneChart = chartsGroup.getElementAt(i) as TouchScrollingMcCuneChart;
-			for (var i:int = 0; i < _visibleCharts.length; i++)
-			{
-				var chart:TouchScrollingMcCuneChart = _visibleCharts[i] as TouchScrollingMcCuneChart;
+                // middle chart
+                chart.setStyle("headerVisible", false);
+                chart.setStyle("footerVisible", false);
+                chart.setStyle("sliderVisible", false);
+                chart.setStyle("topBorderVisible", true);
 
-				// middle chart
-				chart.headerVisible = false;
-				chart.footerVisible = false;
-				chart.sliderVisible = false;
-				chart.topBorderVisible = true;
+                if (i == 0)
+                {
+                    // top chart
+                    chart.setStyle("topBorderVisible", true);
+                }
 
-				if (i == 0)
-				{
-					// top chart
-					chart.topBorderVisible = true;
-				}
+                if (i == _visibleCharts.length - 1)
+                {
+                    // bottom chart
+                    chart.setStyle("footerVisible", true);
+                }
+            }
 
-				if (i == _visibleCharts.length - 1)
-				{
-					// bottom chart
-					chart.footerVisible = true;
-//						chart.sliderVisible = true;
-				}
-			}
+            for each (chart in allCharts)
+            {
+                var visible:Boolean = _visibleCharts.indexOf(chart) != -1;
+                chart.visible = visible;
+                chart.includeInLayout = visible;
+            }
 
-			for each (chart in allCharts)
-			{
-				var visible:Boolean = _visibleCharts.indexOf(chart) != -1;
-				chart.visible = visible;
-				chart.includeInLayout = visible;
+            if (_visibleCharts.length > 1 && targetChart != null)
+            {
+                var nonTargetCharts:Vector.<TouchScrollingScrubChart> = getVisibleNonTargetCharts(_visibleCharts,
+                                                                                                  targetChart);
+                syncronizeScrollPositions(targetChart, nonTargetCharts);
+                syncronizeFocusTimes(targetChart, nonTargetCharts);
+            }
+        }
 
-//					trace("Visibility of", chart.id, ":", visible); 
-			}
+        protected function getAllCharts():Vector.<TouchScrollingScrubChart>
+        {
+            var allCharts:Vector.<TouchScrollingScrubChart> = new Vector.<TouchScrollingScrubChart>();
+            for (var i:int = 0; i < chartsGroup.numElements; i++)
+            {
+                var chart:TouchScrollingScrubChart = chartsGroup.getElementAt(i) as TouchScrollingScrubChart;
+                if (chart != null)
+                    allCharts.push(chart);
+            }
+            return allCharts;
+        }
 
-			if (_visibleCharts.length > 1 && targetChart != null)
-			{
-				var nonTargetCharts:Vector.<TouchScrollingMcCuneChart> = getVisibleNonTargetCharts(_visibleCharts,
-																								   targetChart);
-				syncronizeScrollPositions(targetChart, nonTargetCharts);
-				syncronizeFocusTimes(targetChart, nonTargetCharts);
-			}
-		}
+        protected function getVisibleCharts(allCharts:Vector.<TouchScrollingScrubChart>,
+                                            targetChart:TouchScrollingScrubChart,
+                                            singleChartMode:Boolean):Vector.<TouchScrollingScrubChart>
+        {
+            var visibleCharts:Vector.<TouchScrollingScrubChart> = new Vector.<TouchScrollingScrubChart>();
+            for each (var chart:TouchScrollingScrubChart in allCharts)
+            {
+                if (singleChartMode)
+                {
+                    if (chart == targetChart)
+                        visibleCharts.push(chart);
+                }
+                else
+                {
+                    visibleCharts.push(chart);
+                }
+            }
+            return visibleCharts;
+        }
 
-		protected function getAllCharts():Vector.<TouchScrollingMcCuneChart>
-		{
-			var allCharts:Vector.<TouchScrollingMcCuneChart> = new Vector.<TouchScrollingMcCuneChart>();
-			for (var i:int = 0; i < chartsGroup.numElements; i++)
-			{
-				var chart:TouchScrollingMcCuneChart = chartsGroup.getElementAt(i) as TouchScrollingMcCuneChart;
-				if (chart != null)
-					allCharts.push(chart);
-			}
-			return allCharts;
-		}
+        protected function getVisibleNonTargetCharts(visibleCharts:Vector.<TouchScrollingScrubChart>,
+                                                     targetChart:TouchScrollingScrubChart):Vector.<TouchScrollingScrubChart>
+        {
+            var visibleNonTargetCharts:Vector.<TouchScrollingScrubChart> = new Vector.<TouchScrollingScrubChart>();
+            for each (var chart:TouchScrollingScrubChart in visibleCharts)
+            {
+                if (chart != targetChart)
+                {
+                    visibleNonTargetCharts.push(chart);
+                }
+            }
+            return visibleNonTargetCharts;
+        }
 
-		protected function getVisibleCharts(allCharts:Vector.<TouchScrollingMcCuneChart>,
-											targetChart:TouchScrollingMcCuneChart,
-											singleChartMode:Boolean):Vector.<TouchScrollingMcCuneChart>
-		{
-			var visibleCharts:Vector.<TouchScrollingMcCuneChart> = new Vector.<TouchScrollingMcCuneChart>();
-			for each (var chart:TouchScrollingMcCuneChart in allCharts)
-			{
-				if (singleChartMode)
-				{
-					if (chart == targetChart)
-						visibleCharts.push(chart);
-				}
-				else
-				{
-					visibleCharts.push(chart);
-				}
-			}
-			return visibleCharts;
-		}
+        private var _scrollTargetChart:TouchScrollingScrubChart;
+        private var _nonTargetCharts:Vector.<TouchScrollingScrubChart>;
+        private var _visibleCharts:Vector.<TouchScrollingScrubChart>;
 
-		protected function getVisibleNonTargetCharts(visibleCharts:Vector.<TouchScrollingMcCuneChart>,
-													 targetChart:TouchScrollingMcCuneChart):Vector.<TouchScrollingMcCuneChart>
-		{
-			var visibleNonTargetCharts:Vector.<TouchScrollingMcCuneChart> = new Vector.<TouchScrollingMcCuneChart>();
-			for each (var chart:TouchScrollingMcCuneChart in visibleCharts)
-			{
-				if (chart != targetChart)
-				{
-					visibleNonTargetCharts.push(chart);
-				}
-			}
-			return visibleNonTargetCharts;
-		}
+        protected function chart_scrollHandler(event:ScrollEvent):void
+        {
+            var targetChart:TouchScrollingScrubChart = TouchScrollingScrubChart(event.currentTarget);
+            updateChartsCache(targetChart);
 
-		private var _scrollTargetChart:TouchScrollingMcCuneChart;
-		private var _nonTargetCharts:Vector.<TouchScrollingMcCuneChart>;
-		private var _visibleCharts:Vector.<TouchScrollingMcCuneChart>;
+            if (!_singleChartMode)
+            {
+                syncronizeScrollPositions(targetChart, _nonTargetCharts);
+            }
 
-		protected function chart_scrollHandler(event:ScrollEvent):void
-		{
-			var targetChart:TouchScrollingMcCuneChart = TouchScrollingMcCuneChart(event.currentTarget);
-			updateChartsCache(targetChart);
+            updateSimulation(targetChart);
+        }
 
-			if (!_singleChartMode)
-			{
-				syncronizeScrollPositions(targetChart, _nonTargetCharts);
-			}
+        protected function syncronizeScrollPositions(targetChart:TouchScrollingScrubChart,
+                                                     otherCharts:Vector.<TouchScrollingScrubChart>):void
+        {
+            for each (var otherChart:TouchScrollingScrubChart in otherCharts)
+            {
+                if (otherChart.visible)
+                {
+                    otherChart.stopInertiaScrolling();
+                    otherChart.leftRangeTime = targetChart.leftRangeTime;
+                    otherChart.rightRangeTime = targetChart.rightRangeTime;
+                    otherChart.updateForScroll();
+                }
+            }
+        }
 
-			updateSimulation(targetChart);
-		}
-
-		protected function syncronizeScrollPositions(targetChart:TouchScrollingMcCuneChart,
-													 otherCharts:Vector.<TouchScrollingMcCuneChart>):void
-		{
-			for each (var otherChart:TouchScrollingMcCuneChart in otherCharts)
-			{
-				if (otherChart.visible)
-				{
-					otherChart.stopInertiaScrolling();
-					otherChart.leftRangeTime = targetChart.leftRangeTime;
-					otherChart.rightRangeTime = targetChart.rightRangeTime;
-					otherChart.updateForScroll();
-				}
-			}
-		}
-
-		protected function syncronizeFocusTimes(targetChart:TouchScrollingMcCuneChart,
-												otherCharts:Vector.<TouchScrollingMcCuneChart>):void
-		{
-			for each (var otherChart:TouchScrollingMcCuneChart in otherCharts)
-			{
-				if (otherChart.visible)
-				{
+        protected function syncronizeFocusTimes(targetChart:TouchScrollingScrubChart,
+                                                otherCharts:Vector.<TouchScrollingScrubChart>):void
+        {
+            for each (var otherChart:TouchScrollingScrubChart in otherCharts)
+            {
+                if (otherChart.visible)
+                {
 //						otherChart.stopInertiaScrolling();
 //						otherChart.leftRangeTime = targetChart.leftRangeTime;
 //						otherChart.rightRangeTime = targetChart.rightRangeTime;
 //						otherChart.updateForScroll();
-					otherChart.focusTime = targetChart.focusTime;
-				}
-			}
-		}
+                    otherChart.focusTime = targetChart.focusTime;
+                }
+            }
+        }
 
-		protected function chart_scrollStartHandler(event:TouchScrollerEvent):void
-		{
-			var targetChart:TouchScrollingMcCuneChart = TouchScrollingMcCuneChart(event.currentTarget);
+        protected function chart_scrollStartHandler(event:TouchScrollerEvent):void
+        {
+            var targetChart:TouchScrollingScrubChart = TouchScrollingScrubChart(event.currentTarget);
 
-			if (_traceEventHandlers)
-				trace(this.id + ".chart_scrollStartHandler " + targetChart.id);
-		}
+            if (_traceEventHandlers)
+                trace(this.id + ".chart_scrollStartHandler " + targetChart.id);
+        }
 
-		protected function chart_scrollStopHandler(event:TouchScrollerEvent):void
-		{
-			var targetChart:TouchScrollingMcCuneChart = TouchScrollingMcCuneChart(event.currentTarget);
+        protected function chart_scrollStopHandler(event:TouchScrollerEvent):void
+        {
+            var targetChart:TouchScrollingScrubChart = TouchScrollingScrubChart(event.currentTarget);
 
-			if (_traceEventHandlers)
-				trace(this.id + ".chart_scrollStopHandler " + targetChart.id);
-		}
+            if (_traceEventHandlers)
+                trace(this.id + ".chart_scrollStopHandler " + targetChart.id);
+        }
 
-		protected function chart_focusTimeChangeHandler(event:FocusTimeEvent):void
-		{
-			var targetChart:TouchScrollingMcCuneChart = TouchScrollingMcCuneChart(event.currentTarget);
+        protected function chart_focusTimeChangeHandler(event:FocusTimeEvent):void
+        {
+            var targetChart:TouchScrollingScrubChart = TouchScrollingScrubChart(event.currentTarget);
 
-			updateChartsCache(targetChart);
+            updateChartsCache(targetChart);
 
-			if (!_singleChartMode)
-			{
-				syncronizeFocusTimes(targetChart, _nonTargetCharts);
-			}
+            if (!_singleChartMode)
+            {
+                syncronizeFocusTimes(targetChart, _nonTargetCharts);
+            }
 
-			updateSimulation(targetChart);
-		}
+            updateSimulation(targetChart);
+        }
 
-		private function updateChartsCache(targetChart:TouchScrollingMcCuneChart):void
-		{
-			if (targetChart == null || _scrollTargetChart != targetChart)
-			{
-				var allCharts:Vector.<TouchScrollingMcCuneChart> = getAllCharts();
-				_visibleCharts = getVisibleCharts(allCharts, targetChart, _singleChartMode);
-				_nonTargetCharts = getVisibleNonTargetCharts(_visibleCharts, targetChart);
-				_scrollTargetChart = targetChart;
-			}
-		}
+        private function updateChartsCache(targetChart:TouchScrollingScrubChart):void
+        {
+            if (targetChart == null || _scrollTargetChart != targetChart)
+            {
+                var allCharts:Vector.<TouchScrollingScrubChart> = getAllCharts();
+                _visibleCharts = getVisibleCharts(allCharts, targetChart, _singleChartMode);
+                _nonTargetCharts = getVisibleNonTargetCharts(_visibleCharts, targetChart);
+                _scrollTargetChart = targetChart;
+            }
+        }
 
-		private function updateSimulation(targetChart:TouchScrollingMcCuneChart):void
-		{
-			model.simulation.date = new Date(targetChart.focusTime);
+        private function updateSimulation(targetChart:TouchScrollingScrubChart):void
+        {
+            model.simulation.date = new Date(targetChart.focusTime);
 
-			var cataractMapDataPoint:CataractMapDataItem = cataractDensityMapChart.findPreviousDataPoint(model.simulation.date.time) as CataractMapDataItem;
+            var cataractMapDataPoint:CataractMapDataItem = cataractDensityMapChart.findPreviousDataPoint(model.simulation.date.time) as CataractMapDataItem;
 
-			model.simulation.dataPointDate = cataractMapDataPoint == null ? null : cataractMapDataPoint.date;
-			model.simulation.cataractMapDataItem = cataractMapDataPoint;
-		}
+            model.simulation.dataPointDate = cataractMapDataPoint == null ? null : cataractMapDataPoint.date;
+            model.simulation.cataractMapDataItem = cataractMapDataPoint;
+        }
 
-		private var simulationOnlyViewMode:Boolean = false;
+        private var simulationOnlyViewMode:Boolean = false;
 
-		protected function simulationView_doubleClickHandler(event:MouseEvent):void
-		{
-			simulationOnlyViewMode = !simulationOnlyViewMode;
-			updateComponentsForSimulationOnlyViewMode();
-		}
+        protected function simulationView_doubleClickHandler(event:MouseEvent):void
+        {
+            simulationOnlyViewMode = !simulationOnlyViewMode;
+            updateComponentsForSimulationOnlyViewMode();
+        }
 
-		private static const SIMULATION_VIEW_WIDTH:int = 600;
+        private static const SIMULATION_VIEW_WIDTH:int = 600;
 
-		private function updateComponentsForSimulationOnlyViewMode():void
-		{
-			if (simulationOnlyViewMode)
-			{
-				chartsGroup.percentWidth = 0;
-				chartsGroup.visible = false;
-				simulationView.width = NaN;
-				simulationView.percentWidth = 100;
-			}
-			else
-			{
-				chartsGroup.percentWidth = 100;
-				chartsGroup.visible = true;
-				simulationView.percentWidth = NaN;
-				simulationView.width = SIMULATION_VIEW_WIDTH;
-			}
-		}
-		]]>
+        private function updateComponentsForSimulationOnlyViewMode():void
+        {
+            if (simulationOnlyViewMode)
+            {
+                chartsGroup.percentWidth = 0;
+                chartsGroup.visible = false;
+                simulationView.width = NaN;
+                simulationView.percentWidth = 100;
+            }
+            else
+            {
+                chartsGroup.percentWidth = 100;
+                chartsGroup.visible = true;
+                simulationView.percentWidth = NaN;
+                simulationView.width = SIMULATION_VIEW_WIDTH;
+            }
+        }
+        ]]>
 	</fx:Script>
 
 	<s:Rect height="100%" width="100%">
@@ -719,7 +691,8 @@
 											data="{model.adherenceDataCollection}"
 											/>
 			-->
-			<controls:TouchScrollingMcCuneChart id="cataractDensityMapChart" height="100%" width="100%"
+			<controls:TouchScrollingScrubChart id="cataractDensityMapChart" height="100%" width="100%"
+                                            skinClass="com.dougmccune.controls.ScrubChartSkin"
 											creationComplete="cataractDensityMapChart_creationCompleteHandler(event)"
 											initialize="cataractDensityMapChart_initializeHandler(event)"
 											sliderVisible="false"

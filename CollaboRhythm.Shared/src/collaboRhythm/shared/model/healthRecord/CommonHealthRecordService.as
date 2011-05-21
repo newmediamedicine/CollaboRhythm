@@ -129,14 +129,14 @@ package collaboRhythm.shared.model.healthRecord
 				user = event.userData as User;
 				user.demographics.rawData = responseXml;
 			}
-			else if (responseXml.name() == "Record" && responseXml.Contact.length() == 1)
-			{
-				user = event.userData as User;
-				user.contact.rawData = responseXml.Contact[0];
-				
-				if (user.contact.userName != null)
-					this.dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE));
-			}
+            else if (responseXml.name() == "Contact")
+            {
+                user = event.userData as User;
+                user.contact.rawData = responseXml;
+
+                if (user.contact.userName != null)
+                    this.dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE));
+            }
 //			else if (responseXml.name() == "Reports")
 //			{
 //				user = event.userData as User;

@@ -106,52 +106,54 @@ package skins
 		{return _gutters;}
 		public function set gutters(value:Rectangle):void
 		{
+            if (!_gutters || !_gutters.equals(value))
+            {
+                _gutters = value;
+                if(_axis == null)
+                    return;
 
-			_gutters = value;
-			if(_axis == null)
-				return;
-				
-			_labelData = _axis.getLabels(axisLength);
-			
-			for(var i:int = 0; i < _labels.length; i++) 
-			{
-				removeChild(_labels[i]);
-			}
-			
-			_labels = [];
-			
-			for(i = 0; i < _labelData.labels.length; i++)
-			{
-				var l:Label = new Label();
-				if(_horizontal)
-				{
-					l.setStyle('textAlign', this.getStyle('labelAlign'));
-					l.setStyle('fontSize', this.getStyle('labelFontSize'));
-					l.setStyle('color', this.getStyle('labelFontColor'));
-					l.setStyle('paddingLeft', this.getStyle('labelPaddingLeft'));
-					l.data = AxisLabel(_labelData.labels[i]).text;
-					_labels.push(l);
-					addChild(l);
-					l.validateNow();
-					
-				}
-				else
-				{
-					if(i % 2 == 0)
-					{
-						(axisPosition == 'left') ? l.setStyle('textAlign', 'left') : l.setStyle('textAlign', 'right');
-						l.setStyle('fontSize', this.getStyle('labelFontSize'));
-						l.setStyle('color', this.getStyle('labelFontColor'));
-						l.data = AxisLabel(_labelData.labels[i]).text;
-						_labels.push(l);
-						addChild(l);
-						l.validateNow();
-						
-					}
-				}
-			}
+                _labelData = _axis.getLabels(axisLength);
 
-			invalidateDisplayList(); 
+                for(var i:int = 0; i < _labels.length; i++)
+                {
+                    removeChild(_labels[i]);
+                }
+
+                _labels = [];
+
+                for(i = 0; i < _labelData.labels.length; i++)
+                {
+                    var l:Label = new Label();
+                    if(_horizontal)
+                    {
+                        l.setStyle('textAlign', this.getStyle('labelAlign'));
+                        l.setStyle('fontSize', this.getStyle('labelFontSize'));
+                        l.setStyle('color', this.getStyle('labelFontColor'));
+                        l.setStyle('paddingLeft', this.getStyle('labelPaddingLeft'));
+                        l.data = AxisLabel(_labelData.labels[i]).text;
+                        _labels.push(l);
+                        addChild(l);
+                        l.validateNow();
+
+                    }
+                    else
+                    {
+                        if(i % 2 == 0)
+                        {
+                            (axisPosition == 'left') ? l.setStyle('textAlign', 'left') : l.setStyle('textAlign', 'right');
+                            l.setStyle('fontSize', this.getStyle('labelFontSize'));
+                            l.setStyle('color', this.getStyle('labelFontColor'));
+                            l.data = AxisLabel(_labelData.labels[i]).text;
+                            _labels.push(l);
+                            addChild(l);
+                            l.validateNow();
+
+                        }
+                    }
+                }
+
+                invalidateDisplayList();
+            }
 		}
 		
 		public function get ticks():Array

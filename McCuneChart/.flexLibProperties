@@ -3,11 +3,32 @@
   <includeClasses>
     <classEntry path="annotations.EventAnnotation"/>
     <classEntry path="com.dougmccune.baseClasses.SliderBase"/>
+    <classEntry path="com.dougmccune.controls.AxisRendererExt"/>
+    <classEntry path="com.dougmccune.controls.BlankAxisRenderer"/>
+    <classEntry path="com.dougmccune.controls.ChartFocusTimeMarker"/>
+    <classEntry path="com.dougmccune.controls.ChartFocusTimeMarkerBottom"/>
+    <classEntry path="com.dougmccune.controls.ChartFocusTimeMarkerFxg"/>
+    <classEntry path="com.dougmccune.controls.ChartFocusTimeMarkerMiddle"/>
+    <classEntry path="com.dougmccune.controls.ChartFocusTimeMarkerTop"/>
+    <classEntry path="com.dougmccune.controls.ChildIndependentLayout"/>
+    <classEntry path="com.dougmccune.controls.ComponentTest2"/>
+    <classEntry path="com.dougmccune.controls.ComponentTest2Skin"/>
+    <classEntry path="com.dougmccune.controls.DateTimeAxisExtended"/>
     <classEntry path="com.dougmccune.controls.HSlider"/>
+    <classEntry path="com.dougmccune.controls.InclusiveDateTimeAxis"/>
     <classEntry path="com.dougmccune.controls.McCuneChart"/>
+    <classEntry path="com.dougmccune.controls.ScrubChart"/>
+    <classEntry path="com.dougmccune.controls.ScrubChartSkin"/>
+    <classEntry path="com.dougmccune.controls.StaticAxisRenderer"/>
+    <classEntry path="com.dougmccune.controls.StaticVerticalAxisLineChart"/>
+    <classEntry path="com.dougmccune.controls.SynchronizedAxisCache"/>
+    <classEntry path="com.dougmccune.controls.SynchronizedAxisRenderer"/>
+    <classEntry path="com.dougmccune.controls.TouchScrollingMcCuneChart"/>
     <classEntry path="com.dougmccune.controls.VSlider"/>
     <classEntry path="com.dougmccune.controls.sliderClasses.ExtendedSlider"/>
     <classEntry path="com.dougmccune.controls.sliderClasses.SliderThumb"/>
+    <classEntry path="com.dougmccune.events.FocusTimeEvent"/>
+    <classEntry path="com.dougmccune.skins.GreenProgressBarSkin"/>
     <classEntry path="com.dougmccune.skins.SliderHighlightSkin"/>
     <classEntry path="com.dougmccune.skins.SliderThumbHighlightSkin"/>
     <classEntry path="skins.ColumnSeriesCustomRenderer"/>
@@ -15,13 +36,9 @@
     <classEntry path="skins.InnerAxisRenderer"/>
     <classEntry path="skins.LineSeriesCustomRenderer"/>
     <classEntry path="vo.AnnotationVO"/>
-    <classEntry path="com.dougmccune.controls.InclusiveDateTimeAxis"/>
-    <classEntry path="com.dougmccune.controls.DateTimeAxisExtended"/>
-    <classEntry path="com.dougmccune.skins.GreenProgressBarSkin"/>
-    <classEntry path="com.dougmccune.events.FocusTimeEvent"/>
-    <classEntry path="com.dougmccune.controls.ChartFocusTimeMarker"/>
-    <classEntry path="com.dougmccune.controls.TouchScrollingMcCuneChart"/>
   </includeClasses>
-  <includeResources/>
+  <includeResources>
+    <resourceEntry destPath="defaults.css" sourcePath="defaults.css"/>
+  </includeResources>
   <namespaceManifests/>
 </flexLibProperties>

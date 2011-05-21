@@ -2,7 +2,7 @@
 <module type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="flex" name="AIR Module 1">
-      <configuration flex_sdk="4.5.0 AIR">
+      <configuration flex_sdk="4.5.0 AIR Desktop + Mobile">
         <option name="DO_BUILD" value="true" />
         <option name="OUTPUT_TYPE" value="Application" />
         <option name="USE_DEFAULT_SDK_CONFIG_FILE" value="true" />
@@ -77,10 +77,10 @@
           <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/rpc_rb.swc!/" />
           <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/spark_rb.swc!/" />
           <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/textLayout_rb.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/mobile/mobilecomponents.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/themes/Mobile/mobile.swc!/" />
         </CLASSES>
-        <JAVADOC />
+        <JAVADOC>
+          <root url="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/" />
+        </JAVADOC>
         <SOURCES>
           <root url="file://$PROJECT_FRAMEWORKS$/projects/air/ApplicationUpdater/src" />
           <root url="file://$PROJECT_FRAMEWORKS$/projects/air/Core/src" />

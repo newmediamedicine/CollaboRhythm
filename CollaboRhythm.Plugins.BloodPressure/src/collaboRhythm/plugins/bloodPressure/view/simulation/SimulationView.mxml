@@ -105,7 +105,7 @@
 		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 		import collaboRhythm.shared.view.BitmapCopyComponent;
-
+		
 		import mx.core.IVisualElementContainer;
 		import mx.core.UIComponent;
 		import mx.effects.Effect;
@@ -292,7 +292,17 @@
 
 		private function createBitmapCopy(sourceComponent:UIComponent):BitmapCopyComponent
 		{
+			var wasHidden:Boolean;
+			if (!sourceComponent.visible)
+			{
+				wasHidden = true;
+				sourceComponent.visible = true;
+				sourceComponent.validateNow();
+			}
 			var copyComponent:BitmapCopyComponent = BitmapCopyComponent.createFromComponent(sourceComponent);
+			if (wasHidden)
+				sourceComponent.visible = false;
+			
 			copyComponent.replaceSource();
 			return copyComponent;
 		}

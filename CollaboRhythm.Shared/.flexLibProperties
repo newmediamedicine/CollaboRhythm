@@ -33,6 +33,9 @@
     <classEntry path="collaboRhythm.shared.model.ReportRequestDetails"/>
     <classEntry path="collaboRhythm.shared.view.RecordVideoView"/>
   </includeClasses>
-  <includeResources/>
+  <includeResources>
+    <resourceEntry destPath="defaults.css" sourcePath="defaults.css"/>
+    <resourceEntry destPath="resources/settings.xsd" sourcePath="resources/settings.xsd"/>
+  </includeResources>
   <namespaceManifests/>
 </flexLibProperties>

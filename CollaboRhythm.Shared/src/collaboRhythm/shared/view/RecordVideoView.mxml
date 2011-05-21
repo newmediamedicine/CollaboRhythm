@@ -161,9 +161,9 @@
 		</s:fill>
 	</s:Rect>
 	<mx:UIComponent id="videoUIComponent" width="240" height="180" horizontalCenter="0" verticalCenter="0"/>
-	<view:IconButton id="recordVideoButton" styleName="IconButton" icon="@Embed(source='/resources/images/icons/buttonIcons/record.png')" horizontalCenter="350" verticalCenter="0" click="recordVideoButtonClickHandler()" visible="true"/>
-	<view:IconButton id="stopVideoButton" styleName="IconButton" icon="@Embed(source='/resources/images/icons/buttonIcons/stop.png')" horizontalCenter="350" verticalCenter="0" click="stopVideoButtonClickHandler()" visible="false"/>
-	<view:IconButton id="close" styleName="IconButton" icon="@Embed(source='/resources/images/icons/buttonIcons/closeRecordButtonIcon.png')" verticalCenter="0" right="10" click="closeClickHandler()"/>
+	<view:IconButton id="recordVideoButton" icon="@Embed(source='/resources/images/icons/buttonIcons/record.png')" horizontalCenter="350" verticalCenter="0" click="recordVideoButtonClickHandler()" visible="true"/>
+	<view:IconButton id="stopVideoButton" icon="@Embed(source='/resources/images/icons/buttonIcons/stop.png')" horizontalCenter="350" verticalCenter="0" click="stopVideoButtonClickHandler()" visible="false"/>
+	<view:IconButton id="close" icon="@Embed(source='/resources/images/icons/buttonIcons/closeRecordButtonIcon.png')" verticalCenter="0" right="10" click="closeClickHandler()"/>
 	<s:Line top="0" width="100%">
 		<s:stroke>
 			<s:SolidColorStroke color="0x000000"/>

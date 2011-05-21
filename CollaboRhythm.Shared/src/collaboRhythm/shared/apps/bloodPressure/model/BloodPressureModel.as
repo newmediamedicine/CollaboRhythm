@@ -92,8 +92,8 @@ package collaboRhythm.shared.apps.bloodPressure.model
 //			return array;
 //		}
 		
-//		private const intervalDuration:Number = 1000 * 60 * 60; // duration of one interval in milliseconds (1000 ms * 60 sec * 60 min = 1 hour)
 		private const intervalDuration:Number = 2 * 1000 * 60 * 60; // duration of one interval in milliseconds (1000 ms * 60 sec * 60 min = 1 hour)
+//		private const intervalDuration:Number = 10 * 1000 * 60 * 60; // duration of one interval in milliseconds (1000 ms * 60 sec * 60 min = 1 hour)
 		
 		private function extendAdherenceCurveCollection(adherenceCurveCollection:ArrayCollection, startDate:Date, intervals:Number, nowTime:Number):ArrayCollection
 		{
@@ -143,7 +143,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 				{
 					showAdherence = true;
 
-					var adherent:Boolean = dataItem.administered;
+					var adherent:Boolean = dataItem.adherence;
 					var intervalsToAdvance:int;
 					if (adherenceCurveCollection.length > 0)
 					{
@@ -188,7 +188,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 						break;
 
 					// TODO: ensure we have the exact time instead of nearest hour
-					adherenceCurveCollection[currentAdherenceIndex]["adherence"] = dataItem.administered;
+					adherenceCurveCollection[currentAdherenceIndex]["adherence"] = dataItem.adherence;
 					adherenceCurveCollection[currentAdherenceIndex]["adherencePosition"] = 0;
 
 					if (adherent)

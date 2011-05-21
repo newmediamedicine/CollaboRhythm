@@ -25,35 +25,34 @@
 								chartFooterVisible="false"
 								chartsOnlyViewMode="true"
 								showFocusTimeMarker="false"
-								initialDurationTime="{7 * McCuneChart.DAYS_TO_MILLISECONDS}"
+								initialDurationTime="{7 * ScrubChart.DAYS_TO_MILLISECONDS}"
 								scrollEnabled="false"
 			/>
 	<fx:Script>
 		<![CDATA[
-		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
+        import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 
-		import com.dougmccune.controls.McCuneChart;
+        import com.dougmccune.controls.ScrubChart;
 
-		public function get model():BloodPressureModel
-		{
-			return bloodPressureFullView.model;
-		}
+        public function get model():BloodPressureModel
+        {
+            return bloodPressureFullView.model;
+        }
 
-		public function set model(model:BloodPressureModel):void
-		{
-			bloodPressureFullView.model = model;
-		}
+        public function set model(model:BloodPressureModel):void
+        {
+            bloodPressureFullView.model = model;
+        }
 
-		override protected function initializationComplete():void
-		{
-			super.initializationComplete();
-		}
+        override protected function initializationComplete():void
+        {
+            super.initializationComplete();
+        }
 
-		public function refresh():void
-		{
-			bloodPressureFullView.refresh();
-		}
-
-		]]>
+        public function refresh():void
+        {
+            bloodPressureFullView.refresh();
+        }
+        ]]>
 	</fx:Script>
 </s:Group>

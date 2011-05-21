@@ -16,8 +16,22 @@
  */
 
 @namespace "collaboRhythm.shared.view.*";
+@namespace s "library://ns.adobe.com/flex/spark";
 
-IconButton, .IconButton
+IconButton
 {
     skin-class: ClassReference("collaboRhythm.shared.view.IconButtonSkin");
+}
+
+ComponentTest1
+{
+    skin-class: ClassReference("collaboRhythm.shared.view.ComponentTest1Skin");
+}
+
+s|Label.componentTest1Label
+{
+    fontWeight: bold;
+    fontSize: 24pt;
+    color: #0000FF;
+    backgroundColor: #AAFFAA;
 }

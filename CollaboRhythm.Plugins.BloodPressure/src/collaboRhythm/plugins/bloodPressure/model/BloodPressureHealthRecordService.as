@@ -55,7 +55,7 @@ package collaboRhythm.plugins.bloodPressure.model
 			user.bloodPressureModel.isDiastolicReportLoaded = false;
 
 			var params:URLVariables = new URLVariables();
-			params["order_by"] = "date_measured";
+			params["order_by"] = "date_measured_start";
 
 			if (user.recordId != null && accessKey != null && accessSecret != null)
 			{
@@ -68,7 +68,7 @@ package collaboRhythm.plugins.bloodPressure.model
 
 				// TODO: figure out what is wrong with order_by for this report; it is currently causing an error
 //				var adherenceParams:URLVariables = new URLVariables();
-//				adherenceParams["order_by"] = "date_time_reported";
+//				adherenceParams["order_by"] = "date_reported";
 				_pha.reports_minimal_X_GET(null, null, null, null, user.recordId, ADHERENCE_ITEMS_REPORT, accessKey, accessSecret, new BloodPressureReportUserData(user, ADHERENCE_ITEMS_REPORT))
 			}
 		}
@@ -136,11 +136,11 @@ package collaboRhythm.plugins.bloodPressure.model
 
 			for each (var itemXml:XML in responseXml.Report.Item.VitalSign)
 			{
-				var dateMeasuredString:String = itemXml.dateMeasured.toString();
-				var dateMeasured:Date = DateUtil.parseW3CDTF(dateMeasuredString);
+				var dateMeasuredStartString:String = itemXml.dateMeasuredStart.toString();
+				var dateMeasuredStart:Date = DateUtil.parseW3CDTF(dateMeasuredStartString);
 
 				// TODO: should we do anything with unit, site, or position?
-				if (dateMeasured.valueOf() > nowTime)
+				if (dateMeasuredStart.valueOf() > nowTime)
 				{
 					break;
 				}
@@ -149,7 +149,7 @@ package collaboRhythm.plugins.bloodPressure.model
 					var item:BloodPressureDataItem;
 					if (searchForExistingData)
 					{
-						if (data.length > i && datesAreClose(data[i].date, dateMeasured))
+						if (data.length > i && datesAreClose(data[i].date, dateMeasuredStart))
 						{
 							item = data[i];
 							i++;
@@ -158,7 +158,7 @@ package collaboRhythm.plugins.bloodPressure.model
 						{
 							// TODO: implement searching; implement creating a new instance if not found
 							throw new Error("Date does not match for index " + i.toString() +
-													". Expected: " + dateMeasured.toString() +
+													". Expected: " + dateMeasuredStart.toString() +
 													" Found: " + ((data.length > i) ? data[i].date.toString() : "(data.length = " + data.length + ")"));
 						}
 					}
@@ -168,9 +168,9 @@ package collaboRhythm.plugins.bloodPressure.model
 						data.addItem(item);
 					}
 
-					item.date = dateMeasured;
+					item.date = dateMeasuredStart;
 
-					item[valueFieldName] = itemXml.value.toString();
+					item[valueFieldName] = itemXml.result.value.toString();
 				}
 			}
 			return data;
@@ -185,10 +185,10 @@ package collaboRhythm.plugins.bloodPressure.model
 
 			for each (var itemXml:XML in responseXml.Report.Item.AdherenceItem)
 			{
-				var dateTimeReportedString:String = itemXml.dateTimeReported.toString();
-				var dateTimeReported:Date = DateUtil.parseW3CDTF(dateTimeReportedString);
+				var dateReportedString:String = itemXml.dateReported.toString();
+				var dateReported:Date = DateUtil.parseW3CDTF(dateReportedString);
 
-				if (dateTimeReported.valueOf() > nowTime)
+				if (dateReported.valueOf() > nowTime)
 				{
 					// TODO: get order_by working and then we can optimize by breaking here instead of continuing to parse all data
 //					break;
@@ -202,10 +202,10 @@ package collaboRhythm.plugins.bloodPressure.model
 						item.name = HealthRecordHelperMethods.codedValueFromXml(itemXml.name[0]);
 					if (itemXml.reportedBy.length() == 1)
 						item.reportedBy = itemXml.reportedBy.toString();
-					if (itemXml.dateTimeReported.length() == 1)
-						item.dateTimeReported = dateTimeReported;
-					if (itemXml.administered.length() == 1)
-						item.administered = itemXml.administered.toString() == true.toString();
+					if (itemXml.dateReported.length() == 1)
+						item.dateReported = dateReported;
+					if (itemXml.adherence.length() == 1)
+						item.adherence = itemXml.adherence.toString() == true.toString();
 					if (itemXml.nonadherenceReason.length() == 1)
 						item.nonAdherenceReason = itemXml.nonadherenceReason.toString() == true.toString();
 
