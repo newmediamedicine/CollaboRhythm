@@ -103,7 +103,7 @@ package collaboRhythm.plugins.cataractMap.controller
 
 		protected function loadCataractMapData():void
 		{
-			var cataractMapHealthRecordService:CataractMapHealthRecordService = new CataractMapHealthRecordService(_healthRecordService.consumerKey, _healthRecordService.consumerSecret, _healthRecordService.baseURL);
+			var cataractMapHealthRecordService:CataractMapHealthRecordService = new CataractMapHealthRecordService(_healthRecordService.oauthConsumerKey, _healthRecordService.oauthConsumerSecret, _healthRecordService.indivoServerBaseURL);
 			cataractMapHealthRecordService.copyLoginResults(_healthRecordService);
 			cataractMapHealthRecordService.loadCataractMap(_user);
 		}

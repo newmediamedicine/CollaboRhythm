@@ -14,14 +14,14 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.core.controller
+package collaboRhythm.workstation.controller
 {
-	import collaboRhythm.core.view.WorkstationCommandBarView;
+	import collaboRhythm.workstation.view.WorkstationCommandBarView;
 	import collaboRhythm.shared.controller.CollaborationEvent;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.model.User;
 	import collaboRhythm.shared.model.UsersModel;
-	import collaboRhythm.shared.model.WorkstationCommandBarModel;
+	import collaboRhythm.workstation.model.WorkstationCommandBarModel;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	

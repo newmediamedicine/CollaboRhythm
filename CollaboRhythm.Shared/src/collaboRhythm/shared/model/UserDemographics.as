@@ -18,7 +18,7 @@ package collaboRhythm.shared.model
 {
 	import castle.flexbridge.common.NotSupportedError;
 
-	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceSimpleBase;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	
@@ -62,12 +62,12 @@ package collaboRhythm.shared.model
 		
 			if (rawData.dateOfBirth.length() == 1)
 			{
-				this.dateOfBirth = HealthRecordServiceBase.parseDate(rawData.dateOfBirth.toString());
+				this.dateOfBirth = HealthRecordServiceSimpleBase.parseDate(rawData.dateOfBirth.toString());
 			}
 			
 			if (rawData.dateOfDeath.length() == 1)
 			{
-				this.dateOfDeath = HealthRecordServiceBase.parseDate(rawData.dateOfDeath.toString());
+				this.dateOfDeath = HealthRecordServiceSimpleBase.parseDate(rawData.dateOfDeath.toString());
 			}
 			
 			if (rawData.gender.length() == 1)

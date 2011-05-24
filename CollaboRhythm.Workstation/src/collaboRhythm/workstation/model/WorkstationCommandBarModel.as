@@ -14,8 +14,9 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.shared.model
+package collaboRhythm.workstation.model
 {
+import collaboRhythm.shared.model.*;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 
 	[Bindable]

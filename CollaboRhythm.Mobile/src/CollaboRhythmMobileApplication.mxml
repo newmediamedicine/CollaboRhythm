@@ -28,10 +28,10 @@
 	<fx:Script>
 		<![CDATA[
         import collaboRhythm.mobile.controller.MobileApplicationController;
-
+        
         import mx.events.FlexEvent;
-
-		import net.flashdan.containers.busyindicator.BusyIndicator;
+        
+        import net.flashdan.containers.busyindicator.BusyIndicator;
 
 		private var _applicationController:MobileApplicationController;
 
@@ -49,6 +49,8 @@
             _applicationController = new MobileApplicationController(this);
             _applicationController.main();
         }
+			
+
 
 		public function set busy(busy:Boolean):void
 		{

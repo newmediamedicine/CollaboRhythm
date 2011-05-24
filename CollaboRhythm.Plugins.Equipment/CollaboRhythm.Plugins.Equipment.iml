@@ -122,6 +122,7 @@
           <root url="jar://$PROJECT_FRAMEWORKS$/libs/textLayout.swc!/" />
           <root url="jar://$PROJECT_FRAMEWORKS$/libs/utilities.swc!/" />
           <root url="jar://$PROJECT_FRAMEWORKS$/libs/mx/mx.swc!/" />
+          <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/airglobal.swc!/" />
           <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/aircore.swc!/" />
           <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/airframework.swc!/" />
           <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/airspark.swc!/" />
@@ -143,12 +144,8 @@
           <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/rpc_rb.swc!/" />
           <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/spark_rb.swc!/" />
           <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/textLayout_rb.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/mobile/mobilecomponents.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/themes/Mobile/mobile.swc!/" />
         </CLASSES>
-        <JAVADOC>
-          <root url="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/" />
-        </JAVADOC>
+        <JAVADOC />
         <SOURCES>
           <root url="file://$PROJECT_FRAMEWORKS$/projects/air/ApplicationUpdater/src" />
           <root url="file://$PROJECT_FRAMEWORKS$/projects/air/Core/src" />
@@ -181,6 +178,7 @@
     <orderEntry type="module" module-name="CollaboRhythm.Plugins.Schedule.Shared" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" />
+    <orderEntry type="module" module-name="indivo_client_flash" />
   </component>
 </module>
 

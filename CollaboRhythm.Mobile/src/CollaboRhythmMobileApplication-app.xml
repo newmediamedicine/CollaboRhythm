@@ -206,7 +206,21 @@
 		<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 		<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 		<uses-feature android:name="android.hardware.microphone" android:required="false"/>
-
+		<uses-feature android:required="true" android:name="android.hardware.touchscreen.multitouch"/>
+		<application android:enabled="true">
+			<activity android:excludeFromRecents="false">
+				<intent-filter>
+					<action android:name="android.intent.action.MAIN"/>
+					<category android:name="android.intent.category.LAUNCHER"/>
+				</intent-filter>
+				<intent-filter> 
+					<action android:name="android.intent.action.VIEW"/>
+					<category android:name="android.intent.category.BROWSABLE"/>
+					<category android:name="android.intent.category.DEFAULT"/>
+					<data android:scheme="collaborhythm"/>
+				</intent-filter> 
+			</activity>
+		</application>
 	</manifest>
 
 ]]></manifestAdditions>

@@ -21,8 +21,9 @@
 	<password>mloomis-password</password>
 	<rtmpBaseURI>rtmp://127.0.0.1</rtmpBaseURI>
 	<indivoServerBaseURL>http://records.media.mit.edu:8000</indivoServerBaseURL>
-	<chromeConsumerKey>collaboRhythmChrome</chromeConsumerKey>
-	<chromeConsumerSecret>collaboRhythmChrome_secret93452</chromeConsumerSecret>
+	<syslogServerIpAddress>127.0.0.1</syslogServerIpAddress>
+	<oauthChromeConsumerKey>collaboRhythmChrome</oauthChromeConsumerKey>
+	<oauthChromeConsumerSecret>collaboRhythmChrome_secret93452</oauthChromeConsumerSecret>
 	<demoDatePresets>
 		<demoDatePreset>2010-01-13T00:00:00-5:00</demoDatePreset>
 		<demoDatePreset>2010-01-14T00:00:00-5:00</demoDatePreset>

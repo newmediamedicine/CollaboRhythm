@@ -19,7 +19,8 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" 
 		 xmlns:view="collaboRhythm.workstation.view.*"
-		 height="100" xmlns:view1="collaboRhythm.shared.view.*">
+		 height="100" xmlns:view1="collaboRhythm.shared.view.*"
+        visible="false">
 	<fx:Declarations>
 		<s:Animate id="showEffect" target="{this}">
 			<s:motionPaths>
@@ -69,89 +70,78 @@
 		}
 	</fx:Style>
 	<fx:Script>
-		<![CDATA[			
-			import collaboRhythm.core.controller.WorkstationCommandBarController;
-			import collaboRhythm.shared.model.User;
-			import collaboRhythm.shared.model.WorkstationCommandBarModel;
-			import collaboRhythm.shared.model.services.DemoCurrentDateSource;
-			
-			import mx.events.FlexEvent;
-			import mx.events.PropertyChangeEvent;
-			
-			[Bindable]
-			private var _workstationCommandBarController:WorkstationCommandBarController;
+		<![CDATA[
+        import collaboRhythm.workstation.controller.WorkstationCommandBarController;
+        import collaboRhythm.shared.model.User;
+        import collaboRhythm.workstation.model.WorkstationCommandBarModel;
+        import collaboRhythm.shared.model.services.DemoCurrentDateSource;
 
-			[Bindable]
-			private var _model:WorkstationCommandBarModel;
-			
-			private static const SEPARATOR_COLOR:String = "0xA7A9AC";
-			
-			public function initializeController(workstationCommandBarController:WorkstationCommandBarController, model:WorkstationCommandBarModel):void 
-			{
-				_workstationCommandBarController = workstationCommandBarController;
-				_model = model;
-				
-				var demoCurrentDataSource:DemoCurrentDateSource = _model.currentDateSource as DemoCurrentDateSource
-				if (demoCurrentDataSource != null)
-					demoCurrentDataSource.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, currentDateSource_propertyChangeHandler);
-			}
+        import mx.events.FlexEvent;
+        import mx.events.PropertyChangeEvent;
 
-			private function closeRecordButton_clickHandler(event:MouseEvent):void
-			{
-				_workstationCommandBarController.closeRecord();
-			}
-			
-			private function recordVideoButtonHandler(event:MouseEvent):void
-			{
-				_workstationCommandBarController.recordVideo();
-			}
-			
-			private function collaborateButtonHandler(event:MouseEvent):void
-			{
-				_workstationCommandBarController.collaborateWithUser();
-			}
-			
-			private function determineCollaborateButtonEnabled(collaborationLobbyConnectionStatus:String):Boolean
-			{
-				return _model.allowCollaboration;
-			}
+        [Bindable]
+        private var _workstationCommandBarController:WorkstationCommandBarController;
 
-			protected function currentDateSource_propertyChangeHandler(event:PropertyChangeEvent):void
-			{
-				if (event.property == "currentDate")
-				{
-					var oldDemoMode:Boolean = event.oldValue != null && !isNaN(event.oldValue as Number) && event.oldValue != 0; 
-					var demoMode:Boolean = event.newValue != null && !isNaN(event.newValue as Number) && event.newValue != 0; 
-					
-					if (!oldDemoMode && demoMode)
-					{
-						currentDateShowEffect.stop();
-						currentDateHideEffect.stop();
-						dateChangeEffect.stop();
-						
-						currentDateShowEffect.play();
-						dateChangeEffect.play();
-					}
-					else if (oldDemoMode && !demoMode)
-					{
-						currentDateShowEffect.stop();
-						currentDateHideEffect.stop();
-						dateChangeEffect.end();
-						
-						currentDateHideEffect.play();
-					}
-					else
-					{
-						currentDateShowEffect.end();
-						currentDateHideEffect.stop();
-						dateChangeEffect.stop();
+        [Bindable]
+        private var _model:WorkstationCommandBarModel;
 
-						dateChangeEffect.play();
-					}
-				}
-			}
+        private static const SEPARATOR_COLOR:String = "0xA7A9AC";
 
-		]]>
+        public function initializeController(workstationCommandBarController:WorkstationCommandBarController, model:WorkstationCommandBarModel):void {
+            _workstationCommandBarController = workstationCommandBarController;
+            _model = model;
+
+            var demoCurrentDataSource:DemoCurrentDateSource = _model.currentDateSource as DemoCurrentDateSource
+            if (demoCurrentDataSource != null)
+                demoCurrentDataSource.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, currentDateSource_propertyChangeHandler);
+        }
+
+        private function closeRecordButton_clickHandler(event:MouseEvent):void {
+            _workstationCommandBarController.closeRecord();
+        }
+
+        private function recordVideoButtonHandler(event:MouseEvent):void {
+            _workstationCommandBarController.recordVideo();
+        }
+
+        private function collaborateButtonHandler(event:MouseEvent):void {
+            _workstationCommandBarController.collaborateWithUser();
+        }
+
+        private function determineCollaborateButtonEnabled(collaborationLobbyConnectionStatus:String):Boolean {
+            return _model.allowCollaboration;
+        }
+
+        protected function currentDateSource_propertyChangeHandler(event:PropertyChangeEvent):void {
+            if (event.property == "currentDate") {
+                var oldDemoMode:Boolean = event.oldValue != null && !isNaN(event.oldValue as Number) && event.oldValue != 0;
+                var demoMode:Boolean = event.newValue != null && !isNaN(event.newValue as Number) && event.newValue != 0;
+
+                if (!oldDemoMode && demoMode) {
+                    currentDateShowEffect.stop();
+                    currentDateHideEffect.stop();
+                    dateChangeEffect.stop();
+
+                    currentDateShowEffect.play();
+                    dateChangeEffect.play();
+                }
+                else if (oldDemoMode && !demoMode) {
+                    currentDateShowEffect.stop();
+                    currentDateHideEffect.stop();
+                    dateChangeEffect.end();
+
+                    currentDateHideEffect.play();
+                }
+                else {
+                    currentDateShowEffect.end();
+                    currentDateHideEffect.stop();
+                    dateChangeEffect.stop();
+
+                    dateChangeEffect.play();
+                }
+            }
+        }
+        ]]>
 	</fx:Script>	
 	<s:Rect width="100%" height="100%">
 		<s:fill>
@@ -219,21 +209,21 @@
 			id="recordVideoButton"
 			styleName="IconButton"
 			click="recordVideoButtonHandler(event)"
-			icon="@Embed(source='/resources/images/icons/buttonIcons/video.png')"
+			icon="@Embed(source='/assets/images/icons/buttonIcons/video.png')"
 			verticalCenter="0"
 			/>
 		<view1:IconButton
 			id="collaborateButton"
 			styleName="IconButton"
 			click="collaborateButtonHandler(event)"
-			icon="@Embed(source='/resources/images/icons/buttonIcons/collaborateButtonIcon.png')"
+			icon="@Embed(source='/assets/images/icons/buttonIcons/collaborateButtonIcon.png')"
 			enabled="{determineCollaborateButtonEnabled(_model.subjectUser.collaborationLobbyConnectionStatus)}"
 		/>
 		<view1:IconButton
 			id="closeRecordButton"
 			styleName="IconButton"
 			click="closeRecordButton_clickHandler(event)"
-			icon="@Embed(source='/resources/images/icons/buttonIcons/closeRecordButtonIcon.png')"
+			icon="@Embed(source='/assets/images/icons/buttonIcons/closeRecordButtonIcon.png')"
 			enabled="{_model.allowCloseRecord}"
 		/>
 	</s:HGroup>

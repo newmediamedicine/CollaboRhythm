@@ -23,9 +23,10 @@ package collaboRhythm.shared.model.settings
 	{
 		private var _username:String;
 		private var _password:String;
-		private var _chromeConsumerKey:String;
-		private var _chromeConsumerSecret:String;
+		private var _oauthChromeConsumerKey:String;
+		private var _oauthChromeConsumerSecret:String;
 		private var _indivoServerBaseURL:String;
+        private var _syslogServerIpAddress:String;
 		private var _mode:String;
 		private var _rtmpBaseURI:String;
 		private var _useSingleScreen:Boolean;
@@ -59,24 +60,34 @@ package collaboRhythm.shared.model.settings
 			_indivoServerBaseURL = value;
 		}
 
-		public function get chromeConsumerKey():String
+        public function get syslogServerIpAddress():String
+        {
+            return _syslogServerIpAddress;
+        }
+
+        public function set syslogServerIpAddress(value:String):void
+        {
+            _syslogServerIpAddress = value;
+        }
+
+		public function get oauthChromeConsumerKey():String
 		{
-			return _chromeConsumerKey;
+			return _oauthChromeConsumerKey;
 		}
 
-		public function set chromeConsumerKey(value:String):void
+		public function set oauthChromeConsumerKey(value:String):void
 		{
-			_chromeConsumerKey = value;
+			_oauthChromeConsumerKey = value;
 		}
 
-		public function get chromeConsumerSecret():String
+		public function get oauthChromeConsumerSecret():String
 		{
-			return _chromeConsumerSecret;
+			return _oauthChromeConsumerSecret;
 		}
 
-		public function set chromeConsumerSecret(value:String):void
+		public function set oauthChromeConsumerSecret(value:String):void
 		{
-			_chromeConsumerSecret = value;
+			_oauthChromeConsumerSecret = value;
 		}
 
 		public function get password():String
@@ -186,5 +197,5 @@ package collaboRhythm.shared.model.settings
 		{
 			_appGroups = value;
 		}
-	}
+    }
 }

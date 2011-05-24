@@ -37,7 +37,26 @@ package collaboRhythm.mobile.controller
 		private var _homeView:View;
 		private var _mobileApplication:CollaboRhythmMobileApplication;
 		private var _widgetContainerController:WidgetContainerController;
-		
+
+        public function MobileApplicationController(mobileApplication:CollaboRhythmMobileApplication)
+		{
+			_mobileApplication = mobileApplication;
+		}
+
+        override public function main():void
+		{
+            super.main();
+
+			_collaborationMediator = new MobileCollaborationMediator(this);
+
+			_widgetContainerController = new WidgetContainerController(_mobileApplication.navigator, _collaborationMediator);
+			_mobileApplication.navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
+			_mobileApplication.navigator.addEventListener(Event.ADDED, viewNavigator_addedHandler);
+			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
+
+			initializeActiveView();
+		}
+
 		public override function get collaborationRoomView():CollaborationRoomView
 		{
 			return null;
@@ -68,11 +87,6 @@ package collaboRhythm.mobile.controller
 			return null;
 		}
 		
-		public function MobileApplicationController(mobileApplication:CollaboRhythmMobileApplication)
-		{
-			_mobileApplication = mobileApplication;
-		}
-		
 		private function viewNavigator_transitionCompleteHandler(event:Event):void
 		{
 //			trace("viewNavigator_transitionCompleteHandler");
@@ -101,12 +115,12 @@ package collaboRhythm.mobile.controller
 			}
 		}
 
-	private function initializeView(view:WidgetContainerView):void
-	{
-		_widgetContainerController.initializeView(view);
-		view.demoDatePresets = _settings.demoDatePresets;
-		view.addEventListener(DemoEvent.CHANGE_DEMO_DATE, view_changeDemoDateHandler);
-	}
+        private function initializeView(view:WidgetContainerView):void
+        {
+            _widgetContainerController.initializeView(view);
+            view.demoDatePresets = _settings.demoDatePresets;
+            view.addEventListener(DemoEvent.CHANGE_DEMO_DATE, view_changeDemoDateHandler);
+        }
 
 		private function view_changeDemoDateHandler(event:DemoEvent):void
 		{
@@ -117,45 +131,17 @@ package collaboRhythm.mobile.controller
 		{
 			return _collaborationMediator as MobileCollaborationMediator;
 		}
-		
-		public function main():void  
-		{
-			initLogging();
-			logger.info("Logging initialized");
 
-			initializeSettings();
-			_settings.isWorkstationMode = false;
-			logger.info("Settings initialized");
-			logger.info("  Application settings file: " + _settingsFileStore.applicationSettingsFile.nativePath);
-			logger.info("  User settings file: " + _settingsFileStore.userSettingsFile.nativePath);
-			logger.info("  Mode: " + _settings.mode);
-			logger.info("  Username: " + _settings.username);
-
-			initializeComponents();
-			logger.info("Components initialized. Asynchronous plugin loading initiated.");
-			logger.info("  User plugins directory: " + _pluginLoader.userPluginsDirectoryPath);
-			logger.info("  Number of loaded plugins: " + _pluginLoader.numPluginsLoaded);
-
-			_collaborationMediator = new MobileCollaborationMediator(this);
-			
-			_widgetContainerController = new WidgetContainerController(_mobileApplication.navigator, _collaborationMediator);
-			_mobileApplication.navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
-			_mobileApplication.navigator.addEventListener(Event.ADDED, viewNavigator_addedHandler);
-			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
-
-			initializeActiveView();
-		}
-
-	public function keyDownHandler(event:KeyboardEvent):void
+	    public function keyDownHandler(event:KeyboardEvent):void
 		{
 			switch (event.keyCode)
 			{
 				case Keyboard.BACK:
 					event.preventDefault();
 					NativeApplication.nativeApplication.exit();
-					trace("Back key is pressed."); 
-					break; 
-				case Keyboard.MENU: 
+					trace("Back key is pressed.");
+					break;
+				case Keyboard.MENU:
 					if (_widgetContainerController != null)
 					{
 						var view:WidgetContainerView = _mobileApplication.navigator.activeView as WidgetContainerView;
@@ -164,16 +150,16 @@ package collaboRhythm.mobile.controller
 							_widgetContainerController.toggleMenu(view);
 						}
 					}
-					
-					break; 
-				case Keyboard.SEARCH: 
-					trace("Search key is pressed."); 
+
+					break;
+				case Keyboard.SEARCH:
+					trace("Search key is pressed.");
 					break;
 				case Keyboard.HOME:
 					event.preventDefault();
 					break;
-			} 
-		} 
-		
+			}
+		}
+
 	}
 }

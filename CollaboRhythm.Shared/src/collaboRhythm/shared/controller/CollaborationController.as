@@ -16,14 +16,17 @@
  */
 package collaboRhythm.shared.controller
 {
-	import collaboRhythm.shared.model.CollaborationModel;
+
+    import collaboRhythm.shared.model.Account;
+    import collaboRhythm.shared.model.CollaborationModel;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.model.User;
 	import collaboRhythm.shared.model.UsersModel;
 	import collaboRhythm.shared.view.CollaborationRoomView;
 	import collaboRhythm.shared.view.RecordVideoView;
-	
-	import flash.events.EventDispatcher;
+    import collaboRhythm.shared.view.CollaborationView;
+
+    import flash.events.EventDispatcher;
 	import flash.media.Video;
 	import flash.utils.getQualifiedClassName;
 	
@@ -44,23 +47,23 @@ package collaboRhythm.shared.controller
 	 */
 	public class CollaborationController extends EventDispatcher
 	{
-		private var _usersModel:UsersModel;
+		private var _activeAccount:Account;
 		private var _collaborationModel:CollaborationModel;
 		private var _collaborationRoomView:CollaborationRoomView;
 		private var _recordVideoView:RecordVideoView;
 		private var _settings:Settings;
 		private var logger:ILogger;
 		
-		public function CollaborationController(collaborationRoomView:CollaborationRoomView, recordVideoView:RecordVideoView, usersModel:UsersModel, settings:Settings)
+		public function CollaborationController(videoView:CollaborationView, activeAccount:Account, settings:Settings)
 		{		
 			logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			logger.info("Creating CollaborationController");
 			_settings = settings;
-			_usersModel = usersModel;
+			_activeAccount = activeAccount;
 			logger.info("Creating CollaborationModel");
-			_collaborationModel = new CollaborationModel(settings, usersModel);
-			_collaborationRoomView = collaborationRoomView;
-			_recordVideoView = recordVideoView;
+			_collaborationModel = new CollaborationModel(settings, _activeAccount);
+			_collaborationRoomView = videoView.collaborationRoomView;
+			_recordVideoView = videoView.recordVideoView;
 			if (_settings.isWorkstationMode)
 			{
 				_collaborationRoomView.y = _collaborationRoomView.y + (-_collaborationRoomView.height);
@@ -72,9 +75,9 @@ package collaboRhythm.shared.controller
 			}
 		}
 
-		public function get usersModel():UsersModel
+		public function get activeAccount():Account
 		{
-			return _usersModel;
+			return _activeAccount;
 		}
 		
 		public function get collaborationModel():CollaborationModel
@@ -99,9 +102,9 @@ package collaboRhythm.shared.controller
 		
 		public function collaborateWithUserHandler(subjectUser:User):void
 		{
-			_collaborationModel.creatingUser = _usersModel.localUser;
-			_collaborationModel.subjectUser = subjectUser;
-			_collaborationModel.collaborationLobbyNetConnectionService.getCollaborationRoomID();
+//			_collaborationModel.creatingUser = _usersModel.localUser;
+//			_collaborationModel.subjectUser = subjectUser;
+//			_collaborationModel.collaborationLobbyNetConnectionService.getCollaborationRoomID();
 		}
 		
 		public function recordVideoHandler(subjectUser:User):void
@@ -145,5 +148,10 @@ package collaboRhythm.shared.controller
 		{		
 			_collaborationRoomView.show();
 		}
-	}
+
+        public function set collaborationModel(value:CollaborationModel):void
+        {
+            _collaborationModel = value;
+        }
+    }
 }

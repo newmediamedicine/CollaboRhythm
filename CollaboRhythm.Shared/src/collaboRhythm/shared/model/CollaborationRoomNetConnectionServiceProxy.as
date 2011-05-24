@@ -53,38 +53,39 @@ package collaboRhythm.shared.model
 		
 		public function getLocalUserCollaborationColor():String
 		{
-			return _collaborationModel.localUser.collaborationColor;
+            return "#FFFFFF";
+//			return _collaborationModel.localUser.collaborationColor;
 		}
 
 		public function receiveCollaborationSynchronization(userName:String, synchronizeFunction:String, sychronizeDataByteArray:ByteArray, synchronizeDataName:String):void
 		{
-			// TODO: use recordId instead of userName
-			var user:User = _collaborationModel.usersModel.retrieveUserByAccountId(userName);
-			var collaborationColor:String = user.collaborationColor;
-			_collaborationModel.controllingUser = user;
-			if (_registeredAliases.indexOf(synchronizeDataName) == -1)
-			{
-				registerClassAlias(synchronizeDataName, getDefinitionByName(synchronizeDataName) as Class);
-				_registeredAliases.push(synchronizeDataName);				
-			}
-			var sychronizeData:* = sychronizeDataByteArray.readObject();
-			_synchronizeHandler[synchronizeFunction](sychronizeData, userName, collaborationColor);
+//			// TODO: use recordId instead of userName
+//			var user:User = _collaborationModel.usersModel.retrieveUserByAccountId(userName);
+//			var collaborationColor:String = user.collaborationColor;
+//			_collaborationModel.controllingUser = user;
+//			if (_registeredAliases.indexOf(synchronizeDataName) == -1)
+//			{
+//				registerClassAlias(synchronizeDataName, getDefinitionByName(synchronizeDataName) as Class);
+//				_registeredAliases.push(synchronizeDataName);
+//			}
+//			var sychronizeData:* = sychronizeDataByteArray.readObject();
+//			_synchronizeHandler[synchronizeFunction](sychronizeData, userName, collaborationColor);
 		}
 		
 		public function sendCollaborationSynchronization(synchronizeFunction:String, synchronizeData:*):void
 		{
-			_collaborationModel.controllingUser = _collaborationModel.localUser;
-			// object.contructor property is possibly an alternative to get the instance of the class
-			var synchronizeDataName:String = getQualifiedClassName(synchronizeData);
-			if (_registeredAliases.indexOf(synchronizeDataName) == -1)
-			{
-				registerClassAlias(synchronizeDataName, getDefinitionByName(synchronizeDataName) as Class);
-				_registeredAliases.push(synchronizeDataName);				
-			}
-			var sychronizeDataByteArray:ByteArray = new ByteArray();
-			sychronizeDataByteArray.writeObject(synchronizeData);
-			sychronizeDataByteArray.position = 0;
-			_netConnection.call("sendCollaborationSynchronization", null, _collaborationRoomNetConnectionService.localUserName, synchronizeFunction, sychronizeDataByteArray, synchronizeDataName);
+//			_collaborationModel.controllingUser = _collaborationModel.localUser;
+//			// object.contructor property is possibly an alternative to get the instance of the class
+//			var synchronizeDataName:String = getQualifiedClassName(synchronizeData);
+//			if (_registeredAliases.indexOf(synchronizeDataName) == -1)
+//			{
+//				registerClassAlias(synchronizeDataName, getDefinitionByName(synchronizeDataName) as Class);
+//				_registeredAliases.push(synchronizeDataName);
+//			}
+//			var sychronizeDataByteArray:ByteArray = new ByteArray();
+//			sychronizeDataByteArray.writeObject(synchronizeData);
+//			sychronizeDataByteArray.position = 0;
+//			_netConnection.call("sendCollaborationSynchronization", null, _collaborationRoomNetConnectionService.localUserName, synchronizeFunction, sychronizeDataByteArray, synchronizeDataName);
 		}
 			
 	}

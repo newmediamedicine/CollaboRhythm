@@ -16,11 +16,13 @@
  */
 package collaboRhythm.shared.controller.apps
 {
-	import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
+import collaboRhythm.shared.model.Account;
+import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.healthRecord.CommonHealthRecordService;
 	import collaboRhythm.shared.model.User;
+    import collaboRhythm.shared.model.settings.Settings;
 
-	import collaboRhythm.shared.view.BitmapCopyComponent;
+    import collaboRhythm.shared.view.BitmapCopyComponent;
 
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
@@ -79,6 +81,8 @@ package collaboRhythm.shared.controller.apps
 		
 		private var _name:String;
 		private var _isWorkstationMode:Boolean;
+        protected var _account:Account;
+        protected var _settings:Settings;
 		
 		public function WorkstationAppControllerBase(constructorParams:AppControllerConstructorParams)
 		{
@@ -87,6 +91,8 @@ package collaboRhythm.shared.controller.apps
 			_widgetParentContainer = constructorParams.widgetParentContainer;
 			_fullParentContainer = constructorParams.fullParentContainer;
 			_isWorkstationMode = constructorParams.isWorkstationMode;
+            _account = constructorParams.account;
+            _settings = constructorParams.settings;
 
 			createAndPrepareWidgetView();
 			
@@ -458,7 +464,7 @@ package collaboRhythm.shared.controller.apps
 			return _widgetParentContainer;
 		}
 
-		private function set parentContainer(value:IVisualElementContainer):void
+		public function set parentContainer(value:IVisualElementContainer):void
 		{
 			_widgetParentContainer = value;
 		}
@@ -844,5 +850,13 @@ package collaboRhythm.shared.controller.apps
 		{
 			return getQualifiedClassName(this);
 		}
-	}
+
+        public function get account():Account {
+            return _account;
+        }
+
+        public function set account(value:Account):void {
+            _account = value;
+        }
+    }
 }

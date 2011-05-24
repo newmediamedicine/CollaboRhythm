@@ -25,7 +25,17 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 	
+	import com.coltware.airxlib.log.TCPSyslogTarget;
+	
+	import flash.desktop.NativeApplication;
+	import flash.events.Event;
+	import flash.events.InvokeEvent;
+	import flash.net.URLVariables;
+	
 	import mx.core.UIComponent;
+	import mx.logging.ILogger;
+	import mx.logging.Log;
+	import mx.logging.LogEventLevel;
 
 	public class ScheduleAppController extends WorkstationAppControllerBase
 	{
@@ -36,6 +46,8 @@ package collaboRhythm.plugins.schedule.controller
 		private var _scheduleFullViewController:ScheduleFullViewController;
 		private var _widgetView:ScheduleWidgetView;
 		private var _fullView:ScheduleFullView;
+		
+		private static var log:ILogger = Log.getLogger("ScheduleAppController");
 		
 		public override function get widgetView():UIComponent
 		{
@@ -106,9 +118,11 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			super.initialize();
 			
-			if (scheduleModel.initialized == false)
+			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, onInvoke);
+
+			if (!scheduleModel.initialized)
 			{
-				_scheduleHealthRecordService = new ScheduleHealthRecordService(_healthRecordService.consumerKey, _healthRecordService.consumerSecret, _healthRecordService.baseURL);
+				_scheduleHealthRecordService = new ScheduleHealthRecordService(_healthRecordService.oauthConsumerKey, _healthRecordService.oauthConsumerSecret, _healthRecordService.indivoServerBaseURL);
 				_scheduleHealthRecordService.copyLoginResults(_healthRecordService);
 				_scheduleHealthRecordService.loadScheduleGroups(_user);
 			}
@@ -119,6 +133,16 @@ package collaboRhythm.plugins.schedule.controller
 				(_widgetView as ScheduleWidgetView).init(_scheduleWidgetViewController, scheduleModel);
 			}
 			prepareFullView();
+		}
+		
+		private function onInvoke(event:InvokeEvent):void {
+			if (event.arguments.length != 0)
+			{
+				var urlString:String = event.arguments[0];
+				var urlVariablesString:String = urlString.split("//")[1];
+				var urlVariables:URLVariables = new URLVariables(urlVariablesString);
+				log.debug(urlVariables.systolic);
+			}
 		}
 		
 //		protected override function prepareWidgetView():void

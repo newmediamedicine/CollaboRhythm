@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
+    <fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		.labelText
+        {
+			color: #000000;
+		}
+
+		#fullName
+        {
+			font-size: 24;
+		}
+
+        #occupation
+        {
+            font-size: 18;
+        }
+	</fx:Style>
+    <fx:Script>
+        <![CDATA[
+        import collaboRhythm.shared.model.Account;
+        import collaboRhythm.shared.model.CollaborationModel;
+        import collaboRhythm.workstation.controller.WorkstationApplicationController;
+
+        private static const CONNECTED_COLOR:uint = 0x79A873;
+        private static const DISCONNECTED_COLOR:uint = 0xC64A5C;
+
+        private var _workstationApplicationController:WorkstationApplicationController;
+        [Bindable]
+        private var _activeAccount:Account;
+        [Bindable]
+        private var _collaborationModel:CollaborationModel;
+
+        public function init(workstationApplicationController:WorkstationApplicationController, activeAccount:Account, collaborationModel:CollaborationModel):void
+        {
+            _workstationApplicationController = workstationApplicationController;
+            _activeAccount = activeAccount;
+            _collaborationModel = collaborationModel;
+        }
+
+        private function updateCollaborationServerConnectionIndicator(isConnected:Boolean):uint
+        {
+            if (isConnected)
+            {
+                return CONNECTED_COLOR;
+            }
+            else
+            {
+                return DISCONNECTED_COLOR;
+            }
+        }
+        ]]>
+    </fx:Script>
+    <s:HGroup width="100%" height="100%" horizontalAlign="right" gap="0">
+        <s:VGroup paddingTop="12" paddingRight="15" horizontalAlign="right" gap="4">
+            <s:Label id="fullName" text="{_activeAccount.primaryRecord.contact.fullName} {_activeAccount.primaryRecord.demographics.highestEducation}" styleName="labelText" />
+            <s:Label id="occupation" text="{_activeAccount.primaryRecord.demographics.occupation}" styleName="labelText" />
+        </s:VGroup>
+        <s:Line height="100%">
+            <s:stroke>
+                <s:SolidColorStroke color="#000000"/>
+            </s:stroke>
+        </s:Line>
+        <mx:Image source="{_activeAccount.primaryRecord.contact.imageURI}" height="{this.height}" width="{this.height}" smoothBitmapContent="true"/>
+        <s:Line height="100%">
+            <s:stroke>
+                <s:SolidColorStroke color="#000000"/>
+            </s:stroke>
+        </s:Line>
+        <s:Rect width="10" height="100%">
+            <s:fill>
+			    <s:SolidColor id="flashMediaServerConnectionIndicator" color="{updateCollaborationServerConnectionIndicator(_collaborationModel.collaborationLobbyNetConnectionService.isConnected)}"/>
+		    </s:fill>
+        </s:Rect>
+    </s:HGroup>
+    <s:Line width="100%" bottom="0">
+        <s:stroke>
+            <s:SolidColorStroke color="#000000"/>
+        </s:stroke>
+    </s:Line>
+</s:Group>

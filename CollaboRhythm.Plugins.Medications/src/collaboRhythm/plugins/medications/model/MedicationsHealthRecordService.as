@@ -17,23 +17,26 @@
 package collaboRhythm.plugins.medications.model
 {
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
-	import collaboRhythm.shared.model.ReportRequestDetails;
+    import collaboRhythm.shared.model.Account;
+    import collaboRhythm.shared.model.ReportRequestDetails;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
 	import collaboRhythm.shared.model.User;
 	import collaboRhythm.shared.model.UsersModel;
-	
-	import flash.net.URLRequestMethod;
+    import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
+    import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
+
+    import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
 	
 	import org.indivo.client.IndivoClientEvent;
 	
-	public class MedicationsHealthRecordService extends HealthRecordServiceBase
+	public class MedicationsHealthRecordService extends PhaHealthRecordServiceBase
 	{
 		private var _medicationsModel:MedicationsModel;
 		
-		public function MedicationsHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String)
+		public function MedicationsHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account)
 		{
-			super(consumerKey, consumerSecret, baseURL);
+			super(consumerKey, consumerSecret, baseURL, account);
 		}
 		
 		public function loadAllMedications(remoteUserModel:UsersModel):void
@@ -63,9 +66,9 @@ package collaboRhythm.plugins.medications.model
 			var params:URLVariables = new URLVariables();
 			
 			// now the user already had an empty MedicationsModel when created, and a variable called initialized is used to see if it has been populated, allowing for early binding -- start with an empty MedicationsModel so that views can bind to the instance before the data is finished loading
-			if (user.recordId != null && accessKey != null && accessSecret != null)
+			if (user.recordId != null && _activeAccount.oauthAccountToken != null && _activeAccount.oauthAccountTokenSecret != null)
 			{
-				_pha.reports_minimal_X_GET(params, null, null, null, user.recordId, "medications", accessKey, accessSecret, new ReportRequestDetails(user, "medications"));
+				_pha.reports_minimal_X_GET(params, null, null, null, user.recordId, "medications", _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, new ReportRequestDetails(user, "medications"));
 			}	
 		}
 		
@@ -74,7 +77,7 @@ package collaboRhythm.plugins.medications.model
 			var params:URLVariables = new URLVariables();
 			medicationsModel.medicationsReportXML = responseXML;
 					
-			_pha.reports_minimal_X_GET(params, null, null, null, user.recordId, "scheduleitems", accessKey, accessSecret, new ReportRequestDetails(user, "medicationScheduleItems"));
+			_pha.reports_minimal_X_GET(params, null, null, null, user.recordId, "scheduleitems", _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, new ReportRequestDetails(user, "medicationScheduleItems"));
 		}
 		
 		private function handleMedicationScheduleItemsReport(user:User, medicationsModel:MedicationsModel, responseXML:XML):void
@@ -82,26 +85,26 @@ package collaboRhythm.plugins.medications.model
 			medicationsModel.medicationScheduleItemsReportXML = responseXML;
 		}
 		
-		protected override function handleResponse(event:IndivoClientEvent, responseXML:XML):void
+		protected override function handleResponse(event:IndivoClientEvent, responseXML:XML, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
-			var user:User = event.userData.user as User;
-			var medicationsModel:MedicationsModel = getMedicationsModel(user);
-
-			if (responseXML.name() == "Reports")
-			{
-				if (event.userData.reportType == "medications")
-				{
-					handleMedicationsReport(user, medicationsModel, responseXML);
-				}
-				else if (event.userData.reportType == "medicationScheduleItems")
-				{
-					handleMedicationScheduleItemsReport(user, medicationsModel, responseXML);
-				}
-			}
-			else
-			{
-				throw new Error("Unhandled response data: " + responseXML.name() + " " + responseXML);
-			}
+//			var user:User = event.userData.user as User;
+//			var medicationsModel:MedicationsModel = getMedicationsModel(user);
+//
+//			if (responseXML.name() == "Reports")
+//			{
+//				if (event.userData.reportType == "medications")
+//				{
+//					handleMedicationsReport(user, medicationsModel, responseXML);
+//				}
+//				else if (event.userData.reportType == "medicationScheduleItems")
+//				{
+//					handleMedicationScheduleItemsReport(user, medicationsModel, responseXML);
+//				}
+//			}
+//			else
+//			{
+//				throw new Error("Unhandled response data: " + responseXML.name() + " " + responseXML);
+//			}
 		}
 	}
 }

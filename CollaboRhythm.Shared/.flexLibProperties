@@ -20,7 +20,6 @@
     <classEntry path="collaboRhythm.workstation.view.IconButtonSkin"/>
     <classEntry path="collaboRhythm.workstation.view.IconButton"/>
     <classEntry path="skins.WidgetPanelSkin"/>
-    <classEntry path="skins.FullScreenPanel"/>
     <classEntry path="com.leebrimelow.drawing.Wedge"/>
     <classEntry path="resources.physics.AccelerationEaser"/>
     <classEntry path="collaboRhythm.workstation.view.WorkstationViewEvent"/>

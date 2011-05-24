@@ -16,21 +16,25 @@
  */
 package collaboRhythm.plugins.cataractMap.model
 {
-	import collaboRhythm.shared.model.DateUtil;
+
+    import collaboRhythm.shared.model.Account;
+    import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
 	import collaboRhythm.shared.model.User;
+    import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
+    import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
 
-	import flash.net.URLVariables;
+    import flash.net.URLVariables;
 
 	import mx.collections.ArrayCollection;
 
 	import org.indivo.client.IndivoClientEvent;
 
-	public class CataractMapHealthRecordService extends HealthRecordServiceBase
+	public class CataractMapHealthRecordService extends PhaHealthRecordServiceBase
 	{
-		public function CataractMapHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String)
+		public function CataractMapHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account)
 		{
-			super(consumerKey, consumerSecret, baseURL);
+			super(consumerKey, consumerSecret, baseURL, account);
 		}
 		
 		public function loadCataractMap(user:User):void
@@ -43,12 +47,12 @@ package collaboRhythm.plugins.cataractMap.model
 			var params:URLVariables = new URLVariables();
 			params["order_by"] = "date_measured";
 			
-			if (user.recordId != null && accessKey != null && accessSecret != null)
-				_pha.reports_minimal_vitals_X_GET(params, null, null, null, user.recordId, "Cataract_Map", accessKey, accessSecret, user);
+			if (user.recordId != null && _activeAccount.oauthAccountToken != null && _activeAccount.oauthAccountTokenSecret != null)
+				_pha.reports_minimal_vitals_X_GET(params, null, null, null, user.recordId, "Cataract_Map", _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, user);
 			
 		}
 		
-		protected override function handleResponse(event:IndivoClientEvent, responseXml:XML):void
+		protected override function handleResponse(event:IndivoClientEvent, responseXml:XML, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
 			if (responseXml.name() == "Reports")
 			{

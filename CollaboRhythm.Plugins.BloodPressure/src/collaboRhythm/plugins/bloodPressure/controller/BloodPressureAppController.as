@@ -111,8 +111,8 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 		protected function loadBloodPressureData():void
 		{
-			var bloodPressureHealthRecordService:BloodPressureHealthRecordService = new BloodPressureHealthRecordService(_healthRecordService.consumerKey, _healthRecordService.consumerSecret, _healthRecordService.baseURL);
-			bloodPressureHealthRecordService.copyLoginResults(_healthRecordService);
+			var bloodPressureHealthRecordService:BloodPressureHealthRecordService = new BloodPressureHealthRecordService(_healthRecordService.oauthConsumerKey, _healthRecordService.oauthConsumerSecret, _healthRecordService.indivoServerBaseURL, _account);
+//			bloodPressureHealthRecordService.copyLoginResults(_healthRecordService);
 			bloodPressureHealthRecordService.loadBloodPressure(_user);
 		}
 

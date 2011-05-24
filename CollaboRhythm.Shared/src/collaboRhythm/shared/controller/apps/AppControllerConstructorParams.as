@@ -16,13 +16,18 @@
  */
 package collaboRhythm.shared.controller.apps
 {
-	import mx.core.IVisualElementContainer;
+import collaboRhythm.shared.model.Account;
+    import collaboRhythm.shared.model.settings.Settings;
+
+    import mx.core.IVisualElementContainer;
 
 	public class AppControllerConstructorParams
 	{
 		private var _widgetParentContainer:IVisualElementContainer;
 		private var _fullParentContainer:IVisualElementContainer;
 		private var _isWorkstationMode:Boolean;
+        private var _account:Account;
+        private var _settings:Settings;
 
 		public function AppControllerConstructorParams()
 		{
@@ -57,5 +62,23 @@ package collaboRhythm.shared.controller.apps
 		{
 			_isWorkstationMode = value;
 		}
-	}
+
+        public function get account():Account {
+            return _account;
+        }
+
+        public function set account(value:Account):void {
+            _account = value;
+        }
+
+        public function get settings():Settings
+        {
+            return _settings;
+        }
+
+        public function set settings(value:Settings):void
+        {
+            _settings = value;
+        }
+    }
 }

@@ -35,7 +35,8 @@ package collaboRhythm.core.controller
 	
 	import mx.logging.ILogger;
 	import mx.logging.Log;
-	
+
+    // TODO: Completely Eliminate the CollaborationMediatorBase class and all of its subclasses
 	public class CollaborationMediatorBase
 	{
 		protected var _remoteUsersController:RemoteUserController;
@@ -49,6 +50,7 @@ package collaboRhythm.core.controller
 		protected var healthRecordService:CommonHealthRecordService;
 		protected var usersModel:UsersModel;
 		protected var _subjectUser:User;
+        protected var _account:Account;
 
 		public function get subjectUser():User
 		{
@@ -65,9 +67,10 @@ package collaboRhythm.core.controller
 			throw Error("virtual function must be overriden in subclass");
 		}
 		
-		public function CollaborationMediatorBase()
+		public function CollaborationMediatorBase(account:Account)
 		{
 			logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+            _account = account;
 			_kernel = WorkstationKernel.instance;
 			
 			_settings = applicationController.settings;
@@ -76,10 +79,10 @@ package collaboRhythm.core.controller
 			if (_settings.isPatientMode)
 				prepareForPatientMode();
 			
-			healthRecordService = new CommonHealthRecordService(_settings.chromeConsumerKey, _settings.chromeConsumerSecret, _settings.indivoServerBaseURL);
-			
-			healthRecordService.addEventListener(HealthRecordServiceEvent.LOGIN_COMPLETE, loginCompleteHandler);
-			healthRecordService.login(_settings.chromeConsumerKey, _settings.chromeConsumerSecret, _settings.username, _settings.password);
+//			healthRecordService = new CommonHealthRecordService(_settings.chromeConsumerKey, _settings.chromeConsumerSecret, _settings.indivoServerBaseURL);
+//
+//			healthRecordService.addEventListener(HealthRecordServiceEvent.LOGIN_COMPLETE, loginCompleteHandler);
+//			healthRecordService.login(_settings.chromeConsumerKey, _settings.chromeConsumerSecret, _settings.username, _settings.password);
 		}
 		
 		protected function prepareForPatientMode():void
@@ -89,11 +92,11 @@ package collaboRhythm.core.controller
 		
 		private function loginCompleteHandler(event:HealthRecordServiceEvent):void
 		{
-			logger.info("Login complete.");
-			usersModel = new UsersModel(_settings, healthRecordService);
-			usersModel.usersHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE, usersHealthRecordService_completeHandler);
-			usersModel.usersHealthRecordService.addEventListener(HealthRecordServiceEvent.UPDATE, usersHealthRecordService_updateHandler);
-			usersModel.usersHealthRecordService.populateRemoteUsers();
+//			logger.info("Login complete.");
+//			usersModel = new UsersModel(_settings, healthRecordService);
+//			usersModel.usersHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE, usersHealthRecordService_completeHandler);
+//			usersModel.usersHealthRecordService.addEventListener(HealthRecordServiceEvent.UPDATE, usersHealthRecordService_updateHandler);
+//			usersModel.usersHealthRecordService.populateRemoteUsers();
 		}
 		
 		private function usersHealthRecordService_completeHandler(event:HealthRecordServiceEvent):void
@@ -109,8 +112,8 @@ package collaboRhythm.core.controller
 				healthRecordService.loadDemographics(user);
 				healthRecordService.loadContact(user);
 
-				var problemsHealthRecordService:ProblemsHealthRecordService = new ProblemsHealthRecordService(healthRecordService.consumerKey, healthRecordService.consumerSecret, healthRecordService.baseURL);
-				problemsHealthRecordService.copyLoginResults(healthRecordService);
+				var problemsHealthRecordService:ProblemsHealthRecordService = new ProblemsHealthRecordService(_settings.oauthChromeConsumerKey, _settings.oauthChromeConsumerSecret, _settings.indivoServerBaseURL, _account);
+//				problemsHealthRecordService.copyLoginResults(healthRecordService);
 				problemsHealthRecordService.loadProblems(user);
 			}
 			
@@ -120,31 +123,33 @@ package collaboRhythm.core.controller
 		
 		private function loadUserData():void
 		{
-			if (healthRecordService.isLoginComplete && usersModel.remoteUsersPopulated && _collaborationController == null)
+//            TODO: Determine if this check is necessary
+//            healthRecordService.isLoginComplete &&
+			if (usersModel.remoteUsersPopulated && _collaborationController == null)
 			{
-				_collaborationController = new CollaborationController(applicationController.collaborationRoomView, applicationController.recordVideoView, usersModel, _settings);
-				logger.info("CollaborationController created");
-				
-				initializeControllersForUser();
-				
-				_appControllersMediator = new WorkstationAppControllersMediator(
-					applicationController.widgetsContainer,
-					applicationController.scheduleWidgetContainer,
-					applicationController.fullContainer,
-					_settings,
-					healthRecordService,
-					_collaborationController.collaborationModel.collaborationRoomNetConnectionService,
-					applicationController.componentContainer
-				);
-				
-				healthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE, healthRecordService_completeHandler);
-				healthRecordService.loadAllDemographics(usersModel);
-				healthRecordService.loadAllContact(usersModel);
-				
-				// problems are needed for the users list
-				var problemsHealthRecordService:ProblemsHealthRecordService = new ProblemsHealthRecordService(healthRecordService.consumerKey, healthRecordService.consumerSecret, healthRecordService.baseURL);
-				problemsHealthRecordService.copyLoginResults(healthRecordService);
-				problemsHealthRecordService.loadAllProblems(usersModel);
+//				_collaborationController = new CollaborationController(applicationController.collaborationRoomView, applicationController.recordVideoView, usersModel, _settings);
+//				logger.info("CollaborationController created");
+//
+//				initializeControllersForUser();
+//
+//				_appControllersMediator = new WorkstationAppControllersMediator(
+//					applicationController.widgetsContainer,
+//					applicationController.scheduleWidgetContainer,
+//					applicationController.fullContainer,
+//					_settings,
+//					healthRecordService,
+//					_collaborationController.collaborationModel.collaborationRoomNetConnectionService,
+//					applicationController.componentContainer
+//				);
+//
+//				healthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE, healthRecordService_completeHandler);
+//				healthRecordService.loadAllDemographics(usersModel);
+//				healthRecordService.loadAllContact(usersModel);
+//
+//				// problems are needed for the users list
+//				var problemsHealthRecordService:ProblemsHealthRecordService = new ProblemsHealthRecordService(_settings.oauthChromeConsumerKey, _settings.oauthChromeConsumerSecret, _settings.indivoServerBaseURL, _account);
+////				problemsHealthRecordService.copyLoginResults(healthRecordService);
+//				problemsHealthRecordService.loadAllProblems(usersModel);
 			}
 		}
 		
@@ -262,5 +267,13 @@ package collaboRhythm.core.controller
 		{
 			return _appControllersMediator ? _appControllersMediator.currentFullView : null;
 		}
-	}
+
+        public function get account():Account {
+            return _account;
+        }
+
+        public function set account(value:Account):void {
+            _account = value;
+        }
+    }
 }

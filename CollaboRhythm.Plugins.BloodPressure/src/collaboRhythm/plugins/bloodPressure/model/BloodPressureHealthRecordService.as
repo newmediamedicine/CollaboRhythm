@@ -18,13 +18,16 @@ package collaboRhythm.plugins.bloodPressure.model
 {
 	import collaboRhythm.shared.apps.bloodPressure.model.AdherenceItem;
 	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureDataItem;
-	import collaboRhythm.shared.model.CodedValue;
+    import collaboRhythm.shared.model.Account;
+    import collaboRhythm.shared.model.CodedValue;
 	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.User;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
+    import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
+    import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
 
-	import flash.net.URLVariables;
+    import flash.net.URLVariables;
 	import flash.xml.XMLDocument;
 
 	import mx.collections.ArrayCollection;
@@ -32,7 +35,7 @@ package collaboRhythm.plugins.bloodPressure.model
 
 	import org.indivo.client.IndivoClientEvent;
 
-	public class BloodPressureHealthRecordService extends HealthRecordServiceBase
+	public class BloodPressureHealthRecordService extends PhaHealthRecordServiceBase
 	{
 		private const systolicCategory:String = "Blood Pressure Systolic";
 		private const diastolicCategory:String = "Blood Pressure Diastolic";
@@ -42,9 +45,9 @@ package collaboRhythm.plugins.bloodPressure.model
 
 		private static const millisecondsPerHour:int = 1000 * 60 * 60;
 
-		public function BloodPressureHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String)
+		public function BloodPressureHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account)
 		{
-			super(consumerKey, consumerSecret, baseURL);
+			super(consumerKey, consumerSecret, baseURL, account);
 		}
 
 		public function loadBloodPressure(user:User):void
@@ -57,23 +60,23 @@ package collaboRhythm.plugins.bloodPressure.model
 			var params:URLVariables = new URLVariables();
 			params["order_by"] = "date_measured";
 
-			if (user.recordId != null && accessKey != null && accessSecret != null)
+			if (user.recordId != null && _activeAccount.oauthAccountToken != null && _activeAccount.oauthAccountTokenSecret != null)
 			{
-				_pha.reports_minimal_vitals_X_GET(params, null, null, null, user.recordId, systolicCategory, accessKey,
-												  accessSecret,
+				_pha.reports_minimal_vitals_X_GET(params, null, null, null, user.recordId, systolicCategory, _activeAccount.oauthAccountToken,
+												   _activeAccount.oauthAccountTokenSecret,
 												  new BloodPressureReportUserData(user, VITALS_REPORT, systolicCategory));
-				_pha.reports_minimal_vitals_X_GET(params, null, null, null, user.recordId, diastolicCategory, accessKey,
-												  accessSecret,
+				_pha.reports_minimal_vitals_X_GET(params, null, null, null, user.recordId, diastolicCategory, _activeAccount.oauthAccountToken,
+												   _activeAccount.oauthAccountTokenSecret,
 												  new BloodPressureReportUserData(user, VITALS_REPORT, diastolicCategory));
 
 				// TODO: figure out what is wrong with order_by for this report; it is currently causing an error
 //				var adherenceParams:URLVariables = new URLVariables();
 //				adherenceParams["order_by"] = "date_time_reported";
-				_pha.reports_minimal_X_GET(null, null, null, null, user.recordId, ADHERENCE_ITEMS_REPORT, accessKey, accessSecret, new BloodPressureReportUserData(user, ADHERENCE_ITEMS_REPORT))
+				_pha.reports_minimal_X_GET(null, null, null, null, user.recordId, ADHERENCE_ITEMS_REPORT,  _activeAccount.oauthAccountToken,  _activeAccount.oauthAccountTokenSecret, new BloodPressureReportUserData(user, ADHERENCE_ITEMS_REPORT))
 			}
 		}
 
-		protected override function handleResponse(event:IndivoClientEvent, responseXml:XML):void
+		protected override function handleResponse(event:IndivoClientEvent, responseXml:XML, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
 			if (responseXml.localName() == "Reports")
 			{

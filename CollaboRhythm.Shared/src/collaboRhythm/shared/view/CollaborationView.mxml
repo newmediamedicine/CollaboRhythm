@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+         xmlns:view="collaboRhythm.shared.view.*"
+         width="100%" height="0">
+    <fx:Script>
+        <![CDATA[
+        public static const COLLABORATION_VIEW_CHILD_HEIGHT:int = 200;
+        public static const COLLABORATION_VIEW_BACKGROUND_COLOR:uint = 0x939598;
+        ]]>
+    </fx:Script>
+    <s:Rect width="100%" height="100%">
+        <s:fill>
+			<s:SolidColor color="{COLLABORATION_VIEW_BACKGROUND_COLOR}"/>
+		</s:fill>
+    </s:Rect>
+    <view:RecordVideoView id="recordVideoView" width="100%" height="{COLLABORATION_VIEW_CHILD_HEIGHT}" visible="false"/>
+    <view:CollaborationRoomView id="collaborationRoomView" width="100%" height="{COLLABORATION_VIEW_CHILD_HEIGHT}" visible="false"/>
+</s:Group>

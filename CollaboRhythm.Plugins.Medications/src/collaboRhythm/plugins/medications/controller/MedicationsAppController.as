@@ -95,9 +95,8 @@ package collaboRhythm.plugins.medications.controller
 			super.initialize();
 			if (medicationsModel.initialized == false)
 			{
-				var medicationsHealthRecordService:MedicationsHealthRecordService = new MedicationsHealthRecordService(_healthRecordService.consumerKey, _healthRecordService.consumerSecret, _healthRecordService.baseURL);
-				medicationsHealthRecordService.copyLoginResults(_healthRecordService);
-				medicationsHealthRecordService.loadMedications(_user);
+				var medicationsHealthRecordService:MedicationsHealthRecordService = new MedicationsHealthRecordService(_settings.oauthChromeConsumerKey, _settings.oauthChromeConsumerSecret, _settings.indivoServerBaseURL, _account);
+				medicationsHealthRecordService.loadMedications();
 			}
 			
 			if (_widgetView)

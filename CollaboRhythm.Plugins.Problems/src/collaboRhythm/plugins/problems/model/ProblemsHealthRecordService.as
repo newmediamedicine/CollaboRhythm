@@ -16,19 +16,23 @@
  */
 package collaboRhythm.plugins.problems.model
 {
-	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
+
+    import collaboRhythm.shared.model.Account;
+    import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
 	import collaboRhythm.shared.model.User;
 	import collaboRhythm.shared.model.UsersModel;
-	
-	import flash.net.URLVariables;
+    import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
+    import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
+
+    import flash.net.URLVariables;
 	
 	import org.indivo.client.IndivoClientEvent;
 	
-	public class ProblemsHealthRecordService extends HealthRecordServiceBase
+	public class ProblemsHealthRecordService extends PhaHealthRecordServiceBase
 	{
-		public function ProblemsHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String)
+		public function ProblemsHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account)
 		{
-			super(consumerKey, consumerSecret, baseURL);
+			super(consumerKey, consumerSecret, baseURL, account);
 		}
 
 		public function loadAllProblems(remoteUserModel:UsersModel):void
@@ -52,25 +56,25 @@ package collaboRhythm.plugins.problems.model
 			
 			// now the user already had an empty ProblemsModel when created, and a variable called initialized is used to see if it has been populated, allowing for early binding -- start with an empty ProblemsModel so that views can bind to the instance before the data is finished loading
 			//			user.problemsModel = new ProblemsModel();
-			if (user.recordId != null && accessKey != null && accessSecret != null)
-				_pha.reports_minimal_X_GET(params, null, null, null, user.recordId, "problems", accessKey, accessSecret, user);
+			if (user.recordId != null && _activeAccount.oauthAccountToken != null && _activeAccount.oauthAccountTokenSecret != null)
+				_pha.reports_minimal_X_GET(params, null, null, null, user.recordId, "problems", _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, user);
 		}
 
-		protected override function handleResponse(event:IndivoClientEvent, responseXml:XML):void
+		protected override function handleResponse(event:IndivoClientEvent, responseXml:XML, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
-			var user:User;
-			if (responseXml.name() == "Reports")
-			{
-				user = event.userData as User;
-				
-				var problemsModel:ProblemsModel = user.getAppData(ProblemsModel.PROBLEMS_KEY, ProblemsModel) as ProblemsModel;
-				if (problemsModel)
-					problemsModel.rawData = responseXml;
-			}
-			else
-			{
-				throw new Error("Unhandled response data: " + responseXml.name() + " " + responseXml);
-			}
+//			var user:User;
+//			if (responseXml.name() == "Reports")
+//			{
+//				user = event.userData as User;
+//
+//				var problemsModel:ProblemsModel = user.getAppData(ProblemsModel.PROBLEMS_KEY, ProblemsModel) as ProblemsModel;
+//				if (problemsModel)
+//					problemsModel.rawData = responseXml;
+//			}
+//			else
+//			{
+//				throw new Error("Unhandled response data: " + responseXml.name() + " " + responseXml);
+//			}
 		}
 	}
 }

@@ -28,5 +28,16 @@ package collaboRhythm.shared.model.healthRecord
 			var codedValue:CodedValue = new CodedValue(valueXml.@type, valueXml.@value, valueXml.@abbrev, valueXml.toString());
 			return codedValue;
 		}
+
+        public static function booleanFromString(value:String):Boolean
+        {
+            var result:Boolean;
+            if (value == "true") {
+                result = true;
+            } else {
+                result = false;
+            }
+            return result;
+        }
 	}
 }

@@ -49,7 +49,7 @@ package qs.charts.dataShapes
 				
 		public function DataDrawingCanvas()
 		{
-			super();
+		    super();
 			_hDataDesc = new DataDescription();
 			_vDataDesc = new DataDescription();
 			_childMap = new Dictionary(true);

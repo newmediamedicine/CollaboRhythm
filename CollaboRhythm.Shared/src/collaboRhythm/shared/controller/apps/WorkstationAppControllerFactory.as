@@ -16,11 +16,13 @@
  */
 package collaboRhythm.shared.controller.apps
 {
-	import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
+import collaboRhythm.shared.model.Account;
+import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.healthRecord.CommonHealthRecordService;
 	import collaboRhythm.shared.model.User;
-	
-	import flash.net.getClassByAlias;
+    import collaboRhythm.shared.model.settings.Settings;
+
+    import flash.net.getClassByAlias;
 	
 	import mx.core.IVisualElementContainer;
 	
@@ -38,6 +40,8 @@ package collaboRhythm.shared.controller.apps
 		private var _user:User;
 		private var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
 		private var _isWorkstationMode:Boolean;
+        private var _account:Account;
+        private var _settings:Settings;
 		
 		public function WorkstationAppControllerFactory()
 		{
@@ -109,6 +113,8 @@ package collaboRhythm.shared.controller.apps
 			constructorParams.widgetParentContainer = _widgetParentContainer;
 			constructorParams.fullParentContainer = _fullParentContainer;
 			constructorParams.isWorkstationMode = _isWorkstationMode;
+            constructorParams.account = _account;
+            constructorParams.settings = _settings;
 
 			var appObject:Object = new appClass(constructorParams);
 			if (appObject == null)
@@ -126,5 +132,23 @@ package collaboRhythm.shared.controller.apps
 			
 			return app;
 		}
-	}
+
+        public function get account():Account {
+            return _account;
+        }
+
+        public function set account(value:Account):void {
+            _account = value;
+        }
+
+        public function get settings():Settings
+        {
+            return _settings;
+        }
+
+        public function set settings(value:Settings):void
+        {
+            _settings = value;
+        }
+    }
 }
