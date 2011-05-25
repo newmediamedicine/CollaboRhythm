@@ -64,7 +64,6 @@ package collaboRhythm.shared.model
 			_collaborationRoomNetConnectionService = new CollaborationRoomNetConnectionService(_activeAccount.accountId, settings.rtmpBaseURI, this);
 			
 //			_usersModel.usersHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE, usersHealthRecordService_completeHandler);
-			_collaborationLobbyNetConnectionService.enterCollaborationLobby();
 		}
 
 		public function get active():Boolean

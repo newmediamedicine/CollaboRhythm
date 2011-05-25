@@ -42,8 +42,7 @@
         import collaboRhythm.shared.model.CollaborationModel;
         import collaboRhythm.workstation.controller.WorkstationApplicationController;
 
-        private static const CONNECTED_COLOR:uint = 0x79A873;
-        private static const DISCONNECTED_COLOR:uint = 0xC64A5C;
+
 
         private var _workstationApplicationController:WorkstationApplicationController;
         [Bindable]
@@ -58,16 +57,22 @@
             _collaborationModel = collaborationModel;
         }
 
-        private function updateCollaborationServerConnectionIndicator(isConnected:Boolean):uint
+        private function updateCollaborationServerConnectionIndicator(isConnected:Boolean, collaborationLobbyConnectionStatus:String):uint
         {
+            var color:uint = RecordInformationView.COLLABORATION_LOBBY_NOT_CONNECTED_COLOR;
             if (isConnected)
             {
-                return CONNECTED_COLOR;
+                switch (collaborationLobbyConnectionStatus)
+                {
+                    case Account.COLLABORATION_LOBBY_NOT_CONNECTED:
+                        color = RecordInformationView.COLLABORATION_LOBBY_NOT_CONNECTED_COLOR;
+                        break;
+                    case Account.COLLABORATION_LOBBY_AVAILABLE:
+                        color = RecordInformationView.COLLABORATION_LOBBY_AVAILABLE_COLOR;
+                        break;
+                }
             }
-            else
-            {
-                return DISCONNECTED_COLOR;
-            }
+            return color;
         }
         ]]>
     </fx:Script>
@@ -89,7 +94,7 @@
         </s:Line>
         <s:Rect width="10" height="100%">
             <s:fill>
-			    <s:SolidColor id="flashMediaServerConnectionIndicator" color="{updateCollaborationServerConnectionIndicator(_collaborationModel.collaborationLobbyNetConnectionService.isConnected)}"/>
+			    <s:SolidColor id="flashMediaServerConnectionIndicator" color="{updateCollaborationServerConnectionIndicator(_collaborationModel.collaborationLobbyNetConnectionService.isConnected, _activeAccount.collaborationLobbyConnectionStatus)}"/>
 		    </s:fill>
         </s:Rect>
     </s:HGroup>

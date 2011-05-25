@@ -225,21 +225,18 @@
 	<s:Label id="title" text="{determineTitleText(_localUser.collaborationRoomConnectionStatus)}" left="10" top="10"/>
 	<view:IconButton
 		id="joinButton" 
-		styleName="collaboRhythm.shared.view.IconButton"
 		click="joinButton_clickHandler(event)"
 		icon="@Embed('/resources/images/icons/buttonIcons/collaborationRoomView_Join.png')"
 		visible="{determineJoinButtonVisibility(_localUser.collaborationRoomConnectionStatus)}"
 		right="5" top="5"/>
 	<view:IconButton
 		id="inviteButton" 
-		styleName="collaboRhythm.shared.view.IconButton"
 		click="inviteButton_clickHandler(event)"
 		icon="@Embed('/resources/images/icons/buttonIcons/collaborationRoomView_Invite.png')"
 		visible="{determineInviteButtonVisibility(_localUser.collaborationRoomConnectionStatus)}"
 		right="5" top="5"/>
 	<view:IconButton
 		id="exitButton" 
-		styleName="collaboRhythm.shared.view.IconButton"
 		click="exitButton_clickHandler(event)"
 		icon="@Embed('/resources/images/icons/buttonIcons/collaborationRoomView_Exit.png')"
 		right="5" bottom="5"/>

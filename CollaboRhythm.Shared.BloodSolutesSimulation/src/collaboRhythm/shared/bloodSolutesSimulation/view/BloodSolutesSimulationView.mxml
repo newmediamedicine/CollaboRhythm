@@ -71,17 +71,17 @@
 		import Box2D.Dynamics.Joints.b2MouseJointDef;
 		import Box2D.Dynamics.Joints.b2WeldJoint;
 		import Box2D.Dynamics.Joints.b2WeldJointDef;
-
+		
 		import flash.display.Sprite;
 		import flash.utils.getQualifiedClassName;
-
+		
 		import mx.core.IButton;
 		import mx.core.IVisualElement;
 		import mx.core.UIComponent;
 		import mx.effects.Effect;
 		import mx.events.FlexEvent;
 		import mx.events.ResizeEvent;
-
+		
 		import spark.components.supportClasses.ButtonBase;
 		import spark.effects.Animate;
 		import spark.effects.animation.MotionPath;
@@ -113,6 +113,12 @@
 		private var _bloodAreaPercentWidth:Number = 0.5;
 		private var _bloodAreaPercentWidthAnimated:Number = NaN;
 		private var _bloodAreaPercentWidthEffect:Animate = new Animate(this);
+		
+		private var _soluteInBloodNeedsUpdating:Boolean;
+		private var _plugBodiesNeedsUpdating:Boolean;
+		private var _bloodAreaPercentWidthNeedsUpdating:Boolean;
+		private var _bloodAreaPercentWidthOld:Number;
+
 
 		[Bindable]
 		public function get bloodAreaPercentWidth():Number
@@ -126,7 +132,14 @@
 			{
 				var oldValue:Number = _bloodAreaPercentWidth;
 				_bloodAreaPercentWidth = value;
-				moveBodiesForBloodAreaPercentWidth(oldValue);
+				if (_isVisible)
+					moveBodiesForBloodAreaPercentWidth(oldValue);
+				else if (!_bloodAreaPercentWidthNeedsUpdating)
+				{
+					_bloodAreaPercentWidthNeedsUpdating = true;
+					_bloodAreaPercentWidthOld = oldValue;
+				}
+					
 			}
 		}
 
@@ -234,6 +247,9 @@
 		private var pumpZoneRight:Number;
 
 		private var _isRunning:Boolean = false;
+		private var _isVisible:Boolean = true;
+		private var _explicitForceEquilibrium:Boolean;
+		
 
 		private var _fractionSolutesAsBoxes:Number = 1.0; // 0.5 for half boxes; 1.0 for all boxes
 
@@ -285,7 +301,6 @@
 				obj.addEventListener(FlexEvent.SHOW, ancestor_hideShowHandler, false, 0, true);
 				obj = obj.parent;
 			}
-
 		}
 
 		private function ancestor_hideShowHandler(event:FlexEvent):void
@@ -295,7 +310,8 @@
 
 		private function updateIsRunning():void
 		{
-			isRunning = !explicitRunningDisabled && isVisible(this);
+			_isVisible = isVisible(this);
+			isRunning = !explicitRunningDisabled && _isVisible;
 		}
 
 		[Bindable]
@@ -449,8 +465,14 @@
 		public function set soluteInBloodRatio(value:Number):void
 		{
 			_soluteInBloodRatio = value;
-			if (shouldForceEquilibrium)
-				resetSoluteBodyPositions();
+			
+			if (_isVisible)
+			{
+				if (shouldForceEquilibrium)
+					resetSoluteBodyPositions();
+			}
+			else
+				_soluteInBloodNeedsUpdating = true;
 		}
 
 		public function get plugRatio():Number
@@ -462,7 +484,10 @@
 		{
 			_plugRatio = value;
 
-			changePlugBodiesPopulation(calculateNumPlugs());
+			if (_isVisible)
+				changePlugBodiesPopulation(calculateNumPlugs());
+			else
+				_plugBodiesNeedsUpdating = true;
 		}
 
 		private function calculateNumPlugs():Number
@@ -536,7 +561,10 @@
 				_isRunning = value;
 
 				if (_isRunning)
+				{
+					applyPendingChanges();
 					this.addEventListener(Event.ENTER_FRAME, enterFrameHandler, false, 0, true);
+				}
 				else
 					this.removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
 
@@ -544,6 +572,30 @@
 			}
 		}
 
+		private function applyPendingChanges():void
+		{
+			_explicitForceEquilibrium = true;
+			
+			if (_soluteInBloodNeedsUpdating)
+			{
+				resetSoluteBodyPositions();
+				_soluteInBloodNeedsUpdating = false;
+			}
+			
+			if (_plugBodiesNeedsUpdating)
+			{
+				changePlugBodiesPopulation(calculateNumPlugs());
+				_plugBodiesNeedsUpdating = false;
+			}
+			
+			if (_bloodAreaPercentWidthNeedsUpdating)
+			{
+				moveBodiesForBloodAreaPercentWidth(_bloodAreaPercentWidthOld);
+				_bloodAreaPercentWidthNeedsUpdating = false;
+			}
+
+			_explicitForceEquilibrium = false;
+		}
 
 		protected function creationCompleteHandler(event:FlexEvent):void
 		{
@@ -2067,7 +2119,7 @@
 		 */
 		private function get shouldForceEquilibrium():Boolean
 		{
-			return !isRunning;
+			return !isRunning || _explicitForceEquilibrium;
 //			return true;
 		}
 

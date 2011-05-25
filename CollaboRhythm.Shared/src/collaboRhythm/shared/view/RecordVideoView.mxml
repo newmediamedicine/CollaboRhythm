@@ -20,7 +20,7 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 creationComplete="creationComplete()"
-		 visible="false"
+		 enabled="{_collaborationModel.recordVideo}"
 		 height="200" xmlns:view="collaboRhythm.shared.view.*">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
@@ -31,13 +31,12 @@
 		#recordVideoButton {
 			font-size: 15;
 			font-weight: bold;
-		}	
-
+		}
 	</fx:Style>
-	<fx:Metadata>
-		[Event(name="hide", type="collaboRhythm.shared.view.WorkstationViewEvent")]
-		[Event(name="show", type="collaboRhythm.shared.view.WorkstationViewEvent")]
-	</fx:Metadata>
+	<!--<fx:Metadata>-->
+		<!--[Event(name="hide", type="collaboRhythm.shared.view.WorkstationViewEvent")]-->
+		<!--[Event(name="show", type="collaboRhythm.shared.view.WorkstationViewEvent")]-->
+	<!--</fx:Metadata>-->
 	<fx:Script>
 		<![CDATA[
 			import collaboRhythm.shared.controller.CollaborationController;
@@ -47,10 +46,7 @@
 			private var _collaborationController:CollaborationController;
 			[Bindable]
 			private var _collaborationModel:CollaborationModel;
-			[Bindable]
-			private var _localUser:User;
-			private var _hidden:Boolean = true;
-			
+
 			private var _netConnection:NetConnection;
 			private var _netStream:NetStream;
 			
@@ -58,27 +54,33 @@
 			private var _video:Video;
 			
 			private var _recording:Boolean;
-			
-			private function creationComplete():void
+
+            public function init(collaborationController:CollaborationController):void
 			{
-//				_netConnection = new NetConnection();
-//				_netConnection.addEventListener(NetStatusEvent.NET_STATUS, netConnectionConnectHandler);
-//				_netConnection.connect("rtmp://18.85.55.246/recordings");
-//
-//				_camera = Camera.getCamera();
-//				_video = new Video(240, 180);
-//				videoUIComponent.addChild(_video);
+				_collaborationController = collaborationController;
+				_collaborationModel = _collaborationController.collaborationModel;
+                _netConnection = _collaborationModel.collaborationLobbyNetConnectionService.netConnection;
+
 			}
 
-			private function netConnectionConnectHandler (e:NetStatusEvent):void
+     		private function creationComplete():void
 			{
-				if (e.info.code=="NetConnection.Connect.Success")
-				{
-					_netStream = new NetStream(_netConnection);
-				}
+                _camera = Camera.getCamera();
 			}
 
-			
+            public function showEffectEndHandler():void
+            {
+                _video = new Video(240, 180);
+                videoUIComponent.addChild(_video);
+                _video.attachCamera(_camera);
+            }
+
+            public function hideEffectEndHandler():void
+            {
+                videoUIComponent.removeChild(_video);
+                _video.attachCamera(null);
+            }
+
 			private function recordVideoButtonClickHandler():void
 			{
 				if (!_recording)
@@ -86,10 +88,6 @@
                     _netStream = new NetStream(_netConnection);
 					recordVideoButton.visible = false;
 					stopVideoButton.visible = true;
-                    _camera = Camera.getCamera();
-                    _video = new Video(240, 180);
-                    videoUIComponent.addChild(_video);
-					_video.attachCamera(_camera);
 					if (_netStream)
 					{
 						_netStream.attachCamera(_camera);
@@ -110,64 +108,28 @@
 					
 				}
 			}
-			
-			public function init(collaborationController:CollaborationController, collaborationModel:CollaborationModel):void 
-			{
-				_collaborationController = collaborationController;
-				_collaborationModel = collaborationModel;
-                _netConnection = _collaborationModel.collaborationLobbyNetConnectionService.netConnection;
-				
-//				_localUser = _collaborationModel.localUser;
-			}
-			
-			public function show():void
-			{
-				if (_hidden)
-				{
-					this.enabled = true;
-					this.dispatchEvent(new WorkstationViewEvent(WorkstationViewEvent.SHOW));
-					_hidden = false;
-				}
-			}
-			
-			public function hide():void
-			{
-				if (!_hidden)
-				{
-					this.enabled = false;
-					this.dispatchEvent(new WorkstationViewEvent(WorkstationViewEvent.HIDE));
-					_hidden = true;
-				}
-				
-			}
-			
-			private function determineRecordVideoViewVisibility(recordVideo:Boolean):Boolean
-			{
-				if (recordVideo)
-				{
-					show();
-				}
-				else
-				{
-					hide();	
-				}
-				return true
-			}
-			
+
 			private function closeClickHandler():void
 			{
-				_collaborationController.closeRecordVideoView();
+				_collaborationController.hideRecordVideoView();
 			}
 			
 		]]>
 	</fx:Script>
-	<mx:UIComponent id="videoUIComponent" width="240" height="180" horizontalCenter="0" verticalCenter="0"/>
-	<view:IconButton id="recordVideoButton" styleName="IconButton" icon="@Embed(source='/resources/images/icons/buttonIcons/record.png')" horizontalCenter="350" verticalCenter="0" click="recordVideoButtonClickHandler()" visible="true"/>
-	<view:IconButton id="stopVideoButton" styleName="IconButton" icon="@Embed(source='/resources/images/icons/buttonIcons/stop.png')" horizontalCenter="350" verticalCenter="0" click="stopVideoButtonClickHandler()" visible="false"/>
-	<view:IconButton id="close" styleName="IconButton" icon="@Embed(source='/resources/images/icons/buttonIcons/closeRecordButtonIcon.png')" verticalCenter="0" right="10" click="closeClickHandler()"/>
-	<s:Line top="0" width="100%">
-		<s:stroke>
-			<s:SolidColorStroke color="0x000000"/>
-		</s:stroke>
-	</s:Line>
+    <s:Group width="240" height="180" horizontalCenter="0" verticalCenter="0">
+        <s:Rect width="100%" height="100%">
+            <s:fill>
+                <s:SolidColor color="0xCCCCCC"/>
+            </s:fill>
+        </s:Rect>
+        <mx:UIComponent id="videoUIComponent" width="100%" height="100%"/>
+        <s:Rect width="100%" height="100%">
+            <s:stroke>
+                <s:SolidColorStroke color="0x000000"/>
+            </s:stroke>
+        </s:Rect>
+    </s:Group>
+	<view:IconButton id="recordVideoButton" icon="@Embed(source='/resources/images/icons/buttonIcons/record.png')" horizontalCenter="350" verticalCenter="0" click="recordVideoButtonClickHandler()" visible="true"/>
+	<view:IconButton id="stopVideoButton" icon="@Embed(source='/resources/images/icons/buttonIcons/stop.png')" horizontalCenter="350" verticalCenter="0" click="stopVideoButtonClickHandler()" visible="false"/>
+	<view:IconButton id="close" icon="@Embed(source='/resources/images/icons/buttonIcons/closeRecordButtonIcon.png')" verticalCenter="0" right="10" click="closeClickHandler()"/>
 </s:Group>

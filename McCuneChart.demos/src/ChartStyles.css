@@ -29,6 +29,30 @@ OTHER DEALINGS IN THE SOFTWARE.
 	@namespace controls "com.dougmccune.controls.*";
 	@namespace halo "mx.skins.halo.*";
 
+	global
+	{
+		font-family: Verdana, Arial;
+		font-size: 10pt;
+	}
+
+	s|WindowedApplication
+	{
+		backgroundGradientColors: #FFFFFF, #CCCCCC;
+	}
+	
+	mx|Canvas.appContainer
+	{
+		
+	}
+
+	mx|AreaChart
+	{
+		gutterLeft: 0;
+		gutterRight: 0;
+		gutterTop: 0;
+		gutterBottom: 0;
+	}
+
 	.noAxisStyle
 	{
 		showLine: false;
@@ -36,18 +60,15 @@ OTHER DEALINGS IN THE SOFTWARE.
 		tickPlacement: none;
 	}
 	
+/*
 	.mainChartStyle
 	{
 		gutterBottom: 18;
 		gutterLeft: 0;
 		gutterRight: 0;
 	}
+*/
 
-    .mainChartHorizontalAxisStyle, .mainChartVerticalAxisStyle
-    {
-        color: #000000;
-    }
-	
 	.canvasContainerStyles
 	{
 		borderThickness: 1;
@@ -56,28 +77,17 @@ OTHER DEALINGS IN THE SOFTWARE.
 		backgroundColor: #FFFFFF;
 		backgroundAlpha: 1;		   
 	}
-
-	.rangeHSliderStyle
+	
+	mx|GridLines
 	{
-		dataTipOffset: 16;
-		dataTipPlacement: "top";
-		dataTipPrecision: 2;
-		labelOffset: -10;
-		showTrackHighlight: false;
-		slideDuration: 300;
-		thumbOffset: 0;
-		thumbSkin: ClassReference("mx.skins.halo.SliderThumbSkin");
-		tickColor: #6F7777;
-		tickLength: 4;
-		tickOffset: -6;
-		tickThickness: 1;
-		trackHighlightSkin: ClassReference("com.dougmccune.skins.SliderThumbHighlightSkin");
-		trackSkin: ClassReference("mx.skins.halo.SliderTrackSkin");
+		horizontalChangeCount: 1; 
+		verticalChangeCount: 2;
+		direction: both;
 	}
 
-    .rangeButton
-    {
-        chromeColor: #BAD5F0;
-        cornerRadius: 5px;
-    }
-	
+	mx|Button
+	{
+		cornerRadius: 2;
+		font-weight: bold;
+	}
+

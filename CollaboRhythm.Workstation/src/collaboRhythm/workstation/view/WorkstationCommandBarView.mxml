@@ -15,9 +15,9 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:view="collaboRhythm.workstation.view.*"
 		 height="100" xmlns:view1="collaboRhythm.shared.view.*"
         visible="false">
@@ -64,10 +64,6 @@
 			font-weight: bold;
 		}
 		
-		.IconButton
-		{
-			skin-class: ClassReference("collaboRhythm.shared.view.IconButtonSkin");
-		}
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
@@ -207,26 +203,29 @@
 		</s:Group>
 		<view1:IconButton
 			id="recordVideoButton"
-			styleName="IconButton"
 			click="recordVideoButtonHandler(event)"
 			icon="@Embed(source='/assets/images/icons/buttonIcons/video.png')"
 			verticalCenter="0"
 			/>
 		<view1:IconButton
 			id="collaborateButton"
-			styleName="IconButton"
 			click="collaborateButtonHandler(event)"
 			icon="@Embed(source='/assets/images/icons/buttonIcons/collaborateButtonIcon.png')"
 			enabled="{determineCollaborateButtonEnabled(_model.subjectUser.collaborationLobbyConnectionStatus)}"
 		/>
 		<view1:IconButton
 			id="closeRecordButton"
-			styleName="IconButton"
 			click="closeRecordButton_clickHandler(event)"
 			icon="@Embed(source='/assets/images/icons/buttonIcons/closeRecordButtonIcon.png')"
 			enabled="{_model.allowCloseRecord}"
 		/>
-	</s:HGroup>
+		<!-- TODO: figure out why styles from defaults.css is not working for McCuneChart (but is working for CollaboRhythm.Shared)
+        <view1:ComponentTest1/>
+		<controls:ComponentTest2
+				skinClass="com.dougmccune.controls.ComponentTest2Skin"
+                />
+                -->
+    </s:HGroup>
 	<s:Line bottom="0" width="100%">
 		<s:stroke>
 			<s:SolidColorStroke color="0x000000"/>

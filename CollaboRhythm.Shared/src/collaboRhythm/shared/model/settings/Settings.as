@@ -23,6 +23,9 @@ package collaboRhythm.shared.model.settings
 	{
 		private var _username:String;
 		private var _password:String;
+        private var _useFileTarget:Boolean;
+        private var _useTraceTarget:Boolean;
+        private var _useSyslogTarget:Boolean;
 		private var _oauthChromeConsumerKey:String;
 		private var _oauthChromeConsumerSecret:String;
 		private var _indivoServerBaseURL:String;
@@ -109,6 +112,36 @@ package collaboRhythm.shared.model.settings
 		{
 			_username = value;
 		}
+
+        public function get useFileTarget():Boolean
+        {
+            return _useFileTarget;
+        }
+
+        public function set useFileTarget(value:Boolean):void
+        {
+            _useFileTarget = value;
+        }
+
+        public function get useTraceTarget():Boolean
+        {
+            return _useTraceTarget;
+        }
+
+        public function set useTraceTarget(value:Boolean):void
+        {
+            _useTraceTarget = value;
+        }
+
+        public function get useSyslogTarget():Boolean
+        {
+            return _useSyslogTarget;
+        }
+
+        public function set useSyslogTarget(value:Boolean):void
+        {
+            _useSyslogTarget = value;
+        }
 
 		public function get mode():String
 		{

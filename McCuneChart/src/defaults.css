@@ -1,0 +1,103 @@
+/*
+Copyright (c) 2007 Brendan Meutzner
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+@namespace "com.dougmccune.controls.*";
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+@namespace controls "com.dougmccune.controls.*";
+@namespace halo "mx.skins.halo.*";
+
+s|Label.componentTest2Label
+{
+    fontSize: 24pt;
+    backgroundColor: #AAFFAA;
+}
+
+ScrubChart, TouchScrollingScrubChart
+{
+    skin-class: ClassReference("com.dougmccune.controls.ScrubChartSkin");
+}
+
+.noAxisStyle
+{
+    showLine: false;
+    showLabels: false;
+    tickPlacement: none;
+}
+
+.mainChartStyle
+{
+    gutterBottom: 0;
+    gutterLeft: 0;
+    gutterRight: 0;
+    gutterTop: 0;
+}
+
+.mainChartHorizontalAxisStyle, .mainChartVerticalAxisStyle
+{
+    color: #000000;
+}
+
+.canvasContainerStyles
+{
+    borderThickness: 1;
+    borderColor: #333333;
+    borderStyle: solid;
+    backgroundColor: #FFFFFF;
+}
+
+.rangeHSliderStyle
+{
+    dataTipOffset: 16;
+    dataTipPlacement: "top";
+    dataTipPrecision: 2;
+    labelOffset: -10;
+    showTrackHighlight: false;
+    slideDuration: 300;
+    thumbOffset: 0;
+    thumbSkin: ClassReference("mx.skins.halo.SliderThumbSkin");
+    tickColor: #6F7777;
+    tickLength: 4;
+    tickOffset: -6;
+    tickThickness: 1;
+    trackHighlightSkin: ClassReference("com.dougmccune.skins.SliderThumbHighlightSkin");
+    trackSkin: ClassReference("mx.skins.halo.SliderTrackSkin");
+}
+
+.rangeButton
+{
+    chromeColor: #BAD5F0;
+    cornerRadius: 5px;
+}
+
+controls|ScrubChart, controls|TouchScrollingMcCuneChart, .scrubChartSkinStyle
+{
+    skin-class: ClassReference("com.dougmccune.controls.ScrubChartSkin");
+    rangeChartVisible: true;
+    sliderVisible: true;
+    topBorderVisible: true;
+    headerVisible: true;
+    footerVisible: true;
+}

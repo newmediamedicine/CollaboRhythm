@@ -38,7 +38,7 @@ package collaboRhythm.shared.controller
 	import spark.effects.Move;
 	
 	/**
-	 * Coordinates interaction between the CollaborationModel and CollaborationBarView classes.
+	 * Coordinates interaction between the CollaborationModel and the CollaborationView and its children the RecordVideoView and CollaborationRoomView.
 	 * Currently, it is possible for the user to accept or cancel (this includes reject) collaborations from the CollaboratingRemoteUserViews in the CollaborationBarView.
 	 * The CollaborationBarView listens for the events from the CollaboratingRemoteUserViews and calls functions in this class, which update the collaborationModel and dispatch events for interested observers.
 	 * Currently, the CollaborationMediator listens for events from this class.  It also calls functions in this class when collaboration functions are called via the RemoteUserNetConnectionService.
@@ -49,31 +49,47 @@ package collaboRhythm.shared.controller
 	{
 		private var _activeAccount:Account;
 		private var _collaborationModel:CollaborationModel;
+        private var _collaborationView:CollaborationView;
 		private var _collaborationRoomView:CollaborationRoomView;
 		private var _recordVideoView:RecordVideoView;
 		private var _settings:Settings;
 		private var logger:ILogger;
 		
-		public function CollaborationController(videoView:CollaborationView, activeAccount:Account, settings:Settings)
+		public function CollaborationController(activeAccount:Account, collaborationView:CollaborationView,  settings:Settings)
 		{		
 			logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
-			logger.info("Creating CollaborationController");
+//			logger.info("Creating CollaborationController");
 			_settings = settings;
 			_activeAccount = activeAccount;
-			logger.info("Creating CollaborationModel");
+//			logger.info("Creating CollaborationModel");
 			_collaborationModel = new CollaborationModel(settings, _activeAccount);
-			_collaborationRoomView = videoView.collaborationRoomView;
-			_recordVideoView = videoView.recordVideoView;
-			if (_settings.isWorkstationMode)
-			{
-				_collaborationRoomView.y = _collaborationRoomView.y + (-_collaborationRoomView.height);
-				_collaborationRoomView.initializeModel(this, _collaborationModel);
-				_recordVideoView.y = _recordVideoView.y + (-_recordVideoView.height);
-				_recordVideoView.init(this, _collaborationModel);
-				
-				_collaborationRoomView.addEventListener(CollaborationEvent.LOCAL_USER_JOINED_COLLABORATION_ROOM_ANIMATION_COMPLETE, localUserJoinedCollaborationRoomAnimationCompleteHandler);
-			}
+            _collaborationView = collaborationView;
+//			_collaborationRoomView = collaborationView.collaborationRoomView;
+//			_recordVideoView = collaborationView.recordVideoView;
+//			if (_settings.isWorkstationMode)
+//			{
+//				_collaborationRoomView.y = _collaborationRoomView.y + (-_collaborationRoomView.height);
+//				_collaborationRoomView.initializeModel(this, _collaborationModel);
+//				_recordVideoView.y = _recordVideoView.y + (-_recordVideoView.height);
+//				_recordVideoView.init(this, _collaborationModel);
+//
+//				_collaborationRoomView.addEventListener(CollaborationEvent.LOCAL_USER_JOINED_COLLABORATION_ROOM_ANIMATION_COMPLETE, localUserJoinedCollaborationRoomAnimationCompleteHandler);
+//			}
 		}
+
+        public function showRecordVideoView():void
+        {
+            _collaborationModel.recordVideo = true;
+//            _collaborationView.recordVideoView.visible = true;
+//            _collaborationView.visible = true;
+        }
+
+        public function hideRecordVideoView():void
+        {
+            _collaborationModel.recordVideo = false;
+//            _collaborationView.recordVideoView.visible = false;
+//            _collaborationView.visible = false;
+        }
 
 		public function get activeAccount():Account
 		{

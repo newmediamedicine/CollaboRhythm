@@ -67,7 +67,7 @@ package collaboRhythm.core.controller
 			throw Error("virtual function must be overriden in subclass");
 		}
 		
-		public function CollaborationMediatorBase(account:Account)
+		public function CollaborationMediatorBase()
 		{
 			logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
             _account = account;
@@ -76,8 +76,8 @@ package collaboRhythm.core.controller
 			_settings = applicationController.settings;
 			_settingsFileStore = applicationController.settingsFileStore;
 			
-			if (_settings.isPatientMode)
-				prepareForPatientMode();
+//			if (_settings.isPatientMode)
+//				prepareForPatientMode();
 			
 //			healthRecordService = new CommonHealthRecordService(_settings.chromeConsumerKey, _settings.chromeConsumerSecret, _settings.indivoServerBaseURL);
 //

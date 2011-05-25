@@ -60,7 +60,6 @@ package collaboRhythm.shared.model.healthRecord
                     {
                         _uniqueRecords.push(recordXml.@id);
                         var record:Record = new Record(recordXml);
-                        _activeAccount.records.push(record);
                         // Keep track of all of the records as well as which are shares and which is the primary
                         // TODO: This assumes that there is only one record for an account that is not shared, check to make sure
                         if (record.shared)

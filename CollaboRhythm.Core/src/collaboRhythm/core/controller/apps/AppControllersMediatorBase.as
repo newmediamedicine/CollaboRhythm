@@ -138,7 +138,7 @@ package collaboRhythm.core.controller.apps
 		 * put in scheduleWidgetParentContainer.
 		 * @param user The user to initialize the apps for.
 		 */
-		public function createAndStartWorkstationApps(account:Account):void
+		public function createAndStartApps(account:Account):void
 		{
 			initializeForAccount(account);
 
@@ -156,14 +156,14 @@ package collaboRhythm.core.controller.apps
 		 * is automatically created from all dynamic apps.
 		 * @param user The user to initialize the apps for.
 		 */
-//		public function createMobileApps(user:User, account:Account):void
-//		{
-//			initializeForAccount(user, account);
-//			if (_settings.appGroups && _settings.appGroups.length > 0)
-//				createAppsForGroup(0);
-//			else
-//				createDynamicApps();
-//		}
+		public function createMobileApps(account:Account):void
+		{
+			initializeForAccount(account);
+			if (_settings.appGroups && _settings.appGroups.length > 0)
+				createAppsForGroup(0);
+			else
+				createDynamicApps();
+		}
 
 		private function createAppsForGroup(groupIndex:int):void
 		{

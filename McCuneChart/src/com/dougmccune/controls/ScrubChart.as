@@ -1,6 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-Copyright (c) 2007 Brendan Meutzner
+/**
+ * Copyright 2011 John Moore, Scott Gilroy
+ *
+ * This file is part of CollaboRhythm.
+ *
+ * CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ * <http://www.gnu.org/licenses/>.
+ *
+ * This code is based in part on code by Brendan Meutzner.
+
+Portions Copyright (c) 2007 Brendan Meutzner
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -22,855 +38,283 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
--->
-<s:Group
-	xmlns:fx="http://ns.adobe.com/mxml/2009" 
-	xmlns:s="library://ns.adobe.com/flex/spark" 
-	xmlns:mx="library://ns.adobe.com/flex/mx"
-	xmlns:mccune="com.dougmccune.controls.*"
-	xmlns:skins="skins.*"
-	xmlns:annotations="annotations.*"
-	creationComplete="creationCompleteHandler(event)"
-	visible="false"
-	width="1024"
-	height="600" xmlns:baseClasses="com.dougmccune.baseClasses.*"
-	>
-	<s:layout>
-		<mccune:ChildIndependentLayout/>
-	</s:layout>
+ */
+package com.dougmccune.controls
+{
+	import annotations.EventAnnotation;
 	
-	<fx:Style source="ChartStyles.css" />
+	import com.dougmccune.events.FocusTimeEvent;
 	
-	<fx:Declarations>
-		<mx:DateFormatter id="fullDateFormat" formatString="YYYY-MM-DD" />
-		<mx:DateFormatter id="labelYearFormatter" formatString="YYYY" />
-		<mx:DateFormatter id="labelMonthFormatter" formatString="MMM YYYY" />
-		<mx:DateFormatter id="labelDayFormatter" formatString="MMM DD" />
-		<mx:DateFormatter id="labelDefaultFormatter" formatString="EEE MMM D" />
-		<mx:DateFormatter id="labelSummaryDateFormatter" formatString="EEE MMM DD, YYYY" />
-		
-		<mx:NumberFormatter id="verticalAxisFormat" precision="1" />
-		<mx:NumberFormatter id="dollarFormatter" useNegativeSign="true" precision="2" />
-		<mx:NumberFormatter id="percentageFormatter" useNegativeSign="true" precision="2" />
-		<mx:NumberFormatter id="volumeFormatter" useThousandsSeparator="true"/>
-		
-		<s:Sequence id="highlightChartItemEffect">
-			<s:Parallel>
-				<!--
-				-->
-				<s:Resize id="highlightChartItemEffectBullsEyeResize" target="{highlightChartItemBullsEye}" widthFrom="200" heightFrom="200" widthTo="15" heightTo="15"/>
-				<s:Fade id="highlightChartItemEffectBullsEyeFade" target="{highlightChartItemBullsEye}" alphaFrom="0" alphaTo="0.5"/>
-				<s:Move id="highlightChartItemEffectScopeLeftMove" target="{highlightChartItemScopeLeft}"/>
-				<s:Fade id="highlightChartItemEffectScopeLeftFadeIn" target="{highlightChartItemScopeLeft}" alphaFrom="0.5" alphaTo="1"/>
-			</s:Parallel>
-			<s:Fade id="highlightChartItemEffectScopeLeftFadeOut" target="{highlightChartItemScopeLeft}" alphaFrom="1" alphaTo="0"/>
-		</s:Sequence>
-	</fx:Declarations>
-
-	<fx:Metadata> 
-		[Event(name="seriesComplete", type="flash.events.Event")] 
-		[Event(name="scroll", type="mx.events.ScrollEvent")] 
-		[Event(name="focusTimeChange", type="com.dougmccune.events.FocusTimeEvent")] 
-	</fx:Metadata> 
-
-	<s:states> 
-		<s:State name="hideAnnotationControls"/> 
-		<s:State name="showAnnotationControls"/>    
-	</s:states>
-
-	<!--
-	<s:Rect id="backgroundRect" left="0" right="0" top="0" bottom="0">
-		<s:fill>
-			<s:LinearGradient rotation="90">
-				<s:GradientEntry color="#FFFFFF" />
-				<s:GradientEntry color="#CCCCCC" />
-			</s:LinearGradient>
-		</s:fill>
-	</s:Rect>
-	-->
-	<s:HGroup id="appContainer" width="{this.width}" height="{this.height}">
-		<!--
-		-->
-		<s:Group id="chartsGroup"
-				 width.hideAnnotationControls="{appContainer.width - 1}"
-				 width.showAnnotationControls="{appContainer.width - 50 - annotationsBox.width}" 
-				 height="{appContainer.height}"
-				 >
-			
-			<!-- volume column (bar) chart -->
-			<!--
-			<mx:Canvas id="mainChartVolumeContainer" 
-					   x="0" y="{mainChartContainer.y + mainChartContainer.height}" 	
-					   width="{mainChartContainer.width}" height="{VOLUME_CHART_HEIGHT}" 
-					   horizontalScrollPolicy="off" verticalScrollPolicy="off"
-					   styleName="canvasContainerStyles"
-					   borderStyle="none"
-					   >
-			-->
-			<mx:Canvas id="mainChartVolumeContainer" 
-					   x="{mainChartContainer.x}" y="{mainChartContainer.y + mainChartContainer.height}" 	
-					   width="{mainChartContainer.width}"
-					   height="{volumeVisible ? VOLUME_CHART_HEIGHT : 0}"
-					   visible="{volumeVisible}"
-					   includeInLayout="false"
-					   horizontalScrollPolicy="off" verticalScrollPolicy="off"
-					   styleName="canvasContainerStyles"
-					   borderStyle="none"
-					   >
-				<!-- TODO
-				borderSides="left right bottom"
-				-->
-				
-				<mx:CartesianChart id="mainChartVolume"
-								   x="-2" y="0" 
-								   dataProvider="{volumeVisible ? mainData : null}"
-								   width="{mainChartContainer.width}" height="{mainChartVolumeContainer.height}" 
-								   showDataTips="false" backgroundElements="[]"
-								   mouseMove="getChartDataPoint()" mouseOut="chartMouseOut()">
-					
-					<mx:horizontalAxis>
-						<mx:DateTimeAxis id="mainChartVolumeHorizontalAxis" dataUnits="days" parseFunction="dateParse" />
-					</mx:horizontalAxis>
-					
-					<mx:horizontalAxisRenderers>
-						<fx:Array>
-							<mx:AxisRenderer width="0" height="0" styleName="noAxisStyle" axis="{mainChartVolumeHorizontalAxis}"/>
-						</fx:Array>
-					</mx:horizontalAxisRenderers>
-					
-					<mx:verticalAxis><mx:LinearAxis id="mainChartVolumeVerticalAxis" baseAtZero="false" /></mx:verticalAxis>
-					
-					<mx:verticalAxisRenderers>
-						<fx:Array>
-							<mx:AxisRenderer width="0" height="0" styleName="noAxisStyle" axis="{mainChartVolumeVerticalAxis}" />
-						</fx:Array>
-					</mx:verticalAxisRenderers>
-					
-					<mx:series>
-						<mx:ColumnSeries id="volumeSeries" name="close" xField="date" yField="volume"
-										 fill="{new SolidColor(0x0066dd, 0.85)}" 
-										 maxColumnWidth="3"
-										 itemRenderer="skins.ColumnSeriesCustomRenderer"  />
-					</mx:series>	        
-					
-				</mx:CartesianChart>
-				<s:Group height="100%" width="100%">
-					<s:Line left="0" top="0" bottom="0">
-						<s:stroke>
-							<s:SolidColorStroke/>
-						</s:stroke>
-					</s:Line>
-					<s:Line right="0" top="0" bottom="0">
-						<s:stroke>
-							<s:SolidColorStroke/>
-						</s:stroke>
-					</s:Line>
-					<s:Line bottom="0" left="0" right="0">
-						<s:stroke>
-							<s:SolidColorStroke/>
-						</s:stroke>
-					</s:Line>
-				</s:Group>
-			</mx:Canvas>
-			
-			<!-- bottom chart with divided box for range selection -->
-			<mx:Canvas id="rangeChartContainer" 	
-					   x="{SLIDER_SCROLL_BUTTON_WIDTH}" y="{mainChartVolumeContainer.y + mainChartVolumeContainer.height + groupBetweenMainRange.height - RANGE_CHART_OVERLAP}"
-					   width="{mainChartContainer.width}" height="{rangeChartVisible ? RANGE_CHART_HEIGHT : 0}"
-					   visible="{rangeChartVisible}"
-					   horizontalScrollPolicy="off" verticalScrollPolicy="off" 
-					   styleName="canvasContainerStyles" 
-					   borderStyle="none"
-					   >
-				<mx:AreaChart x="0" y="0" id="rangeChart"
-							  showDataTips="false" dataProvider="{rangeChartVisible ? rangeData : null}"
-							  width="100%" height="{rangeChartContainer.height}"
-							  gutterLeft="0"
-							  gutterRight="0"
-							  gutterTop="0"
-							  gutterBottom="0"
-							  >
-					
-					<mx:backgroundElements>
-						<mx:GridLines gridDirection="both" verticalChangeCount="1" horizontalChangeCount="2">
-							<mx:verticalStroke>
-								<s:SolidColorStroke weight="1" alpha="0.1"/>
-							</mx:verticalStroke>
-							<mx:horizontalStroke>
-								<s:SolidColorStroke weight="1" alpha="0.1"/>
-							</mx:horizontalStroke>
-						</mx:GridLines>
-					</mx:backgroundElements>
-
-					<!--
-					<mx:horizontalAxis><mx:DateTimeAxis dataUnits="days" parseFunction="dateParse" /></mx:horizontalAxis>
-					
-					<mx:horizontalAxisRenderer>
-						<mx:AxisRenderer styleName="noAxisStyle" />
-					</mx:horizontalAxisRenderer>
-										 minorTickUnits="days"
-										 minorTickInterval="1"
-					-->
-					<mx:horizontalAxis>
-						<mx:DateTimeAxis id="rangeChartHorizontalAxis" 
-										 dataUnits="years" 
-										 parseFunction="dateParse" 
-										 labelFunction="formatDateLabel" 
-										 />
-						<!--
-										 dataUnits="months" 
-						-->
-					</mx:horizontalAxis>
-					<!--
-					<mx:horizontalAxisRenderer>
-						<skins:InnerAxisRenderer axisPosition="right" axisWidth="20" 
-												 axisBackgroundAlpha="0"
-												 labelAlign="right"
-												 labelFontSize="10" labelFontColor="#666666" />
-					</mx:horizontalAxisRenderer>
-					-->
-					<mx:horizontalAxisRenderers>
-						<skins:InnerAxisRenderer 
-							axis="{rangeChartHorizontalAxis}"
-							axisWidth="20" 
-							axisBackgroundAlpha="0"
-							labelAlign="left"
-							labelPaddingLeft="5"
-							labelFontSize="10" 
-							labelFontColor="#666666" />
-						<!--
-						<mx:AxisRenderer 
-							axis="{rangeChartHorizontalAxis}"
-							tickPlacement="inside"
-							tickLength="200"
-							>
-							<mx:tickStroke>
-								<s:SolidColorStroke color="#000000" weight="1" alpha="0.2"/>
-							</mx:tickStroke>
-						</mx:AxisRenderer>
-						-->
-					</mx:horizontalAxisRenderers>
-					
-					
-					<mx:verticalAxis><mx:LinearAxis id="rangeChartVerticalAxis" baseAtZero="false" /></mx:verticalAxis>
-					
-					<mx:verticalAxisRenderers>
-						<fx:Array>
-							<mx:AxisRenderer styleName="noAxisStyle" placement="right" width="0" axis="{rangeChartVerticalAxis}"/>
-						</fx:Array>
-					</mx:verticalAxisRenderers>
-					
-					<!--
--->					
-					<mx:series>
-						<mx:AreaSeries id="smallSeries" name="close" xField="date" yField="{seriesName}" 
-									   areaFill="{new SolidColor(0xcde2f8, 0.20)}" 
-									   areaStroke="{new Stroke(0x0066dd, 1)}"
-									   form="segment" 
-									   filterDataValues="none"
-									   />
-					</mx:series>
-					<mx:annotationElements>
-						<mx:HDividedBox id="dividedBox" horizontalScrollPolicy="off"
-										width="{rangeChartContainer.width}" height="100%" 
-										liveDragging="true" 
-										dividerRelease="updateIndicatorValuesWithEffect();"
-										dividerSkin="{blankDividerClass}"
-										dividerDrag="setDividerDragDate()"
-										mouseOver="dividedBox.setStyle('dividerSkin', dividerClass);" 
-										mouseOut="dividedBox.setStyle('dividerSkin', blankDividerClass);"
-										resize="dividedBox_resizeHandler(event)"
-										borderStyle="none"
-										>
-							<!--
-										dividerThickness="8"
-										horizontalGap="0"
-										dividerAffordance="8"
-							
-										borderColor="#0000FF"
-										borderAlpha="0.5"
-										borderStyle="solid"
-							-->
-							<mx:Canvas id="leftBox" backgroundColor="#FFFFFF" backgroundAlpha="0.5" width="50%" height="100%" 
-									   borderColor="#333333" borderStyle="none" 
-									   >
-							</mx:Canvas>
-							
-							<mx:Canvas id="middleBox" backgroundColor="#FFFFFF" backgroundAlpha="0" width="50%" height="100%" buttonMode="true" 
-									   mouseDown="setMouseDown(rangeChart);" minWidth="{Math.max(5, Math.min(100, rangeDataRatio * minimumDurationTime))}"
-									   mouseUp="showAnnotations = true; refreshAnnotations()" 
-									   />
-							<!--
-									   borderStyle="solid" borderAlpha="0.5"
-							-->
-							<mx:Canvas id="rightBox" backgroundColor="#FFFFFF" backgroundAlpha="0.5" width="0%" height="100%" 
-									   borderColor="#333333" borderStyle="none" 
-									   >
-							</mx:Canvas>
-						</mx:HDividedBox>
-					</mx:annotationElements>
-					
-				</mx:AreaChart>
-				
-				<s:Group id="rangeBorderLines" top="0" bottom="0" width="100%">
-					<s:Line x="{leftBox.width}" top="0" bottom="0">
-						<s:stroke>
-							<s:SolidColorStroke/>
-						</s:stroke>
-					</s:Line>
-					<s:Line x="{rightBox.x}" top="0" bottom="0">
-						<s:stroke>
-							<s:SolidColorStroke/>
-						</s:stroke>
-					</s:Line>
-					<s:Line bottom="0" xFrom="{leftBox.width}" xTo="{rightBox.x}" visible="{!sliderVisible}">
-						<s:stroke>
-							<s:SolidColorStroke/>
-						</s:stroke>
-					</s:Line>
-				</s:Group>
-
-				<s:Group id="rangeChartSides" top="0" bottom="0" width="100%" visible="false">
-					<s:Line left="0" top="0" bottom="0">
-						<s:stroke>
-							<s:SolidColorStroke color="#999999"/>
-						</s:stroke>
-					</s:Line>
-					<s:Line right="0" top="0" bottom="0">
-						<s:stroke>
-							<s:SolidColorStroke color="#999999"/>
-						</s:stroke>
-					</s:Line>
-				</s:Group>
-			</mx:Canvas>	
-			
-			<!-- main graph -->
-			<!-- for debugging, leave space to show the rangeValueIndicators
-			height="{appContainer.height - header.height - mainChartVolumeContainer.height + 2 + 18 - RANGE_CHART_HEIGHT + 1}" 
-			height="{appContainer.height - header.height - mainChartVolumeContainer.height + 2 + 18 - RANGE_CHART_HEIGHT + 1 - rangeValueIndicators.height}" 
-			-->
-			<mx:Canvas id="mainChartContainer" 
-					   x="{SLIDER_SCROLL_BUTTON_WIDTH}" y="{header.height}"
-					   width="{chartsGroup.width - SLIDER_SCROLL_BUTTON_WIDTH * 2}"
-					   height="{appContainer.height - header.height - mainChartVolumeContainer.height - groupBetweenMainRange.height - rangeChartContainer.height - rangeSelectorContainer.height + RANGE_CHART_OVERLAP - footer.height}"
-					   horizontalScrollPolicy="off" verticalScrollPolicy="off" 
-					   styleName="canvasContainerStyles"
-					   borderStyle="none"
-					   >
-				<!-- borderSides="left right top" --> 
-				<!-- the bottom bar on which the labels for HAxis get rendered 
-				<mx:HBox x="0" y="{mainChart.height - 18}" backgroundColor="#CDE2F8" width="100%" height="18" />
-				-->
-				<mx:filters>
-					<s:DropShadowFilter blurX="11" blurY="11" alpha="0.75" distance="5" 
-										angle="45" color="0x000000" />
-				</mx:filters>
-				<s:Group width="100%" height="30" bottom="0">
-					<s:Rect width="100%" height="100%">
-						<s:fill>
-							<s:SolidColor color="0xB9D6F0"/>
-						</s:fill>
-					</s:Rect>
-				</s:Group>
-				<mx:LineChart id="mainChart"
-							  x="0" y="0" 
-							  showDataTips="false"
-							  dataProvider="{mainData}"
-							  width="{mainChartContainer.width}" height="{mainChartContainer.height}" 
-							  styleName="mainChartStyle"
-							  mouseMove="getChartDataPoint()"
-							  mouseOut="chartMouseOut()"
-							  gutterRight="1"
-							  seriesFilters="[]"
-							  gutterBottom="30"
-							  gutterLeft="40"
-							  resize="mainChart_resizeHandler(event)"
-							  horizontalAxisStyleNames="mainChartHorizontalAxisStyle"
-							  verticalAxisStyleNames="mainChartVerticalAxisStyle"
-							  >
-					<mx:backgroundElements>
-						<mx:GridLines gridDirection="both" verticalChangeCount="1" horizontalChangeCount="1">
-							<mx:verticalStroke>
-								<s:SolidColorStroke weight="1" alpha="0.1"/>
-							</mx:verticalStroke>
-							<mx:horizontalStroke>
-								<s:SolidColorStroke weight="1" alpha="0.1"/>
-							</mx:horizontalStroke>
-						</mx:GridLines>
-					</mx:backgroundElements>
-					
-					<mx:horizontalAxis>
-						<!--
-						<mccune:DateTimeAxisExtended dataUnits="days" parseFunction="dateParse" 
-						labelFunction="formatDateLabel2"
-						disabledDays="[]"
-						width="{mainChart.width}"
-						/>
-						-->
-						<mx:DateTimeAxis id="mainChartHorizontalAxis" dataUnits="days" parseFunction="dateParse" 
-										 labelFunction="formatDateLabel"
-										 disabledDays="[]"
-										 />
-					</mx:horizontalAxis>
-					<!--
-					<mx:horizontalAxisRenderers>
-					<skins:InnerAxisRenderer axis="{mainChartHorizontalAxis}" axisPosition="right" axisWidth="20" 
-					axisBackgroundAlpha="1" axisBackgroundColor="#CDE2F8"
-					labelAlign="center" 
-					labelFontSize="14" labelFontColor="#000000" />
-					</mx:horizontalAxisRenderers>
-					-->
-					<mx:horizontalAxisRenderers>
-						<mx:AxisRenderer axis="{mainChartHorizontalAxis}" fontSize="14" />
-					</mx:horizontalAxisRenderers>
-					<mx:verticalAxis>
-						<mx:LinearAxis id="mainChartVerticalAxis" baseAtZero="false" />
-					</mx:verticalAxis>
-					<!--
-					<mx:AxisRenderer  
-					axis="{verticalAxis1}"
-					placement="right"
-					labelAlign="left"
-					tickPlacement="inside"
-					labelRotation="0"
-					/>
-					<mx:verticalAxisRenderers>
-					<skins:InnerAxisRenderer 
-					axis="{mainChartVerticalAxis}"
-					axisPosition="right"
-					axisWidth="200" 
-					axisBackgroundAlpha="0"
-					labelFontSize="14"
-					labelFontColor="#000000" />
-					</mx:verticalAxisRenderers>
-					-->
-					<mx:verticalAxisRenderers>
-						<mx:AxisRenderer axis="{mainChartVerticalAxis}" fontSize="14">
-							<mx:axisStroke>
-								<s:SolidColorStroke weight="1"/>
-							</mx:axisStroke>
-						</mx:AxisRenderer>
-					</mx:verticalAxisRenderers>
-					<mx:series>
-						<mx:AreaSeries id="largeSeries" name="close" xField="date" yField="{seriesName}" 
-									   areaFill="{new SolidColor(0xCDE2F8, 0.20)}"
-									   areaStroke="{new Stroke(0x0066DD, 1)}"
-									   fill="{new SolidColor(0x0066DD, .75)}" 
-									   radius="2.5" form="segment"
-									   itemRenderer="skins.LineSeriesCustomRenderer" 
-									   updateComplete="seriesComplete();"
-									   filterDataValues="none"
-									   />
-					</mx:series>
-					<mx:annotationElements>
-						<s:Label text="{mainChartTitle}" styleName="MainChartTitleLabel">
-							<s:filters>
-								<s:GlowFilter id="glow" blurX="12" blurY="12" color="#FFFFFF" quality="2" strength="4"/>
-							</s:filters>
-						</s:Label>
-						<mx:Canvas id="mainChartArea" width="100%" height="100%" buttonMode="true" 
-								   mouseDown="setMouseDown(mainChart);"
-								   mouseUp="showAnnotations = true; refreshAnnotations()" />
-						
-						<mx:Canvas id="annotationCanvas" width="100%" height="100%" 
-								   horizontalScrollPolicy="off" verticalScrollPolicy="off"/>
-						<s:Group width="100%" height="100%">
-<!--							<mx:ProgressBar id="fpsBar" right="0" width="200" mode="manual" label="" visible="{_showFps}"/>-->
-							<s:Label id="fpsLabel" right="0" text="FPS: ???" visible="{_showFps}" styleName="MainChartTitleLabel">
-							</s:Label>
-						</s:Group>
-						
-						<!-- annotations for highlighting a selected data point	-->
-						<s:Group id="highlightChartItemGroup" width="100%" height="100%" visible="false">
-							<s:Rect id="highlightChartItemScopeLeft" width="30" height="5" radiusX="3">
-								<s:fill>
-									<s:SolidColor color="0x003300" alpha="0.5"/>
-								</s:fill>
-							</s:Rect>
-							<s:Ellipse id="highlightChartItemBullsEye" width="30" height="30">
-								<s:stroke>
-									<s:SolidColorStroke color="0x000033" weight="3"/>
-								</s:stroke>
-							</s:Ellipse>
-						</s:Group>
-						<!--
-						<s:VGroup left="0" verticalCenter="0">
-							<s:filters>
-								<s:GlowFilter blurX="12" blurY="12" color="#FFFFFF" quality="2" strength="4"/>
-							</s:filters>
-							<s:Label text="this.width {this.width}"/>
-							<s:Label text="mainChartContainer.width {mainChartContainer.width}"/>
-							<s:Label text="mainChart.width {mainChart.width}"/>
-						</s:VGroup>
-						-->
-					</mx:annotationElements>
-					
-					
-				</mx:LineChart>
-				
-				<!-- mainChart border lines -->
-				<s:Group height="100%" width="100%">
-					<s:Line left="0" top="0" bottom="0">
-						<s:stroke>
-							<s:SolidColorStroke/>
-						</s:stroke>
-					</s:Line>
-					<s:Line x="{mainChartContainer.width - 1}" top="0" bottom="0">
-						<s:stroke>
-							<s:SolidColorStroke/>
-						</s:stroke>
-					</s:Line>
-					<s:Line top="0" left="0" right="0" visible="{topBorderVisible}">
-						<s:stroke>
-							<s:SolidColorStroke/>
-						</s:stroke>
-					</s:Line>
-<!-- solid line across the bottom
-					<s:Line bottom="0" left="0" right="0">
-						<s:stroke>
-							<s:SolidColorStroke/>
-						</s:stroke>
-					</s:Line>
-					<s:Line bottom="0" left="0" width="{leftBox.width}">
-						<s:stroke>
-							<s:SolidColorStroke/>
-						</s:stroke>
-					</s:Line>
-					-->
-				</s:Group>
-				
-			</mx:Canvas> <!-- end mainChartContainer -->
-			
-			<s:Group id="groupBetweenMainRange"
-					 x="{SLIDER_SCROLL_BUTTON_WIDTH}" 
-					 y="{mainChartContainer.y + mainChartContainer.height}"
-					 width="{mainChartContainer.width}"
-					 height="{rangeChartVisible ? gapMainRange : 0}"
-					 visible="{rangeChartVisible}"
-					 >
-				<!--
-				<s:Line xFrom="0" yFrom="0" xTo="{leftBox.width}" yTo="{gapMainRange}">
-					<s:stroke>
-						<s:SolidColorStroke weight="1"/>
-					</s:stroke>
-				</s:Line>
-				<s:Line xFrom="0" yFrom="0" xTo="{getLeftBoxWidth(leftBox.width, middleBox.x, rightBox.x)}" yTo="{gapMainRange}">
-					<s:stroke>
-						<s:SolidColorStroke/>
-					</s:stroke>
-				</s:Line>
-				<s:Rect x="{leftBox.width}" y="0" width="5" height="5">
-					<s:fill>
-						<s:SolidColor color="0x0000FF"/>
-					</s:fill>
-				</s:Rect>
-				-->
-				<s:Path alpha="0.5"
-					data="{'M ' + 
-						0 + ' ' + 0 + ' L ' + 
-						leftBox.width + ' ' + gapMainRange + ' L ' + 
-						rightBox.x + ' ' + gapMainRange + ' L ' + 
-						groupBetweenMainRange.width + ' ' + 0 + ' z'}">
-					<s:fill>
-						<s:SolidColor color="0xFFFFFF"/>
-					</s:fill>
-				</s:Path>
-				<s:Line xFrom="{groupBetweenMainRange.width}" yFrom="0" xTo="{rightBox.x}" yTo="{gapMainRange}">
-					<s:stroke>
-						<s:SolidColorStroke/>
-					</s:stroke>
-				</s:Line>
-				<s:Path alpha="0.9"
-					data="{'M ' + 
-					0 + ' ' + 0 + ' L ' + 
-					leftBox.width + ' ' + gapMainRange + ' z'}">
-					<s:stroke>
-						<s:SolidColorStroke weight="1" color="0x000000"/>
-					</s:stroke>
-				</s:Path>
-			</s:Group>
-
-			<!-- extra border lines at bottom left and right to comp 
-			<s:Group y="{mainChartVolumeContainer.y + mainChartVolumeContainer.height - RANGE_CHART_OVERLAP}" 
-					 width="{mainChartContainer.width}" height="{RANGE_CHART_HEIGHT}"
-					 visible="{!sliderVisible}"
-					 >
-				<s:Line bottom="0" left="0" width="{SLIDER_SCROLL_BUTTON_WIDTH}">
-					<s:stroke>
-						<s:SolidColorStroke/>
-					</s:stroke>
-				</s:Line>
-				<s:Line bottom="0" right="0" width="{SLIDER_SCROLL_BUTTON_WIDTH}">
-					<s:stroke>
-						<s:SolidColorStroke/>
-					</s:stroke>
-				</s:Line>
-			</s:Group>
-			-->
-
-			<mccune:ChartFocusTimeMarker 
-				id="focusTimeMarker"
-				y="{mainChartContainer.y + mainChart.y}"
-				height="{mainChart.height}"
-				width="30"
-				mouseEnabled="true"
-				mouseEnabledWhereTransparent="true"
-				mouseDown="focusTimeGroup_mouseDownHandler(event)"
-				visible="{showFocusTimeMarker}"
-				/>
-			
-			<!-- scroll bar and slider component for range selector -->
-			<mx:Canvas id="rangeSelectorContainer" 
-					   x="2" y="{rangeChartContainer.y + rangeChartContainer.height - 8}" 
-					   width="{dividedBox.width + 28}"
-					   height="{sliderVisible ? 25 : 8}"
-					   visible="{sliderVisible}"
-					   horizontalScrollPolicy="off"
-					   borderStyle="none"
-					   >
-				
-				<!-- the background skin for our slider bar -->
-				<skins:GradientBox width="{rangeSelectorContainer.width - 28}" height="12" x="14" y="8"
-								   gradientColors="[#EEEEEE, #999999]"
-								   gradientAlphas="[.5, 0.75]"
-								   gradientRatios="[0, 255]"
-								   gradientAngle="90"
-								   borderColor="#999999" borderStyle="solid" 
-								   visible="true"
-								   />
-				<!-- TODO
-				borderThickness="1"
-				-->
-				<!-- button to move the entire range to the left -->                    
-				<mx:Button cornerRadius="2" width="14" height="12" x="0" y="8" 
-						   click="clickUpdate(-20)" icon="{leftScroll}" />
-				
-				<!-- button to move the entire range to the right -->                  
-				<mx:Button cornerRadius="2" width="14" height="12" x="{slider.width + 13}" y="8" 
-						   click="clickUpdate(20)" icon="{rightScroll}" />
-				
-				<!-- the dual drag slider which represents the range of data shown in the upper chart 
-								snapInterval="1"
-								values="{[leftRangeTime, rightRangeTime]}"
-				-->	   
-				<mccune:HSlider id="slider" x="14" y="0" height="25" width="{rangeSelectorContainer.width - 28}"
-								trackSkin="{blankDividerClass}"
-								showDataTip="false"
-								showTrackHighlight="true"
-								allowTrackClick="false" allowThumbOverlap="false"
-								change="slider_changeHandler(event)" 
-								mouseDown="hideAnnotations()" 
-								mouseUp="showAnnotations = true; refreshAnnotations();"
-								thumbCount="2"
-								liveDragging="true" 
-								minimum="{t0}" maximum="{t1}"
-								maximizeTrackWidth="true"
-								resize="slider_resizeHandler(event)"
-								styleName="rangeHSliderStyle"
-								/>
-				
-			</mx:Canvas>
-			
-			<!-- invisible range value indicators which are bound to and represent the visible range boundaries for the upper chart -->
-			<mx:Canvas id="rangeValueIndicators" x="15" y="{rangeSelectorContainer.y + rangeSelectorContainer.height - 5}" 
-					   width="{rangeData.length}" height="25" 
-					   horizontalScrollPolicy="off" visible="false" includeInLayout="false" >
-				<mx:VRule id="leftIndicator" width="1" height="15" y="5" strokeColor="#000000" />
-				<mx:VRule id="rightIndicator" width="1" height="15" y="5" strokeColor="#000000" />
-			</mx:Canvas>
-			
-			<!-- header text indicator values and range link buttons -->
-			<mx:HBox id="header" 
-					 visible="{headerVisible}"
-					 x="{mainChartContainer.x}"
-					 width="{mainChartContainer.width}"
-					 height="{headerVisible ? 25 : 0}"
-					 horizontalGap="2" horizontalAlign="left" 
-					 verticalAlign="middle" paddingTop="2">
-<!--
-				<mx:LinkButton id="todayLinkButton" 
-					fontWeight="bold" label="Today" 
-							   height="18"
-							   click="todayLinkButton_clickHandler(event)"
-							   width="40"/>
-				<mx:Label text="Zoom" fontWeight="bold" height="18" width="40"/>
-				<mx:LinkButton fontWeight="normal" label="5d" 
-							   width="30" height="18"
-							   click="showAnnotations = false; moveSlider(leftIndicator, rightRangeTime - 5 * DAYS_TO_MILLISECONDS, true);"  />
-				<mx:LinkButton fontWeight="normal" label="1m" 
-							   width="30" height="18"
-							   click="showAnnotations = false; moveSlider(leftIndicator, rightRangeTime - 31 * DAYS_TO_MILLISECONDS, true);" />
-				<mx:LinkButton fontWeight="normal" label="3m" 
-							   width="30" height="18" 
-							   click="showAnnotations = false; moveSlider(leftIndicator, rightRangeTime - 90 * DAYS_TO_MILLISECONDS, true);" />
-				<mx:LinkButton fontWeight="normal" label="6m" 
-							   width="30" height="18"
-							   click="showAnnotations = false; moveSlider(leftIndicator, rightRangeTime - 182 * DAYS_TO_MILLISECONDS, true);"  />
-				<mx:LinkButton fontWeight="normal" label="Max" 
-							   width="30" height="18" 
-							   click="showAnnotations = false; moveSlider(leftIndicator, t0, true); moveSlider(rightIndicator, t1, true);" />
-				<mx:Spacer width="100%" />
--->
-				<mx:HBox visible="false">
-					<mx:Label text="{_selectedDate}" />	
-					<mx:Label text="{_selectedClose}" />	
-					<mx:Label text="{_selectedVolume}" />	
-				</mx:HBox>
-				<s:ToggleButton id="showBtn" visible="false" label.hideAnnotationControls="Show Annotations" label.showAnnotationControls="Hide Annotations"
-								click="showBtn_clickHandler(event)"/>
-			</mx:HBox>
-
-			<!-- footer text indicator values and range link buttons -->
-			<mx:HBox id="footer" 
-					 visible="{footerVisible}"
-					 x="{mainChartContainer.x}"
-					 y="{rangeSelectorContainer.y + rangeSelectorContainer.height}"
-					 width="{mainChartContainer.width}"
-					 height="{footerVisible ? FOOTER_HEIGHT : 0}"
-					 horizontalGap="15" horizontalAlign="left" 
-					 verticalAlign="middle"
-					 paddingTop="15"
-					 paddingBottom="0"
-					 fontSize="20">
-				<s:Button styleName="rangeButton" fontWeight="normal" label="1 week"
-							   width="115" height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
-							   click="showAnnotations = false; moveSlider(leftIndicator, rightRangeTime - 7 * DAYS_TO_MILLISECONDS, true);"  />
-				<s:Button styleName="rangeButton" fontWeight="normal" label="1 month"
-							   width="115" height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
-							   click="showAnnotations = false; moveSlider(leftIndicator, rightRangeTime - 31 * DAYS_TO_MILLISECONDS, true);" />
-				<s:Button styleName="rangeButton" fontWeight="normal" label="1 year"
-							   width="115" height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
-							   click="showAnnotations = false; moveSlider(leftIndicator, rightRangeTime - 365 * DAYS_TO_MILLISECONDS, true);" />
-				<s:Button styleName="rangeButton" fontWeight="normal" label="max"
-							   width="115" height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
-							   click="showAnnotations = false; moveSlider(leftIndicator, t0, true); moveSlider(rightIndicator, t1, true);" />
-				<mx:Spacer width="100%" />
-				<!--
-				<mx:HBox visible="false">
-					<mx:Label text="{_selectedDate}" />	
-					<mx:Label text="{_selectedClose}" />	
-					<mx:Label text="{_selectedVolume}" />	
-				</mx:HBox>
-				<s:ToggleButton id="showBtnFooter" visible="false" label.hideAnnotationControls="Show Annotations" label.showAnnotationControls="Hide Annotations"
-								click="showBtn_clickHandler(event)"/>
-				-->
-				<s:Button styleName="rangeButton"
-						  id="todayLinkButton" label="Today"
-						  height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
-						  click="todayLinkButton_clickHandler(event)"
-						  width="115"/>
-			</mx:HBox>
-		</s:Group>
-
-		<!-- annotation list and entry form -->	
-		<mx:VBox id="annotationsBox" x="{chartsGroup.width + 50}" y="{header.height}" 
-				 width="300" height="{rangeSelectorContainer.y + rangeSelectorContainer.height - header.height}"
-				 includeIn="showAnnotationControls"
-				 >
-			<mx:List id="annotationForm"  width="300" dataProvider="{annotationItems}" labelField="letterLabel" 
-					 selectable="false" useRollOver="false" focusAlpha="0" selectionEasingFunction="myEasingFunction">
-				<mx:itemRenderer>
-					<fx:Component>
-						<mx:HBox>
-							<mx:Button width="17" height="17" paddingLeft="0" paddingTop="0" paddingRight="0" paddingBottom="0" label="{data.letterLabel}" 
-									   toggle="true" selected="{data.selected}"
-									   click="{outerDocument.hightlightAnnotation([data.annID, data.date]); data.selected = true;}"  />
-							<mx:Text text="{data.date + ' - ' +  data.description}" />
-						</mx:HBox>
-					</fx:Component>
-				</mx:itemRenderer>
-			</mx:List>
-			
-			<mx:Form>
-				<mx:FormItem label="Date">
-					<mx:DateField id="annDate" showToday="true" 
-								  selectableRange="{{rangeStart: dateParse(rangeData.getItemAt(0).date), rangeEnd:dateParse(rangeData.getItemAt(rangeData.length - 1).date)}}" />
-				</mx:FormItem>
-				<mx:FormItem label="Description">
-					<mx:TextArea id="annDescription" />
-				</mx:FormItem>
-				<mx:FormItem>
-					<mx:Button label="Add Annotation" 
-							   click="addAnnotation(); annDate.selectedDate = null; annDescription.text = ''" />
-				</mx:FormItem>
-			</mx:Form>
-		</mx:VBox>
-		
-	</s:HGroup>
+	import flash.events.Event;
+	import flash.events.KeyboardEvent;
+	import flash.events.MouseEvent;
+	import flash.filters.BitmapFilterQuality;
+	import flash.geom.Point;
+	import flash.globalization.DateTimeFormatter;
+	import flash.sampler.NewObjectSample;
+	import flash.ui.Keyboard;
+	import flash.utils.flash_proxy;
 	
-	<fx:Script><![CDATA[
-		import annotations.EventAnnotation;
+	import mx.binding.utils.BindingUtils;
+	import mx.charts.AreaChart;
+	import mx.charts.ChartItem;
+	import mx.charts.DateTimeAxis;
+	import mx.charts.HitData;
+	import mx.charts.LineChart;
+	import mx.charts.chartClasses.CartesianChart;
+	import mx.charts.chartClasses.NumericAxis;
+	import mx.charts.chartClasses.Series;
+	import mx.charts.series.AreaSeries;
+	import mx.charts.series.items.AreaSeriesItem;
+	import mx.charts.series.items.LineSeriesItem;
+	import mx.charts.series.items.PlotSeriesItem;
+	import mx.collections.ArrayCollection;
+	import mx.collections.Sort;
+	import mx.collections.SortField;
+	import mx.containers.Canvas;
+	import mx.containers.HDividedBox;
+	import mx.controls.Alert;
+	import mx.controls.Button;
+	import mx.controls.DateField;
+	import mx.controls.List;
+	import mx.controls.TextArea;
+	import mx.core.FlexGlobals;
+	import mx.core.IFlexDisplayObject;
+	import mx.core.UIComponent;
+	import mx.core.mx_internal;
+	import mx.effects.Move;
+	import mx.effects.easing.Cubic;
+	import mx.events.CollectionEvent;
+	import mx.events.DividerEvent;
+	import mx.events.EffectEvent;
+	import mx.events.FlexEvent;
+	import mx.events.ResizeEvent;
+	import mx.events.ScrollEvent;
+	import mx.events.SliderEvent;
+	import mx.events.TweenEvent;
+	import mx.formatters.DateFormatter;
+	import mx.formatters.NumberFormatter;
+	import mx.graphics.SolidColor;
+	import mx.graphics.Stroke;
+	import mx.managers.CursorManagerPriority;
+	import mx.managers.IFocusManagerComponent;
+	import mx.rpc.events.AbstractEvent;
+	import mx.rpc.events.FaultEvent;
+	import mx.rpc.events.ResultEvent;
+	import mx.styles.CSSStyleDeclaration;
+	import mx.utils.UIDUtil;
+	
+	import skins.GradientBox;
+	
+	import spark.components.IItemRenderer;
+	import spark.components.ToggleButton;
+	import spark.components.supportClasses.ButtonBase;
+	import spark.components.supportClasses.SkinnableComponent;
+	import spark.components.supportClasses.ToggleButtonBase;
+	import spark.core.IDisplayText;
+	import spark.effects.Animate;
+	import spark.effects.animation.MotionPath;
+	import spark.effects.animation.SimpleMotionPath;
+	import spark.effects.easing.Power;
+	
+	import vo.AnnotationVO;
 
-		import com.dougmccune.events.FocusTimeEvent;
+	/**
+	 *  Controls the visibility of the border for this component.
+	 *
+	 *  @default true
+	 *
+	 *  @langversion 3.0
+	 *  @playerversion Flash 10
+	 *  @playerversion AIR 1.5
+	 *  @productversion Flex 4
+	 */
+	[Style(name="borderVisible", type="Boolean", inherit="no", theme="spark")]
 
-		import flash.events.Event;
-		import flash.filters.BitmapFilterQuality;
-		import flash.globalization.DateTimeFormatter;
-		import flash.sampler.NewObjectSample;
-		import flash.utils.flash_proxy;
+	/**
+	 *  Controls the visibility of the header for this component.
+	 *
+	 *  @default true
+	 *
+	 *  @langversion 3.0
+	 *  @playerversion Flash 10
+	 *  @playerversion AIR 1.5
+	 *  @productversion Flex 4
+	 */
+	[Style(name="headerVisible", type="Boolean", inherit="no", theme="spark")]
 
-		import mx.charts.ChartItem;
-		import mx.charts.HitData;
-		import mx.charts.chartClasses.Series;
-		import mx.charts.series.items.AreaSeriesItem;
-		import mx.charts.series.items.LineSeriesItem;
-		import mx.charts.series.items.PlotSeriesItem;
-		import mx.collections.ArrayCollection;
-		import mx.collections.Sort;
-		import mx.collections.SortField;
-		import mx.controls.Alert;
-		import mx.core.IFlexDisplayObject;
-		import mx.core.mx_internal;
-		import mx.effects.Move;
-		import mx.effects.easing.Cubic;
-		import mx.events.CollectionEvent;
-		import mx.events.DividerEvent;
-		import mx.events.EffectEvent;
-		import mx.events.ResizeEvent;
-		import mx.events.ScrollEvent;
-		import mx.events.SliderEvent;
-		import mx.events.TweenEvent;
-		import mx.graphics.SolidColor;
-		import mx.graphics.Stroke;
-		import mx.managers.CursorManagerPriority;
-		import mx.rpc.events.AbstractEvent;
-		import mx.rpc.events.FaultEvent;
-		import mx.rpc.events.ResultEvent;
-		import mx.utils.UIDUtil;
+	/**
+	 *  Controls the visibility of the footer for this component.
+	 *
+	 *  @default true
+	 *
+	 *  @langversion 3.0
+	 *  @playerversion Flash 10
+	 *  @playerversion AIR 1.5
+	 *  @productversion Flex 4
+	 */
+	[Style(name="footerVisible", type="Boolean", inherit="no", theme="spark")]
 
-		import skins.GradientBox;
+	/**
+	 *  Controls the visibility of the slider for this component.
+	 *
+	 *  @default true
+	 *
+	 *  @langversion 3.0
+	 *  @playerversion Flash 10
+	 *  @playerversion AIR 1.5
+	 *  @productversion Flex 4
+	 */
+	[Style(name="sliderVisible", type="Boolean", inherit="no", theme="spark")]
 
-		import spark.components.IItemRenderer;
-		import spark.effects.Animate;
-		import spark.effects.animation.MotionPath;
-		import spark.effects.animation.SimpleMotionPath;
-		import spark.effects.easing.Power;
+	/**
+	 *  Controls the visibility of the top border for this component.
+	 *
+	 *  @default true
+	 *
+	 *  @langversion 3.0
+	 *  @playerversion Flash 10
+	 *  @playerversion AIR 1.5
+	 *  @productversion Flex 4
+	 */
+	[Style(name="topBorderVisible", type="Boolean", inherit="no", theme="spark")]
 
-		import vo.AnnotationVO;
+	/**
+	 *  Controls the visibility of the volume chart for this component.
+	 *
+	 *  @default true
+	 *
+	 *  @langversion 3.0
+	 *  @playerversion Flash 10
+	 *  @playerversion AIR 1.5
+	 *  @productversion Flex 4
+	 */
+	[Style(name="volumeVisible", type="Boolean", inherit="no", theme="spark")]
 
-		/* STEP 1 */
-		//			[Bindable] private var MAIN_CHART_HEIGHT:Number = 350;
-		[Bindable]
-		private var VOLUME_CHART_HEIGHT:Number = 50;
-		[Bindable]
-		private var RANGE_CHART_HEIGHT:Number = 80;
-		private const RANGE_CHART_OVERLAP:Number = 1;
-		private const SLIDER_SCROLL_BUTTON_WIDTH:Number = 16;
-		private const FOOTER_HEIGHT:Number = 65;
-		private const PADDING_BOTTOM:Number = 15;
+	/**
+	 *  Controls the visibility of the range chart for this component.
+	 *
+	 *  @default true
+	 *
+	 *  @langversion 3.0
+	 *  @playerversion Flash 10
+	 *  @playerversion AIR 1.5
+	 *  @productversion Flex 4
+	 */
+	[Style(name="rangeChartVisible", type="Boolean", inherit="no", theme="spark")]
 
-		//			[Bindable] private var MAIN_CHART_HEIGHT:Number = 600;
+	/**
+	 *  Controls the visibility of the Frames Per Second information for this component.
+	 *
+	 *  @default true
+	 *
+	 *  @langversion 3.0
+	 *  @playerversion Flash 10
+	 *  @playerversion AIR 1.5
+	 *  @productversion Flex 4
+	 */
+//	[Style(name="showFps", type="Boolean", inherit="no", theme="spark")]
+
+	[Event(name="seriesComplete", type="flash.events.Event")]
+	[Event(name="scroll", type="mx.events.ScrollEvent")]
+	[Event(name="focusTimeChange", type="com.dougmccune.events.FocusTimeEvent")]
+
+	public class ScrubChart extends SkinnableComponent implements IFocusManagerComponent
+	{
+		[SkinPart(required="false")]
+		public var titleDisplay:IDisplayText;
+		
+		[SkinPart(required="true")]
+		public var mainChartContainer:Canvas;
+		
+		[SkinPart(required="true")]
+		public var mainChart:CartesianChart;
+
+		[SkinPart(required="false")]
+		public var mainPrimarySeries:AreaSeries;
+
+		[SkinPart(required="false")]
+		public var mainChartArea:Canvas;
+
+		[SkinPart(required="false")]
+		public var fpsDisplay:IDisplayText;
+		
+		[SkinPart(required="false")]
+		public var annotationCanvas:Canvas;
+
+		[SkinPart(required="false")]
+		public var rangeChart:CartesianChart;
+
+		[SkinPart(required="false")]
+		public var rangePrimarySeries:AreaSeries;
+
+		[SkinPart(required="false")]
+		public var dividedBox:HDividedBox;
+
+		[SkinPart(required="false")]
+		public var leftBox:Canvas;
+
+		[SkinPart(required="false")]
+		public var middleBox:Canvas;
+
+		[SkinPart(required="false")]
+		public var rightBox:Canvas;
+
+		[SkinPart(required="false")]
+		public var mainChartVolume:CartesianChart;
+
+		[SkinPart(required="false")]
+		public var focusTimeMarker:UIComponent;
+
+		[SkinPart(required="false")]
+		public var leftScrollButton:UIComponent;
+
+		[SkinPart(required="false")]
+		public var rightScrollButton:UIComponent;
+
+		[SkinPart(required="false")]
+		public var slider:HSlider;
+
+		[SkinPart(required="false")]
+		public var annDate:DateField;
+
+		[SkinPart(required="false")]
+		public var annDescription:TextArea;
+
+		[SkinPart(required="false")]
+		public var addAnnotationButton:UIComponent;
+
+		[SkinPart(required="false")]
+		public var showAnnotationsButton:ToggleButtonBase;
+		
+		[SkinPart(required="false")]
+		public var rangeOneWeekButton:UIComponent;
+		
+		[SkinPart(required="false")]
+		public var rangeOneMonthButton:UIComponent;
+		
+		[SkinPart(required="false")]
+		public var rangeOneYearButton:UIComponent;
+		
+		[SkinPart(required="false")]
+		public var rangeMaxButton:UIComponent;
+		
+		[SkinPart(required="false")]
+		public var rangeTodayButton:UIComponent;
+
+		[SkinPart(required="false")]
+		public var annotationForm:List;
+		
 		//the sliced data to appear in the upper area chart, and column volume chart
 		[Bindable]
 		protected var mainData:ArrayCollection = new ArrayCollection();
 		//the full dataset of stock information
 		[Bindable]
 		protected var rangeData:ArrayCollection = new ArrayCollection();
-		[Bindable]
-		public var mainChartTitle:String;
 
-		/* STEP 3 */
-		//static positions of left and right indicators set in setMouseDown and used in moveChart to calulate new positions
+		private var _mainChartTitle:String;
+
+		//static positions of left and right indicators set in setMouseDown and used in moveChart to calculate new positions
 		private var staticLeftBoundary:Number;
 		private var staticRightBoundary:Number;
 		//the static mouse position where we've clicked... used to calculate move differences in moveChart
@@ -883,23 +327,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 		private var rangeDataRatio:Number = 1;
 		//enabled when the slider is directly updating the box positions for realtime drag
 		//disabled when divider is moved and dropped inside easing effect for delayed move
-		private var updateBoxFromSlider:Boolean = true;
+		private var updateBoxFromRangeTimes:Boolean = true;
 		//a flag to allow the updateComplete event on AreaSeries to run only once on startup
 		private var allowUpdateComplete:Boolean = true;
-		//skins used for scroll button arrows and divider boundar grab points
-		[Embed(source="/assets/divider.png")]
-		[Bindable]
-		public var dividerClass:Class;
-		[Embed(source="/assets/blank.png")]
-		[Bindable]
-		public var blankDividerClass:Class;
-		[Embed(source="/assets/left_scroll.png")]
-		[Bindable]
-		public var leftScroll:Class;
-		[Embed(source="/assets/right_scroll.png")]
-		[Bindable]
-		public var rightScroll:Class;
-		/* STEP 4 */
+
 		//values used in text instances above chart for current data point data
 		[Bindable]
 		private var _selectedDate:String;
@@ -921,8 +352,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 		//			private var sliderToDateSlope:Number;
 		//			private var sliderToDateIntercept:Number;
 
-		public static const DAYS_TO_MILLISECONDS:int = 24 * 60 * 60 * 1000;
-		private const minimumDurationTime:int = 2 * DAYS_TO_MILLISECONDS;
+		public static const DAYS_TO_MILLISECONDS:Number = 24 * 60 * 60 * 1000;
+		private const minimumDurationTime:Number = 2 * DAYS_TO_MILLISECONDS;
 
 		private var _leftRangeTime:Number;
 		private var _rightRangeTime:Number;
@@ -937,18 +368,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 		protected var mainDataRatio:Number;
 
 		[Bindable]
-		public var headerVisible:Boolean = false;
-		[Bindable]
-		public var footerVisible:Boolean = true;
-		[Bindable]
-		public var sliderVisible:Boolean = true;
-		[Bindable]
-		public var topBorderVisible:Boolean = true;
-		[Bindable]
-		public var volumeVisible:Boolean = false;
-		[Bindable]
-		public var rangeChartVisible:Boolean = true;
-		[Bindable]
 		public var seriesName:String = "close";
 
 		private var _today:Date;
@@ -962,11 +381,90 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 		private var highlightedItem:ChartItem;
 
-		[Bindable]
-		private var gapMainRange:Number = 15;
 		private var _showFocusTimeMarker:Boolean = true;
 		private var _scrollEnabled:Boolean = true;
 		private var _traceEvents:Boolean = false;
+
+		private var fullDateFormat:DateFormatter = new DateFormatter();
+			
+		private var labelYearFormatter:DateFormatter = new DateFormatter();
+		private var labelMonthFormatter:DateFormatter = new DateFormatter();
+		private var labelDayFormatter:DateFormatter = new DateFormatter();
+		private var labelDefaultFormatter:DateFormatter = new DateFormatter();
+		private var labelSummaryDateFormatter:DateFormatter = new DateFormatter();
+		
+		private var verticalAxisFormat:NumberFormatter = new NumberFormatter();
+		private var dollarFormatter:NumberFormatter = new NumberFormatter();
+		private var percentageFormatter:NumberFormatter = new NumberFormatter();
+		private var volumeFormatter:NumberFormatter = new NumberFormatter();
+		
+		// http://flexdevtips.blogspot.com/2009/03/setting-default-styles-for-custom.html
+//		private static var classConstructed:Boolean = classConstruct();
+		
+		private var _synchronizedAxisCache:SynchronizedAxisCache;
+
+		public function get synchronizedAxisCache():SynchronizedAxisCache
+		{
+			return _synchronizedAxisCache;
+		}
+
+		public function set synchronizedAxisCache(value:SynchronizedAxisCache):void
+		{
+			_synchronizedAxisCache = value;
+			updateSynchronizedAxisRenderers();
+		}
+		
+		private function updateSynchronizedAxisRenderers():void
+		{
+			if (mainChart && mainChart.horizontalAxisRenderers[0] is SynchronizedAxisRenderer)
+			{
+				var synchronizedAxisRenderer:SynchronizedAxisRenderer = mainChart.horizontalAxisRenderers[0];
+				synchronizedAxisRenderer.synchronizedAxisCache = synchronizedAxisCache;
+			}
+		}
+
+		private static function classConstruct():Boolean
+		{
+			if (!FlexGlobals.topLevelApplication.styleManager.
+					getStyleDeclaration("com.dougmccune.controls.ScrubChart"))
+			{
+				// No CSS definition for StyledRectangle,  so create and set default values
+				var styleDeclaration:CSSStyleDeclaration = new CSSStyleDeclaration();
+				styleDeclaration.defaultFactory = function():void
+				{
+					this.skinClass = ScrubChartSkin;
+					this.rangeChartVisible = true;
+					this.sliderVisible = true;
+					this.topBorderVisible = true;
+					this.headerVisible = true;
+					this.footerVisible = true;
+				};
+
+				FlexGlobals.topLevelApplication.styleManager.
+						setStyleDeclaration("com.dougmccune.controls.ScrubChart", styleDeclaration, true);
+			}
+			return true;
+		}
+
+		public function ScrubChart()
+		{
+			fullDateFormat.formatString = "YYYY-MM-DD";
+			labelYearFormatter.formatString = "YYYY";
+			labelMonthFormatter.formatString = "MMM YYYY";
+			labelDayFormatter.formatString = "MMM DD";
+			labelDefaultFormatter.formatString = "EEE MMM D";
+			labelSummaryDateFormatter.formatString = "EEE MMM DD, YYYY";
+
+			verticalAxisFormat.precision = 1;
+			dollarFormatter.useNegativeSign = true;
+			dollarFormatter.precision = 2;
+			percentageFormatter.useNegativeSign = true;
+			percentageFormatter.precision = 2;
+			volumeFormatter.useThousandsSeparator = true;
+
+			initializeRangeTimeAnimate();
+			this.addEventListener(FlexEvent.CREATION_COMPLETE, creationCompleteHandler);
+		}
 
 		[Bindable]
 		public function get scrollEnabled():Boolean
@@ -988,6 +486,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 		public function set showFocusTimeMarker(value:Boolean):void
 		{
 			_showFocusTimeMarker = value;
+            if (focusTimeMarker)
+    			focusTimeMarker.visible = value;
 		}
 
 		[Bindable]
@@ -1054,6 +554,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 			if (_showFps != value)
 			{
 				_showFps = value;
+				var fpsLabel:UIComponent = fpsDisplay as UIComponent;
+				if (fpsLabel)
+					fpsLabel.visible = value;
 
 				if (_showFps)
 					this.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
@@ -1062,26 +565,62 @@ OTHER DEALINGS IN THE SOFTWARE.
 			}
 		}
 
-		protected function showBtn_clickHandler(event:MouseEvent):void
+		protected function showAnnotationsButton_clickHandler(event:MouseEvent):void
 		{
-			if (showBtn.selected)
+			if (showAnnotationsButton.selected)
 				this.currentState = "showAnnotationControls";
 			else
 				this.currentState = "hideAnnotationControls";
 		}
 
-		private function getLeftBoxWidth(leftBoxWidth:Number, middleBoxX:Number, rightBoxX:Number):Number
-		{
-			return groupBetweenMainRange.width - rightBox.width - middleBox.width;
-		}
-
 		private function creationCompleteHandler(event:Event):void
 		{
 			_isCreationComplete = true;
+			updateSynchronizedAxisRenderers();
 			initializeFromData();
 
 			if (_showFps)
 				this.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
+		}
+
+		private var s0:Number = 0.2;
+		private var s1:Number = 0.7;
+
+		protected override function keyDownHandler(event:KeyboardEvent):void
+		{
+			if (event.altKey && event.ctrlKey && event.keyCode == Keyboard.F)
+			{
+				showFps = !showFps;
+			}
+			else if (event.altKey && event.ctrlKey && event.keyCode == Keyboard.S)
+			{
+				setStyle("sliderVisible", !getStyle("sliderVisible"));
+			}
+			else if (event.altKey && event.ctrlKey && event.keyCode == Keyboard.D)
+			{
+				trace("dividedBox.width", dividedBox.width, "boxes_width", leftBox.width + middleBox.width + rightBox.width, "rangeChart.width", rangeChart.width, "mainChart.width", mainChart.width, "focusTimeMarker.x", focusTimeMarker.x, "this.mouseX", this.mouseX);
+			}
+			else if (event.altKey && event.ctrlKey && event.keyCode == Keyboard.E)
+			{
+                // TODO: fix updating of the slider thumbs; currently they don't move when slider.values is updated
+				trace("slider.values[0]", slider.values[0], "slider.values[1]", slider.values[1]);
+				slider.values[0] = t0 + (t1 - t0) * s0;
+				slider.values[1] = t0 + (t1 - t0) * s1;
+                slider.invalidateProperties();
+                slider.validateNow();
+                this.validateNow();
+			}
+            else if (!event.altKey && !event.ctrlKey && !event.shiftKey)
+            {
+                var delta:Number = 0;
+                if (event.keyCode == Keyboard.LEFT)
+                    delta = 1;
+                else if (event.keyCode == Keyboard.RIGHT)
+                    delta = -1;
+
+                if (delta != 0)
+                    mainChartUpdate(delta);
+            }
 		}
 
 		private var _data:ArrayCollection = new ArrayCollection();
@@ -1133,6 +672,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 					}
 					t0 = dateParse(rangeData.source[i0].date).time;
 					t1 = dateParse(rangeData.source[i1].date).time;
+					updateSliderMinMax();
 
 					try
 					{
@@ -1153,6 +693,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 			//				calculateIndicatorConversionRatio();
 
 					calculateRangeDataRatio();
+
+					updateRangeChart();
+					updateMainChart();
 
 					if (_traceEvents)
 						trace(traceEventsPrefix + "initializeFromData leftRangeTime", traceDate(leftRangeTime), "rightRangeTime",
@@ -1220,7 +763,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 		{
 		//				rangeDataRatio = ((dividedBox.width - 28) / rangeData.length);
 			//				rangeDataRatio = ((dividedBox.width) / rangeData.length);
-			rangeDataRatio = slider.width / (slider.maximum - slider.minimum);
+			rangeDataRatio = slider.width / (t1 - t0);
 		}
 
 		/**
@@ -1240,7 +783,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 			if (mainData.length > 0 && allowUpdateComplete)
 			{
 				allowUpdateComplete = false;
-				updateBoxFromSlider = true;
+				updateBoxFromRangeTimes = true;
 				rightRangeTime = t1;
 				leftRangeTime = Math.max(t0, t1 - initialDurationTime);
 				updateBox();
@@ -1338,13 +881,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 			updateFocusTimeBox();
 		}
 
-		private var focustTimePositionLocked:Boolean = true;
+		private var focusTimePositionLocked:Boolean = true;
 
 		private function updateFocusTimeBox():void
 		{
 		//				focusTimeMarker.x = mainChartContainer.x + mainChart.x + mainChart.width - (focusTimeMarker.width / 2);
 
-			if (focustTimePositionLocked)
+			if (focusTimePositionLocked)
 				updateFocusTimeValueFromPosition();
 			else
 				updateFocusTime(_focusTime);
@@ -1400,13 +943,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 			mainDataRatio = mainChartArea.width / mainChartDurationTime;
 
-			//trace("updateMainDataSource", "leftIndicator.x", leftIndicator.x.toFixed(2), "rightIndicator.x", rightIndicator.x.toFixed(2), "i0", i0, "i1", i1, "minimum", minimum.toFixed(0), "maximum", maximum.toFixed(0), "daysApart", daysApart.toFixed(2));
-		//				if (traceRangeTimes)
-		//					trace("updateMainDataSource", "leftRangeTime", leftRangeTime.toFixed(2), "rightRangeTime", rightRangeTime.toFixed(2), "minimum", minimum.toFixed(0), "maximum", maximum.toFixed(0), "daysApart", daysApart.toFixed(2));
+//			trace("updateMainDataSource", "leftIndicator.x", leftIndicator.x.toFixed(2), "rightIndicator.x", rightIndicator.x.toFixed(2), "i0", i0, "i1", i1, "minimum", minimum.toFixed(0), "maximum", maximum.toFixed(0), "daysApart", daysApart.toFixed(2));
+//						if (traceRangeTimes)
+//							trace("updateMainDataSource", "leftRangeTime", leftRangeTime.toFixed(2), "rightRangeTime", rightRangeTime.toFixed(2), "minimum", minimum.toFixed(0), "maximum", maximum.toFixed(0), "daysApart", daysApart.toFixed(2));
 
 			(this.mainChart.horizontalAxis as DateTimeAxis).minimum = new Date(minimum);
 			(this.mainChart.horizontalAxis as DateTimeAxis).maximum = new Date(maximum);
-			if (volumeVisible)
+			if (getStyle("volumeVisible"))
 			{
 				(this.mainChartVolume.horizontalAxis as DateTimeAxis).minimum = (this.mainChart.horizontalAxis as DateTimeAxis).minimum;
 				(this.mainChartVolume.horizontalAxis as DateTimeAxis).maximum = (this.mainChart.horizontalAxis as DateTimeAxis).maximum;
@@ -1421,7 +964,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 		private function updateFps():void
 		{
-			if (_showFps)
+			if (_showFps && fpsDisplay)
 			{
 				var now:Date = new Date();
 				if (_lastUpdate != null)
@@ -1431,7 +974,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 					var diff:Number = now.time - _lastUpdate.time;
 					var fps:Number = 1000 / diff;
-					fpsLabel.text =
+					fpsDisplay.text =
 							"FPS: " + fps.toFixed(2) + "\n" +
 									diff.toFixed(0) + "\n" +
 									"Avg FPS: " + averageFps.toFixed(2) + "\n" +
@@ -1486,34 +1029,42 @@ OTHER DEALINGS IN THE SOFTWARE.
 		 */
 		private function updateBox():void
 		{
-			if (updateBoxFromSlider)
+			if (updateBoxFromRangeTimes)
 			{
 				//setting the box width value to the slider value times the ratio (to decrease
 				//it to the equivalent width percentage
 				//eg. full divided box width = 500, rangeDataRatio = 1/5 would equal 100 for the
 				//proper left box width equal to range index value
 				if (leftBox)
-					leftBox.width = sliderValueToRangeChartPos(leftRangeTime);
+					leftBox.width = rangeTimeToRangeChartPos(leftRangeTime);
 				if (rightBox)
-					rightBox.width = dividedBox.width - sliderValueToRangeChartPos(rightRangeTime);
+					rightBox.width = dividedBox.width - rangeTimeToRangeChartPos(rightRangeTime);
 		//					middleBox.width = NaN;
-				if (!isNaN(slider.values[0]))
-					leftRangeTime = slider.values[0];
-				if (!isNaN(slider.values[1]))
-					rightRangeTime = slider.values[1];
-				updateMainData();
+				if (middleBox)
+					middleBox.width = NaN;
+//				if (!isNaN(slider.values[0]))
+//					leftRangeTime = slider.values[0];
+//				if (!isNaN(slider.values[1]))
+//					rightRangeTime = slider.values[1];
 		//					(groupBetweenMainRange.getElementAt(1) as Line).validateNow();
 			}
+
+			if (slider)
+			{
+				slider.values[0] = leftRangeTime;
+				slider.values[1] = rightRangeTime;
+			}
+			updateMainData();
 		}
 
-		private function sliderValueToRangeChartPos(value:Number):Number
+		private function rangeTimeToRangeChartPos(value:Number):Number
 		{
-			return (value - slider.minimum) * rangeDataRatio;
+			return (value - t0) * rangeDataRatio;
 		}
 
-		private function rangeChartPosToSliderValue(value:Number):Number
+		private function rangeChartPosToRangeTime(value:Number):Number
 		{
-			return (value / rangeDataRatio) + slider.minimum;
+			return (value / rangeDataRatio) + t0;
 		}
 
 		private function mainChartPosToSliderValue(value:Number):Number
@@ -1531,6 +1082,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 			slider.dispatchEvent(new SliderEvent('change'));
 		}
 
+		private function mainChartUpdate(value:Number):void
+		{
+			leftRangeTime += value / mainDataRatio;
+			rightRangeTime += value / mainDataRatio;
+			slider.dispatchEvent(new SliderEvent('change'));
+		}
+
 		/**
 		 * Called from the divided box dividerRelease.  Calls a Move for the left and right Indicator
 		 * x values which has an easing function
@@ -1542,9 +1100,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 			//it to the equivalent range value)
 			//eg. left box width = 100, rangeDataRatio = 1/5 would equal 500 for the range index value
 
-			hideAnnotations();
-			moveSlider(leftIndicator, rangeChartPosToSliderValue(leftBox.width), false);
-			moveSlider(rightIndicator, rangeChartPosToSliderValue(dividedBox.width - rightBox.width), false);
+			animateRangeTimes(rangeChartPosToRangeTime(leftBox.width), rangeChartPosToRangeTime(dividedBox.width - rightBox.width), false);
 		}
 
 		/**
@@ -1559,11 +1115,64 @@ OTHER DEALINGS IN THE SOFTWARE.
 			rightRangeTime = slider.values[1];
 		}
 
+		private var _rangeTimeAnimate:Animate;
+		private var _leftRangeMotionPath:SimpleMotionPath;
+		private var _rightRangeMotionPath:SimpleMotionPath;
+		
+		private var _pendingUpdateBoxFromRangeTimes:Boolean;
+		private var _pendingAnimateLeftRangeTime:Number;
+		private var _pendingAnimateRightRangeTime:Number;
+		private var _pendingLeftRangeTime:Number;
+		private var _pendingRightRangeTime:Number;
+
+		private function initializeRangeTimeAnimate():void
+		{
+			_rangeTimeAnimate = new Animate(this);
+			_rangeTimeAnimate.motionPaths = new Vector.<MotionPath>();
+			_leftRangeMotionPath = new SimpleMotionPath("leftRangeTime");
+			_rangeTimeAnimate.motionPaths.push(_leftRangeMotionPath);
+			_rightRangeMotionPath = new SimpleMotionPath("rightRangeTime");
+			_rangeTimeAnimate.motionPaths.push(_rightRangeMotionPath);
+			
+			_rangeTimeAnimate.easer = new Power(0.5, 3);
+			_rangeTimeAnimate.duration = 750;
+			
+			_rangeTimeAnimate.addEventListener(EffectEvent.EFFECT_START, function(event:EffectEvent):void
+			{
+				updateBoxFromRangeTimes = _pendingUpdateBoxFromRangeTimes;
+			});
+			_rangeTimeAnimate.addEventListener(EffectEvent.EFFECT_UPDATE, function(event:EffectEvent):void
+			{
+				updateBox();
+				dispatchScrollEvent();
+			});
+			_rangeTimeAnimate.addEventListener(EffectEvent.EFFECT_END, function(event:EffectEvent):void
+			{
+				updateBoxFromRangeTimes = true;
+				showAnnotations = true;
+				callLater(refreshAnnotations);
+//				if (callbackFunc != null) callbackFunc.call(this, rest)
+			});
+		}
+		
+		private function animateRangeTimes(leftRangeTimeTo:Number, rightRangeTimeTo:Number = NaN, update:Boolean = true):void
+		{
+			hideAnnotations();
+			_pendingUpdateBoxFromRangeTimes = update;
+			_rangeTimeAnimate.stop();
+			_leftRangeMotionPath.valueFrom = leftRangeTime;
+			_leftRangeMotionPath.valueTo = isNaN(leftRangeTimeTo) ? leftRangeTime : leftRangeTimeTo;
+			_rightRangeMotionPath.valueFrom = rightRangeTime;
+			_rightRangeMotionPath.valueTo = isNaN(rightRangeTimeTo) ? rightRangeTime : rightRangeTimeTo;
+			_rangeTimeAnimate.play();
+		}
+
 		/**
 		 * Moves the left and right indicator x values with an easing transition applied.  update
 		 * dictates whether this should update the divided box range measurements (false if we're calling this
 		 * from the divided box release) callbackFunc can be passed to get called when the move is finished.
 		 */
+/*
 		private function moveSlider(target:VRule, xTo:Number, update:Boolean, callbackFunc:Function = null,
 									... rest):void
 		{
@@ -1600,21 +1209,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 			rangeAnimate.motionPaths = new Vector.<MotionPath>();
 			rangeAnimate.motionPaths.push(moveRange);
 			rangeAnimate.play();
-
-		//				var moveIndicator:Move = new Move();
-		//				moveIndicator.end();
-		//				moveIndicator.easingFunction = Cubic.easeOut;
-		//				moveIndicator.duration = 750;
-		//				moveIndicator.target = target;
-		//				moveIndicator.xTo = xTo;
-		//				moveIndicator.addEventListener(EffectEvent.EFFECT_START, function():void {updateBoxFromSlider = update});
-		//				moveIndicator.addEventListener(TweenEvent.TWEEN_UPDATE, function():void { updateMainDataSource()});
-		//				moveIndicator.addEventListener(EffectEvent.EFFECT_END, function():void {updateBoxFromSlider = true;
-		//					showAnnotations = true;
-		//					callLater(refreshAnnotations);
-		//					if(callbackFunc != null) callbackFunc.call(this, rest)});
-		//				moveIndicator.play();
 		}
+*/
 
 		/**
 		 * Called from range chart or main chart and determines the position of the mouse as well as left
@@ -1686,7 +1282,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 		//				var constrainLeftDelta:Number = leftRangeTime - targetLeftRangeTime;
 			rightRangeTime = leftRangeTime + leftToRight;
 
-			updateBoxFromSlider = true;
+			updateBoxFromRangeTimes = true;
 			updateBox();
 			dispatchScrollEvent();
 		}
@@ -1704,7 +1300,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 		{
 			//filtering to only run if the full dataset is present in the chart...
 			//this value is false if the indicator move effect is playing
-			if (updateBoxFromSlider)
+			if (updateBoxFromRangeTimes)
 			{
 		//					var chartPoint:Object = getChartCoordinates(new Point(mainChart.mouseX, mainChart.mouseY), mainChart);
 		//					var formattedDate:String = fullDateFormat.format(new Date(chartPoint.x));
@@ -1749,6 +1345,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 			}
 		}
 
+/*
 		private function selectChartDataPoint():void
 		{
 			for (var s:int = 0; s < mainChart.series.length; s++)
@@ -1768,18 +1365,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 			}
 		}
 
-
 		private function highlightChartItem(chartItem:ChartItem):void
 		{
 			highlightChartItemGroup.visible = true;
 
-		//				var itemRenderer:IFlexDisplayObject = hitData.chartItem.itemRenderer;
-		//				if (itemRenderer != null)
-		//				{
-		//					itemRenderer.visible = true;
-		//					itemRenderer.scaleX = 2;
-		//					itemRenderer.scaleY = 2;
-		//				}
 			highlightChartItemEffect.stop();
 			highlightedItem = chartItem;
 
@@ -1795,29 +1384,19 @@ OTHER DEALINGS IN THE SOFTWARE.
 			else
 				chartItemY = chartItem.itemRenderer.y + chartItem.itemRenderer.width / 2;
 
-		//				plotSeriesItem:PlotSeriesItem = chartItem as PlotSeriesItem;
-
-
-		//				highlightChartItemBullsEye.x = highlightedItem.itemRenderer.x - highlightChartItemBullsEye.width / 2;
-		//				highlightChartItemBullsEye.y = highlightedItem.itemRenderer.y - highlightChartItemBullsEye.height / 2;
 			highlightChartItemBullsEye.horizontalCenter = chartItemX - highlightedItem.element.width / 2;
 			highlightChartItemBullsEye.verticalCenter = chartItemY - highlightedItem.element.height / 2;
-		//				highlightChartItemBullsEye.horizontalCenter = - highlightedItem.element.width / 2;
-		//				highlightChartItemBullsEye.verticalCenter = - highlightedItem.element.height / 2;
 			highlightChartItemScopeLeft.verticalCenter = chartItemY - highlightedItem.element.height / 2;
 			highlightChartItemEffectScopeLeftMove.xFrom = 0;
 			highlightChartItemEffectScopeLeftMove.xTo = chartItemX - highlightChartItemScopeLeft.width;
 
-		//				highlightChartItemEffect.target = chartItem;
 			highlightChartItemEffect.play();
-
-		//				chartItem.element.x
-		//				chartItem.itemRenderer.x
 		}
 
+*/
 		private function hideDataPointHighlight():void
 		{
-			highlightChartItemGroup.visible = false;
+//			highlightChartItemGroup.visible = false;
 		}
 
 		public function findPreviousDataPoint(dateValue:Number):Object
@@ -1868,13 +1447,12 @@ OTHER DEALINGS IN THE SOFTWARE.
 					try
 					{
 						mainChart.series[0].getChildAt(i + 1).showRenderer(false);
-						if (volumeVisible)
+						if (getStyle("volumeVisible"))
 							mainChartVolume.series[0].getChildAt(i).showRenderer(false);
 					}
 					catch(e:Error)
 					{
 					}
-					;
 				}
 				_selectedDate = labelSummaryDateFormatter.format(dateParse(mainData.getItemAt(0).date)) + ' - ' +
 						labelSummaryDateFormatter.format(dateParse(mainData.getItemAt(mainData.length - 1).date));
@@ -1916,8 +1494,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 		 */
 		private function setDividerDragDate():void
 		{
-			var tmpLeftRangeTime:Number = rangeChartPosToSliderValue(leftBox.width);
-			var tmpRightRangeTime:Number = rangeChartPosToSliderValue(dividedBox.width - rightBox.width);
+			var tmpLeftRangeTime:Number = rangeChartPosToRangeTime(leftBox.width);
+			var tmpRightRangeTime:Number = rangeChartPosToRangeTime(dividedBox.width - rightBox.width);
 		//				var tmpLeftIndex:int = leftBox.width  / rangeDataRatio;
 		//				var tmpRightIndex:int = ((dividedBox.width - rightBox.width) / rangeDataRatio) - 1;
 			if (tmpLeftRangeTime >= t0 && tmpRightRangeTime <= t1)
@@ -1930,16 +1508,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 				_selectedVolume = '';
 			}
 		}
-
-		/*Step 5 */
-		/**
-		 * Prevents rollover or selection effects in the list control
-		 */
-		private function myEasingFunction(t:Number, b:Number, c:Number, d:Number):Number
-		{
-			return 0;
-		}
-
 
 		/**
 		 * Called from form entry for new annotation.  Creates an AnnotationVO instance with the form data, adds it to the array collection
@@ -2007,8 +1575,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 		//					}
 				showAnnotations = false;
 		//					moveSlider(leftIndicator, targetIndex, true, hightlightAnnotation, targetUID, targetDate);
-				moveSlider(leftIndicator, dateParse(targetDate).time - GROW_DURATION_PADDING / mainDataRatio, true,
-						   hightlightAnnotation, targetUID, targetDate);
+				animateRangeTimes(dateParse(targetDate).time - GROW_DURATION_PADDING / mainDataRatio);
+				// TODO: highlight the annotation after animating
+//						   hightlightAnnotation, targetUID, targetDate);
 			}
 		//				else if(targetDate > items[items.length - 1].item.date)
 			else if (dateParse(targetDate).time > rightRangeTime)
@@ -2023,8 +1592,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 		//					}
 				showAnnotations = false;
 		//					moveSlider(rightIndicator, targetIndex, true, hightlightAnnotation, targetUID, targetDate);
-				moveSlider(rightIndicator, dateParse(targetDate).time + GROW_DURATION_PADDING / mainDataRatio, true,
-						   hightlightAnnotation, targetUID, targetDate);
+				animateRangeTimes(NaN, dateParse(targetDate).time + GROW_DURATION_PADDING / mainDataRatio);
+				// TODO: highlight the annotation after animating
+//						   hightlightAnnotation, targetUID, targetDate);
 			}
 			else
 			{
@@ -2161,28 +1731,23 @@ OTHER DEALINGS IN THE SOFTWARE.
 			updateFocusTime(oldFocusTime);
 		}
 
-		protected function todayLinkButton_clickHandler(event:MouseEvent):void
+		protected function rangeTodayButton_clickHandler(event:MouseEvent):void
 		{
-			showAnnotations = false;
-
 			var delta:Number = rightRangeTime - leftRangeTime;
 
-			// TODO: use ICurrentDateSource
-		//				var today:Date = new Date();
 			var todayTime:Number = today.time;
 
 			// don't try to go beyond the maximum value for which there is data
 			var rangeChartMaximum:Number = maximumTime;
 			todayTime = Math.min(todayTime, rangeChartMaximum);
 
-			moveSlider(leftIndicator, todayTime - delta, true);
-			moveSlider(rightIndicator, todayTime, true);
+			animateRangeTimes(todayTime - delta, todayTime);
 		}
 
 		public function get today():Date
 		{
 			if (_today != null)
-				return _today
+				return _today;
 			else
 				return new Date();
 		}
@@ -2348,5 +1913,375 @@ OTHER DEALINGS IN THE SOFTWARE.
 			return focusTime >= maximumTime || (focusTimeMarker.x == focusTimeMarkerMaxX && rightRangeTime >= maximumTime);
 		}
 
-		]]></fx:Script>
-</s:Group>
+		private function addAnnotationButton_clickHandler(event:MouseEvent):void
+		{
+			addAnnotation();
+			annDate.selectedDate = null;
+			annDescription.text = '';
+		}
+
+		override protected function partAdded(partName:String, instance:Object):void
+		{
+			super.partAdded(partName, instance);
+
+			if (instance == titleDisplay)
+			{
+				titleDisplay.text = mainChartTitle;
+			}
+			else if (instance == mainChart)
+			{
+				updateMainChart();
+				var horizontalAxis:NumericAxis = mainChart.horizontalAxis as DateTimeAxis;
+				if (horizontalAxis)
+					horizontalAxis.labelFunction = formatDateLabel;
+
+				mainChart.addEventListener(MouseEvent.MOUSE_MOVE, mainChart_mouseMoveHandler);
+				mainChart.addEventListener(MouseEvent.MOUSE_OUT, mainChart_mouseOutHandler);
+				mainChart.addEventListener(Event.RESIZE, mainChart_resizeHandler);
+			}
+			else if (instance == mainPrimarySeries)
+			{
+				mainPrimarySeries.yField = seriesName;
+				mainPrimarySeries.addEventListener(FlexEvent.UPDATE_COMPLETE, mainPrimarySeries_updateCompleteHandler)
+			}
+			else if (instance == mainChartArea)
+			{
+				mainChartArea.addEventListener(MouseEvent.MOUSE_DOWN, mainChartArea_mouseDownHandler);
+				mainChartArea.addEventListener(MouseEvent.MOUSE_UP, mainChartArea_mouseUpHandler);
+			}
+			else if (instance == focusTimeMarker)
+			{
+                focusTimeMarker.visible = showFocusTimeMarker;
+				focusTimeMarker.addEventListener(MouseEvent.MOUSE_DOWN, focusTimeGroup_mouseDownHandler);
+			}
+			else if (instance == rangeChart)
+			{
+				updateRangeChart();
+				horizontalAxis = rangeChart.horizontalAxis as DateTimeAxis;
+				if (horizontalAxis)
+					horizontalAxis.labelFunction = formatDateLabel;
+			}
+			else if (instance == rangePrimarySeries)
+			{
+				rangePrimarySeries.yField = seriesName;
+			}
+			else if (instance == dividedBox)
+			{
+				dividedBox.addEventListener(DividerEvent.DIVIDER_DRAG, dividedBox_dividerDragHandler);
+				dividedBox.addEventListener(DividerEvent.DIVIDER_RELEASE, dividedBox_dividerReleaseHandler);
+				dividedBox.addEventListener(Event.RESIZE, dividedBox_resizeHandler);
+			}
+			else if (instance == middleBox)
+			{
+				middleBox.addEventListener(MouseEvent.MOUSE_DOWN, middleBox_mouseDownHandler);
+				middleBox.addEventListener(MouseEvent.MOUSE_UP, middleBox_mouseUpHandler);
+				// TODO: update when rangeDataRatio or minimumDurationTime changes
+//				middleBox.minWidth = Math.max(5, Math.min(100, rangeDataRatio * minimumDurationTime));
+			}
+			else if (instance == mainChartVolume)
+			{
+				updateMainChartVolume();
+				mainChartVolume.addEventListener(MouseEvent.MOUSE_MOVE, mainChartVolume_mouseMoveHandler);
+				mainChartVolume.addEventListener(MouseEvent.MOUSE_OUT, mainChartVolume_mouseOutHandler);
+			}
+			else if (instance == leftScrollButton)
+			{
+				leftScrollButton.addEventListener(MouseEvent.CLICK, leftScrollButton_clickHandler);
+			}
+			else if (instance == rightScrollButton)
+			{
+				rightScrollButton.addEventListener(MouseEvent.CLICK, rightScrollButton_clickHandler);
+			}
+			else if (instance == slider)
+			{
+				slider.addEventListener(Event.RESIZE, slider_resizeHandler);
+				slider.addEventListener(Event.CHANGE, slider_changeHandler);
+				slider.addEventListener(MouseEvent.MOUSE_DOWN, slider_mouseDownHandler);
+				slider.addEventListener(MouseEvent.MOUSE_UP, slider_mouseUpHandler);
+				updateSliderMinMax();
+			}
+			else if (instance == showAnnotationsButton)
+			{
+				showAnnotationsButton.addEventListener(MouseEvent.CLICK, showAnnotationsButton_clickHandler);
+			}
+			else if (instance == addAnnotationButton)
+			{
+				addAnnotationButton.addEventListener(MouseEvent.CLICK, addAnnotationButton_clickHandler);
+			}
+			else if (instance == rangeOneWeekButton)
+			{
+				rangeOneWeekButton.addEventListener(MouseEvent.CLICK, rangeOneWeekButton_clickHandler);
+			}
+			else if (instance == rangeOneMonthButton)
+			{
+				rangeOneMonthButton.addEventListener(MouseEvent.CLICK, rangeOneMonthButton_clickHandler);
+			}
+			else if (instance == rangeOneYearButton)
+			{
+				rangeOneYearButton.addEventListener(MouseEvent.CLICK, rangeOneYearButton_clickHandler);
+			}
+			else if (instance == rangeMaxButton)
+			{
+				rangeMaxButton.addEventListener(MouseEvent.CLICK, rangeMaxButton_clickHandler);
+			}
+			else if (instance == rangeTodayButton)
+			{
+				rangeTodayButton.addEventListener(MouseEvent.CLICK, rangeTodayButton_clickHandler);
+			}
+			else if (instance == annotationForm)
+			{
+				annotationForm.dataProvider = annotationItems;
+				// TODO: add event listeners for the annotation buttons for highlighting the correct annotation
+				// click="{outerDocument.hightlightAnnotation([data.annID, data.date]); data.selected = true;}"
+			}
+
+			// TODO: annDate.selectableRange="{{rangeStart: dateParse(rangeData.getItemAt(0).date), rangeEnd:dateParse(rangeData.getItemAt(rangeData.length - 1).date)}}"
+		}
+
+		private function updateSliderMinMax():void
+		{
+			slider.minimum = t0;
+			slider.maximum = t1;
+		}
+
+		private function rangeOneWeekButton_clickHandler(event:MouseEvent):void
+		{
+			animateRangeDuration(7 * DAYS_TO_MILLISECONDS);
+		}
+
+		private function animateRangeDuration(duration:Number):void
+		{
+			animateRangeTimes(rightRangeTime - duration);
+		}
+
+		private function rangeOneMonthButton_clickHandler(event:MouseEvent):void
+		{
+			animateRangeDuration(31 * DAYS_TO_MILLISECONDS);
+		}
+
+		private function rangeOneYearButton_clickHandler(event:MouseEvent):void
+		{
+			animateRangeDuration(365 * DAYS_TO_MILLISECONDS);
+		}
+
+		private function rangeMaxButton_clickHandler(event:MouseEvent):void
+		{
+			animateRangeTimes(t0, t1);
+		}
+
+		private function slider_mouseDownHandler(event:MouseEvent):void
+		{
+			hideAnnotations();
+		}
+
+		private function slider_mouseUpHandler(event:MouseEvent):void
+		{
+			showAnnotations = true; refreshAnnotations();
+		}
+
+		private function leftScrollButton_clickHandler(event:MouseEvent):void
+		{
+			clickUpdate(-20);
+		}
+
+		private function rightScrollButton_clickHandler(event:MouseEvent):void
+		{
+			clickUpdate(20);
+		}
+
+		private function mainChartArea_mouseUpHandler(event:MouseEvent):void
+		{
+			showAnnotations = true;
+			refreshAnnotations();
+		}
+
+		private function mainChartArea_mouseDownHandler(event:MouseEvent):void
+		{
+			setMouseDown(mainChart);
+		}
+
+		private function mainPrimarySeries_updateCompleteHandler(event:FlexEvent):void
+		{
+			seriesComplete();
+		}
+
+		private function mainChart_mouseOutHandler(event:MouseEvent):void
+		{
+			chartMouseOut();
+		}
+
+		private function mainChart_mouseMoveHandler(event:MouseEvent):void
+		{
+			getChartDataPoint();
+		}
+
+		private function middleBox_mouseUpHandler(event:MouseEvent):void
+		{
+			showAnnotations = true;
+			refreshAnnotations();
+		}
+
+		private function middleBox_mouseDownHandler(event:MouseEvent):void
+		{
+			setMouseDown(rangeChart);
+		}
+
+		private function dividedBox_dividerDragHandler(event:DividerEvent):void
+		{
+			setDividerDragDate();
+		}
+
+		private function dividedBox_dividerReleaseHandler(event:DividerEvent):void
+		{
+			updateIndicatorValuesWithEffect();
+		}
+
+		private function mainChartVolume_mouseOutHandler(event:MouseEvent):void
+		{
+			chartMouseOut();
+		}
+
+		private function mainChartVolume_mouseMoveHandler(event:MouseEvent):void
+		{
+			getChartDataPoint();
+		}
+
+		override protected function partRemoved(partName:String, instance:Object):void
+		{
+			super.partRemoved(partName, instance);
+
+			if (instance == addAnnotationButton)
+			{
+				addAnnotationButton.removeEventListener(MouseEvent.CLICK, addAnnotationButton_clickHandler);
+			}
+			
+			else if (instance == mainChart)
+			{
+				mainChart.removeEventListener(MouseEvent.MOUSE_MOVE, mainChart_mouseMoveHandler);
+				mainChart.removeEventListener(MouseEvent.MOUSE_OUT, mainChart_mouseOutHandler);
+				mainChart.removeEventListener(Event.RESIZE, mainChart_resizeHandler);
+			}
+			else if (instance == mainPrimarySeries)
+			{
+				mainPrimarySeries.removeEventListener(FlexEvent.UPDATE_COMPLETE, mainPrimarySeries_updateCompleteHandler)
+			}
+			else if (instance == mainChartArea)
+			{
+				mainChartArea.removeEventListener(MouseEvent.MOUSE_DOWN, mainChartArea_mouseDownHandler);
+				mainChartArea.removeEventListener(MouseEvent.MOUSE_UP, mainChartArea_mouseUpHandler);
+			}
+			else if (instance == focusTimeMarker)
+			{
+				focusTimeMarker.removeEventListener(MouseEvent.MOUSE_DOWN, focusTimeGroup_mouseDownHandler);
+			}
+			else if (instance == dividedBox)
+			{
+				dividedBox.removeEventListener(DividerEvent.DIVIDER_DRAG, dividedBox_dividerDragHandler);
+				dividedBox.removeEventListener(DividerEvent.DIVIDER_RELEASE, dividedBox_dividerReleaseHandler);
+				dividedBox.removeEventListener(Event.RESIZE, dividedBox_resizeHandler);
+			}
+			else if (instance == middleBox)
+			{
+				middleBox.removeEventListener(MouseEvent.MOUSE_DOWN, middleBox_mouseDownHandler);
+				middleBox.removeEventListener(MouseEvent.MOUSE_UP, middleBox_mouseUpHandler);
+			}
+			else if (instance == mainChartVolume)
+			{
+				updateMainChartVolume();
+				mainChartVolume.removeEventListener(MouseEvent.MOUSE_MOVE, mainChartVolume_mouseMoveHandler);
+				mainChartVolume.removeEventListener(MouseEvent.MOUSE_OUT, mainChartVolume_mouseOutHandler);
+			}
+			else if (instance == leftScrollButton)
+			{
+				leftScrollButton.removeEventListener(MouseEvent.CLICK, leftScrollButton_clickHandler);
+			}
+			else if (instance == rightScrollButton)
+			{
+				rightScrollButton.removeEventListener(MouseEvent.CLICK, rightScrollButton_clickHandler);
+			}
+			else if (instance == slider)
+			{
+				slider.removeEventListener(Event.RESIZE, slider_resizeHandler);
+				slider.removeEventListener(Event.CHANGE, slider_changeHandler);
+				slider.removeEventListener(MouseEvent.MOUSE_DOWN, slider_mouseDownHandler);
+				slider.removeEventListener(MouseEvent.MOUSE_UP, slider_mouseUpHandler);
+			}
+			else if (instance == showAnnotationsButton)
+			{
+				showAnnotationsButton.removeEventListener(MouseEvent.CLICK, showAnnotationsButton_clickHandler);
+			}
+			else if (instance == addAnnotationButton)
+			{
+				addAnnotationButton.removeEventListener(MouseEvent.CLICK, addAnnotationButton_clickHandler);
+			}
+			else if (instance == rangeOneWeekButton)
+			{
+				rangeOneWeekButton.removeEventListener(MouseEvent.CLICK, rangeOneWeekButton_clickHandler);
+			}
+			else if (instance == rangeOneMonthButton)
+			{
+				rangeOneMonthButton.removeEventListener(MouseEvent.CLICK, rangeOneMonthButton_clickHandler);
+			}
+			else if (instance == rangeOneYearButton)
+			{
+				rangeOneYearButton.removeEventListener(MouseEvent.CLICK, rangeOneYearButton_clickHandler);
+			}
+			else if (instance == rangeMaxButton)
+			{
+				rangeMaxButton.removeEventListener(MouseEvent.CLICK, rangeMaxButton_clickHandler);
+			}
+			else if (instance == rangeTodayButton)
+			{
+				rangeTodayButton.removeEventListener(MouseEvent.CLICK, rangeTodayButton_clickHandler);
+			}
+		}
+
+		override public function setStyle(styleProp:String, newValue:*):void
+		{
+			super.setStyle(styleProp, newValue);
+
+			if (styleProp == "rangeChartVisible")
+			{
+				updateRangeChart();
+			}
+			else if (styleProp == "volumeVisible")
+			{
+				updateMainChartVolume();
+			}
+
+		}
+
+		private function updateMainChart():void
+		{
+			if (mainChart)
+				mainChart.dataProvider = mainData;
+		}
+
+		private function updateRangeChart():void
+		{
+			var rangeChartVisible:Boolean = getStyle("rangeChartVisible");
+			if (rangeChart)
+				rangeChart.dataProvider = rangeChartVisible ? rangeData : null;
+		}
+
+		private function updateMainChartVolume():void
+		{
+			var volumeVisible:Boolean = getStyle("volumeVisible");
+			if (mainChartVolume)
+				mainChartVolume.dataProvider = volumeVisible ? mainData : null;
+		}
+
+		[Bindable]
+		public function get mainChartTitle():String
+		{
+			return _mainChartTitle;
+		}
+
+		public function set mainChartTitle(value:String):void
+		{
+			_mainChartTitle = value;
+			if (titleDisplay)
+				titleDisplay.text = value;
+		}
+	}
+}

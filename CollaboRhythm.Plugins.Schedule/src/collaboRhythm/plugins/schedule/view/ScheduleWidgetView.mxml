@@ -245,5 +245,5 @@
 	<s:Group id="scheduleItemsContainer" horizontalCenter="0" verticalCenter="0" />
 	<images:clockHand id="clockHand" mouseEnabled="false" mouseChildren="false"/>
 	<images:clockForeground id="clockForeground" horizontalCenter="0" verticalCenter="0" mouseEnabled="false" mouseChildren="false"/>
-	<view:IconButton styleName="IconButton" icon="@Embed(source='/assets/images/video.png')" id="playVideoButton" left="5" bottom="5" visible="{!_scheduleWidgetViewController.isWorkstationMode}" click="playVideoButtonClickHandler()"/>
+	<view:IconButton icon="@Embed(source='/assets/images/video.png')" id="playVideoButton" left="5" bottom="5" visible="{!_scheduleWidgetViewController.isWorkstationMode}" click="playVideoButtonClickHandler()"/>
 </s:Group>

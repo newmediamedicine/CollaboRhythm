@@ -19,25 +19,11 @@
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:mx="library://ns.adobe.com/flex/mx"
          xmlns:view="collaboRhythm.shared.view.*"
+         xmlns:view2="collaboRhythm.workstation.view.*"
          height="0" width="100%">
     <fx:Style>
         @namespace s "library://ns.adobe.com/flex/spark";
         @namespace mx "library://ns.adobe.com/flex/mx";
-
-        .labelText
-        {
-			color: #000000;
-        }
-
-        #fullName
-        {
-            font-size: 24;
-        }
-
-        #demographics
-        {
-            font-size: 18;
-        }
 
         .IconButton
         {
@@ -52,32 +38,30 @@
 
         private static const SEPARATOR_COLOR:String = "#A7A9AC";
 
-
         private var _workstationApplicationController:WorkstationApplicationController;
         [Bindable]
         private var _recordAccount:Account;
         [Bindable]
-        private var _collaborationModel:CollaborationModel
+        private var _collaborationModel:CollaborationModel;
 
         public function init(workstationApplicationController:WorkstationApplicationController, recordAccount:Account, collaborationModel:CollaborationModel):void
         {
             _workstationApplicationController = workstationApplicationController;
             _recordAccount = recordAccount;
             _collaborationModel = collaborationModel;
+
+            recordInformationView.init(_recordAccount);
         }
 
         private function closeRecordButton_clickHandler(event:MouseEvent):void
         {
-            _workstationApplicationController.closeRecordAccount();
+            _workstationApplicationController.closeRecordAccount(_recordAccount);
         }
 
         private function recordVideoButton_clickHandler(event:MouseEvent):void
         {
             _workstationApplicationController.showRecordVideoView();
         }
-
-
-
         ]]>
     </fx:Script>
     <s:Rect width="100%" height="100%">
@@ -85,38 +69,7 @@
             <s:SolidColor color="{ActiveRecordView.RECORD_BACKGROUND_COLOR}"/>
         </s:fill>
     </s:Rect>
-    <s:HGroup width="100%" height="100%" horizontalAlign="left" gap="0">
-        <s:Rect width="10" height="100%">
-            <s:fill>
-			    <s:SolidColor id="collaborationServerConnectionIndicator" color="#FFFFFF"/>
-		    </s:fill>
-        </s:Rect>
-        <s:Line height="100%">
-            <s:stroke>
-                <s:SolidColorStroke color="#000000"/>
-            </s:stroke>
-        </s:Line>
-        <mx:Image source="{_recordAccount.primaryRecord.contact.imageURI}" height="{this.height}" width="{this.height}" smoothBitmapContent="true"/>
-        <s:Line height="100%">
-            <s:stroke>
-                <s:SolidColorStroke color="#000000"/>
-            </s:stroke>
-        </s:Line>
-        <s:VGroup paddingTop="12" paddingLeft="15" horizontalAlign="left" gap="4">
-            <s:Label id="fullName" text="{_recordAccount.primaryRecord.contact.fullName}" styleName="labelText"  />
-            <s:RichText id="demographics" visible="{_recordAccount.primaryRecord.demographics.gender != null}">
-                <s:textFlow>
-                    <s:TextFlow>
-                        <s:p>
-                            <s:span text="{_recordAccount.primaryRecord.demographics.age}"/> <s:span color="{SEPARATOR_COLOR}">|</s:span>
-                            <s:span text="{_recordAccount.primaryRecord.demographics.ethnicity}"/> <s:span color="{SEPARATOR_COLOR}">|</s:span>
-                            <s:span text="{_recordAccount.primaryRecord.demographics.gender}"/>
-                        </s:p>
-                    </s:TextFlow>
-                </s:textFlow>
-            </s:RichText>
-        </s:VGroup>
-    </s:HGroup>
+    <view2:RecordInformationView id="recordInformationView"/>
     <s:HGroup width="100%" height="100%" horizontalAlign="right" gap="10" paddingRight="10" paddingTop="5">
         <!-- TODO: Switch to regular spark button, tried to do this but icon would not appear -->
         <view:IconButton

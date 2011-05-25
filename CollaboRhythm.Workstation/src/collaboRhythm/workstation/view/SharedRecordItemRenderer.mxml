@@ -18,9 +18,10 @@
 <s:MXDataGridItemRenderer
 				xmlns:fx="http://ns.adobe.com/mxml/2009"
 				xmlns:s="library://ns.adobe.com/flex/spark"
+                xmlns:mx="library://ns.adobe.com/flex/mx"
+                xmlns:view="collaboRhythm.workstation.view.*"
 				width="100%"
 				height="100"
-				xmlns:mx="library://ns.adobe.com/flex/mx"
 				autoDrawBackground="true"
 				>
 	<s:states>
@@ -31,35 +32,27 @@
 		<s:State name="hoveredAndShowsCaret" />
 		<s:State name="selectedAndShowsCaret" />
 	</s:states>
-
-	<fx:Style>
-		@namespace s "library://ns.adobe.com/flex/spark";
-		@namespace mx "library://ns.adobe.com/flex/mx";
-
-	</fx:Style>
-
 	<fx:Script>
 		<![CDATA[
         import collaboRhythm.shared.model.Account;
         import collaboRhythm.shared.model.Record;
         import collaboRhythm.shared.model.User;
-
-//        [Bindable]
-//        private var _remoteUser:User;
+        import collaboRhythm.workstation.view.ActiveAccountHeaderView;
+        import collaboRhythm.workstation.view.ActiveAccountHeaderView;
 
         [Bindable]
-        private var _sharedRecord:Record;
+        private var _recordAccount:Account;
 
-//        private var loadedImage:Boolean = false;
         private static const SEPARATOR_COLOR:String = "0xA7A9AC";
 
         override public function set data(value:Object):void
         {
             // TODO: determine why this gets called twice when the status is changed once
             super.data = value;
-            var account:Account = Account(value);
+            _recordAccount = Account(value);
+            recordInformationView.init(_recordAccount);
 
-            _sharedRecord = account.primaryRecord;
+            // TODO: add problems to the item renderer
 //            _sharedRecord = _sharedRecordAccount.primaryRecord;
 
 //				if(_sharedRecordAccount != null)
@@ -69,6 +62,7 @@
 //					problemsModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, problems_propertyChangeHandler);
 //				}
         }
+
 
         //
         //			public function get remoteUser(): User
@@ -137,19 +131,8 @@
 				/>
 		</s:fill>
 	</s:Rect>
-	<mx:Image source="{_sharedRecord.contact.imageURI}" width="99" height="99" smoothBitmapContent="true"/>
-	<s:Label id="fullName" text="{_sharedRecord.contact.fullName}" x="105" y="6" fontSize="30" visible="{_sharedRecord.contact.fullName != null}"/>
-	<s:RichText id="demographics" fontSize="18" x="105" y="34" visible="{_sharedRecord.demographics.gender != null}">
-		<s:textFlow>
-			<s:TextFlow>
-				<s:p>
-					<s:span text="{_sharedRecord.demographics.age}"/> <s:span color="{SEPARATOR_COLOR}">|</s:span>
-					<s:span text="{_sharedRecord.demographics.ethnicity}"/> <s:span color="{SEPARATOR_COLOR}">|</s:span>
-					<s:span text="{_sharedRecord.demographics.gender}"/>
-				</s:p>
-			</s:TextFlow>
-		</s:textFlow>
-	</s:RichText>
+    <view:RecordInformationView id="recordInformationView"/>
+
 	<!--<s:RichText id="problems" fontSize="20" verticalAlign="bottom" bottom="2" height="42" left="105" right="2" lineHeight="20" visible="{problemsModel.problemsShortList != null}">-->
 		<!--<s:textFlow>-->
 			<!--<s:TextFlow>-->
@@ -162,12 +145,7 @@
 		<!--</s:textFlow>-->
 	<!--</s:RichText>-->
 
-	<!--
-	<mx:Image right="5" top="5" height="32" width="32" source="@Embed(source='/resources/images/icons/{_remoteUser.collaborationLobbyConnectionStatus}.png')" smoothBitmapContent="true"/>
-	-->
-	<!--<mx:Image right="5" top="5" height="32" width="32" source="@Embed(source='/resources/images/icons/CollaborationLobbyAvailable.png')" smoothBitmapContent="true" visible="{_remoteUser.collaborationLobbyConnectionStatus == User.COLLABORATION_LOBBY_AVAILABLE}"/>-->
-	<!--<mx:Image right="5" top="5" height="32" width="32" source="@Embed(source='/resources/images/icons/CollaborationLobbyNotConnected.png')" smoothBitmapContent="true" visible="{_remoteUser.collaborationLobbyConnectionStatus == User.COLLABORATION_LOBBY_NOT_CONNECTED}"/>-->
-	<s:Line left="0" right="0" xFrom="0" xTo="1" bottom="0">
+	<s:Line left="0" right="0" bottom="0">
 		<s:stroke>
 			<s:SolidColorStroke color="0x000000"/>
 		</s:stroke>

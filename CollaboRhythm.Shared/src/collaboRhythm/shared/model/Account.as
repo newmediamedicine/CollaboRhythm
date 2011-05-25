@@ -24,16 +24,26 @@ package collaboRhythm.shared.model
     [Bindable]
     public class Account
     {
+        public static const COLLABORATION_LOBBY_NOT_CONNECTED:String = "CollaborationLobbyNotConnected";
+		public static const COLLABORATION_LOBBY_AVAILABLE:String = "CollaborationLobbyAvailable";
+		public static const COLLABORATION_LOBBY_AWAY:String = "CollaborationLobbyAway";
+
+		public static const COLLABORATION_REQUEST_SENT:String = "CollaborationRequestSent";
+		public static const COLLABORATION_REQUEST_RECEIVED:String = "CollaborationRequestReceived";
+		public static const COLLABORATION_ROOM_EXITED:String = "CollaborationRoomExited";
+		public static const COLLABORATION_ROOM_ENTERED:String = "CollaborationRoomEntered";
+		public static const COLLABORATION_ROOM_JOINED:String = "CollaborationRoomJoined";
 
         private var _accountId:String;
         private var _oauthAccountToken:String;
         private var _oauthAccountTokenSecret:String;
-        private var _records:Vector.<Record> = new Vector.<Record>();
         private var _primaryRecord:Record;
         // TODO: Figure out why Collection.CHANGE_EVENT is not working for the HashMap so this ArrayCollection can be eliminated
         private var _sharedRecordAccountsCollection:ArrayCollection = new ArrayCollection();
         private var _sharedRecordAccounts:HashMap = new HashMap(); // accountId as key
         private var _recordShareAccounts:HashMap = new HashMap(); // accountId as key
+        private var _allSharingAccounts:HashMap = new HashMap(); // accountId as key
+        private var _collaborationLobbyConnectionStatus:String = COLLABORATION_LOBBY_NOT_CONNECTED;
 
         public function Account()
         {
@@ -70,16 +80,6 @@ package collaboRhythm.shared.model
             _oauthAccountTokenSecret = value;
         }
 
-        public function get records():Vector.<Record>
-        {
-            return _records;
-        }
-
-        public function set records(value:Vector.<Record>):void
-        {
-            _records = value;
-        }
-
         public function get primaryRecord():Record
         {
             return _primaryRecord;
@@ -113,12 +113,14 @@ package collaboRhythm.shared.model
         public function addSharedRecordAccount(sharedRecordAccount:Account):void
         {
             _sharedRecordAccounts[sharedRecordAccount.accountId] = sharedRecordAccount;
+            _allSharingAccounts[sharedRecordAccount.accountId] = sharedRecordAccount;
             _sharedRecordAccountsCollection.addItem(sharedRecordAccount);
         }
 
         public function addRecordShareAccount(recordShareAccount:Account):void
         {
             _recordShareAccounts[recordShareAccount.accountId] = recordShareAccount;
+            _allSharingAccounts[recordShareAccount.accountId] = recordShareAccount;
         }
 
         public function get sharedRecordAccountsCollection():ArrayCollection
@@ -131,17 +133,24 @@ package collaboRhythm.shared.model
             _sharedRecordAccountsCollection = value;
         }
 
-        public function get collaborationAccountIdsArray():Array
+        public function get allSharingAccounts():HashMap
         {
-            var collaborationAccountIdsArray:Array = _sharedRecordAccounts.keys.toArray();
-            for each (var collaborationAccountId:String in _recordShareAccounts.keys)
-            {
-                if (collaborationAccountIdsArray.indexOf(collaborationAccountId) == -1)
-                {
-                    collaborationAccountIdsArray.push(collaborationAccountId);
-                }
-            }
-            return collaborationAccountIdsArray;
+            return _allSharingAccounts;
+        }
+
+        public function set allSharingAccounts(value:HashMap):void
+        {
+            _allSharingAccounts = value;
+        }
+
+        public function get collaborationLobbyConnectionStatus():String
+        {
+            return _collaborationLobbyConnectionStatus;
+        }
+
+        public function set collaborationLobbyConnectionStatus(value:String):void
+        {
+            _collaborationLobbyConnectionStatus = value;
         }
     }
 }

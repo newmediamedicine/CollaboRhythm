@@ -17,20 +17,74 @@
   -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
+         xmlns:mx="library://ns.adobe.com/flex/mx"
          xmlns:view="collaboRhythm.shared.view.*"
-         width="100%" height="0">
+         width="100%" height="0"
+         visible="{isVisible(_collaborationModel.recordVideo)}"
+         showEffect="{showEffect}"
+         hideEffect="{hideEffect}">
+    <fx:Declarations>
+        <s:Resize id="showEffect" heightBy="{COLLABORATION_VIEW_CHILD_HEIGHT}" effectUpdate="{showEffectUpdate()}" effectEnd="{showEffectEnd()}"/>
+        <s:Resize id="hideEffect" heightBy="{-COLLABORATION_VIEW_CHILD_HEIGHT}" effectUpdate="{showEffectUpdate()}" effectEnd="{hideEffectEnd()}"/>
+    </fx:Declarations>
     <fx:Script>
         <![CDATA[
+        import collaboRhythm.shared.controller.CollaborationController;
+        import collaboRhythm.shared.model.CollaborationModel;
+
+        import mx.events.ResizeEvent;
+
         public static const COLLABORATION_VIEW_CHILD_HEIGHT:int = 200;
-        public static const COLLABORATION_VIEW_BACKGROUND_COLOR:uint = 0x939598;
+
+        private var _collaborationController:CollaborationController;
+        [Bindable]
+        private var _collaborationModel:CollaborationModel;
+        private var _mainGroup:Group;
+
+        public function init(collaborationController:CollaborationController, mainGroup:Group):void
+        {
+            _collaborationController = collaborationController;
+            _collaborationModel = _collaborationController.collaborationModel;
+            _mainGroup = mainGroup;
+            recordVideoView.init(_collaborationController);
+        }
+
+        private function isVisible(recordVideo:Boolean):Boolean
+        {
+            if (recordVideo)
+            {
+                setElementIndex(recordVideoView, 0);
+                return true;
+            }
+            return false;
+        }
+
+        private function showEffectUpdate():void
+        {
+            if (this.top == 0)
+            {
+                _mainGroup.top = this.height;
+            }
+            else
+            {
+                _mainGroup.bottom = this.height;
+            }
+        }
+
+        private function showEffectEnd():void
+        {
+            if (_collaborationModel.recordVideo)
+            {
+                recordVideoView.showEffectEndHandler();
+            }
+        }
+
+        private function hideEffectEnd():void
+        {
+            recordVideoView.hideEffectEndHandler();
+        }
         ]]>
     </fx:Script>
-    <s:Rect width="100%" height="100%">
-        <s:fill>
-			<s:SolidColor color="{COLLABORATION_VIEW_BACKGROUND_COLOR}"/>
-		</s:fill>
-    </s:Rect>
-    <view:RecordVideoView id="recordVideoView" width="100%" height="{COLLABORATION_VIEW_CHILD_HEIGHT}" visible="false"/>
-    <view:CollaborationRoomView id="collaborationRoomView" width="100%" height="{COLLABORATION_VIEW_CHILD_HEIGHT}" visible="false"/>
+    <view:RecordVideoView id="recordVideoView" width="100%" height="{COLLABORATION_VIEW_CHILD_HEIGHT}"/>
+    <view:CollaborationRoomView id="collaborationRoomView" width="100%" height="{COLLABORATION_VIEW_CHILD_HEIGHT}"/>
 </s:Group>

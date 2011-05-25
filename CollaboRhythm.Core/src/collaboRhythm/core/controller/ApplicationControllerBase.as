@@ -27,6 +27,7 @@ package collaboRhythm.core.controller
     import collaboRhythm.shared.model.Account;
     import collaboRhythm.shared.model.Record;
     import collaboRhythm.shared.model.User;
+    import collaboRhythm.shared.model.healthRecord.AccountInformationHealthRecordService;
     import collaboRhythm.shared.model.healthRecord.CreateSessionHealthRecordService;
     import collaboRhythm.shared.model.healthRecord.DemographicsHealthRecordService;
     import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
@@ -39,6 +40,7 @@ package collaboRhythm.core.controller
     import collaboRhythm.shared.model.settings.SettingsFileStore;
     import collaboRhythm.shared.pluginsSupport.IComponentContainer;
     import collaboRhythm.shared.view.CollaborationRoomView;
+    import collaboRhythm.shared.view.CollaborationView;
     import collaboRhythm.shared.view.RecordVideoView;
 
     import com.coltware.airxlib.log.FileTarget;
@@ -76,6 +78,11 @@ package collaboRhythm.core.controller
         public function get settings():Settings
         {
             return _settings;
+        }
+
+        public function get collaborationView():CollaborationView
+        {
+            throw new Error("virtual function must be overriden in subclass");
         }
 
         public function get collaborationRoomView():CollaborationRoomView
@@ -117,8 +124,6 @@ package collaboRhythm.core.controller
         // subclasses can then perform appropriate actions after settings, logging, and components have been initialized
         public function main():void
         {
-            _activeAccount = new Account();
-
             initSettings();
 
             initLogging();
@@ -135,6 +140,17 @@ package collaboRhythm.core.controller
             logger.info("Components initialized. Asynchronous plugin loading initiated.");
             logger.info("  User plugins directory: " + _pluginLoader.userPluginsDirectoryPath);
             logger.info("  Number of loaded plugins: " + _pluginLoader.numPluginsLoaded);
+
+            // the activeAccount is that which is actively in session with the Indivo server, there can only be one active account at a time
+            // create an instance of this model class immediately so that it is accessible to all subsequent operations
+            _activeAccount = new Account();
+
+            // the collaborationController coordinates interaction between the CollaborationModel and the CollaborationView and its children the RecordVideoView and CollaborationRoomView.
+            // The CollaborationModel, through its services, connects to the collaboration server, which is currently a Flash Media Server
+            // This server allows the user to see when other account owners are online
+            // It also allows collaboration with these account owners and sending and viewing of asynchronous video
+            // Note that the collaborationView is defined by subclasses of ApplicationControllerBase and that it must be instantiated when the class is defined to be accessible here
+            _collaborationController = new CollaborationController(_activeAccount, collaborationView, _settings);
         }
 
         private function initSettings():void
@@ -147,30 +163,38 @@ package collaboRhythm.core.controller
         private function initLogging():void
         {
             // TODO: Determine what action is taken when the log file exceeds a certain size
-            // TODO: Add settings for controlling logging to the settings file
-            // TODO: Handle exceptions is using a fileTarget, on several occasions an exceptions has occured where the file is in use
-            // create a file target for logging
-//            var fileTarget:FileTarget = new FileTarget();
-//            // the file log will be stored in the application storage directory
-//            fileTarget.directory = File.applicationStorageDirectory;
-//            fileTarget.filename = "collaboRhythm.log";
-//            // append the log information to the file rather than create a new file each time the application is run
-//            fileTarget.append = true;
-//            // add the file target to the log
-//            Log.addTarget(fileTarget);
+            // TODO: Handle exceptions is using a fileTarget, on several occasions an exception has occurred where the file is in use
+            // create a file target for logging if specified in the settings file
+            if (_settings.useFileTarget)
+            {
+                var fileTarget:FileTarget = new FileTarget();
+                // the file log will be stored in the application storage directory
+                fileTarget.directory = File.applicationStorageDirectory;
+                fileTarget.filename = "collaboRhythm.log";
+                // append the log information to the file rather than create a new file each time the application is run
+                fileTarget.append = true;
+                // add the file target to the log
+                Log.addTarget(fileTarget);
+            }
 
-            // create a trace target for logging
-//            var traceTarget:TraceTarget = new TraceTarget();
-            // add the trace target to the log
-//            Log.addTarget(traceTarget);
+            // create a trace target for logging if specified in the settings file
+            if (_settings.useTraceTarget)
+            {
+                var traceTarget:TraceTarget = new TraceTarget();
+                // add the trace target to the log
+                Log.addTarget(traceTarget);
+            }
 
-            // create a syslog target for logging and get the ip address from the settings file
+            // create a syslog target for logging if specified in the settings file and get the ip address from the settings file
             // Kiwi Syslog server has a free version http://www.kiwisyslog.com/kiwi-syslog-server-overview/
             // set the syslogServerIpAddress in your settings file to the IP address where the syslog server is running
-            var udpSyslogTarget:UDPSyslogTarget = new UDPSyslogTarget(_settings.syslogServerIpAddress,
-                                                                      DEFAULT_SYSLOG_PORT);
-            // add the syslog target to the log
-            Log.addTarget(udpSyslogTarget);
+            if (_settings.useSyslogTarget)
+            {
+                var udpSyslogTarget:UDPSyslogTarget = new UDPSyslogTarget(_settings.syslogServerIpAddress,
+                                                                          DEFAULT_SYSLOG_PORT);
+                // add the syslog target to the log
+                Log.addTarget(udpSyslogTarget);
+            }
 
             logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
         }
@@ -197,7 +221,7 @@ package collaboRhythm.core.controller
         }
 
         /**
-         * Virtual method which subclasses should override in order create a session with the Indivo backend server.
+         * Method that should be called by subclasses to create a session with the Indivo backend server.
          */
         protected function createSession():void
         {
@@ -216,15 +240,33 @@ package collaboRhythm.core.controller
         private function createSessionSucceededHandler(event:HealthRecordServiceEvent):void
         {
             logger.info("Creating session in Indivo - SUCCEEDED");
-            // TODO: retrieve the account information for the account actively in session
-            // this may be useful if accounts are implemented to have credentials, such as MD or RN
-//            var accountInformationHealthRecordService:AccountInformationHealthRecordService = new AccountInformationHealthRecordService(_settings.oauthChromeConsumerKey, _settings.oauthChromeConsumerSecret, _settings.indivoServerBaseURL);
-//            accountInformationHealthRecordService.retrieveAccountInformation(_account);
 
-            connectCollaborationServer();
+            // get information for the account actively in session, this may be useful if accounts are implemented to have credentials, such as MD or RN
+            // currently it is not useful, so the function is never called
+            // TODO: add the ability to retrieve credentials if they are implemented
+//            getAccountInformation();
 
+            // get the records for the account actively in session, this includes records that have been shared with the account
+            getRecords();
+        }
+
+        private function createSessionFailedHandler(event:HealthRecordServiceEvent):void
+        {
+            // TODO: add UI feedback for when creating a session fails
+            logger.info("Creating session in Indivo - FAILED - " + event.errorStatus);
+        }
+
+        private function getAccountInformation():void
+        {
+            var accountInformationHealthRecordService:AccountInformationHealthRecordService = new AccountInformationHealthRecordService(_settings.oauthChromeConsumerKey, _settings.oauthChromeConsumerSecret, _settings.indivoServerBaseURL, _activeAccount);
+            accountInformationHealthRecordService.retrieveAccountInformation(_activeAccount);
+        }
+
+        // get the records for the account actively in session, this includes records that have been shared with the account
+        private function getRecords():void
+        {
             logger.info("Retrieving records from Indivo...");
-            // retrieve the records for the account actively in session, this includes records that have been shared with the account
+
             var recordsHealthRecordService:RecordsHealthRecordService = new RecordsHealthRecordService(_settings.oauthChromeConsumerKey,
                                                                                                        _settings.oauthChromeConsumerSecret,
                                                                                                        _settings.indivoServerBaseURL,
@@ -234,22 +276,10 @@ package collaboRhythm.core.controller
             recordsHealthRecordService.getRecords();
         }
 
-        // Connect to the collaboration server, which is currently a Flash Media Server
-        // This server allows the user to see when other account owners are online
-        // It also allows collaboration with these account owners and sending and viewing of asynchronous video
-        private function connectCollaborationServer():void
-        {
-
-        }
-
-        private function createSessionFailedHandler(event:HealthRecordServiceEvent):void
-        {
-            // TODO: add UI feedback for when creating a session fails
-            logger.info("Creating session in Indivo - FAILED - " + event.errorStatus);
-        }
-
         private function retrieveRecordsCompleteHandler(event:HealthRecordServiceEvent):void
         {
+            logger.info("Retrieving records from Indivo - SUCCEEDED");
+
             // No matter what mode the application is in, the demographics for the account actively in session are needed
             var demographicsHealthRecordService:DemographicsHealthRecordService = new DemographicsHealthRecordService(_settings.oauthChromeConsumerKey,
                                                                                                                       _settings.oauthChromeConsumerSecret,
@@ -276,12 +306,26 @@ package collaboRhythm.core.controller
                 {
                     demographicsHealthRecordService.getDemographics(account.primaryRecord);
                 }
+
+                // enter the collaboration lobby, since all of the necessary accountIds are known
+                enterCollaborationLobby();
             }
         }
 
         private function retrieveSharesCompleteHandler(event:HealthRecordServiceEvent):void
         {
+            // enter the collaboration lobby, since all of the necessary accountIds are known
+            enterCollaborationLobby();
 
+            openRecordAccount(_activeAccount);
+        }
+
+        // Enter the collaboration lobby so that the user can see which other users are online
+        // This must be done after all of the shared records and record shares have been retrieved so that the accountIds are known
+        private function enterCollaborationLobby():void
+        {
+            // Enter the collaboration lobby, so that the user can see when other account owners are online
+            collaborationController.collaborationModel.collaborationLobbyNetConnectionService.enterCollaborationLobby();
         }
 
         /**
@@ -291,6 +335,17 @@ package collaboRhythm.core.controller
          *
          */
         public function openRecordAccount(recordAccount:Account):void
+        {
+
+        }
+
+        /**
+         * Virtual method which subclasses should override to dictate what happens when a record is closed
+         *
+         * @param recordAccount
+         *
+         */
+        public function closeRecordAccount(recordAccount:Account):void
         {
 
         }

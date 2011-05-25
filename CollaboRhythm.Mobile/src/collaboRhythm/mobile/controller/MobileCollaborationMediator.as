@@ -37,14 +37,14 @@ public class MobileCollaborationMediator extends CollaborationMediatorBase
 			super();
 		}
 		
-		protected override function prepareForPatientMode():void
-		{
-		}
+//		protected override function prepareForPatientMode():void
+//		{
+//		}
 		
 		protected override function openValidatedUser(user:User):void
 		{
-			_appControllersMediator.createMobileApps(user);
-			_mobileApplicationController.initializeActiveView();
+//			_appControllersMediator.createMobileApps(user);
+//			_mobileApplicationController.initializeActiveView();
 		}
 	}
 }

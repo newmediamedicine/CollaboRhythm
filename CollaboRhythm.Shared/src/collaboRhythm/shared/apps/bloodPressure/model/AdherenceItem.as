@@ -23,8 +23,8 @@ package collaboRhythm.shared.apps.bloodPressure.model
 	{
 		private var _name:CodedValue;
 		private var _reportedBy:String;
-		private var _dateTimeReported:Date;
-		private var _administered:Boolean;
+		private var _dateReported:Date;
+		private var _adherence:Boolean;
 		private var _nonAdherenceReason:Boolean;
 
 		public function AdherenceItem()
@@ -33,12 +33,12 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 		public function set date(date:Date):void
 		{
-			dateTimeReported = date;
+			dateReported = date;
 		}
 
 		public function get date():Date
 		{
-			return dateTimeReported;
+			return dateReported;
 		}
 
 		public function get name():CodedValue
@@ -61,24 +61,24 @@ package collaboRhythm.shared.apps.bloodPressure.model
 			_reportedBy = reportedBy;
 		}
 
-		public function get dateTimeReported():Date
+		public function get dateReported():Date
 		{
-			return _dateTimeReported;
+			return _dateReported;
 		}
 
-		public function set dateTimeReported(dateTimeReported:Date):void
+		public function set dateReported(dateTimeReported:Date):void
 		{
-			_dateTimeReported = dateTimeReported;
+			_dateReported = dateTimeReported;
 		}
 
-		public function get administered():Boolean
+		public function get adherence():Boolean
 		{
-			return _administered;
+			return _adherence;
 		}
 
-		public function set administered(administered:Boolean):void
+		public function set adherence(adherence:Boolean):void
 		{
-			_administered = administered;
+			_adherence = adherence;
 		}
 
 		public function get nonAdherenceReason():Boolean
@@ -93,7 +93,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 		public function get dateValue():Number
 		{
-			return dateTimeReported.valueOf();
+			return dateReported.valueOf();
 		}
 	}
 }

@@ -15,12 +15,12 @@ package com.dougmccune.controls
 	[Event(name="scrollStart", type="collaboRhythm.view.scroll.TouchScrollerEvent")]
 	[Event(name="scrollStop", type="collaboRhythm.view.scroll.TouchScrollerEvent")]
 	
-	public class TouchScrollingMcCuneChart extends McCuneChart implements ITouchScrollerAdapter
+	public class TouchScrollingScrubChart extends ScrubChart implements ITouchScrollerAdapter
 	{
 		private var _touchScroller:TouchScroller;
 		private var _traceEventHandlers:Boolean = false;
 
-		override public function TouchScrollingMcCuneChart()
+		override public function TouchScrollingScrubChart()
 		{
 			super();
 			this.addEventListener(FlexEvent.CREATION_COMPLETE, creationCompleteHandler);
@@ -45,7 +45,8 @@ package com.dougmccune.controls
 		
 		override protected function keyUpHandler(event:KeyboardEvent):void
 		{
-			_touchScroller.keyUpHandler(event);
+            if (this._touchScroller)
+    			_touchScroller.keyUpHandler(event);
 		}
 		
 		public function get component():UIComponent
@@ -139,7 +140,8 @@ package com.dougmccune.controls
 		
 		public function stopInertiaScrolling():void
 		{
-			this._touchScroller.stopInertiaScrolling();
+            if (this._touchScroller)
+    			this._touchScroller.stopInertiaScrolling();
 		}
 		
 		private function scrollStartHandler(event:TouchScrollerEvent):void

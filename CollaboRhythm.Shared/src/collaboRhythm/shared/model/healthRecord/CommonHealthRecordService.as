@@ -18,8 +18,7 @@ package collaboRhythm.shared.model.healthRecord
 {
 	import collaboRhythm.shared.model.*;
 	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
-import collaboRhythm.shared.model.healthRecord.HealthRecordServiceSimpleBase;
-import collaboRhythm.shared.model.healthRecord.HealthRecordServiceSimpleBase;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
@@ -49,9 +48,9 @@ import collaboRhythm.shared.model.healthRecord.HealthRecordServiceSimpleBase;
 
 	public class CommonHealthRecordService extends PhaHealthRecordServiceBase
 	{
-		public function CommonHealthRecordService(oauthConsumerKey:String, oauthConsumerSecret:String, indivoServerBaseURL:String, account:Account)
+		public function CommonHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account)
 		{
-			super(oauthConsumerKey, oauthConsumerSecret, indivoServerBaseURL, account);
+			super(consumerKey, consumerSecret, baseURL, account);
 		}
 		
 		public function loadAllDemographics(remoteUserModel:UsersModel):void
@@ -122,22 +121,22 @@ import collaboRhythm.shared.model.healthRecord.HealthRecordServiceSimpleBase;
 		//			Alert.show("Error retrieving XML data", "Error");
 		//		}
 		
-		protected override function handleResponse(event:IndivoClientEvent, responseXml:XML, healthRecordsServiceRequestDetails:HealthRecordServiceRequestDetails):void
+		protected override function handleResponse(event:IndivoClientEvent, responseXml:XML, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
-			var user:User;
-			if (responseXml.name() == "Demographics")
-			{
-				user = event.userData as User;
+//			var user:User;
+//			if (responseXml.name() == "Demographics")
+//			{
+//				user = event.userData as User;
 //				user.demographics.rawData = responseXml;
-			}
-			else if (responseXml.name() == "Record" && responseXml.Contact.length() == 1)
-			{
-				user = event.userData as User;
-//				user.contact.rawData = responseXml.Contact[0];
-				
-				if (user.contact.userName != null)
-					this.dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE));
-			}
+//			}
+//            else if (responseXml.name() == "Contact")
+//            {
+//                user = event.userData as User;
+//                user.contact.rawData = responseXml;
+//
+//                if (user.contact.userName != null)
+//                    this.dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE));
+//            }
 //			else if (responseXml.name() == "Reports")
 //			{
 //				user = event.userData as User;
@@ -152,10 +151,10 @@ import collaboRhythm.shared.model.healthRecord.HealthRecordServiceSimpleBase;
 //				else
 //					throw new Error("Unhandled request: " + event.urlRequest.url);
 //			}
-			else
-			{
-				throw new Error("Unhandled response data: " + responseXml.name() + " " + responseXml);
-			}
+//			else
+//			{
+//				throw new Error("Unhandled response data: " + responseXml.name() + " " + responseXml);
+//			}
 		}
 	}
 }

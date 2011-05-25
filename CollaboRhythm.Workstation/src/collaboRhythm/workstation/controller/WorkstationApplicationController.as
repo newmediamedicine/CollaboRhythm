@@ -95,9 +95,6 @@ package collaboRhythm.workstation.controller
         {
             super.main();
 
-            collaborationController = new CollaborationController(_collaborationView, _activeAccount, _settings);
-            logger.info("Created CollaborationController");
-
             initializeWindows();
 			logger.info("Windows initialized");
 
@@ -144,6 +141,7 @@ package collaboRhythm.workstation.controller
                 _collaborationView.top = 0;
                 _collaborationView.collaborationRoomView.bottom = 0;
                 _collaborationView.recordVideoView.bottom = 0;
+                _collaborationView.init(collaborationController, primaryWindowView.mainGroup);
                 primaryWindowView.addElement(_collaborationView);
             }
             else
@@ -152,6 +150,7 @@ package collaboRhythm.workstation.controller
                 _collaborationView.bottom = 0;
                 _collaborationView.collaborationRoomView.top = 0;
                 _collaborationView.recordVideoView.top = 0;
+                _collaborationView.init(collaborationController, _secondaryWindowView.mainGroup);
                 _secondaryWindowView.addElement(_collaborationView);
             }
 		}
@@ -207,7 +206,7 @@ package collaboRhythm.workstation.controller
         {
             _activeRecordView = new ActiveRecordView();
             _activeRecordView.init(this, recordAccount);
-            _primaryWindowView.primaryWindowViewGroup.addElement(_activeRecordView);
+            _primaryWindowView.mainGroup.addElement(_activeRecordView);
 
             if (Screen.screens.length == 1 || settings.useSingleScreen)
             {
@@ -226,33 +225,32 @@ package collaboRhythm.workstation.controller
                 _widgetsContainerView.right = 0;
                 _widgetsContainerView.top = 0;
                 _widgetsContainerView.bottom = 0;
-                _secondaryWindowView.secondaryWindowViewGroup.addElement(_widgetsContainerView);
+                _secondaryWindowView.mainGroup.addElement(_widgetsContainerView);
             }
         }
 
         public function activeRecordView_creationCompleteHandler(recordAccount:Account):void
         {
             _workstationAppControllersMediator = new WorkstationAppControllersMediator(_widgetsContainerView.widgetsContainer, _widgetsContainerView.widgetsContainer, _activeRecordView.fullViewGroup, _settings, _componentContainer);
-            _workstationAppControllersMediator.createAndStartWorkstationApps(recordAccount);
+            _workstationAppControllersMediator.createAndStartApps(recordAccount);
+        }
+
+        public override function closeRecordAccount(recordAccount:Account):void
+        {
+            _workstationAppControllersMediator.closeApps();
+			if (recordAccount)
+                // TODO: clear the documents from a closed recordAccount
+//				recordAccount.clearDocuments();
+            _primaryWindowView.mainGroup.removeElement(_activeRecordView);
+            if (!(Screen.screens.length == 1 || settings.useSingleScreen))
+            {
+                _secondaryWindowView.mainGroup.addElement(_widgetsContainerView);
+            }
         }
 
         public function showRecordVideoView():void
         {
-            _collaborationView.recordVideoView.visible = true;
-            _collaborationView.height = CollaborationView.COLLABORATION_VIEW_CHILD_HEIGHT;
-            if (Screen.screens.length == 1 || settings.useSingleScreen)
-            {
-                _primaryWindowView.primaryWindowViewGroup.top = CollaborationView.COLLABORATION_VIEW_CHILD_HEIGHT;
-            }
-            else
-            {
-                _secondaryWindowView.secondaryWindowViewGroup.bottom = CollaborationView.COLLABORATION_VIEW_CHILD_HEIGHT;
-            }
-        }
-
-        public function closeRecordAccount():void
-        {
-            _primaryWindowView.primaryWindowViewGroup.removeElement(_activeRecordView);
+            collaborationController.showRecordVideoView();
         }
 
 		public function get topSpace():TopSpace
@@ -330,6 +328,11 @@ package collaboRhythm.workstation.controller
 		{
 			return _centerSpace.remoteUsersView;
 		}
+
+        public override function get collaborationView():CollaborationView
+        {
+            return _collaborationView;
+        }
 		
 		public override function get collaborationRoomView():CollaborationRoomView
 		{

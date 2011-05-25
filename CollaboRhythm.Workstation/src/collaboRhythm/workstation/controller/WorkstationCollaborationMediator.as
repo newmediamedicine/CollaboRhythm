@@ -53,10 +53,10 @@
 			super(account);
 		}
 		
-		protected override function prepareForPatientMode():void
-		{
-			_workstationController.remoteUsersView.hide(true);
-		}
+//		protected override function prepareForPatientMode():void
+//		{
+//			_workstationController.remoteUsersView.hide(true);
+//		}
 		
 //		protected override function openValidatedUser(user:User):void
 //		{
@@ -77,24 +77,24 @@
 //			_collaborationController.collaborationRoomView.addEventListener(CollaborationEvent.LOCAL_USER_JOINED_COLLABORATION_ROOM_ANIMATION_COMPLETE, localUserJoinedCollaborationRoomAnimationCompleteHandler);
 //		}
 		
-		protected override function initializeControllersForUser():void
-		{
-			_remoteUsersController = new RemoteUserController(applicationController.remoteUsersView, usersModel);
-			logger.info("RemoteUserController created");
-			
-			_workstationCommandBarController = new WorkstationCommandBarController(_workstationController.workstationCommandBarView, usersModel, settings);
-
-			// moved call to initialize _appsControllerMediator
-			
-			_demographicsController = new DemographicsController(_workstationController.fullContainer);
-			
-			_remoteUsersController.addEventListener(CollaborationEvent.OPEN_RECORD, openRecordHandler);
-			
-			_workstationCommandBarController.addEventListener(CollaborationEvent.COLLABORATE_WITH_USER, collaborateWithUserHandler);
-			_workstationCommandBarController.addEventListener(CollaborationEvent.RECORD_VIDEO, recordVideoHandler);
-			_workstationCommandBarController.addEventListener(CollaborationEvent.CLOSE_RECORD, closeRecordHandler);
-			_workstationCommandBarController.addEventListener(CollaborationEvent.RECORD_CLOSED, recordClosedHandler);
-		}
+//		protected override function initializeControllersForUser():void
+//		{
+//			_remoteUsersController = new RemoteUserController(applicationController.remoteUsersView, usersModel);
+//			logger.info("RemoteUserController created");
+//
+//			_workstationCommandBarController = new WorkstationCommandBarController(_workstationController.workstationCommandBarView, usersModel, settings);
+//
+//			// moved call to initialize _appsControllerMediator
+//
+//			_demographicsController = new DemographicsController(_workstationController.fullContainer);
+//
+//			_remoteUsersController.addEventListener(CollaborationEvent.OPEN_RECORD, openRecordHandler);
+//
+//			_workstationCommandBarController.addEventListener(CollaborationEvent.COLLABORATE_WITH_USER, collaborateWithUserHandler);
+//			_workstationCommandBarController.addEventListener(CollaborationEvent.RECORD_VIDEO, recordVideoHandler);
+//			_workstationCommandBarController.addEventListener(CollaborationEvent.CLOSE_RECORD, closeRecordHandler);
+//			_workstationCommandBarController.addEventListener(CollaborationEvent.RECORD_CLOSED, recordClosedHandler);
+//		}
 		
 		public override function localUserJoinedCollaborationRoomAnimationCompleteHandler(event:CollaborationEvent):void
 		{

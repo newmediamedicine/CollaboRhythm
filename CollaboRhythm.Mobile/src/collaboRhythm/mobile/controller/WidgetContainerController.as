@@ -33,12 +33,12 @@ import spark.effects.SlideViewTransition;
 public class WidgetContainerController
 	{
 		private var _navigator:ViewNavigator;
-		private var _collaborationMediator:CollaborationMediatorBase;
+		private var _moblieApplicationController:MobileApplicationController;
 		
-		public function WidgetContainerController(navigator:ViewNavigator, collaborationMediator:CollaborationMediatorBase)
+		public function WidgetContainerController(navigator:ViewNavigator, moblieApplicationController:MobileApplicationController)
 		{
 			_navigator = navigator;
-			_collaborationMediator = collaborationMediator;
+			_moblieApplicationController = moblieApplicationController;
 		}
 
 		public function get widgetNavigationIndex():int
@@ -68,7 +68,7 @@ public class WidgetContainerController
 		public function popView():Boolean
 		{
 			// TODO: fix bug where sometimes we do too many pops and there is no view left 
-			if (_collaborationMediator.appControllersMediator && widgetNavigationIndex > 0)
+			if (_moblieApplicationController.mobileAppControllersMediator && widgetNavigationIndex > 0)
 			{
 				navigator.popView(new SlideViewTransition(300, SlideViewTransition.SLIDE_RIGHT));
 				
@@ -80,7 +80,7 @@ public class WidgetContainerController
 
 		public function pushView():Boolean
 		{
-			if (_collaborationMediator.appControllersMediator && widgetNavigationIndex + 1 < _collaborationMediator.appControllersMediator.workstationApps.length)
+			if (_moblieApplicationController.mobileAppControllersMediator && widgetNavigationIndex + 1 < _moblieApplicationController.mobileAppControllersMediator.workstationApps.length)
 			{
 				navigator.pushView(WidgetContainerView, null,
 					new SlideViewTransition(300, SlideViewTransition.SLIDE_LEFT));
@@ -105,23 +105,23 @@ public class WidgetContainerController
 					</InfoItem>
 					<InfoItem>
 						<name>Mode</name>
-						<value>{this._collaborationMediator.settings.mode}</value>
+						<value>{_moblieApplicationController.settings.mode}</value>
 					</InfoItem>
 					<InfoItem>
 						<name>Username</name>
-						<value>{this._collaborationMediator.settings.username}</value>
+						<value>{_moblieApplicationController.settings.username}</value>
 					</InfoItem>
 					<InfoItem>
 						<name>Indivo Server URL</name>
-						<value>{this._collaborationMediator.settings.indivoServerBaseURL}</value>
+						<value>{_moblieApplicationController.settings.indivoServerBaseURL}</value>
 					</InfoItem>
 					<InfoItem>
 						<name>User settings file</name>
-						<value>{this._collaborationMediator.settingsFileStore.userSettingsFile.nativePath}</value>
+						<value>{_moblieApplicationController.settingsFileStore.userSettingsFile.nativePath}</value>
 					</InfoItem>
 					<InfoItem>
 						<name>Application settings file</name>
-						<value>{this._collaborationMediator.settingsFileStore.applicationSettingsFile.nativePath}</value>
+						<value>{_moblieApplicationController.settingsFileStore.applicationSettingsFile.nativePath}</value>
 					</InfoItem>
 					<InfoItem>
 						<name>Num Plugin Files</name>
@@ -129,7 +129,7 @@ public class WidgetContainerController
 					</InfoItem>
 					<InfoItem>
 						<name>Num Dynamic Apps</name>
-						<value>{this._collaborationMediator.appControllersMediator ? this._collaborationMediator.appControllersMediator.numDynamicApps : "(not loaded)"}</value>
+						<value>{_moblieApplicationController.mobileAppControllersMediator ? _moblieApplicationController.mobileAppControllersMediator.numDynamicApps : "(not loaded)"}</value>
 					</InfoItem>
 				</root>;
 
@@ -138,9 +138,9 @@ public class WidgetContainerController
 			view.controller = this;
 			view.addEventListener(PluginEvent.RELOAD_REQUEST, view_reloadRequestHandler);
 
-			if (_collaborationMediator.appControllersMediator && widgetNavigationIndex >= 0 && widgetNavigationIndex < _collaborationMediator.appControllersMediator.workstationApps.length)
+			if (_moblieApplicationController.mobileAppControllersMediator && widgetNavigationIndex >= 0 && widgetNavigationIndex < _moblieApplicationController.mobileAppControllersMediator.workstationApps.length)
 			{
-				var app:WorkstationAppControllerBase = _collaborationMediator.appControllersMediator.workstationApps.getValueByIndex(widgetNavigationIndex);
+				var app:WorkstationAppControllerBase = _moblieApplicationController.mobileAppControllersMediator.workstationApps.getValueByIndex(widgetNavigationIndex);
 				view.workstationAppController = app;
 				if (app)
 				{
@@ -164,7 +164,7 @@ public class WidgetContainerController
 		
 		public function view_reloadRequestHandler(event:PluginEvent):void
 		{
-			_collaborationMediator.reloadPlugins();
+			_moblieApplicationController.reloadPlugins();
 		}
 		
 		public function destroyView(view:WidgetContainerView):void

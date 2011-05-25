@@ -19,9 +19,11 @@ package collaboRhythm.mobile.controller
 	import collaboRhythm.core.controller.ApplicationControllerBase;
 	import collaboRhythm.core.view.RemoteUsersListView;
 	import collaboRhythm.mobile.view.WidgetContainerView;
-	import collaboRhythm.shared.model.services.DemoEvent;
+    import collaboRhythm.shared.model.Account;
+    import collaboRhythm.shared.model.services.DemoEvent;
 	import collaboRhythm.shared.view.CollaborationRoomView;
-	import collaboRhythm.shared.view.RecordVideoView;
+    import collaboRhythm.shared.view.CollaborationView;
+    import collaboRhythm.shared.view.RecordVideoView;
 
 	import flash.desktop.NativeApplication;
 	import flash.events.Event;
@@ -37,6 +39,7 @@ package collaboRhythm.mobile.controller
 		private var _homeView:View;
 		private var _mobileApplication:CollaboRhythmMobileApplication;
 		private var _widgetContainerController:WidgetContainerController;
+        private var _mobileAppControllersMediator:MobileAppControllersMediator;
 
         public function MobileApplicationController(mobileApplication:CollaboRhythmMobileApplication)
 		{
@@ -47,14 +50,21 @@ package collaboRhythm.mobile.controller
 		{
             super.main();
 
-			_collaborationMediator = new MobileCollaborationMediator(this);
+//			_collaborationMediator = new MobileCollaborationMediator(this);
 
-			_widgetContainerController = new WidgetContainerController(_mobileApplication.navigator, _collaborationMediator);
+			_widgetContainerController = new WidgetContainerController(_mobileApplication.navigator, this);
 			_mobileApplication.navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
 			_mobileApplication.navigator.addEventListener(Event.ADDED, viewNavigator_addedHandler);
 			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 
 			initializeActiveView();
+
+            createSession();
+		}
+
+        public override function get collaborationView():CollaborationView
+		{
+			return null;
 		}
 
 		public override function get collaborationRoomView():CollaborationRoomView
@@ -86,6 +96,17 @@ package collaboRhythm.mobile.controller
 		{
 			return null;
 		}
+
+        public override function openRecordAccount(recordAccount:Account):void
+        {
+            _mobileAppControllersMediator = new MobileAppControllersMediator(widgetsContainer,
+                                                                             widgetsContainer,
+                                                                             fullContainer,
+                                                                             _settings,
+                                                                             _componentContainer);
+			_mobileAppControllersMediator.createMobileApps(recordAccount);
+            initializeActiveView();
+        }
 		
 		private function viewNavigator_transitionCompleteHandler(event:Event):void
 		{
@@ -161,5 +182,14 @@ package collaboRhythm.mobile.controller
 			}
 		}
 
-	}
+        public function get mobileAppControllersMediator():MobileAppControllersMediator
+        {
+            return _mobileAppControllersMediator;
+        }
+
+        public function set mobileAppControllersMediator(value:MobileAppControllersMediator):void
+        {
+            _mobileAppControllersMediator = value;
+        }
+    }
 }

@@ -178,7 +178,7 @@
 		>
          <!--sortCompareFunction="sortCompare"-->
 		<scroll:columns>
-			<mx:DataGridColumn id="remoteUserListColumn" itemRenderer="collaboRhythm.workstation.view.SharedRecordAccountView"/>
+			<mx:DataGridColumn id="remoteUserListColumn" itemRenderer="collaboRhythm.workstation.view.SharedRecordItemRenderer"/>
 		</scroll:columns>
 	</scroll:TouchScrollingDataGrid>
 

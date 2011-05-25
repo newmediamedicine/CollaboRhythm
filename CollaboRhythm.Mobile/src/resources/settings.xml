@@ -19,9 +19,12 @@
 	<mode>patient</mode>
 	<username>gwhite</username>
 	<password>gwhite-password</password>
+	<useFileTarget>true</useFileTarget>
+	<useTraceTarget>false</useTraceTarget>
+	<useSyslogTarget>false</useSyslogTarget>
+	<syslogServerIpAddress>127.0.0.1</syslogServerIpAddress>
 	<rtmpBaseURI>rtmp://127.0.0.1</rtmpBaseURI>
 	<indivoServerBaseURL>http://records.media.mit.edu:8000</indivoServerBaseURL>
-	<syslogServerIpAddress>127.0.0.1</syslogServerIpAddress>
 	<oauthChromeConsumerKey>collaboRhythmChrome</oauthChromeConsumerKey>
 	<oauthChromeConsumerSecret>collaboRhythmChrome_secret93452</oauthChromeConsumerSecret>
 	<demoDatePresets>

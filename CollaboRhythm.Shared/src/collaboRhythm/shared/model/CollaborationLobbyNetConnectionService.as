@@ -63,15 +63,15 @@ package collaboRhythm.shared.model
 		
 		public function enterCollaborationLobby():void
 		{
-            logger.info("Connecting to Collaboration Lobby...")
+            logger.info("Connecting to Collaboration Lobby...");
 
 			_netConnection.client = new Object();
-			_netConnection.client.localUserCollaborationLobbyConnectionStatusChanged = localUserCollaborationLobbyConnectionStatusChanged;
-			_netConnection.client.remoteUserCollaborationLobbyConnectionStatusChanged = remoteUserCollaborationLobbyConnectionStatusChanged;
+			_netConnection.client.activeAccountCollaborationLobbyConnectionStatusChanged = activeAccountCollaborationLobbyConnectionStatusChanged;
+			_netConnection.client.sharingAccountCollaborationLobbyConnectionStatusChanged = sharingAccountCollaborationLobbyConnectionStatusChanged;
 			_netConnection.client.receiveCollaborationRequest = receiveCollaborationRequest;
 			
 			_netConnection.addEventListener(NetStatusEvent.NET_STATUS, collaborationLobbyConnectionHandler);
-			_netConnection.connect(_rtmpURI, _localUserName, User.COLLABORATION_LOBBY_AVAILABLE, _activeAccount.collaborationAccountIdsArray);
+			_netConnection.connect(_rtmpURI, _activeAccount.accountId, User.COLLABORATION_LOBBY_AVAILABLE, _activeAccount.allSharingAccounts.keys.toArray());
 		}
 		
 		public function updateCollaborationLobbyConnectionStatus(collaborationLobbyConnectionStatus:String):void
@@ -85,18 +85,18 @@ package collaboRhythm.shared.model
 			_netConnection.close();
 		}
 		
-		private function localUserCollaborationLobbyConnectionStatusChanged(collaborationLobbyConnectionStatus:String):void
+		private function activeAccountCollaborationLobbyConnectionStatusChanged(collaborationLobbyConnectionStatus:String):void
 		{
-//			_usersModel.localUser.collaborationLobbyConnectionStatus = collaborationLobbyConnectionStatus;
+            _activeAccount.collaborationLobbyConnectionStatus = collaborationLobbyConnectionStatus;
 		}
 		
-		private function remoteUserCollaborationLobbyConnectionStatusChanged(userAccountId:String, collaborationLobbyConnectionStatus:String):void
+		private function sharingAccountCollaborationLobbyConnectionStatusChanged(accountId:String, collaborationLobbyConnectionStatus:String):void
 		{
-//			var remoteUser:User = _usersModel.retrieveUserByAccountId(userAccountId);
-//			if (remoteUser != null)
-//			{
-//				remoteUser.collaborationLobbyConnectionStatus = collaborationLobbyConnectionStatus;
-//			}
+            var account:Account = _activeAccount.allSharingAccounts[accountId];
+            if (account != null)
+            {
+                account.collaborationLobbyConnectionStatus = collaborationLobbyConnectionStatus;
+            }
 		}
 		
 		public function getCollaborationRoomID():void

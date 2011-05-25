@@ -24,6 +24,7 @@
         <![CDATA[
         import collaboRhythm.shared.model.Account;
         import collaboRhythm.workstation.controller.WorkstationApplicationController;
+        import collaboRhythm.workstation.view.ActiveAccountView;
 
         private const ACTIVE_ACCOUNT_AND_RECORD_GROUP_HEIGHT:int = 70;
 
@@ -40,8 +41,13 @@
         }
         ]]>
     </fx:Script>
+    <s:Rect width="100%" height="100%">
+        <s:fill>
+            <s:SolidColor color="{ActiveAccountView.ACTIVE_ACCOUNT_BACKGROUND_COLOR}"/>
+        </s:fill>
+    </s:Rect>
     <!-- If there is only one window or if the application is in useSingleScreen mode, then a VideoView will be added here at the top of the screen -->
-    <s:Group id="primaryWindowViewGroup" width="100%" top="0" bottom="0">
+    <s:Group id="mainGroup" width="100%" top="0" bottom="0">
         <!-- This Group holds the activeAccount and the activeRecord, its top attribute is used to shrink it in the case of the video view coming into view -->
         <view:ActiveAccountView id="activeAccountView" width="100%" height="100%"/>
     </s:Group>

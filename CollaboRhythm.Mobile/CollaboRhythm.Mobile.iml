@@ -7,7 +7,7 @@
         <option name="OUTPUT_TYPE" value="Application" />
         <option name="USE_DEFAULT_SDK_CONFIG_FILE" value="true" />
         <option name="USE_CUSTOM_CONFIG_FILE" value="false" />
-        <option name="CUSTOM_CONFIG_FILE" value="C:/Program Files (x86)/Adobe/Adobe Flash Builder Burrito/sdks/4.5.0/airmobile-config.xml" />
+        <option name="CUSTOM_CONFIG_FILE" value="$PROJECT_FRAMEWORKS$/airmobile-config.xml" />
         <option name="USE_CUSTOM_CONFIG_FILE_FOR_TESTS" value="false" />
         <option name="CUSTOM_CONFIG_FILE_FOR_TESTS" value="" />
         <option name="APPLICATION_ENTRY_POINT" value="" />
@@ -43,7 +43,7 @@
     <orderEntry type="module-library">
       <library name="Imported from Flash/Flex Builder: airframework">
         <CLASSES>
-          <root url="jar://C:/Program Files (x86)/Adobe/Adobe Flash Builder Burrito/sdks/4.5.0/libs/air/airframework.swc!/" />
+          <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/airframework.swc!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -53,7 +53,7 @@
     <orderEntry type="module-library">
       <library name="Imported from Flash/Flex Builder: airspark">
         <CLASSES>
-          <root url="jar://C:/Program Files (x86)/Adobe/Adobe Flash Builder Burrito/sdks/4.5.0/libs/air/airspark.swc!/" />
+          <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/airspark.swc!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -72,7 +72,7 @@
     <orderEntry type="module-library">
       <library name="Imported from Flash/Flex Builder: mx">
         <CLASSES>
-          <root url="jar://C:/Program Files (x86)/Adobe/Adobe Flash Builder Burrito/sdks/4.5.0/libs/mx/mx.swc!/" />
+          <root url="jar://$PROJECT_FRAMEWORKS$/libs/mx/mx.swc!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -83,7 +83,7 @@
     <orderEntry type="module-library">
       <library name="Imported from Flash/Flex Builder: aircore">
         <CLASSES>
-          <root url="jar://C:/Program Files (x86)/Adobe/Adobe Flash Builder Burrito/sdks/4.5.0/libs/air/aircore.swc!/" />
+          <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/aircore.swc!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -156,6 +156,7 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" />
   </component>
 </module>
 

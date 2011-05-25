@@ -38,7 +38,8 @@ package collaboRhythm.workstation.view
 	import mx.core.Container;
 	import mx.core.UIComponent;
 	import mx.events.AIREvent;
-	import mx.events.ResizeEvent;
+    import mx.events.FlexEvent;
+    import mx.events.ResizeEvent;
 	
 	import spark.components.*;
 	import spark.layouts.BasicLayout;
@@ -56,6 +57,7 @@ package collaboRhythm.workstation.view
 		
 		public function WorkstationWindow()
 		{
+            addEventListener(FlexEvent.CREATION_COMPLETE, creationCompleteHandler);
 			super();
 			setStyle("skinClass", WindowedApplicationSkin);
 			setStyle("backgroundColor", 0xFFFFFF);
@@ -63,6 +65,21 @@ package collaboRhythm.workstation.view
 			this.addEventListener(NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGE, displayStateChangeHandler);
 			this.addEventListener(ResizeEvent.RESIZE, resizeHandler);
 		}
+
+        private function creationCompleteHandler(event:FlexEvent):void
+        {
+            systemManager.stage.nativeWindow.addEventListener(
+               NativeWindowBoundsEvent.RESIZE, window_resizeHandler);
+        }
+
+        private function window_resizeHandler(event:NativeWindowBoundsEvent):void
+        {
+            if (event.beforeBounds.equals(event.afterBounds))
+            {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            }
+        }
 		
 		private function resizeHandler(event : ResizeEvent) : void
 		{
