@@ -21,7 +21,7 @@
         <option name="STATIC_LINK_RUNTIME_SHARED_LIBRARIES" value="true" />
         <option name="USE_LOCALE_SETTINGS" value="false" />
         <option name="LOCALE" value="en_US" />
-        <option name="ADDITIONAL_COMPILER_OPTIONS" value="-locale en_US -include-stylesheet=defaults.css,&quot;C:\Users\sgilroy\Git Repositories\CollaboRhythm\McCuneChart\src\defaults.css&quot;" />
+        <option name="ADDITIONAL_COMPILER_OPTIONS" value="-locale en_US" />
         <option name="PATH_TO_SERVICES_CONFIG_XML" value="" />
         <option name="CONTEXT_ROOT" value="" />
         <option name="VERSION" value="3" />
