@@ -39,6 +39,7 @@ package collaboRhythm.shared.model
 	{
 		private var _active:Boolean = false;
         private var _activeAccount:Account;
+        private var _activeRecordAccount:Account;
 //		private var _usersModel:UsersModel;
 //		private var _localUser:User;
 		private var _creatingUser:User;
@@ -232,6 +233,16 @@ package collaboRhythm.shared.model
         public function set collaborationLobbyNetConnectionService(value:CollaborationLobbyNetConnectionService):void
         {
             _collaborationLobbyNetConnectionService = value;
+        }
+
+        public function get activeRecordAccount():Account
+        {
+            return _activeRecordAccount;
+        }
+
+        public function set activeRecordAccount(value:Account):void
+        {
+            _activeRecordAccount = value;
         }
     }
 }

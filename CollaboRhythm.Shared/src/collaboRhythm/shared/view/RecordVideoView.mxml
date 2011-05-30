@@ -32,104 +32,340 @@
 			font-size: 15;
 			font-weight: bold;
 		}
+
+        .playhead {
+            font-size: 14;
+            color: #FFFFFF;
+        }
+
+        .countdown {
+            font-size: 180;
+            font-weight: bold;
+        }
 	</fx:Style>
+    <s:states>
+        <s:State name="hidden"/>
+        <s:State name="attachingCamera"/>
+        <s:State name="readyToRecord"/>
+        <s:State name="countdownInProgress"/>
+        <s:State name="startingRecording"/>
+        <s:State name="recording"/>
+        <s:State name="waitingForMetaData"/>
+        <s:State name="readyToPlay"/>
+        <s:State name="playing"/>
+    </s:states>
 	<!--<fx:Metadata>-->
 		<!--[Event(name="hide", type="collaboRhythm.shared.view.WorkstationViewEvent")]-->
 		<!--[Event(name="show", type="collaboRhythm.shared.view.WorkstationViewEvent")]-->
 	<!--</fx:Metadata>-->
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.shared.controller.CollaborationController;
-			import collaboRhythm.shared.model.CollaborationModel;
-			import collaboRhythm.shared.model.User;
+        import collaboRhythm.shared.controller.CollaborationController;
+        import collaboRhythm.shared.model.CollaborationModel;
+        import collaboRhythm.shared.model.User;
+        import collaboRhythm.shared.model.healthRecord.VideoMessagesHealthRecordService;
 
-			private var _collaborationController:CollaborationController;
-			[Bindable]
-			private var _collaborationModel:CollaborationModel;
+        import flash.events.TimerEvent;
 
-			private var _netConnection:NetConnection;
-			private var _netStream:NetStream;
-			
-			private var _camera:Camera;
-			private var _video:Video;
-			
-			private var _recording:Boolean;
+        import mx.events.VideoEvent;
 
-            public function init(collaborationController:CollaborationController):void
-			{
-				_collaborationController = collaborationController;
-				_collaborationModel = _collaborationController.collaborationModel;
-                _netConnection = _collaborationModel.collaborationLobbyNetConnectionService.netConnection;
+        import org.osmf.events.TimeEvent;
 
-			}
+        private const VIDEO_WIDTH:int = 240;
+        private const VIDEO_HEIGHT:int = 180;
 
-     		private function creationComplete():void
-			{
-                _camera = Camera.getCamera();
-			}
+        private const NOT_RECORDING_COLOR:uint = 0x000000;
+        private const RECORDING_COLOR:uint = 0xC64A5C;
 
-            public function showEffectEndHandler():void
+        private const PLAYHEAD_TOTAL_WIDTH:int = 160;
+
+        private var _collaborationController:CollaborationController;
+        [Bindable]
+        private var _collaborationModel:CollaborationModel;
+
+        private var _netConnection:NetConnection;
+        private var _netStream:NetStream;
+
+        private var _camera:Camera;
+        private var _microphone:Microphone;
+
+        private var _countdownTimer:Timer;
+        private var _startingRecordingTimer:Timer;
+        private var _playheadTimer:Timer;
+
+        private var _netStreamLocation:String;
+
+        [Bindable]
+        private var _countdownTimerCurrentCount:int;
+        [Bindable]
+        private var _playheadTimerCurrentCount:int;
+        [Bindable]
+        private var _playheadDuration:int;
+
+        public function init(collaborationController:CollaborationController):void
+        {
+            _collaborationController = collaborationController;
+            _collaborationModel = _collaborationController.collaborationModel;
+            _netConnection = _collaborationModel.collaborationLobbyNetConnectionService.netConnection;
+        }
+
+        private function creationComplete():void
+        {
+            _camera = Camera.getCamera();
+            _microphone = Microphone.getMicrophone();
+            currentState = "hidden";
+        }
+
+        public function showEffectEndHandler():void
+        {
+            attachCamera();
+            _netStream = new NetStream(_netConnection);
+        }
+
+        private function attachCamera():void
+        {
+            videoDisplay.attachCamera(_camera);
+            currentState = "readyToRecord";
+        }
+
+        public function hideEffectEndHandler():void
+        {
+            _netStream.close();
+            videoDisplay.attachCamera(null);
+            currentState = "hidden";
+        }
+
+        private function recordVideoButtonClickHandler():void
+        {
+            if (currentState == "readyToRecord")
             {
-                _video = new Video(240, 180);
-                videoUIComponent.addChild(_video);
-                _video.attachCamera(_camera);
+                startCountdown();
             }
-
-            public function hideEffectEndHandler():void
+            else if (currentState == "countdownInProgress")
             {
-                videoUIComponent.removeChild(_video);
-                _video.attachCamera(null);
+                _countdownTimer.stop();
+                currentState = "readyToRecord";
             }
+            else if (currentState == "startingRecording")
+            {
+                _startingRecordingTimer.stop();
+                _netStream.close();
+                currentState = "readyToRecord";
+            }
+            else if (currentState == "recording")
+            {
+                _netStream.close();
+                videoDisplay.attachCamera(null);
+                prepareVideoForPlayback();
+            }
+        }
 
-			private function recordVideoButtonClickHandler():void
-			{
-				if (!_recording)
-				{
-                    _netStream = new NetStream(_netConnection);
-					recordVideoButton.visible = false;
-					stopVideoButton.visible = true;
-					if (_netStream)
-					{
-						_netStream.attachCamera(_camera);
-						_netStream.publish("jking@records.media.mit.edu/1", "record");
-					}
-					_recording = true;
-				}
-			}
-			
-			private function stopVideoButtonClickHandler():void
-			{
-				if (_recording)
-				{
-					_netStream.close();
-					_recording = false;
-					recordVideoButton.visible = true;
-					stopVideoButton.visible = false;
-					
-				}
-			}
+        private function startCountdown():void
+        {
+            _countdownTimerCurrentCount = 0;
+            _countdownTimer = new Timer(1000, 3);
+            _countdownTimer.addEventListener(TimerEvent.TIMER, countdownUpdateHandler);
+            _countdownTimer.addEventListener(TimerEvent.TIMER_COMPLETE, countdownCompleteHandler);
+            _countdownTimer.start();
+            currentState = "countdownInProgress";
+        }
 
-			private function closeClickHandler():void
-			{
-				_collaborationController.hideRecordVideoView();
-			}
-			
-		]]>
+        private function countdownUpdateHandler(event:TimerEvent):void
+        {
+            _countdownTimerCurrentCount += 1;
+        }
+
+        private function countdownCompleteHandler(event:TimerEvent):void
+        {
+            recordVideo();
+        }
+
+        private function recordVideo():void
+        {
+            if (_netStream)
+            {
+                _netStream.attachCamera(_camera);
+//                _netStream.attachAudio(_microphone);
+                var fileNumber:int = _collaborationModel.activeRecordAccount.primaryRecord.videoMessagesModel.videoMessageCount + 1;
+                _netStreamLocation = _collaborationModel.activeRecordAccount.accountId + "/" + fileNumber;
+                _netStream.publish(_netStreamLocation, "record");
+                currentState = "startingRecording";
+                _startingRecordingTimer = new Timer(1000, 1);
+                _startingRecordingTimer.addEventListener(TimerEvent.TIMER_COMPLETE, startingRecordingTimerComplete);
+                _startingRecordingTimer.start();
+            }
+        }
+
+        private function startingRecordingTimerComplete(event:TimerEvent):void
+        {
+            currentState = "recording";
+        }
+
+        private function prepareVideoForPlayback():void
+        {
+            _netStream.client = {};
+            _netStream.client.onMetaData = handleMetaData;
+            _netStream.client.onPlayStatus = handlePlayStatus;
+            videoDisplay.mx_internal::videoPlayer.attachNetStream(_netStream);
+            queueUpVideo();
+        }
+
+        private function queueUpVideo():void
+        {
+            _netStream.play(_netStreamLocation);
+            currentState = "waitingForMetaData";
+        }
+
+        private function handleMetaData(metaData:Object):void
+        {
+            _netStream.togglePause();
+            currentState = "readyToPlay";
+            _playheadTimerCurrentCount = 0;
+            _playheadDuration = Math.floor(metaData.duration);
+        }
+
+        private function handlePlayStatus(playStatus:Object):void
+        {
+            if (playStatus.code == "NetStream.Play.Complete")
+            {
+                queueUpVideo();
+            }
+        }
+
+        private function playVideoButtonClickHandler():void
+        {
+            if (currentState == "readyToPlay")
+            {
+                _netStream.togglePause();
+                currentState = "playing";
+                _playheadTimer = new Timer(1000, _playheadDuration);
+                _playheadTimer.addEventListener(TimerEvent.TIMER, updatePlayhead);
+                _playheadTimer.start();
+            }
+            else if (currentState == "playing")
+            {
+                _playheadTimer.stop();
+                queueUpVideo();
+            }
+        }
+
+        private function updatePlayhead(event:TimerEvent):void
+        {
+            _playheadTimerCurrentCount = _playheadTimer.currentCount;
+        }
+
+        private function deleteVideoButtonClickHandler():void
+        {
+            stopPlayingVideo();
+            attachCamera();
+        }
+
+        private function sendVideoButtonClickHandler():void
+        {
+            stopPlayingVideo();
+            _collaborationController.uploadVideoMessage();
+            _collaborationController.closeRecordVideoView();
+        }
+
+        private function stopPlayingVideo():void
+        {
+            if (currentState == "playing")
+            {
+                _playheadTimer.stop();
+            }
+            _netStream.close();
+        }
+
+        ]]>
 	</fx:Script>
-    <s:Group width="240" height="180" horizontalCenter="0" verticalCenter="0">
-        <s:Rect width="100%" height="100%">
-            <s:fill>
-                <s:SolidColor color="0xCCCCCC"/>
-            </s:fill>
-        </s:Rect>
-        <mx:UIComponent id="videoUIComponent" width="100%" height="100%"/>
-        <s:Rect width="100%" height="100%">
-            <s:stroke>
-                <s:SolidColorStroke color="0x000000"/>
-            </s:stroke>
-        </s:Rect>
-    </s:Group>
-	<view:IconButton id="recordVideoButton" icon="@Embed(source='/resources/images/icons/buttonIcons/record.png')" horizontalCenter="350" verticalCenter="0" click="recordVideoButtonClickHandler()" visible="true"/>
-	<view:IconButton id="stopVideoButton" icon="@Embed(source='/resources/images/icons/buttonIcons/stop.png')" horizontalCenter="350" verticalCenter="0" click="stopVideoButtonClickHandler()" visible="false"/>
-	<view:IconButton id="close" icon="@Embed(source='/resources/images/icons/buttonIcons/closeRecordButtonIcon.png')" verticalCenter="0" right="10" click="closeClickHandler()"/>
+    <s:HGroup height="{VIDEO_HEIGHT}" horizontalCenter="0" verticalCenter="0" gap="10">
+        <s:Group width="60" height="100%">
+            <s:Button id="recordVideoButton"
+                      includeIn="hidden, readyToRecord, countdownInProgress, startingRecording, recording"
+                      icon.hidden="@Embed(source='/resources/images/icons/buttonIcons/recordIcon.png')"
+                      icon.readyToRecord="@Embed(source='/resources/images/icons/buttonIcons/recordIcon.png')"
+                      icon="@Embed(source='/resources/images/icons/buttonIcons/stopIcon.png')"
+                      verticalCenter="0"
+                      click="recordVideoButtonClickHandler()"
+                      width="60"
+                      height="60"
+                    />
+        </s:Group>
+        <s:Group width="{VIDEO_WIDTH}" height="100%">
+            <!-- The component that displays video from the camera or video being played back from the netstream -->
+            <mx:VideoDisplay id="videoDisplay" width="100%" height="100%"/>
+            <!-- An overlay to obscure the video prior to initiating recording -->
+            <s:Rect width="100%" height="100%" includeIn="hidden, readyToRecord, countdownInProgress">
+                <s:fill>
+                    <s:SolidColor color="0xFFFFFF" alpha="0.5"/>
+                </s:fill>
+            </s:Rect>
+            <!-- A border around the video that turns red when recording is in progress -->
+            <s:Rect width="100%" height="100%">
+                <s:stroke>
+                    <s:SolidColorStroke color="{NOT_RECORDING_COLOR}" color.startingRecording="{RECORDING_COLOR}" color.recording="{RECORDING_COLOR}"/>
+                </s:stroke>
+            </s:Rect>
+            <!-- Labels that show the countdown after the record button is pressed and before the video actually starts recording -->
+            <s:Label id="countdown1" text="1" styleName="countdown" alpha="0.5" verticalCenter="10" horizontalCenter="0" includeIn="countdownInProgress" visible="{_countdownTimerCurrentCount == 2}"/>
+            <s:Label id="countdown2" text="2" styleName="countdown" alpha="0.5" verticalCenter="10" horizontalCenter="0" includeIn="countdownInProgress" visible="{_countdownTimerCurrentCount == 1}"/>
+            <s:Label id="countdown3" text="3" styleName="countdown" alpha="0.5" verticalCenter="10" horizontalCenter="0" includeIn="countdownInProgress" visible="{_countdownTimerCurrentCount == 0}"/>
+            <!-- A playhead that shows the length of the video being played in seconds and the current progress of the playback -->
+            <s:Group id="playheadGroup" width="100%" height="30" bottom="0" includeIn="waitingForMetaData, readyToPlay, playing">
+                <s:Rect width="100%" height="100%">
+                    <s:fill>
+                        <s:SolidColor color="0x000000" alpha="0.5"/>
+                    </s:fill>
+                </s:Rect>
+                <!-- Displays a progress bar that visualizes the current location of the playhead as a percentage of the length of the video -->
+                <s:Group left="10" width="{PLAYHEAD_TOTAL_WIDTH}" top="10" bottom="10">
+                    <s:Rect width="100%" height="100%">
+                        <s:fill>
+                            <s:SolidColor color="0x000000" alpha="0.5"/>
+                        </s:fill>
+                    </s:Rect>
+                    <s:Rect id="playhead" width="{_playheadTimerCurrentCount / _playheadDuration * PLAYHEAD_TOTAL_WIDTH}" height="100%" left="0">
+                        <s:fill>
+                            <s:SolidColor color="0xFFFFFF" alpha="0.5"/>
+                        </s:fill>
+                    </s:Rect>
+                    <s:Rect width="100%" height="100%">
+                        <s:stroke>
+                            <s:SolidColorStroke color="0x000000"/>
+                        </s:stroke>
+                    </s:Rect>
+                </s:Group>
+                <!-- Displays the length of the video to be played in seconds and the current location of the playhead in text -->
+                <s:HGroup right="10" horizontalAlign="right" verticalCenter="0" gap="3">
+                    <s:Label text="{_playheadTimerCurrentCount}" styleName="playhead"/>
+                    <s:Label text="/" styleName="playhead"/>
+                    <s:Label text="{_playheadDuration}" styleName="playhead"/>
+                    <s:Label text="s" styleName="playhead"/>
+                </s:HGroup>
+            </s:Group>
+        </s:Group>
+        <s:Group width="60" height="100%">
+            <s:VGroup width="100%" height="100%" gap="0" includeIn="waitingForMetaData, readyToPlay, playing">
+                <s:Button id="deleteVideoButton"
+                          icon="@Embed(source='/resources/images/icons/buttonIcons/trashIcon.png')"
+                          verticalCenter="0"
+                          click="deleteVideoButtonClickHandler()"
+                          width="60"
+                          height="60"/>
+                <s:Button id="playVideoButton"
+                          icon.readyToPlay="@Embed(source='/resources/images/icons/buttonIcons/playIcon.png')"
+                          icon.playing="@Embed(source='/resources/images/icons/buttonIcons/stopIcon.png')"
+                          verticalCenter="0"
+                          click="playVideoButtonClickHandler()"
+                          width="60"
+                          height="60"/>
+                <s:Button id="sendVideoButton"
+                          icon="@Embed(source='/resources/images/icons/buttonIcons/sendIcon.png')"
+                          verticalCenter="0"
+                          click="sendVideoButtonClickHandler()"
+                          width="60"
+                          height="60"/>
+            </s:VGroup>
+        </s:Group>
+    </s:HGroup>
 </s:Group>

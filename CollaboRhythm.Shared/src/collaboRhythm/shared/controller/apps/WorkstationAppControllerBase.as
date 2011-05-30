@@ -81,7 +81,8 @@ import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
 		
 		private var _name:String;
 		private var _isWorkstationMode:Boolean;
-        protected var _account:Account;
+        protected var _activeAccount:Account;
+        protected var _activeRecordAccount:Account;
         protected var _settings:Settings;
 		
 		public function WorkstationAppControllerBase(constructorParams:AppControllerConstructorParams)
@@ -91,7 +92,8 @@ import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
 			_widgetParentContainer = constructorParams.widgetParentContainer;
 			_fullParentContainer = constructorParams.fullParentContainer;
 			_isWorkstationMode = constructorParams.isWorkstationMode;
-            _account = constructorParams.account;
+            _activeAccount = constructorParams.activeAccount;
+            _activeRecordAccount = constructorParams.activeRecordAccount;
             _settings = constructorParams.settings;
 
 			createAndPrepareWidgetView();
@@ -851,12 +853,22 @@ import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
 			return getQualifiedClassName(this);
 		}
 
-        public function get account():Account {
-            return _account;
+        public function get activeAccount():Account {
+            return _activeAccount;
         }
 
-        public function set account(value:Account):void {
-            _account = value;
+        public function set activeAccount(value:Account):void {
+            _activeAccount = value;
+        }
+
+        public function get activeRecordAccount():Account
+        {
+            return _activeRecordAccount;
+        }
+
+        public function set activeRecordAccount(value:Account):void
+        {
+            _activeRecordAccount = value;
         }
     }
 }

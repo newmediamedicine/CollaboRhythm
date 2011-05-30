@@ -268,7 +268,7 @@ package collaboRhythm.core.controller.apps
 			_factory.user = user;
 			_factory.collaborationRoomNetConnectionServiceProxy = _collaborationRoomNetConnectionService.createProxy();
 			_factory.isWorkstationMode = _settings.isWorkstationMode;
-            _factory.account = account;
+            _factory.activeAccount = account;
             _factory.settings = _settings;
 		}
 

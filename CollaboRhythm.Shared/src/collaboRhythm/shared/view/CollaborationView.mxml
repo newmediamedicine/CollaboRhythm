@@ -33,6 +33,10 @@
         import collaboRhythm.shared.model.CollaborationModel;
 
         import mx.events.ResizeEvent;
+        import mx.logging.ILogger;
+        import mx.logging.Log;
+
+        import org.osmf.logging.Logger;
 
         public static const COLLABORATION_VIEW_CHILD_HEIGHT:int = 200;
 
@@ -40,6 +44,7 @@
         [Bindable]
         private var _collaborationModel:CollaborationModel;
         private var _mainGroup:Group;
+        private var _logger:ILogger;
 
         public function init(collaborationController:CollaborationController, mainGroup:Group):void
         {
@@ -47,6 +52,7 @@
             _collaborationModel = _collaborationController.collaborationModel;
             _mainGroup = mainGroup;
             recordVideoView.init(_collaborationController);
+            _logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
         }
 
         private function isVisible(recordVideo:Boolean):Boolean
@@ -61,6 +67,7 @@
 
         private function showEffectUpdate():void
         {
+            _logger.info(this.height.toString());
             if (this.top == 0)
             {
                 _mainGroup.top = this.height;

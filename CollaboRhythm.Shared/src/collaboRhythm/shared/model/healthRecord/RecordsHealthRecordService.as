@@ -3,6 +3,7 @@ package collaboRhythm.shared.model.healthRecord
 
     import collaboRhythm.shared.model.Account;
     import collaboRhythm.shared.model.Record;
+    import collaboRhythm.shared.model.settings.Settings;
 
     import j2as3.collection.HashMap;
 
@@ -17,10 +18,14 @@ package collaboRhythm.shared.model.healthRecord
         // a counter to know when all of the get record own calls have completed
         private var _getRecordOwnersCount:int = 0;
 
+        // TODO: Eliminate this hack once proper authentication has been completed
+        private var _settings:Settings;
+
         public function RecordsHealthRecordService(oauthConsumerKey:String, oauthConsumerSecret:String,
-                                                   indivoServerBaseURL:String, account:Account)
+                                                   indivoServerBaseURL:String, account:Account, settings:Settings)
         {
             super(oauthConsumerKey, oauthConsumerSecret, indivoServerBaseURL, account);
+            _settings = settings;
         }
 
         // call to get all of the records associated with the account actively in session
@@ -59,7 +64,7 @@ package collaboRhythm.shared.model.healthRecord
                     if (_uniqueRecords.indexOf(recordXml.@id) == -1)
                     {
                         _uniqueRecords.push(recordXml.@id);
-                        var record:Record = new Record(recordXml);
+                        var record:Record = new Record(_settings, _activeAccount, recordXml);
                         // Keep track of all of the records as well as which are shares and which is the primary
                         // TODO: This assumes that there is only one record for an account that is not shared, check to make sure
                         if (record.shared)

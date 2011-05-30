@@ -26,7 +26,8 @@ import collaboRhythm.shared.model.Account;
 		private var _widgetParentContainer:IVisualElementContainer;
 		private var _fullParentContainer:IVisualElementContainer;
 		private var _isWorkstationMode:Boolean;
-        private var _account:Account;
+        private var _activeAccount:Account;
+        private var _activeRecordAccount:Account;
         private var _settings:Settings;
 
 		public function AppControllerConstructorParams()
@@ -63,12 +64,12 @@ import collaboRhythm.shared.model.Account;
 			_isWorkstationMode = value;
 		}
 
-        public function get account():Account {
-            return _account;
+        public function get activeAccount():Account {
+            return _activeAccount;
         }
 
-        public function set account(value:Account):void {
-            _account = value;
+        public function set activeAccount(value:Account):void {
+            _activeAccount = value;
         }
 
         public function get settings():Settings
@@ -79,6 +80,16 @@ import collaboRhythm.shared.model.Account;
         public function set settings(value:Settings):void
         {
             _settings = value;
+        }
+
+        public function get activeRecordAccount():Account
+        {
+            return _activeRecordAccount;
+        }
+
+        public function set activeRecordAccount(value:Account):void
+        {
+            _activeRecordAccount = value;
         }
     }
 }

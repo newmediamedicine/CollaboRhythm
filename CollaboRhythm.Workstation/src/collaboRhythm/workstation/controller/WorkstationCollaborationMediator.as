@@ -38,8 +38,9 @@
 	 */
 	public class WorkstationCollaborationMediator extends CollaborationMediatorBase
 	{
+        // TODO: Completely eliminate this class
 		private var _workstationController:WorkstationApplicationController;
-		private var _workstationCommandBarController:WorkstationCommandBarController;
+//		private var _workstationCommandBarController:WorkstationCommandBarController;
 		private var videoWindows:Vector.<WorkstationWindow>;
 
 		protected override function get applicationController():ApplicationControllerBase
@@ -50,7 +51,7 @@
 		public function WorkstationCollaborationMediator(workstationController:WorkstationApplicationController, account:Account)
 		{
 			_workstationController = workstationController;
-			super(account);
+			super();
 		}
 		
 //		protected override function prepareForPatientMode():void
@@ -60,7 +61,7 @@
 		
 //		protected override function openValidatedUser(user:User):void
 //		{
-//			//			_workstationController.topSpace.enableContainerLayout();
+//						_workstationController.topSpace.enableContainerLayout();
 //			_appControllersMediator.createAndStartWorkstationApps(user, _account);
 //			_remoteUsersController.hide();
 //			_workstationCommandBarController.remoteUser = user;
@@ -98,10 +99,10 @@
 		
 		public override function localUserJoinedCollaborationRoomAnimationCompleteHandler(event:CollaborationEvent):void
 		{
-			if (_collaborationController.collaborationModel.subjectUser != _workstationCommandBarController.remoteUser)
-			{
-				switchRecords(_collaborationController.collaborationModel.subjectUser);
-			}
+//			if (_collaborationController.collaborationModel.subjectUser != _workstationCommandBarController.remoteUser)
+//			{
+//				switchRecords(_collaborationController.collaborationModel.subjectUser);
+//			}
 		}
 
 //		private function closeVideoWindows():void
@@ -204,7 +205,7 @@
 //			closeVideoWindows();
 			_appControllersMediator.closeApps();
 			_remoteUsersController.show();
-			_workstationCommandBarController.hide();
+//			_workstationCommandBarController.hide();
 			_demographicsController.hide();
 		}
 		
@@ -220,7 +221,7 @@
 		
 		public function recordClosedHandler(event:CollaborationEvent):void
 		{
-			_workstationCommandBarController.remoteUser = null;
+//			_workstationCommandBarController.remoteUser = null;
 		}
 		
 	}

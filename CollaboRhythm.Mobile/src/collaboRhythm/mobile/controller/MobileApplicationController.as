@@ -50,6 +50,8 @@ package collaboRhythm.mobile.controller
 		{
             super.main();
 
+            _settings.isWorkstationMode = false;
+
 //			_collaborationMediator = new MobileCollaborationMediator(this);
 
 			_widgetContainerController = new WidgetContainerController(_mobileApplication.navigator, this);
@@ -99,12 +101,13 @@ package collaboRhythm.mobile.controller
 
         public override function openRecordAccount(recordAccount:Account):void
         {
+            super.openRecordAccount(recordAccount);
             _mobileAppControllersMediator = new MobileAppControllersMediator(widgetsContainer,
                                                                              widgetsContainer,
                                                                              fullContainer,
                                                                              _settings,
                                                                              _componentContainer);
-			_mobileAppControllersMediator.createMobileApps(recordAccount);
+			_mobileAppControllersMediator.createMobileApps(_activeAccount, recordAccount);
             initializeActiveView();
         }
 		
@@ -148,11 +151,6 @@ package collaboRhythm.mobile.controller
 			targetDate = event.targetDate;
 		}
 		
-		protected function get mobileCollaborationMediator():MobileCollaborationMediator
-		{
-			return _collaborationMediator as MobileCollaborationMediator;
-		}
-
 	    public function keyDownHandler(event:KeyboardEvent):void
 		{
 			switch (event.keyCode)

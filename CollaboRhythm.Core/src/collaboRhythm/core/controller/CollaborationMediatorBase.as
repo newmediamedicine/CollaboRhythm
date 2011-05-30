@@ -178,8 +178,8 @@ package collaboRhythm.core.controller
 		
 		public function recordVideoHandler(event:CollaborationEvent):void
 		{
-			var user:User = event.remoteUser;
-			_collaborationController.recordVideoHandler(subjectUser);
+//			var user:User = event.remoteUser;
+//			_collaborationController.recordVideoHandler(subjectUser);
 		}
 		
 		public function localUserJoinedCollaborationRoomAnimationCompleteHandler(event:CollaborationEvent):void

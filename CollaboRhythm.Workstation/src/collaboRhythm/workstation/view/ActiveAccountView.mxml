@@ -51,4 +51,9 @@
     <s:Group width="100%" top="{ACTIVE_ACCOUNT_HEADER_HEIGHT}" bottom="0">
         <view:SharedRecordsListView id="sharedRecordsListView" width="400" height="100%"/>
     </s:Group>
+    <s:Line width="100%" top="0">
+        <s:stroke>
+            <s:SolidColorStroke color="0x000000"/>
+        </s:stroke>
+    </s:Line>
 </s:Group>

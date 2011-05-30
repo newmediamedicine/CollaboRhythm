@@ -40,7 +40,8 @@ import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
 		private var _user:User;
 		private var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
 		private var _isWorkstationMode:Boolean;
-        private var _account:Account;
+        private var _activeAccount:Account;
+        private var _activeRecordAccount:Account;
         private var _settings:Settings;
 		
 		public function WorkstationAppControllerFactory()
@@ -113,7 +114,8 @@ import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
 			constructorParams.widgetParentContainer = _widgetParentContainer;
 			constructorParams.fullParentContainer = _fullParentContainer;
 			constructorParams.isWorkstationMode = _isWorkstationMode;
-            constructorParams.account = _account;
+            constructorParams.activeAccount = _activeAccount;
+            constructorParams.activeRecordAccount = _activeRecordAccount;
             constructorParams.settings = _settings;
 
 			var appObject:Object = new appClass(constructorParams);
@@ -133,12 +135,12 @@ import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
 			return app;
 		}
 
-        public function get account():Account {
-            return _account;
+        public function get activeAccount():Account {
+            return _activeAccount;
         }
 
-        public function set account(value:Account):void {
-            _account = value;
+        public function set activeAccount(value:Account):void {
+            _activeAccount = value;
         }
 
         public function get settings():Settings
@@ -149,6 +151,16 @@ import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
         public function set settings(value:Settings):void
         {
             _settings = value;
+        }
+
+        public function get activeRecordAccount():Account
+        {
+            return _activeRecordAccount;
+        }
+
+        public function set activeRecordAccount(value:Account):void
+        {
+            _activeRecordAccount = value;
         }
     }
 }

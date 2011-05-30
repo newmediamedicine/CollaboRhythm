@@ -60,7 +60,14 @@
 
         private function recordVideoButton_clickHandler(event:MouseEvent):void
         {
-            _workstationApplicationController.showRecordVideoView();
+            if (recordVideoButton.selected)
+            {
+                _workstationApplicationController.showRecordVideoView();
+            }
+            else
+            {
+                _workstationApplicationController.hideRecordVideoView();
+            }
         }
         ]]>
     </fx:Script>
@@ -71,23 +78,22 @@
     </s:Rect>
     <view2:RecordInformationView id="recordInformationView"/>
     <s:HGroup width="100%" height="100%" horizontalAlign="right" gap="10" paddingRight="10" paddingTop="5">
-        <!-- TODO: Switch to regular spark button, tried to do this but icon would not appear -->
-        <view:IconButton
+        <s:ToggleButton
 			id="recordVideoButton"
-			styleName="IconButton"
 			click="recordVideoButton_clickHandler(event)"
-			icon="@Embed(source='/assets/images/icons/buttonIcons/video.png')"
+            icon="@Embed(source='/assets/images/icons/buttonIcons/video.png')"
 			height="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
             width="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
             enabled="{_collaborationModel.collaborationLobbyNetConnectionService.isConnected}"
+            selected="{_collaborationModel.recordVideo}"
 			/>
-        <view:IconButton
+        <s:Button
 			id="closeRecordButton"
-			styleName="IconButton"
 			click="closeRecordButton_clickHandler(event)"
 			icon="@Embed(source='/assets/images/icons/buttonIcons/closeRecordButtonIcon.png')"
             height="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
             width="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
+            enabled="{!_collaborationModel.recordVideo}"
 		/>
     </s:HGroup>
     <s:Line height="100%" right="0">

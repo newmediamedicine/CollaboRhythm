@@ -65,55 +65,10 @@ package collaboRhythm.core.controller
         protected var _activeAccount:Account;
         private var _collaborationController:CollaborationController;
         protected var _collaborationMediator:CollaborationMediatorBase;
-        protected var logger:ILogger;
+        protected var _logger:ILogger;
         protected var _componentContainer:IComponentContainer;
         protected var _pluginLoader:PluginLoader;
         protected var _reloadWithFullView:String;
-
-        public function get componentContainer():IComponentContainer
-        {
-            return _componentContainer;
-        }
-
-        public function get settings():Settings
-        {
-            return _settings;
-        }
-
-        public function get collaborationView():CollaborationView
-        {
-            throw new Error("virtual function must be overriden in subclass");
-        }
-
-        public function get collaborationRoomView():CollaborationRoomView
-        {
-            throw new Error("virtual function must be overriden in subclass");
-        }
-
-        public function get recordVideoView():RecordVideoView
-        {
-            throw new Error("virtual function must be overriden in subclass");
-        }
-
-        public function get remoteUsersView():RemoteUsersListView
-        {
-            throw new Error("virtual function must be overriden in subclass");
-        }
-
-        public function get widgetsContainer():IVisualElementContainer
-        {
-            throw new Error("virtual function must be overriden in subclass");
-        }
-
-        public function get scheduleWidgetContainer():IVisualElementContainer
-        {
-            throw new Error("virtual function must be overriden in subclass");
-        }
-
-        public function get fullContainer():IVisualElementContainer
-        {
-            throw new Error("virtual function must be overriden in subclass");
-        }
 
         public function ApplicationControllerBase()
         {
@@ -127,19 +82,19 @@ package collaboRhythm.core.controller
             initSettings();
 
             initLogging();
-            logger.info("Logging initialized");
+            _logger.info("Logging initialized");
 
             // initSettings needs to be called prior to initLogging because the settings for logging need to be loaded first
-            logger.info("Settings initialized");
-            logger.info("  Application settings file: " + _settingsFileStore.applicationSettingsFile.nativePath);
-            logger.info("  User settings file: " + _settingsFileStore.userSettingsFile.nativePath);
-            logger.info("  Mode: " + _settings.mode);
-            logger.info("  Username: " + _settings.username);
+            _logger.info("Settings initialized");
+            _logger.info("  Application settings file: " + _settingsFileStore.applicationSettingsFile.nativePath);
+            _logger.info("  User settings file: " + _settingsFileStore.userSettingsFile.nativePath);
+            _logger.info("  Mode: " + _settings.mode);
+            _logger.info("  Username: " + _settings.username);
 
             initComponents();
-            logger.info("Components initialized. Asynchronous plugin loading initiated.");
-            logger.info("  User plugins directory: " + _pluginLoader.userPluginsDirectoryPath);
-            logger.info("  Number of loaded plugins: " + _pluginLoader.numPluginsLoaded);
+            _logger.info("Components initialized. Asynchronous plugin loading initiated.");
+            _logger.info("  User plugins directory: " + _pluginLoader.userPluginsDirectoryPath);
+            _logger.info("  Number of loaded plugins: " + _pluginLoader.numPluginsLoaded);
 
             // the activeAccount is that which is actively in session with the Indivo server, there can only be one active account at a time
             // create an instance of this model class immediately so that it is accessible to all subsequent operations
@@ -196,12 +151,12 @@ package collaboRhythm.core.controller
                 Log.addTarget(udpSyslogTarget);
             }
 
-            logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+            _logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
         }
 
         protected function testLogging():void
         {
-            logger.info("Testing logger");
+            _logger.info("Testing logger");
         }
 
         private function initComponents():void
@@ -225,7 +180,7 @@ package collaboRhythm.core.controller
          */
         protected function createSession():void
         {
-            logger.info("Creating session in Indivo...");
+            _logger.info("Creating session in Indivo...");
             var createSessionHealthRecordService:CreateSessionHealthRecordService = new CreateSessionHealthRecordService(_settings.oauthChromeConsumerKey,
                                                                                                                          _settings.oauthChromeConsumerSecret,
                                                                                                                          _settings.indivoServerBaseURL,
@@ -239,7 +194,7 @@ package collaboRhythm.core.controller
 
         private function createSessionSucceededHandler(event:HealthRecordServiceEvent):void
         {
-            logger.info("Creating session in Indivo - SUCCEEDED");
+            _logger.info("Creating session in Indivo - SUCCEEDED");
 
             // get information for the account actively in session, this may be useful if accounts are implemented to have credentials, such as MD or RN
             // currently it is not useful, so the function is never called
@@ -253,7 +208,7 @@ package collaboRhythm.core.controller
         private function createSessionFailedHandler(event:HealthRecordServiceEvent):void
         {
             // TODO: add UI feedback for when creating a session fails
-            logger.info("Creating session in Indivo - FAILED - " + event.errorStatus);
+            _logger.info("Creating session in Indivo - FAILED - " + event.errorStatus);
         }
 
         private function getAccountInformation():void
@@ -265,12 +220,12 @@ package collaboRhythm.core.controller
         // get the records for the account actively in session, this includes records that have been shared with the account
         private function getRecords():void
         {
-            logger.info("Retrieving records from Indivo...");
+            _logger.info("Retrieving records from Indivo...");
 
             var recordsHealthRecordService:RecordsHealthRecordService = new RecordsHealthRecordService(_settings.oauthChromeConsumerKey,
                                                                                                        _settings.oauthChromeConsumerSecret,
                                                                                                        _settings.indivoServerBaseURL,
-                                                                                                       _activeAccount);
+                                                                                                       _activeAccount, _settings);
             recordsHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE,
                                                         retrieveRecordsCompleteHandler);
             recordsHealthRecordService.getRecords();
@@ -278,7 +233,7 @@ package collaboRhythm.core.controller
 
         private function retrieveRecordsCompleteHandler(event:HealthRecordServiceEvent):void
         {
-            logger.info("Retrieving records from Indivo - SUCCEEDED");
+            _logger.info("Retrieving records from Indivo - SUCCEEDED");
 
             // No matter what mode the application is in, the demographics for the account actively in session are needed
             var demographicsHealthRecordService:DemographicsHealthRecordService = new DemographicsHealthRecordService(_settings.oauthChromeConsumerKey,
@@ -336,7 +291,7 @@ package collaboRhythm.core.controller
          */
         public function openRecordAccount(recordAccount:Account):void
         {
-
+             _collaborationController.setActiveRecordAccount(recordAccount);
         }
 
         /**
@@ -387,9 +342,9 @@ package collaboRhythm.core.controller
 
         protected function handlePluginsLoaded():void
         {
-            logger.info("Plugins loaded.");
+            _logger.info("Plugins loaded.");
             var array:Array = _componentContainer.resolveAll(AppControllerInfo);
-            logger.info("  Number of registered AppControllerInfo objects (apps): " + (array ? array.length : 0));
+            _logger.info("  Number of registered AppControllerInfo objects (apps): " + (array ? array.length : 0));
 
             if (_reloadWithUser)
                 _collaborationMediator.openRecord(_reloadWithUser);
@@ -411,6 +366,51 @@ package collaboRhythm.core.controller
         public function set collaborationController(value:CollaborationController):void
         {
             _collaborationController = value;
+        }
+
+                public function get componentContainer():IComponentContainer
+        {
+            return _componentContainer;
+        }
+
+        public function get settings():Settings
+        {
+            return _settings;
+        }
+
+        public function get collaborationView():CollaborationView
+        {
+            throw new Error("virtual function must be overriden in subclass");
+        }
+
+        public function get collaborationRoomView():CollaborationRoomView
+        {
+            throw new Error("virtual function must be overriden in subclass");
+        }
+
+        public function get recordVideoView():RecordVideoView
+        {
+            throw new Error("virtual function must be overriden in subclass");
+        }
+
+        public function get remoteUsersView():RemoteUsersListView
+        {
+            throw new Error("virtual function must be overriden in subclass");
+        }
+
+        public function get widgetsContainer():IVisualElementContainer
+        {
+            throw new Error("virtual function must be overriden in subclass");
+        }
+
+        public function get scheduleWidgetContainer():IVisualElementContainer
+        {
+            throw new Error("virtual function must be overriden in subclass");
+        }
+
+        public function get fullContainer():IVisualElementContainer
+        {
+            throw new Error("virtual function must be overriden in subclass");
         }
     }
 }

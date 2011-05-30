@@ -29,15 +29,26 @@ package collaboRhythm.shared.model.healthRecord
 			return codedValue;
 		}
 
+        public static function addCodedValueToXml(xml:XML, nodeName:String,  codedValue:CodedValue):void
+        {
+            // TODO:
+        }
+
         public static function booleanFromString(value:String):Boolean
         {
-            var result:Boolean;
-            if (value == "true") {
-                result = true;
-            } else {
-                result = false;
+            return (value == "true")
+        }
+
+        public static function booleanToString(value:Boolean):String
+        {
+            if (value)
+            {
+                return "true"
             }
-            return result;
+            else
+            {
+                return "false"
+            }
         }
 	}
 }

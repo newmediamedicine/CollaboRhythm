@@ -138,9 +138,9 @@ package collaboRhythm.core.controller.apps
 		 * put in scheduleWidgetParentContainer.
 		 * @param user The user to initialize the apps for.
 		 */
-		public function createAndStartApps(account:Account):void
+		public function createAndStartApps(activeAccount:Account, activeRecordAccount:Account):void
 		{
-			initializeForAccount(account);
+			initializeForAccount(activeAccount, activeRecordAccount);
 
 			// TODO: find the groups by id instead of index
 			createAppsForGroup(0);
@@ -156,9 +156,9 @@ package collaboRhythm.core.controller.apps
 		 * is automatically created from all dynamic apps.
 		 * @param user The user to initialize the apps for.
 		 */
-		public function createMobileApps(account:Account):void
+		public function createMobileApps(activeAccount:Account, activeRecordAccount:Account):void
 		{
-			initializeForAccount(account);
+			initializeForAccount(activeAccount, activeRecordAccount);
 			if (_settings.appGroups && _settings.appGroups.length > 0)
 				createAppsForGroup(0);
 			else
@@ -254,7 +254,7 @@ package collaboRhythm.core.controller.apps
 			return infoArray.length;
 		}
 
-		private function initializeForAccount(account:Account):void
+		private function initializeForAccount(activeAccount:Account, activeRecordAccount:Account):void
 		{
 			closeApps();
 
@@ -267,7 +267,8 @@ package collaboRhythm.core.controller.apps
 //			_factory.healthRecordService = _healthRecordService;
 //			_factory.collaborationRoomNetConnectionServiceProxy = _collaborationRoomNetConnectionService.createProxy();
 			_factory.isWorkstationMode = _settings.isWorkstationMode;
-            _factory.account = account;
+            _factory.activeAccount = activeAccount;
+            _factory.activeRecordAccount = activeRecordAccount;
             _factory.settings = _settings;
 		}
 
@@ -342,10 +343,10 @@ package collaboRhythm.core.controller.apps
 
 			(_widgetParentContainer as UIComponent).validateNow();
 
-			if (source == "local")
-			{
-				_collaborationRoomNetConnectionService.netConnection.call("showFullView", null, _collaborationRoomNetConnectionService.localUserName, workstationAppController.name);
-			}
+//			if (source == "local")
+//			{
+//				_collaborationRoomNetConnectionService.netConnection.call("showFullView", null, _collaborationRoomNetConnectionService.localUserName, workstationAppController.name);
+//			}
 		}
 
 		public function get currentFullView():String

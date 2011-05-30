@@ -50,29 +50,29 @@ package collaboRhythm.plugins.bloodPressure.model
 			super(consumerKey, consumerSecret, baseURL, account);
 		}
 
-		public function loadBloodPressure(user:User):void
+		public function loadBloodPressure(recordAccount:Account):void
 		{
 			// clear any existing data
-			user.bloodPressureModel.data = null;
-			user.bloodPressureModel.isSystolicReportLoaded = false;
-			user.bloodPressureModel.isDiastolicReportLoaded = false;
+			recordAccount.bloodPressureModel.data = null;
+			recordAccount.bloodPressureModel.isSystolicReportLoaded = false;
+			recordAccount.bloodPressureModel.isDiastolicReportLoaded = false;
 
 			var params:URLVariables = new URLVariables();
 			params["order_by"] = "date_measured_start";
 
-			if (user.recordId != null && _activeAccount.oauthAccountToken != null && _activeAccount.oauthAccountTokenSecret != null)
+			if (recordAccount.primaryRecord != null && _activeAccount.oauthAccountToken != null && _activeAccount.oauthAccountTokenSecret != null)
 			{
-				_pha.reports_minimal_vitals_X_GET(params, null, null, null, user.recordId, systolicCategory, _activeAccount.oauthAccountToken,
+				_pha.reports_minimal_vitals_X_GET(params, null, null, null, recordAccount.primaryRecord.id, systolicCategory, _activeAccount.oauthAccountToken,
 												  _activeAccount.oauthAccountTokenSecret,
-												  new BloodPressureReportUserData(user, VITALS_REPORT, systolicCategory));
-				_pha.reports_minimal_vitals_X_GET(params, null, null, null, user.recordId, diastolicCategory, _activeAccount.oauthAccountToken,
+												  new BloodPressureReportUserData(recordAccount, VITALS_REPORT, systolicCategory));
+				_pha.reports_minimal_vitals_X_GET(params, null, null, null, recordAccount.primaryRecord.id, diastolicCategory, _activeAccount.oauthAccountToken,
 												  _activeAccount.oauthAccountTokenSecret,
-												  new BloodPressureReportUserData(user, VITALS_REPORT, diastolicCategory));
+												  new BloodPressureReportUserData(recordAccount, VITALS_REPORT, diastolicCategory));
 
 				// TODO: figure out what is wrong with order_by for this report; it is currently causing an error
 //				var adherenceParams:URLVariables = new URLVariables();
 //				adherenceParams["order_by"] = "date_reported";
-				_pha.reports_minimal_X_GET(null, null, null, null, user.recordId, ADHERENCE_ITEMS_REPORT, _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, new BloodPressureReportUserData(user, ADHERENCE_ITEMS_REPORT))
+				_pha.reports_minimal_X_GET(null, null, null, null, recordAccount.primaryRecord.id, ADHERENCE_ITEMS_REPORT, _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, new BloodPressureReportUserData(recordAccount, ADHERENCE_ITEMS_REPORT))
 			}
 		}
 
@@ -84,27 +84,27 @@ package collaboRhythm.plugins.bloodPressure.model
 				if (bloodPressureReportUserData == null)
 					throw new Error("userData must be a BloodPressureReportUserData object");
 
-				var user:User = bloodPressureReportUserData.user;
-				if (user == null)
+				var account:Account = bloodPressureReportUserData.account;
+				if (account == null)
 					throw new Error("userData.user must be a User object");
 
 				if (bloodPressureReportUserData.report == VITALS_REPORT)
 				{
 					if (responseXml.Report.Item.VitalSign.length() > 0)
 					{
-						user.bloodPressureModel.data = parseVitalSignReportData(responseXml,
+						account.bloodPressureModel.data = parseVitalSignReportData(responseXml,
 																	   getFieldNameFromCategory(bloodPressureReportUserData.category),
-																	   user.bloodPressureModel.data);
+																	   account.bloodPressureModel.data);
 
 						if (bloodPressureReportUserData.category == systolicCategory)
-							user.bloodPressureModel.isSystolicReportLoaded = true;
+							account.bloodPressureModel.isSystolicReportLoaded = true;
 						else if (bloodPressureReportUserData.category == diastolicCategory)
-							user.bloodPressureModel.isDiastolicReportLoaded = true;
+							account.bloodPressureModel.isDiastolicReportLoaded = true;
 					}
 				}
 				else if (bloodPressureReportUserData.report == ADHERENCE_ITEMS_REPORT)
 				{
-					user.bloodPressureModel.adherenceData = parseAdherenceItemReportData(responseXml);
+					account.bloodPressureModel.adherenceData = parseAdherenceItemReportData(responseXml);
 				}
 			}
 			else
