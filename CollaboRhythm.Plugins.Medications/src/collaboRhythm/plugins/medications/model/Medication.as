@@ -58,7 +58,7 @@ package collaboRhythm.plugins.medications.model
 		{
 			parseDocumentMetadata(medicationReportXML.Meta.Document[0], this);
 			var medicationXML:XML = medicationReportXML.Item.Medication[0];
-			_name = HealthRecordHelperMethods.codedValueFromXml(medicationXML.name[0]);
+			_name = HealthRecordHelperMethods.xmlToCodedValue(medicationXML.name[0]);
 			_orderType = medicationXML.orderType;
 			_orderedBy = medicationXML.orderedBy;
 			_dateTimeOrdered = DateUtil.parseW3CDTF(medicationXML.dateTimeOrdered.toString());
@@ -66,15 +66,15 @@ package collaboRhythm.plugins.medications.model
 			_indication = medicationXML.indication;
 			for each (var activeIngredientXML:XML in medicationXML.activeIngredients.activeIngredient)
 			{
-				var strength:ValueAndUnit = new ValueAndUnit(activeIngredientXML.strength.value, HealthRecordHelperMethods.codedValueFromXml(activeIngredientXML.strength.unit[0]));
-				var activeIngredient:ActiveIngredient = new ActiveIngredient(HealthRecordHelperMethods.codedValueFromXml(activeIngredientXML.name[0]), strength);
+				var strength:ValueAndUnit = new ValueAndUnit(activeIngredientXML.strength.value, HealthRecordHelperMethods.xmlToCodedValue(activeIngredientXML.strength.unit[0]));
+				var activeIngredient:ActiveIngredient = new ActiveIngredient(HealthRecordHelperMethods.xmlToCodedValue(activeIngredientXML.name[0]), strength);
 				_activeIngredients.push(activeIngredient);
 			}
-			_dose = new ValueAndUnit(medicationXML.dose.value, HealthRecordHelperMethods.codedValueFromXml(medicationXML.dose.unit[0]));
-			_form = HealthRecordHelperMethods.codedValueFromXml(medicationXML.form[0]);
-			_route = HealthRecordHelperMethods.codedValueFromXml(medicationXML.route[0]);
-			_frequency = HealthRecordHelperMethods.codedValueFromXml(medicationXML.frequency[0]);
-			_amountOrdered = new ValueAndUnit(medicationXML.amountOrdered.value, HealthRecordHelperMethods.codedValueFromXml(medicationXML.amountOrdered.unit[0]));
+			_dose = new ValueAndUnit(medicationXML.dose.value, HealthRecordHelperMethods.xmlToCodedValue(medicationXML.dose.unit[0]));
+			_form = HealthRecordHelperMethods.xmlToCodedValue(medicationXML.form[0]);
+			_route = HealthRecordHelperMethods.xmlToCodedValue(medicationXML.route[0]);
+			_frequency = HealthRecordHelperMethods.xmlToCodedValue(medicationXML.frequency[0]);
+			_amountOrdered = new ValueAndUnit(medicationXML.amountOrdered.value, HealthRecordHelperMethods.xmlToCodedValue(medicationXML.amountOrdered.unit[0]));
 			_refills = Number(medicationXML.refills);
 			_substitutionPermitted = Boolean(medicationXML.substitutionPermitted);
 			_instructions = medicationXML.instructions;

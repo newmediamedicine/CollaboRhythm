@@ -285,7 +285,7 @@ package collaboRhythm.core.controller.apps
 			}
 		}
 
-		public function reloadUserData(user:User):void
+		public function reloadUserData():void
 		{
 			for each (var app:WorkstationAppControllerBase in _workstationApps.values())
 			{

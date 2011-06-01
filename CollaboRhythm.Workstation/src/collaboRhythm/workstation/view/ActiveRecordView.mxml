@@ -55,5 +55,4 @@
     <s:Group id="fullViewGroup" width="100%" top="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT}" bottom="0">
         <!-- Application full views are displayed here -->
     </s:Group>
-
 </s:Group>

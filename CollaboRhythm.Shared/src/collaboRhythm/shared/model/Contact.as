@@ -125,7 +125,7 @@ package collaboRhythm.shared.model
 		public function get imageURI():String
 		{
 			//			return _imageURI;
-			return userName ? "resources/images/users/" + userName + ".jpg" : null;			
+			return userName ? "assets/images/users/" + userName + ".jpg" : null;
 		}
 		
 		public function set imageURI(value:String):void

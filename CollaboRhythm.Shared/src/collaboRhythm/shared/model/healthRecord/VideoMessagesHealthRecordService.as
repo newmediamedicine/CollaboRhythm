@@ -35,7 +35,7 @@ package collaboRhythm.shared.model.healthRecord
         {
             if (healthRecordServiceRequestDetails.indivoApiCall == GET_VIDEOMESSAGES_REPORT)
             {
-                healthRecordServiceRequestDetails.record.videoMessagesModel.videoMessagesReportXML = responseXml;
+                healthRecordServiceRequestDetails.record.videoMessagesModel.videoMessagesReportXml = responseXml;
             }
             else if (healthRecordServiceRequestDetails.indivoApiCall == POST_DOCUMENT)
             {

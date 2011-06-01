@@ -16,34 +16,39 @@
  */
 package collaboRhythm.shared.model.settings
 {
-	import flash.filesystem.File;
-	import flash.filesystem.FileMode;
-	import flash.filesystem.FileStream;
-	import flash.utils.ByteArray;
-	import flash.utils.getQualifiedClassName;
-	
-	import mx.logging.ILogger;
-	import mx.logging.Log;
-	import mx.rpc.xml.Schema;
-	import mx.rpc.xml.SchemaManager;
-	import mx.rpc.xml.SchemaTypeRegistry;
-	import mx.rpc.xml.XMLDecoder;
-	import mx.rpc.xml.XMLEncoder;
-	import mx.utils.ObjectUtil;
 
-	public class SettingsFileStore
+    import flash.filesystem.File;
+    import flash.filesystem.FileMode;
+    import flash.filesystem.FileStream;
+    import flash.utils.ByteArray;
+    import flash.utils.getQualifiedClassName;
+
+    import mx.logging.ILogger;
+    import mx.logging.Log;
+    import mx.rpc.xml.Schema;
+    import mx.rpc.xml.SchemaManager;
+    import mx.rpc.xml.SchemaTypeRegistry;
+    import mx.rpc.xml.XMLDecoder;
+    import mx.rpc.xml.XMLEncoder;
+    import mx.utils.ObjectUtil;
+
+    public class SettingsFileStore
 	{
 		private const SETTINGS_FILE_NAME:String = "settings.xml";
 
 		[Embed("/resources/settings.xsd", mimeType="application/octet-stream")]
 		private var settingsSchema:Class;
 
-		private var schema:Schema;
-		private var schemaManager:SchemaManager;
+        private var _applicationSettingsEmbeddedFile:Class;
 
-		private var _settings:Settings;
-		private var traceXmlEncodeDecode:Boolean = false;
-		protected var logger:ILogger;
+        private var schema:Schema;
+
+		private var schemaManager:SchemaManager;
+        private var _settings:Settings;
+        private var traceXmlEncodeDecode:Boolean = false;
+        protected var logger:ILogger;
+        private var _isApplicationSettingsLoaded:Boolean;
+        private var _isUserSettingsLoaded:Boolean;
 
 		public function SettingsFileStore()
 		{
@@ -82,15 +87,11 @@ package collaboRhythm.shared.model.settings
 		}
 
 		public function readSettings():void
-		{
-			var file:File = applicationSettingsFile;
+        {
+            readSettingsFromEmbeddedFile(applicationSettingsEmbeddedFile);
 
-			readSettingsFromFile(file);
-
-			file = userSettingsFile;
-
-			readSettingsFromFile(file);
-		}
+            readSettingsFromFile(userSettingsFile);
+        }
 
 		public function get userSettingsFile():File
 		{
@@ -101,12 +102,7 @@ package collaboRhythm.shared.model.settings
 			return new File(nativePath);
 		}
 
-		public function get applicationSettingsFile():File
-		{
-			return File.applicationDirectory.resolvePath("resources").resolvePath(SETTINGS_FILE_NAME);
-		}
-
-		private function readSettingsFromFile(file:File):void
+        private function readSettingsFromFile(file:File):void
 		{
 			if (!file.exists)
 				return;
@@ -125,15 +121,39 @@ package collaboRhythm.shared.model.settings
 
 			var preferencesXML:XML = XML(fileStream.readUTFBytes(fileStream.bytesAvailable));
 			fileStream.close();
-			decodeXML(file, preferencesXML);
+            _isApplicationSettingsLoaded = loadSettings("Settings file \"" + file.nativePath + "\"", preferencesXML);
+        }
 
-			settings.isWorkstationMode = true;
-		}
+		private function readSettingsFromEmbeddedFile(embeddedFile:Class):void
+		{
+			if (!embeddedFile)
+				throw new Error("Failed to load embedded file");
+
+            // TODO: determine why this does not work properly in FlashBuilder
+			var byteArray:ByteArray = new embeddedFile;
+			if (byteArray.length == 0)
+				byteArray = new embeddedFile();
+
+			if (byteArray.length == 0)
+				throw new Error("Failed to load embedded settings.xml file.");
+
+			var preferencesXML:XML = XML(byteArray.readUTFBytes(byteArray.length));
+            _isUserSettingsLoaded = loadSettings("Embedded (application level) settings.xml file", preferencesXML);
+        }
+
+        private function loadSettings(fileSourceDescription:String, preferencesXML:XML):Boolean
+        {
+            var decodeResult:Boolean = decodeXML(fileSourceDescription, preferencesXML);
+
+            settings.isWorkstationMode = true;
+
+            return decodeResult;
+        }
 
 		/**
 		 * Decodes XML into ActionScript objects using the schema definitions within SchemaManager
 		 */
-		private function decodeXML(file:File, xml:XML):void
+		private function decodeXML(fileSourceDescription:String, xml:XML):Boolean
 		{
 			if (traceXmlEncodeDecode)
 				trace("decodeXML()");
@@ -142,11 +162,13 @@ package collaboRhythm.shared.model.settings
 			if (xml.namespaceDeclarations().length == 0 ||
 					xml.namespace("").uri != schema.namespaces[""].uri)
 			{
-				var message:String = "Warning: all settings will be ignored. Settings file \"" + file.nativePath + "\" must be updated to include expected namespace: " + schema.namespaces[""].uri;
+				var message:String = "Warning: all settings will be ignored. " + fileSourceDescription + " must be updated to include expected namespace: " + schema.namespaces[""].uri;
 				trace(message);
 				logger.warn(message);
 				// TODO: figure out how to add the namespace so the settings.xml will load; the following seems to have no effect
 //				xml = xml.addNamespace(schema.namespaces[""]);
+
+                return false;
 			}
 
 			var qName:QName;
@@ -171,6 +193,8 @@ package collaboRhythm.shared.model.settings
 
 			if (traceXmlEncodeDecode)
 				trace(ObjectUtil.toString(settings));
+
+            return true;
 		}
 
 		public function encodeToXML():String
@@ -208,5 +232,25 @@ package collaboRhythm.shared.model.settings
 		{
 			_settings = value;
 		}
-	}
+
+        public function get applicationSettingsEmbeddedFile():Class
+        {
+            return _applicationSettingsEmbeddedFile;
+        }
+
+        public function set applicationSettingsEmbeddedFile(applicationSettingsEmbededFile:Class):void
+        {
+            _applicationSettingsEmbeddedFile = applicationSettingsEmbededFile;
+        }
+
+        public function get isApplicationSettingsLoaded():Boolean
+        {
+            return _isApplicationSettingsLoaded;
+        }
+
+        public function get isUserSettingsLoaded():Boolean
+        {
+            return _isUserSettingsLoaded;
+        }
+    }
 }

@@ -14,35 +14,45 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.plugins.schedule.shared.model
+package collaboRhythm.shared.model
 {
-	public class RecurrenceRule
+
+    import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
+
+    public class RecurrenceRule
 	{
-		private var _frequency:String;
-//		private var _dateTimeUntil:Date;
-		private var _count:Number;
+		private var _frequency:CodedValue;
+        private var _interval:CodedValue;
+		private var _dateUntil:Date;
+		private var _count:int;
 		
 //		TODO: Implement with choice of dateTimeUntil or count
-		public function RecurrenceRule(frequency:String, count:Number)
+		public function RecurrenceRule(recurrenceRuleXml:XML)
 		{
-			_frequency = frequency;
-//			_dateTimeUntil = dateTimeUntil;
-			_count = count;
+			_frequency = HealthRecordHelperMethods.xmlToCodedValue(recurrenceRuleXml.frequency[0]);
+//            _interval = HealthRecordHelperMethods.xmlToCodedValue(recurrenceRuleXml.interval[0]);
+//            _dateUntil = DateUtil.parseW3CDTF(recurrenceRuleXml.dateUntil);
+			_count = int(recurrenceRuleXml.count);
 		}
 		
-		public function get frequency():String
+		public function get frequency():CodedValue
 		{
 			return _frequency;
 		}
+
+        public function get interval():CodedValue
+        {
+            return _interval;
+        }
 
 //		public function get dateTimeUntil():Date
 //		{
 //			return _dateTimeUntil;
 //		}
 
-		public function get count():Number
+		public function get count():int
 		{
 			return _count;
 		}
-	}
+    }
 }

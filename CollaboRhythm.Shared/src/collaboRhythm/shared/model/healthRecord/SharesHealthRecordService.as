@@ -17,15 +17,12 @@ package collaboRhythm.shared.model.healthRecord
         // call to get all of the records with which the primary record is shared
         public function getShares(primaryRecord:Record):void
         {
-            var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(null,
-                                                                                                                            null,
-                                                                                                                            primaryRecord);
             _pha.shares_GET(null, null, null, null, primaryRecord.id, _activeAccount.oauthAccountToken,
-                            _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
+                            _activeAccount.oauthAccountTokenSecret);
         }
 
         // loop through all of the records with which the primary record is shared
-        // Get or create the account that owns each of those records and add it to a hasmap on the account actively in session
+        // Get or create the account that owns each of those records and add it to a hashmap on the account actively in session
         protected override function handleResponse(event:IndivoClientEvent, responseXml:XML, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
             for each (var shareXml:XML in responseXml.Share)
@@ -35,6 +32,9 @@ package collaboRhythm.shared.model.healthRecord
                     var account:Account;
                     // check to see if an account already exists for the owner with whom the record was shared
                     // this would happen if that owner had also shared a record with the primary account
+                    // TODO: Currently, in order to get the demographics for the owner with whom the record is shared, that owner needs to at least
+                    // TODO: share a record with a contact and demographics document back, this is not optimal. It means that in our current case, there is
+                    // TODO: always already a sharedRecord for the recordShare
                     if (_activeAccount.sharedRecordAccounts.hasOwnProperty(shareXml.@account))
                     {
                         // if the account already exists in the sharedRecordAccounts, get it

@@ -17,7 +17,9 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
 
-	public class Time
+    import collaboRhythm.shared.model.ScheduleItemBase;
+
+    public class Time
 	{
 		private var _scheduleItems:Vector.<ScheduleItemBase>;
 		private var _adherenceGroup:AdherenceGroup;

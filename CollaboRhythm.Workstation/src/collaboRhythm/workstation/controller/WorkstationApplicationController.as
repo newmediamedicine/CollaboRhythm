@@ -74,6 +74,9 @@ package collaboRhythm.workstation.controller
 		private var _zoom:Number = 0;
 		private var _resetingWindows:Boolean = false;
 
+        [Embed("/resources/settings.xml", mimeType="application/octet-stream")]
+        private var _applicationSettingsEmbeddedFile:Class;
+
         public function WorkstationApplicationController()
 		{
 
@@ -250,6 +253,15 @@ package collaboRhythm.workstation.controller
             }
         }
 
+        protected override function changeDemoDate():void
+        {
+            if (_activeRecordAccount != null)
+				_workstationAppControllersMediator.reloadUserData();
+
+			//			user.demographics.dispatchEvent(new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE, false, false, PropertyChangeEventKind.UPDATE, "age", 0, user.demographics.age));
+			_activeRecordAccount.primaryRecord.demographics.dispatchAgeChangeEvent();
+        }
+
         public function showRecordVideoView():void
         {
             collaborationController.showRecordVideoView();
@@ -258,6 +270,11 @@ package collaboRhythm.workstation.controller
         public function hideRecordVideoView():void
         {
             collaborationController.hideRecordVideoView();
+        }
+
+        public override function get currentFullView():String
+        {
+            return _workstationAppControllersMediator.currentFullView;
         }
 
         public override function get collaborationView():CollaborationView
@@ -559,7 +576,7 @@ package collaboRhythm.workstation.controller
 				}
 				else if (event.keyCode == Keyboard.F5)
 				{
-					_collaborationMediator.reloadPlugins();
+					reloadPlugins();
 				}
 			}
 			else if (event.ctrlKey && event.altKey)
@@ -733,5 +750,10 @@ package collaboRhythm.workstation.controller
 			var windowSettings:WindowSettings = windowSettingsDataStore.readWindowSettings();
 			return windowSettings;
 		}
-	}
+
+        public override function get applicationSettingsEmbeddedFile():Class
+        {
+            return _applicationSettingsEmbeddedFile;
+        }
+    }
 }

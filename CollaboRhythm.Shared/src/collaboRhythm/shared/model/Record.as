@@ -30,6 +30,7 @@ package collaboRhythm.shared.model
         private var _role_label:String;
         private var _demographics:Demographics;
         private var _contact:Contact;
+        private var _medicationsModel:MedicationsModel;
         private var _videoMessagesModel:VideoMessagesModel;
 
         public function Record(settings:Settings, activeAccount:Account, recordXml:XML)
@@ -37,14 +38,16 @@ package collaboRhythm.shared.model
             _id = recordXml.@id;
             _label = recordXml.@label;
             if (recordXml.hasOwnProperty("@shared"))
-                _shared = HealthRecordHelperMethods.booleanFromString(recordXml.@shared);
+                _shared = HealthRecordHelperMethods.stringToBoolean(recordXml.@shared);
             if (recordXml.hasOwnProperty("@role_label"))
                 _role_label = recordXml.@role_label;
+            _medicationsModel = new MedicationsModel(settings, activeAccount, this);
             _videoMessagesModel = new VideoMessagesModel(settings, activeAccount, this);
         }
 
         public function getDocuments():void
         {
+            _medicationsModel.getMedications();
             _videoMessagesModel.getVideoMessages();
         }
 
@@ -108,6 +111,16 @@ package collaboRhythm.shared.model
             _contact = value;
 
             // TODO: store the images with the record (as a binary document) or use some other identifier for the file name
+        }
+
+        public function get medicationsModel():MedicationsModel
+        {
+            return _medicationsModel;
+        }
+
+        public function set medicationsModel(value:MedicationsModel):void
+        {
+            _medicationsModel = value;
         }
 
         public function get videoMessagesModel():VideoMessagesModel

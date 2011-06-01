@@ -9,8 +9,12 @@ package collaboRhythm.shared.model
 
     import mx.collections.ArrayCollection;
 
+    [Bindable]
     public class VideoMessagesModel
     {
+        // TODO: Determine the best way to get a picture for a video message
+        // There are flaws with using sharing relationships from the active account
+        private var _activeAccount:Account;
         private var _record:Record;
         private var _videoMessagesHealthRecordService:VideoMessagesHealthRecordService;
         private var _videoMessagesCollection:ArrayCollection = new ArrayCollection();
@@ -19,8 +23,9 @@ package collaboRhythm.shared.model
 
         public function VideoMessagesModel(settings:Settings, activeAccount:Account, record:Record)
         {
+            _activeAccount = activeAccount;
             _record = record;
-            _videoMessagesHealthRecordService = new VideoMessagesHealthRecordService(settings.oauthChromeConsumerKey, settings.oauthChromeConsumerSecret, settings.indivoServerBaseURL, activeAccount);
+            _videoMessagesHealthRecordService = new VideoMessagesHealthRecordService(settings.oauthChromeConsumerKey, settings.oauthChromeConsumerSecret, settings.indivoServerBaseURL, _activeAccount);
             _currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
         }
 
@@ -29,12 +34,12 @@ package collaboRhythm.shared.model
             _videoMessagesHealthRecordService.getVideoMessages(_record);
         }
 
-		public function set videoMessagesReportXML(value:XML):void
+		public function set videoMessagesReportXml(value:XML):void
 		{
-            for each (var videoMessageReport:XML in value.Report)
+            for each (var videoMessageXml:XML in value.Report)
 			{
-				var videoMessage:VideoMessage = new VideoMessage();
-                videoMessage.initFromReportXML(videoMessageReport);
+				var videoMessage:VideoMessage = new VideoMessage(_activeAccount);
+                videoMessage.initFromReportXML(videoMessageXml);
                 if (videoMessage.fileId > videoMessageCount)
                 {
                     videoMessageCount = videoMessage.fileId;
@@ -45,7 +50,7 @@ package collaboRhythm.shared.model
 
         public function createVideoMessage(from:String):void
         {
-            var videoMessage:VideoMessage = new VideoMessage();
+            var videoMessage:VideoMessage = new VideoMessage(_activeAccount);
             videoMessage.init((_videoMessageCount+1).toString(), "FlashMediaServer", "test", from, currentDateSource.now(), currentDateSource.now());
             _videoMessageCount += 1;
             _videoMessagesCollection.addItem(videoMessage);

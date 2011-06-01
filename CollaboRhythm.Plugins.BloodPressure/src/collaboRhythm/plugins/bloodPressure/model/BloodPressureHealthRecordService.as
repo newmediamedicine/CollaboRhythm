@@ -202,7 +202,7 @@ package collaboRhythm.plugins.bloodPressure.model
 					item = new AdherenceItem();
 
 					if (itemXml.name.length() == 1)
-						item.name = HealthRecordHelperMethods.codedValueFromXml(itemXml.name[0]);
+						item.name = HealthRecordHelperMethods.xmlToCodedValue(itemXml.name[0]);
 					if (itemXml.reportedBy.length() == 1)
 						item.reportedBy = itemXml.reportedBy.toString();
 					if (itemXml.dateReported.length() == 1)

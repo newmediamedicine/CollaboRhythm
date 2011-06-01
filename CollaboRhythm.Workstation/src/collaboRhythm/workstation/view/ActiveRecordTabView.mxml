@@ -34,6 +34,7 @@
         <![CDATA[
         import collaboRhythm.shared.model.Account;
         import collaboRhythm.shared.model.CollaborationModel;
+        import collaboRhythm.shared.model.settings.Settings;
         import collaboRhythm.workstation.controller.WorkstationApplicationController;
 
         private static const SEPARATOR_COLOR:String = "#A7A9AC";
@@ -43,12 +44,15 @@
         private var _recordAccount:Account;
         [Bindable]
         private var _collaborationModel:CollaborationModel;
+        [Bindable]
+        private var _settings:Settings;
 
         public function init(workstationApplicationController:WorkstationApplicationController, recordAccount:Account, collaborationModel:CollaborationModel):void
         {
             _workstationApplicationController = workstationApplicationController;
             _recordAccount = recordAccount;
             _collaborationModel = collaborationModel;
+            _settings = _workstationApplicationController.settings;
 
             recordInformationView.init(_recordAccount);
         }
@@ -86,6 +90,7 @@
             width="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
             enabled="{_collaborationModel.collaborationLobbyNetConnectionService.isConnected}"
             selected="{_collaborationModel.recordVideo}"
+            visible="{_settings.isClinicianMode}"
 			/>
         <s:Button
 			id="closeRecordButton"
@@ -94,6 +99,7 @@
             height="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
             width="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
             enabled="{!_collaborationModel.recordVideo}"
+            visible="{_settings.isClinicianMode}"
 		/>
     </s:HGroup>
     <s:Line height="100%" right="0">

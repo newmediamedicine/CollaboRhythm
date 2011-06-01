@@ -116,12 +116,16 @@ public class WidgetContainerController
 						<value>{_moblieApplicationController.settings.indivoServerBaseURL}</value>
 					</InfoItem>
 					<InfoItem>
-						<name>User settings file</name>
-						<value>{_moblieApplicationController.settingsFileStore.userSettingsFile.nativePath}</value>
-					</InfoItem>
+						<name>User settings file loaded</name>
+                        <value>{_moblieApplicationController.settingsFileStore.isUserSettingsLoaded}</value>
+                    </InfoItem>
+                    <InfoItem>
+                        <name>User settings file location</name>
+                        <value>{_moblieApplicationController.settingsFileStore.userSettingsFile.nativePath}</value>
+                    </InfoItem>
 					<InfoItem>
-						<name>Application settings file</name>
-						<value>{_moblieApplicationController.settingsFileStore.applicationSettingsFile.nativePath}</value>
+						<name>Application settings file loaded</name>
+						<value>{_moblieApplicationController.settingsFileStore.isApplicationSettingsLoaded}</value>
 					</InfoItem>
 					<InfoItem>
 						<name>Num Plugin Files</name>

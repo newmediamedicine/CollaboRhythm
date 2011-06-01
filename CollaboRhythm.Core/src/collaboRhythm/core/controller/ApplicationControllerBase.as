@@ -25,7 +25,6 @@ package collaboRhythm.core.controller
     import collaboRhythm.shared.controller.CollaborationController;
     import collaboRhythm.shared.controller.apps.AppControllerInfo;
     import collaboRhythm.shared.model.Account;
-    import collaboRhythm.shared.model.Record;
     import collaboRhythm.shared.model.User;
     import collaboRhythm.shared.model.healthRecord.AccountInformationHealthRecordService;
     import collaboRhythm.shared.model.healthRecord.CreateSessionHealthRecordService;
@@ -63,11 +62,12 @@ package collaboRhythm.core.controller
         protected var _settingsFileStore:SettingsFileStore;
         protected var _settings:Settings;
         protected var _activeAccount:Account;
+        protected var _activeRecordAccount:Account;
         private var _collaborationController:CollaborationController;
-        protected var _collaborationMediator:CollaborationMediatorBase;
         protected var _logger:ILogger;
         protected var _componentContainer:IComponentContainer;
         protected var _pluginLoader:PluginLoader;
+        protected var _reloadWithRecordAccount:Account;
         protected var _reloadWithFullView:String;
 
         public function ApplicationControllerBase()
@@ -86,8 +86,8 @@ package collaboRhythm.core.controller
 
             // initSettings needs to be called prior to initLogging because the settings for logging need to be loaded first
             _logger.info("Settings initialized");
-            _logger.info("  Application settings file: " + _settingsFileStore.applicationSettingsFile.nativePath);
-            _logger.info("  User settings file: " + _settingsFileStore.userSettingsFile.nativePath);
+            _logger.info("  Application settings file loaded: " + _settingsFileStore.isApplicationSettingsLoaded);
+            _logger.info("  User settings file loaded: " + _settingsFileStore.isUserSettingsLoaded + " path=" + _settingsFileStore.userSettingsFile.nativePath);
             _logger.info("  Mode: " + _settings.mode);
             _logger.info("  Username: " + _settings.username);
 
@@ -111,6 +111,7 @@ package collaboRhythm.core.controller
         private function initSettings():void
         {
             _settingsFileStore = new SettingsFileStore();
+            _settingsFileStore.applicationSettingsEmbeddedFile = applicationSettingsEmbeddedFile;
             _settingsFileStore.readSettings();
             _settings = _settingsFileStore.settings;
         }
@@ -220,59 +221,78 @@ package collaboRhythm.core.controller
         // get the records for the account actively in session, this includes records that have been shared with the account
         private function getRecords():void
         {
-            _logger.info("Retrieving records from Indivo...");
+            _logger.info("Getting records from Indivo...");
 
             var recordsHealthRecordService:RecordsHealthRecordService = new RecordsHealthRecordService(_settings.oauthChromeConsumerKey,
                                                                                                        _settings.oauthChromeConsumerSecret,
                                                                                                        _settings.indivoServerBaseURL,
                                                                                                        _activeAccount, _settings);
             recordsHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE,
-                                                        retrieveRecordsCompleteHandler);
+                                                        getRecordsCompleteHandler);
             recordsHealthRecordService.getRecords();
         }
 
-        private function retrieveRecordsCompleteHandler(event:HealthRecordServiceEvent):void
+        private function getRecordsCompleteHandler(event:HealthRecordServiceEvent):void
         {
-            _logger.info("Retrieving records from Indivo - SUCCEEDED");
+            _logger.info("Getting records from Indivo - SUCCEEDED");
 
-            // No matter what mode the application is in, the demographics for the account actively in session are needed
+            if (_settings.isPatientMode)
+            {
+                // If the application is in patient mode, then it needs to know with what accounts
+                // the primary record of the active account is shared so that it can inform the collaboration server
+                getShares();
+            }
+            else if (_settings.isClinicianMode)
+            {
+                // enter the collaboration lobby, since all of the necessary accountIds are known, a clinician does not have any shares
+                enterCollaborationLobby();
+
+                // get the demographics for the active account all of the shared records
+                getDemographics();
+            }
+        }
+
+        // if the application is in patient mode, get the accounts with which the primary record of the active account is shared
+        private function getShares():void
+        {
+            _logger.info("Getting shares from Indivo...");
+
+            var sharesHealthRecordService:SharesHealthRecordService = new SharesHealthRecordService(_settings.oauthChromeConsumerKey,
+                                                                                                    _settings.oauthChromeConsumerSecret,
+                                                                                                    _settings.indivoServerBaseURL,
+                                                                                                    _activeAccount);
+            sharesHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE,
+                                                       getSharesCompleteHandler);
+            sharesHealthRecordService.getShares(_activeAccount.primaryRecord);
+        }
+
+        private function getSharesCompleteHandler(event:HealthRecordServiceEvent):void
+        {
+            _logger.info("Getting shares from Indivo - SUCCEEDED");
+
+            // enter the collaboration lobby, since all of the necessary accountIds are known
+            enterCollaborationLobby();
+
+            // open the primary record of the active account, since the application is in patient mode
+            openRecordAccount(_activeAccount);
+
+            // get the demographics for the active account
+            getDemographics();
+        }
+
+        // get the demographics for the active account and all of the sharing accounts
+        private function getDemographics():void
+        {
             var demographicsHealthRecordService:DemographicsHealthRecordService = new DemographicsHealthRecordService(_settings.oauthChromeConsumerKey,
                                                                                                                       _settings.oauthChromeConsumerSecret,
                                                                                                                       _settings.indivoServerBaseURL,
                                                                                                                       _activeAccount);
             demographicsHealthRecordService.getDemographics(_activeAccount.primaryRecord);
 
-            if (_settings.isPatientMode)
+            for each (var account:Account in _activeAccount.allSharingAccounts)
             {
-                // If the application is in patient mode, then it needs to know with what accounts
-                // the primary record is shared so that it can inform the collaboration server
-                var sharesHealthRecordService:SharesHealthRecordService = new SharesHealthRecordService(_settings.oauthChromeConsumerKey,
-                                                                                                        _settings.oauthChromeConsumerSecret,
-                                                                                                        _settings.indivoServerBaseURL,
-                                                                                                        _activeAccount);
-                sharesHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE,
-                                                           retrieveSharesCompleteHandler);
-                sharesHealthRecordService.getShares(_activeAccount.primaryRecord);
+                demographicsHealthRecordService.getDemographics(account.primaryRecord);
             }
-            else if (_settings.isClinicianMode)
-            {
-                // If the application is in clinician mode, it is necessary to get the demographics data for each of the shared record
-                for each (var account:Account in _activeAccount.sharedRecordAccounts)
-                {
-                    demographicsHealthRecordService.getDemographics(account.primaryRecord);
-                }
-
-                // enter the collaboration lobby, since all of the necessary accountIds are known
-                enterCollaborationLobby();
-            }
-        }
-
-        private function retrieveSharesCompleteHandler(event:HealthRecordServiceEvent):void
-        {
-            // enter the collaboration lobby, since all of the necessary accountIds are known
-            enterCollaborationLobby();
-
-            openRecordAccount(_activeAccount);
         }
 
         // Enter the collaboration lobby so that the user can see which other users are online
@@ -291,7 +311,8 @@ package collaboRhythm.core.controller
          */
         public function openRecordAccount(recordAccount:Account):void
         {
-             _collaborationController.setActiveRecordAccount(recordAccount);
+            _activeRecordAccount = recordAccount;
+            _collaborationController.setActiveRecordAccount(recordAccount);
         }
 
         /**
@@ -316,17 +337,12 @@ package collaboRhythm.core.controller
             }
         }
 
-        protected function changeDemoDate():void
-        {
-            _collaborationMediator.changeDemoDate();
-        }
-
         public function reloadPlugins():void
         {
-            _reloadWithUser = _collaborationMediator.subjectUser;
-            _reloadWithFullView = _collaborationMediator.currentFullView;
+            _reloadWithRecordAccount = _activeRecordAccount;
+            _reloadWithFullView = currentFullView;
 
-            _collaborationMediator.closeRecord();
+            closeRecordAccount(_activeRecordAccount);
             _componentContainer.removeAllComponents();
             _pluginLoader.unloadPlugins();
 
@@ -338,20 +354,25 @@ package collaboRhythm.core.controller
             handlePluginsLoaded();
         }
 
-        protected var _reloadWithUser:User;
-
         protected function handlePluginsLoaded():void
         {
             _logger.info("Plugins loaded.");
             var array:Array = _componentContainer.resolveAll(AppControllerInfo);
             _logger.info("  Number of registered AppControllerInfo objects (apps): " + (array ? array.length : 0));
 
-            if (_reloadWithUser)
-                _collaborationMediator.openRecord(_reloadWithUser);
+            if (_reloadWithRecordAccount)
+                openRecordAccount(_reloadWithRecordAccount);
 
-            if (_reloadWithFullView)
-                _collaborationMediator.appControllersMediator.showFullView(_reloadWithFullView);
+//            if (_reloadWithFullView)
+                // TODO: Fix showing the full view that was active on reloading
+                // TODO: potentially have the appControllersMediator available here in the base
+//                _collaborationMediator.appControllersMediator.showFullView(_reloadWithFullView);
         }
+
+        protected function changeDemoDate():void
+		{
+            throw new Error("virtual function must be overriden in subclass");
+		}
 
         public function get settingsFileStore():SettingsFileStore
         {
@@ -368,7 +389,7 @@ package collaboRhythm.core.controller
             _collaborationController = value;
         }
 
-                public function get componentContainer():IComponentContainer
+        public function get componentContainer():IComponentContainer
         {
             return _componentContainer;
         }
@@ -376,6 +397,11 @@ package collaboRhythm.core.controller
         public function get settings():Settings
         {
             return _settings;
+        }
+
+        public function get currentFullView():String
+        {
+            throw new Error("virtual function must be overriden in subclass");
         }
 
         public function get collaborationView():CollaborationView
@@ -411,6 +437,11 @@ package collaboRhythm.core.controller
         public function get fullContainer():IVisualElementContainer
         {
             throw new Error("virtual function must be overriden in subclass");
+        }
+
+        public function get applicationSettingsEmbeddedFile():Class
+        {
+            throw new Error("Virtual method must be overridden in subclasses");
         }
     }
 }

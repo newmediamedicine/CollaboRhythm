@@ -5,17 +5,21 @@ package collaboRhythm.shared.model
     import collaboRhythm.shared.model.DateUtil;
     import com.adobe.utils.DateUtil;
 
+    [Bindable]
     public class VideoMessage extends DocumentMetadata
     {
+        private var _activeAccount:Account;
+
         private var _fileId:int;
         private var _storageType:String;
         private var _subject:String;
-        private var _from:String;
+        private var _from:Account;
         private var _dateRecorded:Date;
         private var _dateSent:Date;
 
-        public function VideoMessage()
+        public function VideoMessage(activeAccount:Account)
         {
+            _activeAccount = activeAccount;
         }
 
         public function init(fileId:String, storageType:String, subject:String, from:String, dateRecorded:Date, dateSent:Date):void
@@ -23,7 +27,9 @@ package collaboRhythm.shared.model
 			_fileId = int(fileId);
             _storageType = storageType;
             _subject = subject;
-            _from = from;
+            // TODO: Add checking here for null and potentially return null from the init
+            // This might occur if there was previously a sharing relationship, a video was sent, but then the sharing relationship was removed
+            _from = _activeAccount.allSharingAccounts[from];
             _dateRecorded = dateRecorded;
             _dateSent = dateSent;
 		}
@@ -35,7 +41,7 @@ package collaboRhythm.shared.model
 			_fileId = int(videoMessageXml.fileId);
 			_storageType = videoMessageXml.storageType;
 			_subject = videoMessageXml.subject;
-			_from = videoMessageXml.from;
+			_from = _activeAccount.allSharingAccounts[videoMessageXml.from];
             _dateRecorded = collaboRhythm.shared.model.DateUtil.parseW3CDTF(videoMessageXml.dateRecorded);
             _dateSent = collaboRhythm.shared.model.DateUtil.parseW3CDTF(videoMessageXml.dateSent);
 		}
@@ -84,12 +90,12 @@ package collaboRhythm.shared.model
             _subject = value;
         }
 
-        public function get from():String
+        public function get from():Account
         {
             return _from;
         }
 
-        public function set from(value:String):void
+        public function set from(value:Account):void
         {
             _from = value;
         }

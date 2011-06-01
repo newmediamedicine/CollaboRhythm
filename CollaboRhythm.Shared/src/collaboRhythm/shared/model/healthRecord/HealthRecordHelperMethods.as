@@ -23,7 +23,7 @@ package collaboRhythm.shared.model.healthRecord
 		{
 		}
 		
-		public static function codedValueFromXml(valueXml:XML):CodedValue
+		public static function xmlToCodedValue(valueXml:XML):CodedValue
 		{
 			var codedValue:CodedValue = new CodedValue(valueXml.@type, valueXml.@value, valueXml.@abbrev, valueXml.toString());
 			return codedValue;
@@ -34,9 +34,9 @@ package collaboRhythm.shared.model.healthRecord
             // TODO:
         }
 
-        public static function booleanFromString(value:String):Boolean
+        public static function stringToBoolean(value:String):Boolean
         {
-            return (value == "true")
+            return (value.toLowerCase() == "true")
         }
 
         public static function booleanToString(value:Boolean):String

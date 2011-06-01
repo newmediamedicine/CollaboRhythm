@@ -16,30 +16,34 @@
  */
 package collaboRhythm.mobile.controller
 {
-	import collaboRhythm.core.controller.ApplicationControllerBase;
-	import collaboRhythm.core.view.RemoteUsersListView;
-	import collaboRhythm.mobile.view.WidgetContainerView;
+
+    import collaboRhythm.core.controller.ApplicationControllerBase;
+    import collaboRhythm.core.view.RemoteUsersListView;
+    import collaboRhythm.mobile.view.WidgetContainerView;
     import collaboRhythm.shared.model.Account;
     import collaboRhythm.shared.model.services.DemoEvent;
-	import collaboRhythm.shared.view.CollaborationRoomView;
+    import collaboRhythm.shared.view.CollaborationRoomView;
     import collaboRhythm.shared.view.CollaborationView;
     import collaboRhythm.shared.view.RecordVideoView;
 
-	import flash.desktop.NativeApplication;
-	import flash.events.Event;
-	import flash.events.KeyboardEvent;
-	import flash.ui.Keyboard;
+    import flash.desktop.NativeApplication;
+    import flash.events.Event;
+    import flash.events.KeyboardEvent;
+    import flash.ui.Keyboard;
 
-	import mx.core.IVisualElementContainer;
+    import mx.core.IVisualElementContainer;
 
-	import spark.components.View;
+    import spark.components.View;
 
-	public class MobileApplicationController extends ApplicationControllerBase
+    public class MobileApplicationController extends ApplicationControllerBase
 	{
 		private var _homeView:View;
 		private var _mobileApplication:CollaboRhythmMobileApplication;
 		private var _widgetContainerController:WidgetContainerController;
         private var _mobileAppControllersMediator:MobileAppControllersMediator;
+
+        [Embed("/resources/settings.xml", mimeType="application/octet-stream")]
+        private var _applicationSettingsEmbeddedFile:Class;
 
         public function MobileApplicationController(mobileApplication:CollaboRhythmMobileApplication)
 		{
@@ -134,7 +138,7 @@ package collaboRhythm.mobile.controller
 			{
 				initializeView(view);
 
-				if (_collaborationMediator && _collaborationMediator.subjectUser)
+				if (_activeRecordAccount)
 					_mobileApplication.busy = false;
 			}
 		}
@@ -188,6 +192,11 @@ package collaboRhythm.mobile.controller
         public function set mobileAppControllersMediator(value:MobileAppControllersMediator):void
         {
             _mobileAppControllersMediator = value;
+        }
+
+        public override function get applicationSettingsEmbeddedFile():Class
+        {
+            return _applicationSettingsEmbeddedFile;
         }
     }
 }

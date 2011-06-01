@@ -16,8 +16,8 @@
  */
 package collaboRhythm.plugins.medications.controller
 {
-	import collaboRhythm.plugins.medications.model.MedicationsHealthRecordService;
-	import collaboRhythm.plugins.medications.model.MedicationsModel;
+	import collaboRhythm.shared.model.healthRecord.MedicationsHealthRecordService;
+	import collaboRhythm.shared.model.MedicationsModel;
 	import collaboRhythm.plugins.medications.view.MedicationsWidgetView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
@@ -65,7 +65,7 @@ package collaboRhythm.plugins.medications.controller
 		{
 			var newWidgetView:MedicationsWidgetView = new MedicationsWidgetView();
 			if (_user != null)
-				newWidgetView.model = medicationsModel;
+				newWidgetView.init(_activeRecordAccount.primaryRecord.medicationsModel);
 			return newWidgetView;
 		}
 		
@@ -77,30 +77,30 @@ package collaboRhythm.plugins.medications.controller
 //			return newFullView;
 //		}
 		
-		private function get medicationsModel():MedicationsModel
-		{
-			if (_user != null)
-			{
-				if (_user.appData[MedicationsModel.MEDICATIONS_KEY] == null)
-				{
-					_user.appData[MedicationsModel.MEDICATIONS_KEY] = new MedicationsModel(user);
-				}
-				return _user.getAppData(MedicationsModel.MEDICATIONS_KEY, MedicationsModel) as MedicationsModel;
-			}
-			return null;
-		}
+//		private function get medicationsModel():MedicationsModel
+//		{
+//			if (_user != null)
+//			{
+//				if (_user.appData[MedicationsModel.MEDICATIONS_KEY] == null)
+//				{
+//					_user.appData[MedicationsModel.MEDICATIONS_KEY] = new MedicationsModel(user);
+//				}
+//				return _user.getAppData(MedicationsModel.MEDICATIONS_KEY, MedicationsModel) as MedicationsModel;
+//			}
+//			return null;
+//		}
 
 		public override function initialize():void
 		{
 			super.initialize();
-			if (medicationsModel.initialized == false)
-			{
-				var medicationsHealthRecordService:MedicationsHealthRecordService = new MedicationsHealthRecordService(_settings.oauthChromeConsumerKey, _settings.oauthChromeConsumerSecret, _settings.indivoServerBaseURL, _activeAccount);
-				medicationsHealthRecordService.loadMedications();
-			}
+//			if (medicationsModel.initialized == false)
+//			{
+//				var medicationsHealthRecordService:MedicationsHealthRecordService = new MedicationsHealthRecordService(_settings.oauthChromeConsumerKey, _settings.oauthChromeConsumerSecret, _settings.indivoServerBaseURL, _activeAccount);
+//				medicationsHealthRecordService.loadMedications();
+//			}
 			
 			if (_widgetView)
-				(_widgetView as MedicationsWidgetView).model = medicationsModel;
+				(_widgetView as MedicationsWidgetView).init(_activeRecordAccount.primaryRecord.medicationsModel);
 //			prepareFullView();
 		}
 		
@@ -125,7 +125,7 @@ package collaboRhythm.plugins.medications.controller
 
 		override protected function removeUserData():void
 		{
-			user.appData[MedicationsModel.MEDICATIONS_KEY] = null;
+//			user.appData[MedicationsModel.MEDICATIONS_KEY] = null;
 		}
 
 		override public function get defaultName():String

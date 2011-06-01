@@ -7,6 +7,9 @@ package collaboRhythm.shared.model
     import collaboRhythm.shared.model.DateUtil;
     import com.adobe.utils.DateUtil;
 
+    import j2as3.collection.HashMap;
+
+    [Bindable]
     public class MedicationOrder extends DocumentMetadata
     {
         private var _name:CodedValue;
@@ -19,12 +22,14 @@ package collaboRhythm.shared.model
         private var _refills:int;
         private var _substitutionPermitted:Boolean;
         private var _instructions:String;
+//        private var _medicationFill:MedicationFill;
+        private var _scheduleItems:HashMap = new HashMap();
 
         public function MedicationOrder()
         {
         }
 
-        public function init(name:CodedValue, orderType:String, orderedBy:String, dateOrdered:Date, dateExpires:Date = null, indication:String = null, amountOrdered:ValueAndUnit = null, refills:int = 0, substitutionPermitted:Boolean = false, instructions:String = null):void
+        public function init(name:CodedValue, orderType:String, orderedBy:String, dateOrdered:Date, dateExpires:Date = null, indication:String = null, amountOrdered:ValueAndUnit = null, refills:int = 0, substitutionPermitted:Boolean = false, instructions:String = null, scheduleItems:HashMap = null):void
 		{
 			_name = name;
             _orderType = orderType;
@@ -36,27 +41,33 @@ package collaboRhythm.shared.model
             _refills = refills;
             _substitutionPermitted = substitutionPermitted;
             _instructions = instructions;
+//            _medicationFill = medicationFill;
+            _scheduleItems = scheduleItems;
 		}
 
 		public function initFromReportXML(medicationOrderReportXml:XML):void
 		{
 			parseDocumentMetadata(medicationOrderReportXml.Meta.Document[0], this);
-			var medicationOrderXml:XML = medicationOrderReportXml.Item.VideoMessage[0];
-            _name = HealthRecordHelperMethods.codedValueFromXml(medicationOrderXml.name[0]);
+			var medicationOrderXml:XML = medicationOrderReportXml.Item.MedicationOrder[0];
+            _name = HealthRecordHelperMethods.xmlToCodedValue(medicationOrderXml.name[0]);
             _orderType = medicationOrderXml.orderType;
             _orderedBy = medicationOrderXml.orderedBy;
             _dateOrdered = collaboRhythm.shared.model.DateUtil.parseW3CDTF(medicationOrderXml.dateTimeOrdered.toString());
 			_dateExpires = collaboRhythm.shared.model.DateUtil.parseW3CDTF(medicationOrderXml.dateTimeExpires.toString());
             _indication = medicationOrderXml.indication;
-            _amountOrdered = new ValueAndUnit(medicationOrderXml.amountOrdered.value, HealthRecordHelperMethods.codedValueFromXml(medicationOrderXml.amountOrdered.unit[0]));
+            _amountOrdered = new ValueAndUnit(medicationOrderXml.amountOrdered.value, HealthRecordHelperMethods.xmlToCodedValue(medicationOrderXml.amountOrdered.unit[0]));
             _refills = int(medicationOrderXml.refills);
-            _substitutionPermitted = HealthRecordHelperMethods.booleanFromString(medicationOrderXml.substitutionPermitted);
+            _substitutionPermitted = HealthRecordHelperMethods.stringToBoolean(medicationOrderXml.substitutionPermitted);
             _instructions = medicationOrderXml.instructions;
+            for each (var scheduleItemXml:XML in medicationOrderReportXml..relatesTo.relation.(@type == "http://indivo.org/vocab/documentrels#scheduleItem").relatedDocument)
+            {
+                _scheduleItems[scheduleItemXml.@id] = null;
+            }
 		}
 
         public function convertToXML():XML
 		{
-			var medicationOrderXml:XML = <VideoMessage/>;
+			var medicationOrderXml:XML = <MedicationOrder/>;
 			medicationOrderXml.@xmlns = "http://indivo.org/vocab/xml/documents#";
             // TODO: Write a helper method for coded value to xml
             medicationOrderXml.name = name.text;
@@ -186,6 +197,16 @@ package collaboRhythm.shared.model
         public function set instructions(value:String):void
         {
             _instructions = value;
+        }
+
+        public function get scheduleItems():HashMap
+        {
+            return _scheduleItems;
+        }
+
+        public function set scheduleItems(value:HashMap):void
+        {
+            _scheduleItems = value;
         }
     }
 }

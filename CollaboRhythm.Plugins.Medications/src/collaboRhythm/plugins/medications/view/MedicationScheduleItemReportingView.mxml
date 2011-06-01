@@ -47,68 +47,69 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.plugins.medications.model.Medication;
-			import collaboRhythm.plugins.medications.model.MedicationAdministration;
-			import collaboRhythm.plugins.medications.model.MedicationScheduleItem;
-			import collaboRhythm.plugins.schedule.shared.model.AdherenceItem;
-			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
-			
-			[Bindable]
-			private var _medication:Medication;
-			[Bindable]
-			private var _medicationScheduleItem:MedicationScheduleItem
-			
-			public function get medication():Medication
-			{
-				return _medication;
-			}
-			
-			public function set medication(value:Medication):void
-			{
-				_medication = value;
-			}
-			
-			public function get medicationScheduleItem():MedicationScheduleItem
-			{
-				return _medicationScheduleItem;
-			}
-			
-			public function set medicationScheduleItem(value:MedicationScheduleItem):void
-			{
-				_medicationScheduleItem = value;
-			}
-			
-			private function adherenceButtonClickHandler(event:MouseEvent):void
-			{
-				var medicationAdministration:MedicationAdministration = new MedicationAdministration();
-				medicationAdministration.init(_medication.name, "gwhite@records.media.mit.edu", new Date(), new Date(), _medication.dose);
-				var adherenceItem:AdherenceItem = new AdherenceItem();
-				adherenceItem.init(_medication.name.text, "gwhite@records.media.mit.edu", new Date(), true);
-				adherenceItem.adherenceResult = medicationAdministration;
-				
-				dispatchAdherenceItemEvent(adherenceItem);
-			}
-			
-			private function nonadherenceButtonClickHandler(event:MouseEvent):void
-			{
-				var adherenceItem:AdherenceItem = new AdherenceItem();
-				adherenceItem.init(_medication.name.text, "gwhite@records.media.mit.edu", new Date(), false);
-				
-				dispatchAdherenceItemEvent(adherenceItem);
-			}
-			
-			private function determineEnabled(adherenceItem:AdherenceItem):Boolean
-			{
-				if (adherenceItem == null)
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-			}
-		]]>
+        import collaboRhythm.plugins.medications.model.Medication;
+        import collaboRhythm.plugins.medications.model.MedicationAdministration;
+        import collaboRhythm.shared.model.MedicationScheduleItem;
+        import collaboRhythm.shared.model.AdherenceItem;
+        import collaboRhythm.shared.model.ScheduleItemBase;
+
+        [Bindable]
+        private var _medication:Medication;
+        [Bindable]
+        private var _medicationScheduleItem:MedicationScheduleItem
+
+        public function get medication():Medication
+        {
+            return _medication;
+        }
+
+        public function set medication(value:Medication):void
+        {
+            _medication = value;
+        }
+
+        public function get medicationScheduleItem():MedicationScheduleItem
+        {
+            return _medicationScheduleItem;
+        }
+
+        public function set medicationScheduleItem(value:MedicationScheduleItem):void
+        {
+            _medicationScheduleItem = value;
+        }
+
+        private function adherenceButtonClickHandler(event:MouseEvent):void
+        {
+            var medicationAdministration:MedicationAdministration = new MedicationAdministration();
+            medicationAdministration.init(_medication.name, "gwhite@records.media.mit.edu", new Date(), new Date(),
+                                          _medication.dose);
+            var adherenceItem:AdherenceItem = new AdherenceItem();
+            adherenceItem.init(_medication.name.text, "gwhite@records.media.mit.edu", new Date(), true);
+            adherenceItem.adherenceResult = medicationAdministration;
+
+            dispatchAdherenceItemEvent(adherenceItem);
+        }
+
+        private function nonadherenceButtonClickHandler(event:MouseEvent):void
+        {
+            var adherenceItem:AdherenceItem = new AdherenceItem();
+            adherenceItem.init(_medication.name.text, "gwhite@records.media.mit.edu", new Date(), false);
+
+            dispatchAdherenceItemEvent(adherenceItem);
+        }
+
+        private function determineEnabled(adherenceItem:AdherenceItem):Boolean
+        {
+            if (adherenceItem == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        ]]>
 	</fx:Script>
 	<s:Group id="med" width="100%" height="100%" enabled="{determineEnabled(_medicationScheduleItem.adherenceItem)}">
 		<s:Rect id="background" width="100%" height="100%">

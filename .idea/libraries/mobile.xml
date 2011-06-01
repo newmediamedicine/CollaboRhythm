@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="mobile" type="flex">
     <CLASSES>
-      <root url="jar://C:/Program Files (x86)/Adobe/Adobe Flash Builder Burrito/sdks/4.5.0/themes/Mobile/mobile.swc!/" />
+      <root url="jar://$PROJECT_FRAMEWORKS$/themes/Mobile/mobile.swc!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

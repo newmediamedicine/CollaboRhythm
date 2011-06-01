@@ -55,7 +55,7 @@ package collaboRhythm.plugins.schedule.model
 			{
 				if (user.appData[ScheduleModel.SCHEDULE_KEY] == null)
 				{
-					user.appData[ScheduleModel.SCHEDULE_KEY] = new ScheduleModel(user);
+					user.appData[ScheduleModel.SCHEDULE_KEY] = new ScheduleModel();
 				}
 				return user.getAppData(ScheduleModel.SCHEDULE_KEY, ScheduleModel) as ScheduleModel;
 			}

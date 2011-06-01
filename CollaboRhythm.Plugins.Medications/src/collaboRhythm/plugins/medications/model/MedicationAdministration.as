@@ -51,12 +51,12 @@ package collaboRhythm.plugins.medications.model
 		{
 			parseDocumentMetadata(medicationAdministrationReportXML.Meta.Document[0], this);
 			var medicationAdministrationXML:XML = medicationAdministrationReportXML.Item.MedicationAdministration[0];
-			_name = HealthRecordHelperMethods.codedValueFromXml(medicationAdministrationXML.name[0]);
+			_name = HealthRecordHelperMethods.xmlToCodedValue(medicationAdministrationXML.name[0]);
 			_reportedBy = medicationAdministrationXML.reportedBy;
 			_dateTimeReported = DateUtil.parseW3CDTF(medicationAdministrationXML.dateTimeReported.toString());
 			_dateTimeAdministered = DateUtil.parseW3CDTF(medicationAdministrationXML.dateTimeAdministered.toString());
-			_amountAdministered = new ValueAndUnit(medicationAdministrationXML.amountAdministered.value, HealthRecordHelperMethods.codedValueFromXml(medicationAdministrationXML.amountAdministered.unit[0]));
-			_amountRemaining = new ValueAndUnit(medicationAdministrationXML.amountRemaining.value, HealthRecordHelperMethods.codedValueFromXml(medicationAdministrationXML.amountRemaining.unit[0]));
+			_amountAdministered = new ValueAndUnit(medicationAdministrationXML.amountAdministered.value, HealthRecordHelperMethods.xmlToCodedValue(medicationAdministrationXML.amountAdministered.unit[0]));
+			_amountRemaining = new ValueAndUnit(medicationAdministrationXML.amountRemaining.value, HealthRecordHelperMethods.xmlToCodedValue(medicationAdministrationXML.amountRemaining.unit[0]));
 		}
 		
 		

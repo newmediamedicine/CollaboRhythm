@@ -18,7 +18,7 @@ package collaboRhythm.plugins.schedule.controller
 {
 	import collaboRhythm.plugins.schedule.model.ScheduleHealthRecordService;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
+	import collaboRhythm.shared.model.ScheduleItemBase;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
 	import collaboRhythm.plugins.schedule.view.ScheduleFullView;
 	import collaboRhythm.plugins.schedule.view.ScheduleWidgetView;
@@ -41,6 +41,7 @@ package collaboRhythm.plugins.schedule.controller
 	{
 		public static const DEFAULT_NAME:String = "Schedule";
 
+        private var _scheduleModel:ScheduleModel = new ScheduleModel();
 		private var _scheduleHealthRecordService:ScheduleHealthRecordService;
 		private var _scheduleWidgetViewController:ScheduleWidgetViewController;
 		private var _scheduleFullViewController:ScheduleFullViewController;
@@ -84,7 +85,7 @@ package collaboRhythm.plugins.schedule.controller
 			var newWidgetView:ScheduleWidgetView = new ScheduleWidgetView();
 			if (_user != null)
 			{
-				_scheduleWidgetViewController = new ScheduleWidgetViewController(isWorkstationMode, scheduleModel, newWidgetView, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
+				_scheduleWidgetViewController = new ScheduleWidgetViewController(isWorkstationMode, scheduleModel, newWidgetView);//, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
 				newWidgetView.init(_scheduleWidgetViewController, scheduleModel);
 			}
 			return newWidgetView;
@@ -95,7 +96,7 @@ package collaboRhythm.plugins.schedule.controller
 			var newFullView:ScheduleFullView = new ScheduleFullView();
 			if (_user != null)
 			{
-				_scheduleFullViewController = new ScheduleFullViewController(isWorkstationMode, scheduleModel, newFullView, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
+				_scheduleFullViewController = new ScheduleFullViewController(isWorkstationMode, scheduleModel, newFullView);//, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
 				newFullView.init(_scheduleFullViewController, scheduleModel);
 			}
 			return newFullView;
@@ -107,7 +108,7 @@ package collaboRhythm.plugins.schedule.controller
 			{
 				if (_user.appData[ScheduleModel.SCHEDULE_KEY] == null)
 				{
-					_user.appData[ScheduleModel.SCHEDULE_KEY] = new ScheduleModel(_user);
+					_user.appData[ScheduleModel.SCHEDULE_KEY] = new ScheduleModel();
 				}
 				return _user.getAppData(ScheduleModel.SCHEDULE_KEY, ScheduleModel) as ScheduleModel;
 			}
@@ -117,19 +118,19 @@ package collaboRhythm.plugins.schedule.controller
 		public override function initialize():void
 		{
 			super.initialize();
-			
+
 			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, onInvoke);
 
-			if (!scheduleModel.initialized)
-			{
-				_scheduleHealthRecordService = new ScheduleHealthRecordService(_healthRecordService.oauthConsumerKey, _healthRecordService.oauthConsumerSecret, _healthRecordService.indivoServerBaseURL);
-				_scheduleHealthRecordService.copyLoginResults(_healthRecordService);
-				_scheduleHealthRecordService.loadScheduleGroups(_user);
-			}
+//			if (!scheduleModel.initialized)
+//			{
+//				_scheduleHealthRecordService = new ScheduleHealthRecordService(_healthRecordService.oauthConsumerKey, _healthRecordService.oauthConsumerSecret, _healthRecordService.indivoServerBaseURL);
+//				_scheduleHealthRecordService.copyLoginResults(_healthRecordService);
+//				_scheduleHealthRecordService.loadScheduleGroups(_user);
+//			}
 			
 			if (_widgetView)
 			{
-				_scheduleWidgetViewController = new ScheduleWidgetViewController(isWorkstationMode, scheduleModel, _widgetView, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
+				_scheduleWidgetViewController = new ScheduleWidgetViewController(isWorkstationMode, _scheduleModel, _widgetView);//, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
 				(_widgetView as ScheduleWidgetView).init(_scheduleWidgetViewController, scheduleModel);
 			}
 			prepareFullView();
@@ -162,21 +163,21 @@ package collaboRhythm.plugins.schedule.controller
 		
 		public override function close():void
 		{
-			for each (var scheduleGroup:ScheduleGroup in scheduleModel.scheduleGroupsCollection)
-			{
-				if (scheduleGroup.changed)
-				{
-					_scheduleHealthRecordService.archiveScheduleGroup(_user, scheduleGroup.id);
-					var scheduleGroupDocument:XML = scheduleGroup.convertToXML();
-					var scheduleItemDocumentIDs:Vector.<String> = new Vector.<String>;
-					for each (var scheduleItem:ScheduleItemBase in scheduleGroup.scheduleItemsCollection)
-					{
-						scheduleItemDocumentIDs.push(scheduleItem.id);
-					}
-					_scheduleHealthRecordService.createScheduleGroup(_user, scheduleGroupDocument, scheduleItemDocumentIDs);
-				}
-			}
-			super.close();
+//			for each (var scheduleGroup:ScheduleGroup in scheduleModel.scheduleGroupsCollection)
+//			{
+//				if (scheduleGroup.changed)
+//				{
+//					_scheduleHealthRecordService.archiveScheduleGroup(_user, scheduleGroup.id);
+//					var scheduleGroupDocument:XML = scheduleGroup.convertToXML();
+//					var scheduleItemDocumentIDs:Vector.<String> = new Vector.<String>;
+//					for each (var scheduleItem:ScheduleItemBase in scheduleGroup.scheduleItemsCollection)
+//					{
+//						scheduleItemDocumentIDs.push(scheduleItem.id);
+//					}
+//					_scheduleHealthRecordService.createScheduleGroup(_user, scheduleGroupDocument, scheduleItemDocumentIDs);
+//				}
+//			}
+//			super.close();
 
 //			for each (var adherenceGroupView:AdherenceGroupView in _fullView.adherenceGroupViews)
 //			{
