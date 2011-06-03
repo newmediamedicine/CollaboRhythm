@@ -16,7 +16,10 @@
  */
 package collaboRhythm.shared.pluginsSupport
 {
-	import mx.modules.IModule;
+
+    import collaboRhythm.shared.model.services.IComponentContainer;
+
+    import mx.modules.IModule;
 
 	/**
 	 * A CollaboRhythm plugin. Plugins must implement this interface as well as IModule.

@@ -17,11 +17,14 @@
 package collaboRhythm.plugins.equipment.controller
 {
 	import castle.flexbridge.reflection.ReflectionUtils;
-	
-	import collaboRhythm.plugins.schedule.shared.controller.ScheduleAppControllerInfo;
-	import collaboRhythm.shared.controller.apps.AppControllerInfo;
+
+    import collaboRhythm.plugins.equipment.model.EquipmentScheduleViewFactory;
+
+    import collaboRhythm.plugins.schedule.shared.controller.ScheduleAppControllerInfo;
+    import collaboRhythm.plugins.schedule.shared.model.IScheduleViewFactory;
+    import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	import collaboRhythm.shared.controller.apps.AppOrderConstraint;
-	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
+	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
 	
 	import mx.modules.ModuleBase;
@@ -42,6 +45,8 @@ package collaboRhythm.plugins.equipment.controller
 			appControllerInfo.initializationOrderConstraints.push(afterScheduleAppOrderConstraint);
 			appControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER, "collaboRhythm.plugins.cataractMap.controller::CataractMapAppController"));
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo, appControllerInfo);
+
+            componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(EquipmentScheduleViewFactory).name, IScheduleViewFactory, new EquipmentScheduleViewFactory());
 		}
 
 	}

@@ -26,7 +26,7 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-        import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+        import collaboRhythm.plugins.schedule.model.ScheduleGroup;
         import collaboRhythm.shared.model.ScheduleItemBase;
         import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
         import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;

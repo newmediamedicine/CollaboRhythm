@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.shared.pluginsSupport
+package collaboRhythm.shared.model.services
 {
 	/**
 	 * A component container manages the registration (by component providers) and resolution (by component consumers)

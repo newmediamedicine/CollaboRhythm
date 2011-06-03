@@ -37,7 +37,7 @@ package collaboRhythm.core.controller
     import collaboRhythm.shared.model.services.WorkstationKernel;
     import collaboRhythm.shared.model.settings.Settings;
     import collaboRhythm.shared.model.settings.SettingsFileStore;
-    import collaboRhythm.shared.pluginsSupport.IComponentContainer;
+    import collaboRhythm.shared.model.services.IComponentContainer;
     import collaboRhythm.shared.view.CollaborationRoomView;
     import collaboRhythm.shared.view.CollaborationView;
     import collaboRhythm.shared.view.RecordVideoView;

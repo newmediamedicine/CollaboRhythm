@@ -35,7 +35,7 @@ package collaboRhythm.shared.model
         {
             super.initFromReportXML(scheduleItemReportXml, scheduleItemElementName);
 
-            _dose = new ValueAndUnit(scheduleItemXml.dose.value, HealthRecordHelperMethods.xmlToCodedValue(scheduleItemXml.dose.unit[0]))
+            _dose = new ValueAndUnit(scheduleItemXml.dose.value, HealthRecordHelperMethods.xmlToCodedValue(scheduleItemXml.dose.unit[0]));
 //            _scheduledActionID = scheduleItemReportXML.Meta.Document.relatesTo.relation.relatedDocument.@id;
 //			_scheduleGroupID =  scheduleItemReportXML.Meta.Document.isRelatedFrom.relation.relatedDocument[0].@id;
         }

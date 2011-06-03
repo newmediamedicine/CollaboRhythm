@@ -21,6 +21,8 @@ package collaboRhythm.shared.model
     import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
     import collaboRhythm.shared.model.settings.Settings;
 
+    import j2as3.collection.HashMap;
+
     [Bindable]
     public class Record
     {
@@ -31,7 +33,9 @@ package collaboRhythm.shared.model
         private var _demographics:Demographics;
         private var _contact:Contact;
         private var _medicationsModel:MedicationsModel;
+        private var _equipmentModel:EquipmentModel;
         private var _videoMessagesModel:VideoMessagesModel;
+        private var _appData:HashMap = new HashMap();
 
         public function Record(settings:Settings, activeAccount:Account, recordXml:XML)
         {
@@ -42,12 +46,14 @@ package collaboRhythm.shared.model
             if (recordXml.hasOwnProperty("@role_label"))
                 _role_label = recordXml.@role_label;
             _medicationsModel = new MedicationsModel(settings, activeAccount, this);
+            _equipmentModel = new EquipmentModel(settings, activeAccount, this);
             _videoMessagesModel = new VideoMessagesModel(settings, activeAccount, this);
         }
 
         public function getDocuments():void
         {
             _medicationsModel.getMedications();
+            _equipmentModel.getEquipment();
             _videoMessagesModel.getVideoMessages();
         }
 
@@ -123,6 +129,16 @@ package collaboRhythm.shared.model
             _medicationsModel = value;
         }
 
+        public function get equipmentModel():EquipmentModel
+        {
+            return _equipmentModel;
+        }
+
+        public function set equipmentModel(value:EquipmentModel):void
+        {
+            _equipmentModel = value;
+        }
+
         public function get videoMessagesModel():VideoMessagesModel
         {
             return _videoMessagesModel;
@@ -132,5 +148,19 @@ package collaboRhythm.shared.model
         {
             _videoMessagesModel = value;
         }
+
+        public function get appData():HashMap
+		{
+			return _appData;
+		}
+
+		public function getAppData(key:String, type:Class):Object
+		{
+			var data:Object = appData[key] as type;
+			if (data)
+				return data;
+			else
+				throw new Error("appData on User does not contain a " + (type as Class).toString() + " for key " + key);
+		}
     }
 }

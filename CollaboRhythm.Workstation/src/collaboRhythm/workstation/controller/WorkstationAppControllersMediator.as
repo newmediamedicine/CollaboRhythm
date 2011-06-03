@@ -5,7 +5,7 @@ package collaboRhythm.workstation.controller
     import collaboRhythm.shared.model.CollaborationRoomNetConnectionService;
     import collaboRhythm.shared.model.healthRecord.CommonHealthRecordService;
     import collaboRhythm.shared.model.settings.Settings;
-    import collaboRhythm.shared.pluginsSupport.IComponentContainer;
+    import collaboRhythm.shared.model.services.IComponentContainer;
 
     import mx.core.IVisualElementContainer;
 

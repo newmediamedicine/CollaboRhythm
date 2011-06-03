@@ -37,7 +37,7 @@ package collaboRhythm.core.controller.apps
 	import collaboRhythm.shared.model.healthRecord.CommonHealthRecordService;
 	import collaboRhythm.shared.model.settings.AppGroupDescriptor;
 	import collaboRhythm.shared.model.settings.Settings;
-	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
+	import collaboRhythm.shared.model.services.IComponentContainer;
 
 	import com.theory9.data.types.OrderedMap;
 
@@ -270,6 +270,7 @@ package collaboRhythm.core.controller.apps
 			_factory.isWorkstationMode = _settings.isWorkstationMode;
             _factory.activeAccount = account;
             _factory.settings = _settings;
+            _factory.componentContainer = _componentContainer;
 		}
 
 		private function initializeDynamicAppLookup():void

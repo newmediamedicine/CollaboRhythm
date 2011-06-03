@@ -26,7 +26,6 @@
 	<fx:Script>
 		<![CDATA[
         import collaboRhythm.shared.model.AdherenceItem;
-        import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
         import collaboRhythm.shared.model.ScheduleItemBase;
 
         public static const SCHEDULE_ITEM_REPORTING_VIEW_PICTURE_WIDTH:Number = 120;

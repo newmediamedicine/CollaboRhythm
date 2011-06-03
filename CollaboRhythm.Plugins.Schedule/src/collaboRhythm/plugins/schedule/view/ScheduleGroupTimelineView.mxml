@@ -28,9 +28,9 @@
 	<fx:Script>
 		<![CDATA[
         import collaboRhythm.plugins.schedule.shared.model.MoveData;
-        import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+        import collaboRhythm.plugins.schedule.model.ScheduleGroup;
         import collaboRhythm.shared.model.ScheduleItemBase;
-        import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
+        import collaboRhythm.plugins.schedule.model.ScheduleModel;
         import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
 
         import mx.binding.utils.BindingUtils;
@@ -53,7 +53,7 @@
         private var _scheduleFullView:ScheduleFullView
         private var _scheduleItemFullViews:Vector.<ScheduleItemTimelineViewBase> = new Vector.<ScheduleItemTimelineViewBase>;
         private var _scheduleGroupSpotlightView:ScheduleGroupSpotlightView = new ScheduleGroupSpotlightView;
-        private var _creationComplete:Boolean = false;
+        private var _isCreationComplete:Boolean = false;
 
         private var _mouseDownOffsetX:Number;
         private var _mouseDownOffsetY:Number;
@@ -71,7 +71,7 @@
 
             var initializedChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(initializedChangeHandler,
                                                                                  _scheduleGroup.scheduleModel,
-                                                                                 "initialized");
+                                                                                 "isInitialized");
             var dateTimeCenterChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(dateTimeCenterChangeHandler,
                                                                                     _scheduleGroup, "dateTimeCenter");
             var yPositionChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(yPositionChangeHandler, _scheduleGroup,
@@ -89,8 +89,8 @@
             {
                 createScheduleItemFullView(scheduleItem);
             }
-            _creationComplete = true;
-            if (scheduleGroup.scheduleModel.initialized)
+            _isCreationComplete = true;
+            if (scheduleGroup.scheduleModel.isInitialized)
             {
                 updateXandYPositions();
             }
@@ -110,9 +110,12 @@
         {
             if (event.kind == CollectionEventKind.ADD)
             {
-                for each (var scheduleItemAdded:ScheduleItemBase in event.items)
+                if (_isCreationComplete)
                 {
-                    createScheduleItemFullView(scheduleItemAdded);
+                    for each (var scheduleItemAdded:ScheduleItemBase in event.items)
+                    {
+                        createScheduleItemFullView(scheduleItemAdded);
+                    }
                 }
             }
             else if (event.kind == CollectionEventKind.REMOVE)
@@ -126,10 +129,10 @@
 
         public function createScheduleItemFullView(scheduleItem:ScheduleItemBase):void
         {
-//            var scheduleItemFullView:ScheduleItemTimelineViewBase = scheduleItem.createScheduleItemTimelineView();
-//            scheduleItemFullView.init(scheduleItem, scheduleItemsContainer);
-//            scheduleItemsContainer.addElement(scheduleItemFullView);
-//            _scheduleItemFullViews.push(scheduleItemFullView);
+            var scheduleItemFullView:ScheduleItemTimelineViewBase = _scheduleGroup.scheduleModel.viewFactory.createScheduleItemTimelineView(scheduleItem);
+            scheduleItemFullView.init(scheduleItem, scheduleItemsContainer);
+            scheduleItemsContainer.addElement(scheduleItemFullView);
+            _scheduleItemFullViews.push(scheduleItemFullView);
         }
 
         public function destroyScheduleItemFullView(scheduleGroup:ScheduleItemBase):void
@@ -139,7 +142,7 @@
 
         private function initializedChangeHandler(change:Boolean):void
         {
-            if (_creationComplete && change)
+            if (_isCreationComplete && change)
             {
                 updateXandYPositions();
             }
@@ -147,7 +150,7 @@
 
         private function resizeHandler():void
         {
-            if (_creationComplete && scheduleGroup.scheduleModel.initialized)
+            if (_isCreationComplete && scheduleGroup.scheduleModel.isInitialized)
             {
                 updateXandYPositions();
             }
@@ -155,7 +158,7 @@
 
         private function dateTimeCenterChangeHandler(change:Date):void
         {
-            if (_creationComplete && scheduleGroup.scheduleModel.initialized)
+            if (_isCreationComplete && scheduleGroup.scheduleModel.isInitialized)
             {
                 updateXPosition();
             }
@@ -171,7 +174,7 @@
 
         private function stackingUpdatedChangeHandler(change:Boolean):void
         {
-            if (_creationComplete && scheduleGroup.scheduleModel.initialized && change)
+            if (_isCreationComplete && scheduleGroup.scheduleModel.isInitialized && change)
             {
                 animateStacking();
             }
@@ -230,8 +233,8 @@
         private function updateXPosition():void
         {
             this.x = calculateXPosition();
-//				_scheduleGroupSpotlightView.width = calculateSpotlightWidth();
-//				_scheduleGroupSpotlightView.x = calculateSpotlightXPosition();
+			_scheduleGroupSpotlightView.width = calculateSpotlightWidth();
+			_scheduleGroupSpotlightView.x = calculateSpotlightXPosition();
         }
 
         private function updateYPosition():void

@@ -27,13 +27,11 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-        import castle.flexbridge.reflection.Void;
-
         import collaboRhythm.plugins.schedule.shared.model.AdherenceGroup;
         import collaboRhythm.plugins.schedule.shared.model.MoveData;
-        import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+        import collaboRhythm.plugins.schedule.model.ScheduleGroup;
         import collaboRhythm.shared.model.ScheduleItemBase;
-        import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
+        import collaboRhythm.plugins.schedule.model.ScheduleModel;
         import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
 
         import com.leebrimelow.drawing.Wedge;
@@ -52,6 +50,8 @@
         private var _scheduleItemsCollection:ArrayCollection;
         private var _scheduleItemClockViews:Vector.<ScheduleItemClockViewBase> = new Vector.<ScheduleItemClockViewBase>;
 
+        private var _isCreationComplete:Boolean = false;
+
         public function init(scheduleGroup:ScheduleGroup, scheduleGroupsContainer:Group):void
         {
             _scheduleGroup = scheduleGroup;
@@ -69,7 +69,7 @@
                                                                            "width");
             var heightChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroupsContainer,
                                                                             "height");
-//				var stackingUpdatedChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(stackingUpdateHandler, _scheduleGroup, "stackingUpdated");
+			var stackingUpdatedChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(stackingUpdateHandler, _scheduleGroup, "stackingUpdated");
         }
 
         private function creationCompleteHandler():void
@@ -78,6 +78,8 @@
             {
                 createScheduleItemClockView(scheduleItem);
             }
+
+            _isCreationComplete = true;
 
             updateView();
         }
@@ -96,9 +98,12 @@
         {
             if (event.kind == CollectionEventKind.ADD)
             {
-                for each (var scheduleItemAdded:ScheduleItemBase in event.items)
+                if (_isCreationComplete)
                 {
-                    createScheduleItemClockView(scheduleItemAdded);
+                    for each (var scheduleItemAdded:ScheduleItemBase in event.items)
+                    {
+                        createScheduleItemClockView(scheduleItemAdded);
+                    }
                 }
             }
             else if (event.kind == CollectionEventKind.REMOVE)
@@ -114,10 +119,10 @@
 
         public function createScheduleItemClockView(scheduleItem:ScheduleItemBase):void
         {
-//            var scheduleItemClockView:ScheduleItemClockViewBase = scheduleItem.createScheduleItemClockView();
-//            scheduleItemClockView.init(scheduleItem, scheduleItemsContainer);
-//            scheduleItemsContainer.addElement(scheduleItemClockView);
-//            _scheduleItemClockViews.push(scheduleItemClockView);
+            var scheduleItemClockView:ScheduleItemClockViewBase = _scheduleGroup.scheduleModel.viewFactory.createScheduleItemClockView(scheduleItem);
+            scheduleItemClockView.init(scheduleItem, scheduleItemsContainer);
+            scheduleItemsContainer.addElement(scheduleItemClockView);
+            _scheduleItemClockViews.push(scheduleItemClockView);
         }
 
         public function destroyScheduleItemClockView(scheduleGroup:ScheduleItemBase):void
@@ -127,7 +132,7 @@
 
         private function stackingUpdateHandler(stackingUpdated:Boolean):void
         {
-            if (stackingUpdated == true)
+            if (stackingUpdated)
             {
                 updateView();
             }

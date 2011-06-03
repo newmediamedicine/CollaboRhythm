@@ -47,15 +47,15 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
-        import collaboRhythm.plugins.equipment.model.Equipment;
-        import collaboRhythm.plugins.equipment.model.EquipmentScheduleItem;
+        import collaboRhythm.shared.model.Equipment;
+        import collaboRhythm.shared.model.EquipmentScheduleItem;
         import collaboRhythm.shared.model.AdherenceItem;
         import collaboRhythm.shared.model.ScheduleItemBase;
 
         [Bindable]
         private var _equipment:Equipment;
         [Bindable]
-        private var _equipmentScheduleItem:EquipmentScheduleItem
+        private var _equipmentScheduleItem:EquipmentScheduleItem;
         private var _bloodPressureReportingView:BloodPressureReportingView;
 
         public function get equipment():Equipment
@@ -63,12 +63,12 @@
             return _equipment;
         }
 
-        public function set equipment(value:collaboRhythm.plugins.equipment.model.Equipment):void
+        public function set equipment(value:Equipment):void
         {
             _equipment = value;
         }
 
-        public function get equipmentScheduleItem():collaboRhythm.plugins.equipment.model.EquipmentScheduleItem
+        public function get equipmentScheduleItem():EquipmentScheduleItem
         {
             return _equipmentScheduleItem;
         }
@@ -96,11 +96,11 @@
 
         public function bloodPressureReportingResult(systolic:String, diastolic:String, heartRate:String):void
         {
-            _parentGroup.removeElement(_bloodPressureReportingView);
-            var adherenceItem:AdherenceItem = new AdherenceItem();
-            adherenceItem.init(_equipment.name, "gwhite@records.media.mit.edu", new Date(), true);
-
-            dispatchAdherenceItemEvent(adherenceItem);
+//            _parentGroup.removeElement(_bloodPressureReportingView);
+//            var adherenceItem:AdherenceItem = new AdherenceItem();
+//            adherenceItem.init(_equipment.name, "gwhite@records.media.mit.edu", new Date(), true);
+//
+//            dispatchAdherenceItemEvent(adherenceItem);
         }
 
         private function nonadherenceButtonClickHandler(event:MouseEvent):void
@@ -124,7 +124,8 @@
         }
         ]]>
 	</fx:Script>
-	<s:Group id="med" width="100%" height="100%" enabled="{determineEnabled(_equipmentScheduleItem.adherenceItem)}">
+    <!--enabled="{//determineEnabled(_equipmentScheduleItem.adherenceItem)}"-->
+	<s:Group id="med" width="100%" height="100%" >
 		<s:Rect id="background" width="100%" height="100%">
 			<s:fill>
 				<!--TODO: Reimplement coloring during collaboration-->

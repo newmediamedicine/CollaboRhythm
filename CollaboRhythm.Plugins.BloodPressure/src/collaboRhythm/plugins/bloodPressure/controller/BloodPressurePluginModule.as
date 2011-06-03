@@ -20,7 +20,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 //	import collaboRhythm.plugins.schedule.shared.controller.ScheduleAppControllerInfo;
 	import collaboRhythm.shared.controller.apps.AppOrderConstraint;
-	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
+	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
 

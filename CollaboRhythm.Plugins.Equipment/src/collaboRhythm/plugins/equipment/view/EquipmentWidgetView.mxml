@@ -18,36 +18,35 @@
 <s:Panel
 	title="Medical Equipment"
 	skinClass="collaboRhythm.shared.view.skins.WidgetPanelSkin"
-	xmlns:resize="flex.utils.ui.resize.*"
-	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
 	xmlns:s="library://ns.adobe.com/flex/spark" 
 	xmlns:mx="library://ns.adobe.com/flex/mx"
 	xmlns:scroll="collaboRhythm.view.scroll.*"
-	width="500" height="250" xmlns:healthRecord="collaboRhythm.workstation.model.healthRecord.*">
+	width="500" height="250">
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.plugins.equipment.model.EquipmentModel;
-			import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-			import collaboRhythm.shared.view.apps.WidgetGridItemRenderer;
-			
-			[Bindable]
-			private var _model:EquipmentModel;
-			
-			public function get model():EquipmentModel
-			{
-				return _model;
-			}
-			
-			public function set model(value:EquipmentModel):void
-			{
-				_model = value;
-			}
-			
-			protected function rawButton_clickHandler(event:MouseEvent):void
-			{
-				viewstack1.selectedIndex = (viewstack1.selectedIndex + 1) % viewstack1.length;
-			}
-		]]>
+        import collaboRhythm.shared.model.EquipmentModel;
+        import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+        import collaboRhythm.shared.view.apps.WidgetGridItemRenderer;
+
+        [Bindable]
+        private var _model:EquipmentModel;
+
+        public function get model():EquipmentModel
+        {
+            return _model;
+        }
+
+        public function set model(value:EquipmentModel):void
+        {
+            _model = value;
+        }
+
+        protected function rawButton_clickHandler(event:MouseEvent):void
+        {
+            viewstack1.selectedIndex = (viewstack1.selectedIndex + 1) % viewstack1.length;
+        }
+        ]]>
 	</fx:Script>
 	
 	<fx:Declarations>
@@ -60,7 +59,7 @@
 			<scroll:TouchScrollingDataGrid id="widgetGrid" styleName="WidgetGrid" useHorizontalTouchScrolling="false" showHeaders="false" selectable="false" useRollOver="false" width="100%" height="100%" dataProvider="{_model.equipmentCollection}">
 				<scroll:columns>
 					<mx:DataGridColumn headerText="Name" dataField="name" itemRenderer="collaboRhythm.shared.view.apps.WidgetGridItemRenderer"/>
-					<mx:DataGridColumn headerText="Date" dataField="date" width="100" itemRenderer="collaboRhythm.shared.view.apps.WidgetGridItemRenderer"/>
+					<!--<mx:DataGridColumn headerText="Date" dataField="date" width="100" itemRenderer="collaboRhythm.shared.view.apps.WidgetGridItemRenderer"/>-->
 				</scroll:columns>
 			</scroll:TouchScrollingDataGrid>
 		</s:NavigatorContent>

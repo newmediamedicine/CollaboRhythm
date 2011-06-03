@@ -17,6 +17,7 @@
 package collaboRhythm.shared.controller.apps
 {
 import collaboRhythm.shared.model.Account;
+    import collaboRhythm.shared.model.services.IComponentContainer;
     import collaboRhythm.shared.model.settings.Settings;
 
     import mx.core.IVisualElementContainer;
@@ -29,6 +30,7 @@ import collaboRhythm.shared.model.Account;
         private var _activeAccount:Account;
         private var _activeRecordAccount:Account;
         private var _settings:Settings;
+        private var _componentContainer:IComponentContainer;
 
 		public function AppControllerConstructorParams()
 		{
@@ -90,6 +92,16 @@ import collaboRhythm.shared.model.Account;
         public function set activeRecordAccount(value:Account):void
         {
             _activeRecordAccount = value;
+        }
+
+        public function get componentContainer():IComponentContainer
+        {
+            return _componentContainer;
+        }
+
+        public function set componentContainer(value:IComponentContainer):void
+        {
+            _componentContainer = value;
         }
     }
 }

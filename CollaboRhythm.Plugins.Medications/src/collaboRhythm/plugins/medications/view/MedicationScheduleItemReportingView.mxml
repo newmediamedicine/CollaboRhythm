@@ -80,22 +80,22 @@
 
         private function adherenceButtonClickHandler(event:MouseEvent):void
         {
-            var medicationAdministration:MedicationAdministration = new MedicationAdministration();
-            medicationAdministration.init(_medication.name, "gwhite@records.media.mit.edu", new Date(), new Date(),
-                                          _medication.dose);
-            var adherenceItem:AdherenceItem = new AdherenceItem();
-            adherenceItem.init(_medication.name.text, "gwhite@records.media.mit.edu", new Date(), true);
-            adherenceItem.adherenceResult = medicationAdministration;
-
-            dispatchAdherenceItemEvent(adherenceItem);
+//            var medicationAdministration:MedicationAdministration = new MedicationAdministration();
+//            medicationAdministration.init(_medication.name, "gwhite@records.media.mit.edu", new Date(), new Date(),
+//                                          _medication.dose);
+//            var adherenceItem:AdherenceItem = new AdherenceItem();
+//            adherenceItem.init(_medication.name.text, "gwhite@records.media.mit.edu", new Date(), true);
+//            adherenceItem.adherenceResult = medicationAdministration;
+//
+//            dispatchAdherenceItemEvent(adherenceItem);
         }
 
         private function nonadherenceButtonClickHandler(event:MouseEvent):void
         {
-            var adherenceItem:AdherenceItem = new AdherenceItem();
-            adherenceItem.init(_medication.name.text, "gwhite@records.media.mit.edu", new Date(), false);
-
-            dispatchAdherenceItemEvent(adherenceItem);
+//            var adherenceItem:AdherenceItem = new AdherenceItem();
+//            adherenceItem.init(_medication.name.text, "gwhite@records.media.mit.edu", new Date(), false);
+//
+//            dispatchAdherenceItemEvent(adherenceItem);
         }
 
         private function determineEnabled(adherenceItem:AdherenceItem):Boolean
@@ -111,7 +111,8 @@
         }
         ]]>
 	</fx:Script>
-	<s:Group id="med" width="100%" height="100%" enabled="{determineEnabled(_medicationScheduleItem.adherenceItem)}">
+    <!--enabled="{determineEnabled(_medicationScheduleItem.adherenceItem)}"-->
+	<s:Group id="med" width="100%" height="100%">
 		<s:Rect id="background" width="100%" height="100%">
 			<s:fill>
 				<!--TODO: Reimplement coloring during collaboration-->

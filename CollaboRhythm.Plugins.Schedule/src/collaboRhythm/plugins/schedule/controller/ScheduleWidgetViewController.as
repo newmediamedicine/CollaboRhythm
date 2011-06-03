@@ -17,9 +17,9 @@
 package collaboRhythm.plugins.schedule.controller
 {
 	import collaboRhythm.shared.model.AdherenceItem;
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+	import collaboRhythm.plugins.schedule.model.ScheduleGroup;
 	import collaboRhythm.shared.model.ScheduleItemBase;
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
+	import collaboRhythm.plugins.schedule.model.ScheduleModel;
 	import collaboRhythm.plugins.schedule.view.ScheduleFullView;
 	import collaboRhythm.plugins.schedule.view.ScheduleGroupReportingView;
 	import collaboRhythm.plugins.schedule.view.ScheduleWidgetView;

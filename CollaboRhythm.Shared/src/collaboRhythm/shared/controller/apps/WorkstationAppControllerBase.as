@@ -20,6 +20,7 @@ import collaboRhythm.shared.model.Account;
 import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.healthRecord.CommonHealthRecordService;
 	import collaboRhythm.shared.model.User;
+    import collaboRhythm.shared.model.services.IComponentContainer;
     import collaboRhythm.shared.model.settings.Settings;
 
     import collaboRhythm.shared.view.BitmapCopyComponent;
@@ -84,7 +85,8 @@ import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
         protected var _activeAccount:Account;
         protected var _activeRecordAccount:Account;
         protected var _settings:Settings;
-		
+        protected var _componentContainer:IComponentContainer;
+
 		public function WorkstationAppControllerBase(constructorParams:AppControllerConstructorParams)
 		{
 			name = defaultName;
@@ -95,6 +97,7 @@ import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
             _activeAccount = constructorParams.activeAccount;
             _activeRecordAccount = constructorParams.activeRecordAccount;
             _settings = constructorParams.settings;
+            _componentContainer = constructorParams.componentContainer;
 
 			createAndPrepareWidgetView();
 			

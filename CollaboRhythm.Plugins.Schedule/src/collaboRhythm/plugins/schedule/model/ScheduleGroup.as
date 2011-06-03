@@ -14,15 +14,15 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.plugins.schedule.shared.model
+package collaboRhythm.plugins.schedule.model
 {
+
+    import collaboRhythm.plugins.schedule.shared.model.*;
 	import collaboRhythm.shared.model.DateUtil;
     import collaboRhythm.shared.model.RecurrenceRule;
     import collaboRhythm.shared.model.ScheduleItemBase;
     import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
-	
-	import com.adobe.utils.DateUtil;
-	
+
 	import mx.collections.ArrayCollection;
 
 	[Bindable]
@@ -53,31 +53,36 @@ package collaboRhythm.plugins.schedule.shared.model
 		private var _stackingUpdate:Boolean;
 		
 		
-		public function ScheduleGroup(scheduleModel:ScheduleModel, scheduleGroupReportXML:XML)
+		public function ScheduleGroup(scheduleModel:ScheduleModel, dateTimeStart:Date, dateTimeEnd:Date)//scheduleModel:ScheduleModel, scheduleGroupReportXML:XML)
 		{
-			parseDocumentMetadata(scheduleGroupReportXML.Meta.Document[0], this);
-			var scheduleGroupXML:XML = scheduleGroupReportXML.Item.ScheduleGroup[0];
-			_scheduledBy = scheduleGroupXML.scheduledBy;
-			_dateTimeScheduled = collaboRhythm.shared.model.DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeScheduled.toString());
-			_dateTimeStart = collaboRhythm.shared.model.DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeStart.toString());
-			_dateTimeEnd = collaboRhythm.shared.model.DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeEnd.toString());
-//			_recurrenceRule = new RecurrenceRule(scheduleGroupXML.recurrenceRule.frequency, Number(scheduleGroupXML.recurrenceRule.count));
-				
-			_scheduleModel = scheduleModel;
-			_dateTimeCenter = new Date(dateTimeStart.time + (dateTimeEnd.time - dateTimeStart.time) / 2);
+            _scheduleModel = scheduleModel;
+            _dateTimeStart = dateTimeStart;
+            _dateTimeEnd = dateTimeEnd;
+            _dateTimeCenter = new Date(dateTimeStart.time + (dateTimeEnd.time - dateTimeStart.time) / 2);
 		}
+
+        //			parseDocumentMetadata(scheduleGroupReportXML.Meta.Document[0], this);
+//			var scheduleGroupXML:XML = scheduleGroupReportXML.Item.ScheduleGroup[0];
+//			_scheduledBy = scheduleGroupXML.scheduledBy;
+//			_dateTimeScheduled = collaboRhythm.shared.model.DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeScheduled.toString());
+//			_dateTimeStart = collaboRhythm.shared.model.DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeStart.toString());
+//			_dateTimeEnd = collaboRhythm.shared.model.DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeEnd.toString());
+////			_recurrenceRule = new RecurrenceRule(scheduleGroupXML.recurrenceRule.frequency, Number(scheduleGroupXML.recurrenceRule.count));
+//
+//			_scheduleModel = scheduleModel;
+//
 
 		public function convertToXML():XML
 		{
 			var scheduleGroupDocument:XML = <ScheduleGroup/>;
-			scheduleGroupDocument.@xmlns = "http://indivo.org/vocab/xml/documents#";
-			scheduleGroupDocument.scheduledBy = scheduledBy;
-			scheduleGroupDocument.dateTimeScheduled = com.adobe.utils.DateUtil.toW3CDTF(dateTimeScheduled);
-			scheduleGroupDocument.dateTimeStart = com.adobe.utils.DateUtil.toW3CDTF(dateTimeStart);
-			scheduleGroupDocument.dateTimeEnd = com.adobe.utils.DateUtil.toW3CDTF(dateTimeEnd);
-			scheduleGroupDocument.recurrenceRule.frequency = recurrenceRule.frequency;
-			scheduleGroupDocument.recurrenceRule.count = recurrenceRule.count;
-			
+//			scheduleGroupDocument.@xmlns = "http://indivo.org/vocab/xml/documents#";
+//			scheduleGroupDocument.scheduledBy = scheduledBy;
+//			scheduleGroupDocument.dateTimeScheduled = com.adobe.utils.DateUtil.toW3CDTF(dateTimeScheduled);
+//			scheduleGroupDocument.dateTimeStart = com.adobe.utils.DateUtil.toW3CDTF(dateTimeStart);
+//			scheduleGroupDocument.dateTimeEnd = com.adobe.utils.DateUtil.toW3CDTF(dateTimeEnd);
+//			scheduleGroupDocument.recurrenceRule.frequency = recurrenceRule.frequency;
+//			scheduleGroupDocument.recurrenceRule.count = recurrenceRule.count;
+//
 			return scheduleGroupDocument;
 		}
 
@@ -100,7 +105,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		{
 			return _dateTimeStart;
 		}
-		
+
 		public function set dateTimeStart(value:Date):void
 		{
 			_dateTimeStart = value;
@@ -114,7 +119,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		{
 			return _dateTimeEnd;
 		}
-		
+
 		public function set dateTimeEnd(value:Date):void
 		{
 			_dateTimeEnd = value;
@@ -124,7 +129,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		{
 			return _recurrenceRule;
 		}
-		
+
 		public function get scheduleModel():ScheduleModel
 		{
 			return _scheduleModel;
@@ -134,14 +139,14 @@ package collaboRhythm.plugins.schedule.shared.model
 		{
 			return _dateTimeCenter;
 		}
-		
+
 		public function set dateTimeCenter(value:Date):void
 		{
 			_dateTimeCenter = value;
 			if (_moving)
 			{
 				dateTimeStart = new Date(_dateTimeCenter.time - (_dateTimeEndPreMove.time - _dateTimeStartPreMove.time) / 2);
-			}			
+			}
 		}
 		
 		public function get changed():Boolean

@@ -35,7 +35,7 @@
         [Bindable]
         private var _medication:Medication;
         [Bindable]
-        private var _medicationScheduleItem:MedicationScheduleItem
+        private var _medicationScheduleItem:MedicationScheduleItem;
 
         public function get medication():Medication
         {
@@ -61,14 +61,7 @@
         {
             if (adherenceItem)
             {
-                if (adherenceItem.adherence)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return (adherenceItem.adherence);
             }
             else
             {
@@ -80,14 +73,7 @@
         {
             if (adherenceItem)
             {
-                if (adherenceItem.adherence)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
+                return (!adherenceItem.adherence);
             }
             else
             {
@@ -101,6 +87,7 @@
 			<s:SolidColor color="{_medication.color}"/>
 		</s:fill>
 	</s:Ellipse>
-	<images:check width="70%" height="70%" verticalCenter="0" horizontalCenter="0" visible="{determineCheckVisible(_medicationScheduleItem.adherenceItem)}" filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}" />
-	<images:x width="70%" height="70%"  verticalCenter="0" horizontalCenter="0" visible="{determineXVisible(_medicationScheduleItem.adherenceItem)}" filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}"/>
+    <!--visible="{determineCheckVisible(_medicationScheduleItem.adherenceItem)}"-->
+	<!--<images:check width="70%" height="70%" verticalCenter="0" horizontalCenter="0" filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}" />-->
+	<!--<images:x width="70%" height="70%"  verticalCenter="0" horizontalCenter="0" filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}"/>-->
 </view:ScheduleItemClockViewBase>

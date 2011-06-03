@@ -3,7 +3,7 @@ package collaboRhythm.tablet.controller
 
     import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
     import collaboRhythm.shared.model.settings.Settings;
-    import collaboRhythm.shared.pluginsSupport.IComponentContainer;
+    import collaboRhythm.shared.model.services.IComponentContainer;
 
     import mx.core.IVisualElementContainer;
 

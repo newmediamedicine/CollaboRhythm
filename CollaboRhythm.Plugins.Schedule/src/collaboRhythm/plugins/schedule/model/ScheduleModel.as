@@ -14,19 +14,28 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.plugins.schedule.shared.model
+package collaboRhythm.plugins.schedule.model
 {
+
+    import collaboRhythm.plugins.schedule.shared.model.*;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
     import collaboRhythm.shared.model.AdherenceItem;
+    import collaboRhythm.shared.model.EquipmentModel;
+    import collaboRhythm.shared.model.EquipmentScheduleItem;
+    import collaboRhythm.shared.model.MedicationScheduleItem;
+    import collaboRhythm.shared.model.MedicationsModel;
     import collaboRhythm.shared.model.ScheduleItemBase;
     import collaboRhythm.shared.model.User;
-	import collaboRhythm.shared.model.services.ICurrentDateSource;
+    import collaboRhythm.shared.model.services.IComponentContainer;
+    import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	
 	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;
-	
-	import mx.collections.ArrayCollection;
+
+    import j2as3.collection.HashMap;
+
+    import mx.collections.ArrayCollection;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 	
@@ -38,8 +47,9 @@ package collaboRhythm.plugins.schedule.shared.model
 		public static const BLOOD_PRESSURE_REPORTING_VIEW:String = "BloodPressureReportingView";
 		
 //		private var _user:User;
-		private var _initialized:Boolean = false;
+		private var _isInitialized:Boolean = false;
 		private var _scheduleGroupsReportXML:XML;
+        private var _scheduleGroupsHashMap:HashMap = new HashMap();
 		private var _scheduleGroupsCollection:ArrayCollection = new ArrayCollection();
 		private var _currentWidgetView:String = SCHEDULE_CLOCK_VIEW;
 		private var _currentScheduleGroup:ScheduleGroup;
@@ -56,13 +66,17 @@ package collaboRhythm.plugins.schedule.shared.model
 		private var _adherenceGroupsCollection:ArrayCollection = new ArrayCollection();
 		private var _adherenceGroupsVector:Vector.<AdherenceGroup> = new Vector.<AdherenceGroup>(24);
 
+        private var _medicationsModel:MedicationsModel;
+        private var _equipmentModel:EquipmentModel;
+
 		private var _locked:Boolean = false;
 
 		private var _currentDateSource:ICurrentDateSource;
 		public static const SCHEDULE_KEY:String = "schedule";
-		
-		public function ScheduleModel()
-		{		
+        private var _viewFactory:IScheduleViewFactory;
+
+		public function ScheduleModel(componentContainer:IComponentContainer)
+		{
 			logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 //			_user = user;
 //			_medicationsModel = medicationsModel;
@@ -75,21 +89,78 @@ package collaboRhythm.plugins.schedule.shared.model
 //			{
 //				addMedicationsToScheduleItems(true);
 //			}
+            _viewFactory = new MasterScheduleViewFactory(componentContainer);
 		}
 
-//		public function get user():User
-//		{
-//			return _user;
-//		}
+        public function medicationsModelInitializedHandler(medicationsModel:MedicationsModel):void
+        {
+            _medicationsModel = medicationsModel;
+            for each (var medicationScheduleItem:MedicationScheduleItem in medicationsModel.medicationScheduleItems)
+            {
+                addToScheduleGroup(medicationScheduleItem);
+            }
+            isInitializedCheck();
+        }
 
-		public function get initialized():Boolean
+        public function equipmentModelInitializedHandler(equipmentModel:EquipmentModel):void
+        {
+            _equipmentModel = equipmentModel;
+            for each (var equipmentScheduleItem:EquipmentScheduleItem in equipmentModel.equipmentScheduleItems)
+            {
+                addToScheduleGroup(equipmentScheduleItem);
+            }
+            isInitializedCheck();
+        }
+
+        private function isInitializedCheck():void
+        {
+            if (_medicationsModel && _equipmentModel)
+            {
+                isInitialized = true;
+                determineStacking();
+            }
+        }
+
+        private function addToScheduleGroup(scheduleItem:ScheduleItemBase):void
+        {
+            var isMatchingScheduleGroup:Boolean = false;
+            for each (var scheduleGroup:ScheduleGroup in _scheduleGroupsCollection)
+            {
+                if (isMatchingTime(scheduleGroup, scheduleItem))
+                {
+                    scheduleGroup.addScheduleItem(scheduleItem);
+                    isMatchingScheduleGroup = true;
+                }
+            }
+            if (!isMatchingScheduleGroup)
+            {
+                var scheduleGroup:ScheduleGroup = new ScheduleGroup(this, scheduleItem.dateStart, scheduleItem.dateEnd);
+                scheduleGroup.addScheduleItem(scheduleItem);
+                _scheduleGroupsCollection.addItem(scheduleGroup);
+                // TODO: use a GUID for the scheduleGroup so it will work with remote collaboration
+                _scheduleGroupsHashMap[scheduleItem.id] = scheduleGroup;
+                scheduleGroup.id = scheduleItem.id;
+            }
+        }
+
+        private function isMatchingTime(scheduleGroup:ScheduleGroup, scheduleItem:ScheduleItemBase):Boolean
+        {
+            return (scheduleGroup.dateTimeStart.hoursUTC == scheduleItem.dateStart.hoursUTC &&
+                scheduleGroup.dateTimeStart.minutesUTC == scheduleItem.dateStart.minutesUTC &&
+                scheduleGroup.dateTimeStart.secondsUTC == scheduleItem.dateStart.secondsUTC &&
+                scheduleGroup.dateTimeEnd.hoursUTC == scheduleItem.dateEnd.hoursUTC &&
+                scheduleGroup.dateTimeEnd.minutesUTC == scheduleItem.dateEnd.minutesUTC &&
+                scheduleGroup.dateTimeEnd.secondsUTC == scheduleItem.dateEnd.secondsUTC);
+        }
+
+		public function get isInitialized():Boolean
 		{
-			return _initialized;
+			return _isInitialized;
 		}
 		
-		public function set initialized(value:Boolean):void
+		public function set isInitialized(value:Boolean):void
 		{
-			_initialized = value;
+			_isInitialized = value;
 		}
 
 		public function get scheduleGroupsReportXML():XML
@@ -102,7 +173,7 @@ package collaboRhythm.plugins.schedule.shared.model
 			_scheduleGroupsReportXML = value;
 			createScheduleGroupsCollection();
 			determineStacking();
-			_initialized = true;
+			_isInitialized = true;
 		}
 		
 		public function get scheduleGroupsCollection():ArrayCollection
@@ -185,28 +256,28 @@ package collaboRhythm.plugins.schedule.shared.model
 		
 		public function grabScheduleGroup(moveData:MoveData):void
 		{
-//			var scheduleGroup:ScheduleGroup = _user.resolveDocumentById(moveData.id, ScheduleGroup) as ScheduleGroup;
-//			scheduleGroup.dateTimeCenterPreMove = scheduleGroup.dateTimeCenter;
-//			scheduleGroup.dateTimeStartPreMove = scheduleGroup.dateTimeStart;
-//			scheduleGroup.dateTimeEndPreMove = scheduleGroup.dateTimeEnd;
-//			scheduleGroup.yPreMove = scheduleGroup.yPosition;
-//			scheduleGroup.containerMouseDownX = moveData.containerMouseX;
-//			scheduleGroup.containerMouseDownY = moveData.containerMouseY;
-//			scheduleGroup.moving = true;
+			var scheduleGroup:ScheduleGroup = _scheduleGroupsHashMap[moveData.id];
+			scheduleGroup.dateTimeCenterPreMove = scheduleGroup.dateTimeCenter;
+			scheduleGroup.dateTimeStartPreMove = scheduleGroup.dateTimeStart;
+			scheduleGroup.dateTimeEndPreMove = scheduleGroup.dateTimeEnd;
+			scheduleGroup.yPreMove = scheduleGroup.yPosition;
+			scheduleGroup.containerMouseDownX = moveData.containerMouseX;
+			scheduleGroup.containerMouseDownY = moveData.containerMouseY;
+			scheduleGroup.moving = true;
 		}
 		
 		public function moveScheduleGroup(moveData:MoveData, scheduleFullViewWidth:Number, scheduleFullViewHeight:Number, timeWidth:Number):void
 		{
-//			var scheduleGroup:ScheduleGroup = _user.resolveDocumentById(moveData.id, ScheduleGroup) as ScheduleGroup;
-//			var scaleFactorX:Number = moveData.containerWidth / scheduleFullViewWidth;
-//			var scaleFactorY:Number = moveData.containerHeight / scheduleFullViewHeight;
-//			var hourChange:Number = Math.round(((moveData.containerMouseX - scheduleGroup.containerMouseDownX) * scaleFactorX) / timeWidth);
-//			if (hourChange + scheduleGroup.dateTimeStartPreMove.hours >= 0 && hourChange + scheduleGroup.dateTimeEndPreMove.hours <= 23)
-//			{
-//				//dateTimeStart and dateTimeEnd are updated in this setter to prevent a state where are of them are not updated
-//				scheduleGroup.dateTimeCenter = new Date(scheduleGroup.dateTimeCenterPreMove.time + (hourChange * 60 * 60 * 1000));
-//			}
-//			scheduleGroup.yPosition = scheduleGroup.yPreMove + (moveData.containerMouseY - scheduleGroup.containerMouseDownY) * scaleFactorY;
+			var scheduleGroup:ScheduleGroup = _scheduleGroupsHashMap[moveData.id];
+			var scaleFactorX:Number = moveData.containerWidth / scheduleFullViewWidth;
+			var scaleFactorY:Number = moveData.containerHeight / scheduleFullViewHeight;
+			var hourChange:Number = Math.round(((moveData.containerMouseX - scheduleGroup.containerMouseDownX) * scaleFactorX) / timeWidth);
+			if (hourChange + scheduleGroup.dateTimeStartPreMove.hours >= 0 && hourChange + scheduleGroup.dateTimeEndPreMove.hours <= 23)
+			{
+				//dateTimeStart and dateTimeEnd are updated in this setter to prevent a state where are of them are not updated
+				scheduleGroup.dateTimeCenter = new Date(scheduleGroup.dateTimeCenterPreMove.time + (hourChange * 60 * 60 * 1000));
+			}
+			scheduleGroup.yPosition = scheduleGroup.yPreMove + (moveData.containerMouseY - scheduleGroup.containerMouseDownY) * scaleFactorY;
 //			var yChange:Number = (moveData.y - scheduleGroup.mouseDownY) * scaleFactorY;
 //			if (scheduleGroup.yPreMove + yChange >= 0 && scheduleGroup.yPreMove + yChange <= scheduleFullViewHeight)
 //			{
@@ -216,16 +287,16 @@ package collaboRhythm.plugins.schedule.shared.model
 		
 		public function dropScheduleGroup(moveData:MoveData):void
 		{
-//			var scheduleGroup:ScheduleGroup = _user.resolveDocumentById(moveData.id, ScheduleGroup) as ScheduleGroup;
-//			scheduleGroup.changed = true;
-//			scheduleGroup.moving = false;
-//			determineStacking();
+			var scheduleGroup:ScheduleGroup = _scheduleGroupsHashMap[moveData.id];
+			scheduleGroup.changed = true;
+			scheduleGroup.moving = false;
+			determineStacking();
 		}
 		
 		public function determineStacking():void
 		{
 			scheduleGroupsCollection.source.sortOn("dateTimeCenter");
-			
+
 			var lastHour:Number = 100;
 			var stackNumber:Number = 0;
 			var scheduleItemsStacked:Number = 0;
@@ -234,9 +305,9 @@ package collaboRhythm.plugins.schedule.shared.model
 			var previousStackHasAdherenceGroup:Boolean = false;
 			//TODO: fix static medication width reference;
 			var scheduleItemsPerHour:Number = 5;//Math.ceil((FullMedicationView.MEDICATION_WIDTH - FullMedicationView.MEDICATION_PICTURE_WIDTH / 2 + FullAdherenceGroupView.ADHERENCE_GROUP_BUFFER_WIDTH) / timeWidth);
-			
+
 			for each (var scheduleGroup:ScheduleGroup in scheduleGroupsCollection)
-			{			
+			{
 				if (lastHour - scheduleGroup.dateTimeCenter.hours > scheduleItemsPerHour)
 				{
 					stackNumber = 0;
@@ -246,16 +317,16 @@ package collaboRhythm.plugins.schedule.shared.model
 				else
 				{
 					stackNumber += 1;
-					if (previousStackHasAdherenceGroup == true) {
+					if (previousStackHasAdherenceGroup) {
 						scheduleGroupsStacked += 1;
 					}
 				}
-					
+
 				lastHour = scheduleGroup.dateTimeCenter.hours;
-					
+
 				scheduleGroup.scheduleGroupsStacked = scheduleGroupsStacked;
 				scheduleGroup.scheduleItemsStacked = scheduleItemsStacked;
-					
+
 				if (scheduleGroup.scheduleItemsCollection.length > 1)
 				{
 					previousStackHasAdherenceGroup = true;
@@ -265,12 +336,12 @@ package collaboRhythm.plugins.schedule.shared.model
 				{
 					previousStackHasAdherenceGroup = false;
 				}
-					
+
 				for each (var scheduleItem:ScheduleItemBase in scheduleGroup.scheduleItemsCollection)
 				{
 					scheduleItemsStacked += 1;
 				}
-				
+
 				scheduleGroup.stackingUpdated = true;
 			}
 			stackingUpdated = true;
@@ -657,5 +728,10 @@ package collaboRhythm.plugins.schedule.shared.model
 		{
 			return _currentDateSource.now();
 		}
-	}
+
+        public function get viewFactory():IScheduleViewFactory
+        {
+            return _viewFactory;
+        }
+    }
 }

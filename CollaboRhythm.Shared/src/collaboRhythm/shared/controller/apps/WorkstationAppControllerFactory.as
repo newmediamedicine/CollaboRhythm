@@ -20,6 +20,7 @@ import collaboRhythm.shared.model.Account;
 import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.healthRecord.CommonHealthRecordService;
 	import collaboRhythm.shared.model.User;
+    import collaboRhythm.shared.model.services.IComponentContainer;
     import collaboRhythm.shared.model.settings.Settings;
 
     import flash.net.getClassByAlias;
@@ -43,7 +44,8 @@ import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
         private var _activeAccount:Account;
         private var _activeRecordAccount:Account;
         private var _settings:Settings;
-		
+        private var _componentContainer:IComponentContainer;
+
 		public function WorkstationAppControllerFactory()
 		{
 		}
@@ -117,6 +119,7 @@ import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
             constructorParams.activeAccount = _activeAccount;
             constructorParams.activeRecordAccount = _activeRecordAccount;
             constructorParams.settings = _settings;
+            constructorParams.componentContainer = _componentContainer;
 
 			var appObject:Object = new appClass(constructorParams);
 			if (appObject == null)
@@ -161,6 +164,16 @@ import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
         public function set activeRecordAccount(value:Account):void
         {
             _activeRecordAccount = value;
+        }
+
+        public function get componentContainer():IComponentContainer
+        {
+            return _componentContainer;
+        }
+
+        public function set componentContainer(value:IComponentContainer):void
+        {
+            _componentContainer = value;
         }
     }
 }

@@ -17,7 +17,7 @@
 package collaboRhythm.plugins.schedule.model
 {
 
-    import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
+    import collaboRhythm.plugins.schedule.model.ScheduleModel;
     import collaboRhythm.shared.model.Account;
     import collaboRhythm.shared.model.ReportRequestDetails;
     import collaboRhythm.shared.model.User;
@@ -48,21 +48,8 @@ package collaboRhythm.plugins.schedule.model
 			}
 			loadScheduleGroups(remoteUserModel.localUser);
 		}
-		
-		private function getScheduleModel(user:User):ScheduleModel
-		{
-			if (user != null)
-			{
-				if (user.appData[ScheduleModel.SCHEDULE_KEY] == null)
-				{
-					user.appData[ScheduleModel.SCHEDULE_KEY] = new ScheduleModel();
-				}
-				return user.getAppData(ScheduleModel.SCHEDULE_KEY, ScheduleModel) as ScheduleModel;
-			}
-			return null;
-		}
-		
-		public function loadScheduleGroups(user:User):void
+
+        public function loadScheduleGroups(user:User):void
 		{			
 			var params:URLVariables = new URLVariables();
 			
