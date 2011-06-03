@@ -21,48 +21,129 @@
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:simulation="collaboRhythm.plugins.bloodPressure.view.simulation.*"
 		xmlns:view2="collaboRhythm.shared.view.*"
-		xmlns:gauge="collaboRhythm.plugins.bloodPressure.view.simulation.gauge.*"
 		xmlns:hydrochlorothiazide="collaboRhythm.plugins.bloodPressure.view.simulation.levels.hydrochlorothiazide.*"
-		width="100%" height="100%">
-	<simulation:SimulationLevelPanel width="100%" height="100%"
-									 title="Hydrochlorothiazide"
-									 enableBack="true"
-									 backUpLevel="dispatchEvent(new SimulationLevelEvent(SimulationLevelEvent.BACK_UP_LEVEL))">
-		<simulation:titleContent>
-			<simulation:ContentLabel id="hydrochlorothiazideTitle" horizontalCenter="0"
-					width="400" height="60"
-					fontSize="26"
-					text="Hydrochlorothiazide"
-					color="{simulationModel.concentrationSeverityColor}"
-					>
-				<simulation:leftContent>
-					<simulation:MedicationsIcon left="15" verticalCenter="0"/>
-				</simulation:leftContent>
-				<simulation:rightContent>
-					<simulation:HydrochlorothiazideGauge id="hydrochlorothiazideGauge" right="10" verticalCenter="0"
-								 value="{simulationModel.concentration}"/>
-				</simulation:rightContent>
-			</simulation:ContentLabel>
-		</simulation:titleContent>
-		<simulation:simulationContent>
-			<hydrochlorothiazide:HypertensionHydrochlorothiazide1
-					visible="{simulationModel.concentration &lt; SimulationModel.HYDROCHLOROTHIAZIDE_LOW}"/>
-			<hydrochlorothiazide:HypertensionHydrochlorothiazide2
-					visible="{simulationModel.concentration &gt;= SimulationModel.HYDROCHLOROTHIAZIDE_LOW &amp;&amp; simulationModel.concentration &lt; SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"/>
-			<hydrochlorothiazide:HypertensionHydrochlorothiazide3
-					visible="{simulationModel.concentration &gt;= SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"/>
-			<s:Group x="0" y="81.4395" width="362" height="545">
-				<s:layout>
-					<view2:ScaleToFitLayout unscaledWidth="160" aspectRatioMin="0.85" aspectRatioMax="1.25"/>
-				</s:layout>
-				<hydrochlorothiazide:HydrochlorothiazideSimulationView id="hydrochlorothiazideSimulationView"
-															  concentration="{simulationModel.concentration}"
-						/>
-			</s:Group>
-		</simulation:simulationContent>
-	</simulation:SimulationLevelPanel>
+		xmlns:buttons="collaboRhythm.plugins.bloodPressure.view.simulation.buttons.*"
+		width="100%" height="100%"
+		title="Distal Convoluted Tubule"
+		>
+
+	<s:Group width="360" height="400">
+		<s:layout>
+			<view2:ScaleToFitLayout unscaledWidth="160" aspectRatioMin="0.85" aspectRatioMax="1.25"/>
+		</s:layout>
+		<hydrochlorothiazide:HydrochlorothiazideSimulationView id="hydrochlorothiazideSimulationView"
+															   concentration="{simulationModel.concentration}"
+				/>
+	</s:Group>
+	<s:Group id="arrowsGroup" width="100%" height="100%"/>
+
+	<buttons:SimulationDetailButton
+			id="hydrochlorothiazideTitle"
+			x="400"
+			label="Hydrochlorothiazide"
+			subtitle="{hydrochlorothiazideMedicationModel.drugClass}"
+			expanded="true"
+			listDataProvider="{stepsListData}"
+			drillDownEnabled="false"
+			>
+		<buttons:leftContent>
+			<simulation:MedicationsIcon left="7" verticalCenter="0" width="32" height="32"/>
+		</buttons:leftContent>
+		<buttons:rightContent>
+			<simulation:HydrochlorothiazideGauge id="hydrochlorothiazideGauge" verticalCenter="0"
+												 width="60" height="30"
+												 value="{simulationModel.concentration}"/>
+		</buttons:rightContent>
+	</buttons:SimulationDetailButton>
+
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.bloodPressure.view.simulation.*;
+		import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
+
+		import mx.collections.ArrayCollection;
+		import mx.events.FlexEvent;
+		import mx.events.PropertyChangeEvent;
+
+		[Bindable]
+		private var stepsListData:ArrayCollection;
+
+		[Bindable]
+		private var hydrochlorothiazideMedicationModel:MedicationComponentAdherenceModel;
+
+		protected override function creationCompleteHandler(event:FlexEvent):void
+		{
+			lookupMedications();
+			simulationModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+											 simulationModel_propertyChangeHandler);
+
+			super.creationCompleteHandler(event);
+		}
+
+		private function simulationModel_propertyChangeHandler(event:PropertyChangeEvent):void
+		{
+			if (event.property == "medications")
+				lookupMedications();
+		}
+
+		private function lookupMedications():void
+		{
+			hydrochlorothiazideMedicationModel = simulationModel.getMedication('310798');
+			if (hydrochlorothiazideMedicationModel)
+				hydrochlorothiazideMedicationModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+																	medicationModel_propertyChanged);
+		}
+
+		private function medicationModel_propertyChanged(event:PropertyChangeEvent):void
+		{
+			if (event.property == "concentrationSeverityLevel")
+			{
+				switch (hydrochlorothiazideMedicationModel.concentrationSeverityLevel)
+				{
+					case 0:
+						stepsListData = new ArrayCollection([
+																{ text: "Hydrochlorothiazide conc. minimal", color: SimulationModel.SEVERITY_COLOR_HIGH },
+																{ text: "Salt channels in DCT open", color: SimulationModel.SEVERITY_COLOR_HIGH },
+																{ text: "Urine salt concentration decreased", color: SimulationModel.SEVERITY_COLOR_HIGH },
+																{ text: "Urine volume decreased", color: SimulationModel.SEVERITY_COLOR_HIGH },
+																{ text: "Venous blood volume increased", color: SimulationModel.SEVERITY_COLOR_HIGH },
+																{ text: "Preload on heart increased", color: SimulationModel.SEVERITY_COLOR_HIGH },
+																{ text: "Blood pressure increased", color: SimulationModel.SEVERITY_COLOR_HIGH },
+															]);
+						break;
+					case 1:
+						stepsListData = new ArrayCollection([
+																{ text: "Hydrochlorothiazide conc. low", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
+																{ text: "Salt channels in DCT open", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
+																{ text: "Urine salt concentration decreased", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
+																{ text: "Urine volume decreased", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
+																{ text: "Venous blood volume increased", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
+																{ text: "Preload on heart increased", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
+																{ text: "Blood pressure increased", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
+															]);
+						break;
+					case 2:
+						stepsListData = new ArrayCollection([
+																{ text: "Hydrochlorothiazide conc. at goal", color: SimulationModel.SEVERITY_COLOR_GOAL },
+																{ text: "Salt channels in DCT blocked", color: SimulationModel.SEVERITY_COLOR_GOAL },
+																{ text: "Urine salt concentration increased", color: SimulationModel.SEVERITY_COLOR_GOAL },
+																{ text: "Urine volume increased", color: SimulationModel.SEVERITY_COLOR_GOAL },
+																{ text: "Venous blood volume decreased", color: SimulationModel.SEVERITY_COLOR_GOAL },
+																{ text: "Preload on heart decreased", color: SimulationModel.SEVERITY_COLOR_GOAL },
+																{ text: "Blood pressure decreased", color: SimulationModel.SEVERITY_COLOR_GOAL },
+															]);
+						break;
+					default:
+						throw new Error("Unhandled concentrationSeverityLevel:",
+										hydrochlorothiazideMedicationModel.concentrationSeverityLevel);
+				}
+			}
+		}
+
+		public override function set simulationModel(value:SimulationModel):void
+		{
+			super.simulationModel = value;
+			lookupMedications();
+		}
 		]]></fx:Script>
 </simulation:SimulationLevelGroup>

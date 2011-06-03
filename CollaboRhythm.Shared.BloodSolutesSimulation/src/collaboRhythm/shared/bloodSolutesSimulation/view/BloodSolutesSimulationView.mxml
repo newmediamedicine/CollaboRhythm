@@ -35,18 +35,18 @@
 			<s:SolidColor color="0xFF0000" alpha="0.5"/>
 		</s:fill>
 	</s:Rect>
-	<s:HGroup width="{this.width}" height="{this.height}" gap="0">
-		<s:Rect id="bloodAreaBackgroundRect" width="{Math.round(this.width * bloodAreaPercentWidth)}" height="100%">
+	<s:Group width="{this.width}" height="{this.height}">
+		<s:Rect id="bloodAreaBackgroundRect" width="100%" height="100%">
 			<s:fill>
 				<s:SolidColor color="0x974e57"/>
 			</s:fill>
 		</s:Rect>
-		<s:Rect id="rightAreaBackgroundRect" width="{this.width * (1 - bloodAreaPercentWidth)}" height="100%">
+		<s:Rect id="rightAreaBackgroundRect" x="{(this.width * bloodAreaPercentWidth)}" width="{(this.width * (1 - bloodAreaPercentWidth))}" height="100%">
 			<s:fill>
 				<s:SolidColor color="0xfcf3a0"/>
 			</s:fill>
 		</s:Rect>
-	</s:HGroup>
+	</s:Group>
 	<s:Group id="wallsGroup" width="{this.width}" height="{this.height}" clipAndEnableScrolling="true" resize="wallsGroup_resizeHandler(event)">
 		<s:Rect id="leftWall" width="100" x="-98.5" height="{wallsGroup.height + 200}" verticalCenter="0">
 			<s:stroke>

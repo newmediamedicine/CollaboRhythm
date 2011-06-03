@@ -15,20 +15,8 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<!--
 
-This skin is derived from Adobe's PanelSkin.mxml
-
-ADOBE SYSTEMS INCORPORATED
-Copyright 2008 Adobe Systems Incorporated
-All Rights Reserved.
-
-NOTICE: Adobe permits you to use, modify, and distribute this file
-in accordance with the terms of the license agreement accompanying it.
-
--->
-
-<!--- The default skin class for a SimulationLevelPanel container. 
+<!--- The default skin class for a SimulationLevelPanel container.
 
     @see spark.components.Panel
 

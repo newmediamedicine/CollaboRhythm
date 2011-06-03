@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
 <Graphic version="1.0" viewHeight="660" viewWidth="800" ai:appVersion="14.0.0.367" d:id="1" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ai="http://ns.adobe.com/ai/2008" xmlns:d="http://ns.adobe.com/fxg/2008/dt">
   <Group x="32.0264" y="0.84375" d:id="2" d:type="layer" d:userLabel="Layer 1">
     <Path winding="nonZero" ai:knockout="0" data="M767.974 294.458C767.974 297.686 762.958 300.302 756.773 300.302L352.99 300.302C346.804 300.302 341.792 297.686 341.792 294.458L341.792 246.146C341.792 242.919 346.804 240.302 352.99 240.302L756.773 240.302C762.958 240.302 767.974 242.919

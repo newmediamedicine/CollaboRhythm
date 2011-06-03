@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+                xmlns:mx="library://ns.adobe.com/flex/mx"
+				render="renderHandler(event)"
+				height="50"
+				autoDrawBackground="false"
+		>
+	<s:layout>
+		<s:HorizontalLayout/>
+	</s:layout>
+    <s:states>
+        <s:State name="normal"/>
+        <s:State name="hovered"/>
+        <s:State name="selected"/>
+    </s:states>
+
+	<s:Group
+			id="arrow"
+			includeInLayout="{itemIndex != 0}"
+			width="25"
+			height="100%"
+			/>
+    <s:Label id="titleDisplay"
+			 fontFamily="Myriad Pro" fontSize="18" lineHeight="120%"
+			 height="100%"
+			 verticalAlign="middle"
+			 text="{data.title}"
+			 textDecoration.hovered="{data.visible ? 'none' : 'underline'}"
+			 color.hovered="{data.visible ? '#000000' : '#0000FF'}"
+             />
+
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.bloodPressure.view.simulation.*;
+
+		import com.dncompute.graphics.GraphicsUtil;
+
+		private function renderHandler(event:Event):void
+		{
+			if (itemIndex != 0)
+			{
+				arrow.graphics.clear();
+				arrow.graphics.lineStyle(0, 0x000000);
+				arrow.graphics.beginFill(0x000000);
+				GraphicsUtil.drawArrow(
+						arrow.graphics,
+						new Point(0, arrow.height / 2),
+						new Point(arrow.width, arrow.height / 2),
+						{shaftThickness:3, headWidth:15, headLength:12.5,
+							shaftPosition:0, edgeControlPosition:0.5}
+				);
+			}
+		}
+		]]></fx:Script>
+</s:ItemRenderer>

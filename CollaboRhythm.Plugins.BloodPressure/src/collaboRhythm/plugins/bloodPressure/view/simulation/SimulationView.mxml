@@ -22,6 +22,8 @@
 		  xmlns:hydrochlorothiazide="collaboRhythm.plugins.bloodPressure.view.simulation.levels.hydrochlorothiazide.*"
 		  xmlns:circulatorysystem="collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySystem.*"
 		  xmlns:wholebody="collaboRhythm.plugins.bloodPressure.view.simulation.levels.wholeBody.*"
+		  xmlns:controls="com.dougmccune.controls.*"
+		  xmlns:breadcrumbtrail="collaboRhythm.plugins.bloodPressure.view.simulation.breadcrumbTrail.*"
 		  width="260" height="800"
 		  clipAndEnableScrolling="true"
 		  resize="resizeHandler(event)"
@@ -62,6 +64,7 @@
 		<s:Fade id="backUpShowEffect" duration="{effectDuration}" alphaFrom="0" alphaTo="1"
 				effectEnd="backUpShowEffect_effectEnd(event);"/>
 
+		<s:Move id="breadcrumbTrailResizeEffect" xTo="{(breadcrumbTrailGroup.width - breadcrumbTrail.width) / 2}"/>
 	</fx:Declarations>
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
@@ -105,7 +108,7 @@
 		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 		import collaboRhythm.shared.view.BitmapCopyComponent;
-		
+
 		import mx.core.IVisualElementContainer;
 		import mx.core.UIComponent;
 		import mx.effects.Effect;
@@ -181,6 +184,7 @@
 		protected function creationCompleteHandler(event:FlexEvent):void
 		{
 			resizeChildren();
+			breadcrumbTrail.breadcrumbsData.addItem(hypertensionWholeBodyGroup);
 		}
 
 		[Bindable]
@@ -232,6 +236,7 @@
 			}
 		}
 
+		private var _currentLevelComponent:UIComponent = hypertensionWholeBodyGroup;
 		private var _drillDownEventStack:Vector.<SimulationLevelEvent> = new Vector.<SimulationLevelEvent>();
 
 		private function drillDown(event:SimulationLevelEvent, componentToShow:UIComponent,
@@ -242,6 +247,7 @@
 			var hideEffectTarget:UIComponent = createBitmapCopy(componentToHide);
 			var showEffectTarget:UIComponent = createBitmapCopy(componentToShow);
 
+			_currentLevelComponent = componentToShow;
 			_drillDownEventStack.push(event);
 
 			drillDownHideEffect.target = hideEffectTarget;
@@ -249,11 +255,13 @@
 
 			drillDownShowZoom.scaleXFrom = event.zoomWidthFrom;
 			drillDownShowZoom.scaleYFrom = event.zoomHeightFrom;
-			drillDownShowMove.xFrom = event.xFrom;
-			drillDownShowMove.yFrom = event.yFrom;
+			drillDownShowMove.xFrom = event.xFrom - (componentToShow.width * event.zoomWidthFrom) / 2;
+			drillDownShowMove.yFrom = event.yFrom - (componentToShow.height * event.zoomHeightFrom) / 2;
 
 			drillDownHideEffect.play();
 			drillDownShowEffect.play();
+
+			breadcrumbTrail.navigateDownToComponent(componentToShow);
 		}
 
 		private function backUp(event:SimulationLevelEvent, componentToShow:UIComponent,
@@ -263,6 +271,7 @@
 			var hideEffectTarget:UIComponent = createBitmapCopy(componentToHide);
 			var showEffectTarget:UIComponent = createBitmapCopy(componentToShow);
 
+			_currentLevelComponent = componentToShow;
 			var previousDrillDownEvent:SimulationLevelEvent = _drillDownEventStack.pop();
 
 			backUpHideEffect.target = hideEffectTarget;
@@ -271,8 +280,8 @@
 			{
 				backUpHideZoom.scaleXTo = previousDrillDownEvent.zoomWidthFrom;
 				backUpHideZoom.scaleYTo = previousDrillDownEvent.zoomHeightFrom;
-				backUpHideMove.xTo = previousDrillDownEvent.xFrom;
-				backUpHideMove.yTo = previousDrillDownEvent.yFrom;
+				backUpHideMove.xTo = previousDrillDownEvent.xFrom - (componentToHide.width * previousDrillDownEvent.zoomWidthFrom) / 2;
+				backUpHideMove.yTo = previousDrillDownEvent.yFrom - (componentToHide.height * previousDrillDownEvent.zoomHeightFrom) / 2;
 			}
 
 			backUpHideEffect.play();
@@ -302,7 +311,7 @@
 			var copyComponent:BitmapCopyComponent = BitmapCopyComponent.createFromComponent(sourceComponent);
 			if (wasHidden)
 				sourceComponent.visible = false;
-			
+
 			copyComponent.replaceSource();
 			return copyComponent;
 		}
@@ -349,16 +358,31 @@
 			(event.target as Effect).target.visible = true;
 			finishEffectOnBitmapCopyComponent(event);
 		}
+
+		private function breadcrumbTrail_backUpLevelHandler(event:SimulationLevelEvent):void
+		{
+			var componentToShow:UIComponent = breadcrumbTrail.selectedComponent;
+			if (componentToShow != null && componentToShow != _currentLevelComponent)
+			{
+				backUp(event, componentToShow, _currentLevelComponent);
+				breadcrumbTrail.navigateUpToComponent(componentToShow);
+			}
+		}
 		]]>
 	</fx:Script>
+	<s:Group id="breadcrumbTrailGroup" width="100%" resize="{breadcrumbTrail.x = (breadcrumbTrailGroup.width - breadcrumbTrail.width) / 2}">
+		<breadcrumbtrail:BreadcrumbTrail id="breadcrumbTrail"
+									resizeEffect="breadcrumbTrailResizeEffect"
+				backUpLevel="breadcrumbTrail_backUpLevelHandler(event)"
+				/>
+	</s:Group>
 	<s:Group id="simulationContentHolder" width="100%" height="100%">
 		<s:layout>
 			<view2:ScaleToFitLayout unscaledWidth="{simulationContentGroup.width}"
 									aspectRatioMin="{simulationContentGroup.width / simulationContentGroup.height}"
 									aspectRatioMax="{simulationContentGroup.width / simulationContentGroup.height}"/>
 		</s:layout>
-
-		<s:Group id="simulationContentGroup" width="800" height="730">
+		<s:Group id="simulationContentGroup" width="680" height="615">
 			<wholebody:HypertensionWholeBodyLevel id="hypertensionWholeBodyGroup" width="100%" height="100%"
 												   simulationModel="{_simulationModel}"
 												   drillDownLevel="drillDown(event, hypertensionCirculatorySystemGroup, hypertensionWholeBodyGroup)"/>
@@ -381,7 +405,7 @@
 -->
 	<s:Group width="100%">
 		<!-- TODO: scale the info bar down instead of clipping it if there is not enough space -->
-		<simulation:SimulationTimeInfoBar id="timeInfoBar" x="{(this.width - timeInfoBar.width) / 2}"
+		<simulation:SimulationTimeInfoBar id="timeInfoBar" x="{Math.round((this.width - timeInfoBar.width) / 2)}"
 										  mode="{_simulationModel.modeLabel}"
 										  dateString="{simulationDateFormatter.format(_simulationModel.date).toLowerCase()}"/>
 		<!--
