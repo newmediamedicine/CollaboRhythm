@@ -47,7 +47,8 @@
 
 <!--		<entry key="collaboRhythm.pluginDeployment.lastDeployedDate" type="date" value="now" pattern="EEE, dd MMM yyyy HH:mm:ss z"/> -->
 	<property file="local.properties" />
-	
+	<property file="${basedir}/local.properties" />
+
 	<property file="${basedir}/base.properties" description="base properties for builds" />
 	
 	<!-- additional tasks -->

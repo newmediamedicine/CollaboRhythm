@@ -44,6 +44,7 @@
 	<property environment="env"/>
 	<property name="app.data" location="${user.home}/AppData/Roaming" />
 
+<!--
 	<propertyfile
 		file="bin-debug/local.properties"
 		comment="Local properties for CollaboRhythm plugin deployment. This file must *NOT* be checked in Version Control Systems, as it contains information specific to your local configuration.">
@@ -53,9 +54,9 @@
 		<entry key="collaboRhythm.mobile-emulator.pluginsPath" default="${app.data}/CollaboRhythm.Mobile.debug/Local Store/plugins" />
 		<entry key="collaboRhythm.mobile-device.pluginsPath" default="/data/local/air.CollaboRhythm.Mobile.debug/CollaboRhythm.Mobile.debug/Local Store/plugins" />
 	</propertyfile>
-	
+-->
+
 <!--		<entry key="collaboRhythm.pluginDeployment.lastDeployedDate" type="date" value="now" pattern="EEE, dd MMM yyyy HH:mm:ss z"/> -->
-	<property file="bin-debug/local.properties" />
 
 	<!-- The build.properties file can be created by you and is never touched
          by the 'android' tool. This is the place to change some of the default property values
@@ -78,7 +79,8 @@
 
          -->
     <property file="build.properties" />
-	
+    <property file="local.properties" />
+
     <!-- The default.properties file is created and updated by the 'android' tool, as well
          as ADT.
          This file is an integral part of the build system for your application and
