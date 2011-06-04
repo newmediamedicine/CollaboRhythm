@@ -34,7 +34,7 @@ package collaboRhythm.shared.model
         private var _contact:Contact;
         private var _medicationsModel:MedicationsModel;
         private var _equipmentModel:EquipmentModel;
-        private var _videoMessagesModel:VideoMessagesModel;
+        private var _videoMessagesModel:VideoMessagesModel1;
         private var _appData:HashMap = new HashMap();
 
         public function Record(settings:Settings, activeAccount:Account, recordXml:XML)
@@ -47,7 +47,7 @@ package collaboRhythm.shared.model
                 _role_label = recordXml.@role_label;
             _medicationsModel = new MedicationsModel(settings, activeAccount, this);
             _equipmentModel = new EquipmentModel(settings, activeAccount, this);
-            _videoMessagesModel = new VideoMessagesModel(settings, activeAccount, this);
+            _videoMessagesModel = new VideoMessagesModel1(settings, activeAccount, this);
         }
 
         public function getDocuments():void
@@ -139,12 +139,12 @@ package collaboRhythm.shared.model
             _equipmentModel = value;
         }
 
-        public function get videoMessagesModel():VideoMessagesModel
+        public function get videoMessagesModel():VideoMessagesModel1
         {
             return _videoMessagesModel;
         }
 
-        public function set videoMessagesModel(value:VideoMessagesModel):void
+        public function set videoMessagesModel(value:VideoMessagesModel1):void
         {
             _videoMessagesModel = value;
         }
