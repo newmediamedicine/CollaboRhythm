@@ -19,8 +19,7 @@
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:mx="library://ns.adobe.com/flex/mx"
          xmlns:view="collaboRhythm.shared.view.*"
-         xmlns:view2="collaboRhythm.workstation.view.*"
-         height="0" width="100%">
+         xmlns:view2="collaboRhythm.workstation.view.*">
     <fx:Style>
         @namespace s "library://ns.adobe.com/flex/spark";
         @namespace mx "library://ns.adobe.com/flex/mx";
@@ -37,7 +36,7 @@
         import collaboRhythm.shared.model.settings.Settings;
         import collaboRhythm.workstation.controller.WorkstationApplicationController;
 
-        private static const SEPARATOR_COLOR:String = "#A7A9AC";
+        public static const SEPARATOR_COLOR:uint = 0xA7A9AC;
 
         private var _workstationApplicationController:WorkstationApplicationController;
         [Bindable]

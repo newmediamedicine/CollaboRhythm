@@ -79,7 +79,6 @@ package collaboRhythm.workstation.controller
 
         public function WorkstationApplicationController()
 		{
-
 		}
 
         public override function main():void
@@ -207,24 +206,17 @@ package collaboRhythm.workstation.controller
             _activeRecordView.init(this, recordAccount);
             _primaryWindowView.mainGroup.addElement(_activeRecordView);
 
+            _widgetsContainerView = new TiledWidgetsContainerView();
+
             // the widget views are loaded in a different location depending on whether one or two screens are being used
             if (Screen.screens.length == 1 || settings.useSingleScreen)
             {
-                _widgetsContainerView = new TiledWidgetsContainerView();
-                _widgetsContainerView.left = 0;
-                _widgetsContainerView.right = 0;
-                _widgetsContainerView.top = ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT;
-                _widgetsContainerView.height = 210;
-                _activeRecordView.fullViewGroup.top = 210 + ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT;
-                _activeRecordView.addElement(_widgetsContainerView);
+                _activeRecordView.widgetViewGroup.height = 200;
+                _activeRecordView.widgetViewGroup.visible = true;
+                _activeRecordView.widgetViewGroup.addElement(_widgetsContainerView);
             }
             else
             {
-                _widgetsContainerView = new TiledWidgetsContainerView();
-                _widgetsContainerView.left = 0;
-                _widgetsContainerView.right = 0;
-                _widgetsContainerView.top = 0;
-                _widgetsContainerView.bottom = 0;
                 _secondaryWindowView.mainGroup.addElement(_widgetsContainerView);
             }
         }

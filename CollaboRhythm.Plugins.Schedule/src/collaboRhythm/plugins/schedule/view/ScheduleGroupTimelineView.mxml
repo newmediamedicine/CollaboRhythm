@@ -129,10 +129,10 @@
 
         public function createScheduleItemFullView(scheduleItem:ScheduleItemBase):void
         {
-            var scheduleItemFullView:ScheduleItemTimelineViewBase = _scheduleGroup.scheduleModel.viewFactory.createScheduleItemTimelineView(scheduleItem);
-            scheduleItemFullView.init(scheduleItem, scheduleItemsContainer);
-            scheduleItemsContainer.addElement(scheduleItemFullView);
-            _scheduleItemFullViews.push(scheduleItemFullView);
+            var scheduleItemTimelineView:ScheduleItemTimelineViewBase = _scheduleGroup.scheduleModel.viewFactory.createScheduleItemTimelineView(scheduleItem);
+            scheduleItemTimelineView.init(scheduleItem, scheduleItemsContainer);
+            scheduleItemsContainer.addElement(scheduleItemTimelineView);
+            _scheduleItemFullViews.push(scheduleItemTimelineView);
         }
 
         public function destroyScheduleItemFullView(scheduleGroup:ScheduleItemBase):void

@@ -22,7 +22,8 @@
 		xmlns:scroll="collaboRhythm.view.scroll.*"
 		resize="widgetsScroller_resizeHandler(event)"
 		skinClass="collaboRhythm.view.scroll.TouchScrollingScrollerSkin"
-		useVerticalTouchScrolling="false">
+		useVerticalTouchScrolling="false"
+        width="100%" height="100%">
 	<s:Group id="widgetsBorderContainer" width="100%" height="100%">
 		<s:layout>
 			<s:VerticalLayout id="widgetsPaddingLayout" paddingTop="10" paddingBottom="10" paddingLeft="10" paddingRight="10"/>
