@@ -16,15 +16,16 @@
  */
 package collaboRhythm.plugins.schedule.shared.model
 {
-	import castle.flexbridge.reflection.ReflectionUtils;
 
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
-	import collaboRhythm.shared.model.healthRecord.IDocumentMetadata;
-	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
+    import castle.flexbridge.reflection.ReflectionUtils;
 
-	import com.theory9.data.types.OrderedMap;
+    import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
+    import collaboRhythm.shared.model.healthRecord.IDocumentMetadata;
+    import collaboRhythm.shared.model.services.IComponentContainer;
 
-	/**
+    import com.theory9.data.types.OrderedMap;
+
+    /**
 	 * Factory for creating instances of view classes for the schedule (clock). Note that this could
 	 * be generalized as a means of plugging in different new view(s) for a given document type and view type.
 	 * This factory is NOT currently used.

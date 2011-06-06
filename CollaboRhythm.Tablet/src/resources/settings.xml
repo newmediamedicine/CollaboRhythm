@@ -46,7 +46,7 @@
 	<appGroups>
 		<appGroup id="standard">
 			<appDescriptors>
-				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::BloodPressureChartAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.plugins.schedule.controller::ScheduleAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::BloodPressureAppController</appDescriptor>
 			</appDescriptors>
 		</appGroup>

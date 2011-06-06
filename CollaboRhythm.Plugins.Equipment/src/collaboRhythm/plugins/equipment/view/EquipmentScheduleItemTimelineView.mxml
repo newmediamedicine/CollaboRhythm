@@ -45,21 +45,21 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.plugins.equipment.model.Equipment;
-			
-			[Bindable]
-			private var _equipment:Equipment;
-			
-			public function get equipment():Equipment
-			{
-				return _equipment;
-			}
-			
-			public function set equipment(value:Equipment):void
-			{
-				_equipment = value;
-			}
-		]]>
+        import collaboRhythm.shared.model.Equipment;
+        import collaboRhythm.shared.model.EquipmentScheduleItem;
+        import collaboRhythm.shared.model.ScheduleItemBase;
+
+        [Bindable]
+        private var _equipment:Equipment;
+        [Bindable]
+        private var _equipmentScheduleItem:EquipmentScheduleItem;
+
+        public function init(scheduleItem:ScheduleItemBase):void
+        {
+            _equipmentScheduleItem = scheduleItem as EquipmentScheduleItem;
+            _equipment = _equipmentScheduleItem.scheduledEquipment;
+        }
+        ]]>
 	</fx:Script>
 	<s:Group id="med" width="100%" height="100%">
 		<s:Rect id="background" width="100%" height="100%">

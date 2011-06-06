@@ -21,6 +21,8 @@ package collaboRhythm.shared.model
     import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
     import collaboRhythm.shared.model.settings.Settings;
 
+    import j2as3.collection.HashMap;
+
     [Bindable]
     public class Record
     {
@@ -30,24 +32,40 @@ package collaboRhythm.shared.model
         private var _role_label:String;
         private var _demographics:Demographics;
         private var _contact:Contact;
+        private var _problemsModel:ProblemsModel;
         private var _medicationsModel:MedicationsModel;
-        private var _videoMessagesModel:VideoMessagesModel;
+        private var _equipmentModel:EquipmentModel;
+        private var _videoMessagesModel:VideoMessagesModel1;
+        private var _appData:HashMap = new HashMap();
+        private var _settings:Settings;
+        private var _activeAccount:Account;
 
         public function Record(settings:Settings, activeAccount:Account, recordXml:XML)
         {
+            _settings = settings;
+            _activeAccount = activeAccount;
             _id = recordXml.@id;
             _label = recordXml.@label;
             if (recordXml.hasOwnProperty("@shared"))
                 _shared = HealthRecordHelperMethods.stringToBoolean(recordXml.@shared);
             if (recordXml.hasOwnProperty("@role_label"))
                 _role_label = recordXml.@role_label;
-            _medicationsModel = new MedicationsModel(settings, activeAccount, this);
-            _videoMessagesModel = new VideoMessagesModel(settings, activeAccount, this);
+            initDocumentModels();
+        }
+
+        private function initDocumentModels():void
+        {
+            _problemsModel = new ProblemsModel(_settings, _activeAccount, this);
+            _medicationsModel = new MedicationsModel(_settings, _activeAccount, this);
+            _equipmentModel = new EquipmentModel(_settings, _activeAccount, this);
+            _videoMessagesModel = new VideoMessagesModel1(_settings, _activeAccount, this);
         }
 
         public function getDocuments():void
         {
+            _problemsModel.getProblems();
             _medicationsModel.getMedications();
+            _equipmentModel.getEquipment();
             _videoMessagesModel.getVideoMessages();
         }
 
@@ -123,14 +141,53 @@ package collaboRhythm.shared.model
             _medicationsModel = value;
         }
 
-        public function get videoMessagesModel():VideoMessagesModel
+        public function get equipmentModel():EquipmentModel
+        {
+            return _equipmentModel;
+        }
+
+        public function set equipmentModel(value:EquipmentModel):void
+        {
+            _equipmentModel = value;
+        }
+
+        public function get videoMessagesModel():VideoMessagesModel1
         {
             return _videoMessagesModel;
         }
 
-        public function set videoMessagesModel(value:VideoMessagesModel):void
+        public function set videoMessagesModel(value:VideoMessagesModel1):void
         {
             _videoMessagesModel = value;
+        }
+
+        public function get appData():HashMap
+		{
+			return _appData;
+		}
+
+		public function getAppData(key:String, type:Class):Object
+		{
+			var data:Object = appData[key] as type;
+			if (data)
+				return data;
+			else
+				throw new Error("appData on Record does not contain a " + (type as Class).toString() + " for key " + key);
+		}
+
+        public function clearDocuments():void
+        {
+            initDocumentModels();
+        }
+
+        public function get problemsModel():ProblemsModel
+        {
+            return _problemsModel;
+        }
+
+        public function set problemsModel(value:ProblemsModel):void
+        {
+            _problemsModel = value;
         }
     }
 }

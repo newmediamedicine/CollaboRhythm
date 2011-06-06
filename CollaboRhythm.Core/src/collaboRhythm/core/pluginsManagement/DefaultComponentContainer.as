@@ -18,7 +18,7 @@ package collaboRhythm.core.pluginsManagement
 {
 	import castle.flexbridge.reflection.ReflectionUtils;
 	
-	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
+	import collaboRhythm.shared.model.services.IComponentContainer;
 	
 	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;

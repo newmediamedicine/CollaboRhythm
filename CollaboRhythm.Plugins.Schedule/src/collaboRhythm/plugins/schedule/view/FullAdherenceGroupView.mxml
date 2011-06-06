@@ -25,7 +25,7 @@
 	<fx:Script>
 		<![CDATA[
         import collaboRhythm.plugins.schedule.shared.model.AdherenceGroup;
-        import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
+        import collaboRhythm.plugins.schedule.model.ScheduleModel;
         import collaboRhythm.plugins.schedule.shared.model.MoveData;
         import collaboRhythm.shared.model.ScheduleItemBase;
         import collaboRhythm.plugins.schedule.controller.ScheduleFullViewController;

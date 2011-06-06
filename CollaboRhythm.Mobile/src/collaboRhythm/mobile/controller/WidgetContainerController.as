@@ -16,7 +16,6 @@
  */
 package collaboRhythm.mobile.controller
 {
-
 	import collaboRhythm.core.pluginsManagement.PluginEvent;
 	import collaboRhythm.core.pluginsManagement.PluginLoader;
 	import collaboRhythm.mobile.view.WidgetContainerView;

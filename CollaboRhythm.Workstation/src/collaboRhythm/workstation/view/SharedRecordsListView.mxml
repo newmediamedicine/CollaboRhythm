@@ -34,16 +34,9 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-        import collaboRhythm.core.controller.RemoteUserController;
         import collaboRhythm.shared.model.Account;
-        import collaboRhythm.shared.model.Record;
-        import collaboRhythm.shared.model.User;
-        import collaboRhythm.shared.model.UsersModel;
         import collaboRhythm.workstation.controller.WorkstationApplicationController;
 
-        import mx.collections.ArrayCollection;
-        import mx.events.CollectionEvent;
-        import mx.events.DataGridEvent;
         import mx.events.ListEvent;
 
         //        private var _remoteUsersController:RemoteUserController;

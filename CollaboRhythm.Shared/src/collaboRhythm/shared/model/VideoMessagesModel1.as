@@ -1,3 +1,19 @@
+/**
+ * Copyright 2011 John Moore, Scott Gilroy
+ *
+ * This file is part of CollaboRhythm.
+ *
+ * CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ * <http://www.gnu.org/licenses/>.
+ */
 package collaboRhythm.shared.model
 {
 
@@ -10,7 +26,7 @@ package collaboRhythm.shared.model
     import mx.collections.ArrayCollection;
 
     [Bindable]
-    public class VideoMessagesModel
+    public class VideoMessagesModel1
     {
         // TODO: Determine the best way to get a picture for a video message
         // There are flaws with using sharing relationships from the active account
@@ -21,7 +37,7 @@ package collaboRhythm.shared.model
         private var _videoMessageCount:int = 0;
         private var _currentDateSource:ICurrentDateSource;
 
-        public function VideoMessagesModel(settings:Settings, activeAccount:Account, record:Record)
+        public function VideoMessagesModel1(settings:Settings, activeAccount:Account, record:Record)
         {
             _activeAccount = activeAccount;
             _record = record;

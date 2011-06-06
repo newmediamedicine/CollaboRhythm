@@ -18,7 +18,6 @@ package collaboRhythm.mobile.controller
 {
 
     import collaboRhythm.core.controller.ApplicationControllerBase;
-    import collaboRhythm.core.view.RemoteUsersListView;
     import collaboRhythm.mobile.view.WidgetContainerView;
     import collaboRhythm.shared.model.Account;
     import collaboRhythm.shared.model.services.DemoEvent;
@@ -57,6 +56,7 @@ package collaboRhythm.mobile.controller
             _settings.isWorkstationMode = false;
 
 //			_collaborationMediator = new MobileCollaborationMediator(this);
+			initCollaborationController(null);
 
 			_widgetContainerController = new WidgetContainerController(_mobileApplication.navigator, this);
 			_mobileApplication.navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
@@ -83,12 +83,7 @@ package collaboRhythm.mobile.controller
 		{
 			return null;
 		}
-		
-		public override function get remoteUsersView():RemoteUsersListView
-		{
-			return null;
-		}
-		
+
 		public override function get widgetsContainer():IVisualElementContainer
 		{
 			return null;

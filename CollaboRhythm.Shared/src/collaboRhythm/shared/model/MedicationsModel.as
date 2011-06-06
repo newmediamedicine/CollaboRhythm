@@ -37,13 +37,13 @@ package collaboRhythm.shared.model
         private var _medicationOrders:HashMap = new HashMap();
         private var _medicationScheduleItems:HashMap = new HashMap();
         private var _medicationOrdersCollection:ArrayCollection = new ArrayCollection();
-        private var _medicationScheduleItemColleciton:ArrayCollection = new ArrayCollection();
+        private var _medicationScheduleItemCollection:ArrayCollection = new ArrayCollection();
         private var _medicationAdministrations:HashMap = new HashMap();
         private var _medicationFills:HashMap = new HashMap();
         private var _currentDateSource:ICurrentDateSource;
 
 		private var _shortMedicationsCollection:ArrayCollection = new ArrayCollection();
-		private var _initialized:Boolean = false;
+		private var _isInitialized:Boolean = false;
 		private var _isLoading:Boolean = false;
 
 		public function MedicationsModel(settings:Settings, activeAccount:Account, record:Record)
@@ -78,7 +78,7 @@ package collaboRhythm.shared.model
                 var medicationScheduleItem:MedicationScheduleItem = new MedicationScheduleItem();
                 medicationScheduleItem.initFromReportXML(medicationScheduleItemXml, "MedicationScheduleItem");
                 _medicationScheduleItems[medicationScheduleItem.id] = medicationScheduleItem;
-                _medicationScheduleItemColleciton.addItem(medicationScheduleItem);
+                _medicationScheduleItemCollection.addItem(medicationScheduleItem);
             }
         }
 
@@ -86,11 +86,14 @@ package collaboRhythm.shared.model
         {
             for each (var medicationOrder:MedicationOrder in _medicationOrders)
             {
-                for each (var scheduleItemId:String in medicationOrder.scheduleItems)
+                for each (var scheduleItemId:String in medicationOrder.scheduleItems.keys)
                 {
-                    medicationOrder.scheduleItems[scheduleItemId] = _medicationScheduleItems[scheduleItemId];
+                    var medicationScheduleItem:MedicationScheduleItem = _medicationScheduleItems[scheduleItemId];
+                    medicationOrder.scheduleItems[scheduleItemId] = medicationScheduleItem;
+                    medicationScheduleItem.scheduledMedicationOrder = medicationOrder;
                 }
             }
+            isInitialized = true;
         }
 
         public function set medicationAdministrationsReportXml(value:XML):void
@@ -223,6 +226,26 @@ package collaboRhythm.shared.model
         public function set medicationOrdersCollection(value:ArrayCollection):void
         {
             _medicationOrdersCollection = value;
+        }
+
+        public function get isInitialized():Boolean
+        {
+            return _isInitialized;
+        }
+
+        public function set isInitialized(value:Boolean):void
+        {
+            _isInitialized = value;
+        }
+
+        public function get medicationScheduleItemCollection():ArrayCollection
+        {
+            return _medicationScheduleItemCollection;
+        }
+
+        public function set medicationScheduleItemCollection(value:ArrayCollection):void
+        {
+            _medicationScheduleItemCollection = value;
         }
     }
 }

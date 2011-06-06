@@ -39,9 +39,11 @@ package collaboRhythm.tablet.controller
         {
             super.main();
 
-            _application.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+            initCollaborationController(null);
 
             createSession();
+
+            _application.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
         }
 
         public override function openRecordAccount(recordAccount:Account):void
@@ -61,7 +63,7 @@ package collaboRhythm.tablet.controller
                                                                              _activeRecordView.fullViewsGroup,
                                                                              _settings,
                                                                              _componentContainer);
-			_tabletAppControllersMediator.createAndStartApps(_activeAccount, recordAccount);
+			_tabletAppControllersMediator.createTabletApps(_activeAccount, recordAccount);
             recordAccount.primaryRecord.getDocuments();
         }
 

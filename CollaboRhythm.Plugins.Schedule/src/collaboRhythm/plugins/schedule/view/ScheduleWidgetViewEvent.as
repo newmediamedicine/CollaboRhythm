@@ -16,7 +16,7 @@
  */
 package collaboRhythm.plugins.schedule.view
 {
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+	import collaboRhythm.plugins.schedule.model.ScheduleGroup;
 	
 	import flash.events.Event;
 	

@@ -14,8 +14,8 @@
         <option name="MAIN_CLASS" value="CollaboRhythmMobileApplication" />
         <option name="OUTPUT_FILE_NAME" value="CollaboRhythmMobileApplication.swf" />
         <option name="USE_FACET_COMPILE_OUTPUT_PATH" value="false" />
-        <option name="FACET_COMPILE_OUTPUT_PATH" value="$MODULE_DIR$/bin-debug" />
-        <option name="FACET_COMPILE_OUTPUT_PATH_FOR_TESTS" value="$MODULE_DIR$/bin-debug" />
+        <option name="FACET_COMPILE_OUTPUT_PATH" value="" />
+        <option name="FACET_COMPILE_OUTPUT_PATH_FOR_TESTS" value="" />
         <option name="INCLUDE_RESOURCE_FILES_IN_SWC" value="false" />
         <option name="TARGET_PLAYER_VERSION" value="10.2" />
         <option name="STATIC_LINK_RUNTIME_SHARED_LIBRARIES" value="true" />

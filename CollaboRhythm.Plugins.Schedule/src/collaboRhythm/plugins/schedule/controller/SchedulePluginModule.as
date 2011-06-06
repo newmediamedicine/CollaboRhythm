@@ -18,7 +18,7 @@ package collaboRhythm.plugins.schedule.controller
 {
 	import castle.flexbridge.reflection.ReflectionUtils;
 	
-	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
+	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	

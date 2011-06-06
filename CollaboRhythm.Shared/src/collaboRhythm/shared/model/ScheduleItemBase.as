@@ -16,10 +16,11 @@
  */
 package collaboRhythm.shared.model
 {
-	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
-	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 
-	[Bindable]
+    import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
+    import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
+
+    [Bindable]
 	public class ScheduleItemBase extends DocumentMetadata
 	{
         private var _scheduleItemXml:XML;

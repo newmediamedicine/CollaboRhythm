@@ -2,28 +2,30 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Box2DFlashAS3/Box2DFlashAS3.iml" filepath="$PROJECT_DIR$/Box2DFlashAS3/Box2DFlashAS3.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/ChartBackgroundsLib/ChartBackgroundsLib.iml" filepath="$PROJECT_DIR$/ChartBackgroundsLib/ChartBackgroundsLib.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Core/CollaboRhythm.Core.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Core/CollaboRhythm.Core.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Core.Tests/CollaboRhythm.Core.Tests.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Core.Tests/CollaboRhythm.Core.Tests.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Mobile/CollaboRhythm.Mobile.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Mobile/CollaboRhythm.Mobile.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.BloodPressure/CollaboRhythm.Plugins.BloodPressure.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.BloodPressure/CollaboRhythm.Plugins.BloodPressure.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.CataractMap/CollaboRhythm.Plugins.CataractMap.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.CataractMap/CollaboRhythm.Plugins.CataractMap.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Equipment/CollaboRhythm.Plugins.Equipment.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.Equipment/CollaboRhythm.Plugins.Equipment.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Examples.MicrophoneExamples/CollaboRhythm.Plugins.Examples.MicrophoneExamples.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.Examples.MicrophoneExamples/CollaboRhythm.Plugins.Examples.MicrophoneExamples.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Medications/CollaboRhythm.Plugins.Medications.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.Medications/CollaboRhythm.Plugins.Medications.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Problems/CollaboRhythm.Plugins.Problems.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.Problems/CollaboRhythm.Plugins.Problems.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Schedule/CollaboRhythm.Plugins.Schedule.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.Schedule/CollaboRhythm.Plugins.Schedule.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Schedule.Shared/CollaboRhythm.Plugins.Schedule.Shared.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.Schedule.Shared/CollaboRhythm.Plugins.Schedule.Shared.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Shared/CollaboRhythm.Shared.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Shared/CollaboRhythm.Shared.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Shared.BloodSolutesSimulation/CollaboRhythm.Shared.BloodSolutesSimulation.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Shared.BloodSolutesSimulation/CollaboRhythm.Shared.BloodSolutesSimulation.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Shared.PluginsSupport/CollaboRhythm.Shared.PluginsSupport.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Shared.PluginsSupport/CollaboRhythm.Shared.PluginsSupport.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Tablet/CollaboRhythm.Tablet.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Tablet/CollaboRhythm.Tablet.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.View.Scroll/CollaboRhythm.View.Scroll.iml" filepath="$PROJECT_DIR$/CollaboRhythm.View.Scroll/CollaboRhythm.View.Scroll.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Workstation/CollaboRhythm.Workstation.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Workstation/CollaboRhythm.Workstation.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/McCuneChart/McCuneChart.iml" filepath="$PROJECT_DIR$/McCuneChart/McCuneChart.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/PianoChord/PianoChord.iml" filepath="$PROJECT_DIR$/PianoChord/PianoChord.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/indivo_client_flash/indivo_client_flash.iml" filepath="$PROJECT_DIR$/indivo_client_flash/indivo_client_flash.iml" group="CollaboRhythm" />
+      <module fileurl="file://$PROJECT_DIR$/Box2DFlashAS3/Box2DFlashAS3.iml" filepath="$PROJECT_DIR$/Box2DFlashAS3/Box2DFlashAS3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ChartBackgroundsLib/ChartBackgroundsLib.iml" filepath="$PROJECT_DIR$/ChartBackgroundsLib/ChartBackgroundsLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Core/CollaboRhythm.Core.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Core/CollaboRhythm.Core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Core.Tests/CollaboRhythm.Core.Tests.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Core.Tests/CollaboRhythm.Core.Tests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Mobile/CollaboRhythm.Mobile.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Mobile/CollaboRhythm.Mobile.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.BloodPressure/CollaboRhythm.Plugins.BloodPressure.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.BloodPressure/CollaboRhythm.Plugins.BloodPressure.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.CataractMap/CollaboRhythm.Plugins.CataractMap.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.CataractMap/CollaboRhythm.Plugins.CataractMap.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Equipment/CollaboRhythm.Plugins.Equipment.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.Equipment/CollaboRhythm.Plugins.Equipment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Examples.MicrophoneExamples/CollaboRhythm.Plugins.Examples.MicrophoneExamples.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.Examples.MicrophoneExamples/CollaboRhythm.Plugins.Examples.MicrophoneExamples.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Medications/CollaboRhythm.Plugins.Medications.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.Medications/CollaboRhythm.Plugins.Medications.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.MicrophoneExamples/CollaboRhythm.Plugins.MicrophoneExamples.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.MicrophoneExamples/CollaboRhythm.Plugins.MicrophoneExamples.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Problems/CollaboRhythm.Plugins.Problems.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.Problems/CollaboRhythm.Plugins.Problems.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Schedule/CollaboRhythm.Plugins.Schedule.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.Schedule/CollaboRhythm.Plugins.Schedule.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Schedule.Shared/CollaboRhythm.Plugins.Schedule.Shared.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.Schedule.Shared/CollaboRhythm.Plugins.Schedule.Shared.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Shared/CollaboRhythm.Shared.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Shared/CollaboRhythm.Shared.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Shared.BloodSolutesSimulation/CollaboRhythm.Shared.BloodSolutesSimulation.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Shared.BloodSolutesSimulation/CollaboRhythm.Shared.BloodSolutesSimulation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Shared.PluginsSupport/CollaboRhythm.Shared.PluginsSupport.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Shared.PluginsSupport/CollaboRhythm.Shared.PluginsSupport.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Tablet/CollaboRhythm.Tablet.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Tablet/CollaboRhythm.Tablet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.View.Scroll/CollaboRhythm.View.Scroll.iml" filepath="$PROJECT_DIR$/CollaboRhythm.View.Scroll/CollaboRhythm.View.Scroll.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Workstation/CollaboRhythm.Workstation.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Workstation/CollaboRhythm.Workstation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/McCuneChart/McCuneChart.iml" filepath="$PROJECT_DIR$/McCuneChart/McCuneChart.iml" />
+      <module fileurl="file://$PROJECT_DIR$/McCuneChart.demos/McCuneChart.demos.iml" filepath="$PROJECT_DIR$/McCuneChart.demos/McCuneChart.demos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PianoChord/PianoChord.iml" filepath="$PROJECT_DIR$/PianoChord/PianoChord.iml" />
+      <module fileurl="file://$PROJECT_DIR$/indivo_client_flash/indivo_client_flash.iml" filepath="$PROJECT_DIR$/indivo_client_flash/indivo_client_flash.iml" />
     </modules>
   </component>
 </project>

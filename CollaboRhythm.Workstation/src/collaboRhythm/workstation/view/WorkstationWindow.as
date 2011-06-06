@@ -53,6 +53,7 @@ package collaboRhythm.workstation.view
 	{
 		private var _fullScreenEnabled:Boolean = false;
 		private var _displayState:String = NativeWindowDisplayState.NORMAL;
+        private var _windowView:UIComponent;
 		private var _spaces:Vector.<UIComponent> = new Vector.<UIComponent>();
 		
 		public function WorkstationWindow()
@@ -146,7 +147,7 @@ package collaboRhythm.workstation.view
 //			}
 		}
 
-        private function initializeFromBounds(bounds:Rectangle):void
+        public function initializeFromBounds(bounds:Rectangle):void
         {
 			this.open(true);
 			this.move(bounds.x, bounds.y);
@@ -185,5 +186,15 @@ package collaboRhythm.workstation.view
 			this.spaces.push(space);
 			this.addElement(space);
 		}
-	}
+
+        public function get windowView():UIComponent
+        {
+            return _windowView;
+        }
+
+        public function set windowView(value:UIComponent):void
+        {
+            _windowView = value;
+        }
+    }
 }

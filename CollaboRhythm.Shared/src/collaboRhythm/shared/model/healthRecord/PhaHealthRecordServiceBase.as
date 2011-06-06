@@ -28,5 +28,31 @@ package collaboRhythm.shared.model.healthRecord
 //        {
 //            _pha.dispatchEvent(new HealthRecordServiceEvent(healthRecordServiceRequestDetails.healthRecordServiceErrorEventType, null, null, healthRecordServiceRequestDetails, null, errorStatus));
 //        }
+//        		private function addPendingRequest(requestType:String, id:String):void
+//		{
+//			var key:String = getPendingRequestKey(requestType, id);
+//			if (_pendingRequests.keys.contains(key))
+//			{
+//				throw new Error("request with matching key is already pending: " + key);
+//			}
+//
+//			_pendingRequests.put(key, key);
+//		}
+//
+//		private function removePendingRequest(requestType:String, id:String):void
+//		{
+//			var key:String = getPendingRequestKey(requestType, id);
+//			if (_pendingRequests.keys.contains(key))
+//			{
+//				_pendingRequests.remove(key);
+//				if (_pendingRequests.size() == 0)
+//					this.dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE));
+//			}
+//		}
+//
+//		private function getPendingRequestKey(requestType:String, id:String):String
+//		{
+//			return requestType + " " + id;
+//		}
     }
 }

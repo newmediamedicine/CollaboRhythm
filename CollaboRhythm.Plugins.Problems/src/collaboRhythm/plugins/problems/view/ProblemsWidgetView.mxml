@@ -20,42 +20,35 @@
 	width="500"
 	height="250"
 	skinClass="collaboRhythm.shared.view.skins.WidgetPanelSkin"
-	xmlns:resize="flex.utils.ui.resize.*"
 	xmlns:fx="http://ns.adobe.com/mxml/2009" 
 	xmlns:s="library://ns.adobe.com/flex/spark" 
 	xmlns:mx="library://ns.adobe.com/flex/mx"
-	xmlns:healthRecord="collaboRhythm.workstation.model.healthRecord.*"
-	xmlns:apps="collaboRhythm.shared.view.apps.*"
 	xmlns:scroll="collaboRhythm.view.scroll.*"
 	>
 	
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.plugins.problems.model.ProblemsModel;
-			import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-			import collaboRhythm.view.scroll.TouchScroller;
-			
-			import mx.events.FlexEvent;
-			
-			[Bindable]
-			private var _model:ProblemsModel;
-			
-			public function get model():ProblemsModel
-			{
-				return _model;
-			}
-			
-			public function set model(value:ProblemsModel):void
-			{
-				_model = value;
-			}
-			
-			protected function rawButton_clickHandler(event:MouseEvent):void
-			{
-				viewstack1.selectedIndex = (viewstack1.selectedIndex + 1) % viewstack1.length;
-			}
+        import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+        import collaboRhythm.shared.model.ProblemsModel;
 
-		]]>
+        [Bindable]
+        private var _model:ProblemsModel;
+
+        public function get model():ProblemsModel
+        {
+            return _model;
+        }
+
+        public function set model(value:ProblemsModel):void
+        {
+            _model = value;
+        }
+
+        protected function rawButton_clickHandler(event:MouseEvent):void
+        {
+            viewstack1.selectedIndex = (viewstack1.selectedIndex + 1) % viewstack1.length;
+        }
+        ]]>
 	</fx:Script>
 	
 	<fx:Declarations>
@@ -73,7 +66,7 @@
 			</scroll:TouchScrollingDataGrid>
 		</s:NavigatorContent>
 		<s:NavigatorContent label="rawContent" width="100%" height="100%">
-			<s:TextArea width="100%" height="100%" text="{_model.rawData}"/>
+			<s:TextArea width="100%" height="100%" text="{_model.problemsCollection}"/>
 		</s:NavigatorContent>
 	</mx:ViewStack>
 	<s:ToggleButton label="Raw" id="rawButton" click="rawButton_clickHandler(event)" width="48" bottom="0" left="0" alpha="{WorkstationAppControllerBase.DEBUG_BUTTON_ALPHA}" visible="{WorkstationAppControllerBase.DEBUG_BUTTON_VISIBLE}"/>

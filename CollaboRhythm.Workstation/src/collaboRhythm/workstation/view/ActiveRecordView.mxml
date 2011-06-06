@@ -15,12 +15,12 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
          xmlns:view="collaboRhythm.workstation.view.*"
          creationComplete="creationCompleteHandler()"
-		 height="100%" width="100%">
+		 height="100%" width="100%" gap="0">
     <fx:Script>
         <![CDATA[
         import collaboRhythm.shared.model.Account;
@@ -46,13 +46,24 @@
         ]]>
     </fx:Script>
     <view:ActiveRecordTabView id="activeRecordTabView" left="0" width="50%" top="0" height="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT}"/>
-    <s:Rect width="100%" top="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT}" bottom="0">
-        <s:fill>
-            <s:SolidColor color="{ActiveRecordView.RECORD_BACKGROUND_COLOR}"/>
-        </s:fill>
-    </s:Rect>
-    <!-- If there is only one screen or if the workstationApplication is in useSingleScreen mode then add the Tiled Widgets Container View here, otherwise add it to the secondaryWindowView -->
-    <s:Group id="fullViewGroup" width="100%" top="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT}" bottom="0">
-        <!-- Application full views are displayed here -->
+    <s:Group width="100%" height="100%">
+        <s:Rect width="100%" height="100%">
+            <s:fill>
+                <s:SolidColor color="{ActiveRecordView.RECORD_BACKGROUND_COLOR}"/>
+            </s:fill>
+        </s:Rect>
+        <s:VGroup width="100%" height="100%" gap="0">
+            <s:Group id="widgetViewGroup" width="100%" height="0" visible="false">
+                <!-- If there is only one screen or if the workstationApplication is in useSingleScreen mode then add the Tiled Widgets Container View here, otherwise add it to the secondaryWindowView -->
+                <s:Line width="100%" bottom="0">
+                    <s:stroke>
+                        <s:SolidColorStroke color="{ActiveRecordTabView.SEPARATOR_COLOR}"/>
+                    </s:stroke>
+                </s:Line>
+            </s:Group>
+            <s:Group id="fullViewGroup" width="100%" height="100%">
+                <!-- Application full views are displayed here -->
+            </s:Group>
+        </s:VGroup>
     </s:Group>
-</s:Group>
+</s:VGroup>

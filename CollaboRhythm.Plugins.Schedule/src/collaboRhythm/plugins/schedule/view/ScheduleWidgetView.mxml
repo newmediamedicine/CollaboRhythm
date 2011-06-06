@@ -40,9 +40,9 @@
 		<![CDATA[
         import collaboRhythm.plugins.schedule.controller.ScheduleWidgetViewController;
         import collaboRhythm.shared.model.AdherenceItem;
-        import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+        import collaboRhythm.plugins.schedule.model.ScheduleGroup;
         import collaboRhythm.shared.model.ScheduleItemBase;
-        import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
+        import collaboRhythm.plugins.schedule.model.ScheduleModel;
         import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
         import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEventHandler;
 
@@ -60,17 +60,18 @@
         private var _scheduleItemsCollection:ArrayCollection;
         private var _scheduleGroupReportingView:ScheduleGroupReportingView;
         private var _playVideoView:PlayVideoView;
+        private var _isCreationComplete:Boolean;
 
         public function init(scheduleWidgetViewController:ScheduleWidgetViewController,
                              scheduleModel:ScheduleModel):void
         {
             _scheduleModel = scheduleModel;
             _scheduleWidgetViewController = scheduleWidgetViewController;
-//
-//            _scheduleGroupsCollection = _scheduleModel.scheduleGroupsCollection;
-//            _scheduleGroupsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
-//                                                       scheduleGroupsCollectionChangeHandler);
-//
+
+            _scheduleGroupsCollection = _scheduleModel.scheduleGroupsCollection;
+            _scheduleGroupsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
+                                                       scheduleGroupsCollectionChangeHandler);
+
 //            this.addEventListener(ScheduleWidgetViewEvent.SCHEDULE_GROUP_CLOCK_VIEW_CLICK,
 //                                  scheduleGroupClockViewClickHandler);
 //            this.addEventListener(ScheduleWidgetViewEvent.SCHEDULE_GROUP_REPORTING_VIEW_BACK,
@@ -95,21 +96,23 @@
 
         private function creationCompleteHandler():void
         {
-//            for each (var scheduleGroup:ScheduleGroup in _scheduleGroupsCollection)
-//            {
-//                createScheduleGroupView(scheduleGroup);
-//            }
-//
-//            updateTime();
-//
-//            // creates a Timer that fires an event once per 10 minutes
-//            var timer:Timer = new Timer(600000);
-//
-//            // designates the onTick() method to handle Timer events
-//            timer.addEventListener(TimerEvent.TIMER, onTick);
-//
-//            // starts the clock ticking
-//            timer.start();
+            for each (var scheduleGroup:ScheduleGroup in _scheduleGroupsCollection)
+            {
+                createScheduleGroupView(scheduleGroup);
+            }
+            
+            _isCreationComplete = true;
+
+            updateTime();
+
+            // creates a Timer that fires an event once per 10 minutes
+            var timer:Timer = new Timer(600000);
+
+            // designates the onTick() method to handle Timer events
+            timer.addEventListener(TimerEvent.TIMER, onTick);
+
+            // starts the clock ticking
+            timer.start();
         }
 
         private function onTick(event:TimerEvent):void
@@ -141,9 +144,12 @@
         {
             if (event.kind == CollectionEventKind.ADD)
             {
-                for each (var scheduleGroupAdded:ScheduleGroup in event.items)
+                if (_isCreationComplete)
                 {
-                    createScheduleGroupView(scheduleGroupAdded);
+                    for each (var scheduleGroupAdded:ScheduleGroup in event.items)
+                    {
+                        createScheduleGroupView(scheduleGroupAdded);
+                    }
                 }
             }
             else if (event.kind == CollectionEventKind.REMOVE)

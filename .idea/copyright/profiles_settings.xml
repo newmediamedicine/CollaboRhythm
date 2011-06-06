@@ -1,7 +1,7 @@
 <component name="CopyrightManager">
   <settings default="CollaboRhythm">
     <module2copyright>
-      <element module="Project Files" copyright="CollaboRhythm" />
+      <element module="All" copyright="CollaboRhythm" />
     </module2copyright>
     <LanguageOptions name="__TEMPLATE__">
       <option name="addBlankAfter" value="false" />

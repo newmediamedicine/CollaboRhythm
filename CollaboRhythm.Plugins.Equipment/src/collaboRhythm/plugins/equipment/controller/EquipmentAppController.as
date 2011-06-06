@@ -16,8 +16,8 @@
  */
 package collaboRhythm.plugins.equipment.controller
 {
-	import collaboRhythm.plugins.equipment.model.EquipmentHealthRecordService;
-	import collaboRhythm.plugins.equipment.model.EquipmentModel;
+	import collaboRhythm.shared.model.healthRecord.EquipmentHealthRecordService;
+	import collaboRhythm.shared.model.EquipmentModel;
 	import collaboRhythm.plugins.equipment.view.EquipmentWidgetView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
@@ -65,7 +65,7 @@ package collaboRhythm.plugins.equipment.controller
 		{
 			var newWidgetView:EquipmentWidgetView = new EquipmentWidgetView();
 			if (_user != null)
-				newWidgetView.model = equipmentModel;
+				newWidgetView.model = _activeRecordAccount.primaryRecord.equipmentModel;
 			return newWidgetView;
 		}
 		
@@ -77,31 +77,31 @@ package collaboRhythm.plugins.equipment.controller
 		//			return newFullView;
 		//		}
 		
-		private function get equipmentModel():EquipmentModel
-		{
-			if (_user != null)
-			{
-				if (_user.appData[EquipmentModel.EQUIPMENT_KEY] == null)
-				{
-					_user.appData[EquipmentModel.EQUIPMENT_KEY] = new EquipmentModel(user);
-				}
-				return _user.getAppData(EquipmentModel.EQUIPMENT_KEY, EquipmentModel) as EquipmentModel;
-			}
-			return null;
-		}
+//		private function get equipmentModel():EquipmentModel
+//		{
+//			if (_user != null)
+//			{
+//				if (_user.appData[EquipmentModel.EQUIPMENT_KEY] == null)
+//				{
+//					_user.appData[EquipmentModel.EQUIPMENT_KEY] = new EquipmentModel(user);
+//				}
+//				return _user.getAppData(EquipmentModel.EQUIPMENT_KEY, EquipmentModel) as EquipmentModel;
+//			}
+//			return null;
+//		}
 		
 		public override function initialize():void
 		{
 			super.initialize();
-			if (equipmentModel.initialized == false)
-			{
-				var equipmentHealthRecordService:EquipmentHealthRecordService = new EquipmentHealthRecordService(_healthRecordService.oauthConsumerKey, _healthRecordService.oauthConsumerSecret, _healthRecordService.indivoServerBaseURL);
-				equipmentHealthRecordService.copyLoginResults(_healthRecordService);
-				equipmentHealthRecordService.loadEquipment(_user);
-			}
+//			if (equipmentModel.initialized == false)
+//			{
+//				var equipmentHealthRecordService:EquipmentHealthRecordService = new EquipmentHealthRecordService(_healthRecordService.oauthConsumerKey, _healthRecordService.oauthConsumerSecret, _healthRecordService.indivoServerBaseURL);
+//				equipmentHealthRecordService.copyLoginResults(_healthRecordService);
+//				equipmentHealthRecordService.loadEquipment(_user);
+//			}
 			
 			if (_widgetView)
-				(_widgetView as EquipmentWidgetView).model = equipmentModel;
+				(_widgetView as EquipmentWidgetView).model = _activeRecordAccount.primaryRecord.equipmentModel;
 			//			prepareFullView();
 		}
 		
@@ -126,7 +126,7 @@ package collaboRhythm.plugins.equipment.controller
 		
 		override protected function removeUserData():void
 		{
-			user.appData[EquipmentModel.EQUIPMENT_KEY] = null;
+//			user.appData[EquipmentModel.EQUIPMENT_KEY] = null;
 		}
 
 		public override function get defaultName():String

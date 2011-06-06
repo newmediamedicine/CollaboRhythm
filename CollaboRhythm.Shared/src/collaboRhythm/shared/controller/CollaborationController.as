@@ -19,25 +19,17 @@ package collaboRhythm.shared.controller
 
     import collaboRhythm.shared.model.Account;
     import collaboRhythm.shared.model.CollaborationModel;
-	import collaboRhythm.shared.model.settings.Settings;
-	import collaboRhythm.shared.model.User;
-	import collaboRhythm.shared.model.UsersModel;
-	import collaboRhythm.shared.view.CollaborationRoomView;
-	import collaboRhythm.shared.view.RecordVideoView;
+    import collaboRhythm.shared.model.User;
+    import collaboRhythm.shared.model.settings.Settings;
     import collaboRhythm.shared.view.CollaborationView;
 
     import flash.events.EventDispatcher;
-	import flash.media.Video;
-	import flash.utils.getQualifiedClassName;
-	
-	import mx.core.IVisualElementContainer;
-	import mx.logging.ILogger;
-	import mx.logging.Log;
-	
-	import spark.effects.Animate;
-	import spark.effects.Move;
-	
-	/**
+    import flash.utils.getQualifiedClassName;
+
+    import mx.logging.ILogger;
+    import mx.logging.Log;
+
+    /**
 	 * Coordinates interaction between the CollaborationModel and the CollaborationView and its children the RecordVideoView and CollaborationRoomView.
 	 * Currently, it is possible for the user to accept or cancel (this includes reject) collaborations from the CollaboratingRemoteUserViews in the CollaborationBarView.
 	 * The CollaborationBarView listens for the events from the CollaboratingRemoteUserViews and calls functions in this class, which update the collaborationModel and dispatch events for interested observers.

@@ -26,8 +26,8 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-        import collaboRhythm.plugins.equipment.model.Equipment;
-        import collaboRhythm.plugins.equipment.model.EquipmentScheduleItem;
+        import collaboRhythm.shared.model.Equipment;
+        import collaboRhythm.shared.model.EquipmentScheduleItem;
         import collaboRhythm.shared.model.AdherenceItem;
 
         import spark.filters.GlowFilter;
@@ -37,7 +37,7 @@
         [Bindable]
         private var _equipmentScheduleItem:EquipmentScheduleItem
 
-        public function get equipment():collaboRhythm.plugins.equipment.model.Equipment
+        public function get equipment():Equipment
         {
             return _equipment;
         }
@@ -47,7 +47,7 @@
             _equipment = value;
         }
 
-        public function get equipmentScheduleItem():collaboRhythm.plugins.equipment.model.EquipmentScheduleItem
+        public function get equipmentScheduleItem():EquipmentScheduleItem
         {
             return _equipmentScheduleItem;
         }
@@ -61,14 +61,7 @@
         {
             if (adherenceItem)
             {
-                if (adherenceItem.adherence)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return (adherenceItem.adherence);
             }
             else
             {
@@ -80,14 +73,7 @@
         {
             if (adherenceItem)
             {
-                if (adherenceItem.adherence)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
+                return (!adherenceItem.adherence);
             }
             else
             {
@@ -96,7 +82,8 @@
         }
         ]]>
 	</fx:Script>
+    <!--visible="{determineCheckVisible(_equipmentScheduleItem.adherenceItem)}"-->
 	<images:BloodPressureScheduleItemClockView width="100%" height="100%"/>
-	<images:check width="70%" height="70%" verticalCenter="0" horizontalCenter="0" visible="{determineCheckVisible(_equipmentScheduleItem.adherenceItem)}" filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}" />
-	<images:x width="70%" height="70%"  verticalCenter="0" horizontalCenter="0" visible="{determineXVisible(_equipmentScheduleItem.adherenceItem)}" filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}"/>
+	<!--<images:check width="70%" height="70%" verticalCenter="0" horizontalCenter="0" filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}" />-->
+	<!--<images:x width="70%" height="70%"  verticalCenter="0" horizontalCenter="0" filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}"/>-->
 </view:ScheduleItemClockViewBase>

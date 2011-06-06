@@ -17,7 +17,7 @@
 package collaboRhythm.plugins.schedule.controller
 {
 	import collaboRhythm.plugins.schedule.shared.model.MoveData;
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
+	import collaboRhythm.plugins.schedule.model.ScheduleModel;
 	import collaboRhythm.plugins.schedule.view.ScheduleFullView;
 	import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.User;

@@ -16,19 +16,16 @@
  */
 package collaboRhythm.shared.controller.apps
 {
-import collaboRhythm.shared.model.Account;
-import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
-	import collaboRhythm.shared.model.healthRecord.CommonHealthRecordService;
-	import collaboRhythm.shared.model.User;
+
+    import collaboRhythm.shared.model.Account;
+    import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
+    import collaboRhythm.shared.model.User;
+    import collaboRhythm.shared.model.services.IComponentContainer;
     import collaboRhythm.shared.model.settings.Settings;
 
-    import flash.net.getClassByAlias;
-	
-	import mx.core.IVisualElementContainer;
-	
-	import org.indivo.client.Pha;
+    import mx.core.IVisualElementContainer;
 
-	/**
+    /**
 	 * Creates workstation apps and prepares them for use in a parent container.
 	 * 
 	 */
@@ -36,14 +33,15 @@ import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
 	{
 		private var _widgetParentContainer:IVisualElementContainer;
 		private var _fullParentContainer:IVisualElementContainer;
-		private var _healthRecordService:CommonHealthRecordService;
+//		private var _healthRecordService:CommonHealthRecordService;
 		private var _user:User;
 		private var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
 		private var _isWorkstationMode:Boolean;
         private var _activeAccount:Account;
         private var _activeRecordAccount:Account;
         private var _settings:Settings;
-		
+        private var _componentContainer:IComponentContainer;
+
 		public function WorkstationAppControllerFactory()
 		{
 		}
@@ -68,15 +66,15 @@ import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
 			_fullParentContainer = value;
 		}
 
-		public function get healthRecordService():CommonHealthRecordService
-		{
-			return _healthRecordService;
-		}
+//		public function get healthRecordService():CommonHealthRecordService
+//		{
+//			return _healthRecordService;
+//		}
 
-		public function set healthRecordService(value:CommonHealthRecordService):void
-		{
-			_healthRecordService = value;
-		}
+//		public function set healthRecordService(value:CommonHealthRecordService):void
+//		{
+//			_healthRecordService = value;
+//		}
 
 		public function get user():User
 		{
@@ -117,6 +115,7 @@ import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
             constructorParams.activeAccount = _activeAccount;
             constructorParams.activeRecordAccount = _activeRecordAccount;
             constructorParams.settings = _settings;
+            constructorParams.componentContainer = _componentContainer;
 
 			var appObject:Object = new appClass(constructorParams);
 			if (appObject == null)
@@ -127,7 +126,7 @@ import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
 			if (appName != null)
 				app.name = appName;
 			
-			app.healthRecordService = _healthRecordService;
+//			app.healthRecordService = _healthRecordService;
 			app.user = _user;
 			app.collaborationRoomNetConnectionServiceProxy = _collaborationRoomNetConnectionServiceProxy;
 			app.initialize();
@@ -161,6 +160,16 @@ import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
         public function set activeRecordAccount(value:Account):void
         {
             _activeRecordAccount = value;
+        }
+
+        public function get componentContainer():IComponentContainer
+        {
+            return _componentContainer;
+        }
+
+        public function set componentContainer(value:IComponentContainer):void
+        {
+            _componentContainer = value;
         }
     }
 }

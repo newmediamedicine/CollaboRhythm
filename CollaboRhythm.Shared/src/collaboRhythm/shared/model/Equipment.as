@@ -14,14 +14,16 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.plugins.equipment.model
+package collaboRhythm.shared.model
 {
 	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
-	[Bindable]
+    import j2as3.collection.HashMap;
+
+    [Bindable]
 	public class Equipment extends DocumentMetadata
 	{
 		private var _dateStarted:Date;
@@ -35,15 +37,34 @@ package collaboRhythm.plugins.equipment.model
 		private var _description:String;
 		private var _specification:String;
 		private var _certification:String;
+        private var _scheduleItems:HashMap = new HashMap();
 		
 		private var _currentDateSource:ICurrentDateSource;
 		
-		public function Equipment(equipmentReportXML:XML)
+		public function Equipment()
 		{
-			parseDocumentMetadata(equipmentReportXML.Meta.Document[0], this);
-			var equipmentXML:XML = equipmentReportXML.Item.Equipment[0];
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+		}
+
+        public function init(dateStarted:Date, dateStopped:Date, type:String, name:String, vendor:String, id:String, description:String, specification:String, certification:String):void
+        {
+ //			_dateStarted = dateStarted;
+//			_dateStopped = dateStopped;
+//			_type = type;
+//			_name = name;
+//			_vendor = vendor;
+//			_id = id;
+//			_description = description;
+//			_specification = specification;
+//			_certification = certification;
+        }
+
+        public function initFromReportXML(equipmentReportXml:XML):void
+        {
+            parseDocumentMetadata(equipmentReportXml.Meta.Document[0], this);
+			var equipmentXML:XML = equipmentReportXml.Item.Equipment[0];
 			//TODO: Fix the date on equipment to conform to W3CDTF
-			_dateStarted = new Date(2011, 2, 14); 
+			_dateStarted = new Date(2011, 2, 14);
 //			_dateStarted = DateUtil.parseW3CDTF(equipmentXML.dateStarted.toString());
 			_dateStopped = DateUtil.parseW3CDTF(equipmentXML.dateStopped.toString());
 //			_type = equipmentXML.type;
@@ -53,19 +74,11 @@ package collaboRhythm.plugins.equipment.model
 			_description = equipmentXML.description;
 			_specification = equipmentXML.specification;
 			_certification = equipmentXML.certification;
-			
-//			_dateStarted = dateStarted;
-//			_dateStopped = dateStopped;
-//			_type = type;
-//			_name = name;
-//			_vendor = vendor;
-//			_id = id;
-//			_description = description;
-//			_specification = specification;
-//			_certification = certification;
-			
-			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
-		}
+            for each (var scheduleItemXml:XML in equipmentReportXml..relatesTo.relation.(@type == "http://indivo.org/vocab/documentrels#scheduleItem").relatedDocument)
+            {
+                _scheduleItems[scheduleItemXml.@id] = null;
+            }
+        }
 
 		public function get dateStarted():Date
 		{
@@ -166,5 +179,14 @@ package collaboRhythm.plugins.equipment.model
 			return false;
 		}
 
-	}
+        public function get scheduleItems():HashMap
+        {
+            return _scheduleItems;
+        }
+
+        public function set scheduleItems(value:HashMap):void
+        {
+            _scheduleItems = value;
+        }
+    }
 }

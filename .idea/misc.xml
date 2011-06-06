@@ -3,23 +3,7 @@
   <component name="DependencyValidationManager">
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
   </component>
-  <component name="EntryPointsManager">
-    <entry_points version="2.0" />
-  </component>
-  <component name="FacetAutodetectingManager">
-    <autodetection-disabled>
-      <facet-type id="android">
-        <modules>
-          <module name="CollaboRhythm.Mobile">
-            <files>
-              <file url="file://$PROJECT_DIR$/CollaboRhythm.Mobile/AndroidManifest.xml" />
-            </files>
-          </module>
-        </modules>
-      </facet-type>
-    </autodetection-disabled>
-  </component>
-  <component name="IdProvider" IDEtalkID="F856FB66B8AAA875E052A7A55DB84078" />
+  <component name="IdProvider" IDEtalkID="53D7F28FB2788A930D3E2BA8F53F67B6" />
   <component name="JavadocGenerationManager">
     <option name="OUTPUT_DIRECTORY" />
     <option name="OPTION_SCOPE" value="protected" />
@@ -38,7 +22,6 @@
     <option name="OPEN_IN_BROWSER" value="true" />
   </component>
   <component name="ProjectResources">
-    <resource url="http://collaborhythm.org/application/settings" location="$PROJECT_DIR$/CollaboRhythm.Shared/src/resources/settings.xsd" />
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="4.5.0.20967 AIR" project-jdk-type="AIR SDK Type">

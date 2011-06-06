@@ -14,14 +14,15 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.plugins.problems.model
+package collaboRhythm.shared.model
 {
 	import collaboRhythm.shared.model.DateUtil;
-	import collaboRhythm.shared.model.services.ICurrentDateSource;
+    import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
+    import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
 	[Bindable]
-	public class Problem
+	public class Problem extends DocumentMetadata
 	{
 		private var _name:String;
 		private var _commonName:String;
@@ -29,14 +30,21 @@ package collaboRhythm.plugins.problems.model
 		private var _dateResolution:Date;
 		private var _currentDateSource:ICurrentDateSource;
 		
-		public function Problem(problemXml:XML)
+		public function Problem()
 		{
-			_name = problemXml.name;
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+		}
+
+        public function initFromReportXML(problemReportXml:XML):void
+        {
+            parseDocumentMetadata(problemReportXml.Meta.Document[0], this);
+			var problemXml:XML = problemReportXml.Item.Equipment[0];
+            //TODO: Currently there are not any problems in the record, so this code has not been validated
+            _name = problemXml.name;
 			_commonName = problemXml.comments;
 			_dateOnset =  DateUtil.parseW3CDTF(problemXml.dateOnset.toString());
 			_dateResolution =  DateUtil.parseW3CDTF(problemXml.dateResolution.toString());
-			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
-		}
+        }
 
 		public function get commonNameLabel():String
 		{

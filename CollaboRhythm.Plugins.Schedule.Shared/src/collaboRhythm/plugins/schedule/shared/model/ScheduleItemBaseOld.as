@@ -16,13 +16,15 @@
  */
 package collaboRhythm.plugins.schedule.shared.model
 {
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
+
+
+    import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
 	
 	[Bindable]
 	public class ScheduleItemBaseOld
 	{
-		private var _scheduleModel:ScheduleModel;
+//		private var _scheduleModel:ScheduleModel;
 		private var _documentID:String;
 		private var _scheduled:Boolean = false;
 		private var _hour:Number = 9;
@@ -38,15 +40,15 @@ package collaboRhythm.plugins.schedule.shared.model
 		private var _firstMove:Boolean = false;
 		private var _collaborationColor:String = "0xFFFFFF";
 		
-		public function get scheduleModel():ScheduleModel
-		{
-			return _scheduleModel;
-		}
-		
-		public function set scheduleModel(value:ScheduleModel):void
-		{
-			_scheduleModel = value;
-		}
+//		public function get scheduleModel():ScheduleModel
+//		{
+//			return _scheduleModel;
+//		}
+//
+//		public function set scheduleModel(value:ScheduleModel):void
+//		{
+//			_scheduleModel = value;
+//		}
 		
 		public function get yBottomPosition():Number
 		{

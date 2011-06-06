@@ -19,7 +19,7 @@ package collaboRhythm.core.pluginsManagement
 	import castle.flexbridge.reflection.ReflectionUtils;
 
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
-	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
+	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
 	
 	import flash.events.Event;

@@ -15,13 +15,21 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-         xmlns:view="collaboRhythm.workstation.view.*"
-         width="100%" height="100%">
+         xmlns:workstationViews="collaboRhythm.workstation.view.*"
+         xmlns:sharedViews="collaboRhythm.shared.view.*"
+         width="100%" height="100%" gap="0">
+    <s:states>
+        <s:State name="useSingleScreen"/>
+        <s:State name="useDualScreen"/>
+    </s:states>
     <fx:Script>
         <![CDATA[
+
+        private const COLLABORATION_VIEW_HEIGHT:int = 200;
+
         import collaboRhythm.shared.model.Account;
         import collaboRhythm.workstation.controller.WorkstationApplicationController;
         import collaboRhythm.workstation.view.ActiveAccountView;
@@ -29,26 +37,25 @@
         private const ACTIVE_ACCOUNT_AND_RECORD_GROUP_HEIGHT:int = 70;
 
         private var _workstationApplicationController:WorkstationApplicationController;
-        private var _activeAccount:Account;
+//        private var _activeAccount:Account;
 
-        public function init(workstationApplicationController:WorkstationApplicationController,
-                             activeAccount:Account):void
+        public function init(workstationApplicationController:WorkstationApplicationController):void
         {
             _workstationApplicationController = workstationApplicationController;
 
-            _activeAccount = activeAccount;
-            activeAccountView.init(_workstationApplicationController, _activeAccount);
+//            _activeAccount = activeAccount;
+//            activeAccountView.init(_workstationApplicationController, _activeAccount);
         }
         ]]>
     </fx:Script>
-    <s:Rect width="100%" height="100%">
+<!--    <s:Rect width="100%" height="100%">
         <s:fill>
             <s:SolidColor color="{ActiveAccountView.ACTIVE_ACCOUNT_BACKGROUND_COLOR}"/>
         </s:fill>
-    </s:Rect>
-    <!-- If there is only one window or if the application is in useSingleScreen mode, then a VideoView will be added here at the top of the screen -->
-    <s:Group id="mainGroup" width="100%" top="0" bottom="0">
+    </s:Rect>-->
+    <sharedViews:CollaborationView id="collaborationView" width="100%" height="0" includeIn="useSingleScreen"/>
+    <s:Group id="mainGroup" width="100%" height="100%">
         <!-- This Group holds the activeAccount and the activeRecord, its top attribute is used to shrink it in the case of the video view coming into view -->
-        <view:ActiveAccountView id="activeAccountView" width="100%" height="100%"/>
+        <workstationViews:ActiveAccountView id="activeAccountView" width="100%" height="100%"/>
     </s:Group>
-</s:Group>
+</s:VGroup>

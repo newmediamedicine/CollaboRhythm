@@ -19,13 +19,12 @@ package collaboRhythm.core.controller
 
     import castle.flexbridge.kernel.IKernel;
 
+    import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
     import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
     import collaboRhythm.core.pluginsManagement.PluginLoader;
-    import collaboRhythm.core.view.RemoteUsersListView;
     import collaboRhythm.shared.controller.CollaborationController;
     import collaboRhythm.shared.controller.apps.AppControllerInfo;
     import collaboRhythm.shared.model.Account;
-    import collaboRhythm.shared.model.User;
     import collaboRhythm.shared.model.healthRecord.AccountInformationHealthRecordService;
     import collaboRhythm.shared.model.healthRecord.CreateSessionHealthRecordService;
     import collaboRhythm.shared.model.healthRecord.DemographicsHealthRecordService;
@@ -33,11 +32,11 @@ package collaboRhythm.core.controller
     import collaboRhythm.shared.model.healthRecord.RecordsHealthRecordService;
     import collaboRhythm.shared.model.healthRecord.SharesHealthRecordService;
     import collaboRhythm.shared.model.services.DemoCurrentDateSource;
+    import collaboRhythm.shared.model.services.IComponentContainer;
     import collaboRhythm.shared.model.services.ICurrentDateSource;
     import collaboRhythm.shared.model.services.WorkstationKernel;
     import collaboRhythm.shared.model.settings.Settings;
     import collaboRhythm.shared.model.settings.SettingsFileStore;
-    import collaboRhythm.shared.pluginsSupport.IComponentContainer;
     import collaboRhythm.shared.view.CollaborationRoomView;
     import collaboRhythm.shared.view.CollaborationView;
     import collaboRhythm.shared.view.RecordVideoView;
@@ -72,7 +71,6 @@ package collaboRhythm.core.controller
 
         public function ApplicationControllerBase()
         {
-
         }
 
         // To be overridden by subclasses with the super method called at the beginning
@@ -97,15 +95,8 @@ package collaboRhythm.core.controller
             _logger.info("  Number of loaded plugins: " + _pluginLoader.numPluginsLoaded);
 
             // the activeAccount is that which is actively in session with the Indivo server, there can only be one active account at a time
-            // create an instance of this model class immediately so that it is accessible to all subsequent operations
+            // create an instance of this model class before creating a session so that the results are tracked by that instance
             _activeAccount = new Account();
-
-            // the collaborationController coordinates interaction between the CollaborationModel and the CollaborationView and its children the RecordVideoView and CollaborationRoomView.
-            // The CollaborationModel, through its services, connects to the collaboration server, which is currently a Flash Media Server
-            // This server allows the user to see when other account owners are online
-            // It also allows collaboration with these account owners and sending and viewing of asynchronous video
-            // Note that the collaborationView is defined by subclasses of ApplicationControllerBase and that it must be instantiated when the class is defined to be accessible here
-            _collaborationController = new CollaborationController(_activeAccount, collaborationView, _settings);
         }
 
         private function initSettings():void
@@ -179,6 +170,21 @@ package collaboRhythm.core.controller
         /**
          * Method that should be called by subclasses to create a session with the Indivo backend server.
          */
+        protected function initCollaborationController(collaborationView:CollaborationView):void
+        {
+            // the collaborationController coordinates interaction between the CollaborationModel and the CollaborationView and its children the RecordVideoView and CollaborationRoomView.
+            // The CollaborationModel, through its services, connects to the collaboration server, which is currently a Flash Media Server
+            // This server allows the user to see when other account owners are online
+            // It also allows collaboration with these account owners and sending and viewing of asynchronous video
+
+            _collaborationController = new CollaborationController(_activeAccount, collaborationView, _settings);
+            if (collaborationView != null)
+                collaborationView.init(_collaborationController);
+        }
+
+        /**
+         * Method that should be called by subclasses to create a session with the Indivo backend server.
+         */
         protected function createSession():void
         {
             _logger.info("Creating session in Indivo...");
@@ -202,6 +208,8 @@ package collaboRhythm.core.controller
             // TODO: add the ability to retrieve credentials if they are implemented
 //            getAccountInformation();
 
+            openActiveAccount(_activeAccount);
+
             // get the records for the account actively in session, this includes records that have been shared with the account
             getRecords();
         }
@@ -210,6 +218,17 @@ package collaboRhythm.core.controller
         {
             // TODO: add UI feedback for when creating a session fails
             _logger.info("Creating session in Indivo - FAILED - " + event.errorStatus);
+        }
+
+        /**
+         * Virtual method which subclasses should override to dictate what happens when the active account is opened
+         *
+         * @param activeAccount
+         *
+         */
+        protected function openActiveAccount(activeAccount:Account):void
+        {
+
         }
 
         private function getAccountInformation():void
@@ -361,17 +380,17 @@ package collaboRhythm.core.controller
             _logger.info("  Number of registered AppControllerInfo objects (apps): " + (array ? array.length : 0));
 
             if (_reloadWithRecordAccount)
-                openRecordAccount(_reloadWithRecordAccount);
-
-//            if (_reloadWithFullView)
-                // TODO: Fix showing the full view that was active on reloading
-                // TODO: potentially have the appControllersMediator available here in the base
-//                _collaborationMediator.appControllersMediator.showFullView(_reloadWithFullView);
+            openRecordAccount(_reloadWithRecordAccount);
         }
+
+        protected function get appControllersMediator():AppControllersMediatorBase
+		{
+            throw new Error("virtual function must be overridden in subclass");
+		}
 
         protected function changeDemoDate():void
 		{
-            throw new Error("virtual function must be overriden in subclass");
+            throw new Error("virtual function must be overridden in subclass");
 		}
 
         public function get settingsFileStore():SettingsFileStore
@@ -415,11 +434,6 @@ package collaboRhythm.core.controller
         }
 
         public function get recordVideoView():RecordVideoView
-        {
-            throw new Error("virtual function must be overriden in subclass");
-        }
-
-        public function get remoteUsersView():RemoteUsersListView
         {
             throw new Error("virtual function must be overriden in subclass");
         }
