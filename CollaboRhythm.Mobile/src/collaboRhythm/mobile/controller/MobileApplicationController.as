@@ -18,7 +18,6 @@ package collaboRhythm.mobile.controller
 {
 
     import collaboRhythm.core.controller.ApplicationControllerBase;
-    import collaboRhythm.core.view.RemoteUsersListView;
     import collaboRhythm.mobile.view.WidgetContainerView;
     import collaboRhythm.shared.model.Account;
     import collaboRhythm.shared.model.services.DemoEvent;
@@ -82,12 +81,7 @@ package collaboRhythm.mobile.controller
 		{
 			return null;
 		}
-		
-		public override function get remoteUsersView():RemoteUsersListView
-		{
-			return null;
-		}
-		
+
 		public override function get widgetsContainer():IVisualElementContainer
 		{
 			return null;

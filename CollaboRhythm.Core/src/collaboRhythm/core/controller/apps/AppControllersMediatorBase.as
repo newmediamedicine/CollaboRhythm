@@ -16,44 +16,41 @@
  */
 package collaboRhythm.core.controller.apps
 {
-	import castle.flexbridge.reflection.ReflectionUtils;
 
-	import collaboRhythm.plugins.problems.controller.ProblemsAppController;
-	import collaboRhythm.shared.apps.allergies.controller.AllergiesAppController;
-	import collaboRhythm.shared.apps.bloodPressureAgent.controller.BloodPressureAgentAppController;
-	import collaboRhythm.shared.apps.familyHistory.controller.FamilyHistoryAppController;
-	import collaboRhythm.shared.apps.genetics.controller.GeneticsAppController;
-	import collaboRhythm.shared.apps.imaging.controller.ImagingAppController;
-	import collaboRhythm.shared.apps.immunizations.controller.ImmunizationsAppController;
-	import collaboRhythm.shared.apps.labs.controller.LabsAppController;
-	import collaboRhythm.shared.apps.procedures.controller.ProceduresAppController;
-	import collaboRhythm.shared.apps.socialHistory.controller.SocialHistoryAppController;
-	import collaboRhythm.shared.apps.vitals.controller.VitalsAppController;
-	import collaboRhythm.shared.controller.apps.AppControllerInfo;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerFactory;
-	import collaboRhythm.shared.controller.apps.WorkstationAppEvent;
-	import collaboRhythm.shared.model.*;
-	import collaboRhythm.shared.model.healthRecord.CommonHealthRecordService;
-	import collaboRhythm.shared.model.settings.AppGroupDescriptor;
-	import collaboRhythm.shared.model.settings.Settings;
-	import collaboRhythm.shared.model.services.IComponentContainer;
+    import castle.flexbridge.reflection.ReflectionUtils;
 
-	import com.theory9.data.types.OrderedMap;
+    import collaboRhythm.plugins.problems.controller.ProblemsAppController;
+    import collaboRhythm.shared.apps.allergies.controller.AllergiesAppController;
+    import collaboRhythm.shared.apps.bloodPressureAgent.controller.BloodPressureAgentAppController;
+    import collaboRhythm.shared.apps.familyHistory.controller.FamilyHistoryAppController;
+    import collaboRhythm.shared.apps.genetics.controller.GeneticsAppController;
+    import collaboRhythm.shared.apps.imaging.controller.ImagingAppController;
+    import collaboRhythm.shared.apps.immunizations.controller.ImmunizationsAppController;
+    import collaboRhythm.shared.apps.labs.controller.LabsAppController;
+    import collaboRhythm.shared.apps.procedures.controller.ProceduresAppController;
+    import collaboRhythm.shared.apps.socialHistory.controller.SocialHistoryAppController;
+    import collaboRhythm.shared.apps.vitals.controller.VitalsAppController;
+    import collaboRhythm.shared.controller.apps.AppControllerInfo;
+    import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+    import collaboRhythm.shared.controller.apps.WorkstationAppControllerFactory;
+    import collaboRhythm.shared.controller.apps.WorkstationAppEvent;
+    import collaboRhythm.shared.model.*;
+    import collaboRhythm.shared.model.services.IComponentContainer;
+    import collaboRhythm.shared.model.settings.AppGroupDescriptor;
+    import collaboRhythm.shared.model.settings.Settings;
 
-	import flash.net.getClassByAlias;
-	import flash.net.registerClassAlias;
-    import flash.sampler._setSamplerCallback;
+    import com.theory9.data.types.OrderedMap;
 
+    import flash.net.registerClassAlias;
     import flash.utils.getQualifiedClassName;
 
-	import mx.collections.ArrayCollection;
-	import mx.core.IVisualElementContainer;
-	import mx.core.UIComponent;
-	import mx.logging.ILogger;
-	import mx.logging.Log;
+    import mx.collections.ArrayCollection;
+    import mx.core.IVisualElementContainer;
+    import mx.core.UIComponent;
+    import mx.logging.ILogger;
+    import mx.logging.Log;
 
-	/**
+    /**
 	 * Responsible for creating the collection of workstation apps and adding them to the parent container.
 	 *
 	 */
@@ -64,7 +61,6 @@ package collaboRhythm.core.controller.apps
 		private var _fullParentContainer:IVisualElementContainer;
 		private var _settings:Settings;
 		private var _workstationApps:OrderedMap;
-		protected var _healthRecordService:CommonHealthRecordService;
 		private var _collaborationRoomNetConnectionService:CollaborationRoomNetConnectionService;
 		private var _factory:WorkstationAppControllerFactory;
 		private var _componentContainer:IComponentContainer;

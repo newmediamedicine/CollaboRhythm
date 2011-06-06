@@ -20,14 +20,11 @@ package collaboRhythm.core.controller
     import castle.flexbridge.kernel.IKernel;
 
     import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
-
     import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
     import collaboRhythm.core.pluginsManagement.PluginLoader;
-    import collaboRhythm.core.view.RemoteUsersListView;
     import collaboRhythm.shared.controller.CollaborationController;
     import collaboRhythm.shared.controller.apps.AppControllerInfo;
     import collaboRhythm.shared.model.Account;
-    import collaboRhythm.shared.model.User;
     import collaboRhythm.shared.model.healthRecord.AccountInformationHealthRecordService;
     import collaboRhythm.shared.model.healthRecord.CreateSessionHealthRecordService;
     import collaboRhythm.shared.model.healthRecord.DemographicsHealthRecordService;
@@ -35,11 +32,11 @@ package collaboRhythm.core.controller
     import collaboRhythm.shared.model.healthRecord.RecordsHealthRecordService;
     import collaboRhythm.shared.model.healthRecord.SharesHealthRecordService;
     import collaboRhythm.shared.model.services.DemoCurrentDateSource;
+    import collaboRhythm.shared.model.services.IComponentContainer;
     import collaboRhythm.shared.model.services.ICurrentDateSource;
     import collaboRhythm.shared.model.services.WorkstationKernel;
     import collaboRhythm.shared.model.settings.Settings;
     import collaboRhythm.shared.model.settings.SettingsFileStore;
-    import collaboRhythm.shared.model.services.IComponentContainer;
     import collaboRhythm.shared.view.CollaborationRoomView;
     import collaboRhythm.shared.view.CollaborationView;
     import collaboRhythm.shared.view.RecordVideoView;
@@ -437,11 +434,6 @@ package collaboRhythm.core.controller
         }
 
         public function get recordVideoView():RecordVideoView
-        {
-            throw new Error("virtual function must be overriden in subclass");
-        }
-
-        public function get remoteUsersView():RemoteUsersListView
         {
             throw new Error("virtual function must be overriden in subclass");
         }

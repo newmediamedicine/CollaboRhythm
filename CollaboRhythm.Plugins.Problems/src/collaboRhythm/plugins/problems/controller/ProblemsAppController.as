@@ -16,8 +16,7 @@
  */
 package collaboRhythm.plugins.problems.controller
 {
-	import collaboRhythm.plugins.problems.model.ProblemsHealthRecordService;
-	import collaboRhythm.plugins.problems.model.ProblemsModel;
+	import collaboRhythm.shared.model.ProblemsModel;
 	import collaboRhythm.plugins.problems.view.ProblemsFullView;
 	import collaboRhythm.plugins.problems.view.ProblemsWidgetView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
@@ -80,18 +79,18 @@ package collaboRhythm.plugins.problems.controller
 			return newFullView;
 		}
 		
-		private function get problemsModel():ProblemsModel
-		{
-			if (_user != null)
-			{
-				if (_user.appData[ProblemsModel.PROBLEMS_KEY] == null)
-				{
-					_user.appData[ProblemsModel.PROBLEMS_KEY] = new ProblemsModel();
-				}
-				return _user.getAppData(ProblemsModel.PROBLEMS_KEY, ProblemsModel) as ProblemsModel;
-			}
-			return null;
-		}
+//		private function get problemsModel():ProblemsModel
+//		{
+//			if (_user != null)
+//			{
+//				if (_user.appData[ProblemsModel.PROBLEMS_KEY] == null)
+//				{
+//					_user.appData[ProblemsModel.PROBLEMS_KEY] = new ProblemsModel();
+//				}
+//				return _user.getAppData(ProblemsModel.PROBLEMS_KEY, ProblemsModel) as ProblemsModel;
+//			}
+//			return null;
+//		}
 		
 		public override function initialize():void
 		{
@@ -104,7 +103,7 @@ package collaboRhythm.plugins.problems.controller
 //			}
 
 			if (_widgetView)
-				(_widgetView as ProblemsWidgetView).model = problemsModel;
+				(_widgetView as ProblemsWidgetView).model = _activeRecordAccount.primaryRecord.problemsModel;
 			prepareFullView();
 		}
 		
@@ -119,7 +118,7 @@ package collaboRhythm.plugins.problems.controller
 		{
 			super.prepareFullView();
 			if (_fullView)
-				(_fullView as ProblemsFullView).model = problemsModel;
+				(_fullView as ProblemsFullView).model = _activeRecordAccount.primaryRecord.problemsModel;
 		}
 
 		public override function get defaultName():String

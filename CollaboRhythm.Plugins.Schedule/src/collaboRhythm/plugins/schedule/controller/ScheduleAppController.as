@@ -16,35 +16,27 @@
  */
 package collaboRhythm.plugins.schedule.controller
 {
-	import collaboRhythm.plugins.schedule.model.ScheduleHealthRecordService;
-	import collaboRhythm.plugins.schedule.model.ScheduleGroup;
-	import collaboRhythm.shared.model.ScheduleItemBase;
-	import collaboRhythm.plugins.schedule.model.ScheduleModel;
-	import collaboRhythm.plugins.schedule.view.ScheduleFullView;
-	import collaboRhythm.plugins.schedule.view.ScheduleWidgetView;
-	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-	
-	import com.coltware.airxlib.log.TCPSyslogTarget;
-	
-	import flash.desktop.NativeApplication;
-	import flash.events.Event;
-	import flash.events.InvokeEvent;
-	import flash.net.URLVariables;
+
+    import collaboRhythm.plugins.schedule.model.ScheduleModel;
+    import collaboRhythm.plugins.schedule.view.ScheduleFullView;
+    import collaboRhythm.plugins.schedule.view.ScheduleWidgetView;
+    import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
+    import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+
+    import flash.desktop.NativeApplication;
+    import flash.events.InvokeEvent;
+    import flash.net.URLVariables;
 
     import mx.binding.utils.BindingUtils;
-
     import mx.core.UIComponent;
-	import mx.logging.ILogger;
-	import mx.logging.Log;
-	import mx.logging.LogEventLevel;
+    import mx.logging.ILogger;
+    import mx.logging.Log;
 
-	public class ScheduleAppController extends WorkstationAppControllerBase
+    public class ScheduleAppController extends WorkstationAppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Schedule";
 
-//        private var _scheduleModel:ScheduleModel = new ScheduleModel();
-		private var _scheduleHealthRecordService:ScheduleHealthRecordService;
+        private var _scheduleModel:ScheduleModel;
 		private var _scheduleWidgetViewController:ScheduleWidgetViewController;
 		private var _scheduleFullViewController:ScheduleFullViewController;
 		private var _widgetView:ScheduleWidgetView;
@@ -106,15 +98,20 @@ package collaboRhythm.plugins.schedule.controller
 		
 		private function get scheduleModel():ScheduleModel
 		{
-			if (_activeRecordAccount != null)
-			{
-				if (_activeRecordAccount.primaryRecord.appData[ScheduleModel.SCHEDULE_KEY] == null)
-				{
-					_activeRecordAccount.primaryRecord.appData[ScheduleModel.SCHEDULE_KEY] = new ScheduleModel(_componentContainer);
-				}
-				return _activeRecordAccount.primaryRecord.getAppData(ScheduleModel.SCHEDULE_KEY, ScheduleModel) as ScheduleModel;
-			}
-			return null;
+            if (_scheduleModel == null)
+            {
+                _scheduleModel = new ScheduleModel(_componentContainer);
+            }
+            return _scheduleModel;
+//			if (_activeRecordAccount != null)
+//			{
+//				if (_activeRecordAccount.primaryRecord.appData[ScheduleModel.SCHEDULE_KEY] == null)
+//				{
+//					_activeRecordAccount.primaryRecord.appData[ScheduleModel.SCHEDULE_KEY] = new ScheduleModel(_componentContainer);
+//				}
+//				return _activeRecordAccount.primaryRecord.getAppData(ScheduleModel.SCHEDULE_KEY, ScheduleModel) as ScheduleModel;
+//			}
+//			return null;
 		}
 		
 		public override function initialize():void

@@ -16,49 +16,40 @@
  */
 package collaboRhythm.shared.controller.apps
 {
-import collaboRhythm.shared.model.Account;
-import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
-	import collaboRhythm.shared.model.healthRecord.CommonHealthRecordService;
-	import collaboRhythm.shared.model.User;
+
+    import collaboRhythm.shared.model.Account;
+    import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
+    import collaboRhythm.shared.model.User;
     import collaboRhythm.shared.model.services.IComponentContainer;
     import collaboRhythm.shared.model.settings.Settings;
-
     import collaboRhythm.shared.view.BitmapCopyComponent;
 
-	import flash.display.BitmapData;
-	import flash.display.DisplayObject;
-	import flash.display.Stage;
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	import flash.events.MouseEvent;
-	import flash.events.TransformGestureEvent;
-	import flash.geom.Point;
-	import flash.ui.Multitouch;
-	import flash.ui.MultitouchInputMode;
+    import flash.display.BitmapData;
+    import flash.events.EventDispatcher;
+    import flash.events.MouseEvent;
+    import flash.events.TransformGestureEvent;
+    import flash.geom.Point;
+    import flash.utils.getQualifiedClassName;
 
-	import flash.utils.getQualifiedClassName;
+    import mx.controls.Image;
+    import mx.core.DragSource;
+    import mx.core.IUIComponent;
+    import mx.core.IVisualElement;
+    import mx.core.IVisualElementContainer;
+    import mx.core.UIComponent;
+    import mx.effects.Parallel;
+    import mx.events.DragEvent;
+    import mx.events.EffectEvent;
+    import mx.graphics.ImageSnapshot;
+    import mx.managers.DragManager;
 
-	import mx.controls.Image;
-	import mx.core.DragSource;
-	import mx.core.IUIComponent;
-	import mx.core.IVisualElement;
-	import mx.core.IVisualElementContainer;
-	import mx.core.IWindow;
-	import mx.core.UIComponent;
-	import mx.effects.Parallel;
-	import mx.events.DragEvent;
-	import mx.events.EffectEvent;
-	import mx.graphics.ImageSnapshot;
-	import mx.managers.DragManager;
-	
-	import spark.components.Group;
-	import spark.components.Window;
-	import spark.effects.*;
-	import spark.layouts.BasicLayout;
-	import spark.layouts.supportClasses.LayoutBase;
-	import spark.primitives.Rect;
+    import spark.components.Button;
+    import spark.components.Window;
+    import spark.effects.*;
+    import spark.layouts.supportClasses.LayoutBase;
+    import spark.primitives.Rect;
 
-	/**
+    /**
 	 * Represents an instance of a workstation app which can be used to view and/or manipulate some aspect of a health record
 	 * in a collaborative (or solo) work session. Workstation apps can have a mini "widget" view and a larger "full"
 	 * view.
@@ -73,7 +64,7 @@ import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
 		protected var _widgetParentContainer:IVisualElementContainer;
 		protected var _widgetParentContainerLayout:LayoutBase;
 		protected var _fullParentContainer:IVisualElementContainer;
-		protected var _healthRecordService:CommonHealthRecordService;
+//		protected var _healthRecordService:CommonHealthRecordService;
 		protected var _user:User;
 		protected var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
 		
@@ -218,15 +209,15 @@ import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
 		{
 		}
 		
-		public function get healthRecordService():CommonHealthRecordService
-		{
-			return _healthRecordService;
-		}
+//		public function get healthRecordService():CommonHealthRecordService
+//		{
+//			return _healthRecordService;
+//		}
 
-		public function set healthRecordService(value:CommonHealthRecordService):void
-		{
-			_healthRecordService = value;
-		}
+//		public function set healthRecordService(value:CommonHealthRecordService):void
+//		{
+//			_healthRecordService = value;
+//		}
 
 		public function get user():User
 		{
@@ -450,7 +441,7 @@ import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
 		private function isShowFullViewClickEvent(event:MouseEvent):Boolean
 		{
 			// ignore all events for buttons (such as buttons in scroll bars)
-			if (event.target is spark.components.Button || event.target is mx.controls.Button)
+			if (event.target is Button || event.target is mx.controls.Button)
 			{
 				return false;
 			}

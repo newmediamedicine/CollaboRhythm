@@ -16,37 +16,34 @@
   ~ <http://www.gnu.org/licenses/>.
   -->
 <s:Group
-	xmlns:resize="flex.utils.ui.resize.*"
 	xmlns:fx="http://ns.adobe.com/mxml/2009" 
 	xmlns:s="library://ns.adobe.com/flex/spark" 
 	xmlns:mx="library://ns.adobe.com/flex/mx"
-	xmlns:healthRecord="collaboRhythm.workstation.model.healthRecord.*"
 	xmlns:scroll="collaboRhythm.view.scroll.*"
 	width="100%" height="100%"
 	fontSize="24">
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.plugins.problems.model.ProblemsModel;
-			
-			[Bindable]
-			private var _model:ProblemsModel;
-			
-			public function get model():ProblemsModel
-			{
-				return _model;
-			}
-			
-			public function set model(value:ProblemsModel):void
-			{
-				_model = value;
-			}
-			
-			protected function rawButton_clickHandler(event:MouseEvent):void
-			{
-				viewstack1.selectedIndex = (viewstack1.selectedIndex + 1) % viewstack1.length;
-			}
-			
-		]]>
+        import collaboRhythm.shared.model.ProblemsModel;
+
+        [Bindable]
+        private var _model:ProblemsModel;
+
+        public function get model():ProblemsModel
+        {
+            return _model;
+        }
+
+        public function set model(value:ProblemsModel):void
+        {
+            _model = value;
+        }
+
+        protected function rawButton_clickHandler(event:MouseEvent):void
+        {
+            viewstack1.selectedIndex = (viewstack1.selectedIndex + 1) % viewstack1.length;
+        }
+        ]]>
 	</fx:Script>
 	
 	<fx:Declarations>
@@ -59,7 +56,7 @@
 	</s:HGroup>
 	<mx:ViewStack id="viewstack1" width="100%" height="100%" borderVisible="false">
 		<s:NavigatorContent label="gridContent" width="100%" height="100%">
-			<scroll:TouchScrollingDataGrid width="100%" height="100%" dataProvider="{_model.rawData.Report.Item.Problem}" x="0" y="0">
+			<scroll:TouchScrollingDataGrid width="100%" height="100%" dataProvider="{_model.problemsCollection}" x="0" y="0">
 				<scroll:columns>
 					<mx:DataGridColumn headerText="Name" dataField="name"/>
 					<mx:DataGridColumn headerText="Onset" dataField="dateOnset"/>
@@ -68,8 +65,8 @@
 				</scroll:columns>
 			</scroll:TouchScrollingDataGrid>
 		</s:NavigatorContent>
-		<s:NavigatorContent label="rawContent" width="100%" height="100%">
+<!--		<s:NavigatorContent label="rawContent" width="100%" height="100%">
 			<s:TextArea width="100%" height="100%" text="{_model.rawData}"/>
-		</s:NavigatorContent>
+		</s:NavigatorContent>-->
 	</mx:ViewStack>
 </s:Group>

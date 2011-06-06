@@ -32,6 +32,7 @@ package collaboRhythm.shared.model
         private var _role_label:String;
         private var _demographics:Demographics;
         private var _contact:Contact;
+        private var _problemsModel:ProblemsModel;
         private var _medicationsModel:MedicationsModel;
         private var _equipmentModel:EquipmentModel;
         private var _videoMessagesModel:VideoMessagesModel1;
@@ -54,6 +55,7 @@ package collaboRhythm.shared.model
 
         private function initDocumentModels():void
         {
+            _problemsModel = new ProblemsModel(_settings, _activeAccount, this);
             _medicationsModel = new MedicationsModel(_settings, _activeAccount, this);
             _equipmentModel = new EquipmentModel(_settings, _activeAccount, this);
             _videoMessagesModel = new VideoMessagesModel1(_settings, _activeAccount, this);
@@ -61,6 +63,7 @@ package collaboRhythm.shared.model
 
         public function getDocuments():void
         {
+            _problemsModel.getProblems();
             _medicationsModel.getMedications();
             _equipmentModel.getEquipment();
             _videoMessagesModel.getVideoMessages();
@@ -175,6 +178,16 @@ package collaboRhythm.shared.model
         public function clearDocuments():void
         {
             initDocumentModels();
+        }
+
+        public function get problemsModel():ProblemsModel
+        {
+            return _problemsModel;
+        }
+
+        public function set problemsModel(value:ProblemsModel):void
+        {
+            _problemsModel = value;
         }
     }
 }

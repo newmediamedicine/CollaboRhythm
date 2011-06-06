@@ -47,7 +47,7 @@ package collaboRhythm.shared.model
 		private var _lastName:String;
 		private var _userName:String;
 		private var _imageURI:String;
-		private var _demographics:UserDemographics;
+//		private var _demographics:UserDemographics;
 		private var _contact:Contact;
 		
 		private var _accountId:String;
@@ -80,15 +80,15 @@ package collaboRhythm.shared.model
 			_isOwnedByLocalAccount = value;
 		}
 
-		public function get demographics():UserDemographics
-		{
-			return _demographics;
-		}
-		
-		public function set demographics(value:UserDemographics):void
-		{
-			_demographics = value;
-		}
+//		public function get demographics():UserDemographics
+//		{
+//			return _demographics;
+//		}
+//
+//		public function set demographics(value:UserDemographics):void
+//		{
+//			_demographics = value;
+//		}
 		
 		public function get contact():Contact
 		{

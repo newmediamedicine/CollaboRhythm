@@ -31,10 +31,6 @@ package collaboRhythm.workstation.controller
     import collaboRhythm.workstation.view.SecondaryWindowView;
     import collaboRhythm.workstation.view.TiledWidgetsContainerView;
     import collaboRhythm.workstation.view.WorkstationWindow;
-    import collaboRhythm.workstation.view.spaces.CenterSpace;
-    import collaboRhythm.workstation.view.spaces.LeftSpace;
-    import collaboRhythm.workstation.view.spaces.RightSpace;
-    import collaboRhythm.workstation.view.spaces.TopSpace;
 
     import flash.desktop.NativeApplication;
     import flash.display.DisplayObject;
@@ -66,10 +62,6 @@ package collaboRhythm.workstation.controller
         private var _activeRecordView:ActiveRecordView;
         private var _widgetsContainerView:TiledWidgetsContainerView;
         private var _workstationAppControllersMediator:WorkstationAppControllersMediator;
-		private var _topSpace:TopSpace;
-		private var _centerSpace:CenterSpace;
-		private var _leftSpace:LeftSpace;
-		private var _rightSpace:RightSpace;
 		private var _fullContainer:IVisualElementContainer;
 		private var _widgetsContainer:IVisualElementContainer;
 		private var _scheduleWidgetContainer:IVisualElementContainer;
@@ -281,6 +273,7 @@ package collaboRhythm.workstation.controller
             _workstationAppControllersMediator.closeApps();
 			if (recordAccount)
                 recordAccount.primaryRecord.clearDocuments();
+            _activeRecordAccount = null;
             _primaryWindowView.mainGroup.removeElement(_activeRecordView);
             if (!(Screen.screens.length == 1 || settings.useSingleScreen))
             {
@@ -585,7 +578,89 @@ package collaboRhythm.workstation.controller
 //			_scheduleWidgetContainer = _topSpace.scheduleWidgetContainer;
 //			_fullContainer = _centerSpace.fullContainer;
 //		}
-		
+//		private function closeVideoWindows():void
+//		{
+//			if (videoWindows != null && videoWindows.length > 0)
+//			{
+//				_workstationController.resetingWindows = true;
+//				while (videoWindows.length > 0)
+//				{
+//					var window:WorkstationWindow = videoWindows.pop();
+//					window.close();
+//
+//					if (_workstationController.windows[_workstationController.windows.length - 1] == window)
+//					{
+//						_workstationController.windows.pop();
+//					}
+//					else
+//					{
+//						throw new Error("Expected window not found in _workstationController.windows");
+//					}
+//
+//					//					_workstationController.windows = _workstationController.windows.filter(excludeWindow, window);
+//					//					for (var i:int = 0; i < _workstationController.windows.length; i++)
+//					//					{
+//					//						if (_workstationController.windows[i] == window)
+//					//						{
+//					//						}
+//					//					}
+//				}
+//				_workstationController.resetingWindows = false;
+//			}
+//		}
+
+//		private function createDemoVideoWindows(user:User):void
+//		{
+//			closeVideoWindows();
+//
+//			if (Screen.screens.length > 1)
+//			{
+//				var userVideoDirectory:File = File.applicationDirectory.resolvePath("resources").resolvePath("video").resolvePath(user.contact.userName);
+//				if (userVideoDirectory.exists)
+//				{
+//					videoWindows = new Vector.<WorkstationWindow>();
+//					var files:Array = userVideoDirectory.getDirectoryListing();
+//
+//					var screenIndex:int = 0;
+//
+//					for each (var videoFile:File in files)
+//					{
+//						var screen:Screen = Screen.screens[screenIndex];
+//
+//						var window:WorkstationWindow = _workstationController.createWorkstationWindow(screen);
+//						window.initializeForScreen(screen);
+//						_workstationController.initializeWindowCommon(window);
+//						videoWindows.push(window);
+//
+//						var videoPlayer:VideoPlayer = new VideoPlayer();
+//
+//						window.addSpace(videoPlayer);
+//
+//						videoPlayer.percentWidth = 100;
+//						videoPlayer.percentHeight = 100;
+//						videoPlayer.loop = true;
+//						videoPlayer.addEventListener(MediaPlayerStateChangeEvent.MEDIA_PLAYER_STATE_CHANGE, videoPlayer_mediaPlayerStateChange);
+//						videoPlayer.source = videoFile.nativePath;
+//
+//						// TODO: ensure that the video windows are placed on empty screens
+//						screenIndex += 2;
+//					}
+//				}
+//			}
+//		}
+
+//		private function videoPlayer_mediaPlayerStateChange(event:MediaPlayerStateChangeEvent):void
+//		{
+//			if (event.state == "ready")
+//			{
+//				var videoPlayer:VideoPlayer = event.currentTarget as VideoPlayer;
+//				if (videoPlayer != null)
+//				{
+//					videoPlayer.muted = true;
+//					videoPlayer.play();
+//				}
+//			}
+//		}
 		private function onKeyUp(event:KeyboardEvent):void 
 		{
 			// If the user presses escape, close the entire application

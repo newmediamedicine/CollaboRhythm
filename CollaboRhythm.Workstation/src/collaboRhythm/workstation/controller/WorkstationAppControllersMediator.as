@@ -2,10 +2,8 @@ package collaboRhythm.workstation.controller
 {
 
     import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
-    import collaboRhythm.shared.model.CollaborationRoomNetConnectionService;
-    import collaboRhythm.shared.model.healthRecord.CommonHealthRecordService;
-    import collaboRhythm.shared.model.settings.Settings;
     import collaboRhythm.shared.model.services.IComponentContainer;
+    import collaboRhythm.shared.model.settings.Settings;
 
     import mx.core.IVisualElementContainer;
 
