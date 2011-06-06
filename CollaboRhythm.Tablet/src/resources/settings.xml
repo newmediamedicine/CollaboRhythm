@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<settings xmlns="http://collaborhythm.org/application/settings">
+	<mode>patient</mode>
+	<username>rpoole</username>
+	<password>rpoole-dope75</password>
+	<useFileTarget>false</useFileTarget>
+	<useTraceTarget>false</useTraceTarget>
+	<useSyslogTarget>false</useSyslogTarget>
+	<syslogServerIpAddress>18.85.55.246</syslogServerIpAddress>
+	<rtmpBaseURI>rtmp://18.85.55.246</rtmpBaseURI>
+	<indivoServerBaseURL>http://184.106.136.151:8000</indivoServerBaseURL>
+
+<!--	<mode>clinician</mode>
+	<username>mloomis</username>
+	<password>mloomis-password</password>
+	<useFileTarget>true</useFileTarget>
+	<useTraceTarget>false</useTraceTarget>
+	<useSyslogTarget>false</useSyslogTarget>
+	<syslogServerIpAddress>127.0.0.1</syslogServerIpAddress>
+	<rtmpBaseURI>rtmp://127.0.0.1</rtmpBaseURI>
+	<indivoServerBaseURL>http://records.media.mit.edu:8000</indivoServerBaseURL>-->
+	<oauthChromeConsumerKey>collaboRhythmChrome</oauthChromeConsumerKey>
+	<oauthChromeConsumerSecret>collaboRhythmChrome_secret93452</oauthChromeConsumerSecret>
+	<demoDatePresets>
+		<demoDatePreset>2010-01-13T00:00:00-5:00</demoDatePreset>
+		<demoDatePreset>2010-01-14T00:00:00-5:00</demoDatePreset>
+		<demoDatePreset>2010-02-04T00:00:00-5:00</demoDatePreset>
+		<demoDatePreset>2010-02-17T00:00:00-5:00</demoDatePreset>
+	</demoDatePresets>
+	<appGroups>
+		<appGroup id="standard">
+			<appDescriptors>
+				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::BloodPressureChartAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::BloodPressureAppController</appDescriptor>
+			</appDescriptors>
+		</appGroup>
+	</appGroups>
+
+<!--  
+	useSingleScreen - If no valid windowSettings.xml file exists or resetWindowSettings = true, then force the app to only use a single screen (one window)
+	resetWindowSettings - Ignore the windowSettings.xml and reset the position/size of all windows 
+	<resetWindowSettings>true</resetWindowSettings>
+  <useSingleScreen>true</useSingleScreen>
+  
+	targetDate can be used for a demo to change the current date
+	Note that the current time of day will not be changed (it will be based on real time) but the date will be offset to match the targetDate
+  <targetDate>2010/01/01</targetDate>
+-->
+</settings>

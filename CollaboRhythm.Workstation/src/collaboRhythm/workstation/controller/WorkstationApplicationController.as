@@ -16,54 +16,53 @@
  */
 package collaboRhythm.workstation.controller
 {
-	import collaboRhythm.core.controller.ApplicationControllerBase;
-	import collaboRhythm.core.view.RemoteUsersListView;
-	import collaboRhythm.core.view.WorkstationCommandBarView;
-	import collaboRhythm.shared.model.settings.Settings;
-	import collaboRhythm.shared.view.CollaborationRoomView;
-	import collaboRhythm.shared.view.RecordVideoView;
-	import collaboRhythm.workstation.model.settings.ComponentLayout;
-	import collaboRhythm.workstation.model.settings.WindowSettings;
-	import collaboRhythm.workstation.model.settings.WindowSettingsDataStore;
-	import collaboRhythm.workstation.model.settings.WindowState;
-	import collaboRhythm.workstation.view.spaces.CenterSpace;
-	import collaboRhythm.workstation.view.spaces.LeftSpace;
-	import collaboRhythm.workstation.view.spaces.RightSpace;
-	import collaboRhythm.workstation.view.spaces.SingleWindowSpaceCombination;
-	import collaboRhythm.workstation.view.spaces.TopSpace;
-	
-	import flash.desktop.NativeApplication;
-	import flash.display.DisplayObject;
-	import flash.display.DisplayObjectContainer;
-	import flash.display.NativeWindow;
-	import flash.display.Screen;
-	import flash.events.Event;
-	import flash.ui.Keyboard;
-	
-	import mx.containers.DividedBox;
-	import mx.core.IUIComponent;
-	import mx.core.IVisualElement;
-	import mx.core.IVisualElementContainer;
-	import mx.core.UIComponent;
 
-	/**
+    import collaboRhythm.core.controller.ApplicationControllerBase;
+    import collaboRhythm.shared.model.Account;
+    import collaboRhythm.shared.view.CollaborationView;
+    import collaboRhythm.workstation.model.settings.ComponentLayout;
+    import collaboRhythm.workstation.model.settings.WindowSettings;
+    import collaboRhythm.workstation.model.settings.WindowSettingsDataStore;
+    import collaboRhythm.workstation.model.settings.WindowState;
+    import collaboRhythm.workstation.view.ActiveAccountView;
+    import collaboRhythm.workstation.view.ActiveRecordView;
+    import collaboRhythm.workstation.view.PrimaryWindowView;
+    import collaboRhythm.workstation.view.SecondaryWindowView;
+    import collaboRhythm.workstation.view.TiledWidgetsContainerView;
+    import collaboRhythm.workstation.view.WorkstationWindow;
+    import collaboRhythm.workstation.view.spaces.CenterSpace;
+    import collaboRhythm.workstation.view.spaces.LeftSpace;
+    import collaboRhythm.workstation.view.spaces.RightSpace;
+    import collaboRhythm.workstation.view.spaces.TopSpace;
+
+    import flash.desktop.NativeApplication;
+    import flash.display.DisplayObject;
+    import flash.display.DisplayObjectContainer;
+    import flash.display.NativeWindow;
+    import flash.display.Screen;
+    import flash.events.Event;
+    import flash.events.KeyboardEvent;
+    import flash.ui.Keyboard;
+
+    import mx.containers.DividedBox;
+    import mx.core.IUIComponent;
+    import mx.core.IVisualElement;
+    import mx.core.IVisualElementContainer;
+    import mx.core.UIComponent;
+
+    /**
 	 * Top level controller for the whole application. Responsible for creating and managing the windows of the application. 
 	 */
 	public class WorkstationApplicationController extends ApplicationControllerBase
 	{
-		public function WorkstationApplicationController()
-		{
-			NativeApplication.nativeApplication.addEventListener(Event.EXITING, onExiting);
-		}
-		
-		import collaboRhythm.workstation.view.WorkstationWindow;
-		
-		import flash.events.KeyboardEvent;
-		
-		import mx.core.IVisualElementContainer;
-		
-		private var _windows:Vector.<WorkstationWindow> = new Vector.<WorkstationWindow>();
+        private var _windows:Vector.<WorkstationWindow> = new Vector.<WorkstationWindow>();
 		private var _primaryWindow:WorkstationWindow;
+        private var _primaryWindowView:PrimaryWindowView;
+        private var _secondaryWindowView:SecondaryWindowView;
+        private var _collaborationView:CollaborationView = new CollaborationView();
+        private var _activeRecordView:ActiveRecordView;
+        private var _widgetsContainerView:TiledWidgetsContainerView;
+        private var _workstationAppControllersMediator:WorkstationAppControllersMediator;
 		private var _topSpace:TopSpace;
 		private var _centerSpace:CenterSpace;
 		private var _leftSpace:LeftSpace;
@@ -74,33 +73,236 @@ package collaboRhythm.workstation.controller
 		private var _fullScreen:Boolean = true;
 		private var _zoom:Number = 0;
 		private var _resetingWindows:Boolean = false;
-		
-		public function get topSpace():TopSpace
+
+        [Embed("/resources/settings.xml", mimeType="application/octet-stream")]
+        private var _applicationSettingsEmbeddedFile:Class;
+
+        public function WorkstationApplicationController()
 		{
-			return _topSpace;
-		}
-		
-		public function get resetingWindows():Boolean
-		{
-			return _resetingWindows;
+
 		}
 
-		public function set resetingWindows(value:Boolean):void
+        public override function main():void
+        {
+            super.main();
+
+            initializeWindows();
+			_logger.info("Windows initialized");
+
+            createSession();
+
+			NativeApplication.nativeApplication.addEventListener(Event.EXITING, onExiting);
+        }
+
+        // handles the use of windowSettings to start the application the way it was closed if specified
+        private function initializeWindows():void
 		{
-			_resetingWindows = value;
+			var resetWindowSettings:Boolean = settings.resetWindowSettings;
+
+			var windowSettings:WindowSettings;
+
+			if (!resetWindowSettings)
+			{
+				windowSettings = readWindowSettings();
+				resetWindowSettings = !validateWindowSettings(windowSettings);
+			}
+
+			if (resetWindowSettings)
+				createWindowsForScreens();
+			else
+				createWindows(windowSettings);
 		}
 
-		public function get windows():Vector.<WorkstationWindow>
+        // The workstation application can use one or two screens, each screen needs a window
+        // If the workstation uses two screens, the second screen is for the app widget views and for video recording and conferencing
+        private function createWindowsForScreens():void
 		{
-			return _windows;
+            var primaryWindowView:PrimaryWindowView = createPrimaryWindowView(Screen.screens[0]);
+
+            if (Screen.screens.length == 1 || settings.useSingleScreen)
+            {
+                _collaborationView.top = 0;
+                _collaborationView.collaborationRoomView.bottom = 0;
+                _collaborationView.recordVideoView.bottom = 0;
+                _collaborationView.init(collaborationController, primaryWindowView.mainGroup);
+                primaryWindowView.addElement(_collaborationView);
+            }
+            else
+            {
+                createSecondaryWindowView(Screen.screens[1]);
+                _collaborationView.bottom = 0;
+                _collaborationView.collaborationRoomView.top = 0;
+                _collaborationView.recordVideoView.top = 0;
+                _collaborationView.init(collaborationController, _secondaryWindowView.mainGroup);
+                _secondaryWindowView.addElement(_collaborationView);
+            }
 		}
 
-		public function set windows(value:Vector.<WorkstationWindow>):void
+        // TODO: fix creating windows from settings
+		private function createWindows(windowSettings:WindowSettings):void
 		{
-			_windows = value;
+			for each (var windowState:WindowState in windowSettings.windowStates)
+			{
+				var window:WorkstationWindow = createWorkstationWindow();
+				window.initializeForWindowState(windowState);
+//				layoutComponentsFromSettings(windowState.componentLayouts, window);
+			}
+			fullScreen = windowSettings.fullScreen;
+			zoom = windowSettings.zoom;
 		}
 
-		public function get zoom():Number
+        // TODO: fix validating window settings
+		private function validateWindowSettings(windowSettings:WindowSettings):Boolean
+		{
+			return (windowSettings == null || windowSettings.windowStates.length == 0);
+		}
+
+        // creates a workstationWindow for one of the screens
+		public function createWorkstationWindow():WorkstationWindow
+		{
+			var workstationWindow:WorkstationWindow = new WorkstationWindow();
+			workstationWindow.addEventListener(Event.CLOSING, window_closingHandler);
+			workstationWindow.fullScreenEnabled = _fullScreen;
+			_windows.push(workstationWindow);
+			return workstationWindow;
+		}
+
+        // creates the primary window view for the main screen, this window is always created
+        private function createPrimaryWindowView(screen:Screen):PrimaryWindowView
+        {
+            var primaryWindow:WorkstationWindow = createWorkstationWindow();
+            primaryWindow.initializeForScreen(screen);
+            initializeWindowCommon(primaryWindow);
+            _primaryWindowView = new PrimaryWindowView();
+            _primaryWindowView.init(this, _activeAccount);
+            primaryWindow.addElement(_primaryWindowView);
+            return _primaryWindowView;
+        }
+
+        // creates the secondary window view, which is only used if more than one screen is available and the
+        // useSingleScreen setting is false
+        private function createSecondaryWindowView(screen:Screen):void
+        {
+            var secondaryWindow:WorkstationWindow = createWorkstationWindow();
+            secondaryWindow.initializeForScreen(screen);
+            initializeWindowCommon(secondaryWindow);
+            _secondaryWindowView = new SecondaryWindowView();
+            secondaryWindow.addElement(_secondaryWindowView);
+        }
+
+        // an eventListener can only be added to the stage after the window is initialized
+        public function initializeWindowCommon(workstationWindow:WorkstationWindow):void
+		{
+			workstationWindow.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+		}
+
+        // called when a record is opened
+        // a record may be opened based on user interaction or automatically for the primaryRecord of the activeAccount
+        // when the application is in patient mode
+        public override function openRecordAccount(recordAccount:Account):void
+        {
+            super.openRecordAccount(recordAccount);
+
+            _activeRecordView = new ActiveRecordView();
+            _activeRecordView.init(this, recordAccount);
+            _primaryWindowView.mainGroup.addElement(_activeRecordView);
+
+            // the widget views are loaded in a different location depending on whether one or two screens are being used
+            if (Screen.screens.length == 1 || settings.useSingleScreen)
+            {
+                _widgetsContainerView = new TiledWidgetsContainerView();
+                _widgetsContainerView.left = 0;
+                _widgetsContainerView.right = 0;
+                _widgetsContainerView.top = ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT;
+                _widgetsContainerView.height = 210;
+                _activeRecordView.fullViewGroup.top = 210 + ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT;
+                _activeRecordView.addElement(_widgetsContainerView);
+            }
+            else
+            {
+                _widgetsContainerView = new TiledWidgetsContainerView();
+                _widgetsContainerView.left = 0;
+                _widgetsContainerView.right = 0;
+                _widgetsContainerView.top = 0;
+                _widgetsContainerView.bottom = 0;
+                _secondaryWindowView.mainGroup.addElement(_widgetsContainerView);
+            }
+        }
+
+        // the apps are not actually loaded immediately when a record is opened
+        // only after the active record view has been created are they loaded, this makes the UI more responsive
+        public function activeRecordView_creationCompleteHandler(recordAccount:Account):void
+        {
+            _workstationAppControllersMediator = new WorkstationAppControllersMediator(_widgetsContainerView.widgetsContainer, _widgetsContainerView.widgetsContainer, _activeRecordView.fullViewGroup, _settings, _componentContainer);
+            _workstationAppControllersMediator.createAndStartApps(_activeAccount, recordAccount);
+            // TODO: Rethink document retrieval
+            recordAccount.primaryRecord.getDocuments();
+        }
+
+        // when a record is clased, all of the apps need to be closed and the documents cleared from the record
+        public override function closeRecordAccount(recordAccount:Account):void
+        {
+            _workstationAppControllersMediator.closeApps();
+			if (recordAccount)
+                // TODO: clear the documents from a closed recordAccount
+//				recordAccount.clearDocuments();
+            _primaryWindowView.mainGroup.removeElement(_activeRecordView);
+            if (!(Screen.screens.length == 1 || settings.useSingleScreen))
+            {
+                _secondaryWindowView.mainGroup.removeElement(_widgetsContainerView);
+            }
+        }
+
+        protected override function changeDemoDate():void
+        {
+            if (_activeRecordAccount != null)
+				_workstationAppControllersMediator.reloadUserData();
+
+			//			user.demographics.dispatchEvent(new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE, false, false, PropertyChangeEventKind.UPDATE, "age", 0, user.demographics.age));
+			_activeRecordAccount.primaryRecord.demographics.dispatchAgeChangeEvent();
+        }
+
+        public function showRecordVideoView():void
+        {
+            collaborationController.showRecordVideoView();
+        }
+
+        public function hideRecordVideoView():void
+        {
+            collaborationController.hideRecordVideoView();
+        }
+
+        public override function get currentFullView():String
+        {
+            return _workstationAppControllersMediator.currentFullView;
+        }
+
+        public override function get collaborationView():CollaborationView
+        {
+            return _collaborationView;
+        }
+
+        public override function get widgetsContainer():IVisualElementContainer
+		{
+			return _widgetsContainer;
+		}
+
+		public override function get scheduleWidgetContainer():IVisualElementContainer
+		{
+			return _scheduleWidgetContainer;
+		}
+
+		public override function get fullContainer():IVisualElementContainer
+		{
+			return _fullContainer;
+		}
+
+		public function get primaryWindow():WorkstationWindow
+		{
+			return _primaryWindow;
+		}
+
+        public function get zoom():Number
 		{
 			return _zoom;
 		}
@@ -110,12 +312,17 @@ package collaboRhythm.workstation.controller
 			_zoom = value;
 			applyZoom();
 		}
-		
+
+		private function changeZoom(zoomDelta:Number):void
+		{
+			zoom += zoomDelta;
+		}
+
 		private function applyZoom():void
 		{
 //			var scale:Number = 1 + (0.1 * _zoom * Math.abs(_zoom));
 			var scale:Number;
-			
+
 			if (isNaN(_zoom))
 				scale = 1;
 			else if (_zoom == -7)
@@ -126,7 +333,7 @@ package collaboRhythm.workstation.controller
 			{
 				scale = 1 + (0.05 * _zoom);
 			}
-			
+
 			for each (var window:WorkstationWindow in _windows)
 			{
 				for (var i:int = 0; i < window.numElements; i++)
@@ -141,27 +348,7 @@ package collaboRhythm.workstation.controller
 			}
 		}
 
-		public function get workstationCommandBarView():WorkstationCommandBarView
-		{
-			return _topSpace.topBar.workstationCommandBarView;
-		}
-
-		public override function get remoteUsersView():RemoteUsersListView
-		{
-			return _centerSpace.remoteUsersView;
-		}
-		
-		public override function get collaborationRoomView():CollaborationRoomView
-		{
-			return _topSpace.topBar.collaborationRoomView;
-		}
-		
-		public override function get recordVideoView():RecordVideoView
-		{
-			return _topSpace.topBar.recordVideoView;
-		}
-
-		public function get fullScreen():Boolean
+        public function get fullScreen():Boolean
 		{
 			return _fullScreen;
 		}
@@ -169,321 +356,194 @@ package collaboRhythm.workstation.controller
 		public function set fullScreen(value:Boolean):void
 		{
 			_fullScreen = value;
-			
+
 			for each (var window:WorkstationWindow in _windows)
 			{
 				window.fullScreenEnabled = _fullScreen;
 			}
 		}
 
-		public override function get widgetsContainer():IVisualElementContainer
-		{
-			return _widgetsContainer;
-		}
-
-		public override function get scheduleWidgetContainer():IVisualElementContainer
-		{
-			return _scheduleWidgetContainer;
-		}
-		
-		public override function get fullContainer():IVisualElementContainer
-		{
-			return _fullContainer;
-		}
-
-		public function get primaryWindow():WorkstationWindow
-		{
-			return _primaryWindow;
-		}
-
-		public function main():void  
-		{
-			initLogging();
-			logger.info("Logging initialized");
-			
-			initializeSettings();
-			logger.info("Settings initialized");
-
-			initializeComponents();
-			logger.info("Components initialized");
-			
-			initializeWindows();
-			logger.info("Windows initialized");
-		}
-		
-		private function initializeWindows():void
-		{
-			var resetWindowSettings:Boolean = settings.resetWindowSettings;
-			
-			var windowSettings:WindowSettings;
-			
-			if (!resetWindowSettings)
-			{
-				windowSettings = readWindowSettings();
-				resetWindowSettings = !validateWindowSettings(windowSettings);
-			}
-			
-			if (resetWindowSettings)
-				createWindowsForScreens();
-			else
-				createWindows(windowSettings);
-			
-			// TODO: handle less screens more gracefully
-			if (_widgetsContainer == null)
-			{
-				// share the same container for widgets
-				_widgetsContainer = _fullContainer;
-			}
-			
-			_collaborationMediator = new WorkstationCollaborationMediator(this);
-		}
-		
-		private function resetWindows():void
-		{
-			// TODO: reset but preserve all existing spaces/components (move them instead of recreating them)
-			
-			settings.resetWindowSettings = true;
-			_resetingWindows = true;
-			for each (var window:WorkstationWindow in _windows)
-			{
-				window.close();
-			}
-			_resetingWindows = false;
-
-			_windows = new Vector.<WorkstationWindow>();
-			_primaryWindow = null;
-			_topSpace = null;
-			_centerSpace = null;
-			_leftSpace = null;
-			_rightSpace = null;
-			_fullContainer = null;
-			_widgetsContainer = null;
-			
-			initializeWindows();
-		}
-		
-		public function initializeWindowCommon(window:WorkstationWindow):void
-		{
-			window.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
-		}
-		
-		private function createWindowsForScreens():void
-		{
-			// Create a window for each of the screens
-			var screenNum:Number = 0;
-			if (Screen.screens.length == 1 || settings.useSingleScreen)
-			{
-				var window:WorkstationWindow = createWorkstationWindow();
-				window.initializeForScreen(Screen.screens[0]);
-				initializeWindowCommon(window);
-				addSingleWindowSpaceCombination(window);
-			}
-			else
-			{
-				for each (var screen:Screen in Screen.screens)
-				{
-					if (screenNum >= 0 && screenNum <= 3)
-					{
-						window = createWorkstationWindow();
-						window.initializeForScreen(screen);
-						initializeWindowCommon(window);
-						
-						if (screenNum == 0)
-						{
-							addTopSpace(window);
-						}
-						else if (screenNum == 1)
-						{
-							addCenterSpace(window);
-						}
-						else if (screenNum == 2)
-						{
-							addRightSpace(window);
-						}
-						else if (screenNum == 3)
-						{
-							addLeftSpace(window);
-						}
-					}
-					screenNum += 1;
-				}
-			}
-		}
-		
-		private function validateWindowSettings(windowSettings:WindowSettings):Boolean
-		{
-			if (windowSettings == null || windowSettings.windowStates.length == 0)
-				return false;
-			
-			var topSpaceFound:Boolean;
-			var centerSpaceFound:Boolean;
-			var leftSpaceFound:Boolean;
-			var rightSpaceFound:Boolean;
-			var singleWindowSpaceCombinationFound:Boolean;
-			
-			for each (var windowState:WindowState in windowSettings.windowStates)
-			{
-				for each (var spaceId:String in windowState.spaces)
-				{
-					if (spaceId == "topSpace")
-						topSpaceFound = true;
-					else if (spaceId == "centerSpace")
-						centerSpaceFound = true;
-					else if (spaceId == "leftSpace")
-						leftSpaceFound = true;
-					else if (spaceId == "rightSpace")
-						rightSpaceFound = true;
-					else if (spaceId == "singleWindowSpaceCombination")
-						singleWindowSpaceCombinationFound = true;
-				}
-			}
-			
-			// if less than 4 screens, the left and right are considered optional
-			if (singleWindowSpaceCombinationFound && !topSpaceFound && !centerSpaceFound && !leftSpaceFound && !rightSpaceFound)
-				return true;
-			else if (singleWindowSpaceCombinationFound)
-				return false;
-			else if (Screen.screens.length > 3)
-				return (topSpaceFound && centerSpaceFound && leftSpaceFound && rightSpaceFound);
-			else
-				return (topSpaceFound && centerSpaceFound);
-		}
-
-		private function createWindows(windowSettings:WindowSettings):void
-		{
-			fullScreen = windowSettings.fullScreen;
-
-			for each (var windowState:WindowState in windowSettings.windowStates)
-			{
-				// only restore the window if it contains one of the known "spaces"
-				if (windowState.spaces.length > 0)
-				{
-					var window:WorkstationWindow = createWorkstationWindow();
-					window.initializeForWindowState(windowState);
-					initializeWindowCommon(window);
-					
-					// TODO: if more than one space is in a window, use a HDividedBox to contain them
-					for each (var spaceId:String in windowState.spaces)
-					{
-						if (spaceId == "topSpace")
-							addTopSpace(window);
-						else if (spaceId == "centerSpace")
-							addCenterSpace(window);
-	//					else if (spaceId == "leftSpace")
-	//						addLeftSpace(window);
-	//					else if (spaceId == "rightSpace")
-	//						addRightSpace(window);
-						else if (spaceId == "singleWindowSpaceCombination")
-							addSingleWindowSpaceCombination(window);
-					}
-					layoutComponentsFromSettings(windowState.componentLayouts, window);
-				}
-			}
-
-			zoom = windowSettings.zoom;
-
-			// TODO: if the required containers were not created, add them now
-			if (_fullContainer == null)
-				throw new Error("The required primary container was not created after creating windows from the settings file");
-			if (_widgetsContainer == null)
-				throw new Error("The required widgets container was not created after creating windows from the settings file");
-		}
-		
-		public function createWorkstationWindow():WorkstationWindow
-		{
-			var window:WorkstationWindow = new WorkstationWindow();
-			window.addEventListener(Event.CLOSING, windw_closingHandler);
-			window.fullScreenEnabled = _fullScreen;
-			_windows.push(window);
-			return window;
-		}
-		
-		public function windw_closingHandler(event:Event):void
+		public function window_closingHandler(event:Event):void
 		{
 			//			trace("onClosing for " + this.toString());
-			
+
 			if (!_resetingWindows)
 			{
 				// Exit the application when any window is closed.
 				// Note that we dispatch an exiting event but not a window closing event.
 				// The exiting event handler will take care of any saving and cleanup operations.
-				var exitingEvent:Event = new Event(Event.EXITING, false, true); 
-				NativeApplication.nativeApplication.dispatchEvent(exitingEvent); 
+				var exitingEvent:Event = new Event(Event.EXITING, false, true);
+				NativeApplication.nativeApplication.dispatchEvent(exitingEvent);
 				if (!exitingEvent.isDefaultPrevented())
 				{
-					NativeApplication.nativeApplication.exit(); 
+					NativeApplication.nativeApplication.exit();
 				}
 			}
 		}
-		
-		private function addTopSpace(window:WorkstationWindow):void
-		{
-			if (_topSpace != null)
-				throw new Error("topSpace was already initialized when trying to add a new topSpace");
-			
-			_topSpace = new TopSpace();
-			_topSpace.id = "topSpace";
-			_widgetsContainer = _topSpace.widgetsContainer;
-			_scheduleWidgetContainer = _topSpace.scheduleWidgetContainer;
-			window.addSpace(_topSpace);
 
-			_primaryWindow = window;
-		}
-		
-		private function addCenterSpace(window:WorkstationWindow):void
+        // Close the entire application, sending out an event to any processes that might want to interrupt the closing
+		private function applicationExit():void
 		{
-			if (_centerSpace != null)
-				throw new Error("centerSpace was already initialized when trying to add a new centerSpace");
-			
-			_centerSpace = new CenterSpace();
-			_centerSpace.id = "centerSpace";
-			_fullContainer = _centerSpace.fullContainer;
-			window.addSpace(_centerSpace);
+			var exitingEvent:Event = new Event(Event.EXITING, false, true);
+			NativeApplication.nativeApplication.dispatchEvent(exitingEvent);
+			if (!exitingEvent.isDefaultPrevented())
+			{
+				NativeApplication.nativeApplication.exit();
+			}
 		}
 
-		private function addLeftSpace(window:WorkstationWindow):void
+		// Close each of the windows in the application, and do any cleanup for the application after that
+		private function onExiting(exitingEvent:Event):void
 		{
-			if (_leftSpace != null)
-				throw new Error("leftSpace was already initialized when trying to add a new leftSpace");
-			
-			_leftSpace = new LeftSpace();
-			_leftSpace.id = "leftSpace";
-			window.addSpace(_leftSpace);
+			for each (var window:NativeWindow in NativeApplication.nativeApplication.openedWindows)
+			{
+				window.close();
+			}
+
+//			_collaborationMediator.cancelAllCollaborations();
+			saveWindowSettings();
 		}
+
+//		public function get topSpace():TopSpace
+//		{
+//			return _topSpace;
+//		}
+//
+//		public function get resetingWindows():Boolean
+//		{
+//			return _resetingWindows;
+//		}
+//
+//		public function set resetingWindows(value:Boolean):void
+//		{
+//			_resetingWindows = value;
+//		}
+//
+//		public function get windows():Vector.<WorkstationWindow>
+//		{
+//			return _windows;
+//		}
+//
+//		public function set windows(value:Vector.<WorkstationWindow>):void
+//		{
+//			_windows = value;
+//		}
+//
+//		public function get workstationCommandBarView():WorkstationCommandBarView
+//		{
+//			return _topSpace.topBar.workstationCommandBarView;
+//		}
+//
+//		public override function get remoteUsersView():RemoteUsersListView
+//		{
+//			return _centerSpace.remoteUsersView;
+//		}
+//
+//		public override function get collaborationRoomView():CollaborationRoomView
+//		{
+//			return _collaborationView.collaborationRoomView;
+//		}
+//
+//		public override function get recordVideoView():RecordVideoView
+//		{
+//			return _collaborationView.recordVideoView;
+//		}
+//
+//		private function resetWindows():void
+//		{
+//			// TODO: reset but preserve all existing spaces/components (move them instead of recreating them)
+//
+//			settings.resetWindowSettings = true;
+//			_resetingWindows = true;
+//			for each (var window:WorkstationWindow in _windows)
+//			{
+//				window.close();
+//			}
+//			_resetingWindows = false;
+//
+//			_windows = new Vector.<WorkstationWindow>();
+//			_primaryWindow = null;
+//			_topSpace = null;
+//			_centerSpace = null;
+//			_leftSpace = null;
+//			_rightSpace = null;
+//			_fullContainer = null;
+//			_widgetsContainer = null;
+//
+//			initializeWindows();
+//		}
+//
+
+
 		
-		private function addRightSpace(window:WorkstationWindow):void
-		{
-			if (_rightSpace != null)
-				throw new Error("rightSpace was already initialized when trying to add a new rightSpace");
-			
-			_rightSpace = new RightSpace();
-			_rightSpace.id = "rightSpace";
-			window.addSpace(_rightSpace);
-		}
-		
-		private function addSingleWindowSpaceCombination(window:WorkstationWindow):void
-		{
-			if (_rightSpace != null)
-				throw new Error("rightSpace was already initialized when trying to add a new rightSpace");
-			if (_leftSpace != null)
-				throw new Error("leftSpace was already initialized when trying to add a new leftSpace");
-			if (_centerSpace != null)
-				throw new Error("centerSpace was already initialized when trying to add a new centerSpace");
-			if (_topSpace != null)
-				throw new Error("topSpace was already initialized when trying to add a new topSpace");
-			
-			var combination:SingleWindowSpaceCombination = new SingleWindowSpaceCombination();
-			combination.id = "singleWindowSpaceCombination";
-			window.addSpace(combination);
-			
-			_topSpace = combination.topSpace;
-			_centerSpace = combination.centerSpace;
-//			_leftSpace = combination.leftSpace;
-//			_rightSpace = combination.rightSpace;
-			_widgetsContainer = _topSpace.widgetsContainer;
-			_scheduleWidgetContainer = _topSpace.scheduleWidgetContainer;
-			_fullContainer = _centerSpace.fullContainer;
-		}
+//		private function addTopSpace(window:WorkstationWindow):void
+//		{
+//			if (_topSpace != null)
+//				throw new Error("topSpace was already initialized when trying to add a new topSpace");
+//
+//			_topSpace = new TopSpace();
+//			_topSpace.id = "topSpace";
+//			_widgetsContainer = _topSpace.widgetsContainer;
+//			_scheduleWidgetContainer = _topSpace.scheduleWidgetContainer;
+//			window.addSpace(_topSpace);
+//
+//			_primaryWindow = window;
+//		}
+//
+//		private function addCenterSpace(window:WorkstationWindow):void
+//		{
+//			if (_centerSpace != null)
+//				throw new Error("centerSpace was already initialized when trying to add a new centerSpace");
+//
+//			_centerSpace = new CenterSpace();
+//			_centerSpace.id = "centerSpace";
+//			_fullContainer = _centerSpace.fullContainer;
+//			window.addSpace(_centerSpace);
+//		}
+//
+//		private function addLeftSpace(window:WorkstationWindow):void
+//		{
+//			if (_leftSpace != null)
+//				throw new Error("leftSpace was already initialized when trying to add a new leftSpace");
+//
+//			_leftSpace = new LeftSpace();
+//			_leftSpace.id = "leftSpace";
+//			window.addSpace(_leftSpace);
+//		}
+//
+//		private function addRightSpace(window:WorkstationWindow):void
+//		{
+//			if (_rightSpace != null)
+//				throw new Error("rightSpace was already initialized when trying to add a new rightSpace");
+//
+//			_rightSpace = new RightSpace();
+//			_rightSpace.id = "rightSpace";
+//			window.addSpace(_rightSpace);
+//		}
+//
+//		private function addSingleWindowSpaceCombination(window:WorkstationWindow):void
+//		{
+//			if (_rightSpace != null)
+//				throw new Error("rightSpace was already initialized when trying to add a new rightSpace");
+//			if (_leftSpace != null)
+//				throw new Error("leftSpace was already initialized when trying to add a new leftSpace");
+//			if (_centerSpace != null)
+//				throw new Error("centerSpace was already initialized when trying to add a new centerSpace");
+//			if (_topSpace != null)
+//				throw new Error("topSpace was already initialized when trying to add a new topSpace");
+//
+//			var combination:SingleWindowSpaceCombination = new SingleWindowSpaceCombination();
+//			combination.id = "singleWindowSpaceCombination";
+//			window.addSpace(combination);
+//
+//			_topSpace = combination.topSpace;
+//			_centerSpace = combination.centerSpace;
+////			_leftSpace = combination.leftSpace;
+////			_rightSpace = combination.rightSpace;
+//			_widgetsContainer = _topSpace.widgetsContainer;
+//			_scheduleWidgetContainer = _topSpace.scheduleWidgetContainer;
+//			_fullContainer = _centerSpace.fullContainer;
+//		}
 		
 		private function onKeyUp(event:KeyboardEvent):void 
 		{
@@ -516,7 +576,7 @@ package collaboRhythm.workstation.controller
 				}
 				else if (event.keyCode == Keyboard.F5)
 				{
-					_collaborationMediator.reloadPlugins();
+					reloadPlugins();
 				}
 			}
 			else if (event.ctrlKey && event.altKey)
@@ -528,12 +588,12 @@ package collaboRhythm.workstation.controller
 				else if (event.keyCode == Keyboard.NUMBER_1)
 				{
 					_settings.useSingleScreen = true;
-					resetWindows();
+//					resetWindows();
 				}
 				else if (event.keyCode == Keyboard.NUMBER_2)
 				{
 					_settings.useSingleScreen = false;
-					resetWindows();
+//					resetWindows();
 				}
 			}
 			else if (event.keyCode == Keyboard.F1)
@@ -563,35 +623,7 @@ package collaboRhythm.workstation.controller
 			if (_settings.demoDatePresets && _settings.demoDatePresets.length > demoPresetIndex)
 				targetDate = _settings.demoDatePresets[demoPresetIndex];
 		}
-		
-		private function changeZoom(zoomDelta:Number):void
-		{
-			zoom += zoomDelta;
-		}	
-		
-		// Close the entire application, sending out an event to any processes that might want to interrupt the closing
-		private function applicationExit():void 
-		{
-			var exitingEvent:Event = new Event(Event.EXITING, false, true); 
-			NativeApplication.nativeApplication.dispatchEvent(exitingEvent); 
-			if (!exitingEvent.isDefaultPrevented())
-			{
-				NativeApplication.nativeApplication.exit(); 
-			} 
-		}
-		
-		// Close each of the windows in the application, and do any cleanup for the application after that
-		private function onExiting(exitingEvent:Event):void 
-		{ 
-			for each (var window:NativeWindow in NativeApplication.nativeApplication.openedWindows)
-			{
-				window.close(); 
-			} 
-			
-			_collaborationMediator.cancelAllCollaborations();
-			saveWindowSettings();
-		}
-		
+
 		private function saveWindowSettings():void
 		{
 			var windowSettings:WindowSettings = new WindowSettings();
@@ -718,5 +750,10 @@ package collaboRhythm.workstation.controller
 			var windowSettings:WindowSettings = windowSettingsDataStore.readWindowSettings();
 			return windowSettings;
 		}
-	}
+
+        public override function get applicationSettingsEmbeddedFile():Class
+        {
+            return _applicationSettingsEmbeddedFile;
+        }
+    }
 }

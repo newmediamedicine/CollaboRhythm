@@ -68,9 +68,9 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public static const SYSTOLIC_HYPERTENSION_STAGE2:Number = 160;
 		public static const SYSTOLIC_HYPERTENSION_CRISIS:Number = 180;
 
-		public static const SEVERITY_COLOR_HIGH:uint = 0xED1C24;
-		public static const SEVERITY_COLOR_MEDIUM:uint = 0xF7941E;
-		public static const SEVERITY_COLOR_GOAL:uint = 0x00A651;
+		public static const SEVERITY_COLOR_HIGH:uint = 0xC64A5C;
+		public static const SEVERITY_COLOR_MEDIUM:uint = 0xFFF3AB;
+		public static const SEVERITY_COLOR_GOAL:uint = 0x79A873;
 		private static const systolicColors:Vector.<uint> = new <uint>[
 			SEVERITY_COLOR_HIGH,
 			SEVERITY_COLOR_MEDIUM,

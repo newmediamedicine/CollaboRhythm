@@ -16,14 +16,17 @@
  */
 package collaboRhythm.shared.controller
 {
-	import collaboRhythm.shared.model.CollaborationModel;
+
+    import collaboRhythm.shared.model.Account;
+    import collaboRhythm.shared.model.CollaborationModel;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.model.User;
 	import collaboRhythm.shared.model.UsersModel;
 	import collaboRhythm.shared.view.CollaborationRoomView;
 	import collaboRhythm.shared.view.RecordVideoView;
-	
-	import flash.events.EventDispatcher;
+    import collaboRhythm.shared.view.CollaborationView;
+
+    import flash.events.EventDispatcher;
 	import flash.media.Video;
 	import flash.utils.getQualifiedClassName;
 	
@@ -35,7 +38,7 @@ package collaboRhythm.shared.controller
 	import spark.effects.Move;
 	
 	/**
-	 * Coordinates interaction between the CollaborationModel and CollaborationBarView classes.
+	 * Coordinates interaction between the CollaborationModel and the CollaborationView and its children the RecordVideoView and CollaborationRoomView.
 	 * Currently, it is possible for the user to accept or cancel (this includes reject) collaborations from the CollaboratingRemoteUserViews in the CollaborationBarView.
 	 * The CollaborationBarView listens for the events from the CollaboratingRemoteUserViews and calls functions in this class, which update the collaborationModel and dispatch events for interested observers.
 	 * Currently, the CollaborationMediator listens for events from this class.  It also calls functions in this class when collaboration functions are called via the RemoteUserNetConnectionService.
@@ -44,54 +47,57 @@ package collaboRhythm.shared.controller
 	 */
 	public class CollaborationController extends EventDispatcher
 	{
-		private var _usersModel:UsersModel;
+		private var _activeAccount:Account;
+        private var _settings:Settings;
 		private var _collaborationModel:CollaborationModel;
-		private var _collaborationRoomView:CollaborationRoomView;
-		private var _recordVideoView:RecordVideoView;
-		private var _settings:Settings;
-		private var logger:ILogger;
+        private var _collaborationView:CollaborationView;
+		private var _logger:ILogger;
 		
-		public function CollaborationController(collaborationRoomView:CollaborationRoomView, recordVideoView:RecordVideoView, usersModel:UsersModel, settings:Settings)
+		public function CollaborationController(activeAccount:Account, collaborationView:CollaborationView, settings:Settings)
 		{		
-			logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
-			logger.info("Creating CollaborationController");
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+            _activeAccount = activeAccount;
 			_settings = settings;
-			_usersModel = usersModel;
-			logger.info("Creating CollaborationModel");
-			_collaborationModel = new CollaborationModel(settings, usersModel);
-			_collaborationRoomView = collaborationRoomView;
-			_recordVideoView = recordVideoView;
-			if (_settings.isWorkstationMode)
-			{
-				_collaborationRoomView.y = _collaborationRoomView.y + (-_collaborationRoomView.height);
-				_collaborationRoomView.initializeModel(this, _collaborationModel);
-				_recordVideoView.y = _recordVideoView.y + (-_recordVideoView.height);
-				_recordVideoView.init(this, _collaborationModel);
-				
-				_collaborationRoomView.addEventListener(CollaborationEvent.LOCAL_USER_JOINED_COLLABORATION_ROOM_ANIMATION_COMPLETE, localUserJoinedCollaborationRoomAnimationCompleteHandler);
-			}
+			_collaborationModel = new CollaborationModel(settings, _activeAccount);
+            _collaborationView = collaborationView;
+//				_collaborationRoomView.addEventListener(CollaborationEvent.LOCAL_USER_JOINED_COLLABORATION_ROOM_ANIMATION_COMPLETE, localUserJoinedCollaborationRoomAnimationCompleteHandler);
 		}
 
-		public function get usersModel():UsersModel
+        public function setActiveRecordAccount(activeRecordAccount:Account):void
+        {
+            _collaborationModel.activeRecordAccount = activeRecordAccount;
+        }
+
+        public function showRecordVideoView():void
+        {
+            _collaborationModel.recordVideo = true;
+        }
+
+        public function hideRecordVideoView():void
+        {
+            _collaborationModel.recordVideo = false;
+        }
+
+        public function uploadVideoMessage():void
+        {
+            _collaborationModel.activeRecordAccount.primaryRecord.videoMessagesModel.createVideoMessage(_collaborationModel.activeAccount.accountId);
+        }
+
+		public function get activeAccount():Account
 		{
-			return _usersModel;
+			return _activeAccount;
 		}
 		
 		public function get collaborationModel():CollaborationModel
 		{
 			return _collaborationModel;
 		}
-		
-		public function get collaborationRoomView():CollaborationRoomView
-		{
-			return _collaborationRoomView;
-		}
-		
-		public function get recordVideoView():RecordVideoView
-		{
-			return _recordVideoView;
-		}
-		
+
+        public function set collaborationModel(value:CollaborationModel):void
+        {
+            _collaborationModel = value;
+        }
+
 		public function exitCollaborationLobby():void
 		{
 			_collaborationModel.collaborationLobbyNetConnectionService.exitCollaborationLobby();
@@ -99,16 +105,11 @@ package collaboRhythm.shared.controller
 		
 		public function collaborateWithUserHandler(subjectUser:User):void
 		{
-			_collaborationModel.creatingUser = _usersModel.localUser;
-			_collaborationModel.subjectUser = subjectUser;
-			_collaborationModel.collaborationLobbyNetConnectionService.getCollaborationRoomID();
+//			_collaborationModel.creatingUser = _usersModel.localUser;
+//			_collaborationModel.subjectUser = subjectUser;
+//			_collaborationModel.collaborationLobbyNetConnectionService.getCollaborationRoomID();
 		}
-		
-		public function recordVideoHandler(subjectUser:User):void
-		{
-			_collaborationModel.recordVideo = true;
-		}
-		
+
 		private function localUserJoinedCollaborationRoomAnimationCompleteHandler(event:CollaborationEvent):void
 		{
 			_collaborationModel.collaborationRoomNetConnectionService.connectLocalUserVideoStream();
@@ -135,15 +136,5 @@ package collaboRhythm.shared.controller
 		{
 			_collaborationModel.closeRecordVideoView();
 		}
-		
-		public function hideCollaborationBar():void
-		{		
-			_collaborationRoomView.hide();
-		}
-		
-		public function showCollaborationBar():void
-		{		
-			_collaborationRoomView.show();
-		}
-	}
+    }
 }

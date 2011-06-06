@@ -47,44 +47,44 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.plugins.equipment.model.Equipment;
-			import collaboRhythm.plugins.equipment.model.EquipmentScheduleItem;
-			import collaboRhythm.plugins.schedule.shared.model.AdherenceItem;
-			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
-			
-			[Bindable]
-			private var _equipment:Equipment;
-			[Bindable]
-			private var _equipmentScheduleItem:EquipmentScheduleItem
-			private var _bloodPressureReportingView:BloodPressureReportingView;
-					
-			public function get equipment():Equipment
-			{
-				return _equipment;
-			}
-			
-			public function set equipment(value:collaboRhythm.plugins.equipment.model.Equipment):void
-			{
-				_equipment = value;
-			}
-			
-			public function get equipmentScheduleItem():collaboRhythm.plugins.equipment.model.EquipmentScheduleItem
-			{
-				return _equipmentScheduleItem;
-			}
-			
-			public function set equipmentScheduleItem(value:EquipmentScheduleItem):void
-			{
-				_equipmentScheduleItem = value;
-			}
-			
-			private function adherenceButtonClickHandler(event:MouseEvent):void
-			{
-				_bloodPressureReportingView = new BloodPressureReportingView();
-				_bloodPressureReportingView.percentWidth = 100;
-				_bloodPressureReportingView.percentHeight = 100;
-				_bloodPressureReportingView.init(this);
-				_parentGroup.addElement(_bloodPressureReportingView);
+        import collaboRhythm.plugins.equipment.model.Equipment;
+        import collaboRhythm.plugins.equipment.model.EquipmentScheduleItem;
+        import collaboRhythm.shared.model.AdherenceItem;
+        import collaboRhythm.shared.model.ScheduleItemBase;
+
+        [Bindable]
+        private var _equipment:Equipment;
+        [Bindable]
+        private var _equipmentScheduleItem:EquipmentScheduleItem
+        private var _bloodPressureReportingView:BloodPressureReportingView;
+
+        public function get equipment():Equipment
+        {
+            return _equipment;
+        }
+
+        public function set equipment(value:collaboRhythm.plugins.equipment.model.Equipment):void
+        {
+            _equipment = value;
+        }
+
+        public function get equipmentScheduleItem():collaboRhythm.plugins.equipment.model.EquipmentScheduleItem
+        {
+            return _equipmentScheduleItem;
+        }
+
+        public function set equipmentScheduleItem(value:EquipmentScheduleItem):void
+        {
+            _equipmentScheduleItem = value;
+        }
+
+        private function adherenceButtonClickHandler(event:MouseEvent):void
+        {
+            _bloodPressureReportingView = new BloodPressureReportingView();
+            _bloodPressureReportingView.percentWidth = 100;
+            _bloodPressureReportingView.percentHeight = 100;
+            _bloodPressureReportingView.init(this);
+            _parentGroup.addElement(_bloodPressureReportingView);
 //				var vitalSign:VitalSign = new VitalSign();
 //				vitalSign.init(_equipment.name, "gwhite@records.media.mit.edu", new Date(), new Date(), _equipment.dose);
 //				var adherenceItem:AdherenceItem = new AdherenceItem();
@@ -92,37 +92,37 @@
 //				adherenceItem.adherenceResult = vitalSign;
 //				
 //				dispatchAdherenceItemEvent(adherenceItem);
-			}
-			
-			public function bloodPressureReportingResult(systolic:String, diastolic:String, heartRate:String):void
-			{
-				_parentGroup.removeElement(_bloodPressureReportingView);
-				var adherenceItem:AdherenceItem = new AdherenceItem();
-				adherenceItem.init(_equipment.name, "gwhite@records.media.mit.edu", new Date(), true);
-				
-				dispatchAdherenceItemEvent(adherenceItem);
-			}
-			
-			private function nonadherenceButtonClickHandler(event:MouseEvent):void
-			{
+        }
+
+        public function bloodPressureReportingResult(systolic:String, diastolic:String, heartRate:String):void
+        {
+            _parentGroup.removeElement(_bloodPressureReportingView);
+            var adherenceItem:AdherenceItem = new AdherenceItem();
+            adherenceItem.init(_equipment.name, "gwhite@records.media.mit.edu", new Date(), true);
+
+            dispatchAdherenceItemEvent(adherenceItem);
+        }
+
+        private function nonadherenceButtonClickHandler(event:MouseEvent):void
+        {
 //				var adherenceItem:AdherenceItem = new AdherenceItem();
 //				adherenceItem.init(_equipment.name, "gwhite@records.media.mit.edu", new Date(), false);
 //				
 //				dispatchAdherenceItemEvent(adherenceItem);
-			}
-			
-			private function determineEnabled(adherenceItem:AdherenceItem):Boolean
-			{
-				if (adherenceItem == null)
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-			}
-		]]>
+        }
+
+        private function determineEnabled(adherenceItem:AdherenceItem):Boolean
+        {
+            if (adherenceItem == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        ]]>
 	</fx:Script>
 	<s:Group id="med" width="100%" height="100%" enabled="{determineEnabled(_equipmentScheduleItem.adherenceItem)}">
 		<s:Rect id="background" width="100%" height="100%">

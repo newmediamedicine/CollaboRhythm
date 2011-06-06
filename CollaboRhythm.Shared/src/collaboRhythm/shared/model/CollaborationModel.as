@@ -38,7 +38,9 @@ package collaboRhythm.shared.model
 	public class CollaborationModel
 	{
 		private var _active:Boolean = false;
-		private var _usersModel:UsersModel;
+        private var _activeAccount:Account;
+        private var _activeRecordAccount:Account;
+//		private var _usersModel:UsersModel;
 //		private var _localUser:User;
 		private var _creatingUser:User;
 		private var _subjectUser:User;
@@ -53,17 +55,16 @@ package collaboRhythm.shared.model
 		private var _collaborationRoomNetConnectionService:CollaborationRoomNetConnectionService;
 		private var _recordVideo:Boolean = false;
 		
-		public function CollaborationModel(settings:Settings, usersModel:UsersModel)
+		public function CollaborationModel(settings:Settings, activeAccount:Account)
 		{
-			_usersModel = usersModel;
+			_activeAccount = activeAccount;
 			_audioVideoOutput = new AudioVideoOutput();
 			_collaborationRoomUsers = new ArrayCollection();
 			
-			_collaborationLobbyNetConnectionService = new CollaborationLobbyNetConnectionService(usersModel.localUser.accountId, settings.rtmpBaseURI, this, usersModel);
-			_collaborationRoomNetConnectionService = new CollaborationRoomNetConnectionService(usersModel.localUser.accountId, settings.rtmpBaseURI, this);
+			_collaborationLobbyNetConnectionService = new CollaborationLobbyNetConnectionService(_activeAccount.accountId, settings.rtmpBaseURI, this, _activeAccount);
+			_collaborationRoomNetConnectionService = new CollaborationRoomNetConnectionService(_activeAccount.accountId, settings.rtmpBaseURI, this);
 			
 //			_usersModel.usersHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE, usersHealthRecordService_completeHandler);
-			_collaborationLobbyNetConnectionService.enterCollaborationLobby();
 		}
 
 		public function get active():Boolean
@@ -76,15 +77,15 @@ package collaboRhythm.shared.model
 			_active = value;
 		}
 
-		public function get usersModel():UsersModel
+		public function get activeAccount():Account
 		{
-			return _usersModel;
+			return _activeAccount;
 		}
 
-		public function get localUser():User
-		{
-			return usersModel.localUser;
-		}
+//		public function get localUser():User
+//		{
+//			return usersModel.localUser;
+//		}
 
 //		public function set localUser(value:User):void
 //		{
@@ -98,11 +99,11 @@ package collaboRhythm.shared.model
 		
 		public function set creatingUser(value:User):void
 		{
-			_creatingUser = value;
-			if (value != localUser)
-			{
-				_collaborationRoomUsers.addItem(value);
-			}
+//			_creatingUser = value;
+//			if (value != localUser)
+//			{
+//				_collaborationRoomUsers.addItem(value);
+//			}
 		}
 
 		public function get subjectUser():User
@@ -112,11 +113,11 @@ package collaboRhythm.shared.model
 		
 		public function set subjectUser(value:User):void
 		{
-			_subjectUser = value;
-			if (value != localUser)
-			{
-				_collaborationRoomUsers.addItem(value);
-			}
+//			_subjectUser = value;
+//			if (value != localUser)
+//			{
+//				_collaborationRoomUsers.addItem(value);
+//			}
 		}
 		
 		public function get invitedUsers():Vector.<User>
@@ -221,12 +222,27 @@ package collaboRhythm.shared.model
 			_controllingUser = null;
 			_roomID = "";
 			_passWord = "";
-			localUser.collaborationColor = "0x000000";
+//			localUser.collaborationColor = "0x000000";
 		}
 		
 		public function closeRecordVideoView():void
 		{
 			recordVideo = false;
 		}
-	}
+
+        public function set collaborationLobbyNetConnectionService(value:CollaborationLobbyNetConnectionService):void
+        {
+            _collaborationLobbyNetConnectionService = value;
+        }
+
+        public function get activeRecordAccount():Account
+        {
+            return _activeRecordAccount;
+        }
+
+        public function set activeRecordAccount(value:Account):void
+        {
+            _activeRecordAccount = value;
+        }
+    }
 }

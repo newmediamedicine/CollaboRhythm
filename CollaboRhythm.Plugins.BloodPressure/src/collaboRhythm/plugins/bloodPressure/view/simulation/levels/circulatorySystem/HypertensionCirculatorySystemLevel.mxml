@@ -88,15 +88,15 @@
 
 		[Bindable]
 		private var atenololPlaceholderStepsListData:ArrayCollection = new ArrayCollection([
-																			{ text: "Atenolol placeholder step 1", color: 0x79A873 },
-																			{ text: "Atenolol placeholder step 2", color: 0x79A873 },
-																			{ text: "Atenolol placeholder step 3", color: 0x79A873 },
-																			{ text: "Atenolol placeholder step 4", color: 0x79A873 },
-																			{ text: "Atenolol placeholder step 5", color: 0x79A873 },
+																			{ text: "Atenolol placeholder step 1", color: SimulationModel.SEVERITY_COLOR_GOAL },
+																			{ text: "Atenolol placeholder step 2", color: SimulationModel.SEVERITY_COLOR_GOAL },
+																			{ text: "Atenolol placeholder step 3", color: SimulationModel.SEVERITY_COLOR_GOAL },
+																			{ text: "Atenolol placeholder step 4", color: SimulationModel.SEVERITY_COLOR_GOAL },
+																			{ text: "Atenolol placeholder step 5", color: SimulationModel.SEVERITY_COLOR_GOAL },
 																		]);
 
-		private const hydrochlorothiazidePoint:Point = new Point(192, 546);
-		private const atenololPoint:Point = new Point(227, 354);
+		private const hydrochlorothiazidePoint:Point = new Point(200, 533);
+		private const atenololPoint:Point = new Point(216, 342);
 		[Bindable]
 		private var hydrochlorothiazideMedicationModel:MedicationComponentAdherenceModel;
 
@@ -110,8 +110,6 @@
 			];
 
 			lookupMedications();
-			simulationModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
-											 simulationModel_propertyChangeHandler);
 
 			super.creationCompleteHandler(event);
 		}
@@ -124,7 +122,7 @@
 			for each (var step:String in steps)
 			{
 				i++;
-				result.addItem({ number: i, text: step, color: concentrationSeverityColor });
+				result.addItem({ text: step, color: concentrationSeverityColor });
 			}
 
 			return result;
@@ -138,12 +136,16 @@
 
 		private function lookupMedications():void
 		{
-			hydrochlorothiazideMedicationModel = simulationModel.getMedication('310798');
+			if (simulationModel)
+				hydrochlorothiazideMedicationModel = simulationModel.getMedication('310798');
 		}
 
 		public override function set simulationModel(value:SimulationModel):void
 		{
 			super.simulationModel = value;
+			if (simulationModel)
+				simulationModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+												 simulationModel_propertyChangeHandler);
 			lookupMedications();
 		}
 		]]></fx:Script>

@@ -17,7 +17,8 @@
 package collaboRhythm.workstation.model.settings
 {
 	import flash.display.NativeWindowDisplayState;
-	import flash.geom.Rectangle;
+    import flash.display.Screen;
+    import flash.geom.Rectangle;
 	
 	import mx.core.Window;
 
@@ -26,7 +27,7 @@ package collaboRhythm.workstation.model.settings
 		private var _displayState:String;
 		private var _bounds:Rectangle;
 		private var _componentLayouts:Vector.<ComponentLayout> = new Vector.<ComponentLayout>();
-		
+
 		private var _spaces:Vector.<String> = new Vector.<String>();		
 		
 		public function WindowState()
@@ -85,5 +86,5 @@ package collaboRhythm.workstation.model.settings
 		{
 			_bounds = value;
 		}
-	}
+    }
 }

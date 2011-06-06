@@ -33,19 +33,19 @@
 			</s:Rect>
 		</s:Group>
 	</s:mask>
-	<view:TopBarView id="topBar" height="100" width="100%"/>
-	<s:Rect width="100%" top="{topBar.height}" bottom="0">
-		<s:fill>
-			<s:SolidColor color="#E6E7E8"/>
-		</s:fill>
-	</s:Rect>
-	<s:Group id="widgetBar" width="100%" top="{topBar.height}" bottom="0" clipAndEnableScrolling="true">
-		<s:layout>
-			<s:HorizontalLayout paddingTop="0" paddingBottom="0" paddingLeft="0" paddingRight="0"/>
-		</s:layout>
-		<view:TiledWidgetsContainerView id="customTiledWidgetsContainerView" height="200" maxColumnWidth="200"/>
-		<view:TiledWidgetsContainerView id="standardTiledWidgetsContainerView" width="100%" height="100%" />
-	</s:Group>
+	<!--<view:TopBarView id="topBar" height="100" width="100%"/>-->
+	<!--<s:Rect width="100%" top="{topBar.height}" bottom="0">-->
+		<!--<s:fill>-->
+			<!--<s:SolidColor color="#E6E7E8"/>-->
+		<!--</s:fill>-->
+	<!--</s:Rect>-->
+	<!--<s:Group id="widgetBar" width="100%" top="{topBar.height}" bottom="0" clipAndEnableScrolling="true">-->
+		<!--<s:layout>-->
+			<!--<s:HorizontalLayout paddingTop="0" paddingBottom="0" paddingLeft="0" paddingRight="0"/>-->
+		<!--</s:layout>-->
+		<!--<view:TiledWidgetsContainerView id="customTiledWidgetsContainerView" height="200" maxColumnWidth="200"/>-->
+		<!--<view:TiledWidgetsContainerView id="standardTiledWidgetsContainerView" width="100%" height="100%" />-->
+	<!--</s:Group>-->
 	<fx:Script><![CDATA[
 		import mx.events.FlexEvent;
 
@@ -56,46 +56,46 @@
 		private static const widgetContainersHorizontalThreshold:Number = 400;
 		private var isWidgetContainersLayoutHorizontal:Boolean = true;
 
-		public function get widgetsContainer():Group
-		{
-			return standardTiledWidgetsContainerView.widgetsContainer;
-		}
-
-		public function get scheduleWidgetContainer():Group
-		{
-			return customTiledWidgetsContainerView.widgetsContainer;
-		}
-
+//		public function get widgetsContainer():Group
+//		{
+//			return standardTiledWidgetsContainerView.widgetsContainer;
+//		}
+//
+//		public function get scheduleWidgetContainer():Group
+//		{
+//			return customTiledWidgetsContainerView.widgetsContainer;
+//		}
+//
 		private function resizeHandler(event:ResizeEvent):void
 		{
-			applyAppropriateLayout();
+//			applyAppropriateLayout();
 		}
-
-		private function applyAppropriateLayout():void
-		{
-			if (widgetBar.height < widgetContainersHorizontalThreshold)
-			{
-				if (!isWidgetContainersLayoutHorizontal)
-				{
-					widgetBar.layout = new HorizontalLayout();
-					widgetBar.setElementIndex(customTiledWidgetsContainerView, 0);
-					isWidgetContainersLayoutHorizontal = true;
-				}
-			}
-			else
-			{
-				if (isWidgetContainersLayoutHorizontal)
-				{
-					widgetBar.layout = new VerticalLayout();
-					widgetBar.setElementIndex(standardTiledWidgetsContainerView, 0);
-					isWidgetContainersLayoutHorizontal = false;
-				}
-			}
-		}
-
+//
+//		private function applyAppropriateLayout():void
+//		{
+//			if (widgetBar.height < widgetContainersHorizontalThreshold)
+//			{
+//				if (!isWidgetContainersLayoutHorizontal)
+//				{
+//					widgetBar.layout = new HorizontalLayout();
+//					widgetBar.setElementIndex(customTiledWidgetsContainerView, 0);
+//					isWidgetContainersLayoutHorizontal = true;
+//				}
+//			}
+//			else
+//			{
+//				if (isWidgetContainersLayoutHorizontal)
+//				{
+//					widgetBar.layout = new VerticalLayout();
+//					widgetBar.setElementIndex(standardTiledWidgetsContainerView, 0);
+//					isWidgetContainersLayoutHorizontal = false;
+//				}
+//			}
+//		}
+//
 		private function creationCompleteHandler(event:FlexEvent):void
 		{
-			applyAppropriateLayout();
+//			applyAppropriateLayout();
 		}
 		]]>
 	</fx:Script>

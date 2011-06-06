@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:mx="library://ns.adobe.com/flex/mx"
+         xmlns:view="collaboRhythm.shared.view.*"
+         xmlns:view2="collaboRhythm.workstation.view.*"
+         height="0" width="100%">
+    <fx:Style>
+        @namespace s "library://ns.adobe.com/flex/spark";
+        @namespace mx "library://ns.adobe.com/flex/mx";
+
+        .IconButton
+        {
+            skin-class: ClassReference("collaboRhythm.shared.view.IconButtonSkin");
+        }
+    </fx:Style>
+    <fx:Script>
+        <![CDATA[
+        import collaboRhythm.shared.model.Account;
+        import collaboRhythm.shared.model.CollaborationModel;
+        import collaboRhythm.shared.model.settings.Settings;
+        import collaboRhythm.workstation.controller.WorkstationApplicationController;
+
+        private static const SEPARATOR_COLOR:String = "#A7A9AC";
+
+        private var _workstationApplicationController:WorkstationApplicationController;
+        [Bindable]
+        private var _recordAccount:Account;
+        [Bindable]
+        private var _collaborationModel:CollaborationModel;
+        [Bindable]
+        private var _settings:Settings;
+
+        public function init(workstationApplicationController:WorkstationApplicationController, recordAccount:Account, collaborationModel:CollaborationModel):void
+        {
+            _workstationApplicationController = workstationApplicationController;
+            _recordAccount = recordAccount;
+            _collaborationModel = collaborationModel;
+            _settings = _workstationApplicationController.settings;
+
+            recordInformationView.init(_recordAccount);
+        }
+
+        private function closeRecordButton_clickHandler(event:MouseEvent):void
+        {
+            _workstationApplicationController.closeRecordAccount(_recordAccount);
+        }
+
+        private function recordVideoButton_clickHandler(event:MouseEvent):void
+        {
+            if (recordVideoButton.selected)
+            {
+                _workstationApplicationController.showRecordVideoView();
+            }
+            else
+            {
+                _workstationApplicationController.hideRecordVideoView();
+            }
+        }
+        ]]>
+    </fx:Script>
+    <s:Rect width="100%" height="100%">
+        <s:fill>
+            <s:SolidColor color="{ActiveRecordView.RECORD_BACKGROUND_COLOR}"/>
+        </s:fill>
+    </s:Rect>
+    <view2:RecordInformationView id="recordInformationView"/>
+    <s:HGroup width="100%" height="100%" horizontalAlign="right" gap="10" paddingRight="10" paddingTop="5">
+        <s:ToggleButton
+			id="recordVideoButton"
+			click="recordVideoButton_clickHandler(event)"
+            icon="@Embed(source='/assets/images/icons/buttonIcons/video.png')"
+			height="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
+            width="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
+            enabled="{_collaborationModel.collaborationLobbyNetConnectionService.isConnected}"
+            selected="{_collaborationModel.recordVideo}"
+            visible="{_settings.isClinicianMode}"
+			/>
+        <s:Button
+			id="closeRecordButton"
+			click="closeRecordButton_clickHandler(event)"
+			icon="@Embed(source='/assets/images/icons/buttonIcons/closeRecordButtonIcon.png')"
+            height="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
+            width="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
+            enabled="{!_collaborationModel.recordVideo}"
+            visible="{_settings.isClinicianMode}"
+		/>
+    </s:HGroup>
+    <s:Line height="100%" right="0">
+        <s:stroke>
+            <s:SolidColorStroke color="#000000"/>
+        </s:stroke>
+    </s:Line>
+    <s:Line width="100%" top="0">
+        <s:stroke>
+            <s:SolidColorStroke color="#000000"/>
+        </s:stroke>
+    </s:Line>
+    <s:Line width="100%" bottom="0">
+        <s:stroke>
+            <s:SolidColorStroke color="#A7A9AC"/>
+        </s:stroke>
+    </s:Line>
+</s:Group>

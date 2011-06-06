@@ -16,9 +16,9 @@
  */
 package collaboRhythm.plugins.schedule.controller
 {
-	import collaboRhythm.plugins.schedule.shared.model.AdherenceItem;
+	import collaboRhythm.shared.model.AdherenceItem;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
+	import collaboRhythm.shared.model.ScheduleItemBase;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleModel;
 	import collaboRhythm.plugins.schedule.view.ScheduleFullView;
 	import collaboRhythm.plugins.schedule.view.ScheduleGroupReportingView;
@@ -33,14 +33,14 @@ package collaboRhythm.plugins.schedule.controller
 		private var _localUserName:String;
 		private var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
 		
-		public function ScheduleWidgetViewController(isWorkstationMode:Boolean, scheduleModel:ScheduleModel, scheduleWidgetView:ScheduleWidgetView, localUserName:String, collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy)
+		public function ScheduleWidgetViewController(isWorkstationMode:Boolean, scheduleModel:ScheduleModel, scheduleWidgetView:ScheduleWidgetView)//, localUserName:String, collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy)
 		{
 			_isWorkstationMode = isWorkstationMode;
 			_scheduleModel = scheduleModel;
 			_scheduleWidgetView = scheduleWidgetView;
-			_localUserName = localUserName;
-			_collaborationRoomNetConnectionServiceProxy = collaborationRoomNetConnectionServiceProxy;
-			_collaborationRoomNetConnectionServiceProxy.synchronizeHandler = this;
+//			_localUserName = localUserName;
+//			_collaborationRoomNetConnectionServiceProxy = collaborationRoomNetConnectionServiceProxy;
+//			_collaborationRoomNetConnectionServiceProxy.synchronizeHandler = this;
 		}
 		
 		public function get isWorkstationMode():Boolean

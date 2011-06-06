@@ -30,14 +30,14 @@ package collaboRhythm.plugins.schedule.controller
 		private var _localUserName:String;
 		private var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
 		
-		public function ScheduleFullViewController(isWorkstationMode:Boolean, scheduleModel:ScheduleModel, scheduleFullView:ScheduleFullView, localUserName:String, collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy)
+		public function ScheduleFullViewController(isWorkstationMode:Boolean, scheduleModel:ScheduleModel, scheduleFullView:ScheduleFullView)//, localUserName:String, collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy)
 		{
 			_isWorkstationMode = isWorkstationMode;
 			_scheduleModel = scheduleModel;
 			_scheduleFullView = scheduleFullView;
-			_localUserName = localUserName;
-			_collaborationRoomNetConnectionServiceProxy = collaborationRoomNetConnectionServiceProxy;
-			_collaborationRoomNetConnectionServiceProxy.synchronizeHandler = this;
+//			_localUserName = localUserName;
+//			_collaborationRoomNetConnectionServiceProxy = collaborationRoomNetConnectionServiceProxy;
+//			_collaborationRoomNetConnectionServiceProxy.synchronizeHandler = this;
 		}
 		
 		public function grabScheduleGroup(moveData:MoveData):void

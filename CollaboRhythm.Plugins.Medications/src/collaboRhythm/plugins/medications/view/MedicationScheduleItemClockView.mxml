@@ -26,75 +26,75 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.plugins.medications.model.Medication;
-			import collaboRhythm.plugins.medications.model.MedicationScheduleItem;
-			import collaboRhythm.plugins.schedule.shared.model.AdherenceItem;
-			
-			import spark.filters.GlowFilter;
-			
-			[Bindable]
-			private var _medication:Medication;
-			[Bindable]
-			private var _medicationScheduleItem:MedicationScheduleItem
-			
-			public function get medication():Medication
-			{
-				return _medication;
-			}
-			
-			public function set medication(value:Medication):void
-			{
-				_medication = value;
-			}
-			
-			public function get medicationScheduleItem():MedicationScheduleItem
-			{
-				return _medicationScheduleItem;
-			}
-			
-			public function set medicationScheduleItem(value:MedicationScheduleItem):void
-			{
-				_medicationScheduleItem = value;
-			}
-			
-			private function determineCheckVisible(adherenceItem:AdherenceItem):Boolean
-			{
-				if (adherenceItem)
-				{
-					if (adherenceItem.adherence)
-					{
-						return true;
-					}
-					else
-					{
-						return false;
-					}
-				}
-				else
-				{
-					return false;
-				}
-			}
-			
-			private function determineXVisible(adherenceItem:AdherenceItem):Boolean
-			{
-				if (adherenceItem)
-				{
-					if (adherenceItem.adherence)
-					{
-						return false;
-					}
-					else
-					{
-						return true;
-					}
-				}
-				else
-				{
-					return false;
-				}
-			}
-		]]>
+        import collaboRhythm.plugins.medications.model.Medication;
+        import collaboRhythm.shared.model.MedicationScheduleItem;
+        import collaboRhythm.shared.model.AdherenceItem;
+
+        import spark.filters.GlowFilter;
+
+        [Bindable]
+        private var _medication:Medication;
+        [Bindable]
+        private var _medicationScheduleItem:MedicationScheduleItem
+
+        public function get medication():Medication
+        {
+            return _medication;
+        }
+
+        public function set medication(value:Medication):void
+        {
+            _medication = value;
+        }
+
+        public function get medicationScheduleItem():MedicationScheduleItem
+        {
+            return _medicationScheduleItem;
+        }
+
+        public function set medicationScheduleItem(value:MedicationScheduleItem):void
+        {
+            _medicationScheduleItem = value;
+        }
+
+        private function determineCheckVisible(adherenceItem:AdherenceItem):Boolean
+        {
+            if (adherenceItem)
+            {
+                if (adherenceItem.adherence)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private function determineXVisible(adherenceItem:AdherenceItem):Boolean
+        {
+            if (adherenceItem)
+            {
+                if (adherenceItem.adherence)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        ]]>
 	</fx:Script>
 	<s:Ellipse width="100%" height="100%">
 		<s:fill>

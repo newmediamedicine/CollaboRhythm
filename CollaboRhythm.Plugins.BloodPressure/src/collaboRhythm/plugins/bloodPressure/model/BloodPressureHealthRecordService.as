@@ -22,11 +22,12 @@ package collaboRhythm.plugins.bloodPressure.model
 	import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
 	import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 	import collaboRhythm.shared.apps.bloodPressure.model.StepsProvider;
+	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.CodedValue;
 	import collaboRhythm.shared.model.DateUtil;
-	import collaboRhythm.shared.model.User;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
-	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
+	import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
 
 	import flash.net.URLVariables;
 	import flash.xml.XMLDocument;
@@ -36,7 +37,7 @@ package collaboRhythm.plugins.bloodPressure.model
 
 	import org.indivo.client.IndivoClientEvent;
 
-	public class BloodPressureHealthRecordService extends HealthRecordServiceBase
+	public class BloodPressureHealthRecordService extends PhaHealthRecordServiceBase
 	{
 		private const systolicCategory:String = "Blood Pressure Systolic";
 		private const diastolicCategory:String = "Blood Pressure Diastolic";
@@ -46,38 +47,38 @@ package collaboRhythm.plugins.bloodPressure.model
 
 		private static const millisecondsPerHour:int = 1000 * 60 * 60;
 
-		public function BloodPressureHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String)
+		public function BloodPressureHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account)
 		{
-			super(consumerKey, consumerSecret, baseURL);
+			super(consumerKey, consumerSecret, baseURL, account);
 		}
 
-		public function loadBloodPressure(user:User):void
+		public function loadBloodPressure(recordAccount:Account):void
 		{
 			// clear any existing data
-			user.bloodPressureModel.data = null;
-			user.bloodPressureModel.isSystolicReportLoaded = false;
-			user.bloodPressureModel.isDiastolicReportLoaded = false;
+			recordAccount.bloodPressureModel.data = null;
+			recordAccount.bloodPressureModel.isSystolicReportLoaded = false;
+			recordAccount.bloodPressureModel.isDiastolicReportLoaded = false;
 
 			var params:URLVariables = new URLVariables();
 			params["order_by"] = "date_measured_start";
 
-			if (user.recordId != null && accessKey != null && accessSecret != null)
+			if (recordAccount.primaryRecord != null && _activeAccount.oauthAccountToken != null && _activeAccount.oauthAccountTokenSecret != null)
 			{
-				_pha.reports_minimal_vitals_X_GET(params, null, null, null, user.recordId, systolicCategory, accessKey,
-												  accessSecret,
-												  new BloodPressureReportUserData(user, VITALS_REPORT, systolicCategory));
-				_pha.reports_minimal_vitals_X_GET(params, null, null, null, user.recordId, diastolicCategory, accessKey,
-												  accessSecret,
-												  new BloodPressureReportUserData(user, VITALS_REPORT, diastolicCategory));
+				_pha.reports_minimal_vitals_X_GET(params, null, null, null, recordAccount.primaryRecord.id, systolicCategory, _activeAccount.oauthAccountToken,
+												  _activeAccount.oauthAccountTokenSecret,
+												  new BloodPressureReportUserData(recordAccount, VITALS_REPORT, systolicCategory));
+				_pha.reports_minimal_vitals_X_GET(params, null, null, null, recordAccount.primaryRecord.id, diastolicCategory, _activeAccount.oauthAccountToken,
+												  _activeAccount.oauthAccountTokenSecret,
+												  new BloodPressureReportUserData(recordAccount, VITALS_REPORT, diastolicCategory));
 
 				// TODO: figure out what is wrong with order_by for this report; it is currently causing an error
 //				var adherenceParams:URLVariables = new URLVariables();
 //				adherenceParams["order_by"] = "date_reported";
-				_pha.reports_minimal_X_GET(null, null, null, null, user.recordId, ADHERENCE_ITEMS_REPORT, accessKey, accessSecret, new BloodPressureReportUserData(user, ADHERENCE_ITEMS_REPORT))
+				_pha.reports_minimal_X_GET(null, null, null, null, recordAccount.primaryRecord.id, ADHERENCE_ITEMS_REPORT, _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, new BloodPressureReportUserData(recordAccount, ADHERENCE_ITEMS_REPORT))
 			}
 		}
 
-		protected override function handleResponse(event:IndivoClientEvent, responseXml:XML):void
+		protected override function handleResponse(event:IndivoClientEvent, responseXml:XML, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
 			if (responseXml.localName() == "Reports")
 			{
@@ -85,28 +86,28 @@ package collaboRhythm.plugins.bloodPressure.model
 				if (bloodPressureReportUserData == null)
 					throw new Error("userData must be a BloodPressureReportUserData object");
 
-				var user:User = bloodPressureReportUserData.user;
-				if (user == null)
+				var account:Account = bloodPressureReportUserData.account;
+				if (account == null)
 					throw new Error("userData.user must be a User object");
 
 				if (bloodPressureReportUserData.report == VITALS_REPORT)
 				{
 					if (responseXml.Report.Item.VitalSign.length() > 0)
 					{
-						user.bloodPressureModel.data = parseVitalSignReportData(responseXml,
+						account.bloodPressureModel.data = parseVitalSignReportData(responseXml,
 																	   getFieldNameFromCategory(bloodPressureReportUserData.category),
-																	   user.bloodPressureModel.data);
+																	   account.bloodPressureModel.data);
 
 						if (bloodPressureReportUserData.category == systolicCategory)
-							user.bloodPressureModel.isSystolicReportLoaded = true;
+							account.bloodPressureModel.isSystolicReportLoaded = true;
 						else if (bloodPressureReportUserData.category == diastolicCategory)
-							user.bloodPressureModel.isDiastolicReportLoaded = true;
+							account.bloodPressureModel.isDiastolicReportLoaded = true;
 					}
 				}
 				else if (bloodPressureReportUserData.report == ADHERENCE_ITEMS_REPORT)
 				{
-					user.bloodPressureModel.adherenceData = parseAdherenceItemReportData(responseXml);
-					initializeMedicationSimulationModel(user.bloodPressureModel.simulation, responseXml);
+					account.bloodPressureModel.adherenceData = parseAdherenceItemReportData(responseXml);
+					initializeMedicationSimulationModel(account.bloodPressureModel.simulation, responseXml);
 				}
 			}
 			else
@@ -124,7 +125,7 @@ package collaboRhythm.plugins.bloodPressure.model
 			{
 				if (itemXml.name.length() == 1)
 				{
-					var name:CodedValue = HealthRecordHelperMethods.codedValueFromXml(itemXml.name[0]);
+					var name:CodedValue = HealthRecordHelperMethods.xmlToCodedValue(itemXml.name[0]);
 
 					var index:int = simulation.medicationsByCode.getIndexByKey(name.value);
 					if (index == -1)
@@ -294,7 +295,7 @@ package collaboRhythm.plugins.bloodPressure.model
 					item = new AdherenceItem();
 
 					if (itemXml.name.length() == 1)
-						item.name = HealthRecordHelperMethods.codedValueFromXml(itemXml.name[0]);
+						item.name = HealthRecordHelperMethods.xmlToCodedValue(itemXml.name[0]);
 					if (itemXml.reportedBy.length() == 1)
 						item.reportedBy = itemXml.reportedBy.toString();
 					if (itemXml.dateReported.length() == 1)

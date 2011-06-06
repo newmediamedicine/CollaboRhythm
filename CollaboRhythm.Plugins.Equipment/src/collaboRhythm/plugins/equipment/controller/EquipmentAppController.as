@@ -95,7 +95,7 @@ package collaboRhythm.plugins.equipment.controller
 			super.initialize();
 			if (equipmentModel.initialized == false)
 			{
-				var equipmentHealthRecordService:EquipmentHealthRecordService = new EquipmentHealthRecordService(_healthRecordService.consumerKey, _healthRecordService.consumerSecret, _healthRecordService.baseURL);
+				var equipmentHealthRecordService:EquipmentHealthRecordService = new EquipmentHealthRecordService(_healthRecordService.oauthConsumerKey, _healthRecordService.oauthConsumerSecret, _healthRecordService.indivoServerBaseURL);
 				equipmentHealthRecordService.copyLoginResults(_healthRecordService);
 				equipmentHealthRecordService.loadEquipment(_user);
 			}

@@ -26,54 +26,55 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
-			import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
-			import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
-			
-			private var _scheduleGroup:ScheduleGroup;
-			
-			public function init(scheduleGroup:ScheduleGroup):void
-			{
-				_scheduleGroup = scheduleGroup;
-				createScheduleItems();
-			}
-			
-			public function get scheduleGroup():ScheduleGroup
-			{
-				return _scheduleGroup;
-			}
-			
-			private function addedToStage():void
-			{
-				stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-			}
-			
-			private function removedFromStage():void
-			{
-				stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-			}
-			
-			private function onKeyDown(event:KeyboardEvent):void
-			{
-				if (event.keyCode == Keyboard.BACK)
-				{
-					event.preventDefault();
-					event.stopImmediatePropagation();
-					dispatchEvent(new ScheduleWidgetViewEvent(ScheduleWidgetViewEvent.SCHEDULE_GROUP_REPORTING_VIEW_BACK, _scheduleGroup));
-				}
-			}
-			
-			private function createScheduleItems():void
-			{
-				for each (var scheduleItem:ScheduleItemBase in _scheduleGroup.scheduleItemsCollection)
-				{
-					var scheduleItemReportingView:ScheduleItemReportingViewBase = scheduleItem.createScheduleItemReportingView();
-					scheduleItemReportingView.init(scheduleItem, this);
-					scheduleItemsContainer.addElement(scheduleItemReportingView);
-				}
-			}
-		]]>
+        import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+        import collaboRhythm.shared.model.ScheduleItemBase;
+        import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
+        import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
+
+        private var _scheduleGroup:ScheduleGroup;
+
+        public function init(scheduleGroup:ScheduleGroup):void
+        {
+            _scheduleGroup = scheduleGroup;
+            createScheduleItems();
+        }
+
+        public function get scheduleGroup():ScheduleGroup
+        {
+            return _scheduleGroup;
+        }
+
+        private function addedToStage():void
+        {
+            stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+        }
+
+        private function removedFromStage():void
+        {
+            stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+        }
+
+        private function onKeyDown(event:KeyboardEvent):void
+        {
+            if (event.keyCode == Keyboard.BACK)
+            {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                dispatchEvent(new ScheduleWidgetViewEvent(ScheduleWidgetViewEvent.SCHEDULE_GROUP_REPORTING_VIEW_BACK,
+                                                          _scheduleGroup));
+            }
+        }
+
+        private function createScheduleItems():void
+        {
+//            for each (var scheduleItem:ScheduleItemBase in _scheduleGroup.scheduleItemsCollection)
+//            {
+//                var scheduleItemReportingView:ScheduleItemReportingViewBase = scheduleItem.createScheduleItemReportingView();
+//                scheduleItemReportingView.init(scheduleItem, this);
+//                scheduleItemsContainer.addElement(scheduleItemReportingView);
+//            }
+        }
+        ]]>
 	</fx:Script>
 	<s:Rect width="100%" height="100%">
 		<s:fill>

@@ -26,8 +26,8 @@ public class MenuButtonSkin extends ButtonSkin
 		public function MenuButtonSkin()
 		{
 			super();
-			gap = 0;
-			paddingBottom = paddingLeft = paddingRight = paddingTop = 2;
+			layoutGap = 0;
+			layoutPaddingBottom = layoutPaddingLeft = layoutPaddingRight = layoutPaddingTop = 2;
 			upBorderSkin = MenuButtonUp;
 			downBorderSkin = MenuButtonDown;
 			

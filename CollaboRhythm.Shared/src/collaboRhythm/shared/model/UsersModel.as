@@ -47,13 +47,13 @@ package collaboRhythm.shared.model
 		private var _healthRecordService:CommonHealthRecordService;
 		private var _remoteUsersPopulated:Boolean;
 		
-		public function UsersModel(settings:Settings, healthRecordService:CommonHealthRecordService)
+		public function UsersModel(settings:Settings, healthRecordService:CommonHealthRecordService, account:Account)
 		{		
 			_localUserName = settings.username;
 			
 //			_usersDatabaseService = new UserDatabaseService(this);
-			_usersHealthRecordService = new UsersHealthRecordService(this, healthRecordService.consumerKey, healthRecordService.consumerSecret, healthRecordService.baseURL);
-			_usersHealthRecordService.copyLoginResults(healthRecordService);
+			_usersHealthRecordService = new UsersHealthRecordService(this, settings.oauthChromeConsumerKey, settings.oauthChromeConsumerSecret, settings.indivoServerBaseURL, account);
+//			_usersHealthRecordService.copyLoginResults(healthRecordService);
 			_healthRecordService = healthRecordService;
 			
 //			_usersDatabaseService.addEventListener(UserDatabaseEvent.COMPLETE, userDatabaseService_completeHandler);

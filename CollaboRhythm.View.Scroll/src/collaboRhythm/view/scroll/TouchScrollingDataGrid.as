@@ -105,7 +105,7 @@ package collaboRhythm.view.scroll
 
 		public function get scrollableAreaHeight():Number
 		{
-			return ((this.dataProvider as ICollectionView).length) * rowHeight;
+			return this.dataProvider ? ((this.dataProvider as ICollectionView).length) * rowHeight : 0;
 		}
 		
 		public function get contentPositionY():Number

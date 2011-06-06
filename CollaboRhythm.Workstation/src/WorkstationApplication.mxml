@@ -35,7 +35,7 @@
 			private function main() : void
 			{
 				var workstationController:WorkstationApplicationController = new WorkstationApplicationController();
-				workstationController.main();
+                workstationController.main();
 			}
 		]]>
 	</fx:Script>

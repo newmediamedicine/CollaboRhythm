@@ -147,7 +147,7 @@
 				</s:Line>
 				<s:Label text="Log"/>
 				<s:TextArea id="logTextArea" width="100%" height="200" fontSize="14" selectable="true" editable="false"/>
-				<scroll:TouchScrollingDataGrid id="infoGrid" width="100%" height="100%" dataProvider="{infoData.InfoItem}" editable="false" chromeColor="#AAAAFF"
+				<scroll:TouchScrollingDataGrid id="infoGrid" width="100%" height="100%" dataProvider="{infoData.InfoItem}" editable="false"
 						styleName="ApplicationInfoGrid" useHorizontalTouchScrolling="false" useVerticalTouchScrolling="true" showHeaders="true" selectable="false" useRollOver="false" variableRowHeight="true">
 					<scroll:columns>
 						<mx:DataGridColumn headerText="" dataField="name" width="90"/>

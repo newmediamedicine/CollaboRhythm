@@ -25,29 +25,29 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
-			
-			public static const SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH:Number = 80;
-			public static const SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_HEIGHT:Number = 80;
-			public static const SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH:Number = 320;
-			public static const SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT:Number = 82;
-			
-			[Bindable]
-			private var _scheduleItem:ScheduleItemBase;
-			[Bindable]
-			private var _scheduleItemsContainer:Group;
-			
-			public function init(scheduleItem:ScheduleItemBase, scheduleItemsContainer:Group):void
-			{
-				_scheduleItem = scheduleItem;
-				_scheduleItemsContainer = scheduleItemsContainer;
-			}
-			
-			public function get scheduleItem():ScheduleItemBase
-			{
-				return _scheduleItem;
-			}
-		]]>
+        import collaboRhythm.shared.model.ScheduleItemBase;
+
+        public static const SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH:Number = 80;
+        public static const SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_HEIGHT:Number = 80;
+        public static const SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH:Number = 320;
+        public static const SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT:Number = 82;
+
+        [Bindable]
+        private var _scheduleItem:ScheduleItemBase;
+        [Bindable]
+        private var _scheduleItemsContainer:Group;
+
+        public function init(scheduleItem:ScheduleItemBase, scheduleItemsContainer:Group):void
+        {
+            _scheduleItem = scheduleItem;
+            _scheduleItemsContainer = scheduleItemsContainer;
+        }
+
+        public function get scheduleItem():ScheduleItemBase
+        {
+            return _scheduleItem;
+        }
+        ]]>
 	</fx:Script>
 	<s:filters>
 		<s:GlowFilter id="glowFilter"

@@ -74,8 +74,6 @@
 		protected override function creationCompleteHandler(event:FlexEvent):void
 		{
 			lookupMedications();
-			simulationModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
-											 simulationModel_propertyChangeHandler);
 
 			super.creationCompleteHandler(event);
 		}
@@ -88,10 +86,13 @@
 
 		private function lookupMedications():void
 		{
-			hydrochlorothiazideMedicationModel = simulationModel.getMedication('310798');
-			if (hydrochlorothiazideMedicationModel)
-				hydrochlorothiazideMedicationModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
-																	medicationModel_propertyChanged);
+			if (simulationModel)
+			{
+				hydrochlorothiazideMedicationModel = simulationModel.getMedication('310798');
+				if (hydrochlorothiazideMedicationModel)
+					hydrochlorothiazideMedicationModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+																		medicationModel_propertyChanged);
+			}
 		}
 
 		private function medicationModel_propertyChanged(event:PropertyChangeEvent):void
@@ -143,6 +144,9 @@
 		public override function set simulationModel(value:SimulationModel):void
 		{
 			super.simulationModel = value;
+			if (simulationModel)
+				simulationModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+												 simulationModel_propertyChangeHandler);
 			lookupMedications();
 		}
 		]]></fx:Script>

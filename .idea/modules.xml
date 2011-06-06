@@ -18,12 +18,10 @@
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Shared/CollaboRhythm.Shared.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Shared/CollaboRhythm.Shared.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Shared.BloodSolutesSimulation/CollaboRhythm.Shared.BloodSolutesSimulation.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Shared.BloodSolutesSimulation/CollaboRhythm.Shared.BloodSolutesSimulation.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Shared.PluginsSupport/CollaboRhythm.Shared.PluginsSupport.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Shared.PluginsSupport/CollaboRhythm.Shared.PluginsSupport.iml" group="CollaboRhythm" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Tablet/CollaboRhythm.Tablet.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Tablet/CollaboRhythm.Tablet.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.View.Scroll/CollaboRhythm.View.Scroll.iml" filepath="$PROJECT_DIR$/CollaboRhythm.View.Scroll/CollaboRhythm.View.Scroll.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Workstation/CollaboRhythm.Workstation.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Workstation/CollaboRhythm.Workstation.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/Degrafa/Degrafa.iml" filepath="$PROJECT_DIR$/Degrafa/Degrafa.iml" group="Other" />
       <module fileurl="file://$PROJECT_DIR$/McCuneChart/McCuneChart.iml" filepath="$PROJECT_DIR$/McCuneChart/McCuneChart.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/McCuneChart.demos/McCuneChart.demos.iml" filepath="$PROJECT_DIR$/McCuneChart.demos/McCuneChart.demos.iml" group="CollaboRhythm" />
-      <module fileurl="file://$PROJECT_DIR$/MobileTestApp1/MobileTestApp1.iml" filepath="$PROJECT_DIR$/MobileTestApp1/MobileTestApp1.iml" group="Other" />
       <module fileurl="file://$PROJECT_DIR$/PianoChord/PianoChord.iml" filepath="$PROJECT_DIR$/PianoChord/PianoChord.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/indivo_client_flash/indivo_client_flash.iml" filepath="$PROJECT_DIR$/indivo_client_flash/indivo_client_flash.iml" group="CollaboRhythm" />
     </modules>

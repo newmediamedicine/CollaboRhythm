@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+          xmlns:s="library://ns.adobe.com/flex/spark"
+          xmlns:mx="library://ns.adobe.com/flex/mx"
+          width="100%" height="100%" horizontalAlign="left" gap="0">
+    <fx:Style>
+        @namespace s "library://ns.adobe.com/flex/spark";
+        @namespace mx "library://ns.adobe.com/flex/mx";
+
+        .labelText
+        {
+            color: #000000;
+        }
+
+        #fullName
+        {
+            font-size: 24;
+        }
+
+        #demographics
+        {
+            font-size: 18;
+        }
+    </fx:Style>
+    <fx:Script>
+        <![CDATA[
+        import collaboRhythm.shared.model.Account;
+
+        private static const SEPARATOR_COLOR:String = "#A7A9AC";
+        public static const COLLABORATION_LOBBY_NOT_CONNECTED_COLOR:uint = 0xC64A5C;
+        public static const COLLABORATION_LOBBY_AVAILABLE_COLOR:uint = 0x79A873;
+        public static const COLLABORATION_LOBBY_AWAY_COLOR:uint = 0xFFF3AB;
+
+        [Bindable]
+        private var _recordAccount:Account;
+
+        public function init(recordAccount:Account):void
+        {
+            _recordAccount = recordAccount;
+        }
+
+        private function updateCollaborationServerConnectionIndicator(collaborationLobbyConnectionStatus:String):uint
+        {
+            var color:uint = COLLABORATION_LOBBY_NOT_CONNECTED_COLOR;
+            switch (collaborationLobbyConnectionStatus)
+            {
+                case Account.COLLABORATION_LOBBY_NOT_CONNECTED:
+                    color = COLLABORATION_LOBBY_NOT_CONNECTED_COLOR;
+                    break;
+                case Account.COLLABORATION_LOBBY_AVAILABLE:
+                    color = COLLABORATION_LOBBY_AVAILABLE_COLOR;
+                    break;
+                case Account.COLLABORATION_LOBBY_AWAY:
+                    color = COLLABORATION_LOBBY_AWAY_COLOR;
+                    break;
+            }
+            return color;
+        }
+
+        ]]>
+	</fx:Script>
+    <s:Rect width="10" height="100%">
+        <s:fill>
+            <s:SolidColor id="collaborationServerConnectionIndicator" color="{updateCollaborationServerConnectionIndicator(_recordAccount.collaborationLobbyConnectionStatus)}"/>
+        </s:fill>
+    </s:Rect>
+    <s:Line height="100%">
+        <s:stroke>
+            <s:SolidColorStroke color="#000000"/>
+        </s:stroke>
+    </s:Line>
+    <mx:Image source="{_recordAccount.primaryRecord.contact.imageURI}" height="{this.height}" width="{this.height}" smoothBitmapContent="true"/>
+    <s:Line height="100%">
+        <s:stroke>
+            <s:SolidColorStroke color="#000000"/>
+        </s:stroke>
+    </s:Line>
+    <s:VGroup paddingTop="12" paddingLeft="15" horizontalAlign="left" gap="4">
+        <s:Label id="fullName" text="{_recordAccount.primaryRecord.contact.fullName}" styleName="labelText"  />
+        <s:RichText id="demographics" visible="{_recordAccount.primaryRecord.demographics.gender != null}">
+            <s:textFlow>
+                <s:TextFlow>
+                    <s:p>
+                        <s:span text="{_recordAccount.primaryRecord.demographics.age}"/> <s:span color="{SEPARATOR_COLOR}">|</s:span>
+                        <s:span text="{_recordAccount.primaryRecord.demographics.ethnicity}"/> <s:span color="{SEPARATOR_COLOR}">|</s:span>
+                        <s:span text="{_recordAccount.primaryRecord.demographics.gender}"/>
+                    </s:p>
+                </s:TextFlow>
+            </s:textFlow>
+        </s:RichText>
+    </s:VGroup>
+</s:HGroup>

@@ -32,7 +32,8 @@ package collaboRhythm.workstation.view
 	import flash.events.KeyboardEvent;
 	import flash.events.NativeWindowBoundsEvent;
 	import flash.events.NativeWindowDisplayStateEvent;
-	import flash.ui.Keyboard;
+    import flash.geom.Rectangle;
+    import flash.ui.Keyboard;
 	
 	import mx.core.Container;
 	import mx.core.UIComponent;
@@ -43,7 +44,8 @@ package collaboRhythm.workstation.view
 	import spark.components.*;
 	import spark.layouts.BasicLayout;
 	import spark.layouts.TileLayout;
-	import spark.skins.spark.SparkChromeWindowedApplicationSkin;
+    import spark.primitives.Rect;
+    import spark.skins.spark.SparkChromeWindowedApplicationSkin;
 	import spark.skins.spark.WindowedApplicationSkin;
 
 	
@@ -115,18 +117,41 @@ package collaboRhythm.workstation.view
 		
 		public function initializeForScreen(currentScreen:Screen):void
 		{
-			this.bounds = currentScreen.visibleBounds;
-			
-			if (fullScreenEnabled)
-			{
-//				this.type = NativeWindowType.LIGHTWEIGHT;
-//				this.systemChrome = NativeWindowSystemChrome.NONE;
-//				this.alwaysInFront = true;
-			}
-			
+            var bounds:Rectangle = currentScreen.bounds;
+            initializeFromBounds(bounds);
+		}
+		
+		public function initializeForWindowState(windowState:WindowState):void
+		{
+            var bounds:Rectangle = windowState.bounds;
+            initializeFromBounds(bounds);
+//			this.open(true);
+//			this.stage.nativeWindow.bounds = windowState.bounds;
+//
+//			// Fix the size. For some reason, the height and width of the Window are not getting updated to match the stage when the window is first created.
+//			this.width = this.stage.stageWidth;
+//			this.height = this.stage.stageHeight;
+//
+//
+//			if (fullScreenEnabled)
+//			{
+//				this.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+//			}
+//			else
+//			{
+//				if (windowState.isMaximized)
+//					this.maximize();
+//
+//				// don't start the window minimized (even if it was minimized before) because it would be confusing for the user
+//			}
+		}
+
+        private function initializeFromBounds(bounds:Rectangle):void
+        {
 			this.open(true);
-			this.move(currentScreen.visibleBounds.x, currentScreen.visibleBounds.y);
-			
+			this.move(bounds.x, bounds.y);
+            this.bounds = bounds;
+
 			if (fullScreenEnabled)
 			{
 				this.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
@@ -135,37 +160,7 @@ package collaboRhythm.workstation.view
 			{
 				this.maximize();
 			}
-		}
-		
-		public function initializeForWindowState(windowState:WindowState):void
-		{
-			if (fullScreenEnabled)
-			{
-				//				this.type = NativeWindowType.LIGHTWEIGHT;
-				//				this.systemChrome = NativeWindowSystemChrome.NONE;
-				//				this.alwaysInFront = true;
-			}
-			
-			this.open(true);
-			this.stage.nativeWindow.bounds = windowState.bounds;
-			
-			// Fix the size. For some reason, the height and width of the Window are not gettin updated to match the stage when the window is first created.
-			this.width = this.stage.stageWidth;
-			this.height = this.stage.stageHeight;
-			
-			
-			if (fullScreenEnabled)
-			{
-				this.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
-			}
-			else
-			{
-				if (windowState.isMaximized)
-					this.maximize();
-				
-				// don't start the window minimized (even if it was minimized before) because it would be confusing for the user
-			}
-		}
+        }
 		
 		public function get fullScreenEnabled():Boolean
 		{

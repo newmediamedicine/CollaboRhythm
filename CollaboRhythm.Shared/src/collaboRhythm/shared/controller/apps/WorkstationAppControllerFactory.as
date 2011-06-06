@@ -16,11 +16,13 @@
  */
 package collaboRhythm.shared.controller.apps
 {
-	import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
+import collaboRhythm.shared.model.Account;
+import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.healthRecord.CommonHealthRecordService;
 	import collaboRhythm.shared.model.User;
-	
-	import flash.net.getClassByAlias;
+    import collaboRhythm.shared.model.settings.Settings;
+
+    import flash.net.getClassByAlias;
 	
 	import mx.core.IVisualElementContainer;
 	
@@ -38,6 +40,9 @@ package collaboRhythm.shared.controller.apps
 		private var _user:User;
 		private var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
 		private var _isWorkstationMode:Boolean;
+        private var _activeAccount:Account;
+        private var _activeRecordAccount:Account;
+        private var _settings:Settings;
 		
 		public function WorkstationAppControllerFactory()
 		{
@@ -109,6 +114,9 @@ package collaboRhythm.shared.controller.apps
 			constructorParams.widgetParentContainer = _widgetParentContainer;
 			constructorParams.fullParentContainer = _fullParentContainer;
 			constructorParams.isWorkstationMode = _isWorkstationMode;
+            constructorParams.activeAccount = _activeAccount;
+            constructorParams.activeRecordAccount = _activeRecordAccount;
+            constructorParams.settings = _settings;
 
 			var appObject:Object = new appClass(constructorParams);
 			if (appObject == null)
@@ -126,5 +134,33 @@ package collaboRhythm.shared.controller.apps
 			
 			return app;
 		}
-	}
+
+        public function get activeAccount():Account {
+            return _activeAccount;
+        }
+
+        public function set activeAccount(value:Account):void {
+            _activeAccount = value;
+        }
+
+        public function get settings():Settings
+        {
+            return _settings;
+        }
+
+        public function set settings(value:Settings):void
+        {
+            _settings = value;
+        }
+
+        public function get activeRecordAccount():Account
+        {
+            return _activeRecordAccount;
+        }
+
+        public function set activeRecordAccount(value:Account):void
+        {
+            _activeRecordAccount = value;
+        }
+    }
 }

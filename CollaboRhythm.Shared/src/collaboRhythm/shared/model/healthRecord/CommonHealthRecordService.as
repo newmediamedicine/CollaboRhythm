@@ -46,11 +46,11 @@ package collaboRhythm.shared.model.healthRecord
 	import org.indivo.client.IndivoClientEvent;
 	import org.indivo.client.Pha;
 
-	public class CommonHealthRecordService extends HealthRecordServiceBase
+	public class CommonHealthRecordService extends PhaHealthRecordServiceBase
 	{
-		public function CommonHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String)
+		public function CommonHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account)
 		{
-			super(consumerKey, consumerSecret, baseURL);
+			super(consumerKey, consumerSecret, baseURL, account);
 		}
 		
 		public function loadAllDemographics(remoteUserModel:UsersModel):void
@@ -74,15 +74,15 @@ package collaboRhythm.shared.model.healthRecord
 		public function loadDemographics(user:User):void
 		{
 			user.demographics = new UserDemographics();
-			if (user.recordId != null && accessKey != null && accessSecret != null)
-				_pha.special_demographicsGET(null, null, null, user.recordId, accessKey, accessSecret, user);
+			if (user.recordId != null && _activeAccount.oauthAccountToken != null && _activeAccount.oauthAccountTokenSecret != null)
+				_pha.special_demographicsGET(null, null, null, user.recordId, _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, user);
 		}
 		
 		public function loadContact(user:User):void
 		{
-			user.contact = new Contact();
-			if (user.recordId != null && accessKey != null && accessSecret != null)
-				_pha.special_contactGET(null, null, null, user.recordId, accessKey, accessSecret, user);
+//			user.contact = new Contact();
+//			if (user.recordId != null && _activeAccount.oauthAccountToken != null && _activeAccount.oauthAccountTokenSecret != null)
+//				_pha.special_contactGET(null, null, null, user.recordId, _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, user);
 		}
 		
 //		public function loadMedications(user:User):void
@@ -121,22 +121,22 @@ package collaboRhythm.shared.model.healthRecord
 		//			Alert.show("Error retrieving XML data", "Error");
 		//		}
 		
-		protected override function handleResponse(event:IndivoClientEvent, responseXml:XML):void
+		protected override function handleResponse(event:IndivoClientEvent, responseXml:XML, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
-			var user:User;
-			if (responseXml.name() == "Demographics")
-			{
-				user = event.userData as User;
-				user.demographics.rawData = responseXml;
-			}
-            else if (responseXml.name() == "Contact")
-            {
-                user = event.userData as User;
-                user.contact.rawData = responseXml;
-
-                if (user.contact.userName != null)
-                    this.dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE));
-            }
+//			var user:User;
+//			if (responseXml.name() == "Demographics")
+//			{
+//				user = event.userData as User;
+//				user.demographics.rawData = responseXml;
+//			}
+//            else if (responseXml.name() == "Contact")
+//            {
+//                user = event.userData as User;
+//                user.contact.rawData = responseXml;
+//
+//                if (user.contact.userName != null)
+//                    this.dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE));
+//            }
 //			else if (responseXml.name() == "Reports")
 //			{
 //				user = event.userData as User;
@@ -151,10 +151,10 @@ package collaboRhythm.shared.model.healthRecord
 //				else
 //					throw new Error("Unhandled request: " + event.urlRequest.url);
 //			}
-			else
-			{
-				throw new Error("Unhandled response data: " + responseXml.name() + " " + responseXml);
-			}
+//			else
+//			{
+//				throw new Error("Unhandled response data: " + responseXml.name() + " " + responseXml);
+//			}
 		}
 	}
 }

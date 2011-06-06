@@ -43,8 +43,9 @@ package collaboRhythm.core.controller.apps
 
 	import flash.net.getClassByAlias;
 	import flash.net.registerClassAlias;
+    import flash.sampler._setSamplerCallback;
 
-	import flash.utils.getQualifiedClassName;
+    import flash.utils.getQualifiedClassName;
 
 	import mx.collections.ArrayCollection;
 	import mx.core.IVisualElementContainer;
@@ -137,9 +138,9 @@ package collaboRhythm.core.controller.apps
 		 * put in scheduleWidgetParentContainer.
 		 * @param user The user to initialize the apps for.
 		 */
-		public function createAndStartWorkstationApps(user:User):void
+		public function createAndStartWorkstationApps(user:User, account:Account):void
 		{
-			initializeForUser(user);
+			initializeForUser(user, account);
 
 			// TODO: find the groups by id instead of index
 			createAppsForGroup(0);
@@ -155,9 +156,9 @@ package collaboRhythm.core.controller.apps
 		 * is automatically created from all dynamic apps.
 		 * @param user The user to initialize the apps for.
 		 */
-		public function createMobileApps(user:User):void
+		public function createMobileApps(user:User, account:Account):void
 		{
-			initializeForUser(user);
+			initializeForUser(user, account);
 			if (_settings.appGroups && _settings.appGroups.length > 0)
 				createAppsForGroup(0);
 			else
@@ -253,7 +254,7 @@ package collaboRhythm.core.controller.apps
 			return infoArray.length;
 		}
 
-		private function initializeForUser(user:User):void
+		private function initializeForUser(user:User, account:Account):void
 		{
 			closeApps();
 
@@ -267,6 +268,8 @@ package collaboRhythm.core.controller.apps
 			_factory.user = user;
 			_factory.collaborationRoomNetConnectionServiceProxy = _collaborationRoomNetConnectionService.createProxy();
 			_factory.isWorkstationMode = _settings.isWorkstationMode;
+            _factory.activeAccount = account;
+            _factory.settings = _settings;
 		}
 
 		private function initializeDynamicAppLookup():void

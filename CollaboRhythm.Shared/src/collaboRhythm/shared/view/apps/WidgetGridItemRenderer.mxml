@@ -25,16 +25,17 @@
 		<![CDATA[
 			private function onDataChange():void
 			{
-				var isInactive:Boolean = this.data.isInactive as Boolean;
-				if (isInactive)
-				{
-//					lblData.setStyle("color", "0x999999");
-					lblData.setStyle("styleName", "InactiveWidgetGridLabel");
-				}
-				else
-				{
-					lblData.setStyle("styleName", "WidgetGridLabel");
-				}
+                trace("yes");
+//				var isInactive:Boolean = this.data.isInactive as Boolean;
+//				if (isInactive)
+//				{
+////					lblData.setStyle("color", "0x999999");
+//					lblData.setStyle("styleName", "InactiveWidgetGridLabel");
+//				}
+//				else
+//				{
+//					lblData.setStyle("styleName", "WidgetGridLabel");
+//				}
 			}
 		]]>
 	</fx:Script>

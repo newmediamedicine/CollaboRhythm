@@ -16,28 +16,64 @@
  */
 package collaboRhythm.mobile.controller
 {
-	import collaboRhythm.core.controller.ApplicationControllerBase;
-	import collaboRhythm.core.view.RemoteUsersListView;
-	import collaboRhythm.mobile.view.WidgetContainerView;
-	import collaboRhythm.shared.model.services.DemoEvent;
-	import collaboRhythm.shared.view.CollaborationRoomView;
-	import collaboRhythm.shared.view.RecordVideoView;
 
-	import flash.desktop.NativeApplication;
-	import flash.events.Event;
-	import flash.events.KeyboardEvent;
-	import flash.ui.Keyboard;
+    import collaboRhythm.core.controller.ApplicationControllerBase;
+    import collaboRhythm.core.view.RemoteUsersListView;
+    import collaboRhythm.mobile.view.WidgetContainerView;
+    import collaboRhythm.shared.model.Account;
+    import collaboRhythm.shared.model.services.DemoEvent;
+    import collaboRhythm.shared.view.CollaborationRoomView;
+    import collaboRhythm.shared.view.CollaborationView;
+    import collaboRhythm.shared.view.RecordVideoView;
 
-	import mx.core.IVisualElementContainer;
+    import flash.desktop.NativeApplication;
+    import flash.events.Event;
+    import flash.events.KeyboardEvent;
+    import flash.ui.Keyboard;
 
-	import spark.components.View;
+    import mx.core.IVisualElementContainer;
 
-	public class MobileApplicationController extends ApplicationControllerBase
+    import spark.components.View;
+
+    public class MobileApplicationController extends ApplicationControllerBase
 	{
 		private var _homeView:View;
 		private var _mobileApplication:CollaboRhythmMobileApplication;
 		private var _widgetContainerController:WidgetContainerController;
-		
+        private var _mobileAppControllersMediator:MobileAppControllersMediator;
+
+        [Embed("/resources/settings.xml", mimeType="application/octet-stream")]
+        private var _applicationSettingsEmbeddedFile:Class;
+
+        public function MobileApplicationController(mobileApplication:CollaboRhythmMobileApplication)
+		{
+			_mobileApplication = mobileApplication;
+		}
+
+        override public function main():void
+		{
+            super.main();
+
+            _settings.isWorkstationMode = false;
+
+//			_collaborationMediator = new MobileCollaborationMediator(this);
+
+			_widgetContainerController = new WidgetContainerController(_mobileApplication.navigator, this);
+			_mobileApplication.navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
+			_mobileApplication.navigator.addEventListener("viewChangeComplete", viewNavigator_transitionCompleteHandler);
+			_mobileApplication.navigator.addEventListener(Event.ADDED, viewNavigator_addedHandler);
+			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
+
+			initializeActiveView();
+
+            createSession();
+		}
+
+        public override function get collaborationView():CollaborationView
+		{
+			return null;
+		}
+
 		public override function get collaborationRoomView():CollaborationRoomView
 		{
 			return null;
@@ -67,11 +103,18 @@ package collaboRhythm.mobile.controller
 		{
 			return null;
 		}
-		
-		public function MobileApplicationController(mobileApplication:CollaboRhythmMobileApplication)
-		{
-			_mobileApplication = mobileApplication;
-		}
+
+        public override function openRecordAccount(recordAccount:Account):void
+        {
+            super.openRecordAccount(recordAccount);
+            _mobileAppControllersMediator = new MobileAppControllersMediator(widgetsContainer,
+                                                                             widgetsContainer,
+                                                                             fullContainer,
+                                                                             _settings,
+                                                                             _componentContainer);
+			_mobileAppControllersMediator.createMobileApps(_activeAccount, recordAccount);
+            initializeActiveView();
+        }
 		
 		private function viewNavigator_transitionCompleteHandler(event:Event):void
 		{
@@ -96,66 +139,33 @@ package collaboRhythm.mobile.controller
 			{
 				initializeView(view);
 
-				if (_collaborationMediator && _collaborationMediator.subjectUser)
+				if (_activeRecordAccount)
 					_mobileApplication.busy = false;
 			}
 		}
 
-	private function initializeView(view:WidgetContainerView):void
-	{
-		_widgetContainerController.initializeView(view);
-		view.demoDatePresets = _settings.demoDatePresets;
-		view.addEventListener(DemoEvent.CHANGE_DEMO_DATE, view_changeDemoDateHandler);
-	}
+        private function initializeView(view:WidgetContainerView):void
+        {
+            _widgetContainerController.initializeView(view);
+            view.demoDatePresets = _settings.demoDatePresets;
+            view.addEventListener(DemoEvent.CHANGE_DEMO_DATE, view_changeDemoDateHandler);
+        }
 
 		private function view_changeDemoDateHandler(event:DemoEvent):void
 		{
 			targetDate = event.targetDate;
 		}
 		
-		protected function get mobileCollaborationMediator():MobileCollaborationMediator
-		{
-			return _collaborationMediator as MobileCollaborationMediator;
-		}
-		
-		public function main():void  
-		{
-			initLogging();
-			logger.info("Logging initialized");
-
-			initializeSettings();
-			_settings.isWorkstationMode = false;
-			logger.info("Settings initialized");
-			logger.info("  Application settings file: " + _settingsFileStore.applicationSettingsFile.nativePath);
-			logger.info("  User settings file: " + _settingsFileStore.userSettingsFile.nativePath);
-			logger.info("  Mode: " + _settings.mode);
-			logger.info("  Username: " + _settings.username);
-
-			initializeComponents();
-			logger.info("Components initialized. Asynchronous plugin loading initiated.");
-			logger.info("  User plugins directory: " + _pluginLoader.userPluginsDirectoryPath);
-			logger.info("  Number of loaded plugins: " + _pluginLoader.numPluginsLoaded);
-
-			_collaborationMediator = new MobileCollaborationMediator(this);
-			
-			_widgetContainerController = new WidgetContainerController(_mobileApplication.navigator, _collaborationMediator);
-			_mobileApplication.navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
-			_mobileApplication.navigator.addEventListener(Event.ADDED, viewNavigator_addedHandler);
-			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
-
-			initializeActiveView();
-		}
-
-	public function keyDownHandler(event:KeyboardEvent):void
+	    public function keyDownHandler(event:KeyboardEvent):void
 		{
 			switch (event.keyCode)
 			{
 				case Keyboard.BACK:
 					event.preventDefault();
 					NativeApplication.nativeApplication.exit();
-					trace("Back key is pressed."); 
-					break; 
-				case Keyboard.MENU: 
+					trace("Back key is pressed.");
+					break;
+				case Keyboard.MENU:
 					if (_widgetContainerController != null)
 					{
 						var view:WidgetContainerView = _mobileApplication.navigator.activeView as WidgetContainerView;
@@ -164,16 +174,36 @@ package collaboRhythm.mobile.controller
 							_widgetContainerController.toggleMenu(view);
 						}
 					}
-					
-					break; 
-				case Keyboard.SEARCH: 
-					trace("Search key is pressed."); 
+
+					break;
+				case Keyboard.SEARCH:
+					trace("Search key is pressed.");
 					break;
 				case Keyboard.HOME:
 					event.preventDefault();
 					break;
-			} 
-		} 
-		
+			}
+		}
+
+        public function get mobileAppControllersMediator():MobileAppControllersMediator
+        {
+            return _mobileAppControllersMediator;
+        }
+
+        public function set mobileAppControllersMediator(value:MobileAppControllersMediator):void
+        {
+            _mobileAppControllersMediator = value;
+        }
+
+        public override function get applicationSettingsEmbeddedFile():Class
+        {
+            return _applicationSettingsEmbeddedFile;
+        }
+
+		override public function get currentFullView():String
+		{
+			// TODO: add support for reloading with the correct view
+			return null;
+		}
 	}
 }

@@ -25,33 +25,34 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.plugins.schedule.shared.model.AdherenceItem;
-			import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-			import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
-			
-			public static const SCHEDULE_ITEM_REPORTING_VIEW_PICTURE_WIDTH:Number = 120;
-			public static const SCHEDULE_ITEM_REPORTING_VIEW_PICTURE_HEIGHT:Number = 120;
-			public static const SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT:Number = 122;
-			
-			[Bindable]
-			private var _scheduleItem:ScheduleItemBase;
-			protected var _parentGroup:Group;
+        import collaboRhythm.shared.model.AdherenceItem;
+        import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+        import collaboRhythm.shared.model.ScheduleItemBase;
 
-			public function init(scheduleItem:ScheduleItemBase, parentGroup:Group):void
-			{
-				_scheduleItem = scheduleItem;
-				_parentGroup = parentGroup;
-			}
-			
-			public function get scheduleItem():ScheduleItemBase
-			{
-				return _scheduleItem;
-			}
-			
-			public function dispatchAdherenceItemEvent(adherenceItem:AdherenceItem):void
-			{
-				dispatchEvent(new ScheduleItemReportingViewEventHandler(ScheduleItemReportingViewEventHandler.ADHERENCE_ITEM_CREATED, _scheduleItem, adherenceItem));	
-			}
-		]]>
+        public static const SCHEDULE_ITEM_REPORTING_VIEW_PICTURE_WIDTH:Number = 120;
+        public static const SCHEDULE_ITEM_REPORTING_VIEW_PICTURE_HEIGHT:Number = 120;
+        public static const SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT:Number = 122;
+
+        [Bindable]
+        private var _scheduleItem:ScheduleItemBase;
+        protected var _parentGroup:Group;
+
+        public function init(scheduleItem:ScheduleItemBase, parentGroup:Group):void
+        {
+            _scheduleItem = scheduleItem;
+            _parentGroup = parentGroup;
+        }
+
+        public function get scheduleItem():ScheduleItemBase
+        {
+            return _scheduleItem;
+        }
+
+        public function dispatchAdherenceItemEvent(adherenceItem:AdherenceItem):void
+        {
+            dispatchEvent(new ScheduleItemReportingViewEventHandler(ScheduleItemReportingViewEventHandler.ADHERENCE_ITEM_CREATED,
+                                                                    _scheduleItem, adherenceItem));
+        }
+        ]]>
 	</fx:Script>
 </s:Group>

@@ -17,14 +17,14 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.buttons
 		/**
 		 * Override the setSelectedIndex() mx_internal method to not select any items.
 		 */
-		override mx_internal function setSelectedIndex(value:int, dispatchChangeEvent:Boolean = false):void
+		override mx_internal function setSelectedIndex(value:int, dispatchChangeEvent:Boolean = false, changeCaret:Boolean = true):void
 		{
 		}
 
 		/**
 		 * Override the setSelectedIndex() mx_internal method to not select any items.
 		 */
-		override mx_internal function setSelectedIndices(value:Vector.<int>, dispatchChangeEvent:Boolean = false):void
+		override mx_internal function setSelectedIndices(value:Vector.<int>, dispatchChangeEvent:Boolean = false, changeCaret:Boolean = true):void
 		{
 		}
 	}

@@ -23,7 +23,9 @@ package collaboRhythm.plugins.problems.controller
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 
-	import mx.core.UIComponent;
+    import flash.sampler._setSamplerCallback;
+
+    import mx.core.UIComponent;
 
 	public class ProblemsAppController extends WorkstationAppControllerBase
 	{
@@ -94,12 +96,12 @@ package collaboRhythm.plugins.problems.controller
 		public override function initialize():void
 		{
 			super.initialize();
-			if (!problemsModel.initialized)
-			{
-				var problemsHealthRecordService:ProblemsHealthRecordService = new ProblemsHealthRecordService(_healthRecordService.consumerKey, _healthRecordService.consumerSecret, _healthRecordService.baseURL);
-				problemsHealthRecordService.copyLoginResults(_healthRecordService);
-				problemsHealthRecordService.loadProblems(_user);
-			}
+//			if (!problemsModel.initialized)
+//			{
+//				var problemsHealthRecordService:ProblemsHealthRecordService = new ProblemsHealthRecordService(_settings.oauthChromeConsumerKey, _settings.oauthChromeConsumerSecret, _settings.indivoServerBaseURL, _account);
+////				problemsHealthRecordService.copyLoginResults(_healthRecordService);
+//				problemsHealthRecordService.loadProblems(_user);
+//			}
 
 			if (_widgetView)
 				(_widgetView as ProblemsWidgetView).model = problemsModel;

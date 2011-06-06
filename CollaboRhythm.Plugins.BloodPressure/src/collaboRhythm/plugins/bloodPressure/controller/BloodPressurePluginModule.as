@@ -18,7 +18,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 {
 	import castle.flexbridge.reflection.ReflectionUtils;
 
-	import collaboRhythm.plugins.schedule.shared.controller.ScheduleAppControllerInfo;
+//	import collaboRhythm.plugins.schedule.shared.controller.ScheduleAppControllerInfo;
 	import collaboRhythm.shared.controller.apps.AppOrderConstraint;
 	import collaboRhythm.shared.pluginsSupport.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
@@ -39,8 +39,8 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 			typeName = ReflectionUtils.getClassInfo(BloodPressureChartAppController).name;
 			var chartAppControllerInfo:AppControllerInfo = new AppControllerInfo(BloodPressureChartAppController);
-			chartAppControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER,
-																							  ScheduleAppControllerInfo.APP_ID));
+//			chartAppControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER,
+//																							  ScheduleAppControllerInfo.APP_ID));
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
 														 chartAppControllerInfo);
 

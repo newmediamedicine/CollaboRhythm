@@ -17,7 +17,9 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
 	import collaboRhythm.shared.model.DateUtil;
-	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
+    import collaboRhythm.shared.model.RecurrenceRule;
+    import collaboRhythm.shared.model.ScheduleItemBase;
+    import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 	
 	import com.adobe.utils.DateUtil;
 	
@@ -59,7 +61,7 @@ package collaboRhythm.plugins.schedule.shared.model
 			_dateTimeScheduled = collaboRhythm.shared.model.DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeScheduled.toString());
 			_dateTimeStart = collaboRhythm.shared.model.DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeStart.toString());
 			_dateTimeEnd = collaboRhythm.shared.model.DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeEnd.toString());
-			_recurrenceRule = new RecurrenceRule(scheduleGroupXML.recurrenceRule.frequency, Number(scheduleGroupXML.recurrenceRule.count));
+//			_recurrenceRule = new RecurrenceRule(scheduleGroupXML.recurrenceRule.frequency, Number(scheduleGroupXML.recurrenceRule.count));
 				
 			_scheduleModel = scheduleModel;
 			_dateTimeCenter = new Date(dateTimeStart.time + (dateTimeEnd.time - dateTimeStart.time) / 2);

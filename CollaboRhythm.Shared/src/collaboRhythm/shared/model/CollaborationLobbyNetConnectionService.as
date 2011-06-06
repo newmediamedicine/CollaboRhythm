@@ -25,8 +25,11 @@ package collaboRhythm.shared.model
 	import flash.net.Responder;
 	
 	import mx.collections.ArrayCollection;
+    import mx.logging.ILogger;
+    import mx.logging.Log;
+    import flash.utils.getQualifiedClassName;
 
-	/**
+    /**
 	 * 
 	 * @author jom
 	 * 
@@ -34,34 +37,41 @@ package collaboRhythm.shared.model
 	 * collaboration requests, cancellations, and acceptances.
 	 * 
 	 */
+    [Bindable]
 	public class CollaborationLobbyNetConnectionService extends EventDispatcher
 	{		
 		private var _localUserName:String;
 		private var _rtmpURI:String; 	
-		
+
+        private var _isConnected:Boolean = false;
 		private var _netConnection:NetConnection;
-		private var _usersModel:UsersModel;
+//		private var _usersModel:UsersModel;
+        private var _activeAccount:Account;
 		private var _collaborationModel:CollaborationModel;
+        private var logger:ILogger;
 		
-		public function CollaborationLobbyNetConnectionService(localUserName:String, rtmpBaseURI:String, collaborationModel:CollaborationModel, usersModel:UsersModel)
+		public function CollaborationLobbyNetConnectionService(localUserName:String, rtmpBaseURI:String, collaborationModel:CollaborationModel, activeAccount:Account)
 		{
+            logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_localUserName = localUserName;
 			_rtmpURI = rtmpBaseURI + "/CollaboRhythmServer/_definst_";
 			
 			_netConnection = new NetConnection();
 			_collaborationModel = collaborationModel
-			_usersModel = usersModel;
+			_activeAccount = activeAccount;
 		}
 		
 		public function enterCollaborationLobby():void
 		{
+            logger.info("Connecting to Collaboration Lobby...");
+
 			_netConnection.client = new Object();
-			_netConnection.client.localUserCollaborationLobbyConnectionStatusChanged = localUserCollaborationLobbyConnectionStatusChanged;
-			_netConnection.client.remoteUserCollaborationLobbyConnectionStatusChanged = remoteUserCollaborationLobbyConnectionStatusChanged;
+			_netConnection.client.activeAccountCollaborationLobbyConnectionStatusChanged = activeAccountCollaborationLobbyConnectionStatusChanged;
+			_netConnection.client.sharingAccountCollaborationLobbyConnectionStatusChanged = sharingAccountCollaborationLobbyConnectionStatusChanged;
 			_netConnection.client.receiveCollaborationRequest = receiveCollaborationRequest;
 			
 			_netConnection.addEventListener(NetStatusEvent.NET_STATUS, collaborationLobbyConnectionHandler);
-			_netConnection.connect(_rtmpURI, _localUserName, User.COLLABORATION_LOBBY_AVAILABLE, _usersModel.remoteUsers.keys.toArray());
+			_netConnection.connect(_rtmpURI, _activeAccount.accountId, User.COLLABORATION_LOBBY_AVAILABLE, _activeAccount.allSharingAccounts.keys.toArray());
 		}
 		
 		public function updateCollaborationLobbyConnectionStatus(collaborationLobbyConnectionStatus:String):void
@@ -75,18 +85,18 @@ package collaboRhythm.shared.model
 			_netConnection.close();
 		}
 		
-		private function localUserCollaborationLobbyConnectionStatusChanged(collaborationLobbyConnectionStatus:String):void
+		private function activeAccountCollaborationLobbyConnectionStatusChanged(collaborationLobbyConnectionStatus:String):void
 		{
-			_usersModel.localUser.collaborationLobbyConnectionStatus = collaborationLobbyConnectionStatus;
+            _activeAccount.collaborationLobbyConnectionStatus = collaborationLobbyConnectionStatus;
 		}
 		
-		private function remoteUserCollaborationLobbyConnectionStatusChanged(userAccountId:String, collaborationLobbyConnectionStatus:String):void
+		private function sharingAccountCollaborationLobbyConnectionStatusChanged(accountId:String, collaborationLobbyConnectionStatus:String):void
 		{
-			var remoteUser:User = _usersModel.retrieveUserByAccountId(userAccountId);
-			if (remoteUser != null) 
-			{
-				remoteUser.collaborationLobbyConnectionStatus = collaborationLobbyConnectionStatus;
-			}
+            var account:Account = _activeAccount.allSharingAccounts[accountId];
+            if (account != null)
+            {
+                account.collaborationLobbyConnectionStatus = collaborationLobbyConnectionStatus;
+            }
 		}
 		
 		public function getCollaborationRoomID():void
@@ -116,17 +126,46 @@ package collaboRhythm.shared.model
 		public function receiveCollaborationRequest(invitingUserName:String, roomID:String, passWord:String, creatingUserName:String, subjectUserName:String):void
 		{
 //			remoteUser.collaborationRoomConnectionStatus = User.COLLABORATION_REQUEST_RECEIVED;
-			_collaborationModel.collaborationRoomNetConnectionService.enterCollaborationRoom(roomID, passWord, subjectUserName);
-			_collaborationModel.invitingUser = _usersModel.retrieveUserByAccountId(invitingUserName);
-			_collaborationModel.creatingUser = _usersModel.retrieveUserByAccountId(creatingUserName);
-			_collaborationModel.subjectUser = _usersModel.retrieveUserByAccountId(subjectUserName);
-			_collaborationModel.roomID = roomID;
-			_collaborationModel.passWord = passWord;		
+
+//			_collaborationModel.collaborationRoomNetConnectionService.enterCollaborationRoom(roomID, passWord, subjectUserName);
+//			_collaborationModel.invitingUser = _usersModel.retrieveUserByAccountId(invitingUserName);
+//			_collaborationModel.creatingUser = _usersModel.retrieveUserByAccountId(creatingUserName);
+//			_collaborationModel.subjectUser = _usersModel.retrieveUserByAccountId(subjectUserName);
+//			_collaborationModel.roomID = roomID;
+//			_collaborationModel.passWord = passWord;
 		}
 		
 		private function collaborationLobbyConnectionHandler (event:NetStatusEvent):void
 		{
-			trace(event.info.code);
+			 switch (event.info.code) {
+                case "NetConnection.Connect.Success":
+                    logger.info("Connecting to Collaboration Lobby - SUCCEEDED");
+                    isConnected = true;
+                    break;
+                case "NetConnection.Connect.Failed":
+                    logger.info("Connecting to Collaboration Lobby - FAILED");
+                    break;
+            }
 		}
-	}
+
+        public function get isConnected():Boolean
+        {
+            return _isConnected;
+        }
+
+        public function set isConnected(value:Boolean):void
+        {
+            _isConnected = value;
+        }
+
+        public function get netConnection():NetConnection
+        {
+            return _netConnection;
+        }
+
+        public function set netConnection(value:NetConnection):void
+        {
+            _netConnection = value;
+        }
+    }
 }

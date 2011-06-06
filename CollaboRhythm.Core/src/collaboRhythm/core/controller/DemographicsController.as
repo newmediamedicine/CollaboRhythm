@@ -23,6 +23,7 @@ package collaboRhythm.core.controller
 	
 	import spark.effects.Move;
 
+    //TODO: Completely eliminate the DemographicsController class
 	public class DemographicsController
 	{
 		private var _demographicsFullView:DemographicsFullView;

@@ -45,10 +45,14 @@
 			</xs:element>
 			<xs:element type="xs:string" name="username" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:string" name="password" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="xs:boolean" name="useFileTarget" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="xs:boolean" name="useTraceTarget" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="xs:boolean" name="useSyslogTarget" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="xs:string" name="syslogServerIpAddress" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:string" name="rtmpBaseURI" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:string" name="indivoServerBaseURL" minOccurs="0" maxOccurs="1"/>
-			<xs:element type="xs:string" name="chromeConsumerKey" minOccurs="0" maxOccurs="1"/>
-			<xs:element type="xs:string" name="chromeConsumerSecret" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="xs:string" name="oauthChromeConsumerKey" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="xs:string" name="oauthChromeConsumerSecret" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:boolean" name="useSingleScreen" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation xml:lang="en">

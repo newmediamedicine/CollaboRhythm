@@ -68,12 +68,12 @@
 			{
 				// but DataGroup requires the dataProvider
 				// to be an IList so we wrap the XMLList in an XMLListCollection
-				if (_user.contact.rawData != null)
-				{
-					addressesDataGroup.dataProvider = new XMLListCollection(_user.contact.rawData.address);
-					phoneNumbersDataGroup.dataProvider = new XMLListCollection(_user.contact.rawData.phoneNumber);
-					emailsDataGroup.dataProvider = new XMLListCollection(_user.contact.rawData.email);
-				}
+//				if (_user.contact.rawData != null)
+//				{
+//					addressesDataGroup.dataProvider = new XMLListCollection(_user.contact.rawData.address);
+//					phoneNumbersDataGroup.dataProvider = new XMLListCollection(_user.contact.rawData.phoneNumber);
+//					emailsDataGroup.dataProvider = new XMLListCollection(_user.contact.rawData.email);
+//				}
 			}
 			
 			public static function booleanToYesNo(value:Boolean):String

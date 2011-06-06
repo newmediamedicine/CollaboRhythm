@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!--~
-  ~ Copyright 2011 John Moore, Scott Gilroy
-  ~
-  ~ This file is part of CollaboRhythm.
-  ~
-  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
-  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
-  ~ version.
-  ~
-  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
-  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-  ~ details.
-  ~
-  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
-  ~ <http://www.gnu.org/licenses/>.
-  -->
 <Graphic version="1.0" viewHeight="40" viewWidth="80" ai:appVersion="14.0.0.367" d:id="1" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ai="http://ns.adobe.com/ai/2008" xmlns:d="http://ns.adobe.com/fxg/2008/dt">
   <Group d:id="2" d:type="layer" d:userLabel="Layer 1">
-    <Path alpha="0.6" winding="nonZero" ai:knockout="0" data="M56.5928 40L40 40 0 40C0 17.9097 17.9092 0 40.001 0 62.0908 0 80 17.9097 80 40L56.5928 40Z" >
+    <Path winding="nonZero" ai:knockout="0" data="M56.5928 40L40 40 0 40C0 17.9097 17.9092 0 40.001 0 62.0908 0 80 17.9097 80 40L56.5928 40Z" >
       <fill>
         <SolidColor color="#79a873"/>
       </fill>
@@ -27,7 +11,7 @@
         <SolidColor color="#fff3ab"/>
       </fill>
     </Path>
-    <Path alpha="0.7" winding="nonZero" ai:knockout="0" data="M40 40L0 40C0 35.1816 0.852539 30.5615 2.41406 26.2832L40 40Z" >
+    <Path winding="nonZero" ai:knockout="0" data="M40.2915 40L0.291504 40C0.291504 35.1816 1.14404 30.5615 2.70557 26.2832L40.2915 40Z" >
       <fill>
         <SolidColor color="#c64a5c"/>
       </fill>
@@ -37,7 +21,7 @@
         <SolidColor color="#fff3ab"/>
       </fill>
     </Path>
-    <Path alpha="0.7" winding="nonZero" ai:knockout="0" data="M40 40L80 40C80 35.1816 79.1475 30.5615 77.5859 26.2832L40 40Z" >
+    <Path winding="nonZero" ai:knockout="0" data="M40 40L80 40C80 35.1816 79.1475 30.5615 77.5859 26.2832L40 40Z" >
       <fill>
         <SolidColor color="#c64a5c"/>
       </fill>
@@ -65,15 +49,15 @@
           <ai:DictEntry name="preserveFilterPolicy" value="3" valueType="Integer"/>
           <ai:DictEntry name="preserveGradientPolicy" value="3" valueType="Integer"/>
           <ai:DictEntry name="preserveTextPolicy" value="3" valueType="Integer"/>
-          <ai:DictEntry name="includeXMP" value="0" valueType="Boolean"/>
+          <ai:DictEntry name="aiEditCap" value="1" valueType="Boolean"/>
           <ai:DictEntry name="writeImages" value="1" valueType="Boolean"/>
+          <ai:DictEntry name="includeXMP" value="0" valueType="Boolean"/>
           <ai:DictEntry name="includeSymbol" value="0" valueType="Boolean"/>
           <ai:DictEntry name="versionKey" value="1" valueType="Integer"/>
-          <ai:DictEntry name="aiEditCap" value="1" valueType="Boolean"/>
         </ai:Dictionary>
       </ai:SaveOptions>
       <ai:DocData base="GaugeBackground.assets/images"/>
-      <ai:Artboards originOffsetH="364.625" originOffsetV="321" rulerCanvasDiffH="404.625" rulerCanvasDiffV="-301" zoom="12">
+      <ai:Artboards originOffsetH="364.625" originOffsetV="321" rulerCanvasDiffH="404.625" rulerCanvasDiffV="-301" zoom="3">
         <ai:Artboard active="1" bottom="281" index="0" left="364.625" right="444.625" top="321"/>
         <ai:ArtboardsParam all="0" range="" type="0"/>
       </ai:Artboards>

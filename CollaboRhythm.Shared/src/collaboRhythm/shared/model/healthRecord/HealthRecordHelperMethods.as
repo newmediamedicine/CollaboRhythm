@@ -23,10 +23,32 @@ package collaboRhythm.shared.model.healthRecord
 		{
 		}
 		
-		public static function codedValueFromXml(valueXml:XML):CodedValue
+		public static function xmlToCodedValue(valueXml:XML):CodedValue
 		{
 			var codedValue:CodedValue = new CodedValue(valueXml.@type, valueXml.@value, valueXml.@abbrev, valueXml.toString());
 			return codedValue;
 		}
+
+        public static function addCodedValueToXml(xml:XML, nodeName:String,  codedValue:CodedValue):void
+        {
+            // TODO:
+        }
+
+        public static function stringToBoolean(value:String):Boolean
+        {
+            return (value.toLowerCase() == "true")
+        }
+
+        public static function booleanToString(value:Boolean):String
+        {
+            if (value)
+            {
+                return "true"
+            }
+            else
+            {
+                return "false"
+            }
+        }
 	}
 }

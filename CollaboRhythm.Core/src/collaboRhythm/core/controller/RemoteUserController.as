@@ -34,6 +34,8 @@ package collaboRhythm.core.controller
 	 * This includes sending collaboration requests, cancellations (including rejections), and acceptances.
 	 * 
 	 */
+
+    //TODO: Completely Eliminate the RemoreUserController Class
 	public class RemoteUserController extends EventDispatcher
 	{
 		private var _usersModel:UsersModel;

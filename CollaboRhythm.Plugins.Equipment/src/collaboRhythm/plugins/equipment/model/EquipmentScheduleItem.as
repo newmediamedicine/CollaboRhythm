@@ -3,7 +3,7 @@ package collaboRhythm.plugins.equipment.model
 	import collaboRhythm.plugins.equipment.view.EquipmentScheduleItemClockView;
 	import collaboRhythm.plugins.equipment.view.EquipmentScheduleItemReportingView;
 	import collaboRhythm.plugins.equipment.view.EquipmentScheduleItemTimelineView;
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemBase;
+	import collaboRhythm.shared.model.ScheduleItemBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
@@ -21,7 +21,7 @@ package collaboRhythm.plugins.equipment.model
 		{
 			super(scheduleItemReportXML, "MedicationScheduleItem");
 			
-			_dose = new ValueAndUnit(scheduleItemXML.dose.value, HealthRecordHelperMethods.codedValueFromXml(scheduleItemXML.dose.unit[0]));
+			_dose = new ValueAndUnit(scheduleItemXML.dose.value, HealthRecordHelperMethods.xmlToCodedValue(scheduleItemXML.dose.unit[0]));
 			_scheduledActionID = scheduleItemReportXML.Meta.Document.relatesTo.relation.relatedDocument.@id;
 			_scheduleGroupID =  scheduleItemReportXML.Meta.Document.isRelatedFrom.relation.relatedDocument[0].@id;
 		}

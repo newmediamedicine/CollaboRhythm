@@ -19,17 +19,21 @@
 	<mode>clinician</mode>
 	<username>mloomis</username>
 	<password>mloomis-password</password>
+	<useFileTarget>true</useFileTarget>
+	<useTraceTarget>false</useTraceTarget>
+	<useSyslogTarget>false</useSyslogTarget>
+	<syslogServerIpAddress>127.0.0.1</syslogServerIpAddress>
 	<rtmpBaseURI>rtmp://127.0.0.1</rtmpBaseURI>
 	<indivoServerBaseURL>http://records.media.mit.edu:8000</indivoServerBaseURL>
-	<chromeConsumerKey>collaboRhythmChrome</chromeConsumerKey>
-	<chromeConsumerSecret>collaboRhythmChrome_secret93452</chromeConsumerSecret>
+	<oauthChromeConsumerKey>collaboRhythmChrome</oauthChromeConsumerKey>
+	<oauthChromeConsumerSecret>collaboRhythmChrome_secret93452</oauthChromeConsumerSecret>
 	<demoDatePresets>
 		<demoDatePreset>2010-01-13T00:00:00-5:00</demoDatePreset>
 		<demoDatePreset>2010-01-14T00:00:00-5:00</demoDatePreset>
 		<demoDatePreset>2010-02-04T00:00:00-5:00</demoDatePreset>
 		<demoDatePreset>2010-02-17T00:00:00-5:00</demoDatePreset>
 	</demoDatePresets>
-	<appGroups>
+	<!--<appGroups>
 		<appGroup id="standard">
 			<appDescriptors>
 				<appDescriptor>collaboRhythm.plugins.problems.controller::ProblemsAppController</appDescriptor>
@@ -52,13 +56,13 @@
 		<appGroup id="custom">
 			<appDescriptors>
 				<appDescriptor>collaboRhythm.plugins.schedule.controller::ScheduleAppController</appDescriptor>
-				<appDescriptor>collaboRhythm.shared.apps.bloodPressureAgent.controller::BloodPressureAgentAppController</appDescriptor>
+				&lt;!&ndash;<appDescriptor>collaboRhythm.shared.apps.bloodPressureAgent.controller::BloodPressureAgentAppController</appDescriptor>&ndash;&gt;
 				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::BloodPressureChartAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::BloodPressureAppController</appDescriptor>
-				<appDescriptor>collaboRhythm.plugins.cataractMap.controller::CataractMapAppController</appDescriptor>
+				&lt;!&ndash;<appDescriptor>collaboRhythm.plugins.cataractMap.controller::CataractMapAppController</appDescriptor>&ndash;&gt;
 			</appDescriptors>
 		</appGroup>
-	</appGroups>
+	</appGroups>-->
 
 <!--  
 	useSingleScreen - If no valid windowSettings.xml file exists or resetWindowSettings = true, then force the app to only use a single screen (one window)

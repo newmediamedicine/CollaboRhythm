@@ -15,7 +15,7 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<s:MobileApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
+<s:ViewNavigatorApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
 					 xmlns:s="library://ns.adobe.com/flex/spark" 
 					 creationComplete="creationCompleteHandler(event)"
 					 firstView="collaboRhythm.mobile.view.WidgetContainerView"
@@ -28,10 +28,10 @@
 	<fx:Script>
 		<![CDATA[
         import collaboRhythm.mobile.controller.MobileApplicationController;
-
+        
         import mx.events.FlexEvent;
-
-		import net.flashdan.containers.busyindicator.BusyIndicator;
+        
+        import net.flashdan.containers.busyindicator.BusyIndicator;
 
 		private var _applicationController:MobileApplicationController;
 
@@ -49,6 +49,8 @@
             _applicationController = new MobileApplicationController(this);
             _applicationController.main();
         }
+			
+
 
 		public function set busy(busy:Boolean):void
 		{
@@ -59,4 +61,4 @@
 	<s:navigationContent> 		
 		<s:Button label="Home" click="navigator.popToFirstView()"/>		
 	</s:navigationContent>
-</s:MobileApplication>
+</s:ViewNavigatorApplication>

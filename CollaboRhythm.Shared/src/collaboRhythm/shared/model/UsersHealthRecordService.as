@@ -16,37 +16,41 @@
  */
 package collaboRhythm.shared.model
 {
-	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
+
+    import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
+    import collaboRhythm.shared.model.healthRecord.HealthRecordServiceSimpleBase;
+import collaboRhythm.shared.model.healthRecord.HealthRecordServiceSimpleBase;
 
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
+import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
 
-	import flash.errors.IllegalOperationError;
+import flash.errors.IllegalOperationError;
 	
 	import j2as3.collection.HashMap;
 	
 	import org.indivo.client.IndivoClientEvent;
 
-	public class UsersHealthRecordService extends HealthRecordServiceBase
+	public class UsersHealthRecordService extends PhaHealthRecordServiceBase
 	{
 		private var _usersModel:UsersModel;
 		private var _pendingRequests:HashMap = new HashMap(); // key: recordId
 		private var _uniqueRecords:Vector.<String> = new Vector.<String>();
 
-		public function UsersHealthRecordService(usersModel:UsersModel, consumerKey:String, consumerSecret:String, baseURL:String)
+		public function UsersHealthRecordService(usersModel:UsersModel, oauthConsumerKey:String, oauthConsumerSecret:String, indivoServerBaseURL:String, account:Account)
 		{
-			super(consumerKey, consumerSecret, baseURL);
+			super(oauthConsumerKey, oauthConsumerSecret, indivoServerBaseURL, account);
 			_usersModel = usersModel;
 		}
 		
 		public function populateRemoteUsers():void
 		{
-			if (!isLoginComplete)
-				throw new IllegalOperationError("login must be completed before calling populateRemoteUsers");
+//			if (!isLoginComplete)
+//				throw new IllegalOperationError("login must be completed before calling populateRemoteUsers");
 			
-			_pha.accounts_X_records_GET(null, null, null, null, accountId, accessKey, accessSecret, _usersModel.localUser);
+			_pha.accounts_X_records_GET(null, null, null, null, _activeAccount.accountId, _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, _usersModel.localUser);
 		}
 		
-		protected override function handleResponse(event:IndivoClientEvent, responseXml:XML):void
+		protected override function handleResponse(event:IndivoClientEvent, responseXml:XML, healthRecordsServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
 			if (responseXml.name() == "Records")
 			{
@@ -72,11 +76,11 @@ package collaboRhythm.shared.model
 								{
 									user.isOwnedByLocalAccount = true;
 									addPendingRequest("shares_GET", user.recordId);
-									_pha.shares_GET(null, null, null, null, user.recordId, accessKey, accessSecret, user);
+									_pha.shares_GET(null, null, null, null, user.recordId, _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, user);
 								}
 								
 								addPendingRequest("records_X_owner_GET", user.recordId);
-								_pha.records_X_owner_GET(null, null, null, user.recordId, accessKey, accessSecret, user);
+								_pha.records_X_owner_GET(null, null, null, user.recordId, _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, user);
 							}
 						}
 					}
@@ -135,9 +139,9 @@ package collaboRhythm.shared.model
 			}
 		}
 
-		protected override function handleError(event:IndivoClientEvent):void
+		protected override function handleError(event:IndivoClientEvent, errorStatus:String, healthRecordsServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
-			super.handleError(event);
+			super.handleError(event, errorStatus, healthRecordsServiceRequestDetails);
 			
 			// TODO: remove the appropriate pending request
 			throw new Error("Unexpected (and currently unhandled) response from server: " + event.response);

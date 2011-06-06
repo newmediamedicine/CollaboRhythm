@@ -16,13 +16,19 @@
  */
 package collaboRhythm.shared.controller.apps
 {
-	import mx.core.IVisualElementContainer;
+import collaboRhythm.shared.model.Account;
+    import collaboRhythm.shared.model.settings.Settings;
+
+    import mx.core.IVisualElementContainer;
 
 	public class AppControllerConstructorParams
 	{
 		private var _widgetParentContainer:IVisualElementContainer;
 		private var _fullParentContainer:IVisualElementContainer;
 		private var _isWorkstationMode:Boolean;
+        private var _activeAccount:Account;
+        private var _activeRecordAccount:Account;
+        private var _settings:Settings;
 
 		public function AppControllerConstructorParams()
 		{
@@ -57,5 +63,33 @@ package collaboRhythm.shared.controller.apps
 		{
 			_isWorkstationMode = value;
 		}
-	}
+
+        public function get activeAccount():Account {
+            return _activeAccount;
+        }
+
+        public function set activeAccount(value:Account):void {
+            _activeAccount = value;
+        }
+
+        public function get settings():Settings
+        {
+            return _settings;
+        }
+
+        public function set settings(value:Settings):void
+        {
+            _settings = value;
+        }
+
+        public function get activeRecordAccount():Account
+        {
+            return _activeRecordAccount;
+        }
+
+        public function set activeRecordAccount(value:Account):void
+        {
+            _activeRecordAccount = value;
+        }
+    }
 }
