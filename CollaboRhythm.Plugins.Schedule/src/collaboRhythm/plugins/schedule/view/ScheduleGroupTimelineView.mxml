@@ -130,7 +130,6 @@
         public function createScheduleItemFullView(scheduleItem:ScheduleItemBase):void
         {
             var scheduleItemTimelineView:ScheduleItemTimelineViewBase = _scheduleGroup.scheduleModel.viewFactory.createScheduleItemTimelineView(scheduleItem);
-            scheduleItemTimelineView.init(scheduleItem, scheduleItemsContainer);
             scheduleItemsContainer.addElement(scheduleItemTimelineView);
             _scheduleItemFullViews.push(scheduleItemTimelineView);
         }

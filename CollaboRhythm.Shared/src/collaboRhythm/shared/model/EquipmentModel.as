@@ -83,9 +83,11 @@ package collaboRhythm.shared.model
         {
             for each (var equipment:Equipment in _equipment)
             {
-                for each (var scheduleItemId:String in equipment.scheduleItems)
+                for each (var scheduleItemId:String in equipment.scheduleItems.keys)
                 {
-                    equipment.scheduleItems[scheduleItemId] = _equipmentScheduleItems[scheduleItemId];
+                    var equipmentScheduleItem:EquipmentScheduleItem = _equipmentScheduleItems[scheduleItemId];
+                    equipment.scheduleItems[scheduleItemId] = equipmentScheduleItem;
+                    equipmentScheduleItem.scheduledEquipment = equipment;
                 }
             }
             isInitialized = true;

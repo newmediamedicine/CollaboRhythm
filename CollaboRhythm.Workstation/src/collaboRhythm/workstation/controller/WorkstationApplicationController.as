@@ -18,6 +18,7 @@ package collaboRhythm.workstation.controller
 {
 
     import collaboRhythm.core.controller.ApplicationControllerBase;
+    import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
     import collaboRhythm.shared.model.Account;
     import collaboRhythm.shared.view.CollaborationView;
     import collaboRhythm.workstation.model.settings.ComponentLayout;
@@ -42,6 +43,7 @@ package collaboRhythm.workstation.controller
     import flash.display.Screen;
     import flash.events.Event;
     import flash.events.KeyboardEvent;
+    import flash.geom.Rectangle;
     import flash.ui.Keyboard;
 
     import mx.containers.DividedBox;
@@ -49,6 +51,7 @@ package collaboRhythm.workstation.controller
     import mx.core.IVisualElement;
     import mx.core.IVisualElementContainer;
     import mx.core.UIComponent;
+    import mx.events.FlexEvent;
 
     /**
 	 * Top level controller for the whole application. Responsible for creating and managing the windows of the application. 
@@ -59,7 +62,7 @@ package collaboRhythm.workstation.controller
 		private var _primaryWindow:WorkstationWindow;
         private var _primaryWindowView:PrimaryWindowView;
         private var _secondaryWindowView:SecondaryWindowView;
-        private var _collaborationView:CollaborationView = new CollaborationView();
+        private var _collaborationView:CollaborationView;
         private var _activeRecordView:ActiveRecordView;
         private var _widgetsContainerView:TiledWidgetsContainerView;
         private var _workstationAppControllersMediator:WorkstationAppControllersMediator;
@@ -73,6 +76,7 @@ package collaboRhythm.workstation.controller
 		private var _fullScreen:Boolean = true;
 		private var _zoom:Number = 0;
 		private var _resetingWindows:Boolean = false;
+        private var _useSingleScreen:Boolean = true;
 
         [Embed("/resources/settings.xml", mimeType="application/octet-stream")]
         private var _applicationSettingsEmbeddedFile:Class;
@@ -85,16 +89,19 @@ package collaboRhythm.workstation.controller
         {
             super.main();
 
-            initializeWindows();
+            initWindows();
 			_logger.info("Windows initialized");
 
-            createSession();
+//            initCollaborationController(_collaborationView);
+//            _logger.info("Collaboration controller initialized");
+//
+//            createSession();
 
 			NativeApplication.nativeApplication.addEventListener(Event.EXITING, onExiting);
         }
 
         // handles the use of windowSettings to start the application the way it was closed if specified
-        private function initializeWindows():void
+        private function initWindows():void
 		{
 			var resetWindowSettings:Boolean = settings.resetWindowSettings;
 
@@ -116,36 +123,58 @@ package collaboRhythm.workstation.controller
         // If the workstation uses two screens, the second screen is for the app widget views and for video recording and conferencing
         private function createWindowsForScreens():void
 		{
-            var primaryWindowView:PrimaryWindowView = createPrimaryWindowView(Screen.screens[0]);
+            var bounds:Rectangle = Screen.screens[0].bounds;
+            createPrimaryWindowView(bounds);
+            _primaryWindowView.addEventListener(FlexEvent.CREATION_COMPLETE, primaryWindowView_creationCompleteHandler);
 
             if (Screen.screens.length == 1 || settings.useSingleScreen)
             {
-                _collaborationView.top = 0;
-                _collaborationView.collaborationRoomView.bottom = 0;
-                _collaborationView.recordVideoView.bottom = 0;
-                _collaborationView.init(collaborationController, primaryWindowView.mainGroup);
-                primaryWindowView.addElement(_collaborationView);
+                _useSingleScreen = true;
+                _primaryWindowView.currentState = "useSingleScreen";
             }
             else
             {
-                createSecondaryWindowView(Screen.screens[1]);
-                _collaborationView.bottom = 0;
-                _collaborationView.collaborationRoomView.top = 0;
-                _collaborationView.recordVideoView.top = 0;
-                _collaborationView.init(collaborationController, _secondaryWindowView.mainGroup);
-                _secondaryWindowView.addElement(_collaborationView);
+                _useSingleScreen = false;
+                bounds = Screen.screens[1].bounds;
+                createSecondaryWindowView(bounds);
+                _primaryWindowView.currentState = "useDualScreen";
             }
 		}
+
+        private function primaryWindowView_creationCompleteHandler(event:FlexEvent):void
+        {
+            if (_useSingleScreen)
+            {
+                _collaborationView = _primaryWindowView.collaborationView;
+            }
+            else
+            {
+                _collaborationView = _secondaryWindowView.collaborationView;
+            }
+             initCollaborationController(_collaborationView);
+            _logger.info("Collaboration controller initialized");
+
+            createSession();
+        }
 
         // TODO: fix creating windows from settings
 		private function createWindows(windowSettings:WindowSettings):void
 		{
 			for each (var windowState:WindowState in windowSettings.windowStates)
 			{
-				var window:WorkstationWindow = createWorkstationWindow();
-				window.initializeForWindowState(windowState);
+                if (windowState.spaces[0] == "primaryWindowView")
+                {
+                    createPrimaryWindowView(windowState.bounds);
+                }
+                else
+                {
+                    createSecondaryWindowView(windowState.bounds);
+                }
+//				var window:WorkstationWindow = createWorkstationWindow();
+//				window.initializeForWindowState(windowState);
 //				layoutComponentsFromSettings(windowState.componentLayouts, window);
 			}
+            _primaryWindowView.addEventListener(FlexEvent.CREATION_COMPLETE, primaryWindowView_creationCompleteHandler);
 			fullScreen = windowSettings.fullScreen;
 			zoom = windowSettings.zoom;
 		}
@@ -153,7 +182,7 @@ package collaboRhythm.workstation.controller
         // TODO: fix validating window settings
 		private function validateWindowSettings(windowSettings:WindowSettings):Boolean
 		{
-			return (windowSettings == null || windowSettings.windowStates.length == 0);
+			return (!(windowSettings == null || windowSettings.windowStates.length == 0));
 		}
 
         // creates a workstationWindow for one of the screens
@@ -167,25 +196,28 @@ package collaboRhythm.workstation.controller
 		}
 
         // creates the primary window view for the main screen, this window is always created
-        private function createPrimaryWindowView(screen:Screen):PrimaryWindowView
+        private function createPrimaryWindowView(bounds:Rectangle):void
         {
             var primaryWindow:WorkstationWindow = createWorkstationWindow();
-            primaryWindow.initializeForScreen(screen);
+            primaryWindow.initializeFromBounds(bounds);
             initializeWindowCommon(primaryWindow);
             _primaryWindowView = new PrimaryWindowView();
-            _primaryWindowView.init(this, _activeAccount);
+            _primaryWindowView.init(this);
+            _primaryWindowView.id = "primaryWindowView";
+            primaryWindow.spaces.push(_primaryWindowView);
             primaryWindow.addElement(_primaryWindowView);
-            return _primaryWindowView;
         }
 
         // creates the secondary window view, which is only used if more than one screen is available and the
         // useSingleScreen setting is false
-        private function createSecondaryWindowView(screen:Screen):void
+        private function createSecondaryWindowView(bounds:Rectangle):void
         {
             var secondaryWindow:WorkstationWindow = createWorkstationWindow();
-            secondaryWindow.initializeForScreen(screen);
+            secondaryWindow.initializeFromBounds(bounds);
             initializeWindowCommon(secondaryWindow);
             _secondaryWindowView = new SecondaryWindowView();
+            _secondaryWindowView.id = "secondaryWindowView";
+            secondaryWindow.spaces.push(_secondaryWindowView);
             secondaryWindow.addElement(_secondaryWindowView);
         }
 
@@ -194,6 +226,13 @@ package collaboRhythm.workstation.controller
 		{
 			workstationWindow.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 		}
+
+        // called when an account is opened after createSession is called
+        protected override function openActiveAccount(activeAccount:Account):void
+        {
+            _primaryWindowView.activeAccountView.init(this, activeAccount);
+            _primaryWindowView.activeAccountView.visible = true;
+        }
 
         // called when a record is opened
         // a record may be opened based on user interaction or automatically for the primaryRecord of the activeAccount
@@ -219,6 +258,8 @@ package collaboRhythm.workstation.controller
             {
                 _secondaryWindowView.mainGroup.addElement(_widgetsContainerView);
             }
+            // TODO: Rethink document retrieval
+            recordAccount.primaryRecord.getDocuments();
         }
 
         // the apps are not actually loaded immediately when a record is opened
@@ -227,8 +268,11 @@ package collaboRhythm.workstation.controller
         {
             _workstationAppControllersMediator = new WorkstationAppControllersMediator(_widgetsContainerView.widgetsContainer, _widgetsContainerView.widgetsContainer, _activeRecordView.fullViewGroup, _settings, _componentContainer);
             _workstationAppControllersMediator.createAndStartApps(_activeAccount, recordAccount);
-            // TODO: Rethink document retrieval
-            recordAccount.primaryRecord.getDocuments();
+
+            if (_reloadWithFullView != null)
+            {
+                appControllersMediator.showFullView(_reloadWithFullView);
+            }
         }
 
         // when a record is clased, all of the apps need to be closed and the documents cleared from the record
@@ -236,8 +280,7 @@ package collaboRhythm.workstation.controller
         {
             _workstationAppControllersMediator.closeApps();
 			if (recordAccount)
-                // TODO: clear the documents from a closed recordAccount
-//				recordAccount.clearDocuments();
+                recordAccount.primaryRecord.clearDocuments();
             _primaryWindowView.mainGroup.removeElement(_activeRecordView);
             if (!(Screen.screens.length == 1 || settings.useSingleScreen))
             {
@@ -262,6 +305,11 @@ package collaboRhythm.workstation.controller
         public function hideRecordVideoView():void
         {
             collaborationController.hideRecordVideoView();
+        }
+
+        protected override function get appControllersMediator():AppControllersMediatorBase
+        {
+            return _workstationAppControllersMediator;
         }
 
         public override function get currentFullView():String
@@ -392,8 +440,9 @@ package collaboRhythm.workstation.controller
 				window.close();
 			}
 
+            saveWindowSettings();
 //			_collaborationMediator.cancelAllCollaborations();
-			saveWindowSettings();
+
 		}
 
 //		public function get topSpace():TopSpace
@@ -626,7 +675,7 @@ package collaboRhythm.workstation.controller
 				var windowState:WindowState = new WindowState();
 				windowState.bounds = window.stage.nativeWindow.bounds;
 				windowState.displayState = window.displayState;
-				
+
 				// Note that WindowState has no fullScreen property because
 				// we track this property application-wide instead of on a per-window basis.
 				

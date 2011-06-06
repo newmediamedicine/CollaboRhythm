@@ -150,6 +150,17 @@ package collaboRhythm.core.controller.apps
 			showAllWidgets();
 		}
 
+        // TODO: Now that a base class has been created, change createAndStartApps to be an override
+        public function createTabletApps(activeAccount:Account, activeRecordAccount:Account):void
+        {
+            initializeForAccount(activeAccount, activeRecordAccount);
+
+			// TODO: find the groups by id instead of index
+			createAppsForGroup(0);
+
+			showAllWidgets();
+        }
+
 		/**
 		 * Creates all the apps for CollaboRhythm.Mobile. Apps in the first group in settings.appGroups (if any) are
 		 * created and initialized, ready for navigation. If no groups are specified in settings.appGroups, a group

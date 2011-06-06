@@ -46,18 +46,18 @@
 	<fx:Script>
 		<![CDATA[
         import collaboRhythm.shared.model.Equipment;
+        import collaboRhythm.shared.model.EquipmentScheduleItem;
+        import collaboRhythm.shared.model.ScheduleItemBase;
 
         [Bindable]
         private var _equipment:Equipment;
+        [Bindable]
+        private var _equipmentScheduleItem:EquipmentScheduleItem;
 
-        public function get equipment():Equipment
+        public function init(scheduleItem:ScheduleItemBase):void
         {
-            return _equipment;
-        }
-
-        public function set equipment(value:Equipment):void
-        {
-            _equipment = value;
+            _equipmentScheduleItem = scheduleItem as EquipmentScheduleItem;
+            _equipment = _equipmentScheduleItem.scheduledEquipment;
         }
         ]]>
 	</fx:Script>

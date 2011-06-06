@@ -86,9 +86,11 @@ package collaboRhythm.shared.model
         {
             for each (var medicationOrder:MedicationOrder in _medicationOrders)
             {
-                for each (var scheduleItemId:String in medicationOrder.scheduleItems)
+                for each (var scheduleItemId:String in medicationOrder.scheduleItems.keys)
                 {
-                    medicationOrder.scheduleItems[scheduleItemId] = _medicationScheduleItems[scheduleItemId];
+                    var medicationScheduleItem:MedicationScheduleItem = _medicationScheduleItems[scheduleItemId];
+                    medicationOrder.scheduleItems[scheduleItemId] = medicationScheduleItem;
+                    medicationScheduleItem.scheduledMedicationOrder = medicationOrder;
                 }
             }
             isInitialized = true;

@@ -30,7 +30,7 @@
 			font-size: 12;
 		}
 		
-		#medicationStrength {
+		#nameText {
 			font-size: 15;
 			font-weight: bold;
 		}	
@@ -46,19 +46,36 @@
 	<fx:Script>
 		<![CDATA[
 			import collaboRhythm.plugins.medications.model.Medication;
-			
-			[Bindable]
-			private var _medication:Medication;
-			
-			public function get medication():Medication
-			{
-				return _medication;
-			}
-			
-			public function set medication(value:Medication):void
-			{
-				_medication = value;
-			}
+            import collaboRhythm.shared.model.MedicationOrder;
+            import collaboRhythm.shared.model.MedicationScheduleItem;
+            import collaboRhythm.shared.model.ScheduleItemBase;
+
+            [Bindable]
+			private var _medicationOrder:MedicationOrder;
+            [Bindable]
+            private var _medicationScheduleItem:MedicationScheduleItem;
+
+            public function init(scheduleItem:ScheduleItemBase):void {
+                _medicationScheduleItem = scheduleItem as MedicationScheduleItem;
+                _medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
+            }
+
+            // TODO: automate the color or switch to images of the medications
+            public function getMedicationColor(value:String):uint
+            {
+                if (value == '310798')
+                {
+                    return 0x000000;
+                }
+                else if (value == '617320')
+                {
+                    return 0x000000;
+                }
+                else
+                {
+                    return 0x000000;
+                }
+            }
 		]]>
 	</fx:Script>
 	<s:Group id="med" width="100%" height="100%">
@@ -79,20 +96,21 @@
 					</s:fill>
 				</s:Rect>
 				<!--TODO: Fix images-->
-				<mx:Image name="hydrochlorotiazideImage" source="@Embed(source='/assets/images/hydrochlorothiazide_front.jpg')" width="100%" height="100%" smoothBitmapContent="true" visible="{_medication.name.value == '310798'}"/>
-				<mx:Image name="atorvastatinImage" source="@Embed(source='/assets/images/simvastatin_front.jpg')" width="100%" height="100%" smoothBitmapContent="true" visible="{_medication.name.value == '617320'}"/>
+				<mx:Image name="hydrochlorotiazideImage" source="@Embed(source='/assets/images/hydrochlorothiazide_front.jpg')" width="100%" height="100%" smoothBitmapContent="true" visible="{_medicationOrder.name.value == '310798'}"/>
+				<mx:Image name="atorvastatinImage" source="@Embed(source='/assets/images/simvastatin_front.jpg')" width="100%" height="100%" smoothBitmapContent="true" visible="{_medicationOrder.name.value == '617320'}"/>
 				<s:Ellipse width="22%" height="22%" right="4" top="4">
 					<s:fill>
-						<s:SolidColor color="{_medication.color}"/>
+						<s:SolidColor color="{getMedicationColor(_medicationOrder.name.value)}"/>
 					</s:fill>
 				</s:Ellipse>
 			</s:Group>
 			<s:Group id="descriptionRegion" height="100%" left="{imageRegion.width}" right="{buttonRegion.width}">
 				<s:Group left="5" right="5" top="5" bottom="5">
-					<s:Label id="medicationStrength" styleName="labelText" text="{_medication.nameLabelText} {_medication.strengthLabelText}" maxDisplayedLines="1" width="100%" top="0"/>	
-					<s:Label id="indication" styleName="labelText" text="{_medication.indication} - Dr. James King" maxDisplayedLines="1" width="100%" top="{descriptionRegion.height / 3.3}"/>
-					<s:Label id="administration" styleName="labelText" text="{_medication.doseLabelText}, {_medication.route.text}, {_medication.frequency.text}" maxDisplayedLines="1" width="100%"  bottom="{descriptionRegion.height / 6}"/>
-					<s:Label id="instructions" styleName="labelText" text="{_medication.instructions}" maxDisplayedLines="1" width="100%" bottom="0"/>
+					<s:Label id="nameText" styleName="labelText" text="{_medicationOrder.name.text}" maxDisplayedLines="1" width="100%" top="0"/>
+                    <!--TODO: derive the name of an account owner from the accountId-->
+					<s:Label id="indication" styleName="labelText" text="{_medicationOrder.indication} - Dr. James King" maxDisplayedLines="1" width="100%" top="{descriptionRegion.height / 3.3}"/>
+					<s:Label id="administration" styleName="labelText" text="{_medicationScheduleItem.dose.value}{_medicationScheduleItem.dose.unit.text}, {_medicationScheduleItem.recurrenceRule.frequency.text}" maxDisplayedLines="1" width="100%"  bottom="{descriptionRegion.height / 6}"/>
+					<s:Label id="instructions" styleName="labelText" text="{_medicationOrder.instructions}" maxDisplayedLines="1" width="100%" bottom="0"/>
 				</s:Group>
 			</s:Group>
 			<s:Group id="buttonRegion" right="0" width="{this.height / 2 + 5}" height="100%">

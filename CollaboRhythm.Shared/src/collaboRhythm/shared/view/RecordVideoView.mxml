@@ -17,11 +17,12 @@
 -->
 
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 creationComplete="creationComplete()"
-		 enabled="{_collaborationModel.recordVideo}"
-		 height="200" xmlns:view="collaboRhythm.shared.view.*">
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:mx="library://ns.adobe.com/flex/mx"
+         creationComplete="creationComplete()"
+         enabled="{_collaborationModel.recordVideo}"
+         height="200"
+         currentState="hidden">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -113,7 +114,6 @@
         {
             _camera = Camera.getCamera();
             _microphone = Microphone.getMicrophone();
-            currentState = "hidden";
         }
 
         public function showEffectEndHandler():void
@@ -130,7 +130,10 @@
 
         public function hideEffectEndHandler():void
         {
-            _netStream.close();
+            if (_netStream != null)
+            {
+                _netStream.close();
+            }
             videoDisplay.attachCamera(null);
             currentState = "hidden";
         }

@@ -39,7 +39,9 @@ package collaboRhythm.plugins.equipment.model
 
         public function createScheduleItemTimelineView(scheduleItem:ScheduleItemBase):ScheduleItemTimelineViewBase
         {
-            return new EquipmentScheduleItemTimelineView();
+            var equipmentScheduleItemTimelineView:EquipmentScheduleItemTimelineView = new EquipmentScheduleItemTimelineView();
+            equipmentScheduleItemTimelineView.init(scheduleItem);
+            return equipmentScheduleItemTimelineView;
         }
     }
 }

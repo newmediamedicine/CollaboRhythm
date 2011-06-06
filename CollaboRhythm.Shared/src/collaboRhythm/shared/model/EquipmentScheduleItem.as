@@ -5,6 +5,7 @@ package collaboRhythm.shared.model
     [Bindable]
     public class EquipmentScheduleItem extends ScheduleItemBase
 	{
+        private var _scheduledEquipment:Equipment;
 //		private var _dose:ValueAndUnit;
 //		private var _scheduledActionID:String;
 //		private var _scheduledAction:Equipment;
@@ -70,5 +71,14 @@ package collaboRhythm.shared.model
 //			equipmentScheduleItemFullView.equipment = _scheduledAction;
 //			return equipmentScheduleItemFullView;
 //		}
-	}
+        public function get scheduledEquipment():Equipment
+        {
+            return _scheduledEquipment;
+        }
+
+        public function set scheduledEquipment(value:Equipment):void
+        {
+            _scheduledEquipment = value;
+        }
+    }
 }

@@ -36,18 +36,27 @@ package collaboRhythm.shared.model
         private var _equipmentModel:EquipmentModel;
         private var _videoMessagesModel:VideoMessagesModel1;
         private var _appData:HashMap = new HashMap();
+        private var _settings:Settings;
+        private var _activeAccount:Account;
 
         public function Record(settings:Settings, activeAccount:Account, recordXml:XML)
         {
+            _settings = settings;
+            _activeAccount = activeAccount;
             _id = recordXml.@id;
             _label = recordXml.@label;
             if (recordXml.hasOwnProperty("@shared"))
                 _shared = HealthRecordHelperMethods.stringToBoolean(recordXml.@shared);
             if (recordXml.hasOwnProperty("@role_label"))
                 _role_label = recordXml.@role_label;
-            _medicationsModel = new MedicationsModel(settings, activeAccount, this);
-            _equipmentModel = new EquipmentModel(settings, activeAccount, this);
-            _videoMessagesModel = new VideoMessagesModel1(settings, activeAccount, this);
+            initDocumentModels();
+        }
+
+        private function initDocumentModels():void
+        {
+            _medicationsModel = new MedicationsModel(_settings, _activeAccount, this);
+            _equipmentModel = new EquipmentModel(_settings, _activeAccount, this);
+            _videoMessagesModel = new VideoMessagesModel1(_settings, _activeAccount, this);
         }
 
         public function getDocuments():void
@@ -160,7 +169,12 @@ package collaboRhythm.shared.model
 			if (data)
 				return data;
 			else
-				throw new Error("appData on User does not contain a " + (type as Class).toString() + " for key " + key);
+				throw new Error("appData on Record does not contain a " + (type as Class).toString() + " for key " + key);
 		}
+
+        public function clearDocuments():void
+        {
+            initDocumentModels();
+        }
     }
 }

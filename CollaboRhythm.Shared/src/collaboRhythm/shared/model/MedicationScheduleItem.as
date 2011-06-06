@@ -23,6 +23,7 @@ package collaboRhythm.shared.model
 	public class MedicationScheduleItem extends ScheduleItemBase
 	{
 		private var _dose:ValueAndUnit;
+        private var _scheduledMedicationOrder:MedicationOrder;
 //		private var _scheduledActionID:String;
 //		private var _scheduledAction:Medication;
 //		private var _scheduleGroupID:String;
@@ -87,5 +88,12 @@ package collaboRhythm.shared.model
 //			medicationScheduleItemFullView.medication = _scheduledAction;
 //			return medicationScheduleItemFullView;
 //		}
-	}
+        public function get scheduledMedicationOrder():MedicationOrder {
+            return _scheduledMedicationOrder;
+        }
+
+        public function set scheduledMedicationOrder(value:MedicationOrder):void {
+            _scheduledMedicationOrder = value;
+        }
+    }
 }

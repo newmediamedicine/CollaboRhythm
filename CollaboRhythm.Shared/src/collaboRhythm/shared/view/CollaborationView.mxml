@@ -21,8 +21,8 @@
          xmlns:view="collaboRhythm.shared.view.*"
          width="100%" height="0"
          visible="{isVisible(_collaborationModel.recordVideo)}"
-         showEffect="{showEffect}"
-         hideEffect="{hideEffect}">
+         showEffect="{(_isHidden) ? showEffect : null}"
+         hideEffect="{(!_isHidden) ? hideEffect : null}">
     <fx:Declarations>
         <s:Resize id="showEffect" heightBy="{COLLABORATION_VIEW_CHILD_HEIGHT}" effectUpdate="{showEffectUpdate()}" effectEnd="{showEffectEnd()}"/>
         <s:Resize id="hideEffect" heightBy="{-COLLABORATION_VIEW_CHILD_HEIGHT}" effectUpdate="{showEffectUpdate()}" effectEnd="{hideEffectEnd()}"/>
@@ -45,12 +45,14 @@
         private var _collaborationModel:CollaborationModel;
         private var _mainGroup:Group;
         private var _logger:ILogger;
+        [Bindable]
+        private var _isHidden:Boolean = true;
 
-        public function init(collaborationController:CollaborationController, mainGroup:Group):void
+        public function init(collaborationController:CollaborationController):void
         {
             _collaborationController = collaborationController;
             _collaborationModel = _collaborationController.collaborationModel;
-            _mainGroup = mainGroup;
+//            _mainGroup = mainGroup;
             recordVideoView.init(_collaborationController);
             _logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
         }
@@ -67,19 +69,20 @@
 
         private function showEffectUpdate():void
         {
-            _logger.info(this.height.toString());
-            if (this.top == 0)
-            {
-                _mainGroup.top = this.height;
-            }
-            else
-            {
-                _mainGroup.bottom = this.height;
-            }
+//            _logger.info(this.height.toString());
+//            if (this.top == 0)
+//            {
+//                _mainGroup.top = this.height;
+//            }
+//            else
+//            {
+//                _mainGroup.bottom = this.height;
+//            }
         }
 
         private function showEffectEnd():void
         {
+            _isHidden = false;
             if (_collaborationModel.recordVideo)
             {
                 recordVideoView.showEffectEndHandler();
@@ -88,6 +91,7 @@
 
         private function hideEffectEnd():void
         {
+            _isHidden = true;
             recordVideoView.hideEffectEndHandler();
         }
         ]]>

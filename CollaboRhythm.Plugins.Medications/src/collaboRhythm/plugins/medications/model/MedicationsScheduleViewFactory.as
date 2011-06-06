@@ -37,7 +37,9 @@ package collaboRhythm.plugins.medications.model
 
         public function createScheduleItemTimelineView(scheduleItem:ScheduleItemBase):ScheduleItemTimelineViewBase
         {
-            return new MedicationScheduleItemTimelineView();
+            var medicationScheduleItemTimelineView:MedicationScheduleItemTimelineView = new MedicationScheduleItemTimelineView();
+            medicationScheduleItemTimelineView.init(scheduleItem);
+            return medicationScheduleItemTimelineView;
         }
     }
 }
