@@ -116,17 +116,26 @@ package collaboRhythm.view.scroll
 		
 		public function get scrollableAreaWidth():Number
 		{
-			return this.scroller.viewport.contentWidth;
+			if (this.scroller)
+				return this.scroller.viewport.contentWidth;
+			else
+				return this.width;
 		}
 		
 		public function get scrollableAreaHeight():Number
 		{
-			return this.scroller.viewport.contentHeight;
+			if (this.scroller)
+				return this.scroller.viewport.contentHeight;
+			else
+				return this.height;
 		}
 		
 		public function get contentPositionY():Number
 		{
-			return -this.scroller.viewport.verticalScrollPosition + this.scroller.y;
+			if (this.scroller)
+				return -this.scroller.viewport.verticalScrollPosition + this.scroller.y;
+			else
+				return 0;
 		}
 		
 		public function set contentPositionY(value:Number):void
@@ -147,7 +156,10 @@ package collaboRhythm.view.scroll
 		
 		public function get contentPositionX():Number
 		{
-			return -this.scroller.viewport.horizontalScrollPosition + this.scroller.x;
+			if (this.scroller)
+				return -this.scroller.viewport.horizontalScrollPosition + this.scroller.x;
+			else
+				return 0;
 		}
 		
 		public function set contentPositionX(value:Number):void

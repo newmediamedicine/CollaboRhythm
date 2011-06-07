@@ -29,12 +29,12 @@
              xmlns:fb="http://ns.adobe.com/flashbuilder/2009" minWidth="21" minHeight="21">
     
     <fx:Metadata>
-        <![CDATA[ 
-        /** 
-         * @copy spark.skins.spark.ApplicationSkin#hostComponent
-         */
-        [HostComponent("collaboRhythm.plugins.bloodPressure.view.simulation.ContentLabel")]
-        ]]>
+        <![CDATA[
+		/**
+		 * @copy spark.skins.spark.ApplicationSkin#hostComponent
+		 */
+		[HostComponent("collaboRhythm.plugins.bloodPressure.view.simulation.buttons.ContentLabel")]
+		]]>
     </fx:Metadata> 
     
     <fx:Script fb:purpose="styling">
@@ -59,6 +59,7 @@
         /**
          * @private
          */
+/*
 		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number) : void
 		{
 			var cr:Number = getStyle("cornerRadius");
@@ -72,25 +73,28 @@
 
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
 		}
-        
+*/
+
         private var cornerRadius:Number = 2;
     </fx:Script>
 
-    <!-- layer 2: fill -->
-    <!--- @private -->
+<!--
+    &lt;!&ndash; layer 2: fill &ndash;&gt;
+    &lt;!&ndash;- @private &ndash;&gt;
     <s:Rect id="fill" left="1" right="1" top="1" bottom="1" radiusX="2">
         <s:fill>
             <s:SolidColor color="0xFFFFFF"/>
         </s:fill>
     </s:Rect>
 
-    <!-- layer 7: border - put on top of the fill so it doesn't disappear when scale is less than 1 -->
-    <!--- @private -->
+    &lt;!&ndash; layer 7: border - put on top of the fill so it doesn't disappear when scale is less than 1 &ndash;&gt;
+    &lt;!&ndash;- @private &ndash;&gt;
     <s:Rect id="border" left="0" right="0" top="0" bottom="0" width="69" height="20" radiusX="2">
         <s:stroke>
 			<s:SolidColorStroke color="0x000000"/>
         </s:stroke>
     </s:Rect>
+-->
 
 	<!--- @copy spark.components.SkinnableContainer#leftGroup -->
 	<s:Group id="leftGroup" verticalCenter="0" minWidth="0" minHeight="0">
@@ -100,7 +104,9 @@
 	<!-- layer 8: text -->
 	<!--- @copy spark.components.supportClasses.ButtonBase#labelDisplay -->
 	<s:Label id="labelDisplay"
-		x="{leftGroup.x + leftGroup.width + 10}"
+		x="{leftGroup.x + leftGroup.width}"
+        width="{this.width - leftGroup.width - rightGroup.width}"
+        textAlign="center"
 		verticalAlign="middle"
 		maxDisplayedLines="1"
 		verticalCenter="1"

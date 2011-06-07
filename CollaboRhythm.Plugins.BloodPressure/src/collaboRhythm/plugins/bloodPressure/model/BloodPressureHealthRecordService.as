@@ -18,16 +18,18 @@ package collaboRhythm.plugins.bloodPressure.model
 {
 	import collaboRhythm.shared.apps.bloodPressure.model.AdherenceItem;
 	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureDataItem;
-    import collaboRhythm.shared.model.Account;
-    import collaboRhythm.shared.model.CodedValue;
+	import collaboRhythm.shared.apps.bloodPressure.model.ConcentrationSeverityProvider;
+	import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
+	import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
+	import collaboRhythm.shared.apps.bloodPressure.model.StepsProvider;
+	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.CodedValue;
 	import collaboRhythm.shared.model.DateUtil;
-	import collaboRhythm.shared.model.User;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
-	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
-    import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
-    import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
+	import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
 
-    import flash.net.URLVariables;
+	import flash.net.URLVariables;
 	import flash.xml.XMLDocument;
 
 	import mx.collections.ArrayCollection;
@@ -105,6 +107,7 @@ package collaboRhythm.plugins.bloodPressure.model
 				else if (bloodPressureReportUserData.report == ADHERENCE_ITEMS_REPORT)
 				{
 					account.bloodPressureModel.adherenceData = parseAdherenceItemReportData(responseXml);
+					initializeMedicationSimulationModel(account.bloodPressureModel.simulation, responseXml);
 				}
 			}
 			else
@@ -112,6 +115,96 @@ package collaboRhythm.plugins.bloodPressure.model
 				throw new Error("Unexpected response: " + responseXml);
 			}
 		}
+
+		private static const _hydrochlorothiazideCode:String = "310798";
+		private static const _atenololCode:String = "??????";
+
+		private function initializeMedicationSimulationModel(simulation:SimulationModel, responseXml:XML):void
+		{
+			for each (var itemXml:XML in responseXml.Report.Item.AdherenceItem)
+			{
+				if (itemXml.name.length() == 1)
+				{
+					var name:CodedValue = HealthRecordHelperMethods.xmlToCodedValue(itemXml.name[0]);
+
+					var index:int = simulation.medicationsByCode.getIndexByKey(name.value);
+					if (index == -1)
+					{
+						var medication:MedicationComponentAdherenceModel = new MedicationComponentAdherenceModel();
+
+						medication.name = name;
+
+						// TODO: get steps from an external source
+						if (name.value == _hydrochlorothiazideCode)
+						{
+							initializeHydrochlorothiazideModel(medication);
+						}
+						else if (name.value == _atenololCode)
+						{
+							initializeAtenololModel(medication);
+						}
+
+						simulation.addMedication(medication);
+					}
+				}
+			}
+		}
+
+		private function initializeHydrochlorothiazideModel(medication:MedicationComponentAdherenceModel):void
+		{
+			medication.drugClass = "Thiazide Diuretic";
+			medication.stepsProvider = new StepsProvider(new <Number>[SimulationModel.HYDROCHLOROTHIAZIDE_LOW, SimulationModel.HYDROCHLOROTHIAZIDE_GOAL],
+														 new <Vector.<String>>[
+															 new <String>[
+																 "Urine volume decreased",
+																 "Venous blood volume increased",
+																 "Preload on heart increased",
+															 	 "Stroke volume of heart increased",
+															 	 "Blood pressure increased"],
+															 new <String>[
+																 "Urine volume increased",
+																 "Venous blood volume decreased",
+																 "Preload on heart decreased",
+															 	 "Stroke volume of heart decreased",
+															 	 "Blood pressure decreased"],
+															 new <String>[
+																 "Urine volume increased",
+																 "Venous blood volume decreased",
+																 "Preload on heart decreased",
+															 	 "Stroke volume of heart decreased",
+															 	 "Blood pressure decreased"]
+														 ]);
+			medication.concentrationSeverityProvider = new ConcentrationSeverityProvider(SimulationModel.concentrationRanges,
+																						 SimulationModel.concentrationColors);
+		}
+
+		private function initializeAtenololModel(medication:MedicationComponentAdherenceModel):void
+		{
+			medication.drugClass = "Beta Blocker";
+			medication.stepsProvider = new StepsProvider(new <Number>[SimulationModel.HYDROCHLOROTHIAZIDE_LOW, SimulationModel.HYDROCHLOROTHIAZIDE_GOAL],
+														 new <Vector.<String>>[
+															 new <String>[
+																 "Atenolol very low step 1",
+																 "Atenolol very low step 2",
+																 "Atenolol very low step 3"
+															 	 ],
+															 new <String>[
+																 "Atenolol low step 1",
+																 "Atenolol low step 2",
+																 "Atenolol low step 3",
+															 	 "Atenolol low step 4"
+															 	 ],
+															 new <String>[
+																 "Atenolol at goal step 1",
+																 "Atenolol at goal step 2",
+																 "Atenolol at goal step 3",
+															 	 "Atenolol at goal step 4",
+															 	 "Atenolol at goal step 5"]
+														 ]);
+			medication.concentrationSeverityProvider = new ConcentrationSeverityProvider(SimulationModel.concentrationRanges,
+																						 SimulationModel.concentrationColors);
+		}
+
 
 		private function getFieldNameFromCategory(category:String):String
 		{

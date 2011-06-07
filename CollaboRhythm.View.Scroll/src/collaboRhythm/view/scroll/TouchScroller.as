@@ -230,40 +230,43 @@ package collaboRhythm.view.scroll
 
 		public function createChildren():void
 		{
-			_fpsLabel = new Label();
-			_fpsLabel.setStyle("verticalAlign", "bottom");
-			_fpsLabel.setStyle("textAlign", "right");
-			_fpsLabel.setStyle("color", 0x0000FF);
-			_fpsLabel.visible = false;
-			if (_adapter.componentContainer is IVisualElementContainer)
-				(_adapter.componentContainer as IVisualElementContainer).addElement(_fpsLabel);
-			else
-				_adapter.componentContainer.addChild(_fpsLabel);
-			
-			// initialize scrollIndicator
-			_scrollIndicatorV = new UIComponent();
-			_scrollIndicatorV.cacheAsBitmap = true;
-			_scrollIndicatorV.alpha = 0;
-			if (_adapter.componentContainer is IVisualElementContainer)
-				(_adapter.componentContainer as IVisualElementContainer).addElement(_scrollIndicatorV);
-			else
-				_adapter.componentContainer.addChild(_scrollIndicatorV);
-			
-			_scrollIndicatorVFade = new Fade(_scrollIndicatorV);
-			_scrollIndicatorVFade.addEventListener(EffectEvent.EFFECT_END, scrollIndicatorVFade_effectEndHandler);
-			
-			_scrollIndicatorH = new UIComponent();
-			_scrollIndicatorH.cacheAsBitmap = true;
-			_scrollIndicatorH.alpha = 0;
-			if (_adapter.componentContainer is IVisualElementContainer)
-				(_adapter.componentContainer as IVisualElementContainer).addElement(_scrollIndicatorH);
-			else
-				_adapter.componentContainer.addChild(_scrollIndicatorH);
-			
-			_scrollIndicatorHFade = new Fade(_scrollIndicatorH);
-			_scrollIndicatorHFade.addEventListener(EffectEvent.EFFECT_END, scrollIndicatorHFade_effectEndHandler);
-			
-			positionChildren();
+			if (_adapter.componentContainer)
+			{
+				_fpsLabel = new Label();
+				_fpsLabel.setStyle("verticalAlign", "bottom");
+				_fpsLabel.setStyle("textAlign", "right");
+				_fpsLabel.setStyle("color", 0x0000FF);
+				_fpsLabel.visible = false;
+				if (_adapter.componentContainer is IVisualElementContainer)
+					(_adapter.componentContainer as IVisualElementContainer).addElement(_fpsLabel);
+				else
+					_adapter.componentContainer.addChild(_fpsLabel);
+
+				// initialize scrollIndicator
+				_scrollIndicatorV = new UIComponent();
+				_scrollIndicatorV.cacheAsBitmap = true;
+				_scrollIndicatorV.alpha = 0;
+				if (_adapter.componentContainer is IVisualElementContainer)
+					(_adapter.componentContainer as IVisualElementContainer).addElement(_scrollIndicatorV);
+				else
+					_adapter.componentContainer.addChild(_scrollIndicatorV);
+
+				_scrollIndicatorVFade = new Fade(_scrollIndicatorV);
+				_scrollIndicatorVFade.addEventListener(EffectEvent.EFFECT_END, scrollIndicatorVFade_effectEndHandler);
+
+				_scrollIndicatorH = new UIComponent();
+				_scrollIndicatorH.cacheAsBitmap = true;
+				_scrollIndicatorH.alpha = 0;
+				if (_adapter.componentContainer is IVisualElementContainer)
+					(_adapter.componentContainer as IVisualElementContainer).addElement(_scrollIndicatorH);
+				else
+					_adapter.componentContainer.addChild(_scrollIndicatorH);
+
+				_scrollIndicatorHFade = new Fade(_scrollIndicatorH);
+				_scrollIndicatorHFade.addEventListener(EffectEvent.EFFECT_END, scrollIndicatorHFade_effectEndHandler);
+
+				positionChildren();
+			}
 		}
 		
 		private function scrollIndicatorVFade_effectEndHandler(event:EffectEvent):void
@@ -310,12 +313,15 @@ package collaboRhythm.view.scroll
 		
 		private function positionChildren():void
 		{
-			_scrollIndicatorV.x = _adapter.component.width - scrollIndicatorVOffset;
-			_scrollIndicatorH.y = _adapter.component.height - scrollIndicatorHOffset;
-			
-			// TODO: determine a better way to position the label in the bottom right corner with or without a scroll bar
-			_fpsLabel.width = _adapter.component.width - 30;
-			_fpsLabel.height = _adapter.component.height;
+			if (_adapter.componentContainer)
+			{
+				_scrollIndicatorV.x = _adapter.component.width - scrollIndicatorVOffset;
+				_scrollIndicatorH.y = _adapter.component.height - scrollIndicatorHOffset;
+
+				// TODO: determine a better way to position the label in the bottom right corner with or without a scroll bar
+				_fpsLabel.width = _adapter.component.width - 30;
+				_fpsLabel.height = _adapter.component.height;
+			}
 		}
 		
 		private function get panelWidth():Number
@@ -575,7 +581,7 @@ package collaboRhythm.view.scroll
 					
 				}
 			}
-			
+
 			updateFps();
 		}
 		
@@ -953,7 +959,7 @@ package collaboRhythm.view.scroll
 				if (_inertia.y != 0 || _edgeSpring.y != 0) {
 					redrawScrollIndicatorV();
 				} else {
-					if (_scrollIndicatorV.alpha > 0 && !_scrollIndicatorVFade.isPlaying)
+					if (_scrollIndicatorV && _scrollIndicatorV.alpha > 0 && !_scrollIndicatorVFade.isPlaying)
 					{
 						_scrollIndicatorV.alpha = _scrollIndicatorMaxAlpha * 0.99;
 						_scrollIndicatorVFade.alphaFrom = _scrollIndicatorV.alpha;
@@ -1028,7 +1034,7 @@ package collaboRhythm.view.scroll
 				if (_inertia.x != 0 || _edgeSpring.x != 0) {
 					redrawScrollIndicatorH();
 				} else {
-					if (_scrollIndicatorH.alpha > 0 && !_scrollIndicatorHFade.isPlaying)
+					if (_scrollIndicatorHFade && _scrollIndicatorH.alpha > 0 && !_scrollIndicatorHFade.isPlaying)
 					{
 						_scrollIndicatorH.alpha = _scrollIndicatorMaxAlpha * 0.99;
 						_scrollIndicatorHFade.alphaFrom = _scrollIndicatorH.alpha;
@@ -1046,13 +1052,16 @@ package collaboRhythm.view.scroll
 		
 		private function updateFps():void
 		{
-			var lastFrameTime:Number = _frameTime;
-			_frameTime = (new Date()).time;
-			var fps:Number = 1000 / (_frameTime - lastFrameTime);
-			_fpsLabel.text = "FPS: " + fps.toFixed(1) + " Update Time: " + _updateDuration.toFixed(1);
-			// For debugging: show where the label is positioned
-			//			_adapter.graphics.lineStyle(3, 0x0000FF);
-			//			_adapter.graphics.drawRect(_fpsLabel.x, _fpsLabel.y, _fpsLabel.width, _fpsLabel.height);
+			if (_fpsLabel)
+			{
+				var lastFrameTime:Number = _frameTime;
+				_frameTime = (new Date()).time;
+				var fps:Number = 1000 / (_frameTime - lastFrameTime);
+				_fpsLabel.text = "FPS: " + fps.toFixed(1) + " Update Time: " + _updateDuration.toFixed(1);
+				// For debugging: show where the label is positioned
+				//			_adapter.graphics.lineStyle(3, 0x0000FF);
+				//			_adapter.graphics.drawRect(_fpsLabel.x, _fpsLabel.y, _fpsLabel.width, _fpsLabel.height);
+			}
 		}
 		
 		private function showScrollIndicatorV():void
@@ -1070,21 +1079,28 @@ package collaboRhythm.view.scroll
 		
 		private function redrawScrollIndicatorV():void
 		{
-			_scrollIndicatorV.graphics.clear();
-			if (useVerticalScrollIndicator)
+			if (_scrollIndicatorV)
 			{
-				var indicatorTop:Number = panelHeight * Math.min(1, (-_adapter.contentPositionY / contentHeight));
-				var indicatorBottom:Number = indicatorTop + panelHeight * Math.max(0, panelHeight / Math.max(panelHeight, contentHeight));
-				
-				// when scrolling beyond the edge, don't draw the scroll indicator (change the length of the scroll indicator) 
-				indicatorTop = Math.max(indicatorTop, 0);
-				indicatorTop = Math.min(indicatorTop, panelHeight - _scrollIndicatorThickness);
-				indicatorBottom = Math.max(indicatorBottom, 0 + _scrollIndicatorThickness);
-				indicatorBottom = Math.min(indicatorBottom, panelHeight);
-				
-				_scrollIndicatorV.graphics.beginFill(0x888899,1);
-				_scrollIndicatorV.graphics.drawRoundRect(0, indicatorTop, _scrollIndicatorThickness, indicatorBottom - indicatorTop, _scrollIndicatorElipseWidth);
-				_scrollIndicatorV.graphics.endFill();
+				_scrollIndicatorV.graphics.clear();
+				if (useVerticalScrollIndicator)
+				{
+					var indicatorTop:Number = panelHeight * Math.min(1, (-_adapter.contentPositionY / contentHeight));
+					var indicatorBottom:Number = indicatorTop + panelHeight * Math.max(0,
+																					   panelHeight / Math.max(panelHeight,
+																											  contentHeight));
+
+					// when scrolling beyond the edge, don't draw the scroll indicator (change the length of the scroll indicator)
+					indicatorTop = Math.max(indicatorTop, 0);
+					indicatorTop = Math.min(indicatorTop, panelHeight - _scrollIndicatorThickness);
+					indicatorBottom = Math.max(indicatorBottom, 0 + _scrollIndicatorThickness);
+					indicatorBottom = Math.min(indicatorBottom, panelHeight);
+
+					_scrollIndicatorV.graphics.beginFill(0x888899, 1);
+					_scrollIndicatorV.graphics.drawRoundRect(0, indicatorTop, _scrollIndicatorThickness,
+															 indicatorBottom - indicatorTop,
+															 _scrollIndicatorElipseWidth);
+					_scrollIndicatorV.graphics.endFill();
+				}
 			}
 		}
 		
@@ -1103,21 +1119,24 @@ package collaboRhythm.view.scroll
 		
 		private function redrawScrollIndicatorH():void
 		{
-			_scrollIndicatorH.graphics.clear();
-			if (useHorizontalScrollIndicator)
+			if (_scrollIndicatorH)
 			{
-				var indicatorLeft:Number = panelWidth * Math.min(1, (-_adapter.contentPositionX / contentWidth));
-				var indicatorRight:Number = indicatorLeft + panelWidth * Math.max(0, panelWidth / Math.max(panelWidth, contentWidth));
-				
-				// when scrolling beyond the edge, don't draw the scroll indicator (change the length of the scroll indicator) 
-				indicatorLeft = Math.max(indicatorLeft, 0);
-				indicatorLeft = Math.min(indicatorLeft, panelWidth - _scrollIndicatorThickness);
-				indicatorRight = Math.max(indicatorRight, 0 + _scrollIndicatorThickness);
-				indicatorRight = Math.min(indicatorRight, panelWidth);
-				
-				_scrollIndicatorH.graphics.beginFill(0x888899,1);
-				_scrollIndicatorH.graphics.drawRoundRect(indicatorLeft, 0, indicatorRight - indicatorLeft, _scrollIndicatorThickness, _scrollIndicatorElipseWidth);
-				_scrollIndicatorH.graphics.endFill();
+				_scrollIndicatorH.graphics.clear();
+				if (useHorizontalScrollIndicator)
+				{
+					var indicatorLeft:Number = panelWidth * Math.min(1, (-_adapter.contentPositionX / contentWidth));
+					var indicatorRight:Number = indicatorLeft + panelWidth * Math.max(0, panelWidth / Math.max(panelWidth, contentWidth));
+
+					// when scrolling beyond the edge, don't draw the scroll indicator (change the length of the scroll indicator)
+					indicatorLeft = Math.max(indicatorLeft, 0);
+					indicatorLeft = Math.min(indicatorLeft, panelWidth - _scrollIndicatorThickness);
+					indicatorRight = Math.max(indicatorRight, 0 + _scrollIndicatorThickness);
+					indicatorRight = Math.min(indicatorRight, panelWidth);
+
+					_scrollIndicatorH.graphics.beginFill(0x888899,1);
+					_scrollIndicatorH.graphics.drawRoundRect(indicatorLeft, 0, indicatorRight - indicatorLeft, _scrollIndicatorThickness, _scrollIndicatorElipseWidth);
+					_scrollIndicatorH.graphics.endFill();
+				}
 			}
 		}
 		

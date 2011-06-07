@@ -56,9 +56,11 @@ package collaboRhythm.mobile.controller
             _settings.isWorkstationMode = false;
 
 //			_collaborationMediator = new MobileCollaborationMediator(this);
+			initCollaborationController(null);
 
 			_widgetContainerController = new WidgetContainerController(_mobileApplication.navigator, this);
 			_mobileApplication.navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
+			_mobileApplication.navigator.addEventListener("viewChangeComplete", viewNavigator_transitionCompleteHandler);
 			_mobileApplication.navigator.addEventListener(Event.ADDED, viewNavigator_addedHandler);
 			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 
@@ -192,5 +194,11 @@ package collaboRhythm.mobile.controller
         {
             return _applicationSettingsEmbeddedFile;
         }
-    }
+
+		override public function get currentFullView():String
+		{
+			// TODO: add support for reloading with the correct view
+			return null;
+		}
+	}
 }

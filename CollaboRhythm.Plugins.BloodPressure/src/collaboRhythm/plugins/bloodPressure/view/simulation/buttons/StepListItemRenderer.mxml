@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+                xmlns:mx="library://ns.adobe.com/flex/mx" width="262" height="42">
+    <s:states>
+        <s:State name="normal"/>
+        <s:State name="hovered"/>
+        <s:State name="selected"/>
+    </s:states>
+
+    <s:Path winding="nonZero"
+            data="M261 37C261 39.209 259.383 41 257.39 41L4.61035 41C2.61719 41 1 39.209 1 37L1 5C1 2.79053 2.61719 1 4.61035 1L257.39 1C259.383 1 261 2.79053 261 5L261 37Z">
+        <s:fill>
+            <s:SolidColor
+                color.normal="0xFFFFFF"
+                color.hovered="0xBBBDBD"
+                color.selected="0xAAAAAA"
+                />
+        </s:fill>
+        <s:stroke>
+            <s:SolidColorStroke id="borderStroke" color="{data.color}" caps="none" weight="2" joints="miter"
+                                miterLimit="4"/>
+        </s:stroke>
+    </s:Path>
+    <s:Label id="numberDisplay" fontFamily="Myriad Pro" fontSize="30" lineHeight="120%" color="{data.color}"
+             kerning="on" x="8" y="10.7003">
+        <s:text>{itemIndex + 1}</s:text>
+    </s:Label>
+    <s:Label id="textDisplay" width="221.659" height="16.4136" fontFamily="Myriad Pro" fontSize="14" lineHeight="120%"
+             color="#231f20" kerning="on" x="32" y="17.1743">
+        <s:text>{data.text}</s:text>
+    </s:Label>
+</s:ItemRenderer>

@@ -16,6 +16,9 @@
  */
 package collaboRhythm.shared.apps.bloodPressure.model
 {
+
+	import com.theory9.data.types.OrderedMap;
+
 	import mx.events.PropertyChangeEvent;
 
 	/**
@@ -29,6 +32,8 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		private var _systolic:Number;
 		private var _diastolic:Number;
 		private var _concentration:Number;
+		private var _medications:Vector.<MedicationComponentAdherenceModel> = new Vector.<MedicationComponentAdherenceModel>();
+		private var _medicationsByCode:OrderedMap = new OrderedMap();
 
 		/**
 		 * Maximum value to use for the plugRatio, the ratio of plugs (medication) to gaps, in the simulation.
@@ -63,9 +68,9 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public static const SYSTOLIC_HYPERTENSION_STAGE2:Number = 160;
 		public static const SYSTOLIC_HYPERTENSION_CRISIS:Number = 180;
 
-		private static const SEVERITY_COLOR_HIGH:uint = 0xED1C24;
-		private static const SEVERITY_COLOR_MEDIUM:uint = 0xF7941E;
-		private static const SEVERITY_COLOR_GOAL:uint = 0x00A651;
+		public static const SEVERITY_COLOR_HIGH:uint = 0xC64A5C;
+		public static const SEVERITY_COLOR_MEDIUM:uint = 0xFFF3AB;
+		public static const SEVERITY_COLOR_GOAL:uint = 0x79A873;
 		private static const systolicColors:Vector.<uint> = new <uint>[
 			SEVERITY_COLOR_HIGH,
 			SEVERITY_COLOR_MEDIUM,
@@ -77,8 +82,8 @@ package collaboRhythm.shared.apps.bloodPressure.model
 			SYSTOLIC_HYPOTENSION0,
 			SYSTOLIC_PREHYPERTENSION,
 			SYSTOLIC_HYPERTENSION_STAGE1];
-		private static const concentrationColors:Vector.<uint> = systolicColors;
-		private static const concentrationRanges:Vector.<Number> = new <Number>[
+		public static const concentrationColors:Vector.<uint> = systolicColors;
+		public static const concentrationRanges:Vector.<Number> = new <Number>[
 			HYDROCHLOROTHIAZIDE_LOW,
 			HYDROCHLOROTHIAZIDE_GOAL,
 			HYDROCHLOROTHIAZIDE_HIGH0,
@@ -134,7 +139,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 			if (colors.length != valueRanges.length + 1)
 				throw new Error("The colors vector must have one element fewer than valueRanges.");
 
-			for (var i:int = 0; i < systolicRanges.length; i++)
+			for (var i:int = 0; i < valueRanges.length; i++)
 			{
 				if (value < valueRanges[i])
 					return colors[i];
@@ -228,6 +233,28 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public function set concentrationSeverityColor(value:uint):void
 		{
 			_concentrationSeverityColor = value;
+		}
+
+		public function get medications():Vector.<MedicationComponentAdherenceModel>
+		{
+			return _medications;
+		}
+
+		public function get medicationsByCode():OrderedMap
+		{
+			return _medicationsByCode;
+		}
+
+		public function getMedication(medicationCode:String):MedicationComponentAdherenceModel
+		{
+			return medicationsByCode.getValueByKey(medicationCode);
+		}
+
+		public function addMedication(medication:MedicationComponentAdherenceModel):void
+		{
+			medications.push(medication);
+			medicationsByCode.addKeyValue(medication.name.value, medication);
+			dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, "medications", null, medications));
 		}
 	}
 }

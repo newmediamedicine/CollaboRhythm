@@ -19,9 +19,9 @@ package collaboRhythm.mobile.view.skins
 	import net.flashdan.containers.busyindicator.BusyIndicator;
 
 	import spark.components.ViewNavigator;
-	import spark.skins.mobile.MobileApplicationSkin;
+	import spark.skins.mobile.ViewNavigatorApplicationSkin;
 
-	public class CollaboRhythmMobileApplicationSkin extends MobileApplicationSkin
+	public class CollaboRhythmMobileApplicationSkin extends ViewNavigatorApplicationSkin
 	{
 		public var busyIndicator:BusyIndicator;
 

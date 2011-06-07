@@ -29,18 +29,22 @@
              xmlns:fb="http://ns.adobe.com/flashbuilder/2009" minWidth="21" minHeight="21" alpha.disabled="0.5">
     
     <fx:Metadata>
-        <![CDATA[ 
-        /** 
-         * @copy spark.skins.spark.ApplicationSkin#hostComponent
-         */
-        [HostComponent("collaboRhythm.plugins.bloodPressure.view.simulation.ContentButton")]
-        ]]>
+        <![CDATA[
+		/**
+		 * @copy spark.skins.spark.ApplicationSkin#hostComponent
+		 */
+		[HostComponent("collaboRhythm.plugins.bloodPressure.view.simulation.buttons.ContentButton")]
+		]]>
     </fx:Metadata> 
     
     <fx:Script fb:purpose="styling">
-		/* Define the skin elements that should not be colorized. 
+		import collaboRhythm.shared.model.StringUtils;
+
+		import mx.utils.StringUtil;
+
+		/* Define the skin elements that should not be colorized.
 		For button, the graphics are colorized but the label and content are not. */
-		static private const exclusions:Array = ["labelDisplay", "leftGroup", "rightGroup"];
+		static private const exclusions:Array = ["labelDisplay", "subtitleDisplay", "leftGroup", "rightGroup"];
         
         /**
          * @private
@@ -76,6 +80,10 @@
 			if (highlightStroke) highlightStroke.radiusX = cornerRadius;
 			if (hldownstroke1) hldownstroke1.radiusX = cornerRadius;
 			if (hldownstroke2) hldownstroke2.radiusX = cornerRadius;
+
+			var subtitleColor:uint = getStyle("subtitleColor");
+			if (!isNaN(subtitleColor))
+				subtitleDisplay.setStyle("color", subtitleColor);
 
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
 		}
@@ -213,15 +221,26 @@
 		<!-- leftContent will be added here -->
 	</s:Group>
 
-	<!-- layer 8: text -->
-	<!--- @copy spark.components.supportClasses.ButtonBase#labelDisplay -->
-	<s:Label id="labelDisplay"
+	<s:VGroup
 		x="{leftGroup.x + leftGroup.width + 10}"
 		verticalAlign="middle"
-		maxDisplayedLines="1"
 		verticalCenter="1"
-		top="2" bottom="2">
-	</s:Label>
+		gap="0"
+		top="2"
+		bottom="2"
+			>
+
+		<!-- layer 8: text -->
+		<!--- @copy spark.components.supportClasses.ButtonBase#labelDisplay -->
+		<s:Label id="labelDisplay"
+			maxDisplayedLines="1">
+		</s:Label>
+		<s:Label id="subtitleDisplay"
+			maxDisplayedLines="1"
+			includeInLayout="{!StringUtils.isEmpty(subtitleDisplay.text)}"
+				>
+		</s:Label>
+	</s:VGroup>
 
 	<!--
 	  Note: setting the minimum size to 0 here so that changes to the host component's

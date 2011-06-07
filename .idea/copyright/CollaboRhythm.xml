@@ -1,0 +1,9 @@
+<component name="CopyrightManager">
+  <copyright>
+    <option name="notice" value="Copyright &amp;#36;today.year John Moore, Scott Gilroy&#10;&#10;This file is part of CollaboRhythm.&#10;&#10;CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public&#10;License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later&#10;version.&#10;&#10;CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied&#10;warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more&#10;details.&#10;&#10;You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see&#10;&lt;http://www.gnu.org/licenses/&gt;." />
+    <option name="keyword" value="Copyright" />
+    <option name="allowReplaceKeyword" value="This file is part of CollaboRhythm" />
+    <option name="myName" value="CollaboRhythm" />
+    <option name="myLocal" value="true" />
+  </copyright>
+</component>

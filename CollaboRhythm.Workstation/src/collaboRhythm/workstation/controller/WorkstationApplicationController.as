@@ -54,6 +54,8 @@ package collaboRhythm.workstation.controller
 	 */
 	public class WorkstationApplicationController extends ApplicationControllerBase
 	{
+		private static const PRIMARY_WINDOW_VIEW_ID:String = "primaryWindowView";
+
         private var _windows:Vector.<WorkstationWindow> = new Vector.<WorkstationWindow>();
 		private var _primaryWindow:WorkstationWindow;
         private var _primaryWindowView:PrimaryWindowView;
@@ -154,7 +156,7 @@ package collaboRhythm.workstation.controller
 		{
 			for each (var windowState:WindowState in windowSettings.windowStates)
 			{
-                if (windowState.spaces[0] == "primaryWindowView")
+                if (windowState.spaces.length > 0 && windowState.spaces[0] == PRIMARY_WINDOW_VIEW_ID)
                 {
                     createPrimaryWindowView(windowState.bounds);
                 }
@@ -174,7 +176,18 @@ package collaboRhythm.workstation.controller
         // TODO: fix validating window settings
 		private function validateWindowSettings(windowSettings:WindowSettings):Boolean
 		{
-			return (!(windowSettings == null || windowSettings.windowStates.length == 0));
+			if (windowSettings == null || windowSettings.windowStates.length == 0)
+				return false;
+
+			for each (var windowState:WindowState in windowSettings.windowStates)
+			{
+				for each (var space:String in windowState.spaces)
+				{
+					if (space == PRIMARY_WINDOW_VIEW_ID)
+						return true;
+				}
+			}
+			return false;
 		}
 
         // creates a workstationWindow for one of the screens
@@ -195,7 +208,7 @@ package collaboRhythm.workstation.controller
             initializeWindowCommon(primaryWindow);
             _primaryWindowView = new PrimaryWindowView();
             _primaryWindowView.init(this);
-            _primaryWindowView.id = "primaryWindowView";
+            _primaryWindowView.id = PRIMARY_WINDOW_VIEW_ID;
             primaryWindow.spaces.push(_primaryWindowView);
             primaryWindow.addElement(_primaryWindowView);
         }
@@ -230,29 +243,29 @@ package collaboRhythm.workstation.controller
         // a record may be opened based on user interaction or automatically for the primaryRecord of the activeAccount
         // when the application is in patient mode
         public override function openRecordAccount(recordAccount:Account):void
-        {
-            super.openRecordAccount(recordAccount);
+		{
+			super.openRecordAccount(recordAccount);
 
-            _activeRecordView = new ActiveRecordView();
-            _activeRecordView.init(this, recordAccount);
-            _primaryWindowView.mainGroup.addElement(_activeRecordView);
+			_activeRecordView = new ActiveRecordView();
+			_activeRecordView.init(this, recordAccount);
+			_primaryWindowView.mainGroup.addElement(_activeRecordView);
 
-            _widgetsContainerView = new TiledWidgetsContainerView();
+			_widgetsContainerView = new TiledWidgetsContainerView();
 
-            // the widget views are loaded in a different location depending on whether one or two screens are being used
-            if (Screen.screens.length == 1 || settings.useSingleScreen)
-            {
-                _activeRecordView.widgetViewGroup.height = 200;
-                _activeRecordView.widgetViewGroup.visible = true;
-                _activeRecordView.widgetViewGroup.addElement(_widgetsContainerView);
-            }
-            else
-            {
-                _secondaryWindowView.mainGroup.addElement(_widgetsContainerView);
-            }
-            // TODO: Rethink document retrieval
-            recordAccount.primaryRecord.getDocuments();
-        }
+			// the widget views are loaded in a different location depending on whether one or two screens are being used
+			if (_secondaryWindowView)
+			{
+				_secondaryWindowView.mainGroup.addElement(_widgetsContainerView);
+			}
+			else
+			{
+				_activeRecordView.widgetViewGroup.height = 200;
+				_activeRecordView.widgetViewGroup.visible = true;
+				_activeRecordView.widgetViewGroup.addElement(_widgetsContainerView);
+			}
+			// TODO: Rethink document retrieval
+			recordAccount.primaryRecord.getDocuments();
+		}
 
         // the apps are not actually loaded immediately when a record is opened
         // only after the active record view has been created are they loaded, this makes the UI more responsive
@@ -275,7 +288,7 @@ package collaboRhythm.workstation.controller
                 recordAccount.primaryRecord.clearDocuments();
             _activeRecordAccount = null;
             _primaryWindowView.mainGroup.removeElement(_activeRecordView);
-            if (!(Screen.screens.length == 1 || settings.useSingleScreen))
+            if (_secondaryWindowView)
             {
                 _secondaryWindowView.mainGroup.removeElement(_widgetsContainerView);
             }

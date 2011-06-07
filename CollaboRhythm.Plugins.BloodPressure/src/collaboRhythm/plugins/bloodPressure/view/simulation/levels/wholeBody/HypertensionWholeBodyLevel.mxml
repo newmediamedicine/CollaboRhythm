@@ -22,26 +22,48 @@
 		xmlns:simulation="collaboRhythm.plugins.bloodPressure.view.simulation.*"
 		xmlns:gauge="collaboRhythm.plugins.bloodPressure.view.simulation.gauge.*"
 		xmlns:wholebody="collaboRhythm.plugins.bloodPressure.view.simulation.levels.wholeBody.*"
-		width="100%" height="100%">
+		xmlns:buttons="collaboRhythm.plugins.bloodPressure.view.simulation.buttons.*"
+		width="100%" height="100%"
+		title="Whole Body"
+		>
+	<fx:Declarations>
+		<!--<mx:Point id="circulatorySystemPoint" x="237" y="132"/>-->
+	</fx:Declarations>
 	<wholebody:HypertensionWholeBody id="hypertensionWholeBody"
-									  percentWidth="100" percentHeight="100"
 			/>
-	<simulation:ContentButton
-			x="{367.072 + 25.6045}" y="{126.56 + 1.5}"
-			width="400" height="60"
+	<s:Group id="arrowsGroup" width="100%" height="100%"/>
+	<buttons:SimulationDetailButton
+			id="circulatorySystemButton"
+			x="400"
+			arrowTailY="{circulatorySystemPoint.y}"
 			label="Hypertension"
-			color="{simulationModel.systolicSeverityColor}"
-			click="dispatchEvent(new SimulationLevelEvent(SimulationLevelEvent.DRILL_DOWN_LEVEL, 0.3, 0.3, 143, 68));"
+			click="dispatchEvent(new SimulationLevelEvent(SimulationLevelEvent.DRILL_DOWN_LEVEL, 0.3, 0.3, circulatorySystemPoint.x, circulatorySystemPoint.y));"
+			expandButtonVisible="false"
 			>
-		<simulation:leftContent>
-			<simulation:ProblemsIcon left="15" verticalCenter="0"/>
-		</simulation:leftContent>
-		<simulation:rightContent>
-			<simulation:HypertensionGauge id="gauge" right="10" verticalCenter="0"
-										   value="{simulationModel.systolic}"/>
-		</simulation:rightContent>
-	</simulation:ContentButton>
+		<buttons:leftContent>
+			<simulation:ProblemsIcon left="7" verticalCenter="0" width="32" height="32"/>
+		</buttons:leftContent>
+		<buttons:rightContent>
+			<simulation:HypertensionGauge id="gauge" verticalCenter="0"
+										  width="60" height="30"
+										  value="{simulationModel.systolic}"/>
+		</buttons:rightContent>
+	</buttons:SimulationDetailButton>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.bloodPressure.view.simulation.*;
+		import collaboRhythm.plugins.bloodPressure.view.simulation.buttons.SimulationDetail;
+
+		import mx.events.FlexEvent;
+
+		private const circulatorySystemPoint:Point = new Point(237, 132);
+
+		protected override function creationCompleteHandler(event:FlexEvent):void
+		{
+			details = new <SimulationDetail>[new SimulationDetail(circulatorySystemPoint,
+																  circulatorySystemButton)];
+
+			super.creationCompleteHandler(event);
+		}
+
 		]]></fx:Script>
 </simulation:SimulationLevelGroup>

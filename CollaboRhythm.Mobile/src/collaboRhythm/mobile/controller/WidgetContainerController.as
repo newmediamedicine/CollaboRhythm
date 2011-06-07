@@ -16,21 +16,19 @@
  */
 package collaboRhythm.mobile.controller
 {
-
-import collaboRhythm.core.pluginsManagement.PluginEvent;
+	import collaboRhythm.core.pluginsManagement.PluginEvent;
 	import collaboRhythm.core.pluginsManagement.PluginLoader;
 	import collaboRhythm.mobile.view.WidgetContainerView;
-import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 
-	import flash.desktop.NativeApplication;
 	import flash.events.TransformGestureEvent;
-
 	import flash.filesystem.File;
 
 	import spark.components.ViewNavigator;
-import spark.effects.SlideViewTransition;
+	import spark.transitions.SlideViewTransition;
+	import spark.transitions.ViewTransitionDirection;
 
-public class WidgetContainerController
+	public class WidgetContainerController
 	{
 		private var _navigator:ViewNavigator;
 		private var _moblieApplicationController:MobileApplicationController;
@@ -43,7 +41,7 @@ public class WidgetContainerController
 
 		public function get widgetNavigationIndex():int
 		{
-			return _navigator.navigationStack.length - 1;
+			return _navigator.length - 1;
 		}
 
 		public function get navigator():ViewNavigator
@@ -70,7 +68,9 @@ public class WidgetContainerController
 			// TODO: fix bug where sometimes we do too many pops and there is no view left 
 			if (_moblieApplicationController.mobileAppControllersMediator && widgetNavigationIndex > 0)
 			{
-				navigator.popView(new SlideViewTransition(300, SlideViewTransition.SLIDE_RIGHT));
+				var slideViewTransition:SlideViewTransition = new SlideViewTransition();
+				slideViewTransition.direction = ViewTransitionDirection.RIGHT;
+				navigator.popView(slideViewTransition);
 				
 				return true;
 			}
@@ -83,7 +83,7 @@ public class WidgetContainerController
 			if (_moblieApplicationController.mobileAppControllersMediator && widgetNavigationIndex + 1 < _moblieApplicationController.mobileAppControllersMediator.workstationApps.length)
 			{
 				navigator.pushView(WidgetContainerView, null,
-					new SlideViewTransition(300, SlideViewTransition.SLIDE_LEFT));
+					new SlideViewTransition());
 				
 				return true;
 			}
