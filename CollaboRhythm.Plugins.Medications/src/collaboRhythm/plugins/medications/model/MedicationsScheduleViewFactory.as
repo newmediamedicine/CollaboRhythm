@@ -32,7 +32,9 @@ package collaboRhythm.plugins.medications.model
 
         public function createScheduleItemReportingView(scheduleItem:ScheduleItemBase):ScheduleItemReportingViewBase
         {
-            return new MedicationScheduleItemReportingView();
+            var medicationScheduleItemReportingView:MedicationScheduleItemReportingView = new MedicationScheduleItemReportingView();
+            medicationScheduleItemReportingView.init(scheduleItem);
+            return medicationScheduleItemReportingView;
         }
 
         public function createScheduleItemTimelineView(scheduleItem:ScheduleItemBase):ScheduleItemTimelineViewBase

@@ -43,14 +43,14 @@
 		<demoDatePreset>2010-02-04T00:00:00-5:00</demoDatePreset>
 		<demoDatePreset>2010-02-17T00:00:00-5:00</demoDatePreset>
 	</demoDatePresets>
-	<appGroups>
+<!--	<appGroups>
 		<appGroup id="standard">
 			<appDescriptors>
 				<appDescriptor>collaboRhythm.plugins.schedule.controller::ScheduleAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::BloodPressureAppController</appDescriptor>
 			</appDescriptors>
 		</appGroup>
-	</appGroups>
+	</appGroups>-->
 
 <!--  
 	useSingleScreen - If no valid windowSettings.xml file exists or resetWindowSettings = true, then force the app to only use a single screen (one window)

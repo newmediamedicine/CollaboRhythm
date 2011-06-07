@@ -19,6 +19,7 @@ package collaboRhythm.shared.model
 
     import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
 
+    [Bindable]
     public class RecurrenceRule
 	{
 		private var _frequency:CodedValue;
@@ -34,25 +35,46 @@ package collaboRhythm.shared.model
 //            _dateUntil = DateUtil.parseW3CDTF(recurrenceRuleXml.dateUntil);
 			_count = int(recurrenceRuleXml.count);
 		}
-		
-		public function get frequency():CodedValue
-		{
-			return _frequency;
-		}
+
+
+        public function get frequency():CodedValue
+        {
+            return _frequency;
+        }
+
+        public function set frequency(value:CodedValue):void
+        {
+            _frequency = value;
+        }
 
         public function get interval():CodedValue
         {
             return _interval;
         }
 
-//		public function get dateTimeUntil():Date
-//		{
-//			return _dateTimeUntil;
-//		}
+        public function set interval(value:CodedValue):void
+        {
+            _interval = value;
+        }
 
-		public function get count():int
-		{
-			return _count;
-		}
+        public function get dateUntil():Date
+        {
+            return _dateUntil;
+        }
+
+        public function set dateUntil(value:Date):void
+        {
+            _dateUntil = value;
+        }
+
+        public function get count():int
+        {
+            return _count;
+        }
+
+        public function set count(value:int):void
+        {
+            _count = value;
+        }
     }
 }

@@ -16,6 +16,7 @@
  */
 package collaboRhythm.shared.model
 {
+    [Bindable]
 	public class ValueAndUnit
 	{
 		private var _value:String;
@@ -26,15 +27,25 @@ package collaboRhythm.shared.model
 			_value = value;
 			_unit = unit;
 		}
-		
-		public function get value():String
-		{
-			return _value;
-		}
 
-		public function get unit():CodedValue
-		{
-			return _unit;
-		}
-	}
+        public function get value():String
+        {
+            return _value;
+        }
+
+        public function set value(value:String):void
+        {
+            _value = value;
+        }
+
+        public function get unit():CodedValue
+        {
+            return _unit;
+        }
+
+        public function set unit(value:CodedValue):void
+        {
+            _unit = value;
+        }
+    }
 }

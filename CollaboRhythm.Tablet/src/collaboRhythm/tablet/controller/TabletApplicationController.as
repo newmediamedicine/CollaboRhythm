@@ -39,6 +39,8 @@ package collaboRhythm.tablet.controller
         {
             super.main();
 
+            _settings.isWorkstationMode = false;
+
             initCollaborationController(null);
 
             createSession();
@@ -58,8 +60,8 @@ package collaboRhythm.tablet.controller
         // only after the active record view has been created are they loaded, this makes the UI more responsive
         public function activeRecordView_creationCompleteHandler(recordAccount:Account):void
         {
-            _tabletAppControllersMediator = new TabletAppControllersMediator(_activeRecordView.widgetViewsGroup,
-                                                                             _activeRecordView.widgetViewsGroup,
+            _tabletAppControllersMediator = new TabletAppControllersMediator(_activeRecordView.scheduleWidgetGroup,
+                                                                             _activeRecordView.bloodPressureWidgetGroup,
                                                                              _activeRecordView.fullViewsGroup,
                                                                              _settings,
                                                                              _componentContainer);
@@ -102,7 +104,7 @@ package collaboRhythm.tablet.controller
 			{
 				if (_activeRecordView.fullViewsGroup.numElements > 0)
                 {
-                    _activeRecordView.fullViewsGroup.removeElementAt(0);
+                    _activeRecordView.fullViewsGroup.removeAllElements();
                 }
 			}
 		}

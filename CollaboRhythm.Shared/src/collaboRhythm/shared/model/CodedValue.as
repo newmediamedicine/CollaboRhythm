@@ -16,6 +16,7 @@
  */
 package collaboRhythm.shared.model
 {
+    [Bindable]
 	public class CodedValue
 	{
 		private var _type:String;
@@ -30,25 +31,46 @@ package collaboRhythm.shared.model
 			_abbrev = abbrev;
 			_text = text;
 		}
-		
-		public function get type():String
-		{
-			return _type;
-		}
 
-		public function get value():String
-		{
-			return _value;
-		}
-		
-		public function get abbrev():String
-		{
-			return _abbrev;
-		}
 
-		public function get text():String
-		{
-			return _text;
-		}
-	}
+        public function get type():String
+        {
+            return _type;
+        }
+
+        public function set type(value:String):void
+        {
+            _type = value;
+        }
+
+        public function get value():String
+        {
+            return _value;
+        }
+
+        public function set value(value:String):void
+        {
+            _value = value;
+        }
+
+        public function get abbrev():String
+        {
+            return _abbrev;
+        }
+
+        public function set abbrev(value:String):void
+        {
+            _abbrev = value;
+        }
+
+        public function get text():String
+        {
+            return _text;
+        }
+
+        public function set text(value:String):void
+        {
+            _text = value;
+        }
+    }
 }
