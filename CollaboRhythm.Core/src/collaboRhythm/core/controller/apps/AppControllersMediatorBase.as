@@ -153,6 +153,8 @@ package collaboRhythm.core.controller.apps
 
 			// TODO: find the groups by id instead of index
 			createAppsForGroup(0);
+            _factory.widgetParentContainer = _scheduleWidgetParentContainer;
+			createAppsForGroup(1);
 
 			showAllWidgets();
         }

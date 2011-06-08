@@ -85,7 +85,7 @@ package collaboRhythm.workstation.controller
 
             initWindows();
 			_logger.info("Windows initialized");
-
+//            moved this until after the primary window creationComplete event is fired so that the appropriate views are available
 //            initCollaborationController(_collaborationView);
 //            _logger.info("Collaboration controller initialized");
 //

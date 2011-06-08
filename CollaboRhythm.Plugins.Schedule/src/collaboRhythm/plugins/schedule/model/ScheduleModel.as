@@ -229,12 +229,12 @@ package collaboRhythm.plugins.schedule.model
 		public function openScheduleGroupReportingView(scheduleGroup:ScheduleGroup):void
 		{
 			_currentScheduleGroup = scheduleGroup;
-			currentWidgetView = SCHEDULE_GROUP_REPORTING_VIEW;
+//			currentWidgetView = SCHEDULE_GROUP_REPORTING_VIEW;
 		}
 		
 		public function closeScheduleGroupReportingView():void
 		{
-			currentWidgetView = SCHEDULE_CLOCK_VIEW;
+//			currentWidgetView = SCHEDULE_CLOCK_VIEW;
 		}
 		
 		public function createAdherenceItem(scheduleGroup:ScheduleGroup, scheduleItem:ScheduleItemBase, adherenceItem:AdherenceItem):void
@@ -463,7 +463,7 @@ package collaboRhythm.plugins.schedule.model
 		{
 			// TODO: Revise scheduled vs. unscheduled
 			scheduleItem.scheduled = true;
-			if (scheduleItem.scheduled == true)
+			if (scheduleItem.scheduled)
 			{
 				var adherenceGroup:AdherenceGroup;
 				if (_adherenceGroupsVector[scheduleItem.hour-1] == null)

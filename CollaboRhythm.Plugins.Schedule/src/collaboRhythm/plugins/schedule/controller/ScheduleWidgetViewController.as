@@ -25,19 +25,23 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.plugins.schedule.view.ScheduleWidgetView;
 	import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
 
-	public class ScheduleWidgetViewController
+    import mx.core.IVisualElementContainer;
+
+    public class ScheduleWidgetViewController
 	{
 		private var _isWorkstationMode:Boolean;
 		private var _scheduleModel:ScheduleModel;
 		private var _scheduleWidgetView:ScheduleWidgetView;
+        private var _fullParentContainer:IVisualElementContainer;
 		private var _localUserName:String;
 		private var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
 		
-		public function ScheduleWidgetViewController(isWorkstationMode:Boolean, scheduleModel:ScheduleModel, scheduleWidgetView:ScheduleWidgetView)//, localUserName:String, collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy)
+		public function ScheduleWidgetViewController(isWorkstationMode:Boolean, scheduleModel:ScheduleModel, scheduleWidgetView:ScheduleWidgetView, fullParentContainer:IVisualElementContainer)//, localUserName:String, collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy)
 		{
 			_isWorkstationMode = isWorkstationMode;
 			_scheduleModel = scheduleModel;
 			_scheduleWidgetView = scheduleWidgetView;
+            _fullParentContainer = fullParentContainer;
 //			_localUserName = localUserName;
 //			_collaborationRoomNetConnectionServiceProxy = collaborationRoomNetConnectionServiceProxy;
 //			_collaborationRoomNetConnectionServiceProxy.synchronizeHandler = this;
@@ -52,7 +56,8 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			if (!_isWorkstationMode)
 			{
-				_scheduleModel.openScheduleGroupReportingView(scheduleGroup);
+                _scheduleModel.openScheduleGroupReportingView(scheduleGroup);
+				_scheduleWidgetView.showScheduleGroupReportingView();
 			}
 		}
 		

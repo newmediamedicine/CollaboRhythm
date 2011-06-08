@@ -35,6 +35,7 @@ package collaboRhythm.shared.model
         private var _problemsModel:ProblemsModel;
         private var _medicationsModel:MedicationsModel;
         private var _equipmentModel:EquipmentModel;
+        private var _adherenceItemsModel:AdherenceItemsModel;
         private var _videoMessagesModel:VideoMessagesModel1;
         private var _appData:HashMap = new HashMap();
         private var _settings:Settings;
@@ -58,6 +59,7 @@ package collaboRhythm.shared.model
             _problemsModel = new ProblemsModel(_settings, _activeAccount, this);
             _medicationsModel = new MedicationsModel(_settings, _activeAccount, this);
             _equipmentModel = new EquipmentModel(_settings, _activeAccount, this);
+            _adherenceItemsModel = new AdherenceItemsModel(_settings, _activeAccount, this);
             _videoMessagesModel = new VideoMessagesModel1(_settings, _activeAccount, this);
         }
 
@@ -66,6 +68,7 @@ package collaboRhythm.shared.model
             _problemsModel.getProblems();
             _medicationsModel.getMedications();
             _equipmentModel.getEquipment();
+            _adherenceItemsModel.getAdherenceItems();
             _videoMessagesModel.getVideoMessages();
         }
 
@@ -149,6 +152,16 @@ package collaboRhythm.shared.model
         public function set equipmentModel(value:EquipmentModel):void
         {
             _equipmentModel = value;
+        }
+
+        public function get adherenceItemsModel():AdherenceItemsModel
+        {
+            return _adherenceItemsModel;
+        }
+
+        public function set adherenceItemsModel(value:AdherenceItemsModel):void
+        {
+            _adherenceItemsModel = value;
         }
 
         public function get videoMessagesModel():VideoMessagesModel1

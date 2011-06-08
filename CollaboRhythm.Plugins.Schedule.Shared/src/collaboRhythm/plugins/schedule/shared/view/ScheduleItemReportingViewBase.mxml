@@ -32,25 +32,24 @@
         public static const SCHEDULE_ITEM_REPORTING_VIEW_PICTURE_HEIGHT:Number = 120;
         public static const SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT:Number = 122;
 
-        [Bindable]
-        private var _scheduleItem:ScheduleItemBase;
+//        [Bindable]
+//        private var _scheduleItem:ScheduleItemBase;
         protected var _parentGroup:Group;
-
-        public function init(scheduleItem:ScheduleItemBase, parentGroup:Group):void
+//
+        public function init2(parentGroup:Group):void
         {
-            _scheduleItem = scheduleItem;
             _parentGroup = parentGroup;
         }
-
+//
         public function get scheduleItem():ScheduleItemBase
         {
-            return _scheduleItem;
+            throw new Error("virtual function must be overridden in subclass");
         }
 
         public function dispatchAdherenceItemEvent(adherenceItem:AdherenceItem):void
         {
             dispatchEvent(new ScheduleItemReportingViewEventHandler(ScheduleItemReportingViewEventHandler.ADHERENCE_ITEM_CREATED,
-                                                                    _scheduleItem, adherenceItem));
+                                                                    scheduleItem, adherenceItem));
         }
         ]]>
 	</fx:Script>

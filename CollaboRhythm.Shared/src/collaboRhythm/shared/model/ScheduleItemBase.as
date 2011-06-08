@@ -81,9 +81,15 @@ package collaboRhythm.shared.model
 //			return scheduleItemFullView;
 //		}
 
+
         public function get scheduleItemXml():XML
         {
             return _scheduleItemXml;
+        }
+
+        public function set scheduleItemXml(value:XML):void
+        {
+            _scheduleItemXml = value;
         }
 
         public function get name():CodedValue
@@ -91,9 +97,19 @@ package collaboRhythm.shared.model
             return _name;
         }
 
+        public function set name(value:CodedValue):void
+        {
+            _name = value;
+        }
+
         public function get scheduledBy():String
         {
             return _scheduledBy;
+        }
+
+        public function set scheduledBy(value:String):void
+        {
+            _scheduledBy = value;
         }
 
         public function get dateScheduled():Date
@@ -101,9 +117,19 @@ package collaboRhythm.shared.model
             return _dateScheduled;
         }
 
+        public function set dateScheduled(value:Date):void
+        {
+            _dateScheduled = value;
+        }
+
         public function get dateStart():Date
         {
             return _dateStart;
+        }
+
+        public function set dateStart(value:Date):void
+        {
+            _dateStart = value;
         }
 
         public function get dateEnd():Date
@@ -111,14 +137,29 @@ package collaboRhythm.shared.model
             return _dateEnd;
         }
 
+        public function set dateEnd(value:Date):void
+        {
+            _dateEnd = value;
+        }
+
         public function get recurrenceRule():RecurrenceRule
         {
             return _recurrenceRule;
         }
 
+        public function set recurrenceRule(value:RecurrenceRule):void
+        {
+            _recurrenceRule = value;
+        }
+
         public function get instructions():String
         {
             return _instructions;
+        }
+
+        public function set instructions(value:String):void
+        {
+            _instructions = value;
         }
     }
 }

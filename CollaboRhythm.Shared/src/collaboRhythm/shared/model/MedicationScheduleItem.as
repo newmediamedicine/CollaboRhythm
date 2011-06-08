@@ -40,11 +40,7 @@ package collaboRhythm.shared.model
 //            _scheduledActionID = scheduleItemReportXML.Meta.Document.relatesTo.relation.relatedDocument.@id;
 //			_scheduleGroupID =  scheduleItemReportXML.Meta.Document.isRelatedFrom.relation.relatedDocument[0].@id;
         }
-		
-		public function get dose():ValueAndUnit
-		{
-			return _dose;
-		}
+
 		
 //		public function get scheduledActionID():String
 //		{
@@ -94,6 +90,16 @@ package collaboRhythm.shared.model
 
         public function set scheduledMedicationOrder(value:MedicationOrder):void {
             _scheduledMedicationOrder = value;
+        }
+
+        public function get dose():ValueAndUnit
+        {
+            return _dose;
+        }
+
+        public function set dose(value:ValueAndUnit):void
+        {
+            _dose = value;
         }
     }
 }

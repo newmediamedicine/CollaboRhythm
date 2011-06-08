@@ -79,8 +79,8 @@ package collaboRhythm.plugins.schedule.controller
 			var newWidgetView:ScheduleWidgetView = new ScheduleWidgetView();
 			if (_activeRecordAccount != null)
 			{
-				_scheduleWidgetViewController = new ScheduleWidgetViewController(isWorkstationMode, scheduleModel, newWidgetView);//, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
-				newWidgetView.init(_scheduleWidgetViewController, scheduleModel);
+				_scheduleWidgetViewController = new ScheduleWidgetViewController(isWorkstationMode, scheduleModel, newWidgetView, _fullParentContainer);//, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
+				newWidgetView.init(_scheduleWidgetViewController, scheduleModel, _fullParentContainer);
 			}
 			return newWidgetView;
 		}
@@ -128,8 +128,8 @@ package collaboRhythm.plugins.schedule.controller
 			
 			if (_widgetView)
 			{
-				_scheduleWidgetViewController = new ScheduleWidgetViewController(isWorkstationMode, scheduleModel, _widgetView);//, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
-				(_widgetView as ScheduleWidgetView).init(_scheduleWidgetViewController, scheduleModel);
+				_scheduleWidgetViewController = new ScheduleWidgetViewController(isWorkstationMode, scheduleModel, _widgetView, _fullParentContainer);//, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
+				(_widgetView as ScheduleWidgetView).init(_scheduleWidgetViewController, scheduleModel, _fullParentContainer);
 			}
 			prepareFullView();
 		}
