@@ -320,6 +320,16 @@
 		</exec>
 	</target>
 
+	<target name="get_collaboRhythm_log"
+			description="Copies the collaboRhythm.log file from the device to collaboRhythmDevice.log in the Local Store folder">
+		<echo>Pulling "${collaboRhythm.application-device.log}" to "${app.data}/${APP_ID}/Local Store/collaboRhythmDevice.log"</echo>
+		<exec executable="${ADB}">
+			<arg value="pull"/>
+			<arg value="${collaboRhythm.application-device.log}"/>
+			<arg value="${app.data}/${APP_ID}/Local Store/collaboRhythmDevice.log"/>
+		</exec>
+	</target>
+
 	<target name="run_app_on_device"
 			description="Runs the application on the device">
 		<exec executable="${ADB}">

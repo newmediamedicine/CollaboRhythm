@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="McCuneChart.demos" type="AirRunConfigurationType" factoryName="AIR" adl_options="" air_descriptor_path="$PROJECT_DIR$/McCuneChart.demos/src/McCuneChartDemo-app.xml" air_program_params="" air_publisher_id="" air_root_dir_path="$PROJECT_DIR$/McCuneChart.demos/bin-debug" air_run_mode="AppDescriptor" browser_family="FIREFOX" debugger_sdk="Module SDK" html_or_swf_file_path="" launcher_type="OSDefault" main_class_name="McCuneChartDemo" module_name="McCuneChart.demos" player_path="FlashPlayer.exe" run_mode="HtmlOrSwfFile" run_trusted="false" url_to_launch="http://">
+    <RunnerSettings RunnerId="FlexDebugRunner" />
+    <RunnerSettings RunnerId="FlexRunner" />
+    <ConfigurationWrapper RunnerId="FlexDebugRunner" />
+    <ConfigurationWrapper RunnerId="FlexRunner" />
+    <method />
+  </configuration>
+</component>

@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="CollaboRhythm.Tablet Emulator" type="AirMobileRunConfigurationType" factoryName="AIR Mobile" adl_options="" air_descriptor_path="$PROJECT_DIR$/CollaboRhythm.Tablet/bin-debug/CollaboRhythmTabletApplication-app.xml" air_program_params="" air_publisher_id="" air_root_dir_path="$PROJECT_DIR$/CollaboRhythm.Tablet/bin-debug" air_run_mode="AppDescriptor" browser_family="FIREFOX" debugger_sdk="Module SDK" html_or_swf_file_path="" launcher_type="OSDefault" main_class_name="CollaboRhythmTabletApplication" module_name="CollaboRhythm.Tablet" player_path="FlashPlayer.exe" run_mode="HtmlOrSwfFile" run_trusted="false" url_to_launch="http://">
+    <option name="airMobileRunMode" value="AppDescriptor" />
+    <option name="airMobileRunTarget" value="Emulator" />
+    <option name="debugTransport" value="USB" />
+    <option name="emulator" value="Other" />
+    <option name="fullScreenHeight" value="800" />
+    <option name="fullScreenWidth" value="1280" />
+    <option name="screenHeight" value="800" />
+    <option name="screenWidth" value="1280" />
+    <option name="usbDebugPort" value="7936" />
+    <RunnerSettings RunnerId="FlexDebugRunner" />
+    <ConfigurationWrapper RunnerId="FlexDebugRunner" />
+    <method />
+  </configuration>
+</component>
