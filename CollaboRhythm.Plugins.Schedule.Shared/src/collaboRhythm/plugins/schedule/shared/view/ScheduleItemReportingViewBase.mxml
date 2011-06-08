@@ -34,13 +34,12 @@
 
 //        [Bindable]
 //        private var _scheduleItem:ScheduleItemBase;
-//        protected var _parentGroup:Group;
+        protected var _parentGroup:Group;
 //
-//        public function init(scheduleItem:ScheduleItemBase, parentGroup:Group):void
-//        {
-//            _scheduleItem = scheduleItem;
-//            _parentGroup = parentGroup;
-//        }
+        public function init2(parentGroup:Group):void
+        {
+            _parentGroup = parentGroup;
+        }
 //
         public function get scheduleItem():ScheduleItemBase
         {
