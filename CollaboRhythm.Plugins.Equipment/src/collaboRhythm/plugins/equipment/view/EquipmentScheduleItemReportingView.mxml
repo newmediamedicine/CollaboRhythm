@@ -80,11 +80,11 @@
 
         private function adherenceButtonClickHandler(event:MouseEvent):void
         {
-//            _bloodPressureReportingView = new BloodPressureReportingView();
-//            _bloodPressureReportingView.percentWidth = 100;
-//            _bloodPressureReportingView.percentHeight = 100;
-//            _bloodPressureReportingView.init(this);
-//            _parentGroup.addElement(_bloodPressureReportingView);
+            _bloodPressureReportingView = new BloodPressureReportingView();
+            _bloodPressureReportingView.percentWidth = 100;
+            _bloodPressureReportingView.percentHeight = 100;
+            _bloodPressureReportingView.init(this);
+            _parentGroup.addElement(_bloodPressureReportingView);
 //				var vitalSign:VitalSign = new VitalSign();
 //				vitalSign.init(_equipment.name, "gwhite@records.media.mit.edu", new Date(), new Date(), _equipment.dose);
 //				var adherenceItem:AdherenceItem = new AdherenceItem();
