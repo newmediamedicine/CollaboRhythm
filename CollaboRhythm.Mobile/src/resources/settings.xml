@@ -28,19 +28,9 @@
 	<oauthChromeConsumerKey>collaboRhythmChrome</oauthChromeConsumerKey>
 	<oauthChromeConsumerSecret>collaboRhythmChrome_secret93452</oauthChromeConsumerSecret>
 	<demoDatePresets>
-		<demoDatePreset>2010-01-07T00:00:00-5:00</demoDatePreset>
-		<demoDatePreset>2010-02-08T00:00:00-5:00</demoDatePreset>
-		<demoDatePreset>2010-02-13T00:00:00-5:00</demoDatePreset>
+		<demoDatePreset>2010-01-13T00:00:00-5:00</demoDatePreset>
+		<demoDatePreset>2010-01-14T00:00:00-5:00</demoDatePreset>
+		<demoDatePreset>2010-02-04T00:00:00-5:00</demoDatePreset>
+		<demoDatePreset>2010-02-17T00:00:00-5:00</demoDatePreset>
 	</demoDatePresets>
-
-<!--
-	useSingleScreen - If no valid windowSettings.xml file exists or resetWindowSettings = true, then force the app to only use a single screen (one window)
-	resetWindowSettings - Ignore the windowSettings.xml and reset the position/size of all windows 
-	<resetWindowSettings>true</resetWindowSettings>
-  <useSingleScreen>true</useSingleScreen>
-  
-	targetDate can be used for a demo to change the current date
-	Note that the current time of day will not be changed (it will be based on real time) but the date will be offset to match the targetDate
-  <targetDate>2010/01/01</targetDate>
--->
 </settings>

@@ -17,24 +17,14 @@
   -->
 <settings xmlns="http://collaborhythm.org/application/settings">
 	<mode>patient</mode>
-	<username>rpoole</username>
-	<password>rpoole-dope75</password>
-	<useFileTarget>true</useFileTarget>
-	<useTraceTarget>false</useTraceTarget>
-	<useSyslogTarget>false</useSyslogTarget>
-	<syslogServerIpAddress>18.85.55.246</syslogServerIpAddress>
-	<rtmpBaseURI>rtmp://18.85.55.246</rtmpBaseURI>
-	<indivoServerBaseURL>http://184.106.136.151:8000</indivoServerBaseURL>
-
-<!--	<mode>clinician</mode>
-	<username>mloomis</username>
-	<password>mloomis-password</password>
+	<username>gwhite</username>
+	<password>gwhite-password</password>
 	<useFileTarget>true</useFileTarget>
 	<useTraceTarget>false</useTraceTarget>
 	<useSyslogTarget>false</useSyslogTarget>
 	<syslogServerIpAddress>127.0.0.1</syslogServerIpAddress>
 	<rtmpBaseURI>rtmp://127.0.0.1</rtmpBaseURI>
-	<indivoServerBaseURL>http://records.media.mit.edu:8000</indivoServerBaseURL>-->
+	<indivoServerBaseURL>http://records.media.mit.edu:8000</indivoServerBaseURL>
 	<oauthChromeConsumerKey>collaboRhythmChrome</oauthChromeConsumerKey>
 	<oauthChromeConsumerSecret>collaboRhythmChrome_secret93452</oauthChromeConsumerSecret>
 	<demoDatePresets>
@@ -43,23 +33,14 @@
 		<demoDatePreset>2010-02-04T00:00:00-5:00</demoDatePreset>
 		<demoDatePreset>2010-02-17T00:00:00-5:00</demoDatePreset>
 	</demoDatePresets>
-<!--	<appGroups>
+<!--
+	<appGroups>
 		<appGroup id="standard">
 			<appDescriptors>
 				<appDescriptor>collaboRhythm.plugins.schedule.controller::ScheduleAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::BloodPressureAppController</appDescriptor>
 			</appDescriptors>
 		</appGroup>
-	</appGroups>-->
-
-<!--
-	useSingleScreen - If no valid windowSettings.xml file exists or resetWindowSettings = true, then force the app to only use a single screen (one window)
-	resetWindowSettings - Ignore the windowSettings.xml and reset the position/size of all windows 
-	<resetWindowSettings>true</resetWindowSettings>
-  <useSingleScreen>true</useSingleScreen>
-  
-	targetDate can be used for a demo to change the current date
-	Note that the current time of day will not be changed (it will be based on real time) but the date will be offset to match the targetDate
-  <targetDate>2010/01/01</targetDate>
+	</appGroups>
 -->
 </settings>
