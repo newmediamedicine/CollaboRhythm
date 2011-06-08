@@ -68,7 +68,7 @@
             for each (var scheduleItem:ScheduleItemBase in _scheduleGroup.scheduleItemsCollection)
             {
                 var scheduleItemReportingView:ScheduleItemReportingViewBase = _scheduleGroup.scheduleModel.viewFactory.createScheduleItemReportingView(scheduleItem);
-//                scheduleItemReportingView.init(scheduleItem, this);
+                scheduleItemReportingView.init2(this);
                 scheduleItemsContainer.addElement(scheduleItemReportingView);
             }
         }
