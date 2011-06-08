@@ -88,9 +88,9 @@ package collaboRhythm.shared.model.settings
 
 		public function readSettings():void
         {
-            readSettingsFromEmbeddedFile(applicationSettingsEmbeddedFile);
+            _isApplicationSettingsLoaded = readSettingsFromEmbeddedFile(applicationSettingsEmbeddedFile);
 
-            readSettingsFromFile(userSettingsFile);
+            _isUserSettingsLoaded = readSettingsFromFile(userSettingsFile);
         }
 
 		public function get userSettingsFile():File
@@ -102,10 +102,10 @@ package collaboRhythm.shared.model.settings
 			return new File(nativePath);
 		}
 
-        private function readSettingsFromFile(file:File):void
+        private function readSettingsFromFile(file:File):Boolean
 		{
 			if (!file.exists)
-				return;
+				return false;
 
 			var fileStream:FileStream = new FileStream();
 
@@ -116,15 +116,15 @@ package collaboRhythm.shared.model.settings
 			catch (error:Error)
 			{
 				trace("File exists but could not be read: ", file.nativePath);
-				return;
+				return false;
 			}
 
 			var preferencesXML:XML = XML(fileStream.readUTFBytes(fileStream.bytesAvailable));
 			fileStream.close();
-            _isApplicationSettingsLoaded = loadSettings("Settings file \"" + file.nativePath + "\"", preferencesXML);
+            return loadSettings("Settings file \"" + file.nativePath + "\"", preferencesXML);
         }
 
-		private function readSettingsFromEmbeddedFile(embeddedFile:Class):void
+		private function readSettingsFromEmbeddedFile(embeddedFile:Class):Boolean
 		{
 			if (!embeddedFile)
 				throw new Error("Failed to load embedded file");
@@ -138,7 +138,7 @@ package collaboRhythm.shared.model.settings
 				throw new Error("Failed to load embedded settings.xml file.");
 
 			var preferencesXML:XML = XML(byteArray.readUTFBytes(byteArray.length));
-            _isUserSettingsLoaded = loadSettings("Embedded (application level) settings.xml file", preferencesXML);
+            return loadSettings("Embedded (application level) settings.xml file", preferencesXML);
         }
 
         private function loadSettings(fileSourceDescription:String, preferencesXML:XML):Boolean

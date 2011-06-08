@@ -79,7 +79,9 @@
 
          -->
 	<property file="local.properties" />
-    <property file="build.properties" />
+	<property file="../CollaboRhythm.Shared.PluginsSupport/deploy/local.properties" />
+	<property file="build.properties" />
+	<property file="../CollaboRhythm.Shared.PluginsSupport/deploy/build.properties" />
 
 
     <!-- The default.properties file is created and updated by the 'android' tool, as well
@@ -87,6 +89,7 @@
          This file is an integral part of the build system for your application and
          should be checked in in Version Control Systems. -->
 	<property file="default.properties" />
+	<property file="../CollaboRhythm.Shared.PluginsSupport/deploy/default.properties" />
 
 <!-- TODO: Use contributed taskdef to do a "for" loop
     <taskdef resource="net/sf/antcontrib/antlib.xml">
@@ -133,14 +136,38 @@
 		<copy todir="${collaboRhythm.mobile-emulator.pluginsPath}" flatten="true" verbose="true">
 			<fileset refid="project.output.modulePaths.fileset" />
 		</copy>
-		
+		<copy todir="${collaboRhythm.tablet-emulator.pluginsPath}" flatten="true" verbose="true">
+			<fileset refid="project.output.modulePaths.fileset" />
+		</copy>
+
+		<!-- TODO: eliminate the error message for when the directory already exists -->
+		<exec executable="${sdk.dir}/platform-tools/adb">
+			<arg value="shell"/>
+			<arg value="mkdir"/>
+			<arg value="${collaboRhythm.mobile-device.pluginsPath}"/>
+		</exec>
+
 		<echo>Pushing ${toString:project.output.modulePaths} to ${collaboRhythm.mobile-device.pluginsPath}</echo>
 		<exec executable="${sdk.dir}/platform-tools/adb">
 			<arg value="push"/>
 			<arg value="${toString:project.output.modulePaths}"/> <!-- Note: this only works if there is just one matching plugin file -->
 			<arg value="${collaboRhythm.mobile-device.pluginsPath}"/>
 		</exec>
-		
+
+		<!-- TODO: eliminate the error message for when the directory already exists -->
+		<exec executable="${sdk.dir}/platform-tools/adb">
+			<arg value="shell"/>
+			<arg value="mkdir"/>
+			<arg value="${collaboRhythm.tablet-device.pluginsPath}"/>
+		</exec>
+
+		<echo>Pushing ${toString:project.output.modulePaths} to ${collaboRhythm.tablet-device.pluginsPath}</echo>
+		<exec executable="${sdk.dir}/platform-tools/adb">
+			<arg value="push"/>
+			<arg value="${toString:project.output.modulePaths}"/> <!-- Note: this only works if there is just one matching plugin file -->
+			<arg value="${collaboRhythm.tablet-device.pluginsPath}"/>
+		</exec>
+
 		<echo>Deployment of plugin complete. ------------------------|</echo>
 	</target>
 </project>

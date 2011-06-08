@@ -55,7 +55,9 @@
           <root url="jar://$MODULE_DIR$/lib/oauth-as3.swc!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="file://$USER_HOME$/Documents/FlashBuilder/oauth-as3/src" />
+        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">

@@ -19,7 +19,7 @@
 	<mode>patient</mode>
 	<username>rpoole</username>
 	<password>rpoole-dope75</password>
-	<useFileTarget>false</useFileTarget>
+	<useFileTarget>true</useFileTarget>
 	<useTraceTarget>false</useTraceTarget>
 	<useSyslogTarget>false</useSyslogTarget>
 	<syslogServerIpAddress>18.85.55.246</syslogServerIpAddress>
@@ -52,7 +52,7 @@
 		</appGroup>
 	</appGroups>-->
 
-<!--  
+<!--
 	useSingleScreen - If no valid windowSettings.xml file exists or resetWindowSettings = true, then force the app to only use a single screen (one window)
 	resetWindowSettings - Ignore the windowSettings.xml and reset the position/size of all windows 
 	<resetWindowSettings>true</resetWindowSettings>

@@ -15,11 +15,13 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<project name="Build CollaboRhythm.Mobile" basedir="." default="build">
+<project name="Deploy user settings.xml to device for CollaboRhythm.Mobile" basedir="." default="deploy_user_settings">
 	
 	<!-- file description -->
 	<description>Build Script</description>
 	
+	<property file="${basedir}/local.properties" />
+
 	<!--location of property file -->
 	<property file="${basedir}/build.properties" description="your specific properties for builds" />
 
@@ -46,8 +48,6 @@
 -->
 
 <!--		<entry key="collaboRhythm.pluginDeployment.lastDeployedDate" type="date" value="now" pattern="EEE, dd MMM yyyy HH:mm:ss z"/> -->
-	<property file="local.properties" />
-	<property file="${basedir}/local.properties" />
 
 	<property file="${basedir}/base.properties" description="base properties for builds" />
 	
@@ -312,10 +312,11 @@
 
 	<target name="deploy_user_settings"
 			description="Copies the user settings file from the local (emulator) instance of the application to the device">
+		<echo>Pushing "${app.data}/${APP_ID}/Local Store/settings.xml" to "${collaboRhythm.application-device.local-store}"</echo>
 		<exec executable="${ADB}">
 			<arg value="push"/>
 			<arg value="${app.data}/${APP_ID}/Local Store/settings.xml"/>
-			<arg value="${collaboRhythm.mobile-device.local-store}"/>
+			<arg value="${collaboRhythm.application-device.local-store}"/>
 		</exec>
 	</target>
 
