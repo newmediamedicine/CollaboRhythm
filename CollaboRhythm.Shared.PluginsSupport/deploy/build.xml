@@ -15,30 +15,33 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<project name="CollaboRhythm.Shared.PluginsSupport.PluginDeployment" default="deploy">
+<project name="PluginDeployment" default="deploy_all_plugins">
 
 	<!--
-		This is a build script for deploying a CollaboRhythm plugin. It currently deploys the plugin to
-		three locations:
+		This is a build script for deploying a CollaboRhythm plugins. It currently deploys plugins to the following
+		locations:
 			1. The plugins folder on the local development machine for CollaboRhythm.Workstation (which should be run/debugged locally)
 			2. The plugins folder on the local development machine for CollaboRhythm.Mobile (which should be run/debugged locally via the emulator)
-			3. The plugins folder on a connected Android device for CollaboRhythm.Mobile (which should be run/debugged on the device)
-			
-		Note that this script does NOT currently build the plugin project. Instead, it relies on Flash Builder to build the project and generate
+			3. The plugins folder on the local development machine for CollaboRhythm.Tablet (which should be run/debugged locally via the emulator)
+			4. The plugins folder on a connected Android device for CollaboRhythm.Mobile (which should be run/debugged on the device)
+			5. The plugins folder on a connected Android device for CollaboRhythm.Tablet (which should be run/debugged on the device)
+
+		Note that this script does NOT build the plugin project. Instead, it relies on your IDE to build the project and generate
 		the appropriate module SWF. This script is ONLY for deploying the plugin.
 	-->
 	
 	<!--
 		The sdk.dir is the path to the Android SDK on your local machine.
 		To override this value on your local machine, you should
-			1. Attempt to deploy using this script. Thid should create a file named local.properties in the working directory.
+			1. Create a file named local.properties in the same directory as this build script.
 			2. Open the local.properties file.
-			3. Modify the value for sdk.dir and save the file.
+			3. Modify the value for sdk.dir and save the file. On Windows, backslashes in the path must be escaped as follows:
+				sdk.dir=C:\\Program Files (x86)\\Android\\android-sdk-windows
 			4. Attempt to deploy again.
 			
 		Creating a local.properties file can (in theory) also be done using the 'android' tool.
 
-		local.properties should *NOT* be checked in in Version Control Systems.
+		local.properties should *NOT* be checked-in to Version Control Systems.
 	-->
 	
 	<property environment="env"/>
@@ -78,6 +81,14 @@
          should be checked in in Version Control Systems.
 
          -->
+
+	<!--
+		Note that we look for .properties files in two places:
+			1.	The current base directory. This allows for settings to be (optionally) read from the directory of a
+				specific plugin.
+			2.	The CollaboRhythm.Shared.PluginsSupport/deploy directory. This allows us to maintain a single copy of
+				each properties file for all of the plugins and thus avoid duplication.
+	-->
 	<property file="local.properties" />
 	<property file="../CollaboRhythm.Shared.PluginsSupport/deploy/local.properties" />
 	<property file="build.properties" />
@@ -91,19 +102,11 @@
 	<property file="default.properties" />
 	<property file="../CollaboRhythm.Shared.PluginsSupport/deploy/default.properties" />
 
-<!-- TODO: Use contributed taskdef to do a "for" loop
-    <taskdef resource="net/sf/antcontrib/antlib.xml">
-        <classpath>
-            <pathelement location="/path/to/ant-contrib-1.0b3.jar"/>
-        </classpath>
-    </taskdef>
--->
+	<target name="deploy" description="Deploys one specific plugin module SWF file.">
+	
+		<!-- The Location you wish to output to on your Computer -->
+		<property name="project.output.binaryPath" location="${basedir}/bin-debug"/>
 
-	<!-- The Location you wish to output to on your Computer -->
-	<property name="project.output.binaryPath" location="${basedir}/bin-debug"/>
-	
-	<target name="deploy" description="Deploys the plugin modules.">
-	
 		<!-- Copy all modules. Note that we don't have a good way to distinguish module SWFs from other SWFs,
 			 so we are relying on the convention of including Module or Plugin in the name of the plugin module SWFs -->
 		
@@ -169,5 +172,58 @@
 		</exec>
 
 		<echo>Deployment of plugin complete. ------------------------|</echo>
+	</target>
+
+	<target name="deploy_all_plugins" description="Deploys all of the plugins." depends="delete_all_plugins">
+	    <path id="project.build.pluginBuildScripts">
+			<fileset id="project.build.pluginBuildScripts.fileset" dir="../../" casesensitive="no"
+					excludes="${project.build.pluginBuildScripts.excludes}">
+				<include name="*CollaboRhythm.Plugins.*/build.xml"/>
+			</fileset>
+	    </path>
+
+		<echo>Found plugin build scripts: ${toString:project.build.pluginBuildScripts}</echo>
+
+		<!-- TODO: Use contributed taskdef to do a "for" loop -->
+		<taskdef resource="net/sf/antcontrib/antlib.xml">
+			<classpath>
+				<pathelement location="ant-contrib-1.0b3.jar"/>
+			</classpath>
+		</taskdef>
+
+		<for param="file" keepgoing="true">
+			<path refid="project.build.pluginBuildScripts"/>
+			<sequential>
+				<ant antfile="@{file}" dir="@{file}/../" target="deploy"/>
+			</sequential>
+		</for>
+	</target>
+
+	<target name="delete_all_plugins" description="Deletes all plugins from deployment folders (local and on device)">
+		<delete>
+			<fileset dir="${collaboRhythm.workstation.pluginsPath}" includes="*.swf"/>
+		</delete>
+		<delete>
+			<fileset dir="${collaboRhythm.mobile-emulator.pluginsPath}" includes="*.swf"/>
+		</delete>
+		<delete>
+			<fileset dir="${collaboRhythm.tablet-emulator.pluginsPath}" includes="*.swf"/>
+		</delete>
+		<exec executable="${sdk.dir}/platform-tools/adb">
+			<arg value="shell"/>
+			<arg value="cd"/>
+			<arg value='"${collaboRhythm.mobile-device.pluginsPath}"'/>
+			<arg value="&amp;&amp;"/>
+			<arg value="rm"/>
+			<arg value="*.swf"/>
+		</exec>
+		<exec executable="${sdk.dir}/platform-tools/adb">
+			<arg value="shell"/>
+			<arg value="cd"/>
+			<arg value='"${collaboRhythm.tablet-device.pluginsPath}"'/>
+			<arg value="&amp;&amp;"/>
+			<arg value="rm"/>
+			<arg value="*.swf"/>
+		</exec>
 	</target>
 </project>

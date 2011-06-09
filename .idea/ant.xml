@@ -2,6 +2,14 @@
 <project version="4">
   <component name="AntConfiguration">
     <defaultAnt bundledAnt="true" />
+    <buildFile url="file://$PROJECT_DIR$/CollaboRhythm.Shared.PluginsSupport/deploy/build.xml">
+      <additionalClassPath />
+      <antReference projectDefault="true" />
+      <customJdkName value="1.6" />
+      <maximumHeapSize value="128" />
+      <maximumStackSize value="2" />
+      <properties />
+    </buildFile>
     <buildFile url="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Schedule/build.xml">
       <additionalClassPath />
       <antReference projectDefault="true" />
