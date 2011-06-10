@@ -21,6 +21,13 @@ package collaboRhythm.shared.model.settings
 	[Bindable]
 	public class Settings
 	{
+		public static const MODE_CLINICIAN:String = "clinician";
+		public static const MODE_PATIENT:String = "patient";
+
+		public static const MODALITY_WORKSTATION:String = "workstation";
+		public static const MODALITY_MOBILE:String = "mobile";
+		public static const MODALITY_TABLET:String = "tablet";
+
 		private var _username:String;
 		private var _password:String;
         private var _useFileTarget:Boolean;
@@ -35,7 +42,7 @@ package collaboRhythm.shared.model.settings
 		private var _useSingleScreen:Boolean;
 		private var _resetWindowSettings:Boolean;
 		private var _targetDate:Date;
-		private var _isWorkstationMode:Boolean;
+		private var _modality:String;
 		private var _demoDatePresets:ArrayCollection;
 		private var _appGroups:ArrayCollection;
 
@@ -43,14 +50,19 @@ package collaboRhythm.shared.model.settings
 		{
 		}
 
-		public function get isWorkstationMode():Boolean
+		public function get modality():String
 		{
-			return _isWorkstationMode;
+			return _modality;
 		}
 
-		public function set isWorkstationMode(value:Boolean):void
+		public function set modality(value:String):void
 		{
-			_isWorkstationMode = value;
+			_modality = value;
+		}
+
+		public function get isWorkstationMode():Boolean
+		{
+			return modality == MODALITY_WORKSTATION;
 		}
 
 		public function get indivoServerBaseURL():String
@@ -195,12 +207,12 @@ package collaboRhythm.shared.model.settings
 
 		public function get isClinicianMode():Boolean
 		{
-			return _mode == "clinician";
+			return _mode == MODE_CLINICIAN;
 		}
 
 		public function get isPatientMode():Boolean
 		{
-			return _mode == "patient";
+			return _mode == MODE_PATIENT;
 		}
 
 		/**

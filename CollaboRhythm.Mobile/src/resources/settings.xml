@@ -33,4 +33,23 @@
 		<demoDatePreset>2010-02-04T00:00:00-5:00</demoDatePreset>
 		<demoDatePreset>2010-02-17T00:00:00-5:00</demoDatePreset>
 	</demoDatePresets>
+	<!--
+		Note that overriding appGroups in the user settings.xml file does not currently work so we are not defining any
+		default here (appGroups is commented out below) and appGroups MUST be defined in the user settings.xml.
+	-->
+<!--
+	<appGroups>
+		<appGroup id="standard">
+			<appDescriptors>
+				<appDescriptor>collaboRhythm.plugins.schedule.controller::ScheduleAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::BloodPressureChartAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::BloodPressureAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.plugins.cataractMap.controller::CataractMapAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.plugins.medications.controller::MedicationsAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.plugins.equipment.controller::EquipmentAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.plugins.problems.controller::ProblemsAppController</appDescriptor>
+			</appDescriptors>
+		</appGroup>
+	</appGroups>
+-->
 </settings>

@@ -121,8 +121,8 @@ package collaboRhythm.shared.model.settings
 
 			var preferencesXML:XML = XML(fileStream.readUTFBytes(fileStream.bytesAvailable));
 			fileStream.close();
-            return loadSettings("Settings file \"" + file.nativePath + "\"", preferencesXML);
-        }
+			return decodeXML("Settings file \"" + file.nativePath + "\"", preferencesXML);
+		}
 
 		private function readSettingsFromEmbeddedFile(embeddedFile:Class):Boolean
 		{
@@ -138,17 +138,8 @@ package collaboRhythm.shared.model.settings
 				throw new Error("Failed to load embedded settings.xml file.");
 
 			var preferencesXML:XML = XML(byteArray.readUTFBytes(byteArray.length));
-            return loadSettings("Embedded (application level) settings.xml file", preferencesXML);
-        }
-
-        private function loadSettings(fileSourceDescription:String, preferencesXML:XML):Boolean
-        {
-            var decodeResult:Boolean = decodeXML(fileSourceDescription, preferencesXML);
-
-            settings.isWorkstationMode = true;
-
-            return decodeResult;
-        }
+			return decodeXML("Embedded (application level) settings.xml file", preferencesXML);
+		}
 
 		/**
 		 * Decodes XML into ActionScript objects using the schema definitions within SchemaManager

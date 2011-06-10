@@ -33,6 +33,10 @@
 		<demoDatePreset>2010-02-04T00:00:00-5:00</demoDatePreset>
 		<demoDatePreset>2010-02-17T00:00:00-5:00</demoDatePreset>
 	</demoDatePresets>
+	<!--
+		Note that overriding appGroups in the user settings.xml file does not currently work so we are not defining any
+		default here (appGroups is commented out below) and appGroups MUST be defined in the user settings.xml.
+	-->
 <!--
 	<appGroups>
 		<appGroup id="standard">

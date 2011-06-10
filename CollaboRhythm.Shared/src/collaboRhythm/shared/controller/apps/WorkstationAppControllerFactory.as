@@ -36,7 +36,7 @@ package collaboRhythm.shared.controller.apps
 //		private var _healthRecordService:CommonHealthRecordService;
 		private var _user:User;
 		private var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
-		private var _isWorkstationMode:Boolean;
+		private var _modality:String;
         private var _activeAccount:Account;
         private var _activeRecordAccount:Account;
         private var _settings:Settings;
@@ -96,14 +96,14 @@ package collaboRhythm.shared.controller.apps
 			_collaborationRoomNetConnectionServiceProxy = value;
 		}
 
-		public function get isWorkstationMode():Boolean
+		public function get modality():String
 		{
-			return _isWorkstationMode;
+			return _modality;
 		}
 
-		public function set isWorkstationMode(value:Boolean):void
+		public function set modality(value:String):void
 		{
-			_isWorkstationMode = value;
+			_modality = value;
 		}
 
 		public function createApp(appClass:Class, appName:String=null):WorkstationAppControllerBase
@@ -111,7 +111,7 @@ package collaboRhythm.shared.controller.apps
 			var constructorParams:AppControllerConstructorParams = new AppControllerConstructorParams();
 			constructorParams.widgetParentContainer = _widgetParentContainer;
 			constructorParams.fullParentContainer = _fullParentContainer;
-			constructorParams.isWorkstationMode = _isWorkstationMode;
+			constructorParams.modality = _modality;
             constructorParams.activeAccount = _activeAccount;
             constructorParams.activeRecordAccount = _activeRecordAccount;
             constructorParams.settings = _settings;

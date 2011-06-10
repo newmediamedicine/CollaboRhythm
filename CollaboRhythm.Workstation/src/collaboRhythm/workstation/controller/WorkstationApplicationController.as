@@ -20,7 +20,8 @@ package collaboRhythm.workstation.controller
     import collaboRhythm.core.controller.ApplicationControllerBase;
     import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
     import collaboRhythm.shared.model.Account;
-    import collaboRhythm.shared.view.CollaborationView;
+	import collaboRhythm.shared.model.settings.Settings;
+	import collaboRhythm.shared.view.CollaborationView;
     import collaboRhythm.workstation.model.settings.ComponentLayout;
     import collaboRhythm.workstation.model.settings.WindowSettings;
     import collaboRhythm.workstation.model.settings.WindowSettingsDataStore;
@@ -82,6 +83,8 @@ package collaboRhythm.workstation.controller
         public override function main():void
         {
             super.main();
+
+			_settings.modality = Settings.MODALITY_WORKSTATION;
 
             initWindows();
 			_logger.info("Windows initialized");

@@ -72,7 +72,7 @@ package collaboRhythm.shared.controller.apps
 		private var _centerSpaceTransitionComponent:UIComponent;
 		
 		private var _name:String;
-		private var _isWorkstationMode:Boolean;
+		private var _modality:String;
         protected var _activeAccount:Account;
         protected var _activeRecordAccount:Account;
         protected var _settings:Settings;
@@ -84,7 +84,7 @@ package collaboRhythm.shared.controller.apps
 
 			_widgetParentContainer = constructorParams.widgetParentContainer;
 			_fullParentContainer = constructorParams.fullParentContainer;
-			_isWorkstationMode = constructorParams.isWorkstationMode;
+			_modality = constructorParams.modality;
             _activeAccount = constructorParams.activeAccount;
             _activeRecordAccount = constructorParams.activeRecordAccount;
             _settings = constructorParams.settings;
@@ -98,12 +98,17 @@ package collaboRhythm.shared.controller.apps
 
 		public function get isWorkstationMode():Boolean
 		{
-			return _isWorkstationMode;
+			return _modality == Settings.MODALITY_WORKSTATION;
 		}
 
 		public function get isMobileMode():Boolean
 		{
-			return !isWorkstationMode;
+			return _modality == Settings.MODALITY_MOBILE;
+		}
+
+		public function get isTabletMode():Boolean
+		{
+			return _modality == Settings.MODALITY_TABLET;
 		}
 
 		public function createAndPrepareWidgetView():void
@@ -426,7 +431,7 @@ package collaboRhythm.shared.controller.apps
 
 		protected function get shouldShowFullViewOnWidgetClick():Boolean
 		{
-			return _isWorkstationMode;
+			return _modality;
 		}
 		
 		private function widgetClickHandler(event:MouseEvent):void

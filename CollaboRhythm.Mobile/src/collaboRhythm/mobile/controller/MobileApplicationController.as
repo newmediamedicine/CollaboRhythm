@@ -21,7 +21,8 @@ package collaboRhythm.mobile.controller
     import collaboRhythm.mobile.view.WidgetContainerView;
     import collaboRhythm.shared.model.Account;
     import collaboRhythm.shared.model.services.DemoEvent;
-    import collaboRhythm.shared.view.CollaborationRoomView;
+	import collaboRhythm.shared.model.settings.Settings;
+	import collaboRhythm.shared.view.CollaborationRoomView;
     import collaboRhythm.shared.view.CollaborationView;
     import collaboRhythm.shared.view.RecordVideoView;
 
@@ -53,7 +54,7 @@ package collaboRhythm.mobile.controller
 		{
             super.main();
 
-            _settings.isWorkstationMode = false;
+            _settings.modality = Settings.MODALITY_MOBILE;
 
 //			_collaborationMediator = new MobileCollaborationMediator(this);
 			initCollaborationController(null);

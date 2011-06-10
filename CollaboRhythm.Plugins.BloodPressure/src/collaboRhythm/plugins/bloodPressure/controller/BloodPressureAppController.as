@@ -20,6 +20,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureFullView;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureMeterView;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureMobileWidgetView;
+	import collaboRhythm.plugins.bloodPressure.view.BloodPressureSimulationWidgetView;
 	import collaboRhythm.plugins.bloodPressure.view.IBloodPressureWidgetView;
 	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
@@ -78,8 +79,8 @@ package collaboRhythm.plugins.bloodPressure.controller
 		protected override function createWidgetView():UIComponent
 		{
 			var newWidgetView:IBloodPressureWidgetView;
-			if (isWorkstationMode)
-				newWidgetView = new BloodPressureMeterView();
+			if (isWorkstationMode || isTabletMode)
+				newWidgetView = new BloodPressureSimulationWidgetView();
 			else
 				newWidgetView = new BloodPressureMobileWidgetView();
 

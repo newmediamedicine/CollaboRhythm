@@ -26,7 +26,7 @@ import collaboRhythm.shared.model.Account;
 	{
 		private var _widgetParentContainer:IVisualElementContainer;
 		private var _fullParentContainer:IVisualElementContainer;
-		private var _isWorkstationMode:Boolean;
+		private var _modality:String;
         private var _activeAccount:Account;
         private var _activeRecordAccount:Account;
         private var _settings:Settings;
@@ -56,14 +56,14 @@ import collaboRhythm.shared.model.Account;
 			_fullParentContainer = value;
 		}
 
-		public function get isWorkstationMode():Boolean
+		public function get modality():String
 		{
-			return _isWorkstationMode;
+			return _modality;
 		}
 
-		public function set isWorkstationMode(value:Boolean):void
+		public function set modality(value:String):void
 		{
-			_isWorkstationMode = value;
+			_modality = value;
 		}
 
         public function get activeAccount():Account {

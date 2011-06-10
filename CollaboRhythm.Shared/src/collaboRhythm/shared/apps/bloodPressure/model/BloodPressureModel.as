@@ -34,6 +34,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		private var _simulation:SimulationModel = new SimulationModel();
 		private var _isSystolicReportLoaded:Boolean = false;
 		private var _isDiastolicReportLoaded:Boolean = false;
+		public static const RXNORM_HYDROCHLOROTHIAZIDE:String = "310798";
 
 		public function get simulation():SimulationModel
 		{
@@ -74,6 +75,33 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public function set adherenceDataCollection(value:ArrayCollection):void
 		{
 			_adherenceDataCollection = value;
+		}
+
+		public function initializeSimulationModel():void
+		{
+			if (isAdherenceLoaded && isSystolicReportLoaded && isDiastolicReportLoaded)
+			{
+				_simulation.date = _currentDateSource.now();
+
+				// TODO: generalize to multiple medications
+				var medication:MedicationComponentAdherenceModel = _simulation.getMedication(RXNORM_HYDROCHLOROTHIAZIDE);
+				if (adherenceDataCollection.length > 0 && medication)
+				{
+					var adherenceDataPoint:Object = adherenceDataCollection[adherenceDataCollection.length - 1];
+					_simulation.dataPointDate = adherenceDataPoint.date;
+					_simulation.concentration = adherenceDataPoint.concentration;
+					medication.concentration = adherenceDataPoint.concentration;
+				}
+
+				if (completeData.length > 0)
+				{
+					var data:Object = completeData[completeData.length - 1];
+					_simulation.systolic = data.systolic;
+					_simulation.diastolic = data.diastolic;
+				}
+
+				_simulation.mode = SimulationModel.MOST_RECENT_MODE;
+			}
 		}
 
 
@@ -226,6 +254,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 			}
 
 			isAdherenceLoaded = true;
+			initializeSimulationModel();
 		}
 
 		public function get isAdherenceLoaded():Boolean
@@ -331,7 +360,8 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 			if (_completeData)
 			{
-				extendBeginningOfAdherenceCurveCollection()
+				extendBeginningOfAdherenceCurveCollection();
+				initializeSimulationModel();
 			}
 		}
 

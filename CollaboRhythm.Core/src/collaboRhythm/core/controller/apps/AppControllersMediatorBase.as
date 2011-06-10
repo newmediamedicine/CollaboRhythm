@@ -275,7 +275,7 @@ package collaboRhythm.core.controller.apps
 			_factory.fullParentContainer = _fullParentContainer;
 //			_factory.healthRecordService = _healthRecordService;
 //			_factory.collaborationRoomNetConnectionServiceProxy = _collaborationRoomNetConnectionService.createProxy();
-			_factory.isWorkstationMode = _settings.isWorkstationMode;
+			_factory.modality = _settings.modality;
             _factory.activeAccount = activeAccount;
             _factory.activeRecordAccount = activeRecordAccount;
             _factory.settings = _settings;

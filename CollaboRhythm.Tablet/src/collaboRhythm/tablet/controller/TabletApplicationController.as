@@ -3,7 +3,8 @@ package collaboRhythm.tablet.controller
 
     import collaboRhythm.core.controller.ApplicationControllerBase;
     import collaboRhythm.shared.model.Account;
-    import collaboRhythm.shared.view.CollaborationView;
+	import collaboRhythm.shared.model.settings.Settings;
+	import collaboRhythm.shared.view.CollaborationView;
     import collaboRhythm.tablet.view.ActiveRecordView;
     import collaboRhythm.tablet.view.VideosView;
 
@@ -39,7 +40,7 @@ package collaboRhythm.tablet.controller
         {
             super.main();
 
-            _settings.isWorkstationMode = false;
+			_settings.modality = Settings.MODALITY_TABLET;
 
             initCollaborationController(null);
 

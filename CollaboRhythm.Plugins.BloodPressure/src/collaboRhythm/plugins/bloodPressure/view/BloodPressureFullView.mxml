@@ -455,7 +455,7 @@
 			var chart:ScrubChart = ScrubChart(event.target);
 
 			_adherenceCharts = new OrderedMap();
-			_adherenceCharts.addKeyValue("310798", chart);
+			_adherenceCharts.addKeyValue(BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE, chart);
 
 			chart.mainChart.series = new Array();
 			chart.mainChart.series.push(adherenceSeries);

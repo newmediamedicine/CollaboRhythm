@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:view2="collaboRhythm.shared.view.*"
+		 width="100%"
+		 height="100%"
+		 implements="collaboRhythm.plugins.bloodPressure.view.IBloodPressureWidgetView"
+		 xmlns:circulatorysystem="collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySystem.*">
+	<fx:Script><![CDATA[
+		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
+		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
+
+		private var _model:BloodPressureModel;
+
+		[Bindable]
+		public function get model():BloodPressureModel
+		{
+			return _model;
+		}
+
+		public function set model(value:BloodPressureModel):void
+		{
+			_model = value;
+		}
+
+		public function refresh():void
+		{
+		}
+		]]></fx:Script>
+
+	<s:Group id="simulationContentGroup"
+			 width="100%"
+			 height="100%"
+			>
+		<s:layout>
+			<view2:ScaleToFitLayout unscaledWidth="{hypertensionCirculatorySystem1.width}"
+									aspectRatioMin="{hypertensionCirculatorySystem1.width / hypertensionCirculatorySystem1.height}"
+									aspectRatioMax="{hypertensionCirculatorySystem1.width / hypertensionCirculatorySystem1.height}"/>
+		</s:layout>
+		<circulatorysystem:HypertensionCirculatorySystem1 id="hypertensionCirculatorySystem1"
+														  visible="{model.simulation.concentration &gt;= SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"
+				/>
+		<circulatorysystem:HypertensionCirculatorySystem2 id="hypertensionCirculatorySystem2"
+														  visible="{model.simulation.concentration &lt; SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"
+				/>
+	</s:Group>
+
+</s:Group>
