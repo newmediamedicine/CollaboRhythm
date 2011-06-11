@@ -36,7 +36,7 @@
 	<buttons:SimulationDetailButton
 			id="atenololButton"
 			x="400"
-			arrowTailY="{layoutDetailButtons(this.height, atenololButton.bottomExpansion, hydrochlorothiazideButton.bottomExpansion)}"
+			arrowTailY="{layoutDetailButtons(this.height, atenololButton.bottomExpansion, hydrochlorothiazideButton.bottomExpansion, details)}"
 			expanded="false"
 			listDataProvider="{atenololPlaceholderStepsListData}"
 			label="Atenolol"

@@ -128,31 +128,38 @@ package collaboRhythm.plugins.bloodPressure.view.simulation
 
 		protected function layoutDetailButtons(... rest):Number
 		{
-			var currentY:Number = this.height;
-
-			for (var i:int = details.length - 1; i >= 0; i--)
+			if (details)
 			{
-				var detail:SimulationDetail = details[i];
-				var button:SimulationDetailButton = detail.detailButton;
-				currentY -= button.height / 2 + button.bottomExpansion;
-				currentY = Math.min(currentY, detail.indicatedPoint.y);
-				button.arrowTailY = currentY;
-				currentY -= button.height / 2 + BUTTON_GAP;
-			}
+				var currentY:Number = this.height;
 
-			// If necessary, move buttons down so that first button is not off the top edge
-			currentY = 0;
-			for each (detail in details)
-			{
-				button = detail.detailButton;
-				currentY += button.height / 2;
-				currentY = Math.max(currentY, button.arrowTailY);
-				button.arrowTailY = currentY;
-				currentY += button.height / 2 + button.bottomExpansion + BUTTON_GAP;
+				for (var i:int = details.length - 1; i >= 0; i--)
+				{
+					var detail:SimulationDetail = details[i];
+					var button:SimulationDetailButton = detail.detailButton;
+					currentY -= button.height / 2 + button.bottomExpansion;
+					currentY = Math.min(currentY, detail.indicatedPoint.y);
+					button.arrowTailY = currentY;
+					currentY -= button.height / 2 + BUTTON_GAP;
+				}
+
+				// If necessary, move buttons down so that first button is not off the top edge
+				currentY = 0;
+				for each (detail in details)
+				{
+					button = detail.detailButton;
+					currentY += button.height / 2;
+					currentY = Math.max(currentY, button.arrowTailY);
+					button.arrowTailY = currentY;
+					currentY += button.height / 2 + button.bottomExpansion + BUTTON_GAP;
+				}
+
+				var firstArrowTailY:Number = details[0].detailButton.arrowTailY;
+				return firstArrowTailY;
 			}
-			
-			var firstArrowTailY:Number = details[0].detailButton.arrowTailY;
-			return firstArrowTailY;
+			else
+			{
+				return NaN;
+			}
 		}
 	}
 }
