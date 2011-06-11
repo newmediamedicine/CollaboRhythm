@@ -18,6 +18,7 @@ package collaboRhythm.plugins.bloodPressure.model
 {
 	import collaboRhythm.shared.apps.bloodPressure.model.AdherenceItem;
 	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureDataItem;
+	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 	import collaboRhythm.shared.apps.bloodPressure.model.ConcentrationSeverityProvider;
 	import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
 	import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
@@ -102,12 +103,20 @@ package collaboRhythm.plugins.bloodPressure.model
 							account.bloodPressureModel.isSystolicReportLoaded = true;
 						else if (bloodPressureReportUserData.category == diastolicCategory)
 							account.bloodPressureModel.isDiastolicReportLoaded = true;
+
+						_logger.info("BloodPressureModel " + bloodPressureReportUserData.category + " " + bloodPressureReportUserData.report + " report loaded");
 					}
 				}
 				else if (bloodPressureReportUserData.report == ADHERENCE_ITEMS_REPORT)
 				{
+					// TODO: handle adherence for multiple medications
 					account.bloodPressureModel.adherenceData = parseAdherenceItemReportData(responseXml);
 					initializeMedicationSimulationModel(account.bloodPressureModel.simulation, responseXml);
+					_logger.info("BloodPressureModel " + bloodPressureReportUserData.report + " report loaded");
+				}
+				else
+				{
+					throw new Error("Response for unhandled " + bloodPressureReportUserData.report + " report; response: " + responseXml);
 				}
 			}
 			else
@@ -115,9 +124,6 @@ package collaboRhythm.plugins.bloodPressure.model
 				throw new Error("Unexpected response: " + responseXml);
 			}
 		}
-
-		private static const _hydrochlorothiazideCode:String = "310798";
-		private static const _atenololCode:String = "??????";
 
 		private function initializeMedicationSimulationModel(simulation:SimulationModel, responseXml:XML):void
 		{
@@ -135,11 +141,11 @@ package collaboRhythm.plugins.bloodPressure.model
 						medication.name = name;
 
 						// TODO: get steps from an external source
-						if (name.value == _hydrochlorothiazideCode)
+						if (name.value == BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE)
 						{
 							initializeHydrochlorothiazideModel(medication);
 						}
-						else if (name.value == _atenololCode)
+						else if (name.value == BloodPressureModel.RXNORM_ATENOLOL)
 						{
 							initializeAtenololModel(medication);
 						}

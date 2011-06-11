@@ -32,7 +32,7 @@
 			<view2:ScaleToFitLayout unscaledWidth="160" aspectRatioMin="0.85" aspectRatioMax="1.25"/>
 		</s:layout>
 		<hydrochlorothiazide:HydrochlorothiazideSimulationView id="hydrochlorothiazideSimulationView"
-															   concentration="{simulationModel.concentration}"
+															   concentration="{hydrochlorothiazideMedicationModel.concentration}"
 				/>
 	</s:Group>
 	<s:Group id="arrowsGroup" width="100%" height="100%"/>
@@ -52,12 +52,13 @@
 		<buttons:rightContent>
 			<simulation:HydrochlorothiazideGauge id="hydrochlorothiazideGauge" verticalCenter="0"
 												 width="60" height="30"
-												 value="{simulationModel.concentration}"/>
+												 value="{hydrochlorothiazideMedicationModel.concentration}"/>
 		</buttons:rightContent>
 	</buttons:SimulationDetailButton>
 
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.bloodPressure.view.simulation.*;
+		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 
@@ -88,10 +89,13 @@
 		{
 			if (simulationModel)
 			{
-				hydrochlorothiazideMedicationModel = simulationModel.getMedication('310798');
+				hydrochlorothiazideMedicationModel = simulationModel.getMedication(BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE);
 				if (hydrochlorothiazideMedicationModel)
+				{
 					hydrochlorothiazideMedicationModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
 																		medicationModel_propertyChanged);
+					updateStepsListData();
+				}
 			}
 		}
 
@@ -99,45 +103,7 @@
 		{
 			if (event.property == "concentrationSeverityLevel")
 			{
-				switch (hydrochlorothiazideMedicationModel.concentrationSeverityLevel)
-				{
-					case 0:
-						stepsListData = new ArrayCollection([
-																{ text: "Hydrochlorothiazide conc. minimal", color: SimulationModel.SEVERITY_COLOR_HIGH },
-																{ text: "Salt channels in DCT open", color: SimulationModel.SEVERITY_COLOR_HIGH },
-																{ text: "Urine salt concentration decreased", color: SimulationModel.SEVERITY_COLOR_HIGH },
-																{ text: "Urine volume decreased", color: SimulationModel.SEVERITY_COLOR_HIGH },
-																{ text: "Venous blood volume increased", color: SimulationModel.SEVERITY_COLOR_HIGH },
-																{ text: "Preload on heart increased", color: SimulationModel.SEVERITY_COLOR_HIGH },
-																{ text: "Blood pressure increased", color: SimulationModel.SEVERITY_COLOR_HIGH },
-															]);
-						break;
-					case 1:
-						stepsListData = new ArrayCollection([
-																{ text: "Hydrochlorothiazide conc. low", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
-																{ text: "Salt channels in DCT open", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
-																{ text: "Urine salt concentration decreased", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
-																{ text: "Urine volume decreased", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
-																{ text: "Venous blood volume increased", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
-																{ text: "Preload on heart increased", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
-																{ text: "Blood pressure increased", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
-															]);
-						break;
-					case 2:
-						stepsListData = new ArrayCollection([
-																{ text: "Hydrochlorothiazide conc. at goal", color: SimulationModel.SEVERITY_COLOR_GOAL },
-																{ text: "Salt channels in DCT blocked", color: SimulationModel.SEVERITY_COLOR_GOAL },
-																{ text: "Urine salt concentration increased", color: SimulationModel.SEVERITY_COLOR_GOAL },
-																{ text: "Urine volume increased", color: SimulationModel.SEVERITY_COLOR_GOAL },
-																{ text: "Venous blood volume decreased", color: SimulationModel.SEVERITY_COLOR_GOAL },
-																{ text: "Preload on heart decreased", color: SimulationModel.SEVERITY_COLOR_GOAL },
-																{ text: "Blood pressure decreased", color: SimulationModel.SEVERITY_COLOR_GOAL },
-															]);
-						break;
-					default:
-						throw new Error("Unhandled concentrationSeverityLevel:",
-										hydrochlorothiazideMedicationModel.concentrationSeverityLevel);
-				}
+				updateStepsListData();
 			}
 		}
 
@@ -148,6 +114,52 @@
 				simulationModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
 												 simulationModel_propertyChangeHandler);
 			lookupMedications();
+		}
+
+		private function updateStepsListData():void
+		{
+			switch (hydrochlorothiazideMedicationModel.concentrationSeverityLevel)
+			{
+				case -1:
+					// not initialized; do nothing
+					break;
+				case 0:
+					stepsListData = new ArrayCollection([
+															{ text: "Hydrochlorothiazide conc. minimal", color: SimulationModel.SEVERITY_COLOR_HIGH },
+															{ text: "Salt channels in DCT open", color: SimulationModel.SEVERITY_COLOR_HIGH },
+															{ text: "Urine salt concentration decreased", color: SimulationModel.SEVERITY_COLOR_HIGH },
+															{ text: "Urine volume decreased", color: SimulationModel.SEVERITY_COLOR_HIGH },
+															{ text: "Venous blood volume increased", color: SimulationModel.SEVERITY_COLOR_HIGH },
+															{ text: "Preload on heart increased", color: SimulationModel.SEVERITY_COLOR_HIGH },
+															{ text: "Blood pressure increased", color: SimulationModel.SEVERITY_COLOR_HIGH },
+														]);
+					break;
+				case 1:
+					stepsListData = new ArrayCollection([
+															{ text: "Hydrochlorothiazide conc. low", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
+															{ text: "Salt channels in DCT open", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
+															{ text: "Urine salt concentration decreased", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
+															{ text: "Urine volume decreased", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
+															{ text: "Venous blood volume increased", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
+															{ text: "Preload on heart increased", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
+															{ text: "Blood pressure increased", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
+														]);
+					break;
+				case 2:
+					stepsListData = new ArrayCollection([
+															{ text: "Hydrochlorothiazide conc. at goal", color: SimulationModel.SEVERITY_COLOR_GOAL },
+															{ text: "Salt channels in DCT blocked", color: SimulationModel.SEVERITY_COLOR_GOAL },
+															{ text: "Urine salt concentration increased", color: SimulationModel.SEVERITY_COLOR_GOAL },
+															{ text: "Urine volume increased", color: SimulationModel.SEVERITY_COLOR_GOAL },
+															{ text: "Venous blood volume decreased", color: SimulationModel.SEVERITY_COLOR_GOAL },
+															{ text: "Preload on heart decreased", color: SimulationModel.SEVERITY_COLOR_GOAL },
+															{ text: "Blood pressure decreased", color: SimulationModel.SEVERITY_COLOR_GOAL },
+														]);
+					break;
+				default:
+					throw new Error("Unhandled concentrationSeverityLevel:",
+									hydrochlorothiazideMedicationModel.concentrationSeverityLevel);
+			}
 		}
 		]]></fx:Script>
 </simulation:SimulationLevelGroup>

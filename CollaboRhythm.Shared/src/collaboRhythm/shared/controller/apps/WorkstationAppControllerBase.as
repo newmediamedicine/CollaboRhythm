@@ -431,7 +431,7 @@ package collaboRhythm.shared.controller.apps
 
 		protected function get shouldShowFullViewOnWidgetClick():Boolean
 		{
-			return _modality;
+			return isWorkstationMode;
 		}
 		
 		private function widgetClickHandler(event:MouseEvent):void

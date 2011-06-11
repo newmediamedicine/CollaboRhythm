@@ -27,10 +27,10 @@
 		title="Circulatory System"
 		>
 	<circulatorysystem:HypertensionCirculatorySystem1 id="hypertensionCirculatorySystem1"
-													  visible="{simulationModel.concentration &gt;= SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"
+													  visible="{hydrochlorothiazideMedicationModel.concentration &gt;= SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"
 			/>
 	<circulatorysystem:HypertensionCirculatorySystem2 id="hypertensionCirculatorySystem2"
-													  visible="{simulationModel.concentration &lt; SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"
+													  visible="{hydrochlorothiazideMedicationModel.concentration &lt; SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"
 			/>
 	<s:Group id="arrowsGroup" width="100%" height="100%"/>
 	<buttons:SimulationDetailButton
@@ -51,7 +51,7 @@
 		<buttons:rightContent>
 			<simulation:HydrochlorothiazideGauge id="atenololGauge" verticalCenter="0"
 												 width="60" height="30"
-												 value="{simulationModel.concentration}"/>
+												 value="{hydrochlorothiazideMedicationModel.concentration}"/>
 		</buttons:rightContent>
 	</buttons:SimulationDetailButton>
 	<buttons:SimulationDetailButton
@@ -78,6 +78,7 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.bloodPressure.view.simulation.*;
 		import collaboRhythm.plugins.bloodPressure.view.simulation.buttons.SimulationDetail;
+		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 
@@ -137,7 +138,7 @@
 		private function lookupMedications():void
 		{
 			if (simulationModel)
-				hydrochlorothiazideMedicationModel = simulationModel.getMedication('310798');
+				hydrochlorothiazideMedicationModel = simulationModel.getMedication(BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE);
 		}
 
 		public override function set simulationModel(value:SimulationModel):void

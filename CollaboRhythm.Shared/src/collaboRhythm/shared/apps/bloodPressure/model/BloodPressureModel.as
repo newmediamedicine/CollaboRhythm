@@ -35,6 +35,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		private var _isSystolicReportLoaded:Boolean = false;
 		private var _isDiastolicReportLoaded:Boolean = false;
 		public static const RXNORM_HYDROCHLOROTHIAZIDE:String = "310798";
+		public static const RXNORM_ATENOLOL:String = "??????";
 
 		public function get simulation():SimulationModel
 		{

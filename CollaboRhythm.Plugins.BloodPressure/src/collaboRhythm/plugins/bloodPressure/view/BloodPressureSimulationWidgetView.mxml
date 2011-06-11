@@ -8,9 +8,13 @@
 		 xmlns:circulatorysystem="collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySystem.*">
 	<fx:Script><![CDATA[
 		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
+		import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 
+		import mx.events.PropertyChangeEvent;
+
 		private var _model:BloodPressureModel;
+		private var hydrochlorothiazideMedicationModel:MedicationComponentAdherenceModel;
 
 		[Bindable]
 		public function get model():BloodPressureModel
@@ -21,6 +25,25 @@
 		public function set model(value:BloodPressureModel):void
 		{
 			_model = value;
+			if (model && model.simulation)
+			{
+				model.simulation.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, simulationModel_propertyChangeHandler);
+				lookupMedications();
+			}
+		}
+
+		private function lookupMedications():void
+		{
+			if (model && model.simulation)
+			{
+				hydrochlorothiazideMedicationModel = model.simulation.getMedication(BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE);
+			}
+		}
+
+		private function simulationModel_propertyChangeHandler(event:PropertyChangeEvent):void
+		{
+			if (event.property == "medications")
+				lookupMedications();
 		}
 
 		public function refresh():void
@@ -38,10 +61,10 @@
 									aspectRatioMax="{hypertensionCirculatorySystem1.width / hypertensionCirculatorySystem1.height}"/>
 		</s:layout>
 		<circulatorysystem:HypertensionCirculatorySystem1 id="hypertensionCirculatorySystem1"
-														  visible="{model.simulation.concentration &gt;= SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"
+														  visible="{hydrochlorothiazideMedicationModel.concentration &gt;= SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"
 				/>
 		<circulatorysystem:HypertensionCirculatorySystem2 id="hypertensionCirculatorySystem2"
-														  visible="{model.simulation.concentration &lt; SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"
+														  visible="{hydrochlorothiazideMedicationModel.concentration &lt; SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"
 				/>
 	</s:Group>
 

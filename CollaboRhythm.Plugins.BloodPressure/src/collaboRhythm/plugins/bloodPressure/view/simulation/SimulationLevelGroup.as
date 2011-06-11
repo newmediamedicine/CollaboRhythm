@@ -78,6 +78,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation
 			_breadcrumbContent = value;
 		}
 
+		[Bindable]
 		public function get details():Vector.<SimulationDetail>
 		{
 			return _details;
