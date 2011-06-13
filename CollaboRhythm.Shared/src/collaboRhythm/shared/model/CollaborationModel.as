@@ -194,8 +194,13 @@ package collaboRhythm.shared.model
 		{
 			return _audioVideoOutput;
 		}
-		
-		private function usersHealthRecordService_completeHandler(event:UserDatabaseEvent):void
+
+        public function set audioVideoOutput(value:AudioVideoOutput):void
+        {
+            _audioVideoOutput = value;
+        }
+
+        private function usersHealthRecordService_completeHandler(event:UserDatabaseEvent):void
 		{
 			_collaborationLobbyNetConnectionService.enterCollaborationLobby();
 		}
@@ -223,11 +228,6 @@ package collaboRhythm.shared.model
 			_roomID = "";
 			_passWord = "";
 //			localUser.collaborationColor = "0x000000";
-		}
-		
-		public function closeRecordVideoView():void
-		{
-			recordVideo = false;
 		}
 
         public function set collaborationLobbyNetConnectionService(value:CollaborationLobbyNetConnectionService):void

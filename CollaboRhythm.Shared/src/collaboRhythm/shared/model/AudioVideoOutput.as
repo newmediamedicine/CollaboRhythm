@@ -26,6 +26,7 @@ package collaboRhythm.shared.model
 	 * Models the audio and video output from the local user.
 	 * 
 	 */
+    [Bindable]
 	public class AudioVideoOutput
 	{
 		private var _camera:Camera;
@@ -42,7 +43,7 @@ package collaboRhythm.shared.model
 			if (Camera.isSupported)
 			{
 				_camera = Camera.getCamera();
-				if (_camera != null)
+			if (_camera != null)
 				{
 		//			_camera.setKeyFrameInterval(9);
 					_camera.setMode(640,480,15);
@@ -69,10 +70,20 @@ package collaboRhythm.shared.model
 		{
 			return _camera;
 		}
+
+        public function set camera(value:Camera):void
+        {
+            _camera = value;
+        }
 		
 		public function get microphone():Microphone
 		{
 			return _microphone;
 		}
-	}
+
+        public function set microphone(value:Microphone):void
+        {
+            _microphone = value;
+        }
+    }
 }

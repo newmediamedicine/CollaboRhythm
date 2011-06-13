@@ -16,15 +16,14 @@
  */
 package collaboRhythm.plugins.medications.controller
 {
-	import collaboRhythm.shared.model.healthRecord.MedicationsHealthRecordService;
-	import collaboRhythm.shared.model.MedicationsModel;
-	import collaboRhythm.plugins.medications.view.MedicationsWidgetView;
-	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 
-	import mx.core.UIComponent;
+    import collaboRhythm.plugins.medications.view.MedicationsWidgetView;
+    import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
+    import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 
-	public class MedicationsAppController extends WorkstationAppControllerBase
+    import mx.core.UIComponent;
+
+    public class MedicationsAppController extends WorkstationAppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Medications";
 
@@ -65,7 +64,7 @@ package collaboRhythm.plugins.medications.controller
 		{
 			var newWidgetView:MedicationsWidgetView = new MedicationsWidgetView();
 			if (_user != null)
-				newWidgetView.init(_activeRecordAccount.primaryRecord.medicationsModel);
+				newWidgetView.init(_activeRecordAccount.primaryRecord.medicationOrdersModel);
 			return newWidgetView;
 		}
 		
@@ -100,7 +99,7 @@ package collaboRhythm.plugins.medications.controller
 //			}
 			
 			if (_widgetView)
-				(_widgetView as MedicationsWidgetView).init(_activeRecordAccount.primaryRecord.medicationsModel);
+				(_widgetView as MedicationsWidgetView).init(_activeRecordAccount.primaryRecord.medicationOrdersModel);
 //			prepareFullView();
 		}
 		

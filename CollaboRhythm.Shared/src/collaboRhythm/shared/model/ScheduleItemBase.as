@@ -19,6 +19,10 @@ package collaboRhythm.shared.model
 
     import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
     import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
+    import collaboRhythm.shared.model.services.ICurrentDateSource;
+    import collaboRhythm.shared.model.services.WorkstationKernel;
+
+    import j2as3.collection.HashMap;
 
     [Bindable]
 	public class ScheduleItemBase extends DocumentMetadata
@@ -31,12 +35,16 @@ package collaboRhythm.shared.model
         private var _dateEnd:Date;
         private var _recurrenceRule:RecurrenceRule;
 		private var _instructions:String;
+        private var _adherenceItems:HashMap = new HashMap();
+
+        private var _currentDateSource:ICurrentDateSource;
 
 		public function ScheduleItemBase():void
 		{
+            _currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
 
-        public function init(name:CodedValue, scheduledBy:String, dateScheduled:Date, dateStart:Date, dateEnd:Date = null, recurrenceRule:RecurrenceRule = null, instructions:String = null):void
+        public function init(name:CodedValue, scheduledBy:String, dateScheduled:Date, dateStart:Date, dateEnd:Date = null, recurrenceRule:RecurrenceRule = null, instructions:String = null, adherenceItems:HashMap = null):void
 		{
 			_name = name;
             _scheduledBy = scheduledBy;
@@ -45,6 +53,7 @@ package collaboRhythm.shared.model
             _dateEnd = dateEnd;
             _recurrenceRule = recurrenceRule;
             _instructions = instructions;
+            _adherenceItems = adherenceItems;
 		}
 
 		public function initFromReportXML(scheduleItemReportXml:XML, scheduleItemElementName:String):void
@@ -58,6 +67,10 @@ package collaboRhythm.shared.model
             _dateEnd = DateUtil.parseW3CDTF(_scheduleItemXml.dateEnd.toString());
             _recurrenceRule = new RecurrenceRule(_scheduleItemXml.recurrenceRule[0]);
 			_instructions = _scheduleItemXml.instructions;
+            for each (var adherenceItemXml:XML in scheduleItemReportXml..relatesTo.relation.(@type == "http://indivo.org/vocab/documentrels#adherenceItem").relatedDocument)
+            {
+                _adherenceItems[adherenceItemXml.@id] = null;
+            }
 		}
 
 //		public function createScheduleItemClockView():ScheduleItemClockViewBase
@@ -161,5 +174,25 @@ package collaboRhythm.shared.model
         {
             _instructions = value;
         }
+
+        public function get adherenceItems():HashMap
+        {
+            return _adherenceItems;
+        }
+
+        public function set adherenceItems(value:HashMap):void
+        {
+            _adherenceItems = value;
+        }
+
+//        public function get recurrenceIndex():int
+//        {
+//            _currentDateSource.now();
+//        }
+//
+//        public function set recurrenceIndex(value:int):void
+//        {
+//
+//        }
     }
 }

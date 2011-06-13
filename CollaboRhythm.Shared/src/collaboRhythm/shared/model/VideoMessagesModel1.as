@@ -97,5 +97,12 @@ package collaboRhythm.shared.model
         {
             return _currentDateSource;
         }
+
+        public function deleteVideoMessage(videoMessage:VideoMessage):void
+        {
+            var videoMessageIndex:int = videoMessagesCollection.getItemIndex(videoMessage);
+            videoMessagesCollection.removeItemAt(videoMessageIndex);
+            _videoMessagesHealthRecordService.deleteVideoMessage(_record, videoMessage);
+        }
     }
 }

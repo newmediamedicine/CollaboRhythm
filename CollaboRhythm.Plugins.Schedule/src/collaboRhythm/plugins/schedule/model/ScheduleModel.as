@@ -24,6 +24,7 @@ package collaboRhythm.plugins.schedule.model
     import collaboRhythm.shared.model.EquipmentScheduleItem;
     import collaboRhythm.shared.model.MedicationScheduleItem;
     import collaboRhythm.shared.model.MedicationsModel;
+    import collaboRhythm.shared.model.Record;
     import collaboRhythm.shared.model.ScheduleItemBase;
     import collaboRhythm.shared.model.User;
     import collaboRhythm.shared.model.services.IComponentContainer;
@@ -34,6 +35,8 @@ package collaboRhythm.plugins.schedule.model
 	import flash.utils.getQualifiedClassName;
 
     import j2as3.collection.HashMap;
+
+    import mx.binding.utils.BindingUtils;
 
     import mx.collections.ArrayCollection;
 	import mx.logging.ILogger;
@@ -74,10 +77,19 @@ package collaboRhythm.plugins.schedule.model
 		private var _currentDateSource:ICurrentDateSource;
 		public static const SCHEDULE_KEY:String = "schedule";
         private var _viewFactory:IScheduleViewFactory;
+        private var _record:Record;
 
-		public function ScheduleModel(componentContainer:IComponentContainer)
+		public function ScheduleModel(componentContainer:IComponentContainer, record:Record)
 		{
-			logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+            _record = record;
+
+            BindingUtils.bindSetter(medicationOrdersModelStitchedHandler, _record.medicationOrdersModel, "isStitched");
+            BindingUtils.bindSetter(medicationScheduleItemsModelStitchedHandler, _record.medicationScheduleItemsModel, "isStitched");
+            BindingUtils.bindSetter(equipmentModelStitchedHandler, _record.equipmentModel, "isStitched");
+            BindingUtils.bindSetter(equipmentScheduleItemsModelStitchedHandler, _record.equipmentScheduleItemsModel, "isStitched");
+            BindingUtils.bindSetter(adherenceItemsModelStitchedHandler, _record.adherenceItemsModel, "isStitched");
+
+            logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 //			_user = user;
 //			_medicationsModel = medicationsModel;
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
@@ -92,30 +104,43 @@ package collaboRhythm.plugins.schedule.model
             _viewFactory = new MasterScheduleViewFactory(componentContainer);
 		}
 
-        public function medicationsModelInitializedHandler(medicationsModel:MedicationsModel):void
+        private function medicationOrdersModelStitchedHandler(isStitched:Boolean):void
         {
-            _medicationsModel = medicationsModel;
-            for each (var medicationScheduleItem:MedicationScheduleItem in medicationsModel.medicationScheduleItems)
-            {
-                addToScheduleGroup(medicationScheduleItem);
-            }
-            isInitializedCheck();
+            areNecessaryClassesStitched();
         }
 
-        public function equipmentModelInitializedHandler(equipmentModel:EquipmentModel):void
+        private function medicationScheduleItemsModelStitchedHandler(isStitched:Boolean):void
         {
-            _equipmentModel = equipmentModel;
-            for each (var equipmentScheduleItem:EquipmentScheduleItem in equipmentModel.equipmentScheduleItems)
-            {
-                addToScheduleGroup(equipmentScheduleItem);
-            }
-            isInitializedCheck();
+            areNecessaryClassesStitched();
         }
 
-        private function isInitializedCheck():void
+        private function equipmentScheduleItemsModelStitchedHandler(isStitched:Boolean):void
         {
-            if (_medicationsModel && _equipmentModel)
+            areNecessaryClassesStitched();
+        }
+
+        private function equipmentModelStitchedHandler(isStitched:Boolean):void
+        {
+            areNecessaryClassesStitched();
+        }
+
+        private function adherenceItemsModelStitchedHandler(isStitched:Boolean):void
+        {
+            areNecessaryClassesStitched();
+        }
+
+        private function areNecessaryClassesStitched():void
+        {
+            if (_record.medicationOrdersModel.isStitched && _record.medicationScheduleItemsModel.isStitched && _record.equipmentModel.isStitched && _record.equipmentScheduleItemsModel.isStitched && _record.adherenceItemsModel.isStitched)
             {
+                for each (var medicationScheduleItem:MedicationScheduleItem in _record.medicationScheduleItemsModel.medicationScheduleItems)
+                {
+                    addToScheduleGroup(medicationScheduleItem);
+                }
+                for each (var equipmentScheduleItem:EquipmentScheduleItem in _record.equipmentScheduleItemsModel.equipmentScheduleItems)
+                {
+                    addToScheduleGroup(equipmentScheduleItem);
+                }
                 isInitialized = true;
                 determineStacking();
             }

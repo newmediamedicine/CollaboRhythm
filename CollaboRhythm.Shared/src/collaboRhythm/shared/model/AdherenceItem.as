@@ -32,12 +32,14 @@ package collaboRhythm.shared.model
         private var _recurrenceIndex:int;
 		private var _adherence:Boolean;
 		private var _nonadherenceReason:String;
+        private var _adherenceResultId:String;
+        private var _adherenceResult:Object;
 
 		public function AdherenceItem()
 		{
 		}
 
-		public function init(name:CodedValue, reportedBy:String, dateReported:Date, recurrendIndex:int,  adherence:Boolean, nonadherenceReason:String = null):void
+		public function init(name:CodedValue, reportedBy:String, dateReported:Date, recurrendIndex:int,  adherence:Boolean, nonadherenceReason:String = null, adherenceResult:Object = null):void
 		{
 			_name = name;
 			_reportedBy = reportedBy;
@@ -45,6 +47,7 @@ package collaboRhythm.shared.model
             _recurrenceIndex = recurrendIndex;
 			_adherence = adherence;
 			_nonadherenceReason = nonadherenceReason;
+            _adherenceResult = adherenceResult;
 		}
 		
 		public function initFromReportXML(adherenceItemReportXML:XML):void
@@ -57,6 +60,7 @@ package collaboRhythm.shared.model
             _recurrenceIndex = int(adherenceItemXml.recurrenceIndex);
 			_adherence = HealthRecordHelperMethods.stringToBoolean(adherenceItemXml.adherence);
 			_nonadherenceReason = adherenceItemXml.nonadherenceReason;
+            _adherenceResultId = adherenceItemReportXML..relatesTo.relation.(@type == "http://indivo.org/vocab/documentrels#adherenceresult").relatedDocument[0];
 		}
 
         public function convertToXML():XML
@@ -106,6 +110,26 @@ package collaboRhythm.shared.model
         public function get nonadherenceReason():String
         {
             return _nonadherenceReason;
+        }
+
+        public function get adherenceResultId():String
+        {
+            return _adherenceResultId;
+        }
+
+        public function set adherenceResultId(value:String):void
+        {
+            _adherenceResultId = value;
+        }
+
+        public function get adherenceResult():Object
+        {
+            return _adherenceResult;
+        }
+
+        public function set adherenceResult(value:Object):void
+        {
+            _adherenceResult = value;
         }
     }
 }

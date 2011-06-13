@@ -50,7 +50,7 @@
 
         private function deleteVideoButtonClickHandler():void
         {
-
+            dispatchEvent(new VideosViewEvent(VideosViewEvent.DELETE_VIDEO_MESSAGE, _videoMessage));
         }
 
         ]]>
@@ -73,8 +73,7 @@
                       verticalCenter="0"
                       click="deleteVideoButtonClickHandler()"
                       width="60"
-                      height="60"
-                      enabled="false"/>
+                      height="60"/>
         </s:VGroup>
     <s:Line width="100%" bottom="0">
         <s:stroke>

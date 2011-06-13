@@ -18,22 +18,21 @@ package collaboRhythm.shared.model
 {
 
     import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
-    import collaboRhythm.shared.model.healthRecord.MedicationsHealthRecordService;
     import collaboRhythm.shared.model.services.ICurrentDateSource;
     import collaboRhythm.shared.model.services.WorkstationKernel;
     import collaboRhythm.shared.model.settings.Settings;
 
     import j2as3.collection.HashMap;
 
+    import mx.binding.utils.BindingUtils;
     import mx.collections.ArrayCollection;
-    import mx.events.CollectionEvent;
 
     [Bindable]
 	public class MedicationsModel
 	{
         private var _activeAccount:Account;
 		private var _record:Record;
-        private var _medicationsHealthRecordService:MedicationsHealthRecordService;
+//        private var _medicationsHealthRecordService:MedicationsHealthRecordService;
         private var _medicationOrders:HashMap = new HashMap();
         private var _medicationScheduleItems:HashMap = new HashMap();
         private var _medicationOrdersCollection:ArrayCollection = new ArrayCollection();
@@ -43,6 +42,7 @@ package collaboRhythm.shared.model
         private var _currentDateSource:ICurrentDateSource;
 
 		private var _shortMedicationsCollection:ArrayCollection = new ArrayCollection();
+        private var _areMedicationDocumentsAvailable:Boolean = false;
 		private var _isInitialized:Boolean = false;
 		private var _isLoading:Boolean = false;
 
@@ -50,14 +50,16 @@ package collaboRhythm.shared.model
 		{
             _activeAccount = activeAccount;
 			_record = record;
-            _medicationsHealthRecordService = new MedicationsHealthRecordService(settings.oauthChromeConsumerKey, settings.oauthChromeConsumerSecret, settings.indivoServerBaseURL, _activeAccount);
+//            _medicationsHealthRecordService = new MedicationsHealthRecordService(settings.oauthChromeConsumerKey, settings.oauthChromeConsumerSecret, settings.indivoServerBaseURL, _activeAccount);
             _currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+
+            BindingUtils.bindSetter(adherenceItemsInitializedHandler, _record.adherenceItemsModel, "isInitialized");
 		}
 
         public function getMedications():void
         {
-            _medicationsHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE, getMedicationsCompleteHandler);
-            _medicationsHealthRecordService.getMedications(_record);
+//            _medicationsHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE, getMedicationsCompleteHandler);
+//            _medicationsHealthRecordService.getMedications(_record);
         }
 
 		public function set medicationOrdersReportXml(value:XML):void
@@ -82,8 +84,49 @@ package collaboRhythm.shared.model
             }
         }
 
-        public function getMedicationsCompleteHandler(event:HealthRecordServiceEvent):void
+        public function set medicationAdministrationsReportXml(value:XML):void
         {
+            for each (var medicationAdministrationXml:XML in value.Report)
+            {
+                var medicationAdministration:MedicationAdministration = new MedicationAdministration();
+                medicationAdministration.initFromReportXML(medicationAdministrationXml);
+                _medicationAdministrations[medicationAdministration.id] = medicationAdministration;
+            }
+        }
+
+        public function set medicationFillsReportXml(value:XML):void
+        {
+            for each (var medicationFillXml:XML in value.Report)
+            {
+//                var medicationFill:MedicationFill = new MedicationFill();
+//                medicationFill.initFromReportXML(medicationFillXml);
+//                _medicationFills[medicationFill.id] = medicationFill;
+            }
+        }
+
+        private function getMedicationsCompleteHandler(event:HealthRecordServiceEvent):void
+        {
+            trace("getMedicationsCompleteHandler");
+            areMedicationDocumentsAvailable = true;
+            if (_record.adherenceItemsModel.isInitialized)
+            {
+                relateDocuments();
+            }
+        }
+
+        private function adherenceItemsInitializedHandler(isInitialized:Boolean):void
+        {
+            trace("adherenceItemsInitializedHandler");
+            trace(isInitialized);
+            if (isInitialized && areMedicationDocumentsAvailable)
+            {
+                relateDocuments();
+            }
+        }
+
+        private function relateDocuments():void
+        {
+            trace("relateDocuments");
             for each (var medicationOrder:MedicationOrder in _medicationOrders)
             {
                 for each (var scheduleItemId:String in medicationOrder.scheduleItems.keys)
@@ -91,29 +134,20 @@ package collaboRhythm.shared.model
                     var medicationScheduleItem:MedicationScheduleItem = _medicationScheduleItems[scheduleItemId];
                     medicationOrder.scheduleItems[scheduleItemId] = medicationScheduleItem;
                     medicationScheduleItem.scheduledMedicationOrder = medicationOrder;
+
+                    for each (var adherenceItemId:String in medicationScheduleItem.adherenceItems.keys)
+                    {
+                        var adherenceItem:AdherenceItem = _record.adherenceItemsModel.adherenceItems[adherenceItemId];
+                        medicationScheduleItem.adherenceItems[adherenceItemId] = adherenceItem;
+
+                        for each (var medicationAdministrationId:String in adherenceItem.adherenceResultId)
+                        {
+                            adherenceItem.adherenceResult = _medicationAdministrations[medicationAdministrationId];
+                        }
+                    }
                 }
             }
             isInitialized = true;
-        }
-
-        public function set medicationAdministrationsReportXml(value:XML):void
-        {
-//            for each (var medicationAdministrationXml:XML in value.Report)
-//            {
-//                var medicationAdministration:MedicationAdministration = new MedicationAdministration();
-//                medicationAdministration.initFromReportXML(medicationAdministrationXml);
-//                _medicationAdministrations[medicationAdministration.id] = medicationAdministration;
-//            }
-        }
-
-        public function set medicationFillsReportXml(value:XML):void
-        {
-//            for each (var medicationFillXml:XML in value.Report)
-//            {
-//                var medicationFill:MedicationFill = new MedicationFill();
-//                medicationFill.initFromReportXML(medicationFillXml);
-//                _medicationFills[medicationFill.id] = medicationFill;
-//            }
         }
 
 //		public function get shortMedicationsCollection():ArrayCollection
@@ -246,6 +280,26 @@ package collaboRhythm.shared.model
         public function set medicationScheduleItemCollection(value:ArrayCollection):void
         {
             _medicationScheduleItemCollection = value;
+        }
+
+//        public function get medicationsHealthRecordService():MedicationsHealthRecordService
+//        {
+//            return _medicationsHealthRecordService;
+//        }
+//
+//        public function set medicationsHealthRecordService(value:MedicationsHealthRecordService):void
+//        {
+//            _medicationsHealthRecordService = value;
+//        }
+
+        public function get areMedicationDocumentsAvailable():Boolean
+        {
+            return _areMedicationDocumentsAvailable;
+        }
+
+        public function set areMedicationDocumentsAvailable(value:Boolean):void
+        {
+            _areMedicationDocumentsAvailable = value;
         }
     }
 }

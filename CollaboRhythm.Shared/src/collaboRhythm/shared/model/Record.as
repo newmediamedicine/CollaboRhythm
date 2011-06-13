@@ -32,14 +32,19 @@ package collaboRhythm.shared.model
         private var _role_label:String;
         private var _demographics:Demographics;
         private var _contact:Contact;
-        private var _problemsModel:ProblemsModel;
-        private var _medicationsModel:MedicationsModel;
+        private var _medicationOrdersModel:MedicationOrdersModel;
+        private var _medicationFillsModel:MedicationFillsModel;
+        private var _medicationScheduleItemsModel:MedicationScheduleItemsModel;
+        private var _medicationAdministrationsModel:MedicationAdministrationsModel;
         private var _equipmentModel:EquipmentModel;
+        private var _equipmentScheduleItemsModel:EquipmentScheduleItemsModel;
         private var _adherenceItemsModel:AdherenceItemsModel;
         private var _videoMessagesModel:VideoMessagesModel1;
+        private var _problemsModel:ProblemsModel;
         private var _appData:HashMap = new HashMap();
         private var _settings:Settings;
         private var _activeAccount:Account;
+
 
         public function Record(settings:Settings, activeAccount:Account, recordXml:XML)
         {
@@ -56,20 +61,34 @@ package collaboRhythm.shared.model
 
         private function initDocumentModels():void
         {
-            _problemsModel = new ProblemsModel(_settings, _activeAccount, this);
-            _medicationsModel = new MedicationsModel(_settings, _activeAccount, this);
+            _medicationOrdersModel = new MedicationOrdersModel(_settings, _activeAccount, this);
+            _medicationFillsModel = new MedicationFillsModel(_settings, _activeAccount, this);
+            _medicationScheduleItemsModel = new MedicationScheduleItemsModel(_settings, _activeAccount, this);
+            _medicationAdministrationsModel = new MedicationAdministrationsModel(_settings, _activeAccount, this);
             _equipmentModel = new EquipmentModel(_settings, _activeAccount, this);
+            _equipmentScheduleItemsModel = new EquipmentScheduleItemsModel(_settings, _activeAccount, this);
             _adherenceItemsModel = new AdherenceItemsModel(_settings, _activeAccount, this);
             _videoMessagesModel = new VideoMessagesModel1(_settings, _activeAccount, this);
+            _problemsModel = new ProblemsModel(_settings, _activeAccount, this);
+
+            new MedicationOrderStitcher(_medicationOrdersModel, _medicationFillsModel, _medicationScheduleItemsModel);
+            new MedicationScheduleItemStitcher(_medicationScheduleItemsModel, _adherenceItemsModel);
+            new EquipmentStitcher(_equipmentModel, _equipmentScheduleItemsModel);
+            new EquipmentScheduleItemStitcher(_equipmentScheduleItemsModel, _adherenceItemsModel);
+            new AdherenceItemStitcher(_adherenceItemsModel, _medicationAdministrationsModel);
         }
 
         public function getDocuments():void
         {
-            _problemsModel.getProblems();
-            _medicationsModel.getMedications();
+            _medicationOrdersModel.getMedicationOrders();
+            _medicationFillsModel.getMedicationFills();
+            _medicationScheduleItemsModel.getMedicationScheduleItems();
+            _medicationAdministrationsModel.getMedicationAdministrations();
             _equipmentModel.getEquipment();
+            _equipmentScheduleItemsModel.getEquipmentScheduleItems();
             _adherenceItemsModel.getAdherenceItems();
             _videoMessagesModel.getVideoMessages();
+            _problemsModel.getProblems();
         }
 
         public function get id():String
@@ -134,16 +153,6 @@ package collaboRhythm.shared.model
             // TODO: store the images with the record (as a binary document) or use some other identifier for the file name
         }
 
-        public function get medicationsModel():MedicationsModel
-        {
-            return _medicationsModel;
-        }
-
-        public function set medicationsModel(value:MedicationsModel):void
-        {
-            _medicationsModel = value;
-        }
-
         public function get equipmentModel():EquipmentModel
         {
             return _equipmentModel;
@@ -201,6 +210,56 @@ package collaboRhythm.shared.model
         public function set problemsModel(value:ProblemsModel):void
         {
             _problemsModel = value;
+        }
+
+        public function get medicationOrdersModel():MedicationOrdersModel
+        {
+            return _medicationOrdersModel;
+        }
+
+        public function set medicationOrdersModel(value:MedicationOrdersModel):void
+        {
+            _medicationOrdersModel = value;
+        }
+
+        public function get medicationFillsModel():MedicationFillsModel
+        {
+            return _medicationFillsModel;
+        }
+
+        public function set medicationFillsModel(value:MedicationFillsModel):void
+        {
+            _medicationFillsModel = value;
+        }
+
+        public function get medicationScheduleItemsModel():MedicationScheduleItemsModel
+        {
+            return _medicationScheduleItemsModel;
+        }
+
+        public function set medicationScheduleItemsModel(value:MedicationScheduleItemsModel):void
+        {
+            _medicationScheduleItemsModel = value;
+        }
+
+        public function get medicationAdministrationsModel():MedicationAdministrationsModel
+        {
+            return _medicationAdministrationsModel;
+        }
+
+        public function set medicationAdministrationsModel(value:MedicationAdministrationsModel):void
+        {
+            _medicationAdministrationsModel = value;
+        }
+
+        public function get equipmentScheduleItemsModel():EquipmentScheduleItemsModel
+        {
+            return _equipmentScheduleItemsModel;
+        }
+
+        public function set equipmentScheduleItemsModel(value:EquipmentScheduleItemsModel):void
+        {
+            _equipmentScheduleItemsModel = value;
         }
     }
 }

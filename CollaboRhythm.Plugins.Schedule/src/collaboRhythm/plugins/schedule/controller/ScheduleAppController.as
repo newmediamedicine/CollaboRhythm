@@ -100,7 +100,7 @@ package collaboRhythm.plugins.schedule.controller
 		{
             if (_scheduleModel == null)
             {
-                _scheduleModel = new ScheduleModel(_componentContainer);
+                _scheduleModel = new ScheduleModel(_componentContainer, _activeRecordAccount.primaryRecord);
             }
             return _scheduleModel;
 //			if (_activeRecordAccount != null)
@@ -120,12 +120,6 @@ package collaboRhythm.plugins.schedule.controller
 
 			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, onInvoke);
 
-			if (!scheduleModel.isInitialized)
-			{
-                BindingUtils.bindSetter(medicationsModelInitializedHandler, _activeRecordAccount.primaryRecord.medicationsModel, "isInitialized");
-                BindingUtils.bindSetter(equipmentModelInitializedHandler, _activeRecordAccount.primaryRecord.equipmentModel, "isInitialized");
-			}
-			
 			if (_widgetView)
 			{
 				_scheduleWidgetViewController = new ScheduleWidgetViewController(isWorkstationMode, scheduleModel, _widgetView, _fullParentContainer);//, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
@@ -133,22 +127,6 @@ package collaboRhythm.plugins.schedule.controller
 			}
 			prepareFullView();
 		}
-
-        private function medicationsModelInitializedHandler(isInitialized:Boolean):void
-        {
-            if (isInitialized)
-            {
-                scheduleModel.medicationsModelInitializedHandler(_activeRecordAccount.primaryRecord.medicationsModel);
-            }
-        }
-
-        private function equipmentModelInitializedHandler(isInitialized:Boolean):void
-        {
-            if (isInitialized)
-            {
-                scheduleModel.equipmentModelInitializedHandler(_activeRecordAccount.primaryRecord.equipmentModel);
-            }
-        }
 		
 		private function onInvoke(event:InvokeEvent):void {
 			if (event.arguments.length != 0)

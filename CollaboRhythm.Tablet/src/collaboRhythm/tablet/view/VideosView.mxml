@@ -38,6 +38,7 @@
             _tabletApplicationController = tabletApplicationController;
             _recordAccount = recordAccount;
             videosList.addEventListener(VideosViewEvent.PLAY_VIDEO_MESSAGE,  playVideoMessageHandler);
+            videosList.addEventListener(VideosViewEvent.DELETE_VIDEO_MESSAGE, deleteVideoMessageHandler);
         }
 
         private function creationCompleteHandler():void
@@ -57,6 +58,11 @@
             var fileNumber:int = videoMessage.fileId;
             var netStreamLocation:String = _recordAccount.accountId + "/" + fileNumber;
             _netStream.play(netStreamLocation);
+        }
+
+        private function deleteVideoMessageHandler(event:VideosViewEvent):void
+        {
+            _tabletApplicationController.deleteVideoMessage(event.videoMessage);
         }
 
         private function handleMetaData(metaData:Object):void

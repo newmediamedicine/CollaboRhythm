@@ -45,35 +45,35 @@ package collaboRhythm.shared.model.healthRecord
             _pha.reports_minimal_X_GET(null, null, null, null, record.id, "medicationorders", _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
             healthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_MEDICATIONSCHEDULEITEMS_REPORT, null, record);
             _pha.reports_minimal_X_GET(null, null, null, null, record.id, "medicationscheduleitems", _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
-//            healthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_MEDICATIONADMINISTRATIONS_REPORT, null, record);
-//            _pha.reports_minimal_X_GET(null, null, null, null, record.id, "medicationadministrations", _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
-//            healthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_MEDICATIONFILLS_REPORT, null, record);
-//            _pha.reports_minimal_X_GET(null, null, null, null, record.id, "medicationfills", _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
+            healthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_MEDICATIONADMINISTRATIONS_REPORT, null, record);
+            _pha.reports_minimal_X_GET(null, null, null, null, record.id, "medicationadministrations", _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
+            healthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_MEDICATIONFILLS_REPORT, null, record);
+            _pha.reports_minimal_X_GET(null, null, null, null, record.id, "medicationfills", _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
         }
 
         protected override function handleResponse(event:IndivoClientEvent, responseXml:XML, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
             _apiCallsCompleted += 1;
 
-            if (healthRecordServiceRequestDetails.indivoApiCall == GET_MEDICATIONORDERS_REPORT)
-            {
-                // TODO: Fix once the report is working
-                healthRecordServiceRequestDetails.record.medicationsModel.medicationOrdersReportXml = responseXml;
-            }
-            else if (healthRecordServiceRequestDetails.indivoApiCall == GET_MEDICATIONSCHEDULEITEMS_REPORT)
-            {
-                healthRecordServiceRequestDetails.record.medicationsModel.medicationScheduleItemsReportXml = responseXml;
-            }
-            else if (healthRecordServiceRequestDetails.indivoApiCall == GET_MEDICATIONADMINISTRATIONS_REPORT)
-            {
-                healthRecordServiceRequestDetails.record.medicationsModel.medicationAdministrationsReportXml = responseXml;
-            }
-            else if (healthRecordServiceRequestDetails.indivoApiCall == GET_MEDICATIONFILLS_REPORT)
-            {
-                healthRecordServiceRequestDetails.record.medicationsModel.medicationFillsReportXml = responseXml;
-            }
+//            if (healthRecordServiceRequestDetails.indivoApiCall == GET_MEDICATIONORDERS_REPORT)
+//            {
+//                // TODO: Fix once the report is working
+//                healthRecordServiceRequestDetails.record.medicationsModel.medicationOrdersReportXml = responseXml;
+//            }
+//            else if (healthRecordServiceRequestDetails.indivoApiCall == GET_MEDICATIONSCHEDULEITEMS_REPORT)
+//            {
+//                healthRecordServiceRequestDetails.record.medicationsModel.medicationScheduleItemsReportXml = responseXml;
+//            }
+//            else if (healthRecordServiceRequestDetails.indivoApiCall == GET_MEDICATIONADMINISTRATIONS_REPORT)
+//            {
+//                healthRecordServiceRequestDetails.record.medicationsModel.medicationAdministrationsReportXml = responseXml;
+//            }
+//            else if (healthRecordServiceRequestDetails.indivoApiCall == GET_MEDICATIONFILLS_REPORT)
+//            {
+//                healthRecordServiceRequestDetails.record.medicationsModel.medicationFillsReportXml = responseXml;
+//            }
 
-            if (_apiCallsCompleted == 2)
+            if (_apiCallsCompleted == 4)
             {
                 dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE));
             }

@@ -36,6 +36,8 @@ package collaboRhythm.shared.model
         private var _adherenceItems:HashMap = new HashMap();
         private var _adherenceItemsCollection:ArrayCollection = new ArrayCollection();
         private var _currentDateSource:ICurrentDateSource;
+        private var _isInitialized:Boolean = false;
+        private var _isStitched:Boolean;
 		
 		public function AdherenceItemsModel(settings:Settings, activeAccount:Account, record:Record)
 		{
@@ -59,6 +61,57 @@ package collaboRhythm.shared.model
                 _adherenceItems[adherenceItem.id] = adherenceItem;
                 _adherenceItemsCollection.addItem(adherenceItem);
 			}
+            isInitialized = true;
 		}
+
+        public function get activeAccount():Account
+        {
+            return _activeAccount;
+        }
+
+        public function set activeAccount(value:Account):void
+        {
+            _activeAccount = value;
+        }
+
+        public function get isInitialized():Boolean
+        {
+            return _isInitialized;
+        }
+
+        public function set isInitialized(value:Boolean):void
+        {
+            _isInitialized = value;
+        }
+
+        public function get adherenceItemsHealthRecordService():AdherenceItemsHealthRecordService
+        {
+            return _adherenceItemsHealthRecordService;
+        }
+
+        public function set adherenceItemsHealthRecordService(value:AdherenceItemsHealthRecordService):void
+        {
+            _adherenceItemsHealthRecordService = value;
+        }
+
+        public function get adherenceItems():HashMap
+        {
+            return _adherenceItems;
+        }
+
+        public function set adherenceItems(value:HashMap):void
+        {
+            _adherenceItems = value;
+        }
+
+        public function get isStitched():Boolean
+        {
+            return _isStitched;
+        }
+
+        public function set isStitched(value:Boolean):void
+        {
+            _isStitched = value;
+        }
     }
 }

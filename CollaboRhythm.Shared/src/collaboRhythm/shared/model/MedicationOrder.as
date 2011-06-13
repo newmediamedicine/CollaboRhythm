@@ -41,7 +41,8 @@ package collaboRhythm.shared.model
         private var _refills:int;
         private var _substitutionPermitted:Boolean;
         private var _instructions:String;
-//        private var _medicationFill:MedicationFill;
+        private var _medicationFillId:String;
+        private var _medicationFill:MedicationFill;
         private var _scheduleItems:HashMap = new HashMap();
 
         private var _currentDateSource:ICurrentDateSource;
@@ -51,7 +52,7 @@ package collaboRhythm.shared.model
             _currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
         }
 
-        public function init(name:CodedValue, orderType:String, orderedBy:String, dateOrdered:Date, dateExpires:Date = null, indication:String = null, amountOrdered:ValueAndUnit = null, refills:int = 0, substitutionPermitted:Boolean = false, instructions:String = null, scheduleItems:HashMap = null):void
+        public function init(name:CodedValue, orderType:String, orderedBy:String, dateOrdered:Date, dateExpires:Date = null, indication:String = null, amountOrdered:ValueAndUnit = null, refills:int = 0, substitutionPermitted:Boolean = false, instructions:String = null, medicationFill:MedicationFill = null, scheduleItems:HashMap = null):void
 		{
 			_name = name;
             _orderType = orderType;
@@ -63,7 +64,7 @@ package collaboRhythm.shared.model
             _refills = refills;
             _substitutionPermitted = substitutionPermitted;
             _instructions = instructions;
-//            _medicationFill = medicationFill;
+            _medicationFill = medicationFill;
             _scheduleItems = scheduleItems;
 		}
 
@@ -81,6 +82,7 @@ package collaboRhythm.shared.model
             _refills = int(medicationOrderXml.refills);
             _substitutionPermitted = HealthRecordHelperMethods.stringToBoolean(medicationOrderXml.substitutionPermitted);
             _instructions = medicationOrderXml.instructions;
+            _medicationFillId = medicationOrderReportXml..relatesTo.relation.(@type == "http://indivo.org/vocab/documentrels#medicationFill").relatedDocument.@id;
             for each (var scheduleItemXml:XML in medicationOrderReportXml..relatesTo.relation.(@type == "http://indivo.org/vocab/documentrels#scheduleItem").relatedDocument)
             {
                 _scheduleItems[scheduleItemXml.@id] = null;
@@ -91,7 +93,7 @@ package collaboRhythm.shared.model
 		{
 			var medicationOrderXml:XML = <MedicationOrder/>;
 			medicationOrderXml.@xmlns = "http://indivo.org/vocab/xml/documents#";
-            // TODO: Write a helper method for coded value to xml
+            // TODO: Write a helper method for coded value to xml, but this may be moot if a schema will be used for marshaling and unmarshaling
             medicationOrderXml.name = name.text;
             medicationOrderXml.name.@type = name.type;
             medicationOrderXml.name.@value = name.value;
@@ -229,6 +231,26 @@ package collaboRhythm.shared.model
         public function set scheduleItems(value:HashMap):void
         {
             _scheduleItems = value;
+        }
+
+        public function get medicationFillId():String
+        {
+            return _medicationFillId;
+        }
+
+        public function set medicationFillId(value:String):void
+        {
+            _medicationFillId = value;
+        }
+
+        public function get medicationFill():MedicationFill
+        {
+            return _medicationFill;
+        }
+
+        public function set medicationFill(value:MedicationFill):void
+        {
+            _medicationFill = value;
         }
     }
 }

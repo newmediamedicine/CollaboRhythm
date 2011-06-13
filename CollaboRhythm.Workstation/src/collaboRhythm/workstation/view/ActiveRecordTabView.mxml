@@ -18,8 +18,8 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:mx="library://ns.adobe.com/flex/mx"
-         xmlns:view="collaboRhythm.shared.view.*"
-         xmlns:view2="collaboRhythm.workstation.view.*">
+         xmlns:sharedViews="collaboRhythm.shared.view.*"
+         xmlns:workstationViews="collaboRhythm.workstation.view.*">
     <fx:Style>
         @namespace s "library://ns.adobe.com/flex/spark";
         @namespace mx "library://ns.adobe.com/flex/mx";
@@ -79,7 +79,7 @@
             <s:SolidColor color="{ActiveRecordView.RECORD_BACKGROUND_COLOR}"/>
         </s:fill>
     </s:Rect>
-    <view2:RecordInformationView id="recordInformationView"/>
+    <workstationViews:RecordInformationView id="recordInformationView"/>
     <s:HGroup width="100%" height="100%" horizontalAlign="right" gap="10" paddingRight="10" paddingTop="5">
         <s:ToggleButton
 			id="recordVideoButton"

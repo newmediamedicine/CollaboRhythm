@@ -123,10 +123,5 @@ package collaboRhythm.shared.controller
 		{
 			_collaborationModel.closeCollaborationRoom();
 		}
-		
-		public function closeRecordVideoView():void
-		{
-			_collaborationModel.closeRecordVideoView();
-		}
     }
 }

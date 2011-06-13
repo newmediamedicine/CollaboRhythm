@@ -25,6 +25,8 @@ package collaboRhythm.shared.model
 
     import j2as3.collection.HashMap;
 
+    import mx.binding.utils.BindingUtils;
+
     import mx.collections.ArrayCollection;
 
     [Bindable]
@@ -34,14 +36,12 @@ package collaboRhythm.shared.model
 		private var _record:Record;
         private var _equipmentHealthRecordService:EquipmentHealthRecordService;
         private var _equipment:HashMap = new HashMap();
-        private var _equipmentScheduleItems:HashMap = new HashMap();
         private var _equipmentCollection:ArrayCollection = new ArrayCollection();
-        private var _equipmentScheduleItemColleciton:ArrayCollection = new ArrayCollection();
         private var _currentDateSource:ICurrentDateSource;
 
 		private var _shortEquipmentCollection:ArrayCollection = new ArrayCollection();
 		private var _isInitialized:Boolean = false;
-		private var _isLoading:Boolean = false;
+        private var _isStitched:Boolean;
 
 		public function EquipmentModel(settings:Settings, activeAccount:Account, record:Record)
 		{
@@ -53,8 +53,7 @@ package collaboRhythm.shared.model
 
         public function getEquipment():void
         {
-            _equipmentHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE, getEquipmentCompleteHandler);
-            _equipmentHealthRecordService.getEquipment(_record);
+             _equipmentHealthRecordService.getEquipment(_record);
         }
 
 		public function set equipmentReportXml(value:XML):void
@@ -66,32 +65,33 @@ package collaboRhythm.shared.model
                 _equipment[equipment.id] = equipment;
                 _equipmentCollection.addItem(equipment);
 			}
+            isInitialized = true;
 		}
 
-        public function set equipmentScheduleItemsReportXml(value:XML):void
-        {
-            for each (var equipmentScheduleItemXml:XML in value.Report)
-            {
-                var equipmentScheduleItem:EquipmentScheduleItem = new EquipmentScheduleItem();
-                equipmentScheduleItem.initFromReportXML(equipmentScheduleItemXml, "EquipmentScheduleItem");
-                _equipmentScheduleItems[equipmentScheduleItem.id] = equipmentScheduleItem;
-                _equipmentScheduleItemColleciton.addItem(equipmentScheduleItem);
-            }
-        }
-
-        public function getEquipmentCompleteHandler(event:HealthRecordServiceEvent):void
-        {
-            for each (var equipment:Equipment in _equipment)
-            {
-                for each (var scheduleItemId:String in equipment.scheduleItems.keys)
-                {
-                    var equipmentScheduleItem:EquipmentScheduleItem = _equipmentScheduleItems[scheduleItemId];
-                    equipment.scheduleItems[scheduleItemId] = equipmentScheduleItem;
-                    equipmentScheduleItem.scheduledEquipment = equipment;
-                }
-            }
-            isInitialized = true;
-        }
+//        private function relateDocuments():void
+//        {
+//            for each (var equipment:Equipment in _equipment)
+//            {
+//                for each (var scheduleItemId:String in equipment.scheduleItems.keys)
+//                {
+//                    var equipmentScheduleItem:EquipmentScheduleItem = _equipmentScheduleItems[scheduleItemId];
+//                    equipment.scheduleItems[scheduleItemId] = equipmentScheduleItem;
+//                    equipmentScheduleItem.scheduledEquipment = equipment;
+//
+//                    for each (var adherenceItemId:String in equipmentScheduleItem.adherenceItems.keys)
+//                    {
+//                        var adherenceItem:AdherenceItem = _record.adherenceItemsModel.adherenceItems[adherenceItemId];
+//                        equipmentScheduleItem.adherenceItems[adherenceItemId] = adherenceItem;
+//
+//                        for each (var medicationAdministrationId:String in adherenceItem.adherenceResultId)
+//                        {
+////                            adherenceItem.adherenceResult = _medicationAdministrations[medicationAdministrationId];
+//                        }
+//                    }
+//                }
+//            }
+//            isInitialized = true;
+//        }
 
 //		public function get equipmentCollection():ArrayCollection
 //		{
@@ -167,16 +167,6 @@ package collaboRhythm.shared.model
             _equipment = value;
         }
 
-        public function get equipmentScheduleItems():HashMap
-        {
-            return _equipmentScheduleItems;
-        }
-
-        public function set equipmentScheduleItems(value:HashMap):void
-        {
-            _equipmentScheduleItems = value;
-        }
-
         public function get equipmentCollection():ArrayCollection
         {
             return _equipmentCollection;
@@ -187,16 +177,6 @@ package collaboRhythm.shared.model
             _equipmentCollection = value;
         }
 
-        public function get equipmentScheduleItemColleciton():ArrayCollection
-        {
-            return _equipmentScheduleItemColleciton;
-        }
-
-        public function set equipmentScheduleItemColleciton(value:ArrayCollection):void
-        {
-            _equipmentScheduleItemColleciton = value;
-        }
-
         public function get isInitialized():Boolean
         {
             return _isInitialized;
@@ -205,6 +185,16 @@ package collaboRhythm.shared.model
         public function set isInitialized(value:Boolean):void
         {
             _isInitialized = value;
+        }
+
+        public function get isStitched():Boolean
+        {
+            return _isStitched;
+        }
+
+        public function set isStitched(value:Boolean):void
+        {
+            _isStitched = value;
         }
     }
 }

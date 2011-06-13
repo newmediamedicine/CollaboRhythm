@@ -3,7 +3,8 @@ package collaboRhythm.tablet.controller
 
     import collaboRhythm.core.controller.ApplicationControllerBase;
     import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.settings.Settings;
+    import collaboRhythm.shared.model.VideoMessage;
+    import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.view.CollaborationView;
     import collaboRhythm.tablet.view.ActiveRecordView;
     import collaboRhythm.tablet.view.VideosView;
@@ -113,6 +114,11 @@ package collaboRhythm.tablet.controller
         public override function get applicationSettingsEmbeddedFile():Class
         {
             return _applicationSettingsEmbeddedFile;
+        }
+
+        public function deleteVideoMessage(videoMessage:VideoMessage):void
+        {
+            _activeRecordAccount.primaryRecord.videoMessagesModel.deleteVideoMessage(videoMessage);
         }
     }
 }

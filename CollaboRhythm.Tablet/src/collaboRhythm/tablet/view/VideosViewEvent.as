@@ -8,6 +8,7 @@ package collaboRhythm.tablet.view
     public class VideosViewEvent extends Event
     {
         public static const PLAY_VIDEO_MESSAGE:String = "Play Video Message";
+        public static const DELETE_VIDEO_MESSAGE:String = "Delete Video Message";
 
         private var _videoMessage:VideoMessage;
 

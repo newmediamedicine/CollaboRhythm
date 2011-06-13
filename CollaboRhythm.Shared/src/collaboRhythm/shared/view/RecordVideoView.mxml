@@ -19,7 +19,6 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:mx="library://ns.adobe.com/flex/mx"
-         creationComplete="creationComplete()"
          enabled="{_collaborationModel.recordVideo}"
          height="200"
          currentState="hidden">
@@ -29,24 +28,34 @@
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 		
-		#recordVideoButton {
+		#recordVideoButton
+        {
 			font-size: 15;
 			font-weight: bold;
 		}
 
-        .playhead {
+        .playhead
+        {
             font-size: 14;
             color: #FFFFFF;
         }
 
-        .countdown {
+        .countdown
+        {
             font-size: 180;
             font-weight: bold;
+        }
+
+        .webcamNotAvailable
+        {
+            font-size: 20;
+            font-weight:bold;
         }
 	</fx:Style>
     <s:states>
         <s:State name="hidden"/>
         <s:State name="attachingCamera"/>
+        <s:State name="cameraNotAvailable"/>
         <s:State name="readyToRecord"/>
         <s:State name="countdownInProgress"/>
         <s:State name="startingRecording"/>
@@ -83,12 +92,15 @@
         private var _collaborationController:CollaborationController;
         [Bindable]
         private var _collaborationModel:CollaborationModel;
+        [Bindable]
+        private var _camera:Camera;
+        [Bindable]
+        private var _microphone:Microphone;
 
         private var _netConnection:NetConnection;
         private var _netStream:NetStream;
 
-        private var _camera:Camera;
-        private var _microphone:Microphone;
+        private var _attachCameraTimer:Timer;
 
         private var _countdownTimer:Timer;
         private var _startingRecordingTimer:Timer;
@@ -107,25 +119,53 @@
         {
             _collaborationController = collaborationController;
             _collaborationModel = _collaborationController.collaborationModel;
+            _camera = _collaborationModel.audioVideoOutput.camera;
+            _microphone = _collaborationModel.audioVideoOutput.microphone;
             _netConnection = _collaborationModel.collaborationLobbyNetConnectionService.netConnection;
-        }
-
-        private function creationComplete():void
-        {
-            _camera = Camera.getCamera();
-            _microphone = Microphone.getMicrophone();
         }
 
         public function showEffectEndHandler():void
         {
-            attachCamera();
-            _netStream = new NetStream(_netConnection);
+            if (_camera != null)
+            {
+                attachCamera();
+            }
         }
 
         private function attachCamera():void
         {
+            currentState = "attachingCamera";
+            _camera.setMotionLevel(0, 5000);
+            _camera.addEventListener(ActivityEvent.ACTIVITY, cameraActivityEventHandler);
+            _attachCameraTimer = new Timer(5000, 1);
+            _attachCameraTimer.addEventListener(TimerEvent.TIMER_COMPLETE, attachCameraTimer);
+            _attachCameraTimer.start();
             videoDisplay.attachCamera(_camera);
-            currentState = "readyToRecord";
+            _netStream = new NetStream(_netConnection);
+        }
+
+        // Camera.getCamera() does not return null depending on the camera, drivers, and other applications using it
+        // As a result, the activity event needs to be used to determine if the webcam is attached
+        private function cameraActivityEventHandler(event:ActivityEvent):void
+        {
+            if (event.activating)
+            {
+                _attachCameraTimer.stop();
+                _camera.removeEventListener(ActivityEvent.ACTIVITY, cameraActivityEventHandler);
+                currentState = "readyToRecord";
+            }
+        }
+
+        // If the camera is not null but is being used by another program, the timeout in setMotionLevel will not fire
+        // A separate timer needs to be used
+        private function attachCameraTimer(event:TimerEvent):void
+        {
+            trace("attach Camera timer");
+            if (currentState == "attachingCamera")
+            {
+                //TODO: Add an animation to use while the camera is being attached
+                currentState = "cameraNotAvailable";
+            }
         }
 
         public function hideEffectEndHandler():void
@@ -135,6 +175,14 @@
                 _netStream.close();
             }
             videoDisplay.attachCamera(null);
+            if (_attachCameraTimer != null)
+                _attachCameraTimer.stop();
+            if (_countdownTimer != null)
+                _countdownTimer.stop();
+            if (_startingRecordingTimer)
+                _startingRecordingTimer.stop();
+            if (_playheadTimer != null)
+                _playheadTimer.stop();
             currentState = "hidden";
         }
 
@@ -157,6 +205,7 @@
             }
             else if (currentState == "recording")
             {
+                _netStream.attachCamera(null);
                 _netStream.close();
                 videoDisplay.attachCamera(null);
                 prepareVideoForPlayback();
@@ -267,7 +316,7 @@
         {
             stopPlayingVideo();
             _collaborationController.uploadVideoMessage();
-            _collaborationController.closeRecordVideoView();
+            _collaborationController.hideRecordVideoView();
         }
 
         private function stopPlayingVideo():void
@@ -284,8 +333,11 @@
     <s:HGroup height="{VIDEO_HEIGHT}" horizontalCenter="0" verticalCenter="0" gap="10">
         <s:Group width="60" height="100%">
             <s:Button id="recordVideoButton"
-                      includeIn="hidden, readyToRecord, countdownInProgress, startingRecording, recording"
+                      enabled.hidden="false"
+                      enabled.attachingCamera="false"
+                      includeIn="hidden, attachingCamera, readyToRecord, countdownInProgress, startingRecording, recording"
                       icon.hidden="@Embed(source='/resources/images/icons/buttonIcons/recordIcon.png')"
+                      icon.attachingCamera="@Embed(source='/resources/images/icons/buttonIcons/recordIcon.png')"
                       icon.readyToRecord="@Embed(source='/resources/images/icons/buttonIcons/recordIcon.png')"
                       icon="@Embed(source='/resources/images/icons/buttonIcons/stopIcon.png')"
                       verticalCenter="0"
@@ -298,11 +350,13 @@
             <!-- The component that displays video from the camera or video being played back from the netstream -->
             <mx:VideoDisplay id="videoDisplay" width="100%" height="100%"/>
             <!-- An overlay to obscure the video prior to initiating recording -->
-            <s:Rect width="100%" height="100%" includeIn="hidden, readyToRecord, countdownInProgress">
+            <s:Rect width="100%" height="100%" includeIn="hidden, attachingCamera, readyToRecord, countdownInProgress">
                 <s:fill>
                     <s:SolidColor color="0xFFFFFF" alpha="0.5"/>
                 </s:fill>
             </s:Rect>
+            <!-- Label to show if a webcam is not available -->
+            <s:Label id="webcamNotAvailableLabel" text="Webcam not available" styleName="webcamNotAvailable" verticalCenter="0" horizontalCenter="0" includeIn="cameraNotAvailable"/>
             <!-- A border around the video that turns red when recording is in progress -->
             <s:Rect width="100%" height="100%">
                 <s:stroke>

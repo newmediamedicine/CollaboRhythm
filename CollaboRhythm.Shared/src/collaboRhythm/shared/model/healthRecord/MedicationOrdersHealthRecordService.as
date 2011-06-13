@@ -22,22 +22,23 @@ package collaboRhythm.shared.model.healthRecord
 
     import org.indivo.client.IndivoClientEvent;
 
-    public class EquipmentHealthRecordService extends PhaHealthRecordServiceBase
+    public class MedicationOrdersHealthRecordService extends PhaHealthRecordServiceBase
 	{
-		public function EquipmentHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account)
+
+		public function MedicationOrdersHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account)
 		{
 			super(consumerKey, consumerSecret, baseURL, account);
 		}
 
-        public function getEquipment(record:Record):void
+        public function getMedicationOrders(record:Record):void
         {
             var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(null, null, record);
-            _pha.reports_minimal_X_GET(null, null, null, null, record.id, "equipment", _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
+            _pha.reports_minimal_X_GET(null, null, null, null, record.id, "medicationorders", _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
         }
 
         protected override function handleResponse(event:IndivoClientEvent, responseXml:XML, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
-            healthRecordServiceRequestDetails.record.equipmentModel.equipmentReportXml = responseXml;
+            healthRecordServiceRequestDetails.record.medicationOrdersModel.medicationOrdersReportXml = responseXml;
         }
 	}
 }

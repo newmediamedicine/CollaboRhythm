@@ -33,19 +33,8 @@
         import spark.filters.GlowFilter;
 
         [Bindable]
-        private var _medication:Medication;
-        [Bindable]
         private var _medicationScheduleItem:MedicationScheduleItem;
-
-        public function get medication():Medication
-        {
-            return _medication;
-        }
-
-        public function set medication(value:Medication):void
-        {
-            _medication = value;
-        }
+        private var _recurrenceIndex:int;
 
         public function get medicationScheduleItem():MedicationScheduleItem
         {
@@ -84,7 +73,7 @@
 	</fx:Script>
 	<s:Ellipse width="100%" height="100%">
 		<s:fill>
-			<s:SolidColor color="{_medication.color}"/>
+			<s:SolidColor color="#000000"/>
 		</s:fill>
 	</s:Ellipse>
     <!--visible="{determineCheckVisible(_medicationScheduleItem.adherenceItem)}"-->

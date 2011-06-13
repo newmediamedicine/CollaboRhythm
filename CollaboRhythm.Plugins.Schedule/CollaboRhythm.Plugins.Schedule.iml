@@ -70,15 +70,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared" />
-    <orderEntry type="module-library">
-      <library name="Imported from Flash/Flex Builder: coltware_airxlib_log_r3">
-        <CLASSES>
-          <root url="jar://C:/Users/jom/Downloads/coltware_airxlib_log_r3.swc!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" />
     <orderEntry type="module" module-name="CollaboRhythm.Plugins.Schedule.Shared" />
     <orderEntry type="module-library">
