@@ -9,6 +9,10 @@
     <option name="screenHeight" value="0" />
     <option name="screenWidth" value="0" />
     <option name="usbDebugPort" value="7936" />
+    <RunnerSettings RunnerId="FlexDebugRunner" />
+    <RunnerSettings RunnerId="FlexRunner" />
+    <ConfigurationWrapper RunnerId="FlexDebugRunner" />
+    <ConfigurationWrapper RunnerId="FlexRunner" />
     <method />
   </configuration>
 </component>
