@@ -25,6 +25,10 @@ package collaboRhythm.mobile.view.skins
 	{
 		public var busyIndicator:BusyIndicator;
 
+		[Embed("/assets/animation1.swf")]
+		[Bindable]
+		public var busyIndicatorSourceAnimation:Class;
+
 		public function CollaboRhythmMobileApplicationSkin()
 		{
 			super();
@@ -33,7 +37,7 @@ package collaboRhythm.mobile.view.skins
 		override protected function createChildren():void
 		{
 			busyIndicator = new BusyIndicator();
-			busyIndicator.setStyle("source", "/assets/animation1.swf");
+			busyIndicator.setStyle("source", busyIndicatorSourceAnimation);
 			busyIndicator.setStyle("scale", true);
 			busyIndicator.busy = true;
 			addChild(busyIndicator);
