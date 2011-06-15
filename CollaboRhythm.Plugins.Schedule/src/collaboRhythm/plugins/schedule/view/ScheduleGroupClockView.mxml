@@ -33,6 +33,7 @@
         import collaboRhythm.shared.model.ScheduleItemBase;
         import collaboRhythm.plugins.schedule.model.ScheduleModel;
         import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
+        import collaboRhythm.shared.model.ScheduleItemOccurrence;
 
         import com.leebrimelow.drawing.Wedge;
 
@@ -69,14 +70,15 @@
                                                                            "width");
             var heightChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroupsContainer,
                                                                             "height");
-			var stackingUpdatedChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(stackingUpdateHandler, _scheduleGroup, "stackingUpdated");
+            var stackingUpdatedChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(stackingUpdateHandler,
+                                                                                     _scheduleGroup, "stackingUpdated");
         }
 
         private function creationCompleteHandler():void
         {
-            for each (var scheduleItem:ScheduleItemBase in _scheduleItemsCollection)
+            for each (var scheduleItemOccurrence:ScheduleItemOccurrence in _scheduleItemsCollection)
             {
-                createScheduleItemClockView(scheduleItem);
+                createScheduleItemClockView(scheduleItemOccurrence);
             }
 
             _isCreationComplete = true;
@@ -100,32 +102,31 @@
             {
                 if (_isCreationComplete)
                 {
-                    for each (var scheduleItemAdded:ScheduleItemBase in event.items)
+                    for each (var scheduleItemOccurrenceAdded:ScheduleItemOccurrence in event.items)
                     {
-                        createScheduleItemClockView(scheduleItemAdded);
+                        createScheduleItemClockView(scheduleItemOccurrenceAdded);
                     }
                 }
             }
             else if (event.kind == CollectionEventKind.REMOVE)
             {
-                for each (var scheduleItemRemoved:ScheduleItemBase in event.items)
+                for each (var scheduleItemOccurrenceRemoved:ScheduleItemOccurrence in event.items)
                 {
-                    destroyScheduleItemClockView(scheduleItemRemoved);
+                    destroyScheduleItemClockView(scheduleItemOccurrenceRemoved);
                 }
             }
 
             updateView();
         }
 
-        public function createScheduleItemClockView(scheduleItem:ScheduleItemBase):void
+        public function createScheduleItemClockView(scheduleItemOccurrence:ScheduleItemOccurrence):void
         {
-            var scheduleItemClockView:ScheduleItemClockViewBase = _scheduleGroup.scheduleModel.viewFactory.createScheduleItemClockView(scheduleItem);
-            scheduleItemClockView.init(scheduleItem, scheduleItemsContainer);
-            scheduleItemsContainer.addElement(scheduleItemClockView);
+            var scheduleItemClockView:ScheduleItemClockViewBase = _scheduleGroup.scheduleModel.viewFactory.createScheduleItemClockView(scheduleItemOccurrence, scheduleItemOccurrencesContainer);
+            scheduleItemOccurrencesContainer.addElement(scheduleItemClockView);
             _scheduleItemClockViews.push(scheduleItemClockView);
         }
 
-        public function destroyScheduleItemClockView(scheduleGroup:ScheduleItemBase):void
+        public function destroyScheduleItemClockView(scheduleItemOccurrence:ScheduleItemOccurrence):void
         {
 
         }
@@ -235,5 +236,5 @@
         }
         ]]>
 	</fx:Script>
-	<s:Group id="scheduleItemsContainer" width="100%" height="100%" />
+	<s:Group id="scheduleItemOccurrencesContainer" width="100%" height="100%" />
 </s:Group>

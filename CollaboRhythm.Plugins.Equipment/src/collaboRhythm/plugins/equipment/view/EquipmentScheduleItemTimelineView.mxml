@@ -48,16 +48,23 @@
         import collaboRhythm.shared.model.Equipment;
         import collaboRhythm.shared.model.EquipmentScheduleItem;
         import collaboRhythm.shared.model.ScheduleItemBase;
+        import collaboRhythm.shared.model.ScheduleItemOccurrence;
 
         [Bindable]
         private var _equipment:Equipment;
         [Bindable]
         private var _equipmentScheduleItem:EquipmentScheduleItem;
 
-        public function init(scheduleItem:ScheduleItemBase):void
+        public override function init(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):void
         {
-            _equipmentScheduleItem = scheduleItem as EquipmentScheduleItem;
+            super.init(scheduleItemOccurrence, parentGroup);
+            _equipmentScheduleItem = scheduleItemOccurrence.scheduleItem as EquipmentScheduleItem;
             _equipment = _equipmentScheduleItem.scheduledEquipment;
+        }
+
+        public override function get scheduleItem():ScheduleItemBase
+        {
+            return _equipmentScheduleItem
         }
         ]]>
 	</fx:Script>

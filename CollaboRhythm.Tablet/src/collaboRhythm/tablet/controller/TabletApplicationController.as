@@ -46,8 +46,6 @@ package collaboRhythm.tablet.controller
             initCollaborationController(null);
 
             createSession();
-
-            _application.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
         }
 
         public override function openRecordAccount(recordAccount:Account):void
@@ -99,18 +97,6 @@ package collaboRhythm.tablet.controller
 			return _fullContainer;
 		}
 
-        private function onKeyUp(event:KeyboardEvent):void
-		{
-			// If the user presses escape, close the entire application
-			if (event.keyCode == Keyboard.BACK)
-			{
-				if (_activeRecordView.fullViewsGroup.numElements > 0)
-                {
-                    _activeRecordView.fullViewsGroup.removeAllElements();
-                }
-			}
-		}
-
         public override function get applicationSettingsEmbeddedFile():Class
         {
             return _applicationSettingsEmbeddedFile;
@@ -119,6 +105,11 @@ package collaboRhythm.tablet.controller
         public function deleteVideoMessage(videoMessage:VideoMessage):void
         {
             _activeRecordAccount.primaryRecord.videoMessagesModel.deleteVideoMessage(videoMessage);
+        }
+
+        public function get activeRecordView():ActiveRecordView
+        {
+            return _activeRecordView;
         }
     }
 }

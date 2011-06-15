@@ -26,6 +26,7 @@ package collaboRhythm.plugins.schedule.model
     import collaboRhythm.shared.model.MedicationsModel;
     import collaboRhythm.shared.model.Record;
     import collaboRhythm.shared.model.ScheduleItemBase;
+    import collaboRhythm.shared.model.ScheduleItemOccurrence;
     import collaboRhythm.shared.model.User;
     import collaboRhythm.shared.model.services.IComponentContainer;
     import collaboRhythm.shared.model.services.ICurrentDateSource;
@@ -133,49 +134,62 @@ package collaboRhythm.plugins.schedule.model
         {
             if (_record.medicationOrdersModel.isStitched && _record.medicationScheduleItemsModel.isStitched && _record.equipmentModel.isStitched && _record.equipmentScheduleItemsModel.isStitched && _record.adherenceItemsModel.isStitched)
             {
+                var dateNow:Date = _currentDateSource.now();
+                var dateStart:Date = new Date(dateNow.getFullYear(), dateNow.getMonth(), dateNow.getDate());
+                var dateEnd:Date = new Date(dateNow.getFullYear(), dateNow.getMonth(), dateNow.getDate(), 23, 59);
                 for each (var medicationScheduleItem:MedicationScheduleItem in _record.medicationScheduleItemsModel.medicationScheduleItems)
                 {
-                    addToScheduleGroup(medicationScheduleItem);
+                    var medicationScheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = medicationScheduleItem.getScheduleItemOccurrences(dateStart, dateEnd);
+                    for each (var medicationScheduleItemOccurrence:ScheduleItemOccurrence in medicationScheduleItemOccurrencesVector)
+                    {
+                        medicationScheduleItemOccurrence.scheduleItem = medicationScheduleItem;
+                        addToScheduleGroup(medicationScheduleItemOccurrence);
+                    }
                 }
                 for each (var equipmentScheduleItem:EquipmentScheduleItem in _record.equipmentScheduleItemsModel.equipmentScheduleItems)
                 {
-                    addToScheduleGroup(equipmentScheduleItem);
+                    var equipmentScheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = equipmentScheduleItem.getScheduleItemOccurrences(dateStart, dateEnd);
+                    for each (var equipmentScheduleItemOccurrence:ScheduleItemOccurrence in equipmentScheduleItemOccurrencesVector)
+                    {
+                        equipmentScheduleItemOccurrence.scheduleItem = equipmentScheduleItem;
+                        addToScheduleGroup(equipmentScheduleItemOccurrence);
+                    }
                 }
                 isInitialized = true;
                 determineStacking();
             }
         }
 
-        private function addToScheduleGroup(scheduleItem:ScheduleItemBase):void
+        private function addToScheduleGroup(scheduleItemOccurrence:ScheduleItemOccurrence):void
         {
             var isMatchingScheduleGroup:Boolean = false;
             for each (var scheduleGroup:ScheduleGroup in _scheduleGroupsCollection)
             {
-                if (isMatchingTime(scheduleGroup, scheduleItem))
+                if (isMatchingTime(scheduleGroup, scheduleItemOccurrence))
                 {
-                    scheduleGroup.addScheduleItem(scheduleItem);
+                    scheduleGroup.addScheduleItem(scheduleItemOccurrence);
                     isMatchingScheduleGroup = true;
                 }
             }
             if (!isMatchingScheduleGroup)
             {
-                var scheduleGroup:ScheduleGroup = new ScheduleGroup(this, scheduleItem.dateStart, scheduleItem.dateEnd);
-                scheduleGroup.addScheduleItem(scheduleItem);
-                _scheduleGroupsCollection.addItem(scheduleGroup);
+                var newScheduleGroup:ScheduleGroup = new ScheduleGroup(this, scheduleItemOccurrence.dateStart, scheduleItemOccurrence.dateEnd);
+                newScheduleGroup.addScheduleItem(scheduleItemOccurrence);
+                _scheduleGroupsCollection.addItem(newScheduleGroup);
                 // TODO: use a GUID for the scheduleGroup so it will work with remote collaboration
-                _scheduleGroupsHashMap[scheduleItem.id] = scheduleGroup;
-                scheduleGroup.id = scheduleItem.id;
+                _scheduleGroupsHashMap[scheduleItemOccurrence.scheduleItem.id + scheduleItemOccurrence.recurrenceIndex] = newScheduleGroup;
+                newScheduleGroup.id = scheduleItemOccurrence.scheduleItem.id + scheduleItemOccurrence.recurrenceIndex;
             }
         }
 
-        private function isMatchingTime(scheduleGroup:ScheduleGroup, scheduleItem:ScheduleItemBase):Boolean
+        private function isMatchingTime(scheduleGroup:ScheduleGroup, scheduleItemOccurrence:ScheduleItemOccurrence):Boolean
         {
-            return (scheduleGroup.dateTimeStart.hoursUTC == scheduleItem.dateStart.hoursUTC &&
-                scheduleGroup.dateTimeStart.minutesUTC == scheduleItem.dateStart.minutesUTC &&
-                scheduleGroup.dateTimeStart.secondsUTC == scheduleItem.dateStart.secondsUTC &&
-                scheduleGroup.dateTimeEnd.hoursUTC == scheduleItem.dateEnd.hoursUTC &&
-                scheduleGroup.dateTimeEnd.minutesUTC == scheduleItem.dateEnd.minutesUTC &&
-                scheduleGroup.dateTimeEnd.secondsUTC == scheduleItem.dateEnd.secondsUTC);
+            return (scheduleGroup.dateTimeStart.hoursUTC == scheduleItemOccurrence.dateStart.hoursUTC &&
+                scheduleGroup.dateTimeStart.minutesUTC == scheduleItemOccurrence.dateStart.minutesUTC &&
+                scheduleGroup.dateTimeStart.secondsUTC == scheduleItemOccurrence.dateStart.secondsUTC &&
+                scheduleGroup.dateTimeEnd.hoursUTC == scheduleItemOccurrence.dateEnd.hoursUTC &&
+                scheduleGroup.dateTimeEnd.minutesUTC == scheduleItemOccurrence.dateEnd.minutesUTC &&
+                scheduleGroup.dateTimeEnd.secondsUTC == scheduleItemOccurrence.dateEnd.secondsUTC);
         }
 
 		public function get isInitialized():Boolean
@@ -254,29 +268,29 @@ package collaboRhythm.plugins.schedule.model
 		public function openScheduleGroupReportingView(scheduleGroup:ScheduleGroup):void
 		{
 			_currentScheduleGroup = scheduleGroup;
-//			currentWidgetView = SCHEDULE_GROUP_REPORTING_VIEW;
+			currentWidgetView = SCHEDULE_GROUP_REPORTING_VIEW;
 		}
 		
 		public function closeScheduleGroupReportingView():void
 		{
-//			currentWidgetView = SCHEDULE_CLOCK_VIEW;
+			currentWidgetView = SCHEDULE_CLOCK_VIEW;
 		}
 		
-		public function createAdherenceItem(scheduleGroup:ScheduleGroup, scheduleItem:ScheduleItemBase, adherenceItem:AdherenceItem):void
+		public function createAdherenceItem(scheduleGroup:ScheduleGroup, scheduleItemOccurrence:ScheduleItemOccurrence, adherenceItem:AdherenceItem):void
 		{
-//			scheduleItem.adherenceItem = adherenceItem;
-//			var reportingCompleted:Boolean = true;
-//			for each (var scheduleItem:ScheduleItemBase in scheduleGroup.scheduleItemsCollection)
-//			{
-//				if (!scheduleItem.adherenceItem)
-//				{
-//					reportingCompleted = false;
-//				}
-//			}
-//			if (reportingCompleted)
-//			{
-//				currentWidgetView = SCHEDULE_CLOCK_VIEW;
-//			}
+			scheduleItemOccurrence.adherenceItem = adherenceItem;
+			var reportingCompleted:Boolean = true;
+			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleGroup.scheduleItemsCollection)
+			{
+				if (!scheduleItemOccurrence.adherenceItem)
+				{
+					reportingCompleted = false;
+				}
+			}
+			if (reportingCompleted)
+			{
+				currentWidgetView = SCHEDULE_CLOCK_VIEW;
+			}
 		}
 		
 		public function grabScheduleGroup(moveData:MoveData):void
@@ -362,7 +376,7 @@ package collaboRhythm.plugins.schedule.model
 					previousStackHasAdherenceGroup = false;
 				}
 
-				for each (var scheduleItem:ScheduleItemBase in scheduleGroup.scheduleItemsCollection)
+				for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleGroup.scheduleItemsCollection)
 				{
 					scheduleItemsStacked += 1;
 				}

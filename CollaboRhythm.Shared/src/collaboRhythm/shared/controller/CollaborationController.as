@@ -72,7 +72,7 @@ package collaboRhythm.shared.controller
 
         public function uploadVideoMessage():void
         {
-            _collaborationModel.activeRecordAccount.primaryRecord.videoMessagesModel.createVideoMessage(_collaborationModel.activeAccount.accountId);
+            _collaborationModel.activeRecordAccount.primaryRecord.videoMessagesModel.createVideoMessage();
         }
 
 		public function get activeAccount():Account

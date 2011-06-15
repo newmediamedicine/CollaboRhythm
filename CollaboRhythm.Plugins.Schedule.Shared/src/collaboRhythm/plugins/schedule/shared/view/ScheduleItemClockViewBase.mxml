@@ -24,23 +24,25 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
+        import collaboRhythm.shared.model.AdherenceItem;
         import collaboRhythm.shared.model.ScheduleItemBase;
+        import collaboRhythm.shared.model.ScheduleItemOccurrence;
 
         import mx.binding.utils.BindingUtils;
         import mx.binding.utils.ChangeWatcher;
         import mx.core.IVisualElement;
 
         [Bindable]
-        private var _scheduleItem:ScheduleItemBase;
+        protected var _scheduleItemOccurrence:ScheduleItemOccurrence;
         [Bindable]
-        private var _scheduleItemsContainer:Group;
+        private var _parentGroup:Group;
 
         public static const SCHEDULE_ITEM_WIDGET_VIEW:String = "scheduleItemWidgetView";
 
-        public function init(scheduleItem:ScheduleItemBase, scheduleItemsContainer:Group):void
+        public function init(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):void
         {
-            _scheduleItem = scheduleItem;
-            _scheduleItemsContainer = scheduleItemsContainer;
+            _scheduleItemOccurrence = scheduleItemOccurrence;
+            _parentGroup = parentGroup;
 
 //				var hourChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(locationChangeHandler, _scheduleItem, "hour");
 //				var adherenceWindowChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(locationChangeHandler, _scheduleItem.adherenceGroup, "adherenceWindow");
@@ -51,8 +53,23 @@
 
         public function get scheduleItem():ScheduleItemBase
         {
-            return _scheduleItem;
+            throw new Error("virtual function must be overridden in subclass");
         }
+
+        public function get scheduleItemOccurrence():ScheduleItemOccurrence
+        {
+            return _scheduleItemOccurrence;
+        }
+
+        public function set scheduleItemOccurrence(value:ScheduleItemOccurrence):void
+        {
+            _scheduleItemOccurrence = value;
+        }
+
+        //        public function get scheduleItem():ScheduleItemBase
+        //        {
+        //            return _scheduleItem;
+        //        }
 
         //			private function stackingUpdateHandler(stackingUpdated:Boolean):void
         //			{

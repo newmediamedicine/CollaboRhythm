@@ -24,6 +24,7 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.plugins.schedule.view.ScheduleGroupReportingView;
 	import collaboRhythm.plugins.schedule.view.ScheduleWidgetView;
 	import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
+    import collaboRhythm.shared.model.ScheduleItemOccurrence;
 
     import mx.core.IVisualElementContainer;
 
@@ -57,7 +58,7 @@ package collaboRhythm.plugins.schedule.controller
 			if (!_isWorkstationMode)
 			{
                 _scheduleModel.openScheduleGroupReportingView(scheduleGroup);
-				_scheduleWidgetView.showScheduleGroupReportingView();
+//				_scheduleWidgetView.showScheduleGroupReportingView();
 			}
 		}
 		
@@ -66,9 +67,9 @@ package collaboRhythm.plugins.schedule.controller
 			_scheduleModel.closeScheduleGroupReportingView();
 		}
 		
-		public function createAdherenceItem(scheduleGroup:ScheduleGroup, scheduleItem:ScheduleItemBase, adherenceItem:AdherenceItem):void
+		public function createAdherenceItem(scheduleGroup:ScheduleGroup, scheduleItemOccurrence:ScheduleItemOccurrence, adherenceItem:AdherenceItem):void
 		{
-			_scheduleModel.createAdherenceItem(scheduleGroup, scheduleItem, adherenceItem);		
+			_scheduleModel.createAdherenceItem(scheduleGroup, scheduleItemOccurrence, adherenceItem);
 		}
 	}
 }

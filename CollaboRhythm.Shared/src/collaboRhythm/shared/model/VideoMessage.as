@@ -38,14 +38,14 @@ package collaboRhythm.shared.model
             _activeAccount = activeAccount;
         }
 
-        public function init(fileId:String, storageType:String, subject:String, from:String, dateRecorded:Date, dateSent:Date):void
+        public function init(fileId:String, storageType:String, subject:String, from:Account, dateRecorded:Date, dateSent:Date):void
 		{
 			_fileId = int(fileId);
             _storageType = storageType;
             _subject = subject;
             // TODO: Add checking here for null and potentially return null from the init
             // This might occur if there was previously a sharing relationship, a video was sent, but then the sharing relationship was removed
-            _from = _activeAccount.allSharingAccounts[from];
+            _from = from;
             _dateRecorded = dateRecorded;
             _dateSent = dateSent;
 		}
@@ -69,7 +69,7 @@ package collaboRhythm.shared.model
 			videoMessageXml.fileId = fileId;
             videoMessageXml.storageType = storageType;
             videoMessageXml.subject = subject;
-            videoMessageXml.from = from;
+            videoMessageXml.from = from.accountId;
             videoMessageXml.dateRecorded = com.adobe.utils.DateUtil.toW3CDTF(dateRecorded);
             videoMessageXml.dateSent = com.adobe.utils.DateUtil.toW3CDTF(dateSent);
 			

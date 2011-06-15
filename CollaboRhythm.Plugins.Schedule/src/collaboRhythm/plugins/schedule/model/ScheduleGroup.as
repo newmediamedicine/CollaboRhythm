@@ -21,6 +21,7 @@ package collaboRhythm.plugins.schedule.model
 	import collaboRhythm.shared.model.DateUtil;
     import collaboRhythm.shared.model.RecurrenceRule;
     import collaboRhythm.shared.model.ScheduleItemBase;
+    import collaboRhythm.shared.model.ScheduleItemOccurrence;
     import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 
 	import mx.collections.ArrayCollection;
@@ -274,9 +275,9 @@ package collaboRhythm.plugins.schedule.model
 			return _scheduleItemsCollection;
 		}
 		
-		public function addScheduleItem(scheduleItem:ScheduleItemBase):void
+		public function addScheduleItem(scheduleItemOccurrence:ScheduleItemOccurrence):void
 		{
-			_scheduleItemsCollection.addItem(scheduleItem);
+			_scheduleItemsCollection.addItem(scheduleItemOccurrence);
 		}
 	}
 }

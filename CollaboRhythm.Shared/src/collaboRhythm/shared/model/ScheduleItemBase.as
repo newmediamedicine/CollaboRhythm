@@ -27,6 +27,8 @@ package collaboRhythm.shared.model
     [Bindable]
 	public class ScheduleItemBase extends DocumentMetadata
 	{
+        public static const DAILY:String = "DAILY";
+
         private var _scheduleItemXml:XML;
 		private var _name:CodedValue;
 		private var _scheduledBy:String;
@@ -72,6 +74,37 @@ package collaboRhythm.shared.model
                 _adherenceItems[adherenceItemXml.@id] = null;
             }
 		}
+
+        public function getScheduleItemOccurrences(dateStart:Date, dateEnd:Date):Vector.<ScheduleItemOccurrence>
+        {
+            //TODO: Implement for the case that the recurrence rule uses until instead of count
+            var scheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
+            var frequencyMilliseconds:int;
+            switch (_recurrenceRule.frequency.text)
+            {
+                case DAILY:
+                    frequencyMilliseconds = 24 * 60 * 60 * 1000;
+                    break;
+            }
+            for (var recurrenceIndex:int = 0; recurrenceIndex < _recurrenceRule.count; recurrenceIndex++)
+            {
+                var occurrenceDateStart:Date = new Date(_dateStart.time + frequencyMilliseconds * recurrenceIndex);
+                if (occurrenceDateStart.time > dateStart.time && occurrenceDateStart.time < dateEnd.time)
+                {
+                    var occurrenceDateEnd:Date = new Date(_dateEnd.time + frequencyMilliseconds * recurrenceIndex);
+                    var scheduleItemOccurrence:ScheduleItemOccurrence = new ScheduleItemOccurrence(occurrenceDateStart, occurrenceDateEnd, recurrenceIndex);
+                    for each (var adherenceItem:AdherenceItem in _adherenceItems)
+                    {
+                        if (adherenceItem.recurrenceIndex == recurrenceIndex)
+                        {
+                            scheduleItemOccurrence.adherenceItem = adherenceItem;
+                        }
+                    }
+                    scheduleItemOccurrencesVector.push(scheduleItemOccurrence);
+                }
+            }
+            return scheduleItemOccurrencesVector;
+        }
 
 //		public function createScheduleItemClockView():ScheduleItemClockViewBase
 //		{

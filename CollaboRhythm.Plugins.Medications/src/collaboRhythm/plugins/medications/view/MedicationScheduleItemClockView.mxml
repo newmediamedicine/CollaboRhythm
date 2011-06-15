@@ -29,12 +29,27 @@
         import collaboRhythm.plugins.medications.model.Medication;
         import collaboRhythm.shared.model.MedicationScheduleItem;
         import collaboRhythm.shared.model.AdherenceItem;
+        import collaboRhythm.shared.model.ScheduleItemBase;
+        import collaboRhythm.shared.model.ScheduleItemOccurrence;
+
+        import spark.components.Group;
 
         import spark.filters.GlowFilter;
 
         [Bindable]
         private var _medicationScheduleItem:MedicationScheduleItem;
         private var _recurrenceIndex:int;
+
+        public override function init(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):void
+        {
+            super.init(scheduleItemOccurrence, parentGroup);
+            _medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
+        }
+
+        public override function get scheduleItem():ScheduleItemBase
+        {
+            return _medicationScheduleItem
+        }
 
         public function get medicationScheduleItem():MedicationScheduleItem
         {
@@ -46,29 +61,11 @@
             _medicationScheduleItem = value;
         }
 
-        private function determineCheckVisible(adherenceItem:AdherenceItem):Boolean
+        private function isCheckVisible(adherenceItem:AdherenceItem):Boolean
         {
-            if (adherenceItem)
-            {
-                return (adherenceItem.adherence);
-            }
-            else
-            {
-                return false;
-            }
+            return true;
         }
 
-        private function determineXVisible(adherenceItem:AdherenceItem):Boolean
-        {
-            if (adherenceItem)
-            {
-                return (!adherenceItem.adherence);
-            }
-            else
-            {
-                return false;
-            }
-        }
         ]]>
 	</fx:Script>
 	<s:Ellipse width="100%" height="100%">
@@ -77,6 +74,6 @@
 		</s:fill>
 	</s:Ellipse>
     <!--visible="{determineCheckVisible(_medicationScheduleItem.adherenceItem)}"-->
-	<!--<images:check width="70%" height="70%" verticalCenter="0" horizontalCenter="0" filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}" />-->
-	<!--<images:x width="70%" height="70%"  verticalCenter="0" horizontalCenter="0" filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}"/>-->
+	<images:check width="70%" height="70%" verticalCenter="0" horizontalCenter="0" filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}" visible="{_scheduleItemOccurrence.adherenceItem &amp;&amp; _scheduleItemOccurrence.adherenceItem.adherence}"/>
+	<images:x width="70%" height="70%"  verticalCenter="0" horizontalCenter="0" filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}" visible="{_scheduleItemOccurrence.adherenceItem &amp;&amp; !_scheduleItemOccurrence.adherenceItem.adherence}"/>
 </view:ScheduleItemClockViewBase>

@@ -39,12 +39,12 @@ package collaboRhythm.shared.model
 		{
 		}
 
-		public function init(name:CodedValue, reportedBy:String, dateReported:Date, recurrendIndex:int,  adherence:Boolean, nonadherenceReason:String = null, adherenceResult:Object = null):void
+		public function init(name:CodedValue, reportedBy:String, dateReported:Date, recurrenceIndex:int,  adherence:Boolean, nonadherenceReason:String = null, adherenceResult:Object = null):void
 		{
 			_name = name;
 			_reportedBy = reportedBy;
 			_dateReported = dateReported;
-            _recurrenceIndex = recurrendIndex;
+            _recurrenceIndex = recurrenceIndex;
 			_adherence = adherence;
 			_nonadherenceReason = nonadherenceReason;
             _adherenceResult = adherenceResult;
@@ -105,6 +105,11 @@ package collaboRhythm.shared.model
         public function get adherence():Boolean
         {
             return _adherence;
+        }
+
+        public function set adherence(value:Boolean):void
+        {
+            _adherence = value;
         }
 
         public function get nonadherenceReason():String

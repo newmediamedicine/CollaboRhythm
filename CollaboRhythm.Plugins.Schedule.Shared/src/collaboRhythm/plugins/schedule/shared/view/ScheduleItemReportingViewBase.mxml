@@ -27,20 +27,26 @@
 		<![CDATA[
         import collaboRhythm.shared.model.AdherenceItem;
         import collaboRhythm.shared.model.ScheduleItemBase;
+        import collaboRhythm.shared.model.ScheduleItemOccurrence;
 
         public static const SCHEDULE_ITEM_REPORTING_VIEW_PICTURE_WIDTH:Number = 120;
         public static const SCHEDULE_ITEM_REPORTING_VIEW_PICTURE_HEIGHT:Number = 120;
         public static const SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT:Number = 122;
 
-//        [Bindable]
-//        private var _scheduleItem:ScheduleItemBase;
+        [Bindable]
+        protected var _scheduleItemOccurrence:ScheduleItemOccurrence;
+        [Bindable]
         protected var _parentGroup:Group;
-//
-        public function init2(parentGroup:Group):void
+
+        public static const SCHEDULE_ITEM_WIDGET_VIEW:String = "scheduleItemWidgetView";
+
+        public function init(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):void
         {
+            _scheduleItemOccurrence = scheduleItemOccurrence;
             _parentGroup = parentGroup;
         }
-//
+
+        //
         public function get scheduleItem():ScheduleItemBase
         {
             throw new Error("virtual function must be overridden in subclass");
@@ -48,8 +54,13 @@
 
         public function dispatchAdherenceItemEvent(adherenceItem:AdherenceItem):void
         {
-            dispatchEvent(new ScheduleItemReportingViewEventHandler(ScheduleItemReportingViewEventHandler.ADHERENCE_ITEM_CREATED,
-                                                                    scheduleItem, adherenceItem));
+            dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_CREATED,
+                                                             _scheduleItemOccurrence, adherenceItem));
+        }
+
+        public function get scheduleItemOccurrence():ScheduleItemOccurrence
+        {
+            return _scheduleItemOccurrence;
         }
         ]]>
 	</fx:Script>

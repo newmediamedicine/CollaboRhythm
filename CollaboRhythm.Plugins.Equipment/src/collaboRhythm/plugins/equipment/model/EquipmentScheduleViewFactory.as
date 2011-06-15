@@ -15,6 +15,9 @@ package collaboRhythm.plugins.equipment.model
     import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
     import collaboRhythm.shared.model.EquipmentScheduleItem;
     import collaboRhythm.shared.model.ScheduleItemBase;
+    import collaboRhythm.shared.model.ScheduleItemOccurrence;
+
+    import spark.components.Group;
 
     public class EquipmentScheduleViewFactory implements IScheduleViewFactory
     {
@@ -27,20 +30,24 @@ package collaboRhythm.plugins.equipment.model
             return ReflectionUtils.getClassInfo(EquipmentScheduleItem);
         }
 
-        public function createScheduleItemClockView(scheduleItem:ScheduleItemBase):ScheduleItemClockViewBase
+        public function createScheduleItemClockView(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):ScheduleItemClockViewBase
         {
-            return new EquipmentScheduleItemClockView();
+            var equipmentScheduleItemClockView:EquipmentScheduleItemClockView =  new EquipmentScheduleItemClockView();
+            equipmentScheduleItemClockView.init(scheduleItemOccurrence, parentGroup);
+            return equipmentScheduleItemClockView;
         }
 
-        public function createScheduleItemReportingView(scheduleItem:ScheduleItemBase):ScheduleItemReportingViewBase
+        public function createScheduleItemReportingView(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):ScheduleItemReportingViewBase
         {
-            return new EquipmentScheduleItemReportingView();
+            var equipmentScheduleItemReportingView:EquipmentScheduleItemReportingView = new EquipmentScheduleItemReportingView();
+            equipmentScheduleItemReportingView.init(scheduleItemOccurrence, parentGroup);
+            return equipmentScheduleItemReportingView;
         }
 
-        public function createScheduleItemTimelineView(scheduleItem:ScheduleItemBase):ScheduleItemTimelineViewBase
+        public function createScheduleItemTimelineView(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):ScheduleItemTimelineViewBase
         {
             var equipmentScheduleItemTimelineView:EquipmentScheduleItemTimelineView = new EquipmentScheduleItemTimelineView();
-            equipmentScheduleItemTimelineView.init(scheduleItem);
+            equipmentScheduleItemTimelineView.init(scheduleItemOccurrence, parentGroup);
             return equipmentScheduleItemTimelineView;
         }
     }

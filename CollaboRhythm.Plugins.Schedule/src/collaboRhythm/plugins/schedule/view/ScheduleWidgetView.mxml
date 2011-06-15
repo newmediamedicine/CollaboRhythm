@@ -44,7 +44,8 @@
         import collaboRhythm.shared.model.ScheduleItemBase;
         import collaboRhythm.plugins.schedule.model.ScheduleModel;
         import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
-        import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEventHandler;
+        import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEvent;
+        import collaboRhythm.shared.model.ScheduleItemOccurrence;
 
         import mx.binding.utils.BindingUtils;
         import mx.binding.utils.ChangeWatcher;
@@ -82,8 +83,6 @@
             this.addEventListener(ScheduleWidgetViewEvent.SCHEDULE_GROUP_REPORTING_VIEW_BACK,
                                   scheduleGroupReportingViewBackHandler);
 //            this.addEventListener(ScheduleWidgetViewEvent.PLAY_VIDEO_VIEW_BACK, playVideoViewBackHandler);
-//            this.addEventListener(ScheduleItemReportingViewEventHandler.ADHERENCE_ITEM_CREATED,
-//                                  scheduleItemReportingViewEventHandler);
 //
             var currentViewWatcher:ChangeWatcher = BindingUtils.bindSetter(currentViewChangeHandler, _scheduleModel,
                                                                            "currentWidgetView");
@@ -224,22 +223,14 @@
             this.removeElement(_playVideoView);
         }
 
-        private function scheduleItemReportingViewEventHandler(event:ScheduleItemReportingViewEventHandler):void
-        {
-            var scheduleItem:ScheduleItemBase = event.scheduleItem;
-            var adherenceItem:AdherenceItem = event.adherenceItem;
-            _scheduleWidgetViewController.createAdherenceItem(scheduleGroupReportingView.scheduleGroup, scheduleItem,
-                                                              adherenceItem);
-        }
-
         private function currentViewChangeHandler(change:String):void
         {
             if (change == ScheduleModel.SCHEDULE_CLOCK_VIEW && _scheduleGroupReportingView)
             {
-                this.removeElement(_scheduleGroupReportingView);
+                removeScheduleGroupReportingView();
                 scheduleGroupReportingView = null;
             }
-            else if (change == ScheduleModel.SCHEDULE_GROUP_REPORTING_VIEW)
+            else if (change == ScheduleModel.SCHEDULE_GROUP_REPORTING_VIEW && !_scheduleGroupReportingView)
             {
                 showScheduleGroupReportingView()
             }
@@ -248,8 +239,13 @@
         public function showScheduleGroupReportingView():void
         {
             scheduleGroupReportingView = new ScheduleGroupReportingView();
-            scheduleGroupReportingView.init(_scheduleModel.currentScheduleGroup);
+            scheduleGroupReportingView.init(_scheduleWidgetViewController, _scheduleModel.currentScheduleGroup);
             _fullParentContainer.addElement(scheduleGroupReportingView);
+        }
+
+        public function removeScheduleGroupReportingView():void
+        {
+            _fullParentContainer.removeElement(scheduleGroupReportingView);
         }
 
         //        private function playVideoButtonClickHandler():void

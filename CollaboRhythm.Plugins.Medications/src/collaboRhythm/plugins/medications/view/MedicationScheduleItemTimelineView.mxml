@@ -15,107 +15,121 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<view:ScheduleItemTimelineViewBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 xmlns:view="collaboRhythm.plugins.schedule.shared.view.*">
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
-	<fx:Style>
-		@namespace s "library://ns.adobe.com/flex/spark";
+<view:ScheduleItemTimelineViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+                                   xmlns:s="library://ns.adobe.com/flex/spark"
+                                   xmlns:mx="library://ns.adobe.com/flex/mx"
+                                   xmlns:view="collaboRhythm.plugins.schedule.shared.view.*">
+    <fx:Declarations>
+        <!-- Place non-visual elements (e.g., services, value objects) here -->
+    </fx:Declarations>
+    <fx:Style>
+        @namespace s "library://ns.adobe.com/flex/spark";
 
-		.labelText {
-			color: #000000;
-			font-size: 12;
-		}
-		
-		#nameText {
-			font-size: 15;
-			font-weight: bold;
-		}	
-		
-		#administration {
-			font-style:italic;
-		}
-		
-		#instructions {
-			font-style:italic;
-		}
-	</fx:Style>
-	<fx:Script>
+        .labelText {
+            color: #000000;
+            font-size: 12;
+        }
+
+        #nameText {
+            font-size: 15;
+            font-weight: bold;
+        }
+
+        #administration {
+            font-style:italic;
+        }
+
+        #instructions {
+            font-style:italic;
+        }
+    </fx:Style>
+    <fx:Script>
 		<![CDATA[
-			import collaboRhythm.plugins.medications.model.Medication;
-            import collaboRhythm.shared.model.MedicationOrder;
-            import collaboRhythm.shared.model.MedicationScheduleItem;
-            import collaboRhythm.shared.model.ScheduleItemBase;
+        import collaboRhythm.plugins.medications.model.Medication;
+        import collaboRhythm.shared.model.MedicationOrder;
+        import collaboRhythm.shared.model.MedicationScheduleItem;
+        import collaboRhythm.shared.model.ScheduleItemBase;
+        import collaboRhythm.shared.model.ScheduleItemOccurrence;
+        import collaboRhythm.shared.model.services.ICurrentDateSource;
+        import collaboRhythm.shared.model.services.WorkstationKernel;
 
-            [Bindable]
-			private var _medicationOrder:MedicationOrder;
-            [Bindable]
-            private var _medicationScheduleItem:MedicationScheduleItem;
+        [Bindable]
+        private var _medicationOrder:MedicationOrder;
+        [Bindable]
+        private var _medicationScheduleItem:MedicationScheduleItem;
 
-            public function init(scheduleItem:ScheduleItemBase):void {
-                _medicationScheduleItem = scheduleItem as MedicationScheduleItem;
-                _medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
-            }
+        private var _currentDateSource:ICurrentDateSource;
 
-            // TODO: automate the color or switch to images of the medications
-            public function getMedicationColor(value:String):uint
+        public override function init(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):void
+        {
+            super.init(scheduleItemOccurrence, parentGroup);
+            _medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
+            _medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
+
+            _currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+        }
+
+        public override function get scheduleItem():ScheduleItemBase
+        {
+            return _medicationScheduleItem
+        }
+
+        // TODO: automate the color or switch to images of the medications
+        public function getMedicationColor(value:String):uint
+        {
+            if (value == '310798')
             {
-                if (value == '310798')
-                {
-                    return 0x000000;
-                }
-                else if (value == '617320')
-                {
-                    return 0x000000;
-                }
-                else
-                {
-                    return 0x000000;
-                }
+                return 0x000000;
             }
-		]]>
+            else if (value == '617320')
+            {
+                return 0x000000;
+            }
+            else
+            {
+                return 0x000000;
+            }
+        }
+        ]]>
 	</fx:Script>
-	<s:Group id="med" width="100%" height="100%">
-		<s:Rect id="background" width="100%" height="100%">
-			<s:fill>
-				<!--TODO: Reimplement coloring during collaboration-->
-				<s:SolidColor color="0xFFFFFF" alpha="0.4"/>
-			</s:fill>
-			<s:stroke>
-				<s:SolidColorStroke color="0xFFFFFF" weight="1" alpha="0.5"/>
-			</s:stroke>
-		</s:Rect>
-		<s:Group left="1" right="1" top="1" bottom="1">
-			<s:Group id="imageRegion" width="{this.height}" height="100%">
-				<s:Rect width="100%" height="100%">
-					<s:fill>
-						<s:SolidColor color="0x000000"/>
-					</s:fill>
-				</s:Rect>
-				<!--TODO: Fix images-->
-				<mx:Image name="hydrochlorotiazideImage" source="@Embed(source='/assets/images/hydrochlorothiazide_front.jpg')" width="100%" height="100%" smoothBitmapContent="true" visible="{_medicationOrder.name.value == '310798'}"/>
-				<mx:Image name="atorvastatinImage" source="@Embed(source='/assets/images/simvastatin_front.jpg')" width="100%" height="100%" smoothBitmapContent="true" visible="{_medicationOrder.name.value == '617320'}"/>
-				<s:Ellipse width="22%" height="22%" right="4" top="4">
-					<s:fill>
-						<s:SolidColor color="{getMedicationColor(_medicationOrder.name.value)}"/>
-					</s:fill>
-				</s:Ellipse>
-			</s:Group>
-			<s:Group id="descriptionRegion" height="100%" left="{imageRegion.width}" right="{buttonRegion.width}">
-				<s:Group left="5" right="5" top="5" bottom="5">
-					<s:Label id="nameText" styleName="labelText" text="{_medicationOrder.name.text}" maxDisplayedLines="1" width="100%" top="0"/>
+    <s:Group id="med" width="100%" height="100%">
+        <s:Rect id="background" width="100%" height="100%">
+            <s:fill>
+                <!--TODO: Reimplement coloring during collaboration-->
+                <s:SolidColor color="0xFFFFFF" alpha="0.4"/>
+            </s:fill>
+            <s:stroke>
+                <s:SolidColorStroke color="0xFFFFFF" weight="1" alpha="0.5"/>
+            </s:stroke>
+        </s:Rect>
+        <s:Group left="1" right="1" top="1" bottom="1">
+            <s:Group id="imageRegion" width="{this.height}" height="100%">
+                <s:Rect width="100%" height="100%">
+                    <s:fill>
+                        <s:SolidColor color="0x000000"/>
+                    </s:fill>
+                </s:Rect>
+                <!--TODO: Fix images-->
+                <mx:Image name="hydrochlorotiazideImage" source="@Embed(source='/assets/images/hydrochlorothiazide_front.jpg')" width="100%" height="100%" smoothBitmapContent="true" visible="{_medicationOrder.name.value == '310798'}"/>
+                <mx:Image name="atorvastatinImage" source="@Embed(source='/assets/images/simvastatin_front.jpg')" width="100%" height="100%" smoothBitmapContent="true" visible="{_medicationOrder.name.value == '617320'}"/>
+                <s:Ellipse width="22%" height="22%" right="4" top="4">
+                    <s:fill>
+                        <s:SolidColor color="{getMedicationColor(_medicationOrder.name.value)}"/>
+                    </s:fill>
+                </s:Ellipse>
+            </s:Group>
+            <s:Group id="descriptionRegion" height="100%" left="{imageRegion.width}" right="{buttonRegion.width}">
+                <s:Group left="5" right="5" top="5" bottom="5">
+                    <s:Label id="nameText" styleName="labelText" text="{_medicationOrder.name.text}" maxDisplayedLines="1" width="100%" top="0"/>
                     <!--TODO: derive the name of an account owner from the accountId-->
-					<s:Label id="indication" styleName="labelText" text="{_medicationOrder.indication} - Dr. James King" maxDisplayedLines="1" width="100%" top="{descriptionRegion.height / 3.3}"/>
-					<s:Label id="administration" styleName="labelText" text="{_medicationScheduleItem.dose.value}{_medicationScheduleItem.dose.unit.text}, {_medicationScheduleItem.recurrenceRule.frequency.text}" maxDisplayedLines="1" width="100%"  bottom="{descriptionRegion.height / 6}"/>
-					<s:Label id="instructions" styleName="labelText" text="{_medicationOrder.instructions}" maxDisplayedLines="1" width="100%" bottom="0"/>
-				</s:Group>
-			</s:Group>
-			<s:Group id="buttonRegion" right="0" width="{this.height / 2 + 5}" height="100%">
-				<mx:Image right="8" verticalCenter="0" source="@Embed(source='/assets/images/gripHorizontalNarrow.png')"/>
-			</s:Group>
-		</s:Group>
-	</s:Group>
+                    <s:Label id="indication" styleName="labelText" text="{_medicationOrder.indication} - Dr. James King" maxDisplayedLines="1" width="100%" top="{descriptionRegion.height / 3.3}"/>
+                    <s:Label id="administration" styleName="labelText" text="{_medicationScheduleItem.dose.value}{_medicationScheduleItem.dose.unit.text}, {_medicationScheduleItem.recurrenceRule.frequency.text}" maxDisplayedLines="1" width="100%"  bottom="{descriptionRegion.height / 6}"/>
+                    <s:Label id="instructions" styleName="labelText" text="{_medicationOrder.instructions}" maxDisplayedLines="1" width="100%" bottom="0"/>
+                </s:Group>
+            </s:Group>
+            <s:Group id="buttonRegion" right="0" width="{this.height / 2 + 5}" height="100%">
+                <mx:Image right="8" verticalCenter="0" source="@Embed(source='/assets/images/gripHorizontalNarrow.png')"/>
+            </s:Group>
+        </s:Group>
+    </s:Group>
 </view:ScheduleItemTimelineViewBase>

@@ -18,7 +18,6 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 creationComplete="creationComplete()"
 		 width="480" height="800">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
@@ -32,12 +31,12 @@
 		}
 		
 		.textInputText {
-			color: #FFFFFF;
+			color: #000000;
 			font-size: 140;
 		}
 		
 		.heartRateText {
-			color: #FFFFFF;
+			color: #000000;
 			font-size: 80;
 		}
 		
@@ -66,135 +65,135 @@
 				_parentScheduleItem = parentScheduleItem;
 			}
 			
-			public function creationComplete():void
-			{
-//				Security.allowDomain("content.oddcast.com");
-				
-				_avatarLoader = new Loader();
-				var urlRequest:URLRequest = new URLRequest("http://content.oddcast.com/vhss/vhss_v5.swf?doc=http%3A%2F%2Fvhss-d.oddcast.com%2Fphp%2FplayScene%2Facc%3D516572%2Fss%3D1779797%2Fsl%3D2057315&acc=516572&bgcolor=0x&embedid=80ec2b5f44fccfc450f67be31743ba4b");
-				
-				uiComponent.addChild(_avatarLoader);
-				
-				_avatarLoader.scaleX = _avatarLoader.scaleY = 1.7;
-				_avatarLoader.x = -120;
-				_avatarLoader.y = 50;
-				_avatarLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, avatarLoaderCompleteHandler)
-				_avatarLoader.load(urlRequest);
-				
-				connectSocket();
-			}
+//			public function creationComplete():void
+//			{
+////				Security.allowDomain("content.oddcast.com");
+//
+//				_avatarLoader = new Loader();
+//				var urlRequest:URLRequest = new URLRequest("http://content.oddcast.com/vhss/vhss_v5.swf?doc=http%3A%2F%2Fvhss-d.oddcast.com%2Fphp%2FplayScene%2Facc%3D516572%2Fss%3D1779797%2Fsl%3D2057315&acc=516572&bgcolor=0x&embedid=80ec2b5f44fccfc450f67be31743ba4b");
+//
+//				uiComponent.addChild(_avatarLoader);
+//
+//				_avatarLoader.scaleX = _avatarLoader.scaleY = 1.7;
+//				_avatarLoader.x = -120;
+//				_avatarLoader.y = 50;
+//				_avatarLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, avatarLoaderCompleteHandler)
+//				_avatarLoader.load(urlRequest);
+//
+//				connectSocket();
+//			}
 			
-			private function avatarLoaderCompleteHandler(event:Event):void
-			{
-				_vHostPlayer = MovieClip(_avatarLoader.content);
-				_vHostPlayer.addEventListener("vh_sceneLoaded", vHostPlayerSceneLoadedHandler);
-				//	vh_player = addEventListener("vh_aiResponse", vh_aiResponse);
-				//vh_player.addEventListener("vh_audioLoaded", vh_audioLoaded);
-				//	vh_player = addEventListener("vh_audioProgress", vh_audioProgress);
-				_vHostPlayer.addEventListener("vh_talkEnded", vHostPlayerTalkEndedHandler);
-				//	vh_player = addEventListener("vh_talkStarted", vh_talkStarted);
-			}
+//			private function avatarLoaderCompleteHandler(event:Event):void
+//			{
+//				_vHostPlayer = MovieClip(_avatarLoader.content);
+//				_vHostPlayer.addEventListener("vh_sceneLoaded", vHostPlayerSceneLoadedHandler);
+//				//	vh_player = addEventListener("vh_aiResponse", vh_aiResponse);
+//				//vh_player.addEventListener("vh_audioLoaded", vh_audioLoaded);
+//				//	vh_player = addEventListener("vh_audioProgress", vh_audioProgress);
+//				_vHostPlayer.addEventListener("vh_talkEnded", vHostPlayerTalkEndedHandler);
+//				//	vh_player = addEventListener("vh_talkStarted", vh_talkStarted);
+//			}
 			
-			private function vHostPlayerSceneLoadedHandler(event:Event):void
-			{
-				sayText("Hello Robert, great to see you today. Ready to take your blood pressure?");
-			}
+//			private function vHostPlayerSceneLoadedHandler(event:Event):void
+//			{
+//				sayText("Hello Robert, great to see you today. Ready to take your blood pressure?");
+//			}
+//
+//			private function vHostPlayerTalkEndedHandler(event:Event):void
+//			{
+////				okButton.enabled = true;
+//			}
 			
-			private function vHostPlayerTalkEndedHandler(event:Event):void
-			{
-//				okButton.enabled = true;
-			}	
-			
-			private function okButtonClick():void
-			{
+//			private function okButtonClick():void
+//			{
 //				okButton.enabled = false;
-				switch (_bloodPressureMeasurementStep)
-				{
-					case 1:
-						foraCuffLocationImage.visible = true;
-						sayText("To take your blood pressure, first slide the cuff on your arm. Make sure that the red line is on the inside of your arm at the elbow, as you see here");
-						break;
-					case 2:
-						foraCuffLocationImage.visible = false;
-						foraButtonPushImage.visible = true;
-						sendMessage();
-						sayText("Now push the large blue button on the bottom right of the device, as you see here. Once the measurement is complete, I will grab it from the device for you.");
-						break;
-					case 3:
-						okButton.visible = false;
-						submitButton.visible = true;
-						foraButtonPushImage.visible = false;
-						bloodPressureResultGroup.visible = true;
-				}
-				_bloodPressureMeasurementStep += 1;
-			}
+//				switch (_bloodPressureMeasurementStep)
+//				{
+//					case 1:
+//						foraCuffLocationImage.visible = true;
+//						sayText("To take your blood pressure, first slide the cuff on your arm. Make sure that the red line is on the inside of your arm at the elbow, as you see here");
+//						break;
+//					case 2:
+//						foraCuffLocationImage.visible = false;
+//						foraButtonPushImage.visible = true;
+//						sendMessage();
+//						sayText("Now push the large blue button on the bottom right of the device, as you see here. Once the measurement is complete, I will grab it from the device for you.");
+//						break;
+//					case 3:
+//						okButton.visible = false;
+//						submitButton.visible = true;
+//						foraButtonPushImage.visible = false;
+//						bloodPressureResultGroup.visible = true;
+//				}
+//				_bloodPressureMeasurementStep += 1;
+//			}
 			
-			private function sayText(text:String):void
-			{
-				try
-				{
-					_vHostPlayer.sayText(text, 1, 1, 2);
-				}
-				catch (error:Error)
-				{
-					trace("vHost speach failed");
-				}
-			}
+//			private function sayText(text:String):void
+//			{
+//				try
+//				{
+//					_vHostPlayer.sayText(text, 1, 1, 2);
+//				}
+//				catch (error:Error)
+//				{
+//					trace("vHost speach failed");
+//				}
+//			}
 			
-			private function connectSocket():void
-			{
-				_socket.addEventListener(Event.CONNECT, onConnect);
-				_socket.addEventListener(Event.CLOSE, onClose);
-				_socket.addEventListener(IOErrorEvent.IO_ERROR, onError);
-				_socket.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onSecurityError);
-				_socket.addEventListener(ProgressEvent.SOCKET_DATA, onData);
-				_socket.connect("localhost", 8080);
-//				connectionStatusText.text = "attempting to connect...";
-			}
+//			private function connectSocket():void
+//			{
+//				_socket.addEventListener(Event.CONNECT, onConnect);
+//				_socket.addEventListener(Event.CLOSE, onClose);
+//				_socket.addEventListener(IOErrorEvent.IO_ERROR, onError);
+//				_socket.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onSecurityError);
+//				_socket.addEventListener(ProgressEvent.SOCKET_DATA, onData);
+//				_socket.connect("localhost", 8080);
+////				connectionStatusText.text = "attempting to connect...";
+//			}
 			
-			private function onConnect(e:Event):void
-			{
-				_socketConnected = true;
-//				connectionStatusText.text = "connected";
-			}
+//			private function onConnect(e:Event):void
+//			{
+//				_socketConnected = true;
+////				connectionStatusText.text = "connected";
+//			}
+//
+//			private function onClose(e:Event):void
+//			{
+//				_socketConnected = false;
+////				connectionStatusText.text = "disconnected";
+//			}
+//
+//			private function onData(e:ProgressEvent):void
+//			{
+//				waitingLabel.visible = false;
+//				var bloodPressureString:String = _socket.readUTFBytes(e.bytesLoaded);
+//				var bloodPressureSubstrings:Array = bloodPressureString.split("/");
+//				_systolic = bloodPressureSubstrings[0];
+//				systolicResult.text = _systolic;
+//				_diastolic = bloodPressureSubstrings[1];
+//				diastolicResult.text = _diastolic;
+//				_heartRate = bloodPressureSubstrings[2];
+//				heartRateResult.text = _heartRate;
+//				sayText("Your blood pressure was " + _systolic + " over " + _diastolic + " and your heart rate was " + _heartRate + ". I'll store the results in your record for you.");
+//			}
 			
-			private function onClose(e:Event):void
-			{
-				_socketConnected = false;
-//				connectionStatusText.text = "disconnected";
-			}
-			
-			private function onData(e:ProgressEvent):void
-			{
-				waitingLabel.visible = false;
-				var bloodPressureString:String = _socket.readUTFBytes(e.bytesLoaded);
-				var bloodPressureSubstrings:Array = bloodPressureString.split("/");
-				_systolic = bloodPressureSubstrings[0];
-				systolicResult.text = _systolic;
-				_diastolic = bloodPressureSubstrings[1];
-				diastolicResult.text = _diastolic;
-				_heartRate = bloodPressureSubstrings[2];
-				heartRateResult.text = _heartRate;
-				sayText("Your blood pressure was " + _systolic + " over " + _diastolic + " and your heart rate was " + _heartRate + ". I'll store the results in your record for you.");
-			}
-			
-			private function onError(e:IOErrorEvent):void
-			{
-//				errorText.text = e.text;
-			}
-			
-			private function onSecurityError(e:SecurityErrorEvent):void
-			{
-//				errorText.text = e.text;
-			}
-			
-			private function sendMessage():void
-			{
-				if (_socketConnected)
-				{
-					_socket.writeUTF("hello\n");
-				}
-			}
+//			private function onError(e:IOErrorEvent):void
+//			{
+////				errorText.text = e.text;
+//			}
+//
+//			private function onSecurityError(e:SecurityErrorEvent):void
+//			{
+////				errorText.text = e.text;
+//			}
+//
+//			private function sendMessage():void
+//			{
+//				if (_socketConnected)
+//				{
+//					_socket.writeUTF("hello\n");
+//				}
+//			}
 			
 //			private function submitButtonEnabled(systolicResultText:String, diastolicResultText:String, heartRateResultText:String):Boolean 
 //			{
@@ -224,10 +223,10 @@
 			<s:SolidColor color="0xAAAAAA"/>
 		</s:fill>
 	</s:Rect>
-	<mx:UIComponent id="uiComponent" width="100%" height="100%"/>
-	<mx:Image id="foraCuffLocationImage" source="@Embed(source='/assets/images/foraCuffLocation.jpg')" width="100%" height="100%" smoothBitmapContent="true" maintainAspectRatio="false" visible="false"/>
-	<mx:Image id="foraButtonPushImage" source="@Embed(source='/assets/images/foraButtonPush.jpg')" width="100%" height="100%" smoothBitmapContent="true" maintainAspectRatio="false" visible="false"/>
-	<s:Group id="bloodPressureResultGroup" width="100%" height="100%" visible="false">
+	<!--<mx:UIComponent id="uiComponent" width="100%" height="100%"/>-->
+	<!--<mx:Image id="foraCuffLocationImage" source="@Embed(source='/assets/images/foraCuffLocation.jpg')" width="100%" height="100%" smoothBitmapContent="true" maintainAspectRatio="false" visible="false"/>-->
+	<!--<mx:Image id="foraButtonPushImage" source="@Embed(source='/assets/images/foraButtonPush.jpg')" width="100%" height="100%" smoothBitmapContent="true" maintainAspectRatio="false" visible="false"/>-->
+	<s:Group id="bloodPressureResultGroup" width="100%" height="100%">
 		<s:Rect width="100%" height="100%">
 			<s:fill>
 				<s:SolidColor color="0xAAAAAA"/>
@@ -252,6 +251,6 @@
 					 skinClass="spark.skins.spark.TextInputSkin" styleName="heartRateText"
 					 textAlign="right"/>
 	</s:Group>
-	<s:Button id="okButton" label="OK" click="okButtonClick()" width="300" height="100" horizontalCenter="0" top="20" enabled="true"/>
-	<s:Button id="submitButton" label="Submit" click="submitButtonClick()" width="300" height="100" horizontalCenter="0" top="20" visible="false"/>
+	<!--<s:Button id="okButton" label="OK" click="okButtonClick()" width="300" height="100" horizontalCenter="0" top="20" enabled="true"/>-->
+	<s:Button id="submitButton" label="Submit" click="submitButtonClick()" width="300" height="100" horizontalCenter="0" top="20"/>
 </s:Group>

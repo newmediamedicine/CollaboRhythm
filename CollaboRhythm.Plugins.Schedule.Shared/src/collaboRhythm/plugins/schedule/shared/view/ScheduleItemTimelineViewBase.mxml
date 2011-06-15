@@ -26,17 +26,30 @@
 	<fx:Script>
 		<![CDATA[
         import collaboRhythm.shared.model.ScheduleItemBase;
+        import collaboRhythm.shared.model.ScheduleItemOccurrence;
 
         public static const SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH:Number = 80;
         public static const SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_HEIGHT:Number = 80;
         public static const SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH:Number = 320;
         public static const SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT:Number = 82;
 
-//        [Bindable]
-//        private var _scheduleItem:ScheduleItemBase;
-//        [Bindable]
-//        private var _scheduleItemsContainer:Group;
-//
+        [Bindable]
+        private var _scheduleItemOccurrence:ScheduleItemOccurrence;
+        [Bindable]
+        private var _parentGroup:Group;
+
+        public static const SCHEDULE_ITEM_WIDGET_VIEW:String = "scheduleItemWidgetView";
+
+        public function init(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):void
+        {
+            _scheduleItemOccurrence = scheduleItemOccurrence;
+            _parentGroup = parentGroup;
+        }
+
+        public function get scheduleItem():ScheduleItemBase
+        {
+            throw new Error("virtual function must be overridden in subclass");
+        }
 //        public function init(scheduleItem:ScheduleItemBase, scheduleItemsContainer:Group):void
 //        {
 //            _scheduleItem = scheduleItem;

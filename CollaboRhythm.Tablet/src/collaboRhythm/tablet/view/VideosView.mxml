@@ -20,6 +20,8 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
          xmlns:view="collaboRhythm.tablet.view.*"
 		 height="100%" width="100%"
+                  addedToStage="addedToStage()"
+         removedFromStage="removedFromStage()"
         creationComplete="creationCompleteHandler()">
     <fx:Script>
         <![CDATA[
@@ -50,6 +52,26 @@
             // TODO: Determine why attaching the net stream does not work unless a null camera is first attached
             videoDisplay.attachCamera(null);
             videoDisplay.mx_internal::videoPlayer.attachNetStream(_netStream);
+        }
+
+        private function onKeyUp(event:KeyboardEvent):void
+        {
+            if (event.keyCode == Keyboard.BACK)
+            {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                _tabletApplicationController.activeRecordView.fullViewsGroup.removeAllElements();
+            }
+        }
+
+        private function addedToStage():void
+        {
+            stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyUp);
+        }
+
+        private function removedFromStage():void
+        {
+            stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyUp);
         }
 
         private function playVideoMessageHandler(event:VideosViewEvent):void

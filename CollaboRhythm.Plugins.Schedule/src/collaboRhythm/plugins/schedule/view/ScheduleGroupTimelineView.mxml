@@ -32,6 +32,7 @@
         import collaboRhythm.shared.model.ScheduleItemBase;
         import collaboRhythm.plugins.schedule.model.ScheduleModel;
         import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
+        import collaboRhythm.shared.model.ScheduleItemOccurrence;
 
         import mx.binding.utils.BindingUtils;
         import mx.binding.utils.ChangeWatcher;
@@ -85,9 +86,9 @@
 
         private function creationCompleteHandler():void
         {
-            for each (var scheduleItem:ScheduleItemBase in _scheduleItemsCollection)
+            for each (var scheduleItemOccurrence:ScheduleItemOccurrence in _scheduleItemsCollection)
             {
-                createScheduleItemFullView(scheduleItem);
+                createScheduleItemFullView(scheduleItemOccurrence);
             }
             _isCreationComplete = true;
             if (scheduleGroup.scheduleModel.isInitialized)
@@ -112,29 +113,29 @@
             {
                 if (_isCreationComplete)
                 {
-                    for each (var scheduleItemAdded:ScheduleItemBase in event.items)
+                    for each (var scheduleItemOccurrenceAdded:ScheduleItemOccurrence in event.items)
                     {
-                        createScheduleItemFullView(scheduleItemAdded);
+                        createScheduleItemFullView(scheduleItemOccurrenceAdded);
                     }
                 }
             }
             else if (event.kind == CollectionEventKind.REMOVE)
             {
-                for each (var scheduleItemRemoved:ScheduleItemBase in event.items)
+                for each (var scheduleItemOccurrenceRemoved:ScheduleItemOccurrence in event.items)
                 {
-                    destroyScheduleItemFullView(scheduleItemRemoved);
+                    destroyScheduleItemFullView(scheduleItemOccurrenceRemoved);
                 }
             }
         }
 
-        public function createScheduleItemFullView(scheduleItem:ScheduleItemBase):void
+        public function createScheduleItemFullView(scheduleItemOccurrence:ScheduleItemOccurrence):void
         {
-            var scheduleItemTimelineView:ScheduleItemTimelineViewBase = _scheduleGroup.scheduleModel.viewFactory.createScheduleItemTimelineView(scheduleItem);
+            var scheduleItemTimelineView:ScheduleItemTimelineViewBase = _scheduleGroup.scheduleModel.viewFactory.createScheduleItemTimelineView(scheduleItemOccurrence, scheduleItemsContainer);
             scheduleItemsContainer.addElement(scheduleItemTimelineView);
             _scheduleItemFullViews.push(scheduleItemTimelineView);
         }
 
-        public function destroyScheduleItemFullView(scheduleGroup:ScheduleItemBase):void
+        public function destroyScheduleItemFullView(scheduleItemOccurrence:ScheduleItemOccurrence):void
         {
 
         }

@@ -16,25 +16,38 @@
 ~ <http://www.gnu.org/licenses/>.
 -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 width="100%" height="100%">
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
-	<fx:Script>
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:mx="library://ns.adobe.com/flex/mx"
+         addedToStage="addedToStage()"
+         removedFromStage="removedFromStage()"
+         width="100%" height="100%">
+    <fx:Declarations>
+        <!-- Place non-visual elements (e.g., services, value objects) here -->
+    </fx:Declarations>
+    <fx:Script>
 		<![CDATA[
+        import collaboRhythm.plugins.schedule.controller.ScheduleWidgetViewController;
         import collaboRhythm.plugins.schedule.model.ScheduleGroup;
+        import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEvent;
+        import collaboRhythm.shared.model.AdherenceItem;
         import collaboRhythm.shared.model.ScheduleItemBase;
         import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
         import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
+        import collaboRhythm.shared.model.ScheduleItemOccurrence;
 
         private var _scheduleGroup:ScheduleGroup;
+        private var _scheduleWidgetViewController:ScheduleWidgetViewController;
 
-        public function init(scheduleGroup:ScheduleGroup):void
+        public function init(scheduleWidgetViewController:ScheduleWidgetViewController,
+                             scheduleGroup:ScheduleGroup):void
         {
+            _scheduleWidgetViewController = scheduleWidgetViewController;
+
             _scheduleGroup = scheduleGroup;
             createScheduleItems();
+
+            this.addEventListener(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_CREATED,
+                                  adherenceItemCreatedEventHandler);
         }
 
         public function get scheduleGroup():ScheduleGroup
@@ -42,42 +55,85 @@
             return _scheduleGroup;
         }
 
-//        private function addedToStage():void
-//        {
-//            stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-//        }
-//
-//        private function removedFromStage():void
-//        {
-//            stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-//        }
-//
-//        private function onKeyDown(event:KeyboardEvent):void
-//        {
-//            if (event.keyCode == Keyboard.BACK)
-//            {
-//                event.preventDefault();
-//                event.stopImmediatePropagation();
-//                dispatchEvent(new ScheduleWidgetViewEvent(ScheduleWidgetViewEvent.SCHEDULE_GROUP_REPORTING_VIEW_BACK,
-//                                                          _scheduleGroup));
-//            }
-//        }
+        private function onKeyUp(event:KeyboardEvent):void
+        {
+            if (event.keyCode == Keyboard.BACK)
+            {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                _scheduleWidgetViewController.closeScheduleGroupReportingView();
+            }
+        }
+
+        private function addedToStage():void
+        {
+            stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyUp);
+        }
+
+        private function removedFromStage():void
+        {
+            stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyUp);
+        }
+        //
+        //        private function onKeyDown(event:KeyboardEvent):void
+        //        {
+        //            if (event.keyCode == Keyboard.BACK)
+        //            {
+        //                event.preventDefault();
+        //                event.stopImmediatePropagation();
+        //                dispatchEvent(new ScheduleWidgetViewEvent(ScheduleWidgetViewEvent.SCHEDULE_GROUP_REPORTING_VIEW_BACK,
+        //                                                          _scheduleGroup));
+        //            }
+        //        }
 
         private function createScheduleItems():void
         {
-            for each (var scheduleItem:ScheduleItemBase in _scheduleGroup.scheduleItemsCollection)
+            for each (var scheduleItemOccurrence:ScheduleItemOccurrence in _scheduleGroup.scheduleItemsCollection)
             {
-                var scheduleItemReportingView:ScheduleItemReportingViewBase = _scheduleGroup.scheduleModel.viewFactory.createScheduleItemReportingView(scheduleItem);
-                scheduleItemReportingView.init2(this);
+                var scheduleItemReportingView:ScheduleItemReportingViewBase = _scheduleGroup.scheduleModel.viewFactory.createScheduleItemReportingView(scheduleItemOccurrence,
+                                                                                                                                                       rightGroup);
+//                scheduleItemReportingView.init2(this);
                 scheduleItemsContainer.addElement(scheduleItemReportingView);
             }
         }
+
+        private function adherenceItemCreatedEventHandler(event:ScheduleItemReportingViewEvent):void
+        {
+            var scheduleItemOccurrence:ScheduleItemOccurrence = event.scheduleItemOccurrence;
+            var adherenceItem:AdherenceItem = event.adherenceItem;
+            _scheduleWidgetViewController.createAdherenceItem(_scheduleGroup, scheduleItemOccurrence,
+                                                              adherenceItem);
+        }
         ]]>
 	</fx:Script>
-	<s:Rect width="100%" height="100%">
-		<s:fill>
-			<s:SolidColor color="0xAAAAAA"/>
-		</s:fill>
-	</s:Rect>
-	<s:VGroup id="scheduleItemsContainer" width="100%" height="100%" gap="0"/>
+    <s:HGroup width="100%" height="100%" gap="0">
+        <s:Rect width="50%" height="100%">
+            <s:fill>
+                <s:SolidColor color="0x000000" alpha="0.5"/>
+            </s:fill>
+        </s:Rect>
+        <s:Group id="rightGroup" width="50%" height="100%">
+            <s:Rect width="100%" height="100%">
+                <s:fill>
+                    <s:SolidColor color="0xAAAAAA"/>
+                </s:fill>
+            </s:Rect>
+            <s:VGroup id="scheduleItemsContainer" width="100%" height="100%" gap="0"/>
+            <s:Group id="nonadherenceReasonReportingGroup" width="100%" height="100%" visible="false">
+                <s:Rect width="100%" height="100%">
+                    <s:fill>
+                        <s:SolidColor color="0xAAAAAA"/>
+                    </s:fill>
+                </s:Rect>
+            </s:Group>
+            <s:Group id="bloodPressureReportingGroup" width="100%" height="100%" visible="false">
+                <s:Rect width="100%" height="100%">
+                    <s:fill>
+                        <s:SolidColor color="0xAAAAAA"/>
+                    </s:fill>
+                </s:Rect>
+            </s:Group>
+        </s:Group>
+    </s:HGroup>
+
 </s:Group>

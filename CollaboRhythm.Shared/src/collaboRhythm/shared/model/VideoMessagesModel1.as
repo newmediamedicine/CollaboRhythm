@@ -64,10 +64,10 @@ package collaboRhythm.shared.model
 			}
 		}
 
-        public function createVideoMessage(from:String):void
+        public function createVideoMessage():void
         {
             var videoMessage:VideoMessage = new VideoMessage(_activeAccount);
-            videoMessage.init((_videoMessageCount+1).toString(), "FlashMediaServer", "test", from, currentDateSource.now(), currentDateSource.now());
+            videoMessage.init((_videoMessageCount+1).toString(), "FlashMediaServer", "test", _activeAccount, currentDateSource.now(), currentDateSource.now());
             _videoMessageCount += 1;
             _videoMessagesCollection.addItem(videoMessage);
             _videoMessagesHealthRecordService.postVideoMessage(_record, videoMessage);

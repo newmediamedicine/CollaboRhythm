@@ -7,12 +7,15 @@ package collaboRhythm.plugins.schedule.shared.model
     import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
     import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
     import collaboRhythm.shared.model.ScheduleItemBase;
+    import collaboRhythm.shared.model.ScheduleItemOccurrence;
+
+    import spark.components.Group;
 
     public interface IScheduleViewFactory
     {
         function get scheduleItemType():ClassInfo;
-        function createScheduleItemClockView(scheduleItem:ScheduleItemBase):ScheduleItemClockViewBase;
-        function createScheduleItemReportingView(scheduleItem:ScheduleItemBase):ScheduleItemReportingViewBase;
-        function createScheduleItemTimelineView(scheduleItem:ScheduleItemBase):ScheduleItemTimelineViewBase;
+        function createScheduleItemClockView(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):ScheduleItemClockViewBase;
+        function createScheduleItemReportingView(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):ScheduleItemReportingViewBase;
+        function createScheduleItemTimelineView(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):ScheduleItemTimelineViewBase;
     }
 }

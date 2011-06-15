@@ -13,6 +13,9 @@ package collaboRhythm.plugins.medications.model
     import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
     import collaboRhythm.shared.model.MedicationScheduleItem;
     import collaboRhythm.shared.model.ScheduleItemBase;
+    import collaboRhythm.shared.model.ScheduleItemOccurrence;
+
+    import spark.components.Group;
 
     public class MedicationsScheduleViewFactory implements IScheduleViewFactory
     {
@@ -25,22 +28,24 @@ package collaboRhythm.plugins.medications.model
             return ReflectionUtils.getClassInfo(MedicationScheduleItem);
         }
 
-        public function createScheduleItemClockView(scheduleItem:ScheduleItemBase):ScheduleItemClockViewBase
+        public function createScheduleItemClockView(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):ScheduleItemClockViewBase
         {
-            return new MedicationScheduleItemClockView();
+            var medicationScheduleItemClockView:MedicationScheduleItemClockView =  new MedicationScheduleItemClockView();
+            medicationScheduleItemClockView.init(scheduleItemOccurrence, parentGroup);
+            return medicationScheduleItemClockView;
         }
 
-        public function createScheduleItemReportingView(scheduleItem:ScheduleItemBase):ScheduleItemReportingViewBase
+        public function createScheduleItemReportingView(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):ScheduleItemReportingViewBase
         {
             var medicationScheduleItemReportingView:MedicationScheduleItemReportingView = new MedicationScheduleItemReportingView();
-            medicationScheduleItemReportingView.init(scheduleItem);
+            medicationScheduleItemReportingView.init(scheduleItemOccurrence, parentGroup);
             return medicationScheduleItemReportingView;
         }
 
-        public function createScheduleItemTimelineView(scheduleItem:ScheduleItemBase):ScheduleItemTimelineViewBase
+        public function createScheduleItemTimelineView(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):ScheduleItemTimelineViewBase
         {
             var medicationScheduleItemTimelineView:MedicationScheduleItemTimelineView = new MedicationScheduleItemTimelineView();
-            medicationScheduleItemTimelineView.init(scheduleItem);
+            medicationScheduleItemTimelineView.init(scheduleItemOccurrence, parentGroup);
             return medicationScheduleItemTimelineView;
         }
     }
