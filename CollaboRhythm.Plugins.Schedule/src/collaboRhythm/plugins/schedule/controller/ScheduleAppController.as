@@ -96,6 +96,11 @@ package collaboRhythm.plugins.schedule.controller
 			return newFullView;
 		}
 		
+		protected override function get shouldShowFullViewOnWidgetClick():Boolean
+		{
+			return isWorkstationMode;
+		}
+
 		private function get scheduleModel():ScheduleModel
 		{
             if (_scheduleModel == null)

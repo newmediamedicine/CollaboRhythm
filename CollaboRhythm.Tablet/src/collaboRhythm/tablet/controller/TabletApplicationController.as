@@ -44,9 +44,29 @@ package collaboRhythm.tablet.controller
 			_settings.modality = Settings.MODALITY_TABLET;
 
             initCollaborationController(null);
+			initEventListeners();
 
             createSession();
         }
+
+		private function initEventListeners():void
+		{
+			if (!_application)
+				throw new Error("_application must not be null");
+
+			if (!_application.stage)
+				throw new Error("_application.stage must not be null");
+
+			_application.stage.addEventListener(KeyboardEvent.KEY_UP, keyUpHandler)
+		}
+
+		protected function keyUpHandler(event:KeyboardEvent):void
+		{
+			if (event.keyCode == Keyboard.BACK)
+			{
+				_tabletAppControllersMediator.hideFullViews();
+			}
+		}
 
         public override function openRecordAccount(recordAccount:Account):void
         {
@@ -57,7 +77,7 @@ package collaboRhythm.tablet.controller
         }
 
         // the apps are not actually loaded immediately when a record is opened
-        // only after the active record view has been created are they loaded, this makes the UI more responsive
+        // only aKeyboard.BACKfter the active record view has been created are they loaded, this makes the UI more responsive
         public function activeRecordView_creationCompleteHandler(recordAccount:Account):void
         {
             _tabletAppControllersMediator = new TabletAppControllersMediator(_activeRecordView.scheduleWidgetGroup,

@@ -232,7 +232,7 @@ package collaboRhythm.workstation.controller
         // an eventListener can only be added to the stage after the window is initialized
         public function initializeWindowCommon(workstationWindow:WorkstationWindow):void
 		{
-			workstationWindow.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+			workstationWindow.stage.addEventListener(KeyboardEvent.KEY_UP, keyUpHandler);
 		}
 
         // called when an account is opened after createSession is called
@@ -677,7 +677,7 @@ package collaboRhythm.workstation.controller
 //				}
 //			}
 //		}
-		private function onKeyUp(event:KeyboardEvent):void 
+		private function keyUpHandler(event:KeyboardEvent):void
 		{
 			// If the user presses escape, close the entire application
 			if (event.keyCode == Keyboard.ESCAPE)
