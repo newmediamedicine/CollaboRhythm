@@ -7,7 +7,7 @@
         <option name="OUTPUT_TYPE" value="Application" />
         <option name="USE_DEFAULT_SDK_CONFIG_FILE" value="true" />
         <option name="USE_CUSTOM_CONFIG_FILE" value="false" />
-        <option name="CUSTOM_CONFIG_FILE" value="C:/Program Files (x86)/Adobe/Adobe Flash Builder Burrito/sdks/4.5.0/frameworks/airmobile-config.xml" />
+        <option name="CUSTOM_CONFIG_FILE" value="$PROJECT_FRAMEWORKS$/airmobile-config.xml" />
         <option name="USE_CUSTOM_CONFIG_FILE_FOR_TESTS" value="false" />
         <option name="CUSTOM_CONFIG_FILE_FOR_TESTS" value="" />
         <option name="APPLICATION_ENTRY_POINT" value="" />

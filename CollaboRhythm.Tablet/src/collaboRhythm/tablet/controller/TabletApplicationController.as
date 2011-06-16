@@ -64,6 +64,7 @@ package collaboRhythm.tablet.controller
 		{
 			if (event.keyCode == Keyboard.BACK)
 			{
+				event.preventDefault();
 				_tabletAppControllersMediator.hideFullViews();
 			}
 		}
