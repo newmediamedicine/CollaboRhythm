@@ -26,32 +26,28 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<fx:Style>
-		@namespace s "library://ns.adobe.com/flex/spark";
-		
-		#recordVideoButton
-        {
-			font-size: 15;
-			font-weight: bold;
-		}
+        @namespace s "library://ns.adobe.com/flex/spark";
 
-        .playhead
-        {
+        #recordVideoButton {
+            font-size: 15;
+            font-weight: bold;
+        }
+
+        .playhead {
             font-size: 14;
             color: #FFFFFF;
         }
 
-        .countdown
-        {
+        .countdown {
             font-size: 180;
             font-weight: bold;
         }
 
-        .webcamNotAvailable
-        {
+        .cameraNotAvailable {
             font-size: 20;
-            font-weight:bold;
+            font-weight: bold;
         }
-	</fx:Style>
+    </fx:Style>
     <s:states>
         <s:State name="hidden"/>
         <s:State name="attachingCamera"/>
@@ -130,6 +126,10 @@
             {
                 attachCamera();
             }
+            else
+            {
+                currentState = "cameraNotAvailable";
+            }
         }
 
         private function attachCamera():void
@@ -138,7 +138,7 @@
             _camera.setMotionLevel(0, 5000);
             _camera.addEventListener(ActivityEvent.ACTIVITY, cameraActivityEventHandler);
             _attachCameraTimer = new Timer(5000, 1);
-            _attachCameraTimer.addEventListener(TimerEvent.TIMER_COMPLETE, attachCameraTimer);
+            _attachCameraTimer.addEventListener(TimerEvent.TIMER_COMPLETE, attachCameraTimerCompleteEvent);
             _attachCameraTimer.start();
             videoDisplay.attachCamera(_camera);
             _netStream = new NetStream(_netConnection);
@@ -158,9 +158,8 @@
 
         // If the camera is not null but is being used by another program, the timeout in setMotionLevel will not fire
         // A separate timer needs to be used
-        private function attachCameraTimer(event:TimerEvent):void
+        private function attachCameraTimerCompleteEvent(event:TimerEvent):void
         {
-            trace("attach Camera timer");
             if (currentState == "attachingCamera")
             {
                 //TODO: Add an animation to use while the camera is being attached
@@ -237,7 +236,8 @@
             if (_netStream)
             {
                 _netStream.attachCamera(_camera);
-//                _netStream.attachAudio(_microphone);
+                if (_microphone)
+                    _netStream.attachAudio(_microphone);
                 var fileNumber:int = _collaborationModel.activeRecordAccount.primaryRecord.videoMessagesModel.videoMessageCount + 1;
                 _netStreamLocation = _collaborationModel.activeRecordAccount.accountId + "/" + fileNumber;
                 _netStream.publish(_netStreamLocation, "record");
@@ -335,7 +335,8 @@
             <s:Button id="recordVideoButton"
                       enabled.hidden="false"
                       enabled.attachingCamera="false"
-                      includeIn="hidden, attachingCamera, readyToRecord, countdownInProgress, startingRecording, recording"
+                      enabled.cameraNotAvailable="false"
+                      includeIn="hidden, attachingCamera, cameraNotAvailable, readyToRecord, countdownInProgress, startingRecording, recording"
                       icon.hidden="@Embed(source='/resources/images/icons/buttonIcons/recordIcon.png')"
                       icon.attachingCamera="@Embed(source='/resources/images/icons/buttonIcons/recordIcon.png')"
                       icon.readyToRecord="@Embed(source='/resources/images/icons/buttonIcons/recordIcon.png')"
@@ -350,13 +351,13 @@
             <!-- The component that displays video from the camera or video being played back from the netstream -->
             <mx:VideoDisplay id="videoDisplay" width="100%" height="100%"/>
             <!-- An overlay to obscure the video prior to initiating recording -->
-            <s:Rect width="100%" height="100%" includeIn="hidden, attachingCamera, readyToRecord, countdownInProgress">
+            <s:Rect width="100%" height="100%" includeIn="hidden, attachingCamera, cameraNotAvailable, readyToRecord, countdownInProgress">
                 <s:fill>
                     <s:SolidColor color="0xFFFFFF" alpha="0.5"/>
                 </s:fill>
             </s:Rect>
             <!-- Label to show if a webcam is not available -->
-            <s:Label id="webcamNotAvailableLabel" text="Webcam not available" styleName="webcamNotAvailable" verticalCenter="0" horizontalCenter="0" includeIn="cameraNotAvailable"/>
+            <s:Label id="webcamNotAvailableLabel" text="Webcam not available" styleName="cameraNotAvailable" verticalCenter="0" horizontalCenter="0" includeIn="cameraNotAvailable"/>
             <!-- A border around the video that turns red when recording is in progress -->
             <s:Rect width="100%" height="100%">
                 <s:stroke>

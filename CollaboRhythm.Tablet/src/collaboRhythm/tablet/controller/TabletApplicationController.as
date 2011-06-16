@@ -125,6 +125,10 @@ package collaboRhythm.tablet.controller
         public function deleteVideoMessage(videoMessage:VideoMessage):void
         {
             _activeRecordAccount.primaryRecord.videoMessagesModel.deleteVideoMessage(videoMessage);
+            if (_activeRecordAccount.primaryRecord.videoMessagesModel.videoMessagesCollection.length == 0)
+            {
+                _activeRecordView.fullViewsGroup.removeElement(_videosView);
+            }
         }
 
         public function get activeRecordView():ActiveRecordView

@@ -89,7 +89,7 @@
             <s:Button id="videosButton" width="100" height="100" right="0"
                       click="videosButton_clickHandler(event)"
                       icon="@Embed(source='/assets/images/icons/buttonIcons/video.png')"
-                      enabled="{_recordAccount.primaryRecord.videoMessagesModel.videoMessageCount > 0 &amp;&amp; _collaborationModel.collaborationLobbyNetConnectionService.isConnected}"
+                      enabled="{_recordAccount.primaryRecord.videoMessagesModel.videoMessagesCollection.length > 0 &amp;&amp; _collaborationModel.collaborationLobbyNetConnectionService.isConnected}"
                     />
         </s:VGroup>
     </s:HGroup>
