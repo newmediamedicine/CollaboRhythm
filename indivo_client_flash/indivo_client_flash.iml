@@ -56,7 +56,7 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$MODULE_DIR$/../../../FlashBuilder/oauth-as3/src" />
+          <root url="file://$USER_HOME$/FlashBuilder/oauth-as3/src" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -86,7 +86,6 @@
           <root url="jar://$PROJECT_FRAMEWORKS$/libs/spark_dmv.swc!/" />
           <root url="jar://$PROJECT_FRAMEWORKS$/libs/textLayout.swc!/" />
           <root url="jar://$PROJECT_FRAMEWORKS$/libs/mx/mx.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/airglobal.swc!/" />
           <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/aircore.swc!/" />
           <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/airframework.swc!/" />
           <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/airspark.swc!/" />
@@ -110,7 +109,9 @@
           <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/spark_rb.swc!/" />
           <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/textLayout_rb.swc!/" />
         </CLASSES>
-        <JAVADOC />
+        <JAVADOC>
+          <root url="http://livedocs.adobe.com/flex/3/langref/" />
+        </JAVADOC>
         <SOURCES>
           <root url="file://$PROJECT_FRAMEWORKS$/projects/advancedgrids/src" />
           <root url="file://$PROJECT_FRAMEWORKS$/projects/air/ApplicationUpdater/src" />
