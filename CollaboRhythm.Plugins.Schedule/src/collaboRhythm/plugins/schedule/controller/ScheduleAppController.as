@@ -169,7 +169,7 @@ package collaboRhythm.plugins.schedule.controller
 //					_scheduleHealthRecordService.createScheduleGroup(_user, scheduleGroupDocument, scheduleItemDocumentIDs);
 //				}
 //			}
-//			super.close();
+			super.close();
 
 //			for each (var adherenceGroupView:AdherenceGroupView in _fullView.adherenceGroupViews)
 //			{
