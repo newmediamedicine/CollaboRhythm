@@ -359,6 +359,16 @@ package collaboRhythm.core.controller.apps
 //			}
 		}
 
+		public function hideFullViews():void
+		{
+			currentFullView = null;
+
+			for each (var app:WorkstationAppControllerBase in _workstationApps.values())
+			{
+				app.hideFullView();
+			}
+		}
+
 		public function get currentFullView():String
 		{
 			return _currentFullView;

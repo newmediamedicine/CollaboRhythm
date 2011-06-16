@@ -25,7 +25,9 @@ package collaboRhythm.shared.controller.apps
     import collaboRhythm.shared.view.BitmapCopyComponent;
 
     import flash.display.BitmapData;
-    import flash.events.EventDispatcher;
+	import flash.display.DisplayObjectContainer;
+	import flash.display.Stage;
+	import flash.events.EventDispatcher;
     import flash.events.MouseEvent;
     import flash.events.TransformGestureEvent;
     import flash.geom.Point;
@@ -43,7 +45,9 @@ package collaboRhythm.shared.controller.apps
     import mx.graphics.ImageSnapshot;
     import mx.managers.DragManager;
 
-    import spark.components.Button;
+	import spark.components.Application;
+
+	import spark.components.Button;
     import spark.components.Window;
     import spark.effects.*;
     import spark.layouts.supportClasses.LayoutBase;
@@ -431,13 +435,11 @@ package collaboRhythm.shared.controller.apps
 
 		protected function get shouldShowFullViewOnWidgetClick():Boolean
 		{
-			return isWorkstationMode;
+			return isWorkstationMode || isTabletMode;
 		}
 		
 		private function widgetClickHandler(event:MouseEvent):void
 		{
-//			trace("widgetClickHandler");
-			
 			if (shouldShowFullViewOnWidgetClick && canShowFullView() && isShowFullViewClickEvent(event))
 				this.dispatchEvent(new WorkstationAppEvent(WorkstationAppEvent.SHOW_FULL_VIEW, this));
 		}
@@ -494,11 +496,14 @@ package collaboRhythm.shared.controller.apps
 				fromPoint = new Point(0,0);
 			
 			var globalPoint:Point = from.localToGlobal(fromPoint);
-			
-			globalPoint.x += from.stage.nativeWindow.x;
-			globalPoint.y += from.stage.nativeWindow.y;
-			globalPoint.x -= to.stage.nativeWindow.x;
-			globalPoint.y -= to.stage.nativeWindow.y;
+
+			if (from.stage != to.stage)
+			{
+				globalPoint.x += from.stage.nativeWindow.x;
+				globalPoint.y += from.stage.nativeWindow.y;
+				globalPoint.x -= to.stage.nativeWindow.x;
+				globalPoint.y -= to.stage.nativeWindow.y;
+			}
 			return to.globalToLocal(globalPoint);
 		}
 		
@@ -510,7 +515,7 @@ package collaboRhythm.shared.controller.apps
 			const duration:Number = 1000;
 			
 			// move to the front and make visible
-			var viewParent:IVisualElementContainer = view.parent as IVisualElementContainer
+			var viewParent:IVisualElementContainer = view.parent as IVisualElementContainer;
 			if (viewParent != null)
 				viewParent.setElementIndex(view, viewParent.numElements - 1);
 			view.visible = true;
@@ -524,7 +529,19 @@ package collaboRhythm.shared.controller.apps
 				fromPosition = localToLocal(widgetView, view, new Point(startRect.x, startRect.y));
 			else
 				fromPosition = localToLocal(widgetView, view);
-			
+
+			var startRectLocal:Rect = new Rect();
+			startRectLocal.x = fromPosition.x;
+			startRectLocal.y = fromPosition.y;
+
+			if (shouldResize)
+			{
+				startRectLocal.width = widgetView.width;
+				startRectLocal.height = widgetView.height;
+
+				shrinkRectToAspectRatio(startRectLocal, fullView);
+			}
+
 			var toPosition:Point = localToLocal(_fullParentContainer as UIComponent, view);
 			
 			if (!shouldResize)
@@ -537,8 +554,8 @@ package collaboRhythm.shared.controller.apps
 				toPosition.y -= view.height / 2;
 			}
 			
-			move.xFrom = fromPosition.x;
-			move.yFrom = fromPosition.y;
+			move.xFrom = startRectLocal.x;
+			move.yFrom = startRectLocal.y;
 			move.xTo = toPosition.x;
 			move.yTo = toPosition.y;
 			move.duration = duration;
@@ -548,8 +565,8 @@ package collaboRhythm.shared.controller.apps
 			{
 				var resize:Resize = new Resize(view);
 				parallel.addChild(resize);
-				resize.widthFrom = widgetView.width;
-				resize.heightFrom = widgetView.height;
+				resize.widthFrom = startRectLocal.width;
+				resize.heightFrom = startRectLocal.height;
 				resize.widthTo = (_fullParentContainer as UIComponent).width;
 				resize.heightTo = (_fullParentContainer as UIComponent).height;
 				resize.duration = duration;
@@ -629,34 +646,22 @@ package collaboRhythm.shared.controller.apps
 				centerSpaceTransitionComponent = BitmapCopyComponent.createFromBitmap(bitmapData, fullView);
 				
 				fullView.visible = false;
-//				(fullView.parent as IVisualElementContainer).setElementIndex(fullView, (fullView.parent as IVisualElementContainer).numElements - 1);
-				
-				var widgetParentContainerComponent:UIComponent = _widgetParentContainer as UIComponent;
-				var widgetWindow:Window;
-				widgetWindow = Window.getWindow(widgetView) as Window;
-				
-				// TODO: use a more robust way to distinguish when we are in mobile mode vs. workstation
-				if (widgetWindow != null)
+				var widgetTransitionComponentContainer:IVisualElementContainer = getTransitionComponentContainer(widgetView);
+
+				if (isWorkstationMode || isTabletMode)
 				{
 					if (topSpaceTransitionComponent != null)
 					{
-						// TODO: avoid this hack; there should be a cleaner way to get the appropriate container to put the temporary full view into
-						// Note that we can't just use _widgetParentContainer.addElement because this container is using a tile layout
-						//_widgetParentContainer.addElement(_fullViewFromWidget);
-						//((_widgetParentContainer as IVisualElement).parent as IVisualElementContainer).addElement(fullViewFromWidget);
-	
-						widgetWindow.addElement(topSpaceTransitionComponent);
+						widgetTransitionComponentContainer.addElement(topSpaceTransitionComponent);
 						
 						applyShowFullViewEffects(topSpaceTransitionComponent, startRect, true);
 					}
 					
-					var fullParentContainerComponent:UIComponent = _fullParentContainer as UIComponent;
-					var fullWindow:Window;
-					fullWindow = Window.getWindow(fullView) as Window;
-					
-					if (centerSpaceTransitionComponent != null && widgetWindow != fullWindow)
+					var fullTransitionComponentContainer:IVisualElementContainer = getTransitionComponentContainer(fullView);
+
+					if (centerSpaceTransitionComponent != null && widgetTransitionComponentContainer != fullTransitionComponentContainer)
 					{
-						fullWindow.addElement(centerSpaceTransitionComponent);
+						fullTransitionComponentContainer.addElement(centerSpaceTransitionComponent);
 						
 						applyShowFullViewEffects(centerSpaceTransitionComponent, startRect, true);
 					}
@@ -668,6 +673,47 @@ package collaboRhythm.shared.controller.apps
 					showFullViewComplete();
 				}
 			}
+		}
+
+		private function shrinkRectToAspectRatio(rect:Rect, targetView:UIComponent):void
+		{
+			if (rect.height > 0 && targetView.height > 0)
+			{
+				var rectRatio:Number = rect.width / rect.height;
+				var targetRatio:Number = targetView.width / targetView.height;
+
+				if (targetRatio > rectRatio)
+				{
+					// target is wider, so reduce rect height
+					var newHeight:Number = rect.width / targetRatio;
+					rect.y += (rect.height - newHeight) / 2;
+					rect.height = newHeight;
+				}
+				else
+				{
+					// target is taller, so reduce rect width
+					var newWidth:Number = rect.height * targetRatio;
+					rect.x += (rect.width - newWidth) / 2;
+					rect.width = newWidth;
+				}
+			}
+		}
+
+		private function getTransitionComponentContainer(widgetView:UIComponent):IVisualElementContainer
+		{
+			var container:DisplayObjectContainer = widgetView.parent;
+			if (!container)
+				throw new Error("Failed to find a container to put the transition component in");
+
+			while (container.parent != null && !(container is Window) && !(container is Application))
+			{
+				container = container.parent;
+			}
+
+			if (container is IVisualElementContainer)
+				return container as IVisualElementContainer;
+			else
+				throw new Error("Failed to find a IVisualElementContainer to put the transition component in");
 		}
 		
 		/**
