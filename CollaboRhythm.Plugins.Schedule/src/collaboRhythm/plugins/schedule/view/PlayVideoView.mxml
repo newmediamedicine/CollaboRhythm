@@ -44,15 +44,15 @@
 			
 			private function addedToStage():void
 			{
-				stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 			}
 			
 			private function removedFromStage():void
 			{
-				stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 			}
 			
-			private function onKeyDown(event:KeyboardEvent):void
+			private function keyDownHandler(event:KeyboardEvent):void
 			{
 				if (event.keyCode == Keyboard.BACK)
 				{

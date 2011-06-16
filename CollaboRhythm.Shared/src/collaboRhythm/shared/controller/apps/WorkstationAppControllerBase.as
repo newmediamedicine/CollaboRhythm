@@ -81,6 +81,8 @@ package collaboRhythm.shared.controller.apps
         protected var _activeRecordAccount:Account;
         protected var _settings:Settings;
         protected var _componentContainer:IComponentContainer;
+		protected var _primaryShowFullViewParallelEffect:Parallel;
+		protected var _secondaryShowFullViewParallelEffect:Parallel;
 
 		public function WorkstationAppControllerBase(constructorParams:AppControllerConstructorParams)
 		{
@@ -93,6 +95,8 @@ package collaboRhythm.shared.controller.apps
             _activeRecordAccount = constructorParams.activeRecordAccount;
             _settings = constructorParams.settings;
             _componentContainer = constructorParams.componentContainer;
+
+			initializeShowFullViewParallelEffects();
 
 			createAndPrepareWidgetView();
 			
@@ -290,6 +294,8 @@ package collaboRhythm.shared.controller.apps
 		{
 			if (fullView != null)
 			{
+				_primaryShowFullViewParallelEffect.stop();
+				_secondaryShowFullViewParallelEffect.stop();
 				fullView.visible = false;
 				if (fullView.parent == null)
 					_fullParentContainer.addElement(fullView);
@@ -507,20 +513,24 @@ package collaboRhythm.shared.controller.apps
 			return to.globalToLocal(globalPoint);
 		}
 		
-		private function applyShowFullViewEffects(view:UIComponent, startRect:Rect, shouldResize:Boolean):void
+		private function applyShowFullViewEffects(parallel:Parallel, view:UIComponent, startRect:Rect, shouldResize:Boolean):void
 		{
 			if (_traceEventHandlers)
 				trace(this + ".applyShowFullViewEffects");
 
 			const duration:Number = 1000;
-			
+
+			parallel.stop();
+
 			// move to the front and make visible
 			var viewParent:IVisualElementContainer = view.parent as IVisualElementContainer;
 			if (viewParent != null)
 				viewParent.setElementIndex(view, viewParent.numElements - 1);
 			view.visible = true;
 			
-			var parallel:Parallel = new Parallel(view);
+			parallel.target = view;
+			parallel.children = new Array();
+
 			var move:Move = new Move(view);
 			parallel.addChild(move);
 			var fromPosition:Point;
@@ -559,8 +569,7 @@ package collaboRhythm.shared.controller.apps
 			move.xTo = toPosition.x;
 			move.yTo = toPosition.y;
 			move.duration = duration;
-			parallel.addEventListener(EffectEvent.EFFECT_END, showFullViewParallelEffectEndHandler, false, 0, true);
-			
+
 			if (shouldResize)
 			{
 				var resize:Resize = new Resize(view);
@@ -590,6 +599,13 @@ package collaboRhythm.shared.controller.apps
 //			fade.play();
 			
 			parallel.play();
+		}
+
+		private function initializeShowFullViewParallelEffects():void
+		{
+			_primaryShowFullViewParallelEffect = new Parallel();
+			_primaryShowFullViewParallelEffect.addEventListener(EffectEvent.EFFECT_END, primaryShowFullViewParallelEffect_effectEndHandler, false, 0, true);
+			_secondaryShowFullViewParallelEffect = new Parallel();
 		}
 		
 		private function getEffectiveScaleX(component:UIComponent):Number
@@ -639,6 +655,9 @@ package collaboRhythm.shared.controller.apps
 				showWidgetAsDraggable(false);
 				showWidgetAsSelected(true);
 				
+				_primaryShowFullViewParallelEffect.stop();
+				_secondaryShowFullViewParallelEffect.stop();
+
 				fullView.validateNow();
 				var bitmapData:BitmapData = ImageSnapshot.captureBitmapData(fullView);
 				
@@ -654,7 +673,7 @@ package collaboRhythm.shared.controller.apps
 					{
 						widgetTransitionComponentContainer.addElement(topSpaceTransitionComponent);
 						
-						applyShowFullViewEffects(topSpaceTransitionComponent, startRect, true);
+						applyShowFullViewEffects(_primaryShowFullViewParallelEffect, topSpaceTransitionComponent, startRect, true);
 					}
 					
 					var fullTransitionComponentContainer:IVisualElementContainer = getTransitionComponentContainer(fullView);
@@ -663,7 +682,7 @@ package collaboRhythm.shared.controller.apps
 					{
 						fullTransitionComponentContainer.addElement(centerSpaceTransitionComponent);
 						
-						applyShowFullViewEffects(centerSpaceTransitionComponent, startRect, true);
+						applyShowFullViewEffects(_secondaryShowFullViewParallelEffect, centerSpaceTransitionComponent, startRect, true);
 					}
 				}
 				else
@@ -732,17 +751,11 @@ package collaboRhythm.shared.controller.apps
 		
 		private var _traceEventHandlers:Boolean = false;
 
-		public function showFullViewParallelEffectEndHandler(event:EffectEvent):void
+		public function primaryShowFullViewParallelEffect_effectEndHandler(event:EffectEvent):void
 		{
 			if (_traceEventHandlers)
-				trace(this + ".showFullViewMoveEndHandler");
+				trace(this + ".primaryShowFullViewParallelEffect_effectEndHandler");
 			
-			var parallel:Parallel = event.target as Parallel;
-			if (!parallel)
-				throw new Error("event.target was not a Parallel effect; unable to remove event listener");
-			
-			parallel.removeEventListener(EffectEvent.EFFECT_END, showFullViewParallelEffectEndHandler);
-
 			fullView.alpha = 1;
 			fullView.visible = true;
 			
@@ -772,6 +785,9 @@ package collaboRhythm.shared.controller.apps
 
 		public function hideFullView():void
 		{
+			_primaryShowFullViewParallelEffect.stop();
+			_secondaryShowFullViewParallelEffect.stop();
+
 			showWidgetAsDraggable(fullView != null);
 			showWidgetAsSelected(false);
 			if (fullView != null && fullView.visible)
@@ -790,12 +806,21 @@ package collaboRhythm.shared.controller.apps
 //				resize.heightTo = SHRINK_HEIGHT;
 //				resize.play();
 
-				var fade:Fade = new Fade(fullView);
-				fade.alphaFrom = 1;
-				fade.alphaTo = 1;
-				fade.duration = 1500;
-				fade.play();
-				fade.addEventListener(EffectEvent.EFFECT_END, hideFullViewFadeEndHandler, false, 0, true);
+				// Use an effect to keep this fullView visible while showing the next full view (of another app)
+				if (isWorkstationMode)
+				{
+					var fade:Fade = new Fade(fullView);
+					fade.alphaFrom = 1;
+					fade.alphaTo = 1;
+					fade.duration = 1500;
+					fade.play();
+					fade.addEventListener(EffectEvent.EFFECT_END, hideFullViewFadeEndHandler, false, 0, true);
+				}
+				else
+				{
+					fullView.visible = false;
+					hideFullViewComplete();
+				}
 			}
 			else
 			{
@@ -829,7 +854,9 @@ package collaboRhythm.shared.controller.apps
 		public function destroyViews():void
 		{
 			// TODO: ensure that the views are completely destructed and removed from memory (remove and references, event listeners)
-			
+			_primaryShowFullViewParallelEffect.stop();
+			_secondaryShowFullViewParallelEffect.stop();
+
 			if (widgetView != null && widgetView.parent != null)
 			{
 				if (widgetView.parent is IVisualElementContainer)

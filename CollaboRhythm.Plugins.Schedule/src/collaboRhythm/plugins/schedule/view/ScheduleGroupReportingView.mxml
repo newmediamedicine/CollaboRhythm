@@ -55,7 +55,7 @@
             return _scheduleGroup;
         }
 
-        private function onKeyUp(event:KeyboardEvent):void
+        private function keyDownHandler(event:KeyboardEvent):void
         {
             if (event.keyCode == Keyboard.BACK)
             {
@@ -67,24 +67,13 @@
 
         private function addedToStage():void
         {
-            stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyUp);
+            stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
         }
 
         private function removedFromStage():void
         {
-            stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyUp);
+            stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
         }
-        //
-        //        private function onKeyDown(event:KeyboardEvent):void
-        //        {
-        //            if (event.keyCode == Keyboard.BACK)
-        //            {
-        //                event.preventDefault();
-        //                event.stopImmediatePropagation();
-        //                dispatchEvent(new ScheduleWidgetViewEvent(ScheduleWidgetViewEvent.SCHEDULE_GROUP_REPORTING_VIEW_BACK,
-        //                                                          _scheduleGroup));
-        //            }
-        //        }
 
         private function createScheduleItems():void
         {

@@ -54,7 +54,7 @@
             videoDisplay.mx_internal::videoPlayer.attachNetStream(_netStream);
         }
 
-        private function onKeyUp(event:KeyboardEvent):void
+        private function stage_keyDownHandler(event:KeyboardEvent):void
         {
             if (event.keyCode == Keyboard.BACK)
             {
@@ -66,12 +66,12 @@
 
         private function addedToStage():void
         {
-            stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyUp);
+            stage.addEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
         }
 
         private function removedFromStage():void
         {
-            stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyUp);
+            stage.removeEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
         }
 
         private function playVideoMessageHandler(event:VideosViewEvent):void
