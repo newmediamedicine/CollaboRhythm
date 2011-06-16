@@ -60,7 +60,7 @@
             {
                 event.preventDefault();
                 event.stopImmediatePropagation();
-                _tabletApplicationController.activeRecordView.fullViewsGroup.removeAllElements();
+                _tabletApplicationController.activeRecordView.fullViewsGroup.removeElement(this);
             }
         }
 

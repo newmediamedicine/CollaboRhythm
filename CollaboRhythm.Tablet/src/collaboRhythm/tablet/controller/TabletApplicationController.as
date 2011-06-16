@@ -127,7 +127,7 @@ package collaboRhythm.tablet.controller
             _activeRecordAccount.primaryRecord.videoMessagesModel.deleteVideoMessage(videoMessage);
             if (_activeRecordAccount.primaryRecord.videoMessagesModel.videoMessagesCollection.length == 0)
             {
-                _activeRecordView.fullViewsGroup.removeAllElements();
+                _activeRecordView.fullViewsGroup.removeElement(_videosView);
             }
         }
 
