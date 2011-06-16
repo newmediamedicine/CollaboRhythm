@@ -1,13 +1,13 @@
 package collaboRhythm.tablet.controller
 {
 
-    import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
-    import collaboRhythm.shared.model.settings.Settings;
-    import collaboRhythm.shared.model.services.IComponentContainer;
+	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
+	import collaboRhythm.shared.model.services.IComponentContainer;
+	import collaboRhythm.shared.model.settings.Settings;
 
-    import mx.core.IVisualElementContainer;
+	import mx.core.IVisualElementContainer;
 
-    public class TabletAppControllersMediator extends AppControllersMediatorBase
+	public class TabletAppControllersMediator extends AppControllersMediatorBase
     {
         public function TabletAppControllersMediator(
 			widgetParentContainer:IVisualElementContainer,
@@ -27,5 +27,5 @@ package collaboRhythm.tablet.controller
 //                  collaborationRoomNetConnectionService,
                   componentContainer)
         }
-    }
+	}
 }

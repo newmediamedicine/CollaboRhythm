@@ -410,5 +410,10 @@ package collaboRhythm.core.controller.apps
 				}
 			}
 		}
+
+		public function get showingFullView():Boolean
+		{
+			return currentFullView != null;
+		}
 	}
 }

@@ -57,15 +57,32 @@ package collaboRhythm.tablet.controller
 			if (!_application.stage)
 				throw new Error("_application.stage must not be null");
 
-			_application.stage.addEventListener(KeyboardEvent.KEY_UP, keyUpHandler)
+			_application.stage.addEventListener(KeyboardEvent.KEY_UP, keyUpHandler);
+			_application.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
+		}
+
+		private function keyDownHandler(event:KeyboardEvent):void
+		{
+			if (event.keyCode == Keyboard.BACK)
+			{
+				if (_tabletAppControllersMediator.showingFullView)
+				{
+					event.preventDefault();
+					event.stopImmediatePropagation();
+				}
+			}
 		}
 
 		protected function keyUpHandler(event:KeyboardEvent):void
 		{
 			if (event.keyCode == Keyboard.BACK)
 			{
-				event.preventDefault();
-				_tabletAppControllersMediator.hideFullViews();
+				if (_tabletAppControllersMediator.showingFullView)
+				{
+					event.preventDefault();
+					event.stopImmediatePropagation();
+					_tabletAppControllersMediator.hideFullViews();
+				}
 			}
 		}
 
