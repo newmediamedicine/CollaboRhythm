@@ -1,0 +1,106 @@
+/**
+ * Copyright 2011 John Moore, Scott Gilroy
+ *
+ * This file is part of CollaboRhythm.
+ *
+ * CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ * <http://www.gnu.org/licenses/>.
+ */
+
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+
+global
+{
+	font-family: "Myriad Pro", "Verdana";
+}
+
+s|Label
+{
+}
+
+mx|DataGrid.WidgetGrid
+{
+	borderVisible: false;
+	vertical-grid-lines: false;
+	border-style: none;
+	selection-color: #C1FFC5;
+	roll-over-color: #7CFF77;
+	contentBackgroundAlpha: 0.0;
+	alternatingItemColors: ClassReference(null); /* no colors so that background (watermark) can show through */
+	font-size: 14pt;
+}
+
+mx|DataGrid.ApplicationInfoGrid
+{
+    color: #000000;
+	selection-color: #C1FFC5;
+	roll-over-color: #7CFF77;
+	contentBackgroundAlpha: 0.0;
+	/*alternatingItemColors: ClassReference(null); *//* no colors so that background (watermark) can show through */
+	font-size: 14pt;
+}
+
+mx|Image.WidgetWatermarkImage
+{
+	alpha: 0.2; /* Note: this doesn't work */
+	vertical-align: bottom;
+	horizontal-align: right;
+	right: 0;
+	bottom: 0;
+}
+
+s|ToggleButton.DebugToggleButton
+{
+	/* TODO: it would be nice if we could make the buttons invisible with a style or some other global */
+}
+
+s|Label.WidgetGridLabel, s|Label.InactiveWidgetGridLabel
+{
+	paddingBottom: 5;
+	paddingLeft: 5;
+	paddingRight: 5;
+	paddingTop: 5;
+}
+
+s|Label.WidgetGridLabel
+{
+	color: #000000;
+}
+
+s|Label.InactiveWidgetGridLabel
+{
+	color: #999999;
+}
+
+s|Label.ZoneLabel
+{
+	color: #666666;
+/*	fontWeight: bold;
+*/	
+	font-size: 16pt;
+	padding-bottom: 1;
+	padding-left: 3;
+	padding-right: 3;
+	padding-top: 3;
+}
+
+s|Label.MainChartTitleLabel
+{
+	color: #000000;
+	font-size: 18pt;
+	padding-bottom: 3;
+	padding-left: 3;
+	padding-right: 3;
+	padding-top: 3;
+}

@@ -34,7 +34,7 @@
 	<s:Group id="arrowsGroup" width="100%" height="100%"/>
 	<buttons:SimulationDetailButton
 			id="circulatorySystemButton"
-			x="400"
+			x="{detailButtonX}"
 			arrowTailY="{circulatorySystemPoint.y}"
 			label="Hypertension"
 			click="dispatchEvent(new SimulationLevelEvent(SimulationLevelEvent.DRILL_DOWN_LEVEL, 0.3, 0.3, circulatorySystemPoint.x, circulatorySystemPoint.y));"

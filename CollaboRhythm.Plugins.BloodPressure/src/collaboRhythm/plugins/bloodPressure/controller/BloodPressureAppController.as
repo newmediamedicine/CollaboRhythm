@@ -93,6 +93,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 		protected override function createFullView():UIComponent
 		{
 			var newFullView:BloodPressureFullView = new BloodPressureFullView();
+			newFullView.rangeChartVisible = isWorkstationMode;
 			if (_activeRecordAccount != null)
 				newFullView.model = _activeRecordAccount.bloodPressureModel;
 			return newFullView;

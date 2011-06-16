@@ -34,6 +34,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation
 	[Event(name="drillDownLevel",type="collaboRhythm.plugins.bloodPressure.view.simulation.SimulationLevelEvent")]
 	public class SimulationLevelGroup extends Group
 	{
+		public static const detailButtonX:Number = 390;
 		private var _simulationModel:SimulationModel;
 		private var _title:String;
 		private var _breadcrumbContent:UIComponent;

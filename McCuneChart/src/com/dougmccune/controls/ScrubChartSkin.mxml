@@ -713,22 +713,22 @@ OTHER DEALINGS IN THE SOFTWARE.
 					 y="{rangeSelectorContainer.y + rangeSelectorContainer.height}"
 					 width="{mainChartContainer.width}"
 					 height="{FOOTER_HEIGHT}"
-					 horizontalGap="15" horizontalAlign="left"
+					 horizontalGap="10" horizontalAlign="left"
 					 verticalAlign="middle"
 					 paddingTop="15"
 					 paddingBottom="0"
 					 fontSize="20">
 				<s:Button id="rangeOneWeekButton" styleName="rangeButton" fontWeight="normal" label="1 week"
-							   width="115" height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
+							   width="{FOOTER_BUTTON_WIDTH}" height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
 							   />
 				<s:Button id="rangeOneMonthButton" styleName="rangeButton" fontWeight="normal" label="1 month"
-							   width="115" height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
+							   width="{FOOTER_BUTTON_WIDTH}" height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
 							   />
 				<s:Button id="rangeOneYearButton" styleName="rangeButton" fontWeight="normal" label="1 year"
-							   width="115" height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
+							   width="{FOOTER_BUTTON_WIDTH}" height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
 							   />
 				<s:Button id="rangeMaxButton" styleName="rangeButton" fontWeight="normal" label="max"
-							   width="115" height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
+							   width="{FOOTER_BUTTON_WIDTH}" height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
 							   />
 				<mx:Spacer width="100%" />
 				<!--
@@ -743,7 +743,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 				<s:Button styleName="rangeButton"
 						  id="rangeTodayButton" label="Today"
 						  height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
-						  width="115"/>
+						  width="{FOOTER_BUTTON_WIDTH}"/>
 			</mx:HBox>
 		</s:Group>
 
@@ -809,6 +809,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 		private static const RANGE_SELECTOR_CONTAINER_VISIBLE_HEIGHT:int = 25;
 
 		private static const RANGE_SELECTOR_CONTAINER_COLLAPSED_HEIGHT:int = 8;
+		private const FOOTER_BUTTON_WIDTH:Number = 100;
 
 		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
 		{

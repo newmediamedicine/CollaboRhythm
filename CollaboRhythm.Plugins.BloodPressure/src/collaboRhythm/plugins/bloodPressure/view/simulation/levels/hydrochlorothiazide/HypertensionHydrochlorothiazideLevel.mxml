@@ -39,7 +39,7 @@
 
 	<buttons:SimulationDetailButton
 			id="hydrochlorothiazideTitle"
-			x="400"
+			x="{detailButtonX}"
 			label="Hydrochlorothiazide"
 			subtitle="{hydrochlorothiazideMedicationModel.drugClass}"
 			expanded="true"

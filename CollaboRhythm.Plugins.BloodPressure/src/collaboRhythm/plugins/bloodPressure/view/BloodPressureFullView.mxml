@@ -437,8 +437,8 @@
 			var maximum:Number = charts[0].maximumTime;
 			for each (var chart:TouchScrollingScrubChart in charts)
 			{
-				minimum = Math.max(minimum, chart.minimumTime);
-				maximum = Math.min(maximum, chart.maximumTime);
+				minimum = Math.min(minimum, chart.minimumTime);
+				maximum = Math.max(maximum, chart.maximumTime);
 			}
 
 			for each (chart in charts)
@@ -1059,13 +1059,13 @@
 		}
 		]]></fx:Script>
 
-	<mx:HDividedBox height="100%" width="100%" paddingRight="10" clipContent="true" horizontalScrollPolicy="off"
+	<mx:HDividedBox height="100%" width="100%" paddingRight="0" clipContent="true" horizontalScrollPolicy="off"
 					verticalScrollPolicy="off" backgroundColor="#F1F2F2"
 					dividerSkin="collaboRhythm.shared.view.skins.FlatRectBoxDividerSkin">
 
 
-		<s:VGroup id="chartsGroup" height="100%" width="100%" gap="15" paddingLeft="5" paddingRight="5" paddingTop="5"
-				  paddingBottom="5">
+		<s:VGroup id="chartsGroup" height="100%" width="100%" gap="15" paddingLeft="0" paddingRight="0" paddingTop="0"
+				  paddingBottom="0">
 
 			<s:Group width="100%">
 				<buttons:ContentLabel
@@ -1151,9 +1151,9 @@
 											/>
 -->
 		</s:VGroup>
-		<s:VGroup id="simulationGroup" height="100%" gap="15" paddingLeft="5" paddingRight="5" paddingTop="5"
+		<s:VGroup id="simulationGroup" height="100%" gap="15" paddingLeft="0" paddingRight="0" paddingTop="5"
 				  clipAndEnableScrolling="true"
-				  paddingBottom="13"
+				  paddingBottom="8"
 				  width="{SIMULATION_VIEW_WIDTH + simulationGroup.paddingLeft + simulationGroup.paddingRight}"
 				> <!-- TODO: paddingBottom should be the same as the chartsGroup, but one or both of these components have some internal padding (the ScrubChart currently has an extra 15 paddingBottom "built in" to the footer) -->
 			<simulation:SimulationView id="simulationView" height="100%" width="100%" doubleClickEnabled="true"
