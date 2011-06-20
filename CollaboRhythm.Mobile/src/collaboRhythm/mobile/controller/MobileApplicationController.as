@@ -69,31 +69,6 @@ package collaboRhythm.mobile.controller
 
             createSession();
 		}
-
-        public override function get collaborationView():CollaborationView
-		{
-			return null;
-		}
-
-		public override function get collaborationRoomView():CollaborationRoomView
-		{
-			return null;
-		}
-		
-		public override function get recordVideoView():RecordVideoView
-		{
-			return null;
-		}
-
-		public override function get widgetsContainer():IVisualElementContainer
-		{
-			return null;
-		}
-		
-		public override function get scheduleWidgetContainer():IVisualElementContainer
-		{
-			return null;
-		}
 		
 		public override function get fullContainer():IVisualElementContainer
 		{
