@@ -103,8 +103,8 @@ package collaboRhythm.mobile.controller
         public override function openRecordAccount(recordAccount:Account):void
         {
             super.openRecordAccount(recordAccount);
-            _mobileAppControllersMediator = new MobileAppControllersMediator(widgetsContainer,
-                                                                             widgetsContainer,
+            _mobileAppControllersMediator = new MobileAppControllersMediator(null,
+                                                                             null,
                                                                              fullContainer,
                                                                              _settings,
                                                                              _componentContainer);

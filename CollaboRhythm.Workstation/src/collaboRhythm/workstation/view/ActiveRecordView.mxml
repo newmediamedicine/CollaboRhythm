@@ -21,12 +21,17 @@
          xmlns:view="collaboRhythm.workstation.view.*"
          creationComplete="creationCompleteHandler()"
 		 height="100%" width="100%" gap="0">
+    <s:states>
+        <s:State name="useSingleScreen"/>
+        <s:State name="useDualScreen"/>
+    </s:states>
     <fx:Script>
         <![CDATA[
         import collaboRhythm.shared.model.Account;
         import collaboRhythm.workstation.controller.WorkstationApplicationController;
 
         public static const RECORD_BACKGROUND_COLOR:uint = 0xE6E7E8;
+        private static const WIDGET_HEIGHT:int = 220;
 
         private var _workstationApplicationController:WorkstationApplicationController;
         [Bindable]
@@ -45,7 +50,7 @@
         }
         ]]>
     </fx:Script>
-    <view:ActiveRecordTabView id="activeRecordTabView" left="0" width="50%" top="0" height="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT}"/>
+    <view:ActiveRecordTabView id="activeRecordTabView" left="0" width="50%" height="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT}"/>
     <s:Group width="100%" height="100%">
         <s:Rect width="100%" height="100%">
             <s:fill>
@@ -53,14 +58,14 @@
             </s:fill>
         </s:Rect>
         <s:VGroup width="100%" height="100%" gap="0">
-            <s:Group id="widgetViewGroup" width="100%" height="0" visible="false">
-                <!-- If there is only one screen or if the workstationApplication is in useSingleScreen mode then add the Tiled Widgets Container View here, otherwise add it to the secondaryWindowView -->
-                <s:Line width="100%" bottom="0">
-                    <s:stroke>
-                        <s:SolidColorStroke color="{ActiveRecordTabView.SEPARATOR_COLOR}"/>
-                    </s:stroke>
-                </s:Line>
-            </s:Group>
+            <s:HGroup id="widgetsGroup" width="100%" height="{WIDGET_HEIGHT}" includeIn="useSingleScreen" paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10">
+                <!-- If there is only one screen or if the workstationApplication is in useSingleScreen mode then add widgets here, otherwise add widgets to the secondaryWindowView -->
+            </s:HGroup>
+            <s:Line width="100%" includeIn="useSingleScreen">
+                <s:stroke>
+                    <s:SolidColorStroke color="{ActiveRecordTabView.SEPARATOR_COLOR}"/>
+                </s:stroke>
+            </s:Line>
             <s:Group id="fullViewGroup" width="100%" height="100%">
                 <!-- Application full views are displayed here -->
             </s:Group>

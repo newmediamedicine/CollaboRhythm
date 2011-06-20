@@ -125,6 +125,7 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="CollaboRhythm.View.Scroll" />
   </component>
 </module>
 

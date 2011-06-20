@@ -423,31 +423,6 @@ package collaboRhythm.core.controller
             throw new Error("virtual function must be overriden in subclass");
         }
 
-        public function get collaborationView():CollaborationView
-        {
-            throw new Error("virtual function must be overriden in subclass");
-        }
-
-        public function get collaborationRoomView():CollaborationRoomView
-        {
-            throw new Error("virtual function must be overriden in subclass");
-        }
-
-        public function get recordVideoView():RecordVideoView
-        {
-            throw new Error("virtual function must be overriden in subclass");
-        }
-
-        public function get widgetsContainer():IVisualElementContainer
-        {
-            throw new Error("virtual function must be overriden in subclass");
-        }
-
-        public function get scheduleWidgetContainer():IVisualElementContainer
-        {
-            throw new Error("virtual function must be overriden in subclass");
-        }
-
         public function get fullContainer():IVisualElementContainer
         {
             throw new Error("virtual function must be overriden in subclass");

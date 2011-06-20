@@ -55,7 +55,7 @@
             return _scheduleGroup;
         }
 
-        private function keyDownHandler(event:KeyboardEvent):void
+        private function stage_keyDownHandler(event:KeyboardEvent):void
         {
             if (event.keyCode == Keyboard.BACK)
             {
@@ -67,12 +67,12 @@
 
         private function addedToStage():void
         {
-            stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
+            stage.addEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
         }
 
         private function removedFromStage():void
         {
-            stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
+            stage.removeEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
         }
 
         private function createScheduleItems():void

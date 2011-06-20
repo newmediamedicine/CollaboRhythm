@@ -1,44 +1,28 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!--~
-  ~ Copyright 2011 John Moore, Scott Gilroy
-  ~
-  ~ This file is part of CollaboRhythm.
-  ~
-  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
-  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
-  ~ version.
-  ~
-  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
-  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-  ~ details.
-  ~
-  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
-  ~ <http://www.gnu.org/licenses/>.
-  -->
 <Graphic version="2.0" viewHeight="200" viewWidth="200" ai:appVersion="15.0.0.399" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
   <Library/>
   <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="200" d:pageWidth="200" d:type="layer" d:userLabel="Artboard 1">
-    <Group ai:objID="c607080" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="face">
-      <Ellipse x="1" y="1" width="198" height="198" ai:objID="c6ad880" ai:seqID="3">
+    <Group ai:objID="74a6300" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="face">
+      <Ellipse x="1" y="1" width="198" height="198" ai:objID="7482200" ai:seqID="3">
         <stroke>
           <SolidColorStroke weight="1" caps="none" joints="miter" miterLimit="10" color="#231F20"/>
         </stroke>
       </Ellipse>
-      <Ellipse x="94" y="94.001" width="12" height="12" ai:objID="c6ad580" ai:seqID="4">
+      <Ellipse x="94" y="94.001" width="12" height="12" ai:objID="e92d300" ai:seqID="4">
         <fill>
           <SolidColor/>
         </fill>
       </Ellipse>
-      <RichText x="82.3369" y="173.996" columnCount="1" tabStops="S72" fontFamily="Myriad Pro" fontSize="16" kerning="on" color="#231F20" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="c606f80" ai:seqID="5" flm:variant="1" d:id="3">
+      <RichText x="82.3369" y="173.996" columnCount="1" tabStops="S72" fontFamily="Myriad Pro" fontSize="16" kerning="on" color="#231F20" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="74a6e00" ai:seqID="5" flm:variant="1" d:id="3">
         <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">noon</span></p></content>
       </RichText>
-      <RichText x="82.5068" y="8.39111" columnCount="1" tabStops="S72" fontFamily="Myriad Pro" fontSize="16" kerning="on" color="#231F20" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="c606e80" ai:seqID="6" flm:variant="2" d:id="4">
+      <RichText x="82.5068" y="8.39111" columnCount="1" tabStops="S72" fontFamily="Myriad Pro" fontSize="16" kerning="on" color="#231F20" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="74ad400" ai:seqID="6" flm:variant="2" d:id="4">
         <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">midn</span></p></content>
       </RichText>
-      <RichText x="166.739" y="92.6953" columnCount="1" tabStops="S72" fontFamily="Myriad Pro" fontSize="16" kerning="on" color="#231F20" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="c606d80" ai:seqID="7" flm:variant="3" d:id="5">
+      <RichText x="166.739" y="92.6953" columnCount="1" tabStops="S72" fontFamily="Myriad Pro" fontSize="16" kerning="on" color="#231F20" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="74ad200" ai:seqID="7" flm:variant="3" d:id="5">
         <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">6am</span></p></content>
       </RichText>
-      <RichText x="3.99805" y="92.6953" columnCount="1" tabStops="S72" fontFamily="Myriad Pro" fontSize="16" kerning="on" color="#231F20" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="c606c80" ai:seqID="8" flm:variant="4" d:id="6">
+      <RichText x="3.99805" y="92.6953" columnCount="1" tabStops="S72" fontFamily="Myriad Pro" fontSize="16" kerning="on" color="#231F20" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="74ad000" ai:seqID="8" flm:variant="4" d:id="6">
         <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">6pm</span></p></content>
       </RichText>
     </Group>
@@ -48,32 +32,32 @@
         <d:Map fontFamily="Myriad Pro" fontStyle="normal" fontWeight="normal" postScriptName="MyriadPro-Regular"/>
       </d:FontMap>
       <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="6E480F626490957C78BDA95847798FA2" flm:original="1" d:ref="#3">
-        <variant:RichText x="82.3369" y="185.996" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="c606f80" ai:seqID="5" d:id="7">
+        <variant:RichText x="82.3369" y="185.996" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="74a6e00" ai:seqID="5" d:id="7">
           <variant:content><variant:p fontFamily="Arial" d:id="8"><variant:span fontFamily="Arial" d:id="9">noon</variant:span></variant:p></variant:content>
         </variant:RichText>
       </mngo:VariantContent>
       <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="D5D83CDDE27DD89A85E5D3EF3BD91BA3" flm:original="2" d:ref="#4">
-        <variant:RichText x="82.5068" y="20.3911" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="c606e80" ai:seqID="6" d:id="10">
+        <variant:RichText x="82.5068" y="20.3911" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="74ad400" ai:seqID="6" d:id="10">
           <variant:content><variant:p fontFamily="Arial" d:id="11"><variant:span fontFamily="Arial" d:id="12">midn</variant:span></variant:p></variant:content>
         </variant:RichText>
       </mngo:VariantContent>
       <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="EF071EA4386E3F4C230620CB86FF4228" flm:original="3" d:ref="#5">
-        <variant:RichText x="166.739" y="104.695" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="c606d80" ai:seqID="7" d:id="13">
+        <variant:RichText x="166.739" y="104.695" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="74ad200" ai:seqID="7" d:id="13">
           <variant:content><variant:p fontFamily="Arial" d:id="14"><variant:span fontFamily="Arial" d:id="15">6am</variant:span></variant:p></variant:content>
         </variant:RichText>
       </mngo:VariantContent>
       <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="3D0442DCC1A719AA1AAC6B67C59A5AA4" flm:original="4" d:ref="#6">
-        <variant:RichText x="3.99805" y="104.695" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="c606c80" ai:seqID="8" d:id="16">
+        <variant:RichText x="3.99805" y="104.695" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="74ad000" ai:seqID="8" d:id="16">
           <variant:content><variant:p fontFamily="Arial" d:id="17"><variant:span fontFamily="Arial" d:id="18">6pm</variant:span></variant:p></variant:content>
         </variant:RichText>
       </mngo:VariantContent>
       <ai:PrivateElement d:ref="#1">
         <ai:SaveOptions>
-          <ai:Dict data="B includeObjectOutsideArtboard 0 B writeImages 1 I versionKey 2 B includeXMP 0 B includeSymbol 0 B aiEditCap 1 I expandBlendsOption 5 B downsampleLinkedImages 0 I rasterizeResolution 72 I preserveGradientPolicy 4 I preserveFilterPolicy 3 I preserveTextPolicy 4 "/>
+          <ai:Dict data="B includeObjectOutsideArtboard 0 I preserveFilterPolicy 3 I preserveGradientPolicy 4 B downsampleLinkedImages 0 I rasterizeResolution 72 I expandBlendsOption 5 I preserveTextPolicy 4 I versionKey 2 B includeXMP 0 B writeImages 1 B aiEditCap 1 B includeSymbol 0 "/>
         </ai:SaveOptions>
         <ai:DocData base="clockForeground.assets/images" globalOffsetH="300" globalOffsetV="-200" rulerCanvasDiffH="400.5" rulerCanvasDiffV="300.5">
           <ai:DocRasterSettings>
-            <ai:Dict data="R padd 36 B mask 0 B spot 0 B alis 0 I dpi. 72 I colr 4 "/>
+            <ai:Dict data="B mask 0 R padd 36 B spot 0 B alis 0 I dpi. 72 I colr 4 "/>
           </ai:DocRasterSettings>
         </ai:DocData>
         <ai:AutoGenImageList>

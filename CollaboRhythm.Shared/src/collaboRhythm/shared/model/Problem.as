@@ -18,13 +18,14 @@ package collaboRhythm.shared.model
 {
 	import collaboRhythm.shared.model.DateUtil;
     import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
+    import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
     import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
 	[Bindable]
 	public class Problem extends DocumentMetadata
 	{
-		private var _name:String;
+		private var _name:CodedValue;
 		private var _commonName:String;
 		private var _dateOnset:Date;
 		private var _dateResolution:Date;
@@ -38,9 +39,8 @@ package collaboRhythm.shared.model
         public function initFromReportXML(problemReportXml:XML):void
         {
             parseDocumentMetadata(problemReportXml.Meta.Document[0], this);
-			var problemXml:XML = problemReportXml.Item.Equipment[0];
-            //TODO: Currently there are not any problems in the record, so this code has not been validated
-            _name = problemXml.name;
+			var problemXml:XML = problemReportXml.Item.Problem[0];
+            _name = HealthRecordHelperMethods.xmlToCodedValue(problemXml.name[0]);
 			_commonName = problemXml.comments;
 			_dateOnset =  DateUtil.parseW3CDTF(problemXml.dateOnset.toString());
 			_dateResolution =  DateUtil.parseW3CDTF(problemXml.dateResolution.toString());
@@ -64,12 +64,12 @@ package collaboRhythm.shared.model
 			_commonName = value;
 		}
 
-		public function get name():String
+		public function get name():CodedValue
 		{
 			return _name;
 		}
 		
-		public function set name(value:String):void
+		public function set name(value:CodedValue):void
 		{
 			_name = value;
 		}

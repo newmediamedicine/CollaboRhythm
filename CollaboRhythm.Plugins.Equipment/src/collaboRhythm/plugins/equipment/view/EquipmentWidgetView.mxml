@@ -22,7 +22,7 @@
 	xmlns:s="library://ns.adobe.com/flex/spark" 
 	xmlns:mx="library://ns.adobe.com/flex/mx"
 	xmlns:scroll="collaboRhythm.view.scroll.*"
-	width="500" height="250">
+	width="500" height="100%">
 	<fx:Script>
 		<![CDATA[
         import collaboRhythm.shared.model.EquipmentModel;

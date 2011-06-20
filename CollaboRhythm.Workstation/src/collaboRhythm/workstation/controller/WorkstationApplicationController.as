@@ -63,10 +63,9 @@ package collaboRhythm.workstation.controller
         private var _secondaryWindowView:SecondaryWindowView;
         private var _collaborationView:CollaborationView;
         private var _activeRecordView:ActiveRecordView;
-        private var _widgetsContainerView:TiledWidgetsContainerView;
         private var _workstationAppControllersMediator:WorkstationAppControllersMediator;
+        private var _widgetsContainer:IVisualElementContainer;
 		private var _fullContainer:IVisualElementContainer;
-		private var _widgetsContainer:IVisualElementContainer;
 		private var _scheduleWidgetContainer:IVisualElementContainer;
 		private var _fullScreen:Boolean = true;
 		private var _zoom:Number = 0;
@@ -88,11 +87,6 @@ package collaboRhythm.workstation.controller
 
             initWindows();
 			_logger.info("Windows initialized");
-//            moved this until after the primary window creationComplete event is fired so that the appropriate views are available
-//            initCollaborationController(_collaborationView);
-//            _logger.info("Collaboration controller initialized");
-//
-//            createSession();
 
 			NativeApplication.nativeApplication.addEventListener(Event.EXITING, onExiting);
         }
@@ -253,20 +247,7 @@ package collaboRhythm.workstation.controller
 			_activeRecordView.init(this, recordAccount);
 			_primaryWindowView.mainGroup.addElement(_activeRecordView);
 
-			_widgetsContainerView = new TiledWidgetsContainerView();
-
-			// the widget views are loaded in a different location depending on whether one or two screens are being used
-			if (_secondaryWindowView)
-			{
-				_secondaryWindowView.mainGroup.addElement(_widgetsContainerView);
-			}
-			else
-			{
-				_activeRecordView.widgetViewGroup.height = 200;
-				_activeRecordView.widgetViewGroup.visible = true;
-				_activeRecordView.widgetViewGroup.addElement(_widgetsContainerView);
-			}
-			// TODO: Rethink document retrieval
+			// TODO: Rework document retrieval
 			recordAccount.primaryRecord.getDocuments();
 		}
 
@@ -274,7 +255,27 @@ package collaboRhythm.workstation.controller
         // only after the active record view has been created are they loaded, this makes the UI more responsive
         public function activeRecordView_creationCompleteHandler(recordAccount:Account):void
         {
-            _workstationAppControllersMediator = new WorkstationAppControllersMediator(_widgetsContainerView.widgetsContainer, _widgetsContainerView.widgetsContainer, _activeRecordView.fullViewGroup, _settings, _componentContainer);
+            var standardWidgetsContainer:IVisualElementContainer;
+            var customWidgetsContainer:IVisualElementContainer;
+
+			// the widget views are loaded in a different location depending on whether one or two screens are being used
+			if (_secondaryWindowView)
+			{
+                _activeRecordView.currentState = "useDualScreen";
+                _secondaryWindowView.currentState = "recordOpened";
+                standardWidgetsContainer = _secondaryWindowView.standardWidgetsContainerView.widgetsContainer;
+                customWidgetsContainer = _secondaryWindowView.customWidgetsGroup
+			}
+			else
+			{
+				_activeRecordView.currentState = "useSingleScreen";
+				_widgetsContainer = _activeRecordView.widgetsGroup;
+                standardWidgetsContainer = _activeRecordView.widgetsGroup;
+                customWidgetsContainer = _activeRecordView.widgetsGroup;
+			}
+
+            _fullContainer = _activeRecordView.fullViewGroup;
+            _workstationAppControllersMediator = new WorkstationAppControllersMediator(standardWidgetsContainer, customWidgetsContainer, _fullContainer, _settings, _componentContainer);
             _workstationAppControllersMediator.createAndStartApps(_activeAccount, recordAccount);
 
             if (_reloadWithFullView != null)
@@ -283,7 +284,7 @@ package collaboRhythm.workstation.controller
             }
         }
 
-        // when a record is clased, all of the apps need to be closed and the documents cleared from the record
+        // when a record is closed, all of the apps need to be closed and the documents cleared from the record
         public override function closeRecordAccount(recordAccount:Account):void
         {
             _workstationAppControllersMediator.closeApps();
@@ -293,7 +294,7 @@ package collaboRhythm.workstation.controller
             _primaryWindowView.mainGroup.removeElement(_activeRecordView);
             if (_secondaryWindowView)
             {
-                _secondaryWindowView.mainGroup.removeElement(_widgetsContainerView);
+                _secondaryWindowView.currentState = "recordClosed";
             }
         }
 
@@ -326,29 +327,9 @@ package collaboRhythm.workstation.controller
             return _workstationAppControllersMediator.currentFullView;
         }
 
-        public override function get collaborationView():CollaborationView
-        {
-            return _collaborationView;
-        }
-
-        public override function get widgetsContainer():IVisualElementContainer
-		{
-			return _widgetsContainer;
-		}
-
-		public override function get scheduleWidgetContainer():IVisualElementContainer
-		{
-			return _scheduleWidgetContainer;
-		}
-
 		public override function get fullContainer():IVisualElementContainer
 		{
 			return _fullContainer;
-		}
-
-		public function get primaryWindow():WorkstationWindow
-		{
-			return _primaryWindow;
 		}
 
         public function get zoom():Number

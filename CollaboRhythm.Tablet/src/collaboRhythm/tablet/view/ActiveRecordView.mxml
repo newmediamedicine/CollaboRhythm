@@ -56,19 +56,6 @@
             _tabletApplicationController.openVideosView(_recordAccount);
         }
 
-        private function scheduleWidgetAddedHandler(event:ElementExistenceEvent):void
-        {
-            var scheduleWidget:IVisualElement = scheduleWidgetGroup.getElementAt(0);
-            scheduleWidget.width = scheduleWidgetGroup.width;
-            scheduleWidget.height = scheduleWidgetGroup.height;
-        }
-
-        private function bloodPressureWidgetAddedHandler(event:ElementExistenceEvent):void
-        {
-            var bloodPressureWidget:IVisualElement = bloodPressureWidgetGroup.getElementAt(0);
-            bloodPressureWidget.width = bloodPressureWidgetGroup.width;
-            bloodPressureWidget.height = bloodPressureWidgetGroup.height;
-        }
         ]]>
     </fx:Script>
     <s:Rect width="100%" height="100%">
@@ -78,10 +65,10 @@
     </s:Rect>
     <s:HGroup width="100%" height="100%" gap="0" paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10">
         <s:HGroup id="widgetViewsGroup" width="100%" height="100%" gap="20">
-            <s:VGroup id="scheduleWidgetGroup" width="50%" height="100%" elementAdd="scheduleWidgetAddedHandler(event)">
+            <s:VGroup id="scheduleWidgetGroup" width="50%" height="100%">
 
             </s:VGroup>
-            <s:VGroup  id="bloodPressureWidgetGroup" width="50%" height="100%" elementAdd="bloodPressureWidgetAddedHandler(event)">
+            <s:VGroup  id="bloodPressureWidgetGroup" width="50%" height="100%">
 
             </s:VGroup>
         </s:HGroup>

@@ -85,9 +85,10 @@ package collaboRhythm.tablet.controller
         // only after the active record view has been created are they loaded, this makes the UI more responsive
         public function activeRecordView_creationCompleteHandler(recordAccount:Account):void
         {
+            _fullContainer = _activeRecordView.fullViewsGroup;
             _tabletAppControllersMediator = new TabletAppControllersMediator(_activeRecordView.scheduleWidgetGroup,
                                                                              _activeRecordView.bloodPressureWidgetGroup,
-                                                                             _activeRecordView.fullViewsGroup,
+                                                                             _fullContainer,
                                                                              _settings,
                                                                              _componentContainer);
 			_tabletAppControllersMediator.createTabletApps(_activeAccount, recordAccount);
@@ -101,21 +102,6 @@ package collaboRhythm.tablet.controller
             _activeRecordView.fullViewsGroup.addElement(_videosView);
             _currentView = VIDEOS_VIEW;
         }
-
-        public override function get collaborationView():CollaborationView
-        {
-            return null
-        }
-
-        public override function get widgetsContainer():IVisualElementContainer
-		{
-			return _widgetsContainer;
-		}
-
-		public override function get scheduleWidgetContainer():IVisualElementContainer
-		{
-			return _scheduleWidgetContainer;
-		}
 
 		public override function get fullContainer():IVisualElementContainer
 		{

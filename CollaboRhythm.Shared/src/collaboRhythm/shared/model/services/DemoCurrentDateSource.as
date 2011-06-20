@@ -42,8 +42,10 @@ package collaboRhythm.shared.model.services
 				currentDate.minutes = 0;
 				currentDate.seconds = 0;
 				currentDate.milliseconds = 0;
-				
-				_offset = _targetDate.time - currentDate.time;
+
+                // By setting currentDate.hours to 0, the timezone information is lost, it must be corrected
+                // but it must be corrected using the targetDate timezone because it may be different due to daylight savings
+				_offset = _targetDate.time - currentDate.time + (_targetDate.timezoneOffset * 60 * 1000);
 			}
 			else
 				_offset = 0;

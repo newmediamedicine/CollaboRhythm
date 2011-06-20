@@ -19,13 +19,18 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:images="assets.images.*"
-		 clipAndEnableScrolling="true" 
+         xmlns:controls="com.dougmccune.controls.*"
+		 clipAndEnableScrolling="true"
 		 resize="resizeHandler()"
 		 creationComplete="creationCompleteHandler()" xmlns:view="collaboRhythm.shared.view.*"
+         height="100%" width="100%"
 		 >
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
+    <s:layout>
+		<controls:ChildIndependentLayout/>
+	</s:layout>
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 		@namespace mx "library://ns.adobe.com/flex/mx";
@@ -38,6 +43,7 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
+        //TODO: Maybe ChildIndependentLayout belongs in shared?
         import collaboRhythm.plugins.schedule.controller.ScheduleWidgetViewController;
         import collaboRhythm.shared.model.AdherenceItem;
         import collaboRhythm.plugins.schedule.model.ScheduleGroup;
@@ -130,8 +136,7 @@
             var minutes:uint = currentTime.getMinutes();
             var hours:uint = currentTime.getHours();
 
-            clockHand.rotation = (hours * 15) + (minutes * 0.25) - 135;
-
+            clockHand.rotation = (hours * 15) + (minutes * 0.25);
         }
 
         public function get scheduleModel():ScheduleModel
@@ -189,22 +194,32 @@
         {
             if (this.width < this.height)
             {
-                scheduleItemsContainer.width = scheduleItemsContainer.height = this.width;
-                scheduleGroupsContainer.width = scheduleGroupsContainer.height = this.width;
-                clockBackground.width = clockBackground.height = this.width;
-                clockForeground.width = clockForeground.height = this.width;
-                clockHand.width = clockHand.height = this.width / 2;
+                clock.width = this.width;
+                clock.height = this.width;
             }
             else
             {
-                scheduleItemsContainer.width = scheduleItemsContainer.height = this.height;
-                scheduleGroupsContainer.width = scheduleGroupsContainer.height = this.height;
-                clockBackground.width = clockBackground.height = this.height;
-                clockForeground.width = clockForeground.height = this.height;
-                clockHand.width = clockHand.height = this.height / 2;
+                clock.width = this.height;
+                clock.height = this.height;
             }
-            clockHand.x = this.width / 2;
-            clockHand.y = this.height / 2;
+//            if (this.width < this.height)
+//            {
+//                scheduleItemsContainer.width = scheduleItemsContainer.height = this.width;
+//                scheduleGroupsContainer.width = scheduleGroupsContainer.height = this.width;
+//                clockBackground.width = clockBackground.height = this.width;
+//                clockForeground.width = clockForeground.height = this.width;
+//                clockHand.width = clockHand.height = this.width / 2;
+//            }
+//            else
+//            {
+//                scheduleItemsContainer.width = scheduleItemsContainer.height = this.height;
+//                scheduleGroupsContainer.width = scheduleGroupsContainer.height = this.height;
+//                clockBackground.width = clockBackground.height = this.height;
+//                clockForeground.width = clockForeground.height = this.height;
+//                clockHand.width = clockHand.height = this.height / 2;
+//            }
+//            clockHand.x = this.width / 2;
+//            clockHand.y = this.height / 2;
         }
 
         private function scheduleGroupClockViewClickHandler(event:ScheduleWidgetViewEvent):void
@@ -255,10 +270,12 @@
         //        }
         ]]>
 	</fx:Script>
-	<images:clockBackground id="clockBackground" horizontalCenter="0" verticalCenter="0" mouseEnabled="false" mouseChildren="false"/>
-	<s:Group id="scheduleGroupsContainer" horizontalCenter="0" verticalCenter="0" />
-	<s:Group id="scheduleItemsContainer" horizontalCenter="0" verticalCenter="0" />
-	<images:clockHand id="clockHand" mouseEnabled="false" mouseChildren="false"/>
-	<images:clockForeground id="clockForeground" horizontalCenter="0" verticalCenter="0" mouseEnabled="false" mouseChildren="false"/>
+    <s:Group id="clock" verticalCenter="0" horizontalCenter="0">
+        <images:clockBackground id="clockBackground" width="{clock.width}" height="{clock.height}" mouseEnabled="false" mouseChildren="false"/>
+        <s:Group id="scheduleGroupsContainer" width="{clock.width}" height="{clock.height}"/>
+        <s:Group id="scheduleItemsContainer" width="{clock.width}" height="{clock.height}"/>
+        <images:clockHand id="clockHand" x="{clock.width / 2}" y="{clock.height / 2}" width="{clock.width / 2}" height="{clock.height / 2}" mouseEnabled="false" mouseChildren="false"/>
+        <images:clockForeground id="clockForeground" width="{clock.width}" height="{clock.height}" mouseEnabled="false" mouseChildren="false"/>
+    </s:Group>
 	<!--<view:IconButton icon="@Embed(source='/assets/images/video.png')" id="playVideoButton" left="5" bottom="5" visible="{!_scheduleWidgetViewController.isWorkstationMode}" click="playVideoButtonClickHandler()"/>-->
 </s:Group>
