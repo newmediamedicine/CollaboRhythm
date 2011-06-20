@@ -303,8 +303,8 @@ package collaboRhythm.workstation.controller
             if (_activeRecordAccount != null)
 				_workstationAppControllersMediator.reloadUserData();
 
-			//			user.demographics.dispatchEvent(new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE, false, false, PropertyChangeEventKind.UPDATE, "age", 0, user.demographics.age));
-			_activeRecordAccount.primaryRecord.demographics.dispatchAgeChangeEvent();
+			if (_activeRecordAccount && _activeRecordAccount.primaryRecord && _activeRecordAccount.primaryRecord.demographics)
+				_activeRecordAccount.primaryRecord.demographics.dispatchAgeChangeEvent();
         }
 
         public function showRecordVideoView():void

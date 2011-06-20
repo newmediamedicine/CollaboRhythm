@@ -58,13 +58,13 @@ package collaboRhythm.shared.model
 		public function initFromReportXML(medicationOrderReportXml:XML):void
 		{
 			parseDocumentMetadata(medicationOrderReportXml.Meta.Document[0], this);
-			var medicationOrderXml:XML = medicationOrderReportXml.Item.MedicationOrder[0];
-            _name = HealthRecordHelperMethods.xmlToCodedValue(medicationOrderXml.name[0]);
-            _reportedBy = medicationOrderXml.reportedBy;
-            _dateReported = collaboRhythm.shared.model.DateUtil.parseW3CDTF(medicationOrderXml.dateReported.toString());
-			_dateAdministered = collaboRhythm.shared.model.DateUtil.parseW3CDTF(medicationOrderXml.dateAdministered.toString());
-            _amountAdministered = new ValueAndUnit(medicationOrderXml.amountAdministered.value, HealthRecordHelperMethods.xmlToCodedValue(medicationOrderXml.amountOrdered.unit[0]));
-            _amountRemaining = new ValueAndUnit(medicationOrderXml.amountRemaining.value, HealthRecordHelperMethods.xmlToCodedValue(medicationOrderXml.amountOrdered.unit[0]));
+			var medicationAdministrationXml:XML = medicationOrderReportXml.Item.MedicationAdministration[0];
+            _name = HealthRecordHelperMethods.xmlToCodedValue(medicationAdministrationXml.name[0]);
+            _reportedBy = medicationAdministrationXml.reportedBy;
+            _dateReported = collaboRhythm.shared.model.DateUtil.parseW3CDTF(medicationAdministrationXml.dateReported.toString());
+			_dateAdministered = collaboRhythm.shared.model.DateUtil.parseW3CDTF(medicationAdministrationXml.dateAdministered.toString());
+            _amountAdministered = new ValueAndUnit(medicationAdministrationXml.amountAdministered.value, HealthRecordHelperMethods.xmlToCodedValue(medicationAdministrationXml.amountAdministered.unit[0]));
+            _amountRemaining = new ValueAndUnit(medicationAdministrationXml.amountRemaining.value, HealthRecordHelperMethods.xmlToCodedValue(medicationAdministrationXml.amountRemaining.unit[0]));
 		}
 
         public function convertToXML():XML
