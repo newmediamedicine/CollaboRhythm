@@ -35,6 +35,7 @@
         import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
         import collaboRhythm.plugins.schedule.shared.view.ScheduleTimelineViewEvent;
         import collaboRhythm.plugins.schedule.view.ScheduleGroupTimelineView;
+        import collaboRhythm.plugins.schedule.view.ScheduleGroupTimelineView;
         import collaboRhythm.shared.model.ScheduleItemOccurrence;
 
         import mx.binding.utils.BindingUtils;
@@ -119,7 +120,11 @@
         {
             for each (var scheduleGroup:ScheduleGroup in _scheduleGroupsCollection)
             {
-                createScheduleGroupView(scheduleGroup);
+                var scheduleGroupTimelineView:ScheduleGroupTimelineView = createScheduleGroupView(scheduleGroup);
+                if (scheduleGroup.scheduleItemsOccurrencesCollection.length == 1)
+                {
+                    scheduleGroupTimelineView.frame.visible = false;
+                }
             }
             _isCreationComplete = true;
         }
@@ -128,7 +133,7 @@
         {
             if (event.kind == CollectionEventKind.ADD)
             {
-                if (_isCreationComplete)
+                if (_isCreationComplete && _scheduleModel.isInitialized)
                 {
                     for each (var scheduleGroupAdded:ScheduleGroup in event.items)
                     {
@@ -258,16 +263,13 @@
         }
         ]]>
 	</fx:Script>
-    <s:VGroup width="100%" height="100%" gap="0">
-        <s:Group width="100%" height="100%">
-            <s:Rect width="100%" height="100%">
-                <s:fill>
-                    <s:SolidColor color="#E6E7E8"/>
-                </s:fill>
-            </s:Rect>
-            <s:Group id="scheduleGroupsContainer" width="100%" height="100%" resize="resizeHandler(event)"/>
-        </s:Group>
-        <views:TimelineStripView id="timelineStripView" width="100%" height="{TIMELINE_VIEW_HEIGHT}" bottom="0"/>
-    </s:VGroup>
+    <s:Rect width="100%" height="100%">
+        <s:fill>
+            <s:SolidColor color="#E6E7E8"/>
+        </s:fill>
+    </s:Rect>
+    <views:TimelineStripView id="timelineStripView" width="100%" height="{TIMELINE_VIEW_HEIGHT}" bottom="0"/>
     <s:Group id="scheduleGroupSpotlightViewsContainer" width="100%" height="100%"/>
+    <s:Group id="scheduleGroupsContainer" width="100%" top="0" bottom="{TIMELINE_VIEW_HEIGHT}"
+             resize="resizeHandler(event)"/>
 </s:Group>

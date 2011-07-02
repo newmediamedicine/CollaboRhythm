@@ -354,6 +354,7 @@ package collaboRhythm.plugins.schedule.model
                 }
             }
             var newScheduleGroup:ScheduleGroup = createScheduleGroup(scheduleItemOccurrence, true, yPosition);
+            newScheduleGroup.changed = true;
             storePreMoveInfo(newScheduleGroup, moveData);
             stackingUpdated = false;
         }

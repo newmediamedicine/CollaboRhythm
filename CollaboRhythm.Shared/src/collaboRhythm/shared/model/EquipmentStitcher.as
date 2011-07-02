@@ -56,8 +56,11 @@ package collaboRhythm.shared.model
                 for each (var scheduleItemId:String in equipment.scheduleItems.keys)
                 {
                     var equipmentScheduleItem:EquipmentScheduleItem = _equipmentScheduleItemsModel.equipmentScheduleItems[scheduleItemId];
-                    equipment.scheduleItems[scheduleItemId] = equipmentScheduleItem;
-                    equipmentScheduleItem.scheduledEquipment = equipment;
+                    if (equipmentScheduleItem)
+                    {
+                        equipment.scheduleItems[scheduleItemId] = equipmentScheduleItem;
+                        equipmentScheduleItem.scheduledEquipment = equipment;
+                    }
                 }
             }
             _equipmentModel.isStitched = true;

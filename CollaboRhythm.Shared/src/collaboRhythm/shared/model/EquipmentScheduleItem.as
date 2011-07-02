@@ -23,6 +23,22 @@ package collaboRhythm.shared.model
 //            _scheduledActionID = scheduleItemReportXML.Meta.Document.relatesTo.relation.relatedDocument.@id;
 //			_scheduleGroupID =  scheduleItemReportXML.Meta.Document.isRelatedFrom.relation.relatedDocument[0].@id;
         }
+
+        public override function createXmlDocument():XML
+        {
+            var equipmentScheduleItemXml:XML = <EquipmentScheduleItem/>;
+            return equipmentScheduleItemXml;
+        }
+
+        override public function addExtraXml(scheduleItemXml:XML):XML
+        {
+            return scheduleItemXml;
+        }
+
+        override public function getScheduleActionId():String
+        {
+            return _scheduledEquipment.id;
+        }
 		
 //		public function get dose():ValueAndUnit
 //		{

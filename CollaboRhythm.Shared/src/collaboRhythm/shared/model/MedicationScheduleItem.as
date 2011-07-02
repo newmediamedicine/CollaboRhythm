@@ -41,7 +41,28 @@ package collaboRhythm.shared.model
 //			_scheduleGroupID =  scheduleItemReportXML.Meta.Document.isRelatedFrom.relation.relatedDocument[0].@id;
         }
 
-		
+        public override function createXmlDocument():XML
+        {
+            var medicationScheduleItemXml:XML = <MedicationScheduleItem/>;
+            return medicationScheduleItemXml;
+        }
+
+        override public function addExtraXml(scheduleItemXml:XML):XML
+        {
+            scheduleItemXml.dose.value = dose.value;
+            scheduleItemXml.dose.unit = dose.unit.text;
+            scheduleItemXml.dose.unit.@type = dose.unit.type;
+            scheduleItemXml.dose.unit.@value = dose.unit.value;
+            scheduleItemXml.dose.unit.@abbrev = dose.unit.abbrev;
+
+            return scheduleItemXml;
+        }
+
+        override public function getScheduleActionId():String
+        {
+            return _scheduledMedicationOrder.id;
+        }
+
 //		public function get scheduledActionID():String
 //		{
 //			return _scheduledActionID;

@@ -17,6 +17,9 @@
 package collaboRhythm.plugins.schedule.controller
 {
 
+    import castle.flexbridge.reflection.ReflectionUtils;
+
+    import collaboRhythm.plugins.schedule.model.ScheduleGroup;
     import collaboRhythm.plugins.schedule.model.ScheduleModel;
     import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
     import collaboRhythm.plugins.schedule.model.ScheduleTimelineModel;
@@ -26,6 +29,10 @@ package collaboRhythm.plugins.schedule.controller
     import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
     import collaboRhythm.shared.controller.apps.AppEvent;
     import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+    import collaboRhythm.shared.model.ScheduleItemBase;
+    import collaboRhythm.shared.model.ScheduleItemOccurrence;
+    import collaboRhythm.shared.model.healthRecord.MedicationScheduleItemsHealthRecordService;
+    import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
 
     import flash.desktop.NativeApplication;
     import flash.events.InvokeEvent;
@@ -186,10 +193,20 @@ package collaboRhythm.plugins.schedule.controller
 		
 		public override function close():void
 		{
-//			for each (var scheduleGroup:ScheduleGroup in scheduleModel.scheduleGroupsCollection)
-//			{
-//				if (scheduleGroup.changed)
-//				{
+			for each (var scheduleGroup:ScheduleGroup in scheduleModel.scheduleGroupsCollection)
+			{
+				if (scheduleGroup.changed)
+				{
+                    for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleGroup.scheduleItemsOccurrencesCollection)
+                    {
+                        var scheduleItem:ScheduleItemBase = scheduleItemOccurrence.scheduleItem;
+                        var phaHealthRecordService:PhaHealthRecordServiceBase = new PhaHealthRecordServiceBase(_activeRecordAccount.primaryRecord.settings.oauthChromeConsumerKey, _activeRecordAccount.primaryRecord.settings.oauthChromeConsumerSecret, _activeRecordAccount.primaryRecord.settings.indivoServerBaseURL, _activeAccount);
+                        phaHealthRecordService.archiveDocument(_activeRecordAccount.primaryRecord, scheduleItem.id, "rescheduled");
+                        var newScheduleItemDocument:XML = scheduleItem.rescheduledItem(scheduleGroup.dateStart, scheduleGroup.dateEnd);
+                        phaHealthRecordService.relateDocuments(_activeRecordAccount.primaryRecord, scheduleItem.getScheduleActionId(), newScheduleItemDocument, "scheduleItem");
+//                        var scheduleItem:ScheduleItemBase = scheduleItemOccurrence.scheduleItem;
+                        
+                    }
 //					_scheduleHealthRecordService.archiveScheduleGroup(_user, scheduleGroup.id);
 //					var scheduleGroupDocument:XML = scheduleGroup.convertToXML();
 //					var scheduleItemDocumentIDs:Vector.<String> = new Vector.<String>;
@@ -198,8 +215,9 @@ package collaboRhythm.plugins.schedule.controller
 //						scheduleItemDocumentIDs.push(scheduleItem.id);
 //					}
 //					_scheduleHealthRecordService.createScheduleGroup(_user, scheduleGroupDocument, scheduleItemDocumentIDs);
-//				}
-//			}
+				}
+			}
+            _scheduleModel = null;
 			super.close();
 
 //			for each (var adherenceGroupView:AdherenceGroupView in _fullView.adherenceGroupViews)
