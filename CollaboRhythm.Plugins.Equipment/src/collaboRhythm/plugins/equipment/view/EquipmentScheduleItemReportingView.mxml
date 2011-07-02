@@ -64,9 +64,9 @@
 
         private var _currentDateSource:ICurrentDateSource;
 
-        public override function init(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):void
+        public override function init(scheduleItemOccurrence:ScheduleItemOccurrence):void
         {
-            super.init(scheduleItemOccurrence, parentGroup);
+            super.init(scheduleItemOccurrence);
             _equipmentScheduleItem = scheduleItemOccurrence.scheduleItem as EquipmentScheduleItem;
             _equipment = _equipmentScheduleItem.scheduledEquipment;
 
@@ -100,11 +100,17 @@
 
         private function adherenceButtonClickHandler(event:MouseEvent):void
         {
-            _bloodPressureReportingView = new BloodPressureReportingView();
-            _bloodPressureReportingView.percentWidth = 100;
-            _bloodPressureReportingView.percentHeight = 100;
-            _bloodPressureReportingView.init(this);
-            _parentGroup.addElement(_bloodPressureReportingView);
+            var adherenceItem:AdherenceItem = new AdherenceItem();
+            var name:CodedValue = new CodedValue();
+            name.text = _equipment.name;
+            adherenceItem.init(name, "rpoole@records.media.mit.edu", _currentDateSource.now(),
+                               scheduleItemOccurrence.recurrenceIndex, true);
+
+            var bloodPressureReportingView:BloodPressureReportingView = new BloodPressureReportingView();
+            bloodPressureReportingView.init(_scheduleItemOccurrence, adherenceItem);
+            dispatchAdherenceItemIncompleteEvent(bloodPressureReportingView);
+
+
 //				var vitalSign:VitalSign = new VitalSign();
 //				vitalSign.init(_equipment.name, "gwhite@records.media.mit.edu", new Date(), new Date(), _equipment.dose);
 //				var adherenceItem:AdherenceItem = new AdherenceItem();
@@ -116,14 +122,15 @@
 
         public function bloodPressureReportingResult(systolic:String, diastolic:String, heartRate:String):void
         {
-            _parentGroup.removeElement(_bloodPressureReportingView);
+
             var adherenceItem:AdherenceItem = new AdherenceItem();
             var name:CodedValue = new CodedValue();
             name.text = _equipment.name;
             //TODO: add vital sign
-            adherenceItem.init(name, "rpoole@records.media.mit.edu", _currentDateSource.now(), scheduleItemOccurrence.recurrenceIndex, true);
+            adherenceItem.init(name, "rpoole@records.media.mit.edu", _currentDateSource.now(),
+                               scheduleItemOccurrence.recurrenceIndex, true);
 
-            dispatchAdherenceItemEvent(adherenceItem);
+            dispatchAdherenceItemCompleteEvent(adherenceItem);
         }
 
         private function nonadherenceButtonClickHandler(event:MouseEvent):void
@@ -131,9 +138,10 @@
             var adherenceItem:AdherenceItem = new AdherenceItem();
             var name:CodedValue = new CodedValue();
             name.text = _equipment.name;
-            adherenceItem.init(name, "rpoole@records.media.mit.edu", _currentDateSource.now(), scheduleItemOccurrence.recurrenceIndex, false);
+            adherenceItem.init(name, "rpoole@records.media.mit.edu", _currentDateSource.now(),
+                               scheduleItemOccurrence.recurrenceIndex, false);
 
-            dispatchAdherenceItemEvent(adherenceItem);
+            dispatchAdherenceItemCompleteEvent(adherenceItem);
         }
         ]]>
 	</fx:Script>

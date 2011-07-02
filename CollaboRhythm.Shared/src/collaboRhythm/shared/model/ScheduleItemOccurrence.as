@@ -19,37 +19,30 @@ package collaboRhythm.shared.model
     [Bindable]
     public class ScheduleItemOccurrence
     {
+        private var _id:String;
         private var _dateStart:Date;
         private var _dateEnd:Date;
         private var _recurrenceIndex:int;
         private var _scheduleItem:ScheduleItemBase;
         private var _adherenceItem:AdherenceItem;
+        private var _moving:Boolean;
+        private var _yPosition:int;
+
+        public function get yPosition():int
+        {
+            return _yPosition;
+        }
+
+        public function set yPosition(value:int):void
+        {
+            _yPosition = value;
+        }
 
         public function ScheduleItemOccurrence(dateStart:Date, dateEnd:Date, recurrenceIndex:int)
         {
             _dateStart = dateStart;
             _dateEnd = dateEnd;
             _recurrenceIndex = recurrenceIndex;
-        }
-
-        public function get dateStart():Date
-        {
-            return _dateStart;
-        }
-
-        public function set dateStart(value:Date):void
-        {
-            _dateStart = value;
-        }
-
-        public function get dateEnd():Date
-        {
-            return _dateEnd;
-        }
-
-        public function set dateEnd(value:Date):void
-        {
-            _dateEnd = value;
         }
 
         public function get recurrenceIndex():int
@@ -80,6 +73,36 @@ package collaboRhythm.shared.model
         public function set adherenceItem(value:AdherenceItem):void
         {
             _adherenceItem = value;
+        }
+
+        public function get dateStart():Date
+        {
+            return _dateStart;
+        }
+
+        public function set dateStart(value:Date):void
+        {
+            _dateStart = value;
+        }
+
+        public function get dateEnd():Date
+        {
+            return _dateEnd;
+        }
+
+        public function set dateEnd(value:Date):void
+        {
+            _dateEnd = value;
+        }
+
+        public function get moving():Boolean
+        {
+            return _moving;
+        }
+
+        public function set moving(value:Boolean):void
+        {
+            _moving = value;
         }
     }
 }

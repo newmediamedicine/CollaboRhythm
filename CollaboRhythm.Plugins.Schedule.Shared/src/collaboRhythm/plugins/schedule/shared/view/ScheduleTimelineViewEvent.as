@@ -1,4 +1,4 @@
-package collaboRhythm.plugins.schedule.view
+package collaboRhythm.plugins.schedule.shared.view
 {
 	import collaboRhythm.plugins.schedule.shared.model.MoveData;
 	
@@ -14,6 +14,10 @@ package collaboRhythm.plugins.schedule.view
 		public static const SCHEDULE_GROUP_SPOTLIGHT_VIEW_LEFT_MOUSE_MOVE:String = "ScheduleGroupSpotlightViewLeftMouseMove";
 		public static const SCHEDULE_GROUP_SPOTLIGHT_VIEW_RIGHT_MOUSE_MOVE:String = "ScheduleGroupSpotlightViewRightMouseMove";
 		public static const SCHEDULE_GROUP_SPOTLIGHT_VIEW_MOUSE_UP:String = "ScheduleGroupSpotlightViewMouseUp";
+
+        public static const SCHEDULE_ITEM_TIMELINE_VIEW_MOUSE_DOWN:String = "ScheduleItemTimelineViewMouseDown";
+		public static const SCHEDULE_ITEM_TIMELINE_VIEW_MOUSE_MOVE:String = "ScheduleItemTimelineViewMouseMove";
+		public static const SCHEDULE_ITEM_TIMELINE_VIEW_MOUSE_UP:String = "ScheduleItemTimelineViewMouseUp";
 		
 		private var _moveData:MoveData;
 		

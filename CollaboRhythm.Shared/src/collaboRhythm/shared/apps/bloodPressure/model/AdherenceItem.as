@@ -66,9 +66,9 @@ package collaboRhythm.shared.apps.bloodPressure.model
 			return _dateReported;
 		}
 
-		public function set dateReported(dateTimeReported:Date):void
+		public function set dateReported(dateReported:Date):void
 		{
-			_dateReported = dateTimeReported;
+			_dateReported = dateReported;
 		}
 
 		public function get adherence():Boolean

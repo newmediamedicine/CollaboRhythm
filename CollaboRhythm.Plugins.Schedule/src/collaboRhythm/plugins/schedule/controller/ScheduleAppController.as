@@ -18,16 +18,19 @@ package collaboRhythm.plugins.schedule.controller
 {
 
     import collaboRhythm.plugins.schedule.model.ScheduleModel;
-    import collaboRhythm.plugins.schedule.view.ScheduleFullView;
-    import collaboRhythm.plugins.schedule.view.ScheduleWidgetView;
+    import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
+    import collaboRhythm.plugins.schedule.model.ScheduleTimelineModel;
+    import collaboRhythm.plugins.schedule.view.ScheduleClockWidgetView;
+    import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
+    import collaboRhythm.plugins.schedule.view.ScheduleTimelineFullView;
     import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
+    import collaboRhythm.shared.controller.apps.AppEvent;
     import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 
     import flash.desktop.NativeApplication;
     import flash.events.InvokeEvent;
     import flash.net.URLVariables;
 
-    import mx.binding.utils.BindingUtils;
     import mx.core.UIComponent;
     import mx.logging.ILogger;
     import mx.logging.Log;
@@ -37,10 +40,10 @@ package collaboRhythm.plugins.schedule.controller
 		public static const DEFAULT_NAME:String = "Schedule";
 
         private var _scheduleModel:ScheduleModel;
-		private var _scheduleWidgetViewController:ScheduleWidgetViewController;
-		private var _scheduleFullViewController:ScheduleFullViewController;
-		private var _widgetView:ScheduleWidgetView;
-		private var _fullView:ScheduleFullView;
+		private var _scheduleWidgetViewController:ScheduleClockController;
+		private var _scheduleFullViewController:ScheduleTimelineController;
+		private var _widgetView:ScheduleClockWidgetView;
+		private var _fullView:UIComponent;
 		
 		private static var log:ILogger = Log.getLogger("ScheduleAppController");
 
@@ -51,12 +54,12 @@ package collaboRhythm.plugins.schedule.controller
 
 		public override function get widgetView():UIComponent
 		{
-			return _widgetView;			
+			return _widgetView;
 		}
 		
 		public override function set widgetView(value:UIComponent):void
 		{
-			_widgetView = value as ScheduleWidgetView;
+			_widgetView = value as ScheduleClockWidgetView;
 		}
 		
 		public override function get isFullViewSupported():Boolean
@@ -71,31 +74,54 @@ package collaboRhythm.plugins.schedule.controller
 		
 		public override function set fullView(value:UIComponent):void
 		{
-			_fullView = value as ScheduleFullView;
+			_fullView = value;
 		}
 		
 		protected override function createWidgetView():UIComponent
 		{
-			var newWidgetView:ScheduleWidgetView = new ScheduleWidgetView();
+			var newWidgetView:ScheduleClockWidgetView = new ScheduleClockWidgetView();
 			if (_activeRecordAccount != null)
 			{
-				_scheduleWidgetViewController = new ScheduleWidgetViewController(isWorkstationMode, scheduleModel, newWidgetView, _fullParentContainer);//, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
+				_scheduleWidgetViewController = new ScheduleClockController(isWorkstationMode, scheduleModel, newWidgetView, _fullParentContainer);//, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
 				newWidgetView.init(_scheduleWidgetViewController, scheduleModel, _fullParentContainer);
+                _scheduleWidgetViewController.addEventListener(AppEvent.SHOW_FULL_VIEW, showFullViewHandler);
 			}
 			return newWidgetView;
 		}
-		
+
 		protected override function createFullView():UIComponent
 		{
-			var newFullView:ScheduleFullView = new ScheduleFullView();
-			if (_activeRecordAccount != null)
-			{
-				_scheduleFullViewController = new ScheduleFullViewController(isWorkstationMode, scheduleModel, newFullView);//, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
-				newFullView.init(_scheduleFullViewController, scheduleModel);
-			}
-			return newFullView;
+            if (isWorkstationMode)
+            {
+                var scheduleTimelineModel:ScheduleTimelineModel = new ScheduleTimelineModel();
+			    var scheduleTimelineFullView:ScheduleTimelineFullView = new ScheduleTimelineFullView();
+                var scheduleTimelineController:ScheduleTimelineController = new ScheduleTimelineController(scheduleModel,
+                                                                                                           scheduleTimelineFullView,
+                                                                                                           scheduleTimelineModel);
+                scheduleTimelineFullView.init(scheduleTimelineController, scheduleModel, scheduleTimelineModel);
+                return scheduleTimelineFullView;
+            }
+            else
+            {
+                var scheduleReportingModel:ScheduleReportingModel = new ScheduleReportingModel();
+                var scheduleReportingFullView:ScheduleReportingFullView = new ScheduleReportingFullView();
+                var scheduleReportingController:ScheduleReportingController = new ScheduleReportingController(scheduleModel, scheduleReportingFullView, scheduleReportingModel);
+                scheduleReportingController.addEventListener(AppEvent.HIDE_FULL_VIEW,  hideFullViewHandler);
+                scheduleReportingFullView.init(scheduleReportingController, scheduleModel, scheduleReportingModel);
+                return scheduleReportingFullView;
+            }
 		}
-		
+
+        private function showFullViewHandler(event:AppEvent):void
+        {
+            dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this));
+        }
+
+        private function hideFullViewHandler(event:AppEvent):void
+        {
+            hideFullView();
+        }
+
 		protected override function get shouldShowFullViewOnWidgetClick():Boolean
 		{
 			return isWorkstationMode;
@@ -125,11 +151,11 @@ package collaboRhythm.plugins.schedule.controller
 
 			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, onInvoke);
 
-			if (_widgetView)
-			{
-				_scheduleWidgetViewController = new ScheduleWidgetViewController(isWorkstationMode, scheduleModel, _widgetView, _fullParentContainer);//, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
-				(_widgetView as ScheduleWidgetView).init(_scheduleWidgetViewController, scheduleModel, _fullParentContainer);
-			}
+//			if (_widgetView)
+//			{
+//				_scheduleWidgetViewController = new ScheduleWidgetViewController(isWorkstationMode, scheduleModel, _widgetView, _fullParentContainer);//, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
+//				(_widgetView as ScheduleWidgetView).init(_scheduleWidgetViewController, scheduleModel, _fullParentContainer);
+//			}
 			prepareFullView();
 		}
 		
@@ -194,7 +220,7 @@ package collaboRhythm.plugins.schedule.controller
 
 		override protected function removeUserData():void
 		{
-			_activeRecordAccount.primaryRecord.appData[ScheduleModel.SCHEDULE_KEY] = null;
+//			_activeRecordAccount.primaryRecord.appData[ScheduleModel.SCHEDULE_KEY] = null;
 		}
 	}
 }

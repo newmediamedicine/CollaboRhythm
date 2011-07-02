@@ -26,13 +26,10 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-        import collaboRhythm.plugins.medications.model.Medication;
-        import collaboRhythm.shared.model.MedicationScheduleItem;
         import collaboRhythm.shared.model.AdherenceItem;
+        import collaboRhythm.shared.model.MedicationScheduleItem;
         import collaboRhythm.shared.model.ScheduleItemBase;
         import collaboRhythm.shared.model.ScheduleItemOccurrence;
-
-        import spark.components.Group;
 
         import spark.filters.GlowFilter;
 
@@ -40,10 +37,16 @@
         private var _medicationScheduleItem:MedicationScheduleItem;
         private var _recurrenceIndex:int;
 
-        public override function init(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):void
+        [Embed(source="/assets/images/006033856-front.png")]
+        public static const ndc006033856: Class;
+        [Embed(source="/assets/images/000779-front.png")]
+        public static const ndc000779: Class;
+
+        public override function init(scheduleItemOccurrence:ScheduleItemOccurrence):void
         {
-            super.init(scheduleItemOccurrence, parentGroup);
+            super.init(scheduleItemOccurrence);
             _medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
+            pickImage();
         }
 
         public override function get scheduleItem():ScheduleItemBase
@@ -51,29 +54,32 @@
             return _medicationScheduleItem
         }
 
-        public function get medicationScheduleItem():MedicationScheduleItem
+        private function pickImage():void
         {
-            return _medicationScheduleItem;
-        }
-
-        public function set medicationScheduleItem(value:MedicationScheduleItem):void
-        {
-            _medicationScheduleItem = value;
-        }
-
-        private function isCheckVisible(adherenceItem:AdherenceItem):Boolean
-        {
-            return true;
+            //TODO: Once medication fills are working, use the ndc
+            if (_medicationScheduleItem.name.value == "617320")
+            {
+                medicationImage.source = ndc000779;
+            }
+            else if (_medicationScheduleItem.name.value == "310798")
+            {
+                medicationImage.source = ndc006033856;
+            }
         }
 
         ]]>
 	</fx:Script>
-	<s:Ellipse width="100%" height="100%">
-		<s:fill>
-			<s:SolidColor color="#000000"/>
-		</s:fill>
-	</s:Ellipse>
+    
+	<!--<s:Ellipse width="100%" height="100%">-->
+		<!--<s:fill>-->
+			<!--<s:SolidColor color="#000000"/>-->
+		<!--</s:fill>-->
+	<!--</s:Ellipse>-->
+    <mx:Image id="medicationImage" width="100%" height="100%" smoothBitmapContent="true"/>
+    <!--<s:Group id="medicationImage" width="100%" height="100%">-->
+
+    <!--</s:Group>-->
     <!--visible="{determineCheckVisible(_medicationScheduleItem.adherenceItem)}"-->
-	<images:check width="70%" height="70%" verticalCenter="0" horizontalCenter="0" filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}" visible="{_scheduleItemOccurrence.adherenceItem &amp;&amp; _scheduleItemOccurrence.adherenceItem.adherence}"/>
-	<images:x width="70%" height="70%"  verticalCenter="0" horizontalCenter="0" filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}" visible="{_scheduleItemOccurrence.adherenceItem &amp;&amp; !_scheduleItemOccurrence.adherenceItem.adherence}"/>
+	<images:check width="70%" height="70%" verticalCenter="0" horizontalCenter="0" filters="{[new GlowFilter(0xFFFFFF, 0.8, 5, 5)]}" visible="{_scheduleItemOccurrence.adherenceItem &amp;&amp; _scheduleItemOccurrence.adherenceItem.adherence}"/>
+	<images:x width="70%" height="70%"  verticalCenter="0" horizontalCenter="0" filters="{[new GlowFilter(0xFFFFFF, 0.8, 5, 5)]}" visible="{_scheduleItemOccurrence.adherenceItem &amp;&amp; !_scheduleItemOccurrence.adherenceItem.adherence}"/>
 </view:ScheduleItemClockViewBase>

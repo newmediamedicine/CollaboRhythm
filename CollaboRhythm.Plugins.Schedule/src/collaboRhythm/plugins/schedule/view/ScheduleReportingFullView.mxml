@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:mx="library://ns.adobe.com/flex/mx"
+         xmlns:scheduleViews="collaboRhythm.plugins.schedule.view.*"
+         addedToStage="addedToStage()"
+         removedFromStage="removedFromStage()"
+         width="100%" height="100%">
+    <fx:Script><![CDATA[
+        import collaboRhythm.plugins.schedule.controller.ScheduleReportingController;
+        import collaboRhythm.plugins.schedule.model.ScheduleModel;
+        import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
+        import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEvent;
+
+        import mx.core.UIComponent;
+        import mx.events.CollectionEvent;
+        import mx.events.CollectionEventKind;
+
+        private var _scheduleReportingController:ScheduleReportingController;
+        private var _scheduleModel:ScheduleModel;
+        private var _scheduleReportingModel:ScheduleReportingModel;
+
+        public function init(scheduleReportingController:ScheduleReportingController, scheduleModel:ScheduleModel,
+                             scheduleReportingModel:ScheduleReportingModel):void
+        {
+            _scheduleReportingController = scheduleReportingController;
+            _scheduleModel = scheduleModel;
+            _scheduleReportingModel = scheduleReportingModel;
+            _scheduleReportingModel.viewStack.addEventListener(CollectionEvent.COLLECTION_CHANGE, viewStackChangeEvent);
+
+            scheduleGroupReportingView.init(_scheduleModel);
+
+            this.addEventListener(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_COMPLETE,
+                                  adherenceItemCompleteEventHandler);
+            this.addEventListener(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
+                                  adherenceItemIncompleteEventHandler)
+        }
+
+        public function viewStackChangeEvent(event:CollectionEvent):void
+        {
+            if (event.kind == CollectionEventKind.ADD)
+            {
+                for each (var itemAdded:UIComponent in event.items)
+                {
+                    additionalInformationViews.addElement(itemAdded)
+                }
+            }
+            else if (event.kind == CollectionEventKind.REMOVE)
+            {
+                for each (var itemRemoved:UIComponent in event.items)
+                {
+                    additionalInformationViews.removeElement(itemRemoved)
+                }
+            }
+            else if (event.kind == CollectionEventKind.RESET)
+            {
+                additionalInformationViews.removeAllElements();
+            }
+        }
+
+        private function addedToStage():void
+        {
+            stage.addEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
+        }
+
+        private function removedFromStage():void
+        {
+            stage.removeEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
+        }
+
+        private function stage_keyDownHandler(event:KeyboardEvent):void
+        {
+            if (event.keyCode == Keyboard.BACK && visible && _scheduleReportingModel.viewStack.length != 0)
+            {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                _scheduleReportingController.goBack();
+            }
+        }
+
+        private function adherenceItemCompleteEventHandler(event:ScheduleItemReportingViewEvent):void
+        {
+            _scheduleReportingController.createAdherenceItem(_scheduleModel.currentScheduleGroup,
+                                                             event.scheduleItemOccurrence,
+                                                             event.adherenceItem);
+        }
+
+        private function adherenceItemIncompleteEventHandler(event:ScheduleItemReportingViewEvent):void
+        {
+            _scheduleReportingController.showAdditionalInformationView(event.additionalInformationView);
+        }
+        ]]></fx:Script>
+
+    <s:HGroup width="100%" height="100%" gap="0">
+        <s:Rect width="50%" height="100%">
+            <s:fill>
+                <s:SolidColor color="0x000000" alpha="0.5"/>
+            </s:fill>
+        </s:Rect>
+        <s:Group id="rightGroup" width="50%" height="100%">
+            <s:Rect width="100%" height="100%">
+                <s:fill>
+                    <s:SolidColor color="0xAAAAAA"/>
+                </s:fill>
+            </s:Rect>
+            <scheduleViews:ScheduleGroupReportingView id="scheduleGroupReportingView"/>
+            <s:Group id="additionalInformationViews" width="100%" height="100%">
+
+            </s:Group>
+        </s:Group>
+    </s:HGroup>
+
+</s:Group>

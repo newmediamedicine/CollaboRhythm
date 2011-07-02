@@ -16,23 +16,26 @@
  */
 package collaboRhythm.plugins.schedule.controller
 {
-	import collaboRhythm.plugins.schedule.shared.model.MoveData;
-	import collaboRhythm.plugins.schedule.model.ScheduleModel;
-	import collaboRhythm.plugins.schedule.view.ScheduleFullView;
-	import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
-	import collaboRhythm.shared.model.User;
-	
-	public class ScheduleFullViewController
+
+    import collaboRhythm.plugins.schedule.model.ScheduleModel;
+    import collaboRhythm.plugins.schedule.model.ScheduleTimelineModel;
+    import collaboRhythm.plugins.schedule.shared.model.MoveData;
+    import collaboRhythm.plugins.schedule.view.ScheduleTimelineFullView;
+    import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
+
+    import flash.events.EventDispatcher;
+
+    public class ScheduleTimelineController extends EventDispatcher
 	{
-		private var _isWorkstationMode:Boolean;
 		private var _scheduleModel:ScheduleModel;
-		private var _scheduleFullView:ScheduleFullView;
+		private var _scheduleFullView:ScheduleTimelineFullView;
 		private var _localUserName:String;
 		private var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
 		
-		public function ScheduleFullViewController(isWorkstationMode:Boolean, scheduleModel:ScheduleModel, scheduleFullView:ScheduleFullView)//, localUserName:String, collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy)
+		public function ScheduleTimelineController(scheduleModel:ScheduleModel,
+                                                   scheduleFullView:ScheduleTimelineFullView,
+                                                   scheduleTimelineModel:ScheduleTimelineModel)//, localUserName:String, collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy)
 		{
-			_isWorkstationMode = isWorkstationMode;
 			_scheduleModel = scheduleModel;
 			_scheduleFullView = scheduleFullView;
 //			_localUserName = localUserName;
@@ -43,11 +46,11 @@ package collaboRhythm.plugins.schedule.controller
 		public function grabScheduleGroup(moveData:MoveData):void
 		{
 			_scheduleModel.grabScheduleGroup(moveData);
-		}
+        }
 		
 		public function moveScheduleGroup(moveData:MoveData):void
 		{
-			_scheduleModel.moveScheduleGroup(moveData, _scheduleFullView.width, _scheduleFullView.height, _scheduleFullView.timeWidth);
+			_scheduleModel.moveScheduleGroup(moveData, _scheduleFullView.width, _scheduleFullView.height, _scheduleModel.timeWidth);
 		}
 		
 		public function dropScheduleGroup(moveData:MoveData):void
@@ -62,13 +65,28 @@ package collaboRhythm.plugins.schedule.controller
 		
 		public function resizeScheduleGroupSpotlight(moveData:MoveData, leftEdge:Boolean):void
 		{
-			_scheduleModel.resizeScheduleGroupSpotlight(moveData, _scheduleFullView.width, _scheduleFullView.height, _scheduleFullView.timeWidth, leftEdge);
+			_scheduleModel.resizeScheduleGroupSpotlight(moveData, _scheduleFullView.width, _scheduleFullView.height, _scheduleModel.timeWidth, leftEdge);
 		}
 		
 		public function dropScheduleGroupSpotlight(moveData:MoveData):void
 		{
 			_scheduleModel.dropScheduleGroupSpotlight(moveData);
 		}
+
+        public function grabScheduleItemOccurrence(moveData:MoveData):void
+        {
+            _scheduleModel.grabScheduleItemOccurrence(moveData);
+        }
+
+        public function moveScheduleItemOccurrence(moveData:MoveData):void
+        {
+//            _scheduleModel.moveScheduleItemOccurrence(moveData, _scheduleFullView.width, _scheduleFullView.height, _scheduleFullView.timeWidth);
+        }
+
+        public function dropScheduleItemOccurrence(moveData:MoveData):void
+        {
+//            _scheduleModel.dropScheduleItemOccurrence(moveData);
+        }
 		
 //		public function moveSmartDrawerStart(moveData:MoveData, userName:String = "", collaborationColor:String = "0xFFFFFF"):void
 //		{
@@ -203,5 +221,6 @@ package collaboRhythm.plugins.schedule.controller
 //				_scheduleModel.locked = false;
 //			}
 //		}	
-	}
+
+    }
 }

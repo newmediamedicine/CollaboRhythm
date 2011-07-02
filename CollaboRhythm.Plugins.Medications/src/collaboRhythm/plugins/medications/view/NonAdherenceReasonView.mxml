@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+          xmlns:s="library://ns.adobe.com/flex/spark"
+          xmlns:mx="library://ns.adobe.com/flex/mx"
+          width="100%" height="100%">
+    <s:states>
+        <s:State name="present"/>
+        <s:State name="past"/>
+    </s:states>
+    	<fx:Style>
+        @namespace s "library://ns.adobe.com/flex/spark";
+
+        .labelText {
+            font-size: 30;
+            color: #000000;
+        }
+
+        .entryText {
+            font-size: 40;
+            color: #000000;
+        }
+
+    </fx:Style>
+    <fx:Script><![CDATA[
+        import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEvent;
+        import collaboRhythm.shared.model.AdherenceItem;
+        import collaboRhythm.shared.model.MedicationScheduleItem;
+        import collaboRhythm.shared.model.ScheduleItemOccurrence;
+
+        private var _adherenceItem:AdherenceItem;
+        private var _scheduleItemOccurrence:ScheduleItemOccurrence;
+
+        public function init(scheduleItemOccurrence:ScheduleItemOccurrence, adherenceItem:AdherenceItem):void
+        {
+            _scheduleItemOccurrence = scheduleItemOccurrence;
+
+            _adherenceItem = adherenceItem;
+        }
+
+        private function okClickHandler():void
+        {
+            if (reasonList.selectedItem != null)
+            {
+                _adherenceItem.nonadherenceReason = reasonList.selectedItem;
+                dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_COMPLETE,
+                                                                 _scheduleItemOccurrence, _adherenceItem));
+            }
+        }
+        ]]></fx:Script>
+    <s:Rect width="100%" height="100%">
+        <s:fill>
+            <s:SolidColor color="#CCCCCC"/>
+        </s:fill>
+    </s:Rect>
+    <s:VGroup left="10" right="10" top="10" bottom="10">
+        <s:Label text="Why are you skipping this medication?" styleName="labelText" includeIn="present"/>
+        <s:Label text="Why did you skip this medication?" styleName="labelText" includeIn="past"/>
+        <s:List id="reasonList" width="100%" height="100%" styleName="entryText" includeIn="present">
+            <mx:ArrayCollection>
+                <fx:String>I don't have it with me.</fx:String>
+                <fx:String>I ran out of it.</fx:String>
+                <fx:String>I lost it.</fx:String>
+                <fx:String>I am having side-effects from it.</fx:String>
+                <fx:String>I do not think that it works.</fx:String>
+                <fx:String>I just don't feel like taking it.</fx:String>
+            </mx:ArrayCollection>
+        </s:List>
+        <s:List width="100%" height="100%" styleName="entryText" includeIn="past">
+            <mx:ArrayCollection>
+                <fx:String>I did not have it with me.</fx:String>
+                <fx:String>I ran out of it.</fx:String>
+                <fx:String>I lost it.</fx:String>
+                <fx:String>I am having side-effects from it.</fx:String>
+                <fx:String>I do not think that it works.</fx:String>
+                <fx:String>I don't know / just forgot.</fx:String>
+            </mx:ArrayCollection>
+        </s:List>
+        <s:Label text="Add any additional information here:" styleName="labelText"/>
+        <s:TextArea width="100%" height="100" styleName="entryText" />
+        <s:Button width="100" height="70" right="0" label="OK" styleName="entryText" click="okClickHandler()" />
+    </s:VGroup>
+</s:Group>

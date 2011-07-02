@@ -41,9 +41,9 @@
         [Bindable]
         private var _equipmentScheduleItem:EquipmentScheduleItem;
 
-        public override function init(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):void
+        public override function init(scheduleItemOccurrence:ScheduleItemOccurrence):void
         {
-            super.init(scheduleItemOccurrence, parentGroup);
+            super.init(scheduleItemOccurrence);
             _equipmentScheduleItem = scheduleItemOccurrence.scheduleItem as EquipmentScheduleItem;
         }
 

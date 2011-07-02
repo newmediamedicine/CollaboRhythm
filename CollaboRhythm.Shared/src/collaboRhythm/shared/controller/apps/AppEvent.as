@@ -20,14 +20,18 @@ package collaboRhythm.shared.controller.apps
 	
 	import spark.primitives.Rect;
 	
-	public class WorkstationAppEvent extends Event
+	public class AppEvent extends Event
 	{
 		public static const SHOW_FULL_VIEW:String = "ShowFullView";
+        public static const HIDE_FULL_VIEW:String = "HideFullView";
+        public static const ALLOW_HIDE_FULL_VIEW_ON_BACK:String = "HideFullViewOnBack";
+        public static const PREVENT_HIDE_FULL_VIEW_ON_BACK:String = "NoActionOnBack";
+
 		private var _workstationAppController:WorkstationAppControllerBase;
 		private var _startRect:Rect;
 		private var _applicationName:String;
-		
-		public function WorkstationAppEvent(type:String, workstationAppController:WorkstationAppControllerBase=null, startRect:Rect=null, applicationName:String=null, bubbles:Boolean=false, cancelable:Boolean=false)
+
+		public function AppEvent(type:String, workstationAppController:WorkstationAppControllerBase=null, startRect:Rect=null, applicationName:String=null, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);
 			_workstationAppController = workstationAppController;

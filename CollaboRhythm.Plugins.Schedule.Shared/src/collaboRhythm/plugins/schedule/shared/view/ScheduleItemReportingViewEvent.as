@@ -5,20 +5,25 @@ package collaboRhythm.plugins.schedule.shared.view
     import collaboRhythm.shared.model.ScheduleItemOccurrence;
 
     import flash.events.Event;
-	
-	public class ScheduleItemReportingViewEvent extends Event
+
+    import mx.core.UIComponent;
+
+    public class ScheduleItemReportingViewEvent extends Event
 	{
-		public static const ADHERENCE_ITEM_CREATED:String = "AdherenceItemCreated";
+        public static const ADHERENCE_ITEM_INCOMPLETE:String = "AdherenceItemIncomplete";
+		public static const ADHERENCE_ITEM_COMPLETE:String = "AdherenceItemComplete";
 		
 		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
 		private var _adherenceItem:AdherenceItem;
+        private var _additionalInformationView:UIComponent;
 		
-		public function ScheduleItemReportingViewEvent(type:String, scheduleItemOccurrence:ScheduleItemOccurrence, adherenceItem:AdherenceItem)
+		public function ScheduleItemReportingViewEvent(type:String, scheduleItemOccurrence:ScheduleItemOccurrence, adherenceItem:AdherenceItem, additionalInformationView:UIComponent = null)
 		{
 			super(type, true);
 			
 			_scheduleItemOccurrence = scheduleItemOccurrence;
 			_adherenceItem = adherenceItem;
+            _additionalInformationView = additionalInformationView;
 		}
 		
 		public function get scheduleItemOccurrence():ScheduleItemOccurrence
@@ -31,5 +36,9 @@ package collaboRhythm.plugins.schedule.shared.view
 			return _adherenceItem;
 		}
 
-	}
+        public function get additionalInformationView():UIComponent
+        {
+            return _additionalInformationView;
+        }
+    }
 }

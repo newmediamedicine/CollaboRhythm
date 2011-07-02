@@ -18,28 +18,21 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 creationComplete="creationCompleteHandler()"
 		 bottom="0" alpha="0.5">
 	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<s:Fade id="fadeEffect" target="{this}" alphaFrom="{this.alpha}" alphaTo="0" duration="0.01"/>
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-        import collaboRhythm.plugins.schedule.shared.model.AdherenceGroup;
-        import collaboRhythm.plugins.schedule.shared.model.MoveData;
         import collaboRhythm.plugins.schedule.model.ScheduleGroup;
-        import collaboRhythm.plugins.schedule.model.ScheduleModel;
+        import collaboRhythm.plugins.schedule.shared.model.MoveData;
+        import collaboRhythm.plugins.schedule.shared.view.ScheduleTimelineViewEvent;
 
         import mx.binding.utils.BindingUtils;
         import mx.binding.utils.ChangeWatcher;
-        import mx.events.EffectEvent;
         import mx.managers.CursorManagerPriority;
 
-        import resources.physics.AccelerationEaser;
-
-        import spark.primitives.BitmapImage;
-
-        private var _resizeBarDragging:String
+        private var _resizeBarDragging:String;
         private var _mouseDown:Boolean = false;
         private var _mouseOverResizeBar:Boolean = false;
         private var _adherenceWindowRaw:Number;
@@ -48,7 +41,7 @@
         private var _scheduleGroup:ScheduleGroup;
         [Bindable]
         private var _scheduleGroupsContainer:Group;
-        private var _scheduleFullView:ScheduleFullView
+        private var _scheduleFullView:ScheduleTimelineFullView
 
         private var _creationComplete:Boolean = false;
 
@@ -56,26 +49,11 @@
         private var _horizontalResizeCursorClass:Class;
 
         public function init(scheduleGroup:ScheduleGroup, scheduleGroupsContainer:Group,
-                             scheduleFullView:ScheduleFullView):void
+                             scheduleFullView:ScheduleTimelineFullView):void
         {
             _scheduleGroup = scheduleGroup;
             _scheduleGroupsContainer = scheduleGroupsContainer;
             _scheduleFullView = scheduleFullView;
-
-            var dateTimeStartChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(dateTimeStartChangeHandler,
-                                                                                   _scheduleGroup, "dateTimeStart");
-            var dateTimeEndChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(dateTimeEndChangeHandler,
-                                                                                 _scheduleGroup, "dateTimeEnd");
-        }
-
-        private function creationCompleteHandler():void
-        {
-//            _creationComplete = true;
-//            if (scheduleGroup.scheduleModel.isInitialized)
-//            {
-//                updateXPosition();
-//                updateWidth();
-//            }
         }
 
         public function get scheduleGroup():ScheduleGroup
@@ -83,52 +61,6 @@
             return _scheduleGroup;
         }
 
-        public function get scheduleGroupsContainer():Group
-        {
-            return _scheduleGroupsContainer;
-        }
-
-        public function get scheduleFullView():ScheduleFullView
-        {
-            return _scheduleFullView;
-        }
-
-        private function dateTimeStartChangeHandler(change:Date):void
-        {
-//            if (_creationComplete && scheduleGroup.scheduleModel.isInitialized)
-//            {
-//                updateXPosition();
-//                updateWidth();
-//            }
-        }
-
-        private function dateTimeEndChangeHandler(change:Date):void
-        {
-//            if (_creationComplete && scheduleGroup.scheduleModel.isInitialized)
-//            {
-//                updateWidth();
-//            }
-        }
-
-        private function updateXPosition():void
-        {
-            this.x = calculateXPosition();
-        }
-
-        private function updateWidth():void
-        {
-            this.width = calculateWidth();
-        }
-
-        private function calculateXPosition():Number
-        {
-            return 1;//Math.floor((scheduleGroup.dateTimeStart.hours + 1.5) * scheduleFullView.timeWidth);
-        }
-
-        private function calculateWidth():Number
-        {
-            return 1;//Math.floor((scheduleGroup.dateTimeEnd.time - scheduleGroup.dateTimeStart.time) / (1000 * 60 * 60) * scheduleFullView.timeWidth);
-        }
 
         private function mouseOverHandler(event:MouseEvent):void
         {
@@ -176,8 +108,8 @@
             dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_GROUP_SPOTLIGHT_VIEW_MOUSE_DOWN,
                                                         moveData));
 
-            stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
-            stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
+            stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler, false, 0, true);
+            stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler, false, 0, true);
 //				}
         }
 
@@ -261,34 +193,35 @@
 
         private function createMoveData(event:MouseEvent):MoveData
         {
-            var scheduleGroupsContainerCoordinates:Point = _scheduleGroupsContainer.globalToLocal(new Point(event.stageX,
-                                                                                                            event.stageY));
             var moveData:MoveData = new MoveData();
             moveData.id = scheduleGroup.id;
-            moveData.objectMouseX = event.localX;
-            moveData.objectMouseY = event.localY;
-            moveData.containerMouseX = scheduleGroupsContainerCoordinates.x;
-            moveData.containerMouseY = scheduleGroupsContainerCoordinates.y;
-            moveData.containerWidth = _scheduleGroupsContainer.width;
-            moveData.containerHeight = _scheduleGroupsContainer.height;
+            moveData.localX = event.localX;
+            moveData.localY = event.localY;
+            moveData.stageX = event.stageX;
+            moveData.stageY = event.stageY;
 
             return moveData;
+        }
+
+        public function destroy():void
+        {
+            fadeEffect.end();
         }
         ]]>
 	</fx:Script>
 	<s:Group width="100%" height="100%" gestureZoom="gestureZoomEventHandler(event)">
-		<s:Path id="spotlightTrapezoid" data="M 45 0 L 55 0 L 100 50 L 0 50 z" width="100%" bottom="{ScheduleFullView.TIMELINE_VIEW_HEIGHT}" top="0">  
+		<s:Path id="spotlightTrapezoid" data="M 45 0 L 55 0 L 100 50 L 0 50 z" width="100%" bottom="{ScheduleTimelineFullView.TIMELINE_VIEW_HEIGHT}" top="0">
 			<s:fill>  
 				<s:SolidColor color="0xFFFFFF" />  
 			</s:fill>  
 		</s:Path>
-		<s:Rect id="spotlightRectangle" width="100%" height="{ScheduleFullView.TIMELINE_VIEW_HEIGHT}" bottom="0">
+		<s:Rect id="spotlightRectangle" width="100%" height="{ScheduleTimelineFullView.TIMELINE_VIEW_HEIGHT}" bottom="0">
 			<s:fill>  
 				<s:SolidColor color="0xFFFFFF" />  
 			</s:fill>  
 		</s:Rect>
-		<s:Group id="leftResizeBar" width="5" height="{ScheduleFullView.TIMELINE_VIEW_HEIGHT}" left="0" bottom="0" mouseDown="leftMouseDownHandler(event)" mouseOver="mouseOverHandler(event)" mouseOut="mouseOutHandler(event)"/>
-		<s:Group id="rightResizeBar" width="5" height="{ScheduleFullView.TIMELINE_VIEW_HEIGHT}" right="0" bottom="0" mouseDown="rightMouseDownHandler(event)" mouseOver="mouseOverHandler(event)" mouseOut="mouseOutHandler(event)"/>
+		<s:Group id="leftResizeBar" width="5" height="{ScheduleTimelineFullView.TIMELINE_VIEW_HEIGHT}" left="0" bottom="0" mouseDown="leftMouseDownHandler(event)" mouseOver="mouseOverHandler(event)" mouseOut="mouseOutHandler(event)"/>
+		<s:Group id="rightResizeBar" width="5" height="{ScheduleTimelineFullView.TIMELINE_VIEW_HEIGHT}" right="0" bottom="0" mouseDown="rightMouseDownHandler(event)" mouseOver="mouseOverHandler(event)" mouseOut="mouseOutHandler(event)"/>
 	</s:Group>
 	<s:filters>
 		<s:GlowFilter id="glowFilter"

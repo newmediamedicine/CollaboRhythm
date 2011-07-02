@@ -57,7 +57,7 @@ package collaboRhythm.tablet.controller
 			if (!_application.stage)
 				throw new Error("_application.stage must not be null");
 
-			_application.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
+//			_application.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 		}
 
 		private function keyDownHandler(event:KeyboardEvent):void

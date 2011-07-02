@@ -136,5 +136,10 @@ package collaboRhythm.shared.model
         {
             _adherenceResult = value;
         }
+
+        public function set nonadherenceReason(value:String):void
+        {
+            _nonadherenceReason = value;
+        }
     }
 }

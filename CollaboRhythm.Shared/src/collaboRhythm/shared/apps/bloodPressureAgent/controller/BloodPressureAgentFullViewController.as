@@ -17,7 +17,7 @@
 package collaboRhythm.shared.apps.bloodPressureAgent.controller
 {
 	import collaboRhythm.shared.apps.bloodPressureAgent.view.BloodPressureAgentFullView;
-	import collaboRhythm.shared.controller.apps.WorkstationAppEvent;
+	import collaboRhythm.shared.controller.apps.AppEvent;
 	import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
 	
 	import flash.display.Loader;
@@ -230,7 +230,7 @@ package collaboRhythm.shared.apps.bloodPressureAgent.controller
 		
 		private function showResults():void
 		{
-			dispatchEvent(new WorkstationAppEvent(WorkstationAppEvent.SHOW_FULL_VIEW, null, null, "Blood Pressure Review"));
+			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, null, null, "Blood Pressure Review"));
 		}
 		
 		private function sayText(text:String):void

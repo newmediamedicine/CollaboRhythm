@@ -20,7 +20,7 @@ package collaboRhythm.shared.apps.bloodPressureAgent.controller
 	import collaboRhythm.shared.apps.bloodPressureAgent.view.BloodPressureAgentWidgetView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-	import collaboRhythm.shared.controller.apps.WorkstationAppEvent;
+	import collaboRhythm.shared.controller.apps.AppEvent;
 
 	import mx.core.UIComponent;
 
@@ -87,14 +87,14 @@ package collaboRhythm.shared.apps.bloodPressureAgent.controller
 			if (_fullView)
 			{
 				_bloodPressureFullViewController = new BloodPressureAgentFullViewController(_fullView as BloodPressureAgentFullView);
-				_bloodPressureFullViewController.addEventListener(WorkstationAppEvent.SHOW_FULL_VIEW, launchBloodPressureFullViewHandler);
+				_bloodPressureFullViewController.addEventListener(AppEvent.SHOW_FULL_VIEW, launchBloodPressureFullViewHandler);
 				_fullView.initializeControllerModel(_bloodPressureFullViewController, user.bloodPressureModel);
 			}
 		}
 		
-		private function launchBloodPressureFullViewHandler(event:WorkstationAppEvent):void
+		private function launchBloodPressureFullViewHandler(event:AppEvent):void
 		{
-			dispatchEvent(new WorkstationAppEvent(WorkstationAppEvent.SHOW_FULL_VIEW, null, null, event.applicationName));
+			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, null, null, event.applicationName));
 		}
 		
 		override public function reloadUserData():void

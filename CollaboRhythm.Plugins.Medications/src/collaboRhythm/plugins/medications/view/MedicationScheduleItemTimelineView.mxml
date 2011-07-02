@@ -45,7 +45,6 @@
     </fx:Style>
     <fx:Script>
 		<![CDATA[
-        import collaboRhythm.plugins.medications.model.Medication;
         import collaboRhythm.shared.model.MedicationOrder;
         import collaboRhythm.shared.model.MedicationScheduleItem;
         import collaboRhythm.shared.model.ScheduleItemBase;
@@ -60,13 +59,14 @@
 
         private var _currentDateSource:ICurrentDateSource;
 
-        public override function init(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):void
+        public override function init(scheduleItemOccurrence:ScheduleItemOccurrence):void
         {
-            super.init(scheduleItemOccurrence, parentGroup);
+            super.init(scheduleItemOccurrence);
             _medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
             _medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
 
             _currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+            pickImage();
         }
 
         public override function get scheduleItem():ScheduleItemBase
@@ -74,20 +74,16 @@
             return _medicationScheduleItem
         }
 
-        // TODO: automate the color or switch to images of the medications
-        public function getMedicationColor(value:String):uint
+        private function pickImage():void
         {
-            if (value == '310798')
+            //TODO: Once medication fills are working, use the ndc
+            if (_medicationScheduleItem.name.value == "617320")
             {
-                return 0x000000;
+                medicationImage.source = MedicationScheduleItemClockView.ndc000779;
             }
-            else if (value == '617320')
+            else if (_medicationScheduleItem.name.value == "310798")
             {
-                return 0x000000;
-            }
-            else
-            {
-                return 0x000000;
+                medicationImage.source = MedicationScheduleItemClockView.ndc006033856;
             }
         }
         ]]>
@@ -106,17 +102,15 @@
             <s:Group id="imageRegion" width="{this.height}" height="100%">
                 <s:Rect width="100%" height="100%">
                     <s:fill>
-                        <s:SolidColor color="0x000000"/>
+                        <s:SolidColor color="0xFFFFFF"/>
                     </s:fill>
                 </s:Rect>
-                <!--TODO: Fix images-->
-                <mx:Image name="hydrochlorotiazideImage" source="@Embed(source='/assets/images/hydrochlorothiazide_front.jpg')" width="100%" height="100%" smoothBitmapContent="true" visible="{_medicationOrder.name.value == '310798'}"/>
-                <mx:Image name="atorvastatinImage" source="@Embed(source='/assets/images/simvastatin_front.jpg')" width="100%" height="100%" smoothBitmapContent="true" visible="{_medicationOrder.name.value == '617320'}"/>
-                <s:Ellipse width="22%" height="22%" right="4" top="4">
-                    <s:fill>
-                        <s:SolidColor color="{getMedicationColor(_medicationOrder.name.value)}"/>
-                    </s:fill>
-                </s:Ellipse>
+                <mx:Image id="medicationImage" left="5" right="5" top="5" bottom="5" smoothBitmapContent="true"/>
+                <!--<s:Ellipse width="22%" height="22%" right="4" top="4">-->
+                    <!--<s:fill>-->
+                        <!--<s:SolidColor color="{getMedicationColor(_medicationOrder.name.value)}"/>-->
+                    <!--</s:fill>-->
+                <!--</s:Ellipse>-->
             </s:Group>
             <s:Group id="descriptionRegion" height="100%" left="{imageRegion.width}" right="{buttonRegion.width}">
                 <s:Group left="5" right="5" top="5" bottom="5">
