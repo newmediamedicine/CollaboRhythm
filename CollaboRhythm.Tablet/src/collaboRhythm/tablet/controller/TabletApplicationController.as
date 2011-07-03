@@ -44,34 +44,9 @@ package collaboRhythm.tablet.controller
 			_settings.modality = Settings.MODALITY_TABLET;
 
             initCollaborationController(null);
-			initEventListeners();
 
             createSession();
         }
-
-		private function initEventListeners():void
-		{
-			if (!_application)
-				throw new Error("_application must not be null");
-
-			if (!_application.stage)
-				throw new Error("_application.stage must not be null");
-
-//			_application.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
-		}
-
-		private function keyDownHandler(event:KeyboardEvent):void
-		{
-			if (event.keyCode == Keyboard.BACK)
-			{
-				if (_tabletAppControllersMediator.showingFullView)
-				{
-					event.preventDefault();
-					event.stopImmediatePropagation();
-					_tabletAppControllersMediator.hideFullViews();
-				}
-			}
-		}
 
 		public override function openRecordAccount(recordAccount:Account):void
         {

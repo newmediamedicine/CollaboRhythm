@@ -15,7 +15,7 @@ package collaboRhythm.shared.model.healthRecord
             _indivoApiCall = indivoApiCall;
             _account = account;
             _record = record;
-		}
+        }
 
         public function get indivoApiCall():String
         {

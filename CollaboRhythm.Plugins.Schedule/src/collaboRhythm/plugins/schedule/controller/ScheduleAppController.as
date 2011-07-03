@@ -46,6 +46,7 @@ package collaboRhythm.plugins.schedule.controller
 	{
 		public static const DEFAULT_NAME:String = "Schedule";
 
+        private var _phaHealthRecordService:PhaHealthRecordServiceBase;
         private var _scheduleModel:ScheduleModel;
 		private var _scheduleWidgetViewController:ScheduleClockController;
 		private var _scheduleFullViewController:ScheduleTimelineController;
@@ -57,6 +58,7 @@ package collaboRhythm.plugins.schedule.controller
 		public function ScheduleAppController(constructorParams:AppControllerConstructorParams)
 		{
 			super(constructorParams);
+            _phaHealthRecordService = new PhaHealthRecordServiceBase(_activeRecordAccount.primaryRecord.settings.oauthChromeConsumerKey, _activeRecordAccount.primaryRecord.settings.oauthChromeConsumerSecret, _activeRecordAccount.primaryRecord.settings.indivoServerBaseURL, _activeAccount);
 		}
 
 		public override function get widgetView():UIComponent
@@ -110,7 +112,7 @@ package collaboRhythm.plugins.schedule.controller
             }
             else
             {
-                var scheduleReportingModel:ScheduleReportingModel = new ScheduleReportingModel();
+                var scheduleReportingModel:ScheduleReportingModel = new ScheduleReportingModel(_phaHealthRecordService, _activeRecordAccount.primaryRecord);
                 var scheduleReportingFullView:ScheduleReportingFullView = new ScheduleReportingFullView();
                 var scheduleReportingController:ScheduleReportingController = new ScheduleReportingController(scheduleModel, scheduleReportingFullView, scheduleReportingModel);
                 scheduleReportingController.addEventListener(AppEvent.HIDE_FULL_VIEW,  hideFullViewHandler);
@@ -192,7 +194,7 @@ package collaboRhythm.plugins.schedule.controller
 //		}
 		
 		public override function close():void
-		{
+        {
 			for each (var scheduleGroup:ScheduleGroup in scheduleModel.scheduleGroupsCollection)
 			{
 				if (scheduleGroup.changed)
@@ -200,10 +202,9 @@ package collaboRhythm.plugins.schedule.controller
                     for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleGroup.scheduleItemsOccurrencesCollection)
                     {
                         var scheduleItem:ScheduleItemBase = scheduleItemOccurrence.scheduleItem;
-                        var phaHealthRecordService:PhaHealthRecordServiceBase = new PhaHealthRecordServiceBase(_activeRecordAccount.primaryRecord.settings.oauthChromeConsumerKey, _activeRecordAccount.primaryRecord.settings.oauthChromeConsumerSecret, _activeRecordAccount.primaryRecord.settings.indivoServerBaseURL, _activeAccount);
-                        phaHealthRecordService.archiveDocument(_activeRecordAccount.primaryRecord, scheduleItem.id, "rescheduled");
+                        _phaHealthRecordService.archiveDocument(_activeRecordAccount.primaryRecord, scheduleItem.id, "rescheduled");
                         var newScheduleItemDocument:XML = scheduleItem.rescheduledItem(scheduleGroup.dateStart, scheduleGroup.dateEnd);
-                        phaHealthRecordService.relateDocuments(_activeRecordAccount.primaryRecord, scheduleItem.getScheduleActionId(), newScheduleItemDocument, "scheduleItem");
+                        _phaHealthRecordService.relateNewDocument(_activeRecordAccount.primaryRecord, scheduleItem.getScheduleActionId(), newScheduleItemDocument, "scheduleItem");
 //                        var scheduleItem:ScheduleItemBase = scheduleItemOccurrence.scheduleItem;
                         
                     }

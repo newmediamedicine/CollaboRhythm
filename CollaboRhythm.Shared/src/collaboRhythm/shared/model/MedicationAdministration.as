@@ -64,7 +64,8 @@ package collaboRhythm.shared.model
             _dateReported = collaboRhythm.shared.model.DateUtil.parseW3CDTF(medicationAdministrationXml.dateReported.toString());
 			_dateAdministered = collaboRhythm.shared.model.DateUtil.parseW3CDTF(medicationAdministrationXml.dateAdministered.toString());
             _amountAdministered = new ValueAndUnit(medicationAdministrationXml.amountAdministered.value, HealthRecordHelperMethods.xmlToCodedValue(medicationAdministrationXml.amountAdministered.unit[0]));
-            _amountRemaining = new ValueAndUnit(medicationAdministrationXml.amountRemaining.value, HealthRecordHelperMethods.xmlToCodedValue(medicationAdministrationXml.amountRemaining.unit[0]));
+            if (medicationAdministrationXml.amountRemaining[0])
+                _amountRemaining = new ValueAndUnit(medicationAdministrationXml.amountRemaining.value, HealthRecordHelperMethods.xmlToCodedValue(medicationAdministrationXml.amountRemaining.unit[0]));
 		}
 
         public function convertToXML():XML
@@ -77,24 +78,24 @@ package collaboRhythm.shared.model
             medicationAdministrationXml.name.@value = name.value;
             medicationAdministrationXml.name.@abbrev = name.abbrev;
             medicationAdministrationXml.reportedBy = reportedBy;
-            medicationAdministrationXml.dateOrdered = com.adobe.utils.DateUtil.toW3CDTF(dateReported);
+            medicationAdministrationXml.dateReported = com.adobe.utils.DateUtil.toW3CDTF(dateReported);
             if (dateAdministered)
-                medicationAdministrationXml.dateExpires = com.adobe.utils.DateUtil.toW3CDTF(dateAdministered);
+                medicationAdministrationXml.dateAdministered = com.adobe.utils.DateUtil.toW3CDTF(dateAdministered);
             if (amountAdministered)
             {
-                medicationAdministrationXml.amountOrdered.value = amountAdministered.value;
-                medicationAdministrationXml.amountOrdered.unit = amountAdministered.unit.text;
-                medicationAdministrationXml.amountOrdered.unit.@type = amountAdministered.unit.type;
-                medicationAdministrationXml.amountOrdered.unit.@value = amountAdministered.unit.value;
-                medicationAdministrationXml.amountOrdered.unit.@abbrev = amountAdministered.unit.abbrev;
+                medicationAdministrationXml.amountAdministered.value = amountAdministered.value;
+                medicationAdministrationXml.amountAdministered.unit = amountAdministered.unit.text;
+                medicationAdministrationXml.amountAdministered.unit.@type = amountAdministered.unit.type;
+                medicationAdministrationXml.amountAdministered.unit.@value = amountAdministered.unit.value;
+                medicationAdministrationXml.amountAdministered.unit.@abbrev = amountAdministered.unit.abbrev;
             }
             if (amountRemaining)
             {
-                medicationAdministrationXml.amountOrdered.value = amountAdministered.value;
-                medicationAdministrationXml.amountOrdered.unit = amountAdministered.unit.text;
-                medicationAdministrationXml.amountOrdered.unit.@type = amountAdministered.unit.type;
-                medicationAdministrationXml.amountOrdered.unit.@value = amountAdministered.unit.value;
-                medicationAdministrationXml.amountOrdered.unit.@abbrev = amountAdministered.unit.abbrev;
+                medicationAdministrationXml.amountRemaining.value = amountRemaining.value;
+                medicationAdministrationXml.amountRemaining.unit = amountRemaining.unit.text;
+                medicationAdministrationXml.amountRemaining.unit.@type = amountRemaining.unit.type;
+                medicationAdministrationXml.amountRemaining.unit.@value = amountRemaining.unit.value;
+                medicationAdministrationXml.amountRemaining.unit.@abbrev = amountRemaining.unit.abbrev;
             }
 
 			return medicationAdministrationXml;
