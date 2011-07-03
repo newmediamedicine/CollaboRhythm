@@ -16,8 +16,6 @@
  */
 package collaboRhythm.shared.model
 {
-
-
     import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
     import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
     import collaboRhythm.shared.model.services.ICurrentDateSource;
@@ -88,6 +86,11 @@ package collaboRhythm.shared.model
         }
 
         public function addExtraXml(scheduleItemXml:XML):XML
+        {
+            throw new Error("virtual function must be overridden in subclass");
+        }
+
+        public function schedueItemType():String
         {
             throw new Error("virtual function must be overridden in subclass");
         }
@@ -175,29 +178,7 @@ package collaboRhythm.shared.model
             return scheduleItemOccurrencesVector;
         }
 
-//		public function createScheduleItemClockView():ScheduleItemClockViewBase
-//		{
-//			// to be implemented by subclasses
-//			var scheduleItemClockView:ScheduleItemClockViewBase = new ScheduleItemClockViewBase();
-//			return scheduleItemClockView;
-//		}
-//
-//		public function createScheduleItemReportingView():ScheduleItemReportingViewBase
-//		{
-//			// to be implemented by subclasses
-//			var scheduleItemWidgetView:ScheduleItemReportingViewBase = new ScheduleItemReportingViewBase();
-//			return scheduleItemWidgetView;
-//		}
-//
-//		public function createScheduleItemTimelineView():ScheduleItemTimelineViewBase
-//		{
-//			// to be implemented by subclasses
-//			var scheduleItemFullView:ScheduleItemTimelineViewBase = new ScheduleItemTimelineViewBase();
-//			return scheduleItemFullView;
-//		}
-
-
-        public function get scheduleItemXml():XML
+       public function get scheduleItemXml():XML
         {
             return _scheduleItemXml;
         }
@@ -286,17 +267,5 @@ package collaboRhythm.shared.model
         {
             _adherenceItems = value;
         }
-
-//        public function get recurrenceIndex():int
-//        {
-//            _currentDateSource.now();
-//        }
-//
-//        public function set recurrenceIndex(value:int):void
-//        {
-//
-//        }
-
-
     }
 }

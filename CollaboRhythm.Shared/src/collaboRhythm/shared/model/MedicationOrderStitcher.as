@@ -16,7 +16,6 @@
  */
 package collaboRhythm.shared.model
 {
-
     import mx.binding.utils.BindingUtils;
 
     public class MedicationOrderStitcher

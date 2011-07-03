@@ -22,6 +22,8 @@ package collaboRhythm.shared.model
     [Bindable]
 	public class MedicationScheduleItem extends ScheduleItemBase
 	{
+        public static const MEDICATION:String = "Medication";
+
 		private var _dose:ValueAndUnit;
         private var _scheduledMedicationOrder:MedicationOrder;
 //		private var _scheduledActionID:String;
@@ -32,19 +34,22 @@ package collaboRhythm.shared.model
 		{
 		}
 
-        public override function initFromReportXML(scheduleItemReportXml:XML, scheduleItemElementName:String):void
+        override public function initFromReportXML(scheduleItemReportXml:XML, scheduleItemElementName:String):void
         {
             super.initFromReportXML(scheduleItemReportXml, scheduleItemElementName);
 
             _dose = new ValueAndUnit(scheduleItemXml.dose.value, HealthRecordHelperMethods.xmlToCodedValue(scheduleItemXml.dose.unit[0]));
-//            _scheduledActionID = scheduleItemReportXML.Meta.Document.relatesTo.relation.relatedDocument.@id;
-//			_scheduleGroupID =  scheduleItemReportXML.Meta.Document.isRelatedFrom.relation.relatedDocument[0].@id;
         }
 
-        public override function createXmlDocument():XML
+        override public function createXmlDocument():XML
         {
             var medicationScheduleItemXml:XML = <MedicationScheduleItem/>;
             return medicationScheduleItemXml;
+        }
+
+        override public function schedueItemType():String
+        {
+            return MEDICATION;
         }
 
         override public function addExtraXml(scheduleItemXml:XML):XML
@@ -63,48 +68,6 @@ package collaboRhythm.shared.model
             return _scheduledMedicationOrder.id;
         }
 
-//		public function get scheduledActionID():String
-//		{
-//			return _scheduledActionID;
-//		}
-//
-//		public function get scheduledAction():Medication
-//		{
-//			return _scheduledAction;
-//		}
-//
-//		public function set scheduledAction(value:Medication):void
-//		{
-//			_scheduledAction = value;
-//		}
-//
-//		public function get scheduleGroupID():String
-//		{
-//			return _scheduleGroupID;
-//		}
-		
-//		public override function createScheduleItemClockView():ScheduleItemClockViewBase
-//		{
-//			var medicationScheduleItemClockView:MedicationScheduleItemClockView = new MedicationScheduleItemClockView();
-//			medicationScheduleItemClockView.medication = _scheduledAction;
-//			medicationScheduleItemClockView.medicationScheduleItem = this;
-//			return medicationScheduleItemClockView;
-//		}
-//
-//		public override function createScheduleItemReportingView():ScheduleItemReportingViewBase
-//		{
-//			var medicationScheduleItemWidgetView:MedicationScheduleItemReportingView = new MedicationScheduleItemReportingView();
-//			medicationScheduleItemWidgetView.medication = _scheduledAction;
-//			medicationScheduleItemWidgetView.medicationScheduleItem = this;
-//			return medicationScheduleItemWidgetView;
-//		}
-//
-//		public override function createScheduleItemTimelineView():ScheduleItemTimelineViewBase
-//		{
-//			var medicationScheduleItemFullView:MedicationScheduleItemTimelineView = new MedicationScheduleItemTimelineView();
-//			medicationScheduleItemFullView.medication = _scheduledAction;
-//			return medicationScheduleItemFullView;
-//		}
         public function get scheduledMedicationOrder():MedicationOrder {
             return _scheduledMedicationOrder;
         }

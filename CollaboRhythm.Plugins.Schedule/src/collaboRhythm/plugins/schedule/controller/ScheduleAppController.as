@@ -158,8 +158,6 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			super.initialize();
 
-			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, onInvoke);
-
 //			if (_widgetView)
 //			{
 //				_scheduleWidgetViewController = new ScheduleWidgetViewController(isWorkstationMode, scheduleModel, _widgetView, _fullParentContainer);//, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
@@ -167,17 +165,7 @@ package collaboRhythm.plugins.schedule.controller
 //			}
 			prepareFullView();
 		}
-		
-		private function onInvoke(event:InvokeEvent):void {
-			if (event.arguments.length != 0)
-			{
-				var urlString:String = event.arguments[0];
-				var urlVariablesString:String = urlString.split("//")[1];
-				var urlVariables:URLVariables = new URLVariables(urlVariablesString);
-				log.debug(urlVariables.systolic);
-			}
-		}
-		
+
 //		protected override function prepareWidgetView():void
 //		{
 //			

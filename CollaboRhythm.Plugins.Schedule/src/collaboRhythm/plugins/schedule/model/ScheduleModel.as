@@ -21,6 +21,7 @@ package collaboRhythm.plugins.schedule.model
     import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
     import collaboRhythm.plugins.schedule.view.ScheduleGroupTimelineView;
     import collaboRhythm.shared.model.AdherenceItem;
+    import collaboRhythm.shared.model.CodedValue;
     import collaboRhythm.shared.model.EquipmentModel;
     import collaboRhythm.shared.model.EquipmentScheduleItem;
     import collaboRhythm.shared.model.MedicationScheduleItem;
@@ -33,6 +34,10 @@ package collaboRhythm.plugins.schedule.model
     import collaboRhythm.shared.model.services.IComponentContainer;
     import collaboRhythm.shared.model.services.ICurrentDateSource;
     import collaboRhythm.shared.model.services.WorkstationKernel;
+
+    import flash.desktop.NativeApplication;
+    import flash.events.InvokeEvent;
+    import flash.net.URLVariables;
 
     import flash.utils.Dictionary;
     import flash.utils.getQualifiedClassName;
@@ -59,17 +64,6 @@ package collaboRhythm.plugins.schedule.model
 
         private var _logger:ILogger;
 
-        private var _closeDrawer:Boolean = true;
-        private var _drawerX:Number = -340;
-        private var _drawerColor:String = "0xFFFFFF";
-        private var _scheduleItemsCollection:ArrayCollection = new ArrayCollection();
-        private var _scheduleItemsDictionary:Dictionary = new Dictionary();
-        private var _adherenceGroupsCollection:ArrayCollection = new ArrayCollection();
-        private var _adherenceGroupsVector:Vector.<AdherenceGroup> = new Vector.<AdherenceGroup>(24);
-
-        private var _medicationsModel:MedicationsModel;
-        private var _equipmentModel:EquipmentModel;
-
         private var _locked:Boolean = false;
 
         private var _currentDateSource:ICurrentDateSource;
@@ -93,6 +87,8 @@ package collaboRhythm.plugins.schedule.model
 
             _currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
             _viewFactory = new MasterScheduleViewFactory(componentContainer);
+
+            NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, onInvoke);
         }
 
         private function medicationOrdersModelStitchedHandler(isStitched:Boolean):void
@@ -152,6 +148,58 @@ package collaboRhythm.plugins.schedule.model
             }
         }
 
+
+        private function onInvoke(event:InvokeEvent):void
+        {
+            if (event.arguments.length != 0)
+            {
+                var urlString:String = event.arguments[0];
+                var urlVariablesString:String = urlString.split("//")[1];
+                var urlVariables:URLVariables = new URLVariables(urlVariablesString);
+                _logger.debug(urlVariables.systolic);
+
+                createBloodPressureAdherenceItem();
+            }
+        }
+
+        private function createBloodPressureAdherenceItem():void
+        {
+            var closestScheduleItemOccurrence:ScheduleItemOccurrence;
+            for each (var scheduleItemOccurrence:ScheduleItemOccurrence in _scheduleItemOccurrencesHashMap)
+            {
+                if (scheduleItemOccurrence.scheduleItem.schedueItemType() == EquipmentScheduleItem.EQUIPMENT)
+                {
+                    if (_currentDateSource.now() > scheduleItemOccurrence.dateStart && _currentDateSource.now() < scheduleItemOccurrence.dateEnd)
+                    {
+                        closestScheduleItemOccurrence = scheduleItemOccurrence;
+                        break;
+                    }
+                    else
+                    {
+                        if (closestScheduleItemOccurrence)
+                        {
+                            if ((_currentDateSource.now().time - scheduleItemOccurrence.dateEnd.time < _currentDateSource.now().time - closestScheduleItemOccurrence.dateEnd.time)
+                             || (scheduleItemOccurrence.dateStart.time - _currentDateSource.now().time < closestScheduleItemOccurrence.dateStart.time - _currentDateSource.now().time))
+                            {
+                                closestScheduleItemOccurrence = scheduleItemOccurrence;
+                            }
+                        }
+                        else
+                        {
+                            closestScheduleItemOccurrence = scheduleItemOccurrence;
+                        }
+                    }
+                }
+            }
+            var adherenceItem:AdherenceItem = new AdherenceItem();
+            var name:CodedValue = new CodedValue();
+            name.text = "Fora D40b";
+            //TODO: add vital sign
+            adherenceItem.init(name, "rpoole@records.media.mit.edu", _currentDateSource.now(),
+                               closestScheduleItemOccurrence.recurrenceIndex, true);
+            closestScheduleItemOccurrence.adherenceItem = adherenceItem;
+        }
+
         private function addToScheduleGroup(scheduleItemOccurrence:ScheduleItemOccurrence):void
         {
             var isMatchingScheduleGroup:Boolean = false;
@@ -183,7 +231,7 @@ package collaboRhythm.plugins.schedule.model
             }
             _scheduleGroupsCollection.addItem(scheduleGroup);
             // TODO: use a GUID for the scheduleGroup so it will work with remote collaboration
-            scheduleGroup.id = scheduleItemOccurrence.scheduleItem.id + scheduleItemOccurrence.recurrenceIndex  + _scheduleGroupsHashMap.keys.length;
+            scheduleGroup.id = scheduleItemOccurrence.scheduleItem.id + scheduleItemOccurrence.recurrenceIndex + _scheduleGroupsHashMap.keys.length;
             _scheduleGroupsHashMap[scheduleGroup.id] = scheduleGroup;
 
             return scheduleGroup;
