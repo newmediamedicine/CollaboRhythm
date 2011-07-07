@@ -87,8 +87,6 @@ package collaboRhythm.plugins.schedule.model
 
             _currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
             _viewFactory = new MasterScheduleViewFactory(componentContainer);
-
-            NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, onInvoke);
         }
 
         private function medicationOrdersModelStitchedHandler(isStitched:Boolean):void
@@ -145,6 +143,8 @@ package collaboRhythm.plugins.schedule.model
                 }
                 determineStacking();
                 isInitialized = true;
+
+                NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, onInvoke);
             }
         }
 

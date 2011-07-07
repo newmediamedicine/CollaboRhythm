@@ -54,7 +54,7 @@ package collaboRhythm.shared.model
                 }
                 if (_camera != null)
                 {
-                    //			_camera.setKeyFrameInterval(9);
+                    _camera.setKeyFrameInterval(15);
                     _camera.setMode(240,180,15);
                     _camera.setQuality(0,80);
                 }

@@ -20,6 +20,7 @@ package collaboRhythm.core.controller
     import castle.flexbridge.kernel.IKernel;
 
     import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
+    import collaboRhythm.core.model.ApplicationControllerModel;
     import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
     import collaboRhythm.core.pluginsManagement.PluginLoader;
     import collaboRhythm.shared.controller.CollaborationController;
@@ -42,24 +43,31 @@ package collaboRhythm.core.controller
     import collaboRhythm.shared.view.RecordVideoView;
 
     import com.coltware.airxlib.log.FileTarget;
+    import com.coltware.airxlib.log.TCPSyslogTarget;
     import com.coltware.airxlib.log.UDPSyslogTarget;
+    import com.daveoncode.logging.LogFileTarget;
 
     import flash.events.Event;
     import flash.filesystem.File;
+    import flash.net.NetworkInfo;
+    import flash.net.NetworkInterface;
     import flash.utils.getQualifiedClassName;
 
     import mx.core.IVisualElementContainer;
     import mx.logging.ILogger;
     import mx.logging.Log;
+    import mx.logging.LogEventLevel;
     import mx.logging.targets.TraceTarget;
 
     public class ApplicationControllerBase
     {
-        private static const DEFAULT_SYSLOG_PORT:int = 514;
+        private static const DEFAULT_SYSLOG_PORT:int = 1468;
 
+        protected var _applicationControllerModel:ApplicationControllerModel;
         protected var _kernel:IKernel;
         protected var _settingsFileStore:SettingsFileStore;
         protected var _settings:Settings;
+        protected var _hasActiveNetworkInterface:Boolean = false;
         protected var _activeAccount:Account;
         protected var _activeRecordAccount:Account;
         private var _collaborationController:CollaborationController;
@@ -77,7 +85,12 @@ package collaboRhythm.core.controller
         // subclasses can then perform appropriate actions after settings, logging, and components have been initialized
         public function main():void
         {
+            _applicationControllerModel = new ApplicationControllerModel();
+
             initSettings();
+
+            // TODO: provide feedback if there is not an active NetworkInterface
+            checkNetworkStatus();
 
             initLogging();
             _logger.info("Logging initialized");
@@ -107,20 +120,34 @@ package collaboRhythm.core.controller
             _settings = _settingsFileStore.settings;
         }
 
+        private function checkNetworkStatus():void
+        {
+            if (NetworkInfo.isSupported)
+            {
+                var networkInterfacesVector:Vector.<NetworkInterface> = NetworkInfo.networkInfo.findInterfaces();
+                for each (var networkInterface:NetworkInterface in networkInterfacesVector)
+                {
+                    if (networkInterface.active)
+                    {
+                        _hasActiveNetworkInterface = true;
+                    }
+                }
+            }
+        }
+
         private function initLogging():void
         {
-            // TODO: Determine what action is taken when the log file exceeds a certain size
-            // TODO: Handle exceptions is using a fileTarget, on several occasions an exception has occurred where the file is in use
             // create a file target for logging if specified in the settings file
             if (_settings.useFileTarget)
             {
-                var fileTarget:FileTarget = new FileTarget();
-                // the file log will be stored in the application storage directory
-                fileTarget.directory = File.applicationStorageDirectory;
-                fileTarget.filename = "collaboRhythm.log";
-                // append the log information to the file rather than create a new file each time the application is run
-                fileTarget.append = true;
-                // add the file target to the log
+                // The log file will be placed under applicationStorageDirectory folder
+                var path:String = File.applicationStorageDirectory.resolvePath("collaboRhythm.log").nativePath;
+                var targetFile:File = new File(path);
+                // get LogFileTarget's instance (LogFileTarget is a singleton)
+                var fileTarget:LogFileTarget = LogFileTarget.getInstance();
+                fileTarget.file = targetFile;
+                /* Log all log levels. */
+                fileTarget.level = LogEventLevel.ALL;
                 Log.addTarget(fileTarget);
             }
 
@@ -132,15 +159,16 @@ package collaboRhythm.core.controller
                 Log.addTarget(traceTarget);
             }
 
+            // TODO: The syslog target currently does not handle errors, download the source and update
             // create a syslog target for logging if specified in the settings file and get the ip address from the settings file
             // Kiwi Syslog server has a free version http://www.kiwisyslog.com/kiwi-syslog-server-overview/
             // set the syslogServerIpAddress in your settings file to the IP address where the syslog server is running
             if (_settings.useSyslogTarget)
             {
-                var udpSyslogTarget:UDPSyslogTarget = new UDPSyslogTarget(_settings.syslogServerIpAddress,
+                var tcpSyslogTarget:TCPSyslogTarget = new TCPSyslogTarget(_settings.syslogServerIpAddress,
                                                                           DEFAULT_SYSLOG_PORT);
                 // add the syslog target to the log
-                Log.addTarget(udpSyslogTarget);
+                Log.addTarget(tcpSyslogTarget);
             }
 
             _logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
@@ -188,6 +216,7 @@ package collaboRhythm.core.controller
         protected function createSession():void
         {
             _logger.info("Creating session in Indivo...");
+            _applicationControllerModel.createSessionStatus = ApplicationControllerModel.CREATE_SESSION_STATUS_ATTEMPTING;
             var createSessionHealthRecordService:CreateSessionHealthRecordService = new CreateSessionHealthRecordService(_settings.oauthChromeConsumerKey,
                                                                                                                          _settings.oauthChromeConsumerSecret,
                                                                                                                          _settings.indivoServerBaseURL,
@@ -202,6 +231,7 @@ package collaboRhythm.core.controller
         private function createSessionSucceededHandler(event:HealthRecordServiceEvent):void
         {
             _logger.info("Creating session in Indivo - SUCCEEDED");
+            _applicationControllerModel.createSessionStatus = ApplicationControllerModel.CREATE_SESSION_STATUS_SUCCEEDED;
 
             // get information for the account actively in session, this may be useful if accounts are implemented to have credentials, such as MD or RN
             // currently it is not useful, so the function is never called
@@ -218,6 +248,7 @@ package collaboRhythm.core.controller
         {
             // TODO: add UI feedback for when creating a session fails
             _logger.info("Creating session in Indivo - FAILED - " + event.errorStatus);
+            _applicationControllerModel.createSessionStatus = ApplicationControllerModel.CREATE_SESSION_STATUS_FAILED;
         }
 
         /**
@@ -233,7 +264,10 @@ package collaboRhythm.core.controller
 
         private function getAccountInformation():void
         {
-            var accountInformationHealthRecordService:AccountInformationHealthRecordService = new AccountInformationHealthRecordService(_settings.oauthChromeConsumerKey, _settings.oauthChromeConsumerSecret, _settings.indivoServerBaseURL, _activeAccount);
+            var accountInformationHealthRecordService:AccountInformationHealthRecordService = new AccountInformationHealthRecordService(_settings.oauthChromeConsumerKey,
+                                                                                                                                        _settings.oauthChromeConsumerSecret,
+                                                                                                                                        _settings.indivoServerBaseURL,
+                                                                                                                                        _activeAccount);
             accountInformationHealthRecordService.retrieveAccountInformation(_activeAccount);
         }
 
@@ -245,7 +279,8 @@ package collaboRhythm.core.controller
             var recordsHealthRecordService:RecordsHealthRecordService = new RecordsHealthRecordService(_settings.oauthChromeConsumerKey,
                                                                                                        _settings.oauthChromeConsumerSecret,
                                                                                                        _settings.indivoServerBaseURL,
-                                                                                                       _activeAccount, _settings);
+                                                                                                       _activeAccount,
+                                                                                                       _settings);
             recordsHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE,
                                                         getRecordsCompleteHandler);
             recordsHealthRecordService.getRecords();
@@ -380,18 +415,18 @@ package collaboRhythm.core.controller
             _logger.info("  Number of registered AppControllerInfo objects (apps): " + (array ? array.length : 0));
 
             if (_reloadWithRecordAccount)
-            openRecordAccount(_reloadWithRecordAccount);
+                openRecordAccount(_reloadWithRecordAccount);
         }
 
         protected function get appControllersMediator():AppControllersMediatorBase
-		{
+        {
             throw new Error("virtual function must be overridden in subclass");
-		}
+        }
 
         protected function changeDemoDate():void
-		{
+        {
             throw new Error("virtual function must be overridden in subclass");
-		}
+        }
 
         public function get settingsFileStore():SettingsFileStore
         {

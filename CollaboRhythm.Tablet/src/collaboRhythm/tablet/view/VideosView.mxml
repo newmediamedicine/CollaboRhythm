@@ -17,41 +17,49 @@
   -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
+         xmlns:mx="library://ns.adobe.com/flex/mx"
          xmlns:view="collaboRhythm.tablet.view.*"
-		 height="100%" width="100%"
-                  addedToStage="addedToStage()"
+         xmlns:sharedViews="collaboRhythm.shared.view.*"
+         height="100%" width="100%"
+         addedToStage="addedToStage()"
          removedFromStage="removedFromStage()"
-        creationComplete="creationCompleteHandler()">
+         creationComplete="creationCompleteHandler()">
     <fx:Script>
         <![CDATA[
         import collaboRhythm.shared.model.Account;
+        import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
         import collaboRhythm.shared.model.VideoMessage;
         import collaboRhythm.tablet.controller.TabletApplicationController;
+
+        import mx.collections.ArrayCollection;
+
+        import mx.logging.ILogger;
+        import mx.logging.Log;
+
+        import spark.events.IndexChangeEvent;
 
         private var _tabletApplicationController:TabletApplicationController;
         [Bindable]
         private var _recordAccount:Account;
-        private var _netConnection:NetConnection;
+        [Bindable]
+        private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
         private var _netStream:NetStream;
+        private var _logger:ILogger;
+        private const _videoMessagesCollection:ArrayCollection = new ArrayCollection();
 
         public function init(tabletApplicationController:TabletApplicationController, recordAccount:Account):void
         {
             _tabletApplicationController = tabletApplicationController;
             _recordAccount = recordAccount;
-            videosList.addEventListener(VideosViewEvent.PLAY_VIDEO_MESSAGE,  playVideoMessageHandler);
+            videosList.addEventListener(VideosViewEvent.PLAY_VIDEO_MESSAGE, playVideoMessageHandler);
             videosList.addEventListener(VideosViewEvent.DELETE_VIDEO_MESSAGE, deleteVideoMessageHandler);
+
+            _logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
         }
 
         private function creationCompleteHandler():void
         {
-            _netConnection = _tabletApplicationController.collaborationController.collaborationModel.collaborationLobbyNetConnectionService.netConnection;
-            _netStream = new NetStream(_netConnection);
-            _netStream.client = {};
-            _netStream.client.onMetaData = handleMetaData;
-            // TODO: Determine why attaching the net stream does not work unless a null camera is first attached
-            videoDisplay.attachCamera(null);
-            videoDisplay.mx_internal::videoPlayer.attachNetStream(_netStream);
+            _collaborationLobbyNetConnectionService = _tabletApplicationController.collaborationController.collaborationModel.collaborationLobbyNetConnectionService;
         }
 
         private function stage_keyDownHandler(event:KeyboardEvent):void
@@ -60,6 +68,10 @@
             {
                 event.preventDefault();
                 event.stopImmediatePropagation();
+                if (_netStream)
+                {
+                    _netStream.close();
+                }
                 _tabletApplicationController.activeRecordView.fullViewsGroup.removeElement(this);
             }
         }
@@ -79,7 +91,10 @@
             var videoMessage:VideoMessage = event.videoMessage;
             var fileNumber:int = videoMessage.fileId;
             var netStreamLocation:String = _recordAccount.accountId + "/" + fileNumber;
-            _netStream.play(netStreamLocation);
+            if (videoDisplay.netStream)
+            {
+                videoDisplay.play(netStreamLocation);
+            }
         }
 
         private function deleteVideoMessageHandler(event:VideosViewEvent):void
@@ -91,6 +106,24 @@
         {
             // TODO: Use the playhead visualization used in recording videos
         }
+
+        private function connectedChangeHandler(isConnected:Boolean):Boolean
+        {
+            if (isConnected)
+            {
+                _netStream = new NetStream(_collaborationLobbyNetConnectionService.netConnection);
+                videoDisplay.netStream = _netStream;
+            }
+
+            return isConnected;
+        }
+
+        private function netStreamStatusHandler(event:NetStatusEvent):void
+        {
+            _logger.info(event.info.code);
+            _videoMessagesCollection.addItem(event.info.code);
+        }
+
         ]]>
     </fx:Script>
     <s:Rect width="100%" height="100%">
@@ -103,9 +136,13 @@
                 width="40%" height="100%"
                 dataProvider="{_recordAccount.primaryRecord.videoMessagesModel.videoMessagesCollection}"
                 itemRenderer="collaboRhythm.tablet.view.VideoItemRenderer"
-                interactionMode="touch"/>
+                interactionMode="touch"
+                 enabled="{connectedChangeHandler(_collaborationLobbyNetConnectionService.isConnected)}"/>
         <s:Group width="60%" height="100%">
-            <mx:VideoDisplay id="videoDisplay" width="560" height="420" horizontalCenter="0" verticalCenter="0"/>
+            <s:List id="videoFeedbackList"
+                    width="100%" height="100%"
+                    dataProvider="{_videoMessagesCollection}"/>
+            <sharedViews:VideoPlayer id="videoDisplay" width="560" height="420" horizontalCenter="0" verticalCenter="0"/>
         </s:Group>
     </s:HGroup>
 </s:Group>
