@@ -28,7 +28,7 @@ package collaboRhythm.shared.model
 		private var _dateUntil:Date;
 		private var _count:int;
 		
-//		TODO: Implement with choice of dateTimeUntil or count
+//		TODO: Implement with choice of dateUntil or count
 		public function RecurrenceRule(recurrenceRuleXml:XML)
 		{
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";

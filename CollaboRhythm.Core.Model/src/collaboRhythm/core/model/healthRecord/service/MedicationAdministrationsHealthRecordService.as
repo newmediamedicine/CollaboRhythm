@@ -94,7 +94,8 @@ package collaboRhythm.core.model.healthRecord.service
             medicationAdministration.dateReported = collaboRhythm.shared.model.DateUtil.parseW3CDTF(medicationAdministrationXml.dateReported.toString());
 			medicationAdministration.dateAdministered = collaboRhythm.shared.model.DateUtil.parseW3CDTF(medicationAdministrationXml.dateAdministered.toString());
             medicationAdministration.amountAdministered = new ValueAndUnit(medicationAdministrationXml.amountAdministered.value, HealthRecordHelperMethods.xmlToCodedValue(medicationAdministrationXml.amountAdministered.unit[0]));
-            medicationAdministration.amountRemaining = new ValueAndUnit(medicationAdministrationXml.amountRemaining.value, HealthRecordHelperMethods.xmlToCodedValue(medicationAdministrationXml.amountRemaining.unit[0]));
+            if (medicationAdministrationXml.amountRemaining[0])
+				medicationAdministration.amountRemaining = new ValueAndUnit(medicationAdministrationXml.amountRemaining.value, HealthRecordHelperMethods.xmlToCodedValue(medicationAdministrationXml.amountRemaining.unit[0]));
 		}
 
 		public function convertToXML(medicationAdministration:MedicationAdministration):XML

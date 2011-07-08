@@ -15,22 +15,19 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 width="100%" height="100%"
-		 creationComplete="creationCompleteHandler()"
-		 mouseEnabledWhereTransparent="false"
-		 click="clickHandler(event)">
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
-	<fx:Script>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:mx="library://ns.adobe.com/flex/mx"
+         width="100%" height="100%"
+         creationComplete="creationCompleteHandler()"
+         mouseEnabledWhereTransparent="false"
+         click="clickHandler(event)">
+    <fx:Declarations>
+        <!-- Place non-visual elements (e.g., services, value objects) here -->
+    </fx:Declarations>
+    <fx:Script>
 		<![CDATA[
-        import collaboRhythm.plugins.schedule.shared.model.AdherenceGroup;
-        import collaboRhythm.plugins.schedule.shared.model.MoveData;
         import collaboRhythm.plugins.schedule.model.ScheduleGroup;
-        import collaboRhythm.shared.model.ScheduleItemBase;
         import collaboRhythm.plugins.schedule.model.ScheduleModel;
         import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
         import collaboRhythm.shared.model.ScheduleItemOccurrence;
@@ -40,10 +37,12 @@
         import mx.binding.utils.BindingUtils;
         import mx.binding.utils.ChangeWatcher;
         import mx.collections.ArrayCollection;
-        import mx.core.IVisualElement;
         import mx.events.CollectionEvent;
         import mx.events.CollectionEventKind;
 
+        import spark.components.Group;
+
+        private var _scheduleModel:ScheduleModel;
         [Bindable]
         private var _scheduleGroup:ScheduleGroup;
         [Bindable]
@@ -53,19 +52,21 @@
 
         private var _isCreationComplete:Boolean = false;
 
-        public function init(scheduleGroup:ScheduleGroup, scheduleGroupsContainer:Group):void
+        public function init(scheduleModel:ScheduleModel, scheduleGroup:ScheduleGroup,
+                             scheduleGroupsContainer:Group):void
         {
+            _scheduleModel = scheduleModel;
             _scheduleGroup = scheduleGroup;
             _scheduleGroupsContainer = scheduleGroupsContainer;
-            _scheduleItemsCollection = scheduleGroup.scheduleItemsCollection;
+            _scheduleItemsCollection = scheduleGroup.scheduleItemsOccurrencesCollection;
 
             _scheduleItemsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
                                                       scheduleItemsCollectionChangeHandler);
 
-            var dateTimeStartChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroup,
-                                                                                   "dateTimeStart");
-            var dateTimeEndChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroup,
-                                                                                 "dateTimeEnd");
+            var dateStartChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroup,
+                                                                               "dateStart");
+            var dateEndChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroup,
+                                                                             "dateEnd");
             var widthChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroupsContainer,
                                                                            "width");
             var heightChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroupsContainer,
@@ -121,13 +122,22 @@
 
         public function createScheduleItemClockView(scheduleItemOccurrence:ScheduleItemOccurrence):void
         {
-            var scheduleItemClockView:ScheduleItemClockViewBase = _scheduleGroup.scheduleModel.viewFactory.createScheduleItemClockView(scheduleItemOccurrence, scheduleItemOccurrencesContainer);
+            var scheduleItemClockView:ScheduleItemClockViewBase = _scheduleModel.viewFactory.createScheduleItemClockView(scheduleItemOccurrence);
             scheduleItemOccurrencesContainer.addElement(scheduleItemClockView);
             _scheduleItemClockViews.push(scheduleItemClockView);
         }
 
         public function destroyScheduleItemClockView(scheduleItemOccurrence:ScheduleItemOccurrence):void
         {
+            for each (var scheduleItemClockView:ScheduleItemClockViewBase in _scheduleItemClockViews)
+            {
+                if (scheduleItemClockView.scheduleItemOccurrence == scheduleItemOccurrence)
+                {
+                    var scheduleItemClockViewIndex:int = _scheduleItemClockViews.indexOf(scheduleItemClockView);
+                    _scheduleItemClockViews.splice(scheduleItemClockViewIndex, 1);
+                    scheduleItemOccurrencesContainer.removeElement(scheduleItemClockView);
+                }
+            }
 
         }
 
@@ -146,8 +156,8 @@
 
         private function updateView():void
         {
-            var startAngle:Number = calculateAngleFromDate(_scheduleGroup.dateTimeStart);
-            var endAngle:Number = calculateAngleFromDate(_scheduleGroup.dateTimeEnd);
+            var startAngle:Number = calculateAngleFromDate(_scheduleGroup.dateStart);
+            var endAngle:Number = calculateAngleFromDate(_scheduleGroup.dateEnd);
 
             drawScheduleGroup(startAngle, endAngle);
 
@@ -231,10 +241,10 @@
 
         protected function clickHandler(event:MouseEvent):void
         {
-            dispatchEvent(new ScheduleWidgetViewEvent(ScheduleWidgetViewEvent.SCHEDULE_GROUP_CLOCK_VIEW_CLICK,
-                                                      _scheduleGroup));
+            dispatchEvent(new ScheduleClockWidgetViewEvent(ScheduleClockWidgetViewEvent.SCHEDULE_GROUP_CLOCK_VIEW_CLICK,
+                                                           _scheduleGroup));
         }
         ]]>
 	</fx:Script>
-	<s:Group id="scheduleItemOccurrencesContainer" width="100%" height="100%" />
+    <s:Group id="scheduleItemOccurrencesContainer" width="100%" height="100%"/>
 </s:Group>

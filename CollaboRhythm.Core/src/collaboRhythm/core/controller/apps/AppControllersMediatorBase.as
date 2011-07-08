@@ -33,7 +33,7 @@ package collaboRhythm.core.controller.apps
     import collaboRhythm.shared.controller.apps.AppControllerInfo;
     import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
     import collaboRhythm.shared.controller.apps.WorkstationAppControllerFactory;
-    import collaboRhythm.shared.controller.apps.WorkstationAppEvent;
+    import collaboRhythm.shared.controller.apps.AppEvent;
     import collaboRhythm.shared.model.*;
     import collaboRhythm.shared.model.services.IComponentContainer;
     import collaboRhythm.shared.model.settings.AppGroupDescriptor;
@@ -313,12 +313,12 @@ package collaboRhythm.core.controller.apps
 			if (appName == null)
 				throw new Error("appName must not be null; app controller should override defaultName property");
 
-			app.addEventListener(WorkstationAppEvent.SHOW_FULL_VIEW, showFullViewHandler);
+			app.addEventListener(AppEvent.SHOW_FULL_VIEW, showFullViewHandler);
 			_workstationApps.addKeyValue(appName, app);
 			return app;
 		}
 
-		private function showFullViewHandler(event:WorkstationAppEvent):void
+		private function showFullViewHandler(event:AppEvent):void
 		{
 			if (event.workstationAppController == null)
 			{

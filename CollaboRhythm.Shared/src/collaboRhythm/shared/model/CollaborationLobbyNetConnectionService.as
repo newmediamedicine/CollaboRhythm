@@ -145,6 +145,10 @@ package collaboRhythm.shared.model
                 case "NetConnection.Connect.Failed":
                     logger.info("Connecting to Collaboration Lobby - FAILED");
                     break;
+                case "NetConnection.Connect.Closed":
+                    logger.info("Connection to Collaboration Lobby - CLOSED");
+                    isConnected = false;
+                    break;
             }
 		}
 

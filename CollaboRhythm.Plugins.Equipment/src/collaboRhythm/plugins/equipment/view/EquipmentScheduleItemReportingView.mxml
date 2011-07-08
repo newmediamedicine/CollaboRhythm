@@ -47,64 +47,70 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
-		import collaboRhythm.shared.model.healthRecord.CodedValue;
-		import collaboRhythm.shared.model.Equipment;
-		import collaboRhythm.shared.model.EquipmentScheduleItem;
-		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
-		import collaboRhythm.shared.model.ScheduleItemBase;
-		import collaboRhythm.shared.model.ScheduleItemOccurrence;
-		import collaboRhythm.shared.model.services.ICurrentDateSource;
-		import collaboRhythm.shared.model.services.WorkstationKernel;
+        import collaboRhythm.shared.model.CodedValue;
+        import collaboRhythm.shared.model.Equipment;
+        import collaboRhythm.shared.model.EquipmentScheduleItem;
+        import collaboRhythm.shared.model.AdherenceItem;
+        import collaboRhythm.shared.model.ScheduleItemBase;
+        import collaboRhythm.shared.model.ScheduleItemOccurrence;
+        import collaboRhythm.shared.model.services.ICurrentDateSource;
+        import collaboRhythm.shared.model.services.WorkstationKernel;
 
-		[Bindable]
-		private var _equipment:Equipment;
-		[Bindable]
-		private var _equipmentScheduleItem:EquipmentScheduleItem;
-		private var _bloodPressureReportingView:BloodPressureReportingView;
+        [Bindable]
+        private var _equipment:Equipment;
+        [Bindable]
+        private var _equipmentScheduleItem:EquipmentScheduleItem;
+        private var _bloodPressureReportingView:BloodPressureReportingView;
 
-		private var _currentDateSource:ICurrentDateSource;
+        private var _currentDateSource:ICurrentDateSource;
 
-		public override function init(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):void
-		{
-			super.init(scheduleItemOccurrence, parentGroup);
-			_equipmentScheduleItem = scheduleItemOccurrence.scheduleItem as EquipmentScheduleItem;
-			_equipment = _equipmentScheduleItem.scheduledEquipment;
+        public override function init(scheduleItemOccurrence:ScheduleItemOccurrence):void
+        {
+            super.init(scheduleItemOccurrence);
+            _equipmentScheduleItem = scheduleItemOccurrence.scheduleItem as EquipmentScheduleItem;
+            _equipment = _equipmentScheduleItem.scheduledEquipment;
 
-			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
-		}
+            _currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+        }
 
-		public override function get scheduleItem():ScheduleItemBase
-		{
-			return _equipmentScheduleItem
-		}
+        public override function get scheduleItem():ScheduleItemBase
+        {
+            return _equipmentScheduleItem
+        }
 
-		public function get equipment():Equipment
-		{
-			return _equipment;
-		}
+        public function get equipment():Equipment
+        {
+            return _equipment;
+        }
 
-		public function set equipment(value:Equipment):void
-		{
-			_equipment = value;
-		}
+        public function set equipment(value:Equipment):void
+        {
+            _equipment = value;
+        }
 
-		public function get equipmentScheduleItem():EquipmentScheduleItem
-		{
-			return _equipmentScheduleItem;
-		}
+        public function get equipmentScheduleItem():EquipmentScheduleItem
+        {
+            return _equipmentScheduleItem;
+        }
 
-		public function set equipmentScheduleItem(value:EquipmentScheduleItem):void
-		{
-			_equipmentScheduleItem = value;
-		}
+        public function set equipmentScheduleItem(value:EquipmentScheduleItem):void
+        {
+            _equipmentScheduleItem = value;
+        }
 
-		private function adherenceButtonClickHandler(event:MouseEvent):void
-		{
-			_bloodPressureReportingView = new BloodPressureReportingView();
-			_bloodPressureReportingView.percentWidth = 100;
-			_bloodPressureReportingView.percentHeight = 100;
-			_bloodPressureReportingView.init(this);
-			_parentGroup.addElement(_bloodPressureReportingView);
+        private function adherenceButtonClickHandler(event:MouseEvent):void
+        {
+            var adherenceItem:AdherenceItem = new AdherenceItem();
+            var name:CodedValue = new CodedValue();
+            name.text = _equipment.name;
+            adherenceItem.init(name, "rpoole@records.media.mit.edu", _currentDateSource.now(),
+                               scheduleItemOccurrence.recurrenceIndex, true);
+
+            var bloodPressureReportingView:BloodPressureReportingView = new BloodPressureReportingView();
+            bloodPressureReportingView.init(_scheduleItemOccurrence, adherenceItem);
+            dispatchAdherenceItemIncompleteEvent(bloodPressureReportingView);
+
+
 //				var vitalSign:VitalSign = new VitalSign();
 //				vitalSign.init(_equipment.name, "gwhite@records.media.mit.edu", new Date(), new Date(), _equipment.dose);
 //				var adherenceItem:AdherenceItem = new AdherenceItem();
@@ -112,32 +118,32 @@
 //				adherenceItem.adherenceResult = vitalSign;
 //				
 //				dispatchAdherenceItemEvent(adherenceItem);
-		}
+        }
 
-		public function bloodPressureReportingResult(systolic:String, diastolic:String, heartRate:String):void
-		{
-			_parentGroup.removeElement(_bloodPressureReportingView);
-			var adherenceItem:AdherenceItem = new AdherenceItem();
-			var name:CodedValue = new CodedValue();
-			name.text = _equipment.name;
-			//TODO: add vital sign
-			adherenceItem.init(name, "rpoole@records.media.mit.edu", _currentDateSource.now(),
-							   scheduleItemOccurrence.recurrenceIndex, true);
+        public function bloodPressureReportingResult(systolic:String, diastolic:String, heartRate:String):void
+        {
 
-			dispatchAdherenceItemEvent(adherenceItem);
-		}
+            var adherenceItem:AdherenceItem = new AdherenceItem();
+            var name:CodedValue = new CodedValue();
+            name.text = _equipment.name;
+            //TODO: add vital sign
+            adherenceItem.init(name, "rpoole@records.media.mit.edu", _currentDateSource.now(),
+                               scheduleItemOccurrence.recurrenceIndex, true);
 
-		private function nonadherenceButtonClickHandler(event:MouseEvent):void
-		{
-			var adherenceItem:AdherenceItem = new AdherenceItem();
-			var name:CodedValue = new CodedValue();
-			name.text = _equipment.name;
-			adherenceItem.init(name, "rpoole@records.media.mit.edu", _currentDateSource.now(),
-							   scheduleItemOccurrence.recurrenceIndex, false);
+            dispatchAdherenceItemCompleteEvent(adherenceItem);
+        }
 
-			dispatchAdherenceItemEvent(adherenceItem);
-		}
-		]]>
+        private function nonadherenceButtonClickHandler(event:MouseEvent):void
+        {
+            var adherenceItem:AdherenceItem = new AdherenceItem();
+            var name:CodedValue = new CodedValue();
+            name.text = _equipment.name;
+            adherenceItem.init(name, "rpoole@records.media.mit.edu", _currentDateSource.now(),
+                               scheduleItemOccurrence.recurrenceIndex, false);
+
+            dispatchAdherenceItemCompleteEvent(adherenceItem);
+        }
+        ]]>
 	</fx:Script>
 	<s:Group id="med" width="100%" height="100%" enabled="{!_scheduleItemOccurrence.adherenceItem}">
 		<s:Rect id="background" width="100%" height="100%">

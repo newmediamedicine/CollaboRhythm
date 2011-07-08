@@ -24,33 +24,39 @@ package collaboRhythm.shared.model
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
     import collaboRhythm.shared.model.services.WorkstationKernel;
 
+    import collaboRhythm.shared.model.DateUtil;
+
+    import com.adobe.utils.DateUtil;
+
     import j2as3.collection.HashMap;
 
     [Bindable]
-	public class ScheduleItemBase extends DocumentMetadata
-	{
+    public class ScheduleItemBase extends DocumentMetadata
+    {
         public static const DAILY:String = "DAILY";
 
         private var _scheduleItemXml:XML;
-		private var _name:CodedValue;
-		private var _scheduledBy:String;
-		private var _dateScheduled:Date;
+        private var _name:CodedValue;
+        private var _scheduledBy:String;
+        private var _dateScheduled:Date;
         private var _dateStart:Date;
         private var _dateEnd:Date;
         private var _recurrenceRule:RecurrenceRule;
-		private var _instructions:String;
+        private var _instructions:String;
         private var _adherenceItems:HashMap = new HashMap();
 
         private var _currentDateSource:ICurrentDateSource;
 
-		public function ScheduleItemBase():void
-		{
+        public function ScheduleItemBase():void
+        {
             _currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
-		}
+        }
 
-        public function init(name:CodedValue, scheduledBy:String, dateScheduled:Date, dateStart:Date, dateEnd:Date = null, recurrenceRule:RecurrenceRule = null, instructions:String = null, adherenceItems:HashMap = null):void
-		{
-			_name = name;
+        public function init(name:CodedValue, scheduledBy:String, dateScheduled:Date, dateStart:Date,
+                             dateEnd:Date = null, recurrenceRule:RecurrenceRule = null, instructions:String = null,
+                             adherenceItems:HashMap = null):void
+        {
+            _name = name;
             _scheduledBy = scheduledBy;
             _dateScheduled = dateScheduled;
             _dateStart = dateStart;
@@ -58,50 +64,111 @@ package collaboRhythm.shared.model
             _recurrenceRule = recurrenceRule;
             _instructions = instructions;
             _adherenceItems = adherenceItems;
-		}
+        }
 
-		public function initFromReportXML(scheduleItemReportXml:XML, scheduleItemElementName:String):void
-		{
-//			default xml namespace = DocumentMetadata.INDIVO_DOCUMENTS_NAMESPACE;
+        public function initFromReportXML(scheduleItemReportXml:XML, scheduleItemElementName:String):void
+        {
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
-			parseDocumentMetadata(scheduleItemReportXml.Meta.Document[0], this);
-//            _scheduleItemXml = scheduleItemReportXml.Item.elements(scheduleItemElementName)[0];
-            if (scheduleItemElementName == "MedicationScheduleItem")
-				_scheduleItemXml = scheduleItemReportXml.Item.MedicationScheduleItem[0];
-			else
-				_scheduleItemXml = scheduleItemReportXml.Item.EquipmentScheduleItem[0];
-
-			_name = HealthRecordHelperMethods.xmlToCodedValue(_scheduleItemXml.name[0]);
-			_scheduledBy = _scheduleItemXml.scheduledBy;
-			_dateScheduled = DateUtil.parseW3CDTF(_scheduleItemXml.dateScheduled.toString());
-            _dateStart = DateUtil.parseW3CDTF(_scheduleItemXml.dateStart.toString());
-            _dateEnd = DateUtil.parseW3CDTF(_scheduleItemXml.dateEnd.toString());
+            parseDocumentMetadata(scheduleItemReportXml.Meta.Document[0], this);
+            _scheduleItemXml = scheduleItemReportXml.Item.elements(scheduleItemElementName)[0];
+            _name = HealthRecordHelperMethods.xmlToCodedValue(_scheduleItemXml.name[0]);
+            _scheduledBy = _scheduleItemXml.scheduledBy;
+            _dateScheduled = collaboRhythm.shared.model.DateUtil.parseW3CDTF(_scheduleItemXml.dateScheduled.toString());
+            _dateStart = collaboRhythm.shared.model.DateUtil.parseW3CDTF(_scheduleItemXml.dateStart.toString());
+            _dateEnd = collaboRhythm.shared.model.DateUtil.parseW3CDTF(_scheduleItemXml.dateEnd.toString());
             _recurrenceRule = new RecurrenceRule(_scheduleItemXml.recurrenceRule[0]);
-			_instructions = _scheduleItemXml.instructions;
+            _instructions = _scheduleItemXml.instructions;
             for each (var adherenceItemXml:XML in scheduleItemReportXml..relatesTo.relation.(@type == "http://indivo.org/vocab/documentrels#adherenceItem").relatedDocument)
             {
                 _adherenceItems[adherenceItemXml.@id] = null;
             }
-		}
+        }
 
-        public function getScheduleItemOccurrences(dateStart:Date, dateEnd:Date):Vector.<ScheduleItemOccurrence>
+        public function createXmlDocument():XML
         {
-            //TODO: Implement for the case that the recurrence rule uses until instead of count
-            var scheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
+            throw new Error("virtual function must be overridden in subclass");
+        }
+
+        public function addExtraXml(scheduleItemXml:XML):XML
+        {
+            throw new Error("virtual function must be overridden in subclass");
+        }
+
+        public function schedueItemType():String
+        {
+            throw new Error("virtual function must be overridden in subclass");
+        }
+
+        public function convertToXML():XML
+        {
+            var scheduleItemXml:XML = createXmlDocument();
+            scheduleItemXml.@xmlns = "http://indivo.org/vocab/xml/documents#";
+            scheduleItemXml.name = name.text;
+            scheduleItemXml.name.@type = name.type;
+            scheduleItemXml.name.@value = name.value;
+            scheduleItemXml.name.@abbrev = name.abbrev;
+            scheduleItemXml.scheduledBy = scheduledBy;
+            scheduleItemXml.dateScheduled = com.adobe.utils.DateUtil.toW3CDTF(dateScheduled);
+            scheduleItemXml.dateStart = com.adobe.utils.DateUtil.toW3CDTF(dateStart);
+            scheduleItemXml.dateEnd = com.adobe.utils.DateUtil.toW3CDTF(dateEnd);
+            scheduleItemXml.recurrenceRule.frequency = recurrenceRule.frequency.text;
+            scheduleItemXml.recurrenceRule.frequency.@type = recurrenceRule.frequency.type;
+            scheduleItemXml.recurrenceRule.frequency.@value = recurrenceRule.frequency.value;
+            scheduleItemXml.recurrenceRule.frequency.@abbrev = recurrenceRule.frequency.abbrev;
+            scheduleItemXml.recurrenceRule.count = recurrenceRule.count;
+            scheduleItemXml = addExtraXml(scheduleItemXml);
+            scheduleItemXml.instructions = instructions;
+
+            return scheduleItemXml;
+        }
+
+        public function rescheduledItem(dateStart:Date, dateEnd:Date):XML
+        {
+            var scheduleItemXml:XML = convertToXML();
+            scheduleItemXml.dateStart = com.adobe.utils.DateUtil.toW3CDTF(dateStart);
+            scheduleItemXml.dateEnd = com.adobe.utils.DateUtil.toW3CDTF(dateEnd);
+            scheduleItemXml.recurrenceRule.count = updateCount(this.dateStart, dateStart);
+
+            return scheduleItemXml;
+        }
+
+        private function getFrequencyMilliseconds(frequency:String):int
+        {
             var frequencyMilliseconds:int;
-            switch (_recurrenceRule.frequency.text)
+            switch (frequency)
             {
                 case DAILY:
                     frequencyMilliseconds = 24 * 60 * 60 * 1000;
                     break;
             }
+            return frequencyMilliseconds;
+        }
+
+        private function updateCount(dateStart:Date, dateStartUpdated:Date):int
+        {
+            var countCompleted:int = Math.floor((dateStartUpdated.time - dateStart.time) / getFrequencyMilliseconds(_recurrenceRule.frequency.text));
+            return _recurrenceRule.count - countCompleted;
+        }
+
+        public function getScheduleActionId():String
+        {
+            throw new Error("virtual function must be overridden in subclass");
+        }
+
+        public function getScheduleItemOccurrences(dateStart:Date, dateEnd:Date):Vector.<ScheduleItemOccurrence>
+        {
+            //TODO: Implement for the case that the recurrence rule uses until instead of count
+            var scheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
+            var frequencyMilliseconds:int = getFrequencyMilliseconds(_recurrenceRule.frequency.text);
             for (var recurrenceIndex:int = 0; recurrenceIndex < _recurrenceRule.count; recurrenceIndex++)
             {
                 var occurrenceDateStart:Date = new Date(_dateStart.time + frequencyMilliseconds * recurrenceIndex);
-                if (occurrenceDateStart.time > dateStart.time && occurrenceDateStart.time < dateEnd.time)
+                if (occurrenceDateStart.time >= dateStart.time && occurrenceDateStart.time <= dateEnd.time)
                 {
                     var occurrenceDateEnd:Date = new Date(_dateEnd.time + frequencyMilliseconds * recurrenceIndex);
-                    var scheduleItemOccurrence:ScheduleItemOccurrence = new ScheduleItemOccurrence(occurrenceDateStart, occurrenceDateEnd, recurrenceIndex);
+                    var scheduleItemOccurrence:ScheduleItemOccurrence = new ScheduleItemOccurrence(occurrenceDateStart,
+                                                                                                   occurrenceDateEnd,
+                                                                                                   recurrenceIndex);
                     for each (var adherenceItem:AdherenceItem in _adherenceItems)
                     {
                         if (adherenceItem.recurrenceIndex == recurrenceIndex)
@@ -115,29 +182,7 @@ package collaboRhythm.shared.model
             return scheduleItemOccurrencesVector;
         }
 
-//		public function createScheduleItemClockView():ScheduleItemClockViewBase
-//		{
-//			// to be implemented by subclasses
-//			var scheduleItemClockView:ScheduleItemClockViewBase = new ScheduleItemClockViewBase();
-//			return scheduleItemClockView;
-//		}
-//
-//		public function createScheduleItemReportingView():ScheduleItemReportingViewBase
-//		{
-//			// to be implemented by subclasses
-//			var scheduleItemWidgetView:ScheduleItemReportingViewBase = new ScheduleItemReportingViewBase();
-//			return scheduleItemWidgetView;
-//		}
-//
-//		public function createScheduleItemTimelineView():ScheduleItemTimelineViewBase
-//		{
-//			// to be implemented by subclasses
-//			var scheduleItemFullView:ScheduleItemTimelineViewBase = new ScheduleItemTimelineViewBase();
-//			return scheduleItemFullView;
-//		}
-
-
-        public function get scheduleItemXml():XML
+       public function get scheduleItemXml():XML
         {
             return _scheduleItemXml;
         }
@@ -226,15 +271,5 @@ package collaboRhythm.shared.model
         {
             _adherenceItems = value;
         }
-
-//        public function get recurrenceIndex():int
-//        {
-//            _currentDateSource.now();
-//        }
-//
-//        public function set recurrenceIndex(value:int):void
-//        {
-//
-//        }
     }
 }

@@ -19,69 +19,83 @@ package collaboRhythm.core.controller
 
 	import castle.flexbridge.kernel.IKernel;
 
-	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
+    import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
+    import collaboRhythm.core.model.ApplicationControllerModel;
 	import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
-	import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
-	import collaboRhythm.core.pluginsManagement.PluginLoader;
-	import collaboRhythm.shared.controller.CollaborationController;
-	import collaboRhythm.shared.controller.apps.AppControllerInfo;
-	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.Record;
-	import collaboRhythm.shared.model.healthRecord.AccountInformationHealthRecordService;
-	import collaboRhythm.shared.model.healthRecord.CreateSessionHealthRecordService;
-	import collaboRhythm.shared.model.healthRecord.DemographicsHealthRecordService;
-	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
-	import collaboRhythm.shared.model.healthRecord.RecordsHealthRecordService;
-	import collaboRhythm.shared.model.healthRecord.SharesHealthRecordService;
-	import collaboRhythm.shared.model.services.DemoCurrentDateSource;
-	import collaboRhythm.shared.model.services.IComponentContainer;
-	import collaboRhythm.shared.model.services.ICurrentDateSource;
-	import collaboRhythm.shared.model.services.WorkstationKernel;
-	import collaboRhythm.shared.model.settings.Settings;
-	import collaboRhythm.shared.model.settings.SettingsFileStore;
-	import collaboRhythm.shared.view.CollaborationView;
+    import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
+    import collaboRhythm.core.pluginsManagement.PluginLoader;
+    import collaboRhythm.shared.controller.CollaborationController;
+    import collaboRhythm.shared.controller.apps.AppControllerInfo;
+    import collaboRhythm.shared.model.Account;
+    import collaboRhythm.shared.model.healthRecord.AccountInformationHealthRecordService;
+    import collaboRhythm.shared.model.healthRecord.CreateSessionHealthRecordService;
+    import collaboRhythm.shared.model.healthRecord.DemographicsHealthRecordService;
+    import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
+    import collaboRhythm.shared.model.healthRecord.RecordsHealthRecordService;
+    import collaboRhythm.shared.model.healthRecord.SharesHealthRecordService;
+    import collaboRhythm.shared.model.services.DemoCurrentDateSource;
+    import collaboRhythm.shared.model.services.IComponentContainer;
+    import collaboRhythm.shared.model.services.ICurrentDateSource;
+    import collaboRhythm.shared.model.services.WorkstationKernel;
+    import collaboRhythm.shared.model.settings.Settings;
+    import collaboRhythm.shared.model.settings.SettingsFileStore;
+    import collaboRhythm.shared.view.CollaborationRoomView;
+    import collaboRhythm.shared.view.CollaborationView;
+    import collaboRhythm.shared.view.RecordVideoView;
 
-	import com.coltware.airxlib.log.FileTarget;
-	import com.coltware.airxlib.log.UDPSyslogTarget;
+    import com.coltware.airxlib.log.FileTarget;
+    import com.coltware.airxlib.log.TCPSyslogTarget;
+    import com.coltware.airxlib.log.UDPSyslogTarget;
+    import com.daveoncode.logging.LogFileTarget;
 
-	import flash.events.Event;
-	import flash.filesystem.File;
-	import flash.utils.getQualifiedClassName;
+    import flash.events.Event;
+    import flash.filesystem.File;
+    import flash.net.NetworkInfo;
+    import flash.net.NetworkInterface;
+    import flash.utils.getQualifiedClassName;
 
-	import mx.core.IVisualElementContainer;
-	import mx.logging.ILogger;
-	import mx.logging.Log;
-	import mx.logging.targets.TraceTarget;
+    import mx.core.IVisualElementContainer;
+    import mx.logging.ILogger;
+    import mx.logging.Log;
+    import mx.logging.LogEventLevel;
+    import mx.logging.targets.TraceTarget;
 
-	public class ApplicationControllerBase
-	{
-		private static const DEFAULT_SYSLOG_PORT:int = 514;
+    public class ApplicationControllerBase
+    {
+        private static const DEFAULT_SYSLOG_PORT:int = 1468;
 
-		protected var _kernel:IKernel;
-		protected var _settingsFileStore:SettingsFileStore;
-		protected var _settings:Settings;
-		protected var _activeAccount:Account;
-		protected var _activeRecordAccount:Account;
-		private var _collaborationController:CollaborationController;
-		protected var _logger:ILogger;
-		protected var _componentContainer:IComponentContainer;
-		protected var _pluginLoader:PluginLoader;
-		protected var _reloadWithRecordAccount:Account;
-		protected var _reloadWithFullView:String;
+        protected var _applicationControllerModel:ApplicationControllerModel;
+        protected var _kernel:IKernel;
+        protected var _settingsFileStore:SettingsFileStore;
+        protected var _settings:Settings;
+        protected var _hasActiveNetworkInterface:Boolean = false;
+        protected var _activeAccount:Account;
+        protected var _activeRecordAccount:Account;
+        private var _collaborationController:CollaborationController;
+        protected var _logger:ILogger;
+        protected var _componentContainer:IComponentContainer;
+        protected var _pluginLoader:PluginLoader;
+        protected var _reloadWithRecordAccount:Account;
+        protected var _reloadWithFullView:String;
 		protected var _healthRecordServiceFacade:HealthRecordServiceFacade;
 
 		public function ApplicationControllerBase()
 		{
 		}
 
-		// To be overridden by subclasses with the super method called at the beginning
-		// subclasses can then perform appropriate actions after settings, logging, and components have been initialized
-		public function main():void
-		{
-			initSettings();
+        // To be overridden by subclasses with the super method called at the beginning
+        // subclasses can then perform appropriate actions after settings, logging, and components have been initialized
+        public function main():void
+        {
+            _applicationControllerModel = new ApplicationControllerModel();
 
-			initLogging();
-			_logger.info("Logging initialized");
+            initSettings();
+
+            // TODO: provide feedback if there is not an active NetworkInterface
+            checkNetworkStatus();
+
+            initLogging();
+            _logger.info("Logging initialized");
 
 			// initSettings needs to be called prior to initLogging because the settings for logging need to be loaded first
 			_logger.info("Settings initialized");
@@ -108,22 +122,36 @@ package collaboRhythm.core.controller
 			_settings = _settingsFileStore.settings;
 		}
 
-		private function initLogging():void
-		{
-			// TODO: Determine what action is taken when the log file exceeds a certain size
-			// TODO: Handle exceptions is using a fileTarget, on several occasions an exception has occurred where the file is in use
-			// create a file target for logging if specified in the settings file
-			if (_settings.useFileTarget)
-			{
-				var fileTarget:FileTarget = new FileTarget();
-				// the file log will be stored in the application storage directory
-				fileTarget.directory = File.applicationStorageDirectory;
-				fileTarget.filename = "collaboRhythm.log";
-				// append the log information to the file rather than create a new file each time the application is run
-				fileTarget.append = true;
-				// add the file target to the log
-				Log.addTarget(fileTarget);
-			}
+        private function checkNetworkStatus():void
+        {
+            if (NetworkInfo.isSupported)
+            {
+                var networkInterfacesVector:Vector.<NetworkInterface> = NetworkInfo.networkInfo.findInterfaces();
+                for each (var networkInterface:NetworkInterface in networkInterfacesVector)
+                {
+                    if (networkInterface.active)
+                    {
+                        _hasActiveNetworkInterface = true;
+                    }
+                }
+            }
+        }
+
+        private function initLogging():void
+        {
+            // create a file target for logging if specified in the settings file
+            if (_settings.useFileTarget)
+            {
+                // The log file will be placed under applicationStorageDirectory folder
+                var path:String = File.applicationStorageDirectory.resolvePath("collaboRhythm.log").nativePath;
+                var targetFile:File = new File(path);
+                // get LogFileTarget's instance (LogFileTarget is a singleton)
+                var fileTarget:LogFileTarget = LogFileTarget.getInstance();
+                fileTarget.file = targetFile;
+                /* Log all log levels. */
+                fileTarget.level = LogEventLevel.ALL;
+                Log.addTarget(fileTarget);
+            }
 
 			// create a trace target for logging if specified in the settings file
 			if (_settings.useTraceTarget)
@@ -133,16 +161,17 @@ package collaboRhythm.core.controller
 				Log.addTarget(traceTarget);
 			}
 
-			// create a syslog target for logging if specified in the settings file and get the ip address from the settings file
-			// Kiwi Syslog server has a free version http://www.kiwisyslog.com/kiwi-syslog-server-overview/
-			// set the syslogServerIpAddress in your settings file to the IP address where the syslog server is running
-			if (_settings.useSyslogTarget)
-			{
-				var udpSyslogTarget:UDPSyslogTarget = new UDPSyslogTarget(_settings.syslogServerIpAddress,
-																		  DEFAULT_SYSLOG_PORT);
-				// add the syslog target to the log
-				Log.addTarget(udpSyslogTarget);
-			}
+            // TODO: The syslog target currently does not handle errors, download the source and update
+            // create a syslog target for logging if specified in the settings file and get the ip address from the settings file
+            // Kiwi Syslog server has a free version http://www.kiwisyslog.com/kiwi-syslog-server-overview/
+            // set the syslogServerIpAddress in your settings file to the IP address where the syslog server is running
+            if (_settings.useSyslogTarget)
+            {
+                var tcpSyslogTarget:TCPSyslogTarget = new TCPSyslogTarget(_settings.syslogServerIpAddress,
+                                                                          DEFAULT_SYSLOG_PORT);
+                // add the syslog target to the log
+                Log.addTarget(tcpSyslogTarget);
+            }
 
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 		}
@@ -183,26 +212,28 @@ package collaboRhythm.core.controller
 				collaborationView.init(_collaborationController);
 		}
 
-		/**
-		 * Method that should be called by subclasses to create a session with the Indivo backend server.
-		 */
-		protected function createSession():void
-		{
-			_logger.info("Creating session in Indivo...");
-			var createSessionHealthRecordService:CreateSessionHealthRecordService = new CreateSessionHealthRecordService(_settings.oauthChromeConsumerKey,
-																														 _settings.oauthChromeConsumerSecret,
-																														 _settings.indivoServerBaseURL,
-																														 _activeAccount);
-			createSessionHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE,
-															  createSessionSucceededHandler);
-			createSessionHealthRecordService.addEventListener(HealthRecordServiceEvent.ERROR,
-															  createSessionFailedHandler);
-			createSessionHealthRecordService.createSession(_settings.username, _settings.password);
-		}
+        /**
+         * Method that should be called by subclasses to create a session with the Indivo backend server.
+         */
+        protected function createSession():void
+        {
+            _logger.info("Creating session in Indivo...");
+            _applicationControllerModel.createSessionStatus = ApplicationControllerModel.CREATE_SESSION_STATUS_ATTEMPTING;
+            var createSessionHealthRecordService:CreateSessionHealthRecordService = new CreateSessionHealthRecordService(_settings.oauthChromeConsumerKey,
+                                                                                                                         _settings.oauthChromeConsumerSecret,
+                                                                                                                         _settings.indivoServerBaseURL,
+                                                                                                                         _activeAccount);
+            createSessionHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE,
+                                                              createSessionSucceededHandler);
+            createSessionHealthRecordService.addEventListener(HealthRecordServiceEvent.ERROR,
+                                                              createSessionFailedHandler);
+            createSessionHealthRecordService.createSession(_settings.username, _settings.password);
+        }
 
-		private function createSessionSucceededHandler(event:HealthRecordServiceEvent):void
-		{
-			_logger.info("Creating session in Indivo - SUCCEEDED");
+        private function createSessionSucceededHandler(event:HealthRecordServiceEvent):void
+        {
+            _logger.info("Creating session in Indivo - SUCCEEDED");
+            _applicationControllerModel.createSessionStatus = ApplicationControllerModel.CREATE_SESSION_STATUS_SUCCEEDED;
 
 			// get information for the account actively in session, this may be useful if accounts are implemented to have credentials, such as MD or RN
 			// currently it is not useful, so the function is never called
@@ -215,11 +246,12 @@ package collaboRhythm.core.controller
 			getRecords();
 		}
 
-		private function createSessionFailedHandler(event:HealthRecordServiceEvent):void
-		{
-			// TODO: add UI feedback for when creating a session fails
-			_logger.info("Creating session in Indivo - FAILED - " + event.errorStatus);
-		}
+        private function createSessionFailedHandler(event:HealthRecordServiceEvent):void
+        {
+            // TODO: add UI feedback for when creating a session fails
+            _logger.info("Creating session in Indivo - FAILED - " + event.errorStatus);
+            _applicationControllerModel.createSessionStatus = ApplicationControllerModel.CREATE_SESSION_STATUS_FAILED;
+        }
 
 		/**
 		 * Virtual method which subclasses should override to dictate what happens when the active account is opened
@@ -232,29 +264,25 @@ package collaboRhythm.core.controller
 
 		}
 
-		private function getAccountInformation():void
-		{
-			var accountInformationHealthRecordService:AccountInformationHealthRecordService = new AccountInformationHealthRecordService(_settings.oauthChromeConsumerKey,
-																																		_settings.oauthChromeConsumerSecret,
-																																		_settings.indivoServerBaseURL,
-																																		_activeAccount);
-			accountInformationHealthRecordService.retrieveAccountInformation(_activeAccount);
-		}
+        private function getAccountInformation():void
+        {
+            var accountInformationHealthRecordService:AccountInformationHealthRecordService = new AccountInformationHealthRecordService(_settings.oauthChromeConsumerKey, _settings.oauthChromeConsumerSecret, _settings.indivoServerBaseURL, _activeAccount);
+            accountInformationHealthRecordService.retrieveAccountInformation(_activeAccount);
+        }
 
 		// get the records for the account actively in session, this includes records that have been shared with the account
 		private function getRecords():void
 		{
 			_logger.info("Getting records from Indivo...");
 
-			var recordsHealthRecordService:RecordsHealthRecordService = new RecordsHealthRecordService(_settings.oauthChromeConsumerKey,
-																									   _settings.oauthChromeConsumerSecret,
-																									   _settings.indivoServerBaseURL,
-																									   _activeAccount,
-																									   _settings);
-			recordsHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE,
-														getRecordsCompleteHandler);
-			recordsHealthRecordService.getRecords();
-		}
+            var recordsHealthRecordService:RecordsHealthRecordService = new RecordsHealthRecordService(_settings.oauthChromeConsumerKey,
+                                                                                                       _settings.oauthChromeConsumerSecret,
+                                                                                                       _settings.indivoServerBaseURL,
+                                                                                                       _activeAccount, _settings);
+            recordsHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE,
+                                                        getRecordsCompleteHandler);
+            recordsHealthRecordService.getRecords();
+        }
 
 		private function getRecordsCompleteHandler(event:HealthRecordServiceEvent):void
 		{
@@ -384,18 +412,18 @@ package collaboRhythm.core.controller
 			var array:Array = _componentContainer.resolveAll(AppControllerInfo);
 			_logger.info("  Number of registered AppControllerInfo objects (apps): " + (array ? array.length : 0));
 
-			if (_reloadWithRecordAccount)
-				openRecordAccount(_reloadWithRecordAccount);
+            if (_reloadWithRecordAccount)
+            openRecordAccount(_reloadWithRecordAccount);
+        }
+
+        protected function get appControllersMediator():AppControllersMediatorBase
+		{
+            throw new Error("virtual function must be overridden in subclass");
 		}
 
-		protected function get appControllersMediator():AppControllersMediatorBase
+        protected function changeDemoDate():void
 		{
-			throw new Error("virtual function must be overridden in subclass");
-		}
-
-		protected function changeDemoDate():void
-		{
-			throw new Error("virtual function must be overridden in subclass");
+            throw new Error("virtual function must be overridden in subclass");
 		}
 
 		public function get settingsFileStore():SettingsFileStore

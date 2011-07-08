@@ -21,10 +21,12 @@ package collaboRhythm.plugins.schedule.shared.model
 	public class MoveData
 	{
 		private var _id:String;
-		private var _objectMouseX:Number;
-		private var _objectMouseY:Number;
-		private var _containerMouseX:Number;
-		private var _containerMouseY:Number;
+		private var _localX:Number;
+		private var _localY:Number;
+        private var _stageX:Number;
+        private var _stageY:Number;
+		private var _containerX:Number;
+		private var _containerY:Number;
 		private var _containerWidth:Number;
 		private var _containerHeight:Number;
 				
@@ -49,44 +51,64 @@ package collaboRhythm.plugins.schedule.shared.model
 			_id = value;
 		}
 		
-		public function get objectMouseX():Number
+		public function get localX():Number
 		{
-			return _objectMouseX;
+			return _localX;
 		}
 		
-		public function set objectMouseX(value:Number):void
+		public function set localX(value:Number):void
 		{
-			_objectMouseX = value;
+			_localX = value;
 		}
 		
-		public function get objectMouseY():Number
+		public function get localY():Number
 		{
-			return _objectMouseY;
+			return _localY;
 		}
 		
-		public function set objectMouseY(value:Number):void
+		public function set localY(value:Number):void
 		{
-			_objectMouseY = value;
+			_localY = value;
 		}
 
-		public function get containerMouseX():Number
+		public function get containerX():Number
 		{
-			return _containerMouseX;
+			return _containerX;
+		}
+
+        public function get stageX():Number
+        {
+            return _stageX;
+        }
+
+        public function set stageX(value:Number):void
+        {
+            _stageX = value;
+        }
+
+        public function get stageY():Number
+        {
+            return _stageY;
+        }
+
+        public function set stageY(value:Number):void
+        {
+            _stageY = value;
+        }
+
+        public function set containerX(value:Number):void
+		{
+			_containerX = value;
 		}
 		
-		public function set containerMouseX(value:Number):void
+		public function get containerY():Number
 		{
-			_containerMouseX = value;
+			return _containerY;
 		}
 		
-		public function get containerMouseY():Number
+		public function set containerY(value:Number):void
 		{
-			return _containerMouseY;
-		}
-		
-		public function set containerMouseY(value:Number):void
-		{
-			_containerMouseY = value;
+			_containerY = value;
 		}
 		
 		public function get containerWidth():Number

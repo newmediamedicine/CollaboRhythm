@@ -16,7 +16,6 @@
  */
 package collaboRhythm.shared.model
 {
-
     import mx.binding.utils.BindingUtils;
 
     public class MedicationOrderStitcher
@@ -82,8 +81,11 @@ package collaboRhythm.shared.model
                 for each (var scheduleItemId:String in medicationOrder.scheduleItems.keys)
                 {
                     var medicationScheduleItem:MedicationScheduleItem = _medicationScheduleItemsModel.medicationScheduleItems[scheduleItemId];
-                    medicationOrder.scheduleItems[scheduleItemId] = medicationScheduleItem;
-                    medicationScheduleItem.scheduledMedicationOrder = medicationOrder;
+                    if (medicationScheduleItem)
+                    {
+                        medicationOrder.scheduleItems[scheduleItemId] = medicationScheduleItem;
+                        medicationScheduleItem.scheduledMedicationOrder = medicationOrder;
+                    }
                 }
             }
             _medicationOrdersModel.isStitched = true;

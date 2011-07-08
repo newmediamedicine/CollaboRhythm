@@ -24,13 +24,17 @@ package collaboRhythm.shared.controller.apps
     import collaboRhythm.shared.model.settings.Settings;
     import collaboRhythm.shared.view.BitmapCopyComponent;
 
+    import flash.desktop.NativeApplication;
+
     import flash.display.BitmapData;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Stage;
 	import flash.events.EventDispatcher;
+    import flash.events.KeyboardEvent;
     import flash.events.MouseEvent;
     import flash.events.TransformGestureEvent;
     import flash.geom.Point;
+    import flash.ui.Keyboard;
     import flash.utils.getQualifiedClassName;
 
     import mx.controls.Image;
@@ -102,7 +106,22 @@ package collaboRhythm.shared.controller.apps
 			
 			if (widgetView)
 				showWidgetAsDraggable(fullView != null);
+            
+            NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 		}
+
+        private function keyDownHandler(event:KeyboardEvent):void
+        {
+            if (event.keyCode == Keyboard.BACK)
+            {
+                if (fullView)
+                {
+                    event.preventDefault();
+                    event.stopImmediatePropagation();
+                    hideFullView();
+                }
+            }
+        }
 
 		public function get isWorkstationMode():Boolean
 		{
@@ -385,7 +404,7 @@ package collaboRhythm.shared.controller.apps
 				startRect.y = dragEvent.localY - data.mouseEvent.localY;
 				
 			}
-			this.dispatchEvent(new WorkstationAppEvent(WorkstationAppEvent.SHOW_FULL_VIEW, this, startRect));
+			this.dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this, startRect));
 		}
 		
 		public function dragExitHandler(dragEvent:DragEvent):void
@@ -436,7 +455,7 @@ package collaboRhythm.shared.controller.apps
 		private function widgetDoubleClickHandler(event:MouseEvent):void
 		{
 			if (canShowFullView())
-				this.dispatchEvent(new WorkstationAppEvent(WorkstationAppEvent.SHOW_FULL_VIEW, this));
+				this.dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this));
 		}
 
 		protected function get shouldShowFullViewOnWidgetClick():Boolean
@@ -447,7 +466,7 @@ package collaboRhythm.shared.controller.apps
 		private function widgetClickHandler(event:MouseEvent):void
 		{
 			if (shouldShowFullViewOnWidgetClick && canShowFullView() && isShowFullViewClickEvent(event))
-				this.dispatchEvent(new WorkstationAppEvent(WorkstationAppEvent.SHOW_FULL_VIEW, this));
+				this.dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this));
 		}
 		
 		private function isShowFullViewClickEvent(event:MouseEvent):Boolean

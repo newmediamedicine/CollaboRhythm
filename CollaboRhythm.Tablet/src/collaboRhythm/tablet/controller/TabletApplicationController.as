@@ -5,11 +5,15 @@ package collaboRhythm.tablet.controller
     import collaboRhythm.shared.model.Account;
     import collaboRhythm.shared.model.VideoMessage;
     import collaboRhythm.shared.model.settings.Settings;
-	import collaboRhythm.shared.view.CollaborationView;
+    import collaboRhythm.shared.view.CollaborationView;
     import collaboRhythm.tablet.view.ActiveRecordView;
     import collaboRhythm.tablet.view.VideosView;
 
+    import flash.desktop.NativeApplication;
+    import flash.events.InvokeEvent;
+
     import flash.events.KeyboardEvent;
+    import flash.net.URLVariables;
     import flash.ui.Keyboard;
 
     import mx.core.IVisualElementContainer;
@@ -23,8 +27,8 @@ package collaboRhythm.tablet.controller
         private var _application:Application;
         private var _tabletAppControllersMediator:TabletAppControllersMediator;
         private var _fullContainer:IVisualElementContainer;
-		private var _widgetsContainer:IVisualElementContainer;
-		private var _scheduleWidgetContainer:IVisualElementContainer;
+        private var _widgetsContainer:IVisualElementContainer;
+        private var _scheduleWidgetContainer:IVisualElementContainer;
         private var _activeRecordView:ActiveRecordView;
         private var _videosView:VideosView;
         private var _currentView:String;
@@ -41,39 +45,14 @@ package collaboRhythm.tablet.controller
         {
             super.main();
 
-			_settings.modality = Settings.MODALITY_TABLET;
+            _settings.modality = Settings.MODALITY_TABLET;
 
             initCollaborationController(null);
-			initEventListeners();
 
             createSession();
         }
 
-		private function initEventListeners():void
-		{
-			if (!_application)
-				throw new Error("_application must not be null");
-
-			if (!_application.stage)
-				throw new Error("_application.stage must not be null");
-
-			_application.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
-		}
-
-		private function keyDownHandler(event:KeyboardEvent):void
-		{
-			if (event.keyCode == Keyboard.BACK)
-			{
-				if (_tabletAppControllersMediator.showingFullView)
-				{
-					event.preventDefault();
-					event.stopImmediatePropagation();
-					_tabletAppControllersMediator.hideFullViews();
-				}
-			}
-		}
-
-		public override function openRecordAccount(recordAccount:Account):void
+        public override function openRecordAccount(recordAccount:Account):void
         {
             super.openRecordAccount(recordAccount);
             _activeRecordView = new ActiveRecordView();
@@ -103,10 +82,10 @@ package collaboRhythm.tablet.controller
             _currentView = VIDEOS_VIEW;
         }
 
-		public override function get fullContainer():IVisualElementContainer
-		{
-			return _fullContainer;
-		}
+        public override function get fullContainer():IVisualElementContainer
+        {
+            return _fullContainer;
+        }
 
         public override function get applicationSettingsEmbeddedFile():Class
         {

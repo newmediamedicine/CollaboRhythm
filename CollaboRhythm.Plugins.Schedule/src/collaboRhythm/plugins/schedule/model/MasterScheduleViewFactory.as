@@ -3,19 +3,15 @@ package collaboRhythm.plugins.schedule.model
 
     import castle.flexbridge.reflection.ClassInfo;
     import castle.flexbridge.reflection.ReflectionUtils;
-    import castle.flexbridge.reflection.ReflectionUtils;
 
     import collaboRhythm.plugins.schedule.shared.model.IScheduleViewFactory;
     import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
     import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
     import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
-    import collaboRhythm.shared.model.ScheduleItemBase;
     import collaboRhythm.shared.model.ScheduleItemOccurrence;
     import collaboRhythm.shared.model.services.IComponentContainer;
 
     import flash.utils.Dictionary;
-
-    import spark.components.Group;
 
     public class MasterScheduleViewFactory implements IScheduleViewFactory
     {
@@ -36,19 +32,19 @@ package collaboRhythm.plugins.schedule.model
             return null;
         }
 
-        public function createScheduleItemClockView(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):ScheduleItemClockViewBase
+        public function createScheduleItemClockView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemClockViewBase
         {
-            return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem)).name].createScheduleItemClockView(scheduleItemOccurrence, parentGroup);
+            return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem)).name].createScheduleItemClockView(scheduleItemOccurrence);
         }
 
-        public function createScheduleItemReportingView(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):ScheduleItemReportingViewBase
+        public function createScheduleItemReportingView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemReportingViewBase
         {
-            return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem)).name].createScheduleItemReportingView(scheduleItemOccurrence, parentGroup);
+            return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem)).name].createScheduleItemReportingView(scheduleItemOccurrence);
         }
 
-        public function createScheduleItemTimelineView(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):ScheduleItemTimelineViewBase
+        public function createScheduleItemTimelineView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemTimelineViewBase
         {
-            return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem)).name].createScheduleItemTimelineView(scheduleItemOccurrence, parentGroup);
+            return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem)).name].createScheduleItemTimelineView(scheduleItemOccurrence);
         }
     }
 }

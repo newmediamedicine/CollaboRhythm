@@ -288,5 +288,15 @@ package collaboRhythm.shared.model
 		{
 			_bloodPressureModel = value;
 		}
+
+		public function get settings():Settings
+		{
+			return _settings;
+		}
+
+		public function set settings(value:Settings):void
+		{
+			_settings = value;
+		}
 	}
 }

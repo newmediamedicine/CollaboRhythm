@@ -15,18 +15,27 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 width="{SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH}"
-		 height="{SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT}">
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
-	<fx:Script>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:mx="library://ns.adobe.com/flex/mx"
+         width="{SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH}"
+         height="{SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT}"
+         mouseDown="mouseDownHandler(event)">
+    <fx:Declarations>
+        <s:Fade id="hideEffect" alphaFrom="{this.alpha}" alphaTo="0" duration="0.01"/>
+        <s:Animate id="stackEffect" target="{this}">
+            <s:SimpleMotionPath id="motionPath" property="bottom"/>
+        </s:Animate>
+    </fx:Declarations>
+    <fx:Script>
 		<![CDATA[
+        import collaboRhythm.plugins.schedule.shared.model.MoveData;
         import collaboRhythm.shared.model.ScheduleItemBase;
         import collaboRhythm.shared.model.ScheduleItemOccurrence;
+
+        import mx.binding.utils.BindingUtils;
+
+        import mx.binding.utils.ChangeWatcher;
 
         public static const SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH:Number = 80;
         public static const SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_HEIGHT:Number = 80;
@@ -35,40 +44,84 @@
 
         [Bindable]
         private var _scheduleItemOccurrence:ScheduleItemOccurrence;
-        [Bindable]
-        private var _parentGroup:Group;
 
         public static const SCHEDULE_ITEM_WIDGET_VIEW:String = "scheduleItemWidgetView";
 
-        public function init(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):void
+        public function init(scheduleItemOccurrence:ScheduleItemOccurrence):void
         {
             _scheduleItemOccurrence = scheduleItemOccurrence;
-            _parentGroup = parentGroup;
+
+            var movingChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(movingChangeHandler,
+                                                                            _scheduleItemOccurrence,
+                                                                            "moving", false, true);
         }
 
         public function get scheduleItem():ScheduleItemBase
         {
             throw new Error("virtual function must be overridden in subclass");
         }
-//        public function init(scheduleItem:ScheduleItemBase, scheduleItemsContainer:Group):void
-//        {
-//            _scheduleItem = scheduleItem;
-//            _scheduleItemsContainer = scheduleItemsContainer;
-//        }
-//
-//        public function get scheduleItem():ScheduleItemBase
-//        {
-//            return _scheduleItem;
-//        }
+
+        private function mouseDownHandler(event:MouseEvent):void
+        {
+
+
+            event.stopImmediatePropagation();
+
+            var moveData:MoveData = createMoveData(event);
+            dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_ITEM_TIMELINE_VIEW_MOUSE_DOWN,
+                                                        moveData));
+        }
+
+        private function createMoveData(event:MouseEvent):MoveData
+        {
+            var moveData:MoveData = new MoveData();
+            moveData.id = scheduleItem.id + _scheduleItemOccurrence.recurrenceIndex;
+            moveData.localX = event.localX;
+            moveData.localY = event.localY;
+            moveData.stageX = event.stageX;
+            moveData.stageY = event.stageY;
+
+            return moveData;
+        }
+
+        private function movingChangeHandler(change:Boolean):void
+        {
+            if (change)
+            {
+                glowFilter.blurX = 10;
+                glowFilter.blurY = 10;
+            }
+            else
+            {
+                glowFilter.blurX = 5;
+                glowFilter.blurY = 5;
+            }
+        }
+
+        public function get scheduleItemOccurrence():ScheduleItemOccurrence
+        {
+            return _scheduleItemOccurrence;
+        }
+
+        public function set scheduleItemOccurrence(value:ScheduleItemOccurrence):void
+        {
+            _scheduleItemOccurrence = value;
+        }
+
+        public function destroy():void
+        {
+            hideEffect.end();
+            stackEffect.end();
+        }
         ]]>
 	</fx:Script>
-	<s:filters>
-		<s:GlowFilter id="glowFilter"
-					  quality="3"
-					  alpha="0.2"
-					  color="0x000000"
-					  blurX="5"
-					  blurY="5"
-					  strength="5"/>
-	</s:filters>
+    <s:filters>
+        <s:GlowFilter id="glowFilter"
+                      quality="3"
+                      alpha="0.2"
+                      color="0x000000"
+                      blurX="5"
+                      blurY="5"
+                      strength="5"/>
+    </s:filters>
 </s:Group>

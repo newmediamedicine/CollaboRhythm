@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:images="assets.images.*"
+         xmlns:controls="com.dougmccune.controls.*"
+		 clipAndEnableScrolling="true"
+		 resize="resizeHandler()"
+		 creationComplete="creationCompleteHandler()" xmlns:view="collaboRhythm.shared.view.*"
+         height="100%" width="100%"
+		 >
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+    <s:layout>
+		<controls:ChildIndependentLayout/>
+	</s:layout>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		
+		.hour {
+			color: #000000;
+			font-size: 16;
+			font-weight: bold;
+		}
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+        //TODO: Maybe ChildIndependentLayout belongs in shared?
+
+        import collaboRhythm.plugins.schedule.controller.ScheduleClockController;
+        import collaboRhythm.plugins.schedule.model.ScheduleGroup;
+        import collaboRhythm.plugins.schedule.model.ScheduleModel;
+
+        import mx.collections.ArrayCollection;
+        import mx.core.IVisualElementContainer;
+        import mx.events.CollectionEvent;
+        import mx.events.CollectionEventKind;
+
+        private var _scheduleModel:ScheduleModel;
+        private var _scheduleWidgetViewController:ScheduleClockController;
+        private var _scheduleGroupsCollection:ArrayCollection;
+        private var _scheduleGroupClockViews:Vector.<ScheduleGroupClockView> = new Vector.<ScheduleGroupClockView>();
+        private var _isCreationComplete:Boolean;
+
+        public function init(scheduleWidgetViewController:ScheduleClockController, scheduleModel:ScheduleModel,
+                             fullParentContainer:IVisualElementContainer):void
+        {
+            _scheduleModel = scheduleModel;
+            _scheduleWidgetViewController = scheduleWidgetViewController;
+
+            _scheduleGroupsCollection = _scheduleModel.scheduleGroupsCollection;
+            _scheduleGroupsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
+                                                       scheduleGroupsCollectionChangeHandler);
+
+            this.addEventListener(ScheduleClockWidgetViewEvent.SCHEDULE_GROUP_CLOCK_VIEW_CLICK,
+                                  scheduleGroupClockViewClickHandler);
+        }
+
+        private function creationCompleteHandler():void
+        {
+            for each (var scheduleGroup:ScheduleGroup in _scheduleGroupsCollection)
+            {
+                createScheduleGroupView(scheduleGroup);
+            }
+
+            _isCreationComplete = true;
+
+            updateTime();
+
+            // creates a Timer that fires an event once per 10 minutes
+            var timer:Timer = new Timer(600000);
+
+            // designates the onTick() method to handle Timer events
+            timer.addEventListener(TimerEvent.TIMER, onTick);
+
+            // starts the clock ticking
+            timer.start();
+        }
+
+        private function onTick(event:TimerEvent):void
+        {
+            updateTime();
+        }
+
+        private function updateTime():void
+        {
+            var currentTime:Date = _scheduleModel.now;
+            var minutes:uint = currentTime.getMinutes();
+            var hours:uint = currentTime.getHours();
+
+            clockHand.rotation = (hours * 15) + (minutes * 0.25);
+        }
+
+        public function scheduleGroupsCollectionChangeHandler(event:CollectionEvent):void
+        {
+            if (event.kind == CollectionEventKind.ADD)
+            {
+                if (_isCreationComplete)
+                {
+                    for each (var scheduleGroupAdded:ScheduleGroup in event.items)
+                    {
+                        createScheduleGroupView(scheduleGroupAdded);
+                    }
+                }
+            }
+            else if (event.kind == CollectionEventKind.REMOVE)
+            {
+                for each (var scheduleGroupRemoved:ScheduleGroup in event.items)
+                {
+                    destroyScheduleGroupView(scheduleGroupRemoved);
+                }
+            }
+        }
+
+        public function createScheduleGroupView(scheduleGroup:ScheduleGroup):void
+        {
+            var scheduleGroupClockView:ScheduleGroupClockView = new ScheduleGroupClockView();
+            scheduleGroupClockView.init(_scheduleModel, scheduleGroup, scheduleGroupsContainer);
+            scheduleGroupsContainer.addElement(scheduleGroupClockView);
+            _scheduleGroupClockViews.push(scheduleGroupClockView)
+        }
+
+        public function destroyScheduleGroupView(scheduleGroup:ScheduleGroup):void
+        {
+            for each (var scheduleGroupClockView:ScheduleGroupClockView in _scheduleGroupClockViews)
+            {
+                if (scheduleGroupClockView.scheduleGroup == scheduleGroup)
+                {
+                    var scheduleGroupClockViewIndex:Number = _scheduleGroupClockViews.indexOf(scheduleGroupClockView);
+                    _scheduleGroupClockViews.splice(scheduleGroupClockViewIndex, 1);
+                    scheduleGroupsContainer.removeElement(scheduleGroupClockView);
+                }
+            }
+        }
+
+        private function resizeHandler():void
+        {
+            if (this.width < this.height)
+            {
+                clock.width = this.width;
+                clock.height = this.width;
+            }
+            else
+            {
+                clock.width = this.height;
+                clock.height = this.height;
+            }
+        }
+
+        private function scheduleGroupClockViewClickHandler(event:ScheduleClockWidgetViewEvent):void
+        {
+            var scheduleGroup:ScheduleGroup = event.scheduleGroup;
+            _scheduleWidgetViewController.openScheduleReportingFullView(scheduleGroup);
+        }
+        ]]>
+	</fx:Script>
+    <s:Group id="clock" verticalCenter="0" horizontalCenter="0">
+        <images:clockBackground id="clockBackground" width="{clock.width}" height="{clock.height}" mouseEnabled="false" mouseChildren="false"/>
+        <s:Group id="scheduleGroupsContainer" width="{clock.width}" height="{clock.height}"/>
+        <s:Group id="scheduleItemsContainer" width="{clock.width}" height="{clock.height}"/>
+        <images:clockHand id="clockHand" x="{clock.width / 2}" y="{clock.height / 2}" width="{clock.width / 2}" height="{clock.height / 2}" mouseEnabled="false" mouseChildren="false"/>
+        <images:clockForeground id="clockForeground" width="{clock.width}" height="{clock.height}" mouseEnabled="false" mouseChildren="false"/>
+    </s:Group>
+	<!--<view:IconButton icon="@Embed(source='/assets/images/video.png')" id="playVideoButton" left="5" bottom="5" visible="{!_scheduleWidgetViewController.isWorkstationMode}" click="playVideoButtonClickHandler()"/>-->
+</s:Group>
