@@ -18,6 +18,7 @@ package collaboRhythm.shared.model
 
         public override function initFromReportXML(scheduleItemReportXml:XML, scheduleItemElementName:String):void
         {
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
             super.initFromReportXML(scheduleItemReportXml, scheduleItemElementName);
 
 //            _scheduledActionID = scheduleItemReportXML.Meta.Document.relatesTo.relation.relatedDocument.@id;

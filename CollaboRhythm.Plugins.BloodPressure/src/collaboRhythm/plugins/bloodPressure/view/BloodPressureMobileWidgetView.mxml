@@ -28,10 +28,7 @@
 
 	<fx:Script>
 		<![CDATA[
-		import collaboRhythm.shared.apps.bloodPressure.model.AdherenceItem;
 		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
-
-		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 
 		import mx.events.PropertyChangeEvent;
 
@@ -69,7 +66,6 @@
 				hydrochlorothiazideSimulationView.concentration = concentration;
 			}
 		}
-
 		]]>
 	</fx:Script>
 </s:Group>

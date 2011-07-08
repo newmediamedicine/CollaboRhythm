@@ -17,11 +17,13 @@
 package collaboRhythm.shared.model
 {
 
-    import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
+	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
     import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
 
     import collaboRhythm.shared.model.DateUtil;
-    import collaboRhythm.shared.model.services.ICurrentDateSource;
+	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
+	import collaboRhythm.shared.model.services.ICurrentDateSource;
     import collaboRhythm.shared.model.services.WorkstationKernel;
 
     import com.adobe.utils.DateUtil;
@@ -70,6 +72,10 @@ package collaboRhythm.shared.model
 
 		public function initFromReportXML(medicationOrderReportXml:XML):void
 		{
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
+//			namespace indivo = "http://indivo.org/vocab/xml/documents#";
+//			use namespace indivo;
+
 			parseDocumentMetadata(medicationOrderReportXml.Meta.Document[0], this);
 			var medicationOrderXml:XML = medicationOrderReportXml.Item.MedicationOrder[0];
             _name = HealthRecordHelperMethods.xmlToCodedValue(medicationOrderXml.name[0]);
@@ -91,6 +97,7 @@ package collaboRhythm.shared.model
 
         public function convertToXML():XML
 		{
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
 			var medicationOrderXml:XML = <MedicationOrder/>;
 			medicationOrderXml.@xmlns = "http://indivo.org/vocab/xml/documents#";
             // TODO: Write a helper method for coded value to xml, but this may be moot if a schema will be used for marshaling and unmarshaling

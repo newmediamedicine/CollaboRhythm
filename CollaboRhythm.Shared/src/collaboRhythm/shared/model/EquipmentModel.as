@@ -58,6 +58,7 @@ package collaboRhythm.shared.model
 
 		public function set equipmentReportXml(value:XML):void
 		{
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
 			for each (var equipmentOrderXml:XML in value.Report)
 			{
 				var equipment:Equipment = new Equipment();

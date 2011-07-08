@@ -17,7 +17,8 @@
 package collaboRhythm.shared.model
 {
 	import collaboRhythm.shared.model.DateUtil;
-    import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
+	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
     import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
     import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
@@ -38,6 +39,7 @@ package collaboRhythm.shared.model
 
         public function initFromReportXML(problemReportXml:XML):void
         {
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
             parseDocumentMetadata(problemReportXml.Meta.Document[0], this);
 			var problemXml:XML = problemReportXml.Item.Problem[0];
             _name = HealthRecordHelperMethods.xmlToCodedValue(problemXml.name[0]);

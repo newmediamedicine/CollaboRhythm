@@ -1,6 +1,6 @@
 package collaboRhythm.plugins.schedule.shared.view
 {
-	import collaboRhythm.shared.model.AdherenceItem;
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.ScheduleItemBase;
     import collaboRhythm.shared.model.ScheduleItemOccurrence;
 

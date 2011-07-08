@@ -35,6 +35,7 @@ package collaboRhythm.shared.model
 
         public function initFromXml(demographicsXml:XML):void
         {
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
             if (demographicsXml.hasOwnProperty("dateOfBirth"))
 				dateOfBirth = DateUtil.parseW3CDTF(demographicsXml.dateOfBirth);
 			if (demographicsXml.hasOwnProperty("dateOfDeath"))

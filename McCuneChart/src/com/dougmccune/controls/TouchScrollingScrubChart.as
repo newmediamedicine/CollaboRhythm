@@ -74,8 +74,9 @@ package com.dougmccune.controls
 			if (this.data == null || this.data.length == 0)
 				return 0;
 			
-			var cache:Array = [ { from: this.dateParse(this.data[0].date).time, to: 0 }, { from: this.dateParse(this.data[this.data.length - 1].date).time, to: 0} ];   
-			this.mainChart.horizontalAxis.transformCache(cache, "from", "to"); 
+//			var cache:Array = [ { from: this.dateParse(this.data[0][dateField]).time, to: 0 }, { from: this.dateParse(this.data[this.data.length - 1][dateField]).time, to: 0} ];
+			var cache:Array = [ { from: t0, to: 0 }, { from: t1, to: 0} ];
+			this.mainChart.horizontalAxis.transformCache(cache, "from", "to");
 			
 			var minX:Number = cache[0].to;
 			var maxX:Number = cache[1].to;

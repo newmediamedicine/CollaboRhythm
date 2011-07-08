@@ -16,8 +16,8 @@
  */
 package collaboRhythm.plugins.medications.model
 {
-	import collaboRhythm.shared.model.CodedValue;
-	import collaboRhythm.shared.model.ValueAndUnit;
+	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
 
 	public class ActiveIngredient
 	{

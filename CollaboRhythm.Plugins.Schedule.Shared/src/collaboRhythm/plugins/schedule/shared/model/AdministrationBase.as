@@ -16,6 +16,7 @@
  */
 package collaboRhythm.plugins.schedule.shared.model
 {
+
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 
 	public class AdministrationBase extends DocumentMetadata

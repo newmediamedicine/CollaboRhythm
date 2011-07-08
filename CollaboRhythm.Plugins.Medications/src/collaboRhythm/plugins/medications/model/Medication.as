@@ -16,9 +16,9 @@
  */
 package collaboRhythm.plugins.medications.model
 {
-	import collaboRhythm.shared.model.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CodedValue;
 	import collaboRhythm.shared.model.DateUtil;
-	import collaboRhythm.shared.model.ValueAndUnit;
+	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
@@ -56,6 +56,7 @@ package collaboRhythm.plugins.medications.model
 		
 		public function Medication(medicationReportXML:XML)
 		{
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
 			parseDocumentMetadata(medicationReportXML.Meta.Document[0], this);
 			var medicationXML:XML = medicationReportXML.Item.Medication[0];
 			_name = HealthRecordHelperMethods.xmlToCodedValue(medicationXML.name[0]);

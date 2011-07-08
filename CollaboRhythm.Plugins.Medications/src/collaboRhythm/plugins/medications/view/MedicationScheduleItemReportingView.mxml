@@ -47,72 +47,76 @@
     </fx:Style>
     <fx:Script>
 		<![CDATA[
-        import collaboRhythm.plugins.medications.model.Medication;
-        import collaboRhythm.plugins.medications.model.MedicationAdministration;
-        import collaboRhythm.shared.model.MedicationOrder;
-        import collaboRhythm.shared.model.MedicationScheduleItem;
-        import collaboRhythm.shared.model.AdherenceItem;
-        import collaboRhythm.shared.model.ScheduleItemBase;
-        import collaboRhythm.shared.model.ScheduleItemOccurrence;
-        import collaboRhythm.shared.model.services.ICurrentDateSource;
-        import collaboRhythm.shared.model.services.WorkstationKernel;
+		import collaboRhythm.plugins.medications.model.Medication;
+		import collaboRhythm.plugins.medications.model.MedicationAdministration;
+		import collaboRhythm.shared.model.MedicationOrder;
+		import collaboRhythm.shared.model.MedicationScheduleItem;
+		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+		import collaboRhythm.shared.model.ScheduleItemBase;
+		import collaboRhythm.shared.model.ScheduleItemOccurrence;
+		import collaboRhythm.shared.model.services.ICurrentDateSource;
+		import collaboRhythm.shared.model.services.WorkstationKernel;
 
-        [Bindable]
-        private var _medicationOrder:MedicationOrder;
-        [Bindable]
-        private var _medicationScheduleItem:MedicationScheduleItem;
+		[Bindable]
+		private var _medicationOrder:MedicationOrder;
+		[Bindable]
+		private var _medicationScheduleItem:MedicationScheduleItem;
 
-        private var _currentDateSource:ICurrentDateSource;
+		private var _currentDateSource:ICurrentDateSource;
 
-        public override function init(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):void
-        {
-            super.init(scheduleItemOccurrence, parentGroup);
-            _medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
-            _medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
+		public override function init(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):void
+		{
+			super.init(scheduleItemOccurrence, parentGroup);
+			_medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
+			_medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
 
-            _currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
-        }
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+		}
 
-        public override function get scheduleItem():ScheduleItemBase
-        {
-            return _medicationScheduleItem
-        }
+		public override function get scheduleItem():ScheduleItemBase
+		{
+			return _medicationScheduleItem
+		}
 
-        // TODO: automate the color or switch to images of the medications
-        public function getMedicationColor(value:String):uint
-        {
-            if (value == '310798')
-            {
-                return 0x000000;
-            }
-            else if (value == '617320')
-            {
-                return 0x000000;
-            }
-            else
-            {
-                return 0x000000;
-            }
-        }
+		// TODO: automate the color or switch to images of the medications
+		public function getMedicationColor(value:String):uint
+		{
+			if (value == '310798')
+			{
+				return 0x000000;
+			}
+			else if (value == '617320')
+			{
+				return 0x000000;
+			}
+			else
+			{
+				return 0x000000;
+			}
+		}
 
-        private function adherenceButtonClickHandler(event:MouseEvent):void
-        {
-            var medicationAdministration:MedicationAdministration = new MedicationAdministration();
-            medicationAdministration.init(_medicationOrder.name, "rpoole@records.media.mit.edu", _currentDateSource.now(), _currentDateSource.now(), _medicationScheduleItem.dose);
-            var adherenceItem:AdherenceItem = new AdherenceItem();
-            adherenceItem.init(_medicationOrder.name, "rpoole@records.media.mit.edu", _currentDateSource.now(), scheduleItemOccurrence.recurrenceIndex, true, null, medicationAdministration);
+		private function adherenceButtonClickHandler(event:MouseEvent):void
+		{
+			var medicationAdministration:MedicationAdministration = new MedicationAdministration();
+			medicationAdministration.init(_medicationOrder.name, "rpoole@records.media.mit.edu",
+										  _currentDateSource.now(), _currentDateSource.now(),
+										  _medicationScheduleItem.dose);
+			var adherenceItem:AdherenceItem = new AdherenceItem();
+			adherenceItem.init(_medicationOrder.name, "rpoole@records.media.mit.edu", _currentDateSource.now(),
+							   scheduleItemOccurrence.recurrenceIndex, true, null, medicationAdministration);
 
-            dispatchAdherenceItemEvent(adherenceItem);
-        }
+			dispatchAdherenceItemEvent(adherenceItem);
+		}
 
-        private function nonadherenceButtonClickHandler(event:MouseEvent):void
-        {
-            var adherenceItem:AdherenceItem = new AdherenceItem();
-            adherenceItem.init(_medicationOrder.name, "rpoole@records.media.mit.edu", _currentDateSource.now(), scheduleItemOccurrence.recurrenceIndex, false);
+		private function nonadherenceButtonClickHandler(event:MouseEvent):void
+		{
+			var adherenceItem:AdherenceItem = new AdherenceItem();
+			adherenceItem.init(_medicationOrder.name, "rpoole@records.media.mit.edu", _currentDateSource.now(),
+							   scheduleItemOccurrence.recurrenceIndex, false);
 
-            dispatchAdherenceItemEvent(adherenceItem);
-        }
-        ]]>
+			dispatchAdherenceItemEvent(adherenceItem);
+		}
+		]]>
 	</fx:Script>
     <s:Group id="med" width="100%" height="100%" enabled="{!_scheduleItemOccurrence.adherenceItem}">
         <s:Rect id="background" width="100%" height="100%">

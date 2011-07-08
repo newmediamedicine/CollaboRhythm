@@ -215,6 +215,10 @@ package com.dougmccune.controls
 	 */
 //	[Style(name="showFps", type="Boolean", inherit="no", theme="spark")]
 
+	/**
+	 * Signifies that the data is completely loaded. When this event is dispatched, the sliders and dividers, etc. will
+	 * The event should only be dispatched once when the application first loads.
+	 */
 	[Event(name="seriesComplete", type="flash.events.Event")]
 	[Event(name="scroll", type="mx.events.ScrollEvent")]
 	[Event(name="focusTimeChange", type="com.dougmccune.events.FocusTimeEvent")]
@@ -402,6 +406,17 @@ package com.dougmccune.controls
 //		private static var classConstructed:Boolean = classConstruct();
 		
 		private var _synchronizedAxisCache:SynchronizedAxisCache;
+		private var _dateField:String = "date";
+
+		public function get dateField():String
+		{
+			return _dateField;
+		}
+
+		public function set dateField(value:String):void
+		{
+			_dateField = value;
+		}
 
 		public function get synchronizedAxisCache():SynchronizedAxisCache
 		{
@@ -670,33 +685,9 @@ package com.dougmccune.controls
 					{
 						trace("Error setting i1: " + e.message);
 					}
-					t0 = dateParse(rangeData.source[i0].date).time;
-					t1 = dateParse(rangeData.source[i1].date).time;
-					updateSliderMinMax();
-
-					try
-					{
-						rightRangeTime = t1;
-					} catch(e:Error)
-					{
-						trace("Error setting rightRangeTime: " + e.message);
-					}
-
-					try
-					{
-						leftRangeTime = Math.max(t0, t1 - initialDurationTime);
-					} catch(e:Error)
-					{
-						trace("Error setting leftRangeTime: " + e.message);
-					}
-
-			//				calculateIndicatorConversionRatio();
-
-					calculateRangeDataRatio();
-
-					updateRangeChart();
-					updateMainChart();
-
+					t0 = dateParse(rangeData.source[i0][dateField]).time;
+					t1 = dateParse(rangeData.source[i1][dateField]).time;
+					initializeChartsFromMinMaxTimes();
 					if (_traceEvents)
 						trace(traceEventsPrefix + "initializeFromData leftRangeTime", traceDate(leftRangeTime), "rightRangeTime",
 							  traceDate(rightRangeTime), "minimumTime", traceDate(minimumTime), "maximumTime", traceDate(maximumTime),
@@ -705,6 +696,37 @@ package com.dougmccune.controls
 
 				}
 			}
+		}
+
+		private function initializeChartsFromMinMaxTimes():void
+		{
+			updateSliderMinMax();
+
+			try
+			{
+				rightRangeTime = t1;
+			} catch(e:Error)
+			{
+				trace("Error setting rightRangeTime: " + e.message);
+			}
+
+			try
+			{
+				leftRangeTime = Math.max(t0, t1 - initialDurationTime);
+			} catch(e:Error)
+			{
+				trace("Error setting leftRangeTime: " + e.message);
+			}
+
+			calculateRangeDataRatio();
+
+			updateRangeChart();
+			updateMainChart();
+
+			updateMainDataSource();
+
+			if (_traceEvents)
+				trace(traceEventsPrefix + "initializeChartsFromMinMaxTimes (after)", "minimumTime", traceDate(minimumTime), "maximumTime", traceDate(maximumTime));
 		}
 
 		public function set data(value:ArrayCollection):void
@@ -1157,14 +1179,17 @@ package com.dougmccune.controls
 		
 		private function animateRangeTimes(leftRangeTimeTo:Number, rightRangeTimeTo:Number = NaN, update:Boolean = true):void
 		{
-			hideAnnotations();
-			_pendingUpdateBoxFromRangeTimes = update;
-			_rangeTimeAnimate.stop();
-			_leftRangeMotionPath.valueFrom = leftRangeTime;
-			_leftRangeMotionPath.valueTo = isNaN(leftRangeTimeTo) ? leftRangeTime : leftRangeTimeTo;
-			_rightRangeMotionPath.valueFrom = rightRangeTime;
-			_rightRangeMotionPath.valueTo = isNaN(rightRangeTimeTo) ? rightRangeTime : rightRangeTimeTo;
-			_rangeTimeAnimate.play();
+			if (!isNaN(leftRangeTime) && !isNaN(rightRangeTime))
+			{
+				hideAnnotations();
+				_pendingUpdateBoxFromRangeTimes = update;
+				_rangeTimeAnimate.stop();
+				_leftRangeMotionPath.valueFrom = leftRangeTime;
+				_leftRangeMotionPath.valueTo = isNaN(leftRangeTimeTo) ? leftRangeTime : leftRangeTimeTo;
+				_rightRangeMotionPath.valueFrom = rightRangeTime;
+				_rightRangeMotionPath.valueTo = isNaN(rightRangeTimeTo) ? rightRangeTime : rightRangeTimeTo;
+				_rangeTimeAnimate.play();
+			}
 		}
 
 		/**
@@ -1408,7 +1433,7 @@ package com.dougmccune.controls
 				for (var i:int = dataCollection.length - 1; i >= 0; i--)
 				{
 					var dataItem:Object = dataCollection.getItemAt(i);
-					if (dataItem.date.time <= dateValue)
+					if (dataItem[dateField].time <= dateValue)
 					{
 						return dataItem;
 					}
@@ -1424,7 +1449,7 @@ package com.dougmccune.controls
 			for (var i:int = 0; i < dataCollection.length; i++)
 			{
 				var dataItem:Object = dataCollection.getItemAt(i);
-				if (Math.abs(dataItem.date.time - dateValue) < delta)
+				if (Math.abs(dataItem[dateField].time - dateValue) < delta)
 				{
 					return i;
 				}
@@ -1454,8 +1479,8 @@ package com.dougmccune.controls
 					{
 					}
 				}
-				_selectedDate = labelSummaryDateFormatter.format(dateParse(mainData.getItemAt(0).date)) + ' - ' +
-						labelSummaryDateFormatter.format(dateParse(mainData.getItemAt(mainData.length - 1).date));
+				_selectedDate = labelSummaryDateFormatter.format(dateParse(mainData.getItemAt(0)[dateField])) + ' - ' +
+						labelSummaryDateFormatter.format(dateParse(mainData.getItemAt(mainData.length - 1)[dateField]));
 				_selectedClose = percentageFormatter.format((Number(mainData.getItemAt(mainData.length - 1)[seriesName]) /
 						Number(mainData.getItemAt(0)[seriesName]) - 1) * 100) + '%';
 				_selectedVolume = '';
@@ -1759,36 +1784,41 @@ package com.dougmccune.controls
 
 		public function get maximumDate():Date
 		{
-		//	return (this.rangeChart.horizontalAxis as DateTimeAxis).maximum;
-			return (rangeData && rangeData.length > 0) ? rangeData[rangeData.length - 1].date : null;
+			return isNaN(t1) ? null : new Date(t1);
 		}
 
 		public function get maximumTime():Number
 		{
-			return maximumDate ? maximumDate.time : NaN;
+			return t1;
 		}
 
 		public function get minimumDate():Date
 		{
-		//	return (this.rangeChart.horizontalAxis as DateTimeAxis).minimum;
-			return (rangeData && rangeData.length > 0) ? rangeData[0].date : null;
+			return isNaN(t0) ? null : new Date(t0);
 		}
 
 		public function get minimumTime():Number
 		{
-			return minimumDate ? minimumDate.time : NaN;
+			return t0;
 		}
 
 		public function set minimumTime(value:Number):void
 		{
-			(this.rangeChart.horizontalAxis as DateTimeAxis).minimum.time = value;
+			// TODO: support reseting/clearing the minimum/maximum to the default (based on the data)
+			if (_traceEvents)
+				trace(traceEventsPrefix + "set minimumTime", traceDate(value), "old value", traceDate(minimumTime));
+			(this.rangeChart.horizontalAxis as DateTimeAxis).minimum = new Date(value);
+			t0 = value;
+			initializeChartsFromMinMaxTimes();
 		}
 
 		public function set maximumTime(value:Number):void
 		{
 			if (_traceEvents)
 				trace(traceEventsPrefix + "set maximumTime", traceDate(value), "old value", traceDate(maximumTime));
-			(this.rangeChart.horizontalAxis as DateTimeAxis).maximum.time = value;
+			(this.rangeChart.horizontalAxis as DateTimeAxis).maximum = new Date(value);
+			t1 = value;
+			initializeChartsFromMinMaxTimes();
 		}
 
 		private var focusTimeFirstMousePos:Point;

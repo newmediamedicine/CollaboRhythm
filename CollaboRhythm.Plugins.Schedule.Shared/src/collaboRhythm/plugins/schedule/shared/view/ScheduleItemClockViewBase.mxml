@@ -24,125 +24,125 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-        import collaboRhythm.shared.model.AdherenceItem;
-        import collaboRhythm.shared.model.ScheduleItemBase;
-        import collaboRhythm.shared.model.ScheduleItemOccurrence;
+		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+		import collaboRhythm.shared.model.ScheduleItemBase;
+		import collaboRhythm.shared.model.ScheduleItemOccurrence;
 
-        import mx.binding.utils.BindingUtils;
-        import mx.binding.utils.ChangeWatcher;
-        import mx.core.IVisualElement;
+		import mx.binding.utils.BindingUtils;
+		import mx.binding.utils.ChangeWatcher;
+		import mx.core.IVisualElement;
 
-        [Bindable]
-        protected var _scheduleItemOccurrence:ScheduleItemOccurrence;
-        [Bindable]
-        private var _parentGroup:Group;
+		[Bindable]
+		protected var _scheduleItemOccurrence:ScheduleItemOccurrence;
+		[Bindable]
+		private var _parentGroup:Group;
 
-        public static const SCHEDULE_ITEM_WIDGET_VIEW:String = "scheduleItemWidgetView";
+		public static const SCHEDULE_ITEM_WIDGET_VIEW:String = "scheduleItemWidgetView";
 
-        public function init(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):void
-        {
-            _scheduleItemOccurrence = scheduleItemOccurrence;
-            _parentGroup = parentGroup;
+		public function init(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):void
+		{
+			_scheduleItemOccurrence = scheduleItemOccurrence;
+			_parentGroup = parentGroup;
 
 //				var hourChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(locationChangeHandler, _scheduleItem, "hour");
 //				var adherenceWindowChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(locationChangeHandler, _scheduleItem.adherenceGroup, "adherenceWindow");
 //				var widthChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(locationChangeHandler, _medicationsGroup, "width");
 //				var heightChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(locationChangeHandler, _medicationsGroup, "height");
 //				var stackingUpdatedChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(stackingUpdateHandler, _scheduleItem, "stackingUpdated");
-        }
+		}
 
-        public function get scheduleItem():ScheduleItemBase
-        {
-            throw new Error("virtual function must be overridden in subclass");
-        }
+		public function get scheduleItem():ScheduleItemBase
+		{
+			throw new Error("virtual function must be overridden in subclass");
+		}
 
-        public function get scheduleItemOccurrence():ScheduleItemOccurrence
-        {
-            return _scheduleItemOccurrence;
-        }
+		public function get scheduleItemOccurrence():ScheduleItemOccurrence
+		{
+			return _scheduleItemOccurrence;
+		}
 
-        public function set scheduleItemOccurrence(value:ScheduleItemOccurrence):void
-        {
-            _scheduleItemOccurrence = value;
-        }
+		public function set scheduleItemOccurrence(value:ScheduleItemOccurrence):void
+		{
+			_scheduleItemOccurrence = value;
+		}
 
-        //        public function get scheduleItem():ScheduleItemBase
-        //        {
-        //            return _scheduleItem;
-        //        }
+		//        public function get scheduleItem():ScheduleItemBase
+		//        {
+		//            return _scheduleItem;
+		//        }
 
-        //			private function stackingUpdateHandler(stackingUpdated:Boolean):void
-        //			{
-        //				if (stackingUpdated == true)
-        //				{
-        //					if (_scheduleItem.scheduled == true)
-        //					{
-        //						calculateLocation();
-        //					}
-        //				}
-        //			}
+		//			private function stackingUpdateHandler(stackingUpdated:Boolean):void
+		//			{
+		//				if (stackingUpdated == true)
+		//				{
+		//					if (_scheduleItem.scheduled == true)
+		//					{
+		//						calculateLocation();
+		//					}
+		//				}
+		//			}
 
-        //			private function locationChangeHandler(change:Number):void
-        //			{
-        //				calculateLocation();
-        //			}
+		//			private function locationChangeHandler(change:Number):void
+		//			{
+		//				calculateLocation();
+		//			}
 
-        //			private function calculateLocation():void
-        //			{
-        //				this.height = _medicationsGroup.height / 10;
-        //				this.width = _medicationsGroup.height / 10;
-        //
-        //				var hour:Number = _scheduleItem.hour;
-        //				var adherenceWindow:Number = _scheduleItem.adherenceGroup.adherenceWindow;
-        //
-        //				var startAngle:Number = hour*15 - adherenceWindow*15;
-        //
-        //				var currentAngle:Number;
-        //				var coordinates:Array;
-        //				var row1:Array = new Array();
-        //				var row2:Array = new Array();
-        //				var row3:Array = new Array();
-        //				var medicationSpaces:Array = new Array();
-        //
-        //				for (var currentHour:Number = 1; currentHour <= adherenceWindow * 2; currentHour++) {
-        //					currentAngle = startAngle + currentHour * 15 - 7.5;
-        //					coordinates = calculateCoordinates(currentAngle, _medicationsGroup.height / 10 * 4);
-        //					row1.push(coordinates);
-        //					if (currentHour % 2 == 0)
-        //					{
-        //						currentAngle = startAngle + currentHour * 15 - 15;
-        //						coordinates = calculateCoordinates(currentAngle, _medicationsGroup.height / 10 * 2.75);
-        //						row2.push(coordinates);
-        //					}
-        //					if (currentHour % 4 == 0)
-        //					{
-        //						currentAngle = startAngle + currentHour * 15 - 30;
-        //						coordinates = calculateCoordinates(currentAngle, _medicationsGroup.height / 10 * 1.5);
-        //						row3.push(coordinates);
-        //					}
-        //				}
-        //				medicationSpaces = row3.concat(row2);
-        //				medicationSpaces = medicationSpaces.concat(row1);
-        //
-        //				var medicationIndex:Number = _scheduleItem.adherenceGroup.scheduleItems.indexOf(_scheduleItem);
-        //
-        //				if (medicationIndex > medicationSpaces.length - 1) {
-        //					medicationIndex = medicationIndex % (medicationSpaces.length - 1);
-        //				}
-        //
-        //				var medicationCoordinates:Array = medicationSpaces[medicationIndex];
-        //				this.x = medicationCoordinates[0] + _medicationsGroup.height / 2 - _medicationsGroup.height / 20;
-        //				this.y = medicationCoordinates[1] + _medicationsGroup.height / 2 - _medicationsGroup.height / 20;
-        //			}
-        //
-        //			private function calculateCoordinates(angle:Number, radius:Number): Array {
-        //				var radians:Number = angle * (Math.PI / 180);
-        //				var x:Number = radius * Math.sin(radians);
-        //				var y:Number = -radius * Math.cos(radians);
-        //				var coordinates:Array = [x, y];
-        //
-        //				return coordinates
-        //			}
-        ]]>
+		//			private function calculateLocation():void
+		//			{
+		//				this.height = _medicationsGroup.height / 10;
+		//				this.width = _medicationsGroup.height / 10;
+		//
+		//				var hour:Number = _scheduleItem.hour;
+		//				var adherenceWindow:Number = _scheduleItem.adherenceGroup.adherenceWindow;
+		//
+		//				var startAngle:Number = hour*15 - adherenceWindow*15;
+		//
+		//				var currentAngle:Number;
+		//				var coordinates:Array;
+		//				var row1:Array = new Array();
+		//				var row2:Array = new Array();
+		//				var row3:Array = new Array();
+		//				var medicationSpaces:Array = new Array();
+		//
+		//				for (var currentHour:Number = 1; currentHour <= adherenceWindow * 2; currentHour++) {
+		//					currentAngle = startAngle + currentHour * 15 - 7.5;
+		//					coordinates = calculateCoordinates(currentAngle, _medicationsGroup.height / 10 * 4);
+		//					row1.push(coordinates);
+		//					if (currentHour % 2 == 0)
+		//					{
+		//						currentAngle = startAngle + currentHour * 15 - 15;
+		//						coordinates = calculateCoordinates(currentAngle, _medicationsGroup.height / 10 * 2.75);
+		//						row2.push(coordinates);
+		//					}
+		//					if (currentHour % 4 == 0)
+		//					{
+		//						currentAngle = startAngle + currentHour * 15 - 30;
+		//						coordinates = calculateCoordinates(currentAngle, _medicationsGroup.height / 10 * 1.5);
+		//						row3.push(coordinates);
+		//					}
+		//				}
+		//				medicationSpaces = row3.concat(row2);
+		//				medicationSpaces = medicationSpaces.concat(row1);
+		//
+		//				var medicationIndex:Number = _scheduleItem.adherenceGroup.scheduleItems.indexOf(_scheduleItem);
+		//
+		//				if (medicationIndex > medicationSpaces.length - 1) {
+		//					medicationIndex = medicationIndex % (medicationSpaces.length - 1);
+		//				}
+		//
+		//				var medicationCoordinates:Array = medicationSpaces[medicationIndex];
+		//				this.x = medicationCoordinates[0] + _medicationsGroup.height / 2 - _medicationsGroup.height / 20;
+		//				this.y = medicationCoordinates[1] + _medicationsGroup.height / 2 - _medicationsGroup.height / 20;
+		//			}
+		//
+		//			private function calculateCoordinates(angle:Number, radius:Number): Array {
+		//				var radians:Number = angle * (Math.PI / 180);
+		//				var x:Number = radius * Math.sin(radians);
+		//				var y:Number = -radius * Math.cos(radians);
+		//				var coordinates:Array = [x, y];
+		//
+		//				return coordinates
+		//			}
+		]]>
 	</fx:Script>
 </s:Group>

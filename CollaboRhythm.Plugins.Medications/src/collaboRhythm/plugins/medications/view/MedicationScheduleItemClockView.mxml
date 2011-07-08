@@ -26,47 +26,46 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-        import collaboRhythm.plugins.medications.model.Medication;
-        import collaboRhythm.shared.model.MedicationScheduleItem;
-        import collaboRhythm.shared.model.AdherenceItem;
-        import collaboRhythm.shared.model.ScheduleItemBase;
-        import collaboRhythm.shared.model.ScheduleItemOccurrence;
+		import collaboRhythm.plugins.medications.model.Medication;
+		import collaboRhythm.shared.model.MedicationScheduleItem;
+		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+		import collaboRhythm.shared.model.ScheduleItemBase;
+		import collaboRhythm.shared.model.ScheduleItemOccurrence;
 
-        import spark.components.Group;
+		import spark.components.Group;
 
-        import spark.filters.GlowFilter;
+		import spark.filters.GlowFilter;
 
-        [Bindable]
-        private var _medicationScheduleItem:MedicationScheduleItem;
-        private var _recurrenceIndex:int;
+		[Bindable]
+		private var _medicationScheduleItem:MedicationScheduleItem;
+		private var _recurrenceIndex:int;
 
-        public override function init(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):void
-        {
-            super.init(scheduleItemOccurrence, parentGroup);
-            _medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
-        }
+		public override function init(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):void
+		{
+			super.init(scheduleItemOccurrence, parentGroup);
+			_medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
+		}
 
-        public override function get scheduleItem():ScheduleItemBase
-        {
-            return _medicationScheduleItem
-        }
+		public override function get scheduleItem():ScheduleItemBase
+		{
+			return _medicationScheduleItem
+		}
 
-        public function get medicationScheduleItem():MedicationScheduleItem
-        {
-            return _medicationScheduleItem;
-        }
+		public function get medicationScheduleItem():MedicationScheduleItem
+		{
+			return _medicationScheduleItem;
+		}
 
-        public function set medicationScheduleItem(value:MedicationScheduleItem):void
-        {
-            _medicationScheduleItem = value;
-        }
+		public function set medicationScheduleItem(value:MedicationScheduleItem):void
+		{
+			_medicationScheduleItem = value;
+		}
 
-        private function isCheckVisible(adherenceItem:AdherenceItem):Boolean
-        {
-            return true;
-        }
-
-        ]]>
+		private function isCheckVisible(adherenceItem:AdherenceItem):Boolean
+		{
+			return true;
+		}
+		]]>
 	</fx:Script>
 	<s:Ellipse width="100%" height="100%">
 		<s:fill>

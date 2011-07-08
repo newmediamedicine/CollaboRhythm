@@ -92,7 +92,7 @@ package collaboRhythm.tablet.controller
                                                                              _settings,
                                                                              _componentContainer);
 			_tabletAppControllersMediator.createTabletApps(_activeAccount, recordAccount);
-            recordAccount.primaryRecord.getDocuments();
+            loadDocuments(recordAccount);
         }
 
         public function openVideosView(recordAccount:Account):void

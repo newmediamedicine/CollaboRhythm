@@ -17,9 +17,11 @@
 package collaboRhythm.shared.model
 {
 
-    import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
+	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
     import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
-    import collaboRhythm.shared.model.services.ICurrentDateSource;
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+	import collaboRhythm.shared.model.services.ICurrentDateSource;
     import collaboRhythm.shared.model.services.WorkstationKernel;
 
     import j2as3.collection.HashMap;
@@ -60,8 +62,15 @@ package collaboRhythm.shared.model
 
 		public function initFromReportXML(scheduleItemReportXml:XML, scheduleItemElementName:String):void
 		{
+//			default xml namespace = DocumentMetadata.INDIVO_DOCUMENTS_NAMESPACE;
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
 			parseDocumentMetadata(scheduleItemReportXml.Meta.Document[0], this);
-            _scheduleItemXml = scheduleItemReportXml.Item.elements(scheduleItemElementName)[0];
+//            _scheduleItemXml = scheduleItemReportXml.Item.elements(scheduleItemElementName)[0];
+            if (scheduleItemElementName == "MedicationScheduleItem")
+				_scheduleItemXml = scheduleItemReportXml.Item.MedicationScheduleItem[0];
+			else
+				_scheduleItemXml = scheduleItemReportXml.Item.EquipmentScheduleItem[0];
+
 			_name = HealthRecordHelperMethods.xmlToCodedValue(_scheduleItemXml.name[0]);
 			_scheduledBy = _scheduleItemXml.scheduledBy;
 			_dateScheduled = DateUtil.parseW3CDTF(_scheduleItemXml.dateScheduled.toString());

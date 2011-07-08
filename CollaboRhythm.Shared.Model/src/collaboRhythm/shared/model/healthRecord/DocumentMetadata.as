@@ -25,6 +25,8 @@ package collaboRhythm.shared.model.healthRecord
 		private var _id:String;
 		private var _type:String;
 
+		public static const INDIVO_DOCUMENTS_NAMESPACE:String = "http://indivo.org/vocab/xml/documents#";
+
 		public function DocumentMetadata(id:String=null, type:String=null)
 		{
 			_id = id;

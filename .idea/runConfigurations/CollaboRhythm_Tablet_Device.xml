@@ -4,8 +4,13 @@
     <option name="airMobileRunTarget" value="AndroidDevice" />
     <option name="debugTransport" value="USB" />
     <option name="emulator" value="NexusOne" />
+    <option name="existingPackagePath" value="" />
+    <option name="filesToPackage">
+      <list />
+    </option>
     <option name="fullScreenHeight" value="0" />
     <option name="fullScreenWidth" value="0" />
+    <option name="mobilePackageFileName" value="CollaboRhythm.Tablet.apk" />
     <option name="screenHeight" value="0" />
     <option name="screenWidth" value="0" />
     <option name="usbDebugPort" value="7936" />

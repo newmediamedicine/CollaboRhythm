@@ -26,74 +26,74 @@
     </fx:Declarations>
     <fx:Script>
 		<![CDATA[
-        import collaboRhythm.plugins.schedule.controller.ScheduleWidgetViewController;
-        import collaboRhythm.plugins.schedule.model.ScheduleGroup;
-        import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEvent;
-        import collaboRhythm.shared.model.AdherenceItem;
-        import collaboRhythm.shared.model.ScheduleItemBase;
-        import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
-        import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
-        import collaboRhythm.shared.model.ScheduleItemOccurrence;
+		import collaboRhythm.plugins.schedule.controller.ScheduleWidgetViewController;
+		import collaboRhythm.plugins.schedule.model.ScheduleGroup;
+		import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEvent;
+		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+		import collaboRhythm.shared.model.ScheduleItemBase;
+		import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
+		import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
+		import collaboRhythm.shared.model.ScheduleItemOccurrence;
 
-        private var _scheduleGroup:ScheduleGroup;
-        private var _scheduleWidgetViewController:ScheduleWidgetViewController;
+		private var _scheduleGroup:ScheduleGroup;
+		private var _scheduleWidgetViewController:ScheduleWidgetViewController;
 
-        public function init(scheduleWidgetViewController:ScheduleWidgetViewController,
-                             scheduleGroup:ScheduleGroup):void
-        {
-            _scheduleWidgetViewController = scheduleWidgetViewController;
+		public function init(scheduleWidgetViewController:ScheduleWidgetViewController,
+							 scheduleGroup:ScheduleGroup):void
+		{
+			_scheduleWidgetViewController = scheduleWidgetViewController;
 
-            _scheduleGroup = scheduleGroup;
-            createScheduleItems();
+			_scheduleGroup = scheduleGroup;
+			createScheduleItems();
 
-            this.addEventListener(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_CREATED,
-                                  adherenceItemCreatedEventHandler);
-        }
+			this.addEventListener(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_CREATED,
+								  adherenceItemCreatedEventHandler);
+		}
 
-        public function get scheduleGroup():ScheduleGroup
-        {
-            return _scheduleGroup;
-        }
+		public function get scheduleGroup():ScheduleGroup
+		{
+			return _scheduleGroup;
+		}
 
-        private function stage_keyDownHandler(event:KeyboardEvent):void
-        {
-            if (event.keyCode == Keyboard.BACK)
-            {
-                event.preventDefault();
-                event.stopImmediatePropagation();
-                _scheduleWidgetViewController.closeScheduleGroupReportingView();
-            }
-        }
+		private function stage_keyDownHandler(event:KeyboardEvent):void
+		{
+			if (event.keyCode == Keyboard.BACK)
+			{
+				event.preventDefault();
+				event.stopImmediatePropagation();
+				_scheduleWidgetViewController.closeScheduleGroupReportingView();
+			}
+		}
 
-        private function addedToStage():void
-        {
-            stage.addEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
-        }
+		private function addedToStage():void
+		{
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
+		}
 
-        private function removedFromStage():void
-        {
-            stage.removeEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
-        }
+		private function removedFromStage():void
+		{
+			stage.removeEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
+		}
 
-        private function createScheduleItems():void
-        {
-            for each (var scheduleItemOccurrence:ScheduleItemOccurrence in _scheduleGroup.scheduleItemsCollection)
-            {
-                var scheduleItemReportingView:ScheduleItemReportingViewBase = _scheduleGroup.scheduleModel.viewFactory.createScheduleItemReportingView(scheduleItemOccurrence,
-                                                                                                                                                       rightGroup);
+		private function createScheduleItems():void
+		{
+			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in _scheduleGroup.scheduleItemsCollection)
+			{
+				var scheduleItemReportingView:ScheduleItemReportingViewBase = _scheduleGroup.scheduleModel.viewFactory.createScheduleItemReportingView(scheduleItemOccurrence,
+																																					   rightGroup);
 //                scheduleItemReportingView.init2(this);
-                scheduleItemsContainer.addElement(scheduleItemReportingView);
-            }
-        }
+				scheduleItemsContainer.addElement(scheduleItemReportingView);
+			}
+		}
 
-        private function adherenceItemCreatedEventHandler(event:ScheduleItemReportingViewEvent):void
-        {
-            var scheduleItemOccurrence:ScheduleItemOccurrence = event.scheduleItemOccurrence;
-            var adherenceItem:AdherenceItem = event.adherenceItem;
-            _scheduleWidgetViewController.createAdherenceItem(_scheduleGroup, scheduleItemOccurrence,
-                                                              adherenceItem);
-        }
-        ]]>
+		private function adherenceItemCreatedEventHandler(event:ScheduleItemReportingViewEvent):void
+		{
+			var scheduleItemOccurrence:ScheduleItemOccurrence = event.scheduleItemOccurrence;
+			var adherenceItem:AdherenceItem = event.adherenceItem;
+			_scheduleWidgetViewController.createAdherenceItem(_scheduleGroup, scheduleItemOccurrence,
+															  adherenceItem);
+		}
+		]]>
 	</fx:Script>
     <s:HGroup width="100%" height="100%" gap="0">
         <s:Rect width="50%" height="100%">

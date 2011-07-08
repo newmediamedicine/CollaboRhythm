@@ -19,7 +19,7 @@ package collaboRhythm.plugins.schedule.model
 
     import collaboRhythm.plugins.schedule.shared.model.*;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
-    import collaboRhythm.shared.model.AdherenceItem;
+    import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
     import collaboRhythm.shared.model.EquipmentModel;
     import collaboRhythm.shared.model.EquipmentScheduleItem;
     import collaboRhythm.shared.model.MedicationScheduleItem;

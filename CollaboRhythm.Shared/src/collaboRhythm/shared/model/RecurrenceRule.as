@@ -17,7 +17,8 @@
 package collaboRhythm.shared.model
 {
 
-    import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
+	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
 
     [Bindable]
     public class RecurrenceRule
@@ -30,6 +31,7 @@ package collaboRhythm.shared.model
 //		TODO: Implement with choice of dateTimeUntil or count
 		public function RecurrenceRule(recurrenceRuleXml:XML)
 		{
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
 			_frequency = HealthRecordHelperMethods.xmlToCodedValue(recurrenceRuleXml.frequency[0]);
 //            _interval = HealthRecordHelperMethods.xmlToCodedValue(recurrenceRuleXml.interval[0]);
 //            _dateUntil = DateUtil.parseW3CDTF(recurrenceRuleXml.dateUntil);

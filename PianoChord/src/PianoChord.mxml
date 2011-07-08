@@ -139,7 +139,9 @@
 
 	<fx:Script>
 		<![CDATA[
-			import flash.filesystem.*;
+		import com.daveoncode.logging.LogFileTarget;
+
+		import flash.filesystem.*;
 			import flash.net.URLRequestMethod;
 			
 			import j2as3.collection.HashMap;
@@ -147,7 +149,10 @@
 			import mx.collections.ArrayCollection;
 			import mx.collections.XMLListCollection;
 			import mx.events.ListEvent;
-			import mx.managers.HistoryManager;
+		import mx.logging.ILogger;
+		import mx.logging.Log;
+		import mx.logging.LogEventLevel;
+		import mx.managers.HistoryManager;
 			import mx.utils.UIDUtil;
 			import mx.utils.URLUtil;
 			
@@ -164,14 +169,56 @@
 			public var stream:FileStream; // The FileStream object used to read and write prefsFile data.
 			
 			private var appInfo:Object;
-			
+			protected var logger:ILogger;
+
 			private function initApp():void
 			{
 				trace("initApp");
 				initPreferences();
+				initLogging();
 				this.addEventListener(KeyboardEvent.KEY_UP, doKeyUp);
 			}
 			
+			protected function initLogging():void
+			{
+				// The log file will be placed under applicationStorageDirectory folder
+				var path:String = File.applicationStorageDirectory.resolvePath("PianoChord.log").nativePath;
+
+				var targetFile:File = new File(path);
+
+				// get LogFileTarget's instance (LogFileTarget is a singleton)
+				var logTarget:LogFileTarget = LogFileTarget.getInstance();
+
+				logTarget.file = targetFile;
+
+				// optional (default to "MM/DD/YY")
+				//			target.dateFormat = "DD/MM/YY";
+
+				// optional  (default to 1024)
+				//			target.sizeLimit = 2048;
+
+				// Trace all (default Flex's framework features)
+				//			target.filters = ["*"];
+				//			target.level = LogEventLevel.ALL;
+
+				/* Log only messages for the classes in the collaboRhythm.workstation.* packages. */
+	//			logTarget.filters=["collaboRhythm.workstation.*"];
+
+				/* Log all log levels. */
+				logTarget.level = LogEventLevel.ALL;
+
+				/* Add date, time, category, and log level to the output. */
+				//			logTarget.includeDate = true;
+				//			logTarget.includeTime = true;
+				//			logTarget.includeCategory = true;
+				//			logTarget.includeLevel = true;
+
+				/* Begin logging. */
+				Log.addTarget(logTarget);
+
+				logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+			}
+
 			private function doKeyUp(event:KeyboardEvent):void
 			{
 				if (event.keyCode == Keyboard.S && event.altKey && !event.shiftKey && !event.controlKey)

@@ -16,19 +16,17 @@
  */
 package collaboRhythm.plugins.schedule.controller
 {
-	import collaboRhythm.shared.model.AdherenceItem;
+
 	import collaboRhythm.plugins.schedule.model.ScheduleGroup;
-	import collaboRhythm.shared.model.ScheduleItemBase;
 	import collaboRhythm.plugins.schedule.model.ScheduleModel;
-	import collaboRhythm.plugins.schedule.view.ScheduleFullView;
-	import collaboRhythm.plugins.schedule.view.ScheduleGroupReportingView;
 	import collaboRhythm.plugins.schedule.view.ScheduleWidgetView;
 	import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
-    import collaboRhythm.shared.model.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 
-    import mx.core.IVisualElementContainer;
+	import mx.core.IVisualElementContainer;
 
-    public class ScheduleWidgetViewController
+	public class ScheduleWidgetViewController
 	{
 		private var _isWorkstationMode:Boolean;
 		private var _scheduleModel:ScheduleModel;

@@ -54,7 +54,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 			{
 				_widgetView = new BloodPressureMobileChartView();
 				if (_widgetView && _activeRecordAccount)
-					_widgetView.model = _activeRecordAccount.bloodPressureModel;
+					_widgetView.model = _activeRecordAccount.primaryRecord.bloodPressureModel;
 				return _widgetView;
 			}
 			else
@@ -71,7 +71,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 		{
 			super.prepareWidgetView();
 			if (_widgetView && _activeRecordAccount)
-				_widgetView.model = _activeRecordAccount.bloodPressureModel;
+				_widgetView.model = _activeRecordAccount.primaryRecord.bloodPressureModel;
 		}
 
 		override public function reloadUserData():void

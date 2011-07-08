@@ -38,9 +38,9 @@
 			x="{detailButtonX}"
 			arrowTailY="{layoutDetailButtons(this.height, atenololButton.bottomExpansion, hydrochlorothiazideButton.bottomExpansion, details)}"
 			expanded="false"
-			listDataProvider="{atenololPlaceholderStepsListData}"
+			listDataProvider="{createStepsData(atenololMedicationModel.steps, atenololMedicationModel.concentrationSeverityColor)}"
 			label="Atenolol"
-			subtitle="Beta Blocker"
+			subtitle="{atenololMedicationModel.drugClass}"
 			move="drawArrows()"
 			expand="hydrochlorothiazideButton.expanded = false"
 			drillDownEnabled="false"
@@ -51,7 +51,7 @@
 		<buttons:rightContent>
 			<simulation:HydrochlorothiazideGauge id="atenololGauge" verticalCenter="0"
 												 width="60" height="30"
-												 value="{hydrochlorothiazideMedicationModel.concentration}"/>
+												 value="{atenololMedicationModel.concentration}"/>
 		</buttons:rightContent>
 	</buttons:SimulationDetailButton>
 	<buttons:SimulationDetailButton
@@ -72,12 +72,13 @@
 		<buttons:rightContent>
 			<simulation:HydrochlorothiazideGauge id="hydrochlorothiazideGauge" verticalCenter="0"
 												 width="60" height="30"
-												 value="{simulationModel.concentration}"/>
+												 value="{hydrochlorothiazideMedicationModel.concentration}"/>
 		</buttons:rightContent>
 	</buttons:SimulationDetailButton>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.bloodPressure.view.simulation.*;
 		import collaboRhythm.plugins.bloodPressure.view.simulation.buttons.SimulationDetail;
+		import collaboRhythm.plugins.bloodPressure.view.simulation.buttons.StepListItem;
 		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
@@ -87,19 +88,12 @@
 		import mx.events.FlexEvent;
 		import mx.events.PropertyChangeEvent;
 
-		[Bindable]
-		private var atenololPlaceholderStepsListData:ArrayCollection = new ArrayCollection([
-																			{ text: "Atenolol placeholder step 1", color: SimulationModel.SEVERITY_COLOR_GOAL },
-																			{ text: "Atenolol placeholder step 2", color: SimulationModel.SEVERITY_COLOR_GOAL },
-																			{ text: "Atenolol placeholder step 3", color: SimulationModel.SEVERITY_COLOR_GOAL },
-																			{ text: "Atenolol placeholder step 4", color: SimulationModel.SEVERITY_COLOR_GOAL },
-																			{ text: "Atenolol placeholder step 5", color: SimulationModel.SEVERITY_COLOR_GOAL },
-																		]);
-
 		private const hydrochlorothiazidePoint:Point = new Point(200, 533);
 		private const atenololPoint:Point = new Point(216, 342);
 		[Bindable]
 		private var hydrochlorothiazideMedicationModel:MedicationComponentAdherenceModel;
+		[Bindable]
+		private var atenololMedicationModel:MedicationComponentAdherenceModel;
 
 		protected override function creationCompleteHandler(event:FlexEvent):void
 		{
@@ -123,7 +117,7 @@
 			for each (var step:String in steps)
 			{
 				i++;
-				result.addItem({ text: step, color: concentrationSeverityColor });
+				result.addItem(new StepListItem(step, concentrationSeverityColor));
 			}
 
 			return result;
@@ -138,7 +132,10 @@
 		private function lookupMedications():void
 		{
 			if (simulationModel)
+			{
 				hydrochlorothiazideMedicationModel = simulationModel.getMedication(BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE);
+				atenololMedicationModel = simulationModel.getMedication(BloodPressureModel.RXNORM_ATENOLOL);
+			}
 		}
 
 		public override function set simulationModel(value:SimulationModel):void
