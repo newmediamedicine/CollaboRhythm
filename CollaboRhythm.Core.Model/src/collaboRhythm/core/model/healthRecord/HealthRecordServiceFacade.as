@@ -21,8 +21,14 @@ package collaboRhythm.core.model.healthRecord
 			_vitalSignHealthRecordService = new VitalSignHealthRecordService(consumerKey, consumerSecret, baseURL, account);
 		}
 
+		/**
+		 * Loads all supported documents for the Record and initializes any XML marshallers on the associated models.
+		 * @param record
+		 */
 		public function loadDocuments(record:Record):void
 		{
+			record.adherenceItemsModel.adherenceItemXmlMarshaller = _adherenceItemsHealthRecordService;
+
 			_medicationAdministrationsHealthRecordService.getMedicationAdministrations(record);
 			_adherenceItemsHealthRecordService.getAdherenceItems(record);
 			_vitalSignHealthRecordService.loadVitalSigns(record);

@@ -41,7 +41,12 @@ package collaboRhythm.plugins.bloodPressure.model
 			super(consumerKey, consumerSecret, baseURL, account);
 		}
 
-		public function loadBloodPressure(recordAccount:Account):void
+		/**
+		 * Initializes the medication simulation model of the BloodPressureModel for the primary record, and does any
+		 * other initialization needed to prepare the BloodPressureModel for use.
+		 * @param recordAccount
+		 */
+		public function initializeBloodPressureModel(recordAccount:Account):void
 		{
 			_record = recordAccount.primaryRecord;
 

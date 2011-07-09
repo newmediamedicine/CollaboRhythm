@@ -17,6 +17,8 @@
 package collaboRhythm.shared.model.healthRecord.document
 {
 
+	import collaboRhythm.shared.model.healthRecord.document.xml.IAdherenceItemXmlMarshaller;
+
 	import j2as3.collection.HashMap;
 
 	import mx.collections.ArrayCollection;
@@ -29,6 +31,7 @@ package collaboRhythm.shared.model.healthRecord.document
         private var _adherenceItemsCollection:ArrayCollection = new ArrayCollection();
         private var _isInitialized:Boolean = false;
         private var _isStitched:Boolean;
+		private var _adherenceItemXmlMarshaller:IAdherenceItemXmlMarshaller;
 
 		public function AdherenceItemsModel()
 		{
@@ -85,6 +88,16 @@ package collaboRhythm.shared.model.healthRecord.document
 			adherenceItems[adherenceItem.id] = adherenceItem;
 			_adherenceItemsCollection.addItem(adherenceItem);
 			addToAdherenceItemsCollectionsByCode(adherenceItem);
+		}
+
+		public function get adherenceItemXmlMarshaller():IAdherenceItemXmlMarshaller
+		{
+			return _adherenceItemXmlMarshaller;
+		}
+
+		public function set adherenceItemXmlMarshaller(value:IAdherenceItemXmlMarshaller):void
+		{
+			_adherenceItemXmlMarshaller = value;
 		}
 	}
 }

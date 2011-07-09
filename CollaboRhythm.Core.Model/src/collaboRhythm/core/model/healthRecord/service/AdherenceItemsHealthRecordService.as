@@ -22,6 +22,7 @@ package collaboRhythm.core.model.healthRecord.service
 	import collaboRhythm.shared.model.healthRecord.*;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItemsModel;
+	import collaboRhythm.shared.model.healthRecord.document.xml.IAdherenceItemXmlMarshaller;
 
 	import com.adobe.utils.DateUtil;
 
@@ -31,7 +32,7 @@ package collaboRhythm.core.model.healthRecord.service
 
 	import org.indivo.client.IndivoClientEvent;
 
-	public class AdherenceItemsHealthRecordService extends PhaHealthRecordServiceBase
+	public class AdherenceItemsHealthRecordService extends PhaHealthRecordServiceBase implements IAdherenceItemXmlMarshaller
 	{
 
 		public function AdherenceItemsHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account)
@@ -89,28 +90,28 @@ package collaboRhythm.core.model.healthRecord.service
 			var adherenceItemXml:XML = adherenceItemReportXML.Item.AdherenceItem[0];
 			adherenceItem.name = HealthRecordHelperMethods.xmlToCodedValue(adherenceItemXml.name[0]);
 			adherenceItem.reportedBy = adherenceItemXml.reportedBy;
-            adherenceItem.dateReported = collaboRhythm.shared.model.DateUtil.parseW3CDTF(adherenceItemXml.dateReported);
-            adherenceItem.recurrenceIndex = int(adherenceItemXml.recurrenceIndex);
+			adherenceItem.dateReported = collaboRhythm.shared.model.DateUtil.parseW3CDTF(adherenceItemXml.dateReported);
+			adherenceItem.recurrenceIndex = int(adherenceItemXml.recurrenceIndex);
 			adherenceItem.adherence = HealthRecordHelperMethods.stringToBoolean(adherenceItemXml.adherence);
 			adherenceItem.nonadherenceReason = adherenceItemXml.nonadherenceReason;
-            adherenceItem.adherenceResultId = adherenceItemReportXML..relatesTo.relation.(@type == "http://indivo.org/vocab/documentrels#adherenceresult").relatedDocument[0];
+			adherenceItem.adherenceResultId = adherenceItemReportXML..relatesTo.relation.(@type == "http://indivo.org/vocab/documentrels#adherenceresult").relatedDocument[0];
 		}
 
-        public function convertToXML(adherenceItem:AdherenceItem):XML
+		public function convertToXML(adherenceItem:AdherenceItem):XML
 		{
 			var adherenceItemXml:XML = <AdherenceItem/>;
 			adherenceItemXml.@xmlns = "http://indivo.org/vocab/xml/documents#";
-            // TODO: Write a helper method for coded value to xml
-            adherenceItemXml.name = adherenceItem.name.text;
-            adherenceItemXml.name.@type = adherenceItem.name.type;
-            adherenceItemXml.name.@value = adherenceItem.name.value;
-            adherenceItemXml.name.@abbrev = adherenceItem.name.abbrev;
-            adherenceItemXml.reportedBy = adherenceItem.reportedBy;
-            adherenceItemXml.dateReported = DateUtil.toW3CDTF(adherenceItem.dateReported);
-            adherenceItemXml.recurrenceIndex = adherenceItem.recurrenceIndex.toString();
-            adherenceItemXml.adherence = HealthRecordHelperMethods.booleanToString(adherenceItem.adherence);
-            if (adherenceItem.nonadherenceReason)
-                adherenceItemXml.nonadherenceReason = adherenceItem.nonadherenceReason;
+			// TODO: Write a helper method for coded value to xml
+			adherenceItemXml.name = adherenceItem.name.text;
+			adherenceItemXml.name.@type = adherenceItem.name.type;
+			adherenceItemXml.name.@value = adherenceItem.name.value;
+			adherenceItemXml.name.@abbrev = adherenceItem.name.abbrev;
+			adherenceItemXml.reportedBy = adherenceItem.reportedBy;
+			adherenceItemXml.dateReported = DateUtil.toW3CDTF(adherenceItem.dateReported);
+			adherenceItemXml.recurrenceIndex = adherenceItem.recurrenceIndex.toString();
+			adherenceItemXml.adherence = HealthRecordHelperMethods.booleanToString(adherenceItem.adherence);
+			if (adherenceItem.nonadherenceReason)
+				adherenceItemXml.nonadherenceReason = adherenceItem.nonadherenceReason;
 
 			return adherenceItemXml;
 		}

@@ -299,7 +299,10 @@ package collaboRhythm.workstation.controller
         protected override function changeDemoDate():void
         {
             if (_activeRecordAccount != null)
+			{
+				reloadDocuments(_activeRecordAccount);
 				_workstationAppControllersMediator.reloadUserData();
+			}
 
 			if (_activeRecordAccount && _activeRecordAccount.primaryRecord && _activeRecordAccount.primaryRecord.demographics)
 				_activeRecordAccount.primaryRecord.demographics.dispatchAgeChangeEvent();

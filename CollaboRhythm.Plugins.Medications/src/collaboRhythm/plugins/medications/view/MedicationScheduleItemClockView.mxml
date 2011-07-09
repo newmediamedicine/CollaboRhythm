@@ -26,9 +26,7 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-		import collaboRhythm.plugins.medications.model.Medication;
 		import collaboRhythm.shared.model.MedicationScheduleItem;
-		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 		import collaboRhythm.shared.model.ScheduleItemBase;
 		import collaboRhythm.shared.model.ScheduleItemOccurrence;
 

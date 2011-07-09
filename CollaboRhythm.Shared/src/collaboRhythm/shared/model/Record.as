@@ -49,6 +49,8 @@ package collaboRhythm.shared.model
         private var _settings:Settings;
         private var _activeAccount:Account;
 		private var _vitalSignModel:VitalSignModel;
+
+		// TODO: move BloodPressureModel to blood pressure plugin; eliminate bloodPressureModel property and field; use appData instead
 		private var _bloodPressureModel:BloodPressureModel;
 
         public function Record(settings:Settings, activeAccount:Account, recordXml:XML)
@@ -77,8 +79,6 @@ package collaboRhythm.shared.model
             videoMessagesModel = new VideoMessagesModel1(_settings, _activeAccount, this);
             problemsModel = new ProblemsModel(_settings, _activeAccount, this);
 			vitalSignModel = new VitalSignModel();
-			bloodPressureModel = new BloodPressureModel();
-			bloodPressureModel.record = this;
 
             new MedicationOrderStitcher(_medicationOrdersModel, _medicationFillsModel, _medicationScheduleItemsModel);
             new MedicationScheduleItemStitcher(_medicationScheduleItemsModel, _adherenceItemsModel);
@@ -279,6 +279,7 @@ package collaboRhythm.shared.model
 			_vitalSignModel = value;
 		}
 
+		// TODO: move BloodPressureModel to blood pressure plugin; eliminate bloodPressureModel property and field; use appData instead
 		public function get bloodPressureModel():BloodPressureModel
 		{
 			return _bloodPressureModel;

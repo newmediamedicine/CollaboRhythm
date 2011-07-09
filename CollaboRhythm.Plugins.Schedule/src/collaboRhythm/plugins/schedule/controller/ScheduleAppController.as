@@ -88,14 +88,26 @@ package collaboRhythm.plugins.schedule.controller
 		
 		protected override function createWidgetView():UIComponent
 		{
-			var newWidgetView:ScheduleClockWidgetView = new ScheduleClockWidgetView();
+			_widgetView = new ScheduleClockWidgetView();
+			return _widgetView;
+		}
+
+		override protected function prepareWidgetView():void
+		{
+			super.prepareWidgetView();
 			if (_activeRecordAccount != null)
 			{
-				_scheduleWidgetViewController = new ScheduleClockController(isWorkstationMode, scheduleModel, newWidgetView, _fullParentContainer);//, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
-				newWidgetView.init(_scheduleWidgetViewController, scheduleModel, _fullParentContainer);
+				_scheduleWidgetViewController = new ScheduleClockController(isWorkstationMode, scheduleModel, _widgetView, _fullParentContainer);//, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
+				_widgetView.init(_scheduleWidgetViewController, scheduleModel, _fullParentContainer);
                 _scheduleWidgetViewController.addEventListener(AppEvent.SHOW_FULL_VIEW, showFullViewHandler);
 			}
-			return newWidgetView;
+		}
+
+		override protected function updateWidgetViewModel():void
+		{
+			super.updateWidgetViewModel();
+			// TODO: update scheduleWidgetViewController with the new scheduleModel (?)
+			_widgetView.init(_scheduleWidgetViewController, scheduleModel, _fullParentContainer);
 		}
 
 		protected override function createFullView():UIComponent

@@ -475,5 +475,12 @@ package collaboRhythm.core.controller
 																	   _activeAccount);
 			_healthRecordServiceFacade.loadDocuments(recordAccount.primaryRecord);
 		}
+
+		protected function reloadDocuments(recordAccount:Account):void
+		{
+			recordAccount.primaryRecord.clearDocuments();
+			recordAccount.primaryRecord.getDocuments();
+			_healthRecordServiceFacade.loadDocuments(recordAccount.primaryRecord);
+		}
 	}
 }

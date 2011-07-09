@@ -330,6 +330,9 @@
 			_model = value;
 			refresh();
 
+			if (simulationView)
+				simulationView.initializeModel(model.simulation, model);
+
 			_model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, model_propertyChangeHandler, false, 0, true);
 		}
 
@@ -344,6 +347,12 @@
 		{
 			if (chartsGroup)
 				setSingleChartMode(null, false);
+
+			if (simulationView)
+			{
+				simulationView.initializeModel(model.simulation, model);
+				simulationView.refresh();
+			}
 		}
 
 		private function adherenceSeriesFilter(cache:Array):Array
@@ -1030,16 +1039,20 @@
 					var medicationModel:MedicationComponentAdherenceModel = model.simulation.getMedication(medicationCode);
 
 					if (medicationModel == null)
-						throw new Error("No medication found in the model.simulation for key " + medicationCode);
+					{
+						trace("Warning: No medication found in the model.simulation for key " + medicationCode + ". This will happen if there are no MedicationAdministration documents in the record for this medication.");
+					}
+					else
+					{
+						var currentAdherenceChart:ScrubChart = _adherenceCharts.getValueByKey(medicationCode);
 
-					var currentAdherenceChart:ScrubChart = _adherenceCharts.getValueByKey(medicationCode);
+						var concentrationDataPoint:Object = currentAdherenceChart.findPreviousDataPoint(model.simulation.date.time);
 
-					var concentrationDataPoint:Object = currentAdherenceChart.findPreviousDataPoint(model.simulation.date.time);
+						// TODO: show the date for the concentration data point
+						var concentration:Number = concentrationDataPoint == null ? 0 : concentrationDataPoint.concentration;
 
-					// TODO: show the date for the concentration data point
-					var concentration:Number = concentrationDataPoint == null ? 0 : concentrationDataPoint.concentration;
-
-					medicationModel.concentration = concentration;
+						medicationModel.concentration = concentration;
+					}
 				}
 			}
 

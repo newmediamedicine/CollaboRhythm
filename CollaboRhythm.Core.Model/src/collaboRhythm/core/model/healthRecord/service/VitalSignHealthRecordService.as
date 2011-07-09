@@ -94,11 +94,14 @@ package collaboRhythm.core.model.healthRecord.service
 			xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "CodedValue"), CodedValue);
 			xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "ValueAndUnit"), ValueAndUnit);
 
+			// trim off any data that is from the future (according to ICurrentDateSource); note that we assume the data is in ascending order by date
+			var nowTime:Number = _currentDateSource.now().time;
+
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
 			for each (var vitalSignXml:XML in responseXml.Report.Item.VitalSign)
 			{
 				var vitalSign:VitalSign = xmlMarshaller.unmarshallXml(vitalSignXml, vitalSignQName) as VitalSign;
-				if (vitalSign)
+				if (vitalSign && vitalSign.dateMeasuredStart.valueOf() <= nowTime)
 				{
 					collection.addItem(vitalSign);
 				}

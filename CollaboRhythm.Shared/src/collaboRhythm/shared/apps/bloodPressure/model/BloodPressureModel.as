@@ -183,6 +183,9 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 		public function set record(value:Record):void
 		{
+			isInitialized = false;
+			showAdherence = false;
+
 			_record = value;
 			if (record)
 			{
@@ -225,7 +228,8 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 		private function determineShowAdherence():Boolean
 		{
-			return record.medicationAdministrationsModel.isInitialized && record.adherenceItemsModel.isInitialized;
+			return (record.medicationAdministrationsModel.isInitialized && record.adherenceItemsModel.isInitialized) &&
+					record.medicationAdministrationsModel.medicationAdministrationsCollection.length > 0 || record.adherenceItemsModel.adherenceItems.size() > 0;
 		}
 
 		public function get isInitialized():Boolean

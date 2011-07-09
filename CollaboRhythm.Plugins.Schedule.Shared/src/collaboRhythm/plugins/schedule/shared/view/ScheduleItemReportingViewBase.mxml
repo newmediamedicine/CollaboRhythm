@@ -25,9 +25,11 @@
     </fx:Declarations>
     <fx:Script>
 		<![CDATA[
+        import collaboRhythm.shared.model.ScheduleItemBase;
+        import collaboRhythm.shared.model.ScheduleItemOccurrence;
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
-		import collaboRhythm.shared.model.ScheduleItemBase;
-		import collaboRhythm.shared.model.ScheduleItemOccurrence;
+
+		import mx.core.UIComponent;
 
         public static const SCHEDULE_ITEM_REPORTING_VIEW_PICTURE_WIDTH:Number = 120;
         public static const SCHEDULE_ITEM_REPORTING_VIEW_PICTURE_HEIGHT:Number = 120;
@@ -35,27 +37,30 @@
 
         [Bindable]
         protected var _scheduleItemOccurrence:ScheduleItemOccurrence;
-        [Bindable]
-        protected var _parentGroup:Group;
 
-		public static const SCHEDULE_ITEM_WIDGET_VIEW:String = "scheduleItemWidgetView";
+        public static const SCHEDULE_ITEM_WIDGET_VIEW:String = "scheduleItemWidgetView";
 
-        public function init(scheduleItemOccurrence:ScheduleItemOccurrence, parentGroup:Group):void
+        public function init(scheduleItemOccurrence:ScheduleItemOccurrence):void
         {
             _scheduleItemOccurrence = scheduleItemOccurrence;
-            _parentGroup = parentGroup;
         }
 
-        //
         public function get scheduleItem():ScheduleItemBase
         {
             throw new Error("virtual function must be overridden in subclass");
         }
 
-        public function dispatchAdherenceItemEvent(adherenceItem:AdherenceItem):void
+        public function dispatchAdherenceItemCompleteEvent(adherenceItem:AdherenceItem):void
         {
-            dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_CREATED,
+            dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_COMPLETE,
                                                              _scheduleItemOccurrence, adherenceItem));
+        }
+
+        public function dispatchAdherenceItemIncompleteEvent(additionalInformationView:UIComponent):void
+        {
+            dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
+                                                             _scheduleItemOccurrence, null,
+                                                             additionalInformationView));
         }
 
         public function get scheduleItemOccurrence():ScheduleItemOccurrence

@@ -1,14 +1,14 @@
 package collaboRhythm.plugins.schedule.model
 {
 
-    import collaboRhythm.shared.model.AdherenceItem;
     import collaboRhythm.shared.model.Record;
-    import collaboRhythm.shared.model.ScheduleItemBase;
     import collaboRhythm.shared.model.ScheduleItemOccurrence;
-    import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
+	import collaboRhythm.shared.model.healthRecord.AccountInformationHealthRecordService;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
     import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 
-    import mx.collections.ArrayCollection;
+	import mx.collections.ArrayCollection;
     import mx.core.UIComponent;
 
     [Bindable]
@@ -54,7 +54,7 @@ package collaboRhythm.plugins.schedule.model
             scheduleItemOccurrence.adherenceItem = adherenceItem;
             viewStack.removeAll();
             _scheduleItemDocumentId = scheduleItemOccurrence.scheduleItem.id;
-            var adherenceItemDocument:XML = adherenceItem.convertToXML();
+            var adherenceItemDocument:XML = _record.adherenceItemsModel.adherenceItemXmlMarshaller.convertToXML(adherenceItem);
             if (adherenceItem.adherenceResult)
             {
                 _adherenceResultDocument = adherenceItem.adherenceResult.convertToXML();

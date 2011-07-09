@@ -6,10 +6,10 @@ package collaboRhythm.plugins.schedule.controller
     import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
     import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
     import collaboRhythm.shared.controller.apps.AppEvent;
-    import collaboRhythm.shared.model.AdherenceItem;
     import collaboRhythm.shared.model.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 
-    import flash.events.EventDispatcher;
+	import flash.events.EventDispatcher;
 
     import mx.binding.utils.BindingUtils;
     import mx.core.UIComponent;

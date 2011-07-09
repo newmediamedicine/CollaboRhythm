@@ -70,7 +70,7 @@ package collaboRhythm.shared.model
         {
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
             parseDocumentMetadata(scheduleItemReportXml.Meta.Document[0], this);
-            _scheduleItemXml = scheduleItemReportXml.Item.elements(scheduleItemElementName)[0];
+            _scheduleItemXml = scheduleItemReportXml.Item.elements(new QName(DocumentMetadata.INDIVO_DOCUMENTS_NAMESPACE, scheduleItemElementName))[0];
             _name = HealthRecordHelperMethods.xmlToCodedValue(_scheduleItemXml.name[0]);
             _scheduledBy = _scheduleItemXml.scheduledBy;
             _dateScheduled = collaboRhythm.shared.model.DateUtil.parseW3CDTF(_scheduleItemXml.dateScheduled.toString());
