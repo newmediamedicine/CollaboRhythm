@@ -27,7 +27,7 @@
     </fx:Declarations>
     <fx:Script>
 		<![CDATA[
-        import collaboRhythm.plugins.schedule.model.ScheduleGroup;
+        import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
         import collaboRhythm.plugins.schedule.model.ScheduleModel;
         import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
         import collaboRhythm.shared.model.ScheduleItemOccurrence;

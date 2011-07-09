@@ -36,15 +36,12 @@
         private var _scheduleModel:ScheduleModel;
         private var _scheduleReportingModel:ScheduleReportingModel;
 
-        public function init(scheduleReportingController:ScheduleReportingController, scheduleModel:ScheduleModel,
-                             scheduleReportingModel:ScheduleReportingModel):void
+        public function init(scheduleReportingController:ScheduleReportingController, scheduleModel:ScheduleModel):void
         {
             _scheduleReportingController = scheduleReportingController;
             _scheduleModel = scheduleModel;
-            _scheduleReportingModel = scheduleReportingModel;
+            _scheduleReportingModel = _scheduleModel.scheduleReportingModel;
             _scheduleReportingModel.viewStack.addEventListener(CollectionEvent.COLLECTION_CHANGE, viewStackChangeEvent);
-
-            scheduleGroupReportingView.init(_scheduleModel);
 
             this.addEventListener(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_COMPLETE,
                                   adherenceItemCompleteEventHandler);
@@ -96,7 +93,7 @@
 
         private function adherenceItemCompleteEventHandler(event:ScheduleItemReportingViewEvent):void
         {
-            _scheduleReportingController.createAdherenceItem(_scheduleModel.currentScheduleGroup,
+            _scheduleReportingController.createAdherenceItem(_scheduleModel.scheduleReportingModel.currentScheduleGroup,
                                                              event.scheduleItemOccurrence,
                                                              event.adherenceItem);
         }

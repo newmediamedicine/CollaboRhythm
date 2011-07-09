@@ -4,6 +4,8 @@ package collaboRhythm.plugins.schedule.model
     import castle.flexbridge.reflection.ClassInfo;
     import castle.flexbridge.reflection.ReflectionUtils;
 
+    import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
+
     import collaboRhythm.plugins.schedule.shared.model.IScheduleViewFactory;
     import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
     import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
@@ -37,9 +39,9 @@ package collaboRhythm.plugins.schedule.model
             return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem)).name].createScheduleItemClockView(scheduleItemOccurrence);
         }
 
-        public function createScheduleItemReportingView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemReportingViewBase
+        public function createScheduleItemReportingView(scheduleItemOccurrence:ScheduleItemOccurrence, scheduleReportingModel:IScheduleReportingModel):ScheduleItemReportingViewBase
         {
-            return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem)).name].createScheduleItemReportingView(scheduleItemOccurrence);
+            return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem)).name].createScheduleItemReportingView(scheduleItemOccurrence, scheduleReportingModel);
         }
 
         public function createScheduleItemTimelineView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemTimelineViewBase

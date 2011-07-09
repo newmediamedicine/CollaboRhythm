@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.plugins.schedule.model
+package collaboRhythm.plugins.schedule.shared.model
 {
 
     import collaboRhythm.shared.model.ScheduleItemOccurrence;

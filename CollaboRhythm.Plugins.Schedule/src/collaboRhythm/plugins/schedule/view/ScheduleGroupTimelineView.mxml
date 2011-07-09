@@ -36,10 +36,10 @@
     </s:layout>
     <fx:Script>
 		<![CDATA[
-        import collaboRhythm.plugins.schedule.model.ScheduleGroup;
+        import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
         import collaboRhythm.plugins.schedule.model.ScheduleModel;
+        import collaboRhythm.plugins.schedule.model.ScheduleTimelineModel;
         import collaboRhythm.plugins.schedule.shared.model.MoveData;
-        import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
         import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
         import collaboRhythm.plugins.schedule.shared.view.ScheduleTimelineViewEvent;
         import collaboRhythm.shared.model.ScheduleItemOccurrence;
@@ -61,6 +61,8 @@
         [Bindable]
         private var _scheduleModel:ScheduleModel;
         [Bindable]
+        private var _scheduleTimelineModel:ScheduleTimelineModel;
+        [Bindable]
         private var _scheduleGroup:ScheduleGroup;
         [Bindable]
         private var _scheduleGroupsContainer:Group;
@@ -75,10 +77,13 @@
         private var _mouseDownOffsetY:Number;
         private var _addedToStage:Boolean;
 
-        public function init(scheduleModel:ScheduleModel, scheduleGroup:ScheduleGroup, scheduleGroupsContainer:Group,
+
+        public function init(scheduleModel:ScheduleModel, scheduleTimelineModel:ScheduleTimelineModel,
+                             scheduleGroup:ScheduleGroup, scheduleGroupsContainer:Group,
                              scheduleFullView:ScheduleTimelineFullView):void
         {
             _scheduleModel = scheduleModel;
+            _scheduleTimelineModel = scheduleTimelineModel;
             _scheduleGroup = scheduleGroup;
             _scheduleGroupsContainer = scheduleGroupsContainer;
             _scheduleFullView = scheduleFullView;
@@ -91,7 +96,8 @@
                                                                                  _scheduleModel,
                                                                                  "isInitialized", false, true);
             _changeWatchers.push(initializedChangeWatcher);
-            var timeWidthChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(timeWidthChangeHandler, _scheduleModel,
+            var timeWidthChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(timeWidthChangeHandler,
+                                                                               _scheduleTimelineModel,
                                                                                "timeWidth", false, true);
             _changeWatchers.push(timeWidthChangeWatcher);
             var movingChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(movingChangeHandler,
@@ -113,10 +119,14 @@
                                                                                "yPosition", false, true);
             _changeWatchers.push(yPositionChangeWatcher);
             var stackingUpdatedChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(stackingUpdatedChangeHandler,
-                                                                                     _scheduleModel, "stackingUpdated",
+                                                                                     _scheduleTimelineModel,
+                                                                                     "stackingUpdated",
                                                                                      false, true);
             _changeWatchers.push(stackingUpdatedChangeWatcher);
-            var containerHeightChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(containerHeightChangeHandler, _scheduleModel, "containerHeight", false, true);
+            var containerHeightChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(containerHeightChangeHandler,
+                                                                                     _scheduleTimelineModel,
+                                                                                     "containerHeight",
+                                                                                     false, true);
             _changeWatchers.push(containerHeightChangeWatcher);
 
             _scheduleGroupSpotlightView.init(_scheduleGroup, _scheduleGroupsContainer, _scheduleFullView);
@@ -249,10 +259,10 @@
 
         private function showMoving():void
         {
-                glowFilter.blurX = 10;
-                glowFilter.blurY = 10;
-                stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler, false, 0, true);
-                stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler, false, 0, true);
+            glowFilter.blurX = 10;
+            glowFilter.blurY = 10;
+            stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler, false, 0, true);
+            stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler, false, 0, true);
         }
 
         private function movingChangeHandler(moving:Boolean):void
@@ -413,7 +423,7 @@
 
         private function calculateXPosition():Number
         {
-            return Math.floor((scheduleGroup.dateCenter.hours + 1 + scheduleGroup.dateCenter.minutes / 60) * _scheduleModel.timeWidth + (_scheduleModel.timeWidth / 2) - (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2) - SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH);
+            return Math.floor((scheduleGroup.dateCenter.hours + 1 + scheduleGroup.dateCenter.minutes / 60) * _scheduleTimelineModel.timeWidth + (_scheduleTimelineModel.timeWidth / 2) - (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2) - SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH);
         }
 
         private function calculateYPosition():Number
@@ -445,7 +455,7 @@
 
         private function calculateSpotlightWidth():Number
         {
-            return Math.floor((_scheduleGroup.dateEnd.time - _scheduleGroup.dateStart.time) / (1000 * 60 * 60) * _scheduleModel.timeWidth);
+            return Math.floor((_scheduleGroup.dateEnd.time - _scheduleGroup.dateStart.time) / (1000 * 60 * 60) * _scheduleTimelineModel.timeWidth);
         }
 
         private function calculateSpotlightXPosition():Number

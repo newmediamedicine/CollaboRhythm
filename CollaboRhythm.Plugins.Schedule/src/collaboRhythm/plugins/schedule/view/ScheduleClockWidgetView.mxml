@@ -46,7 +46,7 @@
         //TODO: Maybe ChildIndependentLayout belongs in shared?
 
         import collaboRhythm.plugins.schedule.controller.ScheduleClockController;
-        import collaboRhythm.plugins.schedule.model.ScheduleGroup;
+        import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
         import collaboRhythm.plugins.schedule.model.ScheduleModel;
 
         import mx.collections.ArrayCollection;

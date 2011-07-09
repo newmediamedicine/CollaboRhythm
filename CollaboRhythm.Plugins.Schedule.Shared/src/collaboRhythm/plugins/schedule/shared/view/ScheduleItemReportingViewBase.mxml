@@ -18,6 +18,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:mx="library://ns.adobe.com/flex/mx"
+         remove="removeHandler()"
          width="100%"
          height="{SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT}">
     <fx:Declarations>
@@ -25,9 +26,14 @@
     </fx:Declarations>
     <fx:Script>
 		<![CDATA[
+        import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
+        import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
         import collaboRhythm.shared.model.AdherenceItem;
         import collaboRhythm.shared.model.ScheduleItemBase;
         import collaboRhythm.shared.model.ScheduleItemOccurrence;
+
+        import mx.binding.utils.BindingUtils;
+        import mx.binding.utils.ChangeWatcher;
 
         import mx.core.UIComponent;
 
@@ -37,17 +43,29 @@
 
         [Bindable]
         protected var _scheduleItemOccurrence:ScheduleItemOccurrence;
+        [Bindable]
+        protected var _scheduleReportingModel:IScheduleReportingModel;
+        private var _pendingAdherenceItemChangeWatcher:ChangeWatcher;
 
         public static const SCHEDULE_ITEM_WIDGET_VIEW:String = "scheduleItemWidgetView";
 
-        public function init(scheduleItemOccurrence:ScheduleItemOccurrence):void
+        public function init(scheduleItemOccurrence:ScheduleItemOccurrence,
+                             scheduleReportingModel:IScheduleReportingModel):void
         {
             _scheduleItemOccurrence = scheduleItemOccurrence;
+            _scheduleReportingModel = scheduleReportingModel;
+
+            _pendingAdherenceItemChangeWatcher = BindingUtils.bindSetter(pendingAdherenceItem_changeHandler, _scheduleReportingModel, "pendingAdherenceItem");
         }
 
         public function get scheduleItem():ScheduleItemBase
         {
             throw new Error("virtual function must be overridden in subclass");
+        }
+
+        public function get scheduleItemOccurrence():ScheduleItemOccurrence
+        {
+            return _scheduleItemOccurrence;
         }
 
         public function dispatchAdherenceItemCompleteEvent(adherenceItem:AdherenceItem):void
@@ -63,9 +81,19 @@
                                                              additionalInformationView));
         }
 
-        public function get scheduleItemOccurrence():ScheduleItemOccurrence
+        protected function pendingAdherenceItem_changeHandler(pendingAdherenceItem:PendingAdherenceItem):void
         {
-            return _scheduleItemOccurrence;
+            throw new Error("virtual function must be overridden in subclass");
+        }
+
+        public function adherenceHandler(adherenceItem:AdherenceItem):void
+        {
+
+        }
+
+        private function removeHandler():void
+        {
+            _pendingAdherenceItemChangeWatcher.unwatch();
         }
         ]]>
 	</fx:Script>

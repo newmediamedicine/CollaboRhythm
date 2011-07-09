@@ -27,20 +27,15 @@
     <fx:Script>
 		<![CDATA[
         import collaboRhythm.plugins.schedule.controller.ScheduleTimelineController;
-        import collaboRhythm.plugins.schedule.model.ScheduleGroup;
         import collaboRhythm.plugins.schedule.model.ScheduleModel;
         import collaboRhythm.plugins.schedule.model.ScheduleTimelineModel;
         import collaboRhythm.plugins.schedule.shared.model.MoveData;
-        import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
+        import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
         import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
         import collaboRhythm.plugins.schedule.shared.view.ScheduleTimelineViewEvent;
-        import collaboRhythm.plugins.schedule.view.ScheduleGroupTimelineView;
-        import collaboRhythm.plugins.schedule.view.ScheduleGroupTimelineView;
-        import collaboRhythm.shared.model.ScheduleItemOccurrence;
 
         import mx.binding.utils.BindingUtils;
         import mx.binding.utils.ChangeWatcher;
-
         import mx.collections.ArrayCollection;
         import mx.events.CollectionEvent;
         import mx.events.CollectionEventKind;
@@ -56,16 +51,20 @@
         private var _scheduleTimelineController:ScheduleTimelineController;
         [Bindable]
         private var _scheduleModel:ScheduleModel;
+        [Bindable]
+        private var _scheduleTimelineModel:ScheduleTimelineModel;
         private var _scheduleGroupsCollection:ArrayCollection;
         private var _scheduleGroupTimelineViews:Vector.<ScheduleGroupTimelineView> = new Vector.<ScheduleGroupTimelineView>();
 
         private var _isCreationComplete:Boolean = false;
 
-        public function init(scheduleFullViewController:ScheduleTimelineController, scheduleModel:ScheduleModel,
-                             scheduleTimelineModel:ScheduleTimelineModel):void
+
+        public function init(scheduleFullViewController:ScheduleTimelineController, scheduleModel:ScheduleModel):void
         {
             _scheduleTimelineController = scheduleFullViewController;
             _scheduleModel = scheduleModel;
+            _scheduleTimelineModel = _scheduleModel.scheduleTimelineModel;
+
             _scheduleGroupsCollection = _scheduleModel.scheduleGroupsCollection;
 
             _scheduleGroupsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
@@ -154,7 +153,8 @@
         public function createScheduleGroupView(scheduleGroup:ScheduleGroup):ScheduleGroupTimelineView
         {
             var scheduleGroupTimelineView:ScheduleGroupTimelineView = new ScheduleGroupTimelineView();
-            scheduleGroupTimelineView.init(_scheduleModel, scheduleGroup, scheduleGroupsContainer, this);
+            scheduleGroupTimelineView.init(_scheduleModel, _scheduleTimelineModel, scheduleGroup,
+                                           scheduleGroupsContainer, this);
             scheduleGroupsContainer.addElement(scheduleGroupTimelineView);
             _scheduleGroupTimelineViews.push(scheduleGroupTimelineView);
 
@@ -190,13 +190,13 @@
 
         private function calculateTimeWidth():void
         {
-            _scheduleModel.timeWidth = (scheduleGroupsContainer.width - ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH + (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2) - ScheduleGroupTimelineView.SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH) / 26;
+            _scheduleTimelineModel.timeWidth = (scheduleGroupsContainer.width - ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH + (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2) - ScheduleGroupTimelineView.SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH) / 26;
         }
 
         public function resizeHandler(event:ResizeEvent):void
         {
             calculateTimeWidth();
-            _scheduleModel.containerHeight = scheduleGroupsContainer.height;
+            _scheduleTimelineModel.containerHeight = scheduleGroupsContainer.height;
         }
 
         private function addContainerMoveData(moveData:MoveData):MoveData

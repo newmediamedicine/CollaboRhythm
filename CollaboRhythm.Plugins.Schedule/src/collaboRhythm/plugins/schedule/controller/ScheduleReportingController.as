@@ -1,9 +1,10 @@
 package collaboRhythm.plugins.schedule.controller
 {
 
-    import collaboRhythm.plugins.schedule.model.ScheduleGroup;
     import collaboRhythm.plugins.schedule.model.ScheduleModel;
     import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
+    import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
+    import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
     import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
     import collaboRhythm.shared.controller.apps.AppEvent;
     import collaboRhythm.shared.model.AdherenceItem;
@@ -21,12 +22,11 @@ package collaboRhythm.plugins.schedule.controller
         private var _scheduleReportingModel:ScheduleReportingModel;
 
         public function ScheduleReportingController(scheduleModel:ScheduleModel,
-                                                    scheduleReportingFullView:ScheduleReportingFullView,
-                                                    scheduleReportingModel:ScheduleReportingModel)
+                                                    scheduleReportingFullView:ScheduleReportingFullView)
         {
             _scheduleModel = scheduleModel;
             _scheduleReportingFullView = scheduleReportingFullView;
-            _scheduleReportingModel = scheduleReportingModel;
+            _scheduleReportingModel = _scheduleModel.scheduleReportingModel;
             _scheduleReportingModel.isReportingCompleted = false;
 
             BindingUtils.bindSetter(reportingCompletedHandler, _scheduleReportingModel, "isReportingCompleted");

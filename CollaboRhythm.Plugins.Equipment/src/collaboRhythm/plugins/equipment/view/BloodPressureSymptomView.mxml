@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<!--~
+~ Copyright 2011 John Moore, Scott Gilroy
+~
+~ This file is part of CollaboRhythm.
+~
+~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+~ version.
+~
+~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+~ details.
+~
+~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+~ <http://www.gnu.org/licenses/>.
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:mx="library://ns.adobe.com/flex/mx"
+         width="100%" height="100%">
+    <s:states>
+        <s:State name="hypotension"/>
+        <s:State name="hypertension"/>
+    </s:states>
+        <fx:Style>
+        @namespace s "library://ns.adobe.com/flex/spark";
+
+        .labelText {
+            color: #000000;
+            font-size: 30;
+        }
+
+        .symptomText {
+            color: #000000;
+            font-size: 30;
+        }
+
+        #noSymptomButton {
+            font-size: 50;
+        }
+    </fx:Style>
+    <fx:Script><![CDATA[
+        import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEvent;
+        import collaboRhythm.shared.model.AdherenceItem;
+        import collaboRhythm.shared.model.ScheduleItemOccurrence;
+
+        import spark.events.IndexChangeEvent;
+
+        private var _scheduleItemOccurrence:ScheduleItemOccurrence;
+        private var _adherenceItem:AdherenceItem;
+
+        public function init(scheduleItemOccurrence:ScheduleItemOccurrence, adherenceItem:AdherenceItem):void
+        {
+            _scheduleItemOccurrence = scheduleItemOccurrence;
+            _adherenceItem = adherenceItem;
+        }
+
+        private function symptomListChangeHandler(event:IndexChangeEvent):void
+        {
+            var bloodPressuerEmergencyView:BloodPressureEmergencyView = new BloodPressureEmergencyView();
+            bloodPressuerEmergencyView.init(_scheduleItemOccurrence, _adherenceItem);
+            bloodPressuerEmergencyView.currentState = currentState;
+            dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
+                                                             _scheduleItemOccurrence, _adherenceItem,
+                                                             bloodPressuerEmergencyView));
+        }
+
+        private function noSymptomButtonClickHandler(event:MouseEvent):void
+        {
+            var bloodPressureReportingView:BloodPressureReportingView = new BloodPressureReportingView();
+            bloodPressureReportingView.init(_scheduleItemOccurrence, _adherenceItem, true);
+            dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
+                                                             _scheduleItemOccurrence, _adherenceItem,
+                                                             bloodPressureReportingView));
+        }
+        ]]></fx:Script>
+    <s:Rect width="100%" height="100%">
+        <s:fill>
+            <s:SolidColor color="#CCCCCC"/>
+        </s:fill>
+    </s:Rect>
+    <s:VGroup left="10" right="10" top="10" bottom="10">
+        <s:Label text="Warning: Your blood pressure appears to be dangerously low." styleName="labelText" includeIn="hypotension"/>
+        <s:Label text="Warning: Your blood pressure appears to be dangerously high." styleName="labelText" includeIn="hypertension"/>
+        <s:Label text="Are you having any of the following symptoms?" styleName="labelText"/>
+        <s:List id="hypotensionSymptomList" width="100%" change="symptomListChangeHandler(event)" includeIn="hypotension" styleName="symptomText">
+            <mx:ArrayCollection>
+                <fx:String>dizziness or lightheadedness</fx:String>
+                <fx:String>fainting</fx:String>
+                <fx:String>difficulty concentrating</fx:String>
+                <fx:String>blurry vision</fx:String>
+                <fx:String>nausea</fx:String>
+                <fx:String>cold/clammy skin</fx:String>
+                <fx:String>rapid/shallow breathing</fx:String>
+                <fx:String>fatigue</fx:String>
+                <fx:String>depression</fx:String>
+                <fx:String>significant thirst</fx:String>
+                <fx:String>other worrisome symptom</fx:String>
+            </mx:ArrayCollection>
+        </s:List>
+        <s:List id="hypertensionSymptomList" change="symptomListChangeHandler(event)" includeIn="hypertension" styleName="symptomText">
+            <mx:ArrayCollection>
+                <fx:String>severe headache</fx:String>
+                <fx:String>severe anxiety</fx:String>
+                <fx:String>shortness of breath</fx:String>
+                <fx:String>other worrisome symptom</fx:String>
+            </mx:ArrayCollection>
+        </s:List>
+        <s:Button id="noSymptomButton" label="None of the above" click="noSymptomButtonClickHandler(event)"/>
+    </s:VGroup>
+</s:Group>

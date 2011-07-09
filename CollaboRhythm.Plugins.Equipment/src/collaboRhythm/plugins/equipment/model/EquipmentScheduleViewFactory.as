@@ -7,6 +7,7 @@ package collaboRhythm.plugins.equipment.model
     import collaboRhythm.plugins.equipment.view.EquipmentScheduleItemClockView;
     import collaboRhythm.plugins.equipment.view.EquipmentScheduleItemReportingView;
     import collaboRhythm.plugins.equipment.view.EquipmentScheduleItemTimelineView;
+    import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
     import collaboRhythm.plugins.schedule.shared.model.IScheduleViewFactory;
     import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
     import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
@@ -32,10 +33,10 @@ package collaboRhythm.plugins.equipment.model
             return equipmentScheduleItemClockView;
         }
 
-        public function createScheduleItemReportingView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemReportingViewBase
+        public function createScheduleItemReportingView(scheduleItemOccurrence:ScheduleItemOccurrence, scheduleReportingModel:IScheduleReportingModel):ScheduleItemReportingViewBase
         {
             var equipmentScheduleItemReportingView:EquipmentScheduleItemReportingView = new EquipmentScheduleItemReportingView();
-            equipmentScheduleItemReportingView.init(scheduleItemOccurrence);
+            equipmentScheduleItemReportingView.init(scheduleItemOccurrence, scheduleReportingModel);
             return equipmentScheduleItemReportingView;
         }
 

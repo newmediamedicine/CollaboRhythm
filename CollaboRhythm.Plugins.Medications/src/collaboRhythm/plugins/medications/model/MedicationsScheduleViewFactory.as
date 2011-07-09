@@ -7,6 +7,7 @@ package collaboRhythm.plugins.medications.model
     import collaboRhythm.plugins.medications.view.MedicationScheduleItemClockView;
     import collaboRhythm.plugins.medications.view.MedicationScheduleItemReportingView;
     import collaboRhythm.plugins.medications.view.MedicationScheduleItemTimelineView;
+    import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
     import collaboRhythm.plugins.schedule.shared.model.IScheduleViewFactory;
     import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
     import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
@@ -32,10 +33,10 @@ package collaboRhythm.plugins.medications.model
             return medicationScheduleItemClockView;
         }
 
-        public function createScheduleItemReportingView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemReportingViewBase
+        public function createScheduleItemReportingView(scheduleItemOccurrence:ScheduleItemOccurrence, scheduleReportingModel:IScheduleReportingModel):ScheduleItemReportingViewBase
         {
             var medicationScheduleItemReportingView:MedicationScheduleItemReportingView = new MedicationScheduleItemReportingView();
-            medicationScheduleItemReportingView.init(scheduleItemOccurrence);
+            medicationScheduleItemReportingView.init(scheduleItemOccurrence, scheduleReportingModel);
             return medicationScheduleItemReportingView;
         }
 

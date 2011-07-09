@@ -14,27 +14,15 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.plugins.schedule.view
+package collaboRhythm.plugins.schedule.shared.model
 {
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-	
-	import flash.events.Event;
-	
-	public class ScheduleClockWidgetViewEvent extends Event
-	{
-		public static const SCHEDULE_GROUP_CLOCK_VIEW_CLICK:String = "ScheduleGroupClockViewClick";
 
-		private var _scheduleGroup:ScheduleGroup;
-		
-		public function ScheduleClockWidgetViewEvent(type:String, scheduleGroup:ScheduleGroup = null)
-		{		
-			super(type, true);
-			_scheduleGroup = scheduleGroup;
-		}
+    import mx.collections.ArrayCollection;
 
-		public function get scheduleGroup():ScheduleGroup
-		{
-			return _scheduleGroup;
-		}
-	}
+    public interface IScheduleReportingModel
+    {
+        function get pendingAdherenceItem():PendingAdherenceItem;
+        function set pendingAdherenceItem(pendingAdherenceItem:PendingAdherenceItem):void
+        function get viewStack():ArrayCollection;
+    }
 }

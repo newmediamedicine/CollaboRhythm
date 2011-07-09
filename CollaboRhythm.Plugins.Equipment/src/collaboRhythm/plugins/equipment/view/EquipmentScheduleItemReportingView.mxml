@@ -19,7 +19,8 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:view="collaboRhythm.plugins.schedule.shared.view.*"
-		 xmlns:images="assets.images.*">
+		 xmlns:images="assets.images.*"
+        creationComplete="creationCompleteHandler()">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -47,6 +48,8 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
+        import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
+        import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
         import collaboRhythm.shared.model.CodedValue;
         import collaboRhythm.shared.model.Equipment;
         import collaboRhythm.shared.model.EquipmentScheduleItem;
@@ -62,15 +65,27 @@
         private var _equipmentScheduleItem:EquipmentScheduleItem;
         private var _bloodPressureReportingView:BloodPressureReportingView;
 
+        private var _creationComplete:Boolean = false;
+
         private var _currentDateSource:ICurrentDateSource;
 
-        public override function init(scheduleItemOccurrence:ScheduleItemOccurrence):void
+        public override function init(scheduleItemOccurrence:ScheduleItemOccurrence,
+                                      scheduleReportingModel:IScheduleReportingModel):void
         {
-            super.init(scheduleItemOccurrence);
+            super.init(scheduleItemOccurrence, scheduleReportingModel);
             _equipmentScheduleItem = scheduleItemOccurrence.scheduleItem as EquipmentScheduleItem;
             _equipment = _equipmentScheduleItem.scheduledEquipment;
 
             _currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+        }
+
+        private function creationCompleteHandler():void
+        {
+            if (_scheduleReportingModel.pendingAdherenceItem)
+            {
+                adherenceHandler(_scheduleReportingModel.pendingAdherenceItem.adherenceItem);
+            }
+            _creationComplete = true;
         }
 
         public override function get scheduleItem():ScheduleItemBase
@@ -105,10 +120,7 @@
             name.text = _equipment.name;
             adherenceItem.init(name, "rpoole@records.media.mit.edu", _currentDateSource.now(),
                                scheduleItemOccurrence.recurrenceIndex, true);
-
-            var bloodPressureReportingView:BloodPressureReportingView = new BloodPressureReportingView();
-            bloodPressureReportingView.init(_scheduleItemOccurrence, adherenceItem);
-            dispatchAdherenceItemIncompleteEvent(bloodPressureReportingView);
+            adherenceHandler(adherenceItem);
 
 
 //				var vitalSign:VitalSign = new VitalSign();
@@ -118,6 +130,14 @@
 //				adherenceItem.adherenceResult = vitalSign;
 //				
 //				dispatchAdherenceItemEvent(adherenceItem);
+        }
+
+        override public function adherenceHandler(adherenceItem:AdherenceItem):void
+        {
+            _scheduleReportingModel.pendingAdherenceItem = null;
+            var bloodPressureReportingView:BloodPressureReportingView = new BloodPressureReportingView();
+            bloodPressureReportingView.init(_scheduleItemOccurrence, adherenceItem);
+            dispatchAdherenceItemIncompleteEvent(bloodPressureReportingView);
         }
 
         public function bloodPressureReportingResult(systolic:String, diastolic:String, heartRate:String):void
@@ -142,6 +162,14 @@
                                scheduleItemOccurrence.recurrenceIndex, false);
 
             dispatchAdherenceItemCompleteEvent(adherenceItem);
+        }
+
+        override protected function pendingAdherenceItem_changeHandler(pendingAdherenceItem:PendingAdherenceItem):void
+        {
+            if (pendingAdherenceItem && _creationComplete && _scheduleReportingModel.viewStack.length == 0)
+            {
+                adherenceHandler(pendingAdherenceItem.adherenceItem);
+            }
         }
         ]]>
 	</fx:Script>

@@ -17,7 +17,7 @@
 package collaboRhythm.plugins.schedule.controller
 {
 
-    import collaboRhythm.plugins.schedule.model.ScheduleGroup;
+    import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
     import collaboRhythm.plugins.schedule.model.ScheduleModel;
     import collaboRhythm.plugins.schedule.view.ScheduleClockWidgetView;
     import collaboRhythm.shared.controller.apps.AppEvent;
@@ -59,7 +59,7 @@ package collaboRhythm.plugins.schedule.controller
 
             if (!_isWorkstationMode)
             {
-                _scheduleModel.currentScheduleGroup = scheduleGroup;
+                _scheduleModel.scheduleReportingModel.currentScheduleGroup = scheduleGroup;
                 dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW));
             }
         }

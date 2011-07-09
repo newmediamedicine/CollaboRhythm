@@ -15,39 +15,44 @@
 ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
 ~ <http://www.gnu.org/licenses/>.
 -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 width="100%" height="100%">
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
-	<fx:Style>
-		@namespace s "library://ns.adobe.com/flex/spark";
-		
-		.labelText {
-			color: #000000;
-			font-size: 30;
-		}
-		
-		.textInputText {
-			color: #000000;
-			font-size: 140;
-		}
-		
-		.heartRateText {
-			color: #000000;
-			font-size: 80;
-		}
-		
-	</fx:Style>
-	<fx:Script>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:mx="library://ns.adobe.com/flex/mx"
+         width="100%" height="100%">
+    <fx:Declarations>
+        <!-- Place non-visual elements (e.g., services, value objects) here -->
+    </fx:Declarations>
+    <s:states>
+        <s:State name="initial"/>
+        <s:State name="repeat"/>
+    </s:states>
+    <fx:Style>
+        @namespace s "library://ns.adobe.com/flex/spark";
+
+        .labelText {
+            color: #000000;
+            font-size: 30;
+        }
+
+        .textInputText {
+            color: #000000;
+            font-size: 140;
+        }
+
+        #heartRateResult {
+            color: #000000;
+            font-size: 80;
+        }
+
+        #submitButton {
+            font-size: 50;
+        }
+    </fx:Style>
+    <fx:Script>
 		<![CDATA[
         import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEvent;
         import collaboRhythm.shared.model.AdherenceItem;
         import collaboRhythm.shared.model.ScheduleItemOccurrence;
-
-        import flashx.textLayout.tlf_internal;
 
         private var _avatarLoader:Loader;
         private var _vHostPlayer:MovieClip;
@@ -64,15 +69,34 @@
         private var _heartRate:String;
         private var _scheduleItemOccurrence:ScheduleItemOccurrence;
         private var _adherenceItem:AdherenceItem;
+        private var _repeat:Boolean;
 
 
-        public function init(scheduleItemOccurrence:ScheduleItemOccurrence, adherenceItem:AdherenceItem):void
+        public function init(scheduleItemOccurrence:ScheduleItemOccurrence, adherenceItem:AdherenceItem,
+                             repeat:Boolean = false):void
         {
             _scheduleItemOccurrence = scheduleItemOccurrence;
             _adherenceItem = adherenceItem;
+            _repeat = repeat;
+            if (repeat)
+            {
+                currentState = "repeat";
+            }
+            else
+            {
+                currentState = "initial";
+            }
+            NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, invokeHandler);
+        }
 
-
-
+        private function invokeHandler(event:InvokeEvent):void
+        {
+            if (event.arguments.length != 0)
+            {
+                var urlString:String = event.arguments[0];
+                var urlVariablesString:String = urlString.split("//")[1];
+                var urlVariables:URLVariables = new URLVariables(urlVariablesString);
+            }
         }
 
         //			public function creationComplete():void
@@ -218,8 +242,53 @@
         {
             if (systolicResult.text && diastolicResult.text && heartRateResult.text)
             {
-                returnBloodPressureResult();
+                if (int(systolicResult.text) < 90 || int(diastolicResult.text) < 60)
+                {
+                    if (!_repeat)
+                    {
+                        showBloodPressureSymptomView("hypotension");
+                    }
+                    else
+                    {
+                        showEmergencyView("hypotension");
+                    }
+                }
+                else if (int(systolicResult.text) > 180 || int(diastolicResult.text) > 120)
+                {
+                    if (!_repeat)
+                    {
+                        showBloodPressureSymptomView("hypertension");
+                    }
+                    else
+                    {
+                        showEmergencyView("hypertension");
+                    }
+                }
+                else
+                {
+                    returnBloodPressureResult();
+                }
             }
+        }
+
+        private function showBloodPressureSymptomView(state:String):void
+        {
+            var bloodPressureSymptomView:BloodPressureSymptomView = new BloodPressureSymptomView();
+            bloodPressureSymptomView.init(_scheduleItemOccurrence, _adherenceItem);
+            bloodPressureSymptomView.currentState = state;
+            dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
+                                                             _scheduleItemOccurrence, _adherenceItem,
+                                                             bloodPressureSymptomView));
+        }
+
+        private function showEmergencyView(state:String):void
+        {
+            var bloodPressureEmergencyView:BloodPressureEmergencyView = new BloodPressureEmergencyView();
+            bloodPressureEmergencyView.init(_scheduleItemOccurrence, _adherenceItem);
+            bloodPressureEmergencyView.currentState = state;
+            dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
+                                                             _scheduleItemOccurrence, _adherenceItem,
+                                                             bloodPressureEmergencyView));
         }
 
         private function returnBloodPressureResult():void
@@ -229,39 +298,38 @@
         }
         ]]>
 	</fx:Script>
-	<s:Rect width="100%" height="100%">
-		<s:fill>
-			<s:SolidColor color="0xAAAAAA"/>
-		</s:fill>
-	</s:Rect>
-	<!--<mx:UIComponent id="uiComponent" width="100%" height="100%"/>-->
-	<!--<mx:Image id="foraCuffLocationImage" source="@Embed(source='/assets/images/foraCuffLocation.jpg')" width="100%" height="100%" smoothBitmapContent="true" maintainAspectRatio="false" visible="false"/>-->
-	<!--<mx:Image id="foraButtonPushImage" source="@Embed(source='/assets/images/foraButtonPush.jpg')" width="100%" height="100%" smoothBitmapContent="true" maintainAspectRatio="false" visible="false"/>-->
-	<s:Group id="bloodPressureResultGroup" width="100%" height="100%">
-		<s:Rect width="100%" height="100%">
-			<s:fill>
-				<s:SolidColor color="0xAAAAAA"/>
-			</s:fill>
-		</s:Rect>
-		<s:Label id="systolicLabel" x="348" bottom="460" height="29" styleName="labelText" text="SYS"/>
-		<s:Label id="diastolicLabel" x="350" bottom="290" height="29" styleName="labelText"
-				 text="DIA"/>	
-
-
-		<s:Label x="350" bottom="345" styleName="labelText" text="mmHg"/>
-		<s:Label right="40" bottom="30" styleName="labelText" text="Beats/min"/>
-		<s:Label id="waitingLabel" left="40" bottom="520" styleName="labelText"
-				 text="Waiting for result from device..."/>
-		<s:TextInput id="systolicResult" left="40" bottom="350" width="300"
-					 skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
-					 textAlign="right"/>
-		<s:TextInput id="diastolicResult" left="40" bottom="180" width="300"
-					 skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
-					 textAlign="right"/>
-		<s:TextInput id="heartRateResult" right="40" bottom="70" width="200"
-					 skinClass="spark.skins.spark.TextInputSkin" styleName="heartRateText"
-					 textAlign="right"/>
-	</s:Group>
-	<!--<s:Button id="okButton" label="OK" click="okButtonClick()" width="300" height="100" horizontalCenter="0" top="20" enabled="true"/>-->
-	<s:Button id="submitButton" label="Submit" click="submitButtonClick()" width="300" height="100" horizontalCenter="0" top="20"/>
+    <s:Rect width="100%" height="100%">
+        <s:fill>
+            <s:SolidColor color="0xAAAAAA"/>
+        </s:fill>
+    </s:Rect>
+    <s:VGroup top="20" left="20" right="20" bottom="20" gap="20">
+        <s:Label text="Please enter your blood pressure" includeIn="initial" styleName="labelText"/>
+        <s:Label text="Please repeat your blood pressure" includeIn="repeat" styleName="labelText"/>
+        <s:HGroup>
+            <s:TextInput id="systolicResult" width="300"
+                         skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
+                         textAlign="right" restrict="0-9"/>
+            <s:Label id="systolicLabel" styleName="labelText" text="SYS"/>
+        </s:HGroup>
+        <s:HGroup>
+            <s:TextInput id="diastolicResult" width="300"
+                         skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
+                         textAlign="right" restrict="0-9"/>
+            <s:Group height="{diastolicResult.height}">
+                <s:Label styleName="labelText" text="mmHg"/>
+                <s:Label id="diastolicLabel" bottom="0" styleName="labelText"
+                         text="DIA"/>
+            </s:Group>
+        </s:HGroup>
+        <s:Group width="100%" height="100%">
+            <s:TextInput id="heartRateResult" top="0" right="0" width="200"
+                         skinClass="spark.skins.spark.TextInputSkin"
+                         textAlign="right" restrict="0-9"/>
+            <s:Label top="90" right="0" styleName="labelText" text="Beats/min"/>
+            <s:Button id="submitButton" label="Submit" click="submitButtonClick()" width="300" height="100" bottom="0"
+                      horizontalCenter="0"
+                    />
+        </s:Group>
+    </s:VGroup>
 </s:Group>

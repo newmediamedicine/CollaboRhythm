@@ -166,7 +166,7 @@ public class DeviceGatewayService extends Service
 
     private void startCollaboRhythm(Bundle data)
     {
-        String bloodPressureString = "systolic=" + Integer.toString(
+        String bloodPressureString = "name=FORA D15b&success=true&systolic=" + Integer.toString(
                 data.getInt("systolic")) + "&diastolic=" + Integer.toString(
                 data.getInt("diastolic")) + "&heartrate=" + Integer.toString(data.getInt("heartrate"));
 

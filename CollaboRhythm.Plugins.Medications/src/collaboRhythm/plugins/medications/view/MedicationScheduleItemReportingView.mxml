@@ -47,6 +47,8 @@
     </fx:Style>
     <fx:Script>
 		<![CDATA[
+        import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
+        import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
         import collaboRhythm.shared.model.AdherenceItem;
         import collaboRhythm.shared.model.MedicationAdministration;
         import collaboRhythm.shared.model.MedicationOrder;
@@ -60,12 +62,12 @@
         private var _medicationOrder:MedicationOrder;
         [Bindable]
         private var _medicationScheduleItem:MedicationScheduleItem;
-
+        
         private var _currentDateSource:ICurrentDateSource;
 
-        public override function init(scheduleItemOccurrence:ScheduleItemOccurrence):void
+        public override function init(scheduleItemOccurrence:ScheduleItemOccurrence, scheduleReportingModel:IScheduleReportingModel):void
         {
-            super.init(scheduleItemOccurrence);
+            super.init(scheduleItemOccurrence, scheduleReportingModel);
             _medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
             _medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
 
@@ -113,6 +115,15 @@
             var nonAdherenceReasonView:NonAdherenceReasonView = new NonAdherenceReasonView();
             nonAdherenceReasonView.init(_scheduleItemOccurrence, adherenceItem);
             dispatchAdherenceItemIncompleteEvent(nonAdherenceReasonView);
+        }
+
+        override protected function pendingAdherenceItem_changeHandler(pendingAdherenceItem:PendingAdherenceItem):void
+        {
+
+            if (pendingAdherenceItem)
+            {
+//                adherenceHandler(pendingAdherenceItem.adherenceItem);
+            }
         }
         ]]>
 	</fx:Script>

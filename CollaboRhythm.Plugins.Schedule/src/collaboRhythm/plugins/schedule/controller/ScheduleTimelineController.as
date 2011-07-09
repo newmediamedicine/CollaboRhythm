@@ -31,13 +31,14 @@ package collaboRhythm.plugins.schedule.controller
 		private var _scheduleFullView:ScheduleTimelineFullView;
 		private var _localUserName:String;
 		private var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
+        private var _scheduleTimelineModel:ScheduleTimelineModel;
 		
 		public function ScheduleTimelineController(scheduleModel:ScheduleModel,
-                                                   scheduleFullView:ScheduleTimelineFullView,
-                                                   scheduleTimelineModel:ScheduleTimelineModel)//, localUserName:String, collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy)
+                                                   scheduleFullView:ScheduleTimelineFullView)//, localUserName:String, collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy)
 		{
 			_scheduleModel = scheduleModel;
 			_scheduleFullView = scheduleFullView;
+            _scheduleTimelineModel = _scheduleModel.scheduleTimelineModel;
 //			_localUserName = localUserName;
 //			_collaborationRoomNetConnectionServiceProxy = collaborationRoomNetConnectionServiceProxy;
 //			_collaborationRoomNetConnectionServiceProxy.synchronizeHandler = this;
@@ -45,37 +46,37 @@ package collaboRhythm.plugins.schedule.controller
 		
 		public function grabScheduleGroup(moveData:MoveData):void
 		{
-			_scheduleModel.grabScheduleGroup(moveData);
+			_scheduleTimelineModel.grabScheduleGroup(moveData);
         }
 		
 		public function moveScheduleGroup(moveData:MoveData):void
 		{
-			_scheduleModel.moveScheduleGroup(moveData, _scheduleFullView.width, _scheduleFullView.height, _scheduleModel.timeWidth);
+			_scheduleTimelineModel.moveScheduleGroup(moveData, _scheduleFullView.width, _scheduleFullView.height, _scheduleTimelineModel.timeWidth);
 		}
 		
 		public function dropScheduleGroup(moveData:MoveData):void
 		{
-			_scheduleModel.dropScheduleGroup(moveData);
+			_scheduleTimelineModel.dropScheduleGroup(moveData);
 		}
 		
 		public function grabScheduleGroupSpotlight(moveData:MoveData):void
 		{
-			_scheduleModel.grabScheduleGroupSpotlight(moveData);
+			_scheduleTimelineModel.grabScheduleGroupSpotlight(moveData);
 		}
 		
 		public function resizeScheduleGroupSpotlight(moveData:MoveData, leftEdge:Boolean):void
 		{
-			_scheduleModel.resizeScheduleGroupSpotlight(moveData, _scheduleFullView.width, _scheduleFullView.height, _scheduleModel.timeWidth, leftEdge);
+			_scheduleTimelineModel.resizeScheduleGroupSpotlight(moveData, _scheduleFullView.width, _scheduleFullView.height, _scheduleTimelineModel.timeWidth, leftEdge);
 		}
 		
 		public function dropScheduleGroupSpotlight(moveData:MoveData):void
 		{
-			_scheduleModel.dropScheduleGroupSpotlight(moveData);
+			_scheduleTimelineModel.dropScheduleGroupSpotlight(moveData);
 		}
 
         public function grabScheduleItemOccurrence(moveData:MoveData):void
         {
-            _scheduleModel.grabScheduleItemOccurrence(moveData);
+            _scheduleTimelineModel.grabScheduleItemOccurrence(moveData);
         }
 
         public function moveScheduleItemOccurrence(moveData:MoveData):void
