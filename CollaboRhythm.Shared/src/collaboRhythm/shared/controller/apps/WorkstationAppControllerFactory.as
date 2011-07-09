@@ -17,15 +17,21 @@
 package collaboRhythm.shared.controller.apps
 {
 
-    import collaboRhythm.shared.model.Account;
+	import castle.flexbridge.reflection.ReflectionUtils;
+
+	import collaboRhythm.shared.model.Account;
     import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
     import collaboRhythm.shared.model.User;
     import collaboRhythm.shared.model.services.IComponentContainer;
     import collaboRhythm.shared.model.settings.Settings;
 
-    import mx.core.IVisualElementContainer;
+	import flash.utils.getQualifiedClassName;
 
-    /**
+	import mx.core.IVisualElementContainer;
+	import mx.logging.ILogger;
+	import mx.logging.Log;
+
+	/**
 	 * Creates workstation apps and prepares them for use in a parent container.
 	 * 
 	 */
@@ -33,7 +39,6 @@ package collaboRhythm.shared.controller.apps
 	{
 		private var _widgetParentContainer:IVisualElementContainer;
 		private var _fullParentContainer:IVisualElementContainer;
-//		private var _healthRecordService:CommonHealthRecordService;
 		private var _user:User;
 		private var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
 		private var _modality:String;
@@ -41,9 +46,11 @@ package collaboRhythm.shared.controller.apps
         private var _activeRecordAccount:Account;
         private var _settings:Settings;
         private var _componentContainer:IComponentContainer;
+		protected var logger:ILogger;
 
 		public function WorkstationAppControllerFactory()
 		{
+			logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 		}
 
 		public function get widgetParentContainer():IVisualElementContainer
@@ -65,16 +72,6 @@ package collaboRhythm.shared.controller.apps
 		{
 			_fullParentContainer = value;
 		}
-
-//		public function get healthRecordService():CommonHealthRecordService
-//		{
-//			return _healthRecordService;
-//		}
-
-//		public function set healthRecordService(value:CommonHealthRecordService):void
-//		{
-//			_healthRecordService = value;
-//		}
 
 		public function get user():User
 		{
@@ -126,11 +123,11 @@ package collaboRhythm.shared.controller.apps
 			if (appName != null)
 				app.name = appName;
 			
-//			app.healthRecordService = _healthRecordService;
 			app.user = _user;
 			app.collaborationRoomNetConnectionServiceProxy = _collaborationRoomNetConnectionServiceProxy;
 			app.initialize();
-			
+
+			logger.info("  App created: " + ReflectionUtils.getClassInfo(appClass).name);
 			return app;
 		}
 

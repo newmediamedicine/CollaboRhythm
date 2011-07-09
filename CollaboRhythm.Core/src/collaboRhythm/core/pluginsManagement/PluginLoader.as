@@ -134,7 +134,7 @@ package collaboRhythm.core.pluginsManagement
 			var result:String = "";
 			for each (var file:File in array)
 			{
-				result += file.nativePath + "\n";
+				result += "  " + file.nativePath + "\n";
 			}
 			return result;
 		}

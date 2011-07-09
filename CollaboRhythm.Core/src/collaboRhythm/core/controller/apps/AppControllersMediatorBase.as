@@ -196,6 +196,7 @@ package collaboRhythm.core.controller.apps
 
 				initializeAppGroup(appGroupDescriptor.id);
 
+				logger.info("Creating {0} apps for group {1}", appGroupDescriptor.appDescriptors.length, appGroupDescriptor.id);
 				for each (var appDescriptor:String in appGroupDescriptor.appDescriptors)
 				{
 					var appClass:Class = dynamicAppDictionary.getValueByKey(appDescriptor);
@@ -246,6 +247,7 @@ package collaboRhythm.core.controller.apps
 
 			infoArray = AppControllersSorter.orderAppsByInitializationOrderConstraints(infoArray);
 
+			logger.info("Creating {0} dynamic apps", infoArray.length);
 			for each (var info:AppControllerInfo in infoArray)
 			{
 				if (info.groupWidgetViewWithSchedule)

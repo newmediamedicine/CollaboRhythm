@@ -57,6 +57,8 @@ package collaboRhythm.plugins.schedule.model
 
 		public function ScheduleModel(componentContainer:IComponentContainer, record:Record)
 		{
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+
 			_record = record;
 
 			BindingUtils.bindSetter(medicationOrdersModelStitchedHandler, _record.medicationOrdersModel, "isStitched");
@@ -66,8 +68,6 @@ package collaboRhythm.plugins.schedule.model
 			BindingUtils.bindSetter(equipmentScheduleItemsModelStitchedHandler, _record.equipmentScheduleItemsModel,
 									"isStitched");
 			BindingUtils.bindSetter(adherenceItemsModelStitchedHandler, _record.adherenceItemsModel, "isStitched");
-
-			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 			_viewFactory = new MasterScheduleViewFactory(componentContainer);

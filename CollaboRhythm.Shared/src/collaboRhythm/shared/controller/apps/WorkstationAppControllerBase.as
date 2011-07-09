@@ -28,7 +28,6 @@ package collaboRhythm.shared.controller.apps
 
     import flash.display.BitmapData;
 	import flash.display.DisplayObjectContainer;
-	import flash.display.Stage;
 	import flash.events.EventDispatcher;
     import flash.events.KeyboardEvent;
     import flash.events.MouseEvent;
@@ -54,7 +53,6 @@ package collaboRhythm.shared.controller.apps
 	import spark.components.Button;
     import spark.components.Window;
     import spark.effects.*;
-    import spark.layouts.supportClasses.LayoutBase;
     import spark.primitives.Rect;
 
     /**
@@ -70,9 +68,7 @@ package collaboRhythm.shared.controller.apps
 		public static const PREVENT_RE_SHOWING_FULL_VIEW:Boolean = true;
 		
 		protected var _widgetParentContainer:IVisualElementContainer;
-		protected var _widgetParentContainerLayout:LayoutBase;
 		protected var _fullParentContainer:IVisualElementContainer;
-//		protected var _healthRecordService:CommonHealthRecordService;
 		protected var _user:User;
 		protected var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
 		
@@ -89,7 +85,6 @@ package collaboRhythm.shared.controller.apps
 		protected var _secondaryShowFullViewParallelEffect:Parallel;
 		private var _isWidgetViewPrepared:Boolean = false;
 		private var _isFullViewPrepared:Boolean = false;
-
 
 		public function WorkstationAppControllerBase(constructorParams:AppControllerConstructorParams)
 		{

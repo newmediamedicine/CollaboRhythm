@@ -17,13 +17,8 @@
 package collaboRhythm.plugins.schedule.controller
 {
 
-	import castle.flexbridge.reflection.ReflectionUtils;
-
-
 	import collaboRhythm.plugins.schedule.model.ScheduleModel;
 	import collaboRhythm.plugins.schedule.model.ScheduleModelEvent;
-	import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
-	import collaboRhythm.plugins.schedule.model.ScheduleTimelineModel;
 	import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 	import collaboRhythm.plugins.schedule.view.ScheduleClockWidgetView;
@@ -34,7 +29,6 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 	import collaboRhythm.shared.model.ScheduleItemBase;
 	import collaboRhythm.shared.model.ScheduleItemOccurrence;
-	import collaboRhythm.shared.model.healthRecord.MedicationScheduleItemsHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
 
 	import flash.desktop.NativeApplication;
@@ -42,8 +36,6 @@ package collaboRhythm.plugins.schedule.controller
 	import flash.net.URLVariables;
 
 	import mx.core.UIComponent;
-	import mx.logging.ILogger;
-	import mx.logging.Log;
 
 	public class ScheduleAppController extends WorkstationAppControllerBase
 	{
@@ -52,16 +44,12 @@ package collaboRhythm.plugins.schedule.controller
 		private var _phaHealthRecordService:PhaHealthRecordServiceBase;
 		private var _scheduleModel:ScheduleModel;
 		private var _scheduleWidgetViewController:ScheduleClockController;
-		private var _scheduleFullViewController:ScheduleTimelineController;
 		private var _widgetView:ScheduleClockWidgetView;
 		private var _fullView:UIComponent;
-
-		private static var log:ILogger = Log.getLogger("ScheduleAppController");
 
 		public function ScheduleAppController(constructorParams:AppControllerConstructorParams)
 		{
 			super(constructorParams);
-			scheduleModel.addEventListener(ScheduleModelEvent.INITIALIZED, scheduleModel_initializedHandler);
 			_phaHealthRecordService = new PhaHealthRecordServiceBase(_activeRecordAccount.primaryRecord.settings.oauthChromeConsumerKey,
 																	 _activeRecordAccount.primaryRecord.settings.oauthChromeConsumerSecret,
 																	 _activeRecordAccount.primaryRecord.settings.indivoServerBaseURL,
@@ -70,7 +58,7 @@ package collaboRhythm.plugins.schedule.controller
 
 		private function scheduleModel_initializedHandler(event:ScheduleModelEvent):void
 		{
-			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, invokeHandler);
+			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, invokeHandler, false, 0, true);
 		}
 
 		private function invokeHandler(event:InvokeEvent):void
@@ -125,7 +113,7 @@ package collaboRhythm.plugins.schedule.controller
 				_scheduleWidgetViewController = new ScheduleClockController(isWorkstationMode, scheduleModel,
 																			_widgetView, _fullParentContainer);//, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
 				_widgetView.init(_scheduleWidgetViewController, scheduleModel, _fullParentContainer);
-				_scheduleWidgetViewController.addEventListener(AppEvent.SHOW_FULL_VIEW, showFullViewHandler);
+				_scheduleWidgetViewController.addEventListener(AppEvent.SHOW_FULL_VIEW, showFullViewHandler, false, 0, true);
 			}
 		}
 
@@ -151,7 +139,7 @@ package collaboRhythm.plugins.schedule.controller
 				var scheduleReportingFullView:ScheduleReportingFullView = new ScheduleReportingFullView();
 				var scheduleReportingController:ScheduleReportingController = new ScheduleReportingController(scheduleModel,
 																											  scheduleReportingFullView);
-				scheduleReportingController.addEventListener(AppEvent.HIDE_FULL_VIEW, hideFullViewHandler);
+				scheduleReportingController.addEventListener(AppEvent.HIDE_FULL_VIEW, hideFullViewHandler, false, 0, true);
 				scheduleReportingFullView.init(scheduleReportingController, scheduleModel);
 				scheduleReportingFullView.scheduleGroupReportingView.init(scheduleModel);
 				return scheduleReportingFullView;
@@ -178,6 +166,7 @@ package collaboRhythm.plugins.schedule.controller
 			if (_scheduleModel == null)
 			{
 				_scheduleModel = new ScheduleModel(_componentContainer, _activeRecordAccount.primaryRecord);
+				_scheduleModel.addEventListener(ScheduleModelEvent.INITIALIZED, scheduleModel_initializedHandler, false, 0, true);
 			}
 			return _scheduleModel;
 //			if (_activeRecordAccount != null)
@@ -218,7 +207,7 @@ package collaboRhythm.plugins.schedule.controller
 ////			}
 //		}
 
-		public override function close():void
+		protected override function removeUserData():void
 		{
 			for each (var scheduleGroup:ScheduleGroup in scheduleModel.scheduleGroupsCollection)
 			{
@@ -247,8 +236,8 @@ package collaboRhythm.plugins.schedule.controller
 //					_scheduleHealthRecordService.createScheduleGroup(_user, scheduleGroupDocument, scheduleItemDocumentIDs);
 				}
 			}
+			// TODO: destroy/cleanup any reference and listeners in scheduleModel
 			_scheduleModel = null;
-			super.close();
 
 //			for each (var adherenceGroupView:AdherenceGroupView in _fullView.adherenceGroupViews)
 //			{
@@ -264,11 +253,6 @@ package collaboRhythm.plugins.schedule.controller
 		public override function get defaultName():String
 		{
 			return DEFAULT_NAME;
-		}
-
-		override protected function removeUserData():void
-		{
-//			_activeRecordAccount.primaryRecord.appData[ScheduleModel.SCHEDULE_KEY] = null;
 		}
 	}
 }
