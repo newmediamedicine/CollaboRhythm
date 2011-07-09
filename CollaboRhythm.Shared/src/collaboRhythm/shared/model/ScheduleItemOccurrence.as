@@ -16,7 +16,10 @@
  */
 package collaboRhythm.shared.model
 {
-    [Bindable]
+
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+
+	[Bindable]
     public class ScheduleItemOccurrence
     {
         private var _id:String;

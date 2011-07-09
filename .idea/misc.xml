@@ -13,6 +13,7 @@
           <module name="CollaboRhythm.Android.DeviceGateway">
             <files>
               <file url="file://$PROJECT_DIR$/../CollaboRhythm.Android.DeviceGateway/AndroidManifest.xml" />
+              <file url="file://$PROJECT_DIR$/CollaboRhythm.Android.DeviceGateway/AndroidManifest.xml" />
             </files>
           </module>
         </modules>

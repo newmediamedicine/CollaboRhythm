@@ -16,320 +16,320 @@
 ~ <http://www.gnu.org/licenses/>.
 -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-         xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:mx="library://ns.adobe.com/flex/mx"
-         width="100%" height="100%">
-    <fx:Declarations>
-        <!-- Place non-visual elements (e.g., services, value objects) here -->
-    </fx:Declarations>
-    <s:states>
-        <s:State name="initial"/>
-        <s:State name="repeat"/>
-    </s:states>
-    <fx:Style>
-        @namespace s "library://ns.adobe.com/flex/spark";
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="100%" height="100%">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:states>
+		<s:State name="initial"/>
+		<s:State name="repeat"/>
+	</s:states>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
 
-        .labelText {
-            color: #000000;
-            font-size: 30;
-        }
+		.labelText {
+			color: #000000;
+			font-size: 30;
+		}
 
-        .textInputText {
-            color: #000000;
-            font-size: 140;
-        }
+		.textInputText {
+			color: #000000;
+			font-size: 140;
+		}
 
-        #heartRateResult {
-            color: #000000;
-            font-size: 80;
-        }
+		#heartRateResult {
+			color: #000000;
+			font-size: 80;
+		}
 
-        #submitButton {
-            font-size: 50;
-        }
-    </fx:Style>
-    <fx:Script>
+		#submitButton {
+			font-size: 50;
+		}
+	</fx:Style>
+	<fx:Script>
 		<![CDATA[
-        import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEvent;
-        import collaboRhythm.shared.model.AdherenceItem;
-        import collaboRhythm.shared.model.ScheduleItemOccurrence;
+		import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEvent;
+		import collaboRhythm.shared.model.ScheduleItemOccurrence;
+		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 
-        private var _avatarLoader:Loader;
-        private var _vHostPlayer:MovieClip;
-        private var _bloodPressureMeasurementStep:Number = 1;
+		private var _avatarLoader:Loader;
+		private var _vHostPlayer:MovieClip;
+		private var _bloodPressureMeasurementStep:Number = 1;
 
-        private var _socket:Socket = new Socket();
-        private var _socketConnected:Boolean = false;
-        private var _bloodPressureResult:Number = 1;
-        [Bindable]
-        private var _systolic:String;
-        [Bindable]
-        private var _diastolic:String;
-        [Bindable]
-        private var _heartRate:String;
-        private var _scheduleItemOccurrence:ScheduleItemOccurrence;
-        private var _adherenceItem:AdherenceItem;
-        private var _repeat:Boolean;
+		private var _socket:Socket = new Socket();
+		private var _socketConnected:Boolean = false;
+		private var _bloodPressureResult:Number = 1;
+		[Bindable]
+		private var _systolic:String;
+		[Bindable]
+		private var _diastolic:String;
+		[Bindable]
+		private var _heartRate:String;
+		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
+		private var _adherenceItem:AdherenceItem;
+		private var _repeat:Boolean;
 
 
-        public function init(scheduleItemOccurrence:ScheduleItemOccurrence, adherenceItem:AdherenceItem,
-                             repeat:Boolean = false):void
-        {
-            _scheduleItemOccurrence = scheduleItemOccurrence;
-            _adherenceItem = adherenceItem;
-            _repeat = repeat;
-            if (repeat)
-            {
-                currentState = "repeat";
-            }
-            else
-            {
-                currentState = "initial";
-            }
-            NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, invokeHandler);
-        }
+		public function init(scheduleItemOccurrence:ScheduleItemOccurrence, adherenceItem:AdherenceItem,
+							 repeat:Boolean = false):void
+		{
+			_scheduleItemOccurrence = scheduleItemOccurrence;
+			_adherenceItem = adherenceItem;
+			_repeat = repeat;
+			if (repeat)
+			{
+				currentState = "repeat";
+			}
+			else
+			{
+				currentState = "initial";
+			}
+			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, invokeHandler);
+		}
 
-        private function invokeHandler(event:InvokeEvent):void
-        {
-            if (event.arguments.length != 0)
-            {
-                var urlString:String = event.arguments[0];
-                var urlVariablesString:String = urlString.split("//")[1];
-                var urlVariables:URLVariables = new URLVariables(urlVariablesString);
-            }
-        }
+		private function invokeHandler(event:InvokeEvent):void
+		{
+			if (event.arguments.length != 0)
+			{
+				var urlString:String = event.arguments[0];
+				var urlVariablesString:String = urlString.split("//")[1];
+				var urlVariables:URLVariables = new URLVariables(urlVariablesString);
+			}
+		}
 
-        //			public function creationComplete():void
-        //			{
-        ////				Security.allowDomain("content.oddcast.com");
-        //
-        //				_avatarLoader = new Loader();
-        //				var urlRequest:URLRequest = new URLRequest("http://content.oddcast.com/vhss/vhss_v5.swf?doc=http%3A%2F%2Fvhss-d.oddcast.com%2Fphp%2FplayScene%2Facc%3D516572%2Fss%3D1779797%2Fsl%3D2057315&acc=516572&bgcolor=0x&embedid=80ec2b5f44fccfc450f67be31743ba4b");
-        //
-        //				uiComponent.addChild(_avatarLoader);
-        //
-        //				_avatarLoader.scaleX = _avatarLoader.scaleY = 1.7;
-        //				_avatarLoader.x = -120;
-        //				_avatarLoader.y = 50;
-        //				_avatarLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, avatarLoaderCompleteHandler)
-        //				_avatarLoader.load(urlRequest);
-        //
-        //				connectSocket();
-        //			}
+		//			public function creationComplete():void
+		//			{
+		////				Security.allowDomain("content.oddcast.com");
+		//
+		//				_avatarLoader = new Loader();
+		//				var urlRequest:URLRequest = new URLRequest("http://content.oddcast.com/vhss/vhss_v5.swf?doc=http%3A%2F%2Fvhss-d.oddcast.com%2Fphp%2FplayScene%2Facc%3D516572%2Fss%3D1779797%2Fsl%3D2057315&acc=516572&bgcolor=0x&embedid=80ec2b5f44fccfc450f67be31743ba4b");
+		//
+		//				uiComponent.addChild(_avatarLoader);
+		//
+		//				_avatarLoader.scaleX = _avatarLoader.scaleY = 1.7;
+		//				_avatarLoader.x = -120;
+		//				_avatarLoader.y = 50;
+		//				_avatarLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, avatarLoaderCompleteHandler)
+		//				_avatarLoader.load(urlRequest);
+		//
+		//				connectSocket();
+		//			}
 
-        //			private function avatarLoaderCompleteHandler(event:Event):void
-        //			{
-        //				_vHostPlayer = MovieClip(_avatarLoader.content);
-        //				_vHostPlayer.addEventListener("vh_sceneLoaded", vHostPlayerSceneLoadedHandler);
-        //				//	vh_player = addEventListener("vh_aiResponse", vh_aiResponse);
-        //				//vh_player.addEventListener("vh_audioLoaded", vh_audioLoaded);
-        //				//	vh_player = addEventListener("vh_audioProgress", vh_audioProgress);
-        //				_vHostPlayer.addEventListener("vh_talkEnded", vHostPlayerTalkEndedHandler);
-        //				//	vh_player = addEventListener("vh_talkStarted", vh_talkStarted);
-        //			}
+		//			private function avatarLoaderCompleteHandler(event:Event):void
+		//			{
+		//				_vHostPlayer = MovieClip(_avatarLoader.content);
+		//				_vHostPlayer.addEventListener("vh_sceneLoaded", vHostPlayerSceneLoadedHandler);
+		//				//	vh_player = addEventListener("vh_aiResponse", vh_aiResponse);
+		//				//vh_player.addEventListener("vh_audioLoaded", vh_audioLoaded);
+		//				//	vh_player = addEventListener("vh_audioProgress", vh_audioProgress);
+		//				_vHostPlayer.addEventListener("vh_talkEnded", vHostPlayerTalkEndedHandler);
+		//				//	vh_player = addEventListener("vh_talkStarted", vh_talkStarted);
+		//			}
 
-        //			private function vHostPlayerSceneLoadedHandler(event:Event):void
-        //			{
-        //				sayText("Hello Robert, great to see you today. Ready to take your blood pressure?");
-        //			}
-        //
-        //			private function vHostPlayerTalkEndedHandler(event:Event):void
-        //			{
-        ////				okButton.enabled = true;
-        //			}
+		//			private function vHostPlayerSceneLoadedHandler(event:Event):void
+		//			{
+		//				sayText("Hello Robert, great to see you today. Ready to take your blood pressure?");
+		//			}
+		//
+		//			private function vHostPlayerTalkEndedHandler(event:Event):void
+		//			{
+		////				okButton.enabled = true;
+		//			}
 
-        //			private function okButtonClick():void
-        //			{
-        //				okButton.enabled = false;
-        //				switch (_bloodPressureMeasurementStep)
-        //				{
-        //					case 1:
-        //						foraCuffLocationImage.visible = true;
-        //						sayText("To take your blood pressure, first slide the cuff on your arm. Make sure that the red line is on the inside of your arm at the elbow, as you see here");
-        //						break;
-        //					case 2:
-        //						foraCuffLocationImage.visible = false;
-        //						foraButtonPushImage.visible = true;
-        //						sendMessage();
-        //						sayText("Now push the large blue button on the bottom right of the device, as you see here. Once the measurement is complete, I will grab it from the device for you.");
-        //						break;
-        //					case 3:
-        //						okButton.visible = false;
-        //						submitButton.visible = true;
-        //						foraButtonPushImage.visible = false;
-        //						bloodPressureResultGroup.visible = true;
-        //				}
-        //				_bloodPressureMeasurementStep += 1;
-        //			}
+		//			private function okButtonClick():void
+		//			{
+		//				okButton.enabled = false;
+		//				switch (_bloodPressureMeasurementStep)
+		//				{
+		//					case 1:
+		//						foraCuffLocationImage.visible = true;
+		//						sayText("To take your blood pressure, first slide the cuff on your arm. Make sure that the red line is on the inside of your arm at the elbow, as you see here");
+		//						break;
+		//					case 2:
+		//						foraCuffLocationImage.visible = false;
+		//						foraButtonPushImage.visible = true;
+		//						sendMessage();
+		//						sayText("Now push the large blue button on the bottom right of the device, as you see here. Once the measurement is complete, I will grab it from the device for you.");
+		//						break;
+		//					case 3:
+		//						okButton.visible = false;
+		//						submitButton.visible = true;
+		//						foraButtonPushImage.visible = false;
+		//						bloodPressureResultGroup.visible = true;
+		//				}
+		//				_bloodPressureMeasurementStep += 1;
+		//			}
 
-        //			private function sayText(text:String):void
-        //			{
-        //				try
-        //				{
-        //					_vHostPlayer.sayText(text, 1, 1, 2);
-        //				}
-        //				catch (error:Error)
-        //				{
-        //					trace("vHost speach failed");
-        //				}
-        //			}
+		//			private function sayText(text:String):void
+		//			{
+		//				try
+		//				{
+		//					_vHostPlayer.sayText(text, 1, 1, 2);
+		//				}
+		//				catch (error:Error)
+		//				{
+		//					trace("vHost speach failed");
+		//				}
+		//			}
 
-        //			private function connectSocket():void
-        //			{
-        //				_socket.addEventListener(Event.CONNECT, onConnect);
-        //				_socket.addEventListener(Event.CLOSE, onClose);
-        //				_socket.addEventListener(IOErrorEvent.IO_ERROR, onError);
-        //				_socket.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onSecurityError);
-        //				_socket.addEventListener(ProgressEvent.SOCKET_DATA, onData);
-        //				_socket.connect("localhost", 8080);
-        ////				connectionStatusText.text = "attempting to connect...";
-        //			}
+		//			private function connectSocket():void
+		//			{
+		//				_socket.addEventListener(Event.CONNECT, onConnect);
+		//				_socket.addEventListener(Event.CLOSE, onClose);
+		//				_socket.addEventListener(IOErrorEvent.IO_ERROR, onError);
+		//				_socket.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onSecurityError);
+		//				_socket.addEventListener(ProgressEvent.SOCKET_DATA, onData);
+		//				_socket.connect("localhost", 8080);
+		////				connectionStatusText.text = "attempting to connect...";
+		//			}
 
-        //			private function onConnect(e:Event):void
-        //			{
-        //				_socketConnected = true;
-        ////				connectionStatusText.text = "connected";
-        //			}
-        //
-        //			private function onClose(e:Event):void
-        //			{
-        //				_socketConnected = false;
-        ////				connectionStatusText.text = "disconnected";
-        //			}
-        //
-        //			private function onData(e:ProgressEvent):void
-        //			{
-        //				waitingLabel.visible = false;
-        //				var bloodPressureString:String = _socket.readUTFBytes(e.bytesLoaded);
-        //				var bloodPressureSubstrings:Array = bloodPressureString.split("/");
-        //				_systolic = bloodPressureSubstrings[0];
-        //				systolicResult.text = _systolic;
-        //				_diastolic = bloodPressureSubstrings[1];
-        //				diastolicResult.text = _diastolic;
-        //				_heartRate = bloodPressureSubstrings[2];
-        //				heartRateResult.text = _heartRate;
-        //				sayText("Your blood pressure was " + _systolic + " over " + _diastolic + " and your heart rate was " + _heartRate + ". I'll store the results in your record for you.");
-        //			}
+		//			private function onConnect(e:Event):void
+		//			{
+		//				_socketConnected = true;
+		////				connectionStatusText.text = "connected";
+		//			}
+		//
+		//			private function onClose(e:Event):void
+		//			{
+		//				_socketConnected = false;
+		////				connectionStatusText.text = "disconnected";
+		//			}
+		//
+		//			private function onData(e:ProgressEvent):void
+		//			{
+		//				waitingLabel.visible = false;
+		//				var bloodPressureString:String = _socket.readUTFBytes(e.bytesLoaded);
+		//				var bloodPressureSubstrings:Array = bloodPressureString.split("/");
+		//				_systolic = bloodPressureSubstrings[0];
+		//				systolicResult.text = _systolic;
+		//				_diastolic = bloodPressureSubstrings[1];
+		//				diastolicResult.text = _diastolic;
+		//				_heartRate = bloodPressureSubstrings[2];
+		//				heartRateResult.text = _heartRate;
+		//				sayText("Your blood pressure was " + _systolic + " over " + _diastolic + " and your heart rate was " + _heartRate + ". I'll store the results in your record for you.");
+		//			}
 
-        //			private function onError(e:IOErrorEvent):void
-        //			{
-        ////				errorText.text = e.text;
-        //			}
-        //
-        //			private function onSecurityError(e:SecurityErrorEvent):void
-        //			{
-        ////				errorText.text = e.text;
-        //			}
-        //
-        //			private function sendMessage():void
-        //			{
-        //				if (_socketConnected)
-        //				{
-        //					_socket.writeUTF("hello\n");
-        //				}
-        //			}
+		//			private function onError(e:IOErrorEvent):void
+		//			{
+		////				errorText.text = e.text;
+		//			}
+		//
+		//			private function onSecurityError(e:SecurityErrorEvent):void
+		//			{
+		////				errorText.text = e.text;
+		//			}
+		//
+		//			private function sendMessage():void
+		//			{
+		//				if (_socketConnected)
+		//				{
+		//					_socket.writeUTF("hello\n");
+		//				}
+		//			}
 
-        //			private function submitButtonEnabled(systolicResultText:String, diastolicResultText:String, heartRateResultText:String):Boolean
-        //			{
-        //				if (systolicResultText && diastolicResultText && heartRateResultText)
-        //				{
-        //					return true;
-        //				}
-        //				return false;
-        //			}
+		//			private function submitButtonEnabled(systolicResultText:String, diastolicResultText:String, heartRateResultText:String):Boolean
+		//			{
+		//				if (systolicResultText && diastolicResultText && heartRateResultText)
+		//				{
+		//					return true;
+		//				}
+		//				return false;
+		//			}
 
-        private function submitButtonClick():void
-        {
-            if (systolicResult.text && diastolicResult.text && heartRateResult.text)
-            {
-                if (int(systolicResult.text) < 90 || int(diastolicResult.text) < 60)
-                {
-                    if (!_repeat)
-                    {
-                        showBloodPressureSymptomView("hypotension");
-                    }
-                    else
-                    {
-                        showEmergencyView("hypotension");
-                    }
-                }
-                else if (int(systolicResult.text) > 180 || int(diastolicResult.text) > 120)
-                {
-                    if (!_repeat)
-                    {
-                        showBloodPressureSymptomView("hypertension");
-                    }
-                    else
-                    {
-                        showEmergencyView("hypertension");
-                    }
-                }
-                else
-                {
-                    returnBloodPressureResult();
-                }
-            }
-        }
+		private function submitButtonClick():void
+		{
+			if (systolicResult.text && diastolicResult.text && heartRateResult.text)
+			{
+				if (int(systolicResult.text) < 90 || int(diastolicResult.text) < 60)
+				{
+					if (!_repeat)
+					{
+						showBloodPressureSymptomView("hypotension");
+					}
+					else
+					{
+						showEmergencyView("hypotension");
+					}
+				}
+				else if (int(systolicResult.text) > 180 || int(diastolicResult.text) > 120)
+				{
+					if (!_repeat)
+					{
+						showBloodPressureSymptomView("hypertension");
+					}
+					else
+					{
+						showEmergencyView("hypertension");
+					}
+				}
+				else
+				{
+					returnBloodPressureResult();
+				}
+			}
+		}
 
-        private function showBloodPressureSymptomView(state:String):void
-        {
-            var bloodPressureSymptomView:BloodPressureSymptomView = new BloodPressureSymptomView();
-            bloodPressureSymptomView.init(_scheduleItemOccurrence, _adherenceItem);
-            bloodPressureSymptomView.currentState = state;
-            dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
-                                                             _scheduleItemOccurrence, _adherenceItem,
-                                                             bloodPressureSymptomView));
-        }
+		private function showBloodPressureSymptomView(state:String):void
+		{
+			var bloodPressureSymptomView:BloodPressureSymptomView = new BloodPressureSymptomView();
+			bloodPressureSymptomView.init(_scheduleItemOccurrence, _adherenceItem);
+			bloodPressureSymptomView.currentState = state;
+			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
+															 _scheduleItemOccurrence, _adherenceItem,
+															 bloodPressureSymptomView));
+		}
 
-        private function showEmergencyView(state:String):void
-        {
-            var bloodPressureEmergencyView:BloodPressureEmergencyView = new BloodPressureEmergencyView();
-            bloodPressureEmergencyView.init(_scheduleItemOccurrence, _adherenceItem);
-            bloodPressureEmergencyView.currentState = state;
-            dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
-                                                             _scheduleItemOccurrence, _adherenceItem,
-                                                             bloodPressureEmergencyView));
-        }
+		private function showEmergencyView(state:String):void
+		{
+			var bloodPressureEmergencyView:BloodPressureEmergencyView = new BloodPressureEmergencyView();
+			bloodPressureEmergencyView.init(_scheduleItemOccurrence, _adherenceItem);
+			bloodPressureEmergencyView.currentState = state;
+			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
+															 _scheduleItemOccurrence, _adherenceItem,
+															 bloodPressureEmergencyView));
+		}
 
-        private function returnBloodPressureResult():void
-        {
-            dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_COMPLETE,
-                                                             _scheduleItemOccurrence, _adherenceItem));
-        }
-        ]]>
+		private function returnBloodPressureResult():void
+		{
+			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_COMPLETE,
+															 _scheduleItemOccurrence, _adherenceItem));
+		}
+		]]>
 	</fx:Script>
-    <s:Rect width="100%" height="100%">
-        <s:fill>
-            <s:SolidColor color="0xAAAAAA"/>
-        </s:fill>
-    </s:Rect>
-    <s:VGroup top="20" left="20" right="20" bottom="20" gap="20">
-        <s:Label text="Please enter your blood pressure" includeIn="initial" styleName="labelText"/>
-        <s:Label text="Please repeat your blood pressure" includeIn="repeat" styleName="labelText"/>
-        <s:HGroup>
-            <s:TextInput id="systolicResult" width="300"
-                         skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
-                         textAlign="right" restrict="0-9"/>
-            <s:Label id="systolicLabel" styleName="labelText" text="SYS"/>
-        </s:HGroup>
-        <s:HGroup>
-            <s:TextInput id="diastolicResult" width="300"
-                         skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
-                         textAlign="right" restrict="0-9"/>
-            <s:Group height="{diastolicResult.height}">
-                <s:Label styleName="labelText" text="mmHg"/>
-                <s:Label id="diastolicLabel" bottom="0" styleName="labelText"
-                         text="DIA"/>
-            </s:Group>
-        </s:HGroup>
-        <s:Group width="100%" height="100%">
-            <s:TextInput id="heartRateResult" top="0" right="0" width="200"
-                         skinClass="spark.skins.spark.TextInputSkin"
-                         textAlign="right" restrict="0-9"/>
-            <s:Label top="90" right="0" styleName="labelText" text="Beats/min"/>
-            <s:Button id="submitButton" label="Submit" click="submitButtonClick()" width="300" height="100" bottom="0"
-                      horizontalCenter="0"
-                    />
-        </s:Group>
-    </s:VGroup>
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="0xAAAAAA"/>
+		</s:fill>
+	</s:Rect>
+	<s:VGroup top="20" left="20" right="20" bottom="20" gap="20">
+		<s:Label text="Please enter your blood pressure" includeIn="initial" styleName="labelText"/>
+		<s:Label text="Please repeat your blood pressure" includeIn="repeat" styleName="labelText"/>
+		<s:HGroup>
+			<s:TextInput id="systolicResult" width="300"
+						 skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
+						 textAlign="right" restrict="0-9"/>
+			<s:Label id="systolicLabel" styleName="labelText" text="SYS"/>
+		</s:HGroup>
+		<s:HGroup>
+			<s:TextInput id="diastolicResult" width="300"
+						 skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
+						 textAlign="right" restrict="0-9"/>
+			<s:Group height="{diastolicResult.height}">
+				<s:Label styleName="labelText" text="mmHg"/>
+				<s:Label id="diastolicLabel" bottom="0" styleName="labelText"
+						 text="DIA"/>
+			</s:Group>
+		</s:HGroup>
+		<s:Group width="100%" height="100%">
+			<s:TextInput id="heartRateResult" top="0" right="0" width="200"
+						 skinClass="spark.skins.spark.TextInputSkin"
+						 textAlign="right" restrict="0-9"/>
+			<s:Label top="90" right="0" styleName="labelText" text="Beats/min"/>
+			<s:Button id="submitButton" label="Submit" click="submitButtonClick()" width="300" height="100" bottom="0"
+					  horizontalCenter="0"
+					/>
+		</s:Group>
+	</s:VGroup>
 </s:Group>

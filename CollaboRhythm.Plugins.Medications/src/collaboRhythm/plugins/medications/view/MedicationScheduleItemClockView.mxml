@@ -15,71 +15,73 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<view:ScheduleItemClockViewBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 xmlns:view="collaboRhythm.plugins.schedule.shared.view.*"
-		 xmlns:images="assets.images.*"
-		 width="20" height="20">
+<view:ScheduleItemClockViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+								xmlns:s="library://ns.adobe.com/flex/spark"
+								xmlns:mx="library://ns.adobe.com/flex/mx"
+								xmlns:view="collaboRhythm.plugins.schedule.shared.view.*"
+								xmlns:images="assets.images.*"
+								width="20" height="20">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-        import collaboRhythm.shared.model.AdherenceItem;
-        import collaboRhythm.shared.model.MedicationScheduleItem;
-        import collaboRhythm.shared.model.ScheduleItemBase;
-        import collaboRhythm.shared.model.ScheduleItemOccurrence;
+		import collaboRhythm.shared.model.MedicationScheduleItem;
+		import collaboRhythm.shared.model.ScheduleItemBase;
+		import collaboRhythm.shared.model.ScheduleItemOccurrence;
 
-        import spark.filters.GlowFilter;
+		import spark.filters.GlowFilter;
 
-        [Bindable]
-        private var _medicationScheduleItem:MedicationScheduleItem;
-        private var _recurrenceIndex:int;
+		[Bindable]
+		private var _medicationScheduleItem:MedicationScheduleItem;
+		private var _recurrenceIndex:int;
 
-        [Embed(source="/assets/images/006033856-front.png")]
-        public static const ndc006033856: Class;
-        [Embed(source="/assets/images/000779-front.png")]
-        public static const ndc000779: Class;
+		[Embed(source="/assets/images/006033856-front.png")]
+		public static const ndc006033856:Class;
+		[Embed(source="/assets/images/000779-front.png")]
+		public static const ndc000779:Class;
 
-        public override function init(scheduleItemOccurrence:ScheduleItemOccurrence):void
-        {
-            super.init(scheduleItemOccurrence);
-            _medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
-            pickImage();
-        }
+		public override function init(scheduleItemOccurrence:ScheduleItemOccurrence):void
+		{
+			super.init(scheduleItemOccurrence);
+			_medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
+			pickImage();
+		}
 
-        public override function get scheduleItem():ScheduleItemBase
-        {
-            return _medicationScheduleItem
-        }
+		public override function get scheduleItem():ScheduleItemBase
+		{
+			return _medicationScheduleItem
+		}
 
-        private function pickImage():void
-        {
-            //TODO: Once medication fills are working, use the ndc
-            if (_medicationScheduleItem.name.value == "617320")
-            {
-                medicationImage.source = ndc000779;
-            }
-            else if (_medicationScheduleItem.name.value == "310798")
-            {
-                medicationImage.source = ndc006033856;
-            }
-        }
-
-        ]]>
+		private function pickImage():void
+		{
+			//TODO: Once medication fills are working, use the ndc
+			if (_medicationScheduleItem.name.value == "617320")
+			{
+				medicationImage.source = ndc000779;
+			}
+			else if (_medicationScheduleItem.name.value == "310798")
+			{
+				medicationImage.source = ndc006033856;
+			}
+		}
+		]]>
 	</fx:Script>
-    
-	<!--<s:Ellipse width="100%" height="100%">-->
-		<!--<s:fill>-->
-			<!--<s:SolidColor color="#000000"/>-->
-		<!--</s:fill>-->
-	<!--</s:Ellipse>-->
-    <mx:Image id="medicationImage" width="100%" height="100%" smoothBitmapContent="true"/>
-    <!--<s:Group id="medicationImage" width="100%" height="100%">-->
 
-    <!--</s:Group>-->
-    <!--visible="{determineCheckVisible(_medicationScheduleItem.adherenceItem)}"-->
-	<images:check width="70%" height="70%" verticalCenter="0" horizontalCenter="0" filters="{[new GlowFilter(0xFFFFFF, 0.8, 5, 5)]}" visible="{_scheduleItemOccurrence.adherenceItem &amp;&amp; _scheduleItemOccurrence.adherenceItem.adherence}"/>
-	<images:x width="70%" height="70%"  verticalCenter="0" horizontalCenter="0" filters="{[new GlowFilter(0xFFFFFF, 0.8, 5, 5)]}" visible="{_scheduleItemOccurrence.adherenceItem &amp;&amp; !_scheduleItemOccurrence.adherenceItem.adherence}"/>
+	<!--<s:Ellipse width="100%" height="100%">-->
+	<!--<s:fill>-->
+	<!--<s:SolidColor color="#000000"/>-->
+	<!--</s:fill>-->
+	<!--</s:Ellipse>-->
+	<mx:Image id="medicationImage" width="100%" height="100%" smoothBitmapContent="true"/>
+	<!--<s:Group id="medicationImage" width="100%" height="100%">-->
+
+	<!--</s:Group>-->
+	<!--visible="{determineCheckVisible(_medicationScheduleItem.adherenceItem)}"-->
+	<images:check width="70%" height="70%" verticalCenter="0" horizontalCenter="0"
+				  filters="{[new GlowFilter(0xFFFFFF, 0.8, 5, 5)]}"
+				  visible="{_scheduleItemOccurrence.adherenceItem &amp;&amp; _scheduleItemOccurrence.adherenceItem.adherence}"/>
+	<images:x width="70%" height="70%" verticalCenter="0" horizontalCenter="0"
+			  filters="{[new GlowFilter(0xFFFFFF, 0.8, 5, 5)]}"
+			  visible="{_scheduleItemOccurrence.adherenceItem &amp;&amp; !_scheduleItemOccurrence.adherenceItem.adherence}"/>
 </view:ScheduleItemClockViewBase>

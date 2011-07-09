@@ -1,0 +1,119 @@
+/**
+ * Copyright 2011 John Moore, Scott Gilroy
+ *
+ * This file is part of CollaboRhythm.
+ *
+ * CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ * <http://www.gnu.org/licenses/>.
+ */
+package collaboRhythm.core.model.healthRecord.service
+{
+
+	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.healthRecord.*;
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItemsModel;
+	import collaboRhythm.shared.model.healthRecord.document.xml.IAdherenceItemXmlMarshaller;
+
+	import com.adobe.utils.DateUtil;
+
+	import flash.net.URLVariables;
+
+	import mx.collections.ArrayCollection;
+
+	import org.indivo.client.IndivoClientEvent;
+
+	public class AdherenceItemsHealthRecordService extends PhaHealthRecordServiceBase implements IAdherenceItemXmlMarshaller
+	{
+
+		public function AdherenceItemsHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account)
+		{
+			super(consumerKey, consumerSecret, baseURL, account);
+		}
+
+        public function getAdherenceItems(record:Record):void
+        {
+			// TODO: figure out what is wrong with order_by for this report; it is currently causing an error
+			var params:URLVariables = new URLVariables();
+//			params["order_by"] = "date_reported";
+
+            var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(null, null, record);
+            _pha.reports_minimal_X_GET(params, null, null, null, record.id, "adherenceitems", _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
+        }
+
+        protected override function handleResponse(event:IndivoClientEvent, responseXml:XML, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+        {
+            parseAdherenceItemsReportXml(responseXml, healthRecordServiceRequestDetails.record.adherenceItemsModel);
+        }
+
+		public function parseAdherenceItemsReportXml(value:XML, adherenceItemsModel:AdherenceItemsModel):void
+		{
+			// trim off any data that is from the future (according to ICurrentDateSource); note that we assume the data is in ascending order by date
+			var nowTime:Number = _currentDateSource.now().time;
+
+			var data:ArrayCollection = new ArrayCollection();
+
+			for each (var adherenceItemXml:XML in value.Report)
+			{
+				var adherenceItem:AdherenceItem = new AdherenceItem();
+                initFromReportXML(adherenceItemXml, adherenceItem);
+				if (adherenceItem.dateReported.valueOf() <= nowTime)
+				{
+					data.addItem(adherenceItem);
+				}
+			}
+
+			// TODO: get order_by working and remove this sorting
+			data = new ArrayCollection(data.toArray().sortOn("dateReportedValue", Array.NUMERIC));
+			
+			for each (adherenceItem in data)
+			{
+				adherenceItemsModel.addAdherenceItem(adherenceItem);
+			}
+
+            adherenceItemsModel.isInitialized = true;
+		}
+
+		public function initFromReportXML(adherenceItemReportXML:XML, adherenceItem:AdherenceItem):void
+		{
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
+			DocumentMetadata.parseDocumentMetadata(adherenceItemReportXML.Meta.Document[0], adherenceItem);
+			var adherenceItemXml:XML = adherenceItemReportXML.Item.AdherenceItem[0];
+			adherenceItem.name = HealthRecordHelperMethods.xmlToCodedValue(adherenceItemXml.name[0]);
+			adherenceItem.reportedBy = adherenceItemXml.reportedBy;
+			adherenceItem.dateReported = collaboRhythm.shared.model.DateUtil.parseW3CDTF(adherenceItemXml.dateReported);
+			adherenceItem.recurrenceIndex = int(adherenceItemXml.recurrenceIndex);
+			adherenceItem.adherence = HealthRecordHelperMethods.stringToBoolean(adherenceItemXml.adherence);
+			adherenceItem.nonadherenceReason = adherenceItemXml.nonadherenceReason;
+			adherenceItem.adherenceResultId = adherenceItemReportXML..relatesTo.relation.(@type == "http://indivo.org/vocab/documentrels#adherenceresult").relatedDocument[0];
+		}
+
+		public function convertToXML(adherenceItem:AdherenceItem):XML
+		{
+			var adherenceItemXml:XML = <AdherenceItem/>;
+			adherenceItemXml.@xmlns = "http://indivo.org/vocab/xml/documents#";
+			// TODO: Write a helper method for coded value to xml
+			adherenceItemXml.name = adherenceItem.name.text;
+			adherenceItemXml.name.@type = adherenceItem.name.type;
+			adherenceItemXml.name.@value = adherenceItem.name.value;
+			adherenceItemXml.name.@abbrev = adherenceItem.name.abbrev;
+			adherenceItemXml.reportedBy = adherenceItem.reportedBy;
+			adherenceItemXml.dateReported = DateUtil.toW3CDTF(adherenceItem.dateReported);
+			adherenceItemXml.recurrenceIndex = adherenceItem.recurrenceIndex.toString();
+			adherenceItemXml.adherence = HealthRecordHelperMethods.booleanToString(adherenceItem.adherence);
+			if (adherenceItem.nonadherenceReason)
+				adherenceItemXml.nonadherenceReason = adherenceItem.nonadherenceReason;
+
+			return adherenceItemXml;
+		}
+	}
+}

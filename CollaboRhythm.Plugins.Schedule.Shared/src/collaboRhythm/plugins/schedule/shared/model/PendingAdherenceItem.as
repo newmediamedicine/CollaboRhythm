@@ -17,50 +17,51 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
 
-    import collaboRhythm.shared.model.AdherenceItem;
-    import collaboRhythm.shared.model.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 
-    public class PendingAdherenceItem
-    {
-        private var _scheduleItemOccurrence:ScheduleItemOccurrence;
-        private var _adherenceItem:AdherenceItem;
-        private var _scheduleGroup:ScheduleGroup;
+	public class PendingAdherenceItem
+	{
+		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
+		private var _adherenceItem:AdherenceItem;
+		private var _scheduleGroup:ScheduleGroup;
 
-        public function get scheduleGroup():ScheduleGroup
-        {
-            return _scheduleGroup;
-        }
+		public function get scheduleGroup():ScheduleGroup
+		{
+			return _scheduleGroup;
+		}
 
-        public function set scheduleGroup(value:ScheduleGroup):void
-        {
-            _scheduleGroup = value;
-        }
+		public function set scheduleGroup(value:ScheduleGroup):void
+		{
+			_scheduleGroup = value;
+		}
 
-        public function get scheduleItemOccurrence():ScheduleItemOccurrence
-        {
-            return _scheduleItemOccurrence;
-        }
+		public function get scheduleItemOccurrence():ScheduleItemOccurrence
+		{
+			return _scheduleItemOccurrence;
+		}
 
-        public function set scheduleItemOccurrence(value:ScheduleItemOccurrence):void
-        {
-            _scheduleItemOccurrence = value;
-        }
+		public function set scheduleItemOccurrence(value:ScheduleItemOccurrence):void
+		{
+			_scheduleItemOccurrence = value;
+		}
 
-        public function get adherenceItem():AdherenceItem
-        {
-            return _adherenceItem;
-        }
+		public function get adherenceItem():AdherenceItem
+		{
+			return _adherenceItem;
+		}
 
-        public function set adherenceItem(value:AdherenceItem):void
-        {
-            _adherenceItem = value;
-        }
+		public function set adherenceItem(value:AdherenceItem):void
+		{
+			_adherenceItem = value;
+		}
 
-        public function PendingAdherenceItem(scheduleGroup:ScheduleGroup, scheduleItemOccurrence:ScheduleItemOccurrence, adherenceItem:AdherenceItem)
-        {
-            _scheduleGroup = scheduleGroup;
-            _scheduleItemOccurrence = scheduleItemOccurrence;
-            _adherenceItem = adherenceItem;
-        }
-    }
+		public function PendingAdherenceItem(scheduleGroup:ScheduleGroup, scheduleItemOccurrence:ScheduleItemOccurrence,
+											 adherenceItem:AdherenceItem)
+		{
+			_scheduleGroup = scheduleGroup;
+			_scheduleItemOccurrence = scheduleItemOccurrence;
+			_adherenceItem = adherenceItem;
+		}
+	}
 }

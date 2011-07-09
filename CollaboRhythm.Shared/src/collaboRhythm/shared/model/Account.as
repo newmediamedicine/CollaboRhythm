@@ -46,8 +46,6 @@ package collaboRhythm.shared.model
         private var _recordShareAccounts:HashMap = new HashMap(); // accountId as key
         private var _allSharingAccounts:HashMap = new HashMap(); // accountId as key
         private var _collaborationLobbyConnectionStatus:String = COLLABORATION_LOBBY_NOT_CONNECTED;
-        private var _bloodPressureModel:BloodPressureModel = new BloodPressureModel();
-
 
         public function Account()
         {
@@ -155,16 +153,6 @@ package collaboRhythm.shared.model
         public function set collaborationLobbyConnectionStatus(value:String):void
         {
             _collaborationLobbyConnectionStatus = value;
-        }
-
-        public function get bloodPressureModel():BloodPressureModel
-        {
-            return _bloodPressureModel;
-        }
-
-        public function set bloodPressureModel(value:BloodPressureModel):void
-        {
-            _bloodPressureModel = value;
         }
     }
 }

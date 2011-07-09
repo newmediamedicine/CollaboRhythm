@@ -17,7 +17,11 @@
 package collaboRhythm.shared.model
 {
 
-    import mx.binding.utils.BindingUtils;
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItemsModel;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministrationsModel;
+
+	import mx.binding.utils.BindingUtils;
 
     public class AdherenceItemStitcher
     {

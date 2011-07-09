@@ -33,8 +33,6 @@ package collaboRhythm.shared.model.healthRecord
             if (event.type == IndivoClientEvent.COMPLETE)
             {
                 var responseXml:XML = event.response;
-                var fixedString:String = event.response.toXMLString().split("xmlns=").join("junk=");
-                responseXml = new XML(fixedString);
 
                 // TODO: what if responseXml is null
                 if (responseXml != null)

@@ -52,6 +52,7 @@ package collaboRhythm.shared.model
 
 		public function initFromReportXML(videoMessageReportXml:XML):void
 		{
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
 			parseDocumentMetadata(videoMessageReportXml.Meta.Document[0], this);
 			var videoMessageXml:XML = videoMessageReportXml.Item.VideoMessage[0];
 			_fileId = int(videoMessageXml.fileId);

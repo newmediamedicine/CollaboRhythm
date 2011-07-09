@@ -17,9 +17,11 @@
 package collaboRhythm.shared.model
 {
 
-    import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
+	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
     import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
-    import collaboRhythm.shared.model.services.ICurrentDateSource;
+	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
+	import collaboRhythm.shared.model.services.ICurrentDateSource;
     import collaboRhythm.shared.model.services.WorkstationKernel;
 
     [Bindable]
@@ -57,6 +59,7 @@ package collaboRhythm.shared.model
 
 		public function initFromReportXML(medicationFillReportXml:XML):void
 		{
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
 			parseDocumentMetadata(medicationFillReportXml.Meta.Document[0], this);
 			var medicationFillXml:XML = medicationFillReportXml.Item.MedicationOrder[0];
             _name = HealthRecordHelperMethods.xmlToCodedValue(medicationFillXml.name[0]);

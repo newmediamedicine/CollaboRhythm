@@ -14,16 +14,13 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.shared.model
+package collaboRhythm.shared.model.healthRecord.document
 {
+
+	import collaboRhythm.shared.model.healthRecord.CodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
-    import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
-    import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
 
-    import collaboRhythm.shared.model.DateUtil;
-    import com.adobe.utils.DateUtil;
-
-    [Bindable]
+	[Bindable]
 	public class AdherenceItem extends DocumentMetadata
 	{
 		private var _name:CodedValue;
@@ -50,38 +47,6 @@ package collaboRhythm.shared.model
             _adherenceResult = adherenceResult;
 		}
 		
-		public function initFromReportXML(adherenceItemReportXML:XML):void
-		{
-			parseDocumentMetadata(adherenceItemReportXML.Meta.Document[0], this);
-			var adherenceItemXml:XML = adherenceItemReportXML.Item.AdherenceItem[0];
-			_name = HealthRecordHelperMethods.xmlToCodedValue(adherenceItemXml.name[0]);
-			_reportedBy = adherenceItemXml.reportedBy;
-            _dateReported = collaboRhythm.shared.model.DateUtil.parseW3CDTF(adherenceItemXml.dateReported);
-            _recurrenceIndex = int(adherenceItemXml.recurrenceIndex);
-			_adherence = HealthRecordHelperMethods.stringToBoolean(adherenceItemXml.adherence);
-			_nonadherenceReason = adherenceItemXml.nonadherenceReason;
-            _adherenceResultId = adherenceItemReportXML..relatesTo.relation.(@type == "http://indivo.org/vocab/documentrels#adherenceresult").relatedDocument[0];
-		}
-
-        public function convertToXML():XML
-		{
-			var adherenceItemXml:XML = <AdherenceItem/>;
-			adherenceItemXml.@xmlns = "http://indivo.org/vocab/xml/documents#";
-            // TODO: Write a helper method for coded value to xml
-            adherenceItemXml.name = name.text;
-            adherenceItemXml.name.@type = name.type;
-            adherenceItemXml.name.@value = name.value;
-            adherenceItemXml.name.@abbrev = name.abbrev;
-            adherenceItemXml.reportedBy = reportedBy;
-            adherenceItemXml.dateReported = com.adobe.utils.DateUtil.toW3CDTF(dateReported);
-            adherenceItemXml.recurrenceIndex = recurrenceIndex.toString();
-            adherenceItemXml.adherence = HealthRecordHelperMethods.booleanToString(adherence);
-            if (nonadherenceReason)
-                adherenceItemXml.nonadherenceReason = nonadherenceReason;
-
-			return adherenceItemXml;
-		}
-
         public function get name():CodedValue
         {
             return _name;
@@ -137,9 +102,45 @@ package collaboRhythm.shared.model
             _adherenceResult = value;
         }
 
-        public function set nonadherenceReason(value:String):void
-        {
-            _nonadherenceReason = value;
-        }
-    }
+		public function set name(value:CodedValue):void
+		{
+			_name = value;
+		}
+
+		public function set reportedBy(value:String):void
+		{
+			_reportedBy = value;
+		}
+
+		public function set dateReported(value:Date):void
+		{
+			_dateReported = value;
+		}
+
+		/**
+		 * Returns dateReported.valueOf() to facilitate sorting
+		 */
+		public function get dateReportedValue():Number
+		{
+			return dateReported.valueOf();
+		}
+
+		public function set recurrenceIndex(value:int):void
+		{
+			_recurrenceIndex = value;
+		}
+
+		public function set nonadherenceReason(value:String):void
+		{
+			_nonadherenceReason = value;
+		}
+
+		/**
+		 * Workaround property that returns 0. Used for the y value of the AdherencePlotItemRenderer so that it can be positioned in the chart correctly.
+		 */
+		public function get adherencePosition():Number
+		{
+			return 0;
+		}
+	}
 }

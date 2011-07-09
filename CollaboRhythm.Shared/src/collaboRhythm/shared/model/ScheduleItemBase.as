@@ -16,9 +16,12 @@
  */
 package collaboRhythm.shared.model
 {
-    import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
+
+	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
     import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
-    import collaboRhythm.shared.model.services.ICurrentDateSource;
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+	import collaboRhythm.shared.model.services.ICurrentDateSource;
     import collaboRhythm.shared.model.services.WorkstationKernel;
 
     import collaboRhythm.shared.model.DateUtil;
@@ -65,8 +68,9 @@ package collaboRhythm.shared.model
 
         public function initFromReportXML(scheduleItemReportXml:XML, scheduleItemElementName:String):void
         {
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
             parseDocumentMetadata(scheduleItemReportXml.Meta.Document[0], this);
-            _scheduleItemXml = scheduleItemReportXml.Item.elements(scheduleItemElementName)[0];
+            _scheduleItemXml = scheduleItemReportXml.Item.elements(new QName(DocumentMetadata.INDIVO_DOCUMENTS_NAMESPACE, scheduleItemElementName))[0];
             _name = HealthRecordHelperMethods.xmlToCodedValue(_scheduleItemXml.name[0]);
             _scheduledBy = _scheduleItemXml.scheduledBy;
             _dateScheduled = collaboRhythm.shared.model.DateUtil.parseW3CDTF(_scheduleItemXml.dateScheduled.toString());

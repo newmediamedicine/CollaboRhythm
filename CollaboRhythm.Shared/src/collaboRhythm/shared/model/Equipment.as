@@ -61,6 +61,7 @@ package collaboRhythm.shared.model
 
         public function initFromReportXML(equipmentReportXml:XML):void
         {
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
             parseDocumentMetadata(equipmentReportXml.Meta.Document[0], this);
 			var equipmentXML:XML = equipmentReportXml.Item.Equipment[0];
 			//TODO: Fix the date on equipment to conform to W3CDTF

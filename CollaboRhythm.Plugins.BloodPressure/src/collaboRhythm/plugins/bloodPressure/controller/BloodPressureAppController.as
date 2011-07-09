@@ -18,7 +18,6 @@ package collaboRhythm.plugins.bloodPressure.controller
 {
 	import collaboRhythm.plugins.bloodPressure.model.BloodPressureHealthRecordService;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureFullView;
-	import collaboRhythm.plugins.bloodPressure.view.BloodPressureMeterView;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureMobileWidgetView;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureSimulationWidgetView;
 	import collaboRhythm.plugins.bloodPressure.view.IBloodPressureWidgetView;
@@ -64,17 +63,6 @@ package collaboRhythm.plugins.bloodPressure.controller
 		{
 			super(constructorParams);
 		}
-//		override public function showWidget(left:Number=-1, top:Number=-1):void
-//		{
-//			// do nothing
-//		}
-//
-//		override protected function prepareWidgetView():void
-//		{
-//			// do nothing
-
-//		}
-
 
 		protected override function createWidgetView():UIComponent
 		{
@@ -84,49 +72,60 @@ package collaboRhythm.plugins.bloodPressure.controller
 			else
 				newWidgetView = new BloodPressureMobileWidgetView();
 
-			if (_activeRecordAccount != null)
-				newWidgetView.model = _activeRecordAccount.bloodPressureModel;
-
 			return newWidgetView as UIComponent;
 		}
 
 		protected override function createFullView():UIComponent
 		{
-			var newFullView:BloodPressureFullView = new BloodPressureFullView();
-			newFullView.rangeChartVisible = isWorkstationMode;
-			if (_activeRecordAccount != null)
-				newFullView.model = _activeRecordAccount.bloodPressureModel;
-			return newFullView;
+			_fullView = new BloodPressureFullView();
+			return _fullView;
 		}
 
 		public override function initialize():void
 		{
 			super.initialize();
-			if (_activeRecordAccount.bloodPressureModel.data == null)
+			if (!_activeRecordAccount.primaryRecord.bloodPressureModel || !_activeRecordAccount.primaryRecord.bloodPressureModel.isInitialized)
 			{
 				loadBloodPressureData();
 			}
-			if (_widgetView)
-				_widgetView.model = _activeRecordAccount.bloodPressureModel;
+		}
 
-			prepareFullView();
+		override protected function updateWidgetViewModel():void
+		{
+			super.updateWidgetViewModel();
+
+			if (_widgetView && _activeRecordAccount)
+			{
+				_widgetView.model = _activeRecordAccount.primaryRecord.bloodPressureModel;
+			}
+		}
+
+		override protected function updateFullViewModel():void
+		{
+			super.updateFullViewModel();
+
+			if (_fullView && _activeRecordAccount)
+			{
+				_fullView.model = _activeRecordAccount.primaryRecord.bloodPressureModel;
+			}
 		}
 
 		protected function loadBloodPressureData():void
 		{
-            // TODO: Get the right account here
-			var bloodPressureHealthRecordService:BloodPressureHealthRecordService = new BloodPressureHealthRecordService(_settings.oauthChromeConsumerKey, _settings.oauthChromeConsumerSecret, _settings.indivoServerBaseURL, _activeAccount);
-//			bloodPressureHealthRecordService.copyLoginResults(_healthRecordService);
-			bloodPressureHealthRecordService.loadBloodPressure(_activeRecordAccount);
-		}
-
-		override protected function prepareFullView():void
-		{
-			super.prepareFullView();
-			if (_fullView)
+			if (_activeRecordAccount)
 			{
-				_fullView.model = _activeRecordAccount.bloodPressureModel;
-				_fullView.simulationView.initializeModel(_activeRecordAccount.bloodPressureModel.simulation, _activeRecordAccount.bloodPressureModel);
+				// first cleanup any existing bloodPressureModel
+				if (_activeRecordAccount.primaryRecord.bloodPressureModel)
+					_activeRecordAccount.primaryRecord.bloodPressureModel.record = null;
+
+				_activeRecordAccount.primaryRecord.bloodPressureModel = new BloodPressureModel();
+				_activeRecordAccount.primaryRecord.bloodPressureModel.record = _activeRecordAccount.primaryRecord;
+
+				var bloodPressureHealthRecordService:BloodPressureHealthRecordService = new BloodPressureHealthRecordService(_settings.oauthChromeConsumerKey,
+																															 _settings.oauthChromeConsumerSecret,
+																															 _settings.indivoServerBaseURL,
+																															 _activeAccount);
+				bloodPressureHealthRecordService.initializeBloodPressureModel(_activeRecordAccount);
 			}
 		}
 
@@ -141,13 +140,17 @@ package collaboRhythm.plugins.bloodPressure.controller
 		override public function reloadUserData():void
 		{
 			loadBloodPressureData();
+
+			super.reloadUserData();
+
 			if (_fullView)
 			{
 				_fullView.refresh();
-				_fullView.simulationView.refresh();
 			}
 			if (_widgetView)
+			{
 				_widgetView.refresh();
+			}
 		}
 
 		override protected function showFullViewComplete():void
@@ -175,7 +178,10 @@ package collaboRhythm.plugins.bloodPressure.controller
 		
 		override protected function removeUserData():void
 		{
-			_activeRecordAccount.bloodPressureModel = new BloodPressureModel();
+			if (_activeRecordAccount.primaryRecord.bloodPressureModel)
+				_activeRecordAccount.primaryRecord.bloodPressureModel.record = null;
+
+			_activeRecordAccount.primaryRecord.bloodPressureModel = new BloodPressureModel();
 		}
 	}
 }

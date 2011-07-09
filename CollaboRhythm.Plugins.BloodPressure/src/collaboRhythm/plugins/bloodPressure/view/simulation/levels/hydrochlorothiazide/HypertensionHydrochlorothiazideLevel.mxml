@@ -58,6 +58,7 @@
 
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.bloodPressure.view.simulation.*;
+		import collaboRhythm.plugins.bloodPressure.view.simulation.buttons.StepListItem;
 		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
@@ -125,57 +126,57 @@
 					break;
 				case 0:
 					stepsListData = new ArrayCollection([
-															{ text: "Hydrochlorothiazide conc. minimal", color: SimulationModel.SEVERITY_COLOR_HIGH },
-															{ text: "Salt channels in DCT open", color: SimulationModel.SEVERITY_COLOR_HIGH },
-															{ text: "Urine salt concentration decreased", color: SimulationModel.SEVERITY_COLOR_HIGH },
-															{ text: "Urine volume decreased", color: SimulationModel.SEVERITY_COLOR_HIGH },
-															{ text: "Venous blood volume increased", color: SimulationModel.SEVERITY_COLOR_HIGH },
-															{ text: "Preload on heart increased", color: SimulationModel.SEVERITY_COLOR_HIGH },
-															{ text: "Blood pressure increased", color: SimulationModel.SEVERITY_COLOR_HIGH },
+															new StepListItem("Hydrochlorothiazide conc. minimal", SimulationModel.SEVERITY_COLOR_HIGH),
+															new StepListItem("Salt channels in DCT open", SimulationModel.SEVERITY_COLOR_HIGH),
+															new StepListItem("Urine salt concentration decreased", SimulationModel.SEVERITY_COLOR_HIGH),
+															new StepListItem("Urine volume decreased", SimulationModel.SEVERITY_COLOR_HIGH),
+															new StepListItem("Venous blood volume increased", SimulationModel.SEVERITY_COLOR_HIGH),
+															new StepListItem("Preload on heart increased", SimulationModel.SEVERITY_COLOR_HIGH),
+															new StepListItem("Blood pressure increased", SimulationModel.SEVERITY_COLOR_HIGH),
 														]);
 					break;
 				case 1:
 					stepsListData = new ArrayCollection([
-															{ text: "Hydrochlorothiazide conc. low", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
-															{ text: "Salt channels in DCT open", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
-															{ text: "Urine salt concentration decreased", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
-															{ text: "Urine volume decreased", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
-															{ text: "Venous blood volume increased", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
-															{ text: "Preload on heart increased", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
-															{ text: "Blood pressure increased", color: SimulationModel.SEVERITY_COLOR_MEDIUM },
+															new StepListItem("Hydrochlorothiazide conc. low", SimulationModel.SEVERITY_COLOR_MEDIUM),
+															new StepListItem("Salt channels in DCT open", SimulationModel.SEVERITY_COLOR_MEDIUM),
+															new StepListItem("Urine salt concentration decreased", SimulationModel.SEVERITY_COLOR_MEDIUM),
+															new StepListItem("Urine volume decreased", SimulationModel.SEVERITY_COLOR_MEDIUM),
+															new StepListItem("Venous blood volume increased", SimulationModel.SEVERITY_COLOR_MEDIUM),
+															new StepListItem("Preload on heart increased", SimulationModel.SEVERITY_COLOR_MEDIUM),
+															new StepListItem("Blood pressure increased", SimulationModel.SEVERITY_COLOR_MEDIUM),
 														]);
 					break;
 				case 2:
 					stepsListData = new ArrayCollection([
-															{ text: "Hydrochlorothiazide conc. at goal", color: SimulationModel.SEVERITY_COLOR_GOAL },
-															{ text: "Salt channels in DCT blocked", color: SimulationModel.SEVERITY_COLOR_GOAL },
-															{ text: "Urine salt concentration increased", color: SimulationModel.SEVERITY_COLOR_GOAL },
-															{ text: "Urine volume increased", color: SimulationModel.SEVERITY_COLOR_GOAL },
-															{ text: "Venous blood volume decreased", color: SimulationModel.SEVERITY_COLOR_GOAL },
-															{ text: "Preload on heart decreased", color: SimulationModel.SEVERITY_COLOR_GOAL },
-															{ text: "Blood pressure decreased", color: SimulationModel.SEVERITY_COLOR_GOAL },
+															new StepListItem("Hydrochlorothiazide conc. at goal", SimulationModel.SEVERITY_COLOR_GOAL),
+															new StepListItem("Salt channels in DCT blocked", SimulationModel.SEVERITY_COLOR_GOAL),
+															new StepListItem("Urine salt concentration increased", SimulationModel.SEVERITY_COLOR_GOAL),
+															new StepListItem("Urine volume increased", SimulationModel.SEVERITY_COLOR_GOAL),
+															new StepListItem("Venous blood volume decreased", SimulationModel.SEVERITY_COLOR_GOAL),
+															new StepListItem("Preload on heart decreased", SimulationModel.SEVERITY_COLOR_GOAL),
+															new StepListItem("Blood pressure decreased", SimulationModel.SEVERITY_COLOR_GOAL),
 														]);
 					break;
 				case 3:
 					stepsListData = new ArrayCollection([
-															{ text: "Hydrochlorothiazide conc. high", color: SimulationModel.SEVERITY_COLOR_GOAL },
-															{ text: "Salt channels in DCT blocked", color: SimulationModel.SEVERITY_COLOR_GOAL },
-															{ text: "Urine salt concentration increased", color: SimulationModel.SEVERITY_COLOR_GOAL },
-															{ text: "Urine volume increased", color: SimulationModel.SEVERITY_COLOR_GOAL },
-															{ text: "Venous blood volume decreased", color: SimulationModel.SEVERITY_COLOR_GOAL },
-															{ text: "Preload on heart decreased", color: SimulationModel.SEVERITY_COLOR_GOAL },
-															{ text: "Blood pressure decreased", color: SimulationModel.SEVERITY_COLOR_GOAL },
+															new StepListItem("Hydrochlorothiazide conc. high", SimulationModel.SEVERITY_COLOR_GOAL),
+															new StepListItem("Salt channels in DCT blocked", SimulationModel.SEVERITY_COLOR_GOAL),
+															new StepListItem("Urine salt concentration increased", SimulationModel.SEVERITY_COLOR_GOAL),
+															new StepListItem("Urine volume increased", SimulationModel.SEVERITY_COLOR_GOAL),
+															new StepListItem("Venous blood volume decreased", SimulationModel.SEVERITY_COLOR_GOAL),
+															new StepListItem("Preload on heart decreased", SimulationModel.SEVERITY_COLOR_GOAL),
+															new StepListItem("Blood pressure decreased", SimulationModel.SEVERITY_COLOR_GOAL),
 														]);
 					break;
 				case 4:
 					stepsListData = new ArrayCollection([
-															{ text: "Hydrochlorothiazide conc. very high", color: SimulationModel.SEVERITY_COLOR_GOAL },
-															{ text: "Salt channels in DCT blocked", color: SimulationModel.SEVERITY_COLOR_GOAL },
-															{ text: "Urine salt concentration increased", color: SimulationModel.SEVERITY_COLOR_GOAL },
-															{ text: "Urine volume increased", color: SimulationModel.SEVERITY_COLOR_GOAL },
-															{ text: "Venous blood volume decreased", color: SimulationModel.SEVERITY_COLOR_GOAL },
-															{ text: "Preload on heart decreased", color: SimulationModel.SEVERITY_COLOR_GOAL },
-															{ text: "Blood pressure decreased", color: SimulationModel.SEVERITY_COLOR_GOAL },
+															new StepListItem("Hydrochlorothiazide conc. very high", SimulationModel.SEVERITY_COLOR_GOAL),
+															new StepListItem("Salt channels in DCT blocked", SimulationModel.SEVERITY_COLOR_GOAL),
+															new StepListItem("Urine salt concentration increased", SimulationModel.SEVERITY_COLOR_GOAL),
+															new StepListItem("Urine volume increased", SimulationModel.SEVERITY_COLOR_GOAL),
+															new StepListItem("Venous blood volume decreased", SimulationModel.SEVERITY_COLOR_GOAL),
+															new StepListItem("Preload on heart decreased", SimulationModel.SEVERITY_COLOR_GOAL),
+															new StepListItem("Blood pressure decreased", SimulationModel.SEVERITY_COLOR_GOAL),
 														]);
 					break;
 				default:

@@ -9,13 +9,17 @@ package collaboRhythm.shared.model.healthRecord
         private var _indivoApiCall:String;
         private var _account:Account;
         private var _record:Record;
+		private var _report:String;
+		private var _category:String;
 
-		public function HealthRecordServiceRequestDetails(indivoApiCall:String=null, account:Account=null, record:Record=null)
+		public function HealthRecordServiceRequestDetails(indivoApiCall:String=null, account:Account=null, record:Record=null, report:String=null, category:String=null)
 		{
             _indivoApiCall = indivoApiCall;
             _account = account;
             _record = record;
-        }
+			_report = report;
+			_category = category;
+		}
 
         public function get indivoApiCall():String
         {
@@ -31,5 +35,21 @@ package collaboRhythm.shared.model.healthRecord
         {
             return _record;
         }
-    }
+
+		/**
+		 * Optionally specifies the report that was requested.
+		 */
+		public function get report():String
+		{
+			return _report;
+		}
+
+		/**
+		 * Optionally specifies the category of report that was requested.
+		 */
+		public function get category():String
+		{
+			return _category;
+		}
+	}
 }

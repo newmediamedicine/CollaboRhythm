@@ -87,6 +87,9 @@ package collaboRhythm.shared.controller.apps
         protected var _componentContainer:IComponentContainer;
 		protected var _primaryShowFullViewParallelEffect:Parallel;
 		protected var _secondaryShowFullViewParallelEffect:Parallel;
+		private var _isWidgetViewPrepared:Boolean = false;
+		private var _isFullViewPrepared:Boolean = false;
+
 
 		public function WorkstationAppControllerBase(constructorParams:AppControllerConstructorParams)
 		{
@@ -240,17 +243,10 @@ package collaboRhythm.shared.controller.apps
 		public function set fullView(value:UIComponent):void
 		{
 		}
-		
-//		public function get healthRecordService():CommonHealthRecordService
-//		{
-//			return _healthRecordService;
-//		}
 
-//		public function set healthRecordService(value:CommonHealthRecordService):void
-//		{
-//			_healthRecordService = value;
-//		}
-
+		/**
+		 * @deprecated Use activeRecordAccount instead.
+		 */
 		public function get user():User
 		{
 			return _user;
@@ -272,9 +268,11 @@ package collaboRhythm.shared.controller.apps
 		}
 		
 		/**
-		 * Factory method to create an instance of the widget view associated with this app.
-		 * Note that this instance may or may not be used as the main instance corresponding to the "widgetView" property.
-		 * @return a new instance of the corresponding widget view component
+		 * Factory method to create the one and only instance of the widget view associated with this app.
+		 * Note that this instance will be used as the main instance corresponding to the "widgetView" property.
+		 * The widget view does not need be initialized or prepared in any way by createWidgetView. A subsequent call to
+		 * prepareWidgetView will take care of this.
+		 * @return the new instance of the corresponding widget view component
 		 */
 		protected function createWidgetView():UIComponent
 		{
@@ -282,9 +280,11 @@ package collaboRhythm.shared.controller.apps
 		}
 		
 		/**
-		 * Factory method to create an instance of the full view associated with this app.
-		 * Note that this instance may or may not be used as the main instance corresponding to the "fullView" property.
-		 * @return a new instance of the corresponding full view component
+		 * Factory method to create the one and only instance of the full view associated with this app.
+		 * Note that this instance will be used as the main instance corresponding to the "fullView" property.
+		 * The full view does not need be initialized or prepared in any way by createFullView. A subsequent call to
+		 * prepareFullView will take care of this.
+		 * @return the new instance of the corresponding full view component
 		 */
 		protected function createFullView():UIComponent
 		{
@@ -292,33 +292,67 @@ package collaboRhythm.shared.controller.apps
 		}
 
 		/**
-		 * Prepares the widget view for use. 
+		 * Prepares the widget view for use when it is first created. The view
+		 * should be added to the appropriate parent container, and should respond to mouse events appropriately.
+		 * The widgetView should be hidden initially so that it can be initialized and ready before is is subsequently shown.
+		 * The updateWidgetViewModel method will be called to initialize the view with any required model or data.
+		 * Subclasses should NOT generally need to override this method but should override updateWidgetViewModel
+		 * instead to initialize data that the view needs.
 		 */
 		protected function prepareWidgetView():void
 		{
-			if (widgetView != null)
+			if (widgetView != null && !_isWidgetViewPrepared)
 			{
+				updateWidgetViewModel();
 				widgetView.addEventListener(MouseEvent.CLICK, widgetClickHandler);
 				widgetView.addEventListener(MouseEvent.MOUSE_DOWN, widgetMouseDownHandler);
 
 				widgetView.visible = false;
 				_widgetParentContainer.addElement(widgetView);
+				_isWidgetViewPrepared = true;
 			}
+		}
+
+		/**
+		 * Initializes the widgetView with any required model or data.
+		 * Subclasses should override this method to initialize the view appropriately.
+		 * This method is called both when the widgetView is initially created and prepared, and when/if the data
+		 * is reloaded (such as when changing the demo date).
+		 */
+		protected function updateWidgetViewModel():void
+		{
 		}
 		
 		/**
-		 * Prepares the fullView for use. 
+		 * Prepares the fullView for use when it is first created. The view
+		 * should be added to the appropriate parent container, and should respond to mouse events appropriately.
+		 * The fullView should be hidden initially so that it can be initialized and ready before is is subsequently shown.
+		 * The updateFullViewModel method will be called to initialize the view with any required model or data.
+		 * Subclasses should NOT generally need to override this method but should override updateFullViewModel
+		 * instead to initialize data that the view needs.
 		 */
 		protected function prepareFullView():void
 		{
-			if (fullView != null)
+			if (fullView != null && !_isFullViewPrepared)
 			{
+				updateFullViewModel();
 				_primaryShowFullViewParallelEffect.stop();
 				_secondaryShowFullViewParallelEffect.stop();
 				fullView.visible = false;
 				if (fullView.parent == null)
 					_fullParentContainer.addElement(fullView);
+				_isFullViewPrepared = true;
 			}
+		}
+
+		/**
+		 * Initializes the fullView with any required model or data.
+		 * Subclasses should override this method to initialize the view appropriately.
+		 * This method is called both when the fullView is initially created and prepared, and when/if the data
+		 * is reloaded (such as when changing the demo date).
+		 */
+		protected function updateFullViewModel():void
+		{
 		}
 		
 		public function get isFullViewSupported():Boolean
@@ -357,7 +391,7 @@ package collaboRhythm.shared.controller.apps
 					dragSource.addData(new WorkstationAppDragData(mouseEvent), WorkstationAppDragData.DRAG_SOURCE_DATA_FORMAT);
 					
 					// ask the DragManger to begin the drag
-					DragManager.doDrag(dragInitiator, dragSource, mouseEvent, this.createWidgetView());
+					DragManager.doDrag(dragInitiator, dragSource, mouseEvent, BitmapCopyComponent.createFromComponent(this.widgetView));
 				}
 			}
 		}
@@ -909,18 +943,37 @@ package collaboRhythm.shared.controller.apps
 		}
 		
 		/**
-		 * Initializes the app. Called after standard properties (healthRecordService, user, etc) are set so
-		 * that the app can be prepared for use. 
+		 * Initializes this instance of WorkstationAppControllerBase (app), and if they have been created, the 
+		 * widgetView and/or fullView of this app. This method is called after the standard properties
+		 * (healthRecordService, activeRecordAccount, etc) of the app are set so that the app can prepare itself for use.
+		 * Subclasses should override this method to implement appropriate initialization. This method is only ever
+		 * called once for each app instance.
 		 */
 		public function initialize():void
 		{
 		}
-		
+
+		/**
+		 * Reloads or resets the model data that this app owns (if any). Note that this method is primarily used for
+		 * changing the current demo time, so reloadUserData should reload the appropriate data on the record respecting
+		 * the ICurrentDateSource.now() time.
+		 * Subclasses should override this method to reload or reset any data that the view owns and then update
+		 * the widgetView and fullView, if necessary.
+		 */
 		public function reloadUserData():void
 		{
-			// to be implemented by subclasses
+			if (widgetView)
+				updateWidgetViewModel();
+
+			if (fullView)
+				updateFullViewModel();
 		}
-		
+
+		/**
+		 * Closes the any views the app owns and removes and data the app owns from the current record.
+		 * Apps do not generally need to override this method, but should instead override removeUserData().
+		 * Note that only data and views owned directly by this app should be affected by this method.
+		 */
 		public function close():void
 		{
 			destroyViews();
@@ -928,10 +981,10 @@ package collaboRhythm.shared.controller.apps
 		}
 		
 		/**
-		 * Removes any references to user data owned by this app on the User object.
+		 * Removes any references to user data owned by this app on the Record object.
 		 * This is called when closing the user/record and/or when closing or reloading the whole application.
 		 * <p>
-		 * Sublcasses should override this method if they have added any data to the User, such as on User.appData.
+		 * Subclasses should override this method if they have added any data to the Record/User, such as on Record.appData.
 		 */
 		protected function removeUserData():void
 		{
@@ -960,5 +1013,15 @@ package collaboRhythm.shared.controller.apps
         {
             _activeRecordAccount = value;
         }
-    }
+
+		public function get isWidgetViewPrepared():Boolean
+		{
+			return _isWidgetViewPrepared;
+		}
+
+		public function get isFullViewPrepared():Boolean
+		{
+			return _isFullViewPrepared;
+		}
+	}
 }

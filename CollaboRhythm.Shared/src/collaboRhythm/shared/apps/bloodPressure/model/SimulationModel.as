@@ -157,11 +157,6 @@ package collaboRhythm.shared.apps.bloodPressure.model
 			_diastolic = value;
 		}
 
-		public function get concentration():Number
-		{
-			return _concentration;
-		}
-
 		public function set concentration(value:Number):void
 		{
 			_concentration = value;

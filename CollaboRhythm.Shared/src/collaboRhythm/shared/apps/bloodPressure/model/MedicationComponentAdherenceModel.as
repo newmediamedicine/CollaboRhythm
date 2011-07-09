@@ -17,7 +17,7 @@
 package collaboRhythm.shared.apps.bloodPressure.model
 {
 
-	import collaboRhythm.shared.model.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CodedValue;
 
 	[Bindable]
 	public class MedicationComponentAdherenceModel

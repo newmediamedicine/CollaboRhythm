@@ -17,10 +17,11 @@
 package collaboRhythm.core.controller
 {
 
-    import castle.flexbridge.kernel.IKernel;
+	import castle.flexbridge.kernel.IKernel;
 
     import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
     import collaboRhythm.core.model.ApplicationControllerModel;
+	import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
     import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
     import collaboRhythm.core.pluginsManagement.PluginLoader;
     import collaboRhythm.shared.controller.CollaborationController;
@@ -76,10 +77,11 @@ package collaboRhythm.core.controller
         protected var _pluginLoader:PluginLoader;
         protected var _reloadWithRecordAccount:Account;
         protected var _reloadWithFullView:String;
+		protected var _healthRecordServiceFacade:HealthRecordServiceFacade;
 
-        public function ApplicationControllerBase()
-        {
-        }
+		public function ApplicationControllerBase()
+		{
+		}
 
         // To be overridden by subclasses with the super method called at the beginning
         // subclasses can then perform appropriate actions after settings, logging, and components have been initialized
@@ -95,30 +97,30 @@ package collaboRhythm.core.controller
             initLogging();
             _logger.info("Logging initialized");
 
-            // initSettings needs to be called prior to initLogging because the settings for logging need to be loaded first
-            _logger.info("Settings initialized");
-            _logger.info("  Application settings file loaded: " + _settingsFileStore.isApplicationSettingsLoaded);
-            _logger.info("  User settings file loaded: " + _settingsFileStore.isUserSettingsLoaded + " path=" + _settingsFileStore.userSettingsFile.nativePath);
-            _logger.info("  Mode: " + _settings.mode);
-            _logger.info("  Username: " + _settings.username);
+			// initSettings needs to be called prior to initLogging because the settings for logging need to be loaded first
+			_logger.info("Settings initialized");
+			_logger.info("  Application settings file loaded: " + _settingsFileStore.isApplicationSettingsLoaded);
+			_logger.info("  User settings file loaded: " + _settingsFileStore.isUserSettingsLoaded + " path=" + _settingsFileStore.userSettingsFile.nativePath);
+			_logger.info("  Mode: " + _settings.mode);
+			_logger.info("  Username: " + _settings.username);
 
-            initComponents();
-            _logger.info("Components initialized. Asynchronous plugin loading initiated.");
-            _logger.info("  User plugins directory: " + _pluginLoader.userPluginsDirectoryPath);
-            _logger.info("  Number of loaded plugins: " + _pluginLoader.numPluginsLoaded);
+			initComponents();
+			_logger.info("Components initialized. Asynchronous plugin loading initiated.");
+			_logger.info("  User plugins directory: " + _pluginLoader.userPluginsDirectoryPath);
+			_logger.info("  Number of loaded plugins: " + _pluginLoader.numPluginsLoaded);
 
-            // the activeAccount is that which is actively in session with the Indivo server, there can only be one active account at a time
-            // create an instance of this model class before creating a session so that the results are tracked by that instance
-            _activeAccount = new Account();
-        }
+			// the activeAccount is that which is actively in session with the Indivo server, there can only be one active account at a time
+			// create an instance of this model class before creating a session so that the results are tracked by that instance
+			_activeAccount = new Account();
+		}
 
-        private function initSettings():void
-        {
-            _settingsFileStore = new SettingsFileStore();
-            _settingsFileStore.applicationSettingsEmbeddedFile = applicationSettingsEmbeddedFile;
-            _settingsFileStore.readSettings();
-            _settings = _settingsFileStore.settings;
-        }
+		private function initSettings():void
+		{
+			_settingsFileStore = new SettingsFileStore();
+			_settingsFileStore.applicationSettingsEmbeddedFile = applicationSettingsEmbeddedFile;
+			_settingsFileStore.readSettings();
+			_settings = _settingsFileStore.settings;
+		}
 
         private function checkNetworkStatus():void
         {
@@ -151,13 +153,13 @@ package collaboRhythm.core.controller
                 Log.addTarget(fileTarget);
             }
 
-            // create a trace target for logging if specified in the settings file
-            if (_settings.useTraceTarget)
-            {
-                var traceTarget:TraceTarget = new TraceTarget();
-                // add the trace target to the log
-                Log.addTarget(traceTarget);
-            }
+			// create a trace target for logging if specified in the settings file
+			if (_settings.useTraceTarget)
+			{
+				var traceTarget:TraceTarget = new TraceTarget();
+				// add the trace target to the log
+				Log.addTarget(traceTarget);
+			}
 
             // TODO: The syslog target currently does not handle errors, download the source and update
             // create a syslog target for logging if specified in the settings file and get the ip address from the settings file
@@ -171,44 +173,44 @@ package collaboRhythm.core.controller
                 Log.addTarget(tcpSyslogTarget);
             }
 
-            _logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
-        }
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+		}
 
-        protected function testLogging():void
-        {
-            _logger.info("Testing logger");
-        }
+		protected function testLogging():void
+		{
+			_logger.info("Testing logger");
+		}
 
-        private function initComponents():void
-        {
-            _kernel = WorkstationKernel.instance;
+		private function initComponents():void
+		{
+			_kernel = WorkstationKernel.instance;
 
-            //	_kernel.registerComponentInstance("CurrentDateSource", ICurrentDateSource, new DefaultCurrentDateSource());
-            var dateSource:DemoCurrentDateSource = new DemoCurrentDateSource();
-            dateSource.targetDate = _settings.targetDate;
-            _kernel.registerComponentInstance("CurrentDateSource", ICurrentDateSource, dateSource);
+			//	_kernel.registerComponentInstance("CurrentDateSource", ICurrentDateSource, new DefaultCurrentDateSource());
+			var dateSource:DemoCurrentDateSource = new DemoCurrentDateSource();
+			dateSource.targetDate = _settings.targetDate;
+			_kernel.registerComponentInstance("CurrentDateSource", ICurrentDateSource, dateSource);
 
-            _componentContainer = new DefaultComponentContainer();
-            _pluginLoader = new PluginLoader();
-            _pluginLoader.addEventListener(Event.COMPLETE, pluginLoader_complete);
-            _pluginLoader.componentContainer = componentContainer;
-            _pluginLoader.loadPlugins();
-        }
+			_componentContainer = new DefaultComponentContainer();
+			_pluginLoader = new PluginLoader();
+			_pluginLoader.addEventListener(Event.COMPLETE, pluginLoader_complete);
+			_pluginLoader.componentContainer = componentContainer;
+			_pluginLoader.loadPlugins();
+		}
 
-        /**
-         * Method that should be called by subclasses to create a session with the Indivo backend server.
-         */
-        protected function initCollaborationController(collaborationView:CollaborationView):void
-        {
-            // the collaborationController coordinates interaction between the CollaborationModel and the CollaborationView and its children the RecordVideoView and CollaborationRoomView.
-            // The CollaborationModel, through its services, connects to the collaboration server, which is currently a Flash Media Server
-            // This server allows the user to see when other account owners are online
-            // It also allows collaboration with these account owners and sending and viewing of asynchronous video
+		/**
+		 * Method that should be called by subclasses to create a session with the Indivo backend server.
+		 */
+		protected function initCollaborationController(collaborationView:CollaborationView):void
+		{
+			// the collaborationController coordinates interaction between the CollaborationModel and the CollaborationView and its children the RecordVideoView and CollaborationRoomView.
+			// The CollaborationModel, through its services, connects to the collaboration server, which is currently a Flash Media Server
+			// This server allows the user to see when other account owners are online
+			// It also allows collaboration with these account owners and sending and viewing of asynchronous video
 
-            _collaborationController = new CollaborationController(_activeAccount, collaborationView, _settings);
-            if (collaborationView != null)
-                collaborationView.init(_collaborationController);
-        }
+			_collaborationController = new CollaborationController(_activeAccount, collaborationView, _settings);
+			if (collaborationView != null)
+				collaborationView.init(_collaborationController);
+		}
 
         /**
          * Method that should be called by subclasses to create a session with the Indivo backend server.
@@ -233,16 +235,16 @@ package collaboRhythm.core.controller
             _logger.info("Creating session in Indivo - SUCCEEDED");
             _applicationControllerModel.createSessionStatus = ApplicationControllerModel.CREATE_SESSION_STATUS_SUCCEEDED;
 
-            // get information for the account actively in session, this may be useful if accounts are implemented to have credentials, such as MD or RN
-            // currently it is not useful, so the function is never called
-            // TODO: add the ability to retrieve credentials if they are implemented
+			// get information for the account actively in session, this may be useful if accounts are implemented to have credentials, such as MD or RN
+			// currently it is not useful, so the function is never called
+			// TODO: add the ability to retrieve credentials if they are implemented
 //            getAccountInformation();
 
-            openActiveAccount(_activeAccount);
+			openActiveAccount(_activeAccount);
 
-            // get the records for the account actively in session, this includes records that have been shared with the account
-            getRecords();
-        }
+			// get the records for the account actively in session, this includes records that have been shared with the account
+			getRecords();
+		}
 
         private function createSessionFailedHandler(event:HealthRecordServiceEvent):void
         {
@@ -251,221 +253,234 @@ package collaboRhythm.core.controller
             _applicationControllerModel.createSessionStatus = ApplicationControllerModel.CREATE_SESSION_STATUS_FAILED;
         }
 
-        /**
-         * Virtual method which subclasses should override to dictate what happens when the active account is opened
-         *
-         * @param activeAccount
-         *
-         */
-        protected function openActiveAccount(activeAccount:Account):void
-        {
+		/**
+		 * Virtual method which subclasses should override to dictate what happens when the active account is opened
+		 *
+		 * @param activeAccount
+		 *
+		 */
+		protected function openActiveAccount(activeAccount:Account):void
+		{
 
-        }
+		}
 
         private function getAccountInformation():void
         {
-            var accountInformationHealthRecordService:AccountInformationHealthRecordService = new AccountInformationHealthRecordService(_settings.oauthChromeConsumerKey,
-                                                                                                                                        _settings.oauthChromeConsumerSecret,
-                                                                                                                                        _settings.indivoServerBaseURL,
-                                                                                                                                        _activeAccount);
+            var accountInformationHealthRecordService:AccountInformationHealthRecordService = new AccountInformationHealthRecordService(_settings.oauthChromeConsumerKey, _settings.oauthChromeConsumerSecret, _settings.indivoServerBaseURL, _activeAccount);
             accountInformationHealthRecordService.retrieveAccountInformation(_activeAccount);
         }
 
-        // get the records for the account actively in session, this includes records that have been shared with the account
-        private function getRecords():void
-        {
-            _logger.info("Getting records from Indivo...");
+		// get the records for the account actively in session, this includes records that have been shared with the account
+		private function getRecords():void
+		{
+			_logger.info("Getting records from Indivo...");
 
             var recordsHealthRecordService:RecordsHealthRecordService = new RecordsHealthRecordService(_settings.oauthChromeConsumerKey,
                                                                                                        _settings.oauthChromeConsumerSecret,
                                                                                                        _settings.indivoServerBaseURL,
-                                                                                                       _activeAccount,
-                                                                                                       _settings);
+                                                                                                       _activeAccount, _settings);
             recordsHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE,
                                                         getRecordsCompleteHandler);
             recordsHealthRecordService.getRecords();
         }
 
-        private function getRecordsCompleteHandler(event:HealthRecordServiceEvent):void
-        {
-            _logger.info("Getting records from Indivo - SUCCEEDED");
+		private function getRecordsCompleteHandler(event:HealthRecordServiceEvent):void
+		{
+			_logger.info("Getting records from Indivo - SUCCEEDED");
 
-            if (_settings.isPatientMode)
-            {
-                // If the application is in patient mode, then it needs to know with what accounts
-                // the primary record of the active account is shared so that it can inform the collaboration server
-                getShares();
-            }
-            else if (_settings.isClinicianMode)
-            {
-                // enter the collaboration lobby, since all of the necessary accountIds are known, a clinician does not have any shares
-                enterCollaborationLobby();
+			if (_settings.isPatientMode)
+			{
+				// If the application is in patient mode, then it needs to know with what accounts
+				// the primary record of the active account is shared so that it can inform the collaboration server
+				getShares();
+			}
+			else if (_settings.isClinicianMode)
+			{
+				// enter the collaboration lobby, since all of the necessary accountIds are known, a clinician does not have any shares
+				enterCollaborationLobby();
 
-                // get the demographics for the active account all of the shared records
-                getDemographics();
-            }
-        }
+				// get the demographics for the active account all of the shared records
+				getDemographics();
+			}
+		}
 
-        // if the application is in patient mode, get the accounts with which the primary record of the active account is shared
-        private function getShares():void
-        {
-            _logger.info("Getting shares from Indivo...");
+		// if the application is in patient mode, get the accounts with which the primary record of the active account is shared
+		private function getShares():void
+		{
+			_logger.info("Getting shares from Indivo...");
 
-            var sharesHealthRecordService:SharesHealthRecordService = new SharesHealthRecordService(_settings.oauthChromeConsumerKey,
-                                                                                                    _settings.oauthChromeConsumerSecret,
-                                                                                                    _settings.indivoServerBaseURL,
-                                                                                                    _activeAccount);
-            sharesHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE,
-                                                       getSharesCompleteHandler);
-            sharesHealthRecordService.getShares(_activeAccount.primaryRecord);
-        }
+			var sharesHealthRecordService:SharesHealthRecordService = new SharesHealthRecordService(_settings.oauthChromeConsumerKey,
+																									_settings.oauthChromeConsumerSecret,
+																									_settings.indivoServerBaseURL,
+																									_activeAccount);
+			sharesHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE,
+													   getSharesCompleteHandler);
+			sharesHealthRecordService.getShares(_activeAccount.primaryRecord);
+		}
 
-        private function getSharesCompleteHandler(event:HealthRecordServiceEvent):void
-        {
-            _logger.info("Getting shares from Indivo - SUCCEEDED");
+		private function getSharesCompleteHandler(event:HealthRecordServiceEvent):void
+		{
+			_logger.info("Getting shares from Indivo - SUCCEEDED");
 
-            // enter the collaboration lobby, since all of the necessary accountIds are known
-            enterCollaborationLobby();
+			// enter the collaboration lobby, since all of the necessary accountIds are known
+			enterCollaborationLobby();
 
-            // open the primary record of the active account, since the application is in patient mode
-            openRecordAccount(_activeAccount);
+			// open the primary record of the active account, since the application is in patient mode
+			openRecordAccount(_activeAccount);
 
-            // get the demographics for the active account
-            getDemographics();
-        }
+			// get the demographics for the active account
+			getDemographics();
+		}
 
-        // get the demographics for the active account and all of the sharing accounts
-        private function getDemographics():void
-        {
-            var demographicsHealthRecordService:DemographicsHealthRecordService = new DemographicsHealthRecordService(_settings.oauthChromeConsumerKey,
-                                                                                                                      _settings.oauthChromeConsumerSecret,
-                                                                                                                      _settings.indivoServerBaseURL,
-                                                                                                                      _activeAccount);
-            demographicsHealthRecordService.getDemographics(_activeAccount.primaryRecord);
+		// get the demographics for the active account and all of the sharing accounts
+		private function getDemographics():void
+		{
+			var demographicsHealthRecordService:DemographicsHealthRecordService = new DemographicsHealthRecordService(_settings.oauthChromeConsumerKey,
+																													  _settings.oauthChromeConsumerSecret,
+																													  _settings.indivoServerBaseURL,
+																													  _activeAccount);
+			demographicsHealthRecordService.getDemographics(_activeAccount.primaryRecord);
 
-            for each (var account:Account in _activeAccount.allSharingAccounts)
-            {
-                demographicsHealthRecordService.getDemographics(account.primaryRecord);
-            }
-        }
+			for each (var account:Account in _activeAccount.allSharingAccounts)
+			{
+				demographicsHealthRecordService.getDemographics(account.primaryRecord);
+			}
+		}
 
-        // Enter the collaboration lobby so that the user can see which other users are online
-        // This must be done after all of the shared records and record shares have been retrieved so that the accountIds are known
-        private function enterCollaborationLobby():void
-        {
-            // Enter the collaboration lobby, so that the user can see when other account owners are online
-            collaborationController.collaborationModel.collaborationLobbyNetConnectionService.enterCollaborationLobby();
-        }
+		// Enter the collaboration lobby so that the user can see which other users are online
+		// This must be done after all of the shared records and record shares have been retrieved so that the accountIds are known
+		private function enterCollaborationLobby():void
+		{
+			// Enter the collaboration lobby, so that the user can see when other account owners are online
+			collaborationController.collaborationModel.collaborationLobbyNetConnectionService.enterCollaborationLobby();
+		}
 
-        /**
-         * Virtual method which subclasses should override to dictate what happens when a record is opened
-         *
-         * @param recordAccount
-         *
-         */
-        public function openRecordAccount(recordAccount:Account):void
-        {
-            _activeRecordAccount = recordAccount;
-            _collaborationController.setActiveRecordAccount(recordAccount);
-        }
+		/**
+		 * Virtual method which subclasses should override to dictate what happens when a record is opened
+		 *
+		 * @param recordAccount
+		 *
+		 */
+		public function openRecordAccount(recordAccount:Account):void
+		{
+			_activeRecordAccount = recordAccount;
+			_collaborationController.setActiveRecordAccount(recordAccount);
+		}
 
-        /**
-         * Virtual method which subclasses should override to dictate what happens when a record is closed
-         *
-         * @param recordAccount
-         *
-         */
-        public function closeRecordAccount(recordAccount:Account):void
-        {
+		/**
+		 * Virtual method which subclasses should override to dictate what happens when a record is closed
+		 *
+		 * @param recordAccount
+		 *
+		 */
+		public function closeRecordAccount(recordAccount:Account):void
+		{
 
-        }
+		}
 
-        protected function set targetDate(value:Date):void
-        {
-            _settings.targetDate = value;
-            var dateSource:DemoCurrentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as DemoCurrentDateSource;
-            if (dateSource != null)
-            {
-                dateSource.targetDate = value;
-                changeDemoDate();
-            }
-        }
+		protected function set targetDate(value:Date):void
+		{
+			_settings.targetDate = value;
+			var dateSource:DemoCurrentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as DemoCurrentDateSource;
+			if (dateSource != null)
+			{
+				dateSource.targetDate = value;
+				changeDemoDate();
+			}
+		}
 
-        public function reloadPlugins():void
-        {
-            _reloadWithRecordAccount = _activeRecordAccount;
-            _reloadWithFullView = currentFullView;
+		public function reloadPlugins():void
+		{
+			_reloadWithRecordAccount = _activeRecordAccount;
+			_reloadWithFullView = currentFullView;
 
-            closeRecordAccount(_activeRecordAccount);
-            _componentContainer.removeAllComponents();
-            _pluginLoader.unloadPlugins();
+			closeRecordAccount(_activeRecordAccount);
+			_componentContainer.removeAllComponents();
+			_pluginLoader.unloadPlugins();
 
-            _pluginLoader.loadPlugins();
-        }
+			_pluginLoader.loadPlugins();
+		}
 
-        private function pluginLoader_complete(event:Event):void
-        {
-            handlePluginsLoaded();
-        }
+		private function pluginLoader_complete(event:Event):void
+		{
+			handlePluginsLoaded();
+		}
 
-        protected function handlePluginsLoaded():void
-        {
-            _logger.info("Plugins loaded.");
-            var array:Array = _componentContainer.resolveAll(AppControllerInfo);
-            _logger.info("  Number of registered AppControllerInfo objects (apps): " + (array ? array.length : 0));
+		protected function handlePluginsLoaded():void
+		{
+			_logger.info("Plugins loaded.");
+			var array:Array = _componentContainer.resolveAll(AppControllerInfo);
+			_logger.info("  Number of registered AppControllerInfo objects (apps): " + (array ? array.length : 0));
 
             if (_reloadWithRecordAccount)
-                openRecordAccount(_reloadWithRecordAccount);
+            openRecordAccount(_reloadWithRecordAccount);
         }
 
         protected function get appControllersMediator():AppControllersMediatorBase
-        {
+		{
             throw new Error("virtual function must be overridden in subclass");
-        }
+		}
 
         protected function changeDemoDate():void
-        {
+		{
             throw new Error("virtual function must be overridden in subclass");
-        }
+		}
 
-        public function get settingsFileStore():SettingsFileStore
-        {
-            return _settingsFileStore;
-        }
+		public function get settingsFileStore():SettingsFileStore
+		{
+			return _settingsFileStore;
+		}
 
-        public function get collaborationController():CollaborationController
-        {
-            return _collaborationController;
-        }
+		public function get collaborationController():CollaborationController
+		{
+			return _collaborationController;
+		}
 
-        public function set collaborationController(value:CollaborationController):void
-        {
-            _collaborationController = value;
-        }
+		public function set collaborationController(value:CollaborationController):void
+		{
+			_collaborationController = value;
+		}
 
-        public function get componentContainer():IComponentContainer
-        {
-            return _componentContainer;
-        }
+		public function get componentContainer():IComponentContainer
+		{
+			return _componentContainer;
+		}
 
-        public function get settings():Settings
-        {
-            return _settings;
-        }
+		public function get settings():Settings
+		{
+			return _settings;
+		}
 
-        public function get currentFullView():String
-        {
-            throw new Error("virtual function must be overriden in subclass");
-        }
+		public function get currentFullView():String
+		{
+			throw new Error("virtual function must be overriden in subclass");
+		}
 
-        public function get fullContainer():IVisualElementContainer
-        {
-            throw new Error("virtual function must be overriden in subclass");
-        }
+		public function get fullContainer():IVisualElementContainer
+		{
+			throw new Error("virtual function must be overriden in subclass");
+		}
 
-        public function get applicationSettingsEmbeddedFile():Class
-        {
-            throw new Error("Virtual method must be overridden in subclasses");
-        }
-    }
+		public function get applicationSettingsEmbeddedFile():Class
+		{
+			throw new Error("Virtual method must be overridden in subclasses");
+		}
+
+		protected function loadDocuments(recordAccount:Account):void
+		{
+			recordAccount.primaryRecord.getDocuments();
+			_healthRecordServiceFacade = new HealthRecordServiceFacade(settings.oauthChromeConsumerKey,
+																	   settings.oauthChromeConsumerSecret,
+																	   settings.indivoServerBaseURL,
+																	   _activeAccount);
+			_healthRecordServiceFacade.loadDocuments(recordAccount.primaryRecord);
+		}
+
+		protected function reloadDocuments(recordAccount:Account):void
+		{
+			recordAccount.primaryRecord.clearDocuments();
+			recordAccount.primaryRecord.getDocuments();
+			_healthRecordServiceFacade.loadDocuments(recordAccount.primaryRecord);
+		}
+	}
 }

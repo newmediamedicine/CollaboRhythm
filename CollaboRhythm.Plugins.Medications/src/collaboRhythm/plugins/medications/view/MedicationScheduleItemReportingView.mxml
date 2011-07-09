@@ -16,160 +16,170 @@
 ~ <http://www.gnu.org/licenses/>.
 -->
 <view:ScheduleItemReportingViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
-                                    xmlns:s="library://ns.adobe.com/flex/spark"
-                                    xmlns:mx="library://ns.adobe.com/flex/mx"
-                                    xmlns:view="collaboRhythm.plugins.schedule.shared.view.*"
-                                    xmlns:images="assets.images.*">
-    <fx:Declarations>
-        <!-- Place non-visual elements (e.g., services, value objects) here -->
-    </fx:Declarations>
-    <fx:Style>
-        @namespace s "library://ns.adobe.com/flex/spark";
+									xmlns:s="library://ns.adobe.com/flex/spark"
+									xmlns:mx="library://ns.adobe.com/flex/mx"
+									xmlns:view="collaboRhythm.plugins.schedule.shared.view.*"
+									xmlns:images="assets.images.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
 
-        .labelText {
-            color: #000000;
-            font-size: 15;
-        }
+		.labelText {
+			color: #000000;
+			font-size: 15;
+		}
 
-        #nameText {
-            font-size: 20;
-            font-weight: bold;
-        }
+		#nameText {
+			font-size: 20;
+			font-weight: bold;
+		}
 
-        #administration {
-            font-style:italic;
-        }
+		#administration {
+			font-style: italic;
+		}
 
-        #instructions {
-            font-style:italic;
-        }
+		#instructions {
+			font-style: italic;
+		}
 
-    </fx:Style>
-    <fx:Script>
+	</fx:Style>
+	<fx:Script>
 		<![CDATA[
-        import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
-        import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
-        import collaboRhythm.shared.model.AdherenceItem;
-        import collaboRhythm.shared.model.MedicationAdministration;
-        import collaboRhythm.shared.model.MedicationOrder;
-        import collaboRhythm.shared.model.MedicationScheduleItem;
-        import collaboRhythm.shared.model.ScheduleItemBase;
-        import collaboRhythm.shared.model.ScheduleItemOccurrence;
-        import collaboRhythm.shared.model.services.ICurrentDateSource;
-        import collaboRhythm.shared.model.services.WorkstationKernel;
+		import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
+		import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
+		import collaboRhythm.shared.model.MedicationOrder;
+		import collaboRhythm.shared.model.MedicationScheduleItem;
+		import collaboRhythm.shared.model.ScheduleItemBase;
+		import collaboRhythm.shared.model.ScheduleItemOccurrence;
+		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+		import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
+		import collaboRhythm.shared.model.services.ICurrentDateSource;
+		import collaboRhythm.shared.model.services.WorkstationKernel;
 
-        [Bindable]
-        private var _medicationOrder:MedicationOrder;
-        [Bindable]
-        private var _medicationScheduleItem:MedicationScheduleItem;
-        
-        private var _currentDateSource:ICurrentDateSource;
+		[Bindable]
+		private var _medicationOrder:MedicationOrder;
+		[Bindable]
+		private var _medicationScheduleItem:MedicationScheduleItem;
 
-        public override function init(scheduleItemOccurrence:ScheduleItemOccurrence, scheduleReportingModel:IScheduleReportingModel):void
-        {
-            super.init(scheduleItemOccurrence, scheduleReportingModel);
-            _medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
-            _medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
+		private var _currentDateSource:ICurrentDateSource;
 
-            _currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
-            pickImage();
-        }
+		public override function init(scheduleItemOccurrence:ScheduleItemOccurrence,
+									  scheduleReportingModel:IScheduleReportingModel):void
+		{
+			super.init(scheduleItemOccurrence, scheduleReportingModel);
+			_medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
+			_medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
 
-        public override function get scheduleItem():ScheduleItemBase
-        {
-            return _medicationScheduleItem
-        }
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+			pickImage();
+		}
 
-        private function pickImage():void
-        {
-            //TODO: Once medication fills are working, use the ndc
-            if (_medicationScheduleItem.name.value == "617320")
-            {
-                medicationImage.source = MedicationScheduleItemClockView.ndc000779;
-            }
-            else if (_medicationScheduleItem.name.value == "310798")
-            {
-                medicationImage.source = MedicationScheduleItemClockView.ndc006033856;
-            }
-        }
+		public override function get scheduleItem():ScheduleItemBase
+		{
+			return _medicationScheduleItem
+		}
 
-        private function adherenceButtonClickHandler(event:MouseEvent):void
-        {
-            var medicationAdministration:MedicationAdministration = new MedicationAdministration();
-            medicationAdministration.init(_medicationOrder.name, "rpoole@records.media.mit.edu",
-                                          _currentDateSource.now(), _currentDateSource.now(),
-                                          _medicationScheduleItem.dose);
-            var adherenceItem:AdherenceItem = new AdherenceItem();
-            adherenceItem.init(_medicationOrder.name, "rpoole@records.media.mit.edu", _currentDateSource.now(),
-                               scheduleItemOccurrence.recurrenceIndex, true, null, medicationAdministration);
+		private function pickImage():void
+		{
+			//TODO: Once medication fills are working, use the ndc
+			if (_medicationScheduleItem.name.value == "617320")
+			{
+				medicationImage.source = MedicationScheduleItemClockView.ndc000779;
+			}
+			else if (_medicationScheduleItem.name.value == "310798")
+			{
+				medicationImage.source = MedicationScheduleItemClockView.ndc006033856;
+			}
+		}
 
-            dispatchAdherenceItemCompleteEvent(adherenceItem);
-        }
+		private function adherenceButtonClickHandler(event:MouseEvent):void
+		{
+			var medicationAdministration:MedicationAdministration = new MedicationAdministration();
+			medicationAdministration.init(_medicationOrder.name, "rpoole@records.media.mit.edu",
+										  _currentDateSource.now(), _currentDateSource.now(),
+										  _medicationScheduleItem.dose);
+			var adherenceItem:AdherenceItem = new AdherenceItem();
+			adherenceItem.init(_medicationOrder.name, "rpoole@records.media.mit.edu", _currentDateSource.now(),
+							   scheduleItemOccurrence.recurrenceIndex, true, null, medicationAdministration);
 
-        private function nonadherenceButtonClickHandler(event:MouseEvent):void
-        {
-            var adherenceItem:AdherenceItem = new AdherenceItem();
-            adherenceItem.init(_medicationOrder.name, "rpoole@records.media.mit.edu", _currentDateSource.now(),
-                               scheduleItemOccurrence.recurrenceIndex, false);
+			dispatchAdherenceItemCompleteEvent(adherenceItem);
+		}
 
-            var nonAdherenceReasonView:NonAdherenceReasonView = new NonAdherenceReasonView();
-            nonAdherenceReasonView.init(_scheduleItemOccurrence, adherenceItem);
-            dispatchAdherenceItemIncompleteEvent(nonAdherenceReasonView);
-        }
+		private function nonadherenceButtonClickHandler(event:MouseEvent):void
+		{
+			var adherenceItem:AdherenceItem = new AdherenceItem();
+			adherenceItem.init(_medicationOrder.name, "rpoole@records.media.mit.edu", _currentDateSource.now(),
+							   scheduleItemOccurrence.recurrenceIndex, false);
 
-        override protected function pendingAdherenceItem_changeHandler(pendingAdherenceItem:PendingAdherenceItem):void
-        {
+			var nonAdherenceReasonView:NonAdherenceReasonView = new NonAdherenceReasonView();
+			nonAdherenceReasonView.init(_scheduleItemOccurrence, adherenceItem);
+			dispatchAdherenceItemIncompleteEvent(nonAdherenceReasonView);
+		}
 
-            if (pendingAdherenceItem)
-            {
+		override protected function pendingAdherenceItem_changeHandler(pendingAdherenceItem:PendingAdherenceItem):void
+		{
+
+			if (pendingAdherenceItem)
+			{
 //                adherenceHandler(pendingAdherenceItem.adherenceItem);
-            }
-        }
-        ]]>
+			}
+		}
+		]]>
 	</fx:Script>
-    <s:Group id="med" width="100%" height="100%" enabled="{!_scheduleItemOccurrence.adherenceItem}">
-        <s:Rect id="background" width="100%" height="100%">
-            <s:fill>
-                <!--TODO: Reimplement coloring during collaboration-->
-                <s:SolidColor color="0xFFFFFF" alpha="0.4"/>
-            </s:fill>
-            <s:stroke>
-                <s:SolidColorStroke color="0xFFFFFF" weight="1" alpha="0.5"/>
-            </s:stroke>
-        </s:Rect>
-        <s:Group left="1" right="1" top="1" bottom="1">
-            <s:Group id="imageRegion" width="{this.height}" height="100%">
-                <s:Rect width="100%" height="100%">
-                    <s:fill>
-                        <s:SolidColor color="0xFFFFFF"/>
-                    </s:fill>
-                </s:Rect>
-                <mx:Image id="medicationImage" left="5" right="5" top="5" bottom="5" smoothBitmapContent="true"/>
-                <!--<s:Ellipse width="22%" height="22%" right="4" top="4">-->
-                    <!--<s:fill>-->
-                        <!--<s:SolidColor color="{getMedicationColor(_medicationOrder.name.value)}"/>-->
-                    <!--</s:fill>-->
-                <!--</s:Ellipse>-->
-            </s:Group>
-            <s:Group id="descriptionRegion" height="100%" left="{imageRegion.width}" right="{buttonRegion.width}">
-                <s:Group left="5" right="5" top="5" bottom="5">
-                    <s:Label id="nameText" styleName="labelText" text="{_medicationOrder.name.text}" maxDisplayedLines="1" width="100%" top="0"/>
-                    <!--TODO: derive the name of an account owner from the accountId-->
-                    <s:Label id="indication" styleName="labelText" text="{_medicationOrder.indication} - Dr. James King" maxDisplayedLines="1" width="100%" top="{descriptionRegion.height / 3.3}"/>
-                    <s:Label id="administration" styleName="labelText" text="{_medicationScheduleItem.dose.value}{_medicationScheduleItem.dose.unit.text}, {_medicationScheduleItem.recurrenceRule.frequency.text}" maxDisplayedLines="1" width="100%"  bottom="{descriptionRegion.height / 6}"/>
-                    <s:Label id="instructions" styleName="labelText" text="{_medicationOrder.instructions}" maxDisplayedLines="1" width="100%" bottom="0"/>
-                </s:Group>
-            </s:Group>
-            <s:Group id="buttonRegion" right="0" width="{this.height / 2 + 5}" height="100%">
-                <s:VGroup left="0" right="5" height="100%">
-                    <s:Group width="100%" height="50%">
-                        <s:Button id="adherenceButton" skinClass="collaboRhythm.plugins.medications.view.AdherenceButtonSkin" click="adherenceButtonClickHandler(event)" width="100%" top="5" bottom="0"/>
-                    </s:Group>
-                    <s:Group width="100%" height="50%">
-                        <s:Button id="nonadherenceButton" skinClass="collaboRhythm.plugins.medications.view.NonadherenceButtonSkin" click="nonadherenceButtonClickHandler(event)" width="100%" top="0" bottom="5"/>
-                    </s:Group>
-                </s:VGroup>
-            </s:Group>
-        </s:Group>
-    </s:Group>
+	<s:Group id="med" width="100%" height="100%" enabled="{!_scheduleItemOccurrence.adherenceItem}">
+		<s:Rect id="background" width="100%" height="100%">
+			<s:fill>
+				<!--TODO: Reimplement coloring during collaboration-->
+				<s:SolidColor color="0xFFFFFF" alpha="0.4"/>
+			</s:fill>
+			<s:stroke>
+				<s:SolidColorStroke color="0xFFFFFF" weight="1" alpha="0.5"/>
+			</s:stroke>
+		</s:Rect>
+		<s:Group left="1" right="1" top="1" bottom="1">
+			<s:Group id="imageRegion" width="{this.height}" height="100%">
+				<s:Rect width="100%" height="100%">
+					<s:fill>
+						<s:SolidColor color="0xFFFFFF"/>
+					</s:fill>
+				</s:Rect>
+				<mx:Image id="medicationImage" left="5" right="5" top="5" bottom="5" smoothBitmapContent="true"/>
+				<!--<s:Ellipse width="22%" height="22%" right="4" top="4">-->
+				<!--<s:fill>-->
+				<!--<s:SolidColor color="{getMedicationColor(_medicationOrder.name.value)}"/>-->
+				<!--</s:fill>-->
+				<!--</s:Ellipse>-->
+			</s:Group>
+			<s:Group id="descriptionRegion" height="100%" left="{imageRegion.width}" right="{buttonRegion.width}">
+				<s:Group left="5" right="5" top="5" bottom="5">
+					<s:Label id="nameText" styleName="labelText" text="{_medicationOrder.name.text}"
+							 maxDisplayedLines="1" width="100%" top="0"/>
+					<!--TODO: derive the name of an account owner from the accountId-->
+					<s:Label id="indication" styleName="labelText" text="{_medicationOrder.indication} - Dr. James King"
+							 maxDisplayedLines="1" width="100%" top="{descriptionRegion.height / 3.3}"/>
+					<s:Label id="administration" styleName="labelText"
+							 text="{_medicationScheduleItem.dose.value}{_medicationScheduleItem.dose.unit.text}, {_medicationScheduleItem.recurrenceRule.frequency.text}"
+							 maxDisplayedLines="1" width="100%" bottom="{descriptionRegion.height / 6}"/>
+					<s:Label id="instructions" styleName="labelText" text="{_medicationOrder.instructions}"
+							 maxDisplayedLines="1" width="100%" bottom="0"/>
+				</s:Group>
+			</s:Group>
+			<s:Group id="buttonRegion" right="0" width="{this.height / 2 + 5}" height="100%">
+				<s:VGroup left="0" right="5" height="100%">
+					<s:Group width="100%" height="50%">
+						<s:Button id="adherenceButton"
+								  skinClass="collaboRhythm.plugins.medications.view.AdherenceButtonSkin"
+								  click="adherenceButtonClickHandler(event)" width="100%" top="5" bottom="0"/>
+					</s:Group>
+					<s:Group width="100%" height="50%">
+						<s:Button id="nonadherenceButton"
+								  skinClass="collaboRhythm.plugins.medications.view.NonadherenceButtonSkin"
+								  click="nonadherenceButtonClickHandler(event)" width="100%" top="0" bottom="5"/>
+					</s:Group>
+				</s:VGroup>
+			</s:Group>
+		</s:Group>
+	</s:Group>
 </view:ScheduleItemReportingViewBase>

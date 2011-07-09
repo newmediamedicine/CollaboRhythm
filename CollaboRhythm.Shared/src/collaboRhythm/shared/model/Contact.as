@@ -35,6 +35,7 @@ package collaboRhythm.shared.model
 
         public function initFromXml(contactXml:XML):void
         {
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
             if (contactXml.name.hasOwnProperty("fullName"))
 				fullName = contactXml.name.fullName;
             if (contactXml.name.hasOwnProperty("givenName"))

@@ -18,8 +18,9 @@ package collaboRhythm.shared.model
 {
 
     import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
+	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
 
-    [Bindable]
+	[Bindable]
 	public class MedicationScheduleItem extends ScheduleItemBase
 	{
         public static const MEDICATION:String = "Medication";
@@ -36,6 +37,7 @@ package collaboRhythm.shared.model
 
         override public function initFromReportXML(scheduleItemReportXml:XML, scheduleItemElementName:String):void
         {
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
             super.initFromReportXML(scheduleItemReportXml, scheduleItemElementName);
 
             _dose = new ValueAndUnit(scheduleItemXml.dose.value, HealthRecordHelperMethods.xmlToCodedValue(scheduleItemXml.dose.unit[0]));

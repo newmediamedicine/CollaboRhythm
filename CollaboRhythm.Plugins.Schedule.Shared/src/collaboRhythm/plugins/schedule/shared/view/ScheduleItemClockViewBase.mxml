@@ -15,42 +15,42 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 width="20" height="20">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-        import collaboRhythm.shared.model.ScheduleItemBase;
-        import collaboRhythm.shared.model.ScheduleItemOccurrence;
+		import collaboRhythm.shared.model.ScheduleItemBase;
+		import collaboRhythm.shared.model.ScheduleItemOccurrence;
 
-        [Bindable]
-        protected var _scheduleItemOccurrence:ScheduleItemOccurrence;
+		[Bindable]
+		protected var _scheduleItemOccurrence:ScheduleItemOccurrence;
 
-        public static const SCHEDULE_ITEM_WIDGET_VIEW:String = "scheduleItemWidgetView";
+		public static const SCHEDULE_ITEM_WIDGET_VIEW:String = "scheduleItemWidgetView";
 
-        public function init(scheduleItemOccurrence:ScheduleItemOccurrence):void
-        {
-            _scheduleItemOccurrence = scheduleItemOccurrence;
-        }
+		public function init(scheduleItemOccurrence:ScheduleItemOccurrence):void
+		{
+			_scheduleItemOccurrence = scheduleItemOccurrence;
+		}
 
-        public function get scheduleItem():ScheduleItemBase
-        {
-            throw new Error("virtual function must be overridden in subclass");
-        }
+		public function get scheduleItem():ScheduleItemBase
+		{
+			throw new Error("virtual function must be overridden in subclass");
+		}
 
-        public function get scheduleItemOccurrence():ScheduleItemOccurrence
-        {
-            return _scheduleItemOccurrence;
-        }
+		public function get scheduleItemOccurrence():ScheduleItemOccurrence
+		{
+			return _scheduleItemOccurrence;
+		}
 
-        public function set scheduleItemOccurrence(value:ScheduleItemOccurrence):void
-        {
-            _scheduleItemOccurrence = value;
-        }
-        ]]>
+		public function set scheduleItemOccurrence(value:ScheduleItemOccurrence):void
+		{
+			_scheduleItemOccurrence = value;
+		}
+		]]>
 	</fx:Script>
 </s:Group>

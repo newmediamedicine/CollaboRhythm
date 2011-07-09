@@ -17,14 +17,18 @@
 package collaboRhythm.shared.model
 {
 
-    import collaboRhythm.shared.model.Account;
-    import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
-    import collaboRhythm.shared.model.settings.Settings;
+	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
+	import collaboRhythm.shared.model.healthRecord.IRecord;
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItemsModel;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministrationsModel;
+	import collaboRhythm.shared.model.healthRecord.document.VitalSignModel;
+	import collaboRhythm.shared.model.settings.Settings;
 
-    import j2as3.collection.HashMap;
+	import j2as3.collection.HashMap;
 
-    [Bindable]
-    public class Record
+	[Bindable]
+    public class Record implements IRecord
     {
         private var _id:String;
         private var _label:String;
@@ -44,10 +48,14 @@ package collaboRhythm.shared.model
         private var _appData:HashMap = new HashMap();
         private var _settings:Settings;
         private var _activeAccount:Account;
+		private var _vitalSignModel:VitalSignModel;
 
+		// TODO: move BloodPressureModel to blood pressure plugin; eliminate bloodPressureModel property and field; use appData instead
+		private var _bloodPressureModel:BloodPressureModel;
 
         public function Record(settings:Settings, activeAccount:Account, recordXml:XML)
         {
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
             _settings = settings;
             _activeAccount = activeAccount;
             _id = recordXml.@id;
@@ -61,15 +69,16 @@ package collaboRhythm.shared.model
 
         private function initDocumentModels():void
         {
-            _medicationOrdersModel = new MedicationOrdersModel(_settings, _activeAccount, this);
-            _medicationFillsModel = new MedicationFillsModel(_settings, _activeAccount, this);
-            _medicationScheduleItemsModel = new MedicationScheduleItemsModel(_settings, _activeAccount, this);
-            _medicationAdministrationsModel = new MedicationAdministrationsModel(_settings, _activeAccount, this);
-            _equipmentModel = new EquipmentModel(_settings, _activeAccount, this);
-            _equipmentScheduleItemsModel = new EquipmentScheduleItemsModel(_settings, _activeAccount, this);
-            _adherenceItemsModel = new AdherenceItemsModel(_settings, _activeAccount, this);
-            _videoMessagesModel = new VideoMessagesModel1(_settings, _activeAccount, this);
-            _problemsModel = new ProblemsModel(_settings, _activeAccount, this);
+            medicationOrdersModel = new MedicationOrdersModel(_settings, _activeAccount, this);
+            medicationFillsModel = new MedicationFillsModel(_settings, _activeAccount, this);
+            medicationScheduleItemsModel = new MedicationScheduleItemsModel(_settings, _activeAccount, this);
+            medicationAdministrationsModel = new MedicationAdministrationsModel();
+            equipmentModel = new EquipmentModel(_settings, _activeAccount, this);
+            equipmentScheduleItemsModel = new EquipmentScheduleItemsModel(_settings, _activeAccount, this);
+            adherenceItemsModel = new AdherenceItemsModel();
+            videoMessagesModel = new VideoMessagesModel1(_settings, _activeAccount, this);
+            problemsModel = new ProblemsModel(_settings, _activeAccount, this);
+			vitalSignModel = new VitalSignModel();
 
             new MedicationOrderStitcher(_medicationOrdersModel, _medicationFillsModel, _medicationScheduleItemsModel);
             new MedicationScheduleItemStitcher(_medicationScheduleItemsModel, _adherenceItemsModel);
@@ -83,55 +92,53 @@ package collaboRhythm.shared.model
             _medicationOrdersModel.getMedicationOrders();
             _medicationFillsModel.getMedicationFills();
             _medicationScheduleItemsModel.getMedicationScheduleItems();
-            _medicationAdministrationsModel.getMedicationAdministrations();
             _equipmentModel.getEquipment();
             _equipmentScheduleItemsModel.getEquipmentScheduleItems();
-            _adherenceItemsModel.getAdherenceItems();
             _videoMessagesModel.getVideoMessages();
             _problemsModel.getProblems();
         }
 
-        public function get id():String
-        {
-            return _id;
-        }
+		public function get id():String
+		{
+			return _id;
+		}
 
-        public function set id(value:String):void
-        {
-            _id = value;
-        }
+		public function set id(value:String):void
+		{
+			_id = value;
+		}
 
-        public function get label():String
-        {
-            return _label;
-        }
+		public function get label():String
+		{
+			return _label;
+		}
 
-        public function set label(value:String):void
-        {
-            _label = value;
-        }
+		public function set label(value:String):void
+		{
+			_label = value;
+		}
 
-        public function get shared():Boolean
-        {
-            return _shared;
-        }
+		public function get shared():Boolean
+		{
+			return _shared;
+		}
 
-        public function set shared(value:Boolean):void
-        {
-            _shared = value;
-        }
+		public function set shared(value:Boolean):void
+		{
+			_shared = value;
+		}
 
-        public function get role_label():String
-        {
-            return _role_label;
-        }
+		public function get role_label():String
+		{
+			return _role_label;
+		}
 
-        public function set role_label(value:String):void
-        {
-            _role_label = value;
-        }
+		public function set role_label(value:String):void
+		{
+			_role_label = value;
+		}
 
-        public function get demographics():Demographics
+		public function get demographics():Demographics
         {
             return _demographics;
         }
@@ -262,14 +269,35 @@ package collaboRhythm.shared.model
             _equipmentScheduleItemsModel = value;
         }
 
-        public function get settings():Settings
-        {
-            return _settings;
-        }
+		public function get vitalSignModel():VitalSignModel
+		{
+			return _vitalSignModel;
+		}
 
-        public function set settings(value:Settings):void
-        {
-            _settings = value;
-        }
-    }
+		public function set vitalSignModel(value:VitalSignModel):void
+		{
+			_vitalSignModel = value;
+		}
+
+		// TODO: move BloodPressureModel to blood pressure plugin; eliminate bloodPressureModel property and field; use appData instead
+		public function get bloodPressureModel():BloodPressureModel
+		{
+			return _bloodPressureModel;
+		}
+
+		public function set bloodPressureModel(value:BloodPressureModel):void
+		{
+			_bloodPressureModel = value;
+		}
+
+		public function get settings():Settings
+		{
+			return _settings;
+		}
+
+		public function set settings(value:Settings):void
+		{
+			_settings = value;
+		}
+	}
 }

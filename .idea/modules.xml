@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/ChartBackgroundsLib/ChartBackgroundsLib.iml" filepath="$PROJECT_DIR$/ChartBackgroundsLib/ChartBackgroundsLib.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Android.DeviceGateway/CollaboRhythm.Android.DeviceGateway.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Android.DeviceGateway/CollaboRhythm.Android.DeviceGateway.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Core/CollaboRhythm.Core.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Core/CollaboRhythm.Core.iml" group="CollaboRhythm" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Core.Model/CollaboRhythm.Core.Model.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Core.Model/CollaboRhythm.Core.Model.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Core.Tests/CollaboRhythm.Core.Tests.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Core.Tests/CollaboRhythm.Core.Tests.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Mobile/CollaboRhythm.Mobile.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Mobile/CollaboRhythm.Mobile.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.BloodPressure/CollaboRhythm.Plugins.BloodPressure.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.BloodPressure/CollaboRhythm.Plugins.BloodPressure.iml" group="CollaboRhythm" />
@@ -18,6 +19,7 @@
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Schedule.Shared/CollaboRhythm.Plugins.Schedule.Shared.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.Schedule.Shared/CollaboRhythm.Plugins.Schedule.Shared.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Shared/CollaboRhythm.Shared.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Shared/CollaboRhythm.Shared.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Shared.BloodSolutesSimulation/CollaboRhythm.Shared.BloodSolutesSimulation.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Shared.BloodSolutesSimulation/CollaboRhythm.Shared.BloodSolutesSimulation.iml" group="CollaboRhythm" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Shared.Model/CollaboRhythm.Shared.Model.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Shared.Model/CollaboRhythm.Shared.Model.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Shared.PluginsSupport/CollaboRhythm.Shared.PluginsSupport.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Shared.PluginsSupport/CollaboRhythm.Shared.PluginsSupport.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Tablet/CollaboRhythm.Tablet.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Tablet/CollaboRhythm.Tablet.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.View.Scroll/CollaboRhythm.View.Scroll.iml" filepath="$PROJECT_DIR$/CollaboRhythm.View.Scroll/CollaboRhythm.View.Scroll.iml" group="CollaboRhythm" />

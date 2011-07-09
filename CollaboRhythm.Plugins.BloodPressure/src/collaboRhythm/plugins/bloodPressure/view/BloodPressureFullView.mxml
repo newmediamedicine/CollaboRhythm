@@ -34,7 +34,7 @@
 
 		<controls:SynchronizedAxisCache id="synchronizedAxisCache"/>
 
-		<mx:LineSeries id="systolicSeries" name="systolic" xField="date" yField="systolic"
+		<mx:LineSeries id="systolicSeries" name="systolic" xField="dateMeasuredStart" yField="resultAsNumber" dataProvider="{model.isInitialized ? model.systolicData : null}"
 					   updateComplete="bloodPressureChart.seriesComplete();"
 					   form="segment"
 					   filterDataValues="none"
@@ -56,7 +56,7 @@
 			</mx:stroke>
 
 		</mx:LineSeries>
-		<mx:LineSeries id="diastolicSeries" name="diastolic" xField="date" yField="diastolic"
+		<mx:LineSeries id="diastolicSeries" name="diastolic" xField="dateMeasuredStart" yField="resultAsNumber" dataProvider="{model.isInitialized ? model.diastolicData : null}"
 					   updateComplete="bloodPressureChart.seriesComplete();"
 					   form="segment"
 					   filterDataValues="none"
@@ -79,7 +79,7 @@
 
 		</mx:LineSeries>
 
-		<mx:LineSeries id="systolicRangeSeries" name="systolic" xField="date" yField="systolic"
+		<mx:LineSeries id="systolicRangeSeries" name="systolic" xField="dateMeasuredStart" yField="resultAsNumber" dataProvider="{model.isInitialized ? model.systolicData : null}"
 					   form="segment"
 					   filterDataValues="none"
 				>
@@ -90,7 +90,7 @@
 						/>
 			</mx:lineStroke>
 		</mx:LineSeries>
-		<mx:LineSeries id="diastolicRangeSeries" name="diastolic" xField="date" yField="diastolic"
+		<mx:LineSeries id="diastolicRangeSeries" name="diastolic" xField="dateMeasuredStart" yField="resultAsNumber" dataProvider="{model.isInitialized ? model.diastolicData : null}"
 					   form="segment"
 					   filterDataValues="none"
 				>
@@ -119,7 +119,7 @@
 					   filterDataValues="none"
 				>
 -->
-		<mx:LineSeries id="concentrationSeries" name="concentration" xField="date" yField="concentration"
+		<mx:LineSeries id="concentrationSeries" name="concentration" xField="date" yField="concentration" dataProvider="{model.showAdherence ? model.medicationConcentrationCurvesByCode[BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE] : null}"
 					   radius="2.5"
 					   form="curve"
 					   itemRenderer="skins.LineSeriesCustomRenderer"
@@ -135,14 +135,7 @@
 			</mx:lineStroke>
 		</mx:LineSeries>
 
-		<!--
-		<mx:LineSeries id="concentrationRangeSeries" name="concentration" xField="date" yField="concentration"
-					   radius="2.5"
-					   form="curve"
-					   filterDataValues="none"
-				>
--->
-		<mx:LineSeries id="concentrationRangeSeries" name="concentration" xField="date" yField="concentration"
+		<mx:LineSeries id="concentrationRangeSeries" name="concentration" xField="date" yField="concentration" dataProvider="{model.showAdherence ? model.medicationConcentrationCurvesByCode[BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE] : null}"
 					   radius="2.5"
 					   form="curve"
 					   itemRenderer="skins.LineSeriesCustomRenderer"
@@ -157,12 +150,43 @@
 			</mx:lineStroke>
 		</mx:LineSeries>
 		<!-- TODO: position the adherence series without the hack of using adherencePosition -->
-		<!--
-		<mx:PlotSeries id="adherenceSeries" name="adherence" xField="date" yField="adherencePosition"
+		<mx:PlotSeries id="adherenceSeries" name="adherence" xField="dateReported" yField="adherencePosition" dataProvider="{model.showAdherence ? model.adherenceItemsCollectionsByCode[BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE] : null}"
+					   itemRenderer="collaboRhythm.plugins.bloodPressure.view.AdherencePlotItemRenderer"
 					   filterFunction="adherenceSeriesFilter"
 				/>
--->
-		<mx:PlotSeries id="adherenceSeries" name="adherence" xField="date" yField="adherencePosition"
+
+		<mx:LineSeries id="concentrationSeries2" name="concentration" xField="date" yField="concentration" dataProvider="{model.showAdherence ? model.medicationConcentrationCurvesByCode[BloodPressureModel.RXNORM_ATENOLOL] : null}"
+					   radius="2.5"
+					   form="curve"
+					   itemRenderer="skins.LineSeriesCustomRenderer"
+					   updateComplete="adherenceChart2.seriesComplete();"
+					   filterDataValues="none"
+				>
+			<mx:lineStroke>
+				<s:SolidColorStroke
+						color="0x4252A4"
+						weight="1"
+						alpha="1"
+						/>
+			</mx:lineStroke>
+		</mx:LineSeries>
+
+		<mx:LineSeries id="concentrationRangeSeries2" name="concentration" xField="date" yField="concentration" dataProvider="{model.showAdherence ? model.medicationConcentrationCurvesByCode[BloodPressureModel.RXNORM_ATENOLOL] : null}"
+					   radius="2.5"
+					   form="curve"
+					   itemRenderer="skins.LineSeriesCustomRenderer"
+					   filterDataValues="none"
+				>
+			<mx:lineStroke>
+				<s:SolidColorStroke
+						color="0x4252A4"
+						weight="1"
+						alpha="1"
+						/>
+			</mx:lineStroke>
+		</mx:LineSeries>
+		<!-- TODO: position the adherence series without the hack of using adherencePosition -->
+		<mx:PlotSeries id="adherenceSeries2" name="adherence" xField="dateReported" yField="adherencePosition" dataProvider="{model.showAdherence ? model.adherenceItemsCollectionsByCode[BloodPressureModel.RXNORM_ATENOLOL] : null}"
 					   itemRenderer="collaboRhythm.plugins.bloodPressure.view.AdherencePlotItemRenderer"
 					   filterFunction="adherenceSeriesFilter"
 				/>
@@ -188,11 +212,26 @@
 			</s:Label>
 		</dataShapes:DataDrawingCanvas>
 
+		<dataShapes:DataDrawingCanvas id="adherenceRangeCanvas" includeInRanges="true" height="100" width="400">
+		</dataShapes:DataDrawingCanvas>
+
+		<dataShapes:DataDrawingCanvas id="adherenceMainCanvas2" includeInRanges="true">
+			<s:Label id="goalMedicationZoneLabel2" text="Goal Medication Concentration (0.05 - 0.35)"
+					 styleName="ZoneLabel" color="{GOAL_ZONE_COLOR}">
+				<!--
+				<s:filters>
+					<s:GlowFilter blurX="12" blurY="12" color="#FFFFFF" quality="2" strength="4"/>
+				</s:filters>
+				-->
+			</s:Label>
+		</dataShapes:DataDrawingCanvas>
+
+		<dataShapes:DataDrawingCanvas id="adherenceRangeCanvas2" includeInRanges="true" height="100" width="400">
+		</dataShapes:DataDrawingCanvas>
+
 		<dataShapes:DataDrawingCanvas id="bloodPressureRangeCanvas" includeInRanges="true" height="100%" width="100%">
 		</dataShapes:DataDrawingCanvas>
 
-		<dataShapes:DataDrawingCanvas id="adherenceRangeCanvas" includeInRanges="true" height="100" width="400">
-		</dataShapes:DataDrawingCanvas>
 	</fx:Declarations>
 
 	<fx:Script><![CDATA[
@@ -200,6 +239,7 @@
 		import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 		import collaboRhythm.shared.model.StringUtils;
+		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 		import collaboRhythm.view.scroll.TouchScrollerEvent;
 
 		import com.dougmccune.controls.ScrubChart;
@@ -238,8 +278,8 @@
 		private var _showFocusTimeMarker:Boolean = true;
 		private var _scrollEnabled:Boolean = true;
 		protected var logger:ILogger;
-		private var _rangeChartVisible:Boolean = true;
-		private var _adherenceCharts:OrderedMap;
+		private var _rangeChartVisible:Boolean = false;
+		private var _adherenceCharts:OrderedMap = new OrderedMap();
 
 		private function initializeHandler(event:Event):void
 		{
@@ -290,6 +330,9 @@
 			_model = value;
 			refresh();
 
+			if (simulationView)
+				simulationView.initializeModel(model.simulation, model);
+
 			_model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, model_propertyChangeHandler, false, 0, true);
 		}
 
@@ -304,6 +347,12 @@
 		{
 			if (chartsGroup)
 				setSingleChartMode(null, false);
+
+			if (simulationView)
+			{
+				simulationView.initializeModel(model.simulation, model);
+				simulationView.refresh();
+			}
 		}
 
 		private function adherenceSeriesFilter(cache:Array):Array
@@ -355,7 +404,7 @@
 			}
 		}
 
-		public function drawAdherenceData(canvas:DataDrawingCanvas):void
+		public function drawAdherenceData(canvas:DataDrawingCanvas, zoneLabel:Label):void
 		{
 			if (_traceEventHandlers)
 				trace(this + ".drawAdherenceData");
@@ -368,9 +417,9 @@
 			canvas.drawRect([Edge.LEFT, -1], 0.35, [Edge.RIGHT, 1], 0.05);
 			canvas.endFill();
 
-			if (canvas == adherenceMainCanvas)
+			if (zoneLabel)
 			{
-				canvas.updateDataChild(goalMedicationZoneLabel, {left: Edge.LEFT, top: 0.35});
+				canvas.updateDataChild(zoneLabel, {left: Edge.LEFT, top: 0.35});
 			}
 		}
 
@@ -430,6 +479,7 @@
 		{
 			var charts:Vector.<TouchScrollingScrubChart> = new Vector.<TouchScrollingScrubChart>();
 			charts.push(adherenceChart);
+			charts.push(adherenceChart2);
 			charts.push(bloodPressureChart);
 			//			charts.push(heartRateChart);
 
@@ -441,10 +491,14 @@
 				maximum = Math.max(maximum, chart.maximumTime);
 			}
 
-			for each (chart in charts)
+			if (!isNaN(minimum) && !isNaN(maximum))
 			{
-				chart.minimumTime = minimum;
-				chart.maximumTime = maximum;
+				for each (chart in charts)
+				{
+					chart.minimumTime = minimum;
+					chart.maximumTime = maximum;
+					chart.focusTime = maximum;
+				}
 			}
 		}
 
@@ -454,7 +508,6 @@
 				trace("adherenceChart_creationCompleteHandler");
 			var chart:ScrubChart = ScrubChart(event.target);
 
-			_adherenceCharts = new OrderedMap();
 			_adherenceCharts.addKeyValue(BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE, chart);
 
 			chart.mainChart.series = new Array();
@@ -472,7 +525,35 @@
 			verticalAxis.minimum = 0;
 			verticalAxis.maximum = 0.4;
 
-			updateAdherenceChartSeriesCompleteHandler(chart);
+			updateAdherenceChartSeriesCompleteHandler(chart, adherenceMainCanvas, goalMedicationZoneLabel,
+													  adherenceRangeCanvas);
+		}
+
+		protected function adherenceChart2_creationCompleteHandler(event:FlexEvent):void
+		{
+			if (_traceEventHandlers)
+				trace("adherenceChart2_creationCompleteHandler");
+			var chart:ScrubChart = ScrubChart(event.target);
+
+			_adherenceCharts.addKeyValue(BloodPressureModel.RXNORM_ATENOLOL, chart);
+
+			chart.mainChart.series = new Array();
+			chart.mainChart.series.push(adherenceSeries2);
+			chart.mainChart.series.push(concentrationSeries2);
+
+			chart.rangeChart.series = new Array();
+			chart.rangeChart.series.push(concentrationRangeSeries2);
+
+			var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
+			verticalAxis.minimum = 0;
+			verticalAxis.maximum = 0.4;
+
+			verticalAxis = chart.rangeChart.verticalAxis as LinearAxis;
+			verticalAxis.minimum = 0;
+			verticalAxis.maximum = 0.4;
+
+			updateAdherenceChartSeriesCompleteHandler(chart, adherenceMainCanvas2, goalMedicationZoneLabel2,
+													  adherenceRangeCanvas2);
 		}
 
 		protected function adherenceChart_initializeHandler(event:FlexEvent):void
@@ -491,18 +572,20 @@
 			verticalAxis.maximum = 100;
 		}
 
-		private function updateAdherenceChartSeriesCompleteHandler(chart:ScrubChart):void
+		private function updateAdherenceChartSeriesCompleteHandler(chart:ScrubChart, mainCanvas:DataDrawingCanvas,
+																   zoneLabel:Label, rangeCanvas:DataDrawingCanvas):void
 		{
-			chart.mainChart.backgroundElements.push(adherenceMainCanvas);
-			drawAdherenceData(adherenceMainCanvas);
-			chart.rangeChart.backgroundElements.push(adherenceRangeCanvas);
-			drawAdherenceData(adherenceRangeCanvas);
+			chart.mainChart.backgroundElements.push(mainCanvas);
+			drawAdherenceData(mainCanvas, zoneLabel);
+			chart.rangeChart.backgroundElements.push(rangeCanvas);
+			drawAdherenceData(rangeCanvas, null);
 		}
 
 		protected function adherenceChart_seriesCompleteHandler(event:Event):void
 		{
 			if (_traceEventHandlers)
 				trace("adherenceChart_seriesCompleteHandler");
+			synchronizeDateLimits();
 		}
 
 		private function updateBloodPressureChartBackgroundElements(chart:ScrubChart):void
@@ -517,6 +600,7 @@
 		{
 			if (_traceEventHandlers)
 				trace("bloodPressureChart_seriesCompleteHandler");
+			synchronizeDateLimits();
 		}
 
 		protected function heartRateChart_seriesCompleteHandler(event:Event):void
@@ -557,6 +641,11 @@
 					case Keyboard.B:
 					{
 						runScrollingBenchmark();
+						break;
+					}
+					case Keyboard.R:
+					{
+						rangeChartVisible = !rangeChartVisible;
 						break;
 					}
 				}
@@ -802,7 +891,7 @@
 					if (chart == targetChart)
 						visibleCharts.push(chart);
 				}
-				else if (chart == adherenceChart)
+				else if (chart == adherenceChart || chart == adherenceChart2)
 				{
 					if (showAdherence)
 						visibleCharts.push(chart);
@@ -928,11 +1017,12 @@
 		{
 			model.simulation.date = new Date(targetChart.focusTime);
 
-			var bloodPressureDataPoint:Object = bloodPressureChart.findPreviousDataPoint(model.simulation.date.time);
+			var bloodPressureDataPoint:VitalSign = bloodPressureChart.findPreviousDataPoint(model.simulation.date.time) as VitalSign;
 
-			model.simulation.dataPointDate = bloodPressureDataPoint == null ? null : bloodPressureDataPoint.date;
-			model.simulation.systolic = bloodPressureDataPoint == null ? NaN : bloodPressureDataPoint.systolic;
-			model.simulation.diastolic = bloodPressureDataPoint == null ? NaN : bloodPressureDataPoint.diastolic;
+			model.simulation.dataPointDate = bloodPressureDataPoint == null ? null : bloodPressureDataPoint.dateMeasuredStart;
+			model.simulation.systolic = bloodPressureDataPoint == null ? NaN : bloodPressureDataPoint.resultAsNumber;
+			// TODO: fix diastolic
+//			model.simulation.diastolic = bloodPressureDataPoint == null ? NaN : bloodPressureDataPoint.diastolic;
 
 			var hypertensionSeverity:Number = 0;
 			if (!isNaN(model.simulation.systolic))
@@ -949,19 +1039,20 @@
 					var medicationModel:MedicationComponentAdherenceModel = model.simulation.getMedication(medicationCode);
 
 					if (medicationModel == null)
-						throw new Error("No medication found in the model.simulation for key " + medicationCode);
+					{
+						trace("Warning: No medication found in the model.simulation for key " + medicationCode + ". This will happen if there are no MedicationAdministration documents in the record for this medication.");
+					}
+					else
+					{
+						var currentAdherenceChart:ScrubChart = _adherenceCharts.getValueByKey(medicationCode);
 
-					var currentAdherenceChart:ScrubChart = _adherenceCharts.getValueByKey(medicationCode);
+						var concentrationDataPoint:Object = currentAdherenceChart.findPreviousDataPoint(model.simulation.date.time);
 
-					var concentrationDataPoint:Object = currentAdherenceChart.findPreviousDataPoint(model.simulation.date.time);
+						// TODO: show the date for the concentration data point
+						var concentration:Number = concentrationDataPoint == null ? 0 : concentrationDataPoint.concentration;
 
-					// TODO: show the date for the concentration data point
-					var concentration:Number = concentrationDataPoint == null ? 0 : concentrationDataPoint.concentration;
-
-					medicationModel.concentration = concentration;
-
-					// TODO: eliminate model.simulation.concentration
-					model.simulation.concentration = concentration;
+						medicationModel.concentration = concentration;
+					}
 				}
 			}
 
@@ -1091,7 +1182,30 @@
 											   sliderVisible="false"
 											   mainChartTitle="Hydrochlorothiazide Adherence (mg/L)"
 											   seriesName="concentration"
-											   data="{model.showAdherence ? model.adherenceDataCollection : null}"
+											   data="{model.showAdherence ? model.medicationConcentrationCurvesByCode[BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE] : null}"
+											   today="{model.currentDateSource.now()}"
+											   showFps="{model.showFps}"
+											   doubleClickEnabled="true"
+											   doubleClick="chart_doubleClickHandler(event)"
+											   scroll="chart_scrollHandler(event)"
+											   scrollStart="chart_scrollStartHandler(event)"
+											   scrollStop="chart_scrollStopHandler(event)"
+											   focusTimeChange="chart_focusTimeChangeHandler(event)"
+											   seriesComplete="adherenceChart_seriesCompleteHandler(event)"
+											   initialDurationTime="{initialDurationTime}"
+											   showFocusTimeMarker="{showFocusTimeMarker}"
+											   scrollEnabled="{scrollEnabled}"
+											   synchronizedAxisCache="{synchronizedAxisCache}"
+					/>
+			<controls:TouchScrollingScrubChart id="adherenceChart2"
+											   skinClass="com.dougmccune.controls.ScrubChartSkin"
+											   height="100%" width="100%"
+											   creationComplete="adherenceChart2_creationCompleteHandler(event)"
+											   initialize="adherenceChart_initializeHandler(event)"
+											   sliderVisible="false"
+											   mainChartTitle="Atenolol Adherence (mg/L)"
+											   seriesName="concentration"
+											   data="{model.showAdherence ? model.medicationConcentrationCurvesByCode[BloodPressureModel.RXNORM_ATENOLOL] : null}"
 											   today="{model.currentDateSource.now()}"
 											   showFps="{model.showFps}"
 											   doubleClickEnabled="true"
@@ -1113,8 +1227,9 @@
 											   topBorderVisible="false"
 											   sliderVisible="false"
 											   mainChartTitle="Blood Pressure (mmHg)"
-											   seriesName="systolic"
-											   data="{model.completeData}"
+											   seriesName="resultAsNumber"
+											   data="{model.isInitialized ? model.systolicData : null}"
+											   dateField="dateMeasuredStart"
 											   today="{model.currentDateSource.now()}"
 											   showFps="{model.showFps}"
 											   doubleClickEnabled="true"

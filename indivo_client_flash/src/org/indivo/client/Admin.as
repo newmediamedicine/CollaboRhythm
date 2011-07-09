@@ -17,22 +17,18 @@
 package org.indivo.client
 {
 
-import flash.events.EventDispatcher;
-import flash.net.URLRequest;
-import flash.net.URLRequestHeader;
-import flash.utils.*;
+	import flash.events.EventDispatcher;
+	import flash.net.URLRequest;
+	import flash.utils.*;
 
-import j2as3.collection.HashMap;
+	import j2as3.collection.HashMap;
 
-import mx.logging.ILogger;
-import mx.logging.Log;
-import mx.utils.URLUtil;
+	import mx.logging.ILogger;
+	import mx.logging.Log;
+	import mx.utils.ObjectUtil;
+	import mx.utils.URLUtil;
 
-import org.iotashan.oauth.OAuthConsumer;
-import org.iotashan.oauth.OAuthRequest;
-import org.iotashan.oauth.OAuthSignatureMethod_HMAC_SHA1;
-
-/**
+	/**
 * Methods that provide convenient wrappers around the Indivo admin REST api calls
 * documented at <code>http://wiki.chip.org/indivo</code>
 * Users of <code>Admin</code> should include a log4j jar and log4j.xml in their classpath.
@@ -349,6 +345,7 @@ public class Admin extends EventDispatcher implements WikiTestable
 		phaAdminUtils.signWithSignpost(urlRequest, consumerKey, consumerSecret, null, null);
 		
 		var handler:IndivoRequestHandler = new IndivoRequestHandler(this, this.phaAdminUtils);
+		logger.info(ObjectUtil.toString(urlRequest));
 		handler.handle(urlRequest, null);
     }
 

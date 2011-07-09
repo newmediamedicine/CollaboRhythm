@@ -15,66 +15,70 @@
 ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
 ~ <http://www.gnu.org/licenses/>.
 -->
-<view:ScheduleItemClockViewBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 xmlns:view="collaboRhythm.plugins.schedule.shared.view.*"
-		 xmlns:images="assets.images.*"
-		 width="20" height="20">
+<view:ScheduleItemClockViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+								xmlns:s="library://ns.adobe.com/flex/spark"
+								xmlns:mx="library://ns.adobe.com/flex/mx"
+								xmlns:view="collaboRhythm.plugins.schedule.shared.view.*"
+								xmlns:images="assets.images.*"
+								width="20" height="20">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-        import collaboRhythm.shared.model.Equipment;
-        import collaboRhythm.shared.model.EquipmentScheduleItem;
-        import collaboRhythm.shared.model.AdherenceItem;
-        import collaboRhythm.shared.model.ScheduleItemBase;
-        import collaboRhythm.shared.model.ScheduleItemOccurrence;
+		import collaboRhythm.shared.model.Equipment;
+		import collaboRhythm.shared.model.EquipmentScheduleItem;
+		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+		import collaboRhythm.shared.model.ScheduleItemBase;
+		import collaboRhythm.shared.model.ScheduleItemOccurrence;
 
-        import spark.components.Group;
+		import spark.components.Group;
 
-        import spark.filters.GlowFilter;
+		import spark.filters.GlowFilter;
 
-        [Bindable]
-        private var _equipment:Equipment;
-        [Bindable]
-        private var _equipmentScheduleItem:EquipmentScheduleItem;
+		[Bindable]
+		private var _equipment:Equipment;
+		[Bindable]
+		private var _equipmentScheduleItem:EquipmentScheduleItem;
 
-        public override function init(scheduleItemOccurrence:ScheduleItemOccurrence):void
-        {
-            super.init(scheduleItemOccurrence);
-            _equipmentScheduleItem = scheduleItemOccurrence.scheduleItem as EquipmentScheduleItem;
-        }
+		public override function init(scheduleItemOccurrence:ScheduleItemOccurrence):void
+		{
+			super.init(scheduleItemOccurrence);
+			_equipmentScheduleItem = scheduleItemOccurrence.scheduleItem as EquipmentScheduleItem;
+		}
 
-        public override function get scheduleItem():ScheduleItemBase
-        {
-            return _equipmentScheduleItem
-        }
+		public override function get scheduleItem():ScheduleItemBase
+		{
+			return _equipmentScheduleItem
+		}
 
-        public function get equipment():Equipment
-        {
-            return _equipment;
-        }
+		public function get equipment():Equipment
+		{
+			return _equipment;
+		}
 
-        public function set equipment(value:Equipment):void
-        {
-            _equipment = value;
-        }
+		public function set equipment(value:Equipment):void
+		{
+			_equipment = value;
+		}
 
-        public function get equipmentScheduleItem():EquipmentScheduleItem
-        {
-            return _equipmentScheduleItem;
-        }
+		public function get equipmentScheduleItem():EquipmentScheduleItem
+		{
+			return _equipmentScheduleItem;
+		}
 
-        public function set equipmentScheduleItem(value:EquipmentScheduleItem):void
-        {
-            _equipmentScheduleItem = value;
-        }
-        ]]>
+		public function set equipmentScheduleItem(value:EquipmentScheduleItem):void
+		{
+			_equipmentScheduleItem = value;
+		}
+		]]>
 	</fx:Script>
-    <!--visible="{determineCheckVisible(_equipmentScheduleItem.adherenceItem)}"-->
+	<!--visible="{determineCheckVisible(_equipmentScheduleItem.adherenceItem)}"-->
 	<images:BloodPressureScheduleItemClockView width="100%" height="100%"/>
-	<images:check width="70%" height="70%" verticalCenter="0" horizontalCenter="0" filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}" visible="{_scheduleItemOccurrence.adherenceItem &amp;&amp; _scheduleItemOccurrence.adherenceItem.adherence}"/>
-	<images:x width="70%" height="70%"  verticalCenter="0" horizontalCenter="0" filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}" visible="{_scheduleItemOccurrence.adherenceItem &amp;&amp; !_scheduleItemOccurrence.adherenceItem.adherence}"/>
+	<images:check width="70%" height="70%" verticalCenter="0" horizontalCenter="0"
+				  filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}"
+				  visible="{_scheduleItemOccurrence.adherenceItem &amp;&amp; _scheduleItemOccurrence.adherenceItem.adherence}"/>
+	<images:x width="70%" height="70%" verticalCenter="0" horizontalCenter="0"
+			  filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}"
+			  visible="{_scheduleItemOccurrence.adherenceItem &amp;&amp; !_scheduleItemOccurrence.adherenceItem.adherence}"/>
 </view:ScheduleItemClockViewBase>

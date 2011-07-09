@@ -17,40 +17,38 @@
 package collaboRhythm.workstation.controller
 {
 
-    import collaboRhythm.core.controller.ApplicationControllerBase;
-    import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
-    import collaboRhythm.shared.model.Account;
+	import collaboRhythm.core.controller.ApplicationControllerBase;
+	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
+	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.view.CollaborationView;
-    import collaboRhythm.workstation.model.settings.ComponentLayout;
-    import collaboRhythm.workstation.model.settings.WindowSettings;
-    import collaboRhythm.workstation.model.settings.WindowSettingsDataStore;
-    import collaboRhythm.workstation.model.settings.WindowState;
-    import collaboRhythm.workstation.view.ActiveAccountView;
-    import collaboRhythm.workstation.view.ActiveRecordView;
-    import collaboRhythm.workstation.view.PrimaryWindowView;
-    import collaboRhythm.workstation.view.SecondaryWindowView;
-    import collaboRhythm.workstation.view.TiledWidgetsContainerView;
-    import collaboRhythm.workstation.view.WorkstationWindow;
+	import collaboRhythm.workstation.model.settings.ComponentLayout;
+	import collaboRhythm.workstation.model.settings.WindowSettings;
+	import collaboRhythm.workstation.model.settings.WindowSettingsDataStore;
+	import collaboRhythm.workstation.model.settings.WindowState;
+	import collaboRhythm.workstation.view.ActiveRecordView;
+	import collaboRhythm.workstation.view.PrimaryWindowView;
+	import collaboRhythm.workstation.view.SecondaryWindowView;
+	import collaboRhythm.workstation.view.WorkstationWindow;
 
-    import flash.desktop.NativeApplication;
-    import flash.display.DisplayObject;
-    import flash.display.DisplayObjectContainer;
-    import flash.display.NativeWindow;
-    import flash.display.Screen;
-    import flash.events.Event;
-    import flash.events.KeyboardEvent;
-    import flash.geom.Rectangle;
-    import flash.ui.Keyboard;
+	import flash.desktop.NativeApplication;
+	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
+	import flash.display.NativeWindow;
+	import flash.display.Screen;
+	import flash.events.Event;
+	import flash.events.KeyboardEvent;
+	import flash.geom.Rectangle;
+	import flash.ui.Keyboard;
 
-    import mx.containers.DividedBox;
-    import mx.core.IUIComponent;
-    import mx.core.IVisualElement;
-    import mx.core.IVisualElementContainer;
-    import mx.core.UIComponent;
-    import mx.events.FlexEvent;
+	import mx.containers.DividedBox;
+	import mx.core.IUIComponent;
+	import mx.core.IVisualElement;
+	import mx.core.IVisualElementContainer;
+	import mx.core.UIComponent;
+	import mx.events.FlexEvent;
 
-    /**
+	/**
 	 * Top level controller for the whole application. Responsible for creating and managing the windows of the application. 
 	 */
 	public class WorkstationApplicationController extends ApplicationControllerBase
@@ -248,10 +246,10 @@ package collaboRhythm.workstation.controller
 			_primaryWindowView.mainGroup.addElement(_activeRecordView);
 
 			// TODO: Rework document retrieval
-			recordAccount.primaryRecord.getDocuments();
+			loadDocuments(recordAccount);
 		}
 
-        // the apps are not actually loaded immediately when a record is opened
+		// the apps are not actually loaded immediately when a record is opened
         // only after the active record view has been created are they loaded, this makes the UI more responsive
         public function activeRecordView_creationCompleteHandler(recordAccount:Account):void
         {
@@ -301,7 +299,10 @@ package collaboRhythm.workstation.controller
         protected override function changeDemoDate():void
         {
             if (_activeRecordAccount != null)
+			{
+				reloadDocuments(_activeRecordAccount);
 				_workstationAppControllersMediator.reloadUserData();
+			}
 
 			if (_activeRecordAccount && _activeRecordAccount.primaryRecord && _activeRecordAccount.primaryRecord.demographics)
 				_activeRecordAccount.primaryRecord.demographics.dispatchAgeChangeEvent();

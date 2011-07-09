@@ -19,6 +19,7 @@ package collaboRhythm.plugins.cataractMap.model
 
     import collaboRhythm.shared.model.Account;
     import collaboRhythm.shared.model.DateUtil;
+	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
 	import collaboRhythm.shared.model.User;
     import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
@@ -81,6 +82,7 @@ package collaboRhythm.plugins.cataractMap.model
 			// trim off any data that is from the future (according to ICurrentDateSource); note that we assume the data is in ascending order by date
 			var nowTime:Number = _currentDateSource.now().time;
 
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
 			for each (var itemXml:XML in responseXml.Report.Item.VitalSign)
 			{
 				var item:CataractMapDataItem = new CataractMapDataItem();
