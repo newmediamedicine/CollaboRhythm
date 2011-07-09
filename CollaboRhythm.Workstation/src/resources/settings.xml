@@ -19,7 +19,7 @@
 	<mode>clinician</mode>
 	<username>mloomis</username>
 	<password>mloomis-password</password>
-	<useFileTarget>false</useFileTarget>
+	<useFileTarget>true</useFileTarget>
 	<useTraceTarget>false</useTraceTarget>
 	<useSyslogTarget>false</useSyslogTarget>
 	<syslogServerIpAddress>127.0.0.1</syslogServerIpAddress>
