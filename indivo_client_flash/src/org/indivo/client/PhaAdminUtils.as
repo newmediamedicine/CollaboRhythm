@@ -127,8 +127,8 @@ public class PhaAdminUtils {
 //            urlRequest.setDoOutput(true);
             urlRequest.requestHeaders.push(new URLRequestHeader("Content-Type", contentType /*"application/xml"*/));
         }
-        urlRequest.requestHeaders.push(new URLRequestHeader("Accept", "text/plain"));      // don't be mistaken for a browser
-        urlRequest.requestHeaders.push(new URLRequestHeader("Accept", "application/xml")); // don't be mistaken for a browser
+//        urlRequest.requestHeaders.push(new URLRequestHeader("Accept", "text/plain"));      // don't be mistaken for a browser
+//        urlRequest.requestHeaders.push(new URLRequestHeader("Accept", "application/xml")); // don't be mistaken for a browser
 
         return urlRequest;
     }

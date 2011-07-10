@@ -339,7 +339,7 @@ public class Admin extends EventDispatcher implements WikiTestable
         }
 		urlRequest = phaAdminUtils.setupConnection(
                 reqMeth, adminURLString, null, new HashMap(), contentType);
-        
+
 		phaAdminUtils.prepareRequest(urlRequest, requestXmlOrParams);
 		
 		phaAdminUtils.signWithSignpost(urlRequest, consumerKey, consumerSecret, null, null);
