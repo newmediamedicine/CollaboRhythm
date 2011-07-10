@@ -16,599 +16,533 @@
   ~ <http://www.gnu.org/licenses/>.
   -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-         xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:mx="library://ns.adobe.com/flex/mx"
-         xmlns:view="collaboRhythm.plugins.schedule.view.*"
-         xmlns:controls="com.dougmccune.controls.*"
-         addedToStage="addedToStageHandler()"
-         removedFromStage="removedFromStageHandler()"
-         creationComplete="creationCompleteHandler()"
-         mouseDown="mouseDownHandler(event)"
-         width="{ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH + 2 * SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH}">
-    <fx:Declarations>
-        <s:Move id="stackEffect" target="{this}"/>
-        <s:Fade id="fadeOutEffect" target="{frame}" alphaFrom="{frame.alpha}" alphaTo="0"/>
-        <s:Fade id="fadeInEffect" target="{frame}" alphaFrom="{frame.alpha}" alphaTo="1"/>
-        <s:Fade id="fadeEffect" target="{this}" alphaFrom="{this.alpha}" alphaTo="0" duration="0.01"/>
-    </fx:Declarations>
-    <s:layout>
-        <controls:ChildIndependentLayout/>
-    </s:layout>
-    <fx:Script>
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:view="collaboRhythm.plugins.schedule.view.*"
+		 xmlns:controls="com.dougmccune.controls.*"
+		 addedToStage="addedToStageHandler()"
+		 creationComplete="creationCompleteHandler()"
+		 mouseDown="mouseDownHandler(event)"
+		 remove="removeHandler()"
+		 width="{ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH + 2 * SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH}">
+	<fx:Declarations>
+		<s:Move id="stackEffect" target="{this}"/>
+		<s:Fade id="fadeOutEffect" target="{frame}" alphaFrom="{frame.alpha}" alphaTo="0"/>
+		<s:Fade id="fadeInEffect" target="{frame}" alphaFrom="{frame.alpha}" alphaTo="1"/>
+		<s:Fade id="fadeEffect" target="{this}" alphaFrom="{this.alpha}" alphaTo="0" duration="0.01"/>
+	</fx:Declarations>
+	<s:layout>
+		<controls:ChildIndependentLayout/>
+	</s:layout>
+	<fx:Script>
 		<![CDATA[
-        import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-        import collaboRhythm.plugins.schedule.model.ScheduleModel;
-        import collaboRhythm.plugins.schedule.model.ScheduleTimelineModel;
-        import collaboRhythm.plugins.schedule.shared.model.MoveData;
-        import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
-        import collaboRhythm.plugins.schedule.shared.view.ScheduleTimelineViewEvent;
-        import collaboRhythm.shared.model.ScheduleItemOccurrence;
-
-        import mx.binding.utils.BindingUtils;
-        import mx.binding.utils.ChangeWatcher;
-        import mx.collections.ArrayCollection;
-        import mx.events.CollectionEvent;
-        import mx.events.CollectionEventKind;
-        import mx.events.EffectEvent;
-
-        import resources.physics.AccelerationEaser;
-
-        import spark.components.Group;
-
-        public static const SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH:Number = 10;
-        public static const SCHEDULE_GROUP_TIMELINE_VIEW_TOP_WIDTH:Number = 60;
-
-        [Bindable]
-        private var _scheduleModel:ScheduleModel;
-        [Bindable]
-        private var _scheduleTimelineModel:ScheduleTimelineModel;
-        [Bindable]
-        private var _scheduleGroup:ScheduleGroup;
-        [Bindable]
-        private var _scheduleGroupsContainer:Group;
-        private var _scheduleItemsCollection:ArrayCollection;
-        private var _scheduleFullView:ScheduleTimelineFullView
-        private var _scheduleItemTimelineViews:Vector.<ScheduleItemTimelineViewBase> = new Vector.<ScheduleItemTimelineViewBase>;
-        private var _scheduleGroupSpotlightView:ScheduleGroupSpotlightView = new ScheduleGroupSpotlightView;
-        private var _areChildrenCreated:Boolean = false;
-        private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>();
-
-        private var _mouseDownOffsetX:Number;
-        private var _mouseDownOffsetY:Number;
-        private var _addedToStage:Boolean;
-
-
-        public function init(scheduleModel:ScheduleModel, scheduleTimelineModel:ScheduleTimelineModel,
-                             scheduleGroup:ScheduleGroup, scheduleGroupsContainer:Group,
-                             scheduleFullView:ScheduleTimelineFullView):void
-        {
-            _scheduleModel = scheduleModel;
-            _scheduleTimelineModel = scheduleTimelineModel;
-            _scheduleGroup = scheduleGroup;
-            _scheduleGroupsContainer = scheduleGroupsContainer;
-            _scheduleFullView = scheduleFullView;
-            _scheduleItemsCollection = scheduleGroup.scheduleItemsOccurrencesCollection;
-
-            _scheduleItemsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
-                                                      scheduleItemsCollectionChangeHandler, false, 0, true);
-
-            var initializedChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(initializedChangeHandler,
-                                                                                 _scheduleModel,
-                                                                                 "isInitialized", false, true);
-            _changeWatchers.push(initializedChangeWatcher);
-            var timeWidthChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(timeWidthChangeHandler,
-                                                                               _scheduleTimelineModel,
-                                                                               "timeWidth", false, true);
-            _changeWatchers.push(timeWidthChangeWatcher);
-            var movingChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(movingChangeHandler,
-                                                                            _scheduleGroup,
-                                                                            "moving", false, true);
-            _changeWatchers.push(movingChangeWatcher);
-            var dateCenterChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(dateCenterChangeHandler,
-                                                                                _scheduleGroup, "dateCenter", false,
-                                                                                true);
-            _changeWatchers.push(dateCenterChangeWatcher);
-            var dateStartChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(dateStartChangeHandler,
-                                                                               _scheduleGroup, "dateStart", false,
-                                                                               true);
-            _changeWatchers.push(dateStartChangeWatcher);
-            var dateEndChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(dateEndChangeHandler,
-                                                                             _scheduleGroup, "dateEnd", false, true);
-            _changeWatchers.push(dateEndChangeWatcher);
-            var yPositionChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(yPositionChangeHandler, _scheduleGroup,
-                                                                               "yPosition", false, true);
-            _changeWatchers.push(yPositionChangeWatcher);
-            var stackingUpdatedChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(stackingUpdatedChangeHandler,
-                                                                                     _scheduleTimelineModel,
-                                                                                     "stackingUpdated",
-                                                                                     false, true);
-            _changeWatchers.push(stackingUpdatedChangeWatcher);
-            var containerHeightChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(containerHeightChangeHandler,
-                                                                                     _scheduleTimelineModel,
-                                                                                     "containerHeight",
-                                                                                     false, true);
-            _changeWatchers.push(containerHeightChangeWatcher);
-
-            _scheduleGroupSpotlightView.init(_scheduleGroup, _scheduleGroupsContainer, _scheduleFullView);
-            _scheduleFullView.scheduleGroupSpotlightViewsContainer.addElement(_scheduleGroupSpotlightView);
-        }
-
-        public function removeChangeWatchers():void
-        {
-            for each (var changeWatcher:ChangeWatcher in _changeWatchers)
-            {
-                changeWatcher.unwatch();
-            }
-        }
-
-        private function timeWidthChangeHandler(timeWidth:int):void
-        {
-            updateXPosition();
-        }
-
-        private function containerHeightChangeHandler(containerHeight:int):void
-        {
-            updateYPosition();
-        }
-
-        override protected function createChildren():void
-        {
-            super.createChildren();
-
-            if (_scheduleModel.isInitialized)
-            {
-                for each (var scheduleItemOccurrence:ScheduleItemOccurrence in _scheduleItemsCollection)
-                {
-                    createScheduleItemFullView(scheduleItemOccurrence);
-                }
-                _areChildrenCreated = true;
-                resize();
-            }
-        }
-
-        private function addedToStageHandler():void
-        {
-            _addedToStage = true;
-            if (scheduleGroup.moving)
-            {
-                showMoving();
-            }
-        }
-
-        private function removedFromStageHandler():void
-        {
-//            _addedToStage = false;
-        }
-
-        private function creationCompleteHandler():void
-        {
-
-//            _isCreationComplete = true;
-//            if (_scheduleModel.isInitialized)
-//            {
-//                updateXandYPositions();
-//            }
-
-        }
-
-        public function get scheduleGroup():ScheduleGroup
-        {
-            return _scheduleGroup;
-        }
-
-        public function scheduleItemsCollectionChangeHandler(event:CollectionEvent):void
-        {
-            if (event.kind == CollectionEventKind.ADD)
-            {
-                if (_areChildrenCreated)
-                {
-                    for each (var scheduleItemOccurrenceAdded:ScheduleItemOccurrence in event.items)
-                    {
-                        createScheduleItemFullView(scheduleItemOccurrenceAdded);
-                    }
-                }
-            }
-            else if (event.kind == CollectionEventKind.REMOVE)
-            {
-                for each (var scheduleItemOccurrenceRemoved:ScheduleItemOccurrence in event.items)
-                {
-                    destroyScheduleItemFullView(scheduleItemOccurrenceRemoved);
-                }
-            }
-        }
-
-        public function createScheduleItemFullView(scheduleItemOccurrence:ScheduleItemOccurrence):void
-        {
-            var scheduleItemTimelineView:ScheduleItemTimelineViewBase = _scheduleModel.viewFactory.createScheduleItemTimelineView(scheduleItemOccurrence);
-            if (scheduleItemTimelineView.scheduleItemOccurrence.yPosition)
-            {
-                scheduleItemTimelineView.bottom = this.y + this.height - SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH - scheduleItemTimelineView.scheduleItemOccurrence.yPosition - ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT;
-            }
-            else
-            {
-                scheduleItemTimelineView.bottom = (_scheduleItemTimelineViews.length) * (SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH + ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT);
-            }
-            scheduleItemTimelineView.scheduleItemOccurrence.yPosition = NaN;
-            scheduleItemsContainer.addElement(scheduleItemTimelineView);
-            _scheduleItemTimelineViews.push(scheduleItemTimelineView);
-        }
-
-        public function destroyScheduleItemFullView(scheduleItemOccurrence:ScheduleItemOccurrence):void
-        {
-            for each (var scheduleItemTimelineView:ScheduleItemTimelineViewBase in _scheduleItemTimelineViews)
-            {
-                if (scheduleItemTimelineView.scheduleItemOccurrence == scheduleItemOccurrence)
-                {
-
-                    var scheduleItemTimelineViewIndex:int = _scheduleItemTimelineViews.indexOf(scheduleItemTimelineView);
-                    _scheduleItemTimelineViews.splice(scheduleItemTimelineViewIndex, 1);
-                    scheduleItemsContainer.removeElement(scheduleItemTimelineView);
-                    scheduleItemTimelineView.destroy();
-                    scheduleItemTimelineView = null;
-                }
-            }
-        }
-
-        private function initializedChangeHandler(isInitialized:Boolean):void
-        {
-            if (_areChildrenCreated && isInitialized)
-            {
-                updateXandYPositions();
-            }
-        }
-
-        private function showMoving():void
-        {
-            glowFilter.blurX = 10;
-            glowFilter.blurY = 10;
-            stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler, false, 0, true);
-            stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler, false, 0, true);
-        }
-
-        private function movingChangeHandler(moving:Boolean):void
-        {
-            if (moving && _addedToStage)
-            {
-                showMoving();
-            }
-            else
-            {
-                glowFilter.blurX = 5;
-                glowFilter.blurY = 5;
-            }
-        }
-
-        private function resize():void
-        {
-            height = _scheduleItemTimelineViews.length * (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT + SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH) + SCHEDULE_GROUP_TIMELINE_VIEW_TOP_WIDTH;
-            updateYPosition();
-        }
-
-        private function dateCenterChangeHandler(change:Date):void
-        {
-            if (_areChildrenCreated && _scheduleModel.isInitialized)
-            {
-                updateXPosition();
-            }
-        }
-
-        private function dateStartChangeHandler(change:Date):void
-        {
-            if (_areChildrenCreated && _scheduleModel.isInitialized)
-            {
-                updateXPosition();
-            }
-        }
-
-        private function dateEndChangeHandler(change:Date):void
-        {
-            if (_areChildrenCreated && _scheduleModel.isInitialized)
-            {
-                updateXPosition();
-            }
-        }
-
-        private function yPositionChangeHandler(change:Number):void
-        {
-            if (scheduleGroup.moving)
-            {
-                updateYPosition();
-            }
-        }
-
-        private function stackingUpdatedChangeHandler(change:Boolean):void
-        {
-            if (_areChildrenCreated && _scheduleModel.isInitialized)
-            {
-                if (change)
-                {
-                    animateStacking();
-                    animateScheduleItemStacking();
-                }
-                else if (!_scheduleGroup.moving)
-                {
-                    fadeOutEffect.play();
-                }
-            }
-        }
-
-        private function animateScheduleItemStacking():void
-        {
-            var scheduleItemTimelineViewIndex:int = 0;
-            for each (var scheduleItemTimelineView:ScheduleItemTimelineViewBase in scheduleItemTimelineViews)
-            {
-                scheduleItemTimelineView.motionPath.valueFrom = scheduleItemTimelineView.bottom;
-                scheduleItemTimelineView.motionPath.valueTo = scheduleItemTimelineViewIndex * (SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH + ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT);
-                if (scheduleItemTimelineView.motionPath.valueTo > scheduleItemTimelineView.motionPath.valueTo)
-                {
-                    var moveEaser:AccelerationEaser = new AccelerationEaser(int(scheduleItemTimelineView.motionPath.valueTo) - int(scheduleItemTimelineView.motionPath.valueFrom),
-                                                                            AccelerationEaser.gravity * ScheduleTimelineFullView.FRICTION);
-                    scheduleItemTimelineView.stackEffect.easer = moveEaser;
-                    scheduleItemTimelineView.stackEffect.duration = moveEaser.duration;
-                }
-                else
-                {
-                    scheduleItemTimelineView.stackEffect.easer = null;
-                    scheduleItemTimelineView.stackEffect.duration = ScheduleTimelineFullView.DURATION;
-                }
-                scheduleItemTimelineView.stackEffect.play();
-                scheduleItemTimelineView.stackEffect.addEventListener(EffectEvent.EFFECT_END,
-                                                                      scheduleItemStackingEffectEndHandler, false, 0,
-                                                                      true);
-                scheduleItemTimelineViewIndex += 1;
-            }
-        }
-
-        private function scheduleItemStackingEffectEndHandler(event:EffectEvent):void
-        {
-            resize();
-            if (scheduleGroup.scheduleItemsOccurrencesCollection.length > 1)
-            {
-                fadeInEffect.play();
-            }
-        }
-
-        private function animateStacking():void
-        {
-            stackEffect.yFrom = this.y;
-            stackEffect.yTo = calculateYPosition();
-            if (stackEffect.yTo > stackEffect.yFrom)
-            {
-                var moveEaser:AccelerationEaser = new AccelerationEaser(stackEffect.yTo - stackEffect.yFrom,
-                                                                        AccelerationEaser.gravity * ScheduleTimelineFullView.FRICTION);
-                stackEffect.easer = moveEaser;
-                stackEffect.duration = moveEaser.duration;
-            }
-            else
-            {
-                stackEffect.easer = null;
-                stackEffect.duration = ScheduleTimelineFullView.DURATION;
-            }
-            stackEffect.addEventListener(EffectEvent.EFFECT_UPDATE, stackEffectUpdate, false, 0, true);
-            stackEffect.play();
-        }
-
-        private function stackEffectUpdate(event:EffectEvent):void
-        {
-            if (_scheduleGroupSpotlightView)
-            {
-                _scheduleGroupSpotlightView.height = calculateSpotlightHeight();
-            }
-        }
-
-        private function updateXandYPositions():void
-        {
-            updateXPosition();
-            updateYPosition();
-        }
-
-        private function updateXPosition():void
-        {
-            this.x = calculateXPosition();
-            if (_scheduleGroupSpotlightView)
-            {
-                _scheduleGroupSpotlightView.width = calculateSpotlightWidth();
-                _scheduleGroupSpotlightView.x = calculateSpotlightXPosition();
-            }
-        }
-
-        private function updateYPosition():void
-        {
-            this.y = calculateYPosition();
-            if (_scheduleGroupSpotlightView)
-            {
-                _scheduleGroupSpotlightView.height = calculateSpotlightHeight();
-            }
-        }
-
-        private function calculateXPosition():Number
-        {
-            return Math.floor((scheduleGroup.dateCenter.hours + 1 + scheduleGroup.dateCenter.minutes / 60) * _scheduleTimelineModel.timeWidth + (_scheduleTimelineModel.timeWidth / 2) - (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2) - SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH);
-        }
-
-        private function calculateYPosition():Number
-        {
-            var result:Number;
-            if (!scheduleGroup.moving)
-            {
-                result = Math.floor(_scheduleGroupsContainer.height - this.height - ScheduleTimelineFullView.ADHERENCE_WINDOW_INITIAL_HEIGHT - scheduleGroup.scheduleGroupsStacked * SCHEDULE_GROUP_TIMELINE_VIEW_TOP_WIDTH - scheduleGroup.scheduleItemsStacked * (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT + SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH) - scheduleGroup.stackNumber * SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH);
-                scheduleGroup.yPosition = result;
-            }
-            else
-            {
-                if (scheduleGroup.yPosition < 0)
-                {
-                    result = 0;
-                }
-                else if (scheduleGroup.yPosition + this.height > _scheduleFullView.scheduleGroupsContainer.height)
-                {
-                    result = _scheduleFullView.scheduleGroupsContainer.height - this.height;
-                }
-                else
-                {
-                    result = scheduleGroup.yPosition;
-                }
-            }
-
-            return result
-        }
-
-        private function calculateSpotlightWidth():Number
-        {
-            return Math.floor((_scheduleGroup.dateEnd.time - _scheduleGroup.dateStart.time) / (1000 * 60 * 60) * _scheduleTimelineModel.timeWidth);
-        }
-
-        private function calculateSpotlightXPosition():Number
-        {
-            return Math.floor(this.x + SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH + ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2 - _scheduleGroupSpotlightView.width / 2);
-        }
-
-        private function calculateSpotlightHeight():Number
-        {
-            return Math.floor(_scheduleFullView.height - (this.y + this.height - SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH));
-        }
-
-        private function mouseDownHandler(event:MouseEvent):void
-        {
-//				_mouseDownOffsetX = event.localX;
-//				_mouseDownOffsetY = event.localY;
-////				var localCoordinates:Point = this.globalToLocal(new Point(event.stageX, event.stageY));
-////				_offsetX = localCoordinates.x;
-////				_offsetY = localCoordinates.y;	
-//				
-
-//
-            if (scheduleGroup.scheduleItemsOccurrencesCollection.length > 1)
-            {
-                var moveData:MoveData = createMoveData(event);
-                dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_DOWN,
-                                                            moveData));
-            }
-//				grabScheduleItemDispatch(moveData);
-        }
-
-        private function mouseMoveHandler(event:MouseEvent):void
-        {
-            var moveData:MoveData = createMoveData(event);
-            dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_MOVE,
-                                                        moveData));
-
-//				var globalCoordinates:Point = _scheduleGroupsContainer.globalToLocal(new Point(event.stageX - _mouseDownOffsetX, event.stageY - _mouseDownOffsetY));				
-//				
-//				var moveData:MoveData = new MoveData();
-//				moveData.id = scheduleGroup.id;
-//				moveData.x = globalCoordinates.x;
-//				moveData.y = globalCoordinates.y;
-//				moveData.width = _scheduleGroupsContainer.width;
-//				moveData.height = _scheduleGroupsContainer.height;
-
-//				moveData.yBottomPosition = yBottomPosition;
-//				if (_scheduleItem.scheduled == true)
-//				{
-//					moveData.hour = Math.floor(xPosition / _scheduleModel.timeWidth);
-//				}
-//				else
-//				{
-//					//TODO: Fix static medication size
-//					moveData.hour = Math.floor((xPosition - (_scheduleModel.timeWidth / 2) + (300 / 2)) / _scheduleModel.timeWidth) - 1;
-//				}
-
-//				moveScheduleItemDispatch(moveData);
-        }
-
-        private function mouseUpHandler(event:MouseEvent):void
-        {
-            stage.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
-            stage.removeEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
-
-            var moveData:MoveData = createMoveData(event);
-            dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_UP,
-                                                        moveData));
-        }
-
-        private function createMoveData(event:MouseEvent):MoveData
-        {
-            var moveData:MoveData = new MoveData();
-            moveData.id = scheduleGroup.id;
-            moveData.localX = event.localX;
-            moveData.localY = event.localY;
-            moveData.stageX = event.stageX;
-            moveData.stageY = event.stageY;
-
-            return moveData;
-        }
-
-        public function get scheduleItemTimelineViews():Vector.<ScheduleItemTimelineViewBase>
-        {
-            return _scheduleItemTimelineViews;
-        }
-
-        public function set scheduleItemTimelineViews(value:Vector.<ScheduleItemTimelineViewBase>):void
-        {
-            _scheduleItemTimelineViews = value;
-        }
-
-        public function get scheduleGroupSpotlightView():ScheduleGroupSpotlightView
-        {
-            return _scheduleGroupSpotlightView;
-        }
-
-        public function set scheduleGroupSpotlightView(value:ScheduleGroupSpotlightView):void
-        {
-            _scheduleGroupSpotlightView = value;
-        }
-
-        public function get changeWatchers():Vector.<ChangeWatcher>
-        {
-            return _changeWatchers;
-        }
-
-        public function set changeWatchers(value:Vector.<ChangeWatcher>):void
-        {
-            _changeWatchers = value;
-        }
-
-        public function destroy():void
-        {
-            stackEffect.end();
-            fadeInEffect.end();
-            fadeOutEffect.end();
-            fadeEffect.end();
-        }
-        ]]>
+		import collaboRhythm.plugins.schedule.model.ScheduleModel;
+		import collaboRhythm.plugins.schedule.model.ScheduleTimelineModel;
+		import collaboRhythm.plugins.schedule.shared.model.MoveData;
+		import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+		import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
+		import collaboRhythm.plugins.schedule.shared.view.ScheduleTimelineViewEvent;
+		import collaboRhythm.shared.model.ScheduleItemOccurrence;
+
+		import mx.binding.utils.BindingUtils;
+		import mx.binding.utils.ChangeWatcher;
+		import mx.collections.ArrayCollection;
+		import mx.events.CollectionEvent;
+		import mx.events.CollectionEventKind;
+		import mx.events.EffectEvent;
+
+		import resources.physics.AccelerationEaser;
+
+		import spark.components.Group;
+
+		public static const SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH:Number = 10;
+		public static const SCHEDULE_GROUP_TIMELINE_VIEW_TOP_WIDTH:Number = 60;
+
+		[Bindable]
+		private var _scheduleModel:ScheduleModel;
+		[Bindable]
+		private var _scheduleTimelineModel:ScheduleTimelineModel;
+		[Bindable]
+		private var _scheduleGroup:ScheduleGroup;
+		[Bindable]
+		private var _scheduleGroupsContainer:Group;
+		private var _scheduleItemsCollection:ArrayCollection;
+		private var _scheduleFullView:ScheduleTimelineFullView;
+		private var _scheduleItemTimelineViews:Vector.<ScheduleItemTimelineViewBase> = new Vector.<ScheduleItemTimelineViewBase>;
+		private var _scheduleGroupSpotlightView:ScheduleGroupSpotlightView = new ScheduleGroupSpotlightView;
+		private var _areChildrenCreated:Boolean = false;
+		private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>();
+
+		private var _mouseDownOffsetX:Number;
+		private var _mouseDownOffsetY:Number;
+		private var _addedToStage:Boolean;
+
+
+		public function init(scheduleModel:ScheduleModel, scheduleTimelineModel:ScheduleTimelineModel,
+							 scheduleGroup:ScheduleGroup, scheduleGroupsContainer:Group,
+							 scheduleFullView:ScheduleTimelineFullView):void
+		{
+			_scheduleModel = scheduleModel;
+			_scheduleTimelineModel = scheduleTimelineModel;
+			_scheduleGroup = scheduleGroup;
+			_scheduleGroupsContainer = scheduleGroupsContainer;
+			_scheduleFullView = scheduleFullView;
+			_scheduleItemsCollection = scheduleGroup.scheduleItemsOccurrencesCollection;
+
+			_scheduleItemsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
+													  scheduleItemsCollectionChangeHandler, false, 0, true);
+
+			_changeWatchers.push(BindingUtils.bindSetter(initializedChangeHandler,
+														 _scheduleModel,
+														 "isInitialized", false, true));
+			_changeWatchers.push(BindingUtils.bindSetter(timeWidthChangeHandler,
+														 _scheduleTimelineModel,
+														 "timeWidth", false, true));
+			_changeWatchers.push(BindingUtils.bindSetter(movingChangeHandler,
+														 _scheduleGroup,
+														 "moving", false, true));
+			_changeWatchers.push(BindingUtils.bindSetter(dateCenterChangeHandler,
+														 _scheduleGroup, "dateCenter", false,
+														 true));
+			_changeWatchers.push(BindingUtils.bindSetter(dateStartChangeHandler,
+														 _scheduleGroup, "dateStart", false,
+														 true));
+			_changeWatchers.push(BindingUtils.bindSetter(dateEndChangeHandler,
+														 _scheduleGroup, "dateEnd", false, true));
+			_changeWatchers.push(BindingUtils.bindSetter(yPositionChangeHandler, _scheduleGroup,
+														 "yPosition", false, true));
+			_changeWatchers.push(BindingUtils.bindSetter(stackingUpdatedChangeHandler,
+														 _scheduleTimelineModel,
+														 "stackingUpdated",
+														 false, true));
+			_changeWatchers.push(BindingUtils.bindSetter(containerHeightChangeHandler,
+														 _scheduleTimelineModel,
+														 "containerHeight",
+														 false, true));
+
+			_scheduleGroupSpotlightView.init(_scheduleGroup, _scheduleGroupsContainer, _scheduleFullView);
+			_scheduleFullView.scheduleGroupSpotlightViewsContainer.addElement(_scheduleGroupSpotlightView);
+		}
+
+		private function timeWidthChangeHandler(timeWidth:int):void
+		{
+			updateXPosition();
+		}
+
+		private function containerHeightChangeHandler(containerHeight:int):void
+		{
+			updateYPosition();
+		}
+
+		override protected function createChildren():void
+		{
+			super.createChildren();
+
+			if (_scheduleModel.isInitialized)
+			{
+				for each (var scheduleItemOccurrence:ScheduleItemOccurrence in _scheduleItemsCollection)
+				{
+					createScheduleItemFullView(scheduleItemOccurrence);
+				}
+				_areChildrenCreated = true;
+				resize();
+			}
+		}
+
+		private function addedToStageHandler():void
+		{
+			_addedToStage = true;
+			if (scheduleGroup.moving)
+			{
+				showMoving();
+			}
+		}
+
+		private function creationCompleteHandler():void
+		{
+			if (_scheduleModel.isInitialized)
+			{
+				updateXandYPositions();
+			}
+		}
+
+		public function get scheduleGroup():ScheduleGroup
+		{
+			return _scheduleGroup;
+		}
+
+		public function scheduleItemsCollectionChangeHandler(event:CollectionEvent):void
+		{
+			if (event.kind == CollectionEventKind.ADD)
+			{
+				if (_areChildrenCreated)
+				{
+					for each (var scheduleItemOccurrenceAdded:ScheduleItemOccurrence in event.items)
+					{
+						createScheduleItemFullView(scheduleItemOccurrenceAdded);
+					}
+				}
+			}
+			else if (event.kind == CollectionEventKind.REMOVE)
+			{
+				for each (var scheduleItemOccurrenceRemoved:ScheduleItemOccurrence in event.items)
+				{
+					destroyScheduleItemFullView(scheduleItemOccurrenceRemoved);
+				}
+			}
+		}
+
+		public function createScheduleItemFullView(scheduleItemOccurrence:ScheduleItemOccurrence):void
+		{
+			var scheduleItemTimelineView:ScheduleItemTimelineViewBase = _scheduleModel.viewFactory.createScheduleItemTimelineView(scheduleItemOccurrence);
+			if (scheduleItemTimelineView.scheduleItemOccurrence.yPosition)
+			{
+				scheduleItemTimelineView.bottom = this.y + this.height - SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH - scheduleItemTimelineView.scheduleItemOccurrence.yPosition - ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT;
+			}
+			else
+			{
+				scheduleItemTimelineView.bottom = (_scheduleItemTimelineViews.length) * (SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH + ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT);
+			}
+			scheduleItemTimelineView.scheduleItemOccurrence.yPosition = NaN;
+			scheduleItemsContainer.addElement(scheduleItemTimelineView);
+			_scheduleItemTimelineViews.push(scheduleItemTimelineView);
+		}
+
+		public function destroyScheduleItemFullView(scheduleItemOccurrence:ScheduleItemOccurrence):void
+		{
+			for each (var scheduleItemTimelineView:ScheduleItemTimelineViewBase in _scheduleItemTimelineViews)
+			{
+				if (scheduleItemTimelineView.scheduleItemOccurrence == scheduleItemOccurrence)
+				{
+
+					var scheduleItemTimelineViewIndex:int = _scheduleItemTimelineViews.indexOf(scheduleItemTimelineView);
+					_scheduleItemTimelineViews.splice(scheduleItemTimelineViewIndex, 1);
+					scheduleItemsContainer.removeElement(scheduleItemTimelineView);
+					scheduleItemTimelineView.destroy();
+					scheduleItemTimelineView = null;
+				}
+			}
+		}
+
+		private function initializedChangeHandler(isInitialized:Boolean):void
+		{
+			if (_areChildrenCreated && isInitialized)
+			{
+				updateXandYPositions();
+			}
+		}
+
+		private function showMoving():void
+		{
+			glowFilter.blurX = 10;
+			glowFilter.blurY = 10;
+			stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler, false, 0, true);
+			stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler, false, 0, true);
+		}
+
+		private function movingChangeHandler(moving:Boolean):void
+		{
+			if (moving && _addedToStage)
+			{
+				showMoving();
+			}
+			else
+			{
+				glowFilter.blurX = 5;
+				glowFilter.blurY = 5;
+			}
+		}
+
+		private function resize():void
+		{
+			height = _scheduleItemTimelineViews.length * (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT + SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH) + SCHEDULE_GROUP_TIMELINE_VIEW_TOP_WIDTH;
+			updateYPosition();
+		}
+
+		private function dateCenterChangeHandler(change:Date):void
+		{
+			if (_areChildrenCreated && _scheduleModel.isInitialized)
+			{
+				updateXPosition();
+			}
+		}
+
+		private function dateStartChangeHandler(change:Date):void
+		{
+			if (_areChildrenCreated && _scheduleModel.isInitialized)
+			{
+				updateXPosition();
+			}
+		}
+
+		private function dateEndChangeHandler(change:Date):void
+		{
+			if (_areChildrenCreated && _scheduleModel.isInitialized)
+			{
+				updateXPosition();
+			}
+		}
+
+		private function yPositionChangeHandler(change:Number):void
+		{
+			if (scheduleGroup.moving)
+			{
+				updateYPosition();
+			}
+		}
+
+		private function stackingUpdatedChangeHandler(change:Boolean):void
+		{
+			if (_areChildrenCreated && _scheduleModel.isInitialized)
+			{
+				if (change)
+				{
+					animateStacking();
+					animateScheduleItemStacking();
+				}
+				else if (!_scheduleGroup.moving)
+				{
+					fadeOutEffect.play();
+				}
+			}
+		}
+
+		private function animateScheduleItemStacking():void
+		{
+			var scheduleItemTimelineViewIndex:int = 0;
+			for each (var scheduleItemTimelineView:ScheduleItemTimelineViewBase in scheduleItemTimelineViews)
+			{
+				scheduleItemTimelineView.motionPath.valueFrom = scheduleItemTimelineView.bottom;
+				scheduleItemTimelineView.motionPath.valueTo = scheduleItemTimelineViewIndex * (SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH + ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT);
+				if (scheduleItemTimelineView.motionPath.valueTo > scheduleItemTimelineView.motionPath.valueTo)
+				{
+					var moveEaser:AccelerationEaser = new AccelerationEaser(int(scheduleItemTimelineView.motionPath.valueTo) - int(scheduleItemTimelineView.motionPath.valueFrom),
+																			AccelerationEaser.gravity * ScheduleTimelineFullView.FRICTION);
+					scheduleItemTimelineView.stackEffect.easer = moveEaser;
+					scheduleItemTimelineView.stackEffect.duration = moveEaser.duration;
+				}
+				else
+				{
+					scheduleItemTimelineView.stackEffect.easer = null;
+					scheduleItemTimelineView.stackEffect.duration = ScheduleTimelineFullView.DURATION;
+				}
+				scheduleItemTimelineView.stackEffect.play();
+				scheduleItemTimelineView.stackEffect.addEventListener(EffectEvent.EFFECT_END,
+																	  scheduleItemStackingEffectEndHandler, false, 0,
+																	  true);
+				scheduleItemTimelineViewIndex += 1;
+			}
+		}
+
+		private function scheduleItemStackingEffectEndHandler(event:EffectEvent):void
+		{
+			resize();
+			if (scheduleGroup.scheduleItemsOccurrencesCollection.length > 1)
+			{
+				fadeInEffect.play();
+			}
+		}
+
+		private function animateStacking():void
+		{
+			stackEffect.yFrom = this.y;
+			stackEffect.yTo = calculateYPosition();
+			if (stackEffect.yTo > stackEffect.yFrom)
+			{
+				var moveEaser:AccelerationEaser = new AccelerationEaser(stackEffect.yTo - stackEffect.yFrom,
+																		AccelerationEaser.gravity * ScheduleTimelineFullView.FRICTION);
+				stackEffect.easer = moveEaser;
+				stackEffect.duration = moveEaser.duration;
+			}
+			else
+			{
+				stackEffect.easer = null;
+				stackEffect.duration = ScheduleTimelineFullView.DURATION;
+			}
+			stackEffect.addEventListener(EffectEvent.EFFECT_UPDATE, stackEffectUpdate, false, 0, true);
+			stackEffect.play();
+		}
+
+		private function stackEffectUpdate(event:EffectEvent):void
+		{
+			if (_scheduleGroupSpotlightView)
+			{
+				_scheduleGroupSpotlightView.height = calculateSpotlightHeight();
+			}
+		}
+
+		private function updateXandYPositions():void
+		{
+			updateXPosition();
+			updateYPosition();
+		}
+
+		private function updateXPosition():void
+		{
+			this.x = calculateXPosition();
+			if (_scheduleGroupSpotlightView)
+			{
+				_scheduleGroupSpotlightView.width = calculateSpotlightWidth();
+				_scheduleGroupSpotlightView.x = calculateSpotlightXPosition();
+			}
+		}
+
+		private function updateYPosition():void
+		{
+			this.y = calculateYPosition();
+			if (_scheduleGroupSpotlightView)
+			{
+				_scheduleGroupSpotlightView.height = calculateSpotlightHeight();
+			}
+		}
+
+		private function calculateXPosition():Number
+		{
+			return Math.floor((scheduleGroup.dateCenter.hours + 1 + scheduleGroup.dateCenter.minutes / 60) * _scheduleTimelineModel.timeWidth + (_scheduleTimelineModel.timeWidth / 2) - (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2) - SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH);
+		}
+
+		private function calculateYPosition():Number
+		{
+			var result:Number;
+			if (!scheduleGroup.moving)
+			{
+				result = Math.floor(_scheduleGroupsContainer.height - this.height - ScheduleTimelineFullView.ADHERENCE_WINDOW_INITIAL_HEIGHT - scheduleGroup.scheduleGroupsStacked * SCHEDULE_GROUP_TIMELINE_VIEW_TOP_WIDTH - scheduleGroup.scheduleItemsStacked * (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT + SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH) - scheduleGroup.stackNumber * SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH);
+				scheduleGroup.yPosition = result;
+			}
+			else
+			{
+				if (scheduleGroup.yPosition < 0)
+				{
+					result = 0;
+				}
+				else if (scheduleGroup.yPosition + this.height > _scheduleFullView.scheduleGroupsContainer.height)
+				{
+					result = _scheduleFullView.scheduleGroupsContainer.height - this.height;
+				}
+				else
+				{
+					result = scheduleGroup.yPosition;
+				}
+			}
+
+			return result
+		}
+
+		private function calculateSpotlightWidth():Number
+		{
+			return Math.floor((_scheduleGroup.dateEnd.time - _scheduleGroup.dateStart.time) / (1000 * 60 * 60) * _scheduleTimelineModel.timeWidth);
+		}
+
+		private function calculateSpotlightXPosition():Number
+		{
+			return Math.floor(this.x + SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH + ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2 - _scheduleGroupSpotlightView.width / 2);
+		}
+
+		private function calculateSpotlightHeight():Number
+		{
+			return Math.floor(_scheduleFullView.height - (this.y + this.height - SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH));
+		}
+
+		private function mouseDownHandler(event:MouseEvent):void
+		{
+			if (scheduleGroup.scheduleItemsOccurrencesCollection.length > 1)
+			{
+				var moveData:MoveData = createMoveData(event);
+				dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_DOWN,
+															moveData));
+			}
+		}
+
+		private function mouseMoveHandler(event:MouseEvent):void
+		{
+			var moveData:MoveData = createMoveData(event);
+			dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_MOVE,
+														moveData));
+		}
+
+		private function mouseUpHandler(event:MouseEvent):void
+		{
+			stage.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
+			stage.removeEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
+
+			var moveData:MoveData = createMoveData(event);
+			dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_UP,
+														moveData));
+		}
+
+		private function createMoveData(event:MouseEvent):MoveData
+		{
+			var moveData:MoveData = new MoveData();
+			moveData.id = scheduleGroup.id;
+			moveData.localX = event.localX;
+			moveData.localY = event.localY;
+			moveData.stageX = event.stageX;
+			moveData.stageY = event.stageY;
+
+			return moveData;
+		}
+
+		public function get scheduleItemTimelineViews():Vector.<ScheduleItemTimelineViewBase>
+		{
+			return _scheduleItemTimelineViews;
+		}
+
+		public function set scheduleItemTimelineViews(value:Vector.<ScheduleItemTimelineViewBase>):void
+		{
+			_scheduleItemTimelineViews = value;
+		}
+
+		public function get scheduleGroupSpotlightView():ScheduleGroupSpotlightView
+		{
+			return _scheduleGroupSpotlightView;
+		}
+
+		public function set scheduleGroupSpotlightView(value:ScheduleGroupSpotlightView):void
+		{
+			_scheduleGroupSpotlightView = value;
+		}
+
+		private function removeHandler():void
+		{
+			stackEffect.end();
+			fadeInEffect.end();
+			fadeOutEffect.end();
+			fadeEffect.end();
+
+			for each (var changeWatcher:ChangeWatcher in _changeWatchers)
+			{
+				changeWatcher.unwatch();
+			}
+		}
+		]]>
 	</fx:Script>
-    <s:Group id="frame" width="100%" height="100%">
-        <s:Rect width="100%" height="100%">
-            <s:fill>
-                <s:SolidColor color="0xFFFFFF" alpha="0.4"/>
-            </s:fill>
-            <s:stroke>
-                <s:SolidColorStroke color="0xFFFFFF" alpha="0.5"/>
-            </s:stroke>
-        </s:Rect>
-        <mx:Image top="8" horizontalCenter="0" source="@Embed(source='/assets/images/gripHorizontalWide.png')"/>
-    </s:Group>
-    <s:Group id="scheduleItemsContainer"
-             left="{SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH}"
-             right="{SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH}"
-             top="{SCHEDULE_GROUP_TIMELINE_VIEW_TOP_WIDTH}"
-             bottom="{SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH}">
-        <!--        <s:Rect width="100%" height="100%">
-            <s:fill>
-                <s:SolidColor color="0x000000" alpha="0.4"/>
-            </s:fill>
-        </s:Rect>-->
-        <s:layout>
-            <controls:ChildIndependentLayout/>
-        </s:layout>
-    </s:Group>
-    <s:filters>
-        <s:GlowFilter id="glowFilter"
-                      quality="3"
-                      alpha="0.2"
-                      color="0x000000"
-                      blurX="5"
-                      blurY="5"
-                      strength="5"/>
-    </s:filters>
+	<s:Group id="frame" width="100%" height="100%">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0xFFFFFF" alpha="0.4"/>
+			</s:fill>
+			<s:stroke>
+				<s:SolidColorStroke color="0xFFFFFF" alpha="0.5"/>
+			</s:stroke>
+		</s:Rect>
+		<mx:Image top="8" horizontalCenter="0" source="@Embed(source='/assets/images/gripHorizontalWide.png')"/>
+	</s:Group>
+	<s:Group id="scheduleItemsContainer"
+			 left="{SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH}"
+			 right="{SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH}"
+			 top="{SCHEDULE_GROUP_TIMELINE_VIEW_TOP_WIDTH}"
+			 bottom="{SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH}">
+		<s:layout>
+			<controls:ChildIndependentLayout/>
+		</s:layout>
+	</s:Group>
+	<s:filters>
+		<s:GlowFilter id="glowFilter"
+					  quality="3"
+					  alpha="0.2"
+					  color="0x000000"
+					  blurX="5"
+					  blurY="5"
+					  strength="5"/>
+	</s:filters>
 </s:Group>

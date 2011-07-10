@@ -20,16 +20,13 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.plugins.schedule.model.ScheduleModel;
 	import collaboRhythm.plugins.schedule.model.ScheduleModelEvent;
 	import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+	import collaboRhythm.plugins.schedule.view.IScheduleFullView;
 	import collaboRhythm.plugins.schedule.view.ScheduleClockWidgetView;
 	import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
 	import collaboRhythm.plugins.schedule.view.ScheduleTimelineFullView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.AppEvent;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-	import collaboRhythm.shared.model.ScheduleItemBase;
-	import collaboRhythm.shared.model.ScheduleItemOccurrence;
-	import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
 
 	import flash.desktop.NativeApplication;
 	import flash.events.InvokeEvent;
@@ -41,19 +38,17 @@ package collaboRhythm.plugins.schedule.controller
 	{
 		public static const DEFAULT_NAME:String = "Schedule";
 
-		private var _phaHealthRecordService:PhaHealthRecordServiceBase;
 		private var _scheduleModel:ScheduleModel;
-		private var _scheduleWidgetViewController:ScheduleClockController;
+		private var _scheduleClockController:ScheduleClockController;
+		private var _scheduleTimelineController:ScheduleTimelineController;
+		private var _scheduleReportingController:ScheduleReportingController;
+
 		private var _widgetView:ScheduleClockWidgetView;
-		private var _fullView:UIComponent;
+		private var _fullView:IScheduleFullView;
 
 		public function ScheduleAppController(constructorParams:AppControllerConstructorParams)
 		{
 			super(constructorParams);
-			_phaHealthRecordService = new PhaHealthRecordServiceBase(_activeRecordAccount.primaryRecord.settings.oauthChromeConsumerKey,
-																	 _activeRecordAccount.primaryRecord.settings.oauthChromeConsumerSecret,
-																	 _activeRecordAccount.primaryRecord.settings.indivoServerBaseURL,
-																	 _activeAccount);
 		}
 
 		private function scheduleModel_initializedHandler(event:ScheduleModelEvent):void
@@ -74,75 +69,88 @@ package collaboRhythm.plugins.schedule.controller
 			}
 		}
 
-		public override function get widgetView():UIComponent
+		override public function get widgetView():UIComponent
 		{
 			return _widgetView;
 		}
 
-		public override function set widgetView(value:UIComponent):void
+		override public function set widgetView(value:UIComponent):void
 		{
 			_widgetView = value as ScheduleClockWidgetView;
 		}
 
-		public override function get isFullViewSupported():Boolean
+		override public function get isFullViewSupported():Boolean
 		{
 			return true;
 		}
 
-		public override function get fullView():UIComponent
+		override public function get fullView():UIComponent
 		{
-			return _fullView;
+			return _fullView as UIComponent;
 		}
 
-		public override function set fullView(value:UIComponent):void
+		override public function set fullView(value:UIComponent):void
 		{
-			_fullView = value;
+			_fullView = value as IScheduleFullView;
 		}
 
-		protected override function createWidgetView():UIComponent
+		override protected function createWidgetView():UIComponent
 		{
 			_widgetView = new ScheduleClockWidgetView();
 			return _widgetView;
 		}
 
-		override protected function prepareWidgetView():void
+		override protected function createFullView():UIComponent
 		{
-			super.prepareWidgetView();
-			if (_activeRecordAccount != null)
+			if (isWorkstationMode)
 			{
-				_scheduleWidgetViewController = new ScheduleClockController(isWorkstationMode, scheduleModel,
-																			_widgetView, _fullParentContainer);//, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
-				_widgetView.init(_scheduleWidgetViewController, scheduleModel, _fullParentContainer);
-				_scheduleWidgetViewController.addEventListener(AppEvent.SHOW_FULL_VIEW, showFullViewHandler, false, 0, true);
+				_fullView = new ScheduleTimelineFullView();
 			}
+			else
+			{
+				_fullView = new ScheduleReportingFullView();
+			}
+
+			return _fullView as UIComponent;
+		}
+
+		override public function initialize():void
+		{
+			super.initialize();
+		}
+
+		override public function reloadUserData():void
+		{
+			removeUserData();
+			if (_fullView)
+			{
+				_fullView.destroyChildren();
+			}
+			if (_widgetView)
+			{
+				_widgetView.destroyChildren();
+			}
+
+			super.reloadUserData();
 		}
 
 		override protected function updateWidgetViewModel():void
 		{
 			super.updateWidgetViewModel();
-			// TODO: update scheduleWidgetViewController with the new scheduleModel (?)
-			_widgetView.init(_scheduleWidgetViewController, scheduleModel, _fullParentContainer);
+
+			if (_widgetView && _activeRecordAccount)
+			{
+				_widgetView.init(this, scheduleModel);
+			}
 		}
 
-		protected override function createFullView():UIComponent
+		override protected function updateFullViewModel():void
 		{
-			if (isWorkstationMode)
+			super.updateFullViewModel();
+
+			if (_fullView)
 			{
-				var scheduleTimelineFullView:ScheduleTimelineFullView = new ScheduleTimelineFullView();
-				var scheduleTimelineController:ScheduleTimelineController = new ScheduleTimelineController(scheduleModel,
-																										   scheduleTimelineFullView);
-				scheduleTimelineFullView.init(scheduleTimelineController, scheduleModel);
-				return scheduleTimelineFullView;
-			}
-			else
-			{
-				var scheduleReportingFullView:ScheduleReportingFullView = new ScheduleReportingFullView();
-				var scheduleReportingController:ScheduleReportingController = new ScheduleReportingController(scheduleModel,
-																											  scheduleReportingFullView);
-				scheduleReportingController.addEventListener(AppEvent.HIDE_FULL_VIEW, hideFullViewHandler, false, 0, true);
-				scheduleReportingFullView.init(scheduleReportingController, scheduleModel);
-				scheduleReportingFullView.scheduleGroupReportingView.init(scheduleModel);
-				return scheduleReportingFullView;
+				_fullView.init(this, scheduleModel);
 			}
 		}
 
@@ -156,98 +164,76 @@ package collaboRhythm.plugins.schedule.controller
 			hideFullView();
 		}
 
-		protected override function get shouldShowFullViewOnWidgetClick():Boolean
+		override protected function get shouldShowFullViewOnWidgetClick():Boolean
 		{
 			return isWorkstationMode;
 		}
 
 		private function get scheduleModel():ScheduleModel
 		{
-			if (_scheduleModel == null)
+			if (!_scheduleModel)
 			{
 				_scheduleModel = new ScheduleModel(_componentContainer, _activeRecordAccount.primaryRecord);
-				_scheduleModel.addEventListener(ScheduleModelEvent.INITIALIZED, scheduleModel_initializedHandler, false, 0, true);
+				_scheduleModel.addEventListener(ScheduleModelEvent.INITIALIZED, scheduleModel_initializedHandler, false,
+												0, true);
 			}
 			return _scheduleModel;
-//			if (_activeRecordAccount != null)
-//			{
-//				if (_activeRecordAccount.primaryRecord.appData[ScheduleModel.SCHEDULE_KEY] == null)
-//				{
-//					_activeRecordAccount.primaryRecord.appData[ScheduleModel.SCHEDULE_KEY] = new ScheduleModel(_componentContainer);
-//				}
-//				return _activeRecordAccount.primaryRecord.getAppData(ScheduleModel.SCHEDULE_KEY, ScheduleModel) as ScheduleModel;
-//			}
-//			return null;
 		}
 
-		public override function initialize():void
+		public function get scheduleClockController():ScheduleClockController
 		{
-			super.initialize();
-
-//			if (_widgetView)
-//			{
-//				_scheduleWidgetViewController = new ScheduleWidgetViewController(isWorkstationMode, scheduleModel, _widgetView, _fullParentContainer);//, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
-//				(_widgetView as ScheduleWidgetView).init(_scheduleWidgetViewController, scheduleModel, _fullParentContainer);
-//			}
-			prepareFullView();
+			if (!_scheduleClockController)
+			{
+				_scheduleClockController = new ScheduleClockController(scheduleModel,
+																	   _widgetView as ScheduleClockWidgetView);
+				_scheduleClockController.addEventListener(AppEvent.SHOW_FULL_VIEW, showFullViewHandler, false, 0, true);
+			}
+			return _scheduleClockController;
 		}
 
-//		protected override function prepareWidgetView():void
-//		{
-//			
-//		}
-//		
-//		protected override function prepareFullView():void
-//		{
-//			super.prepareFullView();
-////			if (_fullView)
-////			{
-////				_scheduleFullViewController = new ScheduleFullViewController(scheduleModel, _fullView as ScheduleFullView, _collaborationRoomNetConnectionServiceProxy.localUserName, _collaborationRoomNetConnectionServiceProxy);
-////				_fullView.init(_scheduleFullViewController, scheduleModel);
-////			}
-//		}
+		public function get scheduleTimelineController():ScheduleTimelineController
+		{
+			if (!_scheduleTimelineController)
+			{
+				_scheduleTimelineController = new ScheduleTimelineController(scheduleModel,
+																			 _fullView as ScheduleTimelineFullView);
+			}
+			return _scheduleTimelineController;
+		}
+
+		public function get scheduleReportingController():ScheduleReportingController
+		{
+			if (!_scheduleReportingController)
+			{
+				_scheduleReportingController = new ScheduleReportingController(scheduleModel,
+																			   _fullView as ScheduleReportingFullView);
+				_scheduleReportingController.addEventListener(AppEvent.HIDE_FULL_VIEW, hideFullViewHandler, false, 0,
+															  true);
+			}
+			return _scheduleReportingController;
+		}
 
 		protected override function removeUserData():void
 		{
-			for each (var scheduleGroup:ScheduleGroup in scheduleModel.scheduleGroupsCollection)
-			{
-				if (scheduleGroup.changed)
-				{
-					for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleGroup.scheduleItemsOccurrencesCollection)
-					{
-						var scheduleItem:ScheduleItemBase = scheduleItemOccurrence.scheduleItem;
-						_phaHealthRecordService.archiveDocument(_activeRecordAccount.primaryRecord, scheduleItem.id,
-																"rescheduled");
-						var newScheduleItemDocument:XML = scheduleItem.rescheduledItem(scheduleGroup.dateStart,
-																					   scheduleGroup.dateEnd);
-						_phaHealthRecordService.relateNewDocument(_activeRecordAccount.primaryRecord,
-																  scheduleItem.getScheduleActionId(),
-																  newScheduleItemDocument, "scheduleItem");
-//                        var scheduleItem:ScheduleItemBase = scheduleItemOccurrence.scheduleItem;
-
-					}
-//					_scheduleHealthRecordService.archiveScheduleGroup(_user, scheduleGroup.id);
-//					var scheduleGroupDocument:XML = scheduleGroup.convertToXML();
-//					var scheduleItemDocumentIDs:Vector.<String> = new Vector.<String>;
-//					for each (var scheduleItem:ScheduleItemBase in scheduleGroup.scheduleItemsCollection)
-//					{
-//						scheduleItemDocumentIDs.push(scheduleItem.id);
-//					}
-//					_scheduleHealthRecordService.createScheduleGroup(_user, scheduleGroupDocument, scheduleItemDocumentIDs);
-				}
-			}
 			// TODO: destroy/cleanup any reference and listeners in scheduleModel
-			_scheduleModel = null;
+			if (_scheduleModel.hasEventListener(ScheduleModelEvent.INITIALIZED))
+			{
+				_scheduleModel.removeEventListener(ScheduleModelEvent.INITIALIZED, scheduleModel_initializedHandler);
+			}
+			if (_scheduleModel.hasEventListener(AppEvent.SHOW_FULL_VIEW))
+			{
+				_scheduleClockController.removeEventListener(AppEvent.SHOW_FULL_VIEW, showFullViewHandler);
+			}
+			if (_scheduleModel.hasEventListener(AppEvent.HIDE_FULL_VIEW))
+			{
+				_scheduleReportingController.removeEventListener(AppEvent.HIDE_FULL_VIEW, hideFullViewHandler);
+			}
 
-//			for each (var adherenceGroupView:AdherenceGroupView in _fullView.adherenceGroupViews)
-//			{
-//				adherenceGroupView.unwatchAll();
-//				adherenceGroupView.adherenceWindowView.unwatchAll();
-//			}
-//			for each (var medicationView:MedicationView in _fullView.medicationViews)
-//			{
-//				medicationView.unwatchAll();
-//			}
+			_scheduleModel.destroy();
+			_scheduleModel = null;
+			_scheduleClockController = null;
+			_scheduleTimelineController = null;
+			_scheduleReportingController = null;
 		}
 
 		public override function get defaultName():String

@@ -16,25 +16,27 @@
  */
 package collaboRhythm.plugins.schedule.controller
 {
+
 	import castle.flexbridge.reflection.ReflectionUtils;
-	
+
+	import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
-	import collaboRhythm.shared.controller.apps.AppControllerInfo;
-	
+
 	import mx.modules.ModuleBase;
-	
+
 	public class SchedulePluginModule extends ModuleBase implements IPlugin
 	{
 		public function SchedulePluginModule()
 		{
 			super();
 		}
-		
+
 		public function registerComponents(componentContainer:IComponentContainer):void
 		{
 			var typeName:String = ReflectionUtils.getClassInfo(ScheduleAppController).name;
-			componentContainer.registerComponentInstance(typeName, AppControllerInfo, new AppControllerInfo(ScheduleAppController));
+			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
+														 new AppControllerInfo(ScheduleAppController));
 		}
 	}
 }

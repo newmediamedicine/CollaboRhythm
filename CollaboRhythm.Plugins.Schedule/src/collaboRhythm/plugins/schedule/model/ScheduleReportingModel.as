@@ -1,3 +1,19 @@
+/**
+ * Copyright 2011 John Moore, Scott Gilroy
+ *
+ * This file is part of CollaboRhythm.
+ *
+ * CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ * <http://www.gnu.org/licenses/>.
+ */
 package collaboRhythm.plugins.schedule.model
 {
 
@@ -19,11 +35,8 @@ package collaboRhythm.plugins.schedule.model
 	public class ScheduleReportingModel implements IScheduleReportingModel
 	{
 		private var _scheduleModel:ScheduleModel;
-		private var _currentScheduleItemOccurrence:ScheduleItemOccurrence;
 		private var _viewStack:ArrayCollection = new ArrayCollection();
 		private var _isReportingCompleted:Boolean = false;
-		private var _scheduleItemDocumentId:String;
-		private var _adherenceResultDocument:XML;
 		private var _currentScheduleGroup:ScheduleGroup;
 		private var _pendingAdherenceItem:PendingAdherenceItem;
 		private var _currentDateSource:ICurrentDateSource;
@@ -34,46 +47,11 @@ package collaboRhythm.plugins.schedule.model
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
 
-		public function get currentScheduleItemOccurrence():ScheduleItemOccurrence
-		{
-			return _currentScheduleItemOccurrence;
-		}
-
-		public function set currentScheduleItemOccurrence(value:ScheduleItemOccurrence):void
-		{
-			_currentScheduleItemOccurrence = value;
-		}
-
-		public function get viewStack():ArrayCollection
-		{
-			return _viewStack;
-		}
-
-		public function set viewStack(value:ArrayCollection):void
-		{
-			_viewStack = value;
-		}
-
 		public function createAdherenceItem(scheduleGroup:ScheduleGroup, scheduleItemOccurrence:ScheduleItemOccurrence,
 											adherenceItem:AdherenceItem):void
 		{
 			viewStack.removeAll();
 			_scheduleModel.createAdherenceItem(scheduleItemOccurrence, adherenceItem);
-//            scheduleItemOccurrence.adherenceItem = adherenceItem;
-
-//            _scheduleItemDocumentId = scheduleItemOccurrence.scheduleItem.id;
-//            var adherenceItemDocument:XML = adherenceItem.convertToXML();
-//            if (adherenceItem.adherenceResult)
-//            {
-//                _adherenceResultDocument = adherenceItem.adherenceResult.convertToXML();
-//                _phaHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE, createDocumentCompleteHandler);
-//                _phaHealthRecordService.createDocument(_record, adherenceItemDocument);
-//            }
-//            else
-//            {
-//                _phaHealthRecordService.relateNewDocument(_record, _scheduleItemDocumentId, adherenceItemDocument, "adherenceItem");
-//            }
-
 
 			var isReportingCompletedCheck:Boolean = true;
 			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleGroup.scheduleItemsOccurrencesCollection)
@@ -161,17 +139,19 @@ package collaboRhythm.plugins.schedule.model
 			return closestScheduleItemOccurrence;
 		}
 
-//        private function createDocumentCompleteHandler(event:HealthRecordServiceEvent):void
-//        {
-//            _phaHealthRecordService.relateDocuments(_record, _scheduleItemDocumentId, event.responseXml.@id,
-//                                                    "adherenceItem");
-//            _phaHealthRecordService.relateNewDocument(_record, event.responseXml.@id, _adherenceResultDocument,
-//                                                      "adherenceResult");
-//        }
-
 		public function showAdditionalInformationView(additionalInformationView:UIComponent):void
 		{
 			viewStack.addItem(additionalInformationView);
+		}
+
+		public function get viewStack():ArrayCollection
+		{
+			return _viewStack;
+		}
+
+		public function set viewStack(value:ArrayCollection):void
+		{
+			_viewStack = value;
 		}
 
 		public function get isReportingCompleted():Boolean

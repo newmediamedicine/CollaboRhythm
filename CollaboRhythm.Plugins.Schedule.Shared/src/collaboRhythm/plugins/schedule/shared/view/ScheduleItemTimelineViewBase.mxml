@@ -20,7 +20,9 @@
          xmlns:mx="library://ns.adobe.com/flex/mx"
          width="{SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH}"
          height="{SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT}"
+		 remove="removeHandler()"
          mouseDown="mouseDownHandler(event)">
+
     <fx:Declarations>
         <s:Fade id="hideEffect" alphaFrom="{this.alpha}" alphaTo="0" duration="0.01"/>
         <s:Animate id="stackEffect" target="{this}">
@@ -44,6 +46,7 @@
 
         [Bindable]
         private var _scheduleItemOccurrence:ScheduleItemOccurrence;
+		private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>();
 
         public static const SCHEDULE_ITEM_WIDGET_VIEW:String = "scheduleItemWidgetView";
 
@@ -51,9 +54,9 @@
         {
             _scheduleItemOccurrence = scheduleItemOccurrence;
 
-            var movingChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(movingChangeHandler,
+            _changeWatchers.push(BindingUtils.bindSetter(movingChangeHandler,
                                                                             _scheduleItemOccurrence,
-                                                                            "moving", false, true);
+                                                                            "moving", false, true));
         }
 
         public function get scheduleItem():ScheduleItemBase
@@ -63,8 +66,6 @@
 
         private function mouseDownHandler(event:MouseEvent):void
         {
-
-
             event.stopImmediatePropagation();
 
             var moveData:MoveData = createMoveData(event);
@@ -113,6 +114,14 @@
             hideEffect.end();
             stackEffect.end();
         }
+
+		private function removeHandler():void
+		{
+			for each (var changeWatcher:ChangeWatcher in _changeWatchers)
+			{
+				changeWatcher.unwatch();
+			}
+		}
         ]]>
 	</fx:Script>
     <s:filters>

@@ -115,10 +115,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 			if (_activeRecordAccount)
 			{
 				// first cleanup any existing bloodPressureModel
-				if (_activeRecordAccount.primaryRecord.bloodPressureModel)
-					_activeRecordAccount.primaryRecord.bloodPressureModel.record = null;
-
-				_activeRecordAccount.primaryRecord.bloodPressureModel = new BloodPressureModel();
+				removeUserData();
 				_activeRecordAccount.primaryRecord.bloodPressureModel.record = _activeRecordAccount.primaryRecord;
 
 				var bloodPressureHealthRecordService:BloodPressureHealthRecordService = new BloodPressureHealthRecordService(_settings.oauthChromeConsumerKey,

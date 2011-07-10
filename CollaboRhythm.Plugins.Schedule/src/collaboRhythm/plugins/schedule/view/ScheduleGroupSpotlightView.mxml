@@ -15,8 +15,8 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark" 
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 bottom="0" alpha="0.5">
 	<fx:Declarations>
@@ -24,153 +24,116 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-        import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-        import collaboRhythm.plugins.schedule.shared.model.MoveData;
-        import collaboRhythm.plugins.schedule.shared.view.ScheduleTimelineViewEvent;
+		import collaboRhythm.plugins.schedule.shared.model.MoveData;
+		import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+		import collaboRhythm.plugins.schedule.shared.view.ScheduleTimelineViewEvent;
 
-        import mx.binding.utils.BindingUtils;
-        import mx.binding.utils.ChangeWatcher;
-        import mx.managers.CursorManagerPriority;
+		import mx.managers.CursorManagerPriority;
 
-        private var _resizeBarDragging:String;
-        private var _mouseDown:Boolean = false;
-        private var _mouseOverResizeBar:Boolean = false;
-        private var _adherenceWindowRaw:Number;
+		private var _resizeBarDragging:String;
+		private var _mouseDown:Boolean = false;
+		private var _mouseOverResizeBar:Boolean = false;
+		private var _adherenceWindowRaw:Number;
 
-        [Bindable]
-        private var _scheduleGroup:ScheduleGroup;
-        [Bindable]
-        private var _scheduleGroupsContainer:Group;
-        private var _scheduleFullView:ScheduleTimelineFullView
+		[Bindable]
+		private var _scheduleGroup:ScheduleGroup;
+		[Bindable]
+		private var _scheduleGroupsContainer:Group;
+		private var _scheduleFullView:ScheduleTimelineFullView
 
-        private var _creationComplete:Boolean = false;
+		private var _creationComplete:Boolean = false;
 
-        [Embed("/assets/cursors/horizontalResize.png")]
-        private var _horizontalResizeCursorClass:Class;
+		[Embed("/assets/cursors/horizontalResize.png")]
+		private var _horizontalResizeCursorClass:Class;
 
-        public function init(scheduleGroup:ScheduleGroup, scheduleGroupsContainer:Group,
-                             scheduleFullView:ScheduleTimelineFullView):void
-        {
-            _scheduleGroup = scheduleGroup;
-            _scheduleGroupsContainer = scheduleGroupsContainer;
-            _scheduleFullView = scheduleFullView;
-        }
+		public function init(scheduleGroup:ScheduleGroup, scheduleGroupsContainer:Group,
+							 scheduleFullView:ScheduleTimelineFullView):void
+		{
+			_scheduleGroup = scheduleGroup;
+			_scheduleGroupsContainer = scheduleGroupsContainer;
+			_scheduleFullView = scheduleFullView;
+		}
 
-        public function get scheduleGroup():ScheduleGroup
-        {
-            return _scheduleGroup;
-        }
+		public function get scheduleGroup():ScheduleGroup
+		{
+			return _scheduleGroup;
+		}
 
 
-        private function mouseOverHandler(event:MouseEvent):void
-        {
-//				if (_scheduleModel.locked == false) 
-//				{
-            //TODO: Determine how to compute the center of the cursor rather than hard coding numbers
-            cursorManager.setCursor(_horizontalResizeCursorClass as Class, CursorManagerPriority.MEDIUM, -12, -12);
-            _mouseOverResizeBar = true;
-//				}
-        }
+		private function mouseOverHandler(event:MouseEvent):void
+		{
+			//TODO: Determine how to compute the center of the cursor rather than hard coding numbers
+			cursorManager.setCursor(_horizontalResizeCursorClass as Class, CursorManagerPriority.MEDIUM, -12, -12);
+			_mouseOverResizeBar = true;
+		}
 
-        private function mouseOutHandler(event:MouseEvent):void
-        {
-//				if (_scheduleModel.locked == false) 
-//				{
-            if (_mouseDown == false)
-            {
-                cursorManager.removeAllCursors();
-            }
-            _mouseOverResizeBar = false;
-//				}
-        }
+		private function mouseOutHandler(event:MouseEvent):void
+		{
+			if (_mouseDown == false)
+			{
+				cursorManager.removeAllCursors();
+			}
+			_mouseOverResizeBar = false;
+		}
 
-        private function leftMouseDownHandler(event:MouseEvent):void
-        {
-            _resizeBarDragging = "left";
-            mouseDownHandler(event);
-        }
+		private function leftMouseDownHandler(event:MouseEvent):void
+		{
+			_resizeBarDragging = "left";
+			mouseDownHandler(event);
+		}
 
-        private function rightMouseDownHandler(event:MouseEvent):void
-        {
-            _resizeBarDragging = "right";
-            mouseDownHandler(event);
-        }
+		private function rightMouseDownHandler(event:MouseEvent):void
+		{
+			_resizeBarDragging = "right";
+			mouseDownHandler(event);
+		}
 
-        private function mouseDownHandler(event:MouseEvent):void
-        {
-//				if (_scheduleModel.locked == false) 
-//				{
-//					_startX = event.stageX;
-//					_startAdherenceWindow = _adherenceGroup.adherenceWindow;
-            _mouseDown = true;
+		private function mouseDownHandler(event:MouseEvent):void
+		{
+			_mouseDown = true;
 
-            var moveData:MoveData = createMoveData(event);
-            dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_GROUP_SPOTLIGHT_VIEW_MOUSE_DOWN,
-                                                        moveData));
+			var moveData:MoveData = createMoveData(event);
+			dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_GROUP_SPOTLIGHT_VIEW_MOUSE_DOWN,
+														moveData));
 
-            stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler, false, 0, true);
-            stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler, false, 0, true);
-//				}
-        }
+			stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler, false, 0, true);
+			stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler, false, 0, true);
+		}
 
-        private function mouseMoveHandler(event:MouseEvent):void
-        {
-            var moveData:MoveData = createMoveData(event);
-            if (_resizeBarDragging == "left")
-            {
-                dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_GROUP_SPOTLIGHT_VIEW_LEFT_MOUSE_MOVE,
-                                                            moveData));
-            }
-            else if (_resizeBarDragging == "right")
-            {
-                dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_GROUP_SPOTLIGHT_VIEW_RIGHT_MOUSE_MOVE,
-                                                            moveData));
-            }
-//				if (_scheduleModel.locked == false) 
-//				{
-//					var adherenceWindow:Number;
-//					if (_resizeBarDragging == "left")
-//					{
-//						adherenceWindow = _startAdherenceWindow - Math.round((event.stageX - _startX) / _scheduleModel.timeWidth);
-//					}
-//					else if (_resizeBarDragging == "right")
-//					{
-//						adherenceWindow = _startAdherenceWindow + Math.round((event.stageX - _startX) / _scheduleModel.timeWidth);
-//					}
-//					
-//					if (adherenceWindow >= 1 && adherenceWindow <=4)
-//					{
-//						var moveData:MoveData = new MoveData();
-//						moveData.itemIndex = _scheduleModel.adherenceGroupsCollection.getItemIndex(this.adherenceGroup);
-//						moveData.adherenceWindow = adherenceWindow;
-//						dispatchEvent(new FullScheduleItemViewEvent(FullScheduleItemViewEvent.ADHERENCE_WINDOW_RESIZE, moveData));
-//					}
+		private function mouseMoveHandler(event:MouseEvent):void
+		{
+			var moveData:MoveData = createMoveData(event);
+			if (_resizeBarDragging == "left")
+			{
+				dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_GROUP_SPOTLIGHT_VIEW_LEFT_MOUSE_MOVE,
+															moveData));
+			}
+			else if (_resizeBarDragging == "right")
+			{
+				dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_GROUP_SPOTLIGHT_VIEW_RIGHT_MOUSE_MOVE,
+															moveData));
+			}
+		}
 
-//				}
-        }
+		private function mouseUpHandler(event:MouseEvent):void
+		{
+			stage.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
+			stage.removeEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
 
-        private function mouseUpHandler(event:MouseEvent):void
-        {
-//				if (_scheduleModel.locked == false && event.eventPhase == EventPhase.BUBBLING_PHASE) 
-//				{
-            stage.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
-            stage.removeEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
+			var moveData:MoveData = createMoveData(event);
+			dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_GROUP_SPOTLIGHT_VIEW_MOUSE_UP,
+														moveData));
 
-            var moveData:MoveData = createMoveData(event);
-            dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_GROUP_SPOTLIGHT_VIEW_MOUSE_UP,
-                                                        moveData));
+			if (_mouseOverResizeBar == false)
+			{
+				cursorManager.removeAllCursors();
+			}
+			_mouseDown = false;
+		}
 
-            if (_mouseOverResizeBar == false)
-            {
-                cursorManager.removeAllCursors();
-            }
-            _mouseDown = false;
-//				}
-        }
-
-        private function gestureZoomEventHandler(event:TransformGestureEvent):void
-        {
-            //TODO: Implement Pinch Resizing
+		private function gestureZoomEventHandler(event:TransformGestureEvent):void
+		{
+			//TODO: Implement Pinch Resizing
 
 //				_adherenceWindowRaw *= event.scaleX;
 //				var adherenceWindowRounded:Number = Math.round(_adherenceWindowRaw);
@@ -189,39 +152,45 @@
 //					moveData.adherenceWindow = adherenceWindowRounded;
 //					dispatchEvent(new FullScheduleItemViewEvent(FullScheduleItemViewEvent.ADHERENCE_WINDOW_RESIZE, moveData));
 //				}
-        }
+		}
 
-        private function createMoveData(event:MouseEvent):MoveData
-        {
-            var moveData:MoveData = new MoveData();
-            moveData.id = scheduleGroup.id;
-            moveData.localX = event.localX;
-            moveData.localY = event.localY;
-            moveData.stageX = event.stageX;
-            moveData.stageY = event.stageY;
+		private function createMoveData(event:MouseEvent):MoveData
+		{
+			var moveData:MoveData = new MoveData();
+			moveData.id = scheduleGroup.id;
+			moveData.localX = event.localX;
+			moveData.localY = event.localY;
+			moveData.stageX = event.stageX;
+			moveData.stageY = event.stageY;
 
-            return moveData;
-        }
+			return moveData;
+		}
 
-        public function destroy():void
-        {
-            fadeEffect.end();
-        }
-        ]]>
+		private function removeHandler():void
+		{
+			fadeEffect.end();
+		}
+		]]>
 	</fx:Script>
 	<s:Group width="100%" height="100%" gestureZoom="gestureZoomEventHandler(event)">
-		<s:Path id="spotlightTrapezoid" data="M 45 0 L 55 0 L 100 50 L 0 50 z" width="100%" bottom="{ScheduleTimelineFullView.TIMELINE_VIEW_HEIGHT}" top="0">
-			<s:fill>  
-				<s:SolidColor color="0xFFFFFF" />  
-			</s:fill>  
+		<s:Path id="spotlightTrapezoid" data="M 45 0 L 55 0 L 100 50 L 0 50 z" width="100%"
+				bottom="{ScheduleTimelineFullView.TIMELINE_VIEW_HEIGHT}" top="0">
+			<s:fill>
+				<s:SolidColor color="0xFFFFFF"/>
+			</s:fill>
 		</s:Path>
-		<s:Rect id="spotlightRectangle" width="100%" height="{ScheduleTimelineFullView.TIMELINE_VIEW_HEIGHT}" bottom="0">
-			<s:fill>  
-				<s:SolidColor color="0xFFFFFF" />  
-			</s:fill>  
+		<s:Rect id="spotlightRectangle" width="100%" height="{ScheduleTimelineFullView.TIMELINE_VIEW_HEIGHT}"
+				bottom="0">
+			<s:fill>
+				<s:SolidColor color="0xFFFFFF"/>
+			</s:fill>
 		</s:Rect>
-		<s:Group id="leftResizeBar" width="5" height="{ScheduleTimelineFullView.TIMELINE_VIEW_HEIGHT}" left="0" bottom="0" mouseDown="leftMouseDownHandler(event)" mouseOver="mouseOverHandler(event)" mouseOut="mouseOutHandler(event)"/>
-		<s:Group id="rightResizeBar" width="5" height="{ScheduleTimelineFullView.TIMELINE_VIEW_HEIGHT}" right="0" bottom="0" mouseDown="rightMouseDownHandler(event)" mouseOver="mouseOverHandler(event)" mouseOut="mouseOutHandler(event)"/>
+		<s:Group id="leftResizeBar" width="5" height="{ScheduleTimelineFullView.TIMELINE_VIEW_HEIGHT}" left="0"
+				 bottom="0" mouseDown="leftMouseDownHandler(event)" mouseOver="mouseOverHandler(event)"
+				 mouseOut="mouseOutHandler(event)"/>
+		<s:Group id="rightResizeBar" width="5" height="{ScheduleTimelineFullView.TIMELINE_VIEW_HEIGHT}" right="0"
+				 bottom="0" mouseDown="rightMouseDownHandler(event)" mouseOver="mouseOverHandler(event)"
+				 mouseOut="mouseOutHandler(event)"/>
 	</s:Group>
 	<s:filters>
 		<s:GlowFilter id="glowFilter"

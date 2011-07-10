@@ -17,51 +17,28 @@
 package collaboRhythm.plugins.schedule.controller
 {
 
-    import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-    import collaboRhythm.plugins.schedule.model.ScheduleModel;
-    import collaboRhythm.plugins.schedule.view.ScheduleClockWidgetView;
-    import collaboRhythm.shared.controller.apps.AppEvent;
-    import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
+	import collaboRhythm.plugins.schedule.model.ScheduleModel;
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+	import collaboRhythm.plugins.schedule.view.ScheduleClockWidgetView;
+	import collaboRhythm.shared.controller.apps.AppEvent;
 
-    import flash.events.EventDispatcher;
+	import flash.events.EventDispatcher;
 
-    import mx.core.IVisualElementContainer;
+	public class ScheduleClockController extends EventDispatcher
+	{
+		private var _scheduleModel:ScheduleModel;
+		private var _scheduleWidgetView:ScheduleClockWidgetView;
 
-    public class ScheduleClockController extends EventDispatcher
-    {
-        private var _isWorkstationMode:Boolean;
-        private var _scheduleModel:ScheduleModel;
-        private var _scheduleWidgetView:ScheduleClockWidgetView;
-        private var _fullParentContainer:IVisualElementContainer;
-        private var _localUserName:String;
-        private var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
+		public function ScheduleClockController(scheduleModel:ScheduleModel, scheduleWidgetView:ScheduleClockWidgetView)
+		{
+			_scheduleModel = scheduleModel;
+			_scheduleWidgetView = scheduleWidgetView;
+		}
 
-        public function ScheduleClockController(isWorkstationMode:Boolean, scheduleModel:ScheduleModel,
-                                                scheduleWidgetView:ScheduleClockWidgetView,
-                                                fullParentContainer:IVisualElementContainer)//, localUserName:String, collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy)
-        {
-            _isWorkstationMode = isWorkstationMode;
-            _scheduleModel = scheduleModel;
-            _scheduleWidgetView = scheduleWidgetView;
-            _fullParentContainer = fullParentContainer;
-//			_localUserName = localUserName;
-//			_collaborationRoomNetConnectionServiceProxy = collaborationRoomNetConnectionServiceProxy;
-//			_collaborationRoomNetConnectionServiceProxy.synchronizeHandler = this;
-        }
-
-        public function get isWorkstationMode():Boolean
-        {
-            return _isWorkstationMode;
-        }
-
-        public function openScheduleReportingFullView(scheduleGroup:ScheduleGroup):void
-        {
-
-            if (!_isWorkstationMode)
-            {
-                _scheduleModel.scheduleReportingModel.currentScheduleGroup = scheduleGroup;
-                dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW));
-            }
-        }
-    }
+		public function openScheduleReportingFullView(scheduleGroup:ScheduleGroup):void
+		{
+			_scheduleModel.scheduleReportingModel.currentScheduleGroup = scheduleGroup;
+			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW));
+		}
+	}
 }
