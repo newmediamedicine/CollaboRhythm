@@ -18,7 +18,7 @@ package collaboRhythm.shared.model.healthRecord
         public function getShares(primaryRecord:Record):void
         {
             _pha.shares_GET(null, null, null, null, primaryRecord.id, _activeAccount.oauthAccountToken,
-                            _activeAccount.oauthAccountTokenSecret);
+                            _activeAccount.oauthAccountTokenSecret, new HealthRecordServiceRequestDetails("Get Shares", null, primaryRecord));
         }
 
         // loop through all of the records with which the primary record is shared

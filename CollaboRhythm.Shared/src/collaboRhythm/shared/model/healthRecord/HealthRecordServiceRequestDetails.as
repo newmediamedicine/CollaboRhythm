@@ -11,6 +11,7 @@ package collaboRhythm.shared.model.healthRecord
         private var _record:Record;
 		private var _report:String;
 		private var _category:String;
+		private var _failedAttempts:int = 0;
 
 		public function HealthRecordServiceRequestDetails(indivoApiCall:String=null, account:Account=null, record:Record=null, report:String=null, category:String=null)
 		{
@@ -50,6 +51,16 @@ package collaboRhythm.shared.model.healthRecord
 		public function get category():String
 		{
 			return _category;
+		}
+
+		public function get failedAttempts():int
+		{
+			return _failedAttempts;
+		}
+
+		public function set failedAttempts(value:int):void
+		{
+			_failedAttempts = value;
 		}
 	}
 }

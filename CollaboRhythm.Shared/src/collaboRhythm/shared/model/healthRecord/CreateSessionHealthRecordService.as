@@ -19,7 +19,7 @@ package collaboRhythm.shared.model.healthRecord
 
         public function createSession(username:String, password:String):void
         {
-            _admin.create_session(username, password);
+            _admin.create_session(username, password, new HealthRecordServiceRequestDetails("Create Session"));
         }
 
         protected override function handleResponse(event:IndivoClientEvent, responseXml:XML, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
@@ -33,9 +33,17 @@ package collaboRhythm.shared.model.healthRecord
             dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE));
         }
 
-        protected override function handleError(event:IndivoClientEvent, errorStatus:String, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+        protected override function handleError(event:IndivoClientEvent, errorStatus:String, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):Boolean
         {
-            dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.ERROR, null, null, null, null, errorStatus));
+            if (super.handleError(event, errorStatus, healthRecordServiceRequestDetails))
+			{
+				return true;
+			}
+			else
+			{
+				dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.ERROR, null, null, null, null, errorStatus));
+				return false;
+			}
         }
     }
 }

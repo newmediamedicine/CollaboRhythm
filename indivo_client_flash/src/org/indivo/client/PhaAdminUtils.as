@@ -400,8 +400,15 @@ public class PhaAdminUtils {
             logger.warn("replacing " + utfBug + " with " + utfFix);
             xstr = xstrb;
         }
-        
-        return new XML(xstr);
+
+		try
+		{
+			return new XML(xstr);
+		} catch(e:Error)
+		{
+			logger.error("Failed to parse response as XML: " + xstr);
+		}
+		return null;
     }
 	
 	
