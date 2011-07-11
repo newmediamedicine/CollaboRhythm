@@ -17,48 +17,52 @@
 package collaboRhythm.core.controller.apps
 {
 
-    import castle.flexbridge.reflection.ReflectionUtils;
+	import castle.flexbridge.reflection.ReflectionUtils;
 
-    import collaboRhythm.plugins.problems.controller.ProblemsAppController;
-    import collaboRhythm.shared.apps.allergies.controller.AllergiesAppController;
-    import collaboRhythm.shared.apps.bloodPressureAgent.controller.BloodPressureAgentAppController;
-    import collaboRhythm.shared.apps.familyHistory.controller.FamilyHistoryAppController;
-    import collaboRhythm.shared.apps.genetics.controller.GeneticsAppController;
-    import collaboRhythm.shared.apps.imaging.controller.ImagingAppController;
-    import collaboRhythm.shared.apps.immunizations.controller.ImmunizationsAppController;
-    import collaboRhythm.shared.apps.labs.controller.LabsAppController;
-    import collaboRhythm.shared.apps.procedures.controller.ProceduresAppController;
-    import collaboRhythm.shared.apps.socialHistory.controller.SocialHistoryAppController;
-    import collaboRhythm.shared.apps.vitals.controller.VitalsAppController;
-    import collaboRhythm.shared.controller.apps.AppControllerInfo;
-    import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-    import collaboRhythm.shared.controller.apps.WorkstationAppControllerFactory;
-    import collaboRhythm.shared.controller.apps.AppEvent;
-    import collaboRhythm.shared.model.*;
-    import collaboRhythm.shared.model.services.IComponentContainer;
-    import collaboRhythm.shared.model.settings.AppGroupDescriptor;
-    import collaboRhythm.shared.model.settings.Settings;
+	import collaboRhythm.plugins.problems.controller.ProblemsAppController;
+	import collaboRhythm.shared.apps.allergies.controller.AllergiesAppController;
+	import collaboRhythm.shared.apps.bloodPressureAgent.controller.BloodPressureAgentAppController;
+	import collaboRhythm.shared.apps.familyHistory.controller.FamilyHistoryAppController;
+	import collaboRhythm.shared.apps.genetics.controller.GeneticsAppController;
+	import collaboRhythm.shared.apps.imaging.controller.ImagingAppController;
+	import collaboRhythm.shared.apps.immunizations.controller.ImmunizationsAppController;
+	import collaboRhythm.shared.apps.labs.controller.LabsAppController;
+	import collaboRhythm.shared.apps.procedures.controller.ProceduresAppController;
+	import collaboRhythm.shared.apps.socialHistory.controller.SocialHistoryAppController;
+	import collaboRhythm.shared.apps.vitals.controller.VitalsAppController;
+	import collaboRhythm.shared.controller.apps.AppControllerInfo;
+	import collaboRhythm.shared.controller.apps.AppEvent;
+	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.WorkstationAppControllerFactory;
+	import collaboRhythm.shared.model.*;
+	import collaboRhythm.shared.model.services.IComponentContainer;
+	import collaboRhythm.shared.model.settings.AppGroupDescriptor;
+	import collaboRhythm.shared.model.settings.Settings;
 
-    import com.theory9.data.types.OrderedMap;
+	import com.theory9.data.types.OrderedMap;
 
-    import flash.net.registerClassAlias;
-    import flash.utils.getQualifiedClassName;
+	import flash.desktop.NativeApplication;
 
-    import mx.collections.ArrayCollection;
-    import mx.core.IVisualElementContainer;
-    import mx.core.UIComponent;
-    import mx.logging.ILogger;
-    import mx.logging.Log;
+	import flash.events.KeyboardEvent;
 
-    /**
+	import flash.net.registerClassAlias;
+	import flash.ui.Keyboard;
+	import flash.utils.getQualifiedClassName;
+
+	import mx.collections.ArrayCollection;
+	import mx.core.IVisualElementContainer;
+	import mx.core.UIComponent;
+	import mx.logging.ILogger;
+	import mx.logging.Log;
+
+	/**
 	 * Responsible for creating the collection of workstation apps and adding them to the parent container.
 	 *
 	 */
 	public class AppControllersMediatorBase
 	{
-		protected var _widgetParentContainer:IVisualElementContainer;
-		protected var _scheduleWidgetParentContainer:IVisualElementContainer;
-		private var _fullParentContainer:IVisualElementContainer;
+		protected var _widgetContainers:Vector.<IVisualElementContainer>;
+		private var _fullContainer:IVisualElementContainer;
 		private var _settings:Settings;
 		private var _workstationApps:OrderedMap;
 		private var _collaborationRoomNetConnectionService:CollaborationRoomNetConnectionService;
@@ -71,56 +75,29 @@ package collaboRhythm.core.controller.apps
 		private var dynamicAppDictionary:OrderedMap;
 		protected var logger:ILogger;
 		private var _currentFullView:String;
+		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
 
-		public function AppControllersMediatorBase(
-			widgetParentContainer:IVisualElementContainer,
-			scheduleWidgetParentContainer:IVisualElementContainer,
-			fullParentContainer:IVisualElementContainer,
-			settings:Settings,
-//			healthRecordService:CommonHealthRecordService,
-//			collaborationRoomNetConnectionService:CollaborationRoomNetConnectionService,
-			componentContainer:IComponentContainer
-		)
+		public function AppControllersMediatorBase(widgetContainers:Vector.<IVisualElementContainer>,
+												   fullParentContainer:IVisualElementContainer, settings:Settings,
+												   componentContainer:IComponentContainer, collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService)
 		{
+			_collaborationLobbyNetConnectionService = collaborationLobbyNetConnectionService;
 			logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
-			_widgetParentContainer = widgetParentContainer;
-			_scheduleWidgetParentContainer = scheduleWidgetParentContainer;
-			_fullParentContainer = fullParentContainer;
+			_widgetContainers = widgetContainers;
+			_fullContainer = fullParentContainer;
 			_settings = settings;
 //			_healthRecordService = healthRecordService;
 //			_collaborationRoomNetConnectionService = collaborationRoomNetConnectionService;
 			_componentContainer = componentContainer;
 
 //			_collaborationRoomNetConnectionService.netConnection.client.showFullView = showFullView;
+
+			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 		}
 
 		protected function get componentContainer():IComponentContainer
 		{
 			return _componentContainer;
-		}
-
-		public function get fullParentContainer():IVisualElementContainer
-		{
-			return _fullParentContainer;
-		}
-
-		public function set fullParentContainer(value:IVisualElementContainer):void
-		{
-			_fullParentContainer = value;
-			if (_factory)
-				_factory.fullParentContainer = value;
-		}
-
-		public function get widgetParentContainer():IVisualElementContainer
-		{
-			return _widgetParentContainer;
-		}
-
-		public function set widgetParentContainer(value:IVisualElementContainer):void
-		{
-			_widgetParentContainer = value;
-			if (_factory)
-				_factory.widgetParentContainer = value;
 		}
 
 		public function get workstationApps():OrderedMap
@@ -129,35 +106,32 @@ package collaboRhythm.core.controller.apps
 		}
 
 		/**
-		 * Creates and starts (shows widgets for) all the apps for CollaboRhythm.Workstation. Apps in the first group
-		 * in settings.appGroups (if any) are put in the widgetParentContainer. Apps in the second group (if any) are
+		 * Creates and starts (shows widgets for) all the apps for CollaboRhythm.Workstation and CollaboRhythm.Tablet.
+		 * Apps in the settings.appGroups (if any) are put into corresponding widgetContainers
 		 * put in scheduleWidgetParentContainer.
-		 * @param user The user to initialize the apps for.
+		 * @param activeAccount The account to initialize the apps for.
+		 * @param activeRecordAccount The account owning the record to initialize the apps for.
 		 */
 		public function createAndStartApps(activeAccount:Account, activeRecordAccount:Account):void
 		{
 			initializeForAccount(activeAccount, activeRecordAccount);
 
 			// TODO: find the groups by id instead of index
-			createAppsForGroup(0);
-			_factory.widgetParentContainer = _scheduleWidgetParentContainer;
-			createAppsForGroup(1);
+			var widgetContainerIndex:uint = 0;
+			for each (var widgetContainer:IVisualElementContainer in _widgetContainers)
+			{
+				_factory.widgetContainer = widgetContainer;
+				createAppsForGroup(widgetContainerIndex);
+				widgetContainerIndex += 1;
+			}
+
+			if (_appGroups.length > _widgetContainers.length)
+			{
+				logger.warn("Warning: a container was provided for at least one app group specified in settings.xml.");
+			}
 
 			showAllWidgets();
 		}
-
-        // TODO: Now that a base class has been created, change createAndStartApps to be an override
-        public function createTabletApps(activeAccount:Account, activeRecordAccount:Account):void
-        {
-            initializeForAccount(activeAccount, activeRecordAccount);
-
-			// TODO: find the groups by id instead of index
-			createAppsForGroup(0);
-            _factory.widgetParentContainer = _scheduleWidgetParentContainer;
-			createAppsForGroup(1);
-
-			showAllWidgets();
-        }
 
 		/**
 		 * Creates all the apps for CollaboRhythm.Mobile. Apps in the first group in settings.appGroups (if any) are
@@ -196,7 +170,8 @@ package collaboRhythm.core.controller.apps
 
 				initializeAppGroup(appGroupDescriptor.id);
 
-				logger.info("Creating {0} apps for group {1}", appGroupDescriptor.appDescriptors.length, appGroupDescriptor.id);
+				logger.info("Creating {0} apps for group {1}", appGroupDescriptor.appDescriptors.length,
+							appGroupDescriptor.id);
 				for each (var appDescriptor:String in appGroupDescriptor.appDescriptors)
 				{
 					var appClass:Class = dynamicAppDictionary.getValueByKey(appDescriptor);
@@ -250,11 +225,6 @@ package collaboRhythm.core.controller.apps
 			logger.info("Creating {0} dynamic apps", infoArray.length);
 			for each (var info:AppControllerInfo in infoArray)
 			{
-				if (info.groupWidgetViewWithSchedule)
-					_factory.widgetParentContainer = _scheduleWidgetParentContainer;
-				else
-					_factory.widgetParentContainer = _widgetParentContainer;
-
 				createApp(info.appControllerClass);
 			}
 		}
@@ -273,15 +243,15 @@ package collaboRhythm.core.controller.apps
 			initializeDynamicAppLookup();
 			_workstationApps = new OrderedMap();
 			_factory = new WorkstationAppControllerFactory();
-			_factory.widgetParentContainer = _widgetParentContainer;
-			_factory.fullParentContainer = _fullParentContainer;
+			_factory.fullContainer = _fullContainer;
 //			_factory.healthRecordService = _healthRecordService;
 //			_factory.collaborationRoomNetConnectionServiceProxy = _collaborationRoomNetConnectionService.createProxy();
 			_factory.modality = _settings.modality;
-            _factory.activeAccount = activeAccount;
-            _factory.activeRecordAccount = activeRecordAccount;
-            _factory.settings = _settings;
-            _factory.componentContainer = _componentContainer;
+			_factory.activeAccount = activeAccount;
+			_factory.activeRecordAccount = activeRecordAccount;
+			_factory.settings = _settings;
+			_factory.componentContainer = _componentContainer;
+			_factory.collaborationLobbyNetConnectionService = _collaborationLobbyNetConnectionService;
 		}
 
 		private function initializeDynamicAppLookup():void
@@ -305,7 +275,7 @@ package collaboRhythm.core.controller.apps
 			}
 		}
 
-		public function createApp(appClass:Class, appName:String=null):WorkstationAppControllerBase
+		public function createApp(appClass:Class, appName:String = null):WorkstationAppControllerBase
 		{
 			var app:WorkstationAppControllerBase = _factory.createApp(appClass, appName);
 			if (_currentAppGroup)
@@ -333,7 +303,7 @@ package collaboRhythm.core.controller.apps
 			}
 		}
 
-		public function showFullView(applicationName:String, source:String="local"):void
+		public function showFullView(applicationName:String, source:String = "local"):void
 		{
 			var workstationAppController:WorkstationAppControllerBase = _workstationApps.getValueByKey(applicationName);
 			if (workstationAppController != null)
@@ -353,12 +323,27 @@ package collaboRhythm.core.controller.apps
 					app.showFullView(null);
 			}
 
-			(_widgetParentContainer as UIComponent).validateNow();
+			for each (var widgetContainer:IVisualElementContainer in _widgetContainers)
+			{
+				(widgetContainer as UIComponent).validateNow();
+			}
 
 //			if (source == "local")
 //			{
 //				_collaborationRoomNetConnectionService.netConnection.call("showFullView", null, _collaborationRoomNetConnectionService.localUserName, workstationAppController.name);
 //			}
+		}
+
+		private function keyDownHandler(event:KeyboardEvent):void
+		{
+			if (event.keyCode == Keyboard.BACK)
+			{
+				if (currentFullView)
+				{
+					event.preventDefault();
+					hideFullViews();
+				}
+			}
 		}
 
 		public function hideFullViews():void

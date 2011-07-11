@@ -62,7 +62,6 @@ package collaboRhythm.workstation.controller
         private var _collaborationView:CollaborationView;
         private var _activeRecordView:ActiveRecordView;
         private var _workstationAppControllersMediator:WorkstationAppControllersMediator;
-        private var _widgetsContainer:IVisualElementContainer;
 		private var _fullContainer:IVisualElementContainer;
 		private var _scheduleWidgetContainer:IVisualElementContainer;
 		private var _fullScreen:Boolean = true;
@@ -253,27 +252,24 @@ package collaboRhythm.workstation.controller
         // only after the active record view has been created are they loaded, this makes the UI more responsive
         public function activeRecordView_creationCompleteHandler(recordAccount:Account):void
         {
-            var standardWidgetsContainer:IVisualElementContainer;
-            var customWidgetsContainer:IVisualElementContainer;
-
-			// the widget views are loaded in a different location depending on whether one or two screens are being used
+			var widgetContainers:Vector.<IVisualElementContainer> = new Vector.<IVisualElementContainer>();
+			// the widget views are loaded in different locations depending on whether one or two screens are being used
 			if (_secondaryWindowView)
 			{
                 _activeRecordView.currentState = "useDualScreen";
                 _secondaryWindowView.currentState = "recordOpened";
-                standardWidgetsContainer = _secondaryWindowView.standardWidgetsContainerView.widgetsContainer;
-                customWidgetsContainer = _secondaryWindowView.customWidgetsGroup
+				widgetContainers.push(_secondaryWindowView.standardWidgetsContainerView.widgetsContainer);
+				widgetContainers.push(_secondaryWindowView.customWidgetsGroup);
 			}
 			else
 			{
 				_activeRecordView.currentState = "useSingleScreen";
-				_widgetsContainer = _activeRecordView.widgetsGroup;
-                standardWidgetsContainer = _activeRecordView.widgetsGroup;
-                customWidgetsContainer = _activeRecordView.widgetsGroup;
+				widgetContainers.push(_activeRecordView.widgetsGroup);
+				widgetContainers.push(_activeRecordView.widgetsGroup);
 			}
 
             _fullContainer = _activeRecordView.fullViewGroup;
-            _workstationAppControllersMediator = new WorkstationAppControllersMediator(standardWidgetsContainer, customWidgetsContainer, _fullContainer, _settings, _componentContainer);
+            _workstationAppControllersMediator = new WorkstationAppControllersMediator(widgetContainers, _fullContainer, _settings, _componentContainer, _collaborationController.collaborationModel.collaborationLobbyNetConnectionService);
             _workstationAppControllersMediator.createAndStartApps(_activeAccount, recordAccount);
 
             if (_reloadWithFullView != null)

@@ -36,7 +36,6 @@ package collaboRhythm.plugins.cataractMap.controller
 		{
 			var typeName:String = ReflectionUtils.getClassInfo(CataractMapAppController).name;
 			var appControllerInfo:AppControllerInfo = new AppControllerInfo(CataractMapAppController);
-			appControllerInfo.groupWidgetViewWithSchedule = false;
 			appControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER, "collaboRhythm.plugins.bloodPressure.controller::BloodPressureAppController"));
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo, appControllerInfo);
 		}

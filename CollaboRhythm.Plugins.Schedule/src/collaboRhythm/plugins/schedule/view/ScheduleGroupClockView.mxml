@@ -16,235 +16,244 @@
   ~ <http://www.gnu.org/licenses/>.
   -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-         xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:mx="library://ns.adobe.com/flex/mx"
-         width="100%" height="100%"
-         creationComplete="creationCompleteHandler()"
-         mouseEnabledWhereTransparent="false"
-         click="clickHandler(event)">
-    <fx:Declarations>
-        <!-- Place non-visual elements (e.g., services, value objects) here -->
-    </fx:Declarations>
-    <fx:Script>
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="100%" height="100%"
+		 creationComplete="creationCompleteHandler()"
+		 mouseEnabledWhereTransparent="false"
+		 remove="removeHandler()"
+		 click="clickHandler(event)">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
 		<![CDATA[
-        import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-        import collaboRhythm.plugins.schedule.model.ScheduleModel;
-        import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
-        import collaboRhythm.shared.model.ScheduleItemOccurrence;
+		import collaboRhythm.plugins.schedule.model.ScheduleModel;
+		import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+		import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
+		import collaboRhythm.shared.model.ScheduleItemOccurrence;
 
-        import com.leebrimelow.drawing.Wedge;
+		import com.leebrimelow.drawing.Wedge;
 
-        import mx.binding.utils.BindingUtils;
-        import mx.binding.utils.ChangeWatcher;
-        import mx.collections.ArrayCollection;
-        import mx.events.CollectionEvent;
-        import mx.events.CollectionEventKind;
+		import mx.binding.utils.BindingUtils;
+		import mx.binding.utils.ChangeWatcher;
+		import mx.collections.ArrayCollection;
+		import mx.events.CollectionEvent;
+		import mx.events.CollectionEventKind;
 
-        import spark.components.Group;
+		import spark.components.Group;
 
-        private var _scheduleModel:ScheduleModel;
-        [Bindable]
-        private var _scheduleGroup:ScheduleGroup;
-        [Bindable]
-        private var _scheduleGroupsContainer:Group;
-        private var _scheduleItemsCollection:ArrayCollection;
-        private var _scheduleItemClockViews:Vector.<ScheduleItemClockViewBase> = new Vector.<ScheduleItemClockViewBase>;
+		private var _scheduleModel:ScheduleModel;
+		[Bindable]
+		private var _scheduleGroup:ScheduleGroup;
+		[Bindable]
+		private var _scheduleGroupsContainer:Group;
+		private var _scheduleItemsCollection:ArrayCollection;
+		private var _scheduleItemClockViews:Vector.<ScheduleItemClockViewBase> = new Vector.<ScheduleItemClockViewBase>;
 
-        private var _isCreationComplete:Boolean = false;
+		private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>();
 
-        public function init(scheduleModel:ScheduleModel, scheduleGroup:ScheduleGroup,
-                             scheduleGroupsContainer:Group):void
-        {
-            _scheduleModel = scheduleModel;
-            _scheduleGroup = scheduleGroup;
-            _scheduleGroupsContainer = scheduleGroupsContainer;
-            _scheduleItemsCollection = scheduleGroup.scheduleItemsOccurrencesCollection;
+		private var _isCreationComplete:Boolean = false;
 
-            _scheduleItemsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
-                                                      scheduleItemsCollectionChangeHandler);
+		public function init(scheduleModel:ScheduleModel, scheduleGroup:ScheduleGroup,
+							 scheduleGroupsContainer:Group):void
+		{
+			_scheduleModel = scheduleModel;
+			_scheduleGroup = scheduleGroup;
+			_scheduleGroupsContainer = scheduleGroupsContainer;
+			_scheduleItemsCollection = scheduleGroup.scheduleItemsOccurrencesCollection;
 
-            var dateStartChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroup,
-                                                                               "dateStart");
-            var dateEndChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroup,
-                                                                             "dateEnd");
-            var widthChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroupsContainer,
-                                                                           "width");
-            var heightChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroupsContainer,
-                                                                            "height");
-            var stackingUpdatedChangeWatcher:ChangeWatcher = BindingUtils.bindSetter(stackingUpdateHandler,
-                                                                                     _scheduleGroup, "stackingUpdated");
-        }
+			_scheduleItemsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
+													  scheduleItemsCollectionChangeHandler, false, 0, true);
 
-        private function creationCompleteHandler():void
-        {
-            for each (var scheduleItemOccurrence:ScheduleItemOccurrence in _scheduleItemsCollection)
-            {
-                createScheduleItemClockView(scheduleItemOccurrence);
-            }
+			_changeWatchers.push(BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroup,
+														 "dateStart"));
+			_changeWatchers.push(BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroup,
+														 "dateEnd"));
+			_changeWatchers.push(BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroupsContainer,
+														 "width"));
+			_changeWatchers.push(BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroupsContainer,
+														 "height"));
+			_changeWatchers.push(BindingUtils.bindSetter(stackingUpdateHandler,
+														 _scheduleGroup, "stackingUpdated"));
+		}
 
-            _isCreationComplete = true;
+		private function creationCompleteHandler():void
+		{
+			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in _scheduleItemsCollection)
+			{
+				createScheduleItemClockView(scheduleItemOccurrence);
+			}
 
-            updateView();
-        }
+			_isCreationComplete = true;
 
-        public function get scheduleGroup():ScheduleGroup
-        {
-            return _scheduleGroup;
-        }
+			updateView();
+		}
 
-        public function get scheduleGroupsContainer():Group
-        {
-            return _scheduleGroupsContainer;
-        }
+		public function get scheduleGroup():ScheduleGroup
+		{
+			return _scheduleGroup;
+		}
 
-        public function scheduleItemsCollectionChangeHandler(event:CollectionEvent):void
-        {
-            if (event.kind == CollectionEventKind.ADD)
-            {
-                if (_isCreationComplete)
-                {
-                    for each (var scheduleItemOccurrenceAdded:ScheduleItemOccurrence in event.items)
-                    {
-                        createScheduleItemClockView(scheduleItemOccurrenceAdded);
-                    }
-                }
-            }
-            else if (event.kind == CollectionEventKind.REMOVE)
-            {
-                for each (var scheduleItemOccurrenceRemoved:ScheduleItemOccurrence in event.items)
-                {
-                    destroyScheduleItemClockView(scheduleItemOccurrenceRemoved);
-                }
-            }
+		public function scheduleItemsCollectionChangeHandler(event:CollectionEvent):void
+		{
+			if (event.kind == CollectionEventKind.ADD)
+			{
+				if (_isCreationComplete)
+				{
+					for each (var scheduleItemOccurrenceAdded:ScheduleItemOccurrence in event.items)
+					{
+						createScheduleItemClockView(scheduleItemOccurrenceAdded);
+					}
+				}
+			}
+			else if (event.kind == CollectionEventKind.REMOVE)
+			{
+				for each (var scheduleItemOccurrenceRemoved:ScheduleItemOccurrence in event.items)
+				{
+					destroyScheduleItemClockView(scheduleItemOccurrenceRemoved);
+				}
+			}
 
-            updateView();
-        }
+			updateView();
+		}
 
-        public function createScheduleItemClockView(scheduleItemOccurrence:ScheduleItemOccurrence):void
-        {
-            var scheduleItemClockView:ScheduleItemClockViewBase = _scheduleModel.viewFactory.createScheduleItemClockView(scheduleItemOccurrence);
-            scheduleItemOccurrencesContainer.addElement(scheduleItemClockView);
-            _scheduleItemClockViews.push(scheduleItemClockView);
-        }
+		public function createScheduleItemClockView(scheduleItemOccurrence:ScheduleItemOccurrence):void
+		{
+			var scheduleItemClockView:ScheduleItemClockViewBase = _scheduleModel.viewFactory.createScheduleItemClockView(scheduleItemOccurrence);
+			scheduleItemOccurrencesContainer.addElement(scheduleItemClockView);
+			_scheduleItemClockViews.push(scheduleItemClockView);
+		}
 
-        public function destroyScheduleItemClockView(scheduleItemOccurrence:ScheduleItemOccurrence):void
-        {
-            for each (var scheduleItemClockView:ScheduleItemClockViewBase in _scheduleItemClockViews)
-            {
-                if (scheduleItemClockView.scheduleItemOccurrence == scheduleItemOccurrence)
-                {
-                    var scheduleItemClockViewIndex:int = _scheduleItemClockViews.indexOf(scheduleItemClockView);
-                    _scheduleItemClockViews.splice(scheduleItemClockViewIndex, 1);
-                    scheduleItemOccurrencesContainer.removeElement(scheduleItemClockView);
-                }
-            }
+		public function destroyScheduleItemClockView(scheduleItemOccurrence:ScheduleItemOccurrence):void
+		{
+			for each (var scheduleItemClockView:ScheduleItemClockViewBase in _scheduleItemClockViews)
+			{
+				if (scheduleItemClockView.scheduleItemOccurrence == scheduleItemOccurrence)
+				{
+					var scheduleItemClockViewIndex:int = _scheduleItemClockViews.indexOf(scheduleItemClockView);
+					_scheduleItemClockViews.splice(scheduleItemClockViewIndex, 1);
+					scheduleItemOccurrencesContainer.removeElement(scheduleItemClockView);
+				}
+			}
 
-        }
+		}
 
-        private function stackingUpdateHandler(stackingUpdated:Boolean):void
-        {
-            if (stackingUpdated)
-            {
-                updateView();
-            }
-        }
+		private function stackingUpdateHandler(stackingUpdated:Boolean):void
+		{
+			if (stackingUpdated)
+			{
+				updateView();
+			}
+		}
 
-        private function sizeChangeHandler(change:Number):void
-        {
-            updateView();
-        }
+		private function sizeChangeHandler(change:Number):void
+		{
+			updateView();
+		}
 
-        private function updateView():void
-        {
-            var startAngle:Number = calculateAngleFromDate(_scheduleGroup.dateStart);
-            var endAngle:Number = calculateAngleFromDate(_scheduleGroup.dateEnd);
+		private function updateView():void
+		{
+			var startAngle:Number = calculateAngleFromDate(_scheduleGroup.dateStart);
+			var endAngle:Number = calculateAngleFromDate(_scheduleGroup.dateEnd);
 
-            drawScheduleGroup(startAngle, endAngle);
+			drawScheduleGroup(startAngle, endAngle);
 
-            var scheduleItemSize:Number = _scheduleGroupsContainer.height / 10;
-            var scheduleItemPositions:Array = determineScheduleItemPositions(scheduleItemSize, startAngle, endAngle);
+			var scheduleItemSize:Number = _scheduleGroupsContainer.height / 10;
+			var scheduleItemPositions:Array = determineScheduleItemPositions(scheduleItemSize, startAngle, endAngle);
 
-            for each (var scheduleItemWidgetView:ScheduleItemClockViewBase in _scheduleItemClockViews)
-            {
-                scheduleItemWidgetView.width = scheduleItemWidgetView.height = scheduleItemSize;
-                if (scheduleItemPositions.length > 0)
-                {
-                    var scheduleItemPosition:Array = scheduleItemPositions.pop();
-                    scheduleItemWidgetView.x = scheduleItemPosition[0];
-                    scheduleItemWidgetView.y = scheduleItemPosition[1];
-                }
-            }
-        }
+			for each (var scheduleItemWidgetView:ScheduleItemClockViewBase in _scheduleItemClockViews)
+			{
+				scheduleItemWidgetView.width = scheduleItemWidgetView.height = scheduleItemSize;
+				if (scheduleItemPositions.length > 0)
+				{
+					var scheduleItemPosition:Array = scheduleItemPositions.pop();
+					scheduleItemWidgetView.x = scheduleItemPosition[0];
+					scheduleItemWidgetView.y = scheduleItemPosition[1];
+				}
+			}
+		}
 
-        private function drawScheduleGroup(startAngle:Number, endAngle:Number):void
-        {
-            var arc:Number = endAngle - startAngle;
+		private function drawScheduleGroup(startAngle:Number, endAngle:Number):void
+		{
+			var arc:Number = endAngle - startAngle;
 
-            this.graphics.clear();
-            this.graphics.beginFill(0xFFFFFF, 0.5);
-            Wedge.draw(this, _scheduleGroupsContainer.width / 2, _scheduleGroupsContainer.width / 2,
-                       _scheduleGroupsContainer.width / 2 - 1, arc, startAngle - 90);
-            this.graphics.endFill();
-        }
+			this.graphics.clear();
+			this.graphics.beginFill(0xFFFFFF, 0.5);
+			Wedge.draw(this, _scheduleGroupsContainer.width / 2, _scheduleGroupsContainer.width / 2,
+					   _scheduleGroupsContainer.width / 2 - 1, arc, startAngle - 90);
+			this.graphics.endFill();
+		}
 
-        private function calculateAngleFromDate(date:Date):Number
-        {
-            return 15 * date.hours + 0.25 * date.minutes;
-        }
+		private function calculateAngleFromDate(date:Date):Number
+		{
+			return 15 * date.hours + 0.25 * date.minutes;
+		}
 
-        private function determineScheduleItemPositions(scheduleItemSize:Number, startAngle:Number,
-                                                        endAngle:Number):Array
-        {
-            startAngle += 15;
-            var positionAngle:Number;
-            var totalAngle:Number = 15;
-            var coordinates:Array;
-            var row1:Array = new Array();
-            var row2:Array = new Array();
-            var row3:Array = new Array();
-            var scheduleItemPositions:Array = new Array();
+		private function determineScheduleItemPositions(scheduleItemSize:Number, startAngle:Number,
+														endAngle:Number):Array
+		{
+			startAngle += 15;
+			var positionAngle:Number;
+			var totalAngle:Number = 15;
+			var coordinates:Array;
+			var row1:Array = new Array();
+			var row2:Array = new Array();
+			var row3:Array = new Array();
+			var scheduleItemPositions:Array = new Array();
 
-            for (var currentAngle:Number = startAngle; currentAngle <= endAngle; currentAngle += 15)
-            {
-                positionAngle = currentAngle - 7.5;
-                coordinates = calculateCoordinates(positionAngle, scheduleItemSize * 4.25, scheduleItemSize);
-                row1.push(coordinates);
-                if (totalAngle % 30 == 0)
-                {
-                    positionAngle = currentAngle - 15;
-                    coordinates = calculateCoordinates(positionAngle, scheduleItemSize * 2.75, scheduleItemSize);
-                    row2.push(coordinates);
-                }
-                if (totalAngle % 60 == 0)
-                {
-                    positionAngle = currentAngle - 30;
-                    coordinates = calculateCoordinates(positionAngle, scheduleItemSize * 1.5, scheduleItemSize);
-                    row3.push(coordinates);
-                }
-                totalAngle += 15;
-            }
-            scheduleItemPositions = row1.concat(row2);
-            scheduleItemPositions = scheduleItemPositions.concat(row3);
+			for (var currentAngle:Number = startAngle; currentAngle <= endAngle; currentAngle += 15)
+			{
+				positionAngle = currentAngle - 7.5;
+				coordinates = calculateCoordinates(positionAngle, scheduleItemSize * 4.25, scheduleItemSize);
+				row1.push(coordinates);
+				if (totalAngle % 30 == 0)
+				{
+					positionAngle = currentAngle - 15;
+					coordinates = calculateCoordinates(positionAngle, scheduleItemSize * 2.75, scheduleItemSize);
+					row2.push(coordinates);
+				}
+				if (totalAngle % 60 == 0)
+				{
+					positionAngle = currentAngle - 30;
+					coordinates = calculateCoordinates(positionAngle, scheduleItemSize * 1.5, scheduleItemSize);
+					row3.push(coordinates);
+				}
+				totalAngle += 15;
+			}
+			scheduleItemPositions = row1.concat(row2);
+			scheduleItemPositions = scheduleItemPositions.concat(row3);
 
-            return scheduleItemPositions;
-        }
+			return scheduleItemPositions;
+		}
 
-        private function calculateCoordinates(angle:Number, radius:Number, scheduleItemSize:Number):Array
-        {
-            var radians:Number = angle * (Math.PI / 180);
-            var x:Number = radius * Math.sin(radians) + _scheduleGroupsContainer.width / 2 - scheduleItemSize / 2;
-            var y:Number = -radius * Math.cos(radians) + _scheduleGroupsContainer.height / 2 - scheduleItemSize / 2;
-            var coordinates:Array = [x, y];
+		private function calculateCoordinates(angle:Number, radius:Number, scheduleItemSize:Number):Array
+		{
+			var radians:Number = angle * (Math.PI / 180);
+			var x:Number = radius * Math.sin(radians) + _scheduleGroupsContainer.width / 2 - scheduleItemSize / 2;
+			var y:Number = -radius * Math.cos(radians) + _scheduleGroupsContainer.height / 2 - scheduleItemSize / 2;
+			var coordinates:Array = [x, y];
 
-            return coordinates
-        }
+			return coordinates
+		}
 
-        protected function clickHandler(event:MouseEvent):void
-        {
-            dispatchEvent(new ScheduleClockWidgetViewEvent(ScheduleClockWidgetViewEvent.SCHEDULE_GROUP_CLOCK_VIEW_CLICK,
-                                                           _scheduleGroup));
-        }
-        ]]>
+		protected function clickHandler(event:MouseEvent):void
+		{
+			dispatchEvent(new ScheduleClockWidgetViewEvent(ScheduleClockWidgetViewEvent.SCHEDULE_GROUP_CLOCK_VIEW_CLICK,
+														   _scheduleGroup));
+		}
+
+		private function removeHandler():void
+		{
+			_scheduleItemsCollection.removeEventListener(CollectionEvent.COLLECTION_CHANGE,
+														 scheduleItemsCollectionChangeHandler);
+			for each (var changeWatcher:ChangeWatcher in _changeWatchers)
+			{
+				changeWatcher.unwatch();
+			}
+
+		}
+		]]>
 	</fx:Script>
-    <s:Group id="scheduleItemOccurrencesContainer" width="100%" height="100%"/>
+	<s:Group id="scheduleItemOccurrencesContainer" width="100%" height="100%"/>
 </s:Group>

@@ -41,7 +41,6 @@ package collaboRhythm.plugins.equipment.controller
 			var typeName:String = ReflectionUtils.getClassInfo(EquipmentAppController).name;
 			var appControllerInfo:AppControllerInfo = new AppControllerInfo(EquipmentAppController);
 			var afterScheduleAppOrderConstraint:AppOrderConstraint = new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER, ScheduleAppControllerInfo.APP_ID);
-			appControllerInfo.groupWidgetViewWithSchedule = false;
 			appControllerInfo.initializationOrderConstraints.push(afterScheduleAppOrderConstraint);
 			appControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER, "collaboRhythm.plugins.cataractMap.controller::CataractMapAppController"));
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo, appControllerInfo);

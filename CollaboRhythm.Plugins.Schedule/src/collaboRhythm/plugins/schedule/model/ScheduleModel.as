@@ -28,12 +28,12 @@ package collaboRhythm.plugins.schedule.model
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
 	import flash.events.EventDispatcher;
-	import flash.net.URLVariables;
 	import flash.utils.getQualifiedClassName;
 
 	import j2as3.collection.HashMap;
 
 	import mx.binding.utils.BindingUtils;
+	import mx.binding.utils.ChangeWatcher;
 	import mx.collections.ArrayCollection;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
@@ -55,50 +55,27 @@ package collaboRhythm.plugins.schedule.model
 
 		private var _logger:ILogger;
 
+		private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>();
+
 		public function ScheduleModel(componentContainer:IComponentContainer, record:Record)
 		{
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 
 			_record = record;
 
-			BindingUtils.bindSetter(medicationOrdersModelStitchedHandler, _record.medicationOrdersModel, "isStitched");
-			BindingUtils.bindSetter(medicationScheduleItemsModelStitchedHandler, _record.medicationScheduleItemsModel,
-									"isStitched");
-			BindingUtils.bindSetter(equipmentModelStitchedHandler, _record.equipmentModel, "isStitched");
-			BindingUtils.bindSetter(equipmentScheduleItemsModelStitchedHandler, _record.equipmentScheduleItemsModel,
-									"isStitched");
-			BindingUtils.bindSetter(adherenceItemsModelStitchedHandler, _record.adherenceItemsModel, "isStitched");
+			_changeWatchers.push(BindingUtils.bindSetter(init, _record.medicationOrdersModel, "isStitched"));
+			_changeWatchers.push(BindingUtils.bindSetter(init, _record.medicationScheduleItemsModel,
+														 "isStitched"));
+			_changeWatchers.push(BindingUtils.bindSetter(init, _record.equipmentModel, "isStitched"));
+			_changeWatchers.push(BindingUtils.bindSetter(init, _record.equipmentScheduleItemsModel,
+														 "isStitched"));
+			_changeWatchers.push(BindingUtils.bindSetter(init, _record.adherenceItemsModel, "isStitched"));
 
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 			_viewFactory = new MasterScheduleViewFactory(componentContainer);
 		}
 
-		private function medicationOrdersModelStitchedHandler(isStitched:Boolean):void
-		{
-			areNecessaryClassesStitched();
-		}
-
-		private function medicationScheduleItemsModelStitchedHandler(isStitched:Boolean):void
-		{
-			areNecessaryClassesStitched();
-		}
-
-		private function equipmentScheduleItemsModelStitchedHandler(isStitched:Boolean):void
-		{
-			areNecessaryClassesStitched();
-		}
-
-		private function equipmentModelStitchedHandler(isStitched:Boolean):void
-		{
-			areNecessaryClassesStitched();
-		}
-
-		private function adherenceItemsModelStitchedHandler(isStitched:Boolean):void
-		{
-			areNecessaryClassesStitched();
-		}
-
-		private function areNecessaryClassesStitched():void
+		private function init(isStitched:Boolean):void
 		{
 			if (_record.medicationOrdersModel.isStitched && _record.medicationScheduleItemsModel.isStitched && _record.equipmentModel.isStitched && _record.equipmentScheduleItemsModel.isStitched && _record.adherenceItemsModel.isStitched)
 			{
@@ -126,6 +103,7 @@ package collaboRhythm.plugins.schedule.model
 					}
 				}
 				isInitialized = true;
+				scheduleTimelineModel.determineStacking();
 				dispatchEvent(new ScheduleModelEvent(ScheduleModelEvent.INITIALIZED));
 			}
 		}
@@ -214,19 +192,9 @@ package collaboRhythm.plugins.schedule.model
 			return _scheduleGroupsHashMap;
 		}
 
-		public function set scheduleGroupsHashMap(value:HashMap):void
-		{
-			_scheduleGroupsHashMap = value;
-		}
-
 		public function get scheduleItemOccurrencesHashMap():HashMap
 		{
 			return _scheduleItemOccurrencesHashMap;
-		}
-
-		public function set scheduleItemOccurrencesHashMap(value:HashMap):void
-		{
-			_scheduleItemOccurrencesHashMap = value;
 		}
 
 		public function get scheduleReportingModel():ScheduleReportingModel
@@ -238,11 +206,6 @@ package collaboRhythm.plugins.schedule.model
 			return _scheduleReportingModel;
 		}
 
-		public function set scheduleReportingModel(value:ScheduleReportingModel):void
-		{
-			_scheduleReportingModel = value;
-		}
-
 		public function get scheduleTimelineModel():ScheduleTimelineModel
 		{
 			if (!_scheduleTimelineModel)
@@ -252,9 +215,15 @@ package collaboRhythm.plugins.schedule.model
 			return _scheduleTimelineModel;
 		}
 
-		public function set scheduleTimelineModel(value:ScheduleTimelineModel):void
+		public function destroy():void
 		{
-			_scheduleTimelineModel = value;
+			_record = null;
+			_scheduleReportingModel = null;
+			_scheduleTimelineModel = null;
+			for each (var changeWatcher:ChangeWatcher in _changeWatchers)
+			{
+				changeWatcher.unwatch();
+			}
 		}
 	}
 }

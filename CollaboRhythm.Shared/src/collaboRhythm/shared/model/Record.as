@@ -43,7 +43,7 @@ package collaboRhythm.shared.model
         private var _equipmentModel:EquipmentModel;
         private var _equipmentScheduleItemsModel:EquipmentScheduleItemsModel;
         private var _adherenceItemsModel:AdherenceItemsModel;
-        private var _videoMessagesModel:VideoMessagesModel1;
+        private var _videoMessagesModel:VideoMessagesModel;
         private var _problemsModel:ProblemsModel;
         private var _appData:HashMap = new HashMap();
         private var _settings:Settings;
@@ -76,7 +76,7 @@ package collaboRhythm.shared.model
             equipmentModel = new EquipmentModel(_settings, _activeAccount, this);
             equipmentScheduleItemsModel = new EquipmentScheduleItemsModel(_settings, _activeAccount, this);
             adherenceItemsModel = new AdherenceItemsModel();
-            videoMessagesModel = new VideoMessagesModel1(_settings, _activeAccount, this);
+            videoMessagesModel = new VideoMessagesModel(_settings, _activeAccount, this);
             problemsModel = new ProblemsModel(_settings, _activeAccount, this);
 			vitalSignModel = new VitalSignModel();
 
@@ -180,12 +180,12 @@ package collaboRhythm.shared.model
             _adherenceItemsModel = value;
         }
 
-        public function get videoMessagesModel():VideoMessagesModel1
+        public function get videoMessagesModel():VideoMessagesModel
         {
             return _videoMessagesModel;
         }
 
-        public function set videoMessagesModel(value:VideoMessagesModel1):void
+        public function set videoMessagesModel(value:VideoMessagesModel):void
         {
             _videoMessagesModel = value;
         }

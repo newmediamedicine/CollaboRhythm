@@ -22,7 +22,8 @@
          xmlns:controls="com.dougmccune.controls.*"
 		 clipAndEnableScrolling="true"
 		 resize="resizeHandler()"
-		 creationComplete="creationCompleteHandler()" xmlns:view="collaboRhythm.shared.view.*"
+		 creationComplete="creationCompleteHandler()"
+		 remove="removeHandler()"
          height="100%" width="100%"
 		 >
 	<fx:Declarations>
@@ -43,134 +44,168 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
-        //TODO: Maybe ChildIndependentLayout belongs in shared?
+		//TODO: Maybe ChildIndependentLayout belongs in shared?
 
-        import collaboRhythm.plugins.schedule.controller.ScheduleClockController;
-        import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-        import collaboRhythm.plugins.schedule.model.ScheduleModel;
+		import collaboRhythm.plugins.schedule.controller.ScheduleAppController;
+		import collaboRhythm.plugins.schedule.controller.ScheduleClockController;
+		import collaboRhythm.plugins.schedule.model.ScheduleModel;
+		import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 
-        import mx.collections.ArrayCollection;
-        import mx.core.IVisualElementContainer;
-        import mx.events.CollectionEvent;
-        import mx.events.CollectionEventKind;
+		import mx.binding.utils.BindingUtils;
+		import mx.binding.utils.ChangeWatcher;
+		import mx.collections.ArrayCollection;
+		import mx.events.CollectionEvent;
+		import mx.events.CollectionEventKind;
 
-        private var _scheduleModel:ScheduleModel;
-        private var _scheduleWidgetViewController:ScheduleClockController;
-        private var _scheduleGroupsCollection:ArrayCollection;
-        private var _scheduleGroupClockViews:Vector.<ScheduleGroupClockView> = new Vector.<ScheduleGroupClockView>();
-        private var _isCreationComplete:Boolean;
+		private var _scheduleModel:ScheduleModel;
+		private var _scheduleClockController:ScheduleClockController;
+		private var _scheduleGroupsCollection:ArrayCollection;
+		private var _scheduleGroupClockViews:Vector.<ScheduleGroupClockView> = new Vector.<ScheduleGroupClockView>();
+		private var _isCreationComplete:Boolean;
+		private var _scheduleModelInitialized_changeWatcher:ChangeWatcher;
 
-        public function init(scheduleWidgetViewController:ScheduleClockController, scheduleModel:ScheduleModel,
-                             fullParentContainer:IVisualElementContainer):void
-        {
-            _scheduleModel = scheduleModel;
-            _scheduleWidgetViewController = scheduleWidgetViewController;
+		public function init(scheduleAppController:ScheduleAppController, scheduleModel:ScheduleModel):void
+		{
+			_scheduleModel = scheduleModel;
+			_scheduleClockController = scheduleAppController.scheduleClockController;
 
-            _scheduleGroupsCollection = _scheduleModel.scheduleGroupsCollection;
-            _scheduleGroupsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
-                                                       scheduleGroupsCollectionChangeHandler);
+			_scheduleGroupsCollection = _scheduleModel.scheduleGroupsCollection;
+			_scheduleGroupsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
+													   scheduleGroupsCollectionChangeHandler);
 
-            this.addEventListener(ScheduleClockWidgetViewEvent.SCHEDULE_GROUP_CLOCK_VIEW_CLICK,
-                                  scheduleGroupClockViewClickHandler);
-        }
+			this.addEventListener(ScheduleClockWidgetViewEvent.SCHEDULE_GROUP_CLOCK_VIEW_CLICK,
+								  scheduleGroupClockViewClickHandler);
 
-        private function creationCompleteHandler():void
-        {
-            for each (var scheduleGroup:ScheduleGroup in _scheduleGroupsCollection)
-            {
-                createScheduleGroupView(scheduleGroup);
-            }
+			_scheduleModelInitialized_changeWatcher = BindingUtils.bindSetter(scheduleModelInitialized_changeWatcher,
+																			  _scheduleModel, "isInitialized", false,
+																			  true);
+		}
 
-            _isCreationComplete = true;
+		private function creationCompleteHandler():void
+		{
+			if (_scheduleModel.isInitialized)
+			{
+				createScheduleGroups();
+			}
 
-            updateTime();
+			_isCreationComplete = true;
 
-            // creates a Timer that fires an event once per 10 minutes
-            var timer:Timer = new Timer(600000);
+			updateTime();
 
-            // designates the onTick() method to handle Timer events
-            timer.addEventListener(TimerEvent.TIMER, onTick);
+			// creates a Timer that fires an event once per 10 minutes
+			var timer:Timer = new Timer(600000);
 
-            // starts the clock ticking
-            timer.start();
-        }
+			// designates the onTick() method to handle Timer events
+			timer.addEventListener(TimerEvent.TIMER, onTick);
 
-        private function onTick(event:TimerEvent):void
-        {
-            updateTime();
-        }
+			// starts the clock ticking
+			timer.start();
+		}
 
-        private function updateTime():void
-        {
-            var currentTime:Date = _scheduleModel.now;
-            var minutes:uint = currentTime.getMinutes();
-            var hours:uint = currentTime.getHours();
+		private function scheduleModelInitialized_changeWatcher(isInitialized:Boolean):void
+		{
+			if (isInitialized && _isCreationComplete)
+			{
+				createScheduleGroups();
+			}
+		}
 
-            clockHand.rotation = (hours * 15) + (minutes * 0.25);
-        }
+		private function createScheduleGroups():void
+		{
+			for each (var scheduleGroup:ScheduleGroup in _scheduleGroupsCollection)
+			{
+				createScheduleGroupView(scheduleGroup);
+			}
+		}
 
-        public function scheduleGroupsCollectionChangeHandler(event:CollectionEvent):void
-        {
-            if (event.kind == CollectionEventKind.ADD)
-            {
-                if (_isCreationComplete)
-                {
-                    for each (var scheduleGroupAdded:ScheduleGroup in event.items)
-                    {
-                        createScheduleGroupView(scheduleGroupAdded);
-                    }
-                }
-            }
-            else if (event.kind == CollectionEventKind.REMOVE)
-            {
-                for each (var scheduleGroupRemoved:ScheduleGroup in event.items)
-                {
-                    destroyScheduleGroupView(scheduleGroupRemoved);
-                }
-            }
-        }
+		private function onTick(event:TimerEvent):void
+		{
+			updateTime();
+		}
 
-        public function createScheduleGroupView(scheduleGroup:ScheduleGroup):void
-        {
-            var scheduleGroupClockView:ScheduleGroupClockView = new ScheduleGroupClockView();
-            scheduleGroupClockView.init(_scheduleModel, scheduleGroup, scheduleGroupsContainer);
-            scheduleGroupsContainer.addElement(scheduleGroupClockView);
-            _scheduleGroupClockViews.push(scheduleGroupClockView)
-        }
+		private function updateTime():void
+		{
+			var currentTime:Date = _scheduleModel.now;
+			var minutes:uint = currentTime.getMinutes();
+			var hours:uint = currentTime.getHours();
 
-        public function destroyScheduleGroupView(scheduleGroup:ScheduleGroup):void
-        {
-            for each (var scheduleGroupClockView:ScheduleGroupClockView in _scheduleGroupClockViews)
-            {
-                if (scheduleGroupClockView.scheduleGroup == scheduleGroup)
-                {
-                    var scheduleGroupClockViewIndex:Number = _scheduleGroupClockViews.indexOf(scheduleGroupClockView);
-                    _scheduleGroupClockViews.splice(scheduleGroupClockViewIndex, 1);
-                    scheduleGroupsContainer.removeElement(scheduleGroupClockView);
-                }
-            }
-        }
+			clockHand.rotation = (hours * 15) + (minutes * 0.25);
+		}
 
-        private function resizeHandler():void
-        {
-            if (this.width < this.height)
-            {
-                clock.width = this.width;
-                clock.height = this.width;
-            }
-            else
-            {
-                clock.width = this.height;
-                clock.height = this.height;
-            }
-        }
+		public function scheduleGroupsCollectionChangeHandler(event:CollectionEvent):void
+		{
+			if (event.kind == CollectionEventKind.ADD)
+			{
+				if (_isCreationComplete && _scheduleModel.isInitialized)
+				{
+					for each (var scheduleGroupAdded:ScheduleGroup in event.items)
+					{
+						createScheduleGroupView(scheduleGroupAdded);
+					}
+				}
+			}
+			else if (event.kind == CollectionEventKind.REMOVE)
+			{
+				for each (var scheduleGroupRemoved:ScheduleGroup in event.items)
+				{
+					destroyScheduleGroupView(scheduleGroupRemoved);
+				}
+			}
+		}
 
-        private function scheduleGroupClockViewClickHandler(event:ScheduleClockWidgetViewEvent):void
-        {
-            var scheduleGroup:ScheduleGroup = event.scheduleGroup;
-            _scheduleWidgetViewController.openScheduleReportingFullView(scheduleGroup);
-        }
-        ]]>
+		public function createScheduleGroupView(scheduleGroup:ScheduleGroup):void
+		{
+			var scheduleGroupClockView:ScheduleGroupClockView = new ScheduleGroupClockView();
+			scheduleGroupClockView.init(_scheduleModel, scheduleGroup, scheduleGroupsContainer);
+			scheduleGroupsContainer.addElement(scheduleGroupClockView);
+			_scheduleGroupClockViews.push(scheduleGroupClockView)
+		}
+
+		public function destroyScheduleGroupView(scheduleGroup:ScheduleGroup):void
+		{
+			for each (var scheduleGroupClockView:ScheduleGroupClockView in _scheduleGroupClockViews)
+			{
+				if (scheduleGroupClockView.scheduleGroup == scheduleGroup)
+				{
+					var scheduleGroupClockViewIndex:Number = _scheduleGroupClockViews.indexOf(scheduleGroupClockView);
+					_scheduleGroupClockViews.splice(scheduleGroupClockViewIndex, 1);
+					scheduleGroupsContainer.removeElement(scheduleGroupClockView);
+				}
+			}
+		}
+
+		private function resizeHandler():void
+		{
+			if (this.width < this.height)
+			{
+				clock.width = this.width;
+				clock.height = this.width;
+			}
+			else
+			{
+				clock.width = this.height;
+				clock.height = this.height;
+			}
+		}
+
+		private function scheduleGroupClockViewClickHandler(event:ScheduleClockWidgetViewEvent):void
+		{
+			var scheduleGroup:ScheduleGroup = event.scheduleGroup;
+			_scheduleClockController.openScheduleReportingFullView(scheduleGroup);
+		}
+
+		public function destroyChildren():void
+		{
+			scheduleGroupsContainer.removeAllElements();
+			scheduleItemsContainer.removeAllElements();
+			_scheduleGroupClockViews = new Vector.<ScheduleGroupClockView>();
+		}
+
+		private function removeHandler():void
+		{
+			_scheduleModelInitialized_changeWatcher.unwatch();
+		}
+		]]>
 	</fx:Script>
     <s:Group id="clock" verticalCenter="0" horizontalCenter="0">
         <images:clockBackground id="clockBackground" width="{clock.width}" height="{clock.height}" mouseEnabled="false" mouseChildren="false"/>
@@ -179,5 +214,4 @@
         <images:clockHand id="clockHand" x="{clock.width / 2}" y="{clock.height / 2}" width="{clock.width / 2}" height="{clock.height / 2}" mouseEnabled="false" mouseChildren="false"/>
         <images:clockForeground id="clockForeground" width="{clock.width}" height="{clock.height}" mouseEnabled="false" mouseChildren="false"/>
     </s:Group>
-	<!--<view:IconButton icon="@Embed(source='/assets/images/video.png')" id="playVideoButton" left="5" bottom="5" visible="{!_scheduleWidgetViewController.isWorkstationMode}" click="playVideoButtonClickHandler()"/>-->
 </s:Group>

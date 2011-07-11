@@ -2,7 +2,8 @@ package collaboRhythm.workstation.controller
 {
 
     import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
-    import collaboRhythm.shared.model.services.IComponentContainer;
+	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
+	import collaboRhythm.shared.model.services.IComponentContainer;
     import collaboRhythm.shared.model.settings.Settings;
 
     import mx.core.IVisualElementContainer;
@@ -10,22 +11,16 @@ package collaboRhythm.workstation.controller
     public class WorkstationAppControllersMediator extends AppControllersMediatorBase
     {
         public function WorkstationAppControllersMediator(
-			widgetParentContainer:IVisualElementContainer,
-			scheduleWidgetParentContainer:IVisualElementContainer,
-			fullParentContainer:IVisualElementContainer,
+			widgetContainers:Vector.<IVisualElementContainer>,
+			fullContainer:IVisualElementContainer,
 			settings:Settings,
 //			healthRecordService:CommonHealthRecordService,
 //			collaborationRoomNetConnectionService:CollaborationRoomNetConnectionService,
-			componentContainer:IComponentContainer
+			componentContainer:IComponentContainer,
+			collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService
 		)
         {
-            super(widgetParentContainer,
-                  scheduleWidgetParentContainer,
-                  fullParentContainer,
-                  settings,
-//                  healthRecordService,
-//                  collaborationRoomNetConnectionService,
-                  componentContainer)
+            super(widgetContainers, fullContainer, settings, componentContainer, collaborationLobbyNetConnectionService)
         }
     }
 }

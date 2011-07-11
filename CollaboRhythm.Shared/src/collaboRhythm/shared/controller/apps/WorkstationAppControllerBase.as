@@ -18,7 +18,9 @@ package collaboRhythm.shared.controller.apps
 {
 
     import collaboRhythm.shared.model.Account;
-    import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
+	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
+	import collaboRhythm.shared.model.CollaborationModel;
+	import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
     import collaboRhythm.shared.model.User;
     import collaboRhythm.shared.model.services.IComponentContainer;
     import collaboRhythm.shared.model.settings.Settings;
@@ -67,8 +69,8 @@ package collaboRhythm.shared.controller.apps
 		public static const DEBUG_BUTTON_VISIBLE:Boolean = false;
 		public static const PREVENT_RE_SHOWING_FULL_VIEW:Boolean = true;
 		
-		protected var _widgetParentContainer:IVisualElementContainer;
-		protected var _fullParentContainer:IVisualElementContainer;
+		protected var _widgetContainer:IVisualElementContainer;
+		protected var _fullContainer:IVisualElementContainer;
 		protected var _user:User;
 		protected var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
 		
@@ -81,6 +83,7 @@ package collaboRhythm.shared.controller.apps
         protected var _activeRecordAccount:Account;
         protected var _settings:Settings;
         protected var _componentContainer:IComponentContainer;
+		protected var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
 		protected var _primaryShowFullViewParallelEffect:Parallel;
 		protected var _secondaryShowFullViewParallelEffect:Parallel;
 		private var _isWidgetViewPrepared:Boolean = false;
@@ -90,13 +93,14 @@ package collaboRhythm.shared.controller.apps
 		{
 			name = defaultName;
 
-			_widgetParentContainer = constructorParams.widgetParentContainer;
-			_fullParentContainer = constructorParams.fullParentContainer;
+			_widgetContainer = constructorParams.widgetContainer;
+			_fullContainer = constructorParams.fullContainer;
 			_modality = constructorParams.modality;
             _activeAccount = constructorParams.activeAccount;
             _activeRecordAccount = constructorParams.activeRecordAccount;
             _settings = constructorParams.settings;
             _componentContainer = constructorParams.componentContainer;
+			_collaborationLobbyNetConnectionService = constructorParams.collaborationLobbyNetConnectionService;
 
 			initializeShowFullViewParallelEffects();
 
@@ -104,22 +108,8 @@ package collaboRhythm.shared.controller.apps
 			
 			if (widgetView)
 				showWidgetAsDraggable(fullView != null);
-            
-            NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
-		}
 
-        private function keyDownHandler(event:KeyboardEvent):void
-        {
-            if (event.keyCode == Keyboard.BACK)
-            {
-                if (fullView)
-                {
-                    event.preventDefault();
-                    event.stopImmediatePropagation();
-                    hideFullView();
-                }
-            }
-        }
+		}
 
 		public function get isWorkstationMode():Boolean
 		{
@@ -138,21 +128,21 @@ package collaboRhythm.shared.controller.apps
 
 		public function createAndPrepareWidgetView():void
 		{
-			if (_widgetParentContainer && !widgetView)
+			if (_widgetContainer && !widgetView)
 			{
 				widgetView = createWidgetView();
 				this.prepareWidgetView();
 			}
 		}
 
-		public function get widgetParentContainer():IVisualElementContainer
+		public function get widgetContainer():IVisualElementContainer
 		{
-			return _widgetParentContainer;
+			return _widgetContainer;
 		}
 
-		public function set widgetParentContainer(value:IVisualElementContainer):void
+		public function set widgetContainer(value:IVisualElementContainer):void
 		{
-			_widgetParentContainer = value;
+			_widgetContainer = value;
 		}
 
 		public function get defaultName():String
@@ -303,7 +293,7 @@ package collaboRhythm.shared.controller.apps
 				widgetView.addEventListener(MouseEvent.MOUSE_DOWN, widgetMouseDownHandler);
 
 				widgetView.visible = false;
-				_widgetParentContainer.addElement(widgetView);
+				_widgetContainer.addElement(widgetView);
 				_isWidgetViewPrepared = true;
 			}
 		}
@@ -335,7 +325,7 @@ package collaboRhythm.shared.controller.apps
 				_secondaryShowFullViewParallelEffect.stop();
 				fullView.visible = false;
 				if (fullView.parent == null)
-					_fullParentContainer.addElement(fullView);
+					_fullContainer.addElement(fullView);
 				_isFullViewPrepared = true;
 			}
 		}
@@ -517,12 +507,12 @@ package collaboRhythm.shared.controller.apps
 		
 		public function get parentContainer():IVisualElementContainer
 		{
-			return _widgetParentContainer;
+			return _widgetContainer;
 		}
 
 		public function set parentContainer(value:IVisualElementContainer):void
 		{
-			_widgetParentContainer = value;
+			_widgetContainer = value;
 		}
 		
 		public function showWidget(left:Number=-1, top:Number=-1):void
@@ -600,13 +590,13 @@ package collaboRhythm.shared.controller.apps
 				shrinkRectToAspectRatio(startRectLocal, fullView);
 			}
 
-			var toPosition:Point = localToLocal(_fullParentContainer as UIComponent, view);
+			var toPosition:Point = localToLocal(_fullContainer as UIComponent, view);
 			
 			if (!shouldResize)
 			{
 				// make the toPosition centered on the _fullParentContainer
-				toPosition.x += (_fullParentContainer as UIComponent).width / 2;
-				toPosition.y += (_fullParentContainer as UIComponent).height / 2;
+				toPosition.x += (_fullContainer as UIComponent).width / 2;
+				toPosition.y += (_fullContainer as UIComponent).height / 2;
 
 				toPosition.x -= view.width / 2;
 				toPosition.y -= view.height / 2;
@@ -624,8 +614,8 @@ package collaboRhythm.shared.controller.apps
 				parallel.addChild(resize);
 				resize.widthFrom = startRectLocal.width;
 				resize.heightFrom = startRectLocal.height;
-				resize.widthTo = (_fullParentContainer as UIComponent).width;
-				resize.heightTo = (_fullParentContainer as UIComponent).height;
+				resize.widthTo = (_fullContainer as UIComponent).width;
+				resize.heightTo = (_fullContainer as UIComponent).height;
 				resize.duration = duration;
 //				resize.play();
 				
@@ -633,8 +623,8 @@ package collaboRhythm.shared.controller.apps
 				parallel.addChild(scale);
 				scale.scaleXFrom = resize.widthFrom / resize.widthTo;
 				scale.scaleYFrom = resize.heightFrom / resize.heightTo;
-				scale.scaleXTo = getEffectiveScaleX(_fullParentContainer as UIComponent);
-				scale.scaleYTo = getEffectiveScaleY(_fullParentContainer as UIComponent);
+				scale.scaleXTo = getEffectiveScaleX(_fullContainer as UIComponent);
+				scale.scaleYTo = getEffectiveScaleY(_fullContainer as UIComponent);
 				scale.duration = duration;
 //				scale.play();
 			}
@@ -690,7 +680,7 @@ package collaboRhythm.shared.controller.apps
 		
 		public function showFullView(startRect:Rect):void
 		{
-			if (_fullParentContainer && fullView == null)
+			if (_fullContainer && fullView == null)
 			{
 				fullView = createFullView();
 				this.prepareFullView();
