@@ -40,8 +40,6 @@ package collaboRhythm.shared.model
 		private var _active:Boolean = false;
         private var _activeAccount:Account;
         private var _activeRecordAccount:Account;
-//		private var _usersModel:UsersModel;
-//		private var _localUser:User;
 		private var _creatingUser:User;
 		private var _subjectUser:User;
 		private var _invitedUsers:Vector.<User> = new Vector.<User>;
@@ -63,8 +61,6 @@ package collaboRhythm.shared.model
 			
 			_collaborationLobbyNetConnectionService = new CollaborationLobbyNetConnectionService(_activeAccount.accountId, settings.rtmpBaseURI, this, _activeAccount);
 			_collaborationRoomNetConnectionService = new CollaborationRoomNetConnectionService(_activeAccount.accountId, settings.rtmpBaseURI, this);
-			
-//			_usersModel.usersHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE, usersHealthRecordService_completeHandler);
 		}
 
 		public function get active():Boolean
@@ -91,7 +87,7 @@ package collaboRhythm.shared.model
 //		{
 //			_localUser = value;
 //		}
-//		
+//
 		public function get creatingUser():User
 		{
 			return _creatingUser;

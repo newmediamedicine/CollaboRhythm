@@ -51,47 +51,14 @@ package collaboRhythm.plugins.schedule.controller
 			super(constructorParams);
 		}
 
-		private function scheduleModel_initializedHandler(event:ScheduleModelEvent):void
+		override public function initialize():void
 		{
-			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, invokeHandler, false, 0, true);
-		}
-
-		private function invokeHandler(event:InvokeEvent):void
-		{
-			if (event.arguments.length != 0)
+			super.initialize();
+			if (!_fullView)
 			{
-				var urlString:String = event.arguments[0];
-				var urlVariablesString:String = urlString.split("//")[1];
-				var urlVariables:URLVariables = new URLVariables(urlVariablesString);
-				var pendingAdherenceItem:PendingAdherenceItem = scheduleModel.scheduleReportingModel.createPendingAdherenceItem(urlVariables);
-				scheduleModel.scheduleReportingModel.currentScheduleGroup = pendingAdherenceItem.scheduleGroup;
-				dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this));
+				createFullView();
+				prepareFullView();
 			}
-		}
-
-		override public function get widgetView():UIComponent
-		{
-			return _widgetView;
-		}
-
-		override public function set widgetView(value:UIComponent):void
-		{
-			_widgetView = value as ScheduleClockWidgetView;
-		}
-
-		override public function get isFullViewSupported():Boolean
-		{
-			return true;
-		}
-
-		override public function get fullView():UIComponent
-		{
-			return _fullView as UIComponent;
-		}
-
-		override public function set fullView(value:UIComponent):void
-		{
-			_fullView = value as IScheduleFullView;
 		}
 
 		override protected function createWidgetView():UIComponent
@@ -112,11 +79,6 @@ package collaboRhythm.plugins.schedule.controller
 			}
 
 			return _fullView as UIComponent;
-		}
-
-		override public function initialize():void
-		{
-			super.initialize();
 		}
 
 		override public function reloadUserData():void
@@ -154,6 +116,60 @@ package collaboRhythm.plugins.schedule.controller
 			}
 		}
 
+		private function scheduleModel_initializedHandler(event:ScheduleModelEvent):void
+		{
+			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, invokeHandler, false, 0, true);
+		}
+
+		private function invokeHandler(event:InvokeEvent):void
+		{
+			if (event.arguments.length != 0)
+			{
+				var urlString:String = event.arguments[0];
+				var urlVariablesString:String = urlString.split("//")[1];
+				var urlVariables:URLVariables = new URLVariables(urlVariablesString);
+				var pendingAdherenceItem:PendingAdherenceItem = scheduleModel.scheduleReportingModel.createPendingAdherenceItem(urlVariables);
+				scheduleModel.scheduleReportingModel.currentScheduleGroup = pendingAdherenceItem.scheduleGroup;
+				dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this));
+			}
+		}
+
+		public override function get defaultName():String
+		{
+			return DEFAULT_NAME;
+		}
+
+		override public function get widgetView():UIComponent
+		{
+			return _widgetView;
+		}
+
+		override public function set widgetView(value:UIComponent):void
+		{
+			_widgetView = value as ScheduleClockWidgetView;
+		}
+
+
+		override public function get fullView():UIComponent
+		{
+			return _fullView as UIComponent;
+		}
+
+		override public function set fullView(value:UIComponent):void
+		{
+			_fullView = value as IScheduleFullView;
+		}
+
+		override public function get isFullViewSupported():Boolean
+		{
+			return true;
+		}
+
+		override protected function get shouldShowFullViewOnWidgetClick():Boolean
+		{
+			return isWorkstationMode;
+		}
+
 		private function showFullViewHandler(event:AppEvent):void
 		{
 			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this));
@@ -162,11 +178,6 @@ package collaboRhythm.plugins.schedule.controller
 		private function hideFullViewHandler(event:AppEvent):void
 		{
 			hideFullView();
-		}
-
-		override protected function get shouldShowFullViewOnWidgetClick():Boolean
-		{
-			return isWorkstationMode;
 		}
 
 		private function get scheduleModel():ScheduleModel
@@ -234,11 +245,6 @@ package collaboRhythm.plugins.schedule.controller
 			_scheduleClockController = null;
 			_scheduleTimelineController = null;
 			_scheduleReportingController = null;
-		}
-
-		public override function get defaultName():String
-		{
-			return DEFAULT_NAME;
 		}
 	}
 }

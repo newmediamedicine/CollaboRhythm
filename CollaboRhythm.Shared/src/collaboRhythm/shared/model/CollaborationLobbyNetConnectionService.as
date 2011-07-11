@@ -45,7 +45,6 @@ package collaboRhythm.shared.model
 
         private var _isConnected:Boolean = false;
 		private var _netConnection:NetConnection;
-//		private var _usersModel:UsersModel;
         private var _activeAccount:Account;
 		private var _collaborationModel:CollaborationModel;
         private var logger:ILogger;

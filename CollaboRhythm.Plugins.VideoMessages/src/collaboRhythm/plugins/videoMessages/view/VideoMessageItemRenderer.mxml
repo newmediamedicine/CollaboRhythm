@@ -30,30 +30,29 @@
 	</fx:Style>
     <fx:Script>
         <![CDATA[
-        import collaboRhythm.shared.model.Account;
-        import collaboRhythm.shared.model.VideoMessage;
-        import collaboRhythm.tablet.controller.TabletApplicationController;
+		import collaboRhythm.shared.model.VideoMessage;
 
-        [Bindable]
-        private var _videoMessage:VideoMessage;
+		[Bindable]
+		private var _videoMessage:VideoMessage;
 
-        override public function set data(value:Object):void
-        {
-            super.data = value;
-            _videoMessage = VideoMessage(value);
-        }
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+			_videoMessage = VideoMessage(value);
+		}
 
-        private function playVideoButtonClickHandler():void
-        {
-            dispatchEvent(new VideosViewEvent(VideosViewEvent.PLAY_VIDEO_MESSAGE, _videoMessage));
-        }
+		private function playVideoButtonClickHandler():void
+		{
+			dispatchEvent(new VideoMessageItemRendererEvent(VideoMessageItemRendererEvent.PLAY_VIDEO_MESSAGE,
+															_videoMessage));
+		}
 
-        private function deleteVideoButtonClickHandler():void
-        {
-            dispatchEvent(new VideosViewEvent(VideosViewEvent.DELETE_VIDEO_MESSAGE, _videoMessage));
-        }
-
-        ]]>
+		private function deleteVideoButtonClickHandler():void
+		{
+			dispatchEvent(new VideoMessageItemRendererEvent(VideoMessageItemRendererEvent.DELETE_VIDEO_MESSAGE,
+															_videoMessage));
+		}
+		]]>
     </fx:Script>
     <s:HGroup width="100%" height="100%" gap="10">
         <mx:Image source="{_videoMessage.from.primaryRecord.contact.imageURI}" height="{this.height}" width="{this.height}" smoothBitmapContent="true"/>

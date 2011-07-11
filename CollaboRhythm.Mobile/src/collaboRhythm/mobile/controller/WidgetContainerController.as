@@ -149,7 +149,7 @@ package collaboRhythm.mobile.controller
 				if (app)
 				{
 					view.title = app.name;
-					app.widgetParentContainer = view;
+					app.widgetContainer = view;
 					app.createAndPrepareWidgetView();
 					app.widgetView.percentWidth = 100;
 					app.widgetView.percentHeight = 100;

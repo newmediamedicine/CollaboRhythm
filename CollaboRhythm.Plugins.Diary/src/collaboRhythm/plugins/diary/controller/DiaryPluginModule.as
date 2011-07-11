@@ -14,30 +14,29 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.plugins.cataractMap.controller
+package collaboRhythm.plugins.diary.controller
 {
+
 	import castle.flexbridge.reflection.ReflectionUtils;
 
-	import collaboRhythm.shared.controller.apps.AppOrderConstraint;
+	import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
-	import collaboRhythm.shared.controller.apps.AppControllerInfo;
-	
+
 	import mx.modules.ModuleBase;
-	
-	public class CataractMapPluginModule extends ModuleBase implements IPlugin
+
+	public class DiaryPluginModule extends ModuleBase implements IPlugin
 	{
-		public function CataractMapPluginModule()
+		public function DiaryPluginModule()
 		{
 			super();
 		}
 
-		public function registerComponents(componentContainer:collaboRhythm.shared.model.services.IComponentContainer):void
+		public function registerComponents(componentContainer:IComponentContainer):void
 		{
-			var typeName:String = ReflectionUtils.getClassInfo(CataractMapAppController).name;
-			var appControllerInfo:AppControllerInfo = new AppControllerInfo(CataractMapAppController);
-			appControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER, "collaboRhythm.plugins.bloodPressure.controller::BloodPressureAppController"));
-			componentContainer.registerComponentInstance(typeName, AppControllerInfo, appControllerInfo);
+			var typeName:String = ReflectionUtils.getClassInfo(DiaryAppController).name;
+			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
+														 new AppControllerInfo(DiaryAppController));
 		}
 	}
 }

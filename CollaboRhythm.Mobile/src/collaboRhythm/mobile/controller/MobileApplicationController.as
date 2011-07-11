@@ -17,76 +17,78 @@
 package collaboRhythm.mobile.controller
 {
 
-    import collaboRhythm.core.controller.ApplicationControllerBase;
-    import collaboRhythm.mobile.view.WidgetContainerView;
-    import collaboRhythm.shared.model.Account;
-    import collaboRhythm.shared.model.services.DemoEvent;
+	import collaboRhythm.core.controller.ApplicationControllerBase;
+	import collaboRhythm.mobile.view.WidgetContainerView;
+	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.services.DemoEvent;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.view.CollaborationRoomView;
-    import collaboRhythm.shared.view.CollaborationView;
-    import collaboRhythm.shared.view.RecordVideoView;
+	import collaboRhythm.shared.view.CollaborationView;
+	import collaboRhythm.shared.view.RecordVideoView;
 
-    import flash.desktop.NativeApplication;
-    import flash.events.Event;
-    import flash.events.KeyboardEvent;
-    import flash.ui.Keyboard;
+	import flash.desktop.NativeApplication;
+	import flash.events.Event;
+	import flash.events.KeyboardEvent;
+	import flash.ui.Keyboard;
 
-    import mx.core.IVisualElementContainer;
+	import mx.core.IVisualElementContainer;
 
-    import spark.components.View;
+	import spark.components.View;
 
-    public class MobileApplicationController extends ApplicationControllerBase
+	public class MobileApplicationController extends ApplicationControllerBase
 	{
 		private var _homeView:View;
 		private var _mobileApplication:CollaboRhythmMobileApplication;
 		private var _widgetContainerController:WidgetContainerController;
-        private var _mobileAppControllersMediator:MobileAppControllersMediator;
+		private var _mobileAppControllersMediator:MobileAppControllersMediator;
 
-        [Embed("/resources/settings.xml", mimeType="application/octet-stream")]
-        private var _applicationSettingsEmbeddedFile:Class;
+		[Embed("/resources/settings.xml", mimeType="application/octet-stream")]
+		private var _applicationSettingsEmbeddedFile:Class;
 
-        public function MobileApplicationController(mobileApplication:CollaboRhythmMobileApplication)
+		public function MobileApplicationController(mobileApplication:CollaboRhythmMobileApplication)
 		{
 			_mobileApplication = mobileApplication;
 		}
 
-        override public function main():void
+		override public function main():void
 		{
-            super.main();
+			super.main();
 
-            _settings.modality = Settings.MODALITY_MOBILE;
+			_settings.modality = Settings.MODALITY_MOBILE;
 
 //			_collaborationMediator = new MobileCollaborationMediator(this);
 			initCollaborationController(null);
 
 			_widgetContainerController = new WidgetContainerController(_mobileApplication.navigator, this);
 			_mobileApplication.navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
-			_mobileApplication.navigator.addEventListener("viewChangeComplete", viewNavigator_transitionCompleteHandler);
+			_mobileApplication.navigator.addEventListener("viewChangeComplete",
+														  viewNavigator_transitionCompleteHandler);
 			_mobileApplication.navigator.addEventListener(Event.ADDED, viewNavigator_addedHandler);
 			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 
 			initializeActiveView();
 
-            createSession();
+			createSession();
 		}
-		
+
 		public override function get fullContainer():IVisualElementContainer
 		{
 			return null;
 		}
 
-        public override function openRecordAccount(recordAccount:Account):void
-        {
-            super.openRecordAccount(recordAccount);
-            _mobileAppControllersMediator = new MobileAppControllersMediator(null,
-                                                                             null,
-                                                                             fullContainer,
-                                                                             _settings,
-                                                                             _componentContainer);
+		public override function openRecordAccount(recordAccount:Account):void
+		{
+			super.openRecordAccount(recordAccount);
+			_mobileAppControllersMediator = new MobileAppControllersMediator(null,
+																			 null,
+																			 fullContainer,
+																			 _settings,
+																			 _componentContainer,
+																			 _collaborationController.collaborationModel.collaborationLobbyNetConnectionService);
 			_mobileAppControllersMediator.createMobileApps(_activeAccount, recordAccount);
-            initializeActiveView();
-        }
-		
+			initializeActiveView();
+		}
+
 		private function viewNavigator_transitionCompleteHandler(event:Event):void
 		{
 //			trace("viewNavigator_transitionCompleteHandler");
@@ -102,7 +104,7 @@ package collaboRhythm.mobile.controller
 				initializeView(view);
 			}
 		}
-		
+
 		public function initializeActiveView():void
 		{
 			var view:WidgetContainerView = _mobileApplication.navigator.activeView as WidgetContainerView;
@@ -115,19 +117,19 @@ package collaboRhythm.mobile.controller
 			}
 		}
 
-        private function initializeView(view:WidgetContainerView):void
-        {
-            _widgetContainerController.initializeView(view);
-            view.demoDatePresets = _settings.demoDatePresets;
-            view.addEventListener(DemoEvent.CHANGE_DEMO_DATE, view_changeDemoDateHandler);
-        }
+		private function initializeView(view:WidgetContainerView):void
+		{
+			_widgetContainerController.initializeView(view);
+			view.demoDatePresets = _settings.demoDatePresets;
+			view.addEventListener(DemoEvent.CHANGE_DEMO_DATE, view_changeDemoDateHandler);
+		}
 
 		private function view_changeDemoDateHandler(event:DemoEvent):void
 		{
 			targetDate = event.targetDate;
 		}
-		
-	    public function keyDownHandler(event:KeyboardEvent):void
+
+		public function keyDownHandler(event:KeyboardEvent):void
 		{
 			switch (event.keyCode)
 			{
@@ -156,20 +158,20 @@ package collaboRhythm.mobile.controller
 			}
 		}
 
-        public function get mobileAppControllersMediator():MobileAppControllersMediator
-        {
-            return _mobileAppControllersMediator;
-        }
+		public function get mobileAppControllersMediator():MobileAppControllersMediator
+		{
+			return _mobileAppControllersMediator;
+		}
 
-        public function set mobileAppControllersMediator(value:MobileAppControllersMediator):void
-        {
-            _mobileAppControllersMediator = value;
-        }
+		public function set mobileAppControllersMediator(value:MobileAppControllersMediator):void
+		{
+			_mobileAppControllersMediator = value;
+		}
 
-        public override function get applicationSettingsEmbeddedFile():Class
-        {
-            return _applicationSettingsEmbeddedFile;
-        }
+		public override function get applicationSettingsEmbeddedFile():Class
+		{
+			return _applicationSettingsEmbeddedFile;
+		}
 
 		override public function get currentFullView():String
 		{

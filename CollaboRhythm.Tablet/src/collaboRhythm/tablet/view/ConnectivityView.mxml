@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 height="100%" width="100%">
+	<s:states>
+		<s:State name="connectInProgress"/>
+		<s:State name="connectFailed"/>
+		<s:State name="persistFailed"/>
+	</s:states>
+	<fx:Script><![CDATA[
+
+		private function retryButton_clickHandler():void
+		{
+
+		}
+
+		private function quitButton_clickHandler():void
+		{
+
+		}
+
+		private function ignoreButton_clickHandler():void
+		{
+
+		}
+
+		]]></fx:Script>
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="#CCCCCC" alpha="0.4"/>
+		</s:fill>
+	</s:Rect>
+	<s:VGroup>
+		<s:Label text="Connecting to your health record." includeIn="connectInProgress"/>
+		<s:Label text="Failed to connect to your health record." includeIn="connectFailed"/>
+		<s:Label text="Failed to save data to your health record" includeIn="persistFailed"/>
+		<s:Label text="Please check your internet connection." includeIn="connectFailed, persistFailed"/>
+		<s:HGroup>
+			<s:Button id="retryButton" label="Retry" includeIn="connectFailed, persistFailed" click="retryButton_clickHandler()"/>
+			<s:Button id="quitButton" label="Quit" includeIn="connectFailed" click="quitButton_clickHandler()"/>
+			<s:Button id="ignoreButton" label="Ignore" includeIn="persistFailed" click="ignoreButton_clickHandler()"/>
+		</s:HGroup>
+	</s:VGroup>
+
+</s:Group>

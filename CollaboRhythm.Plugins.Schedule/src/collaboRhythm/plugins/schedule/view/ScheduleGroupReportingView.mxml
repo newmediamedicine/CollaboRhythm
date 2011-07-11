@@ -49,7 +49,10 @@
 
         private function creationCompleteHandler():void
         {
-            updateScheduleItemOccurrences(_scheduleReportingModel.currentScheduleGroup);
+			if (_scheduleReportingModel.currentScheduleGroup)
+			{
+            	updateScheduleItemOccurrences(_scheduleReportingModel.currentScheduleGroup);
+			}
             _creationComplete = true;
         }
 

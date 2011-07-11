@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:sharedViews="collaboRhythm.shared.view.*"
+		 height="100%" width="100%"
+		 addedToStage="addedToStage()"
+		 removedFromStage="removedFromStage()"
+		 creationComplete="creationCompleteHandler()">
+	<fx:Script>
+        <![CDATA[
+		import collaboRhythm.plugins.videoMessages.controller.VideoMessagesAppController;
+		import collaboRhythm.shared.model.Account;
+		import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
+		import collaboRhythm.shared.model.VideoMessage;
+		import collaboRhythm.shared.model.VideoMessagesModel;
+
+		import mx.collections.ArrayCollection;
+		import mx.logging.ILogger;
+		import mx.logging.Log;
+
+		private var _videoMessagesAppController:VideoMessagesAppController;
+		[Bindable]
+		private var _videoMessagesModel:VideoMessagesModel;
+		private var _accountId:String;
+		[Bindable]
+		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
+		private var _netStream:NetStream;
+		private var _isCreationComplete:Boolean;
+		private var _logger:ILogger;
+		private const _videoMessagesCollection:ArrayCollection = new ArrayCollection();
+
+		public function init(videoMessagesAppController:VideoMessagesAppController,
+							 videoMessagesModel:VideoMessagesModel,
+							 collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService,
+							 accountId:String):void
+		{
+			_videoMessagesAppController = videoMessagesAppController;
+			_videoMessagesModel = videoMessagesModel;
+			_collaborationLobbyNetConnectionService = collaborationLobbyNetConnectionService;
+			_accountId = accountId;
+			videosMessagesList.addEventListener(VideoMessageItemRendererEvent.PLAY_VIDEO_MESSAGE,
+												playVideoMessageHandler);
+			videosMessagesList.addEventListener(VideoMessageItemRendererEvent.DELETE_VIDEO_MESSAGE,
+												deleteVideoMessageHandler);
+
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+		}
+
+		private function addedToStage():void
+		{
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
+		}
+
+		private function removedFromStage():void
+		{
+			stage.removeEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
+		}
+
+		private function stage_keyDownHandler(event:KeyboardEvent):void
+		{
+			if (event.keyCode == Keyboard.BACK)
+			{
+				if (_netStream)
+				{
+					_netStream.close();
+				}
+			}
+		}
+
+		private function creationCompleteHandler():void
+		{
+			if (_collaborationLobbyNetConnectionService.isConnected)
+			{
+				createNetStream();
+			}
+			_isCreationComplete = true;
+		}
+
+		private function connectedChangeHandler(isConnected:Boolean):Boolean
+		{
+			if (isConnected && _isCreationComplete)
+			{
+				createNetStream();
+			}
+
+			return isConnected;
+		}
+
+		private function createNetStream():void
+		{
+			_netStream = new NetStream(_collaborationLobbyNetConnectionService.netConnection);
+			videoDisplay.netStream = _netStream;
+		}
+
+		private function playVideoMessageHandler(event:VideoMessageItemRendererEvent):void
+		{
+			var videoMessage:VideoMessage = event.videoMessage;
+			var fileNumber:int = videoMessage.fileId;
+			var netStreamLocation:String = _accountId + "/" + fileNumber;
+			if (videoDisplay.netStream)
+			{
+				videoDisplay.play(netStreamLocation);
+			}
+		}
+
+		private function deleteVideoMessageHandler(event:VideoMessageItemRendererEvent):void
+		{
+			_videoMessagesAppController.deleteVideoMessage(event.videoMessage);
+		}
+
+		private function netStreamStatusHandler(event:NetStatusEvent):void
+		{
+			_logger.info(event.info.code);
+			_videoMessagesCollection.addItem(event.info.code);
+		}
+		]]>
+    </fx:Script>
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="#CCCCCC"/>
+		</s:fill>
+	</s:Rect>
+	<s:HGroup width="100%" height="100%">
+		<s:List id="videosMessagesList"
+				width="40%" height="100%"
+				skinClass="spark.skins.spark.ListSkin"
+				interactionMode="touch"
+				dataProvider="{_videoMessagesModel.videoMessagesCollection}"
+				itemRenderer="collaboRhythm.plugins.videoMessages.view.VideoMessageItemRenderer"
+				enabled="{connectedChangeHandler(_collaborationLobbyNetConnectionService.isConnected)}"/>
+		<s:Group width="60%" height="100%">
+			<sharedViews:VideoPlayer id="videoDisplay" width="560" height="420" horizontalCenter="0"
+									 verticalCenter="0"/>
+		</s:Group>
+	</s:HGroup>
+</s:Group>

@@ -71,7 +71,7 @@ package collaboRhythm.core.controller
         protected var _hasActiveNetworkInterface:Boolean = false;
         protected var _activeAccount:Account;
         protected var _activeRecordAccount:Account;
-        private var _collaborationController:CollaborationController;
+        protected var _collaborationController:CollaborationController;
         protected var _logger:ILogger;
         protected var _componentContainer:IComponentContainer;
         protected var _pluginLoader:PluginLoader;
@@ -161,7 +161,6 @@ package collaboRhythm.core.controller
 				Log.addTarget(traceTarget);
 			}
 
-            // TODO: The syslog target currently does not handle errors, download the source and update
             // create a syslog target for logging if specified in the settings file and get the ip address from the settings file
             // Kiwi Syslog server has a free version http://www.kiwisyslog.com/kiwi-syslog-server-overview/
             // set the syslogServerIpAddress in your settings file to the IP address where the syslog server is running

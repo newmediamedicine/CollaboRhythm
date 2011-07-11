@@ -26,7 +26,7 @@ package collaboRhythm.shared.model
     import mx.collections.ArrayCollection;
 
     [Bindable]
-    public class VideoMessagesModel1
+    public class VideoMessagesModel
     {
         // TODO: Determine the best way to get a picture for a video message
         // There are flaws with using sharing relationships from the active account
@@ -37,7 +37,7 @@ package collaboRhythm.shared.model
         private var _videoMessageCount:int = 0;
         private var _currentDateSource:ICurrentDateSource;
 
-        public function VideoMessagesModel1(settings:Settings, activeAccount:Account, record:Record)
+        public function VideoMessagesModel(settings:Settings, activeAccount:Account, record:Record)
         {
             _activeAccount = activeAccount;
             _record = record;
