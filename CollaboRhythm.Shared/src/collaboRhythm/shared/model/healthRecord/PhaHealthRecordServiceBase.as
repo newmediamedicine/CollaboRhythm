@@ -1,13 +1,13 @@
 package collaboRhythm.shared.model.healthRecord
 {
 
-    import collaboRhythm.shared.model.Account;
-    import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.Record;
 
-    import org.indivo.client.IndivoClientEvent;
-    import org.indivo.client.Pha;
+	import org.indivo.client.IndivoClientEvent;
+	import org.indivo.client.Pha;
 
-    public class PhaHealthRecordServiceBase extends HealthRecordServiceBase
+	public class PhaHealthRecordServiceBase extends HealthRecordServiceBase
     {
         protected var _pha:Pha;
 
@@ -17,7 +17,7 @@ package collaboRhythm.shared.model.healthRecord
         public static const RELATE_DOCUMENTS:String = "Relate Documents";
         public static const RELATE_NEW_DOCUMENT:String = "Relate New Document";
 
-        public function PhaHealthRecordServiceBase(oauthPhaConsumerKey:String, oauthPhaConsumerSecret:String,
+		public function PhaHealthRecordServiceBase(oauthPhaConsumerKey:String, oauthPhaConsumerSecret:String,
                                                    indivoServerBaseURL:String, account:Account)
         {
             super(oauthPhaConsumerKey, oauthPhaConsumerSecret, indivoServerBaseURL, account);
@@ -113,11 +113,14 @@ package collaboRhythm.shared.model.healthRecord
             trace("relating documents - SUCCEEDED");
         }
 
-        protected override function handleError(event:IndivoClientEvent, errorStatus:String,
-                                                healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
-        {
-            _logger.info("Unhandled IndivoClientEvent error: " + errorStatus);
-        }
+		override protected function retryFailedRequest(event:IndivoClientEvent,
+											  healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+		{
+			_pha.phaRequest(null, null, null, event.urlRequest.method, event.relativePath,
+							_activeAccount.oauthAccountToken,
+							_activeAccount.oauthAccountTokenSecret, event.requestXml, event.params,
+							healthRecordServiceRequestDetails);
+		}
 
 //        protected override function handleResponse(event:IndivoClientEvent, responseXml:XML, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 //        {

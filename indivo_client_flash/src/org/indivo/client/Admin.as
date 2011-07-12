@@ -324,7 +324,9 @@ public class Admin extends EventDispatcher implements WikiTestable
             var inputString:String =
                     "<rest>" + reqMeth + " /" + relativePath.replace("&","&amp;") + "</rest>";
 
-			this.dispatchEvent(new IndivoClientEvent(new XML(inputString), null, userData)); 
+			this.dispatchEvent(new IndivoClientEvent(IndivoClientEvent.COMPLETE,
+													 new XML(inputString), null, relativePath, requestXmlOrParams, null,
+													 userData));
 		}
 
 		logger.info(reqMeth + " " + relativePath + (requestXmlOrParams ? ", requestXmlOrParams=" + requestXmlOrParams : ""));
@@ -339,14 +341,14 @@ public class Admin extends EventDispatcher implements WikiTestable
         }
 		urlRequest = phaAdminUtils.setupConnection(
                 reqMeth, adminURLString, null, new HashMap(), contentType);
-        
+
 		phaAdminUtils.prepareRequest(urlRequest, requestXmlOrParams);
 		
 		phaAdminUtils.signWithSignpost(urlRequest, consumerKey, consumerSecret, null, null);
 		
 		var handler:IndivoRequestHandler = new IndivoRequestHandler(this, this.phaAdminUtils);
 		logger.info(ObjectUtil.toString(urlRequest));
-		handler.handle(urlRequest, null);
+		handler.handle(urlRequest, relativePath, requestXmlOrParams, null, userData);
     }
 
 

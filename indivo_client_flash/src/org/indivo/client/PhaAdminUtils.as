@@ -127,8 +127,8 @@ public class PhaAdminUtils {
 //            urlRequest.setDoOutput(true);
             urlRequest.requestHeaders.push(new URLRequestHeader("Content-Type", contentType /*"application/xml"*/));
         }
-        urlRequest.requestHeaders.push(new URLRequestHeader("Accept", "text/plain"));      // don't be mistaken for a browser
-        urlRequest.requestHeaders.push(new URLRequestHeader("Accept", "application/xml")); // don't be mistaken for a browser
+//        urlRequest.requestHeaders.push(new URLRequestHeader("Accept", "text/plain"));      // don't be mistaken for a browser
+//        urlRequest.requestHeaders.push(new URLRequestHeader("Accept", "application/xml")); // don't be mistaken for a browser
 
         return urlRequest;
     }
@@ -400,8 +400,15 @@ public class PhaAdminUtils {
             logger.warn("replacing " + utfBug + " with " + utfFix);
             xstr = xstrb;
         }
-        
-        return new XML(xstr);
+
+		try
+		{
+			return new XML(xstr);
+		} catch(e:Error)
+		{
+			logger.error("Failed to parse response as XML: " + xstr);
+		}
+		return null;
     }
 	
 	

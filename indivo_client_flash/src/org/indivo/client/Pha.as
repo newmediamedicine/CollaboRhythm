@@ -1729,7 +1729,9 @@ public class Pha extends EventDispatcher implements WikiTestable
 			var inputString:String = new String(
 				"<rest>" + reqMeth + " /" + relativePath.replace("&","&amp;") + "</rest>");
 	
-			this.dispatchEvent(new IndivoClientEvent(new XML(inputString), null, userData)); 
+			this.dispatchEvent(new IndivoClientEvent(IndivoClientEvent.COMPLETE,
+													 new XML(inputString), null, relativePath, requestXml, params,
+													 userData));
         }
         
         var urlRequest:URLRequest= phaRequestPart1(
@@ -1737,7 +1739,7 @@ public class Pha extends EventDispatcher implements WikiTestable
             reqMeth, relativePath, params, phaToken, phaTokenSecret, requestXml);
 		
 		var handler:IndivoRequestHandler = new IndivoRequestHandler(this, this.phaAdminUtils);
-		handler.handle(urlRequest, userData);
+		handler.handle(urlRequest, relativePath, requestXml, params, userData);
 		return handler;
 //        return phaAdminUtils.docFromConnection(urlRequest);
     }
@@ -1760,7 +1762,9 @@ public class Pha extends EventDispatcher implements WikiTestable
                 hasOneMap.addItem(onlyMap);
 //                return hasOneMap;
 				// TODO: what kind of event should we dispatch for JSON?
-				this.dispatchEvent(new IndivoClientEvent(new XML(onlyMap.toString()), null, null)); 
+				this.dispatchEvent(new IndivoClientEvent(IndivoClientEvent.COMPLETE,
+														 new XML(onlyMap.toString()), null, relativePath, requestXml,
+														 params, null));
         }
         
         var urlRequest:URLRequest= phaRequestPart1(
@@ -1772,7 +1776,7 @@ public class Pha extends EventDispatcher implements WikiTestable
 //        return jsonFromConnection(urlRequest);
 
 		var handler:IndivoRequestHandler = new IndivoRequestHandler(this, this.phaAdminUtils);
-		handler.handle(urlRequest, null);
+		handler.handle(urlRequest, relativePath, requestXml, params, null);
     }
     
 //    function jsonFromConnection(urlRequest:URLRequest):ArrayList {

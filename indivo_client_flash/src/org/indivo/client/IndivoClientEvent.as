@@ -16,26 +16,42 @@
  */
 package org.indivo.client
 {
+
+	import flash.events.ErrorEvent;
 	import flash.events.Event;
+	import flash.events.HTTPStatusEvent;
 	import flash.net.URLRequest;
-	
+
 	public class IndivoClientEvent extends Event
 	{
 		public static const COMPLETE:String = "indivo_client_complete";
 		public static const ERROR:String = "indivo_client_error";
-		
-		public function IndivoClientEvent(response:XML, urlRequest:URLRequest, userData:Object, type:String=COMPLETE, bubbles:Boolean=false, cancelable:Boolean=false)
+		public var _response:XML;
+		private var _urlRequest:URLRequest;
+		private var _userData:Object;
+		private var _relativePath:String;
+		private var _requestXml:String;
+		private var _params:Object;
+		private var _errorEvent:ErrorEvent;
+		private var _httpStatusEvent:HTTPStatusEvent;
+		public static const HTTP_STATUS_OK:int = 200;
+
+		public function IndivoClientEvent(type:String, response:XML, urlRequest:URLRequest, relativePath:String,
+										  requestXml:String, params:Object, userData:Object,
+										  errorEvent:ErrorEvent = null, httpStatusEvent:HTTPStatusEvent = null,
+										  bubbles:Boolean = false, cancelable:Boolean = false)
 		{
 			super(type, bubbles, cancelable);
 			_response = response;
 			_urlRequest = urlRequest;
+			_relativePath = relativePath;
+			_requestXml = requestXml;
+			_params = params;
 			_userData = userData;
+			_errorEvent = errorEvent;
+			_httpStatusEvent = httpStatusEvent;
 		}
-		
-		public var _response:XML;
-		private var _urlRequest:URLRequest;
-		private var _userData:Object;
-		
+
 		public function get userData():Object
 		{
 			return _userData;
@@ -57,7 +73,8 @@ package org.indivo.client
 		 */
 		public override function clone():Event
 		{
-			return new IndivoClientEvent(response, urlRequest, userData, type, bubbles, cancelable);
+			return new IndivoClientEvent(type, response, urlRequest, relativePath, requestXml, params, userData,
+										 errorEvent, httpStatusEvent, bubbles, cancelable);
 		}
 		
 		/**
@@ -67,8 +84,57 @@ package org.indivo.client
 		 */
 		public override function toString():String
 		{
-			return formatToString("IndivoClientEvent", "type", "bubbles", "cancelable", "eventPhase", "response", "urlRequest", "userData");
+			return formatToString("IndivoClientEvent", "type", "bubbles", "cancelable", "eventPhase", "response", "urlRequest", "relativePath", "requestXml", "params", "userData", "errorEvent", "httpStatusEvent");
 		}
-		
+
+		public function get relativePath():String
+		{
+			return _relativePath;
+		}
+
+		public function set relativePath(value:String):void
+		{
+			_relativePath = value;
+		}
+
+		public function get requestXml():String
+		{
+			return _requestXml;
+		}
+
+		public function set requestXml(value:String):void
+		{
+			_requestXml = value;
+		}
+
+		public function get params():Object
+		{
+			return _params;
+		}
+
+		public function set params(value:Object):void
+		{
+			_params = value;
+		}
+
+		public function get errorEvent():ErrorEvent
+		{
+			return _errorEvent;
+		}
+
+		public function set errorEvent(value:ErrorEvent):void
+		{
+			_errorEvent = value;
+		}
+
+		public function get httpStatusEvent():HTTPStatusEvent
+		{
+			return _httpStatusEvent;
+		}
+
+		public function set httpStatusEvent(value:HTTPStatusEvent):void
+		{
+			_httpStatusEvent = value;
+		}
 	}
 }

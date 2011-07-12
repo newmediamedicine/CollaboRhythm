@@ -16,6 +16,9 @@
  */
 package org.indivo.client
 {
+
+	import flash.errors.IOError;
+	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.HTTPStatusEvent;
@@ -27,17 +30,21 @@ package org.indivo.client
 
 	internal class IndivoRequestHandler
 	{
-		public function IndivoRequestHandler(eventDispatcher:EventDispatcher, phaAdminUtils:PhaAdminUtils)
-		{
-			_eventDispatcher = eventDispatcher;
-			_phaAdminUtils = phaAdminUtils;
-		}
-		
 		private var _urlRequest:URLRequest;
 		private var _eventDispatcher:EventDispatcher;
 		private var _phaAdminUtils:PhaAdminUtils;
 		private var _userData:Object;
 		private var _httpStatusEvent:HTTPStatusEvent;
+		private var _relativePath:String;
+		private var _requestXml:String;
+		private var _params:Object;
+		private var _httpResponseStatusEvent:HTTPStatusEvent;
+
+		public function IndivoRequestHandler(eventDispatcher:EventDispatcher, phaAdminUtils:PhaAdminUtils)
+		{
+			_eventDispatcher = eventDispatcher;
+			_phaAdminUtils = phaAdminUtils;
+		}
 
 		public function get phaAdminUtils():PhaAdminUtils
 		{
@@ -69,49 +76,67 @@ package org.indivo.client
 			_urlRequest = value;
 		}
 
-		public function handle(urlRequest:URLRequest, userData:Object):void
+		public function handle(urlRequest:URLRequest, relativePath:String, requestXml:String, params:Object,
+							   userData:Object):void
 		{
-			this.urlRequest = urlRequest;
-			this._userData = userData;
-			
+			_urlRequest = urlRequest;
+			_relativePath = relativePath;
+			_requestXml = requestXml;
+			_params = params;
+			_userData = userData;
+			_httpStatusEvent = null;
+
 			var urlLoader:URLLoader = new URLLoader();
-			urlLoader.addEventListener(Event.COMPLETE, eventHandler);
-			urlLoader.addEventListener(Event.OPEN, eventHandler);
+			urlLoader.addEventListener(Event.COMPLETE, completeHandler);
+			urlLoader.addEventListener(Event.OPEN, openHandler);
+			urlLoader.addEventListener(HTTPStatusEvent.HTTP_RESPONSE_STATUS, httpResponseStatusEventHandler);
 			urlLoader.addEventListener(HTTPStatusEvent.HTTP_STATUS, httpStatusEventHandler);
 			urlLoader.addEventListener(IOErrorEvent.IO_ERROR, ioErrorEventHandler);
-			urlLoader.addEventListener(ProgressEvent.PROGRESS, eventHandler);
-			urlLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, eventHandler);
+			urlLoader.addEventListener(ProgressEvent.PROGRESS, progressHandler);
+			urlLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler);
 			urlLoader.load(urlRequest);
 		}
-			
-		private function eventHandler(event:Event):void {
-			//arrColl.addItem({type:event.type, idx:arrColl.length+1, eventString:event.toString()});
-			
-			switch (event.type) {
-				case Event.COMPLETE:
-					var urlLoader:URLLoader = event.currentTarget as URLLoader;
 
-//					/* If the load was successful, create a URLVariables object from the URLLoader.data property and populate the paramColl ArrayCollection object. */
-//					var urlVariables:URLVariables = new URLVariables(urlLoader.data);
-//					var key:String;
-//					
-//					for (key in urlVariables) {
-//						//paramColl.addItem({key:key, value:urlVariables[key]});
-//					}
-					
-					//params.visible = true;
-					
-					eventDispatcher.dispatchEvent(new IndivoClientEvent(phaAdminUtils.docFromResponse(urlLoader.data), urlRequest, _userData));
-					
-					break;
-				default:
-					//this.dispatchEvent(new IndivoClientEvent(phaAdminUtils.docFromResponse(urlLoader.data)));
-					//trace(event);
-					eventDispatcher.dispatchEvent(event);
-					break;
+		private function securityErrorHandler(event:SecurityErrorEvent):void
+		{
+			dispatchErrorEvent(event);
+		}
+
+		private function progressHandler(event:ProgressEvent):void
+		{
+			eventDispatcher.dispatchEvent(event);
+		}
+
+		private function openHandler(event:Event):void
+		{
+			eventDispatcher.dispatchEvent(event);
+		}
+
+		private function completeHandler(event:Event):void
+		{
+			if (!_httpResponseStatusEvent)
+				throw new Error("Unable to determine HTTP response status");
+
+			if (_httpResponseStatusEvent.status != IndivoClientEvent.HTTP_STATUS_OK || event.type != Event.COMPLETE)
+			{
+				dispatchErrorEvent(event);
+			}
+			else
+			{
+				var urlLoader:URLLoader = event.currentTarget as URLLoader;
+
+				eventDispatcher.dispatchEvent(new IndivoClientEvent(IndivoClientEvent.COMPLETE,
+																	phaAdminUtils.docFromResponse(urlLoader.data),
+																	urlRequest, relativePath, requestXml, params,
+																	_userData, null, _httpStatusEvent));
 			}
 		}
-		
+
+		private function httpResponseStatusEventHandler(event:HTTPStatusEvent):void
+		{
+			_httpResponseStatusEvent = event;
+		}
+
 		private function httpStatusEventHandler(httpStatusEvent:HTTPStatusEvent):void
 		{
 			_httpStatusEvent = httpStatusEvent;
@@ -119,30 +144,67 @@ package org.indivo.client
 		
 		private function ioErrorEventHandler(event:IOErrorEvent):void
 		{
-			//trace(event);
-			//eventDispatcher.dispatchEvent(event);
-			var response:XML = 
-				<Error>
-					<InnerError>
-						<type>{event.type}</type>
-						<text>{event.text}</text>
-						<eventPhase>{event.eventPhase}</eventPhase>
-					</InnerError>
-				</Error>;
-			
+			dispatchErrorEvent(event);
+		}
+
+		private function dispatchErrorEvent(event:Event):void
+		{
+			var response:XML =
+					<Error>
+						<InnerError>
+							<type>{event.type}</type>
+						</InnerError>
+					</Error>;
+
+			if (event is ErrorEvent)
+			{
+				var errorEvent:ErrorEvent = event as ErrorEvent;
+				response.InnerError[0].appendChild(<text>{errorEvent.text}</text>);
+				response.InnerError[0].appendChild(<errorID>{errorEvent.errorID}</errorID>);
+			}
+
 			if (_httpStatusEvent != null && _httpStatusEvent.status != 0)
 			{
 				response.appendChild(
-					<HTTPStatusEvent>
-						<status>{_httpStatusEvent.status}</status>
-					</HTTPStatusEvent>
+						<HTTPStatusEvent>
+							<status>{_httpStatusEvent.status}</status>
+						</HTTPStatusEvent>
 				);
 			}
-			
-			//						<errorID>{ErrorEvent(event).errorID}</errorID>
-			
-			eventDispatcher.dispatchEvent(new IndivoClientEvent(response, urlRequest, _userData, IndivoClientEvent.ERROR));
+
+			eventDispatcher.dispatchEvent(new IndivoClientEvent(IndivoClientEvent.ERROR,
+																response, urlRequest, relativePath, requestXml, params,
+																_userData, event as ErrorEvent, _httpStatusEvent));
 		}
-		
+
+		public function get relativePath():String
+		{
+			return _relativePath;
+		}
+
+		public function set relativePath(value:String):void
+		{
+			_relativePath = value;
+		}
+
+		public function get requestXml():String
+		{
+			return _requestXml;
+		}
+
+		public function set requestXml(value:String):void
+		{
+			_requestXml = value;
+		}
+
+		public function get params():Object
+		{
+			return _params;
+		}
+
+		public function set params(value:Object):void
+		{
+			_params = value;
+		}
 	}
 }

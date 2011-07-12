@@ -571,7 +571,7 @@
 				}
 				catch (err:TypeError)
 				{
-					trace("An error occured when communicating with server:\n" + err.message);
+					trace("An error occurred when communicating with server:\n" + err.message);
 				}
 				
 			}
@@ -665,6 +665,7 @@
 			{
 				var responseXml:XML = event.response;
 				response.text = responseXml.toXMLString();
+				logger.info(responseXml.toXMLString());
 				removeEventListener(IndivoClientEvent.COMPLETE, indivoClientEventHandler);
 				removeEventListener(IndivoClientEvent.ERROR, indivoClientEventHandler);
 
@@ -682,7 +683,7 @@
 				var responseText:String = parseResponse(event, false);
 				var responseXml:XML = event.response;
 				responseText = responseXml.toString();
-				
+
 				appInfo = URLUtil.stringToObject(responseText, "&");
 				
 				accessTokenKey.text = appInfo["oauth_token"];

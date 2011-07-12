@@ -127,11 +127,5 @@ package collaboRhythm.shared.model.healthRecord
                 dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE));
             }
         }
-
-        protected override function handleError(event:IndivoClientEvent, errorStatus:String, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
-        {
-            // Base class does nothing. Subclasses should override.
-            _logger.info("Unhandled IndivoClientEvent error: " + errorStatus);
-        }
     }
 }
