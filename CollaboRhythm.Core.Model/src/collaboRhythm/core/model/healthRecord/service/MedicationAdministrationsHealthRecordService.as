@@ -60,6 +60,9 @@ package collaboRhythm.core.model.healthRecord.service
 
 		public function parseMedicationAdministrationsReportXml(value:XML, medicationAdministrationsModel:MedicationAdministrationsModel):void
 		{
+			// clear any data that may have been previously loaded
+			medicationAdministrationsModel.clearMedicationAdministrations();
+
 			// trim off any data that is from the future (according to ICurrentDateSource); note that we assume the data is in ascending order by date
 			var nowTime:Number = _currentDateSource.now().time;
 

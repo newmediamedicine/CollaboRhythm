@@ -105,5 +105,12 @@ package collaboRhythm.shared.model.healthRecord.document
 		{
 			return medicationConcentrationCurvesByCode.keys.contains(code) && medicationConcentrationCurvesByCode.length > 0;
 		}
+
+		public function clearMedicationAdministrations():void
+		{
+			medicationAdministrations.clear();
+			medicationAdministrationsCollection.removeAll();
+			medicationAdministrationsCollectionsByCode.clear();
+		}
 	}
 }
