@@ -19,7 +19,7 @@
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:mx="library://ns.adobe.com/flex/mx"
          xmlns:tabletViews="collaboRhythm.tablet.view.*"
-         creationComplete="creationCompleteHandler()"
+		 show="showHandler()"
          height="100%" width="100%">
     <fx:Script>
         <![CDATA[
@@ -52,9 +52,9 @@
 			_widgetContainers.push(buttonWidgetsGroup);
 		}
 
-		private function creationCompleteHandler():void
+		public function showHandler():void
 		{
-			_tabletApplicationController.activeRecordView_creationCompleteHandler(_recordAccount);
+			_tabletApplicationController.activeRecordView_showHandler(_recordAccount);
 		}
 
 		public function get widgetContainers():Vector.<IVisualElementContainer>

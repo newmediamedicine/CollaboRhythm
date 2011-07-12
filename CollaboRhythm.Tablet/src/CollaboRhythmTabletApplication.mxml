@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
                xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:views="collaboRhythm.tablet.view.*"
                applicationComplete="main()">
 	<fx:Style source="defaults.css"/>
     <fx:Script><![CDATA[
@@ -8,9 +9,10 @@
 
         private function main(): void
         {
-            var tabletApplicationController:TabletApplicationController = new TabletApplicationController(this);
+            var tabletApplicationController:TabletApplicationController = new TabletApplicationController(tabletApplicationView);
             tabletApplicationController.main();
         }
 
         ]]></fx:Script>
+	<views:TabletApplicationView id="tabletApplicationView" width="100%" height="100%"/>
 </s:Application>
