@@ -93,10 +93,16 @@ package collaboRhythm.core.model
             return targetObject;
 		}
 
-		public function encodeToXML(qName:QName, targetObject:Object=null):String
+		/**
+		 * Marshalls an ActionScript object to XML.
+		 * @param qName The target QName of the XML representation of the object.
+		 * @param targetObject The object to marshall.
+		 * @return The resulting XML as a String.
+		 */
+		public function marshallToXML(qName:QName, targetObject:Object=null):String
 		{
 			if (traceXmlEncodeDecode)
-				trace("encodeToXML()");
+				trace("marshallToXML()");
 
 			var xmlEncoder:XMLEncoder;
 			var xmlList:XMLList;

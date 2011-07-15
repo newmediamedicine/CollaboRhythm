@@ -18,7 +18,8 @@ package collaboRhythm.shared.model
 {
 
     import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
-    import collaboRhythm.shared.model.healthRecord.ProblemsHealthRecordService;
+	import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
+	import collaboRhythm.shared.model.healthRecord.ProblemsHealthRecordService;
     import collaboRhythm.shared.model.services.ICurrentDateSource;
     import collaboRhythm.shared.model.services.WorkstationKernel;
     import collaboRhythm.shared.model.settings.Settings;
@@ -28,7 +29,7 @@ package collaboRhythm.shared.model
     import mx.collections.ArrayCollection;
 
 	[Bindable]
-	public class ProblemsModel
+	public class ProblemsModel implements IDocumentCollection
 	{
         private var _activeAccount:Account;
 		private var _record:Record;
@@ -40,8 +41,9 @@ package collaboRhythm.shared.model
 		private var _rawData:XML;
 		private var _problemsShortList:ArrayCollection;
 		private var _problemsSummary:String
-		private var _initialized:Boolean = false;
 		public static const PROBLEMS_KEY:String = "problems";
+		private var _isInitialized:Boolean;
+		private var _isStitched:Boolean;
 		
 		public function ProblemsModel(settings:Settings, activeAccount:Account, record:Record)
 		{
@@ -174,5 +176,35 @@ package collaboRhythm.shared.model
         {
             _problemsCollection = value;
         }
-    }
+
+		public function get documents():ArrayCollection
+		{
+			return problemsCollection;
+		}
+
+		public function get documentType():String
+		{
+			return Problem.DOCUMENT_TYPE;
+		}
+
+		public function get isInitialized():Boolean
+		{
+			return _isInitialized;
+		}
+
+		public function set isInitialized(value:Boolean):void
+		{
+			_isInitialized = value;
+		}
+
+		public function get isStitched():Boolean
+		{
+			return _isStitched;
+		}
+
+		public function set isStitched(value:Boolean):void
+		{
+			_isStitched = value;
+		}
+	}
 }

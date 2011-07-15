@@ -17,22 +17,23 @@
 package collaboRhythm.shared.model.healthRecord.document
 {
 
+	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
+	import collaboRhythm.shared.model.healthRecord.IDocument;
+
 	import j2as3.collection.HashMap;
 
 	import mx.collections.ArrayCollection;
 
 	[Bindable]
-	public class MedicationAdministrationsModel
+	public class MedicationAdministrationsModel extends DocumentCollectionBase
 	{
         private var _medicationAdministrations:HashMap = new HashMap();
-        private var _medicationAdministrationsCollection:ArrayCollection = new ArrayCollection();
 		private var _medicationAdministrationsCollectionsByCode:HashMap = new HashMap();
 		private var _medicationConcentrationCurvesByCode:HashMap = new HashMap();
 
-		private var _isInitialized:Boolean = false;
-
 		public function MedicationAdministrationsModel()
 		{
+			super(MedicationAdministration.DOCUMENT_TYPE);
 		}
 
 		protected function addToMedicationAdministrationsCollectionsByCode(medicationAdministration:MedicationAdministration):void
@@ -44,6 +45,18 @@ package collaboRhythm.shared.model.healthRecord.document
 				_medicationAdministrationsCollectionsByCode[medicationAdministration.name.value] = collection;
 			}
 			collection.addItem(medicationAdministration);
+		}
+
+		protected function removeFromMedicationAdministrationsCollectionsByCode(medicationAdministration:MedicationAdministration):void
+		{
+			var collection:ArrayCollection = _medicationAdministrationsCollectionsByCode[medicationAdministration.name.value];
+			if (collection != null)
+			{
+				if (collection.contains(medicationAdministration))
+				{
+					collection.removeItemAt(documents.getItemIndex(medicationAdministration));
+				}
+			}
 		}
 
         public function get medicationAdministrations():HashMap
@@ -58,22 +71,7 @@ package collaboRhythm.shared.model.healthRecord.document
 
         public function get medicationAdministrationsCollection():ArrayCollection
         {
-            return _medicationAdministrationsCollection;
-        }
-
-        public function set medicationAdministrationsCollection(value:ArrayCollection):void
-        {
-            _medicationAdministrationsCollection = value;
-        }
-
-        public function get isInitialized():Boolean
-        {
-            return _isInitialized;
-        }
-
-        public function set isInitialized(value:Boolean):void
-        {
-            _isInitialized = value;
+            return documents;
         }
 
 		/**
@@ -92,6 +90,19 @@ package collaboRhythm.shared.model.healthRecord.document
 		public function get medicationConcentrationCurvesByCode():HashMap
 		{
 			return _medicationConcentrationCurvesByCode;
+		}
+
+		override public function addDocument(document:IDocument):void
+		{
+			validateDocumentType(document);
+			addMedicationAdministration(document as MedicationAdministration);
+		}
+
+		override public function removeDocument(document:IDocument):void
+		{
+			super.removeDocument(document);
+			medicationAdministrations.remove(document.id);
+			removeFromMedicationAdministrationsCollectionsByCode(document as MedicationAdministration);
 		}
 
 		public function addMedicationAdministration(medicationAdministration:MedicationAdministration):void

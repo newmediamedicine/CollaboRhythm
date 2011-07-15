@@ -18,14 +18,16 @@ package collaboRhythm.shared.model
 {
 	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
     import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
     import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
 	[Bindable]
-	public class Problem extends DocumentMetadata
+	public class Problem extends DocumentBase
 	{
+		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#Problem";
 		private var _name:CodedValue;
 		private var _commonName:String;
 		private var _dateOnset:Date;

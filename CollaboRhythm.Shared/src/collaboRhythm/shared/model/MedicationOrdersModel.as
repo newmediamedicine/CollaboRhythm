@@ -17,7 +17,9 @@
 package collaboRhythm.shared.model
 {
 
-    import collaboRhythm.shared.model.healthRecord.MedicationOrdersHealthRecordService;
+	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
+	import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
+	import collaboRhythm.shared.model.healthRecord.MedicationOrdersHealthRecordService;
     import collaboRhythm.shared.model.services.ICurrentDateSource;
     import collaboRhythm.shared.model.services.WorkstationKernel;
     import collaboRhythm.shared.model.settings.Settings;
@@ -27,7 +29,7 @@ package collaboRhythm.shared.model
     import mx.collections.ArrayCollection;
 
     [Bindable]
-	public class MedicationOrdersModel
+	public class MedicationOrdersModel implements IDocumentCollection
 	{
         private var _activeAccount:Account;
 		private var _record:Record;
@@ -103,5 +105,15 @@ package collaboRhythm.shared.model
         {
             _isStitched = value;
         }
-    }
+
+		public function get documents():ArrayCollection
+		{
+			return medicationOrdersCollection;
+		}
+
+		public function get documentType():String
+		{
+			return MedicationOrder.DOCUMENT_TYPE;
+		}
+	}
 }

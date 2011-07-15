@@ -18,36 +18,35 @@ package collaboRhythm.shared.model
 {
 
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
-	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
-    import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
-
-    import collaboRhythm.shared.model.DateUtil;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
 	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
-    import collaboRhythm.shared.model.services.WorkstationKernel;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
 
-    import com.adobe.utils.DateUtil;
+	import com.adobe.utils.DateUtil;
 
-    import j2as3.collection.HashMap;
+	import j2as3.collection.HashMap;
 
-    [Bindable]
-    public class MedicationOrder extends DocumentMetadata
+	[Bindable]
+    public class MedicationOrder extends DocumentBase
     {
-        private var _name:CodedValue;
-        private var _orderType:String;
-        private var _orderedBy:String;
-        private var _dateOrdered:Date;
-        private var _dateExpires:Date;
-        private var _indication:String;
-        private var _amountOrdered:ValueAndUnit;
-        private var _refills:int;
-        private var _substitutionPermitted:Boolean;
-        private var _instructions:String;
-        private var _medicationFillId:String;
-        private var _medicationFill:MedicationFill;
-        private var _scheduleItems:HashMap = new HashMap();
+		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#MedicationOrder";
+		private var _name:CodedValue;
+		private var _orderType:String;
+		private var _orderedBy:String;
+		private var _dateOrdered:Date;
+		private var _dateExpires:Date;
+		private var _indication:String;
+		private var _amountOrdered:ValueAndUnit;
+		private var _refills:int;
+		private var _substitutionPermitted:Boolean;
+		private var _instructions:String;
+		private var _medicationFillId:String;
+		private var _medicationFill:MedicationFill;
 
-        private var _currentDateSource:ICurrentDateSource;
+        private var _scheduleItems:HashMap = new HashMap();
+		private var _currentDateSource:ICurrentDateSource;
 
         public function MedicationOrder()
         {

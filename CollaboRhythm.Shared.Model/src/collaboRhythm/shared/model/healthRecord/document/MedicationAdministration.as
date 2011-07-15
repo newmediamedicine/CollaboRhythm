@@ -18,18 +18,19 @@ package collaboRhythm.shared.model.healthRecord.document
 {
 
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
-	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
 
 	[Bindable]
-    public class MedicationAdministration extends DocumentMetadata
+    public class MedicationAdministration extends DocumentBase
     {
-        private var _name:CodedValue;
-        private var _reportedBy:String;
-        private var _dateReported:Date;
-        private var _dateAdministered:Date;
-        private var _amountAdministered:ValueAndUnit;
-        private var _amountRemaining:ValueAndUnit;
+		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#MedicationAdministration";
+		private var _name:CodedValue;
+		private var _reportedBy:String;
+		private var _dateReported:Date;
+		private var _dateAdministered:Date;
+		private var _amountAdministered:ValueAndUnit;
+		private var _amountRemaining:ValueAndUnit;
 
         public function MedicationAdministration()
         {

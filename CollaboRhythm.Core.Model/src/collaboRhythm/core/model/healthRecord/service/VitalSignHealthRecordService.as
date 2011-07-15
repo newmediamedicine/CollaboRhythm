@@ -10,7 +10,7 @@ package collaboRhythm.core.model.healthRecord.service
 	import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
 	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
-	import collaboRhythm.shared.model.healthRecord.document.VitalSignModel;
+	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 
 	import flash.net.URLVariables;
 
@@ -20,11 +20,14 @@ package collaboRhythm.core.model.healthRecord.service
 
 	import org.indivo.client.IndivoClientEvent;
 
-	public class VitalSignHealthRecordService extends PhaHealthRecordServiceBase
+	public class VitalSignHealthRecordService extends DocumentStorageServiceBase
 	{
 		private static const VITALS_REPORT:String = "vitals";
 
-		private static const VITALS_CATEGORIES_TO_LOAD:Vector.<String> = new <String>[VitalSignModel.SYSTOLIC_CATEGORY, VitalSignModel.DIASTOLIC_CATEGORY];
+		private static const VITALS_CATEGORIES_TO_LOAD:Vector.<String> = new <String>[
+			VitalSignsModel.SYSTOLIC_CATEGORY,
+			VitalSignsModel.DIASTOLIC_CATEGORY
+		];
 		private var _pendingVitalsCategories:HashMap = new HashMap();
 
 		public function VitalSignHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String,
@@ -33,11 +36,13 @@ package collaboRhythm.core.model.healthRecord.service
 			super(consumerKey, consumerSecret, baseURL, account);
 		}
 
-		public function loadVitalSigns(record:Record):void
+		override public function loadDocuments(record:Record):void
 		{
+			super.loadDocuments(record);
+
 			// clear any existing data
-			record.vitalSignModel.vitalSignsByCategory.clear();
-			record.vitalSignModel.isInitialized = false;
+			record.vitalSignsModel.vitalSignsByCategory.clear();
+			record.vitalSignsModel.isInitialized = false;
 
 			var params:URLVariables = new URLVariables();
 			params["order_by"] = "date_measured_start";
@@ -71,15 +76,20 @@ package collaboRhythm.core.model.healthRecord.service
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
 			if (responseXml.Report.Item.VitalSign.length() > 0)
 			{
-				record.vitalSignModel.vitalSignsByCategory.put(requestDetails.category,
+				record.vitalSignsModel.vitalSignsByCategory.put(requestDetails.category,
 															   parseVitalSignReportData(responseXml));
 
 				_pendingVitalsCategories.remove(requestDetails.category);
 				if (_pendingVitalsCategories.size() == 0)
-					record.vitalSignModel.isInitialized = true;
+				{
+					record.vitalSignsModel.isInitialized = true;
+					isLoading = false;
+				}
 
 				_logger.info("VitalSign " + requestDetails.indivoApiCall + " report loaded");
 			}
+
+			// Note that we don't use super.handleResponse because loading is not complete until requests for all pendingVitalsCategories are complete
 		}
 
 		private function parseVitalSignReportData(responseXml:XML):ArrayCollection
@@ -98,11 +108,12 @@ package collaboRhythm.core.model.healthRecord.service
 			var nowTime:Number = _currentDateSource.now().time;
 
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
-			for each (var vitalSignXml:XML in responseXml.Report.Item.VitalSign)
+			for each (var reportXml:XML in responseXml.Report)
 			{
-				var vitalSign:VitalSign = xmlMarshaller.unmarshallXml(vitalSignXml, vitalSignQName) as VitalSign;
+				var vitalSign:VitalSign = xmlMarshaller.unmarshallXml(reportXml.Item.VitalSign[0], vitalSignQName) as VitalSign;
 				if (vitalSign && vitalSign.dateMeasuredStart.valueOf() <= nowTime)
 				{
+					_relationshipXmlMarshaller.unmarshallRelationships(reportXml, vitalSign);
 					collection.addItem(vitalSign);
 				}
 			}
