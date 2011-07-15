@@ -19,8 +19,21 @@ package collaboRhythm.plugins.diary.model
 
 	public class DiaryEntry
 	{
-		public function DiaryEntry()
-		{
-		}
+
+        private var _date:Date;
+        private var _value:String;
+
+
+    public function DiaryEntry(date:Date, text:String) {
+        _date = date;
+        _value = text;
+    }
+        public function get date():Date {
+        return _date;
+    }
+        public function get text():String {
+        return _value;
+    }
+
 	}
 }
