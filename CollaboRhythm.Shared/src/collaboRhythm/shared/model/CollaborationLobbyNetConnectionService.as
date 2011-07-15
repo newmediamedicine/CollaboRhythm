@@ -53,7 +53,7 @@ package collaboRhythm.shared.model
 		{
             logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_localUserName = localUserName;
-			_rtmpURI = rtmpBaseURI + "/CollaboRhythmServer/_definst_";
+			_rtmpURI = rtmpBaseURI + "/CollaboRhythm.CollaborationServer/_definst_";
 			
 			_netConnection = new NetConnection();
 			_collaborationModel = collaborationModel
