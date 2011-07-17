@@ -31,15 +31,17 @@ package collaboRhythm.core.model.healthRecord.service
 
 	import org.indivo.client.IndivoClientEvent;
 
-	public class MedicationAdministrationsHealthRecordService extends PhaHealthRecordServiceBase
+	public class MedicationAdministrationsHealthRecordService extends DocumentStorageServiceBase
 	{
 		public function MedicationAdministrationsHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account)
 		{
 			super(consumerKey, consumerSecret, baseURL, account);
 		}
 
-        public function getMedicationAdministrations(record:Record):void
+        override public function loadDocuments(record:Record):void
         {
+			super.loadDocuments(record);
+
 			// TODO: figure out what is wrong with order_by for this report; it is currently causing an error
 			var params:URLVariables = new URLVariables();
 //			params["order_by"] = "date_administered";
@@ -56,6 +58,8 @@ package collaboRhythm.core.model.healthRecord.service
 			parseMedicationAdministrationsReportXml(responseXml, medicationAdministrationsModel);
 			createMedicationConcentrationCollections(medicationAdministrationsModel);
 			medicationAdministrationsModel.isInitialized = true;
+
+			super.handleResponse(event, responseXml, healthRecordServiceRequestDetails);
         }
 
 		public function parseMedicationAdministrationsReportXml(value:XML, medicationAdministrationsModel:MedicationAdministrationsModel):void
@@ -87,11 +91,11 @@ package collaboRhythm.core.model.healthRecord.service
 			}
 		}
 
-		public function initFromReportXML(medicationOrderReportXml:XML, medicationAdministration:MedicationAdministration):void
+		public function initFromReportXML(reportXml:XML, medicationAdministration:MedicationAdministration):void
 		{
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
-			DocumentMetadata.parseDocumentMetadata(medicationOrderReportXml.Meta.Document[0], medicationAdministration);
-			var medicationAdministrationXml:XML = medicationOrderReportXml.Item.MedicationAdministration[0];
+			DocumentMetadata.parseDocumentMetadata(reportXml.Meta.Document[0], medicationAdministration);
+			var medicationAdministrationXml:XML = reportXml.Item.MedicationAdministration[0];
             medicationAdministration.name = HealthRecordHelperMethods.xmlToCodedValue(medicationAdministrationXml.name[0]);
             medicationAdministration.reportedBy = medicationAdministrationXml.reportedBy;
             medicationAdministration.dateReported = collaboRhythm.shared.model.DateUtil.parseW3CDTF(medicationAdministrationXml.dateReported.toString());
@@ -99,6 +103,8 @@ package collaboRhythm.core.model.healthRecord.service
             medicationAdministration.amountAdministered = new ValueAndUnit(medicationAdministrationXml.amountAdministered.value, HealthRecordHelperMethods.xmlToCodedValue(medicationAdministrationXml.amountAdministered.unit[0]));
             if (medicationAdministrationXml.amountRemaining[0])
 				medicationAdministration.amountRemaining = new ValueAndUnit(medicationAdministrationXml.amountRemaining.value, HealthRecordHelperMethods.xmlToCodedValue(medicationAdministrationXml.amountRemaining.unit[0]));
+
+			_relationshipXmlMarshaller.unmarshallRelationships(reportXml, medicationAdministration);
 		}
 
 		public function convertToXML(medicationAdministration:MedicationAdministration):XML

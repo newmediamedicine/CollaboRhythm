@@ -16,14 +16,17 @@
  */
 package collaboRhythm.shared.model
 {
-    import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
+
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
+	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 
     import collaboRhythm.shared.model.DateUtil;
     import com.adobe.utils.DateUtil;
 
     [Bindable]
-    public class VideoMessage extends DocumentMetadata
+    public class VideoMessage extends DocumentBase
     {
+		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#VideoMessage";
         private var _activeAccount:Account;
 
         private var _fileId:int;

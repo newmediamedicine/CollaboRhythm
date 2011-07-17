@@ -17,6 +17,8 @@
 package collaboRhythm.shared.model.healthRecord.document
 {
 
+	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
+	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.document.xml.IAdherenceItemXmlMarshaller;
 
 	import j2as3.collection.HashMap;
@@ -24,17 +26,15 @@ package collaboRhythm.shared.model.healthRecord.document
 	import mx.collections.ArrayCollection;
 
 	[Bindable]
-	public class AdherenceItemsModel
+	public class AdherenceItemsModel extends DocumentCollectionBase
 	{
         private var _adherenceItems:HashMap = new HashMap();
         private var _adherenceItemsCollectionsByCode:HashMap = new HashMap();
-        private var _adherenceItemsCollection:ArrayCollection = new ArrayCollection();
-        private var _isInitialized:Boolean = false;
-        private var _isStitched:Boolean;
 		private var _adherenceItemXmlMarshaller:IAdherenceItemXmlMarshaller;
 
 		public function AdherenceItemsModel()
 		{
+			super(AdherenceItem.DOCUMENT_TYPE);
 		}
 
 		protected function addToAdherenceItemsCollectionsByCode(adherenceItem:AdherenceItem):void
@@ -47,16 +47,6 @@ package collaboRhythm.shared.model.healthRecord.document
 			}
 			collection.addItem(adherenceItem);
 		}
-
-        public function get isInitialized():Boolean
-        {
-            return _isInitialized;
-        }
-
-        public function set isInitialized(value:Boolean):void
-        {
-            _isInitialized = value;
-        }
 
         public function get adherenceItems():HashMap
         {
@@ -73,20 +63,35 @@ package collaboRhythm.shared.model.healthRecord.document
 			return _adherenceItemsCollectionsByCode;
 		}
 
-		public function get isStitched():Boolean
-        {
-            return _isStitched;
-        }
+		override public function addDocument(document:IDocument):void
+		{
+			validateDocumentType(document);
+			addAdherenceItem(document as AdherenceItem)
+		}
 
-        public function set isStitched(value:Boolean):void
-        {
-            _isStitched = value;
-        }
+		override public function removeDocument(document:IDocument):void
+		{
+			super.removeDocument(document);
+			adherenceItems.remove(document.id);
+			removeFromAdherenceItemsCollectionsByCode(document as AdherenceItem);
+		}
+
+		protected function removeFromAdherenceItemsCollectionsByCode(adherenceItem:AdherenceItem):void
+		{
+			var collection:ArrayCollection = _adherenceItemsCollectionsByCode[adherenceItem.name.value];
+			if (collection != null)
+			{
+				if (collection.contains(adherenceItem))
+				{
+					collection.removeItemAt(documents.getItemIndex(adherenceItem));
+				}
+			}
+		}
 
 		public function addAdherenceItem(adherenceItem:AdherenceItem):void
 		{
 			adherenceItems[adherenceItem.id] = adherenceItem;
-			_adherenceItemsCollection.addItem(adherenceItem);
+			documents.addItem(adherenceItem);
 			addToAdherenceItemsCollectionsByCode(adherenceItem);
 		}
 

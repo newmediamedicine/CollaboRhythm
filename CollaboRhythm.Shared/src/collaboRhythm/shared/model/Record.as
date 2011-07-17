@@ -18,11 +18,14 @@ package collaboRhythm.shared.model
 {
 
 	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
+	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
+	import collaboRhythm.shared.model.healthRecord.IDocument;
+	import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
 	import collaboRhythm.shared.model.healthRecord.IRecord;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItemsModel;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministrationsModel;
-	import collaboRhythm.shared.model.healthRecord.document.VitalSignModel;
+	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.settings.Settings;
 
 	import j2as3.collection.HashMap;
@@ -36,6 +39,8 @@ package collaboRhythm.shared.model
         private var _role_label:String;
         private var _demographics:Demographics;
         private var _contact:Contact;
+		private var _documentCollections:HashMap = new HashMap(); // key: document type, value: DocumentCollectionBase
+		private var _documentsById:HashMap = new HashMap(); // key: document id, value: IDocument
         private var _medicationOrdersModel:MedicationOrdersModel;
         private var _medicationFillsModel:MedicationFillsModel;
         private var _medicationScheduleItemsModel:MedicationScheduleItemsModel;
@@ -48,7 +53,7 @@ package collaboRhythm.shared.model
         private var _appData:HashMap = new HashMap();
         private var _settings:Settings;
         private var _activeAccount:Account;
-		private var _vitalSignModel:VitalSignModel;
+		private var _vitalSignsModel:VitalSignsModel;
 
 		// TODO: move BloodPressureModel to blood pressure plugin; eliminate bloodPressureModel property and field; use appData instead
 		private var _bloodPressureModel:BloodPressureModel;
@@ -69,7 +74,7 @@ package collaboRhythm.shared.model
 
         private function initDocumentModels():void
         {
-            medicationOrdersModel = new MedicationOrdersModel(_settings, _activeAccount, this);
+			medicationOrdersModel = new MedicationOrdersModel(_settings, _activeAccount, this);
             medicationFillsModel = new MedicationFillsModel(_settings, _activeAccount, this);
             medicationScheduleItemsModel = new MedicationScheduleItemsModel(_settings, _activeAccount, this);
             medicationAdministrationsModel = new MedicationAdministrationsModel();
@@ -78,14 +83,25 @@ package collaboRhythm.shared.model
             adherenceItemsModel = new AdherenceItemsModel();
             videoMessagesModel = new VideoMessagesModel(_settings, _activeAccount, this);
             problemsModel = new ProblemsModel(_settings, _activeAccount, this);
-			vitalSignModel = new VitalSignModel();
+			vitalSignsModel = new VitalSignsModel();
 
-            new MedicationOrderStitcher(_medicationOrdersModel, _medicationFillsModel, _medicationScheduleItemsModel);
-            new MedicationScheduleItemStitcher(_medicationScheduleItemsModel, _adherenceItemsModel);
-            new EquipmentStitcher(_equipmentModel, _equipmentScheduleItemsModel);
-            new EquipmentScheduleItemStitcher(_equipmentScheduleItemsModel, _adherenceItemsModel);
-            new AdherenceItemStitcher(_adherenceItemsModel, _medicationAdministrationsModel);
-        }
+			documentCollections.clear();
+			addDocumentCollection(medicationOrdersModel);
+			addDocumentCollection(medicationFillsModel);
+			addDocumentCollection(medicationScheduleItemsModel);
+			addDocumentCollection(medicationAdministrationsModel);
+			addDocumentCollection(equipmentModel);
+			addDocumentCollection(equipmentScheduleItemsModel);
+			addDocumentCollection(adherenceItemsModel);
+			addDocumentCollection(videoMessagesModel);
+			addDocumentCollection(problemsModel);
+			addDocumentCollection(vitalSignsModel);
+		}
+
+		protected function addDocumentCollection(documentCollection:IDocumentCollection):void
+		{
+			documentCollections[documentCollection.documentType] = documentCollection;
+		}
 
         public function getDocuments():void
         {
@@ -168,6 +184,7 @@ package collaboRhythm.shared.model
         public function set equipmentModel(value:EquipmentModel):void
         {
             _equipmentModel = value;
+			_documentCollections["Equipment"] = value;
         }
 
         public function get adherenceItemsModel():AdherenceItemsModel
@@ -178,6 +195,7 @@ package collaboRhythm.shared.model
         public function set adherenceItemsModel(value:AdherenceItemsModel):void
         {
             _adherenceItemsModel = value;
+			_documentCollections["AdherenceItem"] = value;
         }
 
         public function get videoMessagesModel():VideoMessagesModel
@@ -188,6 +206,7 @@ package collaboRhythm.shared.model
         public function set videoMessagesModel(value:VideoMessagesModel):void
         {
             _videoMessagesModel = value;
+			_documentCollections["VideoMessage"] = value;
         }
 
         public function get appData():HashMap
@@ -217,6 +236,7 @@ package collaboRhythm.shared.model
         public function set problemsModel(value:ProblemsModel):void
         {
             _problemsModel = value;
+			_documentCollections["Problem"] = value;
         }
 
         public function get medicationOrdersModel():MedicationOrdersModel
@@ -227,6 +247,7 @@ package collaboRhythm.shared.model
         public function set medicationOrdersModel(value:MedicationOrdersModel):void
         {
             _medicationOrdersModel = value;
+			_documentCollections["MedicationOrder"] = value;
         }
 
         public function get medicationFillsModel():MedicationFillsModel
@@ -237,6 +258,7 @@ package collaboRhythm.shared.model
         public function set medicationFillsModel(value:MedicationFillsModel):void
         {
             _medicationFillsModel = value;
+			_documentCollections["MedicationFill"] = value;
         }
 
         public function get medicationScheduleItemsModel():MedicationScheduleItemsModel
@@ -247,6 +269,7 @@ package collaboRhythm.shared.model
         public function set medicationScheduleItemsModel(value:MedicationScheduleItemsModel):void
         {
             _medicationScheduleItemsModel = value;
+			_documentCollections["MedicationScheduleItem"] = value;
         }
 
         public function get medicationAdministrationsModel():MedicationAdministrationsModel
@@ -257,6 +280,7 @@ package collaboRhythm.shared.model
         public function set medicationAdministrationsModel(value:MedicationAdministrationsModel):void
         {
             _medicationAdministrationsModel = value;
+			_documentCollections[value.documentType] = value;
         }
 
         public function get equipmentScheduleItemsModel():EquipmentScheduleItemsModel
@@ -267,16 +291,18 @@ package collaboRhythm.shared.model
         public function set equipmentScheduleItemsModel(value:EquipmentScheduleItemsModel):void
         {
             _equipmentScheduleItemsModel = value;
+			_documentCollections["EquipmentScheduleItem"] = value;
         }
 
-		public function get vitalSignModel():VitalSignModel
+		public function get vitalSignsModel():VitalSignsModel
 		{
-			return _vitalSignModel;
+			return _vitalSignsModel;
 		}
 
-		public function set vitalSignModel(value:VitalSignModel):void
+		public function set vitalSignsModel(value:VitalSignsModel):void
 		{
-			_vitalSignModel = value;
+			_vitalSignsModel = value;
+			_documentCollections["VitalSign"] = value;
 		}
 
 		// TODO: move BloodPressureModel to blood pressure plugin; eliminate bloodPressureModel property and field; use appData instead
@@ -298,6 +324,32 @@ package collaboRhythm.shared.model
 		public function set settings(value:Settings):void
 		{
 			_settings = value;
+		}
+
+		/**
+		 * Map of document collections where the key is the document type (fully qualified, such as
+		 * "http://indivo.org/vocab/xml/documents#Problem") and the value is a corresponding instance of
+		 * DocumentCollectionBase.
+		 */
+		public function get documentCollections():HashMap
+		{
+			return _documentCollections;
+		}
+
+		/**
+		 * Map of all documents that are part of the record where the key is the document id (only existing, persisted
+		 * documents are included) and the value is an IDocument.
+		 */
+		public function get documentsById():HashMap
+		{
+			return _documentsById;
+		}
+
+		public function addDocument(document:IDocument):void
+		{
+			documentsById[document.id] = document;
+
+			var documentCollection:DocumentCollectionBase = documentCollections.getItem(document.type)
 		}
 	}
 }

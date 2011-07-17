@@ -17,7 +17,8 @@
 package collaboRhythm.shared.model
 {
 
-    import collaboRhythm.shared.model.healthRecord.VideoMessagesHealthRecordService;
+	import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
+	import collaboRhythm.shared.model.healthRecord.VideoMessagesHealthRecordService;
     import collaboRhythm.shared.model.services.ICurrentDateSource;
     import collaboRhythm.shared.model.services.WorkstationKernel;
     import collaboRhythm.shared.model.settings.Settings;
@@ -26,7 +27,7 @@ package collaboRhythm.shared.model
     import mx.collections.ArrayCollection;
 
     [Bindable]
-    public class VideoMessagesModel
+    public class VideoMessagesModel implements IDocumentCollection
     {
         // TODO: Determine the best way to get a picture for a video message
         // There are flaws with using sharing relationships from the active account
@@ -36,6 +37,8 @@ package collaboRhythm.shared.model
         private var _videoMessagesCollection:ArrayCollection = new ArrayCollection();
         private var _videoMessageCount:int = 0;
         private var _currentDateSource:ICurrentDateSource;
+		private var _isInitialized:Boolean;
+		private var _isStitched:Boolean;
 
         public function VideoMessagesModel(settings:Settings, activeAccount:Account, record:Record)
         {
@@ -104,5 +107,35 @@ package collaboRhythm.shared.model
             videoMessagesCollection.removeItemAt(videoMessageIndex);
             _videoMessagesHealthRecordService.deleteVideoMessage(_record, videoMessage);
         }
-    }
+
+		public function get documents():ArrayCollection
+		{
+			return videoMessagesCollection;
+		}
+
+		public function get documentType():String
+		{
+			return VideoMessage.DOCUMENT_TYPE;
+		}
+
+		public function get isInitialized():Boolean
+		{
+			return _isInitialized;
+		}
+
+		public function set isInitialized(value:Boolean):void
+		{
+			_isInitialized = value;
+		}
+
+		public function get isStitched():Boolean
+		{
+			return _isStitched;
+		}
+
+		public function set isStitched(value:Boolean):void
+		{
+			_isStitched = value;
+		}
+	}
 }

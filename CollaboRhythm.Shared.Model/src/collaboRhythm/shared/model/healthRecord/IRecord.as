@@ -3,7 +3,7 @@ package collaboRhythm.shared.model.healthRecord
 
 	import collaboRhythm.shared.model.healthRecord.document.*;
 
-	import collaboRhythm.shared.model.healthRecord.document.VitalSignModel;
+	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 
 	public interface IRecord
 	{
@@ -23,8 +23,8 @@ package collaboRhythm.shared.model.healthRecord
 
 		function set role_label(value:String):void;
 
-		function get vitalSignModel():VitalSignModel;
+		function get vitalSignsModel():VitalSignsModel;
 
-		function set vitalSignModel(value:VitalSignModel):void;
+		function set vitalSignsModel(value:VitalSignsModel):void;
 	}
 }

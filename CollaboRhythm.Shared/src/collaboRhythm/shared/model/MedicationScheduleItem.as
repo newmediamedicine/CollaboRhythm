@@ -23,6 +23,7 @@ package collaboRhythm.shared.model
 	[Bindable]
 	public class MedicationScheduleItem extends ScheduleItemBase
 	{
+		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#MedicationScheduleItem";
         public static const MEDICATION:String = "Medication";
 
 		private var _dose:ValueAndUnit;

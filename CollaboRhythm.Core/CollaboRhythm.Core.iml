@@ -53,7 +53,9 @@
         <CLASSES>
           <root url="file://$MODULE_DIR$/libs" />
         </CLASSES>
-        <JAVADOC />
+        <JAVADOC>
+          <root url="http://www.daveoncode.com/_docs/air_logging_framework/" />
+        </JAVADOC>
         <SOURCES />
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>

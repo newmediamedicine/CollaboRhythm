@@ -21,7 +21,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 	import collaboRhythm.shared.model.healthRecord.derived.MedicationConcentrationSample;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
-	import collaboRhythm.shared.model.healthRecord.document.VitalSignModel;
+	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -108,16 +108,16 @@ package collaboRhythm.shared.apps.bloodPressure.model
 					}
 				}
 
-				if (record.vitalSignModel.isInitialized && record.vitalSignModel.hasCategory(VitalSignModel.SYSTOLIC_CATEGORY))
+				if (record.vitalSignsModel.isInitialized && record.vitalSignsModel.hasCategory(VitalSignsModel.SYSTOLIC_CATEGORY))
 				{
-					var systolicCollection:ArrayCollection = record.vitalSignModel.vitalSignsByCategory[VitalSignModel.SYSTOLIC_CATEGORY];
+					var systolicCollection:ArrayCollection = record.vitalSignsModel.vitalSignsByCategory[VitalSignsModel.SYSTOLIC_CATEGORY];
 					var systolicVitalSign:VitalSign = systolicCollection[systolicCollection.length - 1];
 					_simulation.systolic = systolicVitalSign.resultAsNumber;
 				}
 
-				if (record.vitalSignModel.isInitialized && record.vitalSignModel.hasCategory(VitalSignModel.DIASTOLIC_CATEGORY))
+				if (record.vitalSignsModel.isInitialized && record.vitalSignsModel.hasCategory(VitalSignsModel.DIASTOLIC_CATEGORY))
 				{
-					var diastolicCollection:ArrayCollection = record.vitalSignModel.vitalSignsByCategory[VitalSignModel.DIASTOLIC_CATEGORY];
+					var diastolicCollection:ArrayCollection = record.vitalSignsModel.vitalSignsByCategory[VitalSignsModel.DIASTOLIC_CATEGORY];
 					var diastolicVitalSign:VitalSign = diastolicCollection[diastolicCollection.length - 1];
 					_simulation.diastolic = diastolicVitalSign.resultAsNumber;
 				}
@@ -143,12 +143,12 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 		public function get isSystolicReportLoaded():Boolean
 		{
-			return record.vitalSignModel.isInitialized;
+			return record.vitalSignsModel.isInitialized;
 		}
 
 		public function get isDiastolicReportLoaded():Boolean
 		{
-			return record.vitalSignModel.isInitialized;
+			return record.vitalSignsModel.isInitialized;
 		}
 
 		public function set currentDateSource(value:ICurrentDateSource):void
@@ -195,7 +195,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 										record.medicationAdministrationsModel, "isInitialized");
 				BindingUtils.bindSetter(adherenceItemsModel_isInitialized_setterHandler, record.adherenceItemsModel,
 										"isInitialized");
-				BindingUtils.bindSetter(vitalSignModel_isInitialized_setterHandler, record.vitalSignModel,
+				BindingUtils.bindSetter(vitalSignModel_isInitialized_setterHandler, record.vitalSignsModel,
 										"isInitialized");
 			}
 			else
@@ -244,12 +244,12 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 		public function get systolicData():ArrayCollection
 		{
-			return record.vitalSignModel.vitalSignsByCategory[VitalSignModel.SYSTOLIC_CATEGORY];
+			return record.vitalSignsModel.vitalSignsByCategory[VitalSignsModel.SYSTOLIC_CATEGORY];
 		}
 
 		public function get diastolicData():ArrayCollection
 		{
-			return record.vitalSignModel.vitalSignsByCategory[VitalSignModel.DIASTOLIC_CATEGORY];
+			return record.vitalSignsModel.vitalSignsByCategory[VitalSignsModel.DIASTOLIC_CATEGORY];
 		}
 
 		public function get medicationConcentrationCurvesByCode():HashMap

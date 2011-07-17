@@ -16,16 +16,17 @@
  */
 package collaboRhythm.shared.model
 {
-	import collaboRhythm.shared.model.DateUtil;
-	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
+
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
-    import j2as3.collection.HashMap;
+	import j2as3.collection.HashMap;
 
-    [Bindable]
-	public class Equipment extends DocumentMetadata
+	[Bindable]
+	public class Equipment extends DocumentBase
 	{
+		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#Equipment";
 		private var _dateStarted:Date;
 		private var _dateStopped:Date;
 		//TODO: type collides with an element of the metadata, fix in schema

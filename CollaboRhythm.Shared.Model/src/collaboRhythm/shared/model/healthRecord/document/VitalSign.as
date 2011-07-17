@@ -8,8 +8,9 @@ package collaboRhythm.shared.model.healthRecord.document
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 
 	[Bindable]
-	public class VitalSign extends DocumentMetadata
+	public class VitalSign extends DocumentBase
 	{
+		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#VitalSign";
 		private var _name:CodedValue;
 		private var _measuredBy:String;
 		private var _dateMeasuredStart:Date;

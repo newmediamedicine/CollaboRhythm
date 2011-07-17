@@ -18,20 +18,19 @@ package collaboRhythm.shared.model
 {
 
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
-    import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
-    import collaboRhythm.shared.model.services.WorkstationKernel;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
 
-    import collaboRhythm.shared.model.DateUtil;
+	import com.adobe.utils.DateUtil;
 
-    import com.adobe.utils.DateUtil;
+	import j2as3.collection.HashMap;
 
-    import j2as3.collection.HashMap;
-
-    [Bindable]
-    public class ScheduleItemBase extends DocumentMetadata
+	[Bindable]
+    public class ScheduleItemBase extends DocumentBase
     {
         public static const DAILY:String = "DAILY";
 

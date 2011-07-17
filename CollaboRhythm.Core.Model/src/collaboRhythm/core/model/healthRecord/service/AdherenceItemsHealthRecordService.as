@@ -32,7 +32,7 @@ package collaboRhythm.core.model.healthRecord.service
 
 	import org.indivo.client.IndivoClientEvent;
 
-	public class AdherenceItemsHealthRecordService extends PhaHealthRecordServiceBase implements IAdherenceItemXmlMarshaller
+	public class AdherenceItemsHealthRecordService extends DocumentStorageServiceBase implements IAdherenceItemXmlMarshaller
 	{
 
 		public function AdherenceItemsHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account)
@@ -40,8 +40,10 @@ package collaboRhythm.core.model.healthRecord.service
 			super(consumerKey, consumerSecret, baseURL, account);
 		}
 
-        public function getAdherenceItems(record:Record):void
+        override public function loadDocuments(record:Record):void
         {
+			super.loadDocuments(record);
+
 			// TODO: figure out what is wrong with order_by for this report; it is currently causing an error
 			var params:URLVariables = new URLVariables();
 //			params["order_by"] = "date_reported";
@@ -53,6 +55,7 @@ package collaboRhythm.core.model.healthRecord.service
         protected override function handleResponse(event:IndivoClientEvent, responseXml:XML, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
             parseAdherenceItemsReportXml(responseXml, healthRecordServiceRequestDetails.record.adherenceItemsModel);
+			super.handleResponse(event, responseXml, healthRecordServiceRequestDetails);
         }
 
 		public function parseAdherenceItemsReportXml(value:XML, adherenceItemsModel:AdherenceItemsModel):void
@@ -83,18 +86,19 @@ package collaboRhythm.core.model.healthRecord.service
             adherenceItemsModel.isInitialized = true;
 		}
 
-		public function initFromReportXML(adherenceItemReportXML:XML, adherenceItem:AdherenceItem):void
+		public function initFromReportXML(reportXml:XML, adherenceItem:AdherenceItem):void
 		{
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
-			DocumentMetadata.parseDocumentMetadata(adherenceItemReportXML.Meta.Document[0], adherenceItem);
-			var adherenceItemXml:XML = adherenceItemReportXML.Item.AdherenceItem[0];
+			DocumentMetadata.parseDocumentMetadata(reportXml.Meta.Document[0], adherenceItem);
+			var adherenceItemXml:XML = reportXml.Item.AdherenceItem[0];
 			adherenceItem.name = HealthRecordHelperMethods.xmlToCodedValue(adherenceItemXml.name[0]);
 			adherenceItem.reportedBy = adherenceItemXml.reportedBy;
 			adherenceItem.dateReported = collaboRhythm.shared.model.DateUtil.parseW3CDTF(adherenceItemXml.dateReported);
 			adherenceItem.recurrenceIndex = int(adherenceItemXml.recurrenceIndex);
 			adherenceItem.adherence = HealthRecordHelperMethods.stringToBoolean(adherenceItemXml.adherence);
 			adherenceItem.nonadherenceReason = adherenceItemXml.nonadherenceReason;
-			adherenceItem.adherenceResultId = adherenceItemReportXML..relatesTo.relation.(@type == "http://indivo.org/vocab/documentrels#adherenceresult").relatedDocument[0];
+			adherenceItem.adherenceResultId = reportXml..relatesTo.relation.(@type == "http://indivo.org/vocab/documentrels#adherenceresult").relatedDocument[0];
+			_relationshipXmlMarshaller.unmarshallRelationships(reportXml, adherenceItem);
 		}
 
 		public function convertToXML(adherenceItem:AdherenceItem):XML

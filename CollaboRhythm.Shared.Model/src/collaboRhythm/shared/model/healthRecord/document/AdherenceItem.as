@@ -18,19 +18,20 @@ package collaboRhythm.shared.model.healthRecord.document
 {
 
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
-	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 
 	[Bindable]
-	public class AdherenceItem extends DocumentMetadata
+	public class AdherenceItem extends DocumentBase
 	{
+		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#AdherenceItem";
 		private var _name:CodedValue;
 		private var _reportedBy:String;
 		private var _dateReported:Date;
-        private var _recurrenceIndex:int;
+		private var _recurrenceIndex:int;
 		private var _adherence:Boolean;
 		private var _nonadherenceReason:String;
-        private var _adherenceResultId:String;
-        private var _adherenceResult:Object;
+		private var _adherenceResultId:String;
+		private var _adherenceResult:Object;
 
 		public function AdherenceItem()
 		{

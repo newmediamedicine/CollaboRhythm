@@ -5,6 +5,7 @@ package collaboRhythm.shared.model
     [Bindable]
     public class EquipmentScheduleItem extends ScheduleItemBase
 	{
+		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#EquipmentScheduleItem";
         public static const EQUIPMENT:String = "Equipment";
 
         private var _scheduledEquipment:Equipment;

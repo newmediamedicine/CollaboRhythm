@@ -18,6 +18,7 @@ package collaboRhythm.shared.model
 {
 
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
     import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
 	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
@@ -25,8 +26,9 @@ package collaboRhythm.shared.model
     import collaboRhythm.shared.model.services.WorkstationKernel;
 
     [Bindable]
-    public class MedicationFill extends DocumentMetadata
+    public class MedicationFill extends DocumentBase
     {
+		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#MedicationFill";
         private var _name:CodedValue;
         private var _filledBy:String;
         private var _dateFilled:Date;
