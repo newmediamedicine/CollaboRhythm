@@ -52,7 +52,11 @@ package collaboRhythm.plugins.schedule.model
 		{
 			viewStack.removeAll();
 			_scheduleModel.createAdherenceItem(scheduleItemOccurrence, adherenceItem);
+			isReportingCompletedCheck(scheduleGroup);
+		}
 
+		private function isReportingCompletedCheck(scheduleGroup:ScheduleGroup):void
+		{
 			var isReportingCompletedCheck:Boolean = true;
 			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleGroup.scheduleItemsOccurrencesCollection)
 			{
@@ -142,6 +146,12 @@ package collaboRhythm.plugins.schedule.model
 		public function showAdditionalInformationView(additionalInformationView:UIComponent):void
 		{
 			viewStack.addItem(additionalInformationView);
+		}
+
+		public function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void
+		{
+			//TODO: actually flag the adherence item to be void
+			scheduleItemOccurrence.adherenceItem = null;
 		}
 
 		public function get viewStack():ArrayCollection

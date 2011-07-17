@@ -70,5 +70,10 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			_scheduleReportingModel.showAdditionalInformationView(additionalInformationView);
 		}
+
+		public function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void
+		{
+			_scheduleReportingModel.voidAdherenceItem(scheduleItemOccurrence);
+		}
 	}
 }

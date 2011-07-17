@@ -138,12 +138,11 @@
 					scheduleItemOccurrencesContainer.removeElement(scheduleItemClockView);
 				}
 			}
-
 		}
 
 		private function stackingUpdateHandler(stackingUpdated:Boolean):void
 		{
-			if (stackingUpdated)
+			if (stackingUpdated && _isCreationComplete)
 			{
 				updateView();
 			}
@@ -151,7 +150,10 @@
 
 		private function sizeChangeHandler(change:Number):void
 		{
-			updateView();
+			if (_isCreationComplete)
+			{
+				updateView();
+			}
 		}
 
 		private function updateView():void
@@ -164,14 +166,14 @@
 			var scheduleItemSize:Number = _scheduleGroupsContainer.height / 10;
 			var scheduleItemPositions:Array = determineScheduleItemPositions(scheduleItemSize, startAngle, endAngle);
 
-			for each (var scheduleItemWidgetView:ScheduleItemClockViewBase in _scheduleItemClockViews)
+			for each (var scheduleItemClockView:ScheduleItemClockViewBase in _scheduleItemClockViews)
 			{
-				scheduleItemWidgetView.width = scheduleItemWidgetView.height = scheduleItemSize;
+				scheduleItemClockView.width = scheduleItemClockView.height = scheduleItemSize;
 				if (scheduleItemPositions.length > 0)
 				{
 					var scheduleItemPosition:Array = scheduleItemPositions.pop();
-					scheduleItemWidgetView.x = scheduleItemPosition[0];
-					scheduleItemWidgetView.y = scheduleItemPosition[1];
+					scheduleItemClockView.x = scheduleItemPosition[0];
+					scheduleItemClockView.y = scheduleItemPosition[1];
 				}
 			}
 		}

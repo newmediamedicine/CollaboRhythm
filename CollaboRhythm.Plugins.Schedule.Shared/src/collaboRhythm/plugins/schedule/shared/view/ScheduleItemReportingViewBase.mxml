@@ -44,15 +44,17 @@
 		protected var _scheduleItemOccurrence:ScheduleItemOccurrence;
 		[Bindable]
 		protected var _scheduleReportingModel:IScheduleReportingModel;
+		protected var _activeAccountId:String;
 		private var _pendingAdherenceItemChangeWatcher:ChangeWatcher;
 
 		public static const SCHEDULE_ITEM_WIDGET_VIEW:String = "scheduleItemWidgetView";
 
 		public function init(scheduleItemOccurrence:ScheduleItemOccurrence,
-							 scheduleReportingModel:IScheduleReportingModel):void
+							 scheduleReportingModel:IScheduleReportingModel, activeAccountId:String):void
 		{
 			_scheduleItemOccurrence = scheduleItemOccurrence;
 			_scheduleReportingModel = scheduleReportingModel;
+			_activeAccountId = activeAccountId;
 
 			_pendingAdherenceItemChangeWatcher = BindingUtils.bindSetter(pendingAdherenceItem_changeHandler,
 																		 _scheduleReportingModel,
@@ -80,6 +82,12 @@
 			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
 															 _scheduleItemOccurrence, null,
 															 additionalInformationView));
+		}
+
+		public function dispatchAdherenceItemVoidEvent():void
+		{
+			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_VOID,
+															 _scheduleItemOccurrence, null, null))
 		}
 
 		protected function pendingAdherenceItem_changeHandler(pendingAdherenceItem:PendingAdherenceItem):void

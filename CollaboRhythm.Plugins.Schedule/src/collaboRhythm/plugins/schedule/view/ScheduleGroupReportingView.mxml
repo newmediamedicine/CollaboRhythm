@@ -25,56 +25,60 @@
     </fx:Declarations>
     <fx:Script>
 		<![CDATA[
-        import collaboRhythm.plugins.schedule.model.ScheduleModel;
-        import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
-        import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-        import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
-        import collaboRhythm.shared.model.ScheduleItemOccurrence;
+		import collaboRhythm.plugins.schedule.model.ScheduleModel;
+		import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
+		import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+		import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
+		import collaboRhythm.shared.model.ScheduleItemOccurrence;
 
-        import mx.binding.utils.BindingUtils;
+		import mx.binding.utils.BindingUtils;
 
-        private var _scheduleModel:ScheduleModel;
-        [Bindable]
-        private var _scheduleReportingModel:ScheduleReportingModel;
-        private var _creationComplete:Boolean;
+		private var _scheduleModel:ScheduleModel;
+		[Bindable]
+		private var _scheduleReportingModel:ScheduleReportingModel;
+		private var _creationComplete:Boolean;
+		private var _activeAccountId:String;
 
-        public function init(scheduleModel:ScheduleModel):void
-        {
-            _scheduleModel = scheduleModel;
-            _scheduleReportingModel = _scheduleModel.scheduleReportingModel;
+		public function init(scheduleModel:ScheduleModel, activeAccountId:String):void
+		{
+			_scheduleModel = scheduleModel;
+			_activeAccountId = activeAccountId;
 
-            BindingUtils.bindSetter(currentScheduleGroup_changeHandler, _scheduleReportingModel,
-                                    "currentScheduleGroup");
-        }
+			_scheduleReportingModel = _scheduleModel.scheduleReportingModel;
 
-        private function creationCompleteHandler():void
-        {
+			BindingUtils.bindSetter(currentScheduleGroup_changeHandler, _scheduleReportingModel,
+									"currentScheduleGroup");
+		}
+
+		private function creationCompleteHandler():void
+		{
 			if (_scheduleReportingModel.currentScheduleGroup)
 			{
-            	updateScheduleItemOccurrences(_scheduleReportingModel.currentScheduleGroup);
+				updateScheduleItemOccurrences(_scheduleReportingModel.currentScheduleGroup);
 			}
-            _creationComplete = true;
-        }
+			_creationComplete = true;
+		}
 
-        private function currentScheduleGroup_changeHandler(currentScheduleGroup:ScheduleGroup):void
-        {
-            if (_creationComplete)
-            {
-                updateScheduleItemOccurrences(currentScheduleGroup);
-            }
-        }
+		private function currentScheduleGroup_changeHandler(currentScheduleGroup:ScheduleGroup):void
+		{
+			if (_creationComplete)
+			{
+				updateScheduleItemOccurrences(currentScheduleGroup);
+			}
+		}
 
-        private function updateScheduleItemOccurrences(currentScheduleGroup:ScheduleGroup):void
-        {
-            scheduleItemsGroup.removeAllElements();
-            for each (var scheduleItemOccurrence:ScheduleItemOccurrence in currentScheduleGroup.scheduleItemsOccurrencesCollection)
-            {
-                var scheduleItemReportingView:ScheduleItemReportingViewBase = _scheduleModel.viewFactory.createScheduleItemReportingView(scheduleItemOccurrence,
-                                                                                                                                         _scheduleModel.scheduleReportingModel);
-                scheduleItemsGroup.addElement(scheduleItemReportingView);
-            }
-        }
-        ]]>
+		private function updateScheduleItemOccurrences(currentScheduleGroup:ScheduleGroup):void
+		{
+			scheduleItemsGroup.removeAllElements();
+			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in currentScheduleGroup.scheduleItemsOccurrencesCollection)
+			{
+				var scheduleItemReportingView:ScheduleItemReportingViewBase = _scheduleModel.viewFactory.createScheduleItemReportingView(scheduleItemOccurrence,
+																																		 _scheduleModel.scheduleReportingModel,
+																																		 _activeAccountId);
+				scheduleItemsGroup.addElement(scheduleItemReportingView);
+			}
+		}
+		]]>
 	</fx:Script>
     <s:VGroup id="scheduleItemsGroup" width="100%" height="100%" gap="0"/>
 </s:Group>

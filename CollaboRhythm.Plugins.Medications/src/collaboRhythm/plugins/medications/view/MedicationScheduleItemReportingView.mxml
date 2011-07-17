@@ -49,6 +49,7 @@
 		<![CDATA[
 		import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 		import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
+		import collaboRhythm.shared.model.MedicationFillsModel;
 		import collaboRhythm.shared.model.MedicationOrder;
 		import collaboRhythm.shared.model.MedicationScheduleItem;
 		import collaboRhythm.shared.model.ScheduleItemBase;
@@ -66,9 +67,9 @@
 		private var _currentDateSource:ICurrentDateSource;
 
 		public override function init(scheduleItemOccurrence:ScheduleItemOccurrence,
-									  scheduleReportingModel:IScheduleReportingModel):void
+									  scheduleReportingModel:IScheduleReportingModel, activeAccountId:String):void
 		{
-			super.init(scheduleItemOccurrence, scheduleReportingModel);
+			super.init(scheduleItemOccurrence, scheduleReportingModel, activeAccountId);
 			_medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
 			_medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
 
@@ -86,49 +87,73 @@
 			//TODO: Once medication fills are working, use the ndc
 			if (_medicationScheduleItem.name.value == "617320")
 			{
-				medicationImage.source = MedicationScheduleItemClockView.ndc000779;
+				medicationImage.source = encodeURI(MedicationFillsModel.MEDICATION_API_URL_BASE + "000779-front.png");
 			}
 			else if (_medicationScheduleItem.name.value == "310798")
 			{
-				medicationImage.source = MedicationScheduleItemClockView.ndc006033856;
+				medicationImage.source = encodeURI(MedicationFillsModel.MEDICATION_API_URL_BASE + "006033856-front.png");
 			}
 		}
 
 		private function adherenceButtonClickHandler(event:MouseEvent):void
 		{
-			var medicationAdministration:MedicationAdministration = new MedicationAdministration();
-			medicationAdministration.init(_medicationOrder.name, "rpoole@records.media.mit.edu",
-										  _currentDateSource.now(), _currentDateSource.now(),
-										  _medicationScheduleItem.dose);
-			var adherenceItem:AdherenceItem = new AdherenceItem();
-			adherenceItem.init(_medicationOrder.name, "rpoole@records.media.mit.edu", _currentDateSource.now(),
-							   scheduleItemOccurrence.recurrenceIndex, true, null, medicationAdministration);
+			if (adherenceButton.selected)
+			{
+				var medicationAdministration:MedicationAdministration = new MedicationAdministration();
+				medicationAdministration.init(_medicationOrder.name, _activeAccountId,
+											  _currentDateSource.now(), _currentDateSource.now(),
+											  _medicationScheduleItem.dose);
+				var adherenceItem:AdherenceItem = new AdherenceItem();
+				adherenceItem.init(_medicationOrder.name, _activeAccountId, _currentDateSource.now(),
+								   scheduleItemOccurrence.recurrenceIndex, true, null, medicationAdministration);
 
-			dispatchAdherenceItemCompleteEvent(adherenceItem);
+				dispatchAdherenceItemCompleteEvent(adherenceItem);
+			}
+			else
+			{
+				dispatchAdherenceItemVoidEvent();
+			}
+
+			if (nonadherenceButton.selected)
+			{
+				nonadherenceButton.selected = false;
+			}
 		}
 
 		private function nonadherenceButtonClickHandler(event:MouseEvent):void
 		{
-			var adherenceItem:AdherenceItem = new AdherenceItem();
-			adherenceItem.init(_medicationOrder.name, "rpoole@records.media.mit.edu", _currentDateSource.now(),
-							   scheduleItemOccurrence.recurrenceIndex, false);
+			if (nonadherenceButton.selected)
+			{
+				var adherenceItem:AdherenceItem = new AdherenceItem();
+				adherenceItem.init(_medicationOrder.name, _activeAccountId, _currentDateSource.now(),
+								   scheduleItemOccurrence.recurrenceIndex, false);
 
-			var nonAdherenceReasonView:NonAdherenceReasonView = new NonAdherenceReasonView();
-			nonAdherenceReasonView.init(_scheduleItemOccurrence, adherenceItem);
-			dispatchAdherenceItemIncompleteEvent(nonAdherenceReasonView);
+				var nonAdherenceReasonView:NonAdherenceReasonView = new NonAdherenceReasonView();
+				nonAdherenceReasonView.init(_scheduleItemOccurrence, adherenceItem);
+				dispatchAdherenceItemIncompleteEvent(nonAdherenceReasonView);
+			}
+			else
+			{
+				dispatchAdherenceItemVoidEvent();
+			}
+
+			if (adherenceButton.selected)
+			{
+				adherenceButton.selected = false;
+			}
 		}
 
 		override protected function pendingAdherenceItem_changeHandler(pendingAdherenceItem:PendingAdherenceItem):void
 		{
-
 			if (pendingAdherenceItem)
 			{
+				//TODO: Implement when pill box is working
 //                adherenceHandler(pendingAdherenceItem.adherenceItem);
 			}
 		}
 		]]>
 	</fx:Script>
-	<s:Group id="med" width="100%" height="100%" enabled="{!_scheduleItemOccurrence.adherenceItem}">
+	<s:Group id="med" width="100%" height="100%">
 		<s:Rect id="background" width="100%" height="100%">
 			<s:fill>
 				<!--TODO: Reimplement coloring during collaboration-->
@@ -169,14 +194,14 @@
 			<s:Group id="buttonRegion" right="0" width="{this.height / 2 + 5}" height="100%">
 				<s:VGroup left="0" right="5" height="100%">
 					<s:Group width="100%" height="50%">
-						<s:Button id="adherenceButton"
-								  skinClass="collaboRhythm.plugins.medications.view.AdherenceButtonSkin"
-								  click="adherenceButtonClickHandler(event)" width="100%" top="5" bottom="0"/>
+						<s:ToggleButton id="adherenceButton"
+										skinClass="collaboRhythm.plugins.medications.view.AdherenceButtonSkin"
+										click="adherenceButtonClickHandler(event)" width="100%" top="5" bottom="0"/>
 					</s:Group>
 					<s:Group width="100%" height="50%">
-						<s:Button id="nonadherenceButton"
-								  skinClass="collaboRhythm.plugins.medications.view.NonadherenceButtonSkin"
-								  click="nonadherenceButtonClickHandler(event)" width="100%" top="0" bottom="5"/>
+						<s:ToggleButton id="nonadherenceButton"
+										skinClass="collaboRhythm.plugins.medications.view.NonadherenceButtonSkin"
+										click="nonadherenceButtonClickHandler(event)" width="100%" top="0" bottom="5"/>
 					</s:Group>
 				</s:VGroup>
 			</s:Group>

@@ -23,7 +23,8 @@ package collaboRhythm.shared.model
 	[Bindable]
 	public class Contact
 	{
-        private var _rawData:XML;
+		private const ACCOUNT_IMAGES_API_URL_BASE = "http://www.mit.edu/~jom/temp/accountImages/";
+
 		private var _fullName:String;
         private var _givenName:String;
         private var _familyName:String;
@@ -46,32 +47,6 @@ package collaboRhythm.shared.model
             this.dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, "userName", null, this.userName));
 			this.dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, "imageURI", null, this.imageURI));
         }
-//
-// 		public function get rawData():XML
-//		{
-//			return _rawData;
-//		}
-//
-//		public function set rawData(value:XML):void
-//		{
-//			_rawData = value;
-//
-//			if (rawData.name.length() == 1)
-//			{
-//				var nameXml:XML = rawData.name[0];
-//				if (nameXml.givenName.length() == 1)
-//				{
-//					this.givenName = nameXml.givenName.toString();
-//				}
-//
-//				if (nameXml.familyName.length() == 1)
-//				{
-//					this.familyName = nameXml.familyName.toString();
-//				}
-//
-//
-//			}
-//		}
 
         public function get fullName():String
         {
@@ -116,17 +91,10 @@ package collaboRhythm.shared.model
 		{
 			throw new IllegalOperationError("userName is read-only");
 		}
-		
-		//		private function set userName(value:String):void
-		//		{
-		//			_userName = value;
-		////			imageURI = "resources/images/users/" + _userName + ".jpg";
-		//		}
-		
+
 		public function get imageURI():String
 		{
-			//			return _imageURI;
-			return userName ? "assets/images/users/" + userName + ".jpg" : null;
+			return userName ? ACCOUNT_IMAGES_API_URL_BASE + userName + ".jpg" : null;
 		}
 		
 		public function set imageURI(value:String):void

@@ -181,7 +181,7 @@
 			<s:SolidColorStroke color="0xFFFFFF"/>
 		</s:stroke>
 	</s:Rect>
-	<s:VGroup horizontalAlign="center">
+	<s:VGroup horizontalCenter="0" verticalCenter="0"  horizontalAlign="center" includeIn="buffering">
 		<s:SWFLoader id="bufferingIndicatorView" source="{bufferingAnimation}" width="100" height="100"/>
 		<s:Label id="bufferingLabel" text="buffering"/>
 	</s:VGroup>

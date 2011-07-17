@@ -45,7 +45,8 @@
     </fx:Style>
     <fx:Script>
 		<![CDATA[
-        import collaboRhythm.shared.model.MedicationOrder;
+		import collaboRhythm.shared.model.MedicationFillsModel;
+		import collaboRhythm.shared.model.MedicationOrder;
         import collaboRhythm.shared.model.MedicationScheduleItem;
         import collaboRhythm.shared.model.ScheduleItemBase;
         import collaboRhythm.shared.model.ScheduleItemOccurrence;
@@ -79,11 +80,11 @@
             //TODO: Once medication fills are working, use the ndc
             if (_medicationScheduleItem.name.value == "617320")
             {
-                medicationImage.source = MedicationScheduleItemClockView.ndc000779;
+                medicationImage.source = encodeURI(MedicationFillsModel.MEDICATION_API_URL_BASE + "000779-front.png");
             }
             else if (_medicationScheduleItem.name.value == "310798")
             {
-                medicationImage.source = MedicationScheduleItemClockView.ndc006033856;
+                medicationImage.source = encodeURI(MedicationFillsModel.MEDICATION_API_URL_BASE + "006033856-front.png");
             }
         }
         ]]>
