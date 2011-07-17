@@ -64,13 +64,13 @@ package collaboRhythm.shared.model
 		private var _netConnection:NetConnection;
 		private var _activeAccount:Account;
 		private var _collaborationModel:CollaborationModel;
-		private var logger:ILogger;
+		private var _logger:ILogger;
 
 		public function CollaborationLobbyNetConnectionService(localUserName:String, rtmpBaseURI:String,
 															   collaborationModel:CollaborationModel,
 															   activeAccount:Account)
 		{
-			logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 
 			_localUserName = localUserName;
 			_rtmpURI = rtmpBaseURI + "/CollaboRhythm.CollaborationServer/_definst_";
@@ -93,7 +93,7 @@ package collaboRhythm.shared.model
 		{
 			if (_failedAttempts == 0)
 			{
-				logger.info("Collaboration Lobby NetConnection initial connection attempt...");
+				_logger.info("Collaboration Lobby NetConnection initial connection attempt...");
 			}
 			_netConnection.connect(_rtmpURI, _activeAccount.accountId, User.COLLABORATION_LOBBY_AVAILABLE,
 								   _activeAccount.allSharingAccounts.keys.toArray());
@@ -104,12 +104,12 @@ package collaboRhythm.shared.model
 			_failedAttempts += 1;
 			if (_failedAttempts <= MAX_FAILED_ATTEMPTS && _automaticRetryEnabled)
 			{
-				logger.info("Collection Lobby NetConnection retry {1} of {2}.", _failedAttempts, MAX_FAILED_ATTEMPTS.toString());
+				_logger.info("Collection Lobby NetConnection retry {1} of {2}.", _failedAttempts, MAX_FAILED_ATTEMPTS.toString());
 				enterCollaborationLobby();
 			}
 			else
 			{
-				logger.warn("Collection Lobby NetConnection failed {1} of {2}. Giving up.", _failedAttempts, MAX_FAILED_ATTEMPTS.toString());
+				_logger.warn("Collection Lobby NetConnection failed {1} of {2}. Giving up.", _failedAttempts, MAX_FAILED_ATTEMPTS.toString());
 			}
 		}
 
@@ -118,26 +118,26 @@ package collaboRhythm.shared.model
 			switch (event.info.code)
 			{
 				case NETCONNECTION_STATUS_CALL_FAILED:
-					logger.info("Collaboration Lobby NetConnection status " + NETCONNECTION_STATUS_CALL_FAILED);
+					_logger.info("Collaboration Lobby NetConnection status " + NETCONNECTION_STATUS_CALL_FAILED);
 					break;
 				case NETCONNECTION_STATUS_CONNECT_APPSHUTDOWN:
-					logger.warn("Collaboration Lobby NetConnection status " + NETCONNECTION_STATUS_CONNECT_APPSHUTDOWN);
+					_logger.warn("Collaboration Lobby NetConnection status " + NETCONNECTION_STATUS_CONNECT_APPSHUTDOWN);
 					isConnected = false;
 					break;
 				case NETCONNECTION_STATUS_CONNECT_CLOSED:
-					logger.info("Collaboration Lobby NetConnection status " + NETCONNECTION_STATUS_CONNECT_CLOSED);
+					_logger.info("Collaboration Lobby NetConnection status " + NETCONNECTION_STATUS_CONNECT_CLOSED);
 					isConnected = false;
 					retryConnection();
 					break;
 				case NETCONNECTION_STATUS_CONNECT_FAILED:
-					logger.info("Collaboration Lobby NetConnection status " + NETCONNECTION_STATUS_CONNECT_FAILED);
+					_logger.info("Collaboration Lobby NetConnection status " + NETCONNECTION_STATUS_CONNECT_FAILED);
 					retryConnection();
 					break;
 				case NETCONNECTION_STATUS_CONNECT_REJECTED:
-					logger.warn("Collaboration Lobby NetConnection status " + NETCONNECTION_STATUS_CONNECT_REJECTED + " " + event.info);
+					_logger.warn("Collaboration Lobby NetConnection status " + NETCONNECTION_STATUS_CONNECT_REJECTED + " " + event.info);
 					break;
 				case NETCONNECTION_STATUS_CONNECT_SUCCESS:
-					logger.info("Collaboration Lobby NetConnection status " + NETCONNECTION_STATUS_CONNECT_SUCCESS);
+					_logger.info("Collaboration Lobby NetConnection status " + NETCONNECTION_STATUS_CONNECT_SUCCESS);
 					isConnected = true;
 					break;
 			}
@@ -145,17 +145,17 @@ package collaboRhythm.shared.model
 
 		private function ioErrorHandler(error:IOErrorEvent):void
 		{
-			logger.warn(IOErrorEvent.IO_ERROR + error.errorID + " " + error.text);
+			_logger.warn(IOErrorEvent.IO_ERROR + error.errorID + " " + error.text);
 		}
 
 		private function asyncErrorHandler(error:AsyncErrorEvent):void
 		{
-			logger.warn(AsyncErrorEvent.ASYNC_ERROR + error.errorID + " " + error.text);
+			_logger.warn(AsyncErrorEvent.ASYNC_ERROR + error.errorID + " " + error.text);
 		}
 
 		private function securityErrorHandler(error:SecurityErrorEvent):void
 		{
-			logger.warn(SecurityErrorEvent.SECURITY_ERROR + error.errorID + " " + error.text);
+			_logger.warn(SecurityErrorEvent.SECURITY_ERROR + error.errorID + " " + error.text);
 		}
 
 		public function updateCollaborationLobbyConnectionStatus(collaborationLobbyConnectionStatus:String):void

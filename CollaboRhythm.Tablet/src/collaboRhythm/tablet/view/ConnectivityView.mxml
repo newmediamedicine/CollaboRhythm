@@ -24,7 +24,20 @@
 		<s:State name="connectFailed"/>
 		<s:State name="persistFailed"/>
 	</s:states>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		.connectivityText {
+			color: #FFFFFF;
+			font-size: 40;
+		}
+
+	</fx:Style>
 	<fx:Script><![CDATA[
+
+		[Embed("../../../assets/swfs/buffering.swf")]
+		[Bindable]
+		public var bufferingAnimation:Class;
 
 		private function retryButton_clickHandler():void
 		{
@@ -40,23 +53,40 @@
 		{
 
 		}
-
 		]]></fx:Script>
 	<s:Rect width="100%" height="100%">
 		<s:fill>
-			<s:SolidColor color="#CCCCCC" alpha="0.4"/>
+			<s:SolidColor color="#000000" alpha="0.3"/>
 		</s:fill>
 	</s:Rect>
-	<s:VGroup>
-		<s:Label text="Connecting to your health record." includeIn="connectInProgress"/>
-		<s:Label text="Failed to connect to your health record." includeIn="connectFailed"/>
-		<s:Label text="Failed to save data to your health record" includeIn="persistFailed"/>
-		<s:Label text="Please check your internet connection." includeIn="connectFailed, persistFailed"/>
-		<s:HGroup>
-			<s:Button id="retryButton" label="Retry" includeIn="connectFailed, persistFailed" click="retryButton_clickHandler()"/>
-			<s:Button id="quitButton" label="Quit" includeIn="connectFailed" click="quitButton_clickHandler()"/>
-			<s:Button id="ignoreButton" label="Ignore" includeIn="persistFailed" click="ignoreButton_clickHandler()"/>
-		</s:HGroup>
-	</s:VGroup>
-
+	<s:Group verticalCenter="0" horizontalCenter="0">
+		<s:Rect width="100%" height="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="#FFFFFF" alpha="0.5"/>
+			</s:stroke>
+			<s:fill>
+				<s:SolidColor color="#000000"/>
+			</s:fill>
+		</s:Rect>
+		<s:VGroup horizontalAlign="center" paddingLeft="20" paddingRight="20"
+				  paddingTop="20" paddingBottom="20" gap="20">
+			<s:Label text="Connecting to your health record." includeIn="connectInProgress"
+					 styleName="connectivityText"/>
+			<s:SWFLoader id="bufferingIndicatorView" source="{bufferingAnimation}" width="200" height="200" includeIn="connectInProgress"/>
+			<s:Label text="Failed to connect to your health record." includeIn="connectFailed"
+					 styleName="connectivityText"/>
+			<s:Label text="Failed to save data to your health record" includeIn="persistFailed"
+					 styleName="connectivityText"/>
+			<s:Label text="Please check your internet connection." includeIn="connectFailed, persistFailed"
+					 styleName="connectivityText"/>
+			<s:HGroup>
+				<s:Button id="retryButton" label="Retry" includeIn="connectFailed, persistFailed"
+						  styleName="connectivityText" click="retryButton_clickHandler()"/>
+				<s:Button id="quitButton" label="Quit" includeIn="connectFailed" styleName="connectivityText"
+						  click="quitButton_clickHandler()"/>
+				<s:Button id="ignoreButton" label="Ignore" includeIn="persistFailed" styleName="connectivityText"
+						  click="ignoreButton_clickHandler()"/>
+			</s:HGroup>
+		</s:VGroup>
+	</s:Group>
 </s:Group>

@@ -24,6 +24,9 @@ package collaboRhythm.tablet.controller
 	import collaboRhythm.tablet.view.ConnectivityView;
 	import collaboRhythm.tablet.view.TabletApplicationView;
 
+	import mx.binding.utils.BindingUtils;
+	import mx.binding.utils.ChangeWatcher;
+
 	import mx.core.IVisualElementContainer;
 
 	public class TabletApplicationController extends ApplicationControllerBase
@@ -51,8 +54,12 @@ package collaboRhythm.tablet.controller
 			initCollaborationController();
 
 			createSession();
+		}
 
-//			_connectivityView.visible = true;
+
+		override protected function documentsIsLoading_changeHandler(isLoading:Boolean):void
+		{
+			_connectivityView.visible = isLoading;
 		}
 
 		public override function openRecordAccount(recordAccount:Account):void

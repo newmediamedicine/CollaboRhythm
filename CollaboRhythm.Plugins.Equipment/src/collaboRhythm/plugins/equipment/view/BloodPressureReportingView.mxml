@@ -62,10 +62,9 @@
 		import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
-		import collaboRhythm.shared.model.healthRecord.document.VitalSignModel;
+		import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 		import collaboRhythm.shared.model.services.ICurrentDateSource;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
-
 
 		private static const HYPOTENSION_SYSTOLIC_THRESHOLD:int = 90;
 		private static const HYPOTENSION_DIASTOLIC_THRESHOLD:int = 60;
@@ -153,11 +152,11 @@
 			var abbrev:String;
 			switch (category)
 			{
-				case VitalSignModel.SYSTOLIC_CATEGORY:
+				case VitalSignsModel.SYSTOLIC_CATEGORY:
 					valueString = "123";
 					abbrev = "BPsys";
 					break;
-				case VitalSignModel.DIASTOLIC_CATEGORY:
+				case VitalSignsModel.DIASTOLIC_CATEGORY:
 					valueString = "124";
 					abbrev = "BPdia";
 					break;
@@ -227,8 +226,8 @@
 
 		private function submit():void
 		{
-			createVitalSign(VitalSignModel.SYSTOLIC_CATEGORY, int(systolicResult.text));
-			createVitalSign(VitalSignModel.DIASTOLIC_CATEGORY, int(diastolicResult.text));
+			createVitalSign(VitalSignsModel.SYSTOLIC_CATEGORY, int(systolicResult.text));
+			createVitalSign(VitalSignsModel.DIASTOLIC_CATEGORY, int(diastolicResult.text));
 			//TODO: add heart rate
 			if (int(systolicResult.text) < HYPOTENSION_SYSTOLIC_THRESHOLD || int(diastolicResult.text) < HYPOTENSION_DIASTOLIC_THRESHOLD)
 			{

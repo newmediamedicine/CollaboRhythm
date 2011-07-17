@@ -52,6 +52,8 @@ package collaboRhythm.core.controller
 	import flash.net.NetworkInterface;
 	import flash.utils.getQualifiedClassName;
 
+	import mx.binding.utils.BindingUtils;
+
 	import mx.core.IVisualElementContainer;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
@@ -478,6 +480,7 @@ package collaboRhythm.core.controller
 																	   settings.oauthChromeConsumerSecret,
 																	   settings.indivoServerBaseURL,
 																	   _activeAccount);
+			BindingUtils.bindSetter(documentsIsLoading_changeHandler, _healthRecordServiceFacade, "isLoading");
 			_healthRecordServiceFacade.loadDocuments(recordAccount.primaryRecord);
 		}
 
@@ -486,6 +489,14 @@ package collaboRhythm.core.controller
 			recordAccount.primaryRecord.clearDocuments();
 			recordAccount.primaryRecord.getDocuments();
 			_healthRecordServiceFacade.loadDocuments(recordAccount.primaryRecord);
+		}
+
+		/**
+		 * Virtual method which subclasses should override to dictate what happens when a record is closed
+		 */
+		protected function documentsIsLoading_changeHandler(isLoading:Boolean):void
+		{
+
 		}
 	}
 }

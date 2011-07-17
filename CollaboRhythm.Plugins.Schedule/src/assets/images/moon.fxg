@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="2.0" viewHeight="100" viewWidth="100" ai:appVersion="15.0.0.399" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+  <Library/>
+  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="100" d:pageWidth="100" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:objID="1ea16900" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+      <Path x="0.921387" winding="nonZero" ai:objID="233cea80" ai:seqID="3" data="M30.0454 3.37744C49.4219 4.36426 64.8315 20.3755 64.8315 39.9985 64.8315 60.2539 48.415 76.6641 28.1592 76.6641 16.8433 76.6641 6.72363 71.541 0 63.4805L1.2207 67.2646C8.25195 86.3691 26.6133 100 48.1587 100 75.7769 100 98.1567 77.6123 98.1567
+ 50 98.1567 22.3838 75.7769 0 48.1587 0 42.9829 0 37.9902 0.785156 33.2886 2.24609L30.0454 3.37744Z">
+        <fill>
+          <SolidColor color="#FFFFFF"/>
+        </fill>
+      </Path>
+    </Group>
+  </Group>
+  <Private>
+      <ai:PrivateElement d:ref="#1">
+        <ai:SaveOptions>
+          <ai:Dict data="B downsampleLinkedImages 0 I rasterizeResolution 72 I expandBlendsOption 5 I preserveGradientPolicy 4 I preserveFilterPolicy 3 I preserveTextPolicy 4 B includeObjectOutsideArtboard 0 B aiEditCap 1 B writeImages 1 B includeXMP 0 B includeSymbol 0 I versionKey 2 "/>
+        </ai:SaveOptions>
+        <ai:DocData base="moon.assets/images" rulerCanvasDiffH="280.5" rulerCanvasDiffV="210.5">
+          <ai:DocRasterSettings>
+            <ai:Dict data="R padd 36 B mask 0 B spot 1 B alis 0 I dpi. 300 I colr 4 "/>
+          </ai:DocRasterSettings>
+        </ai:DocData>
+        <ai:AutoGenImageList>
+          <ai:Dict/>
+        </ai:AutoGenImageList>
+      </ai:PrivateElement>
+      <ai:PrivateElement flm:hashcode="5F824C13FAA5321FD3452AAB9E689536" d:ref="#2">
+        <ai:LayerOptions color="5 79.31 257 128.502"/>
+      </ai:PrivateElement>
+    </Private>
+  </Graphic>
