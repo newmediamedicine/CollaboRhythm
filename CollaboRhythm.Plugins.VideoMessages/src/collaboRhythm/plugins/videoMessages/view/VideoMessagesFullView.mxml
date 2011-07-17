@@ -22,7 +22,14 @@
 		 height="100%" width="100%"
 		 addedToStage="addedToStage()"
 		 removedFromStage="removedFromStage()"
-		 creationComplete="creationCompleteHandler()">
+		 creationComplete="creationCompleteHandler()"
+		show="showHandler()"
+		hide="hideHandler()"
+		currentState="hidden">
+	<s:states>
+		<s:State name="shown"/>
+				<s:State name="hidden"/>
+	</s:states>
 	<fx:Script>
         <![CDATA[
 		import collaboRhythm.plugins.videoMessages.controller.VideoMessagesAppController;
@@ -86,7 +93,7 @@
 
 		private function creationCompleteHandler():void
 		{
-			if (_collaborationLobbyNetConnectionService.isConnected)
+			if (_collaborationLobbyNetConnectionService.isConnected && currentState == "shown")
 			{
 				createNetStream();
 			}
@@ -95,12 +102,24 @@
 
 		private function connectedChangeHandler(isConnected:Boolean):Boolean
 		{
-			if (isConnected && _isCreationComplete)
+			if (isConnected && _isCreationComplete && currentState == "shown")
 			{
 				createNetStream();
 			}
 
 			return isConnected;
+		}
+
+		private function showHandler():void
+		{
+			currentState = "shown";
+			// TODO: is it necessary to check if creation complete and isConnected
+			createNetStream();
+		}
+
+		private function hideHandler():void
+		{
+			currentState = "hidden";
 		}
 
 		private function createNetStream():void
@@ -147,7 +166,7 @@
 				enabled="{connectedChangeHandler(_collaborationLobbyNetConnectionService.isConnected)}"/>
 		<s:Group width="60%" height="100%">
 			<sharedViews:VideoPlayer id="videoDisplay" width="560" height="420" horizontalCenter="0"
-									 verticalCenter="0"/>
+									 verticalCenter="0" includeIn="shown"/>
 		</s:Group>
 	</s:HGroup>
 </s:Group>

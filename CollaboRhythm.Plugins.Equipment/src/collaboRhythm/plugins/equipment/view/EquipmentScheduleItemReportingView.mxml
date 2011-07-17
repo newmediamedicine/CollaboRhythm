@@ -189,7 +189,7 @@
 					</s:fill>
 				</s:Rect>
 				<!--TODO: Fix images-->
-				<mx:Image name="foraImage" source="@Embed(source='/assets/images/fora.jpg')" width="100%" height="100%"
+				<mx:Image name="foraImage" source="@Embed(source='/assets/images/foraD40b.jpg')" width="100%" height="100%"
 						  smoothBitmapContent="true"/>
 				<images:BloodPressureScheduleItemClockView width="22%" height="22%" right="4" top="4"/>
 			</s:Group>

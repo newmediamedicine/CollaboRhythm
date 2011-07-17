@@ -18,6 +18,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:images="assets.images.*"
 		 width="100%" height="100%">
 	<s:states>
 		<s:State name="hypotension"/>
@@ -26,7 +27,7 @@
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 
-		.labelText {
+		.emergencyLabel {
 			color: #000000;
 			font-size: 30;
 		}
@@ -60,12 +61,21 @@
 			<s:SolidColor color="#CCCCCC"/>
 		</s:fill>
 	</s:Rect>
-	<s:VGroup>
-		<s:Label text="Your blood pressure is dangerously high" styleName="labelText" includeIn="hypertension"/>
-		<s:Label text="Your blood pressure is dangerously low" styleName="labelText" includeIn="hypotension"/>
-		<s:Label text="Please contact emergency services." styleName="labelText"/>
-		<s:Label text="If you are in the Charter House, contact the clinical staff." styleName="labelText"/>
-		<s:Label text="If you are outside of the Charter House, dial 911 or ask for help." styleName="labelText"/>
-		<s:Button id="okButton" label="OK" click="okButtonClickHandler()"/>
+	<s:VGroup left="10" right="10" top="10" bottom="10" gap="15">
+		<s:HGroup gap="15">
+			<images:warning width="100" height="100"/>
+			<s:VGroup>
+				<s:Label id="warningText" text="Warning:"/>
+				<s:Label text="Your blood pressure is dangerously low" styleName="emergencyLabel" includeIn="hypotension"/>
+				<s:Label text="Your blood pressure is dangerously high" styleName="emergencyLabel"
+						 includeIn="hypertension"/>
+				<s:Label text="Please contact emergency services." styleName="emergencyLabel"/>
+			</s:VGroup>
+		</s:HGroup>
+		<s:Label text="If you are in the Charter House," paddingTop="50" styleName="emergencyLabel"/>
+		<s:Label text="contact the clinical staff." paddingLeft="20" styleName="emergencyLabel"/>
+		<s:Label text="If you are outside of the Charter House," paddingTop="50" styleName="emergencyLabel"/>
+		<s:Label text="dial 911 or ask for help." paddingLeft="20" styleName="emergencyLabel"/>
 	</s:VGroup>
+	<s:Button id="okButton" left="10" right="10" bottom="10" height="80" label="OK" click="okButtonClickHandler()"/>
 </s:Group>

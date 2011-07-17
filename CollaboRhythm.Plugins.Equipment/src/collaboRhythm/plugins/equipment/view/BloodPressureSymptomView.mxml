@@ -18,6 +18,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:images="assets.images.*"
 		 width="100%" height="100%">
 	<s:states>
 		<s:State name="hypotension"/>
@@ -26,14 +27,16 @@
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 
-		.labelText {
-			color: #000000;
-			font-size: 30;
+		#warningText {
+			font-size: 40;
+		}
+
+		.warningLabel {
+			font-size: 28;
 		}
 
 		.symptomText {
-			color: #000000;
-			font-size: 30;
+			font-size: 40;
 		}
 
 		#noSymptomButton {
@@ -49,11 +52,14 @@
 
 		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
 		private var _adherenceItem:AdherenceItem;
+		private var _measurementsFromDeviceInitial:int;
 
-		public function init(scheduleItemOccurrence:ScheduleItemOccurrence, adherenceItem:AdherenceItem):void
+		public function init(scheduleItemOccurrence:ScheduleItemOccurrence, adherenceItem:AdherenceItem,
+							 measurementsFromDeviceInitial:int):void
 		{
 			_scheduleItemOccurrence = scheduleItemOccurrence;
 			_adherenceItem = adherenceItem;
+			_measurementsFromDeviceInitial = measurementsFromDeviceInitial;
 		}
 
 		private function symptomListChangeHandler(event:IndexChangeEvent):void
@@ -69,7 +75,7 @@
 		private function noSymptomButtonClickHandler(event:MouseEvent):void
 		{
 			var bloodPressureReportingView:BloodPressureReportingView = new BloodPressureReportingView();
-			bloodPressureReportingView.init(_scheduleItemOccurrence, _adherenceItem, true);
+			bloodPressureReportingView.init(_scheduleItemOccurrence, _adherenceItem, true, _measurementsFromDeviceInitial);
 			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
 															 _scheduleItemOccurrence, _adherenceItem,
 															 bloodPressureReportingView));
@@ -80,14 +86,20 @@
 			<s:SolidColor color="#CCCCCC"/>
 		</s:fill>
 	</s:Rect>
-	<s:VGroup left="10" right="10" top="10" bottom="10">
-		<s:Label text="Warning: Your blood pressure appears to be dangerously low." styleName="labelText"
-				 includeIn="hypotension"/>
-		<s:Label text="Warning: Your blood pressure appears to be dangerously high." styleName="labelText"
-				 includeIn="hypertension"/>
-		<s:Label text="Are you having any of the following symptoms?" styleName="labelText"/>
+	<s:VGroup left="10" right="10" top="10" bottom="10" gap="15">
+		<s:HGroup gap="15">
+			<images:warning width="100" height="100"/>
+			<s:VGroup>
+				<s:Label id="warningText" text="Warning:"/>
+				<s:Label text="Your blood pressure may be too low." styleName="warningLabel"
+						 includeIn="hypotension"/>
+				<s:Label text="Your blood pressure may be too high." styleName="warningLabel"
+						 includeIn="hypertension"/>
+				<s:Label text="Do you have any of these symptoms?" styleName="warningLabel"/>
+			</s:VGroup>
+		</s:HGroup>
 		<s:List id="hypotensionSymptomList" width="100%" change="symptomListChangeHandler(event)"
-				includeIn="hypotension" styleName="symptomText">
+				includeIn="hypotension" styleName="symptomText" skinClass="spark.skins.spark.ListSkin">
 			<mx:ArrayCollection>
 				<fx:String>dizziness or lightheadedness</fx:String>
 				<fx:String>fainting</fx:String>
@@ -96,14 +108,14 @@
 				<fx:String>nausea</fx:String>
 				<fx:String>cold/clammy skin</fx:String>
 				<fx:String>rapid/shallow breathing</fx:String>
-				<fx:String>fatigue</fx:String>
-				<fx:String>depression</fx:String>
-				<fx:String>significant thirst</fx:String>
+				<fx:String>severe fatigue or depression</fx:String>
+				<fx:String>severe thirst</fx:String>
 				<fx:String>other worrisome symptom</fx:String>
 			</mx:ArrayCollection>
 		</s:List>
-		<s:List id="hypertensionSymptomList" change="symptomListChangeHandler(event)" includeIn="hypertension"
-				styleName="symptomText">
+		<s:List id="hypertensionSymptomList" width="100%" change="symptomListChangeHandler(event)"
+				includeIn="hypertension"
+				styleName="symptomText" skinClass="spark.skins.spark.ListSkin">
 			<mx:ArrayCollection>
 				<fx:String>severe headache</fx:String>
 				<fx:String>severe anxiety</fx:String>
@@ -111,6 +123,7 @@
 				<fx:String>other worrisome symptom</fx:String>
 			</mx:ArrayCollection>
 		</s:List>
-		<s:Button id="noSymptomButton" label="None of the above" click="noSymptomButtonClickHandler(event)"/>
 	</s:VGroup>
+	<s:Button id="noSymptomButton" label="None of the above" left="10" right="10" bottom="10" height="80"
+			  click="noSymptomButtonClickHandler(event)"/>
 </s:Group>
