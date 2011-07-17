@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm1.plugins.hypertensionEducation.controller
+package collaboRhythm.plugins.hypertensionEducation.controller
 {
 
 	import collaboRhythm.plugins.hypertensionEducation.model.HypertensionEducationModel;

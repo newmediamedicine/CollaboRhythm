@@ -1,4 +1,4 @@
-package collaboRhythm1.plugins.hypertensionEducation.model
+package collaboRhythm.plugins.hypertensionEducation.model
 {
 
 	public class HypertensionEducationModel
