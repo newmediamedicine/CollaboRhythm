@@ -6,6 +6,7 @@ package collaboRhythm.core.model.healthRecord.service
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
 	import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
 	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
@@ -76,8 +77,11 @@ package collaboRhythm.core.model.healthRecord.service
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
 			if (responseXml.Report.Item.VitalSign.length() > 0)
 			{
-				record.vitalSignsModel.vitalSignsByCategory.put(requestDetails.category,
-															   parseVitalSignReportData(responseXml));
+				var vitalSignsCollection:ArrayCollection = parseVitalSignReportData(responseXml);
+				for each (var vitalSign:VitalSign in vitalSignsCollection)
+				{
+					record.addDocument(vitalSign, true);
+				}
 
 				_pendingVitalsCategories.remove(requestDetails.category);
 				if (_pendingVitalsCategories.size() == 0)
@@ -113,6 +117,7 @@ package collaboRhythm.core.model.healthRecord.service
 				var vitalSign:VitalSign = xmlMarshaller.unmarshallXml(reportXml.Item.VitalSign[0], vitalSignQName) as VitalSign;
 				if (vitalSign && vitalSign.dateMeasuredStart.valueOf() <= nowTime)
 				{
+					DocumentMetadata.parseDocumentMetadata(reportXml.Meta.Document[0], vitalSign);
 					_relationshipXmlMarshaller.unmarshallRelationships(reportXml, vitalSign);
 					collection.addItem(vitalSign);
 				}

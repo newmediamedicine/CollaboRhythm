@@ -4,6 +4,7 @@ package collaboRhythm.core.model.healthRecord
 	import collaboRhythm.core.model.healthRecord.service.AdherenceItemsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.DocumentStorageServiceBase;
 	import collaboRhythm.core.model.healthRecord.service.MedicationAdministrationsHealthRecordService;
+	import collaboRhythm.core.model.healthRecord.service.SaveChangesHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.VitalSignHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.stitchers.MedicationOrderStitcher;
 	import collaboRhythm.shared.model.Account;
@@ -28,12 +29,15 @@ package collaboRhythm.core.model.healthRecord
 		private var _stitchers:Vector.<IDocumentStitcher>;
 		private var _pendingServices:ArrayCollection = new ArrayCollection();
 		private var _adherenceItemsHealthRecordService:AdherenceItemsHealthRecordService;
+		private var _saveChangesHealthRecordService:SaveChangesHealthRecordService;
 		private var _isLoading:Boolean;
 
 		public function HealthRecordServiceFacade(consumerKey:String, consumerSecret:String, baseURL:String,
 												  account:Account)
 		{
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+			_saveChangesHealthRecordService = new SaveChangesHealthRecordService(consumerKey, consumerSecret, baseURL,
+																				 account);
 			_adherenceItemsHealthRecordService = new AdherenceItemsHealthRecordService(consumerKey, consumerSecret,
 																					   baseURL, account);
 
@@ -149,6 +153,11 @@ package collaboRhythm.core.model.healthRecord
 				names.push(parts[parts.length - 1]);
 			}
 			return names.join(", ");
+		}
+
+		public function saveChanges(record:Record):void
+		{
+			_saveChangesHealthRecordService.saveChanges(record);
 		}
 	}
 }

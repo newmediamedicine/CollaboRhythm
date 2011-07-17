@@ -156,7 +156,7 @@ package collaboRhythm.core.model.healthRecord.stitchers
 						throw new Error("Relationship.relatesToId must not be null when stitching");
 
 					// find the document to stitch to
-					var otherDocument:IDocument = record.documentsById.getItem(relationship.relatesToId);
+					var otherDocument:IDocument = record.currentDocumentsById.getItem(relationship.relatesToId);
 					if (otherDocument)
 					{
 						relationship.relatesTo = otherDocument;

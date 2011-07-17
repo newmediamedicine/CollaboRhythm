@@ -20,6 +20,11 @@ package collaboRhythm.workstation.controller
 	import collaboRhythm.core.controller.ApplicationControllerBase;
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.MedicationOrder;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
+	import collaboRhythm.shared.model.healthRecord.IDocument;
+	import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.view.CollaborationView;
 	import collaboRhythm.workstation.model.settings.ComponentLayout;
@@ -655,7 +660,7 @@ package collaboRhythm.workstation.controller
 //				}
 //			}
 //		}
-		private function keyUpHandler(event:KeyboardEvent):void
+		protected function keyUpHandler(event:KeyboardEvent):void
 		{
 			// If the user presses escape, close the entire application
 			if (event.keyCode == Keyboard.ESCAPE)
@@ -705,6 +710,14 @@ package collaboRhythm.workstation.controller
 					_settings.useSingleScreen = false;
 //					resetWindows();
 				}
+				else if (event.keyCode == Keyboard.D)
+				{
+					testDeleteDocuments();
+				}
+				else if (event.keyCode == Keyboard.S)
+				{
+					_healthRecordServiceFacade.saveChanges(_activeAccount.primaryRecord);
+				}
 			}
 			else if (event.keyCode == Keyboard.F1)
 			{
@@ -726,6 +739,28 @@ package collaboRhythm.workstation.controller
 			{
 				targetDate = null;
 			}
+		}
+
+		private function testDeleteDocuments():void
+		{
+			var documentTypes:Vector.<String> = new <String>[AdherenceItem.DOCUMENT_TYPE, MedicationOrder.DOCUMENT_TYPE];
+			var deletedCount:int = 0;
+
+			for each (var documentType:String in documentTypes)
+			{
+				var deletedCountByType:int = 0;
+				var documentCollection:IDocumentCollection = _activeRecordAccount.primaryRecord.documentCollections[documentType];
+				for each (var document:IDocument in documentCollection.documents)
+				{
+					deletedCountByType += _activeRecordAccount.primaryRecord.deleteDocument(document,
+																					  DocumentBase.ACTION_VOID,
+																					  "reloading test data", true);
+				}
+				_logger.info("  Marked " + deletedCountByType + " " + documentType + " documents for deletion.");
+				deletedCount += deletedCountByType;
+			}
+
+			_logger.info("Marked " + deletedCount + " documents for deletion.");
 		}
 
 		private function useDemoPreset(demoPresetIndex:int):void

@@ -19,5 +19,19 @@ package collaboRhythm.shared.model.healthRecord
 		function get isRelatedFrom():ArrayCollection;
 
 		function set isRelatedFrom(value:ArrayCollection):void;
+
+		/**
+		 * Action for the document which has not been persisted to the server.
+		 */
+		function get pendingAction():String;
+
+		function set pendingAction(value:String):void;
+
+		/**
+		 * Reason for voiding or archiving
+		 */
+		function get pendingActionReason():String;
+
+		function set pendingActionReason(value:String):void;
 	}
 }

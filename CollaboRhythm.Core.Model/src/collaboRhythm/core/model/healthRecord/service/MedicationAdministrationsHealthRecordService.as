@@ -55,17 +55,17 @@ package collaboRhythm.core.model.healthRecord.service
         protected override function handleResponse(event:IndivoClientEvent, responseXml:XML, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
 			var medicationAdministrationsModel:MedicationAdministrationsModel = healthRecordServiceRequestDetails.record.medicationAdministrationsModel;
-			parseMedicationAdministrationsReportXml(responseXml, medicationAdministrationsModel);
+			parseMedicationAdministrationsReportXml(responseXml, healthRecordServiceRequestDetails.record);
 			createMedicationConcentrationCollections(medicationAdministrationsModel);
 			medicationAdministrationsModel.isInitialized = true;
 
 			super.handleResponse(event, responseXml, healthRecordServiceRequestDetails);
         }
 
-		public function parseMedicationAdministrationsReportXml(value:XML, medicationAdministrationsModel:MedicationAdministrationsModel):void
+		public function parseMedicationAdministrationsReportXml(value:XML, record:Record):void
 		{
 			// clear any data that may have been previously loaded
-			medicationAdministrationsModel.clearMedicationAdministrations();
+			record.medicationAdministrationsModel.clearMedicationAdministrations();
 
 			// trim off any data that is from the future (according to ICurrentDateSource); note that we assume the data is in ascending order by date
 			var nowTime:Number = _currentDateSource.now().time;
@@ -87,7 +87,7 @@ package collaboRhythm.core.model.healthRecord.service
 
 			for each (medicationAdministration in data)
 			{
-				medicationAdministrationsModel.addMedicationAdministration(medicationAdministration);
+				record.addDocument(medicationAdministration, true);
 			}
 		}
 

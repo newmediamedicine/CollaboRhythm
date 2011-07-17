@@ -28,7 +28,7 @@ package collaboRhythm.shared.model.healthRecord
 		 * Subclasses should override this method if the document also needs to be tracked or stored in any additional
 		 * lists or maps that are part of the collection class.
 		 *
-		 * @param document the document to add
+		 * @param document The document to add
 		 */
 		public function addDocument(document:IDocument):void
 		{
@@ -38,7 +38,7 @@ package collaboRhythm.shared.model.healthRecord
 
 		/**
 		 * Validates that the document is of a valid type for this collection. Throws an error if it is not.
-		 * @param document the document to validate
+		 * @param document The document to validate
 		 */
 		protected function validateDocumentType(document:IDocument):void
 		{

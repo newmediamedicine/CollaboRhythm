@@ -18,17 +18,21 @@ package collaboRhythm.shared.model
 {
 
 	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
 	import collaboRhythm.shared.model.healthRecord.IRecord;
+	import collaboRhythm.shared.model.healthRecord.Relationship;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItemsModel;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministrationsModel;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.settings.Settings;
 
 	import j2as3.collection.HashMap;
+
+	import mx.utils.UIDUtil;
 
 	[Bindable]
     public class Record implements IRecord
@@ -39,8 +43,12 @@ package collaboRhythm.shared.model
         private var _role_label:String;
         private var _demographics:Demographics;
         private var _contact:Contact;
-		private var _documentCollections:HashMap = new HashMap(); // key: document type, value: DocumentCollectionBase
-		private var _documentsById:HashMap = new HashMap(); // key: document id, value: IDocument
+
+		[ArrayElementType("collaboRhythm.shared.model.healthRecord.IDocumentCollection")]
+		private var _documentCollections:HashMap = new HashMap(); // key: document type, value: IDocumentCollection
+		private var _completeDocumentsById:HashMap = new HashMap(); // key: document id, value: IDocument
+		private var _originalDocumentsById:HashMap = new HashMap(); // key: document id, value: IDocument
+		private var _currentDocumentsById:HashMap = new HashMap(); // key: document id, value: IDocument
         private var _medicationOrdersModel:MedicationOrdersModel;
         private var _medicationFillsModel:MedicationFillsModel;
         private var _medicationScheduleItemsModel:MedicationScheduleItemsModel;
@@ -226,6 +234,9 @@ package collaboRhythm.shared.model
         public function clearDocuments():void
         {
             initDocumentModels();
+			completeDocumentsById.clear();
+			originalDocumentsById.clear();
+			currentDocumentsById.clear();
         }
 
         public function get problemsModel():ProblemsModel
@@ -329,27 +340,117 @@ package collaboRhythm.shared.model
 		/**
 		 * Map of document collections where the key is the document type (fully qualified, such as
 		 * "http://indivo.org/vocab/xml/documents#Problem") and the value is a corresponding instance of
-		 * DocumentCollectionBase.
+		 * IDocumentCollection.
 		 */
+		[ArrayElementType("collaboRhythm.shared.model.healthRecord.IDocumentCollection")]
 		public function get documentCollections():HashMap
 		{
 			return _documentCollections;
 		}
 
 		/**
+		 * Map of all current documents (excluding deleted, voided, and archived documents)
+		 * where the key is the document id and the value is an IDocument.
+		 */
+		public function get currentDocumentsById():HashMap
+		{
+			return _currentDocumentsById;
+		}
+
+		/**
 		 * Map of all documents that are part of the record where the key is the document id (only existing, persisted
 		 * documents are included) and the value is an IDocument.
 		 */
-		public function get documentsById():HashMap
+		public function get originalDocumentsById():HashMap
 		{
-			return _documentsById;
+			return _originalDocumentsById;
 		}
 
-		public function addDocument(document:IDocument):void
+		/**
+		 * Adds the document to the record. The record will keep track of the document (indexed by id) and also add
+		 * the document to the appropriate document collection (model) class.
+		 *
+		 * @param document The document to add to the record
+		 * @param isLoading If true, the document will be considered a persisted part of the record (a subsequent
+		 * deletion/void/archive operation will remove the document from the "current" but not the "original" list of
+		 * documents, so that the operation can be persisted or reverted at a later time). If false, the document will
+		 * be considered part of the "current" list of documents, but if subsequently deleted (before being persisted)
+		 * it will be completely gone.
+		 */
+		public function addDocument(document:IDocument, isLoading:Boolean=false):void
 		{
-			documentsById[document.id] = document;
+			// TODO: perhaps we should rely on the document.pendingAction flag instead of isLoading
+			if (document.pendingAction == null)
+			{
+				originalDocumentsById[document.id] = document;
+			}
+			else if (document.pendingAction = DocumentBase.ACTION_CREATE)
+			{
+				if (document.id == null)
+				{
+					document.id = UIDUtil.createUID();
+				}
+			}
+			else
+			{
+				throw new Error("Attempted to add a document with an invalid value for pendingAction: " + document.pendingAction);
+			}
 
-			var documentCollection:DocumentCollectionBase = documentCollections.getItem(document.type)
+			completeDocumentsById[document.id] = document;
+			currentDocumentsById[document.id] = document;
+
+			var documentCollection:DocumentCollectionBase = documentCollections.getItem(document.type);
+			if (!documentCollection)
+				throw new Error("Failed to get document collection for document type " + document.type);
+
+			documentCollection.addDocument(document);
+		}
+
+		public function deleteDocument(document:IDocument, deleteAction:String=DocumentBase.ACTION_DELETE, reason:String=null, recursive:Boolean=false):int
+		{
+			if (recursive)
+				return deleteDocumentAndDescendants(document, deleteAction, reason);
+			else
+				return deleteOneDocument(document, deleteAction, reason);
+		}
+
+		private function deleteOneDocument(document:IDocument, deleteAction:String, reason:String):int
+		{
+			if (document.pendingAction == DocumentBase.ACTION_DELETE || document.pendingAction == DocumentBase.ACTION_ARCHIVE || document.pendingAction == DocumentBase.ACTION_VOID)
+			{
+				// do nothing
+			}
+			else if (document.pendingAction == DocumentBase.ACTION_CREATE)
+			{
+				currentDocumentsById.remove(document.id);
+			}
+			document.pendingAction = deleteAction;
+			document.pendingActionReason = reason;
+			return 1;
+		}
+
+		private function deleteDocumentAndDescendants(document:IDocument, deleteAction:String, reason:String):int
+		{
+			var deletedCount:int = 0;
+			var documents:Vector.<IDocument> = new <IDocument>[document];
+			do
+			{
+				var currentDocument:IDocument = documents.pop();
+				for each (var relationship:Relationship in currentDocument.relatesTo)
+				{
+					documents.push(relationship.relatesTo);
+				}
+
+				deletedCount += deleteOneDocument(currentDocument, deleteAction, reason);
+			}
+			while (documents.length > 0);
+
+			return deletedCount;
+		}
+
+		public function get completeDocumentsById():HashMap
+		{
+			return _completeDocumentsById;
 		}
 	}
 }

@@ -5,6 +5,13 @@ package collaboRhythm.shared.model.healthRecord
 
 	public class DocumentBase extends DocumentMetadata implements IDocument
 	{
+		public static const ACTION_CREATE:String = "create";
+		public static const ACTION_UPDATE:String = "update";
+		public static const ACTION_DELETE:String = "delete";
+		public static const ACTION_VOID:String = "void";
+		public static const ACTION_ARCHIVE:String = "archive";
+		private var _pendingAction:String; // create, update, delete, void, archive, or null
+		private var _pendingActionReason:String; // reason for void or archive
 		private var _relatesTo:ArrayCollection = new ArrayCollection();
 		private var _isRelatedFrom:ArrayCollection = new ArrayCollection();
 
@@ -30,6 +37,26 @@ package collaboRhythm.shared.model.healthRecord
 		public function set isRelatedFrom(value:ArrayCollection):void
 		{
 			_isRelatedFrom = value;
+		}
+
+		public function get pendingAction():String
+		{
+			return _pendingAction;
+		}
+
+		public function set pendingAction(value:String):void
+		{
+			_pendingAction = value;
+		}
+
+		public function get pendingActionReason():String
+		{
+			return _pendingActionReason;
+		}
+
+		public function set pendingActionReason(value:String):void
+		{
+			_pendingActionReason = value;
 		}
 	}
 }
