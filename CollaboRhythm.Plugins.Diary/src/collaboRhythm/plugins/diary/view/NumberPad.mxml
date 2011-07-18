@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         height="100%" width="100%"
+         creationComplete="init(event)">
+
+    <fx:Script>
+    <![CDATA[
+        import castle.flexbridge.controls.activeTextClasses.EmbeddedComponentInfo;
+
+        import mx.events.FlexEvent;
+        import mx.managers.IFocusManagerComponent;
+        import mx.core.UIComponent;
+
+        import spark.components.Button;
+
+        [Bindable]
+        public var inputControl:Object;
+
+        private var keysRowA:Array = [
+            {label:'1'},{label:'2'},{label:'3'}
+        ];
+        private var keysRowB:Array = [
+            {label:'4'},{label:'5'},{label:'6'}
+        ];
+        private var keysRowC:Array = [
+            {label:'7'},{label:'8'},{label:'9'}
+        ];
+        private var keysRowD:Array = [
+            {label:'0'},{label:'close',ok:true},{label:'delete'}
+        ];
+        private var _diaryFullView:DiaryFullView;
+
+        public function newFocus(o:UIComponent):void
+        {
+            this.inputControl = o;
+        }
+
+        private function handleKeyClick(event:Event):void
+        {
+            //
+            switch ( Button(event.target).label )
+            {
+                        case '':
+                    var value:String = this.inputControl.text;
+                    this.inputControl.text = value.substr(0,value.length-1);
+                    returnFocus();
+                break;
+                        case 'close':
+                    dispatchEvent(new NumberPadEvent(NumberPadEvent.CLOSE_NUMBER_PAD));
+                break;
+                default:
+                    this.addToString( Button(event.target).label );
+                    returnFocus();
+
+                break;
+
+            }
+        }
+
+        private function addToString( text:String ):void
+        {
+            this.inputControl.text += text;
+        }
+
+         private function returnFocus():void
+         {
+             focusManager.setFocus( inputControl as IFocusManagerComponent );
+         }
+
+        private function init(event:FlexEvent):void {
+
+        }
+    ]]>
+    </fx:Script>
+
+    <s:HGroup height="100%" width="100%">
+        <s:VGroup height="100%" width="75%" id="keyContainer" gap="5">
+            <s:HGroup width="100%" height="25%" id="rowA" horizontalAlign="center">
+                <s:Button label="1" height="100%" width="25%" fontSize="20" click="handleKeyClick(event)"/>
+                <s:Button label="2" height="100%" width="25%" fontSize="20" click="handleKeyClick(event)"/>
+                <s:Button label="3" height="100%" width="25%" fontSize="20" click="handleKeyClick(event)"/>
+            </s:HGroup>
+            <s:HGroup width="100%" height="25%" id="rowB" horizontalAlign="center">
+                <s:Button label="4" height="100%" width="25%" fontSize="20" click="handleKeyClick(event)"/>
+                <s:Button label="5" height="100%" width="25%" fontSize="20" click="handleKeyClick(event)"/>
+                <s:Button label="6" height="100%" width="25%" fontSize="20" click="handleKeyClick(event)"/>
+            </s:HGroup>
+            <s:HGroup width="100%" height="25%" id="rowC" horizontalAlign="center">
+                <s:Button label="7" height="100%" width="25%" fontSize="20" click="handleKeyClick(event)"/>
+                <s:Button label="8" height="100%" width="25%" fontSize="20" click="handleKeyClick(event)"/>
+                <s:Button label="9" height="100%" width="25%" fontSize="20" click="handleKeyClick(event)"/>
+            </s:HGroup>
+            <s:HGroup width="100%" height="25%" id="rowD" horizontalAlign="center">
+                <s:Button label="0" height="100%" width="50%" fontSize="20" click="handleKeyClick(event)"/>
+                <s:Spacer width="0"/>
+                <s:Button label="." height="100%" width="25%" fontSize="20" click="handleKeyClick(event)"/>
+            </s:HGroup>
+        </s:VGroup>
+        <s:VGroup height="100%" width="25%">
+            <s:Button label="close" height="25%" width="100%" skinClass="collaboRhythm.plugins.diary.Skins.cancelSkin" click="handleKeyClick(event)"/>
+            <s:Button id="backspace" icon="@Embed(source='../../../../assets/images/backArrow.jpg')" label="" height="75%" width="100%" click="handleKeyClick(event)"/>
+        </s:VGroup>
+    </s:HGroup>
+</s:Group>

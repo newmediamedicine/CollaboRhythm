@@ -17,7 +17,8 @@
 package collaboRhythm.plugins.diary.controller
 {
 
-	import collaboRhythm.plugins.diary.model.DiaryModel;
+import collaboRhythm.plugins.diary.model.DiaryEntry;
+import collaboRhythm.plugins.diary.model.DiaryModel;
 	import collaboRhythm.plugins.diary.view.DiaryButtonWidgetView;
 	import collaboRhythm.plugins.diary.view.DiaryFullView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
@@ -30,6 +31,7 @@ package collaboRhythm.plugins.diary.controller
 	{
 		public static const DEFAULT_NAME:String = "Diary";
 
+        public var _diaryEntries:Vector.<DiaryEntry> = new Vector.<DiaryEntry>;
 		private var _diaryModel:DiaryModel;
 		private var _widgetView:DiaryButtonWidgetView;
 		private var _fullView:DiaryFullView;
@@ -139,5 +141,9 @@ package collaboRhythm.plugins.diary.controller
 		{
 			_diaryModel = null;
 		}
+        public function closeDiaryEntry():void{
+            hideFullView();
+        }
+
 	}
 }
