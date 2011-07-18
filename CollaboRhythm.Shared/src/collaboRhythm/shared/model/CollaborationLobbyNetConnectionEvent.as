@@ -22,6 +22,7 @@ package collaboRhythm.shared.model
 	public class CollaborationLobbyNetConnectionEvent extends Event
 	{
 		public static const ERROR:String = "Error";
+		public static const SYNCHRONIZE:String = "Synchronize";
 
 		public function CollaborationLobbyNetConnectionEvent(type:String)
 		{

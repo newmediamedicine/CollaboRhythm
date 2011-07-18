@@ -34,6 +34,7 @@ package collaboRhythm.plugins.schedule.controller
 	{
 		private var _scheduleModel:ScheduleModel;
 		private var _scheduleReportingFullView:ScheduleReportingFullView;
+		[Bindable]
 		private var _scheduleReportingModel:ScheduleReportingModel;
 
 		public function ScheduleReportingController(scheduleModel:ScheduleModel,
@@ -51,7 +52,7 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			if (isReportingCompleted)
 			{
-				dispatchEvent(new AppEvent(AppEvent.HIDE_FULL_VIEW));
+				dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, null, null, "HypertensionEducation"));
 			}
 		}
 

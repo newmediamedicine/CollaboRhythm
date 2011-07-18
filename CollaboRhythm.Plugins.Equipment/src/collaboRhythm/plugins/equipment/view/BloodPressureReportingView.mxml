@@ -146,6 +146,7 @@
 		private function createVitalSign(category:String, value:int):void
 		{
 			//TODO: determine if it is possible to have optional parameters in the constructor
+			//TODO: Update once relationship persistence is implemented
 			// It may cause problems with marshalling the xml
 			var bloodPressure:VitalSign = new VitalSign();
 			var valueString:String;

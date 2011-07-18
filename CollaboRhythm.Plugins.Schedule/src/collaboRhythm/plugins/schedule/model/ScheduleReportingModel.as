@@ -65,10 +65,7 @@ package collaboRhythm.plugins.schedule.model
 					isReportingCompletedCheck = false;
 				}
 			}
-			if (isReportingCompletedCheck)
-			{
-				isReportingCompleted = true;
-			}
+			isReportingCompleted = isReportingCompletedCheck;
 		}
 
 		public function createPendingAdherenceItem(urlVariables:URLVariables):PendingAdherenceItem
@@ -152,6 +149,7 @@ package collaboRhythm.plugins.schedule.model
 		{
 			//TODO: actually flag the adherence item to be void
 			scheduleItemOccurrence.adherenceItem = null;
+			isReportingCompleted = false;
 		}
 
 		public function get viewStack():ArrayCollection

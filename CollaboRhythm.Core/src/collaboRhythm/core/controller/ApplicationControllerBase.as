@@ -28,6 +28,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionEvent;
+	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.healthRecord.AccountInformationHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.CreateSessionHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.DemographicsHealthRecordService;
@@ -211,8 +212,14 @@ package collaboRhythm.core.controller
 			// It also allows collaboration with these account owners and sending and viewing of asynchronous video
 
 			_collaborationController = new CollaborationController(_activeAccount, collaborationView, _settings);
+			_collaborationController.addEventListener(CollaborationLobbyNetConnectionEvent.SYNCHRONIZE, synchronizeHandler);
 			if (collaborationView != null)
 				collaborationView.init(_collaborationController);
+		}
+
+		private function synchronizeHandler(event:CollaborationLobbyNetConnectionEvent):void
+		{
+
 		}
 
 		/**

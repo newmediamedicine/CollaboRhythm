@@ -18,7 +18,9 @@ package collaboRhythm.shared.controller
 {
 
     import collaboRhythm.shared.model.Account;
-    import collaboRhythm.shared.model.CollaborationModel;
+	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionEvent;
+	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
+	import collaboRhythm.shared.model.CollaborationModel;
     import collaboRhythm.shared.model.User;
     import collaboRhythm.shared.model.settings.Settings;
     import collaboRhythm.shared.view.CollaborationView;
@@ -51,8 +53,14 @@ package collaboRhythm.shared.controller
             _activeAccount = activeAccount;
 			_settings = settings;
 			_collaborationModel = new CollaborationModel(settings, _activeAccount);
+			_collaborationModel.addEventListener(CollaborationLobbyNetConnectionEvent.SYNCHRONIZE, synchronizeHandler);
             _collaborationView = collaborationView;
 //				_collaborationRoomView.addEventListener(CollaborationEvent.LOCAL_USER_JOINED_COLLABORATION_ROOM_ANIMATION_COMPLETE, localUserJoinedCollaborationRoomAnimationCompleteHandler);
+		}
+
+		private function synchronizeHandler(event:CollaborationLobbyNetConnectionService):void
+		{
+			dispatchEvent(new CollaborationLobbyNetConnectionEvent(CollaborationLobbyNetConnectionEvent.SYNCHRONIZE));
 		}
 
         public function setActiveRecordAccount(activeRecordAccount:Account):void

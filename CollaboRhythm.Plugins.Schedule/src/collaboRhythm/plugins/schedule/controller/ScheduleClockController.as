@@ -38,7 +38,7 @@ package collaboRhythm.plugins.schedule.controller
 		public function openScheduleReportingFullView(scheduleGroup:ScheduleGroup):void
 		{
 			_scheduleModel.scheduleReportingModel.currentScheduleGroup = scheduleGroup;
-			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW));
+			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, null, null, "Schedule"));
 		}
 	}
 }

@@ -95,7 +95,7 @@ package collaboRhythm.plugins.hypertensionEducation.controller
 		{
 			if (!_hypertensionEducationModel)
 			{
-				_hypertensionEducationModel = new HypertensionEducationModel();
+				_hypertensionEducationModel = new HypertensionEducationModel(_settings, _activeRecordAccount.primaryRecord);
 			}
 			return _hypertensionEducationModel;
 		}
@@ -133,6 +133,14 @@ package collaboRhythm.plugins.hypertensionEducation.controller
 		public function dispatchShowFullView():void
 		{
 			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this));
+		}
+
+
+		override protected function showFullViewComplete():void
+		{
+			super.showFullViewComplete();
+
+			hypertensionEducationModel.generateFeedback();
 		}
 
 		protected override function removeUserData():void

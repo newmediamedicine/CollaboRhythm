@@ -19,6 +19,7 @@ package collaboRhythm.shared.model
 
 	import collaboRhythm.shared.controller.CollaborationController;
 	import collaboRhythm.shared.controller.CollaborationEvent;
+	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionEvent;
 
 	import flash.events.AsyncErrorEvent;
 
@@ -82,6 +83,7 @@ package collaboRhythm.shared.model
 			_netConnection.client.activeAccountCollaborationLobbyConnectionStatusChanged = activeAccountCollaborationLobbyConnectionStatusChanged;
 			_netConnection.client.sharingAccountCollaborationLobbyConnectionStatusChanged = sharingAccountCollaborationLobbyConnectionStatusChanged;
 			_netConnection.client.receiveCollaborationRequest = receiveCollaborationRequest;
+			_netConnection.client.receiveSynchronizationMessage = receiveSynchronizationMessage;
 
 			_netConnection.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
 			_netConnection.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
@@ -227,6 +229,15 @@ package collaboRhythm.shared.model
 //			_collaborationModel.passWord = passWord;
 		}
 
+		public function sendSynchronizationMessage():void
+		{
+			_netConnection.call("sendSynchronizationMessage", null, _activeAccount.accountId);
+		}
+
+		public function receiveSynchronizationMessage():void
+		{
+			_collaborationModel.dispatchEvent(new CollaborationLobbyNetConnectionEvent(CollaborationLobbyNetConnectionEvent.SYNCHRONIZE));
+		}
 
 		public function get isConnected():Boolean
 		{

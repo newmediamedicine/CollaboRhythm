@@ -8,12 +8,18 @@
 		import collaboRhythm.plugins.hypertensionEducation.controller.HypertensionEducationAppController;
 		import collaboRhythm.plugins.hypertensionEducation.model.HypertensionEducationModel;
 
+		import mx.binding.utils.BindingUtils;
+		import mx.collections.ArrayCollection;
+		import mx.events.CollectionEvent;
+		import mx.events.CollectionEventKind;
+
 		import mx.logging.ILogger;
 
 		import mx.logging.Log;
 
 		private var _hypertensionEducationAppController:HypertensionEducationAppController;
 		private var _hypertensionEducationModel:HypertensionEducationModel;
+		private var _utterances:ArrayCollection;
 
 		private var _avatarLoader:Loader = new Loader();
 		private var _vHostPlayer:MovieClip;
@@ -27,12 +33,26 @@
 		{
 			_hypertensionEducationAppController = hypertensionEducationAppController;
 			_hypertensionEducationModel = hypertensionEducationModel;
+			_utterances = _hypertensionEducationModel.utterances;
+			_utterances.addEventListener(CollectionEvent.COLLECTION_CHANGE, utterancesCollectionChangeHandler);
+
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 		}
 
 		private function creationCompleteHandler():void
 		{
 			loadAvatar();
+		}
+
+		private function utterancesCollectionChangeHandler(event:CollectionEvent):void
+		{
+			if (event.kind == CollectionEventKind.ADD)
+			{
+				for each (var utterance:String in event.items)
+				{
+					sayText(utterance);
+				}
+			}
 		}
 
 		private function loadAvatar():void
@@ -96,7 +116,7 @@
 
 		private function sayText(text:String):void
 		{
-			if (_ttsLoaded)
+			if (_sceneLoaded && _ttsLoaded)
 			{
 				try
 				{
