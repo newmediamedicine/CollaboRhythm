@@ -23,12 +23,12 @@
 		 addedToStage="addedToStage()"
 		 removedFromStage="removedFromStage()"
 		 creationComplete="creationCompleteHandler()"
-		show="showHandler()"
-		hide="hideHandler()"
-		currentState="hidden">
+		 show="showHandler()"
+		 hide="hideHandler()"
+		 currentState="hidden">
 	<s:states>
 		<s:State name="shown"/>
-				<s:State name="hidden"/>
+		<s:State name="hidden"/>
 	</s:states>
 	<fx:Script>
         <![CDATA[

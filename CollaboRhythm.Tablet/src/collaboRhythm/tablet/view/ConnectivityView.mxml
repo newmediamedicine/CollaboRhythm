@@ -72,7 +72,8 @@
 				  paddingTop="20" paddingBottom="20" gap="20">
 			<s:Label text="Connecting to your health record." includeIn="connectInProgress"
 					 styleName="connectivityText"/>
-			<s:SWFLoader id="bufferingIndicatorView" source="{bufferingAnimation}" width="200" height="200" includeIn="connectInProgress"/>
+			<s:BusyIndicator id="busyIndicator" symbolColor="0xFFFFFF" width="200" height="200" includeIn="connectInProgress"/>
+			<!--<s:SWFLoader id="bufferingIndicatorView" source="{bufferingAnimation}" width="200" height="200" includeIn="connectInProgress"/>-->
 			<s:Label text="Failed to connect to your health record." includeIn="connectFailed"
 					 styleName="connectivityText"/>
 			<s:Label text="Failed to save data to your health record" includeIn="persistFailed"

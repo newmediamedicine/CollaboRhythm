@@ -16,12 +16,12 @@
   ~ <http://www.gnu.org/licenses/>.
   -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-         xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:mx="library://ns.adobe.com/flex/mx"
-         xmlns:tabletViews="collaboRhythm.tablet.view.*"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:tabletViews="collaboRhythm.tablet.view.*"
 		 show="showHandler()"
-         height="100%" width="100%">
-    <fx:Script>
+		 height="100%" width="100%">
+	<fx:Script>
         <![CDATA[
 		import collaboRhythm.shared.model.Account;
 		import collaboRhythm.shared.model.CollaborationModel;
@@ -61,27 +61,43 @@
 		{
 			return _widgetContainers;
 		}
+
+		private function reloadButton_clickHandler():void
+		{
+			_tabletApplicationController.reloadPlugins();
+		}
+
+		private function syncronizeButton_clickHandler():void
+		{
+			
+		}
 		]]>
     </fx:Script>
-    <s:Rect width="100%" height="100%">
-        <s:fill>
-            <s:SolidColor color="{RECORD_BACKGROUND_COLOR}"/>
-        </s:fill>
-    </s:Rect>
-    <s:HGroup width="100%" height="100%" gap="0" paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10">
-        <s:HGroup id="widgetViewsGroup" width="100%" height="100%" gap="20">
-            <s:VGroup id="scheduleWidgetGroup" width="50%" height="100%">
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="{RECORD_BACKGROUND_COLOR}"/>
+		</s:fill>
+	</s:Rect>
+	<s:HGroup width="100%" height="100%" gap="0" paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10">
+		<s:HGroup id="widgetViewsGroup" width="100%" height="100%" gap="20">
+			<s:VGroup id="scheduleWidgetGroup" width="50%" height="100%">
 
-            </s:VGroup>
-            <s:VGroup  id="bloodPressureWidgetGroup" width="50%" height="100%">
+			</s:VGroup>
+			<s:VGroup id="bloodPressureWidgetGroup" width="50%" height="100%">
 
-            </s:VGroup>
-        </s:HGroup>
-        <s:VGroup id="buttonWidgetsGroup" width="100" height="100%">
+			</s:VGroup>
+		</s:HGroup>
+		<s:Group width="100" height="100%">
+			<s:VGroup id="buttonWidgetsGroup" width="100%" top="0">
 
-        </s:VGroup>
-    </s:HGroup>
-    <s:Group id="fullViewsGroup" width="100%" height="100%">
+			</s:VGroup>
+			<s:VGroup width="100%" bottom="0">
+				<s:Button label="synchronize" width="100%" height="100" click="syncronizeButton_clickHandler()"/>
+				<s:Button label="reload plugins" width="100%" height="100" click="reloadButton_clickHandler()"/>
+			</s:VGroup>
+		</s:Group>
+	</s:HGroup>
+	<s:Group id="fullViewsGroup" width="100%" height="100%">
 
-    </s:Group>
+	</s:Group>
 </s:Group>

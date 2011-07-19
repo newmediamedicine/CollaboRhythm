@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-		<!--~
+<!--~
   ~ Copyright 2011 John Moore, Scott Gilroy
   ~
   ~ This file is part of CollaboRhythm.
@@ -18,390 +18,53 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-         xmlns:views="collaboRhythm.plugins.diary.view.*"
-         hide="clearEntries()"
+		 xmlns:views="collaboRhythm.plugins.diary.view.*"
 		 width="100%" height="100%">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		.diaryText {
+			font-size: 50;
+		}
+
+	</fx:Style>
 	<fx:Script><![CDATA[
-        import collaboRhythm.plugins.diary.controller.DiaryAppController;
-        import collaboRhythm.plugins.diary.model.DiaryEntry;
-        import collaboRhythm.plugins.diary.model.DiaryModel;
-        import collaboRhythm.plugins.diary.model.OtherEntry;
-        import collaboRhythm.plugins.diary.model.PainEntry;
-        import collaboRhythm.plugins.diary.model.PhotoEntry;
-        import collaboRhythm.plugins.diary.model.UrineEntry;
+		import collaboRhythm.plugins.diary.controller.DiaryAppController;
+		import collaboRhythm.plugins.diary.model.DiaryEntry;
+		import collaboRhythm.plugins.diary.model.DiaryModel;
+		import collaboRhythm.shared.model.services.ICurrentDateSource;
+		import collaboRhythm.shared.model.services.WorkstationKernel;
+		import collaboRhythm.shared.view.NumberPad;
 
-        import com.adobe.viewsource.ViewSource;
+		private var _diaryAppController:DiaryAppController;
+		private var _diaryModel:DiaryModel;
 
-        import mx.collections.ArrayCollection;
+		private var _currentDateSource:ICurrentDateSource;
 
-        import mx.collections.IList;
+		public function init(diaryAppController:DiaryAppController, diaryModel:DiaryModel):void
+		{
+			_diaryAppController = diaryAppController;
+			_diaryModel = diaryModel;
 
-        import mx.controls.Alert;
-        import mx.core.UIComponent;
-        import mx.managers.IFocusManagerComponent;
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+		}
 
-        import spark.events.IndexChangeEvent;
-
-        private var _diaryAppController:DiaryAppController;
-        private var _diaryModel:DiaryModel;
-        private var listEvents:ArrayCollection = new ArrayCollection([
-            {label:"Diary", data:1},
-            {label:"Urine Level", data:2},
-            {label:"Pain Level", data:3},
-            {label:"Photo", data:4},
-            {label:"Photo2", data:5},
-            {label:"other", data:100}
-        ]);
-        private var bmd:BitmapData;
-        private var photoChecker:Boolean = false;
-        protected var myCam:CameraUI;
-
-        public function init(diaryAppController:DiaryAppController, diaryModel:DiaryModel):void {
-            _diaryAppController = diaryAppController;
-            _diaryModel = diaryModel;
-        }
-
-        private function submitButtonClickHandler(event:MouseEvent):void {
-            if (eventList.selectedIndex == 0) {
-                if (diaryText.mx_internal::textContainerManager.getText() == '') {
-                    Alert.show('Please write a diary entry');
-                }
-                else if (selectDate.selectedDate == null) {
-                    Alert.show("Select date");
-                }
-                else {
-                    var diaryEntry:DiaryEntry = new DiaryEntry(selectDate.selectedDate, diaryText.text);
-                    _diaryModel.addNewDiaryEntry(diaryEntry);
-                    clearEntries();
-                    _diaryAppController.closeDiaryEntry();
-                    Alert.show('Your entry has been submitted.');
-                }
-            }
-            else if (eventList.selectedIndex == 1) {
-                if (urineInuptText.text == '') {
-                    Alert.show('Please enter a volume');
-                }
-                else if (selectDate.selectedDate == null) {
-                    Alert.show('Select date');
-                }
-                else {
-                    var urineEntry:UrineEntry = new UrineEntry(selectDate.selectedDate, urineInuptText.text, urineText.text);
-                    _diaryModel.addNewUrineEntry(urineEntry);
-                    clearEntries();
-                    _diaryAppController.closeDiaryEntry();
-                    Alert.show('Your entry has been submitted');
-                }
-            }
-            else if (eventList.selectedIndex == 2){
-                if ( painLevel.value == 0){
-                    Alert.show('Please select a level');
-                }
-                else if (selectDate.selectedDate == null){
-                    Alert.show('Select date');
-                }
-                else{
-                    var painEntry:PainEntry = new PainEntry(selectDate.selectedDate, painLevel.value);
-                    _diaryModel.addNewPainEntry(painEntry);
-                    clearEntries();
-                    _diaryAppController.closeDiaryEntry();
-                    Alert.show('Your entry has been submitted');
-                }
-            }
-            else if (eventList.selectedIndex == 3){
-                if (!photoChecker){
-                    Alert.show('Please take a picture');
-                }
-                else if (selectDate.selectedDate == null){
-                    Alert.show('Select date')
-                }
-                else{
-                    var photoEntry:PhotoEntry = new PhotoEntry(selectDate.selectedDate, bmd, caption.text);
-                    _diaryModel.addNewPhotoEntry(photoEntry);
-                    clearEntries();
-                 _diaryAppController.closeDiaryEntry();
-                Alert.show('Your entry has been submitted');
-                }
-            }
-            else {
-                if(otherTitle.text == ''){
-                    Alert.show('Please title your entry');
-                }
-                else if (otherDescription.text == ''){
-                    Alert.show('Please add a description');
-                }
-                else{
-                    var otherEntry:OtherEntry = new OtherEntry(selectDate.selectedDate, otherTitle.text, otherDescription.text);
-                    _diaryModel.addNewOtherEntry(otherEntry);
-                    clearEntries();
-                 _diaryAppController.closeDiaryEntry();
-                    Alert.show('Your entry has been submitted');
-                }
-            }
-        }
-
-        private function cancelButtonClickHandler(event:MouseEvent):void {
-            clearEntries();
-            _diaryAppController.closeDiaryEntry();
-        }
-
-        private function eventChangeHandler(event:IndexChangeEvent):void {
-            numberPad.visible = false;
-            if (eventList.selectedIndex == 0) {
-                helpText.text = 'Please fill in your Diary entry:';
-                currentState = "diaryEntryState";
-            }
-            else if (eventList.selectedIndex == 1) {
-                helpText.text = 'Please fill in your Urine Level entry';
-                currentState = "urineLevelState";
-            }
-            else if (eventList.selectedIndex == 2){
-                helpText.text = 'Please fill in your Pain Level entry';
-                currentState = "painLevelState";
-            }
-            else if (eventList.selectedIndex == 3){
-                helpText.text = 'Please fill in your Photo entry';
-                currentState = "photoEntryState";
-                camera.visible = true;
-
-            }
-/*
-            else if (eventList.selectedIndex == 4){
-                helpText.text = 'Please fill in your Photo entry';
-                if (CameraUI.isSupported) {
-                    trace('camera is supported');
-                    myCam = new CameraUI();
-                    myCam.addEventListener(MediaEvent.COMPLETE, onComplete)
-                }
-                currentState = "photoEntryState2"
-            }
-*/
-            else {
-                helpText.text = 'Please fill in your entry';
-                currentState = "otherState"
-            }
-
-        }
-
-        private function setFocusHandler(com:UIComponent):void {
-            /*
-             closePad.visible = true;
-             */
-            numberPad.visible = true;
-            this.numberPad.newFocus(com);
-            addEventListener(NumberPadEvent.CLOSE_NUMBER_PAD, numberPadClose)
-        }
-
-        public function numberPadClose(event:NumberPadEvent):void {
-            /*
-             closePad.visible = false;
-             */
-            numberPad.visible = false;
-            focusManager.setFocus(urineText);
-
-        }
-
-        private function onActivating(event:SoftKeyboardEvent):void {
-            event.preventDefault();
-
-        }
-
-        private function initCamera():void {
-            var cam:Camera = Camera.getCamera();
-            myVid.attachCamera(cam);
-        }
-
-        private function takePicture(event:MouseEvent):void {
-            bmd = new BitmapData(myVid.width, myVid.height);
-            bmd.draw(myVid);
-            photoChecker = true;
-        }
-
-        private function clearEntries():void{
-            currentState = 'checkState';
-            trace(currentState);
-            diaryText.text = '';
-            urineInuptText.text = '';
-            urineText.text = '';
-            painLevel.value = 0;
-            photoChecker = false;
-            caption.text = '';
-            otherTitle.text = '';
-            otherDescription.text = '';
-            eventList.selectedIndex = 0;
-            helpText.text = 'Please fill in your Diary entry:';
-            numberPad.visible = false;
-            currentState = "diaryEntryState";
-        }
-
-/*
-        protected function onComplete(evt:MediaEvent):void {
-            img.source = evt.data.file.url;
-        }
-
-        private function btnPicClickHandler(event:MouseEvent):void {
-            img.filters = [];
-            myCam.launch(MediaType.IMAGE)
-        }
-*/
-
-
-        ]]></fx:Script>
-
-    <s:states>
-        <s:State name="diaryEntryState"/>
-        <s:State name="urineLevelState"/>
-        <s:State name="painLevelState"/>
-        <s:State name="otherState"/>
-        <s:State name="photoEntryState"/>
-        <s:State name="photoEntryState2"/>
-        <s:State name="checkState"/>
-    </s:states>
+		private function submitButton_clickHandler():void
+		{
+			if (textInput.text != "")
+			{
+				var diaryEntry:DiaryEntry = new DiaryEntry(_currentDateSource.now(), textInput.text);
+				_diaryModel.addNewDiaryEntry(diaryEntry);
+			}
+		}
+		]]></fx:Script>
 
 	<s:Rect width="100%" height="100%">
 		<s:fill>
-			<s:SolidColor color="0xcccccc"/>
+			<s:SolidColor color="0xCCCCCC"/>
 		</s:fill>
-    </s:Rect>
-    <s:HGroup width="100%" height="100%" gap="0" visible.checkState="false">
-        <s:Spacer width="5%"/>
-        <s:Group width="90%" height="100%">
-            <s:VGroup height="100%" width="100%">
-                <s:Spacer height="5%"/>
-                <s:DropDownList id="eventList" width="100%" fontSize="50" height="10%" selectedIndex="0"
-                                dataProvider="{listEvents}" change="eventChangeHandler(event)" enabled="true"
-                                skinClass="collaboRhythm.plugins.diary.Skins.DropDownListSkin"/>
-                <s:HGroup height="5%" width="100%">
-                    <s:Label id="helpText" text="{'Please fill in your Diary entry:'}" fontSize="30"/>
-                </s:HGroup>
-                <s:HGroup height="30%" width="100%">
-
-                    <s:Group includeIn="diaryEntryState, checkState" visible.checkState="false" height="100%" width="100%">
-                        <s:BorderContainer height="100%" width="100%"
-                                               cornerRadius="4" borderWeight="2"
-                                               backgroundAlpha="0">
-                            <s:RichEditableText id="diaryText" color="0x000000" text=""
-                                                width="100%" height="100%"
-                                                backgroundColor="0xffffff"
-                                                paddingTop="5" fontSize="30"/>
-                        </s:BorderContainer>
-                    </s:Group>
-
-                    <s:Group includeIn="urineLevelState, checkState" visible.checkState="false" height="100%" width="100%">
-                        <s:HGroup height="100%" width="100%">
-                            <s:VGroup height="100%" width="50%">
-                                <s:Label text="Urine volume (mL):" height="10%" width="100%" fontSize="20"/>
-                                <s:BorderContainer height="90%" width="60%"
-                                                       cornerRadius="4" borderWeight="2"
-                                                       backgroundAlpha="0">
-                                    <s:RichEditableText id="urineInuptText" color="0x000000" text="" restrict="0-9 ."
-                                                        width="100%" height="100%"
-                                                        backgroundColor="0xffffff"
-                                                        paddingTop="5" fontSize="160"
-                                                        softKeyboardActivating="onActivating(event)"
-                                                        focusIn="setFocusHandler(urineInuptText)"/>
-                                </s:BorderContainer>
-                               </s:VGroup>
-                            <s:VGroup height="100%" width="50%">
-                                <s:Label text="Comments" height="10%" width="100%" fontSize="20"/>
-                                <s:BorderContainer height="90%" width="100%"
-                                                      cornerRadius="4" borderWeight="2"
-                                                      backgroundAlpha="0">
-                                    <s:RichEditableText id="urineText" color="0x000000" text=""
-                                                       width="100%" height="100%"
-                                                       backgroundColor="0xffffff"
-                                                       paddingTop="5" fontSize="30" focusIn="numberPad.visible = false"/>
-                                 </s:BorderContainer>
-                            </s:VGroup>
-                        </s:HGroup>
-                    </s:Group>
-
-                    <s:Group includeIn="painLevelState, checkState" visible.checkState="false" height="100%" width="100%">
-                        <s:HGroup height="100%" width="100%">
-                            <s:Image source="@Embed(source='../../../../assets/images/SadFace.jpg')" skinClass="spark.skins.spark.ImageSkin"/>
-                            <s:HSlider id="painLevel" height="100" scaleX="2" width="100%" value="0" minimum="1" maximum="10" skinClass="spark.skins.spark.HSliderSkin"/>
-                            <s:Image source="@Embed(source='../../../../assets/images/HappyFace.jpg')" skinClass="spark.skins.spark.ImageSkin"/>
-                        </s:HGroup>
-                    </s:Group>
-
-                    <s:Group includeIn="photoEntryState, checkState" visible.checkState="false" height="100%" width="100%" right="0">
-                        <s:HGroup height="100%" width="100%">
-                            <s:Spacer width="50%"/>
-                            <s:VGroup height="100%" width="50%">
-                                <s:Label text="Caption:" height="10%" width="100%" right="0" fontSize="20"/>
-                                <s:BorderContainer height="90%" width="100%" right="0"
-                                                   cornerRadius="4" borderWeight="2"
-                                                   backgroundAlpha="0">
-                                    <s:RichEditableText id="caption" color="0x000000"
-                                                        width="100%" height="100%"
-                                                        backgroundColor="0xffffff"
-                                                        paddingTop="5" fontSize="30"/>
-                                </s:BorderContainer>
-                            </s:VGroup>
-                        </s:HGroup>
-
-                    </s:Group>
-
-                    <s:Group includeIn="otherState, checkState" visible.checkState="false" height="100%" width="100%">
-                        <s:VGroup height="100%" width="100%">
-                            <s:Label text="Name your entry" height="10%" width="100%"/>
-                            <s:BorderContainer height="10%" width="100%"
-                                                  cornerRadius="4" borderWeight="2"
-                                                  backgroundAlpha="0">
-                                <s:RichEditableText id="otherTitle" color="0x000000" text=""
-                                                   width="100%" height="100%"
-                                                   backgroundColor="0xffffff"
-                                                   paddingTop="5" fontSize="20"/>
-                            </s:BorderContainer>
-                            <s:Label text="Description" height="10%" width="100%"/>
-                            <s:BorderContainer height="70%" width="100%"
-                                                  cornerRadius="4" borderWeight="2"
-                                                  backgroundAlpha="0">
-                                <s:RichEditableText id="otherDescription" color="0x000000" text=""
-                                                   width="100%" height="100%"
-                                                   backgroundColor="0xffffff"
-                                                   paddingTop="5" fontSize="30"/>
-                            </s:BorderContainer>
-                        </s:VGroup>
-                    </s:Group>
-
-<!--
-                    <s:Group includeIn="photoEntryState2, checkState" visible.checkState="false" height="100%" width="100%">
-                            <s:Button id="btnPic" click="btnPicClickHandler(event)" label="Take a picture"/>
-                            <s:Image id="img" skinClass="spark.skins.spark.ImageSkin"/>
-                    </s:Group>
--->
-
-                </s:HGroup>
-                <s:HGroup height="5%" width="100%" gap="0">
-                    <s:Spacer width="100%"/>
-                    <views:DateTimePickerEdit id="selectDate"/>
-                </s:HGroup>
-                <s:HGroup height="15%" width="100%">
-                    <s:Spacer height="100%"/>
-                 </s:HGroup>
-                <s:HGroup height="15%" width="100%" right="0">
-                    <s:Spacer width="100%"/>
-                    <s:Button id="addEntry" height="100%" width="15%" label="Submit" fontSize="40" skinClass="collaboRhythm.plugins.diary.Skins.confirmSkin"
-                              click="submitButtonClickHandler(event)"/>
-                </s:HGroup>
-            </s:VGroup>
-            <s:VGroup height="100%" width="100%">
-                <s:Spacer height="25%"/>
-                <s:Group height="100%" width="100%">
-                    <s:VGroup id="camera" height="100%" includeIn="photoEntryState, checkState" visible.checkState="false">
-                        <mx:VideoDisplay id="myVid" width="{myVid.height}" height="90%"
-                                         creationComplete="initCamera();"/>
-                        <s:HGroup height="10%" width="100%">
-                            <s:Button label="Take Picture" click="takePicture(event)" height="100%" width="80%"/>
-                            <s:Button label="Close" click="camera.visible = false" height="100%" width="20%"
-                                      skinClass="collaboRhythm.plugins.diary.Skins.cancelSkin"/>
-                        </s:HGroup>
-                    </s:VGroup>
-                    <views:NumberPad id="numberPad" visible="false" bottom="0"
-                                     height="300" width="300"/>
-                </s:Group>
-                <s:Spacer height="5%"/>
-            </s:VGroup>
-        </s:Group>
-    </s:HGroup>
+	</s:Rect>
+	<s:RichEditableText id="textInput" left="10" right="10" top="10" height="50%" color="0x000000" backgroundColor="0xFFFFFF" styleName="diaryText"/>
+	<s:Button label="Submit Diary Entry" left="10" right="10" bottom="10" height="60"
+			  click="submitButton_clickHandler()" styleName="diaryText"/>
 </s:Group>

@@ -18,8 +18,9 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:sharedViews="collaboRhythm.shared.view.*"
 		 width="100%" height="100%"
-		click="bloodPressureReportingView_clickHandler()">
+		 click="bloodPressureReportingView_clickHandler()">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -65,6 +66,7 @@
 		import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 		import collaboRhythm.shared.model.services.ICurrentDateSource;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
+		import collaboRhythm.shared.view.NumberPad;
 
 		private static const HYPOTENSION_SYSTOLIC_THRESHOLD:int = 90;
 		private static const HYPOTENSION_DIASTOLIC_THRESHOLD:int = 60;
@@ -262,6 +264,36 @@
 		{
 			_hasUserInteracted = true;
 		}
+
+		private function showNumberPad(globalPoint:Point, textInput:TextInput):void
+		{
+			var localPoint:Point = this.globalToLocal(globalPoint);
+			numberPad.x = localPoint.x;
+			numberPad.y = localPoint.y;
+			numberPad.visible = true;
+			numberPad.newFocus(textInput);
+		}
+
+		private function systolicResult_focusInHandler():void
+		{
+			var globalPoint:Point = systolicResultGroup.localToGlobal(new Point(systolicResult.x + systolicResult.width,
+																				systolicResult.y));
+			showNumberPad(globalPoint, systolicResult);
+		}
+
+		private function diastolicResult_focusInHandler():void
+		{
+			var globalPoint:Point = diastolicResultGroup.localToGlobal(new Point(diastolicResult.x + diastolicResult.width,
+																				 diastolicResult.y));
+			showNumberPad(globalPoint, diastolicResult);
+		}
+
+		private function heartRateResult_focusInHandler():void
+		{
+			var globalPoint:Point = heartRateResultGroup.localToGlobal(new Point(heartRateResult.x - numberPad.width,
+																				 heartRateResult.y));
+			showNumberPad(globalPoint, heartRateResult);
+		}
 		]]>
 	</fx:Script>
 	<s:Rect width="100%" height="100%">
@@ -269,53 +301,52 @@
 			<s:SolidColor color="0xAAAAAA"/>
 		</s:fill>
 	</s:Rect>
-	<s:VGroup top="10" left="10" right="10" gap="10">
+	<s:VGroup top="10" left="10" right="10" gap="10" horizontalAlign="center">
+		<s:Label text="Please enter your blood pressure" includeIn="initial"
+				 styleName="labelsText" paddingBottom="15"/>
+		<s:Label text="Please repeat your blood pressure" includeIn="repeat" styleName="labelsText"
+				 paddingBottom="15"/>
+		<s:DropDownList id="positionDropDownList" width="100%" selectedIndex="0"
+						skinClass="spark.skins.spark.DropDownListSkin"
+						styleName="labelsText">
+			<mx:ArrayCollection>
+				<fx:String>Sitting</fx:String>
+				<fx:String>Lying Down</fx:String>
+				<fx:String>Standing</fx:String>
+			</mx:ArrayCollection>
+		</s:DropDownList>
+		<s:DropDownList id="siteDropDownList" width="100%" selectedIndex="0"
+						skinClass="spark.skins.spark.DropDownListSkin"
+						styleName="labelsText">
+			<mx:ArrayCollection>
+				<fx:String>Left Arm</fx:String>
+				<fx:String>Right Arm</fx:String>
+			</mx:ArrayCollection>
+		</s:DropDownList>
 		<s:Group width="100%">
-			<s:Label text="Please enter your blood pressure" horizontalCenter="0" includeIn="initial"
-					 styleName="labelsText" paddingBottom="15"/>
-			<s:Label text="Please repeat your blood pressure" includeIn="repeat" styleName="labelsText" paddingBottom="15"/>
+			<s:HGroup id="systolicResultGroup" gap="15" paddingTop="25" left="0">
+				<s:Label id="systolicLabel" text="SYS" styleName="labelsText"/>
+				<s:TextInput id="systolicResult" width="300" height="135"
+							 skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
+							 textAlign="right" restrict="0-9" maxChars="3" focusIn="systolicResult_focusInHandler()"/>
+				<s:Group height="100%">
+					<s:Label text="mmHg" verticalCenter="0" styleName="labelsText"/>
+				</s:Group>
+			</s:HGroup>
 		</s:Group>
 		<s:Group width="100%">
-			<s:DropDownList id="positionDropDownList" width="100%" horizontalCenter="0" selectedIndex="0"
-							skinClass="spark.skins.spark.DropDownListSkin"
-							styleName="labelsText">
-				<mx:ArrayCollection>
-					<fx:String>Sitting</fx:String>
-					<fx:String>Lying Down</fx:String>
-					<fx:String>Standing</fx:String>
-				</mx:ArrayCollection>
-			</s:DropDownList>
+			<s:HGroup id="diastolicResultGroup" gap="15" left="0">
+				<s:Label id="diastolicLabel" text="DIA" bottom="0" styleName="labelsText"/>
+				<s:TextInput id="diastolicResult" width="300" height="135"
+							 skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
+							 textAlign="right" restrict="0-9" maxChars="3" focusIn="diastolicResult_focusInHandler()"/>
+			</s:HGroup>
 		</s:Group>
 		<s:Group width="100%">
-			<s:DropDownList id="siteDropDownList" width="100%" horizontalCenter="0" selectedIndex="0"
-							skinClass="spark.skins.spark.DropDownListSkin"
-							styleName="labelsText">
-				<mx:ArrayCollection>
-					<fx:String>Left Arm</fx:String>
-					<fx:String>Right Arm</fx:String>
-				</mx:ArrayCollection>
-			</s:DropDownList>
-		</s:Group>
-		<s:HGroup gap="15" paddingTop="25">
-			<s:Label id="systolicLabel" text="SYS" styleName="labelsText"/>
-			<s:TextInput id="systolicResult" width="300" height="135"
-						 skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
-						 textAlign="right" restrict="0-9" maxChars="3"/>
-			<s:Group height="100%">
-				<s:Label text="mmHg" verticalCenter="0" styleName="labelsText"/>
-			</s:Group>
-		</s:HGroup>
-		<s:HGroup gap="15">
-			<s:Label id="diastolicLabel" text="DIA" bottom="0" styleName="labelsText"/>
-			<s:TextInput id="diastolicResult" width="300" height="135"
-						 skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
-						 textAlign="right" restrict="0-9" maxChars="3"/>
-		</s:HGroup>
-		<s:Group width="100%">
-			<s:VGroup right="0">
+			<s:VGroup id="heartRateResultGroup" right="0">
 				<s:TextInput id="heartRateResult" width="200" height="95"
 							 skinClass="spark.skins.spark.TextInputSkin"
-							 textAlign="center" restrict="0-9" maxChars="3"/>
+							 textAlign="center" restrict="0-9" maxChars="3" focusIn="heartRateResult_focusInHandler()"/>
 				<s:Label text="Beats/min" styleName="labelsText"/>
 			</s:VGroup>
 		</s:Group>
@@ -328,4 +359,5 @@
 					  horizontalCenter="0"/>
 		</s:Group>
 	</s:VGroup>
+	<sharedViews:NumberPad id="numberPad" visible="false"/>
 </s:Group>
