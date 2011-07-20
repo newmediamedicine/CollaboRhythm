@@ -61,7 +61,7 @@
 
 		private function currentScheduleGroup_changeHandler(currentScheduleGroup:ScheduleGroup):void
 		{
-			if (_creationComplete)
+			if (_creationComplete && currentScheduleGroup)
 			{
 				updateScheduleItemOccurrences(currentScheduleGroup);
 			}

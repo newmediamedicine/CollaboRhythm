@@ -17,72 +17,73 @@
 package collaboRhythm.shared.controller.apps
 {
 
-    import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.CollaborationModel;
 	import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
-    import collaboRhythm.shared.model.User;
-    import collaboRhythm.shared.model.services.IComponentContainer;
-    import collaboRhythm.shared.model.settings.Settings;
-    import collaboRhythm.shared.view.BitmapCopyComponent;
+	import collaboRhythm.shared.model.User;
+	import collaboRhythm.shared.model.services.IComponentContainer;
+	import collaboRhythm.shared.model.settings.Settings;
+	import collaboRhythm.shared.view.BitmapCopyComponent;
 
-    import flash.desktop.NativeApplication;
+	import flash.desktop.NativeApplication;
 
-    import flash.display.BitmapData;
+	import flash.display.BitmapData;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.EventDispatcher;
-    import flash.events.KeyboardEvent;
-    import flash.events.MouseEvent;
-    import flash.events.TransformGestureEvent;
-    import flash.geom.Point;
-    import flash.ui.Keyboard;
-    import flash.utils.getQualifiedClassName;
+	import flash.events.KeyboardEvent;
+	import flash.events.MouseEvent;
+	import flash.events.TransformGestureEvent;
+	import flash.geom.Point;
+	import flash.ui.Keyboard;
+	import flash.utils.getQualifiedClassName;
 
-    import mx.controls.Image;
-    import mx.core.DragSource;
-    import mx.core.IUIComponent;
-    import mx.core.IVisualElement;
-    import mx.core.IVisualElementContainer;
-    import mx.core.UIComponent;
-    import mx.effects.Parallel;
-    import mx.events.DragEvent;
-    import mx.events.EffectEvent;
-    import mx.graphics.ImageSnapshot;
-    import mx.managers.DragManager;
+	import mx.controls.Image;
+	import mx.core.DragSource;
+	import mx.core.IUIComponent;
+	import mx.core.IVisualElement;
+	import mx.core.IVisualElementContainer;
+	import mx.core.UIComponent;
+	import mx.effects.Parallel;
+	import mx.events.DragEvent;
+	import mx.events.EffectEvent;
+	import mx.graphics.ImageSnapshot;
+	import mx.managers.DragManager;
 
 	import spark.components.Application;
 
 	import spark.components.Button;
-    import spark.components.Window;
-    import spark.effects.*;
-    import spark.primitives.Rect;
+	import spark.components.ViewNavigatorApplication;
+	import spark.components.Window;
+	import spark.effects.*;
+	import spark.primitives.Rect;
 
-    /**
+	/**
 	 * Represents an instance of a workstation app which can be used to view and/or manipulate some aspect of a health record
 	 * in a collaborative (or solo) work session. Workstation apps can have a mini "widget" view and a larger "full"
 	 * view.
-	 */	
+	 */
 	public class WorkstationAppControllerBase extends EventDispatcher
 	{
 		public static const WIDGET_WATERMARK_ALPHA:Number = 0.2;
 		public static const DEBUG_BUTTON_ALPHA:Number = 0.2;
 		public static const DEBUG_BUTTON_VISIBLE:Boolean = false;
 		public static const PREVENT_RE_SHOWING_FULL_VIEW:Boolean = true;
-		
+
 		protected var _widgetContainer:IVisualElementContainer;
 		protected var _fullContainer:IVisualElementContainer;
 		protected var _user:User;
 		protected var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
-		
+
 		private var _topSpaceTransitionComponent:UIComponent;
 		private var _centerSpaceTransitionComponent:UIComponent;
-		
+
 		private var _name:String;
 		private var _modality:String;
-        protected var _activeAccount:Account;
-        protected var _activeRecordAccount:Account;
-        protected var _settings:Settings;
-        protected var _componentContainer:IComponentContainer;
+		protected var _activeAccount:Account;
+		protected var _activeRecordAccount:Account;
+		protected var _settings:Settings;
+		protected var _componentContainer:IComponentContainer;
 		protected var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
 		protected var _primaryShowFullViewParallelEffect:Parallel;
 		protected var _secondaryShowFullViewParallelEffect:Parallel;
@@ -96,16 +97,16 @@ package collaboRhythm.shared.controller.apps
 			_widgetContainer = constructorParams.widgetContainer;
 			_fullContainer = constructorParams.fullContainer;
 			_modality = constructorParams.modality;
-            _activeAccount = constructorParams.activeAccount;
-            _activeRecordAccount = constructorParams.activeRecordAccount;
-            _settings = constructorParams.settings;
-            _componentContainer = constructorParams.componentContainer;
+			_activeAccount = constructorParams.activeAccount;
+			_activeRecordAccount = constructorParams.activeRecordAccount;
+			_settings = constructorParams.settings;
+			_componentContainer = constructorParams.componentContainer;
 			_collaborationLobbyNetConnectionService = constructorParams.collaborationLobbyNetConnectionService;
 
 			initializeShowFullViewParallelEffects();
 
 			createAndPrepareWidgetView();
-			
+
 			if (widgetView)
 				showWidgetAsDraggable(fullView != null);
 
@@ -149,7 +150,7 @@ package collaboRhythm.shared.controller.apps
 		{
 			return null;
 		}
-		
+
 		public function get name():String
 		{
 			return _name;
@@ -161,7 +162,7 @@ package collaboRhythm.shared.controller.apps
 		}
 
 		/**
-		 * Temporary instance of the view used in the top space for transition effect when showing the full view.  
+		 * Temporary instance of the view used in the top space for transition effect when showing the full view.
 		 */
 		public function get topSpaceTransitionComponent():UIComponent
 		{
@@ -173,12 +174,12 @@ package collaboRhythm.shared.controller.apps
 			if (_topSpaceTransitionComponent != null)
 			{
 				removeFromParent(_topSpaceTransitionComponent);
-			}	
+			}
 			_topSpaceTransitionComponent = value;
 		}
-		
+
 		/**
-		 * Temporary instance of the view used in the center space for transition effect when showing the full view.  
+		 * Temporary instance of the view used in the center space for transition effect when showing the full view.
 		 */
 		public function get centerSpaceTransitionComponent():UIComponent
 		{
@@ -190,10 +191,10 @@ package collaboRhythm.shared.controller.apps
 			if (_centerSpaceTransitionComponent != null)
 			{
 				removeFromParent(_centerSpaceTransitionComponent);
-			}	
+			}
 			_centerSpaceTransitionComponent = value;
 		}
-		
+
 		public function removeFromParent(component:UIComponent):void
 		{
 			if (component != null)
@@ -205,7 +206,7 @@ package collaboRhythm.shared.controller.apps
 					if (parentContainer != null)
 						parentContainer.removeElement(element);
 				}
-				
+
 				if (component.parent != null)
 					component.parent.removeChild(component);
 			}
@@ -241,17 +242,17 @@ package collaboRhythm.shared.controller.apps
 		{
 			_user = value;
 		}
-		
+
 		public function get collaborationRoomNetConnectionServiceProxy():CollaborationRoomNetConnectionServiceProxy
 		{
 			return _collaborationRoomNetConnectionServiceProxy;
 		}
-		
+
 		public function set collaborationRoomNetConnectionServiceProxy(value:CollaborationRoomNetConnectionServiceProxy):void
 		{
 			_collaborationRoomNetConnectionServiceProxy = value;
 		}
-		
+
 		/**
 		 * Factory method to create the one and only instance of the widget view associated with this app.
 		 * Note that this instance will be used as the main instance corresponding to the "widgetView" property.
@@ -263,7 +264,7 @@ package collaboRhythm.shared.controller.apps
 		{
 			return null;
 		}
-		
+
 		/**
 		 * Factory method to create the one and only instance of the full view associated with this app.
 		 * Note that this instance will be used as the main instance corresponding to the "fullView" property.
@@ -307,7 +308,7 @@ package collaboRhythm.shared.controller.apps
 		protected function updateWidgetViewModel():void
 		{
 		}
-		
+
 		/**
 		 * Prepares the fullView for use when it is first created. The view
 		 * should be added to the appropriate parent container, and should respond to mouse events appropriately.
@@ -339,17 +340,17 @@ package collaboRhythm.shared.controller.apps
 		protected function updateFullViewModel():void
 		{
 		}
-		
+
 		public function get isFullViewSupported():Boolean
 		{
 			return false;
 		}
-		
+
 		public function canShowFullView():Boolean
 		{
 			if (!isFullViewSupported || (topSpaceTransitionComponent != null && topSpaceTransitionComponent.visible))
 				return false;
-			
+
 			if (PREVENT_RE_SHOWING_FULL_VIEW)
 			{
 				var selected:Boolean = widgetView.getStyle("selected") as Boolean;
@@ -358,7 +359,7 @@ package collaboRhythm.shared.controller.apps
 			else
 				return true;
 		}
-		
+
 		public function beginDrag(mouseEvent:MouseEvent):void
 		{
 			if (mouseEvent.buttonDown)
@@ -367,53 +368,55 @@ package collaboRhythm.shared.controller.apps
 				{
 					showWidgetAsDraggable(false);
 					showWidgetAsSelected(true);
-					
+
 					// the drag initiator is the object being dragged (target of the mouse event)
 					var dragInitiator:IUIComponent = mouseEvent.currentTarget as IUIComponent;
-					
+
 					// the drag source contains data about what's being dragged
 					var dragSource:DragSource = new DragSource();
-					dragSource.addData(new WorkstationAppDragData(mouseEvent), WorkstationAppDragData.DRAG_SOURCE_DATA_FORMAT);
-					
+					dragSource.addData(new WorkstationAppDragData(mouseEvent),
+									   WorkstationAppDragData.DRAG_SOURCE_DATA_FORMAT);
+
 					// ask the DragManger to begin the drag
-					DragManager.doDrag(dragInitiator, dragSource, mouseEvent, BitmapCopyComponent.createFromComponent(this.widgetView));
+					DragManager.doDrag(dragInitiator, dragSource, mouseEvent,
+									   BitmapCopyComponent.createFromComponent(this.widgetView));
 				}
 			}
 		}
-		
+
 		public function showWidgetAsDraggable(value:Boolean):void
 		{
 			if (widgetView)
 				widgetView.setStyle("dropShadowVisible", value);
 		}
-		
+
 		public function showWidgetAsSelected(value:Boolean):void
 		{
 			if (widgetView)
 				widgetView.setStyle("selected", value);
 		}
-		
-		public function makeDroppable( component:IUIComponent ):void
+
+		public function makeDroppable(component:IUIComponent):void
 		{
 			// a dragEnter event occurs when a draggable is over a droppable
-			component.addEventListener( DragEvent.DRAG_ENTER, allowDrop );
-			
+			component.addEventListener(DragEvent.DRAG_ENTER, allowDrop);
+
 			// a dragDrop event occurs when a draggable is dropped
-			component.addEventListener( DragEvent.DRAG_DROP, acceptDrop );
-			
+			component.addEventListener(DragEvent.DRAG_DROP, acceptDrop);
+
 			component.addEventListener(DragEvent.DRAG_EXIT, dragExitHandler);
-			
+
 			component.addEventListener(DragEvent.DRAG_COMPLETE, dragCompleteHandler);
 		}
-		
+
 		public function dragCompleteHandler(dragEvent:DragEvent):void
 		{
 			var dragSource:DragSource = dragEvent.dragSource;
 			var dragInitiator:IUIComponent = dragEvent.dragInitiator;
 			var dropTarget:Object = dragEvent.currentTarget;
-			
-			trace( "Drag Complete ("+dragInitiator.name +") to ("+dropTarget.name +") " + dragEvent.delta );
-			
+
+			trace("Drag Complete (" + dragInitiator.name + ") to (" + dropTarget.name + ") " + dragEvent.delta);
+
 			var data:WorkstationAppDragData = dragSource.dataForFormat(WorkstationAppDragData.DRAG_SOURCE_DATA_FORMAT) as WorkstationAppDragData;
 			var startRect:Rect;
 			if (data != null)
@@ -421,56 +424,56 @@ package collaboRhythm.shared.controller.apps
 				startRect = new Rect();
 				startRect.x = dragEvent.localX - data.mouseEvent.localX;
 				startRect.y = dragEvent.localY - data.mouseEvent.localY;
-				
+
 			}
 			this.dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this, startRect));
 		}
-		
+
 		public function dragExitHandler(dragEvent:DragEvent):void
 		{
 			var dragSource:DragSource = dragEvent.dragSource;
 			var dragInitiator:IUIComponent = dragEvent.dragInitiator;
 			var dropTarget:Object = dragEvent.currentTarget;
-			
-			trace( "Drag Exit ("+dragInitiator.name +") to ("+dropTarget.name +")" );
+
+			trace("Drag Exit (" + dragInitiator.name + ") to (" + dropTarget.name + ")");
 		}
-		
-		public function allowDrop( dragEvent:DragEvent ):void
+
+		public function allowDrop(dragEvent:DragEvent):void
 		{
 			// the drop target
 			var dropTarget:IUIComponent = dragEvent.currentTarget as IUIComponent;
-			
+
 			// signal to the drop manager that this will accept the item
 			DragManager.acceptDragDrop(dropTarget);
-			
+
 			DragManager.showFeedback(DragManager.MOVE);
 		}
-		
-		public function acceptDrop( dragEvent:DragEvent ):void
+
+		public function acceptDrop(dragEvent:DragEvent):void
 		{
 			var dragSource:DragSource = dragEvent.dragSource;
 			var dragInitiator:IUIComponent = dragEvent.dragInitiator;
 			var dropTarget:Object = dragEvent.currentTarget;
-			
-			trace( "Dragged ("+dragInitiator.name +") to ("+dropTarget.name +") and Dropped" );
+
+			trace("Dragged (" + dragInitiator.name + ") to (" + dropTarget.name + ") and Dropped");
 		}
-		
+
 		private function widgetDragCompleteHandler(event:DragEvent):void
 		{
-			
+
 		}
-		
+
 		private function widgetPanHandler(e:TransformGestureEvent):void
 		{
 			trace("On pan... " + e.phase + " " + e.offsetX + " offset Y " + e.offsetY);
 //			var prevPoint:Point = new Point(img.x,img.y);
 //			img.x += e.offsetX*3;
 //			img.y += e.offsetY*3;
-			
+
 //			if (e.phase == GesturePhase.END && Math.abs(e.offsetX) < 100 && e.offsetY < -20)
 //				this.dispatchEvent(new WorkstationAppEvent(WorkstationAppEvent.SHOW_FULL_VIEW, this));
 		}
-		
+
 		private function widgetDoubleClickHandler(event:MouseEvent):void
 		{
 			if (canShowFullView())
@@ -481,13 +484,13 @@ package collaboRhythm.shared.controller.apps
 		{
 			return isWorkstationMode || isTabletMode;
 		}
-		
+
 		private function widgetClickHandler(event:MouseEvent):void
 		{
 			if (shouldShowFullViewOnWidgetClick && canShowFullView() && isShowFullViewClickEvent(event))
 				this.dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this));
 		}
-		
+
 		private function isShowFullViewClickEvent(event:MouseEvent):Boolean
 		{
 			// ignore all events for buttons (such as buttons in scroll bars)
@@ -495,16 +498,16 @@ package collaboRhythm.shared.controller.apps
 			{
 				return false;
 			}
-			
+
 			return true;
 		}
-		
+
 		private function widgetMouseDownHandler(event:MouseEvent):void
 		{
 			if (canShowFullView())
 				showWidgetAsDraggable(false);
 		}
-		
+
 		public function get parentContainer():IVisualElementContainer
 		{
 			return _widgetContainer;
@@ -514,8 +517,8 @@ package collaboRhythm.shared.controller.apps
 		{
 			_widgetContainer = value;
 		}
-		
-		public function showWidget(left:Number=-1, top:Number=-1):void
+
+		public function showWidget(left:Number = -1, top:Number = -1):void
 		{
 			if (widgetView)
 			{
@@ -525,23 +528,24 @@ package collaboRhythm.shared.controller.apps
 				widgetView.visible = true;
 			}
 		}
-		
+
 		/**
 		 * Converts from the local coordinate system of the "from" component to the local coordinate system of the "to" component.
-		 * Will convert values correctly even if the two components are from different stages (different windows). 
-		 * @param from Component to use for the "from" the local coordinates  
+		 * Will convert values correctly even if the two components are from different stages (different windows).
+		 * @param from Component to use for the "from" the local coordinates
 		 * @param to
 		 * @return A point in the coordinate system of the "to" component.
-		 * 
+		 *
 		 */
-		public static function localToLocal(from:UIComponent, to:UIComponent, fromPoint:Point=null):Point
+		public static function localToLocal(from:UIComponent, to:UIComponent, fromPoint:Point = null):Point
 		{
 			if (fromPoint == null)
-				fromPoint = new Point(0,0);
-			
+				fromPoint = new Point(0, 0);
+
 			var globalPoint:Point = from.localToGlobal(fromPoint);
 
-			if (from.stage != to.stage)
+			// TODO: Determine why to.stage is null
+			if (from.stage != to.stage && from.stage.nativeWindow)
 			{
 				globalPoint.x += from.stage.nativeWindow.x;
 				globalPoint.y += from.stage.nativeWindow.y;
@@ -550,8 +554,9 @@ package collaboRhythm.shared.controller.apps
 			}
 			return to.globalToLocal(globalPoint);
 		}
-		
-		private function applyShowFullViewEffects(parallel:Parallel, view:UIComponent, startRect:Rect, shouldResize:Boolean):void
+
+		private function applyShowFullViewEffects(parallel:Parallel, view:UIComponent, startRect:Rect,
+												  shouldResize:Boolean):void
 		{
 			if (_traceEventHandlers)
 				trace(this + ".applyShowFullViewEffects");
@@ -565,14 +570,14 @@ package collaboRhythm.shared.controller.apps
 			if (viewParent != null)
 				viewParent.setElementIndex(view, viewParent.numElements - 1);
 			view.visible = true;
-			
+
 			parallel.target = view;
 			parallel.children = new Array();
 
 			var move:Move = new Move(view);
 			parallel.addChild(move);
 			var fromPosition:Point;
-			
+
 			if (startRect != null)
 				fromPosition = localToLocal(widgetView, view, new Point(startRect.x, startRect.y));
 			else
@@ -591,7 +596,7 @@ package collaboRhythm.shared.controller.apps
 			}
 
 			var toPosition:Point = localToLocal(_fullContainer as UIComponent, view);
-			
+
 			if (!shouldResize)
 			{
 				// make the toPosition centered on the _fullParentContainer
@@ -601,7 +606,7 @@ package collaboRhythm.shared.controller.apps
 				toPosition.x -= view.width / 2;
 				toPosition.y -= view.height / 2;
 			}
-			
+
 			move.xFrom = startRectLocal.x;
 			move.yFrom = startRectLocal.y;
 			move.xTo = toPosition.x;
@@ -618,7 +623,7 @@ package collaboRhythm.shared.controller.apps
 				resize.heightTo = (_fullContainer as UIComponent).height;
 				resize.duration = duration;
 //				resize.play();
-				
+
 				var scale:Scale = new Scale(view);
 				parallel.addChild(scale);
 				scale.scaleXFrom = resize.widthFrom / resize.widthTo;
@@ -628,56 +633,58 @@ package collaboRhythm.shared.controller.apps
 				scale.duration = duration;
 //				scale.play();
 			}
-			
+
 			var fade:Fade = new Fade(view);
 			parallel.addChild(fade);
 			fade.alphaFrom = 0.5;
 			fade.alphaTo = 1;
 			fade.duration = duration;
 //			fade.play();
-			
+
 			parallel.play();
 		}
 
 		private function initializeShowFullViewParallelEffects():void
 		{
 			_primaryShowFullViewParallelEffect = new Parallel();
-			_primaryShowFullViewParallelEffect.addEventListener(EffectEvent.EFFECT_END, primaryShowFullViewParallelEffect_effectEndHandler, false, 0, true);
+			_primaryShowFullViewParallelEffect.addEventListener(EffectEvent.EFFECT_END,
+																primaryShowFullViewParallelEffect_effectEndHandler,
+																false, 0, true);
 			_secondaryShowFullViewParallelEffect = new Parallel();
 		}
-		
+
 		private function getEffectiveScaleX(component:UIComponent):Number
 		{
 			var current:UIComponent = component;
-			
+
 			var scale:Number = 1;
-			
+
 			// walk up the component hierarchy to include scale
 			while (current != null)
 			{
 				scale *= current.scaleX;
 				current = current.parent as UIComponent;
 			}
-			
+
 			return scale;
 		}
-		
+
 		private function getEffectiveScaleY(component:UIComponent):Number
 		{
 			var current:UIComponent = component;
-			
+
 			var scale:Number = 1;
-			
+
 			// walk up the component hierarchy to include scale
 			while (current != null)
 			{
 				scale *= current.scaleY;
 				current = current.parent as UIComponent;
 			}
-			
+
 			return scale;
 		}
-		
+
 		public function showFullView(startRect:Rect):void
 		{
 			if (_fullContainer && fullView == null)
@@ -685,23 +692,23 @@ package collaboRhythm.shared.controller.apps
 				fullView = createFullView();
 				this.prepareFullView();
 			}
-			
+
 			if (canShowFullView())
 			{
 				showFullViewStart();
-				
+
 				showWidgetAsDraggable(false);
 				showWidgetAsSelected(true);
-				
+
 				_primaryShowFullViewParallelEffect.stop();
 				_secondaryShowFullViewParallelEffect.stop();
 
 				fullView.validateNow();
 				var bitmapData:BitmapData = ImageSnapshot.captureBitmapData(fullView);
-				
+
 				topSpaceTransitionComponent = BitmapCopyComponent.createFromBitmap(bitmapData, fullView);
 				centerSpaceTransitionComponent = BitmapCopyComponent.createFromBitmap(bitmapData, fullView);
-				
+
 				fullView.visible = false;
 				var widgetTransitionComponentContainer:IVisualElementContainer = getTransitionComponentContainer(widgetView);
 
@@ -710,17 +717,19 @@ package collaboRhythm.shared.controller.apps
 					if (topSpaceTransitionComponent != null)
 					{
 						widgetTransitionComponentContainer.addElement(topSpaceTransitionComponent);
-						
-						applyShowFullViewEffects(_primaryShowFullViewParallelEffect, topSpaceTransitionComponent, startRect, true);
+
+						applyShowFullViewEffects(_primaryShowFullViewParallelEffect, topSpaceTransitionComponent,
+												 startRect, true);
 					}
-					
+
 					var fullTransitionComponentContainer:IVisualElementContainer = getTransitionComponentContainer(fullView);
 
 					if (centerSpaceTransitionComponent != null && widgetTransitionComponentContainer != fullTransitionComponentContainer)
 					{
 						fullTransitionComponentContainer.addElement(centerSpaceTransitionComponent);
-						
-						applyShowFullViewEffects(_secondaryShowFullViewParallelEffect, centerSpaceTransitionComponent, startRect, true);
+
+						applyShowFullViewEffects(_secondaryShowFullViewParallelEffect, centerSpaceTransitionComponent,
+												 startRect, true);
 					}
 				}
 				else
@@ -758,56 +767,61 @@ package collaboRhythm.shared.controller.apps
 
 		private function getTransitionComponentContainer(widgetView:UIComponent):IVisualElementContainer
 		{
+			//TODO: Is there a simpler way than looping through all of the display hierarchy? can be be more explicit?
+			var previousContainer:DisplayObjectContainer;
 			var container:DisplayObjectContainer = widgetView.parent;
 			if (!container)
 				throw new Error("Failed to find a container to put the transition component in");
 
-			while (container.parent != null && !(container is Window) && !(container is Application))
+			while (container.parent != null && !(container is Window) && !(container is Application) && !(container.parent is ViewNavigatorApplication))
 			{
+				previousContainer = container;
 				container = container.parent;
 			}
 
 			if (container is IVisualElementContainer)
 				return container as IVisualElementContainer;
+			else if (previousContainer is IVisualElementContainer)
+				return previousContainer as IVisualElementContainer;
 			else
 				throw new Error("Failed to find a IVisualElementContainer to put the transition component in");
 		}
-		
+
 		/**
 		 * Called at the beginning when showing a full view (before transition animations). Override in subclasses to change behavior for showing full view.
 		 */
 		protected function showFullViewStart():void
 		{
 		}
-		
+
 		/**
 		 * Called at the end when showing a full view (after transition animations). Override in subclasses to change behavior for showing full view.
 		 */
 		protected function showFullViewComplete():void
 		{
 		}
-		
+
 		private var _traceEventHandlers:Boolean = false;
 
 		public function primaryShowFullViewParallelEffect_effectEndHandler(event:EffectEvent):void
 		{
 			if (_traceEventHandlers)
 				trace(this + ".primaryShowFullViewParallelEffect_effectEndHandler");
-			
+
 			fullView.alpha = 1;
 			fullView.visible = true;
-			
+
 			hideOtherFullViews();
-			
+
 			removeFromParent(topSpaceTransitionComponent);
 			topSpaceTransitionComponent = null;
-			
+
 			removeFromParent(centerSpaceTransitionComponent);
 			centerSpaceTransitionComponent = null;
-			
+
 			showFullViewComplete();
 		}
-		
+
 		private function hideOtherFullViews():void
 		{
 			var fullViewParent:IVisualElementContainer = (fullView.parent as IVisualElementContainer);
@@ -871,14 +885,14 @@ package collaboRhythm.shared.controller.apps
 			fullView.visible = false;
 			hideFullViewComplete();
 		}
-		
+
 		/**
 		 * Called after hiding the full view is complete. Override in subclasses to change behavior for hiding full view.
 		 */
 		protected function hideFullViewComplete():void
 		{
 		}
-		
+
 		/**
 		 * Removes the widget and full views from their respective parents and sets the corresponding references to null
 		 * to allow for garbage collection. This method is called when the view(s) for the app are no longer needed.
@@ -886,8 +900,8 @@ package collaboRhythm.shared.controller.apps
 		 * the view(s) may be subsequently re-created and their state should be restored if this happens.
 		 * <p>
 		 * Subclasses may override this and provide additional cleanup if required
-		 * before or after super.destroyViews().  
-		 * 
+		 * before or after super.destroyViews().
+		 *
 		 */
 		public function destroyViews():void
 		{
@@ -901,9 +915,9 @@ package collaboRhythm.shared.controller.apps
 					(widgetView.parent as IVisualElementContainer).removeElement(widgetView);
 				else
 					widgetView.parent.removeChild(widgetView);
-				
+
 			}
-			
+
 			if (widgetView)
 			{
 				widgetView.removeEventListener(MouseEvent.CLICK, widgetClickHandler);
@@ -911,7 +925,7 @@ package collaboRhythm.shared.controller.apps
 				widgetView.accessibilityProperties = null;
 				widgetView = null;
 			}
-			
+
 			if (fullView != null && fullView.parent != null)
 			{
 				if (fullView.parent is IVisualElementContainer)
@@ -919,16 +933,16 @@ package collaboRhythm.shared.controller.apps
 				else
 					fullView.parent.removeChild(fullView);
 			}
-			
+
 			if (fullView)
 			{
 				fullView.accessibilityProperties = null;
 				fullView = null;
 			}
 		}
-		
+
 		/**
-		 * Initializes this instance of WorkstationAppControllerBase (app), and if they have been created, the 
+		 * Initializes this instance of WorkstationAppControllerBase (app), and if they have been created, the
 		 * widgetView and/or fullView of this app. This method is called after the standard properties
 		 * (healthRecordService, activeRecordAccount, etc) of the app are set so that the app can prepare itself for use.
 		 * Subclasses should override this method to implement appropriate initialization. This method is only ever
@@ -964,7 +978,7 @@ package collaboRhythm.shared.controller.apps
 			destroyViews();
 			removeUserData();
 		}
-		
+
 		/**
 		 * Removes any references to user data owned by this app on the Record object.
 		 * This is called when closing the user/record and/or when closing or reloading the whole application.
@@ -981,23 +995,25 @@ package collaboRhythm.shared.controller.apps
 			return getQualifiedClassName(this);
 		}
 
-        public function get activeAccount():Account {
-            return _activeAccount;
-        }
+		public function get activeAccount():Account
+		{
+			return _activeAccount;
+		}
 
-        public function set activeAccount(value:Account):void {
-            _activeAccount = value;
-        }
+		public function set activeAccount(value:Account):void
+		{
+			_activeAccount = value;
+		}
 
-        public function get activeRecordAccount():Account
-        {
-            return _activeRecordAccount;
-        }
+		public function get activeRecordAccount():Account
+		{
+			return _activeRecordAccount;
+		}
 
-        public function set activeRecordAccount(value:Account):void
-        {
-            _activeRecordAccount = value;
-        }
+		public function set activeRecordAccount(value:Account):void
+		{
+			_activeRecordAccount = value;
+		}
 
 		public function get isWidgetViewPrepared():Boolean
 		{

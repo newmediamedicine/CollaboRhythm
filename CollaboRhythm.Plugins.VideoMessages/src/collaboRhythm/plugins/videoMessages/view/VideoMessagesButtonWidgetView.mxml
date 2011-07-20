@@ -6,7 +6,7 @@
 			@namespace s "library://ns.adobe.com/flex/spark";
 
 			.videoCount {
-				color: #33ff33;
+				color: #000000;
 				font-size: 40;
 			}
 
@@ -18,6 +18,7 @@
 		import collaboRhythm.shared.model.VideoMessagesModel;
 
 		import mx.binding.utils.BindingUtils;
+		import mx.events.CollectionEvent;
 
 		private var _videoMessagesAppController:VideoMessagesAppController;
 		[Bindable]
@@ -29,12 +30,12 @@
 			_videoMessagesAppController = videoMessagesAppController;
 			_videoMessagesModel = videoMessagesModel;
 
-			BindingUtils.bindSetter(videoMessageCount_changeHandler, _videoMessagesModel, "videoMessageCount", false, true);
+			_videoMessagesModel.videoMessagesCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, videoMessagesCollection_changeHandler);
 		}
 
-		private function videoMessageCount_changeHandler(videoMessageCount:int):void
+		private function videoMessagesCollection_changeHandler(event:CollectionEvent):void
 		{
-			showFullViewButton.label = videoMessageCount.toString();
+			showFullViewButton.label = _videoMessagesModel.videoMessagesCollection.length.toString();
 		}
 
 		private function showFullViewButton_clickHandler():void

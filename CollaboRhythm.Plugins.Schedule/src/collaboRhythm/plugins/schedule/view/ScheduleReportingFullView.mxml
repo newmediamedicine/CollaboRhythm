@@ -119,7 +119,7 @@
 		public function destroyChildren():void
 		{
 			additionalInformationViews.removeAllElements();
-			scheduleGroupReportingView.removeAllElements();
+			scheduleGroupReportingView.scheduleItemsGroup.removeAllElements();
 		}
 		]]></fx:Script>
 

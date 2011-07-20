@@ -33,6 +33,7 @@ package collaboRhythm.shared.model.settings
         private var _useFileTarget:Boolean;
         private var _useTraceTarget:Boolean;
         private var _useSyslogTarget:Boolean;
+		private var _debuggingToolsEnabled:Boolean;
 		private var _oauthChromeConsumerKey:String;
 		private var _oauthChromeConsumerSecret:String;
 		private var _indivoServerBaseURL:String;
@@ -242,5 +243,15 @@ package collaboRhythm.shared.model.settings
 		{
 			_appGroups = value;
 		}
-    }
+
+		public function get debuggingToolsEnabled():Boolean
+		{
+			return _debuggingToolsEnabled;
+		}
+
+		public function set debuggingToolsEnabled(value:Boolean):void
+		{
+			_debuggingToolsEnabled = value;
+		}
+	}
 }

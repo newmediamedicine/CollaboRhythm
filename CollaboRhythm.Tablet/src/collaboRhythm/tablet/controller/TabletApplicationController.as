@@ -110,5 +110,23 @@ package collaboRhythm.tablet.controller
             _activeRecordAccount = null;
             _activeRecordView.visible = false;
         }
+
+		public function useDemoPreset(demoPresetIndex:int):void
+		{
+			if (_settings.demoDatePresets && _settings.demoDatePresets.length > demoPresetIndex)
+				targetDate = _settings.demoDatePresets[demoPresetIndex];
+		}
+
+		protected override function changeDemoDate():void
+        {
+            if (_activeRecordAccount != null)
+			{
+				reloadDocuments(_activeRecordAccount);
+				_tabletAppControllersMediator.reloadUserData();
+			}
+
+			if (_activeRecordAccount && _activeRecordAccount.primaryRecord && _activeRecordAccount.primaryRecord.demographics)
+				_activeRecordAccount.primaryRecord.demographics.dispatchAgeChangeEvent();
+        }
 	}
 }
