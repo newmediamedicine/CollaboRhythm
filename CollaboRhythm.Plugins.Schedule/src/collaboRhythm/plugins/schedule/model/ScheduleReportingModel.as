@@ -20,7 +20,7 @@ package collaboRhythm.plugins.schedule.model
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 	import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-	import collaboRhythm.shared.model.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;

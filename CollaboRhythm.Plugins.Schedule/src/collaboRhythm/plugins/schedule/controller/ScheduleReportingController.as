@@ -22,7 +22,7 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 	import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
 	import collaboRhythm.shared.controller.apps.AppEvent;
-	import collaboRhythm.shared.model.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 
 	import flash.events.EventDispatcher;

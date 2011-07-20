@@ -1,14 +1,11 @@
 package collaboRhythm.core.model.healthRecord.service
 {
 
-	import collaboRhythm.core.model.XmlMarshaller;
-	import collaboRhythm.core.model.healthRecord.*;
+	import collaboRhythm.core.model.healthRecord.Schemas;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.Record;
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
-	import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
-	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
+	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 
@@ -34,6 +31,7 @@ package collaboRhythm.core.model.healthRecord.service
 													 account:Account)
 		{
 			super(consumerKey, consumerSecret, baseURL, account);
+			initializeXmlMarshaller();
 		}
 
 		override public function loadDocuments(record:Record):void
@@ -67,58 +65,49 @@ package collaboRhythm.core.model.healthRecord.service
 		{
 			var requestDetails:HealthRecordServiceRequestDetails = event.userData as HealthRecordServiceRequestDetails;
 			if (requestDetails == null)
-				throw new Error("userData must be a BloodPressureReportUserData object");
+				throw new Error("userData must be a HealthRecordServiceRequestDetails object");
 
 			var record:Record = requestDetails.record;
 			if (record == null)
 				throw new Error("userData.record must be a Record object");
 
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
-			if (responseXml.Report.Item.VitalSign.length() > 0)
+			var vitalSignsCollection:ArrayCollection = parseReportsXml(responseXml);
+			for each (var vitalSign:VitalSign in vitalSignsCollection)
 			{
-				record.vitalSignsModel.vitalSignsByCategory.put(requestDetails.category,
-															   parseVitalSignReportData(responseXml));
+				record.addDocument(vitalSign, true);
+			}
+			_logger.info("VitalSign " + requestDetails.category + " report loaded with " + vitalSignsCollection.length + " documents");
 
-				_pendingVitalsCategories.remove(requestDetails.category);
-				if (_pendingVitalsCategories.size() == 0)
-				{
-					record.vitalSignsModel.isInitialized = true;
-					isLoading = false;
-				}
-
-				_logger.info("VitalSign " + requestDetails.indivoApiCall + " report loaded");
+			_pendingVitalsCategories.remove(requestDetails.category);
+			if (_pendingVitalsCategories.size() == 0)
+			{
+				record.vitalSignsModel.isInitialized = true;
+				isLoading = false;
 			}
 
 			// Note that we don't use super.handleResponse because loading is not complete until requests for all pendingVitalsCategories are complete
 		}
 
-		private function parseVitalSignReportData(responseXml:XML):ArrayCollection
+		override protected function documentShouldBeIncluded(document:IDocument, nowTime:Number):Boolean
 		{
-			var collection:ArrayCollection = new ArrayCollection();
-			var xmlMarshaller:XmlMarshaller = new XmlMarshaller();
-			xmlMarshaller.addSchema(Schemas.CodedValuesSchema);
-			xmlMarshaller.addSchema(Schemas.ValuesSchema);
-			xmlMarshaller.addSchema(Schemas.VitalSignSchema);
-			var vitalSignQName:QName = new QName("http://indivo.org/vocab/xml/documents#", "VitalSign");
-			xmlMarshaller.registerClass(vitalSignQName, VitalSign);
-			xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "CodedValue"), CodedValue);
-			xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "ValueAndUnit"), ValueAndUnit);
+			var vitalSign:VitalSign = document as VitalSign;
+			return vitalSign.dateMeasuredStart.valueOf() <= nowTime;
+		}
 
-			// trim off any data that is from the future (according to ICurrentDateSource); note that we assume the data is in ascending order by date
-			var nowTime:Number = _currentDateSource.now().time;
+		override protected function get targetDocumentType():String
+		{
+			return VitalSign.DOCUMENT_TYPE;
+		}
 
-			default xml namespace = "http://indivo.org/vocab/xml/documents#";
-			for each (var reportXml:XML in responseXml.Report)
-			{
-				var vitalSign:VitalSign = xmlMarshaller.unmarshallXml(reportXml.Item.VitalSign[0], vitalSignQName) as VitalSign;
-				if (vitalSign && vitalSign.dateMeasuredStart.valueOf() <= nowTime)
-				{
-					_relationshipXmlMarshaller.unmarshallRelationships(reportXml, vitalSign);
-					collection.addItem(vitalSign);
-				}
-			}
+		override protected function get targetClass():Class
+		{
+			return VitalSign;
+		}
 
-			return collection;
+		override protected function get targetDocumentSchema():Class
+		{
+			return Schemas.VitalSignSchema;
 		}
 	}
 }

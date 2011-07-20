@@ -2,8 +2,11 @@ package collaboRhythm.shared.model.healthRecord.document
 {
 
 	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
+	import collaboRhythm.shared.model.healthRecord.IDocument;
 
 	import j2as3.collection.HashMap;
+
+	import mx.collections.ArrayCollection;
 
 	[Bindable]
 	public class VitalSignsModel extends DocumentCollectionBase
@@ -27,6 +30,36 @@ package collaboRhythm.shared.model.healthRecord.document
 		public function hasCategory(category:String):Boolean
 		{
 			return vitalSignsByCategory.keys.contains(category) && vitalSignsByCategory[category].length > 0;
+		}
+
+		override public function addDocument(document:IDocument):void
+		{
+			super.addDocument(document);
+
+			var vitalSign:VitalSign = document as VitalSign;
+			var category:String = vitalSign.name.text;
+			var collection:ArrayCollection = vitalSignsByCategory.getItem(category);
+			if (!collection)
+			{
+				collection = new ArrayCollection();
+				vitalSignsByCategory.put(category, collection);
+			}
+			collection.addItem(vitalSign);
+		}
+
+		override public function removeDocument(document:IDocument):void
+		{
+			super.removeDocument(document);
+
+			var vitalSign:VitalSign = document as VitalSign;
+			var category:String = vitalSign.name.text;
+			var collection:ArrayCollection = vitalSignsByCategory.getItem(category);
+			if (collection)
+			{
+				var itemIndex:int = collection.getItemIndex(document);
+				if (itemIndex != -1)
+					collection.removeItemAt(itemIndex);
+			}
 		}
 	}
 }

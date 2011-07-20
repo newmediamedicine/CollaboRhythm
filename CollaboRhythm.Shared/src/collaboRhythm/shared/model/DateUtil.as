@@ -42,5 +42,23 @@ package collaboRhythm.shared.model
 			else
 				return com.adobe.utils.DateUtil.parseW3CDTF(dateString);
 		}
+
+		/**
+		* Parses dates that have the format "YYYY-MM-DD" into Date objects. Note that the parseW3CDTF function does not
+		* currently support this format (though it probably should).
+		*
+		* @param dateString The date string to parse
+		*
+		* @returns The parsed Date value, or null if the dateString is null or empty and returnNullIfEmpty is true.
+		*
+		* @see http://www.w3.org/TR/NOTE-datetime
+		*/
+		public static function parseDate(dateString:String, returnNullIfEmpty:Boolean = true):Date
+		{
+			if (returnNullIfEmpty && (dateString == null || dateString.length == 0))
+				return null;
+			else
+				return com.adobe.utils.DateUtil.parseW3CDTF(dateString + "T00:00:00Z");
+		}
 	}
 }

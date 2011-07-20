@@ -16,14 +16,13 @@
  */
 package collaboRhythm.plugins.equipment.controller
 {
-	import collaboRhythm.shared.model.healthRecord.EquipmentHealthRecordService;
-	import collaboRhythm.shared.model.EquipmentModel;
+
 	import collaboRhythm.plugins.equipment.view.EquipmentWidgetView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-	
+
 	import mx.core.UIComponent;
-	
+
 	public class EquipmentAppController extends WorkstationAppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Equipment";

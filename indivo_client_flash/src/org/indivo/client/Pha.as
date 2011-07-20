@@ -638,7 +638,7 @@ public class Pha extends EventDispatcher implements WikiTestable
         var requestUrl:String= "records/" + recordId + "/documents/" + docId;
         phaRequest(
             consumerKey, consumerSecret, installationURL,
-            "DELETE", requestUrl, accessToken, accessTokenSecret, null, userData);
+            "DELETE", requestUrl, accessToken, accessTokenSecret, null, null, userData);
     }
     
     /** POST /records/{record_id}/documents/{document_id}/set-status
@@ -2042,5 +2042,10 @@ public class Pha extends EventDispatcher implements WikiTestable
         return  getQualifiedClassName(this) + ": " + this.instanceConsumerKey
             + "; " + this.instanceConsumerSecret + "; " + this.phaBase;
     }
+
+	public function clone():Pha
+	{
+		return new Pha(instanceConsumerKey, instanceConsumerSecret, phaBase);
+	}
 }
 }

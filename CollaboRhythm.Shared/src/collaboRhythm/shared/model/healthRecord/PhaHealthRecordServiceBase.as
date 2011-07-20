@@ -13,6 +13,8 @@ package collaboRhythm.shared.model.healthRecord
 
         // Indivo Api calls used in this healthRecordService
         public static const CREATE_DOCUMENT:String = "Create Document";
+        public static const DELETE_DOCUMENT:String = "Delete Document";
+        public static const VOID_DOCUMENT:String = "Void Document";
         public static const ARCHIVE_DOCUMENT:String = "Archive Document";
         public static const RELATE_DOCUMENTS:String = "Relate Documents";
         public static const RELATE_NEW_DOCUMENT:String = "Relate New Document";
@@ -27,25 +29,49 @@ package collaboRhythm.shared.model.healthRecord
             _pha.addEventListener(IndivoClientEvent.ERROR, indivoClientEventHandler)
         }
 
-        public function createDocument(record:Record, document:XML):void
+        public function createDocument(record:Record, document:IDocument, documentXml:XML):void
         {
             var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(CREATE_DOCUMENT,
                                                                                                                             null,
                                                                                                                             record);
+			healthRecordServiceRequestDetails.document = document;
             _pha.documents_POST(null, null, null, record.id, _activeAccount.oauthAccountToken,
-                                _activeAccount.oauthAccountTokenSecret, document, healthRecordServiceRequestDetails);
+                                _activeAccount.oauthAccountTokenSecret, documentXml.toXMLString(), healthRecordServiceRequestDetails);
         }
 
-        public function archiveDocument(record:Record, documentId:String, reason:String):void
+        public function archiveDocument(record:Record, document:IDocument, reason:String):void
         {
-            var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(ARCHIVE_DOCUMENT,
-                                                                                                                            null,
-                                                                                                                            record);
-            var formUrlEncoded:String = "reason=" + reason + "&status=archived";
-            _pha.documents_X_setStatusPOST(null, null, null, record.id, documentId, _activeAccount.oauthAccountToken,
-                                           _activeAccount.oauthAccountTokenSecret, formUrlEncoded,
-                                           healthRecordServiceRequestDetails);
-        }
+			setDocumentStatus(record, document, reason, "archived", ARCHIVE_DOCUMENT);
+		}
+
+		public function voidDocument(record:Record, document:IDocument, reason:String):void
+		{
+			setDocumentStatus(record, document, reason, "void", VOID_DOCUMENT);
+		}
+
+		public function deleteDocument(record:Record, document:IDocument):void
+		{
+			var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(DELETE_DOCUMENT,
+																															null,
+																															record);
+			healthRecordServiceRequestDetails.document = document;
+			_pha.documents_XDELETE(null, null, null, record.id, document.meta.id, _activeAccount.oauthAccountToken,
+										   _activeAccount.oauthAccountTokenSecret,
+										   healthRecordServiceRequestDetails);
+		}
+
+		private function setDocumentStatus(record:Record, document:IDocument, reason:String, status:String,
+										   indivoApiCall:String):void
+		{
+			var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(indivoApiCall,
+																															null,
+																															record);
+			healthRecordServiceRequestDetails.document = document;
+			var formUrlEncoded:String = "reason=" + reason + "&status=" + status;
+			_pha.documents_X_setStatusPOST(null, null, null, record.id, document.meta.id, _activeAccount.oauthAccountToken,
+										   _activeAccount.oauthAccountTokenSecret, formUrlEncoded,
+										   healthRecordServiceRequestDetails);
+		}
 
         public function relateDocuments(record:Record, documentId:String, otherDocumentId:String, relType:String):void
         {
@@ -74,9 +100,17 @@ package collaboRhythm.shared.model.healthRecord
             {
                 createDocumentCompleteHandler(responseXml, healthRecordServiceRequestDetails);
             }
+            else if (healthRecordServiceRequestDetails.indivoApiCall == DELETE_DOCUMENT)
+            {
+                deleteDocumentCompleteHandler(responseXml, healthRecordServiceRequestDetails);
+            }
             else if (healthRecordServiceRequestDetails.indivoApiCall == ARCHIVE_DOCUMENT)
             {
                 archiveDocumentCompleteHandler(responseXml, healthRecordServiceRequestDetails);
+            }
+            else if (healthRecordServiceRequestDetails.indivoApiCall == VOID_DOCUMENT)
+            {
+                voidDocumentCompleteHandler(responseXml, healthRecordServiceRequestDetails);
             }
             else if (healthRecordServiceRequestDetails.indivoApiCall == RELATE_NEW_DOCUMENT)
             {
@@ -88,26 +122,38 @@ package collaboRhythm.shared.model.healthRecord
             }
         }
 
-        private function createDocumentCompleteHandler(responseXml:XML,
+		protected function deleteDocumentCompleteHandler(responseXml:XML,
+													   healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+		{
+			trace("deleting document - SUCCEEDED");
+		}
+
+        protected function createDocumentCompleteHandler(responseXml:XML,
                                                        healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
             trace("creating document - SUCCEEDED");
             dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE, null, null, null, responseXml));
         }
 
-        private function archiveDocumentCompleteHandler(responseXml:XML,
+        protected function archiveDocumentCompleteHandler(responseXml:XML,
                                                         healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
-            trace("creating document - SUCCEEDED");
+            trace("archiving document - SUCCEEDED");
         }
 
-        private function relateNewDocumentCompleteHandler(responseXml:XML,
+        protected function voidDocumentCompleteHandler(responseXml:XML,
+                                                        healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+        {
+            trace("voiding document - SUCCEEDED");
+        }
+
+        protected function relateNewDocumentCompleteHandler(responseXml:XML,
                                                         healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
             trace("relating new document - SUCCEEDED");
         }
 
-        private function relateDocumentsCompleteHandler(responseXml:XML,
+        protected function relateDocumentsCompleteHandler(responseXml:XML,
                                                         healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
             trace("relating documents - SUCCEEDED");

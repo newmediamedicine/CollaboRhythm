@@ -18,29 +18,13 @@ package collaboRhythm.core.model.healthRecord.stitchers
 {
 
 	import collaboRhythm.shared.model.*;
-	import collaboRhythm.shared.model.healthRecord.IDocument;
-	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
 
-	public class EquipmentScheduleItemStitcher extends DocumentStitcherBase
+	public class EquipmentScheduleItemStitcher extends ScheduleItemStitcherBase
     {
         public function EquipmentScheduleItemStitcher(record:Record)
 		{
 			super(record, EquipmentScheduleItem.DOCUMENT_TYPE);
-			addRequiredDocumentType(AdherenceItem.DOCUMENT_TYPE);
 		}
-
-		override protected function stitchSpecialReferencesOnDocument(document:IDocument):void
-		{
-			var equipmentScheduleItem:EquipmentScheduleItem = document as EquipmentScheduleItem;
-			relateAdherenceItems(equipmentScheduleItem);
-		}
-
-        private function relateAdherenceItems(equipmentScheduleItem:EquipmentScheduleItem):void
-        {
-			for each (var adherenceItemId:String in equipmentScheduleItem.adherenceItems.keys)
-			{
-				equipmentScheduleItem.adherenceItems[adherenceItemId] = record.adherenceItemsModel.adherenceItems[adherenceItemId];
-			}
-        }
     }
 }

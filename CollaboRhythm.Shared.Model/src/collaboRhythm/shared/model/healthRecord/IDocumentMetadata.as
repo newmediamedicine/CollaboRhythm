@@ -33,5 +33,10 @@ package collaboRhythm.shared.model.healthRecord
 		 */
 		function get type():String;
 		function set type(value:String):void;
+
+		/**
+		 * Short type name of the document, such as "Problem".
+		 */
+		function get shortType():String;
 	}
 }

@@ -3,7 +3,7 @@ package collaboRhythm.core.model.healthRecord.stitchers
 
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.StringUtils;
-	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
+	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
 	import collaboRhythm.shared.model.healthRecord.IDocumentStitcher;
@@ -21,6 +21,7 @@ package collaboRhythm.core.model.healthRecord.stitchers
 		private var _record:Record;
 		private var _documentTypeToStitch:String;
 		private var _unstitchedRelationships:Vector.<Relationship> = new Vector.<Relationship>();
+		private var _stitchedRelationships:Vector.<Relationship> = new Vector.<Relationship>();
 		private var _requiredDocumentTypes:Vector.<String> = new Vector.<String>();
 		private var _documentCollectionToStitch:IDocumentCollection;
 
@@ -105,6 +106,7 @@ package collaboRhythm.core.model.healthRecord.stitchers
 		protected function stitchAllDocuments():void
 		{
 			_unstitchedRelationships = new Vector.<Relationship>();
+			_stitchedRelationships = new Vector.<Relationship>();
 			var documentsCollection:IDocumentCollection = record.documentCollections.getItem(documentTypeToStitch);
 
 			if (!documentsCollection)
@@ -115,7 +117,9 @@ package collaboRhythm.core.model.healthRecord.stitchers
 				stitchDocument(document);
 			}
 
-			_logger.info("Stitching COMPLETE for " + getShortDocumentType(documentTypeToStitch) + " documents (" + getShortDocumentTypes(requiredDocumentTypes) + " initialized)");
+			_logger.info("Stitching COMPLETE for " + getShortDocumentType(documentTypeToStitch) + " documents. " +
+						 "Relationships stitched/unstitched: " + stitchedRelationships.length + "/" + unstitchedRelationships.length +
+						 " (" + getShortDocumentTypes(requiredDocumentTypes) + " initialized)");
 
 			documentCollectionToStitch.isStitched = true;
 		}
@@ -156,11 +160,12 @@ package collaboRhythm.core.model.healthRecord.stitchers
 						throw new Error("Relationship.relatesToId must not be null when stitching");
 
 					// find the document to stitch to
-					var otherDocument:IDocument = record.documentsById.getItem(relationship.relatesToId);
+					var otherDocument:IDocument = record.currentDocumentsById.getItem(relationship.relatesToId);
 					if (otherDocument)
 					{
 						relationship.relatesTo = otherDocument;
 						otherDocument.isRelatedFrom.addItem(relationship);
+						stitchedRelationships.push(relationship);
 					}
 					else
 					{
@@ -205,6 +210,20 @@ package collaboRhythm.core.model.healthRecord.stitchers
 		public function get documentCollectionToStitch():IDocumentCollection
 		{
 			return _documentCollectionToStitch;
+		}
+
+		protected function logSpecialFailedStitches(parentDocument:IDocument, failedStitch:Vector.<String>,
+													relationshipType:String, otherDocumentShortType:String):void
+		{
+			if (failedStitch.length > 0)
+				_logger.warn("Warning: Failed to stitch " + failedStitch.length +
+									 " " + relationshipType + " \"special\" relationship(s) on " + parentDocument.meta.shortType + " " + parentDocument.meta.id +
+									 ". " + otherDocumentShortType + " not found with id(s) [" + failedStitch.join(", ") + "]");
+		}
+
+		public function get stitchedRelationships():Vector.<Relationship>
+		{
+			return _stitchedRelationships;
 		}
 	}
 }

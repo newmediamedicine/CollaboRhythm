@@ -17,6 +17,7 @@
 package collaboRhythm.core.model.healthRecord.service
 {
 
+	import collaboRhythm.core.model.healthRecord.Schemas;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.*;
@@ -37,7 +38,7 @@ package collaboRhythm.core.model.healthRecord.service
 
 		public function AdherenceItemsHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account)
 		{
-			super(consumerKey, consumerSecret, baseURL, account);
+			super(consumerKey, consumerSecret, baseURL, account, AdherenceItem.DOCUMENT_TYPE, AdherenceItem);
 		}
 
         override public function loadDocuments(record:Record):void
@@ -54,11 +55,11 @@ package collaboRhythm.core.model.healthRecord.service
 
         protected override function handleResponse(event:IndivoClientEvent, responseXml:XML, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
-            parseAdherenceItemsReportXml(responseXml, healthRecordServiceRequestDetails.record.adherenceItemsModel);
+            parseAdherenceItemsReportXml(responseXml, healthRecordServiceRequestDetails.record);
 			super.handleResponse(event, responseXml, healthRecordServiceRequestDetails);
         }
 
-		public function parseAdherenceItemsReportXml(value:XML, adherenceItemsModel:AdherenceItemsModel):void
+		public function parseAdherenceItemsReportXml(value:XML, record:Record):void
 		{
 			// trim off any data that is from the future (according to ICurrentDateSource); note that we assume the data is in ascending order by date
 			var nowTime:Number = _currentDateSource.now().time;
@@ -80,16 +81,16 @@ package collaboRhythm.core.model.healthRecord.service
 			
 			for each (adherenceItem in data)
 			{
-				adherenceItemsModel.addAdherenceItem(adherenceItem);
+				record.addDocument(adherenceItem, true);
 			}
 
-            adherenceItemsModel.isInitialized = true;
+            record.adherenceItemsModel.isInitialized = true;
 		}
 
 		public function initFromReportXML(reportXml:XML, adherenceItem:AdherenceItem):void
 		{
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
-			DocumentMetadata.parseDocumentMetadata(reportXml.Meta.Document[0], adherenceItem);
+			DocumentMetadata.parseDocumentMetadata(reportXml.Meta.Document[0], adherenceItem.meta);
 			var adherenceItemXml:XML = reportXml.Item.AdherenceItem[0];
 			adherenceItem.name = HealthRecordHelperMethods.xmlToCodedValue(adherenceItemXml.name[0]);
 			adherenceItem.reportedBy = adherenceItemXml.reportedBy;

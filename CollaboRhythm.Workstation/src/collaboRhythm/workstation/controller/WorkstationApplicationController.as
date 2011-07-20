@@ -20,6 +20,14 @@ package collaboRhythm.workstation.controller
 	import collaboRhythm.core.controller.ApplicationControllerBase;
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
+	import collaboRhythm.shared.model.healthRecord.IDocument;
+	import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.view.CollaborationView;
 	import collaboRhythm.workstation.model.settings.ComponentLayout;
@@ -655,7 +663,7 @@ package collaboRhythm.workstation.controller
 //				}
 //			}
 //		}
-		private function keyUpHandler(event:KeyboardEvent):void
+		protected function keyUpHandler(event:KeyboardEvent):void
 		{
 			// If the user presses escape, close the entire application
 			if (event.keyCode == Keyboard.ESCAPE)
@@ -705,6 +713,18 @@ package collaboRhythm.workstation.controller
 					_settings.useSingleScreen = false;
 //					resetWindows();
 				}
+				else if (event.keyCode == Keyboard.V)
+				{
+					testVoidDocuments();
+				}
+				else if (event.keyCode == Keyboard.D)
+				{
+					testDeleteDocuments();
+				}
+				else if (event.keyCode == Keyboard.S)
+				{
+					_healthRecordServiceFacade.saveChanges(_activeAccount.primaryRecord);
+				}
 			}
 			else if (event.keyCode == Keyboard.F1)
 			{
@@ -726,6 +746,45 @@ package collaboRhythm.workstation.controller
 			{
 				targetDate = null;
 			}
+		}
+
+		private function testVoidDocuments():void
+		{
+			deleteAllDocumentsOfTypes(documentTypesForTestRemoval,
+									  DocumentBase.ACTION_VOID, "reloading test data");
+		}
+
+		private function testDeleteDocuments():void
+		{
+			deleteAllDocumentsOfTypes(documentTypesForTestRemoval,
+									  DocumentBase.ACTION_DELETE, "reloading test data");
+		}
+
+		protected function get documentTypesForTestRemoval():Vector.<String>
+		{
+			return new <String>[AdherenceItem.DOCUMENT_TYPE, MedicationOrder.DOCUMENT_TYPE, VitalSign.DOCUMENT_TYPE, MedicationScheduleItem.DOCUMENT_TYPE, MedicationAdministration.DOCUMENT_TYPE];
+		}
+
+		private function deleteAllDocumentsOfTypes(documentTypes:Vector.<String>, deleteAction:String, reason:String):void
+		{
+			var deletedCount:int = 0;
+
+			for each (var documentType:String in documentTypes)
+			{
+				var deletedCountByType:int = 0;
+				var documentCollection:IDocumentCollection = _activeRecordAccount.primaryRecord.documentCollections[documentType];
+				for each (var document:IDocument in documentCollection.documents)
+				{
+					deletedCountByType += _activeRecordAccount.primaryRecord.deleteDocument(document,
+																							deleteAction,
+																							reason,
+																							true);
+				}
+				_logger.info("  Marked " + deletedCountByType + " " + documentType + " documents to " + deleteAction);
+				deletedCount += deletedCountByType;
+			}
+
+			_logger.info("Marked " + deletedCount + " documents to " + deleteAction);
 		}
 
 		private function useDemoPreset(demoPresetIndex:int):void

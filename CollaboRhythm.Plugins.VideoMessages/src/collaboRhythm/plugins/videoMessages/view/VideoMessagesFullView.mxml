@@ -35,8 +35,8 @@
 		import collaboRhythm.plugins.videoMessages.controller.VideoMessagesAppController;
 		import collaboRhythm.shared.model.Account;
 		import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
-		import collaboRhythm.shared.model.VideoMessage;
-		import collaboRhythm.shared.model.VideoMessagesModel;
+		import collaboRhythm.shared.model.healthRecord.document.VideoMessage;
+		import collaboRhythm.shared.model.healthRecord.document.VideoMessagesModel;
 
 		import mx.collections.ArrayCollection;
 		import mx.logging.ILogger;

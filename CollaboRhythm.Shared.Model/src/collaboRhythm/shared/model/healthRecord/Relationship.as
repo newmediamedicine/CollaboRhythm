@@ -28,6 +28,9 @@ package collaboRhythm.shared.model.healthRecord
 			_pendingAction = value;
 		}
 
+		/**
+		 * The type of the relationship, such as "http://indivo.org/vocab/documentrels#scheduleItem"
+		 */
 		public function get type():String
 		{
 			return _type;
@@ -38,6 +41,9 @@ package collaboRhythm.shared.model.healthRecord
 			_type = value;
 		}
 
+		/**
+		 * The document that the relatesTo document is related from.
+		 */
 		public function get relatesFrom():IDocument
 		{
 			return _relatesFrom;
@@ -58,6 +64,9 @@ package collaboRhythm.shared.model.healthRecord
 			_relatesFromId = value;
 		}
 
+		/**
+		 * The other document that the relatesFrom document is related to.
+		 */
 		public function get relatesTo():IDocument
 		{
 			return _relatesTo;
@@ -68,6 +77,9 @@ package collaboRhythm.shared.model.healthRecord
 			_relatesTo = value;
 		}
 
+		/**
+		 * The id of the other document that the relatesFrom document is related to.
+		 */
 		public function get relatesToId():String
 		{
 			return _relatesToId;

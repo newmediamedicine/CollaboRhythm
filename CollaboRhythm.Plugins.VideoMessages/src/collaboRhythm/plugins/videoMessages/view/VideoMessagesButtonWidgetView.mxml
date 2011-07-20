@@ -15,7 +15,7 @@
 		import assets.images.videos;
 
 		import collaboRhythm.plugins.videoMessages.controller.VideoMessagesAppController;
-		import collaboRhythm.shared.model.VideoMessagesModel;
+		import collaboRhythm.shared.model.healthRecord.document.VideoMessagesModel;
 
 		import mx.binding.utils.BindingUtils;
 		import mx.events.CollectionEvent;

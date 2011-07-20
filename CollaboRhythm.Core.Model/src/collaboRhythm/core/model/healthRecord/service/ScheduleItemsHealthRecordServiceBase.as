@@ -1,0 +1,41 @@
+package collaboRhythm.core.model.healthRecord.service
+{
+
+	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.RecurrenceRule;
+	import collaboRhythm.shared.model.healthRecord.IDocument;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
+
+	public class ScheduleItemsHealthRecordServiceBase extends DocumentStorageSingleReportServiceBase
+	{
+		public function ScheduleItemsHealthRecordServiceBase(consumerKey:String, consumerSecret:String, baseURL:String,
+												   account:Account, targetDocumentType:String,
+												   targetClass:Class, targetDocumentSchema:Class, indivoReportName:String)
+		{
+			super(consumerKey, consumerSecret, baseURL, account, targetDocumentType, targetClass, targetDocumentSchema, indivoReportName);
+			initializeXmlMarshaller();
+		}
+
+		override protected function initializeXmlMarshaller():void
+		{
+			super.initializeXmlMarshaller();
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "RecurrenceRule"), RecurrenceRule);
+		}
+
+		override protected function documentShouldBeIncluded(document:IDocument, nowTime:Number):Boolean
+		{
+			var scheduleItem:ScheduleItemBase = document as ScheduleItemBase;
+			return scheduleItem.dateScheduled.valueOf() <= nowTime && scheduleItem.dateStart.valueOf() <= nowTime;
+		}
+
+		override protected function unmarshallSpecialRelationships(reportXml:XML, document:IDocument):void
+		{
+			var scheduleItem:ScheduleItemBase = document as ScheduleItemBase;
+
+			for each (var adherenceItemXml:XML in reportXml..relatesTo.relation.(@type == "http://indivo.org/vocab/documentrels#adherenceItem").relatedDocument)
+			{
+				scheduleItem.adherenceItems[adherenceItemXml.@id] = null;
+			}
+		}
+	}
+}

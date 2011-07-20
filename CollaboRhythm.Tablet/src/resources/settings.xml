@@ -28,12 +28,12 @@
 	<debuggingToolsEnabled>false</debuggingToolsEnabled>
 	<oauthChromeConsumerKey>collaboRhythmChrome</oauthChromeConsumerKey>
 	<oauthChromeConsumerSecret>collaboRhythmChrome_secret93452</oauthChromeConsumerSecret>
-	<targetDate>2011-02-17T00:00:00-5:00</targetDate>
+	<targetDate>2010-01-17T00:00:00-5:00</targetDate>
 	<demoDatePresets>
-		<demoDatePreset>2010-02-01T00:00:00-5:00</demoDatePreset>
-		<demoDatePreset>2011-02-17T00:00:00-5:00</demoDatePreset>
-		<demoDatePreset>2011-02-19T00:00:00-5:00</demoDatePreset>
-		<demoDatePreset>2011-02-20T00:00:00-5:00</demoDatePreset>
+		<demoDatePreset>2010-01-10T00:00:00-5:00</demoDatePreset>
+		<demoDatePreset>2010-01-17T00:00:00-5:00</demoDatePreset>
+		<demoDatePreset>2010-01-20T00:00:00-5:00</demoDatePreset>
+		<demoDatePreset>2010-02-10T00:00:00-5:00</demoDatePreset>
 	</demoDatePresets>
 
 	<!--

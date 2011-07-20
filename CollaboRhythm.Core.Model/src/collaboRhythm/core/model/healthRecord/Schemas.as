@@ -15,6 +15,27 @@ package collaboRhythm.core.model.healthRecord
 		[Embed("/assets/healthRecord/schemas/VitalSign.xsd", mimeType="application/octet-stream")]
 		public static const VitalSignSchema:Class;
 
+		[Embed("/assets/healthRecord/schemas/Equipment.xsd", mimeType="application/octet-stream")]
+		public static const EquipmentSchema:Class;
+
+		[Embed("/assets/healthRecord/schemas/EquipmentScheduleItem.xsd", mimeType="application/octet-stream")]
+		public static const EquipmentScheduleItemSchema:Class;
+
+		[Embed("/assets/healthRecord/schemas/MedicationScheduleItem.xsd", mimeType="application/octet-stream")]
+		public static const MedicationScheduleItemSchema:Class;
+
+		[Embed("/assets/healthRecord/schemas/Problem.xsd", mimeType="application/octet-stream")]
+		public static const ProblemSchema:Class;
+
+		[Embed("/assets/healthRecord/schemas/VideoMessage.xsd", mimeType="application/octet-stream")]
+		public static const VideoMessageSchema:Class;
+
+		[Embed("/assets/healthRecord/schemas/MedicationFill.xsd", mimeType="application/octet-stream")]
+		public static const MedicationFillSchema:Class;
+
+		[Embed("/assets/healthRecord/schemas/MedicationOrder.xsd", mimeType="application/octet-stream")]
+		public static const MedicationOrderSchema:Class;
+
 		public function Schemas()
 		{
 		}

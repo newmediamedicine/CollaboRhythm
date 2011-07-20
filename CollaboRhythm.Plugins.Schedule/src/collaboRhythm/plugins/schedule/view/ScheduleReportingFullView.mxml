@@ -29,9 +29,6 @@
 		import collaboRhythm.plugins.schedule.model.ScheduleModel;
 		import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
 		import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEvent;
-		import collaboRhythm.shared.model.ScheduleItemOccurrence;
-
-		import flash.sampler._getInvocationCount;
 
 		import mx.core.UIComponent;
 		import mx.events.CollectionEvent;

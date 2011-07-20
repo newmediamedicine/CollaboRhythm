@@ -34,7 +34,7 @@ package collaboRhythm.core.model.healthRecord
 					var relationship:Relationship = new Relationship();
 					relationship.type = type;
 					relationship.relatesFrom = document;
-					relationship.relatesFromId = document.id;
+					relationship.relatesFromId = document.meta.id;
 					relationship.relatesToId = relatedDocumentXml.@id;
 					document.relatesTo.addItem(relationship);
 				}

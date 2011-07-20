@@ -4,16 +4,16 @@ package collaboRhythm.plugins.equipment.model
 	import castle.flexbridge.reflection.ClassInfo;
 	import castle.flexbridge.reflection.ReflectionUtils;
 
-	import collaboRhythm.plugins.equipment.view.EquipmentScheduleItemClockView;
-	import collaboRhythm.plugins.equipment.view.EquipmentScheduleItemReportingView;
-	import collaboRhythm.plugins.equipment.view.EquipmentScheduleItemTimelineView;
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleViewFactory;
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
-	import collaboRhythm.shared.model.EquipmentScheduleItem;
-	import collaboRhythm.shared.model.ScheduleItemOccurrence;
+    import collaboRhythm.plugins.equipment.view.EquipmentScheduleItemClockView;
+    import collaboRhythm.plugins.equipment.view.EquipmentScheduleItemReportingView;
+    import collaboRhythm.plugins.equipment.view.EquipmentScheduleItemTimelineView;
+    import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
+    import collaboRhythm.plugins.schedule.shared.model.IScheduleViewFactory;
+    import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
+    import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
+    import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
+    import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
+    import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	public class EquipmentScheduleViewFactory implements IScheduleViewFactory
     {

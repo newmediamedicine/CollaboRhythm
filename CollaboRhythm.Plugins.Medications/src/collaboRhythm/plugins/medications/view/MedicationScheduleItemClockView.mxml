@@ -25,10 +25,10 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-		import collaboRhythm.shared.model.MedicationFillsModel;
-		import collaboRhythm.shared.model.MedicationScheduleItem;
-		import collaboRhythm.shared.model.ScheduleItemBase;
-		import collaboRhythm.shared.model.ScheduleItemOccurrence;
+		import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
+		import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 		import spark.filters.GlowFilter;
 

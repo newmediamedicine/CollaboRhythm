@@ -26,32 +26,32 @@
 	xmlns:scroll="collaboRhythm.view.scroll.*">
 	<fx:Script>
 		<![CDATA[
-        import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-        import collaboRhythm.shared.model.MedicationOrdersModel;
+		import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+		import collaboRhythm.shared.model.healthRecord.document.MedicationOrdersModel;
 
-        [Bindable]
-        private var _medicationOrdersModel:MedicationOrdersModel;
+		[Bindable]
+		private var _medicationOrdersModel:MedicationOrdersModel;
 
-        public function init(medicationOrdersModel:MedicationOrdersModel):void
-        {
-            _medicationOrdersModel = medicationOrdersModel
-        }
+		public function init(medicationOrdersModel:MedicationOrdersModel):void
+		{
+			_medicationOrdersModel = medicationOrdersModel
+		}
 
-        //        public function get model():MedicationsModel
-        //        {
-        //            return _model;
-        //        }
-        //
-        //        public function set model(value:MedicationsModel):void
-        //        {
-        //            _model = value;
-        //        }
+		//        public function get model():MedicationsModel
+		//        {
+		//            return _model;
+		//        }
+		//
+		//        public function set model(value:MedicationsModel):void
+		//        {
+		//            _model = value;
+		//        }
 
-        protected function rawButton_clickHandler(event:MouseEvent):void
-        {
-            viewstack1.selectedIndex = (viewstack1.selectedIndex + 1) % viewstack1.length;
-        }
-        ]]>
+		protected function rawButton_clickHandler(event:MouseEvent):void
+		{
+			viewstack1.selectedIndex = (viewstack1.selectedIndex + 1) % viewstack1.length;
+		}
+		]]>
 	</fx:Script>
 				
 	<fx:Declarations>
