@@ -44,7 +44,7 @@ package collaboRhythm.core.model.healthRecord.service
 				// TODO: handle other actions
 			}
 
-			_logger.info("Save changes initiated. Pending create: " + pendingCreateDocuments.length + " Pending delete/void/archive: " + pendingRemoveDocuments.length);
+			_logger.info("Save changes initiated. Pending create: " + pendingCreateDocuments.size() + " Pending delete/void/archive: " + pendingRemoveDocuments.size());
 		}
 
 		private function getDocumentXml(document:IDocument):XML
