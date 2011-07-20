@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="creationCompleteHandler()"
+		 width="100%" height="100%">
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.hypertensionEducation.controller.HypertensionEducationAppController;
+		import collaboRhythm.plugins.hypertensionEducation.model.HypertensionEducationModel;
+
+		import mx.binding.utils.BindingUtils;
+		import mx.collections.ArrayCollection;
+		import mx.events.CollectionEvent;
+		import mx.events.CollectionEventKind;
+
+		import mx.logging.ILogger;
+
+		import mx.logging.Log;
+
+		private var _hypertensionEducationAppController:HypertensionEducationAppController;
+		private var _hypertensionEducationModel:HypertensionEducationModel;
+		private var _utterances:ArrayCollection;
+
+		private var _avatarLoader:Loader = new Loader();
+		private var _vHostPlayer:MovieClip;
+		private var _sceneLoaded:Boolean = false;
+		private var _ttsLoaded:Boolean = false;
+
+		private var _logger:ILogger;
+
+		public function init(hypertensionEducationAppController:HypertensionEducationAppController,
+							 hypertensionEducationModel:HypertensionEducationModel):void
+		{
+			_hypertensionEducationAppController = hypertensionEducationAppController;
+			_hypertensionEducationModel = hypertensionEducationModel;
+			_utterances = _hypertensionEducationModel.utterances;
+			_utterances.addEventListener(CollectionEvent.COLLECTION_CHANGE, utterancesCollectionChangeHandler);
+
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+		}
+
+		private function creationCompleteHandler():void
+		{
+			loadAvatar();
+		}
+
+		private function utterancesCollectionChangeHandler(event:CollectionEvent):void
+		{
+			if (event.kind == CollectionEventKind.ADD)
+			{
+				for each (var utterance:String in event.items)
+				{
+					sayText(utterance);
+				}
+			}
+		}
+
+		private function loadAvatar():void
+		{
+			avatarUIComponent.addChild(_avatarLoader);
+
+			var urlRequest:URLRequest = new URLRequest("http://content.oddcast.com/vhss/vhss_v5.swf?doc=http%3A%2F%2Fvhss-d.oddcast.com%2Fphp%2FplayScene%2Facc%3D516572%2Fss%3D1596619%2Fsl%3D1869180&acc=516572&bgcolor=0x&embedid=d5abc74d202bbfb63e9a066290dd1fc3");
+
+			_avatarLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, completeHandler);
+			_avatarLoader.load(urlRequest);
+		}
+
+		private function completeHandler(event:Event):void
+		{
+			_avatarLoader.content.addEventListener(SecurityErrorEvent.SECURITY_ERROR, securityErrorEventHandler);
+			_vHostPlayer = MovieClip(_avatarLoader.content);
+			_vHostPlayer.addEventListener("vh_sceneLoaded", sceneLoadedHandler);
+			_vHostPlayer.addEventListener("vh_talkStarted", talkStartedHandler);
+			_vHostPlayer.addEventListener("vh_talkEnded", talkEndedHandler);
+			_vHostPlayer.addFrameScript("vh_ttsLoaded", ttsLoadedHandler);
+		}
+
+		private function talkStartedHandler(event:Event):void
+		{
+		}
+
+		private function talkEndedHandler(event:Event):void
+		{
+		}
+
+		private function ttsLoadedHandler():void
+		{
+			_ttsLoaded = true;
+		}
+
+		private function sceneLoadedHandler(event:Event):void
+		{
+			scaleAvatarLoader();
+			_sceneLoaded = true;
+		}
+
+		private function avatarUIComponent_resizeHandler():void
+		{
+			if (_sceneLoaded)
+			{
+				scaleAvatarLoader();
+			}
+		}
+
+		private function scaleAvatarLoader():void
+		{
+			var scaleFactor:Number = avatarUIComponent.width / _avatarLoader.width;
+			_avatarLoader.scaleX = scaleFactor;
+			_avatarLoader.scaleY = scaleFactor;
+		}
+
+		private function securityErrorEventHandler(event:SecurityErrorEvent):void
+		{
+			_logger.warn("avatar loader SECURITY_ERROR");
+		}
+
+		private function sayText(text:String):void
+		{
+			if (_sceneLoaded && _ttsLoaded)
+			{
+				try
+				{
+					_vHostPlayer.sayText(text, 1, 1, 2);
+				}
+				catch (error:Error)
+				{
+					_logger.warn("avatar text-to-speech failed");
+				}
+			}
+		}
+		]]></fx:Script>
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="#CCCCCC"/>
+		</s:fill>
+	</s:Rect>
+	<mx:UIComponent id="avatarUIComponent" width="50%" height="100%" resize="avatarUIComponent_resizeHandler()"/>
+</s:Group>

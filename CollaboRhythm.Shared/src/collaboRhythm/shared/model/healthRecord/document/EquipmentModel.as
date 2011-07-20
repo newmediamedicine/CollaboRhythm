@@ -27,6 +27,8 @@ package collaboRhythm.shared.model.healthRecord.document
 	[Bindable]
 	public class EquipmentModel extends DocumentCollectionBase
 	{
+		public static const EQUIPMENT_API_URL_BASE:String = "http://www.mit.edu/~jom/temp/equipment/";
+
         private var _equipment:HashMap = new HashMap();
 
 		public function EquipmentModel()

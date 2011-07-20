@@ -50,12 +50,12 @@
 		<![CDATA[
 		import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 		import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
+		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 		import collaboRhythm.shared.model.healthRecord.document.Equipment;
+		import collaboRhythm.shared.model.healthRecord.document.EquipmentModel;
 		import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
-		import collaboRhythm.shared.model.healthRecord.CodedValue;
-		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 		import collaboRhythm.shared.model.services.ICurrentDateSource;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -68,13 +68,14 @@
 		private var _currentDateSource:ICurrentDateSource;
 
 		public override function init(scheduleItemOccurrence:ScheduleItemOccurrence,
-									  scheduleReportingModel:IScheduleReportingModel):void
+									  scheduleReportingModel:IScheduleReportingModel, activeAccountId:String):void
 		{
-			super.init(scheduleItemOccurrence, scheduleReportingModel);
+			super.init(scheduleItemOccurrence, scheduleReportingModel, activeAccountId);
 			_equipmentScheduleItem = scheduleItemOccurrence.scheduleItem as EquipmentScheduleItem;
 			_equipment = _equipmentScheduleItem.scheduledEquipment;
 
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+			equipmentImage.source = encodeURI(EquipmentModel.EQUIPMENT_API_URL_BASE + _equipment.name + ".jpg");
 		}
 
 		private function creationCompleteHandler():void
@@ -113,21 +114,22 @@
 
 		private function adherenceButtonClickHandler(event:MouseEvent):void
 		{
-			var adherenceItem:AdherenceItem = new AdherenceItem();
-			var name:CodedValue = new CodedValue();
-			name.text = _equipment.name;
-			adherenceItem.init(name, "rpoole@records.media.mit.edu", _currentDateSource.now(),
-							   scheduleItemOccurrence.recurrenceIndex, true);
-			adherenceHandler(adherenceItem);
+			if (adherenceButton.selected)
+			{
+				var adherenceItem:AdherenceItem = new AdherenceItem();
+				adherenceItem.init(_equipmentScheduleItem.name, _activeAccountId, _currentDateSource.now(),
+								   scheduleItemOccurrence.recurrenceIndex, true);
+				adherenceHandler(adherenceItem);
+			}
+			else
+			{
+				dispatchAdherenceItemVoidEvent();
+			}
 
-
-//				var vitalSign:VitalSign = new VitalSign();
-//				vitalSign.init(_equipment.name, "gwhite@records.media.mit.edu", new Date(), new Date(), _equipment.dose);
-//				var adherenceItem:AdherenceItem = new AdherenceItem();
-//				adherenceItem.init(_equipment.name, "gwhite@records.media.mit.edu", new Date(), true);
-//				adherenceItem.adherenceResult = vitalSign;
-//				
-//				dispatchAdherenceItemEvent(adherenceItem);
+			if (nonadherenceButton.selected)
+			{
+				nonadherenceButton.selected = false;
+			}
 		}
 
 		override public function adherenceHandler(adherenceItem:AdherenceItem):void
@@ -140,12 +142,8 @@
 
 		public function bloodPressureReportingResult(systolic:String, diastolic:String, heartRate:String):void
 		{
-
 			var adherenceItem:AdherenceItem = new AdherenceItem();
-			var name:CodedValue = new CodedValue();
-			name.text = _equipment.name;
-			//TODO: add vital sign
-			adherenceItem.init(name, "rpoole@records.media.mit.edu", _currentDateSource.now(),
+			adherenceItem.init(_equipmentScheduleItem.name, _activeAccountId, _currentDateSource.now(),
 							   scheduleItemOccurrence.recurrenceIndex, true);
 
 			dispatchAdherenceItemCompleteEvent(adherenceItem);
@@ -153,13 +151,25 @@
 
 		private function nonadherenceButtonClickHandler(event:MouseEvent):void
 		{
-			var adherenceItem:AdherenceItem = new AdherenceItem();
-			var name:CodedValue = new CodedValue();
-			name.text = _equipment.name;
-			adherenceItem.init(name, "rpoole@records.media.mit.edu", _currentDateSource.now(),
-							   scheduleItemOccurrence.recurrenceIndex, false);
+			if (nonadherenceButton.selected)
+			{
+				var adherenceItem:AdherenceItem = new AdherenceItem();
+				adherenceItem.init(_equipmentScheduleItem.name, _activeAccountId, _currentDateSource.now(),
+								   scheduleItemOccurrence.recurrenceIndex, false);
 
-			dispatchAdherenceItemCompleteEvent(adherenceItem);
+				var nonadherenceReasonView:NonadherenceReasonView = new NonadherenceReasonView();
+				nonadherenceReasonView.init(_scheduleItemOccurrence, adherenceItem);
+				dispatchAdherenceItemIncompleteEvent(nonadherenceReasonView);
+			}
+			else
+			{
+				dispatchAdherenceItemVoidEvent();
+			}
+
+			if (adherenceButton.selected)
+			{
+				adherenceButton.selected = false;
+			}
 		}
 
 		override protected function pendingAdherenceItem_changeHandler(pendingAdherenceItem:PendingAdherenceItem):void
@@ -171,7 +181,7 @@
 		}
 		]]>
 	</fx:Script>
-	<s:Group id="med" width="100%" height="100%" enabled="{!_scheduleItemOccurrence.adherenceItem}">
+	<s:Group id="med" width="100%" height="100%">
 		<s:Rect id="background" width="100%" height="100%">
 			<s:fill>
 				<!--TODO: Reimplement coloring during collaboration-->
@@ -188,10 +198,11 @@
 						<s:SolidColor color="0xFFFFFF"/>
 					</s:fill>
 				</s:Rect>
-				<!--TODO: Fix images-->
-				<mx:Image name="foraImage" source="@Embed(source='/assets/images/fora.jpg')" width="100%" height="100%"
-						  smoothBitmapContent="true"/>
-				<images:BloodPressureScheduleItemClockView width="22%" height="22%" right="4" top="4"/>
+				<s:Image id="equipmentImage" width="100%" height="100%" smooth="true"
+						 skinClass="spark.skins.spark.ImageSkin"/>
+				<s:Group width="22%" height="22%" right="4" top="4">
+					<images:BloodPressureScheduleItemClockView/>
+				</s:Group>
 			</s:Group>
 			<s:Group id="descriptionRegion" height="100%" left="{imageRegion.width}" right="{buttonRegion.width}">
 				<s:Group left="5" right="5" top="5" bottom="5">
@@ -208,14 +219,14 @@
 			<s:Group id="buttonRegion" right="0" width="{this.height / 2 + 5}" height="100%">
 				<s:VGroup left="0" right="5" height="100%">
 					<s:Group width="100%" height="50%">
-						<s:Button id="adherenceButton"
-								  skinClass="collaboRhythm.plugins.equipment.view.AdherenceButtonSkin"
-								  click="adherenceButtonClickHandler(event)" width="100%" top="5" bottom="0"/>
+						<s:ToggleButton id="adherenceButton"
+										skinClass="collaboRhythm.plugins.equipment.view.AdherenceButtonSkin"
+										click="adherenceButtonClickHandler(event)" width="100%" top="5" bottom="0"/>
 					</s:Group>
 					<s:Group width="100%" height="50%">
-						<s:Button id="nonadherenceButton"
-								  skinClass="collaboRhythm.plugins.equipment.view.NonadherenceButtonSkin"
-								  click="nonadherenceButtonClickHandler(event)" width="100%" top="0" bottom="5"/>
+						<s:ToggleButton id="nonadherenceButton"
+										skinClass="collaboRhythm.plugins.equipment.view.NonadherenceButtonSkin"
+										click="nonadherenceButtonClickHandler(event)" width="100%" top="0" bottom="5"/>
 					</s:Group>
 				</s:VGroup>
 			</s:Group>

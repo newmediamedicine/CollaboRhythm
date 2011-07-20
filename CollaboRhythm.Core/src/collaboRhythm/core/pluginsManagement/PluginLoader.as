@@ -110,7 +110,10 @@ package collaboRhythm.core.pluginsManagement
 
 			for each (var file:File in files)
 			{
-				loadPlugin(file);
+				if (!file.isDirectory)
+				{
+					loadPlugin(file);
+				}
 			}
 		}
 		

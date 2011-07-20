@@ -21,7 +21,6 @@ package collaboRhythm.core.controller.apps
 
 	import collaboRhythm.plugins.problems.controller.ProblemsAppController;
 	import collaboRhythm.shared.apps.allergies.controller.AllergiesAppController;
-	import collaboRhythm.shared.apps.bloodPressureAgent.controller.BloodPressureAgentAppController;
 	import collaboRhythm.shared.apps.familyHistory.controller.FamilyHistoryAppController;
 	import collaboRhythm.shared.apps.genetics.controller.GeneticsAppController;
 	import collaboRhythm.shared.apps.imaging.controller.ImagingAppController;
@@ -42,9 +41,7 @@ package collaboRhythm.core.controller.apps
 	import com.theory9.data.types.OrderedMap;
 
 	import flash.desktop.NativeApplication;
-
 	import flash.events.KeyboardEvent;
-
 	import flash.net.registerClassAlias;
 	import flash.ui.Keyboard;
 	import flash.utils.getQualifiedClassName;
@@ -162,7 +159,6 @@ package collaboRhythm.core.controller.apps
 			var forceVitals:VitalsAppController;
 			var forceLabs:LabsAppController;
 			var forceImaging:ImagingAppController;
-			var forceBloodPressureAgent:BloodPressureAgentAppController;
 
 			if (_settings.appGroups && _settings.appGroups.length > groupIndex)
 			{

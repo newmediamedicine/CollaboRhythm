@@ -17,18 +17,19 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
 
-    import castle.flexbridge.reflection.ClassInfo;
+	import castle.flexbridge.reflection.ClassInfo;
 
     import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
     import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
     import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
     import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
-    public interface IScheduleViewFactory
+	public interface IScheduleViewFactory
     {
         function get scheduleItemType():ClassInfo;
         function createScheduleItemClockView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemClockViewBase;
-        function createScheduleItemReportingView(scheduleItemOccurrence:ScheduleItemOccurrence, scheduleReportingModel:IScheduleReportingModel):ScheduleItemReportingViewBase;
+        function createScheduleItemReportingView(scheduleItemOccurrence:ScheduleItemOccurrence,
+												 scheduleReportingModel:IScheduleReportingModel, activeAccountId:String):ScheduleItemReportingViewBase;
         function createScheduleItemTimelineView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemTimelineViewBase;
     }
 }

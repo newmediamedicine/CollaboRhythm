@@ -15,6 +15,7 @@
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Diary/CollaboRhythm.Plugins.Diary.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.Diary/CollaboRhythm.Plugins.Diary.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Equipment/CollaboRhythm.Plugins.Equipment.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.Equipment/CollaboRhythm.Plugins.Equipment.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Examples.MicrophoneExamples/CollaboRhythm.Plugins.Examples.MicrophoneExamples.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.Examples.MicrophoneExamples/CollaboRhythm.Plugins.Examples.MicrophoneExamples.iml" group="CollaboRhythm" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.HypertensionEducation/CollaboRhythm.Plugins.HypertensionEducation.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.HypertensionEducation/CollaboRhythm.Plugins.HypertensionEducation.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Medications/CollaboRhythm.Plugins.Medications.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.Medications/CollaboRhythm.Plugins.Medications.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Problems/CollaboRhythm.Plugins.Problems.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.Problems/CollaboRhythm.Plugins.Problems.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Schedule/CollaboRhythm.Plugins.Schedule.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.Schedule/CollaboRhythm.Plugins.Schedule.iml" group="CollaboRhythm" />
@@ -30,6 +31,7 @@
       <module fileurl="file://$PROJECT_DIR$/McCuneChart/McCuneChart.iml" filepath="$PROJECT_DIR$/McCuneChart/McCuneChart.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/McCuneChart.demos/McCuneChart.demos.iml" filepath="$PROJECT_DIR$/McCuneChart.demos/McCuneChart.demos.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/PianoChord/PianoChord.iml" filepath="$PROJECT_DIR$/PianoChord/PianoChord.iml" group="CollaboRhythm" />
+      <module fileurl="file://$PROJECT_DIR$/TCPSyslogTarget/TCPSyslogTarget.iml" filepath="$PROJECT_DIR$/TCPSyslogTarget/TCPSyslogTarget.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/indivo_client_flash/indivo_client_flash.iml" filepath="$PROJECT_DIR$/indivo_client_flash/indivo_client_flash.iml" group="CollaboRhythm" />
     </modules>
   </component>

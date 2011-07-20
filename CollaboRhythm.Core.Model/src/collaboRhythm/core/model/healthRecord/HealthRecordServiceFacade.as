@@ -29,6 +29,7 @@ package collaboRhythm.core.model.healthRecord
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 
+	[Bindable]
 	public class HealthRecordServiceFacade
 	{
 		protected var _logger:ILogger;

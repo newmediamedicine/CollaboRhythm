@@ -1,8 +1,8 @@
 package collaboRhythm.plugins.equipment.model
 {
 
-    import castle.flexbridge.reflection.ClassInfo;
-    import castle.flexbridge.reflection.ReflectionUtils;
+	import castle.flexbridge.reflection.ClassInfo;
+	import castle.flexbridge.reflection.ReflectionUtils;
 
     import collaboRhythm.plugins.equipment.view.EquipmentScheduleItemClockView;
     import collaboRhythm.plugins.equipment.view.EquipmentScheduleItemReportingView;
@@ -15,7 +15,7 @@ package collaboRhythm.plugins.equipment.model
     import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
     import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
-    public class EquipmentScheduleViewFactory implements IScheduleViewFactory
+	public class EquipmentScheduleViewFactory implements IScheduleViewFactory
     {
         public function EquipmentScheduleViewFactory()
         {
@@ -33,10 +33,12 @@ package collaboRhythm.plugins.equipment.model
             return equipmentScheduleItemClockView;
         }
 
-        public function createScheduleItemReportingView(scheduleItemOccurrence:ScheduleItemOccurrence, scheduleReportingModel:IScheduleReportingModel):ScheduleItemReportingViewBase
+        public function createScheduleItemReportingView(scheduleItemOccurrence:ScheduleItemOccurrence,
+														scheduleReportingModel:IScheduleReportingModel,
+														activeAccountId:String):ScheduleItemReportingViewBase
         {
             var equipmentScheduleItemReportingView:EquipmentScheduleItemReportingView = new EquipmentScheduleItemReportingView();
-            equipmentScheduleItemReportingView.init(scheduleItemOccurrence, scheduleReportingModel);
+            equipmentScheduleItemReportingView.init(scheduleItemOccurrence, scheduleReportingModel, activeAccountId);
             return equipmentScheduleItemReportingView;
         }
 

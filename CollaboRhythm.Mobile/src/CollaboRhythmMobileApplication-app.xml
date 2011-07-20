@@ -217,7 +217,7 @@
 					<action android:name="android.intent.action.VIEW"/>
 					<category android:name="android.intent.category.BROWSABLE"/>
 					<category android:name="android.intent.category.DEFAULT"/>
-					<data android:scheme="collaborhythm"/>
+					<data android:scheme="collaboRhythm"/>
 				</intent-filter> 
 			</activity>
 		</application>

@@ -16,14 +16,14 @@
   ~ <http://www.gnu.org/licenses/>.
   -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-         xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:mx="library://ns.adobe.com/flex/mx"
-         xmlns:scheduleViews="collaboRhythm.plugins.schedule.view.*"
-         addedToStage="addedToStage()"
-         removedFromStage="removedFromStage()"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:scheduleViews="collaboRhythm.plugins.schedule.view.*"
+		 addedToStage="addedToStage()"
+		 removedFromStage="removedFromStage()"
 		 implements="collaboRhythm.plugins.schedule.view.IScheduleFullView"
-         width="100%" height="100%">
-    <fx:Script><![CDATA[
+		 width="100%" height="100%">
+	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.schedule.controller.ScheduleAppController;
 		import collaboRhythm.plugins.schedule.controller.ScheduleReportingController;
 		import collaboRhythm.plugins.schedule.model.ScheduleModel;
@@ -45,12 +45,13 @@
 			_scheduleReportingModel = _scheduleModel.scheduleReportingModel;
 			_scheduleReportingModel.viewStack.addEventListener(CollectionEvent.COLLECTION_CHANGE, viewStackChangeEvent);
 
-			scheduleGroupReportingView.init(scheduleModel);
+			scheduleGroupReportingView.init(scheduleModel, scheduleAppController.activeAccount.accountId);
 
 			this.addEventListener(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_COMPLETE,
 								  adherenceItemCompleteEventHandler);
 			this.addEventListener(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
-								  adherenceItemIncompleteEventHandler)
+								  adherenceItemIncompleteEventHandler);
+			this.addEventListener(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_VOID, adherenceItemVoidEventHandler);
 		}
 
 		public function viewStackChangeEvent(event:CollectionEvent):void
@@ -107,6 +108,11 @@
 			_scheduleReportingController.showAdditionalInformationView(event.additionalInformationView);
 		}
 
+		private function adherenceItemVoidEventHandler(event:ScheduleItemReportingViewEvent):void
+		{
+			_scheduleReportingController.voidAdherenceItem(event.scheduleItemOccurrence);
+		}
+
 		public function destroyChildren():void
 		{
 			additionalInformationViews.removeAllElements();
@@ -114,23 +120,23 @@
 		}
 		]]></fx:Script>
 
-    <s:HGroup width="100%" height="100%" gap="0">
-        <s:Rect width="50%" height="100%">
-            <s:fill>
-                <s:SolidColor color="0x000000" alpha="0.5"/>
-            </s:fill>
-        </s:Rect>
-        <s:Group id="rightGroup" width="50%" height="100%">
-            <s:Rect width="100%" height="100%">
-                <s:fill>
-                    <s:SolidColor color="0xAAAAAA"/>
-                </s:fill>
-            </s:Rect>
-            <scheduleViews:ScheduleGroupReportingView id="scheduleGroupReportingView"/>
-            <s:Group id="additionalInformationViews" width="100%" height="100%">
+	<s:HGroup width="100%" height="100%" gap="0">
+		<s:Rect width="50%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0x000000" alpha="0.5"/>
+			</s:fill>
+		</s:Rect>
+		<s:Group id="rightGroup" width="50%" height="100%">
+			<s:Rect width="100%" height="100%">
+				<s:fill>
+					<s:SolidColor color="0xAAAAAA"/>
+				</s:fill>
+			</s:Rect>
+			<scheduleViews:ScheduleGroupReportingView id="scheduleGroupReportingView"/>
+			<s:Group id="additionalInformationViews" width="100%" height="100%">
 
-            </s:Group>
-        </s:Group>
-    </s:HGroup>
+			</s:Group>
+		</s:Group>
+	</s:HGroup>
 
 </s:Group>

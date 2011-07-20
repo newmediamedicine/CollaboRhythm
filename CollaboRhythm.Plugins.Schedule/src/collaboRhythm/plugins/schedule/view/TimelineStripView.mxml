@@ -18,6 +18,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:images="assets.images.*"
 		 resize="resizeHandler(event)">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
@@ -88,7 +89,7 @@
 	<s:HGroup left="0" right="{ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH - (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2) + ScheduleGroupTimelineView.SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH}" height="100%" gap="0">
 		<s:Label text="11" styleName="hourDim" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
 		<s:Group width="3.85%" textAlign="center" height="100%">
-			<mx:Image source="@Embed('/assets/images/moon.png')" width="48" height="48" smoothBitmapContent="true" horizontalCenter="0"/>
+			<images:moon width="40" height="40" horizontalCenter="0" verticalCenter="0"/>
 			<s:Label text="midn" styleName="hour" textAlign="center" height="100%" verticalAlign="middle" horizontalCenter="0"/>
 		</s:Group>
 		<s:Label text="1" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
@@ -103,7 +104,7 @@
 		<s:Label text="10" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
 		<s:Label text="11" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
 		<s:Group width="3.85%" textAlign="center" height="100%">
-			<mx:Image source="@Embed('/assets/images/sun.png')" width="48" height="48" smoothBitmapContent="true" horizontalCenter="0"/>
+			<images:sun width="45" height="45" horizontalCenter="0" verticalCenter="0"/>
 			<s:Label text="noon" styleName="hour" textAlign="center" height="100%" verticalAlign="middle" horizontalCenter="0"/>
 		</s:Group>
 		<s:Label text="1" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
@@ -118,7 +119,7 @@
 		<s:Label text="10" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
 		<s:Label text="11" styleName="hour" width="3.85%" textAlign="center" height="100%" verticalAlign="middle"/>
 		<s:Group width="3.75%" textAlign="center" height="100%">
-			<mx:Image source="@Embed('/assets/images/moon.png')" width="48" height="48" smoothBitmapContent="true" horizontalCenter="0"/>
+			<images:moon width="40" height="40" horizontalCenter="0" verticalCenter="0"/>
 			<s:Label text="midn" styleName="hourDim" textAlign="center" height="100%" verticalAlign="middle" horizontalCenter="0"/>
 		</s:Group>
 	</s:HGroup>

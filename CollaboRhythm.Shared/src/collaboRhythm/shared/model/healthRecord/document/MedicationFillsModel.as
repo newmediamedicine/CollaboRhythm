@@ -27,6 +27,8 @@ package collaboRhythm.shared.model.healthRecord.document
 	[Bindable]
 	public class MedicationFillsModel extends DocumentCollectionBase
 	{
+		public static const MEDICATION_API_URL_BASE:String = "http://www.mit.edu/~jom/temp/medications/";
+
         private var _medicationFills:HashMap = new HashMap();
 
 		public function MedicationFillsModel()

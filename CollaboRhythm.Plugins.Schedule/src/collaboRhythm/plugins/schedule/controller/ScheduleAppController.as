@@ -172,7 +172,7 @@ package collaboRhythm.plugins.schedule.controller
 
 		private function showFullViewHandler(event:AppEvent):void
 		{
-			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this));
+			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, event.workstationAppController, event.startRect, event.applicationName));
 		}
 
 		private function hideFullViewHandler(event:AppEvent):void
@@ -219,6 +219,8 @@ package collaboRhythm.plugins.schedule.controller
 				_scheduleReportingController = new ScheduleReportingController(scheduleModel,
 																			   _fullView as ScheduleReportingFullView);
 				_scheduleReportingController.addEventListener(AppEvent.HIDE_FULL_VIEW, hideFullViewHandler, false, 0,
+															  true);
+				_scheduleReportingController.addEventListener(AppEvent.SHOW_FULL_VIEW, showFullViewHandler, false, 0,
 															  true);
 			}
 			return _scheduleReportingController;

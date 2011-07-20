@@ -12,6 +12,7 @@ package collaboRhythm.plugins.schedule.shared.view
 	{
 		public static const ADHERENCE_ITEM_INCOMPLETE:String = "AdherenceItemIncomplete";
 		public static const ADHERENCE_ITEM_COMPLETE:String = "AdherenceItemComplete";
+		public static const ADHERENCE_ITEM_VOID:String = "AdherenceItemVoid";
 
 		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
 		private var _adherenceItem:AdherenceItem;

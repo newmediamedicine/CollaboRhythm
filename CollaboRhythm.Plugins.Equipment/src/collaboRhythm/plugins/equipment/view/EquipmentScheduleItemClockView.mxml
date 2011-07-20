@@ -19,8 +19,7 @@
 								xmlns:s="library://ns.adobe.com/flex/spark"
 								xmlns:mx="library://ns.adobe.com/flex/mx"
 								xmlns:view="collaboRhythm.plugins.schedule.shared.view.*"
-								xmlns:images="assets.images.*"
-								width="20" height="20">
+								xmlns:images="assets.images.*">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -73,12 +72,16 @@
 		}
 		]]>
 	</fx:Script>
-	<!--visible="{determineCheckVisible(_equipmentScheduleItem.adherenceItem)}"-->
-	<images:BloodPressureScheduleItemClockView width="100%" height="100%"/>
-	<images:check width="70%" height="70%" verticalCenter="0" horizontalCenter="0"
-				  filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}"
-				  visible="{_scheduleItemOccurrence.adherenceItem &amp;&amp; _scheduleItemOccurrence.adherenceItem.adherence}"/>
-	<images:x width="70%" height="70%" verticalCenter="0" horizontalCenter="0"
-			  filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}"
-			  visible="{_scheduleItemOccurrence.adherenceItem &amp;&amp; !_scheduleItemOccurrence.adherenceItem.adherence}"/>
+	<s:Group id="equipmentImage" width="100%" height="100%">
+		<images:BloodPressureScheduleItemClockView width="{equipmentImage.width}" height="{equipmentImage.height}"/>
+	</s:Group>
+	<s:Group id="adherenceImage" width="70%" height="70%" horizontalCenter="0" verticalCenter="0">
+		<images:check width="{adherenceImage.width}" height="{adherenceImage.height}"
+				filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}"
+					  visible="{_scheduleItemOccurrence.adherenceItem &amp;&amp; _scheduleItemOccurrence.adherenceItem.adherence}"/>
+		<images:x width="{adherenceImage.width}" height="{adherenceImage.height}"
+				filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}"
+				  visible="{_scheduleItemOccurrence.adherenceItem &amp;&amp; !_scheduleItemOccurrence.adherenceItem.adherence}"/>
+	</s:Group>
+
 </view:ScheduleItemClockViewBase>

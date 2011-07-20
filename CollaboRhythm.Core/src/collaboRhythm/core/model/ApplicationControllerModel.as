@@ -25,7 +25,7 @@ package collaboRhythm.core.model
 
         private var _createSessionStatus:String;
 
-        public function ApplicationControllerModel()
+		public function ApplicationControllerModel()
         {
         }
 

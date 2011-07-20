@@ -45,6 +45,7 @@
     </fx:Style>
     <fx:Script>
 		<![CDATA[
+		import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
@@ -74,19 +75,19 @@
 			return _medicationScheduleItem
 		}
 
-		private function pickImage():void
-		{
-			//TODO: Once medication fills are working, use the ndc
-			if (_medicationScheduleItem.name.value == "617320")
-			{
-				medicationImage.source = MedicationScheduleItemClockView.ndc000779;
-			}
-			else if (_medicationScheduleItem.name.value == "310798")
-			{
-				medicationImage.source = MedicationScheduleItemClockView.ndc006033856;
-			}
-		}
-		]]>
+        private function pickImage():void
+        {
+            //TODO: Once medication fills are working, use the ndc
+            if (_medicationScheduleItem.name.value == "617320")
+            {
+                medicationImage.source = encodeURI(MedicationFillsModel.MEDICATION_API_URL_BASE + "000779-front.png");
+            }
+            else if (_medicationScheduleItem.name.value == "310798")
+            {
+                medicationImage.source = encodeURI(MedicationFillsModel.MEDICATION_API_URL_BASE + "006033856-front.png");
+            }
+        }
+        ]]>
 	</fx:Script>
     <s:Group id="med" width="100%" height="100%">
         <s:Rect id="background" width="100%" height="100%">

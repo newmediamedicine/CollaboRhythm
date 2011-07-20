@@ -55,10 +55,12 @@ package collaboRhythm.plugins.schedule.model
 		}
 
 		public function createScheduleItemReportingView(scheduleItemOccurrence:ScheduleItemOccurrence,
-														scheduleReportingModel:IScheduleReportingModel):ScheduleItemReportingViewBase
+														scheduleReportingModel:IScheduleReportingModel,
+														activeAccountId:String):ScheduleItemReportingViewBase
 		{
 			return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem)).name].createScheduleItemReportingView(scheduleItemOccurrence,
-																																										scheduleReportingModel);
+																																										scheduleReportingModel,
+																																										activeAccountId);
 		}
 
 		public function createScheduleItemTimelineView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemTimelineViewBase
