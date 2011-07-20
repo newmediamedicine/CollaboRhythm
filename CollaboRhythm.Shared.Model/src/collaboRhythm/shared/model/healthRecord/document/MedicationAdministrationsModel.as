@@ -36,29 +36,6 @@ package collaboRhythm.shared.model.healthRecord.document
 			super(MedicationAdministration.DOCUMENT_TYPE);
 		}
 
-		protected function addToMedicationAdministrationsCollectionsByCode(medicationAdministration:MedicationAdministration):void
-		{
-			var collection:ArrayCollection = _medicationAdministrationsCollectionsByCode[medicationAdministration.name.value];
-			if (collection == null)
-			{
-				collection = new ArrayCollection();
-				_medicationAdministrationsCollectionsByCode[medicationAdministration.name.value] = collection;
-			}
-			collection.addItem(medicationAdministration);
-		}
-
-		protected function removeFromMedicationAdministrationsCollectionsByCode(medicationAdministration:MedicationAdministration):void
-		{
-			var collection:ArrayCollection = _medicationAdministrationsCollectionsByCode[medicationAdministration.name.value];
-			if (collection != null)
-			{
-				if (collection.contains(medicationAdministration))
-				{
-					collection.removeItemAt(documents.getItemIndex(medicationAdministration));
-				}
-			}
-		}
-
         public function get medicationAdministrations():HashMap
         {
             return _medicationAdministrations;
@@ -98,18 +75,41 @@ package collaboRhythm.shared.model.healthRecord.document
 			addMedicationAdministration(document as MedicationAdministration);
 		}
 
+		public function addMedicationAdministration(medicationAdministration:MedicationAdministration):void
+		{
+			medicationAdministrations[medicationAdministration.meta.id] = medicationAdministration;
+			medicationAdministrationsCollection.addItem(medicationAdministration);
+			addToMedicationAdministrationsCollectionsByCode(medicationAdministration);
+		}
+
+		protected function addToMedicationAdministrationsCollectionsByCode(medicationAdministration:MedicationAdministration):void
+		{
+			var collection:ArrayCollection = _medicationAdministrationsCollectionsByCode[medicationAdministration.name.value];
+			if (collection == null)
+			{
+				collection = new ArrayCollection();
+				_medicationAdministrationsCollectionsByCode[medicationAdministration.name.value] = collection;
+			}
+			collection.addItem(medicationAdministration);
+		}
+
 		override public function removeDocument(document:IDocument):void
 		{
 			super.removeDocument(document);
-			medicationAdministrations.remove(document.id);
+			medicationAdministrations.remove(document.meta.id);
 			removeFromMedicationAdministrationsCollectionsByCode(document as MedicationAdministration);
 		}
 
-		public function addMedicationAdministration(medicationAdministration:MedicationAdministration):void
+		protected function removeFromMedicationAdministrationsCollectionsByCode(medicationAdministration:MedicationAdministration):void
 		{
-			medicationAdministrations[medicationAdministration.id] = medicationAdministration;
-			medicationAdministrationsCollection.addItem(medicationAdministration);
-			addToMedicationAdministrationsCollectionsByCode(medicationAdministration);
+			var collection:ArrayCollection = _medicationAdministrationsCollectionsByCode[medicationAdministration.name.value];
+			if (collection != null)
+			{
+				if (collection.contains(medicationAdministration))
+				{
+					collection.removeItemAt(documents.getItemIndex(medicationAdministration));
+				}
+			}
 		}
 
 		public function hasMedicationConcentrationCurve(code:String):Boolean

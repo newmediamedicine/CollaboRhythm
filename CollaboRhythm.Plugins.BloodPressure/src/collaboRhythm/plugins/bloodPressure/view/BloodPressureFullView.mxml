@@ -252,6 +252,9 @@
 
 		import mx.charts.ChartItem;
 		import mx.charts.LinearAxis;
+		import mx.charts.chartClasses.CartesianChart;
+		import mx.charts.chartClasses.Series;
+		import mx.collections.ArrayCollection;
 		import mx.controls.Alert;
 		import mx.effects.Sequence;
 		import mx.events.EffectEvent;
@@ -455,12 +458,12 @@
 			var chart:ScrubChart = ScrubChart(event.target);
 
 			chart.mainChart.series = new Array();
-			chart.mainChart.series.push(systolicSeries);
-			chart.mainChart.series.push(diastolicSeries);
+			addSeries(chart.mainChart, systolicSeries);
+			addSeries(chart.mainChart, diastolicSeries);
 
 			chart.rangeChart.series = new Array();
-			chart.rangeChart.series.push(systolicRangeSeries);
-			chart.rangeChart.series.push(diastolicRangeSeries);
+			addSeries(chart.rangeChart, systolicRangeSeries);
+			addSeries(chart.rangeChart, diastolicRangeSeries);
 
 			var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
 			verticalAxis.minimum = 40;
@@ -511,11 +514,11 @@
 			_adherenceCharts.addKeyValue(BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE, chart);
 
 			chart.mainChart.series = new Array();
-			chart.mainChart.series.push(adherenceSeries);
-			chart.mainChart.series.push(concentrationSeries);
+			addSeries(chart.mainChart, adherenceSeries);
+			addSeries(chart.mainChart, concentrationSeries);
 
 			chart.rangeChart.series = new Array();
-			chart.rangeChart.series.push(concentrationRangeSeries);
+			addSeries(chart.rangeChart, concentrationRangeSeries);
 
 			var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
 			verticalAxis.minimum = 0;
@@ -529,6 +532,13 @@
 													  adherenceRangeCanvas);
 		}
 
+		private function addSeries(chart:CartesianChart, series:Series):void
+		{
+			var data:ArrayCollection = series.dataProvider as ArrayCollection;
+			if (data && data.length > 0)
+				chart.series.push(series);
+		}
+
 		protected function adherenceChart2_creationCompleteHandler(event:FlexEvent):void
 		{
 			if (_traceEventHandlers)
@@ -538,11 +548,11 @@
 			_adherenceCharts.addKeyValue(BloodPressureModel.RXNORM_ATENOLOL, chart);
 
 			chart.mainChart.series = new Array();
-			chart.mainChart.series.push(adherenceSeries2);
-			chart.mainChart.series.push(concentrationSeries2);
+			addSeries(chart.mainChart, adherenceSeries2);
+			addSeries(chart.mainChart, concentrationSeries2);
 
 			chart.rangeChart.series = new Array();
-			chart.rangeChart.series.push(concentrationRangeSeries2);
+			addSeries(chart.rangeChart, concentrationRangeSeries2);
 
 			var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
 			verticalAxis.minimum = 0;

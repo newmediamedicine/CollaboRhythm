@@ -3,13 +3,14 @@ package collaboRhythm.shared.model.healthRecord
 
 	import mx.collections.ArrayCollection;
 
-	public class DocumentBase extends DocumentMetadata implements IDocument
+	public class DocumentBase implements IDocument
 	{
 		public static const ACTION_CREATE:String = "create";
 		public static const ACTION_UPDATE:String = "update";
 		public static const ACTION_DELETE:String = "delete";
 		public static const ACTION_VOID:String = "void";
 		public static const ACTION_ARCHIVE:String = "archive";
+		private var _meta:DocumentMetadata = new DocumentMetadata();
 		private var _pendingAction:String; // create, update, delete, void, archive, or null
 		private var _pendingActionReason:String; // reason for void or archive
 		private var _relatesTo:ArrayCollection = new ArrayCollection();
@@ -57,6 +58,11 @@ package collaboRhythm.shared.model.healthRecord
 		public function set pendingActionReason(value:String):void
 		{
 			_pendingActionReason = value;
+		}
+
+		public function get meta():IDocumentMetadata
+		{
+			return _meta;
 		}
 	}
 }

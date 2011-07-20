@@ -19,6 +19,9 @@ package collaboRhythm.core.model.healthRecord.stitchers
 
 	import collaboRhythm.shared.model.*;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 
 	public class MedicationOrderStitcher extends DocumentStitcherBase
 	{
@@ -38,11 +41,13 @@ package collaboRhythm.core.model.healthRecord.stitchers
 
 		private function relateMedicationFill(medicationOrder:MedicationOrder):void
 		{
-			medicationOrder.medicationFill = record.medicationFillsModel.medicationFills[medicationOrder.medicationFillId];
+			if (medicationOrder.medicationFillId)
+				medicationOrder.medicationFill = record.medicationFillsModel.medicationFills[medicationOrder.medicationFillId];
 		}
 
 		private function relateMedicationScheduleItems(medicationOrder:MedicationOrder):void
 		{
+			var failedStitch:Vector.<String> = new Vector.<String>();
 			for each (var scheduleItemId:String in medicationOrder.scheduleItems.keys)
 			{
 				var medicationScheduleItem:MedicationScheduleItem = record.medicationScheduleItemsModel.medicationScheduleItems[scheduleItemId];
@@ -51,7 +56,14 @@ package collaboRhythm.core.model.healthRecord.stitchers
 					medicationOrder.scheduleItems[scheduleItemId] = medicationScheduleItem;
 					medicationScheduleItem.scheduledMedicationOrder = medicationOrder;
 				}
+				else
+				{
+					// MedicationScheduleItem may not be loaded into model if it was filtered out based on the demo date
+					medicationOrder.scheduleItems.remove(scheduleItemId);
+					failedStitch.push(scheduleItemId);
+				}
 			}
+			logSpecialFailedStitches(medicationOrder, failedStitch, "scheduleItem", "MedicationScheduleItem");
 		}
 	}
 }

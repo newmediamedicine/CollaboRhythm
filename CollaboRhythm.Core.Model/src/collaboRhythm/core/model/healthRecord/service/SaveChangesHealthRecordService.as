@@ -28,13 +28,18 @@ package collaboRhythm.core.model.healthRecord.service
 			{
 				if (document.pendingAction == DocumentBase.ACTION_CREATE)
 				{
-					pendingCreateDocuments.put(document.id, document);
+					pendingCreateDocuments.put(document.meta.id, document);
 					//createDocument(record, document, getDocumentXml(document))
 				}
 				else if (document.pendingAction == DocumentBase.ACTION_VOID)
 				{
-					pendingRemoveDocuments.put(document.id, document);
-					voidDocument(record, document.id, document.pendingActionReason);
+					pendingRemoveDocuments.put(document.meta.id, document);
+					voidDocument(record, document, document.pendingActionReason);
+				}
+				else if (document.pendingAction == DocumentBase.ACTION_DELETE)
+				{
+					pendingRemoveDocuments.put(document.meta.id, document);
+					deleteDocument(record, document);
 				}
 				// TODO: handle other actions
 			}
@@ -46,11 +51,17 @@ package collaboRhythm.core.model.healthRecord.service
 		{
 			// TODO: get the appropriate service that can convert this document type to XML
 			// Alternatively, use the XmlMarshaller to marshall to XML
-			var typeParts:Array = document.type.split("#");
+			var typeParts:Array = document.meta.type.split("#");
 			var elementName:String = typeParts[typeParts.length - 1];
 			return < {elementName} />;
 		}
 
+		override protected function deleteDocumentCompleteHandler(responseXml:XML,
+																  healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+		{
+			super.deleteDocumentCompleteHandler(responseXml, healthRecordServiceRequestDetails);
+			finishRemove(responseXml, healthRecordServiceRequestDetails);
+		}
 
 		override protected function voidDocumentCompleteHandler(responseXml:XML,
 																healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
@@ -63,9 +74,12 @@ package collaboRhythm.core.model.healthRecord.service
 									  healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
 			var document:IDocument = healthRecordServiceRequestDetails.document;
-			pendingRemoveDocuments.remove(document.id);
-			healthRecordServiceRequestDetails.record.completeDocumentsById.remove(document.id);
-			healthRecordServiceRequestDetails.record.originalDocumentsById.remove(document.id);
+			if (document == null)
+				throw new Error("Document not specified on the HealthRecordServiceRequestDetails. Unable to finish remove operation.");
+
+			pendingRemoveDocuments.remove(document.meta.id);
+			healthRecordServiceRequestDetails.record.completeDocumentsById.remove(document.meta.id);
+			healthRecordServiceRequestDetails.record.originalDocumentsById.remove(document.meta.id);
 
 			// eliminate any "standard" references to the document that was removed
 			for each (var relationship:Relationship in document.relatesTo)

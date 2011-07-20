@@ -1,7 +1,7 @@
 package collaboRhythm.plugins.videoMessages.view
 {
 
-    import collaboRhythm.shared.model.VideoMessage;
+    import collaboRhythm.shared.model.healthRecord.document.VideoMessage;
 
     import flash.events.Event;
 

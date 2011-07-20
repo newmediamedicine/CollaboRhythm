@@ -3,8 +3,15 @@ package collaboRhythm.core.model.healthRecord
 
 	import collaboRhythm.core.model.healthRecord.service.AdherenceItemsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.DocumentStorageServiceBase;
+	import collaboRhythm.core.model.healthRecord.service.EquipmentHealthRecordService;
+	import collaboRhythm.core.model.healthRecord.service.EquipmentScheduleItemsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.MedicationAdministrationsHealthRecordService;
+	import collaboRhythm.core.model.healthRecord.service.MedicationFillsHealthRecordService;
+	import collaboRhythm.core.model.healthRecord.service.MedicationOrdersHealthRecordService;
+	import collaboRhythm.core.model.healthRecord.service.MedicationScheduleItemsHealthRecordService;
+	import collaboRhythm.core.model.healthRecord.service.ProblemsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.SaveChangesHealthRecordService;
+	import collaboRhythm.core.model.healthRecord.service.VideoMessagesHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.VitalSignHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.stitchers.MedicationOrderStitcher;
 	import collaboRhythm.shared.model.Account;
@@ -42,16 +49,29 @@ package collaboRhythm.core.model.healthRecord
 																					   baseURL, account);
 
 			_services = new Vector.<DocumentStorageServiceBase>();
-			_services.push(new MedicationAdministrationsHealthRecordService(consumerKey, consumerSecret, baseURL,
+			addService(new MedicationAdministrationsHealthRecordService(consumerKey, consumerSecret, baseURL,
 																			account));
-			_services.push(new VitalSignHealthRecordService(consumerKey, consumerSecret, baseURL, account));
-			_services.push(_adherenceItemsHealthRecordService);
+			addService(new MedicationOrdersHealthRecordService(consumerKey, consumerSecret, baseURL,
+																			account));
+			addService(new EquipmentHealthRecordService(consumerKey, consumerSecret, baseURL, account));
+			addService(new EquipmentScheduleItemsHealthRecordService(consumerKey, consumerSecret, baseURL, account));
+			addService(new MedicationScheduleItemsHealthRecordService(consumerKey, consumerSecret, baseURL, account));
+			addService(new VitalSignHealthRecordService(consumerKey, consumerSecret, baseURL, account));
+			addService(new ProblemsHealthRecordService(consumerKey, consumerSecret, baseURL, account));
+			addService(new VideoMessagesHealthRecordService(consumerKey, consumerSecret, baseURL, account));
+			addService(new MedicationFillsHealthRecordService(consumerKey, consumerSecret, baseURL, account));
+			addService(_adherenceItemsHealthRecordService);
 
 			for each (var service:DocumentStorageServiceBase in _services)
 			{
 				service.addEventListener(DocumentStorageServiceBase.IS_LOADING_CHANGE_EVENT,
 										 service_isLoadingChangeHandler, false, 0, true);
 			}
+		}
+
+		private function addService(service:DocumentStorageServiceBase):void
+		{
+			_services.push(service);
 		}
 
 		private function createStitchers(record:Record):void
@@ -91,7 +111,7 @@ package collaboRhythm.core.model.healthRecord
 			if (isLoading)
 			{
 				// TODO: how to prevent this or at least provide feedback to the user?
-				_logger.warn("Attempted to load documents while loading was already in progress (or failed to complete)");
+				_logger.warn("Attempted to load documents while loading was already in progress (or failed to complete). Loading canceled.");
 				return;
 			}
 
@@ -137,6 +157,11 @@ package collaboRhythm.core.model.healthRecord
 				_logger.info("Loading documents COMPLETE " + loadingMessageSuffix);
 				isLoading = false;
 			}
+			else
+			{
+				_logger.info("Loading documents in progress. " + _pendingServices.length + " service(s) pending: " + getServiceNamesFromCollection(_pendingServices));
+
+			}
 		}
 
 		private function get loadingMessageSuffix():String
@@ -145,6 +170,17 @@ package collaboRhythm.core.model.healthRecord
 		}
 
 		private function getServiceNames(services:Vector.<DocumentStorageServiceBase>):String
+		{
+			var names:Array = new Array();
+			for each (var service:DocumentStorageServiceBase in services)
+			{
+				var parts:Array = getQualifiedClassName(service).split("::");
+				names.push(parts[parts.length - 1]);
+			}
+			return names.join(", ");
+		}
+
+		private function getServiceNamesFromCollection(services:ArrayCollection):String
 		{
 			var names:Array = new Array();
 			for each (var service:DocumentStorageServiceBase in services)

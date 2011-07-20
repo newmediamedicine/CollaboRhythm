@@ -25,28 +25,28 @@
 	width="500" height="100%">
 	<fx:Script>
 		<![CDATA[
-        import collaboRhythm.shared.model.EquipmentModel;
-        import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-        import collaboRhythm.shared.view.apps.WidgetGridItemRenderer;
+		import collaboRhythm.shared.model.healthRecord.document.EquipmentModel;
+		import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+		import collaboRhythm.shared.view.apps.WidgetGridItemRenderer;
 
-        [Bindable]
-        private var _model:EquipmentModel;
+		[Bindable]
+		private var _model:EquipmentModel;
 
-        public function get model():EquipmentModel
-        {
-            return _model;
-        }
+		public function get model():EquipmentModel
+		{
+			return _model;
+		}
 
-        public function set model(value:EquipmentModel):void
-        {
-            _model = value;
-        }
+		public function set model(value:EquipmentModel):void
+		{
+			_model = value;
+		}
 
-        protected function rawButton_clickHandler(event:MouseEvent):void
-        {
-            viewstack1.selectedIndex = (viewstack1.selectedIndex + 1) % viewstack1.length;
-        }
-        ]]>
+		protected function rawButton_clickHandler(event:MouseEvent):void
+		{
+			viewstack1.selectedIndex = (viewstack1.selectedIndex + 1) % viewstack1.length;
+		}
+		]]>
 	</fx:Script>
 	
 	<fx:Declarations>

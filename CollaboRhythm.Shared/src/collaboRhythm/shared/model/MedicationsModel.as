@@ -20,6 +20,8 @@ package collaboRhythm.shared.model
     import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
     import collaboRhythm.shared.model.services.WorkstationKernel;
     import collaboRhythm.shared.model.settings.Settings;
@@ -70,7 +72,7 @@ package collaboRhythm.shared.model
 			{
 				var medicationOrder:MedicationOrder = new MedicationOrder();
                 medicationOrder.initFromReportXML(medicationOrderXml);
-                _medicationOrders[medicationOrder.id] = medicationOrder;
+                _medicationOrders[medicationOrder.meta.id] = medicationOrder;
                 _medicationOrdersCollection.addItem(medicationOrder);
 			}
 		}
@@ -81,7 +83,7 @@ package collaboRhythm.shared.model
             {
                 var medicationScheduleItem:MedicationScheduleItem = new MedicationScheduleItem();
                 medicationScheduleItem.initFromReportXML(medicationScheduleItemXml, "MedicationScheduleItem");
-                _medicationScheduleItems[medicationScheduleItem.id] = medicationScheduleItem;
+                _medicationScheduleItems[medicationScheduleItem.meta.id] = medicationScheduleItem;
                 _medicationScheduleItemCollection.addItem(medicationScheduleItem);
             }
         }

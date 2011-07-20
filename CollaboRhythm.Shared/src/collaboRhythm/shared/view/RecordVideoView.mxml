@@ -66,269 +66,260 @@
 	<!--</fx:Metadata>-->
 	<fx:Script>
 		<![CDATA[
-        import collaboRhythm.shared.controller.CollaborationController;
-        import collaboRhythm.shared.model.CollaborationModel;
-        import collaboRhythm.shared.model.User;
-        import collaboRhythm.shared.model.healthRecord.VideoMessagesHealthRecordService;
+		import collaboRhythm.shared.controller.CollaborationController;
+		import collaboRhythm.shared.model.CollaborationModel;
 
-        import flash.events.TimerEvent;
+		private const VIDEO_WIDTH:int = 240;
+		private const VIDEO_HEIGHT:int = 180;
 
-        import mx.events.VideoEvent;
+		private const NOT_RECORDING_COLOR:uint = 0x000000;
+		private const RECORDING_COLOR:uint = 0xC64A5C;
 
-        import org.osmf.events.TimeEvent;
+		private const PLAYHEAD_TOTAL_WIDTH:int = 160;
 
-        private const VIDEO_WIDTH:int = 240;
-        private const VIDEO_HEIGHT:int = 180;
+		private var _collaborationController:CollaborationController;
+		[Bindable]
+		private var _collaborationModel:CollaborationModel;
+		[Bindable]
+		private var _camera:Camera;
+		[Bindable]
+		private var _microphone:Microphone;
 
-        private const NOT_RECORDING_COLOR:uint = 0x000000;
-        private const RECORDING_COLOR:uint = 0xC64A5C;
+		private var _netConnection:NetConnection;
+		private var _netStream:NetStream;
 
-        private const PLAYHEAD_TOTAL_WIDTH:int = 160;
+		private var _attachCameraTimer:Timer;
 
-        private var _collaborationController:CollaborationController;
-        [Bindable]
-        private var _collaborationModel:CollaborationModel;
-        [Bindable]
-        private var _camera:Camera;
-        [Bindable]
-        private var _microphone:Microphone;
+		private var _countdownTimer:Timer;
+		private var _startingRecordingTimer:Timer;
+		private var _playheadTimer:Timer;
 
-        private var _netConnection:NetConnection;
-        private var _netStream:NetStream;
+		private var _netStreamLocation:String;
 
-        private var _attachCameraTimer:Timer;
+		[Bindable]
+		private var _countdownTimerCurrentCount:int;
+		[Bindable]
+		private var _playheadTimerCurrentCount:int;
+		[Bindable]
+		private var _playheadDuration:int;
 
-        private var _countdownTimer:Timer;
-        private var _startingRecordingTimer:Timer;
-        private var _playheadTimer:Timer;
+		public function init(collaborationController:CollaborationController):void
+		{
+			_collaborationController = collaborationController;
+			_collaborationModel = _collaborationController.collaborationModel;
+			_camera = _collaborationModel.audioVideoOutput.camera;
+			_microphone = _collaborationModel.audioVideoOutput.microphone;
+			_netConnection = _collaborationModel.collaborationLobbyNetConnectionService.netConnection;
+		}
 
-        private var _netStreamLocation:String;
+		public function showEffectEndHandler():void
+		{
+			if (_camera != null)
+			{
+				attachCamera();
+			}
+			else
+			{
+				currentState = "cameraNotAvailable";
+			}
+		}
 
-        [Bindable]
-        private var _countdownTimerCurrentCount:int;
-        [Bindable]
-        private var _playheadTimerCurrentCount:int;
-        [Bindable]
-        private var _playheadDuration:int;
+		private function attachCamera():void
+		{
+			currentState = "attachingCamera";
+			_camera.setMotionLevel(0, 5000);
+			_camera.addEventListener(ActivityEvent.ACTIVITY, cameraActivityEventHandler);
+			_attachCameraTimer = new Timer(5000, 1);
+			_attachCameraTimer.addEventListener(TimerEvent.TIMER_COMPLETE, attachCameraTimerCompleteEvent);
+			_attachCameraTimer.start();
+			videoDisplay.attachCamera(_camera);
+			_netStream = new NetStream(_netConnection);
+		}
 
-        public function init(collaborationController:CollaborationController):void
-        {
-            _collaborationController = collaborationController;
-            _collaborationModel = _collaborationController.collaborationModel;
-            _camera = _collaborationModel.audioVideoOutput.camera;
-            _microphone = _collaborationModel.audioVideoOutput.microphone;
-            _netConnection = _collaborationModel.collaborationLobbyNetConnectionService.netConnection;
-        }
+		// Camera.getCamera() does not return null depending on the camera, drivers, and other applications using it
+		// As a result, the activity event needs to be used to determine if the webcam is attached
+		private function cameraActivityEventHandler(event:ActivityEvent):void
+		{
+			if (event.activating)
+			{
+				_attachCameraTimer.stop();
+				_camera.removeEventListener(ActivityEvent.ACTIVITY, cameraActivityEventHandler);
+				currentState = "readyToRecord";
+			}
+		}
 
-        public function showEffectEndHandler():void
-        {
-            if (_camera != null)
-            {
-                attachCamera();
-            }
-            else
-            {
-                currentState = "cameraNotAvailable";
-            }
-        }
+		// If the camera is not null but is being used by another program, the timeout in setMotionLevel will not fire
+		// A separate timer needs to be used
+		private function attachCameraTimerCompleteEvent(event:TimerEvent):void
+		{
+			if (currentState == "attachingCamera")
+			{
+				//TODO: Add an animation to use while the camera is being attached
+				currentState = "cameraNotAvailable";
+			}
+		}
 
-        private function attachCamera():void
-        {
-            currentState = "attachingCamera";
-            _camera.setMotionLevel(0, 5000);
-            _camera.addEventListener(ActivityEvent.ACTIVITY, cameraActivityEventHandler);
-            _attachCameraTimer = new Timer(5000, 1);
-            _attachCameraTimer.addEventListener(TimerEvent.TIMER_COMPLETE, attachCameraTimerCompleteEvent);
-            _attachCameraTimer.start();
-            videoDisplay.attachCamera(_camera);
-            _netStream = new NetStream(_netConnection);
-        }
+		public function hideEffectEndHandler():void
+		{
+			if (_netStream != null)
+			{
+				_netStream.close();
+			}
+			videoDisplay.attachCamera(null);
+			if (_attachCameraTimer != null)
+				_attachCameraTimer.stop();
+			if (_countdownTimer != null)
+				_countdownTimer.stop();
+			if (_startingRecordingTimer)
+				_startingRecordingTimer.stop();
+			if (_playheadTimer != null)
+				_playheadTimer.stop();
+			currentState = "hidden";
+		}
 
-        // Camera.getCamera() does not return null depending on the camera, drivers, and other applications using it
-        // As a result, the activity event needs to be used to determine if the webcam is attached
-        private function cameraActivityEventHandler(event:ActivityEvent):void
-        {
-            if (event.activating)
-            {
-                _attachCameraTimer.stop();
-                _camera.removeEventListener(ActivityEvent.ACTIVITY, cameraActivityEventHandler);
-                currentState = "readyToRecord";
-            }
-        }
+		private function recordVideoButtonClickHandler():void
+		{
+			if (currentState == "readyToRecord")
+			{
+				startCountdown();
+			}
+			else if (currentState == "countdownInProgress")
+			{
+				_countdownTimer.stop();
+				currentState = "readyToRecord";
+			}
+			else if (currentState == "startingRecording")
+			{
+				_startingRecordingTimer.stop();
+				_netStream.close();
+				currentState = "readyToRecord";
+			}
+			else if (currentState == "recording")
+			{
+				_netStream.attachCamera(null);
+				_netStream.close();
+				videoDisplay.attachCamera(null);
+				prepareVideoForPlayback();
+			}
+		}
 
-        // If the camera is not null but is being used by another program, the timeout in setMotionLevel will not fire
-        // A separate timer needs to be used
-        private function attachCameraTimerCompleteEvent(event:TimerEvent):void
-        {
-            if (currentState == "attachingCamera")
-            {
-                //TODO: Add an animation to use while the camera is being attached
-                currentState = "cameraNotAvailable";
-            }
-        }
+		private function startCountdown():void
+		{
+			_countdownTimerCurrentCount = 0;
+			_countdownTimer = new Timer(1000, 3);
+			_countdownTimer.addEventListener(TimerEvent.TIMER, countdownUpdateHandler);
+			_countdownTimer.addEventListener(TimerEvent.TIMER_COMPLETE, countdownCompleteHandler);
+			_countdownTimer.start();
+			currentState = "countdownInProgress";
+		}
 
-        public function hideEffectEndHandler():void
-        {
-            if (_netStream != null)
-            {
-                _netStream.close();
-            }
-            videoDisplay.attachCamera(null);
-            if (_attachCameraTimer != null)
-                _attachCameraTimer.stop();
-            if (_countdownTimer != null)
-                _countdownTimer.stop();
-            if (_startingRecordingTimer)
-                _startingRecordingTimer.stop();
-            if (_playheadTimer != null)
-                _playheadTimer.stop();
-            currentState = "hidden";
-        }
+		private function countdownUpdateHandler(event:TimerEvent):void
+		{
+			_countdownTimerCurrentCount += 1;
+		}
 
-        private function recordVideoButtonClickHandler():void
-        {
-            if (currentState == "readyToRecord")
-            {
-                startCountdown();
-            }
-            else if (currentState == "countdownInProgress")
-            {
-                _countdownTimer.stop();
-                currentState = "readyToRecord";
-            }
-            else if (currentState == "startingRecording")
-            {
-                _startingRecordingTimer.stop();
-                _netStream.close();
-                currentState = "readyToRecord";
-            }
-            else if (currentState == "recording")
-            {
-                _netStream.attachCamera(null);
-                _netStream.close();
-                videoDisplay.attachCamera(null);
-                prepareVideoForPlayback();
-            }
-        }
+		private function countdownCompleteHandler(event:TimerEvent):void
+		{
+			recordVideo();
+		}
 
-        private function startCountdown():void
-        {
-            _countdownTimerCurrentCount = 0;
-            _countdownTimer = new Timer(1000, 3);
-            _countdownTimer.addEventListener(TimerEvent.TIMER, countdownUpdateHandler);
-            _countdownTimer.addEventListener(TimerEvent.TIMER_COMPLETE, countdownCompleteHandler);
-            _countdownTimer.start();
-            currentState = "countdownInProgress";
-        }
+		private function recordVideo():void
+		{
+			if (_netStream)
+			{
+				_netStream.attachCamera(_camera);
+				if (_microphone)
+					_netStream.attachAudio(_microphone);
+				var fileNumber:int = _collaborationModel.activeRecordAccount.primaryRecord.videoMessagesModel.videoMessageCount + 1;
+				_netStreamLocation = _collaborationModel.activeRecordAccount.accountId + "/" + fileNumber;
+				_netStream.publish(_netStreamLocation, "record");
+				currentState = "startingRecording";
+				_startingRecordingTimer = new Timer(1000, 1);
+				_startingRecordingTimer.addEventListener(TimerEvent.TIMER_COMPLETE, startingRecordingTimerComplete);
+				_startingRecordingTimer.start();
+			}
+		}
 
-        private function countdownUpdateHandler(event:TimerEvent):void
-        {
-            _countdownTimerCurrentCount += 1;
-        }
+		private function startingRecordingTimerComplete(event:TimerEvent):void
+		{
+			currentState = "recording";
+		}
 
-        private function countdownCompleteHandler(event:TimerEvent):void
-        {
-            recordVideo();
-        }
+		private function prepareVideoForPlayback():void
+		{
+			_netStream.client = {};
+			_netStream.client.onMetaData = handleMetaData;
+			_netStream.client.onPlayStatus = handlePlayStatus;
+			videoDisplay.mx_internal::videoPlayer.attachNetStream(_netStream);
+			queueUpVideo();
+		}
 
-        private function recordVideo():void
-        {
-            if (_netStream)
-            {
-                _netStream.attachCamera(_camera);
-                if (_microphone)
-                    _netStream.attachAudio(_microphone);
-                var fileNumber:int = _collaborationModel.activeRecordAccount.primaryRecord.videoMessagesModel.videoMessageCount + 1;
-                _netStreamLocation = _collaborationModel.activeRecordAccount.accountId + "/" + fileNumber;
-                _netStream.publish(_netStreamLocation, "record");
-                currentState = "startingRecording";
-                _startingRecordingTimer = new Timer(1000, 1);
-                _startingRecordingTimer.addEventListener(TimerEvent.TIMER_COMPLETE, startingRecordingTimerComplete);
-                _startingRecordingTimer.start();
-            }
-        }
+		private function queueUpVideo():void
+		{
+			_netStream.play(_netStreamLocation);
+			currentState = "waitingForMetaData";
+		}
 
-        private function startingRecordingTimerComplete(event:TimerEvent):void
-        {
-            currentState = "recording";
-        }
+		private function handleMetaData(metaData:Object):void
+		{
+			_netStream.togglePause();
+			currentState = "readyToPlay";
+			_playheadTimerCurrentCount = 0;
+			_playheadDuration = Math.floor(metaData.duration);
+		}
 
-        private function prepareVideoForPlayback():void
-        {
-            _netStream.client = {};
-            _netStream.client.onMetaData = handleMetaData;
-            _netStream.client.onPlayStatus = handlePlayStatus;
-            videoDisplay.mx_internal::videoPlayer.attachNetStream(_netStream);
-            queueUpVideo();
-        }
+		private function handlePlayStatus(playStatus:Object):void
+		{
+			if (playStatus.code == "NetStream.Play.Complete")
+			{
+				queueUpVideo();
+			}
+		}
 
-        private function queueUpVideo():void
-        {
-            _netStream.play(_netStreamLocation);
-            currentState = "waitingForMetaData";
-        }
+		private function playVideoButtonClickHandler():void
+		{
+			if (currentState == "readyToPlay")
+			{
+				_netStream.togglePause();
+				currentState = "playing";
+				_playheadTimer = new Timer(1000, _playheadDuration);
+				_playheadTimer.addEventListener(TimerEvent.TIMER, updatePlayhead);
+				_playheadTimer.start();
+			}
+			else if (currentState == "playing")
+			{
+				_playheadTimer.stop();
+				queueUpVideo();
+			}
+		}
 
-        private function handleMetaData(metaData:Object):void
-        {
-            _netStream.togglePause();
-            currentState = "readyToPlay";
-            _playheadTimerCurrentCount = 0;
-            _playheadDuration = Math.floor(metaData.duration);
-        }
+		private function updatePlayhead(event:TimerEvent):void
+		{
+			_playheadTimerCurrentCount = _playheadTimer.currentCount;
+		}
 
-        private function handlePlayStatus(playStatus:Object):void
-        {
-            if (playStatus.code == "NetStream.Play.Complete")
-            {
-                queueUpVideo();
-            }
-        }
+		private function deleteVideoButtonClickHandler():void
+		{
+			stopPlayingVideo();
+			attachCamera();
+		}
 
-        private function playVideoButtonClickHandler():void
-        {
-            if (currentState == "readyToPlay")
-            {
-                _netStream.togglePause();
-                currentState = "playing";
-                _playheadTimer = new Timer(1000, _playheadDuration);
-                _playheadTimer.addEventListener(TimerEvent.TIMER, updatePlayhead);
-                _playheadTimer.start();
-            }
-            else if (currentState == "playing")
-            {
-                _playheadTimer.stop();
-                queueUpVideo();
-            }
-        }
+		private function sendVideoButtonClickHandler():void
+		{
+			stopPlayingVideo();
+			_collaborationController.uploadVideoMessage();
+			_collaborationController.hideRecordVideoView();
+		}
 
-        private function updatePlayhead(event:TimerEvent):void
-        {
-            _playheadTimerCurrentCount = _playheadTimer.currentCount;
-        }
-
-        private function deleteVideoButtonClickHandler():void
-        {
-            stopPlayingVideo();
-            attachCamera();
-        }
-
-        private function sendVideoButtonClickHandler():void
-        {
-            stopPlayingVideo();
-            _collaborationController.uploadVideoMessage();
-            _collaborationController.hideRecordVideoView();
-        }
-
-        private function stopPlayingVideo():void
-        {
-            if (currentState == "playing")
-            {
-                _playheadTimer.stop();
-            }
-            _netStream.close();
-        }
-
-        ]]>
+		private function stopPlayingVideo():void
+		{
+			if (currentState == "playing")
+			{
+				_playheadTimer.stop();
+			}
+			_netStream.close();
+		}
+		]]>
 	</fx:Script>
     <s:HGroup height="{VIDEO_HEIGHT}" horizontalCenter="0" verticalCenter="0" gap="10">
         <s:Group width="60" height="100%">

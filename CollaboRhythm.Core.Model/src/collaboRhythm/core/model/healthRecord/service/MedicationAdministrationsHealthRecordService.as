@@ -75,10 +75,12 @@ package collaboRhythm.core.model.healthRecord.service
             for each (var medicationAdministrationXml:XML in value.Report)
             {
                 var medicationAdministration:MedicationAdministration = new MedicationAdministration();
-                initFromReportXML(medicationAdministrationXml, medicationAdministration);
-				if (medicationAdministration.dateAdministered.valueOf() <= nowTime && medicationAdministration.dateReported.valueOf() <= nowTime)
+                if (initFromReportXML(medicationAdministrationXml, medicationAdministration))
 				{
-					data.addItem(medicationAdministration);
+					if (medicationAdministration.dateAdministered.valueOf() <= nowTime && medicationAdministration.dateReported.valueOf() <= nowTime)
+					{
+						data.addItem(medicationAdministration);
+					}
 				}
             }
 
@@ -91,20 +93,29 @@ package collaboRhythm.core.model.healthRecord.service
 			}
 		}
 
-		public function initFromReportXML(reportXml:XML, medicationAdministration:MedicationAdministration):void
+		public function initFromReportXML(reportXml:XML, medicationAdministration:MedicationAdministration):Boolean
 		{
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
-			DocumentMetadata.parseDocumentMetadata(reportXml.Meta.Document[0], medicationAdministration);
-			var medicationAdministrationXml:XML = reportXml.Item.MedicationAdministration[0];
-            medicationAdministration.name = HealthRecordHelperMethods.xmlToCodedValue(medicationAdministrationXml.name[0]);
-            medicationAdministration.reportedBy = medicationAdministrationXml.reportedBy;
-            medicationAdministration.dateReported = collaboRhythm.shared.model.DateUtil.parseW3CDTF(medicationAdministrationXml.dateReported.toString());
-			medicationAdministration.dateAdministered = collaboRhythm.shared.model.DateUtil.parseW3CDTF(medicationAdministrationXml.dateAdministered.toString());
-            medicationAdministration.amountAdministered = new ValueAndUnit(medicationAdministrationXml.amountAdministered.value, HealthRecordHelperMethods.xmlToCodedValue(medicationAdministrationXml.amountAdministered.unit[0]));
-            if (medicationAdministrationXml.amountRemaining[0])
-				medicationAdministration.amountRemaining = new ValueAndUnit(medicationAdministrationXml.amountRemaining.value, HealthRecordHelperMethods.xmlToCodedValue(medicationAdministrationXml.amountRemaining.unit[0]));
+			if (DocumentMetadata.validateDocumentMetadata(reportXml.Meta.Document[0]))
+			{
+				DocumentMetadata.parseDocumentMetadata(reportXml.Meta.Document[0], medicationAdministration.meta);
+				var medicationAdministrationXml:XML = reportXml.Item.MedicationAdministration[0];
+				medicationAdministration.name = HealthRecordHelperMethods.xmlToCodedValue(medicationAdministrationXml.name[0]);
+				medicationAdministration.reportedBy = medicationAdministrationXml.reportedBy;
+				medicationAdministration.dateReported = collaboRhythm.shared.model.DateUtil.parseW3CDTF(medicationAdministrationXml.dateReported.toString());
+				medicationAdministration.dateAdministered = collaboRhythm.shared.model.DateUtil.parseW3CDTF(medicationAdministrationXml.dateAdministered.toString());
+				medicationAdministration.amountAdministered = new ValueAndUnit(medicationAdministrationXml.amountAdministered.value, HealthRecordHelperMethods.xmlToCodedValue(medicationAdministrationXml.amountAdministered.unit[0]));
+				if (medicationAdministrationXml.amountRemaining[0])
+					medicationAdministration.amountRemaining = new ValueAndUnit(medicationAdministrationXml.amountRemaining.value, HealthRecordHelperMethods.xmlToCodedValue(medicationAdministrationXml.amountRemaining.unit[0]));
 
-			_relationshipXmlMarshaller.unmarshallRelationships(reportXml, medicationAdministration);
+				_relationshipXmlMarshaller.unmarshallRelationships(reportXml, medicationAdministration);
+				return true;
+			}
+			else
+			{
+				_logger.warn("Report does not contain valid metadata; document not loaded: " + reportXml.toXMLString());
+				return false;
+			}
 		}
 
 		public function convertToXML(medicationAdministration:MedicationAdministration):XML
@@ -150,6 +161,9 @@ package collaboRhythm.core.model.healthRecord.service
 				// TODO: customize parameters of the pharmicokinetics (?) to match the current medication, person, dose, etc
 				builder.calculateConcentrationCurve();
 				medicationAdministrationsModel.medicationConcentrationCurvesByCode[key] = builder.concentrationCurve;
+				var firstMedicationAdministration:MedicationAdministration = administrationCollection[0];
+				_logger.info("Calculated curve for " + firstMedicationAdministration.name.text + " (" + key + ") with " +
+							 builder.concentrationCurve.length + " data points from " + administrationCollection.length + " MedicationAdministration documents");
 			}
 		}
 	}

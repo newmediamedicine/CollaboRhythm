@@ -1,13 +1,23 @@
 package collaboRhythm.core.model.healthRecord.service
 {
 
+	import collaboRhythm.core.model.XmlMarshaller;
 	import collaboRhythm.core.model.healthRecord.RelationshipXmlMarshaller;
+	import collaboRhythm.core.model.healthRecord.Schemas;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
+	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
+	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
+	import collaboRhythm.shared.model.healthRecord.document.Equipment;
+	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 
 	import flash.events.Event;
+
+	import mx.collections.ArrayCollection;
 
 	import org.indivo.client.IndivoClientEvent;
 
@@ -28,10 +38,19 @@ package collaboRhythm.core.model.healthRecord.service
 		public static const IS_LOADING_CHANGE_EVENT:String = "isLoadingChange";
 		private var _isLoading:Boolean;
 		protected var _relationshipXmlMarshaller:RelationshipXmlMarshaller;
+		protected var _xmlMarshaller:XmlMarshaller;
+		protected var _targetDocumentType:String;
+		protected var _targetClass:Class;
+		protected var _targetDocumentSchema:Class;
 
-		public function DocumentStorageServiceBase(consumerKey:String, consumerSecret:String, baseURL:String, account:Account)
+		public function DocumentStorageServiceBase(consumerKey:String, consumerSecret:String, baseURL:String,
+												   account:Account, targetDocumentType:String=null, targetClass:Class=null,
+												   targetDocumentSchema:Class=null)
 		{
 			super(consumerKey, consumerSecret, baseURL, account);
+			_targetDocumentType = targetDocumentType;
+			_targetClass = targetClass;
+			_targetDocumentSchema = targetDocumentSchema;
 		}
 
 		[Bindable(event="isLoadingChange")]
@@ -73,6 +92,108 @@ package collaboRhythm.core.model.healthRecord.service
 			if (!isRetrying)
 				isLoading = false;
 			return isRetrying;
+		}
+
+		/**
+		 * The document type that this service targets.
+		 */
+		protected function get targetDocumentType():String
+		{
+			return _targetDocumentType;
+		}
+
+		/**
+		 * The XML QName (qualified name) of the XML representation of the document that this service targets.
+		 */
+		protected function get targetDocumentQName():QName
+		{
+			var parts:Array = targetDocumentType.split("#");
+			return new QName(parts[0] + "#", parts[1]);
+		}
+
+		/**
+		 * The document class that this service targets.
+		 */
+		protected function get targetClass():Class
+		{
+			return _targetClass;
+		}
+
+		/**
+		 * Returns the embedded schema for the document type that this service targets.
+		 */
+		protected function get targetDocumentSchema():Class
+		{
+			return _targetDocumentSchema;
+		}
+
+		/**
+		 * Initializes the XmlMarshaller used by this service for marshalling and unmarshalling the document type
+		 * that this service targets.
+		 */
+		protected function initializeXmlMarshaller():void
+		{
+			_xmlMarshaller = new XmlMarshaller();
+			_xmlMarshaller.addSchema(Schemas.CodedValuesSchema);
+			_xmlMarshaller.addSchema(Schemas.ValuesSchema);
+			_xmlMarshaller.addSchema(targetDocumentSchema);
+			_xmlMarshaller.registerClass(targetDocumentQName, targetClass);
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "CodedValue"), CodedValue);
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "ValueAndUnit"),
+										 ValueAndUnit);
+		}
+
+		/**
+		 * Uses xmlMarshaller to unmarshall the XML for each document in the reports. The metadata and relationships
+		 * are also unmarshalled.
+		 * @param reportsXml
+		 * @return
+		 */
+		protected function parseReportsXml(reportsXml:XML):ArrayCollection
+		{
+			var collection:ArrayCollection = new ArrayCollection();
+			// trim off any data that is from the future (according to ICurrentDateSource); note that we assume the data is in ascending order by date
+			var nowTime:Number = _currentDateSource.now().time;
+
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
+			for each (var reportXml:XML in reportsXml.Report)
+			{
+				var document:IDocument = unmarshallXml(reportXml);
+				if (document && documentShouldBeIncluded(document, nowTime))
+				{
+					DocumentMetadata.parseDocumentMetadata(reportXml.Meta.Document[0], document.meta);
+					_relationshipXmlMarshaller.unmarshallRelationships(reportXml, document);
+					unmarshallSpecialRelationships(reportXml, document);
+					collection.addItem(document);
+				}
+			}
+
+			_logger.info("Parsed " + collection.length + " " + targetDocumentType + " document" + (collection.length == 1 ? "" : "s") + " from report");
+			return collection;
+		}
+
+		protected function unmarshallXml(reportXml:XML):IDocument
+		{
+			return _xmlMarshaller.unmarshallXml(reportXml.Item.elements(targetDocumentQName)[0],
+																  targetDocumentQName) as IDocument;
+		}
+
+		protected function unmarshallSpecialRelationships(reportXml:XML, document:IDocument):void
+		{
+			// optionally override in subclasses
+		}
+
+		/**
+		 * Filter method to determine which documents should be included as part of the collection of documents in the
+		 * model. Subclasses should override this method to ensure that changing the demo date will filter out "future"
+		 * documents.
+		 * @param document the document to filter
+		 * @param nowTime the demo time ("current" time) as a Number value
+		 * @return true if the document should be included; otherwise false
+		 */
+		protected function documentShouldBeIncluded(document:IDocument, nowTime:Number):Boolean
+		{
+			return true;
 		}
 	}
 }

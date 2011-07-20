@@ -45,48 +45,48 @@
     </fx:Style>
     <fx:Script>
 		<![CDATA[
-        import collaboRhythm.shared.model.MedicationOrder;
-        import collaboRhythm.shared.model.MedicationScheduleItem;
-        import collaboRhythm.shared.model.ScheduleItemBase;
-        import collaboRhythm.shared.model.ScheduleItemOccurrence;
-        import collaboRhythm.shared.model.services.ICurrentDateSource;
-        import collaboRhythm.shared.model.services.WorkstationKernel;
+		import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
+		import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+		import collaboRhythm.shared.model.services.ICurrentDateSource;
+		import collaboRhythm.shared.model.services.WorkstationKernel;
 
-        [Bindable]
-        private var _medicationOrder:MedicationOrder;
-        [Bindable]
-        private var _medicationScheduleItem:MedicationScheduleItem;
+		[Bindable]
+		private var _medicationOrder:MedicationOrder;
+		[Bindable]
+		private var _medicationScheduleItem:MedicationScheduleItem;
 
-        private var _currentDateSource:ICurrentDateSource;
+		private var _currentDateSource:ICurrentDateSource;
 
-        public override function init(scheduleItemOccurrence:ScheduleItemOccurrence):void
-        {
-            super.init(scheduleItemOccurrence);
-            _medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
-            _medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
+		public override function init(scheduleItemOccurrence:ScheduleItemOccurrence):void
+		{
+			super.init(scheduleItemOccurrence);
+			_medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
+			_medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
 
-            _currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
-            pickImage();
-        }
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+			pickImage();
+		}
 
-        public override function get scheduleItem():ScheduleItemBase
-        {
-            return _medicationScheduleItem
-        }
+		public override function get scheduleItem():ScheduleItemBase
+		{
+			return _medicationScheduleItem
+		}
 
-        private function pickImage():void
-        {
-            //TODO: Once medication fills are working, use the ndc
-            if (_medicationScheduleItem.name.value == "617320")
-            {
-                medicationImage.source = MedicationScheduleItemClockView.ndc000779;
-            }
-            else if (_medicationScheduleItem.name.value == "310798")
-            {
-                medicationImage.source = MedicationScheduleItemClockView.ndc006033856;
-            }
-        }
-        ]]>
+		private function pickImage():void
+		{
+			//TODO: Once medication fills are working, use the ndc
+			if (_medicationScheduleItem.name.value == "617320")
+			{
+				medicationImage.source = MedicationScheduleItemClockView.ndc000779;
+			}
+			else if (_medicationScheduleItem.name.value == "310798")
+			{
+				medicationImage.source = MedicationScheduleItemClockView.ndc006033856;
+			}
+		}
+		]]>
 	</fx:Script>
     <s:Group id="med" width="100%" height="100%">
         <s:Rect id="background" width="100%" height="100%">

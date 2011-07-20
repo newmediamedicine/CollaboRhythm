@@ -20,7 +20,9 @@ package collaboRhythm.shared.controller
     import collaboRhythm.shared.model.Account;
     import collaboRhythm.shared.model.CollaborationModel;
     import collaboRhythm.shared.model.User;
-    import collaboRhythm.shared.model.settings.Settings;
+	import collaboRhythm.shared.model.services.ICurrentDateSource;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
+	import collaboRhythm.shared.model.settings.Settings;
     import collaboRhythm.shared.view.CollaborationView;
 
     import flash.events.EventDispatcher;
@@ -44,6 +46,7 @@ package collaboRhythm.shared.controller
 		private var _collaborationModel:CollaborationModel;
         private var _collaborationView:CollaborationView;
 		private var _logger:ILogger;
+		private var _currentDateSource:ICurrentDateSource;
 		
 		public function CollaborationController(activeAccount:Account, collaborationView:CollaborationView, settings:Settings)
 		{		
@@ -53,6 +56,7 @@ package collaboRhythm.shared.controller
 			_collaborationModel = new CollaborationModel(settings, _activeAccount);
             _collaborationView = collaborationView;
 //				_collaborationRoomView.addEventListener(CollaborationEvent.LOCAL_USER_JOINED_COLLABORATION_ROOM_ANIMATION_COMPLETE, localUserJoinedCollaborationRoomAnimationCompleteHandler);
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
 
         public function setActiveRecordAccount(activeRecordAccount:Account):void
@@ -72,7 +76,7 @@ package collaboRhythm.shared.controller
 
         public function uploadVideoMessage():void
         {
-            _collaborationModel.activeRecordAccount.primaryRecord.videoMessagesModel.createVideoMessage();
+            _collaborationModel.activeRecordAccount.primaryRecord.videoMessagesModel.createVideoMessage(activeAccount, _currentDateSource);
         }
 
 		public function get activeAccount():Account

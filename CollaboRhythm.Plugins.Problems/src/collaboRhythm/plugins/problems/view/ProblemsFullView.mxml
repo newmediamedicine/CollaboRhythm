@@ -24,26 +24,26 @@
 	fontSize="24">
 	<fx:Script>
 		<![CDATA[
-        import collaboRhythm.shared.model.ProblemsModel;
+		import collaboRhythm.shared.model.healthRecord.document.ProblemsModel;
 
-        [Bindable]
-        private var _model:ProblemsModel;
+		[Bindable]
+		private var _model:ProblemsModel;
 
-        public function get model():ProblemsModel
-        {
-            return _model;
-        }
+		public function get model():ProblemsModel
+		{
+			return _model;
+		}
 
-        public function set model(value:ProblemsModel):void
-        {
-            _model = value;
-        }
+		public function set model(value:ProblemsModel):void
+		{
+			_model = value;
+		}
 
-        protected function rawButton_clickHandler(event:MouseEvent):void
-        {
-            viewstack1.selectedIndex = (viewstack1.selectedIndex + 1) % viewstack1.length;
-        }
-        ]]>
+		protected function rawButton_clickHandler(event:MouseEvent):void
+		{
+			viewstack1.selectedIndex = (viewstack1.selectedIndex + 1) % viewstack1.length;
+		}
+		]]>
 	</fx:Script>
 	
 	<fx:Declarations>

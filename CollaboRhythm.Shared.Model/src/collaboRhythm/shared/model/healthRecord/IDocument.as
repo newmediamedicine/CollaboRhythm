@@ -3,8 +3,12 @@ package collaboRhythm.shared.model.healthRecord
 
 	import mx.collections.ArrayCollection;
 
-	public interface IDocument extends IDocumentMetadata
+	public interface IDocument
 	{
+		/**
+		 * Metadata associated with the document.
+		 */
+		function get meta():IDocumentMetadata;
 
 		/**
 		 * A collection of all Relationships that are from this document and to another document.

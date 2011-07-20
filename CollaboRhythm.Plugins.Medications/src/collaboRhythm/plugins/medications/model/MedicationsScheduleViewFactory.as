@@ -12,8 +12,8 @@ package collaboRhythm.plugins.medications.model
     import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
     import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
     import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
-    import collaboRhythm.shared.model.MedicationScheduleItem;
-    import collaboRhythm.shared.model.ScheduleItemOccurrence;
+    import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
+    import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
     public class MedicationsScheduleViewFactory implements IScheduleViewFactory
     {

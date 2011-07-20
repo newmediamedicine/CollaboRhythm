@@ -37,17 +37,6 @@ package collaboRhythm.shared.model.healthRecord.document
 			super(AdherenceItem.DOCUMENT_TYPE);
 		}
 
-		protected function addToAdherenceItemsCollectionsByCode(adherenceItem:AdherenceItem):void
-		{
-			var collection:ArrayCollection = _adherenceItemsCollectionsByCode[adherenceItem.name.value];
-			if (collection == null)
-			{
-				collection = new ArrayCollection();
-				_adherenceItemsCollectionsByCode[adherenceItem.name.value] = collection;
-			}
-			collection.addItem(adherenceItem);
-		}
-
         public function get adherenceItems():HashMap
         {
             return _adherenceItems;
@@ -69,10 +58,28 @@ package collaboRhythm.shared.model.healthRecord.document
 			addAdherenceItem(document as AdherenceItem)
 		}
 
+		public function addAdherenceItem(adherenceItem:AdherenceItem):void
+		{
+			adherenceItems[adherenceItem.meta.id] = adherenceItem;
+			documents.addItem(adherenceItem);
+			addToAdherenceItemsCollectionsByCode(adherenceItem);
+		}
+
+		protected function addToAdherenceItemsCollectionsByCode(adherenceItem:AdherenceItem):void
+		{
+			var collection:ArrayCollection = _adherenceItemsCollectionsByCode[adherenceItem.name.value];
+			if (collection == null)
+			{
+				collection = new ArrayCollection();
+				_adherenceItemsCollectionsByCode[adherenceItem.name.value] = collection;
+			}
+			collection.addItem(adherenceItem);
+		}
+
 		override public function removeDocument(document:IDocument):void
 		{
 			super.removeDocument(document);
-			adherenceItems.remove(document.id);
+			adherenceItems.remove(document.meta.id);
 			removeFromAdherenceItemsCollectionsByCode(document as AdherenceItem);
 		}
 
@@ -86,13 +93,6 @@ package collaboRhythm.shared.model.healthRecord.document
 					collection.removeItemAt(documents.getItemIndex(adherenceItem));
 				}
 			}
-		}
-
-		public function addAdherenceItem(adherenceItem:AdherenceItem):void
-		{
-			adherenceItems[adherenceItem.id] = adherenceItem;
-			documents.addItem(adherenceItem);
-			addToAdherenceItemsCollectionsByCode(adherenceItem);
 		}
 
 		public function get adherenceItemXmlMarshaller():IAdherenceItemXmlMarshaller

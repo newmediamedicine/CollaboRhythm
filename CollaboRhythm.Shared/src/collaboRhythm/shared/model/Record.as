@@ -26,7 +26,14 @@ package collaboRhythm.shared.model
 	import collaboRhythm.shared.model.healthRecord.IRecord;
 	import collaboRhythm.shared.model.healthRecord.Relationship;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItemsModel;
+	import collaboRhythm.shared.model.healthRecord.document.EquipmentModel;
+	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItemsModel;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministrationsModel;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationOrdersModel;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItemsModel;
+	import collaboRhythm.shared.model.healthRecord.document.ProblemsModel;
+	import collaboRhythm.shared.model.healthRecord.document.VideoMessagesModel;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.settings.Settings;
 
@@ -54,7 +61,7 @@ package collaboRhythm.shared.model
         private var _medicationScheduleItemsModel:MedicationScheduleItemsModel;
         private var _medicationAdministrationsModel:MedicationAdministrationsModel;
         private var _equipmentModel:EquipmentModel;
-        private var _equipmentScheduleItemsModel:EquipmentScheduleItemsModel;
+		private var _equipmentScheduleItemsModel:EquipmentScheduleItemsModel;
         private var _adherenceItemsModel:AdherenceItemsModel;
         private var _videoMessagesModel:VideoMessagesModel;
         private var _problemsModel:ProblemsModel;
@@ -82,15 +89,15 @@ package collaboRhythm.shared.model
 
         private function initDocumentModels():void
         {
-			medicationOrdersModel = new MedicationOrdersModel(_settings, _activeAccount, this);
-            medicationFillsModel = new MedicationFillsModel(_settings, _activeAccount, this);
-            medicationScheduleItemsModel = new MedicationScheduleItemsModel(_settings, _activeAccount, this);
+			medicationOrdersModel = new MedicationOrdersModel();
+            medicationFillsModel = new MedicationFillsModel();
+            medicationScheduleItemsModel = new MedicationScheduleItemsModel();
             medicationAdministrationsModel = new MedicationAdministrationsModel();
-            equipmentModel = new EquipmentModel(_settings, _activeAccount, this);
-            equipmentScheduleItemsModel = new EquipmentScheduleItemsModel(_settings, _activeAccount, this);
+            equipmentModel = new EquipmentModel();
+            equipmentScheduleItemsModel = new EquipmentScheduleItemsModel();
             adherenceItemsModel = new AdherenceItemsModel();
-            videoMessagesModel = new VideoMessagesModel(_settings, _activeAccount, this);
-            problemsModel = new ProblemsModel(_settings, _activeAccount, this);
+            videoMessagesModel = new VideoMessagesModel();
+            problemsModel = new ProblemsModel();
 			vitalSignsModel = new VitalSignsModel();
 
 			documentCollections.clear();
@@ -110,17 +117,6 @@ package collaboRhythm.shared.model
 		{
 			documentCollections[documentCollection.documentType] = documentCollection;
 		}
-
-        public function getDocuments():void
-        {
-            _medicationOrdersModel.getMedicationOrders();
-            _medicationFillsModel.getMedicationFills();
-            _medicationScheduleItemsModel.getMedicationScheduleItems();
-            _equipmentModel.getEquipment();
-            _equipmentScheduleItemsModel.getEquipmentScheduleItems();
-            _videoMessagesModel.getVideoMessages();
-            _problemsModel.getProblems();
-        }
 
 		public function get id():String
 		{
@@ -192,7 +188,7 @@ package collaboRhythm.shared.model
         public function set equipmentModel(value:EquipmentModel):void
         {
             _equipmentModel = value;
-			_documentCollections["Equipment"] = value;
+			addDocumentCollection(value);
         }
 
         public function get adherenceItemsModel():AdherenceItemsModel
@@ -203,7 +199,7 @@ package collaboRhythm.shared.model
         public function set adherenceItemsModel(value:AdherenceItemsModel):void
         {
             _adherenceItemsModel = value;
-			_documentCollections["AdherenceItem"] = value;
+			addDocumentCollection(value);
         }
 
         public function get videoMessagesModel():VideoMessagesModel
@@ -214,7 +210,7 @@ package collaboRhythm.shared.model
         public function set videoMessagesModel(value:VideoMessagesModel):void
         {
             _videoMessagesModel = value;
-			_documentCollections["VideoMessage"] = value;
+			addDocumentCollection(value);
         }
 
         public function get appData():HashMap
@@ -247,7 +243,7 @@ package collaboRhythm.shared.model
         public function set problemsModel(value:ProblemsModel):void
         {
             _problemsModel = value;
-			_documentCollections["Problem"] = value;
+			addDocumentCollection(value);
         }
 
         public function get medicationOrdersModel():MedicationOrdersModel
@@ -258,7 +254,7 @@ package collaboRhythm.shared.model
         public function set medicationOrdersModel(value:MedicationOrdersModel):void
         {
             _medicationOrdersModel = value;
-			_documentCollections["MedicationOrder"] = value;
+			addDocumentCollection(value);
         }
 
         public function get medicationFillsModel():MedicationFillsModel
@@ -269,7 +265,7 @@ package collaboRhythm.shared.model
         public function set medicationFillsModel(value:MedicationFillsModel):void
         {
             _medicationFillsModel = value;
-			_documentCollections["MedicationFill"] = value;
+			addDocumentCollection(value);
         }
 
         public function get medicationScheduleItemsModel():MedicationScheduleItemsModel
@@ -280,7 +276,7 @@ package collaboRhythm.shared.model
         public function set medicationScheduleItemsModel(value:MedicationScheduleItemsModel):void
         {
             _medicationScheduleItemsModel = value;
-			_documentCollections["MedicationScheduleItem"] = value;
+			addDocumentCollection(value);
         }
 
         public function get medicationAdministrationsModel():MedicationAdministrationsModel
@@ -291,7 +287,7 @@ package collaboRhythm.shared.model
         public function set medicationAdministrationsModel(value:MedicationAdministrationsModel):void
         {
             _medicationAdministrationsModel = value;
-			_documentCollections[value.documentType] = value;
+			addDocumentCollection(value);
         }
 
         public function get equipmentScheduleItemsModel():EquipmentScheduleItemsModel
@@ -302,7 +298,7 @@ package collaboRhythm.shared.model
         public function set equipmentScheduleItemsModel(value:EquipmentScheduleItemsModel):void
         {
             _equipmentScheduleItemsModel = value;
-			_documentCollections["EquipmentScheduleItem"] = value;
+			addDocumentCollection(value);
         }
 
 		public function get vitalSignsModel():VitalSignsModel
@@ -313,7 +309,7 @@ package collaboRhythm.shared.model
 		public function set vitalSignsModel(value:VitalSignsModel):void
 		{
 			_vitalSignsModel = value;
-			_documentCollections["VitalSign"] = value;
+			addDocumentCollection(value);
 		}
 
 		// TODO: move BloodPressureModel to blood pressure plugin; eliminate bloodPressureModel property and field; use appData instead
@@ -382,13 +378,13 @@ package collaboRhythm.shared.model
 			// TODO: perhaps we should rely on the document.pendingAction flag instead of isLoading
 			if (document.pendingAction == null)
 			{
-				originalDocumentsById[document.id] = document;
+				originalDocumentsById[document.meta.id] = document;
 			}
-			else if (document.pendingAction = DocumentBase.ACTION_CREATE)
+			else if (document.pendingAction == DocumentBase.ACTION_CREATE)
 			{
-				if (document.id == null)
+				if (document.meta.id == null)
 				{
-					document.id = UIDUtil.createUID();
+					document.meta.id = UIDUtil.createUID();
 				}
 			}
 			else
@@ -396,12 +392,12 @@ package collaboRhythm.shared.model
 				throw new Error("Attempted to add a document with an invalid value for pendingAction: " + document.pendingAction);
 			}
 
-			completeDocumentsById[document.id] = document;
-			currentDocumentsById[document.id] = document;
+			completeDocumentsById[document.meta.id] = document;
+			currentDocumentsById[document.meta.id] = document;
 
-			var documentCollection:DocumentCollectionBase = documentCollections.getItem(document.type);
+			var documentCollection:DocumentCollectionBase = documentCollections.getItem(document.meta.type);
 			if (!documentCollection)
-				throw new Error("Failed to get document collection for document type " + document.type);
+				throw new Error("Failed to get document collection for document type " + document.meta.type);
 
 			documentCollection.addDocument(document);
 		}
@@ -422,7 +418,7 @@ package collaboRhythm.shared.model
 			}
 			else if (document.pendingAction == DocumentBase.ACTION_CREATE)
 			{
-				currentDocumentsById.remove(document.id);
+				currentDocumentsById.remove(document.meta.id);
 			}
 			document.pendingAction = deleteAction;
 			document.pendingActionReason = reason;
@@ -438,7 +434,8 @@ package collaboRhythm.shared.model
 				var currentDocument:IDocument = documents.pop();
 				for each (var relationship:Relationship in currentDocument.relatesTo)
 				{
-					documents.push(relationship.relatesTo);
+					if (relationship.relatesTo)
+						documents.push(relationship.relatesTo);
 				}
 
 				deletedCount += deleteOneDocument(currentDocument, deleteAction, reason);

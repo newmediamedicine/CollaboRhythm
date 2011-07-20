@@ -44,7 +44,6 @@ package collaboRhythm.core.model.healthRecord.service
 		public function set medicationAdministrationCollection(adherenceData:ArrayCollection):void
 		{
 			_medicationAdministrationCollection = adherenceData;
-			calculateConcentrationCurve();
 		}
 
 		public function get medicationAdministrationCollection():ArrayCollection

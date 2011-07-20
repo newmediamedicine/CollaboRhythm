@@ -21,8 +21,8 @@ package collaboRhythm.plugins.schedule.model
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
 	import collaboRhythm.plugins.schedule.view.ScheduleGroupTimelineView;
-	import collaboRhythm.shared.model.ScheduleItemOccurrence;
-	import collaboRhythm.shared.model.ScheduleItemOccurrenceBase;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrenceBase;
 
 	[Bindable]
 	public class ScheduleTimelineModel

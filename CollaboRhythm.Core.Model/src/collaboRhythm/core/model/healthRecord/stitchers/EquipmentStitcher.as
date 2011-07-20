@@ -19,6 +19,8 @@ package collaboRhythm.core.model.healthRecord.stitchers
 
 	import collaboRhythm.shared.model.*;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
+	import collaboRhythm.shared.model.healthRecord.document.Equipment;
+	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
 
 	public class EquipmentStitcher extends DocumentStitcherBase
     {
@@ -38,6 +40,12 @@ package collaboRhythm.core.model.healthRecord.stitchers
 				{
 					equipment.scheduleItems[scheduleItemId] = equipmentScheduleItem;
 					equipmentScheduleItem.scheduledEquipment = equipment;
+				}
+				else
+				{
+					// EquipmentScheduleItem may not be loaded into model if it was filtered out based on the demo date
+					equipment.scheduleItems.remove(scheduleItemId);
+					_logger.warn("Warning: Failed to stitch; scheduleItem relationship ignored. EquipmentScheduleItem not found with id " + scheduleItemId);
 				}
 			}
         }

@@ -45,8 +45,8 @@ package collaboRhythm.shared.model.healthRecord
 			if (!document)
 				throw new ArgumentError("Attempted to add null document");
 
-			if (document.type != documentType)
-				throw new Error("Attempted to add document of type \"" + document.type + "\" to collection that holds documents of type \"" + documentType + "\"");
+			if (document.meta.type != documentType)
+				throw new Error("Attempted to add document of type \"" + document.meta.type + "\" to collection that holds documents of type \"" + documentType + "\"");
 		}
 
 		public function removeDocument(document:IDocument):void

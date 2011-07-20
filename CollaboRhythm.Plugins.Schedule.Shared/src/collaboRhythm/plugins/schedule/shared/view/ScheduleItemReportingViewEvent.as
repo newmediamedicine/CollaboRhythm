@@ -1,7 +1,7 @@
 package collaboRhythm.plugins.schedule.shared.view
 {
 
-	import collaboRhythm.shared.model.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 
 	import flash.events.Event;

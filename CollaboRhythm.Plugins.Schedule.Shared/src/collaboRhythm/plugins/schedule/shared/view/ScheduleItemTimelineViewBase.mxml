@@ -31,89 +31,89 @@
     </fx:Declarations>
     <fx:Script>
 		<![CDATA[
-        import collaboRhythm.plugins.schedule.shared.model.MoveData;
-        import collaboRhythm.shared.model.ScheduleItemBase;
-        import collaboRhythm.shared.model.ScheduleItemOccurrence;
+		import collaboRhythm.plugins.schedule.shared.model.MoveData;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
-        import mx.binding.utils.BindingUtils;
+		import mx.binding.utils.BindingUtils;
 
-        import mx.binding.utils.ChangeWatcher;
+		import mx.binding.utils.ChangeWatcher;
 
-        public static const SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH:Number = 80;
-        public static const SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_HEIGHT:Number = 80;
-        public static const SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH:Number = 320;
-        public static const SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT:Number = 82;
+		public static const SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH:Number = 80;
+		public static const SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_HEIGHT:Number = 80;
+		public static const SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH:Number = 320;
+		public static const SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT:Number = 82;
 
-        [Bindable]
-        private var _scheduleItemOccurrence:ScheduleItemOccurrence;
+		[Bindable]
+		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
 		private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>();
 
-        public static const SCHEDULE_ITEM_WIDGET_VIEW:String = "scheduleItemWidgetView";
+		public static const SCHEDULE_ITEM_WIDGET_VIEW:String = "scheduleItemWidgetView";
 
-        public function init(scheduleItemOccurrence:ScheduleItemOccurrence):void
-        {
-            _scheduleItemOccurrence = scheduleItemOccurrence;
+		public function init(scheduleItemOccurrence:ScheduleItemOccurrence):void
+		{
+			_scheduleItemOccurrence = scheduleItemOccurrence;
 
-            _changeWatchers.push(BindingUtils.bindSetter(movingChangeHandler,
-                                                                            _scheduleItemOccurrence,
-                                                                            "moving", false, true));
-        }
+			_changeWatchers.push(BindingUtils.bindSetter(movingChangeHandler,
+														 _scheduleItemOccurrence,
+														 "moving", false, true));
+		}
 
-        public function get scheduleItem():ScheduleItemBase
-        {
-            throw new Error("virtual function must be overridden in subclass");
-        }
+		public function get scheduleItem():ScheduleItemBase
+		{
+			throw new Error("virtual function must be overridden in subclass");
+		}
 
-        private function mouseDownHandler(event:MouseEvent):void
-        {
-            event.stopImmediatePropagation();
+		private function mouseDownHandler(event:MouseEvent):void
+		{
+			event.stopImmediatePropagation();
 
-            var moveData:MoveData = createMoveData(event);
-            dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_ITEM_TIMELINE_VIEW_MOUSE_DOWN,
-                                                        moveData));
-        }
+			var moveData:MoveData = createMoveData(event);
+			dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_ITEM_TIMELINE_VIEW_MOUSE_DOWN,
+														moveData));
+		}
 
-        private function createMoveData(event:MouseEvent):MoveData
-        {
-            var moveData:MoveData = new MoveData();
-            moveData.id = scheduleItem.id + _scheduleItemOccurrence.recurrenceIndex;
-            moveData.localX = event.localX;
-            moveData.localY = event.localY;
-            moveData.stageX = event.stageX;
-            moveData.stageY = event.stageY;
+		private function createMoveData(event:MouseEvent):MoveData
+		{
+			var moveData:MoveData = new MoveData();
+			moveData.id = scheduleItem.meta.id + _scheduleItemOccurrence.recurrenceIndex;
+			moveData.localX = event.localX;
+			moveData.localY = event.localY;
+			moveData.stageX = event.stageX;
+			moveData.stageY = event.stageY;
 
-            return moveData;
-        }
+			return moveData;
+		}
 
-        private function movingChangeHandler(change:Boolean):void
-        {
-            if (change)
-            {
-                glowFilter.blurX = 10;
-                glowFilter.blurY = 10;
-            }
-            else
-            {
-                glowFilter.blurX = 5;
-                glowFilter.blurY = 5;
-            }
-        }
+		private function movingChangeHandler(change:Boolean):void
+		{
+			if (change)
+			{
+				glowFilter.blurX = 10;
+				glowFilter.blurY = 10;
+			}
+			else
+			{
+				glowFilter.blurX = 5;
+				glowFilter.blurY = 5;
+			}
+		}
 
-        public function get scheduleItemOccurrence():ScheduleItemOccurrence
-        {
-            return _scheduleItemOccurrence;
-        }
+		public function get scheduleItemOccurrence():ScheduleItemOccurrence
+		{
+			return _scheduleItemOccurrence;
+		}
 
-        public function set scheduleItemOccurrence(value:ScheduleItemOccurrence):void
-        {
-            _scheduleItemOccurrence = value;
-        }
+		public function set scheduleItemOccurrence(value:ScheduleItemOccurrence):void
+		{
+			_scheduleItemOccurrence = value;
+		}
 
-        public function destroy():void
-        {
-            hideEffect.end();
-            stackEffect.end();
-        }
+		public function destroy():void
+		{
+			hideEffect.end();
+			stackEffect.end();
+		}
 
 		private function removeHandler():void
 		{
@@ -122,7 +122,7 @@
 				changeWatcher.unwatch();
 			}
 		}
-        ]]>
+		]]>
 	</fx:Script>
     <s:filters>
         <s:GlowFilter id="glowFilter"

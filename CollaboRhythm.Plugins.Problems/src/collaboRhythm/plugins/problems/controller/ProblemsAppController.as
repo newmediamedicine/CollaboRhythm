@@ -16,7 +16,7 @@
  */
 package collaboRhythm.plugins.problems.controller
 {
-	import collaboRhythm.shared.model.ProblemsModel;
+	import collaboRhythm.shared.model.healthRecord.document.ProblemsModel;
 	import collaboRhythm.plugins.problems.view.ProblemsFullView;
 	import collaboRhythm.plugins.problems.view.ProblemsWidgetView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;

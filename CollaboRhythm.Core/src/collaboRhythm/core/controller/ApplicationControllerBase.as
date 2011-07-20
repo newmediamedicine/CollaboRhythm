@@ -383,9 +383,18 @@ package collaboRhythm.core.controller
 			var dateSource:DemoCurrentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as DemoCurrentDateSource;
 			if (dateSource != null)
 			{
+				_logger.info("Changing demo date from " + getTargetDateString(dateSource.targetDate) + " to " + getTargetDateString(value) + "...");
 				dateSource.targetDate = value;
 				changeDemoDate();
 			}
+		}
+
+		private function getTargetDateString(value:Date):String
+		{
+			if (value)
+				return value.toDateString();
+			else
+				return "null (demo mode off)";
 		}
 
 		public function reloadPlugins():void
@@ -467,7 +476,6 @@ package collaboRhythm.core.controller
 
 		protected function loadDocuments(recordAccount:Account):void
 		{
-			recordAccount.primaryRecord.getDocuments();
 			_healthRecordServiceFacade = new HealthRecordServiceFacade(settings.oauthChromeConsumerKey,
 																	   settings.oauthChromeConsumerSecret,
 																	   settings.indivoServerBaseURL,
@@ -478,7 +486,6 @@ package collaboRhythm.core.controller
 		protected function reloadDocuments(recordAccount:Account):void
 		{
 			recordAccount.primaryRecord.clearDocuments();
-			recordAccount.primaryRecord.getDocuments();
 			_healthRecordServiceFacade.loadDocuments(recordAccount.primaryRecord);
 		}
 	}

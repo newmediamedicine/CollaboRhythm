@@ -53,6 +53,14 @@ package collaboRhythm.shared.model.healthRecord
 			_type = value;
 		}
 
+		public function get shortType():String
+		{
+			if (!type) return null;
+
+			var parts:Array = type.split("#");
+			return parts[parts.length - 1];
+		}
+
 		/**
 		 * Factory method parses the metadata from the document XML and returns a new DocumentMetadata.
 		 * @param documentXml The document XML. The root node of the XML should be Document, and it should have metadata
@@ -66,7 +74,12 @@ package collaboRhythm.shared.model.healthRecord
 			
 			return documentMetadata;
 		}
-		
+
+		public static function validateDocumentMetadata(documentXml:XML):Boolean
+		{
+			return documentXml.attribute("id").length() == 1;
+		}
+
 		public static function parseDocumentMetadata(documentXml:XML, documentMetadata:IDocumentMetadata):void
 		{
 			if (documentXml.attribute("id").length() != 1)

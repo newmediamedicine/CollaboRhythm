@@ -29,7 +29,13 @@ package collaboRhythm.shared.model
 		private var _count:int;
 		
 //		TODO: Implement with choice of dateUntil or count
-		public function RecurrenceRule(recurrenceRuleXml:XML)
+		public function RecurrenceRule(recurrenceRuleXml:XML=null)
+		{
+			if (recurrenceRuleXml)
+				initializeFromXml(recurrenceRuleXml);
+		}
+
+		protected function initializeFromXml(recurrenceRuleXml:XML):void
 		{
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
 			_frequency = HealthRecordHelperMethods.xmlToCodedValue(recurrenceRuleXml.frequency[0]);

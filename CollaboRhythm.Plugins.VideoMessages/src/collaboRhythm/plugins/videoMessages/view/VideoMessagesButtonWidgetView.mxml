@@ -4,7 +4,7 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx">
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.videoMessages.controller.VideoMessagesAppController;
-		import collaboRhythm.shared.model.VideoMessagesModel;
+		import collaboRhythm.shared.model.healthRecord.document.VideoMessagesModel;
 
 		private var _videoMessagesAppController:VideoMessagesAppController;
 		private var _videoMessagesModel:VideoMessagesModel;

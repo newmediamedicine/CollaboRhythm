@@ -18,10 +18,10 @@ package collaboRhythm.plugins.schedule.model
 {
 
 	import collaboRhythm.plugins.schedule.shared.model.*;
-	import collaboRhythm.shared.model.EquipmentScheduleItem;
-	import collaboRhythm.shared.model.MedicationScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.Record;
-	import collaboRhythm.shared.model.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
@@ -123,7 +123,7 @@ package collaboRhythm.plugins.schedule.model
 			{
 				createScheduleGroup(scheduleItemOccurrence, false);
 			}
-			_scheduleItemOccurrencesHashMap[scheduleItemOccurrence.scheduleItem.id + scheduleItemOccurrence.recurrenceIndex] = scheduleItemOccurrence;
+			_scheduleItemOccurrencesHashMap[scheduleItemOccurrence.scheduleItem.meta.id + scheduleItemOccurrence.recurrenceIndex] = scheduleItemOccurrence;
 		}
 
 		public function createScheduleGroup(scheduleItemOccurrence:ScheduleItemOccurrence, moving:Boolean,
@@ -139,7 +139,7 @@ package collaboRhythm.plugins.schedule.model
 			}
 			_scheduleGroupsCollection.addItem(scheduleGroup);
 			// TODO: use a GUID for the scheduleGroup so it will work with remote collaboration
-			scheduleGroup.id = scheduleItemOccurrence.scheduleItem.id + scheduleItemOccurrence.recurrenceIndex + _scheduleGroupsHashMap.keys.length;
+			scheduleGroup.id = scheduleItemOccurrence.scheduleItem.meta.id + scheduleItemOccurrence.recurrenceIndex + _scheduleGroupsHashMap.keys.length;
 			_scheduleGroupsHashMap[scheduleGroup.id] = scheduleGroup;
 
 			return scheduleGroup;

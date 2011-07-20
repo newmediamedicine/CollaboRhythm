@@ -17,7 +17,7 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
 
-	import collaboRhythm.shared.model.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 
 	public class PendingAdherenceItem
