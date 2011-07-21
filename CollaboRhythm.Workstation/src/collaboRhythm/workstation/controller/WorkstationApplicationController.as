@@ -50,6 +50,8 @@ package collaboRhythm.workstation.controller
 	import flash.geom.Rectangle;
 	import flash.ui.Keyboard;
 
+	import mx.collections.ArrayCollection;
+
 	import mx.containers.DividedBox;
 	import mx.core.IUIComponent;
 	import mx.core.IVisualElement;
@@ -775,14 +777,18 @@ package collaboRhythm.workstation.controller
 			{
 				var deletedCountByType:int = 0;
 				var documentCollection:IDocumentCollection = _activeRecordAccount.primaryRecord.documentCollections[documentType];
-				for each (var document:IDocument in documentCollection.documents)
+
+				// make a copy of the collection because we are about to iterate through it and (indirectly) remove documents from it
+				var documents:ArrayCollection = new ArrayCollection();
+				documents.addAll(documentCollection.documents);
+				for each (var document:IDocument in documents)
 				{
-					deletedCountByType += _activeRecordAccount.primaryRecord.deleteDocument(document,
+					deletedCountByType += _activeRecordAccount.primaryRecord.removeDocument(document,
 																							deleteAction,
 																							reason,
 																							true);
 				}
-				_logger.info("  Marked " + deletedCountByType + " " + documentType + " documents to " + deleteAction);
+				_logger.info("  Processed " + documents.length + " " + documentType + " documents. Marked " + deletedCountByType + " documents (including children) to " + deleteAction);
 				deletedCount += deletedCountByType;
 			}
 

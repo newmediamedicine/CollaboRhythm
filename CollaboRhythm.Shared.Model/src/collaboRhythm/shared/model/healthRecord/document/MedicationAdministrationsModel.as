@@ -107,7 +107,7 @@ package collaboRhythm.shared.model.healthRecord.document
 			{
 				if (collection.contains(medicationAdministration))
 				{
-					collection.removeItemAt(documents.getItemIndex(medicationAdministration));
+					collection.removeItemAt(collection.getItemIndex(medicationAdministration));
 				}
 			}
 		}

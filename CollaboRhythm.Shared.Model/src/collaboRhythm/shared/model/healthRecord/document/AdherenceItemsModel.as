@@ -90,7 +90,7 @@ package collaboRhythm.shared.model.healthRecord.document
 			{
 				if (collection.contains(adherenceItem))
 				{
-					collection.removeItemAt(documents.getItemIndex(adherenceItem));
+					collection.removeItemAt(collection.getItemIndex(adherenceItem));
 				}
 			}
 		}

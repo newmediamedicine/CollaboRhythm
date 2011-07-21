@@ -17,6 +17,9 @@ package collaboRhythm.core.model.healthRecord.service
 
 	import org.indivo.client.IndivoClientEvent;
 
+	/**
+	 * Service responsible for persisting changes to documents in a record to a health record server.
+	 */
 	public class SaveChangesHealthRecordService extends PhaHealthRecordServiceBase
 	{
 		private var _healthRecordServiceFacade:HealthRecordServiceFacade;
@@ -29,6 +32,22 @@ package collaboRhythm.core.model.healthRecord.service
 			_healthRecordServiceFacade = healthRecordServiceFacade;
 		}
 
+		/**
+		 * Saves all changes to all documents in the specified record to the server.
+		 *
+		 * @param record The record to save
+		 */
+		public function saveAllChanges(record:Record):void
+		{
+			saveChanges(record, record.completeDocumentsById.values());
+		}
+
+		/**
+		 * Saves changes to all specified documents (documents which must be part of the specified record) to the server.
+		 *
+		 * @param record The record which the specified documents belong to
+		 * @param documents The documents to save
+		 */
 		public function saveChanges(record:Record, documents:ArrayCollection):void
 		{
 			for each (var document:IDocument in documents)
@@ -52,11 +71,6 @@ package collaboRhythm.core.model.healthRecord.service
 			}
 
 			_logger.info("Save changes initiated. Pending documents (create, remove): " + pendingCreateDocuments.size() + ", " + pendingRemoveDocuments.size());
-		}
-
-		public function saveAllChanges(record:Record):void
-		{
-			saveChanges(record, record.completeDocumentsById.values());
 		}
 
 		private function getDocumentXml(document:IDocument):String

@@ -5,8 +5,19 @@ package collaboRhythm.shared.model
 
 	public interface IRecordStorageService
 	{
-		function saveChanges(record:Record, documents:ArrayCollection):void;
-
+		/**
+		 * Saves all changes to all documents in the specified record to the server.
+		 *
+		 * @param record The record to save
+		 */
 		function saveAllChanges(record:Record):void;
+
+		/**
+		 * Saves changes to all specified documents (documents which must be part of the specified record) to the server.
+		 *
+		 * @param record The record which the specified documents belong to
+		 * @param documents The documents to save
+		 */
+		function saveChanges(record:Record, documents:ArrayCollection):void;
 	}
 }

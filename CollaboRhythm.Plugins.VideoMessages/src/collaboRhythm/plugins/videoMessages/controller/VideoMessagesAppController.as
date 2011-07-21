@@ -26,6 +26,8 @@ package collaboRhythm.plugins.videoMessages.controller
 	import collaboRhythm.shared.model.healthRecord.document.VideoMessage;
 	import collaboRhythm.shared.model.healthRecord.document.VideoMessagesModel;
 
+	import mx.collections.ArrayCollection;
+
 	import mx.core.UIComponent;
 
 	public class VideoMessagesAppController extends WorkstationAppControllerBase
@@ -140,8 +142,8 @@ package collaboRhythm.plugins.videoMessages.controller
 
 		public function deleteVideoMessage(videoMessage:VideoMessage):void
 		{
-			activeRecordAccount.primaryRecord.deleteDocument(videoMessage, DocumentBase.ACTION_VOID, "deleted by user");
-			// TODO: save changes
+			videoMessagesModel.removeDocumentFromRecord(videoMessage, DocumentBase.ACTION_VOID, "deleted by user");
+			videoMessagesModel.saveChanges(new ArrayCollection(new Array(videoMessage)));
 		}
 
 		protected override function removeUserData():void

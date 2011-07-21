@@ -1,8 +1,6 @@
 package collaboRhythm.shared.model.healthRecord
 {
 
-	import collaboRhythm.shared.model.healthRecord.document.*;
-
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 
 	public interface IRecord

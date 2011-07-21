@@ -40,7 +40,6 @@ package collaboRhythm.shared.model
 	import j2as3.collection.HashMap;
 
 	import mx.collections.ArrayCollection;
-
 	import mx.utils.UIDUtil;
 
 	[Bindable]
@@ -399,18 +398,24 @@ package collaboRhythm.shared.model
 			documentCollection.addDocument(document);
 
 			if (saveImmediately)
+			{
+				if (!storageService)
+					throw new Error("The storageService must be provided to connect the record to a storage service before addDocument with saveImmediately can be used.");
+
 				storageService.saveChanges(this, new ArrayCollection(new Array(document)));
+			}
 		}
 
-		public function deleteDocument(document:IDocument, deleteAction:String=DocumentBase.ACTION_DELETE, reason:String=null, recursive:Boolean=false):int
+		public function removeDocument(document:IDocument, removeAction:String = DocumentBase.ACTION_DELETE,
+									   reason:String = null, recursive:Boolean = false):int
 		{
 			if (recursive)
-				return deleteDocumentAndDescendants(document, deleteAction, reason);
+				return removeDocumentAndDescendants(document, removeAction, reason);
 			else
-				return deleteOneDocument(document, deleteAction, reason);
+				return removeOneDocument(document, removeAction, reason);
 		}
 
-		private function deleteOneDocument(document:IDocument, deleteAction:String, reason:String):int
+		private function removeOneDocument(document:IDocument, removeAction:String, reason:String):int
 		{
 			if (document.meta.type == null)
 				throw new Error("The type of the document must be set when it is created. A document cannot be deleted if no type is specified.");
@@ -442,12 +447,19 @@ package collaboRhythm.shared.model
 				completeDocumentsById.remove(document.meta.id);
 			}
 
-			document.pendingAction = deleteAction;
 			document.pendingActionReason = reason;
-			return 1;
+			if (document.pendingAction != removeAction)
+			{
+				document.pendingAction = removeAction;
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
 		}
 
-		private function deleteDocumentAndDescendants(document:IDocument, deleteAction:String, reason:String):int
+		private function removeDocumentAndDescendants(document:IDocument, removeAction:String, reason:String):int
 		{
 			var deletedCount:int = 0;
 			var documents:Vector.<IDocument> = new <IDocument>[document];
@@ -460,7 +472,7 @@ package collaboRhythm.shared.model
 						documents.push(relationship.relatesTo);
 				}
 
-				deletedCount += deleteOneDocument(currentDocument, deleteAction, reason);
+				deletedCount += removeOneDocument(currentDocument, removeAction, reason);
 			}
 			while (documents.length > 0);
 
@@ -474,7 +486,18 @@ package collaboRhythm.shared.model
 
 		public function saveAllChanges():void
 		{
+			if (!storageService)
+				throw new Error("The storageService must be provided to connect the record to a storage service before saveAllChanges can be used.");
+
 			storageService.saveAllChanges(this);
+		}
+
+		public function saveChanges(documents:ArrayCollection):void
+		{
+			if (!storageService)
+				throw new Error("The storageService must be provided to connect the record to a storage service before saveChanges can be used.");
+
+			storageService.saveChanges(this, documents);
 		}
 
 		public function get storageService():IRecordStorageService
