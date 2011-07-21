@@ -29,7 +29,7 @@
 		import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
 		import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 		import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
-		import collaboRhythm.shared.model.ScheduleItemOccurrence;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 		import mx.binding.utils.BindingUtils;
 
