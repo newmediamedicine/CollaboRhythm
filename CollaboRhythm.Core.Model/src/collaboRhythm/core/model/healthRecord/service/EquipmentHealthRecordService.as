@@ -21,6 +21,7 @@ package collaboRhythm.core.model.healthRecord.service
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.healthRecord.*;
 	import collaboRhythm.shared.model.healthRecord.document.Equipment;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 
 	public class EquipmentHealthRecordService extends DocumentStorageSingleReportServiceBase
 	{
@@ -40,7 +41,7 @@ package collaboRhythm.core.model.healthRecord.service
 		override protected function unmarshallSpecialRelationships(reportXml:XML, document:IDocument):void
 		{
 			var equipment:Equipment = document as Equipment;
-			for each (var scheduleItemXml:XML in reportXml..relatesTo.relation.(@type == "http://indivo.org/vocab/documentrels#scheduleItem").relatedDocument)
+			for each (var scheduleItemXml:XML in reportXml..relatesTo.relation.(@type == ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM).relatedDocument)
 			{
 				equipment.scheduleItems[scheduleItemXml.@id] = null;
 			}

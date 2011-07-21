@@ -1,8 +1,6 @@
 package collaboRhythm.shared.model.healthRecord
 {
 
-	import collaboRhythm.shared.model.healthRecord.DocumentBase;
-
 	import mx.collections.ArrayCollection;
 
 	/**
@@ -44,7 +42,19 @@ package collaboRhythm.shared.model.healthRecord
 		 * Saves changes to all specified documents (documents which must be part of this record) to the server.
 		 *
 		 * @param documents The documents to save
+		 * @param relationships The relationships to save
 		 */
-		function saveChanges(documents:ArrayCollection):void;
+		function saveChanges(documents:ArrayCollection, relationships:ArrayCollection = null):void;
+
+		/**
+		 * Adds a new relationship from the specified fromDocument to the specified toDocument.
+		 * The relationship will NOT be persisted to the server
+		 * until saveChanges is called (a "save immediately" feature, like with addDocument has not been implemented yet).
+		 * @param relationshipType The type of relationship to add
+		 * @param fromDocument The document that the relationship should be from
+		 * @param toDocument The document that the relationship should be to
+		 * @returns The new relationship
+		 */
+		function addNewRelationship(relationshipType:String, fromDocument:DocumentBase, toDocument:DocumentBase):Relationship;
 	}
 }

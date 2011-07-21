@@ -73,12 +73,13 @@ package collaboRhythm.shared.model.healthRecord
 										   healthRecordServiceRequestDetails);
 		}
 
-        public function relateDocuments(record:Record, documentId:String, otherDocumentId:String, relType:String):void
+        public function relateDocuments(record:Record, relationship:Relationship):void
         {
             var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(RELATE_DOCUMENTS,
                                                                                                                             null,
                                                                                                                             record);
-            _pha.documents_X_rels_X_XPUT(null, null, null, record.id, documentId, relType, otherDocumentId,
+			healthRecordServiceRequestDetails.customData = relationship;
+            _pha.documents_X_rels_X_XPUT(null, null, null, record.id, relationship.relatesFrom.meta.id, relationship.shortType, relationship.relatesTo.meta.id,
                                          _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret,
                                          healthRecordServiceRequestDetails);
         }

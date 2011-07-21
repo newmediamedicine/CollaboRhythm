@@ -34,6 +34,7 @@ package collaboRhythm.shared.model.healthRecord.document
 
         public function MedicationAdministration()
         {
+			meta.type = DOCUMENT_TYPE;
         }
 
         public function init(name:CodedValue, reportedBy:String, dateReported:Date, dateAdministered:Date = null, amountAministered:ValueAndUnit = null, amountRemaining:ValueAndUnit = null):void

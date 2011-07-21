@@ -24,6 +24,7 @@ package collaboRhythm.plugins.schedule.model
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
@@ -189,8 +190,22 @@ package collaboRhythm.plugins.schedule.model
 		public function createAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence,
 											adherenceItem:AdherenceItem):void
 		{
+			var documents:ArrayCollection = new ArrayCollection();
+			var relationships:ArrayCollection = new ArrayCollection();
+
 			scheduleItemOccurrence.adherenceItem = adherenceItem;
-//			_record.addDocument(scheduleItemOccurrence.adherenceItem, DocumentBase.ACTION_CREATE);
+			documents.addItem(scheduleItemOccurrence.adherenceItem);
+			scheduleItemOccurrence.adherenceItem.pendingAction = DocumentBase.ACTION_CREATE;
+			_record.addDocument(scheduleItemOccurrence.adherenceItem);
+			relationships.addItem(_record.addNewRelationship(ScheduleItemBase.RELATION_TYPE_ADHERENCE_ITEM, scheduleItemOccurrence.scheduleItem, adherenceItem));
+			if (adherenceItem.adherenceResult)
+			{
+				documents.addItem(adherenceItem.adherenceResult);
+				adherenceItem.adherenceResult.pendingAction = DocumentBase.ACTION_CREATE;
+				_record.addDocument(adherenceItem.adherenceResult);
+				relationships.addItem(_record.addNewRelationship(AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT, adherenceItem, adherenceItem.adherenceResult));
+			}
+			_record.saveChanges(documents, relationships);
 		}
 
 		public function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void

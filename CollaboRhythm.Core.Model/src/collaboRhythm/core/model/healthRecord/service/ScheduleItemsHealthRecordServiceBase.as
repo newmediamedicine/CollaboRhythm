@@ -31,7 +31,7 @@ package collaboRhythm.core.model.healthRecord.service
 		{
 			var scheduleItem:ScheduleItemBase = document as ScheduleItemBase;
 
-			for each (var adherenceItemXml:XML in reportXml..relatesTo.relation.(@type == "http://indivo.org/vocab/documentrels#adherenceItem").relatedDocument)
+			for each (var adherenceItemXml:XML in reportXml..relatesTo.relation.(@type == ScheduleItemBase.RELATION_TYPE_ADHERENCE_ITEM).relatedDocument)
 			{
 				scheduleItem.adherenceItems[adherenceItemXml.@id] = null;
 			}

@@ -24,6 +24,7 @@ package collaboRhythm.shared.model.healthRecord.document
 	public class AdherenceItem extends DocumentBase
 	{
 		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#AdherenceItem";
+		public static const RELATION_TYPE_ADHERENCE_RESULT:String = "http://indivo.org/vocab/documentrels#adherenceresult";
 		private var _name:CodedValue;
 		private var _reportedBy:String;
 		private var _dateReported:Date;
@@ -31,13 +32,14 @@ package collaboRhythm.shared.model.healthRecord.document
 		private var _adherence:Boolean;
 		private var _nonadherenceReason:String;
 		private var _adherenceResultId:String;
-		private var _adherenceResult:Object;
+		private var _adherenceResult:DocumentBase;
 
 		public function AdherenceItem()
 		{
+			meta.type = DOCUMENT_TYPE;
 		}
 
-		public function init(name:CodedValue, reportedBy:String, dateReported:Date, recurrenceIndex:int,  adherence:Boolean, nonadherenceReason:String = null, adherenceResult:Object = null):void
+		public function init(name:CodedValue, reportedBy:String, dateReported:Date, recurrenceIndex:int,  adherence:Boolean, nonadherenceReason:String = null, adherenceResult:DocumentBase = null):void
 		{
 			_name = name;
 			_reportedBy = reportedBy;
@@ -93,12 +95,12 @@ package collaboRhythm.shared.model.healthRecord.document
             _adherenceResultId = value;
         }
 
-        public function get adherenceResult():Object
+        public function get adherenceResult():DocumentBase
         {
             return _adherenceResult;
         }
 
-        public function set adherenceResult(value:Object):void
+        public function set adherenceResult(value:DocumentBase):void
         {
             _adherenceResult = value;
         }
