@@ -85,15 +85,7 @@
 
 		private function pickImage():void
 		{
-			//TODO: Once medication fills are working, use the ndc
-			if (_medicationScheduleItem.name.value == "617320")
-			{
-				medicationImage.source = encodeURI(MedicationFillsModel.MEDICATION_API_URL_BASE + "000779-front.png");
-			}
-			else if (_medicationScheduleItem.name.value == "310798")
-			{
-				medicationImage.source = encodeURI(MedicationFillsModel.MEDICATION_API_URL_BASE + "006033856-front.png");
-			}
+			medicationImage.source = MedicationFillsModel.MEDICATION_API_URL_BASE + _medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc.text + "-front.png";
 		}
 
 		private function adherenceButtonClickHandler(event:MouseEvent):void

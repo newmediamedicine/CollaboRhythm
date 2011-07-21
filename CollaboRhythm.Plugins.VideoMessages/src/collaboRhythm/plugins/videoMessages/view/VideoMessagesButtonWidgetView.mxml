@@ -43,5 +43,5 @@
 			_videoMessagesAppController.dispatchShowFullView();
 		}
 		]]></fx:Script>
-	<s:Button id="showFullViewButton" icon="{videos}" width="100" height="100" click="showFullViewButton_clickHandler()" skinClass="collaboRhythm.shared.view.IconButtonSkin" styleName="videoCount"/>
+	<s:Button id="showFullViewButton" icon="{videos}" label="0" width="100" height="100" click="showFullViewButton_clickHandler()" skinClass="collaboRhythm.shared.view.IconButtonSkin" styleName="videoCount"/>
 </s:Group>
