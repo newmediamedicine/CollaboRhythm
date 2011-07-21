@@ -42,6 +42,8 @@
 		import mx.logging.ILogger;
 		import mx.logging.Log;
 
+		import spark.events.IndexChangeEvent;
+
 		private var _videoMessagesAppController:VideoMessagesAppController;
 		[Bindable]
 		private var _videoMessagesModel:VideoMessagesModel;
@@ -51,7 +53,6 @@
 		private var _netStream:NetStream;
 		private var _isCreationComplete:Boolean;
 		private var _logger:ILogger;
-		private const _videoMessagesCollection:ArrayCollection = new ArrayCollection();
 
 		public function init(videoMessagesAppController:VideoMessagesAppController,
 							 videoMessagesModel:VideoMessagesModel,
@@ -135,19 +136,13 @@
 			var netStreamLocation:String = _accountId + "/" + fileNumber;
 			if (videoDisplay.netStream)
 			{
-				videoDisplay.play(netStreamLocation);
+				videoDisplay.play(netStreamLocation, 0);
 			}
 		}
 
 		private function deleteVideoMessageHandler(event:VideoMessageItemRendererEvent):void
 		{
 			_videoMessagesAppController.deleteVideoMessage(event.videoMessage);
-		}
-
-		private function netStreamStatusHandler(event:NetStatusEvent):void
-		{
-			_logger.info(event.info.code);
-			_videoMessagesCollection.addItem(event.info.code);
 		}
 		]]>
     </fx:Script>

@@ -52,7 +52,7 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			if (isReportingCompleted)
 			{
-				dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, null, null, "HypertensionEducation"));
+				dispatchEvent(new AppEvent(AppEvent.HIDE_FULL_VIEW));
 			}
 		}
 

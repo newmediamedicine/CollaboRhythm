@@ -18,11 +18,13 @@ package collaboRhythm.plugins.schedule.model
 {
 
 	import collaboRhythm.plugins.schedule.shared.model.*;
+	import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
+	import collaboRhythm.shared.model.healthRecord.Relationship;
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
-	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
-	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
@@ -42,6 +44,7 @@ package collaboRhythm.plugins.schedule.model
 	public class ScheduleModel extends EventDispatcher
 	{
 		private var _record:Record;
+		private var _accountId:String;
 		private var _viewFactory:IScheduleViewFactory;
 		private var _isInitialized:Boolean = false;
 		private var _scheduleGroupsHashMap:HashMap = new HashMap();
@@ -57,8 +60,10 @@ package collaboRhythm.plugins.schedule.model
 
 		private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>();
 
-		public function ScheduleModel(componentContainer:IComponentContainer, record:Record)
+
+		public function ScheduleModel(componentContainer:IComponentContainer, record:Record, accountId:String)
 		{
+			_accountId = accountId;
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 
 			_record = record;
@@ -185,6 +190,12 @@ package collaboRhythm.plugins.schedule.model
 											adherenceItem:AdherenceItem):void
 		{
 			scheduleItemOccurrence.adherenceItem = adherenceItem;
+			_record.addDocument(scheduleItemOccurrence.adherenceItem, DocumentBase.ACTION_CREATE);
+		}
+
+		public function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void
+		{
+			_record.deleteDocument(scheduleItemOccurrence.adherenceItem, DocumentBase.ACTION_VOID, "adherence report changed by user");
 		}
 
 		public function get scheduleGroupsHashMap():HashMap
@@ -201,7 +212,7 @@ package collaboRhythm.plugins.schedule.model
 		{
 			if (!_scheduleReportingModel)
 			{
-				_scheduleReportingModel = new ScheduleReportingModel(this);
+				_scheduleReportingModel = new ScheduleReportingModel(this, _accountId);
 			}
 			return _scheduleReportingModel;
 		}
@@ -225,5 +236,6 @@ package collaboRhythm.plugins.schedule.model
 				changeWatcher.unwatch();
 			}
 		}
+
 	}
 }

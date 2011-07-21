@@ -36,6 +36,8 @@
 		import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 		import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
 		import collaboRhythm.plugins.schedule.shared.view.ScheduleTimelineViewEvent;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 		import mx.binding.utils.BindingUtils;
 		import mx.binding.utils.ChangeWatcher;
@@ -287,6 +289,26 @@
 
 			_initializedChangeWatcher.unwatch();
 		}
+
+		private function updateScheduleItems():void
+		{
+			for each (var scheduleGroup:ScheduleGroup in _scheduleModel.scheduleGroupsCollection)
+			{
+				if (scheduleGroup.changed)
+				{
+					for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleGroup.scheduleItemsOccurrencesCollection)
+					{
+						var scheduleItem:ScheduleItemBase = scheduleItemOccurrence.scheduleItem;
+						scheduleItem.rescheduleItem(scheduleGroup.dateStart, scheduleGroup.dateEnd);
+					}
+				}
+			}
+		}
+
+		private function saveButton_clickHandler():void
+		{
+			updateScheduleItems();
+		}
 		]]>
 	</fx:Script>
 	<s:Rect width="100%" height="100%">
@@ -298,4 +320,5 @@
 	<s:Group id="scheduleGroupSpotlightViewsContainer" width="100%" height="100%"/>
 	<s:Group id="scheduleGroupsContainer" width="100%" top="0" bottom="{TIMELINE_VIEW_HEIGHT}"
 			 resize="resizeHandler(event)"/>
+	<s:Button width="200" height="100" label="Save Changes" click="saveButton_clickHandler()"/>
 </s:Group>

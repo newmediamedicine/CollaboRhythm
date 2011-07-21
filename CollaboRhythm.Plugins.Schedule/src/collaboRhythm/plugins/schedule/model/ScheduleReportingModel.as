@@ -20,9 +20,10 @@ package collaboRhythm.plugins.schedule.model
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 	import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -35,15 +36,17 @@ package collaboRhythm.plugins.schedule.model
 	public class ScheduleReportingModel implements IScheduleReportingModel
 	{
 		private var _scheduleModel:ScheduleModel;
+		private var _accountId:String;
 		private var _viewStack:ArrayCollection = new ArrayCollection();
 		private var _isReportingCompleted:Boolean = false;
 		private var _currentScheduleGroup:ScheduleGroup;
 		private var _pendingAdherenceItem:PendingAdherenceItem;
 		private var _currentDateSource:ICurrentDateSource;
 
-		public function ScheduleReportingModel(scheduleModel:ScheduleModel)
+		public function ScheduleReportingModel(scheduleModel:ScheduleModel, accountId:String)
 		{
 			_scheduleModel = scheduleModel;
+			_accountId = accountId;
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
 
@@ -53,6 +56,12 @@ package collaboRhythm.plugins.schedule.model
 			viewStack.removeAll();
 			_scheduleModel.createAdherenceItem(scheduleItemOccurrence, adherenceItem);
 			isReportingCompletedCheck(scheduleGroup);
+		}
+
+		public function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void
+		{
+			_scheduleModel.voidAdherenceItem(scheduleItemOccurrence);
+			isReportingCompleted = false;
 		}
 
 		private function isReportingCompletedCheck(scheduleGroup:ScheduleGroup):void
@@ -93,8 +102,7 @@ package collaboRhythm.plugins.schedule.model
 					var adherenceItem:AdherenceItem = new AdherenceItem();
 					var nameCodedValue:CodedValue = new CodedValue();
 					nameCodedValue.text = name;
-					//TODO: add vital sign
-					adherenceItem.init(nameCodedValue, "rpoole@records.media.mit.edu", _currentDateSource.now(),
+					adherenceItem.init(nameCodedValue, _accountId, _currentDateSource.now(),
 									   closestScheduleItemOccurrence.recurrenceIndex, true);
 					pendingAdherenceItem = new PendingAdherenceItem(parentScheduleGroup, closestScheduleItemOccurrence,
 																	adherenceItem);
@@ -143,13 +151,6 @@ package collaboRhythm.plugins.schedule.model
 		public function showAdditionalInformationView(additionalInformationView:UIComponent):void
 		{
 			viewStack.addItem(additionalInformationView);
-		}
-
-		public function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void
-		{
-			//TODO: actually flag the adherence item to be void
-			scheduleItemOccurrence.adherenceItem = null;
-			isReportingCompleted = false;
 		}
 
 		public function get viewStack():ArrayCollection

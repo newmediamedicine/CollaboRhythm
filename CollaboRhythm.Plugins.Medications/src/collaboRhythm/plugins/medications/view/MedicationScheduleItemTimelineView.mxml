@@ -98,7 +98,7 @@
                         <s:SolidColor color="0xFFFFFF"/>
                     </s:fill>
                 </s:Rect>
-                <mx:Image id="medicationImage" left="5" right="5" top="5" bottom="5" smoothBitmapContent="true"/>
+                <s:Image id="medicationImage" left="5" right="5" top="5" bottom="5" smooth="true" skinClass="collaboRhythm.plugins.medications.view.MedicationImageSkin"/>
                 <!--<s:Ellipse width="22%" height="22%" right="4" top="4">-->
                     <!--<s:fill>-->
                         <!--<s:SolidColor color="{getMedicationColor(_medicationOrder.name.value)}"/>-->

@@ -141,7 +141,7 @@ package collaboRhythm.plugins.videoMessages.controller
 		public function deleteVideoMessage(videoMessage:VideoMessage):void
 		{
 			activeRecordAccount.primaryRecord.deleteDocument(videoMessage, DocumentBase.ACTION_VOID, "deleted by user");
-			// TODO: save changes
+			// TODO: change to ACTION_ARCHIVE and save changes
 		}
 
 		protected override function removeUserData():void

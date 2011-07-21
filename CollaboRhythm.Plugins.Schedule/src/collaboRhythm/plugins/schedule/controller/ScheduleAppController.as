@@ -184,7 +184,8 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			if (!_scheduleModel)
 			{
-				_scheduleModel = new ScheduleModel(_componentContainer, _activeRecordAccount.primaryRecord);
+				_scheduleModel = new ScheduleModel(_componentContainer, _activeRecordAccount.primaryRecord,
+												   _activeRecordAccount.accountId);
 				_scheduleModel.addEventListener(ScheduleModelEvent.INITIALIZED, scheduleModel_initializedHandler, false,
 												0, true);
 			}

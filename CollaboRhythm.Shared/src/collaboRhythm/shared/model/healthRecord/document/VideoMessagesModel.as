@@ -29,8 +29,8 @@ package collaboRhythm.shared.model.healthRecord.document
     {
         // TODO: Determine the best way to get a picture for a video message
         // There are flaws with using sharing relationships from the active account
-		// TODO: rename this to nextFileId or eliminate and use a UUID instead
-        private var _videoMessageCount:int = 0;
+		// TODO: potentially use a UUID instead
+        private var _nextFileId:int = 0;
 
         public function VideoMessagesModel()
         {
@@ -41,9 +41,9 @@ package collaboRhythm.shared.model.healthRecord.document
 		{
 			super.addDocument(document);
 			var videoMessage:VideoMessage = document as VideoMessage;
-			if (videoMessage.fileId > videoMessageCount)
+			if (videoMessage.fileId > nextFileId)
 			{
-				videoMessageCount = videoMessage.fileId;
+				nextFileId = videoMessage.fileId;
 			}
 		}
 
@@ -54,8 +54,8 @@ package collaboRhythm.shared.model.healthRecord.document
 		public function createVideoMessage(activeAccount:Account, currentDateSource:ICurrentDateSource):VideoMessage
         {
             var videoMessage:VideoMessage = new VideoMessage();
-            videoMessage.init((_videoMessageCount+1).toString(), "FlashMediaServer", "test", activeAccount, currentDateSource.now(), currentDateSource.now());
-            _videoMessageCount += 1;
+            videoMessage.init((_nextFileId+1).toString(), "FlashMediaServer", "test", activeAccount, currentDateSource.now(), currentDateSource.now());
+            _nextFileId += 1;
 			return videoMessage;
         }
 
@@ -64,14 +64,14 @@ package collaboRhythm.shared.model.healthRecord.document
             return documents;
         }
 
-        public function get videoMessageCount():int
+        public function get nextFileId():int
         {
-            return _videoMessageCount;
+            return _nextFileId;
         }
 
-        public function set videoMessageCount(value:int):void
+        public function set nextFileId(value:int):void
         {
-            _videoMessageCount = value;
+            _nextFileId = value;
         }
 	}
 }

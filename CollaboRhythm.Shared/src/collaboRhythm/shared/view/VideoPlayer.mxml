@@ -11,7 +11,13 @@
 			font-size: 24;
 		}
 
-		#bufferingLabel {
+		.bufferingLabel {
+			font-size: 30;
+			font-weight: bold;
+			color: #FFFFFF;
+		}
+
+		.errorLabel {
 			font-size: 30;
 			font-weight: bold;
 			color: #FFFFFF;
@@ -21,6 +27,8 @@
 		<s:State name="playing"/>
 		<s:State name="buffering"/>
 		<s:State name="complete"/>
+		<s:State name="streamNotFound"/>
+		<s:State name="failedToPlay"/>
 	</s:states>
 	<fx:Script><![CDATA[
 		import mx.logging.ILogger;
@@ -32,7 +40,7 @@
 		private const NETSTREAM_FAILED:String = "NetStream.Failed";
 		private const NETSTREAM_PLAY_FAILED:String = "NetStream.Play.Failed";
 		private const NETSTREAM_PLAY_INSUFFICIENTBW:String = "NetStream.Play.InsufficientBW";
-		private const NETSTREAM_PLAY_STREAMNOTFOUND:String = "NetStream.Play.StreamNotFound"
+		private const NETSTREAM_PLAY_STREAMNOTFOUND:String = "NetStream.Play.StreamNotFound";
 
 		private var _netStream:NetStream;
 		[Bindable]
@@ -65,18 +73,19 @@
 			_netStream.client.onMetaData = handleMetaData;
 			_netStream.client.onPlayStatus = handlePlayStatus;
 			_netStream.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
+			_netStream.addEventListener(ErrorEvent.ERROR, netStatusErrorHandler);
 			// TODO: Determine why attaching the net stream does not work unless a null camera is first attached
 			videoDisplay.attachCamera(null);
 			videoDisplay.mx_internal::videoPlayer.attachNetStream(_netStream);
 		}
 
-		public function play(netStreamLocation:String):void
+		public function play(netStreamLocation:String, type:int):void
 		{
 			if (!_playheadInterval)
 			{
 				_playheadInterval = setInterval(updatePlayhead, 100);
 			}
-			_netStream.play(netStreamLocation);
+			_netStream.play(netStreamLocation, type);
 			_netStreamLocation = netStreamLocation;
 			currentState = "buffering";
 		}
@@ -111,23 +120,30 @@
 				case NETSTREAM_BUFFER_FULL:
 					currentState = "playing";
 					break;
-
 				case NETSTREAM_BUFFER_FLUSH:
 					currentState = "playing";
 					break;
 				case NETSTREAM_FAILED:
 					_logger.warn("VideoPlayer status " + NETSTREAM_FAILED + " " + _netStreamLocation);
+					currentState = "failedToPlay";
 					break;
 				case NETSTREAM_PLAY_FAILED:
 					_logger.warn("VideoPlayer status " + NETSTREAM_PLAY_FAILED + " " + _netStreamLocation);
+					currentState = "failedToPlay";
 					break;
 				case NETSTREAM_PLAY_INSUFFICIENTBW:
 					_logger.info("VideoPlayer status " + NETSTREAM_PLAY_INSUFFICIENTBW + " " + _netStreamLocation);
 					break;
-				case "NetStream.Play.StreamNotFound":
+				case NETSTREAM_PLAY_STREAMNOTFOUND:
 					_logger.warn("VideoPlayer status " + NETSTREAM_PLAY_STREAMNOTFOUND + " " + _netStreamLocation);
+					currentState = "streamNotFound";
 					break;
 			}
+		}
+
+		private function netStatusErrorHandler(event:ErrorEvent):void
+		{
+			_logger.warn("VideoPlayer status ERROR " + _netStreamLocation);
 		}
 
 		private function updatePlayhead():void
@@ -138,6 +154,21 @@
 
 
 	<mx:VideoDisplay id="videoDisplay" width="100%" height="100%"/>
+	<s:Group width="100%" height="100%" includeIn="streamNotFound, failedToPlay">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0x000000"/>
+			</s:fill>
+		</s:Rect>
+		<s:Label text="The video could not be found." horizontalCenter="0" verticalCenter="0" includeIn="streamNotFound"
+				 styleName="errorLabel"/>
+		<s:Label text="The video could not be played." horizontalCenter="0" verticalCenter="0" includeIn="failedToPlay"
+				 styleName="errorLabel"/>
+	</s:Group>
+	<s:VGroup horizontalCenter="0" verticalCenter="0" horizontalAlign="center" includeIn="buffering">
+		<s:BusyIndicator width="100" height="100"/>
+		<s:Label styleName="bufferingLabel" text="buffering"/>
+	</s:VGroup>
 	<s:Group width="100%" height="10%" bottom="0">
 		<s:Rect width="100%" height="100%">
 			<s:fill>
@@ -181,8 +212,4 @@
 			<s:SolidColorStroke color="0xFFFFFF"/>
 		</s:stroke>
 	</s:Rect>
-	<s:VGroup horizontalCenter="0" verticalCenter="0"  horizontalAlign="center" includeIn="buffering">
-		<s:SWFLoader id="bufferingIndicatorView" source="{bufferingAnimation}" width="100" height="100"/>
-		<s:Label id="bufferingLabel" text="buffering"/>
-	</s:VGroup>
 </s:Group>

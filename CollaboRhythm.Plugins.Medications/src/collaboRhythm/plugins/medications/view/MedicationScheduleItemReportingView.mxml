@@ -26,21 +26,26 @@
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 
-		.labelText {
-			color: #000000;
-			font-size: 15;
-		}
-
-		#nameText {
+		#nameText
+		{
 			font-size: 20;
 			font-weight: bold;
 		}
 
-		#administration {
+		#indication
+		{
+			font-size: 20;
+		}
+
+		#administration
+		{
+			fontSize: 16;
 			font-style: italic;
 		}
 
-		#instructions {
+		#instructions
+		{
+			fontSize: 16;
 			font-style: italic;
 		}
 
@@ -186,7 +191,7 @@
 						<s:SolidColor color="0xFFFFFF"/>
 					</s:fill>
 				</s:Rect>
-				<mx:Image id="medicationImage" left="5" right="5" top="5" bottom="5" smoothBitmapContent="true"/>
+				<s:Image id="medicationImage" left="5" right="5" top="5" bottom="5" smooth="true" skinClass="collaboRhythm.plugins.medications.view.MedicationImageSkin"/>
 				<!--<s:Ellipse width="22%" height="22%" right="4" top="4">-->
 				<!--<s:fill>-->
 				<!--<s:SolidColor color="{getMedicationColor(_medicationOrder.name.value)}"/>-->
@@ -195,15 +200,15 @@
 			</s:Group>
 			<s:Group id="descriptionRegion" height="100%" left="{imageRegion.width}" right="{buttonRegion.width}">
 				<s:Group left="5" right="5" top="5" bottom="5">
-					<s:Label id="nameText" styleName="labelText" text="{_medicationOrder.name.text}"
+					<s:Label id="nameText" text="{_medicationOrder.name.text}"
 							 maxDisplayedLines="1" width="100%" top="0"/>
 					<!--TODO: derive the name of an account owner from the accountId-->
-					<s:Label id="indication" styleName="labelText" text="{_medicationOrder.indication}"
+					<s:Label id="indication" text="{_medicationOrder.indication}"
 							 maxDisplayedLines="1" width="100%" top="{descriptionRegion.height / 3.3}"/>
-					<s:Label id="administration" styleName="labelText"
-							 text="{_medicationScheduleItem.dose.value}{_medicationScheduleItem.dose.unit.text}, {_medicationScheduleItem.recurrenceRule.frequency.text}"
+					<s:Label id="administration"
+							 text="{_medicationScheduleItem.dose.value} {_medicationScheduleItem.dose.unit.text}"
 							 maxDisplayedLines="1" width="100%" bottom="{descriptionRegion.height / 6}"/>
-					<s:Label id="instructions" styleName="labelText" text="{_medicationOrder.instructions}"
+					<s:Label id="instructions" text="{_medicationOrder.instructions}"
 							 maxDisplayedLines="1" width="100%" bottom="0"/>
 				</s:Group>
 			</s:Group>

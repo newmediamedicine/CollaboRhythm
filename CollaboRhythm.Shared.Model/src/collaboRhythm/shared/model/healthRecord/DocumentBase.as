@@ -3,6 +3,7 @@ package collaboRhythm.shared.model.healthRecord
 
 	import mx.collections.ArrayCollection;
 
+	[Bindable]
 	public class DocumentBase implements IDocument
 	{
 		public static const ACTION_CREATE:String = "create";

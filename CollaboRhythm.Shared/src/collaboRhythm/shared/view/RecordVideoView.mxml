@@ -230,7 +230,7 @@
 				_netStream.attachCamera(_camera);
 				if (_microphone)
 					_netStream.attachAudio(_microphone);
-				var fileNumber:int = _collaborationModel.activeRecordAccount.primaryRecord.videoMessagesModel.videoMessageCount + 1;
+				var fileNumber:int = _collaborationModel.activeRecordAccount.primaryRecord.videoMessagesModel.nextFileId + 1;
 				_netStreamLocation = _collaborationModel.activeRecordAccount.accountId + "/" + fileNumber;
 				_netStream.publish(_netStreamLocation, "record");
 				currentState = "startingRecording";

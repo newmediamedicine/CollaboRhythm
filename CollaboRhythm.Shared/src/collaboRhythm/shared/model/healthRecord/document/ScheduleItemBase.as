@@ -123,14 +123,11 @@ package collaboRhythm.shared.model.healthRecord.document
             return scheduleItemXml;
         }
 
-        public function rescheduledItem(dateStart:Date, dateEnd:Date):XML
+        public function rescheduleItem(dateStart:Date, dateEnd:Date):void
         {
-            var scheduleItemXml:XML = convertToXML();
-            scheduleItemXml.dateStart = com.adobe.utils.DateUtil.toW3CDTF(dateStart);
-            scheduleItemXml.dateEnd = com.adobe.utils.DateUtil.toW3CDTF(dateEnd);
-            scheduleItemXml.recurrenceRule.count = updateCount(this.dateStart, dateStart);
-
-            return scheduleItemXml;
+			this.dateStart = dateStart;
+			this.dateEnd = dateEnd;
+			this.recurrenceRule.count = updateCount(this.dateStart, dateStart);
         }
 
         private function getFrequencyMilliseconds(frequency:String):int
