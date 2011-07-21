@@ -392,7 +392,7 @@ package collaboRhythm.core.controller
 
 		}
 
-		protected function set targetDate(value:Date):void
+		public function set targetDate(value:Date):void
 		{
 			_settings.targetDate = value;
 			var dateSource:DemoCurrentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as DemoCurrentDateSource;

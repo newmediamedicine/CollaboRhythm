@@ -24,10 +24,14 @@ package collaboRhythm.tablet.controller
 	import collaboRhythm.tablet.view.ConnectivityView;
 	import collaboRhythm.tablet.view.TabletApplicationView;
 
+	import flash.desktop.NativeApplication;
+	import flash.events.Event;
+
 	import mx.binding.utils.BindingUtils;
 	import mx.binding.utils.ChangeWatcher;
 
 	import mx.core.IVisualElementContainer;
+	import mx.core.UIComponent;
 
 	public class TabletApplicationController extends ApplicationControllerBase
 	{
@@ -91,5 +95,38 @@ package collaboRhythm.tablet.controller
 		{
 			return _applicationSettingsEmbeddedFile;
 		}
+
+		public override function get currentFullView():String
+        {
+            return _tabletAppControllersMediator.currentFullView;
+        }
+
+        // when a record is closed, all of the apps need to be closed and the documents cleared from the record
+        public override function closeRecordAccount(recordAccount:Account):void
+        {
+            _tabletAppControllersMediator.closeApps();
+			if (recordAccount)
+                recordAccount.primaryRecord.clearDocuments();
+            _activeRecordAccount = null;
+            _activeRecordView.visible = false;
+        }
+
+		public function useDemoPreset(demoPresetIndex:int):void
+		{
+			if (_settings.demoDatePresets && _settings.demoDatePresets.length > demoPresetIndex)
+				targetDate = _settings.demoDatePresets[demoPresetIndex];
+		}
+
+		protected override function changeDemoDate():void
+        {
+            if (_activeRecordAccount != null)
+			{
+				reloadDocuments(_activeRecordAccount);
+				_tabletAppControllersMediator.reloadUserData();
+			}
+
+			if (_activeRecordAccount && _activeRecordAccount.primaryRecord && _activeRecordAccount.primaryRecord.demographics)
+				_activeRecordAccount.primaryRecord.demographics.dispatchAgeChangeEvent();
+        }
 	}
 }

@@ -51,6 +51,7 @@
 			<xs:element type="xs:string" name="syslogServerIpAddress" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:string" name="rtmpBaseURI" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:string" name="indivoServerBaseURL" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="xs:boolean" name="debuggingToolsEnabled" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:string" name="oauthChromeConsumerKey" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:string" name="oauthChromeConsumerSecret" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:boolean" name="useSingleScreen" minOccurs="0" maxOccurs="1">

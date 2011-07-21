@@ -17,38 +17,23 @@
 package collaboRhythm.plugins.diary.model
 {
 
-	public class DiaryModel{
+	public class DiaryModel
+	{
 
-        public var _diaryEntries:Vector.<DiaryEntry> = new Vector.<DiaryEntry>;
-        public var _urineEntries:Vector.<UrineEntry> = new Vector.<UrineEntry>;
-        public var _painEntry:Vector.<PainEntry> = new Vector.<PainEntry>;
-        private var _otherEntry:Vector.<OtherEntry> = new Vector.<OtherEntry>;
-        private var _photoEntry:Vector.<PhotoEntry> = new Vector.<PhotoEntry>;
+		public var _diaryEntries:Vector.<DiaryEntry> = new Vector.<DiaryEntry>;
 
-        public function DiaryModel() {
-    }
+		public function DiaryModel()
+		{
+		}
 
-        public function addNewDiaryEntry(diaryEntry:DiaryEntry):void
-    {
-            _diaryEntries.push(diaryEntry);
-    }
+		public function addNewDiaryEntry(diaryEntry:DiaryEntry):void
+		{
+			_diaryEntries.push(diaryEntry);
+		}
 
-        public function addNewUrineEntry(urineEntry:UrineEntry):void{
-            _urineEntries.push(urineEntry);
-    }
-        public function addNewPainEntry(painEntry:PainEntry):void{
-            _painEntry.push(painEntry)
-        }
-        public function addNewOtherEntry(otherEntry:OtherEntry):void{
-            _otherEntry.push(otherEntry);
-        }
-        public function addNewPhotoEntry (photoEntry:PhotoEntry):void{
-            _photoEntry.push(photoEntry)
-        }
-
-
-        public function get diaryEntries():Vector.<DiaryEntry> {
-        return _diaryEntries;
-    }
-}
+		public function get diaryEntries():Vector.<DiaryEntry>
+		{
+			return _diaryEntries;
+		}
+	}
 }

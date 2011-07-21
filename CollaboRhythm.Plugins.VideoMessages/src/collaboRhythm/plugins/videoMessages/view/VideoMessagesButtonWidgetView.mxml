@@ -2,11 +2,26 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx">
+		<fx:Style>
+			@namespace s "library://ns.adobe.com/flex/spark";
+
+			.videoCount {
+				color: #000000;
+				font-size: 40;
+			}
+
+		</fx:Style>
 	<fx:Script><![CDATA[
+		import assets.images.videos;
+
 		import collaboRhythm.plugins.videoMessages.controller.VideoMessagesAppController;
 		import collaboRhythm.shared.model.healthRecord.document.VideoMessagesModel;
 
+		import mx.binding.utils.BindingUtils;
+		import mx.events.CollectionEvent;
+
 		private var _videoMessagesAppController:VideoMessagesAppController;
+		[Bindable]
 		private var _videoMessagesModel:VideoMessagesModel;
 
 		public function init(videoMessagesAppController:VideoMessagesAppController,
@@ -14,6 +29,13 @@
 		{
 			_videoMessagesAppController = videoMessagesAppController;
 			_videoMessagesModel = videoMessagesModel;
+
+			_videoMessagesModel.videoMessagesCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, videoMessagesCollection_changeHandler);
+		}
+
+		private function videoMessagesCollection_changeHandler(event:CollectionEvent):void
+		{
+			showFullViewButton.label = _videoMessagesModel.videoMessagesCollection.length.toString();
 		}
 
 		private function showFullViewButton_clickHandler():void
@@ -21,5 +43,5 @@
 			_videoMessagesAppController.dispatchShowFullView();
 		}
 		]]></fx:Script>
-	<s:Button id="showFullViewButton" label="Videos" width="100" height="100" click="showFullViewButton_clickHandler()"/>
+	<s:Button id="showFullViewButton" icon="{videos}" width="100" height="100" click="showFullViewButton_clickHandler()" skinClass="collaboRhythm.shared.view.IconButtonSkin" styleName="videoCount"/>
 </s:Group>

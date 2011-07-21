@@ -109,10 +109,7 @@ package collaboRhythm.core.pluginsManagement
 
 			for each (var file:File in files)
 			{
-				if (!file.isDirectory)
-				{
-					loadPlugin(file);
-				}
+				loadPlugin(file);
 			}
 		}
 		

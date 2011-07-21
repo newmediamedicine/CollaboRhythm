@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script>
+    <![CDATA[
+		import mx.managers.IFocusManagerComponent;
+
+		import spark.components.Button;
+		import spark.components.TextInput;
+
+		[Bindable]
+		public var inputControl:Object;
+
+		private const KEY_SIZE:int = 50;
+		private const GAP_SIZE:int = 6;
+
+		public function newFocus(textInput:TextInput):void
+		{
+			this.inputControl = textInput;
+		}
+
+		private function numberButton_clickHandler(event:Event):void
+		{
+			this.addToString(Button(event.target).label);
+			returnFocus();
+		}
+
+		private function addToString(text:String):void
+		{
+			this.inputControl.text += text;
+		}
+
+		private function deleteButton_clickHander():void
+		{
+			var value:String = this.inputControl.text;
+			this.inputControl.text = value.substr(0, value.length - 1);
+			returnFocus();
+		}
+
+		private function enterButton_clickHandler():void
+		{
+			this.visible = false;
+		}
+
+		private function returnFocus():void
+		{
+			focusManager.setFocus(inputControl as IFocusManagerComponent);
+		}
+		]]>
+    </fx:Script>
+
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="#000000"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke color="#FFFFFF"/>
+		</s:stroke>
+	</s:Rect>
+	<s:HGroup paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10">
+		<s:VGroup>
+			<s:HGroup>
+				<s:Button label="1" height="{KEY_SIZE}" width="{KEY_SIZE}" fontSize="20"
+						  click="numberButton_clickHandler(event)"/>
+				<s:Button label="2" height="{KEY_SIZE}" width="{KEY_SIZE}" fontSize="20"
+						  click="numberButton_clickHandler(event)"/>
+				<s:Button label="3" height="{KEY_SIZE}" width="{KEY_SIZE}" fontSize="20"
+						  click="numberButton_clickHandler(event)"/>
+			</s:HGroup>
+			<s:HGroup>
+				<s:Button label="4" height="{KEY_SIZE}" width="{KEY_SIZE}" fontSize="20"
+						  click="numberButton_clickHandler(event)"/>
+				<s:Button label="5" height="{KEY_SIZE}" width="{KEY_SIZE}" fontSize="20"
+						  click="numberButton_clickHandler(event)"/>
+				<s:Button label="6" height="{KEY_SIZE}" width="{KEY_SIZE}" fontSize="20"
+						  click="numberButton_clickHandler(event)"/>
+			</s:HGroup>
+			<s:HGroup>
+				<s:Button label="7" height="{KEY_SIZE}" width="{KEY_SIZE}" fontSize="20"
+						  click="numberButton_clickHandler(event)"/>
+				<s:Button label="8" height="{KEY_SIZE}" width="{KEY_SIZE}" fontSize="20"
+						  click="numberButton_clickHandler(event)"/>
+				<s:Button label="9" height="{KEY_SIZE}" width="{KEY_SIZE}" fontSize="20"
+						  click="numberButton_clickHandler(event)"/>
+			</s:HGroup>
+			<s:HGroup width="100%" height="25%" id="rowD">
+				<s:Button label="0" height="{KEY_SIZE}" width="{KEY_SIZE * 2 + GAP_SIZE}" fontSize="20"
+						  click="numberButton_clickHandler(event)"/>
+				<s:Button label="." height="{KEY_SIZE}" width="{KEY_SIZE}" fontSize="20"
+						  click="numberButton_clickHandler(event)"/>
+			</s:HGroup>
+		</s:VGroup>
+		<s:VGroup>
+			<s:Button label="delete" height="{KEY_SIZE * 2 + GAP_SIZE}" width="{KEY_SIZE}"
+					  click="deleteButton_clickHander()"/>
+			<s:Button label="enter" height="{KEY_SIZE * 2 + GAP_SIZE}" width="{KEY_SIZE}"
+					  click="enterButton_clickHandler()"/>
+		</s:VGroup>
+	</s:HGroup>
+	<s:filters>
+		<s:GlowFilter id="glowFilter"
+					  quality="3"
+					  alpha="0.2"
+					  color="0x000000"
+					  blurX="5"
+					  blurY="5"
+					  strength="5"/>
+	</s:filters>
+</s:Group>

@@ -112,24 +112,53 @@
 			_equipmentScheduleItem = value;
 		}
 
+
 		private function adherenceButtonClickHandler(event:MouseEvent):void
 		{
-			if (adherenceButton.selected)
+			if (_scheduleItemOccurrence.adherenceItem)
 			{
-				var adherenceItem:AdherenceItem = new AdherenceItem();
-				adherenceItem.init(_equipmentScheduleItem.name, _activeAccountId, _currentDateSource.now(),
-								   scheduleItemOccurrence.recurrenceIndex, true);
-				adherenceHandler(adherenceItem);
+				if (!_scheduleItemOccurrence.adherenceItem.adherence)
+				{
+					dispatchAdherenceItemVoidEvent();
+					createAdherenceItem();
+				}
+				else
+				{
+					dispatchAdherenceItemVoidEvent();
+				}
 			}
 			else
 			{
-				dispatchAdherenceItemVoidEvent();
+				createAdherenceItem();
 			}
+		}
 
-			if (nonadherenceButton.selected)
+		private function nonadherenceButtonClickHandler(event:MouseEvent):void
+		{
+			if (_scheduleItemOccurrence.adherenceItem)
 			{
-				nonadherenceButton.selected = false;
+				if (_scheduleItemOccurrence.adherenceItem.adherence)
+				{
+					dispatchAdherenceItemVoidEvent();
+					createNonadherenceItem();
+				}
+				else
+				{
+					dispatchAdherenceItemVoidEvent();
+				}
 			}
+			else
+			{
+				createNonadherenceItem();
+			}
+		}
+
+		private function createAdherenceItem():void
+		{
+			var adherenceItem:AdherenceItem = new AdherenceItem();
+			adherenceItem.init(_equipmentScheduleItem.name, _activeAccountId, _currentDateSource.now(),
+							   scheduleItemOccurrence.recurrenceIndex, true);
+			adherenceHandler(adherenceItem);
 		}
 
 		override public function adherenceHandler(adherenceItem:AdherenceItem):void
@@ -140,36 +169,24 @@
 			dispatchAdherenceItemIncompleteEvent(bloodPressureReportingView);
 		}
 
-		public function bloodPressureReportingResult(systolic:String, diastolic:String, heartRate:String):void
+//		public function bloodPressureReportingResult(systolic:String, diastolic:String, heartRate:String):void
+//		{
+//			var adherenceItem:AdherenceItem = new AdherenceItem();
+//			adherenceItem.init(_equipmentScheduleItem.name, _activeAccountId, _currentDateSource.now(),
+//							   scheduleItemOccurrence.recurrenceIndex, true);
+//
+//			dispatchAdherenceItemCompleteEvent(adherenceItem);
+//		}
+
+		private function createNonadherenceItem():void
 		{
 			var adherenceItem:AdherenceItem = new AdherenceItem();
 			adherenceItem.init(_equipmentScheduleItem.name, _activeAccountId, _currentDateSource.now(),
-							   scheduleItemOccurrence.recurrenceIndex, true);
+							   scheduleItemOccurrence.recurrenceIndex, false);
 
-			dispatchAdherenceItemCompleteEvent(adherenceItem);
-		}
-
-		private function nonadherenceButtonClickHandler(event:MouseEvent):void
-		{
-			if (nonadherenceButton.selected)
-			{
-				var adherenceItem:AdherenceItem = new AdherenceItem();
-				adherenceItem.init(_equipmentScheduleItem.name, _activeAccountId, _currentDateSource.now(),
-								   scheduleItemOccurrence.recurrenceIndex, false);
-
-				var nonadherenceReasonView:NonadherenceReasonView = new NonadherenceReasonView();
-				nonadherenceReasonView.init(_scheduleItemOccurrence, adherenceItem);
-				dispatchAdherenceItemIncompleteEvent(nonadherenceReasonView);
-			}
-			else
-			{
-				dispatchAdherenceItemVoidEvent();
-			}
-
-			if (adherenceButton.selected)
-			{
-				adherenceButton.selected = false;
-			}
+			var nonadherenceReasonView:NonadherenceReasonView = new NonadherenceReasonView();
+			nonadherenceReasonView.init(_scheduleItemOccurrence, adherenceItem);
+			dispatchAdherenceItemIncompleteEvent(nonadherenceReasonView);
 		}
 
 		override protected function pendingAdherenceItem_changeHandler(pendingAdherenceItem:PendingAdherenceItem):void
@@ -219,14 +236,18 @@
 			<s:Group id="buttonRegion" right="0" width="{this.height / 2 + 5}" height="100%">
 				<s:VGroup left="0" right="5" height="100%">
 					<s:Group width="100%" height="50%">
-						<s:ToggleButton id="adherenceButton"
-										skinClass="collaboRhythm.plugins.equipment.view.AdherenceButtonSkin"
-										click="adherenceButtonClickHandler(event)" width="100%" top="5" bottom="0"/>
+						<view:AdherenceToggleButton id="adherenceButton"
+													skinClass="collaboRhythm.plugins.schedule.shared.view.AdherenceButtonSkin"
+													click="adherenceButtonClickHandler(event)" width="100%" top="5"
+													bottom="0"
+													selected="{_scheduleItemOccurrence.adherenceItem &amp;&amp; _scheduleItemOccurrence.adherenceItem.adherence}"/>
 					</s:Group>
 					<s:Group width="100%" height="50%">
-						<s:ToggleButton id="nonadherenceButton"
-										skinClass="collaboRhythm.plugins.equipment.view.NonadherenceButtonSkin"
-										click="nonadherenceButtonClickHandler(event)" width="100%" top="0" bottom="5"/>
+						<view:AdherenceToggleButton id="nonadherenceButton"
+													skinClass="collaboRhythm.plugins.schedule.shared.view.NonadherenceButtonSkin"
+													click="nonadherenceButtonClickHandler(event)" width="100%" top="0"
+													bottom="5"
+													selected="{_scheduleItemOccurrence.adherenceItem &amp;&amp; !_scheduleItemOccurrence.adherenceItem.adherence}"/>
 					</s:Group>
 				</s:VGroup>
 			</s:Group>

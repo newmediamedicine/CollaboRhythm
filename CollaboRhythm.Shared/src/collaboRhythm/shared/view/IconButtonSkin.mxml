@@ -211,7 +211,7 @@
 		</s:stroke>
 	</s:Rect>
 	
-	<s:BitmapImage id="iconDisplay" left="10" top="10" right="10" bottom="10" smooth="true" />
+	<s:BitmapImage id="iconDisplay" left="10" top="10" right="10" bottom="10"/>
 	
 	<!-- layer 8: text -->
 	<!--- @copy spark.components.supportClasses.ButtonBase#labelDisplay -->

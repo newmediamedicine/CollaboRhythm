@@ -1,18 +1,8 @@
 <?xml version="1.0"?>
-<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
-               xmlns:s="library://ns.adobe.com/flex/spark"
-			   xmlns:views="collaboRhythm.tablet.view.*"
-               applicationComplete="main()">
+<s:ViewNavigatorApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
+							xmlns:s="library://ns.adobe.com/flex/spark"
+							xmlns:views="collaboRhythm.tablet.view.*"
+							firstView="collaboRhythm.tablet.view.TabletApplicationView"
+							skinClass="spark.skins.mobile.ViewNavigatorApplicationSkin">
 	<fx:Style source="defaults.css"/>
-    <fx:Script><![CDATA[
-        import collaboRhythm.tablet.controller.TabletApplicationController;
-
-        private function main(): void
-        {
-            var tabletApplicationController:TabletApplicationController = new TabletApplicationController(tabletApplicationView);
-            tabletApplicationController.main();
-        }
-
-        ]]></fx:Script>
-	<views:TabletApplicationView id="tabletApplicationView" width="100%" height="100%"/>
-</s:Application>
+</s:ViewNavigatorApplication>

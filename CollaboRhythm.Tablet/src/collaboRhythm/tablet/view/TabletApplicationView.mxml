@@ -1,9 +1,82 @@
 <?xml version="1.0"?>
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:views="collaboRhythm.tablet.view.*"
-		width="100%" height="100%">
+		actionBarVisible="false"
+		creationComplete="creationCompleteHandler()">
+	<s:states>
+		<s:State name="debuggingToolsEnabled"/>
+		<s:State name="debuggingToolsDisabled"/>
+	</s:states>
+	<fx:Script><![CDATA[
+		import collaboRhythm.shared.model.DateUtil;
+		import collaboRhythm.shared.model.services.ICurrentDateSource;
+		import collaboRhythm.shared.model.services.WorkstationKernel;
+		import collaboRhythm.shared.model.settings.Settings;
+		import collaboRhythm.tablet.controller.TabletApplicationController;
+
+		import mx.events.FlexEvent;
+
+		private var _tabletApplicationController:TabletApplicationController;
+		[Bindable]
+		private var _settings:Settings;
+
+		private var _currentDateSource:ICurrentDateSource;
+
+		private function creationCompleteHandler():void
+		{
+			_tabletApplicationController = new TabletApplicationController(this);
+			_tabletApplicationController.main();
+
+			if (_tabletApplicationController.settings.debuggingToolsEnabled)
+			{
+				currentState = "debuggingToolsEnabled";
+			}
+			else
+			{
+				currentState = "debuggingToolsDisabled";
+			}
+
+			this.addEventListener(FlexEvent.MENU_KEY_PRESSED, menuKeyPressedHandler);
+
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+		}
+
+
+		private function menuKeyPressedHandler(event:FlexEvent):void
+		{
+			if (connectivityView.visible)
+			{
+				event.preventDefault();
+			}
+		}
+
+		private function reloadPluginsViewMenuItem_clickHandler():void
+		{
+			_tabletApplicationController.reloadPlugins();
+		}
+
+		private function demoDateMenuItem_clickHandler(index:int):void
+		{
+			_tabletApplicationController.useDemoPreset(index);
+		}
+
+		private function synchronizeMenuItem_clickHandler():void
+		{
+			_tabletApplicationController.targetDate = _currentDateSource.now();
+		}
+
+		]]></fx:Script>
 	<views:ActiveRecordView id="activeRecordView" width="100%" height="100%" visible="false"/>
 	<views:ConnectivityView id="connectivityView" width="100%" height="100%" visible="false"/>
-</s:Group>
+	<s:viewMenuItems>
+		<s:ViewMenuItem label="Demo Date 1" includeIn="debuggingToolsEnabled" click="demoDateMenuItem_clickHandler(0)"/>
+		<s:ViewMenuItem label="Demo Date 2" includeIn="debuggingToolsEnabled" click="demoDateMenuItem_clickHandler(1)"/>
+		<s:ViewMenuItem label="Demo Date 3" includeIn="debuggingToolsEnabled" click="demoDateMenuItem_clickHandler(2)"/>
+		<s:ViewMenuItem label="Demo Date 4" includeIn="debuggingToolsEnabled" click="demoDateMenuItem_clickHandler(3)"/>
+		<s:ViewMenuItem label="Synchronize" click="synchronizeMenuItem_clickHandler()"/>
+		<s:ViewMenuItem label="Reload Plugins" includeIn="debuggingToolsEnabled" click="reloadPluginsViewMenuItem_clickHandler()"/>
+		<s:ViewMenuItem label="Quit"/>
+	</s:viewMenuItems>
+</s:View>
