@@ -27,6 +27,7 @@ package collaboRhythm.workstation.controller
 	import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.VideoMessage;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.view.CollaborationView;
@@ -723,7 +724,7 @@ package collaboRhythm.workstation.controller
 				}
 				else if (event.keyCode == Keyboard.S)
 				{
-					_healthRecordServiceFacade.saveChanges(_activeAccount.primaryRecord);
+					_healthRecordServiceFacade.saveAllChanges(_activeAccount.primaryRecord);
 				}
 			}
 			else if (event.keyCode == Keyboard.F1)
@@ -763,6 +764,7 @@ package collaboRhythm.workstation.controller
 		protected function get documentTypesForTestRemoval():Vector.<String>
 		{
 			return new <String>[AdherenceItem.DOCUMENT_TYPE, MedicationOrder.DOCUMENT_TYPE, VitalSign.DOCUMENT_TYPE, MedicationScheduleItem.DOCUMENT_TYPE, MedicationAdministration.DOCUMENT_TYPE];
+			//return new <String>[VideoMessage.DOCUMENT_TYPE];
 		}
 
 		private function deleteAllDocumentsOfTypes(documentTypes:Vector.<String>, deleteAction:String, reason:String):void

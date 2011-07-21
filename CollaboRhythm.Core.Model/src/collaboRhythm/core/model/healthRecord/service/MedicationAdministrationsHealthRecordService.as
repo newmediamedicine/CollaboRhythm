@@ -17,6 +17,7 @@
 package collaboRhythm.core.model.healthRecord.service
 {
 
+	import collaboRhythm.core.model.healthRecord.Schemas;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.*;
@@ -35,7 +36,8 @@ package collaboRhythm.core.model.healthRecord.service
 	{
 		public function MedicationAdministrationsHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account)
 		{
-			super(consumerKey, consumerSecret, baseURL, account);
+			super(consumerKey, consumerSecret, baseURL, account,
+				MedicationAdministration.DOCUMENT_TYPE, MedicationAdministration, Schemas.MedicationAdministrationSchema);
 		}
 
         override public function loadDocuments(record:Record):void
@@ -89,7 +91,7 @@ package collaboRhythm.core.model.healthRecord.service
 
 			for each (medicationAdministration in data)
 			{
-				record.addDocument(medicationAdministration, true);
+				record.addDocument(medicationAdministration);
 			}
 		}
 

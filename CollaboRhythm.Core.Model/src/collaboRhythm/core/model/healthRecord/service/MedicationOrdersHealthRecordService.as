@@ -32,7 +32,6 @@ package collaboRhythm.core.model.healthRecord.service
 		{
 			super(consumerKey, consumerSecret, baseURL, account,
 				MedicationOrder.DOCUMENT_TYPE, MedicationOrder, Schemas.MedicationOrderSchema, "medicationorders");
-			initializeXmlMarshaller();
 		}
 		
 		override protected function documentShouldBeIncluded(document:IDocument, nowTime:Number):Boolean
@@ -41,7 +40,7 @@ package collaboRhythm.core.model.healthRecord.service
 			return medicationOrder.dateOrdered == null || medicationOrder.dateOrdered.valueOf() <= nowTime;
 		}
 
-		override protected function unmarshallXml(reportXml:XML):IDocument
+		override public function unmarshallXml(reportXml:XML):IDocument
 		{
 //			return super.unmarshallXml(reportXml);
 			var medicationOrder:MedicationOrder = new MedicationOrder();

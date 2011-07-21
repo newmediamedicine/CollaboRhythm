@@ -13,7 +13,6 @@ package collaboRhythm.core.model.healthRecord.service
 												   targetClass:Class, targetDocumentSchema:Class, indivoReportName:String)
 		{
 			super(consumerKey, consumerSecret, baseURL, account, targetDocumentType, targetClass, targetDocumentSchema, indivoReportName);
-			initializeXmlMarshaller();
 		}
 
 		override protected function initializeXmlMarshaller():void

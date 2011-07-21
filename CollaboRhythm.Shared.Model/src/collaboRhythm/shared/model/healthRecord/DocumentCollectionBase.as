@@ -14,6 +14,7 @@ package collaboRhythm.shared.model.healthRecord
 		private var _documentType:String;
 		private var _isStitched:Boolean;
 		private var _isInitialized:Boolean = false;
+		private var _recordProxy:IRecordProxy;
 
 		public function DocumentCollectionBase(documentType:String)
 		{
@@ -28,12 +29,26 @@ package collaboRhythm.shared.model.healthRecord
 		 * Subclasses should override this method if the document also needs to be tracked or stored in any additional
 		 * lists or maps that are part of the collection class.
 		 *
-		 * @param document The document to add
+		 * @param document The document to add. The document must have a type which matches documentType.
 		 */
 		public function addDocument(document:IDocument):void
 		{
 			validateDocumentType(document);
 			documents.addItem(document);
+		}
+
+		/**
+		 * Adds a document to the record. Generally used for creating a new document. Adding a document to the record
+		 * will cause the document to be persisted to the server immediately only if saveImmediately is true.
+		 *
+		 * @param document The document to add. The document must have a type which matches documentType.
+		 * @param saveImmediately If true, a request will be made to persist the document to the server immediately;
+		 * otherwise, the document will not be persisted until requested.
+		 */
+		public function addDocumentToRecord(document:IDocument, saveImmediately:Boolean=false):void
+		{
+			validateDocumentType(document);
+			recordProxy.addDocument(document, saveImmediately);
 		}
 
 		/**
@@ -90,6 +105,31 @@ package collaboRhythm.shared.model.healthRecord
 		public function set isStitched(value:Boolean):void
 		{
 			_isStitched = value;
+		}
+
+		public function set recordProxy(value:IRecordProxy):void
+		{
+			_recordProxy = value;
+		}
+
+		public function get recordProxy():IRecordProxy
+		{
+			return _recordProxy;
+		}
+
+		/**
+		 * Updates the collection when a document has been created/updated and persisted and the id has changed.
+		 * If the id does not affect this collection (id is not used as a key in a map) then this method does not need
+		 * to do anything. Default behavior is to remove and re-add the document to the collection.
+		 * Subclasses may override this method if special handling is required.
+		 *
+		 * @param oldId The id of the document before it was updated
+		 * @param document The document which was updated (with its new id set)
+		 */
+		public function handleUpdatedId(oldId:String, document:IDocument):void
+		{
+			removeDocument(document);
+			addDocument(document);
 		}
 	}
 }

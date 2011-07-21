@@ -36,6 +36,12 @@ package collaboRhythm.core.model.healthRecord
 		[Embed("/assets/healthRecord/schemas/MedicationOrder.xsd", mimeType="application/octet-stream")]
 		public static const MedicationOrderSchema:Class;
 
+		[Embed("/assets/healthRecord/schemas/MedicationAdministration.xsd", mimeType="application/octet-stream")]
+		public static const MedicationAdministrationSchema:Class;
+
+		[Embed("/assets/healthRecord/schemas/AdherenceItem.xsd", mimeType="application/octet-stream")]
+		public static const AdherenceItemSchema:Class;
+
 		public function Schemas()
 		{
 		}

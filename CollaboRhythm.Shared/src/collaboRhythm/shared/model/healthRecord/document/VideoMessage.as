@@ -44,6 +44,7 @@ package collaboRhythm.shared.model.healthRecord.document
 
         public function init(fileId:String, storageType:String, subject:String, from:Account, dateRecorded:Date, dateSent:Date):void
 		{
+			meta.type = DOCUMENT_TYPE;
 			_fileId = int(fileId);
             _storageType = storageType;
             _subject = subject;

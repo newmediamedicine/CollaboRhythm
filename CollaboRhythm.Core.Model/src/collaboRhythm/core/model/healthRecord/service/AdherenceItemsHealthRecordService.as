@@ -38,7 +38,8 @@ package collaboRhythm.core.model.healthRecord.service
 
 		public function AdherenceItemsHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account)
 		{
-			super(consumerKey, consumerSecret, baseURL, account, AdherenceItem.DOCUMENT_TYPE, AdherenceItem);
+			super(consumerKey, consumerSecret, baseURL, account,
+				  AdherenceItem.DOCUMENT_TYPE, AdherenceItem, Schemas.AdherenceItemSchema);
 		}
 
         override public function loadDocuments(record:Record):void
@@ -81,7 +82,7 @@ package collaboRhythm.core.model.healthRecord.service
 			
 			for each (adherenceItem in data)
 			{
-				record.addDocument(adherenceItem, true);
+				record.addDocument(adherenceItem);
 			}
 
             record.adherenceItemsModel.isInitialized = true;

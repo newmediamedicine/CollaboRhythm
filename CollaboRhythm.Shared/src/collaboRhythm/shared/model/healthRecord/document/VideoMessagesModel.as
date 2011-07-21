@@ -18,6 +18,7 @@ package collaboRhythm.shared.model.healthRecord.document
 {
 
 	import collaboRhythm.shared.model.*;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
@@ -55,6 +56,7 @@ package collaboRhythm.shared.model.healthRecord.document
         {
             var videoMessage:VideoMessage = new VideoMessage();
             videoMessage.init((_videoMessageCount+1).toString(), "FlashMediaServer", "test", activeAccount, currentDateSource.now(), currentDateSource.now());
+			videoMessage.pendingAction = DocumentBase.ACTION_CREATE;
             _videoMessageCount += 1;
 			return videoMessage;
         }

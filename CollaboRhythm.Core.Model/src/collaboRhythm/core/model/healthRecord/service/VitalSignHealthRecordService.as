@@ -30,8 +30,8 @@ package collaboRhythm.core.model.healthRecord.service
 		public function VitalSignHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String,
 													 account:Account)
 		{
-			super(consumerKey, consumerSecret, baseURL, account);
-			initializeXmlMarshaller();
+			super(consumerKey, consumerSecret, baseURL, account,
+				VitalSign.DOCUMENT_TYPE, VitalSign, Schemas.VitalSignSchema);
 		}
 
 		override public function loadDocuments(record:Record):void
@@ -75,7 +75,7 @@ package collaboRhythm.core.model.healthRecord.service
 			var vitalSignsCollection:ArrayCollection = parseReportsXml(responseXml);
 			for each (var vitalSign:VitalSign in vitalSignsCollection)
 			{
-				record.addDocument(vitalSign, true);
+				record.addDocument(vitalSign);
 			}
 			_logger.info("VitalSign " + requestDetails.category + " report loaded with " + vitalSignsCollection.length + " documents");
 
@@ -93,21 +93,6 @@ package collaboRhythm.core.model.healthRecord.service
 		{
 			var vitalSign:VitalSign = document as VitalSign;
 			return vitalSign.dateMeasuredStart.valueOf() <= nowTime;
-		}
-
-		override protected function get targetDocumentType():String
-		{
-			return VitalSign.DOCUMENT_TYPE;
-		}
-
-		override protected function get targetClass():Class
-		{
-			return VitalSign;
-		}
-
-		override protected function get targetDocumentSchema():Class
-		{
-			return Schemas.VitalSignSchema;
 		}
 	}
 }

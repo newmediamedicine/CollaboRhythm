@@ -44,13 +44,14 @@ package collaboRhythm.core.model.healthRecord.service
 		protected var _targetDocumentSchema:Class;
 
 		public function DocumentStorageServiceBase(consumerKey:String, consumerSecret:String, baseURL:String,
-												   account:Account, targetDocumentType:String=null, targetClass:Class=null,
-												   targetDocumentSchema:Class=null)
+												   account:Account, targetDocumentType:String, targetClass:Class,
+												   targetDocumentSchema:Class)
 		{
 			super(consumerKey, consumerSecret, baseURL, account);
 			_targetDocumentType = targetDocumentType;
 			_targetClass = targetClass;
 			_targetDocumentSchema = targetDocumentSchema;
+			initializeXmlMarshaller();
 		}
 
 		[Bindable(event="isLoadingChange")]
@@ -97,7 +98,7 @@ package collaboRhythm.core.model.healthRecord.service
 		/**
 		 * The document type that this service targets.
 		 */
-		protected function get targetDocumentType():String
+		public function get targetDocumentType():String
 		{
 			return _targetDocumentType;
 		}
@@ -172,7 +173,12 @@ package collaboRhythm.core.model.healthRecord.service
 			return collection;
 		}
 
-		protected function unmarshallXml(reportXml:XML):IDocument
+		public function marshallToXml(document:IDocument):String
+		{
+			return _xmlMarshaller.marshallToXml(targetDocumentQName, document);
+		}
+
+		public function unmarshallXml(reportXml:XML):IDocument
 		{
 			return _xmlMarshaller.unmarshallXml(reportXml.Item.elements(targetDocumentQName)[0],
 																  targetDocumentQName) as IDocument;

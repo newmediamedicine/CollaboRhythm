@@ -22,7 +22,7 @@ package collaboRhythm.core.model
 			schemaTypeRegistry = SchemaTypeRegistry.getInstance();
 		}
 
-		public function addSchema(embeddedSchemaFile:Class):void
+		public function addSchema(embeddedSchemaFile:Class, forceUnqualified:Boolean = true):void
 		{
 			var byteArray:ByteArray = new embeddedSchemaFile;
 			if (byteArray.length == 0)
@@ -40,6 +40,9 @@ package collaboRhythm.core.model
 //				var otherSchema:Schema = currentScope[currentScope.length - 1];
 //				schema.addInclude(otherSchema.xml.children());
 //			}
+
+			if (forceUnqualified)
+				schema.elementFormDefault = "unqualified";
 
 			schemaManager.addSchema(schema);
 		}
@@ -99,10 +102,10 @@ package collaboRhythm.core.model
 		 * @param targetObject The object to marshall.
 		 * @return The resulting XML as a String.
 		 */
-		public function marshallToXML(qName:QName, targetObject:Object=null):String
+		public function marshallToXml(qName:QName, targetObject:Object=null):String
 		{
 			if (traceXmlEncodeDecode)
-				trace("marshallToXML()");
+				trace("marshallToXml()");
 
 			var xmlEncoder:XMLEncoder;
 			var xmlList:XMLList;
@@ -110,9 +113,11 @@ package collaboRhythm.core.model
 			xmlEncoder = new XMLEncoder();
 			xmlEncoder.schemaManager = schemaManager;
 
-			xmlList = xmlEncoder.encode(targetObject, qName);
+			// to avoid a prefix on the root document element, only provide the local name, no namespace uri
+//			xmlList = xmlEncoder.encode(targetObject, qName);
+			xmlList = xmlEncoder.encode(targetObject, new QName("", qName.localName));
 
-			xmlEncoder.setAttribute(xmlList[0], "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+//			xmlEncoder.setAttribute(xmlList[0], "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			xmlEncoder.setAttribute(xmlList[0], "xmlns", qName.uri);
 
 			if (traceXmlEncodeDecode)

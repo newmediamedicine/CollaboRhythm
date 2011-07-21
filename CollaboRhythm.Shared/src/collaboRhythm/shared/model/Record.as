@@ -24,6 +24,7 @@ package collaboRhythm.shared.model
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
 	import collaboRhythm.shared.model.healthRecord.IRecord;
+	import collaboRhythm.shared.model.healthRecord.IRecordProxy;
 	import collaboRhythm.shared.model.healthRecord.Relationship;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItemsModel;
 	import collaboRhythm.shared.model.healthRecord.document.EquipmentModel;
@@ -35,14 +36,15 @@ package collaboRhythm.shared.model
 	import collaboRhythm.shared.model.healthRecord.document.ProblemsModel;
 	import collaboRhythm.shared.model.healthRecord.document.VideoMessagesModel;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
-	import collaboRhythm.shared.model.settings.Settings;
 
 	import j2as3.collection.HashMap;
+
+	import mx.collections.ArrayCollection;
 
 	import mx.utils.UIDUtil;
 
 	[Bindable]
-    public class Record implements IRecord
+    public class Record implements IRecord, IRecordProxy
     {
         private var _id:String;
         private var _label:String;
@@ -66,18 +68,15 @@ package collaboRhythm.shared.model
         private var _videoMessagesModel:VideoMessagesModel;
         private var _problemsModel:ProblemsModel;
         private var _appData:HashMap = new HashMap();
-        private var _settings:Settings;
-        private var _activeAccount:Account;
 		private var _vitalSignsModel:VitalSignsModel;
 
 		// TODO: move BloodPressureModel to blood pressure plugin; eliminate bloodPressureModel property and field; use appData instead
 		private var _bloodPressureModel:BloodPressureModel;
+		private var _storageService:IRecordStorageService;
 
-        public function Record(settings:Settings, activeAccount:Account, recordXml:XML)
+        public function Record(recordXml:XML)
         {
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
-            _settings = settings;
-            _activeAccount = activeAccount;
             _id = recordXml.@id;
             _label = recordXml.@label;
             if (recordXml.hasOwnProperty("@shared"))
@@ -115,6 +114,7 @@ package collaboRhythm.shared.model
 
 		protected function addDocumentCollection(documentCollection:IDocumentCollection):void
 		{
+			documentCollection.recordProxy = this;
 			documentCollections[documentCollection.documentType] = documentCollection;
 		}
 
@@ -323,16 +323,6 @@ package collaboRhythm.shared.model
 			_bloodPressureModel = value;
 		}
 
-		public function get settings():Settings
-		{
-			return _settings;
-		}
-
-		public function set settings(value:Settings):void
-		{
-			_settings = value;
-		}
-
 		/**
 		 * Map of document collections where the key is the document type (fully qualified, such as
 		 * "http://indivo.org/vocab/xml/documents#Problem") and the value is a corresponding instance of
@@ -365,17 +355,28 @@ package collaboRhythm.shared.model
 		/**
 		 * Adds the document to the record. The record will keep track of the document (indexed by id) and also add
 		 * the document to the appropriate document collection (model) class.
-		 *
-		 * @param document The document to add to the record
-		 * @param isLoading If true, the document will be considered a persisted part of the record (a subsequent
+		 * <p>
+		 * If document.pendingAction is null, the document will be considered a persisted part of the record (a subsequent
 		 * deletion/void/archive operation will remove the document from the "current" but not the "original" list of
-		 * documents, so that the operation can be persisted or reverted at a later time). If false, the document will
+		 * documents, so that the operation can be persisted or reverted at a later time).
+		 * If document.pendingAction is DocumentBase.ACTION_CREATE, the document will
 		 * be considered part of the "current" list of documents, but if subsequently deleted (before being persisted)
 		 * it will be completely gone.
+		 *
+		 * @param document The document to add to the record.
+		 * @param saveImmediately If true, a request will be made to persist the document to the server immediately;
+		 * otherwise, the document will not be persisted until requested.
 		 */
-		public function addDocument(document:IDocument, isLoading:Boolean=false):void
+		public function addDocument(document:IDocument, saveImmediately:Boolean=false):void
 		{
-			// TODO: perhaps we should rely on the document.pendingAction flag instead of isLoading
+			if (document.meta.type == null)
+				throw new Error("The type of the document must be set when it is created. A document cannot be deleted if no type is specified.");
+
+			var documentCollection:DocumentCollectionBase = documentCollections.getItem(document.meta.type);
+			if (!documentCollection)
+				throw new Error("Failed to get document collection for document type " + document.meta.type);
+
+			// we rely on the document.pendingAction flag to indicate if the document is being loaded from the server
 			if (document.pendingAction == null)
 			{
 				originalDocumentsById[document.meta.id] = document;
@@ -395,11 +396,10 @@ package collaboRhythm.shared.model
 			completeDocumentsById[document.meta.id] = document;
 			currentDocumentsById[document.meta.id] = document;
 
-			var documentCollection:DocumentCollectionBase = documentCollections.getItem(document.meta.type);
-			if (!documentCollection)
-				throw new Error("Failed to get document collection for document type " + document.meta.type);
-
 			documentCollection.addDocument(document);
+
+			if (saveImmediately)
+				storageService.saveChanges(this, new ArrayCollection(new Array(document)));
 		}
 
 		public function deleteDocument(document:IDocument, deleteAction:String=DocumentBase.ACTION_DELETE, reason:String=null, recursive:Boolean=false):int
@@ -412,14 +412,36 @@ package collaboRhythm.shared.model
 
 		private function deleteOneDocument(document:IDocument, deleteAction:String, reason:String):int
 		{
+			if (document.meta.type == null)
+				throw new Error("The type of the document must be set when it is created. A document cannot be deleted if no type is specified.");
+
+			var documentCollection:DocumentCollectionBase = documentCollections.getItem(document.meta.type);
+			if (!documentCollection)
+				throw new Error("Failed to get document collection for document type " + document.meta.type);
+
+			var expectDocumentInCollections:Boolean = true;
+
 			if (document.pendingAction == DocumentBase.ACTION_DELETE || document.pendingAction == DocumentBase.ACTION_ARCHIVE || document.pendingAction == DocumentBase.ACTION_VOID)
 			{
-				// do nothing
+				// no changes should be required to the collections, but check to be sure
+				expectDocumentInCollections = false;
 			}
-			else if (document.pendingAction == DocumentBase.ACTION_CREATE)
+
+			documentCollection.removeDocument(document);
+
+			if (currentDocumentsById.getItem(document.meta.id) != null)
 			{
+				// TODO: warn if document was found but should have already been removed from the record
+//				if (expectDocumentInCollections)
+//					_logger.warn("Document should have already been removed from the record (pendingAction = " + document.pendingAction + "), but was in currentDocumentsById");
 				currentDocumentsById.remove(document.meta.id);
 			}
+
+			if (document.pendingAction == DocumentBase.ACTION_CREATE)
+			{
+				completeDocumentsById.remove(document.meta.id);
+			}
+
 			document.pendingAction = deleteAction;
 			document.pendingActionReason = reason;
 			return 1;
@@ -448,6 +470,21 @@ package collaboRhythm.shared.model
 		public function get completeDocumentsById():HashMap
 		{
 			return _completeDocumentsById;
+		}
+
+		public function saveAllChanges():void
+		{
+			storageService.saveAllChanges(this);
+		}
+
+		public function get storageService():IRecordStorageService
+		{
+			return _storageService;
+		}
+
+		public function set storageService(value:IRecordStorageService):void
+		{
+			_storageService = value;
 		}
 	}
 }

@@ -23,5 +23,9 @@ package collaboRhythm.shared.model.healthRecord
 		function get isStitched():Boolean;
 
 		function set isStitched(value:Boolean):void;
+
+		function set recordProxy(value:IRecordProxy):void;
+		
+		function get recordProxy():IRecordProxy;
 	}
 }
