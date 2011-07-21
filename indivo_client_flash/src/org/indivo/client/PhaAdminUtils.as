@@ -199,7 +199,10 @@ public class PhaAdminUtils {
 		var oauthToken:OAuthToken;
 		if (accessToken != null && accessToken.length > 0)
 			oauthToken = new OAuthToken(accessToken, accessTokenSecret);
-			
+
+		if (requestUrl.substr(0, 5).toLowerCase() == "https")
+			requestUrl = requestUrl.replace(":443", "");
+
 		var oauthRequest:OAuthRequest = new OAuthRequest(urlRequest.method, requestUrl, requestParams, oauthConsumer, oauthToken);
 		var requestHeader:URLRequestHeader = oauthRequest.buildRequest(new OAuthSignatureMethod_HMAC_SHA1(), OAuthRequest.RESULT_TYPE_HEADER);
 		

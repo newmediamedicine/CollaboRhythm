@@ -190,12 +190,13 @@ package collaboRhythm.plugins.schedule.model
 											adherenceItem:AdherenceItem):void
 		{
 			scheduleItemOccurrence.adherenceItem = adherenceItem;
-			_record.addDocument(scheduleItemOccurrence.adherenceItem, DocumentBase.ACTION_CREATE);
+//			_record.addDocument(scheduleItemOccurrence.adherenceItem, DocumentBase.ACTION_CREATE);
 		}
 
 		public function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void
 		{
-			_record.deleteDocument(scheduleItemOccurrence.adherenceItem, DocumentBase.ACTION_VOID, "adherence report changed by user");
+			scheduleItemOccurrence.adherenceItem = null;
+			//_record.deleteDocument(scheduleItemOccurrence.adherenceItem, DocumentBase.ACTION_VOID, "adherence report changed by user");
 		}
 
 		public function get scheduleGroupsHashMap():HashMap

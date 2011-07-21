@@ -29,14 +29,14 @@ package collaboRhythm.shared.model.healthRecord
             _pha.addEventListener(IndivoClientEvent.ERROR, indivoClientEventHandler)
         }
 
-        public function createDocument(record:Record, document:IDocument, documentXml:XML):void
+        public function createDocument(record:Record, document:IDocument, documentXmlString:String):void
         {
             var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(CREATE_DOCUMENT,
                                                                                                                             null,
                                                                                                                             record);
 			healthRecordServiceRequestDetails.document = document;
             _pha.documents_POST(null, null, null, record.id, _activeAccount.oauthAccountToken,
-                                _activeAccount.oauthAccountTokenSecret, documentXml.toXMLString(), healthRecordServiceRequestDetails);
+                                _activeAccount.oauthAccountTokenSecret, documentXmlString, healthRecordServiceRequestDetails);
         }
 
         public function archiveDocument(record:Record, document:IDocument, reason:String):void
@@ -98,63 +98,66 @@ package collaboRhythm.shared.model.healthRecord
         {
             if (healthRecordServiceRequestDetails.indivoApiCall == CREATE_DOCUMENT)
             {
-                createDocumentCompleteHandler(responseXml, healthRecordServiceRequestDetails);
+                createDocumentCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
             }
             else if (healthRecordServiceRequestDetails.indivoApiCall == DELETE_DOCUMENT)
             {
-                deleteDocumentCompleteHandler(responseXml, healthRecordServiceRequestDetails);
+                deleteDocumentCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
             }
             else if (healthRecordServiceRequestDetails.indivoApiCall == ARCHIVE_DOCUMENT)
             {
-                archiveDocumentCompleteHandler(responseXml, healthRecordServiceRequestDetails);
+                archiveDocumentCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
             }
             else if (healthRecordServiceRequestDetails.indivoApiCall == VOID_DOCUMENT)
             {
-                voidDocumentCompleteHandler(responseXml, healthRecordServiceRequestDetails);
+                voidDocumentCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
             }
             else if (healthRecordServiceRequestDetails.indivoApiCall == RELATE_NEW_DOCUMENT)
             {
-                relateNewDocumentCompleteHandler(responseXml, healthRecordServiceRequestDetails);
+                relateNewDocumentCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
             }
             else if (healthRecordServiceRequestDetails.indivoApiCall == RELATE_DOCUMENTS)
             {
-                relateDocumentsCompleteHandler(responseXml, healthRecordServiceRequestDetails);
+                relateDocumentsCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
             }
         }
 
-		protected function deleteDocumentCompleteHandler(responseXml:XML,
-													   healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+		protected function deleteDocumentCompleteHandler(event:IndivoClientEvent, responseXml:XML,
+														 healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
 			trace("deleting document - SUCCEEDED");
 		}
 
-        protected function createDocumentCompleteHandler(responseXml:XML,
-                                                       healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+        protected function createDocumentCompleteHandler(event:IndivoClientEvent, responseXml:XML,
+														 healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
             trace("creating document - SUCCEEDED");
             dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE, null, null, null, responseXml));
         }
 
-        protected function archiveDocumentCompleteHandler(responseXml:XML,
-                                                        healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+        protected function archiveDocumentCompleteHandler(event:IndivoClientEvent,
+														  responseXml:XML,
+														  healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
             trace("archiving document - SUCCEEDED");
         }
 
-        protected function voidDocumentCompleteHandler(responseXml:XML,
-                                                        healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+        protected function voidDocumentCompleteHandler(event:IndivoClientEvent, responseXml:XML,
+													   healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
             trace("voiding document - SUCCEEDED");
         }
 
-        protected function relateNewDocumentCompleteHandler(responseXml:XML,
-                                                        healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+        protected function relateNewDocumentCompleteHandler(event:IndivoClientEvent,
+															responseXml:XML,
+															healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
             trace("relating new document - SUCCEEDED");
         }
 
-        protected function relateDocumentsCompleteHandler(responseXml:XML,
-                                                        healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+        protected function relateDocumentsCompleteHandler(event:IndivoClientEvent,
+														  responseXml:XML,
+														  healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
             trace("relating documents - SUCCEEDED");
         }

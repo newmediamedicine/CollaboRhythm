@@ -19,7 +19,6 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.derived.MedicationConcentrationSample;
-	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
@@ -28,23 +27,18 @@ package collaboRhythm.shared.apps.bloodPressure.model
 	import j2as3.collection.HashMap;
 
 	import mx.binding.utils.BindingUtils;
-
 	import mx.collections.ArrayCollection;
 
 	[Bindable]
 	public class BloodPressureModel
 	{
 		private var _record:Record;
-//		private var _rawData:XML;
-		private var _data:ArrayCollection;
 		private var _currentDateSource:ICurrentDateSource;
 		private var _adherenceDataCollection:ArrayCollection;
 		private var _showFps:Boolean;
 		private var _showAdherence:Boolean = true;
 		private var _showHeartRate:Boolean = false;
 		private var _simulation:SimulationModel = new SimulationModel();
-		private var _isSystolicReportLoaded:Boolean = false;
-		private var _isDiastolicReportLoaded:Boolean = false;
 		public static const RXNORM_HYDROCHLOROTHIAZIDE:String = "310798";
 		public static const RXNORM_ATENOLOL:String = "197381";
 		private var _isInitialized:Boolean;

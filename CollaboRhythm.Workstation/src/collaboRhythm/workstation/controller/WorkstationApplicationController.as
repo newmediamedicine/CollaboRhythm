@@ -27,6 +27,7 @@ package collaboRhythm.workstation.controller
 	import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.VideoMessage;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.view.CollaborationView;
@@ -48,6 +49,8 @@ package collaboRhythm.workstation.controller
 	import flash.events.KeyboardEvent;
 	import flash.geom.Rectangle;
 	import flash.ui.Keyboard;
+
+	import mx.collections.ArrayCollection;
 
 	import mx.containers.DividedBox;
 	import mx.core.IUIComponent;
@@ -723,7 +726,7 @@ package collaboRhythm.workstation.controller
 				}
 				else if (event.keyCode == Keyboard.S)
 				{
-					_healthRecordServiceFacade.saveChanges(_activeAccount.primaryRecord);
+					_healthRecordServiceFacade.saveAllChanges(_activeAccount.primaryRecord);
 				}
 			}
 			else if (event.keyCode == Keyboard.F1)
@@ -763,6 +766,7 @@ package collaboRhythm.workstation.controller
 		protected function get documentTypesForTestRemoval():Vector.<String>
 		{
 			return new <String>[AdherenceItem.DOCUMENT_TYPE, MedicationOrder.DOCUMENT_TYPE, VitalSign.DOCUMENT_TYPE, MedicationScheduleItem.DOCUMENT_TYPE, MedicationAdministration.DOCUMENT_TYPE];
+			//return new <String>[VideoMessage.DOCUMENT_TYPE];
 		}
 
 		private function deleteAllDocumentsOfTypes(documentTypes:Vector.<String>, deleteAction:String, reason:String):void
@@ -773,14 +777,18 @@ package collaboRhythm.workstation.controller
 			{
 				var deletedCountByType:int = 0;
 				var documentCollection:IDocumentCollection = _activeRecordAccount.primaryRecord.documentCollections[documentType];
-				for each (var document:IDocument in documentCollection.documents)
+
+				// make a copy of the collection because we are about to iterate through it and (indirectly) remove documents from it
+				var documents:ArrayCollection = new ArrayCollection();
+				documents.addAll(documentCollection.documents);
+				for each (var document:IDocument in documents)
 				{
-					deletedCountByType += _activeRecordAccount.primaryRecord.deleteDocument(document,
+					deletedCountByType += _activeRecordAccount.primaryRecord.removeDocument(document,
 																							deleteAction,
 																							reason,
 																							true);
 				}
-				_logger.info("  Marked " + deletedCountByType + " " + documentType + " documents to " + deleteAction);
+				_logger.info("  Processed " + documents.length + " " + documentType + " documents. Marked " + deletedCountByType + " documents (including children) to " + deleteAction);
 				deletedCount += deletedCountByType;
 			}
 

@@ -29,7 +29,6 @@ package collaboRhythm.core.model.healthRecord.service
 		{
 			super(consumerKey, consumerSecret, baseURL, account,
 				  VideoMessage.DOCUMENT_TYPE, VideoMessage, Schemas.VideoMessageSchema, "videomessages");
-			initializeXmlMarshaller();
 		}
 
 		override protected function documentShouldBeIncluded(document:IDocument, nowTime:Number):Boolean
@@ -38,7 +37,7 @@ package collaboRhythm.core.model.healthRecord.service
 			return videoMessage.dateRecorded == null || videoMessage.dateRecorded.valueOf() <= nowTime;
 		}
 
-		override protected function unmarshallXml(reportXml:XML):IDocument
+		override public function unmarshallXml(reportXml:XML):IDocument
 		{
 			var document:IDocument = super.unmarshallXml(reportXml);
 			var videoMessage:VideoMessage = document as VideoMessage;

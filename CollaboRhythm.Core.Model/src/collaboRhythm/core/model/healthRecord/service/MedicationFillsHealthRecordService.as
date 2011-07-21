@@ -29,7 +29,6 @@ package collaboRhythm.core.model.healthRecord.service
 		{
 			super(consumerKey, consumerSecret, baseURL, account,
 				  MedicationFill.DOCUMENT_TYPE, MedicationFill, Schemas.MedicationFillSchema, "medicationfills");
-			initializeXmlMarshaller();
 		}
 
 		override protected function documentShouldBeIncluded(document:IDocument, nowTime:Number):Boolean

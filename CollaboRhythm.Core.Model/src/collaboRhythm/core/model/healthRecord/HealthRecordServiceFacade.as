@@ -19,6 +19,7 @@ package collaboRhythm.core.model.healthRecord
 	import collaboRhythm.core.model.healthRecord.stitchers.EquipmentScheduleItemStitcher;
 	import collaboRhythm.core.model.healthRecord.stitchers.EquipmentStitcher;
 	import collaboRhythm.core.model.healthRecord.stitchers.MedicationScheduleItemStitcher;
+	import collaboRhythm.shared.model.IRecordStorageService;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.IDocumentStitcher;
 
@@ -30,7 +31,7 @@ package collaboRhythm.core.model.healthRecord
 	import mx.logging.Log;
 
 	[Bindable]
-	public class HealthRecordServiceFacade
+	public class HealthRecordServiceFacade implements IRecordStorageService
 	{
 		protected var _logger:ILogger;
 		private var _services:Vector.<DocumentStorageServiceBase>;
@@ -45,7 +46,7 @@ package collaboRhythm.core.model.healthRecord
 		{
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_saveChangesHealthRecordService = new SaveChangesHealthRecordService(consumerKey, consumerSecret, baseURL,
-																				 account);
+																				 account, this);
 			_adherenceItemsHealthRecordService = new AdherenceItemsHealthRecordService(consumerKey, consumerSecret,
 																					   baseURL, account);
 
@@ -73,6 +74,16 @@ package collaboRhythm.core.model.healthRecord
 		private function addService(service:DocumentStorageServiceBase):void
 		{
 			_services.push(service);
+		}
+
+		public function getService(documentType:String):DocumentStorageServiceBase
+		{
+			for each (var service:DocumentStorageServiceBase in _services)
+			{
+				if (service.targetDocumentType == documentType)
+					return service;
+			}
+			throw new Error("Failed to find a service for document type " + documentType);
 		}
 
 		private function createStitchers(record:Record):void
@@ -115,6 +126,8 @@ package collaboRhythm.core.model.healthRecord
 				_logger.warn("Attempted to load documents while loading was already in progress (or failed to complete). Loading canceled.");
 				return;
 			}
+
+			record.storageService = this;
 
 			isLoading = true;
 			_logger.info("Loading documents " + loadingMessageSuffix + "...");
@@ -192,9 +205,14 @@ package collaboRhythm.core.model.healthRecord
 			return names.join(", ");
 		}
 
-		public function saveChanges(record:Record):void
+		public function saveChanges(record:Record, documents:ArrayCollection):void
 		{
-			_saveChangesHealthRecordService.saveChanges(record);
+			_saveChangesHealthRecordService.saveChanges(record, documents);
+		}
+
+		public function saveAllChanges(record:Record):void
+		{
+			_saveChangesHealthRecordService.saveAllChanges(record);
 		}
 	}
 }

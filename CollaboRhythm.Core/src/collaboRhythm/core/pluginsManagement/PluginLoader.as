@@ -101,7 +101,6 @@ package collaboRhythm.core.pluginsManagement
 				"Loading plugin files:\n" +
 				fileArrayToStringForTrace(files);
 			logger.info(pluginFilesMessage);
-			trace(pluginFilesMessage);
 
 			loadedPlugins = new Vector.<IPlugin>(files.length);
 			pendingModuleLoaders = new ArrayCollection();

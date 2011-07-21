@@ -60,7 +60,7 @@ package collaboRhythm.core.model.healthRecord.service
 				var collection:ArrayCollection = parseReportsXml(responseXml);
 				for each (var document:IDocument in collection)
 				{
-					record.addDocument(document, true);
+					record.addDocument(document);
 				}
 			}
 
