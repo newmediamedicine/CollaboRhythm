@@ -75,7 +75,7 @@ package collaboRhythm.shared.model.healthRecord.document
 			_description = equipmentXML.description;
 			_specification = equipmentXML.specification;
 			_certification = equipmentXML.certification;
-            for each (var scheduleItemXml:XML in equipmentReportXml..relatesTo.relation.(@type == "http://indivo.org/vocab/documentrels#scheduleItem").relatedDocument)
+            for each (var scheduleItemXml:XML in equipmentReportXml..relatesTo.relation.(@type == ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM).relatedDocument)
             {
                 _scheduleItems[scheduleItemXml.@id] = null;
             }

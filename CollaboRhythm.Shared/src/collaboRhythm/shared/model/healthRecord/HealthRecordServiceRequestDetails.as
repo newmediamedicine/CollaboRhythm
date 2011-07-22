@@ -13,6 +13,7 @@ package collaboRhythm.shared.model.healthRecord
 		private var _category:String;
 		private var _failedAttempts:int = 0;
 		private var _document:IDocument;
+		private var _customData:Object;
 
 		public function HealthRecordServiceRequestDetails(indivoApiCall:String=null, account:Account=null, record:Record=null, report:String=null, category:String=null)
 		{
@@ -72,6 +73,16 @@ package collaboRhythm.shared.model.healthRecord
 		public function set document(value:IDocument):void
 		{
 			_document = value;
+		}
+
+		public function get customData():Object
+		{
+			return _customData;
+		}
+
+		public function set customData(value:Object):void
+		{
+			_customData = value;
 		}
 	}
 }

@@ -205,9 +205,9 @@ package collaboRhythm.core.model.healthRecord
 			return names.join(", ");
 		}
 
-		public function saveChanges(record:Record, documents:ArrayCollection):void
+		public function saveChanges(record:Record, documents:ArrayCollection, relationships:ArrayCollection=null):void
 		{
-			_saveChangesHealthRecordService.saveChanges(record, documents);
+			_saveChangesHealthRecordService.saveChanges(record, documents, relationships);
 		}
 
 		public function saveAllChanges(record:Record):void

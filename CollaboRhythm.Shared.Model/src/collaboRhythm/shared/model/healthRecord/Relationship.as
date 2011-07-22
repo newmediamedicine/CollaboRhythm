@@ -41,6 +41,13 @@ package collaboRhythm.shared.model.healthRecord
 			_type = value;
 		}
 
+		public function get shortType():String
+		{
+			var parts:Array = type.split("#");
+			return parts[parts.length - 1];
+		}
+
+
 		/**
 		 * The document that the relatesTo document is related from.
 		 */

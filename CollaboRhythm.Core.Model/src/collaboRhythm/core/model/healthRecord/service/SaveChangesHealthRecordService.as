@@ -25,6 +25,8 @@ package collaboRhythm.core.model.healthRecord.service
 		private var _healthRecordServiceFacade:HealthRecordServiceFacade;
 		private var _pendingCreateDocuments:HashMap = new HashMap();
 		private var _pendingRemoveDocuments:HashMap = new HashMap();
+		private var _relationshipsRequiringDocuments:ArrayCollection = new ArrayCollection();
+		private var _pendingRelateDocuments:ArrayCollection = new ArrayCollection();
 
 		public function SaveChangesHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account, healthRecordServiceFacade:HealthRecordServiceFacade)
 		{
@@ -39,7 +41,7 @@ package collaboRhythm.core.model.healthRecord.service
 		 */
 		public function saveAllChanges(record:Record):void
 		{
-			saveChanges(record, record.completeDocumentsById.values());
+			saveChanges(record, record.completeDocumentsById.values(), record.newRelationships);
 		}
 
 		/**
@@ -47,8 +49,9 @@ package collaboRhythm.core.model.healthRecord.service
 		 *
 		 * @param record The record which the specified documents belong to
 		 * @param documents The documents to save
+		 * @param relationships The relationships to save
 		 */
-		public function saveChanges(record:Record, documents:ArrayCollection):void
+		public function saveChanges(record:Record, documents:ArrayCollection, relationships:ArrayCollection=null):void
 		{
 			for each (var document:IDocument in documents)
 			{
@@ -70,7 +73,24 @@ package collaboRhythm.core.model.healthRecord.service
 				// TODO: handle other actions
 			}
 
+			// TODO: handle relationships more optimally
+			_relationshipsRequiringDocuments.addAll(relationships);
+			checkRelationshipsRequiringDocuments(record);
+
 			_logger.info("Save changes initiated. Pending documents (create, remove): " + pendingCreateDocuments.size() + ", " + pendingRemoveDocuments.size());
+		}
+
+		private function checkRelationshipsRequiringDocuments(record:Record):void
+		{
+			for each (var relationship:Relationship in relationshipsRequiringDocuments)
+			{
+				if (relationship.relatesFrom.pendingAction == null && relationship.relatesTo.pendingAction == null)
+				{
+					relationshipsRequiringDocuments.removeItemAt(relationshipsRequiringDocuments.getItemIndex(relationship));
+					pendingRelateDocuments.addItem(relationship);
+					relateDocuments(record, relationship);
+				}
+			}
 		}
 
 		private function getDocumentXml(document:IDocument):String
@@ -209,6 +229,41 @@ package collaboRhythm.core.model.healthRecord.service
 //			documentCollection.updateSpecialRelationships(document);
 
 			super.createDocumentCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
+
+			// TODO: handle relationships more optimally
+			checkRelationshipsRequiringDocuments(record);
+		}
+
+		override protected function relateDocumentsCompleteHandler(event:IndivoClientEvent, responseXml:XML,
+																   healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+		{
+			var relationship:Relationship = healthRecordServiceRequestDetails.customData as Relationship;
+			if (relationship == null)
+				throw new Error("Relationship not specified on the HealthRecordServiceRequestDetails. Unable to finish relate documents operation.");
+
+			var failureWarning:String;
+			if (responseXml.name() != "ok")
+			{
+				failureWarning = "Event from relate documents was Complete, but response XML is not ok.";
+			}
+
+			// remove the appropriate relationship from pendingRelateDocuments
+			for each (var pendingRelationship:Relationship in pendingRelateDocuments)
+			{
+				if (pendingRelationship == relationship)
+				{
+					relationship.pendingAction = null;
+					pendingRelateDocuments.removeItemAt(pendingRelateDocuments.getItemIndex(relationship));
+				}
+			}
+
+			super.relateDocumentsCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
+		}
+
+		override protected function handleError(event:IndivoClientEvent, errorStatus:String,
+												healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):Boolean
+		{
+			return super.handleError(event, errorStatus, healthRecordServiceRequestDetails);
 		}
 
 		public function get pendingCreateDocuments():HashMap
@@ -219,6 +274,16 @@ package collaboRhythm.core.model.healthRecord.service
 		public function get pendingRemoveDocuments():HashMap
 		{
 			return _pendingRemoveDocuments;
+		}
+
+		public function get relationshipsRequiringDocuments():ArrayCollection
+		{
+			return _relationshipsRequiringDocuments;
+		}
+
+		public function get pendingRelateDocuments():ArrayCollection
+		{
+			return _pendingRelateDocuments;
 		}
 	}
 }

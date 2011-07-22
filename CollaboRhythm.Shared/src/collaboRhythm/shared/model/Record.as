@@ -68,6 +68,7 @@ package collaboRhythm.shared.model
         private var _problemsModel:ProblemsModel;
         private var _appData:HashMap = new HashMap();
 		private var _vitalSignsModel:VitalSignsModel;
+		private var _newRelationships:ArrayCollection = new ArrayCollection(); // of Relationship instances that have not been persisted
 
 		// TODO: move BloodPressureModel to blood pressure plugin; eliminate bloodPressureModel property and field; use appData instead
 		private var _bloodPressureModel:BloodPressureModel;
@@ -402,7 +403,7 @@ package collaboRhythm.shared.model
 				if (!storageService)
 					throw new Error("The storageService must be provided to connect the record to a storage service before addDocument with saveImmediately can be used.");
 
-				storageService.saveChanges(this, new ArrayCollection(new Array(document)));
+				storageService.saveChanges(this, new ArrayCollection(new Array(document)), null);
 			}
 		}
 
@@ -492,12 +493,12 @@ package collaboRhythm.shared.model
 			storageService.saveAllChanges(this);
 		}
 
-		public function saveChanges(documents:ArrayCollection):void
+		public function saveChanges(documents:ArrayCollection, relationships:ArrayCollection = null):void
 		{
 			if (!storageService)
 				throw new Error("The storageService must be provided to connect the record to a storage service before saveChanges can be used.");
 
-			storageService.saveChanges(this, documents);
+			storageService.saveChanges(this, documents, relationships);
 		}
 
 		public function get storageService():IRecordStorageService
@@ -508,6 +509,39 @@ package collaboRhythm.shared.model
 		public function set storageService(value:IRecordStorageService):void
 		{
 			_storageService = value;
+		}
+
+		public function addNewRelationship(relationshipType:String, fromDocument:DocumentBase,
+										   toDocument:DocumentBase):Relationship
+		{
+			if (!relationshipType)
+				throw new ArgumentError("relationshipType must not be null");
+
+			if (!fromDocument)
+				throw new ArgumentError("fromDocument must not be null");
+
+			if (!toDocument)
+				throw new ArgumentError("toDocument must not be null");
+
+			if (fromDocument == toDocument)
+				throw new ArgumentError("fromDocument must be different than toDocument");
+
+			var relationship:Relationship = new Relationship();
+			relationship.pendingAction = Relationship.ACTION_CREATE;
+			relationship.type = relationshipType;
+			relationship.relatesFrom = fromDocument;
+			relationship.relatesTo = toDocument;
+
+			fromDocument.relatesTo.addItem(relationship);
+			toDocument.isRelatedFrom.addItem(relationship);
+
+			_newRelationships.addItem(relationship);
+			return relationship;
+		}
+
+		public function get newRelationships():ArrayCollection
+		{
+			return _newRelationships;
 		}
 	}
 }

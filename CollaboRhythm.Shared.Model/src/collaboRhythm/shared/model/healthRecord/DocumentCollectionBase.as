@@ -126,7 +126,7 @@ package collaboRhythm.shared.model.healthRecord
 			if (!recordProxy)
 				throw new Error("The recordProxy must be provided to connect the document collection to the record before saveChanges can be used.");
 
-			recordProxy.saveChanges(documents);
+			recordProxy.saveChanges(documents, null);
 		}
 
 		public function get documents():ArrayCollection

@@ -17,7 +17,8 @@ package collaboRhythm.shared.model
 		 *
 		 * @param record The record which the specified documents belong to
 		 * @param documents The documents to save
+		 * @param relationships The relationships to save
 		 */
-		function saveChanges(record:Record, documents:ArrayCollection):void;
+		function saveChanges(record:Record, documents:ArrayCollection, relationships:ArrayCollection=null):void;
 	}
 }

@@ -35,6 +35,12 @@ package collaboRhythm.shared.model.healthRecord.document
     public class MedicationOrder extends DocumentBase
     {
 		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#MedicationOrder";
+
+		/**
+		 * From a MedicationOrder to a MedicationFill
+		 */
+		public static const RELATION_TYPE_MEDICATION_FILL:String = "http://indivo.org/vocab/documentrels#medicationFill";
+
 		private var _name:CodedValue;
 		private var _orderType:String;
 		private var _orderedBy:String;
@@ -87,8 +93,8 @@ package collaboRhythm.shared.model.healthRecord.document
             _refills = int(medicationOrderXml.refills);
             _substitutionPermitted = HealthRecordHelperMethods.stringToBoolean(medicationOrderXml.substitutionPermitted);
             _instructions = medicationOrderXml.instructions;
-            _medicationFillId = medicationOrderReportXml..relatesTo.relation.(@type == "http://indivo.org/vocab/documentrels#medicationFill").relatedDocument.@id;
-            for each (var scheduleItemXml:XML in medicationOrderReportXml..relatesTo.relation.(@type == "http://indivo.org/vocab/documentrels#scheduleItem").relatedDocument)
+            _medicationFillId = medicationOrderReportXml..relatesTo.relation.(@type == RELATION_TYPE_MEDICATION_FILL).relatedDocument.@id;
+            for each (var scheduleItemXml:XML in medicationOrderReportXml..relatesTo.relation.(@type == ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM).relatedDocument)
             {
                 _scheduleItems[scheduleItemXml.@id] = null;
             }

@@ -34,19 +34,28 @@ package collaboRhythm.shared.model.healthRecord.document
 	[Bindable]
     public class ScheduleItemBase extends DocumentBase
     {
+		/**
+		 * From an EquipmentScheduleItem or MedicationScheduleItem to an AdherenceItem.
+		 */
+		public static const RELATION_TYPE_ADHERENCE_ITEM:String = "http://indivo.org/vocab/documentrels#adherenceItem";
+		/**
+		 * From an Equipment to an EquipmentScheduleItem or from a MedicationOrder to a MedicationScheduleItem.
+		 */
+		public static const RELATION_TYPE_SCHEDULE_ITEM:String = "http://indivo.org/vocab/documentrels#scheduleItem";
+
         public static const DAILY:String = "DAILY";
 
-        private var _scheduleItemXml:XML;
-        private var _name:CodedValue;
-        private var _scheduledBy:String;
-        private var _dateScheduled:Date;
-        private var _dateStart:Date;
-        private var _dateEnd:Date;
-        private var _recurrenceRule:RecurrenceRule;
-        private var _instructions:String;
-        private var _adherenceItems:HashMap = new HashMap();
+		private var _scheduleItemXml:XML;
+		private var _name:CodedValue;
+		private var _scheduledBy:String;
+		private var _dateScheduled:Date;
+		private var _dateStart:Date;
+		private var _dateEnd:Date;
+		private var _recurrenceRule:RecurrenceRule;
+		private var _instructions:String;
 
-        private var _currentDateSource:ICurrentDateSource;
+        private var _adherenceItems:HashMap = new HashMap();
+		private var _currentDateSource:ICurrentDateSource;
 
         public function ScheduleItemBase():void
         {
@@ -67,7 +76,7 @@ package collaboRhythm.shared.model.healthRecord.document
             _adherenceItems = adherenceItems;
         }
 
-        public function initFromReportXML(scheduleItemReportXml:XML, scheduleItemElementName:String):void
+		public function initFromReportXML(scheduleItemReportXml:XML, scheduleItemElementName:String):void
         {
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
             DocumentMetadata.parseDocumentMetadata(scheduleItemReportXml.Meta.Document[0], this.meta);
@@ -79,7 +88,7 @@ package collaboRhythm.shared.model.healthRecord.document
             _dateEnd = collaboRhythm.shared.model.DateUtil.parseW3CDTF(_scheduleItemXml.dateEnd.toString());
             _recurrenceRule = new RecurrenceRule(_scheduleItemXml.recurrenceRule[0]);
             _instructions = _scheduleItemXml.instructions;
-            for each (var adherenceItemXml:XML in scheduleItemReportXml..relatesTo.relation.(@type == "http://indivo.org/vocab/documentrels#adherenceItem").relatedDocument)
+            for each (var adherenceItemXml:XML in scheduleItemReportXml..relatesTo.relation.(@type == RELATION_TYPE_ADHERENCE_ITEM).relatedDocument)
             {
                 _adherenceItems[adherenceItemXml.@id] = null;
             }

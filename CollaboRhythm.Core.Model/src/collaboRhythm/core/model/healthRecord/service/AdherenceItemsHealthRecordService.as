@@ -99,12 +99,18 @@ package collaboRhythm.core.model.healthRecord.service
 			adherenceItem.recurrenceIndex = int(adherenceItemXml.recurrenceIndex);
 			adherenceItem.adherence = HealthRecordHelperMethods.stringToBoolean(adherenceItemXml.adherence);
 			adherenceItem.nonadherenceReason = adherenceItemXml.nonadherenceReason;
-			adherenceItem.adherenceResultId = reportXml..relatesTo.relation.(@type == "http://indivo.org/vocab/documentrels#adherenceresult").relatedDocument[0];
+			adherenceItem.adherenceResultId = reportXml..relatesTo.relation.(@type == AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT).relatedDocument[0];
 			_relationshipXmlMarshaller.unmarshallRelationships(reportXml, adherenceItem);
+		}
+
+		override public function marshallToXml(document:IDocument):String
+		{
+			return convertToXML(document as AdherenceItem).toXMLString();
 		}
 
 		public function convertToXML(adherenceItem:AdherenceItem):XML
 		{
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
 			var adherenceItemXml:XML = <AdherenceItem/>;
 			adherenceItemXml.@xmlns = "http://indivo.org/vocab/xml/documents#";
 			// TODO: Write a helper method for coded value to xml

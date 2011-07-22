@@ -23,6 +23,7 @@ package collaboRhythm.shared.model.healthRecord.document
 
 		public function VitalSign()
 		{
+			meta.type = DOCUMENT_TYPE;
 		}
 
 		public function get name():CodedValue
