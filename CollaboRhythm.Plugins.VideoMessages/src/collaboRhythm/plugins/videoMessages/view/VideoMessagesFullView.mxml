@@ -132,8 +132,8 @@
 		private function playVideoMessageHandler(event:VideoMessageItemRendererEvent):void
 		{
 			var videoMessage:VideoMessage = event.videoMessage;
-			var fileNumber:int = videoMessage.fileId;
-			var netStreamLocation:String = _accountId + "/" + fileNumber;
+			var fileId:String = videoMessage.fileId;
+			var netStreamLocation:String = _accountId + "/" + fileId;
 			if (videoDisplay.netStream)
 			{
 				videoDisplay.play(netStreamLocation, 0);

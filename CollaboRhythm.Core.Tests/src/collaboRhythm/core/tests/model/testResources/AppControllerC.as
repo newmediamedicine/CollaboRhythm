@@ -16,13 +16,15 @@
  */
 package collaboRhythm.core.tests.model.testResources
 {
+
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 
 	public class AppControllerC extends WorkstationAppControllerBase
 	{
 		public function AppControllerC()
 		{
-			super(null, null);
+			super(new AppControllerConstructorParams());
 		}
 	}
 }

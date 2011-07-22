@@ -132,7 +132,7 @@ package collaboRhythm.shared.model.healthRecord
         protected function createDocumentCompleteHandler(event:IndivoClientEvent, responseXml:XML,
 														 healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
-            trace("creating document - SUCCEEDED");
+            trace("creating document - SUCCEEDED " + responseXml.@id + " " + responseXml.@type);
             dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE, null, null, null, responseXml));
         }
 
