@@ -13,6 +13,7 @@ package collaboRhythm.shared.model.healthRecord
 
         // Indivo Api calls used in this healthRecordService
         public static const CREATE_DOCUMENT:String = "Create Document";
+        public static const UPDATE_DOCUMENT:String = "Update Document";
         public static const DELETE_DOCUMENT:String = "Delete Document";
         public static const VOID_DOCUMENT:String = "Void Document";
         public static const ARCHIVE_DOCUMENT:String = "Archive Document";
@@ -36,6 +37,16 @@ package collaboRhythm.shared.model.healthRecord
                                                                                                                             record);
 			healthRecordServiceRequestDetails.document = document;
             _pha.documents_POST(null, null, null, record.id, _activeAccount.oauthAccountToken,
+                                _activeAccount.oauthAccountTokenSecret, documentXmlString, healthRecordServiceRequestDetails);
+        }
+
+        public function updateDocument(record:Record, document:IDocument, documentXmlString:String):void
+        {
+            var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(UPDATE_DOCUMENT,
+                                                                                                                            null,
+                                                                                                                            record);
+			healthRecordServiceRequestDetails.document = document;
+            _pha.documents_X_replacePOST(null, null, null, record.id, document.meta.id, _activeAccount.oauthAccountToken,
                                 _activeAccount.oauthAccountTokenSecret, documentXmlString, healthRecordServiceRequestDetails);
         }
 
@@ -101,6 +112,10 @@ package collaboRhythm.shared.model.healthRecord
             {
                 createDocumentCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
             }
+            if (healthRecordServiceRequestDetails.indivoApiCall == UPDATE_DOCUMENT)
+            {
+                updateDocumentCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
+            }
             else if (healthRecordServiceRequestDetails.indivoApiCall == DELETE_DOCUMENT)
             {
                 deleteDocumentCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
@@ -133,6 +148,13 @@ package collaboRhythm.shared.model.healthRecord
 														 healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
             trace("creating document - SUCCEEDED " + responseXml.@id + " " + responseXml.@type);
+            dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE, null, null, null, responseXml));
+        }
+
+        protected function updateDocumentCompleteHandler(event:IndivoClientEvent, responseXml:XML,
+														 healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+        {
+            trace("update document - SUCCEEDED " + responseXml.@id + " " + responseXml.@type);
             dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE, null, null, null, responseXml));
         }
 

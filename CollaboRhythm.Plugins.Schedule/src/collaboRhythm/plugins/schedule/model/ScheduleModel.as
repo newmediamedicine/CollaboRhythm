@@ -256,5 +256,23 @@ package collaboRhythm.plugins.schedule.model
 			}
 		}
 
+		public function updateScheduleItems():void
+		{
+			var updatedDocuments:ArrayCollection = new ArrayCollection();
+			for each (var scheduleGroup:ScheduleGroup in scheduleGroupsCollection)
+			{
+				if (scheduleGroup.changed)
+				{
+					for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleGroup.scheduleItemsOccurrencesCollection)
+					{
+						var scheduleItem:ScheduleItemBase = scheduleItemOccurrence.scheduleItem;
+						scheduleItem.rescheduleItem(scheduleGroup.dateStart, scheduleGroup.dateEnd);
+						scheduleItem.pendingAction = DocumentBase.ACTION_UPDATE;
+						updatedDocuments.addItem(scheduleItem);
+					}
+				}
+			}
+			_record.saveChanges(updatedDocuments);
+		}
 	}
 }

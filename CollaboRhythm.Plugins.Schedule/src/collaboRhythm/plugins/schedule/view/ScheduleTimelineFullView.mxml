@@ -36,6 +36,7 @@
 		import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 		import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
 		import collaboRhythm.plugins.schedule.shared.view.ScheduleTimelineViewEvent;
+		import collaboRhythm.shared.model.healthRecord.DocumentBase;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
@@ -292,17 +293,7 @@
 
 		private function updateScheduleItems():void
 		{
-			for each (var scheduleGroup:ScheduleGroup in _scheduleModel.scheduleGroupsCollection)
-			{
-				if (scheduleGroup.changed)
-				{
-					for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleGroup.scheduleItemsOccurrencesCollection)
-					{
-						var scheduleItem:ScheduleItemBase = scheduleItemOccurrence.scheduleItem;
-						scheduleItem.rescheduleItem(scheduleGroup.dateStart, scheduleGroup.dateEnd);
-					}
-				}
-			}
+			_scheduleModel.updateScheduleItems();
 		}
 
 		private function saveButton_clickHandler():void

@@ -25,6 +25,7 @@ package collaboRhythm.core.model.healthRecord.service
 		private var _healthRecordServiceFacade:HealthRecordServiceFacade;
 		private var _pendingCreateDocuments:HashMap = new HashMap();
 		private var _pendingRemoveDocuments:HashMap = new HashMap();
+		private var _pendingUpdateDocuments:HashMap = new HashMap();
 		private var _relationshipsRequiringDocuments:ArrayCollection = new ArrayCollection();
 		private var _pendingRelateDocuments:ArrayCollection = new ArrayCollection();
 
@@ -70,6 +71,11 @@ package collaboRhythm.core.model.healthRecord.service
 					pendingRemoveDocuments.put(document.meta.id, document);
 					deleteDocument(record, document);
 				}
+				else if (document.pendingAction == DocumentBase.ACTION_UPDATE)
+				{
+					pendingUpdateDocuments.put(document.meta.id, document);
+					updateDocument(record, document, getDocumentXml(document));
+				}
 				// TODO: handle other actions
 			}
 
@@ -80,7 +86,7 @@ package collaboRhythm.core.model.healthRecord.service
 				checkRelationshipsRequiringDocuments(record);
 			}
 
-			_logger.info("Save changes initiated. Pending documents (create, remove): " + pendingCreateDocuments.size() + ", " + pendingRemoveDocuments.size());
+			_logger.info("Save changes initiated. Pending documents (create, update, remove): " + pendingCreateDocuments.size() + ", " + pendingCreateDocuments.size() + ", " + pendingRemoveDocuments.size());
 		}
 
 		private function checkRelationshipsRequiringDocuments(record:Record):void
@@ -155,12 +161,23 @@ package collaboRhythm.core.model.healthRecord.service
 																  responseXml:XML,
 																  healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
+			if (handleCreateUpdateResponse(event, responseXml, healthRecordServiceRequestDetails, false))
+				super.createDocumentCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
+		}
+
+		private function handleCreateUpdateResponse(event:IndivoClientEvent, responseXml:XML,
+													healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails,
+													isUpdate:Boolean):Boolean
+		{
 			var document:IDocument = healthRecordServiceRequestDetails.document;
 			if (document == null)
-				throw new Error("Document not specified on the HealthRecordServiceRequestDetails. Unable to finish remove operation.");
+				throw new Error("Document not specified on the HealthRecordServiceRequestDetails. Unable to finish create operation.");
 
 			document.pendingAction = null;
-			pendingCreateDocuments.remove(document.meta.id);
+			if (isUpdate)
+				pendingUpdateDocuments.remove(document.meta.id);
+			else
+				pendingCreateDocuments.remove(document.meta.id);
 
 			var failureWarning:String;
 			if (responseXml.name() != "Document")
@@ -178,17 +195,17 @@ package collaboRhythm.core.model.healthRecord.service
 			else if (responseXml.@type.toString() == "")
 			{
 				failureWarning = "Document was created (id = " + responseXml.@id.toString() + "), but has no type " +
-							 "(expected " + document.meta.type + "). XML of submitted document may be incompatible with schema on server. You may want to delete the document and try again.";
+						"(expected " + document.meta.type + "). XML of submitted document may be incompatible with schema on server. You may want to delete the document and try again.";
 			}
 			else if (document.meta.type != responseXml.@type.toString())
 			{
 				failureWarning = "Unexpected response. Document was created (id = " + responseXml.@id.toString() + "), but has the wrong type " +
-							 "(expected " + document.meta.type + ", actual " + responseXml.@type.toString() + "). You may want to delete the document and try again.";
+						"(expected " + document.meta.type + ", actual " + responseXml.@type.toString() + "). You may want to delete the document and try again.";
 			}
 
 			var record:Record = healthRecordServiceRequestDetails.record;
 			if (record == null)
-				throw new Error("Record not specified on the HealthRecordServiceRequestDetails. Unable to finish remove operation.");
+				throw new Error("Record not specified on the HealthRecordServiceRequestDetails. Unable to finish create operation.");
 
 			var documentCollection:DocumentCollectionBase = record.documentCollections.getItem(document.meta.type);
 			if (!documentCollection)
@@ -197,6 +214,8 @@ package collaboRhythm.core.model.healthRecord.service
 			// We now have the "real" id of the document, but the OLD id of the document was used as the key in various collections.
 			// Using the OLD id of the created document, remove the document from the appropriate collections
 			var oldId:String = document.meta.id;
+			if (!isUpdate)
+				record.originalDocumentsById.remove(oldId);
 			record.completeDocumentsById.remove(oldId);
 			record.currentDocumentsById.remove(oldId);
 
@@ -204,7 +223,7 @@ package collaboRhythm.core.model.healthRecord.service
 			{
 				documentCollection.removeDocument(document);
 				_logger.warn(failureWarning + " Submitted document XML: " + event.requestXml + " Response: " + responseXml);
-				return;
+				return false;
 			}
 
 			// update the document to use it's new id
@@ -218,23 +237,59 @@ package collaboRhythm.core.model.healthRecord.service
 			record.completeDocumentsById[document.meta.id] = document;
 			record.currentDocumentsById[document.meta.id] = document;
 
-			// update any "standard" references to the document that was added
-			for each (var relationship:Relationship in document.relatesTo)
+			if (isUpdate)
 			{
-				relationship.relatesFromId = document.meta.id;
+				updateRelationships(record, document);
 			}
-			for each (relationship in document.isRelatedFrom)
+			else
 			{
-				relationship.relatesToId = document.meta.id;
+				// update any "standard" references to the document that was added
+				for each (var relationship:Relationship in document.relatesTo)
+				{
+					relationship.relatesFromId = document.meta.id;
+				}
+				for each (relationship in document.isRelatedFrom)
+				{
+					relationship.relatesToId = document.meta.id;
+				}
 			}
 
 			// TODO: updateSpecialRelationships ?
 //			documentCollection.updateSpecialRelationships(document);
 
-			super.createDocumentCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
-
 			// TODO: handle relationships more optimally
 			checkRelationshipsRequiringDocuments(record);
+
+			return true;
+		}
+
+		private function updateRelationships(record:Record, document:IDocument):void
+		{
+			for each (var relationship:Relationship in document.isRelatedFrom)
+			{
+				// create new relationships for relationships from other documents to this updated (replaced) document
+				relationship.relatesToId = document.meta.id;
+				relationship.pendingAction = Relationship.ACTION_CREATE;
+			}
+
+			saveChanges(record, null, document.isRelatedFrom);
+
+			for each (var relationship:Relationship in document.relatesTo)
+			{
+				var otherDocument:IDocument = relationship.relatesTo;
+				if (otherDocument)
+				{
+					removeFromCollection(otherDocument.isRelatedFrom, relationship);
+				}
+				removeFromCollection(document.relatesTo, relationship);
+			}
+		}
+
+		private function removeFromCollection(relationshipsCollection:ArrayCollection, relationship:Relationship):void
+		{
+			var index:int = relationshipsCollection.getItemIndex(relationship);
+			if (index != -1)
+				relationshipsCollection.removeItemAt(index);
 		}
 
 		override protected function relateDocumentsCompleteHandler(event:IndivoClientEvent, responseXml:XML,
@@ -263,6 +318,13 @@ package collaboRhythm.core.model.healthRecord.service
 			super.relateDocumentsCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
 		}
 
+		override protected function updateDocumentCompleteHandler(event:IndivoClientEvent, responseXml:XML,
+																  healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+		{
+			if (handleCreateUpdateResponse(event, responseXml, healthRecordServiceRequestDetails, true))
+				super.updateDocumentCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
+		}
+
 		override protected function handleError(event:IndivoClientEvent, errorStatus:String,
 												healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):Boolean
 		{
@@ -287,6 +349,11 @@ package collaboRhythm.core.model.healthRecord.service
 		public function get pendingRelateDocuments():ArrayCollection
 		{
 			return _pendingRelateDocuments;
+		}
+
+		public function get pendingUpdateDocuments():HashMap
+		{
+			return _pendingUpdateDocuments;
 		}
 	}
 }
