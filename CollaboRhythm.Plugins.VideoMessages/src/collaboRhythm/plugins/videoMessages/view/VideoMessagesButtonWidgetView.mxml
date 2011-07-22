@@ -15,27 +15,36 @@
 		import assets.images.videos;
 
 		import collaboRhythm.plugins.videoMessages.controller.VideoMessagesAppController;
+		import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
 		import collaboRhythm.shared.model.healthRecord.document.VideoMessagesModel;
 
-		import mx.binding.utils.BindingUtils;
 		import mx.events.CollectionEvent;
 
 		private var _videoMessagesAppController:VideoMessagesAppController;
 		[Bindable]
 		private var _videoMessagesModel:VideoMessagesModel;
+		[Bindable]
+		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
+		[Bindable]
+		private var _videoMessageCount:int;
 
 		public function init(videoMessagesAppController:VideoMessagesAppController,
-							 videoMessagesModel:VideoMessagesModel):void
+							 videoMessagesModel:VideoMessagesModel,
+							 collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService):void
 		{
 			_videoMessagesAppController = videoMessagesAppController;
 			_videoMessagesModel = videoMessagesModel;
+			_collaborationLobbyNetConnectionService = collaborationLobbyNetConnectionService;
 
-			_videoMessagesModel.videoMessagesCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, videoMessagesCollection_changeHandler);
+			_videoMessagesModel.videoMessagesCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
+																		 videoMessagesCollection_changeHandler);
+			_videoMessageCount = _videoMessagesModel.videoMessagesCollection.length;
 		}
 
 		private function videoMessagesCollection_changeHandler(event:CollectionEvent):void
 		{
-			showFullViewButton.label = _videoMessagesModel.videoMessagesCollection.length.toString();
+			_videoMessageCount = _videoMessagesModel.videoMessagesCollection.length;
+			showFullViewButton.label = _videoMessageCount.toString();
 		}
 
 		private function showFullViewButton_clickHandler():void
@@ -43,5 +52,5 @@
 			_videoMessagesAppController.dispatchShowFullView();
 		}
 		]]></fx:Script>
-	<s:Button id="showFullViewButton" icon="{videos}" label="0" width="100" height="100" click="showFullViewButton_clickHandler()" skinClass="collaboRhythm.shared.view.IconButtonSkin" styleName="videoCount"/>
+	<s:Button id="showFullViewButton" icon="{videos}" label="0" width="100" height="100" click="showFullViewButton_clickHandler()" skinClass="collaboRhythm.shared.view.IconButtonSkin" styleName="videoCount" enabled="{_collaborationLobbyNetConnectionService.isConnected &amp;&amp; _videoMessageCount != 0}"/>
 </s:Group>

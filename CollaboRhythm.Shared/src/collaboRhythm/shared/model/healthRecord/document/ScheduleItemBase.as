@@ -81,7 +81,7 @@ package collaboRhythm.shared.model.healthRecord.document
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
             DocumentMetadata.parseDocumentMetadata(scheduleItemReportXml.Meta.Document[0], this.meta);
             _scheduleItemXml = scheduleItemReportXml.Item.elements(new QName(DocumentMetadata.INDIVO_DOCUMENTS_NAMESPACE, scheduleItemElementName))[0];
-            _name = HealthRecordHelperMethods.xmlToCodedValue(_scheduleItemXml.name[0]);
+			_name = HealthRecordHelperMethods.xmlToCodedValue(_scheduleItemXml.name[0]);
             _scheduledBy = _scheduleItemXml.scheduledBy;
             _dateScheduled = collaboRhythm.shared.model.DateUtil.parseW3CDTF(_scheduleItemXml.dateScheduled.toString());
             _dateStart = collaboRhythm.shared.model.DateUtil.parseW3CDTF(_scheduleItemXml.dateStart.toString());

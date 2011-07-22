@@ -64,7 +64,7 @@
 
 		private function synchronizeMenuItem_clickHandler():void
 		{
-			_tabletApplicationController.targetDate = _currentDateSource.now();
+			_tabletApplicationController.reloadData();
 		}
 
 		]]></fx:Script>

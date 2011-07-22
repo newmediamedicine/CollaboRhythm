@@ -110,7 +110,7 @@ package collaboRhythm.core.model.healthRecord.service
 
 		public function convertToXML(adherenceItem:AdherenceItem):XML
 		{
-			default xml namespace = "http://indivo.org/vocab/xml/documents#";
+			default xml namespace = "";
 			var adherenceItemXml:XML = <AdherenceItem/>;
 			adherenceItemXml.@xmlns = "http://indivo.org/vocab/xml/documents#";
 			// TODO: Write a helper method for coded value to xml

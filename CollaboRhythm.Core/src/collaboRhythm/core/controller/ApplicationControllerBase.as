@@ -51,6 +51,8 @@ package collaboRhythm.core.controller
 	import flash.filesystem.File;
 	import flash.net.NetworkInfo;
 	import flash.net.NetworkInterface;
+	import flash.system.Security;
+	import flash.system.System;
 	import flash.utils.getQualifiedClassName;
 
 	import mx.binding.utils.BindingUtils;

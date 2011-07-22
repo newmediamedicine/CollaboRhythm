@@ -74,8 +74,11 @@ package collaboRhythm.core.model.healthRecord.service
 			}
 
 			// TODO: handle relationships more optimally
-			_relationshipsRequiringDocuments.addAll(relationships);
-			checkRelationshipsRequiringDocuments(record);
+			if (relationships)
+			{
+				_relationshipsRequiringDocuments.addAll(relationships);
+				checkRelationshipsRequiringDocuments(record);
+			}
 
 			_logger.info("Save changes initiated. Pending documents (create, remove): " + pendingCreateDocuments.size() + ", " + pendingRemoveDocuments.size());
 		}

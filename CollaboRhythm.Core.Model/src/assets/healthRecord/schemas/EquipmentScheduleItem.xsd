@@ -37,7 +37,7 @@
 
 	<xs:complexType name="EquipmentScheduleItem">
 		<xs:sequence>
-			<xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="scheduledBy" type="xs:string" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="dateScheduled" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="dateStart" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>

@@ -91,7 +91,7 @@
 			</s:HGroup>
 		</s:VGroup>
 		<s:VGroup>
-			<s:Button label="delete" height="{KEY_SIZE * 2 + GAP_SIZE}" width="{KEY_SIZE}"
+			<s:Button label="del" height="{KEY_SIZE * 2 + GAP_SIZE}" width="{KEY_SIZE}"
 					  click="deleteButton_clickHander()"/>
 			<s:Button label="enter" height="{KEY_SIZE * 2 + GAP_SIZE}" width="{KEY_SIZE}"
 					  click="enterButton_clickHandler()"/>

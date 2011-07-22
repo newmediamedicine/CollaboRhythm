@@ -19,7 +19,7 @@
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:mx="library://ns.adobe.com/flex/mx"
 		 height="140" width="100%"
-		 enabled="{determineEnabled(_videoMessage.pendingAction)}">
+		 enabled="{!(_videoMessage.pendingAction &amp;&amp; _videoMessage.pendingAction == DocumentBase.ACTION_VOID)}">
     <fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 
@@ -61,16 +61,6 @@
 		{
 			dispatchEvent(new VideoMessageItemRendererEvent(VideoMessageItemRendererEvent.DELETE_VIDEO_MESSAGE,
 															_videoMessage));
-		}
-
-		private function determineEnabled(pendingAction:String):Boolean
-		{
-			if (pendingAction == DocumentBase.ACTION_VOID)
-			{
-				selected = false;
-				return false;
-			}
-			return true;
 		}
 		]]>
     </fx:Script>

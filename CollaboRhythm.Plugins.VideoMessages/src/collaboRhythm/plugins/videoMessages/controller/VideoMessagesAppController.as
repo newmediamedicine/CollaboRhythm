@@ -68,6 +68,8 @@ package collaboRhythm.plugins.videoMessages.controller
 
 		override public function reloadUserData():void
 		{
+			removeUserData();
+
 			super.reloadUserData();
 		}
 
@@ -77,7 +79,7 @@ package collaboRhythm.plugins.videoMessages.controller
 
 			if (_widgetView && _activeRecordAccount)
 			{
-				_widgetView.init(this, videoMessagesModel);
+				_widgetView.init(this, videoMessagesModel, _collaborationLobbyNetConnectionService);
 			}
 		}
 
@@ -132,7 +134,7 @@ package collaboRhythm.plugins.videoMessages.controller
 
 		override protected function get shouldShowFullViewOnWidgetClick():Boolean
 		{
-			return true;
+			return false;
 		}
 
 		public function dispatchShowFullView():void
@@ -142,6 +144,11 @@ package collaboRhythm.plugins.videoMessages.controller
 
 		public function deleteVideoMessage(videoMessage:VideoMessage):void
 		{
+			if (_videoMessagesModel.videoMessagesCollection.length == 1)
+			{
+				//TODO: Potentially hideFullViews() in the AppControllersMediate is more appropriate
+				hideFullView();
+			}
 			videoMessagesModel.removeDocumentFromRecord(videoMessage, DocumentBase.ACTION_VOID, "deleted by user");
 			videoMessagesModel.saveChanges(new ArrayCollection(new Array(videoMessage)));
 		}

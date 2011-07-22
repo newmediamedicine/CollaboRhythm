@@ -210,8 +210,11 @@ package collaboRhythm.plugins.schedule.model
 
 		public function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void
 		{
+			_record.removeDocument(scheduleItemOccurrence.adherenceItem, DocumentBase.ACTION_VOID, "deleted by user");
+			var documents:ArrayCollection = new ArrayCollection();
+			documents.addItem(scheduleItemOccurrence.adherenceItem);
+			_record.saveChanges(documents);
 			scheduleItemOccurrence.adherenceItem = null;
-			//_record.deleteDocument(scheduleItemOccurrence.adherenceItem, DocumentBase.ACTION_VOID, "adherence report changed by user");
 		}
 
 		public function get scheduleGroupsHashMap():HashMap

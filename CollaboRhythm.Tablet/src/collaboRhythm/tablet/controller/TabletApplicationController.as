@@ -119,14 +119,19 @@ package collaboRhythm.tablet.controller
 
 		protected override function changeDemoDate():void
         {
-            if (_activeRecordAccount != null)
-			{
-				reloadDocuments(_activeRecordAccount);
-				_tabletAppControllersMediator.reloadUserData();
-			}
+            reloadData();
 
 			if (_activeRecordAccount && _activeRecordAccount.primaryRecord && _activeRecordAccount.primaryRecord.demographics)
 				_activeRecordAccount.primaryRecord.demographics.dispatchAgeChangeEvent();
         }
+
+		public function reloadData():void
+		{
+			if (_activeRecordAccount != null)
+			{
+				reloadDocuments(_activeRecordAccount);
+				_tabletAppControllersMediator.reloadUserData();
+			}
+		}
 	}
 }
