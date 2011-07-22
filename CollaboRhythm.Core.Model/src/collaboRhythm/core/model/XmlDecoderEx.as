@@ -4,6 +4,7 @@ package collaboRhythm.core.model
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
 
 	import mx.rpc.xml.ContentProxy;
+	import mx.rpc.xml.TypeIterator;
 	import mx.rpc.xml.XMLDecoder;
 	import mx.utils.object_proxy;
 
@@ -40,28 +41,51 @@ package collaboRhythm.core.model
 		/**
 		 * @private
 		 */
-		 override public function setSimpleValue(parent:*, name:*, value:*, type:Object=null):void
-		 {
-			 if (parent is ContentProxy)
-			 {
-				 var parentProxy:ContentProxy = parent as ContentProxy;
+		override public function getAttribute(parent:*, name:*):*
+		{
+			var result:*;
+			var attribute:XMLList;
+			if (parent is XML)
+			{
+				attribute = XML(parent).attribute(name);
+				if (attribute.length() == 0)
+					result = null;
+				else
+					result = parseValue(name, attribute);
+			}
+			else if (parent is XMLList)
+			{
+				attribute = XMLList(parent).attribute(name);
+				result = parseValue(name, attribute);
+			}
 
-				 if (parentProxy.content is CodedValue)
-				 {
-					 parentProxy.object_proxy::isSimple = false;
-					 var codedValue:CodedValue = parentProxy.content;
-					 codedValue.text = value;
-					 return;
-				 }
-				 else if (parentProxy.object_proxy::isSimple)
-				 {
-					 parentProxy.object_proxy::content = value;
-					 return;
-				 }
-			 }
+			return result;
+		}
 
-			 setValue(parent, name, value, type)
-		 }
+		/**
+		 * @private
+		 */
+		override public function setSimpleValue(parent:*, name:*, value:*, type:Object = null):void
+		{
+			if (parent is ContentProxy)
+			{
+				var parentProxy:ContentProxy = parent as ContentProxy;
 
+				if (parentProxy.content is CodedValue)
+				{
+					parentProxy.object_proxy::isSimple = false;
+					var codedValue:CodedValue = parentProxy.content;
+					codedValue.text = value;
+					return;
+				}
+				else if (parentProxy.object_proxy::isSimple)
+				{
+					parentProxy.object_proxy::content = value;
+					return;
+				}
+			}
+
+			setValue(parent, name, value, type)
+		}
 	}
 }

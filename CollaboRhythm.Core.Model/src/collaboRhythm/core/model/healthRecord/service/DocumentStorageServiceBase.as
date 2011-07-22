@@ -159,7 +159,7 @@ package collaboRhythm.core.model.healthRecord.service
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
 			for each (var reportXml:XML in reportsXml.Report)
 			{
-				var document:IDocument = unmarshallXml(reportXml);
+				var document:IDocument = unmarshallReportXml(reportXml);
 				if (document && documentShouldBeIncluded(document, nowTime))
 				{
 					DocumentMetadata.parseDocumentMetadata(reportXml.Meta.Document[0], document.meta);
@@ -178,10 +178,15 @@ package collaboRhythm.core.model.healthRecord.service
 			return _xmlMarshaller.marshallToXml(targetDocumentQName, document);
 		}
 
-		public function unmarshallXml(reportXml:XML):IDocument
+		public function unmarshallReportXml(reportXml:XML):IDocument
 		{
-			return _xmlMarshaller.unmarshallXml(reportXml.Item.elements(targetDocumentQName)[0],
-																  targetDocumentQName) as IDocument;
+			var element:XML = reportXml.Item.elements(targetDocumentQName)[0];
+			return element ? (unmarshallDocumentXml(element)) : null;
+		}
+
+		public function unmarshallDocumentXml(documentXml:XML):IDocument
+		{
+			return _xmlMarshaller.unmarshallXml(documentXml, targetDocumentQName) as IDocument;
 		}
 
 		protected function unmarshallSpecialRelationships(reportXml:XML, document:IDocument):void

@@ -110,7 +110,7 @@ package collaboRhythm.core.model
 			var xmlEncoder:XMLEncoder;
 			var xmlList:XMLList;
 
-			xmlEncoder = new XMLEncoder();
+			xmlEncoder = new XmlEncoderEx();
 			xmlEncoder.schemaManager = schemaManager;
 
 			// to avoid a prefix on the root document element, only provide the local name, no namespace uri

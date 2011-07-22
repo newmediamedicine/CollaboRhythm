@@ -30,7 +30,7 @@ package collaboRhythm.shared.model.healthRecord.document
     {
 		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#VideoMessage";
 
-        private var _fileId:int;
+        private var _fileId:String;
         private var _storageType:String;
         private var _subject:String;
 		private var _from:String;
@@ -45,7 +45,7 @@ package collaboRhythm.shared.model.healthRecord.document
         public function init(fileId:String, storageType:String, subject:String, from:Account, dateRecorded:Date, dateSent:Date):void
 		{
 			meta.type = DOCUMENT_TYPE;
-			_fileId = int(fileId);
+			_fileId = fileId;
             _storageType = storageType;
             _subject = subject;
             // TODO: Add checking here for null and potentially return null from the init
@@ -62,7 +62,7 @@ package collaboRhythm.shared.model.healthRecord.document
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
 			DocumentMetadata.parseDocumentMetadata(videoMessageReportXml.Meta.Document[0], this.meta);
 			var videoMessageXml:XML = videoMessageReportXml.Item.VideoMessage[0];
-			_fileId = int(videoMessageXml.fileId);
+			_fileId = videoMessageXml.fileId;
 			_storageType = videoMessageXml.storageType;
 			_subject = videoMessageXml.subject;
 			_from = videoMessageXml.from;
@@ -85,12 +85,12 @@ package collaboRhythm.shared.model.healthRecord.document
 			return videoMessageXml;
 		}
 
-        public function get fileId():int
+        public function get fileId():String
         {
             return _fileId;
         }
 
-        public function set fileId(value:int):void
+        public function set fileId(value:String):void
         {
             _fileId = value;
         }

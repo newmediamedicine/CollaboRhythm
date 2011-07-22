@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/FlashMediaServer.Applications/CollaboRhythm.CollaborationServer/CollaboRhythm.CollaborationServer.iml" filepath="$PROJECT_DIR$/FlashMediaServer.Applications/CollaboRhythm.CollaborationServer/CollaboRhythm.CollaborationServer.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Core/CollaboRhythm.Core.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Core/CollaboRhythm.Core.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Core.Model/CollaboRhythm.Core.Model.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Core.Model/CollaboRhythm.Core.Model.iml" group="CollaboRhythm" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Core.Model.Tests/CollaboRhythm.Core.Model.Tests.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Core.Model.Tests/CollaboRhythm.Core.Model.Tests.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Core.Tests/CollaboRhythm.Core.Tests.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Core.Tests/CollaboRhythm.Core.Tests.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Mobile/CollaboRhythm.Mobile.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Mobile/CollaboRhythm.Mobile.iml" group="CollaboRhythm" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.BloodPressure/CollaboRhythm.Plugins.BloodPressure.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.BloodPressure/CollaboRhythm.Plugins.BloodPressure.iml" group="CollaboRhythm" />

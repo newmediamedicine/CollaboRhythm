@@ -24,7 +24,7 @@ package collaboRhythm.shared.model.healthRecord.document
 	public class AdherenceItem extends DocumentBase
 	{
 		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#AdherenceItem";
-		public static const RELATION_TYPE_ADHERENCE_RESULT:String = "http://indivo.org/vocab/documentrels#adherenceresult";
+		public static const RELATION_TYPE_ADHERENCE_RESULT:String = "http://indivo.org/vocab/documentrels#adherenceResult";
 		private var _name:CodedValue;
 		private var _reportedBy:String;
 		private var _dateReported:Date;

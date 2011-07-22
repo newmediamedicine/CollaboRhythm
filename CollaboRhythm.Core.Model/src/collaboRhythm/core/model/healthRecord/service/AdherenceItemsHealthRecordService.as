@@ -103,10 +103,10 @@ package collaboRhythm.core.model.healthRecord.service
 			_relationshipXmlMarshaller.unmarshallRelationships(reportXml, adherenceItem);
 		}
 
-		override public function marshallToXml(document:IDocument):String
-		{
-			return convertToXML(document as AdherenceItem).toXMLString();
-		}
+//		override public function marshallToXml(document:IDocument):String
+//		{
+//			return convertToXML(document as AdherenceItem).toXMLString();
+//		}
 
 		public function convertToXML(adherenceItem:AdherenceItem):XML
 		{

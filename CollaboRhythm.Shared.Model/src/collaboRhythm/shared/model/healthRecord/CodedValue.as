@@ -24,14 +24,13 @@ package collaboRhythm.shared.model.healthRecord
 		private var _abbrev:String;
 		private var _text:String;
 		
-		public function CodedValue(type:String="", value:String="", abbrev:String="", text:String="")
+		public function CodedValue(type:String=null, value:String=null, abbrev:String=null, text:String=null)
 		{
 			_type = type;
 			_value = value;
 			_abbrev = abbrev;
 			_text = text;
 		}
-
 
         public function get type():String
         {

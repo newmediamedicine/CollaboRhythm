@@ -28,10 +28,15 @@
 		<xs:sequence>
 			<xs:element name="frequency" type="indivo:CodedValue" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="interval" type="indivo:CodedValue" minOccurs="0" maxOccurs="1"/>
+<!--
+TODO: fix bugs in XMLEncoder/XMLDecoder so that we can support xs:choice
 			<xs:choice>
-				<xs:element name="dateUntil" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
-				<xs:element name="count" type="xs:integer" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="dateUntil" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
+-->
+				<xs:element name="count" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+<!--
 			</xs:choice>
+-->
 		</xs:sequence>
 	</xs:complexType>
 

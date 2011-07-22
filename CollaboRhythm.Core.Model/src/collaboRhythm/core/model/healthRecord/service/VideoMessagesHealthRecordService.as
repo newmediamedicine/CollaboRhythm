@@ -37,9 +37,9 @@ package collaboRhythm.core.model.healthRecord.service
 			return videoMessage.dateRecorded == null || videoMessage.dateRecorded.valueOf() <= nowTime;
 		}
 
-		override public function unmarshallXml(reportXml:XML):IDocument
+		override public function unmarshallReportXml(reportXml:XML):IDocument
 		{
-			var document:IDocument = super.unmarshallXml(reportXml);
+			var document:IDocument = super.unmarshallReportXml(reportXml);
 			var videoMessage:VideoMessage = document as VideoMessage;
 			if (videoMessage.from)
 				videoMessage.fromAccount = _activeAccount.allSharingAccounts[videoMessage.from];

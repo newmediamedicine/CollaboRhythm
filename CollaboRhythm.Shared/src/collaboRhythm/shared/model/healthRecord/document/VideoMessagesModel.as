@@ -24,29 +24,21 @@ package collaboRhythm.shared.model.healthRecord.document
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 
 	import mx.collections.ArrayCollection;
+	import mx.utils.UIDUtil;
 
 	[Bindable]
     public class VideoMessagesModel extends DocumentCollectionBase
     {
+		private var _nextFileId:String;
         // TODO: Determine the best way to get a picture for a video message
         // There are flaws with using sharing relationships from the active account
 		// TODO: rename this to nextFileId or eliminate and use a UUID instead
-        private var _videoMessageCount:int = 0;
 
         public function VideoMessagesModel()
         {
 			super(VideoMessage.DOCUMENT_TYPE);
+			generateNextFileId();
         }
-
-		override public function addDocument(document:IDocument):void
-		{
-			super.addDocument(document);
-			var videoMessage:VideoMessage = document as VideoMessage;
-			if (videoMessage.fileId > videoMessageCount)
-			{
-				videoMessageCount = videoMessage.fileId;
-			}
-		}
 
 		/**
 		 * Creates a new instance of VideoMessage. Does NOT add the new instance to the record.
@@ -55,25 +47,30 @@ package collaboRhythm.shared.model.healthRecord.document
 		public function createVideoMessage(activeAccount:Account, currentDateSource:ICurrentDateSource):VideoMessage
         {
             var videoMessage:VideoMessage = new VideoMessage();
-            videoMessage.init((_videoMessageCount+1).toString(), "FlashMediaServer", "test", activeAccount, currentDateSource.now(), currentDateSource.now());
+            videoMessage.init(nextFileId, "FlashMediaServer", "test", activeAccount, currentDateSource.now(), currentDateSource.now());
 			videoMessage.pendingAction = DocumentBase.ACTION_CREATE;
-            _videoMessageCount += 1;
+			generateNextFileId();
 			return videoMessage;
         }
+
+		private function generateNextFileId():void
+		{
+			nextFileId = UIDUtil.createUID();
+		}
 
         public function get videoMessagesCollection():ArrayCollection
         {
             return documents;
         }
 
-        public function get videoMessageCount():int
-        {
-            return _videoMessageCount;
-        }
+		public function set nextFileId(nextFileId:String):void
+		{
+			_nextFileId = nextFileId;
+		}
 
-        public function set videoMessageCount(value:int):void
-        {
-            _videoMessageCount = value;
-        }
+		public function get nextFileId():String
+		{
+			return _nextFileId;
+		}
 	}
 }

@@ -40,9 +40,9 @@ package collaboRhythm.core.model.healthRecord.service
 			return medicationOrder.dateOrdered == null || medicationOrder.dateOrdered.valueOf() <= nowTime;
 		}
 
-		override public function unmarshallXml(reportXml:XML):IDocument
+		override public function unmarshallReportXml(reportXml:XML):IDocument
 		{
-//			return super.unmarshallXml(reportXml);
+//			return super.unmarshallReportXml(reportXml);
 			var medicationOrder:MedicationOrder = new MedicationOrder();
 			medicationOrder.initFromReportXML(reportXml);
 			return medicationOrder;
