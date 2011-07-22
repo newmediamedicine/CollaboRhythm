@@ -85,6 +85,8 @@
 		import mx.collections.IList;
 		import mx.events.FlexEvent;
 		import mx.events.PropertyChangeEvent;
+		import mx.logging.ILogger;
+		import mx.logging.Log;
 
 		private const hydrochlorothiazidePoint:Point = new Point(200, 533);
 		private const atenololPoint:Point = new Point(216, 342);
@@ -94,6 +96,7 @@
 		private var atenololMedicationModel:MedicationComponentAdherenceModel;
 		private var _circulatorySystemSimulationLoader:Loader = new Loader();
 		private var _circulatorySystemSimulationMovieClip:MovieClip;
+		protected var _logger:ILogger;
 
 		protected override function creationCompleteHandler(event:FlexEvent):void
 		{
@@ -108,8 +111,11 @@
 
 			cardiovascularSimulationLoaderUiComponent.addChild(_circulatorySystemSimulationLoader);
 			_circulatorySystemSimulationLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, circulatorySystemSimulationLoader_completeHandler);
+			_circulatorySystemSimulationLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, circulatorySystemSimulationLoader_ioErrorHandler)
 			var urlRequest:URLRequest = new URLRequest("http://www.mit.edu/~jom/temp/simulations/circulatorySystemSimulation.swf");
 			_circulatorySystemSimulationLoader.load(urlRequest);
+
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 
 			super.creationCompleteHandler(event);
 		}
@@ -117,6 +123,11 @@
 		private function circulatorySystemSimulationLoader_completeHandler(event:Event):void
 		{
 			_circulatorySystemSimulationMovieClip = MovieClip(_circulatorySystemSimulationLoader.content);
+		}
+
+		private function circulatorySystemSimulationLoader_ioErrorHandler(event:Event):void
+		{
+			_logger.warn("circulatorySystemSimulator load FAILED");
 		}
 
 		private function hydrochlorothiazideMedicationModel_changeHandler(concentration:Number):void
