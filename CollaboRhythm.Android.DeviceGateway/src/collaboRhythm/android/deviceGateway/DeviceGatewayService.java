@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.text.format.DateFormat;
 import android.widget.Toast;
 
 import com.google.code.microlog4android.Logger;
@@ -17,6 +18,8 @@ import com.google.code.microlog4android.LoggerFactory;
 import com.google.code.microlog4android.appender.FileAppender;
 import com.google.code.microlog4android.appender.LogCatAppender;
 import com.google.code.microlog4android.appender.SyslogAppender;
+
+import java.util.Date;
 
 public class DeviceGatewayService extends Service
 {
@@ -72,15 +75,8 @@ public class DeviceGatewayService extends Service
             Bundle extras = intent.getExtras();
             if (extras != null && extras.getBoolean("bluetoothDeviceDisconnected"))
             {
-                if (mBluetoothDevice != null)
-                {
-                    startBluetoothDeviceConnectThread();
-                }
-                else
-                {
-                    log.debug(CLASS + ": Instruct user to retry.");
-                    instructUserToRetry();
-                }
+				mBluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                startBluetoothDeviceConnectThread();
             }
             else
             {
@@ -168,7 +164,7 @@ public class DeviceGatewayService extends Service
     {
         String bloodPressureString = "name=FORA D15b&success=true&systolic=" + Integer.toString(
                 data.getInt("systolic")) + "&diastolic=" + Integer.toString(
-                data.getInt("diastolic")) + "&heartrate=" + Integer.toString(data.getInt("heartrate"));
+                data.getInt("diastolic")) + "&heartrate=" + Integer.toString(data.getInt("heartrate")) + "&date=" + new Date().toGMTString();
 
         Intent startCollaboRhythmIntent = new Intent(Intent.ACTION_VIEW,
                                                      Uri.parse("collaborhythm://" + bloodPressureString));

@@ -74,7 +74,8 @@
 			{
 				var scheduleItemReportingView:ScheduleItemReportingViewBase = _scheduleModel.viewFactory.createScheduleItemReportingView(scheduleItemOccurrence,
 																																		 _scheduleModel.scheduleReportingModel,
-																																		 _activeAccountId);
+																																		 _activeAccountId,
+																																		_scheduleReportingModel.handledInvokeEvents);
 				scheduleItemsGroup.addElement(scheduleItemReportingView);
 			}
 		}

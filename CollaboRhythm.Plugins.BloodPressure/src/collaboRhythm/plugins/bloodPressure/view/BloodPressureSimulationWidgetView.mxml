@@ -5,16 +5,22 @@
 		 width="100%"
 		 height="100%"
 		 implements="collaboRhythm.plugins.bloodPressure.view.IBloodPressureWidgetView"
-		 xmlns:circulatorysystem="collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySystem.*">
+		 xmlns:circulatorysystem="collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySystem.*"
+		creationComplete="creationCompleteHandler()">
 	<fx:Script><![CDATA[
 		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 
 		import mx.events.PropertyChangeEvent;
+		import mx.logging.ILogger;
+		import mx.logging.Log;
 
 		private var _model:BloodPressureModel;
 		private var hydrochlorothiazideMedicationModel:MedicationComponentAdherenceModel;
+		private var _circulatorySystemSimulationLoader:Loader = new Loader();
+		private var _circulatorySystemSimulationMovieClip:MovieClip;
+		protected var _logger:ILogger;
 
 		[Bindable]
 		public function get model():BloodPressureModel
@@ -46,6 +52,46 @@
 				lookupMedications();
 		}
 
+		private function creationCompleteHandler():void
+		{
+			cardiovascularSimulationLoaderUiComponent.addChild(_circulatorySystemSimulationLoader);
+			_circulatorySystemSimulationLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, circulatorySystemSimulationLoader_completeHandler);
+			_circulatorySystemSimulationLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, circulatorySystemSimulationLoader_ioErrorHandler)
+			var urlRequest:URLRequest = new URLRequest("http://www.mit.edu/~jom/temp/simulations/circulatorySystemSimulation.swf");
+			_circulatorySystemSimulationLoader.load(urlRequest);
+
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+		}
+
+		private function circulatorySystemSimulationLoader_completeHandler(event:Event):void
+		{
+			_circulatorySystemSimulationMovieClip = MovieClip(_circulatorySystemSimulationLoader.content);
+		}
+
+		private function circulatorySystemSimulationLoader_ioErrorHandler(event:Event):void
+		{
+			_logger.warn("circulatorySystemSimulator load FAILED");
+		}
+
+		private function hydrochlorothiazideMedicationModel_changeHandler(concentration:Number):void
+		{
+			if (_circulatorySystemSimulationMovieClip)
+			{
+				if (concentration < SimulationModel.HYDROCHLOROTHIAZIDE_GOAL)
+				{
+					_circulatorySystemSimulationMovieClip.current_preload = 3;
+					_circulatorySystemSimulationMovieClip.current_damage = 2;
+					_circulatorySystemSimulationMovieClip.update();
+				}
+				else
+				{
+					_circulatorySystemSimulationMovieClip.current_preload = 1;
+					_circulatorySystemSimulationMovieClip.current_damage = 0;
+					_circulatorySystemSimulationMovieClip.update();
+				}
+			}
+		}
+
 		public function refresh():void
 		{
 		}
@@ -56,16 +102,25 @@
 			 height="100%"
 			>
 		<s:layout>
-			<view2:ScaleToFitLayout unscaledWidth="{hypertensionCirculatorySystem1.width}"
-									aspectRatioMin="{hypertensionCirculatorySystem1.width / hypertensionCirculatorySystem1.height}"
-									aspectRatioMax="{hypertensionCirculatorySystem1.width / hypertensionCirculatorySystem1.height}"/>
+			<view2:ScaleToFitLayout unscaledWidth="{cardiovascularSimulationLoaderUiComponent.width}"
+									aspectRatioMin="{cardiovascularSimulationLoaderUiComponent.width / cardiovascularSimulationLoaderUiComponent.height}"
+									aspectRatioMax="{cardiovascularSimulationLoaderUiComponent.width / cardiovascularSimulationLoaderUiComponent.height}"/>
 		</s:layout>
-		<circulatorysystem:HypertensionCirculatorySystem1 id="hypertensionCirculatorySystem1"
+		<!--<circulatorysystem:HypertensionCirculatorySystem1 id="hypertensionCirculatorySystem1"
 														  visible="{hydrochlorothiazideMedicationModel.concentration &gt;= SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"
 				/>
 		<circulatorysystem:HypertensionCirculatorySystem2 id="hypertensionCirculatorySystem2"
 														  visible="{hydrochlorothiazideMedicationModel.concentration &lt; SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"
-				/>
+				/>-->
+		<mx:UIComponent id="cardiovascularSimulationLoaderUiComponent" width="360" height="600"/>
+	</s:Group>
+	<!--TODO: determine a better way to make the widget clickable to launch the full view-->
+	<s:Group width="100%" height="100%">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0xFFFFFF" alpha="0.01"/>
+			</s:fill>
+		</s:Rect>
 	</s:Group>
 
 </s:Group>

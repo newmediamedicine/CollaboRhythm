@@ -46,6 +46,9 @@ package collaboRhythm.plugins.schedule.controller
 		private var _widgetView:ScheduleClockWidgetView;
 		private var _fullView:IScheduleFullView;
 
+		private var _isInvokeEventListenerAdded:Boolean;
+		private var _handledInvokeEvents:Vector.<String> = new Vector.<String>();
+
 		public function ScheduleAppController(constructorParams:AppControllerConstructorParams)
 		{
 			super(constructorParams);
@@ -118,7 +121,11 @@ package collaboRhythm.plugins.schedule.controller
 
 		private function scheduleModel_initializedHandler(event:ScheduleModelEvent):void
 		{
-			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, invokeHandler, false, 0, true);
+			if (!_isInvokeEventListenerAdded)
+			{
+				NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, invokeHandler, false, 0, true);
+				_isInvokeEventListenerAdded = true;
+			}
 		}
 
 		private function invokeHandler(event:InvokeEvent):void
@@ -172,7 +179,8 @@ package collaboRhythm.plugins.schedule.controller
 
 		private function showFullViewHandler(event:AppEvent):void
 		{
-			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, event.workstationAppController, event.startRect, event.applicationName));
+			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, event.workstationAppController, event.startRect,
+									   event.applicationName));
 		}
 
 		private function hideFullViewHandler(event:AppEvent):void
@@ -185,7 +193,7 @@ package collaboRhythm.plugins.schedule.controller
 			if (!_scheduleModel)
 			{
 				_scheduleModel = new ScheduleModel(_componentContainer, _activeRecordAccount.primaryRecord,
-												   _activeRecordAccount.accountId);
+												   _activeRecordAccount.accountId, _handledInvokeEvents);
 				_scheduleModel.addEventListener(ScheduleModelEvent.INITIALIZED, scheduleModel_initializedHandler, false,
 												0, true);
 			}

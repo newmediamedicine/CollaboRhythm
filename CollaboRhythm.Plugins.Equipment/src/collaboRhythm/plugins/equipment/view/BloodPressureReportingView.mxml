@@ -20,6 +20,7 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:sharedViews="collaboRhythm.shared.view.*"
 		 width="100%" height="100%"
+		 remove="removeHandler()"
 		 click="bloodPressureReportingView_clickHandler()">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
@@ -87,12 +88,16 @@
 		private const VITAL_SIGN_URL:String = "http://codes.indivo.org/vitalsigns/";
 
 		private var _currentDateSource:ICurrentDateSource;
+		private var _handledInvokeEvents:Vector.<String> = new Vector.<String>();
 
 		public function init(scheduleItemOccurrence:ScheduleItemOccurrence, adherenceItem:AdherenceItem,
-							 repeat:Boolean = false, measurementsFromDeviceInitial:int = 0):void
+							 handledInvokeEvents:Vector.<String>, repeat:Boolean = false,
+							 measurementsFromDeviceInitial:int = 0):void
 		{
 			_scheduleItemOccurrence = scheduleItemOccurrence;
 			_adherenceItem = adherenceItem;
+			_handledInvokeEvents = handledInvokeEvents;
+
 			_repeat = repeat;
 			_measurementsFromDeviceInitial = measurementsFromDeviceInitial;
 			if (repeat)
@@ -113,26 +118,32 @@
 		{
 			if (event.arguments.length != 0)
 			{
-				if (currentState == "initial" || (currentState == "repeat" && _measurementsFromDevice >= _measurementsFromDeviceInitial))
-				{
-					var urlString:String = event.arguments[0];
-					var urlVariablesString:String = urlString.split("//")[1];
-					var urlVariables:URLVariables = new URLVariables(urlVariablesString);
+//				if (_handledInvokeEvents.indexOf(event) == -1)
+//				{
+//					if (currentState == "initial" || (currentState == "repeat" && _measurementsFromDevice >= _measurementsFromDeviceInitial))
+//					{
+						var urlString:String = event.arguments[0];
+						var urlVariablesString:String = urlString.split("//")[1];
+						var urlVariables:URLVariables = new URLVariables(urlVariablesString);
 
-					if (urlVariables.success == "true")
-					{
-						systolicResult.text = urlVariables.systolic;
-						systolicResult.enabled = false;
-						diastolicResult.text = urlVariables.diastolic;
-						diastolicResult.enabled = false;
-						heartRateResult.text = urlVariables.heartrate;
-						heartRateResult.enabled = false;
-						_fromDevice = true;
-						_hasUserInteracted = false;
-						_automaticSubmitInterval = setInterval(automaticSubmitHandler, 5000);
-					}
-				}
-				_measurementsFromDevice += 1;
+						if (urlVariables.success == "true" && _handledInvokeEvents.indexOf(urlVariables.date) == -1)
+						{
+							systolicResult.text = urlVariables.systolic;
+							systolicResult.enabled = false;
+							diastolicResult.text = urlVariables.diastolic;
+							diastolicResult.enabled = false;
+							heartRateResult.text = urlVariables.heartrate;
+							heartRateResult.enabled = false;
+							_fromDevice = true;
+							_hasUserInteracted = false;
+							_automaticSubmitInterval = setInterval(automaticSubmitHandler, 5000);
+
+							_handledInvokeEvents.push(urlVariables.date);
+						}
+//					}
+//					_measurementsFromDevice += 1;
+
+//				}
 			}
 		}
 
@@ -204,7 +215,8 @@
 		private function showBloodPressureSymptomView(state:String):void
 		{
 			var bloodPressureSymptomView:BloodPressureSymptomView = new BloodPressureSymptomView();
-			bloodPressureSymptomView.init(_scheduleItemOccurrence, _adherenceItem, _measurementsFromDevice);
+			bloodPressureSymptomView.init(_scheduleItemOccurrence, _adherenceItem, _measurementsFromDevice,
+										  _handledInvokeEvents);
 			bloodPressureSymptomView.currentState = state;
 			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
 															 _scheduleItemOccurrence, _adherenceItem,
@@ -277,14 +289,14 @@
 		private function systolicResult_focusInHandler():void
 		{
 			var globalPoint:Point = systolicResultGroup.localToGlobal(new Point(systolicResult.x + systolicResult.width,
-																				systolicResult.y));
+																				systolicResult.y + systolicResult.height - numberPad.height));
 			showNumberPad(globalPoint, systolicResult);
 		}
 
 		private function diastolicResult_focusInHandler():void
 		{
 			var globalPoint:Point = diastolicResultGroup.localToGlobal(new Point(diastolicResult.x + diastolicResult.width,
-																				 diastolicResult.y));
+																				 diastolicResult.y + diastolicResult.height - numberPad.height));
 			showNumberPad(globalPoint, diastolicResult);
 		}
 
@@ -294,6 +306,12 @@
 																				 heartRateResult.y));
 			showNumberPad(globalPoint, heartRateResult);
 		}
+
+		private function removeHandler():void
+		{
+			NativeApplication.nativeApplication.removeEventListener(InvokeEvent.INVOKE, invokeHandler);
+		}
+
 		]]>
 	</fx:Script>
 	<s:Rect width="100%" height="100%">

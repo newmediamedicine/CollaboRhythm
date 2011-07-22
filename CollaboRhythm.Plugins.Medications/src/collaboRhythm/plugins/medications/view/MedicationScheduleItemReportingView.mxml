@@ -73,9 +73,9 @@
 		private var _currentDateSource:ICurrentDateSource;
 
 		public override function init(scheduleItemOccurrence:ScheduleItemOccurrence,
-									  scheduleReportingModel:IScheduleReportingModel, activeAccountId:String):void
+									  scheduleReportingModel:IScheduleReportingModel, activeAccountId:String, handledInvokeEvents:Vector.<String>):void
 		{
-			super.init(scheduleItemOccurrence, scheduleReportingModel, activeAccountId);
+			super.init(scheduleItemOccurrence, scheduleReportingModel, activeAccountId, handledInvokeEvents);
 			_medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
 			_medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
 

@@ -60,7 +60,7 @@ public class BluetoothDeviceConnectThread extends Thread {
     	} catch (IOException connectException) {
     		// Unable to connect; close the socket and get out
     		log.debug(CLASS + getId() + ": mmBluetoothRfcommSocket connecting to device - FAILED");
-    		sendBluetoothDeviceConnectionMessage(BLUETOOTH_DEVICE_CONNECT_FAILED);
+//    		sendBluetoothDeviceConnectionMessage(BLUETOOTH_DEVICE_CONNECT_FAILED);
     		try {
     			mmBluetoothSocket.close();
     		} catch (IOException closeException) { }

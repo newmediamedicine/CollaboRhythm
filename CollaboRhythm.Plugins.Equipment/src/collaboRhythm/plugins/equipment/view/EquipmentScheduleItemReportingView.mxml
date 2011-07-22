@@ -68,9 +68,10 @@
 		private var _currentDateSource:ICurrentDateSource;
 
 		public override function init(scheduleItemOccurrence:ScheduleItemOccurrence,
-									  scheduleReportingModel:IScheduleReportingModel, activeAccountId:String):void
+									  scheduleReportingModel:IScheduleReportingModel, activeAccountId:String,
+									  handledInvokeEvents:Vector.<String>):void
 		{
-			super.init(scheduleItemOccurrence, scheduleReportingModel, activeAccountId);
+			super.init(scheduleItemOccurrence, scheduleReportingModel, activeAccountId, handledInvokeEvents);
 			_equipmentScheduleItem = scheduleItemOccurrence.scheduleItem as EquipmentScheduleItem;
 			_equipment = _equipmentScheduleItem.scheduledEquipment;
 
@@ -165,18 +166,18 @@
 		{
 			_scheduleReportingModel.pendingAdherenceItem = null;
 			var bloodPressureReportingView:BloodPressureReportingView = new BloodPressureReportingView();
-			bloodPressureReportingView.init(_scheduleItemOccurrence, adherenceItem);
+			bloodPressureReportingView.init(_scheduleItemOccurrence, adherenceItem, _handledInvokeEvents);
 			dispatchAdherenceItemIncompleteEvent(bloodPressureReportingView);
 		}
 
-//		public function bloodPressureReportingResult(systolic:String, diastolic:String, heartRate:String):void
-//		{
-//			var adherenceItem:AdherenceItem = new AdherenceItem();
-//			adherenceItem.init(_equipmentScheduleItem.name, _activeAccountId, _currentDateSource.now(),
-//							   scheduleItemOccurrence.recurrenceIndex, true);
-//
-//			dispatchAdherenceItemCompleteEvent(adherenceItem);
-//		}
+		//		public function bloodPressureReportingResult(systolic:String, diastolic:String, heartRate:String):void
+		//		{
+		//			var adherenceItem:AdherenceItem = new AdherenceItem();
+		//			adherenceItem.init(_equipmentScheduleItem.name, _activeAccountId, _currentDateSource.now(),
+		//							   scheduleItemOccurrence.recurrenceIndex, true);
+		//
+		//			dispatchAdherenceItemCompleteEvent(adherenceItem);
+		//		}
 
 		private function createNonadherenceItem():void
 		{
@@ -225,7 +226,8 @@
 				<s:Group left="5" right="5" top="5" bottom="5">
 					<s:Label id="equipmentName" styleName="labelText" text="{_equipment.name}" maxDisplayedLines="1"
 							 width="100%" top="0"/>
-					<s:Label id="indication" styleName="labelText" text="high blood pressure - Dr. James King"
+					<!--TODO: change once indication is available in equipment schema, or use relationship with problem-->
+					<s:Label id="indication" styleName="labelText" text="hypertension"
 							 maxDisplayedLines="1" width="100%" top="{descriptionRegion.height / 3.3}"/>
 					<s:Label id="administration" styleName="labelText" text="take once a day at the same time"
 							 maxDisplayedLines="1" width="100%" bottom="{descriptionRegion.height / 6}"/>

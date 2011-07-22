@@ -1,5 +1,6 @@
 package collaboRhythm.android.deviceGateway;
 
+import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
 import com.google.code.microlog4android.Logger;
 import com.google.code.microlog4android.LoggerFactory;
@@ -22,16 +23,18 @@ public class BluetoothDeviceDisconnectedBroadcastReceiver extends BroadcastRecei
 		log.debug(CLASS + ": " + "Bluetooth device disconnected.");
         if (!mBluetoothDeviceConnected)
         {
-            sendBluetoothDeviceDisconnectedIntent(context);
+			BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+            sendBluetoothDeviceDisconnectedIntent(context, device);
         }
 		mBluetoothDeviceDisconnected = true;
 	}
 
-    public void sendBluetoothDeviceDisconnectedIntent(Context context) {
+    public void sendBluetoothDeviceDisconnectedIntent(Context context, BluetoothDevice device) {
 		Intent startServiceIntent = new Intent(context, DeviceGatewayService.class);
-        Bundle extras = new Bundle();
-        extras.putBoolean("bluetoothDeviceDisconnected", true);
+        startServiceIntent.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
+		Bundle extras = new Bundle();
+		extras.putBoolean("bluetoothDeviceDisconnected", true);
 		startServiceIntent.putExtras(extras);
-    	context.startService(startServiceIntent);
+		context.startService(startServiceIntent);
 	}
 }
