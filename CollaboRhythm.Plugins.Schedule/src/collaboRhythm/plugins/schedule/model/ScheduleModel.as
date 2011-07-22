@@ -20,7 +20,6 @@ package collaboRhythm.plugins.schedule.model
 	import collaboRhythm.plugins.schedule.shared.model.*;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
-	import collaboRhythm.shared.model.healthRecord.Relationship;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
@@ -31,6 +30,7 @@ package collaboRhythm.plugins.schedule.model
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
 	import flash.events.EventDispatcher;
+	import flash.events.InvokeEvent;
 	import flash.utils.getQualifiedClassName;
 
 	import j2as3.collection.HashMap;
@@ -40,6 +40,7 @@ package collaboRhythm.plugins.schedule.model
 	import mx.collections.ArrayCollection;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
+
 
 	[Bindable]
 	public class ScheduleModel extends EventDispatcher
@@ -60,11 +61,14 @@ package collaboRhythm.plugins.schedule.model
 		private var _logger:ILogger;
 
 		private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>();
+		private var _handledInvokeEvents:Vector.<String>;
 
 
-		public function ScheduleModel(componentContainer:IComponentContainer, record:Record, accountId:String)
+		public function ScheduleModel(componentContainer:IComponentContainer, record:Record, accountId:String,
+									  handledInvokeEvents:Vector.<String>)
 		{
 			_accountId = accountId;
+			_handledInvokeEvents = handledInvokeEvents;
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 
 			_record = record;
@@ -205,7 +209,7 @@ package collaboRhythm.plugins.schedule.model
 				_record.addDocument(adherenceItem.adherenceResult);
 				relationships.addItem(_record.addNewRelationship(AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT, adherenceItem, adherenceItem.adherenceResult));
 			}
-			_record.saveChanges(documents, relationships);
+//			_record.saveChanges(documents, relationships);
 		}
 
 		public function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void
@@ -231,7 +235,7 @@ package collaboRhythm.plugins.schedule.model
 		{
 			if (!_scheduleReportingModel)
 			{
-				_scheduleReportingModel = new ScheduleReportingModel(this, _accountId);
+				_scheduleReportingModel = new ScheduleReportingModel(this, _accountId, _handledInvokeEvents);
 			}
 			return _scheduleReportingModel;
 		}

@@ -21,12 +21,12 @@ package collaboRhythm.plugins.schedule.model
 	import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
-	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
+	import flash.events.InvokeEvent;
 	import flash.net.URLVariables;
 
 	import mx.collections.ArrayCollection;
@@ -42,11 +42,14 @@ package collaboRhythm.plugins.schedule.model
 		private var _currentScheduleGroup:ScheduleGroup;
 		private var _pendingAdherenceItem:PendingAdherenceItem;
 		private var _currentDateSource:ICurrentDateSource;
+		private var _handledInvokeEvents:Vector.<String>;
 
-		public function ScheduleReportingModel(scheduleModel:ScheduleModel, accountId:String)
+		public function ScheduleReportingModel(scheduleModel:ScheduleModel, accountId:String,
+											   handledInvokeEvents:Vector.<String>)
 		{
 			_scheduleModel = scheduleModel;
 			_accountId = accountId;
+			_handledInvokeEvents = handledInvokeEvents;
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
 
@@ -191,6 +194,11 @@ package collaboRhythm.plugins.schedule.model
 		public function set currentScheduleGroup(value:ScheduleGroup):void
 		{
 			_currentScheduleGroup = value;
+		}
+
+		public function get handledInvokeEvents():Vector.<String>
+		{
+			return _handledInvokeEvents;
 		}
 	}
 }

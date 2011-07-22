@@ -19,17 +19,20 @@ package collaboRhythm.plugins.schedule.shared.model
 
 	import castle.flexbridge.reflection.ClassInfo;
 
-    import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
-    import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
-    import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
-    import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+
+	import flash.events.InvokeEvent;
 
 	public interface IScheduleViewFactory
     {
         function get scheduleItemType():ClassInfo;
         function createScheduleItemClockView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemClockViewBase;
         function createScheduleItemReportingView(scheduleItemOccurrence:ScheduleItemOccurrence,
-												 scheduleReportingModel:IScheduleReportingModel, activeAccountId:String):ScheduleItemReportingViewBase;
+												 scheduleReportingModel:IScheduleReportingModel, activeAccountId:String,
+												 handledInvokeEvents:Vector.<String>):ScheduleItemReportingViewBase;
         function createScheduleItemTimelineView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemTimelineViewBase;
     }
 }

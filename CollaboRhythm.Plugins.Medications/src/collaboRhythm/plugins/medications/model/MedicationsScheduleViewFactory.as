@@ -4,16 +4,18 @@ package collaboRhythm.plugins.medications.model
 	import castle.flexbridge.reflection.ClassInfo;
 	import castle.flexbridge.reflection.ReflectionUtils;
 
-    import collaboRhythm.plugins.medications.view.MedicationScheduleItemClockView;
-    import collaboRhythm.plugins.medications.view.MedicationScheduleItemReportingView;
-    import collaboRhythm.plugins.medications.view.MedicationScheduleItemTimelineView;
-    import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
+	import collaboRhythm.plugins.medications.view.MedicationScheduleItemClockView;
+	import collaboRhythm.plugins.medications.view.MedicationScheduleItemReportingView;
+	import collaboRhythm.plugins.medications.view.MedicationScheduleItemTimelineView;
+	import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleViewFactory;
-    import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
-    import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
-    import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
-    import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
-    import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
+	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+
+	import flash.events.InvokeEvent;
 
 	public class MedicationsScheduleViewFactory implements IScheduleViewFactory
     {
@@ -35,10 +37,11 @@ package collaboRhythm.plugins.medications.model
 
         public function createScheduleItemReportingView(scheduleItemOccurrence:ScheduleItemOccurrence,
 														scheduleReportingModel:IScheduleReportingModel,
-														activeAccountId:String):ScheduleItemReportingViewBase
+														activeAccountId:String,
+														handledInvokeEvents:Vector.<String>):ScheduleItemReportingViewBase
         {
             var medicationScheduleItemReportingView:MedicationScheduleItemReportingView = new MedicationScheduleItemReportingView();
-            medicationScheduleItemReportingView.init(scheduleItemOccurrence, scheduleReportingModel, activeAccountId);
+            medicationScheduleItemReportingView.init(scheduleItemOccurrence, scheduleReportingModel, activeAccountId, handledInvokeEvents);
             return medicationScheduleItemReportingView;
         }
 

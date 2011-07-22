@@ -45,21 +45,24 @@
 	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEvent;
-		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 		import spark.events.IndexChangeEvent;
 
 		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
 		private var _adherenceItem:AdherenceItem;
 		private var _measurementsFromDeviceInitial:int;
+		private var _handledInvokeEvents:Vector.<String>;
 
 		public function init(scheduleItemOccurrence:ScheduleItemOccurrence, adherenceItem:AdherenceItem,
-							 measurementsFromDeviceInitial:int):void
+							 measurementsFromDeviceInitial:int, handledInvokeEvents:Vector.<String>):void
 		{
 			_scheduleItemOccurrence = scheduleItemOccurrence;
 			_adherenceItem = adherenceItem;
 			_measurementsFromDeviceInitial = measurementsFromDeviceInitial;
+			_handledInvokeEvents = handledInvokeEvents;
+
 		}
 
 		private function symptomListChangeHandler(event:IndexChangeEvent):void
@@ -75,7 +78,8 @@
 		private function noSymptomButtonClickHandler(event:MouseEvent):void
 		{
 			var bloodPressureReportingView:BloodPressureReportingView = new BloodPressureReportingView();
-			bloodPressureReportingView.init(_scheduleItemOccurrence, _adherenceItem, true, _measurementsFromDeviceInitial);
+			bloodPressureReportingView.init(_scheduleItemOccurrence, _adherenceItem, _handledInvokeEvents, true,
+											_measurementsFromDeviceInitial);
 			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
 															 _scheduleItemOccurrence, _adherenceItem,
 															 bloodPressureReportingView));

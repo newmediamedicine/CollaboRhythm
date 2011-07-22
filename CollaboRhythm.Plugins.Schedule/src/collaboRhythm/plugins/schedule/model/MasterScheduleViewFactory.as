@@ -28,6 +28,7 @@ package collaboRhythm.plugins.schedule.model
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 
+	import flash.events.InvokeEvent;
 	import flash.utils.Dictionary;
 
 	public class MasterScheduleViewFactory implements IScheduleViewFactory
@@ -56,11 +57,12 @@ package collaboRhythm.plugins.schedule.model
 
 		public function createScheduleItemReportingView(scheduleItemOccurrence:ScheduleItemOccurrence,
 														scheduleReportingModel:IScheduleReportingModel,
-														activeAccountId:String):ScheduleItemReportingViewBase
+														activeAccountId:String,
+														handledInvokeEvents:Vector.<String>):ScheduleItemReportingViewBase
 		{
 			return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem)).name].createScheduleItemReportingView(scheduleItemOccurrence,
 																																										scheduleReportingModel,
-																																										activeAccountId);
+																																										activeAccountId, handledInvokeEvents);
 		}
 
 		public function createScheduleItemTimelineView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemTimelineViewBase

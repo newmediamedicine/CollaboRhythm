@@ -28,9 +28,9 @@
 		<![CDATA[
 		import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 		import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
+		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
-		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 
 		import mx.binding.utils.BindingUtils;
 		import mx.binding.utils.ChangeWatcher;
@@ -45,16 +45,20 @@
 		[Bindable]
 		protected var _scheduleReportingModel:IScheduleReportingModel;
 		protected var _activeAccountId:String;
+		protected var _handledInvokeEvents:Vector.<String>;
 		private var _pendingAdherenceItemChangeWatcher:ChangeWatcher;
 
 		public static const SCHEDULE_ITEM_WIDGET_VIEW:String = "scheduleItemWidgetView";
 
+
 		public function init(scheduleItemOccurrence:ScheduleItemOccurrence,
-							 scheduleReportingModel:IScheduleReportingModel, activeAccountId:String):void
+							 scheduleReportingModel:IScheduleReportingModel, activeAccountId:String,
+							 handledInvokeEvents:Vector.<String>):void
 		{
 			_scheduleItemOccurrence = scheduleItemOccurrence;
 			_scheduleReportingModel = scheduleReportingModel;
 			_activeAccountId = activeAccountId;
+			_handledInvokeEvents = handledInvokeEvents;
 
 			_pendingAdherenceItemChangeWatcher = BindingUtils.bindSetter(pendingAdherenceItem_changeHandler,
 																		 _scheduleReportingModel,
