@@ -26,12 +26,8 @@
 		width="100%" height="100%"
 		title="Circulatory System"
 		>
-	<circulatorysystem:HypertensionCirculatorySystem1 id="hypertensionCirculatorySystem1"
-													  visible="{hydrochlorothiazideMedicationModel.concentration &gt;= SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"
-			/>
-	<circulatorysystem:HypertensionCirculatorySystem2 id="hypertensionCirculatorySystem2"
-													  visible="{hydrochlorothiazideMedicationModel.concentration &lt; SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"
-			/>
+	<!--<s:SWFLoader id="cardiovascularSimulationLoader" source="@Embed(source='/assets/swfs/heart14.swf')" complete="circulatorySystemSimulationLoader_completeHandler()"/>-->
+	<mx:UIComponent id="cardiovascularSimulationLoaderUiComponent" width="360" height="600"/>
 	<s:Group id="arrowsGroup" width="100%" height="100%"/>
 	<buttons:SimulationDetailButton
 			id="atenololButton"
@@ -83,6 +79,8 @@
 		import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 
+		import mx.binding.utils.BindingUtils;
+
 		import mx.collections.ArrayCollection;
 		import mx.collections.IList;
 		import mx.events.FlexEvent;
@@ -94,6 +92,8 @@
 		private var hydrochlorothiazideMedicationModel:MedicationComponentAdherenceModel;
 		[Bindable]
 		private var atenololMedicationModel:MedicationComponentAdherenceModel;
+		private var _circulatorySystemSimulationLoader:Loader = new Loader();
+		private var _circulatorySystemSimulationMovieClip:MovieClip;
 
 		protected override function creationCompleteHandler(event:FlexEvent):void
 		{
@@ -106,7 +106,36 @@
 
 			lookupMedications();
 
+			cardiovascularSimulationLoaderUiComponent.addChild(_circulatorySystemSimulationLoader);
+			_circulatorySystemSimulationLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, circulatorySystemSimulationLoader_completeHandler);
+			var urlRequest:URLRequest = new URLRequest("http://www.mit.edu/~jom/temp/simulations/circulatorySystemSimulation.swf");
+			_circulatorySystemSimulationLoader.load(urlRequest);
+
 			super.creationCompleteHandler(event);
+		}
+
+		private function circulatorySystemSimulationLoader_completeHandler(event:Event):void
+		{
+			_circulatorySystemSimulationMovieClip = MovieClip(_circulatorySystemSimulationLoader.content);
+		}
+
+		private function hydrochlorothiazideMedicationModel_changeHandler(concentration:Number):void
+		{
+			if (_circulatorySystemSimulationMovieClip)
+			{
+				if (concentration < SimulationModel.HYDROCHLOROTHIAZIDE_GOAL)
+				{
+					_circulatorySystemSimulationMovieClip.current_preload = 3;
+					_circulatorySystemSimulationMovieClip.current_damage = 2;
+					_circulatorySystemSimulationMovieClip.update();
+				}
+				else
+				{
+					_circulatorySystemSimulationMovieClip.current_preload = 1;
+					_circulatorySystemSimulationMovieClip.current_damage = 0;
+					_circulatorySystemSimulationMovieClip.update();
+				}
+			}
 		}
 
 		private function createStepsData(steps:Vector.<String>, concentrationSeverityColor:uint):IList
@@ -134,6 +163,8 @@
 			if (simulationModel)
 			{
 				hydrochlorothiazideMedicationModel = simulationModel.getMedication(BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE);
+				BindingUtils.bindSetter(hydrochlorothiazideMedicationModel_changeHandler,
+										hydrochlorothiazideMedicationModel, "concentration");
 				atenololMedicationModel = simulationModel.getMedication(BloodPressureModel.RXNORM_ATENOLOL);
 			}
 		}

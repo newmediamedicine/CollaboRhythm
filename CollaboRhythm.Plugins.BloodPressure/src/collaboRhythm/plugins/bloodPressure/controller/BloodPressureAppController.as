@@ -16,6 +16,7 @@
  */
 package collaboRhythm.plugins.bloodPressure.controller
 {
+
 	import collaboRhythm.plugins.bloodPressure.model.BloodPressureHealthRecordService;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureFullView;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureMobileWidgetView;
@@ -84,6 +85,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 		public override function initialize():void
 		{
 			super.initialize();
+
 			if (!_activeRecordAccount.primaryRecord.bloodPressureModel || !_activeRecordAccount.primaryRecord.bloodPressureModel.isInitialized)
 			{
 				loadBloodPressureData();
@@ -172,7 +174,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 		{
 			return DEFAULT_NAME;
 		}
-		
+
 		override protected function removeUserData():void
 		{
 			if (_activeRecordAccount.primaryRecord.bloodPressureModel)
