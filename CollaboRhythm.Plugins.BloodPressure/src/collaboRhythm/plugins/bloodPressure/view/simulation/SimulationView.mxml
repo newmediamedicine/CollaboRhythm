@@ -109,6 +109,8 @@
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 		import collaboRhythm.shared.view.BitmapCopyComponent;
 
+		import com.dncompute.graphics.GraphicsUtil;
+
 		import mx.core.IVisualElementContainer;
 		import mx.core.UIComponent;
 		import mx.effects.Effect;
@@ -192,7 +194,26 @@
 
 		protected override function keyDownHandler(event:KeyboardEvent):void
 		{
-//			adjustmentTarget = hypertensionHydrochlorothiazideGroup;
+			if (event.ctrlKey && event.altKey && event.keyCode == Keyboard.A)
+			{
+				adjustmentCursor.visible = !adjustmentCursor.visible;
+
+				adjustmentCursor.graphics.clear();
+				adjustmentCursor.graphics.lineStyle(0, 0x000000);
+				adjustmentCursor.graphics.beginFill(0x000000);
+
+				GraphicsUtil.drawArrow(
+						adjustmentCursor.graphics,
+						new Point(30, 30),
+						new Point(0, 0),
+						{shaftThickness:3, headWidth:10, headLength:7,
+							shaftPosition:0, edgeControlPosition:0.5}
+				);
+
+				adjustmentTarget = adjustmentCursor;
+				adjustmentTarget.move(Math.round(simulationContentGroup.width / 2), Math.round(simulationContentGroup.height / 2));
+				adjustmentTarget.scaleX = adjustmentTarget.scaleY = 1;
+			}
 			if (adjustmentTarget)
 			{
 				var dx:Number = 0;
@@ -398,6 +419,12 @@
 																	  height="100%" visible="false"
 																	  simulationModel="{_simulationModel}"
 																	  backUpLevel="backUp(event, hypertensionCirculatorySystemGroup, hypertensionHydrochlorothiazideGroup)"/>
+			<s:Group id="adjustmentCursor" visible="false">
+				<s:filters>
+					<s:GlowFilter color="#FFFFFF" strength="10"/>
+				</s:filters>
+				<s:Label x="30" y="30" text="{adjustmentCursor.x}, {adjustmentCursor.y}"/>
+			</s:Group>
 		</s:Group>
 	</s:Group>
 	<!--

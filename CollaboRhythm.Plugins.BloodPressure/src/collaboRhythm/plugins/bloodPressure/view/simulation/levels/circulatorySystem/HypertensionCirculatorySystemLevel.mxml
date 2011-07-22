@@ -88,8 +88,8 @@
 		import mx.logging.ILogger;
 		import mx.logging.Log;
 
-		private const hydrochlorothiazidePoint:Point = new Point(200, 533);
-		private const atenololPoint:Point = new Point(216, 342);
+		private const hydrochlorothiazidePoint:Point = new Point(206, 476);
+		private const atenololPoint:Point = new Point(247, 295);
 		[Bindable]
 		private var hydrochlorothiazideMedicationModel:MedicationComponentAdherenceModel;
 		[Bindable]
