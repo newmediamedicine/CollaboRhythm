@@ -90,7 +90,14 @@ package collaboRhythm.plugins.bloodPressure.controller
 			{
 				loadBloodPressureData();
 			}
+
+			if (!_fullView)
+			{
+				createFullView();
+				prepareFullView();
+			}
 		}
+
 
 		override protected function updateWidgetViewModel():void
 		{
