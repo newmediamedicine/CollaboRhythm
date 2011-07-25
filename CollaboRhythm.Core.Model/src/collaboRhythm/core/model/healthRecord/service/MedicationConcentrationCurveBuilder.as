@@ -61,12 +61,12 @@ package collaboRhythm.core.model.healthRecord.service
 			_data = value;
 		}
 
-		private function extendConcentrationCurveCollection(concentrationCurveCollection:ArrayCollection, startDate:Date, intervals:Number, nowTime:Number):ArrayCollection
+		private function extendConcentrationCurveCollection(concentrationCurveCollection:ArrayCollection, startDate:Date, intervals:Number, maxTime:Number):ArrayCollection
 		{
 			for (var interval:Number = 0; interval < intervals; interval++)
 			{
 				var time:Number = startDate.time + (interval * intervalDuration);
-				if (time > nowTime)
+				if (time > maxTime)
 					break;
 				var dataItem:MedicationConcentrationSample = new MedicationConcentrationSample();
 				var date:Date = new Date(time);
@@ -88,16 +88,16 @@ package collaboRhythm.core.model.healthRecord.service
 				var currentConcentrationCurve:ArrayCollection = new ArrayCollection();
 				var previousAdministrationIndex:int = 0; // index into medicationAdministrationCollection for beginning of previous curve
 
-				var nowTime:Number = currentDateSource.now().time;
+				var maxTime:Number = currentDateSource.now().time;
 				var lastMedicationAdministration:MedicationAdministration = medicationAdministrationCollection[medicationAdministrationCollection.length - 1];
 				var lastAdministrationDate:Date = lastMedicationAdministration.dateAdministered;
-				nowTime = Math.min(nowTime, lastAdministrationDate.time);
+				maxTime = Math.min(maxTime, lastAdministrationDate.time + singleCurve.length * intervalDuration);
 
 				if (matchStartDateOfSource)
 				{
 					// start with a date for the curve that matches the first data point in the main data set
 					if (medicationAdministrationCollection.length > 0 && data && data.length > 0)
-						extendConcentrationCurveCollection(currentConcentrationCurve, data[0].date, 1, nowTime);
+						extendConcentrationCurveCollection(currentConcentrationCurve, data[0].date, 1, maxTime);
 				}
 
 				for each (var dataItem:MedicationAdministration in medicationAdministrationCollection)
@@ -140,7 +140,7 @@ package collaboRhythm.core.model.healthRecord.service
 					}
 
 					extendConcentrationCurveCollection(currentConcentrationCurve, extensionStartDate,
-												   additionalIntervalsRequired, nowTime);
+												   additionalIntervalsRequired, maxTime);
 
 					if (currentAdministrationIndex >= currentConcentrationCurve.length)
 						break;
@@ -165,7 +165,7 @@ package collaboRhythm.core.model.healthRecord.service
 					if (lastAdministrationDate.time > lastConcentrationCurveDate.time)
 					{
 						extendConcentrationCurveCollection(currentConcentrationCurve, lastAdministrationDate, 1,
-														   nowTime);
+														   maxTime);
 
 						// avoid having a zero value for concentration
 						currentConcentrationCurve[currentConcentrationCurve.length - 1].concentration = currentConcentrationCurve[currentConcentrationCurve.length - 2].concentration;

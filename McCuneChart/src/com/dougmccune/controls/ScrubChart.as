@@ -41,49 +41,35 @@ OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.dougmccune.controls
 {
+
 	import annotations.EventAnnotation;
-	
+
 	import com.dougmccune.events.FocusTimeEvent;
-	
+
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
-	import flash.filters.BitmapFilterQuality;
 	import flash.geom.Point;
 	import flash.globalization.DateTimeFormatter;
-	import flash.sampler.NewObjectSample;
 	import flash.ui.Keyboard;
-	import flash.utils.flash_proxy;
-	
-	import mx.binding.utils.BindingUtils;
-	import mx.charts.AreaChart;
+
 	import mx.charts.ChartItem;
 	import mx.charts.DateTimeAxis;
-	import mx.charts.HitData;
-	import mx.charts.LineChart;
 	import mx.charts.chartClasses.CartesianChart;
 	import mx.charts.chartClasses.NumericAxis;
-	import mx.charts.chartClasses.Series;
 	import mx.charts.series.AreaSeries;
 	import mx.charts.series.items.AreaSeriesItem;
-	import mx.charts.series.items.LineSeriesItem;
-	import mx.charts.series.items.PlotSeriesItem;
 	import mx.collections.ArrayCollection;
 	import mx.collections.Sort;
 	import mx.collections.SortField;
 	import mx.containers.Canvas;
 	import mx.containers.HDividedBox;
 	import mx.controls.Alert;
-	import mx.controls.Button;
 	import mx.controls.DateField;
 	import mx.controls.List;
 	import mx.controls.TextArea;
 	import mx.core.FlexGlobals;
-	import mx.core.IFlexDisplayObject;
 	import mx.core.UIComponent;
-	import mx.core.mx_internal;
-	import mx.effects.Move;
-	import mx.effects.easing.Cubic;
 	import mx.events.CollectionEvent;
 	import mx.events.DividerEvent;
 	import mx.events.EffectEvent;
@@ -91,32 +77,23 @@ package com.dougmccune.controls
 	import mx.events.ResizeEvent;
 	import mx.events.ScrollEvent;
 	import mx.events.SliderEvent;
-	import mx.events.TweenEvent;
 	import mx.formatters.DateFormatter;
 	import mx.formatters.NumberFormatter;
-	import mx.graphics.SolidColor;
-	import mx.graphics.Stroke;
-	import mx.managers.CursorManagerPriority;
 	import mx.managers.IFocusManagerComponent;
-	import mx.rpc.events.AbstractEvent;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
 	import mx.styles.CSSStyleDeclaration;
 	import mx.utils.UIDUtil;
-	
-	import skins.GradientBox;
-	
-	import spark.components.IItemRenderer;
-	import spark.components.ToggleButton;
-	import spark.components.supportClasses.ButtonBase;
+
 	import spark.components.supportClasses.SkinnableComponent;
 	import spark.components.supportClasses.ToggleButtonBase;
 	import spark.core.IDisplayText;
 	import spark.effects.Animate;
+	import spark.effects.Move;
 	import spark.effects.animation.MotionPath;
 	import spark.effects.animation.SimpleMotionPath;
 	import spark.effects.easing.Power;
-	
+
 	import vo.AnnotationVO;
 
 	/**
@@ -478,6 +455,7 @@ package com.dougmccune.controls
 			volumeFormatter.useThousandsSeparator = true;
 
 			initializeRangeTimeAnimate();
+			initializeFocusTimeAnimate();
 			this.addEventListener(FlexEvent.CREATION_COMPLETE, creationCompleteHandler);
 		}
 
@@ -607,6 +585,10 @@ package com.dougmccune.controls
 			{
 				showFps = !showFps;
 			}
+			else if (event.altKey && event.ctrlKey && event.keyCode == Keyboard.T)
+			{
+				_traceEvents = !_traceEvents;
+			}
 			else if (event.altKey && event.ctrlKey && event.keyCode == Keyboard.S)
 			{
 				setStyle("sliderVisible", !getStyle("sliderVisible"));
@@ -661,6 +643,9 @@ package com.dougmccune.controls
 				{
 					throw new Error("data must not be null");
 				}
+
+				minimumTime = NaN;
+				maximumTime = NaN;
 
 				allowUpdateComplete = true;
 
@@ -1141,6 +1126,8 @@ package com.dougmccune.controls
 		private var _leftRangeMotionPath:SimpleMotionPath;
 		private var _rightRangeMotionPath:SimpleMotionPath;
 		
+		private var _focusTimeMoveEffect:Move;
+
 		private var _pendingUpdateBoxFromRangeTimes:Boolean;
 		private var _pendingAnimateLeftRangeTime:Number;
 		private var _pendingAnimateRightRangeTime:Number;
@@ -1176,6 +1163,20 @@ package com.dougmccune.controls
 //				if (callbackFunc != null) callbackFunc.call(this, rest)
 			});
 		}
+
+		private function initializeFocusTimeAnimate():void
+		{
+			_focusTimeMoveEffect = new Move(focusTimeMarker);
+
+			_focusTimeMoveEffect.easer = new Power(0.5, 3);
+			_focusTimeMoveEffect.duration = 750;
+			
+			_focusTimeMoveEffect.addEventListener(EffectEvent.EFFECT_UPDATE, function(event:EffectEvent):void
+			{
+				updateFocusTimeValueFromPosition();
+				this.dispatchEvent(new FocusTimeEvent());
+			});
+		}
 		
 		private function animateRangeTimes(leftRangeTimeTo:Number, rightRangeTimeTo:Number = NaN, update:Boolean = true):void
 		{
@@ -1190,6 +1191,18 @@ package com.dougmccune.controls
 				_rightRangeMotionPath.valueTo = isNaN(rightRangeTimeTo) ? rightRangeTime : rightRangeTimeTo;
 				_rangeTimeAnimate.play();
 			}
+		}
+		
+		private function animateFocusTimeMarker():void
+		{
+			focusTimeMarker.x = focusTimeMarkerMaxX;
+			updateFocusTimeValueFromPosition();
+			this.dispatchEvent(new FocusTimeEvent());
+
+//			_focusTimeMoveEffect.stop();
+//			_focusTimeMoveEffect.xFrom = focusTimeMarker.x;
+//			_focusTimeMoveEffect.xTo = focusTimeMarkerMaxX;
+//			_focusTimeMoveEffect.play();
 		}
 
 		/**
@@ -1767,6 +1780,7 @@ package com.dougmccune.controls
 			todayTime = Math.min(todayTime, rangeChartMaximum);
 
 			animateRangeTimes(todayTime - delta, todayTime);
+			animateFocusTimeMarker();
 		}
 
 		public function get today():Date
@@ -1983,6 +1997,7 @@ package com.dougmccune.controls
 			{
                 focusTimeMarker.visible = showFocusTimeMarker;
 				focusTimeMarker.addEventListener(MouseEvent.MOUSE_DOWN, focusTimeGroup_mouseDownHandler);
+				_focusTimeMoveEffect.target = focusTimeMarker;
 			}
 			else if (instance == rangeChart)
 			{
@@ -2081,7 +2096,16 @@ package com.dougmccune.controls
 
 		private function animateRangeDuration(duration:Number):void
 		{
-			animateRangeTimes(rightRangeTime - duration);
+			// Maintain the current focusTime
+			var currentDuration:Number = rightRangeTime - leftRangeTime;
+
+			var leftToFocus:Number = focusTime - leftRangeTime;
+			var focusToRight:Number = rightRangeTime - focusTime;
+
+			leftToFocus *= duration / currentDuration;
+			focusToRight *= duration / currentDuration;
+
+			animateRangeTimes(focusTime - leftToFocus, focusTime + focusToRight);
 		}
 
 		private function rangeOneMonthButton_clickHandler(event:MouseEvent):void
@@ -2203,6 +2227,7 @@ package com.dougmccune.controls
 			else if (instance == focusTimeMarker)
 			{
 				focusTimeMarker.removeEventListener(MouseEvent.MOUSE_DOWN, focusTimeGroup_mouseDownHandler);
+				_focusTimeMoveEffect.target = null;
 			}
 			else if (instance == dividedBox)
 			{
@@ -2312,6 +2337,15 @@ package com.dougmccune.controls
 			_mainChartTitle = value;
 			if (titleDisplay)
 				titleDisplay.text = value;
+		}
+
+		public function removeDefaultSeries():void
+		{
+			if (mainChart)
+				mainChart.series = new Array();
+
+			if (rangeChart)
+				rangeChart.series = new Array();
 		}
 	}
 }

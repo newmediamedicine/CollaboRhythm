@@ -342,8 +342,11 @@
 		private function model_propertyChangeHandler(event:PropertyChangeEvent):void
 		{
 			//trace("model_propertyChangeHandler", event.property);
-			if (event.property == "showAdherence" || event.property == "completeData")
+			if (event.property == "showAdherence" || event.property == "isInitialized")
+			{
+				updateSeries();
 				setSingleChartMode(null, false);
+			}
 		}
 
 		public function refresh():void
@@ -373,6 +376,8 @@
 
 		protected function creationCompleteHandler(event:FlexEvent):void
 		{
+			initializeSeriesSets();
+			updateSeries();
 			refresh();
 			simulationOnlyViewMode = false;
 			updateComponentsForSimulationOnlyViewMode();
@@ -380,6 +385,7 @@
 		}
 
 		private const GOAL_ZONE_COLOR:uint = 0x8DCB86;
+		private var seriesSets:Vector.<ScrubChartSeriesSet> = new Vector.<ScrubChartSeriesSet>();
 
 		public function drawBloodPressureData(canvas:DataDrawingCanvas):void
 		{
@@ -456,14 +462,7 @@
 				trace(this + ".bloodPressureChart_creationCompleteHandler");
 
 			var chart:ScrubChart = ScrubChart(event.target);
-
-			chart.mainChart.series = new Array();
-			addSeries(chart.mainChart, systolicSeries);
-			addSeries(chart.mainChart, diastolicSeries);
-
-			chart.rangeChart.series = new Array();
-			addSeries(chart.rangeChart, systolicRangeSeries);
-			addSeries(chart.rangeChart, diastolicRangeSeries);
+			chart.removeDefaultSeries();
 
 			var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
 			verticalAxis.minimum = 40;
@@ -480,12 +479,14 @@
 
 		private function synchronizeDateLimits():void
 		{
-			var charts:Vector.<TouchScrollingScrubChart> = new Vector.<TouchScrollingScrubChart>();
-			charts.push(adherenceChart);
-			charts.push(adherenceChart2);
-			charts.push(bloodPressureChart);
+//			var charts:Vector.<TouchScrollingScrubChart> = new Vector.<TouchScrollingScrubChart>();
+//			charts.push(adherenceChart);
+//			charts.push(adherenceChart2);
+//			charts.push(bloodPressureChart);
 			//			charts.push(heartRateChart);
 
+			var charts:Vector.<TouchScrollingScrubChart> = _visibleCharts;
+			
 			var minimum:Number = charts[0].minimumTime;
 			var maximum:Number = charts[0].maximumTime;
 			for each (var chart:TouchScrollingScrubChart in charts)
@@ -505,20 +506,24 @@
 			}
 		}
 
+		protected function updateSeries():void
+		{
+			for each (var seriesSet:ScrubChartSeriesSet in seriesSets)
+			{
+				seriesSet.chart.series = new Array();
+				for each (var series:Series in seriesSet.series)
+				{
+					addSeries(seriesSet.chart, series);
+				}
+			}
+		}
+
 		protected function adherenceChart_creationCompleteHandler(event:FlexEvent):void
 		{
 			if (_traceEventHandlers)
 				trace("adherenceChart_creationCompleteHandler");
 			var chart:ScrubChart = ScrubChart(event.target);
-
-			_adherenceCharts.addKeyValue(BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE, chart);
-
-			chart.mainChart.series = new Array();
-			addSeries(chart.mainChart, adherenceSeries);
-			addSeries(chart.mainChart, concentrationSeries);
-
-			chart.rangeChart.series = new Array();
-			addSeries(chart.rangeChart, concentrationRangeSeries);
+			chart.removeDefaultSeries();
 
 			var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
 			verticalAxis.minimum = 0;
@@ -544,15 +549,7 @@
 			if (_traceEventHandlers)
 				trace("adherenceChart2_creationCompleteHandler");
 			var chart:ScrubChart = ScrubChart(event.target);
-
-			_adherenceCharts.addKeyValue(BloodPressureModel.RXNORM_ATENOLOL, chart);
-
-			chart.mainChart.series = new Array();
-			addSeries(chart.mainChart, adherenceSeries2);
-			addSeries(chart.mainChart, concentrationSeries2);
-
-			chart.rangeChart.series = new Array();
-			addSeries(chart.rangeChart, concentrationRangeSeries2);
+			chart.removeDefaultSeries();
 
 			var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
 			verticalAxis.minimum = 0;
@@ -1157,6 +1154,50 @@
 			{
 				chart.setStyle("rangeChartVisible", rangeChartVisible);
 			}
+		}
+
+		private function initializeSeriesSets():void
+		{
+			var seriesSet:ScrubChartSeriesSet;
+
+			_adherenceCharts.addKeyValue(BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE, adherenceChart);
+
+			seriesSet = new ScrubChartSeriesSet();
+			seriesSet.chart = adherenceChart.mainChart;
+			seriesSet.series.push(adherenceSeries);
+			seriesSet.series.push(concentrationSeries);
+			seriesSets.push(seriesSet);
+
+			seriesSet = new ScrubChartSeriesSet();
+			seriesSet.chart = adherenceChart.rangeChart;
+			seriesSet.series.push(concentrationRangeSeries);
+			seriesSets.push(seriesSet);
+
+			_adherenceCharts.addKeyValue(BloodPressureModel.RXNORM_ATENOLOL, adherenceChart2);
+
+			seriesSet = new ScrubChartSeriesSet();
+			seriesSet.chart = adherenceChart2.mainChart;
+			seriesSet.series.push(adherenceSeries2);
+			seriesSet.series.push(concentrationSeries2);
+			seriesSets.push(seriesSet);
+
+			seriesSet = new ScrubChartSeriesSet();
+			seriesSet.chart = adherenceChart2.rangeChart;
+			seriesSet.series.push(concentrationRangeSeries2);
+			seriesSets.push(seriesSet);
+
+
+			seriesSet = new ScrubChartSeriesSet();
+			seriesSet.chart = bloodPressureChart.mainChart;
+			seriesSet.series.push(systolicSeries);
+			seriesSet.series.push(diastolicSeries);
+			seriesSets.push(seriesSet);
+
+			seriesSet = new ScrubChartSeriesSet();
+			seriesSet.chart = adherenceChart2.rangeChart;
+			seriesSet.series.push(systolicRangeSeries);
+			seriesSet.series.push(diastolicRangeSeries);
+			seriesSets.push(seriesSet);
 		}
 		]]></fx:Script>
 
