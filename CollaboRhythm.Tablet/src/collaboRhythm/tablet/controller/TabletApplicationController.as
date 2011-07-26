@@ -69,8 +69,7 @@ package collaboRhythm.tablet.controller
 
 		private function connectivityView_ignoreHandler(event:ConnectivityEvent):void
 		{
-			// just hide the view
-			_connectivityView.visible = false;
+			_healthRecordServiceFacade.resetFailedOperations();
 		}
 
 		public override function main():void
