@@ -40,6 +40,9 @@ package collaboRhythm.core.model.healthRecord
 		private var _adherenceItemsHealthRecordService:AdherenceItemsHealthRecordService;
 		private var _saveChangesHealthRecordService:SaveChangesHealthRecordService;
 		private var _isLoading:Boolean;
+		private var _currentRecord:Record;
+		private var _isSaving:Boolean;
+		private var _hasFailedSaveOperations:Boolean;
 
 		public function HealthRecordServiceFacade(consumerKey:String, consumerSecret:String, baseURL:String,
 												  account:Account)
@@ -109,6 +112,8 @@ package collaboRhythm.core.model.healthRecord
 		public function set isLoading(value:Boolean):void
 		{
 			_isLoading = value;
+			if (currentRecord)
+				currentRecord.isLoading = value;
 		}
 
 		/**
@@ -127,6 +132,7 @@ package collaboRhythm.core.model.healthRecord
 				return;
 			}
 
+			_currentRecord = record;
 			record.storageService = this;
 
 			isLoading = true;
@@ -205,6 +211,15 @@ package collaboRhythm.core.model.healthRecord
 			return names.join(", ");
 		}
 
+		/**
+		 * Resets the count of failed operations. This should generally be called after isSaving becomes false and the
+		 * user chooses to retry the saving operation.
+		 */
+		public function resetFailedOperations():void
+		{
+			_saveChangesHealthRecordService.resetFailedOperations();
+		}
+
 		public function saveChanges(record:Record, documents:ArrayCollection, relationships:ArrayCollection=null):void
 		{
 			_saveChangesHealthRecordService.saveChanges(record, documents, relationships);
@@ -213,6 +228,35 @@ package collaboRhythm.core.model.healthRecord
 		public function saveAllChanges(record:Record):void
 		{
 			_saveChangesHealthRecordService.saveAllChanges(record);
+		}
+
+		public function get currentRecord():Record
+		{
+			return _currentRecord;
+		}
+
+		public function get isSaving():Boolean
+		{
+			return _isSaving;
+		}
+
+		public function set isSaving(value:Boolean):void
+		{
+			_isSaving = value;
+			if (currentRecord)
+				currentRecord.isSaving = value;
+		}
+
+		public function get hasFailedSaveOperations():Boolean
+		{
+			return _hasFailedSaveOperations;
+		}
+
+		public function set hasFailedSaveOperations(value:Boolean):void
+		{
+			_hasFailedSaveOperations = value;
+			if (currentRecord)
+				currentRecord.hasFailedSaveOperations = value;
 		}
 	}
 }

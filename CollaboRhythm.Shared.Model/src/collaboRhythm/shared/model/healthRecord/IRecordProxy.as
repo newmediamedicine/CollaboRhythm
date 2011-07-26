@@ -22,6 +22,8 @@ package collaboRhythm.shared.model.healthRecord
 		 * Removes (deletes, voids, or archives) the document from the record. Generally used for deleting a document that has
 		 * been persisted and needs to be deleted or have its status changed. The removal will NOT be persisted to the server
 		 * until saveChanges is called (a "save immediately" feature, like with addDocument has not been implemented yet).
+		 * Removing a document will remove it from the currentDocumentsById and the DocumentCollectionBase instance
+		 * corresponding to the document type. Relationships to and from the document will also be removed.
 		 *
 		 * @param document The document to remove from the record
 		 * @param removeAction The removal action to take (delete, void, or archive)

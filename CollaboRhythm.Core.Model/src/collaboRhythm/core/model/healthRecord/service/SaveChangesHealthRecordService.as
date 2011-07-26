@@ -28,6 +28,10 @@ package collaboRhythm.core.model.healthRecord.service
 		private var _pendingUpdateDocuments:HashMap = new HashMap();
 		private var _relationshipsRequiringDocuments:ArrayCollection = new ArrayCollection();
 		private var _pendingRelateDocuments:ArrayCollection = new ArrayCollection();
+		private var _failedCreateDocuments:HashMap = new HashMap();
+		private var _failedRemoveDocuments:HashMap = new HashMap();
+		private var _failedUpdateDocuments:HashMap = new HashMap();
+		private var _failedRelateDocuments:ArrayCollection = new ArrayCollection();
 
 		public function SaveChangesHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account, healthRecordServiceFacade:HealthRecordServiceFacade)
 		{
@@ -35,6 +39,19 @@ package collaboRhythm.core.model.healthRecord.service
 			_healthRecordServiceFacade = healthRecordServiceFacade;
 		}
 
+		/**
+		 * Resets the count of failed operations. This should generally be called after isSaving becomes false and the
+		 * user chooses to retry the saving operation.
+		 */
+		public function resetFailedOperations():void
+		{
+			failedCreateDocuments.clear();
+			failedRemoveDocuments.clear();
+			failedUpdateDocuments.clear();
+			failedRelateDocuments.removeAll();
+			_healthRecordServiceFacade.hasFailedSaveOperations = false;
+		}
+		
 		/**
 		 * Saves all changes to all documents in the specified record to the server.
 		 *
@@ -86,14 +103,55 @@ package collaboRhythm.core.model.healthRecord.service
 				checkRelationshipsRequiringDocuments(record);
 			}
 
-			_logger.info("Save changes initiated. Pending documents (create, update, remove): " + pendingCreateDocuments.size() + ", " + pendingCreateDocuments.size() + ", " + pendingRemoveDocuments.size());
+			_logger.info("Save changes initiated. " + pendingOperationsSummary);
+			updateIsSaving();
+		}
+
+		private function get pendingOperationsSummary():String
+		{
+			return "Pending documents (create, update, remove): " + pendingCreateDocuments.size() + ", " + pendingUpdateDocuments.size() + ", " + pendingRemoveDocuments.size() + ". Relationships (being created, requiring documents): " + pendingRelateDocuments.length + ", " + relationshipsRequiringDocuments.length;
+		}
+
+		private function get failedOperationsSummary():String
+		{
+			if (failedOperationsCount > 0)
+			{
+				var parts:Array = new Array();
+				if (failedCreateDocuments.size() > 0)
+					parts.push("create " + failedCreateDocuments.size() + " documents");
+				if (failedUpdateDocuments.size() > 0)
+					parts.push("update " + failedUpdateDocuments.size() + " documents");
+				if (failedRemoveDocuments.size() > 0)
+					parts.push("remove " + failedRemoveDocuments.size() + " documents");
+				if (failedRelateDocuments.length > 0)
+					parts.push("relate " + failedRelateDocuments.length + " documents");
+
+				return "Failed to " + parts.join(", ") + ".";
+			}
+			else
+				return "No failed operations.";
 		}
 
 		private function checkRelationshipsRequiringDocuments(record:Record):void
 		{
-			for each (var relationship:Relationship in relationshipsRequiringDocuments)
+			var relationshipsRequiringDocumentsCopy:ArrayCollection = new ArrayCollection(relationshipsRequiringDocuments.toArray());
+			for each (var relationship:Relationship in relationshipsRequiringDocumentsCopy)
 			{
-				if (relationship.relatesFrom.pendingAction == null && relationship.relatesTo.pendingAction == null)
+				var relatesFromDocumentReady:Boolean = relationship.relatesFrom.pendingAction == null;
+				var relatesToDocumentReady:Boolean = relationship.relatesTo.pendingAction == null;
+				if (!relatesFromDocumentReady)
+				{
+					if (pendingCreateDocuments.getItem(relationship.relatesFrom.meta.id) == null &&
+							failedCreateDocuments.getItem(relationship.relatesFrom.meta.id) == null)
+						_logger.warn("Warning: waiting to create a " + relationship.type + " relationship but the document to relate from " + relationship.relatesFrom.meta.id + " has a pendingAction of " + relationship.relatesFrom.pendingAction + " and is not in the pendingCreateDocuments or failedCreateDocuments lists. Relationship will probably never be created.");
+				}
+				if (!relatesToDocumentReady)
+				{
+					if (pendingCreateDocuments.getItem(relationship.relatesTo.meta.id) == null &&
+							failedCreateDocuments.getItem(relationship.relatesTo.meta.id) == null)
+						_logger.warn("Warning: waiting to create a " + relationship.type + " relationship but the document to relate to " + relationship.relatesTo.meta.id + " has a pendingAction of " + relationship.relatesTo.pendingAction + " and is not in the pendingCreateDocuments or failedCreateDocuments lists. Relationship will probably never be created.");
+				}
+				if (relatesFromDocumentReady && relatesToDocumentReady)
 				{
 					relationshipsRequiringDocuments.removeItemAt(relationshipsRequiringDocuments.getItemIndex(relationship));
 					pendingRelateDocuments.addItem(relationship);
@@ -137,24 +195,16 @@ package collaboRhythm.core.model.healthRecord.service
 				throw new Error("Record not specified on the HealthRecordServiceRequestDetails. Unable to finish remove operation.");
 
 			document.pendingAction = null;
-			pendingRemoveDocuments.remove(document.meta.id);
+			removePendingDocument(document.meta.id, pendingRemoveDocuments);
 			record.completeDocumentsById.remove(document.meta.id);
 			record.originalDocumentsById.remove(document.meta.id);
 
 			// eliminate any "standard" references to the document that was removed
-			for each (var relationship:Relationship in document.relatesTo)
-			{
-				if (relationship.relatesTo != null)
-				{
-					var otherDocument:ArrayCollection = relationship.relatesTo.isRelatedFrom;
-					if (otherDocument.contains(relationship))
-					{
-						otherDocument.removeItemAt(otherDocument.getItemIndex(relationship));
-					}
-				}
-			}
+			document.clearRelationships();
 
 			// TODO: eliminate any "special" references to the document that was removed; currently we are removing relationships from document.isRelatedFrom, but not, for example, medicationScheduleItem.adherenceItems
+
+			updateIsSaving();
 		}
 
 		override protected function createDocumentCompleteHandler(event:IndivoClientEvent,
@@ -174,10 +224,6 @@ package collaboRhythm.core.model.healthRecord.service
 				throw new Error("Document not specified on the HealthRecordServiceRequestDetails. Unable to finish create operation.");
 
 			document.pendingAction = null;
-			if (isUpdate)
-				pendingUpdateDocuments.remove(document.meta.id);
-			else
-				pendingCreateDocuments.remove(document.meta.id);
 
 			var failureWarning:String;
 			if (responseXml.name() != "Document")
@@ -260,6 +306,13 @@ package collaboRhythm.core.model.healthRecord.service
 			// TODO: handle relationships more optimally
 			checkRelationshipsRequiringDocuments(record);
 
+			if (isUpdate)
+				removePendingDocument(oldId, pendingUpdateDocuments);
+			else
+				removePendingDocument(oldId, pendingCreateDocuments);
+
+			updateIsSaving();
+
 			return true;
 		}
 
@@ -306,6 +359,19 @@ package collaboRhythm.core.model.healthRecord.service
 			}
 
 			// remove the appropriate relationship from pendingRelateDocuments
+			removePendingRelationship(relationship);
+			updateIsSaving();
+
+			super.relateDocumentsCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
+		}
+
+		private function addFailedRelationship(relationship:Relationship):void
+		{
+			failedRelateDocuments.addItem(relationship);
+		}
+
+		private function removePendingRelationship(relationship:Relationship):void
+		{
 			for each (var pendingRelationship:Relationship in pendingRelateDocuments)
 			{
 				if (pendingRelationship == relationship)
@@ -314,8 +380,24 @@ package collaboRhythm.core.model.healthRecord.service
 					pendingRelateDocuments.removeItemAt(pendingRelateDocuments.getItemIndex(relationship));
 				}
 			}
+		}
 
-			super.relateDocumentsCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
+		private function updateIsSaving():void
+		{
+			var pendingOperations:int = pendingCreateDocuments.size() + pendingUpdateDocuments.size() + pendingRemoveDocuments.size() + pendingRelateDocuments.length;
+			_healthRecordServiceFacade.hasFailedSaveOperations = failedOperationsCount > 0;
+			_healthRecordServiceFacade.isSaving = pendingOperations > 0;
+			_logger.info("Saving " + (pendingOperations > 0 ? "in progress. " + pendingOperationsSummary + ". " : "complete. ") + failedOperationsSummary);
+		}
+
+		private function get failedOperationsCount():int
+		{
+			return failedCreateDocuments.size() + failedUpdateDocuments.size() + failedRemoveDocuments.size() + failedRelateDocuments.length;
+		}
+
+		private function get currentRecord():Record
+		{
+			return _healthRecordServiceFacade.currentRecord;
 		}
 
 		override protected function updateDocumentCompleteHandler(event:IndivoClientEvent, responseXml:XML,
@@ -328,7 +410,59 @@ package collaboRhythm.core.model.healthRecord.service
 		override protected function handleError(event:IndivoClientEvent, errorStatus:String,
 												healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):Boolean
 		{
+			var document:IDocument = healthRecordServiceRequestDetails.document;
+
+			// update the appropriate "pending" collections
+			if (healthRecordServiceRequestDetails.indivoApiCall == CREATE_DOCUMENT)
+			{
+				addFailedDocument(document, failedCreateDocuments);
+				removePendingDocument(document.meta.id, pendingCreateDocuments);
+			}
+			if (healthRecordServiceRequestDetails.indivoApiCall == UPDATE_DOCUMENT)
+			{
+				addFailedDocument(document, failedUpdateDocuments);
+				removePendingDocument(document.meta.id, pendingUpdateDocuments);
+			}
+			else if (healthRecordServiceRequestDetails.indivoApiCall == DELETE_DOCUMENT ||
+					healthRecordServiceRequestDetails.indivoApiCall == ARCHIVE_DOCUMENT ||
+					healthRecordServiceRequestDetails.indivoApiCall == VOID_DOCUMENT)
+			{
+				addFailedDocument(document, failedRemoveDocuments);
+				removePendingDocument(document.meta.id, pendingRemoveDocuments);
+			}
+			else if (healthRecordServiceRequestDetails.indivoApiCall == RELATE_NEW_DOCUMENT)
+			{
+				throw new Error("Unexpected indivoApiCall on response healthRecordServiceRequestDetails: " + healthRecordServiceRequestDetails.indivoApiCall);
+			}
+			else if (healthRecordServiceRequestDetails.indivoApiCall == RELATE_DOCUMENTS)
+			{
+				var relationship:Relationship = healthRecordServiceRequestDetails.customData as Relationship;
+				if (relationship == null)
+					throw new Error("Relationship not specified on the HealthRecordServiceRequestDetails. Unable to finish relate documents operation.");
+				addFailedRelationship(relationship);
+				removePendingRelationship(relationship);
+			}
+
+			updateIsSaving();
+
 			return super.handleError(event, errorStatus, healthRecordServiceRequestDetails);
+		}
+
+		private function addFailedDocument(document:IDocument, pendingChangeMap:HashMap):void
+		{
+			pendingChangeMap.put(document.meta.id, document);
+		}
+
+		private function removePendingDocument(documentId:String, pendingChangeMap:HashMap):void
+		{
+			if (pendingChangeMap.getItem(documentId))
+			{
+				pendingChangeMap.remove(documentId);
+			}
+			else
+			{
+				_logger.warn("Failed to remove document " + documentId + " from pending document operations.");
+			}
 		}
 
 		public function get pendingCreateDocuments():HashMap
@@ -354,6 +488,26 @@ package collaboRhythm.core.model.healthRecord.service
 		public function get pendingUpdateDocuments():HashMap
 		{
 			return _pendingUpdateDocuments;
+		}
+
+		public function get failedCreateDocuments():HashMap
+		{
+			return _failedCreateDocuments;
+		}
+
+		public function get failedRemoveDocuments():HashMap
+		{
+			return _failedRemoveDocuments;
+		}
+
+		public function get failedUpdateDocuments():HashMap
+		{
+			return _failedUpdateDocuments;
+		}
+
+		public function get failedRelateDocuments():ArrayCollection
+		{
+			return _failedRelateDocuments;
 		}
 	}
 }

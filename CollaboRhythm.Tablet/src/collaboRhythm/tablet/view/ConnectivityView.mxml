@@ -24,6 +24,11 @@
 		<s:State name="connectFailed"/>
 		<s:State name="persistFailed"/>
 	</s:states>
+	<fx:Metadata>
+		[Event(name="retry", type="collaboRhythm.tablet.view.ConnectivityEvent")]
+		[Event(name="quit", type="collaboRhythm.tablet.view.ConnectivityEvent")]
+		[Event(name="ignore", type="collaboRhythm.tablet.view.ConnectivityEvent")]
+	</fx:Metadata>
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 
@@ -34,25 +39,58 @@
 
 	</fx:Style>
 	<fx:Script><![CDATA[
-
 		[Embed("../../../assets/swfs/buffering.swf")]
 		[Bindable]
 		public var bufferingAnimation:Class;
+		private var _isLoading:Boolean;
+		private var _isSaving:Boolean;
+		private var _hasSaveOperationFailures:Boolean;
 
 		private function retryButton_clickHandler():void
 		{
-
+			dispatchEvent(new ConnectivityEvent(ConnectivityEvent.RETRY));
 		}
 
 		private function quitButton_clickHandler():void
 		{
-
+			dispatchEvent(new ConnectivityEvent(ConnectivityEvent.QUIT));
 		}
 
 		private function ignoreButton_clickHandler():void
 		{
-
+			dispatchEvent(new ConnectivityEvent(ConnectivityEvent.IGNORE));
 		}
+
+		public function get isLoading():Boolean
+		{
+			return _isLoading;
+		}
+
+		public function set isLoading(value:Boolean):void
+		{
+			_isLoading = value;
+		}
+
+		public function get isSaving():Boolean
+		{
+			return _isSaving;
+		}
+
+		public function set isSaving(value:Boolean):void
+		{
+			_isSaving = value;
+		}
+
+		public function get hasSaveOperationFailures():Boolean
+		{
+			return _hasSaveOperationFailures;
+		}
+
+		public function set hasSaveOperationFailures(value:Boolean):void
+		{
+			_hasSaveOperationFailures = value;
+		}
+
 		]]></fx:Script>
 	<s:Rect width="100%" height="100%">
 		<s:fill>

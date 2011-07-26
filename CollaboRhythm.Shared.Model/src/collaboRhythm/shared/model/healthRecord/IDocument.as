@@ -37,5 +37,7 @@ package collaboRhythm.shared.model.healthRecord
 		function get pendingActionReason():String;
 
 		function set pendingActionReason(value:String):void;
+
+		function clearRelationships():void;
 	}
 }

@@ -65,5 +65,31 @@ package collaboRhythm.shared.model.healthRecord
 		{
 			return _meta;
 		}
+
+		public function clearRelationships():void
+		{
+			for each (var relationship:Relationship in this.isRelatedFrom)
+			{
+				if (relationship.relatesFrom != null)
+				{
+					var otherDocument:IDocument = relationship.relatesFrom;
+					if (otherDocument.isRelatedFrom.contains(relationship))
+					{
+						otherDocument.isRelatedFrom.removeItemAt(otherDocument.isRelatedFrom.getItemIndex(relationship));
+					}
+				}
+			}
+			for each (relationship in this.relatesTo)
+			{
+				if (relationship.relatesTo != null)
+				{
+					otherDocument = relationship.relatesTo;
+					if (otherDocument.relatesTo.contains(relationship))
+					{
+						otherDocument.relatesTo.removeItemAt(otherDocument.relatesTo.getItemIndex(relationship));
+					}
+				}
+			}
+		}
 	}
 }

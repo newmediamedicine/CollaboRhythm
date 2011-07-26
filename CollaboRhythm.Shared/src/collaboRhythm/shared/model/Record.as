@@ -73,6 +73,9 @@ package collaboRhythm.shared.model
 		// TODO: move BloodPressureModel to blood pressure plugin; eliminate bloodPressureModel property and field; use appData instead
 		private var _bloodPressureModel:BloodPressureModel;
 		private var _storageService:IRecordStorageService;
+		private var _isLoading:Boolean;
+		private var _isSaving:Boolean;
+		private var _hasFailedSaveOperations:Boolean;
 
         public function Record(recordXml:XML)
         {
@@ -443,20 +446,27 @@ package collaboRhythm.shared.model
 				currentDocumentsById.remove(document.meta.id);
 			}
 
+			document.clearRelationships();
+
 			if (document.pendingAction == DocumentBase.ACTION_CREATE)
 			{
+				// document was never persisted to the server, so just remove it from the completeDocumentsById and clear the pendingAction flag
 				completeDocumentsById.remove(document.meta.id);
-			}
-
-			document.pendingActionReason = reason;
-			if (document.pendingAction != removeAction)
-			{
-				document.pendingAction = removeAction;
-				return 1;
+				document.pendingAction = null;
+				return 0;
 			}
 			else
 			{
-				return 0;
+				document.pendingActionReason = reason;
+				if (document.pendingAction != removeAction)
+				{
+					document.pendingAction = removeAction;
+					return 1;
+				}
+				else
+				{
+					return 0;
+				}
 			}
 		}
 
@@ -542,6 +552,36 @@ package collaboRhythm.shared.model
 		public function get newRelationships():ArrayCollection
 		{
 			return _newRelationships;
+		}
+
+		public function get isLoading():Boolean
+		{
+			return _isLoading;
+		}
+
+		public function set isLoading(value:Boolean):void
+		{
+			_isLoading = value;
+		}
+
+		public function get isSaving():Boolean
+		{
+			return _isSaving;
+		}
+
+		public function set isSaving(value:Boolean):void
+		{
+			_isSaving = value;
+		}
+
+		public function get hasFailedSaveOperations():Boolean
+		{
+			return _hasFailedSaveOperations;
+		}
+
+		public function set hasFailedSaveOperations(value:Boolean):void
+		{
+			_hasFailedSaveOperations = value;
 		}
 	}
 }

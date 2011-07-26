@@ -493,26 +493,43 @@ package collaboRhythm.core.controller
 
 		protected function loadDocuments(recordAccount:Account):void
 		{
+			// TODO: What if we are already saving or loading? What if there are unsaved pending changes?
 			_healthRecordServiceFacade = new HealthRecordServiceFacade(settings.oauthChromeConsumerKey,
 																	   settings.oauthChromeConsumerSecret,
 																	   settings.indivoServerBaseURL,
 																	   _activeAccount);
-			BindingUtils.bindSetter(documentsIsLoading_changeHandler, _healthRecordServiceFacade, "isLoading");
+			BindingUtils.bindSetter(serviceIsLoading_changeHandler, _healthRecordServiceFacade, "isLoading");
+			BindingUtils.bindSetter(serviceIsSaving_changeHandler, _healthRecordServiceFacade, "isSaving");
+			BindingUtils.bindSetter(serviceHasFailedSaveOperations_changeHandler, _healthRecordServiceFacade, "hasFailedSaveOperations");
 			_healthRecordServiceFacade.loadDocuments(recordAccount.primaryRecord);
 		}
 
 		protected function reloadDocuments(recordAccount:Account):void
 		{
+			// TODO: What if we are already saving or loading? What if there are unsaved pending changes?
 			recordAccount.primaryRecord.clearDocuments();
 			_healthRecordServiceFacade.loadDocuments(recordAccount.primaryRecord);
 		}
 
 		/**
-		 * Virtual method which subclasses should override to dictate what happens when a record is closed
+		 * Virtual method which subclasses should override to reflect a change in the isLoading flag
 		 */
-		protected function documentsIsLoading_changeHandler(isLoading:Boolean):void
+		protected function serviceIsLoading_changeHandler(isLoading:Boolean):void
 		{
+		}
 
+		/**
+		 * Virtual method which subclasses should override to reflect a change in the hasFailedSaveOperations flag
+		 */
+		protected function serviceHasFailedSaveOperations_changeHandler(hasFailedSaveOperations:Boolean):void
+		{
+		}
+
+		/**
+		 * Virtual method which subclasses should override to reflect a change in the isSaving flag
+		 */
+		protected function serviceIsSaving_changeHandler(isSaving:Boolean):void
+		{
 		}
 	}
 }

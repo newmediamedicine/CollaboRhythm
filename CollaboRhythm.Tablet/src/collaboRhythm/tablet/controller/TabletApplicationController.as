@@ -21,6 +21,7 @@ package collaboRhythm.tablet.controller
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.tablet.view.ActiveRecordView;
+	import collaboRhythm.tablet.view.ConnectivityEvent;
 	import collaboRhythm.tablet.view.ConnectivityView;
 	import collaboRhythm.tablet.view.TabletApplicationView;
 
@@ -47,6 +48,29 @@ package collaboRhythm.tablet.controller
 		{
 			_activeRecordView = tabletApplicationView.activeRecordView;
 			_connectivityView = tabletApplicationView.connectivityView;
+			_connectivityView.addEventListener(ConnectivityEvent.IGNORE, connectivityView_ignoreHandler);
+			_connectivityView.addEventListener(ConnectivityEvent.QUIT, connectivityView_quitHandler);
+			_connectivityView.addEventListener(ConnectivityEvent.RETRY, connectivityView_retryHandler);
+		}
+
+		private function connectivityView_retryHandler(event:ConnectivityEvent):void
+		{
+			if (_healthRecordServiceFacade.currentRecord)
+			{
+				_healthRecordServiceFacade.resetFailedOperations();
+				_healthRecordServiceFacade.saveAllChanges(_healthRecordServiceFacade.currentRecord);
+			}
+		}
+
+		private function connectivityView_quitHandler(event:ConnectivityEvent):void
+		{
+			NativeApplication.nativeApplication.exit();
+		}
+
+		private function connectivityView_ignoreHandler(event:ConnectivityEvent):void
+		{
+			// just hide the view
+			_connectivityView.visible = false;
 		}
 
 		public override function main():void
@@ -61,9 +85,38 @@ package collaboRhythm.tablet.controller
 		}
 
 
-		override protected function documentsIsLoading_changeHandler(isLoading:Boolean):void
+		override protected function serviceIsLoading_changeHandler(isLoading:Boolean):void
 		{
-			_connectivityView.visible = isLoading;
+			super.serviceIsLoading_changeHandler(isLoading);
+			updateConnectivityView();
+		}
+
+		override protected function serviceHasFailedSaveOperations_changeHandler(hasFailedSaveOperations:Boolean):void
+		{
+			super.serviceHasFailedSaveOperations_changeHandler(hasFailedSaveOperations);
+			updateConnectivityView();
+		}
+
+		override protected function serviceIsSaving_changeHandler(isSaving:Boolean):void
+		{
+			super.serviceIsSaving_changeHandler(isSaving);
+			updateConnectivityView();
+		}
+
+		private function updateConnectivityView():void
+		{
+			// TODO: perhaps we should have different states for saving vs loading
+
+			var connectivityState:String;
+			if (_healthRecordServiceFacade.isLoading)
+				connectivityState = "connectInProgress";
+			else if (_healthRecordServiceFacade.isSaving)
+				connectivityState = "connectInProgress";
+			else if (_healthRecordServiceFacade.hasFailedSaveOperations)
+				connectivityState = "persistFailed";
+
+			_connectivityView.setCurrentState(connectivityState);
+			_connectivityView.visible = _healthRecordServiceFacade.isLoading || _healthRecordServiceFacade.isSaving || _healthRecordServiceFacade.hasFailedSaveOperations;
 		}
 
 		public override function openRecordAccount(recordAccount:Account):void

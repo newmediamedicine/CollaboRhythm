@@ -194,22 +194,22 @@ package collaboRhythm.plugins.schedule.model
 		public function createAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence,
 											adherenceItem:AdherenceItem):void
 		{
-			var documents:ArrayCollection = new ArrayCollection();
-			var relationships:ArrayCollection = new ArrayCollection();
+			var createdDocuments:ArrayCollection = new ArrayCollection();
+			var createdRelationships:ArrayCollection = new ArrayCollection();
 
 			scheduleItemOccurrence.adherenceItem = adherenceItem;
-			documents.addItem(scheduleItemOccurrence.adherenceItem);
-			scheduleItemOccurrence.adherenceItem.pendingAction = DocumentBase.ACTION_CREATE;
-			_record.addDocument(scheduleItemOccurrence.adherenceItem);
-			relationships.addItem(_record.addNewRelationship(ScheduleItemBase.RELATION_TYPE_ADHERENCE_ITEM, scheduleItemOccurrence.scheduleItem, adherenceItem));
+			adherenceItem.pendingAction = DocumentBase.ACTION_CREATE;
+			createdDocuments.addItem(adherenceItem);
+			_record.addDocument(adherenceItem);
+			createdRelationships.addItem(_record.addNewRelationship(ScheduleItemBase.RELATION_TYPE_ADHERENCE_ITEM, scheduleItemOccurrence.scheduleItem, adherenceItem));
 			if (adherenceItem.adherenceResult)
 			{
-				documents.addItem(adherenceItem.adherenceResult);
+				createdDocuments.addItem(adherenceItem.adherenceResult);
 				adherenceItem.adherenceResult.pendingAction = DocumentBase.ACTION_CREATE;
 				_record.addDocument(adherenceItem.adherenceResult);
-				relationships.addItem(_record.addNewRelationship(AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT, adherenceItem, adherenceItem.adherenceResult));
+				createdRelationships.addItem(_record.addNewRelationship(AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT, adherenceItem, adherenceItem.adherenceResult));
 			}
-//			_record.saveChanges(documents, relationships);
+			_record.saveChanges(createdDocuments, createdRelationships);
 		}
 
 		public function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void
