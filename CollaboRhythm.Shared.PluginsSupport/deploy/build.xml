@@ -200,6 +200,9 @@
 	</target>
 
 	<target name="delete_all_plugins" description="Deletes all plugins from deployment folders (local and on device)">
+		<mkdir dir="${collaboRhythm.workstation.pluginsPath}" />
+		<mkdir dir="${collaboRhythm.mobile-emulator.pluginsPath}" />
+		<mkdir dir="${collaboRhythm.tablet-emulator.pluginsPath}" />
 		<delete>
 			<fileset dir="${collaboRhythm.workstation.pluginsPath}" includes="*.swf"/>
 		</delete>
