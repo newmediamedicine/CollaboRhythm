@@ -492,7 +492,8 @@ package com.dougmccune.controls
 		public function set leftRangeTime(value:Number):void
 		{
 			_leftRangeTime = value;
-			slider.values[0] = value;
+			if (slider)
+				slider.values[0] = value;
 		}
 
 		[Bindable]
@@ -504,7 +505,8 @@ package com.dougmccune.controls
 		public function set rightRangeTime(value:Number):void
 		{
 			_rightRangeTime = value;
-			slider.values[1] = value;
+			if (slider)
+				slider.values[1] = value;
 		}
 
 		[Bindable]
@@ -595,17 +597,20 @@ package com.dougmccune.controls
 			}
 			else if (event.altKey && event.ctrlKey && event.keyCode == Keyboard.D)
 			{
-				trace("dividedBox.width", dividedBox.width, "boxes_width", leftBox.width + middleBox.width + rightBox.width, "rangeChart.width", rangeChart.width, "mainChart.width", mainChart.width, "focusTimeMarker.x", focusTimeMarker.x, "this.mouseX", this.mouseX);
+				trace("dividedBox.width", dividedBox.width, "boxes_width", leftBox.width + middleBox.width + rightBox.width, "rangeChart.width", rangeChart ? rangeChart.width : "N/A", "mainChart.width", mainChart.width, "focusTimeMarker.x", focusTimeMarker.x, "this.mouseX", this.mouseX);
 			}
 			else if (event.altKey && event.ctrlKey && event.keyCode == Keyboard.E)
 			{
-                // TODO: fix updating of the slider thumbs; currently they don't move when slider.values is updated
-				trace("slider.values[0]", slider.values[0], "slider.values[1]", slider.values[1]);
-				slider.values[0] = t0 + (t1 - t0) * s0;
-				slider.values[1] = t0 + (t1 - t0) * s1;
-                slider.invalidateProperties();
-                slider.validateNow();
-                this.validateNow();
+				if (slider)
+				{
+					// TODO: fix updating of the slider thumbs; currently they don't move when slider.values is updated
+					trace("slider.values[0]", slider.values[0], "slider.values[1]", slider.values[1]);
+					slider.values[0] = t0 + (t1 - t0) * s0;
+					slider.values[1] = t0 + (t1 - t0) * s1;
+					slider.invalidateProperties();
+					slider.validateNow();
+					this.validateNow();
+				}
 			}
             else if (!event.altKey && !event.ctrlKey && !event.shiftKey)
             {
@@ -770,7 +775,9 @@ package com.dougmccune.controls
 		{
 		//				rangeDataRatio = ((dividedBox.width - 28) / rangeData.length);
 			//				rangeDataRatio = ((dividedBox.width) / rangeData.length);
-			rangeDataRatio = slider.width / (t1 - t0);
+			// TODO: rangeDataRatio should be based on rangeChart width, not slider
+			if (slider)
+				rangeDataRatio = slider.width / (t1 - t0);
 		}
 
 		/**
@@ -798,8 +805,11 @@ package com.dougmccune.controls
 				this.visible = true;
 		//					loadSampleAnnotations();
 
-				// TODO: Figure out how to remove this. This is a hack to get the axis labels to render correctly when the data is initially loaded; otherwise, we see "1970" at the far left edge of the axis
-				rangeChart.horizontalAxis.dataChanged();
+				if (rangeChart)
+				{
+					// TODO: Figure out how to remove this. This is a hack to get the axis labels to render correctly when the data is initially loaded; otherwise, we see "1970" at the far left edge of the axis
+					rangeChart.horizontalAxis.dataChanged();
+				}
 
 				initializeFocusTime();
 
@@ -1086,14 +1096,16 @@ package com.dougmccune.controls
 		{
 			leftRangeTime += value / rangeDataRatio;
 			rightRangeTime += value / rangeDataRatio;
-			slider.dispatchEvent(new SliderEvent('change'));
+			if (slider)
+				slider.dispatchEvent(new SliderEvent('change'));
 		}
 
 		private function mainChartUpdate(value:Number):void
 		{
 			leftRangeTime += value / mainDataRatio;
 			rightRangeTime += value / mainDataRatio;
-			slider.dispatchEvent(new SliderEvent('change'));
+			if (slider)
+				slider.dispatchEvent(new SliderEvent('change'));
 		}
 
 		/**
@@ -1118,8 +1130,11 @@ package com.dougmccune.controls
 		private function updateIndicatorsQuietly():void
 		{
 			//these two values are mapped 1:1 as the slider values and indicator values equal the rangeData length exactly
-			leftRangeTime = slider.values[0];
-			rightRangeTime = slider.values[1];
+			if (slider)
+			{
+				leftRangeTime = slider.values[0];
+				rightRangeTime = slider.values[1];
+			}
 		}
 
 		private var _rangeTimeAnimate:Animate;
@@ -1821,7 +1836,8 @@ package com.dougmccune.controls
 			// TODO: support reseting/clearing the minimum/maximum to the default (based on the data)
 			if (_traceEvents)
 				trace(traceEventsPrefix + "set minimumTime", traceDate(value), "old value", traceDate(minimumTime));
-			(this.rangeChart.horizontalAxis as DateTimeAxis).minimum = new Date(value);
+			if (this.rangeChart)
+				(this.rangeChart.horizontalAxis as DateTimeAxis).minimum = new Date(value);
 			t0 = value;
 			initializeChartsFromMinMaxTimes();
 		}
@@ -1830,7 +1846,8 @@ package com.dougmccune.controls
 		{
 			if (_traceEvents)
 				trace(traceEventsPrefix + "set maximumTime", traceDate(value), "old value", traceDate(maximumTime));
-			(this.rangeChart.horizontalAxis as DateTimeAxis).maximum = new Date(value);
+			if (this.rangeChart)
+				(this.rangeChart.horizontalAxis as DateTimeAxis).maximum = new Date(value);
 			t1 = value;
 			initializeChartsFromMinMaxTimes();
 		}
@@ -2085,8 +2102,11 @@ package com.dougmccune.controls
 
 		private function updateSliderMinMax():void
 		{
-			slider.minimum = t0;
-			slider.maximum = t1;
+			if (slider)
+			{
+				slider.minimum = t0;
+				slider.maximum = t1;
+			}
 		}
 
 		private function rangeOneWeekButton_clickHandler(event:MouseEvent):void

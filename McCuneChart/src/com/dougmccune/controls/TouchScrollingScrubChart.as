@@ -19,6 +19,7 @@ package com.dougmccune.controls
 	{
 		private var _touchScroller:TouchScroller;
 		private var _traceEventHandlers:Boolean = false;
+		private var _useHorizontalTouchScrolling:Boolean = true;
 
 		override public function TouchScrollingScrubChart()
 		{
@@ -34,6 +35,7 @@ package com.dougmccune.controls
 			if (scrollEnabled)
 			{
 				_touchScroller = new TouchScroller(this);
+				_touchScroller.useHorizontalTouchScrolling = useHorizontalTouchScrolling;
 				_touchScroller.addEventListener(TouchScrollerEvent.SCROLL_START, scrollStartHandler);
 				_touchScroller.addEventListener(TouchScrollerEvent.SCROLL_STOP, scrollStopHandler);
 
@@ -181,5 +183,18 @@ package com.dougmccune.controls
 		public function showScrollBarH():void
 		{
 		}
+
+		public function get useHorizontalTouchScrolling():Boolean
+		{
+			return _useHorizontalTouchScrolling;
+		}
+
+		public function set useHorizontalTouchScrolling(value:Boolean):void
+		{
+			_useHorizontalTouchScrolling = value;
+			if (_touchScroller)
+				_touchScroller.useHorizontalTouchScrolling = value;
+		}
+
 	}
 }
