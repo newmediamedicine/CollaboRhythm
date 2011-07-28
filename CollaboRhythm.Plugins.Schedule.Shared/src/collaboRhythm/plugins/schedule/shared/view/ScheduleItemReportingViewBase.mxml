@@ -38,7 +38,7 @@
 
 		public static const SCHEDULE_ITEM_REPORTING_VIEW_PICTURE_WIDTH:Number = 120;
 		public static const SCHEDULE_ITEM_REPORTING_VIEW_PICTURE_HEIGHT:Number = 120;
-		public static const SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT:Number = 122;
+		public static const SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT:Number = 142;
 
 		[Bindable]
 		protected var _scheduleItemOccurrence:ScheduleItemOccurrence;

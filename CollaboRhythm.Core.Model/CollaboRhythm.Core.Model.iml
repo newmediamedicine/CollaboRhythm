@@ -25,7 +25,7 @@
         <JAVADOC />
         <SOURCES>
           <root url="file://$USER_HOME$/FlashBuilder/J2AS3Collections/src" />
-          <root url="file://$USER_HOME$/Documents/FlashBuilder/J2AS3Collections/src" />
+          <root url="file://$MODULE_DIR$/../../FlashBuilder/J2AS3Collections/src" />
         </SOURCES>
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
