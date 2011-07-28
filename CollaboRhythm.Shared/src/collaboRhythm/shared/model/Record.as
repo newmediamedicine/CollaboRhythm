@@ -583,5 +583,18 @@ package collaboRhythm.shared.model
 		{
 			_hasFailedSaveOperations = value;
 		}
+
+		/**
+		 * Removes a relationship from the newRelationships collection. This should be called after
+		 * a relationship has been saved to the server and is no longer considered "new".
+		 *
+		 * @param relationship The relationship to remove.
+		 */
+		public function removeNewRelationship(relationship:Relationship):void
+		{
+			var index:int = newRelationships.getItemIndex(relationship);
+			if (index != -1)
+				newRelationships.removeItemAt(index);
+		}
 	}
 }

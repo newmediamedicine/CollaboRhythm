@@ -327,7 +327,7 @@ package collaboRhythm.core.model.healthRecord.service
 
 			saveChanges(record, null, document.isRelatedFrom);
 
-			for each (var relationship:Relationship in document.relatesTo)
+			for each (relationship in document.relatesTo)
 			{
 				var otherDocument:IDocument = relationship.relatesTo;
 				if (otherDocument)
@@ -358,8 +358,21 @@ package collaboRhythm.core.model.healthRecord.service
 				failureWarning = "Event from relate documents was Complete, but response XML is not ok.";
 			}
 
+			var record:Record = healthRecordServiceRequestDetails.record;
+			if (record == null)
+				throw new Error("Record not specified on the HealthRecordServiceRequestDetails. Unable to finish create operation.");
+
+			if (failureWarning)
+			{
+				_logger.warn(failureWarning + " Submitted request: " + event.relativePath + " Response: " + responseXml);
+			}
+
+			relationship.pendingAction = null;
+
 			// remove the appropriate relationship from pendingRelateDocuments
 			removePendingRelationship(relationship);
+			record.removeNewRelationship(relationship);
+
 			updateIsSaving();
 
 			super.relateDocumentsCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
