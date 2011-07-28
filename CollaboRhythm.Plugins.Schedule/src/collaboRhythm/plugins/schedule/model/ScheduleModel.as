@@ -194,31 +194,27 @@ package collaboRhythm.plugins.schedule.model
 		public function createAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence,
 											adherenceItem:AdherenceItem):void
 		{
-			var createdDocuments:ArrayCollection = new ArrayCollection();
-			var createdRelationships:ArrayCollection = new ArrayCollection();
-
 			scheduleItemOccurrence.adherenceItem = adherenceItem;
 			adherenceItem.pendingAction = DocumentBase.ACTION_CREATE;
-			createdDocuments.addItem(adherenceItem);
 			_record.addDocument(adherenceItem);
-			createdRelationships.addItem(_record.addNewRelationship(ScheduleItemBase.RELATION_TYPE_ADHERENCE_ITEM, scheduleItemOccurrence.scheduleItem, adherenceItem));
+			_record.addNewRelationship(ScheduleItemBase.RELATION_TYPE_ADHERENCE_ITEM, scheduleItemOccurrence.scheduleItem, adherenceItem);
 			if (adherenceItem.adherenceResult)
 			{
-				createdDocuments.addItem(adherenceItem.adherenceResult);
 				adherenceItem.adherenceResult.pendingAction = DocumentBase.ACTION_CREATE;
 				_record.addDocument(adherenceItem.adherenceResult);
-				createdRelationships.addItem(_record.addNewRelationship(AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT, adherenceItem, adherenceItem.adherenceResult));
+				_record.addNewRelationship(AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT, adherenceItem, adherenceItem.adherenceResult)
 			}
-			_record.saveChanges(createdDocuments, createdRelationships);
 		}
 
 		public function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void
 		{
 			_record.removeDocument(scheduleItemOccurrence.adherenceItem, DocumentBase.ACTION_VOID, "deleted by user");
-			var documents:ArrayCollection = new ArrayCollection();
-			documents.addItem(scheduleItemOccurrence.adherenceItem);
-			_record.saveChanges(documents);
 			scheduleItemOccurrence.adherenceItem = null;
+		}
+
+		public function saveChangesToRecord():void
+		{
+			_record.saveAllChanges();
 		}
 
 		public function get scheduleGroupsHashMap():HashMap
