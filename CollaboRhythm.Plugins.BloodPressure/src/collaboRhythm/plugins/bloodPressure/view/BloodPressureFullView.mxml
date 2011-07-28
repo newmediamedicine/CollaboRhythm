@@ -468,10 +468,12 @@
 			verticalAxis.minimum = 40;
 			verticalAxis.maximum = 160;
 
-			verticalAxis = chart.rangeChart.verticalAxis as LinearAxis;
-			verticalAxis.minimum = 40;
-			verticalAxis.maximum = 160;
-
+			if (chart.rangeChart)
+			{
+				verticalAxis = chart.rangeChart.verticalAxis as LinearAxis;
+				verticalAxis.minimum = 40;
+				verticalAxis.maximum = 160;
+			}
 			//				synchronizeDateLimits();
 
 			updateBloodPressureChartBackgroundElements(chart);
@@ -529,9 +531,12 @@
 			verticalAxis.minimum = 0;
 			verticalAxis.maximum = 0.4;
 
-			verticalAxis = chart.rangeChart.verticalAxis as LinearAxis;
-			verticalAxis.minimum = 0;
-			verticalAxis.maximum = 0.4;
+			if (chart.rangeChart)
+			{
+				verticalAxis = chart.rangeChart.verticalAxis as LinearAxis;
+				verticalAxis.minimum = 0;
+				verticalAxis.maximum = 0.4;
+			}
 
 			updateAdherenceChartSeriesCompleteHandler(chart, adherenceMainCanvas, goalMedicationZoneLabel,
 													  adherenceRangeCanvas);
@@ -555,9 +560,12 @@
 			verticalAxis.minimum = 0;
 			verticalAxis.maximum = 0.4;
 
-			verticalAxis = chart.rangeChart.verticalAxis as LinearAxis;
-			verticalAxis.minimum = 0;
-			verticalAxis.maximum = 0.4;
+			if (chart.rangeChart)
+			{
+				verticalAxis = chart.rangeChart.verticalAxis as LinearAxis;
+				verticalAxis.minimum = 0;
+				verticalAxis.maximum = 0.4;
+			}
 
 			updateAdherenceChartSeriesCompleteHandler(chart, adherenceMainCanvas2, goalMedicationZoneLabel2,
 													  adherenceRangeCanvas2);
@@ -584,8 +592,12 @@
 		{
 			chart.mainChart.backgroundElements.push(mainCanvas);
 			drawAdherenceData(mainCanvas, zoneLabel);
-			chart.rangeChart.backgroundElements.push(rangeCanvas);
-			drawAdherenceData(rangeCanvas, null);
+
+			if (chart.rangeChart)
+			{
+				chart.rangeChart.backgroundElements.push(rangeCanvas);
+				drawAdherenceData(rangeCanvas, null);
+			}
 		}
 
 		protected function adherenceChart_seriesCompleteHandler(event:Event):void
@@ -599,8 +611,12 @@
 		{
 			chart.mainChart.backgroundElements.push(bloodPressureMainCanvas);
 			drawBloodPressureData(bloodPressureMainCanvas);
-			chart.rangeChart.backgroundElements.push(bloodPressureRangeCanvas);
-			drawBloodPressureData(bloodPressureRangeCanvas);
+
+			if (chart.rangeChart)
+			{
+				chart.rangeChart.backgroundElements.push(bloodPressureRangeCanvas);
+				drawBloodPressureData(bloodPressureRangeCanvas);
+			}
 		}
 
 		protected function bloodPressureChart_seriesCompleteHandler(event:Event):void
@@ -653,6 +669,11 @@
 					case Keyboard.R:
 					{
 						rangeChartVisible = !rangeChartVisible;
+						break;
+					}
+					case Keyboard.H:
+					{
+						useHorizontalTouchScrolling = !useHorizontalTouchScrolling;
 						break;
 					}
 				}
@@ -1076,6 +1097,7 @@
 		private var simulationOnlyViewMode:Boolean = false;
 		private var _chartsOnlyViewMode:Boolean = false;
 		private var _initialDurationTime:Number = ScrubChart.DAYS_TO_MILLISECONDS * 30;
+		private var _useHorizontalTouchScrolling:Boolean = false;
 
 		public function get chartsOnlyViewMode():Boolean
 		{
@@ -1168,10 +1190,13 @@
 			seriesSet.series.push(concentrationSeries);
 			seriesSets.push(seriesSet);
 
-			seriesSet = new ScrubChartSeriesSet();
-			seriesSet.chart = adherenceChart.rangeChart;
-			seriesSet.series.push(concentrationRangeSeries);
-			seriesSets.push(seriesSet);
+			if (adherenceChart.rangeChart)
+			{
+				seriesSet = new ScrubChartSeriesSet();
+				seriesSet.chart = adherenceChart.rangeChart;
+				seriesSet.series.push(concentrationRangeSeries);
+				seriesSets.push(seriesSet);
+			}
 
 			_adherenceCharts.addKeyValue(BloodPressureModel.RXNORM_ATENOLOL, adherenceChart2);
 
@@ -1181,11 +1206,13 @@
 			seriesSet.series.push(concentrationSeries2);
 			seriesSets.push(seriesSet);
 
-			seriesSet = new ScrubChartSeriesSet();
-			seriesSet.chart = adherenceChart2.rangeChart;
-			seriesSet.series.push(concentrationRangeSeries2);
-			seriesSets.push(seriesSet);
-
+			if (adherenceChart2.rangeChart)
+			{
+				seriesSet = new ScrubChartSeriesSet();
+				seriesSet.chart = adherenceChart2.rangeChart;
+				seriesSet.series.push(concentrationRangeSeries2);
+				seriesSets.push(seriesSet);
+			}
 
 			seriesSet = new ScrubChartSeriesSet();
 			seriesSet.chart = bloodPressureChart.mainChart;
@@ -1193,12 +1220,27 @@
 			seriesSet.series.push(diastolicSeries);
 			seriesSets.push(seriesSet);
 
-			seriesSet = new ScrubChartSeriesSet();
-			seriesSet.chart = adherenceChart2.rangeChart;
-			seriesSet.series.push(systolicRangeSeries);
-			seriesSet.series.push(diastolicRangeSeries);
-			seriesSets.push(seriesSet);
+			if (adherenceChart2.rangeChart)
+			{
+				seriesSet = new ScrubChartSeriesSet();
+				seriesSet.chart = adherenceChart2.rangeChart;
+				seriesSet.series.push(systolicRangeSeries);
+				seriesSet.series.push(diastolicRangeSeries);
+				seriesSets.push(seriesSet);
+			}
 		}
+
+		[Bindable]
+		public function get useHorizontalTouchScrolling():Boolean
+		{
+			return _useHorizontalTouchScrolling;
+		}
+
+		public function set useHorizontalTouchScrolling(value:Boolean):void
+		{
+			_useHorizontalTouchScrolling = value;
+		}
+
 		]]></fx:Script>
 
 	<mx:HDividedBox height="100%" width="100%" paddingRight="0" clipContent="true" horizontalScrollPolicy="off"
@@ -1226,7 +1268,7 @@
 			</s:Group>
 
 			<controls:TouchScrollingScrubChart id="adherenceChart"
-											   skinClass="com.dougmccune.controls.ScrubChartSkin"
+											   skinClass="com.dougmccune.controls.ScrubChartMinimalSkin"
 											   height="100%" width="100%"
 											   creationComplete="adherenceChart_creationCompleteHandler(event)"
 											   initialize="adherenceChart_initializeHandler(event)"
@@ -1236,8 +1278,6 @@
 											   data="{model.showAdherence ? model.medicationConcentrationCurvesByCode[BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE] : null}"
 											   today="{model.currentDateSource.now()}"
 											   showFps="{model.showFps}"
-											   doubleClickEnabled="true"
-											   doubleClick="chart_doubleClickHandler(event)"
 											   scroll="chart_scrollHandler(event)"
 											   scrollStart="chart_scrollStartHandler(event)"
 											   scrollStop="chart_scrollStopHandler(event)"
@@ -1247,9 +1287,10 @@
 											   showFocusTimeMarker="{showFocusTimeMarker}"
 											   scrollEnabled="{scrollEnabled}"
 											   synchronizedAxisCache="{synchronizedAxisCache}"
+											   useHorizontalTouchScrolling="{useHorizontalTouchScrolling}"
 					/>
 			<controls:TouchScrollingScrubChart id="adherenceChart2"
-											   skinClass="com.dougmccune.controls.ScrubChartSkin"
+											   skinClass="com.dougmccune.controls.ScrubChartMinimalSkin"
 											   height="100%" width="100%"
 											   creationComplete="adherenceChart2_creationCompleteHandler(event)"
 											   initialize="adherenceChart_initializeHandler(event)"
@@ -1259,8 +1300,6 @@
 											   data="{model.showAdherence ? model.medicationConcentrationCurvesByCode[BloodPressureModel.RXNORM_ATENOLOL] : null}"
 											   today="{model.currentDateSource.now()}"
 											   showFps="{model.showFps}"
-											   doubleClickEnabled="true"
-											   doubleClick="chart_doubleClickHandler(event)"
 											   scroll="chart_scrollHandler(event)"
 											   scrollStart="chart_scrollStartHandler(event)"
 											   scrollStop="chart_scrollStopHandler(event)"
@@ -1270,9 +1309,10 @@
 											   showFocusTimeMarker="{showFocusTimeMarker}"
 											   scrollEnabled="{scrollEnabled}"
 											   synchronizedAxisCache="{synchronizedAxisCache}"
+											   useHorizontalTouchScrolling="{useHorizontalTouchScrolling}"
 					/>
 			<controls:TouchScrollingScrubChart id="bloodPressureChart"
-											   skinClass="com.dougmccune.controls.ScrubChartSkin"
+											   skinClass="com.dougmccune.controls.ScrubChartMinimalSkin"
 											   height="100%" width="100%"
 											   creationComplete="bloodPressureChart_creationCompleteHandler(event)"
 											   topBorderVisible="false"
@@ -1283,8 +1323,6 @@
 											   dateField="dateMeasuredStart"
 											   today="{model.currentDateSource.now()}"
 											   showFps="{model.showFps}"
-											   doubleClickEnabled="true"
-											   doubleClick="chart_doubleClickHandler(event)"
 											   scroll="chart_scrollHandler(event)"
 											   scrollStart="chart_scrollStartHandler(event)"
 											   scrollStop="chart_scrollStopHandler(event)"
@@ -1294,6 +1332,7 @@
 											   showFocusTimeMarker="{showFocusTimeMarker}"
 											   scrollEnabled="{scrollEnabled}"
 											   synchronizedAxisCache="{synchronizedAxisCache}"
+											   useHorizontalTouchScrolling="{useHorizontalTouchScrolling}"
 					/>
 			<!--
 			<controls:TouchScrollingMcCuneChart id="heartRateChart" height="100%" width="100%"
@@ -1322,8 +1361,12 @@
 				  paddingBottom="8"
 				  width="{SIMULATION_VIEW_WIDTH + simulationGroup.paddingLeft + simulationGroup.paddingRight}"
 				> <!-- TODO: paddingBottom should be the same as the chartsGroup, but one or both of these components have some internal padding (the ScrubChart currently has an extra 15 paddingBottom "built in" to the footer) -->
-			<simulation:SimulationView id="simulationView" height="100%" width="100%" doubleClickEnabled="true"
-									   doubleClick="simulationView_doubleClickHandler(event)"/>
+			<simulation:SimulationView id="simulationView" height="100%" width="100%"
+									   />
+<!--
+			doubleClickEnabled="true"
+									   doubleClick="simulationView_doubleClickHandler(event)"
+-->
 		</s:VGroup>
 	</mx:HDividedBox>
 </s:Group>
