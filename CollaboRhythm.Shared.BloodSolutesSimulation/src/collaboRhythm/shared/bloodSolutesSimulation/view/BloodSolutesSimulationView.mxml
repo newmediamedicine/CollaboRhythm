@@ -71,17 +71,19 @@
 		import Box2D.Dynamics.Joints.b2MouseJointDef;
 		import Box2D.Dynamics.Joints.b2WeldJoint;
 		import Box2D.Dynamics.Joints.b2WeldJointDef;
-		
+
 		import flash.display.Sprite;
 		import flash.utils.getQualifiedClassName;
-		
+
 		import mx.core.IButton;
 		import mx.core.IVisualElement;
 		import mx.core.UIComponent;
 		import mx.effects.Effect;
 		import mx.events.FlexEvent;
 		import mx.events.ResizeEvent;
-		
+		import mx.logging.ILogger;
+		import mx.logging.Log;
+
 		import spark.components.supportClasses.ButtonBase;
 		import spark.effects.Animate;
 		import spark.effects.animation.MotionPath;
@@ -113,12 +115,13 @@
 		private var _bloodAreaPercentWidth:Number = 0.5;
 		private var _bloodAreaPercentWidthAnimated:Number = NaN;
 		private var _bloodAreaPercentWidthEffect:Animate = new Animate(this);
-		
+
 		private var _soluteInBloodNeedsUpdating:Boolean;
 		private var _plugBodiesNeedsUpdating:Boolean;
 		private var _bloodAreaPercentWidthNeedsUpdating:Boolean;
 		private var _bloodAreaPercentWidthOld:Number;
 
+		protected var _logger:ILogger;
 
 		[Bindable]
 		public function get bloodAreaPercentWidth():Number
@@ -139,7 +142,7 @@
 					_bloodAreaPercentWidthNeedsUpdating = true;
 					_bloodAreaPercentWidthOld = oldValue;
 				}
-					
+
 			}
 		}
 
@@ -249,7 +252,7 @@
 		private var _isRunning:Boolean = false;
 		private var _isVisible:Boolean = true;
 		private var _explicitForceEquilibrium:Boolean;
-		
+
 
 		private var _fractionSolutesAsBoxes:Number = 1.0; // 0.5 for half boxes; 1.0 for all boxes
 
@@ -465,7 +468,7 @@
 		public function set soluteInBloodRatio(value:Number):void
 		{
 			_soluteInBloodRatio = value;
-			
+
 			if (_isVisible)
 			{
 				if (shouldForceEquilibrium)
@@ -568,26 +571,27 @@
 				else
 					this.removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
 
-//				trace("Debug trace for performance issues: " + getQualifiedClassName(this) + " " + this.id + " isRunning", _isRunning);
+				//  ; simulation should not be running when hidden
+				_logger.debug(this.id + ".isRunning " + _isRunning);
 			}
 		}
 
 		private function applyPendingChanges():void
 		{
 			_explicitForceEquilibrium = true;
-			
+
 			if (_soluteInBloodNeedsUpdating)
 			{
 				resetSoluteBodyPositions();
 				_soluteInBloodNeedsUpdating = false;
 			}
-			
+
 			if (_plugBodiesNeedsUpdating)
 			{
 				changePlugBodiesPopulation(calculateNumPlugs());
 				_plugBodiesNeedsUpdating = false;
 			}
-			
+
 			if (_bloodAreaPercentWidthNeedsUpdating)
 			{
 				moveBodiesForBloodAreaPercentWidth(_bloodAreaPercentWidthOld);
@@ -2102,6 +2106,8 @@
 
 		protected function addedToStageHandler(event:Event):void
 		{
+			if (!_logger)
+				_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			isRunning = true;
 		}
 

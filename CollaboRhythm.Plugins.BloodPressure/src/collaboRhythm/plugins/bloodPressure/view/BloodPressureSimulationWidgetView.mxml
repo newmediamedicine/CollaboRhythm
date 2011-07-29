@@ -33,7 +33,8 @@
 			_model = value;
 			if (model && model.simulation)
 			{
-				model.simulation.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, simulationModel_propertyChangeHandler);
+				model.simulation.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+												  simulationModel_propertyChangeHandler);
 				lookupMedications();
 			}
 		}
@@ -54,42 +55,7 @@
 
 		private function creationCompleteHandler():void
 		{
-			cardiovascularSimulationLoaderUiComponent.addChild(_circulatorySystemSimulationLoader);
-			_circulatorySystemSimulationLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, circulatorySystemSimulationLoader_completeHandler);
-			_circulatorySystemSimulationLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, circulatorySystemSimulationLoader_ioErrorHandler)
-			var urlRequest:URLRequest = new URLRequest("http://www.mit.edu/~jom/temp/simulations/circulatorySystemSimulation.swf");
-			_circulatorySystemSimulationLoader.load(urlRequest);
-
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
-		}
-
-		private function circulatorySystemSimulationLoader_completeHandler(event:Event):void
-		{
-			_circulatorySystemSimulationMovieClip = MovieClip(_circulatorySystemSimulationLoader.content);
-		}
-
-		private function circulatorySystemSimulationLoader_ioErrorHandler(event:Event):void
-		{
-			_logger.warn("circulatorySystemSimulator load FAILED");
-		}
-
-		private function hydrochlorothiazideMedicationModel_changeHandler(concentration:Number):void
-		{
-			if (_circulatorySystemSimulationMovieClip)
-			{
-				if (concentration < SimulationModel.HYDROCHLOROTHIAZIDE_GOAL)
-				{
-					_circulatorySystemSimulationMovieClip.current_preload = 3;
-					_circulatorySystemSimulationMovieClip.current_damage = 2;
-					_circulatorySystemSimulationMovieClip.update();
-				}
-				else
-				{
-					_circulatorySystemSimulationMovieClip.current_preload = 1;
-					_circulatorySystemSimulationMovieClip.current_damage = 0;
-					_circulatorySystemSimulationMovieClip.update();
-				}
-			}
 		}
 
 		public function refresh():void
@@ -102,9 +68,9 @@
 			 height="100%"
 			>
 		<s:layout>
-			<view2:ScaleToFitLayout unscaledWidth="{cardiovascularSimulationLoaderUiComponent.width}"
-									aspectRatioMin="{cardiovascularSimulationLoaderUiComponent.width / cardiovascularSimulationLoaderUiComponent.height}"
-									aspectRatioMax="{cardiovascularSimulationLoaderUiComponent.width / cardiovascularSimulationLoaderUiComponent.height}"/>
+			<view2:ScaleToFitLayout unscaledWidth="{circulatorySystemSimulationView.width}"
+									aspectRatioMin="{circulatorySystemSimulationView.width / circulatorySystemSimulationView.height}"
+									aspectRatioMax="{circulatorySystemSimulationView.width / circulatorySystemSimulationView.height}"/>
 		</s:layout>
 		<!--<circulatorysystem:HypertensionCirculatorySystem1 id="hypertensionCirculatorySystem1"
 														  visible="{hydrochlorothiazideMedicationModel.concentration &gt;= SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"
@@ -112,7 +78,7 @@
 		<circulatorysystem:HypertensionCirculatorySystem2 id="hypertensionCirculatorySystem2"
 														  visible="{hydrochlorothiazideMedicationModel.concentration &lt; SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"
 				/>-->
-		<mx:UIComponent id="cardiovascularSimulationLoaderUiComponent" width="360" height="600"/>
+		<circulatorysystem:HypertensionCirculatorySystemSimulationView id="circulatorySystemSimulationView" width="360" height="600"/>
 	</s:Group>
 	<!--TODO: determine a better way to make the widget clickable to launch the full view-->
 	<s:Group width="100%" height="100%">
