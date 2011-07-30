@@ -35,7 +35,7 @@
 			<s:SolidColor color="0xFF0000" alpha="0.5"/>
 		</s:fill>
 	</s:Rect>
-	<s:Group width="{this.width}" height="{this.height}">
+	<s:Group id="backgroundGroup" visible="{backgroundVisible}" width="{this.width}" height="{this.height}">
 		<s:Rect id="bloodAreaBackgroundRect" width="100%" height="100%">
 			<s:fill>
 				<s:SolidColor color="0x974e57"/>
@@ -47,13 +47,16 @@
 			</s:fill>
 		</s:Rect>
 	</s:Group>
+	<s:Group id="backgroundContentGroup" width="{this.width}" height="{this.height}">
+		{backgroundContent}
+	</s:Group>
 	<s:Group id="wallsGroup" width="{this.width}" height="{this.height}" clipAndEnableScrolling="true" resize="wallsGroup_resizeHandler(event)">
-		<s:Rect id="leftWall" width="100" x="-98.5" height="{wallsGroup.height + 200}" verticalCenter="0">
+		<s:Rect id="leftWall" width="100" x="{-100 + leftWallWidth}" height="{wallsGroup.height + 200}" verticalCenter="0">
 			<s:stroke>
 				<s:SolidColorStroke color="0x222222" weight="3"/>
 			</s:stroke>
 		</s:Rect>
-		<s:Rect id="rightWall" width="100" right="-100" height="{wallsGroup.height + 200}" verticalCenter="0">
+		<s:Rect id="rightWall" width="100" right="{-100 + rightWallWidth}" height="{wallsGroup.height + 200}" verticalCenter="0">
 			<s:stroke>
 				<s:SolidColorStroke color="0x222222" weight="3"/>
 			</s:stroke>
@@ -105,7 +108,7 @@
 		private var pumpSpacing:Number;
 
 		// Box2D uses meters for measurement, AS3 uses pixels.  1 meter = 30 pixels
-		public static const _worldRatio:int = 30;
+		public var worldRatio:Number = 30;
 
 		private var _plugRatio:Number = 0.5;
 		private var _antibodyRatio:Number = 0;
@@ -122,6 +125,84 @@
 		private var _bloodAreaPercentWidthOld:Number;
 
 		protected var _logger:ILogger;
+		private var _backgroundVisible:Boolean;
+
+		private var _soluteConcentration:Number = 1; // bodies per square meter (in world space)
+
+		private var _soluteBodies:Vector.<b2Body> = new Vector.<b2Body>();
+		private var _plugBodies:Vector.<b2Body> = new Vector.<b2Body>();
+		private var _antibodyBodies:Vector.<b2Body> = new Vector.<b2Body>();
+		private var _wallBodies:Vector.<b2Body> = new Vector.<b2Body>();
+		public var soluteWidth:Number = 8; // in pixels; size in meters is soluteWidth / _worldRatio
+
+		public var leftFlowVelocity:Number = 5;
+		public var rightFlowVelocity:Number = 5;
+		public var minFlowVelocity:Number = 2;
+		public var maxFlowVelocity:Number = 10;
+		public var gapSize:Number = soluteWidth * 2.5;
+		private var numGaps:int;
+		public var plugWidth:Number = gapSize * 0.4; // width of the plug (length along x-axis) of the plug in pixels
+		public var centerWallWidth:Number = plugWidth; // width of the center wall in pixels
+		[Bindable]
+		public var leftWallWidth:Number = 2; // visible width of the left wall in pixels
+		[Bindable]
+		public var rightWallWidth:Number = 2; // visible width of the right wall in pixels
+		public var isPlugCircular:Boolean = false;
+		private var plugHeight:Number = gapSize * 1.6; // height (longest edge) of the plug in pixels
+		private var antibodyWidth:Number = gapSize * 1.1; // width of the antibody (length along x-axis) of the antibody in pixels
+		private var antibodyHeight:Number = gapSize * 1.6; // height (longest edge) of the antibody in pixels
+		private var antibodyThickness:Number = gapSize * 0.2; // thickness of the "branches" of the antibody shape
+
+		private const verticalRecycleMinimum:Number = -40;
+
+		// world mouse position
+		public var m_mouseJoint:b2MouseJoint;
+		static public var mouseXWorldPhys:Number;
+		static public var mouseYWorldPhys:Number;
+		static public var mouseXWorld:Number;
+		static public var mouseYWorld:Number;
+
+		private var mousePVec:b2Vec2 = new b2Vec2();
+
+		private var snapAngleEpsilon:Number = 2 * Math.PI * 0.1;
+		private const plugStuckTimeThreshold:Number = 3.0;
+		private const plugStuckTimePassThroughWallThreshold:Number = 0.5;
+		private const soluteStuckTimeThreshold:Number = 1.0;
+
+		private const plugMaskBits:uint = 0xffff; // collide with everything
+		//			private const plugMaskBits:uint = 0xffff & ~0x0002; // don't collide with walls
+		//			private const plugMaskBits:uint = 0xffff & ~0x0004; // don't collide with other plugs
+		//			private const plugMaskBits:uint = 0xffff & ~0x0002 & ~0x0004; // don't collide with walls or other plugs
+
+		private var pumpZoneLeft:Number;
+		private var pumpZoneRight:Number;
+
+		private var _isRunning:Boolean = false;
+		private var _isVisible:Boolean = true;
+		private var _explicitForceEquilibrium:Boolean;
+
+		private var _fractionSolutesAsBoxes:Number = 1.0; // 0.5 for half boxes; 1.0 for all boxes
+
+		private var _soluteCount:int = NaN;
+		private var _antibodyCount:int = NaN;
+
+		private var _soluteFillColorRatio:Number = 0.5;
+		private var _soluteFillColor1:uint = 0xa9a5d2;
+		private var _soluteFillColor2:uint = 0xdcb0d2;
+		private var _plugFillColor:uint = 0x00a651;
+		private var _antibodyFillColor:uint = 0x00a651;
+		private var _explicitRunningDisabled:Boolean;
+
+		private var mouseDragX:Number;
+		private var mouseDragY:Number;
+		private var mouseDown:Boolean;
+
+		private var pumpDirectionFactor:Number = 1;
+		private var _wallsVisible:Boolean = true;
+		private var _backgroundContent:Array;
+		public var gapToWallRatio:Number = 2.25;
+		public var isPlugBindingOnRight:Boolean;
+		public var plugBindingOffsetX:Number = 0;
 
 		[Bindable]
 		public function get bloodAreaPercentWidth():Number
@@ -203,68 +284,6 @@
 				}
 			}
 		}
-
-		private var _soluteConcentration:Number = 1; // bodies per square meter (in world space)
-
-		private var _soluteBodies:Vector.<b2Body> = new Vector.<b2Body>();
-		private var _plugBodies:Vector.<b2Body> = new Vector.<b2Body>();
-		private var _antibodyBodies:Vector.<b2Body> = new Vector.<b2Body>();
-		private var _wallBodies:Vector.<b2Body> = new Vector.<b2Body>();
-		private static const soluteWidth:Number = 8; // in pixels; size in meters is soluteWidth / _worldRatio
-		private static const soluteRadius:Number = soluteWidth / 2;
-		private static const flowVelocity:Number = 4;
-		private static const gapSize:Number = soluteWidth * 2.5;
-		private var numGaps:int;
-		private var plugWidth:Number = gapSize * 0.4; // width of the plug (length along x-axis) of the plug in pixels
-		private var plugHeight:Number = gapSize * 1.6; // height (longest edge) of the plug in pixels
-		private var antibodyWidth:Number = gapSize * 1.1; // width of the antibody (length along x-axis) of the antibody in pixels
-		private var antibodyHeight:Number = gapSize * 1.6; // height (longest edge) of the antibody in pixels
-		private var antibodyThickness:Number = gapSize * 0.2; // thickness of the "branches" of the antibody shape
-		private static const minWorldWidth:Number = 20 * soluteWidth / _worldRatio;
-		private static const minWorldHeight:Number = 10 * soluteWidth / _worldRatio;
-
-		private const verticalRecycleMinimum:Number = -10;
-
-		// world mouse position
-		public var m_mouseJoint:b2MouseJoint;
-		static public var mouseXWorldPhys:Number;
-		static public var mouseYWorldPhys:Number;
-		static public var mouseXWorld:Number;
-		static public var mouseYWorld:Number;
-
-		private var mousePVec:b2Vec2 = new b2Vec2();
-
-		private var snapDistanceEpsilon:Number = plugWidth * 0.5 / _worldRatio;
-		private var snapAngleEpsilon:Number = 2 * Math.PI * 0.1;
-		private const stuckDisplacementEpsilon:Number = soluteWidth * 0.25 / _worldRatio;
-		private const plugStuckTimeThreshold:Number = 3.0;
-		private const plugStuckTimePassThroughWallThreshold:Number = 0.5;
-		private const soluteStuckTimeThreshold:Number = 1.0;
-
-		private const plugMaskBits:uint = 0xffff; // collide with everything
-		//			private const plugMaskBits:uint = 0xffff & ~0x0002; // don't collide with walls
-		//			private const plugMaskBits:uint = 0xffff & ~0x0004; // don't collide with other plugs
-		//			private const plugMaskBits:uint = 0xffff & ~0x0002 & ~0x0004; // don't collide with walls or other plugs
-
-		private var pumpZoneLeft:Number;
-		private var pumpZoneRight:Number;
-
-		private var _isRunning:Boolean = false;
-		private var _isVisible:Boolean = true;
-		private var _explicitForceEquilibrium:Boolean;
-
-
-		private var _fractionSolutesAsBoxes:Number = 1.0; // 0.5 for half boxes; 1.0 for all boxes
-
-		private var _soluteCount:int = NaN;
-		private var _antibodyCount:int = NaN;
-
-		private var _soluteFillColorRatio:Number = 0.5;
-		private var _soluteFillColor1:uint = 0xa9a5d2;
-		private var _soluteFillColor2:uint = 0xdcb0d2;
-		private var _plugFillColor:uint = 0x00a651;
-		private var _antibodyFillColor:uint = 0x00a651;
-		private var _explicitRunningDisabled:Boolean;
 
 		public function get explicitRunningDisabled():Boolean
 		{
@@ -468,6 +487,8 @@
 		public function set soluteInBloodRatio(value:Number):void
 		{
 			_soluteInBloodRatio = value;
+			leftFlowVelocity = linearTransform(value, 0, 1, minFlowVelocity, maxFlowVelocity);
+			rightFlowVelocity = linearTransform(value, 0, 1, maxFlowVelocity, minFlowVelocity);
 
 			if (_isVisible)
 			{
@@ -476,6 +497,16 @@
 			}
 			else
 				_soluteInBloodNeedsUpdating = true;
+		}
+
+		private static function linearTransform(value:Number, min:Number, max:Number, min2:Number, max2:Number):Number
+		{
+			return min2 + percentOfRange(value, min, max) * (max2 - min2);
+		}
+
+		private static function percentOfRange(value:Number, min:Number, max:Number):Number
+		{
+			return Math.max(0, Math.min(1, (value - min) / (max - min)));
 		}
 
 		public function get plugRatio():Number
@@ -526,30 +557,7 @@
 		public function set showDebug(value:Boolean):void
 		{
 			_showDebug = value;
-			if (!_showDebug)
-			{
-				_debugSprite.graphics.clear();
-			}
-			for each (var sprite:Sprite in _soluteSprites)
-			{
-				sprite.visible = !_showDebug;
-			}
-			for each (sprite in _plugSprites)
-			{
-				sprite.visible = !_showDebug;
-			}
-			for each (sprite in _antibodySprites)
-			{
-				sprite.visible = !_showDebug;
-			}
-			for each (sprite in _wallSprites)
-			{
-				sprite.visible = !_showDebug;
-			}
-			for each (var wallRect:Rect in _wallRects)
-			{
-				wallRect.visible = !_showDebug;
-			}
+			updateSpritesVisible();
 		}
 
 		public function get isRunning():Boolean
@@ -627,7 +635,7 @@
 			_debugSprite = new Sprite();
 			spriteContainer.addChild(_debugSprite);
 			debugDraw.SetSprite(_debugSprite);
-			debugDraw.SetDrawScale(_worldRatio);
+			debugDraw.SetDrawScale(worldRatio);
 			debugDraw.SetFillAlpha(0.5);
 			debugDraw.SetLineThickness(2);
 			debugDraw.SetAlpha(1);
@@ -658,10 +666,6 @@
 
 			//				showDebug = false;
 		}
-
-		private var mouseDragX:Number;
-		private var mouseDragY:Number;
-		private var mouseDown:Boolean;
 
 		private function mouseDownHandler(event:MouseEvent):void
 		{
@@ -737,7 +741,7 @@
 			if (isNaN(soluteConcentration))
 				return soluteCount;
 			else
-				return this.width * this.height / (_worldRatio * _worldRatio) * soluteConcentration;
+				return this.width * this.height / (worldRatio * worldRatio) * soluteConcentration;
 		}
 
 		private function createSoluteBodies(numSoluteBodies:int):void
@@ -760,14 +764,14 @@
 				bodyDef.type = b2Body.b2_dynamicBody;
 				bodyDef.position.x = getBodyPosX(soluteInBloodRatio);
 				bodyDef.position.y = getRandomBodyPosY();
-				bodyDef.linearVelocity.y = flowVelocity;
+				bodyDef.linearVelocity.y = getFlowVelocity(bodyDef.position.x);
 				bodyDef.linearVelocity.x = 0;
 				bodyDef.angle = Math.random() * Math.PI;
 
-				var rX:Number = soluteRadius / _worldRatio;
+				var rX:Number = soluteWidth / 2 / worldRatio;
 				var rY:Number = rX;
-				var spriteWidth:Number = rX * _worldRatio * 2;
-				var spriteHeight:Number = rY * _worldRatio * 2;
+				var spriteWidth:Number = rX * worldRatio * 2;
+				var spriteHeight:Number = rY * worldRatio * 2;
 
 				var color:uint;
 				if (Math.random() < soluteFillColorRatio)
@@ -829,6 +833,14 @@
 			}
 		}
 
+		private function getFlowVelocity(worldPosX:Number):Number
+		{
+			if (worldPosX < bloodAreaPercentWidth * this.width / worldRatio)
+				return leftFlowVelocity;
+			else
+				return rightFlowVelocity;
+		}
+
 		private function pickSolutePumpAffinity():int
 		{
 			return Math.round(Math.random() * numGaps);
@@ -866,7 +878,7 @@
 			// Vars used to create bodies
 			var body:b2Body;
 			var bodyDef:b2BodyDef;
-			var shape:b2PolygonShape;
+			var shape:b2Shape;
 			var fixtureDef:b2FixtureDef;
 
 			// Adding sprite variable for dynamically creating body userData
@@ -875,27 +887,44 @@
 			// Add some objects
 			for (var i:int = 0; i < numPlugBodies; i++)
 			{
-				var shapeWidth:Number = plugWidth / _worldRatio;
-				var shapeHeight:Number = plugHeight / _worldRatio;
+				var shapeWidth:Number = plugWidth / worldRatio;
+				var shapeHeight:Number = plugHeight / worldRatio;
 
-				// Trapezoid shape with vertices in the following order (turned on it's side here for convenience):
-				//   0---3    +->Y
-				//  /  +  \   V
-				// 1-------2  X
+				if (isPlugCircular)
+				{
+					var circleShape:b2CircleShape = new b2CircleShape();
+					shape = circleShape;
+					circleShape.SetRadius(shapeWidth / 2);
+					circleShape.SetLocalPosition(new b2Vec2(0, 0));
 
-				shape = new b2PolygonShape();
-				var vertices:Vector.<b2Vec2> = new Vector.<b2Vec2>();
-				vertices.push(new b2Vec2(-shapeWidth / 2, -shapeHeight / 4));
-				vertices.push(new b2Vec2(+shapeWidth / 2, -shapeHeight / 2));
-				vertices.push(new b2Vec2(+shapeWidth / 2, +shapeHeight / 2));
-				vertices.push(new b2Vec2(-shapeWidth / 2, +shapeHeight / 4));
-				shape.SetAsVector(vertices, 4);
+					sprite = new Sprite();
+					sprite.graphics.lineStyle(1);
+					sprite.graphics.beginFill(plugFillColor);
+					sprite.graphics.drawCircle(0, 0, plugWidth / 2);
+					sprite.graphics.endFill();
+				}
+				else
+				{
+					// Trapezoid shape with vertices in the following order (turned on it's side here for convenience):
+					//   0---3    +->Y
+					//  /  +  \   V
+					// 1-------2  X
 
-				sprite = new Sprite();
-				sprite.graphics.lineStyle(1);
-				sprite.graphics.beginFill(plugFillColor);
-				drawVertices(sprite.graphics, vertices, _worldRatio);
-				sprite.graphics.endFill();
+					var polygonShape:b2PolygonShape = new b2PolygonShape();
+					shape = polygonShape;
+					var vertices:Vector.<b2Vec2> = new Vector.<b2Vec2>();
+					vertices.push(new b2Vec2(-shapeWidth / 2, -shapeHeight / 4));
+					vertices.push(new b2Vec2(+shapeWidth / 2, -shapeHeight / 2));
+					vertices.push(new b2Vec2(+shapeWidth / 2, +shapeHeight / 2));
+					vertices.push(new b2Vec2(-shapeWidth / 2, +shapeHeight / 4));
+					polygonShape.SetAsVector(vertices, 4);
+
+					sprite = new Sprite();
+					sprite.graphics.lineStyle(1);
+					sprite.graphics.beginFill(plugFillColor);
+					drawVertices(sprite.graphics, vertices, worldRatio);
+					sprite.graphics.endFill();
+				}
 
 				var bodyInfo:BodyInfo = new BodyInfo();
 				bodyInfo.index = _plugBodies.length;
@@ -969,17 +998,17 @@
 			// Add some objects
 			for (var i:int = 0; i < numAntibodyBodies; i++)
 			{
-				var shapeWidth:Number = antibodyWidth / _worldRatio;
-				var shapeHeight:Number = antibodyHeight / _worldRatio;
-				var shapeThickness:Number = antibodyThickness / _worldRatio;
+				var shapeWidth:Number = antibodyWidth / worldRatio;
+				var shapeHeight:Number = antibodyHeight / worldRatio;
+				var shapeThickness:Number = antibodyThickness / worldRatio;
 
 				// create generic body definition
 				bodyDef = new b2BodyDef();
 				bodyDef.type = b2Body.b2_dynamicBody;
 				// antibody (medication) enters through the left stream (blood)
 				bodyDef.position.x = getBodyPosX(1);
-				bodyDef.position.y = Math.random() * this.height / _worldRatio;
-				bodyDef.linearVelocity.y = flowVelocity;
+				bodyDef.position.y = Math.random() * this.height / worldRatio;
+				bodyDef.linearVelocity.y = getFlowVelocity(bodyDef.position.x);
 				bodyDef.linearVelocity.x = 0;
 
 				// Y shape with vertices in the following order
@@ -1001,7 +1030,7 @@
 				sprite.graphics.lineStyle(1);
 				sprite.graphics.beginFill(antibodyFillColor);
 				drawVertices(sprite.graphics, getAntibodyVertices(shapeWidth, shapeHeight, shapeThickness, false),
-							 _worldRatio);
+							 worldRatio);
 				sprite.graphics.endFill();
 
 				var bodyInfo:BodyInfo = new BodyInfo();
@@ -1367,7 +1396,7 @@
 				if (bodyInfo != null)
 				{
 					body.SetPosition(new b2Vec2(getBodyPosX(soluteInBloodRatio), getRandomBodyPosY()));
-					body.SetLinearVelocity(new b2Vec2(0, flowVelocity));
+					body.SetLinearVelocity(new b2Vec2(0, getFlowVelocity(body.GetPosition().x)));
 					bodyInfo.pumpAffinity = pickSolutePumpAffinity();
 				}
 			}
@@ -1375,7 +1404,7 @@
 
 		private function calculateNumGaps():void
 		{
-			var minGapSpace:Number = gapSize * 1.8;
+			var minGapSpace:Number = gapSize + gapSize / gapToWallRatio;
 			numGaps = Math.floor(wallsGroup.height / minGapSpace);
 		}
 
@@ -1391,7 +1420,7 @@
 			var gapToGapSpacing:Number = wallsGroup.height / numGaps;
 			pumpSpacing = gapToGapSpacing;
 			var wallHeight:Number = gapToGapSpacing - plugHeight;
-			var wallTaper:Number = plugHeight / 4;
+			var wallTaper:Number = isPlugCircular ? 0 : plugHeight / 4;
 
 			var currentY:Number = -wallHeight / 2;
 
@@ -1402,7 +1431,7 @@
 				var wallY:Number = currentY + wallHeight / 2;
 
 				var wallSprite:Sprite = new Sprite();
-				var vertices:Vector.<b2Vec2> = createWallBody(wallX, wallY, plugWidth, wallHeight, wallTaper,
+				var vertices:Vector.<b2Vec2> = createWallBody(wallX, wallY, centerWallWidth, wallHeight, wallTaper,
 															  wallSprite);
 				createWallVisual(wallX, wallY, vertices, wallSprite);
 				currentY += gapToGapSpacing;
@@ -1410,8 +1439,11 @@
 				if (currentY < wallsGroup.height)
 				{
 					var pumpPos:b2Vec2 = new b2Vec2();
-					pumpPos.x = (wallsGroup.width * bloodAreaPercentWidth) / _worldRatio;
-					pumpPos.y = (currentY - plugHeight / 2) / _worldRatio;
+					if (isPlugBindingOnRight)
+						pumpPos.x = (wallsGroup.width * bloodAreaPercentWidth + centerWallWidth / 2) / worldRatio;
+					else
+						pumpPos.x = (wallsGroup.width * bloodAreaPercentWidth) / worldRatio;
+					pumpPos.y = (currentY - plugHeight / 2) / worldRatio;
 					_pumps.push(pumpPos);
 				}
 			}
@@ -1446,14 +1478,14 @@
 		private function createWallBody(wallX:Number, wallY:Number, wallWidth:Number, wallHeight:Number,
 										wallTaper:Number, wallSprite:Sprite):Vector.<b2Vec2>
 		{
-			var shapeWidth:Number = wallWidth / _worldRatio;
-			var shapeHeight:Number = wallHeight / _worldRatio;
-			var shapeTaper:Number = wallTaper / _worldRatio;
+			var shapeWidth:Number = wallWidth / worldRatio;
+			var shapeHeight:Number = wallHeight / worldRatio;
+			var shapeTaper:Number = wallTaper / worldRatio;
 
 			// create generic body definition
 			var bodyDef:b2BodyDef = new b2BodyDef();
 			bodyDef.type = b2Body.b2_staticBody;
-			bodyDef.position.Set(wallX / _worldRatio, wallY / _worldRatio);
+			bodyDef.position.Set(wallX / worldRatio, wallY / worldRatio);
 			bodyDef.userData = wallSprite;
 
 			// Trapezoid shape with vertices in the following order (turned on it's side here for convenience):
@@ -1488,11 +1520,13 @@
 			sprite.graphics.lineStyle(1);
 			var color:uint = 0x444444;
 			sprite.graphics.beginFill(color);
-			drawVertices(sprite.graphics, vertices, _worldRatio);
+			drawVertices(sprite.graphics, vertices, worldRatio);
 			sprite.graphics.endFill();
 
 			sprite.x = wallX;
 			sprite.y = wallY;
+
+			sprite.visible = !_showDebug && wallsVisible;
 
 			_wallSprites.push(sprite);
 			spriteContainer.addChild(sprite);
@@ -1511,16 +1545,17 @@
 				var wallRect:Rect = wallsGroup.getElementAt(i) as Rect;
 				if (wallRect != null)
 				{
+					wallRect.visible = !_showDebug && wallsVisible;
 					_wallRects.push(wallRect);
 
 					bodyDef = new b2BodyDef();
 					bodyDef.type = b2Body.b2_staticBody;
-					bodyDef.position.Set((wallRect.x + wallRect.width / 2) / _worldRatio,
-										 (wallRect.y + wallRect.height / 2) / _worldRatio);
+					bodyDef.position.Set((wallRect.x + wallRect.width / 2) / worldRatio,
+										 (wallRect.y + wallRect.height / 2) / worldRatio);
 					bodyDef.userData = wallRect;
 
 					boxShape = new b2PolygonShape();
-					boxShape.SetAsBox(wallRect.width / _worldRatio / 2, wallRect.height / _worldRatio / 2);
+					boxShape.SetAsBox(wallRect.width / worldRatio / 2, wallRect.height / worldRatio / 2);
 
 					var fixtureDef:b2FixtureDef = new b2FixtureDef();
 					fixtureDef.shape = boxShape;
@@ -1639,7 +1674,7 @@
 		{
 			// flow force
 			var flowForce:b2Vec2 = new b2Vec2();
-			flowForce.y = (flowVelocity - body.GetLinearVelocity().y) * body.GetMass() * _timeStep;
+			flowForce.y = (getFlowVelocity(body.GetPosition().x) - body.GetLinearVelocity().y) * body.GetMass() * _timeStep;
 			// trace("Position:", body.GetPosition().y.toFixed(2), "Velocity:", body.GetLinearVelocity().y.toFixed(2), "Force:", flowForce.y.toFixed(2));
 			if (Math.abs(flowForce.y) > 0.00001)
 				body.ApplyImpulse(flowForce, body.GetWorldCenter());
@@ -1685,8 +1720,6 @@
 			pumpDirectionFactor = value ? -1 : 1;
 		}
 
-		private var pumpDirectionFactor:Number = 1;
-
 		private function applyPumpForce(body:b2Body, bodyInfo:BodyInfo):void
 		{
 			var pos:b2Vec2 = body.GetPosition();
@@ -1698,8 +1731,8 @@
 					if (bodyInfo.isSolute)
 					{
 						// change pump affinity if the solute is very near/inside the wall (accidentally within another pump)
-						if (pos.x > pumpZoneLeft / _worldRatio &&
-								pos.y < pumpZoneRight / _worldRatio)
+						if (pos.x > pumpZoneLeft / worldRatio &&
+								pos.y < pumpZoneRight / worldRatio)
 							bodyInfo.pumpAffinity = getNearestPumpIndex(pos);
 					}
 
@@ -1716,7 +1749,10 @@
 					{
 						if (isBodyOnOutputSideOfPump(pos, pumpPos))
 						{
-							pumpRange = 0.5;
+							if (isPlugBindingOnRight)
+								pumpRange = centerWallWidth / worldRatio;
+							else
+								pumpRange = 0.5;
 							pumpStrength = -10;
 						}
 					}
@@ -1728,7 +1764,7 @@
 						}
 						else
 						{
-							pumpRange = wallsGroup.width * bloodAreaPercentWidth / _worldRatio;
+							pumpRange = wallsGroup.width * bloodAreaPercentWidth / worldRatio;
 							pumpStrength = 60;
 
 							if (!bodyInfo.shouldBeDestroyed)
@@ -1797,7 +1833,7 @@
 					var wasDestroyed:Boolean = false;
 
 					// loop
-					if (pos.y * _worldRatio > verticalRecycleMaximum || bodyIsStuck(body, bodyInfo))
+					if (pos.y * worldRatio > verticalRecycleMaximum || bodyIsStuck(body, bodyInfo))
 					{
 						bodyInfo.stuckTime = 0;
 						if (bodyInfo.shouldBeDestroyed)
@@ -1816,7 +1852,7 @@
 							recycleBody(body, bodyInfo);
 						}
 					}
-					else if (pos.y * _worldRatio < verticalRecycleMinimum)
+					else if (pos.y * worldRatio < verticalRecycleMinimum)
 					{
 						recycleBody(body, bodyInfo);
 					}
@@ -1831,21 +1867,21 @@
 
 		private function updateSpriteFromBody(body:b2Body, pos:b2Vec2, sprite:Sprite):void
 		{
-			sprite.x = pos.x * _worldRatio;
-			sprite.y = pos.y * _worldRatio;
+			sprite.x = pos.x * worldRatio;
+			sprite.y = pos.y * worldRatio;
 			sprite.rotation = body.GetAngle() * (180 / Math.PI);
 		}
 
 		private function recycleBody(body:b2Body, bodyInfo:BodyInfo):void
 		{
 			var pos:b2Vec2 = new b2Vec2();
-			pos.y = verticalRecycleMinimum / _worldRatio;
+			pos.y = verticalRecycleMinimum / worldRatio;
 
 			// evenly distribute bodies horizontally when recycling
 			pos.x = getBodyPosX(bodyInfo.isSolute ? soluteInBloodRatio : (bodyInfo.isPlug ? 0 : 1));
 			body.SetPosition(pos);
 
-			body.SetLinearVelocity(new b2Vec2(0, flowVelocity));
+			body.SetLinearVelocity(new b2Vec2(0, getFlowVelocity(pos.x)));
 
 			body.SetAngle(Math.random() * Math.PI);
 
@@ -1885,7 +1921,7 @@
 				var jointDef:b2WeldJointDef = new b2WeldJointDef();
 				jointDef.bodyA = _world.GetGroundBody();
 				jointDef.bodyB = body;
-				jointDef.localAnchorA = pumpPos;
+				jointDef.localAnchorA = new b2Vec2(pumpPos.x + plugBindingOffsetX / worldRatio, pumpPos.y);
 				jointDef.collideConnected = false;
 				var joint:b2Joint = _world.CreateJoint(jointDef);
 
@@ -1915,14 +1951,21 @@
 		private function getBodyPosX(ratioOnLeft:Number):Number
 		{
 			if (Math.random() <= ratioOnLeft)
-				return (Math.random() * bloodAreaPercentWidth) * this.width / _worldRatio;
+			{
+				var leftAreaWidth:Number = (bloodAreaPercentWidth * this.width - centerWallWidth / 2 - leftWallWidth);
+				return (leftWallWidth + Math.random() * leftAreaWidth) / worldRatio;
+			}
 			else
-				return (bloodAreaPercentWidth + Math.random() * (1 - bloodAreaPercentWidth)) * this.width / _worldRatio;
+			{
+				var rightAreaWidth:Number = (1 - bloodAreaPercentWidth) * this.width - centerWallWidth / 2 - rightWallWidth;
+				var rightAreaX:Number = bloodAreaPercentWidth * this.width + centerWallWidth / 2;
+				return (rightAreaX + Math.random() * rightAreaWidth) / worldRatio;
+			}
 		}
 
 		private function getRandomBodyPosY():Number
 		{
-			return Math.random() * this.height / _worldRatio;
+			return Math.random() * this.height / worldRatio;
 		}
 
 		private function getNearestPump(pos:b2Vec2):b2Vec2
@@ -1933,7 +1976,7 @@
 		private function getNearestPumpIndex(pos:b2Vec2):int
 		{
 			// guess the index based on the fact that the gaps/pumps are evenly spaced
-			return Math.max(0, Math.min(_pumps.length - 1, Math.floor(pos.y / (pumpSpacing / _worldRatio))));
+			return Math.max(0, Math.min(_pumps.length - 1, Math.floor(pos.y / (pumpSpacing / worldRatio))));
 		}
 
 		public function updateMouseWorld(mouseStageX:Number, mouseStageY:Number):void
@@ -1948,8 +1991,8 @@
 			mouseDragX = Math.max(0, Math.min(this.width, mouseDragX));
 			mouseDragY = Math.max(0, Math.min(this.height, mouseDragY));
 
-			mouseXWorldPhys = (mouseDragX) / _worldRatio;
-			mouseYWorldPhys = (mouseDragY) / _worldRatio;
+			mouseXWorldPhys = (mouseDragX) / worldRatio;
+			mouseYWorldPhys = (mouseDragY) / worldRatio;
 
 			mouseXWorld = (mouseDragX);
 			mouseYWorld = (mouseDragY);
@@ -2042,7 +2085,7 @@
 
 		private function get isWorldBigEnough():Boolean
 		{
-			return this.wallsGroup.width / _worldRatio >= minWorldWidth && this.wallsGroup.height / _worldRatio >= minWorldHeight;
+			return this.wallsGroup.width / worldRatio >= minWorldWidth && this.wallsGroup.height / worldRatio >= minWorldHeight;
 		}
 
 		private function moveDynamicBodiesAfterResize(resizeFactorX:Number, resizeFactorY:Number):void
@@ -2087,7 +2130,7 @@
 					}
 
 					var resizeFactorX:Number = bloodAreaPercentWidth / oldBloodAreaPercentWidth;
-					var w:Number = wallsGroup.width / _worldRatio;
+					var w:Number = wallsGroup.width / worldRatio;
 					if (pos.x < w * oldBloodAreaPercentWidth)
 					{
 						pos.x *= resizeFactorX;
@@ -2134,7 +2177,7 @@
 			if (bodyInfo.pumpAffinity == -1)
 			{
 				body.SetPosition(new b2Vec2(getBodyPosX(0), getRandomBodyPosY()));
-				body.SetLinearVelocity(new b2Vec2(0, flowVelocity));
+				body.SetLinearVelocity(new b2Vec2(0, getFlowVelocity(body.GetPosition().x)));
 			}
 			else
 			{
@@ -2154,7 +2197,7 @@
 				else
 					bodyDef.position.y = -shapeHeight;
 				bodyDef.linearVelocity.x = 0;
-				bodyDef.linearVelocity.y = flowVelocity;
+				bodyDef.linearVelocity.y = getFlowVelocity(bodyDef.position.x);
 			}
 			else
 			{
@@ -2165,6 +2208,89 @@
 			}
 
 			bodyDef.userData = bodyInfo;
+		}
+
+		private function updateSpritesVisible():void
+		{
+			if (!_showDebug)
+			{
+				if (_debugSprite)
+					_debugSprite.graphics.clear();
+			}
+			for each (var sprite:Sprite in _soluteSprites)
+			{
+				sprite.visible = !_showDebug;
+			}
+			for each (sprite in _plugSprites)
+			{
+				sprite.visible = !_showDebug;
+			}
+			for each (sprite in _antibodySprites)
+			{
+				sprite.visible = !_showDebug;
+			}
+			for each (sprite in _wallSprites)
+			{
+				sprite.visible = !_showDebug && wallsVisible;
+			}
+			for each (var wallRect:Rect in _wallRects)
+			{
+				wallRect.visible = !_showDebug && wallsVisible;
+			}
+		}
+
+		[Bindable]
+		public function get wallsVisible():Boolean
+		{
+			return _wallsVisible;
+		}
+
+		public function set wallsVisible(value:Boolean):void
+		{
+			_wallsVisible = value;
+			updateSpritesVisible();
+		}
+
+		[Bindable]
+		public function get backgroundVisible():Boolean
+		{
+			return _backgroundVisible;
+		}
+
+		public function set backgroundVisible(value:Boolean):void
+		{
+			_backgroundVisible = value;
+		}
+
+		[Bindable]
+		public function get backgroundContent():Array
+		{
+			return _backgroundContent;
+		}
+
+		public function set backgroundContent(value:Array):void
+		{
+			_backgroundContent = value;
+		}
+
+		public function get minWorldWidth():Number
+		{
+			return 20 * soluteWidth / worldRatio;
+		}
+
+		public function get minWorldHeight():Number
+		{
+			return 10 * soluteWidth / worldRatio;
+		}
+
+		public function get snapDistanceEpsilon():Number
+		{
+			return plugWidth * 0.5 / worldRatio;
+		}
+
+		public function get stuckDisplacementEpsilon():Number
+		{
+			return soluteWidth * 0.25 / worldRatio;
 		}
 		]]></fx:Script>
 </s:Group>
