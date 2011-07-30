@@ -1,0 +1,41 @@
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   targetNamespace="http://indivo.org/vocab/xml/documents#"
+		   xmlns:indivo="http://indivo.org/vocab/xml/documents#"
+		   elementFormDefault="qualified">
+
+	<xs:include schemaLocation="codes.xsd"/>
+	<xs:include schemaLocation="provider.xsd"/>
+	<xs:include schemaLocation="values.xsd"/>
+
+	<xs:include schemaLocation="AdherenceItem.xsd"/>
+	<xs:include schemaLocation="Allergy.xsd"/>
+	<xs:include schemaLocation="Equipment.xsd"/>
+	<xs:include schemaLocation="EquipmentScheduleItem.xsd"/>
+	<xs:include schemaLocation="Immunization.xsd"/>
+	<xs:include schemaLocation="Lab.xsd"/>
+	<xs:include schemaLocation="MedicationAdministration.xsd"/>
+	<xs:include schemaLocation="MedicationFill.xsd"/>
+	<xs:include schemaLocation="MedicationOrder.xsd"/>
+	<xs:include schemaLocation="MedicationScheduleItem.xsd"/>
+	<xs:include schemaLocation="Problem.xsd"/>
+	<xs:include schemaLocation="Procedure.xsd"/>
+	<xs:include schemaLocation="SimpleClinicalNote.xsd"/>
+	<xs:include schemaLocation="VideoMessage.xsd"/>
+	<xs:include schemaLocation="VitalSign.xsd"/>
+</xs:schema>
