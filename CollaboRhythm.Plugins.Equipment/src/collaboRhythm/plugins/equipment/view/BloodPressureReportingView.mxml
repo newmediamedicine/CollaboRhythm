@@ -32,7 +32,7 @@
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 
-		.labelsText {
+		.reportingLabelsText {
 			color: #000000;
 			fontSize: 40;
 		}
@@ -61,18 +61,19 @@
 		import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEvent;
 		import collaboRhythm.shared.model.healthRecord.CodedValue;
 		import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
-		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 		import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 		import collaboRhythm.shared.model.services.ICurrentDateSource;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
-		import collaboRhythm.shared.view.NumberPad;
 
 		private static const HYPOTENSION_SYSTOLIC_THRESHOLD:int = 90;
 		private static const HYPOTENSION_DIASTOLIC_THRESHOLD:int = 60;
 		private static const HYPERTENSION_SYSTOLIC_THRESHOLD:int = 180;
 		private static const HYPERTENSION_DIASTOLIC_THRESHOLD:int = 120;
+
+		private const NUMBER_PAD_GAP:int = 2;
 
 		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
 		private var _adherenceItem:AdherenceItem;
@@ -81,7 +82,6 @@
 		private var _submitFailed:Boolean;
 		private var _fromDevice:Boolean = false;
 		private var _measurementsFromDevice:int = 0;
-		private var _measurementsFromDeviceInitial:int;
 		private var _hasUserInteracted:Boolean;
 		private var _automaticSubmitInterval:uint;
 
@@ -91,15 +91,13 @@
 		private var _handledInvokeEvents:Vector.<String> = new Vector.<String>();
 
 		public function init(scheduleItemOccurrence:ScheduleItemOccurrence, adherenceItem:AdherenceItem,
-							 handledInvokeEvents:Vector.<String>, repeat:Boolean = false,
-							 measurementsFromDeviceInitial:int = 0):void
+							 handledInvokeEvents:Vector.<String>, repeat:Boolean = false):void
 		{
 			_scheduleItemOccurrence = scheduleItemOccurrence;
 			_adherenceItem = adherenceItem;
 			_handledInvokeEvents = handledInvokeEvents;
 
 			_repeat = repeat;
-			_measurementsFromDeviceInitial = measurementsFromDeviceInitial;
 			if (repeat)
 			{
 				currentState = "repeat";
@@ -118,32 +116,24 @@
 		{
 			if (event.arguments.length != 0)
 			{
-//				if (_handledInvokeEvents.indexOf(event) == -1)
-//				{
-//					if (currentState == "initial" || (currentState == "repeat" && _measurementsFromDevice >= _measurementsFromDeviceInitial))
-//					{
-						var urlString:String = event.arguments[0];
-						var urlVariablesString:String = urlString.split("//")[1];
-						var urlVariables:URLVariables = new URLVariables(urlVariablesString);
+				var urlString:String = event.arguments[0];
+				var urlVariablesString:String = urlString.split("//")[1];
+				var urlVariables:URLVariables = new URLVariables(urlVariablesString);
 
-						if (urlVariables.success == "true" && _handledInvokeEvents.indexOf(urlVariables.date) == -1)
-						{
-							systolicResult.text = urlVariables.systolic;
-							systolicResult.enabled = false;
-							diastolicResult.text = urlVariables.diastolic;
-							diastolicResult.enabled = false;
-							heartRateResult.text = urlVariables.heartrate;
-							heartRateResult.enabled = false;
-							_fromDevice = true;
-							_hasUserInteracted = false;
-							_automaticSubmitInterval = setInterval(automaticSubmitHandler, 5000);
+				if (urlVariables.success == "true" && _handledInvokeEvents.indexOf(urlVariables.date) == -1)
+				{
+					systolicResult.text = urlVariables.systolic;
+					systolicResult.enabled = false;
+					diastolicResult.text = urlVariables.diastolic;
+					diastolicResult.enabled = false;
+					heartRateResult.text = urlVariables.heartrate;
+					heartRateResult.enabled = false;
+					_fromDevice = true;
+					_hasUserInteracted = false;
+					_automaticSubmitInterval = setInterval(automaticSubmitHandler, 5000);
 
-							_handledInvokeEvents.push(urlVariables.date);
-						}
-//					}
-//					_measurementsFromDevice += 1;
-
-//				}
+					_handledInvokeEvents.push(urlVariables.date);
+				}
 			}
 		}
 
@@ -159,7 +149,6 @@
 		private function createVitalSign(category:String, value:int):void
 		{
 			//TODO: determine if it is possible to have optional parameters in the constructor
-			//TODO: Update once relationship persistence is implemented
 			// It may cause problems with marshalling the xml
 			var bloodPressure:VitalSign = new VitalSign();
 			var valueString:String;
@@ -180,7 +169,7 @@
 			bloodPressure.name = new CodedValue(VITAL_SIGN_URL, valueString, abbrev, category);
 			bloodPressure.dateMeasuredStart = _currentDateSource.now();
 			//TODO: Introduce a lookup for coded values based on the value
-			bloodPressure.result = new ValueAndUnit(valueString,
+			bloodPressure.result = new ValueAndUnit(value.toString(),
 													new CodedValue("http://codes.indivo.org/units/", "31", "mmHg",
 																   "millimeters of mercury"));
 			bloodPressure.position = positionDropDownList.selectedItem;
@@ -193,11 +182,7 @@
 			{
 				bloodPressure.comments = "manual entry";
 			}
-			if (!_adherenceItem.adherenceResult)
-			{
-				// TODO: change to adherenceResults
-				_adherenceItem.adherenceResult = bloodPressure;
-			}
+			_adherenceItem.adherenceResults.push(bloodPressure);
 		}
 
 		private function submitButton_clickHandler():void
@@ -283,27 +268,28 @@
 			numberPad.x = localPoint.x;
 			numberPad.y = localPoint.y;
 			numberPad.visible = true;
-			numberPad.newFocus(textInput);
+			numberPad.setFocus();
+			numberPad.textInput = textInput;
 		}
 
 		private function systolicResult_focusInHandler():void
 		{
-			var globalPoint:Point = systolicResultGroup.localToGlobal(new Point(systolicResult.x + systolicResult.width,
+			var globalPoint:Point = systolicResultGroup.localToGlobal(new Point(systolicResult.x + systolicResult.width + NUMBER_PAD_GAP,
 																				systolicResult.y + systolicResult.height - numberPad.height));
 			showNumberPad(globalPoint, systolicResult);
 		}
 
 		private function diastolicResult_focusInHandler():void
 		{
-			var globalPoint:Point = diastolicResultGroup.localToGlobal(new Point(diastolicResult.x + diastolicResult.width,
+			var globalPoint:Point = diastolicResultGroup.localToGlobal(new Point(diastolicResult.x + diastolicResult.width + NUMBER_PAD_GAP,
 																				 diastolicResult.y + diastolicResult.height - numberPad.height));
 			showNumberPad(globalPoint, diastolicResult);
 		}
 
 		private function heartRateResult_focusInHandler():void
 		{
-			var globalPoint:Point = heartRateResultGroup.localToGlobal(new Point(heartRateResult.x - numberPad.width,
-																				 heartRateResult.y));
+			var globalPoint:Point = heartRateResultGroup.localToGlobal(new Point(heartRateResult.x + heartRateResult.width - numberPad.width,
+																				 heartRateResult.y - numberPad.height - NUMBER_PAD_GAP));
 			showNumberPad(globalPoint, heartRateResult);
 		}
 
@@ -311,7 +297,6 @@
 		{
 			NativeApplication.nativeApplication.removeEventListener(InvokeEvent.INVOKE, invokeHandler);
 		}
-
 		]]>
 	</fx:Script>
 	<s:Rect width="100%" height="100%">
@@ -321,12 +306,12 @@
 	</s:Rect>
 	<s:VGroup top="10" left="10" right="10" gap="10" horizontalAlign="center">
 		<s:Label text="Please enter your blood pressure" includeIn="initial"
-				 styleName="labelsText" paddingBottom="15"/>
-		<s:Label text="Please repeat your blood pressure" includeIn="repeat" styleName="labelsText"
+				 styleName="reportingLabelsText" paddingBottom="15"/>
+		<s:Label text="Please repeat your blood pressure" includeIn="repeat" styleName="reportingLabelsText"
 				 paddingBottom="15"/>
 		<s:DropDownList id="positionDropDownList" width="100%" selectedIndex="0"
 						skinClass="spark.skins.spark.DropDownListSkin"
-						styleName="labelsText">
+						styleName="reportingLabelsText">
 			<mx:ArrayCollection>
 				<fx:String>Sitting</fx:String>
 				<fx:String>Lying Down</fx:String>
@@ -335,27 +320,27 @@
 		</s:DropDownList>
 		<s:DropDownList id="siteDropDownList" width="100%" selectedIndex="0"
 						skinClass="spark.skins.spark.DropDownListSkin"
-						styleName="labelsText">
+						styleName="reportingLabelsText">
 			<mx:ArrayCollection>
 				<fx:String>Left Arm</fx:String>
 				<fx:String>Right Arm</fx:String>
 			</mx:ArrayCollection>
 		</s:DropDownList>
 		<s:Group width="100%">
-			<s:HGroup id="systolicResultGroup" gap="15" paddingTop="25" left="0">
-				<s:Label id="systolicLabel" text="SYS" styleName="labelsText"/>
-				<s:TextInput id="systolicResult" width="300" height="135"
+			<s:HGroup id="systolicResultGroup" gap="15" paddingTop="20" left="0">
+				<s:Label id="systolicLabel" text="SYS" width="65" styleName="reportingLabelsText"/>
+				<s:TextInput id="systolicResult" width="290" height="130"
 							 skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
 							 textAlign="right" restrict="0-9" maxChars="3" focusIn="systolicResult_focusInHandler()"/>
 				<s:Group height="100%">
-					<s:Label text="mmHg" verticalCenter="0" styleName="labelsText"/>
+					<s:Label text="mmHg" verticalCenter="0" styleName="reportingLabelsText"/>
 				</s:Group>
 			</s:HGroup>
 		</s:Group>
 		<s:Group width="100%">
 			<s:HGroup id="diastolicResultGroup" gap="15" left="0">
-				<s:Label id="diastolicLabel" text="DIA" bottom="0" styleName="labelsText"/>
-				<s:TextInput id="diastolicResult" width="300" height="135"
+				<s:Label id="diastolicLabel" text="DIA" width="65" styleName="reportingLabelsText"/>
+				<s:TextInput id="diastolicResult" width="290" height="130"
 							 skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
 							 textAlign="right" restrict="0-9" maxChars="3" focusIn="diastolicResult_focusInHandler()"/>
 			</s:HGroup>
@@ -365,7 +350,7 @@
 				<s:TextInput id="heartRateResult" width="200" height="95"
 							 skinClass="spark.skins.spark.TextInputSkin"
 							 textAlign="center" restrict="0-9" maxChars="3" focusIn="heartRateResult_focusInHandler()"/>
-				<s:Label text="Beats/min" styleName="labelsText"/>
+				<s:Label text="Beats/min" styleName="reportingLabelsText"/>
 			</s:VGroup>
 		</s:Group>
 	</s:VGroup>

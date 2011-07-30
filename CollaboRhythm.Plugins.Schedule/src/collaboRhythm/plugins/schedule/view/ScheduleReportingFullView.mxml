@@ -22,7 +22,9 @@
 		 addedToStage="addedToStage()"
 		 removedFromStage="removedFromStage()"
 		 implements="collaboRhythm.plugins.schedule.view.IScheduleFullView"
-		 width="100%" height="100%">
+		 width="100%" height="100%"
+		show="showHandler()"
+		hide="hideHandler()">
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.schedule.controller.ScheduleAppController;
 		import collaboRhythm.plugins.schedule.controller.ScheduleReportingController;
@@ -37,6 +39,7 @@
 		private var _scheduleReportingController:ScheduleReportingController;
 		private var _scheduleModel:ScheduleModel;
 		private var _scheduleReportingModel:ScheduleReportingModel;
+		private var _timeoutTimer:Timer;
 
 		public function init(scheduleAppController:ScheduleAppController, scheduleModel:ScheduleModel):void
 		{
@@ -52,6 +55,24 @@
 			this.addEventListener(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
 								  adherenceItemIncompleteEventHandler);
 			this.addEventListener(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_VOID, adherenceItemVoidEventHandler);
+		}
+
+		private function showHandler():void
+		{
+			// Every time that the view is shown, create a 10 minute time
+			_timeoutTimer = new Timer(600000, 1);
+			_timeoutTimer.addEventListener(TimerEvent.TIMER, timeoutTimer_timerEventHandler);
+			_timeoutTimer.start();
+		}
+
+		private function timeoutTimer_timerEventHandler(event:TimerEvent):void
+		{
+			_scheduleReportingController.closeScheduleReportingFullView();
+		}
+
+		private function hideHandler():void
+		{
+			_timeoutTimer.stop();
 		}
 
 		public function viewStackChangeEvent(event:CollectionEvent):void
@@ -74,6 +95,7 @@
 			{
 				additionalInformationViews.removeAllElements();
 			}
+			setFocus();
 		}
 
 		private function addedToStage():void
@@ -88,11 +110,18 @@
 
 		private function stage_keyDownHandler(event:KeyboardEvent):void
 		{
-			if (event.keyCode == Keyboard.BACK && visible && _scheduleReportingModel.viewStack.length != 0)
+			if (event.keyCode == Keyboard.BACK && visible)
 			{
-				event.preventDefault();
-				event.stopImmediatePropagation();
-				_scheduleReportingController.goBack();
+				if (_scheduleReportingModel.viewStack.length == 0)
+				{
+					_scheduleReportingController.saveChangesToRecord();
+				}
+				else if (_scheduleReportingModel.viewStack.length != 0)
+				{
+					event.preventDefault();
+					event.stopImmediatePropagation();
+					_scheduleReportingController.goBack();
+				}
 			}
 		}
 
@@ -123,9 +152,14 @@
 	<s:HGroup width="100%" height="100%" gap="0">
 		<s:Rect width="50%" height="100%">
 			<s:fill>
-				<s:SolidColor color="0x000000" alpha="0.5"/>
+				<s:SolidColor color="0x000000" alpha="0.3"/>
 			</s:fill>
 		</s:Rect>
+		<s:Line height="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="#FFFFFF"/>
+			</s:stroke>
+		</s:Line>
 		<s:Group id="rightGroup" width="50%" height="100%">
 			<s:Rect width="100%" height="100%">
 				<s:fill>

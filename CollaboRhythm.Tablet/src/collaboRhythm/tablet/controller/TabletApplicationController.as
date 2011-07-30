@@ -60,6 +60,10 @@ package collaboRhythm.tablet.controller
 				_healthRecordServiceFacade.resetFailedOperations();
 				_healthRecordServiceFacade.saveAllChanges(_healthRecordServiceFacade.currentRecord);
 			}
+			if (_collaborationLobbyNetConnectionService.hasConnectionFailed)
+			{
+				_collaborationLobbyNetConnectionService.enterCollaborationLobby();
+			}
 		}
 
 		private function connectivityView_quitHandler(event:ConnectivityEvent):void
@@ -102,20 +106,32 @@ package collaboRhythm.tablet.controller
 			updateConnectivityView();
 		}
 
+		override protected function collaborationLobbyIsConnecting_changeHandler(isConnecting:Boolean):void
+		{
+			super.collaborationLobbyIsConnecting_changeHandler(isConnecting);
+			updateConnectivityView();
+		}
+
+		override protected function collaborationLobbyHasConnectionFailed_changeHandler(hasConnectionFailed:Boolean):void
+		{
+			super.collaborationLobbyHasConnectionFailed_changeHandler(hasConnectionFailed);
+			updateConnectivityView();
+		}
+
 		private function updateConnectivityView():void
 		{
 			// TODO: perhaps we should have different states for saving vs loading
 
 			var connectivityState:String;
-			if (_healthRecordServiceFacade.isLoading)
+			if ((_healthRecordServiceFacade && _healthRecordServiceFacade.isLoading) || (_collaborationLobbyNetConnectionService && _collaborationLobbyNetConnectionService.isConnecting))
 				connectivityState = "connectInProgress";
-			else if (_healthRecordServiceFacade.isSaving)
+			else if (_healthRecordServiceFacade && _healthRecordServiceFacade.isSaving)
 				connectivityState = "connectInProgress";
-			else if (_healthRecordServiceFacade.hasFailedSaveOperations)
+			else if ((_healthRecordServiceFacade && _healthRecordServiceFacade.hasFailedSaveOperations) || (_collaborationLobbyNetConnectionService && _collaborationLobbyNetConnectionService.hasConnectionFailed))
 				connectivityState = "persistFailed";
 
 			_connectivityView.setCurrentState(connectivityState);
-			_connectivityView.visible = _healthRecordServiceFacade.isLoading || _healthRecordServiceFacade.isSaving || _healthRecordServiceFacade.hasFailedSaveOperations;
+			_connectivityView.visible = (_healthRecordServiceFacade && _healthRecordServiceFacade.isLoading) || (_healthRecordServiceFacade && _healthRecordServiceFacade.isSaving) || (_healthRecordServiceFacade && _healthRecordServiceFacade.hasFailedSaveOperations) || (_collaborationLobbyNetConnectionService && _collaborationLobbyNetConnectionService.isConnecting) || (_collaborationLobbyNetConnectionService && _collaborationLobbyNetConnectionService.hasConnectionFailed);
 		}
 
 		public override function openRecordAccount(recordAccount:Account):void
@@ -149,19 +165,19 @@ package collaboRhythm.tablet.controller
 		}
 
 		public override function get currentFullView():String
-        {
-            return _tabletAppControllersMediator.currentFullView;
-        }
+		{
+			return _tabletAppControllersMediator.currentFullView;
+		}
 
-        // when a record is closed, all of the apps need to be closed and the documents cleared from the record
-        public override function closeRecordAccount(recordAccount:Account):void
-        {
-            _tabletAppControllersMediator.closeApps();
+		// when a record is closed, all of the apps need to be closed and the documents cleared from the record
+		public override function closeRecordAccount(recordAccount:Account):void
+		{
+			_tabletAppControllersMediator.closeApps();
 			if (recordAccount)
-                recordAccount.primaryRecord.clearDocuments();
-            _activeRecordAccount = null;
-            _activeRecordView.visible = false;
-        }
+				recordAccount.primaryRecord.clearDocuments();
+			_activeRecordAccount = null;
+			_activeRecordView.visible = false;
+		}
 
 		public function useDemoPreset(demoPresetIndex:int):void
 		{
@@ -170,14 +186,14 @@ package collaboRhythm.tablet.controller
 		}
 
 		protected override function changeDemoDate():void
-        {
-            reloadData();
+		{
+			reloadData();
 
 			if (_activeRecordAccount && _activeRecordAccount.primaryRecord && _activeRecordAccount.primaryRecord.demographics)
 				_activeRecordAccount.primaryRecord.demographics.dispatchAgeChangeEvent();
-        }
+		}
 
-		public function reloadData():void
+		override public function reloadData():void
 		{
 			if (_activeRecordAccount != null)
 			{

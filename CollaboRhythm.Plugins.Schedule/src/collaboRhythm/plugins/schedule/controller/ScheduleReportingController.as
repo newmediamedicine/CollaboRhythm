@@ -45,20 +45,33 @@ package collaboRhythm.plugins.schedule.controller
 			_scheduleReportingModel = _scheduleModel.scheduleReportingModel;
 			_scheduleReportingModel.isReportingCompleted = false;
 
-			BindingUtils.bindSetter(reportingCompletedHandler, _scheduleReportingModel, "isReportingCompleted");
+			BindingUtils.bindSetter(isReportingCompleted_changeHandler, _scheduleReportingModel,
+									"isReportingCompleted");
 		}
 
-		private function reportingCompletedHandler(isReportingCompleted:Boolean):void
+		private function isReportingCompleted_changeHandler(isReportingCompleted:Boolean):void
 		{
 			if (isReportingCompleted)
 			{
-				dispatchEvent(new AppEvent(AppEvent.HIDE_FULL_VIEW));
+				closeScheduleReportingFullView();
 			}
+		}
+
+		public function closeScheduleReportingFullView():void
+		{
+			saveChangesToRecord();
+			_scheduleReportingModel.viewStack.removeAll();
+			dispatchEvent(new AppEvent(AppEvent.HIDE_FULL_VIEW));
 		}
 
 		public function goBack():void
 		{
 			_scheduleReportingModel.viewStack.removeItemAt(_scheduleReportingModel.viewStack.length - 1)
+		}
+
+		public function saveChangesToRecord():void
+		{
+			_scheduleModel.saveChangesToRecord();
 		}
 
 		public function createAdherenceItem(scheduleGroup:ScheduleGroup, scheduleItemOccurrence:ScheduleItemOccurrence,

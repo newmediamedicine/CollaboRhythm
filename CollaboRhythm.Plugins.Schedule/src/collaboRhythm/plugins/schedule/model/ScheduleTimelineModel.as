@@ -122,6 +122,10 @@ package collaboRhythm.plugins.schedule.model
 		public function grabScheduleItemOccurrence(moveData:MoveData):void
 		{
 			var scheduleItemOccurrence:ScheduleItemOccurrence = _scheduleModel.scheduleItemOccurrencesHashMap[moveData.id];
+			if (!scheduleItemOccurrence)
+			{
+				throw new Error("The specified scheduleItemOccurrence does not exist in the HashMap.");
+			}
 			var oldScheduleGroup:ScheduleGroup;
 			for each (var scheduleGroup:ScheduleGroup in _scheduleModel.scheduleGroupsCollection)
 			{

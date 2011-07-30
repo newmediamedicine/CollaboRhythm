@@ -77,10 +77,10 @@
 	</s:Group>
 	<s:Group id="adherenceImage" width="70%" height="70%" horizontalCenter="0" verticalCenter="0">
 		<images:check width="{adherenceImage.width}" height="{adherenceImage.height}"
-				filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}"
+				filters="{[new spark.filters.GlowFilter(0x3E9645, 0.8, 10, 10, 10)]}"
 					  visible="{_scheduleItemOccurrence.adherenceItem &amp;&amp; _scheduleItemOccurrence.adherenceItem.adherence}"/>
 		<images:x width="{adherenceImage.width}" height="{adherenceImage.height}"
-				filters="{[new spark.filters.GlowFilter(0xFFFFFF, 0.8, 5, 5)]}"
+				filters="{[new spark.filters.GlowFilter(0xA31E22, 0.8, 10, 10, 10)]}"
 				  visible="{_scheduleItemOccurrence.adherenceItem &amp;&amp; !_scheduleItemOccurrence.adherenceItem.adherence}"/>
 	</s:Group>
 

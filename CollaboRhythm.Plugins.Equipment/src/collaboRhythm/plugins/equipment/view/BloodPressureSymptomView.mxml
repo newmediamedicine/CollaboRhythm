@@ -78,8 +78,7 @@
 		private function noSymptomButtonClickHandler(event:MouseEvent):void
 		{
 			var bloodPressureReportingView:BloodPressureReportingView = new BloodPressureReportingView();
-			bloodPressureReportingView.init(_scheduleItemOccurrence, _adherenceItem, _handledInvokeEvents, true,
-											_measurementsFromDeviceInitial);
+			bloodPressureReportingView.init(_scheduleItemOccurrence, _adherenceItem, _handledInvokeEvents, true);
 			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
 															 _scheduleItemOccurrence, _adherenceItem,
 															 bloodPressureReportingView));

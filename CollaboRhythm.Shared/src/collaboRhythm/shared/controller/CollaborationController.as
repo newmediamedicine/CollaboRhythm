@@ -64,7 +64,7 @@ package collaboRhythm.shared.controller
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
 
-		private function synchronizeHandler(event:CollaborationLobbyNetConnectionService):void
+		private function synchronizeHandler(event:CollaborationLobbyNetConnectionEvent):void
 		{
 			dispatchEvent(new CollaborationLobbyNetConnectionEvent(CollaborationLobbyNetConnectionEvent.SYNCHRONIZE));
 		}
