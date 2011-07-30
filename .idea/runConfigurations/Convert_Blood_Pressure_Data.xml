@@ -9,8 +9,8 @@
     <option name="myWorkingDirectory" value="" />
     <option name="myModule" />
     <option name="myJdk" value="1.6" />
-    <XsltFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/indivo-alpha/rpoole/blood_pressure_data_to_docs.xsl" />
-    <XmlFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/indivo-alpha/rpoole/blood_pressure_data.xml.old" />
+    <XsltFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/indivo-alpha/rpoole/old/blood_pressure_data_to_docs.xsl" />
+    <XmlFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/indivo-alpha/rpoole/old/blood_pressure_data.xml.old" />
     <parameters />
     <OutputType value="CONSOLE" save-to-file="true" />
     <FileType name="XML" />

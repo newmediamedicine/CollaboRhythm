@@ -26,6 +26,7 @@
 		<xsl:variable name="dateStart">2010-01-15T13:00:00Z</xsl:variable>
 		<xsl:variable name="medicationName" select="IndivoDocuments/d:AdherenceItem[1]/d:name"/>
 		<xsl:variable name="reportedBy" select="IndivoDocuments/d:AdherenceItem[1]/d:reportedBy"/>
+		<xsl:variable name="ndc" select="IndivoDocuments/d:AdherenceItem[1]/d:ndc"/>
 		<IndivoDocuments>
 			<LoadableIndivoDocument>
 				<document>
@@ -45,6 +46,39 @@
 					</MedicationOrder>
 				</document>
 				<relatesTo>
+					<relation type="medicationFill">
+						<!-- child elements can be either (1) IndivoDocumentWithRelationships or (2) IndivoDocument document type -->
+						<LoadableIndivoDocument>
+							<document>
+								<MedicationFill xmlns="http://indivo.org/vocab/xml/documents#">
+									<xsl:copy-of select="$medicationName"/>
+									<filledBy><xsl:value-of select="$reportedBy"/></filledBy>
+									<dateFilled>2010-01-14T19:13:11Z</dateFilled>
+									<amountFilled>
+										<value><xsl:value-of select="$numPillsOrdered"/></value>
+										<unit>tab</unit>
+									</amountFilled>
+									<xsl:copy-of select="$ndc"/>
+								</MedicationFill>
+								<MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
+									<xsl:copy-of select="$medicationName"/>
+									<scheduledBy>jking@records.media.mit.edu</scheduledBy>
+									<dateScheduled>2010-01-14T19:13:11Z</dateScheduled>
+									<dateStart><xsl:value-of select="$dateStart"/></dateStart>
+									<dateEnd>2010-01-15T17:00:00Z</dateEnd>
+									<recurrenceRule>
+										<frequency>DAILY</frequency>
+										<count><xsl:value-of select="$numPillsOrdered"/></count>
+									</recurrenceRule>
+									<dose>
+										<value>1</value>
+										<unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
+									</dose>
+									<instructions>take with water</instructions>
+								</MedicationScheduleItem>
+							</document>
+						</LoadableIndivoDocument>
+					</relation>
 					<relation type="scheduleItem">
 						<!-- child elements can be either (1) IndivoDocumentWithRelationships or (2) IndivoDocument document type -->
 						<LoadableIndivoDocument>

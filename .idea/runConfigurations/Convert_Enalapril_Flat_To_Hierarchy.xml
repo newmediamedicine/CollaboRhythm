@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Convert Enalapril Flat To Hierarchy" type="XSLT" factoryName="XSLT">
-    <option name="myOutputFile" value="C:\Users\sgilroy\Documents\GitRepositories\CollaboRhythm\CollaboRhythm.ExampleData\data\rpoole\medication_enalapril_hierarchy.xml" />
+    <option name="myOutputFile" value="C:\Users\sgilroy\Documents\GitRepositories\CollaboRhythm\CollaboRhythm.ExampleData\data\indivo-alpha\rpoole\medication_enalapril_hierarchy.xml" />
     <option name="myOpenOutputFile" value="true" />
     <option name="myOpenInBrowser" value="false" />
     <option name="mySmartErrorHandling" value="true" />
@@ -10,7 +10,7 @@
     <option name="myModule" />
     <option name="myJdk" value="1.6" />
     <XsltFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/indivo-alpha/rpoole/medication_adherence_flat_to_hierarchy.xsl" />
-    <XmlFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/indivo-alpha/rpoole/medication_enalapril_adherence.xml" />
+    <XmlFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/indivo-alpha/rpoole/staging/medication_enalapril_adherence.xml" />
     <parameters />
     <OutputType value="CONSOLE" save-to-file="true" />
     <FileType name="XML" />
