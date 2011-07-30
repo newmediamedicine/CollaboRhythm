@@ -176,7 +176,7 @@
 			adherenceItem.init(_equipmentScheduleItem.name, _activeAccountId, _currentDateSource.now(),
 							   scheduleItemOccurrence.recurrenceIndex, false);
 
-			var nonadherenceReasonView:NonadherenceReasonView = new NonadherenceReasonView();
+			var nonadherenceReasonView:NonadherenceReasonReportingView = new NonadherenceReasonReportingView();
 			nonadherenceReasonView.init(_scheduleItemOccurrence, adherenceItem);
 			dispatchAdherenceItemIncompleteEvent(nonadherenceReasonView);
 		}
