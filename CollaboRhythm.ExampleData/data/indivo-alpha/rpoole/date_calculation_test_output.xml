@@ -1,0 +1,23 @@
+More tests of addition in XPath 2.0:
+
+  Two xs:yearMonthDurations:
+    P1Y8M + P2Y7M = P4Y3M
+
+  Two xs:dayTimeDurations:
+    P5DT9H23M12S + P3DT16H12M17S = P9DT1H35M29S
+
+  An xs:yearMonthDuration and an xs:dateTime:
+    1995-04-21T00:47:00 + P1Y8M = 1996-12-21T00:47:00
+
+  An xs:dayTimeDuration and an xs:dateTime:
+    1995-04-21T00:47:00 + P5DT9H23M12S = 1995-04-26T10:10:12
+
+  An xs:yearMonthDuration and an xs:date:
+    1995-04-21 + P1Y8M = 1996-12-21
+
+  An xs:dayTimeDuration and an xs:date:
+    1995-04-21 + P5DT9H23M12S = 1995-04-26
+
+  An xs:dayTimeDuration and an xs:time:
+    17:03:00 + P5DT9H23M12S = 02:26:12xs:time:
+    

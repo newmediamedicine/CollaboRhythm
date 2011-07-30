@@ -1,0 +1,24 @@
+<IndivoDocuments>
+	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+		<dateMeasured>2009-05-16T15:23:21</dateMeasured>
+		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
+		<value>145</value>
+		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
+		<site>left arm</site>
+		<position>sitting down</position>
+	</VitalSign>
+	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+		<dateMeasured>2009-05-16T15:23:21</dateMeasured>
+		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
+		<value>91</value>
+		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
+		<site>left arm</site>
+		<position>sitting down</position>
+	</VitalSign>
+	<AdherenceItem>
+		<name>Atorvastatin 40 MG Oral Tablet [Lipitor]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateTimeReported>2009-05-17T08:52:21-04:00</dateTimeReported>
+		<administered>true</administered>
+	</AdherenceItem>
+</IndivoDocuments>

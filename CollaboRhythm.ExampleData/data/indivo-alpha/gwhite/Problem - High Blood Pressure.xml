@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Problem xmlns="http://indivo.org/vocab/xml/documents#">
+        <dateOnset>2002-05-16</dateOnset>
+        <name type="umls-snomed" value="59621000" abbrev="None">Essential hypertension (disorder)</name>
+        <comments>High Blood Pressure</comments>
+        <diagnosedBy>Dr. James King</diagnosedBy>
+      </Problem>
