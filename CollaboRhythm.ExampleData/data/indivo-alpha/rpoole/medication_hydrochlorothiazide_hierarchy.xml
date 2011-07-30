@@ -688,6 +688,26 @@
                   </relation>
                </relatesTo>
             </LoadableIndivoDocument>
+            <LoadableIndivoDocument>
+               <document>
+                  <MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
+                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">Hydrochlorothiazide 25 MG Oral Tablet</name>
+                     <scheduledBy>jking@records.media.mit.edu</scheduledBy>
+                     <dateScheduled>2011-07-28T19:13:11Z</dateScheduled>
+                     <dateStart>2011-07-29T13:00:00Z</dateStart>
+                     <dateEnd>2011-07-29T17:00:00Z</dateEnd>
+                     <recurrenceRule>
+                        <frequency>DAILY</frequency>
+                        <count>90</count>
+                     </recurrenceRule>
+                     <dose>
+                        <value>1</value>
+                        <unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
+                     </dose>
+                     <instructions>take with water</instructions>
+                  </MedicationScheduleItem>
+               </document>
+            </LoadableIndivoDocument>
          </relation>
       </relatesTo>
    </LoadableIndivoDocument>
