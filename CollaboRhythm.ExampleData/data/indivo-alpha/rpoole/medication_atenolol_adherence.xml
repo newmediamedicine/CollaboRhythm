@@ -4,7 +4,7 @@
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-15T14:57:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>
@@ -16,7 +16,7 @@
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-17T13:54:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>
@@ -28,7 +28,7 @@
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-19T13:48:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>
@@ -64,73 +64,73 @@
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-25T13:12:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-26T15:26:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-27T13:47:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-28T14:12:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-29T14:44:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-30T14:02:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-31T13:24:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-02-01T15:22:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-02-02T15:00:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-02-03T13:53:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-02-04T14:00:00Z</dateReported>
-		<adherence>false</adherence>
+		<adherence>true</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-02-10T13:54:00Z</dateReported>
-		<adherence>false</adherence>
+		<adherence>true</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>
@@ -148,13 +148,13 @@
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-02-13T13:10:00Z</dateReported>
-		<adherence>false</adherence>
+		<adherence>true</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-02-14T13:18:00Z</dateReported>
-		<adherence>false</adherence>
+		<adherence>true</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>

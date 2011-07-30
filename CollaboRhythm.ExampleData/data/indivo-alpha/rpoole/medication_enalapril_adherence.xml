@@ -4,61 +4,61 @@
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-15T14:57:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-16T13:07:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-17T13:54:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-18T13:52:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-19T13:48:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-20T14:27:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-21T14:24:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-22T14:14:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-23T14:15:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-24T14:59:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
@@ -70,7 +70,7 @@
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-26T15:26:00Z</dateReported>
-		<adherence>false</adherence>
+		<adherence>true</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
@@ -94,7 +94,7 @@
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-30T14:02:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
@@ -106,25 +106,25 @@
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-02-01T15:22:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-02-02T15:00:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-02-03T13:53:00Z</dateReported>
-		<adherence>true</adherence>
+		<adherence>false</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-02-04T14:00:00Z</dateReported>
-		<adherence>false</adherence>
+		<adherence>true</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
@@ -148,7 +148,7 @@
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-02-13T13:10:00Z</dateReported>
-		<adherence>false</adherence>
+		<adherence>true</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
