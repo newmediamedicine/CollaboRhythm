@@ -198,11 +198,11 @@ package collaboRhythm.plugins.schedule.model
 			adherenceItem.pendingAction = DocumentBase.ACTION_CREATE;
 			_record.addDocument(adherenceItem);
 			_record.addNewRelationship(ScheduleItemBase.RELATION_TYPE_ADHERENCE_ITEM, scheduleItemOccurrence.scheduleItem, adherenceItem);
-			if (adherenceItem.adherenceResult)
+			for each (var adherenceResult in adherenceItem.adherenceResults)
 			{
-				adherenceItem.adherenceResult.pendingAction = DocumentBase.ACTION_CREATE;
-				_record.addDocument(adherenceItem.adherenceResult);
-				_record.addNewRelationship(AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT, adherenceItem, adherenceItem.adherenceResult)
+				adherenceResult.pendingAction = DocumentBase.ACTION_CREATE;
+				_record.addDocument(adherenceResult);
+				_record.addNewRelationship(AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT, adherenceItem, adherenceResult)
 			}
 		}
 

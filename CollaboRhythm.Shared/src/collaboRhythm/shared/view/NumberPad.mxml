@@ -8,33 +8,25 @@
 		import spark.components.Button;
 		import spark.components.TextInput;
 
-		[Bindable]
-		public var inputControl:Object;
+		private var _textInput:TextInput;
 
 		private const KEY_SIZE:int = 50;
 		private const GAP_SIZE:int = 6;
 
-		public function newFocus(textInput:TextInput):void
-		{
-			this.inputControl = textInput;
-		}
-
 		private function numberButton_clickHandler(event:Event):void
 		{
 			this.addToString(Button(event.target).label);
-			returnFocus();
 		}
 
 		private function addToString(text:String):void
 		{
-			this.inputControl.text += text;
+			_textInput.text += text;
 		}
 
 		private function deleteButton_clickHander():void
 		{
-			var value:String = this.inputControl.text;
-			this.inputControl.text = value.substr(0, value.length - 1);
-			returnFocus();
+			var value:String = _textInput.text;
+			_textInput.text = value.substr(0, value.length - 1);
 		}
 
 		private function enterButton_clickHandler():void
@@ -42,9 +34,14 @@
 			this.visible = false;
 		}
 
-		private function returnFocus():void
+		public function get textInput():TextInput
 		{
-			focusManager.setFocus(inputControl as IFocusManagerComponent);
+			return _textInput;
+		}
+
+		public function set textInput(value:TextInput):void
+		{
+			_textInput = value;
 		}
 		]]>
     </fx:Script>

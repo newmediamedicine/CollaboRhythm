@@ -31,15 +31,15 @@ package collaboRhythm.shared.model.healthRecord.document
 		private var _recurrenceIndex:int;
 		private var _adherence:Boolean;
 		private var _nonadherenceReason:String;
-		private var _adherenceResultId:String;
-		private var _adherenceResult:DocumentBase;
+		private var _adherenceResultIds:Vector.<String> = new Vector.<String>();
+		private var _adherenceResults:Vector.<DocumentBase> = new Vector.<DocumentBase>();
 
 		public function AdherenceItem()
 		{
 			meta.type = DOCUMENT_TYPE;
 		}
 
-		public function init(name:CodedValue, reportedBy:String, dateReported:Date, recurrenceIndex:int,  adherence:Boolean, nonadherenceReason:String = null, adherenceResult:DocumentBase = null):void
+		public function init(name:CodedValue, reportedBy:String, dateReported:Date, recurrenceIndex:int,  adherence:Boolean, nonadherenceReason:String = null, adherenceResults:Vector.<DocumentBase> = null):void
 		{
 			_name = name;
 			_reportedBy = reportedBy;
@@ -47,7 +47,10 @@ package collaboRhythm.shared.model.healthRecord.document
             _recurrenceIndex = recurrenceIndex;
 			_adherence = adherence;
 			_nonadherenceReason = nonadherenceReason;
-            _adherenceResult = adherenceResult;
+			if (adherenceResults)
+			{
+            	_adherenceResults = adherenceResults;
+			}
 		}
 		
         public function get name():CodedValue
@@ -83,26 +86,6 @@ package collaboRhythm.shared.model.healthRecord.document
         public function get nonadherenceReason():String
         {
             return _nonadherenceReason;
-        }
-
-        public function get adherenceResultId():String
-        {
-            return _adherenceResultId;
-        }
-
-        public function set adherenceResultId(value:String):void
-        {
-            _adherenceResultId = value;
-        }
-
-        public function get adherenceResult():DocumentBase
-        {
-            return _adherenceResult;
-        }
-
-        public function set adherenceResult(value:DocumentBase):void
-        {
-            _adherenceResult = value;
         }
 
 		public function set name(value:CodedValue):void
@@ -144,6 +127,26 @@ package collaboRhythm.shared.model.healthRecord.document
 		public function get adherencePosition():Number
 		{
 			return 0;
+		}
+
+		public function get adherenceResultIds():Vector.<String>
+		{
+			return _adherenceResultIds;
+		}
+
+		public function set adherenceResultIds(value:Vector.<String>):void
+		{
+			_adherenceResultIds = value;
+		}
+
+		public function get adherenceResults():Vector.<DocumentBase>
+		{
+			return _adherenceResults;
+		}
+
+		public function set adherenceResults(value:Vector.<DocumentBase>):void
+		{
+			_adherenceResults = value;
 		}
 	}
 }

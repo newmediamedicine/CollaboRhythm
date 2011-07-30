@@ -17,6 +17,8 @@
 package collaboRhythm.shared.model
 {
 
+	import castle.flexbridge.reflection.Void;
+
 	import collaboRhythm.shared.controller.CollaborationController;
 	import collaboRhythm.shared.controller.CollaborationEvent;
 	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionEvent;
@@ -27,8 +29,10 @@ package collaboRhythm.shared.model
 	import flash.events.IOErrorEvent;
 	import flash.events.NetStatusEvent;
 	import flash.events.SecurityErrorEvent;
+	import flash.events.TimerEvent;
 	import flash.net.NetConnection;
 	import flash.net.Responder;
+	import flash.utils.Timer;
 
 	import mx.collections.ArrayCollection;
 	import mx.logging.ILogger;
@@ -54,6 +58,8 @@ package collaboRhythm.shared.model
 		private var _failedAttempts:uint = 0;
 		private var _automaticRetryEnabled:Boolean = true;
 
+		private const COLLABORATION_LOBBY:String = "Collaboration Lobby";
+
 		private const NETCONNECTION_STATUS_CALL_FAILED:String = "NetConnection.Call.Failed";
 		private const NETCONNECTION_STATUS_CONNECT_APPSHUTDOWN:String = "NetConnection.Connect.AppShutdown";
 		private const NETCONNECTION_STATUS_CONNECT_CLOSED:String = "NetConnection.Connect.Closed";
@@ -61,11 +67,15 @@ package collaboRhythm.shared.model
 		private const NETCONNECTION_STATUS_CONNECT_REJECTED:String = "NetConnection.Connect.Rejected";
 		private const NETCONNECTION_STATUS_CONNECT_SUCCESS:String = "NetConnection.Connect.Success";
 
+		private var _isConnecting:Boolean = false;
+		private var _hasConnectionFailed:Boolean = false;
 		private var _isConnected:Boolean = false;
 		private var _netConnection:NetConnection;
 		private var _activeAccount:Account;
 		private var _collaborationModel:CollaborationModel;
 		private var _logger:ILogger;
+
+		private var _retryConnectionTimer:Timer;
 
 		public function CollaborationLobbyNetConnectionService(localUserName:String, rtmpBaseURI:String,
 															   collaborationModel:CollaborationModel,
@@ -95,24 +105,51 @@ package collaboRhythm.shared.model
 		{
 			if (_failedAttempts == 0)
 			{
-				_logger.info("Collaboration Lobby NetConnection initial connection attempt...");
+				_logger.info(COLLABORATION_LOBBY + " initial connection attempt...");
 			}
+			isConnecting = true;
 			_netConnection.connect(_rtmpURI, _activeAccount.accountId, User.COLLABORATION_LOBBY_AVAILABLE,
 								   _activeAccount.allSharingAccounts.keys.toArray());
 		}
 
-		private function retryConnection():void
+		private function connectionFailedHandler():void
 		{
+			isConnected = false;
 			_failedAttempts += 1;
 			if (_failedAttempts <= MAX_FAILED_ATTEMPTS && _automaticRetryEnabled)
 			{
-				_logger.info("Collection Lobby NetConnection retry {1} of {2}.", _failedAttempts, MAX_FAILED_ATTEMPTS.toString());
-				enterCollaborationLobby();
+				_logger.info(COLLABORATION_LOBBY + " retry {0} of {1}.", _failedAttempts,
+							 MAX_FAILED_ATTEMPTS.toString());
+				startRetryConnectionTimer();
 			}
 			else
 			{
-				_logger.warn("Collection Lobby NetConnection failed {1} of {2}. Giving up.", _failedAttempts, MAX_FAILED_ATTEMPTS.toString());
+				_logger.warn(COLLABORATION_LOBBY + " failed {0} of {1}. Giving up.", MAX_FAILED_ATTEMPTS.toString(),
+							 MAX_FAILED_ATTEMPTS.toString());
+				isConnecting = false;
+				hasConnectionFailed = true;
+				_failedAttempts = 0;
 			}
+		}
+
+		private function startRetryConnectionTimer():void
+		{
+			_retryConnectionTimer = new Timer(1000, 1);
+			_retryConnectionTimer.addEventListener(TimerEvent.TIMER, retryConnectionTimer_timerEventHandler);
+			_retryConnectionTimer.start();
+		}
+
+		private function retryConnectionTimer_timerEventHandler(event:TimerEvent):void
+		{
+			enterCollaborationLobby();
+		}
+
+		private function connectionSucceededHandler():void
+		{
+			isConnecting = false;
+			isConnected = true;
+			hasConnectionFailed = false;
+			_failedAttempts = 0;
 		}
 
 		private function netStatusHandler(event:NetStatusEvent):void
@@ -120,27 +157,26 @@ package collaboRhythm.shared.model
 			switch (event.info.code)
 			{
 				case NETCONNECTION_STATUS_CALL_FAILED:
-					_logger.info("Collaboration Lobby NetConnection status " + NETCONNECTION_STATUS_CALL_FAILED);
+					_logger.info(COLLABORATION_LOBBY + " status " + NETCONNECTION_STATUS_CALL_FAILED);
 					break;
 				case NETCONNECTION_STATUS_CONNECT_APPSHUTDOWN:
-					_logger.warn("Collaboration Lobby NetConnection status " + NETCONNECTION_STATUS_CONNECT_APPSHUTDOWN);
+					_logger.warn(COLLABORATION_LOBBY + " status " + NETCONNECTION_STATUS_CONNECT_APPSHUTDOWN);
 					isConnected = false;
 					break;
 				case NETCONNECTION_STATUS_CONNECT_CLOSED:
-					_logger.info("Collaboration Lobby NetConnection status " + NETCONNECTION_STATUS_CONNECT_CLOSED);
-					isConnected = false;
-					retryConnection();
+					_logger.info(COLLABORATION_LOBBY + " status " + NETCONNECTION_STATUS_CONNECT_CLOSED);
+					connectionFailedHandler();
 					break;
 				case NETCONNECTION_STATUS_CONNECT_FAILED:
-					_logger.info("Collaboration Lobby NetConnection status " + NETCONNECTION_STATUS_CONNECT_FAILED);
-					retryConnection();
+					_logger.info(COLLABORATION_LOBBY + " status " + NETCONNECTION_STATUS_CONNECT_FAILED);
+					connectionFailedHandler();
 					break;
 				case NETCONNECTION_STATUS_CONNECT_REJECTED:
-					_logger.warn("Collaboration Lobby NetConnection status " + NETCONNECTION_STATUS_CONNECT_REJECTED + " " + event.info);
+					_logger.warn(COLLABORATION_LOBBY + " status " + NETCONNECTION_STATUS_CONNECT_REJECTED + " " + event.info);
 					break;
 				case NETCONNECTION_STATUS_CONNECT_SUCCESS:
-					_logger.info("Collaboration Lobby NetConnection status " + NETCONNECTION_STATUS_CONNECT_SUCCESS);
-					isConnected = true;
+					_logger.info(COLLABORATION_LOBBY + " status " + NETCONNECTION_STATUS_CONNECT_SUCCESS);
+					connectionSucceededHandler();
 					break;
 			}
 		}
@@ -231,7 +267,10 @@ package collaboRhythm.shared.model
 
 		public function sendSynchronizationMessage():void
 		{
-			_netConnection.call("sendSynchronizationMessage", null, _activeAccount.accountId);
+			if (_collaborationModel.activeRecordAccount != _collaborationModel.activeAccount)
+			{
+				_netConnection.call("sendSynchronizationMessage", null, _collaborationModel.activeRecordAccount.accountId);
+			}
 		}
 
 		public function receiveSynchronizationMessage():void
@@ -267,6 +306,26 @@ package collaboRhythm.shared.model
 		public function set automaticRetryEnabled(value:Boolean):void
 		{
 			_automaticRetryEnabled = value;
+		}
+
+		public function get hasConnectionFailed():Boolean
+		{
+			return _hasConnectionFailed;
+		}
+
+		public function set hasConnectionFailed(value:Boolean):void
+		{
+			_hasConnectionFailed = value;
+		}
+
+		public function get isConnecting():Boolean
+		{
+			return _isConnecting;
+		}
+
+		public function set isConnecting(value:Boolean):void
+		{
+			_isConnecting = value;
 		}
 	}
 }

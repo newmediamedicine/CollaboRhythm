@@ -37,6 +37,11 @@
 			font-size: 40;
 		}
 
+		.connectivityButtonText
+		{
+			font-size: 40;
+		}
+
 	</fx:Style>
 	<fx:Script><![CDATA[
 		[Embed("../../../assets/swfs/buffering.swf")]
@@ -120,10 +125,10 @@
 					 styleName="connectivityText"/>
 			<s:HGroup>
 				<s:Button id="retryButton" label="Retry" includeIn="connectFailed, persistFailed"
-						  styleName="connectivityText" click="retryButton_clickHandler()"/>
-				<s:Button id="quitButton" label="Quit" includeIn="connectFailed" styleName="connectivityText"
+						  styleName="connectivityButtonText" click="retryButton_clickHandler()"/>
+				<s:Button id="quitButton" label="Quit" includeIn="connectFailed" styleName="connectivityButtonText"
 						  click="quitButton_clickHandler()"/>
-				<s:Button id="ignoreButton" label="Ignore" includeIn="persistFailed" styleName="connectivityText"
+				<s:Button id="ignoreButton" label="Ignore" includeIn="persistFailed" styleName="connectivityButtonText"
 						  click="ignoreButton_clickHandler()"/>
 			</s:HGroup>
 		</s:VGroup>

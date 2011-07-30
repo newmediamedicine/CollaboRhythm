@@ -95,6 +95,7 @@
 			{
 				additionalInformationViews.removeAllElements();
 			}
+			setFocus();
 		}
 
 		private function addedToStage():void
@@ -154,6 +155,11 @@
 				<s:SolidColor color="0x000000" alpha="0.3"/>
 			</s:fill>
 		</s:Rect>
+		<s:Line height="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="#FFFFFF"/>
+			</s:stroke>
+		</s:Line>
 		<s:Group id="rightGroup" width="50%" height="100%">
 			<s:Rect width="100%" height="100%">
 				<s:fill>

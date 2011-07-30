@@ -79,6 +79,8 @@ package collaboRhythm.core.controller
 		protected var _reloadWithRecordAccount:Account;
 		protected var _reloadWithFullView:String;
 		protected var _healthRecordServiceFacade:HealthRecordServiceFacade;
+		protected var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
+		private var _serviceIsSavingPrevious:Boolean = false;
 
 		public function ApplicationControllerBase()
 		{
@@ -214,14 +216,17 @@ package collaboRhythm.core.controller
 			// It also allows collaboration with these account owners and sending and viewing of asynchronous video
 
 			_collaborationController = new CollaborationController(_activeAccount, collaborationView, _settings);
+			_collaborationLobbyNetConnectionService = _collaborationController.collaborationModel.collaborationLobbyNetConnectionService;
 			_collaborationController.addEventListener(CollaborationLobbyNetConnectionEvent.SYNCHRONIZE, synchronizeHandler);
+			BindingUtils.bindSetter(collaborationLobbyIsConnecting_changeHandler, _collaborationLobbyNetConnectionService, "isConnecting");
+			BindingUtils.bindSetter(collaborationLobbyHasConnectionFailed_changeHandler, _collaborationLobbyNetConnectionService, "hasConnectionFailed");
 			if (collaborationView != null)
 				collaborationView.init(_collaborationController);
 		}
 
 		private function synchronizeHandler(event:CollaborationLobbyNetConnectionEvent):void
 		{
-
+			reloadData();
 		}
 
 		/**
@@ -530,6 +535,34 @@ package collaboRhythm.core.controller
 		 */
 		protected function serviceIsSaving_changeHandler(isSaving:Boolean):void
 		{
+			if (!isSaving && (isSaving != _serviceIsSavingPrevious))
+			{
+				_collaborationLobbyNetConnectionService.sendSynchronizationMessage();
+			}
+			_serviceIsSavingPrevious = isSaving;
 		}
+
+		/**
+		 * Virtual method which subclasses should override to reflect a change in the isSaving flag
+		 */
+		protected function collaborationLobbyIsConnecting_changeHandler(isConnecting:Boolean):void
+		{
+		}
+
+		/**
+		 * Virtual method which subclasses should override to reflect a change in the isSaving flag
+		 */
+		protected function collaborationLobbyHasConnectionFailed_changeHandler(failedConnection:Boolean):void
+		{
+		}
+
+		/**
+		 * Virtual method which subclasses should override to reflect a change in the isSaving flag
+		 */
+		public function reloadData():void
+		{
+
+		}
+
 	}
 }

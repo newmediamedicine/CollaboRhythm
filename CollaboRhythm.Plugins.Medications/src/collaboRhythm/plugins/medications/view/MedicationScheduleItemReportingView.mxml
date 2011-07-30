@@ -54,6 +54,7 @@
 		<![CDATA[
 		import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 		import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
+		import collaboRhythm.shared.model.healthRecord.DocumentBase;
 		import collaboRhythm.shared.model.healthRecord.Relationship;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
@@ -115,20 +116,16 @@
 
 		private function createAdherenceItem():void
 		{
-			//TODO: Update once relationship persistence is implemented
 			var medicationAdministration:MedicationAdministration = new MedicationAdministration();
 			medicationAdministration.init(_medicationOrder.name, _activeAccountId,
 										  _currentDateSource.now(), _currentDateSource.now(),
 										  _medicationScheduleItem.dose);
 
 			var adherenceItem:AdherenceItem = new AdherenceItem();
+			var adherenceResults:Vector.<DocumentBase> = new Vector.<DocumentBase>();
+			adherenceResults.push(medicationAdministration);
 			adherenceItem.init(_medicationOrder.name, _activeAccountId, _currentDateSource.now(),
-							   scheduleItemOccurrence.recurrenceIndex, true, null, medicationAdministration);
-
-			var relationship:Relationship = new Relationship();
-			relationship.type = Relationship.ACTION_CREATE;
-			relationship.relatesFrom = adherenceItem;
-			relationship.relatesTo = medicationAdministration;
+							   scheduleItemOccurrence.recurrenceIndex, true, null, adherenceResults);
 
 			dispatchAdherenceItemCompleteEvent(adherenceItem);
 		}

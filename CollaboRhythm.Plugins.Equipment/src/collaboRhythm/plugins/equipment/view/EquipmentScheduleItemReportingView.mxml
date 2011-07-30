@@ -170,15 +170,6 @@
 			dispatchAdherenceItemIncompleteEvent(bloodPressureReportingView);
 		}
 
-		//		public function bloodPressureReportingResult(systolic:String, diastolic:String, heartRate:String):void
-		//		{
-		//			var adherenceItem:AdherenceItem = new AdherenceItem();
-		//			adherenceItem.init(_equipmentScheduleItem.name, _activeAccountId, _currentDateSource.now(),
-		//							   scheduleItemOccurrence.recurrenceIndex, true);
-		//
-		//			dispatchAdherenceItemCompleteEvent(adherenceItem);
-		//		}
-
 		private function createNonadherenceItem():void
 		{
 			var adherenceItem:AdherenceItem = new AdherenceItem();

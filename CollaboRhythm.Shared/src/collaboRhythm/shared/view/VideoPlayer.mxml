@@ -149,7 +149,17 @@
 		private function updatePlayhead():void
 		{
 			_netStreamTime = _netStream.time;
+			var playheadProgressWidth:Number = _netStreamTime / _netStreamDuration * playhead.width;
+			if (playheadProgressWidth < playhead.width)
+			{
+				playheadProgress.width = playheadProgressWidth;
+			}
+			else
+			{
+				playheadProgress.width = playhead.width;
+			}
 		}
+
 		]]></fx:Script>
 
 
@@ -187,8 +197,7 @@
 					<s:SolidColor color="0x000000" alpha="0.5"/>
 				</s:fill>
 			</s:Rect>
-			<s:Rect id="playheadProgress" width="{_netStreamTime / _netStreamDuration * playhead.width}"
-					height="100%" left="0">
+			<s:Rect id="playheadProgress" width="0" height="100%" left="0">
 				<s:fill>
 					<s:SolidColor color="0xFFFFFF"/>
 				</s:fill>
