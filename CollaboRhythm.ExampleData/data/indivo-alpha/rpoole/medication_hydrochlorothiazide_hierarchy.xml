@@ -5,9 +5,7 @@
    <LoadableIndivoDocument>
       <document>
          <MedicationOrder xmlns="http://indivo.org/vocab/xml/documents#">
-            <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-							Hydrochlorothiazide 25 MG Oral Tablet
-						</name>
+            <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">Hydrochlorothiazide 25 MG Oral Tablet</name>
             <orderType>prescribed</orderType>
             <orderedBy>jking@records.media.mit.edu</orderedBy>
             <dateOrdered>2010-01-14T19:13:11Z</dateOrdered>
@@ -22,13 +20,27 @@
          </MedicationOrder>
       </document>
       <relatesTo>
+         <relation type="medicationFill">
+            <LoadableIndivoDocument>
+               <document>
+                  <MedicationFill xmlns="http://indivo.org/vocab/xml/documents#">
+                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">Hydrochlorothiazide 25 MG Oral Tablet</name>
+                     <filledBy>rpoole@records.media.mit.edu</filledBy>
+                     <dateFilled>2010-01-14T19:13:11Z</dateFilled>
+                     <amountFilled>
+                        <value>90</value>
+                        <unit>tab</unit>
+                     </amountFilled>
+                     <ndc>006033856</ndc>
+                  </MedicationFill>
+               </document>
+            </LoadableIndivoDocument>
+         </relation>
          <relation type="scheduleItem">
             <LoadableIndivoDocument>
                <document>
                   <MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
-                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-										Hydrochlorothiazide 25 MG Oral Tablet
-									</name>
+                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">Hydrochlorothiazide 25 MG Oral Tablet</name>
                      <scheduledBy>jking@records.media.mit.edu</scheduledBy>
                      <dateScheduled>2010-01-14T19:13:11Z</dateScheduled>
                      <dateStart>2010-01-15T13:00:00Z</dateStart>
@@ -53,33 +65,9 @@
                               <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-15T14:57:00Z</dateReported>
                               <recurrenceIndex>0</recurrenceIndex>
-                              <adherence>true</adherence>
+                              <adherence>false</adherence>
                            </AdherenceItem>
                         </document>
-                        <relatesTo>
-                           <relation type="adherenceResult">
-                              <LoadableIndivoDocument>
-                                 <document>
-                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
-                                       <reportedBy>rpoole@records.media.mit.edu</reportedBy>
-                                       <dateReported>2010-01-15T14:57:00Z</dateReported>
-                                       <dateAdministered>2010-01-15T14:57:00Z</dateAdministered>
-                                       <amountAdministered>
-                                          <value>1</value>
-                                          <unit>tablet</unit>
-                                       </amountAdministered>
-                                       <amountRemaining>
-                                          <value>89</value>
-                                          <unit>tablet</unit>
-                                       </amountRemaining>
-                                    </MedicationAdministration>
-                                 </document>
-                              </LoadableIndivoDocument>
-                           </relation>
-                        </relatesTo>
                      </LoadableIndivoDocument>
                      <LoadableIndivoDocument>
                         <document>
@@ -88,33 +76,9 @@
                               <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-16T13:07:00Z</dateReported>
                               <recurrenceIndex>1</recurrenceIndex>
-                              <adherence>true</adherence>
+                              <adherence>false</adherence>
                            </AdherenceItem>
                         </document>
-                        <relatesTo>
-                           <relation type="adherenceResult">
-                              <LoadableIndivoDocument>
-                                 <document>
-                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
-                                       <reportedBy>rpoole@records.media.mit.edu</reportedBy>
-                                       <dateReported>2010-01-16T13:07:00Z</dateReported>
-                                       <dateAdministered>2010-01-16T13:07:00Z</dateAdministered>
-                                       <amountAdministered>
-                                          <value>1</value>
-                                          <unit>tablet</unit>
-                                       </amountAdministered>
-                                       <amountRemaining>
-                                          <value>88</value>
-                                          <unit>tablet</unit>
-                                       </amountRemaining>
-                                    </MedicationAdministration>
-                                 </document>
-                              </LoadableIndivoDocument>
-                           </relation>
-                        </relatesTo>
                      </LoadableIndivoDocument>
                      <LoadableIndivoDocument>
                         <document>
@@ -123,33 +87,9 @@
                               <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-17T13:54:00Z</dateReported>
                               <recurrenceIndex>2</recurrenceIndex>
-                              <adherence>true</adherence>
+                              <adherence>false</adherence>
                            </AdherenceItem>
                         </document>
-                        <relatesTo>
-                           <relation type="adherenceResult">
-                              <LoadableIndivoDocument>
-                                 <document>
-                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
-                                       <reportedBy>rpoole@records.media.mit.edu</reportedBy>
-                                       <dateReported>2010-01-17T13:54:00Z</dateReported>
-                                       <dateAdministered>2010-01-17T13:54:00Z</dateAdministered>
-                                       <amountAdministered>
-                                          <value>1</value>
-                                          <unit>tablet</unit>
-                                       </amountAdministered>
-                                       <amountRemaining>
-                                          <value>87</value>
-                                          <unit>tablet</unit>
-                                       </amountRemaining>
-                                    </MedicationAdministration>
-                                 </document>
-                              </LoadableIndivoDocument>
-                           </relation>
-                        </relatesTo>
                      </LoadableIndivoDocument>
                      <LoadableIndivoDocument>
                         <document>
@@ -158,33 +98,9 @@
                               <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-18T13:52:00Z</dateReported>
                               <recurrenceIndex>3</recurrenceIndex>
-                              <adherence>true</adherence>
+                              <adherence>false</adherence>
                            </AdherenceItem>
                         </document>
-                        <relatesTo>
-                           <relation type="adherenceResult">
-                              <LoadableIndivoDocument>
-                                 <document>
-                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
-                                       <reportedBy>rpoole@records.media.mit.edu</reportedBy>
-                                       <dateReported>2010-01-18T13:52:00Z</dateReported>
-                                       <dateAdministered>2010-01-18T13:52:00Z</dateAdministered>
-                                       <amountAdministered>
-                                          <value>1</value>
-                                          <unit>tablet</unit>
-                                       </amountAdministered>
-                                       <amountRemaining>
-                                          <value>86</value>
-                                          <unit>tablet</unit>
-                                       </amountRemaining>
-                                    </MedicationAdministration>
-                                 </document>
-                              </LoadableIndivoDocument>
-                           </relation>
-                        </relatesTo>
                      </LoadableIndivoDocument>
                      <LoadableIndivoDocument>
                         <document>
@@ -193,33 +109,9 @@
                               <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-19T13:48:00Z</dateReported>
                               <recurrenceIndex>4</recurrenceIndex>
-                              <adherence>true</adherence>
+                              <adherence>false</adherence>
                            </AdherenceItem>
                         </document>
-                        <relatesTo>
-                           <relation type="adherenceResult">
-                              <LoadableIndivoDocument>
-                                 <document>
-                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
-                                       <reportedBy>rpoole@records.media.mit.edu</reportedBy>
-                                       <dateReported>2010-01-19T13:48:00Z</dateReported>
-                                       <dateAdministered>2010-01-19T13:48:00Z</dateAdministered>
-                                       <amountAdministered>
-                                          <value>1</value>
-                                          <unit>tablet</unit>
-                                       </amountAdministered>
-                                       <amountRemaining>
-                                          <value>85</value>
-                                          <unit>tablet</unit>
-                                       </amountRemaining>
-                                    </MedicationAdministration>
-                                 </document>
-                              </LoadableIndivoDocument>
-                           </relation>
-                        </relatesTo>
                      </LoadableIndivoDocument>
                      <LoadableIndivoDocument>
                         <document>
@@ -228,33 +120,9 @@
                               <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-20T14:27:00Z</dateReported>
                               <recurrenceIndex>5</recurrenceIndex>
-                              <adherence>true</adherence>
+                              <adherence>false</adherence>
                            </AdherenceItem>
                         </document>
-                        <relatesTo>
-                           <relation type="adherenceResult">
-                              <LoadableIndivoDocument>
-                                 <document>
-                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
-                                       <reportedBy>rpoole@records.media.mit.edu</reportedBy>
-                                       <dateReported>2010-01-20T14:27:00Z</dateReported>
-                                       <dateAdministered>2010-01-20T14:27:00Z</dateAdministered>
-                                       <amountAdministered>
-                                          <value>1</value>
-                                          <unit>tablet</unit>
-                                       </amountAdministered>
-                                       <amountRemaining>
-                                          <value>84</value>
-                                          <unit>tablet</unit>
-                                       </amountRemaining>
-                                    </MedicationAdministration>
-                                 </document>
-                              </LoadableIndivoDocument>
-                           </relation>
-                        </relatesTo>
                      </LoadableIndivoDocument>
                      <LoadableIndivoDocument>
                         <document>
@@ -263,33 +131,9 @@
                               <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-21T14:24:00Z</dateReported>
                               <recurrenceIndex>6</recurrenceIndex>
-                              <adherence>true</adherence>
+                              <adherence>false</adherence>
                            </AdherenceItem>
                         </document>
-                        <relatesTo>
-                           <relation type="adherenceResult">
-                              <LoadableIndivoDocument>
-                                 <document>
-                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
-                                       <reportedBy>rpoole@records.media.mit.edu</reportedBy>
-                                       <dateReported>2010-01-21T14:24:00Z</dateReported>
-                                       <dateAdministered>2010-01-21T14:24:00Z</dateAdministered>
-                                       <amountAdministered>
-                                          <value>1</value>
-                                          <unit>tablet</unit>
-                                       </amountAdministered>
-                                       <amountRemaining>
-                                          <value>83</value>
-                                          <unit>tablet</unit>
-                                       </amountRemaining>
-                                    </MedicationAdministration>
-                                 </document>
-                              </LoadableIndivoDocument>
-                           </relation>
-                        </relatesTo>
                      </LoadableIndivoDocument>
                      <LoadableIndivoDocument>
                         <document>
@@ -298,33 +142,9 @@
                               <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-22T14:14:00Z</dateReported>
                               <recurrenceIndex>7</recurrenceIndex>
-                              <adherence>true</adherence>
+                              <adherence>false</adherence>
                            </AdherenceItem>
                         </document>
-                        <relatesTo>
-                           <relation type="adherenceResult">
-                              <LoadableIndivoDocument>
-                                 <document>
-                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
-                                       <reportedBy>rpoole@records.media.mit.edu</reportedBy>
-                                       <dateReported>2010-01-22T14:14:00Z</dateReported>
-                                       <dateAdministered>2010-01-22T14:14:00Z</dateAdministered>
-                                       <amountAdministered>
-                                          <value>1</value>
-                                          <unit>tablet</unit>
-                                       </amountAdministered>
-                                       <amountRemaining>
-                                          <value>82</value>
-                                          <unit>tablet</unit>
-                                       </amountRemaining>
-                                    </MedicationAdministration>
-                                 </document>
-                              </LoadableIndivoDocument>
-                           </relation>
-                        </relatesTo>
                      </LoadableIndivoDocument>
                      <LoadableIndivoDocument>
                         <document>
@@ -333,33 +153,9 @@
                               <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-23T14:15:00Z</dateReported>
                               <recurrenceIndex>8</recurrenceIndex>
-                              <adherence>true</adherence>
+                              <adherence>false</adherence>
                            </AdherenceItem>
                         </document>
-                        <relatesTo>
-                           <relation type="adherenceResult">
-                              <LoadableIndivoDocument>
-                                 <document>
-                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
-                                       <reportedBy>rpoole@records.media.mit.edu</reportedBy>
-                                       <dateReported>2010-01-23T14:15:00Z</dateReported>
-                                       <dateAdministered>2010-01-23T14:15:00Z</dateAdministered>
-                                       <amountAdministered>
-                                          <value>1</value>
-                                          <unit>tablet</unit>
-                                       </amountAdministered>
-                                       <amountRemaining>
-                                          <value>81</value>
-                                          <unit>tablet</unit>
-                                       </amountRemaining>
-                                    </MedicationAdministration>
-                                 </document>
-                              </LoadableIndivoDocument>
-                           </relation>
-                        </relatesTo>
                      </LoadableIndivoDocument>
                      <LoadableIndivoDocument>
                         <document>
@@ -368,33 +164,9 @@
                               <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-24T14:59:00Z</dateReported>
                               <recurrenceIndex>9</recurrenceIndex>
-                              <adherence>true</adherence>
+                              <adherence>false</adherence>
                            </AdherenceItem>
                         </document>
-                        <relatesTo>
-                           <relation type="adherenceResult">
-                              <LoadableIndivoDocument>
-                                 <document>
-                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
-                                       <reportedBy>rpoole@records.media.mit.edu</reportedBy>
-                                       <dateReported>2010-01-24T14:59:00Z</dateReported>
-                                       <dateAdministered>2010-01-24T14:59:00Z</dateAdministered>
-                                       <amountAdministered>
-                                          <value>1</value>
-                                          <unit>tablet</unit>
-                                       </amountAdministered>
-                                       <amountRemaining>
-                                          <value>80</value>
-                                          <unit>tablet</unit>
-                                       </amountRemaining>
-                                    </MedicationAdministration>
-                                 </document>
-                              </LoadableIndivoDocument>
-                           </relation>
-                        </relatesTo>
                      </LoadableIndivoDocument>
                      <LoadableIndivoDocument>
                         <document>
@@ -403,33 +175,9 @@
                               <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-25T13:12:00Z</dateReported>
                               <recurrenceIndex>10</recurrenceIndex>
-                              <adherence>true</adherence>
+                              <adherence>false</adherence>
                            </AdherenceItem>
                         </document>
-                        <relatesTo>
-                           <relation type="adherenceResult">
-                              <LoadableIndivoDocument>
-                                 <document>
-                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
-                                       <reportedBy>rpoole@records.media.mit.edu</reportedBy>
-                                       <dateReported>2010-01-25T13:12:00Z</dateReported>
-                                       <dateAdministered>2010-01-25T13:12:00Z</dateAdministered>
-                                       <amountAdministered>
-                                          <value>1</value>
-                                          <unit>tablet</unit>
-                                       </amountAdministered>
-                                       <amountRemaining>
-                                          <value>79</value>
-                                          <unit>tablet</unit>
-                                       </amountRemaining>
-                                    </MedicationAdministration>
-                                 </document>
-                              </LoadableIndivoDocument>
-                           </relation>
-                        </relatesTo>
                      </LoadableIndivoDocument>
                      <LoadableIndivoDocument>
                         <document>
@@ -438,33 +186,9 @@
                               <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-26T15:26:00Z</dateReported>
                               <recurrenceIndex>11</recurrenceIndex>
-                              <adherence>true</adherence>
+                              <adherence>false</adherence>
                            </AdherenceItem>
                         </document>
-                        <relatesTo>
-                           <relation type="adherenceResult">
-                              <LoadableIndivoDocument>
-                                 <document>
-                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
-                                       <reportedBy>rpoole@records.media.mit.edu</reportedBy>
-                                       <dateReported>2010-01-26T15:26:00Z</dateReported>
-                                       <dateAdministered>2010-01-26T15:26:00Z</dateAdministered>
-                                       <amountAdministered>
-                                          <value>1</value>
-                                          <unit>tablet</unit>
-                                       </amountAdministered>
-                                       <amountRemaining>
-                                          <value>78</value>
-                                          <unit>tablet</unit>
-                                       </amountRemaining>
-                                    </MedicationAdministration>
-                                 </document>
-                              </LoadableIndivoDocument>
-                           </relation>
-                        </relatesTo>
                      </LoadableIndivoDocument>
                      <LoadableIndivoDocument>
                         <document>
@@ -473,33 +197,9 @@
                               <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-27T13:47:00Z</dateReported>
                               <recurrenceIndex>12</recurrenceIndex>
-                              <adherence>true</adherence>
+                              <adherence>false</adherence>
                            </AdherenceItem>
                         </document>
-                        <relatesTo>
-                           <relation type="adherenceResult">
-                              <LoadableIndivoDocument>
-                                 <document>
-                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
-                                       <reportedBy>rpoole@records.media.mit.edu</reportedBy>
-                                       <dateReported>2010-01-27T13:47:00Z</dateReported>
-                                       <dateAdministered>2010-01-27T13:47:00Z</dateAdministered>
-                                       <amountAdministered>
-                                          <value>1</value>
-                                          <unit>tablet</unit>
-                                       </amountAdministered>
-                                       <amountRemaining>
-                                          <value>77</value>
-                                          <unit>tablet</unit>
-                                       </amountRemaining>
-                                    </MedicationAdministration>
-                                 </document>
-                              </LoadableIndivoDocument>
-                           </relation>
-                        </relatesTo>
                      </LoadableIndivoDocument>
                      <LoadableIndivoDocument>
                         <document>
@@ -508,33 +208,9 @@
                               <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-28T14:12:00Z</dateReported>
                               <recurrenceIndex>13</recurrenceIndex>
-                              <adherence>true</adherence>
+                              <adherence>false</adherence>
                            </AdherenceItem>
                         </document>
-                        <relatesTo>
-                           <relation type="adherenceResult">
-                              <LoadableIndivoDocument>
-                                 <document>
-                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
-                                       <reportedBy>rpoole@records.media.mit.edu</reportedBy>
-                                       <dateReported>2010-01-28T14:12:00Z</dateReported>
-                                       <dateAdministered>2010-01-28T14:12:00Z</dateAdministered>
-                                       <amountAdministered>
-                                          <value>1</value>
-                                          <unit>tablet</unit>
-                                       </amountAdministered>
-                                       <amountRemaining>
-                                          <value>76</value>
-                                          <unit>tablet</unit>
-                                       </amountRemaining>
-                                    </MedicationAdministration>
-                                 </document>
-                              </LoadableIndivoDocument>
-                           </relation>
-                        </relatesTo>
                      </LoadableIndivoDocument>
                      <LoadableIndivoDocument>
                         <document>
@@ -543,33 +219,9 @@
                               <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-29T14:44:00Z</dateReported>
                               <recurrenceIndex>14</recurrenceIndex>
-                              <adherence>true</adherence>
+                              <adherence>false</adherence>
                            </AdherenceItem>
                         </document>
-                        <relatesTo>
-                           <relation type="adherenceResult">
-                              <LoadableIndivoDocument>
-                                 <document>
-                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
-                                       <reportedBy>rpoole@records.media.mit.edu</reportedBy>
-                                       <dateReported>2010-01-29T14:44:00Z</dateReported>
-                                       <dateAdministered>2010-01-29T14:44:00Z</dateAdministered>
-                                       <amountAdministered>
-                                          <value>1</value>
-                                          <unit>tablet</unit>
-                                       </amountAdministered>
-                                       <amountRemaining>
-                                          <value>75</value>
-                                          <unit>tablet</unit>
-                                       </amountRemaining>
-                                    </MedicationAdministration>
-                                 </document>
-                              </LoadableIndivoDocument>
-                           </relation>
-                        </relatesTo>
                      </LoadableIndivoDocument>
                      <LoadableIndivoDocument>
                         <document>
@@ -586,9 +238,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">Hydrochlorothiazide 25 MG Oral Tablet</name>
                                        <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                                        <dateReported>2010-01-30T14:02:00Z</dateReported>
                                        <dateAdministered>2010-01-30T14:02:00Z</dateAdministered>
@@ -597,7 +247,7 @@
                                           <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
-                                          <value>74</value>
+                                          <value>89</value>
                                           <unit>tablet</unit>
                                        </amountRemaining>
                                     </MedicationAdministration>
@@ -621,9 +271,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">Hydrochlorothiazide 25 MG Oral Tablet</name>
                                        <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                                        <dateReported>2010-01-31T13:24:00Z</dateReported>
                                        <dateAdministered>2010-01-31T13:24:00Z</dateAdministered>
@@ -632,7 +280,7 @@
                                           <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
-                                          <value>73</value>
+                                          <value>88</value>
                                           <unit>tablet</unit>
                                        </amountRemaining>
                                     </MedicationAdministration>
@@ -656,9 +304,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">Hydrochlorothiazide 25 MG Oral Tablet</name>
                                        <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                                        <dateReported>2010-02-01T15:22:00Z</dateReported>
                                        <dateAdministered>2010-02-01T15:22:00Z</dateAdministered>
@@ -667,7 +313,7 @@
                                           <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
-                                          <value>72</value>
+                                          <value>87</value>
                                           <unit>tablet</unit>
                                        </amountRemaining>
                                     </MedicationAdministration>
@@ -691,9 +337,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">Hydrochlorothiazide 25 MG Oral Tablet</name>
                                        <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                                        <dateReported>2010-02-02T15:00:00Z</dateReported>
                                        <dateAdministered>2010-02-02T15:00:00Z</dateAdministered>
@@ -702,7 +346,7 @@
                                           <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
-                                          <value>71</value>
+                                          <value>86</value>
                                           <unit>tablet</unit>
                                        </amountRemaining>
                                     </MedicationAdministration>
@@ -726,9 +370,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">Hydrochlorothiazide 25 MG Oral Tablet</name>
                                        <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                                        <dateReported>2010-02-03T13:53:00Z</dateReported>
                                        <dateAdministered>2010-02-03T13:53:00Z</dateAdministered>
@@ -737,7 +379,7 @@
                                           <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
-                                          <value>70</value>
+                                          <value>85</value>
                                           <unit>tablet</unit>
                                        </amountRemaining>
                                     </MedicationAdministration>
@@ -753,9 +395,31 @@
                               <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-02-04T14:00:00Z</dateReported>
                               <recurrenceIndex>20</recurrenceIndex>
-                              <adherence>false</adherence>
+                              <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">Hydrochlorothiazide 25 MG Oral Tablet</name>
+                                       <reportedBy>rpoole@records.media.mit.edu</reportedBy>
+                                       <dateReported>2010-02-04T14:00:00Z</dateReported>
+                                       <dateAdministered>2010-02-04T14:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>84</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
                      </LoadableIndivoDocument>
                      <LoadableIndivoDocument>
                         <document>
@@ -772,9 +436,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">Hydrochlorothiazide 25 MG Oral Tablet</name>
                                        <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                                        <dateReported>2010-02-10T13:54:00Z</dateReported>
                                        <dateAdministered>2010-02-10T13:54:00Z</dateAdministered>
@@ -783,7 +445,7 @@
                                           <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
-                                          <value>69</value>
+                                          <value>83</value>
                                           <unit>tablet</unit>
                                        </amountRemaining>
                                     </MedicationAdministration>
@@ -807,9 +469,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">Hydrochlorothiazide 25 MG Oral Tablet</name>
                                        <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                                        <dateReported>2010-02-11T13:14:00Z</dateReported>
                                        <dateAdministered>2010-02-11T13:14:00Z</dateAdministered>
@@ -818,7 +478,7 @@
                                           <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
-                                          <value>68</value>
+                                          <value>82</value>
                                           <unit>tablet</unit>
                                        </amountRemaining>
                                     </MedicationAdministration>
@@ -842,9 +502,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">Hydrochlorothiazide 25 MG Oral Tablet</name>
                                        <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                                        <dateReported>2010-02-12T13:00:00Z</dateReported>
                                        <dateAdministered>2010-02-12T13:00:00Z</dateAdministered>
@@ -853,7 +511,7 @@
                                           <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
-                                          <value>67</value>
+                                          <value>81</value>
                                           <unit>tablet</unit>
                                        </amountRemaining>
                                     </MedicationAdministration>
@@ -877,9 +535,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">Hydrochlorothiazide 25 MG Oral Tablet</name>
                                        <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                                        <dateReported>2010-02-13T13:10:00Z</dateReported>
                                        <dateAdministered>2010-02-13T13:10:00Z</dateAdministered>
@@ -888,7 +544,7 @@
                                           <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
-                                          <value>66</value>
+                                          <value>80</value>
                                           <unit>tablet</unit>
                                        </amountRemaining>
                                     </MedicationAdministration>
@@ -912,9 +568,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">Hydrochlorothiazide 25 MG Oral Tablet</name>
                                        <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                                        <dateReported>2010-02-14T13:18:00Z</dateReported>
                                        <dateAdministered>2010-02-14T13:18:00Z</dateAdministered>
@@ -923,7 +577,7 @@
                                           <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
-                                          <value>65</value>
+                                          <value>79</value>
                                           <unit>tablet</unit>
                                        </amountRemaining>
                                     </MedicationAdministration>
@@ -947,9 +601,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">Hydrochlorothiazide 25 MG Oral Tablet</name>
                                        <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                                        <dateReported>2010-02-15T13:29:00Z</dateReported>
                                        <dateAdministered>2010-02-15T13:29:00Z</dateAdministered>
@@ -958,7 +610,7 @@
                                           <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
-                                          <value>64</value>
+                                          <value>78</value>
                                           <unit>tablet</unit>
                                        </amountRemaining>
                                     </MedicationAdministration>
@@ -982,9 +634,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">Hydrochlorothiazide 25 MG Oral Tablet</name>
                                        <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                                        <dateReported>2010-02-16T13:40:00Z</dateReported>
                                        <dateAdministered>2010-02-16T13:40:00Z</dateAdministered>
@@ -993,7 +643,7 @@
                                           <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
-                                          <value>63</value>
+                                          <value>77</value>
                                           <unit>tablet</unit>
                                        </amountRemaining>
                                     </MedicationAdministration>
@@ -1017,9 +667,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
-																	Hydrochlorothiazide 25 MG Oral Tablet
-																</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">Hydrochlorothiazide 25 MG Oral Tablet</name>
                                        <reportedBy>rpoole@records.media.mit.edu</reportedBy>
                                        <dateReported>2010-02-17T13:51:00Z</dateReported>
                                        <dateAdministered>2010-02-17T13:51:00Z</dateAdministered>
@@ -1028,7 +676,7 @@
                                           <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
-                                          <value>62</value>
+                                          <value>76</value>
                                           <unit>tablet</unit>
                                        </amountRemaining>
                                     </MedicationAdministration>
