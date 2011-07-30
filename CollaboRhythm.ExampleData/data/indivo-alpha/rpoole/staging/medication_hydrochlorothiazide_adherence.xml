@@ -21,6 +21,7 @@
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-15T14:57:00Z</dateReported>
 		<adherence>false</adherence>
+		<ndc>006033856</ndc>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">Hydrochlorothiazide 25 MG Oral Tablet</name>
