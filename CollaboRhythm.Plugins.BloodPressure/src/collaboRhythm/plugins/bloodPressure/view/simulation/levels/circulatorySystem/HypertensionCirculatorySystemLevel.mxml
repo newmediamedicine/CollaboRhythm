@@ -27,7 +27,7 @@
 		title="Circulatory System"
 		>
 	<!--<s:SWFLoader id="cardiovascularSimulationLoader" source="@Embed(source='/assets/swfs/heart14.swf')" complete="circulatorySystemSimulationLoader_completeHandler()"/>-->
-	<mx:UIComponent id="cardiovascularSimulationLoaderUiComponent" width="360" height="600"/>
+	<circulatorysystem:HypertensionCirculatorySystemSimulationView id="circulatorySystemSimulationView" width="360" height="600"/>
 	<s:Group id="arrowsGroup" width="100%" height="100%"/>
 	<buttons:SimulationDetailButton
 			id="atenololButton"
@@ -94,8 +94,6 @@
 		private var hydrochlorothiazideMedicationModel:MedicationComponentAdherenceModel;
 		[Bindable]
 		private var atenololMedicationModel:MedicationComponentAdherenceModel;
-		private var _circulatorySystemSimulationLoader:Loader = new Loader();
-		private var _circulatorySystemSimulationMovieClip:MovieClip;
 		protected var _logger:ILogger;
 
 		protected override function creationCompleteHandler(event:FlexEvent):void
@@ -109,44 +107,14 @@
 
 			lookupMedications();
 
-			cardiovascularSimulationLoaderUiComponent.addChild(_circulatorySystemSimulationLoader);
-			_circulatorySystemSimulationLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, circulatorySystemSimulationLoader_completeHandler);
-			_circulatorySystemSimulationLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, circulatorySystemSimulationLoader_ioErrorHandler)
-			var urlRequest:URLRequest = new URLRequest("http://www.mit.edu/~jom/temp/simulations/circulatorySystemSimulation.swf");
-			_circulatorySystemSimulationLoader.load(urlRequest);
-
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 
 			super.creationCompleteHandler(event);
 		}
 
-		private function circulatorySystemSimulationLoader_completeHandler(event:Event):void
-		{
-			_circulatorySystemSimulationMovieClip = MovieClip(_circulatorySystemSimulationLoader.content);
-		}
-
-		private function circulatorySystemSimulationLoader_ioErrorHandler(event:Event):void
-		{
-			_logger.warn("circulatorySystemSimulator load FAILED");
-		}
-
 		private function hydrochlorothiazideMedicationModel_changeHandler(concentration:Number):void
 		{
-			if (_circulatorySystemSimulationMovieClip)
-			{
-				if (concentration < SimulationModel.HYDROCHLOROTHIAZIDE_GOAL)
-				{
-					_circulatorySystemSimulationMovieClip.current_preload = 3;
-					_circulatorySystemSimulationMovieClip.current_damage = 2;
-					_circulatorySystemSimulationMovieClip.update();
-				}
-				else
-				{
-					_circulatorySystemSimulationMovieClip.current_preload = 1;
-					_circulatorySystemSimulationMovieClip.current_damage = 0;
-					_circulatorySystemSimulationMovieClip.update();
-				}
-			}
+			circulatorySystemSimulationView.concentration = concentration;
 		}
 
 		private function createStepsData(steps:Vector.<String>, concentrationSeverityColor:uint):IList

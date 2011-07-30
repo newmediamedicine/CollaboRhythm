@@ -21,7 +21,34 @@
 								 width="100%"
 								 height="100%"
 								 bloodAreaBackgroundColor="#0B5874"
+								 backgroundVisible="false"
+								 wallsVisible="false"
+								 leftWallWidth="14"
+								 rightWallWidth="14"
+								 bloodAreaPercentWidth="{171.0 / 360}"
+								 centerWallWidth="63"
+								 isPlugCircular="true"
+								 soluteWidth="16"
+								 gapSize="40"
+								 plugWidth="40"
+								 soluteConcentration="0.1"
+								 gapToWallRatio="0.66666667"
+								 plugFillColor="#7593FB"
+								 soluteFillColor1="#FB9C26"
+								 soluteFillColor2="#3CC064"
+								 isPlugBindingOnRight="true"
+								 plugBindingOffsetX="10"
 		>
+	<view:backgroundContent>
+		<s:Image
+				width="100%"
+				height="100%"
+				source="@Embed('/assets/images/nephron.png')"
+				smooth="true"
+				scaleMode="stretch"
+				skinClass="spark.skins.spark.ImageSkin"
+				/>
+	</view:backgroundContent>
 	<fx:Script><![CDATA[
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 
@@ -60,10 +87,10 @@
 															  SimulationModel.HYDROCHLOROTHIAZIDE_GOAL, 0.95,
 															  0.05);
 
-			// TODO: move the bloodAreaPercentWidth in a more appropriate way
-			this.bloodAreaPercentWidthAnimated = linearTransform(concentration, 0,
-																 SimulationModel.HYDROCHLOROTHIAZIDE_GOAL,
-																 0.6, 0.4);
+//			// TODO: move the bloodAreaPercentWidth in a more appropriate way
+//			this.bloodAreaPercentWidthAnimated = linearTransform(concentration, 0,
+//																 SimulationModel.HYDROCHLOROTHIAZIDE_GOAL,
+//																 0.6, 0.4);
 		}
 
 		private static function linearTransform(value:Number, min:Number, max:Number, min2:Number, max2:Number):Number

@@ -29,7 +29,7 @@
 
 	<s:Group width="360" height="400">
 		<s:layout>
-			<view2:ScaleToFitLayout unscaledWidth="160" aspectRatioMin="0.85" aspectRatioMax="1.25"/>
+			<view2:ScaleToFitLayout unscaledWidth="360" aspectRatioMin="0.85" aspectRatioMax="1.25"/>
 		</s:layout>
 		<hydrochlorothiazide:HydrochlorothiazideSimulationView id="hydrochlorothiazideSimulationView"
 															   concentration="{hydrochlorothiazideMedicationModel.concentration}"
