@@ -60,22 +60,6 @@
 									</amountFilled>
 									<xsl:copy-of select="$ndc"/>
 								</MedicationFill>
-								<MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
-									<xsl:copy-of select="$medicationName"/>
-									<scheduledBy>jking@records.media.mit.edu</scheduledBy>
-									<dateScheduled>2010-01-14T19:13:11Z</dateScheduled>
-									<dateStart><xsl:value-of select="$dateStart"/></dateStart>
-									<dateEnd>2010-01-15T17:00:00Z</dateEnd>
-									<recurrenceRule>
-										<frequency>DAILY</frequency>
-										<count><xsl:value-of select="$numPillsOrdered"/></count>
-									</recurrenceRule>
-									<dose>
-										<value>1</value>
-										<unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
-									</dose>
-									<instructions>take with water</instructions>
-								</MedicationScheduleItem>
 							</document>
 						</LoadableIndivoDocument>
 					</relation>
@@ -163,6 +147,26 @@
 									</xsl:for-each>
 								</relation>
 							</relatesTo>
+						</LoadableIndivoDocument>
+						<LoadableIndivoDocument>
+							<document>
+								<MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
+									<xsl:copy-of select="$medicationName"/>
+									<scheduledBy>jking@records.media.mit.edu</scheduledBy>
+									<dateScheduled>2011-07-28T19:13:11Z</dateScheduled>
+									<dateStart>2011-07-29T13:00:00Z</dateStart>
+									<dateEnd>2011-07-29T17:00:00Z</dateEnd>
+									<recurrenceRule>
+										<frequency>DAILY</frequency>
+										<count><xsl:value-of select="$numPillsOrdered"/></count>
+									</recurrenceRule>
+									<dose>
+										<value>1</value>
+										<unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
+									</dose>
+									<instructions>take with water</instructions>
+								</MedicationScheduleItem>
+							</document>
 						</LoadableIndivoDocument>
 					</relation>
 				</relatesTo>

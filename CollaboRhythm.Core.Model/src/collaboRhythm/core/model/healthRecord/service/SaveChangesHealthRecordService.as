@@ -73,7 +73,11 @@ package collaboRhythm.core.model.healthRecord.service
 		{
 			for each (var document:IDocument in documents)
 			{
-				if (document.pendingAction == DocumentBase.ACTION_CREATE)
+				if (document == null)
+				{
+					_logger.warn("Attempted to save changes for a null document. Document skipped.");
+				}
+				else if (document.pendingAction == DocumentBase.ACTION_CREATE)
 				{
 					pendingCreateDocuments.put(document.meta.id, document);
 					createDocument(record, document, getDocumentXml(document))
