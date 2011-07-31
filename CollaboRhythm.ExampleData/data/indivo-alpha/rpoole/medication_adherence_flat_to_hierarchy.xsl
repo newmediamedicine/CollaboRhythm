@@ -52,7 +52,7 @@
 							<document>
 								<MedicationFill xmlns="http://indivo.org/vocab/xml/documents#">
 									<xsl:copy-of select="$medicationName"/>
-									<filledBy><xsl:value-of select="$reportedBy"/></filledBy>
+									<filledBy>ljohnson@records.media.mit.edu</filledBy>
 									<dateFilled>2010-01-14T19:13:11Z</dateFilled>
 									<amountFilled>
 										<value><xsl:value-of select="$numPillsOrdered"/></value>

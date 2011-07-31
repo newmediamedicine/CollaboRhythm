@@ -16,12 +16,12 @@
   ~ <http://www.gnu.org/licenses/>.
   -->
 <MedicationFill xmlns="http://indivo.org/vocab/xml/documents#">
-	<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="197381">Atenolol 50 MG Oral Tablet</name>
-	<filledBy>rpoole@records.media.mit.edu</filledBy>
-	<dateFilled>2010-01-14T19:13:11Z</dateFilled>
+	<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+	<filledBy>ljohnson@records.media.mit.edu</filledBy>
+	<dateFilled>2011-07-30T12:00:00Z</dateFilled>
 	<amountFilled>
 		<value>90</value>
 		<unit>tab</unit>
 	</amountFilled>
-	<ndc>007811506</ndc>
+	<ndc>003782072</ndc>
 </MedicationFill>

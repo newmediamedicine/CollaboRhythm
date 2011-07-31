@@ -16,12 +16,12 @@
   ~ <http://www.gnu.org/licenses/>.
   -->
 <MedicationFill xmlns="http://indivo.org/vocab/xml/documents#">
-	<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="858804">Enalapril Maleate 2.5 MG Oral Tablet</name>
-	<filledBy>rpoole@records.media.mit.edu</filledBy>
-	<dateFilled>2010-01-14T19:13:11Z</dateFilled>
+	<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+	<filledBy>ljohnson@records.media.mit.edu</filledBy>
+	<dateFilled>2011-07-30T12:00:00Z</dateFilled>
 	<amountFilled>
 		<value>90</value>
 		<unit>tab</unit>
 	</amountFilled>
-	<ndc>605050049</ndc>
+	<ndc>003780018</ndc>
 </MedicationFill>
