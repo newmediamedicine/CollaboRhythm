@@ -118,7 +118,7 @@ package collaboRhythm.shared.model
 		protected function addDocumentCollection(documentCollection:IDocumentCollection):void
 		{
 			documentCollection.recordProxy = this;
-			documentCollections[documentCollection.documentType] = documentCollection;
+			documentCollections.put(documentCollection.documentType, documentCollection);
 		}
 
 		public function get id():String
@@ -382,7 +382,7 @@ package collaboRhythm.shared.model
 			// we rely on the document.pendingAction flag to indicate if the document is being loaded from the server
 			if (document.pendingAction == null)
 			{
-				originalDocumentsById[document.meta.id] = document;
+				originalDocumentsById.put(document.meta.id, document);
 			}
 			else if (document.pendingAction == DocumentBase.ACTION_CREATE)
 			{
@@ -396,8 +396,8 @@ package collaboRhythm.shared.model
 				throw new Error("Attempted to add a document with an invalid value for pendingAction: " + document.pendingAction);
 			}
 
-			completeDocumentsById[document.meta.id] = document;
-			currentDocumentsById[document.meta.id] = document;
+			completeDocumentsById.put(document.meta.id, document);
+			currentDocumentsById.put(document.meta.id, document);
 
 			documentCollection.addDocument(document);
 

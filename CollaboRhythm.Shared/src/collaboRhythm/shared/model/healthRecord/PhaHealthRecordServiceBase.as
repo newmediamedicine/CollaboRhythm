@@ -141,48 +141,48 @@ package collaboRhythm.shared.model.healthRecord
 		protected function deleteDocumentCompleteHandler(event:IndivoClientEvent, responseXml:XML,
 														 healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
-			trace("deleting document - SUCCEEDED");
+			_logger.info("Delete document COMPLETE");
 		}
 
         protected function createDocumentCompleteHandler(event:IndivoClientEvent, responseXml:XML,
 														 healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
-            trace("creating document - SUCCEEDED " + responseXml.@id + " " + responseXml.@type);
-            dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE, null, null, null, responseXml));
+			_logger.info("Create document COMPLETE " + responseXml.@id + " " + responseXml.@type);
+            dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE, null, null, healthRecordServiceRequestDetails, responseXml));
         }
 
         protected function updateDocumentCompleteHandler(event:IndivoClientEvent, responseXml:XML,
 														 healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
-            trace("update document - SUCCEEDED " + responseXml.@id + " " + responseXml.@type);
-            dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE, null, null, null, responseXml));
+            _logger.info("Update document COMPLETE " + responseXml.@id + " " + responseXml.@type);
+            dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE, null, null, healthRecordServiceRequestDetails, responseXml));
         }
 
         protected function archiveDocumentCompleteHandler(event:IndivoClientEvent,
 														  responseXml:XML,
 														  healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
-            trace("archiving document - SUCCEEDED");
+            _logger.info("Archive document COMPLETE");
         }
 
         protected function voidDocumentCompleteHandler(event:IndivoClientEvent, responseXml:XML,
 													   healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
-            trace("voiding document - SUCCEEDED");
+            _logger.info("Void document COMPLETE");
         }
 
         protected function relateNewDocumentCompleteHandler(event:IndivoClientEvent,
 															responseXml:XML,
 															healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
-            trace("relating new document - SUCCEEDED");
+            _logger.info("Relate new document COMPLETE");
         }
 
         protected function relateDocumentsCompleteHandler(event:IndivoClientEvent,
 														  responseXml:XML,
 														  healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
-            trace("relating documents - SUCCEEDED");
+            _logger.info("Relate documents COMPLETE");
         }
 
 		override protected function retryFailedRequest(event:IndivoClientEvent,
@@ -193,42 +193,5 @@ package collaboRhythm.shared.model.healthRecord
 							_activeAccount.oauthAccountTokenSecret, event.requestXml, event.params,
 							healthRecordServiceRequestDetails);
 		}
-
-//        protected override function handleResponse(event:IndivoClientEvent, responseXml:XML, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
-//        {
-//            _pha.dispatchEvent(new HealthRecordServiceEvent(healthRecordServiceRequestDetails.healthRecordServiceCompleteEventType, null, null, healthRecordServiceRequestDetails, responseXml));
-//        }
-//
-//        protected override function handleError(event:IndivoClientEvent, errorStatus:String, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
-//        {
-//            _pha.dispatchEvent(new HealthRecordServiceEvent(healthRecordServiceRequestDetails.healthRecordServiceErrorEventType, null, null, healthRecordServiceRequestDetails, null, errorStatus));
-//        }
-//        		private function addPendingRequest(requestType:String, id:String):void
-//		{
-//			var key:String = getPendingRequestKey(requestType, id);
-//			if (_pendingRequests.keys.contains(key))
-//			{
-//				throw new Error("request with matching key is already pending: " + key);
-//			}
-//
-//			_pendingRequests.put(key, key);
-//		}
-//
-//		private function removePendingRequest(requestType:String, id:String):void
-//		{
-//			var key:String = getPendingRequestKey(requestType, id);
-//			if (_pendingRequests.keys.contains(key))
-//			{
-//				_pendingRequests.remove(key);
-//				if (_pendingRequests.size() == 0)
-//					this.dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE));
-//			}
-//		}
-//
-//		private function getPendingRequestKey(requestType:String, id:String):String
-//		{
-//			return requestType + " " + id;
-//		}
-
     }
 }
