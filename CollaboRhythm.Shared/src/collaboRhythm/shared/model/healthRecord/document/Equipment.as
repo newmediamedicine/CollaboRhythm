@@ -77,7 +77,7 @@ package collaboRhythm.shared.model.healthRecord.document
 			_certification = equipmentXML.certification;
             for each (var scheduleItemXml:XML in equipmentReportXml..relatesTo.relation.(@type == ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM).relatedDocument)
             {
-                _scheduleItems[scheduleItemXml.@id] = null;
+                _scheduleItems.put(scheduleItemXml.@id, null);
             }
         }
 

@@ -26,7 +26,7 @@ package collaboRhythm.core.model.healthRecord.stitchers
 					var adherenceItem:AdherenceItem = record.adherenceItemsModel.adherenceItems[adherenceItemId];
 					if (adherenceItem)
 					{
-						scheduleItem.adherenceItems[adherenceItemId] = adherenceItem;
+						scheduleItem.adherenceItems.put(adherenceItemId, adherenceItem);
 					}
 					else
 					{

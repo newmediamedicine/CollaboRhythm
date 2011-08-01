@@ -31,48 +31,54 @@
     </fx:Style>
     <fx:Script>
         <![CDATA[
-        import collaboRhythm.shared.model.Account;
-        import collaboRhythm.shared.model.CollaborationModel;
-        import collaboRhythm.shared.model.settings.Settings;
-        import collaboRhythm.workstation.controller.WorkstationApplicationController;
+		import collaboRhythm.shared.model.Account;
+		import collaboRhythm.shared.model.CollaborationModel;
+		import collaboRhythm.shared.model.settings.Settings;
+		import collaboRhythm.workstation.controller.WorkstationApplicationController;
 
-        public static const SEPARATOR_COLOR:uint = 0xA7A9AC;
+		public static const SEPARATOR_COLOR:uint = 0xA7A9AC;
 
-        private var _workstationApplicationController:WorkstationApplicationController;
-        [Bindable]
-        private var _recordAccount:Account;
-        [Bindable]
-        private var _collaborationModel:CollaborationModel;
-        [Bindable]
-        private var _settings:Settings;
+		private var _workstationApplicationController:WorkstationApplicationController;
+		[Bindable]
+		private var _recordAccount:Account;
+		[Bindable]
+		private var _collaborationModel:CollaborationModel;
+		[Bindable]
+		private var _settings:Settings;
 
-        public function init(workstationApplicationController:WorkstationApplicationController, recordAccount:Account, collaborationModel:CollaborationModel):void
-        {
-            _workstationApplicationController = workstationApplicationController;
-            _recordAccount = recordAccount;
-            _collaborationModel = collaborationModel;
-            _settings = _workstationApplicationController.settings;
+		public function init(workstationApplicationController:WorkstationApplicationController, recordAccount:Account,
+							 collaborationModel:CollaborationModel):void
+		{
+			_workstationApplicationController = workstationApplicationController;
+			_recordAccount = recordAccount;
+			_collaborationModel = collaborationModel;
+			_settings = _workstationApplicationController.settings;
 
-            recordInformationView.init(_recordAccount);
-        }
+			recordInformationView.init(_recordAccount);
+		}
 
-        private function closeRecordButton_clickHandler(event:MouseEvent):void
-        {
-            _workstationApplicationController.closeRecordAccount(_recordAccount);
-        }
+		private function closeRecordButton_clickHandler(event:MouseEvent):void
+		{
+			_workstationApplicationController.closeRecordAccount(_recordAccount);
+		}
 
-        private function recordVideoButton_clickHandler(event:MouseEvent):void
-        {
-            if (recordVideoButton.selected)
-            {
-                _workstationApplicationController.showRecordVideoView();
-            }
-            else
-            {
-                _workstationApplicationController.hideRecordVideoView();
-            }
-        }
-        ]]>
+		private function recordVideoButton_clickHandler(event:MouseEvent):void
+		{
+			if (recordVideoButton.selected)
+			{
+				_workstationApplicationController.showRecordVideoView();
+			}
+			else
+			{
+				_workstationApplicationController.hideRecordVideoView();
+			}
+		}
+
+		private function synchronizeButton_clickHandler(event:MouseEvent):void
+		{
+			_workstationApplicationController.synchronize();
+		}
+		]]>
     </fx:Script>
     <s:Rect width="100%" height="100%">
         <s:fill>
@@ -81,6 +87,13 @@
     </s:Rect>
     <workstationViews:RecordInformationView id="recordInformationView"/>
     <s:HGroup width="100%" height="100%" horizontalAlign="right" gap="10" paddingRight="10" paddingTop="5">
+		<s:Button
+			id="synchronizeButton"
+			click="synchronizeButton_clickHandler(event)"
+			icon="@Embed(source='/assets/images/icons/buttonIcons/ic_menu_refresh.png')"
+			height="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
+			width="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
+		/>
         <s:ToggleButton
 			id="recordVideoButton"
 			click="recordVideoButton_clickHandler(event)"

@@ -489,7 +489,7 @@
 							
 							if (params.keys.contains(paramXmlName))
 							{
-								params[paramXmlName] = paramXml.toString();
+								params.put(paramXmlName, paramXml.toString());
 							}
 						}
 					}

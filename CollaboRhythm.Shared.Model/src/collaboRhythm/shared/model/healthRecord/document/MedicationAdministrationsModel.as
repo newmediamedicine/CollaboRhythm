@@ -77,7 +77,7 @@ package collaboRhythm.shared.model.healthRecord.document
 
 		public function addMedicationAdministration(medicationAdministration:MedicationAdministration):void
 		{
-			medicationAdministrations[medicationAdministration.meta.id] = medicationAdministration;
+			medicationAdministrations.put(medicationAdministration.meta.id, medicationAdministration);
 			medicationAdministrationsCollection.addItem(medicationAdministration);
 			addToMedicationAdministrationsCollectionsByCode(medicationAdministration);
 		}
@@ -88,9 +88,18 @@ package collaboRhythm.shared.model.healthRecord.document
 			if (collection == null)
 			{
 				collection = new ArrayCollection();
-				_medicationAdministrationsCollectionsByCode[medicationAdministration.name.value] = collection;
+				_medicationAdministrationsCollectionsByCode.put(medicationAdministration.name.value, collection);
 			}
 			collection.addItem(medicationAdministration);
+		}
+
+		override public function handleUpdatedId(oldId:String, document:IDocument):void
+		{
+			super.removeDocument(document);
+			medicationAdministrations.remove(oldId);
+			removeFromMedicationAdministrationsCollectionsByCode(document as MedicationAdministration);
+
+			addDocument(document);
 		}
 
 		override public function removeDocument(document:IDocument):void

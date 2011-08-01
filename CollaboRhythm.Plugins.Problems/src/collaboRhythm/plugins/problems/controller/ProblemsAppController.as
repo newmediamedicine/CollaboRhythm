@@ -85,7 +85,7 @@ package collaboRhythm.plugins.problems.controller
 //			{
 //				if (_user.appData[ProblemsModel.PROBLEMS_KEY] == null)
 //				{
-//					_user.appData[ProblemsModel.PROBLEMS_KEY] = new ProblemsModel();
+//					_user.appData.put(ProblemsModel.PROBLEMS_KEY, new ProblemsModel());
 //				}
 //				return _user.getAppData(ProblemsModel.PROBLEMS_KEY, ProblemsModel) as ProblemsModel;
 //			}

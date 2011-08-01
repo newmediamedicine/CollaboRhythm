@@ -53,7 +53,15 @@ package collaboRhythm.shared.model.healthRecord.document
 		{
 			super.addDocument(document);
 			var medicationOrder:MedicationOrder = document as MedicationOrder;
-			medicationOrders[medicationOrder.meta.id] = medicationOrder;
+			medicationOrders.put(medicationOrder.meta.id, medicationOrder);
+		}
+
+		override public function handleUpdatedId(oldId:String, document:IDocument):void
+		{
+			super.removeDocument(document);
+			medicationOrders.remove(oldId);
+
+			addDocument(document);
 		}
 
 		override public function removeDocument(document:IDocument):void

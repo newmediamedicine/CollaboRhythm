@@ -283,9 +283,9 @@ package collaboRhythm.core.model.healthRecord.service
 			documentCollection.handleUpdatedId(oldId, document);
 
 			// Re-add the document to the record
-			record.originalDocumentsById[document.meta.id] = document;
-			record.completeDocumentsById[document.meta.id] = document;
-			record.currentDocumentsById[document.meta.id] = document;
+			record.originalDocumentsById.put(document.meta.id, document);
+			record.completeDocumentsById.put(document.meta.id, document);
+			record.currentDocumentsById.put(document.meta.id, document);
 
 			if (isUpdate)
 			{

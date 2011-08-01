@@ -43,7 +43,7 @@ package collaboRhythm.core.model.healthRecord.service
 			var equipment:Equipment = document as Equipment;
 			for each (var scheduleItemXml:XML in reportXml..relatesTo.relation.(@type == ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM).relatedDocument)
 			{
-				equipment.scheduleItems[scheduleItemXml.@id] = null;
+				equipment.scheduleItems.put(scheduleItemXml.@id, null);
 			}
 		}
 	}

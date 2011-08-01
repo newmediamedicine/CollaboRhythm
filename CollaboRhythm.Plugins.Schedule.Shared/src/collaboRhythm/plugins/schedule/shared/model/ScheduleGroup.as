@@ -17,7 +17,9 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
 
-    import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
     import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrenceBase;
 
     import mx.collections.ArrayCollection;
@@ -77,5 +79,17 @@ package collaboRhythm.plugins.schedule.shared.model
         {
             _stackNumber = value;
         }
-    }
+
+		/**
+		 * The id of the group, which is NOT static. The id is based on the current first schedule item occurrence in
+		 * the group.
+		 */
+		public function get id():String
+		{
+			if (scheduleItemsOccurrencesCollection.length > 0)
+				return scheduleItemsOccurrencesCollection[0].id;
+			else
+				throw new Error("Id of ScheduleGroup cannot be determined if the group contains no schedule item occurrences.");
+		}
+	}
 }

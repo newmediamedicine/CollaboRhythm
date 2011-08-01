@@ -114,15 +114,15 @@ package collaboRhythm.shared.model
 
         public function addSharedRecordAccount(sharedRecordAccount:Account):void
         {
-            _sharedRecordAccounts[sharedRecordAccount.accountId] = sharedRecordAccount;
-            _allSharingAccounts[sharedRecordAccount.accountId] = sharedRecordAccount;
+            _sharedRecordAccounts.put(sharedRecordAccount.accountId, sharedRecordAccount);
+            _allSharingAccounts.put(sharedRecordAccount.accountId, sharedRecordAccount);
             _sharedRecordAccountsCollection.addItem(sharedRecordAccount);
         }
 
         public function addRecordShareAccount(recordShareAccount:Account):void
         {
-            _recordShareAccounts[recordShareAccount.accountId] = recordShareAccount;
-            _allSharingAccounts[recordShareAccount.accountId] = recordShareAccount;
+            _recordShareAccounts.put(recordShareAccount.accountId, recordShareAccount);
+            _allSharingAccounts.put(recordShareAccount.accountId, recordShareAccount);
         }
 
         public function get sharedRecordAccountsCollection():ArrayCollection

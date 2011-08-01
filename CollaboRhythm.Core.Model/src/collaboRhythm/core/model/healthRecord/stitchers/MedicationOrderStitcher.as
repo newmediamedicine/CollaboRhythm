@@ -53,7 +53,7 @@ package collaboRhythm.core.model.healthRecord.stitchers
 				var medicationScheduleItem:MedicationScheduleItem = record.medicationScheduleItemsModel.medicationScheduleItems[scheduleItemId];
 				if (medicationScheduleItem)
 				{
-					medicationOrder.scheduleItems[scheduleItemId] = medicationScheduleItem;
+					medicationOrder.scheduleItems.put(scheduleItemId, medicationScheduleItem);
 					medicationScheduleItem.scheduledMedicationOrder = medicationOrder;
 				}
 				else

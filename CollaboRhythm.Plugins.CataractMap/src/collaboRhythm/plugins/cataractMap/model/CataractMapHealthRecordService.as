@@ -42,7 +42,7 @@ package collaboRhythm.plugins.cataractMap.model
 		{
 			if (user.appData[CataractMapModel.CATARACT_MAP_KEY] == null)
 			{
-				user.appData[CataractMapModel.CATARACT_MAP_KEY] = new CataractMapModel();
+				user.appData.put(CataractMapModel.CATARACT_MAP_KEY, new CataractMapModel());
 			}
 			
 			var params:URLVariables = new URLVariables();

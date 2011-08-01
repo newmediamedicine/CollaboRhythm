@@ -162,7 +162,7 @@ package collaboRhythm.core.model.healthRecord.service
 				builder.medicationAdministrationCollection = administrationCollection;
 				// TODO: customize parameters of the pharmicokinetics (?) to match the current medication, person, dose, etc
 				builder.calculateConcentrationCurve();
-				medicationAdministrationsModel.medicationConcentrationCurvesByCode[key] = builder.concentrationCurve;
+				medicationAdministrationsModel.medicationConcentrationCurvesByCode.put(key, builder.concentrationCurve);
 				var firstMedicationAdministration:MedicationAdministration = administrationCollection[0];
 				_logger.info("Calculated curve for " + firstMedicationAdministration.name.text + " (" + key + ") with " +
 							 builder.concentrationCurve.length + " data points from " + administrationCollection.length + " MedicationAdministration documents");

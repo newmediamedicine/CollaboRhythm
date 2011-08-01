@@ -52,7 +52,15 @@ package collaboRhythm.shared.model.healthRecord.document
 		override public function addDocument(document:IDocument):void
 		{
 			super.addDocument(document);
-			equipmentScheduleItems[document.meta.id] = document;
+			equipmentScheduleItems.put(document.meta.id, document);
+		}
+
+		override public function handleUpdatedId(oldId:String, document:IDocument):void
+		{
+			super.removeDocument(document);
+			equipmentScheduleItems.remove(oldId);
+
+			addDocument(document);
 		}
 
 		override public function removeDocument(document:IDocument):void

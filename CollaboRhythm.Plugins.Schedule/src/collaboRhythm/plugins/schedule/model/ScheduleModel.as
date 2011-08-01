@@ -30,7 +30,6 @@ package collaboRhythm.plugins.schedule.model
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
 	import flash.events.EventDispatcher;
-	import flash.events.InvokeEvent;
 	import flash.utils.getQualifiedClassName;
 
 	import j2as3.collection.HashMap;
@@ -40,7 +39,6 @@ package collaboRhythm.plugins.schedule.model
 	import mx.collections.ArrayCollection;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
-
 
 	[Bindable]
 	public class ScheduleModel extends EventDispatcher
@@ -133,7 +131,7 @@ package collaboRhythm.plugins.schedule.model
 			{
 				createScheduleGroup(scheduleItemOccurrence, false);
 			}
-			_scheduleItemOccurrencesHashMap[scheduleItemOccurrence.scheduleItem.meta.id + scheduleItemOccurrence.recurrenceIndex] = scheduleItemOccurrence;
+			_scheduleItemOccurrencesHashMap.put(scheduleItemOccurrence.id, scheduleItemOccurrence);
 		}
 
 		public function createScheduleGroup(scheduleItemOccurrence:ScheduleItemOccurrence, moving:Boolean,
@@ -148,9 +146,7 @@ package collaboRhythm.plugins.schedule.model
 				scheduleGroup.yPosition = yPosition;
 			}
 			_scheduleGroupsCollection.addItem(scheduleGroup);
-			// TODO: use a GUID for the scheduleGroup so it will work with remote collaboration
-			scheduleGroup.id = scheduleItemOccurrence.scheduleItem.meta.id + scheduleItemOccurrence.recurrenceIndex + _scheduleGroupsHashMap.keys.length;
-			_scheduleGroupsHashMap[scheduleGroup.id] = scheduleGroup;
+			_scheduleGroupsHashMap.put(scheduleGroup.id, scheduleGroup);
 
 			return scheduleGroup;
 		}
@@ -256,23 +252,47 @@ package collaboRhythm.plugins.schedule.model
 			}
 		}
 
-		public function updateScheduleItems():void
+		public function updateScheduleItems(scheduleGroup:ScheduleGroup):void
 		{
-			var updatedDocuments:ArrayCollection = new ArrayCollection();
-			for each (var scheduleGroup:ScheduleGroup in scheduleGroupsCollection)
+			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleGroup.scheduleItemsOccurrencesCollection)
 			{
-				if (scheduleGroup.changed)
+				var scheduleItem:ScheduleItemBase = scheduleItemOccurrence.scheduleItem;
+				scheduleItem.rescheduleItem(_currentDateSource.now(), scheduleGroup.dateStart, scheduleGroup.dateEnd);
+				scheduleItem.pendingAction = DocumentBase.ACTION_UPDATE;
+			}
+		}
+
+		/**
+		 * Removes the schedule item occurrence from the group. If the occurrence is the only one in the group,
+		 * the group will also be removed from the list of groups. Otherwise, if the occurrence is the first of
+		 * multiple occurrences in the group, removing it will change the group id, so the group will be removed and
+		 * then re-added to the list of groups (with its new id).
+		 *
+		 * @param scheduleGroup The group that the schedule item occurrence should be removed from.
+		 * @param scheduleItemOccurrenceIndex The index of the schedule item occurrence in the specified group.
+		 */
+		public function removeScheduleItemOccurrenceFromGroup(scheduleGroup:ScheduleGroup,
+															  scheduleItemOccurrenceIndex:int):void
+		{
+			if (scheduleItemOccurrenceIndex == 0 && scheduleGroup.scheduleItemsOccurrencesCollection.length == 1)
+			{
+				var scheduleGroupIndex:int = scheduleGroupsCollection.getItemIndex(scheduleGroup);
+				scheduleGroupsCollection.removeItemAt(scheduleGroupIndex);
+				scheduleGroupsHashMap.remove(scheduleGroup.id);
+				scheduleGroup.scheduleItemsOccurrencesCollection.removeItemAt(scheduleItemOccurrenceIndex);
+			}
+			else
+			{
+				if (scheduleItemOccurrenceIndex == 0)
 				{
-					for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleGroup.scheduleItemsOccurrencesCollection)
-					{
-						var scheduleItem:ScheduleItemBase = scheduleItemOccurrence.scheduleItem;
-						scheduleItem.rescheduleItem(scheduleGroup.dateStart, scheduleGroup.dateEnd);
-						scheduleItem.pendingAction = DocumentBase.ACTION_UPDATE;
-						updatedDocuments.addItem(scheduleItem);
-					}
+					scheduleGroupsHashMap.remove(scheduleGroup.id);
+				}
+				scheduleGroup.scheduleItemsOccurrencesCollection.removeItemAt(scheduleItemOccurrenceIndex);
+				if (scheduleItemOccurrenceIndex == 0)
+				{
+					scheduleGroupsHashMap.put(scheduleGroup.id, scheduleGroup);
 				}
 			}
-			_record.saveChanges(updatedDocuments);
 		}
 	}
 }

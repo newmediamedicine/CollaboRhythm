@@ -90,7 +90,7 @@ package collaboRhythm.shared.model.healthRecord.document
             _instructions = _scheduleItemXml.instructions;
             for each (var adherenceItemXml:XML in scheduleItemReportXml..relatesTo.relation.(@type == RELATION_TYPE_ADHERENCE_ITEM).relatedDocument)
             {
-                _adherenceItems[adherenceItemXml.@id] = null;
+                _adherenceItems.put(adherenceItemXml.@id, null);
             }
         }
 
@@ -132,8 +132,9 @@ package collaboRhythm.shared.model.healthRecord.document
             return scheduleItemXml;
         }
 
-        public function rescheduleItem(dateStart:Date, dateEnd:Date):void
+        public function rescheduleItem(dateScheduled:Date, dateStart:Date, dateEnd:Date):void
         {
+			this.dateScheduled = dateScheduled;
 			this.dateStart = dateStart;
 			this.dateEnd = dateEnd;
 			this.recurrenceRule.count = updateCount(this.dateStart, dateStart);

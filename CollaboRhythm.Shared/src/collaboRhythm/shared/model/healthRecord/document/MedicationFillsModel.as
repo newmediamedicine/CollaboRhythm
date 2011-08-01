@@ -54,7 +54,15 @@ package collaboRhythm.shared.model.healthRecord.document
 		override public function addDocument(document:IDocument):void
 		{
 			super.addDocument(document);
-			medicationFills[document.meta.id] = document;
+			medicationFills.put(document.meta.id, document);
+		}
+
+		override public function handleUpdatedId(oldId:String, document:IDocument):void
+		{
+			super.removeDocument(document);
+			medicationFills.remove(oldId);
+
+			addDocument(document);
 		}
 
 		override public function removeDocument(document:IDocument):void

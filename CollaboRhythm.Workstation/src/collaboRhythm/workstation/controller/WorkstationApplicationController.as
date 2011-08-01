@@ -20,14 +20,13 @@ package collaboRhythm.workstation.controller
 	import collaboRhythm.core.controller.ApplicationControllerBase;
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
-	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
-	import collaboRhythm.shared.model.healthRecord.document.VideoMessage;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.view.CollaborationView;
@@ -51,7 +50,6 @@ package collaboRhythm.workstation.controller
 	import flash.ui.Keyboard;
 
 	import mx.collections.ArrayCollection;
-
 	import mx.containers.DividedBox;
 	import mx.core.IUIComponent;
 	import mx.core.IVisualElement;
@@ -83,7 +81,7 @@ package collaboRhythm.workstation.controller
         [Embed("/resources/settings.xml", mimeType="application/octet-stream")]
         private var _applicationSettingsEmbeddedFile:Class;
 
-        public function WorkstationApplicationController()
+		public function WorkstationApplicationController()
 		{
 		}
 
@@ -308,7 +306,7 @@ package collaboRhythm.workstation.controller
             if (_activeRecordAccount != null)
 			{
 				reloadDocuments(_activeRecordAccount);
-				_workstationAppControllersMediator.reloadUserData();
+				appControllersMediator.reloadUserData();
 			}
 
 			if (_activeRecordAccount && _activeRecordAccount.primaryRecord && _activeRecordAccount.primaryRecord.demographics)
@@ -726,7 +724,7 @@ package collaboRhythm.workstation.controller
 				}
 				else if (event.keyCode == Keyboard.S)
 				{
-					_healthRecordServiceFacade.saveAllChanges(_activeAccount.primaryRecord);
+					_healthRecordServiceFacade.saveAllChanges(_activeRecordAccount.primaryRecord);
 				}
 			}
 			else if (event.keyCode == Keyboard.F1)
@@ -932,5 +930,5 @@ package collaboRhythm.workstation.controller
         {
             return _applicationSettingsEmbeddedFile;
         }
-    }
+	}
 }

@@ -18,6 +18,7 @@ package collaboRhythm.mobile.controller
 {
 
 	import collaboRhythm.core.controller.ApplicationControllerBase;
+	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.mobile.view.WidgetContainerView;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.services.DemoEvent;
@@ -171,6 +172,11 @@ package collaboRhythm.mobile.controller
 		public override function get applicationSettingsEmbeddedFile():Class
 		{
 			return _applicationSettingsEmbeddedFile;
+		}
+
+		protected override function get appControllersMediator():AppControllersMediatorBase
+		{
+			return _mobileAppControllersMediator;
 		}
 
 		override public function get currentFullView():String
