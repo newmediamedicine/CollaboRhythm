@@ -86,6 +86,11 @@ package collaboRhythm.shared.model.healthRecord.document
             }
         }
 
+		public function get dateCenterValue():Number
+		{
+			return dateCenter.valueOf();
+		}
+
 		public function get moving():Boolean
         {
             return _moving;

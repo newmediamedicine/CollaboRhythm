@@ -145,6 +145,11 @@ package collaboRhythm.shared.model.healthRecord.document
             _dateSent = value;
         }
 
+		public function get dateSentValue():Number
+		{
+			return dateSent.valueOf();
+		}
+
 		public function get from():String
 		{
 			return _from;

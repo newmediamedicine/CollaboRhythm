@@ -170,7 +170,7 @@ package collaboRhythm.plugins.schedule.model
 		 */
 		public function determineStacking():void
 		{
-			_scheduleModel.scheduleGroupsCollection.source.sortOn("dateCenter", Array.DESCENDING);
+			_scheduleModel.scheduleGroupsCollection.source.sortOn("dateCenterValue", Array.DESCENDING);
 
 			var previousScheduleGroup:ScheduleGroup;
 			var stackNumber:Number = 0;

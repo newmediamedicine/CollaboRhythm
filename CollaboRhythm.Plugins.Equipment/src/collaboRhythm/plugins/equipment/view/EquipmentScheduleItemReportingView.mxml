@@ -32,17 +32,23 @@
 			font-size: 15;
 		}
 
-		#equipmentName {
-			font-size: 20;
+		#equipmentNameLabel {
+			font-size: 30;
 			font-weight: bold;
 		}
 
-		#administration {
+		#typeLabel {
+			font-size: 20;
+		}
+
+		#indicationLabel {
+			font-size: 20;
 			font-style: italic;
 		}
 
-		#instructions {
-			font-style: italic;
+		#instructionsLabel {
+			font-size: 20;
+			font-weight: bold;
 		}
 
 	</fx:Style>
@@ -214,17 +220,16 @@
 				</s:Group>
 			</s:Group>
 			<s:Group id="descriptionRegion" height="100%" left="{imageRegion.width}" right="{buttonRegion.width}">
-				<s:Group left="5" right="5" top="5" bottom="5">
-					<s:Label id="equipmentName" styleName="labelText" text="{_equipment.name}" maxDisplayedLines="1"
-							 width="100%" top="0"/>
+				<s:VGroup left="5" right="5" top="5" bottom="5" gap="1">
+					<s:Label id="equipmentNameLabel" text="{_equipment.name}" maxDisplayedLines="1"
+							 width="100%"/>
+					<s:Label id="typeLabel" text="{_equipment.type}" maxDisplayedLines="1" width="100%"/>
 					<!--TODO: change once indication is available in equipment schema, or use relationship with problem-->
-					<s:Label id="indication" styleName="labelText" text="hypertension"
-							 maxDisplayedLines="1" width="100%" top="{descriptionRegion.height / 3.3}"/>
-					<s:Label id="administration" styleName="labelText" text="take once a day at the same time"
-							 maxDisplayedLines="1" width="100%" bottom="{descriptionRegion.height / 6}"/>
-					<s:Label id="instructions" styleName="labelText" text="sit comfortably with feet on the floor"
-							 maxDisplayedLines="1" width="100%" bottom="0"/>
-				</s:Group>
+					<s:Label id="indicationLabel" text="Indication: hypertension"
+							 maxDisplayedLines="1" width="100%" paddingTop="16"/>
+					<s:Label id="instructionsLabel" text="Sit comfortably with feet on the floor"
+							 maxDisplayedLines="1" width="100%" paddingTop="16"/>
+				</s:VGroup>
 			</s:Group>
 			<s:Group id="buttonRegion" right="0" height="100%">
 				<s:VGroup left="0" right="5" height="100%">

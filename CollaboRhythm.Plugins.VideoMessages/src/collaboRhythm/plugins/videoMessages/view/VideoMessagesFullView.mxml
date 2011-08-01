@@ -40,6 +40,7 @@
 
 		import mx.collections.ArrayCollection;
 		import mx.events.CollectionEvent;
+		import mx.events.CollectionEventKind;
 		import mx.logging.ILogger;
 		import mx.logging.Log;
 
@@ -77,7 +78,27 @@
 
 		private function videoMessagesCollection_changeHandler(event:CollectionEvent):void
 		{
-			_videoMessagesModel.videoMessagesCollection.source.sortOn("dateSent", Array.DESCENDING);
+			if (event.kind == CollectionEventKind.ADD)
+			{
+				_videoMessagesModel.videoMessagesCollection.source.sortOn("dateSentValue", Array.DESCENDING);
+				if (_isCreationComplete && _videoMessagesModel.isInitialized)
+				{
+					updateVideoMessagesList();
+				}
+			}
+			else if (event.kind == CollectionEventKind.REMOVE)
+			{
+				if (_isCreationComplete && _videoMessagesModel.isInitialized)
+				{
+					updateVideoMessagesList();
+				}
+			}
+		}
+
+		private function updateVideoMessagesList():void
+		{
+			videosMessagesList.dataProvider = null;
+			videosMessagesList.dataProvider = _videoMessagesModel.videoMessagesCollection;
 		}
 
 		private function addedToStage():void
