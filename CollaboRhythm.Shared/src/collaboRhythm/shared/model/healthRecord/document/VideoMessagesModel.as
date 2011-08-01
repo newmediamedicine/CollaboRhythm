@@ -47,7 +47,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		public function createVideoMessage(activeAccount:Account, currentDateSource:ICurrentDateSource):VideoMessage
         {
             var videoMessage:VideoMessage = new VideoMessage();
-            videoMessage.init(nextFileId, "FlashMediaServer", "test", activeAccount, currentDateSource.now(), currentDateSource.now());
+            videoMessage.init(nextFileId, "FlashMediaServer", "0", activeAccount, currentDateSource.now(), currentDateSource.now());
 			videoMessage.pendingAction = DocumentBase.ACTION_CREATE;
 			generateNextFileId();
 			return videoMessage;

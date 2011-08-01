@@ -328,8 +328,9 @@
 		</s:DropDownList>
 		<s:Group width="100%">
 			<s:HGroup id="systolicResultGroup" gap="15" paddingTop="20" left="0">
-				<s:Label id="systolicLabel" text="SYS" width="65" styleName="reportingLabelsText"/>
-				<s:TextInput id="systolicResult" width="290" height="130"
+				<!--TODO: Determine why the font size from the style is not working-->
+				<s:Label id="systolicLabel" text="SYS" width="65" styleName="reportingLabelsText" fontSize="40"/>
+				<s:TextInput id="systolicResult" width="240" height="130"
 							 skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
 							 textAlign="right" restrict="0-9" maxChars="3" focusIn="systolicResult_focusInHandler()"/>
 				<s:Group height="100%">
@@ -340,7 +341,7 @@
 		<s:Group width="100%">
 			<s:HGroup id="diastolicResultGroup" gap="15" left="0">
 				<s:Label id="diastolicLabel" text="DIA" width="65" styleName="reportingLabelsText"/>
-				<s:TextInput id="diastolicResult" width="290" height="130"
+				<s:TextInput id="diastolicResult" width="240" height="130"
 							 skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
 							 textAlign="right" restrict="0-9" maxChars="3" focusIn="diastolicResult_focusInHandler()"/>
 			</s:HGroup>

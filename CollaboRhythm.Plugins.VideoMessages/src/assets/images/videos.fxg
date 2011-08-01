@@ -1,27 +1,48 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Graphic version="2.0" viewHeight="45" viewWidth="45" ai:appVersion="15.0.0.399" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+<Graphic version="2.0" viewHeight="80" viewWidth="80" ai:appVersion="15.0.0.399" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
   <Library/>
-  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="45" d:pageWidth="45" d:type="layer" d:userLabel="Artboard 1">
-    <Group ai:objID="3be1e300" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
-      <Path winding="nonZero" ai:objID="3c219d80" ai:seqID="3" data="M45 42 45 45 0 45 0 42 1.3999 42 1.3999 38 0 38 0 35 5 35 5 10 0 10 0 7 1.3999 7 1.3999 3 0 3 0 0 45 0 45 3 43.5996 3 43.5996 7 45 7 45 10 40 10 40 35 45 35 45 38 43.5996 38 43.5996 42 45 42ZM8 3 4 3 4 7 8 7 8 3ZM14.5996 3 10.5996 3 10.5996 7
- 14.5996 7 14.5996 3ZM21.2002 3 17.2002 3 17.2002 7 21.2002 7 21.2002 3ZM27.8008 3 23.8008 3 23.8008 7 27.8008 7 27.8008 3ZM34.4004 3 30.4004 3 30.4004 7 34.4004 7 34.4004 3ZM41 3 37 3 37 7 41 7 41 3ZM35.5 10 9.5 10 9.5 35 35.5 35 35.5 10ZM8 38
- 4 38 4 42 8 42 8 38ZM14.5996 38 10.3125 38 10.3125 42 14.5996 42 14.5996 38ZM21.2002 38 17.2002 38 17.2002 42 21.2002 42 21.2002 38ZM27.8008 38 23.8008 38 23.8008 42 27.8008 42 27.8008 38ZM34.4004 38 30.4004 38 30.4004 42 34.4004 42 34.4004 38Z
-M41 38 37 38 37 42 41 42 41 38Z">
+  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="80" d:pageWidth="80" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:objID="e48d800" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+      <Ellipse y="7.99902" width="30" height="30" ai:objID="3cca1200" ai:seqID="3">
         <fill>
-          <LinearGradient x="22.5" y="45" scaleX="44.9995" rotation="270">
+          <LinearGradient x="0" y="15.001" scaleX="30">
+            <GradientEntry ratio="0" color="#8C8B8B"/>
+            <GradientEntry ratio="1" color="#646565"/>
+          </LinearGradient>
+        </fill>
+      </Ellipse>
+      <Path x="62" y="50" winding="nonZero" ai:objID="3cca8b80" ai:seqID="4" data="M18 16.251C18 18.3232 16.3906 20 14.3994 20L3.59961 16.251C0.675781 15.3135 0 14.5713 0 12.5L0 7.5C0 5.42969 0.90332 4.37402 3.59961 3.74902L14.3994 0C16.3906 0 18 1.67871 18 3.74902L18 16.251Z">
+        <fill>
+          <LinearGradient x="9" y="20" scaleX="20" rotation="270">
             <GradientEntry ratio="0" color="#8C8B8B"/>
             <GradientEntry ratio="1" color="#646565"/>
           </LinearGradient>
         </fill>
       </Path>
+      <Rect x="6" y="40" width="54" height="40" radiusX="5.40192" radiusY="4.79719" ai:objID="3cca2e80" ai:seqID="5">
+        <fill>
+          <LinearGradient x="27" y="40" scaleX="40" rotation="270">
+            <GradientEntry ratio="0" color="#8C8B8B"/>
+            <GradientEntry ratio="1" color="#646565"/>
+          </LinearGradient>
+        </fill>
+      </Rect>
+      <Ellipse x="36" y="8" width="30" height="30" ai:objID="3cca0d80" ai:seqID="6">
+        <fill>
+          <LinearGradient x="0" y="15" scaleX="30">
+            <GradientEntry ratio="0" color="#8C8B8B"/>
+            <GradientEntry ratio="1" color="#646565"/>
+          </LinearGradient>
+        </fill>
+      </Ellipse>
     </Group>
   </Group>
   <Private>
       <ai:PrivateElement d:ref="#1">
         <ai:SaveOptions>
-          <ai:Dict data="B downsampleLinkedImages 0 I rasterizeResolution 72 I expandBlendsOption 5 I preserveGradientPolicy 4 I preserveFilterPolicy 3 I preserveTextPolicy 4 B includeObjectOutsideArtboard 0 B aiEditCap 1 B writeImages 1 B includeXMP 0 B includeSymbol 0 I versionKey 2 "/>
+          <ai:Dict data="B includeXMP 0 B writeImages 1 B aiEditCap 1 B includeSymbol 0 I versionKey 2 I preserveFilterPolicy 3 I preserveGradientPolicy 4 B downsampleLinkedImages 0 I rasterizeResolution 72 I expandBlendsOption 5 I preserveTextPolicy 4 B includeObjectOutsideArtboard 0 "/>
         </ai:SaveOptions>
-        <ai:DocData base="videos.assets/images" rulerCanvasDiffH="5.5" rulerCanvasDiffV="5.5">
+        <ai:DocData base="videos.assets/images" globalOffsetV="-20" rulerCanvasDiffH="22.5" rulerCanvasDiffV="22.5">
           <ai:DocRasterSettings>
             <ai:Dict data="R padd 36 B mask 0 B spot 1 B alis 0 I dpi. 300 I colr 4 "/>
           </ai:DocRasterSettings>
@@ -30,7 +51,7 @@ M41 38 37 38 37 42 41 42 41 38Z">
           <ai:Dict/>
         </ai:AutoGenImageList>
       </ai:PrivateElement>
-      <ai:PrivateElement flm:hashcode="62F792DCBAE9D81BA27EF0A5450CBFB4" d:ref="#2">
+      <ai:PrivateElement flm:hashcode="79164F76B5EAE2AB5BD43D8E0B524A31" d:ref="#2">
         <ai:LayerOptions color="5 79.31 257 128.502"/>
       </ai:PrivateElement>
     </Private>

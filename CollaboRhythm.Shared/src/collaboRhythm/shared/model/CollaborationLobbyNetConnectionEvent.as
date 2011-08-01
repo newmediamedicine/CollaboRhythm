@@ -24,9 +24,17 @@ package collaboRhythm.shared.model
 		public static const ERROR:String = "Error";
 		public static const SYNCHRONIZE:String = "Synchronize";
 
-		public function CollaborationLobbyNetConnectionEvent(type:String)
+		private var _accountId:String;
+
+		public function CollaborationLobbyNetConnectionEvent(type:String, accountId:String = null)
 		{
 			super(type);
+			_accountId = accountId;
+		}
+
+		public function get accountId():String
+		{
+			return _accountId;
 		}
 	}
 }

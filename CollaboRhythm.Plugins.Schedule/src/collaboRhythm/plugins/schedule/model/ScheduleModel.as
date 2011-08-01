@@ -214,7 +214,9 @@ package collaboRhythm.plugins.schedule.model
 
 		public function saveChangesToRecord():void
 		{
-			_record.saveAllChanges();
+			// TODO: Determine why this is occasionally called with _record equal to null
+			if (_record)
+				_record.saveAllChanges();
 		}
 
 		public function get scheduleGroupsHashMap():HashMap

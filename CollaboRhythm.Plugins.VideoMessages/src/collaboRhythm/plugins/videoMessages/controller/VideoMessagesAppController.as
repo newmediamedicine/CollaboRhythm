@@ -144,18 +144,31 @@ package collaboRhythm.plugins.videoMessages.controller
 
 		public function deleteVideoMessage(videoMessage:VideoMessage):void
 		{
-			if (_videoMessagesModel.videoMessagesCollection.length == 1)
+			videoMessagesModel.removeDocumentFromRecord(videoMessage, DocumentBase.ACTION_VOID, "deleted by user");
+			_fullView.setFocus();
+			if (_videoMessagesModel.videoMessagesCollection.length == 0)
 			{
 				//TODO: Potentially hideFullViews() in the AppControllersMediate is more appropriate
 				hideFullView();
+				goBack();
 			}
-			videoMessagesModel.removeDocumentFromRecord(videoMessage, DocumentBase.ACTION_VOID, "deleted by user");
-			videoMessagesModel.saveChanges(new ArrayCollection(new Array(videoMessage)));
+		}
+
+		public function markVideoMessageRead(videoMessage:VideoMessage):void
+		{
+			var readCount:int = int(videoMessage.subject) + 1;
+			videoMessage.subject = readCount.toString();
+			videoMessage.pendingAction = DocumentBase.ACTION_UPDATE;
 		}
 
 		protected override function removeUserData():void
 		{
 			_videoMessagesModel = null;
+		}
+
+		public function goBack():void
+		{
+			videoMessagesModel.saveAllChanges();
 		}
 	}
 }

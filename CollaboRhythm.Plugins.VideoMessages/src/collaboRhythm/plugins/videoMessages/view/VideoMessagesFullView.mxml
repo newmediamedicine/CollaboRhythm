@@ -39,6 +39,7 @@
 		import collaboRhythm.shared.model.healthRecord.document.VideoMessagesModel;
 
 		import mx.collections.ArrayCollection;
+		import mx.events.CollectionEvent;
 		import mx.logging.ILogger;
 		import mx.logging.Log;
 
@@ -63,12 +64,20 @@
 			_videoMessagesModel = videoMessagesModel;
 			_collaborationLobbyNetConnectionService = collaborationLobbyNetConnectionService;
 			_accountId = accountId;
+
+			_videoMessagesModel.videoMessagesCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
+																		 videoMessagesCollection_changeHandler);
 			videosMessagesList.addEventListener(VideoMessageItemRendererEvent.PLAY_VIDEO_MESSAGE,
 												playVideoMessageHandler);
 			videosMessagesList.addEventListener(VideoMessageItemRendererEvent.DELETE_VIDEO_MESSAGE,
 												deleteVideoMessageHandler);
 
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+		}
+
+		private function videoMessagesCollection_changeHandler(event:CollectionEvent):void
+		{
+			_videoMessagesModel.videoMessagesCollection.source.sortOn("dateSent", Array.DESCENDING);
 		}
 
 		private function addedToStage():void
@@ -83,12 +92,13 @@
 
 		private function stage_keyDownHandler(event:KeyboardEvent):void
 		{
-			if (event.keyCode == Keyboard.BACK)
+			if (event.keyCode == Keyboard.BACK && visible)
 			{
 				if (_netStream)
 				{
 					_netStream.close();
 				}
+				_videoMessagesAppController.goBack();
 			}
 		}
 
@@ -138,6 +148,7 @@
 			{
 				videoDisplay.play(netStreamLocation, 0);
 			}
+			_videoMessagesAppController.markVideoMessageRead(event.videoMessage);
 		}
 
 		private function deleteVideoMessageHandler(event:VideoMessageItemRendererEvent):void

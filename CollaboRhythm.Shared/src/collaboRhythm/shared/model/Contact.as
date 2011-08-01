@@ -23,7 +23,7 @@ package collaboRhythm.shared.model
 	[Bindable]
 	public class Contact
 	{
-		private const ACCOUNT_IMAGES_API_URL_BASE = "http://www.mit.edu/~jom/temp/accountImages/";
+		private const ACCOUNT_IMAGES_API_URL_BASE:String = "http://www.mit.edu/~jom/temp/accountImages/";
 
 		private var _fullName:String;
         private var _givenName:String;

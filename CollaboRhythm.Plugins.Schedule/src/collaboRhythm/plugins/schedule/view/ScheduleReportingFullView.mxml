@@ -59,7 +59,7 @@
 
 		private function showHandler():void
 		{
-			// Every time that the view is shown, create a 10 minute time
+			// Every time that the view is shown, create a 10 minute timeout timer
 			_timeoutTimer = new Timer(600000, 1);
 			_timeoutTimer.addEventListener(TimerEvent.TIMER, timeoutTimer_timerEventHandler);
 			_timeoutTimer.start();

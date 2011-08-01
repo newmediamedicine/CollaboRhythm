@@ -226,7 +226,8 @@ package collaboRhythm.core.controller
 
 		private function synchronizeHandler(event:CollaborationLobbyNetConnectionEvent):void
 		{
-			reloadData();
+			if (!_activeRecordAccount.primaryRecord.isLoading)
+				reloadData();
 		}
 
 		/**

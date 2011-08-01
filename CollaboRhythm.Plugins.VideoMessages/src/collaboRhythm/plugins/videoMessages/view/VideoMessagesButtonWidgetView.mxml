@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx">
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		width="110" height="110">
 		<fx:Style>
 			@namespace s "library://ns.adobe.com/flex/spark";
 
 			.videoCount {
-				color: #000000;
+				color: #FFFFFF;
 				font-size: 40;
 			}
 
@@ -16,6 +17,7 @@
 
 		import collaboRhythm.plugins.videoMessages.controller.VideoMessagesAppController;
 		import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
+		import collaboRhythm.shared.model.healthRecord.document.VideoMessage;
 		import collaboRhythm.shared.model.healthRecord.document.VideoMessagesModel;
 
 		import mx.events.CollectionEvent;
@@ -44,7 +46,24 @@
 		private function videoMessagesCollection_changeHandler(event:CollectionEvent):void
 		{
 			_videoMessageCount = _videoMessagesModel.videoMessagesCollection.length;
-			showFullViewButton.label = _videoMessageCount.toString();
+			var unreadVideoMessagesCount:int;
+			for each (var videoMessage:VideoMessage in _videoMessagesModel.videoMessagesCollection)
+			{
+				if (int(videoMessage.subject) == 0)
+				{
+					unreadVideoMessagesCount += 1;
+				}
+			}
+			if (unreadVideoMessagesCount > 0)
+			{
+				unreadVideoMessageIndicator.visible = true;
+				unreadVideoMessageCountLabel.text = unreadVideoMessagesCount.toString();
+			}
+			else
+			{
+				unreadVideoMessageIndicator.visible = false;
+				unreadVideoMessageCountLabel.text = "";
+			}
 		}
 
 		private function showFullViewButton_clickHandler():void
@@ -52,5 +71,13 @@
 			_videoMessagesAppController.dispatchShowFullView();
 		}
 		]]></fx:Script>
-	<s:Button id="showFullViewButton" icon="{videos}" label="0" width="100" height="100" click="showFullViewButton_clickHandler()" skinClass="collaboRhythm.shared.view.IconButtonSkin" styleName="videoCount" enabled="{_collaborationLobbyNetConnectionService.isConnected &amp;&amp; _videoMessageCount != 0}"/>
+	<s:Button id="showFullViewButton" icon="{videos}" width="100" height="100" left="0" bottom="0" click="showFullViewButton_clickHandler()" skinClass="collaboRhythm.shared.view.IconButtonSkin" enabled="{_collaborationLobbyNetConnectionService.isConnected &amp;&amp; _videoMessageCount != 0}"/>
+	<s:Group id="unreadVideoMessageIndicator" width="40" height="40" top="0" right="0" visible="false">
+		<s:Ellipse width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="green"/>
+			</s:fill>
+		</s:Ellipse>
+		<s:Label id="unreadVideoMessageCountLabel" styleName="videoCount" horizontalCenter="0" verticalCenter="3"/>
+	</s:Group>
 </s:Group>

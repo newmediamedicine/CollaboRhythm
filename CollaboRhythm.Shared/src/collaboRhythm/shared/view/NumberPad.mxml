@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		.numberPadLabel {
+			color: #000000;
+			fontSize: 40;
+		}
+
+		.numberPadSmallLabel {
+			color: #000000;
+			fontSize: 15;
+		}
+
+	</fx:Style>
 	<fx:Script>
     <![CDATA[
+		import assets.images.deleteArrow;
+
 		import mx.managers.IFocusManagerComponent;
 
 		import spark.components.Button;
@@ -10,7 +26,7 @@
 
 		private var _textInput:TextInput;
 
-		private const KEY_SIZE:int = 50;
+		private const KEY_SIZE:int = 62;
 		private const GAP_SIZE:int = 6;
 
 		private function numberButton_clickHandler(event:Event):void
@@ -57,40 +73,39 @@
 	<s:HGroup paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10">
 		<s:VGroup>
 			<s:HGroup>
-				<s:Button label="1" height="{KEY_SIZE}" width="{KEY_SIZE}" fontSize="20"
+				<s:Button label="1" height="{KEY_SIZE}" width="{KEY_SIZE}" styleName="numberPadLabel"
 						  click="numberButton_clickHandler(event)"/>
-				<s:Button label="2" height="{KEY_SIZE}" width="{KEY_SIZE}" fontSize="20"
+				<s:Button label="2" height="{KEY_SIZE}" width="{KEY_SIZE}" styleName="numberPadLabel"
 						  click="numberButton_clickHandler(event)"/>
-				<s:Button label="3" height="{KEY_SIZE}" width="{KEY_SIZE}" fontSize="20"
-						  click="numberButton_clickHandler(event)"/>
-			</s:HGroup>
-			<s:HGroup>
-				<s:Button label="4" height="{KEY_SIZE}" width="{KEY_SIZE}" fontSize="20"
-						  click="numberButton_clickHandler(event)"/>
-				<s:Button label="5" height="{KEY_SIZE}" width="{KEY_SIZE}" fontSize="20"
-						  click="numberButton_clickHandler(event)"/>
-				<s:Button label="6" height="{KEY_SIZE}" width="{KEY_SIZE}" fontSize="20"
+				<s:Button label="3" height="{KEY_SIZE}" width="{KEY_SIZE}" styleName="numberPadLabel"
 						  click="numberButton_clickHandler(event)"/>
 			</s:HGroup>
 			<s:HGroup>
-				<s:Button label="7" height="{KEY_SIZE}" width="{KEY_SIZE}" fontSize="20"
+				<s:Button label="4" height="{KEY_SIZE}" width="{KEY_SIZE}" styleName="numberPadLabel"
 						  click="numberButton_clickHandler(event)"/>
-				<s:Button label="8" height="{KEY_SIZE}" width="{KEY_SIZE}" fontSize="20"
+				<s:Button label="5" height="{KEY_SIZE}" width="{KEY_SIZE}" styleName="numberPadLabel"
 						  click="numberButton_clickHandler(event)"/>
-				<s:Button label="9" height="{KEY_SIZE}" width="{KEY_SIZE}" fontSize="20"
+				<s:Button label="6" height="{KEY_SIZE}" width="{KEY_SIZE}" styleName="numberPadLabel"
+						  click="numberButton_clickHandler(event)"/>
+			</s:HGroup>
+			<s:HGroup>
+				<s:Button label="7" height="{KEY_SIZE}" width="{KEY_SIZE}" styleName="numberPadLabel"
+						  click="numberButton_clickHandler(event)"/>
+				<s:Button label="8" height="{KEY_SIZE}" width="{KEY_SIZE}" styleName="numberPadLabel"
+						  click="numberButton_clickHandler(event)"/>
+				<s:Button label="9" height="{KEY_SIZE}" width="{KEY_SIZE}" styleName="numberPadLabel"
 						  click="numberButton_clickHandler(event)"/>
 			</s:HGroup>
 			<s:HGroup width="100%" height="25%" id="rowD">
-				<s:Button label="0" height="{KEY_SIZE}" width="{KEY_SIZE * 2 + GAP_SIZE}" fontSize="20"
-						  click="numberButton_clickHandler(event)"/>
-				<s:Button label="." height="{KEY_SIZE}" width="{KEY_SIZE}" fontSize="20"
+				<s:Button label="0" height="{KEY_SIZE}" width="{KEY_SIZE * 3 + GAP_SIZE * 2}" styleName="numberPadLabel"
 						  click="numberButton_clickHandler(event)"/>
 			</s:HGroup>
 		</s:VGroup>
 		<s:VGroup>
-			<s:Button label="del" height="{KEY_SIZE * 2 + GAP_SIZE}" width="{KEY_SIZE}"
-					  click="deleteButton_clickHander()"/>
-			<s:Button label="enter" height="{KEY_SIZE * 2 + GAP_SIZE}" width="{KEY_SIZE}"
+			<s:Button icon="{deleteArrow}" height="{KEY_SIZE}" width="{KEY_SIZE}" styleName="numberPadSmallLabel"
+					  click="deleteButton_clickHander()" skinClass="collaboRhythm.shared.view.IconButtonSkin"/>
+			<s:Button label="enter" height="{KEY_SIZE * 3 + GAP_SIZE * 2}" width="{KEY_SIZE}"
+					  styleName="numberPadSmallLabel"
 					  click="enterButton_clickHandler()"/>
 		</s:VGroup>
 	</s:HGroup>
