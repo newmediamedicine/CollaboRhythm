@@ -16,16 +16,17 @@
  */
 package collaboRhythm.shared.model.healthRecord.document
 {
+
+	/**
+	 * Base class for ScheduleGroup. This was formerly used as a base class to ScheduleItemOccurrence, but not any more.
+	 * TODO: rename or eliminate ScheduleItemOccurrenceBase because it is NOT a base clas for ScheduleItemOccurrence.
+	 */
     [Bindable]
     public class ScheduleItemOccurrenceBase
     {
-        private var _id:String;
         private var _dateStart:Date;
         private var _dateEnd:Date;
-
         private var _dateCenter:Date;
-
-        private var _changed:Boolean = false;
         private var _moving:Boolean = false;
         private var _dateCenterPreMove:Date;
         private var _dateStartPreMove:Date;
@@ -45,16 +46,6 @@ package collaboRhythm.shared.model.healthRecord.document
             _dateStart = dateStart;
             _dateEnd = dateEnd;
             _dateCenter = new Date(dateStart.time + (dateEnd.time - dateStart.time) / 2);
-        }
-
-        public function get id():String
-        {
-            return _id;
-        }
-
-        public function set id(value:String):void
-        {
-            _id = value;
         }
 
         public function get dateStart():Date
@@ -95,17 +86,7 @@ package collaboRhythm.shared.model.healthRecord.document
             }
         }
 
-        public function get changed():Boolean
-        {
-            return _changed;
-        }
-
-        public function set changed(value:Boolean):void
-        {
-            _changed = value;
-        }
-
-        public function get moving():Boolean
+		public function get moving():Boolean
         {
             return _moving;
         }

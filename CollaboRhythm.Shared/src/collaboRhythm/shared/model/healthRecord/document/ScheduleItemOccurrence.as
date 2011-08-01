@@ -22,7 +22,6 @@ package collaboRhythm.shared.model.healthRecord.document
 	[Bindable]
     public class ScheduleItemOccurrence
     {
-        private var _id:String;
         private var _dateStart:Date;
         private var _dateEnd:Date;
         private var _recurrenceIndex:int;
@@ -107,5 +106,14 @@ package collaboRhythm.shared.model.healthRecord.document
         {
             _moving = value;
         }
-    }
+
+		/**
+		 * The unique deterministic identifier of this occurrence. The id combines the document id of the associated
+		 * schedule item and the recurrence index.
+		 */
+		public function get id():String
+		{
+			return scheduleItem.meta.id + "." + recurrenceIndex;
+		}
+	}
 }

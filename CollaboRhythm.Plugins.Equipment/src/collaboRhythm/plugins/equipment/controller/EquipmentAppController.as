@@ -82,7 +82,7 @@ package collaboRhythm.plugins.equipment.controller
 //			{
 //				if (_user.appData[EquipmentModel.EQUIPMENT_KEY] == null)
 //				{
-//					_user.appData[EquipmentModel.EQUIPMENT_KEY] = new EquipmentModel(user);
+//					_user.appData.put(EquipmentModel.EQUIPMENT_KEY, new EquipmentModel(user));
 //				}
 //				return _user.getAppData(EquipmentModel.EQUIPMENT_KEY, EquipmentModel) as EquipmentModel;
 //			}

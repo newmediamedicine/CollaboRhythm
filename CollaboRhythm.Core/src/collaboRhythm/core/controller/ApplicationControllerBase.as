@@ -82,6 +82,8 @@ package collaboRhythm.core.controller
 		protected var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
 		private var _serviceIsSavingPrevious:Boolean = false;
 
+		private var _pendingReloadData:Boolean;
+
 		public function ApplicationControllerBase()
 		{
 		}
@@ -539,6 +541,11 @@ package collaboRhythm.core.controller
 			if (!isSaving && (isSaving != _serviceIsSavingPrevious))
 			{
 				_collaborationLobbyNetConnectionService.sendSynchronizationMessage();
+				if (_pendingReloadData)
+				{
+					_pendingReloadData = false;
+					reloadData();
+				}
 			}
 			_serviceIsSavingPrevious = isSaving;
 		}
@@ -558,12 +565,27 @@ package collaboRhythm.core.controller
 		}
 
 		/**
-		 * Virtual method which subclasses should override to reflect a change in the isSaving flag
+		 * Reloads the documents in the record and tells all app controllers to reload data.
 		 */
 		public function reloadData():void
 		{
-
+			if (_activeRecordAccount != null)
+			{
+				reloadDocuments(_activeRecordAccount);
+				appControllersMediator.reloadUserData();
+			}
 		}
 
+		public function synchronize():void
+		{
+			if (_activeRecordAccount)
+			{
+				_activeRecordAccount.primaryRecord.saveAllChanges();
+				if (_activeRecordAccount.primaryRecord.isSaving)
+					_pendingReloadData = true;
+				else
+					reloadData();
+			}
+		}
 	}
 }

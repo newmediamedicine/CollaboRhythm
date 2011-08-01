@@ -96,7 +96,7 @@ package collaboRhythm.shared.model.healthRecord.document
             _medicationFillId = medicationOrderReportXml..relatesTo.relation.(@type == RELATION_TYPE_MEDICATION_FILL).relatedDocument.@id;
             for each (var scheduleItemXml:XML in medicationOrderReportXml..relatesTo.relation.(@type == ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM).relatedDocument)
             {
-                _scheduleItems[scheduleItemXml.@id] = null;
+                _scheduleItems.put(scheduleItemXml.@id, null);
             }
 		}
 

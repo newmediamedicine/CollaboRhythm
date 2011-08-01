@@ -18,6 +18,7 @@ package collaboRhythm.tablet.controller
 {
 
 	import collaboRhythm.core.controller.ApplicationControllerBase;
+	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.tablet.view.ActiveRecordView;
@@ -164,6 +165,11 @@ package collaboRhythm.tablet.controller
 			return _applicationSettingsEmbeddedFile;
 		}
 
+		protected override function get appControllersMediator():AppControllersMediatorBase
+		{
+			return _tabletAppControllersMediator;
+		}
+
 		public override function get currentFullView():String
 		{
 			return _tabletAppControllersMediator.currentFullView;
@@ -191,15 +197,6 @@ package collaboRhythm.tablet.controller
 
 			if (_activeRecordAccount && _activeRecordAccount.primaryRecord && _activeRecordAccount.primaryRecord.demographics)
 				_activeRecordAccount.primaryRecord.demographics.dispatchAgeChangeEvent();
-		}
-
-		override public function reloadData():void
-		{
-			if (_activeRecordAccount != null)
-			{
-				reloadDocuments(_activeRecordAccount);
-				_tabletAppControllersMediator.reloadUserData();
-			}
 		}
 	}
 }

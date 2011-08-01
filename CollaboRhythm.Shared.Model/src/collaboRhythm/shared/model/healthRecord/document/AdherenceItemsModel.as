@@ -60,7 +60,7 @@ package collaboRhythm.shared.model.healthRecord.document
 
 		public function addAdherenceItem(adherenceItem:AdherenceItem):void
 		{
-			adherenceItems[adherenceItem.meta.id] = adherenceItem;
+			adherenceItems.put(adherenceItem.meta.id, adherenceItem);
 			documents.addItem(adherenceItem);
 			addToAdherenceItemsCollectionsByCode(adherenceItem);
 		}
@@ -71,9 +71,18 @@ package collaboRhythm.shared.model.healthRecord.document
 			if (collection == null)
 			{
 				collection = new ArrayCollection();
-				_adherenceItemsCollectionsByCode[adherenceItem.name.value] = collection;
+				_adherenceItemsCollectionsByCode.put(adherenceItem.name.value, collection);
 			}
 			collection.addItem(adherenceItem);
+		}
+
+		override public function handleUpdatedId(oldId:String, document:IDocument):void
+		{
+			super.removeDocument(document);
+			adherenceItems.remove(oldId);
+			removeFromAdherenceItemsCollectionsByCode(document as AdherenceItem);
+
+			addDocument(document);
 		}
 
 		override public function removeDocument(document:IDocument):void

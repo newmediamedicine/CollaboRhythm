@@ -73,7 +73,7 @@
 
 		private function synchronizeMenuItem_clickHandler():void
 		{
-			_tabletApplicationController.reloadData();
+			_tabletApplicationController.synchronize();
 		}
 
 		private function createDemoDateLabel(isCreationComplete:Boolean, index:int):String

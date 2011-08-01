@@ -174,7 +174,7 @@ package collaboRhythm.core.model.healthRecord
 			if (_pendingServices.length == 0)
 			{
 				// TODO: loading is complete, but we are not distinguishing between failed/complete results for each service; some may have failed
-				_logger.info("Loading documents COMPLETE " + loadingMessageSuffix);
+				_logger.info("Loading documents COMPLETE. " + _currentRecord.currentDocumentsById.size() + " documents loaded " + loadingMessageSuffix);
 				isLoading = false;
 			}
 			else

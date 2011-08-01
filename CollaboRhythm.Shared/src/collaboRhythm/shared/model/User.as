@@ -200,7 +200,7 @@ package collaboRhythm.shared.model
 		 */
 		public function registerDocument(metadata:IDocumentMetadata, document:Object):void
 		{
-			_documentsById[metadata.id] = document;
+			_documentsById.put(metadata.id, document);
 		}
 
 		/**

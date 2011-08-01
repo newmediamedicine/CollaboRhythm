@@ -24,7 +24,7 @@ package collaboRhythm.core.model.healthRecord.service
 		override protected function documentShouldBeIncluded(document:IDocument, nowTime:Number):Boolean
 		{
 			var scheduleItem:ScheduleItemBase = document as ScheduleItemBase;
-			return scheduleItem.dateScheduled.valueOf() <= nowTime && scheduleItem.dateStart.valueOf() <= nowTime;
+			return scheduleItem.dateScheduled.valueOf() <= nowTime;
 		}
 
 		override protected function unmarshallSpecialRelationships(reportXml:XML, document:IDocument):void
@@ -33,7 +33,7 @@ package collaboRhythm.core.model.healthRecord.service
 
 			for each (var adherenceItemXml:XML in reportXml..relatesTo.relation.(@type == ScheduleItemBase.RELATION_TYPE_ADHERENCE_ITEM).relatedDocument)
 			{
-				scheduleItem.adherenceItems[adherenceItemXml.@id] = null;
+				scheduleItem.adherenceItems.put(adherenceItemXml.@id, null);
 			}
 		}
 	}

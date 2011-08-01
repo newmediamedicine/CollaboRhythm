@@ -76,7 +76,7 @@
 		private function createMoveData(event:MouseEvent):MoveData
 		{
 			var moveData:MoveData = new MoveData();
-			moveData.id = scheduleItem.meta.id + _scheduleItemOccurrence.recurrenceIndex;
+			moveData.id = _scheduleItemOccurrence.id;
 			moveData.localX = event.localX;
 			moveData.localY = event.localY;
 			moveData.stageX = event.stageX;

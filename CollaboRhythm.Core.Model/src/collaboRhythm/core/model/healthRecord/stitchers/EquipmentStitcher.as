@@ -38,7 +38,7 @@ package collaboRhythm.core.model.healthRecord.stitchers
 				var equipmentScheduleItem:EquipmentScheduleItem = record.equipmentScheduleItemsModel.equipmentScheduleItems[scheduleItemId];
 				if (equipmentScheduleItem)
 				{
-					equipment.scheduleItems[scheduleItemId] = equipmentScheduleItem;
+					equipment.scheduleItems.put(scheduleItemId, equipmentScheduleItem);
 					equipmentScheduleItem.scheduledEquipment = equipment;
 				}
 				else
