@@ -24,9 +24,13 @@
 	<xsl:template match="/">
 		<xsl:variable name="numPillsOrdered" select="90"/>
 		<xsl:variable name="dateStart">2010-01-15T13:00:00Z</xsl:variable>
+		<xsl:variable name="dateEnd">2010-01-15T17:00:00Z</xsl:variable>
+		<xsl:variable name="dateStartEvening">2010-01-15T22:00:00Z</xsl:variable>
+		<xsl:variable name="dateEndEvening">2010-01-16T02:00:00Z</xsl:variable>
 		<xsl:variable name="medicationName" select="IndivoDocuments/d:AdherenceItem[1]/d:name"/>
 		<xsl:variable name="reportedBy" select="IndivoDocuments/d:AdherenceItem[1]/d:reportedBy"/>
 		<xsl:variable name="ndc" select="IndivoDocuments/d:AdherenceItem[1]/d:ndc"/>
+		<xsl:variable name="twiceDaily" select="IndivoDocuments/d:AdherenceItem[1]/d:twiceDaily"/>
 		<IndivoDocuments>
 			<LoadableIndivoDocument>
 				<document>
@@ -72,10 +76,17 @@
 									<scheduledBy>jking@records.media.mit.edu</scheduledBy>
 									<dateScheduled>2010-01-14T19:13:11Z</dateScheduled>
 									<dateStart><xsl:value-of select="$dateStart"/></dateStart>
-									<dateEnd>2010-01-15T17:00:00Z</dateEnd>
+									<dateEnd><xsl:value-of select="$dateEnd"/></dateEnd>
 									<recurrenceRule>
 										<frequency>DAILY</frequency>
-										<count><xsl:value-of select="$numPillsOrdered"/></count>
+										<xsl:choose>
+											<xsl:when test="$twiceDaily = 'true'">
+												<count><xsl:value-of select="$numPillsOrdered div 2"/></count>
+											</xsl:when>
+											<xsl:otherwise>
+													<count><xsl:value-of select="$numPillsOrdered"/></count>
+											</xsl:otherwise>
+										</xsl:choose>
 									</recurrenceRule>
 									<dose>
 										<value>1</value>
@@ -87,67 +98,125 @@
 							<relatesTo>
 								<relation type="adherenceItem">
 									<xsl:for-each select="IndivoDocuments/d:AdherenceItem">
-										<xsl:variable name="adherenceCount" select="position() - 1"/>
-										<LoadableIndivoDocument>
-											<document>
-												<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-													<xsl:copy-of select="$medicationName"/>
-													<xsl:copy-of select="$reportedBy"/>
-													<dateReported>
-														<xsl:value-of select="d:dateReported"/>
-													</dateReported>
-													<recurrenceIndex><xsl:value-of select="fn:days-from-duration(xs:dateTime(d:dateReported) - xs:dateTime($dateStart))" /></recurrenceIndex>
-													<adherence>
-														<xsl:value-of select="d:adherence"/>
-													</adherence>
-												</AdherenceItem>
-											</document>
-											<xsl:if test="d:adherence='true'">
-												<relatesTo>
-												<relation type="adherenceResult">
-													<LoadableIndivoDocument>
-														<document>
-															<MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-																<xsl:copy-of select="$medicationName"/>
-																<xsl:copy-of select="$reportedBy"/>
-																<dateReported><xsl:value-of select="d:dateReported"/></dateReported>
-																<dateAdministered><xsl:value-of select="d:dateReported"/></dateAdministered>
-																<amountAdministered>
-																	<value>1</value>
-																	<unit>tablet</unit>
-																</amountAdministered>
-																<!--Note that this value will be off if we have any "false" adherence values-->
-<!--
-																<current><xsl:value-of select="current()" /></current>
-																<preceding0><xsl:value-of select="preceding::*[.='true']" /></preceding0>
-																<precedingName><xsl:value-of select="name(preceding::*[.='true'][1])" /></precedingName>
-																<precedingTrue><xsl:value-of select="count(preceding::*[.='true'])" /></precedingTrue>
-																<precedingAdherenceTrue><xsl:value-of select="count(preceding::adherence[.='true'])" /></precedingAdherenceTrue>
-																<precedingAdherenceTrue><xsl:value-of select="count(preceding::*[adherence='true'])" /></precedingAdherenceTrue>
-																<precedingAdherenceCount><xsl:value-of select="('adherence', count(preceding::*/adherence))" /></precedingAdherenceCount>
-																<amountRemainingvalue><xsl:value-of select="('all preceding', count(preceding::*))" /></amountRemainingvalue>
-																<amountRemainingvalue><xsl:value-of select="('AdIt', count(preceding::*[@adherence]))" /></amountRemainingvalue>
-																<amountRemainingvalue><xsl:value-of select="count(preceding::*='true')" /></amountRemainingvalue>
-																<amountRemainingvalue><xsl:value-of select="$numPillsOrdered - count(current()/preceding::AdherenceItem) - 1" /></amountRemainingvalue>
-																<amountRemainingvalue2><xsl:value-of select="$numPillsOrdered - count(current()/following::AdherenceItem) - 1" /></amountRemainingvalue2>
-																<xsl:value-of select="$numPillsOrdered - count(preceding::AdherenceItem/adherence='true') - 1" />
-																<precedingTrue><xsl:value-of select="count(preceding::*[.='true'])" /></precedingTrue>
-																<amountRemaining><value><xsl:value-of select="$numPillsOrdered - count(preceding::d:adherence[.='true']) - 1" /></value>
--->
-																<amountRemaining><value><xsl:value-of select="$numPillsOrdered - count(preceding::d:adherence[.='true']) - 1" /></value>
-																	<unit>tablet</unit>
-																</amountRemaining>
-															</MedicationAdministration>
-														</document>
-													</LoadableIndivoDocument>
-												</relation>
-											</relatesTo>
-											</xsl:if>
-										</LoadableIndivoDocument>
+										<xsl:if test="not($twiceDaily = 'true') or fn:hours-from-dateTime(xs:dateTime(d:dateReported)) >= 4">
+											<xsl:variable name="adherenceCount" select="position() - 1"/>
+											<LoadableIndivoDocument>
+												<document>
+													<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+														<xsl:copy-of select="$medicationName"/>
+														<xsl:copy-of select="$reportedBy"/>
+														<dateReported>
+															<xsl:value-of select="d:dateReported"/>
+														</dateReported>
+														<recurrenceIndex><xsl:value-of select="fn:days-from-duration(xs:dateTime(d:dateReported) - xs:dateTime($dateStart))" /></recurrenceIndex>
+														<adherence>
+															<xsl:value-of select="d:adherence"/>
+														</adherence>
+													</AdherenceItem>
+												</document>
+												<xsl:if test="d:adherence='true'">
+													<relatesTo>
+													<relation type="adherenceResult">
+														<LoadableIndivoDocument>
+															<document>
+																<MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+																	<xsl:copy-of select="$medicationName"/>
+																	<xsl:copy-of select="$reportedBy"/>
+																	<dateReported><xsl:value-of select="d:dateReported"/></dateReported>
+																	<dateAdministered><xsl:value-of select="d:dateReported"/></dateAdministered>
+																	<amountAdministered>
+																		<value>1</value>
+																		<unit>tablet</unit>
+																	</amountAdministered>
+																	<!--Note that this value will be off if we have any "false" adherence values-->
+																	<amountRemaining><value><xsl:value-of select="$numPillsOrdered - count(preceding::d:adherence[.='true']) - 1" /></value>
+																		<unit>tablet</unit>
+																	</amountRemaining>
+																</MedicationAdministration>
+															</document>
+														</LoadableIndivoDocument>
+													</relation>
+												</relatesTo>
+												</xsl:if>
+											</LoadableIndivoDocument>
+										</xsl:if>
+
 									</xsl:for-each>
 								</relation>
 							</relatesTo>
 						</LoadableIndivoDocument>
+						<xsl:if test="$twiceDaily = 'true'">
+							<LoadableIndivoDocument>
+								<document>
+									<MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
+										<xsl:copy-of select="$medicationName"/>
+										<scheduledBy>jking@records.media.mit.edu</scheduledBy>
+										<dateScheduled>2010-01-14T19:13:11Z</dateScheduled>
+										<dateStart><xsl:value-of select="$dateStartEvening"/></dateStart>
+										<dateEnd><xsl:value-of select="$dateEndEvening"/></dateEnd>
+										<recurrenceRule>
+											<frequency>DAILY</frequency>
+											<count><xsl:value-of select="$numPillsOrdered div 2"/></count>
+										</recurrenceRule>
+										<dose>
+											<value>1</value>
+											<unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
+										</dose>
+										<instructions>take with water</instructions>
+									</MedicationScheduleItem>
+								</document>
+								<relatesTo>
+									<relation type="adherenceItem">
+										<xsl:for-each select="IndivoDocuments/d:AdherenceItem">
+											<xsl:if test="fn:hours-from-dateTime(xs:dateTime(d:dateReported)) &lt; 4">
+												<xsl:variable name="adherenceCount" select="position() - 1"/>
+												<LoadableIndivoDocument>
+													<document>
+														<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+															<xsl:copy-of select="$medicationName"/>
+															<xsl:copy-of select="$reportedBy"/>
+															<dateReported>
+																<xsl:value-of select="d:dateReported"/>
+															</dateReported>
+															<recurrenceIndex><xsl:value-of select="fn:days-from-duration(xs:dateTime(d:dateReported) - xs:dateTime($dateStart))" /></recurrenceIndex>
+															<adherence>
+																<xsl:value-of select="d:adherence"/>
+															</adherence>
+														</AdherenceItem>
+													</document>
+													<xsl:if test="d:adherence='true'">
+														<relatesTo>
+														<relation type="adherenceResult">
+															<LoadableIndivoDocument>
+																<document>
+																	<MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+																		<xsl:copy-of select="$medicationName"/>
+																		<xsl:copy-of select="$reportedBy"/>
+																		<dateReported><xsl:value-of select="d:dateReported"/></dateReported>
+																		<dateAdministered><xsl:value-of select="d:dateReported"/></dateAdministered>
+																		<amountAdministered>
+																			<value>1</value>
+																			<unit>tablet</unit>
+																		</amountAdministered>
+																		<!--Note that this value will be off if we have any "false" adherence values-->
+																		<amountRemaining><value><xsl:value-of select="$numPillsOrdered - count(preceding::d:adherence[.='true']) - 1" /></value>
+																			<unit>tablet</unit>
+																		</amountRemaining>
+																	</MedicationAdministration>
+																</document>
+															</LoadableIndivoDocument>
+														</relation>
+													</relatesTo>
+													</xsl:if>
+												</LoadableIndivoDocument>
+											</xsl:if>
+										</xsl:for-each>
+
+									</relation>
+								</relatesTo>
+							</LoadableIndivoDocument>
+
+						</xsl:if>
 						<LoadableIndivoDocument>
 							<document>
 								<MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
