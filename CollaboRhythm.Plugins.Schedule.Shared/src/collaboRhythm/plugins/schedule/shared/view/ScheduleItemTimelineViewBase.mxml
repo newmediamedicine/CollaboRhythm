@@ -16,20 +16,20 @@
   ~ <http://www.gnu.org/licenses/>.
   -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-         xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:mx="library://ns.adobe.com/flex/mx"
-         width="{SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH}"
-         height="{SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT}"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="{SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH}"
+		 height="{SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT}"
 		 remove="removeHandler()"
-         mouseDown="mouseDownHandler(event)">
+		 mouseDown="mouseDownHandler(event)">
 
-    <fx:Declarations>
-        <s:Fade id="hideEffect" alphaFrom="{this.alpha}" alphaTo="0" duration="0.01"/>
-        <s:Animate id="stackEffect" target="{this}">
-            <s:SimpleMotionPath id="motionPath" property="bottom"/>
-        </s:Animate>
-    </fx:Declarations>
-    <fx:Script>
+	<fx:Declarations>
+		<s:Fade id="hideEffect" alphaFrom="{this.alpha}" alphaTo="0" duration="0.01"/>
+		<s:Animate id="stackEffect" target="{this}">
+			<s:SimpleMotionPath id="motionPath" property="bottom"/>
+		</s:Animate>
+	</fx:Declarations>
+	<fx:Script>
 		<![CDATA[
 		import collaboRhythm.plugins.schedule.shared.model.MoveData;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
@@ -68,9 +68,12 @@
 		{
 			event.stopImmediatePropagation();
 
-			var moveData:MoveData = createMoveData(event);
-			dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_ITEM_TIMELINE_VIEW_MOUSE_DOWN,
-														moveData));
+			if (!stackEffect.isPlaying)
+			{
+				var moveData:MoveData = createMoveData(event);
+				dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_ITEM_TIMELINE_VIEW_MOUSE_DOWN,
+															moveData));
+			}
 		}
 
 		private function createMoveData(event:MouseEvent):MoveData
@@ -124,13 +127,13 @@
 		}
 		]]>
 	</fx:Script>
-    <s:filters>
-        <s:GlowFilter id="glowFilter"
-                      quality="3"
-                      alpha="0.2"
-                      color="0x000000"
-                      blurX="5"
-                      blurY="5"
-                      strength="5"/>
-    </s:filters>
+	<s:filters>
+		<s:GlowFilter id="glowFilter"
+					  quality="3"
+					  alpha="0.2"
+					  color="0x000000"
+					  blurX="5"
+					  blurY="5"
+					  strength="5"/>
+	</s:filters>
 </s:Group>
