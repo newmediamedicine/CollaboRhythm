@@ -445,7 +445,7 @@
 
 		private function mouseDownHandler(event:MouseEvent):void
 		{
-			if (scheduleGroup.scheduleItemsOccurrencesCollection.length > 1)
+			if (scheduleGroup.scheduleItemsOccurrencesCollection.length > 1 && !stackEffect.isPlaying)
 			{
 				var moveData:MoveData = createMoveData(event);
 				dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_DOWN,

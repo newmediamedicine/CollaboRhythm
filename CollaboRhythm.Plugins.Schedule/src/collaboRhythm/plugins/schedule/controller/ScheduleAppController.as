@@ -86,6 +86,7 @@ package collaboRhythm.plugins.schedule.controller
 
 		override public function reloadUserData():void
 		{
+			hideFullView();
 			removeUserData();
 			if (_fullView)
 			{

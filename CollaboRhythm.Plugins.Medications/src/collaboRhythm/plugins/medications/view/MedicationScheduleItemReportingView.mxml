@@ -19,7 +19,8 @@
 									xmlns:s="library://ns.adobe.com/flex/spark"
 									xmlns:mx="library://ns.adobe.com/flex/mx"
 									xmlns:view="collaboRhythm.plugins.schedule.shared.view.*"
-									xmlns:images="assets.images.*">
+									xmlns:images="assets.images.*"
+									xmlns:view2="collaboRhythm.plugins.medications.view.*">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -59,6 +60,7 @@
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
 		import collaboRhythm.shared.model.services.ICurrentDateSource;
+		import collaboRhythm.shared.model.services.IMedicationColorSource;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
 
 		[Bindable]
@@ -67,6 +69,8 @@
 		private var _medicationScheduleItem:MedicationScheduleItem;
 
 		private var _currentDateSource:ICurrentDateSource;
+		private var _medicationColorSource:IMedicationColorSource;
+
 		[Bindable]
 		private var _medicationName:String;
 		[Bindable]
@@ -75,6 +79,7 @@
 		private var _form:String;
 		[Bindable]
 		private var _proprietaryName:String = "";
+
 
 		public override function init(scheduleItemOccurrence:ScheduleItemOccurrence,
 									  scheduleReportingModel:IScheduleReportingModel, activeAccountId:String,
@@ -102,6 +107,7 @@
 			}
 
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+			_medicationColorSource = WorkstationKernel.instance.resolve(IMedicationColorSource) as IMedicationColorSource;
 			pickImage();
 		}
 
@@ -112,7 +118,19 @@
 
 		private function pickImage():void
 		{
-			medicationImage.source = MedicationFillsModel.MEDICATION_API_URL_BASE + _medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc.text + "-front.png";
+
+			if (_medicationScheduleItem && _medicationScheduleItem.scheduledMedicationOrder && _medicationScheduleItem.scheduledMedicationOrder.medicationFill && _medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc && _medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc.text)
+			{
+				medicationImage.setStyle("loadingImageColor", _medicationColorSource.getMedicationColor(_medicationOrder.medicationFill.ndc.text));
+				if (_medicationScheduleItem.dose.value == "1")
+				{
+					medicationImage.source = MedicationFillsModel.MEDICATION_API_URL_BASE + _medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc.text + "-front.png";
+				}
+				else
+				{
+					medicationImage.source = MedicationFillsModel.MEDICATION_API_URL_BASE + _medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc.text + "-front-" + _medicationScheduleItem.dose.value + ".png";
+				}
+			}
 		}
 
 		private function adherenceButtonClickHandler(event:MouseEvent):void
@@ -199,7 +217,7 @@
 				<s:SolidColor color="0xFFFFFF" alpha="0.4"/>
 			</s:fill>
 			<s:stroke>
-				<s:SolidColorStroke color="0xFFFFFF" weight="1" alpha="0.5"/>
+				<s:SolidColorStroke color="0xFFFFFF" weight="1"/>
 			</s:stroke>
 		</s:Rect>
 		<s:Group left="1" right="1" top="1" bottom="1">
@@ -209,7 +227,7 @@
 						<s:SolidColor color="0xFFFFFF"/>
 					</s:fill>
 				</s:Rect>
-				<s:Image id="medicationImage" left="5" right="5" top="5" bottom="5" smooth="true"
+				<view2:MedicationImage id="medicationImage" left="5" right="5" top="5" bottom="5" smooth="true"
 						 skinClass="collaboRhythm.plugins.medications.view.MedicationImageSkin"/>
 				<!--<s:Ellipse width="22%" height="22%" right="4" top="4">-->
 				<!--<s:fill>-->
