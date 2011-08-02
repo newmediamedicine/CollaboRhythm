@@ -16,14 +16,14 @@
 ~ <http://www.gnu.org/licenses/>.
 -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-         xmlns:s="library://ns.adobe.com/flex/spark"
-         xmlns:mx="library://ns.adobe.com/flex/mx"
-         creationComplete="creationCompleteHandler()"
-         width="100%" height="100%">
-    <fx:Declarations>
-        <!-- Place non-visual elements (e.g., services, value objects) here -->
-    </fx:Declarations>
-    <fx:Script>
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="creationCompleteHandler()"
+		 width="100%" height="100%">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
 		<![CDATA[
 		import collaboRhythm.plugins.schedule.model.ScheduleModel;
 		import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
@@ -67,19 +67,35 @@
 			}
 		}
 
+		// TODO: Reimplement the proper sorting so that the blood pressure measurement is first in the list and that a list is used rather than a vgroup
 		private function updateScheduleItemOccurrences(currentScheduleGroup:ScheduleGroup):void
 		{
 			scheduleItemsGroup.removeAllElements();
+			createScheduleItemReportingViews(currentScheduleGroup, false);
+			createScheduleItemReportingViews(currentScheduleGroup, true);
+		}
+
+		private function createScheduleItemReportingViews(currentScheduleGroup:ScheduleGroup,
+														  excludeEquipmentScheduleItem:Boolean):void
+		{
 			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in currentScheduleGroup.scheduleItemsOccurrencesCollection)
 			{
-				var scheduleItemReportingView:ScheduleItemReportingViewBase = _scheduleModel.viewFactory.createScheduleItemReportingView(scheduleItemOccurrence,
-																																		 _scheduleModel.scheduleReportingModel,
-																																		 _activeAccountId,
-																																		_scheduleReportingModel.handledInvokeEvents);
-				scheduleItemsGroup.addElement(scheduleItemReportingView);
+				if (xor(scheduleItemOccurrence.scheduleItem.name.text == "FORA D15b", excludeEquipmentScheduleItem))
+				{
+					var scheduleItemReportingView:ScheduleItemReportingViewBase = _scheduleModel.viewFactory.createScheduleItemReportingView(scheduleItemOccurrence,
+																																			 _scheduleModel.scheduleReportingModel,
+																																			 _activeAccountId,
+																																			 _scheduleReportingModel.handledInvokeEvents);
+					scheduleItemsGroup.addElement(scheduleItemReportingView);
+				}
 			}
+		}
+
+		public function xor(lhs:Boolean, rhs:Boolean):Boolean
+		{
+			return !( lhs && rhs ) && ( lhs || rhs );
 		}
 		]]>
 	</fx:Script>
-    <s:VGroup id="scheduleItemsGroup" width="100%" height="100%" gap="0"/>
+	<s:VGroup id="scheduleItemsGroup" width="100%" height="100%" gap="0"/>
 </s:Group>

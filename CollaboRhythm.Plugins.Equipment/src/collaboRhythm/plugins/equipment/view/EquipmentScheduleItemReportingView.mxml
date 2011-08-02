@@ -27,11 +27,6 @@
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 
-		.labelText {
-			color: #000000;
-			font-size: 15;
-		}
-
 		#equipmentNameLabel {
 			font-size: 30;
 			font-weight: bold;
@@ -215,8 +210,8 @@
 				</s:Rect>
 				<s:Image id="equipmentImage" width="100%" height="100%" smooth="true"
 						 skinClass="spark.skins.spark.ImageSkin"/>
-				<s:Group width="22%" height="22%" right="4" top="4">
-					<images:BloodPressureScheduleItemClockView/>
+				<s:Group id="parentGroup" width="22%" height="22%" right="4" top="4">
+					<images:BloodPressureScheduleItemClockView width="{parentGroup.width}" height="{parentGroup.height}"/>
 				</s:Group>
 			</s:Group>
 			<s:Group id="descriptionRegion" height="100%" left="{imageRegion.width}" right="{buttonRegion.width}">
@@ -227,7 +222,7 @@
 					<!--TODO: change once indication is available in equipment schema, or use relationship with problem-->
 					<s:Label id="indicationLabel" text="Indication: hypertension"
 							 maxDisplayedLines="1" width="100%" paddingTop="16"/>
-					<s:Label id="instructionsLabel" text="Sit comfortably with feet on the floor"
+					<s:Label id="instructionsLabel" text="{_equipmentScheduleItem.instructions}"
 							 maxDisplayedLines="1" width="100%" paddingTop="16"/>
 				</s:VGroup>
 			</s:Group>

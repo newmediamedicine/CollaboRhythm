@@ -15,11 +15,12 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<view:ScheduleItemClockViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+<sharedViews:ScheduleItemClockViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 								xmlns:s="library://ns.adobe.com/flex/spark"
 								xmlns:mx="library://ns.adobe.com/flex/mx"
-								xmlns:view="collaboRhythm.plugins.schedule.shared.view.*"
-								xmlns:images="assets.images.*">
+								xmlns:sharedViews="collaboRhythm.plugins.schedule.shared.view.*"
+								xmlns:images="assets.images.*"
+								xmlns:view="collaboRhythm.plugins.medications.view.*">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -29,17 +30,23 @@
 		import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+		import collaboRhythm.shared.model.services.IMedicationColorSource;
+		import collaboRhythm.shared.model.services.WorkstationKernel;
 
 		import spark.filters.GlowFilter;
 
 		[Bindable]
 		private var _medicationScheduleItem:MedicationScheduleItem;
 		private var _recurrenceIndex:int;
+		private var _medicationColorSource:IMedicationColorSource;
 
 		public override function init(scheduleItemOccurrence:ScheduleItemOccurrence):void
 		{
 			super.init(scheduleItemOccurrence);
 			_medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
+
+			_medicationColorSource = WorkstationKernel.instance.resolve(IMedicationColorSource) as IMedicationColorSource;
+
 			pickImage();
 		}
 
@@ -51,12 +58,15 @@
 		private function pickImage():void
 		{
 			if (_medicationScheduleItem && _medicationScheduleItem.scheduledMedicationOrder && _medicationScheduleItem.scheduledMedicationOrder.medicationFill && _medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc && _medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc.text)
+			{
+				medicationImage.setStyle("loadingImageColor", _medicationColorSource.getMedicationColor(_medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc.text));
 				medicationImage.source = MedicationFillsModel.MEDICATION_API_URL_BASE + _medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc.text + "-front.png";
+			}
 		}
 		]]>
 	</fx:Script>
 
-	<s:Image id="medicationImage" width="100%" height="100%" smooth="true" skinClass="collaboRhythm.plugins.medications.view.MedicationImageSkin"/>
+	<view:MedicationImage id="medicationImage" width="100%" height="100%" smooth="true" skinClass="collaboRhythm.plugins.medications.view.MedicationImageSkin"/>
 	<s:Group id="adherenceImage" width="70%" height="70%" horizontalCenter="0" verticalCenter="0">
 		<images:check width="{adherenceImage.width}" height="{adherenceImage.height}"
 					  filters="{[new GlowFilter(0x3E9645, 0.8, 10, 10, 10)]}"
@@ -65,4 +75,4 @@
 				  filters="{[new GlowFilter(0xA31E22, 0.8, 10, 10, 10)]}"
 				  visible="{_scheduleItemOccurrence.adherenceItem &amp;&amp; !_scheduleItemOccurrence.adherenceItem.adherence}"/>
 	</s:Group>
-</view:ScheduleItemClockViewBase>
+</sharedViews:ScheduleItemClockViewBase>

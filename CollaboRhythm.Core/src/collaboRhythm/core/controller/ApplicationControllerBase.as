@@ -35,9 +35,11 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
 	import collaboRhythm.shared.model.healthRecord.RecordsHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.SharesHealthRecordService;
+	import collaboRhythm.shared.model.services.DefaultMedicationColorSource;
 	import collaboRhythm.shared.model.services.DemoCurrentDateSource;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
+	import collaboRhythm.shared.model.services.IMedicationColorSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.model.settings.SettingsFileStore;
@@ -199,6 +201,9 @@ package collaboRhythm.core.controller
 			var dateSource:DemoCurrentDateSource = new DemoCurrentDateSource();
 			dateSource.targetDate = _settings.targetDate;
 			_kernel.registerComponentInstance("CurrentDateSource", ICurrentDateSource, dateSource);
+
+			var medicationColorSource:DefaultMedicationColorSource = new DefaultMedicationColorSource();
+			_kernel.registerComponentInstance("MedicationColorSource", IMedicationColorSource, medicationColorSource);
 
 			_componentContainer = new DefaultComponentContainer();
 			_pluginLoader = new PluginLoader();
