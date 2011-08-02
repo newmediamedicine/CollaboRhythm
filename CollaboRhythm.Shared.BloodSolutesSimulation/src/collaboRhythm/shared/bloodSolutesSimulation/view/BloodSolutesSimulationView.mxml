@@ -2151,7 +2151,7 @@
 		{
 			if (!_logger)
 				_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
-			isRunning = true;
+			updateIsRunning();
 		}
 
 		protected function removedFromStageHandler(event:Event):void

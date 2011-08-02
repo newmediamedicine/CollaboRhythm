@@ -364,16 +364,25 @@ package collaboRhythm.core.controller
 		// get the demographics for the active account and all of the sharing accounts
 		private function getDemographics():void
 		{
-			var demographicsHealthRecordService:DemographicsHealthRecordService = new DemographicsHealthRecordService(_settings.oauthChromeConsumerKey,
-																													  _settings.oauthChromeConsumerSecret,
-																													  _settings.indivoServerBaseURL,
-																													  _activeAccount);
+			var demographicsHealthRecordService:DemographicsHealthRecordService =
+					new DemographicsHealthRecordService(_settings.oauthChromeConsumerKey,
+														  _settings.oauthChromeConsumerSecret,
+														  _settings.indivoServerBaseURL,
+														  _activeAccount);
+
+			demographicsHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE, demographicsHealthRecordService_completeHandler, false, 0, true);
 			demographicsHealthRecordService.getDemographics(_activeAccount.primaryRecord);
 
 			for each (var account:Account in _activeAccount.allSharingAccounts)
 			{
 				demographicsHealthRecordService.getDemographics(account.primaryRecord);
 			}
+		}
+
+		private function demographicsHealthRecordService_completeHandler(event:HealthRecordServiceEvent):void
+		{
+			_activeAccount.sharedRecordAccountsCollection.refresh();
+			_activeAccount.isInitialized = true;
 		}
 
 		// Enter the collaboration lobby so that the user can see which other users are online

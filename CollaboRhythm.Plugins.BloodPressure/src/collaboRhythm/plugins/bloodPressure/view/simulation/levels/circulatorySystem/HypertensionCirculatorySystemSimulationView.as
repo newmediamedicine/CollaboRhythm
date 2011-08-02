@@ -26,6 +26,8 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 		private var _circulatorySystemSimulationLoader:Loader = new Loader();
 		private var _circulatorySystemSimulationMovieClip:MovieClip;
 		protected var _logger:ILogger;
+		private var _stopSimulationOnComplete:Boolean = false;
+		private var _loadSimulationOnCreateChildren:Boolean = false;
 
 		public function HypertensionCirculatorySystemSimulationView()
 		{
@@ -39,13 +41,18 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 			this.addChild(_circulatorySystemSimulationLoader);
 			_circulatorySystemSimulationLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, circulatorySystemSimulationLoader_completeHandler);
 			_circulatorySystemSimulationLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, circulatorySystemSimulationLoader_ioErrorHandler)
-			var urlRequest:URLRequest = new URLRequest(CIRCULATORY_SYSTEM_SIMULATION_SWF);
-			_circulatorySystemSimulationLoader.load(urlRequest);
+			if (_loadSimulationOnCreateChildren)
+			{
+				var urlRequest:URLRequest = new URLRequest(CIRCULATORY_SYSTEM_SIMULATION_SWF);
+				_circulatorySystemSimulationLoader.load(urlRequest);
+			}
 		}
 
 		private function circulatorySystemSimulationLoader_completeHandler(event:Event):void
 		{
 			_circulatorySystemSimulationMovieClip = MovieClip(_circulatorySystemSimulationLoader.content);
+			if (_stopSimulationOnComplete)
+				stopAll(_circulatorySystemSimulationMovieClip);
 		}
 
 		private function circulatorySystemSimulationLoader_ioErrorHandler(event:Event):void
@@ -100,5 +107,14 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 			}
 		}
 
+		public function get loadSimulationOnCreateChildren():Boolean
+		{
+			return _loadSimulationOnCreateChildren;
+		}
+
+		public function set loadSimulationOnCreateChildren(value:Boolean):void
+		{
+			_loadSimulationOnCreateChildren = value;
+		}
 	}
 }

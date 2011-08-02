@@ -22,8 +22,11 @@ package collaboRhythm.shared.model
     import j2as3.collection.HashMap;
 
     import mx.collections.ArrayCollection;
+	import mx.events.CollectionEvent;
 
-    [Bindable]
+	import spark.collections.Sort;
+
+	[Bindable]
     public class Account
     {
         public static const COLLABORATION_LOBBY_NOT_CONNECTED:String = "CollaborationLobbyNotConnected";
@@ -46,11 +49,46 @@ package collaboRhythm.shared.model
         private var _recordShareAccounts:HashMap = new HashMap(); // accountId as key
         private var _allSharingAccounts:HashMap = new HashMap(); // accountId as key
         private var _collaborationLobbyConnectionStatus:String = COLLABORATION_LOBBY_NOT_CONNECTED;
+		private var _isInitialized:Boolean;
 
         public function Account()
         {
-
+			var sort:Sort = new Sort();
+			sort.compareFunction = sortCompare;
+			_sharedRecordAccountsCollection.sort = sort;
         }
+
+		/**
+		 * Sort method for Account which orders accounts alphabetically by familyName, givenName of the associated
+		 * contact info in the primary record.
+		 *
+		 * @param objA
+		 * @param objB
+		 * @param fields
+		 * @return
+		 */
+		protected function sortCompare(objA:Object, objB:Object, fields:Array = null):int
+		{
+			var accountA:Account = objA as Account;
+			var accountB:Account = objB as Account;
+			if (accountA && accountA.primaryRecord.contact &&
+					accountB && accountB.primaryRecord.contact)
+			{
+				var accountFullNameA:String = accountA.primaryRecord.contact.familyName + ", " + accountA.primaryRecord.contact.givenName;
+				var accountFullNameB:String = accountB.primaryRecord.contact.familyName + ", " + accountB.primaryRecord.contact.givenName;
+
+				if (accountFullNameA < accountFullNameB)
+				{
+					return -1;
+				}
+				else if (accountFullNameA == accountFullNameB)
+				{
+					return 0;
+				}
+				return 1;
+			}
+			return 0;
+		}
 
         public function get accountId():String
         {
@@ -154,5 +192,19 @@ package collaboRhythm.shared.model
         {
             _collaborationLobbyConnectionStatus = value;
         }
-    }
+
+		/**
+		 * Flag to indicate that the sharedRecordAccountsCollection has been populated and that contact and
+		 * demographics data (if available) for the primary record of each account has been loaded.
+		 */
+		public function get isInitialized():Boolean
+		{
+			return _isInitialized;
+		}
+
+		public function set isInitialized(value:Boolean):void
+		{
+			_isInitialized = value;
+		}
+	}
 }

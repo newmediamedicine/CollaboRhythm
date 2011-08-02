@@ -69,6 +69,7 @@ package collaboRhythm.tablet.controller
 
 		private function connectivityView_quitHandler(event:ConnectivityEvent):void
 		{
+			_logger.info("Application exit by user (via ConnectivityView Quit button)");
 			NativeApplication.nativeApplication.exit();
 		}
 
@@ -197,6 +198,12 @@ package collaboRhythm.tablet.controller
 
 			if (_activeRecordAccount && _activeRecordAccount.primaryRecord && _activeRecordAccount.primaryRecord.demographics)
 				_activeRecordAccount.primaryRecord.demographics.dispatchAgeChangeEvent();
+		}
+
+		public function exitApplication(exitMethod:String):void
+		{
+			_logger.info("Application exit by user (via " + exitMethod + ")");
+			NativeApplication.nativeApplication.exit();
 		}
 	}
 }

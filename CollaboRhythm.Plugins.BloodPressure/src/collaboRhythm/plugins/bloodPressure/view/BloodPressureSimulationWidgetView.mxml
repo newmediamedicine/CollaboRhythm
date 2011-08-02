@@ -78,7 +78,7 @@
 		<circulatorysystem:HypertensionCirculatorySystem2 id="hypertensionCirculatorySystem2"
 														  visible="{hydrochlorothiazideMedicationModel.concentration &lt; SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"
 				/>-->
-		<circulatorysystem:HypertensionCirculatorySystemSimulationView id="circulatorySystemSimulationView" width="360" height="600"/>
+		<circulatorysystem:HypertensionCirculatorySystemSimulationView id="circulatorySystemSimulationView" width="360" height="600" loadSimulationOnCreateChildren="true"/>
 	</s:Group>
 	<!--TODO: determine a better way to make the widget clickable to launch the full view-->
 	<s:Group width="100%" height="100%">

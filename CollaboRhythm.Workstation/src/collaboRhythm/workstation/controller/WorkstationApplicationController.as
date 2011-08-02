@@ -412,18 +412,20 @@ package collaboRhythm.workstation.controller
 				NativeApplication.nativeApplication.dispatchEvent(exitingEvent);
 				if (!exitingEvent.isDefaultPrevented())
 				{
+					_logger.info("Application exit by user (via close window)");
 					NativeApplication.nativeApplication.exit();
 				}
 			}
 		}
 
         // Close the entire application, sending out an event to any processes that might want to interrupt the closing
-		private function applicationExit():void
+		private function applicationExit(exitMethod:String):void
 		{
 			var exitingEvent:Event = new Event(Event.EXITING, false, true);
 			NativeApplication.nativeApplication.dispatchEvent(exitingEvent);
 			if (!exitingEvent.isDefaultPrevented())
 			{
+				_logger.info("Application exit by user (via " + exitMethod + ")");
 				NativeApplication.nativeApplication.exit();
 			}
 		}
@@ -669,7 +671,7 @@ package collaboRhythm.workstation.controller
 			// If the user presses escape, close the entire application
 			if (event.keyCode == Keyboard.ESCAPE)
 			{
-				applicationExit();
+				applicationExit("escape key");
 			}
 			else if (event.keyCode == Keyboard.F11)
 			{
