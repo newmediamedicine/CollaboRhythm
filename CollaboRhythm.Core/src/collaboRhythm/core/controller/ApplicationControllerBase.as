@@ -370,7 +370,10 @@ package collaboRhythm.core.controller
 
 			for each (var account:Account in _activeAccount.allSharingAccounts)
 			{
-				demographicsHealthRecordService.getDemographics(account.primaryRecord);
+				if (account.primaryRecord)
+					demographicsHealthRecordService.getDemographics(account.primaryRecord);
+				else
+					_logger.warn("Record from account " + account.accountId + " is not available (probably not shared) to account " + _activeAccount.accountId + ". You may need to share this record.");
 			}
 		}
 

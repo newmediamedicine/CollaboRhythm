@@ -144,6 +144,7 @@
 						<s:DropShadowFilter blurX="11" blurY="11" alpha="0.32" distance="5" 
 											angle="90" color="0x000000" />
 					</s:filters>
+					<!--TODO: use the Account.imageURI here-->
 					<mx:Image source="{_user.contact.imageURI}" width="300" height="300" smoothBitmapContent="true"/>
 				</s:BorderContainer>
 

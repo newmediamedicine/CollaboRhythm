@@ -39,6 +39,8 @@ package collaboRhythm.shared.model
 		public static const COLLABORATION_ROOM_ENTERED:String = "CollaborationRoomEntered";
 		public static const COLLABORATION_ROOM_JOINED:String = "CollaborationRoomJoined";
 
+		public static const ACCOUNT_IMAGES_API_URL_BASE:String = "http://www.mit.edu/~jom/temp/accountImages/";
+
         private var _accountId:String;
         private var _oauthAccountToken:String;
         private var _oauthAccountTokenSecret:String;
@@ -205,6 +207,16 @@ package collaboRhythm.shared.model
 		public function set isInitialized(value:Boolean):void
 		{
 			_isInitialized = value;
+		}
+
+		public function get imageURI():String
+		{
+			return accountIdPrefix ? ACCOUNT_IMAGES_API_URL_BASE + accountIdPrefix + ".jpg" : null;
+		}
+
+		private function get accountIdPrefix():String
+		{
+			return _accountId ? _accountId.split("@")[0] : null;
 		}
 	}
 }

@@ -23,8 +23,6 @@ package collaboRhythm.shared.model
 	[Bindable]
 	public class Contact
 	{
-		private const ACCOUNT_IMAGES_API_URL_BASE:String = "http://www.mit.edu/~jom/temp/accountImages/";
-
 		private var _fullName:String;
         private var _givenName:String;
         private var _familyName:String;
@@ -43,9 +41,6 @@ package collaboRhythm.shared.model
 				givenName = contactXml.name.givenName;
             if (contactXml.name.hasOwnProperty("familyName"))
 				familyName = contactXml.name.familyName;
-
-            this.dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, "userName", null, this.userName));
-			this.dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, "imageURI", null, this.imageURI));
         }
 
         public function get fullName():String
@@ -78,28 +73,18 @@ package collaboRhythm.shared.model
             _familyName = value;
         }
 		
-		public function get userName():String
+		private function get userName():String
 		{
-			//			return _userName;
+			// TODO: eliminate this hack for guessing the username from the first and last name
 			if (givenName != null && familyName != null)
 				return givenName.substr(0, 1).toLowerCase() + familyName.toLowerCase();
 			else
 				return null;
 		}
 		
-		public function set userName(value:String):void
-		{
-			throw new IllegalOperationError("userName is read-only");
-		}
-
 		public function get imageURI():String
 		{
-			return userName ? ACCOUNT_IMAGES_API_URL_BASE + userName + ".jpg" : null;
-		}
-		
-		public function set imageURI(value:String):void
-		{
-			throw new IllegalOperationError("imageURI is read-only");
+			return userName ? Account.ACCOUNT_IMAGES_API_URL_BASE + userName + ".jpg" : null;
 		}
     }
 }
