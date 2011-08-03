@@ -32,7 +32,15 @@ package collaboRhythm.shared.model.services
 			{key: "000771", value: 0x84a7a8},
 			{key: "000544299", value: 0xadafb5},
 			{key: "000319", value: 0xd5d5d5},
-			{key: "000279", value: 0xfdac81}
+			{key: "000279", value: 0xfdac81},
+			{key: "s00185028101", value: 0xcabdb7},
+			{key: "0093511898", value: 0x0f5d4a},
+			{key: "0093736598", value: 0x9fb996},
+			{key: "s0011460385R", value: 0xde9a87},
+			{key: "s00069154041", value: 0xd3b690},
+			{key: "s00186108805", value: 0xb8aca9},
+			{key: "s00228282011", value: 0xb49c67},
+			{key: "s00068067861", value: 0xd9d4d0}
 		];
 
 		private var _medicationColorsDictionary:Dictionary = new Dictionary();
