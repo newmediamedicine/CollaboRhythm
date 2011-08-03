@@ -2,6 +2,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 {
 
 	import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
+	import collaboRhythm.shared.view.BitmapCopyComponent;
 
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
@@ -27,7 +28,8 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 		private var _circulatorySystemSimulationMovieClip:MovieClip;
 		protected var _logger:ILogger;
 		private var _stopSimulationOnComplete:Boolean = false;
-		private var _loadSimulationOnCreateChildren:Boolean = false;
+		private var _loadSimulationOnCreateChildren:Boolean = true;
+		private var _loadSimulationOnShow:Boolean = false;
 
 		public function HypertensionCirculatorySystemSimulationView()
 		{
@@ -42,6 +44,23 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 			_circulatorySystemSimulationLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, circulatorySystemSimulationLoader_completeHandler);
 			_circulatorySystemSimulationLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, circulatorySystemSimulationLoader_ioErrorHandler)
 			if (_loadSimulationOnCreateChildren)
+			{
+				loadMovieClip();
+			}
+		}
+
+		override public function setVisible(value:Boolean, noEvent:Boolean = false):void
+		{
+			if (_loadSimulationOnShow && value)
+			{
+				loadMovieClip();
+			}
+			super.setVisible(value, noEvent);
+		}
+
+		private function loadMovieClip():void
+		{
+			if (!_circulatorySystemSimulationMovieClip)
 			{
 				var urlRequest:URLRequest = new URLRequest(CIRCULATORY_SYSTEM_SIMULATION_SWF);
 				_circulatorySystemSimulationLoader.load(urlRequest);
@@ -115,6 +134,44 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 		public function set loadSimulationOnCreateChildren(value:Boolean):void
 		{
 			_loadSimulationOnCreateChildren = value;
+		}
+
+		var _bitmapCopy:BitmapCopyComponent;
+
+		public function removeMovieClipLoader():Loader
+		{
+			if (_circulatorySystemSimulationMovieClip)
+			{
+				_bitmapCopy = BitmapCopyComponent.createFromComponent(this);
+				this.addChild(_bitmapCopy);
+				_circulatorySystemSimulationLoader.parent.removeChild(_circulatorySystemSimulationLoader);
+				var loader:Loader = _circulatorySystemSimulationLoader;
+				_circulatorySystemSimulationMovieClip = null;
+				_circulatorySystemSimulationLoader = null;
+				return loader;
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+		public function injectMovieClipLoader(movieClipLoader:Loader):void
+		{
+			if (_circulatorySystemSimulationLoader)
+			{
+				_circulatorySystemSimulationLoader.parent.removeChild(_circulatorySystemSimulationLoader);
+			}
+
+			if (_bitmapCopy)
+			{
+				_bitmapCopy.parent.removeChild(_bitmapCopy);
+				_bitmapCopy = null;
+			}
+
+			this.addChild(movieClipLoader);
+			_circulatorySystemSimulationLoader = movieClipLoader;
+			_circulatorySystemSimulationMovieClip = movieClipLoader.content as MovieClip;
 		}
 	}
 }

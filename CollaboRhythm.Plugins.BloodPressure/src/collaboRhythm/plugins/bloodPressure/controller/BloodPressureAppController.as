@@ -26,7 +26,13 @@ package collaboRhythm.plugins.bloodPressure.controller
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 
+	import flash.display.Loader;
+
+	import flash.display.MovieClip;
+
 	import mx.core.UIComponent;
+
+	import spark.primitives.Rect;
 
 	public class BloodPressureAppController extends WorkstationAppControllerBase
 	{
@@ -160,6 +166,12 @@ package collaboRhythm.plugins.bloodPressure.controller
 			}
 		}
 
+		override public function showFullView(startRect:Rect):void
+		{
+			super.showFullView(startRect);
+			moveMovieClipToFullView();
+		}
+
 		override protected function showFullViewComplete():void
 		{
 			_fullView.simulationView.isRunning = true;
@@ -168,6 +180,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 		override protected function hideFullViewComplete():void
 		{
 			_fullView.simulationView.isRunning = false;
+			moveMovieClipToWidgetView();
 		}
 
 		override public function destroyViews():void
@@ -189,6 +202,28 @@ package collaboRhythm.plugins.bloodPressure.controller
 				_activeRecordAccount.primaryRecord.bloodPressureModel.record = null;
 
 			_activeRecordAccount.primaryRecord.bloodPressureModel = new BloodPressureModel();
+		}
+
+		private function moveMovieClipToFullView():void
+		{
+			var bloodPressureSimulationWidgetView:BloodPressureSimulationWidgetView = (_widgetView as BloodPressureSimulationWidgetView);
+			if (_fullView && bloodPressureSimulationWidgetView)
+			{
+				var loader:Loader = bloodPressureSimulationWidgetView.circulatorySystemSimulationView.removeMovieClipLoader();
+				if (loader)
+					_fullView.simulationView.hypertensionCirculatorySystemGroup.circulatorySystemSimulationView.injectMovieClipLoader(loader);
+			}
+		}
+
+		private function moveMovieClipToWidgetView():void
+		{
+			var bloodPressureSimulationWidgetView:BloodPressureSimulationWidgetView = (_widgetView as BloodPressureSimulationWidgetView);
+			if (_fullView && bloodPressureSimulationWidgetView)
+			{
+				var loader:Loader = _fullView.simulationView.hypertensionCirculatorySystemGroup.circulatorySystemSimulationView.removeMovieClipLoader();
+				if (loader)
+					bloodPressureSimulationWidgetView.circulatorySystemSimulationView.injectMovieClipLoader(loader);
+			}
 		}
 	}
 }
