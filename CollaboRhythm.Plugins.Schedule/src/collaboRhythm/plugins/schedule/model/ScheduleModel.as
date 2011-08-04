@@ -194,7 +194,7 @@ package collaboRhythm.plugins.schedule.model
 			adherenceItem.pendingAction = DocumentBase.ACTION_CREATE;
 			_record.addDocument(adherenceItem);
 			_record.addNewRelationship(ScheduleItemBase.RELATION_TYPE_ADHERENCE_ITEM, scheduleItemOccurrence.scheduleItem, adherenceItem);
-			for each (var adherenceResult in adherenceItem.adherenceResults)
+			for each (var adherenceResult:DocumentBase in adherenceItem.adherenceResults)
 			{
 				adherenceResult.pendingAction = DocumentBase.ACTION_CREATE;
 				_record.addDocument(adherenceResult);
@@ -204,7 +204,7 @@ package collaboRhythm.plugins.schedule.model
 
 		public function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void
 		{
-			_record.removeDocument(scheduleItemOccurrence.adherenceItem, DocumentBase.ACTION_VOID, "deleted by user");
+			_record.removeDocument(scheduleItemOccurrence.adherenceItem, DocumentBase.ACTION_VOID, "deleted by user", true);
 			scheduleItemOccurrence.adherenceItem = null;
 		}
 

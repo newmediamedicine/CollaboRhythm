@@ -446,8 +446,7 @@ package collaboRhythm.shared.model
 				currentDocumentsById.remove(document.meta.id);
 			}
 
-			// TODO: remove relationships from record
-//			removeNewRelationship()
+			removeNewRelationshipsForDocument(document);
 			document.clearRelationships();
 
 			if (document.pendingAction == DocumentBase.ACTION_CREATE)
@@ -469,6 +468,18 @@ package collaboRhythm.shared.model
 				{
 					return 0;
 				}
+			}
+		}
+
+		private function removeNewRelationshipsForDocument(document:IDocument):void
+		{
+			for each (var relationship:Relationship in document.isRelatedFrom)
+			{
+				removeNewRelationship(relationship);
+			}
+			for each (relationship in document.relatesTo)
+			{
+				removeNewRelationship(relationship);
 			}
 		}
 
