@@ -446,6 +446,8 @@ package collaboRhythm.shared.model
 				currentDocumentsById.remove(document.meta.id);
 			}
 
+			// TODO: remove relationships from record
+//			removeNewRelationship()
 			document.clearRelationships();
 
 			if (document.pendingAction == DocumentBase.ACTION_CREATE)
