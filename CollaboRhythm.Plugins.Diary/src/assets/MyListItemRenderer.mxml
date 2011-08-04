@@ -1,0 +1,20 @@
+<s:ItemRenderer
+    xmlns:fx="http://ns.adobe.com/mxml/2009"
+    xmlns:s="library://ns.adobe.com/flex/spark">
+    
+    <s:states>
+        <s:State name="normal"/>
+        <s:State name="hovered"/>
+        <s:State name="selected" />
+    </s:states>
+    
+    <s:layout>
+        <s:VerticalLayout/>
+    </s:layout>
+    
+    <s:HGroup verticalAlign="middle" paddingTop="0" paddingBottom="0">
+        <s:Image source="{data.photo}" width="50" height="40" alpha.hovered=".5" skinClass="spark.skins.spark.ImageSkin"/>
+        <s:Label text="{data.name}" color.hovered="0x1313cd" color.selected="0x000000" verticalAlign="bottom"/>
+    </s:HGroup>
+    
+</s:ItemRenderer>

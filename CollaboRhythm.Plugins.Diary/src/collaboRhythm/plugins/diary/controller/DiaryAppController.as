@@ -17,7 +17,6 @@
 package collaboRhythm.plugins.diary.controller
 {
 
-import collaboRhythm.plugins.diary.model.DiaryEntry;
 import collaboRhythm.plugins.diary.model.DiaryModel;
 	import collaboRhythm.plugins.diary.view.DiaryButtonWidgetView;
 	import collaboRhythm.plugins.diary.view.DiaryFullView;
@@ -25,13 +24,12 @@ import collaboRhythm.plugins.diary.model.DiaryModel;
 	import collaboRhythm.shared.controller.apps.AppEvent;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 
-	import mx.core.UIComponent;
+import mx.core.UIComponent;
 
 	public class DiaryAppController extends WorkstationAppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Diary";
 
-        public var _diaryEntries:Vector.<DiaryEntry> = new Vector.<DiaryEntry>;
 		private var _diaryModel:DiaryModel;
 		private var _widgetView:DiaryButtonWidgetView;
 		private var _fullView:DiaryFullView;
@@ -145,5 +143,23 @@ import collaboRhythm.plugins.diary.model.DiaryModel;
             hideFullView();
         }
 
+/*
+        public function diaryPusherFunction():void {
+            var numberOfEntries:Number = _diaryModel.diaryEntries.length;
+            var diaryEntriesInfo:SharedObject = SharedObject.getLocal('diaryInfo');
+            diaryEntriesInfo.data.numberOfEntries = numberOfEntries;
+            for (var i:Number = 0; i < _diaryModel.diaryEntries.length; i++) {
+                var hostName:String = "diaryEntry" + i;
+                var date:Date = _diaryModel.diaryEntries[i].date;
+                var text:String = _diaryModel.diaryEntries[i].text;
+                var sharedInfo:SharedObject = SharedObject.getLocal(hostName);
+                sharedInfo.data.date = date;
+                sharedInfo.data.text = text;
+                trace(sharedInfo.data.date = date);
+                trace(sharedInfo.data.text = text);
+                trace(diaryEntriesInfo.data.numberOfEntries)
+            }
+        }
+*/
 	}
 }

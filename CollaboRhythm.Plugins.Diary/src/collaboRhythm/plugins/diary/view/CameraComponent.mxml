@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+		<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         width="100%" height="100%"
+         remove="removeHandler(event)"
+         creationComplete="creationCompleteHandler(event)">
+    <fx:Script>
+        <![CDATA[
+
+        import mx.events.FlexEvent;
+
+        public var cam:Camera;
+        private var frontCamera:Boolean;
+        public var _photoImage:BitmapData;
+        public var pictureTaken:Boolean = false;
+
+            [Bindable]
+			 public var numCams:int;
+            [Bindable]
+			 public var vid:Video;
+
+            protected var array:Array;
+
+            protected function onCamera1():void
+            {
+                cam = Camera.getCamera("0");
+                cam.setMode(width, height, 10);
+                vid = new Video(this.width,500);
+                vid.attachCamera(cam);
+                uic.addChild(vid);
+                currentState = "cameraOnState";
+                dispatchEvent(new CameraEvent(CameraEvent.CAMERA_ON));
+                frontCamera = false
+            }
+
+            protected function onCamera2():void
+            {
+                if (numCams == 2)
+                {
+                    if (!frontCamera) {
+                        cam = Camera.getCamera("1"); // it's recommended to access the camera by it's array index
+                        cam.setMode(width, height, 10);
+                        vid = new Video(this.width, 500);
+                        vid.attachCamera(cam);
+                        uic.addChild(vid);
+                        frontCamera = true;
+                    }
+                    else if (frontCamera) {
+                        cam = Camera.getCamera("0");
+                        cam.setMode(width, height, 10);
+                        vid = new Video(this.width,500);
+                        vid.attachCamera(cam);
+                        uic.addChild(vid);
+                        frontCamera = false;
+                    }
+                }
+            }
+
+            private function disableCameraClickHandler(event:MouseEvent):void {
+                remove();
+            }
+
+        private function removeHandler(event:FlexEvent):void {
+            vid = null;
+            cam = null;
+        }
+
+        private function creationCompleteHandler(event:FlexEvent):void {
+            if (Camera.isSupported) {
+                var name1:String;
+                var name2:String;
+
+                array = Camera.names;
+                numCams = array.length;
+                name1 = array[0];
+                name2 = array[1];
+            }
+        }
+
+        public function remove():void {
+            vid.attachCamera(null);
+            vid=null;
+            cam=null;
+            currentState = "cameraOffState";
+            pictureText.text = '';
+            dispatchEvent(new CameraEvent(CameraEvent.CAMERA_OFF));
+        }
+
+        private function takePictureHandler(event:MouseEvent):void {
+            pictureText.text = '';
+            _photoImage = new BitmapData(vid.width, vid.height);
+            _photoImage.draw(vid);
+            pictureTaken = true;
+            pictureText.text = "A picture has been taken"
+        }
+
+        ]]>
+    </fx:Script>
+
+    <s:states>
+        <s:State name="cameraOffState"/>
+        <s:State name="cameraOnState"/>
+    </s:states>
+
+    <s:VGroup  width="100%" height="100%" horizontalAlign="center">
+        <s:HGroup>
+            <s:Button label.cameraOffState="Turn on camera" label.cameraOnState="Turn off camera" fontSize="20"
+                      click.cameraOffState="onCamera1()" click.cameraOnState="disableCameraClickHandler(event)"
+                      visible="{Camera.isSupported}"/>
+            <s:Button label="Toggle cameras" click="onCamera2()" fontSize="20" visible.cameraOffState="false" enabled="{numCams==2}"/>
+        </s:HGroup>
+        <s:VideoDisplay id="uic" width="100%" height="100%" visible.cameraOffState="false" horizontalCenter="0"/>
+        <s:HGroup>
+            <s:Button label="Take Picture" visible.cameraOffState="false" fontSize="20"
+                      click="takePictureHandler(event)"/>
+            <s:Label id="pictureText" color="green" fontSize="18"/>
+        </s:HGroup>
+    </s:VGroup>
+</s:Group>

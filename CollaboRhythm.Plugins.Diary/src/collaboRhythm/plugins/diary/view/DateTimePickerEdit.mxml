@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--- Simple Date and Time picker control
+      Flex has a lot of great controls, but there is no
+      date AND time picker. This simple control solves
+      that problem.
+      http://joelhooks.com
+      joelhooks@gmail.com
+      edited by Christian Nguyen for spark-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:view="collaboRhythm.plugins.diary.view.*"
+         width="100%" height="100%">
+
+    <fx:Metadata>
+        [Event("change", type="flash.events.Event")]
+    </fx:Metadata>
+
+    <fx:Script>
+        <![CDATA[
+        public var minuteIncrement:int = 5;
+
+        private var _selectedDate:Date = new Date();
+
+        public function get selectedDate():Date {
+            return _selectedDate;
+        }
+
+        [Bindable]
+        public function set selectedDate(value:Date):void {
+            _selectedDate = value;
+            invalidateProperties();
+        }
+
+        protected override function commitProperties():void {
+            super.commitProperties();
+
+            if (date.selectedDate != _selectedDate) {
+                date.selectedDate = _selectedDate;
+
+                updateAmPm();
+                updateHours();
+                updateMinutes();
+
+                dispatchEvent(new Event(Event.CHANGE));
+            }
+        }
+
+        protected function updateAmPm():void {
+            if (_selectedDate.getHours() >= 12) {
+
+
+                ampm.label = "PM";
+                currentState = "pm";
+            }
+            else {
+                ampm.label = "AM";
+                currentState = "am";
+            }
+        }
+
+        protected function updateHours():void {
+            if (_selectedDate.getHours() < 13)
+                hours.value = _selectedDate.getHours();
+            else
+                hours.value = _selectedDate.getHours() - 12;
+
+            if (_selectedDate.getHours() == 0)
+                hours.value = 12;
+        }
+
+        protected function updateMinutes():void {
+            minutes.value = _selectedDate.getMinutes();
+        }
+
+        protected function handleChange():void {
+            selectedDate = prepareDate();
+            invalidateProperties();
+        }
+
+        protected function prepareDate():Date {
+            var militaryHours:int = hours.value;
+            if (currentState == "pm" && hours.value != 12)
+                militaryHours = hours.value + 12;
+            else if (currentState == "am" && hours.value == 12)
+                militaryHours = 0;
+            var selDate:Date = date.selectedDate;
+            var date:Date = new Date(
+                    selDate.getFullYear(),
+                    selDate.getMonth(),
+                    selDate.getDate(),
+                    militaryHours,
+                    minutes.value);
+            if (minutes.value < 10) {
+                minutes.textDisplay.text = "0" + minutes.value;
+            }
+            return date;
+        }
+
+        private function ampmClickHandler(event:MouseEvent):void {
+            if (currentState == "am") {
+                ampm.label = "PM";
+                currentState = "pm";
+            }
+            else {
+                ampm.label = "AM";
+                currentState = "am";
+            }
+        }
+
+        private function minuteChangeHandler(event:Event):void {
+            if (minutes.value < 10) {
+                minutes.textDisplay.text = "0" + minutes.value;
+            }
+        }
+        ]]>
+    </fx:Script>
+
+    <s:states>
+        <s:State name="am"/>
+        <s:State name="pm"/>
+    </s:states>
+
+    <fx:Style>
+        .mystyle {
+            fontSize: 30;
+            selectioncolor: #ccccff;
+        }
+    </fx:Style>
+    <fx:Declarations>
+        <mx:DateFormatter id="minuteFormatter" formatString="minutes:NN"/>
+    </fx:Declarations>
+
+    <s:HGroup>
+        <s:VGroup gap="0">
+            <s:Spacer height="14"/>
+            <view:EditedDateField id="date" change="handleChange()"
+                                 styleName="mystyle" todayColor="0x99ff99"
+                                 height="46"/>
+            <s:Spacer height="27"/>
+        </s:VGroup>
+
+        <s:NumericStepper id="hours" minimum="1" maximum="12" stepSize="1" valueCommit="handleChange()"
+                          textAlign="center"
+                          fontSize="30" allowValueWrap="true"
+                          skinClass="collaboRhythm.plugins.diary.Skins.StepperCustomSkin"
+                          height="104"/>
+        <s:VGroup gap="0">
+            <s:Spacer height="14"/>
+            <s:Label text=":" verticalAlign="middle" fontSize="30"
+                     height="50"/>
+            <s:Spacer height="27"/>
+        </s:VGroup>
+        <s:NumericStepper id="minutes" minimum="0" maximum="55" stepSize="{minuteIncrement}"
+                          valueCommit="handleChange()" textAlign="center"
+                          fontSize="30" allowValueWrap="true"
+                          skinClass="collaboRhythm.plugins.diary.Skins.StepperCustomSkin"
+                          height="104" change="minuteChangeHandler(event)" focusOut="minuteChangeHandler(event)"/>
+        <s:VGroup gap="0">
+            <s:Spacer height="14"/>
+            <s:Button id="ampm" label="{}" click="ampmClickHandler(event)" fontSize="50" verticalCenter="0"
+                      height="46"/>
+            <s:Spacer height="27"/>
+        </s:VGroup>
+    </s:HGroup>
+</s:Group>

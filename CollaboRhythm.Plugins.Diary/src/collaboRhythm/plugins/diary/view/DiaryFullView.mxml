@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--~
+		<!--~
   ~ Copyright 2011 John Moore, Scott Gilroy
   ~
   ~ This file is part of CollaboRhythm.
@@ -17,54 +17,571 @@
   -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 xmlns:views="collaboRhythm.plugins.diary.view.*"
-		 width="100%" height="100%">
-	<fx:Style>
-		@namespace s "library://ns.adobe.com/flex/spark";
-
-		.diaryText {
-			font-size: 50;
-		}
-
-	</fx:Style>
+         xmlns:views="collaboRhythm.plugins.diary.view.*"
+         hide="clearEntries()"
+		 width="100%" height="100%"
+         creationComplete="allowedEntries()">
 	<fx:Script><![CDATA[
-		import collaboRhythm.plugins.diary.controller.DiaryAppController;
-		import collaboRhythm.plugins.diary.model.DiaryEntry;
-		import collaboRhythm.plugins.diary.model.DiaryModel;
-		import collaboRhythm.shared.model.services.ICurrentDateSource;
-		import collaboRhythm.shared.model.services.WorkstationKernel;
-		import collaboRhythm.shared.view.NumberPad;
+        import collaboRhythm.plugins.diary.controller.DiaryAppController;
+        import collaboRhythm.plugins.diary.model.ActivityLevelEntry;
+        import collaboRhythm.plugins.diary.model.BowelEntry;
+        import collaboRhythm.plugins.diary.model.CleaningEntry;
+        import collaboRhythm.plugins.diary.model.DiaryEntry;
+        import collaboRhythm.plugins.diary.model.DiaryModel;
+        import collaboRhythm.plugins.diary.model.DrainEntry;
+        import collaboRhythm.plugins.diary.model.DressingEntry;
+        import collaboRhythm.plugins.diary.model.FoodDrinkEntry;
+        import collaboRhythm.plugins.diary.model.OtherEntry;
+        import collaboRhythm.plugins.diary.model.PRNMedsEntry;
+        import collaboRhythm.plugins.diary.model.PainEntry;
+        import collaboRhythm.plugins.diary.model.UrineEntry;
+        import collaboRhythm.plugins.diary.model.VomitingEntry;
 
-		private var _diaryAppController:DiaryAppController;
-		private var _diaryModel:DiaryModel;
+        [Embed(source="../../../../assets/images/DiaryIcon.jpg")]
+        private var diaryImage:Class;
+        [Embed(source="../../../../assets/images/UrineIcon.jpg")]
+        private var urineImage:Class;
+        [Embed(source="../../../../assets/images/PainIcon.jpg")]
+        private var painImage:Class;
+        [Embed(source="../../../../assets/images/BowelIcon.gif")]
+        private var bowelImage:Class;
+        [Embed(source="../../../../assets/images/FoodDrinkIcon.jpg")]
+        private var foodDrinkImage:Class;
+        [Embed(source="../../../../assets/images/DrainIcon.jpg")]
+        private var drainImage:Class;
+        [Embed(source="../../../../assets/images/PRNIcon.jpg")]
+        private var prnImage:Class;
+        [Embed(source="../../../../assets/images/WashingIcon.jpg")]
+        private var washingImage:Class;
+        [Embed(source="../../../../assets/images/ActivityIcon.gif")]
+        private var activityImage:Class;
+        [Embed(source="../../../../assets/images/DressingIcon.jpg")]
+        private var dressingImage:Class;
+        [Embed(source="../../../../assets/images/VomitingIcon.jpg")]
+        private var vomitingImage:Class;
 
-		private var _currentDateSource:ICurrentDateSource;
+        public var allowedList:Array = ["Diary", "Food/ Drink", "Vomit", "PRN Meds", "Pain Level", "Dressing", "Drain Output",
+                                        "Urine Level", "Bowel Movement", "Washing", "Activity Level", "Other"];
 
-		public function init(diaryAppController:DiaryAppController, diaryModel:DiaryModel):void
-		{
-			_diaryAppController = diaryAppController;
-			_diaryModel = diaryModel;
 
-			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
-		}
 
-		private function submitButton_clickHandler():void
-		{
-			if (textInput.text != "")
-			{
-				var diaryEntry:DiaryEntry = new DiaryEntry(_currentDateSource.now(), textInput.text);
-				_diaryModel.addNewDiaryEntry(diaryEntry);
-			}
-		}
-		]]></fx:Script>
+
+        public function allowedEntries():void {
+            listEvents.removeAll();
+            for (var i:Number=0; i < allowedList.length; i++) {
+                if (allowedList[i] == "Diary") {
+                    listEvents.addItem(diary)
+                }
+                if (allowedList[i] == "Urine Level") {
+                    listEvents.addItem(urineLevel)
+                }
+                if (allowedList[i] == "Drain Output") {
+                    listEvents.addItem(drainOutput)
+                }
+                if (allowedList[i] == "Pain Level") {
+                    listEvents.addItem(painLevel)
+                }
+                if (allowedList[i] == "Bowel Movement") {
+                    listEvents.addItem(bowelMovement)
+                }
+                if (allowedList[i] == "Food/ Drink") {
+                    listEvents.addItem(foodDrink)
+                }
+                if (allowedList[i] == "PRN Meds") {
+                    listEvents.addItem(prnMeds)
+                }
+                if (allowedList[i] == "Washing") {
+                    listEvents.addItem(washing)
+                }
+                if (allowedList[i] == "Activity Level") {
+                    listEvents.addItem(activityLevel)
+                }
+                if (allowedList[i] == "Dressing") {
+                    listEvents.addItem(dressing)
+                }
+                if (allowedList[i] == "Vomit") {
+                    listEvents.addItem(vomit)
+                }
+                if (allowedList[i] == "Other") {
+                    listEvents.addItem(other)
+                }
+            }
+        }
+        private var _diaryAppController:DiaryAppController;
+        private var _diaryModel:DiaryModel;
+        public function init(diaryAppController:DiaryAppController, diaryModel:DiaryModel):void {
+            _diaryAppController = diaryAppController;
+            _diaryModel = diaryModel;
+            var diaryEntriesInfo:SharedObject = SharedObject.getLocal('diaryInfo');
+            for (var i:Number = 0; i<diaryEntriesInfo.data.numberOfEntries; i++){
+                var entryIndex:String = 'diaryEntry' + i;
+                var sharedInfo:SharedObject = SharedObject.getLocal(entryIndex);
+                trace(sharedInfo.data.date);
+                trace(sharedInfo.data.text);
+
+                var diaryEntry:DiaryEntry = new DiaryEntry(sharedInfo.data.date, sharedInfo.data.text);
+                _diaryModel.addNewDiaryEntry(diaryEntry);
+                trace(_diaryModel.diaryEntries.length);
+            }
+
+        }
+
+        private function submitButtonClickHandler(event:MouseEvent):void {
+            if (eventList.selectedItem.label == 'Diary') {
+                if (selectDate.selectedDate == null) {
+                    alertText.text = "Select date";
+                }
+                else {
+                    diaryEntryStateView.submit();
+                    alertText.text = diaryEntryStateView.alertText;
+                }
+                if (diaryEntryStateView.pass) {
+                    var diaryEntry:DiaryEntry = new DiaryEntry(selectDate.selectedDate, diaryEntryStateView.submit1);
+                    _diaryModel.addNewDiaryEntry(diaryEntry);
+                    /*clearEntries();*/
+                    _diaryAppController.closeDiaryEntry();
+                }
+            }
+            else if (eventList.selectedItem.label == 'Urine Level') {
+                if (selectDate.selectedDate == null) {
+                    alertText.text = 'Select date';
+                }
+                else {
+                    urineLevelStateView.submit();
+                    alertText.text = urineLevelStateView.alertText;
+                }
+                if (urineLevelStateView.pass) {
+                    var urineEntry:UrineEntry = new UrineEntry(selectDate.selectedDate, urineLevelStateView.submit1, urineLevelStateView.submit2, urineLevelStateView.submit3);
+                    _diaryModel.addNewUrineEntry(urineEntry);
+                    /*clearEntries();*/
+                    _diaryAppController.closeDiaryEntry();
+                }
+            }
+            else if (eventList.selectedItem.label == 'Pain Level') {
+                if (selectDate.selectedDate == null) {
+                    alertText.text = 'Select date';
+                }
+                else {
+                    painLevelStateView.submit();
+                    alertText.text = painLevelStateView.alertText;
+                }
+                if (painLevelStateView.pass) {
+                    var painEntry:PainEntry = new PainEntry(selectDate.selectedDate, painLevelStateView.submit1, painLevelStateView.submit2, painLevelStateView.submit3);
+                    _diaryModel.addNewPainEntry(painEntry);
+                    /*clearEntries();*/
+                    _diaryAppController.closeDiaryEntry();
+                }
+            }
+            else if (eventList.selectedItem.label == 'Bowel Movement') {
+                if (selectDate.selectedDate == null) {
+                    alertText.text = 'Select date';
+                }
+                else {
+                    bowelEntryStateView.submit();
+                    alertText.text = bowelEntryStateView.alertText;
+                }
+                if (bowelEntryStateView.pass){
+                    var bowelEntry:BowelEntry = new BowelEntry(selectDate.selectedDate, bowelEntryStateView.submit1, bowelEntryStateView.submit2);
+                    _diaryModel.addNewBowelEntry(bowelEntry);
+                    /*clearEntries();*/
+                    _diaryAppController.closeDiaryEntry();
+                }
+            }
+            else if (eventList.selectedItem.label == 'Food/ Drink') {
+                if (selectDate.selectedDate == null) {
+                    alertText.text = 'Select date';
+                }
+                else {
+                    foodDrinkStateView.submit();
+                    alertText.text = foodDrinkStateView.alertText;
+                }
+                if (foodDrinkStateView.pass){
+                    var foodDrinkEntry:FoodDrinkEntry = new FoodDrinkEntry(selectDate.selectedDate, foodDrinkStateView.submit1);
+                    _diaryModel.addNewFoodDrinkEntry(foodDrinkEntry);
+                    /*clearEntries();*/
+                    _diaryAppController.closeDiaryEntry();
+                }
+            }
+            else if (eventList.selectedItem.label == 'Drain Output') {
+                if (selectDate.selectedDate == null) {
+                    alertText.text = 'Select date';
+                }
+                else {
+                    drainLevelStateView.submit();
+                    alertText.text = drainLevelStateView.alertText;
+                }
+                if (drainLevelStateView.pass){
+                    var drainEntry:DrainEntry = new DrainEntry(selectDate.selectedDate, drainLevelStateView.submit1, drainLevelStateView.submit2);
+                    _diaryModel.addNewDrainEntry(drainEntry);
+                    /*clearEntries();*/
+                    _diaryAppController.closeDiaryEntry();
+                }
+            }
+            else if (eventList.selectedItem.label == 'PRN Meds') {
+                if (selectDate.selectedDate == null) {
+                    alertText.text = 'Select date';
+                }
+                else {
+                    prnMedsStateView.submit();
+                    alertText.text = prnMedsStateView.alertText;
+                }
+                if (prnMedsStateView.pass){
+                    var prnMedsEntry:PRNMedsEntry = new PRNMedsEntry(selectDate.selectedDate, prnMedsStateView.submit1, prnMedsStateView.submit2, prnMedsStateView.submit3);
+                    _diaryModel.addNewPRNMedsEntry(prnMedsEntry);
+                    /*clearEntries();*/
+                    _diaryAppController.closeDiaryEntry();
+                }
+            }
+            else if (eventList.selectedItem.label == 'Washing'){
+                if (selectDate.selectedDate == null) {
+                    alertText.text = 'Select date';
+                }
+                else {
+                    cleaningStateView.submit();
+                    alertText.text = cleaningStateView.alertText;
+                }
+                if (cleaningStateView.pass){
+                    var cleaningEntry:CleaningEntry = new CleaningEntry(selectDate.selectedDate, cleaningStateView.submit1, cleaningStateView.submit2);
+                    _diaryModel.addNewCleaningEntry(cleaningEntry);
+                    /*clearEntries();*/
+                    _diaryAppController.closeDiaryEntry();
+                }
+            }
+            else if (eventList.selectedItem.label == 'Activity Level'){
+                if (selectDate.selectedDate == null) {
+                    alertText.text = 'Select date';
+                }
+                else{
+                    activityLevelStateView.submit();
+                    alertText.text = activityLevelStateView.alertText;
+                }
+                if (activityLevelStateView.pass){
+                    var activityLevelEntry:ActivityLevelEntry = new ActivityLevelEntry(selectDate.selectedDate, activityLevelStateView.submit1);
+                    _diaryModel.addNewActivityLevelEntry(activityLevelEntry);
+                    /*clearEntries();*/
+                    _diaryAppController.closeDiaryEntry();
+                }
+            }
+            else if (eventList.selectedItem.label == 'Dressing'){
+                if (selectDate.selectedDate == null) {
+                    alertText.text = 'Select date';
+                }
+                else{
+                    dressingEntryStateView.submit();
+                    alertText.text = dressingEntryStateView.alertText;
+                }
+                if (dressingEntryStateView.pass){
+                    var dressingEntry:DressingEntry = new DressingEntry(selectDate.selectedDate, dressingEntryStateView.submit1, dressingEntryStateView.submit2);
+                    _diaryModel.addNewDressingEntry(dressingEntry);
+                    /*clearEntries();*/
+                    _diaryAppController.closeDiaryEntry();
+                }
+            }
+            else if (eventList.selectedItem.label == 'Vomit') {
+                if (selectDate.selectedDate == null) {
+                    alertText.text = 'Select date' ;
+                }
+                else{
+                    vomitingEntryStateView.submit();
+                    alertText.text = vomitingEntryStateView.alertText;
+                }
+                if (vomitingEntryStateView.pass){
+                    var vomitingEntry:VomitingEntry = new VomitingEntry(selectDate.selectedDate, vomitingEntryStateView.submit1, vomitingEntryStateView.submit2);
+                    _diaryModel.addNewVomitingEntry(vomitingEntry);
+                    /*clearEntries();*/
+                    _diaryAppController.closeDiaryEntry();
+                }
+            }
+            else {
+                if (selectDate.selectedDate == null) {
+                    alertText.text = 'Select date';
+                }
+                else {
+                    otherStateView.submit();
+                    alertText.text = otherStateView.alertText;
+                }
+                if (otherStateView.pass){
+                    var otherEntry:OtherEntry = new OtherEntry(selectDate.selectedDate, otherStateView.submit1, otherStateView.submit2);
+                    _diaryModel.addNewOtherEntry(otherEntry);
+                    /*clearEntries();*/
+                    _diaryAppController.closeDiaryEntry();
+                }
+            }
+        }
+
+        private function cancelButtonClickHandler(event:MouseEvent):void {
+            /*clearEntries();*/
+            _diaryAppController.closeDiaryEntry();
+        }
+
+        private function eventChangeHandler(event:MouseEvent):void {
+            if (eventList.selectedItem.label == 'Diary') {
+                helpText.text = 'Please fill in your Diary entry:';
+                alertText.text = '';
+                currentState = "diaryEntryState";
+            }
+            else if (eventList.selectedItem.label == 'Urine Level') {
+                helpText.text = 'Please fill in your Urine Level entry';
+                alertText.text = '';
+                currentState = "urineLevelState";
+                urineLevelStateView.numberPad.visible = false;
+
+            }
+            else if (eventList.selectedItem.label == 'Pain Level') {
+                helpText.text = 'Please fill in your Pain Level entry';
+                alertText.text = '';
+                currentState = "painLevelState";
+            }
+            else if (eventList.selectedItem.label == 'Bowel Movement') {
+                helpText.text = 'Please fill in your Bowel Movement entry';
+                alertText.text = '';
+                currentState = "bowelMovementState";
+            }
+            else if (eventList.selectedItem.label == 'Food/ Drink') {
+                helpText.text = 'Please fill in your Food and Drink entry';
+                alertText.text = '';
+                currentState = "foodDrinkState";
+            }
+            else if (eventList.selectedItem.label == 'Drain Output') {
+                helpText.text = 'Please fill in your Drain Level entry';
+                alertText.text = '';
+                currentState = "drainLevelState";
+                drainLevelStateView.numberPad.visible = false;
+
+            }
+            else if (eventList.selectedItem.label == 'PRN Meds') {
+                helpText.text = 'Please fill in your PRN Medication entry';
+                alertText.text = '';
+                currentState = "prnMedsState";
+                prnMedsStateView.numberPad.visible = false;
+            }
+            else if (eventList.selectedItem.label == 'Washing'){
+                helpText.text = 'Please fill in your Washing entry';
+                alertText.text = '';
+                currentState = "cleaningState";
+            }
+            else if (eventList.selectedItem.label == 'Activity Level'){
+                helpText.text = 'Please fill in your Activity Level entry';
+                alertText.text = '';
+                currentState = "activityLevelState";
+            }
+            else if (eventList.selectedItem.label == 'Dressing'){
+                helpText.text = 'Comment on the appearance';
+                alertText.text = '';
+                currentState = "dressingState";
+            }
+            else if (eventList.selectedItem.label == 'Vomit') {
+                helpText.text = 'Please fill in your Vomit Entry';
+                alertText.text = '';
+                currentState = "vomitingEntryState";
+            }
+
+            else {
+                helpText.text = 'Please fill in your entry';
+                alertText.text = '';
+                currentState = "otherState";
+            }
+
+        }
+
+        private function clearEntries():void {
+            currentState = 'checkState';
+            eventList.selectedIndex = 0;
+            helpText.text = 'Please fill in your Diary entry:';
+            alertText.text = '';
+            if (diary) {
+                diaryEntryStateView.clear();
+            }
+            if (urineLevel) {
+                urineLevelStateView.clear();
+            }
+            if (painLevel) {
+                currentState = "painLevelState";
+                painLevelStateView.clear();
+                currentState = "checkState";
+            }
+            if (bowelMovement) {
+                bowelEntryStateView.clear();
+            }
+            if (foodDrink) {
+                foodDrinkStateView.clear();
+            }
+            if (drainOutput) {
+                drainLevelStateView.clear();
+            }
+            if (prnMeds){
+                prnMedsStateView.clear();
+            }
+            if (washing) {
+                cleaningStateView.clear();
+            }
+            if (activityLevel){
+                activityLevelStateView.clear();
+            }
+            if (dressing) {
+                dressingEntryStateView.clear();
+            }
+            if (vomit){
+                vomitingEntryStateView.clear();
+            }
+            if (other){
+                otherStateView.clear();
+            }
+            currentState = "diaryEntryState";
+        }
+
+        ]]></fx:Script>
+
+    <s:states>
+        <s:State name="diaryEntryState"/>
+        <s:State name="urineLevelState"/>
+        <s:State name="painLevelState"/>
+        <s:State name="bowelMovementState"/>
+        <s:State name="foodDrinkState"/>
+        <s:State name="drainLevelState"/>
+        <s:State name="prnMedsState"/>
+        <s:State name="cleaningState"/>
+        <s:State name="activityLevelState"/>
+        <s:State name="dressingState"/>
+        <s:State name="vomitingEntryState"/>
+        <s:State name="otherState"/>
+        <s:State name="checkState"/>
+
+    </s:states>
 
 	<s:Rect width="100%" height="100%">
 		<s:fill>
-			<s:SolidColor color="0xCCCCCC"/>
+			<s:SolidColor color="0xcccccc"/>
 		</s:fill>
-	</s:Rect>
-	<s:RichEditableText id="textInput" left="10" right="10" top="10" height="50%" color="0x000000" backgroundColor="0xFFFFFF" styleName="diaryText"/>
-	<s:Button label="Submit Diary Entry" left="10" right="10" bottom="10" height="60"
-			  click="submitButton_clickHandler()" styleName="diaryText"/>
+    </s:Rect>
+    <s:Group visible.checkState="false" height="100%" width="100%">
+        <s:HGroup width="100%" height="100%" gap="0" visible.checkState="false">
+            <s:Spacer width="5%"/>
+                <s:VGroup height="100%" width="90%" gap="0">
+                    <s:Spacer height="5%"/>
+                        <s:VGroup height="90%" width="100%">
+                            <s:TabBar id="eventList" width="100%" height="10%" fontSize="14" selectedIndex="0"
+                                       click="eventChangeHandler(event)" enabled="true"
+                                      skinClass="collaboRhythm.plugins.diary.Skins.CustomTabBarSkin"><!--dataProvider="{listEvents}"-->
+                                <s:dataProvider>
+                                    <s:ArrayCollection id="listEvents">
+                                        <s:source>
+                                            <fx:Object id="diary" label="Diary" icon="{diaryImage}"/>
+                                            <fx:Object id="urineLevel" label="Urine Level" icon="{urineImage}"/>
+                                            <fx:Object id="drainOutput" label="Drain Output" icon="{drainImage}"/>
+                                            <fx:Object id="painLevel" label="Pain Level" icon="{painImage}"/>
+                                            <fx:Object id="bowelMovement" label="Bowel Movement" icon="{bowelImage}"/>
+                                            <fx:Object id="foodDrink" label="Food/ Drink" icon="{foodDrinkImage}"/>
+                                            <fx:Object id="prnMeds" label="PRN Meds" icon="{prnImage}"/>
+                                            <fx:Object id="washing" label="Washing" icon="{washingImage}"/>
+                                            <fx:Object id="activityLevel" label="Activity Level" icon="{activityImage}"/>
+                                            <fx:Object id="dressing" label="Dressing" icon="{dressingImage}"/>
+                                            <fx:Object id="vomit" label="Vomit" icon="{vomitingImage}"/>
+                                            <fx:Object id="other" label="Other" icon="{diaryImage}"/>
+                                        </s:source>
+                                    </s:ArrayCollection>
+                                </s:dataProvider>
+                            </s:TabBar>
+                            <s:Label id="helpText" text="{'Please fill in your Diary entry:'}" fontSize="30"
+                                     width="100%" height="5%"/>
+                            <s:Group height="85%" width="100%">
+                                <!--timestamp and submit-->
+                                <s:VGroup height="100%" width="100%">
+                                    <s:Group height="41%" width="100%">
+                                        <s:Spacer height="100%" width="100%"/>
+                                    </s:Group>
+                                    <s:Spacer height="5%"/>
+                                    <s:HGroup height="9%" width="100%">
+                                        <s:Spacer width="100%"/>
+
+                                            <views:DateTimePickerEdit id="selectDate"/>
+
+                                    </s:HGroup>
+                                    <s:Spacer height="20%"/>
+                                    <s:HGroup height="5%" width="100%">
+                                        <s:Spacer width="100%"/>
+                                        <s:Label id="alertText" height="100%" fontSize="30" color="red"/>
+                                    </s:HGroup>
+                                    <s:HGroup height="20%" width="100%">
+                                        <s:Spacer width="100%"/>
+                                        <s:Button id="addEntry" height="100%" label="Submit" fontSize="40" skinClass="collaboRhythm.plugins.diary.Skins.confirmSkin"
+                                                  click="submitButtonClickHandler(event)"/>
+                                    </s:HGroup>
+                                </s:VGroup>
+
+                                <s:Group id="entryStates" height="100%" width="100%">
+                                    <s:Group includeIn="diaryEntryState, checkState" visible.checkState="false" height="100%" width="100%">
+                                        <views:DiaryEntryStateView id="diaryEntryStateView" height="100%" width="100%"/>
+                                    </s:Group>
+
+                                    <s:Group includeIn="urineLevelState, checkState" visible.checkState="false" height="100%" width="100%">
+                                        <views:UrineLevelStateView id="urineLevelStateView" height="100%" width="100%"/>
+                                    </s:Group>
+
+                                    <s:Group includeIn="painLevelState, checkState" visible.checkState="false" height="100%" width="100%">
+                                        <views:PainLevelStateView id="painLevelStateView" height="100%" width="100%"/>
+                                    </s:Group>
+
+                                    <s:Group includeIn="bowelMovementState, checkState" visible.checkState="false" height="100%" width="100%" right="0">
+                                        <views:BowelEntryStateView id="bowelEntryStateView" width="100%" height="100%"/>
+                                    </s:Group>
+
+                                    <s:Group includeIn="foodDrinkState, checkState" visible.checkState="false" height="100%" width="100%">
+                                        <views:FoodDrinkStateView id="foodDrinkStateView" width="100%" height="100%"/>
+                                    </s:Group>
+
+                                    <s:Group includeIn="drainLevelState, checkState" visible.checkState="false" height="100%" width="100%">
+                                        <views:DrainLevelStateView id="drainLevelStateView" width="100%" height="100%"/>
+                                    </s:Group>
+
+                                    <s:Group includeIn="prnMedsState, checkState" visible.checkState="false" height="100%" width="100%">
+                                        <views:PRNMedsStateView id="prnMedsStateView" width="100%" height="100%"/>
+                                    </s:Group>
+
+                                    <s:Group includeIn="cleaningState, checkState" visible.checkState="false" height="100%" width="100%">
+                                        <views:CleaningStateView id="cleaningStateView" width="100%" height="100%"/>
+                                    </s:Group>
+
+                                    <s:Group includeIn="activityLevelState, checkState" visible.checkState="false" height="100%" width="100%">
+                                        <views:ActivityLevelStateView id="activityLevelStateView" width="100%" height="100%"/>
+                                    </s:Group>
+
+                                    <s:Group includeIn="dressingState, checkState" visible.checkState="false" height="100%" width="100%">
+                                        <views:DressingEntryStateView id="dressingEntryStateView" width="100%" height="100%"/>
+                                    </s:Group>
+
+                                    <s:Group includeIn="vomitingEntryState, checkState" visible.checkState="false" height="100%" width="100%">
+                                        <views:VomitingEntryStateView id="vomitingEntryStateView" width="100%" height="100%"/>
+                                    </s:Group>
+
+                                    <s:Group includeIn="otherState, checkState" visible.checkState="false" height="100%" width="100%">
+                                        <views:OtherStateView id="otherStateView" height="100%" width="100%"/>
+                                    </s:Group>
+
+                                </s:Group>
+
+                            </s:Group>
+                      </s:VGroup>
+                    <s:Spacer height="5%"/>
+                </s:VGroup>
+            <s:Spacer width="5%"/>
+        </s:HGroup>
+
+        <s:HGroup width="100%" height="100%" gap="0" visible="false" visible.checkState="false">
+            <s:Spacer width="5%"/>
+            <s:Group width="90%" height="100%">
+                <s:VGroup height="100%" width="100%" gap="0">
+                    <s:Spacer height="5%"/>
+                    <s:Group height="90%" width="100%">
+                        <s:VGroup height="100%" width="100%">
+
+
+                        </s:VGroup>
+                    </s:Group>
+                    <s:Spacer height="5%"/>
+                </s:VGroup>
+            </s:Group>
+            <s:Spacer width="5%"/>
+        </s:HGroup>
+    </s:Group>
 </s:Group>
