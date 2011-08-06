@@ -16,7 +16,7 @@
  */
 package collaboRhythm.core.model
 {
-
+	[Bindable]
     public class ApplicationControllerModel
     {
         public static const CREATE_SESSION_STATUS_ATTEMPTING:String = "Logging in to health record";
@@ -24,6 +24,9 @@ package collaboRhythm.core.model
         public static const CREATE_SESSION_STATUS_FAILED:String = "Failed to log into health record - check internet connection";
 
         private var _createSessionStatus:String;
+		private var _isLoading:Boolean;
+		private var _hasErrors:Boolean;
+		private var _errorMessage:String;
 
 		public function ApplicationControllerModel()
         {
@@ -38,5 +41,35 @@ package collaboRhythm.core.model
         {
             _createSessionStatus = value;
         }
-    }
+
+		public function get isLoading():Boolean
+		{
+			return _isLoading;
+		}
+
+		public function set isLoading(value:Boolean):void
+		{
+			_isLoading = value;
+		}
+
+		public function get hasErrors():Boolean
+		{
+			return _hasErrors;
+		}
+
+		public function set hasErrors(value:Boolean):void
+		{
+			_hasErrors = value;
+		}
+
+		public function get errorMessage():String
+		{
+			return _errorMessage;
+		}
+
+		public function set errorMessage(value:String):void
+		{
+			_errorMessage = value;
+		}
+	}
 }

@@ -75,7 +75,7 @@ package collaboRhythm.shared.model.healthRecord
 
             if (_apiCallsCompleted == 4)
             {
-                dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE));
+                dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE, event));
             }
         }
 	}

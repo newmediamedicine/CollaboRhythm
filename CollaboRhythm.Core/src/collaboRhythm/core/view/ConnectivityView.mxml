@@ -28,9 +28,9 @@
 		<s:State name="unexpectedErrorsSaving"/>
 	</s:states>
 	<fx:Metadata>
-		[Event(name="retry", type="collaboRhythm.tablet.view.ConnectivityEvent")]
-		[Event(name="quit", type="collaboRhythm.tablet.view.ConnectivityEvent")]
-		[Event(name="ignore", type="collaboRhythm.tablet.view.ConnectivityEvent")]
+		[Event(name="retry", type="collaboRhythm.core.view.ConnectivityEvent")]
+		[Event(name="quit", type="collaboRhythm.core.view.ConnectivityEvent")]
+		[Event(name="ignore", type="collaboRhythm.core.view.ConnectivityEvent")]
 	</fx:Metadata>
 	<fx:Declarations>
 		<s:Resize id="detailsShowEffect" target="detailsTextArea" heightTo="{DETAILS_TEXT_AREA_HEIGHT}"/>
@@ -64,13 +64,15 @@
 
 	</fx:Style>
 	<fx:Script><![CDATA[
+		import collaboRhythm.core.view.ConnectivityEvent;
+
 		public static const CONNECT_IN_PROGRESS_STATE:String = "connectInProgress";
 		public static const CONNECT_FAILED_STATE:String = "connectFailed";
 		public static const CONNECTION_ERRORS_SAVING_STATE:String = "connectionErrorsSaving";
 		public static const UNEXPECTED_ERRORS_SAVING_STATE:String = "unexpectedErrorsSaving";
 		private static const DETAILS_TEXT_AREA_HEIGHT:Number = 200;
 
-		[Embed("../../../assets/swfs/buffering.swf")]
+		[Embed("../../../../../CollaboRhythm.Tablet/src/assets/swfs/buffering.swf")]
 		[Bindable]
 		public var bufferingAnimation:Class;
 		private var _isLoading:Boolean;

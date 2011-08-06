@@ -2,7 +2,7 @@
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:mx="library://ns.adobe.com/flex/mx"
-		xmlns:views="collaboRhythm.tablet.view.*"
+		xmlns:views="collaboRhythm.tablet.view.*" xmlns:view="collaboRhythm.core.view.*"
 		actionBarVisible="false"
 		creationComplete="creationCompleteHandler()">
 	<s:states>
@@ -101,15 +101,21 @@
 		}
 		]]></fx:Script>
 	<views:ActiveRecordView id="activeRecordView" width="100%" height="100%" visible="false"/>
-	<views:ConnectivityView id="connectivityView" width="100%" height="100%" visible="false"/>
+	<view:ConnectivityView id="connectivityView" width="100%" height="100%" visible="false"/>
 	<s:viewMenuItems>
-		<s:ViewMenuItem label="{createDemoDateLabel(_isCreationComplete, 0)}" includeIn="debuggingToolsEnabled" click="demoDateMenuItem_clickHandler(0)"/>
-		<s:ViewMenuItem label="{createDemoDateLabel(_isCreationComplete, 1)}" includeIn="debuggingToolsEnabled" click="demoDateMenuItem_clickHandler(1)"/>
-		<s:ViewMenuItem label="{createDemoDateLabel(_isCreationComplete, 2)}" includeIn="debuggingToolsEnabled" click="demoDateMenuItem_clickHandler(2)"/>
-		<s:ViewMenuItem label="{createDemoDateLabel(_isCreationComplete, 3)}" includeIn="debuggingToolsEnabled" click="demoDateMenuItem_clickHandler(3)"/>
-		<s:ViewMenuItem label="Demo Mode Off" includeIn="debuggingToolsEnabled" click="demoModeOffMenuItem_clickHandler()"/>
+		<s:ViewMenuItem label="{createDemoDateLabel(_isCreationComplete, 0)}" includeIn="debuggingToolsEnabled"
+						click="demoDateMenuItem_clickHandler(0)"/>
+		<s:ViewMenuItem label="{createDemoDateLabel(_isCreationComplete, 1)}" includeIn="debuggingToolsEnabled"
+						click="demoDateMenuItem_clickHandler(1)"/>
+		<s:ViewMenuItem label="{createDemoDateLabel(_isCreationComplete, 2)}" includeIn="debuggingToolsEnabled"
+						click="demoDateMenuItem_clickHandler(2)"/>
+		<s:ViewMenuItem label="{createDemoDateLabel(_isCreationComplete, 3)}" includeIn="debuggingToolsEnabled"
+						click="demoDateMenuItem_clickHandler(3)"/>
+		<s:ViewMenuItem label="Demo Mode Off" includeIn="debuggingToolsEnabled"
+						click="demoModeOffMenuItem_clickHandler()"/>
 		<s:ViewMenuItem label="Synchronize" click="synchronizeMenuItem_clickHandler()"/>
-		<s:ViewMenuItem label="Reload Plugins" includeIn="debuggingToolsEnabled" click="reloadPluginsViewMenuItem_clickHandler()"/>
+		<s:ViewMenuItem label="Reload Plugins" includeIn="debuggingToolsEnabled"
+						click="reloadPluginsViewMenuItem_clickHandler()"/>
 		<s:ViewMenuItem label="Quit" id="quitButton" click="quitButton_clickHandler(event)"/>
 	</s:viewMenuItems>
 </s:View>

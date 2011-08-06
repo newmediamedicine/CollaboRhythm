@@ -24,6 +24,8 @@ package collaboRhythm.core.controller
 	import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
 	import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
 	import collaboRhythm.core.pluginsManagement.PluginLoader;
+	import collaboRhythm.core.view.ConnectivityEvent;
+	import collaboRhythm.core.view.ConnectivityView;
 	import collaboRhythm.shared.controller.CollaborationController;
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	import collaboRhythm.shared.model.Account;
@@ -32,6 +34,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.model.healthRecord.AccountInformationHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.CreateSessionHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.DemographicsHealthRecordService;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
 	import collaboRhythm.shared.model.healthRecord.RecordsHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.SharesHealthRecordService;
@@ -46,24 +49,24 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.view.CollaborationView;
 
 	import com.coltware.airxlib.log.TCPSyslogTarget;
-
 	import com.daveoncode.logging.LogFileTarget;
 
+	import flash.desktop.NativeApplication;
 	import flash.events.Event;
 	import flash.filesystem.File;
 	import flash.net.NetworkInfo;
 	import flash.net.NetworkInterface;
-	import flash.system.Security;
-	import flash.system.System;
 	import flash.utils.getQualifiedClassName;
 
 	import mx.binding.utils.BindingUtils;
-
+	import mx.collections.ArrayCollection;
 	import mx.core.IVisualElementContainer;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 	import mx.logging.LogEventLevel;
 	import mx.logging.targets.TraceTarget;
+
+	import org.indivo.client.IndivoClientEvent;
 
 	public class ApplicationControllerBase
 	{
@@ -86,6 +89,10 @@ package collaboRhythm.core.controller
 
 		private var _pendingReloadData:Boolean;
 
+		protected var _connectivityView:ConnectivityView;
+		private var _pendingServices:ArrayCollection = new ArrayCollection();
+		private var failedRequestEvent:HealthRecordServiceEvent;
+
 		public function ApplicationControllerBase()
 		{
 		}
@@ -95,6 +102,9 @@ package collaboRhythm.core.controller
 		public function main():void
 		{
 			_applicationControllerModel = new ApplicationControllerModel();
+			_applicationControllerModel.isLoading = true;
+			BindingUtils.bindSetter(applicationControllerModel_isLoadingChangeHandler, _applicationControllerModel, "isLoading");
+			BindingUtils.bindSetter(applicationControllerModel_hasErrorsChangeHandler, _applicationControllerModel, "hasErrors");
 
 			initSettings();
 
@@ -119,6 +129,16 @@ package collaboRhythm.core.controller
 			// the activeAccount is that which is actively in session with the Indivo server, there can only be one active account at a time
 			// create an instance of this model class before creating a session so that the results are tracked by that instance
 			_activeAccount = new Account();
+		}
+
+		private function applicationControllerModel_isLoadingChangeHandler(value:Boolean):void
+		{
+			updateConnectivityView();
+		}
+
+		private function applicationControllerModel_hasErrorsChangeHandler(value:Boolean):void
+		{
+			updateConnectivityView();
 		}
 
 		private function initSettings():void
@@ -248,11 +268,18 @@ package collaboRhythm.core.controller
 																														 _settings.oauthChromeConsumerSecret,
 																														 _settings.indivoServerBaseURL,
 																														 _activeAccount);
+			addPendingService(createSessionHealthRecordService);
 			createSessionHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE,
 															  createSessionSucceededHandler);
-			createSessionHealthRecordService.addEventListener(HealthRecordServiceEvent.ERROR,
+			createSessionHealthRecordService.addEventListener(HealthRecordServiceEvent.FAILED,
 															  createSessionFailedHandler);
 			createSessionHealthRecordService.createSession(_settings.username, _settings.password);
+		}
+
+		protected function addPendingService(service:HealthRecordServiceBase):void
+		{
+			_pendingServices.addItem(service);
+			_applicationControllerModel.isLoading = true;
 		}
 
 		private function createSessionSucceededHandler(event:HealthRecordServiceEvent):void
@@ -269,6 +296,8 @@ package collaboRhythm.core.controller
 
 			// get the records for the account actively in session, this includes records that have been shared with the account
 			getRecords();
+
+			removePendingService(event.target);
 		}
 
 		private function createSessionFailedHandler(event:HealthRecordServiceEvent):void
@@ -276,6 +305,17 @@ package collaboRhythm.core.controller
 			// TODO: add UI feedback for when creating a session fails
 			_logger.info("Creating session in Indivo - FAILED - " + event.errorStatus);
 			_applicationControllerModel.createSessionStatus = ApplicationControllerModel.CREATE_SESSION_STATUS_FAILED;
+			handleServiceFailed(event,
+								"Failed to authenticate with health record service. Check settings and internet connection and try again.");
+		}
+
+		protected function handleServiceFailed(event:HealthRecordServiceEvent, errorMessage:String):void
+		{
+			// TODO: distinguish between (1) connection/stream errors, (2) permission errors (bad credentials), and (3) unexpected errors
+			_applicationControllerModel.errorMessage = errorMessage;
+			_applicationControllerModel.hasErrors = true;
+			failedRequestEvent = event;
+			removePendingService(event.target);
 		}
 
 		/**
@@ -308,8 +348,12 @@ package collaboRhythm.core.controller
 																									   _settings.indivoServerBaseURL,
 																									   _activeAccount,
 																									   _settings);
+			addPendingService(recordsHealthRecordService);
+
 			recordsHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE,
 														getRecordsCompleteHandler);
+			recordsHealthRecordService.addEventListener(HealthRecordServiceEvent.FAILED,
+														getRecordsFailedHandler);
 			recordsHealthRecordService.getRecords();
 		}
 
@@ -331,6 +375,14 @@ package collaboRhythm.core.controller
 				// get the demographics for the active account all of the shared records
 				getDemographics();
 			}
+			removePendingService(event.target);
+		}
+
+		private function getRecordsFailedHandler(event:HealthRecordServiceEvent):void
+		{
+			_applicationControllerModel.errorMessage = "Failed to get records.";
+			_applicationControllerModel.hasErrors = true;
+			removePendingService(event.target);
 		}
 
 		// if the application is in patient mode, get the accounts with which the primary record of the active account is shared
@@ -342,8 +394,11 @@ package collaboRhythm.core.controller
 																									_settings.oauthChromeConsumerSecret,
 																									_settings.indivoServerBaseURL,
 																									_activeAccount);
+			addPendingService(sharesHealthRecordService);
 			sharesHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE,
 													   getSharesCompleteHandler);
+			sharesHealthRecordService.addEventListener(HealthRecordServiceEvent.FAILED,
+													   getSharesFailedHandler);
 			sharesHealthRecordService.getShares(_activeAccount.primaryRecord);
 		}
 
@@ -359,6 +414,15 @@ package collaboRhythm.core.controller
 
 			// get the demographics for the active account
 			getDemographics();
+
+			removePendingService(event.target);
+		}
+
+		private function getSharesFailedHandler(event:HealthRecordServiceEvent):void
+		{
+			_applicationControllerModel.errorMessage = "Failed to get shares.";
+			_applicationControllerModel.hasErrors = true;
+			removePendingService(event.target);
 		}
 
 		// get the demographics for the active account and all of the sharing accounts
@@ -370,7 +434,10 @@ package collaboRhythm.core.controller
 														  _settings.indivoServerBaseURL,
 														  _activeAccount);
 
+			addPendingService(demographicsHealthRecordService);
 			demographicsHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE, demographicsHealthRecordService_completeHandler, false, 0, true);
+			// TODO: add support to DemographicsHealthRecordService for failing and retrying; currently, this event is not being dispatched
+			demographicsHealthRecordService.addEventListener(HealthRecordServiceEvent.FAILED, demographicsHealthRecordService_failedHandler, false, 0, true);
 			demographicsHealthRecordService.getDemographics(_activeAccount.primaryRecord);
 
 			for each (var account:Account in _activeAccount.allSharingAccounts)
@@ -386,6 +453,33 @@ package collaboRhythm.core.controller
 		{
 			_activeAccount.sharedRecordAccountsCollection.refresh();
 			_activeAccount.isInitialized = true;
+			removePendingService(event.target);
+		}
+
+		private function demographicsHealthRecordService_failedHandler(event:HealthRecordServiceEvent):void
+		{
+			_applicationControllerModel.errorMessage = "Failed to load demographics.";
+			_applicationControllerModel.hasErrors = true;
+			removePendingService(event.target);
+		}
+
+		private function removePendingService(service:Object):void
+		{
+			var index:int = _pendingServices.getItemIndex(service);
+			if (index != -1)
+			{
+				_pendingServices.removeItemAt(index);
+			}
+
+			checkPendingServices();
+		}
+
+		private function checkPendingServices():void
+		{
+			if (_applicationControllerModel.isLoading && _pendingServices.length == 0)
+			{
+				_applicationControllerModel.isLoading = false;
+			}
 		}
 
 		// Enter the collaboration lobby so that the user can see which other users are online
@@ -542,6 +636,7 @@ package collaboRhythm.core.controller
 		 */
 		protected function serviceIsLoading_changeHandler(isLoading:Boolean):void
 		{
+			updateConnectivityView();
 		}
 
 		/**
@@ -549,6 +644,7 @@ package collaboRhythm.core.controller
 		 */
 		protected function serviceHasConnectionErrorsSaving_changeHandler(hasConnectionErrorsSaving:Boolean):void
 		{
+			updateConnectivityView();
 		}
 
 		/**
@@ -556,6 +652,7 @@ package collaboRhythm.core.controller
 		 */
 		protected function serviceHasUnexpectedErrorsSaving_changeHandler(hasUnexpectedErrorsSaving:Boolean):void
 		{
+			updateConnectivityView();
 		}
 
 		/**
@@ -573,6 +670,7 @@ package collaboRhythm.core.controller
 				}
 			}
 			_serviceIsSavingPrevious = isSaving;
+			updateConnectivityView();
 		}
 
 		/**
@@ -580,6 +678,7 @@ package collaboRhythm.core.controller
 		 */
 		protected function collaborationLobbyIsConnecting_changeHandler(isConnecting:Boolean):void
 		{
+			updateConnectivityView();
 		}
 
 		/**
@@ -587,6 +686,7 @@ package collaboRhythm.core.controller
 		 */
 		protected function collaborationLobbyHasConnectionFailed_changeHandler(failedConnection:Boolean):void
 		{
+			updateConnectivityView();
 		}
 
 		/**
@@ -611,6 +711,112 @@ package collaboRhythm.core.controller
 				else
 					reloadData();
 			}
+		}
+
+		protected function updateConnectivityView():void
+		{
+			if (_connectivityView)
+			{
+				// TODO: perhaps we should have different states for saving vs loading
+				_connectivityView.isLoading = _healthRecordServiceFacade && _healthRecordServiceFacade.isLoading;
+				_connectivityView.isSaving = _healthRecordServiceFacade && _healthRecordServiceFacade.isSaving;
+
+				var connectivityState:String;
+				if (_applicationControllerModel && _applicationControllerModel.isLoading)
+				{
+					connectivityState = ConnectivityView.CONNECT_IN_PROGRESS_STATE;
+					_connectivityView.detailsMessage = "Connecting to health record server...";
+				}
+				else if (_applicationControllerModel && _applicationControllerModel.hasErrors)
+				{
+					connectivityState = ConnectivityView.CONNECT_FAILED_STATE;
+					_connectivityView.detailsMessage = "Connection to health record server failed. You will not be able to access your health record until this is resolved. " + _applicationControllerModel.errorMessage;
+				}
+				else if (_collaborationLobbyNetConnectionService && _collaborationLobbyNetConnectionService.isConnecting)
+				{
+					connectivityState = ConnectivityView.CONNECT_IN_PROGRESS_STATE;
+					_connectivityView.detailsMessage = "Connecting to collaboration server...";
+				}
+				else if (_healthRecordServiceFacade && _healthRecordServiceFacade.isLoading)
+				{
+					connectivityState = ConnectivityView.CONNECT_IN_PROGRESS_STATE;
+					_connectivityView.detailsMessage = "Loading data from health record server...";
+				}
+				else if (_healthRecordServiceFacade && _healthRecordServiceFacade.isSaving)
+				{
+					connectivityState = ConnectivityView.CONNECT_IN_PROGRESS_STATE;
+					_connectivityView.detailsMessage = "Saving data to health record server...";
+				}
+				else if (_healthRecordServiceFacade && _healthRecordServiceFacade.hasConnectionErrorsSaving)
+				{
+					connectivityState = ConnectivityView.CONNECTION_ERRORS_SAVING_STATE;
+					_connectivityView.detailsMessage = "Connection to health record server failed. " + _healthRecordServiceFacade.errorsSavingSummary;
+				}
+				else if (_healthRecordServiceFacade && _healthRecordServiceFacade.hasUnexpectedErrorsSaving)
+				{
+					connectivityState = ConnectivityView.UNEXPECTED_ERRORS_SAVING_STATE;
+					_connectivityView.detailsMessage = "Unexpected errors occurred while saving changes to health record server. " + _healthRecordServiceFacade.errorsSavingSummary;
+				}
+				else if (_collaborationLobbyNetConnectionService && _collaborationLobbyNetConnectionService.hasConnectionFailed)
+				{
+					connectivityState = ConnectivityView.CONNECT_FAILED_STATE;
+					_connectivityView.detailsMessage = "Connection to collaboration server failed. You will not be able to access video messages or synchronization messages if data is changed from another device.";
+				}
+
+				if (connectivityState)
+					_connectivityView.setCurrentState(connectivityState);
+
+				_connectivityView.visible = connectivityState != null;
+			}
+		}
+
+		protected function initializeConnectivityView():void
+		{
+			_connectivityView.addEventListener(ConnectivityEvent.IGNORE, connectivityView_ignoreHandler);
+			_connectivityView.addEventListener(ConnectivityEvent.QUIT, connectivityView_quitHandler);
+			_connectivityView.addEventListener(ConnectivityEvent.RETRY, connectivityView_retryHandler);
+		}
+
+		private function connectivityView_retryHandler(event:ConnectivityEvent):void
+		{
+			if (failedRequestEvent)
+			{
+				var service:HealthRecordServiceBase = failedRequestEvent.target as HealthRecordServiceBase;
+				if (service == null)
+					throw new Error("Attempted to retry request, but failed request event did not have a HealthRecordServiceBase as its target");
+
+				// set isLoading = true first so that the ConnectivityView does not get hidden and then re-shown
+				_applicationControllerModel.isLoading = true;
+				service.resetAndRetryFailedRequest(failedRequestEvent.indivoClientEvent);
+				failedRequestEvent = null;
+				_applicationControllerModel.hasErrors = false;
+			}
+			if (_healthRecordServiceFacade && _healthRecordServiceFacade.currentRecord)
+			{
+				_healthRecordServiceFacade.resetConnectionErrorChangeSet();
+				_healthRecordServiceFacade.saveAllChanges(_healthRecordServiceFacade.currentRecord);
+			}
+			if (_collaborationLobbyNetConnectionService && _collaborationLobbyNetConnectionService.hasConnectionFailed)
+			{
+				_collaborationLobbyNetConnectionService.enterCollaborationLobby();
+			}
+		}
+
+		private function connectivityView_quitHandler(event:ConnectivityEvent):void
+		{
+			_logger.info("Application exit by user (via ConnectivityView Quit button)");
+			NativeApplication.nativeApplication.exit();
+		}
+
+		private function connectivityView_ignoreHandler(event:ConnectivityEvent):void
+		{
+			_healthRecordServiceFacade.resetErrorChangeSets();
+			_collaborationLobbyNetConnectionService.hasConnectionFailed = false;
+		}
+
+		public function get pendingServices():ArrayCollection
+		{
+			return _pendingServices;
 		}
 	}
 }

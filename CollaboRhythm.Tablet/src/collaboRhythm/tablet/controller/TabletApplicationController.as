@@ -22,25 +22,17 @@ package collaboRhythm.tablet.controller
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.tablet.view.ActiveRecordView;
-	import collaboRhythm.tablet.view.ConnectivityEvent;
-	import collaboRhythm.tablet.view.ConnectivityView;
 	import collaboRhythm.tablet.view.TabletApplicationView;
 
 	import flash.desktop.NativeApplication;
-	import flash.events.Event;
-
-	import mx.binding.utils.BindingUtils;
-	import mx.binding.utils.ChangeWatcher;
 
 	import mx.core.IVisualElementContainer;
-	import mx.core.UIComponent;
 
 	public class TabletApplicationController extends ApplicationControllerBase
 	{
 		private var _tabletAppControllersMediator:TabletAppControllersMediator;
 		private var _fullContainer:IVisualElementContainer;
 		private var _activeRecordView:ActiveRecordView;
-		private var _connectivityView:ConnectivityView;
 
 		[Embed("/resources/settings.xml", mimeType="application/octet-stream")]
 		private var _applicationSettingsEmbeddedFile:Class;
@@ -49,34 +41,7 @@ package collaboRhythm.tablet.controller
 		{
 			_activeRecordView = tabletApplicationView.activeRecordView;
 			_connectivityView = tabletApplicationView.connectivityView;
-			_connectivityView.addEventListener(ConnectivityEvent.IGNORE, connectivityView_ignoreHandler);
-			_connectivityView.addEventListener(ConnectivityEvent.QUIT, connectivityView_quitHandler);
-			_connectivityView.addEventListener(ConnectivityEvent.RETRY, connectivityView_retryHandler);
-		}
-
-		private function connectivityView_retryHandler(event:ConnectivityEvent):void
-		{
-			if (_healthRecordServiceFacade.currentRecord)
-			{
-				_healthRecordServiceFacade.resetConnectionErrorChangeSet();
-				_healthRecordServiceFacade.saveAllChanges(_healthRecordServiceFacade.currentRecord);
-			}
-			if (_collaborationLobbyNetConnectionService.hasConnectionFailed)
-			{
-				_collaborationLobbyNetConnectionService.enterCollaborationLobby();
-			}
-		}
-
-		private function connectivityView_quitHandler(event:ConnectivityEvent):void
-		{
-			_logger.info("Application exit by user (via ConnectivityView Quit button)");
-			NativeApplication.nativeApplication.exit();
-		}
-
-		private function connectivityView_ignoreHandler(event:ConnectivityEvent):void
-		{
-			_healthRecordServiceFacade.resetErrorChangeSets();
-			_collaborationLobbyNetConnectionService.hasConnectionFailed = false;
+			initializeConnectivityView();
 		}
 
 		public override function main():void
@@ -88,83 +53,6 @@ package collaboRhythm.tablet.controller
 			initCollaborationController();
 
 			createSession();
-		}
-
-
-		override protected function serviceIsLoading_changeHandler(isLoading:Boolean):void
-		{
-			super.serviceIsLoading_changeHandler(isLoading);
-			updateConnectivityView();
-		}
-
-		override protected function serviceHasConnectionErrorsSaving_changeHandler(hasConnectionErrorsSaving:Boolean):void
-		{
-			super.serviceHasConnectionErrorsSaving_changeHandler(hasConnectionErrorsSaving);
-			updateConnectivityView();
-		}
-
-		override protected function serviceHasUnexpectedErrorsSaving_changeHandler(hasUnexpectedErrorsSaving:Boolean):void
-		{
-			super.serviceHasUnexpectedErrorsSaving_changeHandler(hasUnexpectedErrorsSaving);
-			updateConnectivityView();
-		}
-
-		override protected function serviceIsSaving_changeHandler(isSaving:Boolean):void
-		{
-			super.serviceIsSaving_changeHandler(isSaving);
-			updateConnectivityView();
-		}
-
-		override protected function collaborationLobbyIsConnecting_changeHandler(isConnecting:Boolean):void
-		{
-			super.collaborationLobbyIsConnecting_changeHandler(isConnecting);
-			updateConnectivityView();
-		}
-
-		override protected function collaborationLobbyHasConnectionFailed_changeHandler(hasConnectionFailed:Boolean):void
-		{
-			super.collaborationLobbyHasConnectionFailed_changeHandler(hasConnectionFailed);
-			updateConnectivityView();
-		}
-
-		private function updateConnectivityView():void
-		{
-			// TODO: perhaps we should have different states for saving vs loading
-
-			_connectivityView.isLoading = _healthRecordServiceFacade && _healthRecordServiceFacade.isLoading;
-			_connectivityView.isSaving = _healthRecordServiceFacade && _healthRecordServiceFacade.isSaving;
-
-			var connectivityState:String;
-			if ((_healthRecordServiceFacade && _healthRecordServiceFacade.isLoading) || (_collaborationLobbyNetConnectionService && _collaborationLobbyNetConnectionService.isConnecting))
-			{
-				connectivityState = ConnectivityView.CONNECT_IN_PROGRESS_STATE;
-				_connectivityView.detailsMessage = "Loading...";
-			}
-			else if (_healthRecordServiceFacade && _healthRecordServiceFacade.isSaving)
-			{
-				connectivityState = ConnectivityView.CONNECT_IN_PROGRESS_STATE;
-				_connectivityView.detailsMessage = "Saving...";
-			}
-			else if (_healthRecordServiceFacade && _healthRecordServiceFacade.hasConnectionErrorsSaving)
-			{
-				connectivityState = ConnectivityView.CONNECTION_ERRORS_SAVING_STATE;
-				_connectivityView.detailsMessage = "Connection to health record server failed. " + _healthRecordServiceFacade.errorsSavingSummary;
-			}
-			else if (_healthRecordServiceFacade && _healthRecordServiceFacade.hasUnexpectedErrorsSaving)
-			{
-				connectivityState = ConnectivityView.UNEXPECTED_ERRORS_SAVING_STATE;
-				_connectivityView.detailsMessage = "Unexpected errors occurred while saving changes to health record server. " + _healthRecordServiceFacade.errorsSavingSummary;
-			}
-			else if (_collaborationLobbyNetConnectionService && _collaborationLobbyNetConnectionService.hasConnectionFailed)
-			{
-				connectivityState = ConnectivityView.CONNECT_FAILED_STATE;
-				_connectivityView.detailsMessage = "Connection to collaboration server failed. You will not be able to access video messages or synchronization messages if data is changed from another device.";
-			}
-
-			if (connectivityState)
-				_connectivityView.setCurrentState(connectivityState);
-
-			_connectivityView.visible = connectivityState != null;
 		}
 
 		public override function openRecordAccount(recordAccount:Account):void

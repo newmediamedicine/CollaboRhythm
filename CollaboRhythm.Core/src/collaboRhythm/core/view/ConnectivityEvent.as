@@ -1,4 +1,4 @@
-package collaboRhythm.tablet.view
+package collaboRhythm.core.view
 {
 
 	import flash.events.Event;

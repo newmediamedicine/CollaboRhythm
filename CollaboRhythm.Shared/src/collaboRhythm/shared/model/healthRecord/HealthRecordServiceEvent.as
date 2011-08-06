@@ -16,17 +16,25 @@
  */
 package collaboRhythm.shared.model.healthRecord
 {
-    import collaboRhythm.shared.model.*;
 
-    import flash.events.Event;
+	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.User;
 
-    public class HealthRecordServiceEvent extends Event
+	import flash.events.Event;
+
+	import org.indivo.client.IndivoClientEvent;
+
+	public class HealthRecordServiceEvent extends Event
     {
         /**
          * Indicates that the login operation has completed successfully.
          */
-        public static const SUCCEEDED:String = "Succeeded";
-        public static const FAILED:String = "Failed";
+        public static const LOGIN_SUCCEEDED:String = "Succeeded";
+
+		/**
+		 * Indicates that the primary operation of the service has completed unsuccessfully.
+		 */
+		public static const FAILED:String = "Failed";
 
         /**
          * Indicates that the primary operation of the service has completed successfully.
@@ -34,9 +42,15 @@ package collaboRhythm.shared.model.healthRecord
         public static const COMPLETE:String = "complete";
 
         /**
-         * Indicates that an operation of the service has completed successfully.
+         * Indicates that an individual operation of the service has completed successfully. More updates and errors
+		 * may occur before the primary operation is complete (or failed).
          */
         public static const UPDATE:String = "update";
+
+		/**
+		 * Indicates that an individual operation of the service has resulted in an error. More updates and errors
+		 * may occur before the primary operation is complete (or failed).
+		 */
         public static const ERROR:String = "error";
 
         private var _user:User;
@@ -44,15 +58,17 @@ package collaboRhythm.shared.model.healthRecord
         private var _healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails;
         private var _responseXml:XML;
         private var _errorStatus:String;
+		private var _indivoClientEvent:IndivoClientEvent;
 
-
-        public function HealthRecordServiceEvent(type:String, user:User = null, account:Account = null,
-                                                 healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = null,
-                                                 responseXml:XML = null, errorStatus:String = null,
-                                                 bubbles:Boolean = false, cancelable:Boolean = false)
+        public function HealthRecordServiceEvent(type:String, indivoClientEvent:IndivoClientEvent, user:User = null,
+												 account:Account = null,
+												 healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = null,
+												 responseXml:XML = null, errorStatus:String = null,
+												 bubbles:Boolean = false, cancelable:Boolean = false)
         {
             super(type, bubbles, cancelable);
-            _user = user;
+            _indivoClientEvent = indivoClientEvent;
+			_user = user;
             _account = account;
             _healthRecordServiceRequestDetails = healthRecordServiceRequestDetails;
             _responseXml = responseXml;
@@ -108,5 +124,15 @@ package collaboRhythm.shared.model.healthRecord
         {
             _errorStatus = value;
         }
-    }
+
+		public function get indivoClientEvent():IndivoClientEvent
+		{
+			return _indivoClientEvent;
+		}
+
+		public function set indivoClientEvent(value:IndivoClientEvent):void
+		{
+			_indivoClientEvent = value;
+		}
+	}
 }

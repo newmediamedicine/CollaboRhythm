@@ -41,16 +41,21 @@ package collaboRhythm.shared.model.healthRecord
         {
             if (healthRecordServiceRequestDetails.indivoApiCall == GET_RECORDS)
             {
-                getRecordsCompleteHandler(responseXml);
+                getRecordsCompleteHandler(responseXml, event);
             }
             else if (healthRecordServiceRequestDetails.indivoApiCall == GET_RECORD_OWNER)
             {
-                getRecordOwnerCompleteHandler(responseXml, healthRecordServiceRequestDetails);
+                getRecordOwnerCompleteHandler(responseXml, healthRecordServiceRequestDetails, event);
             }
         }
 
+		protected override function handleError(event:IndivoClientEvent, errorStatus:String, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):Boolean
+		{
+			return handleErrorForSingleRequest(event, errorStatus, healthRecordServiceRequestDetails);
+		}
+
         // loop through all of the records and determine which is the primary record and which are shared records
-        private function getRecordsCompleteHandler(responseXml:XML):void
+        private function getRecordsCompleteHandler(responseXml:XML, indivoClientEvent:IndivoClientEvent):void
         {
             // used to avoid duplicate records in an account (such as when a record is shared via a full record share and one or more carenets)
             var _uniqueRecords:Vector.<String> = new Vector.<String>();
@@ -86,7 +91,7 @@ package collaboRhythm.shared.model.healthRecord
             // if no records are shared with the account actively in session, then the service is complete
             if (_getRecordOwnersCount == 0)
             {
-                dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE));
+                dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE, indivoClientEvent));
             }
         }
 
@@ -99,7 +104,8 @@ package collaboRhythm.shared.model.healthRecord
 
         // handle the account that owns a record that is shared with the account actively in session
         // create the account for that owner and add it to a hasmap on the account actively in session
-        private function getRecordOwnerCompleteHandler(responseXml:XML, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+        private function getRecordOwnerCompleteHandler(responseXml:XML, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails,
+													   indivoClientEvent:IndivoClientEvent):void
         {
             // error check to make sure that account has an id
             if (responseXml.hasOwnProperty("@id"))
@@ -124,7 +130,7 @@ package collaboRhythm.shared.model.healthRecord
             if (_getRecordOwnersCount == 0)
             {
                 // when the owners of all of the accounts are handled, then the service is complete
-                dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE));
+                dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE, indivoClientEvent));
             }
         }
     }

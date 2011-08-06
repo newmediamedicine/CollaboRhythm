@@ -90,6 +90,12 @@ package collaboRhythm.shared.model.healthRecord
          */
         protected function handleError(event:IndivoClientEvent, errorStatus:String, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):Boolean
         {
+			return defaultHandleError(event, healthRecordServiceRequestDetails);
+		}
+
+		protected function defaultHandleError(event:IndivoClientEvent,
+											  healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):Boolean
+		{
 			var errorDescriptionParts:Array = new Array();
 
 			if (event.httpStatusEvent && event.httpStatusEvent.status != 0)
@@ -106,9 +112,21 @@ package collaboRhythm.shared.model.healthRecord
 				errorDescriptionParts.push(event.errorEvent.text);
 			}
 
-			_logger.warn("Indivo response ERROR {0} from {1} {2}", errorDescriptionParts.join(" "), event.urlRequest.method, event.relativePath);
+			_logger.warn("Indivo response ERROR {0} from {1} {2}", errorDescriptionParts.join(" "),
+						 event.urlRequest.method, event.relativePath);
 			return handleErrorWithRetry(healthRecordServiceRequestDetails, event);
-        }
+		}
+
+		public function resetAndRetryFailedRequest(event:IndivoClientEvent):void
+		{
+			var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = event.userData as HealthRecordServiceRequestDetails;
+			if (healthRecordServiceRequestDetails == null)
+				healthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails();
+
+			healthRecordServiceRequestDetails.failedAttempts = 0;
+
+			retryFailedRequest(event, healthRecordServiceRequestDetails);
+		}
 
 		protected function handleErrorWithRetry(healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails,
 												event:IndivoClientEvent):Boolean
@@ -158,6 +176,31 @@ package collaboRhythm.shared.model.healthRecord
 		public function set automaticRetryEnabled(value:Boolean):void
 		{
 			_automaticRetryEnabled = value;
+		}
+
+		/**
+		 * Assumes that there is only a single request being made by this service, so that if the request is not being
+		 * retried, a failed event will be dispatched. This generally is not appropriate to use if the service makes multiple
+		 * requests, some of which may be in progress or pending.
+		 *
+		 * @param event
+		 * @param errorStatus
+		 * @param healthRecordServiceRequestDetails
+		 * @return
+		 */
+		protected function handleErrorForSingleRequest(event:IndivoClientEvent, errorStatus:String,
+													   healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):Boolean
+		{
+			if (defaultHandleError(event, healthRecordServiceRequestDetails))
+			{
+				return true;
+			}
+			else
+			{
+				dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.FAILED, event, null, null, null,
+														   null, errorStatus));
+				return false;
+			}
 		}
 	}
 }
