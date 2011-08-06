@@ -33,7 +33,7 @@ package collaboRhythm.core.model.healthRecord.stitchers
 		override protected function stitchSpecialReferencesOnDocument(document:IDocument):void
 		{
 			var adherenceItem:AdherenceItem = document as AdherenceItem;
-			for each (var adherenceResultId in adherenceItem.adherenceResultIds)
+			for each (var adherenceResultId:String in adherenceItem.adherenceResultIds)
 			{
 				adherenceItem.adherenceResults.push(record.medicationAdministrationsModel.medicationAdministrations[adherenceResultId])
 			}

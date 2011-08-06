@@ -267,10 +267,7 @@ package collaboRhythm.shared.model
 
 		public function sendSynchronizationMessage():void
 		{
-			if (_collaborationModel.activeRecordAccount != _collaborationModel.activeAccount)
-			{
-				_netConnection.call("sendSynchronizationMessage", null, _collaborationModel.activeRecordAccount.accountId);
-			}
+			_netConnection.call("sendSynchronizationMessage", null, _collaborationModel.activeRecordAccount.accountId);
 		}
 
 		public function receiveSynchronizationMessage():void

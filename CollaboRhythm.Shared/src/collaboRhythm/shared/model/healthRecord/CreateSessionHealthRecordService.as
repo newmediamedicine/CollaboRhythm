@@ -1,13 +1,13 @@
 package collaboRhythm.shared.model.healthRecord
 {
 
-    import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.Account;
 
-    import mx.utils.URLUtil;
+	import mx.utils.URLUtil;
 
-    import org.indivo.client.IndivoClientEvent;
+	import org.indivo.client.IndivoClientEvent;
 
-    public class CreateSessionHealthRecordService extends AdminHealthRecordServiceBase
+	public class CreateSessionHealthRecordService extends AdminHealthRecordServiceBase
     {
 
         public function CreateSessionHealthRecordService(oauthChromeConsumerKey:String,
@@ -30,20 +30,12 @@ package collaboRhythm.shared.model.healthRecord
             _activeAccount.oauthAccountToken = appInfo["oauth_token"];
             _activeAccount.oauthAccountTokenSecret = appInfo["oauth_token_secret"];
 
-            dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE));
+            dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE, event));
         }
 
         protected override function handleError(event:IndivoClientEvent, errorStatus:String, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):Boolean
         {
-            if (super.handleError(event, errorStatus, healthRecordServiceRequestDetails))
-			{
-				return true;
-			}
-			else
-			{
-				dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.ERROR, null, null, null, null, errorStatus));
-				return false;
-			}
+			return handleErrorForSingleRequest(event, errorStatus, healthRecordServiceRequestDetails);
         }
-    }
+	}
 }

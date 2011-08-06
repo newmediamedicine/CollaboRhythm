@@ -148,14 +148,16 @@ package collaboRhythm.shared.model.healthRecord
 														 healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
 			_logger.info("Create document COMPLETE " + responseXml.@id + " " + responseXml.@type);
-            dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE, null, null, healthRecordServiceRequestDetails, responseXml));
+            dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE, event, null, null,
+													   healthRecordServiceRequestDetails, responseXml));
         }
 
         protected function updateDocumentCompleteHandler(event:IndivoClientEvent, responseXml:XML,
 														 healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
         {
             _logger.info("Update document COMPLETE " + responseXml.@id + " " + responseXml.@type);
-            dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE, null, null, healthRecordServiceRequestDetails, responseXml));
+            dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE, event, null, null,
+													   healthRecordServiceRequestDetails, responseXml));
         }
 
         protected function archiveDocumentCompleteHandler(event:IndivoClientEvent,

@@ -51,22 +51,24 @@ package collaboRhythm.shared.model.healthRecord
 				healthRecordServiceRequestDetails.record.contact = new Contact(responseXml);
 			}
 
-			handleFinishedRequest(healthRecordServiceRequestDetails);
+			handleFinishedRequest(healthRecordServiceRequestDetails, event);
         }
 
 		override protected function handleError(event:IndivoClientEvent, errorStatus:String,
 												healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):Boolean
 		{
+			// TODO: only ignore 404 Not Found error (which will happen if the record has no Demographics); otherwise dispatch an error
 			if (super.handleError(event, errorStatus, healthRecordServiceRequestDetails))
 				return true;
 			else
 			{
-				handleFinishedRequest(healthRecordServiceRequestDetails);
+				handleFinishedRequest(healthRecordServiceRequestDetails, event);
 				return false;
 			}
 		}
 
-		private function handleFinishedRequest(healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+		private function handleFinishedRequest(healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails,
+											   indivoClientEvent:IndivoClientEvent):void
 		{
 			if (healthRecordServiceRequestDetails.indivoApiCall == GET_DEMOGRAPHICS)
 			{
@@ -77,14 +79,14 @@ package collaboRhythm.shared.model.healthRecord
 				_pendingContacts.remove(healthRecordServiceRequestDetails.record.id);
 			}
 
-			checkComplete();
+			checkComplete(indivoClientEvent);
 		}
 
-		private function checkComplete():void
+		private function checkComplete(indivoClientEvent:IndivoClientEvent):void
 		{
 			if (_pendingContacts.size() == 0 && _pendingDemographics.size() == 0)
 			{
-				dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE));
+				dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE, indivoClientEvent));
 			}
 		}
     }

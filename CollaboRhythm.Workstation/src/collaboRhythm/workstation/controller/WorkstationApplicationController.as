@@ -19,6 +19,7 @@ package collaboRhythm.workstation.controller
 
 	import collaboRhythm.core.controller.ApplicationControllerBase;
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
+	import collaboRhythm.core.view.ConnectivityView;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
@@ -214,6 +215,10 @@ package collaboRhythm.workstation.controller
             _primaryWindowView.id = PRIMARY_WINDOW_VIEW_ID;
             primaryWindow.spaces.push(_primaryWindowView);
             primaryWindow.addElement(_primaryWindowView);
+
+			_connectivityView = new ConnectivityView();
+			primaryWindow.addElement(_connectivityView);
+			initializeConnectivityView();
         }
 
         // creates the secondary window view, which is only used if more than one screen is available and the

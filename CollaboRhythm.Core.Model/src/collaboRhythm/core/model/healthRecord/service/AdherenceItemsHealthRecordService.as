@@ -99,7 +99,7 @@ package collaboRhythm.core.model.healthRecord.service
 			adherenceItem.recurrenceIndex = int(adherenceItemXml.recurrenceIndex);
 			adherenceItem.adherence = HealthRecordHelperMethods.stringToBoolean(adherenceItemXml.adherence);
 			adherenceItem.nonadherenceReason = adherenceItemXml.nonadherenceReason;
-			for each (var adherenceResultId in reportXml..relatesTo.relation.(@type == AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT).relatedDocument)
+			for each (var adherenceResultId:String in reportXml..relatesTo.relation.(@type == AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT).relatedDocument)
 			{
 				adherenceItem.adherenceResultIds.push(adherenceResultId);
 			}

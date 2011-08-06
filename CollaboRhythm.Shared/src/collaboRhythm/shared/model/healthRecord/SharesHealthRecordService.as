@@ -54,7 +54,12 @@ package collaboRhythm.shared.model.healthRecord
             }
 
             // dispatch an event to indicate that the record shares have been retrieved
-            dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE));
+            dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE, event));
         }
+
+		protected override function handleError(event:IndivoClientEvent, errorStatus:String, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):Boolean
+		{
+			return handleErrorForSingleRequest(event, errorStatus, healthRecordServiceRequestDetails);
+		}
     }
 }
