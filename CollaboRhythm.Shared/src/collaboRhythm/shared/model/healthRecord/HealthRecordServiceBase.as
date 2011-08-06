@@ -24,7 +24,6 @@ package collaboRhythm.shared.model.healthRecord
 		protected const MAX_FAILED_ATTEMPTS:int = 3;
 
 		private var _automaticRetryEnabled:Boolean = true;
-		private static const STREAM_ERROR_ID:int = 2032;
 
 		public function HealthRecordServiceBase(oauthConsumerKey:String, oauthConsumerSecret:String, indivoServerBaseURL:String, account:Account)
         {
@@ -138,7 +137,7 @@ package collaboRhythm.shared.model.healthRecord
 
 		private function shouldRetry(event:IndivoClientEvent):Boolean
 		{
-			return (event.type == IndivoClientEvent.ERROR && event.errorEvent && event.errorEvent.errorID == STREAM_ERROR_ID);
+			return event.isConnectionError;
 		}
 
 		protected function retryFailedRequest(event:IndivoClientEvent,

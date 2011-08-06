@@ -126,8 +126,8 @@ package collaboRhythm.shared.model
 			{
 				_logger.warn(COLLABORATION_LOBBY + " failed {0} of {1}. Giving up.", MAX_FAILED_ATTEMPTS.toString(),
 							 MAX_FAILED_ATTEMPTS.toString());
-				isConnecting = false;
 				hasConnectionFailed = true;
+				isConnecting = false;
 				_failedAttempts = 0;
 			}
 		}

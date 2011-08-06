@@ -75,7 +75,8 @@ package collaboRhythm.shared.model
 		private var _storageService:IRecordStorageService;
 		private var _isLoading:Boolean;
 		private var _isSaving:Boolean;
-		private var _hasFailedSaveOperations:Boolean;
+		private var _hasConnectionErrorsSaving:Boolean;
+		private var _hasUnexpectedErrorsSaving:Boolean;
 
         public function Record(recordXml:XML)
         {
@@ -587,14 +588,24 @@ package collaboRhythm.shared.model
 			_isSaving = value;
 		}
 
-		public function get hasFailedSaveOperations():Boolean
+		public function get hasConnectionErrorsSaving():Boolean
 		{
-			return _hasFailedSaveOperations;
+			return _hasConnectionErrorsSaving;
 		}
 
-		public function set hasFailedSaveOperations(value:Boolean):void
+		public function set hasConnectionErrorsSaving(value:Boolean):void
 		{
-			_hasFailedSaveOperations = value;
+			_hasConnectionErrorsSaving = value;
+		}
+
+		public function get hasUnexpectedErrorsSaving():Boolean
+		{
+			return _hasUnexpectedErrorsSaving;
+		}
+
+		public function set hasUnexpectedErrorsSaving(value:Boolean):void
+		{
+			_hasUnexpectedErrorsSaving = value;
 		}
 
 		/**

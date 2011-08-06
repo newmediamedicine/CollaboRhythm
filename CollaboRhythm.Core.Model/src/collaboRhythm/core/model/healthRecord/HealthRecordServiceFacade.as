@@ -42,7 +42,8 @@ package collaboRhythm.core.model.healthRecord
 		private var _isLoading:Boolean;
 		private var _currentRecord:Record;
 		private var _isSaving:Boolean;
-		private var _hasFailedSaveOperations:Boolean;
+		private var _hasConnectionErrorsSaving:Boolean;
+		private var _hasUnexpectedErrorsSaving:Boolean;
 
 		public function HealthRecordServiceFacade(consumerKey:String, consumerSecret:String, baseURL:String,
 												  account:Account)
@@ -212,12 +213,21 @@ package collaboRhythm.core.model.healthRecord
 		}
 
 		/**
-		 * Resets the count of failed operations. This should generally be called after isSaving becomes false and the
+		 * Resets the connection error change set. This should generally be called after isSaving becomes false and the
 		 * user chooses to retry the saving operation.
 		 */
-		public function resetFailedOperations():void
+		public function resetConnectionErrorChangeSet():void
 		{
-			_saveChangesHealthRecordService.resetFailedOperations();
+			_saveChangesHealthRecordService.resetConnectionErrorsChangeSet();
+		}
+
+		/**
+		 * Resets the unexpected error change set. This should generally be called after isSaving becomes false and the
+		 * user chooses to ignore the saving operation.
+		 */
+		public function resetUnexpectedErrorChangeSet():void
+		{
+			_saveChangesHealthRecordService.resetUnexpectedErrorChangeSet();
 		}
 
 		public function saveChanges(record:Record, documents:ArrayCollection, relationships:ArrayCollection=null):void
@@ -247,16 +257,49 @@ package collaboRhythm.core.model.healthRecord
 				currentRecord.isSaving = value;
 		}
 
-		public function get hasFailedSaveOperations():Boolean
+		public function get hasConnectionErrorsSaving():Boolean
 		{
-			return _hasFailedSaveOperations;
+			return _hasConnectionErrorsSaving;
 		}
 
-		public function set hasFailedSaveOperations(value:Boolean):void
+		public function set hasConnectionErrorsSaving(value:Boolean):void
 		{
-			_hasFailedSaveOperations = value;
+			_hasConnectionErrorsSaving = value;
 			if (currentRecord)
-				currentRecord.hasFailedSaveOperations = value;
+				currentRecord.hasConnectionErrorsSaving = value;
+		}
+
+		public function get hasUnexpectedErrorsSaving():Boolean
+		{
+			return _hasUnexpectedErrorsSaving;
+		}
+
+		public function set hasUnexpectedErrorsSaving(value:Boolean):void
+		{
+			_hasUnexpectedErrorsSaving = value;
+			if (currentRecord)
+				currentRecord.hasUnexpectedErrorsSaving = value;
+		}
+
+		public function resetErrorChangeSets():void
+		{
+			resetConnectionErrorChangeSet();
+			resetUnexpectedErrorChangeSet();
+		}
+
+		public function get connectionErrorsSavingSummary():String
+		{
+			return _saveChangesHealthRecordService.connectionErrorsSummary;
+		}
+
+		public function get unexpectedErrorsSavingSummary():String
+		{
+			return _saveChangesHealthRecordService.unexpectedErrorsSummary;
+		}
+
+		public function get errorsSavingSummary():String
+		{
+			return _saveChangesHealthRecordService.errorsSavingSummary;
 		}
 	}
 }

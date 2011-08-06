@@ -2,6 +2,7 @@ package collaboRhythm.core.model.healthRecord.service
 {
 
 	import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
+	import collaboRhythm.core.model.healthRecord.service.supportClasses.ChangeSet;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
@@ -28,10 +29,8 @@ package collaboRhythm.core.model.healthRecord.service
 		private var _pendingUpdateDocuments:HashMap = new HashMap();
 		private var _relationshipsRequiringDocuments:ArrayCollection = new ArrayCollection();
 		private var _pendingRelateDocuments:ArrayCollection = new ArrayCollection();
-		private var _failedCreateDocuments:HashMap = new HashMap();
-		private var _failedRemoveDocuments:HashMap = new HashMap();
-		private var _failedUpdateDocuments:HashMap = new HashMap();
-		private var _failedRelateDocuments:ArrayCollection = new ArrayCollection();
+		private var _unexpectedErrorsChangeSet:ChangeSet = new ChangeSet();
+		private var _connectionErrorsChangeSet:ChangeSet = new ChangeSet();
 
 		public function SaveChangesHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account, healthRecordServiceFacade:HealthRecordServiceFacade)
 		{
@@ -43,15 +42,18 @@ package collaboRhythm.core.model.healthRecord.service
 		 * Resets the count of failed operations. This should generally be called after isSaving becomes false and the
 		 * user chooses to retry the saving operation.
 		 */
-		public function resetFailedOperations():void
+		public function resetConnectionErrorsChangeSet():void
 		{
-			failedCreateDocuments.clear();
-			failedRemoveDocuments.clear();
-			failedUpdateDocuments.clear();
-			failedRelateDocuments.removeAll();
-			_healthRecordServiceFacade.hasFailedSaveOperations = false;
+			connectionErrorsChangeSet.clear();
+			_healthRecordServiceFacade.hasConnectionErrorsSaving = false;
 		}
-		
+
+		public function resetUnexpectedErrorChangeSet():void
+		{
+			unexpectedErrorsChangeSet.clear();
+			_healthRecordServiceFacade.hasUnexpectedErrorsSaving = false;
+		}
+
 		/**
 		 * Saves all changes to all documents in the specified record to the server.
 		 *
@@ -116,44 +118,44 @@ package collaboRhythm.core.model.healthRecord.service
 			return "Pending documents (create, update, remove): " + pendingCreateDocuments.size() + ", " + pendingUpdateDocuments.size() + ", " + pendingRemoveDocuments.size() + ". Relationships (being created, requiring documents): " + pendingRelateDocuments.length + ", " + relationshipsRequiringDocuments.length;
 		}
 
-		private function get failedOperationsSummary():String
+		public function get errorsSavingSummary():String
 		{
-			if (failedOperationsCount > 0)
+			if (errorsSavingCount > 0)
 			{
 				var parts:Array = new Array();
-				if (failedCreateDocuments.size() > 0)
-					parts.push("create " + failedCreateDocuments.size() + " documents");
-				if (failedUpdateDocuments.size() > 0)
-					parts.push("update " + failedUpdateDocuments.size() + " documents");
-				if (failedRemoveDocuments.size() > 0)
-					parts.push("remove " + failedRemoveDocuments.size() + " documents");
-				if (failedRelateDocuments.length > 0)
-					parts.push("relate " + failedRelateDocuments.length + " documents");
+				if (unexpectedErrorsChangeSet.length > 0)
+					parts.push("Unexpected error " + unexpectedErrorsChangeSet.summary);
+				if (connectionErrorsChangeSet.length > 0)
+					parts.push("Connection error " + connectionErrorsChangeSet.summary);
 
-				return "Failed to " + parts.join(", ") + ".";
+				return parts.join(". ") + ".";
 			}
 			else
 				return "No failed operations.";
 		}
+
 
 		private function checkRelationshipsRequiringDocuments(record:Record):void
 		{
 			var relationshipsRequiringDocumentsCopy:ArrayCollection = new ArrayCollection(relationshipsRequiringDocuments.toArray());
 			for each (var relationship:Relationship in relationshipsRequiringDocumentsCopy)
 			{
+				const waitingToCreateMessage:String = "Warning: waiting to create a {0} relationship but the document to relate {1} {2} has a pendingAction of {3} and is not in the pendingCreateDocuments, unexpectedErrorsChangeSet, or connectionErrorsChangeSet. Relationship will probably never be created.";
 				var relatesFromDocumentReady:Boolean = relationship.relatesFrom.pendingAction == null;
 				var relatesToDocumentReady:Boolean = relationship.relatesTo.pendingAction == null;
 				if (!relatesFromDocumentReady)
 				{
 					if (pendingCreateDocuments.getItem(relationship.relatesFrom.meta.id) == null &&
-							failedCreateDocuments.getItem(relationship.relatesFrom.meta.id) == null)
-						_logger.warn("Warning: waiting to create a " + relationship.type + " relationship but the document to relate from " + relationship.relatesFrom.meta.id + " has a pendingAction of " + relationship.relatesFrom.pendingAction + " and is not in the pendingCreateDocuments or failedCreateDocuments lists. Relationship will probably never be created.");
+							!unexpectedErrorsChangeSet.containsCreateDocument(relationship.relatesFrom.meta.id) &&
+							!connectionErrorsChangeSet.containsCreateDocument(relationship.relatesFrom.meta.id))
+						_logger.warn(waitingToCreateMessage, relationship.type, "from", relationship.relatesFrom.meta.id, relationship.relatesFrom.pendingAction);
 				}
 				if (!relatesToDocumentReady)
 				{
 					if (pendingCreateDocuments.getItem(relationship.relatesTo.meta.id) == null &&
-							failedCreateDocuments.getItem(relationship.relatesTo.meta.id) == null)
-						_logger.warn("Warning: waiting to create a " + relationship.type + " relationship but the document to relate to " + relationship.relatesTo.meta.id + " has a pendingAction of " + relationship.relatesTo.pendingAction + " and is not in the pendingCreateDocuments or failedCreateDocuments lists. Relationship will probably never be created.");
+							!unexpectedErrorsChangeSet.containsCreateDocument(relationship.relatesTo.meta.id) &&
+							!connectionErrorsChangeSet.containsCreateDocument(relationship.relatesTo.meta.id))
+						_logger.warn(waitingToCreateMessage, relationship.type, "to", relationship.relatesTo.meta.id, relationship.relatesTo.pendingAction);
 				}
 				if (relatesFromDocumentReady && relatesToDocumentReady)
 				{
@@ -382,11 +384,6 @@ package collaboRhythm.core.model.healthRecord.service
 			super.relateDocumentsCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
 		}
 
-		private function addFailedRelationship(relationship:Relationship):void
-		{
-			failedRelateDocuments.addItem(relationship);
-		}
-
 		private function removePendingRelationship(relationship:Relationship):void
 		{
 			for each (var pendingRelationship:Relationship in pendingRelateDocuments)
@@ -402,14 +399,15 @@ package collaboRhythm.core.model.healthRecord.service
 		private function updateIsSaving():void
 		{
 			var pendingOperations:int = pendingCreateDocuments.size() + pendingUpdateDocuments.size() + pendingRemoveDocuments.size() + pendingRelateDocuments.length;
-			_healthRecordServiceFacade.hasFailedSaveOperations = failedOperationsCount > 0;
+			_healthRecordServiceFacade.hasConnectionErrorsSaving = connectionErrorsChangeSet.length > 0;
+			_healthRecordServiceFacade.hasUnexpectedErrorsSaving = unexpectedErrorsChangeSet.length > 0;
 			_healthRecordServiceFacade.isSaving = pendingOperations > 0;
-			_logger.info("Saving " + (pendingOperations > 0 ? "in progress. " + pendingOperationsSummary + ". " : "complete. ") + failedOperationsSummary);
+			_logger.info("Saving " + (pendingOperations > 0 ? "in progress. " + pendingOperationsSummary + ". " : "complete. ") + errorsSavingSummary);
 		}
 
-		private function get failedOperationsCount():int
+		private function get errorsSavingCount():int
 		{
-			return failedCreateDocuments.size() + failedUpdateDocuments.size() + failedRemoveDocuments.size() + failedRelateDocuments.length;
+			return unexpectedErrorsChangeSet.length + connectionErrorsChangeSet.length;
 		}
 
 		private function get currentRecord():Record
@@ -427,42 +425,51 @@ package collaboRhythm.core.model.healthRecord.service
 		override protected function handleError(event:IndivoClientEvent, errorStatus:String,
 												healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):Boolean
 		{
-			var document:IDocument = healthRecordServiceRequestDetails.document;
+			var isRetrying:Boolean = super.handleError(event, errorStatus, healthRecordServiceRequestDetails);
+			if (!isRetrying)
+			{
+				var document:IDocument = healthRecordServiceRequestDetails.document;
 
-			// update the appropriate "pending" collections
-			if (healthRecordServiceRequestDetails.indivoApiCall == CREATE_DOCUMENT)
-			{
-				addFailedDocument(document, failedCreateDocuments);
-				removePendingDocument(document.meta.id, pendingCreateDocuments);
-			}
-			if (healthRecordServiceRequestDetails.indivoApiCall == UPDATE_DOCUMENT)
-			{
-				addFailedDocument(document, failedUpdateDocuments);
-				removePendingDocument(document.meta.id, pendingUpdateDocuments);
-			}
-			else if (healthRecordServiceRequestDetails.indivoApiCall == DELETE_DOCUMENT ||
-					healthRecordServiceRequestDetails.indivoApiCall == ARCHIVE_DOCUMENT ||
-					healthRecordServiceRequestDetails.indivoApiCall == VOID_DOCUMENT)
-			{
-				addFailedDocument(document, failedRemoveDocuments);
-				removePendingDocument(document.meta.id, pendingRemoveDocuments);
-			}
-			else if (healthRecordServiceRequestDetails.indivoApiCall == RELATE_NEW_DOCUMENT)
-			{
-				throw new Error("Unexpected indivoApiCall on response healthRecordServiceRequestDetails: " + healthRecordServiceRequestDetails.indivoApiCall);
-			}
-			else if (healthRecordServiceRequestDetails.indivoApiCall == RELATE_DOCUMENTS)
-			{
-				var relationship:Relationship = healthRecordServiceRequestDetails.customData as Relationship;
-				if (relationship == null)
-					throw new Error("Relationship not specified on the HealthRecordServiceRequestDetails. Unable to finish relate documents operation.");
-				addFailedRelationship(relationship);
-				removePendingRelationship(relationship);
-			}
+				var errorChangeSet:ChangeSet;
+				if (event.isConnectionError)
+					errorChangeSet = connectionErrorsChangeSet;
+				else
+					errorChangeSet = unexpectedErrorsChangeSet;
 
-			updateIsSaving();
+				// update the appropriate "pending" collections
+				if (healthRecordServiceRequestDetails.indivoApiCall == CREATE_DOCUMENT)
+				{
+					errorChangeSet.addDocument(document);
+					removePendingDocument(document.meta.id, pendingCreateDocuments);
+				}
+				if (healthRecordServiceRequestDetails.indivoApiCall == UPDATE_DOCUMENT)
+				{
+					errorChangeSet.addDocument(document);
+					removePendingDocument(document.meta.id, pendingUpdateDocuments);
+				}
+				else if (healthRecordServiceRequestDetails.indivoApiCall == DELETE_DOCUMENT ||
+						healthRecordServiceRequestDetails.indivoApiCall == ARCHIVE_DOCUMENT ||
+						healthRecordServiceRequestDetails.indivoApiCall == VOID_DOCUMENT)
+				{
+					errorChangeSet.addDocument(document);
+					removePendingDocument(document.meta.id, pendingRemoveDocuments);
+				}
+				else if (healthRecordServiceRequestDetails.indivoApiCall == RELATE_NEW_DOCUMENT)
+				{
+					throw new Error("Unexpected indivoApiCall on response healthRecordServiceRequestDetails: " + healthRecordServiceRequestDetails.indivoApiCall);
+				}
+				else if (healthRecordServiceRequestDetails.indivoApiCall == RELATE_DOCUMENTS)
+				{
+					var relationship:Relationship = healthRecordServiceRequestDetails.customData as Relationship;
+					if (relationship == null)
+						throw new Error("Relationship not specified on the HealthRecordServiceRequestDetails. Unable to finish relate documents operation.");
+					errorChangeSet.addRelationship(relationship);
+					removePendingRelationship(relationship);
+				}
 
-			return super.handleError(event, errorStatus, healthRecordServiceRequestDetails);
+				updateIsSaving();
+			}
+			return isRetrying;
 		}
 
 		private function addFailedDocument(document:IDocument, pendingChangeMap:HashMap):void
@@ -507,24 +514,24 @@ package collaboRhythm.core.model.healthRecord.service
 			return _pendingUpdateDocuments;
 		}
 
-		public function get failedCreateDocuments():HashMap
+		public function get unexpectedErrorsChangeSet():ChangeSet
 		{
-			return _failedCreateDocuments;
+			return _unexpectedErrorsChangeSet;
 		}
 
-		public function get failedRemoveDocuments():HashMap
+		public function get connectionErrorsChangeSet():ChangeSet
 		{
-			return _failedRemoveDocuments;
+			return _connectionErrorsChangeSet;
 		}
 
-		public function get failedUpdateDocuments():HashMap
+		public function get connectionErrorsSummary():String
 		{
-			return _failedUpdateDocuments;
+			return connectionErrorsChangeSet.summary;
 		}
 
-		public function get failedRelateDocuments():ArrayCollection
+		public function get unexpectedErrorsSummary():String
 		{
-			return _failedRelateDocuments;
+			return unexpectedErrorsChangeSet.summary;
 		}
 	}
 }

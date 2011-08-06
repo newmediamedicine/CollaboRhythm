@@ -58,7 +58,7 @@ package collaboRhythm.tablet.controller
 		{
 			if (_healthRecordServiceFacade.currentRecord)
 			{
-				_healthRecordServiceFacade.resetFailedOperations();
+				_healthRecordServiceFacade.resetConnectionErrorChangeSet();
 				_healthRecordServiceFacade.saveAllChanges(_healthRecordServiceFacade.currentRecord);
 			}
 			if (_collaborationLobbyNetConnectionService.hasConnectionFailed)
@@ -75,7 +75,8 @@ package collaboRhythm.tablet.controller
 
 		private function connectivityView_ignoreHandler(event:ConnectivityEvent):void
 		{
-			_healthRecordServiceFacade.resetFailedOperations();
+			_healthRecordServiceFacade.resetErrorChangeSets();
+			_collaborationLobbyNetConnectionService.hasConnectionFailed = false;
 		}
 
 		public override function main():void
@@ -96,9 +97,15 @@ package collaboRhythm.tablet.controller
 			updateConnectivityView();
 		}
 
-		override protected function serviceHasFailedSaveOperations_changeHandler(hasFailedSaveOperations:Boolean):void
+		override protected function serviceHasConnectionErrorsSaving_changeHandler(hasConnectionErrorsSaving:Boolean):void
 		{
-			super.serviceHasFailedSaveOperations_changeHandler(hasFailedSaveOperations);
+			super.serviceHasConnectionErrorsSaving_changeHandler(hasConnectionErrorsSaving);
+			updateConnectivityView();
+		}
+
+		override protected function serviceHasUnexpectedErrorsSaving_changeHandler(hasUnexpectedErrorsSaving:Boolean):void
+		{
+			super.serviceHasUnexpectedErrorsSaving_changeHandler(hasUnexpectedErrorsSaving);
 			updateConnectivityView();
 		}
 
@@ -124,16 +131,40 @@ package collaboRhythm.tablet.controller
 		{
 			// TODO: perhaps we should have different states for saving vs loading
 
+			_connectivityView.isLoading = _healthRecordServiceFacade && _healthRecordServiceFacade.isLoading;
+			_connectivityView.isSaving = _healthRecordServiceFacade && _healthRecordServiceFacade.isSaving;
+
 			var connectivityState:String;
 			if ((_healthRecordServiceFacade && _healthRecordServiceFacade.isLoading) || (_collaborationLobbyNetConnectionService && _collaborationLobbyNetConnectionService.isConnecting))
-				connectivityState = "connectInProgress";
+			{
+				connectivityState = ConnectivityView.CONNECT_IN_PROGRESS_STATE;
+				_connectivityView.detailsMessage = "Loading...";
+			}
 			else if (_healthRecordServiceFacade && _healthRecordServiceFacade.isSaving)
-				connectivityState = "connectInProgress";
-			else if ((_healthRecordServiceFacade && _healthRecordServiceFacade.hasFailedSaveOperations) || (_collaborationLobbyNetConnectionService && _collaborationLobbyNetConnectionService.hasConnectionFailed))
-				connectivityState = "persistFailed";
+			{
+				connectivityState = ConnectivityView.CONNECT_IN_PROGRESS_STATE;
+				_connectivityView.detailsMessage = "Saving...";
+			}
+			else if (_healthRecordServiceFacade && _healthRecordServiceFacade.hasConnectionErrorsSaving)
+			{
+				connectivityState = ConnectivityView.CONNECTION_ERRORS_SAVING_STATE;
+				_connectivityView.detailsMessage = "Connection to health record server failed. " + _healthRecordServiceFacade.errorsSavingSummary;
+			}
+			else if (_healthRecordServiceFacade && _healthRecordServiceFacade.hasUnexpectedErrorsSaving)
+			{
+				connectivityState = ConnectivityView.UNEXPECTED_ERRORS_SAVING_STATE;
+				_connectivityView.detailsMessage = "Unexpected errors occurred while saving changes to health record server. " + _healthRecordServiceFacade.errorsSavingSummary;
+			}
+			else if (_collaborationLobbyNetConnectionService && _collaborationLobbyNetConnectionService.hasConnectionFailed)
+			{
+				connectivityState = ConnectivityView.CONNECT_FAILED_STATE;
+				_connectivityView.detailsMessage = "Connection to collaboration server failed. You will not be able to access video messages or synchronization messages if data is changed from another device.";
+			}
 
-			_connectivityView.setCurrentState(connectivityState);
-			_connectivityView.visible = (_healthRecordServiceFacade && _healthRecordServiceFacade.isLoading) || (_healthRecordServiceFacade && _healthRecordServiceFacade.isSaving) || (_healthRecordServiceFacade && _healthRecordServiceFacade.hasFailedSaveOperations) || (_collaborationLobbyNetConnectionService && _collaborationLobbyNetConnectionService.isConnecting) || (_collaborationLobbyNetConnectionService && _collaborationLobbyNetConnectionService.hasConnectionFailed);
+			if (connectivityState)
+				_connectivityView.setCurrentState(connectivityState);
+
+			_connectivityView.visible = connectivityState != null;
 		}
 
 		public override function openRecordAccount(recordAccount:Account):void

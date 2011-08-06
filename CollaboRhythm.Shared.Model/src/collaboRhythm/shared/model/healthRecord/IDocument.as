@@ -39,5 +39,11 @@ package collaboRhythm.shared.model.healthRecord
 		function set pendingActionReason(value:String):void;
 
 		function clearRelationships():void;
+
+		/**
+		 * Indicates that the pendingAction corresponds to one of the possible removal actions.
+		 * @return true if the document is to be removed (pendingAction is archive, void, or delete).
+		 */
+		function isPendingActionRemoval():Boolean;
 	}
 }

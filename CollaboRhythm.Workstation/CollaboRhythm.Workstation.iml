@@ -128,6 +128,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" />
+    <orderEntry type="module" module-name="CollaboRhythm.Core.Model" />
   </component>
 </module>
 

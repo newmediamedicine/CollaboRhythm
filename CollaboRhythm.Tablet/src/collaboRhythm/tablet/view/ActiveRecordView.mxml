@@ -51,7 +51,7 @@
 
 		public function init(tabletApplicationController:TabletApplicationController, recordAccount:Account):void
 		{
-			dateFormatter.formatString = "YYYY-MM-DD HH:NN";
+			dateFormatter.formatString = "YYYY-MM-DD L:NN A";
 			_tabletApplicationController = tabletApplicationController;
 			_recordAccount = recordAccount;
 			_collaborationModel = _tabletApplicationController.collaborationController.collaborationModel;
@@ -76,7 +76,11 @@
 			var appFile:File = File.applicationDirectory.resolvePath(appDescriptor.initialWindow.content.toString());
 			if (appFile.exists)
 			{
-				appModificationDate = appFile.modificationDate;
+				// convert the Date from local to UTC by subtracting the time zone offset
+				var offsetMilliseconds:Number = appFile.modificationDate.getTimezoneOffset() * 60 * 1000;
+				appModificationDate = new Date();
+				appModificationDate.setTime(appFile.modificationDate.getTime() - offsetMilliseconds);
+
 				applicationModificationLabel.visible = true;
 			}
 

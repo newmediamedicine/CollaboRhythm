@@ -91,5 +91,10 @@ package collaboRhythm.shared.model.healthRecord
 				}
 			}
 		}
+
+		public function isPendingActionRemoval():Boolean
+		{
+			return pendingAction == ACTION_ARCHIVE || pendingAction == ACTION_DELETE || pendingAction == ACTION_VOID;
+		}
 	}
 }

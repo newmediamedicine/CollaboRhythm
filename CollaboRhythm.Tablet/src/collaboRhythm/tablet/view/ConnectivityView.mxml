@@ -18,17 +18,26 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 hideEffect="{hideEffect}"
+		 showEffect="{showEffect}"
 		 height="100%" width="100%">
 	<s:states>
 		<s:State name="connectInProgress"/>
 		<s:State name="connectFailed"/>
-		<s:State name="persistFailed"/>
+		<s:State name="connectionErrorsSaving"/>
+		<s:State name="unexpectedErrorsSaving"/>
 	</s:states>
 	<fx:Metadata>
 		[Event(name="retry", type="collaboRhythm.tablet.view.ConnectivityEvent")]
 		[Event(name="quit", type="collaboRhythm.tablet.view.ConnectivityEvent")]
 		[Event(name="ignore", type="collaboRhythm.tablet.view.ConnectivityEvent")]
 	</fx:Metadata>
+	<fx:Declarations>
+		<s:Resize id="detailsShowEffect" target="detailsTextArea" heightTo="{DETAILS_TEXT_AREA_HEIGHT}"/>
+		<s:Resize id="detailsHideEffect" target="detailsTextArea" heightTo="0"/>
+		<s:Fade id="hideEffect" target="this" alphaFrom="1" alphaTo="0"/>
+		<s:Fade id="showEffect" target="this" alphaFrom="0" alphaTo="1" duration="100"/>
+	</fx:Declarations>
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 
@@ -37,19 +46,36 @@
 			font-size: 40;
 		}
 
-		.connectivityButtonText
-		{
+		.connectivityDetailsText {
+			contentBackgroundAlpha: 0;
+			color: #FFFFFF;
+			font-size: 16;
+		}
+
+		.connectivityButtonText {
 			font-size: 40;
+			/* note that padding unfortunately isn't supported by the default skin, so we have to set the size of the button instead
+			paddingTop: 20;
+			paddingBottom: 20;
+			paddingLeft: 20;
+			paddingRight: 20;
+			*/
 		}
 
 	</fx:Style>
 	<fx:Script><![CDATA[
+		public static const CONNECT_IN_PROGRESS_STATE:String = "connectInProgress";
+		public static const CONNECT_FAILED_STATE:String = "connectFailed";
+		public static const CONNECTION_ERRORS_SAVING_STATE:String = "connectionErrorsSaving";
+		public static const UNEXPECTED_ERRORS_SAVING_STATE:String = "unexpectedErrorsSaving";
+		private static const DETAILS_TEXT_AREA_HEIGHT:Number = 200;
+
 		[Embed("../../../assets/swfs/buffering.swf")]
 		[Bindable]
 		public var bufferingAnimation:Class;
 		private var _isLoading:Boolean;
 		private var _isSaving:Boolean;
-		private var _hasSaveOperationFailures:Boolean;
+		private var _detailsMessage:String;
 
 		private function retryButton_clickHandler():void
 		{
@@ -86,51 +112,76 @@
 			_isSaving = value;
 		}
 
-		public function get hasSaveOperationFailures():Boolean
+		[Bindable]
+		public function get detailsMessage():String
 		{
-			return _hasSaveOperationFailures;
+			return _detailsMessage;
 		}
 
-		public function set hasSaveOperationFailures(value:Boolean):void
+		public function set detailsMessage(value:String):void
 		{
-			_hasSaveOperationFailures = value;
+			_detailsMessage = value;
 		}
-
 		]]></fx:Script>
 	<s:Rect width="100%" height="100%">
 		<s:fill>
 			<s:SolidColor color="#000000" alpha="0.3"/>
 		</s:fill>
 	</s:Rect>
-	<s:Group verticalCenter="0" horizontalCenter="0">
+	<s:Group verticalCenter="0" horizontalCenter="0" minWidth="1000">
 		<s:Rect width="100%" height="100%">
 			<s:stroke>
 				<s:SolidColorStroke color="#FFFFFF" alpha="0.5"/>
 			</s:stroke>
 			<s:fill>
-				<s:SolidColor color="#000000"/>
+				<s:SolidColor color="#000000" alpha="0.9"/>
 			</s:fill>
 		</s:Rect>
-		<s:VGroup horizontalAlign="center" paddingLeft="20" paddingRight="20"
-				  paddingTop="20" paddingBottom="20" gap="20">
+		<s:VGroup id="dialogContentGroup" horizontalAlign="center" paddingLeft="20" paddingRight="20"
+				  paddingTop="20" paddingBottom="20" gap="20" width="100%">
 			<s:Label text="Connecting to your health record." includeIn="connectInProgress"
 					 styleName="connectivityText"/>
-			<s:BusyIndicator id="busyIndicator" symbolColor="0xFFFFFF" width="200" height="200" includeIn="connectInProgress"/>
+			<s:BusyIndicator id="busyIndicator" symbolColor="0xFFFFFF" width="200" height="200"
+							 includeIn="connectInProgress"/>
 			<!--<s:SWFLoader id="bufferingIndicatorView" source="{bufferingAnimation}" width="200" height="200" includeIn="connectInProgress"/>-->
 			<s:Label text="Failed to connect to your health record." includeIn="connectFailed"
 					 styleName="connectivityText"/>
-			<s:Label text="Failed to save data to your health record" includeIn="persistFailed"
+			<s:Label text="Failed to save data to your health record"
+					 includeIn="connectionErrorsSaving, unexpectedErrorsSaving"
 					 styleName="connectivityText"/>
-			<s:Label text="Please check your internet connection." includeIn="connectFailed, persistFailed"
+			<s:Label text="Please check your internet connection." includeIn="connectFailed, connectionErrorsSaving"
 					 styleName="connectivityText"/>
-			<s:HGroup>
-				<s:Button id="retryButton" label="Retry" includeIn="connectFailed, persistFailed"
-						  styleName="connectivityButtonText" click="retryButton_clickHandler()"/>
-				<s:Button id="quitButton" label="Quit" includeIn="connectFailed" styleName="connectivityButtonText"
-						  click="quitButton_clickHandler()"/>
-				<s:Button id="ignoreButton" label="Ignore" includeIn="persistFailed" styleName="connectivityButtonText"
-						  click="ignoreButton_clickHandler()"/>
-			</s:HGroup>
+			<s:Label text="Unsaved data will be discarded. Please contact an administrator for help."
+					 includeIn="unexpectedErrorsSaving"
+					 styleName="connectivityText"/>
+			<s:Group width="100%">
+				<s:Group id="buttonsGroup" width="100%" height="60">
+					<s:ToggleButton id="showDetailsButton"
+									height="100%"
+									label="{showDetailsButton.selected ? 'Hide Details &lt;&lt;' : 'Show Details &gt;&gt;'}"
+									styleName="connectivityButtonText"/>
+					<s:HGroup right="0" gap="20" height="100%">
+						<s:Button id="retryButton" label="Retry" includeIn="connectFailed, connectionErrorsSaving"
+								  width="180" height="100%"
+								  styleName="connectivityButtonText" click="retryButton_clickHandler()"/>
+						<s:Button id="quitButton" label="Quit" includeIn="connectFailed, unexpectedErrorsSaving"
+								  styleName="connectivityButtonText"
+								  width="180" height="100%"
+								  click="quitButton_clickHandler()"/>
+						<s:Button id="ignoreButton" label="Ignore"
+								  includeIn="connectionErrorsSaving, unexpectedErrorsSaving"
+								  styleName="connectivityButtonText"
+								  width="180" height="100%"
+								  click="ignoreButton_clickHandler()"/>
+					</s:HGroup>
+				</s:Group>
+				<s:TextArea id="detailsTextArea"
+							y="{buttonsGroup.y + buttonsGroup.height + (dialogContentGroup.gap * detailsTextArea.height / DETAILS_TEXT_AREA_HEIGHT)}"
+							height="0" width="100%" visible="{showDetailsButton.selected}"
+							showEffect="detailsShowEffect"
+							hideEffect="detailsHideEffect" text="{detailsMessage}" editable="false"
+							styleName="connectivityDetailsText"/>
+			</s:Group>
 		</s:VGroup>
 	</s:Group>
 </s:Group>

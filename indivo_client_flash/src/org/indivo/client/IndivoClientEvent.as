@@ -24,6 +24,8 @@ package org.indivo.client
 
 	public class IndivoClientEvent extends Event
 	{
+		public static const STREAM_ERROR_ID:int = 2032;
+
 		public static const COMPLETE:String = "indivo_client_complete";
 		public static const ERROR:String = "indivo_client_error";
 		public var _response:XML;
@@ -135,6 +137,11 @@ package org.indivo.client
 		public function set httpStatusEvent(value:HTTPStatusEvent):void
 		{
 			_httpStatusEvent = value;
+		}
+
+		public function get isConnectionError():Boolean
+		{
+			return type == IndivoClientEvent.ERROR && errorEvent && errorEvent.errorID == STREAM_ERROR_ID;
 		}
 	}
 }

@@ -525,7 +525,8 @@ package collaboRhythm.core.controller
 																	   _activeAccount);
 			BindingUtils.bindSetter(serviceIsLoading_changeHandler, _healthRecordServiceFacade, "isLoading");
 			BindingUtils.bindSetter(serviceIsSaving_changeHandler, _healthRecordServiceFacade, "isSaving");
-			BindingUtils.bindSetter(serviceHasFailedSaveOperations_changeHandler, _healthRecordServiceFacade, "hasFailedSaveOperations");
+			BindingUtils.bindSetter(serviceHasConnectionErrorsSaving_changeHandler, _healthRecordServiceFacade, "hasConnectionErrorsSaving");
+			BindingUtils.bindSetter(serviceHasUnexpectedErrorsSaving_changeHandler, _healthRecordServiceFacade, "hasUnexpectedErrorsSaving");
 			_healthRecordServiceFacade.loadDocuments(recordAccount.primaryRecord);
 		}
 
@@ -544,9 +545,16 @@ package collaboRhythm.core.controller
 		}
 
 		/**
-		 * Virtual method which subclasses should override to reflect a change in the hasFailedSaveOperations flag
+		 * Virtual method which subclasses should override to reflect a change in the hasConnectionErrorsSaving flag
 		 */
-		protected function serviceHasFailedSaveOperations_changeHandler(hasFailedSaveOperations:Boolean):void
+		protected function serviceHasConnectionErrorsSaving_changeHandler(hasConnectionErrorsSaving:Boolean):void
+		{
+		}
+
+		/**
+		 * Virtual method which subclasses should override to reflect a change in the hasUnexpectedErrorsSaving flag
+		 */
+		protected function serviceHasUnexpectedErrorsSaving_changeHandler(hasUnexpectedErrorsSaving:Boolean):void
 		{
 		}
 
