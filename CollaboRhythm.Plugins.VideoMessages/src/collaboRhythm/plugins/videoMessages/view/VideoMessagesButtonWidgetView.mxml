@@ -21,6 +21,7 @@
 		import collaboRhythm.shared.model.healthRecord.document.VideoMessagesModel;
 
 		import mx.events.CollectionEvent;
+		import mx.events.CollectionEventKind;
 
 		private var _videoMessagesAppController:VideoMessagesAppController;
 		[Bindable]
@@ -40,13 +41,21 @@
 
 			_videoMessagesModel.videoMessagesCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
 																		 videoMessagesCollection_changeHandler);
-			_videoMessageCount = _videoMessagesModel.videoMessagesCollection.length;
+			updateVideoMessageCount();
 		}
 
 		private function videoMessagesCollection_changeHandler(event:CollectionEvent):void
 		{
+			if (event.kind == CollectionEventKind.ADD || event.kind == CollectionEventKind.REMOVE || event.kind == CollectionEventKind.UPDATE)
+			{
+				updateVideoMessageCount();
+			}
+		}
+
+		private function updateVideoMessageCount():void
+		{
 			_videoMessageCount = _videoMessagesModel.videoMessagesCollection.length;
-			var unreadVideoMessagesCount:int;
+			var unreadVideoMessagesCount:int = 0;
 			for each (var videoMessage:VideoMessage in _videoMessagesModel.videoMessagesCollection)
 			{
 				if (int(videoMessage.subject) == 0)
