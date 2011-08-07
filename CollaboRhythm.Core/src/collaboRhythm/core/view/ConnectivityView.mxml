@@ -157,9 +157,11 @@
 					 includeIn="unexpectedErrorsSaving"
 					 styleName="connectivityText"/>
 			<s:Group width="100%">
-				<s:Group id="buttonsGroup" width="100%" height="60">
+				<s:Group id="buttonsGroup" width="100%" height="60"
+						 itemCreationPolicy="immediate"
+						 includeIn="connectFailed, connectionErrorsSaving, unexpectedErrorsSaving"
+						>
 					<s:ToggleButton id="showDetailsButton"
-									includeIn="connectFailed, connectionErrorsSaving, unexpectedErrorsSaving"
 									height="100%"
 									label="{showDetailsButton.selected ? 'Hide Details &lt;&lt;' : 'Show Details &gt;&gt;'}"
 									styleName="connectivityButtonText"/>
@@ -178,9 +180,11 @@
 								  click="ignoreButton_clickHandler()"/>
 					</s:HGroup>
 				</s:Group>
+				<!--TODO: come up with a simpler way to position this component so that buttonsGroup doesn't take up any space when buttonsGroup is excluded because of the state-->
 				<s:TextArea id="detailsTextArea"
-							y="{buttonsGroup.y + buttonsGroup.height + (dialogContentGroup.gap * detailsTextArea.height / DETAILS_TEXT_AREA_HEIGHT)}"
-							height="0" width="100%" visible="{showDetailsButton.selected}"
+							y="{currentState == 'connectFailed' || currentState == 'connectionErrorsSaving' || currentState == 'unexpectedErrorsSaving' ?
+								(buttonsGroup.y + buttonsGroup.height + (dialogContentGroup.gap * detailsTextArea.height / DETAILS_TEXT_AREA_HEIGHT)) : 0}"
+							height="0" width="100%" visible="{showDetailsButton &amp;&amp; showDetailsButton.selected}"
 							showEffect="detailsShowEffect"
 							hideEffect="detailsHideEffect" text="{detailsMessage}" editable="false"
 							styleName="connectivityDetailsText"/>
