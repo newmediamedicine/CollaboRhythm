@@ -27,6 +27,8 @@ package collaboRhythm.workstation.controller
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+	import collaboRhythm.shared.model.healthRecord.document.Equipment;
+	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
@@ -756,7 +758,7 @@ package collaboRhythm.workstation.controller
 
 		protected function get documentTypesForTestRemoval():Vector.<String>
 		{
-			return new <String>[AdherenceItem.DOCUMENT_TYPE, MedicationOrder.DOCUMENT_TYPE, VitalSign.DOCUMENT_TYPE, MedicationScheduleItem.DOCUMENT_TYPE, MedicationAdministration.DOCUMENT_TYPE];
+			return new <String>[AdherenceItem.DOCUMENT_TYPE, MedicationOrder.DOCUMENT_TYPE, VitalSign.DOCUMENT_TYPE, MedicationScheduleItem.DOCUMENT_TYPE, MedicationAdministration.DOCUMENT_TYPE, Equipment.DOCUMENT_TYPE, EquipmentScheduleItem.DOCUMENT_TYPE];
 			//return new <String>[VideoMessage.DOCUMENT_TYPE];
 		}
 

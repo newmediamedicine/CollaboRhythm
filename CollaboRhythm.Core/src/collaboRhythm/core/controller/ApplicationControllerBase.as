@@ -88,6 +88,7 @@ package collaboRhythm.core.controller
 
 		private var _pendingReloadData:Boolean;
 		private var _pendingExit:Boolean;
+		private var _pendingCloseRecordAccount:Account;
 
 		protected var _connectivityView:ConnectivityView;
 		private var _pendingServices:ArrayCollection = new ArrayCollection();
@@ -150,7 +151,7 @@ package collaboRhythm.core.controller
 		{
 			if (_activeRecordAccount)
 			{
-				_activeRecordAccount.primaryRecord.saveAllChanges();
+				autoSave();
 				if (_activeRecordAccount.primaryRecord.isSaving)
 				{
 					event.preventDefault();
@@ -161,6 +162,13 @@ package collaboRhythm.core.controller
 					prepareToExit();
 				}
 			}
+		}
+
+		private function autoSave():void
+		{
+			// Don't try to auto-save on quit if we just tried to save and had errors (allow the user to force quit)
+			if (_activeRecordAccount && !hasErrorsSaving)
+				_activeRecordAccount.primaryRecord.saveAllChanges();
 		}
 
 		/**
@@ -180,9 +188,9 @@ package collaboRhythm.core.controller
 		{
 			InteractionLogUtil.log(_logger, "Application deactivate");
 
-			if (_activeRecordAccount)
+			if (isAutoSaveOnDeactivateEnabled && _activeRecordAccount)
 			{
-				_activeRecordAccount.primaryRecord.saveAllChanges();
+				autoSave();
 				if (_activeRecordAccount.primaryRecord.isSaving)
 				{
 					// TODO: can we or should we prevent/delay deactivate while saving?
@@ -192,6 +200,11 @@ package collaboRhythm.core.controller
 					prepareToDeactivate();
 				}
 			}
+		}
+
+		private function get isAutoSaveOnDeactivateEnabled():Boolean
+		{
+			return !_settings.debuggingToolsEnabled;
 		}
 
 		private function prepareToDeactivate():void
@@ -580,6 +593,25 @@ package collaboRhythm.core.controller
 			_collaborationController.setActiveRecordAccount(recordAccount);
 		}
 
+		public function tryCloseRecordAccount(recordAccount:Account):void
+		{
+			InteractionLogUtil.log(_logger, "Close record", "close record button");
+
+			if (_activeRecordAccount)
+			{
+				autoSave();
+				if (_activeRecordAccount.primaryRecord.isSaving)
+				{
+					_pendingCloseRecordAccount = recordAccount;
+				}
+				else
+				{
+					closeRecordAccount(recordAccount);
+				}
+			}
+
+		}
+
 		/**
 		 * Virtual method which subclasses should override to dictate what happens when a record is closed
 		 *
@@ -745,6 +777,11 @@ package collaboRhythm.core.controller
 				{
 					_pendingExit = false;
 					applicationExit("delayed exit after save");
+				}
+				else if (_pendingCloseRecordAccount)
+				{
+					closeRecordAccount(_pendingCloseRecordAccount);
+					_pendingCloseRecordAccount = null
 				}
 				else if (_pendingReloadData)
 				{
