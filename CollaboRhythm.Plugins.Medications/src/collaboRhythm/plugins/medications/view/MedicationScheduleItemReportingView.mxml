@@ -91,20 +91,16 @@
 			_medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
 
 			// TODO: make parsing more robust and move to a model
-			_strength = _medicationOrder.name.text.match(/\d+ MG/)[0];
-			var substrings:Array = _medicationOrder.name.text.split(/\d+ MG/);
-			_medicationName = substrings[0];
-			var formAndProprietaryName:String = substrings[1];
 
-			var proprietaryNameIndex:int = formAndProprietaryName.indexOf("[");
-			if (proprietaryNameIndex != -1)
+			var rxNormRegExp:RegExp = /(24 HR )?([A-Za-z\s]+)(\d+(?:\.\d+)? MG )([A-Za-z\s]+)\s?(\[[A-Za-z]+\])?/;
+			var substrings:Array = _medicationOrder.name.text.split(rxNormRegExp);
+
+			_medicationName = substrings[2];
+			_strength = substrings[3];
+			_form = substrings[4];
+			if (substrings[5])
 			{
-				_form = formAndProprietaryName.slice(0, proprietaryNameIndex);
-				_proprietaryName = formAndProprietaryName.slice(proprietaryNameIndex, formAndProprietaryName.length);
-			}
-			else
-			{
-				_form = formAndProprietaryName;
+				_proprietaryName = substrings[5];
 			}
 
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;

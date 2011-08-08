@@ -70,6 +70,65 @@ package collaboRhythm.plugins.schedule.shared.model
 			_scheduleItemsOccurrencesCollection.addItem(scheduleItemOccurrence);
 		}
 
+		public function get isMedicationAdherenceReportingCompleted():Boolean
+		{
+			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in _scheduleItemsOccurrencesCollection)
+			{
+				if (!(scheduleItemOccurrence.scheduleItem.name.text == "FORA D40b") && !scheduleItemOccurrence.adherenceItem)
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+
+		public function get isMedicationAdherencePerfect():Boolean
+		{
+			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in _scheduleItemsOccurrencesCollection)
+			{
+				if (!(scheduleItemOccurrence.scheduleItem.name.text == "FORA D40b") && (!scheduleItemOccurrence.adherenceItem || !scheduleItemOccurrence.adherenceItem.adherence))
+				{
+
+					return false;
+				}
+			}
+			return true;
+		}
+
+		public function get hasBloodPressureScheduleItem():Boolean
+		{
+			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in _scheduleItemsOccurrencesCollection)
+			{
+				if (scheduleItemOccurrence.scheduleItem.name.text == "FORA D40b")
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+		public function get isBloodPressureReportingCompleted():Boolean
+		{
+			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in _scheduleItemsOccurrencesCollection)
+			{
+				if (scheduleItemOccurrence.scheduleItem.name.text == "FORA D40b")
+				{
+					if (scheduleItemOccurrence.adherenceItem)
+					{
+						if (!scheduleItemOccurrence.adherenceItem.adherence)
+						{
+							return false;
+						}
+					}
+					else
+					{
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+
         public function get stackNumber():Number
         {
             return _stackNumber;

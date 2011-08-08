@@ -22,6 +22,7 @@
 	<useFileTarget>false</useFileTarget>
 	<useTraceTarget>false</useTraceTarget>
 	<useSyslogTarget>false</useSyslogTarget>
+	<logSourceIdentifier>debug</logSourceIdentifier>
 	<syslogServerIpAddress>127.0.0.1</syslogServerIpAddress>
 	<rtmpBaseURI>rtmp://127.0.0.1</rtmpBaseURI>
 	<indivoServerBaseURL>http://records.media.mit.edu:8000</indivoServerBaseURL>
@@ -29,10 +30,10 @@
 	<oauthChromeConsumerKey>collaboRhythmChrome</oauthChromeConsumerKey>
 	<oauthChromeConsumerSecret>collaboRhythmChrome_secret93452</oauthChromeConsumerSecret>
 	<demoDatePresets>
-		<demoDatePreset>2010-01-10T00:00:00-5:00</demoDatePreset>
-		<demoDatePreset>2010-01-17T00:00:00-5:00</demoDatePreset>
-		<demoDatePreset>2010-01-20T00:00:00-5:00</demoDatePreset>
-		<demoDatePreset>2010-02-10T00:00:00-5:00</demoDatePreset>
+		<demoDatePreset>2011-08-08T06:00:00-5:00</demoDatePreset>
+		<demoDatePreset>2011-08-08T10:00:00-5:00</demoDatePreset>
+		<demoDatePreset>2011-08-08T14:00:00-5:00</demoDatePreset>
+		<demoDatePreset>2011-08-08T21:00:00-5:00</demoDatePreset>
 	</demoDatePresets>
 
 	<!--

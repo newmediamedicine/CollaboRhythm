@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="2.0" viewHeight="100" viewWidth="100" ai:appVersion="15.0.0.399" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+  <Library/>
+  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="100" d:pageWidth="100" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:objID="3860fc80" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+      <Path x="5.61133" y="1" winding="nonZero" ai:objID="3803a680" ai:seqID="3" data="M11.4614 0 0 24.1504 14.7363 39.2998 9.41406 70 38.8877 25.3809 23.062 24.9697 45.8467 0 11.4614 0Z">
+        <fill>
+          <SolidColor color="#EFE812"/>
+        </fill>
+        <stroke>
+          <SolidColorStroke weight="2" caps="none" joints="miter" miterLimit="10" color="#DD9A27"/>
+        </stroke>
+      </Path>
+      <Path x="52.1533" y="11.3857" winding="nonZero" ai:objID="38036a80" ai:seqID="4" data="M11.4614 0 0 24.1504 14.7363 39.2998 9.41406 70 38.8872 25.3809 23.062 24.9697 45.8467 0 11.4614 0Z">
+        <fill>
+          <SolidColor color="#EFE812"/>
+        </fill>
+        <stroke>
+          <SolidColorStroke weight="2" caps="none" joints="miter" miterLimit="10" color="#DD9A27"/>
+        </stroke>
+      </Path>
+      <Path x="23.7207" y="25" winding="nonZero" ai:objID="38032700" ai:seqID="5" data="M11.4614 0 0 24.1504 14.7363 39.2998 9.41406 70 38.8872 25.3809 23.062 24.9697 45.8467 0 11.4614 0Z">
+        <fill>
+          <SolidColor color="#EFE812"/>
+        </fill>
+        <stroke>
+          <SolidColorStroke weight="2" caps="none" joints="miter" miterLimit="10" color="#DD9A27"/>
+        </stroke>
+      </Path>
+    </Group>
+  </Group>
+  <Private>
+      <ai:PrivateElement d:ref="#1">
+        <ai:SaveOptions>
+          <ai:Dict data="I preserveGradientPolicy 4 I preserveTextPolicy 4 I preserveFilterPolicy 3 B downsampleLinkedImages 0 I rasterizeResolution 72 I expandBlendsOption 5 B writeImages 1 B includeSymbol 0 B includeXMP 0 I versionKey 2 B aiEditCap 1 B includeObjectOutsideArtboard 0 "/>
+        </ai:SaveOptions>
+        <ai:DocData base="lightning-large.assets/images" globalOffsetV="-100" rulerCanvasDiffH="100.5" rulerCanvasDiffV="100.5">
+          <ai:DocRasterSettings>
+            <ai:Dict data="R padd 36 B mask 0 B spot 1 B alis 0 I dpi. 300 I colr 4 "/>
+          </ai:DocRasterSettings>
+        </ai:DocData>
+        <ai:AutoGenImageList>
+          <ai:Dict/>
+        </ai:AutoGenImageList>
+      </ai:PrivateElement>
+      <ai:PrivateElement flm:hashcode="3AB89603AD46621D46F36030189D88ED" d:ref="#2">
+        <ai:LayerOptions color="5 79.31 257 128.502"/>
+      </ai:PrivateElement>
+    </Private>
+  </Graphic>

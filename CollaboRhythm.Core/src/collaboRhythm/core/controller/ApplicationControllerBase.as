@@ -288,6 +288,7 @@ package collaboRhythm.core.controller
 				tcpSyslogTarget.includeDate = true;
 				tcpSyslogTarget.includeTime = true;
 				tcpSyslogTarget.userName = _settings.username;
+				tcpSyslogTarget.logSourceIdentifier = _settings.logSourceIdentifier;
 				tcpSyslogTarget.includeCategory = true;
 				tcpSyslogTarget.fieldSeparator = "\t";
 
@@ -834,6 +835,10 @@ package collaboRhythm.core.controller
 					_pendingReloadData = true;
 				else
 					reloadData();
+			}
+			if (!_collaborationLobbyNetConnectionService.isConnected)
+			{
+				_collaborationLobbyNetConnectionService.enterCollaborationLobby();
 			}
 		}
 

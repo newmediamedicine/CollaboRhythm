@@ -48,6 +48,7 @@
 			<xs:element type="xs:boolean" name="useFileTarget" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:boolean" name="useTraceTarget" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:boolean" name="useSyslogTarget" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="xs:string" name="logSourceIdentifier" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:string" name="syslogServerIpAddress" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:string" name="rtmpBaseURI" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:string" name="indivoServerBaseURL" minOccurs="0" maxOccurs="1"/>

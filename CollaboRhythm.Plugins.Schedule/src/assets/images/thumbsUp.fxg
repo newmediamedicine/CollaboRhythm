@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="2.0" viewHeight="100" viewWidth="100" ai:appVersion="15.0.0.399" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+  <Library/>
+  <Group blendMode="layer" ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="100" d:pageWidth="100" d:type="layer" d:userLabel="Artboard 1">
+    <Group blendMode="normal" ai:objID="2ae9a000" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+      <Ellipse x="5" y="5" width="90" height="90" ai:objID="312bca00" ai:seqID="3" flm:variant="1" d:id="3">
+        <fill>
+          <RadialGradient x="38.25" y="38" scaleX="90" scaleY="90">
+            <GradientEntry ratio="0" color="#FFF200"/>
+            <GradientEntry ratio="0.526341" color="#FEC714"/>
+            <GradientEntry ratio="0.775647" color="#FDBB19"/>
+            <GradientEntry ratio="1" color="#FDB71B"/>
+          </RadialGradient>
+        </fill>
+        <stroke>
+          <SolidColorStroke weight="1" caps="none" joints="miter" miterLimit="10" color="#C57729"/>
+        </stroke>
+        <filters>
+          <DropShadowFilter quality="2" alpha="0.5" distance="1.41421"/>
+        </filters>
+      </Ellipse>
+      <Ellipse x="51.375" y="31.9844" width="18.625" height="18.625" ai:objID="3c920280" ai:seqID="4">
+        <fill>
+          <SolidColor color="#FFFFFF"/>
+        </fill>
+        <stroke>
+          <SolidColorStroke weight="1" caps="none" joints="miter" miterLimit="10" color="#C57729"/>
+        </stroke>
+      </Ellipse>
+      <Ellipse x="55.0449" y="38.7139" width="11.2861" height="11.2861" ai:objID="3c920100" ai:seqID="5">
+        <fill>
+          <SolidColor/>
+        </fill>
+      </Ellipse>
+      <Ellipse x="24.875" y="27.6094" width="18.625" height="18.625" ai:objID="3c921780" ai:seqID="6">
+        <fill>
+          <SolidColor color="#FFFFFF"/>
+        </fill>
+        <stroke>
+          <SolidColorStroke weight="1" caps="none" joints="miter" miterLimit="10" color="#C57729"/>
+        </stroke>
+      </Ellipse>
+      <Path x="18.0879" y="55.6943" winding="nonZero" ai:objID="3c925c80" ai:seqID="7" data="M0 0C0 0 17.355 33.9189 52.4639 10.3711">
+        <stroke>
+          <SolidColorStroke weight="3" joints="miter" miterLimit="10" color="#6D4019"/>
+        </stroke>
+      </Path>
+      <BitmapImage x="61" y="12" source="@Embed('thumbsUp.assets/images/Image_0001.png')" fillMode="clip" ai:embed="1" ai:objID="312bcb80" ai:seqID="8"/>
+      <Path x="61.7832" y="12.7759" winding="nonZero" ai:objID="3c922500" ai:seqID="9" data="M2.96682 43.5991C0.591816 45.5991 -2.3115 58.4683 2.96682 79.7476 4.21682 84.7866 25.9668 80.9741 25.8418 80.9741 25.7168 80.9741 28.2168 41.7866 28.2168 41.7866 28.5918 36.0991 30.3037 31.1563 31.7168 22.0991 33.0498 13.5576 35.7852 0 24.0352
+ 0 14.2852 0 9.26955 11.0156 11.0196 21.2241 12.7012 31.0342 12.5918 35.3491 13.3692 41.1401 13.3692 41.1401 5.70119 41.2964 2.96682 43.5991Z">
+        <stroke>
+          <SolidColorStroke weight="1.5" caps="none" joints="miter" miterLimit="10" color="#C57729"/>
+        </stroke>
+      </Path>
+      <Group x="60.5" y="79.4512" blendMode="normal" ai:objID="397b3c80" ai:seqID="10" flm:knockout="false">
+        <BitmapImage scaleX="0.24" scaleY="0.24" blendMode="multiply" alpha="0.5" source="@Embed('thumbsUp.assets/images/Image_0002.png')" fillMode="clip" ai:embed="1" ai:objID="3c922200" ai:seqID="11"/>
+        <BitmapImage scaleX="0.24" scaleY="0.24" x="5" y="5" source="@Embed('thumbsUp.assets/images/Image_0003.png')" fillMode="clip" ai:embed="1" ai:objID="312bda80" ai:seqID="12"/>
+      </Group>
+      <Path x="65.5" y="84.4375" winding="nonZero" ai:objID="3c921c00" ai:seqID="13" data="M25.25 6.03809C25.25 9.08887 23.3564 10.1875 20.251 11.1875 20.251 11.1875 14.5938 11.75 12.625 11.75 10.6563 11.75 4.91797 11.1455 4.91797 11.1455 1.95898 10.5625 0 9.08887 0 6.03809L0 5.71191C0 2.66113 2.25098 0.46875 4.9375 0.1875 4.9375 0.1875
+ 10.5947 0 12.625 0 14.6553 0 20.3125 0.1875 20.3125 0.1875 23.084 0.728516 25.25 2.66113 25.25 5.71191L25.25 6.03809Z">
+        <stroke>
+          <SolidColorStroke weight="1.5" caps="none" joints="miter" miterLimit="10" color="#C57729"/>
+        </stroke>
+      </Path>
+      <Group x="59.6572" y="68.1768" blendMode="normal" ai:objID="397b4a80" ai:seqID="14" flm:knockout="false">
+        <BitmapImage scaleX="0.24" scaleY="0.24" blendMode="multiply" alpha="0.5" source="@Embed('thumbsUp.assets/images/Image_0004.png')" fillMode="clip" ai:embed="1" ai:objID="3c923580" ai:seqID="15"/>
+        <BitmapImage scaleX="0.24" scaleY="0.24" x="5" y="5" source="@Embed('thumbsUp.assets/images/Image_0005.png')" fillMode="clip" ai:embed="1" ai:objID="312c0180" ai:seqID="16"/>
+      </Group>
+      <Path x="64.667" y="73.1582" winding="nonZero" ai:objID="3c923a00" ai:seqID="17" data="M29.708 6.9668C29.708 9.46875 28.0752 11.5811 25.25 12.0918 25.25 12.0918 17.666 12.5088 15.166 12.5088 12.666 12.5088 4.33301 12.0088 4.33301 12.0088 1.0498 11.082 0 8.87695 0 6.375L0 6.375C0 3.87402 0.646484 1.25879 4.4502 0.204102 4.4502 0.204102
+ 12.3643 0 14.7705 0 17.1768 0 25.2578 0.204102 25.2578 0.204102 27.7148 0.204102 29.708 3.17383 29.708 5.6748L29.708 6.9668Z">
+        <stroke>
+          <SolidColorStroke weight="1.5" caps="none" joints="miter" miterLimit="10" color="#C57729"/>
+        </stroke>
+      </Path>
+      <Group x="62.1484" y="43.1914" blendMode="normal" ai:objID="397b4380" ai:seqID="18" flm:knockout="false">
+        <BitmapImage scaleX="0.24" scaleY="0.24" blendMode="multiply" alpha="0.5" source="@Embed('thumbsUp.assets/images/Image_0006.png')" fillMode="clip" ai:embed="1" ai:objID="3c927d80" ai:seqID="19"/>
+        <BitmapImage scaleX="0.24" scaleY="0.24" x="5" y="5" source="@Embed('thumbsUp.assets/images/Image_0007.png')" fillMode="clip" ai:embed="1" ai:objID="312b4600" ai:seqID="20"/>
+      </Group>
+      <Path x="67.125" y="48.1631" winding="nonZero" ai:objID="3c927a80" ai:seqID="21" data="M28.334 6.83008C28.334 9.4707 26.625 12.0303 23.8916 12.1719 23.8916 12.1719 16.1357 12.3369 14.0938 12.3369 12.0518 12.3369 4.69238 12.1719 4.69238 12.1719 2.49316 12.1719 0 8.91992 0 6.2793L0 6.2793C0 3.63672 2.49316 0.385254 4.69238 0.385254
+ 4.69238 0.385254 12.0205 0 13.9375 0 15.8545 0 23.8916 0.385254 23.8916 0.385254 26.0908 0.385254 28.334 2.86523 28.334 5.50586L28.334 6.83008Z">
+        <stroke>
+          <SolidColorStroke weight="1.5" caps="none" joints="miter" miterLimit="10" color="#C57729"/>
+        </stroke>
+      </Path>
+      <Group x="60.2051" y="55.5" blendMode="normal" ai:objID="397b0980" ai:seqID="22" flm:knockout="false">
+        <BitmapImage scaleX="0.24" scaleY="0.24" blendMode="multiply" alpha="0.5" source="@Embed('thumbsUp.assets/images/Image_0008.png')" fillMode="clip" ai:embed="1" ai:objID="3c927780" ai:seqID="23"/>
+        <BitmapImage scaleX="0.24" scaleY="0.24" x="5" y="5" source="@Embed('thumbsUp.assets/images/Image_0009.png')" fillMode="clip" ai:embed="1" ai:objID="312baa80" ai:seqID="24"/>
+      </Group>
+      <Path x="65.3135" y="60.5" winding="nonZero" ai:objID="3c927900" ai:seqID="25" data="M32.374 6.32422C32.374 9.05078 30.0625 12.25 27.626 12.5 27.626 12.5 18.333 12.6475 16.1865 12.6475 14.04 12.6475 4.68652 12.25 4.68652 12.25 2.04199 11.792 0 10.2891 0 7.5625L0 5.27148C0 2.54492 1.75 1.29102 4.68652 0.6875 4.68652 0.6875 11.4111
+ 0 16.1865 0 20.9619 0 27.626 0.333984 27.626 0.333984 30.0225 1.00879 32.374 3.59766 32.374 6.32422L32.374 6.32422Z">
+        <stroke>
+          <SolidColorStroke weight="1.5" caps="none" joints="miter" miterLimit="10" color="#C57729"/>
+        </stroke>
+      </Path>
+      <Ellipse x="28.5444" y="34.3389" width="11.2861" height="11.2861" ai:objID="3c926e80" ai:seqID="26">
+        <fill>
+          <SolidColor/>
+        </fill>
+      </Ellipse>
+    </Group>
+  </Group>
+  <Private variant:using="" mngo:using="" xmlns:mngo="http://ns.adobe.com/flamingo/apd" xmlns:variant="http://ns.adobe.com/flame/2008/apd">
+    <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="65C87902892A1599DA05E1D64ACA831B" flm:original="1" d:ref="#3">
+      <variant:Ellipse x="5" y="5" width="90" height="90" ai:objID="312bca00" ai:seqID="3" d:id="4">
+        <variant:fill>
+          <variant:RadialGradient x="38.25" y="38" scaleX="90" scaleY="90">
+            <variant:GradientEntry ratio="0" color="#FFF200" flm:midpoint="0.327777976989746"/>
+            <variant:GradientEntry ratio="1" color="#FDB71B"/>
+          </variant:RadialGradient>
+        </variant:fill>
+        <variant:stroke>
+          <variant:SolidColorStroke weight="1" caps="none" joints="miter" miterLimit="10" color="#C57729"/>
+        </variant:stroke>
+      </variant:Ellipse>
+    </mngo:VariantContent>
+    <ai:PrivateElement d:ref="#1">
+      <ai:SaveOptions>
+        <ai:Dict data="I preserveGradientPolicy 4 I preserveTextPolicy 4 I preserveFilterPolicy 3 B downsampleLinkedImages 0 I rasterizeResolution 72 I expandBlendsOption 5 B writeImages 1 B includeSymbol 0 B includeXMP 0 I versionKey 2 B aiEditCap 1 B includeObjectOutsideArtboard 0 "/>
+      </ai:SaveOptions>
+      <ai:DocData base="thumbsUp.assets/images" rulerCanvasDiffH="50.5" rulerCanvasDiffV="50.5">
+        <ai:DocRasterSettings>
+          <ai:Dict data="R padd 36 B mask 0 B spot 1 B alis 0 I dpi. 300 I colr 5 "/>
+        </ai:DocRasterSettings>
+      </ai:DocData>
+      <ai:AutoGenImageList>
+        <ai:Dict>
+          <ai:Entry name="1" value="Image_0002.png" valueType="U"/>
+          <ai:Entry name="5" value="Image_0006.png" valueType="U"/>
+          <ai:Entry name="8" value="Image_0009.png" valueType="U"/>
+          <ai:Entry name="0" value="Image_0001.png" valueType="U"/>
+          <ai:Entry name="6" value="Image_0007.png" valueType="U"/>
+          <ai:Entry name="4" value="Image_0005.png" valueType="U"/>
+          <ai:Entry name="2" value="Image_0003.png" valueType="U"/>
+          <ai:Entry name="3" value="Image_0004.png" valueType="U"/>
+          <ai:Entry name="7" value="Image_0008.png" valueType="U"/>
+        </ai:Dict>
+      </ai:AutoGenImageList>
+    </ai:PrivateElement>
+    <ai:PrivateElement flm:hashcode="E036D5FA1780353CAD1685176DD4D1A1" d:ref="#2">
+      <ai:LayerOptions color="5 79.31 257 128.502"/>
+    </ai:PrivateElement>
+    <ai:PrivateElement alternate="1" flm:hashcode="C215833F5BD40EE2031B0C2B7013DC2E" d:ref="#3">
+      <ai:Ellipse height="90" knockout="0" width="90" x="5" y="5">
+        <ai:ArtStyle>
+          <ai:PaintFields>
+            <ai:Stroke color="1 0.19 0.594 1 0.045" focus="1" miterLimit="10" weight="1"/>
+            <ai:Fill color="4" focus="1">
+              <ai:Gradient gradientType="radial" relLength="0.867" relOriginX="-0.075" relOriginY="-0.078">
+                <ai:GradientStops>
+                  <ai:GradientStop color="1 0 0 1 0" midPoint="32.778" rampPoint="0"/>
+                  <ai:GradientStop color="1 0 0.308 0.977 0" rampPoint="100"/>
+                </ai:GradientStops>
+              </ai:Gradient>
+            </ai:Fill>
+          </ai:PaintFields>
+          <ai:LiveEffects>
+            <ai:LiveEffect index="0" major="1" minor="0" name="Adobe Drop Shadow">
+              <ai:Dict data="R dark 100 B pair 1 R vert 1 I csrc 0 R horz 1 R blur 2 R opac 0.5 I blnd 1 ">
+                <ai:Entry name="sclr" valueType="F">
+                  <ai:Fill color="1 0 0 0 1"/>
+                </ai:Entry>
+              </ai:Dict>
+            </ai:LiveEffect>
+          </ai:LiveEffects>
+        </ai:ArtStyle>
+      </ai:Ellipse>
+    </ai:PrivateElement>
+    <ai:PrivateElement alternate="1" flm:hashcode="C215833F5BD40EE2031B0C2B7013DC2E" d:ref="#4">
+      <ai:Ellipse height="90" knockout="0" width="90" x="5" y="5">
+        <ai:ArtStyle>
+          <ai:PaintFields>
+            <ai:Stroke color="1 0.19 0.594 1 0.045" focus="1" miterLimit="10" weight="1"/>
+            <ai:Fill color="4" focus="1">
+              <ai:Gradient gradientType="radial" relLength="0.867" relOriginX="-0.075" relOriginY="-0.078">
+                <ai:GradientStops>
+                  <ai:GradientStop color="1 0 0 1 0" midPoint="32.778" rampPoint="0"/>
+                  <ai:GradientStop color="1 0 0.308 0.977 0" rampPoint="100"/>
+                </ai:GradientStops>
+              </ai:Gradient>
+            </ai:Fill>
+          </ai:PaintFields>
+          <ai:LiveEffects>
+            <ai:LiveEffect index="0" major="1" minor="0" name="Adobe Drop Shadow">
+              <ai:Dict data="R dark 100 B pair 1 R vert 1 I csrc 0 R horz 1 R blur 2 R opac 0.5 I blnd 1 ">
+                <ai:Entry name="sclr" valueType="F">
+                  <ai:Fill color="1 0 0 0 1"/>
+                </ai:Entry>
+              </ai:Dict>
+            </ai:LiveEffect>
+          </ai:LiveEffects>
+        </ai:ArtStyle>
+      </ai:Ellipse>
+    </ai:PrivateElement>
+  </Private>
+</Graphic>

@@ -107,6 +107,7 @@
 			if (isInitialized && _isCreationComplete)
 			{
 				createScheduleGroups();
+				updateTime();
 			}
 		}
 

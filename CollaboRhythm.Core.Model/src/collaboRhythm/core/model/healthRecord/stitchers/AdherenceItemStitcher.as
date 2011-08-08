@@ -18,6 +18,7 @@ package collaboRhythm.core.model.healthRecord.stitchers
 {
 
 	import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
@@ -35,7 +36,15 @@ package collaboRhythm.core.model.healthRecord.stitchers
 			var adherenceItem:AdherenceItem = document as AdherenceItem;
 			for each (var adherenceResultId:String in adherenceItem.adherenceResultIds)
 			{
-				adherenceItem.adherenceResults.push(record.medicationAdministrationsModel.medicationAdministrations[adherenceResultId])
+				var adherenceResult:DocumentBase = record.currentDocumentsById[adherenceResultId];
+				if (adherenceResult)
+				{
+					adherenceItem.adherenceResults.push(adherenceResult);
+				}
+				else
+				{
+					_logger.warn("Warning: Failed to stitch; adherenceResult relationship ignored. AdherenceResult not found with id " + adherenceResultId);
+				}
 			}
 		}
     }

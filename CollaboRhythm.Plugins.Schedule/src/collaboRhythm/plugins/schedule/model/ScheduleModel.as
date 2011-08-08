@@ -41,8 +41,12 @@ package collaboRhythm.plugins.schedule.model
 	import mx.logging.Log;
 
 	[Bindable]
-	public class ScheduleModel extends EventDispatcher
+	public class ScheduleModel extends EventDispatcher implements IScheduleGroupsProvider
 	{
+		/**
+		 * Key to the ScheduleModel instance in Record.appData
+		 */
+		public static const SCHEDULE_MODEL_KEY:String = "scheduleModel";
 		private var _record:Record;
 		private var _accountId:String;
 		private var _viewFactory:IScheduleViewFactory;
@@ -53,6 +57,7 @@ package collaboRhythm.plugins.schedule.model
 
 		private var _scheduleReportingModel:ScheduleReportingModel;
 		private var _scheduleTimelineModel:ScheduleTimelineModel;
+		private var _currentPerformanceModel:CurrentPerformanceModel;
 
 		private var _currentDateSource:ICurrentDateSource;
 
@@ -78,6 +83,7 @@ package collaboRhythm.plugins.schedule.model
 			_changeWatchers.push(BindingUtils.bindSetter(init, _record.equipmentScheduleItemsModel,
 														 "isStitched"));
 			_changeWatchers.push(BindingUtils.bindSetter(init, _record.adherenceItemsModel, "isStitched"));
+			_changeWatchers.push(BindingUtils.bindSetter(init, _record.vitalSignsModel, "isInitialized"));
 
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 			_viewFactory = new MasterScheduleViewFactory(componentContainer);
@@ -85,7 +91,7 @@ package collaboRhythm.plugins.schedule.model
 
 		private function init(isStitched:Boolean):void
 		{
-			if (_record.medicationOrdersModel.isStitched && _record.medicationScheduleItemsModel.isStitched && _record.equipmentModel.isStitched && _record.equipmentScheduleItemsModel.isStitched && _record.adherenceItemsModel.isStitched)
+			if (_record.medicationOrdersModel.isStitched && _record.medicationScheduleItemsModel.isStitched && _record.equipmentModel.isStitched && _record.equipmentScheduleItemsModel.isStitched && _record.adherenceItemsModel.isStitched && _record.vitalSignsModel.isInitialized)
 			{
 				var dateNow:Date = _currentDateSource.now();
 				var dateStart:Date = new Date(dateNow.getFullYear(), dateNow.getMonth(), dateNow.getDate());
@@ -110,6 +116,8 @@ package collaboRhythm.plugins.schedule.model
 						addToScheduleGroup(equipmentScheduleItemOccurrence);
 					}
 				}
+				currentPerformanceModel.determineAdherence();
+				// TODO: isInitialized = true should probably be done after scheduleTimelineModel.determineStacking(), but this needs to be tested
 				isInitialized = true;
 				scheduleTimelineModel.determineStacking();
 				dispatchEvent(new ScheduleModelEvent(ScheduleModelEvent.INITIALIZED));
@@ -200,12 +208,14 @@ package collaboRhythm.plugins.schedule.model
 				_record.addDocument(adherenceResult);
 				_record.addNewRelationship(AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT, adherenceItem, adherenceResult)
 			}
+			currentPerformanceModel.determineAdherence();
 		}
 
 		public function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void
 		{
 			_record.removeDocument(scheduleItemOccurrence.adherenceItem, DocumentBase.ACTION_VOID, "deleted by user", true);
 			scheduleItemOccurrence.adherenceItem = null;
+			currentPerformanceModel.determineAdherence();
 		}
 
 		public function saveChangesToRecord():void
@@ -241,6 +251,15 @@ package collaboRhythm.plugins.schedule.model
 				_scheduleTimelineModel = new ScheduleTimelineModel(this);
 			}
 			return _scheduleTimelineModel;
+		}
+
+		public function get currentPerformanceModel():CurrentPerformanceModel
+		{
+			if (!_currentPerformanceModel)
+			{
+				_currentPerformanceModel = new CurrentPerformanceModel(this, _record);
+			}
+			return _currentPerformanceModel;
 		}
 
 		public function destroy():void

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="creationCompleteHandler()"
+		 xmlns:images="assets.images.*"
+		 horizontalCenter="0"
+		 verticalCenter="0"
+		 width="1100" height="120">
+	<fx:Style>
+		.positivePerformance {
+			fontSize: 30;
+			color: green;
+		}
+
+		.negativePerformance {
+			fontSize: 30;
+			color: red;
+		}
+
+		#takeMedicationsLabel {
+			fontSize: 30;
+			color: #000000;
+		}
+
+		.detailsLabel {
+			fontSize: 20;
+			color: #000000;
+		}
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.schedule.controller.CurrentPerformanceAppController;
+		import collaboRhythm.plugins.schedule.shared.model.CurrentPerformanceModel;
+		import collaboRhythm.plugins.schedule.model.ScheduleModel;
+		import collaboRhythm.plugins.schedule.shared.model.CurrentPerformanceModel;
+		import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+
+		import mx.binding.utils.BindingUtils;
+
+		[Bindable]
+		private var _scheduleModel:ScheduleModel;
+		[Bindable]
+		private var _currentPerformanceModel:CurrentPerformanceModel;
+
+		private var _isCreationComplete:Boolean = false;
+
+		public function init(currentPerformanceAppController:CurrentPerformanceAppController,
+							 scheduleModel:ScheduleModel):void
+		{
+			_scheduleModel = scheduleModel;
+
+			BindingUtils.bindSetter(scheduleModelInitialized_changeWatcher, _scheduleModel, "isInitialized");
+		}
+
+		private function creationCompleteHandler():void
+		{
+			if (_scheduleModel.isInitialized)
+			{
+				createVariableForDataBinding();
+			}
+
+			_isCreationComplete = true;
+		}
+
+		private function scheduleModelInitialized_changeWatcher(isInitialized:Boolean):void
+		{
+			if (isInitialized && _isCreationComplete)
+			{
+				createVariableForDataBinding();
+			}
+		}
+
+		private function createVariableForDataBinding():void
+		{
+			_currentPerformanceModel = _scheduleModel.currentPerformanceModel;
+		}
+		]]></fx:Script>
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="white"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke color="black"/>
+		</s:stroke>
+	</s:Rect>
+	<s:HGroup width="100%" height="100%"
+			  visible="{_currentPerformanceModel &amp;&amp; _currentPerformanceModel.timingState == CurrentPerformanceModel.TIME_DURING_SCHEDULE_GROUP &amp;&amp; !_currentPerformanceModel.medicationAdherenceReported &amp;&amp;_currentPerformanceModel.bloodPressureState != CurrentPerformanceModel.BLOOD_PRESSURE_DANGEROUSLY_HIGH &amp;&amp; _currentPerformanceModel.bloodPressureState != CurrentPerformanceModel.BLOOD_PRESSURE_DANGEROUSLY_LOW}">
+		<s:Group width="120" height="120">
+			<images:clockBackground width="100" height="100" horizontalCenter="0" verticalCenter="0"/>
+			<images:clockForeground width="100" height="100" horizontalCenter="0" verticalCenter="0"/>
+		</s:Group>
+		<s:VGroup>
+			<s:Label id="takeMedicationsLabel" text="It is time to take your medications" paddingTop="10"/>
+			<s:Label text="Taking your medication on schedule is important to ensure" styleName="detailsLabel"
+					 paddingTop="10"/>
+			<s:Label text="that they work consistently at keeping your blood pressure down" styleName="detailsLabel"/>
+		</s:VGroup>
+	</s:HGroup>
+	<s:HGroup width="100%" height="100%"
+			  visible="{_currentPerformanceModel &amp;&amp;_currentPerformanceModel.bloodPressureState == CurrentPerformanceModel.BLOOD_PRESSURE_DANGEROUSLY_LOW}">
+		<s:Group width="120" height="120">
+			<images:warning width="100" height="100" horizontalCenter="0" verticalCenter="0"/>
+		</s:Group>
+		<s:VGroup>
+			<s:Label
+					text="Your last blood pressure ({_currentPerformanceModel.systolicValue}/{_currentPerformanceModel.diastolicValue}) was dangerously low"
+					styleName="negativePerformance" paddingTop="10"/>
+			<s:Label text="If you are inside the Charter House, contact the clinical staff" styleName="detailsLabel"
+					 paddingTop="10"/>
+			<s:Label text="If you are outside the Charter House, dial 911 or ask for help" styleName="detailsLabel"/>
+		</s:VGroup>
+	</s:HGroup>
+	<s:HGroup width="100%" height="100%"
+			  visible="{_currentPerformanceModel &amp;&amp; _currentPerformanceModel.bloodPressureState == CurrentPerformanceModel.BLOOD_PRESSURE_DANGEROUSLY_HIGH}">
+		<s:Group width="120" height="120">
+			<images:warning width="100" height="100" horizontalCenter="0" verticalCenter="0"/>
+		</s:Group>
+		<s:VGroup>
+			<s:Label
+					text="Your last blood pressure ({_currentPerformanceModel.systolicValue}/{_currentPerformanceModel.diastolicValue}) was dangerously high"
+					styleName="negativePerformance" paddingTop="10"/>
+			<s:Label text="If you are inside the Charter House, contact the clinical staff" styleName="detailsLabel"
+					 paddingTop="10"/>
+			<s:Label text="If you are outside the Charter House, dial 911 or ask for help" styleName="detailsLabel"/>
+		</s:VGroup>
+	</s:HGroup>
+	<s:HGroup width="100%" height="100%" gap="10"
+			  visible="{_currentPerformanceModel &amp;&amp;_currentPerformanceModel.bloodPressureState != CurrentPerformanceModel.BLOOD_PRESSURE_DANGEROUSLY_HIGH &amp;&amp; _currentPerformanceModel.bloodPressureState != CurrentPerformanceModel.BLOOD_PRESSURE_DANGEROUSLY_LOW &amp;&amp; !(_currentPerformanceModel.timingState == CurrentPerformanceModel.TIME_DURING_SCHEDULE_GROUP &amp;&amp; !_currentPerformanceModel.medicationAdherenceReported)}">
+		<s:Group width="120" height="120">
+			<images:thumbsUp width="100" height="100" horizontalCenter="0" verticalCenter="0"
+							 visible="{_currentPerformanceModel.medicationAdherenceState &amp;&amp; _currentPerformanceModel.bloodPressureState == CurrentPerformanceModel.BLOOD_PRESSURE_NORMAL}"/>
+			<images:thumbsUp width="45" height="45" right="0" top="10"
+							 visible="{_currentPerformanceModel.medicationAdherenceState &amp;&amp; _currentPerformanceModel.bloodPressureState != CurrentPerformanceModel.BLOOD_PRESSURE_NORMAL}"/>
+			<images:thumbsUp width="45" height="45" right="0" bottom="10"
+							 visible="{!_currentPerformanceModel.medicationAdherenceState &amp;&amp; _currentPerformanceModel.bloodPressureState == CurrentPerformanceModel.BLOOD_PRESSURE_NORMAL}"/>
+			<images:lightningLarge width="100" height="100" horizontalCenter="0" verticalCenter="0"
+								   visible="{!_currentPerformanceModel.medicationAdherenceState &amp;&amp; _currentPerformanceModel.bloodPressureState == CurrentPerformanceModel.BLOOD_PRESSURE_HIGH}"/>
+			<images:lightningSmall width="45" height="45" right="0" top="10"
+								   visible="{!_currentPerformanceModel.medicationAdherenceState &amp;&amp; _currentPerformanceModel.bloodPressureState != CurrentPerformanceModel.BLOOD_PRESSURE_HIGH}"/>
+			<images:lightningSmall width="45" height="45" right="0" bottom="10"
+								   visible="{_currentPerformanceModel.medicationAdherenceState &amp;&amp; _currentPerformanceModel.bloodPressureState == CurrentPerformanceModel.BLOOD_PRESSURE_HIGH}"/>
+			<images:warning width="45" height="45" right="0" bottom="10"
+							visible="{!_currentPerformanceModel.bloodPressureReported}"/>
+		</s:Group>
+		<s:Group width="100%" height="100%">
+			<s:Label text="You took all of your blood pressure medications yesterday - nice work"
+					 styleName="positivePerformance" top="20"
+					 visible="{_currentPerformanceModel.timingState == CurrentPerformanceModel.TIME_PRIOR_TO_FIRST_SCHEDULE_GROUP &amp;&amp; _currentPerformanceModel.medicationAdherenceState}"/>
+			<s:Label text="You did not take all of your blood pressure medications yesterday"
+					 styleName="negativePerformance" top="20"
+					 visible="{_currentPerformanceModel.timingState == CurrentPerformanceModel.TIME_PRIOR_TO_FIRST_SCHEDULE_GROUP &amp;&amp; !_currentPerformanceModel.medicationAdherenceState}"/>
+			<s:Label text="You have taken all of your blood pressure medications so far today"
+					 styleName="positivePerformance" top="20"
+					 visible="{_currentPerformanceModel.timingState == CurrentPerformanceModel.TIME_BETWEEN_SCHEDULE_GROUPS &amp;&amp; _currentPerformanceModel.medicationAdherenceState}"/>
+			<s:Label text="You have not taken all of your blood pressure medications so far today"
+					 styleName="negativePerformance" top="20"
+					 visible="{_currentPerformanceModel.timingState == CurrentPerformanceModel.TIME_BETWEEN_SCHEDULE_GROUPS &amp;&amp; !_currentPerformanceModel.medicationAdherenceState}"/>
+			<s:Label text="You have taken all of your blood pressure medications for today - nice work"
+					 styleName="positivePerformance" top="20"
+					 visible="{_currentPerformanceModel.timingState == CurrentPerformanceModel.TIME_AFTER_LAST_SCHEDULE_GROUP &amp;&amp; _currentPerformanceModel.medicationAdherenceState}"/>
+			<s:Label text="You have not taken all of your blood pressure medications for today"
+					 styleName="negativePerformance" top="20"
+					 visible="{_currentPerformanceModel.timingState == CurrentPerformanceModel.TIME_AFTER_LAST_SCHEDULE_GROUP &amp;&amp; !_currentPerformanceModel.medicationAdherenceState}"/>
+			<s:Label
+					text="Your last blood pressure ({_currentPerformanceModel.systolicValue.toString()}/{_currentPerformanceModel.diastolicValue.toString()}) was within your goal"
+					styleName="positivePerformance"
+					bottom="20"
+					visible="{_currentPerformanceModel.bloodPressureReported &amp;&amp; _currentPerformanceModel.bloodPressureState == CurrentPerformanceModel.BLOOD_PRESSURE_NORMAL}"/>
+			<s:Label
+					text="Your last blood pressure ({_currentPerformanceModel.systolicValue.toString()}/{_currentPerformanceModel.diastolicValue.toString()}) was above your goal"
+					styleName="negativePerformance"
+					bottom="20"
+					visible="{_currentPerformanceModel.bloodPressureReported &amp;&amp; _currentPerformanceModel.bloodPressureState == CurrentPerformanceModel.BLOOD_PRESSURE_HIGH}"/>
+			<s:Label text="You did not take your blood pressure yesterday" bottom="20" styleName="negativePerformance"
+					 visible="{_currentPerformanceModel.timingState == CurrentPerformanceModel.TIME_PRIOR_TO_FIRST_SCHEDULE_GROUP &amp;&amp; !_currentPerformanceModel.bloodPressureReported}"/>
+			<s:Label text="You have not taken your blood pressure today" bottom="20" styleName="negativePerformance"
+					 visible="{(_currentPerformanceModel.timingState == CurrentPerformanceModel.TIME_BETWEEN_SCHEDULE_GROUPS || _currentPerformanceModel.timingState == CurrentPerformanceModel.TIME_AFTER_LAST_SCHEDULE_GROUP || (_currentPerformanceModel.timingState == CurrentPerformanceModel.TIME_DURING_SCHEDULE_GROUP &amp;&amp; _currentPerformanceModel.medicationAdherenceReported)) &amp;&amp; !_currentPerformanceModel.bloodPressureReported}"/>
+		</s:Group>
+	</s:HGroup>
+<!--	<s:VGroup height="100%">
+		<s:Label text="timingState = {_currentPerformanceModel.timingState}"/>
+		<s:Label text="medicationAdherenceReported = {_currentPerformanceModel.medicationAdherenceReported}"/>
+		<s:Label text="medicationAdherenceState = {_currentPerformanceModel.medicationAdherenceState}"/>
+		<s:Label text="bloodPressureReported = {_currentPerformanceModel.bloodPressureReported}"/>
+		<s:Label text="bloodPressureState = {_currentPerformanceModel.bloodPressureState}"/>
+		<s:Label text="systolicValue = {_currentPerformanceModel.systolicValue}"/>
+		<s:Label text="diastolicValue = {_currentPerformanceModel.diastolicValue}"/>
+	</s:VGroup>-->
+</s:Group>

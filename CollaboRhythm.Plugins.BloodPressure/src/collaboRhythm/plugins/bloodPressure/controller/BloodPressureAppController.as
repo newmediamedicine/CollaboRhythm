@@ -22,6 +22,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureMobileWidgetView;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureSimulationWidgetView;
 	import collaboRhythm.plugins.bloodPressure.view.IBloodPressureWidgetView;
+	import collaboRhythm.plugins.schedule.shared.model.CurrentPerformanceModel;
 	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
@@ -113,6 +114,8 @@ package collaboRhythm.plugins.bloodPressure.controller
 			if (_widgetView && _activeRecordAccount)
 			{
 				_widgetView.model = _activeRecordAccount.primaryRecord.bloodPressureModel;
+				var currentPerformanceModel:CurrentPerformanceModel = _activeRecordAccount.primaryRecord.getAppData(CurrentPerformanceModel.CURRENT_PERFORMANCE_MODEL_KEY, CurrentPerformanceModel) as CurrentPerformanceModel;
+				_widgetView.currentPerformanceModel = currentPerformanceModel;
 			}
 		}
 
