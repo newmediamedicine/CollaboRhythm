@@ -59,7 +59,7 @@
 
 		private function closeRecordButton_clickHandler(event:MouseEvent):void
 		{
-			_workstationApplicationController.closeRecordAccount(_recordAccount);
+			_workstationApplicationController.tryCloseRecordAccount(_recordAccount);
 		}
 
 		private function recordVideoButton_clickHandler(event:MouseEvent):void
