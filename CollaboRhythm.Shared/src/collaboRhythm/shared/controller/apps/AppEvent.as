@@ -16,10 +16,11 @@
  */
 package collaboRhythm.shared.controller.apps
 {
+
 	import flash.events.Event;
-	
+
 	import spark.primitives.Rect;
-	
+
 	public class AppEvent extends Event
 	{
 		public static const SHOW_FULL_VIEW:String = "ShowFullView";
@@ -30,13 +31,17 @@ package collaboRhythm.shared.controller.apps
 		private var _workstationAppController:WorkstationAppControllerBase;
 		private var _startRect:Rect;
 		private var _applicationName:String;
+		private var _viaMechanism:String;
 
-		public function AppEvent(type:String, workstationAppController:WorkstationAppControllerBase=null, startRect:Rect=null, applicationName:String=null, bubbles:Boolean=false, cancelable:Boolean=false)
+		public function AppEvent(type:String, workstationAppController:WorkstationAppControllerBase = null,
+								 startRect:Rect = null, applicationName:String = null, viaMechanism:String = null, bubbles:Boolean = false,
+								 cancelable:Boolean = false)
 		{
 			super(type, bubbles, cancelable);
 			_workstationAppController = workstationAppController;
 			_startRect = startRect;
 			_applicationName = applicationName;
+			_viaMechanism = viaMechanism;
 		}
 
 		public function get applicationName():String
@@ -69,5 +74,14 @@ package collaboRhythm.shared.controller.apps
 			_workstationAppController = value;
 		}
 
+		public function get viaMechanism():String
+		{
+			return _viaMechanism;
+		}
+
+		public function set viaMechanism(value:String):void
+		{
+			_viaMechanism = value;
+		}
 	}
 }

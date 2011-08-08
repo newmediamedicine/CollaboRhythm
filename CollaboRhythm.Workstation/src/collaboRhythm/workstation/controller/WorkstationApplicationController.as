@@ -18,9 +18,11 @@ package collaboRhythm.workstation.controller
 {
 
 	import collaboRhythm.core.controller.ApplicationControllerBase;
+	import collaboRhythm.core.controller.ApplicationExitUtil;
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.core.view.ConnectivityView;
 	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.InteractionLogUtil;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
@@ -94,8 +96,6 @@ package collaboRhythm.workstation.controller
 
             initWindows();
 			_logger.info("Windows initialized");
-
-			NativeApplication.nativeApplication.addEventListener(Event.EXITING, onExiting);
         }
 
         // handles the use of windowSettings to start the application the way it was closed if specified
@@ -417,35 +417,21 @@ package collaboRhythm.workstation.controller
 				NativeApplication.nativeApplication.dispatchEvent(exitingEvent);
 				if (!exitingEvent.isDefaultPrevented())
 				{
-					_logger.info("Application exit by user (via close window)");
-					NativeApplication.nativeApplication.exit();
+					InteractionLogUtil.log(_logger, "Application exit", "close window");
+					ApplicationExitUtil.exit();
 				}
 			}
 		}
 
-        // Close the entire application, sending out an event to any processes that might want to interrupt the closing
-		private function applicationExit(exitMethod:String):void
+		override protected function prepareToExit():void
 		{
-			var exitingEvent:Event = new Event(Event.EXITING, false, true);
-			NativeApplication.nativeApplication.dispatchEvent(exitingEvent);
-			if (!exitingEvent.isDefaultPrevented())
-			{
-				_logger.info("Application exit by user (via " + exitMethod + ")");
-				NativeApplication.nativeApplication.exit();
-			}
-		}
-
-		// Close each of the windows in the application, and do any cleanup for the application after that
-		private function onExiting(exitingEvent:Event):void
-		{
+			// Close each of the windows in the application, and do any cleanup for the application after that
 			for each (var window:NativeWindow in NativeApplication.nativeApplication.openedWindows)
 			{
 				window.close();
 			}
 
-            saveWindowSettings();
-//			_collaborationMediator.cancelAllCollaborations();
-
+			saveWindowSettings();
 		}
 
 //		public function get topSpace():TopSpace

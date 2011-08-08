@@ -35,6 +35,7 @@
 		import collaboRhythm.plugins.videoMessages.controller.VideoMessagesAppController;
 		import collaboRhythm.shared.model.Account;
 		import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
+		import collaboRhythm.shared.model.InteractionLogUtil;
 		import collaboRhythm.shared.model.healthRecord.document.VideoMessage;
 		import collaboRhythm.shared.model.healthRecord.document.VideoMessagesModel;
 
@@ -163,6 +164,7 @@
 		private function playVideoMessageHandler(event:VideoMessageItemRendererEvent):void
 		{
 			var videoMessage:VideoMessage = event.videoMessage;
+			InteractionLogUtil.log(_logger, "Play video message " + videoMessage.meta.id, "play button");
 			var fileId:String = videoMessage.fileId;
 			var netStreamLocation:String = _accountId + "/" + fileId;
 			if (videoDisplay.netStream)
@@ -174,6 +176,7 @@
 
 		private function deleteVideoMessageHandler(event:VideoMessageItemRendererEvent):void
 		{
+			InteractionLogUtil.log(_logger, "Delete video message " + event.videoMessage.meta.id, "delete button");
 			_videoMessagesAppController.deleteVideoMessage(event.videoMessage);
 		}
 		]]>

@@ -35,10 +35,10 @@ package collaboRhythm.plugins.schedule.controller
 			_scheduleWidgetView = scheduleWidgetView;
 		}
 
-		public function openScheduleReportingFullView(scheduleGroup:ScheduleGroup):void
+		public function openScheduleReportingFullView(scheduleGroup:ScheduleGroup, viaMechanism:String):void
 		{
 			_scheduleModel.scheduleReportingModel.currentScheduleGroup = scheduleGroup;
-			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, null, null, "Schedule"));
+			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, null, null, "Schedule", viaMechanism));
 		}
 	}
 }

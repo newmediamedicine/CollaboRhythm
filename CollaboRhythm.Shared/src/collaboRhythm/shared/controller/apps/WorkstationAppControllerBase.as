@@ -21,6 +21,7 @@ package collaboRhythm.shared.controller.apps
 	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.CollaborationModel;
 	import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
+	import collaboRhythm.shared.model.InteractionLogUtil;
 	import collaboRhythm.shared.model.User;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.Settings;
@@ -48,6 +49,8 @@ package collaboRhythm.shared.controller.apps
 	import mx.events.DragEvent;
 	import mx.events.EffectEvent;
 	import mx.graphics.ImageSnapshot;
+	import mx.logging.ILogger;
+	import mx.logging.Log;
 	import mx.managers.DragManager;
 
 	import spark.components.Application;
@@ -90,8 +93,12 @@ package collaboRhythm.shared.controller.apps
 		private var _isWidgetViewPrepared:Boolean = false;
 		private var _isFullViewPrepared:Boolean = false;
 
+		protected var _logger:ILogger;
+
 		public function WorkstationAppControllerBase(constructorParams:AppControllerConstructorParams)
 		{
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+
 			name = defaultName;
 
 			_widgetContainer = constructorParams.widgetContainer;
@@ -426,7 +433,7 @@ package collaboRhythm.shared.controller.apps
 				startRect.y = dragEvent.localY - data.mouseEvent.localY;
 
 			}
-			this.dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this, startRect));
+			this.dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this, startRect, null, "widget drag complete"));
 		}
 
 		public function dragExitHandler(dragEvent:DragEvent):void
@@ -477,7 +484,7 @@ package collaboRhythm.shared.controller.apps
 		private function widgetDoubleClickHandler(event:MouseEvent):void
 		{
 			if (canShowFullView())
-				this.dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this));
+				this.dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this, null, null, "widget double click"));
 		}
 
 		protected function get shouldShowFullViewOnWidgetClick():Boolean
@@ -488,7 +495,7 @@ package collaboRhythm.shared.controller.apps
 		private function widgetClickHandler(event:MouseEvent):void
 		{
 			if (shouldShowFullViewOnWidgetClick && canShowFullView() && isShowFullViewClickEvent(event))
-				this.dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this));
+				this.dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this, null, null, "widget click"));
 		}
 
 		private function isShowFullViewClickEvent(event:MouseEvent):Boolean
@@ -518,7 +525,7 @@ package collaboRhythm.shared.controller.apps
 			_widgetContainer = value;
 		}
 
-		public function showWidget(left:Number = -1, top:Number = -1):void
+		public function showWidget(left:Number = -1, top:Number = -1):Boolean
 		{
 			if (widgetView)
 			{
@@ -526,7 +533,9 @@ package collaboRhythm.shared.controller.apps
 					widgetView.move(left, top);
 
 				widgetView.visible = true;
+				return true;
 			}
+			return false;
 		}
 
 		/**
@@ -685,8 +694,15 @@ package collaboRhythm.shared.controller.apps
 			return scale;
 		}
 
-		public function showFullView(startRect:Rect):void
+		/**
+		 * Shows the full view for this app, if possible.
+		 * @param startRect the starting rect for showing the transition animation
+		 * @return true if the full view was shown
+		 */
+		public function showFullView(startRect:Rect):Boolean
 		{
+			var result:Boolean;
+
 			if (_fullContainer && fullView == null)
 			{
 				fullView = createFullView();
@@ -738,7 +754,10 @@ package collaboRhythm.shared.controller.apps
 					hideOtherFullViews();
 					showFullViewComplete();
 				}
+
+				result = true;
 			}
+			return result;
 		}
 
 		private function shrinkRectToAspectRatio(rect:Rect, targetView:UIComponent):void
@@ -835,8 +854,10 @@ package collaboRhythm.shared.controller.apps
 			}
 		}
 
-		public function hideFullView():void
+		public function hideFullView():Boolean
 		{
+			var result:Boolean;
+
 			_primaryShowFullViewParallelEffect.stop();
 			_secondaryShowFullViewParallelEffect.stop();
 
@@ -873,11 +894,13 @@ package collaboRhythm.shared.controller.apps
 					fullView.visible = false;
 					hideFullViewComplete();
 				}
+				result = true;
 			}
 			else
 			{
 				//trace("hideFullView() called but fullView is null");
 			}
+			return result;
 		}
 
 		public function hideFullViewFadeEndHandler(event:EffectEvent):void

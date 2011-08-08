@@ -61,7 +61,8 @@
 			_widgetContainers.push(buttonWidgetsGroup);
 			_widgetContainers.push(currentPerformanceGroup);
 
-			initializeVersionWatermark();
+			if (_tabletApplicationController && _tabletApplicationController.settings && _tabletApplicationController.settings.debuggingToolsEnabled)
+				initializeVersionWatermark();
 		}
 
 		private function initializeVersionWatermark():void
