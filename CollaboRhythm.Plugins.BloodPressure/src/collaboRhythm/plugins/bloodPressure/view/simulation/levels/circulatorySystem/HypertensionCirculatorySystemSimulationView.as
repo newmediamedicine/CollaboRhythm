@@ -70,6 +70,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 		private function circulatorySystemSimulationLoader_completeHandler(event:Event):void
 		{
 			_circulatorySystemSimulationMovieClip = MovieClip(_circulatorySystemSimulationLoader.content);
+			initializeMovieClip();
 			if (_stopSimulationOnComplete)
 				stopAll(_circulatorySystemSimulationMovieClip);
 		}
@@ -77,6 +78,16 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 		private function circulatorySystemSimulationLoader_ioErrorHandler(event:Event):void
 		{
 			_logger.warn("circulatorySystemSimulator load FAILED");
+		}
+
+
+		public function set currentDamage(value:int):void
+		{
+			if (_circulatorySystemSimulationMovieClip)
+			{
+				_circulatorySystemSimulationMovieClip.current_damage = value;
+				_circulatorySystemSimulationMovieClip.update();
+			}
 		}
 
 		public function set concentration(concentration:Number):void
@@ -172,6 +183,15 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 			this.addChild(movieClipLoader);
 			_circulatorySystemSimulationLoader = movieClipLoader;
 			_circulatorySystemSimulationMovieClip = movieClipLoader.content as MovieClip;
+			initializeMovieClip();
+		}
+
+		private function initializeMovieClip():void
+		{
+			if (_circulatorySystemSimulationMovieClip)
+			{
+				_circulatorySystemSimulationMovieClip.current_medicine = 0;
+			}
 		}
 	}
 }

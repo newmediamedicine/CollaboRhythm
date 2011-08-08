@@ -62,6 +62,11 @@ package collaboRhythm.shared.model.healthRecord.document
             }
         }
 
+		public function get dateStartValue():Number
+		{
+			return dateStart.valueOf();
+		}
+
         public function get dateEnd():Date
         {
             return _dateEnd;

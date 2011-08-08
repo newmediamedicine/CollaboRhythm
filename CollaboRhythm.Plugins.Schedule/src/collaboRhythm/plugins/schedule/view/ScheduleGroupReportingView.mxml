@@ -80,7 +80,7 @@
 		{
 			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in currentScheduleGroup.scheduleItemsOccurrencesCollection)
 			{
-				if (xor(scheduleItemOccurrence.scheduleItem.name.text == "FORA D15b", excludeEquipmentScheduleItem))
+				if (xor(scheduleItemOccurrence.scheduleItem.name.text == "FORA D40b", excludeEquipmentScheduleItem))
 				{
 					var scheduleItemReportingView:ScheduleItemReportingViewBase = _scheduleModel.viewFactory.createScheduleItemReportingView(scheduleItemOccurrence,
 																																			 _scheduleModel.scheduleReportingModel,

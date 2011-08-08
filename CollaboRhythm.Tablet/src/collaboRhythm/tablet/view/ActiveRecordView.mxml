@@ -59,6 +59,7 @@
 			_widgetContainers.push(scheduleWidgetGroup);
 			_widgetContainers.push(bloodPressureWidgetGroup);
 			_widgetContainers.push(buttonWidgetsGroup);
+			_widgetContainers.push(currentPerformanceGroup);
 
 			initializeVersionWatermark();
 		}
@@ -147,24 +148,31 @@
 			<s:SolidColor color="{RECORD_BACKGROUND_COLOR}"/>
 		</s:fill>
 	</s:Rect>
-	<s:HGroup width="100%" height="100%" gap="0" paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10">
-		<s:HGroup id="widgetViewsGroup" width="100%" height="100%" gap="20">
-			<s:VGroup id="scheduleWidgetGroup" width="50%" height="100%">
+	<s:VGroup width="100%" height="100%">
+		<s:HGroup width="100%" height="100%" gap="0" paddingLeft="10" paddingRight="10" paddingTop="10"
+				  paddingBottom="10">
+			<s:HGroup id="widgetViewsGroup" width="100%" height="100%" gap="20">
+				<s:VGroup id="scheduleWidgetGroup" width="50%" height="100%">
 
-			</s:VGroup>
-			<s:VGroup id="bloodPressureWidgetGroup" width="50%" height="100%">
+				</s:VGroup>
+				<s:VGroup id="bloodPressureWidgetGroup" width="50%" height="100%">
+
+				</s:VGroup>
+			</s:HGroup>
+			<s:VGroup id="buttonWidgetsGroup" width="110" height="100%">
 
 			</s:VGroup>
 		</s:HGroup>
-		<s:VGroup id="buttonWidgetsGroup" width="110" height="100%">
-
-		</s:VGroup>
-	</s:HGroup>
+		<s:Group id="currentPerformanceGroup" width="100%" height="140">
+			
+		</s:Group>
+	</s:VGroup>
 	<s:VGroup id="versionWatermarkGroup" width="100%" height="100%" color="#888888" visible="false">
 		<s:Label id="applicationNameLabel" text="{appName}" fontSize="16"/>
 		<s:Label id="applicationCopyrightLabel" text="{appCopyright}"/>
 		<s:Label id="applicationVersionLabel" text="Version {appVersion}"/>
-		<s:Label id="applicationModificationLabel" text="Updated {dateFormatter.format(appModificationDate)}" visible="false"/>
+		<s:Label id="applicationModificationLabel" text="Updated {dateFormatter.format(appModificationDate)}"
+				 visible="false"/>
 	</s:VGroup>
 	<s:Group id="fullViewsGroup" width="100%" height="100%">
 

@@ -53,6 +53,7 @@ package com.coltware.airxlib.log
 
 		private var _facility:int = LOG_LOCAL1;
 		private var _userName:String;
+		private var _logSourceIdentifier:String;
 
 		private var _messages:Array;
 
@@ -95,6 +96,11 @@ package com.coltware.airxlib.log
 		public function set userName(value:String):void
 		{
 			_userName = value;
+		}
+
+		public function set logSourceIdentifier(value:String):void
+		{
+			_logSourceIdentifier = value;
 		}
 
 		/*
@@ -146,13 +152,19 @@ package com.coltware.airxlib.log
 				userName = _userName + fieldSeparator;
 			}
 
+			var logSourceIdentifier:String = "";
+			if (_logSourceIdentifier)
+			{
+				logSourceIdentifier = _logSourceIdentifier + fieldSeparator;
+			}
+
 			var category:String = "";
 			if (includeCategory)
 			{
 				category = ILogger(event.target).category + fieldSeparator;
 			}
 
-			internalLog("<" + prival + ">" + fieldSeparator + timeStamp + userName + category + event.message);
+			internalLog("<" + prival + ">" + fieldSeparator + timeStamp + userName + logSourceIdentifier + category + event.message);
 		}
 
 		override mx_internal function internalLog(message:String):void

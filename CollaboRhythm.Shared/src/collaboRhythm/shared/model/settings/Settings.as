@@ -37,10 +37,12 @@ package collaboRhythm.shared.model.settings
 		private var _oauthChromeConsumerKey:String;
 		private var _oauthChromeConsumerSecret:String;
 		private var _indivoServerBaseURL:String;
+		private var _logSourceIdentifier:String;
         private var _syslogServerIpAddress:String;
 		private var _mode:String;
 		private var _rtmpBaseURI:String;
 		private var _useSingleScreen:Boolean;
+
 		private var _resetWindowSettings:Boolean;
 		private var _targetDate:Date;
 		private var _modality:String;
@@ -74,6 +76,16 @@ package collaboRhythm.shared.model.settings
 		public function set indivoServerBaseURL(value:String):void
 		{
 			_indivoServerBaseURL = value;
+		}
+
+		public function get logSourceIdentifier():String
+		{
+			return _logSourceIdentifier;
+		}
+
+		public function set logSourceIdentifier(value:String):void
+		{
+			_logSourceIdentifier = value;
 		}
 
         public function get syslogServerIpAddress():String
