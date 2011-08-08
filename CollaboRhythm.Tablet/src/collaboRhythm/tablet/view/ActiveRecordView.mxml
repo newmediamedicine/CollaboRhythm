@@ -60,7 +60,8 @@
 			_widgetContainers.push(bloodPressureWidgetGroup);
 			_widgetContainers.push(buttonWidgetsGroup);
 
-			initializeVersionWatermark();
+			if (_tabletApplicationController && _tabletApplicationController.settings && _tabletApplicationController.settings.debuggingToolsEnabled)
+				initializeVersionWatermark();
 		}
 
 		private function initializeVersionWatermark():void
