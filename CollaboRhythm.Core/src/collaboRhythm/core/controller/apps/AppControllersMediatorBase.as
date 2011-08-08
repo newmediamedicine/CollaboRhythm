@@ -70,7 +70,7 @@ package collaboRhythm.core.controller.apps
 		private var _currentAppGroup:AppGroup;
 		private var _appGroups:OrderedMap; // of AppGroup
 		private var dynamicAppDictionary:OrderedMap;
-		protected var logger:ILogger;
+		protected var _logger:ILogger;
 		private var _currentFullView:String;
 		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
 
@@ -79,7 +79,7 @@ package collaboRhythm.core.controller.apps
 												   componentContainer:IComponentContainer, collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService)
 		{
 			_collaborationLobbyNetConnectionService = collaborationLobbyNetConnectionService;
-			logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_widgetContainers = widgetContainers;
 			_fullContainer = fullParentContainer;
 			_settings = settings;
@@ -124,7 +124,7 @@ package collaboRhythm.core.controller.apps
 
 			if (_appGroups.length > _widgetContainers.length)
 			{
-				logger.warn("Warning: a container was provided for at least one app group specified in settings.xml.");
+				_logger.warn("Warning: a container was provided for at least one app group specified in settings.xml.");
 			}
 
 			showAllWidgets();
@@ -166,7 +166,7 @@ package collaboRhythm.core.controller.apps
 
 				initializeAppGroup(appGroupDescriptor.id);
 
-				logger.info("Creating {0} apps for group {1}", appGroupDescriptor.appDescriptors.length,
+				_logger.info("Creating {0} apps for group {1}", appGroupDescriptor.appDescriptors.length,
 							appGroupDescriptor.id);
 				for each (var appDescriptor:String in appGroupDescriptor.appDescriptors)
 				{
@@ -180,14 +180,14 @@ package collaboRhythm.core.controller.apps
 						}
 						catch(e:Error)
 						{
-							logger.error("Error attempting to getClassByAlias: " + e.message);
+							_logger.error("Error attempting to getClassByAlias: " + e.message);
 						}
 					}
 
 					if (appClass)
 						createApp(appClass);
 					else
-						logger.error("Failed to get instance of app controller class: " + appDescriptor + " for app group #" + groupIndex + " (" + appGroupDescriptor.id + ")");
+						_logger.error("Failed to get instance of app controller class: " + appDescriptor + " for app group #" + groupIndex + " (" + appGroupDescriptor.id + ")");
 				}
 			}
 		}
@@ -210,7 +210,7 @@ package collaboRhythm.core.controller.apps
 
 		private function createDynamicApps():void
 		{
-			logger.warn("Warning: no app groups specified in settings; creating standard app group from all dynamic apps");
+			_logger.warn("Warning: no app groups specified in settings; creating standard app group from all dynamic apps");
 
 			initializeAppGroup(STANDARD_APP_GROUP);
 
@@ -218,7 +218,7 @@ package collaboRhythm.core.controller.apps
 
 			infoArray = AppControllersSorter.orderAppsByInitializationOrderConstraints(infoArray);
 
-			logger.info("Creating {0} dynamic apps", infoArray.length);
+			_logger.info("Creating {0} dynamic apps", infoArray.length);
 			for each (var info:AppControllerInfo in infoArray)
 			{
 				createApp(info.appControllerClass);
@@ -288,26 +288,34 @@ package collaboRhythm.core.controller.apps
 
 		private function showFullViewHandler(event:AppEvent):void
 		{
+			var appInstance:WorkstationAppControllerBase;
 			if (event.workstationAppController == null)
 			{
 				// TODO: use constant instead of magic string
-				showFullView(event.applicationName, "local");
+				appInstance = showFullView(event.applicationName, "local");
 			}
 			else
 			{
-				showFullViewResolved(event.workstationAppController, "local");
+				appInstance = showFullViewResolved(event.workstationAppController, "local");
 			}
+
+			if (appInstance)
+				InteractionLogUtil.logAppInstance(_logger, "Show full view", event.viaMechanism, appInstance);
 		}
 
-		public function showFullView(applicationName:String, source:String = "local"):void
+		public function showFullView(applicationName:String, source:String = "local"):WorkstationAppControllerBase
 		{
 			var workstationAppController:WorkstationAppControllerBase = _workstationApps.getValueByKey(applicationName);
 			if (workstationAppController != null)
-				showFullViewResolved(workstationAppController, source);
+				return showFullViewResolved(workstationAppController, source);
+			else
+				return null;
 		}
 
-		private function showFullViewResolved(workstationAppController:WorkstationAppControllerBase, source:String):void
+		private function showFullViewResolved(workstationAppController:WorkstationAppControllerBase, source:String):WorkstationAppControllerBase
 		{
+			var appInstance:WorkstationAppControllerBase;
+
 			// TODO: use app id instead of name
 			currentFullView = workstationAppController.name;
 
@@ -316,7 +324,10 @@ package collaboRhythm.core.controller.apps
 				if (app != workstationAppController)
 					app.hideFullView();
 				else
-					app.showFullView(null);
+				{
+					if (app.showFullView(null))
+						appInstance = app;
+				}
 			}
 
 			for each (var widgetContainer:IVisualElementContainer in _widgetContainers)
@@ -328,6 +339,7 @@ package collaboRhythm.core.controller.apps
 //			{
 //				_collaborationRoomNetConnectionService.netConnection.call("showFullView", null, _collaborationRoomNetConnectionService.localUserName, workstationAppController.name);
 //			}
+			return appInstance;
 		}
 
 		private function keyDownHandler(event:KeyboardEvent):void
@@ -337,18 +349,19 @@ package collaboRhythm.core.controller.apps
 				if (currentFullView)
 				{
 					event.preventDefault();
-					hideFullViews();
+					hideFullViews("back key pressed");
 				}
 			}
 		}
 
-		public function hideFullViews():void
+		public function hideFullViews(viaMechanism:String):void
 		{
 			currentFullView = null;
 
 			for each (var app:WorkstationAppControllerBase in _workstationApps.values())
 			{
-				app.hideFullView();
+				if (app.hideFullView())
+					InteractionLogUtil.logAppInstance(_logger, "Hide full view", viaMechanism, app);
 			}
 		}
 

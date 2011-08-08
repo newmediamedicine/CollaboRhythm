@@ -191,7 +191,7 @@
 		private function scheduleGroupClockViewClickHandler(event:ScheduleClockWidgetViewEvent):void
 		{
 			var scheduleGroup:ScheduleGroup = event.scheduleGroup;
-			_scheduleClockController.openScheduleReportingFullView(scheduleGroup);
+			_scheduleClockController.openScheduleReportingFullView(scheduleGroup, "clock view click");
 		}
 
 		public function destroyChildren():void

@@ -130,9 +130,9 @@ package collaboRhythm.plugins.hypertensionEducation.controller
 			return true;
 		}
 
-		public function dispatchShowFullView():void
+		public function dispatchShowFullView(viaMechanism:String):void
 		{
-			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this));
+			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this, null, null, viaMechanism));
 		}
 
 

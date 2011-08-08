@@ -35,11 +35,14 @@
 		import mx.core.UIComponent;
 		import mx.events.CollectionEvent;
 		import mx.events.CollectionEventKind;
+		import mx.logging.ILogger;
+		import mx.logging.Log;
 
 		private var _scheduleReportingController:ScheduleReportingController;
 		private var _scheduleModel:ScheduleModel;
 		private var _scheduleReportingModel:ScheduleReportingModel;
 		private var _timeoutTimer:Timer;
+		protected var _logger:ILogger;
 
 		public function init(scheduleAppController:ScheduleAppController, scheduleModel:ScheduleModel):void
 		{
@@ -67,7 +70,7 @@
 
 		private function timeoutTimer_timerEventHandler(event:TimerEvent):void
 		{
-			_scheduleReportingController.closeScheduleReportingFullView();
+			_scheduleReportingController.closeScheduleReportingFullView("timer timeout elapsed");
 		}
 
 		private function hideHandler():void

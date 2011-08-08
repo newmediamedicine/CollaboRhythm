@@ -27,6 +27,7 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.AppEvent;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.model.InteractionLogUtil;
 
 	import flash.desktop.NativeApplication;
 	import flash.events.InvokeEvent;
@@ -138,7 +139,7 @@ package collaboRhythm.plugins.schedule.controller
 				var urlVariables:URLVariables = new URLVariables(urlVariablesString);
 				var pendingAdherenceItem:PendingAdherenceItem = scheduleModel.scheduleReportingModel.createPendingAdherenceItem(urlVariables);
 				scheduleModel.scheduleReportingModel.currentScheduleGroup = pendingAdherenceItem.scheduleGroup;
-				dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this));
+				dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this, null, null, "InvokeEvent"));
 			}
 		}
 
@@ -181,12 +182,13 @@ package collaboRhythm.plugins.schedule.controller
 		private function showFullViewHandler(event:AppEvent):void
 		{
 			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, event.workstationAppController, event.startRect,
-									   event.applicationName));
+									   event.applicationName, event.viaMechanism));
 		}
 
 		private function hideFullViewHandler(event:AppEvent):void
 		{
-			hideFullView();
+			if (hideFullView())
+				InteractionLogUtil.logAppInstance(_logger, "Hide full view", event.viaMechanism, this);
 		}
 
 		private function get scheduleModel():ScheduleModel

@@ -51,6 +51,7 @@
 		<![CDATA[
 		import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 		import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
+		import collaboRhythm.shared.model.InteractionLogUtil;
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 		import collaboRhythm.shared.model.healthRecord.document.Equipment;
 		import collaboRhythm.shared.model.healthRecord.document.EquipmentModel;
@@ -117,6 +118,8 @@
 
 		private function adherenceButtonClickHandler(event:MouseEvent):void
 		{
+			InteractionLogUtil.log(_logger, "Report adherence", "adherence button click");
+
 			if (_scheduleItemOccurrence.adherenceItem)
 			{
 				if (!_scheduleItemOccurrence.adherenceItem.adherence)
@@ -137,6 +140,8 @@
 
 		private function nonadherenceButtonClickHandler(event:MouseEvent):void
 		{
+			InteractionLogUtil.log(_logger, "Report nonadherence", "nonadherence button click");
+
 			if (_scheduleItemOccurrence.adherenceItem)
 			{
 				if (_scheduleItemOccurrence.adherenceItem.adherence)

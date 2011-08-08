@@ -166,10 +166,15 @@ package collaboRhythm.plugins.bloodPressure.controller
 			}
 		}
 
-		override public function showFullView(startRect:Rect):void
+		override public function showFullView(startRect:Rect):Boolean
 		{
-			super.showFullView(startRect);
-			moveMovieClipToFullView();
+			if (super.showFullView(startRect))
+			{
+				moveMovieClipToFullView();
+				return true;
+			}
+			else
+				return false;
 		}
 
 		override protected function showFullViewComplete():void

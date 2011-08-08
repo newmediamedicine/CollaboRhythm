@@ -31,6 +31,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionEvent;
 	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
+	import collaboRhythm.shared.model.InteractionLogUtil;
 	import collaboRhythm.shared.model.healthRecord.AccountInformationHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.CreateSessionHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.DemographicsHealthRecordService;
@@ -121,6 +122,8 @@ package collaboRhythm.core.controller
 			_logger.info("  Mode: " + _settings.mode);
 			_logger.info("  Username: " + _settings.username);
 
+			initNativeApplicationEventListeners();
+
 			initComponents();
 			_logger.info("Components initialized. Asynchronous plugin loading initiated.");
 			_logger.info("  User plugins directory: " + _pluginLoader.userPluginsDirectoryPath);
@@ -129,6 +132,37 @@ package collaboRhythm.core.controller
 			// the activeAccount is that which is actively in session with the Indivo server, there can only be one active account at a time
 			// create an instance of this model class before creating a session so that the results are tracked by that instance
 			_activeAccount = new Account();
+		}
+
+		protected function initNativeApplicationEventListeners():void
+		{
+			NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, nativeApplication_activateHandler);
+			NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, nativeApplication_deactivateHandler);
+
+			// User idle/resent events don't work on mobile devices. Note that default NativeApplication.nativeApplication.idleThreshold = 300 (5 minutes)
+			NativeApplication.nativeApplication.addEventListener(Event.USER_IDLE, nativeApplication_userIdleHandler);
+			NativeApplication.nativeApplication.addEventListener(Event.USER_PRESENT,
+																 nativeApplication_userPresentHandler);
+		}
+
+		private function nativeApplication_activateHandler(event:Event):void
+		{
+			InteractionLogUtil.log(_logger, "Application activate");
+		}
+
+		private function nativeApplication_deactivateHandler(event:Event):void
+		{
+			InteractionLogUtil.log(_logger, "Application deactivate");
+		}
+
+		private function nativeApplication_userIdleHandler(event:Event):void
+		{
+			InteractionLogUtil.log(_logger, "User idle timeSinceLastUserInput=" + NativeApplication.nativeApplication.timeSinceLastUserInput);
+		}
+
+		private function nativeApplication_userPresentHandler(event:Event):void
+		{
+			InteractionLogUtil.log(_logger, "User present");
 		}
 
 		private function applicationControllerModel_isLoadingChangeHandler(value:Boolean):void
@@ -804,7 +838,7 @@ package collaboRhythm.core.controller
 
 		private function connectivityView_quitHandler(event:ConnectivityEvent):void
 		{
-			_logger.info("Application exit by user (via ConnectivityView Quit button)");
+			InteractionLogUtil.log(_logger, "Application exit", "ConnectivityView Quit button");
 			NativeApplication.nativeApplication.exit();
 		}
 

@@ -35,6 +35,8 @@
 		import mx.binding.utils.BindingUtils;
 		import mx.binding.utils.ChangeWatcher;
 		import mx.core.UIComponent;
+		import mx.logging.ILogger;
+		import mx.logging.Log;
 
 		public static const SCHEDULE_ITEM_REPORTING_VIEW_PICTURE_WIDTH:Number = 120;
 		public static const SCHEDULE_ITEM_REPORTING_VIEW_PICTURE_HEIGHT:Number = 120;
@@ -47,6 +49,7 @@
 		protected var _activeAccountId:String;
 		protected var _handledInvokeEvents:Vector.<String>;
 		private var _pendingAdherenceItemChangeWatcher:ChangeWatcher;
+		protected var _logger:ILogger;
 
 		public static const SCHEDULE_ITEM_WIDGET_VIEW:String = "scheduleItemWidgetView";
 
@@ -55,6 +58,7 @@
 							 scheduleReportingModel:IScheduleReportingModel, activeAccountId:String,
 							 handledInvokeEvents:Vector.<String>):void
 		{
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_scheduleItemOccurrence = scheduleItemOccurrence;
 			_scheduleReportingModel = scheduleReportingModel;
 			_activeAccountId = activeAccountId;

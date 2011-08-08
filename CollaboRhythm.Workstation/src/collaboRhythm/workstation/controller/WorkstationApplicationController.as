@@ -21,6 +21,7 @@ package collaboRhythm.workstation.controller
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.core.view.ConnectivityView;
 	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.InteractionLogUtil;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
@@ -417,7 +418,7 @@ package collaboRhythm.workstation.controller
 				NativeApplication.nativeApplication.dispatchEvent(exitingEvent);
 				if (!exitingEvent.isDefaultPrevented())
 				{
-					_logger.info("Application exit by user (via close window)");
+					InteractionLogUtil.log(_logger, "Application exit", "close window");
 					NativeApplication.nativeApplication.exit();
 				}
 			}
@@ -430,7 +431,7 @@ package collaboRhythm.workstation.controller
 			NativeApplication.nativeApplication.dispatchEvent(exitingEvent);
 			if (!exitingEvent.isDefaultPrevented())
 			{
-				_logger.info("Application exit by user (via " + exitMethod + ")");
+				InteractionLogUtil.log(_logger, "Application exit", exitMethod);
 				NativeApplication.nativeApplication.exit();
 			}
 		}

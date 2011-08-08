@@ -22,11 +22,10 @@ package collaboRhythm.plugins.videoMessages.controller
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.AppEvent;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.model.InteractionLogUtil;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.document.VideoMessage;
 	import collaboRhythm.shared.model.healthRecord.document.VideoMessagesModel;
-
-	import mx.collections.ArrayCollection;
 
 	import mx.core.UIComponent;
 
@@ -137,9 +136,9 @@ package collaboRhythm.plugins.videoMessages.controller
 			return false;
 		}
 
-		public function dispatchShowFullView():void
+		public function dispatchShowFullView(viaMechanism:String):void
 		{
-			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this));
+			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this, null, null, viaMechanism));
 		}
 
 		public function deleteVideoMessage(videoMessage:VideoMessage):void
@@ -149,7 +148,9 @@ package collaboRhythm.plugins.videoMessages.controller
 			if (_videoMessagesModel.videoMessagesCollection.length == 0)
 			{
 				//TODO: Potentially hideFullViews() in the AppControllersMediate is more appropriate
-				hideFullView();
+				if (hideFullView())
+					InteractionLogUtil.logAppInstance(_logger, "Hide full view", "delete last video message", this);
+
 				goBack();
 			}
 		}

@@ -50,6 +50,7 @@
 		<![CDATA[
 		import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 		import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
+		import collaboRhythm.shared.model.InteractionLogUtil;
 		import collaboRhythm.shared.model.healthRecord.DocumentBase;
 		import collaboRhythm.shared.model.healthRecord.Relationship;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
@@ -133,8 +134,11 @@
 			}
 		}
 
+		// TODO: eliminate duplication between MedicationScheduleItemReportingView and EquipmentScheduleItemReportingView
 		private function adherenceButtonClickHandler(event:MouseEvent):void
 		{
+			InteractionLogUtil.log(_logger, "Report adherence", "adherence button click");
+
 			if (_scheduleItemOccurrence.adherenceItem)
 			{
 				if (!_scheduleItemOccurrence.adherenceItem.adherence)
@@ -171,6 +175,8 @@
 
 		private function nonadherenceButtonClickHandler(event:MouseEvent):void
 		{
+			InteractionLogUtil.log(_logger, "Report nonadherence", "nonadherence button click");
+
 			if (_scheduleItemOccurrence.adherenceItem)
 			{
 				if (_scheduleItemOccurrence.adherenceItem.adherence)

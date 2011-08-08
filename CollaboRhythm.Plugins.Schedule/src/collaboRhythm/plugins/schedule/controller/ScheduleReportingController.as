@@ -22,13 +22,17 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 	import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
 	import collaboRhythm.shared.controller.apps.AppEvent;
+	import collaboRhythm.shared.model.InteractionLogUtil;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 
 	import flash.events.EventDispatcher;
+	import flash.utils.getQualifiedClassName;
 
 	import mx.binding.utils.BindingUtils;
 	import mx.core.UIComponent;
+	import mx.logging.ILogger;
+	import mx.logging.Log;
 
 	public class ScheduleReportingController extends EventDispatcher
 	{
@@ -36,10 +40,12 @@ package collaboRhythm.plugins.schedule.controller
 		private var _scheduleReportingFullView:ScheduleReportingFullView;
 		[Bindable]
 		private var _scheduleReportingModel:ScheduleReportingModel;
+		protected var _logger:ILogger;
 
 		public function ScheduleReportingController(scheduleModel:ScheduleModel,
 													scheduleReportingFullView:ScheduleReportingFullView)
 		{
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_scheduleModel = scheduleModel;
 			_scheduleReportingFullView = scheduleReportingFullView;
 			_scheduleReportingModel = _scheduleModel.scheduleReportingModel;
@@ -53,19 +59,21 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			if (isReportingCompleted)
 			{
-				closeScheduleReportingFullView();
+				closeScheduleReportingFullView("completed reporting");
 			}
 		}
 
-		public function closeScheduleReportingFullView():void
+		public function closeScheduleReportingFullView(viaMechanism:String):void
 		{
 			saveChangesToRecord();
 			_scheduleReportingModel.viewStack.removeAll();
-			dispatchEvent(new AppEvent(AppEvent.HIDE_FULL_VIEW));
+			dispatchEvent(new AppEvent(AppEvent.HIDE_FULL_VIEW, null, null, null, viaMechanism));
 		}
 
 		public function goBack():void
 		{
+			var currentView:UIComponent = _scheduleReportingModel.viewStack[_scheduleReportingModel.viewStack.length - 1] as UIComponent;
+			InteractionLogUtil.log(_logger, "Hide additional information view " + (currentView ? currentView.className : null));
 			_scheduleReportingModel.viewStack.removeItemAt(_scheduleReportingModel.viewStack.length - 1)
 		}
 
@@ -82,6 +90,7 @@ package collaboRhythm.plugins.schedule.controller
 
 		public function showAdditionalInformationView(additionalInformationView:UIComponent):void
 		{
+			InteractionLogUtil.log(_logger, "Show additional information view " + additionalInformationView.className);
 			_scheduleReportingModel.showAdditionalInformationView(additionalInformationView);
 		}
 
