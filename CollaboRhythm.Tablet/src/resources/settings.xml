@@ -30,10 +30,10 @@
 	<oauthChromeConsumerKey>collaboRhythmChrome</oauthChromeConsumerKey>
 	<oauthChromeConsumerSecret>collaboRhythmChrome_secret93452</oauthChromeConsumerSecret>
 	<demoDatePresets>
-		<demoDatePreset>2011-08-11T21:00:00-5:00</demoDatePreset>
-		<demoDatePreset>2011-08-12T06:00:00-5:00</demoDatePreset>
-		<demoDatePreset>2011-08-12T14:00:00-5:00</demoDatePreset>
-		<demoDatePreset>2011-08-12T21:00:00-5:00</demoDatePreset>
+		<demoDatePreset>2011-08-08T06:00:00-5:00</demoDatePreset>
+		<demoDatePreset>2011-08-08T10:00:00-5:00</demoDatePreset>
+		<demoDatePreset>2011-08-08T14:00:00-5:00</demoDatePreset>
+		<demoDatePreset>2011-08-08T21:00:00-5:00</demoDatePreset>
 	</demoDatePresets>
 
 	<!--

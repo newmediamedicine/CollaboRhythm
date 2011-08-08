@@ -254,27 +254,41 @@ package collaboRhythm.plugins.schedule.shared.model
 		private function wasAdherentToMedicationsYesterday():Boolean
 		{
 			var medicationScheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = getMedicationScheduleItemOccurrencesForYesterday();
-			for each (var medicationScheduleItemOccurrence:ScheduleItemOccurrence in medicationScheduleItemOccurrences)
+			if (medicationScheduleItemOccurrences.length > 0)
 			{
-				if (!wasAdherentToScheduleItemOccurrence(medicationScheduleItemOccurrence))
+				for each (var medicationScheduleItemOccurrence:ScheduleItemOccurrence in medicationScheduleItemOccurrences)
 				{
-					return false;
+					if (!wasAdherentToScheduleItemOccurrence(medicationScheduleItemOccurrence))
+					{
+						return false;
+					}
 				}
+				return true;
 			}
-			return true;
+			else
+			{
+				return false;
+			}
 		}
 
 		private function wasAdherentToEquipmentYesterday():Boolean
 		{
 			var equipmentScheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = getEquipmentScheduleItemOccurrencesForYesterday();
-			for each (var equipmentScheduleItemOccurrence:ScheduleItemOccurrence in equipmentScheduleItemOccurrences)
+			if (equipmentScheduleItemOccurrences.length > 0)
 			{
-				if (!wasAdherentToScheduleItemOccurrence(equipmentScheduleItemOccurrence))
+				for each (var equipmentScheduleItemOccurrence:ScheduleItemOccurrence in equipmentScheduleItemOccurrences)
 				{
-					return false;
+					if (!wasAdherentToScheduleItemOccurrence(equipmentScheduleItemOccurrence))
+					{
+						return false;
+					}
 				}
+				return true;
 			}
-			return true;
+			else
+			{
+				return false;
+			}
 		}
 
 		private function getMedicationScheduleItemOccurrencesForYesterday():Vector.<ScheduleItemOccurrence>

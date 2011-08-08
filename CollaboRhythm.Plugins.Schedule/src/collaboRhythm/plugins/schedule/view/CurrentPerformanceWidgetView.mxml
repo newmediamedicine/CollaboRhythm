@@ -107,7 +107,7 @@
 		</s:Group>
 		<s:VGroup>
 			<s:Label id="takeMedicationsLabel" text="It is time to take your medications" paddingTop="10"/>
-			<s:Label text="Taking you medication on schedule is important to ensure" styleName="detailsLabel"
+			<s:Label text="Taking your medication on schedule is important to ensure" styleName="detailsLabel"
 					 paddingTop="10"/>
 			<s:Label text="that they work consistently at keeping your blood pressure down" styleName="detailsLabel"/>
 		</s:VGroup>
