@@ -54,7 +54,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 		public override function get isFullViewSupported():Boolean
 		{
-			return true;
+			return (_activeRecordAccount && _activeRecordAccount.accountId && _activeRecordAccount.accountId.indexOf("rpoole") != -1);
 		}
 
 		public override function get fullView():UIComponent
@@ -98,7 +98,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 				loadBloodPressureData();
 			}
 
-			if (!_fullView && _createFullViewOnInitialize && _fullContainer)
+			if (!_fullView && _createFullViewOnInitialize && _fullContainer && isFullViewSupported)
 			{
 				createFullView();
 				prepareFullView();
