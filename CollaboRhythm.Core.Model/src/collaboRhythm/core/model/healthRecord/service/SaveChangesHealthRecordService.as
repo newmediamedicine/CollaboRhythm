@@ -46,12 +46,14 @@ package collaboRhythm.core.model.healthRecord.service
 		{
 			connectionErrorsChangeSet.clear();
 			_healthRecordServiceFacade.hasConnectionErrorsSaving = false;
+			relationshipsRequiringDocuments.removeAll();
 		}
 
 		public function resetUnexpectedErrorChangeSet():void
 		{
 			unexpectedErrorsChangeSet.clear();
 			_healthRecordServiceFacade.hasUnexpectedErrorsSaving = false;
+			relationshipsRequiringDocuments.removeAll();
 		}
 
 		/**
@@ -105,11 +107,19 @@ package collaboRhythm.core.model.healthRecord.service
 			// TODO: handle relationships more optimally
 			if (relationships)
 			{
-				_relationshipsRequiringDocuments.addAll(relationships);
+				for each (var relationship:Relationship in relationships)
+				{
+					if (!relationshipsRequiringDocuments.contains(relationship))
+					{
+						relationshipsRequiringDocuments.addItem(relationship);
+					}
+				}
 				checkRelationshipsRequiringDocuments(record);
 			}
 
-			_logger.info("Save changes initiated. " + pendingOperationsSummary);
+			if (numPendingOperations > 0)
+				_logger.info("Save changes initiated. " + pendingOperationsSummary);
+
 			updateIsSaving();
 		}
 
@@ -398,11 +408,20 @@ package collaboRhythm.core.model.healthRecord.service
 
 		private function updateIsSaving():void
 		{
-			var pendingOperations:int = pendingCreateDocuments.size() + pendingUpdateDocuments.size() + pendingRemoveDocuments.size() + pendingRelateDocuments.length;
+			var pendingOperations:int = numPendingOperations;
 			_healthRecordServiceFacade.hasConnectionErrorsSaving = connectionErrorsChangeSet.length > 0;
 			_healthRecordServiceFacade.hasUnexpectedErrorsSaving = unexpectedErrorsChangeSet.length > 0;
-			_healthRecordServiceFacade.isSaving = pendingOperations > 0;
-			_logger.info("Saving " + (pendingOperations > 0 ? "in progress. " + pendingOperationsSummary + ". " : "complete. ") + errorsSavingSummary);
+			var isSaving:Boolean = pendingOperations > 0;
+			if (_healthRecordServiceFacade.isSaving != isSaving)
+			{
+				_healthRecordServiceFacade.isSaving = isSaving;
+				_logger.info("Saving " + (isSaving ? "in progress. " + pendingOperationsSummary + ". " : "complete. ") + errorsSavingSummary);
+			}
+		}
+
+		private function get numPendingOperations():int
+		{
+			return pendingCreateDocuments.size() + pendingUpdateDocuments.size() + pendingRemoveDocuments.size() + pendingRelateDocuments.length;
 		}
 
 		private function get errorsSavingCount():int

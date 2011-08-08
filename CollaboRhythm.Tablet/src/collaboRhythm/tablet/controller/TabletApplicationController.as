@@ -18,6 +18,7 @@ package collaboRhythm.tablet.controller
 {
 
 	import collaboRhythm.core.controller.ApplicationControllerBase;
+	import collaboRhythm.core.controller.ApplicationExitUtil;
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.InteractionLogUtil;
@@ -123,7 +124,7 @@ package collaboRhythm.tablet.controller
 		public function exitApplication(exitMethod:String):void
 		{
 			InteractionLogUtil.log(_logger, "Application exit", exitMethod);
-			NativeApplication.nativeApplication.exit();
+			ApplicationExitUtil.exit();
 		}
 	}
 }

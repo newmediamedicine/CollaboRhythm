@@ -44,7 +44,7 @@ import collaboRhythm.plugins.diary.model.DiaryModel;
 		override public function initialize():void
 		{
 			super.initialize();
-			if (!_fullView)
+			if (!_fullView && _fullContainer)
 			{
 				createFullView();
 				prepareFullView();

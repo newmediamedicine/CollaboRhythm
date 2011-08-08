@@ -165,9 +165,11 @@
 
 	<fx:Script>
 		<![CDATA[
+		import collaboRhythm.core.controller.ApplicationExitUtil;
 		import collaboRhythm.core.pluginsManagement.PluginEvent;
 		import collaboRhythm.mobile.controller.WidgetContainerController;
 		import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+		import collaboRhythm.shared.model.InteractionLogUtil;
 		import collaboRhythm.shared.model.services.DemoEvent;
 		import collaboRhythm.view.scroll.TouchScrollerEvent;
 
@@ -180,6 +182,8 @@
 		import mx.events.FlexEvent;
 
 		import mx.formatters.DateFormatter;
+		import mx.logging.ILogger;
+		import mx.logging.Log;
 
 		import spark.components.supportClasses.ButtonBase;
 
@@ -194,6 +198,7 @@
 		private var _shouldIgnoreNextMouseDown:Boolean;
 		private var _infoData:XML;
 		private var _demoDatePresets:ArrayCollection;
+		protected var _logger:ILogger;
 
 		[Bindable]
 		public function get demoDatePresets():ArrayCollection
@@ -470,7 +475,8 @@
 		protected function quitButton_clickHandler(event:MouseEvent):void
 		{
 			hideMenu();
-			NativeApplication.nativeApplication.exit();
+			InteractionLogUtil.log(_logger, "Application exit", "quit menu button click");
+			ApplicationExitUtil.exit();
 		}
 
 		protected function menuGroupContent_renderHandler(event:Event):void
@@ -509,6 +515,7 @@
 
 		private function preinitializeHandler(event:FlexEvent):void
 		{
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			if (_traceEventHandlers)
 				trace("WidgetContainerView.preinitializeHandler");
 		}

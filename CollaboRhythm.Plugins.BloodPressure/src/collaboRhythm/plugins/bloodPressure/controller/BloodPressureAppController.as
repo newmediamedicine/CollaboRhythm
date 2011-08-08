@@ -98,7 +98,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 				loadBloodPressureData();
 			}
 
-			if (!_fullView && _createFullViewOnInitialize)
+			if (!_fullView && _createFullViewOnInitialize && _fullContainer)
 			{
 				createFullView();
 				prepareFullView();

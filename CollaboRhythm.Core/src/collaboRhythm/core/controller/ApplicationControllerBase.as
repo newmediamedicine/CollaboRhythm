@@ -67,8 +67,6 @@ package collaboRhythm.core.controller
 	import mx.logging.LogEventLevel;
 	import mx.logging.targets.TraceTarget;
 
-	import org.indivo.client.IndivoClientEvent;
-
 	public class ApplicationControllerBase
 	{
 		protected var _applicationControllerModel:ApplicationControllerModel;
@@ -89,6 +87,7 @@ package collaboRhythm.core.controller
 		private var _serviceIsSavingPrevious:Boolean = false;
 
 		private var _pendingReloadData:Boolean;
+		private var _pendingExit:Boolean;
 
 		protected var _connectivityView:ConnectivityView;
 		private var _pendingServices:ArrayCollection = new ArrayCollection();
@@ -136,6 +135,8 @@ package collaboRhythm.core.controller
 
 		protected function initNativeApplicationEventListeners():void
 		{
+			NativeApplication.nativeApplication.addEventListener(Event.EXITING, nativeApplication_exitingHandler);
+
 			NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, nativeApplication_activateHandler);
 			NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, nativeApplication_deactivateHandler);
 
@@ -143,6 +144,31 @@ package collaboRhythm.core.controller
 			NativeApplication.nativeApplication.addEventListener(Event.USER_IDLE, nativeApplication_userIdleHandler);
 			NativeApplication.nativeApplication.addEventListener(Event.USER_PRESENT,
 																 nativeApplication_userPresentHandler);
+		}
+
+		private function nativeApplication_exitingHandler(event:Event):void
+		{
+			if (_activeRecordAccount)
+			{
+				_activeRecordAccount.primaryRecord.saveAllChanges();
+				if (_activeRecordAccount.primaryRecord.isSaving)
+				{
+					event.preventDefault();
+					_pendingExit = true;
+				}
+				else
+				{
+					prepareToExit();
+				}
+			}
+		}
+
+		/**
+		 * Prepares the application for exit by doing any cleanup. No asynchronous processes should be started here
+		 * as they will not be given a chance to complete. Subclasses should override to implement modality-specific behavior.
+		 */
+		protected function prepareToExit():void
+		{
 		}
 
 		private function nativeApplication_activateHandler(event:Event):void
@@ -153,6 +179,23 @@ package collaboRhythm.core.controller
 		private function nativeApplication_deactivateHandler(event:Event):void
 		{
 			InteractionLogUtil.log(_logger, "Application deactivate");
+
+			if (_activeRecordAccount)
+			{
+				_activeRecordAccount.primaryRecord.saveAllChanges();
+				if (_activeRecordAccount.primaryRecord.isSaving)
+				{
+					// TODO: can we or should we prevent/delay deactivate while saving?
+				}
+				else
+				{
+					prepareToDeactivate();
+				}
+			}
+		}
+
+		private function prepareToDeactivate():void
+		{
 		}
 
 		private function nativeApplication_userIdleHandler(event:Event):void
@@ -287,7 +330,7 @@ package collaboRhythm.core.controller
 
 		private function synchronizeHandler(event:CollaborationLobbyNetConnectionEvent):void
 		{
-			if (!_activeRecordAccount.primaryRecord.isLoading && !_activeRecordAccount.primaryRecord.isSaving)
+			if (!_activeRecordAccount.primaryRecord.isLoading && !_activeRecordAccount.primaryRecord.isSaving && !_pendingExit && !_pendingReloadData)
 				reloadData();
 		}
 
@@ -694,10 +737,15 @@ package collaboRhythm.core.controller
 		 */
 		protected function serviceIsSaving_changeHandler(isSaving:Boolean):void
 		{
-			if (!isSaving && (isSaving != _serviceIsSavingPrevious))
+			if (!isSaving && (isSaving != _serviceIsSavingPrevious) && !hasErrorsSaving)
 			{
 				_collaborationLobbyNetConnectionService.sendSynchronizationMessage();
-				if (_pendingReloadData)
+				if (_pendingExit)
+				{
+					_pendingExit = false;
+					applicationExit("delayed exit after save");
+				}
+				else if (_pendingReloadData)
 				{
 					_pendingReloadData = false;
 					reloadData();
@@ -705,6 +753,11 @@ package collaboRhythm.core.controller
 			}
 			_serviceIsSavingPrevious = isSaving;
 			updateConnectivityView();
+		}
+
+		private function get hasErrorsSaving():Boolean
+		{
+			return _healthRecordServiceFacade && (_healthRecordServiceFacade.hasConnectionErrorsSaving || _healthRecordServiceFacade.hasUnexpectedErrorsSaving);
 		}
 
 		/**
@@ -827,6 +880,7 @@ package collaboRhythm.core.controller
 			}
 			if (_healthRecordServiceFacade && _healthRecordServiceFacade.currentRecord)
 			{
+				_healthRecordServiceFacade.isSaving = true;
 				_healthRecordServiceFacade.resetConnectionErrorChangeSet();
 				_healthRecordServiceFacade.saveAllChanges(_healthRecordServiceFacade.currentRecord);
 			}
@@ -838,8 +892,7 @@ package collaboRhythm.core.controller
 
 		private function connectivityView_quitHandler(event:ConnectivityEvent):void
 		{
-			InteractionLogUtil.log(_logger, "Application exit", "ConnectivityView Quit button");
-			NativeApplication.nativeApplication.exit();
+			applicationExit("ConnectivityView Quit button");
 		}
 
 		private function connectivityView_ignoreHandler(event:ConnectivityEvent):void
@@ -852,5 +905,15 @@ package collaboRhythm.core.controller
 		{
 			return _pendingServices;
 		}
+
+		/**
+		 * Close the entire application, sending out an event to any processes that might want to interrupt the closing
+		 */
+		protected function applicationExit(exitMethod:String):void
+		{
+			InteractionLogUtil.log(_logger, "Application exit", exitMethod);
+			ApplicationExitUtil.exit();
+		}
+
 	}
 }
