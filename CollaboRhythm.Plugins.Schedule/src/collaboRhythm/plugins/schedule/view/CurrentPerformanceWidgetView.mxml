@@ -102,8 +102,7 @@
 	<s:HGroup width="100%" height="100%"
 			  visible="{_currentPerformanceModel &amp;&amp; _currentPerformanceModel.timingState == CurrentPerformanceModel.TIME_DURING_SCHEDULE_GROUP &amp;&amp; !_currentPerformanceModel.medicationAdherenceReported &amp;&amp;_currentPerformanceModel.bloodPressureState != CurrentPerformanceModel.BLOOD_PRESSURE_DANGEROUSLY_HIGH &amp;&amp; _currentPerformanceModel.bloodPressureState != CurrentPerformanceModel.BLOOD_PRESSURE_DANGEROUSLY_LOW}">
 		<s:Group width="120" height="120">
-			<images:clockBackground width="100" height="100" horizontalCenter="0" verticalCenter="0"/>
-			<images:clockForeground width="100" height="100" horizontalCenter="0" verticalCenter="0"/>
+			<images:warning width="100" height="100" horizontalCenter="0" verticalCenter="0"/>
 		</s:Group>
 		<s:VGroup>
 			<s:Label id="takeMedicationsLabel" text="It is time to take your medications" paddingTop="10"/>

@@ -141,6 +141,7 @@ package collaboRhythm.plugins.schedule.shared.model
 								updateBloodPressureState();
 							}
 						}
+						previousScheduleGroup = scheduleGroup;
 					}
 				}
 			}
