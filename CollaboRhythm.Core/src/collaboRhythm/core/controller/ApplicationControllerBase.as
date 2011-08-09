@@ -71,6 +71,8 @@ package collaboRhythm.core.controller
 
 	public class ApplicationControllerBase
 	{
+		private static const ONE_MINUTE:int = 1000 * 60;
+
 		protected var _applicationControllerModel:ApplicationControllerModel;
 		protected var _kernel:IKernel;
 		protected var _settingsFileStore:SettingsFileStore;
@@ -110,11 +112,15 @@ package collaboRhythm.core.controller
 			_autoSyncTimer.stop();
 
 			_nextAutoSyncTime = new Date();
+			// move the time ahead to midnight tonight
 			_nextAutoSyncTime.setHours(24, 0, 0, 0);
 			var now:Date = new Date();
-			var delay:Number = _nextAutoSyncTime.getTime() - now.getTime();
+			// one minute cushion to ensure that the timer does not go off before midnight; slightly after is better than before
+			var cushionDelay:Number = ONE_MINUTE;
+			var delay:Number = _nextAutoSyncTime.getTime() - now.getTime() + cushionDelay;
 
-			_logger.info("Auto synchronization timer set to go off at " + _nextAutoSyncTime + " in " + delay / (1000 * 60) + " minutes");
+			_logger.info("Automatic synchronization timer set to go off at or after " + _nextAutoSyncTime +
+						 " in " + delay / ONE_MINUTE + " minutes");
 			_autoSyncTimer.delay = delay;
 			_autoSyncTimer.start();
 		}
@@ -124,16 +130,20 @@ package collaboRhythm.core.controller
 			var now:Date = new Date();
 			if (now.getTime() < _nextAutoSyncTime.getTime())
 			{
-				_logger.warn("Auto sync timer event did not go off when expected. Local time: " + now.toString() + ". Expected auto sync time: " + _nextAutoSyncTime.toString() + ". Timer delay: " + _autoSyncTimer.delay);
+				_logger.warn("Automatic synchronization timer went off before the expected time.");
 			}
 
-			_logger.info("Performing automatic synchronization from timer event");
+			_logger.info("Performing automatic synchronization from timer event. Local time: " + now.toString() +
+						 ". Expected auto sync time: " + _nextAutoSyncTime.toString() + ". Previous timer delay (minutes): " + _autoSyncTimer.delay / ONE_MINUTE);
 			synchronize();
 			updateAutoSyncTime();
 		}
 
-		// To be overridden by subclasses with the super method called at the beginning
-		// subclasses can then perform appropriate actions after settings, logging, and components have been initialized
+		/**
+		 * Main function to start the application running.
+		 * This method should be overridden by subclasses with the super method called at the beginning subclasses
+		 * can then perform appropriate actions after settings, logging, and components have been initialized.
+		 */
 		public function main():void
 		{
 			_applicationControllerModel = new ApplicationControllerModel();
