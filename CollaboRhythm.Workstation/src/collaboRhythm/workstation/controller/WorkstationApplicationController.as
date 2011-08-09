@@ -297,6 +297,7 @@ package collaboRhythm.workstation.controller
         // when a record is closed, all of the apps need to be closed and the documents cleared from the record
         public override function closeRecordAccount(recordAccount:Account):void
         {
+			super.closeRecordAccount(recordAccount);
             _workstationAppControllersMediator.closeApps();
 			if (recordAccount)
                 recordAccount.primaryRecord.clearDocuments();

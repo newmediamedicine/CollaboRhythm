@@ -54,9 +54,11 @@ package collaboRhythm.core.controller
 
 	import flash.desktop.NativeApplication;
 	import flash.events.Event;
+	import flash.events.TimerEvent;
 	import flash.filesystem.File;
 	import flash.net.NetworkInfo;
 	import flash.net.NetworkInterface;
+	import flash.utils.Timer;
 	import flash.utils.getQualifiedClassName;
 
 	import mx.binding.utils.BindingUtils;
@@ -94,8 +96,40 @@ package collaboRhythm.core.controller
 		private var _pendingServices:ArrayCollection = new ArrayCollection();
 		private var failedRequestEvent:HealthRecordServiceEvent;
 
+		private var _nextAutoSyncTime:Date;
+		private var _autoSyncTimer:Timer;
+
 		public function ApplicationControllerBase()
 		{
+			_autoSyncTimer = new Timer(0);
+			_autoSyncTimer.addEventListener(TimerEvent.TIMER, autoSyncTimer_timerHandler);
+		}
+
+		private function updateAutoSyncTime():void
+		{
+			_autoSyncTimer.stop();
+
+			_nextAutoSyncTime = new Date();
+			_nextAutoSyncTime.setHours(24, 0, 0, 0);
+			var now:Date = new Date();
+			var delay:Number = _nextAutoSyncTime.getTime() - now.getTime();
+
+			_logger.info("Auto synchronization timer set to go off at " + _nextAutoSyncTime + " in " + delay / (1000 * 60) + " minutes");
+			_autoSyncTimer.delay = delay;
+			_autoSyncTimer.start();
+		}
+
+		private function autoSyncTimer_timerHandler(event:TimerEvent):void
+		{
+			var now:Date = new Date();
+			if (now.getTime() < _nextAutoSyncTime.getTime())
+			{
+				_logger.warn("Auto sync timer event did not go off when expected. Local time: " + now.toString() + ". Expected auto sync time: " + _nextAutoSyncTime.toString() + ". Timer delay: " + _autoSyncTimer.delay);
+			}
+
+			_logger.info("Performing automatic synchronization from timer event");
+			synchronize();
+			updateAutoSyncTime();
 		}
 
 		// To be overridden by subclasses with the super method called at the beginning
@@ -591,6 +625,7 @@ package collaboRhythm.core.controller
 		{
 			_activeRecordAccount = recordAccount;
 			_collaborationController.setActiveRecordAccount(recordAccount);
+			updateAutoSyncTime();
 		}
 
 		public function tryCloseRecordAccount(recordAccount:Account):void
@@ -620,7 +655,7 @@ package collaboRhythm.core.controller
 		 */
 		public function closeRecordAccount(recordAccount:Account):void
 		{
-
+			_autoSyncTimer.stop();
 		}
 
 		public function set targetDate(value:Date):void
