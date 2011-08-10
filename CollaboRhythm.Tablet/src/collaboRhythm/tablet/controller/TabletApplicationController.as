@@ -124,8 +124,7 @@ package collaboRhythm.tablet.controller
 
 		public function exitApplication(exitMethod:String):void
 		{
-			InteractionLogUtil.log(_logger, "Application exit", exitMethod);
-			ApplicationExitUtil.exit();
+			applicationExit(exitMethod);
 		}
 	}
 }

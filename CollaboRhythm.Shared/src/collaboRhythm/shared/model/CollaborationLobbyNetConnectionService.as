@@ -198,7 +198,7 @@ package collaboRhythm.shared.model
 
 		public function updateCollaborationLobbyConnectionStatus(collaborationLobbyConnectionStatus:String):void
 		{
-			_netConnection.call("updateCollaborationLobbyConnectionStatus", null, _localUserName,
+			_netConnection.call("updateCollaborationLobbyConnectionStatus", null, _activeAccount.accountId,
 								collaborationLobbyConnectionStatus);
 		}
 
