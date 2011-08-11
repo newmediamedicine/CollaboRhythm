@@ -47,11 +47,11 @@
             <s:SolidColor color="{ACTIVE_ACCOUNT_BACKGROUND_COLOR}"/>
         </s:fill>
     </s:Rect>
-    <view:ActiveAccountHeaderView id="activeAccountHeaderView" width="100%" height="{ACTIVE_ACCOUNT_HEADER_HEIGHT}" top="0"/>
+    <view:ActiveAccountHeaderView id="activeAccountHeaderView" width="50%" height="{ACTIVE_ACCOUNT_HEADER_HEIGHT}" top="0" right="0"/>
     <s:Group width="100%" top="{ACTIVE_ACCOUNT_HEADER_HEIGHT}" bottom="0">
         <view:SharedRecordsListView id="sharedRecordsListView" width="400" height="100%"/>
     </s:Group>
-    <s:Line width="100%" top="0">
+    <s:Line width="100%" top="{ACTIVE_ACCOUNT_HEADER_HEIGHT - 1}">
         <s:stroke>
             <s:SolidColorStroke color="0x000000"/>
         </s:stroke>

@@ -43,6 +43,7 @@ package collaboRhythm.tablet.controller
 		{
 			_activeRecordView = tabletApplicationView.activeRecordView;
 			_connectivityView = tabletApplicationView.connectivityView;
+			_aboutApplicationView = tabletApplicationView.aboutApplicationView;
 			initializeConnectivityView();
 		}
 
@@ -120,12 +121,6 @@ package collaboRhythm.tablet.controller
 
 			if (_activeRecordAccount && _activeRecordAccount.primaryRecord && _activeRecordAccount.primaryRecord.demographics)
 				_activeRecordAccount.primaryRecord.demographics.dispatchAgeChangeEvent();
-		}
-
-		public function exitApplication(exitMethod:String):void
-		{
-			InteractionLogUtil.log(_logger, "Application exit", exitMethod);
-			ApplicationExitUtil.exit();
 		}
 	}
 }

@@ -136,7 +136,7 @@ package collaboRhythm.mobile.controller
 			{
 				case Keyboard.BACK:
 					event.preventDefault();
-					applicationExit("back key press");
+					exitApplication("back key press");
 					trace("Back key is pressed.");
 					break;
 				case Keyboard.MENU:

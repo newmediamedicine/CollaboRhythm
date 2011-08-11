@@ -20,6 +20,7 @@ package collaboRhythm.workstation.controller
 	import collaboRhythm.core.controller.ApplicationControllerBase;
 	import collaboRhythm.core.controller.ApplicationExitUtil;
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
+	import collaboRhythm.core.view.AboutApplicationView;
 	import collaboRhythm.core.view.ConnectivityView;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.InteractionLogUtil;
@@ -221,6 +222,9 @@ package collaboRhythm.workstation.controller
 			_connectivityView = new ConnectivityView();
 			primaryWindow.addElement(_connectivityView);
 			initializeConnectivityView();
+
+			_aboutApplicationView = new AboutApplicationView();
+			primaryWindow.addElement(_aboutApplicationView);
         }
 
         // creates the secondary window view, which is only used if more than one screen is available and the
@@ -665,7 +669,7 @@ package collaboRhythm.workstation.controller
 			// If the user presses escape, close the entire application
 			if (event.keyCode == Keyboard.ESCAPE)
 			{
-				applicationExit("escape key");
+				exitApplication("escape key");
 			}
 			else if (event.keyCode == Keyboard.F11)
 			{
