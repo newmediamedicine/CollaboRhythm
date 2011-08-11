@@ -930,5 +930,11 @@ package collaboRhythm.workstation.controller
         {
             return _applicationSettingsEmbeddedFile;
         }
+
+		public function forceClientSynchronization():void
+		{
+			_logger.info("Forced synchronization on client device of: " + _activeRecordAccount.accountId);
+			_collaborationLobbyNetConnectionService.sendSynchronizationMessage();
+		}
 	}
 }

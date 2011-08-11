@@ -1000,6 +1000,7 @@ package collaboRhythm.core.controller
 		 */
 		public function exitApplication(exitMethod:String):void
 		{
+			_collaborationLobbyNetConnectionService.exitCollaborationLobby();
 			InteractionLogUtil.log(_logger, "Application exit", exitMethod);
 			ApplicationExitUtil.exit();
 		}
