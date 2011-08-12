@@ -24,6 +24,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
 	import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
 	import collaboRhythm.core.pluginsManagement.PluginLoader;
+	import collaboRhythm.core.view.AboutApplicationView;
 	import collaboRhythm.core.view.ConnectivityEvent;
 	import collaboRhythm.core.view.ConnectivityView;
 	import collaboRhythm.shared.controller.CollaborationController;
@@ -95,6 +96,7 @@ package collaboRhythm.core.controller
 		private var _pendingCloseRecordAccount:Account;
 
 		protected var _connectivityView:ConnectivityView;
+		protected var _aboutApplicationView:AboutApplicationView;
 		private var _pendingServices:ArrayCollection = new ArrayCollection();
 		private var failedRequestEvent:HealthRecordServiceEvent;
 
@@ -821,7 +823,7 @@ package collaboRhythm.core.controller
 				if (_pendingExit)
 				{
 					_pendingExit = false;
-					applicationExit("delayed exit after save");
+					exitApplication("delayed exit after save");
 				}
 				else if (_pendingCloseRecordAccount)
 				{
@@ -979,7 +981,7 @@ package collaboRhythm.core.controller
 
 		private function connectivityView_quitHandler(event:ConnectivityEvent):void
 		{
-			applicationExit("ConnectivityView Quit button");
+			exitApplication("ConnectivityView Quit button");
 		}
 
 		private function connectivityView_ignoreHandler(event:ConnectivityEvent):void
@@ -996,12 +998,17 @@ package collaboRhythm.core.controller
 		/**
 		 * Close the entire application, sending out an event to any processes that might want to interrupt the closing
 		 */
-		protected function applicationExit(exitMethod:String):void
+		public function exitApplication(exitMethod:String):void
 		{
 			_collaborationLobbyNetConnectionService.exitCollaborationLobby();
 			InteractionLogUtil.log(_logger, "Application exit", exitMethod);
 			ApplicationExitUtil.exit();
 		}
 
+		public function showAboutApplicationView():void
+		{
+			if (_aboutApplicationView)
+				_aboutApplicationView.visible = true;
+		}
 	}
 }

@@ -74,8 +74,22 @@
             }
             return color;
         }
+
+		private function aboutButton_clickHandler(event:MouseEvent):void
+		{
+			_workstationApplicationController.showAboutApplicationView();
+		}
         ]]>
     </fx:Script>
+	<s:HGroup horizontalAlign="left" gap="10" paddingLeft="10" paddingTop="5">
+		<s:Button
+			id="aboutButton"
+			click="aboutButton_clickHandler(event)"
+			icon="@Embed(source='/assets/images/icons/buttonIcons/ic_menu_help.png')"
+			height="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
+			width="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
+		/>
+	</s:HGroup>
     <s:HGroup width="100%" height="100%" horizontalAlign="right" gap="0">
         <s:VGroup paddingTop="12" paddingRight="15" horizontalAlign="right" gap="4">
             <s:Label id="fullName" text="{_activeAccount.primaryRecord.contact.fullName}" styleName="labelText" />

@@ -99,9 +99,16 @@
 		{
 			_tabletApplicationController.exitApplication("quit menu button");
 		}
+
+		private function aboutButton_clickHandler(event:MouseEvent):void
+		{
+			_tabletApplicationController.showAboutApplicationView();
+		}
+
 		]]></fx:Script>
 	<views:ActiveRecordView id="activeRecordView" width="100%" height="100%" visible="false"/>
 	<view:ConnectivityView id="connectivityView" width="100%" height="100%" visible="false"/>
+	<view:AboutApplicationView id="aboutApplicationView" width="100%" height="100%" visible="false"/>
 	<s:viewMenuItems>
 		<s:ViewMenuItem label="{createDemoDateLabel(_isCreationComplete, 0)}" includeIn="debuggingToolsEnabled"
 						click="demoDateMenuItem_clickHandler(0)"/>
@@ -116,6 +123,7 @@
 		<s:ViewMenuItem label="Synchronize" click="synchronizeMenuItem_clickHandler()"/>
 		<s:ViewMenuItem label="Reload Plugins" includeIn="debuggingToolsEnabled"
 						click="reloadPluginsViewMenuItem_clickHandler()"/>
+		<s:ViewMenuItem label="About" id="aboutButton" click="aboutButton_clickHandler(event)"/>
 		<s:ViewMenuItem label="Quit" id="quitButton" click="quitButton_clickHandler(event)"/>
 	</s:viewMenuItems>
 </s:View>

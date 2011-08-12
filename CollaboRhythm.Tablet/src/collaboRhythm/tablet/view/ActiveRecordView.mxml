@@ -23,6 +23,7 @@
 		 height="100%" width="100%">
 	<fx:Script>
         <![CDATA[
+		import collaboRhythm.core.model.AboutApplicationModel;
 		import collaboRhythm.shared.model.Account;
 		import collaboRhythm.shared.model.CollaborationModel;
 		import collaboRhythm.shared.model.services.ICurrentDateSource;
@@ -43,15 +44,10 @@
 		[Bindable]
 		private var _collaborationModel:CollaborationModel;
 		private var _widgetContainers:Vector.<IVisualElementContainer> = new Vector.<IVisualElementContainer>();
-		private var _appName:String;
-		private var _appVersion:String;
-		private var _appCopyright:String;
-		private var _appModificationDate:Date;
-		private static const dateFormatter:DateFormatter = new DateFormatter();
+		private var _applicationInfo:AboutApplicationModel = new AboutApplicationModel();
 
 		public function init(tabletApplicationController:TabletApplicationController, recordAccount:Account):void
 		{
-			dateFormatter.formatString = "YYYY-MM-DD L:NN A";
 			_tabletApplicationController = tabletApplicationController;
 			_recordAccount = recordAccount;
 			_collaborationModel = _tabletApplicationController.collaborationController.collaborationModel;
@@ -67,22 +63,9 @@
 
 		private function initializeVersionWatermark():void
 		{
-			var appDescriptor:XML = NativeApplication.nativeApplication.applicationDescriptor;
-			var ns:Namespace = appDescriptor.namespace();
-			appName = appDescriptor.ns::name.toString();
-			appCopyright = appDescriptor.ns::copyright.toString();
-			appVersion = appDescriptor.ns::versionLabel.toString();
-			if (appVersion == null || appVersion.length == 0)
-				appVersion = appDescriptor.ns::versionNumber.toString();
-
-			var appFile:File = File.applicationDirectory.resolvePath(appDescriptor.initialWindow.content.toString());
-			if (appFile.exists)
+			_applicationInfo.initialize();
+			if (_applicationInfo.appModificationDate != null)
 			{
-				// convert the Date from local to UTC by subtracting the time zone offset
-				var offsetMilliseconds:Number = appFile.modificationDate.getTimezoneOffset() * 60 * 1000;
-				appModificationDate = new Date();
-				appModificationDate.setTime(appFile.modificationDate.getTime() - offsetMilliseconds);
-
 				applicationModificationLabel.visible = true;
 			}
 
@@ -99,48 +82,9 @@
 			return _widgetContainers;
 		}
 
-		[Bindable]
-		public function get appName():String
+		public function get applicationInfo():AboutApplicationModel
 		{
-			return _appName;
-		}
-
-		public function set appName(value:String):void
-		{
-			_appName = value;
-		}
-
-		[Bindable]
-		public function get appVersion():String
-		{
-			return _appVersion;
-		}
-
-		public function set appVersion(value:String):void
-		{
-			_appVersion = value;
-		}
-
-		[Bindable]
-		public function get appCopyright():String
-		{
-			return _appCopyright;
-		}
-
-		public function set appCopyright(value:String):void
-		{
-			_appCopyright = value;
-		}
-
-		[Bindable]
-		public function get appModificationDate():Date
-		{
-			return _appModificationDate;
-		}
-
-		public function set appModificationDate(value:Date):void
-		{
-			_appModificationDate = value;
+			return _applicationInfo;
 		}
 		]]>
     </fx:Script>
@@ -169,10 +113,10 @@
 		</s:Group>
 	</s:VGroup>
 	<s:VGroup id="versionWatermarkGroup" width="100%" height="100%" color="#888888" visible="false">
-		<s:Label id="applicationNameLabel" text="{appName}" fontSize="16"/>
-		<s:Label id="applicationCopyrightLabel" text="{appCopyright}"/>
-		<s:Label id="applicationVersionLabel" text="Version {appVersion}"/>
-		<s:Label id="applicationModificationLabel" text="Updated {dateFormatter.format(appModificationDate)}"
+		<s:Label id="applicationNameLabel" text="{applicationInfo.appName}" fontSize="16"/>
+		<s:Label id="applicationCopyrightLabel" text="{applicationInfo.appCopyright}"/>
+		<s:Label id="applicationVersionLabel" text="Version {applicationInfo.appVersion}"/>
+		<s:Label id="applicationModificationLabel" text="Updated {applicationInfo.appModificationDateString}"
 				 visible="false"/>
 	</s:VGroup>
 	<s:Group id="fullViewsGroup" width="100%" height="100%">
