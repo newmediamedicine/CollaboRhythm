@@ -97,7 +97,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 								   >
 
 					<mx:horizontalAxis>
-						<mx:DateTimeAxis id="mainChartVolumeHorizontalAxis" dataUnits="days"/>
+						<mx:DateTimeAxis id="mainChartVolumeHorizontalAxis" dataUnits="milliseconds"/>
 					</mx:horizontalAxis>
 
 					<mx:horizontalAxisRenderers>
@@ -371,7 +371,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 						width="{mainChart.width}"
 						/>
 						-->
-						<mccune:InclusiveDateTimeAxis id="mainChartHorizontalAxis" dataUnits="days"
+						<mccune:InclusiveDateTimeAxis id="mainChartHorizontalAxis" dataUnits="milliseconds"
 										 disabledDays="[]"
 										 />
 					</mx:horizontalAxis>
@@ -433,6 +433,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 									   />
 					</mx:series>
 					<mx:annotationElements>
+						<!-- Skin part to receive mouse events for scrolling the main chart -->
+						<mx:Canvas id="mainChartArea" width="100%" height="100%" buttonMode="true" mouseEnabled="true"
+								   />
+
                         <s:Group id="mainChartVerticalAxisRendererMask">
                             <s:Rect width="{mainChart.width}" height="{mainChart.height}">
                                 <s:fill>
@@ -452,9 +456,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 								<s:GlowFilter id="glow" blurX="12" blurY="12" color="#FFFFFF" quality="2" strength="4"/>
 							</s:filters>
 						</s:Label>
-						<!-- Skin part to receive mouse events for scrolling the main chart -->
-						<mx:Canvas id="mainChartArea" width="100%" height="100%" buttonMode="true"
-								   />
 
 						<mx:Canvas id="annotationCanvas" width="100%" height="100%"
 								   horizontalScrollPolicy="off" verticalScrollPolicy="off"/>

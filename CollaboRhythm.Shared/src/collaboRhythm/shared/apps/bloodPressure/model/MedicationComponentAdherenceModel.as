@@ -73,8 +73,10 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		{
 			var oldConcentration:Number = _concentration;
 			_concentration = value;
-			_stepsProvider.updateSteps(oldConcentration, this);
-			_concentrationSeverityProvider.updateConcentrationSeverity(oldConcentration, this);
+			if (_stepsProvider)
+				_stepsProvider.updateSteps(oldConcentration, this);
+			if (_concentrationSeverityProvider)
+				_concentrationSeverityProvider.updateConcentrationSeverity(oldConcentration, this);
 		}
 
 		public function get steps():Vector.<String>

@@ -19,12 +19,19 @@ package collaboRhythm.shared.model.healthRecord.document
 
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
+	import collaboRhythm.shared.model.healthRecord.IDocument;
+	import collaboRhythm.shared.model.healthRecord.Relationship;
 
 	[Bindable]
 	public class AdherenceItem extends DocumentBase
 	{
 		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#AdherenceItem";
 		public static const RELATION_TYPE_ADHERENCE_RESULT:String = "http://indivo.org/vocab/documentrels#adherenceResult";
+		// TODO: eliminate this copy of RELATION_TYPE_SCHEDULE_ITEM. Only ScheduleItem.RELATION_TYPE_SCHEDULE_ITEM should exist
+		public static const RELATION_TYPE_SCHEDULE_ITEM:String = "http://indivo.org/vocab/documentrels#scheduleItem";
+		// TODO: eliminate this copy of RELATION_TYPE_ADHERENCE_ITEM. Only ScheduleItem.RELATION_TYPE_ADHERENCE_ITEM should exist
+		public static const RELATION_TYPE_ADHERENCE_ITEM:String = "http://indivo.org/vocab/documentrels#adherenceItem";
+
 		private var _name:CodedValue;
 		private var _reportedBy:String;
 		private var _dateReported:Date;
@@ -147,6 +154,18 @@ package collaboRhythm.shared.model.healthRecord.document
 		public function set adherenceResults(value:Vector.<DocumentBase>):void
 		{
 			_adherenceResults = value;
+		}
+
+		public function get scheduleItem():IDocument
+		{
+			for each (var relationship:Relationship in isRelatedFrom)
+			{
+				if (relationship.type == RELATION_TYPE_ADHERENCE_ITEM)
+				{
+					return relationship.relatesFrom;
+				}
+			}
+			return null;
 		}
 	}
 }

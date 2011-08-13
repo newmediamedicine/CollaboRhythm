@@ -28,7 +28,7 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 
 		<mx:LineSeries id="cataractDensityMapMaxSeries" name="densityMapMax" xField="date" yField="densityMapMax" 
-					   updateComplete="cataractDensityMapChart.seriesComplete();" 
+					   updateComplete="cataractDensityMapChart.seriesComplete(event);"
 					   form="segment"
 					   filterDataValues="none"
 					   >

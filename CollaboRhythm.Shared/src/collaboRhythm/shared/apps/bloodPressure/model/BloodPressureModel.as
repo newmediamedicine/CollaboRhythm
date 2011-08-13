@@ -127,7 +127,8 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 		public function get isAdherenceLoaded():Boolean
 		{
-			return record.adherenceItemsModel.isInitialized && record.medicationAdministrationsModel.isInitialized;
+			return record && record.adherenceItemsModel && record.adherenceItemsModel.isInitialized &&
+					record.medicationAdministrationsModel && record.medicationAdministrationsModel.isInitialized;
 		}
 
 		public function get currentDateSource():ICurrentDateSource
@@ -143,6 +144,11 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public function get isDiastolicReportLoaded():Boolean
 		{
 			return record.vitalSignsModel.isInitialized;
+		}
+
+		public function get isDoneLoading():Boolean
+		{
+			return !record.isLoading;
 		}
 
 		public function set currentDateSource(value:ICurrentDateSource):void
@@ -191,11 +197,18 @@ package collaboRhythm.shared.apps.bloodPressure.model
 										"isInitialized");
 				BindingUtils.bindSetter(vitalSignModel_isInitialized_setterHandler, record.vitalSignsModel,
 										"isInitialized");
+				BindingUtils.bindSetter(record_isLoading_setterHandler, record,
+										"isLoading");
 			}
 			else
 			{
 				// TODO: unbind or use weak references
 			}
+		}
+
+		private function record_isLoading_setterHandler(isLoading:Boolean):void
+		{
+			this.isInitialized = determineIsInitialized();
 		}
 
 		private function vitalSignModel_isInitialized_setterHandler(isInitialized:Boolean):void
@@ -205,7 +218,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 		private function determineIsInitialized():Boolean
 		{
-			return isAdherenceLoaded && isSystolicReportLoaded && isDiastolicReportLoaded;
+			return isAdherenceLoaded && isSystolicReportLoaded && isDiastolicReportLoaded && isDoneLoading;
 		}
 
 		private function medicationAdministrationsModel_isInitialized_setterHandler(isInitialized:Boolean):void

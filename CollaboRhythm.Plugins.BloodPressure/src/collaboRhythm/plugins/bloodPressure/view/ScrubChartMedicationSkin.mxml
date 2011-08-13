@@ -67,111 +67,42 @@ OTHER DEALINGS IN THE SOFTWARE.
 		<s:State name="hideAnnotationControls"/>
 		<s:State name="showAnnotationControls"/>
 	</s:states>
-
+	
 	<mx:Canvas id="mainChartContainer"
 			   x="{SLIDER_SCROLL_BUTTON_WIDTH}"
 			   width="{this.width - SLIDER_SCROLL_BUTTON_WIDTH * 2}"
-			   height="{this.height - footer.height}"
+			   height="{this.height}"
 			   horizontalScrollPolicy="off" verticalScrollPolicy="off"
 			   styleName="canvasContainerStyles"
 			   borderStyle="none"
 			   >
-		<!-- borderSides="left right top" -->
-		<!-- the bottom bar on which the labels for HAxis get rendered
-		<mx:HBox x="0" y="{mainChart.height - 18}" backgroundColor="#CDE2F8" width="100%" height="18" />
-		-->
-		<s:Group width="100%" height="20" bottom="0">
-			<s:Rect width="100%" height="100%">
-				<s:fill>
-					<s:SolidColor color="0xB9D6F0"/>
-				</s:fill>
-			</s:Rect>
-		</s:Group>
 		<mx:LineChart id="mainChart"
 					  x="0" y="0"
 					  showDataTips="false"
 					  width="{mainChartContainer.width}" height="{mainChartContainer.height}"
-					  gutterBottom="20"
 					  styleName="mainChartStyle"
 					  seriesFilters="[]"
 					  horizontalAxisStyleNames="mainChartHorizontalAxisStyle"
 					  verticalAxisStyleNames="mainChartVerticalAxisStyle"
 					  >
-			<!--
-			Note that we don't need a gutterLeft in the mainChart if we are using InnerAxisRenderer
-					  gutterRight="1"
-					  gutterLeft="40"
-			-->
-			<mx:backgroundElements>
-				<mx:GridLines gridDirection="both" verticalChangeCount="1" horizontalChangeCount="1">
-					<mx:verticalStroke>
-						<s:SolidColorStroke weight="1" alpha="0.1"/>
-					</mx:verticalStroke>
-					<mx:horizontalStroke>
-						<s:SolidColorStroke weight="1" alpha="0.1"/>
-					</mx:horizontalStroke>
-				</mx:GridLines>
-			</mx:backgroundElements>
-
 			<mx:horizontalAxis>
-				<!--
-				<mccune:DateTimeAxisExtended dataUnits="days" parseFunction="dateParse"
-				labelFunction="formatDateLabel2"
-				disabledDays="[]"
-				width="{mainChart.width}"
-				/>
-				-->
 				<mccune:InclusiveDateTimeAxis id="mainChartHorizontalAxis" dataUnits="milliseconds"
 								 disabledDays="[]"
 								 />
 			</mx:horizontalAxis>
-			<!--
+
 			<mx:horizontalAxisRenderers>
-			<skins:InnerAxisRenderer axis="{mainChartHorizontalAxis}" axisPosition="right" axisWidth="20"
-			axisBackgroundAlpha="1" axisBackgroundColor="#CDE2F8"
-			labelAlign="center"
-			labelFontSize="14" labelFontColor="#000000" />
+				<mccune:BlankAxisRenderer axis="{mainChartHorizontalAxis}"/>
 			</mx:horizontalAxisRenderers>
-			-->
-			<mx:horizontalAxisRenderers>
-				<mccune:AxisRendererExt id="mainChartHorizontalAxisRenderer" axis="{mainChartHorizontalAxis}"
-										fontSize="14" tickPlacement="inside" labelPlacement="outside"
-										showLine="false" labelGap="0" canClipLabels="false"
-										mask="{mainChartHorizontalAxisRendererMask}"/>
-				<!--
-										<mccune:SynchronizedAxisRenderer axis="{mainChartHorizontalAxis}" fontSize="14" />
-				-->
-				<!--						<mccune:BlankAxisRenderer axis="{mainChartHorizontalAxis}"/>
-				-->
-			</mx:horizontalAxisRenderers>
+
 			<mx:verticalAxis>
 				<mx:LinearAxis id="mainChartVerticalAxis" baseAtZero="false"/>
 			</mx:verticalAxis>
-			<mx:verticalAxisRenderers>
-				<mccune:StaticAxisRenderer id="mainChartVerticalAxisRenderer" axis="{mainChartVerticalAxis}"
-										   fontSize="14" tickPlacement="none" labelPlacement="inside"
-										   labelAlign="top" showLine="false" canClipLabels="false"
-										   mask="{mainChartVerticalAxisRendererMask}"/>
-				<!--
-					placement="right" labelGap="0"
-					<mccune:BlankAxisRenderer axis="{mainChartVerticalAxis}"/>
-				-->
-<!--
-				<skins:InnerAxisRenderer
-					axis="{mainChartVerticalAxis}"
-					axisPosition="left"
-					axisWidth="20"
-					axisBackgroundAlpha="0"
-					labelAlign="left"
-					labelPaddingLeft="5"
-					labelFontSize="16"
-					labelFontColor="#000000" />
--->
-<!--
-				<mccune:AxisRendererExt axis="{mainChartVerticalAxis}" fontSize="14"/>
--->
 
+			<mx:verticalAxisRenderers>
+				<mccune:BlankAxisRenderer axis="{mainChartVerticalAxis}"/>
 			</mx:verticalAxisRenderers>
+
 			<mx:series>
 				<mx:AreaSeries id="mainPrimarySeries" name="close" xField="date"
 							   areaFill="{new SolidColor(0xCDE2F8, 0.20)}"
@@ -187,20 +118,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 				<mx:Canvas id="mainChartArea" width="100%" height="100%" buttonMode="true" mouseEnabled="true"
 						   />
 
-				<s:Group id="mainChartVerticalAxisRendererMask">
-					<s:Rect width="{mainChart.width}" height="{mainChart.height}">
-						<s:fill>
-							<s:SolidColor alpha="0"/>
-						</s:fill>
-					</s:Rect>
-				</s:Group>
-				<s:Group id="mainChartHorizontalAxisRendererMask">
-					<s:Rect width="{mainChart.width}" height="{mainChart.height}">
-						<s:fill>
-							<s:SolidColor alpha="0"/>
-						</s:fill>
-					</s:Rect>
-				</s:Group>
 				<s:Label id="titleDisplay" styleName="MainChartTitleLabel">
 					<s:filters>
 						<s:GlowFilter id="glow" blurX="12" blurY="12" color="#FFFFFF" quality="2" strength="4"/>
@@ -226,16 +143,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 						</s:stroke>
 					</s:Ellipse>
 				</s:Group>
-				<!--
-				<s:VGroup left="0" verticalCenter="0">
-					<s:filters>
-						<s:GlowFilter blurX="12" blurY="12" color="#FFFFFF" quality="2" strength="4"/>
-					</s:filters>
-					<s:Label text="this.width {this.width}"/>
-					<s:Label text="mainChartContainer.width {mainChartContainer.width}"/>
-					<s:Label text="mainChart.width {mainChart.width}"/>
-				</s:VGroup>
-				-->
 			</mx:annotationElements>
 
 
@@ -263,70 +170,15 @@ OTHER DEALINGS IN THE SOFTWARE.
 					<s:SolidColorStroke/>
 				</s:stroke>
 			</s:Line>
-<!-- solid line across the bottom
-			<s:Line bottom="0" left="0" width="{leftBox.width}">
-				<s:stroke>
-					<s:SolidColorStroke/>
-				</s:stroke>
-			</s:Line>
-			-->
 		</s:Group>
 
 	</mx:Canvas> <!-- end mainChartContainer -->
 
-	<mccune:ChartFocusTimeMarker
-		id="focusTimeMarker"
-		y="{mainChartContainer.y + mainChart.y}"
-		height="{mainChart.height}"
-		width="30"
-		mouseEnabled="true"
-		mouseEnabledWhereTransparent="true"
-		/>
-
-	<!-- footer text indicator values and range link buttons -->
-	<mx:HBox id="footer"
-			 x="{mainChartContainer.x}"
-			 y="{mainChartContainer.y + mainChartContainer.height}"
-			 width="{mainChartContainer.width}"
-			 height="{FOOTER_HEIGHT}"
-			 horizontalGap="10" horizontalAlign="left"
-			 verticalAlign="middle"
-			 paddingTop="15"
-			 paddingBottom="0"
-			 fontSize="20">
-		<s:Button id="rangeOneDayButton" styleName="rangeButton" fontWeight="normal" label="1 day"
-					   width="{FOOTER_BUTTON_WIDTH}" height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
-					   />
-		<s:Button id="rangeOneWeekButton" styleName="rangeButton" fontWeight="normal" label="1 week"
-					   width="{FOOTER_BUTTON_WIDTH}" height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
-					   />
-		<s:Button id="rangeOneMonthButton" styleName="rangeButton" fontWeight="normal" label="1 month"
-					   width="{FOOTER_BUTTON_WIDTH}" height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
-					   />
-		<s:Button id="rangeOneYearButton" styleName="rangeButton" fontWeight="normal" label="1 year"
-					   width="{FOOTER_BUTTON_WIDTH}" height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
-					   />
-		<s:Button id="rangeMaxButton" styleName="rangeButton" fontWeight="normal" label="max"
-					   width="{FOOTER_BUTTON_WIDTH}" height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
-					   />
-		<mx:Spacer width="100%" />
-		<!--
-		<mx:HBox visible="false">
-			<mx:Label text="{_selectedDate}" />
-			<mx:Label text="{_selectedClose}" />
-			<mx:Label text="{_selectedVolume}" />
-		</mx:HBox>
-		<s:ToggleButton id="showAnnotationsButtonFooter" visible="false" label.hideAnnotationControls="Show Annotations" label.showAnnotationControls="Hide Annotations"
-						click="showAnnotationsButton_clickHandler(event)"/>
-		-->
-		<s:Button styleName="rangeButton"
-				  id="rangeTodayButton" label="Today"
-				  height="{FOOTER_HEIGHT - PADDING_BOTTOM}"
-				  width="{FOOTER_BUTTON_WIDTH}"/>
-	</mx:HBox>
 
 
 	<fx:Script><![CDATA[
+		import mx.graphics.SolidColor;
+
 		// TODO: make these const and eliminate Bindable
 		private const HEADER_HEIGHT:Number = 25;
 		private const VOLUME_CHART_HEIGHT:Number = 50;
@@ -336,20 +188,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 		private const FOOTER_HEIGHT:Number = 65;
 		private const PADDING_BOTTOM:Number = 15;
 		private const GROUP_BETWEEN_MAIN_RANGE_HEIGHT:Number = 15;
-
-		// assets used for scroll button arrows and divider boundary grab points
-		[Embed(source="/assets/divider.png")]
-		[Bindable]
-		public var dividerClass:Class;
-		[Embed(source="/assets/blank.png")]
-		[Bindable]
-		public var blankDividerClass:Class;
-		[Embed(source="/assets/left_scroll.png")]
-		[Bindable]
-		public var leftScroll:Class;
-		[Embed(source="/assets/right_scroll.png")]
-		[Bindable]
-		public var rightScroll:Class;
 
 		private static const RANGE_SELECTOR_CONTAINER_VISIBLE_HEIGHT:int = 25;
 
@@ -362,26 +200,12 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 			var footerVisible:Boolean = getStyle("footerVisible");
 
-			if (footer.visible != footerVisible)
-			{
-				footer.visible = footerVisible;
-				footer.height = footerVisible ? FOOTER_HEIGHT : 0;
-			}
-
 			var topBorderVisible:Boolean = getStyle("topBorderVisible");
 
 			if (topBorderLine.visible != topBorderVisible)
 			{
 				topBorderLine.visible = topBorderVisible;
 			}
-
-			// TODO: make this a style
-//			var showFocusTimeMarker:Boolean = getStyle("showFocusTimeMarker");
-//
-//			if (focusTimeMarker.visible != showFocusTimeMarker)
-//			{
-//				focusTimeMarker.visible = showFocusTimeMarker;
-//			}
 		}
 
 		/**
