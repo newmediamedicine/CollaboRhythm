@@ -12,6 +12,13 @@ package collaboRhythm.shared.model.healthRecord
     {
         protected var _pha:Pha;
 
+		/**
+		 * App id (PHA) used for all document creation calls. This app must exist in the database. As long as we are
+		 * using a chrome app to make the API call, we don't actually need to have the app associated with the current
+		 * record in order for this call to succeed.
+		 */
+		private static const INDIVO_APP_ID_FOR_DOCUMENT_CREATION:String = "medications@apps.indivo.org";
+
         // Indivo Api calls used in this healthRecordService
         public static const CREATE_DOCUMENT:String = "Create Document";
         public static const UPDATE_DOCUMENT:String = "Update Document";
@@ -41,8 +48,7 @@ package collaboRhythm.shared.model.healthRecord
                                                                                                                             record);
 			healthRecordServiceRequestDetails.document = document;
 
-			const appId:String = "medications@apps.indivo.org";
-            _pha.documents_external_X_XPUT(null, null, null, record.id, appId, document.meta.id, _activeAccount.oauthAccountToken,
+            _pha.documents_external_X_XPUT(null, null, null, record.id, INDIVO_APP_ID_FOR_DOCUMENT_CREATION, document.meta.id, _activeAccount.oauthAccountToken,
                                 _activeAccount.oauthAccountTokenSecret, documentXmlString, healthRecordServiceRequestDetails);
         }
 
