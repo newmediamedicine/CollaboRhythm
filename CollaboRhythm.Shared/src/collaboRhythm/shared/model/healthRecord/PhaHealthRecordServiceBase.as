@@ -3,6 +3,7 @@ package collaboRhythm.shared.model.healthRecord
 
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.StringUtils;
 
 	import org.indivo.client.IndivoClientEvent;
 	import org.indivo.client.Pha;
@@ -32,11 +33,16 @@ package collaboRhythm.shared.model.healthRecord
 
         public function createDocument(record:Record, document:IDocument, documentXmlString:String):void
         {
+			if (StringUtils.isEmpty(document.meta.id))
+				throw new Error("Document must have an id before attempting to create it. The initial id is used as the external id and then the id is later updated with the real document id.");
+
             var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(CREATE_DOCUMENT,
                                                                                                                             null,
                                                                                                                             record);
 			healthRecordServiceRequestDetails.document = document;
-            _pha.documents_POST(null, null, null, record.id, _activeAccount.oauthAccountToken,
+
+			const appId:String = "medications@apps.indivo.org";
+            _pha.documents_external_X_XPUT(null, null, null, record.id, appId, document.meta.id, _activeAccount.oauthAccountToken,
                                 _activeAccount.oauthAccountTokenSecret, documentXmlString, healthRecordServiceRequestDetails);
         }
 

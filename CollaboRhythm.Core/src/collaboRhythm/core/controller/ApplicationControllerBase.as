@@ -213,7 +213,7 @@ package collaboRhythm.core.controller
 		private function autoSave():void
 		{
 			// Don't try to auto-save on quit if we just tried to save and had errors (allow the user to force quit)
-			if (_activeRecordAccount && !hasErrorsSaving)
+			if (_activeRecordAccount && !hasErrorsSaving && !isSaving)
 				_activeRecordAccount.primaryRecord.saveAllChanges();
 		}
 
@@ -843,6 +843,11 @@ package collaboRhythm.core.controller
 		private function get hasErrorsSaving():Boolean
 		{
 			return _healthRecordServiceFacade && (_healthRecordServiceFacade.hasConnectionErrorsSaving || _healthRecordServiceFacade.hasUnexpectedErrorsSaving);
+		}
+
+		private function get isSaving():Boolean
+		{
+			return _healthRecordServiceFacade && _healthRecordServiceFacade.isSaving;
 		}
 
 		/**
