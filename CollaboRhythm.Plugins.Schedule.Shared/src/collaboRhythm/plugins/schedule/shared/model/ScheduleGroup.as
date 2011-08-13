@@ -17,54 +17,223 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
 
-	import collaboRhythm.shared.model.healthRecord.DocumentBase;
-	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
-    import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrenceBase;
 
-    import mx.collections.ArrayCollection;
+	import mx.collections.ArrayCollection;
 
-    [Bindable]
-	public class ScheduleGroup extends ScheduleItemOccurrenceBase
+	[Bindable]
+	public class ScheduleGroup
 	{
+		private var _dateStart:Date;
+		private var _dateEnd:Date;
+		private var _dateCenter:Date;
+		private var _moving:Boolean = false;
+		private var _dateCenterPreMove:Date;
+		private var _dateStartPreMove:Date;
+		private var _dateEndPreMove:Date;
+		private var _containerMouseDownX:Number;
+		private var _containerMouseDownY:Number;
+		private var _yPreMove:Number;
+		private var _yPosition:Number;
+		private var _scheduleGroupsStacked:Number;
+		private var _scheduleItemsStacked:Number;
+		private var _stackingUpdate:Boolean;
+		private var _containerWidth:Number;
+		private var _containerHeight:Number;
 		private var _scheduleItemsOccurrencesCollection:ArrayCollection = new ArrayCollection();
-        private var _stackNumber:Number;
+		private var _stackNumber:Number;
 
-		public function ScheduleGroup(dateStart:Date, dateEnd:Date)//scheduleModel:ScheduleModel, scheduleGroupReportXML:XML)
+		public function ScheduleGroup(dateStart:Date,
+									  dateEnd:Date)//scheduleModel:ScheduleModel, scheduleGroupReportXML:XML)
 		{
-            super(dateStart, dateEnd);
+			_dateStart = dateStart;
+			_dateEnd = dateEnd;
+			_dateCenter = new Date(dateStart.time + (dateEnd.time - dateStart.time) / 2);
 		}
 
-        //			parseDocumentMetadata(scheduleGroupReportXML.Meta.Document[0], this);
-//			var scheduleGroupXML:XML = scheduleGroupReportXML.Item.ScheduleGroup[0];
-//			_scheduledBy = scheduleGroupXML.scheduledBy;
-//			_dateTimeScheduled = collaboRhythm.shared.model.DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeScheduled.toString());
-//			_dateTimeStart = collaboRhythm.shared.model.DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeStart.toString());
-//			_dateTimeEnd = collaboRhythm.shared.model.DateUtil.parseW3CDTF(scheduleGroupXML.dateTimeEnd.toString());
-////			_recurrenceRule = new RecurrenceRule(scheduleGroupXML.recurrenceRule.frequency, Number(scheduleGroupXML.recurrenceRule.count));
-//
-//			_scheduleModel = scheduleModel;
-//
-
-		public function convertToXML():XML
+		public function get dateStart():Date
 		{
-			var scheduleGroupDocument:XML = <ScheduleGroup/>;
-//			scheduleGroupDocument.@xmlns = "http://indivo.org/vocab/xml/documents#";
-//			scheduleGroupDocument.scheduledBy = scheduledBy;
-//			scheduleGroupDocument.dateTimeScheduled = com.adobe.utils.DateUtil.toW3CDTF(dateTimeScheduled);
-//			scheduleGroupDocument.dateTimeStart = com.adobe.utils.DateUtil.toW3CDTF(dateTimeStart);
-//			scheduleGroupDocument.dateTimeEnd = com.adobe.utils.DateUtil.toW3CDTF(dateTimeEnd);
-//			scheduleGroupDocument.recurrenceRule.frequency = recurrenceRule.frequency;
-//			scheduleGroupDocument.recurrenceRule.count = recurrenceRule.count;
-//
-			return scheduleGroupDocument;
+			return _dateStart;
+		}
+
+		public function set dateStart(value:Date):void
+		{
+			_dateStart = value;
+			if (_moving)
+			{
+				dateEnd = new Date(_dateStart.time + (_dateEndPreMove.time - _dateStartPreMove.time));
+			}
+		}
+
+		public function get dateStartValue():Number
+		{
+			return dateStart.valueOf();
+		}
+
+		public function get dateEnd():Date
+		{
+			return _dateEnd;
+		}
+
+		public function set dateEnd(value:Date):void
+		{
+			_dateEnd = value;
+		}
+
+		public function get dateCenter():Date
+		{
+			return _dateCenter;
+		}
+
+		public function set dateCenter(value:Date):void
+		{
+			_dateCenter = value;
+			if (_moving)
+			{
+				dateStart = new Date(_dateCenter.time - (_dateEndPreMove.time - _dateStartPreMove.time) / 2);
+			}
+		}
+
+		public function get dateCenterValue():Number
+		{
+			return dateCenter.valueOf();
+		}
+
+		public function get moving():Boolean
+		{
+			return _moving;
+		}
+
+		public function set moving(value:Boolean):void
+		{
+			_moving = value;
+		}
+
+		public function get dateCenterPreMove():Date
+		{
+			return _dateCenterPreMove;
+		}
+
+		public function set dateCenterPreMove(value:Date):void
+		{
+			_dateCenterPreMove = value;
+		}
+
+		public function get dateStartPreMove():Date
+		{
+			return _dateStartPreMove;
+		}
+
+		public function set dateStartPreMove(value:Date):void
+		{
+			_dateStartPreMove = value;
+		}
+
+		public function get dateEndPreMove():Date
+		{
+			return _dateEndPreMove;
+		}
+
+		public function set dateEndPreMove(value:Date):void
+		{
+			_dateEndPreMove = value;
+		}
+
+		public function get containerMouseDownX():Number
+		{
+			return _containerMouseDownX;
+		}
+
+		public function set containerMouseDownX(value:Number):void
+		{
+			_containerMouseDownX = value;
+		}
+
+		public function get containerMouseDownY():Number
+		{
+			return _containerMouseDownY;
+		}
+
+		public function set containerMouseDownY(value:Number):void
+		{
+			_containerMouseDownY = value;
+		}
+
+		public function get yPreMove():Number
+		{
+			return _yPreMove;
+		}
+
+		public function set yPreMove(value:Number):void
+		{
+			_yPreMove = value;
+		}
+
+		public function get yPosition():Number
+		{
+			return _yPosition;
+		}
+
+		public function set yPosition(value:Number):void
+		{
+			_yPosition = value;
+		}
+
+		public function get scheduleGroupsStacked():Number
+		{
+			return _scheduleGroupsStacked;
+		}
+
+		public function set scheduleGroupsStacked(value:Number):void
+		{
+			_scheduleGroupsStacked = value;
+		}
+
+		public function get scheduleItemsStacked():Number
+		{
+			return _scheduleItemsStacked;
+		}
+
+		public function set scheduleItemsStacked(value:Number):void
+		{
+			_scheduleItemsStacked = value;
+		}
+
+		public function get stackingUpdated():Boolean
+		{
+			return _stackingUpdate;
+		}
+
+		public function set stackingUpdated(value:Boolean):void
+		{
+			_stackingUpdate = value;
+		}
+
+		public function get containerWidth():Number
+		{
+			return _containerWidth;
+		}
+
+		public function set containerWidth(value:Number):void
+		{
+			_containerWidth = value;
+		}
+
+		public function get containerHeight():Number
+		{
+			return _containerHeight;
+		}
+
+		public function set containerHeight(value:Number):void
+		{
+			_containerHeight = value;
 		}
 
 		public function get scheduleItemsOccurrencesCollection():ArrayCollection
 		{
 			return _scheduleItemsOccurrencesCollection;
 		}
-		
+
 		public function addScheduleItemOccurrence(scheduleItemOccurrence:ScheduleItemOccurrence):void
 		{
 			_scheduleItemsOccurrencesCollection.addItem(scheduleItemOccurrence);
@@ -129,15 +298,15 @@ package collaboRhythm.plugins.schedule.shared.model
 			return true;
 		}
 
-        public function get stackNumber():Number
-        {
-            return _stackNumber;
-        }
+		public function get stackNumber():Number
+		{
+			return _stackNumber;
+		}
 
-        public function set stackNumber(value:Number):void
-        {
-            _stackNumber = value;
-        }
+		public function set stackNumber(value:Number):void
+		{
+			_stackNumber = value;
+		}
 
 		/**
 		 * The id of the group, which is NOT static. The id is based on the current first schedule item occurrence in

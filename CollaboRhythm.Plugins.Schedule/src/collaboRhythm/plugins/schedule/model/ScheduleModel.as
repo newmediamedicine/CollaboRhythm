@@ -116,7 +116,7 @@ package collaboRhythm.plugins.schedule.model
 						addToScheduleGroup(equipmentScheduleItemOccurrence);
 					}
 				}
-				currentPerformanceModel.determineAdherence();
+//				currentPerformanceModel.determineAdherence();
 				// TODO: isInitialized = true should probably be done after scheduleTimelineModel.determineStacking(), but this needs to be tested
 				isInitialized = true;
 				scheduleTimelineModel.determineStacking();
@@ -208,14 +208,14 @@ package collaboRhythm.plugins.schedule.model
 				_record.addDocument(adherenceResult);
 				_record.addNewRelationship(AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT, adherenceItem, adherenceResult)
 			}
-			currentPerformanceModel.determineAdherence();
+//			currentPerformanceModel.determineAdherence();
 		}
 
 		public function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void
 		{
 			_record.removeDocument(scheduleItemOccurrence.adherenceItem, DocumentBase.ACTION_VOID, "deleted by user", true);
 			scheduleItemOccurrence.adherenceItem = null;
-			currentPerformanceModel.determineAdherence();
+//			currentPerformanceModel.determineAdherence();
 		}
 
 		public function saveChangesToRecord():void

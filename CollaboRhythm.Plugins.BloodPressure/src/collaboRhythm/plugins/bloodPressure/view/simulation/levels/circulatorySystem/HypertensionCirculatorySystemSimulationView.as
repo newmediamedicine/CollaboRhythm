@@ -191,6 +191,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 			if (_circulatorySystemSimulationMovieClip)
 			{
 				_circulatorySystemSimulationMovieClip.current_medicine = 0;
+				_circulatorySystemSimulationMovieClip.update();
 			}
 		}
 	}

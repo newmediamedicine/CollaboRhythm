@@ -22,7 +22,6 @@ package collaboRhythm.plugins.schedule.model
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
 	import collaboRhythm.plugins.schedule.view.ScheduleGroupTimelineView;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
-	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrenceBase;
 
 	[Bindable]
 	public class ScheduleTimelineModel
@@ -41,16 +40,16 @@ package collaboRhythm.plugins.schedule.model
 			}
 		}
 
-		private function storePreMoveInfo(scheduleItemOccurence:ScheduleItemOccurrenceBase, moveData:MoveData):void
+		private function storePreMoveInfo(scheduleGroup:ScheduleGroup, moveData:MoveData):void
 		{
-			scheduleItemOccurence.dateCenterPreMove = scheduleItemOccurence.dateCenter;
-			scheduleItemOccurence.dateStartPreMove = scheduleItemOccurence.dateStart;
-			scheduleItemOccurence.dateEndPreMove = scheduleItemOccurence.dateEnd;
-			scheduleItemOccurence.containerMouseDownX = moveData.containerX;
-			scheduleItemOccurence.containerMouseDownY = moveData.containerY;
-			scheduleItemOccurence.containerWidth = moveData.containerWidth;
-			scheduleItemOccurence.containerHeight = moveData.containerHeight;
-			scheduleItemOccurence.yPreMove = scheduleItemOccurence.yPosition;
+			scheduleGroup.dateCenterPreMove = scheduleGroup.dateCenter;
+			scheduleGroup.dateStartPreMove = scheduleGroup.dateStart;
+			scheduleGroup.dateEndPreMove = scheduleGroup.dateEnd;
+			scheduleGroup.containerMouseDownX = moveData.containerX;
+			scheduleGroup.containerMouseDownY = moveData.containerY;
+			scheduleGroup.containerWidth = moveData.containerWidth;
+			scheduleGroup.containerHeight = moveData.containerHeight;
+			scheduleGroup.yPreMove = scheduleGroup.yPosition;
 		}
 
 		public function grabScheduleGroup(moveData:MoveData):void
