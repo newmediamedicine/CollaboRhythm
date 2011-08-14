@@ -147,7 +147,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 			_loadSimulationOnCreateChildren = value;
 		}
 
-		var _bitmapCopy:BitmapCopyComponent;
+		private var _bitmapCopy:BitmapCopyComponent;
 
 		public function removeMovieClipLoader():Loader
 		{

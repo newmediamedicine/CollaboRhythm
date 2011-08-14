@@ -55,8 +55,11 @@ package com.dougmccune.controls
 
 	import mx.charts.ChartItem;
 	import mx.charts.DateTimeAxis;
+	import mx.charts.HitData;
 	import mx.charts.chartClasses.CartesianChart;
 	import mx.charts.chartClasses.NumericAxis;
+	import mx.charts.chartClasses.Series;
+	import mx.charts.events.ChartItemEvent;
 	import mx.charts.series.AreaSeries;
 	import mx.charts.series.items.AreaSeriesItem;
 	import mx.collections.ArrayCollection;
@@ -70,6 +73,7 @@ package com.dougmccune.controls
 	import mx.controls.TextArea;
 	import mx.core.FlexGlobals;
 	import mx.core.UIComponent;
+	import mx.effects.Effect;
 	import mx.events.CollectionEvent;
 	import mx.events.DividerEvent;
 	import mx.events.EffectEvent;
@@ -85,6 +89,8 @@ package com.dougmccune.controls
 	import mx.styles.CSSStyleDeclaration;
 	import mx.utils.UIDUtil;
 
+	import spark.components.Group;
+
 	import spark.components.supportClasses.SkinnableComponent;
 	import spark.components.supportClasses.ToggleButtonBase;
 	import spark.core.IDisplayText;
@@ -93,6 +99,8 @@ package com.dougmccune.controls
 	import spark.effects.animation.MotionPath;
 	import spark.effects.animation.SimpleMotionPath;
 	import spark.effects.easing.Power;
+	import spark.primitives.Ellipse;
+	import spark.primitives.Rect;
 
 	import vo.AnnotationVO;
 
@@ -199,6 +207,7 @@ package com.dougmccune.controls
 	[Event(name="seriesComplete", type="flash.events.Event")]
 	[Event(name="scroll", type="mx.events.ScrollEvent")]
 	[Event(name="focusTimeChange", type="com.dougmccune.events.FocusTimeEvent")]
+	[Event(name="itemClick", type="mx.charts.events.ChartItemEvent")]
 
 	public class ScrubChart extends SkinnableComponent implements IFocusManagerComponent
 	{
@@ -269,8 +278,11 @@ package com.dougmccune.controls
 		public var showAnnotationsButton:ToggleButtonBase;
 		
 		[SkinPart(required="false")]
-		public var rangeOneWeekButton:UIComponent;
+		public var rangeOneDayButton:UIComponent;
 		
+		[SkinPart(required="false")]
+		public var rangeOneWeekButton:UIComponent;
+
 		[SkinPart(required="false")]
 		public var rangeOneMonthButton:UIComponent;
 		
@@ -286,6 +298,24 @@ package com.dougmccune.controls
 		[SkinPart(required="false")]
 		public var annotationForm:List;
 		
+		[SkinPart(required="false")]
+		public var footer:UIComponent;
+
+		[SkinPart(required="false")]
+		public var highlightChartItemGroup:Group;
+
+		[SkinPart(required="false")]
+		public var highlightChartItemBullsEye:Ellipse;
+
+		[SkinPart(required="false")]
+		public var highlightChartItemEffect:Effect;
+
+		[SkinPart(required="false")]
+		public var highlightChartItemScopeLeft:Rect;
+
+		[SkinPart(required="false")]
+		public var highlightChartItemEffectScopeLeftMove:Move;
+
 		//the sliced data to appear in the upper area chart, and column volume chart
 		[Bindable]
 		protected var mainData:ArrayCollection = new ArrayCollection();
@@ -457,6 +487,7 @@ package com.dougmccune.controls
 			initializeRangeTimeAnimate();
 			initializeFocusTimeAnimate();
 			this.addEventListener(FlexEvent.CREATION_COMPLETE, creationCompleteHandler);
+			this.addEventListener(MouseEvent.CLICK, mainChartArea_clickHandler);
 		}
 
 		[Bindable]
@@ -535,8 +566,13 @@ package com.dougmccune.controls
 			//				var focusAxisPosition:Number = (focusTimeMarker.x + focusTimeMarker.width / 2 - mainChartContainer.x - mainChart.x - mainChart.computedGutters.left) /
 			//					(this.mainChart.width - this.mainChart.computedGutters.left - this.mainChart.computedGutters.right);
 
-			focusTimeMarker.x = focusAxisPosition * (this.mainChart.width - this.mainChart.computedGutters.left - this.mainChart.computedGutters.right) -
-					(focusTimeMarker.width / 2 - mainChartContainer.x - mainChart.x - mainChart.computedGutters.left);
+			if (focusTimeMarker)
+			{
+				focusTimeMarker.x = focusAxisPosition * (this.mainChart.width - this.mainChart.computedGutters.left - this.mainChart.computedGutters.right) -
+						(focusTimeMarker.width / 2 - mainChartContainer.x - mainChart.x - mainChart.computedGutters.left);
+			}
+
+			hideDataPointHighlight();
 		}
 
 		public function get showFps():Boolean
@@ -597,7 +633,7 @@ package com.dougmccune.controls
 			}
 			else if (event.altKey && event.ctrlKey && event.keyCode == Keyboard.D)
 			{
-				trace("dividedBox.width", dividedBox.width, "boxes_width", leftBox.width + middleBox.width + rightBox.width, "rangeChart.width", rangeChart ? rangeChart.width : "N/A", "mainChart.width", mainChart.width, "focusTimeMarker.x", focusTimeMarker.x, "this.mouseX", this.mouseX);
+				trace("dividedBox.width", dividedBox.width, "boxes_width", leftBox.width + middleBox.width + rightBox.width, "rangeChart.width", rangeChart ? rangeChart.width : "N/A", "mainChart.width", mainChart.width, "focusTimeMarker.x", focusTimeMarker ? focusTimeMarker.x : "N/A", "this.mouseX", this.mouseX);
 			}
 			else if (event.altKey && event.ctrlKey && event.keyCode == Keyboard.E)
 			{
@@ -702,7 +738,8 @@ package com.dougmccune.controls
 
 			try
 			{
-				leftRangeTime = Math.max(t0, t1 - initialDurationTime);
+//				leftRangeTime = Math.max(t0, t1 - initialDurationTime);
+				leftRangeTime = t1 - initialDurationTime;
 			} catch(e:Error)
 			{
 				trace("Error setting leftRangeTime: " + e.message);
@@ -792,7 +829,7 @@ package com.dougmccune.controls
 		 * Called from updateComplete on Main chart series... when data is completely loaded, we set the defaults for the sliders and divider
 		 * boxes etc... filtered to only run once (allowUpdateComplete) when the application first loads
 		 */
-		public function seriesComplete():void
+		public function seriesComplete(event:FlexEvent):void
 		{
 			if (mainData.length > 0 && allowUpdateComplete)
 			{
@@ -904,10 +941,13 @@ package com.dougmccune.controls
 		{
 		//				focusTimeMarker.x = mainChartContainer.x + mainChart.x + mainChart.width - (focusTimeMarker.width / 2);
 
-			if (focusTimePositionLocked)
-				updateFocusTimeValueFromPosition();
-			else
-				updateFocusTime(_focusTime);
+			if (focusTimeMarker)
+			{
+				if (focusTimePositionLocked)
+					updateFocusTimeFromMarkerPosition();
+				else
+					updateFocusTime(_focusTime);
+			}
 		}
 
 		private function sliceMainData():void
@@ -1185,10 +1225,10 @@ package com.dougmccune.controls
 
 			_focusTimeMoveEffect.easer = new Power(0.5, 3);
 			_focusTimeMoveEffect.duration = 750;
-			
+
 			_focusTimeMoveEffect.addEventListener(EffectEvent.EFFECT_UPDATE, function(event:EffectEvent):void
 			{
-				updateFocusTimeValueFromPosition();
+				updateFocusTimeFromMarkerPosition();
 				this.dispatchEvent(new FocusTimeEvent());
 			});
 		}
@@ -1208,16 +1248,30 @@ package com.dougmccune.controls
 			}
 		}
 		
-		private function animateFocusTimeMarker():void
+		private function animateFocusTimeMarker(x:Number):void
 		{
-			focusTimeMarker.x = focusTimeMarkerMaxX;
-			updateFocusTimeValueFromPosition();
+			hideDataPointHighlight();
+			if (focusTimeMarker)
+			{
+				focusTimeMarker.x = x;
+				updateFocusTimeFromMarkerPosition();
+			}
+			else
+			{
+				updateFocusTimeFromX(x);
+			}
 			this.dispatchEvent(new FocusTimeEvent());
 
 //			_focusTimeMoveEffect.stop();
 //			_focusTimeMoveEffect.xFrom = focusTimeMarker.x;
 //			_focusTimeMoveEffect.xTo = focusTimeMarkerMaxX;
 //			_focusTimeMoveEffect.play();
+		}
+
+		private function animateFocusTimeMarkerToDate(date:Date):void
+		{
+			focusTime = date.getTime();
+			this.dispatchEvent(new FocusTimeEvent());
 		}
 
 		/**
@@ -1355,57 +1409,56 @@ package com.dougmccune.controls
 			//this value is false if the indicator move effect is playing
 			if (updateBoxFromRangeTimes)
 			{
-		//					var chartPoint:Object = getChartCoordinates(new Point(mainChart.mouseX, mainChart.mouseY), mainChart);
-		//					var formattedDate:String = fullDateFormat.format(new Date(chartPoint.x));
-		//					trace("getChartDataPoint", formattedDate);
-		//
-		//					if (mainChart.series[0].numChildren - 1 == mainData.length)
-		//					{
-		//						var result:int = findDataPoint(mainData, chartPoint.x);
-		//						if (result > -1)
-		//						{
-		//							//						var dataItem:Object = mainData.getItemAt(result);
-		//							mainChart.series[0].getChildAt(result). (true);
-		//							//							mainChartVolume.series[0].getChildAt(result).showRenderer(true);
-		//						}
-		//					}
+//							var chartPoint:Object = getChartCoordinates(new Point(mainChart.mouseX, mainChart.mouseY), mainChart);
+//							var formattedDate:String = fullDateFormat.format(new Date(chartPoint.x));
+//							trace("getChartDataPoint", formattedDate);
+//
+//							if (mainChart.series[0].numChildren - 1 == mainData.length)
+//							{
+//								var result:int = findDataPoint(mainData, chartPoint.x);
+//								if (result > -1)
+//								{
+//									//						var dataItem:Object = mainData.getItemAt(result);
+//									mainChart.series[0].getChildAt(result). (true);
+//									//							mainChartVolume.series[0].getChildAt(result).showRenderer(true);
+//								}
+//							}
 
-		//					selectChartDataPoint();
+//							selectChartDataPoint();
 
-		//					for(var i:int = 0; i < mainData.length; i++)
-		//					{
-		//						var dataItem:Object = mainData.getItemAt(i);
-		//						if(dataItem.date == formattedDate)
-		//						{
-		//							_selectedDate = labelSummaryDateFormatter.format(dateParse(dataItem.date));
-		//							_selectedClose = 'Price: ' + dollarFormatter.format(Number(dataItem.close));
-		//							_selectedVolume = 'Vol: ' + volumeFormatter.format(Number(dataItem.volume));
-		//							mainChart.series[0].getChildAt(i + 1).showRenderer(true);
-		//							mainChartVolume.series[0].getChildAt(i + 1).showRenderer(true);
-		//						}
-		//						else
-		//						{
-		//							mainChart.series[0].getChildAt(i + 1).showRenderer(false);
-		//							mainChartVolume.series[0].getChildAt(i + 1).showRenderer(false);
-		//						}
-		//					}
-		//					for(var i:int = 0; i < mainChart.series[0].numChildren; i++)
-		//					{
-		//						mainChart.series[0].getChildAt(i).showRenderer(true);
-		//						mainChartVolume.series[0].getChildAt(i).showRenderer(true);
-		//					}
+//							for(var i:int = 0; i < mainData.length; i++)
+//							{
+//								var dataItem:Object = mainData.getItemAt(i);
+//								if(dataItem.date == formattedDate)
+//								{
+//									_selectedDate = labelSummaryDateFormatter.format(dateParse(dataItem.date));
+//									_selectedClose = 'Price: ' + dollarFormatter.format(Number(dataItem.close));
+//									_selectedVolume = 'Vol: ' + volumeFormatter.format(Number(dataItem.volume));
+//									mainChart.series[0].getChildAt(i + 1).showRenderer(true);
+//									mainChartVolume.series[0].getChildAt(i + 1).showRenderer(true);
+//								}
+//								else
+//								{
+//									mainChart.series[0].getChildAt(i + 1).showRenderer(false);
+//									mainChartVolume.series[0].getChildAt(i + 1).showRenderer(false);
+//								}
+//							}
+//							for(var i:int = 0; i < mainChart.series[0].numChildren; i++)
+//							{
+//								mainChart.series[0].getChildAt(i).showRenderer(true);
+//								mainChartVolume.series[0].getChildAt(i).showRenderer(true);
+//							}
 
 			}
 		}
 
-/*
 		private function selectChartDataPoint():void
 		{
 			for (var s:int = 0; s < mainChart.series.length; s++)
 			{
 				var series:Series = mainChart.series[s] as Series;
 
-				var points:Array = series.findDataPoints(series.mouseX, series.mouseY, 10);
+				var points:Array = series.findDataPoints(series.mouseX, series.mouseY, highlightChartItemBullsEye.width);
 				if (points.length > 0)
 				{
 		//						trace("getChartDataPoint", points.length, "points", points[0]);
@@ -1413,17 +1466,20 @@ package com.dougmccune.controls
 					if (hitData != null && highlightedItem != hitData.chartItem)
 					{
 						highlightChartItem(hitData.chartItem);
+						// only highlight the first item found; for overlapping series, obscured data points may not be selectable
+						return;
 					}
 				}
 			}
+
+			// if no point found, hide the highlight
+			hideDataPointHighlight();
 		}
 
 		private function highlightChartItem(chartItem:ChartItem):void
 		{
-			highlightChartItemGroup.visible = true;
-
-			highlightChartItemEffect.stop();
-			highlightedItem = chartItem;
+			if (highlightChartItemEffect)
+				highlightChartItemEffect.stop();
 
 			var chartItemX:Number;
 			var chartItemY:Number;
@@ -1435,21 +1491,44 @@ package com.dougmccune.controls
 			if (chartItem.hasOwnProperty("y"))
 				chartItemY = chartItem["y"];
 			else
-				chartItemY = chartItem.itemRenderer.y + chartItem.itemRenderer.width / 2;
+				chartItemY = chartItem.itemRenderer.y + chartItem.itemRenderer.height / 2;
 
-			highlightChartItemBullsEye.horizontalCenter = chartItemX - highlightedItem.element.width / 2;
-			highlightChartItemBullsEye.verticalCenter = chartItemY - highlightedItem.element.height / 2;
-			highlightChartItemScopeLeft.verticalCenter = chartItemY - highlightedItem.element.height / 2;
-			highlightChartItemEffectScopeLeftMove.xFrom = 0;
-			highlightChartItemEffectScopeLeftMove.xTo = chartItemX - highlightChartItemScopeLeft.width;
+			highlightChartItemBullsEye.x = chartItemX - highlightChartItemBullsEye.width / 2;
+			highlightChartItemBullsEye.y = chartItemY - highlightChartItemBullsEye.height / 2;
+//			highlightChartItemEffectScopeLeftMove.xFrom = 0;
+//			highlightChartItemEffectScopeLeftMove.xTo = chartItemX - highlightChartItemScopeLeft.width;
 
-			highlightChartItemEffect.play();
+			// If possible, we move the focus time the exact date, instead of trying to infer the date from the item position
+			var date:Date;
+			var series:Series = chartItem.element as Series;
+			if (series)
+			{
+				if (series.hasOwnProperty("xField"))
+				{
+					var xField:String = series["xField"] as String;
+					if (xField && chartItem.item.hasOwnProperty(xField))
+					{
+						date = chartItem.item[xField] as Date;
+					}
+				}
+			}
+			if (date)
+				animateFocusTimeMarkerToDate(date);
+			else
+				animateFocusTimeMarker(chartItemX);
+
+			highlightedItem = chartItem;
+			highlightChartItemGroup.visible = true;
+			if (highlightChartItemEffect)
+				highlightChartItemEffect.play();
+
+			dispatchEvent(new ChartItemEvent(ChartItemEvent.ITEM_CLICK, [chartItem]));
 		}
 
-*/
-		private function hideDataPointHighlight():void
+		public function hideDataPointHighlight():void
 		{
-//			highlightChartItemGroup.visible = false;
+			highlightedItem = null;
+			highlightChartItemGroup.visible = false;
 		}
 
 		public function findPreviousDataPoint(dateValue:Number):Object
@@ -1795,7 +1874,7 @@ package com.dougmccune.controls
 			todayTime = Math.min(todayTime, rangeChartMaximum);
 
 			animateRangeTimes(todayTime - delta, todayTime);
-			animateFocusTimeMarker();
+			animateFocusTimeMarker(focusTimeMarkerMaxX);
 		}
 
 		public function get today():Date
@@ -1896,17 +1975,22 @@ package com.dougmccune.controls
 										 Math.min(focusTimeMarkerMaxX,
 												  focusTimeFirstPos.x + currentMousePos.x - focusTimeFirstMousePos.x));
 
-			updateFocusTimeValueFromPosition();
+			updateFocusTimeFromMarkerPosition();
 
 			this.dispatchEvent(new FocusTimeEvent());
 
 			event.stopImmediatePropagation();
 		}
 
-		private function updateFocusTimeValueFromPosition():void
+		private function updateFocusTimeFromMarkerPosition():void
 		{
 			var focusAxisPosition:Number = (focusTimeMarker.x + focusTimeMarker.width / 2 - mainChartContainer.x - mainChart.x - mainChart.computedGutters.left) /
 					(this.mainChart.width - this.mainChart.computedGutters.left - this.mainChart.computedGutters.right);
+			updateFocusTimeFromX(focusAxisPosition);
+		}
+
+		private function updateFocusTimeFromX(focusAxisPosition:Number):void
+		{
 			_focusTime = this.mainChart.horizontalAxis.invertTransform(focusAxisPosition) as Number;
 		}
 
@@ -1935,6 +2019,10 @@ package com.dougmccune.controls
 
 		protected function mainChart_resizeHandler(event:ResizeEvent):void
 		{
+			if (focusTimeMarker)
+			{
+				updateFocusTime(_focusTime);
+			}
 		}
 
 		[Bindable]
@@ -1967,11 +2055,20 @@ package com.dougmccune.controls
 
 		public function get isFocusOnMaximumTime():Boolean
 		{
-			if (_traceEvents)
-				trace(traceEventsPrefix + "isFocusOnMaximumTime focusTime", traceDate(focusTime), "maximumTime", traceDate(maximumTime),
-					  "focusTimeMarker.x", focusTimeMarker.x, "focusTimeMarkerMaxX", focusTimeMarkerMaxX, "rightRangeTime",
-					  traceDate(rightRangeTime), "maximumTime", traceDate(maximumTime));
-			return focusTime >= maximumTime || (focusTimeMarker.x == focusTimeMarkerMaxX && rightRangeTime >= maximumTime);
+			if (focusTimeMarker)
+			{
+				if (_traceEvents)
+					trace(traceEventsPrefix + "isFocusOnMaximumTime focusTime", traceDate(focusTime), "maximumTime",
+						  traceDate(maximumTime),
+						  "focusTimeMarker.x", focusTimeMarker.x, "focusTimeMarkerMaxX", focusTimeMarkerMaxX,
+						  "rightRangeTime",
+						  traceDate(rightRangeTime), "maximumTime", traceDate(maximumTime));
+				return focusTime >= maximumTime || (focusTimeMarker.x == focusTimeMarkerMaxX && rightRangeTime >= maximumTime);
+			}
+			else
+			{
+				return true;
+			}
 		}
 
 		private function addAnnotationButton_clickHandler(event:MouseEvent):void
@@ -2007,6 +2104,7 @@ package com.dougmccune.controls
 			}
 			else if (instance == mainChartArea)
 			{
+				mainChartArea.addEventListener(MouseEvent.CLICK, mainChartArea_clickHandler);
 				mainChartArea.addEventListener(MouseEvent.MOUSE_DOWN, mainChartArea_mouseDownHandler);
 				mainChartArea.addEventListener(MouseEvent.MOUSE_UP, mainChartArea_mouseUpHandler);
 			}
@@ -2070,6 +2168,10 @@ package com.dougmccune.controls
 			{
 				addAnnotationButton.addEventListener(MouseEvent.CLICK, addAnnotationButton_clickHandler);
 			}
+			else if (instance == rangeOneDayButton)
+			{
+				rangeOneDayButton.addEventListener(MouseEvent.CLICK, rangeOneDayButton_clickHandler);
+			}
 			else if (instance == rangeOneWeekButton)
 			{
 				rangeOneWeekButton.addEventListener(MouseEvent.CLICK, rangeOneWeekButton_clickHandler);
@@ -2107,6 +2209,11 @@ package com.dougmccune.controls
 				slider.minimum = t0;
 				slider.maximum = t1;
 			}
+		}
+
+		private function rangeOneDayButton_clickHandler(event:MouseEvent):void
+		{
+			animateRangeDuration(DAYS_TO_MILLISECONDS);
 		}
 
 		private function rangeOneWeekButton_clickHandler(event:MouseEvent):void
@@ -2176,7 +2283,7 @@ package com.dougmccune.controls
 
 		private function mainPrimarySeries_updateCompleteHandler(event:FlexEvent):void
 		{
-			seriesComplete();
+			seriesComplete(event);
 		}
 
 		private function mainChart_mouseOutHandler(event:MouseEvent):void
@@ -2241,8 +2348,9 @@ package com.dougmccune.controls
 			}
 			else if (instance == mainChartArea)
 			{
-				mainChartArea.removeEventListener(MouseEvent.MOUSE_DOWN, mainChartArea_mouseDownHandler);
-				mainChartArea.removeEventListener(MouseEvent.MOUSE_UP, mainChartArea_mouseUpHandler);
+				mainChartArea.removeEventListener(MouseEvent.CLICK, mainChartArea_clickHandler);
+//				mainChartArea.removeEventListener(MouseEvent.MOUSE_DOWN, mainChartArea_mouseDownHandler);
+//				mainChartArea.removeEventListener(MouseEvent.MOUSE_UP, mainChartArea_mouseUpHandler);
 			}
 			else if (instance == focusTimeMarker)
 			{
@@ -2288,6 +2396,10 @@ package com.dougmccune.controls
 			else if (instance == addAnnotationButton)
 			{
 				addAnnotationButton.removeEventListener(MouseEvent.CLICK, addAnnotationButton_clickHandler);
+			}
+			else if (instance == rangeOneDayButton)
+			{
+				rangeOneDayButton.removeEventListener(MouseEvent.CLICK, rangeOneDayButton_clickHandler);
 			}
 			else if (instance == rangeOneWeekButton)
 			{
@@ -2366,6 +2478,11 @@ package com.dougmccune.controls
 
 			if (rangeChart)
 				rangeChart.series = new Array();
+		}
+
+		private function mainChartArea_clickHandler(event:MouseEvent):void
+		{
+			selectChartDataPoint();
 		}
 	}
 }

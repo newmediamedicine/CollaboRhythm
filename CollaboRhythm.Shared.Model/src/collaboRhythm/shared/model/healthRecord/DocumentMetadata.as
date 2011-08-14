@@ -16,6 +16,9 @@
  */
 package collaboRhythm.shared.model.healthRecord
 {
+
+	import com.adobe.utils.DateUtil;
+
 	/**
 	 * Basic implementation of document metadata for a health record document, such as a Problem or Medication.
 	 */
@@ -24,6 +27,7 @@ package collaboRhythm.shared.model.healthRecord
 	{
 		private var _id:String;
 		private var _type:String;
+		private var _createdAt:Date;
 
 		public static const INDIVO_DOCUMENTS_NAMESPACE:String = "http://indivo.org/vocab/xml/documents#";
 
@@ -87,6 +91,17 @@ package collaboRhythm.shared.model.healthRecord
 			
 			documentMetadata.id = documentXml.@id.toString();
 			documentMetadata.type = (documentXml.attribute("type").length() == 1) ? documentXml.@type.toString() : null;
+			documentMetadata.createdAt = DateUtil.parseW3CDTF(documentXml.createdAt.toString());
+		}
+
+		public function get createdAt():Date
+		{
+			return _createdAt;
+		}
+
+		public function set createdAt(value:Date):void
+		{
+			_createdAt = value;
 		}
 	}
 }

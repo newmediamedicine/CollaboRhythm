@@ -16,6 +16,7 @@
  */
 package collaboRhythm.shared.model.healthRecord
 {
+
 	/**
 	 * Metadata for a health record document, such as a Problem or Medication.
 	 */
@@ -38,5 +39,11 @@ package collaboRhythm.shared.model.healthRecord
 		 * Short type name of the document, such as "Problem".
 		 */
 		function get shortType():String;
+
+		/**
+		 * Date when the document was created.
+		 */
+		function get createdAt():Date;
+		function set createdAt(value:Date):void;
 	}
 }

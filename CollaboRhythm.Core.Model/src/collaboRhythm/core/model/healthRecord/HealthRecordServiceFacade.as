@@ -13,15 +13,19 @@ package collaboRhythm.core.model.healthRecord
 	import collaboRhythm.core.model.healthRecord.service.SaveChangesHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.VideoMessagesHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.VitalSignHealthRecordService;
-	import collaboRhythm.core.model.healthRecord.stitchers.MedicationOrderStitcher;
-	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.core.model.healthRecord.stitchers.AdherenceItemStitcher;
 	import collaboRhythm.core.model.healthRecord.stitchers.EquipmentScheduleItemStitcher;
 	import collaboRhythm.core.model.healthRecord.stitchers.EquipmentStitcher;
+	import collaboRhythm.core.model.healthRecord.stitchers.MedicationOrderStitcher;
 	import collaboRhythm.core.model.healthRecord.stitchers.MedicationScheduleItemStitcher;
+	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.IRecordStorageService;
 	import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
+	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
 	import collaboRhythm.shared.model.healthRecord.IDocumentStitcher;
+
+	import com.adobe.utils.DateUtil;
 
 	import flash.events.Event;
 	import flash.utils.getQualifiedClassName;
@@ -33,6 +37,8 @@ package collaboRhythm.core.model.healthRecord
 	[Bindable]
 	public class HealthRecordServiceFacade implements IRecordStorageService
 	{
+		private const IS_DUPLICATE_DETECTION_ENABLED:Boolean = true;
+		private const VOID_ALL_DUPLICATES:Boolean = false;
 		protected var _logger:ILogger;
 		private var _services:Vector.<DocumentStorageServiceBase>;
 		private var _stitchers:Vector.<IDocumentStitcher>;
@@ -174,6 +180,8 @@ package collaboRhythm.core.model.healthRecord
 		{
 			if (_pendingServices.length == 0)
 			{
+				checkForDuplicates();
+
 				// TODO: loading is complete, but we are not distinguishing between failed/complete results for each service; some may have failed
 				_logger.info("Loading documents COMPLETE. " + _currentRecord.currentDocumentsById.size() + " documents loaded " + loadingMessageSuffix);
 				isLoading = false;
@@ -183,6 +191,74 @@ package collaboRhythm.core.model.healthRecord
 				_logger.info("Loading documents in progress. " + _pendingServices.length + " service(s) pending: " + getServiceNamesFromCollection(_pendingServices));
 
 			}
+		}
+
+		private function checkForDuplicates():void
+		{
+			if (IS_DUPLICATE_DETECTION_ENABLED)
+			{
+				var documentsToDelete:ArrayCollection = new ArrayCollection();
+				var documentsCount:int = 0;
+				var startTime:Number = (new Date()).valueOf();
+
+				for each (var service:DocumentStorageServiceBase in _services)
+				{
+					var documentType:String = service.targetDocumentType;
+					var documentCollection:DocumentCollectionBase = currentRecord.documentCollections.getItem(documentType);
+
+					// assume that duplicates will be consecutive
+					var previousDocument:DocumentBase = null;
+					var previousDocumentXmlString:String = null;
+					for each (var document:DocumentBase in documentCollection.documents)
+					{
+						documentsCount++;
+						var documentXmlString:String = service.marshallToXml(document);
+						if (previousDocument)
+						{
+							if (documentXmlString == previousDocumentXmlString)
+							{
+								// duplicate detected; delete oldest
+								documentsToDelete.addItem(deleteOlderDocument(document, previousDocument));
+							}
+						}
+						previousDocument = document;
+						previousDocumentXmlString = documentXmlString;
+					}
+				}
+
+				var elapsedTime:Number = (new Date()).valueOf() - startTime;
+				var messageSuffix:String = " Checked " + documentsCount + " documents in " + elapsedTime + " ms.";
+				if (documentsToDelete.length > 0)
+					_logger.warn("DUPLICATES --- Detected " + documentsToDelete.length + " duplicate documents" + (VOID_ALL_DUPLICATES ? " and marked them for deletion (void)" : " but left them untouched") + "." + messageSuffix);
+				else
+					_logger.info("No duplicates detected." + messageSuffix);
+			}
+		}
+
+		private function deleteOlderDocument(document1:DocumentBase, document2:DocumentBase):DocumentBase
+		{
+			var documentToDelete:DocumentBase;
+			var documentToKeep:DocumentBase;
+			if (document1.meta.createdAt.valueOf() < document2.meta.createdAt.valueOf())
+			{
+				documentToDelete = document1;
+				documentToKeep = document2;
+			}
+			else
+			{
+				documentToDelete = document2;
+				documentToKeep = document1;
+			}
+
+			_logger.warn("  Duplicate detected: " + documentToDelete.meta.type + " " +
+								 documentToDelete.meta.id + " created " + DateUtil.toW3CDTF(documentToDelete.meta.createdAt) +
+								 " is older than " +
+								 documentToKeep.meta.id + " created " + DateUtil.toW3CDTF(documentToKeep.meta.createdAt));
+
+			if (VOID_ALL_DUPLICATES)
+				currentRecord.removeDocument(documentToDelete, DocumentBase.ACTION_VOID, "automatic duplicate detection", true);
+
+			return documentToDelete;
 		}
 
 		private function get loadingMessageSuffix():String

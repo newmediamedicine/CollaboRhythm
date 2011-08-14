@@ -3,6 +3,7 @@ package collaboRhythm.shared.model.healthRecord
 
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.StringUtils;
 
 	import org.indivo.client.IndivoClientEvent;
 	import org.indivo.client.Pha;
@@ -10,6 +11,13 @@ package collaboRhythm.shared.model.healthRecord
 	public class PhaHealthRecordServiceBase extends HealthRecordServiceBase
     {
         protected var _pha:Pha;
+
+		/**
+		 * App id (PHA) used for all document creation calls. This app must exist in the database. As long as we are
+		 * using a chrome app to make the API call, we don't actually need to have the app associated with the current
+		 * record in order for this call to succeed.
+		 */
+		private static const INDIVO_APP_ID_FOR_DOCUMENT_CREATION:String = "medications@apps.indivo.org";
 
         // Indivo Api calls used in this healthRecordService
         public static const CREATE_DOCUMENT:String = "Create Document";
@@ -32,11 +40,15 @@ package collaboRhythm.shared.model.healthRecord
 
         public function createDocument(record:Record, document:IDocument, documentXmlString:String):void
         {
+			if (StringUtils.isEmpty(document.meta.id))
+				throw new Error("Document must have an id before attempting to create it. The initial id is used as the external id and then the id is later updated with the real document id.");
+
             var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(CREATE_DOCUMENT,
                                                                                                                             null,
                                                                                                                             record);
 			healthRecordServiceRequestDetails.document = document;
-            _pha.documents_POST(null, null, null, record.id, _activeAccount.oauthAccountToken,
+
+            _pha.documents_external_X_XPUT(null, null, null, record.id, INDIVO_APP_ID_FOR_DOCUMENT_CREATION, document.meta.id, _activeAccount.oauthAccountToken,
                                 _activeAccount.oauthAccountTokenSecret, documentXmlString, healthRecordServiceRequestDetails);
         }
 

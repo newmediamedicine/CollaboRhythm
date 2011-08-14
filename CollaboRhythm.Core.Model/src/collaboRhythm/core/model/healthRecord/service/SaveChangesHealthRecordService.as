@@ -83,23 +83,23 @@ package collaboRhythm.core.model.healthRecord.service
 				}
 				else if (document.pendingAction == DocumentBase.ACTION_CREATE)
 				{
-					pendingCreateDocuments.put(document.meta.id, document);
-					createDocument(record, document, getDocumentXml(document))
+					if (addPendingOperation(pendingCreateDocuments, document))
+						createDocument(record, document, getDocumentXml(document));
 				}
 				else if (document.pendingAction == DocumentBase.ACTION_VOID)
 				{
-					pendingRemoveDocuments.put(document.meta.id, document);
-					voidDocument(record, document, document.pendingActionReason);
+					if (addPendingOperation(pendingRemoveDocuments, document))
+						voidDocument(record, document, document.pendingActionReason);
 				}
 				else if (document.pendingAction == DocumentBase.ACTION_DELETE)
 				{
-					pendingRemoveDocuments.put(document.meta.id, document);
-					deleteDocument(record, document);
+					if (addPendingOperation(pendingRemoveDocuments, document))
+						deleteDocument(record, document);
 				}
 				else if (document.pendingAction == DocumentBase.ACTION_UPDATE)
 				{
-					pendingUpdateDocuments.put(document.meta.id, document);
-					updateDocument(record, document, getDocumentXml(document));
+					if (addPendingOperation(pendingUpdateDocuments, document))
+						updateDocument(record, document, getDocumentXml(document));
 				}
 				// TODO: handle other actions
 			}
@@ -121,6 +121,19 @@ package collaboRhythm.core.model.healthRecord.service
 				_logger.info("Save changes initiated. " + pendingOperationsSummary);
 
 			updateIsSaving();
+		}
+
+		private function addPendingOperation(pendingChangeMap:HashMap, document:IDocument):Boolean
+		{
+			if (pendingChangeMap.getItem(document.meta.id) == null)
+			{
+				pendingChangeMap.put(document.meta.id, document);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		private function get pendingOperationsSummary():String
