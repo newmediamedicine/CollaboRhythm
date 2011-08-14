@@ -17,7 +17,6 @@
 package collaboRhythm.shared.model.healthRecord.document
 {
 
-	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 
 	[Bindable]
     public class ScheduleItemOccurrence
@@ -40,11 +39,13 @@ package collaboRhythm.shared.model.healthRecord.document
             _yPosition = value;
         }
 
-        public function ScheduleItemOccurrence(dateStart:Date, dateEnd:Date, recurrenceIndex:int)
+        public function ScheduleItemOccurrence(scheduleItem:ScheduleItemBase, dateStart:Date, dateEnd:Date,
+											   recurrenceIndex:int)
         {
             _dateStart = dateStart;
             _dateEnd = dateEnd;
             _recurrenceIndex = recurrenceIndex;
+			_scheduleItem = scheduleItem;
         }
 
         public function get recurrenceIndex():int

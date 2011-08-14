@@ -45,6 +45,9 @@ package collaboRhythm.shared.model.healthRecord.document
 
         public static const DAILY:String = "DAILY";
 
+		private static const MILLISECONDS_IN_HOUR:Number = 1000 * 60 * 60;
+		private static const MILLISECONDS_IN_DAY:Number = 1000 * 60 * 60 * 24;
+
 		private var _scheduleItemXml:XML;
 		private var _name:CodedValue;
 		private var _scheduledBy:String;
@@ -146,7 +149,7 @@ package collaboRhythm.shared.model.healthRecord.document
             switch (frequency)
             {
                 case DAILY:
-                    frequencyMilliseconds = 24 * 60 * 60 * 1000;
+                    frequencyMilliseconds = MILLISECONDS_IN_DAY;
                     break;
             }
             return frequencyMilliseconds;
@@ -163,6 +166,15 @@ package collaboRhythm.shared.model.healthRecord.document
             throw new Error("virtual function must be overridden in subclass");
         }
 
+		/**
+		 * Returns all of the occurrences of the ScheduleItem for which the dateStart of the occurrence
+		 * falls in the interval between the dateStart and dateEnd parameters. This is achieved by iterating through all
+		 * of the occurrences represented by the ScheduleItem and checking to see if they fall in the range.
+		 *
+		 * @param dateStart Date specifying the start of the desired interval
+		 * @param dateEnd Date specifying the end of the desired interval
+		 * @return Vector of ScheduleItemOccurrence instances for which dateStart falls withing the desired interval
+		 */
         public function getScheduleItemOccurrences(dateStart:Date, dateEnd:Date):Vector.<ScheduleItemOccurrence>
         {
             //TODO: Implement for the case that the recurrence rule uses until instead of count
@@ -174,9 +186,10 @@ package collaboRhythm.shared.model.healthRecord.document
                 if (occurrenceDateStart.time >= dateStart.time && occurrenceDateStart.time <= dateEnd.time)
                 {
                     var occurrenceDateEnd:Date = new Date(_dateEnd.time + frequencyMilliseconds * recurrenceIndex);
-                    var scheduleItemOccurrence:ScheduleItemOccurrence = new ScheduleItemOccurrence(occurrenceDateStart,
-                                                                                                   occurrenceDateEnd,
-                                                                                                   recurrenceIndex);
+                    var scheduleItemOccurrence:ScheduleItemOccurrence = new ScheduleItemOccurrence(this,
+																								   occurrenceDateStart,
+																								   occurrenceDateEnd,
+																								   recurrenceIndex);
                     for each (var adherenceItem:AdherenceItem in _adherenceItems)
                     {
                         if (adherenceItem.recurrenceIndex == recurrenceIndex)

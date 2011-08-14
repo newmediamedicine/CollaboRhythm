@@ -370,7 +370,7 @@ package collaboRhythm.core.controller
 		}
 
 		/**
-		 * Method that should be called by subclasses to create a session with the Indivo backend server.
+		 * Method that should be called by subclasses to create a connection with the Flash Media Server.
 		 */
 		protected function initCollaborationController(collaborationView:CollaborationView = null):void
 		{

@@ -20,15 +20,16 @@ package collaboRhythm.plugins.schedule.model
 	import castle.flexbridge.reflection.ClassInfo;
 	import castle.flexbridge.reflection.ReflectionUtils;
 
+	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceEvaluatorBase;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleViewFactory;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 
-	import flash.events.InvokeEvent;
 	import flash.utils.Dictionary;
 
 	public class MasterScheduleViewFactory implements IScheduleViewFactory
@@ -68,6 +69,11 @@ package collaboRhythm.plugins.schedule.model
 		public function createScheduleItemTimelineView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemTimelineViewBase
 		{
 			return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem)).name].createScheduleItemTimelineView(scheduleItemOccurrence);
+		}
+
+		public function createAdherencePerformanceEvaluator(scheduleItem:ScheduleItemBase):AdherencePerformanceEvaluatorBase
+		{
+			return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItem)).name].createAdherencePerformanceEvaluator(scheduleItem);
 		}
 	}
 }

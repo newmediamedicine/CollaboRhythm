@@ -22,9 +22,8 @@ package collaboRhythm.plugins.schedule.shared.model
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
-
-	import flash.events.InvokeEvent;
 
 	public interface IScheduleViewFactory
     {
@@ -34,5 +33,6 @@ package collaboRhythm.plugins.schedule.shared.model
 												 scheduleReportingModel:IScheduleReportingModel, activeAccountId:String,
 												 handledInvokeEvents:Vector.<String>):ScheduleItemReportingViewBase;
         function createScheduleItemTimelineView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemTimelineViewBase;
+		function createAdherencePerformanceEvaluator(scheduleItem:ScheduleItemBase):AdherencePerformanceEvaluatorBase;
     }
 }

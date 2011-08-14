@@ -37,9 +37,9 @@ package collaboRhythm.plugins.schedule.controller
 			var typeName:String = ReflectionUtils.getClassInfo(ScheduleAppController).name;
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
 														 new AppControllerInfo(ScheduleAppController));
-			typeName = ReflectionUtils.getClassInfo(CurrentPerformanceAppController).name;
+			typeName = ReflectionUtils.getClassInfo(AdherencePerformanceAppController).name;
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
-														 new AppControllerInfo(CurrentPerformanceAppController));
+														 new AppControllerInfo(AdherencePerformanceAppController));
 		}
 	}
 }

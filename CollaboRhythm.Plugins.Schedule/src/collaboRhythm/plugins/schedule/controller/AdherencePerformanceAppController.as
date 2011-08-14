@@ -20,7 +20,7 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.plugins.schedule.model.ScheduleModel;
 	import collaboRhythm.plugins.schedule.model.ScheduleModelEvent;
 	import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
-	import collaboRhythm.plugins.schedule.view.CurrentPerformanceWidgetView;
+	import collaboRhythm.plugins.schedule.view.AdherencePerformanceWidgetView;
 	import collaboRhythm.plugins.schedule.view.IScheduleFullView;
 	import collaboRhythm.plugins.schedule.view.ScheduleClockWidgetView;
 	import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
@@ -35,15 +35,15 @@ package collaboRhythm.plugins.schedule.controller
 
 	import mx.core.UIComponent;
 
-	public class CurrentPerformanceAppController extends WorkstationAppControllerBase
+	public class AdherencePerformanceAppController extends WorkstationAppControllerBase
 	{
-		public static const DEFAULT_NAME:String = "CurrentPerformance";
+		public static const DEFAULT_NAME:String = "AdherencePerformance";
 
 		private var _scheduleModel:ScheduleModel;
 
-		private var _widgetView:CurrentPerformanceWidgetView;
+		private var _widgetView:AdherencePerformanceWidgetView;
 
-		public function CurrentPerformanceAppController(constructorParams:AppControllerConstructorParams)
+		public function AdherencePerformanceAppController(constructorParams:AppControllerConstructorParams)
 		{
 			super(constructorParams);
 		}
@@ -55,7 +55,7 @@ package collaboRhythm.plugins.schedule.controller
 
 		override protected function createWidgetView():UIComponent
 		{
-			_widgetView = new CurrentPerformanceWidgetView();
+			_widgetView = new AdherencePerformanceWidgetView();
 			return _widgetView;
 		}
 
@@ -88,7 +88,7 @@ package collaboRhythm.plugins.schedule.controller
 
 		override public function set widgetView(value:UIComponent):void
 		{
-			_widgetView = value as CurrentPerformanceWidgetView;
+			_widgetView = value as AdherencePerformanceWidgetView;
 		}
 
 		override public function get isFullViewSupported():Boolean

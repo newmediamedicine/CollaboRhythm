@@ -50,6 +50,8 @@
 		import collaboRhythm.plugins.schedule.controller.ScheduleClockController;
 		import collaboRhythm.plugins.schedule.model.ScheduleModel;
 		import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+		import collaboRhythm.shared.model.services.ICurrentDateSource;
+		import collaboRhythm.shared.model.services.WorkstationKernel;
 
 		import mx.binding.utils.BindingUtils;
 		import mx.binding.utils.ChangeWatcher;
@@ -63,6 +65,7 @@
 		private var _scheduleGroupClockViews:Vector.<ScheduleGroupClockView> = new Vector.<ScheduleGroupClockView>();
 		private var _isCreationComplete:Boolean;
 		private var _scheduleModelInitialized_changeWatcher:ChangeWatcher;
+		private var _currentDateSource:ICurrentDateSource;
 
 		public function init(scheduleAppController:ScheduleAppController, scheduleModel:ScheduleModel):void
 		{
@@ -79,6 +82,7 @@
 			_scheduleModelInitialized_changeWatcher = BindingUtils.bindSetter(scheduleModelInitialized_changeWatcher,
 																			  _scheduleModel, "isInitialized", false,
 																			  true);
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
 
 		private function creationCompleteHandler():void
@@ -126,9 +130,9 @@
 
 		private function updateTime():void
 		{
-			var currentTime:Date = _scheduleModel.now;
-			var minutes:uint = currentTime.getMinutes();
-			var hours:uint = currentTime.getHours();
+			var currentDate:Date = _currentDateSource.now();
+			var minutes:uint = currentDate.getMinutes();
+			var hours:uint = currentDate.getHours();
 
 			clockHand.rotation = (hours * 15) + (minutes * 0.25);
 		}

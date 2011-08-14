@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="creationCompleteHandler()"
+		 xmlns:images="assets.images.*"
+		 horizontalCenter="0"
+		 verticalCenter="0"
+		 width="1100" height="120">
+	<fx:Style>
+
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.schedule.controller.AdherencePerformanceAppController;
+		import collaboRhythm.plugins.schedule.model.ScheduleModel;
+		import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
+
+		import mx.binding.utils.BindingUtils;
+
+		[Bindable]
+		private var _scheduleModel:ScheduleModel;
+		[Bindable]
+		private var _adherencePerformanceModel:AdherencePerformanceModel;
+
+		private var _isCreationComplete:Boolean = false;
+
+		public function init(currentPerformanceAppController:AdherencePerformanceAppController,
+							 scheduleModel:ScheduleModel):void
+		{
+			_scheduleModel = scheduleModel;
+
+			BindingUtils.bindSetter(scheduleModelInitialized_changeWatcher, _scheduleModel, "isInitialized");
+		}
+
+		private function creationCompleteHandler():void
+		{
+			if (_scheduleModel.isInitialized)
+			{
+				createVariableForDataBinding();
+			}
+
+			_isCreationComplete = true;
+		}
+
+		private function scheduleModelInitialized_changeWatcher(isInitialized:Boolean):void
+		{
+			if (isInitialized && _isCreationComplete)
+			{
+				createVariableForDataBinding();
+			}
+		}
+
+		private function createVariableForDataBinding():void
+		{
+			_adherencePerformanceModel = _scheduleModel.adherencePerformanceModel;
+		}
+		]]></fx:Script>
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="white"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke color="black"/>
+		</s:stroke>
+	</s:Rect>
+	<s:List dataProvider="{_adherencePerformanceModel.adherencePerformanceAssertionsCollection}" itemRenderer="collaboRhythm.plugins.schedule.view.AdherencePerformanceAssertionItemRenderer"/>
+</s:Group>

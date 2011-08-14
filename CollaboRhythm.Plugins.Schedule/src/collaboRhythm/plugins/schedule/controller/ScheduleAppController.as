@@ -19,7 +19,7 @@ package collaboRhythm.plugins.schedule.controller
 
 	import collaboRhythm.plugins.schedule.model.ScheduleModel;
 	import collaboRhythm.plugins.schedule.model.ScheduleModelEvent;
-	import collaboRhythm.plugins.schedule.shared.model.CurrentPerformanceModel;
+	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
 	import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
 	import collaboRhythm.plugins.schedule.view.IScheduleFullView;
 	import collaboRhythm.plugins.schedule.view.ScheduleClockWidgetView;
@@ -199,7 +199,7 @@ package collaboRhythm.plugins.schedule.controller
 				_scheduleModel = new ScheduleModel(_componentContainer, _activeRecordAccount.primaryRecord,
 												   _activeRecordAccount.accountId, _handledInvokeEvents);
 				_activeRecordAccount.primaryRecord.appData.put(ScheduleModel.SCHEDULE_MODEL_KEY, _scheduleModel);
-				_activeRecordAccount.primaryRecord.appData.put(CurrentPerformanceModel.CURRENT_PERFORMANCE_MODEL_KEY, _scheduleModel.currentPerformanceModel);
+				_activeRecordAccount.primaryRecord.appData.put(AdherencePerformanceModel.ADHERENCE_PERFORMANCE_MODEL_KEY, _scheduleModel.adherencePerformanceModel);
 				_scheduleModel.addEventListener(ScheduleModelEvent.INITIALIZED, scheduleModel_initializedHandler, false,
 												0, true);
 			}
@@ -260,7 +260,7 @@ package collaboRhythm.plugins.schedule.controller
 			_scheduleModel.destroy();
 			_scheduleModel = null;
 			_activeRecordAccount.primaryRecord.appData.remove(ScheduleModel.SCHEDULE_MODEL_KEY);
-			_activeRecordAccount.primaryRecord.appData.remove(CurrentPerformanceModel.CURRENT_PERFORMANCE_MODEL_KEY);
+			_activeRecordAccount.primaryRecord.appData.remove(AdherencePerformanceModel.ADHERENCE_PERFORMANCE_MODEL_KEY);
 			_scheduleClockController = null;
 			_scheduleTimelineController = null;
 			_scheduleReportingController = null;

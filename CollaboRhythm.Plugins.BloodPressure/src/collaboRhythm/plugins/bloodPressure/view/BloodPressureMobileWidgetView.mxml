@@ -28,14 +28,14 @@
 
 	<fx:Script>
 		<![CDATA[
-		import collaboRhythm.plugins.schedule.shared.model.CurrentPerformanceModel;
+		import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 
 		import mx.events.PropertyChangeEvent;
 
 		[Bindable]
 		private var _model:BloodPressureModel;
-		private var _currentPerformanceModel:CurrentPerformanceModel;
+		private var _currentPerformanceModel:AdherencePerformanceModel;
 
 		public function get model():BloodPressureModel
 		{
@@ -50,12 +50,12 @@
 			_model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, model_propertyChangeHandler);
 		}
 
-		public function set currentPerformanceModel(currentPerformanceModel:CurrentPerformanceModel):void
+		public function set currentPerformanceModel(currentPerformanceModel:AdherencePerformanceModel):void
 		{
 			_currentPerformanceModel = currentPerformanceModel;
 		}
 
-		public function get currentPerformanceModel():CurrentPerformanceModel
+		public function get currentPerformanceModel():AdherencePerformanceModel
 		{
 			return _currentPerformanceModel;
 		}

@@ -44,7 +44,7 @@ package collaboRhythm.shared.model.healthRecord.document
             _equipmentScheduleItems = value;
         }
 
-        public function get equipmentScheduleItemColleciton():ArrayCollection
+        public function get equipmentScheduleItemCollection():ArrayCollection
         {
             return documents;
         }

@@ -14,21 +14,18 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.plugins.bloodPressure.view
+package collaboRhythm.plugins.schedule.shared.model
 {
 
-	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
-	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
-	public interface IBloodPressureWidgetView
+	import mx.collections.ArrayCollection;
+
+	public interface IScheduleCollectionsProvider
 	{
-		function get model():BloodPressureModel;
-
-		function set model(value:BloodPressureModel):void;
-
-		function refresh():void;
-
-		function set currentPerformanceModel(currentPerformanceModel:AdherencePerformanceModel):void;
-		function get currentPerformanceModel():AdherencePerformanceModel;
+		function get scheduleGroupsCollection():ArrayCollection;
+		function get scheduleItemsCollectionsArray():Array
+		function getScheduleItemOccurrences(dateStart:Date, dateEnd:Date):Vector.<ScheduleItemOccurrence>
+		function get viewFactory():IScheduleViewFactory;
 	}
 }

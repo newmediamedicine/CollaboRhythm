@@ -8,7 +8,7 @@
 		 xmlns:circulatorysystem="collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySystem.*"
 		creationComplete="creationCompleteHandler()">
 	<fx:Script><![CDATA[
-		import collaboRhythm.plugins.schedule.shared.model.CurrentPerformanceModel;
+		import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
@@ -19,7 +19,7 @@
 
 		private var _model:BloodPressureModel;
 
-		private var _currentPerformanceModel:CurrentPerformanceModel;
+		private var _currentPerformanceModel:AdherencePerformanceModel;
 		private var hydrochlorothiazideMedicationModel:MedicationComponentAdherenceModel;
 		private var _circulatorySystemSimulationLoader:Loader = new Loader();
 		private var _circulatorySystemSimulationMovieClip:MovieClip;
@@ -65,43 +65,44 @@
 		{
 		}
 
-		public function get currentPerformanceModel():CurrentPerformanceModel
+		public function get currentPerformanceModel():AdherencePerformanceModel
 		{
 			return _currentPerformanceModel;
 		}
 
 		[Bindable]
-		public function set currentPerformanceModel(value:CurrentPerformanceModel):void
+		public function set currentPerformanceModel(value:AdherencePerformanceModel):void
 		{
 			_currentPerformanceModel = value;
 		}
 
-		private function getDamage(medicationAdherenceState:Boolean, bloodPressureState:String):int
+		private function getDamage():int
 		{
-			if (bloodPressureState == CurrentPerformanceModel.BLOOD_PRESSURE_DANGEROUSLY_HIGH)
-			{
-				return 2;
-			}
-			else if (bloodPressureState == CurrentPerformanceModel.BLOOD_PRESSURE_HIGH && !medicationAdherenceState)
-			{
-				return 2;
-			}
-			else if (bloodPressureState == CurrentPerformanceModel.BLOOD_PRESSURE_HIGH && medicationAdherenceState)
-			{
-				return 1;
-			}
-			else if (!medicationAdherenceState)
-			{
-				return 1;
-			}
-			else if (bloodPressureState == CurrentPerformanceModel.BLOOD_PRESSURE_NORMAL && medicationAdherenceState)
-			{
-				return 0;
-			}
-			else
-			{
-				return 0;
-			}
+//			if (bloodPressureState == AdherencePerformanceModel.BLOOD_PRESSURE_DANGEROUSLY_HIGH)
+//			{
+//				return 2;
+//			}
+//			else if (bloodPressureState == AdherencePerformanceModel.BLOOD_PRESSURE_HIGH && !medicationAdherenceState)
+//			{
+//				return 2;
+//			}
+//			else if (bloodPressureState == AdherencePerformanceModel.BLOOD_PRESSURE_HIGH && medicationAdherenceState)
+//			{
+//				return 1;
+//			}
+//			else if (!medicationAdherenceState)
+//			{
+//				return 1;
+//			}
+//			else if (bloodPressureState == AdherencePerformanceModel.BLOOD_PRESSURE_NORMAL && medicationAdherenceState)
+//			{
+//				return 0;
+//			}
+//			else
+//			{
+//				return 0;
+//			}
+			return 0;
 		}
 		]]></fx:Script>
 
@@ -121,7 +122,7 @@
 														  visible="{hydrochlorothiazideMedicationModel.concentration &lt; SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"
 				/>-->
 		<circulatorysystem:HypertensionCirculatorySystemSimulationView id="circulatorySystemSimulationView" width="360" height="600"
-				currentDamage="{getDamage(currentPerformanceModel.medicationAdherenceState, currentPerformanceModel.bloodPressureState)}"/>
+				currentDamage="{getDamage()}"/>
 	</s:Group>
 	<!--TODO: determine a better way to make the widget clickable to launch the full view-->
 	<s:Group width="100%" height="100%">

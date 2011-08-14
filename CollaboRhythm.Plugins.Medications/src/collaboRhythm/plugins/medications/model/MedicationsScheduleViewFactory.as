@@ -23,12 +23,14 @@ package collaboRhythm.plugins.medications.model
 	import collaboRhythm.plugins.medications.view.MedicationScheduleItemClockView;
 	import collaboRhythm.plugins.medications.view.MedicationScheduleItemReportingView;
 	import collaboRhythm.plugins.medications.view.MedicationScheduleItemTimelineView;
+	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceEvaluatorBase;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleViewFactory;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import flash.events.InvokeEvent;
@@ -67,5 +69,10 @@ package collaboRhythm.plugins.medications.model
             medicationScheduleItemTimelineView.init(scheduleItemOccurrence);
             return medicationScheduleItemTimelineView;
         }
+
+		public function createAdherencePerformanceEvaluator(scheduleItem:ScheduleItemBase):AdherencePerformanceEvaluatorBase
+		{
+			return new MedicationsAdherencePerformanceEvaluator();
+		}
     }
 }

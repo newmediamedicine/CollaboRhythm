@@ -20,6 +20,7 @@ package collaboRhythm.plugins.equipment.controller
 	import collaboRhythm.plugins.equipment.view.EquipmentWidgetView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.model.healthRecord.document.EquipmentModel;
 
 	import mx.core.UIComponent;
 
@@ -28,109 +29,56 @@ package collaboRhythm.plugins.equipment.controller
 		public static const DEFAULT_NAME:String = "Equipment";
 
 		private var _widgetView:EquipmentWidgetView;
-		//		private var _fullView:EquipmentTimelineFullView;
-		
+
 		public function EquipmentAppController(constructorParams:AppControllerConstructorParams)
 		{
 			super(constructorParams);
 		}
 		
-		public override function get widgetView():UIComponent
+		override protected function createWidgetView():UIComponent
 		{
-			return _widgetView;			
+			_widgetView = new EquipmentWidgetView();
+			return _widgetView
 		}
-		
-		public override function set widgetView(value:UIComponent):void
+
+		override public function reloadUserData():void
 		{
-			_widgetView = value as EquipmentWidgetView;
+			super.reloadUserData();
 		}
-		
-		public override function get isFullViewSupported():Boolean
+
+		override protected function updateWidgetViewModel():void
 		{
-			return false;
-		}
-		
-		//		public override function get fullView():UIComponent
-		//		{
-		//			return _fullView;
-		//		}
-		//		
-		//		public override function set fullView(value:UIComponent):void
-		//		{
-		//			_fullView = value as EquipmentTimelineFullView;
-		//		}
-		
-		protected override function createWidgetView():UIComponent
-		{
-			var newWidgetView:EquipmentWidgetView = new EquipmentWidgetView();
-			if (_user != null)
-				newWidgetView.model = _activeRecordAccount.primaryRecord.equipmentModel;
-			return newWidgetView;
-		}
-		
-		//		protected override function createFullView():UIComponent
-		//		{
-		//			var newFullView:EquipmentFullView = new EquipmentFullView();
-		//			if (_user != null)
-		//				newFullView.model = _user.getAppData(EquipmentModel.MEDICATIONS_KEY, EquipmentModel) as EquipmentModel;
-		//			return newFullView;
-		//		}
-		
-//		private function get equipmentModel():EquipmentModel
-//		{
-//			if (_user != null)
-//			{
-//				if (_user.appData[EquipmentModel.EQUIPMENT_KEY] == null)
-//				{
-//					_user.appData.put(EquipmentModel.EQUIPMENT_KEY, new EquipmentModel(user));
-//				}
-//				return _user.getAppData(EquipmentModel.EQUIPMENT_KEY, EquipmentModel) as EquipmentModel;
-//			}
-//			return null;
-//		}
-		
-		public override function initialize():void
-		{
-			super.initialize();
-//			if (equipmentModel.initialized == false)
-//			{
-//				var equipmentHealthRecordService:EquipmentHealthRecordService = new EquipmentHealthRecordService(_healthRecordService.oauthConsumerKey, _healthRecordService.oauthConsumerSecret, _healthRecordService.indivoServerBaseURL);
-//				equipmentHealthRecordService.copyLoginResults(_healthRecordService);
-//				equipmentHealthRecordService.loadEquipment(_user);
-//			}
-			
-			if (_widgetView)
-				(_widgetView as EquipmentWidgetView).model = _activeRecordAccount.primaryRecord.equipmentModel;
-			//			prepareFullView();
-		}
-		
-		//		protected override function prepareWidgetView():void
-		//		{
-		//			super.prepareWidgetView()();
-		//			if (_widgetView)
-		//				(_widgetView as EquipmentWidgetView).model = equipmentModel;
-		//		}
-		
-		//		protected override function prepareFullView():void
-		//		{
-		//			super.prepareFullView();
-		//			if (_fullView)
-		//				(_fullView as EquipmentFullView).model = equipmentModel;
-		//		}
-		
-		public override function close():void
-		{
-			super.close();
-		}
-		
-		override protected function removeUserData():void
-		{
-//			user.appData[EquipmentModel.EQUIPMENT_KEY] = null;
+			super.updateWidgetViewModel();
+
+			if (_widgetView && _activeRecordAccount)
+			{
+				_widgetView.init(_activeRecordAccount.primaryRecord.equipmentModel);
+			}
 		}
 
 		public override function get defaultName():String
 		{
 			return DEFAULT_NAME;
+		}
+
+		override public function get widgetView():UIComponent
+		{
+			return _widgetView;
+		}
+
+		override public function set widgetView(value:UIComponent):void
+		{
+			_widgetView = value as EquipmentWidgetView;
+		}
+
+		override public function get isFullViewSupported():Boolean
+		{
+			return false;
+		}
+
+		override protected function get shouldShowFullViewOnWidgetClick():Boolean
+		{
+			return false;
 		}
 	}
 }

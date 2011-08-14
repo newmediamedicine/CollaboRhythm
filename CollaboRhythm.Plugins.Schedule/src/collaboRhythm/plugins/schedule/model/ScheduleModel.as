@@ -20,6 +20,7 @@ package collaboRhythm.plugins.schedule.model
 	import collaboRhythm.plugins.schedule.shared.model.*;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
+	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
@@ -41,12 +42,16 @@ package collaboRhythm.plugins.schedule.model
 	import mx.logging.Log;
 
 	[Bindable]
-	public class ScheduleModel extends EventDispatcher implements IScheduleGroupsProvider
+	public class ScheduleModel extends EventDispatcher implements IScheduleCollectionsProvider
 	{
 		/**
 		 * Key to the ScheduleModel instance in Record.appData
 		 */
 		public static const SCHEDULE_MODEL_KEY:String = "scheduleModel";
+
+		private static const MILLISECONDS_IN_HOUR:Number = 1000 * 60 * 60;
+		private static const MILLISECONDS_IN_DAY:Number = 1000 * 60 * 60 * 24;
+
 		private var _record:Record;
 		private var _accountId:String;
 		private var _viewFactory:IScheduleViewFactory;
@@ -57,12 +62,14 @@ package collaboRhythm.plugins.schedule.model
 
 		private var _scheduleReportingModel:ScheduleReportingModel;
 		private var _scheduleTimelineModel:ScheduleTimelineModel;
-		private var _currentPerformanceModel:CurrentPerformanceModel;
+		private var _adherencePerformanceModel:AdherencePerformanceModel;
 
 		private var _currentDateSource:ICurrentDateSource;
 
 		private var _logger:ILogger;
 
+		private var _documentCollectionDependenciesArray:Array = new Array();
+		private var _scheduleItemsCollectionsArray:Array = new Array();
 		private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>();
 		private var _handledInvokeEvents:Vector.<String>;
 
@@ -76,14 +83,13 @@ package collaboRhythm.plugins.schedule.model
 
 			_record = record;
 
-			_changeWatchers.push(BindingUtils.bindSetter(init, _record.medicationOrdersModel, "isStitched"));
-			_changeWatchers.push(BindingUtils.bindSetter(init, _record.medicationScheduleItemsModel,
-														 "isStitched"));
-			_changeWatchers.push(BindingUtils.bindSetter(init, _record.equipmentModel, "isStitched"));
-			_changeWatchers.push(BindingUtils.bindSetter(init, _record.equipmentScheduleItemsModel,
-														 "isStitched"));
-			_changeWatchers.push(BindingUtils.bindSetter(init, _record.adherenceItemsModel, "isStitched"));
-			_changeWatchers.push(BindingUtils.bindSetter(init, _record.vitalSignsModel, "isInitialized"));
+			_documentCollectionDependenciesArray = [_record.medicationOrdersModel, _record.medicationScheduleItemsModel, _record.equipmentModel, _record.equipmentScheduleItemsModel, _record.adherenceItemsModel];
+			_scheduleItemsCollectionsArray = [_record.medicationScheduleItemsModel.medicationScheduleItemCollection, _record.equipmentScheduleItemsModel.equipmentScheduleItemCollection];
+
+			for each (var documentCollection:DocumentCollectionBase in _documentCollectionDependenciesArray)
+			{
+				_changeWatchers.push(BindingUtils.bindSetter(init, documentCollection, "isStitched"));
+			}
 
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 			_viewFactory = new MasterScheduleViewFactory(componentContainer);
@@ -91,37 +97,58 @@ package collaboRhythm.plugins.schedule.model
 
 		private function init(isStitched:Boolean):void
 		{
-			if (_record.medicationOrdersModel.isStitched && _record.medicationScheduleItemsModel.isStitched && _record.equipmentModel.isStitched && _record.equipmentScheduleItemsModel.isStitched && _record.adherenceItemsModel.isStitched && _record.vitalSignsModel.isInitialized)
+			for each (var documentCollection:DocumentCollectionBase in _documentCollectionDependenciesArray)
 			{
-				var dateNow:Date = _currentDateSource.now();
-				var dateStart:Date = new Date(dateNow.getFullYear(), dateNow.getMonth(), dateNow.getDate());
-				var dateEnd:Date = new Date(dateNow.getFullYear(), dateNow.getMonth(), dateNow.getDate(), 23, 59);
-				for each (var medicationScheduleItem:MedicationScheduleItem in _record.medicationScheduleItemsModel.medicationScheduleItems)
+				if (!documentCollection.isStitched)
 				{
-					var medicationScheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = medicationScheduleItem.getScheduleItemOccurrences(dateStart,
-																																					dateEnd);
-					for each (var medicationScheduleItemOccurrence:ScheduleItemOccurrence in medicationScheduleItemOccurrencesVector)
-					{
-						medicationScheduleItemOccurrence.scheduleItem = medicationScheduleItem;
-						addToScheduleGroup(medicationScheduleItemOccurrence);
-					}
+					return;
 				}
-				for each (var equipmentScheduleItem:EquipmentScheduleItem in _record.equipmentScheduleItemsModel.equipmentScheduleItems)
-				{
-					var equipmentScheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = equipmentScheduleItem.getScheduleItemOccurrences(dateStart,
-																																				  dateEnd);
-					for each (var equipmentScheduleItemOccurrence:ScheduleItemOccurrence in equipmentScheduleItemOccurrencesVector)
-					{
-						equipmentScheduleItemOccurrence.scheduleItem = equipmentScheduleItem;
-						addToScheduleGroup(equipmentScheduleItemOccurrence);
-					}
-				}
-//				currentPerformanceModel.determineAdherence();
-				// TODO: isInitialized = true should probably be done after scheduleTimelineModel.determineStacking(), but this needs to be tested
-				isInitialized = true;
-				scheduleTimelineModel.determineStacking();
-				dispatchEvent(new ScheduleModelEvent(ScheduleModelEvent.INITIALIZED));
 			}
+			updateScheduleModelForToday();
+			isInitialized = true;
+			dispatchEvent(new ScheduleModelEvent(ScheduleModelEvent.INITIALIZED));
+		}
+
+		private function updateScheduleModelForToday():void
+		{
+			var scheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = getScheduleItemOccurrencesForToday();
+			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrencesVector)
+			{
+				_scheduleItemOccurrencesHashMap.put(scheduleItemOccurrence.id, scheduleItemOccurrence);
+				addToScheduleGroup(scheduleItemOccurrence);
+			}
+			adherencePerformanceModel.updateAdherencePerformance();
+			scheduleTimelineModel.determineStacking();
+		}
+
+		private function getScheduleItemOccurrencesForToday():Vector.<ScheduleItemOccurrence>
+		{
+			var currentDate:Date = _currentDateSource.now();
+			var dateStart:Date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+			var dateEnd:Date = new Date(dateStart.valueOf() + MILLISECONDS_IN_DAY - 1);
+			return getScheduleItemOccurrences(dateStart, dateEnd);
+		}
+
+		/**
+		 * Returns all of the occurrences for all of the scheduleItems in the record during the specified interval.
+		 *
+		 * @param dateStart Start date of the interval.
+		 * @param dateEnd End date of the interval.
+		 * @return A vector containing the scheduleItemOccurrences for the specified interval.
+		 */
+		public function getScheduleItemOccurrences(dateStart:Date, dateEnd:Date):Vector.<ScheduleItemOccurrence>
+		{
+			var scheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
+			for each (var scheduleItemCollection:ArrayCollection in _scheduleItemsCollectionsArray)
+			{
+				for each (var scheduleItem:ScheduleItemBase in scheduleItemCollection)
+				{
+					var newScheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = scheduleItem.getScheduleItemOccurrences(dateStart,
+																																dateEnd);
+					scheduleItemOccurrencesVector = scheduleItemOccurrencesVector.concat(newScheduleItemOccurrencesVector);
+				}
+			}
+			return scheduleItemOccurrencesVector;
 		}
 
 		private function addToScheduleGroup(scheduleItemOccurrence:ScheduleItemOccurrence):void
@@ -139,7 +166,6 @@ package collaboRhythm.plugins.schedule.model
 			{
 				createScheduleGroup(scheduleItemOccurrence, false);
 			}
-			_scheduleItemOccurrencesHashMap.put(scheduleItemOccurrence.id, scheduleItemOccurrence);
 		}
 
 		public function createScheduleGroup(scheduleItemOccurrence:ScheduleItemOccurrence, moving:Boolean,
@@ -201,21 +227,21 @@ package collaboRhythm.plugins.schedule.model
 			scheduleItemOccurrence.adherenceItem = adherenceItem;
 			adherenceItem.pendingAction = DocumentBase.ACTION_CREATE;
 			_record.addDocument(adherenceItem);
-			_record.addNewRelationship(ScheduleItemBase.RELATION_TYPE_ADHERENCE_ITEM, scheduleItemOccurrence.scheduleItem, adherenceItem);
+			_record.addNewRelationship(ScheduleItemBase.RELATION_TYPE_ADHERENCE_ITEM,
+									   scheduleItemOccurrence.scheduleItem, adherenceItem);
 			for each (var adherenceResult:DocumentBase in adherenceItem.adherenceResults)
 			{
 				adherenceResult.pendingAction = DocumentBase.ACTION_CREATE;
 				_record.addDocument(adherenceResult);
 				_record.addNewRelationship(AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT, adherenceItem, adherenceResult)
 			}
-//			currentPerformanceModel.determineAdherence();
 		}
 
 		public function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void
 		{
-			_record.removeDocument(scheduleItemOccurrence.adherenceItem, DocumentBase.ACTION_VOID, "deleted by user", true);
+			_record.removeDocument(scheduleItemOccurrence.adherenceItem, DocumentBase.ACTION_VOID, "deleted by user",
+								   true);
 			scheduleItemOccurrence.adherenceItem = null;
-//			currentPerformanceModel.determineAdherence();
 		}
 
 		public function saveChangesToRecord():void
@@ -253,13 +279,13 @@ package collaboRhythm.plugins.schedule.model
 			return _scheduleTimelineModel;
 		}
 
-		public function get currentPerformanceModel():CurrentPerformanceModel
+		public function get adherencePerformanceModel():AdherencePerformanceModel
 		{
-			if (!_currentPerformanceModel)
+			if (!_adherencePerformanceModel)
 			{
-				_currentPerformanceModel = new CurrentPerformanceModel(this, _record);
+				_adherencePerformanceModel = new AdherencePerformanceModel(this, _record);
 			}
-			return _currentPerformanceModel;
+			return _adherencePerformanceModel;
 		}
 
 		public function destroy():void
@@ -314,6 +340,11 @@ package collaboRhythm.plugins.schedule.model
 					scheduleGroupsHashMap.put(scheduleGroup.id, scheduleGroup);
 				}
 			}
+		}
+
+		public function get scheduleItemsCollectionsArray():Array
+		{
+			return _scheduleItemsCollectionsArray;
 		}
 	}
 }
