@@ -27,7 +27,7 @@
 		title="Circulatory System"
 		>
 	<!--<s:SWFLoader id="cardiovascularSimulationLoader" source="@Embed(source='/assets/swfs/heart14.swf')" complete="circulatorySystemSimulationLoader_completeHandler()"/>-->
-	<circulatorysystem:HypertensionCirculatorySystemSimulationView id="circulatorySystemSimulationView" width="360" height="600" loadSimulationOnCreateChildren="false"/>
+	<circulatorysystem:HypertensionCirculatorySystemSimulationView id="circulatorySystemSimulationView" width="360" height="600" loadSimulationOnCreateChildren="false" currentDamage="{simulationModel.damage}" currentPreload="{simulationModel.preload}" currentContractility="{simulationModel.contractility}" currentAfterload="{simulationModel.afterload}"/>
 	<s:Group id="arrowsGroup" width="100%" height="100%"/>
 	<buttons:SimulationDetailButton
 			id="atenololButton"
@@ -152,8 +152,10 @@
 		{
 			super.simulationModel = value;
 			if (simulationModel)
+			{
 				simulationModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
 												 simulationModel_propertyChangeHandler);
+			}
 			lookupMedications();
 		}
 		]]></fx:Script>
