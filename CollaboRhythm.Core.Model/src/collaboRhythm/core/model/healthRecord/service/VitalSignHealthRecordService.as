@@ -9,6 +9,8 @@ package collaboRhythm.core.model.healthRecord.service
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 
+	import com.adobe.utils.DateUtil;
+
 	import flash.net.URLVariables;
 
 	import j2as3.collection.HashMap;
@@ -87,6 +89,15 @@ package collaboRhythm.core.model.healthRecord.service
 			}
 
 			// Note that we don't use super.handleResponse because loading is not complete until requests for all pendingVitalsCategories are complete
+		}
+
+		override public function unmarshallReportXml(reportXml:XML):IDocument
+		{
+			var document:VitalSign = super.unmarshallReportXml(reportXml) as VitalSign;
+
+			document.dateMeasuredStart = DateUtil.parseW3CDTF(reportXml.Meta.Document[0].createdAt.toString());
+
+			return document;
 		}
 
 		override protected function documentShouldBeIncluded(document:IDocument, nowTime:Number):Boolean
