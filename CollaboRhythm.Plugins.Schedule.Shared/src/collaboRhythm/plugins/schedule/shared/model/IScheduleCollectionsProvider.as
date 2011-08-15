@@ -19,11 +19,14 @@ package collaboRhythm.plugins.schedule.shared.model
 
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
+	import j2as3.collection.HashMap;
+
 	import mx.collections.ArrayCollection;
 
 	public interface IScheduleCollectionsProvider
 	{
 		function get scheduleGroupsCollection():ArrayCollection;
+		function get scheduleItemOccurrencesVector():Vector.<ScheduleItemOccurrence>;
 		function get scheduleItemsCollectionsArray():Array
 		function getScheduleItemOccurrences(dateStart:Date, dateEnd:Date):Vector.<ScheduleItemOccurrence>
 		function get viewFactory():IScheduleViewFactory;

@@ -16,6 +16,8 @@
  */
 package collaboRhythm.plugins.equipment.model
 {
+
+	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceAssertion;
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceEvaluatorBase;
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
 	import collaboRhythm.shared.model.Record;
@@ -30,7 +32,7 @@ package collaboRhythm.plugins.equipment.model
 		public static const SCHEDULE_ITEM_TYPE:String = "http://indivo.org/vocab/xml/documents#EquipmentScheduleItem";
 
 		public static const BLOOD_PRESSURE_NONADHERENCE_ASSERTION_YESTERDAY:String = "You did not take your scheduled blood pressure yesterday.";
-		public static const BLOOD_PRESSURE_NONADHERENCE_ASSERTION_TODAY:String = "You have not taken your schedule blood pressure today.";
+		public static const BLOOD_PRESSURE_NONADHERENCE_ASSERTION_TODAY:String = "You have not taken your scheduled blood pressure today.";
 		public static const BLOOD_PRESSURE_NOT_AVAILABLE_ASSERTION:String = "You do not have any blood pressures available.";
 		public static const BLOOD_PRESSURE_VALUE_ASSERTION:String = "Your most recent blood pressure";
 		public static const BLOOD_PRESSURE_HYPOTENSION_ASSERTION:String = "was dangerously low";
@@ -51,7 +53,7 @@ package collaboRhythm.plugins.equipment.model
 
 		override public function evaluateAdherencePerformance(scheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence>,
 																 record:Record,
-																 adherencePerformanceInterval:String):String
+																 adherencePerformanceInterval:String):AdherencePerformanceAssertion
 		{
 			var equipmentScheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = getScheduleItemOccurrencesForType(scheduleItemOccurrencesVector);
 			if (equipmentScheduleItemOccurrencesVector.length > 0)
@@ -60,18 +62,18 @@ package collaboRhythm.plugins.equipment.model
 				{
 					if (adherencePerformanceInterval == AdherencePerformanceModel.ADHERENCE_PERFORMANCE_INTERVAL_TODAY)
 					{
-						return BLOOD_PRESSURE_NONADHERENCE_ASSERTION_TODAY;
+						return new AdherencePerformanceAssertion(AdherencePerformanceAssertion.WARNING, BLOOD_PRESSURE_NONADHERENCE_ASSERTION_TODAY, false);
 					}
 					else if (adherencePerformanceInterval == AdherencePerformanceModel.ADHERENCE_PERFORMANCE_INTERVAL_YESTERDAY)
 					{
-						return BLOOD_PRESSURE_NONADHERENCE_ASSERTION_YESTERDAY;
+						return new AdherencePerformanceAssertion(AdherencePerformanceAssertion.WARNING, BLOOD_PRESSURE_NONADHERENCE_ASSERTION_YESTERDAY, false);;
 					}
 				}
 			}
 			return determineMostRecentBloodPressureAssertion(record);
 		}
 
-		private function determineMostRecentBloodPressureAssertion(record:Record):String
+		private function determineMostRecentBloodPressureAssertion(record:Record):AdherencePerformanceAssertion
 		{
 			var mostRecentBloodPressureAssertion:String;
 
@@ -86,34 +88,46 @@ package collaboRhythm.plugins.equipment.model
 				var mostRecentDiastolicBloodPressure:VitalSign = diastolicBloodPressures[0];
 				mostRecentBloodPressureAssertion = createBloodPressureAssertion(mostRecentSystolicBloodPressure,
 																				mostRecentDiastolicBloodPressure);
+				var icon:String;
+				var valence:Boolean;
 				if (isHypotension(mostRecentSystolicBloodPressure, mostRecentDiastolicBloodPressure))
 				{
+					icon = AdherencePerformanceAssertion.WARNING;
 					mostRecentBloodPressureAssertion += BLOOD_PRESSURE_HYPOTENSION_ASSERTION;
+					valence = false;
 				}
 				else if (isSevereHypertension(mostRecentSystolicBloodPressure, mostRecentDiastolicBloodPressure))
 				{
+					icon = AdherencePerformanceAssertion.LIGHTNING;
 					mostRecentBloodPressureAssertion += BLOOD_PRESSURE_HYPERTENSION_ASSERTION;
+					valence = false;
 				}
 				else if (isGreaterThanSystolicGoal(mostRecentSystolicBloodPressure))
 				{
+					icon = AdherencePerformanceAssertion.LIGHTNING;
 					mostRecentBloodPressureAssertion += BLOOD_PRESSURE_ABOVE_GOAL_ASSERTION;
+					valence = false;
 				}
 				else
 				{
+					icon = AdherencePerformanceAssertion.THUMBS_UP;
 					mostRecentBloodPressureAssertion += BLOOD_PRESSURE_WITHIN_GOAL_ASSERTION;
+					valence = true;
 				}
 			}
 			else
 			{
+				icon = AdherencePerformanceAssertion.WARNING;
 				mostRecentBloodPressureAssertion = BLOOD_PRESSURE_NOT_AVAILABLE_ASSERTION;
+				valence = false;
 			}
-			return mostRecentBloodPressureAssertion;
+			return new AdherencePerformanceAssertion(icon, mostRecentBloodPressureAssertion, valence);
 		}
 
 		private function createBloodPressureAssertion(mostRecentSystolicBloodPressure:VitalSign,
 													  mostRecentDiastolicBloodPressure:VitalSign):String
 		{
-			return BLOOD_PRESSURE_VALUE_ASSERTION + " (" + mostRecentSystolicBloodPressure + "/" + mostRecentDiastolicBloodPressure + ") ";
+			return BLOOD_PRESSURE_VALUE_ASSERTION + " (" + mostRecentSystolicBloodPressure.result.value + "/" + mostRecentDiastolicBloodPressure.result.value + ") ";
 		}
 
 		public function isHypotension(systolicBloodPressure:VitalSign,

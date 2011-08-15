@@ -59,6 +59,7 @@ package collaboRhythm.plugins.schedule.model
 		private var _scheduleGroupsHashMap:HashMap = new HashMap();
 		private var _scheduleGroupsCollection:ArrayCollection = new ArrayCollection();
 		private var _scheduleItemOccurrencesHashMap:HashMap = new HashMap();
+		private var _scheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
 
 		private var _scheduleReportingModel:ScheduleReportingModel;
 		private var _scheduleTimelineModel:ScheduleTimelineModel;
@@ -111,13 +112,13 @@ package collaboRhythm.plugins.schedule.model
 
 		private function updateScheduleModelForToday():void
 		{
-			var scheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = getScheduleItemOccurrencesForToday();
+			_scheduleItemOccurrencesVector = getScheduleItemOccurrencesForToday();
 			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrencesVector)
 			{
 				_scheduleItemOccurrencesHashMap.put(scheduleItemOccurrence.id, scheduleItemOccurrence);
 				addToScheduleGroup(scheduleItemOccurrence);
 			}
-			adherencePerformanceModel.updateAdherencePerformance();
+//			adherencePerformanceModel.updateAdherencePerformance();
 			scheduleTimelineModel.determineStacking();
 		}
 
@@ -235,6 +236,7 @@ package collaboRhythm.plugins.schedule.model
 				_record.addDocument(adherenceResult);
 				_record.addNewRelationship(AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT, adherenceItem, adherenceResult)
 			}
+//			_adherencePerformanceModel.updateAdherencePerformance();
 		}
 
 		public function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void
@@ -242,6 +244,7 @@ package collaboRhythm.plugins.schedule.model
 			_record.removeDocument(scheduleItemOccurrence.adherenceItem, DocumentBase.ACTION_VOID, "deleted by user",
 								   true);
 			scheduleItemOccurrence.adherenceItem = null;
+//			_adherencePerformanceModel.updateAdherencePerformance();
 		}
 
 		public function saveChangesToRecord():void
@@ -345,6 +348,11 @@ package collaboRhythm.plugins.schedule.model
 		public function get scheduleItemsCollectionsArray():Array
 		{
 			return _scheduleItemsCollectionsArray;
+		}
+
+		public function get scheduleItemOccurrencesVector():Vector.<ScheduleItemOccurrence>
+		{
+			return _scheduleItemOccurrencesVector;
 		}
 	}
 }

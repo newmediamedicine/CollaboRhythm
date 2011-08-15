@@ -40,7 +40,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		private var _scheduleCollectionsProvider:IScheduleCollectionsProvider;
 		private var _record:Record;
 
-		private var _adherencePerformanceAssertionsCollection:ArrayCollection;
+		private var _adherencePerformanceAssertionsCollection:ArrayCollection = new ArrayCollection();
 
 		private var _currentDateSource:ICurrentDateSource;
 
@@ -55,13 +55,13 @@ package collaboRhythm.plugins.schedule.shared.model
 
 		public function updateAdherencePerformance():void
 		{
-			_adherencePerformanceAssertionsCollection = new ArrayCollection();
+			_adherencePerformanceAssertionsCollection.removeAll();
 
 			var currentDate:Date = _currentDateSource.now();
-			var scheduleItemOccurrencesForToday:Vector.<ScheduleItemOccurrence> = getScheduleItemOccurrencesForToday(currentDate);
-			if (scheduleItemOccurrencesForToday.length != 0)
+			var scheduleItemOccurrencesForTodayThusFar:Vector.<ScheduleItemOccurrence> = getScheduleItemOccurrencesForTodayThusFar(currentDate);
+			if (scheduleItemOccurrencesForTodayThusFar.length != 0)
 			{
-				updateAdherencePerformanceForInterval(scheduleItemOccurrencesForToday,
+				updateAdherencePerformanceForInterval(scheduleItemOccurrencesForTodayThusFar,
 													  ADHERENCE_PERFORMANCE_INTERVAL_TODAY);
 			}
 			else
@@ -75,10 +75,18 @@ package collaboRhythm.plugins.schedule.shared.model
 			}
 		}
 
-		private function getScheduleItemOccurrencesForToday(currentDate:Date):Vector.<ScheduleItemOccurrence>
+		private function getScheduleItemOccurrencesForTodayThusFar(currentDate:Date):Vector.<ScheduleItemOccurrence>
 		{
-			var dateStart:Date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-			return _scheduleCollectionsProvider.getScheduleItemOccurrences(dateStart, currentDate);
+			var allScheduleItemOccurrencesForToday:Vector.<ScheduleItemOccurrence> = _scheduleCollectionsProvider.scheduleItemOccurrencesVector;
+			var scheduleItemOccurrencesForTodayThusFar:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
+			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in allScheduleItemOccurrencesForToday)
+			{
+				if (scheduleItemOccurrence.dateStart.valueOf() < currentDate.valueOf())
+				{
+					scheduleItemOccurrencesForTodayThusFar.push(scheduleItemOccurrence);
+				}
+			}
+			return scheduleItemOccurrencesForTodayThusFar;
 		}
 
 		private function getScheduleItemOccurrencesForYesterday(currentDate:Date):Vector.<ScheduleItemOccurrence>
@@ -97,7 +105,7 @@ package collaboRhythm.plugins.schedule.shared.model
 				if (scheduleItemsCollection.length > 0)
 				{
 					var adherencePerformanceEvaluator:AdherencePerformanceEvaluatorBase = _scheduleCollectionsProvider.viewFactory.createAdherencePerformanceEvaluator(scheduleItemsCollection[0]);
-					var adherencePerformanceAssertion:String = adherencePerformanceEvaluator.evaluateAdherencePerformance(scheduleItemOccurrencesVector,
+					var adherencePerformanceAssertion:AdherencePerformanceAssertion = adherencePerformanceEvaluator.evaluateAdherencePerformance(scheduleItemOccurrencesVector,
 																														  _record,
 																														  adherencePerformanceInterval);
 					_adherencePerformanceAssertionsCollection.addItem(adherencePerformanceAssertion);

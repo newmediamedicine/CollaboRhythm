@@ -1,5 +1,61 @@
 <?xml version="1.0"?>
-<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
-	xmlns:mx="library://ns.adobe.com/flex/mx">
-	<s:Label text="{data}"/>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				xmlns:images="assets.images.*"
+				autoDrawBackground="false">
+	<fx:Style>
+		#assertionLabel
+		{
+			fontSize: 30;
+		}
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceAssertion;
+
+		[Bindable]
+		private var _adherencePerformanceAssertion:AdherencePerformanceAssertion;
+
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+			_adherencePerformanceAssertion = AdherencePerformanceAssertion(value);
+		}
+
+		private function chooseColor(valence:Boolean):uint
+		{
+			if (valence)
+			{
+				return 0x79A873;
+			}
+			else
+			{
+				return 0xD66565;
+			}
+		}
+		]]></fx:Script>
+	<s:HGroup verticalAlign="middle">
+		<s:Group>
+			<images:thumbsUp width="45" height="45" visible="{_adherencePerformanceAssertion.icon == AdherencePerformanceAssertion.THUMBS_UP}"/>
+			<images:lightningSmall width="45" height="45" visible="{_adherencePerformanceAssertion.icon == AdherencePerformanceAssertion.LIGHTNING}"/>
+			<images:warning width="45" height="45" visible="{_adherencePerformanceAssertion.icon == AdherencePerformanceAssertion.WARNING}"/>
+		</s:Group>
+		<s:Label id="assertionLabel" text="{_adherencePerformanceAssertion.assertion}" color="{chooseColor(_adherencePerformanceAssertion.valence)}"/>
+	</s:HGroup>
 </s:ItemRenderer>

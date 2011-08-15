@@ -17,6 +17,7 @@
 package collaboRhythm.plugins.medications.model
 {
 
+	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceAssertion;
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceEvaluatorBase;
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
 	import collaboRhythm.shared.model.Record;
@@ -39,7 +40,7 @@ package collaboRhythm.plugins.medications.model
 
 		override public function evaluateAdherencePerformance(scheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence>,
 																 record:Record,
-																 adherencePerformanceInterval:String):String
+																 adherencePerformanceInterval:String):AdherencePerformanceAssertion
 		{
 			var medicationScheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = getScheduleItemOccurrencesForType(scheduleItemOccurrencesVector);
 			if (medicationScheduleItemOccurrencesVector.length > 0)
@@ -48,26 +49,26 @@ package collaboRhythm.plugins.medications.model
 				{
 					if (isAdherencePerformancePerfect(medicationScheduleItemOccurrencesVector))
 					{
-						return MEDICATIONS_ADHERENCE_PERFECT_ASSERTION_TODAY;
+						return new AdherencePerformanceAssertion(AdherencePerformanceAssertion.THUMBS_UP, MEDICATIONS_ADHERENCE_PERFECT_ASSERTION_TODAY, true);
 					}
 					else
 					{
-						return MEDICATIONS_NONADHERENCE_ASSERTION_TODAY;
+						return new AdherencePerformanceAssertion(AdherencePerformanceAssertion.LIGHTNING, MEDICATIONS_NONADHERENCE_ASSERTION_TODAY, false);
 					}
 				}
 				else if (adherencePerformanceInterval == AdherencePerformanceModel.ADHERENCE_PERFORMANCE_INTERVAL_YESTERDAY)
 				{
 					if (isAdherencePerformancePerfect(medicationScheduleItemOccurrencesVector))
 					{
-						return MEDICATIONS_ADHERENCE_PERFECT_ASSERTION_YESTERDAY;
+						return new AdherencePerformanceAssertion(AdherencePerformanceAssertion.THUMBS_UP, MEDICATIONS_ADHERENCE_PERFECT_ASSERTION_YESTERDAY, true);
 					}
 					else
 					{
-						return MEDICATIONS_NONADHERENCE_ASSERTION_YESTERDAY;
+						return new AdherencePerformanceAssertion(AdherencePerformanceAssertion.LIGHTNING, MEDICATIONS_NONADHERENCE_ASSERTION_YESTERDAY, false);
 					}
 				}
 			}
-			return MEDICATIONS_NONE_SCHEDULED_ASSERTION;
+			return new AdherencePerformanceAssertion(AdherencePerformanceAssertion.WARNING, MEDICATIONS_NONE_SCHEDULED_ASSERTION, false);
 		}
 	}
 }

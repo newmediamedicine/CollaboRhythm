@@ -114,8 +114,8 @@ package collaboRhythm.plugins.bloodPressure.controller
 			if (_widgetView && _activeRecordAccount)
 			{
 				_widgetView.model = _activeRecordAccount.primaryRecord.bloodPressureModel;
-				var currentPerformanceModel:AdherencePerformanceModel = _activeRecordAccount.primaryRecord.getAppData(AdherencePerformanceModel.ADHERENCE_PERFORMANCE_MODEL_KEY, AdherencePerformanceModel) as AdherencePerformanceModel;
-				_widgetView.currentPerformanceModel = currentPerformanceModel;
+				var adherencePerformanceModel:AdherencePerformanceModel = _activeRecordAccount.primaryRecord.getAppData(AdherencePerformanceModel.ADHERENCE_PERFORMANCE_MODEL_KEY, AdherencePerformanceModel) as AdherencePerformanceModel;
+				_widgetView.adherencePerformanceModel = adherencePerformanceModel;
 			}
 		}
 

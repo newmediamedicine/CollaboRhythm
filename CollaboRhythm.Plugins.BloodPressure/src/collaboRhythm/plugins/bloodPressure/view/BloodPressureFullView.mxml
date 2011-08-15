@@ -21,6 +21,7 @@
 		 xmlns:dataShapes="qs.charts.dataShapes.*"
 		 xmlns:simulation="collaboRhythm.plugins.bloodPressure.view.simulation.*"
 		 xmlns:controls="com.dougmccune.controls.*" xmlns:view="collaboRhythm.plugins.bloodPressure.view.*"
+		 xmlns:images="assets.images.*"
 		 xmlns:buttons="collaboRhythm.plugins.bloodPressure.view.simulation.buttons.*"
 		 width="100%" height="100%"
 		 creationComplete="creationCompleteHandler(event)"
@@ -34,7 +35,8 @@
 
 		<controls:SynchronizedAxisCache id="synchronizedAxisCache"/>
 
-		<mx:LineSeries id="systolicSeries" name="systolic" xField="dateMeasuredStart" yField="resultAsNumber" dataProvider="{model.isInitialized ? model.systolicData : null}"
+		<mx:LineSeries id="systolicSeries" name="systolic" xField="dateMeasuredStart" yField="resultAsNumber"
+					   dataProvider="{model.isInitialized ? model.systolicData : null}"
 					   updateComplete="bloodPressureChart.seriesComplete(event);"
 					   form="segment"
 					   filterDataValues="none"
@@ -56,7 +58,8 @@
 			</mx:stroke>
 
 		</mx:LineSeries>
-		<mx:LineSeries id="diastolicSeries" name="diastolic" xField="dateMeasuredStart" yField="resultAsNumber" dataProvider="{model.isInitialized ? model.diastolicData : null}"
+		<mx:LineSeries id="diastolicSeries" name="diastolic" xField="dateMeasuredStart" yField="resultAsNumber"
+					   dataProvider="{model.isInitialized ? model.diastolicData : null}"
 					   updateComplete="bloodPressureChart.seriesComplete(event);"
 					   form="segment"
 					   filterDataValues="none"
@@ -79,7 +82,8 @@
 
 		</mx:LineSeries>
 
-		<mx:LineSeries id="systolicRangeSeries" name="systolic" xField="dateMeasuredStart" yField="resultAsNumber" dataProvider="{model.isInitialized ? model.systolicData : null}"
+		<mx:LineSeries id="systolicRangeSeries" name="systolic" xField="dateMeasuredStart" yField="resultAsNumber"
+					   dataProvider="{model.isInitialized ? model.systolicData : null}"
 					   form="segment"
 					   filterDataValues="none"
 				>
@@ -90,7 +94,8 @@
 						/>
 			</mx:lineStroke>
 		</mx:LineSeries>
-		<mx:LineSeries id="diastolicRangeSeries" name="diastolic" xField="dateMeasuredStart" yField="resultAsNumber" dataProvider="{model.isInitialized ? model.diastolicData : null}"
+		<mx:LineSeries id="diastolicRangeSeries" name="diastolic" xField="dateMeasuredStart" yField="resultAsNumber"
+					   dataProvider="{model.isInitialized ? model.diastolicData : null}"
 					   form="segment"
 					   filterDataValues="none"
 				>
@@ -123,8 +128,8 @@
 		</dataShapes:DataDrawingCanvas>
 
 		<dataShapes:DataDrawingCanvas id="adherenceMainCanvas" includeInRanges="true">
-			<s:Label id="goalMedicationZoneLabel" text="Goal Medication Concentration (0.05 - 0.35)"
-					 styleName="ZoneLabel" color="{GOAL_ZONE_COLOR}">
+			<s:Label id="goalMedicationZoneLabel" text="Goal Medication Concentration"
+					 styleName="ZoneLabel">
 				<!--
 				<s:filters>
 					<s:GlowFilter blurX="12" blurY="12" color="#FFFFFF" quality="2" strength="4"/>
@@ -163,8 +168,8 @@
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
+		import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
-		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 		import collaboRhythm.shared.model.healthRecord.util.MedicationName;
 		import collaboRhythm.shared.model.healthRecord.util.MedicationNameUtil;
@@ -173,19 +178,14 @@
 		import collaboRhythm.view.scroll.TouchScrollerEvent;
 
 		import com.dougmccune.controls.ScrubChart;
-		import com.dougmccune.controls.ScrubChartMinimalSkin;
 		import com.dougmccune.controls.TouchScrollingScrubChart;
 		import com.dougmccune.events.FocusTimeEvent;
 		import com.theory9.data.types.OrderedMap;
-
-		import flash.events.MouseEvent;
-		import flash.text.TextFormat;
 
 		import mx.charts.ChartItem;
 		import mx.charts.LinearAxis;
 		import mx.charts.chartClasses.CartesianChart;
 		import mx.charts.chartClasses.Series;
-		import mx.charts.events.ChartItemEvent;
 		import mx.charts.series.AreaSeries;
 		import mx.charts.series.PlotSeries;
 		import mx.collections.ArrayCollection;
@@ -201,10 +201,12 @@
 		import mx.logging.Log;
 		import mx.rpc.events.FaultEvent;
 
+		import qs.charts.dataShapes.DataDrawingCanvas;
 		import qs.charts.dataShapes.Edge;
 
 		import skins.LineSeriesCustomRenderer;
 
+		import spark.components.Label;
 		import spark.effects.Animate;
 		import spark.effects.animation.MotionPath;
 		import spark.effects.animation.SimpleMotionPath;
@@ -371,7 +373,7 @@
 			updateMedicationChartSeries(chart, medicationCode, ndcCode);
 
 			updateAdherenceChartSeriesCompleteHandler(chart, adherenceMainCanvas, goalMedicationZoneLabel,
-													  adherenceRangeCanvas);
+													  adherenceRangeCanvas, ndcCode);
 		}
 
 		private function updateMedicationChartSeries(chart:ScrubChart, medicationCode:String, ndcCode:String):void
@@ -392,14 +394,8 @@
 			concentrationSeries.setStyle("itemRenderer", new ClassFactory(LineSeriesCustomRenderer));
 			concentrationSeries.addEventListener(FlexEvent.UPDATE_COMPLETE, chart.seriesComplete);
 			concentrationSeries.filterDataValues = "none";
-			var color:uint;
-			if (_medicationColorSource)
-				color = _medicationColorSource.getMedicationColor(ndcCode);
-
-			if (color == 0)
-				color = 0x4252A4;
-
-			concentrationSeries.setStyle("areaStroke", new SolidColorStroke(0x000000, 2));
+			var color:uint = getMedicationColor(ndcCode);
+			concentrationSeries.setStyle("areaStroke", new SolidColorStroke(0x000000, 1));
 			concentrationSeries.setStyle("areaFill", new SolidColor(color, 1));
 
 			chart.mainChart.series.push(concentrationSeries);
@@ -513,21 +509,23 @@
 			}
 		}
 
-		public function drawAdherenceData(canvas:DataDrawingCanvas, zoneLabel:Label):void
+		public function drawAdherenceData(canvas:DataDrawingCanvas, zoneLabel:Label, ndcCode:String):void
 		{
 			if (_traceEventHandlers)
 				trace(this + ".drawAdherenceData");
 
 			canvas.clear();
 
-			canvas.lineStyle(1, GOAL_ZONE_COLOR);
+			var color:uint = getMedicationColor(ndcCode);
+			canvas.lineStyle(1, color);
 
-			canvas.beginFill(GOAL_ZONE_COLOR, 0.2);
+			canvas.beginFill(color, 0.25);
 			canvas.drawRect([Edge.LEFT, -1], 0.35, [Edge.RIGHT, 1], 0.05);
 			canvas.endFill();
 
 			if (zoneLabel)
 			{
+				zoneLabel.setStyle("color", color);
 				canvas.updateDataChild(zoneLabel, {left: Edge.LEFT, top: 0.35});
 			}
 		}
@@ -640,15 +638,16 @@
 		}
 
 		private function updateAdherenceChartSeriesCompleteHandler(chart:ScrubChart, mainCanvas:DataDrawingCanvas,
-																   zoneLabel:Label, rangeCanvas:DataDrawingCanvas):void
+																   zoneLabel:Label, rangeCanvas:DataDrawingCanvas,
+																   ndcCode:String):void
 		{
 			chart.mainChart.backgroundElements.push(mainCanvas);
-			drawAdherenceData(mainCanvas, zoneLabel);
+			drawAdherenceData(mainCanvas, zoneLabel, ndcCode);
 
 			if (chart.rangeChart)
 			{
 				chart.rangeChart.backgroundElements.push(rangeCanvas);
-				drawAdherenceData(rangeCanvas, null);
+				drawAdherenceData(rangeCanvas, null, ndcCode);
 			}
 		}
 
@@ -1268,6 +1267,17 @@
 			bloodPressureChart.focusTimeMarker.height = chartsGroup.height - bloodPressureChart.footer.height;
 		}
 
+		private function getMedicationColor(ndcCode:String):uint
+		{
+			var color:uint;
+			if (_medicationColorSource)
+				color = _medicationColorSource.getMedicationColor(ndcCode);
+
+			if (color == 0)
+				color = 0x4252A4;
+
+			return color;
+		}
 		]]></fx:Script>
 
 	<mx:HDividedBox height="100%" width="100%" paddingRight="0" clipContent="true" horizontalScrollPolicy="off"
@@ -1294,82 +1304,83 @@
 				</buttons:ContentLabel>
 			</s:Group>
 
-			<s:VGroup id="chartsGroup" height="100%" width="100%" gap="10" paddingLeft="0" paddingRight="0" paddingTop="0"
+			<s:VGroup id="chartsGroup" height="100%" width="100%" gap="10" paddingLeft="0" paddingRight="0"
+					  paddingTop="0"
 					  paddingBottom="0">
-<!--
-				<s:VGroup id="medicationChartsGroup" height="100%" width="100%" gap="10" paddingLeft="0" paddingRight="0" paddingTop="0"
-						  paddingBottom="0"/>
--->
+				<!--
+					<s:VGroup id="medicationChartsGroup" height="100%" width="100%" gap="10" paddingLeft="0" paddingRight="0" paddingTop="0"
+							  paddingBottom="0"/>
+	-->
 
-<!--
-				<controls:TouchScrollingScrubChart id="adherenceChart"
-												   skinClass="collaboRhythm.plugins.bloodPressure.view.ScrubChartMedicationSkin"
-												   height="100%" width="100%"
-												   creationComplete="adherenceChart_creationCompleteHandler(event)"
-												   initialize="adherenceChart_initializeHandler(event)"
-												   sliderVisible="false"
-												   mainChartTitle="Hydrochlorothiazide Adherence (mg/L)"
-												   seriesName="concentration"
-												   data="{model.showAdherence ? model.medicationConcentrationCurvesByCode.getItem(BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE) : null}"
-												   today="{model.currentDateSource.now()}"
-												   showFps="{model.showFps}"
-												   scroll="chart_scrollHandler(event)"
-												   scrollStart="chart_scrollStartHandler(event)"
-												   scrollStop="chart_scrollStopHandler(event)"
-												   focusTimeChange="chart_focusTimeChangeHandler(event)"
-												   seriesComplete="adherenceChart_seriesCompleteHandler(event)"
-												   initialDurationTime="{initialDurationTime}"
-												   showFocusTimeMarker="{showFocusTimeMarker}"
-												   scrollEnabled="{scrollEnabled}"
-												   synchronizedAxisCache="{synchronizedAxisCache}"
-												   useHorizontalTouchScrolling="{useHorizontalTouchScrolling}"
-						/>
-				<controls:TouchScrollingScrubChart id="adherenceChart2"
-												   skinClass="collaboRhythm.plugins.bloodPressure.view.ScrubChartMedicationSkin"
-												   height="100%" width="100%"
-												   creationComplete="adherenceChart2_creationCompleteHandler(event)"
-												   initialize="adherenceChart_initializeHandler(event)"
-												   sliderVisible="false"
-												   mainChartTitle="Atenolol Adherence (mg/L)"
-												   seriesName="concentration"
-												   data="{model.showAdherence ? model.medicationConcentrationCurvesByCode.getItem(BloodPressureModel.RXNORM_ATENOLOL) : null}"
-												   today="{model.currentDateSource.now()}"
-												   showFps="{model.showFps}"
-												   scroll="chart_scrollHandler(event)"
-												   scrollStart="chart_scrollStartHandler(event)"
-												   scrollStop="chart_scrollStopHandler(event)"
-												   focusTimeChange="chart_focusTimeChangeHandler(event)"
-												   seriesComplete="adherenceChart_seriesCompleteHandler(event)"
-												   initialDurationTime="{initialDurationTime}"
-												   showFocusTimeMarker="{showFocusTimeMarker}"
-												   scrollEnabled="{scrollEnabled}"
-												   synchronizedAxisCache="{synchronizedAxisCache}"
-												   useHorizontalTouchScrolling="{useHorizontalTouchScrolling}"
-						/>
--->
+				<!--
+					<controls:TouchScrollingScrubChart id="adherenceChart"
+													   skinClass="collaboRhythm.plugins.bloodPressure.view.ScrubChartMedicationSkin"
+													   height="100%" width="100%"
+													   creationComplete="adherenceChart_creationCompleteHandler(event)"
+													   initialize="adherenceChart_initializeHandler(event)"
+													   sliderVisible="false"
+													   mainChartTitle="Hydrochlorothiazide Adherence (mg/L)"
+													   seriesName="concentration"
+													   data="{model.showAdherence ? model.medicationConcentrationCurvesByCode.getItem(BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE) : null}"
+													   today="{model.currentDateSource.now()}"
+													   showFps="{model.showFps}"
+													   scroll="chart_scrollHandler(event)"
+													   scrollStart="chart_scrollStartHandler(event)"
+													   scrollStop="chart_scrollStopHandler(event)"
+													   focusTimeChange="chart_focusTimeChangeHandler(event)"
+													   seriesComplete="adherenceChart_seriesCompleteHandler(event)"
+													   initialDurationTime="{initialDurationTime}"
+													   showFocusTimeMarker="{showFocusTimeMarker}"
+													   scrollEnabled="{scrollEnabled}"
+													   synchronizedAxisCache="{synchronizedAxisCache}"
+													   useHorizontalTouchScrolling="{useHorizontalTouchScrolling}"
+							/>
+					<controls:TouchScrollingScrubChart id="adherenceChart2"
+													   skinClass="collaboRhythm.plugins.bloodPressure.view.ScrubChartMedicationSkin"
+													   height="100%" width="100%"
+													   creationComplete="adherenceChart2_creationCompleteHandler(event)"
+													   initialize="adherenceChart_initializeHandler(event)"
+													   sliderVisible="false"
+													   mainChartTitle="Atenolol Adherence (mg/L)"
+													   seriesName="concentration"
+													   data="{model.showAdherence ? model.medicationConcentrationCurvesByCode.getItem(BloodPressureModel.RXNORM_ATENOLOL) : null}"
+													   today="{model.currentDateSource.now()}"
+													   showFps="{model.showFps}"
+													   scroll="chart_scrollHandler(event)"
+													   scrollStart="chart_scrollStartHandler(event)"
+													   scrollStop="chart_scrollStopHandler(event)"
+													   focusTimeChange="chart_focusTimeChangeHandler(event)"
+													   seriesComplete="adherenceChart_seriesCompleteHandler(event)"
+													   initialDurationTime="{initialDurationTime}"
+													   showFocusTimeMarker="{showFocusTimeMarker}"
+													   scrollEnabled="{scrollEnabled}"
+													   synchronizedAxisCache="{synchronizedAxisCache}"
+													   useHorizontalTouchScrolling="{useHorizontalTouchScrolling}"
+							/>
+	-->
 
-<!--
-				<controls:ScrubChart id="bloodPressureChart"
-												   skinClass="com.dougmccune.controls.ScrubChartMinimalSkin"
-												   height="100%" width="100%"
-												   creationComplete="bloodPressureChart_creationCompleteHandler(event)"
-												   topBorderVisible="false"
-												   sliderVisible="false"
-												   mainChartTitle="Blood Pressure (mmHg)"
-												   seriesName="resultAsNumber"
-												   data="{model.isInitialized ? model.systolicData : null}"
-												   dateField="dateMeasuredStart"
-												   today="{model.currentDateSource.now()}"
-												   showFps="{model.showFps}"
-												   scroll="chart_scrollHandler(event)"
-												   focusTimeChange="chart_focusTimeChangeHandler(event)"
-												   seriesComplete="bloodPressureChart_seriesCompleteHandler(event)"
-												   initialDurationTime="{initialDurationTime}"
-												   showFocusTimeMarker="{showFocusTimeMarker}"
-												   scrollEnabled="{scrollEnabled}"
-												   synchronizedAxisCache="{synchronizedAxisCache}"
-						/>
--->
+				<!--
+					<controls:ScrubChart id="bloodPressureChart"
+													   skinClass="com.dougmccune.controls.ScrubChartMinimalSkin"
+													   height="100%" width="100%"
+													   creationComplete="bloodPressureChart_creationCompleteHandler(event)"
+													   topBorderVisible="false"
+													   sliderVisible="false"
+													   mainChartTitle="Blood Pressure (mmHg)"
+													   seriesName="resultAsNumber"
+													   data="{model.isInitialized ? model.systolicData : null}"
+													   dateField="dateMeasuredStart"
+													   today="{model.currentDateSource.now()}"
+													   showFps="{model.showFps}"
+													   scroll="chart_scrollHandler(event)"
+													   focusTimeChange="chart_focusTimeChangeHandler(event)"
+													   seriesComplete="bloodPressureChart_seriesCompleteHandler(event)"
+													   initialDurationTime="{initialDurationTime}"
+													   showFocusTimeMarker="{showFocusTimeMarker}"
+													   scrollEnabled="{scrollEnabled}"
+													   synchronizedAxisCache="{synchronizedAxisCache}"
+							/>
+	-->
 				<controls:TouchScrollingScrubChart id="bloodPressureChart"
 												   skinClass="com.dougmccune.controls.ScrubChartMinimalSkin"
 												   height="100%" width="100%"
@@ -1393,6 +1404,8 @@
 												   synchronizedAxisCache="{synchronizedAxisCache}"
 												   useHorizontalTouchScrolling="{useHorizontalTouchScrolling}"
 						/>
+
+
 				<!--
 				<controls:TouchScrollingMcCuneChart id="heartRateChart" height="100%" width="100%"
 												creationComplete="heartRateChart_creationCompleteHandler(event)"
@@ -1422,11 +1435,11 @@
 				  width="{SIMULATION_VIEW_WIDTH + simulationGroup.paddingLeft + simulationGroup.paddingRight}"
 				> <!-- TODO: paddingBottom should be the same as the chartsGroup, but one or both of these components have some internal padding (the ScrubChart currently has an extra 15 paddingBottom "built in" to the footer) -->
 			<simulation:SimulationView id="simulationView" height="100%" width="100%"
-									   />
-<!--
-			doubleClickEnabled="true"
-									   doubleClick="simulationView_doubleClickHandler(event)"
--->
+					/>
+			<!--
+			   doubleClickEnabled="true"
+										  doubleClick="simulationView_doubleClickHandler(event)"
+   -->
 		</s:VGroup>
 	</mx:HDividedBox>
 </s:Group>

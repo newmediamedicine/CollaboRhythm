@@ -28,7 +28,7 @@ package collaboRhythm.plugins.bloodPressure.view
 
 		function refresh():void;
 
-		function set currentPerformanceModel(currentPerformanceModel:AdherencePerformanceModel):void;
-		function get currentPerformanceModel():AdherencePerformanceModel;
+		function set adherencePerformanceModel(adherencePerformanceModel:AdherencePerformanceModel):void;
+		function get adherencePerformanceModel():AdherencePerformanceModel;
 	}
 }

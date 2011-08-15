@@ -18,7 +18,6 @@ package collaboRhythm.plugins.schedule.shared.model
 {
 
 	import collaboRhythm.shared.model.Record;
-	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	public class AdherencePerformanceEvaluatorBase
@@ -31,7 +30,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		}
 
 		public function evaluateAdherencePerformance(scheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence>,
-														record:Record, adherencePerformanceInterval:String):String
+														record:Record, adherencePerformanceInterval:String):AdherencePerformanceAssertion
 		{
 			throw new Error("virtual function must be overridden in subclass");
 		}

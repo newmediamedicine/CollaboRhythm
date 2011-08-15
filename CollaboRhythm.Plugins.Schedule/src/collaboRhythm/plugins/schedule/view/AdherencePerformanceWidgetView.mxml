@@ -23,9 +23,6 @@
 		 horizontalCenter="0"
 		 verticalCenter="0"
 		 width="1100" height="120">
-	<fx:Style>
-
-	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.schedule.controller.AdherencePerformanceAppController;
 		import collaboRhythm.plugins.schedule.model.ScheduleModel;
@@ -79,5 +76,5 @@
 			<s:SolidColorStroke color="black"/>
 		</s:stroke>
 	</s:Rect>
-	<s:List dataProvider="{_adherencePerformanceModel.adherencePerformanceAssertionsCollection}" itemRenderer="collaboRhythm.plugins.schedule.view.AdherencePerformanceAssertionItemRenderer"/>
+	<s:List left="10" top="10" dataProvider="{_adherencePerformanceModel.adherencePerformanceAssertionsCollection}" itemRenderer="collaboRhythm.plugins.schedule.view.AdherencePerformanceAssertionItemRenderer" />
 </s:Group>
