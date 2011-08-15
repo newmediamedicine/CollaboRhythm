@@ -45,7 +45,7 @@
 				<s:SolidColorStroke
 						color="0x4252A4"
 						weight="1"
-						alpha=".25"
+						alpha="0"
 						/>
 			</mx:lineStroke>
 			<mx:itemRenderer>
@@ -54,7 +54,7 @@
 				</fx:Component>
 			</mx:itemRenderer>
 			<mx:stroke>
-				<s:SolidColorStroke weight="1" color="0x4252A4"/>
+				<s:SolidColorStroke weight="2" color="0x000000"/>
 			</mx:stroke>
 
 		</mx:LineSeries>
@@ -68,7 +68,7 @@
 				<s:SolidColorStroke
 						color="0x4252A4"
 						weight="1"
-						alpha=".25"
+						alpha="0"
 						/>
 			</mx:lineStroke>
 			<mx:itemRenderer>
@@ -77,7 +77,7 @@
 				</fx:Component>
 			</mx:itemRenderer>
 			<mx:stroke>
-				<s:SolidColorStroke weight="1" color="0x4252A4" alpha="0.5"/>
+				<s:SolidColorStroke weight="2" color="0x000000" alpha="0.5"/>
 			</mx:stroke>
 
 		</mx:LineSeries>
@@ -120,7 +120,7 @@
 		<mx:DateFormatter id="fullDateFormat" formatString="YYYY-MM-DD"/>
 
 		<dataShapes:DataDrawingCanvas id="bloodPressureMainCanvas" includeInRanges="true">
-			<s:Label id="systolicZoneLabel" text="Systolic Normal (90 - 120)" styleName="ZoneLabel"
+			<s:Label id="systolicZoneLabel" text="Systolic Normal (90 - 120)" styleName="ZoneLabel" visible="false"
 					 color="{GOAL_ZONE_COLOR}"/>
 			<!--
 			<s:Label id="diastolicZoneLabel" text="Diastolic Normal (60 - 80)" styleName="ZoneLabel" color="{GOAL_ZONE_COLOR}"/>
@@ -1318,6 +1318,7 @@
 		<s:VGroup id="leftGroup" height="100%" width="100%" gap="15" paddingLeft="0" paddingRight="0" paddingTop="0"
 				  paddingBottom="0">
 
+<!--
 			<s:Group width="100%">
 				<buttons:ContentLabel
 						id="hypertensionTitle" horizontalCenter="0"
@@ -1333,85 +1334,12 @@
 					</buttons:rightContent>
 				</buttons:ContentLabel>
 			</s:Group>
+-->
 
 			<s:VGroup id="chartsGroup" height="100%" width="100%" gap="10" paddingLeft="0" paddingRight="0"
 					  paddingTop="0"
-					  paddingBottom="0">
-				<!--
-					<s:VGroup id="medicationChartsGroup" height="100%" width="100%" gap="10" paddingLeft="0" paddingRight="0" paddingTop="0"
-							  paddingBottom="0"/>
-	-->
-
-				<!--
-					<controls:TouchScrollingScrubChart id="adherenceChart"
-													   skinClass="collaboRhythm.plugins.bloodPressure.view.ScrubChartMedicationSkin"
-													   height="100%" width="100%"
-													   creationComplete="adherenceChart_creationCompleteHandler(event)"
-													   initialize="adherenceChart_initializeHandler(event)"
-													   sliderVisible="false"
-													   mainChartTitle="Hydrochlorothiazide Adherence (mg/L)"
-													   seriesName="concentration"
-													   data="{model.showAdherence ? model.medicationConcentrationCurvesByCode.getItem(BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE) : null}"
-													   today="{model.currentDateSource.now()}"
-													   showFps="{model.showFps}"
-													   scroll="chart_scrollHandler(event)"
-													   scrollStart="chart_scrollStartHandler(event)"
-													   scrollStop="chart_scrollStopHandler(event)"
-													   focusTimeChange="chart_focusTimeChangeHandler(event)"
-													   seriesComplete="adherenceChart_seriesCompleteHandler(event)"
-													   initialDurationTime="{initialDurationTime}"
-													   showFocusTimeMarker="{showFocusTimeMarker}"
-													   scrollEnabled="{scrollEnabled}"
-													   synchronizedAxisCache="{synchronizedAxisCache}"
-													   useHorizontalTouchScrolling="{useHorizontalTouchScrolling}"
-							/>
-					<controls:TouchScrollingScrubChart id="adherenceChart2"
-													   skinClass="collaboRhythm.plugins.bloodPressure.view.ScrubChartMedicationSkin"
-													   height="100%" width="100%"
-													   creationComplete="adherenceChart2_creationCompleteHandler(event)"
-													   initialize="adherenceChart_initializeHandler(event)"
-													   sliderVisible="false"
-													   mainChartTitle="Atenolol Adherence (mg/L)"
-													   seriesName="concentration"
-													   data="{model.showAdherence ? model.medicationConcentrationCurvesByCode.getItem(BloodPressureModel.RXNORM_ATENOLOL) : null}"
-													   today="{model.currentDateSource.now()}"
-													   showFps="{model.showFps}"
-													   scroll="chart_scrollHandler(event)"
-													   scrollStart="chart_scrollStartHandler(event)"
-													   scrollStop="chart_scrollStopHandler(event)"
-													   focusTimeChange="chart_focusTimeChangeHandler(event)"
-													   seriesComplete="adherenceChart_seriesCompleteHandler(event)"
-													   initialDurationTime="{initialDurationTime}"
-													   showFocusTimeMarker="{showFocusTimeMarker}"
-													   scrollEnabled="{scrollEnabled}"
-													   synchronizedAxisCache="{synchronizedAxisCache}"
-													   useHorizontalTouchScrolling="{useHorizontalTouchScrolling}"
-							/>
-	-->
-
-				<!--
-					<controls:ScrubChart id="bloodPressureChart"
-													   skinClass="com.dougmccune.controls.ScrubChartMinimalSkin"
-													   height="100%" width="100%"
-													   creationComplete="bloodPressureChart_creationCompleteHandler(event)"
-													   topBorderVisible="false"
-													   sliderVisible="false"
-													   mainChartTitle="Blood Pressure (mmHg)"
-													   seriesName="resultAsNumber"
-													   data="{model.isInitialized ? model.systolicData : null}"
-													   dateField="dateMeasuredStart"
-													   today="{model.currentDateSource.now()}"
-													   showFps="{model.showFps}"
-													   scroll="chart_scrollHandler(event)"
-													   focusTimeChange="chart_focusTimeChangeHandler(event)"
-													   seriesComplete="bloodPressureChart_seriesCompleteHandler(event)"
-													   initialDurationTime="{initialDurationTime}"
-													   showFocusTimeMarker="{showFocusTimeMarker}"
-													   scrollEnabled="{scrollEnabled}"
-													   synchronizedAxisCache="{synchronizedAxisCache}"
-							/>
-	-->
-				<s:HGroup id="bloodPressureGroup" height="100%" width="100%" gap="0">
+					  paddingBottom="8">
+				<s:HGroup id="bloodPressureGroup" height="100%" width="100%" gap="0" minHeight="300">
 					<s:Group height="100%">
 						<images:BloodPressureScheduleItemClockView width="100" height="100" verticalCenter="0"/>
 					</s:Group>
@@ -1439,29 +1367,6 @@
 													   useHorizontalTouchScrolling="{useHorizontalTouchScrolling}"
 							/>
 				</s:HGroup>
-
-
-				<!--
-				   <controls:TouchScrollingMcCuneChart id="heartRateChart" height="100%" width="100%"
-												   creationComplete="heartRateChart_creationCompleteHandler(event)"
-												   topBorderVisible="false"
-												   mainChartTitle="Heart Rate (BPM)"
-												   seriesName="heartRate"
-												   data="{model.showHeartRate ? model.data : null}"
-												   today="{model.currentDateSource.now()}"
-												   showFps="{model.showFps}"
-												   doubleClickEnabled="true"
-												   doubleClick="chart_doubleClickHandler(event)"
-												   scroll="chart_scrollHandler(event)"
-												   scrollStart="chart_scrollStartHandler(event)"
-												   scrollStop="chart_scrollStopHandler(event)"
-												   focusTimeChange="chart_focusTimeChangeHandler(event)"
-												   seriesComplete="heartRateChart_seriesCompleteHandler(event)"
-												   initialDurationTime="{initialDurationTime}"
-												   showFocusTimeMarker="{showFocusTimeMarker}"
-												   scrollEnabled="{scrollEnabled}"
-												   />
-	   -->
 			</s:VGroup>
 		</s:VGroup>
 		<s:VGroup id="simulationGroup" height="100%" gap="15" paddingLeft="0" paddingRight="0" paddingTop="5"
