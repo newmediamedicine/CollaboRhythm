@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Convert Lisinopril Flat To Hierarchy" type="XSLT" factoryName="XSLT">
-    <option name="myOutputFile" value="C:\Users\sgilroy\Documents\GitRepositories\CollaboRhythm\CollaboRhythm.ExampleData\data\indivo-alpha\rpoole\medication_lisinopril_hierarchy.xml" />
+    <option name="myOutputFile" value="C:\Users\sgilroy\Git Repositories\CollaboRhythm\CollaboRhythm.ExampleData\data\indivo-alpha\rpoole\medication_lisinopril_hierarchy.xml" />
     <option name="myOpenOutputFile" value="true" />
     <option name="myOpenInBrowser" value="false" />
     <option name="mySmartErrorHandling" value="true" />

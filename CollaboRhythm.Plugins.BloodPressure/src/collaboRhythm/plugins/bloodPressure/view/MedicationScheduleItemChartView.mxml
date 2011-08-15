@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<s:Image xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	width="100" height="100"
+	skinClass="spark.skins.spark.ImageSkin"
+	initialize="pickImage()"
+		>
+
+	<fx:Script><![CDATA[
+		import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
+		import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
+		import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
+
+		private var _medicationScheduleItem:MedicationScheduleItem;
+
+		private function pickImage():void
+		{
+			if (_medicationScheduleItem && _medicationScheduleItem.scheduledMedicationOrder && _medicationScheduleItem.scheduledMedicationOrder.medicationFill && _medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc && _medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc.text)
+			{
+				var medicationFill:MedicationFill = _medicationScheduleItem.scheduledMedicationOrder.medicationFill;
+//				setStyle("loadingImageColor", _medicationColorSource.getMedicationColor(_medicationOrder.medicationFill.ndc.text));
+//				if (_medicationScheduleItem.dose.value == "1")
+				{
+					source = MedicationFillsModel.MEDICATION_API_URL_BASE + medicationFill.ndc.text + "-front.png";
+				}
+/*
+				else
+				{
+					source = MedicationFillsModel.MEDICATION_API_URL_BASE + medicationFill.ndc.text + "-front-" + _medicationScheduleItem.dose.value + ".png";
+				}
+*/
+			}
+		}
+
+		public function get medicationScheduleItem():MedicationScheduleItem
+		{
+			return _medicationScheduleItem;
+		}
+
+		public function set medicationScheduleItem(value:MedicationScheduleItem):void
+		{
+			_medicationScheduleItem = value;
+		}
+		]]></fx:Script>
+</s:Image>

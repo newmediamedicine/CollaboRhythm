@@ -28,6 +28,7 @@ package collaboRhythm.core.model.healthRecord.service
 			VitalSignsModel.DIASTOLIC_CATEGORY
 		];
 		private var _pendingVitalsCategories:HashMap = new HashMap();
+		private const USE_CREATED_AT_FOR_DATE_MEASURED_START:Boolean = true;
 
 		public function VitalSignHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String,
 													 account:Account)
@@ -95,7 +96,14 @@ package collaboRhythm.core.model.healthRecord.service
 		{
 			var document:VitalSign = super.unmarshallReportXml(reportXml) as VitalSign;
 
-			document.dateMeasuredStart = DateUtil.parseW3CDTF(reportXml.Meta.Document[0].createdAt.toString());
+			if (USE_CREATED_AT_FOR_DATE_MEASURED_START)
+			{
+				var createdAt:Date = DateUtil.parseW3CDTF(reportXml.Meta.Document[0].createdAt.toString());
+				if (Math.abs(document.dateMeasuredStart.valueOf() - createdAt.valueOf()) < 1000 * 60 * 60 * 24)
+				{
+					document.dateMeasuredStart = createdAt;
+				}
+			}
 
 			return document;
 		}

@@ -99,6 +99,12 @@ package collaboRhythm.plugins.bloodPressure.model
 						{
 							initializeAtenololModel(medication);
 						}
+						else if (name.value == "866429")
+						{
+							medication.goalConcentrationMinimum = 0.1;
+							medication.goalConcentrationMaximum = 0.7;
+							medication.concentrationAxisMaximum = 0.9;
+						}
 
 						simulation.addMedication(medication);
 					}

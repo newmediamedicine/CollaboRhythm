@@ -34,6 +34,9 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		private var _concentrationSeverityLevel:int = -1;
 		private var _concentrationSeverityColor:uint;
 		private var _concentrationSeverityProvider:IConcentrationSeverityProvider;
+		private var _goalConcentrationMinimum:Number = 0.05;
+		private var _goalConcentrationMaximum:Number = 0.35;
+		private var _concentrationAxisMaximum:Number = 0.4;
 
 		public function MedicationComponentAdherenceModel()
 		{
@@ -127,6 +130,36 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public function set concentrationSeverityProvider(value:IConcentrationSeverityProvider):void
 		{
 			_concentrationSeverityProvider = value;
+		}
+
+		public function get goalConcentrationMinimum():Number
+		{
+			return _goalConcentrationMinimum;
+		}
+
+		public function set goalConcentrationMinimum(value:Number):void
+		{
+			_goalConcentrationMinimum = value;
+		}
+
+		public function get goalConcentrationMaximum():Number
+		{
+			return _goalConcentrationMaximum;
+		}
+
+		public function set goalConcentrationMaximum(value:Number):void
+		{
+			_goalConcentrationMaximum = value;
+		}
+
+		public function get concentrationAxisMaximum():Number
+		{
+			return _concentrationAxisMaximum;
+		}
+
+		public function set concentrationAxisMaximum(value:Number):void
+		{
+			_concentrationAxisMaximum = value;
 		}
 	}
 }
