@@ -511,7 +511,7 @@
 
 			// systolic normal
 			canvas.beginFill(GOAL_ZONE_COLOR, 0.2);
-			canvas.drawRect([Edge.LEFT, -1], 120, [Edge.RIGHT, 1], 90);
+			canvas.drawRect([Edge.LEFT, -1], SimulationModel.SYSTOLIC_GOAL, [Edge.RIGHT, 1], 90);
 			canvas.endFill();
 
 			//				// diastolic normal
@@ -521,7 +521,7 @@
 
 			if (canvas == bloodPressureMainCanvas)
 			{
-				canvas.updateDataChild(systolicZoneLabel, {left: Edge.LEFT, top: 120});
+				canvas.updateDataChild(systolicZoneLabel, {left: Edge.LEFT, top: SimulationModel.SYSTOLIC_GOAL});
 				//				canvas.updateDataChild(diastolicZoneLabel, {left: Edge.LEFT, bottom: 60});
 			}
 		}

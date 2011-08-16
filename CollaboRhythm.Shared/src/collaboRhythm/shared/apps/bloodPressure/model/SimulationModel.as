@@ -57,7 +57,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public static const CALCIUM_CHANNEL_BLOCKER:String = "Calcium Channel Blocker";
 		public static const DRUG_CLASS_UNKNOWN:String = "Drug Class Unknown";
 
-		private static const SYSTOLIC_GOAL:int = 130;
+		public static const SYSTOLIC_GOAL:int = 130;
 
 		/**
 		 * Maximum value to use for the plugRatio, the ratio of plugs (medication) to gaps, in the simulation.
