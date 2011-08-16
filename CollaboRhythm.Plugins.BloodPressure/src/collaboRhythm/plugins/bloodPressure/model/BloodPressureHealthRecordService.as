@@ -227,14 +227,17 @@ package collaboRhythm.plugins.bloodPressure.model
 			return new StepsProvider(new <Number>[SimulationModel.HYDROCHLOROTHIAZIDE_LOW, SimulationModel.HYDROCHLOROTHIAZIDE_GOAL],
 									 new <Vector.<String>>[
 										 new <String>[
+											 "Harder contractions of heart",
 											 "More constricted arteries (red)",
 											 "More work for your heart",
 											 "Increased blood pressure"],
 										 new <String>[
+											 "Harder contractions of heart",
 											 "More constricted arteries (red)",
 											 "More work for your heart",
 											 "Increased blood pressure"],
 										 new <String>[
+											 "Softer contractions of heart",
 											 "Less constricted arteries (red)",
 											 "Less work for your heart",
 											 "Decreased blood pressure"]]);
