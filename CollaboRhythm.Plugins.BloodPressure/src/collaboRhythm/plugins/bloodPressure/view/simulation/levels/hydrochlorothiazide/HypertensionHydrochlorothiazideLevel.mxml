@@ -23,6 +23,7 @@
 		xmlns:view2="collaboRhythm.shared.view.*"
 		xmlns:hydrochlorothiazide="collaboRhythm.plugins.bloodPressure.view.simulation.levels.hydrochlorothiazide.*"
 		xmlns:buttons="collaboRhythm.plugins.bloodPressure.view.simulation.buttons.*"
+		xmlns:view="collaboRhythm.plugins.bloodPressure.view.*"
 		width="100%" height="100%"
 		title="Kidney"
 		>
@@ -32,7 +33,7 @@
 			<view2:ScaleToFitLayout unscaledWidth="360" aspectRatioMin="0.85" aspectRatioMax="1.25"/>
 		</s:layout>
 		<hydrochlorothiazide:HydrochlorothiazideSimulationView id="hydrochlorothiazideSimulationView"
-															   concentration="{hydrochlorothiazideMedicationModel.concentration}"
+															   concentration="{medicationModel.concentration}"
 				/>
 	</s:Group>
 	<s:Group id="arrowsGroup" width="100%" height="100%"/>
@@ -41,19 +42,14 @@
 			id="hydrochlorothiazideTitle"
 			x="{detailButtonX}"
 			label="Hydrochlorothiazide"
-			subtitle="{hydrochlorothiazideMedicationModel.drugClass}"
+			subtitle="{medicationModel.drugClass}"
 			expanded="true"
 			listDataProvider="{stepsListData}"
 			drillDownEnabled="false"
 			>
 		<buttons:leftContent>
-			<simulation:MedicationsIcon left="7" verticalCenter="0" width="32" height="32"/>
+			<view:MedicationScheduleItemChartView id="medicationView" left="7" verticalCenter="0" width="32" height="32"/>
 		</buttons:leftContent>
-		<buttons:rightContent>
-			<simulation:HydrochlorothiazideGauge id="hydrochlorothiazideGauge" verticalCenter="0"
-												 width="60" height="30"
-												 value="{hydrochlorothiazideMedicationModel.concentration}"/>
-		</buttons:rightContent>
 	</buttons:SimulationDetailButton>
 
 	<fx:Script><![CDATA[
@@ -71,7 +67,7 @@
 		private var stepsListData:ArrayCollection;
 
 		[Bindable]
-		private var hydrochlorothiazideMedicationModel:MedicationComponentAdherenceModel;
+		private var medicationModel:MedicationComponentAdherenceModel;
 
 		protected override function creationCompleteHandler(event:FlexEvent):void
 		{
@@ -82,7 +78,7 @@
 
 		private function simulationModel_propertyChangeHandler(event:PropertyChangeEvent):void
 		{
-			if (event.property == "medications")
+			if (event.property == "isInitialized")
 				lookupMedications();
 		}
 
@@ -90,12 +86,23 @@
 		{
 			if (simulationModel)
 			{
-				hydrochlorothiazideMedicationModel = simulationModel.getMedication(BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE);
-				if (hydrochlorothiazideMedicationModel)
+				// TODO: support scenarios where there are multiple thiazide diuretics; currently we ignore all but the first one
+				medicationModel = null;
+				for each (var medication:MedicationComponentAdherenceModel in simulationModel.medications)
 				{
-					hydrochlorothiazideMedicationModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+					if (medication.drugClass == SimulationModel.THIAZIDE_DIURETIC)
+					{
+						medicationModel = medication;
+						break;
+					}
+				}
+
+				if (medicationModel)
+				{
+					medicationModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
 																		medicationModel_propertyChanged);
 					updateStepsListData();
+					medicationView.medicationScheduleItem = medicationModel.medicationScheduleItem;
 				}
 			}
 		}
@@ -119,7 +126,7 @@
 
 		private function updateStepsListData():void
 		{
-			switch (hydrochlorothiazideMedicationModel.concentrationSeverityLevel)
+			switch (medicationModel.concentrationSeverityLevel)
 			{
 				case -1:
 					// not initialized; do nothing
@@ -181,7 +188,7 @@
 					break;
 				default:
 					throw new Error("Unhandled concentrationSeverityLevel:",
-									hydrochlorothiazideMedicationModel.concentrationSeverityLevel);
+									medicationModel.concentrationSeverityLevel);
 			}
 		}
 		]]></fx:Script>

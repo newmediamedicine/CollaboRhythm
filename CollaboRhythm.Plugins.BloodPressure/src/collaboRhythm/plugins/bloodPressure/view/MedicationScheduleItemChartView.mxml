@@ -41,6 +41,7 @@
 		public function set medicationScheduleItem(value:MedicationScheduleItem):void
 		{
 			_medicationScheduleItem = value;
+			pickImage();
 		}
 		]]></fx:Script>
 </s:Image>
