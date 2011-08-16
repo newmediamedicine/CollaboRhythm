@@ -17,6 +17,10 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.buttons
 			_detailButton = detailButton;
 		}
 
+		/**
+		 * Optional coordinate of the indicated point of action in the simulation. If there is no point, this property
+		 * will be null.
+		 */
 		public function get indicatedPoint():Point
 		{
 			return _indicatedPoint;

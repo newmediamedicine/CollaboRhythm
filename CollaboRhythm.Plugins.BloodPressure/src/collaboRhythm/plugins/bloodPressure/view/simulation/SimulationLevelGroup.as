@@ -114,7 +114,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation
 
 		private function drawDetailArrow(button:SimulationDetailButton, endPoint:Point):void
 		{
-			if (!isNaN(button.x) && !isNaN(button.arrowTailY) && !isNaN(endPoint.x) && !isNaN(endPoint.y))
+			if (!isNaN(button.x) && !isNaN(button.arrowTailY) && endPoint && !isNaN(endPoint.x) && !isNaN(endPoint.y))
 			{
 				GraphicsUtil.drawArrow(
 						arrowsGroup.graphics,
@@ -139,7 +139,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation
 					var detail:SimulationDetail = details[i];
 					var button:SimulationDetailButton = detail.detailButton;
 					currentY -= button.height / 2 + button.bottomExpansion;
-					currentY = Math.min(currentY, detail.indicatedPoint.y);
+					currentY = Math.min(currentY, detail.indicatedPoint ? detail.indicatedPoint.y : 0);
 					button.arrowTailY = currentY;
 					currentY -= button.height / 2 + BUTTON_GAP;
 				}
@@ -155,7 +155,9 @@ package collaboRhythm.plugins.bloodPressure.view.simulation
 					currentY += button.height / 2 + button.bottomExpansion + BUTTON_GAP;
 				}
 
-				var firstArrowTailY:Number = details[0].detailButton.arrowTailY;
+				var firstArrowTailY:Number;
+				if (details.length > 0)
+					firstArrowTailY = details[0].detailButton.arrowTailY;
 				return firstArrowTailY;
 			}
 			else

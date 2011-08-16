@@ -111,6 +111,7 @@ package collaboRhythm.plugins.bloodPressure.model
 					}
 				}
 			}
+			simulation.isInitialized = true;
 		}
 
 		private function initializeMedication(medication:MedicationComponentAdherenceModel):void

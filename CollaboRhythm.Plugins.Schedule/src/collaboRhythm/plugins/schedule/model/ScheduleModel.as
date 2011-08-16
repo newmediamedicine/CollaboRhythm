@@ -74,13 +74,13 @@ package collaboRhythm.plugins.schedule.model
 		private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>();
 		private var _handledInvokeEvents:Vector.<String>;
 
-
 		public function ScheduleModel(componentContainer:IComponentContainer, record:Record, accountId:String,
 									  handledInvokeEvents:Vector.<String>)
 		{
 			_accountId = accountId;
 			_handledInvokeEvents = handledInvokeEvents;
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 
 			_record = record;
 
@@ -92,7 +92,6 @@ package collaboRhythm.plugins.schedule.model
 				_changeWatchers.push(BindingUtils.bindSetter(init, documentCollection, "isStitched"));
 			}
 
-			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 			_viewFactory = new MasterScheduleViewFactory(componentContainer);
 		}
 

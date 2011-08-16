@@ -20,103 +20,161 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:simulation="collaboRhythm.plugins.bloodPressure.view.simulation.*"
-		xmlns:gauge="collaboRhythm.plugins.bloodPressure.view.simulation.gauge.*"
 		xmlns:circulatorysystem="collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySystem.*"
-		xmlns:buttons="collaboRhythm.plugins.bloodPressure.view.simulation.buttons.*"
 		width="100%" height="100%"
 		title="Circulatory System"
+		resize="resizeHandler(event)"
 		>
-	<!--<s:SWFLoader id="cardiovascularSimulationLoader" source="@Embed(source='/assets/swfs/heart14.swf')" complete="circulatorySystemSimulationLoader_completeHandler()"/>-->
 	<circulatorysystem:HypertensionCirculatorySystemSimulationView id="circulatorySystemSimulationView" width="360" height="600" loadSimulationOnCreateChildren="false" currentDamage="{simulationModel.damage}" currentPreload="{simulationModel.preload}" currentContractility="{simulationModel.contractility}" currentAfterload="{simulationModel.afterload}"/>
 	<s:Group id="arrowsGroup" width="100%" height="100%"/>
-	<buttons:SimulationDetailButton
-			id="atenololButton"
-			x="{detailButtonX}"
-			arrowTailY="{layoutDetailButtons(this.height, atenololButton.bottomExpansion, hydrochlorothiazideButton.bottomExpansion, details)}"
-			expanded="false"
-			listDataProvider="{createStepsData(atenololMedicationModel.steps, atenololMedicationModel.concentrationSeverityColor)}"
-			label="Atenolol"
-			subtitle="{atenololMedicationModel.drugClass}"
-			move="drawArrows()"
-			expand="hydrochlorothiazideButton.expanded = false"
-			drillDownEnabled="false"
-			visible="false"
-			>
-		<buttons:leftContent>
-			<simulation:MedicationsIcon left="7" verticalCenter="0" width="32" height="32"/>
-		</buttons:leftContent>
-		<buttons:rightContent>
-			<simulation:HydrochlorothiazideGauge id="atenololGauge" verticalCenter="0"
-												 width="60" height="30"
-												 value="{atenololMedicationModel.concentration}"/>
-		</buttons:rightContent>
-	</buttons:SimulationDetailButton>
-	<buttons:SimulationDetailButton
-			id="hydrochlorothiazideButton"
-			x="{detailButtonX}"
-			expanded="true"
-			listDataProvider="{createStepsData(hydrochlorothiazideMedicationModel.steps, hydrochlorothiazideMedicationModel.concentrationSeverityColor)}"
-			label="Hydrochlorothiazide"
-			subtitle="{hydrochlorothiazideMedicationModel.drugClass}"
-			drillDownLevel="dispatchEvent(new SimulationLevelEvent(SimulationLevelEvent.DRILL_DOWN_LEVEL, 0.02, 0.02, hydrochlorothiazidePoint.x, hydrochlorothiazidePoint.y))"
-			move="drawArrows()"
-			expand="atenololButton.expanded = false"
-			visible="false"
-			>
-		<!--arrowTailY="{Math.max(hydrochlorothiazidePoint.y, atenololButton.arrowTailY + atenololButton.height + atenololButton.bottomExpansion + 20)}"-->
-		<buttons:leftContent>
-			<simulation:MedicationsIcon left="7" verticalCenter="0" width="32" height="32"/>
-		</buttons:leftContent>
-		<buttons:rightContent>
-			<simulation:HydrochlorothiazideGauge id="hydrochlorothiazideGauge" verticalCenter="0"
-												 width="60" height="30"
-												 value="{hydrochlorothiazideMedicationModel.concentration}"/>
-		</buttons:rightContent>
-	</buttons:SimulationDetailButton>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.bloodPressure.view.simulation.*;
+		import collaboRhythm.plugins.bloodPressure.view.simulation.buttons.ExpandCollapseEvent;
 		import collaboRhythm.plugins.bloodPressure.view.simulation.buttons.SimulationDetail;
+		import collaboRhythm.plugins.bloodPressure.view.simulation.buttons.SimulationDetailButton;
 		import collaboRhythm.plugins.bloodPressure.view.simulation.buttons.StepListItem;
 		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
+		import collaboRhythm.shared.model.healthRecord.util.MedicationName;
+		import collaboRhythm.shared.model.healthRecord.util.MedicationNameUtil;
+
+		import com.theory9.data.types.OrderedMap;
 
 		import mx.binding.utils.BindingUtils;
 
 		import mx.collections.ArrayCollection;
 		import mx.collections.IList;
 		import mx.events.FlexEvent;
+		import mx.events.MoveEvent;
 		import mx.events.PropertyChangeEvent;
+		import mx.events.ResizeEvent;
 		import mx.logging.ILogger;
 		import mx.logging.Log;
 
-		private const hydrochlorothiazidePoint:Point = new Point(206, 476);
-		private const atenololPoint:Point = new Point(247, 295);
-		[Bindable]
-		private var hydrochlorothiazideMedicationModel:MedicationComponentAdherenceModel;
-		[Bindable]
-		private var atenololMedicationModel:MedicationComponentAdherenceModel;
+		private const kidneyPoint:Point = new Point(206, 476);
+		private const heartPoint:Point = new Point(247, 295);
+		private const arteriolesPoint:Point = new Point(260, 403);
+
 		protected var _logger:ILogger;
 
-		protected override function creationCompleteHandler(event:FlexEvent):void
+		private var buttonsMap:OrderedMap = new OrderedMap();
+
+		override protected function createChildren():void
 		{
-//			details = new <SimulationDetail>[
-//				new SimulationDetail(atenololPoint,
-//									 atenololButton),
-//				new SimulationDetail(hydrochlorothiazidePoint,
-//									 hydrochlorothiazideButton)
-//			];
-
-			lookupMedications();
-
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 
-			super.creationCompleteHandler(event);
+			super.createChildren();
+			createDetailButtons();
 		}
 
-		private function hydrochlorothiazideMedicationModel_changeHandler(concentration:Number):void
+		private function createDetailButtons():void
 		{
-			circulatorySystemSimulationView.concentration = concentration;
+			if (simulationModel && simulationModel.medications && buttonsMap.length == 0)
+			{
+				if (buttonsMap.length > 0)
+				{
+					// to support dynamically changing medications after initial load, we would need to remove existing buttons here
+				}
+
+				details = new Vector.<SimulationDetail>();
+				for each (var medicationModel:MedicationComponentAdherenceModel in simulationModel.medications)
+				{
+					var button:SimulationDetailButton = new SimulationDetailButton();
+					button.x = detailButtonX;
+					medicationModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+													 medicationModel_propertyChangeHandler, false, 0, true);
+					updateButtonListDataProvider(button, medicationModel);
+					var medicationName:MedicationName = MedicationNameUtil.parseName(medicationModel.name.text);
+					button.label = medicationName.medicationName;
+					button.subtitle = medicationModel.drugClass;
+					button.drillDownEnabled = medicationModel.drugClass == SimulationModel.THIAZIDE_DIURETIC;
+					button.addEventListener(SimulationLevelEvent.DRILL_DOWN_LEVEL,
+											simulationDetailButton_drillDownLevelHandler, false, 0, true);
+					button.addEventListener(MoveEvent.MOVE, simulationDetailButton_moveHandler, false, 0, true);
+					button.addEventListener(ExpandCollapseEvent.EXPAND, simulationDetailButton_expandHandler, false, 0,
+											true);
+					button.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+											simulationDetailButton_propertyChangeHandler, false, 0, true);
+
+					var medicationsIcon:MedicationsIcon = new MedicationsIcon();
+					medicationsIcon.left = 7;
+					medicationsIcon.verticalCenter = 0;
+					medicationsIcon.width = 32;
+					medicationsIcon.height = 32;
+					button.leftContent = [medicationsIcon];
+
+					this.addElement(button);
+					buttonsMap.addKeyValue(medicationModel.name.value, button);
+
+					var indicatedPoint:Point = getIndicatedPoint(medicationModel);
+					details.push(new SimulationDetail(indicatedPoint, button));
+				}
+
+				layoutDetailButtons();
+			}
+		}
+
+		private function getIndicatedPoint(medicationModel:MedicationComponentAdherenceModel):Point
+		{
+			if (medicationModel.drugClass == SimulationModel.THIAZIDE_DIURETIC ||
+					medicationModel.drugClass == SimulationModel.ACE_INHIBITOR ||
+					medicationModel.drugClass == SimulationModel.ANGIOTENSIN_RECEPTOR_BLOCKER)
+				return kidneyPoint;
+			else if (medicationModel.drugClass == SimulationModel.BETA_BLOCKER ||
+					medicationModel.drugClass == SimulationModel.CALCIUM_CHANNEL_BLOCKER)
+				return heartPoint;
+			else if (medicationModel.drugClass == SimulationModel.ALPHA_BLOCKER)
+				return arteriolesPoint;
+			else
+				return null;
+		}
+
+		private function simulationDetailButton_expandHandler(event:ExpandCollapseEvent):void
+		{
+			for each (var button:SimulationDetailButton in buttonsMap.values())
+			{
+				if (button != event.target)
+					button.expanded = false;
+			}
+		}
+
+		private function simulationDetailButton_moveHandler(event:MoveEvent):void
+		{
+			drawArrows();
+		}
+
+		private function simulationDetailButton_drillDownLevelHandler(event:SimulationLevelEvent):void
+		{
+			var simulationDetailButton:SimulationDetailButton = event.target as SimulationDetailButton;
+			if (!simulationDetailButton)
+				throw new Error("simulationDetailButton_drillDownLevelHandler event target was not SimulationDetailButton");
+
+			var key:String = buttonsMap.getKeyByValue(simulationDetailButton);
+
+			if (!key)
+				throw new Error("Failed to get medication code from buttonsMap.getKeyByValue(simulationDetailButton)");
+
+			var medicationModel:MedicationComponentAdherenceModel = simulationModel.medicationsByCode.getValueByKey(key);
+			var indicatedPoint:Point = getIndicatedPoint(medicationModel);
+
+			// TODO: dispatch the correct drill down event based on which button is clicked
+			if (indicatedPoint)
+				dispatchEvent(new SimulationLevelEvent(SimulationLevelEvent.DRILL_DOWN_LEVEL, 0.02, 0.02,
+													   indicatedPoint.x, indicatedPoint.y));
+		}
+
+		private function medicationModel_propertyChangeHandler(event:PropertyChangeEvent):void
+		{
+			var medicationModel:MedicationComponentAdherenceModel = event.source as MedicationComponentAdherenceModel;
+			if (medicationModel == null)
+				throw new Error("medicationModel_propertyChangeHandler event source was not a MedicationComponentAdherenceModel");
+
+			var medicationCode:String = medicationModel.name.value;
+			var button:SimulationDetailButton = buttonsMap.getValueByKey(medicationCode) as SimulationDetailButton;
+			if (button == null)
+				throw new Error("Failed to find SimulationDetailButton in buttonsMap for key " + medicationCode);
+			updateButtonListDataProvider(button, medicationModel);
 		}
 
 		private function createStepsData(steps:Vector.<String>, concentrationSeverityColor:uint):IList
@@ -135,18 +193,9 @@
 
 		private function simulationModel_propertyChangeHandler(event:PropertyChangeEvent):void
 		{
-			if (event.property == "medications")
-				lookupMedications();
-		}
-
-		private function lookupMedications():void
-		{
-			if (simulationModel)
+			if (event.property == "isInitialized")
 			{
-				hydrochlorothiazideMedicationModel = simulationModel.getMedication(BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE);
-				BindingUtils.bindSetter(hydrochlorothiazideMedicationModel_changeHandler,
-										hydrochlorothiazideMedicationModel, "concentration");
-				atenololMedicationModel = simulationModel.getMedication(BloodPressureModel.RXNORM_ATENOLOL);
+				createDetailButtons();
 			}
 		}
 
@@ -158,7 +207,25 @@
 				simulationModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
 												 simulationModel_propertyChangeHandler);
 			}
-			lookupMedications();
+			createDetailButtons();
+		}
+
+		private function updateButtonListDataProvider(button:SimulationDetailButton,
+													  medicationModel:MedicationComponentAdherenceModel):void
+		{
+			button.listDataProvider = createStepsData(medicationModel.steps,
+													  medicationModel.concentrationSeverityColor);
+		}
+
+		private function resizeHandler(event:ResizeEvent):void
+		{
+			layoutDetailButtons();
+		}
+
+		private function simulationDetailButton_propertyChangeHandler(event:PropertyChangeEvent):void
+		{
+			if (event.property == "bottomExpansion")
+				layoutDetailButtons();
 		}
 		]]></fx:Script>
 </simulation:SimulationLevelGroup>

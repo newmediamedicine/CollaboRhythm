@@ -36,6 +36,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		private var _concentration:Number;
 		private var _medications:Vector.<MedicationComponentAdherenceModel> = new Vector.<MedicationComponentAdherenceModel>();
 		private var _medicationsByCode:OrderedMap = new OrderedMap();
+		private var _isInitialized:Boolean
 
 		private var _alphaBlockers:Vector.<MedicationComponentAdherenceModel> = new Vector.<MedicationComponentAdherenceModel>();
 		private var _betaBlockers:Vector.<MedicationComponentAdherenceModel> = new Vector.<MedicationComponentAdherenceModel>();
@@ -470,6 +471,16 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public function set damage(value:int):void
 		{
 			_damage = value;
+		}
+
+		public function get isInitialized():Boolean
+		{
+			return _isInitialized;
+		}
+
+		public function set isInitialized(value:Boolean):void
+		{
+			_isInitialized = value;
 		}
 	}
 }
