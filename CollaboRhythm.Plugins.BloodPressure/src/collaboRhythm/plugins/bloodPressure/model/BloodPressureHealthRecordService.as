@@ -26,8 +26,10 @@ package collaboRhythm.plugins.bloodPressure.model
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
 	import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministrationsModel;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 
 	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayCollection;
@@ -49,21 +51,27 @@ package collaboRhythm.plugins.bloodPressure.model
 		public function initializeBloodPressureModel(recordAccount:Account):void
 		{
 			_record = recordAccount.primaryRecord;
-
-			if (record.medicationAdministrationsModel.isInitialized)
-			{
-				initializeMedicationSimulationModel(record.bloodPressureModel.simulation, record.medicationAdministrationsModel);
-			}
-
-			BindingUtils.bindSetter(medicationAdministrationsModelInitializedHandler, record.medicationAdministrationsModel, "isInitialized");
+			attemptInitializeMedicationSimulationModel();
+			BindingUtils.bindSetter(record_isLoadingHandler, record, "isLoading");
 		}
 
-		private function medicationAdministrationsModelInitializedHandler(isInitialized:Boolean):void
+		private function record_isLoadingHandler(isLoading:Boolean):void
 		{
-			if (isInitialized)
+			attemptInitializeMedicationSimulationModel();
+		}
+
+		private function attemptInitializeMedicationSimulationModel():void
+		{
+			if (isDoneLoading)
 			{
-				initializeMedicationSimulationModel(record.bloodPressureModel.simulation, record.medicationAdministrationsModel);
+				initializeMedicationSimulationModel(record.bloodPressureModel.simulation,
+													record.medicationAdministrationsModel);
 			}
+		}
+
+		public function get isDoneLoading():Boolean
+		{
+			return !record.isLoading;
 		}
 
 		/**
@@ -76,42 +84,29 @@ package collaboRhythm.plugins.bloodPressure.model
 		private function initializeMedicationSimulationModel(simulation:SimulationModel,
 															 medicationAdministrationsModel:MedicationAdministrationsModel):void
 		{
-			for each (var medicationAdministrationCollection:ArrayCollection in medicationAdministrationsModel.medicationAdministrationsCollectionsByCode)
+			if (!simulation.isInitialized)
 			{
-				if (medicationAdministrationCollection.length > 0)
+				for each (var medicationAdministrationCollection:ArrayCollection in medicationAdministrationsModel.medicationAdministrationsCollectionsByCode)
 				{
-					var medicationAdministration:MedicationAdministration = medicationAdministrationCollection[0];
-					var name:CodedValue = medicationAdministration.name;
-
-					var index:int = simulation.medicationsByCode.getIndexByKey(name.value);
-					if (index == -1)
+					if (medicationAdministrationCollection.length > 0)
 					{
-						var medication:MedicationComponentAdherenceModel = new MedicationComponentAdherenceModel();
+						var medicationAdministration:MedicationAdministration = medicationAdministrationCollection[0];
+						var name:CodedValue = medicationAdministration.name;
 
-						medication.name = name;
-						initializeMedication(medication);
+						var index:int = simulation.medicationsByCode.getIndexByKey(name.value);
+						if (index == -1)
+						{
+							var medication:MedicationComponentAdherenceModel = new MedicationComponentAdherenceModel();
 
-						// TODO: get steps from an external source
-//						if (name.value == BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE)
-//						{
-//							initializeHydrochlorothiazideModel(medication);
-//						}
-//						else if (name.value == BloodPressureModel.RXNORM_ATENOLOL)
-//						{
-//							initializeAtenololModel(medication);
-//						}
-//						else if (name.value == "866429")
-//						{
-//							medication.goalConcentrationMinimum = 0.1;
-//							medication.goalConcentrationMaximum = 0.7;
-//							medication.concentrationAxisMaximum = 0.9;
-//						}
+							medication.name = name;
+							initializeMedication(medication);
 
-						simulation.addMedication(medication);
+							simulation.addMedication(medication);
+						}
 					}
 				}
+				simulation.isInitialized = true;
 			}
-			simulation.isInitialized = true;
 		}
 
 		private function initializeMedication(medication:MedicationComponentAdherenceModel):void
@@ -174,7 +169,28 @@ package collaboRhythm.plugins.bloodPressure.model
 				medication.stepsProvider = stepsProvider;
 			if (concentrationSeverityProvider)
 				medication.concentrationSeverityProvider = concentrationSeverityProvider;
+
+			// TODO: find a more robust way to get a medicationScheduleItem without depending on an AdherenceItem
+			medication.medicationScheduleItem = getMedicationScheduleItem(medication.name.value);
 		}
+
+		private function getMedicationScheduleItem(medicationCode:String):MedicationScheduleItem
+		{
+			var adherenceItemsCollection:ArrayCollection = record.adherenceItemsModel.adherenceItemsCollectionsByCode.getItem(medicationCode);
+			if (adherenceItemsCollection)
+			{
+				for each (var adherenceItem:AdherenceItem in adherenceItemsCollection)
+				{
+					var medicationScheduleItem:MedicationScheduleItem = adherenceItem.scheduleItem as MedicationScheduleItem;
+					if (medicationScheduleItem)
+					{
+						return medicationScheduleItem;
+					}
+				}
+			}
+			return null;
+		}
+
 
 		private function get qdConcentrationSeverityProvider():ConcentrationSeverityProvider
 		{

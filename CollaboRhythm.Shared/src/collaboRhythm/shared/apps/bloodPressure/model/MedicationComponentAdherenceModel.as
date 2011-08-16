@@ -18,6 +18,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 {
 
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 
 	[Bindable]
 	public class MedicationComponentAdherenceModel
@@ -37,6 +38,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		private var _goalConcentrationMinimum:Number = 0.05;
 		private var _goalConcentrationMaximum:Number = 0.35;
 		private var _concentrationAxisMaximum:Number = 0.4;
+		private var _medicationScheduleItem:MedicationScheduleItem;
 
 		public function MedicationComponentAdherenceModel()
 		{
@@ -160,6 +162,16 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public function set concentrationAxisMaximum(value:Number):void
 		{
 			_concentrationAxisMaximum = value;
+		}
+
+		public function get medicationScheduleItem():MedicationScheduleItem
+		{
+			return _medicationScheduleItem;
+		}
+
+		public function set medicationScheduleItem(value:MedicationScheduleItem):void
+		{
+			_medicationScheduleItem = value;
 		}
 	}
 }

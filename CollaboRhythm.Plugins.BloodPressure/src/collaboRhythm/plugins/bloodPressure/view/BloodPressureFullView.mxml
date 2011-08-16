@@ -287,7 +287,8 @@
 					if (medicationAdministrationsCollection && medicationAdministrationsCollection[0])
 					{
 						var medicationAdministration:MedicationAdministration = medicationAdministrationsCollection[0];
-						var medicationScheduleItem:MedicationScheduleItem = getMedicationScheduleItem(medicationCode);
+						var medicationModel:MedicationComponentAdherenceModel = model.simulation.getMedication(medicationCode);
+						var medicationScheduleItem:MedicationScheduleItem = medicationModel.medicationScheduleItem;
 
 						var chart:TouchScrollingScrubChart = new TouchScrollingScrubChart();
 						chart.setStyle("medicationCode", medicationCode);
@@ -415,23 +416,6 @@
 			adherenceSeries.filterFunction = adherenceSeriesFilter;
 
 			chart.mainChart.series.push(adherenceSeries);
-		}
-
-		private function getMedicationScheduleItem(medicationCode:String):MedicationScheduleItem
-		{
-			var adherenceItemsCollection:ArrayCollection = model.adherenceItemsCollectionsByCode.getItem(medicationCode);
-			if (adherenceItemsCollection)
-			{
-				for each (var adherenceItem:AdherenceItem in adherenceItemsCollection)
-				{
-					var medicationScheduleItem:MedicationScheduleItem = adherenceItem.scheduleItem as MedicationScheduleItem;
-					if (medicationScheduleItem)
-					{
-						return medicationScheduleItem;
-					}
-				}
-			}
-			return null;
 		}
 
 		private function getMedicationFill(medicationCode:String):MedicationFill

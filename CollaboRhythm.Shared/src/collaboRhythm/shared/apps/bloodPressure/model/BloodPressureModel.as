@@ -200,11 +200,17 @@ package collaboRhythm.shared.apps.bloodPressure.model
 										"isInitialized");
 				BindingUtils.bindSetter(record_isLoading_setterHandler, record,
 										"isLoading");
+				BindingUtils.bindSetter(simulation_isInitialized_setterHandler, simulation, "isInitialized")
 			}
 			else
 			{
 				// TODO: unbind or use weak references
 			}
+		}
+
+		private function simulation_isInitialized_setterHandler(isInitialized:Boolean):void
+		{
+			this.isInitialized = determineIsInitialized();
 		}
 
 		private function record_isLoading_setterHandler(isLoading:Boolean):void
@@ -219,7 +225,12 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 		private function determineIsInitialized():Boolean
 		{
-			return isAdherenceLoaded && isSystolicReportLoaded && isDiastolicReportLoaded && isDoneLoading;
+			return isAdherenceLoaded && isSystolicReportLoaded && isDiastolicReportLoaded && isDoneLoading && isSimulationModelInitialized;
+		}
+
+		private function get isSimulationModelInitialized():Boolean
+		{
+			return simulation && simulation.isInitialized;
 		}
 
 		private function medicationAdministrationsModel_isInitialized_setterHandler(isInitialized:Boolean):void
