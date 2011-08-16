@@ -237,6 +237,28 @@
 								</MedicationScheduleItem>
 							</document>
 						</LoadableIndivoDocument>
+						<xsl:if test="$twiceDaily = 'true'">
+							<LoadableIndivoDocument>
+								<document>
+									<MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
+										<xsl:copy-of select="$medicationName"/>
+										<scheduledBy>jking@records.media.mit.edu</scheduledBy>
+										<dateScheduled>2011-07-28T19:13:11Z</dateScheduled>
+										<dateStart>2011-07-29T22:00:00Z</dateStart>
+										<dateEnd>2011-07-30T02:00:00Z</dateEnd>
+										<recurrenceRule>
+											<frequency>DAILY</frequency>
+											<count><xsl:value-of select="$numPillsOrdered"/></count>
+										</recurrenceRule>
+										<dose>
+											<value>1</value>
+											<unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
+										</dose>
+										<instructions>take with water</instructions>
+									</MedicationScheduleItem>
+								</document>
+							</LoadableIndivoDocument>
+						</xsl:if>
 					</relation>
 				</relatesTo>
 			</LoadableIndivoDocument>

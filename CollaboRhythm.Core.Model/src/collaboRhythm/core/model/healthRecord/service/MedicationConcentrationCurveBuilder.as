@@ -17,7 +17,8 @@ package collaboRhythm.core.model.healthRecord.service
 		private var _medicationAdministrationCollection:ArrayCollection;
 		private var _currentDateSource:ICurrentDateSource;
 
-		private const intervalDuration:Number = 2 * 1000 * 60 * 60;
+//		private var _intervalDuration:Number = 2 * 1000 * 60 * 60;
+		private var _intervalDuration:Number = 1000 * 60 * 10;
 		// duration of one interval in milliseconds (1000 ms * 60 sec * 60 min = 1 hour)
 //		private const intervalDuration:Number = 10 * 1000 * 60 * 60; // duration of one interval in milliseconds (1000 ms * 60 sec * 60 min = 1 hour)
 
@@ -108,11 +109,13 @@ package collaboRhythm.core.model.healthRecord.service
 						// determine where in the curve to align this curve
 						var previousDate:Date = currentConcentrationCurve[previousAdministrationIndex].date;
 
+/*
 						// validate that the current date is not before the previous date
 						if (dataItem.dateAdministered.time < previousDate.time)
 							throw new Error("Dates are not in ascending order: " + previousDate.toString() + ", " + dataItem.dateAdministered.toString());
+*/
 
-						intervalsToAdvance = (dataItem.dateAdministered.time - previousDate.time) / intervalDuration;
+						intervalsToAdvance = Math.ceil((dataItem.dateAdministered.time - previousDate.time) / intervalDuration);
 					}
 					else
 					{
@@ -121,6 +124,10 @@ package collaboRhythm.core.model.healthRecord.service
 
 					var additionalIntervalsRequired:int;
 					var extensionStartDate:Date;
+
+					/**
+					 * Index into currentConcentrationCurve corresponding to the start of the current administration
+					 */
 					var currentAdministrationIndex:int;
 
 					if (previousAdministrationIndex + intervalsToAdvance > currentConcentrationCurve.length - 1)
@@ -218,6 +225,16 @@ package collaboRhythm.core.model.healthRecord.service
 					concentrationCurve.addItemAt(dataItem, 0);
 				}
 			}
+		}
+
+		public function get intervalDuration():Number
+		{
+			return _intervalDuration;
+		}
+
+		public function set intervalDuration(value:Number):void
+		{
+			_intervalDuration = value;
 		}
 	}
 }

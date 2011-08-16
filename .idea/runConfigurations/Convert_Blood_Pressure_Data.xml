@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Convert Blood Pressure Data" type="XSLT" factoryName="XSLT">
-    <option name="myOutputFile" value="C:\Users\sgilroy\Documents\GitRepositories\CollaboRhythm\CollaboRhythm.ExampleData\data\rpoole\blood_pressure_data_converted.xml" />
+    <option name="myOutputFile" value="C:\Users\sgilroy\Git Repositories\CollaboRhythm\CollaboRhythm.ExampleData\data\indivo-alpha\rpoole\blood_pressure_data_converted.xml" />
     <option name="myOpenOutputFile" value="true" />
     <option name="myOpenInBrowser" value="false" />
     <option name="mySmartErrorHandling" value="true" />
@@ -9,13 +9,19 @@
     <option name="myWorkingDirectory" value="" />
     <option name="myModule" />
     <option name="myJdk" value="1.6" />
-    <XsltFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/indivo-alpha/rpoole/old/blood_pressure_data_to_docs.xsl" />
-    <XmlFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/indivo-alpha/rpoole/old/blood_pressure_data.xml.old" />
+    <XsltFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/indivo-alpha/rpoole/equipment_adherence_flat_to_hierarchy.xsl" />
+    <XmlFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/indivo-alpha/rpoole/staging/equipment_foraD40b_adherence.xml" />
     <parameters />
     <OutputType value="CONSOLE" save-to-file="true" />
     <FileType name="XML" />
-    <JdkChoice value="JDK" />
+    <JdkChoice value="FROM_MODULE" />
+    <RunnerSettings RunnerId="Debug">
+      <option name="DEBUG_PORT" value="52329" />
+      <option name="TRANSPORT" value="0" />
+      <option name="LOCAL" value="true" />
+    </RunnerSettings>
     <RunnerSettings RunnerId="Run" />
+    <ConfigurationWrapper RunnerId="Debug" />
     <ConfigurationWrapper RunnerId="Run" />
     <method>
       <option name="Make" enabled="false" />

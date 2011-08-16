@@ -9,6 +9,8 @@ package collaboRhythm.core.model.healthRecord.service
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 
+	import com.adobe.utils.DateUtil;
+
 	import flash.net.URLVariables;
 
 	import j2as3.collection.HashMap;
@@ -26,6 +28,7 @@ package collaboRhythm.core.model.healthRecord.service
 			VitalSignsModel.DIASTOLIC_CATEGORY
 		];
 		private var _pendingVitalsCategories:HashMap = new HashMap();
+		private const USE_CREATED_AT_FOR_DATE_MEASURED_START:Boolean = true;
 
 		public function VitalSignHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String,
 													 account:Account)
@@ -87,6 +90,22 @@ package collaboRhythm.core.model.healthRecord.service
 			}
 
 			// Note that we don't use super.handleResponse because loading is not complete until requests for all pendingVitalsCategories are complete
+		}
+
+		override public function unmarshallReportXml(reportXml:XML):IDocument
+		{
+			var document:VitalSign = super.unmarshallReportXml(reportXml) as VitalSign;
+
+			if (USE_CREATED_AT_FOR_DATE_MEASURED_START)
+			{
+				var createdAt:Date = DateUtil.parseW3CDTF(reportXml.Meta.Document[0].createdAt.toString());
+				if (Math.abs(document.dateMeasuredStart.valueOf() - createdAt.valueOf()) < 1000 * 60 * 60 * 24)
+				{
+					document.dateMeasuredStart = createdAt;
+				}
+			}
+
+			return document;
 		}
 
 		override protected function documentShouldBeIncluded(document:IDocument, nowTime:Number):Boolean

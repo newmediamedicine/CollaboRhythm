@@ -100,6 +100,12 @@ package collaboRhythm.plugins.bloodPressure.model
 //						{
 //							initializeAtenololModel(medication);
 //						}
+//						else if (name.value == "866429")
+//						{
+//							medication.goalConcentrationMinimum = 0.1;
+//							medication.goalConcentrationMaximum = 0.7;
+//							medication.concentrationAxisMaximum = 0.9;
+//						}
 
 						simulation.addMedication(medication);
 					}
@@ -160,6 +166,9 @@ package collaboRhythm.plugins.bloodPressure.model
 					drugClass = SimulationModel.DRUG_CLASS_UNKNOWN;
 			}
 			medication.drugClass = drugClass;
+			medication.goalConcentrationMinimum = 0.1;
+							medication.goalConcentrationMaximum = 0.7;
+							medication.concentrationAxisMaximum = 0.9;
 			if (stepsProvider)
 				medication.stepsProvider = stepsProvider;
 			if (concentrationSeverityProvider)

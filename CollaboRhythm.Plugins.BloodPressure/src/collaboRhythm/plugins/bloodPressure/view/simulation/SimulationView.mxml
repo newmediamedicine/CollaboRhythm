@@ -33,7 +33,7 @@
 		>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
-		<s:DateTimeFormatter id="simulationDateFormatter" dateTimePattern="M/d/yyyy @ h:mma"/>
+		<s:DateTimeFormatter id="simulationDateFormatter" dateTimePattern="M/d/yyyy @ h:mma" useUTC="false"/>
 
 		<s:Sine id="sineEasing"
 				easeInFraction="0.9"/>

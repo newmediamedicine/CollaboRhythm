@@ -23,8 +23,8 @@
 
 	<xsl:template match="/">
 		<xsl:variable name="dateStart">2010-01-15T13:00:00Z</xsl:variable>
-		<xsl:variable name="equipmentName" select="IndivoDocuments/d:VitalSign[1]/d:name"/>
-		<xsl:variable name="reportedBy" select="IndivoDocuments/d:VitalSign[1]/d:reportedBy"/>
+		<xsl:variable name="equipmentName" select="IndivoDocuments/BloodPressureAdherenceItem[1]/name"/>
+		<xsl:variable name="reportedBy" select="IndivoDocuments/BloodPressureAdherenceItem[1]/reportedBy"/>
 		<IndivoDocuments>
 			<LoadableIndivoDocument>
 				<document>
@@ -57,7 +57,7 @@
 							</document>
 							<relatesTo>
 								<relation type="adherenceItem">
-									<xsl:for-each select="IndivoDocuments/d:AdherenceItem">
+									<xsl:for-each select="IndivoDocuments/BloodPressureAdherenceItem">
 										<xsl:variable name="adherenceCount" select="position() - 1"/>
 										<LoadableIndivoDocument>
 											<document>
@@ -65,61 +65,87 @@
 													<xsl:copy-of select="$equipmentName"/>
 													<xsl:copy-of select="$reportedBy"/>
 													<dateReported>
-														<xsl:value-of select="d:dateReported"/>
+														<xsl:value-of select="dateReported"/>
 													</dateReported>
 													<recurrenceIndex>
 														<xsl:value-of
-																select="fn:days-from-duration(xs:dateTime(d:dateReported) - xs:dateTime($dateStart))"/>
+																select="fn:days-from-duration(xs:dateTime(dateReported) - xs:dateTime($dateStart))"/>
+<!--
+														<xsl:value-of
+																select="xs:dateTime(dateReported)"/>
+-->
+<!--
+														<xsl:value-of
+																select="xs:dateTime($dateStart)"/>
+-->
+<!--
+														<xsl:value-of
+																select="$dateStart"/>
+-->
+<!--
+														<xsl:value-of
+																select="fn:days-from-duration(xs:dateTime($dateStart) - xs:dateTime($dateStart))"/>
+-->
 													</recurrenceIndex>
 													<adherence>
-														<xsl:value-of select="d:adherence"/>
+														<xsl:value-of select="adherence"/>
 													</adherence>
 												</AdherenceItem>
 											</document>
-											<xsl:if test="d:adherence='true'">
+											<xsl:if test="adherence='true'">
 												<relatesTo>
 													<relation type="adherenceResult">
 														<LoadableIndivoDocument>
 															<document>
 																<VitalSign
 																		xmlns="http://indivo.org/vocab/xml/documents#">
-																	<xsl:copy-of select="$equipmentName"/>
-																	<xsl:copy-of select="$reportedBy"/>
-																	<dateReported>
-																		<xsl:value-of select="d:dateReported"/>
-																	</dateReported>
-																	<dateAdministered>
-																		<xsl:value-of select="d:dateReported"/>
-																	</dateAdministered>
-																	<amountAdministered>
-																		<value>1</value>
-																		<unit>tablet</unit>
-																	</amountAdministered>
-																	<!--Note that this value will be off if we have any "false" adherence values-->
-																	<!--
-																				 <current><xsl:value-of select="current()" /></current>
-																				 <preceding0><xsl:value-of select="preceding::*[.='true']" /></preceding0>
-																				 <precedingName><xsl:value-of select="name(preceding::*[.='true'][1])" /></precedingName>
-																				 <precedingTrue><xsl:value-of select="count(preceding::*[.='true'])" /></precedingTrue>
-																				 <precedingAdherenceTrue><xsl:value-of select="count(preceding::adherence[.='true'])" /></precedingAdherenceTrue>
-																				 <precedingAdherenceTrue><xsl:value-of select="count(preceding::*[adherence='true'])" /></precedingAdherenceTrue>
-																				 <precedingAdherenceCount><xsl:value-of select="('adherence', count(preceding::*/adherence))" /></precedingAdherenceCount>
-																				 <amountRemainingvalue><xsl:value-of select="('all preceding', count(preceding::*))" /></amountRemainingvalue>
-																				 <amountRemainingvalue><xsl:value-of select="('AdIt', count(preceding::*[@adherence]))" /></amountRemainingvalue>
-																				 <amountRemainingvalue><xsl:value-of select="count(preceding::*='true')" /></amountRemainingvalue>
-																				 <amountRemainingvalue><xsl:value-of select="$numPillsOrdered - count(current()/preceding::AdherenceItem) - 1" /></amountRemainingvalue>
-																				 <amountRemainingvalue2><xsl:value-of select="$numPillsOrdered - count(current()/following::AdherenceItem) - 1" /></amountRemainingvalue2>
-																				 <xsl:value-of select="$numPillsOrdered - count(preceding::AdherenceItem/adherence='true') - 1" />
-																				 <precedingTrue><xsl:value-of select="count(preceding::*[.='true'])" /></precedingTrue>
-																				 <amountRemaining><value><xsl:value-of select="$numPillsOrdered - count(preceding::d:adherence[.='true']) - 1" /></value>
-				 -->
-																	<amountRemaining>
-																		<value>
-																			<xsl:value-of
-																					select="$numPillsOrdered - count(preceding::d:adherence[.='true']) - 1"/>
-																		</value>
-																		<unit>tablet</unit>
-																	</amountRemaining>
+																	<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
+																	<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
+																	<dateMeasuredStart>
+																		<xsl:value-of select="dateReported"/>
+																	</dateMeasuredStart>
+																	<result>
+																		<value><xsl:value-of select="systolic"/></value>
+																		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
+																	</result>
+																	<site>left arm</site>
+																	<position>sitting</position>
+																</VitalSign>
+															</document>
+														</LoadableIndivoDocument>
+														<LoadableIndivoDocument>
+															<document>
+																<VitalSign
+																		xmlns="http://indivo.org/vocab/xml/documents#">
+																	<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
+																	<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
+																	<dateMeasuredStart>
+																		<xsl:value-of select="dateReported"/>
+																	</dateMeasuredStart>
+																	<result>
+																		<value><xsl:value-of select="diastolic"/></value>
+																		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
+																	</result>
+																	<site>left arm</site>
+																	<position>sitting</position>
+																</VitalSign>
+															</document>
+														</LoadableIndivoDocument>
+														<LoadableIndivoDocument>
+															<document>
+																<VitalSign
+																		xmlns="http://indivo.org/vocab/xml/documents#">
+																	<name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
+																	<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
+																	<dateMeasuredStart>
+																		<xsl:value-of select="dateReported"/>
+																	</dateMeasuredStart>
+																	<result>
+																		<value><xsl:value-of select="heartRate"/></value>
+																		<unit type="http://codes.indivo.org/units/" value="30" abbrev="bpm">beats per minute</unit>
+																	</result>
+																	<site>left arm</site>
+																	<position>sitting</position>
 																</VitalSign>
 															</document>
 														</LoadableIndivoDocument>
@@ -130,6 +156,23 @@
 									</xsl:for-each>
 								</relation>
 							</relatesTo>
+						</LoadableIndivoDocument>
+						<LoadableIndivoDocument>
+							<document>
+								<EquipmentScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
+									<xsl:copy-of select="$equipmentName"/>
+									<scheduledBy>jking@records.media.mit.edu</scheduledBy>
+									<dateScheduled>2011-07-28T19:13:11Z</dateScheduled>
+									<dateStart>2011-07-29T13:00:00Z</dateStart>
+									<dateEnd>2011-07-29T17:00:00Z</dateEnd>
+									<recurrenceRule>
+										<frequency>DAILY</frequency>
+										<count>90</count>
+									</recurrenceRule>
+									<instructions>press the power button and wait several seconds to take reading
+									</instructions>
+								</EquipmentScheduleItem>
+							</document>
 						</LoadableIndivoDocument>
 					</relation>
 				</relatesTo>
