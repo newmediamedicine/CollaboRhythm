@@ -78,16 +78,16 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 		public static const QD_MINIMUM:Number = 0;
 		public static const QD_LOW:Number = QD_GOAL / 2;
-		public static const QD_GOAL:Number = 0.05;
-		public static const QD_HIGH0:Number = 0.35;
-		public static const QD_HIGH1:Number = 0.45;
+		public static const QD_GOAL:Number = 0.1;
+		public static const QD_HIGH0:Number = 0.5;
+		public static const QD_HIGH1:Number = 0.65;
 		public static const QD_MAXIMUM:Number = 1;
 
 		public static const BID_MINIMUM:Number = 0;
 		public static const BID_LOW:Number = BID_GOAL / 2;
-		public static const BID_GOAL:Number = 0.05;
-		public static const BID_HIGH0:Number = 0.35;
-		public static const BID_HIGH1:Number = 0.45;
+		public static const BID_GOAL:Number = 0.3;
+		public static const BID_HIGH0:Number = 0.8;
+		public static const BID_HIGH1:Number = 1;
 		public static const BID_MAXIMUM:Number = 1;
 
 		/**
@@ -184,6 +184,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 			_systolic = value;
 			isHypertensive = systolic > SYSTOLIC_HYPERTENSION_STAGE1;
 			systolicSeverityColor = determineSeverityColor(systolic, systolicColors, systolicRanges);
+			updateSimulationData();
 		}
 
 		private function determineSeverityColor(value:Number, colors:Vector.<uint>, valueRanges:Vector.<Number>):uint
@@ -322,11 +323,17 @@ package collaboRhythm.shared.apps.bloodPressure.model
 					_calciumChannelBlockers.push(medication);
 					break;
 			}
-			BindingUtils.bindSetter(medicationConcentrationSeverityLevel_changeHandler, medication, "concentrationSeverityLevel");
+			BindingUtils.bindSetter(medicationConcentrationSeverityLevel_changeHandler, medication,
+									"concentrationSeverityLevel");
 			dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, "medications", null, medications));
 		}
 
 		private function medicationConcentrationSeverityLevel_changeHandler(value:int):void
+		{
+			updateSimulationData();
+		}
+
+		private function updateSimulationData():void
 		{
 			preload = determinePreload();
 			contractility = determineContractility();

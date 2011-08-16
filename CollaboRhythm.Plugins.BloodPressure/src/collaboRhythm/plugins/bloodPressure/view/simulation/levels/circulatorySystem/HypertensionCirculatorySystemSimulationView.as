@@ -30,6 +30,10 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 		private var _stopSimulationOnComplete:Boolean = false;
 		private var _loadSimulationOnCreateChildren:Boolean = true;
 		private var _loadSimulationOnShow:Boolean = false;
+		private var _currentPreload:int;
+		private var _currentContractility:int;
+		private var _currentAfterload:int;
+		private var _currentDamage:int;
 
 		public function HypertensionCirculatorySystemSimulationView()
 		{
@@ -42,7 +46,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 
 			this.addChild(_circulatorySystemSimulationLoader);
 			_circulatorySystemSimulationLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, circulatorySystemSimulationLoader_completeHandler);
-			_circulatorySystemSimulationLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, circulatorySystemSimulationLoader_ioErrorHandler)
+			_circulatorySystemSimulationLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, circulatorySystemSimulationLoader_ioErrorHandler);
 			if (_loadSimulationOnCreateChildren)
 			{
 				loadMovieClip();
@@ -82,6 +86,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 
 		public function set currentPreload(value:int):void
 		{
+			_currentPreload = value;
 			if (_circulatorySystemSimulationMovieClip)
 			{
 				_circulatorySystemSimulationMovieClip.current_preload = value;
@@ -91,6 +96,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 
 		public function set currentContractility(value:int):void
 		{
+			_currentContractility = value;
 			if (_circulatorySystemSimulationMovieClip)
 			{
 				_circulatorySystemSimulationMovieClip.current_contractility = value;
@@ -100,6 +106,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 
 		public function set currentAfterload(value:int):void
 		{
+			_currentAfterload = value;
 			if (_circulatorySystemSimulationMovieClip)
 			{
 				_circulatorySystemSimulationMovieClip.current_afterload = value;
@@ -109,6 +116,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 
 		public function set currentDamage(value:int):void
 		{
+			_currentDamage = value;
 			if (_circulatorySystemSimulationMovieClip)
 			{
 				_circulatorySystemSimulationMovieClip.current_damage = value;
@@ -217,6 +225,14 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 			if (_circulatorySystemSimulationMovieClip)
 			{
 				_circulatorySystemSimulationMovieClip.current_medicine = 0;
+				if (_currentPreload != 0)
+					_circulatorySystemSimulationMovieClip.current_preload = _currentPreload;
+				if (_currentContractility != 0)
+					_circulatorySystemSimulationMovieClip.current_contractility = _currentContractility;
+				if (_currentAfterload != 0)
+					_circulatorySystemSimulationMovieClip.current_afterload = _currentAfterload;
+				if (_currentDamage != 0)
+					_circulatorySystemSimulationMovieClip.current_damage = _currentDamage;
 				_circulatorySystemSimulationMovieClip.update();
 			}
 		}

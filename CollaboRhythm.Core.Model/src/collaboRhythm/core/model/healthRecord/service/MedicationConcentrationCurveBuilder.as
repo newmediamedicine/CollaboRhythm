@@ -193,7 +193,7 @@ package collaboRhythm.core.model.healthRecord.service
 			var D:Number = 25;
 			var F:Number = 0.55;
 			var Ka:Number = Math.log(2)/0.5;
-			var Ke:Number = Math.log(2)/10;
+			var Ke:Number = Math.log(2)/15;
 			var Vd:Number = 45.5;
 
 			// conversion from interval index to time in hours

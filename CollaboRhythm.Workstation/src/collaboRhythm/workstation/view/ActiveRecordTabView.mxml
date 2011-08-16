@@ -94,9 +94,11 @@
     <s:HGroup width="100%" height="100%" horizontalAlign="right" gap="10" paddingRight="10" paddingTop="5">
 		<s:Button
 			id="forceClientSynchronizationButton"
+			label="Force Sync"
 			click="forceClientSynchronizationButton_clickHandler(event)"
 			height="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
 			width="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
+			visible="{_settings.debuggingToolsEnabled}"
 		/>
 		<s:Button
 			id="synchronizeButton"
