@@ -1047,5 +1047,15 @@ package collaboRhythm.shared.controller.apps
 		{
 			return _isFullViewPrepared;
 		}
+
+		public function get modality():String
+		{
+			return _modality;
+		}
+
+		public function set modality(value:String):void
+		{
+			_modality = value;
+		}
 	}
 }

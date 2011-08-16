@@ -147,6 +147,7 @@
 		import collaboRhythm.shared.model.healthRecord.util.MedicationNameUtil;
 		import collaboRhythm.shared.model.services.IMedicationColorSource;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
+		import collaboRhythm.shared.model.settings.Settings;
 		import collaboRhythm.view.scroll.TouchScrollerEvent;
 
 		import com.dougmccune.controls.ScrubChart;
@@ -203,6 +204,7 @@
 		private var _adherenceCharts:OrderedMap = new OrderedMap();
 		private var _adherenceChartsCreated:Boolean;
 		private var _medicationColorSource:IMedicationColorSource;
+		private var _modality:String;
 
 		private function initializeHandler(event:Event):void
 		{
@@ -526,7 +528,8 @@
 			}
 		}
 
-		public function drawAdherenceData(canvas:DataDrawingCanvas, zoneLabel:Label, medicationCode:String, ndcCode:String):void
+		public function drawAdherenceData(canvas:DataDrawingCanvas, zoneLabel:Label, medicationCode:String,
+										  ndcCode:String):void
 		{
 			if (_traceEventHandlers)
 				trace(this + ".drawAdherenceData");
@@ -538,7 +541,8 @@
 			canvas.lineStyle(1, color);
 
 			canvas.beginFill(color, 0.25);
-			canvas.drawRect([Edge.LEFT, -1], medicationModel.goalConcentrationMinimum, [Edge.RIGHT, 1], medicationModel.goalConcentrationMaximum);
+			canvas.drawRect([Edge.LEFT, -1], medicationModel.goalConcentrationMinimum, [Edge.RIGHT, 1],
+							medicationModel.goalConcentrationMaximum);
 			canvas.endFill();
 
 			if (zoneLabel)
@@ -595,6 +599,16 @@
 
 			chart.mainChart.addEventListener(Event.RESIZE, bloodPressureChart_mainChart_resizeHandler, false, 0,
 											 true);
+
+			if (modality == Settings.MODALITY_TABLET)
+			{
+				if (chart.rangeOneMonthButton)
+					chart.rangeOneMonthButton.includeInLayout = chart.rangeOneMonthButton.visible = false;
+				if (chart.rangeOneYearButton)
+					chart.rangeOneYearButton.includeInLayout = chart.rangeOneYearButton.visible = false;
+				if (chart.rangeMaxButton)
+					chart.rangeMaxButton.includeInLayout = chart.rangeMaxButton.visible = false;
+			}
 		}
 
 		private function synchronizeDateLimits():void
@@ -1307,6 +1321,16 @@
 				color = 0x4252A4;
 
 			return color;
+		}
+
+		public function get modality():String
+		{
+			return _modality;
+		}
+
+		public function set modality(value:String):void
+		{
+			_modality = value;
 		}
 		]]></fx:Script>
 

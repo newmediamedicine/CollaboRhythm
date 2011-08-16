@@ -55,6 +55,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 		public override function get isFullViewSupported():Boolean
 		{
+//			return isWorkstationMode || (_activeRecordAccount && _activeRecordAccount.accountId && _activeRecordAccount.accountId.indexOf("rpoole") != -1);
 			return true;
 		}
 
@@ -126,6 +127,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 			if (_fullView && _activeRecordAccount)
 			{
 				_fullView.model = _activeRecordAccount.primaryRecord.bloodPressureModel;
+				_fullView.modality = modality;
 			}
 		}
 
