@@ -225,7 +225,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 		private function determineIsInitialized():Boolean
 		{
-			return isAdherenceLoaded && isSystolicReportLoaded && isDiastolicReportLoaded && isDoneLoading;
+			return isAdherenceLoaded && isSystolicReportLoaded && isDiastolicReportLoaded && isDoneLoading && isSimulationModelInitialized;
 		}
 
 		private function get isSimulationModelInitialized():Boolean
