@@ -21,8 +21,7 @@
 		 creationComplete="creationCompleteHandler()"
 		 xmlns:images="assets.images.*"
 		 horizontalCenter="0"
-		 verticalCenter="0"
-		 width="1100" height="120">
+		 width="1100" height="120" top="10" bottom="10">
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.schedule.controller.AdherencePerformanceAppController;
 		import collaboRhythm.plugins.schedule.model.ScheduleModel;

@@ -99,6 +99,10 @@ package collaboRhythm.plugins.bloodPressure.controller
 				loadBloodPressureData();
 			}
 
+			// TODO: We should either 1) make sure that the bloodPressureModel is created when the record is created
+			// or 2) lazy initialize it or 3) rework the timing of initialize and updateWidgetViewModel
+			updateWidgetViewModel();
+
 			if (!_fullView && _createFullViewOnInitialize && _fullContainer && isFullViewSupported)
 			{
 				createFullView();
@@ -111,7 +115,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 		{
 			super.updateWidgetViewModel();
 
-			if (_widgetView && _activeRecordAccount)
+			if (_widgetView && _activeRecordAccount && _activeRecordAccount.primaryRecord && _activeRecordAccount.primaryRecord.bloodPressureModel)
 			{
 				_widgetView.model = _activeRecordAccount.primaryRecord.bloodPressureModel;
 				var adherencePerformanceModel:AdherencePerformanceModel = _activeRecordAccount.primaryRecord.getAppData(AdherencePerformanceModel.ADHERENCE_PERFORMANCE_MODEL_KEY, AdherencePerformanceModel) as AdherencePerformanceModel;

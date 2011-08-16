@@ -219,7 +219,12 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 		private function determineIsInitialized():Boolean
 		{
-			return isAdherenceLoaded && isSystolicReportLoaded && isDiastolicReportLoaded && isDoneLoading;
+			if (isAdherenceLoaded && isSystolicReportLoaded && isDiastolicReportLoaded && isDoneLoading)
+			{
+				updateModel();
+				return true
+			}
+			return false;
 		}
 
 		private function medicationAdministrationsModel_isInitialized_setterHandler(isInitialized:Boolean):void

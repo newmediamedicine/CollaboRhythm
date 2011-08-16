@@ -108,7 +108,7 @@
 
 			</s:VGroup>
 		</s:HGroup>
-		<s:Group id="currentPerformanceGroup" width="100%" height="140">
+		<s:Group id="currentPerformanceGroup" width="100%">
 			
 		</s:Group>
 	</s:VGroup>
