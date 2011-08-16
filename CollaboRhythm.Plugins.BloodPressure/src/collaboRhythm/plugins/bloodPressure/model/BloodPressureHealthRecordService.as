@@ -89,22 +89,23 @@ package collaboRhythm.plugins.bloodPressure.model
 						var medication:MedicationComponentAdherenceModel = new MedicationComponentAdherenceModel();
 
 						medication.name = name;
+						initializeMedication(medication);
 
 						// TODO: get steps from an external source
-						if (name.value == BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE)
-						{
-							initializeHydrochlorothiazideModel(medication);
-						}
-						else if (name.value == BloodPressureModel.RXNORM_ATENOLOL)
-						{
-							initializeAtenololModel(medication);
-						}
-						else if (name.value == "866429")
-						{
-							medication.goalConcentrationMinimum = 0.1;
-							medication.goalConcentrationMaximum = 0.7;
-							medication.concentrationAxisMaximum = 0.9;
-						}
+//						if (name.value == BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE)
+//						{
+//							initializeHydrochlorothiazideModel(medication);
+//						}
+//						else if (name.value == BloodPressureModel.RXNORM_ATENOLOL)
+//						{
+//							initializeAtenololModel(medication);
+//						}
+//						else if (name.value == "866429")
+//						{
+//							medication.goalConcentrationMinimum = 0.1;
+//							medication.goalConcentrationMaximum = 0.7;
+//							medication.concentrationAxisMaximum = 0.9;
+//						}
 
 						simulation.addMedication(medication);
 					}
@@ -112,9 +113,147 @@ package collaboRhythm.plugins.bloodPressure.model
 			}
 		}
 
+		private function initializeMedication(medication:MedicationComponentAdherenceModel):void
+		{
+			var drugClass:String;
+			var stepsProvider:StepsProvider;
+			var concentrationSeverityProvider:ConcentrationSeverityProvider;
+			switch (medication.name.value)
+			{
+				case "310798":
+				case "429503":
+					drugClass = SimulationModel.THIAZIDE_DIURETIC;
+					stepsProvider = preloadReducerStepsProvider;
+					concentrationSeverityProvider = qdConcentrationSeverityProvider;
+					break;
+				case "866511":
+				case "866924":
+				case "866429":
+					drugClass = SimulationModel.BETA_BLOCKER;
+					stepsProvider = afterloadAndContractilityStepsProvider;
+					concentrationSeverityProvider = qdConcentrationSeverityProvider;
+					break;
+				case "866427":
+					drugClass = SimulationModel.BETA_BLOCKER;
+					stepsProvider = afterloadAndContractilityStepsProvider;
+					concentrationSeverityProvider = bidConcentrationSeverityProvider;
+					break;
+				case "979487":
+				case "979492":
+					drugClass = SimulationModel.ANGIOTENSIN_RECEPTOR_BLOCKER;
+					stepsProvider = preloadAndAfterloadStepsProvider;
+					concentrationSeverityProvider = qdConcentrationSeverityProvider;
+					break;
+				case "212575":
+				case "212549":
+				case "830837":
+					drugClass = SimulationModel.CALCIUM_CHANNEL_BLOCKER;
+					stepsProvider = afterloadAndContractilityStepsProvider;
+					concentrationSeverityProvider = qdConcentrationSeverityProvider;
+					break;
+				case "197628":
+					drugClass = SimulationModel.ALPHA_BLOCKER;
+					stepsProvider = afterloadAndContractilityStepsProvider;
+					concentrationSeverityProvider = qdConcentrationSeverityProvider;
+					break;
+				case "104375":
+				case "206766":
+					drugClass = SimulationModel.ACE_INHIBITOR;
+					stepsProvider = preloadAndAfterloadStepsProvider;
+					concentrationSeverityProvider = qdConcentrationSeverityProvider;
+					break;
+				default:
+					drugClass = SimulationModel.DRUG_CLASS_UNKNOWN;
+			}
+			medication.drugClass = drugClass;
+			medication.goalConcentrationMinimum = 0.1;
+							medication.goalConcentrationMaximum = 0.7;
+							medication.concentrationAxisMaximum = 0.9;
+			if (stepsProvider)
+				medication.stepsProvider = stepsProvider;
+			if (concentrationSeverityProvider)
+				medication.concentrationSeverityProvider = concentrationSeverityProvider;
+		}
+
+		private function get qdConcentrationSeverityProvider():ConcentrationSeverityProvider
+		{
+			return new ConcentrationSeverityProvider(SimulationModel.qdConcentrationRanges, SimulationModel.concentrationColors);
+		}
+
+		private function get bidConcentrationSeverityProvider():ConcentrationSeverityProvider
+		{
+			return new ConcentrationSeverityProvider(SimulationModel.bidConcentrationRanges, SimulationModel.concentrationColors);
+		}
+
+		private function get preloadReducerStepsProvider():StepsProvider
+		{
+			return new StepsProvider(new <Number>[SimulationModel.HYDROCHLOROTHIAZIDE_LOW, SimulationModel.HYDROCHLOROTHIAZIDE_GOAL],
+														 new <Vector.<String>>[
+															 new <String>[
+																 "Less salt in urine",
+																"Less urine output",
+																 "More salt in blood",
+																 "More blood volume",
+															 	 "More work for your heart",
+															 	 "Increased blood pressure"],
+															 new <String>[
+																 "Less salt in urine",
+																"Less urine output",
+																 "More salt in blood",
+																 "More blood volume",
+															 	 "More work for your heart",
+															 	 "Increased blood pressure"],
+															 new <String>[
+																 "More salt in urine",
+																"More urine output",
+																 "Less salt in blood",
+																 "Less blood volume",
+															 	 "Less work for your heart",
+															 	 "Decreased blood pressure"]]);
+		}
+
+		private function get preloadAndAfterloadStepsProvider():StepsProvider
+		{
+			return new StepsProvider(new <Number>[SimulationModel.HYDROCHLOROTHIAZIDE_LOW, SimulationModel.HYDROCHLOROTHIAZIDE_GOAL],
+														 new <Vector.<String>>[
+															 new <String>[
+																	 "More blood volume",
+																 "More constricted arteries",
+																"More work for heart",
+															 	 "Increased blood pressure"],
+															 new <String>[
+																	 "More blood volume",
+																 "More constricted arteries",
+																"More work for heart",
+															 	 "Increased blood pressure"],
+															 new <String>[
+																	 "Less blood volume",
+																 "Less constricted arteries",
+																"Less work for heart",
+															 	 "Decreased blood pressure"]]);
+		}
+
+		private function get afterloadAndContractilityStepsProvider():StepsProvider
+		{
+			return new StepsProvider(new <Number>[SimulationModel.HYDROCHLOROTHIAZIDE_LOW, SimulationModel.HYDROCHLOROTHIAZIDE_GOAL],
+														 new <Vector.<String>>[
+															 new <String>[
+																 "More constricted arteries",
+																"More work for heart",
+															 	 "Increased blood pressure"],
+															 new <String>[
+																 "More constricted arteries",
+																"More work for heart",
+															 	 "Increased blood pressure"],
+															 new <String>[
+																 "Less constricted arteries",
+																"Less work for heart",
+															 	 "Decreased blood pressure"]]);
+		}
+
 		private function initializeHydrochlorothiazideModel(medication:MedicationComponentAdherenceModel):void
 		{
-			medication.drugClass = "Thiazide Diuretic";
+//			medication.drugClass = SimulationModel.THIAZIDE_DIURETIC;
 			medication.stepsProvider = new StepsProvider(new <Number>[SimulationModel.HYDROCHLOROTHIAZIDE_LOW, SimulationModel.HYDROCHLOROTHIAZIDE_GOAL],
 														 new <Vector.<String>>[
 															 new <String>[
@@ -134,15 +273,14 @@ package collaboRhythm.plugins.bloodPressure.model
 																 "Venous blood volume decreased",
 																 "Preload on heart decreased",
 															 	 "Stroke volume of heart decreased",
-															 	 "Blood pressure decreased"]
-														 ]);
+															 	 "Blood pressure decreased"]]);
 			medication.concentrationSeverityProvider = new ConcentrationSeverityProvider(SimulationModel.concentrationRanges,
 																						 SimulationModel.concentrationColors);
 		}
 
 		private function initializeAtenololModel(medication:MedicationComponentAdherenceModel):void
 		{
-			medication.drugClass = "Beta Blocker";
+//			medication.drugClass = SimulationModel.BETA_BLOCKER;
 			medication.stepsProvider = new StepsProvider(new <Number>[SimulationModel.HYDROCHLOROTHIAZIDE_LOW, SimulationModel.HYDROCHLOROTHIAZIDE_GOAL],
 														 new <Vector.<String>>[
 															 new <String>[
@@ -164,8 +302,7 @@ package collaboRhythm.plugins.bloodPressure.model
 																 "Atenolol at goal step 2",
 																 "Atenolol at goal step 3",
 															 	 "Atenolol at goal step 4",
-															 	 "Atenolol at goal step 5"]
-														 ]);
+															 	 "Atenolol at goal step 5"]]);
 			medication.concentrationSeverityProvider = new ConcentrationSeverityProvider(SimulationModel.concentrationRanges,
 																						 SimulationModel.concentrationColors);
 		}

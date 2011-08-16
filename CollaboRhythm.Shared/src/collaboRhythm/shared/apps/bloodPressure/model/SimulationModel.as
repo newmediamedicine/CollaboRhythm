@@ -19,6 +19,8 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 	import com.theory9.data.types.OrderedMap;
 
+	import mx.binding.utils.BindingUtils;
+
 	import mx.events.PropertyChangeEvent;
 
 	/**
@@ -35,6 +37,28 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		private var _medications:Vector.<MedicationComponentAdherenceModel> = new Vector.<MedicationComponentAdherenceModel>();
 		private var _medicationsByCode:OrderedMap = new OrderedMap();
 
+		private var _alphaBlockers:Vector.<MedicationComponentAdherenceModel> = new Vector.<MedicationComponentAdherenceModel>();
+		private var _betaBlockers:Vector.<MedicationComponentAdherenceModel> = new Vector.<MedicationComponentAdherenceModel>();
+		private var _thiazideDiuretics:Vector.<MedicationComponentAdherenceModel> = new Vector.<MedicationComponentAdherenceModel>();
+		private var _aceInhibitors:Vector.<MedicationComponentAdherenceModel> = new Vector.<MedicationComponentAdherenceModel>();
+		private var _angiotensinReceptorBlockers:Vector.<MedicationComponentAdherenceModel> = new Vector.<MedicationComponentAdherenceModel>();
+		private var _calciumChannelBlockers:Vector.<MedicationComponentAdherenceModel> = new Vector.<MedicationComponentAdherenceModel>();
+
+		private var _preload:int;
+		private var _contractility:int;
+		private var _afterload:int;
+		private var _damage:int;
+
+		public static const ALPHA_BLOCKER:String = "Alpha Blocker";
+		public static const BETA_BLOCKER:String = "Beta Blocker";
+		public static const THIAZIDE_DIURETIC:String = "Thiazide Diuretic";
+		public static const ACE_INHIBITOR:String = "ACE Inhibitor";
+		public static const ANGIOTENSIN_RECEPTOR_BLOCKER:String = "Angiotensin Receptor Blocker";
+		public static const CALCIUM_CHANNEL_BLOCKER:String = "Calcium Channel Blocker";
+		public static const DRUG_CLASS_UNKNOWN:String = "Drug Class Unknown";
+
+		private static const SYSTOLIC_GOAL:int = 130;
+
 		/**
 		 * Maximum value to use for the plugRatio, the ratio of plugs (medication) to gaps, in the simulation.
 		 */
@@ -50,6 +74,20 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public static const HYDROCHLOROTHIAZIDE_HIGH0:Number = 0.35;
 		public static const HYDROCHLOROTHIAZIDE_HIGH1:Number = 0.45;
 		public static const HYDROCHLOROTHIAZIDE_MAXIMUM:Number = 1;
+
+		public static const QD_MINIMUM:Number = 0;
+		public static const QD_LOW:Number = QD_GOAL / 2;
+		public static const QD_GOAL:Number = 0.05;
+		public static const QD_HIGH0:Number = 0.35;
+		public static const QD_HIGH1:Number = 0.45;
+		public static const QD_MAXIMUM:Number = 1;
+
+		public static const BID_MINIMUM:Number = 0;
+		public static const BID_LOW:Number = BID_GOAL / 2;
+		public static const BID_GOAL:Number = 0.05;
+		public static const BID_HIGH0:Number = 0.35;
+		public static const BID_HIGH1:Number = 0.45;
+		public static const BID_MAXIMUM:Number = 1;
 
 		/**
 		 * Values lower than this are considered "very highly" hypotensive. Note that his value has been chosen somewhat arbitrarily.
@@ -89,6 +127,18 @@ package collaboRhythm.shared.apps.bloodPressure.model
 			HYDROCHLOROTHIAZIDE_HIGH0,
 			HYDROCHLOROTHIAZIDE_HIGH1];
 
+		public static const qdConcentrationRanges:Vector.<Number> = new <Number>[
+			QD_LOW,
+			QD_GOAL,
+			QD_HIGH0,
+			QD_HIGH1];
+		public static const bidConcentrationRanges:Vector.<Number> = new <Number>[
+			BID_LOW,
+			BID_GOAL,
+			BID_HIGH0,
+			BID_HIGH1];
+
+
 		private var _mode:String;
 		private var _modeLabel:String;
 		public static const MOST_RECENT_MODE:String = "mostRecentMode";
@@ -96,6 +146,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		private var _isHypertensive:Boolean;
 		private var _systolicSeverityColor:uint;
 		private var _concentrationSeverityColor:uint;
+
 
 		public function SimulationModel()
 		{
@@ -249,7 +300,176 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		{
 			medications.push(medication);
 			medicationsByCode.addKeyValue(medication.name.value, medication);
+			switch (medication.drugClass)
+			{
+				case ALPHA_BLOCKER:
+					_alphaBlockers.push(medication);
+					break;
+				case BETA_BLOCKER:
+					_betaBlockers.push(medication);
+					break;
+				case THIAZIDE_DIURETIC:
+					_thiazideDiuretics.push(medication);
+					break;
+				case ACE_INHIBITOR:
+					_aceInhibitors.push(medication);
+					break;
+				case ANGIOTENSIN_RECEPTOR_BLOCKER:
+					_angiotensinReceptorBlockers.push(medication);
+					break;
+				case CALCIUM_CHANNEL_BLOCKER:
+					_calciumChannelBlockers.push(medication);
+					break;
+			}
+			BindingUtils.bindSetter(medicationConcentrationSeverityLevel_changeHandler, medication, "concentrationSeverityLevel");
 			dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, "medications", null, medications));
+		}
+
+		private function medicationConcentrationSeverityLevel_changeHandler(value:int):void
+		{
+			preload = determinePreload();
+			contractility = determineContractility();
+			afterload = detemineAfterload();
+			damage = determineDamage();
+		}
+
+		private function determinePreload():int
+		{
+			for each (var thiazideDiuretic:MedicationComponentAdherenceModel in _thiazideDiuretics)
+			{
+				if (thiazideDiuretic.concentrationSeverityLevel < 2)
+				{
+					return 3;
+				}
+			}
+			for each (var aceInhibitor:MedicationComponentAdherenceModel in _aceInhibitors)
+			{
+				if (aceInhibitor.concentrationSeverityLevel < 2)
+				{
+					return 3;
+				}
+			}
+			for each (var angiotensinReceptorBlocker:MedicationComponentAdherenceModel in _angiotensinReceptorBlockers)
+			{
+				if (angiotensinReceptorBlocker.concentrationSeverityLevel < 2)
+				{
+					return 3;
+				}
+			}
+			return 1;
+		}
+
+		private function determineContractility():int
+		{
+			for each (var betaBlocker:MedicationComponentAdherenceModel in _betaBlockers)
+			{
+				if (betaBlocker.concentrationSeverityLevel < 2)
+				{
+					return 3;
+				}
+			}
+			for each (var calciumChannelBlocker:MedicationComponentAdherenceModel in _calciumChannelBlockers)
+			{
+				if (calciumChannelBlocker.concentrationSeverityLevel < 2)
+				{
+					return 3;
+				}
+			}
+			return 1;
+		}
+
+		private function detemineAfterload():int
+		{
+			for each (var aceInhibitor:MedicationComponentAdherenceModel in _aceInhibitors)
+			{
+				if (aceInhibitor.concentrationSeverityLevel < 2)
+				{
+					return 3;
+				}
+			}
+			for each (var angiotensinReceptorBlocker:MedicationComponentAdherenceModel in _angiotensinReceptorBlockers)
+			{
+				if (angiotensinReceptorBlocker.concentrationSeverityLevel < 2)
+				{
+					return 3;
+				}
+			}
+			for each (var alphaBlocker:MedicationComponentAdherenceModel in _alphaBlockers)
+			{
+				if (alphaBlocker.concentrationSeverityLevel < 2)
+				{
+					return 3;
+				}
+			}
+			for each (var betaBlocker:MedicationComponentAdherenceModel in _betaBlockers)
+			{
+				if (betaBlocker.concentrationSeverityLevel < 2)
+				{
+					return 3;
+				}
+			}
+			for each (var calciumChannelBlocker:MedicationComponentAdherenceModel in _calciumChannelBlockers)
+			{
+				if (calciumChannelBlocker.concentrationSeverityLevel < 2)
+				{
+					return 3;
+				}
+			}
+			return 1;
+		}
+
+		private function determineDamage():int
+		{
+			var damage:int = 0;
+			if (_preload > 1 || _contractility > 1 || _afterload > 1)
+			{
+				damage += 1;
+			}
+			if (_systolic > SYSTOLIC_GOAL)
+			{
+				damage += 1;
+			}
+			return damage;
+		}
+
+		public function get preload():int
+		{
+			return _preload;
+		}
+
+		public function set preload(value:int):void
+		{
+			_preload = value;
+		}
+
+		public function get contractility():int
+		{
+			return _contractility;
+		}
+
+		public function set contractility(value:int):void
+		{
+			_contractility = value;
+		}
+
+		public function get afterload():int
+		{
+			return _afterload;
+		}
+
+		public function set afterload(value:int):void
+		{
+			_afterload = value;
+		}
+
+		public function get damage():int
+		{
+			return _damage;
+		}
+
+		public function set damage(value:int):void
+		{
+			_damage = value;
 		}
 	}
 }

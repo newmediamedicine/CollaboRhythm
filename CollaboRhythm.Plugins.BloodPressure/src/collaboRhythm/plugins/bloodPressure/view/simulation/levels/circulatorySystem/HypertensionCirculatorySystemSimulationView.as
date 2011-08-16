@@ -80,6 +80,32 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 			_logger.warn("circulatorySystemSimulator load FAILED");
 		}
 
+		public function set currentPreload(value:int):void
+		{
+			if (_circulatorySystemSimulationMovieClip)
+			{
+				_circulatorySystemSimulationMovieClip.current_preload = value;
+				_circulatorySystemSimulationMovieClip.update();
+			}
+		}
+
+		public function set currentContractility(value:int):void
+		{
+			if (_circulatorySystemSimulationMovieClip)
+			{
+				_circulatorySystemSimulationMovieClip.current_contractility = value;
+				_circulatorySystemSimulationMovieClip.update();
+			}
+		}
+
+		public function set currentAfterload(value:int):void
+		{
+			if (_circulatorySystemSimulationMovieClip)
+			{
+				_circulatorySystemSimulationMovieClip.current_afterload = value;
+				_circulatorySystemSimulationMovieClip.update();
+			}
+		}
 
 		public function set currentDamage(value:int):void
 		{
@@ -92,21 +118,21 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 
 		public function set concentration(concentration:Number):void
 		{
-			if (_circulatorySystemSimulationMovieClip)
-			{
-				if (concentration < SimulationModel.HYDROCHLOROTHIAZIDE_GOAL)
-				{
-					_circulatorySystemSimulationMovieClip.current_preload = 3;
-					_circulatorySystemSimulationMovieClip.current_damage = 2;
-					_circulatorySystemSimulationMovieClip.update();
-				}
-				else
-				{
-					_circulatorySystemSimulationMovieClip.current_preload = 1;
-					_circulatorySystemSimulationMovieClip.current_damage = 0;
-					_circulatorySystemSimulationMovieClip.update();
-				}
-			}
+//			if (_circulatorySystemSimulationMovieClip)
+//			{
+//				if (concentration < SimulationModel.HYDROCHLOROTHIAZIDE_GOAL)
+//				{
+//					_circulatorySystemSimulationMovieClip.current_preload = 3;
+//					_circulatorySystemSimulationMovieClip.current_damage = 2;
+//					_circulatorySystemSimulationMovieClip.update();
+//				}
+//				else
+//				{
+//					_circulatorySystemSimulationMovieClip.current_preload = 1;
+//					_circulatorySystemSimulationMovieClip.current_damage = 0;
+//					_circulatorySystemSimulationMovieClip.update();
+//				}
+//			}
 		}
 
 		override protected function keyDownHandler(event:KeyboardEvent):void
