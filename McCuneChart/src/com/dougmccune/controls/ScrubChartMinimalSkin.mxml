@@ -112,7 +112,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 				/>
 				-->
 				<mccune:InclusiveDateTimeAxis id="mainChartHorizontalAxis" dataUnits="milliseconds"
-								 disabledDays="[]"
+								 disabledDays="[]" displayLocalTime="true"
 								 />
 			</mx:horizontalAxis>
 			<!--
@@ -127,7 +127,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 				<mccune:AxisRendererExt id="mainChartHorizontalAxisRenderer" axis="{mainChartHorizontalAxis}"
 										fontSize="14" tickPlacement="inside" labelPlacement="outside"
 										showLine="false" labelGap="0" canClipLabels="false"
-										mask="{mainChartHorizontalAxisRendererMask}"/>
+										mask="{mainChartHorizontalAxisRendererMask}" />
 				<!--
 										<mccune:SynchronizedAxisRenderer axis="{mainChartHorizontalAxis}" fontSize="14" />
 				-->

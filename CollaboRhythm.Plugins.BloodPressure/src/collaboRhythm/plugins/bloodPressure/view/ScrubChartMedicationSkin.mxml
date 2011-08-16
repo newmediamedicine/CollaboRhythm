@@ -87,7 +87,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 					  >
 			<mx:horizontalAxis>
 				<mccune:InclusiveDateTimeAxis id="mainChartHorizontalAxis" dataUnits="milliseconds"
-								 disabledDays="[]"
+								 disabledDays="[]" displayLocalTime="true"
 								 />
 			</mx:horizontalAxis>
 
