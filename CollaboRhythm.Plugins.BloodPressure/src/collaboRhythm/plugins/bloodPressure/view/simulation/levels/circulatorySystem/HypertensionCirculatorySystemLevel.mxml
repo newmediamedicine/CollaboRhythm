@@ -40,6 +40,7 @@
 			move="drawArrows()"
 			expand="hydrochlorothiazideButton.expanded = false"
 			drillDownEnabled="false"
+			visible="false"
 			>
 		<buttons:leftContent>
 			<simulation:MedicationsIcon left="7" verticalCenter="0" width="32" height="32"/>
@@ -60,6 +61,7 @@
 			drillDownLevel="dispatchEvent(new SimulationLevelEvent(SimulationLevelEvent.DRILL_DOWN_LEVEL, 0.02, 0.02, hydrochlorothiazidePoint.x, hydrochlorothiazidePoint.y))"
 			move="drawArrows()"
 			expand="atenololButton.expanded = false"
+			visible="false"
 			>
 		<!--arrowTailY="{Math.max(hydrochlorothiazidePoint.y, atenololButton.arrowTailY + atenololButton.height + atenololButton.bottomExpansion + 20)}"-->
 		<buttons:leftContent>
@@ -98,12 +100,12 @@
 
 		protected override function creationCompleteHandler(event:FlexEvent):void
 		{
-			details = new <SimulationDetail>[
-				new SimulationDetail(atenololPoint,
-									 atenololButton),
-				new SimulationDetail(hydrochlorothiazidePoint,
-									 hydrochlorothiazideButton)
-			];
+//			details = new <SimulationDetail>[
+//				new SimulationDetail(atenololPoint,
+//									 atenololButton),
+//				new SimulationDetail(hydrochlorothiazidePoint,
+//									 hydrochlorothiazideButton)
+//			];
 
 			lookupMedications();
 

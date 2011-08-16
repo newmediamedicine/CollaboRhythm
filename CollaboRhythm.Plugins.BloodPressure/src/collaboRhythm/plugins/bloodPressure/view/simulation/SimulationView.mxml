@@ -187,6 +187,7 @@
 		{
 			resizeChildren();
 			breadcrumbTrail.breadcrumbsData.addItem(hypertensionWholeBodyGroup);
+			drillDown(new SimulationLevelEvent(SimulationLevelEvent.DRILL_DOWN_LEVEL), hypertensionCirculatorySystemGroup, hypertensionWholeBodyGroup);
 		}
 
 		[Bindable]

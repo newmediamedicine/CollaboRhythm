@@ -102,16 +102,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 					  gutterRight="1"
 					  gutterLeft="40"
 			-->
-			<mx:backgroundElements>
-				<mx:GridLines gridDirection="both" verticalChangeCount="1" horizontalChangeCount="1">
-					<mx:verticalStroke>
-						<s:SolidColorStroke weight="1" alpha="0.1"/>
-					</mx:verticalStroke>
-					<mx:horizontalStroke>
-						<s:SolidColorStroke weight="1" alpha="0.1"/>
-					</mx:horizontalStroke>
-				</mx:GridLines>
-			</mx:backgroundElements>
 
 			<mx:horizontalAxis>
 				<!--
