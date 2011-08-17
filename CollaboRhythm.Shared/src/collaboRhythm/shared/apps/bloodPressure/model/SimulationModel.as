@@ -36,7 +36,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		private var _concentration:Number;
 		private var _medications:Vector.<MedicationComponentAdherenceModel> = new Vector.<MedicationComponentAdherenceModel>();
 		private var _medicationsByCode:OrderedMap = new OrderedMap();
-		private var _isInitialized:Boolean
+		private var _isInitialized:Boolean;
 
 		private var _alphaBlockers:Vector.<MedicationComponentAdherenceModel> = new Vector.<MedicationComponentAdherenceModel>();
 		private var _betaBlockers:Vector.<MedicationComponentAdherenceModel> = new Vector.<MedicationComponentAdherenceModel>();

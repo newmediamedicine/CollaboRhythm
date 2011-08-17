@@ -50,6 +50,7 @@ package collaboRhythm.workstation.controller
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.NativeWindow;
+	import flash.display.NativeWindowDisplayState;
 	import flash.display.Screen;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
@@ -126,7 +127,7 @@ package collaboRhythm.workstation.controller
         private function createWindowsForScreens():void
 		{
             var bounds:Rectangle = Screen.screens[0].bounds;
-            createPrimaryWindowView(bounds);
+            createPrimaryWindowView(new WindowState(bounds, NativeWindowDisplayState.MAXIMIZED));
             _primaryWindowView.addEventListener(FlexEvent.CREATION_COMPLETE, primaryWindowView_creationCompleteHandler);
 
             if (Screen.screens.length == 1 || settings.useSingleScreen)
@@ -138,7 +139,7 @@ package collaboRhythm.workstation.controller
             {
                 _useSingleScreen = false;
                 bounds = Screen.screens[1].bounds;
-                createSecondaryWindowView(bounds);
+                createSecondaryWindowView(new WindowState(bounds, NativeWindowDisplayState.MAXIMIZED));
                 _primaryWindowView.currentState = "useDualScreen";
             }
 		}
@@ -162,23 +163,22 @@ package collaboRhythm.workstation.controller
         // TODO: fix creating windows from settings
 		private function createWindows(windowSettings:WindowSettings):void
 		{
+			fullScreen = windowSettings.fullScreen;
+			zoom = windowSettings.zoom;
+
 			for each (var windowState:WindowState in windowSettings.windowStates)
 			{
                 if (windowState.spaces.length > 0 && windowState.spaces[0] == PRIMARY_WINDOW_VIEW_ID)
                 {
-                    createPrimaryWindowView(windowState.bounds);
+                    createPrimaryWindowView(windowState);
                 }
                 else
                 {
-                    createSecondaryWindowView(windowState.bounds);
+                    createSecondaryWindowView(windowState);
                 }
-//				var window:WorkstationWindow = createWorkstationWindow();
-//				window.initializeForWindowState(windowState);
-//				layoutComponentsFromSettings(windowState.componentLayouts, window);
 			}
+
             _primaryWindowView.addEventListener(FlexEvent.CREATION_COMPLETE, primaryWindowView_creationCompleteHandler);
-			fullScreen = windowSettings.fullScreen;
-			zoom = windowSettings.zoom;
 		}
 
         // TODO: fix validating window settings
@@ -209,10 +209,10 @@ package collaboRhythm.workstation.controller
 		}
 
         // creates the primary window view for the main screen, this window is always created
-        private function createPrimaryWindowView(bounds:Rectangle):void
+        private function createPrimaryWindowView(windowState:WindowState):void
         {
             var primaryWindow:WorkstationWindow = createWorkstationWindow();
-            primaryWindow.initializeFromBounds(bounds);
+            primaryWindow.initializeFromWindowState(windowState);
             initializeWindowCommon(primaryWindow);
             _primaryWindowView = new PrimaryWindowView();
             _primaryWindowView.init(this);
@@ -230,10 +230,10 @@ package collaboRhythm.workstation.controller
 
         // creates the secondary window view, which is only used if more than one screen is available and the
         // useSingleScreen setting is false
-        private function createSecondaryWindowView(bounds:Rectangle):void
+        private function createSecondaryWindowView(windowState:WindowState):void
         {
             var secondaryWindow:WorkstationWindow = createWorkstationWindow();
-            secondaryWindow.initializeFromBounds(bounds);
+            secondaryWindow.initializeFromWindowState(windowState);
             initializeWindowCommon(secondaryWindow);
             _secondaryWindowView = new SecondaryWindowView();
             _secondaryWindowView.id = "secondaryWindowView";

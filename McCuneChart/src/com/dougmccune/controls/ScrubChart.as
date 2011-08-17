@@ -648,13 +648,18 @@ package com.dougmccune.controls
 					this.validateNow();
 				}
 			}
-            else if (!event.altKey && !event.ctrlKey && !event.shiftKey)
+            else if (event.keyCode == Keyboard.LEFT || event.keyCode == Keyboard.RIGHT)
             {
                 var delta:Number = 0;
                 if (event.keyCode == Keyboard.LEFT)
                     delta = 1;
                 else if (event.keyCode == Keyboard.RIGHT)
                     delta = -1;
+
+				if (event.altKey)
+					delta *= 100;
+				else if (!event.altKey && !event.ctrlKey && !event.shiftKey)
+					delta *= 10;
 
                 if (delta != 0)
                     mainChartUpdate(delta);
@@ -1146,6 +1151,8 @@ package com.dougmccune.controls
 			rightRangeTime += value / mainDataRatio;
 			if (slider)
 				slider.dispatchEvent(new SliderEvent('change'));
+			this.updateForScroll();
+			this.dispatchScrollEvent();
 		}
 
 		/**
@@ -1237,14 +1244,18 @@ package com.dougmccune.controls
 		{
 			if (!isNaN(leftRangeTime) && !isNaN(rightRangeTime))
 			{
-				hideAnnotations();
-				_pendingUpdateBoxFromRangeTimes = update;
-				_rangeTimeAnimate.stop();
-				_leftRangeMotionPath.valueFrom = leftRangeTime;
-				_leftRangeMotionPath.valueTo = isNaN(leftRangeTimeTo) ? leftRangeTime : leftRangeTimeTo;
-				_rightRangeMotionPath.valueFrom = rightRangeTime;
-				_rightRangeMotionPath.valueTo = isNaN(rightRangeTimeTo) ? rightRangeTime : rightRangeTimeTo;
-				_rangeTimeAnimate.play();
+				// determine if any change is required
+				if ((!isNaN(leftRangeTimeTo) && leftRangeTimeTo != leftRangeTime) || (!isNaN(rightRangeTimeTo) && rightRangeTimeTo != rightRangeTime))
+				{
+					hideAnnotations();
+					_pendingUpdateBoxFromRangeTimes = update;
+					_rangeTimeAnimate.stop();
+					_leftRangeMotionPath.valueFrom = leftRangeTime;
+					_leftRangeMotionPath.valueTo = isNaN(leftRangeTimeTo) ? leftRangeTime : leftRangeTimeTo;
+					_rightRangeMotionPath.valueFrom = rightRangeTime;
+					_rightRangeMotionPath.valueTo = isNaN(rightRangeTimeTo) ? rightRangeTime : rightRangeTimeTo;
+					_rangeTimeAnimate.play();
+				}
 			}
 		}
 		

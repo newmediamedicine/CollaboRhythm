@@ -55,7 +55,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 		public override function get isFullViewSupported():Boolean
 		{
-			return isWorkstationMode;
+			return true;
 		}
 
 		public override function get fullView():UIComponent

@@ -50,7 +50,9 @@ package com.dougmccune.controls
 	import mx.core.mx_internal;
 	import mx.graphics.IStroke;
 	import mx.graphics.Stroke;
-    import mx.managers.IFocusManagerComponent;
+	import mx.logging.ILogger;
+	import mx.logging.Log;
+	import mx.managers.IFocusManagerComponent;
     import mx.managers.ILayoutManagerClient;
 	import mx.managers.ISystemManager;
 	import mx.resources.IResourceManager;
@@ -419,6 +421,7 @@ package com.dougmccune.controls
 	{
 //		include "../core/Version.as";
         private var _traceEvents:Boolean;
+		protected var _logger:ILogger;
 
         override protected function keyDownHandler(event:KeyboardEvent):void
         {
@@ -481,7 +484,8 @@ package com.dougmccune.controls
 		public function AxisRendererExt()
 		{
 			super();        
-			
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+
 			textFieldFactory =  new ContextualClassFactory(Label, moduleFactory);
 			
 			_labelCache = new InstanceCache(Label, this);

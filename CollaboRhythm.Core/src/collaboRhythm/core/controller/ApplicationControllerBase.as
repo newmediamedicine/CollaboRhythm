@@ -208,6 +208,10 @@ package collaboRhythm.core.controller
 					prepareToExit();
 				}
 			}
+			else
+			{
+				prepareToExit();
+			}
 		}
 
 		private function autoSave():void

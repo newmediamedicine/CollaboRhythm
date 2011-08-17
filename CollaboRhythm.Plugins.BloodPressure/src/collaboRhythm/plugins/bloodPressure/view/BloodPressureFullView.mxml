@@ -35,19 +35,11 @@
 
 		<controls:SynchronizedAxisCache id="synchronizedAxisCache"/>
 
-		<mx:LineSeries id="systolicSeries" name="systolic" xField="dateMeasuredStart" yField="resultAsNumber"
+		<mx:PlotSeries id="systolicSeries" name="systolic" xField="dateMeasuredStart" yField="resultAsNumber"
 					   dataProvider="{model.isInitialized ? model.systolicData : null}"
 					   updateComplete="bloodPressureChart.seriesComplete(event);"
-					   form="segment"
 					   filterDataValues="none"
 				>
-			<mx:lineStroke>
-				<s:SolidColorStroke
-						color="0x4252A4"
-						weight="1"
-						alpha="0"
-						/>
-			</mx:lineStroke>
 			<mx:itemRenderer>
 				<fx:Component>
 					<view:BloodPressurePlotItemRenderer deltaY="-8"/>
@@ -57,30 +49,22 @@
 				<s:SolidColorStroke weight="2" color="0x000000"/>
 			</mx:stroke>
 
-		</mx:LineSeries>
-		<mx:LineSeries id="diastolicSeries" name="diastolic" xField="dateMeasuredStart" yField="resultAsNumber"
+		</mx:PlotSeries>
+		<mx:PlotSeries id="diastolicSeries" name="diastolic" xField="dateMeasuredStart" yField="resultAsNumber"
 					   dataProvider="{model.isInitialized ? model.diastolicData : null}"
 					   updateComplete="bloodPressureChart.seriesComplete(event);"
-					   form="segment"
 					   filterDataValues="none"
 				>
-			<mx:lineStroke>
-				<s:SolidColorStroke
-						color="0x4252A4"
-						weight="1"
-						alpha="0"
-						/>
-			</mx:lineStroke>
 			<mx:itemRenderer>
 				<fx:Component>
 					<view:BloodPressurePlotItemRenderer/>
 				</fx:Component>
 			</mx:itemRenderer>
 			<mx:stroke>
-				<s:SolidColorStroke weight="2" color="0x000000" alpha="0.5"/>
+				<s:SolidColorStroke weight="2" color="0x808080"/>
 			</mx:stroke>
 
-		</mx:LineSeries>
+		</mx:PlotSeries>
 
 		<mx:LineSeries id="systolicRangeSeries" name="systolic" xField="dateMeasuredStart" yField="resultAsNumber"
 					   dataProvider="{model.isInitialized ? model.systolicData : null}"
@@ -288,6 +272,9 @@
 					{
 						var medicationAdministration:MedicationAdministration = medicationAdministrationsCollection[0];
 						var medicationModel:MedicationComponentAdherenceModel = model.simulation.getMedication(medicationCode);
+						if (medicationModel == null)
+							throw new Error("Medication " + medicationCode + " is in model.medicationConcentrationCurvesByCode but not in model.simulation.medicationsByCode");
+						
 						var medicationScheduleItem:MedicationScheduleItem = medicationModel.medicationScheduleItem;
 
 						var chart:TouchScrollingScrubChart = new TouchScrollingScrubChart();

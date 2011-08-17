@@ -72,7 +72,7 @@ package collaboRhythm.plugins.bloodPressure.model
 
 		public function get isDoneLoading():Boolean
 		{
-			return !record.isLoading;
+			return !record.isLoading && record.medicationAdministrationsModel && record.medicationAdministrationsModel.isInitialized;
 		}
 
 		/**
