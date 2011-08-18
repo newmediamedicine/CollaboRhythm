@@ -29,16 +29,17 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 		private var _name:CodedValue;
 		private var _drugClass:String;
-		private var _concentration:Number;
-		private var _steps:Vector.<String>;
 		private var _stepsProvider:IStepsProvider;
-		private var _concentrationSeverityLevel:int = -1;
-		private var _concentrationSeverityColor:uint;
-		private var _concentrationSeverityProvider:IConcentrationSeverityProvider;
 		private var _goalConcentrationMinimum:Number = 0.05;
 		private var _goalConcentrationMaximum:Number = 0.35;
 		private var _concentrationAxisMaximum:Number = 0.4;
 		private var _medicationScheduleItem:MedicationScheduleItem;
+
+		private var _concentration:Number;
+		private var _steps:Vector.<String>;
+		private var _concentrationSeverityLevel:int = -1;
+		private var _concentrationSeverityColor:uint;
+		private var _concentrationSeverityProvider:IConcentrationSeverityProvider;
 
 		public function MedicationComponentAdherenceModel()
 		{

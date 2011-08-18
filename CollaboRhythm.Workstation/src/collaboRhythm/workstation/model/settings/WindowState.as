@@ -30,8 +30,10 @@ package collaboRhythm.workstation.model.settings
 
 		private var _spaces:Vector.<String> = new Vector.<String>();		
 		
-		public function WindowState()
+		public function WindowState(bounds:Rectangle=null, displayState:String=null)
 		{
+			_bounds = bounds;
+			_displayState = displayState;
 		}
 
 		public function get componentLayouts():Vector.<ComponentLayout>

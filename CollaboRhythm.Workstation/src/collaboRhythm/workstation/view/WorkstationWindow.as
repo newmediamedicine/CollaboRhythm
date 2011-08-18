@@ -55,6 +55,7 @@ package collaboRhythm.workstation.view
 		private var _displayState:String = NativeWindowDisplayState.NORMAL;
         private var _windowView:UIComponent;
 		private var _spaces:Vector.<UIComponent> = new Vector.<UIComponent>();
+		private var _pendingMaximize:Boolean;
 		
 		public function WorkstationWindow()
 		{
@@ -116,35 +117,39 @@ package collaboRhythm.workstation.view
 			_displayState = event.afterDisplayState;
 		}
 		
-		public function initializeForScreen(currentScreen:Screen):void
+		public function initializeFromScreen(currentScreen:Screen):void
 		{
             var bounds:Rectangle = currentScreen.bounds;
             initializeFromBounds(bounds);
 		}
 		
-		public function initializeForWindowState(windowState:WindowState):void
+		public function initializeFromWindowState(windowState:WindowState):void
 		{
-            var bounds:Rectangle = windowState.bounds;
-            initializeFromBounds(bounds);
-//			this.open(true);
-//			this.stage.nativeWindow.bounds = windowState.bounds;
-//
-//			// Fix the size. For some reason, the height and width of the Window are not getting updated to match the stage when the window is first created.
-//			this.width = this.stage.stageWidth;
-//			this.height = this.stage.stageHeight;
-//
-//
-//			if (fullScreenEnabled)
-//			{
-//				this.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
-//			}
-//			else
-//			{
-//				if (windowState.isMaximized)
-//					this.maximize();
-//
-//				// don't start the window minimized (even if it was minimized before) because it would be confusing for the user
-//			}
+			this.open(true);
+			this.stage.nativeWindow.bounds = windowState.bounds;
+
+			// Fix the size. For some reason, the height and width of the Window are not getting updated to match the stage when the window is first created.
+			this.width = this.stage.stageWidth;
+			this.height = this.stage.stageHeight;
+
+			if (fullScreenEnabled)
+			{
+				// even if we are going to make the widow go full screen, the maximized state should be set as well, so that when returning from full screen, the state is restored
+				if (windowState.isMaximized)
+				{
+					_pendingMaximize = true;
+					_displayState = NativeWindowDisplayState.MAXIMIZED;
+				}
+
+				this.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+			}
+			else
+			{
+				if (windowState.isMaximized)
+					this.maximize();
+
+				// don't start the window minimized (even if it was minimized before) because it would be confusing for the user
+			}
 		}
 
         public function initializeFromBounds(bounds:Rectangle):void
@@ -156,6 +161,8 @@ package collaboRhythm.workstation.view
 			if (fullScreenEnabled)
 			{
 				this.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+				_pendingMaximize = true;
+				_displayState = NativeWindowDisplayState.MAXIMIZED;
 			}
 			else
 			{
@@ -175,9 +182,22 @@ package collaboRhythm.workstation.view
 			if (this.stage != null)
 			{
 				if (_fullScreenEnabled)
+				{
 					this.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+					this.width = this.stage.stageWidth;
+					this.height = this.stage.stageHeight;
+				}
 				else
+				{
 					this.stage.displayState = StageDisplayState.NORMAL;
+					if (_pendingMaximize)
+					{
+						_pendingMaximize = false;
+						this.maximize();
+					}
+					this.width = this.stage.stageWidth;
+					this.height = this.stage.stageHeight;
+				}
 			}
 		}
 
