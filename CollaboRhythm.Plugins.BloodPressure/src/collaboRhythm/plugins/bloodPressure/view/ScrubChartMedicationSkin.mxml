@@ -78,12 +78,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 			   >
 		<mx:LineChart id="mainChart"
 					  x="0" y="0"
-					  showDataTips="false"
+					  showDataTips="true"
 					  width="{mainChartContainer.width}" height="{mainChartContainer.height}"
 					  styleName="mainChartStyle"
 					  seriesFilters="[]"
 					  horizontalAxisStyleNames="mainChartHorizontalAxisStyle"
 					  verticalAxisStyleNames="mainChartVerticalAxisStyle"
+					  selectionMode="single"
 					  >
 			<mx:horizontalAxis>
 				<mccune:InclusiveDateTimeAxis id="mainChartHorizontalAxis" dataUnits="milliseconds"

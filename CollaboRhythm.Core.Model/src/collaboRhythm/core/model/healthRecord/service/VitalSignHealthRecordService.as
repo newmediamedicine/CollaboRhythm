@@ -19,6 +19,9 @@ package collaboRhythm.core.model.healthRecord.service
 
 	import org.indivo.client.IndivoClientEvent;
 
+	import spark.collections.Sort;
+	import spark.collections.SortField;
+
 	public class VitalSignHealthRecordService extends DocumentStorageServiceBase
 	{
 		private static const VITALS_REPORT:String = "vitals";
@@ -76,6 +79,12 @@ package collaboRhythm.core.model.healthRecord.service
 
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
 			var vitalSignsCollection:ArrayCollection = parseReportsXml(responseXml);
+
+			var sort:Sort = new Sort();
+			sort.fields = [new SortField("dateMeasuredStart")];
+			vitalSignsCollection.sort = sort;
+			vitalSignsCollection.refresh();
+
 			for each (var vitalSign:VitalSign in vitalSignsCollection)
 			{
 				record.addDocument(vitalSign);

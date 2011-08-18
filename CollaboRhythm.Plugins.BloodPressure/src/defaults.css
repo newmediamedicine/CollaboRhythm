@@ -23,4 +23,3 @@ SimulationLevelPanel
     borderVisible: false;
     skinClass: ClassReference("collaboRhythm.plugins.bloodPressure.view.simulation.skins.SimulationLevelPanelSkin");
 }
-
