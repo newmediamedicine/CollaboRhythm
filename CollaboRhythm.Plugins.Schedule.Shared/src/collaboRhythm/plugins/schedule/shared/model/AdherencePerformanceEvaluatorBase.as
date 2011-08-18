@@ -54,7 +54,7 @@ package collaboRhythm.plugins.schedule.shared.model
 			{
 				if (scheduleItemOccurrence.scheduleItem.meta.type == _scheduleItemType)
 				{
-					if (!scheduleItemOccurrence.adherenceItem)
+					if (!scheduleItemOccurrence.adherenceItem || (scheduleItemOccurrence.adherenceItem && !scheduleItemOccurrence.adherenceItem.adherence))
 					{
 						return false;
 					}

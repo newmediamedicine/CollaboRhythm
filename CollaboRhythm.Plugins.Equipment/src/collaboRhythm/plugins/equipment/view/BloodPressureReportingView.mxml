@@ -203,6 +203,7 @@
 			bloodPressureSymptomView.init(_scheduleItemOccurrence, _adherenceItem, _measurementsFromDevice,
 										  _handledInvokeEvents);
 			bloodPressureSymptomView.currentState = state;
+			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_COMPLETE, _scheduleItemOccurrence, _adherenceItem, null, false));
 			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
 															 _scheduleItemOccurrence, _adherenceItem,
 															 bloodPressureSymptomView));
@@ -213,6 +214,7 @@
 			var bloodPressureEmergencyView:BloodPressureEmergencyView = new BloodPressureEmergencyView();
 			bloodPressureEmergencyView.init(_scheduleItemOccurrence, _adherenceItem);
 			bloodPressureEmergencyView.currentState = state;
+			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_COMPLETE, _scheduleItemOccurrence, _adherenceItem, null, false));
 			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
 															 _scheduleItemOccurrence, _adherenceItem,
 															 bloodPressureEmergencyView));
@@ -226,6 +228,9 @@
 
 		private function submit():void
 		{
+			var oldAdherenceItem:AdherenceItem = _adherenceItem;
+			_adherenceItem = new AdherenceItem();
+			_adherenceItem.init(oldAdherenceItem.name, oldAdherenceItem.reportedBy, oldAdherenceItem.dateReported, oldAdherenceItem.recurrenceIndex, oldAdherenceItem.adherence);
 			createVitalSign(VitalSignsModel.SYSTOLIC_CATEGORY, int(systolicResult.text));
 			createVitalSign(VitalSignsModel.DIASTOLIC_CATEGORY, int(diastolicResult.text));
 			//TODO: add heart rate

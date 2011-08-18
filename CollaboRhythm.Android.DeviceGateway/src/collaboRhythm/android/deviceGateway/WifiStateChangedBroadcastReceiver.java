@@ -16,48 +16,50 @@
  */
 package collaboRhythm.android.deviceGateway;
 
-import com.google.code.microlog4android.Logger;
-import com.google.code.microlog4android.LoggerFactory;
-
-import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.widget.Toast;
+import com.google.code.microlog4android.Logger;
+import com.google.code.microlog4android.LoggerFactory;
 
-public class BluetoothStateChangedBroadcastReceiver extends BroadcastReceiver {
+public class WifiStateChangedBroadcastReceiver extends BroadcastReceiver
+{
+	private static final String CLASS = "WifiStateChangedBroadcastReceiver";
 
-	private static final String CLASS = "BluetoothStateChangedBroadcastReceiver";
-	
 	private final static Logger log = LoggerFactory.getLogger();
-	
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Bundle extras = intent.getExtras();
-		int state = extras.getInt(BluetoothAdapter.EXTRA_STATE);
+		int state = extras.getInt(WifiManager.EXTRA_WIFI_STATE);
 		String stateString = new String();
 		switch (state) {
-		case BluetoothAdapter.STATE_OFF:
-			stateString = "STATE_OFF";
-			sendBluetoothStateChangedIntent(context, extras);
+		case WifiManager.WIFI_STATE_DISABLING:
+			stateString = "WIFI_STATE_DISABLING";
 			break;
-		case BluetoothAdapter.STATE_ON:
-			stateString = "STATE_ON";
-			sendBluetoothStateChangedIntent(context, extras);
+		case WifiManager.WIFI_STATE_DISABLED:
+			stateString = "WIFI_STATE_DISABLED";
+			WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+			wifiManager.setWifiEnabled(true);
+			createToast(context, "Please do not turn off Wifi.");
 			break;
-		case BluetoothAdapter.STATE_TURNING_OFF:
-			stateString = "STATE_TURNING_OFF";
+		case WifiManager.WIFI_STATE_ENABLING:
+			stateString = "WIFI_STATE_ENABLING";
 			break;
-		case BluetoothAdapter.STATE_TURNING_ON:
-			stateString = "STATE_TURNING_ON";
+		case WifiManager.WIFI_STATE_ENABLED:
+			stateString = "WIFI_STATE_ENABLED";
 			break;
 		}
 		log.debug(CLASS + ": " + stateString);
 	}
-	
-	public void sendBluetoothStateChangedIntent(Context context, Bundle extras) {
-		Intent startServiceIntent = new Intent(context, DeviceGatewayService.class);
-		startServiceIntent.putExtras(extras);
-    	context.startService(startServiceIntent);
-	}
+
+	private void createToast(Context context, CharSequence text)
+    {
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+    }
 }

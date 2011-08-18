@@ -83,9 +83,9 @@ package collaboRhythm.plugins.schedule.controller
 		}
 
 		public function createAdherenceItem(scheduleGroup:ScheduleGroup, scheduleItemOccurrence:ScheduleItemOccurrence,
-											adherenceItem:AdherenceItem):void
+											adherenceItem:AdherenceItem, hideViews:Boolean, createAdherenceItem:Boolean):void
 		{
-			_scheduleReportingModel.createAdherenceItem(scheduleGroup, scheduleItemOccurrence, adherenceItem);
+			_scheduleReportingModel.createAdherenceItem(scheduleGroup, scheduleItemOccurrence, adherenceItem, hideViews, createAdherenceItem);
 		}
 
 		public function showAdditionalInformationView(additionalInformationView:UIComponent):void
