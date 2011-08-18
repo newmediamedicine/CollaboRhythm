@@ -18,12 +18,21 @@
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				xmlns:s="library://ns.adobe.com/flex/spark"
 				xmlns:mx="library://ns.adobe.com/flex/mx"
-				xmlns:images="assets.images.*"
-				autoDrawBackground="false">
+				autoDrawBackground="false"
+				height="45" width="100%">
+	<s:states>
+		<s:State name="noSubAssertion"/>
+		<s:State name="hasSubAssertion"/>
+	</s:states>
 	<fx:Style>
-		#assertionLabel
+		.assertionLabel
 		{
 			fontSize: 30;
+		}
+
+		#subAssertionLabel
+		{
+			fontSize: 24;
 		}
 	</fx:Style>
 	<fx:Script><![CDATA[
@@ -36,6 +45,14 @@
 		{
 			super.data = value;
 			_adherencePerformanceAssertion = AdherencePerformanceAssertion(value);
+			if (_adherencePerformanceAssertion.subAssertion)
+			{
+				currentState = "hasSubAssertion";
+			}
+			else
+			{
+				currentState = "noSubAssertion";
+			}
 		}
 
 		private function chooseColor(valence:Boolean):uint
@@ -50,12 +67,9 @@
 			}
 		}
 		]]></fx:Script>
-	<s:HGroup verticalAlign="middle">
-		<s:Group>
-			<images:thumbsUp width="45" height="45" visible="{_adherencePerformanceAssertion.icon == AdherencePerformanceAssertion.THUMBS_UP}"/>
-			<images:lightningSmall width="45" height="45" visible="{_adherencePerformanceAssertion.icon == AdherencePerformanceAssertion.LIGHTNING}"/>
-			<images:warning width="45" height="45" visible="{_adherencePerformanceAssertion.icon == AdherencePerformanceAssertion.WARNING}"/>
-		</s:Group>
-		<s:Label id="assertionLabel" text="{_adherencePerformanceAssertion.assertion}" color="{chooseColor(_adherencePerformanceAssertion.valence)}"/>
-	</s:HGroup>
+	<s:Label styleName="assertionLabel" text="{_adherencePerformanceAssertion.assertion}" color="{chooseColor(_adherencePerformanceAssertion.valence)}" includeIn="noSubAssertion" verticalCenter="0"/>
+	<s:VGroup width="100%" height="100%" includeIn="hasSubAssertion">
+		<s:Label styleName="assertionLabel" text="{_adherencePerformanceAssertion.assertion}" color="{chooseColor(_adherencePerformanceAssertion.valence)}"/>
+		<s:Label id="subAssertionLabel" text="{_adherencePerformanceAssertion.subAssertion}" visible="{_adherencePerformanceAssertion.subAssertion}"/>
+	</s:VGroup>
 </s:ItemRenderer>

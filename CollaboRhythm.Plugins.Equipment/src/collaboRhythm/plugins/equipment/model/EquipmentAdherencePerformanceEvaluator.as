@@ -21,11 +21,14 @@ package collaboRhythm.plugins.equipment.model
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceEvaluatorBase;
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
 	import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 
 	import mx.collections.ArrayCollection;
+
+	import spark.collections.Sort;
 
 	public class EquipmentAdherencePerformanceEvaluator extends AdherencePerformanceEvaluatorBase
 	{
@@ -66,7 +69,7 @@ package collaboRhythm.plugins.equipment.model
 					}
 					else if (adherencePerformanceInterval == AdherencePerformanceModel.ADHERENCE_PERFORMANCE_INTERVAL_YESTERDAY)
 					{
-						return new AdherencePerformanceAssertion(AdherencePerformanceAssertion.WARNING, BLOOD_PRESSURE_NONADHERENCE_ASSERTION_YESTERDAY, false);;
+						return new AdherencePerformanceAssertion(AdherencePerformanceAssertion.WARNING, BLOOD_PRESSURE_NONADHERENCE_ASSERTION_YESTERDAY, false);
 					}
 				}
 			}
@@ -78,12 +81,12 @@ package collaboRhythm.plugins.equipment.model
 			var mostRecentBloodPressureAssertion:String;
 
 			var systolicBloodPressures:ArrayCollection = record.vitalSignsModel.vitalSignsByCategory[VitalSignsModel.SYSTOLIC_CATEGORY];
-			systolicBloodPressures.source.sortOn("dateMeasuredStartValue", Array.DESCENDING);
 			var diastolicBloodPressures:ArrayCollection = record.vitalSignsModel.vitalSignsByCategory[VitalSignsModel.DIASTOLIC_CATEGORY];
-			diastolicBloodPressures.source.sortOn("dateMeasuredStartValue", Array.DESCENDING);
 
 			if (systolicBloodPressures.length > 0 && diastolicBloodPressures.length > 0)
 			{
+				systolicBloodPressures.source.sortOn("dateMeasuredStartValue", Array.DESCENDING);
+				diastolicBloodPressures.source.sortOn("dateMeasuredStartValue", Array.DESCENDING);
 				var mostRecentSystolicBloodPressure:VitalSign = systolicBloodPressures[0];
 				var mostRecentDiastolicBloodPressure:VitalSign = diastolicBloodPressures[0];
 				mostRecentBloodPressureAssertion = createBloodPressureAssertion(mostRecentSystolicBloodPressure,

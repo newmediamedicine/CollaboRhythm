@@ -27,11 +27,13 @@ package collaboRhythm.plugins.schedule.shared.model
 		private var _icon:String;
 		private var _assertion:String;
 		private var _valence:Boolean;
-		public function AdherencePerformanceAssertion(icon:String, assertion:String, valence:Boolean)
+		private var _subAssertion:String;
+		public function AdherencePerformanceAssertion(icon:String, assertion:String, valence:Boolean, subAssertion:String = null)
 		{
 			_icon = icon;
 			_assertion = assertion;
 			_valence = valence;
+			_subAssertion = subAssertion
 		}
 
 		public function get icon():String
@@ -62,6 +64,16 @@ package collaboRhythm.plugins.schedule.shared.model
 		public function set valence(value:Boolean):void
 		{
 			_valence = value;
+		}
+
+		public function get subAssertion():String
+		{
+			return _subAssertion;
+		}
+
+		public function set subAssertion(value:String):void
+		{
+			_subAssertion = value;
 		}
 	}
 }

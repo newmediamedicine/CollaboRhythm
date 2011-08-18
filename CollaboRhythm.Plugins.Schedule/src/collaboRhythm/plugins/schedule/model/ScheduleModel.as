@@ -117,7 +117,7 @@ package collaboRhythm.plugins.schedule.model
 				_scheduleItemOccurrencesHashMap.put(scheduleItemOccurrence.id, scheduleItemOccurrence);
 				addToScheduleGroup(scheduleItemOccurrence);
 			}
-//			adherencePerformanceModel.updateAdherencePerformance();
+			adherencePerformanceModel.updateAdherencePerformance();
 			scheduleTimelineModel.determineStacking();
 		}
 
@@ -235,7 +235,7 @@ package collaboRhythm.plugins.schedule.model
 				_record.addDocument(adherenceResult);
 				_record.addNewRelationship(AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT, adherenceItem, adherenceResult)
 			}
-//			_adherencePerformanceModel.updateAdherencePerformance();
+			_adherencePerformanceModel.updateAdherencePerformance();
 		}
 
 		public function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void
@@ -243,7 +243,7 @@ package collaboRhythm.plugins.schedule.model
 			_record.removeDocument(scheduleItemOccurrence.adherenceItem, DocumentBase.ACTION_VOID, "deleted by user",
 								   true);
 			scheduleItemOccurrence.adherenceItem = null;
-//			_adherencePerformanceModel.updateAdherencePerformance();
+			_adherencePerformanceModel.updateAdherencePerformance();
 		}
 
 		public function saveChangesToRecord():void

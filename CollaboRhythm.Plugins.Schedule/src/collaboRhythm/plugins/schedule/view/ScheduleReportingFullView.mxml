@@ -132,7 +132,7 @@
 		{
 			_scheduleReportingController.createAdherenceItem(_scheduleModel.scheduleReportingModel.currentScheduleGroup,
 															 event.scheduleItemOccurrence,
-															 event.adherenceItem);
+															 event.adherenceItem, event.hideViews, event.createAdherenceItem);
 		}
 
 		private function adherenceItemIncompleteEventHandler(event:ScheduleItemReportingViewEvent):void

@@ -22,17 +22,41 @@
 		 xmlns:images="assets.images.*"
 		 horizontalCenter="0"
 		 width="1100" height="120" top="10" bottom="10">
+	<s:states>
+		<s:State name="singleIcon"/>
+		<s:State name="multipleIcons"/>
+	</s:states>
+		<fx:Style>
+		#adherenceReportingDueLabel
+		{
+			fontSize: 30;
+		}
+
+		.adherenceReportingDueDescription
+		{
+			fontSize: 24;
+		}
+	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.schedule.controller.AdherencePerformanceAppController;
 		import collaboRhythm.plugins.schedule.model.ScheduleModel;
+		import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceAssertion;
 		import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
 
+		import j2as3.collection.HashMap;
+
 		import mx.binding.utils.BindingUtils;
+		import mx.collections.ArrayCollection;
+		import mx.events.CollectionEvent;
 
 		[Bindable]
 		private var _scheduleModel:ScheduleModel;
 		[Bindable]
 		private var _adherencePerformanceModel:AdherencePerformanceModel;
+		[Bindable]
+		private var _iconsCollection:ArrayCollection = new ArrayCollection();
+		[Bindable]
+		private var _icon:String;
 
 		private var _isCreationComplete:Boolean = false;
 
@@ -65,6 +89,36 @@
 		private function createVariableForDataBinding():void
 		{
 			_adherencePerformanceModel = _scheduleModel.adherencePerformanceModel;
+			_adherencePerformanceModel.adherencePerformanceAssertionsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, adherencePerformanceAssertionsCollection_changeHandler);
+			updateIcons();
+		}
+
+		private function adherencePerformanceAssertionsCollection_changeHandler(event:CollectionEvent):void
+		{
+			updateIcons();
+		}
+
+		private function updateIcons():void
+		{
+			_iconsCollection.removeAll();
+			_icon = null;
+			for each (var adherencePerformanceAssertion:AdherencePerformanceAssertion in _adherencePerformanceModel.adherencePerformanceAssertionsCollection)
+			{
+				var iconIndex:int = _iconsCollection.getItemIndex(adherencePerformanceAssertion.icon);
+				if (iconIndex == -1)
+				{
+					_iconsCollection.addItem(adherencePerformanceAssertion.icon);
+					_icon = adherencePerformanceAssertion.icon;
+				}
+			}
+			if (_iconsCollection.length > 1)
+			{
+				currentState = "multipleIcons";
+			}
+			else
+			{
+				currentState = "singleIcon";
+			}
 		}
 		]]></fx:Script>
 	<s:Rect width="100%" height="100%">
@@ -75,5 +129,21 @@
 			<s:SolidColorStroke color="black"/>
 		</s:stroke>
 	</s:Rect>
-	<s:List left="10" top="10" dataProvider="{_adherencePerformanceModel.adherencePerformanceAssertionsCollection}" itemRenderer="collaboRhythm.plugins.schedule.view.AdherencePerformanceAssertionItemRenderer" />
+	<s:HGroup id="adherenceReportingDueGroup" left="10" right="10" top="10" bottom="10" gap="10" visible="{_adherencePerformanceModel &amp;&amp; _adherencePerformanceModel.adherenceReportingDue}">
+		<images:warning height="{adherenceReportingDueGroup.height}" width="{adherenceReportingDueGroup.height}"/>
+		<s:VGroup>
+			<s:Label id="adherenceReportingDueLabel" text="It is time to take your medication."/>
+			<s:Label styleName="adherenceReportingDueDescription" text="Taking your medication on schedule is important to ensure that it is working consistently to" paddingTop="10"/>
+			<s:Label styleName="adherenceReportingDueDescription" text="keep your blood pressure down."/>
+		</s:VGroup>
+	</s:HGroup>
+	<s:HGroup left="10" right="10" top="10" bottom="10" gap="10">
+		<s:Group includeIn="singleIcon">
+			<images:thumbsUp visible="{_icon == AdherencePerformanceAssertion.THUMBS_UP}"/>
+			<images:warning visible="{_icon == AdherencePerformanceAssertion.WARNING}"/>
+			<images:lightningLarge visible="{_icon == AdherencePerformanceAssertion.LIGHTNING}"/>
+		</s:Group>
+		<s:List dataProvider="{_iconsCollection}" itemRenderer="collaboRhythm.plugins.schedule.view.AdherencePerformanceIconItemRenderer" includeIn="multipleIcons"/>
+		<s:List dataProvider="{_adherencePerformanceModel.adherencePerformanceAssertionsCollection}" itemRenderer="collaboRhythm.plugins.schedule.view.AdherencePerformanceAssertionItemRenderer"/>
+	</s:HGroup>
 </s:Group>

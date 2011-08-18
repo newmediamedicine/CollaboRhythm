@@ -54,11 +54,14 @@ package collaboRhythm.plugins.schedule.model
 		}
 
 		public function createAdherenceItem(scheduleGroup:ScheduleGroup, scheduleItemOccurrence:ScheduleItemOccurrence,
-											adherenceItem:AdherenceItem):void
+											adherenceItem:AdherenceItem, hideViews:Boolean, createAdherenceItem:Boolean):void
 		{
-			viewStack.removeAll();
-			_scheduleModel.createAdherenceItem(scheduleItemOccurrence, adherenceItem);
-			isReportingCompletedCheck(scheduleGroup);
+			if (hideViews)
+				viewStack.removeAll();
+			if (createAdherenceItem)
+				_scheduleModel.createAdherenceItem(scheduleItemOccurrence, adherenceItem);
+			if (hideViews)
+				isReportingCompletedCheck(scheduleGroup);
 		}
 
 		public function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void

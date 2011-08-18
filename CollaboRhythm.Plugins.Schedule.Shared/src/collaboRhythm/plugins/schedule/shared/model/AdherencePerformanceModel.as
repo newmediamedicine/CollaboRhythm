@@ -40,6 +40,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		private var _scheduleCollectionsProvider:IScheduleCollectionsProvider;
 		private var _record:Record;
 
+		private var _adherenceReportingDue:Boolean = false;
 		private var _adherencePerformanceAssertionsCollection:ArrayCollection = new ArrayCollection();
 
 		private var _currentDateSource:ICurrentDateSource;
@@ -53,28 +54,77 @@ package collaboRhythm.plugins.schedule.shared.model
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
 
+		/**
+		 * Updates the _adherencePerformanceAssertionsCollection and _adherenceReportingDue so that the AdherencePerformanceWidget
+		 * gets updates with the appropriate user feedback.
+		 */
 		public function updateAdherencePerformance():void
 		{
-			_adherencePerformanceAssertionsCollection.removeAll();
-
 			var currentDate:Date = _currentDateSource.now();
-			var scheduleItemOccurrencesForTodayThusFar:Vector.<ScheduleItemOccurrence> = getScheduleItemOccurrencesForTodayThusFar(currentDate);
-			if (scheduleItemOccurrencesForTodayThusFar.length != 0)
+
+			_adherencePerformanceAssertionsCollection.removeAll();
+			adherenceReportingDue = isAdherenceReportingDue();
+
+			if (!_adherenceReportingDue)
 			{
-				updateAdherencePerformanceForInterval(scheduleItemOccurrencesForTodayThusFar,
-													  ADHERENCE_PERFORMANCE_INTERVAL_TODAY);
-			}
-			else
-			{
-				var scheduleItemOccurrencesForYesterday:Vector.<ScheduleItemOccurrence> = getScheduleItemOccurrencesForYesterday(currentDate);
-				if (scheduleItemOccurrencesForYesterday.length != 0)
+				var scheduleItemOccurrencesForTodayThusFar:Vector.<ScheduleItemOccurrence> = getScheduleItemOccurrencesForTodayThusFar(currentDate);
+				if (scheduleItemOccurrencesForTodayThusFar.length != 0)
 				{
-					updateAdherencePerformanceForInterval(scheduleItemOccurrencesForYesterday,
-														  ADHERENCE_PERFORMANCE_INTERVAL_YESTERDAY);
+					updateAdherencePerformanceForInterval(scheduleItemOccurrencesForTodayThusFar,
+														  ADHERENCE_PERFORMANCE_INTERVAL_TODAY);
+				}
+				else
+				{
+					var scheduleItemOccurrencesForYesterday:Vector.<ScheduleItemOccurrence> = getScheduleItemOccurrencesForYesterday(currentDate);
+					if (scheduleItemOccurrencesForYesterday.length != 0)
+					{
+						updateAdherencePerformanceForInterval(scheduleItemOccurrencesForYesterday,
+															  ADHERENCE_PERFORMANCE_INTERVAL_YESTERDAY);
+					}
 				}
 			}
 		}
 
+		/**
+		 * Determines if adherence reporting is currently due so that the user can be informed. The function loops through
+		 * each ScheduleGroup and determines if the current time falls between its dateStart and dateEnd. Then it determines
+		 * if any of its ScheduleItemOccurrence instances have an AdherenceItem. If none of them have an AdherenceItem,
+		 * then true is returned. Otherwise false is returned. The reasoning is that, once the user reports adherence on
+		 * any of the ScheduleItemOccurrence instances, then he or she already knows that adherence reporting is true
+		 * and should therefore be updated on the adherence performance.
+		 *
+		 * @return
+		 */
+		private function isAdherenceReportingDue():Boolean
+		{
+			var adherenceReportingDue:Boolean = false;
+			for each (var scheduleGroup:ScheduleGroup in _scheduleCollectionsProvider.scheduleGroupsCollection)
+			{
+				if (_currentDateSource.now().valueOf() > scheduleGroup.dateStart.valueOf() && _currentDateSource.now().valueOf() < scheduleGroup.dateEnd.valueOf())
+				{
+					adherenceReportingDue = true;
+					for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleGroup.scheduleItemsOccurrencesCollection)
+					{
+						if (scheduleItemOccurrence.adherenceItem)
+						{
+							adherenceReportingDue = false;
+						}
+					}
+				}
+			}
+			return adherenceReportingDue;
+		}
+
+		/**
+		 * Returns all of the ScheduleItemOccurrence instances for today for which the dateStart is before the current
+		 * time. These instances are obtained from the ScheduleModel, which already has a collection of all of the
+		 * ScheduleItemOccurrence instances for today. It is important to get these instances rather than create a new set
+		 * because the instances from the ScheduleModel get updated when the user reports adherence to any of the
+		 * ScheduleItemOccurrence instances.
+		 *
+		 * @param currentDate
+		 * @return
+		 */
 		private function getScheduleItemOccurrencesForTodayThusFar(currentDate:Date):Vector.<ScheduleItemOccurrence>
 		{
 			var allScheduleItemOccurrencesForToday:Vector.<ScheduleItemOccurrence> = _scheduleCollectionsProvider.scheduleItemOccurrencesVector;
@@ -97,20 +147,43 @@ package collaboRhythm.plugins.schedule.shared.model
 			return _scheduleCollectionsProvider.getScheduleItemOccurrences(dateStart, dateEnd);
 		}
 
+		/**
+		 * Creates an AdherencePerformanceAssertion for each scheduleItemsCollection defined in ScheduleModel and adds the
+		 * assertions to _adherencePerformanceAssertionsCollection. An AdherencePerformanceEvaluator is created for each
+		 * scheduleItemsCollection through a method on the ViewFactory for the corresponding plugin. For example, the
+		 * Medications plugin defines a MedicationsAdherencePerformanceEvaluator that creates an assertion for medication
+		 * adherence performance.
+		 *
+		 * @param scheduleItemOccurrencesVector
+		 * @param adherencePerformanceInterval
+		 */
 		private function updateAdherencePerformanceForInterval(scheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence>,
 															   adherencePerformanceInterval:String):void
 		{
 			for each (var scheduleItemsCollection:ArrayCollection in _scheduleCollectionsProvider.scheduleItemsCollectionsArray)
 			{
+				// There needs to be at least one ScheduleItem instance in the scheduleItemsCollection to evaluate performance
+				// The first instance is used to determine what type of ScheduleItem the scheduleItemsCollection contains
+				// For example, MedicationScheduleItem or EquipmentScheduleItem
 				if (scheduleItemsCollection.length > 0)
 				{
 					var adherencePerformanceEvaluator:AdherencePerformanceEvaluatorBase = _scheduleCollectionsProvider.viewFactory.createAdherencePerformanceEvaluator(scheduleItemsCollection[0]);
 					var adherencePerformanceAssertion:AdherencePerformanceAssertion = adherencePerformanceEvaluator.evaluateAdherencePerformance(scheduleItemOccurrencesVector,
-																														  _record,
-																														  adherencePerformanceInterval);
+																																				 _record,
+																																				 adherencePerformanceInterval);
 					_adherencePerformanceAssertionsCollection.addItem(adherencePerformanceAssertion);
 				}
 			}
+		}
+
+		public function get adherenceReportingDue():Boolean
+		{
+			return _adherenceReportingDue;
+		}
+
+		public function set adherenceReportingDue(value:Boolean):void
+		{
+			_adherenceReportingDue = value;
 		}
 
 		public function get adherencePerformanceAssertionsCollection():ArrayCollection

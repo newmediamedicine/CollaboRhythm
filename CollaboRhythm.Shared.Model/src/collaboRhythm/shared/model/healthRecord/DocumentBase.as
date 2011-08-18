@@ -96,5 +96,25 @@ package collaboRhythm.shared.model.healthRecord
 		{
 			return pendingAction == ACTION_ARCHIVE || pendingAction == ACTION_DELETE || pendingAction == ACTION_VOID;
 		}
+
+		/**
+		 * Compare function for sorting documents based on the value of the createdAt property in its metaData.
+		 *
+		 * @param documentBaseA
+		 * @param documentBaseB
+		 * @return
+		 */
+		public static function compareDocumentsByCreatedAtValue(documentBaseA:DocumentBase, documentBaseB:DocumentBase):int
+		{
+			if (documentBaseA.meta.createdAt.valueOf() < documentBaseB.meta.createdAt.valueOf())
+			{
+				return 1;
+			}
+			else if (documentBaseA.meta.createdAt.valueOf() == documentBaseB.meta.createdAt.valueOf())
+			{
+				return 0;
+			}
+			return -1;
+		}
 	}
 }

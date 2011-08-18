@@ -21,6 +21,7 @@
 									xmlns:view="collaboRhythm.plugins.schedule.shared.view.*"
 									xmlns:images="assets.images.*"
 									creationComplete="creationCompleteHandler()">
+<!--	enabled="{!(_scheduleItemOccurrence.adherenceItem &amp;&amp; _scheduleItemOccurrence.adherenceItem.adherence)}"-->
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
