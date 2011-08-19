@@ -71,31 +71,6 @@
 		public function refresh():void
 		{
 		}
-
-		public function get adherencePerformanceModel():AdherencePerformanceModel
-		{
-			return _adherencePerformanceModel;
-		}
-
-		public function set adherencePerformanceModel(value:AdherencePerformanceModel):void
-		{
-			_adherencePerformanceModel = value;
-			_adherencePerformanceModel.adherencePerformanceAssertionsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
-																								 adherencePerformanceAssertionsCollection_changeHandler);
-		}
-
-		private function adherencePerformanceAssertionsCollection_changeHandler(event:CollectionEvent):void
-		{
-//			var damage:int = 0;
-//			for each (var adherencePerformanceAssertion:AdherencePerformanceAssertion in _adherencePerformanceModel.adherencePerformanceAssertionsCollection)
-//			{
-//				if (adherencePerformanceAssertion.icon == AdherencePerformanceAssertion.LIGHTNING)
-//				{
-//					damage += 1;
-//				}
-//			}
-//			_damage = damage;
-		}
 		]]></fx:Script>
 
 	<s:Group id="simulationContentGroup"

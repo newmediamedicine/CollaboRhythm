@@ -118,8 +118,6 @@ package collaboRhythm.plugins.bloodPressure.controller
 			if (_widgetView && _activeRecordAccount && _activeRecordAccount.primaryRecord && _activeRecordAccount.primaryRecord.bloodPressureModel)
 			{
 				_widgetView.model = _activeRecordAccount.primaryRecord.bloodPressureModel;
-				var adherencePerformanceModel:AdherencePerformanceModel = _activeRecordAccount.primaryRecord.getAppData(AdherencePerformanceModel.ADHERENCE_PERFORMANCE_MODEL_KEY, AdherencePerformanceModel) as AdherencePerformanceModel;
-				_widgetView.adherencePerformanceModel = adherencePerformanceModel;
 			}
 		}
 

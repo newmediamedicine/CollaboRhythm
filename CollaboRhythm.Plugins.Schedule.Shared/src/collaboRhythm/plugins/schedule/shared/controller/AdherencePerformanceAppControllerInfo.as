@@ -14,18 +14,14 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.plugins.bloodPressure.view
+package collaboRhythm.plugins.schedule.shared.controller
 {
 
-	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
-	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
-
-	public interface IBloodPressureWidgetView
+	public class AdherencePerformanceAppControllerInfo
 	{
-		function get model():BloodPressureModel;
-
-		function set model(value:BloodPressureModel):void;
-
-		function refresh():void;
+		public static const APP_ID:String = "collaboRhythm.plugins.schedule.controller::AdherencePerformanceAppController";
+		public function AdherencePerformanceAppControllerInfo()
+		{
+		}
 	}
 }

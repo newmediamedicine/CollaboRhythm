@@ -3,7 +3,8 @@
 				xmlns:s="library://ns.adobe.com/flex/spark"
 				xmlns:mx="library://ns.adobe.com/flex/mx"
 				xmlns:images="assets.images.*"
-				width="100%" height="45">
+				width="100%" height="50"
+				autoDrawBackground="false">
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceAssertion;
 
@@ -16,7 +17,7 @@
 			_icon = String(value);
 		}
 		]]></fx:Script>
-	<images:thumbsUp visible="{_icon == AdherencePerformanceAssertion.THUMBS_UP}" width="45" height="45"/>
-	<images:warning visible="{_icon == AdherencePerformanceAssertion.WARNING}" width="45" height="45"/>
-	<images:lightningSmall visible="{_icon == AdherencePerformanceAssertion.LIGHTNING}" width="45" height="45"/>
+	<images:thumbsUp visible="{_icon == AdherencePerformanceAssertion.THUMBS_UP}" width="45" height="45" verticalCenter="0"/>
+	<images:warning visible="{_icon == AdherencePerformanceAssertion.WARNING}" width="45" height="45" verticalCenter="0"/>
+	<images:lightningSmall visible="{_icon == AdherencePerformanceAssertion.LIGHTNING}" width="45" height="45" verticalCenter="0"/>
 </s:ItemRenderer>

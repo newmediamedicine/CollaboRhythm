@@ -50,8 +50,8 @@ package collaboRhythm.plugins.bloodPressure.controller
 			var mainAppControllerInfo:AppControllerInfo = new AppControllerInfo(BloodPressureAppController);
 			mainAppControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER,
 																							 chartAppControllerInfo.appId));
-			mainAppControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER,
-																							 ScheduleAppControllerInfo.APP_ID));
+//			mainAppControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER,
+//																							 ScheduleAppControllerInfo.APP_ID));
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
 														 mainAppControllerInfo);
 

@@ -17,10 +17,15 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
 
+	import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
+	import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 	import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
+
+	import mx.binding.utils.BindingUtils;
 
 	import mx.collections.ArrayCollection;
 
@@ -32,8 +37,8 @@ package collaboRhythm.plugins.schedule.shared.model
 		 */
 		public static const ADHERENCE_PERFORMANCE_MODEL_KEY:String = "adherencePerformanceModel";
 
-		public static const ADHERENCE_PERFORMANCE_INTERVAL_YESTERDAY:String = "Yesterday";
-		public static const ADHERENCE_PERFORMANCE_INTERVAL_TODAY:String = "Today";
+		public static const ADHERENCE_PERFORMANCE_INTERVAL_YESTERDAY:String = "yesterday";
+		public static const ADHERENCE_PERFORMANCE_INTERVAL_TODAY:String = "today";
 
 		private static const MILLISECONDS_IN_DAY:Number = 1000 * 60 * 60 * 24;
 
@@ -44,14 +49,50 @@ package collaboRhythm.plugins.schedule.shared.model
 		private var _adherencePerformanceAssertionsCollection:ArrayCollection = new ArrayCollection();
 
 		private var _currentDateSource:ICurrentDateSource;
+		private var _simulationModel:SimulationModel;
+		private var _scheduleModelIsInitialized:Boolean;
 
 		public function AdherencePerformanceModel(scheduleCollectionsProvider:IScheduleCollectionsProvider,
 												  record:Record)
 		{
 			_scheduleCollectionsProvider = scheduleCollectionsProvider;
 			_record = record;
+			_simulationModel = _record.bloodPressureModel.simulation;
+
+			BindingUtils.bindSetter(simulationModelInitialized_changeHandler, _simulationModel, "isInitialized");
 
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+		}
+
+		private function simulationModelInitialized_changeHandler(isInitialized:Boolean):void
+		{
+			if (isInitialized && _scheduleModelIsInitialized)
+			{
+				bindConcentrationSeverityLevels();
+			}
+		}
+
+		public function set scheduleModelIsInitialized(isInitialized:Boolean):void
+		{
+			_scheduleModelIsInitialized = isInitialized;
+			if (isInitialized && _simulationModel.isInitialized)
+			{
+				bindConcentrationSeverityLevels();
+			}
+		}
+
+		private function bindConcentrationSeverityLevels():void
+		{
+			for each (var medicationComponentAdherenceModel:MedicationComponentAdherenceModel in _simulationModel.medications)
+			{
+				BindingUtils.bindSetter(medicationConcentrationSeverityLevel_changeHandler, medicationComponentAdherenceModel,
+									"concentrationSeverityLevel");
+			}
+		}
+
+		private function medicationConcentrationSeverityLevel_changeHandler(value:int):void
+		{
+			updateAdherencePerformance();
 		}
 
 		/**

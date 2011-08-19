@@ -19,7 +19,7 @@
 				xmlns:s="library://ns.adobe.com/flex/spark"
 				xmlns:mx="library://ns.adobe.com/flex/mx"
 				autoDrawBackground="false"
-				height="45" width="100%">
+				height="50" width="100%">
 	<s:states>
 		<s:State name="noSubAssertion"/>
 		<s:State name="hasSubAssertion"/>
@@ -67,9 +67,9 @@
 			}
 		}
 		]]></fx:Script>
-	<s:Label styleName="assertionLabel" text="{_adherencePerformanceAssertion.assertion}" color="{chooseColor(_adherencePerformanceAssertion.valence)}" includeIn="noSubAssertion" verticalCenter="0"/>
-	<s:VGroup width="100%" height="100%" includeIn="hasSubAssertion">
+	<s:Label styleName="assertionLabel" text="{_adherencePerformanceAssertion.assertion}" color="{chooseColor(_adherencePerformanceAssertion.valence)}" includeIn="noSubAssertion" verticalCenter="2"/>
+	<s:VGroup width="100%" height="100%" includeIn="hasSubAssertion" gap="0">
 		<s:Label styleName="assertionLabel" text="{_adherencePerformanceAssertion.assertion}" color="{chooseColor(_adherencePerformanceAssertion.valence)}"/>
-		<s:Label id="subAssertionLabel" text="{_adherencePerformanceAssertion.subAssertion}" visible="{_adherencePerformanceAssertion.subAssertion}"/>
+		<s:Label id="subAssertionLabel" text="{_adherencePerformanceAssertion.subAssertion}" visible="{_adherencePerformanceAssertion.subAssertion != null}"/>
 	</s:VGroup>
 </s:ItemRenderer>

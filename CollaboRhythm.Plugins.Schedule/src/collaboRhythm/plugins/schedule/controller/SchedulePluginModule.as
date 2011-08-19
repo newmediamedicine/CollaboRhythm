@@ -19,7 +19,15 @@ package collaboRhythm.plugins.schedule.controller
 
 	import castle.flexbridge.reflection.ReflectionUtils;
 
+	import collaboRhythm.plugins.schedule.shared.controller.AdherencePerformanceAppControllerInfo;
+
+	import collaboRhythm.plugins.schedule.shared.controller.BloodPressureAppControllerInfo;
+
+	import collaboRhythm.plugins.schedule.shared.controller.BloodPressureChartAppControllerInfo;
+	import collaboRhythm.plugins.schedule.shared.controller.ScheduleAppControllerInfo;
+
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
+	import collaboRhythm.shared.controller.apps.AppOrderConstraint;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
 
@@ -34,9 +42,21 @@ package collaboRhythm.plugins.schedule.controller
 
 		public function registerComponents(componentContainer:IComponentContainer):void
 		{
-			var typeName:String = ReflectionUtils.getClassInfo(ScheduleAppController).name;
+			var typeName:String;
+
+			var scheduleAppControllerInfo:AppControllerInfo = new AppControllerInfo(ScheduleAppController);
+
+			scheduleAppControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER,
+																								 BloodPressureChartAppControllerInfo.APP_ID));
+			scheduleAppControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER,
+																								 BloodPressureAppControllerInfo.APP_ID));
+			scheduleAppControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_BEFORE,
+																								 AdherencePerformanceAppControllerInfo.APP_ID));
+
+			typeName = ReflectionUtils.getClassInfo(ScheduleAppController).name;
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
-														 new AppControllerInfo(ScheduleAppController));
+														 scheduleAppControllerInfo);
+
 			typeName = ReflectionUtils.getClassInfo(AdherencePerformanceAppController).name;
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
 														 new AppControllerInfo(AdherencePerformanceAppController));

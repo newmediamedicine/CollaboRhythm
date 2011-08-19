@@ -117,7 +117,7 @@ package collaboRhythm.plugins.schedule.model
 				_scheduleItemOccurrencesHashMap.put(scheduleItemOccurrence.id, scheduleItemOccurrence);
 				addToScheduleGroup(scheduleItemOccurrence);
 			}
-			adherencePerformanceModel.updateAdherencePerformance();
+			adherencePerformanceModel.scheduleModelIsInitialized = true;
 			scheduleTimelineModel.determineStacking();
 		}
 
