@@ -33,11 +33,11 @@ package collaboRhythm.plugins.medications.model
 
 		public static const MEDICATION_CONCENTRATION_ABOVE_GOAL_ASSERTION_ALL:String = "All of your medications are above goal concentration.";
 		public static const MEDICATION_CONCENTRATION_ABOVE_GOAL_ASSERTION_SOME:String = "Some of your medications are above goal concentration.";
-		public static const MEDICATION_CONCENTRATION_ABOVE_GOAL_ASSERTION_ONE:String = " is above goal concentration.";
+		public static const MEDICATION_CONCENTRATION_ABOVE_GOAL_ASSERTION_ONE:String = "is above goal concentration.";
 
 		public static const MEDICATION_CONCENTRATION_BELOW_GOAL_ASSERTION_ALL:String = "All of your medications are below goal concentration.";
 		public static const MEDICATION_CONCENTRATION_BELOW_GOAL_ASSERTION_SOME:String = "Some of your medications are below goal concentration.";
-		public static const MEDICATION_CONCENTRATION_BELOW_GOAL_ASSERTION_ONE:String = " is below goal concentration.";
+		public static const MEDICATION_CONCENTRATION_BELOW_GOAL_ASSERTION_ONE:String = "is below goal concentration.";
 
 		public static const MEDICATION_CONCENTRATION_WITHIN_GOAL_ALL:String = "All of your medications are within goal concentration.";
 
