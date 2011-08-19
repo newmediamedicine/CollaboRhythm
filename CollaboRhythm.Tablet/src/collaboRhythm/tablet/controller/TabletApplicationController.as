@@ -122,5 +122,11 @@ package collaboRhythm.tablet.controller
 			if (_activeRecordAccount && _activeRecordAccount.primaryRecord && _activeRecordAccount.primaryRecord.demographics)
 				_activeRecordAccount.primaryRecord.demographics.dispatchAgeChangeEvent();
 		}
+
+		protected override function restoreFocus():void
+		{
+			if (_activeRecordView)
+				_activeRecordView.setFocus();
+		}
 	}
 }
