@@ -28,7 +28,9 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayCollection;
+	import mx.events.FlexEvent;
 
+	[Event(name="updateComplete", type="mx.events.FlexEvent")]
 	[Bindable]
 	public class BloodPressureModel
 	{
@@ -200,12 +202,20 @@ package collaboRhythm.shared.apps.bloodPressure.model
 										"isInitialized");
 				BindingUtils.bindSetter(record_isLoading_setterHandler, record,
 										"isLoading");
-				BindingUtils.bindSetter(simulation_isInitialized_setterHandler, simulation, "isInitialized")
+				BindingUtils.bindSetter(simulation_isInitialized_setterHandler, simulation, "isInitialized");
+
+				if (record.medicationAdministrationsModel)
+					record.medicationAdministrationsModel.addEventListener(FlexEvent.UPDATE_COMPLETE, medicationAdministrationsModel_updateCompleteHandler);
 			}
 			else
 			{
 				// TODO: unbind or use weak references
 			}
+		}
+
+		private function medicationAdministrationsModel_updateCompleteHandler(event:FlexEvent):void
+		{
+			dispatchEvent(new FlexEvent(FlexEvent.UPDATE_COMPLETE));
 		}
 
 		private function simulation_isInitialized_setterHandler(isInitialized:Boolean):void

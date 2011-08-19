@@ -377,5 +377,14 @@ package collaboRhythm.core.model.healthRecord
 		{
 			return _saveChangesHealthRecordService.errorsSavingSummary;
 		}
+
+		public function closeRecord():void
+		{
+			_currentRecord = null;
+			for each (var service:DocumentStorageServiceBase in _services)
+			{
+				service.closeRecord();
+			}
+		}
 	}
 }

@@ -250,6 +250,17 @@
 				simulationView.initializeModel(model.simulation, model);
 
 			_model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, model_propertyChangeHandler, false, 0, true);
+			_model.addEventListener(FlexEvent.UPDATE_COMPLETE, model_updateCompleteHandler, false, 0, true);
+		}
+
+		private function model_updateCompleteHandler(event:FlexEvent):void
+		{
+			var today:Date = model.currentDateSource.now();
+			for each (var chart:ScrubChart in _visibleCharts)
+			{
+				chart.today = today;
+			}
+			synchronizeDateLimits();
 		}
 
 		private function model_propertyChangeHandler(event:PropertyChangeEvent):void
@@ -284,6 +295,7 @@
 						var medicationScheduleItem:MedicationScheduleItem = medicationModel.medicationScheduleItem;
 
 						var chart:TouchScrollingScrubChart = new TouchScrollingScrubChart();
+						chart.id = "adherence" + medicationCode;
 						chart.setStyle("medicationCode", medicationCode);
 						if (medicationFill)
 							chart.setStyle("ndcCode", medicationFill.ndc.text);
@@ -604,8 +616,8 @@
 			var maximum:Number = charts[0].maximumTime;
 			for each (var chart:TouchScrollingScrubChart in charts)
 			{
-				minimum = Math.min(minimum, chart.minimumTime);
-				maximum = Math.max(maximum, chart.maximumTime);
+				minimum = Math.min(minimum, chart.minimumDataTime);
+				maximum = Math.max(maximum, chart.maximumDataTime);
 			}
 
 			if (!isNaN(minimum) && !isNaN(maximum))
@@ -617,6 +629,9 @@
 					chart.focusTime = maximum;
 				}
 			}
+
+			if (_traceEventHandlers)
+				trace("synchronizeDateLimits minimum " + ScrubChart.traceDate(minimum) + " maximum " + ScrubChart.traceDate(maximum));
 		}
 
 		protected function updateSeries():void
@@ -736,6 +751,11 @@
 					{
 						scrollEnabled = !scrollEnabled;
 						break;
+					}
+					case Keyboard.T:
+					{
+						_traceEventHandlers = !_traceEventHandlers;
+						trace("_traceEventHandlers " + _traceEventHandlers);
 					}
 				}
 			}

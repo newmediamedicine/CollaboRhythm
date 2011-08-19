@@ -16,8 +16,11 @@
  */
 package collaboRhythm.shared.model.services
 {
+
+	import flash.events.IEventDispatcher;
+
 	[Bindable]
-	public interface ICurrentDateSource
+	public interface ICurrentDateSource extends IEventDispatcher
 	{
 		function now():Date;
 		function get currentDate():Date;

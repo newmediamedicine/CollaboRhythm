@@ -206,5 +206,11 @@ package collaboRhythm.core.model.healthRecord.service
 		{
 			return true;
 		}
+
+		public function closeRecord():void
+		{
+			activeAccount = null;
+			_relationshipXmlMarshaller.record = null;
+		}
 	}
 }

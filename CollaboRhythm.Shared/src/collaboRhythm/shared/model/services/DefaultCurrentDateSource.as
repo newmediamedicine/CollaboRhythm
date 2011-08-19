@@ -16,7 +16,10 @@
  */
 package collaboRhythm.shared.model.services
 {
-	public class DefaultCurrentDateSource implements ICurrentDateSource
+
+	import flash.events.EventDispatcher;
+
+	public class DefaultCurrentDateSource extends EventDispatcher implements ICurrentDateSource
 	{
 		public function DefaultCurrentDateSource()
 		{

@@ -16,13 +16,23 @@
  */
 package collaboRhythm.shared.model.services
 {
+
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
+
 	import mx.events.PropertyChangeEvent;
 
 	[Bindable]
-	public class DemoCurrentDateSource implements ICurrentDateSource
+	public class DemoCurrentDateSource extends EventDispatcher implements ICurrentDateSource
 	{
 		private var _targetDate:Date;
 		private var _offset:Number;
+		private var _fastForwardRepeatDelay:Number = 1000 * 5;
+		private var _fastForwardIncrement:Number = 1000 * 60 * 60;
+		private var _fastForwardTimer:Timer = new Timer(0);
+		private var _fastForwardEnabled:Boolean = false;
 
 		public function get targetDate():Date
 		{
@@ -53,10 +63,35 @@ package collaboRhythm.shared.model.services
 				_offset = 0;
 			
 			this.dispatchEvent(changeEvent);
+			this.dispatchEvent(new Event(Event.CHANGE));
 		}
 		
 		public function DemoCurrentDateSource()
 		{
+			_fastForwardTimer.addEventListener(TimerEvent.TIMER, fastForwardTimer_timerHandler, false, 0, true);
+			if (fastForwardEnabled)
+			{
+				restartFastForwardTimer();
+			}
+		}
+
+		private function restartFastForwardTimer():void
+		{
+			_fastForwardTimer.delay = fastForwardRepeatDelay;
+			_fastForwardTimer.start();
+		}
+
+		private function fastForwardTimer_timerHandler(event:TimerEvent):void
+		{
+			var newTargetDate:Date = new Date();
+			if (targetDate)
+				newTargetDate.setTime(_targetDate.time + fastForwardIncrement);
+			else
+				newTargetDate.setTime(newTargetDate.time + fastForwardIncrement);
+
+			targetDate = newTargetDate;
+
+			_fastForwardTimer.start();
 		}
 		
 		public function now():Date
@@ -73,6 +108,47 @@ package collaboRhythm.shared.model.services
 		public function get currentDate():Date
 		{
 			return targetDate;
+		}
+
+		public function get fastForwardIncrement():Number
+		{
+			return _fastForwardIncrement;
+		}
+
+		public function set fastForwardIncrement(value:Number):void
+		{
+			_fastForwardIncrement = value;
+		}
+
+		public function get fastForwardRepeatDelay():Number
+		{
+			return _fastForwardRepeatDelay;
+		}
+
+		public function set fastForwardRepeatDelay(value:Number):void
+		{
+			_fastForwardRepeatDelay = value;
+		}
+
+		public function get fastForwardEnabled():Boolean
+		{
+			return _fastForwardEnabled;
+		}
+
+		public function set fastForwardEnabled(value:Boolean):void
+		{
+			if (_fastForwardEnabled != value)
+			{
+				_fastForwardEnabled = value;
+				if (fastForwardEnabled)
+				{
+					restartFastForwardTimer();
+				}
+				else
+				{
+					_fastForwardTimer.stop();
+				}
+			}
 		}
 	}
 }

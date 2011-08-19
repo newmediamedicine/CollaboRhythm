@@ -77,7 +77,7 @@ package com.dougmccune.controls
 				return 0;
 			
 //			var cache:Array = [ { from: this.dateParse(this.data[0][dateField]).time, to: 0 }, { from: this.dateParse(this.data[this.data.length - 1][dateField]).time, to: 0} ];
-			var cache:Array = [ { from: t0, to: 0 }, { from: t1, to: 0} ];
+			var cache:Array = [ { from: _minimumTime, to: 0 }, { from: _maximumTime, to: 0} ];
 			this.mainChart.horizontalAxis.transformCache(cache, "from", "to");
 			
 			var minX:Number = cache[0].to;
@@ -108,7 +108,7 @@ package com.dougmccune.controls
 		
 		public function get contentPositionX():Number
 		{
-			var contentPositionX:Number = -(leftRangeTime - t0) * (mainChartArea.width / mainChartDurationTime);
+			var contentPositionX:Number = -(leftRangeTime - _minimumTime) * (mainChartArea.width / mainChartDurationTime);
 //			var contentPositionX:Number = mainChart.x;
 			return contentPositionX;
 		}
@@ -123,7 +123,7 @@ package com.dougmccune.controls
 //			trace("before:  mainChartDurationTime", mainChartDurationTime, "leftToRight", leftToRight,"leftRangeTime", leftRangeTime, "rightRangeTime", rightRangeTime, "min", minimumTime, "max", maximumTime);
 
 			var leftToRight:Number = rightRangeTime - leftRangeTime;
-			var targetLeftRangeTime:Number = -value / (mainChartArea.width / mainChartDurationTime) + t0;
+			var targetLeftRangeTime:Number = -value / (mainChartArea.width / mainChartDurationTime) + _minimumTime;
 //			var limitedLeftRangeTime:Number = Math.max(t0, Math.min(t1 - leftToRight, targetLeftRangeTime));
 //			leftRangeTime = limitedLeftRangeTime;
 //			rightRangeTime = limitedLeftRangeTime + leftToRight;

@@ -23,6 +23,9 @@ package collaboRhythm.shared.model.healthRecord.document
 	import j2as3.collection.HashMap;
 
 	import mx.collections.ArrayCollection;
+	import mx.events.FlexEvent;
+
+	[Event(name="updateComplete", type="mx.events.FlexEvent")]
 
 	[Bindable]
 	public class MedicationAdministrationsModel extends DocumentCollectionBase
@@ -131,6 +134,11 @@ package collaboRhythm.shared.model.healthRecord.document
 			medicationAdministrations.clear();
 			medicationAdministrationsCollection.removeAll();
 			medicationAdministrationsCollectionsByCode.clear();
+		}
+
+		public function updateComplete():void
+		{
+			dispatchEvent(new FlexEvent(FlexEvent.UPDATE_COMPLETE));
 		}
 	}
 }
