@@ -31,15 +31,15 @@ package collaboRhythm.plugins.medications.model
 	{
 		public static const SCHEDULE_ITEM_TYPE:String = "http://indivo.org/vocab/xml/documents#MedicationScheduleItem";
 
-		public static const MEDICATION_CONCENTRATION_ABOVE_GOAL_ASSERTION_ALL:String = "All of your medications are above goal concentration";
-		public static const MEDICATION_CONCENTRATION_ABOVE_GOAL_ASSERTION_SOME:String = "Some of your medications are above goal concentration";
-		public static const MEDICATION_CONCENTRATION_ABOVE_GOAL_ASSERTION_ONE:String = " is above goal concentration";
+		public static const MEDICATION_CONCENTRATION_ABOVE_GOAL_ASSERTION_ALL:String = "All of your medications are above goal concentration.";
+		public static const MEDICATION_CONCENTRATION_ABOVE_GOAL_ASSERTION_SOME:String = "Some of your medications are above goal concentration.";
+		public static const MEDICATION_CONCENTRATION_ABOVE_GOAL_ASSERTION_ONE:String = " is above goal concentration.";
 
-		public static const MEDICATION_CONCENTRATION_BELOW_GOAL_ASSERTION_ALL:String = "All of your medications are below goal concentration";
-		public static const MEDICATION_CONCENTRATION_BELOW_GOAL_ASSERTION_SOME:String = "Some of your medications are below goal concentration";
-		public static const MEDICATION_CONCENTRATION_BELOW_GOAL_ASSERTION_ONE:String = " is below goal concentration";
+		public static const MEDICATION_CONCENTRATION_BELOW_GOAL_ASSERTION_ALL:String = "All of your medications are below goal concentration.";
+		public static const MEDICATION_CONCENTRATION_BELOW_GOAL_ASSERTION_SOME:String = "Some of your medications are below goal concentration.";
+		public static const MEDICATION_CONCENTRATION_BELOW_GOAL_ASSERTION_ONE:String = " is below goal concentration.";
 
-		public static const MEDICATION_CONCENTRATION_WITHIN_GOAL_ALL:String = "All of your medications are within goal concentration";
+		public static const MEDICATION_CONCENTRATION_WITHIN_GOAL_ALL:String = "All of your medications are within goal concentration.";
 
 		public static const MEDICATIONS_ADHERENCE_PERFECT_ASSERTION_YESTERDAY:String = "You took all of your scheduled blood pressure medications yesterday.";
 		public static const MEDICATIONS_ADHERENCE_PERFECT_ASSERTION_TODAY:String = "You have taken all of your scheduled blood pressure medications today.";
@@ -123,22 +123,23 @@ package collaboRhythm.plugins.medications.model
 			{
 				if (adherencePerformanceInterval == AdherencePerformanceModel.ADHERENCE_PERFORMANCE_INTERVAL_TODAY)
 				{
-					return "And you have taken all of your scheduled medications " + adherencePerformanceInterval + " - nice work";
+					return "And you have taken all of your scheduled medications " + adherencePerformanceInterval + ". Nice work!";
 				}
 				else
 				{
-					return "And you took all of your scheduled medications " + adherencePerformanceInterval + " - nice work";
+					return "And you took all of your scheduled medications " + adherencePerformanceInterval + ". Nice work!";
 				}
 			}
 			else
 			{
 				if (adherencePerformanceInterval == AdherencePerformanceModel.ADHERENCE_PERFORMANCE_INTERVAL_TODAY)
 				{
-					return "But you have not taken all of your scheduled medications " + adherencePerformanceInterval + " - the concentrations will fall";
+					return "But you have not taken all of your scheduled medications " + adherencePerformanceInterval + ". The concentrations will fall.";
+
 				}
 				else
 				{
-					return "But you did not take all of your scheduled medications " + adherencePerformanceInterval + " - the concentrations will fall";
+					return "But you did not take all of your scheduled medications " + adherencePerformanceInterval + ". The concentrations will fall.";
 				}
 			}
 		}
@@ -151,22 +152,22 @@ package collaboRhythm.plugins.medications.model
 			{
 				if (adherencePerformanceInterval == AdherencePerformanceModel.ADHERENCE_PERFORMANCE_INTERVAL_TODAY)
 				{
-					return "But you have taken this medication as scheduled " + adherencePerformanceInterval + " - nice work, the concentration will rise";
+					return "But you have taken this medication as scheduled " + adherencePerformanceInterval + ". Nice work! The concentration will rise.";
 				}
 				else
 				{
-					return "But you took this medication as scheduled " + adherencePerformanceInterval + " - nice work, the concentration will rise";
+					return "But you took this medication as scheduled " + adherencePerformanceInterval + ". Nice work! The concentration will rise.";
 				}
 			}
 			else
 			{
 				if (adherencePerformanceInterval == AdherencePerformanceModel.ADHERENCE_PERFORMANCE_INTERVAL_TODAY)
 				{
-					return "And you have not taken this medication as scheduled " + adherencePerformanceInterval + " - the concentration will stay low";
+					return "And you have not taken this medication as scheduled " + adherencePerformanceInterval + ". The concentration will stay low.";
 				}
 				else
 				{
-					return "And you did not take this medication as scheduled " + adherencePerformanceInterval + " - the concentration will stay low";
+					return "And you did not take this medication as scheduled " + adherencePerformanceInterval + ". The concentration will stay low.";
 				}
 			}
 		}
@@ -179,22 +180,22 @@ package collaboRhythm.plugins.medications.model
 			{
 				if (adherencePerformanceInterval == AdherencePerformanceModel.ADHERENCE_PERFORMANCE_INTERVAL_TODAY)
 				{
-					return "But you have taken these medications as scheduled " + adherencePerformanceInterval + " - nice work, the concentrations will rise";
+					return "But you have taken these medications as scheduled " + adherencePerformanceInterval + ". Nice work! The concentrations will rise.";
 				}
 				else
 				{
-					return "But you took these medications as scheduled " + adherencePerformanceInterval + " - nice work, the concentrations will rise";
+					return "But you took these medications as scheduled " + adherencePerformanceInterval + ". Nice work! The concentrations will rise.";
 				}
 			}
 			else
 			{
 				if (adherencePerformanceInterval == AdherencePerformanceModel.ADHERENCE_PERFORMANCE_INTERVAL_TODAY)
 				{
-					return "And you have not taken these medications as scheduled " + adherencePerformanceInterval + " - the concentration will stay low";
+					return "And you have not taken these medications as scheduled " + adherencePerformanceInterval + ". The concentrations will stay low.";
 				}
 				else
 				{
-					return "And you did not take these medications as scheduled " + adherencePerformanceInterval + " - the concentration will stay low";
+					return "And you did not take these medications as scheduled " + adherencePerformanceInterval + ". The concentrations will stay low.";
 				}
 			}
 		}
@@ -204,11 +205,11 @@ package collaboRhythm.plugins.medications.model
 		{
 			if (isAdherencePerformancePerfect(medicationScheduleItemOccurrencesVector))
 			{
-				return "But you took all of your scheduled medications " + adherencePerformanceInterval + " - nice work, the concentrations will rise";
+				return "But you took all of your scheduled medications " + adherencePerformanceInterval + ". Nice work! The concentrations will rise.";
 			}
 			else
 			{
-				return "And you have not taken all of your scheduled medications " + adherencePerformanceInterval + " - the concentrations will stay low";
+				return "And you have not taken all of your scheduled medications " + adherencePerformanceInterval + ". The concentrations will stay low.";
 			}
 		}
 
