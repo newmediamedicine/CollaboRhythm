@@ -101,3 +101,12 @@ controls|ScrubChart, controls|TouchScrollingMcCuneChart, .scrubChartSkinStyle
     headerVisible: true;
     footerVisible: true;
 }
+
+@namespace "mx.charts.chartClasses.*";
+
+DataTip
+{
+	color: FFFFFF;
+	fontSize: 16;
+	backgroundColor: 000000;
+}

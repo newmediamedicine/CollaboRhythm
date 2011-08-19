@@ -19,11 +19,18 @@ package collaboRhythm.plugins.bloodPressure.view
     import flash.display.Graphics;
     import flash.geom.Rectangle;
 
-    import mx.core.IDataRenderer;
-    import mx.graphics.IStroke;
-    import mx.skins.ProgrammaticSkin;
+	import mx.charts.ChartItem;
+	import mx.charts.chartClasses.GraphicsUtilities;
 
-    /**
+	import mx.core.IDataRenderer;
+	import mx.graphics.IFill;
+	import mx.graphics.IStroke;
+	import mx.graphics.SolidColor;
+	import mx.graphics.SolidColorStroke;
+	import mx.skins.ProgrammaticSkin;
+	import mx.utils.ColorUtil;
+
+	/**
      *  A simple chart itemRenderer implementation
      *  that draws an arrow head (up or down).
      *  This class can be used as an itemRenderer for ColumnSeries, BarSeries, AreaSeries, LineSeries,
@@ -165,6 +172,7 @@ package collaboRhythm.plugins.bloodPressure.view
 
         private var previousWidth:Number;
         private var previousHeight:Number;
+		private var previousState:String;
 
         /**
          *  @private
@@ -173,12 +181,67 @@ package collaboRhythm.plugins.bloodPressure.view
         {
             super.updateDisplayList(unscaledWidth, unscaledHeight);
 
-            if (unscaledWidth != previousWidth || unscaledHeight != previousHeight)
+			var fill:IFill;
+			var state:String = "";
+
+			if (_data is ChartItem && _data.hasOwnProperty('fill'))
+			{
+				 fill = _data.fill;
+				 state = _data.currentState;
+			}
+			else
+				 fill = GraphicsUtilities.fillFromStyle(getStyle('fill'));
+
+            if (unscaledWidth != previousWidth || unscaledHeight != previousHeight || state != previousState)
             {
                 previousWidth = unscaledWidth;
                 previousHeight = unscaledHeight;
+				previousState = state;
 
                 var stroke:IStroke = getStyle("stroke");
+				var color:uint;
+				var adjustedRadius:Number = 0;
+
+				switch (state)
+				{
+					case ChartItem.FOCUSED:
+					case ChartItem.ROLLOVER:
+						if (styleManager.isValidStyleValue(getStyle('itemRollOverColor')))
+							color = getStyle('itemRollOverColor');
+						else
+							color = ColorUtil.adjustBrightness2(GraphicsUtilities.colorFromFill(fill),-20);
+						fill = new SolidColor(color);
+						adjustedRadius = getStyle('adjustedRadius');
+						if (!adjustedRadius)
+							adjustedRadius = 0;
+						break;
+					case ChartItem.DISABLED:
+						if (styleManager.isValidStyleValue(getStyle('itemDisabledColor')))
+							color = getStyle('itemDisabledColor');
+						else
+							color = ColorUtil.adjustBrightness2(GraphicsUtilities.colorFromFill(fill),20);
+						fill = new SolidColor(GraphicsUtilities.colorFromFill(color));
+						break;
+					case ChartItem.FOCUSEDSELECTED:
+					case ChartItem.SELECTED:
+						if (styleManager.isValidStyleValue(getStyle('itemSelectionColor')))
+							color = getStyle('itemSelectionColor');
+						else
+							color = ColorUtil.adjustBrightness2(GraphicsUtilities.colorFromFill(fill),-30);
+						fill = new SolidColor(color);
+						adjustedRadius = getStyle('adjustedRadius');
+						if (!adjustedRadius)
+							adjustedRadius = 0;
+						if (stroke)
+						{
+							var solidColorStroke:SolidColorStroke = stroke as SolidColorStroke;
+							if (solidColorStroke)
+								stroke = new SolidColorStroke(color, stroke.weight * 2, solidColorStroke.alpha, solidColorStroke.pixelHinting, solidColorStroke.scaleMode, solidColorStroke.caps, solidColorStroke.joints, solidColorStroke.miterLimit);
+							else
+								stroke = new SolidColorStroke(color, stroke.weight * 2);
+						}
+						break;
+				}
 
                 // center
                 var cx:Number = unscaledWidth / 2;
@@ -187,7 +250,10 @@ package collaboRhythm.plugins.bloodPressure.view
                 var g:Graphics = graphics;
                 g.clear();
                 if (stroke)
-                    stroke.apply(g, null, null);
+				{
+					stroke.apply(g, null, null);
+//					g.lineStyle(stroke.weight, color);
+				}
 
                 // left top corner
                 g.moveTo(cx - deltaX, cy + deltaY);

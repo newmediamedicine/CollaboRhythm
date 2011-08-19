@@ -52,6 +52,7 @@ package com.dougmccune.controls
 	import flash.geom.Point;
 	import flash.globalization.DateTimeFormatter;
 	import flash.ui.Keyboard;
+	import flash.utils.getQualifiedClassName;
 
 	import mx.charts.ChartItem;
 	import mx.charts.DateTimeAxis;
@@ -83,6 +84,8 @@ package com.dougmccune.controls
 	import mx.events.SliderEvent;
 	import mx.formatters.DateFormatter;
 	import mx.formatters.NumberFormatter;
+	import mx.logging.ILogger;
+	import mx.logging.Log;
 	import mx.managers.IFocusManagerComponent;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
@@ -318,7 +321,7 @@ package com.dougmccune.controls
 
 		//the sliced data to appear in the upper area chart, and column volume chart
 		[Bindable]
-		protected var mainData:ArrayCollection = new ArrayCollection();
+		public var mainData:ArrayCollection = new ArrayCollection();
 		//the full dataset of stock information
 		[Bindable]
 		protected var rangeData:ArrayCollection = new ArrayCollection();
@@ -470,6 +473,7 @@ package com.dougmccune.controls
 
 		public function ScrubChart()
 		{
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			fullDateFormat.formatString = "YYYY-MM-DD";
 			labelYearFormatter.formatString = "YYYY";
 			labelMonthFormatter.formatString = "MMM YYYY";
@@ -695,11 +699,11 @@ package com.dougmccune.controls
 
 				allowUpdateComplete = true;
 
-				rangeData = _data;
+				rangeData.source = _data.source;
 
 				try
 				{
-					mainData = new ArrayCollection(_data.source);
+					mainData.source = _data.source;
 				} catch(e:Error)
 				{
 					trace("Error setting mainData: " + e.message);
@@ -964,7 +968,7 @@ package com.dougmccune.controls
 			{
 				var dataItem:Object = rangeData.source[i];
 				// use the first data point that is just before crossing the left edge
-				if ((dataItem["date"] as Date).time > leftRangeTime)
+				if ((dataItem[dateField] as Date).time > leftRangeTime)
 				{
 					i0 = Math.max(0, i - 1);
 					break;
@@ -977,7 +981,7 @@ package com.dougmccune.controls
 			{
 				dataItem = rangeData.source[i];
 				// use the first data point that is beyond the right edge
-				if ((dataItem["date"] as Date).time > rightRangeTime)
+				if ((dataItem[dateField] as Date).time > rightRangeTime)
 				{
 					i1 = i + 1;
 					break;
@@ -986,8 +990,6 @@ package com.dougmccune.controls
 
 		//				trace("slicing in", this.id, i0, i1);
 			mainData.source = rangeData.source.slice(i0, i1 + 1);
-		//				mainData.source = rangeData.source.slice(0, rangeData.source.length);
-		//				mainChart.validateNow();
 		}
 
 		private function updateMainDataSource():void
@@ -1195,6 +1197,9 @@ package com.dougmccune.controls
 		private var _pendingAnimateRightRangeTime:Number;
 		private var _pendingLeftRangeTime:Number;
 		private var _pendingRightRangeTime:Number;
+		private var compareResultToBruteForceSearch:Boolean = false;
+		protected var _logger:ILogger;
+		private var skipSearch:Boolean = false;
 
 		private function initializeRangeTimeAnimate():void
 		{
@@ -1476,7 +1481,7 @@ package com.dougmccune.controls
 					var hitData:HitData = points[0] as HitData;
 					if (hitData != null && highlightedItem != hitData.chartItem)
 					{
-						highlightChartItem(hitData.chartItem);
+						highlightClickedChartItem(hitData.chartItem);
 						// only highlight the first item found; for overlapping series, obscured data points may not be selectable
 						return;
 					}
@@ -1487,7 +1492,37 @@ package com.dougmccune.controls
 			hideDataPointHighlight();
 		}
 
-		private function highlightChartItem(chartItem:ChartItem):void
+		private function highlightClickedChartItem(chartItem:ChartItem):void
+		{
+			var chartItemX:Number = highlightChartItem(chartItem);
+			dispatchEvent(new ChartItemEvent(ChartItemEvent.ITEM_CLICK, [highlightedItem]));
+
+			// If possible, we move the focus time the exact date, instead of trying to infer the date from the item position
+			var date:Date;
+			var series:Series = chartItem.element as Series;
+			if (series)
+			{
+				if (series.hasOwnProperty("xField"))
+				{
+					var xField:String = series["xField"] as String;
+					if (xField && chartItem.item.hasOwnProperty(xField))
+					{
+						date = chartItem.item[xField] as Date;
+					}
+				}
+			}
+			if (date)
+				animateFocusTimeMarkerToDate(date);
+			else
+				animateFocusTimeMarker(chartItemX);
+		}
+
+		/**
+		 * Highlights a chart item and returns the x coordinate of the item
+		 * @param chartItem
+		 * @return
+		 */
+		public function highlightChartItem(chartItem:ChartItem):Number
 		{
 			if (highlightChartItemEffect)
 				highlightChartItemEffect.stop();
@@ -1509,31 +1544,12 @@ package com.dougmccune.controls
 //			highlightChartItemEffectScopeLeftMove.xFrom = 0;
 //			highlightChartItemEffectScopeLeftMove.xTo = chartItemX - highlightChartItemScopeLeft.width;
 
-			// If possible, we move the focus time the exact date, instead of trying to infer the date from the item position
-			var date:Date;
-			var series:Series = chartItem.element as Series;
-			if (series)
-			{
-				if (series.hasOwnProperty("xField"))
-				{
-					var xField:String = series["xField"] as String;
-					if (xField && chartItem.item.hasOwnProperty(xField))
-					{
-						date = chartItem.item[xField] as Date;
-					}
-				}
-			}
-			if (date)
-				animateFocusTimeMarkerToDate(date);
-			else
-				animateFocusTimeMarker(chartItemX);
 
 			highlightedItem = chartItem;
 			highlightChartItemGroup.visible = true;
 			if (highlightChartItemEffect)
 				highlightChartItemEffect.play();
-
-			dispatchEvent(new ChartItemEvent(ChartItemEvent.ITEM_CLICK, [chartItem]));
+			return chartItemX;
 		}
 
 		public function hideDataPointHighlight():void
@@ -1542,23 +1558,157 @@ package com.dougmccune.controls
 			highlightChartItemGroup.visible = false;
 		}
 
+		/**
+		 * Finds the data point from the main data series in the currently visible set of data in the main chart that
+		 * has a date which is less than or equal to the specified date and is closest to the specified date.
+		 * @param dateValue The date to find a nearby data point to
+		 * @return The data point which is less than or equal to the specified date and is closest to the specified date
+		 */
 		public function findPreviousDataPoint(dateValue:Number):Object
 		{
-			var dataCollection:ArrayCollection = rangeData;
+			var result:int = findPreviousDataIndex(dateValue);
+			return result != -1 ? mainData.getItemAt(result) : null;
+		}
+
+		/**
+		 * Finds the index of the data point from the main data series in the currently visible set of data in the main chart that
+		 * has a date which is less than or equal to the specified date and is closest to the specified date.
+		 * @param dateValue The date to find a nearby data point to
+		 * @return The index of the data point which is less than or equal to the specified date and is closest to the specified date
+		 */
+		public function findPreviousDataIndex(dateValue:Number):int
+		{
+			var dataCollection:ArrayCollection = mainData;
+			var result:int = -1;
 
 			if (dataCollection != null)
 			{
-				for (var i:int = dataCollection.length - 1; i >= 0; i--)
+				var numDataPoints:int = mainData.length;
+				if (numDataPoints > 0)
 				{
-					var dataItem:Object = dataCollection.getItemAt(i);
-					if (dataItem[dateField].time <= dateValue)
+					var mainDataT0:Number = dataCollection.getItemAt(0)[dateField].time;
+					var mainDataT1:Number = dataCollection.getItemAt(numDataPoints - 1)[dateField].time;
+					var mainDataDuration:Number = mainDataT1 - mainDataT0;
+					var averageDataPointDuration:Number = mainDataDuration / numDataPoints;
+					var strategy:String;
+
+					var guessIndex:int;
+					if (averageDataPointDuration == 0)
+						guessIndex = 0;
+					else
+						guessIndex = Math.floor((dateValue - mainDataT0) / averageDataPointDuration);
+
+					if (guessIndex < 0)
 					{
-						return dataItem;
+//						var message:String = "mainDataT0 " + traceDate(mainDataT0) + " mainDataT1 " + traceDate(mainDataT1) + " dateValue " + traceDate(dateValue);
+//						_logger.warn("guessIndex " + guessIndex + " is less than 0 " + message);
+						result = -1;
 					}
+					else if (guessIndex > numDataPoints - 1)
+					{
+//						_logger.warn("guessIndex " + guessIndex + " is greater than " + (numDataPoints - 1) + " (numDataPoints - 1)");
+						result = numDataPoints - 1;
+					}
+					else
+					{
+						var dataItem:Object = dataCollection.getItemAt(guessIndex);
+						var dataItemTime:Number = dataItem[dateField].time;
+						if (dataItemTime == dateValue) // . . . g| . . .
+						{
+							strategy = "guessed " + guessIndex + " (exactly)";
+							result = guessIndex;
+						}
+						else if (dataItemTime < dateValue) //  . . g . . | . . .
+						{
+							// . . g |    or    . . g | . . .
+							if (guessIndex == numDataPoints - 1 || dataCollection.getItemAt(guessIndex + 1)[dateField].time > dateValue)
+							{
+								strategy = "guessed " + guessIndex + " (just prior)";
+								result = guessIndex;
+							}
+							else //  . . g . . | . . .
+							{
+								strategy = "searched after guess " + guessIndex;
+								result = binarySearch(dataCollection, dateValue, guessIndex, numDataPoints - 1)
+							}
+						}
+						else //  . . . | . . g . .
+						{
+							if (dataCollection.getItemAt(guessIndex - 1)[dateField].time < dateValue)
+							{
+								strategy = "guessed " + guessIndex + " (just after)";
+								result = guessIndex - 1;
+							}
+							else
+							{
+								strategy = "searched before guess " + guessIndex;
+								result = binarySearch(dataCollection, dateValue, 0, guessIndex - 1);
+							}
+						}
+					}
+
+					if (compareResultToBruteForceSearch)
+					{
+						var result2:int = -1;
+						for (var i:int = dataCollection.length - 1; i >= 0; i--)
+						{
+							dataItem = dataCollection.getItemAt(i);
+							if (dataItem[dateField].time <= dateValue)
+							{
+								result2 = i;
+								break;
+							}
+						}
+						strategy = strategy ? " when it " + strategy : "";
+						if (result != result2)
+							_logger.warn("findPreviousDataPoint optimized search found " + result + (result >= 0 ? " " + traceDate(dataCollection.getItemAt(result)[dateField].time) : "") +
+												 " but should have found " + result2 + (result2 >= 0 ? " " + traceDate(dataCollection.getItemAt(result2)[dateField].time) : "") + strategy);
+						else
+							_logger.info("findPreviousDataPoint optimized search found the correct result " + result + (result >= 0 ? " " + traceDate(dataCollection.getItemAt(result)[dateField].time) : "") +
+												 strategy);
+
+						result = result2;
+					}
+				}
+
+			}
+			return result;
+		}
+
+		public function binarySearch(dataCollection:ArrayCollection, dateValue:Number, i1:int, i2:int):int
+		{
+			if (skipSearch)
+				return -1;
+
+			if (i1 < 0)
+				throw new ArgumentError("i1 must be 0 or greater");
+			if (i2 > dataCollection.length - 1)
+				throw new ArgumentError("i2 must be " + (dataCollection.length - 1) + " (dataCollection.length - 1) or less");
+
+			while (i2 - i1 >= 0)
+			{
+				var middleIndex:int = i1 + Math.ceil((i2 - i1) / 2);
+				var middleItem:Object = dataCollection.getItemAt(middleIndex);
+				var middleTime:Number = middleItem[dateField].time;
+
+				if (middleTime == dateValue) // i1 . m| . i2
+				{
+					return middleIndex;
+				}
+				else if (middleTime < dateValue) // i1 .  m  . | i2
+				{
+					if (middleIndex == i1)
+						return middleIndex;
+
+					i1 = middleIndex;
+				}
+				else // i1 | . m . i2
+				{
+					i2 = middleIndex - 1;
 				}
 			}
 
-			return null;
+			return -1;
 		}
 
 		private function findDataPoint(dataCollection:ArrayCollection, dateValue:Number):int
@@ -2493,7 +2643,8 @@ package com.dougmccune.controls
 
 		private function mainChartArea_clickHandler(event:MouseEvent):void
 		{
-			selectChartDataPoint();
+			if (!_rangeTimeAnimate.isPlaying)
+				selectChartDataPoint();
 		}
 	}
 }

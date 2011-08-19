@@ -36,9 +36,9 @@
 		<controls:SynchronizedAxisCache id="synchronizedAxisCache"/>
 
 		<mx:PlotSeries id="systolicSeries" name="systolic" xField="dateMeasuredStart" yField="resultAsNumber"
-					   dataProvider="{model.isInitialized ? model.systolicData : null}"
+					   dataProvider="{bloodPressureChart.mainData}"
 					   updateComplete="bloodPressureChart.seriesComplete(event);"
-					   filterDataValues="none"
+					   filterDataValues="none" displayName="Blood Pressure Systolic"
 				>
 			<mx:itemRenderer>
 				<fx:Component>
@@ -53,7 +53,7 @@
 		<mx:PlotSeries id="diastolicSeries" name="diastolic" xField="dateMeasuredStart" yField="resultAsNumber"
 					   dataProvider="{model.isInitialized ? model.diastolicData : null}"
 					   updateComplete="bloodPressureChart.seriesComplete(event);"
-					   filterDataValues="none"
+					   filterDataValues="none" displayName="Blood Pressure Diastolic"
 				>
 			<mx:itemRenderer>
 				<fx:Component>
@@ -121,6 +121,7 @@
 		import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 		import collaboRhythm.shared.model.StringUtils;
+		import collaboRhythm.shared.model.healthRecord.derived.MedicationConcentrationSample;
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
@@ -182,13 +183,18 @@
 		private var _model:BloodPressureModel;
 		private var _traceEventHandlers:Boolean = false;
 		private var _showFocusTimeMarker:Boolean = true;
-		private var _scrollEnabled:Boolean = true;
+		private var _scrollEnabled:Boolean = false;
 		protected var logger:ILogger;
 		private var _rangeChartVisible:Boolean = false;
 		private var _adherenceCharts:OrderedMap = new OrderedMap();
 		private var _adherenceChartsCreated:Boolean;
 		private var _medicationColorSource:IMedicationColorSource;
 		private var _modality:String;
+
+		private var simulationOnlyViewMode:Boolean = false;
+		private var _chartsOnlyViewMode:Boolean = false;
+		private var _initialDurationTime:Number = ScrubChart.DAYS_TO_MILLISECONDS * 7;
+		private var _useHorizontalTouchScrolling:Boolean = true;
 
 		private function initializeHandler(event:Event):void
 		{
@@ -274,7 +280,7 @@
 						var medicationModel:MedicationComponentAdherenceModel = model.simulation.getMedication(medicationCode);
 						if (medicationModel == null)
 							throw new Error("Medication " + medicationCode + " is in model.medicationConcentrationCurvesByCode but not in model.simulation.medicationsByCode");
-						
+
 						var medicationScheduleItem:MedicationScheduleItem = medicationModel.medicationScheduleItem;
 
 						var chart:TouchScrollingScrubChart = new TouchScrollingScrubChart();
@@ -341,7 +347,7 @@
 			if (_traceEventHandlers)
 				trace("adherenceChart_creationCompleteHandler");
 			var chart:ScrubChart = ScrubChart(event.target);
-			chart.removeDefaultSeries();
+//			chart.removeDefaultSeries();
 
 			var medicationCode:String = chart.getStyle("medicationCode");
 			var medicationModel:MedicationComponentAdherenceModel = model.simulation.getMedication(medicationCode);
@@ -368,6 +374,7 @@
 
 		private function updateMedicationChartSeries(chart:ScrubChart, medicationCode:String, ndcCode:String):void
 		{
+			chart.removeDefaultSeries();
 			addConcentrationSeries(chart, medicationCode, ndcCode);
 			addAdherenceSeries(chart, medicationCode);
 		}
@@ -378,7 +385,8 @@
 			concentrationSeries.name = "concentration";
 			concentrationSeries.xField = "date";
 			concentrationSeries.yField = "concentration";
-			concentrationSeries.dataProvider = model.medicationConcentrationCurvesByCode.getItem(medicationCode);
+//			concentrationSeries.dataProvider = model.medicationConcentrationCurvesByCode.getItem(medicationCode);
+			concentrationSeries.dataProvider = chart.mainData;
 			concentrationSeries.setStyle("radius", 2.5);
 			concentrationSeries.setStyle("form", "curve");
 			concentrationSeries.setStyle("itemRenderer", new ClassFactory(LineSeriesCustomRenderer));
@@ -400,7 +408,7 @@
 			adherenceSeries.yField = "adherencePosition";
 			adherenceSeries.dataProvider = model.adherenceItemsCollectionsByCode.getItem(medicationCode);
 			adherenceSeries.setStyle("itemRenderer", new ClassFactory(AdherencePlotItemRenderer));
-			adherenceSeries.filterFunction = adherenceSeriesFilter;
+//			adherenceSeries.filterFunction = adherenceSeriesFilter;
 
 			chart.mainChart.series.push(adherenceSeries);
 		}
@@ -726,7 +734,7 @@
 					}
 					case Keyboard.H:
 					{
-						useHorizontalTouchScrolling = !useHorizontalTouchScrolling;
+						scrollEnabled = !scrollEnabled;
 						break;
 					}
 				}
@@ -1021,6 +1029,8 @@
 		private var _scrollTargetChart:TouchScrollingScrubChart;
 		private var _nonTargetCharts:Vector.<TouchScrollingScrubChart>;
 		private var _visibleCharts:Vector.<TouchScrollingScrubChart>;
+		private var skipUpdateSimulation:Boolean = false;
+		private var shouldApplyChangesToSimulation:Boolean = true;
 
 		protected function chart_scrollHandler(event:ScrollEvent):void
 		{
@@ -1110,12 +1120,35 @@
 
 		private function updateSimulation(targetChart:TouchScrollingScrubChart):void
 		{
-			model.simulation.date = new Date(targetChart.focusTime);
+			if (skipUpdateSimulation)
+				return;
 
-			var bloodPressureDataPoint:VitalSign = bloodPressureChart.findPreviousDataPoint(model.simulation.date.time) as VitalSign;
+			if (shouldApplyChangesToSimulation)
+				model.simulation.date = new Date(targetChart.focusTime);
 
-			model.simulation.dataPointDate = bloodPressureDataPoint == null ? null : bloodPressureDataPoint.dateMeasuredStart;
-			model.simulation.systolic = bloodPressureDataPoint == null ? NaN : bloodPressureDataPoint.resultAsNumber;
+			var bloodPressureDataIndex:int = bloodPressureChart.findPreviousDataIndex(model.simulation.date.time);
+			var bloodPressureDataPoint:VitalSign;
+			if (bloodPressureDataIndex != -1)
+			{
+				bloodPressureDataPoint = bloodPressureChart.mainData.getItemAt(bloodPressureDataIndex) as VitalSign;
+				var series:Series = bloodPressureChart.mainChart.series[0];
+				if (series)
+				{
+					series.selectedIndex = bloodPressureDataIndex;
+					if (series.items)
+					{
+						var chartItem:ChartItem = series.items[bloodPressureDataIndex] as ChartItem;
+						if (chartItem)
+							bloodPressureChart.highlightChartItem(chartItem);
+					}
+				}
+			}
+
+			if (shouldApplyChangesToSimulation)
+			{
+				model.simulation.dataPointDate = bloodPressureDataPoint == null ? null : bloodPressureDataPoint.dateMeasuredStart;
+				model.simulation.systolic = bloodPressureDataPoint == null ? NaN : bloodPressureDataPoint.resultAsNumber;
+			}
 			// TODO: fix diastolic
 //			model.simulation.diastolic = bloodPressureDataPoint == null ? NaN : bloodPressureDataPoint.diastolic;
 
@@ -1131,27 +1164,11 @@
 			{
 				for each (var medicationCode:String in _adherenceCharts.arrayOfKeys)
 				{
-					var medicationModel:MedicationComponentAdherenceModel = model.simulation.getMedication(medicationCode);
-
-					if (medicationModel == null)
-					{
-						trace("Warning: No medication found in the model.simulation for key " + medicationCode + ". This will happen if there are no MedicationAdministration documents in the record for this medication.");
-					}
-					else
-					{
-						var currentAdherenceChart:ScrubChart = _adherenceCharts.getValueByKey(medicationCode);
-
-						var concentrationDataPoint:Object = currentAdherenceChart.findPreviousDataPoint(model.simulation.date.time);
-
-						// TODO: show the date for the concentration data point
-						var concentration:Number = concentrationDataPoint == null ? 0 : concentrationDataPoint.concentration;
-
-						medicationModel.concentration = concentration;
-					}
+					updateSimulationMedicationModel(medicationCode);
 				}
 			}
 
-			if (targetChart.isFocusOnMaximumTime)
+			if (shouldApplyChangesToSimulation && targetChart.isFocusOnMaximumTime)
 			{
 				model.simulation.mode = SimulationModel.MOST_RECENT_MODE;
 			}
@@ -1160,11 +1177,6 @@
 				model.simulation.mode = SimulationModel.HISTORY_MODE;
 			}
 		}
-
-		private var simulationOnlyViewMode:Boolean = false;
-		private var _chartsOnlyViewMode:Boolean = false;
-		private var _initialDurationTime:Number = ScrubChart.DAYS_TO_MILLISECONDS * 7;
-		private var _useHorizontalTouchScrolling:Boolean = false;
 
 		public function get chartsOnlyViewMode():Boolean
 		{
@@ -1302,6 +1314,44 @@
 		public function set modality(value:String):void
 		{
 			_modality = value;
+		}
+
+		public function updateSimulationMedicationModel(medicationCode:String):void
+		{
+			var medicationModel:MedicationComponentAdherenceModel = model.simulation.getMedication(medicationCode);
+
+			if (medicationModel == null)
+			{
+				trace("Warning: No medication found in the model.simulation for key " + medicationCode + ". This will happen if there are no MedicationAdministration documents in the record for this medication.");
+			}
+			else
+			{
+				var currentAdherenceChart:ScrubChart = _adherenceCharts.getValueByKey(medicationCode);
+
+				var concentrationDataIndex:int = currentAdherenceChart.findPreviousDataIndex(model.simulation.date.time);
+				var concentrationDataPoint:MedicationConcentrationSample;
+				if (concentrationDataIndex != -1)
+				{
+					concentrationDataPoint = currentAdherenceChart.mainData.getItemAt(concentrationDataIndex) as MedicationConcentrationSample;
+					var series:Series = currentAdherenceChart.mainChart.series[0];
+					if (series)
+					{
+						series.selectedIndex = concentrationDataIndex;
+						if (series.items)
+						{
+							var chartItem:ChartItem = series.items[concentrationDataIndex] as ChartItem;
+							if (chartItem)
+								currentAdherenceChart.highlightChartItem(chartItem);
+						}
+					}
+				}
+
+				// TODO: show the date for the concentration data point
+				var concentration:Number = concentrationDataPoint == null ? 0 : concentrationDataPoint.concentration;
+
+				if (shouldApplyChangesToSimulation)
+					medicationModel.concentration = concentration;
+			}
 		}
 		]]></fx:Script>
 
