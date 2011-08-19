@@ -997,6 +997,16 @@ package collaboRhythm.core.controller
 		{
 			_healthRecordServiceFacade.resetErrorChangeSets();
 			_collaborationLobbyNetConnectionService.hasConnectionFailed = false;
+			restoreFocus();
+		}
+
+		/**
+		 * Virtual method which subclasses should override to allow focus to be restored in cases where the app loses
+		 * focus
+		 */
+		protected function restoreFocus():void
+		{
+
 		}
 
 		public function get pendingServices():ArrayCollection

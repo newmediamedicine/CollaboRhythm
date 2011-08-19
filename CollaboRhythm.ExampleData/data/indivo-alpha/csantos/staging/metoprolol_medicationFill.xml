@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<MedicationFill xmlns="http://indivo.org/vocab/xml/documents#">
+	<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+	<filledBy>ljohnson@records.media.mit.edu</filledBy>
+	<dateFilled>2011-07-14T19:13:11Z</dateFilled>
+	<amountFilled>
+		<value>90</value>
+		<unit>tab</unit>
+	</amountFilled>
+	<ndc>003780018</ndc>
+</MedicationFill>

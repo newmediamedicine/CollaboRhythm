@@ -133,8 +133,8 @@
 		<images:warning height="{adherenceReportingDueGroup.height}" width="{adherenceReportingDueGroup.height}"/>
 		<s:VGroup>
 			<s:Label id="adherenceReportingDueLabel" text="It is time to take your medication."/>
-			<s:Label styleName="adherenceReportingDueDescription" text="Taking your medication on schedule is important to ensure that it is working consistently to" paddingTop="10"/>
-			<s:Label styleName="adherenceReportingDueDescription" text="keep your blood pressure down."/>
+			<s:Label styleName="adherenceReportingDueDescription" text="Taking your medication on schedule is important to ensure that it is working" paddingTop="10"/>
+			<s:Label styleName="adherenceReportingDueDescription" text="consistently to keep your blood pressure down."/>
 		</s:VGroup>
 	</s:HGroup>
 	<s:HGroup left="10" right="10" top="10" bottom="10" gap="10">

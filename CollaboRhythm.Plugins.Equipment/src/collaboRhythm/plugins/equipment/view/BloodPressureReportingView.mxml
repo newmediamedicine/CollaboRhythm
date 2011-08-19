@@ -52,6 +52,11 @@
 			fontSize: 30;
 		}
 
+		#autoSubmitCountdownLabel {
+			color: red;
+			fontSize: 24;
+		}
+
 		#submitButton {
 			fontSize: 50;
 		}
@@ -68,6 +73,8 @@
 		import collaboRhythm.shared.model.services.ICurrentDateSource;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
 
+		import org.osmf.events.TimeEvent;
+
 		private static const HYPOTENSION_SYSTOLIC_THRESHOLD:int = 90;
 		private static const HYPOTENSION_DIASTOLIC_THRESHOLD:int = 60;
 		private static const HYPERTENSION_SYSTOLIC_THRESHOLD:int = 180;
@@ -80,10 +87,11 @@
 		private var _repeat:Boolean;
 		[Bindable]
 		private var _submitFailed:Boolean;
+		[Bindable]
 		private var _fromDevice:Boolean = false;
 		private var _measurementsFromDevice:int = 0;
 		private var _hasUserInteracted:Boolean;
-		private var _automaticSubmitInterval:uint;
+		private var _automaticSubmitTimer:Timer;
 
 		private const VITAL_SIGN_URL:String = "http://codes.indivo.org/vitalsigns/";
 
@@ -112,6 +120,8 @@
 			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, invokeHandler);
 		}
 
+		private static const AUTOMATIC_SUBMIT_INTERVAL:int = 5;
+
 		private function invokeHandler(event:InvokeEvent):void
 		{
 			if (event.arguments.length != 0)
@@ -130,20 +140,29 @@
 					heartRateResult.enabled = false;
 					_fromDevice = true;
 					_hasUserInteracted = false;
-					_automaticSubmitInterval = setInterval(automaticSubmitHandler, 5000);
+					_automaticSubmitTimer = new Timer(1000, AUTOMATIC_SUBMIT_INTERVAL);
+					_automaticSubmitTimer.addEventListener(TimerEvent.TIMER, automaticSubmitTimer_timerEventHandler);
+					_automaticSubmitTimer.addEventListener(TimerEvent.TIMER_COMPLETE,
+														   automaticSubmitTimer_timerCompleteEvent);
+					_automaticSubmitTimer.start();
 
 					_handledInvokeEvents.push(urlVariables.date);
 				}
 			}
 		}
 
-		private function automaticSubmitHandler():void
+		private function automaticSubmitTimer_timerEventHandler(event:TimerEvent):void
+		{
+			var automaticSubmitTimerCountdown:int = AUTOMATIC_SUBMIT_INTERVAL - _automaticSubmitTimer.currentCount;
+			autoSubmitCountdownLabel.text = "Blood pressure will be automatically submitted in... " + automaticSubmitTimerCountdown.toString();
+		}
+
+		private function automaticSubmitTimer_timerCompleteEvent(event:TimerEvent):void
 		{
 			if (!_hasUserInteracted)
 			{
 				submit();
 			}
-			clearInterval(_automaticSubmitInterval);
 		}
 
 		private function createVitalSign(category:String, value:int):void
@@ -203,7 +222,8 @@
 			bloodPressureSymptomView.init(_scheduleItemOccurrence, _adherenceItem, _measurementsFromDevice,
 										  _handledInvokeEvents);
 			bloodPressureSymptomView.currentState = state;
-			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_COMPLETE, _scheduleItemOccurrence, _adherenceItem, null, false));
+			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_COMPLETE,
+															 _scheduleItemOccurrence, _adherenceItem, null, false));
 			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
 															 _scheduleItemOccurrence, _adherenceItem,
 															 bloodPressureSymptomView));
@@ -214,7 +234,8 @@
 			var bloodPressureEmergencyView:BloodPressureEmergencyView = new BloodPressureEmergencyView();
 			bloodPressureEmergencyView.init(_scheduleItemOccurrence, _adherenceItem);
 			bloodPressureEmergencyView.currentState = state;
-			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_COMPLETE, _scheduleItemOccurrence, _adherenceItem, null, false));
+			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_COMPLETE,
+															 _scheduleItemOccurrence, _adherenceItem, null, false));
 			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
 															 _scheduleItemOccurrence, _adherenceItem,
 															 bloodPressureEmergencyView));
@@ -230,7 +251,8 @@
 		{
 			var oldAdherenceItem:AdherenceItem = _adherenceItem;
 			_adherenceItem = new AdherenceItem();
-			_adherenceItem.init(oldAdherenceItem.name, oldAdherenceItem.reportedBy, oldAdherenceItem.dateReported, oldAdherenceItem.recurrenceIndex, oldAdherenceItem.adherence);
+			_adherenceItem.init(oldAdherenceItem.name, oldAdherenceItem.reportedBy, oldAdherenceItem.dateReported,
+								oldAdherenceItem.recurrenceIndex, oldAdherenceItem.adherence);
 			createVitalSign(VitalSignsModel.SYSTOLIC_CATEGORY, int(systolicResult.text));
 			createVitalSign(VitalSignsModel.DIASTOLIC_CATEGORY, int(diastolicResult.text));
 			//TODO: add heart rate
@@ -361,8 +383,11 @@
 		</s:Group>
 	</s:VGroup>
 	<s:VGroup left="10" right="10" bottom="10" verticalAlign="bottom">
-		<s:Label id="bloodPressureIncompleteLabel" text="Please enter a blood pressure and heart rate."
-				 visible="{_submitFailed}"/>
+		<s:Group>
+			<s:Label id="autoSubmitCountdownLabel" visible="{_fromDevice}"/>
+			<s:Label id="bloodPressureIncompleteLabel" text="Please enter a blood pressure and heart rate."
+					 visible="{_submitFailed}"/>
+		</s:Group>
 		<s:Group width="100%">
 			<s:Button id="submitButton" label="Submit" click="submitButton_clickHandler()" width="100%" height="80"
 					  horizontalCenter="0"/>
