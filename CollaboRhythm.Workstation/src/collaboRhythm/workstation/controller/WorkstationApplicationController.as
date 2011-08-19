@@ -728,6 +728,10 @@ package collaboRhythm.workstation.controller
 				{
 					_healthRecordServiceFacade.saveAllChanges(_activeRecordAccount.primaryRecord);
 				}
+				else if (event.keyCode == Keyboard.F)
+				{
+					fastForwardEnabled = !fastForwardEnabled;
+				}
 			}
 			else if (event.keyCode == Keyboard.F1)
 			{

@@ -83,6 +83,7 @@
 																			  _scheduleModel, "isInitialized", false,
 																			  true);
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+			_currentDateSource.addEventListener(Event.CHANGE, currentDateSource_changeHandler, false, 0, true);
 		}
 
 		private function creationCompleteHandler():void
@@ -209,6 +210,11 @@
 		private function removeHandler():void
 		{
 			_scheduleModelInitialized_changeWatcher.unwatch();
+		}
+
+		private function currentDateSource_changeHandler(event:Event):void
+		{
+			updateTime();
 		}
 		]]>
 	</fx:Script>

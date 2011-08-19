@@ -202,5 +202,15 @@ package collaboRhythm.shared.model.healthRecord
 				return false;
 			}
 		}
+
+		public function get activeAccount():Account
+		{
+			return _activeAccount;
+		}
+
+		public function set activeAccount(value:Account):void
+		{
+			_activeAccount = value;
+		}
 	}
 }

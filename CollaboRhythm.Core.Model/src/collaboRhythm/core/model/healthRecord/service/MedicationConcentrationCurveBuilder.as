@@ -79,14 +79,28 @@ package collaboRhythm.core.model.healthRecord.service
 			return concentrationCurveCollection;
 		}
 
+		public function updateConcentrationCurve():void
+		{
+			// TODO: optimize to avoid recalculating the whole curve
+			var currentConcentrationCurve:ArrayCollection = createNewConcentrationCurve();
+			concentrationCurve.removeAll();
+			concentrationCurve.addAll(currentConcentrationCurve);
+		}
+
 		// TODO: update the showAdherence flag
 		public function calculateConcentrationCurve():void
 		{
+			var currentConcentrationCurve:ArrayCollection = createNewConcentrationCurve();
+			concentrationCurve = currentConcentrationCurve;
+		}
+
+		private function createNewConcentrationCurve():ArrayCollection
+		{
+			var currentConcentrationCurve:ArrayCollection = new ArrayCollection();
 			if (medicationAdministrationCollection && medicationAdministrationCollection.length > 0)
 			{
 				var singleCurve:Array = calculateSingleDoseCurve();
 
-				var currentConcentrationCurve:ArrayCollection = new ArrayCollection();
 				var previousAdministrationIndex:int = 0; // index into medicationAdministrationCollection for beginning of previous curve
 
 				var maxTime:Number = currentDateSource.now().time;
@@ -109,11 +123,11 @@ package collaboRhythm.core.model.healthRecord.service
 						// determine where in the curve to align this curve
 						var previousDate:Date = currentConcentrationCurve[previousAdministrationIndex].date;
 
-/*
-						// validate that the current date is not before the previous date
-						if (dataItem.dateAdministered.time < previousDate.time)
-							throw new Error("Dates are not in ascending order: " + previousDate.toString() + ", " + dataItem.dateAdministered.toString());
-*/
+						/*
+						 // validate that the current date is not before the previous date
+						 if (dataItem.dateAdministered.time < previousDate.time)
+						 throw new Error("Dates are not in ascending order: " + previousDate.toString() + ", " + dataItem.dateAdministered.toString());
+						 */
 
 						intervalsToAdvance = Math.ceil((dataItem.dateAdministered.time - previousDate.time) / intervalDuration);
 					}
@@ -147,7 +161,7 @@ package collaboRhythm.core.model.healthRecord.service
 					}
 
 					extendConcentrationCurveCollection(currentConcentrationCurve, extensionStartDate,
-												   additionalIntervalsRequired, maxTime);
+													   additionalIntervalsRequired, maxTime);
 
 					if (currentAdministrationIndex >= currentConcentrationCurve.length)
 						break;
@@ -179,13 +193,13 @@ package collaboRhythm.core.model.healthRecord.service
 					}
 				}
 
-				concentrationCurve = currentConcentrationCurve;
 			}
 			else
 			{
 				// no adherence data; use an empty ArrayCollection
-				concentrationCurve = new ArrayCollection();
+//				currentConcentrationCurve = new ArrayCollection();
 			}
+			return currentConcentrationCurve;
 		}
 
 		private function calculateSingleDoseCurve():Array

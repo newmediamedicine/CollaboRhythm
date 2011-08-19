@@ -374,9 +374,9 @@ package com.dougmccune.controls
 		private var _focusTime:Number;
 		private const defaultInitialDurationTime:Number = 30 * DAYS_TO_MILLISECONDS;
 		[Bindable]
-		protected var t0:Number;
+		protected var _minimumTime:Number;
 		[Bindable]
-		protected var t1:Number;
+		protected var _maximumTime:Number;
 		protected var mainChartDurationTime:Number;
 		// the ratio between the width of the main chart control and the duration of it's dataset
 		protected var mainDataRatio:Number;
@@ -645,8 +645,8 @@ package com.dougmccune.controls
 				{
 					// TODO: fix updating of the slider thumbs; currently they don't move when slider.values is updated
 					trace("slider.values[0]", slider.values[0], "slider.values[1]", slider.values[1]);
-					slider.values[0] = t0 + (t1 - t0) * s0;
-					slider.values[1] = t0 + (t1 - t0) * s1;
+					slider.values[0] = _minimumTime + (_maximumTime - _minimumTime) * s0;
+					slider.values[1] = _minimumTime + (_maximumTime - _minimumTime) * s1;
 					slider.invalidateProperties();
 					slider.validateNow();
 					this.validateNow();
@@ -679,6 +679,9 @@ package com.dougmccune.controls
 
 		private var _initialDurationTime:Number = defaultInitialDurationTime;
 		private var _isCreationComplete:Boolean;
+		private var _pendingUpdateData:Boolean;
+		private var _minimumDataTime:Number;
+		private var _maximumDataTime:Number;
 
 		public function get isCreationComplete():Boolean
 		{
@@ -689,47 +692,54 @@ package com.dougmccune.controls
 		{
 			if (isCreationComplete)
 			{
-				if (_data == null)
-				{
-					throw new Error("data must not be null");
-				}
-
 				minimumTime = NaN;
 				maximumTime = NaN;
+				commitDataChange();
+			}
+		}
 
-				allowUpdateComplete = true;
+		private function commitDataChange():void
+		{
+			if (_data == null)
+			{
+				throw new Error("data must not be null");
+			}
 
-				rangeData.source = _data.source;
+			allowUpdateComplete = true;
 
+			rangeData.source = _data.source;
+
+			try
+			{
+				mainData.source = _data.source;
+			} catch(e:Error)
+			{
+				trace("Error setting mainData: " + e.message);
+			}
+
+			if (rangeData.length > 0)
+			{
+				//setting default range values for loading
+				var i0:Number = 0;
 				try
 				{
-					mainData.source = _data.source;
+					var i1:Number = rangeData.source.length - 1;
 				} catch(e:Error)
 				{
-					trace("Error setting mainData: " + e.message);
+					trace("Error setting i1: " + e.message);
 				}
+				_minimumTime = _minimumDataTime = dateParse(rangeData.source[i0][dateField]).time;
+				_maximumTime = _maximumDataTime = dateParse(rangeData.source[i1][dateField]).time;
+				initializeChartsFromMinMaxTimes();
+				if (_traceEvents)
+					trace(traceEventsPrefix + "initializeFromData leftRangeTime", traceDate(leftRangeTime),
+						  "rightRangeTime",
+						  traceDate(rightRangeTime), "minimumTime", traceDate(minimumTime), "maximumTime",
+						  traceDate(maximumTime),
+						  "_minimumTime", traceDate(_minimumTime), "_maximumTime", traceDate(_maximumTime),
+						  "i0", i0,  "i1", i1
+					);
 
-				if (rangeData.length > 0)
-				{
-					//setting default range values for loading
-					var i0:Number = 0;
-					try
-					{
-						var i1:Number = rangeData.source.length - 1;
-					} catch(e:Error)
-					{
-						trace("Error setting i1: " + e.message);
-					}
-					t0 = dateParse(rangeData.source[i0][dateField]).time;
-					t1 = dateParse(rangeData.source[i1][dateField]).time;
-					initializeChartsFromMinMaxTimes();
-					if (_traceEvents)
-						trace(traceEventsPrefix + "initializeFromData leftRangeTime", traceDate(leftRangeTime), "rightRangeTime",
-							  traceDate(rightRangeTime), "minimumTime", traceDate(minimumTime), "maximumTime", traceDate(maximumTime),
-							  "t0", traceDate(t0), "t1", traceDate(t1)
-							  );
-
-				}
 			}
 		}
 
@@ -739,7 +749,7 @@ package com.dougmccune.controls
 
 			try
 			{
-				rightRangeTime = t1;
+				rightRangeTime = _maximumTime;
 			} catch(e:Error)
 			{
 				trace("Error setting rightRangeTime: " + e.message);
@@ -748,7 +758,7 @@ package com.dougmccune.controls
 			try
 			{
 //				leftRangeTime = Math.max(t0, t1 - initialDurationTime);
-				leftRangeTime = t1 - initialDurationTime;
+				leftRangeTime = _maximumTime - initialDurationTime;
 			} catch(e:Error)
 			{
 				trace("Error setting leftRangeTime: " + e.message);
@@ -781,10 +791,37 @@ package com.dougmccune.controls
 
 		private function data_collectionChange(event:CollectionEvent):void
 		{
-			initializeFromData();
+			pendingUpdateData = true;
+			invalidateProperties();
 		}
 
-		//			private function calculateIndicatorConversionRatio():void
+		override protected function commitProperties():void
+		{
+			super.commitProperties();
+			if (pendingUpdateData)
+			{
+				pendingUpdateData = false;
+				updateFromData();
+			}
+		}
+
+		private function updateFromData():void
+		{
+			if (isCreationComplete)
+			{
+				var isScrolledToNow:Boolean = rightRangeTime == maximumTime;
+				commitDataChange();
+				if (isScrolledToNow)
+					scrollToNow();
+			}
+		}
+
+		private function scrollToNow():void
+		{
+
+		}
+
+//			private function calculateIndicatorConversionRatio():void
 		//			{
 		//				var i0:Number = 0;
 		//				var i1:Number = rangeData.source.length - 1;
@@ -823,7 +860,7 @@ package com.dougmccune.controls
 			//				rangeDataRatio = ((dividedBox.width) / rangeData.length);
 			// TODO: rangeDataRatio should be based on rangeChart width, not slider
 			if (slider)
-				rangeDataRatio = slider.width / (t1 - t0);
+				rangeDataRatio = slider.width / (_maximumTime - _minimumTime);
 		}
 
 		/**
@@ -844,8 +881,8 @@ package com.dougmccune.controls
 			{
 				allowUpdateComplete = false;
 				updateBoxFromRangeTimes = true;
-				rightRangeTime = t1;
-				leftRangeTime = Math.max(t0, t1 - initialDurationTime);
+				rightRangeTime = _maximumTime;
+				leftRangeTime = Math.max(_minimumTime, _maximumTime - initialDurationTime);
 				updateBox();
 				callLater(refreshAnnotations);
 				this.visible = true;
@@ -1123,12 +1160,12 @@ package com.dougmccune.controls
 
 		private function rangeTimeToRangeChartPos(value:Number):Number
 		{
-			return (value - t0) * rangeDataRatio;
+			return (value - _minimumTime) * rangeDataRatio;
 		}
 
 		private function rangeChartPosToRangeTime(value:Number):Number
 		{
-			return (value / rangeDataRatio) + t0;
+			return (value / rangeDataRatio) + _minimumTime;
 		}
 
 		private function mainChartPosToSliderValue(value:Number):Number
@@ -1344,7 +1381,7 @@ package com.dougmccune.controls
 		private function setMouseDown(theChart:CartesianChart):void
 		{
 			//don't capture for drag if we're viewing the entire range of data
-			if (!(leftRangeTime == t0 && rightRangeTime == t1))
+			if (!(leftRangeTime == _minimumTime && rightRangeTime == _maximumTime))
 			{
 				hideAnnotations();
 				mouseXRef = this.mouseX;
@@ -1365,8 +1402,8 @@ package com.dougmccune.controls
 		{
 			if (rightRangeTime - leftRangeTime < minimumDurationTime)
 			{
-				rightRangeTime = Math.min(t1, leftRangeTime + minimumDurationTime);
-				leftRangeTime = Math.max(t0, rightRangeTime - minimumDurationTime);
+				rightRangeTime = Math.min(_maximumTime, leftRangeTime + minimumDurationTime);
+				leftRangeTime = Math.max(_minimumTime, rightRangeTime - minimumDurationTime);
 				updateBox();
 			}
 			rangeDrag = false;
@@ -1393,7 +1430,7 @@ package com.dougmccune.controls
 			}
 			else if (rangeDrag)
 			{
-				var rangeChartPixelsToTime:Number = (t1 - t0) / rangeChart.width;
+				var rangeChartPixelsToTime:Number = (_maximumTime - _minimumTime) / rangeChart.width;
 				targetLeftRangeTime = staticLeftBoundary - (mouseXRef - this.mouseX) * rangeChartPixelsToTime;
 		//					targetRightRangeTime = staticRightBoundary - (mouseXRef - this.mouseX) * rangeChartPixelsToTime;
 			}
@@ -1401,7 +1438,7 @@ package com.dougmccune.controls
 			var leftToRight:Number = rightRangeTime - leftRangeTime;
 
 			// constrain drag to be within min/max values
-			leftRangeTime = Math.max(t0, Math.min(t1 - leftToRight, targetLeftRangeTime));
+			leftRangeTime = Math.max(_minimumTime, Math.min(_maximumTime - leftToRight, targetLeftRangeTime));
 		//				var constrainLeftDelta:Number = leftRangeTime - targetLeftRangeTime;
 			rightRangeTime = leftRangeTime + leftToRight;
 
@@ -1634,7 +1671,11 @@ package com.dougmccune.controls
 						}
 						else //  . . . | . . g . .
 						{
-							if (dataCollection.getItemAt(guessIndex - 1)[dateField].time < dateValue)
+							if (guessIndex <= 0)
+							{
+								result = -1;
+							}
+							else if (dataCollection.getItemAt(guessIndex - 1)[dateField].time < dateValue)
 							{
 								strategy = "guessed " + guessIndex + " (just after)";
 								result = guessIndex - 1;
@@ -1791,7 +1832,7 @@ package com.dougmccune.controls
 			var tmpRightRangeTime:Number = rangeChartPosToRangeTime(dividedBox.width - rightBox.width);
 		//				var tmpLeftIndex:int = leftBox.width  / rangeDataRatio;
 		//				var tmpRightIndex:int = ((dividedBox.width - rightBox.width) / rangeDataRatio) - 1;
-			if (tmpLeftRangeTime >= t0 && tmpRightRangeTime <= t1)
+			if (tmpLeftRangeTime >= _minimumTime && tmpRightRangeTime <= _maximumTime)
 			{
 				_selectedDate = labelSummaryDateFormatter.format(new Date(tmpLeftRangeTime)) + ' - ' +
 						labelSummaryDateFormatter.format(new Date(tmpLeftRangeTime));
@@ -2053,22 +2094,22 @@ package com.dougmccune.controls
 
 		public function get maximumDate():Date
 		{
-			return isNaN(t1) ? null : new Date(t1);
+			return isNaN(_maximumTime) ? null : new Date(_maximumTime);
 		}
 
 		public function get maximumTime():Number
 		{
-			return t1;
+			return _maximumTime;
 		}
 
 		public function get minimumDate():Date
 		{
-			return isNaN(t0) ? null : new Date(t0);
+			return isNaN(_minimumTime) ? null : new Date(_minimumTime);
 		}
 
 		public function get minimumTime():Number
 		{
-			return t0;
+			return _minimumTime;
 		}
 
 		public function set minimumTime(value:Number):void
@@ -2078,7 +2119,7 @@ package com.dougmccune.controls
 				trace(traceEventsPrefix + "set minimumTime", traceDate(value), "old value", traceDate(minimumTime));
 			if (this.rangeChart)
 				(this.rangeChart.horizontalAxis as DateTimeAxis).minimum = new Date(value);
-			t0 = value;
+			_minimumTime = value;
 			initializeChartsFromMinMaxTimes();
 		}
 
@@ -2088,7 +2129,7 @@ package com.dougmccune.controls
 				trace(traceEventsPrefix + "set maximumTime", traceDate(value), "old value", traceDate(maximumTime));
 			if (this.rangeChart)
 				(this.rangeChart.horizontalAxis as DateTimeAxis).maximum = new Date(value);
-			t1 = value;
+			_maximumTime = value;
 			initializeChartsFromMinMaxTimes();
 		}
 
@@ -2197,7 +2238,7 @@ package com.dougmccune.controls
 			_initialDurationTime = value;
 		}
 
-		private function traceDate(dateValue:Number):String
+		public static function traceDate(dateValue:Number):String
 		{
 			var date:Date = new Date(dateValue);
 			var formatter:DateTimeFormatter = new DateTimeFormatter("en-US");//, DateTimeStyle.SHORT, DateTimeStyle.SHORT);
@@ -2367,8 +2408,8 @@ package com.dougmccune.controls
 		{
 			if (slider)
 			{
-				slider.minimum = t0;
-				slider.maximum = t1;
+				slider.minimum = _minimumTime;
+				slider.maximum = _maximumTime;
 			}
 		}
 
@@ -2408,7 +2449,7 @@ package com.dougmccune.controls
 
 		private function rangeMaxButton_clickHandler(event:MouseEvent):void
 		{
-			animateRangeTimes(t0, t1);
+			animateRangeTimes(_minimumTime, _maximumTime);
 		}
 
 		private function slider_mouseDownHandler(event:MouseEvent):void
@@ -2645,6 +2686,26 @@ package com.dougmccune.controls
 		{
 			if (!_rangeTimeAnimate.isPlaying)
 				selectChartDataPoint();
+		}
+
+		public function get minimumDataTime():Number
+		{
+			return _minimumDataTime;
+		}
+
+		public function get maximumDataTime():Number
+		{
+			return _maximumDataTime;
+		}
+
+		protected function get pendingUpdateData():Boolean
+		{
+			return _pendingUpdateData;
+		}
+
+		protected function set pendingUpdateData(value:Boolean):void
+		{
+			_pendingUpdateData = value;
 		}
 	}
 }

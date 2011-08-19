@@ -102,9 +102,11 @@ package collaboRhythm.core.controller
 
 		private var _nextAutoSyncTime:Date;
 		private var _autoSyncTimer:Timer;
+		protected var _currentDateSource:ICurrentDateSource;
 
 		public function ApplicationControllerBase()
 		{
+			// TODO: add event listener to handle the fast forward mode of the date source
 			_autoSyncTimer = new Timer(0);
 			_autoSyncTimer.addEventListener(TimerEvent.TIMER, autoSyncTimer_timerHandler);
 		}
@@ -113,10 +115,10 @@ package collaboRhythm.core.controller
 		{
 			_autoSyncTimer.stop();
 
-			_nextAutoSyncTime = new Date();
+			_nextAutoSyncTime = _currentDateSource.now();
 			// move the time ahead to midnight tonight
 			_nextAutoSyncTime.setHours(24, 0, 0, 0);
-			var now:Date = new Date();
+			var now:Date = _currentDateSource.now();
 			// one minute cushion to ensure that the timer does not go off before midnight; slightly after is better than before
 			var cushionDelay:Number = ONE_MINUTE;
 			var delay:Number = _nextAutoSyncTime.getTime() - now.getTime() + cushionDelay;
@@ -362,6 +364,7 @@ package collaboRhythm.core.controller
 			var dateSource:DemoCurrentDateSource = new DemoCurrentDateSource();
 			dateSource.targetDate = _settings.targetDate;
 			_kernel.registerComponentInstance("CurrentDateSource", ICurrentDateSource, dateSource);
+			_currentDateSource = dateSource;
 
 			var medicationColorSource:DefaultMedicationColorSource = new DefaultMedicationColorSource();
 			_kernel.registerComponentInstance("MedicationColorSource", IMedicationColorSource, medicationColorSource);
@@ -672,6 +675,7 @@ package collaboRhythm.core.controller
 		public function closeRecordAccount(recordAccount:Account):void
 		{
 			_autoSyncTimer.stop();
+			_healthRecordServiceFacade.closeRecord();
 		}
 
 		public function set targetDate(value:Date):void
@@ -1018,6 +1022,28 @@ package collaboRhythm.core.controller
 		{
 			if (_aboutApplicationView)
 				_aboutApplicationView.visible = true;
+		}
+
+		[Bindable]
+		public function get fastForwardEnabled():Boolean
+		{
+			var fastForwardEnabled:Boolean;
+			var demoCurrentDateSource:DemoCurrentDateSource = _currentDateSource as DemoCurrentDateSource;
+			if (demoCurrentDateSource)
+			{
+				fastForwardEnabled = demoCurrentDateSource.fastForwardEnabled;
+
+			}
+			return fastForwardEnabled;
+		}
+
+		public function set fastForwardEnabled(value:Boolean):void
+		{
+			var demoCurrentDateSource:DemoCurrentDateSource = _currentDateSource as DemoCurrentDateSource;
+			if (demoCurrentDateSource)
+			{
+				demoCurrentDateSource.fastForwardEnabled = value;
+			}
 		}
 	}
 }

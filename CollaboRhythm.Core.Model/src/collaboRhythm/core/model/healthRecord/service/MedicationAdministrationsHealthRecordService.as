@@ -26,7 +26,10 @@ package collaboRhythm.core.model.healthRecord.service
 
 	import com.adobe.utils.DateUtil;
 
+	import flash.events.Event;
+	import flash.events.TimerEvent;
 	import flash.net.URLVariables;
+	import flash.utils.Timer;
 
 	import mx.collections.ArrayCollection;
 
@@ -34,10 +37,20 @@ package collaboRhythm.core.model.healthRecord.service
 
 	public class MedicationAdministrationsHealthRecordService extends DocumentStorageServiceBase
 	{
+		private var _medicationAdministrationsModel:MedicationAdministrationsModel;
+		// To test, try setting _autoUpdateInterval to something short, like 20 seconds (1000 * 20)
+		private var _autoUpdateInterval:Number = 1000 * 60 * 10;
+		private var _nextAutoUpdate:Date;
+		private var _autoUpdateTimer:Timer = new Timer(0);
+		private var _autoUpdateCushion:Number = 1000;
+
 		public function MedicationAdministrationsHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account)
 		{
 			super(consumerKey, consumerSecret, baseURL, account,
 				MedicationAdministration.DOCUMENT_TYPE, MedicationAdministration, Schemas.MedicationAdministrationSchema);
+
+			_autoUpdateTimer.addEventListener(TimerEvent.TIMER, autoUpdateTimer_timerHandler, false, 0, true);
+			_currentDateSource.addEventListener(Event.CHANGE, currentDateSource_changeHandler, false, 0, true);
 		}
 
         override public function loadDocuments(record:Record):void
@@ -167,6 +180,70 @@ package collaboRhythm.core.model.healthRecord.service
 				_logger.info("Calculated curve for " + firstMedicationAdministration.name.text + " (" + key + ") with " +
 							 builder.concentrationCurve.length + " data points from " + administrationCollection.length + " MedicationAdministration documents");
 			}
+			_medicationAdministrationsModel = medicationAdministrationsModel;
+			setAutoUpdateTimer(_currentDateSource.now());
+		}
+
+		private function autoUpdateTimer_timerHandler(event:TimerEvent):void
+		{
+			autoUpdateIfTimeElapsed();
+		}
+
+		private function currentDateSource_changeHandler(event:Event):void
+		{
+			autoUpdateIfTimeElapsed();
+		}
+
+		private function autoUpdateIfTimeElapsed():void
+		{
+			if (_nextAutoUpdate && _activeAccount)
+			{
+				var now:Date = _currentDateSource.now();
+				if (now.valueOf() > _nextAutoUpdate.valueOf())
+				{
+					updateMedicationConcentrationCollections(_medicationAdministrationsModel);
+					setAutoUpdateTimer(now);
+				}
+				else
+				{
+					resetAutoUpdateTimer(_nextAutoUpdate.valueOf() - now.valueOf())
+				}
+			}
+		}
+
+		/**
+		 * Sets the time for _nextAutoUpdate and resets the timer
+		 * @param now The current time
+		 */
+		private function setAutoUpdateTimer(now:Date):void
+		{
+			_nextAutoUpdate = new Date();
+			_nextAutoUpdate.setTime(now.valueOf() + _autoUpdateInterval);
+			resetAutoUpdateTimer(_autoUpdateInterval);
+		}
+
+		private function resetAutoUpdateTimer(delay:Number):void
+		{
+			_autoUpdateTimer.stop();
+			_autoUpdateTimer.delay = delay + _autoUpdateCushion;
+			_autoUpdateTimer.start();
+		}
+
+		private function updateMedicationConcentrationCollections(medicationAdministrationsModel:MedicationAdministrationsModel):void
+		{
+			for each (var key:String in medicationAdministrationsModel.medicationAdministrationsCollectionsByCode.keys)
+			{
+				var administrationCollection:ArrayCollection = medicationAdministrationsModel.medicationAdministrationsCollectionsByCode[key];
+				var builder:MedicationConcentrationCurveBuilder = new MedicationConcentrationCurveBuilder();
+				builder.medicationAdministrationCollection = administrationCollection;
+				// TODO: customize parameters of the pharmicokinetics (?) to match the current medication, person, dose, etc
+				builder.concentrationCurve = medicationAdministrationsModel.medicationConcentrationCurvesByCode.getItem(key);
+				builder.updateConcentrationCurve();
+				var firstMedicationAdministration:MedicationAdministration = administrationCollection[0];
+				_logger.info("Updated curve for " + firstMedicationAdministration.name.text + " (" + key + ") with " +
+							 builder.concentrationCurve.length + " data points from " + administrationCollection.length + " MedicationAdministration documents");
+			}
+			medicationAdministrationsModel.updateComplete();
 		}
 	}
 }
