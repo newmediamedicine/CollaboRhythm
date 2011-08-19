@@ -152,11 +152,11 @@ package collaboRhythm.plugins.medications.model
 			{
 				if (adherencePerformanceInterval == AdherencePerformanceModel.ADHERENCE_PERFORMANCE_INTERVAL_TODAY)
 				{
-					return "But you have taken this medication as scheduled " + adherencePerformanceInterval + ". Nice work! The concentration will rise.";
+					return "But you have taken this medication as scheduled " + adherencePerformanceInterval + ". The concentration will rise.";
 				}
 				else
 				{
-					return "But you took this medication as scheduled " + adherencePerformanceInterval + ". Nice work! The concentration will rise.";
+					return "But you took this medication as scheduled " + adherencePerformanceInterval + ". The concentration will rise.";
 				}
 			}
 			else
@@ -180,11 +180,11 @@ package collaboRhythm.plugins.medications.model
 			{
 				if (adherencePerformanceInterval == AdherencePerformanceModel.ADHERENCE_PERFORMANCE_INTERVAL_TODAY)
 				{
-					return "But you have taken these medications as scheduled " + adherencePerformanceInterval + ". Nice work! The concentrations will rise.";
+					return "But you have taken these medications as scheduled " + adherencePerformanceInterval + ". The concentrations will rise.";
 				}
 				else
 				{
-					return "But you took these medications as scheduled " + adherencePerformanceInterval + ". Nice work! The concentrations will rise.";
+					return "But you took these medications as scheduled " + adherencePerformanceInterval + ". The concentrations will rise.";
 				}
 			}
 			else
@@ -205,7 +205,7 @@ package collaboRhythm.plugins.medications.model
 		{
 			if (isAdherencePerformancePerfect(medicationScheduleItemOccurrencesVector))
 			{
-				return "But you took all of your scheduled medications " + adherencePerformanceInterval + ". Nice work! The concentrations will rise.";
+				return "But you took all of your scheduled medications " + adherencePerformanceInterval + ". The concentrations will rise.";
 			}
 			else
 			{
