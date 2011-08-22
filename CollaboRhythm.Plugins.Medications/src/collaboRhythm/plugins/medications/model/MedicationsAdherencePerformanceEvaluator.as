@@ -31,51 +31,62 @@ package collaboRhythm.plugins.medications.model
 	{
 		public static const SCHEDULE_ITEM_TYPE:String = "http://indivo.org/vocab/xml/documents#MedicationScheduleItem";
 
-		public static const MEDICATION_CONCENTRATION_ABOVE_GOAL_ASSERTION_ALL:String = "All of your medications are above goal concentration.";
-		public static const MEDICATION_CONCENTRATION_ABOVE_GOAL_ASSERTION_SOME:String = "Some of your medications are above goal concentration.";
-		public static const MEDICATION_CONCENTRATION_ABOVE_GOAL_ASSERTION_ONE:String = "is above goal concentration.";
+		public static const ALL_ABOVE_GOAL_ASSERTION:String = "All of your medications are above goal concentration.";
+		public static const SOME_ABOVE_GOAL_ASSERTION:String = "Some of your medications are above goal concentration.";
+		public static const ONE_ABOVE_GOAL_ASSERTION:String = "is above goal concentration.";
 
-		public static const MEDICATION_CONCENTRATION_BELOW_GOAL_ASSERTION_ALL:String = "All of your medications are below goal concentration.";
-		public static const MEDICATION_CONCENTRATION_BELOW_GOAL_ASSERTION_SOME:String = "Some of your medications are below goal concentration.";
-		public static const MEDICATION_CONCENTRATION_BELOW_GOAL_ASSERTION_ONE:String = "is below goal concentration.";
+		public static const ALL_BELOW_GOAL_ASSERTION:String = "All of your medications are below goal concentration.";
+		public static const SOME_BELOW_GOAL_ASSERTION:String = "Some of your medications are below goal concentration.";
+		public static const ONE_BELOW_GOAL_ASSERTION:String = "is below goal concentration.";
 
-		public static const MEDICATION_CONCENTRATION_WITHIN_GOAL_ALL:String = "All of your medications are within goal concentration.";
+		private static const ALL_OF_YOUR_MEDICATIONS:String = "all of your medications";
+		private static const THESE_MEDICATIONS:String = "these medications";
+		private static const THIS_MEDICATION:String = "this medication";
 
-		public static const MEDICATIONS_ADHERENCE_PERFECT_ASSERTION_YESTERDAY:String = "You took all of your scheduled blood pressure medications yesterday.";
-		public static const MEDICATIONS_ADHERENCE_PERFECT_ASSERTION_TODAY:String = "You have taken all of your scheduled blood pressure medications today.";
-		public static const MEDICATIONS_NONADHERENCE_ASSERTION_YESTERDAY:String = "You did not take all of your scheduled blood pressure medications yesterday.";
-		public static const MEDICATIONS_NONADHERENCE_ASSERTION_TODAY:String = "You have not taken all of your scheduled blood pressure medications today.";
-		public static const MEDICATIONS_NONE_SCHEDULED_ASSERTION:String = "You do not have any scheduled blood pressure medications to take";
+		public static const ALL_WITHIN_GOAL_ASSERTION:String = "All of your medications are within goal concentration.";
+
+		public static const NO_CONCENTRATIONS_AVAILABLE_ASSERTION:String = "No medication concentrations are available";
+
+		public static const NO_MEDICATION_SCHEDULE_ITEM_OCCURRENCES_ASSERTION:String = "You don't have any scheduled medications";
 
 		private var _numberOfMedications:int;
-		private var _medicationsBelowGoal:Vector.<CodedValue>;
-		private var _medicationsWithinGoal:Vector.<CodedValue>;
-		private var _medicationsAboveGoal:Vector.<CodedValue>;
+		private var _medicationsBelowGoal:Vector.<String>;
+		private var _medicationsWithinGoal:Vector.<String>;
+		private var _medicationsAboveGoal:Vector.<String>;
 
 		public function MedicationsAdherencePerformanceEvaluator()
 		{
 			super(SCHEDULE_ITEM_TYPE);
 		}
 
+
+		private static const CONCENTRATION:String = "concentration";
+
+		private static const CONCENTRATIONS:String = "concentrations";
+
 		override public function evaluateAdherencePerformance(scheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence>,
 															  record:Record,
 															  adherencePerformanceInterval:String):AdherencePerformanceAssertion
 		{
 			evaluateMedicationConcentrations(record);
-			if (_medicationsAboveGoal.length == _numberOfMedications)
+			if (_numberOfMedications == 0)
+			{
+				return new AdherencePerformanceAssertion(AdherencePerformanceAssertion.WARNING, NO_CONCENTRATIONS_AVAILABLE_ASSERTION, false);
+			}
+			else if (_medicationsAboveGoal.length == _numberOfMedications)
 			{
 				return new AdherencePerformanceAssertion(AdherencePerformanceAssertion.WARNING,
-														 MEDICATION_CONCENTRATION_ABOVE_GOAL_ASSERTION_ALL, false);
+														 ALL_ABOVE_GOAL_ASSERTION, false);
 			}
 			else if (_medicationsAboveGoal.length > 1)
 			{
 				return new AdherencePerformanceAssertion(AdherencePerformanceAssertion.WARNING,
-														 MEDICATION_CONCENTRATION_ABOVE_GOAL_ASSERTION_SOME, false);
+														 SOME_ABOVE_GOAL_ASSERTION, false);
 			}
 			else if (_medicationsAboveGoal.length == 1)
 			{
 				return new AdherencePerformanceAssertion(AdherencePerformanceAssertion.WARNING,
-														 "Your " + getSimpleMedicationName(_medicationsAboveGoal[0].text) + MEDICATION_CONCENTRATION_ABOVE_GOAL_ASSERTION_ONE,
+														 "Your " + getSimpleMedicationName(_medicationsAboveGoal[0]) + ONE_ABOVE_GOAL_ASSERTION,
 														 false);
 			}
 			else
@@ -83,26 +94,26 @@ package collaboRhythm.plugins.medications.model
 				var subAssertion:String;
 				if (_medicationsBelowGoal.length == _numberOfMedications)
 				{
-					subAssertion = createAllMedicationsBelowGoalSubAssertion(getScheduleItemOccurrencesForType(scheduleItemOccurrencesVector),
-																						adherencePerformanceInterval);
+					subAssertion = createMedicationBelowGoalSubAssertion(getScheduleItemOccurrencesForType(scheduleItemOccurrencesVector),
+																						adherencePerformanceInterval, ALL_OF_YOUR_MEDICATIONS, CONCENTRATIONS);
 					return new AdherencePerformanceAssertion(AdherencePerformanceAssertion.LIGHTNING,
-															 MEDICATION_CONCENTRATION_BELOW_GOAL_ASSERTION_ALL, false,
+															 ALL_BELOW_GOAL_ASSERTION, false,
 															 subAssertion);
 				}
 				else if (_medicationsBelowGoal.length > 1)
 				{
-					subAssertion = createSomeMedicationsBelowGoalSubAssertion(getScheduleItemOccurrencesForType(scheduleItemOccurrencesVector),
-																						 adherencePerformanceInterval);
+					subAssertion = createMedicationBelowGoalSubAssertion(getScheduleItemOccurrencesForType(scheduleItemOccurrencesVector),
+																						 adherencePerformanceInterval, THESE_MEDICATIONS, CONCENTRATIONS);
 					return new AdherencePerformanceAssertion(AdherencePerformanceAssertion.LIGHTNING,
-															 MEDICATION_CONCENTRATION_BELOW_GOAL_ASSERTION_SOME, false,
+															 SOME_BELOW_GOAL_ASSERTION, false,
 															 subAssertion);
 				}
 				else if (_medicationsBelowGoal.length == 1)
 				{
-					subAssertion = createOneMedicationBelowGoalSubAssertion(getScheduleItemOccurrencesForType(scheduleItemOccurrencesVector),
-																					   adherencePerformanceInterval);
+					subAssertion = createMedicationBelowGoalSubAssertion(getScheduleItemOccurrencesForType(scheduleItemOccurrencesVector),
+																					   adherencePerformanceInterval, THIS_MEDICATION, CONCENTRATION);
 					return new AdherencePerformanceAssertion(AdherencePerformanceAssertion.LIGHTNING,
-															 "Your " + getSimpleMedicationName(_medicationsBelowGoal[0].text) + MEDICATION_CONCENTRATION_BELOW_GOAL_ASSERTION_ONE,
+															 "Your " + getSimpleMedicationName(_medicationsBelowGoal[0]) + ONE_BELOW_GOAL_ASSERTION,
 															 false, subAssertion);
 				}
 				else
@@ -110,7 +121,7 @@ package collaboRhythm.plugins.medications.model
 					subAssertion = createAllMedicationsWithinGoalSubAssertion(getScheduleItemOccurrencesForType(scheduleItemOccurrencesVector),
 																						 adherencePerformanceInterval);
 					return new AdherencePerformanceAssertion(AdherencePerformanceAssertion.THUMBS_UP,
-															 MEDICATION_CONCENTRATION_WITHIN_GOAL_ALL, true,
+															 ALL_WITHIN_GOAL_ASSERTION, true,
 															 subAssertion);
 				}
 			}
@@ -119,16 +130,13 @@ package collaboRhythm.plugins.medications.model
 		private function createAllMedicationsWithinGoalSubAssertion(medicationScheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence>,
 																	adherencePerformanceInterval:String):String
 		{
+			if (medicationScheduleItemOccurrencesVector.length == 0)
+			{
+				return NO_MEDICATION_SCHEDULE_ITEM_OCCURRENCES_ASSERTION;
+			}
 			if (isAdherencePerformancePerfect(medicationScheduleItemOccurrencesVector))
 			{
-				if (adherencePerformanceInterval == AdherencePerformanceModel.ADHERENCE_PERFORMANCE_INTERVAL_TODAY)
-				{
-					return "And you have taken all of your scheduled medications " + adherencePerformanceInterval + ". Nice work!";
-				}
-				else
-				{
-					return "And you took all of your scheduled medications " + adherencePerformanceInterval + ". Nice work!";
-				}
+				return "And you took all of your scheduled medications " + adherencePerformanceInterval + ". Nice work!";
 			}
 			else
 			{
@@ -144,72 +152,28 @@ package collaboRhythm.plugins.medications.model
 			}
 		}
 
-		private function createOneMedicationBelowGoalSubAssertion(medicationScheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence>,
-																  adherencePerformanceInterval:String):String
+		private function createMedicationBelowGoalSubAssertion(medicationScheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence>,
+																  adherencePerformanceInterval:String, numberOfMedicationsText:String, concentrationText:String):String
 		{
+			if (medicationScheduleItemOccurrencesVector.length == 0)
+			{
+				return NO_MEDICATION_SCHEDULE_ITEM_OCCURRENCES_ASSERTION;
+			}
 			var medicationScheduleItemOccurrencesSubsetVector:Vector.<ScheduleItemOccurrence> = getMedicationScheduleItemOccurrenceSubset(medicationScheduleItemOccurrencesVector);
 			if (isAdherencePerformancePerfect(medicationScheduleItemOccurrencesSubsetVector))
 			{
-				if (adherencePerformanceInterval == AdherencePerformanceModel.ADHERENCE_PERFORMANCE_INTERVAL_TODAY)
-				{
-					return "But you have taken this medication as scheduled " + adherencePerformanceInterval + ". The concentration will rise.";
-				}
-				else
-				{
-					return "But you took this medication as scheduled " + adherencePerformanceInterval + ". The concentration will rise.";
-				}
+				return "But you took " + numberOfMedicationsText + " as scheduled " + adherencePerformanceInterval + ". The " + concentrationText + " will rise.";
 			}
 			else
 			{
 				if (adherencePerformanceInterval == AdherencePerformanceModel.ADHERENCE_PERFORMANCE_INTERVAL_TODAY)
 				{
-					return "And you have not taken this medication as scheduled " + adherencePerformanceInterval + ". The concentration will stay low.";
+					return "And you have not taken " + numberOfMedicationsText + " as scheduled " + adherencePerformanceInterval + ". The " + concentrationText + " will stay low.";
 				}
 				else
 				{
-					return "And you did not take this medication as scheduled " + adherencePerformanceInterval + ". The concentration will stay low.";
+					return "And you did not take " + numberOfMedicationsText + " as scheduled " + adherencePerformanceInterval + ". The " + concentrationText + " will stay low.";
 				}
-			}
-		}
-
-		private function createSomeMedicationsBelowGoalSubAssertion(medicationScheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence>,
-																	adherencePerformanceInterval:String):String
-		{
-			var medicationScheduleItemOccurrencesSubsetVector:Vector.<ScheduleItemOccurrence> = getMedicationScheduleItemOccurrenceSubset(medicationScheduleItemOccurrencesVector);
-			if (isAdherencePerformancePerfect(medicationScheduleItemOccurrencesSubsetVector))
-			{
-				if (adherencePerformanceInterval == AdherencePerformanceModel.ADHERENCE_PERFORMANCE_INTERVAL_TODAY)
-				{
-					return "But you have taken these medications as scheduled " + adherencePerformanceInterval + ". The concentrations will rise.";
-				}
-				else
-				{
-					return "But you took these medications as scheduled " + adherencePerformanceInterval + ". The concentrations will rise.";
-				}
-			}
-			else
-			{
-				if (adherencePerformanceInterval == AdherencePerformanceModel.ADHERENCE_PERFORMANCE_INTERVAL_TODAY)
-				{
-					return "And you have not taken these medications as scheduled " + adherencePerformanceInterval + ". The concentrations will stay low.";
-				}
-				else
-				{
-					return "And you did not take these medications as scheduled " + adherencePerformanceInterval + ". The concentrations will stay low.";
-				}
-			}
-		}
-
-		private function createAllMedicationsBelowGoalSubAssertion(medicationScheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence>,
-																   adherencePerformanceInterval:String):String
-		{
-			if (isAdherencePerformancePerfect(medicationScheduleItemOccurrencesVector))
-			{
-				return "But you took all of your scheduled medications " + adherencePerformanceInterval + ". The concentrations will rise.";
-			}
-			else
-			{
-				return "And you have not taken all of your scheduled medications " + adherencePerformanceInterval + ". The concentrations will stay low.";
 			}
 		}
 
@@ -218,7 +182,7 @@ package collaboRhythm.plugins.medications.model
 			var medicationScheduleItemOccurrencesSubsetVector:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
 			for each (var medicationScheduleItemOccurrence:ScheduleItemOccurrence in medicationScheduleItemOccurrencesVector)
 			{
-				if (_medicationsBelowGoal.indexOf(medicationScheduleItemOccurrence.scheduleItem.name) != -1)
+				if (_medicationsBelowGoal.indexOf(medicationScheduleItemOccurrence.scheduleItem.name.text) != -1)
 				{
 					medicationScheduleItemOccurrencesSubsetVector.push(medicationScheduleItemOccurrence);
 				}
@@ -228,9 +192,9 @@ package collaboRhythm.plugins.medications.model
 
 		private function evaluateMedicationConcentrations(record:Record):void
 		{
-			_medicationsBelowGoal = new Vector.<CodedValue>();
-			_medicationsWithinGoal = new Vector.<CodedValue>();
-			_medicationsAboveGoal = new Vector.<CodedValue>();
+			_medicationsBelowGoal = new Vector.<String>();
+			_medicationsWithinGoal = new Vector.<String>();
+			_medicationsAboveGoal = new Vector.<String>();
 
 			var medicationComponentAdherenceModelsVector:Vector.<MedicationComponentAdherenceModel> = record.bloodPressureModel.simulation.medications;
 			_numberOfMedications = medicationComponentAdherenceModelsVector.length;
@@ -238,15 +202,15 @@ package collaboRhythm.plugins.medications.model
 			{
 				if (medicationComponentAdherenceModel.concentrationSeverityLevel < 2)
 				{
-					_medicationsBelowGoal.push(medicationComponentAdherenceModel.name);
+					_medicationsBelowGoal.push(medicationComponentAdherenceModel.name.text);
 				}
 				else if (medicationComponentAdherenceModel.concentrationSeverityLevel == 2)
 				{
-					_medicationsWithinGoal.push(medicationComponentAdherenceModel.name);
+					_medicationsWithinGoal.push(medicationComponentAdherenceModel.name.text);
 				}
 				else
 				{
-					_medicationsAboveGoal.push(medicationComponentAdherenceModel.name);
+					_medicationsAboveGoal.push(medicationComponentAdherenceModel.name.text);
 				}
 			}
 		}

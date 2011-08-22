@@ -60,33 +60,43 @@
 																 _scheduleItemOccurrence, _adherenceItem));
 			}
 		}
+
+		private function additionalInformationTextArea_focusInHandler():void
+		{
+
+		}
 		]]></fx:Script>
 	<s:Rect width="100%" height="100%">
 		<s:fill>
 			<s:SolidColor color="#CCCCCC"/>
 		</s:fill>
 	</s:Rect>
-	<s:VGroup left="10" right="10" top="10" bottom="10">
-		<s:Label text="Why are you skipping this measurement?" styleName="reasonText" includeIn="present"/>
-		<s:Label text="Why did you skip this measurement?" styleName="reasonText" includeIn="past"/>
-		<s:List id="reasonList" width="100%" height="100%" styleName="entryText" includeIn="present" skinClass="spark.skins.spark.ListSkin">
-			<mx:ArrayCollection>
-				<fx:String>I don't have the meter with me.</fx:String>
-				<fx:String>The meter is not working.</fx:String>
-				<fx:String>I just don't feel like taking it.</fx:String>
-				<fx:String>Other reason.</fx:String>
-			</mx:ArrayCollection>
-		</s:List>
-		<s:List width="100%" height="100%" styleName="entryText" includeIn="past" skinClass="spark.skins.spark.ListSkin">
-			<mx:ArrayCollection>
-				<fx:String>I did not have the meter with me.</fx:String>
-				<fx:String>The meter was not working.</fx:String>
-				<fx:String>I don't know / just forgot.</fx:String>
-				<fx:String>Other reason.</fx:String>
-			</mx:ArrayCollection>
-		</s:List>
-		<s:Label text="Add any additional information here:" paddingTop="10" styleName="reasonText"/>
-		<s:TextArea width="100%" height="160" styleName="entryText" paddingBottom="25"/>
-		<s:Button width="100%" height="80" right="0" label="Submit" styleName="entryText" click="submitButton_clickHandler()"/>
-	</s:VGroup>
+	<s:Scroller width="100%" height="100%">
+		<s:VGroup left="10" right="10" top="10" bottom="10">
+			<s:Label text="Why are you skipping this measurement?" styleName="reasonText" includeIn="present"/>
+			<s:Label text="Why did you skip this measurement?" styleName="reasonText" includeIn="past"/>
+			<s:List id="reasonList" width="100%" height="100%" styleName="entryText" includeIn="present"
+					skinClass="spark.skins.spark.ListSkin">
+				<mx:ArrayCollection>
+					<fx:String>I don't have the meter with me.</fx:String>
+					<fx:String>The meter is not working.</fx:String>
+					<fx:String>I just don't feel like taking it.</fx:String>
+					<fx:String>Other reason.</fx:String>
+				</mx:ArrayCollection>
+			</s:List>
+			<s:List width="100%" height="100%" styleName="entryText" includeIn="past"
+					skinClass="spark.skins.spark.ListSkin">
+				<mx:ArrayCollection>
+					<fx:String>I did not have the meter with me.</fx:String>
+					<fx:String>The meter was not working.</fx:String>
+					<fx:String>I don't know / just forgot.</fx:String>
+					<fx:String>Other reason.</fx:String>
+				</mx:ArrayCollection>
+			</s:List>
+			<s:Label text="Add any additional information here:" paddingTop="10" styleName="reasonText"/>
+			<s:TextArea width="100%" height="160" styleName="entryText" paddingBottom="25"/>
+			<s:Button width="100%" height="80" right="0" label="Submit" styleName="entryText"
+					  click="submitButton_clickHandler()"/>
+		</s:VGroup>
+	</s:Scroller>
 </s:Group>

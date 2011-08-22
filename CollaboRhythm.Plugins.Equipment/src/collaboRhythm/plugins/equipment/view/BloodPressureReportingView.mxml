@@ -80,6 +80,8 @@
 		private static const HYPERTENSION_SYSTOLIC_THRESHOLD:int = 180;
 		private static const HYPERTENSION_DIASTOLIC_THRESHOLD:int = 120;
 
+		private static const AUTOMATIC_SUBMIT_INTERVAL:int = 6;
+
 		private const NUMBER_PAD_GAP:int = 2;
 
 		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
@@ -119,8 +121,6 @@
 
 			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, invokeHandler);
 		}
-
-		private static const AUTOMATIC_SUBMIT_INTERVAL:int = 5;
 
 		private function invokeHandler(event:InvokeEvent):void
 		{
@@ -384,7 +384,7 @@
 	</s:VGroup>
 	<s:VGroup left="10" right="10" bottom="10" verticalAlign="bottom">
 		<s:Group>
-			<s:Label id="autoSubmitCountdownLabel" visible="{_fromDevice}"/>
+			<s:Label id="autoSubmitCountdownLabel" visible="{_fromDevice &amp;&amp; !_hasUserInteracted}"/>
 			<s:Label id="bloodPressureIncompleteLabel" text="Please enter a blood pressure and heart rate."
 					 visible="{_submitFailed}"/>
 		</s:Group>
