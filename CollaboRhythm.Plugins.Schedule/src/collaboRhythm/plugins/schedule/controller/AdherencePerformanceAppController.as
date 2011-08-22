@@ -51,6 +51,18 @@ package collaboRhythm.plugins.schedule.controller
 		override public function initialize():void
 		{
 			super.initialize();
+			initializeScheduleModel();
+			updateWidgetViewModel();
+			updateFullViewModel();
+		}
+
+		private function initializeScheduleModel():void
+		{
+			if (!_scheduleModel)
+			{
+				_scheduleModel = _activeRecordAccount.primaryRecord.getAppData(ScheduleModel.SCHEDULE_MODEL_KEY,
+																			   ScheduleModel) as ScheduleModel;
+			}
 		}
 
 		override protected function createWidgetView():UIComponent
@@ -62,6 +74,7 @@ package collaboRhythm.plugins.schedule.controller
 		override public function reloadUserData():void
 		{
 			removeUserData();
+			initializeScheduleModel();
 
 			super.reloadUserData();
 		}
@@ -70,7 +83,7 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			super.updateWidgetViewModel();
 
-			if (_widgetView && _activeRecordAccount)
+			if (_widgetView && scheduleModel)
 			{
 				_widgetView.init(this, scheduleModel);
 			}
@@ -103,10 +116,6 @@ package collaboRhythm.plugins.schedule.controller
 
 		private function get scheduleModel():ScheduleModel
 		{
-			if (!_scheduleModel)
-			{
-				_scheduleModel = _activeRecordAccount.primaryRecord.getAppData(ScheduleModel.SCHEDULE_MODEL_KEY, ScheduleModel) as ScheduleModel;
-			}
 			return _scheduleModel;
 		}
 

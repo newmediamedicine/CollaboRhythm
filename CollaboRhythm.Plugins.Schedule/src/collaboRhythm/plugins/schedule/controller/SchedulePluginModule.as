@@ -50,16 +50,17 @@ package collaboRhythm.plugins.schedule.controller
 																								 BloodPressureChartAppControllerInfo.APP_ID));
 			scheduleAppControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER,
 																								 BloodPressureAppControllerInfo.APP_ID));
-			scheduleAppControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_BEFORE,
-																								 AdherencePerformanceAppControllerInfo.APP_ID));
 
 			typeName = ReflectionUtils.getClassInfo(ScheduleAppController).name;
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
 														 scheduleAppControllerInfo);
 
 			typeName = ReflectionUtils.getClassInfo(AdherencePerformanceAppController).name;
+			var adherencePerformanceAppControllerInfo:AppControllerInfo = new AppControllerInfo(AdherencePerformanceAppController);
+			adherencePerformanceAppControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER,
+																								 scheduleAppControllerInfo.appId));
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
-														 new AppControllerInfo(AdherencePerformanceAppController));
+														 adherencePerformanceAppControllerInfo);
 		}
 	}
 }

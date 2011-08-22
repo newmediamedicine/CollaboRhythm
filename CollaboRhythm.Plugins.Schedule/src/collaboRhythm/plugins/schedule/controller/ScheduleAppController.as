@@ -59,10 +59,29 @@ package collaboRhythm.plugins.schedule.controller
 		override public function initialize():void
 		{
 			super.initialize();
+			initializeScheduleModel();
+
+			updateWidgetViewModel();
+			updateFullViewModel();
+
 			if (!_fullView && _fullContainer)
 			{
 				createFullView();
 				prepareFullView();
+			}
+		}
+
+		private function initializeScheduleModel():void
+		{
+			if (!_scheduleModel)
+			{
+				_scheduleModel = new ScheduleModel(_componentContainer, _activeRecordAccount.primaryRecord,
+												   _activeRecordAccount.accountId, _handledInvokeEvents);
+				_activeRecordAccount.primaryRecord.appData.put(ScheduleModel.SCHEDULE_MODEL_KEY, _scheduleModel);
+				_activeRecordAccount.primaryRecord.appData.put(AdherencePerformanceModel.ADHERENCE_PERFORMANCE_MODEL_KEY,
+															   _scheduleModel.adherencePerformanceModel);
+				_scheduleModel.addEventListener(ScheduleModelEvent.INITIALIZED, scheduleModel_initializedHandler, false,
+												0, true);
 			}
 		}
 
@@ -99,6 +118,7 @@ package collaboRhythm.plugins.schedule.controller
 				_widgetView.destroyChildren();
 			}
 
+			initializeScheduleModel();
 			super.reloadUserData();
 		}
 
@@ -106,7 +126,7 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			super.updateWidgetViewModel();
 
-			if (_widgetView && _activeRecordAccount)
+			if (_widgetView && scheduleModel)
 			{
 				_widgetView.init(this, scheduleModel);
 			}
@@ -116,7 +136,7 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			super.updateFullViewModel();
 
-			if (_fullView)
+			if (_fullView && scheduleModel)
 			{
 				_fullView.init(this, scheduleModel);
 			}
@@ -194,15 +214,6 @@ package collaboRhythm.plugins.schedule.controller
 
 		private function get scheduleModel():ScheduleModel
 		{
-			if (!_scheduleModel)
-			{
-				_scheduleModel = new ScheduleModel(_componentContainer, _activeRecordAccount.primaryRecord,
-												   _activeRecordAccount.accountId, _handledInvokeEvents);
-				_activeRecordAccount.primaryRecord.appData.put(ScheduleModel.SCHEDULE_MODEL_KEY, _scheduleModel);
-				_activeRecordAccount.primaryRecord.appData.put(AdherencePerformanceModel.ADHERENCE_PERFORMANCE_MODEL_KEY, _scheduleModel.adherencePerformanceModel);
-				_scheduleModel.addEventListener(ScheduleModelEvent.INITIALIZED, scheduleModel_initializedHandler, false,
-												0, true);
-			}
 			return _scheduleModel;
 		}
 
@@ -244,17 +255,21 @@ package collaboRhythm.plugins.schedule.controller
 		protected override function removeUserData():void
 		{
 			// TODO: destroy/cleanup any reference and listeners in scheduleModel
-			if (_scheduleModel.hasEventListener(ScheduleModelEvent.INITIALIZED))
+			if (_scheduleModel)
 			{
-				_scheduleModel.removeEventListener(ScheduleModelEvent.INITIALIZED, scheduleModel_initializedHandler);
-			}
-			if (_scheduleModel.hasEventListener(AppEvent.SHOW_FULL_VIEW))
-			{
-				_scheduleClockController.removeEventListener(AppEvent.SHOW_FULL_VIEW, showFullViewHandler);
-			}
-			if (_scheduleModel.hasEventListener(AppEvent.HIDE_FULL_VIEW))
-			{
-				_scheduleReportingController.removeEventListener(AppEvent.HIDE_FULL_VIEW, hideFullViewHandler);
+				if (_scheduleModel.hasEventListener(ScheduleModelEvent.INITIALIZED))
+				{
+					_scheduleModel.removeEventListener(ScheduleModelEvent.INITIALIZED,
+													   scheduleModel_initializedHandler);
+				}
+				if (_scheduleModel.hasEventListener(AppEvent.SHOW_FULL_VIEW))
+				{
+					_scheduleClockController.removeEventListener(AppEvent.SHOW_FULL_VIEW, showFullViewHandler);
+				}
+				if (_scheduleModel.hasEventListener(AppEvent.HIDE_FULL_VIEW))
+				{
+					_scheduleReportingController.removeEventListener(AppEvent.HIDE_FULL_VIEW, hideFullViewHandler);
+				}
 			}
 
 			_scheduleModel.destroy();

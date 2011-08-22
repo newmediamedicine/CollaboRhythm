@@ -319,6 +319,9 @@ package com.dougmccune.controls
 		[SkinPart(required="false")]
 		public var highlightChartItemEffectScopeLeftMove:Move;
 
+		private var _dataSets:ArrayCollection = new ArrayCollection();
+		private var _data:ArrayCollection = new ArrayCollection();
+
 		//the sliced data to appear in the upper area chart, and column volume chart
 		[Bindable]
 		public var mainData:ArrayCollection = new ArrayCollection();
@@ -612,7 +615,8 @@ package com.dougmccune.controls
 		{
 			_isCreationComplete = true;
 			updateSynchronizedAxisRenderers();
-			initializeFromData();
+			_pendingInitializeFromData = true;
+			invalidateProperties();
 
 			if (_showFps)
 				this.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
@@ -670,8 +674,6 @@ package com.dougmccune.controls
             }
 		}
 
-		private var _data:ArrayCollection = new ArrayCollection();
-
 		public function get data():ArrayCollection
 		{
 			return _data;
@@ -679,9 +681,11 @@ package com.dougmccune.controls
 
 		private var _initialDurationTime:Number = defaultInitialDurationTime;
 		private var _isCreationComplete:Boolean;
-		private var _pendingUpdateData:Boolean;
+		private var _pendingUpdateFromData:Boolean;
 		private var _minimumDataTime:Number;
 		private var _maximumDataTime:Number;
+		private var _pendingInitializeFromData:Boolean;
+		private var _pendingInitializeChartsFromMinMaxTimes:Boolean;
 
 		public function get isCreationComplete():Boolean
 		{
@@ -694,11 +698,21 @@ package com.dougmccune.controls
 			{
 				minimumTime = NaN;
 				maximumTime = NaN;
-				commitDataChange();
+				commitDataChanges();
 			}
 		}
 
-		private function commitDataChange():void
+		public function commitPendingDataChanges():void
+		{
+			if (pendingInitializeFromData || pendingUpdateFromData)
+			{
+				commitDataChanges();
+				pendingInitializeFromData = false;
+				pendingUpdateFromData = false;
+			}
+		}
+
+		private function commitDataChanges():void
 		{
 			if (_data == null)
 			{
@@ -719,20 +733,39 @@ package com.dougmccune.controls
 
 			if (rangeData.length > 0)
 			{
-				//setting default range values for loading
-				var i0:Number = 0;
-				try
+				var minimum:Number;
+				var maximum:Number;
+				for each (var dataSet:DataSet in _dataSets)
 				{
-					var i1:Number = rangeData.source.length - 1;
-				} catch(e:Error)
-				{
-					trace("Error setting i1: " + e.message);
+					var xField:String = dataSet.dateField;
+					var seriesDataCollection:ArrayCollection = dataSet.seriesDataCollection;
+
+					if (xField && seriesDataCollection)
+					{
+						//setting default range values for loading
+						var i0:Number = 0;
+						var i1:Number = seriesDataCollection.length - 1;
+
+						var seriesMinimum:Number = seriesDataCollection[i0][xField].time;
+						if (isNaN(minimum))
+							minimum = seriesMinimum;
+						else
+							minimum = Math.min(minimum, seriesMinimum);
+
+						var seriesMaximum:Number = seriesDataCollection[i1][xField].time;
+						if (isNaN(maximum))
+							maximum = seriesMaximum;
+						else
+							maximum = Math.max(maximum, seriesMaximum);
+					}
 				}
-				_minimumTime = _minimumDataTime = dateParse(rangeData.source[i0][dateField]).time;
-				_maximumTime = _maximumDataTime = dateParse(rangeData.source[i1][dateField]).time;
-				initializeChartsFromMinMaxTimes();
+
+				_minimumTime = _minimumDataTime = minimum;
+				_maximumTime = _maximumDataTime = maximum;
+				_pendingInitializeChartsFromMinMaxTimes = true;
+				invalidateProperties();
 				if (_traceEvents)
-					trace(traceEventsPrefix + "initializeFromData leftRangeTime", traceDate(leftRangeTime),
+					trace(traceEventsPrefix + "commitDataChanges leftRangeTime", traceDate(leftRangeTime),
 						  "rightRangeTime",
 						  traceDate(rightRangeTime), "minimumTime", traceDate(minimumTime), "maximumTime",
 						  traceDate(maximumTime),
@@ -783,25 +816,61 @@ package com.dougmccune.controls
 				value = new ArrayCollection();
 			}
 
-			_data.removeEventListener(CollectionEvent.COLLECTION_CHANGE, data_collectionChange);
+			_data.removeEventListener(CollectionEvent.COLLECTION_CHANGE, data_collectionChangeHandler);
 			_data = value;
-			_data.addEventListener(CollectionEvent.COLLECTION_CHANGE, data_collectionChange, false, 0, true);
-			initializeFromData();
+			_data.addEventListener(CollectionEvent.COLLECTION_CHANGE, data_collectionChangeHandler, false, 0, true);
+			_pendingInitializeFromData = true;
+			invalidateProperties();
 		}
 
-		private function data_collectionChange(event:CollectionEvent):void
+		/**
+		 * Adds a series to be considered when determining the date ranges for the chart.
+		 * @param seriesDataCollection the data used for a series in the chart
+		 * @param dateField the data (x axis) field name to get the date value from items in the data collection
+		 */
+		public function addDataSet(seriesDataCollection:ArrayCollection, dateField:String):void
 		{
-			pendingUpdateData = true;
+			if (seriesDataCollection)
+			{
+				var dataSet:DataSet = new DataSet(seriesDataCollection, dateField);
+				_dataSets.addItem(dataSet);
+				seriesDataCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, seriesDataCollection_collectionChangeHandler, false, 0, true);
+				_pendingInitializeFromData = true;
+				invalidateProperties();
+			}
+		}
+
+		private function seriesDataCollection_collectionChangeHandler(event:CollectionEvent):void
+		{
+			pendingUpdateFromData = true;
+			invalidateProperties();
+		}
+
+		private function data_collectionChangeHandler(event:CollectionEvent):void
+		{
+			pendingUpdateFromData = true;
 			invalidateProperties();
 		}
 
 		override protected function commitProperties():void
 		{
 			super.commitProperties();
-			if (pendingUpdateData)
+			if (pendingInitializeFromData)
 			{
-				pendingUpdateData = false;
+				initializeFromData();
+				pendingInitializeFromData = false;
+				pendingUpdateFromData = false;
+			}
+			else if (pendingUpdateFromData)
+			{
 				updateFromData();
+				pendingUpdateFromData = false;
+			}
+
+			if (_pendingInitializeChartsFromMinMaxTimes)
+			{
+				_pendingInitializeChartsFromMinMaxTimes = false;
+				initializeChartsFromMinMaxTimes();
 			}
 		}
 
@@ -810,7 +879,7 @@ package com.dougmccune.controls
 			if (isCreationComplete)
 			{
 				var isScrolledToNow:Boolean = rightRangeTime == maximumTime;
-				commitDataChange();
+				commitDataChanges();
 				if (isScrolledToNow)
 					scrollToNow();
 			}
@@ -845,15 +914,6 @@ package com.dougmccune.controls
 		//				sliderToDateIntercept = t0 - sliderToDateSlope * x0;
 		//			}
 
-		/**
-		 * Called when HTTPService call completes the data load of the XML chart info.
-		 */
-		private function dataResult(event:ResultEvent):void
-		{
-			var tmpData:ArrayCollection = event.result.root.data;
-			this.data = tmpData;
-		}
-
 		private function calculateRangeDataRatio():void
 		{
 		//				rangeDataRatio = ((dividedBox.width - 28) / rangeData.length);
@@ -861,14 +921,6 @@ package com.dougmccune.controls
 			// TODO: rangeDataRatio should be based on rangeChart width, not slider
 			if (slider)
 				rangeDataRatio = slider.width / (_maximumTime - _minimumTime);
-		}
-
-		/**
-		 * If an error occurs loading the XML chart info
-		 */
-		private function faultResult(event:FaultEvent):void
-		{
-			Alert.show("Error retrieving XML data", "Error");
 		}
 
 		/**
@@ -896,7 +948,7 @@ package com.dougmccune.controls
 
 				initializeFocusTime();
 
-				this.validateNow();
+//				this.validateNow();
 
 				this.dispatchEvent(new Event("seriesComplete"));
 			}
@@ -2120,7 +2172,8 @@ package com.dougmccune.controls
 			if (this.rangeChart)
 				(this.rangeChart.horizontalAxis as DateTimeAxis).minimum = new Date(value);
 			_minimumTime = value;
-			initializeChartsFromMinMaxTimes();
+			_pendingInitializeChartsFromMinMaxTimes = true;
+			invalidateProperties();
 		}
 
 		public function set maximumTime(value:Number):void
@@ -2130,7 +2183,8 @@ package com.dougmccune.controls
 			if (this.rangeChart)
 				(this.rangeChart.horizontalAxis as DateTimeAxis).maximum = new Date(value);
 			_maximumTime = value;
-			initializeChartsFromMinMaxTimes();
+			_pendingInitializeChartsFromMinMaxTimes = true;
+			invalidateProperties();
 		}
 
 		private var focusTimeFirstMousePos:Point;
@@ -2698,14 +2752,24 @@ package com.dougmccune.controls
 			return _maximumDataTime;
 		}
 
-		protected function get pendingUpdateData():Boolean
+		protected function get pendingUpdateFromData():Boolean
 		{
-			return _pendingUpdateData;
+			return _pendingUpdateFromData;
 		}
 
-		protected function set pendingUpdateData(value:Boolean):void
+		protected function set pendingUpdateFromData(value:Boolean):void
 		{
-			_pendingUpdateData = value;
+			_pendingUpdateFromData = value;
+		}
+
+		public function get pendingInitializeFromData():Boolean
+		{
+			return _pendingInitializeFromData;
+		}
+
+		public function set pendingInitializeFromData(value:Boolean):void
+		{
+			_pendingInitializeFromData = value;
 		}
 	}
 }

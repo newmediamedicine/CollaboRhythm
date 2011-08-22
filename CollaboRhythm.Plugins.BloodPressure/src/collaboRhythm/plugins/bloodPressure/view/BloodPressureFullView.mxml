@@ -36,7 +36,7 @@
 		<controls:SynchronizedAxisCache id="synchronizedAxisCache"/>
 
 		<mx:PlotSeries id="systolicSeries" name="systolic" xField="dateMeasuredStart" yField="resultAsNumber"
-					   dataProvider="{bloodPressureChart.mainData}"
+					   dataProvider="{model.isInitialized ? model.systolicData : null}"
 					   updateComplete="bloodPressureChart.seriesComplete(event);"
 					   filterDataValues="none" displayName="Blood Pressure Systolic"
 				>
@@ -244,6 +244,7 @@
 		public function set model(value:BloodPressureModel):void
 		{
 			_model = value;
+
 			refresh();
 
 			if (simulationView)
@@ -268,6 +269,9 @@
 			//trace("model_propertyChangeHandler", event.property);
 			if (event.property == "showAdherence" || event.property == "isInitialized")
 			{
+				if (model.isInitialized)
+					initializeSeriesSets();
+
 				if (model.isInitialized && model.showAdherence)
 					createAdherenceCharts();
 
@@ -409,6 +413,7 @@
 			concentrationSeries.setStyle("areaFill", new SolidColor(color, 1));
 
 			chart.mainChart.series.push(concentrationSeries);
+			chart.addDataSet(model.medicationConcentrationCurvesByCode.getItem(medicationCode), "date");
 		}
 
 		private function addAdherenceSeries(chart:ScrubChart, medicationCode:String):void
@@ -423,6 +428,7 @@
 //			adherenceSeries.filterFunction = adherenceSeriesFilter;
 
 			chart.mainChart.series.push(adherenceSeries);
+			chart.addDataSet(model.adherenceItemsCollectionsByCode.getItem(medicationCode), "dateReported");
 		}
 
 		private function getMedicationFill(medicationCode:String):MedicationFill
@@ -482,7 +488,6 @@
 
 		protected function creationCompleteHandler(event:FlexEvent):void
 		{
-			initializeSeriesSets();
 			updateSeries();
 			refresh();
 			simulationOnlyViewMode = false;
@@ -612,12 +617,20 @@
 
 			var charts:Vector.<TouchScrollingScrubChart> = _visibleCharts;
 
-			var minimum:Number = charts[0].minimumTime;
-			var maximum:Number = charts[0].maximumTime;
+			var minimum:Number;
+			var maximum:Number;
 			for each (var chart:TouchScrollingScrubChart in charts)
 			{
-				minimum = Math.min(minimum, chart.minimumDataTime);
-				maximum = Math.max(maximum, chart.maximumDataTime);
+				chart.commitPendingDataChanges();
+				if (isNaN(minimum))
+					minimum = chart.minimumDataTime;
+				else
+					minimum = Math.min(minimum, chart.minimumDataTime);
+
+				if (isNaN(maximum))
+					maximum = chart.maximumDataTime;
+				else
+					maximum = Math.max(maximum, chart.maximumDataTime);
 			}
 
 			if (!isNaN(minimum) && !isNaN(maximum))
@@ -1051,6 +1064,7 @@
 		private var _visibleCharts:Vector.<TouchScrollingScrubChart>;
 		private var skipUpdateSimulation:Boolean = false;
 		private var shouldApplyChangesToSimulation:Boolean = true;
+		private var _isSeriesSetsInitialized:Boolean;
 
 		protected function chart_scrollHandler(event:ScrollEvent):void
 		{
@@ -1279,21 +1293,28 @@
 
 		private function initializeSeriesSets():void
 		{
-			var seriesSet:ScrubChartSeriesSet;
-
-			seriesSet = new ScrubChartSeriesSet();
-			seriesSet.chart = bloodPressureChart.mainChart;
-			seriesSet.series.push(systolicSeries);
-			seriesSet.series.push(diastolicSeries);
-			seriesSets.push(seriesSet);
-
-			if (bloodPressureChart.rangeChart)
+			if (!_isSeriesSetsInitialized)
 			{
+				_isSeriesSetsInitialized = true;
+				bloodPressureChart.addDataSet(model.systolicData, "dateMeasuredStart");
+				bloodPressureChart.addDataSet(model.diastolicData, "dateMeasuredStart");
+
+				var seriesSet:ScrubChartSeriesSet;
+
 				seriesSet = new ScrubChartSeriesSet();
-				seriesSet.chart = bloodPressureChart.rangeChart;
-				seriesSet.series.push(systolicRangeSeries);
-				seriesSet.series.push(diastolicRangeSeries);
+				seriesSet.chart = bloodPressureChart.mainChart;
+				seriesSet.series.push(systolicSeries);
+				seriesSet.series.push(diastolicSeries);
 				seriesSets.push(seriesSet);
+
+				if (bloodPressureChart.rangeChart)
+				{
+					seriesSet = new ScrubChartSeriesSet();
+					seriesSet.chart = bloodPressureChart.rangeChart;
+					seriesSet.series.push(systolicRangeSeries);
+					seriesSet.series.push(diastolicRangeSeries);
+					seriesSets.push(seriesSet);
+				}
 			}
 		}
 
@@ -1310,8 +1331,7 @@
 
 		private function bloodPressureChart_mainChart_resizeHandler(event:ResizeEvent):void
 		{
-			bloodPressureChart.focusTimeMarker.y = -bloodPressureGroup.y;
-			bloodPressureChart.focusTimeMarker.height = chartsGroup.height - bloodPressureChart.footer.height;
+			resizeFocusTimeMarker();
 		}
 
 		private function getMedicationColor(ndcCode:String):uint
@@ -1373,6 +1393,17 @@
 					medicationModel.concentration = concentration;
 			}
 		}
+
+		private function resizeFocusTimeMarker():void
+		{
+			bloodPressureChart.focusTimeMarker.y = -bloodPressureGroup.y;
+			bloodPressureChart.focusTimeMarker.height = chartsGroup.height - bloodPressureChart.footer.height;
+		}
+
+		private function chartsGroup_resizeHandler(event:ResizeEvent):void
+		{
+			resizeFocusTimeMarker();
+		}
 		]]></fx:Script>
 
 	<mx:HDividedBox height="100%" width="100%" paddingRight="0" clipContent="true" horizontalScrollPolicy="off"
@@ -1403,7 +1434,9 @@
 
 			<s:VGroup id="chartsGroup" height="100%" width="100%" gap="10" paddingLeft="0" paddingRight="0"
 					  paddingTop="0"
-					  paddingBottom="8">
+					  paddingBottom="8"
+					  resize="chartsGroup_resizeHandler(event)"
+					>
 				<s:HGroup id="bloodPressureGroup" height="100%" width="100%" gap="0" minHeight="300">
 					<s:Group height="100%">
 						<images:BloodPressureScheduleItemClockView width="100" height="100" verticalCenter="0"/>

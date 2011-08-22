@@ -70,7 +70,7 @@
 
 		private function creationCompleteHandler():void
 		{
-			if (_scheduleModel.isInitialized)
+			if (_scheduleModel && _scheduleModel.isInitialized)
 			{
 				createVariableForDataBinding();
 			}

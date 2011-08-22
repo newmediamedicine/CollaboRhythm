@@ -1,6 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="CollaboRhythm.Core.Tests" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" adl_options="" air_descriptor_path="$PROJECT_DIR$/out/test/CollaboRhythm.Core.Tests/_CollaboRhythm.Core.Tests-air-flexunit.xml" air_program_params="" air_publisher_id="" air_root_dir_path="$PROJECT_DIR$/out/test/CollaboRhythm.Core.Tests" air_run_mode="AppDescriptor" browser_family="FIREFOX" class_name="collaboRhythm.core.tests.model.AppControllersSorterTest" debugger_sdk="Module SDK" html_or_swf_file_path="" launcher_type="OSDefault" main_class_name="" method_name="" module_name="CollaboRhythm.Core.Tests" output_log_level="" package_name="collaboRhythm.core.tests" player_path="FlashPlayer.exe" port="7832" run_mode="HtmlOrSwfFile" run_trusted="false" scope="Package" socket_policy_port="843" url_to_launch="http://">
+    <RunnerSettings RunnerId="FlexDebugRunner" />
     <RunnerSettings RunnerId="FlexRunner" />
+    <ConfigurationWrapper RunnerId="FlexDebugRunner" />
     <ConfigurationWrapper RunnerId="FlexRunner" />
     <method />
   </configuration>

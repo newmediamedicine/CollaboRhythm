@@ -30,14 +30,33 @@ package collaboRhythm.core.controller.apps
 		public static function orderAppsByInitializationOrderConstraints(infoArray:Array):Array
 		{
 			// copy the array so we can look at each app's constraints once
-			var newOrder:ArrayCollection = new ArrayCollection(infoArray);
+			var newOrder:ArrayCollection = new ArrayCollection(infoArray.slice());
 
 			// TODO: revise this algorithm to only move items down in the order so that multiple before and after constraints can be used together
+			var retryCount:int = 0;
+			var orderChanged:Boolean;
+			do
+			{
+				orderChanged = reorder(infoArray, newOrder);
+				infoArray = newOrder.toArray();
+				retryCount++;
+//				trace("Reorder retries: " + retryCount);
+//				trace(arrayCollectionToStringForTrace(newOrder));
+			}
+			while (orderChanged && retryCount < infoArray.length);
 
+			trace(arrayCollectionToStringForTrace(newOrder));
+			return newOrder.toArray();
+		}
+
+		private static function reorder(infoArray:Array, newOrder:ArrayCollection):Boolean
+		{
+			var orderChanged:Boolean;
 			for each (var appInfo:AppControllerInfo in infoArray)
 			{
 				if (appInfo.initializationOrderConstraints.length > 0)
 				{
+					var currentIndex:int = newOrder.getItemIndex(appInfo);
 					var newIndex:int = -1;
 
 					for each (var constraint:AppOrderConstraint in appInfo.initializationOrderConstraints)
@@ -49,11 +68,11 @@ package collaboRhythm.core.controller.apps
 							{
 								// Determine the newIndex based on the constraint; only update the index if the
 								// constraint is not currently satisfied
-								if (constraint.relativeOrder == AppOrderConstraint.ORDER_AFTER && (newIndex == -1 || otherAppIndex > newIndex))
+								if (constraint.relativeOrder == AppOrderConstraint.ORDER_AFTER && (otherAppIndex + 1 > newIndex && otherAppIndex + 1 > currentIndex))
 								{
 									newIndex = otherAppIndex + 1;
 								}
-								if (constraint.relativeOrder == AppOrderConstraint.ORDER_BEFORE && (newIndex == -1 || otherAppIndex < newIndex))
+								if (constraint.relativeOrder == AppOrderConstraint.ORDER_BEFORE && (newIndex == -1 || otherAppIndex < newIndex) && (otherAppIndex < currentIndex))
 								{
 									newIndex = otherAppIndex;
 								}
@@ -65,13 +84,14 @@ package collaboRhythm.core.controller.apps
 					if (newIndex != -1)
 					{
 						// move the appInfo to the appropriate place
-						var currentIndex:int = newOrder.getItemIndex(appInfo);
 						if (newIndex != currentIndex)
 						{
+							trace("    Moving " + appInfo.toString() + " at " + currentIndex + " after " + newOrder.getItemAt(newIndex - 1).toString() + " at " + newIndex);
+							orderChanged = true;
 							newOrder.addItemAt(appInfo, newIndex);
 							if (newIndex < currentIndex)
 							{
-								// the currentIndex needs adjusting if are moving the item up in the order
+								// the currentIndex needs adjusting if we are moving the item up in the order
 								currentIndex++;
 							}
 							newOrder.removeItemAt(currentIndex);
@@ -79,9 +99,7 @@ package collaboRhythm.core.controller.apps
 					}
 				}
 			}
-
-			trace(arrayCollectionToStringForTrace(newOrder));
-			return newOrder.toArray();
+			return orderChanged;
 		}
 
 		private static function arrayCollectionToStringForTrace(arrayCollection:ArrayCollection):String

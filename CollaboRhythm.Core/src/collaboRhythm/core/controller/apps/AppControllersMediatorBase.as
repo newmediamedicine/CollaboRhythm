@@ -62,6 +62,7 @@ package collaboRhythm.core.controller.apps
 		private var _fullContainer:IVisualElementContainer;
 		private var _settings:Settings;
 		private var _workstationApps:OrderedMap;
+		private var _appsById:OrderedMap;
 		private var _collaborationRoomNetConnectionService:CollaborationRoomNetConnectionService;
 		private var _factory:WorkstationAppControllerFactory;
 		private var _componentContainer:IComponentContainer;
@@ -124,10 +125,28 @@ package collaboRhythm.core.controller.apps
 
 			if (_appGroups.length > _widgetContainers.length)
 			{
-				_logger.warn("Warning: a container was provided for at least one app group specified in settings.xml.");
+				_logger.warn("Warning: a container was not provided for at least one app group specified in settings.xml.");
 			}
 
+			initializeApps();
 			showAllWidgets();
+		}
+
+		private function initializeApps():void
+		{
+			var infoArray:Array = componentContainer.resolveAll(AppControllerInfo);
+
+			infoArray = AppControllersSorter.orderAppsByInitializationOrderConstraints(infoArray);
+
+			_logger.info("Initializing {0} apps", _appsById.length);
+			for each (var info:AppControllerInfo in infoArray)
+			{
+				var app:WorkstationAppControllerBase = _appsById.getValueByKey(info.appId);
+				if (app)
+				{
+					app.initialize();
+				}
+			}
 		}
 
 		/**
@@ -143,6 +162,8 @@ package collaboRhythm.core.controller.apps
 				createAppsForGroup(0);
 			else
 				createDynamicApps();
+
+			initializeApps();
 		}
 
 		private function createAppsForGroup(groupIndex:int):void
@@ -238,6 +259,7 @@ package collaboRhythm.core.controller.apps
 			_appGroups = new OrderedMap();
 			initializeDynamicAppLookup();
 			_workstationApps = new OrderedMap();
+			_appsById = new OrderedMap();
 			_factory = new WorkstationAppControllerFactory();
 			_factory.fullContainer = _fullContainer;
 //			_factory.healthRecordService = _healthRecordService;
@@ -283,6 +305,7 @@ package collaboRhythm.core.controller.apps
 
 			app.addEventListener(AppEvent.SHOW_FULL_VIEW, showFullViewHandler);
 			_workstationApps.addKeyValue(appName, app);
+			_appsById.addKeyValue(app.appId, app);
 			return app;
 		}
 

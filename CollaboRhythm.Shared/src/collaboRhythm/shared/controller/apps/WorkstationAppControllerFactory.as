@@ -129,7 +129,6 @@ package collaboRhythm.shared.controller.apps
 			
 			app.user = _user;
 			app.collaborationRoomNetConnectionServiceProxy = _collaborationRoomNetConnectionServiceProxy;
-			app.initialize();
 
 			logger.info("  App created: " + ReflectionUtils.getClassInfo(appClass).name);
 			return app;

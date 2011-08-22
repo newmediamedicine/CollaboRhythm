@@ -17,6 +17,8 @@
 package collaboRhythm.shared.controller.apps
 {
 
+	import castle.flexbridge.reflection.ReflectionUtils;
+
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.CollaborationModel;
@@ -1056,6 +1058,11 @@ package collaboRhythm.shared.controller.apps
 		public function set modality(value:String):void
 		{
 			_modality = value;
+		}
+
+		public function get appId():String
+		{
+			return appClassName;
 		}
 	}
 }

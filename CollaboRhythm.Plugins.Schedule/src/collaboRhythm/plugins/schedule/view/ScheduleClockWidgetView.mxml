@@ -82,13 +82,14 @@
 			_scheduleModelInitialized_changeWatcher = BindingUtils.bindSetter(scheduleModelInitialized_changeWatcher,
 																			  _scheduleModel, "isInitialized", false,
 																			  true);
-			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
-			_currentDateSource.addEventListener(Event.CHANGE, currentDateSource_changeHandler, false, 0, true);
 		}
 
 		private function creationCompleteHandler():void
 		{
-			if (_scheduleModel.isInitialized)
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+			_currentDateSource.addEventListener(Event.CHANGE, currentDateSource_changeHandler, false, 0, true);
+
+			if (_scheduleModel && _scheduleModel.isInitialized)
 			{
 				createScheduleGroups();
 			}

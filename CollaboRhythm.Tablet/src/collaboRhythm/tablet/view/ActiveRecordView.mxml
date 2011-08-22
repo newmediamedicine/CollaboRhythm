@@ -52,8 +52,8 @@
 			_recordAccount = recordAccount;
 			_collaborationModel = _tabletApplicationController.collaborationController.collaborationModel;
 
-			_widgetContainers.push(bloodPressureWidgetGroup);
 			_widgetContainers.push(scheduleWidgetGroup);
+			_widgetContainers.push(bloodPressureWidgetGroup);
 			_widgetContainers.push(buttonWidgetsGroup);
 			_widgetContainers.push(currentPerformanceGroup);
 

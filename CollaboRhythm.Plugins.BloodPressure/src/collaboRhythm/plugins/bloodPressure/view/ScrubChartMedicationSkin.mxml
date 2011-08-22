@@ -84,7 +84,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 					  seriesFilters="[]"
 					  horizontalAxisStyleNames="mainChartHorizontalAxisStyle"
 					  verticalAxisStyleNames="mainChartVerticalAxisStyle"
-					  selectionMode="single"
+					  selectionMode="none"
 					  >
 			<mx:horizontalAxis>
 				<mccune:InclusiveDateTimeAxis id="mainChartHorizontalAxis" dataUnits="milliseconds"

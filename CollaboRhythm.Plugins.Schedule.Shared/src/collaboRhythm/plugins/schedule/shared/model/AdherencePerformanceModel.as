@@ -55,6 +55,11 @@ package collaboRhythm.plugins.schedule.shared.model
 		public function AdherencePerformanceModel(scheduleCollectionsProvider:IScheduleCollectionsProvider,
 												  record:Record)
 		{
+			if (record.bloodPressureModel == null)
+			{
+				throw new Error("record.bloodPressureModel must be initialized before AdherencePerformanceModel is created");
+			}
+			
 			_scheduleCollectionsProvider = scheduleCollectionsProvider;
 			_record = record;
 			_simulationModel = _record.bloodPressureModel.simulation;
