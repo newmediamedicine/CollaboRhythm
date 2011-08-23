@@ -34,10 +34,10 @@ package collaboRhythm.core.model.healthRecord.service
 		private const USE_CREATED_AT_FOR_DATE_MEASURED_START:Boolean = true;
 
 		public function VitalSignHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String,
-													 account:Account)
+													 account:Account, debuggingToolsEnabled:Boolean)
 		{
-			super(consumerKey, consumerSecret, baseURL, account,
-				VitalSign.DOCUMENT_TYPE, VitalSign, Schemas.VitalSignSchema);
+			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled, VitalSign.DOCUMENT_TYPE,
+				  VitalSign, Schemas.VitalSignSchema);
 		}
 
 		override public function loadDocuments(record:Record):void

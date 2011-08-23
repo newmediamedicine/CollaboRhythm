@@ -25,10 +25,10 @@ package collaboRhythm.core.model.healthRecord.service
 	public class ProblemsHealthRecordService extends DocumentStorageSingleReportServiceBase
 	{
 		public function ProblemsHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String,
-													 account:Account)
+													account:Account, debuggingToolsEnabled:Boolean)
 		{
-			super(consumerKey, consumerSecret, baseURL, account,
-				  Problem.DOCUMENT_TYPE, Problem, Schemas.ProblemSchema, "problems");
+			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled, Problem.DOCUMENT_TYPE, Problem,
+				  Schemas.ProblemSchema, "problems");
 		}
 
 		override protected function documentShouldBeIncluded(document:IDocument, nowTime:Number):Boolean

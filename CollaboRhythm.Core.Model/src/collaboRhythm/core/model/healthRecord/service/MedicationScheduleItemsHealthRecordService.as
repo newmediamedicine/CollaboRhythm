@@ -23,11 +23,13 @@ package collaboRhythm.core.model.healthRecord.service
 
 	public class MedicationScheduleItemsHealthRecordService extends ScheduleItemsHealthRecordServiceBase
 	{
-		public function MedicationScheduleItemsHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String,
-													 account:Account)
+		public function MedicationScheduleItemsHealthRecordService(consumerKey:String, consumerSecret:String,
+																   baseURL:String, account:Account,
+																   debuggingToolsEnabled:Boolean)
 		{
-			super(consumerKey, consumerSecret, baseURL, account,
-				  MedicationScheduleItem.DOCUMENT_TYPE, MedicationScheduleItem, Schemas.MedicationScheduleItemSchema, "medicationscheduleitems");
+			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled,
+				  MedicationScheduleItem.DOCUMENT_TYPE, MedicationScheduleItem, Schemas.MedicationScheduleItemSchema,
+				  "medicationscheduleitems");
 		}
 	}
 }

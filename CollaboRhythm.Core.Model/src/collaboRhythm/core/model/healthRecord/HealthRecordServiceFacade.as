@@ -52,26 +52,34 @@ package collaboRhythm.core.model.healthRecord
 		private var _hasUnexpectedErrorsSaving:Boolean;
 
 		public function HealthRecordServiceFacade(consumerKey:String, consumerSecret:String, baseURL:String,
-												  account:Account)
+												  account:Account, debuggingToolsEnabled:Boolean)
 		{
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_saveChangesHealthRecordService = new SaveChangesHealthRecordService(consumerKey, consumerSecret, baseURL,
 																				 account, this);
 			_adherenceItemsHealthRecordService = new AdherenceItemsHealthRecordService(consumerKey, consumerSecret,
-																					   baseURL, account);
+																					   baseURL, account,
+																					   debuggingToolsEnabled);
 
 			_services = new Vector.<DocumentStorageServiceBase>();
-			addService(new MedicationAdministrationsHealthRecordService(consumerKey, consumerSecret, baseURL,
-																			account));
-			addService(new MedicationOrdersHealthRecordService(consumerKey, consumerSecret, baseURL,
-																			account));
-			addService(new EquipmentHealthRecordService(consumerKey, consumerSecret, baseURL, account));
-			addService(new EquipmentScheduleItemsHealthRecordService(consumerKey, consumerSecret, baseURL, account));
-			addService(new MedicationScheduleItemsHealthRecordService(consumerKey, consumerSecret, baseURL, account));
-			addService(new VitalSignHealthRecordService(consumerKey, consumerSecret, baseURL, account));
-			addService(new ProblemsHealthRecordService(consumerKey, consumerSecret, baseURL, account));
-			addService(new VideoMessagesHealthRecordService(consumerKey, consumerSecret, baseURL, account));
-			addService(new MedicationFillsHealthRecordService(consumerKey, consumerSecret, baseURL, account));
+			addService(new MedicationAdministrationsHealthRecordService(consumerKey, consumerSecret, baseURL, account,
+																		debuggingToolsEnabled));
+			addService(new MedicationOrdersHealthRecordService(consumerKey, consumerSecret, baseURL, account,
+															   debuggingToolsEnabled));
+			addService(new EquipmentHealthRecordService(consumerKey, consumerSecret, baseURL, account,
+														debuggingToolsEnabled));
+			addService(new EquipmentScheduleItemsHealthRecordService(consumerKey, consumerSecret, baseURL, account,
+																	 debuggingToolsEnabled));
+			addService(new MedicationScheduleItemsHealthRecordService(consumerKey, consumerSecret, baseURL, account,
+																	  debuggingToolsEnabled));
+			addService(new VitalSignHealthRecordService(consumerKey, consumerSecret, baseURL, account,
+														debuggingToolsEnabled));
+			addService(new ProblemsHealthRecordService(consumerKey, consumerSecret, baseURL, account,
+													   debuggingToolsEnabled));
+			addService(new VideoMessagesHealthRecordService(consumerKey, consumerSecret, baseURL, account,
+															debuggingToolsEnabled));
+			addService(new MedicationFillsHealthRecordService(consumerKey, consumerSecret, baseURL, account,
+															  debuggingToolsEnabled));
 			addService(_adherenceItemsHealthRecordService);
 
 			for each (var service:DocumentStorageServiceBase in _services)

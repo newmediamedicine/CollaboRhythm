@@ -22,7 +22,6 @@ package collaboRhythm.core.model.healthRecord.service
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.*;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
-	import collaboRhythm.shared.model.healthRecord.document.AdherenceItemsModel;
 	import collaboRhythm.shared.model.healthRecord.document.xml.IAdherenceItemXmlMarshaller;
 
 	import com.adobe.utils.DateUtil;
@@ -36,10 +35,11 @@ package collaboRhythm.core.model.healthRecord.service
 	public class AdherenceItemsHealthRecordService extends DocumentStorageServiceBase implements IAdherenceItemXmlMarshaller
 	{
 
-		public function AdherenceItemsHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account)
+		public function AdherenceItemsHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String,
+														  account:Account, debuggingToolsEnabled:Boolean)
 		{
-			super(consumerKey, consumerSecret, baseURL, account,
-				  AdherenceItem.DOCUMENT_TYPE, AdherenceItem, Schemas.AdherenceItemSchema);
+			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled, AdherenceItem.DOCUMENT_TYPE,
+				  AdherenceItem, Schemas.AdherenceItemSchema);
 		}
 
         override public function loadDocuments(record:Record):void
@@ -71,7 +71,11 @@ package collaboRhythm.core.model.healthRecord.service
 			{
 				var adherenceItem:AdherenceItem = new AdherenceItem();
                 initFromReportXML(adherenceItemXml, adherenceItem);
-				if (adherenceItem.dateReported.valueOf() <= nowTime)
+				if (!_debuggingToolsEnabled)
+				{
+					data.addItem(adherenceItem);
+				}
+				else if (adherenceItem.dateReported.valueOf() <= nowTime)
 				{
 					data.addItem(adherenceItem);
 				}

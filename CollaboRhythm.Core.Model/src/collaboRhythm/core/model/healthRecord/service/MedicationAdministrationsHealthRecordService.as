@@ -44,10 +44,13 @@ package collaboRhythm.core.model.healthRecord.service
 		private var _autoUpdateTimer:Timer = new Timer(0);
 		private var _autoUpdateCushion:Number = 1000;
 
-		public function MedicationAdministrationsHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account)
+		public function MedicationAdministrationsHealthRecordService(consumerKey:String, consumerSecret:String,
+																	 baseURL:String, account:Account,
+																	 debuggingToolsEnabled:Boolean)
 		{
-			super(consumerKey, consumerSecret, baseURL, account,
-				MedicationAdministration.DOCUMENT_TYPE, MedicationAdministration, Schemas.MedicationAdministrationSchema);
+			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled,
+				  MedicationAdministration.DOCUMENT_TYPE, MedicationAdministration,
+				  Schemas.MedicationAdministrationSchema);
 
 			_autoUpdateTimer.addEventListener(TimerEvent.TIMER, autoUpdateTimer_timerHandler, false, 0, true);
 			_currentDateSource.addEventListener(Event.CHANGE, currentDateSource_changeHandler, false, 0, true);
