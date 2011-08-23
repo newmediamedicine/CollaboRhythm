@@ -28,6 +28,8 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayCollection;
+	import mx.events.CollectionEvent;
+	import mx.events.CollectionEventKind;
 	import mx.events.FlexEvent;
 
 	[Event(name="updateComplete", type="mx.events.FlexEvent")]
@@ -235,6 +237,14 @@ package collaboRhythm.shared.apps.bloodPressure.model
 			}
 		}
 
+		private function vitalSignsDocuments_collectionChangeEvent(event:CollectionEvent):void
+		{
+			if (record.vitalSignsModel.isInitialized && (event.kind == CollectionEventKind.ADD || event.kind == CollectionEventKind.REMOVE))
+			{
+				updateSimulationModelToCurrent(_currentSimulation);
+			}
+		}
+
 		private function medicationAdministrationsModel_updateCompleteHandler(event:FlexEvent):void
 		{
 			updateSimulationModelToCurrent(currentSimulation);
@@ -258,6 +268,8 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 		private function vitalSignModel_isInitialized_setterHandler(isInitialized:Boolean):void
 		{
+			if (isInitialized)
+				record.vitalSignsModel.vitalSignsByCategory[VitalSignsModel.SYSTOLIC_CATEGORY].addEventListener(CollectionEvent.COLLECTION_CHANGE, vitalSignsDocuments_collectionChangeEvent);
 			this.isInitialized = determineIsInitialized();
 		}
 

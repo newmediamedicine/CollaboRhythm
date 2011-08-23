@@ -136,18 +136,18 @@ package collaboRhythm.plugins.medications.model
 			}
 			if (isAdherencePerformancePerfect(medicationScheduleItemOccurrencesVector))
 			{
-				return "And you took all of your scheduled medications " + adherencePerformanceInterval + ". Nice work!";
+				return "And you have taken all of your scheduled medications " + adherencePerformanceInterval + ". Nice work!";
 			}
 			else
 			{
 				if (adherencePerformanceInterval == AdherencePerformanceModel.ADHERENCE_PERFORMANCE_INTERVAL_TODAY)
 				{
-					return "But you have not taken all of your scheduled medications " + adherencePerformanceInterval + ". The concentrations will fall.";
+					return "But you have not taken all of your scheduled medications " + adherencePerformanceInterval + ".";
 
 				}
 				else
 				{
-					return "But you did not take all of your scheduled medications " + adherencePerformanceInterval + ". The concentrations will fall.";
+					return "But you did not take all of your scheduled medications " + adherencePerformanceInterval + ".";
 				}
 			}
 		}
@@ -162,17 +162,17 @@ package collaboRhythm.plugins.medications.model
 			var medicationScheduleItemOccurrencesSubsetVector:Vector.<ScheduleItemOccurrence> = getMedicationScheduleItemOccurrenceSubset(medicationScheduleItemOccurrencesVector);
 			if (isAdherencePerformancePerfect(medicationScheduleItemOccurrencesSubsetVector))
 			{
-				return "But you took " + numberOfMedicationsText + " as scheduled " + adherencePerformanceInterval + ". The " + concentrationText + " will rise.";
+				return "But you have taken " + numberOfMedicationsText + " as scheduled " + adherencePerformanceInterval + ". Nice work!";
 			}
 			else
 			{
 				if (adherencePerformanceInterval == AdherencePerformanceModel.ADHERENCE_PERFORMANCE_INTERVAL_TODAY)
 				{
-					return "And you have not taken " + numberOfMedicationsText + " as scheduled " + adherencePerformanceInterval + ". The " + concentrationText + " will stay low.";
+					return "You have not taken " + numberOfMedicationsText + " as scheduled " + adherencePerformanceInterval + ".";
 				}
 				else
 				{
-					return "And you did not take " + numberOfMedicationsText + " as scheduled " + adherencePerformanceInterval + ". The " + concentrationText + " will stay low.";
+					return "You did not take " + numberOfMedicationsText + " as scheduled " + adherencePerformanceInterval + ".";
 				}
 			}
 		}
