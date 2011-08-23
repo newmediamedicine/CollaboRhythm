@@ -68,7 +68,6 @@ package com.dougmccune.controls
 	import mx.collections.SortField;
 	import mx.containers.Canvas;
 	import mx.containers.HDividedBox;
-	import mx.controls.Alert;
 	import mx.controls.DateField;
 	import mx.controls.List;
 	import mx.controls.TextArea;
@@ -87,13 +86,10 @@ package com.dougmccune.controls
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 	import mx.managers.IFocusManagerComponent;
-	import mx.rpc.events.FaultEvent;
-	import mx.rpc.events.ResultEvent;
 	import mx.styles.CSSStyleDeclaration;
 	import mx.utils.UIDUtil;
 
 	import spark.components.Group;
-
 	import spark.components.supportClasses.SkinnableComponent;
 	import spark.components.supportClasses.ToggleButtonBase;
 	import spark.core.IDisplayText;
@@ -929,29 +925,42 @@ package com.dougmccune.controls
 		 */
 		public function seriesComplete(event:FlexEvent):void
 		{
+			allSeriesUpdated();
+		}
+
+		public function allSeriesUpdated():Boolean
+		{
 			if (mainData.length > 0 && allowUpdateComplete)
 			{
 				allowUpdateComplete = false;
-				updateBoxFromRangeTimes = true;
-				rightRangeTime = _maximumTime;
-				leftRangeTime = Math.max(_minimumTime, _maximumTime - initialDurationTime);
-				updateBox();
-				callLater(refreshAnnotations);
-				this.visible = true;
-		//					loadSampleAnnotations();
 
-				if (rangeChart)
-				{
-					// TODO: Figure out how to remove this. This is a hack to get the axis labels to render correctly when the data is initially loaded; otherwise, we see "1970" at the far left edge of the axis
-					rangeChart.horizontalAxis.dataChanged();
-				}
-
-				initializeFocusTime();
-
-//				this.validateNow();
+				initializeRangeTimes();
 
 				this.dispatchEvent(new Event("seriesComplete"));
+
+				return true;
 			}
+
+			return false;
+		}
+
+		private function initializeRangeTimes():void
+		{
+			updateBoxFromRangeTimes = true;
+			rightRangeTime = _maximumTime;
+			leftRangeTime = Math.max(_minimumTime, _maximumTime - initialDurationTime);
+			updateBox();
+			callLater(refreshAnnotations);
+			this.visible = true;
+			//					loadSampleAnnotations();
+
+			if (rangeChart)
+			{
+				// TODO: Figure out how to remove this. This is a hack to get the axis labels to render correctly when the data is initially loaded; otherwise, we see "1970" at the far left edge of the axis
+				rangeChart.horizontalAxis.dataChanged();
+			}
+
+			initializeFocusTime();
 		}
 
 		private function initializeFocusTime():void
@@ -1655,7 +1664,7 @@ package com.dougmccune.controls
 		 */
 		public function findPreviousDataPoint(dateValue:Number):Object
 		{
-			var result:int = findPreviousDataIndex(dateValue);
+			var result:int = findPreviousDataIndex(mainData, dateValue);
 			return result != -1 ? mainData.getItemAt(result) : null;
 		}
 
@@ -1665,31 +1674,30 @@ package com.dougmccune.controls
 		 * @param dateValue The date to find a nearby data point to
 		 * @return The index of the data point which is less than or equal to the specified date and is closest to the specified date
 		 */
-		public function findPreviousDataIndex(dateValue:Number):int
+		public function findPreviousDataIndex(dataCollection:ArrayCollection, dateValue:Number):int
 		{
-			var dataCollection:ArrayCollection = mainData;
 			var result:int = -1;
 
 			if (dataCollection != null)
 			{
-				var numDataPoints:int = mainData.length;
+				var numDataPoints:int = dataCollection.length;
 				if (numDataPoints > 0)
 				{
-					var mainDataT0:Number = dataCollection.getItemAt(0)[dateField].time;
-					var mainDataT1:Number = dataCollection.getItemAt(numDataPoints - 1)[dateField].time;
-					var mainDataDuration:Number = mainDataT1 - mainDataT0;
-					var averageDataPointDuration:Number = mainDataDuration / numDataPoints;
+					var dataCollectionT0:Number = dataCollection.getItemAt(0)[dateField].time;
+					var dataCollectionT1:Number = dataCollection.getItemAt(numDataPoints - 1)[dateField].time;
+					var dataCollectionDuration:Number = dataCollectionT1 - dataCollectionT0;
+					var averageDataPointDuration:Number = dataCollectionDuration / numDataPoints;
 					var strategy:String;
 
 					var guessIndex:int;
 					if (averageDataPointDuration == 0)
 						guessIndex = 0;
 					else
-						guessIndex = Math.floor((dateValue - mainDataT0) / averageDataPointDuration);
+						guessIndex = Math.floor((dateValue - dataCollectionT0) / averageDataPointDuration);
 
 					if (guessIndex < 0)
 					{
-//						var message:String = "mainDataT0 " + traceDate(mainDataT0) + " mainDataT1 " + traceDate(mainDataT1) + " dateValue " + traceDate(dateValue);
+//						var message:String = "dataCollectionT0 " + traceDate(dataCollectionT0) + " dataCollectionT1 " + traceDate(dataCollectionT1) + " dateValue " + traceDate(dateValue);
 //						_logger.warn("guessIndex " + guessIndex + " is less than 0 " + message);
 						result = -1;
 					}
@@ -2740,6 +2748,8 @@ package com.dougmccune.controls
 		{
 			if (!_rangeTimeAnimate.isPlaying)
 				selectChartDataPoint();
+
+//			_logger.info(ObjectUtil.toString(mainChart.backgroundElements, null, ["automationOwner", "parent", "automationParent", "owner", "document", "elements", "dataTransform"]));
 		}
 
 		public function get minimumDataTime():Number

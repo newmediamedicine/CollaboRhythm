@@ -21,6 +21,7 @@
 
 		import mx.events.FlexEvent;
 
+		[Bindable]
 		private var _tabletApplicationController:TabletApplicationController;
 
 		private var _currentDateSource:ICurrentDateSource;

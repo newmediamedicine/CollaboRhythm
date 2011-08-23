@@ -18,6 +18,7 @@
 /* CSS file */
 @namespace s "library://ns.adobe.com/flex/spark";
 @namespace mx "library://ns.adobe.com/flex/mx";
+@namespace chart "mx.charts.chartClasses.*";
 
 
 global
@@ -103,4 +104,11 @@ s|Label.MainChartTitleLabel
 	padding-left: 3;
 	padding-right: 3;
 	padding-top: 3;
+}
+
+chart|DataTip
+{
+	color: #FFFFFF;
+	fontSize: 16;
+	backgroundColor: #000000;
 }

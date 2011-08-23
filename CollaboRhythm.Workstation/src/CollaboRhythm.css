@@ -19,6 +19,7 @@
 @namespace s "library://ns.adobe.com/flex/spark";
 @namespace mx "library://ns.adobe.com/flex/mx";
 @namespace view "collaboRhythm.workstation.view.*";
+@namespace chart "mx.charts.chartClasses.*";
 
 
 global
@@ -97,3 +98,10 @@ view|WorkstationWindow
 	skinClass: ClassReference("spark.skins.spark.WindowedApplicationSkin");
 }
 */
+
+chart|DataTip
+{
+	color: #FFFFFF;
+	fontSize: 16;
+	backgroundColor: #000000;
+}

@@ -42,10 +42,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 
   -->
 <s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:mccune="com.dougmccune.controls.*" xmlns:skins="skins.*"
-		 width="1024"
-		 height="600"
-		 styleName="scrubChartSkinStyle"
+			 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:mccune="com.dougmccune.controls.*" xmlns:skins="skins.*"
+			 xmlns:datashapes="qs.charts.dataShapes.*"
+			 width="1024"
+			 height="600"
+			 styleName="scrubChartSkinStyle"
 		>
 	<s:layout>
 		<mccune:ChildIndependentLayout/>
@@ -86,6 +87,16 @@ OTHER DEALINGS IN THE SOFTWARE.
 					  verticalAxisStyleNames="mainChartVerticalAxisStyle"
 					  selectionMode="none"
 					  >
+			<!-- We specify empty backgroundElements to prevent default GridLines -->
+			<mx:backgroundElements>
+				<mx:GridLines visible="false"/>
+<!--
+				<datashapes:DataDrawingCanvas id="mainDataDrawingCanvas" includeInRanges="true"/>
+				<mx:CartesianDataCanvas id="mainCartesianDataCanvas"/>
+-->
+				<s:Label text="test" width="100%" height="100%" visible="false"/>
+			</mx:backgroundElements>
+
 			<mx:horizontalAxis>
 				<mccune:InclusiveDateTimeAxis id="mainChartHorizontalAxis" dataUnits="milliseconds"
 								 disabledDays="[]" displayLocalTime="true"

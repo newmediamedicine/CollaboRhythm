@@ -37,7 +37,7 @@
 
 		<mx:PlotSeries id="systolicSeries" name="systolic" xField="dateMeasuredStart" yField="resultAsNumber"
 					   dataProvider="{model.isInitialized ? model.systolicData : null}"
-					   updateComplete="bloodPressureChart.seriesComplete(event);"
+					   updateComplete="series_updateCompleteHandler(event)"
 					   filterDataValues="none" displayName="Blood Pressure Systolic"
 				>
 			<mx:itemRenderer>
@@ -52,7 +52,7 @@
 		</mx:PlotSeries>
 		<mx:PlotSeries id="diastolicSeries" name="diastolic" xField="dateMeasuredStart" yField="resultAsNumber"
 					   dataProvider="{model.isInitialized ? model.diastolicData : null}"
-					   updateComplete="bloodPressureChart.seriesComplete(event);"
+					   updateComplete="series_updateCompleteHandler(event)"
 					   filterDataValues="none" displayName="Blood Pressure Diastolic"
 				>
 			<mx:itemRenderer>
@@ -141,8 +141,11 @@
 		import com.theory9.data.types.OrderedMap;
 
 		import mx.charts.ChartItem;
+		import mx.charts.DateTimeAxis;
 		import mx.charts.LinearAxis;
 		import mx.charts.chartClasses.CartesianChart;
+		import mx.charts.chartClasses.CartesianDataCanvas;
+		import mx.charts.chartClasses.ChartBase;
 		import mx.charts.chartClasses.Series;
 		import mx.charts.series.AreaSeries;
 		import mx.charts.series.PlotSeries;
@@ -181,7 +184,7 @@
 		private var _textFormat:TextFormat = new TextFormat("Myriad Pro, Verdana, Helvetica, Arial", 16, 0, true);
 
 		private var _model:BloodPressureModel;
-		private var _traceEventHandlers:Boolean = false;
+		private var _traceEventHandlers:Boolean = true;
 		private var _showFocusTimeMarker:Boolean = true;
 		private var _scrollEnabled:Boolean = false;
 		protected var logger:ILogger;
@@ -195,6 +198,12 @@
 		private var _chartsOnlyViewMode:Boolean = false;
 		private var _initialDurationTime:Number = ScrubChart.DAYS_TO_MILLISECONDS * 7;
 		private var _useHorizontalTouchScrolling:Boolean = true;
+
+		private const GOAL_ZONE_COLOR:uint = 0x8DCB86;
+		private var seriesSets:Vector.<ScrubChartSeriesSet> = new Vector.<ScrubChartSeriesSet>();
+		private var _seriesWithPendingUpdateComplete:ArrayCollection = new ArrayCollection();
+		private var _chartsWithPendingCreationComplete:ArrayCollection = new ArrayCollection();
+		private var _pendingSynchronizeDateLimits:Boolean;
 
 		private function initializeHandler(event:Event):void
 		{
@@ -252,16 +261,23 @@
 
 			_model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, model_propertyChangeHandler, false, 0, true);
 			_model.addEventListener(FlexEvent.UPDATE_COMPLETE, model_updateCompleteHandler, false, 0, true);
+			_model.addEventListener(Event.CHANGE, model_changeHandler, false, 0, true);
+		}
+
+		private function model_changeHandler(event:Event):void
+		{
+			queueSynchronizeDateLimits();
 		}
 
 		private function model_updateCompleteHandler(event:FlexEvent):void
 		{
-			var today:Date = model.currentDateSource.now();
-			for each (var chart:ScrubChart in _visibleCharts)
-			{
-				chart.today = today;
-			}
-			synchronizeDateLimits();
+			queueSynchronizeDateLimits();
+		}
+
+		private function queueSynchronizeDateLimits():void
+		{
+			_pendingSynchronizeDateLimits = true;
+			invalidateProperties();
 		}
 
 		private function model_propertyChangeHandler(event:PropertyChangeEvent):void
@@ -269,6 +285,8 @@
 			//trace("model_propertyChangeHandler", event.property);
 			if (event.property == "showAdherence" || event.property == "isInitialized")
 			{
+				_seriesWithPendingUpdateComplete.removeAll();
+
 				if (model.isInitialized)
 					initializeSeriesSets();
 
@@ -331,9 +349,9 @@
 						chart.addEventListener(TouchScrollerEvent.SCROLL_STOP, chart_scrollStopHandler, false, 0, true);
 						chart.addEventListener(FocusTimeEvent.FOCUS_TIME_CHANGE, chart_focusTimeChangeHandler, false, 0,
 											   true);
-						chart.addEventListener("seriesComplete", adherenceChart_seriesCompleteHandler, false, 0, true);
 						chart.addEventListener(FlexEvent.CREATION_COMPLETE, adherenceChart_creationCompleteHandler);
 
+						_chartsWithPendingCreationComplete.addItem(chart);
 						_adherenceCharts.addKeyValue(medicationCode, chart);
 
 						chart.percentWidth = 100;
@@ -384,8 +402,17 @@
 
 			var mainCanvas:DataDrawingCanvas = new DataDrawingCanvas();
 			mainCanvas.includeInRanges = true;
+			mainCanvas.percentWidth = 100;
+			mainCanvas.percentHeight = 100;
+//			var mainCanvas:DataDrawingCanvas = chart.mainChart.backgroundElements[0] as DataDrawingCanvas;
 			updateAdherenceChartSeriesCompleteHandler(chart, mainCanvas, null,
 													  null, medicationCode, ndcCode);
+//			var mainCartesianDataCanvas:CartesianDataCanvas = chart.mainChart.backgroundElements[1] as CartesianDataCanvas;
+//			drawAdherenceData2(chart.mainChart, mainCartesianDataCanvas, null, medicationCode, ndcCode);
+
+			var index:int = _chartsWithPendingCreationComplete.getItemIndex(chart);
+			if (index != -1)
+				_chartsWithPendingCreationComplete.removeItemAt(index);
 		}
 
 		private function updateMedicationChartSeries(chart:ScrubChart, medicationCode:String, ndcCode:String):void
@@ -406,7 +433,8 @@
 			concentrationSeries.setStyle("radius", 2.5);
 			concentrationSeries.setStyle("form", "curve");
 			concentrationSeries.setStyle("itemRenderer", new ClassFactory(LineSeriesCustomRenderer));
-			concentrationSeries.addEventListener(FlexEvent.UPDATE_COMPLETE, chart.seriesComplete);
+			_seriesWithPendingUpdateComplete.addItem(concentrationSeries);
+			concentrationSeries.addEventListener(FlexEvent.UPDATE_COMPLETE, series_updateCompleteHandler);
 			concentrationSeries.filterDataValues = "none";
 			var color:uint = getMedicationColor(ndcCode);
 			concentrationSeries.setStyle("areaStroke", new SolidColorStroke(0x000000, 1));
@@ -414,6 +442,13 @@
 
 			chart.mainChart.series.push(concentrationSeries);
 			chart.addDataSet(model.medicationConcentrationCurvesByCode.getItem(medicationCode), "date");
+		}
+
+		private function series_updateCompleteHandler(event:FlexEvent):void
+		{
+			var series:Series = event.target as Series;
+			series.removeEventListener(FlexEvent.UPDATE_COMPLETE, series_updateCompleteHandler, false);
+			checkAllSeriesComplete(series);
 		}
 
 		private function addAdherenceSeries(chart:ScrubChart, medicationCode:String):void
@@ -426,6 +461,8 @@
 			adherenceSeries.dataProvider = model.adherenceItemsCollectionsByCode.getItem(medicationCode);
 			adherenceSeries.setStyle("itemRenderer", new ClassFactory(AdherencePlotItemRenderer));
 //			adherenceSeries.filterFunction = adherenceSeriesFilter;
+			_seriesWithPendingUpdateComplete.addItem(adherenceSeries);
+			adherenceSeries.addEventListener(FlexEvent.UPDATE_COMPLETE, series_updateCompleteHandler);
 
 			chart.mainChart.series.push(adherenceSeries);
 			chart.addDataSet(model.adherenceItemsCollectionsByCode.getItem(medicationCode), "dateReported");
@@ -495,9 +532,6 @@
 			updateRangeChartVisibleStyles();
 		}
 
-		private const GOAL_ZONE_COLOR:uint = 0x8DCB86;
-		private var seriesSets:Vector.<ScrubChartSeriesSet> = new Vector.<ScrubChartSeriesSet>();
-
 		public function drawBloodPressureData(canvas:DataDrawingCanvas):void
 		{
 			if (_traceEventHandlers)
@@ -547,6 +581,32 @@
 				canvas.updateDataChild(zoneLabel, {left: Edge.LEFT, top: medicationModel.goalConcentrationMaximum});
 			}
 		}
+
+		/*
+		 public function drawAdherenceData2(chart:CartesianChart, canvas:CartesianDataCanvas, zoneLabel:Label, medicationCode:String,
+		 ndcCode:String):void
+		 {
+		 if (_traceEventHandlers)
+		 trace(this + ".drawAdherenceData2");
+
+		 canvas.clear();
+
+		 var medicationModel:MedicationComponentAdherenceModel = model.focusSimulation.getMedication(medicationCode);
+		 var color:uint = getMedicationColor(ndcCode);
+		 canvas.lineStyle(3, color);
+
+		 canvas.beginFill(color, 0.25);
+		 canvas.drawRect((chart.horizontalAxis as DateTimeAxis).minimum, medicationModel.goalConcentrationMinimum, model.currentDateSource.now(),
+		 medicationModel.goalConcentrationMaximum);
+		 canvas.endFill();
+
+		 if (zoneLabel)
+		 {
+		 zoneLabel.setStyle("color", color);
+		 canvas.updateDataChild(zoneLabel, {left: Edge.LEFT, top: medicationModel.goalConcentrationMaximum});
+		 }
+		 }
+		 */
 
 		//			private function offsetDataToToday(data:ArrayCollection, newDate:Date):void
 		//			{
@@ -605,20 +665,16 @@
 				if (chart.rangeMaxButton)
 					chart.rangeMaxButton.includeInLayout = chart.rangeMaxButton.visible = false;
 			}
+			resizeFocusTimeMarker();
 		}
 
 		private function synchronizeDateLimits():void
 		{
-//			var charts:Vector.<TouchScrollingScrubChart> = new Vector.<TouchScrollingScrubChart>();
-//			charts.push(adherenceChart);
-//			charts.push(adherenceChart2);
-//			charts.push(bloodPressureChart);
-			//			charts.push(heartRateChart);
-
 			var charts:Vector.<TouchScrollingScrubChart> = _visibleCharts;
 
 			var minimum:Number;
 			var maximum:Number;
+			var today:Date = model.currentDateSource.now();
 			for each (var chart:TouchScrollingScrubChart in charts)
 			{
 				chart.commitPendingDataChanges();
@@ -637,9 +693,20 @@
 			{
 				for each (chart in charts)
 				{
+					chart.today = today;
 					chart.minimumTime = minimum;
 					chart.maximumTime = maximum;
-					chart.focusTime = maximum;
+					if (chart.allSeriesUpdated())
+					{
+						// first time initialization complete; nothing else to do
+					}
+					else //if (chart.focusTime == chart.rightRangeTime == chart.maximumTime)
+					{
+						chart.rightRangeTime = maximum;
+						chart.leftRangeTime = Math.max(minimum, maximum - initialDurationTime);
+						chart.updateForScroll();
+						chart.focusTime = maximum;
+					}
 				}
 			}
 
@@ -681,6 +748,8 @@
 		{
 			chart.mainChart.backgroundElements.push(mainCanvas);
 			drawAdherenceData(mainCanvas, zoneLabel, medicationCode, ndcCode);
+			chart.mainChart.invalidateDisplayList();
+			chart.mainChart.invalidateSize();
 
 			if (chart.rangeChart)
 			{
@@ -689,11 +758,15 @@
 			}
 		}
 
-		protected function adherenceChart_seriesCompleteHandler(event:Event):void
+		private function checkAllSeriesComplete(series:Series):void
 		{
-			if (_traceEventHandlers)
-				trace("adherenceChart_seriesCompleteHandler");
-			synchronizeDateLimits();
+			if (_seriesWithPendingUpdateComplete.contains(series))
+			{
+				_seriesWithPendingUpdateComplete.removeItemAt(_seriesWithPendingUpdateComplete.getItemIndex(series));
+				if (_seriesWithPendingUpdateComplete.length == 0 && _chartsWithPendingCreationComplete.length == 0)
+					queueSynchronizeDateLimits();
+			}
+
 		}
 
 		private function updateBloodPressureChartBackgroundElements(chart:ScrubChart):void
@@ -706,18 +779,6 @@
 				chart.rangeChart.backgroundElements.push(bloodPressureRangeCanvas);
 				drawBloodPressureData(bloodPressureRangeCanvas);
 			}
-		}
-
-		protected function bloodPressureChart_seriesCompleteHandler(event:Event):void
-		{
-			if (_traceEventHandlers)
-				trace("bloodPressureChart_seriesCompleteHandler");
-			synchronizeDateLimits();
-		}
-
-		protected function heartRateChart_seriesCompleteHandler(event:Event):void
-		{
-			// TODO Auto-generated method stub
 		}
 
 		protected override function keyDownHandler(event:KeyboardEvent):void
@@ -1065,6 +1126,7 @@
 		private var skipUpdateSimulation:Boolean = false;
 		private var shouldApplyChangesToSimulation:Boolean = true;
 		private var _isSeriesSetsInitialized:Boolean;
+		private var _pendingUpdateSimulation:TouchScrollingScrubChart;
 
 		protected function chart_scrollHandler(event:ScrollEvent):void
 		{
@@ -1076,7 +1138,7 @@
 				synchronizeScrollPositions(targetChart, _nonTargetCharts);
 			}
 
-			updateSimulation(targetChart);
+			queueUpdateSimulation(targetChart);
 		}
 
 		protected function synchronizeScrollPositions(targetChart:TouchScrollingScrubChart,
@@ -1137,7 +1199,13 @@
 				synchronizeFocusTimes(targetChart, _nonTargetCharts);
 			}
 
-			updateSimulation(targetChart);
+			queueUpdateSimulation(targetChart);
+		}
+
+		private function queueUpdateSimulation(targetChart:TouchScrollingScrubChart):void
+		{
+			_pendingUpdateSimulation = targetChart;
+			invalidateProperties();
 		}
 
 		private function updateChartsCache(targetChart:TouchScrollingScrubChart):void
@@ -1152,6 +1220,22 @@
 			}
 		}
 
+		override protected function commitProperties():void
+		{
+			super.commitProperties();
+
+			if (_pendingSynchronizeDateLimits)
+			{
+				synchronizeDateLimits();
+				_pendingSynchronizeDateLimits = false;
+			}
+			if (_pendingUpdateSimulation)
+			{
+				updateSimulation(_pendingUpdateSimulation);
+				_pendingUpdateSimulation = null;
+			}
+		}
+
 		private function updateSimulation(targetChart:TouchScrollingScrubChart):void
 		{
 			if (skipUpdateSimulation)
@@ -1160,14 +1244,16 @@
 			if (shouldApplyChangesToSimulation)
 				model.focusSimulation.date = new Date(targetChart.focusTime);
 
-			var bloodPressureDataIndex:int = bloodPressureChart.findPreviousDataIndex(model.focusSimulation.date.time);
 			var bloodPressureDataPoint:VitalSign;
-			if (bloodPressureDataIndex != -1)
+			var series:Series = bloodPressureChart.mainChart.series[0];
+			if (series)
 			{
-				bloodPressureDataPoint = bloodPressureChart.mainData.getItemAt(bloodPressureDataIndex) as VitalSign;
-				var series:Series = bloodPressureChart.mainChart.series[0];
-				if (series)
+				var dataCollection:ArrayCollection = series.dataProvider as ArrayCollection;
+				var bloodPressureDataIndex:int = bloodPressureChart.findPreviousDataIndex(dataCollection,
+																						  model.focusSimulation.date.time);
+				if (bloodPressureDataIndex != -1)
 				{
+					bloodPressureDataPoint = dataCollection.getItemAt(bloodPressureDataIndex) as VitalSign;
 					series.selectedIndex = bloodPressureDataIndex;
 					if (series.items)
 					{
@@ -1210,6 +1296,9 @@
 			{
 				model.focusSimulation.mode = SimulationModel.HISTORY_MODE;
 			}
+
+			if (_traceEventHandlers)
+				trace("updateSimulation " + targetChart.id + " dateMeasuredStart " + ScrubChart.traceDate(model.focusSimulation.dataPointDate.time) + " systolic " + model.focusSimulation.systolic);
 		}
 
 		public function get chartsOnlyViewMode():Boolean
@@ -1293,6 +1382,9 @@
 
 		private function initializeSeriesSets():void
 		{
+			_seriesWithPendingUpdateComplete.addItem(systolicSeries);
+			_seriesWithPendingUpdateComplete.addItem(diastolicSeries);
+
 			if (!_isSeriesSetsInitialized)
 			{
 				_isSeriesSetsInitialized = true;
@@ -1368,14 +1460,16 @@
 			{
 				var currentAdherenceChart:ScrubChart = _adherenceCharts.getValueByKey(medicationCode);
 
-				var concentrationDataIndex:int = currentAdherenceChart.findPreviousDataIndex(model.focusSimulation.date.time);
 				var concentrationDataPoint:MedicationConcentrationSample;
-				if (concentrationDataIndex != -1)
+				var series:Series = currentAdherenceChart.mainChart.series[0];
+				if (series)
 				{
-					concentrationDataPoint = currentAdherenceChart.mainData.getItemAt(concentrationDataIndex) as MedicationConcentrationSample;
-					var series:Series = currentAdherenceChart.mainChart.series[0];
-					if (series)
+					var dataCollection:ArrayCollection = series.dataProvider as ArrayCollection;
+					var concentrationDataIndex:int = currentAdherenceChart.findPreviousDataIndex(dataCollection,
+																								 model.focusSimulation.date.time);
+					if (concentrationDataIndex != -1)
 					{
+						concentrationDataPoint = dataCollection.getItemAt(concentrationDataIndex) as MedicationConcentrationSample;
 						series.selectedIndex = concentrationDataIndex;
 						if (series.items)
 						{
@@ -1457,7 +1551,6 @@
 													   scrollStart="chart_scrollStartHandler(event)"
 													   scrollStop="chart_scrollStopHandler(event)"
 													   focusTimeChange="chart_focusTimeChangeHandler(event)"
-													   seriesComplete="bloodPressureChart_seriesCompleteHandler(event)"
 													   initialDurationTime="{initialDurationTime}"
 													   showFocusTimeMarker="{showFocusTimeMarker}"
 													   scrollEnabled="{scrollEnabled}"
