@@ -85,10 +85,8 @@ package collaboRhythm.plugins.equipment.model
 
 			if (systolicBloodPressures.length > 0 && diastolicBloodPressures.length > 0)
 			{
-				systolicBloodPressures.source.sortOn("dateMeasuredStartValue", Array.DESCENDING);
-				diastolicBloodPressures.source.sortOn("dateMeasuredStartValue", Array.DESCENDING);
-				var mostRecentSystolicBloodPressure:VitalSign = systolicBloodPressures[0];
-				var mostRecentDiastolicBloodPressure:VitalSign = diastolicBloodPressures[0];
+				var mostRecentSystolicBloodPressure:VitalSign = systolicBloodPressures[systolicBloodPressures.length - 1];
+				var mostRecentDiastolicBloodPressure:VitalSign = diastolicBloodPressures[diastolicBloodPressures.length - 1];
 				mostRecentBloodPressureAssertion = createBloodPressureAssertion(mostRecentSystolicBloodPressure,
 																				mostRecentDiastolicBloodPressure);
 				var icon:String;

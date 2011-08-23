@@ -295,6 +295,8 @@ package collaboRhythm.plugins.schedule.model
 			_record = null;
 			_scheduleReportingModel = null;
 			_scheduleTimelineModel = null;
+			_adherencePerformanceModel.destroy();
+			_adherencePerformanceModel = null;
 			for each (var changeWatcher:ChangeWatcher in _changeWatchers)
 			{
 				changeWatcher.unwatch();

@@ -89,8 +89,7 @@
 														  visible="{hydrochlorothiazideMedicationModel.concentration &lt; SimulationModel.HYDROCHLOROTHIAZIDE_GOAL}"
 				/>-->
 		<circulatorysystem:HypertensionCirculatorySystemSimulationView id="circulatorySystemSimulationView" width="360" height="600"
-				currentDamage="0" currentPreload="1" currentContractility="1" currentAfterload="1"/>
-		<!--TODO reenable the proper updating of the simulation once it is properly updated on a timer -->
+				currentDamage="{_simulationModel.damage}" currentPreload="{_simulationModel.preload}" currentContractility="{_simulationModel.contractility}" currentAfterload="{_simulationModel.afterload}"/>
 		<!--<circulatorysystem:HypertensionCirculatorySystemSimulationView id="circulatorySystemSimulationView" width="360" height="600"
 				currentDamage="{_simulationModel.damage}" currentPreload="{_simulationModel.preload}" currentContractility="{_simulationModel.contractility}" currentAfterload="{_simulationModel.afterload}"/>-->
 	</s:Group>

@@ -25,6 +25,10 @@ package collaboRhythm.plugins.schedule.shared.model
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
+	import flash.events.TimerEvent;
+
+	import flash.utils.Timer;
+
 	import mx.binding.utils.BindingUtils;
 
 	import mx.collections.ArrayCollection;
@@ -51,6 +55,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		private var _currentDateSource:ICurrentDateSource;
 		private var _simulationModel:SimulationModel;
 		private var _scheduleModelIsInitialized:Boolean;
+		private var _updateTimer:Timer;
 
 		public function AdherencePerformanceModel(scheduleCollectionsProvider:IScheduleCollectionsProvider,
 												  record:Record)
@@ -73,7 +78,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		{
 			if (isInitialized && _scheduleModelIsInitialized)
 			{
-				bindConcentrationSeverityLevels();
+				prepareModelForUpdates();
 			}
 		}
 
@@ -82,17 +87,25 @@ package collaboRhythm.plugins.schedule.shared.model
 			_scheduleModelIsInitialized = isInitialized;
 			if (isInitialized && _simulationModel.isInitialized)
 			{
-				bindConcentrationSeverityLevels();
+				prepareModelForUpdates();
 			}
 		}
 
-		private function bindConcentrationSeverityLevels():void
+		private function prepareModelForUpdates():void
 		{
 			for each (var medicationComponentAdherenceModel:MedicationComponentAdherenceModel in _simulationModel.medications)
 			{
 				BindingUtils.bindSetter(medicationConcentrationSeverityLevel_changeHandler, medicationComponentAdherenceModel,
 									"concentrationSeverityLevel");
 			}
+			_updateTimer = new Timer(600000);
+			_updateTimer.addEventListener(TimerEvent.TIMER, updateTimer_timerEvent);
+			_updateTimer.start();
+		}
+
+		private function updateTimer_timerEvent(event:TimerEvent):void
+		{
+			updateAdherencePerformance();
 		}
 
 		private function medicationConcentrationSeverityLevel_changeHandler(value:int):void
@@ -240,6 +253,11 @@ package collaboRhythm.plugins.schedule.shared.model
 		public function set adherencePerformanceAssertionsCollection(value:ArrayCollection):void
 		{
 			_adherencePerformanceAssertionsCollection = value;
+		}
+
+		public function destroy():void
+		{
+			_updateTimer.stop();
 		}
 	}
 }
