@@ -203,6 +203,7 @@
 		private var seriesSets:Vector.<ScrubChartSeriesSet> = new Vector.<ScrubChartSeriesSet>();
 		private var _seriesWithPendingUpdateComplete:ArrayCollection = new ArrayCollection();
 		private var _chartsWithPendingCreationComplete:ArrayCollection = new ArrayCollection();
+		private var _pendingSynchronizeDateLimits:Boolean;
 
 		private function initializeHandler(event:Event):void
 		{
@@ -260,16 +261,23 @@
 
 			_model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, model_propertyChangeHandler, false, 0, true);
 			_model.addEventListener(FlexEvent.UPDATE_COMPLETE, model_updateCompleteHandler, false, 0, true);
+			_model.addEventListener(Event.CHANGE, model_changeHandler, false, 0, true);
+		}
+
+		private function model_changeHandler(event:Event):void
+		{
+			queueSynchronizeDateLimits();
 		}
 
 		private function model_updateCompleteHandler(event:FlexEvent):void
 		{
-			var today:Date = model.currentDateSource.now();
-			for each (var chart:ScrubChart in _visibleCharts)
-			{
-				chart.today = today;
-			}
-			synchronizeDateLimits();
+			queueSynchronizeDateLimits();
+		}
+
+		private function queueSynchronizeDateLimits():void
+		{
+			_pendingSynchronizeDateLimits = true;
+			invalidateProperties();
 		}
 
 		private function model_propertyChangeHandler(event:PropertyChangeEvent):void
@@ -666,6 +674,7 @@
 
 			var minimum:Number;
 			var maximum:Number;
+			var today:Date = model.currentDateSource.now();
 			for each (var chart:TouchScrollingScrubChart in charts)
 			{
 				chart.commitPendingDataChanges();
@@ -684,6 +693,7 @@
 			{
 				for each (chart in charts)
 				{
+					chart.today = today;
 					chart.minimumTime = minimum;
 					chart.maximumTime = maximum;
 					if (chart.allSeriesUpdated())
@@ -754,7 +764,7 @@
 			{
 				_seriesWithPendingUpdateComplete.removeItemAt(_seriesWithPendingUpdateComplete.getItemIndex(series));
 				if (_seriesWithPendingUpdateComplete.length == 0 && _chartsWithPendingCreationComplete.length == 0)
-					synchronizeDateLimits();
+					queueSynchronizeDateLimits();
 			}
 
 		}
@@ -1116,6 +1126,7 @@
 		private var skipUpdateSimulation:Boolean = false;
 		private var shouldApplyChangesToSimulation:Boolean = true;
 		private var _isSeriesSetsInitialized:Boolean;
+		private var _pendingUpdateSimulation:TouchScrollingScrubChart;
 
 		protected function chart_scrollHandler(event:ScrollEvent):void
 		{
@@ -1127,7 +1138,7 @@
 				synchronizeScrollPositions(targetChart, _nonTargetCharts);
 			}
 
-			updateSimulation(targetChart);
+			queueUpdateSimulation(targetChart);
 		}
 
 		protected function synchronizeScrollPositions(targetChart:TouchScrollingScrubChart,
@@ -1188,7 +1199,13 @@
 				synchronizeFocusTimes(targetChart, _nonTargetCharts);
 			}
 
-			updateSimulation(targetChart);
+			queueUpdateSimulation(targetChart);
+		}
+
+		private function queueUpdateSimulation(targetChart:TouchScrollingScrubChart):void
+		{
+			_pendingUpdateSimulation = targetChart;
+			invalidateProperties();
 		}
 
 		private function updateChartsCache(targetChart:TouchScrollingScrubChart):void
@@ -1200,6 +1217,22 @@
 												  model.showHeartRate);
 				_nonTargetCharts = getVisibleNonTargetCharts(_visibleCharts, targetChart);
 				_scrollTargetChart = targetChart;
+			}
+		}
+
+		override protected function commitProperties():void
+		{
+			super.commitProperties();
+
+			if (_pendingSynchronizeDateLimits)
+			{
+				synchronizeDateLimits();
+				_pendingSynchronizeDateLimits = false;
+			}
+			if (_pendingUpdateSimulation)
+			{
+				updateSimulation(_pendingUpdateSimulation);
+				_pendingUpdateSimulation = null;
 			}
 		}
 
@@ -1263,6 +1296,9 @@
 			{
 				model.focusSimulation.mode = SimulationModel.HISTORY_MODE;
 			}
+
+			if (_traceEventHandlers)
+				trace("updateSimulation " + targetChart.id + " dateMeasuredStart " + ScrubChart.traceDate(model.focusSimulation.dataPointDate.time) + " systolic " + model.focusSimulation.systolic);
 		}
 
 		public function get chartsOnlyViewMode():Boolean

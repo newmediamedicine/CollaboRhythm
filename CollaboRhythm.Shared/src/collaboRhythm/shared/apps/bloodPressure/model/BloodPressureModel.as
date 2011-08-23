@@ -24,6 +24,8 @@ package collaboRhythm.shared.apps.bloodPressure.model
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
+	import flash.events.Event;
+
 	import j2as3.collection.HashMap;
 
 	import mx.binding.utils.BindingUtils;
@@ -32,7 +34,16 @@ package collaboRhythm.shared.apps.bloodPressure.model
 	import mx.events.CollectionEventKind;
 	import mx.events.FlexEvent;
 
+	/**
+	 * Dispatched when updates to one or more medication concentration curve is complete.
+	 */
 	[Event(name="updateComplete", type="mx.events.FlexEvent")]
+
+	/**
+	 * Dispatched when a change, such as adding or removing a relevant document (VitalSign or AdherenceItem), occurs.
+	 */
+	[Event(name="change", type="flash.events.Event")]
+
 	[Bindable]
 	public class BloodPressureModel
 	{
@@ -242,6 +253,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 			if (record.vitalSignsModel.isInitialized && (event.kind == CollectionEventKind.ADD || event.kind == CollectionEventKind.REMOVE))
 			{
 				updateSimulationModelToCurrent(_currentSimulation);
+				dispatchEvent(new Event(Event.CHANGE));
 			}
 		}
 
@@ -296,8 +308,18 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 		private function adherenceItemsModel_isInitialized_setterHandler(isInitialized:Boolean):void
 		{
+			if (isInitialized)
+				record.adherenceItemsModel.adherenceItems.addEventListener(CollectionEvent.COLLECTION_CHANGE, adherenceItems_collectionChangeHandler);
 			showAdherence = determineShowAdherence();
 			this.isInitialized = determineIsInitialized();
+		}
+
+		private function adherenceItems_collectionChangeHandler(event:CollectionEvent):void
+		{
+			if (record.adherenceItemsModel.isInitialized && (event.kind == CollectionEventKind.ADD || event.kind == CollectionEventKind.REMOVE))
+			{
+				dispatchEvent(new Event(Event.CHANGE));
+			}
 		}
 
 		private function determineShowAdherence():Boolean
