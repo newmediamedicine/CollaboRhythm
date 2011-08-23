@@ -25,10 +25,10 @@ package collaboRhythm.core.model.healthRecord.service
 	public class MedicationFillsHealthRecordService extends DocumentStorageSingleReportServiceBase
 	{
 		public function MedicationFillsHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String,
-													 account:Account)
+														   account:Account, debuggingToolsEnabled:Boolean)
 		{
-			super(consumerKey, consumerSecret, baseURL, account,
-				  MedicationFill.DOCUMENT_TYPE, MedicationFill, Schemas.MedicationFillSchema, "medicationfills");
+			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled, MedicationFill.DOCUMENT_TYPE,
+				  MedicationFill, Schemas.MedicationFillSchema, "medicationfills");
 		}
 
 		override protected function documentShouldBeIncluded(document:IDocument, nowTime:Number):Boolean

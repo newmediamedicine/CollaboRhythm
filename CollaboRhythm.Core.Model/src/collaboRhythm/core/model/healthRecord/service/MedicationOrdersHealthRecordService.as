@@ -19,19 +19,17 @@ package collaboRhythm.core.model.healthRecord.service
 
 	import collaboRhythm.core.model.healthRecord.Schemas;
 	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.*;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
-
-	import org.indivo.client.IndivoClientEvent;
 
 	public class MedicationOrdersHealthRecordService extends DocumentStorageSingleReportServiceBase
 	{
 
-		public function MedicationOrdersHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account)
+		public function MedicationOrdersHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String,
+															account:Account, debuggingToolsEnabled:Boolean)
 		{
-			super(consumerKey, consumerSecret, baseURL, account,
-				MedicationOrder.DOCUMENT_TYPE, MedicationOrder, Schemas.MedicationOrderSchema, "medicationorders");
+			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled, MedicationOrder.DOCUMENT_TYPE,
+				  MedicationOrder, Schemas.MedicationOrderSchema, "medicationorders");
 		}
 		
 		override protected function documentShouldBeIncluded(document:IDocument, nowTime:Number):Boolean

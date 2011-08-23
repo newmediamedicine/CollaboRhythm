@@ -25,10 +25,10 @@ package collaboRhythm.core.model.healthRecord.service
 	public class VideoMessagesHealthRecordService extends DocumentStorageSingleReportServiceBase
 	{
 		public function VideoMessagesHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String,
-													 account:Account)
+														 account:Account, debuggingToolsEnabled:Boolean)
 		{
-			super(consumerKey, consumerSecret, baseURL, account,
-				  VideoMessage.DOCUMENT_TYPE, VideoMessage, Schemas.VideoMessageSchema, "videomessages");
+			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled, VideoMessage.DOCUMENT_TYPE,
+				  VideoMessage, Schemas.VideoMessageSchema, "videomessages");
 		}
 
 		override protected function documentShouldBeIncluded(document:IDocument, nowTime:Number):Boolean

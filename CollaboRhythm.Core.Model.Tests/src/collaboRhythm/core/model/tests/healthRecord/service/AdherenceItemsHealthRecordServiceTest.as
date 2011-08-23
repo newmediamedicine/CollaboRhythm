@@ -31,7 +31,7 @@ package collaboRhythm.core.model.tests.healthRecord.service
 				WorkstationKernel.instance.registerComponentInstance("CurrentDateSource", ICurrentDateSource,
 																	 dateSource);
 			}
-			service = new AdherenceItemsHealthRecordService(null, null, "", null);
+			service = new AdherenceItemsHealthRecordService(null, null, "", null, null);
 		}
 
 		[Test(description = "Tests that unmarshalling from XML results in the expected document")]

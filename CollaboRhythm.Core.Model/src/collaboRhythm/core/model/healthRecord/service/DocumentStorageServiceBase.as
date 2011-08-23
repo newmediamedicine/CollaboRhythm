@@ -12,8 +12,6 @@ package collaboRhythm.core.model.healthRecord.service
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
 	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
-	import collaboRhythm.shared.model.healthRecord.document.Equipment;
-	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 
 	import flash.events.Event;
 
@@ -42,12 +40,15 @@ package collaboRhythm.core.model.healthRecord.service
 		protected var _targetDocumentType:String;
 		protected var _targetClass:Class;
 		protected var _targetDocumentSchema:Class;
+		protected var _debuggingToolsEnabled:Boolean;
 
 		public function DocumentStorageServiceBase(consumerKey:String, consumerSecret:String, baseURL:String,
-												   account:Account, targetDocumentType:String, targetClass:Class,
-												   targetDocumentSchema:Class)
+												   account:Account,
+												   debuggingToolsEnabled:Boolean, targetDocumentType:String,
+												   targetClass:Class, targetDocumentSchema:Class)
 		{
 			super(consumerKey, consumerSecret, baseURL, account);
+			_debuggingToolsEnabled = debuggingToolsEnabled;
 			_targetDocumentType = targetDocumentType;
 			_targetClass = targetClass;
 			_targetDocumentSchema = targetDocumentSchema;
@@ -160,7 +161,7 @@ package collaboRhythm.core.model.healthRecord.service
 			for each (var reportXml:XML in reportsXml.Report)
 			{
 				var document:IDocument = unmarshallReportXml(reportXml);
-				if (document && documentShouldBeIncluded(document, nowTime))
+				if (document && documentShouldBeIncludedTestSettings(document, nowTime))
 				{
 					DocumentMetadata.parseDocumentMetadata(reportXml.Meta.Document[0], document.meta);
 					_relationshipXmlMarshaller.unmarshallRelationships(reportXml, document);
@@ -195,9 +196,30 @@ package collaboRhythm.core.model.healthRecord.service
 		}
 
 		/**
+		 * Method to determine which documents should be included as part of the collection of document of documents
+		 * in the model. It first determines if the setting debuggingToolsEnabled is true, if so, then the document
+		 * is included. If false, then documentShouldBeIncluded, which is overridden by subclasses makes the
+		 * determination.
+		 * @param document the document to filter
+		 * @param nowTime the demo time ("current" time) as a Number value
+		 * @return true if the document should be included; otherwise false
+		 */
+		private function documentShouldBeIncludedTestSettings(document:IDocument, nowTime:Number):Boolean
+		{
+			if (!_debuggingToolsEnabled)
+			{
+				return true;
+			}
+			else
+			{
+				return documentShouldBeIncluded(document, nowTime);
+			}
+		}
+
+		/**
 		 * Filter method to determine which documents should be included as part of the collection of documents in the
 		 * model. Subclasses should override this method to ensure that changing the demo date will filter out "future"
-		 * documents.
+		 * documents. It is only called when the setting debuggingToolsEnabled is true.
 		 * @param document the document to filter
 		 * @param nowTime the demo time ("current" time) as a Number value
 		 * @return true if the document should be included; otherwise false

@@ -19,10 +19,12 @@ package collaboRhythm.core.model.healthRecord.service
 		protected var _indivoReportName:String;
 
 		public function DocumentStorageSingleReportServiceBase(consumerKey:String, consumerSecret:String, baseURL:String,
-												   account:Account, targetDocumentType:String,
-												   targetClass:Class, targetDocumentSchema:Class, indivoReportName:String)
+															   account:Account, debuggingToolsEnabled:Boolean,
+															   targetDocumentType:String, targetClass:Class, targetDocumentSchema:Class,
+															   indivoReportName:String)
 		{
-			super(consumerKey, consumerSecret, baseURL, account, targetDocumentType, targetClass, targetDocumentSchema);
+			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled, targetDocumentType, targetClass,
+				  targetDocumentSchema);
 			_indivoReportName = indivoReportName;
 		}
 
