@@ -23,8 +23,26 @@
 		 removedFromStage="removedFromStage()"
 		 implements="collaboRhythm.plugins.schedule.view.IScheduleFullView"
 		 width="100%" height="100%"
-		show="showHandler()"
-		hide="hideHandler()">
+		 show="showHandler()"
+		 hide="hideHandler()"
+		 click="scheduleReportingFullView_clickHandler()">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		.automaticSubmitInstructions {
+			color: #FFFFFF;
+			fontSize: 40;
+		}
+
+		.automaticSubmitCountdown {
+			color: #FFFFFF;
+			fontSize: 160;
+		}
+
+		.automaticSubmitButton {
+			fontSize: 40;
+		}
+	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.schedule.controller.ScheduleAppController;
 		import collaboRhythm.plugins.schedule.controller.ScheduleReportingController;
@@ -38,10 +56,17 @@
 		import mx.logging.ILogger;
 		import mx.logging.Log;
 
+		private const COUNTDOWN_DURATION:int = 10;
+
 		private var _scheduleReportingController:ScheduleReportingController;
 		private var _scheduleModel:ScheduleModel;
 		private var _scheduleReportingModel:ScheduleReportingModel;
 		private var _timeoutTimer:Timer;
+		private var _countdownTimer:Timer;
+		[Bindable]
+		private var _countdownIndex:int;
+		[Bindable]
+		private var _isCountdownRunning:Boolean;
 		protected var _logger:ILogger;
 
 		public function init(scheduleAppController:ScheduleAppController, scheduleModel:ScheduleModel):void
@@ -70,11 +95,53 @@
 
 		private function timeoutTimer_timerEventHandler(event:TimerEvent):void
 		{
-			_scheduleReportingController.closeScheduleReportingFullView("timer timeout elapsed");
+			if (visible)
+			{
+				_countdownTimer = new Timer(1000, COUNTDOWN_DURATION);
+				_countdownTimer.addEventListener(TimerEvent.TIMER, countdownTimer_timerEventHandler);
+				_countdownTimer.addEventListener(TimerEvent.TIMER_COMPLETE, countdownTimer_timerCompleteHandler);
+				_countdownIndex = COUNTDOWN_DURATION;
+				_countdownTimer.start();
+				_isCountdownRunning = true;
+			}
+		}
+
+		private function countdownTimer_timerEventHandler(event:TimerEvent):void
+		{
+			_countdownIndex = COUNTDOWN_DURATION - _countdownTimer.currentCount;
+		}
+
+		private function countdownTimer_timerCompleteHandler(event:TimerEvent):void
+		{
+			_isCountdownRunning = false;
+			closeScheduleReportingFullView("timer timeout elapsed");
+		}
+
+		private function okButton_clickHandler():void
+		{
+			_isCountdownRunning = false;
+			_countdownTimer.stop();
+
+			closeScheduleReportingFullView("time timeout elapsed - user pressed ok");
+		}
+
+		private function cancelButton_clickHandler():void
+		{
+			_timeoutTimer.reset();
+			_timeoutTimer.start();
+			_isCountdownRunning = false;
+			_countdownTimer.stop();
+		}
+
+		private function closeScheduleReportingFullView(viaMechanism:String):void
+		{
+			_scheduleReportingController.closeScheduleReportingFullView(viaMechanism);
 		}
 
 		private function hideHandler():void
 		{
+			if (_countdownTimer)
+				_countdownTimer.stop();
 			_timeoutTimer.stop();
 		}
 
@@ -132,7 +199,8 @@
 		{
 			_scheduleReportingController.createAdherenceItem(_scheduleModel.scheduleReportingModel.currentScheduleGroup,
 															 event.scheduleItemOccurrence,
-															 event.adherenceItem, event.hideViews, event.createAdherenceItem);
+															 event.adherenceItem, event.hideViews,
+															 event.createAdherenceItem);
 		}
 
 		private function adherenceItemIncompleteEventHandler(event:ScheduleItemReportingViewEvent):void
@@ -149,6 +217,15 @@
 		{
 			additionalInformationViews.removeAllElements();
 			scheduleGroupReportingView.scheduleItemsGroup.removeAllElements();
+		}
+
+		private function scheduleReportingFullView_clickHandler():void
+		{
+			if (_timeoutTimer)
+			{
+				_timeoutTimer.reset();
+				_timeoutTimer.start();
+			}
 		}
 		]]></fx:Script>
 
@@ -175,5 +252,34 @@
 			</s:Group>
 		</s:Group>
 	</s:HGroup>
-
+	<s:Group width="100%" height="100%" visible="{_isCountdownRunning}">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0x000000" alpha="0.5"/>
+			</s:fill>
+			<s:stroke>
+				<s:SolidColorStroke color="0xFFFFFF"/>
+			</s:stroke>
+		</s:Rect>
+		<s:Group verticalCenter="0" horizontalCenter="0">
+			<s:Rect width="100%" height="100%">
+				<s:fill>
+					<s:SolidColor color="0x000000"/>
+				</s:fill>
+			</s:Rect>
+			<s:VGroup paddingLeft="25" paddingRight="25" paddingTop="25" paddingBottom="25" horizontalAlign="center">
+				<s:Label styleName="automaticSubmitInstructions" text="You have not interacted in 10 minutes."/>
+				<s:Label styleName="automaticSubmitInstructions" paddingTop="10"
+						 text="Your adherence results will be submitted in:"/>
+				<s:Label styleName="automaticSubmitCountdown" id="countdownIndexLabel" paddingTop="10"
+						 text="{_countdownIndex}"/>
+				<s:HGroup gap="20">
+					<s:Button width="150" height="70" styleName="automaticSubmitButton" label="OK"
+							  click="okButton_clickHandler()"/>
+					<s:Button width="150" height="70" styleName="automaticSubmitButton" label="Cancel"
+							  click="cancelButton_clickHandler()"/>
+				</s:HGroup>
+			</s:VGroup>
+		</s:Group>
+	</s:Group>
 </s:Group>
