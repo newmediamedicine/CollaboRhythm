@@ -68,7 +68,7 @@
 		</s:fill>
 	</s:Rect>
 	<s:Scroller width="100%" height="100%">
-		<s:VGroup left="10" right="10" top="10" bottom="10">
+		<s:VGroup paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10">
 			<s:Label text="Why are you skipping this medication?" styleName="reasonText" includeIn="present"/>
 			<s:Label text="Why did you skip this medication?" styleName="reasonText" includeIn="past"/>
 			<s:List id="reasonList" width="100%" height="100%" styleName="entryText" includeIn="present"

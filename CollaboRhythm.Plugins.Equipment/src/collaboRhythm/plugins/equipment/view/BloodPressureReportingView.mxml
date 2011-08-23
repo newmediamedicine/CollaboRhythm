@@ -182,8 +182,6 @@
 					valueString = "124";
 					abbrev = "BPdia";
 					break;
-					valueString = "125";
-					abbrev = "HR";
 			}
 			bloodPressure.name = new CodedValue(VITAL_SIGN_URL, valueString, abbrev, category);
 			bloodPressure.dateMeasuredStart = _currentDateSource.now();
