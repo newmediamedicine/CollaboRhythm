@@ -105,6 +105,7 @@ package collaboRhythm.core.model.healthRecord.service
 				var maxTime:Number = currentDateSource.now().time;
 				var lastMedicationAdministration:MedicationAdministration = medicationAdministrationCollection[medicationAdministrationCollection.length - 1];
 				var lastAdministrationDate:Date = lastMedicationAdministration.dateAdministered;
+				var previousRemainder:Number = 0;
 				maxTime = Math.min(maxTime, lastAdministrationDate.time + singleCurve.length * intervalDuration);
 
 				if (matchStartDateOfSource)
@@ -129,6 +130,10 @@ package collaboRhythm.core.model.healthRecord.service
 						 */
 
 						intervalsToAdvance = Math.ceil((dataItem.dateAdministered.time - previousDate.time) / intervalDuration);
+
+						previousRemainder = (intervalsToAdvance * intervalDuration) - (dataItem.dateAdministered.time - previousDate.time);
+						if (previousRemainder > intervalDuration)
+							throw new Error("Unexpected previousRemainder " + previousRemainder + " greater than intervalDuration " + intervalDuration);
 					}
 					else
 					{
@@ -187,6 +192,11 @@ package collaboRhythm.core.model.healthRecord.service
 						extendConcentrationCurveCollection(currentConcentrationCurve, lastAdministrationDate, 1,
 														   maxTime);
 
+						// avoid having a zero value for concentration
+						currentConcentrationCurve[currentConcentrationCurve.length - 1].concentration = currentConcentrationCurve[currentConcentrationCurve.length - 2].concentration;
+					}
+					else if (lastAdministrationDate.time + previousRemainder > lastConcentrationCurveDate.time)
+					{
 						// avoid having a zero value for concentration
 						currentConcentrationCurve[currentConcentrationCurve.length - 1].concentration = currentConcentrationCurve[currentConcentrationCurve.length - 2].concentration;
 					}

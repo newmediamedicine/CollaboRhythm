@@ -1563,8 +1563,8 @@
 			</s:Group>
 -->
 
-			<s:VGroup id="chartsGroup" height="100%" width="100%" gap="10" paddingLeft="0" paddingRight="0"
-					  paddingTop="0"
+			<s:VGroup id="chartsGroup" height="100%" width="100%" gap="10" paddingLeft="10" paddingRight="0"
+					  paddingTop="10"
 					  paddingBottom="8"
 					  resize="chartsGroup_resizeHandler(event)"
 					>
