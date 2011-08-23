@@ -47,6 +47,10 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public static const RXNORM_ATENOLOL:String = "197381";
 		private var _isInitialized:Boolean;
 
+		/**
+		 * The simulation state corresponding to the time currently being focused on (the time specified by the focus
+		 * time marker in the chart).
+		 */
 		public function get focusSimulation():SimulationModel
 		{
 			return _focusSimulation;
@@ -57,6 +61,9 @@ package collaboRhythm.shared.apps.bloodPressure.model
 			_focusSimulation = value;
 		}
 
+		/**
+		 * The simulation state corresponding to the most recent (current) data available.
+		 */
 		public function get currentSimulation():SimulationModel
 		{
 			return _currentSimulation;
