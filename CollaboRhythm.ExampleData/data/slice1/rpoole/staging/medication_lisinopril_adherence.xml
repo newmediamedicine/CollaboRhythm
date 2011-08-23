@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<IndivoDocuments>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-01-15T14:57:00Z</dateReported>
+		<adherence>true</adherence>
+		<ndc>003782072</ndc>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-01-16T13:07:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-01-17T13:54:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-01-18T13:52:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-01-19T13:48:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-01-20T14:27:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-01-21T14:24:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-01-22T14:14:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-01-23T14:15:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-01-24T14:59:00Z</dateReported>
+		<adherence>false</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-01-25T13:12:00Z</dateReported>
+		<adherence>false</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-01-26T15:26:00Z</dateReported>
+		<adherence>false</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-01-27T13:47:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-01-28T14:12:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-01-29T14:44:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-01-30T14:02:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-01-31T13:24:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-02-01T15:22:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-02-02T15:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-02-03T13:53:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-02-04T14:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-02-05T13:54:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-02-06T13:14:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-02-07T13:00:00Z</dateReported>
+		<adherence>false</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-02-08T13:10:00Z</dateReported>
+		<adherence>false</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-02-09T13:18:00Z</dateReported>
+		<adherence>false</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-02-10T13:29:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-02-11T13:40:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
+		<dateReported>2010-02-12T13:51:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+</IndivoDocuments>

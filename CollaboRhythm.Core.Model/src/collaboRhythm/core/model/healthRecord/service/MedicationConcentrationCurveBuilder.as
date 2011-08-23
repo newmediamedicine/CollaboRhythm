@@ -17,10 +17,9 @@ package collaboRhythm.core.model.healthRecord.service
 		private var _medicationAdministrationCollection:ArrayCollection;
 		private var _currentDateSource:ICurrentDateSource;
 
-//		private var _intervalDuration:Number = 2 * 1000 * 60 * 60;
-		private var _intervalDuration:Number = 1000 * 60 * 10;
+		private var _intervalDuration:Number = 1000 * 60 * 60;
 		// duration of one interval in milliseconds (1000 ms * 60 sec * 60 min = 1 hour)
-//		private const intervalDuration:Number = 10 * 1000 * 60 * 60; // duration of one interval in milliseconds (1000 ms * 60 sec * 60 min = 1 hour)
+//		private const intervalDuration:Number = 1000 * 60 * 60;
 
 		public function MedicationConcentrationCurveBuilder()
 		{

@@ -344,7 +344,7 @@ package collaboRhythm.workstation.controller
 
         public override function get currentFullView():String
         {
-            return _workstationAppControllersMediator.currentFullView;
+            return _workstationAppControllersMediator ? _workstationAppControllersMediator.currentFullView : null;
         }
 
 		public override function get fullContainer():IVisualElementContainer

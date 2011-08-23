@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Problem xmlns="http://indivo.org/vocab/xml/documents#">
-        <dateOnset>2001-02-20</dateOnset>
-        <dateResolution>2001-03-13</dateResolution>
-        <name type="umls-snomed" value="38341003" abbrev="None">Bronchitis</name>
-        <diagnosedBy>Dr. Alice Swanson</diagnosedBy>
-      </Problem>

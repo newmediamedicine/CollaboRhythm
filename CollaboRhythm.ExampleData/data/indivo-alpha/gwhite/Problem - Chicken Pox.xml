@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Problem xmlns="http://indivo.org/vocab/xml/documents#">
-        <dateOnset>1982-11-10</dateOnset>
-        <dateResolution>1982-11-17</dateResolution>
-        <name type="umls-snomed" value="38341003" abbrev="None">Varicella</name>
-        <comments>Chicken Pox</comments>
-        <diagnosedBy>Dr. Johnston</diagnosedBy>
-      </Problem>

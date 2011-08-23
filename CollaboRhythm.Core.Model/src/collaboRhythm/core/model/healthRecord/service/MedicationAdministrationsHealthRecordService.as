@@ -39,7 +39,7 @@ package collaboRhythm.core.model.healthRecord.service
 	{
 		private var _medicationAdministrationsModel:MedicationAdministrationsModel;
 		// To test, try setting _autoUpdateInterval to something short, like 20 seconds (1000 * 20)
-		private var _autoUpdateInterval:Number = 1000 * 60 * 10;
+		private var _autoUpdateInterval:Number = 1000 * 60 * 60;
 		private var _nextAutoUpdate:Date;
 		private var _autoUpdateTimer:Timer = new Timer(0);
 		private var _autoUpdateCushion:Number = 1000;

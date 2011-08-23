@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Problem xmlns="http://indivo.org/vocab/xml/documents#">
-        <dateOnset>2002-08-12</dateOnset>
-        <name type="umls-snomed" value="313436004" abbrev="None">Type II Diabetes Mellitus</name>
-        <comments>Diabetes</comments>
-        <diagnosedBy>Dr. James King</diagnosedBy>
-      </Problem>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Medication xmlns="http://indivo.org/vocab/xml/documents#">
+  <dateStarted>2009-01-23</dateStarted>
+  <name type="http://indivo.org/codes/meds#" abbrev="c2i" value="hydrochlorothiazide">Hydrochlorothiazide</name>
+  <brandName type="http://indivo.org/codes/meds#" abbrev="vioxx" value="hydrochlorothiazide">Hydrochlorothiazide</brandName>
+  <dose>
+    <value>1</value>
+    <unit type="http://indivo.org/codes/units#" value="pills" abbrev="p">pills</unit>
+  </dose>
+  <route type="http://indivo.org/codes/routes#" value="PO">By Mouth</route>
+  <strength>
+    <value>25</value>
+    <unit type="http://indivo.org/codes/units#" value="mg" abbrev="mg">milligram</unit>
+  </strength>
+  <frequency type="http://indivo.org/codes/frequency#" value="daily">once a day</frequency>
+  <prescription>
+    <by>
+      <name>Dr. James King</name>
+      <institution>CollaboRhythm Clinic</institution>
+    </by>
+    <on>2010-04-05</on>
+    <stopOn>2010-08-05</stopOn>
+    <dispenseAsWritten>true</dispenseAsWritten>
+    <duration>P3M</duration>
+    <refillInfo>once a month for 3 months</refillInfo>
+    <instructions>take with water</instructions>
+  </prescription>
+</Medication>
