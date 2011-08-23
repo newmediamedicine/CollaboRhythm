@@ -126,7 +126,7 @@ package collaboRhythm.shared.model.healthRecord.document
 
 		public function hasMedicationConcentrationCurve(code:String):Boolean
 		{
-			return medicationConcentrationCurvesByCode.keys.contains(code) && medicationConcentrationCurvesByCode.length > 0;
+			return medicationConcentrationCurvesByCode.keys.contains(code) && medicationConcentrationCurvesByCode.getItem(code).length > 0;
 		}
 
 		public function clearMedicationAdministrations():void

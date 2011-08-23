@@ -62,7 +62,7 @@ package collaboRhythm.plugins.schedule.shared.model
 			
 			_scheduleCollectionsProvider = scheduleCollectionsProvider;
 			_record = record;
-			_simulationModel = _record.bloodPressureModel.simulation;
+			_simulationModel = _record.bloodPressureModel.currentSimulation;
 
 			BindingUtils.bindSetter(simulationModelInitialized_changeHandler, _simulationModel, "isInitialized");
 

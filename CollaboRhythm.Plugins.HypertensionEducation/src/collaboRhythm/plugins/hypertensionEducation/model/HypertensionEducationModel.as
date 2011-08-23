@@ -26,7 +26,7 @@ package collaboRhythm.plugins.hypertensionEducation.model
 
 		private function getCurrentConcentrations():void
 		{
-			for each (var medication:MedicationComponentAdherenceModel in _activeRecord.bloodPressureModel.simulation.medications)
+			for each (var medication:MedicationComponentAdherenceModel in _activeRecord.bloodPressureModel.focusSimulation.medications)
 			{
 				createUtterance(medication);
 			}

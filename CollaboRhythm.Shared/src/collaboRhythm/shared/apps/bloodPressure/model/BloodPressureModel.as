@@ -40,20 +40,38 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		private var _showFps:Boolean;
 		private var _showAdherence:Boolean = true;
 		private var _showHeartRate:Boolean = false;
-		private var _simulation:SimulationModel = new SimulationModel();
+		private var _focusSimulation:SimulationModel = new SimulationModel();
+		private var _currentSimulation:SimulationModel = new SimulationModel();
 
 		public static const RXNORM_HYDROCHLOROTHIAZIDE:String = "310798";
 		public static const RXNORM_ATENOLOL:String = "197381";
 		private var _isInitialized:Boolean;
 
-		public function get simulation():SimulationModel
+		/**
+		 * The simulation state corresponding to the time currently being focused on (the time specified by the focus
+		 * time marker in the chart).
+		 */
+		public function get focusSimulation():SimulationModel
 		{
-			return _simulation;
+			return _focusSimulation;
 		}
 
-		public function set simulation(value:SimulationModel):void
+		public function set focusSimulation(value:SimulationModel):void
 		{
-			_simulation = value;
+			_focusSimulation = value;
+		}
+
+		/**
+		 * The simulation state corresponding to the most recent (current) data available.
+		 */
+		public function get currentSimulation():SimulationModel
+		{
+			return _currentSimulation;
+		}
+
+		public function set currentSimulation(value:SimulationModel):void
+		{
+			_currentSimulation = value;
 		}
 
 		public function get showHeartRate():Boolean
@@ -87,20 +105,20 @@ package collaboRhythm.shared.apps.bloodPressure.model
 			_adherenceDataCollection = value;
 		}
 
-		public function initializeSimulationModel():void
+		public function updateSimulationModelToCurrent(targetSimulation:SimulationModel):void
 		{
 			if (isAdherenceLoaded && isSystolicReportLoaded && isDiastolicReportLoaded)
 			{
-				_simulation.date = _currentDateSource.now();
+				targetSimulation.date = _currentDateSource.now();
 
-				for each (var medication:MedicationComponentAdherenceModel in _simulation.medications)
+				for each (var medication:MedicationComponentAdherenceModel in targetSimulation.medications)
 				{
 					if (record.medicationAdministrationsModel.hasMedicationConcentrationCurve(medication.name.value))
 					{
 						var medicationConcentrationCurve:ArrayCollection = record.medicationAdministrationsModel.medicationConcentrationCurvesByCode[medication.name.value];
 						var medicationConcentrationSample:MedicationConcentrationSample = medicationConcentrationCurve[medicationConcentrationCurve.length - 1];
 
-						_simulation.dataPointDate = medicationConcentrationSample.date;
+						targetSimulation.dataPointDate = medicationConcentrationSample.date;
 						medication.concentration = medicationConcentrationSample.concentration;
 					}
 				}
@@ -109,17 +127,17 @@ package collaboRhythm.shared.apps.bloodPressure.model
 				{
 					var systolicCollection:ArrayCollection = record.vitalSignsModel.vitalSignsByCategory[VitalSignsModel.SYSTOLIC_CATEGORY];
 					var systolicVitalSign:VitalSign = systolicCollection[systolicCollection.length - 1];
-					_simulation.systolic = systolicVitalSign.resultAsNumber;
+					targetSimulation.systolic = systolicVitalSign.resultAsNumber;
 				}
 
 				if (record.vitalSignsModel.isInitialized && record.vitalSignsModel.hasCategory(VitalSignsModel.DIASTOLIC_CATEGORY))
 				{
 					var diastolicCollection:ArrayCollection = record.vitalSignsModel.vitalSignsByCategory[VitalSignsModel.DIASTOLIC_CATEGORY];
 					var diastolicVitalSign:VitalSign = diastolicCollection[diastolicCollection.length - 1];
-					_simulation.diastolic = diastolicVitalSign.resultAsNumber;
+					targetSimulation.diastolic = diastolicVitalSign.resultAsNumber;
 				}
 
-				_simulation.mode = SimulationModel.MOST_RECENT_MODE;
+				targetSimulation.mode = SimulationModel.MOST_RECENT_MODE;
 			}
 		}
 
@@ -171,7 +189,8 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 		private function updateModel():void
 		{
-			initializeSimulationModel();
+			updateSimulationModelToCurrent(_focusSimulation);
+			updateSimulationModelToCurrent(_currentSimulation);
 		}
 
 		public function get adherenceItemsCollectionsByCode():HashMap
@@ -202,7 +221,8 @@ package collaboRhythm.shared.apps.bloodPressure.model
 										"isInitialized");
 				BindingUtils.bindSetter(record_isLoading_setterHandler, record,
 										"isLoading");
-				BindingUtils.bindSetter(simulation_isInitialized_setterHandler, simulation, "isInitialized");
+				BindingUtils.bindSetter(focusSimulation_isInitialized_setterHandler, focusSimulation, "isInitialized");
+				BindingUtils.bindSetter(currentSimulation_isInitialized_setterHandler, currentSimulation, "isInitialized");
 
 				if (record.medicationAdministrationsModel)
 					record.medicationAdministrationsModel.addEventListener(FlexEvent.UPDATE_COMPLETE, medicationAdministrationsModel_updateCompleteHandler);
@@ -210,15 +230,23 @@ package collaboRhythm.shared.apps.bloodPressure.model
 			else
 			{
 				// TODO: unbind or use weak references
+				currentSimulation = null;
+				focusSimulation = null;
 			}
 		}
 
 		private function medicationAdministrationsModel_updateCompleteHandler(event:FlexEvent):void
 		{
+			updateSimulationModelToCurrent(currentSimulation);
 			dispatchEvent(new FlexEvent(FlexEvent.UPDATE_COMPLETE));
 		}
 
-		private function simulation_isInitialized_setterHandler(isInitialized:Boolean):void
+		private function focusSimulation_isInitialized_setterHandler(isInitialized:Boolean):void
+		{
+			this.isInitialized = determineIsInitialized();
+		}
+
+		private function currentSimulation_isInitialized_setterHandler(isInitialized:Boolean):void
 		{
 			this.isInitialized = determineIsInitialized();
 		}
@@ -235,12 +263,17 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 		private function determineIsInitialized():Boolean
 		{
-			return isAdherenceLoaded && isSystolicReportLoaded && isDiastolicReportLoaded && isDoneLoading && isSimulationModelInitialized;
+			return isAdherenceLoaded && isSystolicReportLoaded && isDiastolicReportLoaded && isDoneLoading && isFocusSimulationInitialized && isCurrentSimulationInitialized;
 		}
 
-		private function get isSimulationModelInitialized():Boolean
+		private function get isFocusSimulationInitialized():Boolean
 		{
-			return simulation && simulation.isInitialized;
+			return focusSimulation && focusSimulation.isInitialized;
+		}
+
+		private function get isCurrentSimulationInitialized():Boolean
+		{
+			return currentSimulation && currentSimulation.isInitialized;
 		}
 
 		private function medicationAdministrationsModel_isInitialized_setterHandler(isInitialized:Boolean):void

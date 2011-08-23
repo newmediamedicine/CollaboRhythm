@@ -33,7 +33,6 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		private var _dataPointDate:Date;
 		private var _systolic:Number;
 		private var _diastolic:Number;
-		private var _concentration:Number;
 		private var _medications:Vector.<MedicationComponentAdherenceModel> = new Vector.<MedicationComponentAdherenceModel>();
 		private var _medicationsByCode:OrderedMap = new OrderedMap();
 		private var _isInitialized:Boolean;
@@ -210,12 +209,6 @@ package collaboRhythm.shared.apps.bloodPressure.model
 			_diastolic = value;
 		}
 
-		public function set concentration(value:Number):void
-		{
-			_concentration = value;
-			concentrationSeverityColor = determineSeverityColor(value, concentrationColors, concentrationRanges);
-		}
-
 		public function get mode():String
 		{
 			return _mode;
@@ -271,16 +264,6 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public function set systolicSeverityColor(value:uint):void
 		{
 			_systolicSeverityColor = value;
-		}
-
-		public function get concentrationSeverityColor():uint
-		{
-			return _concentrationSeverityColor;
-		}
-
-		public function set concentrationSeverityColor(value:uint):void
-		{
-			_concentrationSeverityColor = value;
 		}
 
 		public function get medications():Vector.<MedicationComponentAdherenceModel>

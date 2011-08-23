@@ -196,7 +196,7 @@ package collaboRhythm.plugins.medications.model
 			_medicationsWithinGoal = new Vector.<String>();
 			_medicationsAboveGoal = new Vector.<String>();
 
-			var medicationComponentAdherenceModelsVector:Vector.<MedicationComponentAdherenceModel> = record.bloodPressureModel.simulation.medications;
+			var medicationComponentAdherenceModelsVector:Vector.<MedicationComponentAdherenceModel> = record.bloodPressureModel.currentSimulation.medications;
 			_numberOfMedications = medicationComponentAdherenceModelsVector.length;
 			for each (var medicationComponentAdherenceModel:MedicationComponentAdherenceModel in medicationComponentAdherenceModelsVector)
 			{
