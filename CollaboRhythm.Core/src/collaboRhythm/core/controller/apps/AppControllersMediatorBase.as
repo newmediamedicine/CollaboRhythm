@@ -74,6 +74,7 @@ package collaboRhythm.core.controller.apps
 		protected var _logger:ILogger;
 		private var _currentFullView:String;
 		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
+		private var _appsInitialized:ArrayCollection;
 
 		public function AppControllersMediatorBase(widgetContainers:Vector.<IVisualElementContainer>,
 												   fullParentContainer:IVisualElementContainer, settings:Settings,
@@ -137,6 +138,7 @@ package collaboRhythm.core.controller.apps
 			var infoArray:Array = componentContainer.resolveAll(AppControllerInfo);
 
 			infoArray = AppControllersSorter.orderAppsByInitializationOrderConstraints(infoArray);
+			_appsInitialized = new ArrayCollection();
 
 			_logger.info("Initializing {0} apps", _appsById.length);
 			for each (var info:AppControllerInfo in infoArray)
@@ -145,6 +147,7 @@ package collaboRhythm.core.controller.apps
 				if (app)
 				{
 					app.initialize();
+					_appsInitialized.addItem(app);
 				}
 			}
 		}
@@ -287,7 +290,7 @@ package collaboRhythm.core.controller.apps
 
 		public function reloadUserData():void
 		{
-			for each (var app:WorkstationAppControllerBase in _workstationApps.values())
+			for each (var app:WorkstationAppControllerBase in _appsInitialized)
 			{
 				app.reloadUserData();
 			}

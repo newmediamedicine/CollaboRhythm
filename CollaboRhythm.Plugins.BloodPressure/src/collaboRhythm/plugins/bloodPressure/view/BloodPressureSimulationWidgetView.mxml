@@ -40,20 +40,20 @@
 		public function set model(value:BloodPressureModel):void
 		{
 			_model = value;
-			_simulationModel = _model.simulation;
-			if (model && model.simulation)
+			_simulationModel = _model.currentSimulation;
+			if (model && model.currentSimulation)
 			{
-				model.simulation.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
-												  simulationModel_propertyChangeHandler);
+				model.currentSimulation.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+													   simulationModel_propertyChangeHandler);
 				lookupMedications();
 			}
 		}
 
 		private function lookupMedications():void
 		{
-			if (model && model.simulation)
+			if (model && model.currentSimulation)
 			{
-				hydrochlorothiazideMedicationModel = model.simulation.getMedication(BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE);
+				hydrochlorothiazideMedicationModel = model.currentSimulation.getMedication(BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE);
 			}
 		}
 

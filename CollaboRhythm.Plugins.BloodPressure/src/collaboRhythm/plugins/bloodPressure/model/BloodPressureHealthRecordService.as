@@ -65,7 +65,9 @@ package collaboRhythm.plugins.bloodPressure.model
 		{
 			if (isDoneLoading)
 			{
-				initializeMedicationSimulationModel(record.bloodPressureModel.simulation,
+				initializeMedicationSimulationModel(record.bloodPressureModel.focusSimulation,
+													record.medicationAdministrationsModel);
+				initializeMedicationSimulationModel(record.bloodPressureModel.currentSimulation,
 													record.medicationAdministrationsModel);
 			}
 		}

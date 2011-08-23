@@ -248,7 +248,7 @@
 			refresh();
 
 			if (simulationView)
-				simulationView.initializeModel(model.simulation, model);
+				simulationView.initializeModel(model.focusSimulation, model);
 
 			_model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, model_propertyChangeHandler, false, 0, true);
 			_model.addEventListener(FlexEvent.UPDATE_COMPLETE, model_updateCompleteHandler, false, 0, true);
@@ -292,7 +292,7 @@
 					if (medicationAdministrationsCollection && medicationAdministrationsCollection[0])
 					{
 						var medicationAdministration:MedicationAdministration = medicationAdministrationsCollection[0];
-						var medicationModel:MedicationComponentAdherenceModel = model.simulation.getMedication(medicationCode);
+						var medicationModel:MedicationComponentAdherenceModel = model.focusSimulation.getMedication(medicationCode);
 						if (medicationModel == null)
 							throw new Error("Medication " + medicationCode + " is in model.medicationConcentrationCurvesByCode but not in model.simulation.medicationsByCode");
 
@@ -366,7 +366,7 @@
 //			chart.removeDefaultSeries();
 
 			var medicationCode:String = chart.getStyle("medicationCode");
-			var medicationModel:MedicationComponentAdherenceModel = model.simulation.getMedication(medicationCode);
+			var medicationModel:MedicationComponentAdherenceModel = model.focusSimulation.getMedication(medicationCode);
 
 			var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
 			verticalAxis.minimum = 0;
@@ -468,7 +468,7 @@
 
 			if (simulationView)
 			{
-				simulationView.initializeModel(model.simulation, model);
+				simulationView.initializeModel(model.focusSimulation, model);
 				simulationView.refresh();
 			}
 		}
@@ -532,7 +532,7 @@
 
 			canvas.clear();
 
-			var medicationModel:MedicationComponentAdherenceModel = model.simulation.getMedication(medicationCode);
+			var medicationModel:MedicationComponentAdherenceModel = model.focusSimulation.getMedication(medicationCode);
 			var color:uint = getMedicationColor(ndcCode);
 			canvas.lineStyle(1, color);
 
@@ -1158,9 +1158,9 @@
 				return;
 
 			if (shouldApplyChangesToSimulation)
-				model.simulation.date = new Date(targetChart.focusTime);
+				model.focusSimulation.date = new Date(targetChart.focusTime);
 
-			var bloodPressureDataIndex:int = bloodPressureChart.findPreviousDataIndex(model.simulation.date.time);
+			var bloodPressureDataIndex:int = bloodPressureChart.findPreviousDataIndex(model.focusSimulation.date.time);
 			var bloodPressureDataPoint:VitalSign;
 			if (bloodPressureDataIndex != -1)
 			{
@@ -1180,16 +1180,16 @@
 
 			if (shouldApplyChangesToSimulation)
 			{
-				model.simulation.dataPointDate = bloodPressureDataPoint == null ? null : bloodPressureDataPoint.dateMeasuredStart;
-				model.simulation.systolic = bloodPressureDataPoint == null ? NaN : bloodPressureDataPoint.resultAsNumber;
+				model.focusSimulation.dataPointDate = bloodPressureDataPoint == null ? null : bloodPressureDataPoint.dateMeasuredStart;
+				model.focusSimulation.systolic = bloodPressureDataPoint == null ? NaN : bloodPressureDataPoint.resultAsNumber;
 			}
 			// TODO: fix diastolic
 //			model.simulation.diastolic = bloodPressureDataPoint == null ? NaN : bloodPressureDataPoint.diastolic;
 
 			var hypertensionSeverity:Number = 0;
-			if (!isNaN(model.simulation.systolic))
+			if (!isNaN(model.focusSimulation.systolic))
 			{
-				hypertensionSeverity = Math.max(0, (model.simulation.systolic - 120) / 20);
+				hypertensionSeverity = Math.max(0, (model.focusSimulation.systolic - 120) / 20);
 			}
 
 			//				simulationGlow.alpha = hypertensionSeverity;
@@ -1204,11 +1204,11 @@
 
 			if (shouldApplyChangesToSimulation && targetChart.isFocusOnMaximumTime)
 			{
-				model.simulation.mode = SimulationModel.MOST_RECENT_MODE;
+				model.focusSimulation.mode = SimulationModel.MOST_RECENT_MODE;
 			}
 			else
 			{
-				model.simulation.mode = SimulationModel.HISTORY_MODE;
+				model.focusSimulation.mode = SimulationModel.HISTORY_MODE;
 			}
 		}
 
@@ -1358,7 +1358,7 @@
 
 		public function updateSimulationMedicationModel(medicationCode:String):void
 		{
-			var medicationModel:MedicationComponentAdherenceModel = model.simulation.getMedication(medicationCode);
+			var medicationModel:MedicationComponentAdherenceModel = model.focusSimulation.getMedication(medicationCode);
 
 			if (medicationModel == null)
 			{
@@ -1368,7 +1368,7 @@
 			{
 				var currentAdherenceChart:ScrubChart = _adherenceCharts.getValueByKey(medicationCode);
 
-				var concentrationDataIndex:int = currentAdherenceChart.findPreviousDataIndex(model.simulation.date.time);
+				var concentrationDataIndex:int = currentAdherenceChart.findPreviousDataIndex(model.focusSimulation.date.time);
 				var concentrationDataPoint:MedicationConcentrationSample;
 				if (concentrationDataIndex != -1)
 				{

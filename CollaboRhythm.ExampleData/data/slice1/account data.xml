@@ -530,10 +530,10 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId>b194933e-eca2-446e-a831-0444f79897e3</recordId>
-    <accessKey>vTwnt9w81HSetl9DsAr0</accessKey>
-    <accessSecret>7Y4TLY0e3Mny1136Imch</accessSecret>
-    <status>Record shared.</status>
-    <demographicsId>e90d3cad-37f9-4509-ae2f-086126918857</demographicsId>
+    <accessKey>Rm6ozpsSkAnXlH34Qk69</accessKey>
+    <accessSecret>M79Z8PmcCBMZF6x9b1mK</accessSecret>
+    <status>Demographics document created. Id: 97c0c0f5-79a8-4f1f-89ff-8e5c2552fe0c</status>
+    <demographicsId>97c0c0f5-79a8-4f1f-89ff-8e5c2552fe0c</demographicsId>
   </AccountSource>
   <AccountSource>
     <accountId>ssmith@records.media.mit.edu</accountId>
@@ -7093,6 +7093,6 @@
 &lt;/Error&gt;</status>
     <demographicsId>a3236c63-79d0-4542-9ef4-ab2f6956e42b</demographicsId>
   </AccountSource>
-  <saveDate>Mon Aug 22 19:48:12 GMT-0400 2011</saveDate>
+  <saveDate>Mon Aug 22 21:01:06 GMT-0400 2011</saveDate>
   <indivoServerBaseURL>http://184.106.136.151:8000</indivoServerBaseURL>
 </dataroot>
