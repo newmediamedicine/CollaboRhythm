@@ -142,6 +142,7 @@
 
 		import mx.charts.ChartItem;
 		import mx.charts.DateTimeAxis;
+		import mx.charts.HitData;
 		import mx.charts.LinearAxis;
 		import mx.charts.chartClasses.CartesianChart;
 		import mx.charts.chartClasses.CartesianDataCanvas;
@@ -413,6 +414,38 @@
 			var index:int = _chartsWithPendingCreationComplete.getItemIndex(chart);
 			if (index != -1)
 				_chartsWithPendingCreationComplete.removeItemAt(index);
+
+			chart.mainChart.dataTipFunction = adherenceChart_dataTipFunction;
+		}
+
+		private function bloodPressureChart_dataTipFunction(hitData:HitData):String
+		{
+			var vitalSign:VitalSign = hitData.item as VitalSign;
+			if (vitalSign)
+			{
+				return (hitData.chartItem.element as Series).displayName + "<br/>" +
+						"<b>" + vitalSign.result.value + "</b> (" + vitalSign.result.unit.abbrev + ")<br/>" +
+						"Date measured: " + vitalSign.dateMeasuredStart.toLocaleString();
+			}
+			return hitData.displayText;
+		}
+
+		private function adherenceChart_dataTipFunction(hitData:HitData):String
+		{
+			var adherenceItem:AdherenceItem = hitData.item as AdherenceItem;
+			if (adherenceItem)
+			{
+				return "Medication " + (adherenceItem.adherence ? "<b>Taken</b>" : "<b>Not</b> Taken") + "<br/>" +
+						"Date reported: " + adherenceItem.dateReported.toLocaleString();
+			}
+			var sample:MedicationConcentrationSample = hitData.item as MedicationConcentrationSample;
+			if (sample)
+			{
+				return "Medication concentration " + sample.concentration.toFixed(2) + "<br/>" +
+						"Date: " + sample.date.toLocaleString();
+			}
+
+			return hitData.displayText;
 		}
 
 		private function updateMedicationChartSeries(chart:ScrubChart, medicationCode:String, ndcCode:String):void
@@ -666,6 +699,8 @@
 					chart.rangeMaxButton.includeInLayout = chart.rangeMaxButton.visible = false;
 			}
 			resizeFocusTimeMarker();
+
+			chart.mainChart.dataTipFunction = bloodPressureChart_dataTipFunction;
 		}
 
 		private function synchronizeDateLimits():void
@@ -1244,6 +1279,7 @@
 			if (shouldApplyChangesToSimulation)
 				model.focusSimulation.date = new Date(targetChart.focusTime);
 
+			var dataIndexMessage:String = "";
 			var bloodPressureDataPoint:VitalSign;
 			var series:Series = bloodPressureChart.mainChart.series[0];
 			if (series)
@@ -1253,6 +1289,7 @@
 																						  model.focusSimulation.date.time);
 				if (bloodPressureDataIndex != -1)
 				{
+					dataIndexMessage = " (" + bloodPressureDataIndex + " of " + dataCollection.length + ")";
 					bloodPressureDataPoint = dataCollection.getItemAt(bloodPressureDataIndex) as VitalSign;
 					series.selectedIndex = bloodPressureDataIndex;
 					if (series.items)
@@ -1298,7 +1335,7 @@
 			}
 
 			if (_traceEventHandlers)
-				trace("updateSimulation " + targetChart.id + " dateMeasuredStart " + ScrubChart.traceDate(model.focusSimulation.dataPointDate.time) + " systolic " + model.focusSimulation.systolic);
+				trace("updateSimulation " + targetChart.id + " dateMeasuredStart " + ScrubChart.traceDate(model.focusSimulation.dataPointDate.time) + " systolic " + model.focusSimulation.systolic + dataIndexMessage);
 		}
 
 		public function get chartsOnlyViewMode():Boolean

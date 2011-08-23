@@ -257,7 +257,8 @@ package collaboRhythm.plugins.schedule.shared.model
 
 		public function destroy():void
 		{
-			_updateTimer.stop();
+			if (_updateTimer)
+				_updateTimer.stop();
 		}
 	}
 }
