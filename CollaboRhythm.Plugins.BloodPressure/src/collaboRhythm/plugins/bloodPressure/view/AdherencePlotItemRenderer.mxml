@@ -23,27 +23,44 @@
 				>
 	<fx:Script>
 		<![CDATA[
-        import mx.charts.series.items.PlotSeriesItem;
-        import mx.events.FlexEvent;
+		import mx.charts.series.items.PlotSeriesItem;
+		import mx.events.FlexEvent;
 
-        protected function creationCompleteHandler(event:FlexEvent):void
-        {
-            var adherence:String = (data as PlotSeriesItem).item.adherence;
-            if (adherence == "true")
-            {
-                yesImage.visible = true;
-            }
-            else if (adherence == "false")
-            {
-                noImage.visible = true;
-            }
-            else if (adherence == "unreported")
-            {
-                unreportedImage.visible = true;
-            }
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+			updateImageVisible();
+		}
+
+		protected function creationCompleteHandler(event:FlexEvent):void
+		{
+			updateImageVisible();
 //				image.source = 'resources/images/apps/bloodPressure/adherence_' + adherence + '.png';
-        }
-        ]]>
+		}
+
+		private function updateImageVisible():void
+		{
+			var adherence:String = (data as PlotSeriesItem).item.adherence;
+			if (adherence == "true")
+			{
+				yesImage.visible = true;
+				noImage.visible = false;
+				unreportedImage.visible = false;
+			}
+			else if (adherence == "false")
+			{
+				yesImage.visible = false;
+				noImage.visible = true;
+				unreportedImage.visible = false;
+			}
+			else if (adherence == "unreported")
+			{
+				yesImage.visible = false;
+				noImage.visible = false;
+				unreportedImage.visible = true;
+			}
+		}
+		]]>
 	</fx:Script>
 <!--	
 	<s:Label text="{(data as PlotSeriesItem).item.adherence}" visible="false"/>
