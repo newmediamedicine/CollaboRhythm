@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<IndivoDocuments xmlns:xs="http://www.w3.org/2001/XMLSchema"
+				 xmlns:fn="http://www.w3.org/2005/xpath-functions"
+				 xmlns:d="http://indivo.org/vocab/xml/documents#">
+	<LoadableIndivoDocument>
+		<document>
+			<MedicationOrder xmlns="http://indivo.org/vocab/xml/documents#">
+				<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="830837">24 HR Diltiazem Hydrochloride 240 MG Extended Release Capsule</name>
+				<orderType>prescribed</orderType>
+				<orderedBy>unknown@records.media.mit.edu</orderedBy>
+				<dateOrdered>2011-07-30T12:00:00Z</dateOrdered>
+				<dateExpires>2012-07-30T12:00:00Z</dateExpires>
+				<indication>hypertension</indication>
+				<amountOrdered>
+					<value>90</value>
+					<unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
+				</amountOrdered>
+				<substitutionPermitted>true</substitutionPermitted>
+				<instructions>take with water</instructions>
+			</MedicationOrder>
+		</document>
+		<relatesTo>
+			<relation type="medicationFill">
+				<LoadableIndivoDocument>
+					<document>
+						<MedicationFill xmlns="http://indivo.org/vocab/xml/documents#">
+							<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="830837">24 HR Diltiazem Hydrochloride 240 MG Extended Release Capsule</name>
+							<filledBy>unknown@records.media.mit.edu</filledBy>
+							<dateFilled>2011-07-30T12:00:00Z</dateFilled>
+							<amountFilled>
+								<value>90</value>
+								<unit>tab</unit>
+							</amountFilled>
+							<ndc>0093511898</ndc>
+						</MedicationFill>
+					</document>
+				</LoadableIndivoDocument>
+			</relation>
+			<relation type="scheduleItem">
+				<LoadableIndivoDocument>
+					<document>
+						<MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
+							<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="830837">24 HR Diltiazem Hydrochloride 240 MG Extended Release Capsule</name>
+							<scheduledBy>unknown@records.media.mit.edu</scheduledBy>
+							<dateScheduled>2011-07-30T12:00:00Z</dateScheduled>
+							<dateStart>2011-07-30T14:00:00Z</dateStart>
+							<dateEnd>2011-07-30T18:00:00Z</dateEnd>
+							<recurrenceRule>
+								<frequency>DAILY</frequency>
+								<count>90</count>
+							</recurrenceRule>
+							<dose>
+								<value>1</value>
+								<unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
+							</dose>
+							<instructions>take with water</instructions>
+						</MedicationScheduleItem>
+					</document>
+				</LoadableIndivoDocument>
+			</relation>
+		</relatesTo>
+	</LoadableIndivoDocument>
+</IndivoDocuments>

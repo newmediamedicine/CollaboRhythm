@@ -270,10 +270,10 @@ package collaboRhythm.plugins.schedule.controller
 				{
 					_scheduleReportingController.removeEventListener(AppEvent.HIDE_FULL_VIEW, hideFullViewHandler);
 				}
+				_scheduleModel.destroy();
+				_scheduleModel = null;
 			}
 
-			_scheduleModel.destroy();
-			_scheduleModel = null;
 			_activeRecordAccount.primaryRecord.appData.remove(ScheduleModel.SCHEDULE_MODEL_KEY);
 			_activeRecordAccount.primaryRecord.appData.remove(AdherencePerformanceModel.ADHERENCE_PERFORMANCE_MODEL_KEY);
 			_scheduleClockController = null;

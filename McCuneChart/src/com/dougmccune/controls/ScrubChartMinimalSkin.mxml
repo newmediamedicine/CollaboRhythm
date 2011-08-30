@@ -51,6 +51,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 		<mccune:ChildIndependentLayout/>
 	</s:layout>
 
+	<fx:Declarations>
+		<s:Fade id="highlightChartItemEffect" target="{highlightChartItemGroup}" alphaFrom="1" alphaTo="0" startDelay="500" effectEnd="{highlightChartItemGroup.visible = false}"/>
+	</fx:Declarations>
+
 	<!-- host component -->
 	<fx:Metadata>
 	<![CDATA[

@@ -52,6 +52,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 		<mccune:ChildIndependentLayout/>
 	</s:layout>
 
+	<fx:Declarations>
+		<s:Fade id="highlightChartItemEffect" target="{highlightChartItemGroup}" alphaFrom="1" alphaTo="0" startDelay="500" effectEnd="{highlightChartItemGroup.visible = false}"/>
+	</fx:Declarations>
+
 	<!-- host component -->
 	<fx:Metadata>
 	<![CDATA[
@@ -87,14 +91,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 					  verticalAxisStyleNames="mainChartVerticalAxisStyle"
 					  selectionMode="none"
 					  >
-			<!-- We specify empty backgroundElements to prevent default GridLines -->
 			<mx:backgroundElements>
-				<mx:GridLines visible="false"/>
-<!--
-				<datashapes:DataDrawingCanvas id="mainDataDrawingCanvas" includeInRanges="true"/>
-				<mx:CartesianDataCanvas id="mainCartesianDataCanvas"/>
--->
-				<s:Label text="test" width="100%" height="100%" visible="false"/>
+				<datashapes:DataDrawingCanvas id="mainDataDrawingCanvas" includeInRanges="true" width="100%" height="100%" resize="mainDataDrawingCanvas_resizeHandler(event)">
+					<s:Label id="goalZoneLabel" styleName="ZoneLabel" visible="false" text="Goal Range"/>
+				</datashapes:DataDrawingCanvas>
 			</mx:backgroundElements>
 
 			<mx:horizontalAxis>
@@ -189,6 +189,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 
 	<fx:Script><![CDATA[
+		import mx.core.UIComponent;
+		import mx.events.ResizeEvent;
 		import mx.graphics.SolidColor;
 
 		// TODO: make these const and eliminate Bindable
@@ -226,6 +228,17 @@ OTHER DEALINGS IN THE SOFTWARE.
 		private function myEasingFunction(t:Number, b:Number, c:Number, d:Number):Number
 		{
 			return 0;
+		}
+
+		private function mainDataDrawingCanvas_resizeHandler(event:ResizeEvent):void
+		{
+//			trace(traceEventsPrefix + "mainDataDrawingCanvas_resizeHandler", mainDataDrawingCanvas.width,
+//				  mainDataDrawingCanvas.height)
+		}
+
+		private function get traceEventsPrefix():String
+		{
+			return (this.parent as UIComponent).id + ".";
 		}
 		]]></fx:Script>
 </s:SparkSkin>

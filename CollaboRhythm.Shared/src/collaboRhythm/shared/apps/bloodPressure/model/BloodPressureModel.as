@@ -281,7 +281,14 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		private function vitalSignModel_isInitialized_setterHandler(isInitialized:Boolean):void
 		{
 			if (isInitialized)
-				record.vitalSignsModel.vitalSignsByCategory[VitalSignsModel.SYSTOLIC_CATEGORY].addEventListener(CollectionEvent.COLLECTION_CHANGE, vitalSignsDocuments_collectionChangeEvent);
+			{
+				var vitalSignsSystolic:ArrayCollection = record.vitalSignsModel.vitalSignsByCategory[VitalSignsModel.SYSTOLIC_CATEGORY];
+				if (vitalSignsSystolic)
+				{
+					vitalSignsSystolic.addEventListener(CollectionEvent.COLLECTION_CHANGE,
+														vitalSignsDocuments_collectionChangeEvent);
+				}
+			}
 			this.isInitialized = determineIsInitialized();
 		}
 

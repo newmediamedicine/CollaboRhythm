@@ -403,6 +403,7 @@ package com.dougmccune.controls
 		private var labelYearFormatter:DateFormatter = new DateFormatter();
 		private var labelMonthFormatter:DateFormatter = new DateFormatter();
 		private var labelDayFormatter:DateFormatter = new DateFormatter();
+		private var labelHourFormatter:DateFormatter = new DateFormatter();
 		private var labelDefaultFormatter:DateFormatter = new DateFormatter();
 		private var labelSummaryDateFormatter:DateFormatter = new DateFormatter();
 		
@@ -477,6 +478,7 @@ package com.dougmccune.controls
 			labelYearFormatter.formatString = "YYYY";
 			labelMonthFormatter.formatString = "MMM YYYY";
 			labelDayFormatter.formatString = "MMM DD";
+			labelHourFormatter.formatString = "MMM DD LA";
 			labelDefaultFormatter.formatString = "EEE MMM D";
 			labelSummaryDateFormatter.formatString = "EEE MMM DD, YYYY";
 
@@ -575,7 +577,7 @@ package com.dougmccune.controls
 						(focusTimeMarker.width / 2 - mainChartContainer.x - mainChart.x - mainChart.computedGutters.left);
 			}
 
-			hideDataPointHighlight();
+//			hideDataPointHighlight();
 		}
 
 		public function get showFps():Boolean
@@ -999,6 +1001,8 @@ package com.dougmccune.controls
 					break;
 				case "days":
 					return labelDayFormatter.format(dateValue);
+				case "hours":
+					return labelHourFormatter.format(dateValue);
 				default:
 					return labelDefaultFormatter.format(dateValue);
 					break;
@@ -1576,7 +1580,7 @@ package com.dougmccune.controls
 				if (points.length > 0)
 				{
 		//						trace("getChartDataPoint", points.length, "points", points[0]);
-					var hitData:HitData = points[0] as HitData;
+					var hitData:HitData = getClosestDataPoint(points);
 					if (hitData != null && highlightedItem != hitData.chartItem)
 					{
 						highlightClickedChartItem(hitData.chartItem);
@@ -1588,6 +1592,20 @@ package com.dougmccune.controls
 
 			// if no point found, hide the highlight
 			hideDataPointHighlight();
+		}
+
+		private function getClosestDataPoint(points:Array):HitData
+		{
+			var closestHitData:HitData;
+			for each (var hitData:HitData in points)
+			{
+				if (closestHitData == null || hitData.distance < closestHitData.distance)
+				{
+					closestHitData = hitData;
+				}
+			}
+
+			return closestHitData;
 		}
 
 		private function highlightClickedChartItem(chartItem:ChartItem):void
@@ -1645,6 +1663,7 @@ package com.dougmccune.controls
 
 			highlightedItem = chartItem;
 			highlightChartItemGroup.visible = true;
+			highlightChartItemGroup.alpha = 1;
 			if (highlightChartItemEffect)
 				highlightChartItemEffect.play();
 			return chartItemX;
@@ -1652,6 +1671,8 @@ package com.dougmccune.controls
 
 		public function hideDataPointHighlight():void
 		{
+			if (highlightChartItemEffect)
+				highlightChartItemEffect.stop();
 			highlightedItem = null;
 			highlightChartItemGroup.visible = false;
 		}
@@ -1932,8 +1953,6 @@ package com.dougmccune.controls
 				AnnotationVO(annotationItems[i]).letterLabel = alphabet[i];
 			}
 		}
-
-		;
 
 		// number of extra pixels to grow the selected duration window when selecting an annotation that is currently out of range
 		private const GROW_DURATION_PADDING:Number = 30;
@@ -2217,6 +2236,11 @@ package com.dougmccune.controls
 			event.stopImmediatePropagation();
 		}
 
+		protected function focusTimeGroup_clickHandler(event:MouseEvent):void
+		{
+			event.stopImmediatePropagation();
+		}
+
 		private function get focusTimeMarkerMinX():Number
 		{
 			var mainHorizontalAxisLeft:Number = mainChartContainer.x + mainChart.x + mainChart.computedGutters.left;
@@ -2376,6 +2400,7 @@ package com.dougmccune.controls
 			{
                 focusTimeMarker.visible = showFocusTimeMarker;
 				focusTimeMarker.addEventListener(MouseEvent.MOUSE_DOWN, focusTimeGroup_mouseDownHandler);
+				focusTimeMarker.addEventListener(MouseEvent.CLICK, focusTimeGroup_clickHandler);
 				_focusTimeMoveEffect.target = focusTimeMarker;
 			}
 			else if (instance == rangeChart)
@@ -2619,6 +2644,7 @@ package com.dougmccune.controls
 			else if (instance == focusTimeMarker)
 			{
 				focusTimeMarker.removeEventListener(MouseEvent.MOUSE_DOWN, focusTimeGroup_mouseDownHandler);
+				focusTimeMarker.removeEventListener(MouseEvent.CLICK, focusTimeGroup_clickHandler);
 				_focusTimeMoveEffect.target = null;
 			}
 			else if (instance == dividedBox)
@@ -2749,6 +2775,19 @@ package com.dougmccune.controls
 			if (!_rangeTimeAnimate.isPlaying)
 				selectChartDataPoint();
 
+			if (mainChart)
+			{
+				for each (var component:UIComponent in mainChart.backgroundElements)
+				{
+//					component.visible = !component.visible;
+//					component.visible = !component.visible;
+//
+					component.invalidateDisplayList();
+					component.invalidateSize();
+				}
+				mainChart.invalidateDisplayList();
+				mainChart.invalidateSize();
+			}
 //			_logger.info(ObjectUtil.toString(mainChart.backgroundElements, null, ["automationOwner", "parent", "automationParent", "owner", "document", "elements", "dataTransform"]));
 		}
 
