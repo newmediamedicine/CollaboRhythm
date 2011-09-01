@@ -193,6 +193,15 @@ package collaboRhythm.plugins.bloodPressure.model
 					}
 				}
 			}
+
+			for each (medicationScheduleItem in record.medicationScheduleItemsModel.documents)
+			{
+				if (medicationScheduleItem.name.value == medicationCode)
+				{
+					return medicationScheduleItem;
+				}
+			}
+
 			return null;
 		}
 

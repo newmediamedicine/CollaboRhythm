@@ -418,6 +418,18 @@ package com.dougmccune.controls
 		private var _synchronizedAxisCache:SynchronizedAxisCache;
 		private var _dateField:String = "date";
 
+		private var s0:Number = 0.2;
+		private var s1:Number = 0.7;
+		private var _initialDurationTime:Number = defaultInitialDurationTime;
+		private var _isCreationComplete:Boolean;
+		private var _pendingUpdateFromData:Boolean;
+		private var _minimumDataTime:Number;
+		private var _maximumDataTime:Number;
+		private var _pendingInitializeFromData:Boolean;
+		private var _pendingInitializeChartsFromMinMaxTimes:Boolean;
+		private var focusTimePositionLocked:Boolean = true;
+		private var _useSliceMainData:Boolean;
+
 		public function get dateField():String
 		{
 			return _dateField;
@@ -620,9 +632,6 @@ package com.dougmccune.controls
 				this.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 		}
 
-		private var s0:Number = 0.2;
-		private var s1:Number = 0.7;
-
 		protected override function keyDownHandler(event:KeyboardEvent):void
 		{
 			if (event.altKey && event.ctrlKey && event.keyCode == Keyboard.F)
@@ -676,14 +685,6 @@ package com.dougmccune.controls
 		{
 			return _data;
 		}
-
-		private var _initialDurationTime:Number = defaultInitialDurationTime;
-		private var _isCreationComplete:Boolean;
-		private var _pendingUpdateFromData:Boolean;
-		private var _minimumDataTime:Number;
-		private var _maximumDataTime:Number;
-		private var _pendingInitializeFromData:Boolean;
-		private var _pendingInitializeChartsFromMinMaxTimes:Boolean;
 
 		public function get isCreationComplete():Boolean
 		{
@@ -1046,8 +1047,6 @@ package com.dougmccune.controls
 			updateFocusTimeBox();
 		}
 
-		private var focusTimePositionLocked:Boolean = true;
-
 		private function updateFocusTimeBox():void
 		{
 		//				focusTimeMarker.x = mainChartContainer.x + mainChart.x + mainChart.width - (focusTimeMarker.width / 2);
@@ -1096,7 +1095,7 @@ package com.dougmccune.controls
 
 		private function updateMainDataSource():void
 		{
-			if (!scrollEnabled)
+			if (_useSliceMainData)
 			{
 				sliceMainData();
 			}
@@ -2775,6 +2774,7 @@ package com.dougmccune.controls
 			if (!_rangeTimeAnimate.isPlaying)
 				selectChartDataPoint();
 
+/*
 			if (mainChart)
 			{
 				for each (var component:UIComponent in mainChart.backgroundElements)
@@ -2788,6 +2788,7 @@ package com.dougmccune.controls
 				mainChart.invalidateDisplayList();
 				mainChart.invalidateSize();
 			}
+*/
 //			_logger.info(ObjectUtil.toString(mainChart.backgroundElements, null, ["automationOwner", "parent", "automationParent", "owner", "document", "elements", "dataTransform"]));
 		}
 
@@ -2819,6 +2820,24 @@ package com.dougmccune.controls
 		public function set pendingInitializeFromData(value:Boolean):void
 		{
 			_pendingInitializeFromData = value;
+		}
+
+		public function get useSliceMainData():Boolean
+		{
+			return _useSliceMainData;
+		}
+
+		public function set useSliceMainData(value:Boolean):void
+		{
+			_useSliceMainData = value;
+			if (!useSliceMainData)
+			{
+				mainData.source = rangeData.source;
+			}
+			else
+			{
+				sliceMainData();
+			}
 		}
 	}
 }

@@ -31,17 +31,36 @@ package com.dougmccune.controls
 		{
 			this.removeEventListener(FlexEvent.CREATION_COMPLETE, creationCompleteHandler);
 
-			// TODO: add support for toggling scrollEnabled at runtime; currently only the initial value is considered 
+			// TODO: add support for toggling scrollEnabled at runtime; currently only the initial value is considered
+			initializeTouchScroller();
+		}
+
+		[Bindable]
+		override public function set scrollEnabled(value:Boolean):void
+		{
+			super.scrollEnabled = value;
+			initializeTouchScroller();
+			if (_touchScroller)
+			{
+				_touchScroller.useHorizontalTouchScrolling = useHorizontalTouchScrolling && scrollEnabled;
+			}
+		}
+
+		private function initializeTouchScroller():void
+		{
 			if (scrollEnabled)
 			{
-				_touchScroller = new TouchScroller(this);
-				_touchScroller.useHorizontalTouchScrolling = useHorizontalTouchScrolling;
-				_touchScroller.addEventListener(TouchScrollerEvent.SCROLL_START, scrollStartHandler);
-				_touchScroller.addEventListener(TouchScrollerEvent.SCROLL_STOP, scrollStopHandler);
+				if (_touchScroller == null)
+				{
+					_touchScroller = new TouchScroller(this);
+					_touchScroller.useHorizontalTouchScrolling = useHorizontalTouchScrolling;
+					_touchScroller.addEventListener(TouchScrollerEvent.SCROLL_START, scrollStartHandler);
+					_touchScroller.addEventListener(TouchScrollerEvent.SCROLL_STOP, scrollStopHandler);
 
-				_touchScroller.createChildren();
+					_touchScroller.createChildren();
 
-				this.addEventListener(KeyboardEvent.KEY_UP, keyUpHandler);
+					this.addEventListener(KeyboardEvent.KEY_UP, keyUpHandler);
+				}
 			}
 		}
 		
@@ -58,7 +77,7 @@ package com.dougmccune.controls
 		
 		public function get componentContainer():UIComponent
 		{
-			return this.mainChart;
+			return this.mainChartContainer;
 		}
 		
 		public function get panelWidth():Number
@@ -193,7 +212,9 @@ package com.dougmccune.controls
 		{
 			_useHorizontalTouchScrolling = value;
 			if (_touchScroller)
-				_touchScroller.useHorizontalTouchScrolling = value;
+			{
+				_touchScroller.useHorizontalTouchScrolling = useHorizontalTouchScrolling && scrollEnabled;
+			}
 		}
 
 	}

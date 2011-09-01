@@ -45,6 +45,8 @@
 				}
 				
 				chart.data = tmpData;
+				chart.addDataSet(tmpData, "date");
+				chart.commitPendingDataChanges();
 			}
 			
 			/**
@@ -82,5 +84,5 @@
 		</s:fill>
 	</s:Rect>
 	
-	<controls:TouchScrollingScrubChart id="chart" left="10" right="10" top="10" bottom="10"/>
+	<controls:TouchScrollingScrubChart id="chart" left="10" right="10" top="10" bottom="10" skinClass="com.dougmccune.controls.ScrubChartSkin" rangeChartVisible="true" headerVisible="true" footerVisible="true" showAnnotations="true" topBorderVisible="true"/>
 </s:WindowedApplication>

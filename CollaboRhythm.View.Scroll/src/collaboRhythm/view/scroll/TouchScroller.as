@@ -141,6 +141,7 @@ package collaboRhythm.view.scroll
 		[Embed(source="/assets/cursors/handClosed.png")]
 		private static const grabbingCursor:Class;
 		private var grabbingCursorId:int;
+		private var _useHorizontalScrollIndicator:Boolean;
 		
 		public function TouchScroller(adapter:ITouchScrollerAdapter)
 		{
@@ -198,8 +199,7 @@ package collaboRhythm.view.scroll
 
 		private function get useHorizontalScrollIndicator():Boolean
 		{
-//			return useHorizontalTouchScrolling && _adapter.contentWidth > _adapter.component.width;
-			return false;
+			return _useHorizontalScrollIndicator;
 		}
 		
 		private function get useVerticalScrollIndicator():Boolean
@@ -288,11 +288,15 @@ package collaboRhythm.view.scroll
 			if (event.ctrlKey && event.altKey && event.keyCode == Keyboard.V)
 			{
 				_showDebugVisualizations = !_showDebugVisualizations;
-				_adapter.graphics.clear();
+				_adapter.componentContainer.graphics.clear();
 			}
 			else if (event.ctrlKey && event.altKey && event.keyCode == Keyboard.E)
 			{
 				this.traceEventHandlers = !this.traceEventHandlers;
+			}
+			else if (event.ctrlKey && event.altKey && event.keyCode == Keyboard.I)
+			{
+				useHorizontalScrollIndicator = !useHorizontalScrollIndicator;
 			}
 		}
 		
@@ -811,23 +815,23 @@ package collaboRhythm.view.scroll
 			
 			if (_showDebugVisualizations)
 			{
-				_adapter.graphics.clear();
-				_adapter.graphics.lineStyle(1, 0x008800, 0.5);
+				_adapter.componentContainer.graphics.clear();
+				_adapter.componentContainer.graphics.lineStyle(1, 0x008800, 0.5);
 				for each (var sample:MoveSample in _moveSamplesStack)
 				{
 					if (sample.previousSample != null)
 					{
-						_adapter.graphics.moveTo(sample.previousSample.pos.x, sample.previousSample.pos.y);
-						_adapter.graphics.lineTo(sample.pos.x, sample.pos.y);
+						_adapter.componentContainer.graphics.moveTo(sample.previousSample.pos.x, sample.previousSample.pos.y);
+						_adapter.componentContainer.graphics.lineTo(sample.pos.x, sample.pos.y);
 					}
-					_adapter.graphics.drawCircle(sample.pos.x, sample.pos.y, 2);
+					_adapter.componentContainer.graphics.drawCircle(sample.pos.x, sample.pos.y, 2);
 				}
 				
-				_adapter.graphics.lineStyle(1, 0xFF0000, 0.5);
-				_adapter.graphics.moveTo(_lastPos.x, _lastPos.y);
-				_adapter.graphics.lineTo(_lastPos.x - _diff.x, _lastPos.y - _diff.y);
-				_adapter.graphics.lineStyle(2, 0x0000FF, 0.5);
-				_adapter.graphics.drawCircle(_lastPos.x, _lastPos.y, 2);
+				_adapter.componentContainer.graphics.lineStyle(1, 0xFF0000, 0.5);
+				_adapter.componentContainer.graphics.moveTo(_lastPos.x, _lastPos.y);
+				_adapter.componentContainer.graphics.lineTo(_lastPos.x - _diff.x, _lastPos.y - _diff.y);
+				_adapter.componentContainer.graphics.lineStyle(2, 0x0000FF, 0.5);
+				_adapter.componentContainer.graphics.drawCircle(_lastPos.x, _lastPos.y, 2);
 			}
 			
 			if (_useInertia)
@@ -1059,8 +1063,8 @@ package collaboRhythm.view.scroll
 				var fps:Number = 1000 / (_frameTime - lastFrameTime);
 				_fpsLabel.text = "FPS: " + fps.toFixed(1) + " Update Time: " + _updateDuration.toFixed(1);
 				// For debugging: show where the label is positioned
-				//			_adapter.graphics.lineStyle(3, 0x0000FF);
-				//			_adapter.graphics.drawRect(_fpsLabel.x, _fpsLabel.y, _fpsLabel.width, _fpsLabel.height);
+				//			_adapter.componentContainer.graphics.lineStyle(3, 0x0000FF);
+				//			_adapter.componentContainer.graphics.drawRect(_fpsLabel.x, _fpsLabel.y, _fpsLabel.width, _fpsLabel.height);
 			}
 		}
 		
@@ -1146,6 +1150,11 @@ package collaboRhythm.view.scroll
 				return 0;
 			else
 				return Math.min(Math.abs(value), limit) * (Math.abs(value) / value);
-		}		
+		}
+
+		private function set useHorizontalScrollIndicator(value:Boolean):void
+		{
+			_useHorizontalScrollIndicator = value;
+		}
 	}
 }

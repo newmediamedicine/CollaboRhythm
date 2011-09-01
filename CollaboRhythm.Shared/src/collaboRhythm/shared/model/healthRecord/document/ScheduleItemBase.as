@@ -185,7 +185,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		 * @param dateEnd Date specifying the end of the desired interval
 		 * @return Vector of ScheduleItemOccurrence instances for which dateStart falls withing the desired interval
 		 */
-		public function getScheduleItemOccurrences(dateStart:Date, dateEnd:Date):Vector.<ScheduleItemOccurrence>
+		public function getScheduleItemOccurrences(dateStart:Date = null, dateEnd:Date = null):Vector.<ScheduleItemOccurrence>
 		{
 			//TODO: Implement for the case that the recurrence rule uses until instead of count
 			var scheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
@@ -193,7 +193,7 @@ package collaboRhythm.shared.model.healthRecord.document
 			for (var recurrenceIndex:int = 0; recurrenceIndex < _recurrenceRule.count; recurrenceIndex++)
 			{
 				var occurrenceDateStart:Date = new Date(_dateStart.time + frequencyMilliseconds * recurrenceIndex);
-				if (occurrenceDateStart.time >= dateStart.time && occurrenceDateStart.time <= dateEnd.time)
+				if ((dateStart == null || occurrenceDateStart.time >= dateStart.time) && (dateEnd == null || occurrenceDateStart.time <= dateEnd.time))
 				{
 					var occurrenceDateEnd:Date = new Date(_dateEnd.time + frequencyMilliseconds * recurrenceIndex);
 					var scheduleItemOccurrence:ScheduleItemOccurrence = new ScheduleItemOccurrence(this,
