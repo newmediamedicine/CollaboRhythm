@@ -714,28 +714,31 @@
 
 			canvas.beginFill(STRIP_CHART_NIGHT_COLOR);
 
-			var currentNightStart:Date = new Date();
-			currentNightStart.setTime(firstDateStart.time - 1000 * 60 * 60 * 24);
-			currentNightStart.setHours(18, 0, 0, 0);
-			var currentNightEnd:Date;
-			do
+			if (firstDateStart != null)
 			{
-				currentNightEnd = new Date();
-				currentNightEnd.setTime(currentNightStart.time + 1000 * 60 * 60 * 12);
-				// Because of daylight savings, 6am might not be 12 hours after 6pm, so adjust
-				currentNightEnd.setHours(6, 0, 0, 0);
-
-				canvas.drawRect(currentNightStart, [Edge.TOP, -1],
-								currentNightEnd, [Edge.BOTTOM, 1]);
-
-				// advance night start to 6pm on the next day
-				var nextNightStartTime:Number = currentNightStart.time + 1000 * 60 * 60 * 24;
-				currentNightStart = new Date();
-				currentNightStart.setTime(nextNightStartTime);
-				// Because of daylight savings, 6am might not be 12 hours after 6pm, so adjust
+				var currentNightStart:Date = new Date();
+				currentNightStart.setTime(firstDateStart.time - 1000 * 60 * 60 * 24);
 				currentNightStart.setHours(18, 0, 0, 0);
+				var currentNightEnd:Date;
+				do
+				{
+					currentNightEnd = new Date();
+					currentNightEnd.setTime(currentNightStart.time + 1000 * 60 * 60 * 12);
+					// Because of daylight savings, 6am might not be 12 hours after 6pm, so adjust
+					currentNightEnd.setHours(6, 0, 0, 0);
+
+					canvas.drawRect(currentNightStart, [Edge.TOP, -1],
+									currentNightEnd, [Edge.BOTTOM, 1]);
+
+					// advance night start to 6pm on the next day
+					var nextNightStartTime:Number = currentNightStart.time + 1000 * 60 * 60 * 24;
+					currentNightStart = new Date();
+					currentNightStart.setTime(nextNightStartTime);
+					// Because of daylight savings, 6am might not be 12 hours after 6pm, so adjust
+					currentNightStart.setHours(18, 0, 0, 0);
+				}
+				while (currentNightStart.time < lastDateEnd.time);
 			}
-			while (currentNightStart.time < lastDateEnd.time);
 
 			canvas.endFill();
 
@@ -1352,10 +1355,7 @@
 			{
 				if (otherChart.visible)
 				{
-					otherChart.stopInertiaScrolling();
-					otherChart.leftRangeTime = targetChart.leftRangeTime;
-					otherChart.rightRangeTime = targetChart.rightRangeTime;
-					otherChart.updateForScroll();
+					otherChart.synchronizeScrollPosition(targetChart);
 				}
 			}
 		}

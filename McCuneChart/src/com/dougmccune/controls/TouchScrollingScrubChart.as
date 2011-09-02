@@ -8,7 +8,9 @@ package com.dougmccune.controls
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.ui.Keyboard;
-	
+
+	import mx.charts.DateTimeAxis;
+
 	import mx.core.UIComponent;
 	import mx.events.FlexEvent;
 
@@ -72,7 +74,7 @@ package com.dougmccune.controls
 		
 		public function get component():UIComponent
 		{
-			return this.mainChart;
+			return this.mainChartContainer;
 		}
 		
 		public function get componentContainer():UIComponent
@@ -104,7 +106,7 @@ package com.dougmccune.controls
 			
 //			trace(" minX", minX, "maxX", maxX);
 			
-			return (maxX - minX) * this.mainChartArea.width;
+			return (maxX - minX) * this.mainChartArea.width * mainChartToContainerRatio;
 			
 			// TODO: figure out why the following (simpler and faster) solution doesn't always work:
 //			return (this.maximumTime - this.minimumTime) * (mainChartArea.width / mainChartDurationTime);
@@ -127,37 +129,47 @@ package com.dougmccune.controls
 		
 		public function get contentPositionX():Number
 		{
-			var contentPositionX:Number = -(leftRangeTime - _minimumTime) * (mainChartArea.width / mainChartDurationTime);
+			var contentPositionX:Number = -(leftRangeTime - _minimumTime) * (mainChartArea.width / mainChartToContainerRatio / mainChartDurationTime);
 //			var contentPositionX:Number = mainChart.x;
 			return contentPositionX;
 		}
 		
-		public function set contentPositionX(value:Number):void
+		public function updateContentPositionX(value:Number):void
 		{
-//			var leftToRight:Number = rightRangeTime - leftRangeTime;
-//			var targetLeftRangeTime:Number = -value / (mainChartContainer.width / mainChartDurationTime) + t0;
-//			leftRangeTime = Math.max(minimumTime, Math.min(maximumTime - leftToRight, targetLeftRangeTime));
-//			rightRangeTime = leftRangeTime + leftToRight;
-
 //			trace("before:  mainChartDurationTime", mainChartDurationTime, "leftToRight", leftToRight,"leftRangeTime", leftRangeTime, "rightRangeTime", rightRangeTime, "min", minimumTime, "max", maximumTime);
 
 			var leftToRight:Number = rightRangeTime - leftRangeTime;
-			var targetLeftRangeTime:Number = -value / (mainChartArea.width / mainChartDurationTime) + _minimumTime;
-//			var limitedLeftRangeTime:Number = Math.max(t0, Math.min(t1 - leftToRight, targetLeftRangeTime));
-//			leftRangeTime = limitedLeftRangeTime;
-//			rightRangeTime = limitedLeftRangeTime + leftToRight;
+			var targetLeftRangeTime:Number = -value / (mainChartArea.width / mainChartToContainerRatio / mainChartDurationTime) + _minimumTime;
 
 			leftRangeTime = targetLeftRangeTime;
 			rightRangeTime = targetLeftRangeTime + leftToRight;
 
-			this.updateForScroll();
+			var mainChartEffectivePositionX:Number = -((this.mainChart.horizontalAxis as DateTimeAxis).minimum.time - _minimumTime) * (mainChartArea.width / mainChartToContainerRatio / mainChartDurationTime);
+			quickScrollOffset = value - mainChartEffectivePositionX;
 
-			this.dispatchScrollEvent();
-			
+			var isQuickScroll:Boolean = true;
+			if (quickScrollOffset > 0 || quickScrollOffset < mainChartContainer.width - mainChartArea.width)
+			{
+				trace("quick scroll limit exceeded. quickScrollOffset", quickScrollOffset, "mainChartArea.width", mainChartArea.width, "contentPositionX", value, "mainChartEffectivePositionX", mainChartEffectivePositionX, "leftRangeTime", traceDate(leftRangeTime), "rightRangeTime", traceDate(rightRangeTime));
+				isQuickScroll = false;
+			}
+			else
+			{
+				mainChart.x = quickScrollOffset;
+			}
+
+			this.updateForScroll(isQuickScroll);
+
 //			trace("after:   mainChartDurationTime", mainChartDurationTime, "leftToRight", leftToRight, "rightRangeTime", rightRangeTime, "min", minimumTime, "max", maximumTime);
 //			trace("         set contentPositionX value", value.toFixed(0), "get result", contentPositionX.toFixed(0));
 //			trace("         targetLeftRangeTime", targetLeftRangeTime, "limitedLeftRangeTime", limitedLeftRangeTime, "leftRangeTime", leftRangeTime);
 //			trace("         limitedRightRangeTime", limitedLeftRangeTime + leftToRight, "rightRangeTime", rightRangeTime);
+		}
+
+		public function set contentPositionX(value:Number):void
+		{
+			updateContentPositionX(value);
+			this.dispatchScrollEvent();
 		}
 		
 		public function stopInertiaScrolling():void
@@ -217,5 +229,20 @@ package com.dougmccune.controls
 			}
 		}
 
+		public function synchronizeScrollPosition(targetChart:TouchScrollingScrubChart):void
+		{
+			stopInertiaScrolling();
+
+			if (minimumTime == targetChart.minimumTime && maximumTime == targetChart.maximumTime && mainChartToContainerRatio == targetChart.mainChartToContainerRatio && mainDataRatio == targetChart.mainDataRatio)
+			{
+				updateContentPositionX(targetChart.contentPositionX);
+			}
+			else
+			{
+				leftRangeTime = targetChart.leftRangeTime;
+				rightRangeTime = targetChart.rightRangeTime;
+				updateForScroll();
+			}
+		}
 	}
 }

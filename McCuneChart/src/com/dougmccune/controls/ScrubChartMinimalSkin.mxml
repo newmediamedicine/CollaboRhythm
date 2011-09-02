@@ -94,7 +94,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 		<mx:LineChart id="mainChart"
 					  x="0" y="0"
 					  showDataTips="true"
-					  width="{mainChartContainer.width}" height="{mainChartContainer.height}"
+					  width="{mainChartContainer.width * 3}" height="{mainChartContainer.height}"
 					  gutterBottom="20"
 					  styleName="mainChartStyle"
 					  seriesFilters="[]"

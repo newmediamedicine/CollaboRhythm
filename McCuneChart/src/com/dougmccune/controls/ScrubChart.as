@@ -376,9 +376,19 @@ package com.dougmccune.controls
 		protected var _minimumTime:Number;
 		[Bindable]
 		protected var _maximumTime:Number;
+		/**
+		 * The duration time (in milliseconds) of the visible portion of the main chart
+		 */
 		protected var mainChartDurationTime:Number;
-		// the ratio between the width of the main chart control and the duration of it's dataset
+		/**
+		 * The ratio between the width of the main chart container (visible portion of the main chart) and the duration of it's dataset
+ 		 */
 		protected var mainDataRatio:Number;
+		/**
+		 * Width of the mainChart divided by the width of the mainChartContainer (the portion that is visible).
+		 * Generally, the mainChart will be 3 times as wide as the portion visible, mainChartToContainerRatio = 3.
+		 */
+		protected var mainChartToContainerRatio:Number;
 
 		[Bindable]
 		public var seriesName:String = "close";
@@ -1038,10 +1048,11 @@ package com.dougmccune.controls
 		 * Called throughout use to update the mainData range of data that is displayed by slicing the
 		 * range data to the left and right values.
 		 */
-		private function updateMainData():void
+		private function updateMainData(isQuickScroll:Boolean = false):void
 		{
 			hideDataPointHighlight();
-			updateMainDataSource();
+			if (!isQuickScroll)
+				updateMainDataSource();
 			refreshAnnotations();
 			chartMouseOut();
 			updateFocusTimeBox();
@@ -1106,15 +1117,16 @@ package com.dougmccune.controls
 			mainChartDurationTime = maximum - minimum;
 			var daysApart:Number = (maximum - minimum) / DAYS_TO_MILLISECONDS;
 
-			mainDataRatio = mainChartArea.width / mainChartDurationTime;
+			mainDataRatio = (mainChartArea.width / mainChartToContainerRatio) / mainChartDurationTime;
+			var mainChartExtraDurationTime:Number = mainChartDurationTime * (mainChartToContainerRatio - 1);
 
 //			trace("updateMainDataSource", "leftIndicator.x", leftIndicator.x.toFixed(2), "rightIndicator.x", rightIndicator.x.toFixed(2), "i0", i0, "i1", i1, "minimum", minimum.toFixed(0), "maximum", maximum.toFixed(0), "daysApart", daysApart.toFixed(2));
 //						if (traceRangeTimes)
 //							trace("updateMainDataSource", "leftRangeTime", leftRangeTime.toFixed(2), "rightRangeTime", rightRangeTime.toFixed(2), "minimum", minimum.toFixed(0), "maximum", maximum.toFixed(0), "daysApart", daysApart.toFixed(2));
 
-			(this.mainChart.horizontalAxis as DateTimeAxis).minimum = new Date(minimum);
-			(this.mainChart.horizontalAxis as DateTimeAxis).maximum = new Date(maximum);
-			if (getStyle("volumeVisible"))
+			(this.mainChart.horizontalAxis as DateTimeAxis).minimum = new Date(minimum - mainChartExtraDurationTime / 2);
+			(this.mainChart.horizontalAxis as DateTimeAxis).maximum = new Date(maximum + mainChartExtraDurationTime / 2);
+			if (getStyle("volumeVisible") && this.mainChartVolume)
 			{
 				(this.mainChartVolume.horizontalAxis as DateTimeAxis).minimum = (this.mainChart.horizontalAxis as DateTimeAxis).minimum;
 				(this.mainChartVolume.horizontalAxis as DateTimeAxis).maximum = (this.mainChart.horizontalAxis as DateTimeAxis).maximum;
@@ -1181,9 +1193,9 @@ package com.dougmccune.controls
 			return (time - indicatorToDateIntercept) / indicatorToDateSlope;
 		}
 
-		public function updateForScroll():void
+		public function updateForScroll(isQuickScroll:Boolean = false):void
 		{
-			updateBox();
+			updateBox(isQuickScroll);
 		}
 
 		/**
@@ -1192,7 +1204,7 @@ package com.dougmccune.controls
 		 * playing because the box widths have already been set by the dividerRelease calling
 		 * updateIndicatorValuesWithEffect.
 		 */
-		private function updateBox():void
+		private function updateBox(isQuickScroll:Boolean = false):void
 		{
 			if (updateBoxFromRangeTimes)
 			{
@@ -1219,7 +1231,7 @@ package com.dougmccune.controls
 				slider.values[0] = leftRangeTime;
 				slider.values[1] = rightRangeTime;
 			}
-			updateMainData();
+			updateMainData(isQuickScroll);
 		}
 
 		private function rangeTimeToRangeChartPos(value:Number):Number
@@ -1488,7 +1500,7 @@ package com.dougmccune.controls
 
 			if (mainDrag)
 			{
-				var mainChartPixelsToTime:Number = mainChartDurationTime / mainChartArea.width;
+				var mainChartPixelsToTime:Number = mainChartDurationTime / (mainChartArea.width / mainChartToContainerRatio);
 				targetLeftRangeTime = staticLeftBoundary + (mouseXRef - this.mouseX) * mainChartPixelsToTime;
 		//					targetRightRangeTime = staticRightBoundary + (mouseXRef - this.mouseX) * mainChartPixelsToTime;
 			}
@@ -2219,6 +2231,7 @@ package com.dougmccune.controls
 		[Embed(source="/assets/horizontalMove.png")]
 		private var horizontalMoveCursor:Class;
 		private var horizontalMoveCursorId:int;
+		protected var quickScrollOffset:Number = 0;
 
 		protected function focusTimeGroup_mouseDownHandler(event:MouseEvent):void
 		{
@@ -2242,13 +2255,13 @@ package com.dougmccune.controls
 
 		private function get focusTimeMarkerMinX():Number
 		{
-			var mainHorizontalAxisLeft:Number = mainChartContainer.x + mainChart.x + mainChart.computedGutters.left;
+			var mainHorizontalAxisLeft:Number = mainChartContainer.x + mainChart.computedGutters.left;
 			var xMin:Number = mainHorizontalAxisLeft - focusTimeMarker.width / 2;
 			return xMin;
 		}
 		private function get focusTimeMarkerMaxX():Number
 		{
-			var mainHorizontalAxisRight:Number = mainChartContainer.x + mainChart.x + mainChart.width - mainChart.computedGutters.right;
+			var mainHorizontalAxisRight:Number = mainChartContainer.x + mainChartContainer.width - mainChart.computedGutters.right;
 			var xMax:Number = mainHorizontalAxisRight - focusTimeMarker.width / 2;
 			return xMax;
 		}
@@ -2310,6 +2323,22 @@ package com.dougmccune.controls
 			{
 				updateFocusTime(_focusTime);
 			}
+			updateMainChartToContainerRatio();
+		}
+
+		private function updateMainChartToContainerRatio():void
+		{
+			if (mainChart && mainChart.width > 0 && mainChartContainer && mainChartContainer.width > 0)
+			{
+				mainChartToContainerRatio = mainChart.width / mainChartContainer.width;
+				updateMainChartX();
+			}
+		}
+
+		private function updateMainChartX():void
+		{
+			quickScrollOffset = -mainChart.width * ((mainChartToContainerRatio - 1) / 2) / mainChartToContainerRatio;
+			mainChart.x = quickScrollOffset;
 		}
 
 		[Bindable]
@@ -2383,6 +2412,11 @@ package com.dougmccune.controls
 				mainChart.addEventListener(MouseEvent.MOUSE_MOVE, mainChart_mouseMoveHandler);
 				mainChart.addEventListener(MouseEvent.MOUSE_OUT, mainChart_mouseOutHandler);
 				mainChart.addEventListener(Event.RESIZE, mainChart_resizeHandler);
+				updateMainChartToContainerRatio();
+			}
+			else if (instance == mainChartContainer)
+			{
+				updateMainChartToContainerRatio();
 			}
 			else if (instance == mainPrimarySeries)
 			{
