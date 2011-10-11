@@ -130,7 +130,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 				<mx:Canvas id="mainChartArea" width="100%" height="100%" buttonMode="true" mouseEnabled="true"
 						   />
 
-				<s:Label id="titleDisplay" styleName="MainChartTitleLabel">
+				<s:Label id="titleDisplay" styleName="MainChartTitleLabel" x="{-mainChart.x}">
 					<s:filters>
 						<s:GlowFilter id="glow" blurX="12" blurY="12" color="#FFFFFF" quality="2" strength="4"/>
 					</s:filters>

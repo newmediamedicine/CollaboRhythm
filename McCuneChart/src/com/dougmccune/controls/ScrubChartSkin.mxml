@@ -403,6 +403,7 @@ OTHER DEALINGS IN THE SOFTWARE.
                     </mx:verticalAxis>
                     <mx:verticalAxisRenderers>
                         <mccune:StaticAxisRenderer id="mainChartVerticalAxisRenderer" axis="{mainChartVerticalAxis}"
+												   labelGap="{-mainChart.x}"
                                                    fontSize="14" tickPlacement="none" labelPlacement="inside"
                                                    labelAlign="top" showLine="false" canClipLabels="false"
                                                    mask="{mainChartVerticalAxisRendererMask}"/>

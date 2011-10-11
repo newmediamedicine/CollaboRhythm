@@ -79,16 +79,24 @@
 			_medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
 			_medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
 
-			// TODO: make parsing more robust and move to a model
-			var rxNormRegExp:RegExp = /(24 HR )?([A-Za-z\s]+)(\d+(?:\.\d+)? MG )([A-Za-z\s]+)\s?(\[[A-Za-z]+\])?/;
-			var substrings:Array = _medicationOrder.name.text.split(rxNormRegExp);
-
-			_medicationName = substrings[2];
-			_strength = substrings[3];
-			_form = substrings[4];
-			if (substrings[5])
+			if (_medicationOrder)
 			{
-				_proprietaryName = substrings[5];
+				// TODO: make parsing more robust and move to a model
+				var rxNormRegExp:RegExp = /(24 HR )?([A-Za-z\s]+)(\d+(?:\.\d+)? MG )([A-Za-z\s]+)\s?(\[[A-Za-z]+\])?/;
+				var substrings:Array = _medicationOrder.name.text.split(rxNormRegExp);
+
+				_medicationName = substrings[2];
+				_strength = substrings[3];
+				_form = substrings[4];
+				if (substrings[5])
+				{
+					_proprietaryName = substrings[5];
+				}
+			}
+			else
+			{
+				// TODO: log instead of just trace
+				trace("MedicationScheduleItem " + _medicationScheduleItem.meta.id + " has no MedicationOrder");
 			}
 
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;

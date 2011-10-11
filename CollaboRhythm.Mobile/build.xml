@@ -33,4 +33,144 @@
 		</exec>
 	</target>
 
+	<target name="pull_collaboRhythm_log">
+		<echo>Pulling "${collaboRhythm.application-device.local-store}collaboRhythmCopy.log" to "${app.data}/${APP_ID}/Local Store/collaboRhythmCopy.log"</echo>
+		<exec executable="${ADB}">
+			<arg value="pull"/>
+			<arg value="${collaboRhythm.application-device.local-store}collaboRhythmCopy.log"/>
+			<arg value="${app.data}/${APP_ID}/Local Store/collaboRhythmCopy.log"/>
+		</exec>
+	</target>
+
+	<target name="get_devices"
+		description="Retrieves a list of devices connected.">
+		<exec executable="${ADB}">
+			<arg line="devices"/>
+		</exec>
+		<echo>If no devices are listed you first need to run 'start_emulator'</echo>
+		<echo>or connect your android device.</echo>
+		<echo>Make sure that USB debugging is enabled on your device.</echo>
+	</target>
+
+	<target name="get_targets"
+		description="Retrieves a list of targets connected.">
+		<exec executable="${ANDROID}">
+			<arg line="list"/>
+			<arg line="targets"/>
+		</exec>
+		<echo>If no targets are listed you first need to run 'start_up_manager' and download some platforms</echo>
+	</target>
+
+	<target name="get_avds"
+		description="Retrieves a list of Android Virtual Devices connected.">
+		<exec executable="${ANDROID}">
+			<arg line="list"/>
+			<arg line="avds"/>
+		</exec>
+		<echo>If no AVDs are listed you first need to run 'create_virtual_device'</echo>
+	</target>
+
+	<target name="start_up_manager"
+		description="Starts up the Android Dev Manager.">
+		<exec executable="${ANDROID}"/>
+	</target>
+
+	<target name="create_virtual_device"
+		description="Creates a virtual device and prompts for name.">
+		<input message="Enter Name for Android Virtual Device:" addproperty="avd.name"/>
+		<antcall target="get_targets"/>
+		<input message="Enter Target Id:" addproperty="target.id"/>
+		<exec executable="${ANDROID}">
+			<arg line="create"/>
+			<arg line="avd"/>
+			<arg line="-n"/>
+			<arg line="${avd.name}"/>
+			<arg line="-t"/>
+			<arg line="${target.id}"/>
+		</exec>
+	</target>
+
+	<target name="start_emulator" depends="get_avds, prompt_for_avd"
+		description="Starts an emulator by name.">
+		<exec executable="${EMULATOR}">
+			<arg line="-avd"/>
+			<arg line="${avd.name}"/>
+		</exec>
+	</target>
+
+	<target name="install_air_on_emulator"
+		description="Installs the air runtime on the emulator.">
+		<exec executable="${ADB}">
+			<arg line="install"/>
+			<arg line="-r"/>
+			<arg line="'${EMULATOR_RUNTIME_ZIP}'"/>
+		</exec>
+	</target>
+
+	<target name="install_air_on_device"
+		description="Installs the air runtime on the device.">
+		<exec executable="${ADB}">
+			<arg line="install"/>
+			<arg line="-r"/>
+			<arg line="'${DEVICE_RUNTIME_ZIP}'"/>
+		</exec>
+	</target>
+
+	<target name="install_app_on_emulator" depends="get_devices"
+		description="Installs the application on the emulator.">
+		<exec executable="${ADB}">
+			<arg line="-e"/>
+			<arg line="install"/>
+			<arg line="-r"/>
+			<arg line="${RELEASE_DIR}/${APP_NAME}.${APP_RELEASE_EXTENSION}"/>
+		</exec>
+	</target>
+
+	<target name="uninstall_app_on_device"
+		description="Un-installs the application on the device.">
+		<exec executable="${ADB}">
+			<arg line="-d"/>
+			<arg line="uninstall"/>
+			<arg line="${APP_PACKAGE_NAME}"/>
+		</exec>
+	</target>
+
+	<target name="install_and_run_on_device" description="Installs and runs the app on the device">
+		<antcall target="get_devices"/>
+		<antcall target="install_app_on_device"/>
+		<antcall target="run_app_on_device"/>
+	</target>
+
+	<target name="install_app_on_device" depends="deploy_user_settings"
+		description="Installs the application on the device.">
+		<exec executable="${ADB}" failonerror="true">
+			<arg line="-d"/>
+			<arg line="install"/>
+			<arg line="-r"/>
+			<arg line="${APP_NAME}.${APP_RELEASE_EXTENSION}"/>
+		</exec>
+	</target>
+
+	<target name="prompt_for_avd"
+		description="Prompts the user for an Android Virtual Device by name.">
+		<input message="Enter AVD (by name) To Startup:" addproperty="avd.name"/>
+	</target>
+
+	<target name="prompt_for_device"
+		description="Prompts the user for an Android Virtual Device by name.">
+		<input message="Enter Device To Test On:" addproperty="device.name"/>
+	</target>
+
+	<target name="run_app_on_device"
+			description="Runs the application on the device">
+		<exec executable="${ADB}">
+			<arg value="shell"/>
+			<arg value="am"/>
+			<arg value="start"/>
+			<arg value="-a"/>
+			<arg value="android.intent.action.MAIN"/>
+			<arg value="-n"/>
+			<arg value="${APP_PACKAGE_NAME}/.AppEntry"/>
+		</exec>
+	</target>
 </project>

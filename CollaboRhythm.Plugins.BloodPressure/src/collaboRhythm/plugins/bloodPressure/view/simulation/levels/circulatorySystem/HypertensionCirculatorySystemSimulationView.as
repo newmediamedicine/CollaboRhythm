@@ -1,7 +1,6 @@
 package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySystem
 {
 
-	import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 	import collaboRhythm.shared.view.BitmapCopyComponent;
 
 	import flash.display.DisplayObject;
@@ -11,6 +10,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.events.KeyboardEvent;
+	import flash.events.MouseEvent;
 	import flash.net.URLRequest;
 	import flash.ui.Keyboard;
 	import flash.utils.getQualifiedClassName;
@@ -19,6 +19,8 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 	import mx.managers.IFocusManagerComponent;
+
+	import spark.components.ToggleButton;
 
 	public class HypertensionCirculatorySystemSimulationView extends UIComponent implements IFocusManagerComponent
 	{
@@ -34,6 +36,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 		private var _currentContractility:int;
 		private var _currentAfterload:int;
 		private var _currentDamage:int;
+		private var _playPauseButton:ToggleButton;
 
 		public function HypertensionCirculatorySystemSimulationView()
 		{
@@ -51,6 +54,15 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 			{
 				loadMovieClip();
 			}
+
+			_playPauseButton = new ToggleButton();
+			_playPauseButton.bottom = 0;
+			_playPauseButton.width = 48;
+			_playPauseButton.height = 48;
+			_playPauseButton.setStyle("skinClass", PlayPauseToggleButtonSkin);
+			_playPauseButton.selected = true;
+			_playPauseButton.addEventListener(MouseEvent.CLICK, playPauseButton_clickHandler);
+			this.addChild(_playPauseButton);
 		}
 
 		override public function setVisible(value:Boolean, noEvent:Boolean = false):void
@@ -90,7 +102,8 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 			if (_circulatorySystemSimulationMovieClip)
 			{
 				_circulatorySystemSimulationMovieClip.current_preload = value;
-				_circulatorySystemSimulationMovieClip.update();
+				if (_playPauseButton.selected)
+					_circulatorySystemSimulationMovieClip.update();
 			}
 		}
 
@@ -100,7 +113,8 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 			if (_circulatorySystemSimulationMovieClip)
 			{
 				_circulatorySystemSimulationMovieClip.current_contractility = value;
-				_circulatorySystemSimulationMovieClip.update();
+				if (_playPauseButton.selected)
+					_circulatorySystemSimulationMovieClip.update();
 			}
 		}
 
@@ -110,7 +124,8 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 			if (_circulatorySystemSimulationMovieClip)
 			{
 				_circulatorySystemSimulationMovieClip.current_afterload = value;
-				_circulatorySystemSimulationMovieClip.update();
+				if (_playPauseButton.selected)
+					_circulatorySystemSimulationMovieClip.update();
 			}
 		}
 
@@ -120,7 +135,8 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 			if (_circulatorySystemSimulationMovieClip)
 			{
 				_circulatorySystemSimulationMovieClip.current_damage = value;
-				_circulatorySystemSimulationMovieClip.update();
+				if (_playPauseButton.selected)
+					_circulatorySystemSimulationMovieClip.update();
 			}
 		}
 
@@ -188,7 +204,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 			if (_circulatorySystemSimulationMovieClip)
 			{
 				_bitmapCopy = BitmapCopyComponent.createFromComponent(this);
-				this.addChild(_bitmapCopy);
+				this.addChildAt(_bitmapCopy, 0);
 				_circulatorySystemSimulationLoader.parent.removeChild(_circulatorySystemSimulationLoader);
 				var loader:Loader = _circulatorySystemSimulationLoader;
 				_circulatorySystemSimulationMovieClip = null;
@@ -214,7 +230,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 				_bitmapCopy = null;
 			}
 
-			this.addChild(movieClipLoader);
+			this.addChildAt(movieClipLoader, 0);
 			_circulatorySystemSimulationLoader = movieClipLoader;
 			_circulatorySystemSimulationMovieClip = movieClipLoader.content as MovieClip;
 			initializeMovieClip();
@@ -233,7 +249,28 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 					_circulatorySystemSimulationMovieClip.current_afterload = _currentAfterload;
 				if (_currentDamage != 0)
 					_circulatorySystemSimulationMovieClip.current_damage = _currentDamage;
-				_circulatorySystemSimulationMovieClip.update();
+				if (_playPauseButton.selected)
+					_circulatorySystemSimulationMovieClip.update();
+			}
+		}
+
+		private function playPauseButton_clickHandler(event:MouseEvent):void
+		{
+			if (_playPauseButton.selected)
+			{
+				// TODO: play
+				if (_circulatorySystemSimulationMovieClip)
+				{
+					_circulatorySystemSimulationMovieClip.update();
+				}
+			}
+			else
+			{
+				if (_circulatorySystemSimulationMovieClip)
+				{
+					_logger.info("Stopping simulation MovieClip");
+					stopAll(_circulatorySystemSimulationMovieClip);
+				}
 			}
 		}
 	}

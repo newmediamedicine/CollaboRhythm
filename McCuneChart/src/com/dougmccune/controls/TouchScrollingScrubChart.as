@@ -3,13 +3,8 @@ package com.dougmccune.controls
 	import collaboRhythm.view.scroll.ITouchScrollerAdapter;
 	import collaboRhythm.view.scroll.TouchScroller;
 	import collaboRhythm.view.scroll.TouchScrollerEvent;
-	
-	
-	import flash.events.Event;
-	import flash.events.KeyboardEvent;
-	import flash.ui.Keyboard;
 
-	import mx.charts.DateTimeAxis;
+	import flash.events.KeyboardEvent;
 
 	import mx.core.UIComponent;
 	import mx.events.FlexEvent;
@@ -20,7 +15,6 @@ package com.dougmccune.controls
 	public class TouchScrollingScrubChart extends ScrubChart implements ITouchScrollerAdapter
 	{
 		private var _touchScroller:TouchScroller;
-		private var _traceEventHandlers:Boolean = false;
 		private var _useHorizontalTouchScrolling:Boolean = true;
 
 		override public function TouchScrollingScrubChart()
@@ -144,7 +138,7 @@ package com.dougmccune.controls
 			leftRangeTime = targetLeftRangeTime;
 			rightRangeTime = targetLeftRangeTime + leftToRight;
 
-			var mainChartEffectivePositionX:Number = -((this.mainChart.horizontalAxis as DateTimeAxis).minimum.time - _minimumTime) * (mainChartArea.width / mainChartToContainerRatio / mainChartDurationTime);
+			var mainChartEffectivePositionX:Number = -(getAxisMinimum(this.mainChart.horizontalAxis).time - _minimumTime) * (mainChartArea.width / mainChartToContainerRatio / mainChartDurationTime);
 			quickScrollOffset = value - mainChartEffectivePositionX;
 
 			var isQuickScroll:Boolean = true;
@@ -180,7 +174,7 @@ package com.dougmccune.controls
 		
 		private function scrollStartHandler(event:TouchScrollerEvent):void
 		{
-			if (_traceEventHandlers)
+			if (_traceEvents)
 				trace(this + ".scrollStartHandler");
 			
 			hideAnnotations();
@@ -190,7 +184,7 @@ package com.dougmccune.controls
 		
 		private function scrollStopHandler(event:TouchScrollerEvent):void
 		{
-			if (_traceEventHandlers)
+			if (_traceEvents)
 				trace(this + ".scrollStopHandler");
 			
 			showAnnotations = true;
@@ -233,12 +227,15 @@ package com.dougmccune.controls
 		{
 			stopInertiaScrolling();
 
+			// We can only use the optimized synchronization method of setting the contentPositionX if the charts match up as expected
 			if (minimumTime == targetChart.minimumTime && maximumTime == targetChart.maximumTime && mainChartToContainerRatio == targetChart.mainChartToContainerRatio && mainDataRatio == targetChart.mainDataRatio)
 			{
 				updateContentPositionX(targetChart.contentPositionX);
 			}
 			else
 			{
+				if (_traceEvents)
+					trace("Optimization in synchronizeScrollPosition failed because of mismatch between this chart " + traceEventsPrefix + " and target " + targetChart.traceEventsPrefix); // + "minimumTime " + targetChart.minimumTime)
 				leftRangeTime = targetChart.leftRangeTime;
 				rightRangeTime = targetChart.rightRangeTime;
 				updateForScroll();

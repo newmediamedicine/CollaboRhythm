@@ -58,6 +58,7 @@ package com.dougmccune.controls
 	import mx.charts.DateTimeAxis;
 	import mx.charts.HitData;
 	import mx.charts.chartClasses.CartesianChart;
+	import mx.charts.chartClasses.IAxis;
 	import mx.charts.chartClasses.NumericAxis;
 	import mx.charts.chartClasses.Series;
 	import mx.charts.events.ChartItemEvent;
@@ -218,6 +219,9 @@ package com.dougmccune.controls
 		
 		[SkinPart(required="true")]
 		public var mainChart:CartesianChart;
+
+		[SkinPart(required="false")]
+		public var mainChartCover:CartesianChart;
 
 		[SkinPart(required="false")]
 		public var mainPrimarySeries:AreaSeries;
@@ -406,7 +410,7 @@ package com.dougmccune.controls
 
 		private var _showFocusTimeMarker:Boolean = true;
 		private var _scrollEnabled:Boolean = true;
-		private var _traceEvents:Boolean = false;
+		protected var _traceEvents:Boolean = false;
 
 		private var fullDateFormat:DateFormatter = new DateFormatter();
 			
@@ -1000,9 +1004,14 @@ package com.dougmccune.controls
 		 */
 		private function formatDateLabel(value:Number, prevValue:Number, axis:DateTimeAxis):String
 		{
+			return formatDateLabelForUnits(value, axis.labelUnits);
+		}
+
+		private function formatDateLabelForUnits(value:Number, labelUnits:String):String
+		{
 			var dateValue:Date = new Date();
 			dateValue.setTime(value + ((dateValue.timezoneOffset + 60) * 60 * 1000));
-			switch (axis.labelUnits)
+			switch (labelUnits)
 			{
 				case "years":
 					return labelYearFormatter.format(dateValue);
@@ -1025,22 +1034,7 @@ package com.dougmccune.controls
 		 */
 		private function formatDateLabel2(value:Number, prevValue:Number, axis:DateTimeAxisExtended):String
 		{
-			var dateValue:Date = new Date();
-			dateValue.setTime(value + ((dateValue.timezoneOffset + 60) * 60 * 1000));
-			switch (axis.labelUnits)
-			{
-				case "years":
-					return labelYearFormatter.format(dateValue);
-					break;
-				case "months":
-					return labelMonthFormatter.format(dateValue);
-					break;
-				case "days":
-					return labelDayFormatter.format(dateValue);
-				default:
-					return labelDefaultFormatter.format(dateValue);
-					break;
-			}
+			return formatDateLabelForUnits(value, axis.labelUnits);
 		}
 
 		/*Step 3 */
@@ -1116,27 +1110,67 @@ package com.dougmccune.controls
 
 			mainChartDurationTime = maximum - minimum;
 			var daysApart:Number = (maximum - minimum) / DAYS_TO_MILLISECONDS;
-
-			mainDataRatio = (mainChartArea.width / mainChartToContainerRatio) / mainChartDurationTime;
+			updateMainDataRatio();
 			var mainChartExtraDurationTime:Number = mainChartDurationTime * (mainChartToContainerRatio - 1);
 
 //			trace("updateMainDataSource", "leftIndicator.x", leftIndicator.x.toFixed(2), "rightIndicator.x", rightIndicator.x.toFixed(2), "i0", i0, "i1", i1, "minimum", minimum.toFixed(0), "maximum", maximum.toFixed(0), "daysApart", daysApart.toFixed(2));
 //						if (traceRangeTimes)
 //							trace("updateMainDataSource", "leftRangeTime", leftRangeTime.toFixed(2), "rightRangeTime", rightRangeTime.toFixed(2), "minimum", minimum.toFixed(0), "maximum", maximum.toFixed(0), "daysApart", daysApart.toFixed(2));
 
-			(this.mainChart.horizontalAxis as DateTimeAxis).minimum = new Date(minimum - mainChartExtraDurationTime / 2);
-			(this.mainChart.horizontalAxis as DateTimeAxis).maximum = new Date(maximum + mainChartExtraDurationTime / 2);
+			setAxisMinimum(this.mainChart.horizontalAxis, new Date(minimum - mainChartExtraDurationTime / 2));
+			setAxisMaximum(this.mainChart.horizontalAxis, new Date(maximum + mainChartExtraDurationTime / 2));
 			if (getStyle("volumeVisible") && this.mainChartVolume)
 			{
-				(this.mainChartVolume.horizontalAxis as DateTimeAxis).minimum = (this.mainChart.horizontalAxis as DateTimeAxis).minimum;
-				(this.mainChartVolume.horizontalAxis as DateTimeAxis).maximum = (this.mainChart.horizontalAxis as DateTimeAxis).maximum;
+				setAxisMinimum(this.mainChartVolume.horizontalAxis, getAxisMinimum(this.mainChart.horizontalAxis));
+				setAxisMaximum(this.mainChartVolume.horizontalAxis, getAxisMaximum(this.mainChart.horizontalAxis));
 			}
 
 			if (_performanceCounter != null)
 				_performanceCounter["updateMainDataSource"] += 1;
 
 			if (_traceEvents)
-				trace(traceEventsPrefix + "updateMainDataSource leftRangeTime", traceDate(leftRangeTime), "rightRangeTime", traceDate(rightRangeTime), "minimumTime", traceDate(minimumTime), "maximumTime", traceDate(maximumTime));
+				trace(traceEventsPrefix + "updateMainDataSource leftRangeTime", traceDate(leftRangeTime), "rightRangeTime", traceDate(rightRangeTime), "minimumTime", traceDate(minimumTime), "maximumTime", traceDate(maximumTime), "mainDataRatio", mainDataRatio, "mainChartArea.width", mainChartArea.width, "mainChartToContainerRatio", mainChartToContainerRatio);
+		}
+
+		private function updateMainDataRatio():void
+		{
+			mainDataRatio = (mainChartArea.width / mainChartToContainerRatio) / mainChartDurationTime;
+			if (_traceEvents)
+				trace(traceEventsPrefix + "updateMainDataRatio", "mainDataRatio", mainDataRatio, "mainChartArea.width", mainChartArea.width, "mainChartToContainerRatio", mainChartToContainerRatio);
+		}
+		
+		protected function setAxisMinimum(axis:IAxis, minimum:Date):void
+		{
+			if (axis is DateTimeAxis)
+				(axis as DateTimeAxis).minimum = minimum;
+			else if (axis is DateTimeAxisExtended)
+				(axis as DateTimeAxisExtended).minimum = minimum;
+		}
+
+		protected function setAxisMaximum(axis:IAxis, maximum:Date):void
+		{
+			if (axis is DateTimeAxis)
+				(axis as DateTimeAxis).maximum = maximum;
+			else if (axis is DateTimeAxisExtended)
+				(axis as DateTimeAxisExtended).maximum = maximum;
+		}
+
+		protected function getAxisMinimum(axis:IAxis):Date
+		{
+			if (axis is DateTimeAxis)
+				return (axis as DateTimeAxis).minimum;
+			else if (axis is DateTimeAxisExtended)
+				return (axis as DateTimeAxisExtended).minimum;
+			return null;
+		}
+
+		protected function getAxisMaximum(axis:IAxis):Date
+		{
+			if (axis is DateTimeAxis)
+				return (axis as DateTimeAxis).maximum;
+			else if (axis is DateTimeAxisExtended)
+				return (axis as DateTimeAxisExtended).maximum;
+			return null;
 		}
 
 		private function updateFps():void
@@ -2208,7 +2242,7 @@ package com.dougmccune.controls
 			if (_traceEvents)
 				trace(traceEventsPrefix + "set minimumTime", traceDate(value), "old value", traceDate(minimumTime));
 			if (this.rangeChart)
-				(this.rangeChart.horizontalAxis as DateTimeAxis).minimum = new Date(value);
+				setAxisMinimum(this.rangeChart.horizontalAxis, new Date(value));
 			_minimumTime = value;
 			_pendingInitializeChartsFromMinMaxTimes = true;
 			invalidateProperties();
@@ -2219,7 +2253,7 @@ package com.dougmccune.controls
 			if (_traceEvents)
 				trace(traceEventsPrefix + "set maximumTime", traceDate(value), "old value", traceDate(maximumTime));
 			if (this.rangeChart)
-				(this.rangeChart.horizontalAxis as DateTimeAxis).maximum = new Date(value);
+				setAxisMaximum(this.rangeChart.horizontalAxis, new Date(value));
 			_maximumTime = value;
 			_pendingInitializeChartsFromMinMaxTimes = true;
 			invalidateProperties();
@@ -2319,11 +2353,14 @@ package com.dougmccune.controls
 
 		protected function mainChart_resizeHandler(event:ResizeEvent):void
 		{
+			if (_traceEvents)
+				trace(traceEventsPrefix + "mainChart_resizeHandler", "width", width, "mainChartContainer.width", mainChartContainer ? mainChartContainer.width : "n/a", "mainChart.width", mainChart ? mainChart.width : "n/a", "mainChartArea.width", mainChartArea ? mainChartArea.width : "n/a", "parent.width", parent.width);
 			if (focusTimeMarker)
 			{
 				updateFocusTime(_focusTime);
 			}
 			updateMainChartToContainerRatio();
+			updateMainDataRatio();
 		}
 
 		private function updateMainChartToContainerRatio():void
@@ -2335,6 +2372,11 @@ package com.dougmccune.controls
 			}
 		}
 
+		public function resetAfterQuickScroll():void
+		{
+			updateForScroll(false);
+			updateMainChartX();
+		}
 		private function updateMainChartX():void
 		{
 			quickScrollOffset = -mainChart.width * ((mainChartToContainerRatio - 1) / 2) / mainChartToContainerRatio;
@@ -2364,7 +2406,7 @@ package com.dougmccune.controls
 		//	return date.toUTCString();
 		}
 
-		private function get traceEventsPrefix():String
+		protected function get traceEventsPrefix():String
 		{
 			return this.id + ".";
 		}
@@ -2405,9 +2447,8 @@ package com.dougmccune.controls
 			else if (instance == mainChart)
 			{
 				updateMainChart();
-				var horizontalAxis:NumericAxis = mainChart.horizontalAxis as DateTimeAxis;
-				if (horizontalAxis)
-					horizontalAxis.labelFunction = formatDateLabel;
+				var horizontalAxis:NumericAxis = mainChart.horizontalAxis as NumericAxis;
+				setLabelFunction(horizontalAxis);
 
 				mainChart.addEventListener(MouseEvent.MOUSE_MOVE, mainChart_mouseMoveHandler);
 				mainChart.addEventListener(MouseEvent.MOUSE_OUT, mainChart_mouseOutHandler);
@@ -2439,9 +2480,8 @@ package com.dougmccune.controls
 			else if (instance == rangeChart)
 			{
 				updateRangeChart();
-				horizontalAxis = rangeChart.horizontalAxis as DateTimeAxis;
-				if (horizontalAxis)
-					horizontalAxis.labelFunction = formatDateLabel;
+				horizontalAxis = rangeChart.horizontalAxis as NumericAxis;
+				setLabelFunction(horizontalAxis);
 			}
 			else if (instance == rangePrimarySeries)
 			{
@@ -2522,6 +2562,14 @@ package com.dougmccune.controls
 			}
 
 			// TODO: annDate.selectableRange="{{rangeStart: dateParse(rangeData.getItemAt(0).date), rangeEnd:dateParse(rangeData.getItemAt(rangeData.length - 1).date)}}"
+		}
+
+		private function setLabelFunction(horizontalAxis:NumericAxis):void
+		{
+			if (horizontalAxis is DateTimeAxis)
+				horizontalAxis.labelFunction = formatDateLabel;
+			else if (horizontalAxis is DateTimeAxisExtended)
+				horizontalAxis.labelFunction = formatDateLabel2;
 		}
 
 		private function updateSliderMinMax():void

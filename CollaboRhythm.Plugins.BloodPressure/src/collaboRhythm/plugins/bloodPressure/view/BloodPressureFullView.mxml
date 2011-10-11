@@ -137,6 +137,7 @@
 		import collaboRhythm.view.scroll.TouchScrollerEvent;
 
 		import com.dougmccune.controls.ScrubChart;
+		import com.dougmccune.controls.ScrubChartMinimalSkin;
 		import com.dougmccune.controls.TouchScrollingScrubChart;
 		import com.dougmccune.events.FocusTimeEvent;
 		import com.theory9.data.types.OrderedMap;
@@ -195,7 +196,7 @@
 		private var _model:BloodPressureModel;
 		private var _traceEventHandlers:Boolean = false;
 		private var _showFocusTimeMarker:Boolean = true;
-		private var _scrollEnabled:Boolean = false;
+		private var _scrollEnabled:Boolean = true;
 		protected var logger:ILogger;
 		private var _rangeChartVisible:Boolean = false;
 		private var _adherenceCharts:OrderedMap = new OrderedMap();
@@ -388,10 +389,13 @@
 				 chart.mainChart.backgroundElements.push(mainCanvas);
 				 */
 				var mainCanvas:DataDrawingCanvas = chart.mainChart.backgroundElements[0] as DataDrawingCanvas;
-				updateAdherenceChartSeriesCompleteHandler(chart, mainCanvas,
-														  mainCanvas ? mainCanvas.getChildAt(0) as Label : null,
-														  null, medicationCode, ndcCode);
-				mainCanvas.invalidateSize();
+				if (mainCanvas)
+				{
+					updateAdherenceChartSeriesCompleteHandler(chart, mainCanvas,
+															  mainCanvas ? mainCanvas.getChildAt(0) as Label : null,
+															  null, medicationCode, ndcCode);
+					mainCanvas.invalidateSize();
+				}
 
 				var index:int = _chartsWithPendingCreationComplete.getItemIndex(chart);
 				if (index != -1)
@@ -446,10 +450,13 @@
 				addAdherenceSeries(chart, medicationCode);
 
 				var mainCanvas:DataDrawingCanvas = chart.mainChart.backgroundElements[0] as DataDrawingCanvas;
-				updateAdherenceStripChartSeriesCompleteHandler(chart, mainCanvas,
-															   mainCanvas ? mainCanvas.getChildAt(0) as Label : null,
-															   null, medicationCode, ndcCode);
-				mainCanvas.invalidateSize();
+				if (mainCanvas)
+				{
+					updateAdherenceStripChartSeriesCompleteHandler(chart, mainCanvas,
+																   mainCanvas ? mainCanvas.getChildAt(0) as Label : null,
+																   null, medicationCode, ndcCode);
+					mainCanvas.invalidateSize();
+				}
 
 				var index:int = _chartsWithPendingCreationComplete.getItemIndex(chart);
 				if (index != -1)
@@ -815,6 +822,9 @@
 			chart.removeDefaultSeries();
 
 			var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
+			verticalAxis.minimum = BLOOD_PRESSURE_VERTICAL_AXIS_MINIMUM;
+			verticalAxis.maximum = BLOOD_PRESSURE_VERTICAL_AXIS_MAXIMUM;
+			verticalAxis = chart.mainChartCover.verticalAxis as LinearAxis;
 			verticalAxis.minimum = BLOOD_PRESSURE_VERTICAL_AXIS_MINIMUM;
 			verticalAxis.maximum = BLOOD_PRESSURE_VERTICAL_AXIS_MAXIMUM;
 
@@ -1390,6 +1400,17 @@
 
 			if (_traceEventHandlers)
 				trace(this.id + ".chart_scrollStopHandler " + targetChart.id);
+
+			updateChartsAfterScrollStop();
+		}
+
+		private function updateChartsAfterScrollStop():void
+		{
+			var charts:Vector.<TouchScrollingScrubChart> = _visibleCharts;
+			for each (var chart:TouchScrollingScrubChart in charts)
+			{
+				chart.resetAfterQuickScroll();
+			}
 		}
 
 		protected function chart_focusTimeChangeHandler(event:FocusTimeEvent):void
@@ -1790,6 +1811,7 @@
 			if (medicationFill)
 				chart.setStyle("ndcCode", medicationFill.ndc.text);
 			chart.setStyle("skinClass", ScrubChartMedicationSkin);
+//			chart.setStyle("skinClass", ScrubChartMinimalSkin);
 			chart.percentWidth = 100;
 			chart.percentHeight = 100;
 			chart.setStyle("sliderVisible", false);

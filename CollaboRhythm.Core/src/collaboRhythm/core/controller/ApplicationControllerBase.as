@@ -20,6 +20,7 @@ package collaboRhythm.core.controller
 	import castle.flexbridge.kernel.IKernel;
 
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
+	import collaboRhythm.core.model.AboutApplicationModel;
 	import collaboRhythm.core.model.ApplicationControllerModel;
 	import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
 	import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
@@ -161,7 +162,24 @@ package collaboRhythm.core.controller
 			checkNetworkStatus();
 
 			initLogging();
-			_logger.info("Logging initialized");
+
+			var applicationInfo:AboutApplicationModel = new AboutApplicationModel();
+			applicationInfo.initialize();
+			_logger.info("Application: " + applicationInfo.appName);
+			_logger.info("  " + applicationInfo.appCopyright);
+			_logger.info("  Version " + applicationInfo.appVersion);
+			if (applicationInfo.appModificationDateString)
+			{
+				_logger.info("  Updated " + applicationInfo.appModificationDateString);
+			}
+
+/*
+			<s:Label id="applicationNameLabel" text="{_applicationInfo.appName}" fontSize="36"/>
+			<s:Label id="applicationCopyrightLabel" text="{_applicationInfo.appCopyright}"/>
+			<s:Label id="applicationVersionLabel" text="Version {_applicationInfo.appVersion}"/>
+			<s:Label id="applicationModificationLabel" text="Updated {_applicationInfo.appModificationDateString}"
+*/
+
 
 			// initSettings needs to be called prior to initLogging because the settings for logging need to be loaded first
 			_logger.info("Settings initialized");
@@ -312,8 +330,21 @@ package collaboRhythm.core.controller
 			if (_settings.useFileTarget)
 			{
 				// The log file will be placed under applicationStorageDirectory folder
-				var path:String = File.applicationStorageDirectory.resolvePath("collaboRhythm.log").nativePath;
+				var oldPath:String = File.applicationStorageDirectory.resolvePath("collaboRhythm.log").nativePath;
+
+				// Use /data/local instead of /data/data because attempting to read the log from /data/data (on a non-rooted Android device) is problematic
+				// TODO: figure out how to access the appropriate /data/data directory using "adb pull" and avoid using /data/local
+//				var path:String = oldPath.replace("/data/data", "/data/local");
+				var path:String = oldPath;
+				if (path.indexOf("/data/data") == 0)
+				{
+					path = File.documentsDirectory.resolvePath(NativeApplication.nativeApplication.applicationID).resolvePath("collaboRhythm.log").nativePath;
+				}
+
+				var migrationMessage:String = copyOldLogFileToAccessiblePath(oldPath, path);
+
 				var targetFile:File = new File(path);
+
 				// get LogFileTarget's instance (LogFileTarget is a singleton)
 				var fileTarget:LogFileTarget = LogFileTarget.getInstance();
 				fileTarget.file = targetFile;
@@ -349,6 +380,56 @@ package collaboRhythm.core.controller
 			}
 
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+
+			_logger.info("Logging initialized");
+			_logger.info("  Use file target: " + _settings.useFileTarget + (_settings.useFileTarget ? " path=" + path : ""));
+			_logger.info("  Use trace target: " + _settings.useTraceTarget);
+			_logger.info("  Use syslog target: " + _settings.useSyslogTarget + (_settings.useSyslogTarget ? " address=" + _settings.syslogServerIpAddress : ""));
+			if (migrationMessage)
+				_logger.info("  " + migrationMessage);
+		}
+
+		private function copyOldLogFileToAccessiblePath(oldPath:String, path:String):String
+		{
+			var settingsFile:File = _settingsFileStore.userSettingsFile;
+			var accessibleDirectory:File = File.documentsDirectory.resolvePath(NativeApplication.nativeApplication.applicationID);
+			var settingsFileCopy:File = accessibleDirectory.resolvePath("settingsCopy.xml");
+			settingsFile.copyTo(settingsFileCopy, true);
+			
+			var message:String;
+			var destinationFile:File = new File(path);
+			var sourceFile:File = new File(oldPath);
+			if (oldPath != path)
+			{
+				if (sourceFile.exists)
+				{
+					message = "Copying old log file " + oldPath + " to accessible path " + path;
+					sourceFile.copyTo(destinationFile, true);
+					var backupFile:File = sourceFile.parent.resolvePath("collaboRhythm.log.backup");
+					sourceFile.moveTo(backupFile);
+				}
+				else
+				{
+					message = "Log file was not copied to accessible path because log file does not exist at: " + oldPath;
+				}
+
+				var directoryListing:Array = sourceFile.parent.getDirectoryListing();
+				message += File.lineEnding + "Files in old log file directory: ";
+				for each (var directoryFile:File in directoryListing)
+				{
+					message += File.lineEnding + "  " + directoryFile.name;
+					if (!directoryFile.isDirectory && directoryFile.name.indexOf("collaboRhythm") != -1)
+					{
+						directoryFile.copyTo(destinationFile.parent.resolvePath("old_logs").resolvePath(directoryFile.name));
+						message += " (copied)";
+					}
+				}
+			}
+			else
+			{
+				message = "Old log file migration unnecessary. Log file was not copied to accessible path because log file is not in a path that is known to be inaccessible: " + path;
+			}
+			return message;
 		}
 
 		protected function testLogging():void

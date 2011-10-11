@@ -19,4 +19,10 @@
 	<target name="deploy_user_settings" description="Deploys the plugin modules.">
 		<ant antfile="../CollaboRhythm.Mobile/build.xml" dir="./" target="deploy_user_settings" />
 	</target>
+	<target name="pull_collaboRhythm_log">
+		<ant antfile="../CollaboRhythm.Mobile/build.xml" dir="./" target="pull_collaboRhythm_log" />
+	</target>
+	<target name="install_and_run_on_device">
+		<ant antfile="../CollaboRhythm.Mobile/build.xml" dir="./" target="install_and_run_on_device" />
+	</target>
 </project>

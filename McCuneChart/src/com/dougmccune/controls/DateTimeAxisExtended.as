@@ -114,18 +114,24 @@ package com.dougmccune.controls
 		 *  @private
 		 */
 		private static const MILLISECONDS_IN_YEAR:Number = 1000 * 60 * 60 * 24 * 365;
-		
+
 		/**
 		 *  @private
 		 */
-		private static const MINIMUM_LABEL_COUNT_PER_SCREEN:Number = 2;
+		private static const MINIMUM_LABEL_COUNT:Number = 8;
+
+		private var _minimumLabelCount:int = MINIMUM_LABEL_COUNT;
 		
-		private function get minimumLabelCount():int
+		public function get minimumLabelCount():int
 		{
-			var screens:Number = this.width / 640;
-			return screens * MINIMUM_LABEL_COUNT_PER_SCREEN;
+			return _minimumLabelCount;
 		}
-		
+
+		public function set minimumLabelCount(value:int):void
+		{
+			_minimumLabelCount = value;
+		}
+
 		private var _width:Number;
 
 		public function get width():Number

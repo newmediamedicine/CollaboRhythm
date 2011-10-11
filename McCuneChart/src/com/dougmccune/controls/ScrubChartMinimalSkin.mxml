@@ -42,10 +42,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 
   -->
 <s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:mccune="com.dougmccune.controls.*" xmlns:skins="skins.*"
-		 width="1024"
-		 height="600"
-		 styleName="scrubChartSkinStyle"
+			 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:mccune="com.dougmccune.controls.*" xmlns:skins="skins.*"
+			 xmlns:datashapes="qs.charts.dataShapes.*"
+			 width="1024"
+			 height="600"
+			 styleName="scrubChartSkinStyle"
 		>
 	<s:layout>
 		<mccune:ChildIndependentLayout/>
@@ -143,30 +144,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 				<mx:LinearAxis id="mainChartVerticalAxis" baseAtZero="false"/>
 			</mx:verticalAxis>
 			<mx:verticalAxisRenderers>
-				<mccune:StaticAxisRenderer id="mainChartVerticalAxisRenderer" axis="{mainChartVerticalAxis}"
-										   fontSize="14" tickPlacement="none" labelPlacement="inside"
-										   labelAlign="top" showLine="false" canClipLabels="false"
-										   mask="{mainChartVerticalAxisRendererMask}"/>
-				<!--
-					placement="right" labelGap="0"
-					<mccune:BlankAxisRenderer axis="{mainChartVerticalAxis}"/>
-				-->
-<!--
-				<skins:InnerAxisRenderer
-					axis="{mainChartVerticalAxis}"
-					axisPosition="left"
-					axisWidth="20"
-					axisBackgroundAlpha="0"
-					labelAlign="left"
-					labelPaddingLeft="5"
-					labelFontSize="16"
-					labelFontColor="#000000" />
--->
-<!--
-				<mccune:AxisRendererExt axis="{mainChartVerticalAxis}" fontSize="14"/>
--->
-
+				<mccune:BlankAxisRenderer axis="{mainChartVerticalAxis}"/>
 			</mx:verticalAxisRenderers>
+
 			<mx:series>
 				<mx:AreaSeries id="mainPrimarySeries" name="close" xField="dateMeasuredStart"
 							   areaFill="{new SolidColor(0xCDE2F8, 0.20)}"
@@ -182,13 +162,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 				<mx:Canvas id="mainChartArea" width="100%" height="100%" buttonMode="true" mouseEnabled="true"
 						   />
 
-				<s:Group id="mainChartVerticalAxisRendererMask">
-					<s:Rect width="{mainChart.width}" height="{mainChart.height}">
-						<s:fill>
-							<s:SolidColor alpha="0"/>
-						</s:fill>
-					</s:Rect>
-				</s:Group>
 				<s:Group id="mainChartHorizontalAxisRendererMask">
 					<s:Rect width="{mainChart.width}" height="{mainChart.height}">
 						<s:fill>
@@ -196,7 +169,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 						</s:fill>
 					</s:Rect>
 				</s:Group>
-				<s:Label id="titleDisplay" styleName="MainChartTitleLabel">
+				<s:Label id="titleDisplay" styleName="MainChartTitleLabel" x="{-mainChart.x}">
 					<s:filters>
 						<s:GlowFilter id="glow" blurX="12" blurY="12" color="#FFFFFF" quality="2" strength="4"/>
 					</s:filters>
@@ -234,6 +207,48 @@ OTHER DEALINGS IN THE SOFTWARE.
 			</mx:annotationElements>
 
 
+		</mx:LineChart>
+
+		<mx:LineChart id="mainChartCover"
+					  mouseEnabled="false"
+					  x="0" y="0"
+					  width="{mainChartContainer.width}" height="{mainChartContainer.height}"
+					  gutterBottom="20"
+					  styleName="mainChartStyle"
+					  seriesFilters="[]"
+					  verticalAxisStyleNames="mainChartVerticalAxisStyle"
+					  selectionMode="none"
+					  >
+			<mx:backgroundElements>
+				<!--Prevent default grid lines from being used-->
+			</mx:backgroundElements>
+			<mx:verticalAxis>
+				<mx:LinearAxis id="mainChartCoverVerticalAxis" baseAtZero="false"/>
+			</mx:verticalAxis>
+			<mx:verticalAxisRenderers>
+				<mccune:StaticAxisRenderer id="mainChartCoverVerticalAxisRenderer" axis="{mainChartVerticalAxis}"
+										   fontSize="14" tickPlacement="none" labelPlacement="inside"
+										   labelAlign="top" showLine="false" canClipLabels="false"
+										   mask="{mainChartCoverVerticalAxisRendererMask}"/>
+			</mx:verticalAxisRenderers>
+
+			<mx:horizontalAxis>
+				<mx:LinearAxis id="mainChartCoverHorizontalAxis" baseAtZero="false"/>
+			</mx:horizontalAxis>
+
+			<mx:horizontalAxisRenderers>
+				<mccune:BlankAxisRenderer axis="{mainChartCoverHorizontalAxis}"/>
+			</mx:horizontalAxisRenderers>
+
+			<mx:annotationElements>
+				<s:Group id="mainChartCoverVerticalAxisRendererMask">
+					<s:Rect width="{mainChartCover.width}" height="{mainChartCover.height}">
+						<s:fill>
+							<s:SolidColor alpha="0"/>
+						</s:fill>
+					</s:Rect>
+				</s:Group>
+			</mx:annotationElements>
 		</mx:LineChart>
 
 		<!-- mainChart border lines -->

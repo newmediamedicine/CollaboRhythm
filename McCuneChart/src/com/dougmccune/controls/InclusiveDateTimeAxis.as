@@ -11,7 +11,7 @@ package com.dougmccune.controls
 	 * @author sgilroy
 	 * 
 	 */
-	public class InclusiveDateTimeAxis extends DateTimeAxis
+	public class InclusiveDateTimeAxis extends DateTimeAxisExtended
 	{
 		public function InclusiveDateTimeAxis()
 		{
@@ -67,6 +67,5 @@ package com.dougmccune.controls
 //				previousIn = currentIn
 			}
 		}
-		
 	}
 }
