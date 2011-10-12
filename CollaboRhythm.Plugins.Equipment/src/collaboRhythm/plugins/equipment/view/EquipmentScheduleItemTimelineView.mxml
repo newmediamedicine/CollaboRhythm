@@ -62,8 +62,12 @@
 		{
 			super.init(scheduleItemOccurrence);
 			_equipmentScheduleItem = scheduleItemOccurrence.scheduleItem as EquipmentScheduleItem;
-			_equipment = _equipmentScheduleItem.scheduledEquipment;
-			equipmentImage.source = encodeURI(EquipmentModel.EQUIPMENT_API_URL_BASE + _equipment.name + ".jpg");
+			if (_equipmentScheduleItem)
+			{
+				_equipment = _equipmentScheduleItem.scheduledEquipment;
+				if (_equipment)
+					equipmentImage.source = encodeURI(EquipmentModel.EQUIPMENT_API_URL_BASE + _equipment.name + ".jpg");
+			}
 		}
 
 		public override function get scheduleItem():ScheduleItemBase

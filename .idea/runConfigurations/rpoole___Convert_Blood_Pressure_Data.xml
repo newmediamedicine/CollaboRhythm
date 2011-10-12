@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="rpoole - Convert Blood Pressure Data" type="XSLT" factoryName="XSLT">
-    <option name="myOutputFile" value="C:\Users\sgilroy\Git Repositories\CollaboRhythm\CollaboRhythm.ExampleData\data\indivo-alpha\rpoole\blood_pressure_data_converted.xml" />
+    <option name="myOutputFile" value="C:\Users\sgilroy\Git Repositories\CollaboRhythm\CollaboRhythm.ExampleData\data\slice1\rpoole\blood_pressure_data_converted.xml" />
     <option name="myOpenOutputFile" value="true" />
     <option name="myOpenInBrowser" value="false" />
     <option name="mySmartErrorHandling" value="true" />

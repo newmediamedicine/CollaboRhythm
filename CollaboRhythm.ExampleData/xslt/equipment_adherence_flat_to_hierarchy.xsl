@@ -22,7 +22,7 @@
 	<xsl:output method="xml" indent="yes"/>
 
 	<xsl:template match="/">
-		<xsl:variable name="dateStart">2010-01-15T13:00:00Z</xsl:variable>
+		<xsl:variable name="dateStart">2011-07-15T13:00:00Z</xsl:variable>
 		<xsl:variable name="equipmentName" select="IndivoDocuments/BloodPressureAdherenceItem[1]/name"/>
 		<xsl:variable name="reportedBy" select="IndivoDocuments/BloodPressureAdherenceItem[1]/reportedBy"/>
 		<IndivoDocuments>
@@ -42,11 +42,11 @@
 								<EquipmentScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
 									<xsl:copy-of select="$equipmentName"/>
 									<scheduledBy>jking@records.media.mit.edu</scheduledBy>
-									<dateScheduled>2010-01-14T19:13:11Z</dateScheduled>
+									<dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
 									<dateStart>
 										<xsl:value-of select="$dateStart"/>
 									</dateStart>
-									<dateEnd>2010-01-15T17:00:00Z</dateEnd>
+									<dateEnd>2011-07-15T17:00:00Z</dateEnd>
 									<recurrenceRule>
 										<frequency>DAILY</frequency>
 										<count>90</count>

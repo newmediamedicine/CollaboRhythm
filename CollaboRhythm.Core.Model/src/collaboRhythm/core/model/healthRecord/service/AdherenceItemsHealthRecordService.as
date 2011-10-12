@@ -49,6 +49,7 @@ package collaboRhythm.core.model.healthRecord.service
 			// TODO: figure out what is wrong with order_by for this report; it is currently causing an error
 			var params:URLVariables = new URLVariables();
 //			params["order_by"] = "date_reported";
+			params["limit"] = "999";
 
             var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(null, null, record);
             _pha.reports_minimal_X_GET(params, null, null, null, record.id, "adherenceitems", _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);

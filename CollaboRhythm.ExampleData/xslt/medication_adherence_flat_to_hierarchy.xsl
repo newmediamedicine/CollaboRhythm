@@ -23,10 +23,10 @@
 
 	<xsl:template match="/">
 		<xsl:variable name="numPillsOrdered" select="90"/>
-		<xsl:variable name="dateStart">2010-01-15T13:00:00Z</xsl:variable>
-		<xsl:variable name="dateEnd">2010-01-15T17:00:00Z</xsl:variable>
-		<xsl:variable name="dateStartEvening">2010-01-15T22:00:00Z</xsl:variable>
-		<xsl:variable name="dateEndEvening">2010-01-16T02:00:00Z</xsl:variable>
+		<xsl:variable name="dateStart">2011-07-15T13:00:00Z</xsl:variable>
+		<xsl:variable name="dateEnd">2011-07-15T17:00:00Z</xsl:variable>
+		<xsl:variable name="dateStartEvening">2011-07-15T22:00:00Z</xsl:variable>
+		<xsl:variable name="dateEndEvening">2011-07-16T02:00:00Z</xsl:variable>
 		<xsl:variable name="medicationName" select="IndivoDocuments/d:AdherenceItem[1]/d:name"/>
 		<xsl:variable name="reportedBy" select="IndivoDocuments/d:AdherenceItem[1]/d:reportedBy"/>
 		<xsl:variable name="ndc" select="IndivoDocuments/d:AdherenceItem[1]/d:ndc"/>
@@ -38,8 +38,8 @@
 						<xsl:copy-of select="$medicationName"/>
 						<orderType>prescribed</orderType>
 						<orderedBy>jking@records.media.mit.edu</orderedBy>
-						<dateOrdered>2010-01-14T19:13:11Z</dateOrdered>
-						<dateExpires>2011-05-14T09:00:00-04:00</dateExpires>
+						<dateOrdered>2011-07-14T19:13:11Z</dateOrdered>
+						<dateExpires>2012-07-14T09:00:00-04:00</dateExpires>
 						<indication>hypertension</indication>
 						<amountOrdered>
 							<value><xsl:value-of select="$numPillsOrdered"/></value>
@@ -57,7 +57,7 @@
 								<MedicationFill xmlns="http://indivo.org/vocab/xml/documents#">
 									<xsl:copy-of select="$medicationName"/>
 									<filledBy>ljohnson@records.media.mit.edu</filledBy>
-									<dateFilled>2010-01-14T19:13:11Z</dateFilled>
+									<dateFilled>2011-07-14T19:13:11Z</dateFilled>
 									<amountFilled>
 										<value><xsl:value-of select="$numPillsOrdered"/></value>
 										<unit>tab</unit>
@@ -74,7 +74,7 @@
 								<MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
 									<xsl:copy-of select="$medicationName"/>
 									<scheduledBy>jking@records.media.mit.edu</scheduledBy>
-									<dateScheduled>2010-01-14T19:13:11Z</dateScheduled>
+									<dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
 									<dateStart><xsl:value-of select="$dateStart"/></dateStart>
 									<dateEnd><xsl:value-of select="$dateEnd"/></dateEnd>
 									<recurrenceRule>
@@ -151,7 +151,7 @@
 									<MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
 										<xsl:copy-of select="$medicationName"/>
 										<scheduledBy>jking@records.media.mit.edu</scheduledBy>
-										<dateScheduled>2010-01-14T19:13:11Z</dateScheduled>
+										<dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
 										<dateStart><xsl:value-of select="$dateStartEvening"/></dateStart>
 										<dateEnd><xsl:value-of select="$dateEndEvening"/></dateEnd>
 										<recurrenceRule>
