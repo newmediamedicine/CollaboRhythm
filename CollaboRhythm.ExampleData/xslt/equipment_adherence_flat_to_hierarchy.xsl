@@ -157,6 +157,7 @@
 								</relation>
 							</relatesTo>
 						</LoadableIndivoDocument>
+<!--
 						<LoadableIndivoDocument>
 							<document>
 								<EquipmentScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
@@ -174,6 +175,7 @@
 								</EquipmentScheduleItem>
 							</document>
 						</LoadableIndivoDocument>
+-->
 					</relation>
 				</relatesTo>
 			</LoadableIndivoDocument>

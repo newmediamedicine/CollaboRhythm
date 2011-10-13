@@ -217,6 +217,7 @@
 							</LoadableIndivoDocument>
 
 						</xsl:if>
+<!--
 						<LoadableIndivoDocument>
 							<document>
 								<MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
@@ -259,6 +260,7 @@
 								</document>
 							</LoadableIndivoDocument>
 						</xsl:if>
+-->
 					</relation>
 				</relatesTo>
 			</LoadableIndivoDocument>
