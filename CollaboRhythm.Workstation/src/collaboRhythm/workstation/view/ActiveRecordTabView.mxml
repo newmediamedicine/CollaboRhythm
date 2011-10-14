@@ -74,6 +74,11 @@
 			}
 		}
 
+		private function discardChangesButton_clickHandler(event:MouseEvent):void
+		{
+			_workstationApplicationController.reloadData();
+		}
+
 		private function synchronizeButton_clickHandler(event:MouseEvent):void
 		{
 			_workstationApplicationController.synchronize();
@@ -95,6 +100,7 @@
 		<s:Button
 			id="forceClientSynchronizationButton"
 			label="Force Sync"
+			toolTip="Force Synchronization with other devices"
 			click="forceClientSynchronizationButton_clickHandler(event)"
 			height="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
 			width="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
@@ -102,13 +108,23 @@
 		/>
 		<s:Button
 			id="synchronizeButton"
+			toolTip="Synchronize"
 			click="synchronizeButton_clickHandler(event)"
 			icon="@Embed(source='/assets/images/icons/buttonIcons/ic_menu_refresh.png')"
 			height="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
 			width="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
 		/>
+		<s:Button
+			id="discardChangesButton"
+			toolTip="Discard Changes"
+			click="discardChangesButton_clickHandler(event)"
+			icon="@Embed(source='/assets/images/icons/buttonIcons/ic_menu_revert.png')"
+			height="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
+			width="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
+		/>
         <s:ToggleButton
 			id="recordVideoButton"
+			toolTip="Record Video"
 			click="recordVideoButton_clickHandler(event)"
             icon="@Embed(source='/assets/images/icons/buttonIcons/video.png')"
 			height="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
@@ -119,6 +135,7 @@
 			/>
         <s:Button
 			id="closeRecordButton"
+			toolTip="Close Record"
 			click="closeRecordButton_clickHandler(event)"
 			icon="@Embed(source='/assets/images/icons/buttonIcons/closeRecordButtonIcon.png')"
             height="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"

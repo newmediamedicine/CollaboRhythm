@@ -84,6 +84,7 @@
 	<s:HGroup horizontalAlign="left" gap="10" paddingLeft="10" paddingTop="5">
 		<s:Button
 			id="aboutButton"
+			toolTip="About CollaboRhythm"
 			click="aboutButton_clickHandler(event)"
 			icon="@Embed(source='/assets/images/icons/buttonIcons/ic_menu_help.png')"
 			height="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
