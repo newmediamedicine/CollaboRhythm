@@ -45,5 +45,17 @@ package collaboRhythm.shared.model.healthRecord
 		 */
 		function get createdAt():Date;
 		function set createdAt(value:Date):void;
+
+		function get replacesId():String;
+		function set replacesId(value:String):void;
+
+		function get replacedById():String;
+		function set replacedById(value:String):void;
+
+		function get replacedBy():IDocument;
+		function set replacedBy(replacedBy:IDocument):void;
+
+		function get originalId():String;
+		function set originalId(value:String):void;
 	}
 }

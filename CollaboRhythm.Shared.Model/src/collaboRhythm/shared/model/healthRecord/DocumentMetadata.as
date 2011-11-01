@@ -28,6 +28,10 @@ package collaboRhythm.shared.model.healthRecord
 		private var _id:String;
 		private var _type:String;
 		private var _createdAt:Date;
+		private var _replacesId:String;
+		private var _replacedById:String;
+		private var _replacedBy:IDocument;
+		private var _originalId:String;
 
 		public static const INDIVO_DOCUMENTS_NAMESPACE:String = "http://indivo.org/vocab/xml/documents#";
 
@@ -86,12 +90,49 @@ package collaboRhythm.shared.model.healthRecord
 
 		public static function parseDocumentMetadata(documentXml:XML, documentMetadata:IDocumentMetadata):void
 		{
-			if (documentXml.attribute("id").length() != 1)
-				throw new Error("Document does not have expected id attribute");
-			
-			documentMetadata.id = documentXml.@id.toString();
+			parseDocumentId(documentXml, documentMetadata);
+
+			if (documentXml.original.length() == 1)
+			{
+				documentMetadata.originalId = documentXml.original.@id.toString();
+			}
+			else
+			{
+				documentMetadata.originalId = null;
+			}
+
+			if (documentXml.replaces.length() == 1)
+			{
+				var rawReplacesId:String = documentXml.replaces.@id.toString();
+				var replacesIdParts:Array = rawReplacesId.split(" ");
+				documentMetadata.replacesId = replacesIdParts[replacesIdParts.length - 1];
+			}
+			else
+			{
+				documentMetadata.replacesId = null;
+			}
+
+			if (documentXml.replacedBy.length() == 1)
+			{
+				var rawReplacedById:String = documentXml.replacedBy.@id.toString();
+				var replacedByIdParts:Array = rawReplacedById.split(" ");
+				documentMetadata.replacedById = replacedByIdParts[replacedByIdParts.length - 1];
+			}
+			else
+			{
+				documentMetadata.replacedById = null;
+			}
+
 			documentMetadata.type = (documentXml.attribute("type").length() == 1) ? documentXml.@type.toString() : null;
 			documentMetadata.createdAt = DateUtil.parseW3CDTF(documentXml.createdAt.toString());
+		}
+
+		public static function parseDocumentId(documentXml:XML, documentMetadata:IDocumentMetadata):void
+		{
+			if (documentXml.attribute("id").length() != 1)
+				throw new Error("Document does not have expected id attribute");
+
+			documentMetadata.id = documentXml.@id.toString();
 		}
 
 		public function get createdAt():Date
@@ -102,6 +143,46 @@ package collaboRhythm.shared.model.healthRecord
 		public function set createdAt(value:Date):void
 		{
 			_createdAt = value;
+		}
+
+		public function get replacesId():String
+		{
+			return _replacesId;
+		}
+
+		public function set replacesId(value:String):void
+		{
+			_replacesId = value;
+		}
+
+		public function get replacedById():String
+		{
+			return _replacedById;
+		}
+
+		public function set replacedById(value:String):void
+		{
+			_replacedById = value;
+		}
+
+		public function get replacedBy():IDocument
+		{
+			return _replacedBy;
+		}
+
+		public function set replacedBy(replacedBy:IDocument):void
+		{
+			_replacedBy = replacedBy;
+		}
+
+		public function get originalId():String
+		{
+			return _originalId;
+		}
+
+		public function set originalId(value:String):void
+		{
+			_originalId = value;
 		}
 	}
 }

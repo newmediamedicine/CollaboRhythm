@@ -63,6 +63,7 @@ package collaboRhythm.workstation.view
 			super();
 			setStyle("skinClass", WindowedApplicationSkin);
 			setStyle("backgroundColor", 0xFFFFFF);
+			title = NativeApplication.nativeApplication.applicationID;
 			this.showStatusBar = false;
 			this.addEventListener(NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGE, displayStateChangeHandler);
 			this.addEventListener(ResizeEvent.RESIZE, resizeHandler);

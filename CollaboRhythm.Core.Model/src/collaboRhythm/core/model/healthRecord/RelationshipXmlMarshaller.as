@@ -26,7 +26,13 @@ package collaboRhythm.core.model.healthRecord
 		public function unmarshallRelationships(reportXml:XML, document:IDocument):void
 		{
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
-			for each (var relationXml:XML in reportXml.Meta.Document.relatesTo.relation)
+			unmarshallRelationshipsFromMetadata(reportXml.Meta.Document[0], document);
+		}
+
+		public function unmarshallRelationshipsFromMetadata(metadataXml:XML, document:IDocument):void
+		{
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
+			for each (var relationXml:XML in metadataXml.relatesTo.relation)
 			{
 				var type:String = relationXml.@type;
 				for each (var relatedDocumentXml:XML in relationXml.relatedDocument)

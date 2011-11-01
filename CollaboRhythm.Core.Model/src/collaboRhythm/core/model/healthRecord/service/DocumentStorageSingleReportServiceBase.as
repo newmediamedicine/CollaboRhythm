@@ -5,7 +5,6 @@ package collaboRhythm.core.model.healthRecord.service
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
-	import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
 
 	import mx.collections.ArrayCollection;
 
@@ -32,8 +31,9 @@ package collaboRhythm.core.model.healthRecord.service
 		{
 			super.loadDocuments(record);
 
-			var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails("reports_minimal_X_GET", null, record, indivoReportName);
+			var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_REPORTS_MINIMAL, null, record, indivoReportName);
 			_pha.reports_minimal_X_GET(null, null, null, null, record.id, indivoReportName, _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
+			_pendingReportRequests.put(PRIMARY_REPORT_REQUEST, PRIMARY_REPORT_REQUEST);
 		}
 
 		/**
@@ -45,7 +45,7 @@ package collaboRhythm.core.model.healthRecord.service
 			return _indivoReportName;
 		}
 
-		override protected function handleResponse(event:IndivoClientEvent, responseXml:XML,
+		override protected function handleReportResponse(event:IndivoClientEvent, responseXml:XML,
 												   healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
 			var requestDetails:HealthRecordServiceRequestDetails = event.userData as HealthRecordServiceRequestDetails;
@@ -59,20 +59,16 @@ package collaboRhythm.core.model.healthRecord.service
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
 			if (responseXml.Report.Item.elements(targetDocumentQName).length() > 0)
 			{
-				var collection:ArrayCollection = parseReportsXml(responseXml);
+				var collection:ArrayCollection = parseReportsXml(record, responseXml);
 				for each (var document:IDocument in collection)
 				{
 					record.addDocument(document);
 				}
 			}
 
-			var documentCollection:IDocumentCollection = record.documentCollections.getItem(targetDocumentType);
-			if (documentCollection == null)
-				throw new Error("Failed to get the document collection for document type " + targetDocumentType);
-
-			documentCollection.isInitialized = true;
-
-			isLoading = false;
+			_pendingReportRequests.remove(PRIMARY_REPORT_REQUEST);
+			checkPendingRequests(record);
 		}
+
 	}
 }
