@@ -127,8 +127,11 @@
 
 		private function cancelButton_clickHandler():void
 		{
-			_timeoutTimer.reset();
-			_timeoutTimer.start();
+			if (_timeoutTimer)
+			{
+				_timeoutTimer.reset();
+				_timeoutTimer.start();
+			}
 			_isCountdownRunning = false;
 			_countdownTimer.stop();
 		}
@@ -142,7 +145,8 @@
 		{
 			if (_countdownTimer)
 				_countdownTimer.stop();
-			_timeoutTimer.stop();
+			if (_timeoutTimer)
+				_timeoutTimer.stop();
 		}
 
 		public function viewStackChangeEvent(event:CollectionEvent):void

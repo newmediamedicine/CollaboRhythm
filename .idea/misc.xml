@@ -64,7 +64,7 @@
     <resource url="http://collaborhythm.org/application/settings" location="$PROJECT_DIR$/CollaboRhythm.Shared/src/resources/settings.xsd" />
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="4.5.0.20967 AIR" project-jdk-type="AIR SDK Type">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="4.6.0 AIR" project-jdk-type="AIR SDK Type">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="SvnBranchConfigurationManager">

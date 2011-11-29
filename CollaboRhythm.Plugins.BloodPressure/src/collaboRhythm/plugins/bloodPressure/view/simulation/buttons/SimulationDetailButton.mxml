@@ -116,6 +116,7 @@
 						 icon.expanded="@Embed('/assets/images/icons/CollapseButtonIcon.png')"
 						 click.collapsed="{expanded = true}"
 						 icon.collapsed="@Embed('/assets/images/icons/ExpandButtonIcon.png')"
+						 skinClass="collaboRhythm.shared.view.IconButtonSkin"
 				/>
 	</s:HGroup>
 

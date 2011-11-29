@@ -3,7 +3,7 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:views="collaboRhythm.tablet.view.*" xmlns:view="collaboRhythm.core.view.*"
-		actionBarVisible="false"
+		actionBarVisible="true"
 		creationComplete="creationCompleteHandler()">
 	<s:states>
 		<s:State name="debuggingToolsEnabled"/>
@@ -13,6 +13,7 @@
 		<s:DateTimeFormatter id="dateFormatter" dateTimePattern="MM/dd/yyyy"/>
 	</fx:Declarations>
 	<fx:Script><![CDATA[
+		import collaboRhythm.shared.model.Account;
 		import collaboRhythm.shared.model.DateUtil;
 		import collaboRhythm.shared.model.services.ICurrentDateSource;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
@@ -24,37 +25,22 @@
 		[Bindable]
 		private var _tabletApplicationController:TabletApplicationController;
 
-		private var _currentDateSource:ICurrentDateSource;
 		[Bindable]
-		private var _isCreationComplete:Boolean;
+		private var _isControllerReady:Boolean;
+		private var _activeRecordAccount:Account;
+
+		override protected function createChildren():void
+		{
+			super.createChildren();
+			if (_tabletApplicationController && _activeRecordAccount)
+			{
+				activeRecordView.init(_tabletApplicationController, _activeRecordAccount);
+				_tabletApplicationController.useWidgetContainers();
+			}
+		}
 
 		private function creationCompleteHandler():void
 		{
-			_tabletApplicationController = new TabletApplicationController(this);
-			_tabletApplicationController.main();
-
-			if (_tabletApplicationController.settings.debuggingToolsEnabled)
-			{
-				currentState = "debuggingToolsEnabled";
-			}
-			else
-			{
-				currentState = "debuggingToolsDisabled";
-			}
-
-			this.addEventListener(FlexEvent.MENU_KEY_PRESSED, menuKeyPressedHandler);
-
-			isCreationComplete = true;
-			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
-		}
-
-
-		private function menuKeyPressedHandler(event:FlexEvent):void
-		{
-			if (connectivityView.visible)
-			{
-				event.preventDefault();
-			}
 		}
 
 		private function reloadPluginsViewMenuItem_clickHandler():void
@@ -77,23 +63,23 @@
 			_tabletApplicationController.synchronize();
 		}
 
-		private function createDemoDateLabel(isCreationComplete:Boolean, index:int):String
+		private function createDemoDateLabel(isControllerReady:Boolean, index:int):String
 		{
-			if (isCreationComplete)
+			if (isControllerReady)
 			{
 				return dateFormatter.format(_tabletApplicationController.settings.demoDatePresets[index]);
 			}
 			return "";
 		}
 
-		public function get isCreationComplete():Boolean
+		public function get isControllerReady():Boolean
 		{
-			return _isCreationComplete;
+			return _isControllerReady;
 		}
 
-		public function set isCreationComplete(value:Boolean):void
+		public function set isControllerReady(value:Boolean):void
 		{
-			_isCreationComplete = value;
+			_isControllerReady = value;
 		}
 
 		private function quitButton_clickHandler(event:MouseEvent):void
@@ -110,18 +96,49 @@
 		{
 			_tabletApplicationController.fastForwardEnabled = !_tabletApplicationController.fastForwardEnabled;
 		}
+
+		public function get tabletApplicationController():TabletApplicationController
+		{
+			return _tabletApplicationController;
+		}
+
+		public function set tabletApplicationController(value:TabletApplicationController):void
+		{
+			_tabletApplicationController = value;
+			if (_tabletApplicationController)
+			{
+				if (_tabletApplicationController.settings.debuggingToolsEnabled)
+				{
+					currentState = "debuggingToolsEnabled";
+				}
+				else
+				{
+					currentState = "debuggingToolsDisabled";
+				}
+
+				isControllerReady = true;
+			}
+		}
+
+		public function set activeRecordAccount(activeRecordAccount:Account):void
+		{
+			_activeRecordAccount = activeRecordAccount;
+		}
+
+		private function menuButton_clickHandler(event:MouseEvent):void
+		{
+			mx.core.FlexGlobals.topLevelApplication.viewMenuOpen = true;
+		}
 		]]></fx:Script>
 	<views:ActiveRecordView id="activeRecordView" width="100%" height="100%" visible="false"/>
-	<view:ConnectivityView id="connectivityView" width="100%" height="100%" visible="false"/>
-	<view:AboutApplicationView id="aboutApplicationView" width="100%" height="100%" visible="false"/>
 	<s:viewMenuItems>
-		<s:ViewMenuItem label="{createDemoDateLabel(_isCreationComplete, 0)}" includeIn="debuggingToolsEnabled"
+		<s:ViewMenuItem label="{createDemoDateLabel(_isControllerReady, 0)}" includeIn="debuggingToolsEnabled"
 						click="demoDateMenuItem_clickHandler(0)"/>
-		<s:ViewMenuItem label="{createDemoDateLabel(_isCreationComplete, 1)}" includeIn="debuggingToolsEnabled"
+		<s:ViewMenuItem label="{createDemoDateLabel(_isControllerReady, 1)}" includeIn="debuggingToolsEnabled"
 						click="demoDateMenuItem_clickHandler(1)"/>
-		<s:ViewMenuItem label="{createDemoDateLabel(_isCreationComplete, 2)}" includeIn="debuggingToolsEnabled"
+		<s:ViewMenuItem label="{createDemoDateLabel(_isControllerReady, 2)}" includeIn="debuggingToolsEnabled"
 						click="demoDateMenuItem_clickHandler(2)"/>
-		<s:ViewMenuItem label="{createDemoDateLabel(_isCreationComplete, 3)}" includeIn="debuggingToolsEnabled"
+		<s:ViewMenuItem label="{createDemoDateLabel(_isControllerReady, 3)}" includeIn="debuggingToolsEnabled"
 						click="demoDateMenuItem_clickHandler(3)"/>
 		<s:ViewMenuItem label="Demo Mode Off" includeIn="debuggingToolsEnabled"
 						click="demoModeOffMenuItem_clickHandler()"/>
@@ -133,4 +150,7 @@
 		<s:ViewMenuItem label="About" id="aboutButton" click="aboutButton_clickHandler(event)"/>
 		<s:ViewMenuItem label="Quit" id="quitButton" click="quitButton_clickHandler(event)"/>
 	</s:viewMenuItems>
+	<s:actionContent>
+		<s:Button id="menuButton" icon="@Embed('/assets/images/ic_menu_moreoverflow_normal_holo_light.png')" click="menuButton_clickHandler(event)"/>
+	</s:actionContent>
 </s:View>

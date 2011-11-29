@@ -190,9 +190,21 @@ package collaboRhythm.shared.model.healthRecord.document
 			//TODO: Implement for the case that the recurrence rule uses until instead of count
 			var scheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
 			var frequencyMilliseconds:int = getFrequencyMilliseconds(_recurrenceRule.frequency.text);
+			var excludeOccurrencesBecauseReplaced:int = -1;
 			for (var recurrenceIndex:int = 0; recurrenceIndex < _recurrenceRule.count; recurrenceIndex++)
 			{
 				var occurrenceDateStart:Date = new Date(_dateStart.time + frequencyMilliseconds * recurrenceIndex);
+				if (meta.replacedBy != null)
+				{
+					var replacedByScheduleItem:ScheduleItemBase = meta.replacedBy as ScheduleItemBase;
+					if (occurrenceDateStart.time >= replacedByScheduleItem.dateStart.time)
+					{
+						// newer schedule item replaces this one, so ignore this and subsequent occurrences
+						excludeOccurrencesBecauseReplaced = recurrenceIndex;
+						break;
+					}
+				}
+
 				if ((dateStart == null || occurrenceDateStart.time >= dateStart.time) && (dateEnd == null || occurrenceDateStart.time <= dateEnd.time))
 				{
 					var occurrenceDateEnd:Date = new Date(_dateEnd.time + frequencyMilliseconds * recurrenceIndex);
@@ -203,7 +215,7 @@ package collaboRhythm.shared.model.healthRecord.document
 					var matchingAdherenceItems:Vector.<AdherenceItem> = new Vector.<AdherenceItem>();
 					for each (var adherenceItem:AdherenceItem in _adherenceItems)
 					{
-						if (adherenceItem.recurrenceIndex == recurrenceIndex)
+						if (adherenceItem && adherenceItem.recurrenceIndex == recurrenceIndex)
 						{
 							matchingAdherenceItems.push(adherenceItem);
 						}
@@ -226,6 +238,9 @@ package collaboRhythm.shared.model.healthRecord.document
 					scheduleItemOccurrencesVector.push(scheduleItemOccurrence);
 				}
 			}
+			_logger.debug("getScheduleItemOccurrences got " + scheduleItemOccurrencesVector.length + " occurrences for " + this.name.text + " " + this.dateStart.toLocaleString() + " to " + new Date(_dateStart.time + frequencyMilliseconds * _recurrenceRule.count).toLocaleString() +
+								  ((dateStart != null && dateEnd != null) ? (" in range " + dateStart.toLocaleString() + " to " + dateEnd.toLocaleString()) : "")
+								  + ". Recurrence count " + _recurrenceRule.count + " excludeOccurrencesBecauseReplaced " + excludeOccurrencesBecauseReplaced + " replacedById " + meta.replacedById + (this as MedicationScheduleItem ? " order " + (this as MedicationScheduleItem).scheduledMedicationOrder : ""));
 			return scheduleItemOccurrencesVector;
 		}
 

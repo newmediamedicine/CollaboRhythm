@@ -20,6 +20,8 @@ package collaboRhythm.shared.model.healthRecord
 		private static const INDIVO_APP_ID_FOR_DOCUMENT_CREATION:String = "medications@apps.indivo.org";
 
         // Indivo Api calls used in this healthRecordService
+        public static const GET_DOCUMENT:String = "Get Document";
+        public static const GET_METADATA:String = "Get Metadata";
         public static const CREATE_DOCUMENT:String = "Create Document";
         public static const UPDATE_DOCUMENT:String = "Update Document";
         public static const DELETE_DOCUMENT:String = "Delete Document";

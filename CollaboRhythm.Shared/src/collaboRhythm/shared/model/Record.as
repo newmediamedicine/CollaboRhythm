@@ -402,12 +402,22 @@ package collaboRhythm.shared.model
 
 			documentCollection.addDocument(document);
 
+			updateReplacedBy(document);
+
 			if (saveImmediately)
 			{
 				if (!storageService)
 					throw new Error("The storageService must be provided to connect the record to a storage service before addDocument with saveImmediately can be used.");
 
 				storageService.saveChanges(this, new ArrayCollection(new Array(document)), null);
+			}
+		}
+
+		private function updateReplacedBy(document:IDocument):void
+		{
+			if (document.meta.replacedById != null)
+			{
+				document.meta.replacedBy = currentDocumentsById.getItem(document.meta.replacedById);
 			}
 		}
 

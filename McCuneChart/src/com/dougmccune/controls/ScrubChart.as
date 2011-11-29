@@ -1719,7 +1719,8 @@ package com.dougmccune.controls
 			if (highlightChartItemEffect)
 				highlightChartItemEffect.stop();
 			highlightedItem = null;
-			highlightChartItemGroup.visible = false;
+			if (highlightChartItemGroup)
+				highlightChartItemGroup.visible = false;
 		}
 
 		/**

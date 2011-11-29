@@ -78,7 +78,7 @@ package collaboRhythm.core.model.healthRecord.service
 				throw new Error("userData.record must be a Record object");
 
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
-			var vitalSignsCollection:ArrayCollection = parseReportsXml(responseXml);
+			var vitalSignsCollection:ArrayCollection = parseReportsXml(record, responseXml);
 
 			var sort:Sort = new Sort();
 			sort.fields = [new SortField("dateMeasuredStart")];

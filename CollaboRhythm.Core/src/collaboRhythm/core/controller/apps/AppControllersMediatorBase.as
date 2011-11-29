@@ -58,7 +58,7 @@ package collaboRhythm.core.controller.apps
 	 */
 	public class AppControllersMediatorBase
 	{
-		protected var _widgetContainers:Vector.<IVisualElementContainer>;
+		private var _widgetContainers:Vector.<IVisualElementContainer>;
 		private var _fullContainer:IVisualElementContainer;
 		private var _settings:Settings;
 		private var _workstationApps:OrderedMap;
@@ -121,7 +121,7 @@ package collaboRhythm.core.controller.apps
 			{
 				_factory.widgetContainer = widgetContainer;
 				createAppsForGroup(widgetContainerIndex);
-				widgetContainerIndex += 1;
+				widgetContainerIndex++;
 			}
 
 			if (_appGroups.length > _widgetContainers.length)
@@ -131,6 +131,33 @@ package collaboRhythm.core.controller.apps
 
 			initializeApps();
 			showAllWidgets();
+		}
+
+		public function showWidgetsInNewContainers():void
+		{
+			var widgetContainerIndex:uint = 0;
+			for each (var appGroup:AppGroup in _appGroups.values())
+			{
+				var widgetContainer:IVisualElementContainer = _widgetContainers[widgetContainerIndex];
+				createWidgetViewsForGroup(appGroup, widgetContainer);
+				widgetContainerIndex++;
+			}
+
+			if (_appGroups.length > _widgetContainers.length)
+			{
+				_logger.warn("Warning: a container was not provided for at least one app group specified in settings.xml.");
+			}
+
+			showAllWidgets();
+		}
+
+		private function createWidgetViewsForGroup(appGroup:AppGroup, widgetContainer:IVisualElementContainer):void
+		{
+			for each (var app:WorkstationAppControllerBase in appGroup.apps)
+			{
+				app.widgetContainer = widgetContainer;
+				app.createAndPrepareWidgetView();
+			}
 		}
 
 		private function initializeApps():void
@@ -338,7 +365,7 @@ package collaboRhythm.core.controller.apps
 				return null;
 		}
 
-		private function showFullViewResolved(workstationAppController:WorkstationAppControllerBase, source:String):WorkstationAppControllerBase
+		protected function showFullViewResolved(workstationAppController:WorkstationAppControllerBase, source:String):WorkstationAppControllerBase
 		{
 			var appInstance:WorkstationAppControllerBase;
 
@@ -436,6 +463,16 @@ package collaboRhythm.core.controller.apps
 		public function get showingFullView():Boolean
 		{
 			return currentFullView != null;
+		}
+
+		public function get widgetContainers():Vector.<IVisualElementContainer>
+		{
+			return _widgetContainers;
+		}
+
+		public function set widgetContainers(value:Vector.<IVisualElementContainer>):void
+		{
+			_widgetContainers = value;
 		}
 	}
 }

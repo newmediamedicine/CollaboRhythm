@@ -10,10 +10,13 @@ package collaboRhythm.core.model.healthRecord.service
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
+	import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
 	import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
 	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
 
 	import flash.events.Event;
+
+	import j2as3.collection.HashMap;
 
 	import mx.collections.ArrayCollection;
 
@@ -30,10 +33,14 @@ package collaboRhythm.core.model.healthRecord.service
 	 */
 	public class DocumentStorageServiceBase extends PhaHealthRecordServiceBase
 	{
+		protected static const GET_REPORTS_MINIMAL:String = "reports_minimal_X_GET";
+
 		/**
 		 * Event that is dispatched when the isLoading property changes.
 		 */
 		public static const IS_LOADING_CHANGE_EVENT:String = "isLoadingChange";
+		protected static const PRIMARY_REPORT_REQUEST:String = "primaryReport";
+
 		private var _isLoading:Boolean;
 		protected var _relationshipXmlMarshaller:RelationshipXmlMarshaller;
 		protected var _xmlMarshaller:XmlMarshaller;
@@ -41,6 +48,11 @@ package collaboRhythm.core.model.healthRecord.service
 		protected var _targetClass:Class;
 		protected var _targetDocumentSchema:Class;
 		protected var _debuggingToolsEnabled:Boolean;
+		protected var _pendingReportRequests:HashMap = new HashMap();
+
+		protected var _pendingReplacedDocumentRequests:HashMap = new HashMap();
+
+		private var _shouldLoadReplacedDocuments:Boolean;
 
 		public function DocumentStorageServiceBase(consumerKey:String, consumerSecret:String, baseURL:String,
 												   account:Account,
@@ -83,8 +95,55 @@ package collaboRhythm.core.model.healthRecord.service
 		override protected function handleResponse(event:IndivoClientEvent, responseXml:XML,
 												   healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
-			super.handleResponse(event, responseXml, healthRecordServiceRequestDetails);
+			var requestDetails:HealthRecordServiceRequestDetails = event.userData as HealthRecordServiceRequestDetails;
+			if (requestDetails == null)
+				throw new Error("userData must be a HealthRecordServiceRequestDetails object");
+
+			var record:Record = requestDetails.record;
+			if (record == null)
+				throw new Error("userData.record must be a Record object");
+
+			if (requestDetails.indivoApiCall == GET_REPORTS_MINIMAL)
+			{
+				handleReportResponse(event, responseXml, healthRecordServiceRequestDetails);
+			}
+			else if (requestDetails.indivoApiCall == GET_DOCUMENT)
+			{
+				handleGetDocument(responseXml, record, healthRecordServiceRequestDetails);
+			}
+			else if (requestDetails.indivoApiCall == GET_METADATA)
+			{
+				var document:IDocument = healthRecordServiceRequestDetails.document;
+				if (document)
+				{
+					DocumentMetadata.parseDocumentMetadata(responseXml, document.meta);
+					_relationshipXmlMarshaller.unmarshallRelationshipsFromMetadata(responseXml, document);
+					unmarshallSpecialRelationships(responseXml, document);
+					record.addDocument(document);
+					loadReplacedDocuments(record, document);
+				}
+			}
 			isLoading = false;
+		}
+
+		protected function handleReportResponse(event:IndivoClientEvent, responseXml:XML,
+												   healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+		{
+
+		}
+
+		protected function handleGetDocument(responseXml:XML, record:Record,
+											 previousHealthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):IDocument
+		{
+			var document:IDocument = unmarshallDocumentXml(responseXml);
+			document.meta.id = previousHealthRecordServiceRequestDetails.customData as String;
+
+			var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_METADATA, null, record);
+			healthRecordServiceRequestDetails.document = document;
+			_pha.documents_X_metaGET(null, null, null, record.id, document.meta.id,
+									 _activeAccount.oauthAccountToken,
+									 _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
+			return document;
 		}
 
 		override protected function handleError(event:IndivoClientEvent, errorStatus:String,
@@ -151,7 +210,7 @@ package collaboRhythm.core.model.healthRecord.service
 		 * @param reportsXml
 		 * @return
 		 */
-		protected function parseReportsXml(reportsXml:XML):ArrayCollection
+		protected function parseReportsXml(record:Record, reportsXml:XML):ArrayCollection
 		{
 			var collection:ArrayCollection = new ArrayCollection();
 			// trim off any data that is from the future (according to ICurrentDateSource); note that we assume the data is in ascending order by date
@@ -161,9 +220,10 @@ package collaboRhythm.core.model.healthRecord.service
 			for each (var reportXml:XML in reportsXml.Report)
 			{
 				var document:IDocument = unmarshallReportXml(reportXml);
+				DocumentMetadata.parseDocumentMetadata(reportXml.Meta.Document[0], document.meta);
+				loadReplacedDocuments(record, document);
 				if (document && documentShouldBeIncludedTestSettings(document, nowTime))
 				{
-					DocumentMetadata.parseDocumentMetadata(reportXml.Meta.Document[0], document.meta);
 					_relationshipXmlMarshaller.unmarshallRelationships(reportXml, document);
 					unmarshallSpecialRelationships(reportXml, document);
 					collection.addItem(document);
@@ -233,6 +293,77 @@ package collaboRhythm.core.model.healthRecord.service
 		{
 			activeAccount = null;
 			_relationshipXmlMarshaller.record = null;
+		}
+
+		protected function loadReplacedDocuments(record:Record, document:IDocument):void
+		{
+			if (shouldLoadReplacedDocuments)
+			{
+				if (document.meta.replacesId)
+				{
+					var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_DOCUMENT,
+																																	null,
+																																	record);
+					healthRecordServiceRequestDetails.customData = document.meta.replacesId;
+					_pha.documents_XGET(null, null, null, record.id, document.meta.replacesId,
+										_activeAccount.oauthAccountToken,
+										_activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
+					updatePendingReplacedDocumentRequest(document);
+				}
+				else
+				{
+					removePendingReplacedDocumentRequest(document);
+				}
+				checkPendingRequests(record);
+			}
+		}
+
+		private function removePendingReplacedDocumentRequest(document:IDocument):void
+		{
+			if (_pendingReplacedDocumentRequests.getItem(document.meta.originalId) != null)
+			{
+				_pendingReplacedDocumentRequests.remove(document.meta.originalId);
+			}
+		}
+
+		private function updatePendingReplacedDocumentRequest(document:IDocument):void
+		{
+			if (_pendingReplacedDocumentRequests.getItem(document.meta.originalId) == null)
+			{
+				_pendingReplacedDocumentRequests.put(document.meta.originalId, document.meta.originalId);
+			}
+		}
+
+		public function get shouldLoadReplacedDocuments():Boolean
+		{
+			return _shouldLoadReplacedDocuments;
+		}
+
+		public function set shouldLoadReplacedDocuments(value:Boolean):void
+		{
+			_shouldLoadReplacedDocuments = value;
+		}
+
+		protected function checkPendingRequests(record:Record):void
+		{
+			if (numPendingRequests == 0)
+				finishLoading(record);
+		}
+
+		protected function get numPendingRequests():int
+		{
+			return _pendingReportRequests.size();
+		}
+
+		private function finishLoading(record:Record):void
+		{
+			var documentCollection:IDocumentCollection = record.documentCollections.getItem(targetDocumentType);
+			if (documentCollection == null)
+				throw new Error("Failed to get the document collection for document type " + targetDocumentType);
+
+			documentCollection.isInitialized = true;
+
+			isLoading = false;
 		}
 	}
 }
