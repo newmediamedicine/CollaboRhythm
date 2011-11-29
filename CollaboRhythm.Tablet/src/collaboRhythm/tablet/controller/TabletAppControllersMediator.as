@@ -18,19 +18,49 @@ package collaboRhythm.tablet.controller
 {
 
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
+	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.Settings;
 
 	import mx.core.IVisualElementContainer;
+	import mx.core.UIComponent;
 
 	public class TabletAppControllersMediator extends AppControllersMediatorBase
     {
+		private var _tabletApplicationController:TabletApplicationController;
+
         public function TabletAppControllersMediator(widgetContainers:Vector.<IVisualElementContainer>,
 													 fullParentContainer:IVisualElementContainer, settings:Settings,
-													 componentContainer:IComponentContainer, collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService)
+													 componentContainer:IComponentContainer, collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService,
+				tabletApplicationController:TabletApplicationController)
         {
-            super(widgetContainers, fullParentContainer, settings, componentContainer, collaborationLobbyNetConnectionService)
+            super(widgetContainers, fullParentContainer, settings, componentContainer, collaborationLobbyNetConnectionService);
+			_tabletApplicationController = tabletApplicationController;
         }
+
+		override protected function showFullViewResolved(workstationAppController:WorkstationAppControllerBase,
+														 source:String):WorkstationAppControllerBase
+		{
+			// destroy all full views and widget views
+
+			var appInstance:WorkstationAppControllerBase;
+
+			// TODO: use app id instead of name
+			currentFullView = workstationAppController.name;
+
+			_tabletApplicationController.pushFullView(workstationAppController);
+			appInstance = workstationAppController;
+
+			return appInstance;
+		}
+
+		public function destroyWidgetViews():void
+		{
+			for each (var app:WorkstationAppControllerBase in workstationApps.values())
+			{
+				app.destroyWidgetView();
+			}
+		}
 	}
 }

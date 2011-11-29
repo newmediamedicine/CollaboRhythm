@@ -126,6 +126,9 @@
 
 		private function creationCompleteHandler():void
 		{
+			if (visible)
+				currentState = "shown";
+
 			if (_collaborationLobbyNetConnectionService.isConnected && currentState == "shown")
 			{
 				createNetStream();

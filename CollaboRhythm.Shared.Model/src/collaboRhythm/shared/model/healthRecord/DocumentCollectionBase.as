@@ -96,7 +96,7 @@ package collaboRhythm.shared.model.healthRecord
 		 * @param recursive If true, the removal action will also be applied recursively to documents that this document relates to
 		 * @return The number of documents removed (generally 1 if not recursive)
 		 */
-		public function removeDocumentFromRecord(document:IDocument, removeAction:String = DocumentBase.ACTION_DELETE,
+		public function removeDocumentFromRecord(document:IDocument, removeAction:String = "delete",
 								reason:String = null, recursive:Boolean = false):int
 		{
 			if (!recordProxy)

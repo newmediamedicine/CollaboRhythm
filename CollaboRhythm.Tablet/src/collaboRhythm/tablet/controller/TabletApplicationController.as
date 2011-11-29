@@ -18,32 +18,34 @@ package collaboRhythm.tablet.controller
 {
 
 	import collaboRhythm.core.controller.ApplicationControllerBase;
-	import collaboRhythm.core.controller.ApplicationExitUtil;
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
+	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
 	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.InteractionLogUtil;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.tablet.view.ActiveRecordView;
-	import collaboRhythm.tablet.view.TabletApplicationView;
+	import collaboRhythm.tablet.view.TabletFullViewContainer;
+	import collaboRhythm.tablet.view.TabletWidgetViewContainer;
 
-	import flash.desktop.NativeApplication;
+	import flash.events.Event;
 
 	import mx.core.IVisualElementContainer;
 
+	import spark.transitions.SlideViewTransition;
+
 	public class TabletApplicationController extends ApplicationControllerBase
 	{
+		private var _tabletApplication:CollaboRhythmTabletApplication;
 		private var _tabletAppControllersMediator:TabletAppControllersMediator;
 		private var _fullContainer:IVisualElementContainer;
-		private var _activeRecordView:ActiveRecordView;
 
 		[Embed("/resources/settings.xml", mimeType="application/octet-stream")]
 		private var _applicationSettingsEmbeddedFile:Class;
 
-		public function TabletApplicationController(tabletApplicationView:TabletApplicationView)
+		public function TabletApplicationController(collaboRhythmTabletApplication:CollaboRhythmTabletApplication)
 		{
-			_activeRecordView = tabletApplicationView.activeRecordView;
-			_connectivityView = tabletApplicationView.connectivityView;
-			_aboutApplicationView = tabletApplicationView.aboutApplicationView;
+			_tabletApplication = collaboRhythmTabletApplication;
+			_connectivityView = collaboRhythmTabletApplication.connectivityView;
+			_aboutApplicationView = collaboRhythmTabletApplication.aboutApplicationView;
 			initializeConnectivityView();
 		}
 
@@ -55,25 +57,68 @@ package collaboRhythm.tablet.controller
 
 			initCollaborationController();
 
+			_tabletApplication.navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
+			_tabletApplication.navigator.addEventListener("viewChangeComplete",
+														  viewNavigator_transitionCompleteHandler);
+			_tabletApplication.navigator.addEventListener(Event.ADDED, viewNavigator_addedHandler);
+
+			initializeActiveView();
+
 			createSession();
+		}
+
+		private function viewNavigator_transitionCompleteHandler(event:Event):void
+		{
+			if (!(_tabletApplication.navigator.activeView is TabletWidgetViewContainer))
+				_tabletAppControllersMediator.destroyWidgetViews();
+		}
+
+		private function viewNavigator_addedHandler(event:Event):void
+		{
+			var view:TabletWidgetViewContainer = event.target as TabletWidgetViewContainer;
+			if (view)
+			{
+				initializeView(view);
+			}
+		}
+
+		private function initializeView(view:TabletWidgetViewContainer):void
+		{
+			view.tabletApplicationController = this;
+			view.activeRecordAccount = _activeRecordAccount;
+		}
+
+		public function initializeActiveView():void
+		{
+			var view:TabletWidgetViewContainer = _tabletApplication.navigator.activeView as TabletWidgetViewContainer;
+			if (view)
+			{
+				initializeView(view);
+			}
 		}
 
 		public override function openRecordAccount(recordAccount:Account):void
 		{
 			super.openRecordAccount(recordAccount);
-			_activeRecordView.init(this, recordAccount);
-			_activeRecordView.visible = true;
+			initializeActiveView();
+			activeRecordView.init(this, recordAccount);
+			activeRecordView.visible = true;
+		}
+
+		private function get activeRecordView():ActiveRecordView
+		{
+			return _tabletApplication.activeRecordView;
 		}
 
 		// the apps are not actually loaded immediately when a record is opened
 		// only after the active record view has been made visible are they loaded, this makes the UI more responsive
 		public function activeRecordView_showHandler(recordAccount:Account):void
 		{
-			_fullContainer = _activeRecordView.fullViewsGroup;
-			_tabletAppControllersMediator = new TabletAppControllersMediator(_activeRecordView.widgetContainers,
+			_tabletAppControllersMediator = new TabletAppControllersMediator(activeRecordView.widgetContainers,
 																			 _fullContainer, _settings,
 																			 _componentContainer,
-																			 _collaborationController.collaborationModel.collaborationLobbyNetConnectionService);
+																			 _collaborationController.collaborationModel.collaborationLobbyNetConnectionService,
+			this);
 			_tabletAppControllersMediator.createAndStartApps(_activeAccount, recordAccount);
 			loadDocuments(recordAccount);
 		}
@@ -106,7 +151,7 @@ package collaboRhythm.tablet.controller
 			if (recordAccount)
 				recordAccount.primaryRecord.clearDocuments();
 			_activeRecordAccount = null;
-			_activeRecordView.visible = false;
+			activeRecordView.visible = false;
 		}
 
 		public function useDemoPreset(demoPresetIndex:int):void
@@ -125,8 +170,20 @@ package collaboRhythm.tablet.controller
 
 		protected override function restoreFocus():void
 		{
-			if (_activeRecordView)
-				_activeRecordView.setFocus();
+			if (activeRecordView)
+				activeRecordView.setFocus();
+		}
+
+		public function pushFullView(workstationAppController:WorkstationAppControllerBase):void
+		{
+			_tabletApplication.navigator.pushView(TabletFullViewContainer, workstationAppController, new SlideViewTransition());
+		}
+
+		public function useWidgetContainers():void
+		{
+			_tabletAppControllersMediator.widgetContainers = activeRecordView.widgetContainers;
+			_tabletAppControllersMediator.showWidgetsInNewContainers();
+			activeRecordView.visible = true;
 		}
 	}
 }

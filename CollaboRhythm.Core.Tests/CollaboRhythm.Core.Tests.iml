@@ -4,7 +4,7 @@
     <option name="DO_BUILD" value="true" />
     <option name="MAIN_CLASS" value="CollaboRhythm_Core_Tests" />
     <option name="OUTPUT_FILE_NAME" value="CollaboRhythm_Core_Tests.swf" />
-    <option name="TARGET_PLAYER_VERSION" value="10.2" />
+    <option name="TARGET_PLAYER_VERSION" value="11.1" />
     <option name="VERSION" value="3" />
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
@@ -12,7 +12,7 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="4.5.0.20967 AIR" jdkType="AIR SDK Type" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="flexunit-4.1.0_RC2-4-flex_4.1.0.16076.swc" level="project" />
     <orderEntry type="module" module-name="CollaboRhythm.Core" />

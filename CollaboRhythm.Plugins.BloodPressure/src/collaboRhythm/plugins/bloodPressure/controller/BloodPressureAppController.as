@@ -41,7 +41,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 		private var _fullView:BloodPressureFullView;
 		private var _widgetView:IBloodPressureWidgetView;
-		private var _createFullViewOnInitialize:Boolean = true;
+		private var _createFullViewOnInitialize:Boolean = false;
 
 		public override function get widgetView():UIComponent
 		{
@@ -103,11 +103,16 @@ package collaboRhythm.plugins.bloodPressure.controller
 			// or 2) lazy initialize it or 3) rework the timing of initialize and updateWidgetViewModel
 			updateWidgetViewModel();
 
-			if (!_fullView && _createFullViewOnInitialize && _fullContainer && isFullViewSupported)
+			if (shouldPreCreateFullView)
 			{
 				createFullView();
 				prepareFullView();
 			}
+		}
+
+		protected function get shouldPreCreateFullView():Boolean
+		{
+			return !_fullView && _createFullViewOnInitialize && _fullContainer && isFullViewSupported;
 		}
 
 

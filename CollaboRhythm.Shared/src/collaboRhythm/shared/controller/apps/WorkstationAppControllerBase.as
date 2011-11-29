@@ -362,7 +362,7 @@ package collaboRhythm.shared.controller.apps
 
 			if (PREVENT_RE_SHOWING_FULL_VIEW)
 			{
-				var selected:Boolean = widgetView.getStyle("selected") as Boolean;
+				var selected:Boolean = widgetView && widgetView.getStyle("selected") as Boolean;
 				return !selected;
 			}
 			else
@@ -721,17 +721,17 @@ package collaboRhythm.shared.controller.apps
 				_primaryShowFullViewParallelEffect.stop();
 				_secondaryShowFullViewParallelEffect.stop();
 
-				fullView.validateNow();
-				var bitmapData:BitmapData = ImageSnapshot.captureBitmapData(fullView);
-
-				topSpaceTransitionComponent = BitmapCopyComponent.createFromBitmap(bitmapData, fullView);
-				centerSpaceTransitionComponent = BitmapCopyComponent.createFromBitmap(bitmapData, fullView);
-
-				fullView.visible = false;
-				var widgetTransitionComponentContainer:IVisualElementContainer = getTransitionComponentContainer(widgetView);
-
-				if (isWorkstationMode || isTabletMode)
+				if (isWorkstationMode)
 				{
+					fullView.validateNow();
+					var bitmapData:BitmapData = ImageSnapshot.captureBitmapData(fullView);
+
+					topSpaceTransitionComponent = BitmapCopyComponent.createFromBitmap(bitmapData, fullView);
+					centerSpaceTransitionComponent = BitmapCopyComponent.createFromBitmap(bitmapData, fullView);
+
+					fullView.visible = false;
+					var widgetTransitionComponentContainer:IVisualElementContainer = getTransitionComponentContainer(widgetView);
+
 					if (topSpaceTransitionComponent != null)
 					{
 						widgetTransitionComponentContainer.addElement(topSpaceTransitionComponent);
@@ -934,6 +934,31 @@ package collaboRhythm.shared.controller.apps
 			_primaryShowFullViewParallelEffect.stop();
 			_secondaryShowFullViewParallelEffect.stop();
 
+			destroyWidgetView();
+			destroyFullView();
+		}
+
+		public function destroyFullView():void
+		{
+			if (fullView != null && fullView.parent != null)
+			{
+				if (fullView.parent is IVisualElementContainer)
+					(fullView.parent as IVisualElementContainer).removeElement(fullView);
+				else
+					fullView.parent.removeChild(fullView);
+			}
+
+			if (fullView)
+			{
+				fullView.accessibilityProperties = null;
+				fullView = null;
+			}
+
+			_isFullViewPrepared = false;
+		}
+
+		public function destroyWidgetView():void
+		{
 			if (widgetView != null && widgetView.parent != null)
 			{
 				if (widgetView.parent is IVisualElementContainer)
@@ -951,19 +976,7 @@ package collaboRhythm.shared.controller.apps
 				widgetView = null;
 			}
 
-			if (fullView != null && fullView.parent != null)
-			{
-				if (fullView.parent is IVisualElementContainer)
-					(fullView.parent as IVisualElementContainer).removeElement(fullView);
-				else
-					fullView.parent.removeChild(fullView);
-			}
-
-			if (fullView)
-			{
-				fullView.accessibilityProperties = null;
-				fullView = null;
-			}
+			_isWidgetViewPrepared = false;
 		}
 
 		/**
@@ -1063,6 +1076,16 @@ package collaboRhythm.shared.controller.apps
 		public function get appId():String
 		{
 			return appClassName;
+		}
+
+		public function get fullContainer():IVisualElementContainer
+		{
+			return _fullContainer;
+		}
+
+		public function set fullContainer(value:IVisualElementContainer):void
+		{
+			_fullContainer = value;
 		}
 	}
 }

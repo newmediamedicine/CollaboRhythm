@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+        xmlns:s="library://ns.adobe.com/flex/spark">
+
+    <!-- host component -->
+    <fx:Metadata>
+        [HostComponent("spark.components.SplitViewNavigator")]
+    </fx:Metadata>
+
+    <fx:Declarations>
+        <s:Callout id="viewNavigatorCallout" width="200" height="200" />
+    </fx:Declarations>
+
+    <!-- states -->
+    <s:states>
+        <s:State name="normal" />
+        <s:State name="disabled" />
+        <s:State name="portrait" />
+        <s:State name="landscape" />
+    </s:states>
+
+    <s:Group id="contentGroup" width="100%" height="100%">
+        <s:layout.portrait>
+            <s:VerticalLayout gap="1"/>
+        </s:layout.portrait>
+
+        <s:layout.landscape>
+            <s:HorizontalLayout gap="1"/>
+        </s:layout.landscape>
+    </s:Group>
+</s:Skin>

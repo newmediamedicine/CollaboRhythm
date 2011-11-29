@@ -41,16 +41,16 @@
 		 */
 		public var busyIndicator:BusyIndicator;
 
-        protected function creationCompleteHandler(event:FlexEvent):void {
+        protected function creationCompleteHandler(event:FlexEvent):void
+		{
             main();
         }
 
-        private function main():void {
+        private function main():void
+		{
             _applicationController = new MobileApplicationController(this);
             _applicationController.main();
         }
-			
-
 
 		public function set busy(busy:Boolean):void
 		{

@@ -71,4 +71,7 @@
             </s:Group>
         </s:VGroup>
     </s:Group>
+	<!-- Instances of charting components which started causing errors (in plugins which use charts) when we upgraded to Flex SDK 4.6.0 preview -->
+	<mx:LineChart visible="false" includeInLayout="false"/>
+	<mx:AreaSeries visible="false" includeInLayout="false"/>
 </s:VGroup>

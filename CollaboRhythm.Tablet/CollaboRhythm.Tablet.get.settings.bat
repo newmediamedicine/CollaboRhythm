@@ -8,7 +8,7 @@ set AndroidADBFolder=C:\Program Files (x86)\Android\android-sdk\platform-tools
 :: Android default path used to include the word "windows", so you might need this depending on the version you have
 ::set AndroidADBFolder=C:\Program Files (x86)\Android\android-sdk-windows\platform-tools
 ::set SettingsFile=my_settings_debug.xml
-set SettingsFile=settingsCopy.xml
+set SettingsFile=settings_2011.11.15.xml
 
 :: ***************************************************************************************
 

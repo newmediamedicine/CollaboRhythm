@@ -92,15 +92,18 @@
 
 			// TODO: make parsing more robust and move to a model
 
-			var rxNormRegExp:RegExp = /(24 HR )?([A-Za-z\s]+)(\d+(?:\.\d+)? MG )([A-Za-z\s]+)\s?(\[[A-Za-z]+\])?/;
-			var substrings:Array = _medicationOrder.name.text.split(rxNormRegExp);
-
-			_medicationName = substrings[2];
-			_strength = substrings[3];
-			_form = substrings[4];
-			if (substrings[5])
+			if (_medicationOrder)
 			{
-				_proprietaryName = substrings[5];
+				var rxNormRegExp:RegExp = /(24 HR )?([A-Za-z\s]+)(\d+(?:\.\d+)? MG )([A-Za-z\s]+)\s?(\[[A-Za-z]+\])?/;
+				var substrings:Array = _medicationOrder.name.text.split(rxNormRegExp);
+
+				_medicationName = substrings[2];
+				_strength = substrings[3];
+				_form = substrings[4];
+				if (substrings[5])
+				{
+					_proprietaryName = substrings[5];
+				}
 			}
 
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
@@ -118,7 +121,8 @@
 
 			if (_medicationScheduleItem && _medicationScheduleItem.scheduledMedicationOrder && _medicationScheduleItem.scheduledMedicationOrder.medicationFill && _medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc && _medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc.text)
 			{
-				medicationImage.setStyle("loadingImageColor", _medicationColorSource.getMedicationColor(_medicationOrder.medicationFill.ndc.text));
+				medicationImage.setStyle("loadingImageColor",
+										 _medicationColorSource.getMedicationColor(_medicationOrder.medicationFill.ndc.text));
 				if (_medicationScheduleItem.dose.value == "1")
 				{
 					medicationImage.source = MedicationFillsModel.MEDICATION_API_URL_BASE + _medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc.text + "-front.png";
