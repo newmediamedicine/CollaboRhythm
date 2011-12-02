@@ -2,6 +2,7 @@
 <s:ViewNavigatorApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
 							xmlns:s="library://ns.adobe.com/flex/spark"
 							xmlns:views="collaboRhythm.tablet.view.*" xmlns:view="collaboRhythm.core.view.*"
+							xmlns:utils="spark.utils.*"
 							firstView="collaboRhythm.tablet.view.TabletWidgetViewContainer"
 							skinClass="collaboRhythm.tablet.view.skins.CollaboRhythmTabletApplicationSkin"
 							creationComplete="creationCompleteHandler(event)"
@@ -50,8 +51,17 @@
 				event.preventDefault();
 			}
 		}
+
 		]]></fx:Script>
 	<s:navigationContent>
-		<s:Button label="Home" click="navigator.popToFirstView()"/>
+		<s:Button id="homeButton" label="Home" iconPlacement="left" click="navigator.popToFirstView()">
+			<s:icon>
+				<utils:MultiDPIBitmapSource
+					source160dpi="@Embed('/assets/images160dpi/ic_menu_home.png')"
+					source240dpi="@Embed('/assets/images240dpi/ic_menu_home.png')"
+					source320dpi="@Embed('/assets/images320dpi/ic_menu_home.png')"/>
+			</s:icon>
+		</s:Button>
+
 	</s:navigationContent>
 </s:ViewNavigatorApplication>

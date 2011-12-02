@@ -32,6 +32,8 @@ package collaboRhythm.shared.controller.apps
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 
+	import spark.components.ViewNavigator;
+
 	/**
 	 * Creates workstation apps and prepares them for use in a parent container.
 	 * 
@@ -48,6 +50,7 @@ package collaboRhythm.shared.controller.apps
         private var _settings:Settings;
         private var _componentContainer:IComponentContainer;
 		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
+		private var _viewNavigator:ViewNavigator;
 		protected var logger:ILogger;
 
 
@@ -117,6 +120,7 @@ package collaboRhythm.shared.controller.apps
             constructorParams.settings = _settings;
             constructorParams.componentContainer = _componentContainer;
 			constructorParams.collaborationLobbyNetConnectionService = _collaborationLobbyNetConnectionService;
+			constructorParams.viewNavigator = _viewNavigator;
 
 			var appObject:Object = new appClass(constructorParams);
 			if (appObject == null)
@@ -180,6 +184,16 @@ package collaboRhythm.shared.controller.apps
 		public function set collaborationLobbyNetConnectionService(value:CollaborationLobbyNetConnectionService):void
 		{
 			_collaborationLobbyNetConnectionService = value;
+		}
+
+		public function get viewNavigator():ViewNavigator
+		{
+			return _viewNavigator;
+		}
+
+		public function set viewNavigator(value:ViewNavigator):void
+		{
+			_viewNavigator = value;
 		}
 	}
 }

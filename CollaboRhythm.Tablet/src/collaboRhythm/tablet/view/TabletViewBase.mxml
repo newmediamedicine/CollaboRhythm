@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:utils="spark.utils.*">
+	<s:states>
+		<s:State name="debuggingToolsEnabled"/>
+		<s:State name="debuggingToolsDisabled"/>
+	</s:states>
+	<fx:Declarations>
+		<s:DateTimeFormatter id="dateFormatter" dateTimePattern="MM/dd/yyyy"/>
+	</fx:Declarations>
+	<fx:Script><![CDATA[
+		import collaboRhythm.shared.model.Account;
+		import collaboRhythm.shared.model.DateUtil;
+		import collaboRhythm.shared.model.services.ICurrentDateSource;
+		import collaboRhythm.shared.model.services.WorkstationKernel;
+		import collaboRhythm.shared.model.settings.Settings;
+		import collaboRhythm.tablet.controller.TabletApplicationController;
+
+		import mx.events.FlexEvent;
+
+		[Bindable]
+		protected var _tabletApplicationController:TabletApplicationController;
+
+		[Bindable]
+		private var _isControllerReady:Boolean;
+		protected var _activeRecordAccount:Account;
+
+		private function creationCompleteHandler():void
+		{
+		}
+
+		private function reloadPluginsViewMenuItem_clickHandler():void
+		{
+			_tabletApplicationController.reloadPlugins();
+		}
+
+		private function demoDateMenuItem_clickHandler(index:int):void
+		{
+			_tabletApplicationController.useDemoPreset(index);
+		}
+
+		private function demoModeOffMenuItem_clickHandler():void
+		{
+			_tabletApplicationController.targetDate = null;
+		}
+
+		private function synchronizeMenuItem_clickHandler():void
+		{
+			_tabletApplicationController.synchronize();
+		}
+
+		private function createDemoDateLabel(isControllerReady:Boolean, index:int):String
+		{
+			if (isControllerReady)
+			{
+				return dateFormatter.format(_tabletApplicationController.settings.demoDatePresets[index]);
+			}
+			return "";
+		}
+
+		public function get isControllerReady():Boolean
+		{
+			return _isControllerReady;
+		}
+
+		public function set isControllerReady(value:Boolean):void
+		{
+			_isControllerReady = value;
+		}
+
+		private function quitButton_clickHandler(event:MouseEvent):void
+		{
+			_tabletApplicationController.exitApplication("quit menu button");
+		}
+
+		private function aboutButton_clickHandler(event:MouseEvent):void
+		{
+			_tabletApplicationController.showAboutApplicationView();
+		}
+
+		private function toggleFastForwardMenuItem_clickHandler(event:MouseEvent):void
+		{
+			_tabletApplicationController.fastForwardEnabled = !_tabletApplicationController.fastForwardEnabled;
+		}
+
+		[Bindable]
+		public function get tabletApplicationController():TabletApplicationController
+		{
+			return _tabletApplicationController;
+		}
+
+		public function set tabletApplicationController(value:TabletApplicationController):void
+		{
+			_tabletApplicationController = value;
+			if (_tabletApplicationController)
+			{
+				if (_tabletApplicationController.settings.debuggingToolsEnabled)
+				{
+					currentState = "debuggingToolsEnabled";
+				}
+				else
+				{
+					currentState = "debuggingToolsDisabled";
+				}
+
+				isControllerReady = true;
+			}
+		}
+
+		public function set activeRecordAccount(activeRecordAccount:Account):void
+		{
+			_activeRecordAccount = activeRecordAccount;
+		}
+
+		private function menuButton_clickHandler(event:MouseEvent):void
+		{
+			mx.core.FlexGlobals.topLevelApplication.viewMenuOpen = true;
+		}
+		]]></fx:Script>
+
+	<s:viewMenuItems>
+		<s:ViewMenuItem label="{createDemoDateLabel(_isControllerReady, 0)}" includeIn="debuggingToolsEnabled"
+						click="demoDateMenuItem_clickHandler(0)"/>
+		<s:ViewMenuItem label="{createDemoDateLabel(_isControllerReady, 1)}" includeIn="debuggingToolsEnabled"
+						click="demoDateMenuItem_clickHandler(1)"/>
+		<s:ViewMenuItem label="{createDemoDateLabel(_isControllerReady, 2)}" includeIn="debuggingToolsEnabled"
+						click="demoDateMenuItem_clickHandler(2)"/>
+		<s:ViewMenuItem label="{createDemoDateLabel(_isControllerReady, 3)}" includeIn="debuggingToolsEnabled"
+						click="demoDateMenuItem_clickHandler(3)"/>
+		<s:ViewMenuItem label="Demo Mode Off" includeIn="debuggingToolsEnabled"
+						click="demoModeOffMenuItem_clickHandler()"/>
+		<s:ViewMenuItem label="{(_tabletApplicationController &amp;&amp; _tabletApplicationController.fastForwardEnabled ? 'Stop' : 'Start') + ' Fast Forward'}" includeIn="debuggingToolsEnabled"
+						click="toggleFastForwardMenuItem_clickHandler(event)"/>
+		<s:ViewMenuItem label="Synchronize" click="synchronizeMenuItem_clickHandler()"/>
+		<s:ViewMenuItem label="Reload Plugins" includeIn="debuggingToolsEnabled"
+						click="reloadPluginsViewMenuItem_clickHandler()"/>
+		<s:ViewMenuItem label="About" id="aboutButton" click="aboutButton_clickHandler(event)"/>
+		<s:ViewMenuItem label="Quit" id="quitButton" click="quitButton_clickHandler(event)"/>
+	</s:viewMenuItems>
+	<s:actionContent>
+		<s:BusyIndicator id="backgroundProgressIndicator" visible="{tabletApplicationController.backgroundProcessRunning}" includeInLayout="{tabletApplicationController.backgroundProcessRunning}"/>
+		<s:Label id="backgroundProgressLabel" text="{tabletApplicationController.backgroundProcessMessage}" visible="{tabletApplicationController.backgroundProcessRunning}" includeInLayout="{tabletApplicationController.backgroundProcessRunning}"/>
+		<s:Button id="menuButton" click="menuButton_clickHandler(event)">
+			<s:icon>
+				<utils:MultiDPIBitmapSource
+					source160dpi="@Embed('/assets/images160dpi/ic_menu_moreoverflow.png')"
+					source240dpi="@Embed('/assets/images240dpi/ic_menu_moreoverflow.png')"
+					source320dpi="@Embed('/assets/images320dpi/ic_menu_moreoverflow.png')"/>
+			</s:icon>
+		</s:Button>
+	</s:actionContent>
+</s:View>

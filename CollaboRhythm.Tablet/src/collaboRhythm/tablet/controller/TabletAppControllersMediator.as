@@ -19,12 +19,15 @@ package collaboRhythm.tablet.controller
 
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.Settings;
 
 	import mx.core.IVisualElementContainer;
 	import mx.core.UIComponent;
+
+	import spark.components.ViewNavigator;
 
 	public class TabletAppControllersMediator extends AppControllersMediatorBase
     {
@@ -61,6 +64,12 @@ package collaboRhythm.tablet.controller
 			{
 				app.destroyWidgetView();
 			}
+		}
+
+		override protected function initializeForAccount(activeAccount:Account, activeRecordAccount:Account):void
+		{
+			super.initializeForAccount(activeAccount, activeRecordAccount);
+			factory.viewNavigator = _tabletApplicationController.navigator;
 		}
 	}
 }

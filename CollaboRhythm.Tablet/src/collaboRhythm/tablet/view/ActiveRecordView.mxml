@@ -74,7 +74,7 @@
 
 		public function showHandler():void
 		{
-			_tabletApplicationController.activeRecordView_showHandler(_recordAccount);
+			_tabletApplicationController.openRecordAndShowWidgets(_recordAccount);
 		}
 
 		public function get widgetContainers():Vector.<IVisualElementContainer>

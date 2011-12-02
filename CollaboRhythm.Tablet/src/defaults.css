@@ -25,6 +25,42 @@ global
 {
 	font-family: "Myriad Pro", "Verdana";
 }
+global
+{
+    /* framework styles */
+    modalTransparency: 0;
+    modalTransparencyBlur: 0;
+
+    /* Looks */
+    backgroundAlpha : 1;
+    backgroundImageFillMode : "scale";
+    borderVisible : true;
+    borderWeight : 1;
+    contentBackgroundColor: #F0F0F0;
+    downColor: #E0E0E0; /* set in here and not in framework's default.css because it only is really applicable for touch interactions*/
+    selectionColor: #E0E0E0;
+    alternatingItemColors: #FFFFFF;
+    focusThickness: 3;
+    symbolColor: #000000;
+    fontLookup: "embeddedCFF";
+    /*fontFamily: "_sans";*/
+    /*fontSize: 24;*/
+    color: #000000;
+    textShadowColor: #FFFFFF;
+    textShadowAlpha: .55;
+
+    /* Behaviors */
+    autoThumbVisibility: true;
+    fixedThumbSize: false;
+    fullScreenHideControlsDelay: 3000;
+    interactionMode: "touch";
+    liveDragging: true;
+    rollOverOpenDelay: 200;
+    slideDuration: 300;
+    smoothScrolling: true;
+    touchDelay: 0; /* default to 0 here, but Scroller sets it to 100 */
+}
+
 
 s|Label
 {
@@ -122,3 +158,41 @@ s|ViewMenuItem
 {
 	skinClass: ClassReference("collaboRhythm.tablet.view.skins.TabletViewMenuItemSkin");
 }
+
+/*
+s|Label.ActionBarLabel
+{
+	color: #000000;
+	fontSize: 16;
+}
+*/
+
+s|ActionBar
+{
+	color: #000000;
+	chromeColor: #FFFFFF;
+	fontSize: 21;
+	textShadowAlpha: 0;
+	textShadowColor: #000000;
+	skinClass: ClassReference("collaboRhythm.tablet.view.skins.TabletActionBarSkin");
+	backgroundAlpha: 0;
+}
+
+s|ActionBar #titleDisplay
+{
+	color: #000000;
+    fontSize: 21;
+    fontWeight: normal;
+}
+
+s|ActionBar s|ButtonBase
+{
+    color: #000000;
+	fontWeight: "normal";
+}
+
+s|ActionBar s|Button
+{
+    fontWeight: "normal";
+}
+

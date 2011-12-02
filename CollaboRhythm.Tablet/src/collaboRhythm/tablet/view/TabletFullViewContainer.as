@@ -7,7 +7,7 @@ package collaboRhythm.tablet.view
 
 	import spark.components.View;
 
-	public class TabletFullViewContainer extends View
+	public class TabletFullViewContainer extends TabletViewBase
 	{
 		public function TabletFullViewContainer()
 		{

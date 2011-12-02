@@ -162,7 +162,8 @@
 			{
 				for each (var itemRemoved:UIComponent in event.items)
 				{
-					additionalInformationViews.removeElement(itemRemoved)
+					if (additionalInformationViews.containsElement(itemRemoved))
+						additionalInformationViews.removeElement(itemRemoved)
 				}
 			}
 			else if (event.kind == CollectionEventKind.RESET)
