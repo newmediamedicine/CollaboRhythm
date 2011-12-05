@@ -232,30 +232,8 @@
 			}
 		}
 		]]></fx:Script>
-
-	<s:HGroup width="100%" height="100%" gap="0">
-		<s:Rect width="50%" height="100%">
-			<s:fill>
-				<s:SolidColor color="0x000000" alpha="0.3"/>
-			</s:fill>
-		</s:Rect>
-		<s:Line height="100%">
-			<s:stroke>
-				<s:SolidColorStroke color="#FFFFFF"/>
-			</s:stroke>
-		</s:Line>
-		<s:Group id="rightGroup" width="50%" height="100%">
-			<s:Rect width="100%" height="100%">
-				<s:fill>
-					<s:SolidColor color="0xAAAAAA"/>
-				</s:fill>
-			</s:Rect>
-			<scheduleViews:ScheduleGroupReportingView id="scheduleGroupReportingView"/>
-			<s:Group id="additionalInformationViews" width="100%" height="100%">
-
-			</s:Group>
-		</s:Group>
-	</s:HGroup>
+	<scheduleViews:ScheduleGroupReportingView id="scheduleGroupReportingView" width="50%" height="100%"/>
+	<s:Group id="additionalInformationViews" width="55%" height="100%" right="0"/>
 	<s:Group width="100%" height="100%" visible="{_isCountdownRunning}">
 		<s:Rect width="100%" height="100%">
 			<s:fill>

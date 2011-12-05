@@ -18,8 +18,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 creationComplete="creationCompleteHandler()"
-		 width="100%" height="100%">
+		 creationComplete="creationCompleteHandler()">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -97,5 +96,20 @@
 		}
 		]]>
 	</fx:Script>
-	<s:VGroup id="scheduleItemsGroup" width="100%" height="100%" gap="0"/>
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="0xFFFFFF"/>
+		</s:fill>
+	</s:Rect>
+	<s:Line width="100%">
+		<s:stroke>
+			<s:SolidColorStroke color="0x000000"/>
+		</s:stroke>
+	</s:Line>
+	<s:Line right="0" height="100%">
+		<s:stroke>
+			<s:SolidColorStroke color="0x000000"/>
+		</s:stroke>
+	</s:Line>
+	<s:VGroup id="scheduleItemsGroup" left="0" right="1" top="1" bottom="0" gap="0"/>
 </s:Group>
