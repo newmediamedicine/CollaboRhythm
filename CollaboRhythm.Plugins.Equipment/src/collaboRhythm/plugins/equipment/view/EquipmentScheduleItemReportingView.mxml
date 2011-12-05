@@ -116,52 +116,7 @@
 			_equipmentScheduleItem = value;
 		}
 
-
-		private function adherenceButtonClickHandler(event:MouseEvent):void
-		{
-			InteractionLogUtil.log(_logger, "Report adherence", "adherence button click");
-
-			if (_scheduleItemOccurrence.adherenceItem)
-			{
-				if (!_scheduleItemOccurrence.adherenceItem.adherence)
-				{
-					dispatchAdherenceItemVoidEvent();
-					createAdherenceItem();
-				}
-				else
-				{
-					dispatchAdherenceItemVoidEvent();
-				}
-			}
-			else
-			{
-				createAdherenceItem();
-			}
-		}
-
-		private function nonadherenceButtonClickHandler(event:MouseEvent):void
-		{
-			InteractionLogUtil.log(_logger, "Report nonadherence", "nonadherence button click");
-
-			if (_scheduleItemOccurrence.adherenceItem)
-			{
-				if (_scheduleItemOccurrence.adherenceItem.adherence)
-				{
-					dispatchAdherenceItemVoidEvent();
-					createNonadherenceItem();
-				}
-				else
-				{
-					dispatchAdherenceItemVoidEvent();
-				}
-			}
-			else
-			{
-				createNonadherenceItem();
-			}
-		}
-
-		private function createAdherenceItem():void
+		protected override function createAdherenceItem():void
 		{
 			var adherenceItem:AdherenceItem = new AdherenceItem();
 			adherenceItem.init(_equipmentScheduleItem.name, _activeAccountId, _currentDateSource.now(),
@@ -177,7 +132,7 @@
 			dispatchAdherenceItemIncompleteEvent(bloodPressureReportingView);
 		}
 
-		private function createNonadherenceItem():void
+		protected override function createNonadherenceItem():void
 		{
 			var adherenceItem:AdherenceItem = new AdherenceItem();
 			adherenceItem.init(_equipmentScheduleItem.name, _activeAccountId, _currentDateSource.now(),

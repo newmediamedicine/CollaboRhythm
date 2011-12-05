@@ -24,11 +24,14 @@ package collaboRhythm.tablet.controller
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.tablet.view.ActiveRecordView;
 	import collaboRhythm.tablet.view.TabletFullViewContainer;
+	import collaboRhythm.tablet.view.TabletViewBase;
 	import collaboRhythm.tablet.view.TabletWidgetViewContainer;
 
 	import flash.events.Event;
 
 	import mx.core.IVisualElementContainer;
+
+	import spark.components.ViewNavigator;
 
 	import spark.transitions.SlideViewTransition;
 
@@ -75,14 +78,14 @@ package collaboRhythm.tablet.controller
 
 		private function viewNavigator_addedHandler(event:Event):void
 		{
-			var view:TabletWidgetViewContainer = event.target as TabletWidgetViewContainer;
+			var view:TabletViewBase = event.target as TabletViewBase;
 			if (view)
 			{
 				initializeView(view);
 			}
 		}
 
-		private function initializeView(view:TabletWidgetViewContainer):void
+		private function initializeView(view:TabletViewBase):void
 		{
 			view.tabletApplicationController = this;
 			view.activeRecordAccount = _activeRecordAccount;
@@ -90,7 +93,7 @@ package collaboRhythm.tablet.controller
 
 		public function initializeActiveView():void
 		{
-			var view:TabletWidgetViewContainer = _tabletApplication.navigator.activeView as TabletWidgetViewContainer;
+			var view:TabletViewBase = _tabletApplication.navigator.activeView as TabletViewBase;
 			if (view)
 			{
 				initializeView(view);
@@ -112,7 +115,7 @@ package collaboRhythm.tablet.controller
 
 		// the apps are not actually loaded immediately when a record is opened
 		// only after the active record view has been made visible are they loaded, this makes the UI more responsive
-		public function activeRecordView_showHandler(recordAccount:Account):void
+		public function openRecordAndShowWidgets(recordAccount:Account):void
 		{
 			_tabletAppControllersMediator = new TabletAppControllersMediator(activeRecordView.widgetContainers,
 																			 _fullContainer, _settings,
@@ -184,6 +187,11 @@ package collaboRhythm.tablet.controller
 			_tabletAppControllersMediator.widgetContainers = activeRecordView.widgetContainers;
 			_tabletAppControllersMediator.showWidgetsInNewContainers();
 			activeRecordView.visible = true;
+		}
+
+		public function get navigator():ViewNavigator
+		{
+			return _tabletApplication ? _tabletApplication.navigator : null;
 		}
 	}
 }

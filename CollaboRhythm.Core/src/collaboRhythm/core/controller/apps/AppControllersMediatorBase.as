@@ -282,7 +282,7 @@ package collaboRhythm.core.controller.apps
 			return infoArray.length;
 		}
 
-		private function initializeForAccount(activeAccount:Account, activeRecordAccount:Account):void
+		protected function initializeForAccount(activeAccount:Account, activeRecordAccount:Account):void
 		{
 			closeApps();
 
@@ -397,6 +397,7 @@ package collaboRhythm.core.controller.apps
 
 		private function keyDownHandler(event:KeyboardEvent):void
 		{
+/*
 			if (event.keyCode == Keyboard.BACK)
 			{
 				if (currentFullView)
@@ -405,6 +406,7 @@ package collaboRhythm.core.controller.apps
 					hideFullViews("back key pressed");
 				}
 			}
+*/
 		}
 
 		public function hideFullViews(viaMechanism:String):void
@@ -473,6 +475,11 @@ package collaboRhythm.core.controller.apps
 		public function set widgetContainers(value:Vector.<IVisualElementContainer>):void
 		{
 			_widgetContainers = value;
+		}
+
+		protected function get factory():WorkstationAppControllerFactory
+		{
+			return _factory;
 		}
 	}
 }

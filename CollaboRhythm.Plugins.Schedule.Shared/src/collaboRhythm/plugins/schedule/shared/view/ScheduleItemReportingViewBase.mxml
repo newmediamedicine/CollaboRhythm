@@ -28,6 +28,7 @@
 		<![CDATA[
 		import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 		import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
+		import collaboRhythm.shared.model.InteractionLogUtil;
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
@@ -112,6 +113,61 @@
 		{
 			_pendingAdherenceItemChangeWatcher.unwatch();
 		}
+
+		protected function adherenceButtonClickHandler(event:MouseEvent):void
+		{
+			InteractionLogUtil.log(_logger, "Report adherence", "adherence button click");
+
+			if (_scheduleItemOccurrence.adherenceItem)
+			{
+				if (!_scheduleItemOccurrence.adherenceItem.adherence)
+				{
+					dispatchAdherenceItemVoidEvent();
+					createAdherenceItem();
+				}
+				else
+				{
+					dispatchAdherenceItemVoidEvent();
+				}
+			}
+			else
+			{
+				createAdherenceItem();
+			}
+		}
+
+		protected function createAdherenceItem():void
+		{
+			// abstract; subclasses should override
+		}
+
+		protected function nonadherenceButtonClickHandler(event:MouseEvent):void
+		{
+			InteractionLogUtil.log(_logger, "Report nonadherence", "nonadherence button click");
+
+			if (_scheduleItemOccurrence.adherenceItem)
+			{
+				if (_scheduleItemOccurrence.adherenceItem.adherence)
+				{
+					dispatchAdherenceItemVoidEvent();
+					createNonadherenceItem();
+				}
+				else
+				{
+					dispatchAdherenceItemVoidEvent();
+				}
+			}
+			else
+			{
+				createNonadherenceItem();
+			}
+		}
+
+		protected function createNonadherenceItem():void
+		{
+			// abstract; subclasses should override
+		}
+
 		]]>
 	</fx:Script>
 </s:Group>

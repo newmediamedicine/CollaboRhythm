@@ -105,6 +105,9 @@ package collaboRhythm.core.controller
 		private var _autoSyncTimer:Timer;
 		protected var _currentDateSource:ICurrentDateSource;
 
+		private var _backgroundProcessRunning:Boolean;
+		private var _backgroundProcessMessage:String;
+
 		public function ApplicationControllerBase()
 		{
 			// TODO: add event listener to handle the fast forward mode of the date source
@@ -928,6 +931,13 @@ package collaboRhythm.core.controller
 			}
 			_serviceIsSavingPrevious = isSaving;
 			updateConnectivityView();
+			updateBackgroundProcess();
+		}
+
+		private function updateBackgroundProcess():void
+		{
+			backgroundProcessRunning = _healthRecordServiceFacade && _healthRecordServiceFacade.isSaving;
+			backgroundProcessMessage = "Saving...";
 		}
 
 		private function get hasErrorsSaving():Boolean
@@ -1015,8 +1025,8 @@ package collaboRhythm.core.controller
 				}
 				else if (_healthRecordServiceFacade && _healthRecordServiceFacade.isSaving)
 				{
-					connectivityState = ConnectivityView.CONNECT_IN_PROGRESS_STATE;
-					_connectivityView.detailsMessage = "Saving data to health record server...";
+//					connectivityState = ConnectivityView.CONNECT_IN_PROGRESS_STATE;
+//					_connectivityView.detailsMessage = "Saving data to health record server...";
 				}
 				else if (_healthRecordServiceFacade && _healthRecordServiceFacade.hasConnectionErrorsSaving)
 				{
@@ -1136,6 +1146,28 @@ package collaboRhythm.core.controller
 			{
 				demoCurrentDateSource.fastForwardEnabled = value;
 			}
+		}
+
+		[Bindable]
+		public function get backgroundProcessRunning():Boolean
+		{
+			return _backgroundProcessRunning;
+		}
+
+		public function set backgroundProcessRunning(value:Boolean):void
+		{
+			_backgroundProcessRunning = value;
+		}
+
+		[Bindable]
+		public function get backgroundProcessMessage():String
+		{
+			return _backgroundProcessMessage;
+		}
+
+		public function set backgroundProcessMessage(value:String):void
+		{
+			_backgroundProcessMessage = value;
 		}
 	}
 }

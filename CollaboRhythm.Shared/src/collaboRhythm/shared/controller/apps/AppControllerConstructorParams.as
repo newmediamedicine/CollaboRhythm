@@ -24,6 +24,8 @@ import collaboRhythm.shared.model.Account;
 
     import mx.core.IVisualElementContainer;
 
+	import spark.components.ViewNavigator;
+
 	public class AppControllerConstructorParams
 	{
 		private var _widgetContainer:IVisualElementContainer;
@@ -34,6 +36,7 @@ import collaboRhythm.shared.model.Account;
         private var _settings:Settings;
         private var _componentContainer:IComponentContainer;
 		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
+		private var _viewNavigator:ViewNavigator;
 
 		public function AppControllerConstructorParams()
 		{
@@ -115,6 +118,16 @@ import collaboRhythm.shared.model.Account;
 		public function set collaborationLobbyNetConnectionService(value:CollaborationLobbyNetConnectionService):void
 		{
 			_collaborationLobbyNetConnectionService = value;
+		}
+
+		public function get viewNavigator():ViewNavigator
+		{
+			return _viewNavigator;
+		}
+
+		public function set viewNavigator(value:ViewNavigator):void
+		{
+			_viewNavigator = value;
 		}
 	}
 }

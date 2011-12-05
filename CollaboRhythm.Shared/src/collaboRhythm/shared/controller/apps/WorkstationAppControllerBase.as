@@ -58,6 +58,7 @@ package collaboRhythm.shared.controller.apps
 	import spark.components.Application;
 
 	import spark.components.Button;
+	import spark.components.ViewNavigator;
 	import spark.components.ViewNavigatorApplication;
 	import spark.components.Window;
 	import spark.effects.*;
@@ -90,6 +91,7 @@ package collaboRhythm.shared.controller.apps
 		protected var _settings:Settings;
 		protected var _componentContainer:IComponentContainer;
 		protected var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
+		protected var _viewNavigator:ViewNavigator;
 		protected var _primaryShowFullViewParallelEffect:Parallel;
 		protected var _secondaryShowFullViewParallelEffect:Parallel;
 		private var _isWidgetViewPrepared:Boolean = false;
@@ -111,6 +113,7 @@ package collaboRhythm.shared.controller.apps
 			_settings = constructorParams.settings;
 			_componentContainer = constructorParams.componentContainer;
 			_collaborationLobbyNetConnectionService = constructorParams.collaborationLobbyNetConnectionService;
+			_viewNavigator = constructorParams.viewNavigator;
 
 			initializeShowFullViewParallelEffects();
 
@@ -893,7 +896,16 @@ package collaboRhythm.shared.controller.apps
 				}
 				else
 				{
-					fullView.visible = false;
+					if (_viewNavigator)
+					{
+						// TODO: implement a more robust way of determining the correct navigation behavior
+						if (_viewNavigator.length > 1)
+							_viewNavigator.popToFirstView();
+					}
+					else
+					{
+						fullView.visible = false;
+					}
 					hideFullViewComplete();
 				}
 				result = true;

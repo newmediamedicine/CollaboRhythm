@@ -82,8 +82,15 @@ package collaboRhythm.core.model.healthRecord.service
 		{
 			// TODO: optimize to avoid recalculating the whole curve
 			var currentConcentrationCurve:ArrayCollection = createNewConcentrationCurve();
-			concentrationCurve.removeAll();
-			concentrationCurve.addAll(currentConcentrationCurve);
+			if (concentrationCurve)
+			{
+				concentrationCurve.removeAll();
+				concentrationCurve.addAll(currentConcentrationCurve);
+			}
+			else
+			{
+				concentrationCurve = currentConcentrationCurve;
+			}
 		}
 
 		// TODO: update the showAdherence flag
