@@ -16,6 +16,7 @@ package collaboRhythm.shared.model.healthRecord
 		private var _pendingActionReason:String; // reason for void or archive
 		private var _relatesTo:ArrayCollection = new ArrayCollection();
 		private var _isRelatedFrom:ArrayCollection = new ArrayCollection();
+		private var _isBeingProcessed:Boolean;
 
 		public function DocumentBase()
 		{
@@ -115,6 +116,16 @@ package collaboRhythm.shared.model.healthRecord
 				return 0;
 			}
 			return -1;
+		}
+
+		public function get isBeingSaved():Boolean
+		{
+			return _isBeingProcessed;
+		}
+
+		public function set isBeingSaved(value:Boolean):void
+		{
+			_isBeingProcessed = value;
 		}
 	}
 }

@@ -190,6 +190,10 @@ package collaboRhythm.core.controller
 			_logger.info("  User settings file loaded: " + _settingsFileStore.isUserSettingsLoaded + " path=" + _settingsFileStore.userSettingsFile.nativePath);
 			_logger.info("  Mode: " + _settings.mode);
 			_logger.info("  Username: " + _settings.username);
+			if (_settings.targetDate)
+				_logger.info("  Demo mode ON; target date: " + _settings.targetDate.toLocaleString());
+			else
+				_logger.info("  Demo mode OFF");
 
 			initNativeApplicationEventListeners();
 
