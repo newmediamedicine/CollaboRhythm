@@ -42,6 +42,7 @@ package collaboRhythm.workstation.controller
 	import collaboRhythm.workstation.model.settings.WindowSettingsDataStore;
 	import collaboRhythm.workstation.model.settings.WindowState;
 	import collaboRhythm.workstation.view.ActiveRecordView;
+	import collaboRhythm.workstation.view.HealthRecordWindow;
 	import collaboRhythm.workstation.view.PrimaryWindowView;
 	import collaboRhythm.workstation.view.SecondaryWindowView;
 	import collaboRhythm.workstation.view.WorkstationWindow;
@@ -731,6 +732,15 @@ package collaboRhythm.workstation.controller
 				else if (event.keyCode == Keyboard.F)
 				{
 					fastForwardEnabled = !fastForwardEnabled;
+				}
+				else if (event.keyCode == Keyboard.R)
+				{
+					if (_activeRecordAccount && _activeRecordAccount.primaryRecord)
+					{
+						var healthRecordWindow:HealthRecordWindow = new HealthRecordWindow();
+						healthRecordWindow.record = _activeRecordAccount.primaryRecord;
+						healthRecordWindow.open();
+					}
 				}
 			}
 			else if (event.keyCode == Keyboard.F1)

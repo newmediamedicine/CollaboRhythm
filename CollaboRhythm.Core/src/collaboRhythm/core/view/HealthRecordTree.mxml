@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+		width="100%"
+		height="100%">
+	<mx:AdvancedDataGrid id="healthRecordTree"
+		width="100%"
+		height="100%"
+		displayItemsExpanded="false">
+		<mx:dataProvider>
+			<mx:HierarchicalData id="recordHierarchicalData" source="{record.documentCollections.values()}" childrenField="documents"/>
+		</mx:dataProvider>
+		<mx:columns>
+			<mx:AdvancedDataGridColumn headerText="Name" dataField="documentType" labelFunction="nameLabelFunction"/>
+			<mx:AdvancedDataGridColumn headerText="Count" labelFunction="countLabelFunction"/>
+			<mx:AdvancedDataGridColumn headerText="Date Start" labelFunction="dateStartLabelFunction"/>
+			<mx:AdvancedDataGridColumn headerText="Date End" labelFunction="dateEndLabelFunction"/>
+			<mx:AdvancedDataGridColumn headerText="Date Created" labelFunction="dateCreatedLabelFunction"/>
+			<mx:AdvancedDataGridColumn headerText="Relates To" labelFunction="relatesToLabelFunction"/>
+			<mx:AdvancedDataGridColumn headerText="Related From" labelFunction="relatedFromLabelFunction"/>
+		</mx:columns>
+
+	</mx:AdvancedDataGrid>
+	<fx:Script><![CDATA[
+		import collaboRhythm.shared.model.Record;
+		import collaboRhythm.shared.model.healthRecord.CodedValue;
+		import collaboRhythm.shared.model.healthRecord.IDocument;
+		import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
+
+		import mx.collections.HierarchicalData;
+
+		private var _recordHierarchy:HierarchicalData;
+		private var _record:Record;
+
+		private function nameLabelFunction(item:Object, column:AdvancedDataGridColumn):String
+		{
+			var documentCollection:IDocumentCollection = item as IDocumentCollection;
+			if (documentCollection)
+			{
+				if (!documentCollection.documentType) return null;
+
+				var parts:Array = documentCollection.documentType.split("#");
+				return parts[parts.length - 1];
+			}
+			else
+			{
+				var document:IDocument = item as IDocument;
+				if (document)
+				{
+					if ((document as Object).hasOwnProperty("name"))
+					{
+						var documentName:Object = document["name"];
+						var documentNameCodedValue:CodedValue = documentName as CodedValue;
+						if (documentNameCodedValue)
+						{
+							return documentNameCodedValue.text;
+						}
+						return documentName ? documentName.toString() : null;
+					}
+				}
+			}
+			return null;
+		}
+
+		private function countLabelFunction(item:Object, column:AdvancedDataGridColumn):String
+		{
+			var documentCollection:IDocumentCollection = item as IDocumentCollection;
+			if (documentCollection)
+			{
+				return documentCollection.documents.length.toString();
+			}
+			return null;
+		}
+
+		private function dateStartLabelFunction(item:Object, column:AdvancedDataGridColumn):String
+		{
+			var document:IDocument = item as IDocument;
+			if (document)
+			{
+				var propertyNames:Array = ["date", "dateStart", "dateMeasuredStart", "dateOrdered", "dateOnset", "dateReported", "dateFilled", "dateRecorded"];
+				return getDateValue(propertyNames, document);
+			}
+			return null;
+		}
+
+		private function dateEndLabelFunction(item:Object, column:AdvancedDataGridColumn):String
+		{
+			var document:IDocument = item as IDocument;
+			if (document)
+			{
+				var propertyNames:Array = ["dateEnd", "dateMeasuredEnd", "dateExpires", "dateResolution", "dateAdministered", "dateSent"];
+				return getDateValue(propertyNames, document);
+			}
+			return null;
+		}
+
+		private function dateCreatedLabelFunction(item:Object, column:AdvancedDataGridColumn):String
+		{
+			var document:IDocument = item as IDocument;
+			if (document)
+			{
+				return document.meta.createdAt.toLocaleString();
+			}
+			return null;
+		}
+
+		private function relatesToLabelFunction(item:Object, column:AdvancedDataGridColumn):String
+		{
+			var document:IDocument = item as IDocument;
+			if (document)
+			{
+				return document.relatesTo.length.toString();
+			}
+			return null;
+		}
+
+		private function relatedFromLabelFunction(item:Object, column:AdvancedDataGridColumn):String
+		{
+			var document:IDocument = item as IDocument;
+			if (document)
+			{
+				return document.isRelatedFrom.length.toString();
+			}
+			return null;
+		}
+
+		[Bindable]
+		public function get record():Record
+		{
+			return _record;
+		}
+
+		public function set record(value:Record):void
+		{
+			_record = value;
+		}
+
+		private function getDateValue(propertyNames:Array, document:IDocument):String
+		{
+			var date:Date;
+			for each (var propertyName:String in propertyNames)
+			{
+				if ((document as Object).hasOwnProperty(propertyName))
+				{
+					date = document[propertyName] as Date;
+					break;
+				}
+			}
+			return date ? date.toLocaleString() : null;
+		}
+		]]></fx:Script>
+</s:Group>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<s:Window xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:view="collaboRhythm.core.view.*"
+		width="800"
+		height="600">
+	<view:HealthRecordTree record="{record}"/>
+	<fx:Script><![CDATA[
+		import collaboRhythm.shared.model.Record;
+
+		private var _record:Record;
+
+		[Bindable]
+		public function get record():Record
+		{
+			return _record;
+		}
+
+		public function set record(value:Record):void
+		{
+			_record = value;
+			if (record)
+			{
+				title = "CollaboRhythm.Workstation - " + record.contact.fullName + (record.dateLoaded ? (" - " + record.dateLoaded.toLocaleString()) : "");
+			}
+		}
+		]]></fx:Script>
+</s:Window>

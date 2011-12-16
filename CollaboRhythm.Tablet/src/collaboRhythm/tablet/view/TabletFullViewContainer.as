@@ -41,7 +41,11 @@ package collaboRhythm.tablet.view
 		{
 			if (app)
 			{
-				app.destroyFullView();
+				app.closeFullView();
+				while (this.numElements > 0)
+				{
+					this.removeElementAt(0);
+				}
 			}
 		}
 	}

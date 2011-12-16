@@ -163,11 +163,11 @@ package collaboRhythm.shared.model.settings
 			}
 
 			var qName:QName;
-			var xmlDecoder:XMLDecoder;
+			var xmlDecoder:XmlDecoderEx;
 
 			qName = getSettingsQName();
 
-			xmlDecoder = new XMLDecoder();
+			xmlDecoder = new XmlDecoderEx();
 			xmlDecoder.schemaManager = schemaManager;
 			xmlDecoder.makeObjectsBindable = true;
 

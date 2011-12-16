@@ -119,8 +119,4 @@
 		<s:Label id="applicationModificationLabel" text="Updated {applicationInfo.appModificationDateString}"
 				 visible="false"/>
 	</s:VGroup>
-
-	<!-- Instances of charting components which started causing errors (in plugins which use charts) when we upgraded to Flex SDK 4.6.0 preview -->
-	<mx:LineChart visible="false"/>
-	<mx:AreaSeries visible="false"/>
 </s:Group>

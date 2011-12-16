@@ -102,6 +102,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 					  horizontalAxisStyleNames="mainChartHorizontalAxisStyle"
 					  verticalAxisStyleNames="mainChartVerticalAxisStyle"
 					  selectionMode="none"
+					  cacheAsBitmap="true"
 					  >
 			<!--
 			Note that we don't need a gutterLeft in the mainChart if we are using InnerAxisRenderer
@@ -147,6 +148,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 				<mccune:BlankAxisRenderer axis="{mainChartVerticalAxis}"/>
 			</mx:verticalAxisRenderers>
 
+<!--
 			<mx:series>
 				<mx:AreaSeries id="mainPrimarySeries" name="close" xField="dateMeasuredStart"
 							   areaFill="{new SolidColor(0xCDE2F8, 0.20)}"
@@ -157,6 +159,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 							   filterDataValues="none"
 							   />
 			</mx:series>
+-->
 			<mx:annotationElements>
 				<!-- Skin part to receive mouse events for scrolling the main chart -->
 				<mx:Canvas id="mainChartArea" width="100%" height="100%" buttonMode="true" mouseEnabled="true"
@@ -169,11 +172,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 						</s:fill>
 					</s:Rect>
 				</s:Group>
-				<s:Label id="titleDisplay" styleName="MainChartTitleLabel" x="{-mainChart.x}">
-					<s:filters>
-						<s:GlowFilter id="glow" blurX="12" blurY="12" color="#FFFFFF" quality="2" strength="4"/>
-					</s:filters>
-				</s:Label>
 
 				<mx:Canvas id="annotationCanvas" width="100%" height="100%"
 						   horizontalScrollPolicy="off" verticalScrollPolicy="off"/>
@@ -205,9 +203,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 				</s:VGroup>
 				-->
 			</mx:annotationElements>
-
-
 		</mx:LineChart>
+
+		<s:Label id="titleDisplay" styleName="MainChartTitleLabel" mouseEnabled="false">
+			<s:filters>
+				<s:GlowFilter id="glow" blurX="12" blurY="12" color="#FFFFFF" quality="2" strength="4"/>
+			</s:filters>
+		</s:Label>
 
 		<mx:LineChart id="mainChartCover"
 					  mouseEnabled="false"

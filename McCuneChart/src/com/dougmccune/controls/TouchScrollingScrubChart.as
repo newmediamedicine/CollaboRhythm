@@ -139,7 +139,7 @@ package com.dougmccune.controls
 			rightRangeTime = targetLeftRangeTime + leftToRight;
 
 			var mainChartEffectivePositionX:Number = -(getAxisMinimum(this.mainChart.horizontalAxis).time - _minimumTime) * (mainChartArea.width / mainChartToContainerRatio / mainChartDurationTime);
-			quickScrollOffset = value - mainChartEffectivePositionX;
+			quickScrollOffset = Math.round(value - mainChartEffectivePositionX);
 
 			var isQuickScroll:Boolean = true;
 			if (quickScrollOffset > 0 || quickScrollOffset < mainChartContainer.width - mainChartArea.width)

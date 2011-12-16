@@ -30,6 +30,7 @@ package collaboRhythm.tablet.controller
 	import flash.events.Event;
 
 	import mx.core.IVisualElementContainer;
+	import mx.events.FlexEvent;
 
 	import spark.components.ViewNavigator;
 
@@ -179,7 +180,18 @@ package collaboRhythm.tablet.controller
 
 		public function pushFullView(workstationAppController:WorkstationAppControllerBase):void
 		{
+			if (workstationAppController.fullView)
+			{
+				backgroundProcessModel.updateProcess("fullViewUpdate", "Updating...", true);
+				workstationAppController.fullView.addEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler, false, 0, true);
+			}
 			_tabletApplication.navigator.pushView(TabletFullViewContainer, workstationAppController, new SlideViewTransition());
+		}
+
+		private function fullView_updateCompleteHandler(event:FlexEvent):void
+		{
+			event.target.removeEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler);
+			backgroundProcessModel.updateProcess("fullViewUpdate", "Updating...", false);
 		}
 
 		public function useWidgetContainers():void

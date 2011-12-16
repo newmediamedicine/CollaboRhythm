@@ -19,9 +19,12 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 	import collaboRhythm.plugins.bloodPressure.model.BloodPressureHealthRecordService;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureFullView;
+	import collaboRhythm.plugins.bloodPressure.view.BloodPressureMeterView;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureMobileWidgetView;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureSimulationWidgetView;
+	import collaboRhythm.plugins.bloodPressure.view.IBloodPressureFullView;
 	import collaboRhythm.plugins.bloodPressure.view.IBloodPressureWidgetView;
+	import collaboRhythm.plugins.bloodPressure.view.SynchronizedCharts;
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
 	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
@@ -30,8 +33,11 @@ package collaboRhythm.plugins.bloodPressure.controller
 	import flash.display.Loader;
 
 	import flash.display.MovieClip;
+	import flash.events.Event;
 
 	import mx.core.UIComponent;
+	import mx.events.FlexEvent;
+	import mx.events.PropertyChangeEvent;
 
 	import spark.primitives.Rect;
 
@@ -39,9 +45,9 @@ package collaboRhythm.plugins.bloodPressure.controller
 	{
 		public static const DEFAULT_NAME:String = "Blood Pressure Review";
 
-		private var _fullView:BloodPressureFullView;
+		private var _fullView:IBloodPressureFullView;
 		private var _widgetView:IBloodPressureWidgetView;
-		private var _createFullViewOnInitialize:Boolean = false;
+		private var _createFullViewOnInitialize:Boolean = true;
 
 		public override function get widgetView():UIComponent
 		{
@@ -60,24 +66,26 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 		public override function get fullView():UIComponent
 		{
-			return _fullView;
+			return _fullView as UIComponent;
 		}
 
 		public override function set fullView(value:UIComponent):void
 		{
-			_fullView = value as BloodPressureFullView;
+			_fullView = value as IBloodPressureFullView;
 		}
 
 		public function BloodPressureAppController(constructorParams:AppControllerConstructorParams)
 		{
 			super(constructorParams);
+			cacheFullView = true;
 		}
 
 		protected override function createWidgetView():UIComponent
 		{
 			var newWidgetView:IBloodPressureWidgetView;
 			if (isWorkstationMode || isTabletMode)
-				newWidgetView = new BloodPressureSimulationWidgetView();
+//				newWidgetView = new BloodPressureSimulationWidgetView();
+				newWidgetView = new BloodPressureMeterView();
 			else
 				newWidgetView = new BloodPressureMobileWidgetView();
 
@@ -86,8 +94,12 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 		protected override function createFullView():UIComponent
 		{
-			_fullView = new BloodPressureFullView();
-			return _fullView;
+			if (isWorkstationMode)
+				_fullView = new BloodPressureFullView();
+			else
+				_fullView = new SynchronizedCharts();
+
+			return _fullView as UIComponent;
 		}
 
 		public override function initialize():void
@@ -107,14 +119,54 @@ package collaboRhythm.plugins.bloodPressure.controller
 			{
 				createFullView();
 				prepareFullView();
+
+				// special handling to get a bitmap snapshot of the fullView so we can do a quick transition the first time it is shown
+				if (isTabletMode)
+				{
+					if (_activeRecordAccount.primaryRecord.bloodPressureModel.isInitialized)
+					{
+						listenForFullViewUpdateComplete();
+					}
+					else
+					{
+						_activeRecordAccount.primaryRecord.bloodPressureModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+																							   model_propertyChangeHandler,
+																							   false, 0, true);
+					}
+					if (_viewNavigator)
+					{
+						_viewNavigator.activeView.addElement(fullView);
+					}
+				}
 			}
+		}
+
+		private function model_propertyChangeHandler(event:PropertyChangeEvent):void
+		{
+			if (event.property == "isInitialized" && _activeRecordAccount.primaryRecord.bloodPressureModel.isInitialized)
+			{
+				_activeRecordAccount.primaryRecord.bloodPressureModel.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE, model_propertyChangeHandler);
+				listenForFullViewUpdateComplete();
+			}
+		}
+
+		private function listenForFullViewUpdateComplete():void
+		{
+			fullView.addEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler, false, 0, true);
+		}
+
+		private function fullView_updateCompleteHandler(event:FlexEvent):void
+		{
+			takeFullViewSnapshot();
+			removeFromParent(fullView);
+			fullView.visible = false;
+			fullView.removeEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler);
 		}
 
 		protected function get shouldPreCreateFullView():Boolean
 		{
-			return !_fullView && _createFullViewOnInitialize && _fullContainer && isFullViewSupported;
+			return !_fullView && _createFullViewOnInitialize && cacheFullView && isFullViewSupported;
 		}
-
 
 		override protected function updateWidgetViewModel():void
 		{
@@ -190,19 +242,28 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 		override protected function showFullViewComplete():void
 		{
-			_fullView.simulationView.isRunning = true;
+			if (fullViewWithSimulation)
+				fullViewWithSimulation.simulationView.isRunning = true;
+		}
+
+		private function get fullViewWithSimulation():BloodPressureFullView
+		{
+			return _fullView as BloodPressureFullView;
 		}
 
 		override protected function hideFullViewComplete():void
 		{
-			_fullView.simulationView.isRunning = false;
-			moveMovieClipToWidgetView();
+			if (fullViewWithSimulation)
+			{
+				fullViewWithSimulation.simulationView.isRunning = false;
+				moveMovieClipToWidgetView();
+			}
 		}
 
 		override public function destroyViews():void
 		{
-			if (_fullView)
-				_fullView.simulationView.isRunning = false;
+			if (fullViewWithSimulation)
+				fullViewWithSimulation.simulationView.isRunning = false;
 
 			super.destroyViews();
 		}
@@ -222,23 +283,29 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 		private function moveMovieClipToFullView():void
 		{
-			var bloodPressureSimulationWidgetView:BloodPressureSimulationWidgetView = (_widgetView as BloodPressureSimulationWidgetView);
-			if (_fullView && bloodPressureSimulationWidgetView)
+			if (fullViewWithSimulation)
 			{
-				var loader:Loader = bloodPressureSimulationWidgetView.circulatorySystemSimulationView.removeMovieClipLoader();
-				if (loader)
-					_fullView.simulationView.hypertensionCirculatorySystemGroup.circulatorySystemSimulationView.injectMovieClipLoader(loader);
+				var bloodPressureSimulationWidgetView:BloodPressureSimulationWidgetView = (_widgetView as BloodPressureSimulationWidgetView);
+				if (_fullView && bloodPressureSimulationWidgetView)
+				{
+					var loader:Loader = bloodPressureSimulationWidgetView.circulatorySystemSimulationView.removeMovieClipLoader();
+					if (loader)
+						fullViewWithSimulation.simulationView.hypertensionCirculatorySystemGroup.circulatorySystemSimulationView.injectMovieClipLoader(loader);
+				}
 			}
 		}
 
 		private function moveMovieClipToWidgetView():void
 		{
-			var bloodPressureSimulationWidgetView:BloodPressureSimulationWidgetView = (_widgetView as BloodPressureSimulationWidgetView);
-			if (_fullView && bloodPressureSimulationWidgetView)
+			if (fullViewWithSimulation)
 			{
-				var loader:Loader = _fullView.simulationView.hypertensionCirculatorySystemGroup.circulatorySystemSimulationView.removeMovieClipLoader();
-				if (loader)
-					bloodPressureSimulationWidgetView.circulatorySystemSimulationView.injectMovieClipLoader(loader);
+				var bloodPressureSimulationWidgetView:BloodPressureSimulationWidgetView = (_widgetView as BloodPressureSimulationWidgetView);
+				if (_fullView && bloodPressureSimulationWidgetView)
+				{
+					var loader:Loader = fullViewWithSimulation.simulationView.hypertensionCirculatorySystemGroup.circulatorySystemSimulationView.removeMovieClipLoader();
+					if (loader)
+						bloodPressureSimulationWidgetView.circulatorySystemSimulationView.injectMovieClipLoader(loader);
+				}
 			}
 		}
 	}

@@ -22,6 +22,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.core.model.AboutApplicationModel;
 	import collaboRhythm.core.model.ApplicationControllerModel;
+	import collaboRhythm.core.model.BackgroundProcessCollectionModel;
 	import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
 	import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
 	import collaboRhythm.core.pluginsManagement.PluginLoader;
@@ -105,8 +106,7 @@ package collaboRhythm.core.controller
 		private var _autoSyncTimer:Timer;
 		protected var _currentDateSource:ICurrentDateSource;
 
-		private var _backgroundProcessRunning:Boolean;
-		private var _backgroundProcessMessage:String;
+		private var _backgroundProcessModel:BackgroundProcessCollectionModel = new BackgroundProcessCollectionModel();
 
 		public function ApplicationControllerBase()
 		{
@@ -940,8 +940,7 @@ package collaboRhythm.core.controller
 
 		private function updateBackgroundProcess():void
 		{
-			backgroundProcessRunning = _healthRecordServiceFacade && _healthRecordServiceFacade.isSaving;
-			backgroundProcessMessage = "Saving...";
+			backgroundProcessModel.updateProcess("healthRecordServiceFacade", "Saving...", _healthRecordServiceFacade && _healthRecordServiceFacade.isSaving);
 		}
 
 		private function get hasErrorsSaving():Boolean
@@ -1153,25 +1152,14 @@ package collaboRhythm.core.controller
 		}
 
 		[Bindable]
-		public function get backgroundProcessRunning():Boolean
+		public function get backgroundProcessModel():BackgroundProcessCollectionModel
 		{
-			return _backgroundProcessRunning;
+			return _backgroundProcessModel;
 		}
 
-		public function set backgroundProcessRunning(value:Boolean):void
+		public function set backgroundProcessModel(value:BackgroundProcessCollectionModel):void
 		{
-			_backgroundProcessRunning = value;
-		}
-
-		[Bindable]
-		public function get backgroundProcessMessage():String
-		{
-			return _backgroundProcessMessage;
-		}
-
-		public function set backgroundProcessMessage(value:String):void
-		{
-			_backgroundProcessMessage = value;
+			_backgroundProcessModel = value;
 		}
 	}
 }

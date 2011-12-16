@@ -101,12 +101,12 @@
 		<s:BusyIndicator id="backgroundProgressIndicator"
 						 height="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
 						 width="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
-						 visible="{_workstationApplicationController.backgroundProcessRunning}" includeInLayout="{_workstationApplicationController.backgroundProcessRunning}"/>
+						 visible="{_workstationApplicationController.backgroundProcessModel.isRunning}" includeInLayout="{_workstationApplicationController.backgroundProcessModel.isRunning}"/>
 		<s:Label id="backgroundProgressLabel"
 				 height="{ActiveAccountView.ACTIVE_ACCOUNT_HEADER_HEIGHT - 10}"
 				 fontSize="24"
 				 verticalAlign="middle"
-				 text="{_workstationApplicationController.backgroundProcessMessage}" visible="{_workstationApplicationController.backgroundProcessRunning}" includeInLayout="{_workstationApplicationController.backgroundProcessRunning}"/>
+				 text="{_workstationApplicationController.backgroundProcessModel.summary}" visible="{_workstationApplicationController.backgroundProcessModel.isRunning}" includeInLayout="{_workstationApplicationController.backgroundProcessModel.isRunning}"/>
 		<s:Button
 			id="forceClientSynchronizationButton"
 			label="Force Sync"
