@@ -83,8 +83,9 @@ package collaboRhythm.plugins.bloodPressure.controller
 		protected override function createWidgetView():UIComponent
 		{
 			var newWidgetView:IBloodPressureWidgetView;
-			if (isWorkstationMode || isTabletMode)
-//				newWidgetView = new BloodPressureSimulationWidgetView();
+			if (isWorkstationMode)
+				newWidgetView = new BloodPressureSimulationWidgetView();
+			else if (isTabletMode)
 				newWidgetView = new BloodPressureMeterView();
 			else
 				newWidgetView = new BloodPressureMobileWidgetView();

@@ -120,6 +120,7 @@
 		private function creationCompleteHandler(event:FlexEvent):void
 		{
 			updateComponentsForSimulationOnlyViewMode();
+			initalizeSimulationView();
 		}
 
 		public function get chartsOnlyViewMode():Boolean
@@ -142,8 +143,7 @@
 		{
 			_model = value;
 
-			if (simulationView)
-				simulationView.initializeModel(model.focusSimulation, model);
+			initalizeSimulationView();
 //			if (chartsGroup)
 //				chartsGroup.model = model;
 		}
@@ -156,8 +156,7 @@
 			}
 			if (simulationView)
 			{
-				simulationView.initializeModel(model.focusSimulation, model);
-				simulationView.refresh();
+				initalizeSimulationView();
 			}
 		}
 
@@ -170,6 +169,15 @@
 		public function set modality(value:String):void
 		{
 			_modality = value;
+		}
+
+		private function initalizeSimulationView():void
+		{
+			if (simulationView)
+			{
+				simulationView.initializeModel(model.focusSimulation, model);
+				simulationView.refresh();
+			}
 		}
 		]]></fx:Script>
 </s:Group>
