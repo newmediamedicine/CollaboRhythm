@@ -20,11 +20,11 @@ package collaboRhythm.shared.apps.genetics.controller
 
 	import collaboRhythm.shared.apps.genetics.view.GeneticsWidgetView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 
 	import mx.core.UIComponent;
 
-	public class GeneticsAppController extends WorkstationAppControllerBase
+	public class GeneticsAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Genetics";
 

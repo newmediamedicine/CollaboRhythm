@@ -18,9 +18,9 @@ package collaboRhythm.core.tests.model.testResources
 {
 
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 
-	public class AppControllerB extends WorkstationAppControllerBase
+	public class AppControllerB extends AppControllerBase
 	{
 		public function AppControllerB()
 		{

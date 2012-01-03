@@ -19,7 +19,7 @@ package collaboRhythm.mobile.controller
 	import collaboRhythm.core.pluginsManagement.PluginEvent;
 	import collaboRhythm.core.pluginsManagement.PluginLoader;
 	import collaboRhythm.mobile.view.WidgetContainerView;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 
 	import flash.events.TransformGestureEvent;
 	import flash.filesystem.File;
@@ -80,7 +80,7 @@ package collaboRhythm.mobile.controller
 
 		public function pushView():Boolean
 		{
-			if (_moblieApplicationController.mobileAppControllersMediator && widgetNavigationIndex + 1 < _moblieApplicationController.mobileAppControllersMediator.workstationApps.length)
+			if (_moblieApplicationController.mobileAppControllersMediator && widgetNavigationIndex + 1 < _moblieApplicationController.mobileAppControllersMediator.apps.length)
 			{
 				navigator.pushView(WidgetContainerView, null,
 					new SlideViewTransition());
@@ -142,10 +142,10 @@ package collaboRhythm.mobile.controller
 			view.controller = this;
 			view.addEventListener(PluginEvent.RELOAD_REQUEST, view_reloadRequestHandler);
 
-			if (_moblieApplicationController.mobileAppControllersMediator && widgetNavigationIndex >= 0 && widgetNavigationIndex < _moblieApplicationController.mobileAppControllersMediator.workstationApps.length)
+			if (_moblieApplicationController.mobileAppControllersMediator && widgetNavigationIndex >= 0 && widgetNavigationIndex < _moblieApplicationController.mobileAppControllersMediator.apps.length)
 			{
-				var app:WorkstationAppControllerBase = _moblieApplicationController.mobileAppControllersMediator.workstationApps.getValueByIndex(widgetNavigationIndex);
-				view.workstationAppController = app;
+				var app:AppControllerBase = _moblieApplicationController.mobileAppControllersMediator.apps.getValueByIndex(widgetNavigationIndex);
+				view.appController = app;
 				if (app)
 				{
 					view.title = app.name;
@@ -174,7 +174,7 @@ package collaboRhythm.mobile.controller
 		public function destroyView(view:WidgetContainerView):void
 		{
 			view.removeEventListener(PluginEvent.RELOAD_REQUEST, view_reloadRequestHandler);
-			var app:WorkstationAppControllerBase = view.workstationAppController;
+			var app:AppControllerBase = view.appController;
 			// TODO: perhaps only the widget/mobile view should be destroyed here?
 			if (app)
 				app.destroyViews();

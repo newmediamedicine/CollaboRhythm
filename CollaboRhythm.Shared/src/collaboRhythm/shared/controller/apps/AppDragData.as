@@ -18,13 +18,13 @@ package collaboRhythm.shared.controller.apps
 {
 	import flash.events.MouseEvent;
 
-	public class WorkstationAppDragData
+	public class AppDragData
 	{
-		public static const DRAG_SOURCE_DATA_FORMAT:String = "WorkstationAppDragData";
+		public static const DRAG_SOURCE_DATA_FORMAT:String = "AppDragData";
 		
 		private var _mouseEvent:MouseEvent;
 		
-		public function WorkstationAppDragData(mouseEvent:MouseEvent)
+		public function AppDragData(mouseEvent:MouseEvent)
 		{
 			_mouseEvent = mouseEvent;
 		}

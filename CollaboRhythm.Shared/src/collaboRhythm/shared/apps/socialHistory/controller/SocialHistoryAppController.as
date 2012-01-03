@@ -20,11 +20,11 @@ package collaboRhythm.shared.apps.socialHistory.controller
 
 	import collaboRhythm.shared.apps.socialHistory.view.SocialHistoryWidgetView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 
 	import mx.core.UIComponent;
 
-	public class SocialHistoryAppController extends WorkstationAppControllerBase
+	public class SocialHistoryAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Social History";
 

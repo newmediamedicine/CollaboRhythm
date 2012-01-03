@@ -79,7 +79,7 @@ package collaboRhythm.workstation.controller
         private var _secondaryWindowView:SecondaryWindowView;
         private var _collaborationView:CollaborationView;
         private var _activeRecordView:ActiveRecordView;
-        private var _workstationAppControllersMediator:WorkstationAppControllersMediator;
+        private var _appControllersMediator:WorkstationAppControllersMediator;
 		private var _fullContainer:IVisualElementContainer;
 		private var _scheduleWidgetContainer:IVisualElementContainer;
 		private var _fullScreen:Boolean = true;
@@ -291,8 +291,8 @@ package collaboRhythm.workstation.controller
 			}
 
             _fullContainer = _activeRecordView.fullViewGroup;
-            _workstationAppControllersMediator = new WorkstationAppControllersMediator(widgetContainers, _fullContainer, _settings, _componentContainer, _collaborationController.collaborationModel.collaborationLobbyNetConnectionService);
-            _workstationAppControllersMediator.createAndStartApps(_activeAccount, recordAccount);
+            _appControllersMediator = new WorkstationAppControllersMediator(widgetContainers, _fullContainer, _settings, _componentContainer, _collaborationController.collaborationModel.collaborationLobbyNetConnectionService);
+            _appControllersMediator.createAndStartApps(_activeAccount, recordAccount);
 
             if (_reloadWithFullView != null)
             {
@@ -305,7 +305,7 @@ package collaboRhythm.workstation.controller
         public override function closeRecordAccount(recordAccount:Account):void
         {
 			super.closeRecordAccount(recordAccount);
-            _workstationAppControllersMediator.closeApps();
+            _appControllersMediator.closeApps();
 			if (recordAccount)
                 recordAccount.primaryRecord.clearDocuments();
             _activeRecordAccount = null;
@@ -340,12 +340,12 @@ package collaboRhythm.workstation.controller
 
         protected override function get appControllersMediator():AppControllersMediatorBase
         {
-            return _workstationAppControllersMediator;
+            return _appControllersMediator;
         }
 
         public override function get currentFullView():String
         {
-            return _workstationAppControllersMediator ? _workstationAppControllersMediator.currentFullView : null;
+            return _appControllersMediator ? _appControllersMediator.currentFullView : null;
         }
 
 		public override function get fullContainer():IVisualElementContainer

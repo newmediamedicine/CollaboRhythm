@@ -20,11 +20,11 @@ package collaboRhythm.shared.apps.procedures.controller
 
 	import collaboRhythm.shared.apps.procedures.view.ProceduresWidgetView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 
 	import mx.core.UIComponent;
 
-	public class ProceduresAppController extends WorkstationAppControllerBase
+	public class ProceduresAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Procedures";
 

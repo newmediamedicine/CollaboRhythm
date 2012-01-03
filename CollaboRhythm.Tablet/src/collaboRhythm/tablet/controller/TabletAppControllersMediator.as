@@ -18,7 +18,7 @@ package collaboRhythm.tablet.controller
 {
 
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.services.IComponentContainer;
@@ -42,25 +42,25 @@ package collaboRhythm.tablet.controller
 			_tabletApplicationController = tabletApplicationController;
         }
 
-		override protected function showFullViewResolved(workstationAppController:WorkstationAppControllerBase,
-														 source:String):WorkstationAppControllerBase
+		override protected function showFullViewResolved(appController:AppControllerBase,
+														 source:String):AppControllerBase
 		{
 			// destroy all full views and widget views
 
-			var appInstance:WorkstationAppControllerBase;
+			var appInstance:AppControllerBase;
 
 			// TODO: use app id instead of name
-			currentFullView = workstationAppController.name;
+			currentFullView = appController.name;
 
-			_tabletApplicationController.pushFullView(workstationAppController);
-			appInstance = workstationAppController;
+			_tabletApplicationController.pushFullView(appController);
+			appInstance = appController;
 
 			return appInstance;
 		}
 
 		public function destroyWidgetViews():void
 		{
-			for each (var app:WorkstationAppControllerBase in workstationApps.values())
+			for each (var app:AppControllerBase in apps.values())
 			{
 				app.destroyWidgetView();
 			}

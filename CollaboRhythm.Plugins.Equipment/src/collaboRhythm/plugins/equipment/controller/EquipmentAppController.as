@@ -19,12 +19,12 @@ package collaboRhythm.plugins.equipment.controller
 
 	import collaboRhythm.plugins.equipment.view.EquipmentWidgetView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.model.healthRecord.document.EquipmentModel;
 
 	import mx.core.UIComponent;
 
-	public class EquipmentAppController extends WorkstationAppControllerBase
+	public class EquipmentAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Equipment";
 

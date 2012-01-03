@@ -22,11 +22,11 @@ package collaboRhythm.plugins.hypertensionEducation.controller
 	import collaboRhythm.plugins.hypertensionEducation.view.HypertensionEducationFullView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.AppEvent;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 
 	import mx.core.UIComponent;
 
-	public class HypertensionEducationAppController extends WorkstationAppControllerBase
+	public class HypertensionEducationAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "HypertensionEducation";
 

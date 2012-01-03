@@ -19,11 +19,11 @@ package collaboRhythm.plugins.medications.controller
 
     import collaboRhythm.plugins.medications.view.MedicationsWidgetView;
     import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-    import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+    import collaboRhythm.shared.controller.apps.AppControllerBase;
 
     import mx.core.UIComponent;
 
-    public class MedicationsAppController extends WorkstationAppControllerBase
+    public class MedicationsAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Medications";
 

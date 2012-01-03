@@ -20,11 +20,11 @@ package collaboRhythm.shared.apps.immunizations.controller
 
 	import collaboRhythm.shared.apps.immunizations.view.ImmunizationsWidgetView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 
 	import mx.core.UIComponent;
 
-	public class ImmunizationsAppController extends WorkstationAppControllerBase
+	public class ImmunizationsAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Immunizations";
 

@@ -19,11 +19,11 @@ package collaboRhythm.plugins.bloodPressure.controller
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureMobileChartView;
 	import collaboRhythm.plugins.bloodPressure.view.SynchronizedCharts;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 
 	import mx.core.UIComponent;
 
-	public class BloodPressureChartAppController extends WorkstationAppControllerBase
+	public class BloodPressureChartAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Blood Pressure Chart";
 

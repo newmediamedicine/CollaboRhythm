@@ -20,13 +20,13 @@ package collaboRhythm.plugins.problems.controller
 	import collaboRhythm.plugins.problems.view.ProblemsFullView;
 	import collaboRhythm.plugins.problems.view.ProblemsWidgetView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 
     import flash.sampler._setSamplerCallback;
 
     import mx.core.UIComponent;
 
-	public class ProblemsAppController extends WorkstationAppControllerBase
+	public class ProblemsAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Problems";
 

@@ -21,7 +21,7 @@ package collaboRhythm.shared.controller.apps
 	import mx.core.IVisualElementContainer;
 	import mx.core.UIComponent;
 	
-	public class RichTextAppController extends WorkstationAppControllerBase
+	public class RichTextAppController extends AppControllerBase
 	{
 		private var _text:String;
 		private var _widgetView:RichTextWidgetView;

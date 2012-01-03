@@ -28,7 +28,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
 	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 
 	import flash.display.Loader;
 
@@ -41,7 +41,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 	import spark.primitives.Rect;
 
-	public class BloodPressureAppController extends WorkstationAppControllerBase
+	public class BloodPressureAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Blood Pressure Review";
 

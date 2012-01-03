@@ -20,11 +20,11 @@ package collaboRhythm.shared.apps.labs.controller
 
 	import collaboRhythm.shared.apps.labs.view.LabsWidgetView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 
 	import mx.core.UIComponent;
 
-	public class LabsAppController extends WorkstationAppControllerBase
+	public class LabsAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Labs";
 

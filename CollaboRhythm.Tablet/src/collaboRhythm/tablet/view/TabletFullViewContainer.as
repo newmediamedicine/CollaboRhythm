@@ -1,7 +1,7 @@
 package collaboRhythm.tablet.view
 {
 
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 
 	import flash.events.Event;
 
@@ -32,9 +32,9 @@ package collaboRhythm.tablet.view
 			title = app.name;
 		}
 
-		public function get app():WorkstationAppControllerBase
+		public function get app():AppControllerBase
 		{
-			return data as WorkstationAppControllerBase;
+			return data as AppControllerBase;
 		}
 
 		protected function removedFromStageHandler(event:Event):void

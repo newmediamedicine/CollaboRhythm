@@ -28,17 +28,17 @@ package collaboRhythm.shared.controller.apps
         public static const ALLOW_HIDE_FULL_VIEW_ON_BACK:String = "HideFullViewOnBack";
         public static const PREVENT_HIDE_FULL_VIEW_ON_BACK:String = "NoActionOnBack";
 
-		private var _workstationAppController:WorkstationAppControllerBase;
+		private var _appController:AppControllerBase;
 		private var _startRect:Rect;
 		private var _applicationName:String;
 		private var _viaMechanism:String;
 
-		public function AppEvent(type:String, workstationAppController:WorkstationAppControllerBase = null,
+		public function AppEvent(type:String, appController:AppControllerBase = null,
 								 startRect:Rect = null, applicationName:String = null, viaMechanism:String = null, bubbles:Boolean = false,
 								 cancelable:Boolean = false)
 		{
 			super(type, bubbles, cancelable);
-			_workstationAppController = workstationAppController;
+			_appController = appController;
 			_startRect = startRect;
 			_applicationName = applicationName;
 			_viaMechanism = viaMechanism;
@@ -64,14 +64,14 @@ package collaboRhythm.shared.controller.apps
 			_startRect = value;
 		}
 
-		public function get workstationAppController():WorkstationAppControllerBase
+		public function get appController():AppControllerBase
 		{
-			return _workstationAppController;
+			return _appController;
 		}
 
-		public function set workstationAppController(value:WorkstationAppControllerBase):void
+		public function set appController(value:AppControllerBase):void
 		{
-			_workstationAppController = value;
+			_appController = value;
 		}
 
 		public function get viaMechanism():String

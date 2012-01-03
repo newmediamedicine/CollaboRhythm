@@ -31,8 +31,8 @@ package collaboRhythm.core.controller.apps
 	import collaboRhythm.shared.apps.vitals.controller.VitalsAppController;
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	import collaboRhythm.shared.controller.apps.AppEvent;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerFactory;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerFactory;
 	import collaboRhythm.shared.model.*;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.AppGroupDescriptor;
@@ -61,10 +61,10 @@ package collaboRhythm.core.controller.apps
 		private var _widgetContainers:Vector.<IVisualElementContainer>;
 		private var _fullContainer:IVisualElementContainer;
 		private var _settings:Settings;
-		private var _workstationApps:OrderedMap;
+		private var _apps:OrderedMap;
 		private var _appsById:OrderedMap;
 		private var _collaborationRoomNetConnectionService:CollaborationRoomNetConnectionService;
-		private var _factory:WorkstationAppControllerFactory;
+		private var _factory:AppControllerFactory;
 		private var _componentContainer:IComponentContainer;
 		private static const STANDARD_APP_GROUP:String = "standard";
 		private static const CUSTOM_APP_GROUP:String = "custom";
@@ -99,9 +99,9 @@ package collaboRhythm.core.controller.apps
 			return _componentContainer;
 		}
 
-		public function get workstationApps():OrderedMap
+		public function get apps():OrderedMap
 		{
-			return _workstationApps;
+			return _apps;
 		}
 
 		/**
@@ -153,7 +153,7 @@ package collaboRhythm.core.controller.apps
 
 		private function createWidgetViewsForGroup(appGroup:AppGroup, widgetContainer:IVisualElementContainer):void
 		{
-			for each (var app:WorkstationAppControllerBase in appGroup.apps)
+			for each (var app:AppControllerBase in appGroup.apps)
 			{
 				app.widgetContainer = widgetContainer;
 				app.createAndPrepareWidgetView();
@@ -170,7 +170,7 @@ package collaboRhythm.core.controller.apps
 			_logger.info("Initializing {0} apps", _appsById.length);
 			for each (var info:AppControllerInfo in infoArray)
 			{
-				var app:WorkstationAppControllerBase = _appsById.getValueByKey(info.appId);
+				var app:AppControllerBase = _appsById.getValueByKey(info.appId);
 				if (app)
 				{
 					app.initialize();
@@ -245,8 +245,8 @@ package collaboRhythm.core.controller.apps
 
 		private function showAllWidgets():void
 		{
-			var app:WorkstationAppControllerBase;
-			for each (app in _workstationApps.values())
+			var app:AppControllerBase;
+			for each (app in _apps.values())
 			{
 				app.showWidget();
 			}
@@ -288,9 +288,9 @@ package collaboRhythm.core.controller.apps
 
 			_appGroups = new OrderedMap();
 			initializeDynamicAppLookup();
-			_workstationApps = new OrderedMap();
+			_apps = new OrderedMap();
 			_appsById = new OrderedMap();
-			_factory = new WorkstationAppControllerFactory();
+			_factory = new AppControllerFactory();
 			_factory.fullContainer = _fullContainer;
 //			_factory.healthRecordService = _healthRecordService;
 //			_factory.collaborationRoomNetConnectionServiceProxy = _collaborationRoomNetConnectionService.createProxy();
@@ -317,15 +317,15 @@ package collaboRhythm.core.controller.apps
 
 		public function reloadUserData():void
 		{
-			for each (var app:WorkstationAppControllerBase in _appsInitialized)
+			for each (var app:AppControllerBase in _appsInitialized)
 			{
 				app.reloadUserData();
 			}
 		}
 
-		public function createApp(appClass:Class, appName:String = null):WorkstationAppControllerBase
+		public function createApp(appClass:Class, appName:String = null):AppControllerBase
 		{
-			var app:WorkstationAppControllerBase = _factory.createApp(appClass, appName);
+			var app:AppControllerBase = _factory.createApp(appClass, appName);
 			if (_currentAppGroup)
 				_currentAppGroup.apps.push(app);
 			appName = app.name;
@@ -334,47 +334,47 @@ package collaboRhythm.core.controller.apps
 				throw new Error("appName must not be null; app controller should override defaultName property");
 
 			app.addEventListener(AppEvent.SHOW_FULL_VIEW, showFullViewHandler);
-			_workstationApps.addKeyValue(appName, app);
+			_apps.addKeyValue(appName, app);
 			_appsById.addKeyValue(app.appId, app);
 			return app;
 		}
 
 		private function showFullViewHandler(event:AppEvent):void
 		{
-			var appInstance:WorkstationAppControllerBase;
-			if (event.workstationAppController == null)
+			var appInstance:AppControllerBase;
+			if (event.appController == null)
 			{
 				// TODO: use constant instead of magic string
 				appInstance = showFullView(event.applicationName, "local");
 			}
 			else
 			{
-				appInstance = showFullViewResolved(event.workstationAppController, "local");
+				appInstance = showFullViewResolved(event.appController, "local");
 			}
 
 			if (appInstance)
 				InteractionLogUtil.logAppInstance(_logger, "Show full view", event.viaMechanism, appInstance);
 		}
 
-		public function showFullView(applicationName:String, source:String = "local"):WorkstationAppControllerBase
+		public function showFullView(applicationName:String, source:String = "local"):AppControllerBase
 		{
-			var workstationAppController:WorkstationAppControllerBase = _workstationApps.getValueByKey(applicationName);
-			if (workstationAppController != null)
-				return showFullViewResolved(workstationAppController, source);
+			var appController:AppControllerBase = _apps.getValueByKey(applicationName);
+			if (appController != null)
+				return showFullViewResolved(appController, source);
 			else
 				return null;
 		}
 
-		protected function showFullViewResolved(workstationAppController:WorkstationAppControllerBase, source:String):WorkstationAppControllerBase
+		protected function showFullViewResolved(appController:AppControllerBase, source:String):AppControllerBase
 		{
-			var appInstance:WorkstationAppControllerBase;
+			var appInstance:AppControllerBase;
 
 			// TODO: use app id instead of name
-			currentFullView = workstationAppController.name;
+			currentFullView = appController.name;
 
-			for each (var app:WorkstationAppControllerBase in _workstationApps.values())
+			for each (var app:AppControllerBase in _apps.values())
 			{
-				if (app != workstationAppController)
+				if (app != appController)
 					app.hideFullView();
 				else
 				{
@@ -390,7 +390,7 @@ package collaboRhythm.core.controller.apps
 
 //			if (source == "local")
 //			{
-//				_collaborationRoomNetConnectionService.netConnection.call("showFullView", null, _collaborationRoomNetConnectionService.localUserName, workstationAppController.name);
+//				_collaborationRoomNetConnectionService.netConnection.call("showFullView", null, _collaborationRoomNetConnectionService.localUserName, appController.name);
 //			}
 			return appInstance;
 		}
@@ -413,7 +413,7 @@ package collaboRhythm.core.controller.apps
 		{
 			currentFullView = null;
 
-			for each (var app:WorkstationAppControllerBase in _workstationApps.values())
+			for each (var app:AppControllerBase in _apps.values())
 			{
 				if (app.hideFullView())
 					InteractionLogUtil.logAppInstance(_logger, "Hide full view", viaMechanism, app);
@@ -432,9 +432,9 @@ package collaboRhythm.core.controller.apps
 
 		public function closeApps():void
 		{
-			if (_workstationApps != null)
+			if (_apps != null)
 			{
-				for each (var app:WorkstationAppControllerBase in _workstationApps.values())
+				for each (var app:AppControllerBase in _apps.values())
 				{
 					app.close();
 				}
@@ -477,7 +477,7 @@ package collaboRhythm.core.controller.apps
 			_widgetContainers = value;
 		}
 
-		protected function get factory():WorkstationAppControllerFactory
+		protected function get factory():AppControllerFactory
 		{
 			return _factory;
 		}

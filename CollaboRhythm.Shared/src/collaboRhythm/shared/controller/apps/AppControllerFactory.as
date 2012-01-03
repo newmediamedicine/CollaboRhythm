@@ -35,10 +35,10 @@ package collaboRhythm.shared.controller.apps
 	import spark.components.ViewNavigator;
 
 	/**
-	 * Creates workstation apps and prepares them for use in a parent container.
+	 * Creates apps and prepares them for use in a parent container.
 	 * 
 	 */
-	public class WorkstationAppControllerFactory
+	public class AppControllerFactory
 	{
 		private var _widgetContainer:IVisualElementContainer;
 		private var _fullContainer:IVisualElementContainer;
@@ -54,7 +54,7 @@ package collaboRhythm.shared.controller.apps
 		protected var logger:ILogger;
 
 
-		public function WorkstationAppControllerFactory()
+		public function AppControllerFactory()
 		{
 			logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 		}
@@ -109,7 +109,7 @@ package collaboRhythm.shared.controller.apps
 			_modality = value;
 		}
 
-		public function createApp(appClass:Class, appName:String=null):WorkstationAppControllerBase
+		public function createApp(appClass:Class, appName:String=null):AppControllerBase
 		{
 			var constructorParams:AppControllerConstructorParams = new AppControllerConstructorParams();
 			constructorParams.widgetContainer = _widgetContainer;
@@ -126,7 +126,7 @@ package collaboRhythm.shared.controller.apps
 			if (appObject == null)
 				throw new Error("Unable to create instance of app: " + appClass);
 			
-			var app:WorkstationAppControllerBase = appObject as WorkstationAppControllerBase;
+			var app:AppControllerBase = appObject as AppControllerBase;
 
 			if (appName != null)
 				app.name = appName;

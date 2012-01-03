@@ -27,7 +27,7 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.plugins.schedule.view.ScheduleTimelineFullView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.AppEvent;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 
 	import flash.desktop.NativeApplication;
 	import flash.events.InvokeEvent;
@@ -35,7 +35,7 @@ package collaboRhythm.plugins.schedule.controller
 
 	import mx.core.UIComponent;
 
-	public class AdherencePerformanceAppController extends WorkstationAppControllerBase
+	public class AdherencePerformanceAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "AdherencePerformance";
 

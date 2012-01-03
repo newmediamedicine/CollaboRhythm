@@ -20,11 +20,11 @@ package collaboRhythm.shared.apps.familyHistory.controller
 
 	import collaboRhythm.shared.apps.familyHistory.view.FamilyHistoryWidgetView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 
 	import mx.core.UIComponent;
 
-	public class FamilyHistoryAppController extends WorkstationAppControllerBase
+	public class FamilyHistoryAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Family History";
 

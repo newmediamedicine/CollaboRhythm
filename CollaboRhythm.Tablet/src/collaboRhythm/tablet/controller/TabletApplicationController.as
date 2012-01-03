@@ -19,7 +19,7 @@ package collaboRhythm.tablet.controller
 
 	import collaboRhythm.core.controller.ApplicationControllerBase;
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.tablet.view.ActiveRecordView;
@@ -178,14 +178,14 @@ package collaboRhythm.tablet.controller
 				activeRecordView.setFocus();
 		}
 
-		public function pushFullView(workstationAppController:WorkstationAppControllerBase):void
+		public function pushFullView(appController:AppControllerBase):void
 		{
-			if (workstationAppController.fullView)
+			if (appController.fullView)
 			{
 				backgroundProcessModel.updateProcess("fullViewUpdate", "Updating...", true);
-				workstationAppController.fullView.addEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler, false, 0, true);
+				appController.fullView.addEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler, false, 0, true);
 			}
-			_tabletApplication.navigator.pushView(TabletFullViewContainer, workstationAppController, new SlideViewTransition());
+			_tabletApplication.navigator.pushView(TabletFullViewContainer, appController, new SlideViewTransition());
 		}
 
 		private function fullView_updateCompleteHandler(event:FlexEvent):void
