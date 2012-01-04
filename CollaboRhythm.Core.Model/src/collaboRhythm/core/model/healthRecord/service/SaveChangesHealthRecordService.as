@@ -128,6 +128,7 @@ package collaboRhythm.core.model.healthRecord.service
 			if (pendingChangeMap.getItem(document.meta.id) == null)
 			{
 				pendingChangeMap.put(document.meta.id, document);
+				document.isBeingSaved = true;
 				return true;
 			}
 			else
@@ -224,12 +225,15 @@ package collaboRhythm.core.model.healthRecord.service
 				throw new Error("Record not specified on the HealthRecordServiceRequestDetails. Unable to finish remove operation.");
 
 			document.pendingAction = null;
+			document.isBeingSaved = false;
 			removePendingDocument(document.meta.id, pendingRemoveDocuments);
 			record.completeDocumentsById.remove(document.meta.id);
 			record.originalDocumentsById.remove(document.meta.id);
 
 			// eliminate any "standard" references to the document that was removed
 			document.clearRelationships();
+
+			document.isBeingSaved = false;
 
 			// TODO: eliminate any "special" references to the document that was removed; currently we are removing relationships from document.isRelatedFrom, but not, for example, medicationScheduleItem.adherenceItems
 
@@ -339,6 +343,7 @@ package collaboRhythm.core.model.healthRecord.service
 				removePendingDocument(oldId, pendingUpdateDocuments);
 			else
 				removePendingDocument(oldId, pendingCreateDocuments);
+			document.isBeingSaved = false;
 
 			updateIsSaving();
 
@@ -473,11 +478,13 @@ package collaboRhythm.core.model.healthRecord.service
 				{
 					errorChangeSet.addDocument(document);
 					removePendingDocument(document.meta.id, pendingCreateDocuments);
+					document.isBeingSaved = false;
 				}
-				if (healthRecordServiceRequestDetails.indivoApiCall == UPDATE_DOCUMENT)
+				else if (healthRecordServiceRequestDetails.indivoApiCall == UPDATE_DOCUMENT)
 				{
 					errorChangeSet.addDocument(document);
 					removePendingDocument(document.meta.id, pendingUpdateDocuments);
+					document.isBeingSaved = false;
 				}
 				else if (healthRecordServiceRequestDetails.indivoApiCall == DELETE_DOCUMENT ||
 						healthRecordServiceRequestDetails.indivoApiCall == ARCHIVE_DOCUMENT ||
@@ -485,6 +492,7 @@ package collaboRhythm.core.model.healthRecord.service
 				{
 					errorChangeSet.addDocument(document);
 					removePendingDocument(document.meta.id, pendingRemoveDocuments);
+					document.isBeingSaved = false;
 				}
 				else if (healthRecordServiceRequestDetails.indivoApiCall == RELATE_NEW_DOCUMENT)
 				{

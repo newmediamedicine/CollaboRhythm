@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+		>
+	<fx:Declarations>
+		<s:Animate id="currentDateShowEffect" target="{this.currentDateBorderContainer}" duration="1000" startDelay="500">
+			<s:motionPaths>
+				<s:SimpleMotionPath property="y" valueFrom="{-this.currentDateBorderContainer.height - 13}" valueTo="-13"/>
+			</s:motionPaths>
+			<s:easer>
+				<s:Power easeInFraction="0" exponent="4" />
+			</s:easer>
+		</s:Animate>
+		<s:Animate id="currentDateHideEffect" target="{this.currentDateBorderContainer}" duration="1000" startDelay="500">
+			<s:motionPaths>
+				<s:SimpleMotionPath property="y" valueTo="{-this.currentDateBorderContainer.height - 13}" valueFrom="-13"/>
+			</s:motionPaths>
+			<s:easer>
+				<s:Power easeInFraction="1" exponent="4" />
+			</s:easer>
+		</s:Animate>
+		<s:Animate id="dateChangeEffect" target="{currentDateGlow}" duration="2000" startDelay="500">
+			<s:motionPaths>
+				<s:SimpleMotionPath property="alpha" valueFrom="1" valueTo="0"/>
+			</s:motionPaths>
+		</s:Animate>
+	</fx:Declarations>
+	<s:BorderContainer
+		id="currentDateBorderContainer"
+		y="{-currentDateBorderContainer.height - 13}"
+		height="{height - 8}"
+		borderWeight="4"
+		borderColor="#FFFFFFF"
+		backgroundColor="#FF0000"
+		cornerRadius="8"
+		>
+		<!--
+		visible="{_currentDateSource.currentDate != null}"
+		-->
+		<s:VGroup
+			top="13"
+			paddingLeft="5"
+			paddingRight="5"
+			paddingBottom="5"
+			fontSize="16"
+			color="#FFFFFF"
+			gap="0"
+			>
+			<s:Label text="::Demo Mode::" fontWeight="bold" textAlign="center"/>
+			<s:Label
+				id="currentDate"
+				text="{_currentDateSource.currentDate.toLocaleString()}"
+				/>
+		</s:VGroup>
+		<s:filters>
+			<s:DropShadowFilter id="currentDateShadow" blurX="6" blurY="6"/>
+			<s:GlowFilter id="currentDateGlow" blurX="12" blurY="12" color="#00FF00" quality="2" strength="4" alpha="0"/>
+		</s:filters>
+	</s:BorderContainer>
+	<fx:Script><![CDATA[
+		import collaboRhythm.shared.model.services.DemoCurrentDateSource;
+		import collaboRhythm.shared.model.services.ICurrentDateSource;
+		import collaboRhythm.shared.model.services.WorkstationKernel;
+
+		import mx.events.PropertyChangeEvent;
+
+		[Bindable]
+		private var _currentDateSource:ICurrentDateSource;
+
+		override protected function createChildren():void
+		{
+			super.createChildren();
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+			var demoCurrentDataSource:DemoCurrentDateSource = _currentDateSource as DemoCurrentDateSource;
+			if (demoCurrentDataSource != null)
+				demoCurrentDataSource.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+													   currentDateSource_propertyChangeHandler);
+			var demoMode:Boolean = _currentDateSource.currentDate != null;
+			animateModeChange(false, demoMode);
+		}
+
+		protected function currentDateSource_propertyChangeHandler(event:PropertyChangeEvent):void
+		{
+			if (event.property == "currentDate")
+			{
+				var oldDemoMode:Boolean = event.oldValue != null && !isNaN(event.oldValue as Number) && event.oldValue != 0;
+				var demoMode:Boolean = event.newValue != null && !isNaN(event.newValue as Number) && event.newValue != 0;
+				animateModeChange(oldDemoMode, demoMode);
+			}
+		}
+
+		private function animateModeChange(oldDemoMode:Boolean, demoMode:Boolean):void
+		{
+			if (!oldDemoMode && demoMode)
+			{
+				currentDateShowEffect.stop();
+				currentDateHideEffect.stop();
+				dateChangeEffect.stop();
+
+				currentDateShowEffect.play();
+				dateChangeEffect.play();
+			}
+			else if (oldDemoMode && !demoMode)
+			{
+				currentDateShowEffect.stop();
+				currentDateHideEffect.stop();
+				dateChangeEffect.end();
+
+				currentDateHideEffect.play();
+			}
+			else
+			{
+				currentDateShowEffect.end();
+				currentDateHideEffect.stop();
+				dateChangeEffect.stop();
+
+				dateChangeEffect.play();
+			}
+		}
+		]]></fx:Script>
+</s:Group>

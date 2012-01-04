@@ -16,17 +16,17 @@
  */
 package collaboRhythm.core.controller.apps
 {
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 
 	import mx.collections.ArrayCollection;
 
 	/**
-	 * Container for a group of apps (WorkstationAppControllerBase instances).
+	 * Container for a group of apps (AppControllerBase instances).
 	 */
 	public class AppGroup
 	{
 		private var _id:String;
-		private var _apps:Vector.<WorkstationAppControllerBase> = new Vector.<WorkstationAppControllerBase>();
+		private var _apps:Vector.<AppControllerBase> = new Vector.<AppControllerBase>();
 
 		public function AppGroup()
 		{
@@ -42,12 +42,12 @@ package collaboRhythm.core.controller.apps
 			_id = value;
 		}
 
-		public function get apps():Vector.<WorkstationAppControllerBase>
+		public function get apps():Vector.<AppControllerBase>
 		{
 			return _apps;
 		}
 
-		public function set apps(value:Vector.<WorkstationAppControllerBase>):void
+		public function set apps(value:Vector.<AppControllerBase>):void
 		{
 			_apps = value;
 		}
@@ -60,7 +60,7 @@ package collaboRhythm.core.controller.apps
 		{
 			var appDescriptors:ArrayCollection = new ArrayCollection();
 
-			for each (var app:WorkstationAppControllerBase in apps)
+			for each (var app:AppControllerBase in apps)
 			{
 				appDescriptors.addItem(app.appClassName);
 			}

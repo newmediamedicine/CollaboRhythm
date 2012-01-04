@@ -24,6 +24,8 @@ package collaboRhythm.core.model.healthRecord
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
 	import collaboRhythm.shared.model.healthRecord.IDocumentStitcher;
+	import collaboRhythm.shared.model.services.ICurrentDateSource;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
 
 	import com.adobe.utils.DateUtil;
 
@@ -50,10 +52,12 @@ package collaboRhythm.core.model.healthRecord
 		private var _isSaving:Boolean;
 		private var _hasConnectionErrorsSaving:Boolean;
 		private var _hasUnexpectedErrorsSaving:Boolean;
+		protected var _currentDateSource:ICurrentDateSource;
 
 		public function HealthRecordServiceFacade(consumerKey:String, consumerSecret:String, baseURL:String,
 												  account:Account, debuggingToolsEnabled:Boolean)
 		{
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_saveChangesHealthRecordService = new SaveChangesHealthRecordService(consumerKey, consumerSecret, baseURL,
 																				 account, this);
@@ -192,6 +196,7 @@ package collaboRhythm.core.model.healthRecord
 
 				// TODO: loading is complete, but we are not distinguishing between failed/complete results for each service; some may have failed
 				_logger.info("Loading documents COMPLETE. " + _currentRecord.currentDocumentsById.size() + " documents loaded " + loadingMessageSuffix);
+				_currentRecord.dateLoaded = _currentDateSource.now();
 				isLoading = false;
 			}
 			else

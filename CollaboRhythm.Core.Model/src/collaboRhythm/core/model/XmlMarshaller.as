@@ -1,6 +1,8 @@
 package collaboRhythm.core.model
 {
 
+	import collaboRhythm.shared.model.settings.XmlDecoderEx;
+
 	import flash.utils.ByteArray;
 
 	import mx.rpc.xml.Schema;
@@ -73,7 +75,7 @@ package collaboRhythm.core.model
                 return null;
 			}
 
-			var xmlDecoder:XMLDecoder;
+			var xmlDecoder:XmlDecoderEx;
 
 			xmlDecoder = new XmlDecoderEx();
 			xmlDecoder.schemaManager = schemaManager;

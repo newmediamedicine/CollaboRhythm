@@ -229,9 +229,13 @@ package collaboRhythm.core.model.healthRecord.service
 					collection.addItem(document);
 				}
 			}
-
-			_logger.info("Parsed " + collection.length + " " + targetDocumentType + " document" + (collection.length == 1 ? "" : "s") + " from report");
+			logParsedReportDocuments(collection);
 			return collection;
+		}
+
+		protected function logParsedReportDocuments(collection:ArrayCollection):void
+		{
+			_logger.info("Parsed " + collection.length + " " + targetDocumentType + " document" + (collection.length == 1 ? "" : "s") + " from report");
 		}
 
 		public function marshallToXml(document:IDocument):String

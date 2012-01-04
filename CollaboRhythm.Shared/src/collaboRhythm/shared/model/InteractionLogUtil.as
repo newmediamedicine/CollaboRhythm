@@ -3,7 +3,7 @@ package collaboRhythm.shared.model
 
 	import castle.flexbridge.reflection.ReflectionUtils;
 
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 
 	import mx.logging.ILogger;
 
@@ -19,7 +19,7 @@ package collaboRhythm.shared.model
 			logger.info("User interaction: {0}{1}{2}", action, viaClause, additionalMessage ? " " + additionalMessage : "");
 		}
 
-		public static function logAppInstance(logger:ILogger, action:String, viaMechanism:String, appInstance:WorkstationAppControllerBase):void
+		public static function logAppInstance(logger:ILogger, action:String, viaMechanism:String, appInstance:AppControllerBase):void
 		{
 			log(logger, action, viaMechanism, "app=" + appInstance.appClassName);
 		}

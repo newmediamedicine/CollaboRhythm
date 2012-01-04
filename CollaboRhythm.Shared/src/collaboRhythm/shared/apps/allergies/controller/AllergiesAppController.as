@@ -20,11 +20,11 @@ package collaboRhythm.shared.apps.allergies.controller
 
 	import collaboRhythm.shared.apps.allergies.view.AllergiesWidgetView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 
 	import mx.core.UIComponent;
 
-	public class AllergiesAppController extends WorkstationAppControllerBase
+	public class AllergiesAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Allergies";
 

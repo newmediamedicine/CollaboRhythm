@@ -20,11 +20,11 @@ package collaboRhythm.shared.apps.vitals.controller
 
 	import collaboRhythm.shared.apps.vitals.view.VitalsWidgetView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 
 	import mx.core.UIComponent;
 
-	public class VitalsAppController extends WorkstationAppControllerBase
+	public class VitalsAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Vitals";
 

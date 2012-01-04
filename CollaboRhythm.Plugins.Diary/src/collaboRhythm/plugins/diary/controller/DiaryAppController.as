@@ -23,11 +23,11 @@ import collaboRhythm.plugins.diary.model.DiaryModel;
 	import collaboRhythm.plugins.diary.view.DiaryFullView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.AppEvent;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 
 	import mx.core.UIComponent;
 
-	public class DiaryAppController extends WorkstationAppControllerBase
+	public class DiaryAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Diary";
 

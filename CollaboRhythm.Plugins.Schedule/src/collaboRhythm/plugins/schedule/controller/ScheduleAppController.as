@@ -27,7 +27,7 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.plugins.schedule.view.ScheduleTimelineFullView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.AppEvent;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.model.InteractionLogUtil;
 
 	import flash.desktop.NativeApplication;
@@ -36,7 +36,7 @@ package collaboRhythm.plugins.schedule.controller
 
 	import mx.core.UIComponent;
 
-	public class ScheduleAppController extends WorkstationAppControllerBase
+	public class ScheduleAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Schedule";
 
@@ -202,7 +202,7 @@ package collaboRhythm.plugins.schedule.controller
 
 		private function showFullViewHandler(event:AppEvent):void
 		{
-			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, event.workstationAppController, event.startRect,
+			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, event.appController, event.startRect,
 									   event.applicationName, event.viaMechanism));
 		}
 

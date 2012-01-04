@@ -323,6 +323,10 @@ package com.dougmccune.controls
 		private var _data:ArrayCollection = new ArrayCollection();
 
 		//the sliced data to appear in the upper area chart, and column volume chart
+		/**
+		 * The mainData should not be manipulated externally. Note that mainData will not be updated until properties
+		 * are committed by commitProperties.
+		 */
 		[Bindable]
 		public var mainData:ArrayCollection = new ArrayCollection();
 		//the full dataset of stock information
@@ -519,6 +523,9 @@ package com.dougmccune.controls
 			initializeFocusTimeAnimate();
 			this.addEventListener(FlexEvent.CREATION_COMPLETE, creationCompleteHandler);
 			this.addEventListener(MouseEvent.CLICK, mainChartArea_clickHandler);
+
+			minHeight = 10;
+			minWidth = 10;
 		}
 
 		[Bindable]
@@ -836,6 +843,14 @@ package com.dougmccune.controls
 			invalidateProperties();
 		}
 
+		public function clearDataSets():void
+		{
+			for each (var dataSet:DataSet in _dataSets)
+			{
+				dataSet.seriesDataCollection.removeEventListener(CollectionEvent.COLLECTION_CHANGE, seriesDataCollection_collectionChangeHandler);
+			}
+			_dataSets.removeAll();
+		}
 		/**
 		 * Adds a series to be considered when determining the date ranges for the chart.
 		 * @param seriesDataCollection the data used for a series in the chart
@@ -1399,6 +1414,8 @@ package com.dougmccune.controls
 				// determine if any change is required
 				if ((!isNaN(leftRangeTimeTo) && leftRangeTimeTo != leftRangeTime) || (!isNaN(rightRangeTimeTo) && rightRangeTimeTo != rightRangeTime))
 				{
+					_logger.info("animateRangeTimes to " + traceDate(leftRangeTimeTo) + ", " + traceDate(rightRangeTimeTo));
+
 					hideAnnotations();
 					_pendingUpdateBoxFromRangeTimes = update;
 					_rangeTimeAnimate.stop();

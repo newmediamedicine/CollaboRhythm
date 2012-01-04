@@ -20,11 +20,11 @@ package collaboRhythm.shared.apps.imaging.controller
 
 	import collaboRhythm.shared.apps.imaging.view.ImagingWidgetView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 
 	import mx.core.UIComponent;
 
-	public class ImagingAppController extends WorkstationAppControllerBase
+	public class ImagingAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Imaging";
 

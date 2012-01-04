@@ -18,6 +18,10 @@ package collaboRhythm.shared.model
 {
 	import flash.media.Camera;
 	import flash.media.Microphone;
+	import flash.utils.getQualifiedClassName;
+
+	import mx.logging.ILogger;
+	import mx.logging.Log;
 
 	/**
 	 * 
@@ -31,9 +35,11 @@ package collaboRhythm.shared.model
 	{
 		private var _camera:Camera;
 		private var _microphone:Microphone;
-		
+		private var _logger:ILogger;
+
 		public function AudioVideoOutput()
 		{
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			setCamera();
 			setMicrophone();
 		}
@@ -65,12 +71,14 @@ package collaboRhythm.shared.model
 		{
 			if (Microphone.isSupported)
 			{
+				_logger.info("Initializing microphone...");
 				_microphone = Microphone.getMicrophone();
 				if (_microphone != null)
 				{
 					_microphone.gain=85;
 					_microphone.rate=11;
 					_microphone.setSilenceLevel(15,2000);
+					_logger.info("Microphone initialized: " + _microphone.name);
 				}
 			}
 		}

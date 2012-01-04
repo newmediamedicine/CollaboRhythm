@@ -168,7 +168,7 @@
 		import collaboRhythm.core.controller.ApplicationExitUtil;
 		import collaboRhythm.core.pluginsManagement.PluginEvent;
 		import collaboRhythm.mobile.controller.WidgetContainerController;
-		import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+		import collaboRhythm.shared.controller.apps.AppControllerBase;
 		import collaboRhythm.shared.model.InteractionLogUtil;
 		import collaboRhythm.shared.model.services.DemoEvent;
 		import collaboRhythm.view.scroll.TouchScrollerEvent;
@@ -188,7 +188,7 @@
 		import spark.components.supportClasses.ButtonBase;
 
 		private var _widgetContainerController:WidgetContainerController;
-		private var _workstationAppController:WorkstationAppControllerBase;
+		private var _appController:AppControllerBase;
 		private var _mouseDownX:Number;
 		private var _isFlicking:Boolean;
 		private const _flickStartDelta:Number = 10;
@@ -217,14 +217,14 @@
 		//			busyIndicator.setStyle("scale", true);
 		//		}
 
-		public function get workstationAppController():WorkstationAppControllerBase
+		public function get appController():AppControllerBase
 		{
-			return _workstationAppController;
+			return _appController;
 		}
 
-		public function set workstationAppController(value:WorkstationAppControllerBase):void
+		public function set appController(value:AppControllerBase):void
 		{
-			_workstationAppController = value;
+			_appController = value;
 		}
 
 		public function set controller(value:WidgetContainerController):void
@@ -299,7 +299,7 @@
 			{
 				this.controller.destroyView(this);
 				_widgetContainerController = null;
-				_workstationAppController = null;
+				_appController = null;
 			}
 		}
 

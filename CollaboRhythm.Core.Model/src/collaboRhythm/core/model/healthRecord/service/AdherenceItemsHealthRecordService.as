@@ -84,7 +84,9 @@ package collaboRhythm.core.model.healthRecord.service
 
 			// TODO: get order_by working and remove this sorting
 			data = new ArrayCollection(data.toArray().sortOn("dateReportedValue", Array.NUMERIC));
-			
+
+			logParsedReportDocuments(data);
+
 			for each (adherenceItem in data)
 			{
 				record.addDocument(adherenceItem);

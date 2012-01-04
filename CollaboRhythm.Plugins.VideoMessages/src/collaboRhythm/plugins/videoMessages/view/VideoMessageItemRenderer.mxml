@@ -94,6 +94,7 @@
 				  icon="@Embed(source='/assets/images/icons/buttonIcons/trashIcon.png')"
 				  verticalCenter="0"
 				  click="deleteVideoButtonClickHandler()"
+				  enabled="{!_videoMessage.isBeingSaved}"
 				  width="60"
 				  height="60"/>
 	</s:VGroup>

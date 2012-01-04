@@ -45,5 +45,9 @@ package collaboRhythm.shared.model.healthRecord
 		 * @return true if the document is to be removed (pendingAction is archive, void, or delete).
 		 */
 		function isPendingActionRemoval():Boolean;
+
+		function get isBeingSaved():Boolean;
+
+		function set isBeingSaved(value:Boolean):void;
 	}
 }

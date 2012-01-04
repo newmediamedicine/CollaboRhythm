@@ -354,6 +354,11 @@ package collaboRhythm.plugins.schedule.model
 			return _scheduleItemOccurrencesVector;
 		}
 
+		public function get record():Record
+		{
+			return _record;
+		}
+
 		public function get accountId():String
 		{
 			return _accountId;

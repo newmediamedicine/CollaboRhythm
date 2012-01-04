@@ -77,6 +77,7 @@ package collaboRhythm.shared.model
 		private var _isSaving:Boolean;
 		private var _hasConnectionErrorsSaving:Boolean;
 		private var _hasUnexpectedErrorsSaving:Boolean;
+		private var _dateLoaded:Date;
 
         public function Record(recordXml:XML)
         {
@@ -629,6 +630,16 @@ package collaboRhythm.shared.model
 			var index:int = newRelationships.getItemIndex(relationship);
 			if (index != -1)
 				newRelationships.removeItemAt(index);
+		}
+
+		public function get dateLoaded():Date
+		{
+			return _dateLoaded;
+		}
+
+		public function set dateLoaded(value:Date):void
+		{
+			_dateLoaded = value;
 		}
 	}
 }

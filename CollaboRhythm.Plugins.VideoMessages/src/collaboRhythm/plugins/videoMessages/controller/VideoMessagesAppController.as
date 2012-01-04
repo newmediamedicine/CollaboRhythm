@@ -21,7 +21,7 @@ package collaboRhythm.plugins.videoMessages.controller
 	import collaboRhythm.plugins.videoMessages.view.VideoMessagesFullView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.AppEvent;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.model.InteractionLogUtil;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.document.VideoMessage;
@@ -29,7 +29,7 @@ package collaboRhythm.plugins.videoMessages.controller
 
 	import mx.core.UIComponent;
 
-	public class VideoMessagesAppController extends WorkstationAppControllerBase
+	public class VideoMessagesAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "VideoMessages";
 

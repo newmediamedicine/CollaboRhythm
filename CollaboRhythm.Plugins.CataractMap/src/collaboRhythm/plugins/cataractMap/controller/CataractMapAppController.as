@@ -21,11 +21,11 @@ package collaboRhythm.plugins.cataractMap.controller
 	import collaboRhythm.plugins.cataractMap.view.CataractMapFullView;
 	import collaboRhythm.plugins.cataractMap.view.CataractMapWidgetView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.controller.apps.WorkstationAppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 
 	import mx.core.UIComponent;
 
-	public class CataractMapAppController extends WorkstationAppControllerBase
+	public class CataractMapAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Cataract Map";
 

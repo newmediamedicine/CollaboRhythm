@@ -152,9 +152,9 @@
 
 		public function refresh():void
 		{
-			if (_model != null && _model.data != null && _model.isSystolicReportLoaded)
+			if (_model != null && _model.currentSimulation != null && _model.isSystolicReportLoaded)
 			{
-				var simulationModelSystolic:Number = _model.data.getItemAt(_model.data.length - 1)["systolic"];
+				var simulationModelSystolic:Number = _model.currentSimulation.systolic;
 				updateBloodPressureHeight(simulationModelSystolic);
 			}
 		}

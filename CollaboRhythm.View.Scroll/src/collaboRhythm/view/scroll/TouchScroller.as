@@ -210,7 +210,7 @@ package collaboRhythm.view.scroll
 		
 		public function get useHorizontalTouchScrolling():Boolean
 		{
-			return _useHorizontalTouchScrolling && _adapter.scrollableAreaWidth > _adapter.panelWidth;
+			return _useHorizontalTouchScrolling;
 		}
 		
 		public function set useHorizontalTouchScrolling(value:Boolean):void
@@ -220,7 +220,7 @@ package collaboRhythm.view.scroll
 
 		public function get useVerticalTouchScrolling():Boolean
 		{
-			return _useVerticalTouchScrolling && _adapter.scrollableAreaHeight > _adapter.panelWidth;
+			return _useVerticalTouchScrolling;
 		}
 
 		public function set useVerticalTouchScrolling(value:Boolean):void
