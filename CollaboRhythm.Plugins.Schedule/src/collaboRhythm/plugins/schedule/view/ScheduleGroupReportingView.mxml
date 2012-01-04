@@ -15,10 +15,11 @@
 ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
 ~ <http://www.gnu.org/licenses/>.
 -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 creationComplete="creationCompleteHandler()">
+<s:List xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		dataProvider="{_scheduleReportingModel.currentScheduleGroup.scheduleItemsOccurrencesCollection}"
+		itemRenderer="collaboRhythm.plugins.schedule.view.ScheduleItemOccurrenceReportingViewItemRenderer">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -27,10 +28,11 @@
 		import collaboRhythm.plugins.schedule.model.ScheduleModel;
 		import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
 		import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-		import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 		import mx.binding.utils.BindingUtils;
+
+		import spark.events.IndexChangeEvent;
 
 		private var _scheduleModel:ScheduleModel;
 		[Bindable]
@@ -44,72 +46,25 @@
 			_activeAccountId = activeAccountId;
 
 			_scheduleReportingModel = _scheduleModel.scheduleReportingModel;
-
-			BindingUtils.bindSetter(currentScheduleGroup_changeHandler, _scheduleReportingModel,
-									"currentScheduleGroup");
-		}
-
-		private function creationCompleteHandler():void
-		{
-			if (_scheduleReportingModel.currentScheduleGroup)
-			{
-				updateScheduleItemOccurrences(_scheduleReportingModel.currentScheduleGroup);
-			}
-			_creationComplete = true;
-		}
-
-		private function currentScheduleGroup_changeHandler(currentScheduleGroup:ScheduleGroup):void
-		{
-			if (_creationComplete && currentScheduleGroup)
-			{
-				updateScheduleItemOccurrences(currentScheduleGroup);
-			}
-		}
-
-		// TODO: Reimplement the proper sorting so that the blood pressure measurement is first in the list and that a list is used rather than a vgroup
-		private function updateScheduleItemOccurrences(currentScheduleGroup:ScheduleGroup):void
-		{
-			scheduleItemsGroup.removeAllElements();
-			createScheduleItemReportingViews(currentScheduleGroup, false);
-			createScheduleItemReportingViews(currentScheduleGroup, true);
-		}
-
-		private function createScheduleItemReportingViews(currentScheduleGroup:ScheduleGroup,
-														  excludeEquipmentScheduleItem:Boolean):void
-		{
-			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in currentScheduleGroup.scheduleItemsOccurrencesCollection)
-			{
-				if (xor(scheduleItemOccurrence.scheduleItem.name.text == "FORA D40b", excludeEquipmentScheduleItem))
-				{
-					var scheduleItemReportingView:ScheduleItemReportingViewBase = _scheduleModel.viewFactory.createScheduleItemReportingView(scheduleItemOccurrence,
-																																			 _scheduleModel.scheduleReportingModel,
-																																			 _activeAccountId,
-																																			 _scheduleReportingModel.handledInvokeEvents);
-					scheduleItemsGroup.addElement(scheduleItemReportingView);
-				}
-			}
 		}
 
 		public function xor(lhs:Boolean, rhs:Boolean):Boolean
 		{
 			return !( lhs && rhs ) && ( lhs || rhs );
 		}
+
+		public function get scheduleModel():ScheduleModel
+		{
+			return _scheduleModel;
+		}
+
+		public function set scheduleModel(value:ScheduleModel):void
+		{
+			_scheduleModel = value;
+		}
 		]]>
 	</fx:Script>
-	<s:Rect width="100%" height="100%">
-		<s:fill>
-			<s:SolidColor color="0xFFFFFF"/>
-		</s:fill>
-	</s:Rect>
-	<s:Line width="100%">
-		<s:stroke>
-			<s:SolidColorStroke color="0x000000"/>
-		</s:stroke>
-	</s:Line>
-	<s:Line right="0" height="100%">
-		<s:stroke>
-			<s:SolidColorStroke color="0x000000"/>
-		</s:stroke>
-	</s:Line>
-	<s:VGroup id="scheduleItemsGroup" left="0" right="1" top="1" bottom="0" gap="0"/>
-</s:Group>
+	<s:layout>
+		<s:VerticalLayout gap="0"/>
+	</s:layout>
+ </s:List>

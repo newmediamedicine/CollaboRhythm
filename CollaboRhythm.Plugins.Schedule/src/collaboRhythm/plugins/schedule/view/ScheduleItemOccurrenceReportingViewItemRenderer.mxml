@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				xmlns:view="collaboRhythm.plugins.schedule.view.*"
+				width="100%"
+				height="{SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT}"
+		autoDrawBackground="false">
+	<fx:Style>
+
+		#nameLabel {
+			font-size: 30;
+			font-weight: bold;
+		}
+
+		#descriptionLabel {
+			font-size: 20;
+		}
+
+		#indicationLabel {
+			fontSize: 20;
+			fontStyle: italic;
+		}
+
+		#instructionsLabel {
+			fontSize: 26;
+			font-weight: bold;
+		}
+
+		#additionalInformationLabel {
+			fontSize: 26;
+			fontWeight: bold;
+		}
+	</fx:Style>
+	<fx:Script>
+        <![CDATA[
+		import collaboRhythm.plugins.schedule.controller.ScheduleItemOccurrenceReportingController;
+		import collaboRhythm.plugins.schedule.model.ScheduleModel;
+		import collaboRhythm.plugins.schedule.shared.model.IScheduleItemOccurrenceReportingViewAdapter;
+		import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+
+		import spark.components.Image;
+
+		public static const SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT:Number = 142;
+
+		[Bindable]
+		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
+		[Bindable]
+		private var _scheduleItemOccurrenceReportingModel:ScheduleItemOccurrenceReportingModelBase;
+		private var _scheduleItemOccurrenceReportingController:ScheduleItemOccurrenceReportingController;
+
+		private var _isDataSet:Boolean = false;
+
+		override public function set data(value:Object):void
+		{
+			// This function gets called every time that the scheduleItemOccurrence is modified. This is problematic
+			// because it adds the image every time that the user checks the adherenceCheckBox. It may be necessary
+			// to write code that more specifically prevents the image from being added multiple times if other components
+			// of the view need to be updated dynamically
+			if (!_isDataSet)
+			{
+				super.data = value;
+				_scheduleItemOccurrence = ScheduleItemOccurrence(value);
+
+				var scheduleGroupReportingView:ScheduleGroupReportingView = ScheduleGroupReportingView(owner);
+				var scheduleModel:ScheduleModel = scheduleGroupReportingView.scheduleModel;
+				var scheduleItemOccurrenceReportingViewAdapter:IScheduleItemOccurrenceReportingViewAdapter = scheduleModel.viewFactory.createScheduleItemOccurrenceReportingViewAdapter(_scheduleItemOccurrence,
+																																														scheduleModel.scheduleReportingModel);
+				_scheduleItemOccurrenceReportingModel = scheduleModel.viewFactory.createScheduleItemOccurrenceReportingModel(_scheduleItemOccurrence,
+																															 scheduleModel);
+				_scheduleItemOccurrenceReportingController = new ScheduleItemOccurrenceReportingController(_scheduleItemOccurrenceReportingModel);
+
+				nameLabel.text = scheduleItemOccurrenceReportingViewAdapter.name;
+				descriptionLabel.text = scheduleItemOccurrenceReportingViewAdapter.description;
+				indicationLabel.text = scheduleItemOccurrenceReportingViewAdapter.indication;
+				instructionsLabel.text = scheduleItemOccurrenceReportingViewAdapter.instructions;
+
+				var image:Image = scheduleItemOccurrenceReportingViewAdapter.image;
+				image.left = 5;
+				image.right = 5;
+				image.top = 5;
+				image.bottom = 5;
+				image.smooth = true;
+				imageRegion.addElement(image);
+
+				additionalInformationLabel.visible = _scheduleItemOccurrenceReportingModel.isAdditionalInformationRequired();
+
+				_isDataSet = true;
+			}
+		}
+
+		private function adherenceCheckBoxClickHandler(event:MouseEvent):void
+		{
+			_scheduleItemOccurrenceReportingController.reportAdherence();
+		}
+
+		private function adherenceCheckBoxMouseDownHandler(event:MouseEvent):void
+		{
+			// Prevent the scheduleItemOccurrence in the list from being selected when the check box is clicked
+			event.stopImmediatePropagation();
+		}
+		]]>
+    </fx:Script>
+
+	<s:Group id="imageRegion" width="{this.height}" height="100%">
+
+	</s:Group>
+
+	<s:Group id="descriptionRegion" height="100%" left="{imageRegion.width}" right="{buttonRegion.width}">
+		<s:VGroup left="5" right="5" top="5" bottom="5" gap="1">
+			<s:Label id="nameLabel" maxDisplayedLines="1" width="100%"/>
+			<s:Label id="descriptionLabel" maxDisplayedLines="1" width="100%"/>
+			<s:Label id="indicationLabel" paddingTop="16" maxDisplayedLines="1" width="100%"/>
+			<s:Label id="instructionsLabel" paddingTop="16" maxDisplayedLines="1" width="100%"/>
+		</s:VGroup>
+	</s:Group>
+
+	<s:Group id="buttonRegion" right="5" height="100%">
+		<view:AdherenceCheckBox width="50" height="50" verticalCenter="0"
+								skinClass="collaboRhythm.plugins.schedule.view.AdherenceCheckBoxSkin"
+								selected="{_scheduleItemOccurrence.adherenceItem != null}"
+								mouseDown="adherenceCheckBoxMouseDownHandler(event)"
+								click="adherenceCheckBoxClickHandler(event)"/>
+		<s:Label id="additionalInformationLabel" text="..." verticalCenter="35" horizontalCenter="-6" visible="false"/>
+	</s:Group>
+
+	<s:Line width="100%" bottom="0">
+		<s:stroke>
+			<s:SolidColorStroke color="0x000000"/>
+		</s:stroke>
+	</s:Line>
+</s:ItemRenderer>

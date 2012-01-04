@@ -21,19 +21,18 @@ package collaboRhythm.plugins.medications.model
 	import castle.flexbridge.reflection.ReflectionUtils;
 
 	import collaboRhythm.plugins.medications.view.MedicationScheduleItemClockView;
-	import collaboRhythm.plugins.medications.view.MedicationScheduleItemReportingView;
 	import collaboRhythm.plugins.medications.view.MedicationScheduleItemTimelineView;
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceEvaluatorBase;
+	import collaboRhythm.plugins.schedule.shared.model.IScheduleItemOccurrenceReportingViewAdapter;
+	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleViewFactory;
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
-
-	import flash.events.InvokeEvent;
 
 	public class MedicationsScheduleViewFactory implements IScheduleViewFactory
     {
@@ -53,17 +52,7 @@ package collaboRhythm.plugins.medications.model
             return medicationScheduleItemClockView;
         }
 
-        public function createScheduleItemReportingView(scheduleItemOccurrence:ScheduleItemOccurrence,
-														scheduleReportingModel:IScheduleReportingModel,
-														activeAccountId:String,
-														handledInvokeEvents:Vector.<String>):ScheduleItemReportingViewBase
-        {
-            var medicationScheduleItemReportingView:MedicationScheduleItemReportingView = new MedicationScheduleItemReportingView();
-            medicationScheduleItemReportingView.init(scheduleItemOccurrence, scheduleReportingModel, activeAccountId, handledInvokeEvents);
-            return medicationScheduleItemReportingView;
-        }
-
-        public function createScheduleItemTimelineView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemTimelineViewBase
+		public function createScheduleItemTimelineView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemTimelineViewBase
         {
             var medicationScheduleItemTimelineView:MedicationScheduleItemTimelineView = new MedicationScheduleItemTimelineView();
             medicationScheduleItemTimelineView.init(scheduleItemOccurrence);
@@ -74,5 +63,19 @@ package collaboRhythm.plugins.medications.model
 		{
 			return new MedicationsAdherencePerformanceEvaluator();
 		}
-    }
+
+		public function createScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence, scheduleReportingModel:IScheduleReportingModel):IScheduleItemOccurrenceReportingViewAdapter
+		{
+			var medicationScheduleItemOccurrenceReportingViewAdapter:MedicationScheduleItemOccurrenceReportingViewAdapter = new MedicationScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence, scheduleReportingModel);
+			return medicationScheduleItemOccurrenceReportingViewAdapter;
+		}
+
+		public function createScheduleItemOccurrenceReportingModel(scheduleItemOccurrence:ScheduleItemOccurrence,
+																   scheduleModel:IScheduleModel):ScheduleItemOccurrenceReportingModelBase
+		{
+			var medicationScheduleItemOccurrenceReportingModel:MedicationScheduleItemOccurrenceReportingModel = new MedicationScheduleItemOccurrenceReportingModel(scheduleItemOccurrence,
+																																								   scheduleModel);
+			return medicationScheduleItemOccurrenceReportingModel;
+		}
+	}
 }

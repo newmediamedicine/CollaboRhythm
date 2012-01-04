@@ -113,7 +113,7 @@
 		{
 			if (_medicationScheduleItem && _medicationScheduleItem.scheduledMedicationOrder && _medicationScheduleItem.scheduledMedicationOrder.medicationFill && _medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc && _medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc.text)
 			{
-				medicationImage.setStyle("loadingImageColor", _medicationColorSource.getMedicationColor(_medicationOrder.medicationFill.ndc.text));	
+				medicationImage.setStyle("loadingImageColor", _medicationColorSource.getMedicationColor(_medicationOrder.medicationFill.ndc.text));
 				medicationImage.source = MedicationFillsModel.MEDICATION_API_URL_BASE + _medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc.text + "-front.png";
 			}
 		}

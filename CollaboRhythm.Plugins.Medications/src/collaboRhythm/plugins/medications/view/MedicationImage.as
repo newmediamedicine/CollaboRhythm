@@ -25,6 +25,7 @@ package collaboRhythm.plugins.medications.view
 	{
 		public function MedicationImage()
 		{
+			setStyle("skinClass", MedicationImageSkin);
 		}
 	}
 }

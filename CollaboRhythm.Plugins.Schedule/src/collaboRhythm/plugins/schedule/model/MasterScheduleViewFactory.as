@@ -21,10 +21,12 @@ package collaboRhythm.plugins.schedule.model
 	import castle.flexbridge.reflection.ReflectionUtils;
 
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceEvaluatorBase;
+	import collaboRhythm.plugins.schedule.shared.model.IScheduleItemOccurrenceReportingViewAdapter;
+	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleViewFactory;
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
@@ -56,16 +58,6 @@ package collaboRhythm.plugins.schedule.model
 			return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem)).name].createScheduleItemClockView(scheduleItemOccurrence);
 		}
 
-		public function createScheduleItemReportingView(scheduleItemOccurrence:ScheduleItemOccurrence,
-														scheduleReportingModel:IScheduleReportingModel,
-														activeAccountId:String,
-														handledInvokeEvents:Vector.<String>):ScheduleItemReportingViewBase
-		{
-			return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem)).name].createScheduleItemReportingView(scheduleItemOccurrence,
-																																										scheduleReportingModel,
-																																										activeAccountId, handledInvokeEvents);
-		}
-
 		public function createScheduleItemTimelineView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemTimelineViewBase
 		{
 			return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem)).name].createScheduleItemTimelineView(scheduleItemOccurrence);
@@ -74,6 +66,17 @@ package collaboRhythm.plugins.schedule.model
 		public function createAdherencePerformanceEvaluator(scheduleItem:ScheduleItemBase):AdherencePerformanceEvaluatorBase
 		{
 			return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItem)).name].createAdherencePerformanceEvaluator(scheduleItem);
+		}
+
+		public function createScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence, scheduleReportingModel:IScheduleReportingModel):IScheduleItemOccurrenceReportingViewAdapter
+		{
+			return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem)).name].createScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence, scheduleReportingModel);
+		}
+
+		public function createScheduleItemOccurrenceReportingModel(scheduleItemOccurrence:ScheduleItemOccurrence,
+																   scheduleModel:IScheduleModel):ScheduleItemOccurrenceReportingModelBase
+		{
+			return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem)).name].createScheduleItemOccurrenceReportingModel(scheduleItemOccurrence, scheduleModel);
 		}
 	}
 }

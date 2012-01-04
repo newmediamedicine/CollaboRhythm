@@ -21,13 +21,14 @@ package collaboRhythm.plugins.equipment.model
 	import castle.flexbridge.reflection.ReflectionUtils;
 
 	import collaboRhythm.plugins.equipment.view.EquipmentScheduleItemClockView;
-	import collaboRhythm.plugins.equipment.view.EquipmentScheduleItemReportingView;
 	import collaboRhythm.plugins.equipment.view.EquipmentScheduleItemTimelineView;
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceEvaluatorBase;
+	import collaboRhythm.plugins.schedule.shared.model.IScheduleItemOccurrenceReportingViewAdapter;
+	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleViewFactory;
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewBase;
 	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
 	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
@@ -51,16 +52,6 @@ package collaboRhythm.plugins.equipment.model
             return equipmentScheduleItemClockView;
         }
 
-        public function createScheduleItemReportingView(scheduleItemOccurrence:ScheduleItemOccurrence,
-														scheduleReportingModel:IScheduleReportingModel,
-														activeAccountId:String,
-														handledInvokeEvents:Vector.<String>):ScheduleItemReportingViewBase
-        {
-            var equipmentScheduleItemReportingView:EquipmentScheduleItemReportingView = new EquipmentScheduleItemReportingView();
-            equipmentScheduleItemReportingView.init(scheduleItemOccurrence, scheduleReportingModel, activeAccountId, handledInvokeEvents);
-            return equipmentScheduleItemReportingView;
-        }
-
         public function createScheduleItemTimelineView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemTimelineViewBase
         {
             var equipmentScheduleItemTimelineView:EquipmentScheduleItemTimelineView = new EquipmentScheduleItemTimelineView();
@@ -72,5 +63,20 @@ package collaboRhythm.plugins.equipment.model
 		{
 			return new EquipmentAdherencePerformanceEvaluator();
 		}
-    }
+
+		public function createScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
+																		 scheduleReportingModel:IScheduleReportingModel):IScheduleItemOccurrenceReportingViewAdapter
+		{
+			var equipmentScheduleItemOccurrenceReportingViewAdapter:EquipmentScheduleItemOccurrenceReportingViewAdapter = new EquipmentScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence, scheduleReportingModel);
+			return equipmentScheduleItemOccurrenceReportingViewAdapter;
+		}
+
+		public function createScheduleItemOccurrenceReportingModel(scheduleItemOccurrence:ScheduleItemOccurrence,
+																   scheduleModel:IScheduleModel):ScheduleItemOccurrenceReportingModelBase
+		{
+			var equipmentScheduleItemOccurrenceReportingModel:EquipmentScheduleItemOccurrenceReportingModel = new EquipmentScheduleItemOccurrenceReportingModel(scheduleItemOccurrence,
+																																								scheduleModel);
+			return equipmentScheduleItemOccurrenceReportingModel;
+		}
+	}
 }

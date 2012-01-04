@@ -22,8 +22,6 @@ package collaboRhythm.plugins.schedule.model
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
-	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
-	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.services.IComponentContainer;
@@ -42,7 +40,7 @@ package collaboRhythm.plugins.schedule.model
 	import mx.logging.Log;
 
 	[Bindable]
-	public class ScheduleModel extends EventDispatcher implements IScheduleCollectionsProvider
+	public class ScheduleModel extends EventDispatcher implements IScheduleCollectionsProvider, IScheduleModel
 	{
 		/**
 		 * Key to the ScheduleModel instance in Record.appData
@@ -354,6 +352,11 @@ package collaboRhythm.plugins.schedule.model
 		public function get scheduleItemOccurrencesVector():Vector.<ScheduleItemOccurrence>
 		{
 			return _scheduleItemOccurrencesVector;
+		}
+
+		public function get accountId():String
+		{
+			return _accountId;
 		}
 	}
 }

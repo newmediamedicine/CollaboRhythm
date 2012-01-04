@@ -53,8 +53,14 @@
 		import mx.core.UIComponent;
 		import mx.events.CollectionEvent;
 		import mx.events.CollectionEventKind;
+		import mx.events.FlexMouseEvent;
 		import mx.logging.ILogger;
 		import mx.logging.Log;
+
+		import spark.components.Callout;
+
+		import spark.events.IndexChangeEvent;
+		import spark.skins.mobile.CalloutSkin;
 
 		private const COUNTDOWN_DURATION:int = 10;
 
@@ -77,12 +83,6 @@
 			_scheduleReportingModel.viewStack.addEventListener(CollectionEvent.COLLECTION_CHANGE, viewStackChangeEvent);
 
 			scheduleGroupReportingView.init(scheduleModel, scheduleAppController.activeAccount.accountId);
-
-			this.addEventListener(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_COMPLETE,
-								  adherenceItemCompleteEventHandler);
-			this.addEventListener(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
-								  adherenceItemIncompleteEventHandler);
-			this.addEventListener(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_VOID, adherenceItemVoidEventHandler);
 		}
 
 		private function showHandler():void
@@ -200,28 +200,10 @@
 			}
 		}
 
-		private function adherenceItemCompleteEventHandler(event:ScheduleItemReportingViewEvent):void
-		{
-			_scheduleReportingController.createAdherenceItem(_scheduleModel.scheduleReportingModel.currentScheduleGroup,
-															 event.scheduleItemOccurrence,
-															 event.adherenceItem, event.hideViews,
-															 event.createAdherenceItem);
-		}
-
-		private function adherenceItemIncompleteEventHandler(event:ScheduleItemReportingViewEvent):void
-		{
-			_scheduleReportingController.showAdditionalInformationView(event.additionalInformationView);
-		}
-
-		private function adherenceItemVoidEventHandler(event:ScheduleItemReportingViewEvent):void
-		{
-			_scheduleReportingController.voidAdherenceItem(event.scheduleItemOccurrence);
-		}
-
 		public function destroyChildren():void
 		{
 			additionalInformationViews.removeAllElements();
-			scheduleGroupReportingView.scheduleItemsGroup.removeAllElements();
+//			scheduleGroupReportingView.scheduleItemsGroup.removeAllElements();
 		}
 
 		private function scheduleReportingFullView_clickHandler():void
@@ -232,8 +214,53 @@
 				_timeoutTimer.start();
 			}
 		}
+
+		private function scheduleGroupReportingView_changeHandler(event:IndexChangeEvent):void
+		{
+//			var callout:Callout = new Callout();
+//			callout.setStyle("skinClass", CalloutSkin);
+//			callout.width = this.width / 2;
+//			callout.height = this.height;
+//			callout.horizontalPosition="after";
+//			callout.verticalPosition="middle";
+//			var group:Group = new Group();
+//			group.width = 100;
+//			group.height = 100;
+//			callout.addElement(group);
+//			callout.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE, mouseDownOutsideHandler);
+//			callout.open(scheduleGroupReportingView.dataGroup.getElementAt(scheduleGroupReportingView.selectedIndex) as DisplayObjectContainer, false);
+		}
+
+		private function mouseDownOutsideHandler(event:FlexMouseEvent):void
+		{
+			scheduleGroupReportingView.selectedIndex = -1;
+			event.target.close();
+		}
 		]]></fx:Script>
-	<scheduleViews:ScheduleGroupReportingView id="scheduleGroupReportingView" width="50%" height="100%"/>
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="0xE6E7E8"/>
+		</s:fill>
+	</s:Rect>
+	<s:Group width="50%" height="100%">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0xFFFFFF"/>
+			</s:fill>
+		</s:Rect>
+		<scheduleViews:ScheduleGroupReportingView id="scheduleGroupReportingView" width="100%" height="100%"
+												  change="scheduleGroupReportingView_changeHandler(event)"/>
+		<s:Line width="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line right="0" height="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000"/>
+			</s:stroke>
+		</s:Line>
+	</s:Group>
 	<s:Group id="additionalInformationViews" width="55%" height="100%" right="0"/>
 	<s:Group width="100%" height="100%" visible="{_isCountdownRunning}">
 		<s:Rect width="100%" height="100%">
