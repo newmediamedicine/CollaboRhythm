@@ -2,8 +2,9 @@ package collaboRhythm.tablet.view
 {
 
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
+    import collaboRhythm.shared.view.tablet.TabletViewBase;
 
-	import flash.events.Event;
+    import flash.events.Event;
 
 	import spark.components.View;
 

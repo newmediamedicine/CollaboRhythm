@@ -1,9 +1,9 @@
-package collaboRhythm.core.model
+package collaboRhythm.shared.model
 {
 
-	import com.theory9.data.types.OrderedMap;
+    import com.theory9.data.types.OrderedMap;
 
-	public class BackgroundProcessCollectionModel
+    public class BackgroundProcessCollectionModel
 	{
 		private var _processes:OrderedMap = new OrderedMap();
 		private var _isRunning:Boolean;

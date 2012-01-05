@@ -23,70 +23,64 @@
 		 height="100%" width="100%">
 	<fx:Script>
         <![CDATA[
-		import collaboRhythm.core.model.AboutApplicationModel;
-		import collaboRhythm.shared.model.Account;
-		import collaboRhythm.shared.model.CollaborationModel;
-		import collaboRhythm.shared.model.services.ICurrentDateSource;
-		import collaboRhythm.shared.model.services.WorkstationKernel;
-		import collaboRhythm.tablet.controller.TabletApplicationController;
+        import collaboRhythm.core.model.AboutApplicationModel;
+        import collaboRhythm.shared.model.Account;
+        import collaboRhythm.shared.model.CollaborationModel;
+        import collaboRhythm.tablet.controller.TabletApplicationController;
 
-		import mx.core.IVisualElement;
-		import mx.core.IVisualElementContainer;
-		import mx.formatters.DateFormatter;
+        import mx.core.IVisualElementContainer;
 
-		import spark.events.ElementExistenceEvent;
+        public static const RECORD_BACKGROUND_COLOR:uint = 0xE6E7E8;
 
-		public static const RECORD_BACKGROUND_COLOR:uint = 0xE6E7E8;
+        private var _tabletApplicationController:TabletApplicationController;
+        [Bindable]
+        private var _recordAccount:Account;
+        [Bindable]
+        private var _collaborationModel:CollaborationModel;
+        private var _widgetContainers:Vector.<IVisualElementContainer> = new Vector.<IVisualElementContainer>();
+        private var _applicationInfo:AboutApplicationModel = new AboutApplicationModel();
 
-		private var _tabletApplicationController:TabletApplicationController;
-		[Bindable]
-		private var _recordAccount:Account;
-		[Bindable]
-		private var _collaborationModel:CollaborationModel;
-		private var _widgetContainers:Vector.<IVisualElementContainer> = new Vector.<IVisualElementContainer>();
-		private var _applicationInfo:AboutApplicationModel = new AboutApplicationModel();
+        public function init(tabletApplicationController:TabletApplicationController, recordAccount:Account):void
+        {
+            _tabletApplicationController = tabletApplicationController;
+            _recordAccount = recordAccount;
+            _collaborationModel = _tabletApplicationController.collaborationController.collaborationModel;
 
-		public function init(tabletApplicationController:TabletApplicationController, recordAccount:Account):void
-		{
-			_tabletApplicationController = tabletApplicationController;
-			_recordAccount = recordAccount;
-			_collaborationModel = _tabletApplicationController.collaborationController.collaborationModel;
+            _widgetContainers.push(scheduleWidgetGroup);
+            _widgetContainers.push(bloodPressureWidgetGroup);
+            _widgetContainers.push(buttonWidgetsGroup);
+            _widgetContainers.push(currentPerformanceGroup);
 
-			_widgetContainers.push(scheduleWidgetGroup);
-			_widgetContainers.push(bloodPressureWidgetGroup);
-			_widgetContainers.push(buttonWidgetsGroup);
-			_widgetContainers.push(currentPerformanceGroup);
+            if (_tabletApplicationController && _tabletApplicationController.settings && _tabletApplicationController.settings.debuggingToolsEnabled)
+                initializeVersionWatermark();
+        }
 
-			if (_tabletApplicationController && _tabletApplicationController.settings && _tabletApplicationController.settings.debuggingToolsEnabled)
-				initializeVersionWatermark();
-		}
+        private function initializeVersionWatermark():void
+        {
+            _applicationInfo.initialize();
+            if (_applicationInfo.appModificationDate != null)
+            {
+                applicationModificationLabel.visible = true;
+            }
 
-		private function initializeVersionWatermark():void
-		{
-			_applicationInfo.initialize();
-			if (_applicationInfo.appModificationDate != null)
-			{
-				applicationModificationLabel.visible = true;
-			}
+            versionWatermarkGroup.visible = true;
+        }
 
-			versionWatermarkGroup.visible = true;
-		}
+        public function showHandler():void
+        {
+            _tabletApplicationController.openRecordAndShowWidgets(_recordAccount);
+        }
 
-		public function showHandler():void
-		{
-			_tabletApplicationController.openRecordAndShowWidgets(_recordAccount);
-		}
+        public function get widgetContainers():Vector.<IVisualElementContainer>
+        {
+            return _widgetContainers;
+        }
 
-		public function get widgetContainers():Vector.<IVisualElementContainer>
-		{
-			return _widgetContainers;
-		}
-
-		public function get applicationInfo():AboutApplicationModel
-		{
-			return _applicationInfo;
-		}
-		]]>
+        public function get applicationInfo():AboutApplicationModel
+        {
+            return _applicationInfo;
+        }
+        ]]>
     </fx:Script>
 	<s:Rect width="100%" height="100%">
 		<s:fill>

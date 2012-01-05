@@ -17,19 +17,22 @@
 package collaboRhythm.plugins.videoMessages.controller
 {
 
-	import collaboRhythm.plugins.videoMessages.view.VideoMessagesButtonWidgetView;
-	import collaboRhythm.plugins.videoMessages.view.VideoMessagesFullView;
-	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.controller.apps.AppEvent;
-	import collaboRhythm.shared.controller.apps.AppControllerBase;
-	import collaboRhythm.shared.model.InteractionLogUtil;
-	import collaboRhythm.shared.model.healthRecord.DocumentBase;
-	import collaboRhythm.shared.model.healthRecord.document.VideoMessage;
-	import collaboRhythm.shared.model.healthRecord.document.VideoMessagesModel;
+    import collaboRhythm.plugins.videoMessages.view.PlayVideoMessageView;
+    import collaboRhythm.plugins.videoMessages.view.VideoMessagesButtonWidgetView;
+    import collaboRhythm.plugins.videoMessages.view.VideoMessagesFullView;
+    import collaboRhythm.shared.controller.apps.AppControllerBase;
+    import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
+    import collaboRhythm.shared.controller.apps.AppEvent;
+    import collaboRhythm.shared.model.InteractionLogUtil;
+    import collaboRhythm.shared.model.healthRecord.DocumentBase;
+    import collaboRhythm.shared.model.healthRecord.document.VideoMessage;
+    import collaboRhythm.shared.model.healthRecord.document.VideoMessagesModel;
 
-	import mx.core.UIComponent;
+    import mx.core.UIComponent;
 
-	public class VideoMessagesAppController extends AppControllerBase
+    import spark.transitions.SlideViewTransition;
+
+    public class VideoMessagesAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "VideoMessages";
 
@@ -171,5 +174,11 @@ package collaboRhythm.plugins.videoMessages.controller
 		{
 			videoMessagesModel.saveAllChanges();
 		}
-	}
+
+        public function playVideoMessageFullScreen(videoMessage:VideoMessage):void
+        {
+            if (_viewNavigator)
+                _viewNavigator.pushView(PlayVideoMessageView, videoMessage, new SlideViewTransition());
+        }
+    }
 }

@@ -17,27 +17,26 @@
 package collaboRhythm.tablet.controller
 {
 
-	import collaboRhythm.core.controller.ApplicationControllerBase;
-	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
-	import collaboRhythm.shared.controller.apps.AppControllerBase;
-	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.settings.Settings;
-	import collaboRhythm.tablet.view.ActiveRecordView;
-	import collaboRhythm.tablet.view.TabletFullViewContainer;
-	import collaboRhythm.tablet.view.TabletViewBase;
-	import collaboRhythm.tablet.view.TabletWidgetViewContainer;
+    import collaboRhythm.core.controller.ApplicationControllerBase;
+    import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
+    import collaboRhythm.shared.controller.apps.AppControllerBase;
+    import collaboRhythm.shared.model.Account;
+    import collaboRhythm.shared.model.settings.Settings;
+    import collaboRhythm.tablet.view.ActiveRecordView;
+    import collaboRhythm.tablet.view.TabletFullViewContainer;
+    import collaboRhythm.shared.view.tablet.TabletViewBase;
+    import collaboRhythm.tablet.view.TabletWidgetViewContainer;
 
-	import flash.events.Event;
+    import flash.events.Event;
 
-	import mx.core.IVisualElementContainer;
-	import mx.events.FlexEvent;
+    import mx.core.IVisualElementContainer;
+    import mx.events.FlexEvent;
 
-	import spark.components.ViewNavigator;
+    import spark.components.ViewNavigator;
+    import spark.transitions.SlideViewTransition;
 
-	import spark.transitions.SlideViewTransition;
-
-	public class TabletApplicationController extends ApplicationControllerBase
-	{
+    public class TabletApplicationController extends ApplicationControllerBase
+    {
 		private var _tabletApplication:CollaboRhythmTabletApplication;
 		private var _tabletAppControllersMediator:TabletAppControllersMediator;
 		private var _fullContainer:IVisualElementContainer;
@@ -53,25 +52,25 @@ package collaboRhythm.tablet.controller
 			initializeConnectivityView();
 		}
 
-		public override function main():void
-		{
-			super.main();
+        override public function main():void
+        {
+            super.main();
 
-			_settings.modality = Settings.MODALITY_TABLET;
+            _settings.modality = Settings.MODALITY_TABLET;
 
-			initCollaborationController();
+            initCollaborationController();
 
-			_tabletApplication.navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
-			_tabletApplication.navigator.addEventListener("viewChangeComplete",
-														  viewNavigator_transitionCompleteHandler);
-			_tabletApplication.navigator.addEventListener(Event.ADDED, viewNavigator_addedHandler);
+            _tabletApplication.navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
+            _tabletApplication.navigator.addEventListener("viewChangeComplete",
+                    viewNavigator_transitionCompleteHandler);
+            _tabletApplication.navigator.addEventListener(Event.ADDED, viewNavigator_addedHandler);
 
-			initializeActiveView();
+            initializeActiveView();
 
-			createSession();
-		}
+            createSession();
+        }
 
-		private function viewNavigator_transitionCompleteHandler(event:Event):void
+        private function viewNavigator_transitionCompleteHandler(event:Event):void
 		{
 			if (!(_tabletApplication.navigator.activeView is TabletWidgetViewContainer))
 				_tabletAppControllersMediator.destroyWidgetViews();
@@ -105,8 +104,11 @@ package collaboRhythm.tablet.controller
 		{
 			super.openRecordAccount(recordAccount);
 			initializeActiveView();
-			activeRecordView.init(this, recordAccount);
-			activeRecordView.visible = true;
+			if (activeRecordView)
+            {
+                activeRecordView.init(this, recordAccount);
+                activeRecordView.visible = true;
+            }
 		}
 
 		private function get activeRecordView():ActiveRecordView
@@ -155,16 +157,11 @@ package collaboRhythm.tablet.controller
 			if (recordAccount)
 				recordAccount.primaryRecord.clearDocuments();
 			_activeRecordAccount = null;
-			activeRecordView.visible = false;
+			if (activeRecordView)
+                activeRecordView.visible = false;
 		}
 
-		public function useDemoPreset(demoPresetIndex:int):void
-		{
-			if (_settings.demoDatePresets && _settings.demoDatePresets.length > demoPresetIndex)
-				targetDate = _settings.demoDatePresets[demoPresetIndex];
-		}
-
-		protected override function changeDemoDate():void
+        protected override function changeDemoDate():void
 		{
 			reloadData();
 
