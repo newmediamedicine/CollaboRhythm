@@ -818,13 +818,7 @@ package collaboRhythm.workstation.controller
 			_logger.info("Marked " + deletedCount + " documents to " + deleteAction);
 		}
 
-		private function useDemoPreset(demoPresetIndex:int):void
-		{
-			if (_settings.demoDatePresets && _settings.demoDatePresets.length > demoPresetIndex)
-				targetDate = _settings.demoDatePresets[demoPresetIndex];
-		}
-
-		private function saveWindowSettings():void
+        private function saveWindowSettings():void
 		{
 			var windowSettings:WindowSettings = new WindowSettings();
 			windowSettings.fullScreen = fullScreen;

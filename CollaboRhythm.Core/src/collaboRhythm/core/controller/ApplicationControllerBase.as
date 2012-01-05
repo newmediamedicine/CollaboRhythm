@@ -17,63 +17,64 @@
 package collaboRhythm.core.controller
 {
 
-	import castle.flexbridge.kernel.IKernel;
+    import castle.flexbridge.kernel.IKernel;
 
-	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
-	import collaboRhythm.core.model.AboutApplicationModel;
-	import collaboRhythm.core.model.ApplicationControllerModel;
-	import collaboRhythm.core.model.BackgroundProcessCollectionModel;
-	import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
-	import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
-	import collaboRhythm.core.pluginsManagement.PluginLoader;
-	import collaboRhythm.core.view.AboutApplicationView;
-	import collaboRhythm.core.view.ConnectivityEvent;
-	import collaboRhythm.core.view.ConnectivityView;
-	import collaboRhythm.shared.controller.CollaborationController;
-	import collaboRhythm.shared.controller.apps.AppControllerInfo;
-	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionEvent;
-	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
-	import collaboRhythm.shared.model.InteractionLogUtil;
-	import collaboRhythm.shared.model.healthRecord.AccountInformationHealthRecordService;
-	import collaboRhythm.shared.model.healthRecord.CreateSessionHealthRecordService;
-	import collaboRhythm.shared.model.healthRecord.DemographicsHealthRecordService;
-	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
-	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
-	import collaboRhythm.shared.model.healthRecord.RecordsHealthRecordService;
-	import collaboRhythm.shared.model.healthRecord.SharesHealthRecordService;
-	import collaboRhythm.shared.model.services.DefaultMedicationColorSource;
-	import collaboRhythm.shared.model.services.DemoCurrentDateSource;
-	import collaboRhythm.shared.model.services.IComponentContainer;
-	import collaboRhythm.shared.model.services.ICurrentDateSource;
-	import collaboRhythm.shared.model.services.IMedicationColorSource;
-	import collaboRhythm.shared.model.services.WorkstationKernel;
-	import collaboRhythm.shared.model.settings.Settings;
-	import collaboRhythm.shared.model.settings.SettingsFileStore;
-	import collaboRhythm.shared.view.CollaborationView;
+    import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
+    import collaboRhythm.core.model.AboutApplicationModel;
+    import collaboRhythm.core.model.ApplicationControllerModel;
+    import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
+    import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
+    import collaboRhythm.core.pluginsManagement.PluginLoader;
+    import collaboRhythm.core.view.AboutApplicationView;
+    import collaboRhythm.core.view.ConnectivityEvent;
+    import collaboRhythm.core.view.ConnectivityView;
+    import collaboRhythm.shared.controller.CollaborationController;
+    import collaboRhythm.shared.controller.IApplicationControllerBase;
+    import collaboRhythm.shared.controller.apps.AppControllerInfo;
+    import collaboRhythm.shared.model.Account;
+    import collaboRhythm.shared.model.BackgroundProcessCollectionModel;
+    import collaboRhythm.shared.model.CollaborationLobbyNetConnectionEvent;
+    import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
+    import collaboRhythm.shared.model.InteractionLogUtil;
+    import collaboRhythm.shared.model.healthRecord.AccountInformationHealthRecordService;
+    import collaboRhythm.shared.model.healthRecord.CreateSessionHealthRecordService;
+    import collaboRhythm.shared.model.healthRecord.DemographicsHealthRecordService;
+    import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
+    import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
+    import collaboRhythm.shared.model.healthRecord.RecordsHealthRecordService;
+    import collaboRhythm.shared.model.healthRecord.SharesHealthRecordService;
+    import collaboRhythm.shared.model.services.DefaultMedicationColorSource;
+    import collaboRhythm.shared.model.services.DemoCurrentDateSource;
+    import collaboRhythm.shared.model.services.IComponentContainer;
+    import collaboRhythm.shared.model.services.ICurrentDateSource;
+    import collaboRhythm.shared.model.services.IMedicationColorSource;
+    import collaboRhythm.shared.model.services.WorkstationKernel;
+    import collaboRhythm.shared.model.settings.Settings;
+    import collaboRhythm.shared.model.settings.SettingsFileStore;
+    import collaboRhythm.shared.view.CollaborationView;
 
-	import com.coltware.airxlib.log.TCPSyslogTarget;
-	import com.daveoncode.logging.LogFileTarget;
+    import com.coltware.airxlib.log.TCPSyslogTarget;
+    import com.daveoncode.logging.LogFileTarget;
 
-	import flash.desktop.NativeApplication;
-	import flash.events.Event;
-	import flash.events.TimerEvent;
-	import flash.filesystem.File;
-	import flash.net.NetworkInfo;
-	import flash.net.NetworkInterface;
-	import flash.utils.Timer;
-	import flash.utils.getQualifiedClassName;
+    import flash.desktop.NativeApplication;
+    import flash.events.Event;
+    import flash.events.TimerEvent;
+    import flash.filesystem.File;
+    import flash.net.NetworkInfo;
+    import flash.net.NetworkInterface;
+    import flash.utils.Timer;
+    import flash.utils.getQualifiedClassName;
 
-	import mx.binding.utils.BindingUtils;
-	import mx.collections.ArrayCollection;
-	import mx.core.IVisualElementContainer;
-	import mx.logging.ILogger;
-	import mx.logging.Log;
-	import mx.logging.LogEventLevel;
-	import mx.logging.targets.TraceTarget;
+    import mx.binding.utils.BindingUtils;
+    import mx.collections.ArrayCollection;
+    import mx.core.IVisualElementContainer;
+    import mx.logging.ILogger;
+    import mx.logging.Log;
+    import mx.logging.LogEventLevel;
+    import mx.logging.targets.TraceTarget;
 
-	public class ApplicationControllerBase
-	{
+    public class ApplicationControllerBase implements IApplicationControllerBase
+    {
 		private static const ONE_MINUTE:int = 1000 * 60;
 
 		protected var _applicationControllerModel:ApplicationControllerModel;
@@ -147,67 +148,67 @@ package collaboRhythm.core.controller
 			updateAutoSyncTime();
 		}
 
-		/**
-		 * Main function to start the application running.
-		 * This method should be overridden by subclasses with the super method called at the beginning subclasses
-		 * can then perform appropriate actions after settings, logging, and components have been initialized.
-		 */
-		public function main():void
-		{
-			_applicationControllerModel = new ApplicationControllerModel();
-			_applicationControllerModel.isLoading = true;
-			BindingUtils.bindSetter(applicationControllerModel_isLoadingChangeHandler, _applicationControllerModel, "isLoading");
-			BindingUtils.bindSetter(applicationControllerModel_hasErrorsChangeHandler, _applicationControllerModel, "hasErrors");
+        /**
+         * Main function to start the application running.
+         * This method should be overridden by subclasses with the super method called at the beginning subclasses
+         * can then perform appropriate actions after settings, logging, and components have been initialized.
+         */
+        public function main():void
+        {
+            _applicationControllerModel = new ApplicationControllerModel();
+            _applicationControllerModel.isLoading = true;
+            BindingUtils.bindSetter(applicationControllerModel_isLoadingChangeHandler, _applicationControllerModel, "isLoading");
+            BindingUtils.bindSetter(applicationControllerModel_hasErrorsChangeHandler, _applicationControllerModel, "hasErrors");
 
-			initSettings();
+            initSettings();
 
-			// TODO: provide feedback if there is not an active NetworkInterface
-			checkNetworkStatus();
+            // TODO: provide feedback if there is not an active NetworkInterface
+            checkNetworkStatus();
 
-			initLogging();
+            initLogging();
 
-			var applicationInfo:AboutApplicationModel = new AboutApplicationModel();
-			applicationInfo.initialize();
-			_logger.info("Application: " + applicationInfo.appName);
-			_logger.info("  " + applicationInfo.appCopyright);
-			_logger.info("  Version " + applicationInfo.appVersion);
-			if (applicationInfo.appModificationDateString)
-			{
-				_logger.info("  Updated " + applicationInfo.appModificationDateString);
-			}
+            var applicationInfo:AboutApplicationModel = new AboutApplicationModel();
+            applicationInfo.initialize();
+            _logger.info("Application: " + applicationInfo.appName);
+            _logger.info("  " + applicationInfo.appCopyright);
+            _logger.info("  Version " + applicationInfo.appVersion);
+            if (applicationInfo.appModificationDateString)
+            {
+                _logger.info("  Updated " + applicationInfo.appModificationDateString);
+            }
 
-/*
-			<s:Label id="applicationNameLabel" text="{_applicationInfo.appName}" fontSize="36"/>
-			<s:Label id="applicationCopyrightLabel" text="{_applicationInfo.appCopyright}"/>
-			<s:Label id="applicationVersionLabel" text="Version {_applicationInfo.appVersion}"/>
-			<s:Label id="applicationModificationLabel" text="Updated {_applicationInfo.appModificationDateString}"
-*/
+            /*
+             <s:Label id="applicationNameLabel" text="{_applicationInfo.appName}" fontSize="36"/>
+             <s:Label id="applicationCopyrightLabel" text="{_applicationInfo.appCopyright}"/>
+             <s:Label id="applicationVersionLabel" text="Version {_applicationInfo.appVersion}"/>
+             <s:Label id="applicationModificationLabel" text="Updated {_applicationInfo.appModificationDateString}"
+             */
 
 
-			// initSettings needs to be called prior to initLogging because the settings for logging need to be loaded first
-			_logger.info("Settings initialized");
-			_logger.info("  Application settings file loaded: " + _settingsFileStore.isApplicationSettingsLoaded);
-			_logger.info("  User settings file loaded: " + _settingsFileStore.isUserSettingsLoaded + " path=" + _settingsFileStore.userSettingsFile.nativePath);
-			_logger.info("  Mode: " + _settings.mode);
-			_logger.info("  Username: " + _settings.username);
-			if (_settings.targetDate)
-				_logger.info("  Demo mode ON; target date: " + _settings.targetDate.toLocaleString());
-			else
-				_logger.info("  Demo mode OFF");
+            // initSettings needs to be called prior to initLogging because the settings for logging need to be loaded first
+            _logger.info("Settings initialized");
+            _logger.info("  Application settings file loaded: " + _settingsFileStore.isApplicationSettingsLoaded);
+            _logger.info("  User settings file loaded: " + _settingsFileStore.isUserSettingsLoaded + " path=" + _settingsFileStore.userSettingsFile.nativePath);
+            _logger.info("  Mode: " + _settings.mode);
+            _logger.info("  Username: " + _settings.username);
+            if (_settings.targetDate)
+                _logger.info("  Demo mode ON; target date: " + _settings.targetDate.toLocaleString());
+            else
+                _logger.info("  Demo mode OFF");
 
-			initNativeApplicationEventListeners();
+            initNativeApplicationEventListeners();
 
-			initComponents();
-			_logger.info("Components initialized. Asynchronous plugin loading initiated.");
-			_logger.info("  User plugins directory: " + _pluginLoader.userPluginsDirectoryPath);
-			_logger.info("  Number of loaded plugins: " + _pluginLoader.numPluginsLoaded);
+            initComponents();
+            _logger.info("Components initialized. Asynchronous plugin loading initiated.");
+            _logger.info("  User plugins directory: " + _pluginLoader.userPluginsDirectoryPath);
+            _logger.info("  Number of loaded plugins: " + _pluginLoader.numPluginsLoaded);
 
-			// the activeAccount is that which is actively in session with the Indivo server, there can only be one active account at a time
-			// create an instance of this model class before creating a session so that the results are tracked by that instance
-			_activeAccount = new Account();
-		}
+            // the activeAccount is that which is actively in session with the Indivo server, there can only be one active account at a time
+            // create an instance of this model class before creating a session so that the results are tracked by that instance
+            _activeAccount = new Account();
+        }
 
-		protected function initNativeApplicationEventListeners():void
+        protected function initNativeApplicationEventListeners():void
 		{
 			NativeApplication.nativeApplication.addEventListener(Event.EXITING, nativeApplication_exitingHandler);
 
@@ -767,19 +768,19 @@ package collaboRhythm.core.controller
 				_healthRecordServiceFacade.closeRecord();
 		}
 
-		public function set targetDate(value:Date):void
-		{
-			_settings.targetDate = value;
-			var dateSource:DemoCurrentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as DemoCurrentDateSource;
-			if (dateSource != null)
-			{
-				_logger.info("Changing demo date from " + getTargetDateString(dateSource.targetDate) + " to " + getTargetDateString(value) + "...");
-				dateSource.targetDate = value;
-				changeDemoDate();
-			}
-		}
+        public function set targetDate(value:Date):void
+        {
+            _settings.targetDate = value;
+            var dateSource:DemoCurrentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as DemoCurrentDateSource;
+            if (dateSource != null)
+            {
+                _logger.info("Changing demo date from " + getTargetDateString(dateSource.targetDate) + " to " + getTargetDateString(value) + "...");
+                dateSource.targetDate = value;
+                changeDemoDate();
+            }
+        }
 
-		private function getTargetDateString(value:Date):String
+        private function getTargetDateString(value:Date):String
 		{
 			if (value)
 				return value.toDateString();
@@ -787,19 +788,19 @@ package collaboRhythm.core.controller
 				return "null (demo mode off)";
 		}
 
-		public function reloadPlugins():void
-		{
-			_reloadWithRecordAccount = _activeRecordAccount;
-			_reloadWithFullView = currentFullView;
+        public function reloadPlugins():void
+        {
+            _reloadWithRecordAccount = _activeRecordAccount;
+            _reloadWithFullView = currentFullView;
 
-			closeRecordAccount(_activeRecordAccount);
-			_componentContainer.removeAllComponents();
-			_pluginLoader.unloadPlugins();
+            closeRecordAccount(_activeRecordAccount);
+            _componentContainer.removeAllComponents();
+            _pluginLoader.unloadPlugins();
 
-			_pluginLoader.loadPlugins();
-		}
+            _pluginLoader.loadPlugins();
+        }
 
-		private function pluginLoader_complete(event:Event):void
+        private function pluginLoader_complete(event:Event):void
 		{
 			handlePluginsLoaded();
 		}
@@ -844,12 +845,12 @@ package collaboRhythm.core.controller
 			return _componentContainer;
 		}
 
-		public function get settings():Settings
-		{
-			return _settings;
-		}
+        public function get settings():Settings
+        {
+            return _settings;
+        }
 
-		public function get currentFullView():String
+        public function get currentFullView():String
 		{
 			throw new Error("virtual function must be overriden in subclass");
 		}
@@ -969,35 +970,32 @@ package collaboRhythm.core.controller
 			updateConnectivityView();
 		}
 
-		/**
-		 * Reloads the documents in the record and tells all app controllers to reload data.
-		 */
-		public function reloadData():void
-		{
-			if (_activeRecordAccount != null)
-			{
-				reloadDocuments(_activeRecordAccount);
-				appControllersMediator.reloadUserData();
-			}
-		}
+        public function reloadData():void
+        {
+            if (_activeRecordAccount != null)
+            {
+                reloadDocuments(_activeRecordAccount);
+                appControllersMediator.reloadUserData();
+            }
+        }
 
-		public function synchronize():void
-		{
-			if (_activeRecordAccount)
-			{
-				_activeRecordAccount.primaryRecord.saveAllChanges();
-				if (_activeRecordAccount.primaryRecord.isSaving)
-					_pendingReloadData = true;
-				else
-					reloadData();
-			}
-			if (!_collaborationLobbyNetConnectionService.isConnected)
-			{
-				_collaborationLobbyNetConnectionService.enterCollaborationLobby();
-			}
-		}
+        public function synchronize():void
+        {
+            if (_activeRecordAccount)
+            {
+                _activeRecordAccount.primaryRecord.saveAllChanges();
+                if (_activeRecordAccount.primaryRecord.isSaving)
+                    _pendingReloadData = true;
+                else
+                    reloadData();
+            }
+            if (!_collaborationLobbyNetConnectionService.isConnected)
+            {
+                _collaborationLobbyNetConnectionService.enterCollaborationLobby();
+            }
+        }
 
-		protected function updateConnectivityView():void
+        protected function updateConnectivityView():void
 		{
 			if (_connectivityView)
 			{
@@ -1113,53 +1111,56 @@ package collaboRhythm.core.controller
 			return _pendingServices;
 		}
 
-		/**
-		 * Close the entire application, sending out an event to any processes that might want to interrupt the closing
-		 */
-		public function exitApplication(exitMethod:String):void
-		{
-			_collaborationLobbyNetConnectionService.exitCollaborationLobby();
-			InteractionLogUtil.log(_logger, "Application exit", exitMethod);
-			ApplicationExitUtil.exit();
-		}
+        public function exitApplication(exitMethod:String):void
+        {
+            _collaborationLobbyNetConnectionService.exitCollaborationLobby();
+            InteractionLogUtil.log(_logger, "Application exit", exitMethod);
+            ApplicationExitUtil.exit();
+        }
 
-		public function showAboutApplicationView():void
-		{
-			if (_aboutApplicationView)
-				_aboutApplicationView.visible = true;
-		}
+        public function showAboutApplicationView():void
+        {
+            if (_aboutApplicationView)
+                _aboutApplicationView.visible = true;
+        }
 
-		[Bindable]
-		public function get fastForwardEnabled():Boolean
-		{
-			var fastForwardEnabled:Boolean;
-			var demoCurrentDateSource:DemoCurrentDateSource = _currentDateSource as DemoCurrentDateSource;
-			if (demoCurrentDateSource)
-			{
-				fastForwardEnabled = demoCurrentDateSource.fastForwardEnabled;
+        [Bindable]
+        public function get fastForwardEnabled():Boolean
+        {
+            var fastForwardEnabled:Boolean;
+            var demoCurrentDateSource:DemoCurrentDateSource = _currentDateSource as DemoCurrentDateSource;
+            if (demoCurrentDateSource)
+            {
+                fastForwardEnabled = demoCurrentDateSource.fastForwardEnabled;
 
-			}
-			return fastForwardEnabled;
-		}
+            }
+            return fastForwardEnabled;
+        }
 
-		public function set fastForwardEnabled(value:Boolean):void
-		{
-			var demoCurrentDateSource:DemoCurrentDateSource = _currentDateSource as DemoCurrentDateSource;
-			if (demoCurrentDateSource)
-			{
-				demoCurrentDateSource.fastForwardEnabled = value;
-			}
-		}
+        public function set fastForwardEnabled(value:Boolean):void
+        {
+            var demoCurrentDateSource:DemoCurrentDateSource = _currentDateSource as DemoCurrentDateSource;
+            if (demoCurrentDateSource)
+            {
+                demoCurrentDateSource.fastForwardEnabled = value;
+            }
+        }
 
-		[Bindable]
-		public function get backgroundProcessModel():BackgroundProcessCollectionModel
-		{
-			return _backgroundProcessModel;
-		}
+        [Bindable]
+        public function get backgroundProcessModel():BackgroundProcessCollectionModel
+        {
+            return _backgroundProcessModel;
+        }
 
-		public function set backgroundProcessModel(value:BackgroundProcessCollectionModel):void
-		{
-			_backgroundProcessModel = value;
-		}
-	}
+        public function set backgroundProcessModel(value:BackgroundProcessCollectionModel):void
+        {
+            _backgroundProcessModel = value;
+        }
+
+        public function useDemoPreset(demoPresetIndex:int):void
+        {
+            if (_settings.demoDatePresets && _settings.demoDatePresets.length > demoPresetIndex)
+                targetDate = _settings.demoDatePresets[demoPresetIndex];
+        }
+    }
 }

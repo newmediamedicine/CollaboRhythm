@@ -8,6 +8,7 @@ package collaboRhythm.plugins.videoMessages.view
     public class VideoMessageItemRendererEvent extends Event
     {
         public static const PLAY_VIDEO_MESSAGE:String = "Play Video Message";
+        public static const PLAY_VIDEO_FULL_SCREEN_MESSAGE:String = "Play Video Full Screen Message";
         public static const DELETE_VIDEO_MESSAGE:String = "Delete Video Message";
 
         private var _videoMessage:VideoMessage;

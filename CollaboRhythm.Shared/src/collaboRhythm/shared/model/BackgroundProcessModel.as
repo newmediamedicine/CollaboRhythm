@@ -1,4 +1,4 @@
-package collaboRhythm.core.model
+package collaboRhythm.shared.model
 {
 
 	public class BackgroundProcessModel
