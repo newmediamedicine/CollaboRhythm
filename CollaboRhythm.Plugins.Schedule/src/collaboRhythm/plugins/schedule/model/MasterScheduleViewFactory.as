@@ -26,8 +26,6 @@ package collaboRhythm.plugins.schedule.model
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleViewFactory;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.services.IComponentContainer;
@@ -51,16 +49,6 @@ package collaboRhythm.plugins.schedule.model
 		public function get scheduleItemType():ClassInfo
 		{
 			return null;
-		}
-
-		public function createScheduleItemClockView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemClockViewBase
-		{
-			return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem)).name].createScheduleItemClockView(scheduleItemOccurrence);
-		}
-
-		public function createScheduleItemTimelineView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemTimelineViewBase
-		{
-			return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem)).name].createScheduleItemTimelineView(scheduleItemOccurrence);
 		}
 
 		public function createAdherencePerformanceEvaluator(scheduleItem:ScheduleItemBase):AdherencePerformanceEvaluatorBase

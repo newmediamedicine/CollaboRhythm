@@ -19,8 +19,8 @@ package collaboRhythm.plugins.schedule.model
 
 	import collaboRhythm.plugins.schedule.shared.model.MoveData;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
 	import collaboRhythm.plugins.schedule.view.ScheduleGroupTimelineView;
+	import collaboRhythm.plugins.schedule.view.ScheduleItemOccurrenceTimelineView;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	[Bindable]
@@ -134,7 +134,7 @@ package collaboRhythm.plugins.schedule.model
 					oldScheduleGroup = scheduleGroup;
 					scheduleItemOccurrence.dateStart = oldScheduleGroup.dateStart;
 					scheduleItemOccurrence.dateEnd = oldScheduleGroup.dateEnd;
-					var yPosition:int = oldScheduleGroup.yPosition + (oldScheduleGroup.scheduleItemsOccurrencesCollection.length - 1 - scheduleItemOccurrenceIndex) * (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT + ScheduleGroupTimelineView.SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH);
+					var yPosition:int = oldScheduleGroup.yPosition + (oldScheduleGroup.scheduleItemsOccurrencesCollection.length - 1 - scheduleItemOccurrenceIndex) * (ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT + ScheduleGroupTimelineView.SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH);
 					scheduleItemOccurrence.moving = true;
 
 					_scheduleModel.removeScheduleItemOccurrenceFromGroup(scheduleGroup, scheduleItemOccurrenceIndex);
@@ -155,7 +155,7 @@ package collaboRhythm.plugins.schedule.model
 			var scheduleItemOccurrenceIndex:int = 0;
 			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in fromScheduleGroup.scheduleItemsOccurrencesCollection)
 			{
-				scheduleItemOccurrence.yPosition = fromScheduleGroup.yPosition + ScheduleGroupTimelineView.SCHEDULE_GROUP_TIMELINE_VIEW_TOP_WIDTH + (fromScheduleGroup.scheduleItemsOccurrencesCollection.length - 1 - scheduleItemOccurrenceIndex) * (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT + ScheduleGroupTimelineView.SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH);
+				scheduleItemOccurrence.yPosition = fromScheduleGroup.yPosition + ScheduleGroupTimelineView.SCHEDULE_GROUP_TIMELINE_VIEW_TOP_WIDTH + (fromScheduleGroup.scheduleItemsOccurrencesCollection.length - 1 - scheduleItemOccurrenceIndex) * (ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT + ScheduleGroupTimelineView.SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH);
 				toScheduleGroup.scheduleItemsOccurrencesCollection.addItem(scheduleItemOccurrence);
 				scheduleItemOccurrenceIndex += 1;
 			}
@@ -180,7 +180,7 @@ package collaboRhythm.plugins.schedule.model
 			var scheduleGroupToRemove:ScheduleGroup;
 
 			//TODO: fix static medication width reference;
-			var scheduleItemsPerHour:Number = Math.ceil((ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH - ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2 + ScheduleGroupTimelineView.SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH) / timeWidth);
+			var scheduleItemsPerHour:Number = Math.ceil((ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH - ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2 + ScheduleGroupTimelineView.SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH) / timeWidth);
 
 			for each (var scheduleGroup:ScheduleGroup in _scheduleModel.scheduleGroupsCollection)
 			{

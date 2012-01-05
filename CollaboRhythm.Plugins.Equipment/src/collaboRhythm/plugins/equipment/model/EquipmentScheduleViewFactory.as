@@ -20,16 +20,12 @@ package collaboRhythm.plugins.equipment.model
 	import castle.flexbridge.reflection.ClassInfo;
 	import castle.flexbridge.reflection.ReflectionUtils;
 
-	import collaboRhythm.plugins.equipment.view.EquipmentScheduleItemClockView;
-	import collaboRhythm.plugins.equipment.view.EquipmentScheduleItemTimelineView;
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceEvaluatorBase;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleItemOccurrenceReportingViewAdapter;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleViewFactory;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
 	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
@@ -43,20 +39,6 @@ package collaboRhythm.plugins.equipment.model
         public function get scheduleItemType():ClassInfo
         {
             return ReflectionUtils.getClassInfo(EquipmentScheduleItem);
-        }
-
-        public function createScheduleItemClockView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemClockViewBase
-        {
-            var equipmentScheduleItemClockView:EquipmentScheduleItemClockView =  new EquipmentScheduleItemClockView();
-            equipmentScheduleItemClockView.init(scheduleItemOccurrence);
-            return equipmentScheduleItemClockView;
-        }
-
-        public function createScheduleItemTimelineView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemTimelineViewBase
-        {
-            var equipmentScheduleItemTimelineView:EquipmentScheduleItemTimelineView = new EquipmentScheduleItemTimelineView();
-            equipmentScheduleItemTimelineView.init(scheduleItemOccurrence);
-            return equipmentScheduleItemTimelineView;
         }
 
 		public function createAdherencePerformanceEvaluator(scheduleItem:ScheduleItemBase):AdherencePerformanceEvaluatorBase

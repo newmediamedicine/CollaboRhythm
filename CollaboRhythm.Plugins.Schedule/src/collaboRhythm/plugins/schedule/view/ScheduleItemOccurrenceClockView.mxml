@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:sharedView="collaboRhythm.plugins.schedule.shared.view.*">
+	<fx:Script>
+        <![CDATA[
+		import collaboRhythm.plugins.schedule.model.ScheduleModel;
+		import collaboRhythm.plugins.schedule.shared.model.IScheduleItemOccurrenceReportingViewAdapter;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+
+		import spark.components.Image;
+		import spark.filters.GlowFilter;
+
+		[Bindable]
+		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
+
+		public function init(scheduleItemOccurrence:ScheduleItemOccurrence, scheduleModel:ScheduleModel):void
+		{
+			_scheduleItemOccurrence = scheduleItemOccurrence;
+
+			var scheduleItemOccurrenceReportingViewAdapter:IScheduleItemOccurrenceReportingViewAdapter = scheduleModel.viewFactory.createScheduleItemOccurrenceReportingViewAdapter(_scheduleItemOccurrence,
+																																													scheduleModel.scheduleReportingModel);
+
+			var image:Image = scheduleItemOccurrenceReportingViewAdapter.image;
+			image.smooth = true;
+			image.left = 0;
+			image.right = 0;
+			image.top = 0;
+			image.bottom = 0;
+			imageRegion.addElement(image);
+		}
+
+		public function get scheduleItemOccurrence():ScheduleItemOccurrence
+		{
+			return _scheduleItemOccurrence;
+		}
+
+		public function set scheduleItemOccurrence(value:ScheduleItemOccurrence):void
+		{
+			_scheduleItemOccurrence = value;
+		}
+		]]>
+    </fx:Script>
+
+	<s:Group id="imageRegion" width="100%" height="100%">
+
+	</s:Group>
+
+	<s:Group id="adherenceImage" width="70%" height="70%" horizontalCenter="0" verticalCenter="0">
+		<sharedView:AdherenceCheck width="{adherenceImage.width}" height="{adherenceImage.height}"
+					  filters="{[new GlowFilter(0xFFFFFF, 0.7, this.width / 8, this.width / 8, this.width / 8)]}"
+					  visible="{_scheduleItemOccurrence.adherenceItem}"/>
+	</s:Group>
+</s:Group>

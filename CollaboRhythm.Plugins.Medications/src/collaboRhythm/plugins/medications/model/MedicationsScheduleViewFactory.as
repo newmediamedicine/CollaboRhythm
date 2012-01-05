@@ -20,16 +20,12 @@ package collaboRhythm.plugins.medications.model
 	import castle.flexbridge.reflection.ClassInfo;
 	import castle.flexbridge.reflection.ReflectionUtils;
 
-	import collaboRhythm.plugins.medications.view.MedicationScheduleItemClockView;
-	import collaboRhythm.plugins.medications.view.MedicationScheduleItemTimelineView;
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceEvaluatorBase;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleItemOccurrenceReportingViewAdapter;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleViewFactory;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemClockViewBase;
-	import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
@@ -43,20 +39,6 @@ package collaboRhythm.plugins.medications.model
         public function get scheduleItemType():ClassInfo
         {
             return ReflectionUtils.getClassInfo(MedicationScheduleItem);
-        }
-
-        public function createScheduleItemClockView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemClockViewBase
-        {
-            var medicationScheduleItemClockView:MedicationScheduleItemClockView =  new MedicationScheduleItemClockView();
-            medicationScheduleItemClockView.init(scheduleItemOccurrence);
-            return medicationScheduleItemClockView;
-        }
-
-		public function createScheduleItemTimelineView(scheduleItemOccurrence:ScheduleItemOccurrence):ScheduleItemTimelineViewBase
-        {
-            var medicationScheduleItemTimelineView:MedicationScheduleItemTimelineView = new MedicationScheduleItemTimelineView();
-            medicationScheduleItemTimelineView.init(scheduleItemOccurrence);
-            return medicationScheduleItemTimelineView;
         }
 
 		public function createAdherencePerformanceEvaluator(scheduleItem:ScheduleItemBase):AdherencePerformanceEvaluatorBase

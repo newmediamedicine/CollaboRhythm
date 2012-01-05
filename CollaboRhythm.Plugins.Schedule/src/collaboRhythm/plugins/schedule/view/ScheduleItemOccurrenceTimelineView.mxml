@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 width="{SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH}"
+		 height="{SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT}"
+		 remove="removeHandler()"
+		 mouseDown="mouseDownHandler(event)">
+	<fx:Declarations>
+		<s:Fade id="hideEffect" alphaFrom="{this.alpha}" alphaTo="0" duration="0.01"/>
+		<s:Animate id="stackEffect" target="{this}">
+			<s:SimpleMotionPath id="motionPath" property="bottom"/>
+		</s:Animate>
+	</fx:Declarations>
+	<fx:Style>
+
+		#nameLabel {
+			font-size: 18;
+			font-weight: bold;
+		}
+
+		#descriptionLabel {
+			font-size: 12;
+		}
+
+		#indicationLabel {
+			fontSize: 12;
+			fontStyle: italic;
+		}
+
+		#instructionsLabel {
+			fontSize: 14;
+			font-weight: bold;
+		}
+	</fx:Style>
+	<fx:Script>
+        <![CDATA[
+		import collaboRhythm.plugins.schedule.model.ScheduleModel;
+		import collaboRhythm.plugins.schedule.shared.model.IScheduleItemOccurrenceReportingViewAdapter;
+		import collaboRhythm.plugins.schedule.shared.model.MoveData;
+		import collaboRhythm.plugins.schedule.shared.view.ScheduleTimelineViewEvent;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+
+		import mx.binding.utils.ChangeWatcher;
+
+		import spark.components.Image;
+
+		public static const SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH:Number = 80;
+		public static const SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH:Number = 320;
+		public static const SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT:Number = 82;
+
+		[Bindable]
+		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
+		private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>();
+
+		public function init(scheduleItemOccurrence:ScheduleItemOccurrence, scheduleModel:ScheduleModel):void
+		{
+			_scheduleItemOccurrence = scheduleItemOccurrence;
+
+			var scheduleItemOccurrenceReportingViewAdapter:IScheduleItemOccurrenceReportingViewAdapter = scheduleModel.viewFactory.createScheduleItemOccurrenceReportingViewAdapter(_scheduleItemOccurrence,
+																																													scheduleModel.scheduleReportingModel);
+
+			nameLabel.text = scheduleItemOccurrenceReportingViewAdapter.name;
+			descriptionLabel.text = scheduleItemOccurrenceReportingViewAdapter.description;
+			indicationLabel.text = scheduleItemOccurrenceReportingViewAdapter.indication;
+			instructionsLabel.text = scheduleItemOccurrenceReportingViewAdapter.instructions;
+
+			var image:Image = scheduleItemOccurrenceReportingViewAdapter.image;
+			image.left = 5;
+			image.right = 5;
+			image.top = 5;
+			image.bottom = 5;
+			image.smooth = true;
+			imageRegion.addElement(image);
+		}
+
+		private function mouseDownHandler(event:MouseEvent):void
+		{
+			event.stopImmediatePropagation();
+
+			if (!stackEffect.isPlaying)
+			{
+				var moveData:MoveData = createMoveData(event);
+				dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_ITEM_TIMELINE_VIEW_MOUSE_DOWN,
+															moveData));
+			}
+		}
+
+		private function createMoveData(event:MouseEvent):MoveData
+		{
+			var moveData:MoveData = new MoveData();
+			moveData.id = _scheduleItemOccurrence.id;
+			moveData.localX = event.localX;
+			moveData.localY = event.localY;
+			moveData.stageX = event.stageX;
+			moveData.stageY = event.stageY;
+
+			return moveData;
+		}
+
+		private function movingChangeHandler(change:Boolean):void
+		{
+			if (change)
+			{
+				glowFilter.blurX = 10;
+				glowFilter.blurY = 10;
+			}
+			else
+			{
+				glowFilter.blurX = 5;
+				glowFilter.blurY = 5;
+			}
+		}
+
+		public function destroy():void
+		{
+			hideEffect.end();
+			stackEffect.end();
+		}
+
+		private function removeHandler():void
+		{
+			for each (var changeWatcher:ChangeWatcher in _changeWatchers)
+			{
+				changeWatcher.unwatch();
+			}
+		}
+
+		public function get scheduleItemOccurrence():ScheduleItemOccurrence
+		{
+			return _scheduleItemOccurrence;
+		}
+
+		public function set scheduleItemOccurrence(value:ScheduleItemOccurrence):void
+		{
+			_scheduleItemOccurrence = value;
+		}
+		]]>
+    </fx:Script>
+
+	<s:Rect id="background" width="100%" height="100%">
+		<s:fill>
+			<!--TODO: Reimplement coloring during collaboration-->
+			<s:SolidColor color="0xFFFFFF" alpha="0.4"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke color="0xFFFFFF" weight="1" alpha="0.5"/>
+		</s:stroke>
+	</s:Rect>
+
+	<s:Group id="imageRegion" width="{this.height}" height="100%">
+
+	</s:Group>
+
+	<s:Group id="descriptionRegion" height="100%" left="{imageRegion.width}" right="{gripRegion.width}">
+		<s:VGroup left="5" right="5" top="5" bottom="5" gap="1">
+			<s:Label id="nameLabel" maxDisplayedLines="1" width="100%"/>
+			<s:Label id="descriptionLabel" maxDisplayedLines="1" width="100%"/>
+			<s:Label id="indicationLabel" paddingTop="5" maxDisplayedLines="1" width="100%"/>
+			<s:Label id="instructionsLabel" paddingTop="5" maxDisplayedLines="1" width="100%"/>
+		</s:VGroup>
+	</s:Group>
+
+	<s:Group id="gripRegion" right="5" height="100%">
+		<s:Image verticalCenter="0" source="@Embed(source='/assets/images/gripHorizontalNarrow.png')"
+				 skinClass="spark.skins.spark.ImageSkin"/>
+	</s:Group>
+
+	<s:filters>
+		<s:GlowFilter id="glowFilter"
+					  quality="3"
+					  alpha="0.2"
+					  color="0x000000"
+					  blurX="5"
+					  blurY="5"
+					  strength="5"/>
+	</s:filters>
+</s:Group>

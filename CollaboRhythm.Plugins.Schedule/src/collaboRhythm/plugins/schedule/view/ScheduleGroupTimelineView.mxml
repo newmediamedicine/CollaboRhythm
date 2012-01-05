@@ -18,13 +18,12 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 xmlns:view="collaboRhythm.plugins.schedule.view.*"
 		 xmlns:controls="com.dougmccune.controls.*"
 		 addedToStage="addedToStageHandler()"
 		 creationComplete="creationCompleteHandler()"
 		 mouseDown="mouseDownHandler(event)"
 		 remove="removeHandler()"
-		 width="{ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH + 2 * SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH}">
+		 width="{ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH + 2 * SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH}">
 	<fx:Declarations>
 		<s:Move id="stackEffect" target="{this}"/>
 		<s:Fade id="fadeOutEffect" target="{frame}" alphaFrom="{frame.alpha}" alphaTo="0"/>
@@ -40,8 +39,8 @@
 		import collaboRhythm.plugins.schedule.model.ScheduleTimelineModel;
 		import collaboRhythm.plugins.schedule.shared.model.MoveData;
 		import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-		import collaboRhythm.plugins.schedule.shared.view.ScheduleItemTimelineViewBase;
 		import collaboRhythm.plugins.schedule.shared.view.ScheduleTimelineViewEvent;
+		import collaboRhythm.plugins.schedule.view.ScheduleItemOccurrenceTimelineView;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 		import mx.binding.utils.BindingUtils;
@@ -68,7 +67,7 @@
 		private var _scheduleGroupsContainer:Group;
 		private var _scheduleItemsCollection:ArrayCollection;
 		private var _scheduleFullView:ScheduleTimelineFullView;
-		private var _scheduleItemTimelineViews:Vector.<ScheduleItemTimelineViewBase> = new Vector.<ScheduleItemTimelineViewBase>;
+		private var _scheduleItemTimelineViews:Vector.<ScheduleItemOccurrenceTimelineView> = new Vector.<ScheduleItemOccurrenceTimelineView>;
 		private var _scheduleGroupSpotlightView:ScheduleGroupSpotlightView = new ScheduleGroupSpotlightView;
 		private var _areChildrenCreated:Boolean = false;
 		private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>();
@@ -194,32 +193,34 @@
 
 		public function createScheduleItemFullView(scheduleItemOccurrence:ScheduleItemOccurrence):void
 		{
-			var scheduleItemTimelineView:ScheduleItemTimelineViewBase = _scheduleModel.viewFactory.createScheduleItemTimelineView(scheduleItemOccurrence);
-			if (scheduleItemTimelineView.scheduleItemOccurrence.yPosition)
+			var scheduleItemOccurrenceTimelineView:ScheduleItemOccurrenceTimelineView = new ScheduleItemOccurrenceTimelineView();
+			scheduleItemOccurrenceTimelineView.init(scheduleItemOccurrence, _scheduleModel);
+//			var scheduleItemTimelineView:ScheduleItemTimelineViewBase = _scheduleModel.viewFactory.createScheduleItemTimelineView(scheduleItemOccurrence);
+			if (scheduleItemOccurrenceTimelineView.scheduleItemOccurrence.yPosition)
 			{
-				scheduleItemTimelineView.bottom = this.y + this.height - SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH - scheduleItemTimelineView.scheduleItemOccurrence.yPosition - ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT;
+				scheduleItemOccurrenceTimelineView.bottom = this.y + this.height - SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH - scheduleItemOccurrenceTimelineView.scheduleItemOccurrence.yPosition - ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT;
 			}
 			else
 			{
-				scheduleItemTimelineView.bottom = (_scheduleItemTimelineViews.length) * (SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH + ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT);
+				scheduleItemOccurrenceTimelineView.bottom = (_scheduleItemTimelineViews.length) * (SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH + ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT);
 			}
-			scheduleItemTimelineView.scheduleItemOccurrence.yPosition = NaN;
-			scheduleItemsContainer.addElement(scheduleItemTimelineView);
-			_scheduleItemTimelineViews.push(scheduleItemTimelineView);
+			scheduleItemOccurrenceTimelineView.scheduleItemOccurrence.yPosition = NaN;
+			scheduleItemsContainer.addElement(scheduleItemOccurrenceTimelineView);
+			_scheduleItemTimelineViews.push(scheduleItemOccurrenceTimelineView);
 		}
 
 		public function destroyScheduleItemFullView(scheduleItemOccurrence:ScheduleItemOccurrence):void
 		{
-			for each (var scheduleItemTimelineView:ScheduleItemTimelineViewBase in _scheduleItemTimelineViews)
+			for each (var scheduleItemOccurrenceTimelineView:ScheduleItemOccurrenceTimelineView in _scheduleItemTimelineViews)
 			{
-				if (scheduleItemTimelineView.scheduleItemOccurrence == scheduleItemOccurrence)
+				if (scheduleItemOccurrenceTimelineView.scheduleItemOccurrence == scheduleItemOccurrence)
 				{
 
-					var scheduleItemTimelineViewIndex:int = _scheduleItemTimelineViews.indexOf(scheduleItemTimelineView);
+					var scheduleItemTimelineViewIndex:int = _scheduleItemTimelineViews.indexOf(scheduleItemOccurrenceTimelineView);
 					_scheduleItemTimelineViews.splice(scheduleItemTimelineViewIndex, 1);
-					scheduleItemsContainer.removeElement(scheduleItemTimelineView);
-					scheduleItemTimelineView.destroy();
-					scheduleItemTimelineView = null;
+					scheduleItemsContainer.removeElement(scheduleItemOccurrenceTimelineView);
+					scheduleItemOccurrenceTimelineView.destroy();
+					scheduleItemOccurrenceTimelineView = null;
 				}
 			}
 		}
@@ -255,7 +256,7 @@
 
 		private function resize():void
 		{
-			height = _scheduleItemTimelineViews.length * (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT + SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH) + SCHEDULE_GROUP_TIMELINE_VIEW_TOP_WIDTH;
+			height = _scheduleItemTimelineViews.length * (ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT + SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH) + SCHEDULE_GROUP_TIMELINE_VIEW_TOP_WIDTH;
 			updateYPosition();
 		}
 
@@ -310,24 +311,24 @@
 		private function animateScheduleItemStacking():void
 		{
 			var scheduleItemTimelineViewIndex:int = 0;
-			for each (var scheduleItemTimelineView:ScheduleItemTimelineViewBase in scheduleItemTimelineViews)
+			for each (var scheduleItemOccurrenceTimelineView:ScheduleItemOccurrenceTimelineView in scheduleItemTimelineViews)
 			{
-				scheduleItemTimelineView.motionPath.valueFrom = scheduleItemTimelineView.bottom;
-				scheduleItemTimelineView.motionPath.valueTo = scheduleItemTimelineViewIndex * (SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH + ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT);
-				if (scheduleItemTimelineView.motionPath.valueTo > scheduleItemTimelineView.motionPath.valueTo)
+				scheduleItemOccurrenceTimelineView.motionPath.valueFrom = scheduleItemOccurrenceTimelineView.bottom;
+				scheduleItemOccurrenceTimelineView.motionPath.valueTo = scheduleItemTimelineViewIndex * (SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH + ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT);
+				if (scheduleItemOccurrenceTimelineView.motionPath.valueTo > scheduleItemOccurrenceTimelineView.motionPath.valueTo)
 				{
-					var moveEaser:AccelerationEaser = new AccelerationEaser(int(scheduleItemTimelineView.motionPath.valueTo) - int(scheduleItemTimelineView.motionPath.valueFrom),
+					var moveEaser:AccelerationEaser = new AccelerationEaser(int(scheduleItemOccurrenceTimelineView.motionPath.valueTo) - int(scheduleItemOccurrenceTimelineView.motionPath.valueFrom),
 																			AccelerationEaser.gravity * ScheduleTimelineFullView.FRICTION);
-					scheduleItemTimelineView.stackEffect.easer = moveEaser;
-					scheduleItemTimelineView.stackEffect.duration = moveEaser.duration;
+					scheduleItemOccurrenceTimelineView.stackEffect.easer = moveEaser;
+					scheduleItemOccurrenceTimelineView.stackEffect.duration = moveEaser.duration;
 				}
 				else
 				{
-					scheduleItemTimelineView.stackEffect.easer = null;
-					scheduleItemTimelineView.stackEffect.duration = ScheduleTimelineFullView.DURATION;
+					scheduleItemOccurrenceTimelineView.stackEffect.easer = null;
+					scheduleItemOccurrenceTimelineView.stackEffect.duration = ScheduleTimelineFullView.DURATION;
 				}
-				scheduleItemTimelineView.stackEffect.play();
-				scheduleItemTimelineView.stackEffect.addEventListener(EffectEvent.EFFECT_END,
+				scheduleItemOccurrenceTimelineView.stackEffect.play();
+				scheduleItemOccurrenceTimelineView.stackEffect.addEventListener(EffectEvent.EFFECT_END,
 																	  scheduleItemStackingEffectEndHandler, false, 0,
 																	  true);
 				scheduleItemTimelineViewIndex += 1;
@@ -398,7 +399,7 @@
 
 		private function calculateXPosition():Number
 		{
-			return Math.floor((scheduleGroup.dateCenter.hours + 1 + scheduleGroup.dateCenter.minutes / 60) * _scheduleTimelineModel.timeWidth + (_scheduleTimelineModel.timeWidth / 2) - (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2) - SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH);
+			return Math.floor((scheduleGroup.dateCenter.hours + 1 + scheduleGroup.dateCenter.minutes / 60) * _scheduleTimelineModel.timeWidth + (_scheduleTimelineModel.timeWidth / 2) - (ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2) - SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH);
 		}
 
 		private function calculateYPosition():Number
@@ -406,7 +407,7 @@
 			var result:Number;
 			if (!scheduleGroup.moving)
 			{
-				result = Math.floor(_scheduleGroupsContainer.height - this.height - ScheduleTimelineFullView.ADHERENCE_WINDOW_INITIAL_HEIGHT - scheduleGroup.scheduleGroupsStacked * SCHEDULE_GROUP_TIMELINE_VIEW_TOP_WIDTH - scheduleGroup.scheduleItemsStacked * (ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT + SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH) - scheduleGroup.stackNumber * SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH);
+				result = Math.floor(_scheduleGroupsContainer.height - this.height - ScheduleTimelineFullView.ADHERENCE_WINDOW_INITIAL_HEIGHT - scheduleGroup.scheduleGroupsStacked * SCHEDULE_GROUP_TIMELINE_VIEW_TOP_WIDTH - scheduleGroup.scheduleItemsStacked * (ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT + SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH) - scheduleGroup.stackNumber * SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH);
 				scheduleGroup.yPosition = result;
 			}
 			else
@@ -435,7 +436,7 @@
 
 		private function calculateSpotlightXPosition():Number
 		{
-			return Math.floor(this.x + SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH + ScheduleItemTimelineViewBase.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2 - _scheduleGroupSpotlightView.width / 2);
+			return Math.floor(this.x + SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH + ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2 - _scheduleGroupSpotlightView.width / 2);
 		}
 
 		private function calculateSpotlightHeight():Number
@@ -482,12 +483,12 @@
 			return moveData;
 		}
 
-		public function get scheduleItemTimelineViews():Vector.<ScheduleItemTimelineViewBase>
+		public function get scheduleItemTimelineViews():Vector.<ScheduleItemOccurrenceTimelineView>
 		{
 			return _scheduleItemTimelineViews;
 		}
 
-		public function set scheduleItemTimelineViews(value:Vector.<ScheduleItemTimelineViewBase>):void
+		public function set scheduleItemTimelineViews(value:Vector.<ScheduleItemOccurrenceTimelineView>):void
 		{
 			_scheduleItemTimelineViews = value;
 		}
