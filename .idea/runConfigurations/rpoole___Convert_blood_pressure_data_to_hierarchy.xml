@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="rpoole - Convert Hydrochlorothiazide Flat To Hierarchy" type="XSLT" factoryName="XSLT">
-    <option name="myOutputFile" value="C:\Users\sgilroy\Git Repositories\CollaboRhythm\CollaboRhythm.ExampleData\data\slice1\rpoole\medication_hydrochlorothiazide_hierarchy.xml" />
+  <configuration default="false" name="rpoole - Convert blood pressure data to hierarchy" type="XSLT" factoryName="XSLT">
+    <option name="myOutputFile" value="C:\Users\sgilroy\Git Repositories\CollaboRhythm\CollaboRhythm.ExampleData\data\slice1\rpoole\blood_pressure_data_converted.xml" />
     <option name="myOpenOutputFile" value="true" />
     <option name="myOpenInBrowser" value="false" />
     <option name="mySmartErrorHandling" value="true" />
@@ -9,14 +9,14 @@
     <option name="myWorkingDirectory" value="" />
     <option name="myModule" />
     <option name="myJdk" value="1.6" />
-    <XsltFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/xslt/medication_adherence_flat_to_hierarchy.xsl" />
-    <XmlFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/slice1/rpoole/staging/medication_hydrochlorothiazide_adherence.xml" />
+    <XsltFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/xslt/equipment_adherence_flat_to_hierarchy.xsl" />
+    <XmlFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/slice1/rpoole/staging/equipment_foraD40b_adherence.xml" />
     <parameters />
     <OutputType value="CONSOLE" save-to-file="true" />
     <FileType name="XML" />
     <JdkChoice value="FROM_MODULE" />
     <RunnerSettings RunnerId="Debug">
-      <option name="DEBUG_PORT" value="52084" />
+      <option name="DEBUG_PORT" value="52329" />
       <option name="TRANSPORT" value="0" />
       <option name="LOCAL" value="true" />
     </RunnerSettings>

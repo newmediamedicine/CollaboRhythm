@@ -23,6 +23,7 @@
 		<adherence>true</adherence>
 		<ndc>003780018</ndc>
 		<twiceDaily>true</twiceDaily>
+		<indication>diabetes</indication>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>

@@ -95,60 +95,86 @@
 											<xsl:if test="adherence='true'">
 												<relatesTo>
 													<relation type="adherenceResult">
-														<LoadableIndivoDocument>
-															<document>
-																<VitalSign
-																		xmlns="http://indivo.org/vocab/xml/documents#">
-																	<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-																	<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
-																	<dateMeasuredStart>
-																		<xsl:value-of select="dateReported"/>
-																	</dateMeasuredStart>
-																	<result>
-																		<value><xsl:value-of select="systolic"/></value>
-																		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
-																	</result>
-																	<site>left arm</site>
-																	<position>sitting</position>
-																</VitalSign>
-															</document>
-														</LoadableIndivoDocument>
-														<LoadableIndivoDocument>
-															<document>
-																<VitalSign
-																		xmlns="http://indivo.org/vocab/xml/documents#">
-																	<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-																	<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
-																	<dateMeasuredStart>
-																		<xsl:value-of select="dateReported"/>
-																	</dateMeasuredStart>
-																	<result>
-																		<value><xsl:value-of select="diastolic"/></value>
-																		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
-																	</result>
-																	<site>left arm</site>
-																	<position>sitting</position>
-																</VitalSign>
-															</document>
-														</LoadableIndivoDocument>
-														<LoadableIndivoDocument>
-															<document>
-																<VitalSign
-																		xmlns="http://indivo.org/vocab/xml/documents#">
-																	<name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-																	<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
-																	<dateMeasuredStart>
-																		<xsl:value-of select="dateReported"/>
-																	</dateMeasuredStart>
-																	<result>
-																		<value><xsl:value-of select="heartRate"/></value>
-																		<unit type="http://codes.indivo.org/units/" value="30" abbrev="bpm">beats per minute</unit>
-																	</result>
-																	<site>left arm</site>
-																	<position>sitting</position>
-																</VitalSign>
-															</document>
-														</LoadableIndivoDocument>
+														<!-- TODO: test if contains for each of the vitals; add bloodGlucose-->
+														<xsl:if test="systolic">
+															<LoadableIndivoDocument>
+																<document>
+																	<VitalSign
+																			xmlns="http://indivo.org/vocab/xml/documents#">
+																		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
+																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
+																		<dateMeasuredStart>
+																			<xsl:value-of select="dateReported"/>
+																		</dateMeasuredStart>
+																		<result>
+																			<value><xsl:value-of select="systolic"/></value>
+																			<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
+																		</result>
+																		<site>left arm</site>
+																		<position>sitting</position>
+																	</VitalSign>
+																</document>
+															</LoadableIndivoDocument>
+														</xsl:if>
+														<xsl:if test="diastolic">
+															<LoadableIndivoDocument>
+																<document>
+																	<VitalSign
+																			xmlns="http://indivo.org/vocab/xml/documents#">
+																		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
+																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
+																		<dateMeasuredStart>
+																			<xsl:value-of select="dateReported"/>
+																		</dateMeasuredStart>
+																		<result>
+																			<value><xsl:value-of select="diastolic"/></value>
+																			<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
+																		</result>
+																		<site>left arm</site>
+																		<position>sitting</position>
+																	</VitalSign>
+																</document>
+															</LoadableIndivoDocument>
+														</xsl:if>
+														<xsl:if test="heartRate">
+															<LoadableIndivoDocument>
+																<document>
+																	<VitalSign
+																			xmlns="http://indivo.org/vocab/xml/documents#">
+																		<name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
+																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
+																		<dateMeasuredStart>
+																			<xsl:value-of select="dateReported"/>
+																		</dateMeasuredStart>
+																		<result>
+																			<value><xsl:value-of select="heartRate"/></value>
+																			<unit type="http://codes.indivo.org/units/" value="30" abbrev="bpm">beats per minute</unit>
+																		</result>
+																		<site>left arm</site>
+																		<position>sitting</position>
+																	</VitalSign>
+																</document>
+															</LoadableIndivoDocument>
+														</xsl:if>
+														<xsl:if test="bloodGlucose">
+															<LoadableIndivoDocument>
+																<document>
+																	<VitalSign
+																			xmlns="http://indivo.org/vocab/xml/documents#">
+																		<name>Blood Glucose</name>
+																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
+																		<dateMeasuredStart>
+																			<xsl:value-of select="dateReported"/>
+																		</dateMeasuredStart>
+																		<result>
+																			<value><xsl:value-of select="bloodGlucose"/></value>
+																			<unit abbrev="mg/dL">milligrams per deciliter</unit>
+																		</result>
+																		<site>abdomen</site>
+																	</VitalSign>
+																</document>
+															</LoadableIndivoDocument>
+														</xsl:if>
 													</relation>
 												</relatesTo>
 											</xsl:if>

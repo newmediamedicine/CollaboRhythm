@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="csantos - Convert Metoprolol Flat To Hierarchy" type="XSLT" factoryName="XSLT">
-    <option name="myOutputFile" value="C:\Users\sgilroy\Git Repositories\CollaboRhythm\CollaboRhythm.ExampleData\data\slice1\csantos\medication_metoprolol_hierarchy.xml" />
+  <configuration default="false" name="mbrooks - Convert medication levemir flat to hierarchy" type="XSLT" factoryName="XSLT">
+    <option name="myOutputFile" value="C:\Users\sgilroy\Git Repositories\CollaboRhythm\CollaboRhythm.ExampleData\data\slice1\mbrooks\medication_levemir_hierarchy.xml" />
     <option name="myOpenOutputFile" value="true" />
     <option name="myOpenInBrowser" value="false" />
     <option name="mySmartErrorHandling" value="true" />
@@ -9,8 +9,8 @@
     <option name="myWorkingDirectory" value="" />
     <option name="myModule" />
     <option name="myJdk" value="1.6" />
-    <XsltFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/xslt/medication_adherence_flat_to_hierarchy.xsl" />
-    <XmlFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/slice1/csantos/staging/medication_metoprolol_adherence.xml" />
+    <XsltFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/xslt/medication_syringe_adherence_flat_to_hierarchy.xsl" />
+    <XmlFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/slice1/mbrooks/staging/medication_levemir_adherence.xml" />
     <parameters />
     <OutputType value="CONSOLE" save-to-file="true" />
     <FileType name="XML" />
