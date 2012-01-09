@@ -15,20 +15,20 @@
 ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
 ~ <http://www.gnu.org/licenses/>.
 -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:sharedViews="collaboRhythm.shared.view.*"
-		 width="100%" height="100%"
+        xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 		 remove="removeHandler()"
 		 click="bloodPressureReportingView_clickHandler()">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:states>
+<!--	<s:states>
 		<s:State name="initial"/>
 		<s:State name="repeat"/>
-	</s:states>
+	</s:states>-->
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 
@@ -330,10 +330,10 @@
 		</s:fill>
 	</s:Rect>
 	<s:VGroup top="10" left="10" right="10" gap="10" horizontalAlign="center">
-		<s:Label text="Please enter your blood pressure" includeIn="initial"
+<!--		<s:Label text="Please enter your blood pressure" includeIn="initial"
 				 styleName="reportingLabelsText" paddingBottom="15"/>
 		<s:Label text="Please repeat your blood pressure" includeIn="repeat" styleName="reportingLabelsText"
-				 paddingBottom="15"/>
+				 paddingBottom="15"/>-->
 		<s:DropDownList id="positionDropDownList" width="100%" selectedIndex="0"
 						skinClass="spark.skins.spark.DropDownListSkin"
 						styleName="reportingLabelsText">
@@ -392,4 +392,4 @@
 		</s:Group>
 	</s:VGroup>
 	<sharedViews:NumberPad id="numberPad" visible="false"/>
-</s:Group>
+</tablet:TabletViewBase>

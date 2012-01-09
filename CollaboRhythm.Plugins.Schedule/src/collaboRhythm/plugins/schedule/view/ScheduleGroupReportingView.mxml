@@ -17,7 +17,6 @@
 -->
 <s:List xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark"
-		xmlns:mx="library://ns.adobe.com/flex/mx"
 		dataProvider="{_scheduleReportingModel.currentScheduleGroup.scheduleItemsOccurrencesCollection}"
 		itemRenderer="collaboRhythm.plugins.schedule.view.ScheduleItemOccurrenceReportingViewItemRenderer">
 	<fx:Declarations>
@@ -25,44 +24,51 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-		import collaboRhythm.plugins.schedule.model.ScheduleModel;
-		import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
-		import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+        import collaboRhythm.plugins.schedule.controller.ScheduleReportingController;
+        import collaboRhythm.plugins.schedule.model.ScheduleModel;
+        import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
 
-		import mx.binding.utils.BindingUtils;
+        private var _scheduleModel:ScheduleModel;
+        [Bindable]
+        private var _scheduleReportingModel:ScheduleReportingModel;
+        private var _creationComplete:Boolean;
+        private var _activeAccountId:String;
+        private var _scheduleReportingController:ScheduleReportingController;
 
-		import spark.events.IndexChangeEvent;
+        public function init(scheduleModel:ScheduleModel, activeAccountId:String, scheduleReportingController:ScheduleReportingController):void
+        {
+            _scheduleModel = scheduleModel;
+            _activeAccountId = activeAccountId;
+            _scheduleReportingController = scheduleReportingController;
 
-		private var _scheduleModel:ScheduleModel;
-		[Bindable]
-		private var _scheduleReportingModel:ScheduleReportingModel;
-		private var _creationComplete:Boolean;
-		private var _activeAccountId:String;
+            _scheduleReportingModel = _scheduleModel.scheduleReportingModel;
+        }
 
-		public function init(scheduleModel:ScheduleModel, activeAccountId:String):void
-		{
-			_scheduleModel = scheduleModel;
-			_activeAccountId = activeAccountId;
+        public function xor(lhs:Boolean, rhs:Boolean):Boolean
+        {
+            return !( lhs && rhs ) && ( lhs || rhs );
+        }
 
-			_scheduleReportingModel = _scheduleModel.scheduleReportingModel;
-		}
+        public function get scheduleModel():ScheduleModel
+        {
+            return _scheduleModel;
+        }
 
-		public function xor(lhs:Boolean, rhs:Boolean):Boolean
-		{
-			return !( lhs && rhs ) && ( lhs || rhs );
-		}
+        public function set scheduleModel(value:ScheduleModel):void
+        {
+            _scheduleModel = value;
+        }
 
-		public function get scheduleModel():ScheduleModel
-		{
-			return _scheduleModel;
-		}
+        public function get scheduleReportingController():ScheduleReportingController
+        {
+            return _scheduleReportingController;
+        }
 
-		public function set scheduleModel(value:ScheduleModel):void
-		{
-			_scheduleModel = value;
-		}
-		]]>
+        public function set scheduleReportingController(value:ScheduleReportingController):void
+        {
+            _scheduleReportingController = value;
+        }
+        ]]>
 	</fx:Script>
 	<s:layout>
 		<s:VerticalLayout gap="0"/>

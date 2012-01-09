@@ -5,9 +5,8 @@ package collaboRhythm.plugins.schedule.shared.model
 
 	public class ScheduleItemOccurrenceReportingModelBase
 	{
-		protected var _scheduleItemOccurrence:ScheduleItemOccurrence;
+		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
 		protected var _scheduleModel:IScheduleModel;
-		private var _additionalInformation:Boolean = false;
 
 		public function ScheduleItemOccurrenceReportingModelBase(scheduleItemOccurrence:ScheduleItemOccurrence,
 																 scheduleModel:IScheduleModel)
@@ -28,12 +27,12 @@ package collaboRhythm.plugins.schedule.shared.model
 			}
 		}
 
-		protected function createAdherenceItem():void
+		public function createAdherenceItem():void
 		{
 			// abstract; subclasses should override
 		}
 
-		private function voidAdherenceItem():void
+		public function voidAdherenceItem():void
 		{
 			_scheduleModel.voidAdherenceItem(_scheduleItemOccurrence);
 		}
@@ -43,5 +42,21 @@ package collaboRhythm.plugins.schedule.shared.model
 			// abstract; subclasses should override
 			return false;
 		}
-	}
+
+        public function additionalInformationView():Class
+        {
+            // abstract; subclasses should override
+            return null;
+        }
+
+        public function get scheduleItemOccurrence():ScheduleItemOccurrence
+        {
+            return _scheduleItemOccurrence;
+        }
+
+        public function set scheduleItemOccurrence(value:ScheduleItemOccurrence):void
+        {
+            _scheduleItemOccurrence = value;
+        }
+    }
 }

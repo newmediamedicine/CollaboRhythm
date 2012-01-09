@@ -30,7 +30,7 @@ package collaboRhythm.plugins.medications.model
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
 
-		override protected function createAdherenceItem():void
+		override public function createAdherenceItem():void
 		{
 			var medicationAdministration:MedicationAdministration = new MedicationAdministration();
 			medicationAdministration.init(_medicationOrder.name, _scheduleModel.accountId,
@@ -41,9 +41,9 @@ package collaboRhythm.plugins.medications.model
 			var adherenceResults:Vector.<DocumentBase> = new Vector.<DocumentBase>();
 			adherenceResults.push(medicationAdministration);
 			adherenceItem.init(_medicationOrder.name, _scheduleModel.accountId, _currentDateSource.now(),
-							   _scheduleItemOccurrence.recurrenceIndex, true, null, adherenceResults);
+							   scheduleItemOccurrence.recurrenceIndex, true, null, adherenceResults);
 
-			_scheduleModel.createAdherenceItem(_scheduleItemOccurrence, adherenceItem);
+			_scheduleModel.createAdherenceItem(scheduleItemOccurrence, adherenceItem);
 		}
 
 		override public function isAdditionalInformationRequired():Boolean

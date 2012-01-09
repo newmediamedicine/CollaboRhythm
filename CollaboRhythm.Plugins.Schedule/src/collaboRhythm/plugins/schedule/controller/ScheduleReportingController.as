@@ -16,36 +16,38 @@
  */
 package collaboRhythm.plugins.schedule.controller
 {
+    import collaboRhythm.plugins.schedule.model.ScheduleModel;
+    import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
+    import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+    import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
+    import collaboRhythm.shared.controller.apps.AppEvent;
+    import collaboRhythm.shared.model.InteractionLogUtil;
+    import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+    import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
-	import collaboRhythm.plugins.schedule.model.ScheduleModel;
-	import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-	import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
-	import collaboRhythm.shared.controller.apps.AppEvent;
-	import collaboRhythm.shared.model.InteractionLogUtil;
-	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
-	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+    import flash.events.EventDispatcher;
+    import flash.utils.getQualifiedClassName;
 
-	import flash.events.EventDispatcher;
-	import flash.utils.getQualifiedClassName;
+    import mx.binding.utils.BindingUtils;
+    import mx.core.UIComponent;
+    import mx.logging.ILogger;
+    import mx.logging.Log;
 
-	import mx.binding.utils.BindingUtils;
-	import mx.core.UIComponent;
-	import mx.logging.ILogger;
-	import mx.logging.Log;
+    import spark.components.ViewNavigator;
 
-	public class ScheduleReportingController extends EventDispatcher
+    public class ScheduleReportingController extends EventDispatcher
 	{
 		private var _scheduleModel:ScheduleModel;
 		private var _scheduleReportingFullView:ScheduleReportingFullView;
 		[Bindable]
 		private var _scheduleReportingModel:ScheduleReportingModel;
 		protected var _logger:ILogger;
+        private var _viewNavigator:ViewNavigator;
 
-		public function ScheduleReportingController(scheduleModel:ScheduleModel,
-													scheduleReportingFullView:ScheduleReportingFullView)
+		public function ScheduleReportingController(scheduleModel:ScheduleModel, scheduleReportingFullView:ScheduleReportingFullView, viewNavigator:ViewNavigator)
 		{
-			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+            _viewNavigator = viewNavigator;
+            _logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_scheduleModel = scheduleModel;
 			_scheduleReportingFullView = scheduleReportingFullView;
 			_scheduleReportingModel = _scheduleModel.scheduleReportingModel;
@@ -98,5 +100,15 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			_scheduleReportingModel.voidAdherenceItem(scheduleItemOccurrence);
 		}
-	}
+
+        public function get viewNavigator():ViewNavigator
+        {
+            return _viewNavigator;
+        }
+
+        public function set viewNavigator(value:ViewNavigator):void
+        {
+            _viewNavigator = value;
+        }
+    }
 }

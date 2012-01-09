@@ -49,6 +49,6 @@
 	<s:Group id="adherenceImage" width="70%" height="70%" horizontalCenter="0" verticalCenter="0">
 		<sharedView:AdherenceCheck width="{adherenceImage.width}" height="{adherenceImage.height}"
 					  filters="{[new GlowFilter(0xFFFFFF, 0.7, this.width / 8, this.width / 8, this.width / 8)]}"
-					  visible="{_scheduleItemOccurrence.adherenceItem}"/>
+					  visible="{_scheduleItemOccurrence.adherenceItem != null}"/>
 	</s:Group>
 </s:Group>
