@@ -1,4 +1,4 @@
-package collaboRhythm.plugins.bloodPressure.view.simulation.buttons
+package collaboRhythm.simulation.view.buttons
 {
 
 	import collaboRhythm.plugins.bloodPressure.view.simulation.*;

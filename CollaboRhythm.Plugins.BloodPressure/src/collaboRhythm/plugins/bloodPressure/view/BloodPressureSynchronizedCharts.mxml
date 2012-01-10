@@ -1,17 +1,18 @@
 <?xml version="1.0"?>
-<view:SynchronizedCharts xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
-		  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:images="assets.images.*"
-		  xmlns:controls="com.dougmccune.controls.*" xmlns:view="collaboRhythm.plugins.bloodPressure.view.*"
-		  xmlns:dataShapes="qs.charts.dataShapes.*"
-		  implements="collaboRhythm.plugins.bloodPressure.view.IBloodPressureFullView"
-		  initialize="initializeHandler(event)"
+<view2:SynchronizedHealthCharts xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+								xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:controls="com.dougmccune.controls.*"
+								xmlns:view="collaboRhythm.plugins.bloodPressure.view.*"
+								xmlns:dataShapes="qs.charts.dataShapes.*"
+								xmlns:view2="collaboRhythm.visualization.view.*"
+								implements="collaboRhythm.plugins.bloodPressure.view.IBloodPressureFullView"
+								initialize="initializeHandler(event)"
 		>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 
 		<s:HGroup id="bloodPressureGroup" height="100%" width="100%" gap="0" minHeight="100">
 			<s:Group height="100%">
-				<images:BloodPressureScheduleItemClockView width="100" height="100" verticalCenter="0"/>
+				<view:BloodPressureScheduleItemClockView width="100" height="100" verticalCenter="0"/>
 			</s:Group>
 			<controls:TouchScrollingScrubChart id="bloodPressureChart"
 											   skinClass="com.dougmccune.controls.ScrubChartMinimalSkin"
@@ -105,7 +106,8 @@
 
 		<mx:DateFormatter id="fullDateFormat" formatString="YYYY-MM-DD"/>
 
-		<dataShapes:DataDrawingCanvas id="bloodPressureMainCanvas" includeInRanges="true" resize="bloodPressureMainCanvas_resizeHandler(event)">
+		<dataShapes:DataDrawingCanvas id="bloodPressureMainCanvas" includeInRanges="true"
+									  resize="bloodPressureMainCanvas_resizeHandler(event)">
 			<s:Label id="systolicZoneLabel" text="Systolic Normal (90 - 120)" styleName="ZoneLabel" visible="false"
 					 color="{GOAL_ZONE_COLOR}"/>
 			<!--
@@ -123,6 +125,7 @@
 		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 		import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 		import collaboRhythm.shared.model.settings.Settings;
+		import collaboRhythm.visualization.view.ScrubChartSeriesSet;
 
 		import com.dougmccune.controls.ScrubChart;
 		import com.dougmccune.controls.TouchScrollingScrubChart;
@@ -374,4 +377,4 @@
 			}
 		}
 		]]></fx:Script>
-</view:SynchronizedCharts>
+</view2:SynchronizedHealthCharts>

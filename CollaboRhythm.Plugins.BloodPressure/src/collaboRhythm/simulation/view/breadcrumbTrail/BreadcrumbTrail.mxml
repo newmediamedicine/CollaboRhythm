@@ -3,15 +3,15 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:scroll="collaboRhythm.view.scroll.*"
 		>
 	<fx:Metadata>
-		[Event(name="backUpLevel",type="collaboRhythm.plugins.bloodPressure.view.simulation.SimulationLevelEvent")]
+		[Event(name="backUpLevel", type="collaboRhythm.simulation.view.SimulationLevelEvent")]
 	</fx:Metadata>
 	<!-- TODO: select (navigate) on mouse up, not mouse down; this will probably require subclassing List -->
 	<s:List id="breadcrumbsList"
 			horizontalCenter="0"
 			borderVisible="false"
 			contentBackgroundAlpha="0"
-			skinClass="collaboRhythm.plugins.bloodPressure.view.simulation.breadcrumbTrail.BreadcrumbTrailListSkin"
-			itemRenderer="collaboRhythm.plugins.bloodPressure.view.simulation.breadcrumbTrail.BreadcrumbItemRenderer"
+			skinClass="collaboRhythm.simulation.view.breadcrumbTrail.BreadcrumbTrailListSkin"
+			itemRenderer="collaboRhythm.simulation.view.breadcrumbTrail.BreadcrumbItemRenderer"
 			dataProvider="{breadcrumbsData}"
 			change="breadcrumbsList_changeHandler(event)"
 			>
@@ -20,7 +20,7 @@
 		</s:layout>
 	</s:List>
 	<fx:Script><![CDATA[
-		import collaboRhythm.plugins.bloodPressure.view.simulation.SimulationLevelEvent;
+		import collaboRhythm.simulation.view.SimulationLevelEvent;
 
 		import mx.collections.ArrayCollection;
 		import mx.core.UIComponent;

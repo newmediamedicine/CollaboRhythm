@@ -1,4 +1,4 @@
-package collaboRhythm.plugins.bloodPressure.view.simulation.buttons
+package collaboRhythm.simulation.view.buttons
 {
 	/**
 	 * Model class for an item to be rendered by the StepListItemRenderer, used in the list of the SimulationDetailButton.

@@ -15,15 +15,14 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<simulation:SimulationLevelGroup
+<view3:SimulationLevelGroup
 		xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark"
-		xmlns:mx="library://ns.adobe.com/flex/mx"
-		xmlns:simulation="collaboRhythm.plugins.bloodPressure.view.simulation.*"
 		xmlns:view2="collaboRhythm.shared.view.*"
 		xmlns:hydrochlorothiazide="collaboRhythm.plugins.bloodPressure.view.simulation.levels.hydrochlorothiazide.*"
-		xmlns:buttons="collaboRhythm.plugins.bloodPressure.view.simulation.buttons.*"
-		xmlns:view="collaboRhythm.plugins.bloodPressure.view.*"
+		xmlns:buttons="collaboRhythm.simulation.view.buttons.*"
+		xmlns:view3="collaboRhythm.simulation.view.*"
+		xmlns:view4="collaboRhythm.visualization.view.*"
 		width="100%" height="100%"
 		title="Kidney"
 		>
@@ -48,16 +47,15 @@
 			drillDownEnabled="false"
 			>
 		<buttons:leftContent>
-			<view:MedicationScheduleItemChartView id="medicationView" left="7" verticalCenter="0" width="32" height="32"/>
+			<view4:MedicationScheduleItemChartView id="medicationView" left="7" verticalCenter="0" width="32"
+												  height="32"/>
 		</buttons:leftContent>
 	</buttons:SimulationDetailButton>
 
 	<fx:Script><![CDATA[
-		import collaboRhythm.plugins.bloodPressure.view.simulation.*;
-		import collaboRhythm.plugins.bloodPressure.view.simulation.buttons.StepListItem;
-		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
+		import collaboRhythm.simulation.view.buttons.StepListItem;
 
 		import mx.collections.ArrayCollection;
 		import mx.events.FlexEvent;
@@ -192,4 +190,4 @@
 			}
 		}
 		]]></fx:Script>
-</simulation:SimulationLevelGroup>
+</view3:SimulationLevelGroup>

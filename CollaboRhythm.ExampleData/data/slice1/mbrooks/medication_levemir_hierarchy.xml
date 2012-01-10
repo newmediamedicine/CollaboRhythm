@@ -46,11 +46,11 @@
                      <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                      <scheduledBy>jking@records.media.mit.edu</scheduledBy>
                      <dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
-                     <dateStart>2011-07-15T13:00:00Z</dateStart>
-                     <dateEnd>2011-07-15T17:00:00Z</dateEnd>
+                     <dateStart>2011-07-14T18:00:00-04:00</dateStart>
+                     <dateEnd>2011-07-14T22:00:00-04:00</dateEnd>
                      <recurrenceRule>
                         <frequency>DAILY</frequency>
-                        <count>2</count>
+                        <count>200</count>
                      </recurrenceRule>
                      <dose>
                         <value>12</value>
@@ -67,7 +67,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-15T22:57:00Z</dateReported>
-                              <recurrenceIndex>0</recurrenceIndex>
+                              <recurrenceIndex>1</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -101,7 +101,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-16T23:07:00Z</dateReported>
-                              <recurrenceIndex>1</recurrenceIndex>
+                              <recurrenceIndex>2</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -135,7 +135,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-17T23:54:00Z</dateReported>
-                              <recurrenceIndex>2</recurrenceIndex>
+                              <recurrenceIndex>3</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -169,7 +169,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-18T23:52:00Z</dateReported>
-                              <recurrenceIndex>3</recurrenceIndex>
+                              <recurrenceIndex>4</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -203,7 +203,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-19T23:48:00Z</dateReported>
-                              <recurrenceIndex>4</recurrenceIndex>
+                              <recurrenceIndex>5</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -237,7 +237,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-20T22:27:00Z</dateReported>
-                              <recurrenceIndex>5</recurrenceIndex>
+                              <recurrenceIndex>6</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -271,7 +271,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-21T22:24:00Z</dateReported>
-                              <recurrenceIndex>6</recurrenceIndex>
+                              <recurrenceIndex>7</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -305,7 +305,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-22T22:14:00Z</dateReported>
-                              <recurrenceIndex>7</recurrenceIndex>
+                              <recurrenceIndex>8</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -339,7 +339,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-23T22:15:00Z</dateReported>
-                              <recurrenceIndex>8</recurrenceIndex>
+                              <recurrenceIndex>9</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -373,7 +373,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-24T22:59:00Z</dateReported>
-                              <recurrenceIndex>9</recurrenceIndex>
+                              <recurrenceIndex>10</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -407,7 +407,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-25T23:12:00Z</dateReported>
-                              <recurrenceIndex>10</recurrenceIndex>
+                              <recurrenceIndex>11</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -441,7 +441,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-26T23:26:00Z</dateReported>
-                              <recurrenceIndex>11</recurrenceIndex>
+                              <recurrenceIndex>12</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -475,7 +475,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-27T23:47:00Z</dateReported>
-                              <recurrenceIndex>12</recurrenceIndex>
+                              <recurrenceIndex>13</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -509,7 +509,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-28T22:12:00Z</dateReported>
-                              <recurrenceIndex>13</recurrenceIndex>
+                              <recurrenceIndex>14</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -543,7 +543,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-29T22:44:00Z</dateReported>
-                              <recurrenceIndex>14</recurrenceIndex>
+                              <recurrenceIndex>15</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -577,7 +577,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-30T22:02:00Z</dateReported>
-                              <recurrenceIndex>15</recurrenceIndex>
+                              <recurrenceIndex>16</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -611,7 +611,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-31T23:24:00Z</dateReported>
-                              <recurrenceIndex>16</recurrenceIndex>
+                              <recurrenceIndex>17</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -645,17 +645,6 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-01T23:22:00Z</dateReported>
-                              <recurrenceIndex>17</recurrenceIndex>
-                              <adherence>false</adherence>
-                           </AdherenceItem>
-                        </document>
-                     </LoadableIndivoDocument>
-                     <LoadableIndivoDocument>
-                        <document>
-                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
-                              <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-08-02T23:00:00Z</dateReported>
                               <recurrenceIndex>18</recurrenceIndex>
                               <adherence>false</adherence>
                            </AdherenceItem>
@@ -666,7 +655,7 @@
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-08-03T23:53:00Z</dateReported>
+                              <dateReported>2011-08-02T23:00:00Z</dateReported>
                               <recurrenceIndex>19</recurrenceIndex>
                               <adherence>false</adherence>
                            </AdherenceItem>
@@ -677,8 +666,19 @@
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-08-04T22:00:00Z</dateReported>
+                              <dateReported>2011-08-03T23:53:00Z</dateReported>
                               <recurrenceIndex>20</recurrenceIndex>
+                              <adherence>false</adherence>
+                           </AdherenceItem>
+                        </document>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+                              <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-04T22:00:00Z</dateReported>
+                              <recurrenceIndex>21</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -712,7 +712,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-05T23:54:00Z</dateReported>
-                              <recurrenceIndex>21</recurrenceIndex>
+                              <recurrenceIndex>22</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -746,7 +746,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-06T23:14:00Z</dateReported>
-                              <recurrenceIndex>22</recurrenceIndex>
+                              <recurrenceIndex>23</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -780,17 +780,6 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-07T23:00:00Z</dateReported>
-                              <recurrenceIndex>23</recurrenceIndex>
-                              <adherence>false</adherence>
-                           </AdherenceItem>
-                        </document>
-                     </LoadableIndivoDocument>
-                     <LoadableIndivoDocument>
-                        <document>
-                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
-                              <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-08-08T23:10:00Z</dateReported>
                               <recurrenceIndex>24</recurrenceIndex>
                               <adherence>false</adherence>
                            </AdherenceItem>
@@ -801,7 +790,7 @@
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-08-09T23:18:00Z</dateReported>
+                              <dateReported>2011-08-08T23:10:00Z</dateReported>
                               <recurrenceIndex>25</recurrenceIndex>
                               <adherence>false</adherence>
                            </AdherenceItem>
@@ -812,8 +801,19 @@
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-08-10T23:29:00Z</dateReported>
+                              <dateReported>2011-08-09T23:18:00Z</dateReported>
                               <recurrenceIndex>26</recurrenceIndex>
+                              <adherence>false</adherence>
+                           </AdherenceItem>
+                        </document>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+                              <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-10T23:29:00Z</dateReported>
+                              <recurrenceIndex>27</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -847,7 +847,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-11T23:40:00Z</dateReported>
-                              <recurrenceIndex>27</recurrenceIndex>
+                              <recurrenceIndex>28</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -881,7 +881,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
                               <reportedBy>mbrooks@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-12T23:51:00Z</dateReported>
-                              <recurrenceIndex>28</recurrenceIndex>
+                              <recurrenceIndex>29</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>

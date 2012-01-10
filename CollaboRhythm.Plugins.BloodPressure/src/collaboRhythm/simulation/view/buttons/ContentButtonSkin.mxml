@@ -33,7 +33,7 @@
 		/**
 		 * @copy spark.skins.spark.ApplicationSkin#hostComponent
 		 */
-		[HostComponent("collaboRhythm.plugins.bloodPressure.view.simulation.buttons.ContentButton")]
+		[HostComponent("collaboRhythm.simulation.view.buttons.ContentButton")]
 		]]>
     </fx:Metadata> 
     

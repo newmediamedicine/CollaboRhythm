@@ -1,7 +1,6 @@
-package collaboRhythm.plugins.bloodPressure.view
+package collaboRhythm.visualization.view
 {
-	import assets.images.BloodPressureScheduleItemClockView;
-
+	import collaboRhythm.plugins.bloodPressure.view.BloodPressureScheduleItemClockView;
 	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 	import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
 	import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
@@ -77,9 +76,9 @@ package collaboRhythm.plugins.bloodPressure.view
 	import spark.events.SkinPartEvent;
 	import spark.layouts.VerticalAlign;
 
-	public class SynchronizedCharts extends VGroup implements IFocusManagerComponent
+	public class SynchronizedHealthCharts extends VGroup implements IFocusManagerComponent
 	{
-		public function SynchronizedCharts():void
+		public function SynchronizedHealthCharts():void
 		{
 			// TODO: use CSS instead for these
 			percentHeight = 100;

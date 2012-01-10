@@ -24,8 +24,8 @@
 	<xsl:template match="/">
 		<xsl:variable name="amountOrderedValue" select="2"/>
 		<xsl:variable name="unitsPerSyringe" select="1000"/>
-		<xsl:variable name="dateStart">2011-07-15T13:00:00Z</xsl:variable>
-		<xsl:variable name="dateEnd">2011-07-15T17:00:00Z</xsl:variable>
+		<xsl:variable name="dateStart">2011-07-14T18:00:00-04:00</xsl:variable>
+		<xsl:variable name="dateEnd">2011-07-14T22:00:00-04:00</xsl:variable>
 		<xsl:variable name="dateStartEvening">2011-07-15T22:00:00Z</xsl:variable>
 		<xsl:variable name="dateEndEvening">2011-07-16T02:00:00Z</xsl:variable>
 		<xsl:variable name="medicationName" select="IndivoDocuments/d:AdherenceItem[1]/d:name"/>
@@ -84,10 +84,12 @@
 										<frequency>DAILY</frequency>
 										<xsl:choose>
 											<xsl:when test="$twiceDaily = 'true'">
-												<count><xsl:value-of select="$amountOrderedValue div 2"/></count>
+												<!--<count><xsl:value-of select="$amountOrderedValue * $unitsPerSyringe div 12 div 2"/></count>-->
+												<count>200</count>
 											</xsl:when>
 											<xsl:otherwise>
-													<count><xsl:value-of select="$amountOrderedValue"/></count>
+													<!--<count><xsl:value-of select="$amountOrderedValue * $unitsPerSyringe div 12"/></count>-->
+													<count>200</count>
 											</xsl:otherwise>
 										</xsl:choose>
 									</recurrenceRule>
@@ -164,7 +166,7 @@
 										<dateEnd><xsl:value-of select="$dateEndEvening"/></dateEnd>
 										<recurrenceRule>
 											<frequency>DAILY</frequency>
-											<count><xsl:value-of select="$amountOrderedValue div 2"/></count>
+											<count>200</count>
 										</recurrenceRule>
 										<dose>
 											<value>12</value>

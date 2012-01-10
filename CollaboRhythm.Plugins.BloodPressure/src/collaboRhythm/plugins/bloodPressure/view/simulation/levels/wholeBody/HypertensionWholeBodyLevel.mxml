@@ -15,14 +15,14 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<simulation:SimulationLevelGroup
+<view:SimulationLevelGroup
 		xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:simulation="collaboRhythm.plugins.bloodPressure.view.simulation.*"
-		xmlns:gauge="collaboRhythm.plugins.bloodPressure.view.simulation.gauge.*"
 		xmlns:wholebody="collaboRhythm.plugins.bloodPressure.view.simulation.levels.wholeBody.*"
-		xmlns:buttons="collaboRhythm.plugins.bloodPressure.view.simulation.buttons.*"
+		xmlns:buttons="collaboRhythm.simulation.view.buttons.*"
+		xmlns:view="collaboRhythm.simulation.view.*"
 		width="100%" height="100%"
 		title="Whole Body"
 		>
@@ -41,7 +41,7 @@
 			expandButtonVisible="false"
 			>
 		<buttons:leftContent>
-			<simulation:ProblemsIcon left="7" verticalCenter="0" width="32" height="32"/>
+			<view:ProblemsIcon left="7" verticalCenter="0" width="32" height="32"/>
 		</buttons:leftContent>
 		<buttons:rightContent>
 			<simulation:HypertensionGauge id="gauge" verticalCenter="0"
@@ -50,8 +50,8 @@
 		</buttons:rightContent>
 	</buttons:SimulationDetailButton>
 	<fx:Script><![CDATA[
-		import collaboRhythm.plugins.bloodPressure.view.simulation.*;
-		import collaboRhythm.plugins.bloodPressure.view.simulation.buttons.SimulationDetail;
+		import collaboRhythm.simulation.view.SimulationLevelEvent;
+		import collaboRhythm.simulation.view.buttons.SimulationDetail;
 
 		import mx.events.FlexEvent;
 
@@ -60,10 +60,9 @@
 		protected override function creationCompleteHandler(event:FlexEvent):void
 		{
 			details = new <SimulationDetail>[new SimulationDetail(circulatorySystemPoint,
-																  circulatorySystemButton)];
+					circulatorySystemButton)];
 
 			super.creationCompleteHandler(event);
 		}
-
 		]]></fx:Script>
-</simulation:SimulationLevelGroup>
+</view:SimulationLevelGroup>

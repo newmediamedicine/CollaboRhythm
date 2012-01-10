@@ -17,18 +17,16 @@
   -->
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
 		  xmlns:s="library://ns.adobe.com/flex/spark"
-		  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:view2="collaboRhythm.shared.view.*"
-		  xmlns:simulation="collaboRhythm.plugins.bloodPressure.view.simulation.*"
+		  xmlns:view2="collaboRhythm.shared.view.*"
 		  xmlns:hydrochlorothiazide="collaboRhythm.plugins.bloodPressure.view.simulation.levels.hydrochlorothiazide.*"
 		  xmlns:circulatorysystem="collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySystem.*"
 		  xmlns:wholebody="collaboRhythm.plugins.bloodPressure.view.simulation.levels.wholeBody.*"
-		  xmlns:controls="com.dougmccune.controls.*"
-		  xmlns:breadcrumbtrail="collaboRhythm.plugins.bloodPressure.view.simulation.breadcrumbTrail.*"
+		  xmlns:breadcrumbtrail="collaboRhythm.simulation.view.breadcrumbTrail.*"
+		  xmlns:view="collaboRhythm.simulation.view.*"
 		  width="260" height="800"
 		  clipAndEnableScrolling="true"
 		  resize="resizeHandler(event)"
 		  creationComplete="creationCompleteHandler(event)"
-		  xmlns:view1="collaboRhythm.shared.bloodSolutesSimulation.view.*"
 		  implements="mx.managers.IFocusManagerComponent"
 		>
 	<fx:Declarations>
@@ -108,10 +106,10 @@
 		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 		import collaboRhythm.shared.view.BitmapCopyComponent;
+		import collaboRhythm.simulation.view.*;
 
 		import com.dncompute.graphics.GraphicsUtil;
 
-		import mx.core.IVisualElementContainer;
 		import mx.core.UIComponent;
 		import mx.effects.Effect;
 		import mx.events.EffectEvent;
@@ -187,7 +185,8 @@
 		{
 			resizeChildren();
 			breadcrumbTrail.breadcrumbsData.addItem(hypertensionWholeBodyGroup);
-			drillDown(new SimulationLevelEvent(SimulationLevelEvent.DRILL_DOWN_LEVEL), hypertensionCirculatorySystemGroup, hypertensionWholeBodyGroup);
+			drillDown(new SimulationLevelEvent(SimulationLevelEvent.DRILL_DOWN_LEVEL),
+					hypertensionCirculatorySystemGroup, hypertensionWholeBodyGroup);
 		}
 
 		[Bindable]
@@ -212,7 +211,8 @@
 				);
 
 				adjustmentTarget = adjustmentCursor;
-				adjustmentTarget.move(Math.round(simulationContentGroup.width / 2), Math.round(simulationContentGroup.height / 2));
+				adjustmentTarget.move(Math.round(simulationContentGroup.width / 2),
+						Math.round(simulationContentGroup.height / 2));
 				adjustmentTarget.scaleX = adjustmentTarget.scaleY = 1;
 			}
 			if (adjustmentTarget)
@@ -261,7 +261,8 @@
 		private var _currentLevelComponent:UIComponent = hypertensionWholeBodyGroup;
 		private var _drillDownEventStack:Vector.<SimulationLevelEvent> = new Vector.<SimulationLevelEvent>();
 
-		private function drillDown(event:SimulationLevelEvent, componentToShow:UIComponent, componentToHide:UIComponent):void
+		private function drillDown(event:SimulationLevelEvent, componentToShow:UIComponent,
+								   componentToHide:UIComponent):void
 		{
 			stopLevelChangeEffects(componentToShow, componentToHide);
 
@@ -285,7 +286,8 @@
 			breadcrumbTrail.navigateDownToComponent(componentToShow);
 		}
 
-		private function backUp(event:SimulationLevelEvent, componentToShow:UIComponent, componentToHide:UIComponent):void
+		private function backUp(event:SimulationLevelEvent, componentToShow:UIComponent,
+								componentToHide:UIComponent):void
 		{
 			stopLevelChangeEffects(componentToShow, componentToHide);
 			var hideEffectTarget:UIComponent = createBitmapCopy(componentToHide);
@@ -300,8 +302,10 @@
 			{
 				backUpHideZoom.scaleXTo = previousDrillDownEvent.zoomWidthFrom;
 				backUpHideZoom.scaleYTo = previousDrillDownEvent.zoomHeightFrom;
-				backUpHideMove.xTo = previousDrillDownEvent.xFrom - (componentToHide.width * previousDrillDownEvent.zoomWidthFrom) / 2;
-				backUpHideMove.yTo = previousDrillDownEvent.yFrom - (componentToHide.height * previousDrillDownEvent.zoomHeightFrom) / 2;
+				backUpHideMove.xTo = previousDrillDownEvent.xFrom -
+						(componentToHide.width * previousDrillDownEvent.zoomWidthFrom) / 2;
+				backUpHideMove.yTo = previousDrillDownEvent.yFrom -
+						(componentToHide.height * previousDrillDownEvent.zoomHeightFrom) / 2;
 			}
 
 			backUpHideEffect.play();
@@ -390,10 +394,11 @@
 		}
 		]]>
 	</fx:Script>
-	<s:Group id="breadcrumbTrailGroup" width="100%" resize="{breadcrumbTrail.x = (breadcrumbTrailGroup.width - breadcrumbTrail.width) / 2}">
+	<s:Group id="breadcrumbTrailGroup" width="100%"
+			 resize="{breadcrumbTrail.x = (breadcrumbTrailGroup.width - breadcrumbTrail.width) / 2}">
 		<breadcrumbtrail:BreadcrumbTrail id="breadcrumbTrail"
-									resizeEffect="breadcrumbTrailResizeEffect"
-				backUpLevel="breadcrumbTrail_backUpLevelHandler(event)"
+										 resizeEffect="breadcrumbTrailResizeEffect"
+										 backUpLevel="breadcrumbTrail_backUpLevelHandler(event)"
 				/>
 	</s:Group>
 	<s:Group id="simulationContentHolder" width="100%" height="100%">
@@ -403,9 +408,10 @@
 									aspectRatioMax="{simulationContentGroup.width / simulationContentGroup.height}"/>
 		</s:layout>
 		<s:Group id="simulationContentGroup" width="680" height="615">
+			<!-- TODO: extract these particular levels and make SimulationView reusable (subclass-able) for various diseases. Alternatively, levels could be plugable (plugins provide levels to a single SimulationView). -->
 			<wholebody:HypertensionWholeBodyLevel id="hypertensionWholeBodyGroup" width="100%" height="100%"
-												   simulationModel="{_simulationModel}"
-												   drillDownLevel="drillDown(event, hypertensionCirculatorySystemGroup, hypertensionWholeBodyGroup)"/>
+												  simulationModel="{_simulationModel}"
+												  drillDownLevel="drillDown(event, hypertensionCirculatorySystemGroup, hypertensionWholeBodyGroup)"/>
 
 			<circulatorysystem:HypertensionCirculatorySystemLevel id="hypertensionCirculatorySystemGroup" width="100%"
 																  height="100%" visible="false"
@@ -431,7 +437,7 @@
 -->
 	<s:Group width="100%">
 		<!-- TODO: scale the info bar down instead of clipping it if there is not enough space -->
-		<simulation:SimulationTimeInfoBar id="timeInfoBar" x="{Math.round((this.width - timeInfoBar.width) / 2)}"
+		<view:SimulationTimeInfoBar id="timeInfoBar" x="{Math.round((this.width - timeInfoBar.width) / 2)}"
 										  mode="{_simulationModel.modeLabel}"
 										  dateString="{simulationDateFormatter.format(_simulationModel.date).toLowerCase()}"/>
 		<!--

@@ -14,8 +14,9 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.plugins.bloodPressure.view
+package collaboRhythm.visualization.view
 {
+	import collaboRhythm.plugins.bloodPressure.view.*;
 	import mx.charts.renderers.LineRenderer;
 	import mx.graphics.IStroke;
 	import mx.charts.chartClasses.GraphicsUtilities;

@@ -1,4 +1,4 @@
-package collaboRhythm.plugins.bloodPressure.view
+package collaboRhythm.visualization.view
 {
 
 	import mx.charts.chartClasses.CartesianChart;

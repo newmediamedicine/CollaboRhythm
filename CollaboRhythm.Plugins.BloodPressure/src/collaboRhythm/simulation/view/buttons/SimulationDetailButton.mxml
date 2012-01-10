@@ -19,7 +19,7 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:controls="com.dougmccune.controls.*"
 		 xmlns:view="collaboRhythm.shared.view.*"
-		 xmlns:buttons="collaboRhythm.plugins.bloodPressure.view.simulation.buttons.*"
+		 xmlns:buttons="collaboRhythm.simulation.view.buttons.*"
 		 y="{Math.round(arrowTailY - this.height / 2)}"
 		 width="280"
 		 height="50"
@@ -30,8 +30,8 @@
 	</s:layout>
 
 	<fx:Metadata>
-		[Event(name="drillDownLevel",type="collaboRhythm.plugins.bloodPressure.view.simulation.SimulationLevelEvent")]
-		[Event(name="expand",type="collaboRhythm.plugins.bloodPressure.view.simulation.buttons.ExpandCollapseEvent")]
+		[Event(name="drillDownLevel", type="collaboRhythm.simulation.view.SimulationLevelEvent")]
+		[Event(name="expand", type="collaboRhythm.simulation.view.buttons.ExpandCollapseEvent")]
 	</fx:Metadata>
 
 	<fx:Style>
@@ -79,7 +79,7 @@
 							   showEffect="{showStepsListEffect}"
 							   horizontalCenter="0"
 							   skinClass="spark.skins.spark.ListSkin"
-							   itemRenderer="collaboRhythm.plugins.bloodPressure.view.simulation.buttons.StepListItemRenderer"
+							   itemRenderer="collaboRhythm.simulation.view.buttons.StepListItemRenderer"
 							   move="stepsList_moveHandler(event)"
 							   dataProvider="{listDataProvider}"
 							   borderColor="#58595B"
@@ -123,6 +123,7 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.bloodPressure.view.simulation.*;
 		import collaboRhythm.shared.view.IconButton;
+		import collaboRhythm.simulation.view.SimulationLevelEvent;
 
 		import mx.collections.IList;
 		import mx.events.FlexEvent;

@@ -31,12 +31,12 @@
 			 minWidth="131" minHeight="127" alpha.disabled="0.5" alpha.disabledWithControlBar="0.5">
     
     <fx:Metadata>
-        <![CDATA[ 
-        /** 
-         * @copy spark.skins.spark.ApplicationSkin#hostComponent
-         */
-        [HostComponent("collaboRhythm.plugins.bloodPressure.view.simulation.SimulationLevelPanel")]
-        ]]>
+        <![CDATA[
+		/**
+		 * @copy spark.skins.spark.ApplicationSkin#hostComponent
+		 */
+		[HostComponent("collaboRhythm.simulation.view.SimulationLevelPanel")]
+		]]>
     </fx:Metadata> 
     
     <fx:Script fb:purpose="styling">

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.plugins.bloodPressure.view.simulation.buttons
+package collaboRhythm.simulation.view.buttons
 {
 
 	import collaboRhythm.plugins.bloodPressure.view.simulation.*;

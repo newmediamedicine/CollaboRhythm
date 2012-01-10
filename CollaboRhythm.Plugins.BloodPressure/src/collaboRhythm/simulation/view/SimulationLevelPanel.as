@@ -14,8 +14,9 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.plugins.bloodPressure.view.simulation
+package collaboRhythm.simulation.view
 {
+	import collaboRhythm.plugins.bloodPressure.view.simulation.*;
 	import castle.flexbridge.reflection.ReflectionUtils;
 
 	import collaboRhythm.plugins.bloodPressure.view.simulation.skins.SimulationLevelPanelSkin;
@@ -40,10 +41,10 @@ package collaboRhythm.plugins.bloodPressure.view.simulation
 	//  Events
 	//--------------------------------------
 
-	[Event(name=SimulationLevelEvent.BACK_UP_LEVEL,type="collaboRhythm.plugins.bloodPressure.view.simulation.SimulationLevelEvent")]
-	[Event(name=SimulationLevelEvent.DRILL_DOWN_LEVEL,type="collaboRhythm.plugins.bloodPressure.view.simulation.SimulationLevelEvent")]
-	[Event(name="backUpLevel",type="collaboRhythm.plugins.bloodPressure.view.simulation.SimulationLevelEvent")]
-	[Event(name="drillDownLevel",type="collaboRhythm.plugins.bloodPressure.view.simulation.SimulationLevelEvent")]
+	[Event(name=SimulationLevelEvent.BACK_UP_LEVEL,type="collaboRhythm.simulation.view.SimulationLevelEvent")]
+	[Event(name=SimulationLevelEvent.DRILL_DOWN_LEVEL,type="collaboRhythm.simulation.view.SimulationLevelEvent")]
+	[Event(name="backUpLevel",type="collaboRhythm.simulation.view.SimulationLevelEvent")]
+	[Event(name="drillDownLevel",type="collaboRhythm.simulation.view.SimulationLevelEvent")]
 
 	//--------------------------------------
 	//  Styles
@@ -206,7 +207,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation
 				};
 
 				FlexGlobals.topLevelApplication.styleManager.
-						setStyleDeclaration("collaboRhythm.plugins.bloodPressure.view.simulation.SimulationLevelPanel", styleDeclaration, true);
+						setStyleDeclaration("collaboRhythm.simulation.view.SimulationLevelPanel", styleDeclaration, true);
 			}
 			return true;
 		}

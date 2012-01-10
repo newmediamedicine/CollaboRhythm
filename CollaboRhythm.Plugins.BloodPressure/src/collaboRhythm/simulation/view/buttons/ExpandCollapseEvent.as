@@ -14,17 +14,17 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.plugins.bloodPressure.view
+package collaboRhythm.simulation.view.buttons
 {
-	import mx.charts.series.LineSeries;
-	import mx.charts.renderers.LineRenderer;
-	import mx.core.ClassFactory;
+	import flash.events.Event;
 
-	[Style(name="dashingPattern", type="Array")]
-	public class DashedLineSeries extends LineSeries
+	public class ExpandCollapseEvent extends Event
 	{
-		public function DashedLineSeries() {
-			setStyle("lineSegmentRenderer", new ClassFactory(DashedLineRenderer));
+		public static const EXPAND:String = "expand";
+
+		public function ExpandCollapseEvent(type:String,  bubbles:Boolean=false, cancelable:Boolean=false)
+		{
+			super(type, bubbles, cancelable);
 		}
 	}
 }

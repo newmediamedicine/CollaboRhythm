@@ -14,11 +14,8 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.plugins.bloodPressure.view.simulation.buttons
+package collaboRhythm.simulation.view.buttons
 {
-
-	import collaboRhythm.plugins.bloodPressure.view.simulation.*;
-	import collaboRhythm.plugins.bloodPressure.view.simulation.buttons.ContentButtonSkin;
 
 	import mx.core.FlexGlobals;
 	import mx.core.UIComponent;
@@ -28,8 +25,8 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.buttons
 
 	import spark.components.Button;
 	import spark.components.Group;
-    import spark.core.IDisplayText;
-    import spark.layouts.supportClasses.LayoutBase;
+	import spark.core.IDisplayText;
+	import spark.layouts.supportClasses.LayoutBase;
 
 	use namespace mx_internal;
 

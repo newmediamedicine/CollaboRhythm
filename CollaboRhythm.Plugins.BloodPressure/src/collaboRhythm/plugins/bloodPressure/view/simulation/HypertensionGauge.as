@@ -16,8 +16,8 @@
  */
 package collaboRhythm.plugins.bloodPressure.view.simulation
 {
-	import collaboRhythm.plugins.bloodPressure.view.simulation.gauge.Gauge;
 	import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
+	import collaboRhythm.simulation.view.gauge.Gauge;
 
 	/**
 	 * Gauge used to indicate severity of hypertension. Also shows hypotension. Values based on systolic blood pressure

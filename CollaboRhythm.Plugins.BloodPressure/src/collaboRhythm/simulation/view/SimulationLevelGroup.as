@@ -14,12 +14,11 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.plugins.bloodPressure.view.simulation
+package collaboRhythm.simulation.view
 {
-
-	import collaboRhythm.plugins.bloodPressure.view.simulation.buttons.SimulationDetail;
-	import collaboRhythm.plugins.bloodPressure.view.simulation.buttons.SimulationDetailButton;
 	import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
+	import collaboRhythm.simulation.view.buttons.SimulationDetail;
+	import collaboRhythm.simulation.view.buttons.SimulationDetailButton;
 
 	import com.dncompute.graphics.GraphicsUtil;
 
@@ -30,8 +29,8 @@ package collaboRhythm.plugins.bloodPressure.view.simulation
 
 	import spark.components.Group;
 
-	[Event(name="backUpLevel",type="collaboRhythm.plugins.bloodPressure.view.simulation.SimulationLevelEvent")]
-	[Event(name="drillDownLevel",type="collaboRhythm.plugins.bloodPressure.view.simulation.SimulationLevelEvent")]
+	[Event(name="backUpLevel",type="collaboRhythm.simulation.view.SimulationLevelEvent")]
+	[Event(name="drillDownLevel",type="collaboRhythm.simulation.view.SimulationLevelEvent")]
 	public class SimulationLevelGroup extends Group
 	{
 		public static const detailButtonX:Number = 390;
