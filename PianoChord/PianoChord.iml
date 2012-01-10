@@ -11,7 +11,7 @@
         <option name="USE_CUSTOM_CONFIG_FILE_FOR_TESTS" value="false" />
         <option name="CUSTOM_CONFIG_FILE_FOR_TESTS" value="" />
         <option name="APPLICATION_ENTRY_POINT" value="" />
-        <option name="MAIN_CLASS" value="PianoChord" />
+        <option name="MAIN_CLASS" value="pianoChord.PianoChord" />
         <option name="OUTPUT_FILE_NAME" value="PianoChord.swf" />
         <option name="USE_FACET_COMPILE_OUTPUT_PATH" value="false" />
         <option name="FACET_COMPILE_OUTPUT_PATH" value="" />
@@ -91,7 +91,9 @@
           <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/automation_agent_rb.swc!/" />
           <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/spark_rb.swc!/" />
         </CLASSES>
-        <JAVADOC />
+        <JAVADOC>
+          <root url="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/index.html?filter_flex=4.6&amp;filter_flashplayer=11.1&amp;filter_air=3.1" />
+        </JAVADOC>
         <SOURCES>
           <root url="file://$PROJECT_FRAMEWORKS$/projects/advancedgrids/src" />
           <root url="file://$PROJECT_FRAMEWORKS$/projects/air/ApplicationUpdater/src" />

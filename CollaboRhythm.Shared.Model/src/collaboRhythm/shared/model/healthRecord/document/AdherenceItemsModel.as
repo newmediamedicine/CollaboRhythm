@@ -21,6 +21,8 @@ package collaboRhythm.shared.model.healthRecord.document
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.document.xml.IAdherenceItemXmlMarshaller;
 
+	import com.adobe.utils.StringUtil;
+
 	import j2as3.collection.HashMap;
 
 	import mx.collections.ArrayCollection;
@@ -67,11 +69,18 @@ package collaboRhythm.shared.model.healthRecord.document
 
 		protected function addToAdherenceItemsCollectionsByCode(adherenceItem:AdherenceItem):void
 		{
-			var collection:ArrayCollection = _adherenceItemsCollectionsByCode[adherenceItem.name.value];
+			var code:String = adherenceItem.name.value;
+			if (!StringUtil.stringHasValue(code))
+			{
+				// fall back to using the text as the code if there is no value attribute
+				code = adherenceItem.name.text;
+			}
+
+			var collection:ArrayCollection = _adherenceItemsCollectionsByCode[code];
 			if (collection == null)
 			{
 				collection = new ArrayCollection();
-				_adherenceItemsCollectionsByCode.put(adherenceItem.name.value, collection);
+				_adherenceItemsCollectionsByCode.put(code, collection);
 			}
 			collection.addItem(adherenceItem);
 		}

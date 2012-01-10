@@ -1,0 +1,941 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:pianochord="pianoChord.*"
+					   applicationComplete="initApp()" width="842" height="680">
+	<fx:Declarations>
+		<mx:RadioButtonGroup id="apiTypeRadioGroup"/>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<mx:Form left="0" top="0" width="100%" height="100%" paddingLeft="5" paddingRight="5" paddingTop="5"
+			 paddingBottom="5">
+		<mx:FormItem label="Host" width="100%">
+			<s:HGroup width="100%">
+				<s:TextInput id="baseUrl" width="100%"/>
+				<s:ToggleButton id="baseUrlLock" width="30" label="L"/>
+			</s:HGroup>
+		</mx:FormItem>
+		<mx:FormItem label="Consumer" width="100%">
+			<s:HGroup width="100%">
+				<s:TextInput id="consumerKey" width="100%"/>
+				<s:ToggleButton id="consumerKeyLock" width="30" label="L"/>
+			</s:HGroup>
+		</mx:FormItem>
+		<mx:FormItem label="Consumer Secret" width="100%">
+			<s:HGroup width="100%">
+				<s:TextInput id="consumerSecret" width="100%"/>
+				<s:ToggleButton id="consumerSecretLock" width="30" label="L"/>
+			</s:HGroup>
+		</mx:FormItem>
+		<mx:FormItem label="Username" width="100%">
+			<s:HGroup width="100%">
+				<s:TextInput id="username" width="100%"/>
+				<s:ToggleButton id="usernameLock" width="30" label="L"/>
+			</s:HGroup>
+		</mx:FormItem>
+		<mx:FormItem label="Password" width="100%">
+			<s:HGroup width="100%">
+				<s:TextInput id="password" width="100%" displayAsPassword="{displayAsPasswordCheckBox.selected}"/>
+				<s:CheckBox id="displayAsPasswordCheckBox" label="Hide Password" selected="false"/>
+				<s:ToggleButton id="passwordLock" width="30" label="L"/>
+			</s:HGroup>
+		</mx:FormItem>
+		<mx:FormItem>
+			<s:Button label="Login" click="loginButton_clickHandler(event)" id="loginButton"/>
+		</mx:FormItem>
+		<mx:FormItem label="API Type">
+			<s:HGroup width="100%">
+				<mx:RadioButton id="phaRadioButton" label="PHA" groupName="apiTypeRadioGroup" value="pha"
+								selected="true"/>
+				<mx:RadioButton id="adminRadioButton" label="Admin" groupName="apiTypeRadioGroup" value="admin"/>
+				<s:ToggleButton id="apiTypeLock" width="30" label="L"/>
+			</s:HGroup>
+		</mx:FormItem>
+		<mx:FormItem label="Access Token Key" width="100%">
+			<s:HGroup width="100%">
+				<s:TextInput id="accessTokenKey" width="100%"/>
+				<s:ToggleButton id="accessTokenKeyLock" width="30" label="L"/>
+			</s:HGroup>
+		</mx:FormItem>
+		<mx:FormItem label="Access Token Secret" width="100%">
+			<s:HGroup width="100%">
+				<s:TextInput id="accessTokenSecret" width="100%"/>
+				<s:ToggleButton id="accessTokenSecretLock" width="30" label="L"/>
+			</s:HGroup>
+		</mx:FormItem>
+		<mx:FormItem label="Command" width="100%">
+			<s:HGroup width="100%">
+				<s:TextInput id="command" width="100%" change="command_changeHandler(event)"/>
+				<s:ToggleButton id="commandLock" width="30" label="L"/>
+			</s:HGroup>
+		</mx:FormItem>
+		<mx:FormItem id="commandParametersFormItem" label="Command Parameters" width="100%">
+			<s:HGroup width="100%">
+				<s:Group id="commandParametersGroup" width="100%" height="{commandParametersGroup.contentHeight}">
+					<s:layout>
+						<pianochord:FlowLayout1/>
+					</s:layout>
+				</s:Group>
+				<s:ToggleButton id="commandParametersLock" width="30" label="L"/>
+			</s:HGroup>
+		</mx:FormItem>
+		<mx:VDividedBox width="100%" height="100%">
+			<mx:FormItem label="Data" width="100%" height="100%">
+				<s:HGroup width="100%" height="100%">
+					<s:TextArea id="data" width="100%" height="100%"/>
+					<s:ToggleButton id="dataLock" width="30" label="L"/>
+				</s:HGroup>
+				<s:Button label="Submit via Indivo Client" click="submitIndivoClient_clickHandler(event)"
+						  id="submitIndivoClient"/>
+			</mx:FormItem>
+			<mx:FormItem label="Response" width="100%" height="100%">
+				<s:TextArea width="100%" height="100%" id="response" editable="false"/>
+			</mx:FormItem>
+			<mx:Form width="100%" height="100%" paddingLeft="0" paddingRight="0" paddingTop="0" paddingBottom="0">
+				<mx:FormItem label="Response Summary" width="100%">
+					<s:TextInput id="responseSummary" width="100%" editable="false"/>
+				</mx:FormItem>
+				<s:HGroup>
+					<mx:FormItem>
+						<s:CheckBox label="Exclude Errors" id="excludeErrors" selected="true"
+									click="excludeErrors_clickHandler(event)"/>
+					</mx:FormItem>
+					<mx:FormItem>
+						<s:CheckBox label="Select Result row after Submit" id="selectResult" selected="false"
+									click="selectResult_clickHandler(event)"/>
+					</mx:FormItem>
+				</s:HGroup>
+				<mx:FormItem label="History" paddingBottom="0" paddingRight="0" width="100%" height="100%">
+					<mx:DataGrid id="historyDataGrid" height="100%" width="100%"
+								 dataProvider="{_historyXml.historyItem}" change="historyDataGrid_changeHandler(event)"
+								 keyUp="historyDataGrid_keyUpHandler(event)">
+						<mx:columns>
+							<mx:DataGridColumn headerText="Date Performed" dataField="datePerformed"/>
+							<mx:DataGridColumn headerText="Host" dataField="baseUrl"/>
+							<mx:DataGridColumn headerText="Username" dataField="username" width="50"/>
+							<mx:DataGridColumn headerText="Type" dataField="apiType" width="40"/>
+							<mx:DataGridColumn headerText="Consumer Key" dataField="consumerKey" width="50"/>
+							<mx:DataGridColumn headerText="Consumer Secret" dataField="consumerSecret" width="50"/>
+							<mx:DataGridColumn headerText="Access Key" dataField="accessTokenKey" width="50"/>
+							<mx:DataGridColumn headerText="Access Secret" dataField="accessTokenSecret" width="50"/>
+							<mx:DataGridColumn headerText="Command" dataField="command"/>
+							<mx:DataGridColumn headerText="Command As Executed" dataField="commandAsExecuted"
+											   visible="false"/>
+							<mx:DataGridColumn headerText="Data" dataField="data"
+											   itemRenderer="pianoChord.MultiLineFlattener"/>
+							<mx:DataGridColumn headerText="Response" dataField="response"
+											   itemRenderer="pianoChord.MultiLineFlattener"/>
+						</mx:columns>
+					</mx:DataGrid>
+				</mx:FormItem>
+			</mx:Form>
+		</mx:VDividedBox>
+	</mx:Form>
+
+	<fx:Script>
+		<![CDATA[
+		import com.daveoncode.logging.LogFileTarget;
+
+		import flash.filesystem.*;
+		import flash.net.URLRequestMethod;
+
+		import j2as3.collection.HashMap;
+
+		import mx.collections.ArrayCollection;
+		import mx.collections.XMLListCollection;
+		import mx.events.ListEvent;
+		import mx.logging.ILogger;
+		import mx.logging.Log;
+		import mx.logging.LogEventLevel;
+		import mx.managers.HistoryManager;
+		import mx.utils.UIDUtil;
+		import mx.utils.URLUtil;
+
+		import org.indivo.client.*;
+		import org.indivo.oauth.AuthUtils;
+		import org.iotashan.utils.URLEncoding;
+
+		import spark.components.supportClasses.SkinnableTextBase;
+		import spark.events.TextOperationEvent;
+
+		public var prefsFile:File; // The preferences prefsFile
+		[Bindable]
+		public var prefsXml:XML; // The XML data
+		[Bindable]
+		private var _historyXml:XML;
+		public var stream:FileStream; // The FileStream object used to read and write prefsFile data.
+
+		private var appInfo:Object;
+		protected var logger:ILogger;
+
+		private function initApp():void
+		{
+			trace("initApp");
+			initPreferences();
+			initLogging();
+			this.addEventListener(KeyboardEvent.KEY_UP, doKeyUp);
+		}
+
+		protected function initLogging():void
+		{
+			// The log file will be placed under applicationStorageDirectory folder
+			var path:String = File.applicationStorageDirectory.resolvePath("PianoChord.log").nativePath;
+
+			var targetFile:File = new File(path);
+
+			// get LogFileTarget's instance (LogFileTarget is a singleton)
+			var logTarget:LogFileTarget = LogFileTarget.getInstance();
+
+			logTarget.file = targetFile;
+
+			// optional (default to "MM/DD/YY")
+			//			target.dateFormat = "DD/MM/YY";
+
+			// optional  (default to 1024)
+			//			target.sizeLimit = 2048;
+
+			// Trace all (default Flex's framework features)
+			//			target.filters = ["*"];
+			//			target.level = LogEventLevel.ALL;
+
+			/* Log only messages for the classes in the collaboRhythm.workstation.* packages. */
+			//			logTarget.filters=["collaboRhythm.workstation.*"];
+
+			/* Log all log levels. */
+			logTarget.level = LogEventLevel.ALL;
+
+			/* Add date, time, category, and log level to the output. */
+			//			logTarget.includeDate = true;
+			//			logTarget.includeTime = true;
+			//			logTarget.includeCategory = true;
+			//			logTarget.includeLevel = true;
+
+			/* Begin logging. */
+			Log.addTarget(logTarget);
+
+			logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+		}
+
+		private function doKeyUp(event:KeyboardEvent):void
+		{
+			if (event.keyCode == Keyboard.S && event.altKey && !event.shiftKey && !event.controlKey)
+				doSubmitIndivoClient();
+		}
+
+		/**
+		 * Called when the application is rendered. The method points the prefsFile File object
+		 * to the "preferences.xml prefsFile in the Apollo application store directory, which is uniquely
+		 * defined for the application. It then calls the readXML() method, which reads the XML data.
+		 */
+		public function initPreferences():void
+		{
+			stage.nativeWindow.addEventListener(Event.CLOSING, windowClosingHandler);
+			prefsFile = File.applicationStorageDirectory;
+			prefsFile = prefsFile.resolvePath("preferences.xml");
+			readXML();
+		}
+
+		/**
+		 * Called when the application is first rendered, and when the user clicks the Save button.
+		 * If the preferences file *does* exist (the application has been run previously), the method
+		 * sets up a FileStream object and reads the XML data, and once the data is read it is processed.
+		 * If the file does not exist, the method calls the saveData() method which creates the file.
+		 */
+		private function readXML():void
+		{
+			stream = new FileStream();
+			if (prefsFile.exists)
+			{
+				stream.open(prefsFile, FileMode.READ);
+				processXMLData();
+			}
+			else
+			{
+				saveData();
+			}
+			stage.nativeWindow.visible = true;
+		}
+
+		/**
+		 * Called when the window is closing (and the closing event is dispatched.
+		 */
+		private function windowClosingHandler(event:Event):void
+		{
+			saveData();
+		}
+
+		/**
+		 * Called when the user clicks the Save button or when the window
+		 * is closing.
+		 */
+		private function saveData():void
+		{
+			createXMLData();
+			writeXMLData();
+		}
+
+		/**
+		 * Called after the data from the prefs file has been read. The readUTFBytes() reads
+		 * the data as UTF-8 text, and the XML() function converts the text to XML. The x, y,
+		 * width, and height properties of the main window are then updated based on the XML data.
+		 */
+		private function processXMLData():void
+		{
+			prefsXml = XML(stream.readUTFBytes(stream.bytesAvailable));
+			stream.close();
+			stage.nativeWindow.x = prefsXml.windowState.@x;
+			stage.nativeWindow.y = prefsXml.windowState.@y;
+			stage.nativeWindow.width = prefsXml.windowState.@width;
+			stage.nativeWindow.height = prefsXml.windowState.@height;
+
+			updateComponentsFromHistoryItemXml(prefsXml);
+
+			if (prefsXml.excludeErrors.length() == 1)
+				excludeErrors.selected = prefsXml.excludeErrors[0].@value == "true";
+
+			if (prefsXml.history.length() == 0)
+			{
+				_historyXml = <history/>;
+			}
+			else
+				_historyXml = prefsXml.history[0];
+
+			filterHistory(excludeErrors.selected);
+
+			updateToggleButtonFromXml(baseUrlLock, prefsXml);
+			updateToggleButtonFromXml(consumerKeyLock, prefsXml);
+			updateToggleButtonFromXml(consumerSecretLock, prefsXml);
+			updateToggleButtonFromXml(usernameLock, prefsXml);
+			updateToggleButtonFromXml(passwordLock, prefsXml);
+			updateToggleButtonFromXml(accessTokenKeyLock, prefsXml);
+			updateToggleButtonFromXml(accessTokenSecretLock, prefsXml);
+			updateToggleButtonFromXml(commandLock, prefsXml);
+			updateToggleButtonFromXml(commandParametersLock, prefsXml);
+			updateToggleButtonFromXml(dataLock, prefsXml);
+
+			if (prefsXml.historySelectedIndex.length() > 0)
+			{
+				historyDataGrid.selectedIndex = new Number(prefsXml.historySelectedIndex[0].toString());
+				if (historyDataGrid.selectedIndex != -1)
+				{
+					historyDataGrid.validateNow();
+					historyDataGrid.scrollToIndex(historyDataGrid.selectedIndex);
+				}
+			}
+		}
+
+		private function updateComponentsFromHistoryItemXml(parentXml:XML):void
+		{
+//				baseUrl.text = historyItem.baseUrl;
+//				apiTypeRadioGroup.selectedValue = historyItem.apiType;
+//				consumerKey.text = historyItem.consumerKey;
+//				consumerSecret.text = historyItem.consumerSecret;
+//				if (!accessTokenKeyLock.selected)
+//					accessTokenKey.text = historyItem.accessTokenKey;
+//				if (!accessTokenSecretLock.selected)
+//					accessTokenSecret.text = historyItem.accessTokenSecret;
+//				command.text = historyItem.command;
+//				updateCommandParametersComponentsFromXml(commandParametersGroup, "commandParameters", historyItem);
+//				data.text = historyItem.data;
+//				response.text = historyItem.response;
+//				updateResponseSummary();
+
+			if (!apiTypeLock.selected)
+				apiTypeRadioGroup.selectedValue = parentXml.apiType.toString();
+
+			if (!baseUrlLock.selected)
+				updateTextComponentFromXml(baseUrl, parentXml);
+			if (!consumerKeyLock.selected)
+				updateTextComponentFromXml(consumerKey, parentXml);
+			if (!consumerSecretLock.selected)
+				updateTextComponentFromXml(consumerSecret, parentXml);
+			if (!usernameLock.selected)
+				updateTextComponentFromXml(username, parentXml);
+			if (!passwordLock.selected)
+				updateTextComponentFromXml(password, parentXml);
+			if (!accessTokenKeyLock.selected)
+				updateTextComponentFromXml(accessTokenKey, parentXml);
+			if (!accessTokenSecretLock.selected)
+				updateTextComponentFromXml(accessTokenSecret, parentXml);
+			if (!commandLock.selected)
+				updateTextComponentFromXml(command, parentXml);
+			if (!commandParametersLock.selected)
+				updateCommandParametersComponentsFromXml(commandParametersGroup, "commandParameters", parentXml);
+			if (!dataLock.selected)
+				updateTextComponentFromXml(data, parentXml);
+			updateTextComponentFromXml(response, parentXml);
+			updateResponseSummary();
+		}
+
+		/**
+		 * Creates the XML object with data based on the window state
+		 * and the current time.
+		 */
+		private function createXMLData():void
+		{
+			prefsXml = <preferences/>;
+			prefsXml.windowState.@width = stage.nativeWindow.width;
+			prefsXml.windowState.@height = stage.nativeWindow.height;
+			prefsXml.windowState.@x = stage.nativeWindow.x;
+			prefsXml.windowState.@y = stage.nativeWindow.y;
+
+			updateHistoryItemXmlFromComponents(prefsXml);
+
+			prefsXml.excludeErrors.@value = excludeErrors.selected;
+
+			prefsXml.appendChild(_historyXml);
+
+			prefsXml.historySelectedIndex = historyDataGrid.selectedIndex;
+
+			prefsXml.baseUrlLock.@value = baseUrlLock.selected;
+			prefsXml.consumerKeyLock.@value = consumerKeyLock.selected;
+			prefsXml.consumerSecretLock.@value = consumerSecretLock.selected;
+			prefsXml.usernameLock.@value = usernameLock.selected;
+			prefsXml.passwordLock.@value = passwordLock.selected;
+			prefsXml.apiTypeLock.@value = apiTypeLock.selected;
+			prefsXml.accessTokenKeyLock.@value = accessTokenKeyLock.selected;
+			prefsXml.accessTokenSecretLock.@value = accessTokenSecretLock.selected;
+			prefsXml.commandLock.@value = commandLock.selected;
+			prefsXml.commandParametersLock.@value = commandParametersLock.selected;
+			prefsXml.dataLock.@value = dataLock.selected;
+
+			prefsXml.saveDate = new Date().toString();
+		}
+
+		private function updateHistoryItemXmlFromComponents(parentXml:XML):void
+		{
+			//					<historyItem>
+			//						<id>{UIDUtil.createUID()}</id>
+			//						<datePerformed>{new Date().toString()}</datePerformed>
+			//						<baseUrl>{baseUrl.text}</baseUrl>
+			//						<apiType>{apiTypeRadioGroup.selectedValue}</apiType>
+			//						<consumerKey>{consumerKey.text}</consumerKey>
+			//						<consumerSecret>{consumerSecret.text}</consumerSecret>
+			//						<accessTokenKey>{accessTokenKey.text}</accessTokenKey>
+			//						<accessTokenSecret>{accessTokenSecret.text}</accessTokenSecret>
+			//						<command>{command.text}</command>
+			//						<data>{data.text}</data>
+			//						<response>{response.text}</response>
+			//					</historyItem>;
+
+//				parentXml.apiType.@value = apiTypeRadioGroup.selectedValue;
+			updateXmlFromText("apiType", apiTypeRadioGroup.selectedValue.toString(), parentXml);
+
+			updateXmlFromTextComponent(baseUrl, parentXml);
+			updateXmlFromTextComponent(consumerKey, parentXml);
+			updateXmlFromTextComponent(consumerSecret, parentXml);
+			updateXmlFromTextComponent(username, parentXml);
+			updateXmlFromTextComponent(password, parentXml);
+			updateXmlFromTextComponent(accessTokenKey, parentXml);
+			updateXmlFromTextComponent(accessTokenSecret, parentXml);
+			updateXmlFromTextComponent(command, parentXml);
+			updateXmlFromText("commandAsExecuted", substituteCommandParams(command.text), parentXml);
+			updateXmlFromHashMap("commandParameters", getHashMapOfParams(commandParametersGroup), parentXml);
+			updateXmlFromTextComponent(data, parentXml);
+			updateXmlFromTextComponent(response, parentXml);
+		}
+
+		private function updateTextComponentFromXml(textInput:SkinnableTextBase, parentXml:XML):void
+		{
+			var validValueFound:Boolean = false;
+
+			if (parentXml[textInput.id].length() > 0)
+			{
+				var textInputXml:XML = parentXml[textInput.id][0];
+				if (textInputXml.hasSimpleContent())
+				{
+					textInput.text = textInputXml.toString();
+					validValueFound = true;
+				}
+			}
+
+			if (!validValueFound)
+				textInput.text = null;
+		}
+
+		private function updateToggleButtonFromXml(toggleButton:ToggleButton, parentXml:XML):void
+		{
+			var validValueFound:Boolean = false;
+
+			if (parentXml[toggleButton.id].length() > 0)
+			{
+				var toggleButtonXml:XML = parentXml[toggleButton.id][0];
+				if (toggleButtonXml.hasSimpleContent())
+				{
+					toggleButton.selected = toggleButtonXml.@value == "true";
+					validValueFound = true;
+				}
+			}
+
+			if (!validValueFound)
+				toggleButton.selected = false;
+		}
+
+		private function updateCommandParametersComponentsFromXml(group:Group, tagName:String, parentXml:XML):void
+		{
+//				var paramsOld:HashMap = getHashMapOfParams(commandParametersGroup);
+			var params:HashMap = getUpdatedParamsFromCommand(command.text);
+
+			if (parentXml[tagName].length() == 1)
+			{
+				var groupXml:XML = parentXml[tagName][0];
+
+				for each (var paramXml:XML in groupXml.parameter)
+				{
+					if (paramXml.hasSimpleContent())
+					{
+						var paramXmlName:String = paramXml.@name;
+
+						if (params.keys.contains(paramXmlName))
+						{
+							params.put(paramXmlName, paramXml.toString());
+						}
+					}
+				}
+			}
+
+			createParamComponentsFromHashMap(commandParametersGroup, params);
+		}
+
+		private function updateXmlFromTextComponent(textInput:SkinnableTextBase, parentXml:XML):void
+		{
+			parentXml.appendChild(
+					<{textInput.id}>{textInput.text}</{textInput.id}>
+			);
+		}
+
+		private function updateXmlFromText(tagName:String, text:String, parentXml:XML):void
+		{
+			parentXml.appendChild(
+					<{tagName}>{text}</{tagName}>
+			);
+
+		}
+
+		private function updateXmlFromHashMap(tagName:String, hashMap:HashMap, parentXml:XML):void
+		{
+			var newChild:XML = <{tagName}></{tagName}>;
+
+			for each (var key:String in hashMap.keys)
+			{
+				newChild.appendChild(
+						<parameter name={key}>{hashMap.getItem(key)}</parameter>
+				);
+			}
+
+			parentXml.appendChild(newChild);
+		}
+
+		/**
+		 * Called when the NativeWindow closing event is dispatched. The method
+		 * converts the XML data to a string, adds the XML declaration to the beginning
+		 * of the string, and replaces line ending characters with the platform-
+		 * specific line ending character. Then sets up and uses the stream object to
+		 * write the data.
+		 */
+		private function writeXMLData():void
+		{
+			var outputString:String = '<?xml version="1.0" encoding="utf-8"?>\n';
+			outputString += prefsXml.toXMLString();
+			//outputString = outputString.replace(/\n/g, File.lineEnding);
+			stream = new FileStream();
+			stream.open(prefsFile, FileMode.WRITE);
+			stream.writeUTFBytes(outputString);
+			stream.close();
+		}
+
+		private function validateForm():void
+		{
+			//var requestString:String = "<Request><Type>Retrieve</Type><ID>1</ID><uri>" + command.textInput.text + "</uri><Data>" + data.text + "</Data></Request>";
+			var requestString:String = "<Request><Type>Retrieve</Type><ID>1</ID><uri>" + command.text +
+					"</uri></Request>";
+
+			var request:URLRequest = new URLRequest("http://localhost:8080");
+			request.data = requestString;
+			request.contentType = "text/xml";
+			request.method = URLRequestMethod.POST;
+
+			var loader:URLLoader = new URLLoader();
+			loader.addEventListener(Event.COMPLETE, onComplete);
+			loader.addEventListener(IOErrorEvent.IO_ERROR, onIOError, false, 0, true);
+			loader.load(request);
+		}
+
+		private function onComplete(event:Event):void
+		{
+			try
+			{
+				response.text = event.target.data;
+				removeEventListener(Event.COMPLETE, onComplete);
+				removeEventListener(IOErrorEvent.IO_ERROR, onIOError);
+			}
+			catch (err:TypeError)
+			{
+				trace("An error occurred when communicating with server:\n" + err.message);
+			}
+
+		}
+
+		private function onIOError(event:IOErrorEvent):void
+		{
+			trace("An error occurred when attempting to load the XML.\n" + event.text);
+			throw event;
+		}
+
+		protected function submitIndivoClient_clickHandler(event:MouseEvent):void
+		{
+			doSubmitIndivoClient();
+		}
+
+		private function doSubmitIndivoClient():void
+		{
+			saveData();
+
+			response.text = null;
+			responseSummary.text = null;
+
+			var method:String;
+			var relativePath:String;
+
+			data.text = StringHelper.trim(data.text);
+
+			if (command.text.indexOf(" ") > 0)
+			{
+				// Example: GET /accounts/search?fullname=joe
+				var commandParts:Array = command.text.split(" ");
+				method = commandParts[0];
+				relativePath = commandParts[1];
+			}
+			else
+			{
+				// method not specified, use implicit method
+				if (data.text.length == 0)
+					method = URLRequestMethod.GET;
+				else
+					method = URLRequestMethod.PUT;
+				relativePath = command.text;
+
+				// update the command to reflect the implicit method that was used
+				command.text = method + " " + relativePath;
+			}
+
+			relativePath = substituteCommandParams(relativePath);
+
+			if (apiTypeRadioGroup.selection == phaRadioButton)
+			{
+				var pha:Pha = new Pha(consumerKey.text, consumerSecret.text, baseUrl.text);
+				pha.addEventListener(IndivoClientEvent.COMPLETE, indivoClientEventHandler);
+				pha.addEventListener(IndivoClientEvent.ERROR, indivoClientEventHandler);
+
+//					if (data.text.charAt(0) == '<')
+				pha.phaRequest(null, null, null, method, relativePath, accessTokenKey.text, accessTokenSecret.text,
+						data.text);
+//					else
+//						pha.phaRequest(null, null, null, method, relativePath, accessTokenKey.text, accessTokenSecret.text, null, data.text);
+			}
+			else
+			{
+				var admin:Admin = new Admin(consumerKey.text, consumerSecret.text, baseUrl.text);
+				admin.addEventListener(IndivoClientEvent.COMPLETE, indivoClientEventHandler);
+				admin.addEventListener(IndivoClientEvent.ERROR, indivoClientEventHandler);
+
+				admin.adminRequest(relativePath, data.text, null, method);
+			}
+		}
+
+		private function substituteCommandParams(commandText:String):String
+		{
+			var params:HashMap = getHashMapOfParams(commandParametersGroup);
+			var result:String = new String(commandText);
+
+			for each (var key:String in params.keys)
+			{
+				var regExp:RegExp = new RegExp("\{" + key + "\}");
+				result = result.replace(regExp, params.getItem(key));
+			}
+
+			return result;
+		}
+
+		private function indivoClientEventHandler(event:IndivoClientEvent):void
+		{
+			parseResponse(event);
+		}
+
+		private function parseResponse(event:IndivoClientEvent, shouldAddHistoryItem:Boolean = true):String
+		{
+			var responseXml:XML = event.response;
+			response.text = responseXml.toXMLString();
+			logger.info(responseXml.toXMLString());
+			removeEventListener(IndivoClientEvent.COMPLETE, indivoClientEventHandler);
+			removeEventListener(IndivoClientEvent.ERROR, indivoClientEventHandler);
+
+			//responseSummary.text = responseXml.name() + " (" + responseXml.children().length() + ") , " + responseXml.toXMLString().length + " characters";
+			updateResponseSummary();
+
+			if (shouldAddHistoryItem)
+				addHistoryItem();
+
+			return responseXml.toXMLString();
+		}
+
+		private function loginIndivoClientEventHandler(event:IndivoClientEvent):void
+		{
+			var responseText:String = parseResponse(event, false);
+			var responseXml:XML = event.response;
+			responseText = responseXml.toString();
+
+			appInfo = URLUtil.stringToObject(responseText, "&");
+
+			accessTokenKey.text = appInfo["oauth_token"];
+			accessTokenSecret.text = appInfo["oauth_token_secret"];
+
+			accessTokenKeyLock.selected = true;
+			accessTokenSecretLock.selected = true;
+		}
+
+		private function updateResponseSummary():void
+		{
+			var responseXml:XML = new XML(response.text);
+			responseSummary.text = responseXml.name() + " (" + responseXml.children().length() + ") , " +
+					responseXml.toXMLString().length + " characters";
+		}
+
+		private function addHistoryItem():void
+		{
+			var params:HashMap = getHashMapOfParams(commandParametersGroup);
+
+			var historyItemXml:XML =
+					<historyItem>
+						<id>{UIDUtil.createUID()}</id>
+						<datePerformed>{new Date().toString()}</datePerformed>
+					</historyItem>;
+
+//					<historyItem>
+//						<id>{UIDUtil.createUID()}</id>
+//						<datePerformed>{new Date().toString()}</datePerformed>
+//						<baseUrl>{baseUrl.text}</baseUrl>
+//						<apiType>{apiTypeRadioGroup.selectedValue}</apiType>
+//						<consumerKey>{consumerKey.text}</consumerKey>
+//						<consumerSecret>{consumerSecret.text}</consumerSecret>
+//						<accessTokenKey>{accessTokenKey.text}</accessTokenKey>
+//						<accessTokenSecret>{accessTokenSecret.text}</accessTokenSecret>
+//						<command>{command.text}</command>
+//						<data>{data.text}</data>
+//						<response>{response.text}</response>
+//					</historyItem>;
+
+			var previousScrollPosition:Number = historyDataGrid.verticalScrollPosition;
+			var previousSelectionIndex:int = historyDataGrid.selectedIndex;
+			var newSelectionIndex:int = -1;
+
+			updateHistoryItemXmlFromComponents(historyItemXml);
+
+			_historyXml.appendChild(historyItemXml);
+
+			// TODO: eliminate
+			// for some reason we need to re-apply the filter
+			filterHistory(excludeErrors.selected);
+
+			if (selectResult.selected)
+			{
+				var xmlListCollection:XMLListCollection = historyDataGrid.dataProvider as XMLListCollection;
+				if (xmlListCollection != null)
+				{
+					newSelectionIndex = xmlListCollection.length - 1;
+				}
+				else
+					throw new Error("Unable to select the row that was added to the grid");
+			}
+			else
+			{
+				if (previousSelectionIndex != -1)
+					newSelectionIndex = previousSelectionIndex;
+			}
+
+			if (newSelectionIndex != -1)
+			{
+				historyDataGrid.verticalScrollPosition = previousScrollPosition;
+				historyDataGrid.scrollToIndex(newSelectionIndex);
+				historyDataGrid.validateNow();
+				historyDataGrid.selectedIndex = newSelectionIndex;
+			}
+		}
+
+		protected function excludeErrors_clickHandler(event:MouseEvent):void
+		{
+			filterHistory(excludeErrors.selected);
+		}
+
+		private function filterHistory(excludeErrors:Boolean):void
+		{
+			if (excludeErrors)
+				historyDataGrid.dataProvider = _historyXml.historyItem.(response.indexOf("<Error>") != 0);
+			else
+				historyDataGrid.dataProvider = _historyXml.historyItem;
+		}
+
+		protected function historyDataGrid_changeHandler(event:ListEvent):void
+		{
+			populateControlsFromHistoryItem(historyDataGrid.selectedItem as XML);
+		}
+
+		private function populateControlsFromHistoryItem(historyItem:XML):void
+		{
+			updateComponentsFromHistoryItemXml(historyItem);
+		}
+
+		protected function historyDataGrid_keyUpHandler(event:KeyboardEvent):void
+		{
+			if (event.keyCode == Keyboard.DELETE)
+			{
+				if (!event.altKey && !event.shiftKey && !event.controlKey)
+				{
+					var selectedItemIndex:int = historyDataGrid.selectedIndex;
+					var selectedHistoryItemXml:XML = historyDataGrid.selectedItem as XML;
+					var uid:String;
+
+					// give the item an id if it doesn't have one so we can select it and delete it
+					if (selectedHistoryItemXml.id.length() == 0)
+					{
+						selectedHistoryItemXml.appendChild(<id>{UIDUtil.createUID()}</id>);
+					}
+
+					uid = selectedHistoryItemXml.id[0].toString();
+					delete _historyXml.historyItem.(id == uid)[0];
+
+					// TODO: eliminate
+					// for some reason we need to re-apply the filter
+					filterHistory(excludeErrors.selected);
+
+					historyDataGrid.validateNow();
+					historyDataGrid.selectedIndex = selectedItemIndex;
+					historyDataGrid.scrollToIndex(historyDataGrid.selectedIndex);
+
+					if (historyDataGrid.selectedIndex != -1 && historyDataGrid.selectedItem != null)
+						populateControlsFromHistoryItem(historyDataGrid.selectedItem as XML);
+				}
+			}
+		}
+
+		protected function loginButton_clickHandler(event:MouseEvent):void
+		{
+			saveData();
+
+			response.text = null;
+			responseSummary.text = null;
+
+			var admin:Admin = new Admin(consumerKey.text, consumerSecret.text, baseUrl.text);
+			admin.addEventListener(IndivoClientEvent.COMPLETE, loginIndivoClientEventHandler);
+			admin.addEventListener(IndivoClientEvent.ERROR, loginIndivoClientEventHandler);
+
+			admin.create_session(username.text, password.text, null);
+		}
+
+
+		protected function command_changeHandler(event:TextOperationEvent):void
+		{
+			updateCommandParametersComponents();
+		}
+
+		private function updateCommandParametersComponents():void
+		{
+			var paramsOld:HashMap = getHashMapOfParams(commandParametersGroup);
+			var params:HashMap = getUpdatedParamsFromCommand(command.text, paramsOld);
+
+			createParamComponentsFromHashMap(commandParametersGroup, params);
+		}
+
+		private function getHashMapOfParams(group:Group):HashMap
+		{
+			var params:HashMap = new HashMap();
+
+			// cache values from the params
+			for (var i:int = 0; i < group.numElements; i++)
+			{
+				var item:FormItem = group.getElementAt(i) as FormItem;
+				if (item != null)
+				{
+					var key:String = item.label;
+
+					var textInput:TextInput = item.getElementAt(0) as TextInput;
+					if (textInput != null)
+					{
+						params.put(key, textInput.text);
+					}
+				}
+			}
+
+			return params;
+		}
+
+		private function getUpdatedParamsFromCommand(commandText:String, paramsOld:HashMap = null):HashMap
+		{
+			var params:HashMap = new HashMap();
+			var parameterRegExp:RegExp = /\{([_a-zA-z0-9]*?)\}/g;
+
+			do
+			{
+				var matches:Object = parameterRegExp.exec(commandText);
+				if (matches != null)
+				{
+					//						for (var i:String in matches)
+					//						{
+					//							trace(i + ": " + matches[i]);
+					//						}
+					var matchedString:String = matches[1];
+					if (!params.keys.contains(matchedString))
+					{
+						if (paramsOld != null && paramsOld.keys.contains(matchedString))
+							params.put(matchedString, paramsOld.getItem(matchedString));
+						else
+							params.put(matchedString, "");
+					}
+				}
+			} while (matches != null);
+
+			return params
+		}
+
+		private function createParamComponentsFromHashMap(group:Group, params:HashMap):void
+		{
+			group.removeAllElements();
+
+			for each (var key:String in params.keys)
+			{
+				var item:FormItem = new FormItem();
+				item.label = key;
+
+				var textInput:TextInput = new TextInput();
+				textInput.text = params[key];
+				textInput.widthInChars = 25;
+				item.addElement(textInput);
+
+				group.addElement(item);
+			}
+		}
+
+
+		protected function selectResult_clickHandler(event:MouseEvent):void
+		{
+			// TODO Auto-generated method stub
+		}
+		]]>
+	</fx:Script>
+</s:WindowedApplication>

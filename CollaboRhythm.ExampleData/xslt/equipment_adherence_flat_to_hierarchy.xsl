@@ -24,6 +24,7 @@
 	<xsl:template match="/">
 		<xsl:variable name="dateStart">2011-07-15T13:00:00Z</xsl:variable>
 		<xsl:variable name="equipmentName" select="IndivoDocuments/BloodPressureAdherenceItem[1]/name"/>
+		<xsl:variable name="equipmentScheduleItemInstructions" select="IndivoDocuments/BloodPressureAdherenceItem[1]/instructions"/>
 		<xsl:variable name="reportedBy" select="IndivoDocuments/BloodPressureAdherenceItem[1]/reportedBy"/>
 		<IndivoDocuments>
 			<LoadableIndivoDocument>
@@ -51,8 +52,7 @@
 										<frequency>DAILY</frequency>
 										<count>90</count>
 									</recurrenceRule>
-									<instructions>press the power button and wait several seconds to take reading
-									</instructions>
+									<xsl:copy-of select="$equipmentScheduleItemInstructions"/>
 								</EquipmentScheduleItem>
 							</document>
 							<relatesTo>

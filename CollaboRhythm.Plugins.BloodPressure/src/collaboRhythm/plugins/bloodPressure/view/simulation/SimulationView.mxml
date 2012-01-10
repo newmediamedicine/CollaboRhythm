@@ -261,8 +261,7 @@
 		private var _currentLevelComponent:UIComponent = hypertensionWholeBodyGroup;
 		private var _drillDownEventStack:Vector.<SimulationLevelEvent> = new Vector.<SimulationLevelEvent>();
 
-		private function drillDown(event:SimulationLevelEvent, componentToShow:UIComponent,
-								   componentToHide:UIComponent):void
+		private function drillDown(event:SimulationLevelEvent, componentToShow:UIComponent, componentToHide:UIComponent):void
 		{
 			stopLevelChangeEffects(componentToShow, componentToHide);
 
@@ -286,8 +285,7 @@
 			breadcrumbTrail.navigateDownToComponent(componentToShow);
 		}
 
-		private function backUp(event:SimulationLevelEvent, componentToShow:UIComponent,
-								componentToHide:UIComponent):void
+		private function backUp(event:SimulationLevelEvent, componentToShow:UIComponent, componentToHide:UIComponent):void
 		{
 			stopLevelChangeEffects(componentToShow, componentToHide);
 			var hideEffectTarget:UIComponent = createBitmapCopy(componentToHide);

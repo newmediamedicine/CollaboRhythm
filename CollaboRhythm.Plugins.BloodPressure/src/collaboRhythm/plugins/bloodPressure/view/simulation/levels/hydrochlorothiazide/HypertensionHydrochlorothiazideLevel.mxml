@@ -100,7 +100,7 @@
 				if (medicationModel)
 				{
 					medicationModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
-																		medicationModel_propertyChanged);
+							medicationModel_propertyChanged);
 					updateStepsListData();
 					medicationView.medicationScheduleItem = medicationModel.medicationScheduleItem;
 				}
@@ -120,7 +120,7 @@
 			super.simulationModel = value;
 			if (simulationModel)
 				simulationModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
-												 simulationModel_propertyChangeHandler);
+						simulationModel_propertyChangeHandler);
 			lookupMedications();
 		}
 
@@ -133,62 +133,62 @@
 					break;
 				case 0:
 					stepsListData = new ArrayCollection([
-															new StepListItem("Hydrochlorothiazide below goal", SimulationModel.SEVERITY_COLOR_HIGH),
-															new StepListItem("Salt channels in kidney open", SimulationModel.SEVERITY_COLOR_HIGH),
-															new StepListItem("Decreased urine salt concentration", SimulationModel.SEVERITY_COLOR_HIGH),
-															new StepListItem("Decreased urine volume", SimulationModel.SEVERITY_COLOR_HIGH),
-															new StepListItem("Increased venous blood volume", SimulationModel.SEVERITY_COLOR_HIGH),
-															new StepListItem("Increased work for heart", SimulationModel.SEVERITY_COLOR_HIGH),
-															new StepListItem("Increased blood pressure", SimulationModel.SEVERITY_COLOR_HIGH),
-														]);
+						new StepListItem("Hydrochlorothiazide below goal", SimulationModel.SEVERITY_COLOR_HIGH),
+						new StepListItem("Salt channels in kidney open", SimulationModel.SEVERITY_COLOR_HIGH),
+						new StepListItem("Decreased urine salt concentration", SimulationModel.SEVERITY_COLOR_HIGH),
+						new StepListItem("Decreased urine volume", SimulationModel.SEVERITY_COLOR_HIGH),
+						new StepListItem("Increased venous blood volume", SimulationModel.SEVERITY_COLOR_HIGH),
+						new StepListItem("Increased work for heart", SimulationModel.SEVERITY_COLOR_HIGH),
+						new StepListItem("Increased blood pressure", SimulationModel.SEVERITY_COLOR_HIGH),
+					]);
 					break;
 				case 1:
 					stepsListData = new ArrayCollection([
-															new StepListItem("Hydrochlorothiazide below goal", SimulationModel.SEVERITY_COLOR_MEDIUM),
-															new StepListItem("Salt channels in kidney open", SimulationModel.SEVERITY_COLOR_MEDIUM),
-															new StepListItem("Decreased urine salt concentration", SimulationModel.SEVERITY_COLOR_MEDIUM),
-															new StepListItem("Decreased urine volume", SimulationModel.SEVERITY_COLOR_MEDIUM),
-															new StepListItem("Increased venous blood volume", SimulationModel.SEVERITY_COLOR_MEDIUM),
-															new StepListItem("Increased work for heart", SimulationModel.SEVERITY_COLOR_MEDIUM),
-															new StepListItem("Increased blood pressure", SimulationModel.SEVERITY_COLOR_MEDIUM),
-														]);
+						new StepListItem("Hydrochlorothiazide below goal", SimulationModel.SEVERITY_COLOR_MEDIUM),
+						new StepListItem("Salt channels in kidney open", SimulationModel.SEVERITY_COLOR_MEDIUM),
+						new StepListItem("Decreased urine salt concentration", SimulationModel.SEVERITY_COLOR_MEDIUM),
+						new StepListItem("Decreased urine volume", SimulationModel.SEVERITY_COLOR_MEDIUM),
+						new StepListItem("Increased venous blood volume", SimulationModel.SEVERITY_COLOR_MEDIUM),
+						new StepListItem("Increased work for heart", SimulationModel.SEVERITY_COLOR_MEDIUM),
+						new StepListItem("Increased blood pressure", SimulationModel.SEVERITY_COLOR_MEDIUM),
+					]);
 					break;
 				case 2:
 					stepsListData = new ArrayCollection([
-															new StepListItem("Hydrochlorothiazide at goal", SimulationModel.SEVERITY_COLOR_GOAL),
-															new StepListItem("Salt channels in kidney blocked", SimulationModel.SEVERITY_COLOR_GOAL),
-															new StepListItem("Increased urine salt concentration", SimulationModel.SEVERITY_COLOR_GOAL),
-															new StepListItem("Increased urine volume", SimulationModel.SEVERITY_COLOR_GOAL),
-															new StepListItem("Decreased venous blood volume", SimulationModel.SEVERITY_COLOR_GOAL),
-															new StepListItem("Decreased work for heart", SimulationModel.SEVERITY_COLOR_GOAL),
-															new StepListItem("Decreased blood pressure", SimulationModel.SEVERITY_COLOR_GOAL),
-														]);
+						new StepListItem("Hydrochlorothiazide at goal", SimulationModel.SEVERITY_COLOR_GOAL),
+						new StepListItem("Salt channels in kidney blocked", SimulationModel.SEVERITY_COLOR_GOAL),
+						new StepListItem("Increased urine salt concentration", SimulationModel.SEVERITY_COLOR_GOAL),
+						new StepListItem("Increased urine volume", SimulationModel.SEVERITY_COLOR_GOAL),
+						new StepListItem("Decreased venous blood volume", SimulationModel.SEVERITY_COLOR_GOAL),
+						new StepListItem("Decreased work for heart", SimulationModel.SEVERITY_COLOR_GOAL),
+						new StepListItem("Decreased blood pressure", SimulationModel.SEVERITY_COLOR_GOAL),
+					]);
 					break;
 				case 3:
 					stepsListData = new ArrayCollection([
-															new StepListItem("Hydrochlorothiazide above goal", SimulationModel.SEVERITY_COLOR_GOAL),
-															new StepListItem("Salt channels in kidney blocked", SimulationModel.SEVERITY_COLOR_GOAL),
-															new StepListItem("Increased urine salt concentration", SimulationModel.SEVERITY_COLOR_GOAL),
-															new StepListItem("Increased urine volume", SimulationModel.SEVERITY_COLOR_GOAL),
-															new StepListItem("Decreased venous blood volume", SimulationModel.SEVERITY_COLOR_GOAL),
-															new StepListItem("Decreased work for heart", SimulationModel.SEVERITY_COLOR_GOAL),
-															new StepListItem("Decreased blood pressure", SimulationModel.SEVERITY_COLOR_GOAL),
-														]);
+						new StepListItem("Hydrochlorothiazide above goal", SimulationModel.SEVERITY_COLOR_GOAL),
+						new StepListItem("Salt channels in kidney blocked", SimulationModel.SEVERITY_COLOR_GOAL),
+						new StepListItem("Increased urine salt concentration", SimulationModel.SEVERITY_COLOR_GOAL),
+						new StepListItem("Increased urine volume", SimulationModel.SEVERITY_COLOR_GOAL),
+						new StepListItem("Decreased venous blood volume", SimulationModel.SEVERITY_COLOR_GOAL),
+						new StepListItem("Decreased work for heart", SimulationModel.SEVERITY_COLOR_GOAL),
+						new StepListItem("Decreased blood pressure", SimulationModel.SEVERITY_COLOR_GOAL),
+					]);
 					break;
 				case 4:
 					stepsListData = new ArrayCollection([
-															new StepListItem("Hydrochlorothiazide above goal", SimulationModel.SEVERITY_COLOR_GOAL),
-															new StepListItem("Salt channels in kidney blocked", SimulationModel.SEVERITY_COLOR_GOAL),
-															new StepListItem("Increased urine salt concentration", SimulationModel.SEVERITY_COLOR_GOAL),
-															new StepListItem("Increased urine volume", SimulationModel.SEVERITY_COLOR_GOAL),
-															new StepListItem("Decreased venous blood volume", SimulationModel.SEVERITY_COLOR_GOAL),
-															new StepListItem("Decreased work for heart", SimulationModel.SEVERITY_COLOR_GOAL),
-															new StepListItem("Decreased blood pressure", SimulationModel.SEVERITY_COLOR_GOAL),
-														]);
+						new StepListItem("Hydrochlorothiazide above goal", SimulationModel.SEVERITY_COLOR_GOAL),
+						new StepListItem("Salt channels in kidney blocked", SimulationModel.SEVERITY_COLOR_GOAL),
+						new StepListItem("Increased urine salt concentration", SimulationModel.SEVERITY_COLOR_GOAL),
+						new StepListItem("Increased urine volume", SimulationModel.SEVERITY_COLOR_GOAL),
+						new StepListItem("Decreased venous blood volume", SimulationModel.SEVERITY_COLOR_GOAL),
+						new StepListItem("Decreased work for heart", SimulationModel.SEVERITY_COLOR_GOAL),
+						new StepListItem("Decreased blood pressure", SimulationModel.SEVERITY_COLOR_GOAL),
+					]);
 					break;
 				default:
 					throw new Error("Unhandled concentrationSeverityLevel:",
-									medicationModel.concentrationSeverityLevel);
+							medicationModel.concentrationSeverityLevel);
 			}
 		}
 		]]></fx:Script>

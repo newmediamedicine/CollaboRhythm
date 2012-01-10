@@ -14,14 +14,19 @@ package collaboRhythm.shared.model.healthRecord.document
 		private var _vitalSignsByCategory:HashMap = new HashMap();
 
 		public static const SYSTOLIC_CATEGORY:String = "Blood Pressure Systolic";
-
 		public static const DIASTOLIC_CATEGORY:String = "Blood Pressure Diastolic";
+		public static const HEART_RATE_CATEGORY:String = "Heart Rate";
+		public static const BLOOD_GLUCOSE_CATEGORY:String = "Blood Glucose";
 
 		public function VitalSignsModel()
 		{
 			super(VitalSign.DOCUMENT_TYPE);
 		}
 
+		/**
+		 * Returns a HashMap for all VitalSigns where the key is the category (VitalSign.name.text) and the value
+		 * is the corresponding ArrayCollection of VitalSign documents that match that category.
+		 */
 		public function get vitalSignsByCategory():HashMap
 		{
 			return _vitalSignsByCategory;

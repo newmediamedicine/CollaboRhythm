@@ -21,12 +21,16 @@ package collaboRhythm.shared.model.services
 	import flash.events.EventDispatcher;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
+	import flash.utils.getQualifiedClassName;
 
 	import mx.events.PropertyChangeEvent;
+	import mx.logging.ILogger;
+	import mx.logging.Log;
 
 	[Bindable]
 	public class DemoCurrentDateSource extends EventDispatcher implements ICurrentDateSource
 	{
+		protected var _logger:ILogger;
 		private var _targetDate:Date;
 		private var _offset:Number;
 		private var _fastForwardRepeatDelay:Number = 1000 * 5;
@@ -68,6 +72,7 @@ package collaboRhythm.shared.model.services
 		
 		public function DemoCurrentDateSource()
 		{
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_fastForwardTimer.addEventListener(TimerEvent.TIMER, fastForwardTimer_timerHandler, false, 0, true);
 			if (fastForwardEnabled)
 			{
@@ -77,6 +82,8 @@ package collaboRhythm.shared.model.services
 
 		private function restartFastForwardTimer():void
 		{
+			_logger.info("Fast forward mode enabled. Time will jump forward " + fastForwardIncrement / 1000 +
+					" seconds every " + fastForwardRepeatDelay / 1000 + " seconds.");
 			_fastForwardTimer.delay = fastForwardRepeatDelay;
 			_fastForwardTimer.start();
 		}
@@ -146,6 +153,7 @@ package collaboRhythm.shared.model.services
 				}
 				else
 				{
+					_logger.info("Fast forward mode disabled.");
 					_fastForwardTimer.stop();
 				}
 			}

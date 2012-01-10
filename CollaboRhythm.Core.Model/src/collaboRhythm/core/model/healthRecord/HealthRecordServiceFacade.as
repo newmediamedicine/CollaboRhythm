@@ -202,7 +202,6 @@ package collaboRhythm.core.model.healthRecord
 			else
 			{
 				_logger.info("Loading documents in progress. " + _pendingServices.length + " service(s) pending: " + getServiceNamesFromCollection(_pendingServices));
-
 			}
 		}
 

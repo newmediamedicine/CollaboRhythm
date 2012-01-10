@@ -24,8 +24,7 @@
                         <frequency>DAILY</frequency>
                         <count>90</count>
                      </recurrenceRule>
-                     <instructions>press the power button and wait several seconds to take reading
-									</instructions>
+                     <instructions xmlns="">Use device to record blood glucose. Insert test strip into device and apply a drop of blood.</instructions>
                   </EquipmentScheduleItem>
                </document>
                <relatesTo>

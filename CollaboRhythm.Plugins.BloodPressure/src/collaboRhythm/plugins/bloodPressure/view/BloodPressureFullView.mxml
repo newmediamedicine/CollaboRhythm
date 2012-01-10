@@ -56,7 +56,7 @@
 			</s:Group>
 -->
 
-			<view:SynchronizedCharts id="chartsGroup" modality="{modality}" model="{model}"/>
+			<view:BloodPressureSynchronizedCharts id="chartsGroup" modality="{modality}" model="{model}"/>
 		</s:VGroup>
 		<s:VGroup id="simulationGroup" height="100%" gap="15" paddingLeft="0" paddingRight="0" paddingTop="5"
 				  clipAndEnableScrolling="true"

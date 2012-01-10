@@ -211,7 +211,6 @@
 			expandButton.iconDisplay.bottom = NaN;
 		}
 
-		[Bindable]
 		public function get bottomExpansion():Number
 		{
 			return stepsList.y + stepsList.height - buttonGroup.height;

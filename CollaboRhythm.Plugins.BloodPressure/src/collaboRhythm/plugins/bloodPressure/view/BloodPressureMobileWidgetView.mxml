@@ -69,13 +69,16 @@
 		{
 			if (_model != null && _model.isAdherenceLoaded)
 			{
-				var concentration:Number = 0;
-				if (_model.adherenceDataCollection != null && _model.adherenceDataCollection.length > 0)
-				{
-					var mostRecentConcentrationItem:Object = _model.adherenceDataCollection.getItemAt(_model.adherenceDataCollection.length - 1);
-					concentration = mostRecentConcentrationItem["concentration"];
-				}
-				hydrochlorothiazideSimulationView.concentration = concentration;
+				// TODO: update this to use the currentSimulation
+				/*
+				 var concentration:Number = 0;
+				 if (_model.adherenceDataCollection != null && _model.adherenceDataCollection.length > 0)
+				 {
+				 var mostRecentConcentrationItem:Object = _model.adherenceDataCollection.getItemAt(_model.adherenceDataCollection.length - 1);
+				 concentration = mostRecentConcentrationItem["concentration"];
+				 }
+				 hydrochlorothiazideSimulationView.concentration = concentration;
+				 */
 			}
 		}
 		]]>

@@ -19,6 +19,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.derived.MedicationConcentrationSample;
+	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItemsModel;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
@@ -49,7 +50,6 @@ package collaboRhythm.shared.apps.bloodPressure.model
 	{
 		private var _record:Record;
 		private var _currentDateSource:ICurrentDateSource;
-		private var _adherenceDataCollection:ArrayCollection;
 		private var _showFps:Boolean;
 		private var _showAdherence:Boolean = true;
 		private var _showHeartRate:Boolean = false;
@@ -107,17 +107,6 @@ package collaboRhythm.shared.apps.bloodPressure.model
 			_showFps = value;
 		}
 
-
-		public function get adherenceDataCollection():ArrayCollection
-		{
-			return _adherenceDataCollection;
-		}
-
-		public function set adherenceDataCollection(value:ArrayCollection):void
-		{
-			_adherenceDataCollection = value;
-		}
-
 		public function updateSimulationModelToCurrent(targetSimulation:SimulationModel):void
 		{
 			if (isAdherenceLoaded && isSystolicReportLoaded && isDiastolicReportLoaded)
@@ -134,6 +123,13 @@ package collaboRhythm.shared.apps.bloodPressure.model
 						targetSimulation.dataPointDate = medicationConcentrationSample.date;
 						medication.concentration = medicationConcentrationSample.concentration;
 					}
+				}
+
+				for each (var vitalSignKey:String in targetSimulation.vitalSignsByCategory.arrayOfKeys)
+				{
+					var arrayCollection:ArrayCollection = record.vitalSignsModel.vitalSignsByCategory[vitalSignKey];
+					var vitalSign:VitalSign = arrayCollection[arrayCollection.length - 1];
+					targetSimulation.updateVitalSignSimulationModel(vitalSign);
 				}
 
 				if (record.vitalSignsModel.isInitialized && record.vitalSignsModel.hasCategory(VitalSignsModel.SYSTOLIC_CATEGORY))

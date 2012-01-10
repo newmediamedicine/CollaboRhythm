@@ -17,6 +17,8 @@
 package collaboRhythm.shared.apps.bloodPressure.model
 {
 
+	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
+
 	import com.theory9.data.types.OrderedMap;
 
 	import mx.binding.utils.BindingUtils;
@@ -35,6 +37,8 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		private var _diastolic:Number;
 		private var _medications:Vector.<MedicationComponentAdherenceModel> = new Vector.<MedicationComponentAdherenceModel>();
 		private var _medicationsByCode:OrderedMap = new OrderedMap();
+		private var _vitalSigns:Vector.<VitalSign> = new Vector.<VitalSign>();
+		private var _vitalSignsByCategory:OrderedMap = new OrderedMap();
 		private var _isInitialized:Boolean;
 
 		private var _alphaBlockers:Vector.<MedicationComponentAdherenceModel> = new Vector.<MedicationComponentAdherenceModel>();
@@ -315,6 +319,15 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		{
 			updateSimulationData();
 		}
+		
+		public function addVitalSign(vitalSign:VitalSign):void
+		{
+			if (vitalSignsByCategory.getIndexByKey(vitalSign.name.text) != -1)
+			{
+				vitalSigns.push(vitalSign);
+				vitalSignsByCategory.addKeyValue(vitalSign.name.text, vitalSign);
+			}
+		}
 
 		private function updateSimulationData():void
 		{
@@ -471,6 +484,21 @@ package collaboRhythm.shared.apps.bloodPressure.model
 		public function set isInitialized(value:Boolean):void
 		{
 			_isInitialized = value;
+		}
+
+		public function get vitalSigns():Vector.<VitalSign>
+		{
+			return _vitalSigns;
+		}
+
+		public function get vitalSignsByCategory():OrderedMap
+		{
+			return _vitalSignsByCategory;
+		}
+
+		public function updateVitalSignSimulationModel(vitalSign:VitalSign):void
+		{
+			vitalSignsByCategory[vitalSign.name.text] = vitalSign;
 		}
 	}
 }

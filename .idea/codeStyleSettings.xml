@@ -33,9 +33,16 @@
           </indentOptions>
         </codeStyleSettings>
         <codeStyleSettings language="ECMA Script Level 4">
+          <option name="BLANK_LINES_BEFORE_IMPORTS" value="0" />
           <option name="BRACE_STYLE" value="2" />
           <option name="CLASS_BRACE_STYLE" value="2" />
           <option name="METHOD_BRACE_STYLE" value="2" />
+          <option name="CALL_PARAMETERS_WRAP" value="5" />
+          <option name="METHOD_PARAMETERS_WRAP" value="5" />
+          <option name="EXTENDS_LIST_WRAP" value="5" />
+          <option name="EXTENDS_KEYWORD_WRAP" value="1" />
+          <option name="BINARY_OPERATION_WRAP" value="5" />
+          <option name="FOR_STATEMENT_WRAP" value="5" />
           <indentOptions>
             <option name="USE_TAB_CHARACTER" value="true" />
           </indentOptions>

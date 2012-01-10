@@ -1555,6 +1555,36 @@ public class Pha extends EventDispatcher implements WikiTestable
 			requestData, null, userData);  // no URL params
 	}
 	
+	/** Deletes a full-record share from a record
+	 * See POST /records/{record_id}/shares/{account_id}/delete
+	 *
+	 * @param consumerKey OAuth consumer key, assigned to your application by the Indivo service provider
+	 * @param consumerSecret OAuth consumer secret, assigned to your application by the Indivo service provider
+	 * @param installationURL base URL of the Indivo server
+	 * @param recordId record ID of the record to remove the share from
+	 * @param accountId account ID that the record should no longer be shared with
+	 * @param accessToken OAuth token for access to record
+	 * @param accessTokenSecret OAuth token secret for access to record
+	 */
+	public function shares_X_delete_POST(
+		consumerKey:String,
+		consumerSecret:String,
+		installationURL:String,
+		recordId:String,
+		accountId:String,
+		accessToken:String,
+		accessTokenSecret:String,
+		userData:Object=null):void
+	{
+		phaRequest(
+			consumerKey, consumerSecret, installationURL,
+			"POST",
+			"records/" + recordId + "/shares/" + accountId + "/delete",
+			accessToken,
+			accessTokenSecret,
+			null, null, userData);  // no URL params
+	}
+
 	/** GET /records/{record_id}/owner
 	 * Retrieves the account that owns the record. A successful response should be of the form:
 	 *   <Account id="{account_id}"/>

@@ -1,0 +1,377 @@
+<?xml version="1.0"?>
+<view:SynchronizedCharts xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:images="assets.images.*"
+		  xmlns:controls="com.dougmccune.controls.*" xmlns:view="collaboRhythm.plugins.bloodPressure.view.*"
+		  xmlns:dataShapes="qs.charts.dataShapes.*"
+		  implements="collaboRhythm.plugins.bloodPressure.view.IBloodPressureFullView"
+		  initialize="initializeHandler(event)"
+		>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+
+		<s:HGroup id="bloodPressureGroup" height="100%" width="100%" gap="0" minHeight="100">
+			<s:Group height="100%">
+				<images:BloodPressureScheduleItemClockView width="100" height="100" verticalCenter="0"/>
+			</s:Group>
+			<controls:TouchScrollingScrubChart id="bloodPressureChart"
+											   skinClass="com.dougmccune.controls.ScrubChartMinimalSkin"
+											   height="100%" width="100%"
+											   creationComplete="bloodPressureChart_creationCompleteHandler(event)"
+											   topBorderVisible="true"
+											   sliderVisible="false"
+											   mainChartTitle="Blood Pressure (mmHg)"
+											   seriesName="resultAsNumber"
+											   data="{model.isInitialized ? model.systolicData : null}"
+											   dateField="dateMeasuredStart"
+											   today="{model.currentDateSource.now()}"
+											   showFps="{model.showFps}"
+											   scroll="chart_scrollHandler(event)"
+											   scrollStart="chart_scrollStartHandler(event)"
+											   scrollStop="chart_scrollStopHandler(event)"
+											   focusTimeChange="chart_focusTimeChangeHandler(event)"
+											   initialDurationTime="{initialDurationTime}"
+											   showFocusTimeMarker="{showFocusTimeMarker}"
+											   scrollEnabled="{scrollEnabled}"
+											   synchronizedAxisCache="{synchronizedAxisCache}"
+											   useHorizontalTouchScrolling="{useHorizontalTouchScrolling}"
+					/>
+		</s:HGroup>
+
+		<mx:PlotSeries id="systolicSeries" name="systolic" xField="dateMeasuredStart" yField="resultAsNumber"
+					   dataProvider="{model.isInitialized ? model.systolicData : null}"
+					   updateComplete="series_updateCompleteHandler(event)"
+					   filterDataValues="none" displayName="Blood Pressure Systolic"
+				>
+			<mx:itemRenderer>
+				<fx:Component>
+					<view:BloodPressurePlotItemRenderer deltaY="-8"/>
+				</fx:Component>
+			</mx:itemRenderer>
+			<mx:stroke>
+				<s:SolidColorStroke weight="2" color="0x000000"/>
+			</mx:stroke>
+
+		</mx:PlotSeries>
+		<mx:PlotSeries id="diastolicSeries" name="diastolic" xField="dateMeasuredStart" yField="resultAsNumber"
+					   dataProvider="{model.isInitialized ? model.diastolicData : null}"
+					   updateComplete="series_updateCompleteHandler(event)"
+					   filterDataValues="none" displayName="Blood Pressure Diastolic"
+				>
+			<mx:itemRenderer>
+				<fx:Component>
+					<view:BloodPressurePlotItemRenderer/>
+				</fx:Component>
+			</mx:itemRenderer>
+			<mx:stroke>
+				<s:SolidColorStroke weight="2" color="0x808080"/>
+			</mx:stroke>
+
+		</mx:PlotSeries>
+
+		<mx:LineSeries id="systolicRangeSeries" name="systolic" xField="dateMeasuredStart" yField="resultAsNumber"
+					   dataProvider="{model.isInitialized ? model.systolicData : null}"
+					   form="segment"
+					   filterDataValues="none"
+				>
+			<mx:lineStroke>
+				<s:SolidColorStroke
+						color="0x4252A4"
+						weight="1"
+						/>
+			</mx:lineStroke>
+		</mx:LineSeries>
+		<mx:LineSeries id="diastolicRangeSeries" name="diastolic" xField="dateMeasuredStart" yField="resultAsNumber"
+					   dataProvider="{model.isInitialized ? model.diastolicData : null}"
+					   form="segment"
+					   filterDataValues="none"
+				>
+			<mx:lineStroke>
+				<s:SolidColorStroke
+						color="0x4252A4"
+						weight="1"
+						alpha="0.3"
+						/>
+			</mx:lineStroke>
+		</mx:LineSeries>
+		<!--
+		<mx:AreaSeries id="heartRateSeries" name="heart rate" xField="date" yField="heartRate"
+					   fill="{new SolidColor(0x4252A4, .75)}"
+					   radius="2.5" form="segment"
+					   itemRenderer="skins.LineSeriesCustomRenderer"
+					   updateComplete="heartRateChart.seriesComplete();"
+					   filterDataValues="none"
+					   />
+-->
+
+		<mx:DateFormatter id="fullDateFormat" formatString="YYYY-MM-DD"/>
+
+		<dataShapes:DataDrawingCanvas id="bloodPressureMainCanvas" includeInRanges="true" resize="bloodPressureMainCanvas_resizeHandler(event)">
+			<s:Label id="systolicZoneLabel" text="Systolic Normal (90 - 120)" styleName="ZoneLabel" visible="false"
+					 color="{GOAL_ZONE_COLOR}"/>
+			<!--
+			<s:Label id="diastolicZoneLabel" text="Diastolic Normal (60 - 80)" styleName="ZoneLabel" color="{GOAL_ZONE_COLOR}"/>
+			-->
+		</dataShapes:DataDrawingCanvas>
+
+		<dataShapes:DataDrawingCanvas id="bloodPressureRangeCanvas" includeInRanges="true" height="100%" width="100%">
+		</dataShapes:DataDrawingCanvas>
+
+	</fx:Declarations>
+
+	<fx:Script><![CDATA[
+		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
+		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
+		import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
+		import collaboRhythm.shared.model.settings.Settings;
+
+		import com.dougmccune.controls.ScrubChart;
+		import com.dougmccune.controls.TouchScrollingScrubChart;
+
+		import mx.charts.ChartItem;
+		import mx.charts.HitData;
+		import mx.charts.LinearAxis;
+		import mx.charts.chartClasses.Series;
+		import mx.collections.ArrayCollection;
+		import mx.events.FlexEvent;
+		import mx.events.ResizeEvent;
+
+		import qs.charts.dataShapes.DataDrawingCanvas;
+		import qs.charts.dataShapes.Edge;
+
+		private static const BLOOD_PRESSURE_VERTICAL_AXIS_MAXIMUM:Number = 180;
+		private static const BLOOD_PRESSURE_VERTICAL_AXIS_MINIMUM:Number = 40;
+
+		private var _isSeriesSetsInitialized:Boolean;
+		private var _useBloodPressureChart:Boolean;
+
+		override protected function createCustomCharts():void
+		{
+			super.createCustomCharts();
+			if (model.systolicData && model.systolicData.length > 0)
+			{
+				_useBloodPressureChart = true;
+				addCustomChartGroup(bloodPressureGroup);
+				addCustomChart(bloodPressureChart);
+			}
+		}
+
+		private function initializeHandler(event:Event):void
+		{
+		}
+
+		override protected function get vitalSignChartCategories():ArrayCollection
+		{
+			var categories:ArrayCollection = super.vitalSignChartCategories;
+			removeItem(categories, VitalSignsModel.SYSTOLIC_CATEGORY);
+			removeItem(categories, VitalSignsModel.DIASTOLIC_CATEGORY);
+//			removeItem(categories, VitalSignsModel.HEART_RATE_CATEGORY);
+			return categories;
+		}
+
+		private function bloodPressureChart_dataTipFunction(hitData:HitData):String
+		{
+			var vitalSign:VitalSign = hitData.item as VitalSign;
+			if (vitalSign)
+			{
+				return (hitData.chartItem.element as Series).displayName + "<br/>" +
+						"<b>" + vitalSign.result.value + "</b> (" + vitalSign.result.unit.abbrev + ")<br/>" +
+						"Date measured: " + vitalSign.dateMeasuredStart.toLocaleString();
+			}
+			return hitData.displayText;
+		}
+
+		public function drawBloodPressureData(canvas:DataDrawingCanvas):void
+		{
+			if (_traceEventHandlers)
+				trace(this + ".drawBloodPressureData");
+
+			canvas.clear();
+
+			canvas.lineStyle(1, GOAL_ZONE_COLOR);
+
+			// systolic normal
+			canvas.beginFill(GOAL_ZONE_COLOR, 0.2);
+			canvas.drawRect([Edge.LEFT, -1], SimulationModel.SYSTOLIC_GOAL, [Edge.RIGHT, 1], 90);
+			canvas.endFill();
+
+			//				// diastolic normal
+			//				canvas.beginFill(GOAL_ZONE_COLOR, 0.2);
+			//				canvas.drawRect(Edge.LEFT, 80, Edge.RIGHT, 60);
+			//				canvas.endFill();
+
+			if (canvas == bloodPressureMainCanvas)
+			{
+				canvas.updateDataChild(systolicZoneLabel, {left:Edge.LEFT, top:SimulationModel.SYSTOLIC_GOAL});
+				//				canvas.updateDataChild(diastolicZoneLabel, {left: Edge.LEFT, bottom: 60});
+			}
+		}
+
+		protected function bloodPressureChart_creationCompleteHandler(event:FlexEvent):void
+		{
+			if (_traceEventHandlers)
+				trace(this + ".bloodPressureChart_creationCompleteHandler");
+
+			var chart:ScrubChart = ScrubChart(event.target);
+			chart.removeDefaultSeries();
+
+			var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
+			verticalAxis.minimum = BLOOD_PRESSURE_VERTICAL_AXIS_MINIMUM;
+			verticalAxis.maximum = BLOOD_PRESSURE_VERTICAL_AXIS_MAXIMUM;
+			verticalAxis = chart.mainChartCover.verticalAxis as LinearAxis;
+			verticalAxis.minimum = BLOOD_PRESSURE_VERTICAL_AXIS_MINIMUM;
+			verticalAxis.maximum = BLOOD_PRESSURE_VERTICAL_AXIS_MAXIMUM;
+
+			if (chart.rangeChart)
+			{
+				verticalAxis = chart.rangeChart.verticalAxis as LinearAxis;
+				verticalAxis.minimum = BLOOD_PRESSURE_VERTICAL_AXIS_MINIMUM;
+				verticalAxis.maximum = BLOOD_PRESSURE_VERTICAL_AXIS_MAXIMUM;
+			}
+			//				synchronizeDateLimits();
+
+			updateBloodPressureChartBackgroundElements(chart);
+
+			chart.mainChart.addEventListener(Event.RESIZE, bloodPressureChart_mainChart_resizeHandler, false, 0,
+					true);
+
+			if (modality == Settings.MODALITY_TABLET)
+			{
+				if (chart.rangeOneMonthButton)
+					chart.rangeOneMonthButton.includeInLayout = chart.rangeOneMonthButton.visible = false;
+				if (chart.rangeOneYearButton)
+					chart.rangeOneYearButton.includeInLayout = chart.rangeOneYearButton.visible = false;
+				if (chart.rangeMaxButton)
+					chart.rangeMaxButton.includeInLayout = chart.rangeMaxButton.visible = false;
+			}
+			chart.mainChart.dataTipFunction = bloodPressureChart_dataTipFunction;
+		}
+
+		private function updateBloodPressureChartBackgroundElements(chart:ScrubChart):void
+		{
+			chart.mainChart.backgroundElements.push(bloodPressureMainCanvas);
+			drawBloodPressureData(bloodPressureMainCanvas);
+
+			if (chart.rangeChart)
+			{
+				chart.rangeChart.backgroundElements.push(bloodPressureRangeCanvas);
+				drawBloodPressureData(bloodPressureRangeCanvas);
+			}
+		}
+
+		private function bloodPressureChart_mainChart_resizeHandler(event:ResizeEvent):void
+		{
+		}
+
+		private function bloodPressureMainCanvas_resizeHandler(event:ResizeEvent):void
+		{
+			if (_traceEventHandlers)
+				trace("bloodPressureMainCanvas_resizeHandler " + event.target.width + ", " + event.target.height);
+		}
+
+		private function addBloodPressureDataSets():void
+		{
+			bloodPressureChart.addDataSet(model.systolicData, "dateMeasuredStart");
+			bloodPressureChart.addDataSet(model.diastolicData, "dateMeasuredStart");
+		}
+
+		protected override function updateSimulationForCustomCharts():String
+		{
+			var dataIndexMessage:String = "";
+			if (_useBloodPressureChart)
+			{
+				var bloodPressureDataPoint:VitalSign;
+				var series:Series = bloodPressureChart.mainChart.series[0];
+				var chartItem:ChartItem;
+				if (series)
+				{
+					var dataCollection:ArrayCollection = series.dataProvider as ArrayCollection;
+					var bloodPressureDataIndex:int = bloodPressureChart.findPreviousDataIndex(dataCollection,
+							model.focusSimulation.date.time);
+					if (bloodPressureDataIndex != -1)
+					{
+						dataIndexMessage = " (" + (bloodPressureDataIndex + 1) + " of " + dataCollection.length + ")";
+						bloodPressureDataPoint = dataCollection.getItemAt(bloodPressureDataIndex) as VitalSign;
+						series.selectedIndex = bloodPressureDataIndex;
+						if (series.items)
+						{
+							chartItem = series.items[bloodPressureDataIndex] as ChartItem;
+						}
+					}
+				}
+				if (chartItem)
+					bloodPressureChart.highlightChartItem(chartItem);
+				else
+					bloodPressureChart.hideDataPointHighlight();
+
+				if (shouldApplyChangesToSimulation)
+				{
+					model.focusSimulation.dataPointDate = bloodPressureDataPoint ==
+							null ? null : bloodPressureDataPoint.dateMeasuredStart;
+					model.focusSimulation.systolic = bloodPressureDataPoint ==
+							null ? NaN : bloodPressureDataPoint.resultAsNumber;
+				}
+				// TODO: fix diastolic
+//			model.simulation.diastolic = bloodPressureDataPoint == null ? NaN : bloodPressureDataPoint.diastolic;
+
+				var hypertensionSeverity:Number = 0;
+				if (!isNaN(model.focusSimulation.systolic))
+				{
+					hypertensionSeverity = Math.max(0, (model.focusSimulation.systolic - 120) / 20);
+				}
+			}
+			//				simulationGlow.alpha = hypertensionSeverity;}
+			return dataIndexMessage;
+		}
+
+		protected override function initializeSeriesSets():void
+		{
+			if (_useBloodPressureChart)
+			{
+				addCustomSeries(systolicSeries);
+				addCustomSeries(diastolicSeries);
+
+				if (bloodPressureChart && bloodPressureChart.mainChart)
+				{
+					if (!_isSeriesSetsInitialized)
+					{
+						_isSeriesSetsInitialized = true;
+						addBloodPressureDataSets();
+						var seriesSet:ScrubChartSeriesSet;
+
+						seriesSet = new ScrubChartSeriesSet();
+						seriesSet.chart = bloodPressureChart.mainChart;
+						seriesSet.series.push(systolicSeries);
+						seriesSet.series.push(diastolicSeries);
+						addCustomSeriesSet(seriesSet);
+
+						if (bloodPressureChart.rangeChart)
+						{
+							seriesSet = new ScrubChartSeriesSet();
+							seriesSet.chart = bloodPressureChart.rangeChart;
+							seriesSet.series.push(systolicRangeSeries);
+							seriesSet.series.push(diastolicRangeSeries);
+							addCustomSeriesSet(seriesSet);
+						}
+					}
+					else
+					{
+						updateCustomCharts();
+					}
+				}
+			}
+		}
+
+		private function updateCustomCharts():void
+		{
+			if (_useBloodPressureChart)
+			{
+				var chart:TouchScrollingScrubChart = bloodPressureChart;
+				if (chart)
+				{
+					chart.clearDataSets();
+					addBloodPressureDataSets();
+				}
+			}
+		}
+		]]></fx:Script>
+</view:SynchronizedCharts>

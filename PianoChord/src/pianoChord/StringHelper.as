@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package
+package pianoChord
 {
 	public class StringHelper {
 		public static function replace(str:String, oldSubStr:String, newSubStr:String):String {

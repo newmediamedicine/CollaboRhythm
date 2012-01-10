@@ -68,6 +68,7 @@ package collaboRhythm.core.model.healthRecord.service
 
 			var data:ArrayCollection = new ArrayCollection();
 
+			var numDocuments:int = value.Report.length();
 			for each (var adherenceItemXml:XML in value.Report)
 			{
 				var adherenceItem:AdherenceItem = new AdherenceItem();
@@ -85,7 +86,7 @@ package collaboRhythm.core.model.healthRecord.service
 			// TODO: get order_by working and remove this sorting
 			data = new ArrayCollection(data.toArray().sortOn("dateReportedValue", Array.NUMERIC));
 
-			logParsedReportDocuments(data);
+			logParsedReportDocuments(data, numDocuments);
 
 			for each (adherenceItem in data)
 			{

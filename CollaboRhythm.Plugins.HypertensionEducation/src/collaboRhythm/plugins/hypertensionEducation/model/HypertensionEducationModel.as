@@ -50,7 +50,7 @@ package collaboRhythm.plugins.hypertensionEducation.model
 					goalUtterance = "above your goal";
 					break;
 				case 4:
-					goalUtterance = "well about your goal";
+					goalUtterance = "well above your goal";
 					break;
 			}
 			var utterance:String = "Your " + medication.name.text + " is currently " + goalUtterance + ".";

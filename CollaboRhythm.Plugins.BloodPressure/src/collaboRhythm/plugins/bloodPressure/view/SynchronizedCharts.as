@@ -1,171 +1,104 @@
-<?xml version="1.0"?>
-<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
-		  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:images="assets.images.*"
-		  xmlns:controls="com.dougmccune.controls.*" xmlns:view="collaboRhythm.plugins.bloodPressure.view.*"
-		  xmlns:dataShapes="qs.charts.dataShapes.*"
-		  height="100%" width="100%" gap="10" paddingLeft="10" paddingRight="0"
-		  paddingTop="10"
-		  paddingBottom="8"
-		  resize="chartsGroup_resizeHandler(event)"
-		  creationComplete="creationCompleteHandler(event)"
-		  clipAndEnableScrolling="true"
-		  implements="mx.managers.IFocusManagerComponent, collaboRhythm.plugins.bloodPressure.view.IBloodPressureFullView"
-		  initialize="initializeHandler(event)"
-		>
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
+package collaboRhythm.plugins.bloodPressure.view
+{
+	import assets.images.BloodPressureScheduleItemClockView;
 
-		<controls:SynchronizedAxisCache id="synchronizedAxisCache"/>
+	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
+	import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
+	import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
+	import collaboRhythm.shared.model.StringUtils;
+	import collaboRhythm.shared.model.healthRecord.derived.MedicationConcentrationSample;
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+	import collaboRhythm.shared.model.healthRecord.document.Equipment;
+	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
+	import collaboRhythm.shared.model.healthRecord.util.MedicationName;
+	import collaboRhythm.shared.model.healthRecord.util.MedicationNameUtil;
+	import collaboRhythm.shared.model.services.IMedicationColorSource;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
+	import collaboRhythm.shared.model.settings.Settings;
+	import collaboRhythm.view.scroll.TouchScrollerEvent;
 
-		<mx:PlotSeries id="systolicSeries" name="systolic" xField="dateMeasuredStart" yField="resultAsNumber"
-					   dataProvider="{model.isInitialized ? model.systolicData : null}"
-					   updateComplete="series_updateCompleteHandler(event)"
-					   filterDataValues="none" displayName="Blood Pressure Systolic"
-				>
-			<mx:itemRenderer>
-				<fx:Component>
-					<view:BloodPressurePlotItemRenderer deltaY="-8"/>
-				</fx:Component>
-			</mx:itemRenderer>
-			<mx:stroke>
-				<s:SolidColorStroke weight="2" color="0x000000"/>
-			</mx:stroke>
+	import com.dougmccune.controls.ScrubChart;
+	import com.dougmccune.controls.SynchronizedAxisCache;
+	import com.dougmccune.controls.TouchScrollingScrubChart;
+	import com.dougmccune.events.FocusTimeEvent;
+	import com.theory9.data.types.OrderedMap;
 
-		</mx:PlotSeries>
-		<mx:PlotSeries id="diastolicSeries" name="diastolic" xField="dateMeasuredStart" yField="resultAsNumber"
-					   dataProvider="{model.isInitialized ? model.diastolicData : null}"
-					   updateComplete="series_updateCompleteHandler(event)"
-					   filterDataValues="none" displayName="Blood Pressure Diastolic"
-				>
-			<mx:itemRenderer>
-				<fx:Component>
-					<view:BloodPressurePlotItemRenderer/>
-				</fx:Component>
-			</mx:itemRenderer>
-			<mx:stroke>
-				<s:SolidColorStroke weight="2" color="0x808080"/>
-			</mx:stroke>
+	import flash.events.Event;
+	import flash.events.KeyboardEvent;
+	import flash.events.MouseEvent;
+	import flash.text.TextFormat;
+	import flash.ui.Keyboard;
+	import flash.utils.getQualifiedClassName;
 
-		</mx:PlotSeries>
+	import mx.charts.ChartItem;
+	import mx.charts.HitData;
+	import mx.charts.LinearAxis;
+	import mx.charts.chartClasses.CartesianChart;
+	import mx.charts.chartClasses.CartesianDataCanvas;
+	import mx.charts.chartClasses.Series;
+	import mx.charts.series.AreaSeries;
+	import mx.charts.series.PlotSeries;
+	import mx.collections.ArrayCollection;
+	import mx.controls.Alert;
+	import mx.core.ClassFactory;
+	import mx.core.IVisualElement;
+	import mx.core.UIComponent;
+	import mx.effects.Sequence;
+	import mx.events.EffectEvent;
+	import mx.events.FlexEvent;
+	import mx.events.PropertyChangeEvent;
+	import mx.events.ResizeEvent;
+	import mx.events.ScrollEvent;
+	import mx.graphics.SolidColor;
+	import mx.graphics.SolidColorStroke;
+	import mx.logging.ILogger;
+	import mx.logging.Log;
+	import mx.managers.IFocusManagerComponent;
+	import mx.rpc.events.FaultEvent;
 
-		<mx:LineSeries id="systolicRangeSeries" name="systolic" xField="dateMeasuredStart" yField="resultAsNumber"
-					   dataProvider="{model.isInitialized ? model.systolicData : null}"
-					   form="segment"
-					   filterDataValues="none"
-				>
-			<mx:lineStroke>
-				<s:SolidColorStroke
-						color="0x4252A4"
-						weight="1"
-						/>
-			</mx:lineStroke>
-		</mx:LineSeries>
-		<mx:LineSeries id="diastolicRangeSeries" name="diastolic" xField="dateMeasuredStart" yField="resultAsNumber"
-					   dataProvider="{model.isInitialized ? model.diastolicData : null}"
-					   form="segment"
-					   filterDataValues="none"
-				>
-			<mx:lineStroke>
-				<s:SolidColorStroke
-						color="0x4252A4"
-						weight="1"
-						alpha="0.3"
-						/>
-			</mx:lineStroke>
-		</mx:LineSeries>
-		<!--
-		<mx:AreaSeries id="heartRateSeries" name="heart rate" xField="date" yField="heartRate"
-					   fill="{new SolidColor(0x4252A4, .75)}"
-					   radius="2.5" form="segment"
-					   itemRenderer="skins.LineSeriesCustomRenderer"
-					   updateComplete="heartRateChart.seriesComplete();"
-					   filterDataValues="none"
-					   />
--->
+	import qs.charts.dataShapes.DataDrawingCanvas;
+	import qs.charts.dataShapes.Edge;
 
-		<mx:DateFormatter id="fullDateFormat" formatString="YYYY-MM-DD"/>
+	import skins.LineSeriesCustomRenderer;
 
-		<dataShapes:DataDrawingCanvas id="bloodPressureMainCanvas" includeInRanges="true" resize="bloodPressureMainCanvas_resizeHandler(event)">
-			<s:Label id="systolicZoneLabel" text="Systolic Normal (90 - 120)" styleName="ZoneLabel" visible="false"
-					 color="{GOAL_ZONE_COLOR}"/>
-			<!--
-			<s:Label id="diastolicZoneLabel" text="Diastolic Normal (60 - 80)" styleName="ZoneLabel" color="{GOAL_ZONE_COLOR}"/>
-			-->
-		</dataShapes:DataDrawingCanvas>
+	import spark.components.HGroup;
+	import spark.components.Label;
+	import spark.components.VGroup;
+	import spark.effects.Animate;
+	import spark.effects.animation.MotionPath;
+	import spark.effects.animation.SimpleMotionPath;
+	import spark.effects.easing.Linear;
+	import spark.events.SkinPartEvent;
+	import spark.layouts.VerticalAlign;
 
-		<dataShapes:DataDrawingCanvas id="bloodPressureRangeCanvas" includeInRanges="true" height="100%" width="100%">
-		</dataShapes:DataDrawingCanvas>
+	public class SynchronizedCharts extends VGroup implements IFocusManagerComponent
+	{
+		public function SynchronizedCharts():void
+		{
+			// TODO: use CSS instead for these
+			percentHeight = 100;
+			percentWidth = 100;
+			gap = 10;
+			paddingLeft = 10;
+			paddingRight = 0;
+			paddingTop = 10;
+			paddingBottom = 8;
+			clipAndEnableScrolling = true;
+			
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+			_medicationColorSource = WorkstationKernel.instance.resolve(IMedicationColorSource) as IMedicationColorSource;
+			skipUpdateSimulation = modality == Settings.MODALITY_TABLET;
+			showFocusTimeMarker = !skipUpdateSimulation;
+			
+			this.addEventListener(FlexEvent.CREATION_COMPLETE, creationCompleteHandler, false, 0, true);
+		}
 
-	</fx:Declarations>
-
-	<fx:Script><![CDATA[
-		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
-		import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
-		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
-		import collaboRhythm.shared.model.StringUtils;
-		import collaboRhythm.shared.model.healthRecord.derived.MedicationConcentrationSample;
-		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
-		import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
-		import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
-		import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
-		import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
-		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
-		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
-		import collaboRhythm.shared.model.healthRecord.util.MedicationName;
-		import collaboRhythm.shared.model.healthRecord.util.MedicationNameUtil;
-		import collaboRhythm.shared.model.services.IMedicationColorSource;
-		import collaboRhythm.shared.model.services.WorkstationKernel;
-		import collaboRhythm.shared.model.settings.Settings;
-		import collaboRhythm.view.scroll.TouchScrollerEvent;
-
-		import com.dougmccune.controls.ScrubChart;
-		import com.dougmccune.controls.ScrubChartMinimalSkin;
-		import com.dougmccune.controls.TouchScrollingScrubChart;
-		import com.dougmccune.events.FocusTimeEvent;
-		import com.theory9.data.types.OrderedMap;
-
-		import mx.charts.ChartItem;
-		import mx.charts.DateTimeAxis;
-		import mx.charts.HitData;
-		import mx.charts.LinearAxis;
-		import mx.charts.chartClasses.CartesianChart;
-		import mx.charts.chartClasses.CartesianDataCanvas;
-		import mx.charts.chartClasses.ChartBase;
-		import mx.charts.chartClasses.Series;
-		import mx.charts.series.AreaSeries;
-		import mx.charts.series.PlotSeries;
-		import mx.collections.ArrayCollection;
-		import mx.controls.Alert;
-		import mx.core.UIComponent;
-		import mx.effects.Sequence;
-		import mx.events.EffectEvent;
-		import mx.events.FlexEvent;
-		import mx.events.PropertyChangeEvent;
-		import mx.events.ResizeEvent;
-		import mx.events.ScrollEvent;
-		import mx.graphics.SolidColor;
-		import mx.logging.ILogger;
-		import mx.logging.Log;
-		import mx.rpc.events.FaultEvent;
-
-		import qs.charts.dataShapes.DataDrawingCanvas;
-		import qs.charts.dataShapes.Edge;
-
-		import skins.LineSeriesCustomRenderer;
-
-		import spark.components.Image;
-
-		import spark.components.Label;
-		import spark.components.supportClasses.GroupBase;
-		import spark.effects.Animate;
-		import spark.effects.animation.MotionPath;
-		import spark.effects.animation.SimpleMotionPath;
-		import spark.effects.easing.Linear;
-		import spark.events.SkinPartEvent;
-		import spark.layouts.VerticalAlign;
-
-		private static const BLOOD_PRESSURE_VERTICAL_AXIS_MAXIMUM:Number = 180;
-		private static const BLOOD_PRESSURE_VERTICAL_AXIS_MINIMUM:Number = 40;
 		private static const STRIP_CHART_VERTICAL_AXIS_MINIMUM:Number = -0.5;
 		private static const STRIP_CHART_VERTICAL_AXIS_MAXIMUM:Number = 0.5;
 
@@ -175,10 +108,10 @@
 		private var _textFormat:TextFormat = new TextFormat("Myriad Pro, Verdana, Helvetica, Arial", 16, 0, true);
 
 		private var _model:BloodPressureModel;
-		private var _traceEventHandlers:Boolean = false;
+		protected var _traceEventHandlers:Boolean = false;
 		private var _showFocusTimeMarker:Boolean = true;
 		private var _scrollEnabled:Boolean = true;
-		protected var logger:ILogger;
+		protected var _logger:ILogger;
 		private var _rangeChartVisible:Boolean = false;
 		private var _adherenceCharts:OrderedMap = new OrderedMap();
 		private var _adherenceChartsCreated:Boolean;
@@ -188,7 +121,7 @@
 		private var _initialDurationTime:Number = ScrubChart.DAYS_TO_MILLISECONDS * 7;
 		private var _useHorizontalTouchScrolling:Boolean = true;
 
-		private const GOAL_ZONE_COLOR:uint = 0x8DCB86;
+		protected const GOAL_ZONE_COLOR:uint = 0x8DCB86;
 		private var seriesSets:Vector.<ScrubChartSeriesSet> = new Vector.<ScrubChartSeriesSet>();
 		private var _seriesWithPendingUpdateComplete:ArrayCollection = new ArrayCollection();
 		private var _chartsWithPendingCreationComplete:ArrayCollection = new ArrayCollection();
@@ -208,22 +141,19 @@
 		private var _singleChartMode:Boolean = false;
 		private var _chartFooterVisible:Boolean = true;
 
+		private var _charts:Vector.<TouchScrollingScrubChart> = new Vector.<TouchScrollingScrubChart>();
+		private var _customCharts:Vector.<TouchScrollingScrubChart> = new Vector.<TouchScrollingScrubChart>();
 		private var _scrollTargetChart:TouchScrollingScrubChart;
 		private var _nonTargetCharts:Vector.<TouchScrollingScrubChart>;
 		private var _visibleCharts:Vector.<TouchScrollingScrubChart>;
 		private var _skipUpdateSimulation:Boolean = false;
 		private var _shouldApplyChangesToSimulation:Boolean = true;
-		private var _isSeriesSetsInitialized:Boolean;
 		private var _pendingUpdateSimulation:TouchScrollingScrubChart;
 		private var _createChildrenComplete:Boolean;
 
-		private function initializeHandler(event:Event):void
-		{
-			logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
-			_medicationColorSource = WorkstationKernel.instance.resolve(IMedicationColorSource) as IMedicationColorSource;
-			skipUpdateSimulation = modality == Settings.MODALITY_TABLET;
-			showFocusTimeMarker = !skipUpdateSimulation;
-		}
+		// TODO: use synchronizedAxisCache to optimize performance or eliminate synchronizedAxisCache
+		[Bindable]
+		protected var synchronizedAxisCache:SynchronizedAxisCache;
 
 		[Bindable]
 		public function get scrollEnabled():Boolean
@@ -313,52 +243,278 @@
 			if (!_adherenceChartsCreated)
 			{
 				_adherenceChartsCreated = true;
-				for each (var medicationCode:String in model.medicationConcentrationCurvesByCode.keys)
-				{
-					var medicationFill:MedicationFill = getMedicationFill(medicationCode);
-					var medicationAdministrationsCollection:ArrayCollection = model.record.medicationAdministrationsModel.medicationAdministrationsCollectionsByCode.getItem(medicationCode);
-					if (medicationAdministrationsCollection && medicationAdministrationsCollection[0])
-					{
-						var medicationAdministration:MedicationAdministration = medicationAdministrationsCollection[0];
-						var medicationModel:MedicationComponentAdherenceModel = model.focusSimulation.getMedication(medicationCode);
-						if (medicationModel == null)
-							throw new Error("Medication " + medicationCode + " is in model.medicationConcentrationCurvesByCode but not in model.simulation.medicationsByCode");
-
-						var medicationScheduleItem:MedicationScheduleItem = medicationModel.medicationScheduleItem;
-						var concentrationChart:TouchScrollingScrubChart = createConcentrationChart(medicationCode,
-																								   medicationFill,
-																								   medicationAdministration);
-						var adherenceStripChart:TouchScrollingScrubChart = createAdherenceStripChart(medicationCode,
-																									 medicationFill,
-																									 medicationAdministration);
-						var medicationView:MedicationScheduleItemChartView = new MedicationScheduleItemChartView();
-						medicationView.medicationScheduleItem = medicationScheduleItem;
-						medicationView.verticalAlign = VerticalAlign.MIDDLE;
-						medicationView.percentHeight = 100;
-
-						var adherenceChartsGroup:VGroup = new VGroup();
-						adherenceChartsGroup.gap = 0;
-						adherenceChartsGroup.addElement(concentrationChart);
-						adherenceChartsGroup.addElement(adherenceStripChart);
-						adherenceChartsGroup.percentWidth = 100;
-						adherenceChartsGroup.percentHeight = 100;
-
-						var adherenceGroup:HGroup = new HGroup();
-						adherenceGroup.gap = 0;
-						adherenceGroup.addElement(medicationView);
-						adherenceGroup.addElement(adherenceChartsGroup);
-						adherenceGroup.percentWidth = 100;
-						adherenceGroup.percentHeight = 100;
-
-						// add the new group before the blood pressure chart
-						this.addElementAt(adherenceGroup, this.numElements - 1);
-					}
-				}
+				createMedicationAdherenceCharts();
+				createVitalSignAdherenceCharts();
+				createCustomCharts();
 			}
 			else
 			{
 				updateAdherenceCharts();
 			}
+		}
+
+		/**
+		 * Subclasses should override to create custom charts.
+		 */
+		protected function createCustomCharts():void
+		{
+		}
+
+		private function createMedicationAdherenceCharts():void
+		{
+			for each (var medicationCode:String in model.medicationConcentrationCurvesByCode.keys)
+			{
+				var medicationFill:MedicationFill = getMedicationFill(medicationCode);
+				var medicationAdministrationsCollection:ArrayCollection = model.record.medicationAdministrationsModel.medicationAdministrationsCollectionsByCode.getItem(medicationCode);
+				if (medicationAdministrationsCollection && medicationAdministrationsCollection[0])
+				{
+					var medicationAdministration:MedicationAdministration = medicationAdministrationsCollection[0];
+					var medicationModel:MedicationComponentAdherenceModel = model.focusSimulation.getMedication(medicationCode);
+					if (medicationModel == null)
+						throw new Error("Medication " + medicationCode + " is in model.medicationConcentrationCurvesByCode but not in model.simulation.medicationsByCode");
+
+					var medicationScheduleItem:MedicationScheduleItem = medicationModel.medicationScheduleItem;
+					var concentrationChart:TouchScrollingScrubChart = createConcentrationChart(medicationCode,
+							medicationFill,
+							medicationAdministration);
+					var adherenceStripChart:TouchScrollingScrubChart = createMedicationAdherenceStripChart(medicationCode,
+							medicationFill
+					);
+					var medicationView:MedicationScheduleItemChartView = new MedicationScheduleItemChartView();
+					medicationView.medicationScheduleItem = medicationScheduleItem;
+					medicationView.verticalAlign = VerticalAlign.MIDDLE;
+					medicationView.percentHeight = 100;
+					createAdherenceGroup(medicationView, concentrationChart, adherenceStripChart);
+				}
+			}
+		}
+
+		private function createConcentrationChart(medicationCode:String, medicationFill:MedicationFill, medicationAdministration:MedicationAdministration):TouchScrollingScrubChart
+		{
+			var chart:TouchScrollingScrubChart = createAdherenceChart(
+					getConcentrationChartKey(medicationCode));
+			setMedicationChartStyles(medicationCode, medicationFill, chart);
+			chart.setStyle("topBorderVisible", true);
+			var nameString:String;
+			if (medicationFill)
+				nameString = medicationFill.name.text;
+			else
+				nameString = medicationAdministration.name.text;
+			var medicationName:MedicationName = MedicationNameUtil.parseName(nameString);
+			chart.mainChartTitle = medicationName.medicationName;
+
+			chart.seriesName = "concentration";
+			chart.data = model.medicationConcentrationCurvesByCode.getItem(medicationCode);
+
+			chart.addEventListener(SkinPartEvent.PART_ADDED, medicationAdherenceChart_skinPartAddedHandler, false, 0,
+					true);
+			chart.addEventListener(FlexEvent.CREATION_COMPLETE, medicationAdherenceChart_creationCompleteHandler,
+					false, 0, true);
+
+			return chart;
+		}
+
+		private function createMedicationAdherenceStripChart(medicationCode:String, medicationFill:MedicationFill):TouchScrollingScrubChart
+		{
+			var chart:TouchScrollingScrubChart = createAdherenceChart(
+					getAdherenceStripChartKey(medicationCode));
+
+			setMedicationChartStyles(medicationCode, medicationFill, chart);
+			initializeAdherenceStripChart(chart, medicationCode);
+
+			chart.addEventListener(SkinPartEvent.PART_ADDED, medicationAdherenceStripChart_skinPartAddedHandler, false, 0,
+					true);
+			chart.addEventListener(FlexEvent.CREATION_COMPLETE, medicationAdherenceStripChart_creationCompleteHandler,
+					false, 0, true);
+
+			return chart;
+		}
+
+		private function initializeAdherenceStripChart(chart:TouchScrollingScrubChart, adherenceItemsCode:String):void
+		{
+			chart.setStyle("topBorderVisible", false);
+			chart.height = 20;
+			chart.seriesName = "adherence";
+			chart.data = model.adherenceItemsCollectionsByCode.getItem(adherenceItemsCode);
+			chart.dateField = "dateReported";
+		}
+
+		private function createAdherenceChart(chartKey:String):TouchScrollingScrubChart
+		{
+			var chart:TouchScrollingScrubChart = new TouchScrollingScrubChart();
+			chart.id = chartKey;
+			chart.setStyle("skinClass", ScrubChartMedicationSkin);
+//			chart.setStyle("skinClass", ScrubChartMinimalSkin);
+			chart.percentWidth = 100;
+			chart.percentHeight = 100;
+			chart.setStyle("sliderVisible", false);
+			chart.today = model.currentDateSource.now();
+			chart.showFps = model.showFps;
+			chart.initialDurationTime = initialDurationTime;
+			chart.showFocusTimeMarker = false;
+			chart.scrollEnabled = scrollEnabled;
+			chart.synchronizedAxisCache = synchronizedAxisCache;
+			chart.useHorizontalTouchScrolling = useHorizontalTouchScrolling;
+
+			chart.addEventListener(ScrollEvent.SCROLL, chart_scrollHandler, false, 0, true);
+			chart.addEventListener(TouchScrollerEvent.SCROLL_START, chart_scrollStartHandler, false, 0,
+					true);
+			chart.addEventListener(TouchScrollerEvent.SCROLL_STOP, chart_scrollStopHandler, false, 0, true);
+			chart.addEventListener(FocusTimeEvent.FOCUS_TIME_CHANGE, chart_focusTimeChangeHandler, false, 0,
+					true);
+
+			_chartsWithPendingCreationComplete.addItem(chart);
+			_adherenceCharts.addKeyValue(chartKey, chart);
+			addChart(chart);
+			chart.percentWidth = 100;
+			chart.percentHeight = 100;
+
+			return chart;
+		}
+
+		private function setMedicationChartStyles(medicationCode:String, medicationFill:MedicationFill, chart:TouchScrollingScrubChart):void
+		{
+			chart.setStyle("medicationCode", medicationCode);
+			if (medicationFill)
+				chart.setStyle("ndcCode", medicationFill.ndc.text);
+		}
+
+		private function addChart(chart:TouchScrollingScrubChart):void
+		{
+			_charts.push(chart);
+		}
+		
+		protected function addCustomChart(chart:TouchScrollingScrubChart):void
+		{
+			addChart(chart);
+			_customCharts.push(chart);
+		}
+
+		private function getConcentrationChartKey(medicationCode:String):String
+		{
+			return "medication_" + medicationCode + "_concentration";
+		}
+
+		private function getAdherenceStripChartKey(medicationCode:String):String
+		{
+			return "medication_" + medicationCode + "_adherence";
+		}
+
+		private function getVitalSignChartKey(vitalSignKey:String):String
+		{
+			return "vitalSign_" + vitalSignKey + "_concentration";
+		}
+
+		private function getVitalSignAdherenceStripChartKey(vitalSignKey:String):String
+		{
+			return "vitalSign_" + vitalSignKey + "_adherence";
+		}
+
+		private function createAdherenceGroup(image:IVisualElement, concentrationChart:TouchScrollingScrubChart, adherenceStripChart:TouchScrollingScrubChart):void
+		{
+			var adherenceChartsGroup:VGroup = new VGroup();
+			adherenceChartsGroup.gap = 0;
+			adherenceChartsGroup.addElement(concentrationChart);
+			adherenceChartsGroup.addElement(adherenceStripChart);
+			adherenceChartsGroup.percentWidth = 100;
+			adherenceChartsGroup.percentHeight = 100;
+
+			var adherenceGroup:HGroup = new HGroup();
+			adherenceGroup.gap = 0;
+			adherenceGroup.addElement(image);
+			adherenceGroup.addElement(adherenceChartsGroup);
+			adherenceGroup.percentWidth = 100;
+			adherenceGroup.percentHeight = 100;
+
+			this.addElement(adherenceGroup);
+		}
+
+		protected function addCustomChartGroup(group:UIComponent):void
+		{
+			this.addElement(group);
+		}
+
+		private function createVitalSignAdherenceCharts():void
+		{
+			for each (var vitalSignKey:String in vitalSignChartCategories)
+			{
+				// find any equipment scheduled to be used to collect this vital sign
+				var equipmentScheduleItem:EquipmentScheduleItem = getMatchingEquipmentScheduleItem(vitalSignKey);
+				var equipment:Equipment = equipmentScheduleItem.scheduledEquipment;
+				
+				var vitalSignCollection:ArrayCollection = model.record.vitalSignsModel.vitalSignsByCategory[vitalSignKey];
+
+				if (vitalSignCollection && vitalSignCollection.length > 0 && vitalSignCollection[0])
+				{
+					var vitalSignChart:TouchScrollingScrubChart = createVitalSignChart(vitalSignKey, vitalSignCollection);
+					var adherenceStripChart:TouchScrollingScrubChart = createVitalSignAdherenceStripChart(vitalSignKey, equipmentScheduleItem);
+
+					var vitalSignView:BloodPressureScheduleItemClockView = new BloodPressureScheduleItemClockView();
+//					vitalSignView.equipmentScheduleItem = equipmentScheduleItem;
+					vitalSignView.width = 100;
+					vitalSignView.height = 100;
+					vitalSignView.verticalCenter = 0;
+					createAdherenceGroup(vitalSignView, vitalSignChart, adherenceStripChart);
+				}
+			}
+		}
+
+		/**
+		 * Provides the list of vital signs categories (VitalSign.name), such as "Heart Rate", "Blood Pressure Systolic",
+		 * etc. that will be used to create the vital sign charts. Subclasses may override this property to exclude
+		 * vital sign charts and then create alternative charts for those vital signs (or exclude them entirely).
+		 */
+		protected function get vitalSignChartCategories():ArrayCollection
+		{
+			return model.record.vitalSignsModel.vitalSignsByCategory.keys;
+		}
+
+		private function createVitalSignChart(vitalSignKey:String, vitalSignCollection:ArrayCollection):TouchScrollingScrubChart
+		{
+			var chart:TouchScrollingScrubChart = createAdherenceChart(getVitalSignChartKey(vitalSignKey));
+			setVitalSignChartStyles(chart, vitalSignKey);
+
+			chart.setStyle("topBorderVisible", true);
+			chart.mainChartTitle = vitalSignKey;
+
+			chart.dateField = "dateMeasuredStart";
+			chart.seriesName = "resultAsNumber";
+			chart.data = model.record.vitalSignsModel.vitalSignsByCategory.getItem(vitalSignKey);
+
+			chart.addEventListener(SkinPartEvent.PART_ADDED, vitalSignAdherenceChart_skinPartAddedHandler, false, 0,
+					true);
+
+			return chart;
+		}
+
+		private function setVitalSignChartStyles(chart:TouchScrollingScrubChart, vitalSignKey:String):void
+		{
+			chart.setStyle("vitalSignKey", vitalSignKey);
+		}
+
+		private function createVitalSignAdherenceStripChart(vitalSignKey:String, equipmentScheduleItem:EquipmentScheduleItem):TouchScrollingScrubChart
+		{
+			var chart:TouchScrollingScrubChart = createAdherenceChart(getVitalSignAdherenceStripChartKey(vitalSignKey));
+			setVitalSignChartStyles(chart, vitalSignKey);
+
+			initializeAdherenceStripChart(chart, equipmentScheduleItem.name.text);
+
+			chart.addEventListener(SkinPartEvent.PART_ADDED, vitalSignAdherenceStripChart_skinPartAddedHandler, false, 0,
+					true);
+
+			return chart;
+		}
+
+		private function getMatchingEquipmentScheduleItem(vitalSignKey:String):EquipmentScheduleItem
+		{
+			for each (var equipmentScheduleItem:EquipmentScheduleItem in model.record.equipmentScheduleItemsModel.equipmentScheduleItemCollection)
+			{
+				if (equipmentScheduleItem.instructions.toLowerCase().search(vitalSignKey.toLowerCase()) != -1)
+				{
+					break;
+				}
+			}
+			return equipmentScheduleItem;
 		}
 
 		// TODO: implement and use this method to update the charts when the demo date changes
@@ -367,14 +523,13 @@
 			for each (var medicationCode:String in model.medicationConcentrationCurvesByCode.keys)
 			{
 				updateAdherenceChart(getConcentrationChartKey(medicationCode),
-									 model.medicationConcentrationCurvesByCode.getItem(medicationCode), "date");
+						model.medicationConcentrationCurvesByCode.getItem(medicationCode), "date");
 				updateAdherenceChart(getAdherenceStripChartKey(medicationCode),
-									 model.adherenceItemsCollectionsByCode.getItem(medicationCode), "dateReported");
+						model.adherenceItemsCollectionsByCode.getItem(medicationCode), "dateReported");
 			}
 		}
 
-		private function updateAdherenceChart(chartKey:String, seriesDataCollection:ArrayCollection,
-											  dateField:String):void
+		private function updateAdherenceChart(chartKey:String, seriesDataCollection:ArrayCollection, dateField:String):void
 		{
 			var chart:TouchScrollingScrubChart = _adherenceCharts.getValueByKey(chartKey);
 			if (chart)
@@ -390,7 +545,7 @@
 			}
 		}
 
-		private function adherenceChart_skinPartAddedHandler(event:SkinPartEvent):void
+		private function medicationAdherenceChart_skinPartAddedHandler(event:SkinPartEvent):void
 		{
 			if (event.partName == "mainChart")
 			{
@@ -408,19 +563,12 @@
 				chart.removeDefaultSeries();
 				addConcentrationSeries(chart, medicationCode, ndcCode);
 
-				/*
-				 var mainCanvas:DataDrawingCanvas = new DataDrawingCanvas();
-				 mainCanvas.includeInRanges = true;
-				 mainCanvas.percentWidth = 100;
-				 mainCanvas.percentHeight = 100;
-				 chart.mainChart.backgroundElements.push(mainCanvas);
-				 */
 				var mainCanvas:DataDrawingCanvas = chart.mainChart.backgroundElements[0] as DataDrawingCanvas;
 				if (mainCanvas)
 				{
 					updateAdherenceChartSeriesCompleteHandler(chart, mainCanvas,
-															  mainCanvas ? mainCanvas.getChildAt(0) as Label : null,
-															  null, medicationCode, ndcCode);
+							mainCanvas ? mainCanvas.getChildAt(0) as Label : null,
+							null, medicationCode, ndcCode);
 					mainCanvas.invalidateSize();
 				}
 
@@ -446,13 +594,61 @@
 			}
 		}
 
-		protected function adherenceChart_creationCompleteHandler(event:FlexEvent):void
+		private function vitalSignAdherenceChart_skinPartAddedHandler(event:SkinPartEvent):void
 		{
-			if (_traceEventHandlers)
-				trace("adherenceChart_creationCompleteHandler");
+			if (event.partName == "mainChart")
+			{
+				var chart:ScrubChart = ScrubChart(event.target);
+				//			chart.removeDefaultSeries();
+
+				var vitalSignKey:String = chart.getStyle("vitalSignKey");
+//				var medicationModel:MedicationComponentAdherenceModel = model.focusSimulation.getMedication(medicationCode);
+
+				var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
+				verticalAxis.minimum = 0;
+				verticalAxis.maximum = 200;
+
+				chart.removeDefaultSeries();
+				addVitalSignSeries(chart,  vitalSignKey);
+
+				var mainCanvas:DataDrawingCanvas = chart.mainChart.backgroundElements[0] as DataDrawingCanvas;
+				if (mainCanvas)
+				{
+					updateVitalSignAdherenceChartSeriesCompleteHandler(chart, mainCanvas,
+							mainCanvas ? mainCanvas.getChildAt(0) as Label : null,
+							null, vitalSignKey);
+					mainCanvas.invalidateSize();
+				}
+
+				var index:int = _chartsWithPendingCreationComplete.getItemIndex(chart);
+				if (index != -1)
+				{
+					_chartsWithPendingCreationComplete.removeItemAt(index);
+					checkReadyToSynchronizeDateLimits();
+				}
+
+				chart.mainChart.dataTipFunction = adherenceChart_dataTipFunction;
+			}
+			else if (event.partName == "rangeChart")
+			{
+				chart = ScrubChart(event.target);
+
+				if (chart.rangeChart)
+				{
+					verticalAxis = chart.rangeChart.verticalAxis as LinearAxis;
+					verticalAxis.minimum = 0;
+					verticalAxis.maximum = 201;
+				}
+			}
 		}
 
-		private function adherenceStripChart_skinPartAddedHandler(event:SkinPartEvent):void
+		protected function medicationAdherenceChart_creationCompleteHandler(event:FlexEvent):void
+		{
+			if (_traceEventHandlers)
+				trace("medicationAdherenceChart_creationCompleteHandler");
+		}
+
+		private function medicationAdherenceStripChart_skinPartAddedHandler(event:SkinPartEvent):void
 		{
 			if (event.partName == "mainChartContainer")
 			{
@@ -480,8 +676,8 @@
 				if (mainCanvas)
 				{
 					updateAdherenceStripChartSeriesCompleteHandler(chart, mainCanvas,
-																   mainCanvas ? mainCanvas.getChildAt(0) as Label : null,
-																   null, medicationCode, ndcCode);
+							mainCanvas ? mainCanvas.getChildAt(0) as Label : null, null, medicationCode,
+							model.record.medicationScheduleItemsModel.medicationScheduleItemCollection);
 					mainCanvas.invalidateSize();
 				}
 
@@ -507,22 +703,65 @@
 			}
 		}
 
-		protected function adherenceStripChart_creationCompleteHandler(event:FlexEvent):void
+		private function vitalSignAdherenceStripChart_skinPartAddedHandler(event:SkinPartEvent):void
 		{
-			if (_traceEventHandlers)
-				trace("adherenceStripChart_creationCompleteHandler");
+			if (event.partName == "mainChartContainer")
+			{
+				var mainChartContainer:UIComponent = event.instance as UIComponent;
+				if (mainChartContainer)
+					mainChartContainer.setStyle("backgroundColor", STRIP_CHART_DAY_COLOR);
+			}
+			else if (event.partName == "mainChart")
+			{
+				var chart:ScrubChart = ScrubChart(event.target);
+				//			chart.removeDefaultSeries();
+
+				var vitalSignKey:String = chart.getStyle("vitalSignKey");
+
+				var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
+				verticalAxis.minimum = STRIP_CHART_VERTICAL_AXIS_MINIMUM;
+				verticalAxis.maximum = STRIP_CHART_VERTICAL_AXIS_MAXIMUM;
+
+				chart.removeDefaultSeries();
+				// TODO: get the equipment name to use for the adherence items code
+				var scheduleItemName:String = "FORA D40b";
+				addAdherenceSeries(chart, scheduleItemName);
+
+				var mainCanvas:DataDrawingCanvas = chart.mainChart.backgroundElements[0] as DataDrawingCanvas;
+				if (mainCanvas)
+				{
+					updateAdherenceStripChartSeriesCompleteHandler(chart, mainCanvas,
+							mainCanvas ? mainCanvas.getChildAt(0) as Label : null, null, scheduleItemName,
+							model.record.equipmentScheduleItemsModel.equipmentScheduleItemCollection);
+					mainCanvas.invalidateSize();
+				}
+
+				var index:int = _chartsWithPendingCreationComplete.getItemIndex(chart);
+				if (index != -1)
+				{
+					_chartsWithPendingCreationComplete.removeItemAt(index);
+					checkReadyToSynchronizeDateLimits();
+				}
+
+				chart.mainChart.dataTipFunction = adherenceChart_dataTipFunction;
+			}
+			else if (event.partName == "rangeChart")
+			{
+				chart = ScrubChart(event.target);
+
+				if (chart.rangeChart)
+				{
+					verticalAxis = chart.rangeChart.verticalAxis as LinearAxis;
+					verticalAxis.minimum = STRIP_CHART_VERTICAL_AXIS_MINIMUM;
+					verticalAxis.maximum = STRIP_CHART_VERTICAL_AXIS_MAXIMUM;
+				}
+			}
 		}
 
-		private function bloodPressureChart_dataTipFunction(hitData:HitData):String
+		protected function medicationAdherenceStripChart_creationCompleteHandler(event:FlexEvent):void
 		{
-			var vitalSign:VitalSign = hitData.item as VitalSign;
-			if (vitalSign)
-			{
-				return (hitData.chartItem.element as Series).displayName + "<br/>" +
-						"<b>" + vitalSign.result.value + "</b> (" + vitalSign.result.unit.abbrev + ")<br/>" +
-						"Date measured: " + vitalSign.dateMeasuredStart.toLocaleString();
-			}
-			return hitData.displayText;
+			if (_traceEventHandlers)
+				trace("medicationAdherenceStripChart_creationCompleteHandler");
 		}
 
 		private function adherenceChart_dataTipFunction(hitData:HitData):String
@@ -533,6 +772,7 @@
 				return "Medication " + (adherenceItem.adherence ? "<b>Taken</b>" : "<b>Not</b> Taken") + "<br/>" +
 						"Date reported: " + adherenceItem.dateReported.toLocaleString();
 			}
+
 			var sample:MedicationConcentrationSample = hitData.item as MedicationConcentrationSample;
 			if (sample)
 			{
@@ -540,7 +780,14 @@
 						"Date: " + sample.date.toLocaleString();
 			}
 
-			return hitData.displayText;
+			var vitalSign:VitalSign = hitData.item as VitalSign;
+			if (vitalSign)
+			{
+				return vitalSign.name.text + " " + vitalSign.resultAsNumber.toFixed(2) + "<br/>" +
+						"Date: " + vitalSign.dateMeasuredStart.toLocaleString();
+			}
+
+			return hitData.item.toString();
 		}
 
 		private function updateMedicationChartSeries(chart:ScrubChart, medicationCode:String, ndcCode:String):void
@@ -574,14 +821,47 @@
 			addSeriesSet(chart, concentrationSeries);
 		}
 
-		private function series_updateCompleteHandler(event:FlexEvent):void
+		private function addVitalSignSeries(chart:ScrubChart, vitalSignKey:String):void
+		{
+			var vitalSignSeries:PlotSeries = new PlotSeries();
+			vitalSignSeries.name = "vitalSignPrimary";
+			vitalSignSeries.id = chart.id + "_primarySeries";
+			vitalSignSeries.xField = "dateMeasuredStart";
+			vitalSignSeries.yField = "resultAsNumber";
+			vitalSignSeries.dataProvider = model.record.vitalSignsModel.vitalSignsByCategory.getItem(vitalSignKey);
+//			vitalSignSeries.dataProvider = chart.mainData;
+			vitalSignSeries.setStyle("radius", 2.5);
+//			vitalSignSeries.setStyle("form", "curve");
+//			vitalSignSeries.setStyle("itemRenderer", new ClassFactory(LineSeriesCustomRenderer));
+			_seriesWithPendingUpdateComplete.addItem(vitalSignSeries);
+			vitalSignSeries.addEventListener(FlexEvent.UPDATE_COMPLETE, series_updateCompleteHandler);
+			vitalSignSeries.filterDataValues = "none";
+//			var color:uint = getVitalSignColor(vitalSignKey);
+			vitalSignSeries.setStyle("stroke", new SolidColorStroke(0x000000, 2));
+
+			chart.mainChart.series.push(vitalSignSeries);
+			chart.addDataSet(model.record.vitalSignsModel.vitalSignsByCategory.getItem(vitalSignKey), "dateMeasuredStart");
+			addSeriesSet(chart, vitalSignSeries);
+		}
+
+		protected function addCustomSeries(series:Series):void
+		{
+			_seriesWithPendingUpdateComplete.addItem(series);
+		}
+
+		protected function addCustomSeriesSet(seriesSet:ScrubChartSeriesSet):void
+		{
+			seriesSets.push(seriesSet);
+		}
+
+		protected function series_updateCompleteHandler(event:FlexEvent):void
 		{
 			var series:Series = event.target as Series;
 			series.removeEventListener(FlexEvent.UPDATE_COMPLETE, series_updateCompleteHandler, false);
 			checkAllSeriesComplete(series);
 		}
 
-		private function addAdherenceSeries(chart:ScrubChart, medicationCode:String):void
+		private function addAdherenceSeries(chart:ScrubChart, adherenceItemsCode:String):void
 		{
 			var adherenceSeries:PlotSeries = new PlotSeries();
 			adherenceSeries.name = "adherence";
@@ -589,14 +869,14 @@
 			adherenceSeries.xField = "dateReported";
 //			TODO: position the adherence series without the hack of using adherencePosition
 			adherenceSeries.yField = "adherencePosition";
-			adherenceSeries.dataProvider = model.adherenceItemsCollectionsByCode.getItem(medicationCode);
+			adherenceSeries.dataProvider = model.adherenceItemsCollectionsByCode.getItem(adherenceItemsCode);
 			adherenceSeries.setStyle("itemRenderer", new ClassFactory(AdherencePlotItemRenderer));
 //			adherenceSeries.filterFunction = adherenceSeriesFilter;
 			_seriesWithPendingUpdateComplete.addItem(adherenceSeries);
 			adherenceSeries.addEventListener(FlexEvent.UPDATE_COMPLETE, series_updateCompleteHandler);
 
 			chart.mainChart.series.push(adherenceSeries);
-			chart.addDataSet(model.adherenceItemsCollectionsByCode.getItem(medicationCode), "dateReported");
+			chart.addDataSet(model.adherenceItemsCollectionsByCode.getItem(adherenceItemsCode), "dateReported");
 
 			addSeriesSet(chart, adherenceSeries);
 		}
@@ -668,34 +948,7 @@
 			updateRangeChartVisibleStyles();
 		}
 
-		public function drawBloodPressureData(canvas:DataDrawingCanvas):void
-		{
-			if (_traceEventHandlers)
-				trace(this + ".drawBloodPressureData");
-
-			canvas.clear();
-
-			canvas.lineStyle(1, GOAL_ZONE_COLOR);
-
-			// systolic normal
-			canvas.beginFill(GOAL_ZONE_COLOR, 0.2);
-			canvas.drawRect([Edge.LEFT, -1], SimulationModel.SYSTOLIC_GOAL, [Edge.RIGHT, 1], 90);
-			canvas.endFill();
-
-			//				// diastolic normal
-			//				canvas.beginFill(GOAL_ZONE_COLOR, 0.2);
-			//				canvas.drawRect(Edge.LEFT, 80, Edge.RIGHT, 60);
-			//				canvas.endFill();
-
-			if (canvas == bloodPressureMainCanvas)
-			{
-				canvas.updateDataChild(systolicZoneLabel, {left: Edge.LEFT, top: SimulationModel.SYSTOLIC_GOAL});
-				//				canvas.updateDataChild(diastolicZoneLabel, {left: Edge.LEFT, bottom: 60});
-			}
-		}
-
-		public function drawConcentrationGoalRegion(canvas:DataDrawingCanvas, zoneLabel:Label, medicationCode:String,
-													ndcCode:String):void
+		public function drawConcentrationGoalRegion(canvas:DataDrawingCanvas, zoneLabel:Label, medicationCode:String, ndcCode:String):void
 		{
 			if (_traceEventHandlers)
 				trace(this + ".drawConcentrationGoalRegion");
@@ -708,18 +961,46 @@
 
 			canvas.beginFill(color, 0.25);
 			canvas.drawRect([Edge.LEFT, -1], medicationModel.goalConcentrationMinimum, [Edge.RIGHT, 1],
-							medicationModel.goalConcentrationMaximum);
+					medicationModel.goalConcentrationMaximum);
 			canvas.endFill();
 
 			if (zoneLabel)
 			{
 				zoneLabel.setStyle("color", color);
-				canvas.updateDataChild(zoneLabel, {left: Edge.LEFT, top: medicationModel.goalConcentrationMaximum});
+				canvas.updateDataChild(zoneLabel, {left:Edge.LEFT, top:medicationModel.goalConcentrationMaximum});
 			}
 		}
 
-		public function drawAdherenceStripRegions(canvas:DataDrawingCanvas, zoneLabel:Label, medicationCode:String,
-												  ndcCode:String):void
+		public function drawVitalSignGoalRegion(canvas:DataDrawingCanvas, zoneLabel:Label, vitalSignKey:String):void
+		{
+			if (_traceEventHandlers)
+				trace(this + ".drawVitalSignGoalRegion");
+
+			canvas.clear();
+
+//			var medicationModel:MedicationComponentAdherenceModel = model.focusSimulation.getMedication(medicationCode);
+			var color:uint = getVitalSignColor(vitalSignKey);
+			canvas.lineStyle(1, color);
+
+			canvas.beginFill(color, 0.25);
+			canvas.drawRect([Edge.LEFT, -1], 40, [Edge.RIGHT, 1],
+					120);
+			canvas.endFill();
+
+			if (zoneLabel)
+			{
+				zoneLabel.setStyle("color", color);
+				canvas.updateDataChild(zoneLabel, {left:Edge.LEFT, top:200});
+			}
+		}
+
+		private function getVitalSignColor(vitalSignKey:String):uint
+		{
+			// TODO: implement a better system for coloring the vital sign charts
+			return 0x4444FF;
+		}
+
+		public function drawAdherenceStripRegions(canvas:DataDrawingCanvas, zoneLabel:Label, scheduleItemName:String, scheduleItemCollection:ArrayCollection):void
 		{
 			if (_traceEventHandlers)
 				trace(this + ".drawAdherenceStripRegions");
@@ -728,11 +1009,11 @@
 			var firstDateStart:Date;
 			var lastDateEnd:Date;
 
-			for each (var medicationScheduleItem:MedicationScheduleItem in model.record.medicationScheduleItemsModel.medicationScheduleItemCollection)
+			for each (var scheduleItem:ScheduleItemBase in scheduleItemCollection)
 			{
-				if (medicationScheduleItem.name.value == medicationCode)
+				if (scheduleItemMatches(scheduleItem, scheduleItemName))
 				{
-					var newScheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = medicationScheduleItem.getScheduleItemOccurrences();
+					var newScheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = scheduleItem.getScheduleItemOccurrences();
 					scheduleItemOccurrences = scheduleItemOccurrences.concat(newScheduleItemOccurrences);
 					if (firstDateStart == null || newScheduleItemOccurrences[0].dateStart.time < firstDateStart.time)
 						firstDateStart = newScheduleItemOccurrences[0].dateStart;
@@ -759,7 +1040,7 @@
 					currentNightEnd.setHours(6, 0, 0, 0);
 
 					canvas.drawRect(currentNightStart, [Edge.TOP, -1],
-									currentNightEnd, [Edge.BOTTOM, 1]);
+							currentNightEnd, [Edge.BOTTOM, 1]);
 
 					// advance night start to 6pm on the next day
 					var nextNightStartTime:Number = currentNightStart.time + 1000 * 60 * 60 * 24;
@@ -778,19 +1059,30 @@
 			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrences)
 			{
 				canvas.drawRect(scheduleItemOccurrence.dateStart, [Edge.TOP, -1],
-								scheduleItemOccurrence.dateEnd, [Edge.BOTTOM, 1]);
+						scheduleItemOccurrence.dateEnd, [Edge.BOTTOM, 1]);
 			}
 
 			canvas.endFill();
 
 			if (zoneLabel)
 			{
-				canvas.updateDataChild(zoneLabel, {left: Edge.LEFT, top: Edge.TOP});
+				canvas.updateDataChild(zoneLabel, {left:Edge.LEFT, top:Edge.TOP});
 			}
 		}
 
-		public function drawAdherenceData2(chart:CartesianChart, canvas:CartesianDataCanvas, zoneLabel:Label,
-										   medicationCode:String, ndcCode:String):void
+		private function scheduleItemMatches(scheduleItem:ScheduleItemBase, scheduleItemName:String):Boolean
+		{
+			if (StringUtils.isEmpty(scheduleItem.name.value))
+			{
+				return scheduleItem.name.text == scheduleItemName;
+			}
+			else
+			{
+				return scheduleItem.name.value == scheduleItemName;
+			}
+		}
+
+		public function drawAdherenceData2(chart:CartesianChart, canvas:CartesianDataCanvas, zoneLabel:Label, medicationCode:String, ndcCode:String):void
 		{
 			if (_traceEventHandlers)
 				trace(this + ".drawAdherenceData2");
@@ -803,14 +1095,14 @@
 
 			canvas.beginFill(color, 0.25);
 			canvas.drawRect(new Date(1970), medicationModel.goalConcentrationMinimum,
-							model.currentDateSource.now(),
-							medicationModel.goalConcentrationMaximum / 2);
+					model.currentDateSource.now(),
+					medicationModel.goalConcentrationMaximum / 2);
 			canvas.endFill();
 
 			if (zoneLabel)
 			{
 				zoneLabel.setStyle("color", color);
-				canvas.updateDataChild(zoneLabel, {left: Edge.LEFT, top: medicationModel.goalConcentrationMaximum});
+				canvas.updateDataChild(zoneLabel, {left:Edge.LEFT, top:medicationModel.goalConcentrationMaximum});
 			}
 		}
 
@@ -835,48 +1127,6 @@
 		private function faultResult(event:FaultEvent):void
 		{
 			Alert.show("Error retrieving XML data", "Error");
-		}
-
-		protected function bloodPressureChart_creationCompleteHandler(event:FlexEvent):void
-		{
-			if (_traceEventHandlers)
-				trace(this + ".bloodPressureChart_creationCompleteHandler");
-
-			var chart:ScrubChart = ScrubChart(event.target);
-			chart.removeDefaultSeries();
-
-			var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
-			verticalAxis.minimum = BLOOD_PRESSURE_VERTICAL_AXIS_MINIMUM;
-			verticalAxis.maximum = BLOOD_PRESSURE_VERTICAL_AXIS_MAXIMUM;
-			verticalAxis = chart.mainChartCover.verticalAxis as LinearAxis;
-			verticalAxis.minimum = BLOOD_PRESSURE_VERTICAL_AXIS_MINIMUM;
-			verticalAxis.maximum = BLOOD_PRESSURE_VERTICAL_AXIS_MAXIMUM;
-
-			if (chart.rangeChart)
-			{
-				verticalAxis = chart.rangeChart.verticalAxis as LinearAxis;
-				verticalAxis.minimum = BLOOD_PRESSURE_VERTICAL_AXIS_MINIMUM;
-				verticalAxis.maximum = BLOOD_PRESSURE_VERTICAL_AXIS_MAXIMUM;
-			}
-			//				synchronizeDateLimits();
-
-			updateBloodPressureChartBackgroundElements(chart);
-
-			chart.mainChart.addEventListener(Event.RESIZE, bloodPressureChart_mainChart_resizeHandler, false, 0,
-											 true);
-
-			if (modality == Settings.MODALITY_TABLET)
-			{
-				if (chart.rangeOneMonthButton)
-					chart.rangeOneMonthButton.includeInLayout = chart.rangeOneMonthButton.visible = false;
-				if (chart.rangeOneYearButton)
-					chart.rangeOneYearButton.includeInLayout = chart.rangeOneYearButton.visible = false;
-				if (chart.rangeMaxButton)
-					chart.rangeMaxButton.includeInLayout = chart.rangeMaxButton.visible = false;
-			}
-			resizeFocusTimeMarker();
-
-			chart.mainChart.dataTipFunction = bloodPressureChart_dataTipFunction;
 		}
 
 		private function synchronizeDateLimits():void
@@ -953,13 +1203,11 @@
 			verticalAxis.maximum = 100;
 		}
 
-		private function updateAdherenceChartSeriesCompleteHandler(chart:ScrubChart, mainCanvas:DataDrawingCanvas,
-																   zoneLabel:Label, rangeCanvas:DataDrawingCanvas,
-																   medicationCode:String, ndcCode:String):void
+		private function updateAdherenceChartSeriesCompleteHandler(chart:ScrubChart, mainCanvas:DataDrawingCanvas, zoneLabel:Label, rangeCanvas:DataDrawingCanvas, medicationCode:String, ndcCode:String):void
 		{
 			drawConcentrationGoalRegion(mainCanvas, zoneLabel, medicationCode, ndcCode);
 			callLater(
-					function():void
+					function ():void
 					{
 						mainCanvas.invalidateDisplayList();
 					}
@@ -972,13 +1220,11 @@
 			}
 		}
 
-		private function updateAdherenceStripChartSeriesCompleteHandler(chart:ScrubChart, mainCanvas:DataDrawingCanvas,
-																		zoneLabel:Label, rangeCanvas:DataDrawingCanvas,
-																		medicationCode:String, ndcCode:String):void
+		private function updateVitalSignAdherenceChartSeriesCompleteHandler(chart:ScrubChart, mainCanvas:DataDrawingCanvas, zoneLabel:Label, rangeCanvas:DataDrawingCanvas, vitalSignKey:String):void
 		{
-			drawAdherenceStripRegions(mainCanvas, zoneLabel, medicationCode, ndcCode);
+			drawVitalSignGoalRegion(mainCanvas, zoneLabel, vitalSignKey);
 			callLater(
-					function():void
+					function ():void
 					{
 						mainCanvas.invalidateDisplayList();
 					}
@@ -987,7 +1233,24 @@
 			if (chart.rangeChart)
 			{
 				chart.rangeChart.backgroundElements.push(rangeCanvas);
-				drawAdherenceStripRegions(rangeCanvas, null, medicationCode, ndcCode);
+				drawVitalSignGoalRegion(rangeCanvas, null, vitalSignKey);
+			}
+		}
+
+		private function updateAdherenceStripChartSeriesCompleteHandler(chart:ScrubChart, mainCanvas:DataDrawingCanvas, zoneLabel:Label, rangeCanvas:DataDrawingCanvas, scheduleItemName:String, scheduleItemCollection:ArrayCollection):void
+		{
+			drawAdherenceStripRegions(mainCanvas, zoneLabel, scheduleItemName, scheduleItemCollection);
+			callLater(
+					function ():void
+					{
+						mainCanvas.invalidateDisplayList();
+					}
+			);
+
+			if (chart.rangeChart)
+			{
+				chart.rangeChart.backgroundElements.push(rangeCanvas);
+				drawAdherenceStripRegions(rangeCanvas, null, scheduleItemName, scheduleItemCollection);
 			}
 		}
 
@@ -997,18 +1260,6 @@
 			{
 				_seriesWithPendingUpdateComplete.removeItemAt(_seriesWithPendingUpdateComplete.getItemIndex(series));
 				checkReadyToSynchronizeDateLimits();
-			}
-		}
-
-		private function updateBloodPressureChartBackgroundElements(chart:ScrubChart):void
-		{
-			chart.mainChart.backgroundElements.push(bloodPressureMainCanvas);
-			drawBloodPressureData(bloodPressureMainCanvas);
-
-			if (chart.rangeChart)
-			{
-				chart.rangeChart.backgroundElements.push(bloodPressureRangeCanvas);
-				drawBloodPressureData(bloodPressureRangeCanvas);
 			}
 		}
 
@@ -1095,8 +1346,8 @@
 			}
 			setSingleChartMode(visibleCharts[0], false);
 
-			visibleCharts = getVisibleCharts(allCharts, null, _singleChartMode, model.showAdherence,
-											 model.showHeartRate);
+			visibleCharts = getVisibleCharts(allCharts, null, _singleChartMode, model.showAdherence
+			);
 
 			this.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 
@@ -1118,8 +1369,8 @@
 			synchronizedTrial.stop(_benchmarkFrameCount);
 
 			var allCharts:Vector.<TouchScrollingScrubChart> = getAllCharts();
-			individualChartsQueue = getVisibleCharts(allCharts, null, _singleChartMode, model.showAdherence,
-													 model.showHeartRate);
+			individualChartsQueue = getVisibleCharts(allCharts, null, _singleChartMode, model.showAdherence
+			);
 
 			startIndividualTrial();
 		}
@@ -1162,7 +1413,7 @@
 				for each (var trial:BenchmarkTrial in individualTrials)
 				{
 					traceAndLog("  " + StringUtils.padRight(trial.name + ":", " ",
-															20) + " " + trial.fps.toFixed(2));
+							20) + " " + trial.fps.toFixed(2));
 				}
 			}
 		}
@@ -1184,8 +1435,7 @@
 		//
 		//			}
 
-		private function doScrollTest(chart:TouchScrollingScrubChart, screensToScroll:Number, timeToScroll:Number,
-									  effectEndHandler:Function):void
+		private function doScrollTest(chart:TouchScrollingScrubChart, screensToScroll:Number, timeToScroll:Number, effectEndHandler:Function):void
 		{
 			var scrollRightAnimate:Animate = new Animate(chart);
 			//				scrollRightAnimate.easer = new Power(0.5, 3);
@@ -1258,6 +1508,7 @@
 //					chart.setStyle("topBorderVisible", true);
 				}
 
+				// TODO: the order of the charts in _charts is currently inconsistent with the order the charts are in visually
 				if (i == _visibleCharts.length - 1)
 				{
 					// bottom chart
@@ -1275,7 +1526,7 @@
 			if (_visibleCharts.length > 1 && targetChart != null)
 			{
 				var nonTargetCharts:Vector.<TouchScrollingScrubChart> = getVisibleNonTargetCharts(_visibleCharts,
-																								  targetChart);
+						targetChart);
 				synchronizeScrollPositions(targetChart, nonTargetCharts);
 				synchronizeFocusTimes(targetChart, nonTargetCharts);
 			}
@@ -1283,22 +1534,27 @@
 
 		protected function getAllCharts():Vector.<TouchScrollingScrubChart>
 		{
+//			var allCharts:Vector.<TouchScrollingScrubChart> = new Vector.<TouchScrollingScrubChart>();
+//			for each (var chart:TouchScrollingScrubChart in _adherenceCharts.values())
+//			{
+//				allCharts.push(chart);
+//			}
+//			if (bloodPressureChart)
+//			{
+//				allCharts.push(bloodPressureChart);
+//			}
+//			return allCharts;
+//			return _charts;
 			var allCharts:Vector.<TouchScrollingScrubChart> = new Vector.<TouchScrollingScrubChart>();
 			for each (var chart:TouchScrollingScrubChart in _adherenceCharts.values())
 			{
 				allCharts.push(chart);
 			}
-			if (bloodPressureChart)
-			{
-				allCharts.push(bloodPressureChart);
-			}
+			allCharts = allCharts.concat(_customCharts);
 			return allCharts;
 		}
 
-		protected function getVisibleCharts(allCharts:Vector.<TouchScrollingScrubChart>,
-											targetChart:TouchScrollingScrubChart, singleChartMode:Boolean,
-											showAdherence:Boolean,
-											showHeartRate:Boolean):Vector.<TouchScrollingScrubChart>
+		protected function getVisibleCharts(allCharts:Vector.<TouchScrollingScrubChart>, targetChart:TouchScrollingScrubChart, singleChartMode:Boolean, showAdherence:Boolean):Vector.<TouchScrollingScrubChart>
 		{
 			var visibleCharts:Vector.<TouchScrollingScrubChart> = new Vector.<TouchScrollingScrubChart>();
 			for each (var chart:TouchScrollingScrubChart in allCharts)
@@ -1308,16 +1564,11 @@
 					if (chart == targetChart)
 						visibleCharts.push(chart);
 				}
-				else if (chart != bloodPressureChart)
+				else if (isAdherenceChart(chart))
 				{
 					if (showAdherence)
 						visibleCharts.push(chart);
 				}
-				//				else if (chart == heartRateChart)
-				//				{
-				//					if (showHeartRate)
-				//						visibleCharts.push(chart);
-				//				}
 				else
 				{
 					visibleCharts.push(chart);
@@ -1326,8 +1577,12 @@
 			return visibleCharts;
 		}
 
-		protected function getVisibleNonTargetCharts(visibleCharts:Vector.<TouchScrollingScrubChart>,
-													 targetChart:TouchScrollingScrubChart):Vector.<TouchScrollingScrubChart>
+		protected function isAdherenceChart(chart:TouchScrollingScrubChart):Boolean
+		{
+			return _adherenceCharts.values().indexOf(chart) != -1;
+		}
+
+		protected function getVisibleNonTargetCharts(visibleCharts:Vector.<TouchScrollingScrubChart>, targetChart:TouchScrollingScrubChart):Vector.<TouchScrollingScrubChart>
 		{
 			var visibleNonTargetCharts:Vector.<TouchScrollingScrubChart> = new Vector.<TouchScrollingScrubChart>();
 			for each (var chart:TouchScrollingScrubChart in visibleCharts)
@@ -1353,8 +1608,7 @@
 			queueUpdateSimulation(targetChart);
 		}
 
-		protected function synchronizeScrollPositions(targetChart:TouchScrollingScrubChart,
-													  otherCharts:Vector.<TouchScrollingScrubChart>):void
+		protected function synchronizeScrollPositions(targetChart:TouchScrollingScrubChart, otherCharts:Vector.<TouchScrollingScrubChart>):void
 		{
 			for each (var otherChart:TouchScrollingScrubChart in otherCharts)
 			{
@@ -1365,8 +1619,7 @@
 			}
 		}
 
-		protected function synchronizeFocusTimes(targetChart:TouchScrollingScrubChart,
-												 otherCharts:Vector.<TouchScrollingScrubChart>):void
+		protected function synchronizeFocusTimes(targetChart:TouchScrollingScrubChart, otherCharts:Vector.<TouchScrollingScrubChart>):void
 		{
 			for each (var otherChart:TouchScrollingScrubChart in otherCharts)
 			{
@@ -1433,8 +1686,8 @@
 			if (targetChart == null || _scrollTargetChart != targetChart)
 			{
 				var allCharts:Vector.<TouchScrollingScrubChart> = getAllCharts();
-				_visibleCharts = getVisibleCharts(allCharts, targetChart, _singleChartMode, model.showAdherence,
-												  model.showHeartRate);
+				_visibleCharts = getVisibleCharts(allCharts, targetChart, _singleChartMode, model.showAdherence
+				);
 				_nonTargetCharts = getVisibleNonTargetCharts(_visibleCharts, targetChart);
 				_scrollTargetChart = targetChart;
 			}
@@ -1463,48 +1716,7 @@
 
 //			if (shouldApplyChangesToSimulation)
 			model.focusSimulation.date = new Date(targetChart.focusTime);
-
-			var dataIndexMessage:String = "";
-			var bloodPressureDataPoint:VitalSign;
-			var series:Series = bloodPressureChart.mainChart.series[0];
-			var chartItem:ChartItem;
-			if (series)
-			{
-				var dataCollection:ArrayCollection = series.dataProvider as ArrayCollection;
-				var bloodPressureDataIndex:int = bloodPressureChart.findPreviousDataIndex(dataCollection,
-																						  model.focusSimulation.date.time);
-				if (bloodPressureDataIndex != -1)
-				{
-					dataIndexMessage = " (" + (bloodPressureDataIndex + 1) + " of " + dataCollection.length + ")";
-					bloodPressureDataPoint = dataCollection.getItemAt(bloodPressureDataIndex) as VitalSign;
-					series.selectedIndex = bloodPressureDataIndex;
-					if (series.items)
-					{
-						chartItem = series.items[bloodPressureDataIndex] as ChartItem;
-					}
-				}
-			}
-			if (chartItem)
-				bloodPressureChart.highlightChartItem(chartItem);
-			else
-				bloodPressureChart.hideDataPointHighlight();
-
-			if (shouldApplyChangesToSimulation)
-			{
-				model.focusSimulation.dataPointDate = bloodPressureDataPoint == null ? null : bloodPressureDataPoint.dateMeasuredStart;
-				model.focusSimulation.systolic = bloodPressureDataPoint == null ? NaN : bloodPressureDataPoint.resultAsNumber;
-			}
-			// TODO: fix diastolic
-//			model.simulation.diastolic = bloodPressureDataPoint == null ? NaN : bloodPressureDataPoint.diastolic;
-
-			var hypertensionSeverity:Number = 0;
-			if (!isNaN(model.focusSimulation.systolic))
-			{
-				hypertensionSeverity = Math.max(0, (model.focusSimulation.systolic - 120) / 20);
-			}
-
-			//				simulationGlow.alpha = hypertensionSeverity;
-
+			var dataIndexMessage:String = updateSimulationForCustomCharts();
 			var medicationUpdateDescriptions:Array = new Array();
 			if (model.isAdherenceLoaded)
 			{
@@ -1525,11 +1737,16 @@
 
 			if (_traceEventHandlers)
 				trace("updateSimulation " + targetChart.id + " focusTime " +
-							  ScrubChart.traceDate(model.focusSimulation.date.time) + " dateMeasuredStart " +
-							  (model.focusSimulation.dataPointDate ? ScrubChart.traceDate(model.focusSimulation.dataPointDate.time) : "(unavailable)") +
-							  " systolic " +
-							  model.focusSimulation.systolic + dataIndexMessage +
-							  " [" + medicationUpdateDescriptions.join(", ") + "]");
+						ScrubChart.traceDate(model.focusSimulation.date.time) + " dateMeasuredStart " +
+						(model.focusSimulation.dataPointDate ? ScrubChart.traceDate(model.focusSimulation.dataPointDate.time) : "(unavailable)") +
+						" systolic " +
+						model.focusSimulation.systolic + dataIndexMessage +
+						" [" + medicationUpdateDescriptions.join(", ") + "]");
+		}
+
+		protected function updateSimulationForCustomCharts():String
+		{
+			return null;
 		}
 
 		public function get chartFooterVisible():Boolean
@@ -1556,7 +1773,7 @@
 		private function traceAndLog(message:String):void
 		{
 			trace(message);
-			logger.info(message);
+			_logger.info(message);
 		}
 
 		private function updateRangeChartVisibleStyles():void
@@ -1576,56 +1793,11 @@
 			respondToModelUpdate();
 		}
 
-		private function initializeSeriesSets():void
+		protected function initializeSeriesSets():void
 		{
-			_seriesWithPendingUpdateComplete.addItem(systolicSeries);
-			_seriesWithPendingUpdateComplete.addItem(diastolicSeries);
-
-			if (bloodPressureChart && bloodPressureChart.mainChart)
-			{
-				if (!_isSeriesSetsInitialized)
-				{
-					_isSeriesSetsInitialized = true;
-					addBloodPressureDataSets();
-					var seriesSet:ScrubChartSeriesSet;
-
-					seriesSet = new ScrubChartSeriesSet();
-					seriesSet.chart = bloodPressureChart.mainChart;
-					seriesSet.series.push(systolicSeries);
-					seriesSet.series.push(diastolicSeries);
-					seriesSets.push(seriesSet);
-
-					if (bloodPressureChart.rangeChart)
-					{
-						seriesSet = new ScrubChartSeriesSet();
-						seriesSet.chart = bloodPressureChart.rangeChart;
-						seriesSet.series.push(systolicRangeSeries);
-						seriesSet.series.push(diastolicRangeSeries);
-						seriesSets.push(seriesSet);
-					}
-				}
-				else
-				{
-					updateOtherCharts();
-				}
-			}
+			
 		}
-
-		private function updateOtherCharts():void
-		{
-			var chart:TouchScrollingScrubChart = bloodPressureChart;
-			if (chart)
-			{
-				chart.clearDataSets();
-				addBloodPressureDataSets();
-			}
-//			var series:Series = chart.mainChart.series[0];
-//			if (series)
-//			{
-//				series.dataProvider = seriesDataCollection;
-//			}
-		}
-
+		
 		[Bindable]
 		public function get useHorizontalTouchScrolling():Boolean
 		{
@@ -1635,11 +1807,6 @@
 		public function set useHorizontalTouchScrolling(value:Boolean):void
 		{
 			_useHorizontalTouchScrolling = value;
-		}
-
-		private function bloodPressureChart_mainChart_resizeHandler(event:ResizeEvent):void
-		{
-			resizeFocusTimeMarker();
 		}
 
 		private function getMedicationColor(ndcCode:String):uint
@@ -1686,7 +1853,7 @@
 					{
 						var dataCollection:ArrayCollection = series.dataProvider as ArrayCollection;
 						var concentrationDataIndex:int = currentAdherenceChart.findPreviousDataIndex(dataCollection,
-																									 model.focusSimulation.date.time);
+								model.focusSimulation.date.time);
 						if (concentrationDataIndex != -1)
 						{
 							concentrationDataPoint = dataCollection.getItemAt(concentrationDataIndex) as MedicationConcentrationSample;
@@ -1714,119 +1881,15 @@
 			}
 		}
 
-		private function resizeFocusTimeMarker():void
-		{
-			bloodPressureChart.focusTimeMarker.y = -bloodPressureGroup.y + this.paddingTop;
-			bloodPressureChart.focusTimeMarker.height = this.height - bloodPressureChart.footer.height - this.paddingTop - this.paddingBottom;
-		}
-
 		private function chartsGroup_resizeHandler(event:ResizeEvent):void
 		{
-			resizeFocusTimeMarker();
-		}
-
-		private function bloodPressureMainCanvas_resizeHandler(event:ResizeEvent):void
-		{
-			if (_traceEventHandlers)
-				trace("bloodPressureMainCanvas_resizeHandler " + event.target.width + ", " + event.target.height);
+//			resizeFocusTimeMarker();
 		}
 
 		private function checkReadyToSynchronizeDateLimits():void
 		{
 			if (_seriesWithPendingUpdateComplete.length == 0 && _chartsWithPendingCreationComplete.length == 0)
 				queueSynchronizeDateLimits();
-		}
-
-		private function createConcentrationChart(medicationCode:String, medicationFill:MedicationFill,
-												  medicationAdministration:MedicationAdministration):TouchScrollingScrubChart
-		{
-			var chart:TouchScrollingScrubChart = createAdherenceChart(medicationCode, medicationFill,
-																	  getConcentrationChartKey(medicationCode));
-			chart.setStyle("topBorderVisible", true);
-			var nameString:String;
-			if (medicationFill)
-				nameString = medicationFill.name.text;
-			else
-				nameString = medicationAdministration.name.text;
-			var medicationName:MedicationName = MedicationNameUtil.parseName(nameString);
-			chart.mainChartTitle = medicationName.medicationName;
-
-			chart.seriesName = "concentration";
-			chart.data = model.medicationConcentrationCurvesByCode.getItem(medicationCode);
-
-			chart.addEventListener(SkinPartEvent.PART_ADDED, adherenceChart_skinPartAddedHandler, false, 0,
-								   true);
-			chart.addEventListener(FlexEvent.CREATION_COMPLETE, adherenceChart_creationCompleteHandler,
-								   false, 0, true);
-
-			return chart;
-		}
-
-		private function createAdherenceStripChart(medicationCode:String, medicationFill:MedicationFill,
-												   medicationAdministration:MedicationAdministration):TouchScrollingScrubChart
-		{
-			var chart:TouchScrollingScrubChart = createAdherenceChart(medicationCode, medicationFill,
-																	  getAdherenceStripChartKey(medicationCode));
-
-			chart.setStyle("topBorderVisible", false);
-			chart.height = 20;
-			chart.seriesName = "adherence";
-			chart.data = model.adherenceItemsCollectionsByCode.getItem(medicationCode);
-			chart.dateField = "dateReported";
-
-			chart.addEventListener(SkinPartEvent.PART_ADDED, adherenceStripChart_skinPartAddedHandler, false, 0,
-								   true);
-			chart.addEventListener(FlexEvent.CREATION_COMPLETE, adherenceStripChart_creationCompleteHandler,
-								   false, 0, true);
-
-			return chart;
-		}
-
-		private function createAdherenceChart(medicationCode:String, medicationFill:MedicationFill,
-											  chartKey:String):TouchScrollingScrubChart
-		{
-			var chart:TouchScrollingScrubChart = new TouchScrollingScrubChart();
-			chart.id = "adherence" + medicationCode;
-			chart.setStyle("medicationCode", medicationCode);
-			if (medicationFill)
-				chart.setStyle("ndcCode", medicationFill.ndc.text);
-			chart.setStyle("skinClass", ScrubChartMedicationSkin);
-//			chart.setStyle("skinClass", ScrubChartMinimalSkin);
-			chart.percentWidth = 100;
-			chart.percentHeight = 100;
-			chart.setStyle("sliderVisible", false);
-			chart.today = model.currentDateSource.now();
-			chart.showFps = model.showFps;
-			chart.initialDurationTime = initialDurationTime;
-			chart.showFocusTimeMarker = false;
-			chart.scrollEnabled = scrollEnabled;
-			chart.synchronizedAxisCache = synchronizedAxisCache;
-			chart.useHorizontalTouchScrolling = useHorizontalTouchScrolling;
-
-			chart.addEventListener(ScrollEvent.SCROLL, chart_scrollHandler, false, 0, true);
-			chart.addEventListener(TouchScrollerEvent.SCROLL_START, chart_scrollStartHandler, false, 0,
-								   true);
-			chart.addEventListener(TouchScrollerEvent.SCROLL_STOP, chart_scrollStopHandler, false, 0, true);
-			chart.addEventListener(FocusTimeEvent.FOCUS_TIME_CHANGE, chart_focusTimeChangeHandler, false, 0,
-								   true);
-
-			_chartsWithPendingCreationComplete.addItem(chart);
-			_adherenceCharts.addKeyValue(chartKey, chart);
-
-			chart.percentWidth = 100;
-			chart.percentHeight = 100;
-
-			return chart;
-		}
-
-		private function getConcentrationChartKey(medicationCode:String):String
-		{
-			return medicationCode + "_concentration";
-		}
-
-		private function getAdherenceStripChartKey(medicationCode:String):String
-		{
-			return medicationCode + "_adherence";
 		}
 
 		public function get useSliceMainData():Boolean
@@ -1885,12 +1948,6 @@
 			setSingleChartMode(null, false);
 		}
 
-		private function addBloodPressureDataSets():void
-		{
-			bloodPressureChart.addDataSet(model.systolicData, "dateMeasuredStart");
-			bloodPressureChart.addDataSet(model.diastolicData, "dateMeasuredStart");
-		}
-
 		public function get skipUpdateSimulation():Boolean
 		{
 			return _skipUpdateSimulation;
@@ -1901,41 +1958,17 @@
 			_skipUpdateSimulation = value;
 		}
 
-//		mx_internal override function $invalidateDisplayList():void
-//		{
-//			super.mx_internal::$invalidateDisplayList();
-//		}
-
-		override public function invalidateDisplayList():void
+		protected function removeItem(categories:ArrayCollection, item:String):void
 		{
-			super.invalidateDisplayList();
+			var itemIndex:int = categories.getItemIndex(item);
+			if (itemIndex != -1)
+				categories.removeItemAt(itemIndex);
 		}
-		]]></fx:Script>
-	<s:HGroup id="bloodPressureGroup" height="100%" width="100%" gap="0" minHeight="300">
-		<s:Group height="100%">
-			<images:BloodPressureScheduleItemClockView width="100" height="100" verticalCenter="0"/>
-		</s:Group>
-		<controls:TouchScrollingScrubChart id="bloodPressureChart"
-										   skinClass="com.dougmccune.controls.ScrubChartMinimalSkin"
-										   height="100%" width="100%"
-										   creationComplete="bloodPressureChart_creationCompleteHandler(event)"
-										   topBorderVisible="true"
-										   sliderVisible="false"
-										   mainChartTitle="Blood Pressure (mmHg)"
-										   seriesName="resultAsNumber"
-										   data="{model.isInitialized ? model.systolicData : null}"
-										   dateField="dateMeasuredStart"
-										   today="{model.currentDateSource.now()}"
-										   showFps="{model.showFps}"
-										   scroll="chart_scrollHandler(event)"
-										   scrollStart="chart_scrollStartHandler(event)"
-										   scrollStop="chart_scrollStopHandler(event)"
-										   focusTimeChange="chart_focusTimeChangeHandler(event)"
-										   initialDurationTime="{initialDurationTime}"
-										   showFocusTimeMarker="{showFocusTimeMarker}"
-										   scrollEnabled="{scrollEnabled}"
-										   synchronizedAxisCache="{synchronizedAxisCache}"
-										   useHorizontalTouchScrolling="{useHorizontalTouchScrolling}"
-				/>
-	</s:HGroup>
-</s:VGroup>
+
+		//		mx_internal override function $invalidateDisplayList():void
+		//		{
+		//			super.mx_internal::$invalidateDisplayList();
+		//		}
+
+	}
+}

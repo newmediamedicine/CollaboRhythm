@@ -17,7 +17,6 @@
 package collaboRhythm.plugins.bloodPressure.model
 {
 
-	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 	import collaboRhythm.shared.apps.bloodPressure.model.ConcentrationSeverityProvider;
 	import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
 	import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
@@ -69,6 +68,21 @@ package collaboRhythm.plugins.bloodPressure.model
 													record.medicationAdministrationsModel);
 				initializeMedicationSimulationModel(record.bloodPressureModel.currentSimulation,
 													record.medicationAdministrationsModel);
+				initializeVitalSignSimulationModel(record.bloodPressureModel.focusSimulation);
+				initializeVitalSignSimulationModel(record.bloodPressureModel.currentSimulation);
+			}
+		}
+
+		private function initializeVitalSignSimulationModel(simulation:SimulationModel):void
+		{
+			for each (var vitalSignKey:String in record.vitalSignsModel.vitalSignsByCategory.keys)
+			{
+				var vitalSigns:ArrayCollection = record.vitalSignsModel.vitalSignsByCategory[vitalSignKey];
+
+				if (vitalSigns && vitalSigns.length > 0)
+				{
+					simulation.addVitalSign(vitalSigns[vitalSigns.length - 1]);
+				}
 			}
 		}
 
