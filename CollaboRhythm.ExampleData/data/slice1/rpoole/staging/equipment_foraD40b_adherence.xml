@@ -2,6 +2,7 @@
 <IndivoDocuments>
 	<BloodPressureAdherenceItem>
 		<name>FORA D40b</name>
+		<instructions>Use device to record blood pressure systolic and blood pressure diastolic readings. Heart rate will also be recorded. Press the power button and wait several seconds to take reading.</instructions>
 		<reportedBy>rpoole@records.media.mit.edu</reportedBy>
 		<dateReported>2010-01-15T14:57:00Z</dateReported>
 		<adherence>true</adherence>

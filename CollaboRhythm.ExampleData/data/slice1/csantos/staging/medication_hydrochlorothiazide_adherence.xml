@@ -22,6 +22,7 @@
 		<dateReported>2011-07-15T14:57:00Z</dateReported>
 		<adherence>true</adherence>
 		<ndc>006033856</ndc>
+		<indication>diabetes</indication>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">Hydrochlorothiazide 25 MG Oral Tablet</name>

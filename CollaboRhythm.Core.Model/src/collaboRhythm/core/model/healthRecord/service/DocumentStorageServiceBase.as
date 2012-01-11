@@ -123,7 +123,7 @@ package collaboRhythm.core.model.healthRecord.service
 					loadReplacedDocuments(record, document);
 				}
 			}
-			isLoading = false;
+			checkPendingRequests(record);
 		}
 
 		protected function handleReportResponse(event:IndivoClientEvent, responseXml:XML,
@@ -217,6 +217,7 @@ package collaboRhythm.core.model.healthRecord.service
 			var nowTime:Number = _currentDateSource.now().time;
 
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
+			var numDocuments:int = reportsXml.Report.length();
 			for each (var reportXml:XML in reportsXml.Report)
 			{
 				var document:IDocument = unmarshallReportXml(reportXml);
@@ -229,13 +230,18 @@ package collaboRhythm.core.model.healthRecord.service
 					collection.addItem(document);
 				}
 			}
-			logParsedReportDocuments(collection);
+			logParsedReportDocuments(collection, numDocuments);
 			return collection;
 		}
 
-		protected function logParsedReportDocuments(collection:ArrayCollection):void
+		protected function logParsedReportDocuments(collection:ArrayCollection, numDocuments:int):void
 		{
-			_logger.info("Parsed " + collection.length + " " + targetDocumentType + " document" + (collection.length == 1 ? "" : "s") + " from report");
+			var numDocumentsFiltered:Number = numDocuments - collection.length;
+			var filteredClause:String = numDocumentsFiltered > 0 ? (" (" + (numDocumentsFiltered) + " document" +
+					(numDocumentsFiltered == 1 ? "" : "s") + " filtered out)") : "";
+			var ofTotalClause:String = numDocumentsFiltered > 0 ? (" of " + numDocuments) : "";
+			_logger.info("Parsed " + collection.length + ofTotalClause + " " + targetDocumentType +
+					" document" + (collection.length == 1 ? "" : "s") + " from report" + filteredClause);
 		}
 
 		public function marshallToXml(document:IDocument):String
@@ -356,7 +362,7 @@ package collaboRhythm.core.model.healthRecord.service
 
 		protected function get numPendingRequests():int
 		{
-			return _pendingReportRequests.size();
+			return _pendingReportRequests.size() + _pendingReplacedDocumentRequests.size();
 		}
 
 		private function finishLoading(record:Record):void

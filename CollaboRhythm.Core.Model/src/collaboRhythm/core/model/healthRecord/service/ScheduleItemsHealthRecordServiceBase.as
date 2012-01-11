@@ -29,44 +29,6 @@ package collaboRhythm.core.model.healthRecord.service
 			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "RecurrenceRule"), RecurrenceRule);
 		}
 
-		override protected function get numPendingRequests():int
-		{
-			return super.numPendingRequests + _pendingReplacedDocumentRequests.size();
-		}
-
-		override protected function handleResponse(event:IndivoClientEvent, responseXml:XML,
-												   healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
-		{
-			var requestDetails:HealthRecordServiceRequestDetails = event.userData as HealthRecordServiceRequestDetails;
-			if (requestDetails == null)
-				throw new Error("userData must be a HealthRecordServiceRequestDetails object");
-
-			var record:Record = requestDetails.record;
-			if (record == null)
-				throw new Error("userData.record must be a Record object");
-
-			if (requestDetails.indivoApiCall == GET_REPORTS_MINIMAL)
-			{
-				handleReportResponse(event, responseXml, healthRecordServiceRequestDetails);
-			}
-			else if (requestDetails.indivoApiCall == GET_DOCUMENT)
-			{
-				handleGetDocument(responseXml, record, healthRecordServiceRequestDetails);
-			}
-			else if (requestDetails.indivoApiCall == GET_METADATA)
-			{
-				var document:IDocument = healthRecordServiceRequestDetails.document;
-				if (document)
-				{
-					DocumentMetadata.parseDocumentMetadata(responseXml, document.meta);
-					_relationshipXmlMarshaller.unmarshallRelationshipsFromMetadata(responseXml, document);
-					unmarshallSpecialRelationships(responseXml, document);
-					record.addDocument(document);
-					loadReplacedDocuments(record, document);
-				}
-			}
-		}
-
 		override protected function documentShouldBeIncluded(document:IDocument, nowTime:Number):Boolean
 		{
 			var scheduleItem:ScheduleItemBase = document as ScheduleItemBase;

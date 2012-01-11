@@ -1,0 +1,266 @@
+<?xml version="1.0"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:controls="com.dougmccune.controls.*"
+		 xmlns:view="collaboRhythm.shared.view.*"
+		 xmlns:buttons="collaboRhythm.simulation.view.buttons.*"
+		 y="{Math.round(arrowTailY - this.height / 2)}"
+		 width="280"
+		 height="50"
+		 creationComplete="creationCompleteHandler(event)"
+		>
+	<s:layout>
+		<controls:ChildIndependentLayout/>
+	</s:layout>
+
+	<fx:Metadata>
+		[Event(name="drillDownLevel", type="collaboRhythm.simulation.view.SimulationLevelEvent")]
+		[Event(name="expand", type="collaboRhythm.simulation.view.buttons.ExpandCollapseEvent")]
+	</fx:Metadata>
+
+	<fx:Style>
+		@namespace "collaboRhythm.shared.view.*";
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+
+		<!-- TODO: figure out how to use styles to set this instead of programmaticly in creationCompleteHandler -->
+		IconButton #iconDisplay {
+			horizontalCenter: 0;
+			verticalCenter: 0;
+			left: NaN;
+			top: NaN;
+			right: NaN;
+			bottom: NaN;
+		}
+
+	</fx:Style>
+
+	<fx:Declarations>
+		<s:Move id="hideStepsListEffect" target="stepsList" yFrom="{buttonGroup.y + buttonGroup.height - 1}"
+				yTo="{buttonGroup.y + buttonGroup.height - stepsList.height - 1}"/>
+		<s:Move id="showStepsListEffect" target="stepsList" yTo="{buttonGroup.y + buttonGroup.height - 1}"
+				yFrom="{buttonGroup.y + buttonGroup.height - stepsList.height - 1}"/>
+	</fx:Declarations>
+
+	<s:states>
+		<s:State name="collapsed"/>
+		<s:State name="expanded"/>
+	</s:states>
+
+	<s:Group id="listMask" y="{buttonGroup.y + buttonGroup.height - 1}">
+		<s:Rect width="{this.width}" height="{stepsList.height}">
+			<s:fill>
+				<s:SolidColor alpha="0"/>
+			</s:fill>
+		</s:Rect>
+	</s:Group>
+	<buttons:SelectionlessList id="stepsList"
+							   visible.collapsed="false"
+							   visible.expanded="true"
+							   y="{initializeStepsListY(buttonGroup.y + buttonGroup.height - 1, buttonGroup.y + buttonGroup.height - stepsList.height - 1)}"
+							   mask="{listMask}"
+							   hideEffect="{hideStepsListEffect}"
+							   showEffect="{showStepsListEffect}"
+							   horizontalCenter="0"
+							   skinClass="spark.skins.spark.ListSkin"
+							   itemRenderer="collaboRhythm.simulation.view.buttons.StepListItemRenderer"
+							   move="stepsList_moveHandler(event)"
+							   dataProvider="{listDataProvider}"
+							   borderColor="#58595B"
+							   contentBackgroundColor="#D1D3D4">
+		<buttons:layout>
+			<s:VerticalLayout gap="14" paddingLeft="5" paddingRight="5" paddingTop="13" paddingBottom="8"/>
+		</buttons:layout>
+	</buttons:SelectionlessList>
+	<s:HGroup id="buttonGroup"
+			  height="100%"
+			  width="100%"
+			  gap="0"
+			>
+		<buttons:ContentButton
+				id="contentButton"
+				width="100%" height="100%"
+				label="{this.label}"
+				subtitle="{this.subtitle}"
+				click="dispatchEvent(new SimulationLevelEvent(SimulationLevelEvent.DRILL_DOWN_LEVEL));">
+			<buttons:leftContent>
+				{this.leftContent}
+			</buttons:leftContent>
+			<buttons:rightContent>
+				{this.rightContent}
+			</buttons:rightContent>
+			<buttons:rightLayout>
+				<s:HorizontalLayout gap="10" paddingRight="10" verticalAlign="middle"/>
+			</buttons:rightLayout>
+		</buttons:ContentButton>
+		<view:IconButton id="expandButton"
+						 width="40" height="100%"
+						 cornerRadius="5"
+						 click.expanded="{expanded = false}"
+						 icon.expanded="@Embed('/assets/images/icons/CollapseButtonIcon.png')"
+						 click.collapsed="{expanded = true}"
+						 icon.collapsed="@Embed('/assets/images/icons/ExpandButtonIcon.png')"
+						 skinClass="collaboRhythm.shared.view.IconButtonSkin"
+				/>
+	</s:HGroup>
+
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.bloodPressure.view.simulation.*;
+		import collaboRhythm.shared.view.IconButton;
+		import collaboRhythm.simulation.view.SimulationLevelEvent;
+
+		import mx.collections.IList;
+		import mx.events.FlexEvent;
+		import mx.events.MoveEvent;
+
+		private var _leftContent:Array;
+		private var _rightContent:Array;
+		private var _label:String;
+		private var _subtitle:String;
+		private var _listDataProvider:IList;
+		private var _arrowTailY:Number;
+
+		[Bindable]
+		public function get leftContent():Array
+		{
+			return _leftContent;
+		}
+
+		public function set leftContent(value:Array):void
+		{
+			_leftContent = value;
+		}
+
+		[Bindable]
+		public function get rightContent():Array
+		{
+			return _rightContent;
+		}
+
+		public function set rightContent(value:Array):void
+		{
+			_rightContent = value;
+		}
+
+		[Bindable]
+		public function get label():String
+		{
+			return _label;
+		}
+
+		public function set label(value:String):void
+		{
+			_label = value;
+		}
+
+		[Bindable]
+		public function get subtitle():String
+		{
+			return _subtitle;
+		}
+
+		public function set subtitle(value:String):void
+		{
+			_subtitle = value;
+		}
+
+		[Bindable]
+		public function get listDataProvider():IList
+		{
+			return _listDataProvider;
+		}
+
+		public function set listDataProvider(value:IList):void
+		{
+			_listDataProvider = value;
+		}
+
+		[Bindable]
+		public function get arrowTailY():Number
+		{
+			return _arrowTailY;
+		}
+
+		public function set arrowTailY(value:Number):void
+		{
+			_arrowTailY = value;
+		}
+
+		private function creationCompleteHandler(event:FlexEvent):void
+		{
+			expandButton.iconDisplay.horizontalCenter = 0;
+			expandButton.iconDisplay.verticalCenter = 0;
+			expandButton.iconDisplay.left = NaN;
+			expandButton.iconDisplay.top = NaN;
+			expandButton.iconDisplay.right = NaN;
+			expandButton.iconDisplay.bottom = NaN;
+		}
+
+		public function get bottomExpansion():Number
+		{
+			return stepsList.y + stepsList.height - buttonGroup.height;
+		}
+
+		private function stepsList_moveHandler(event:MoveEvent):void
+		{
+			dispatchPropertyChangeEvent("bottomExpansion", event.oldY + stepsList.height - buttonGroup.height,
+										bottomExpansion);
+		}
+
+		[Bindable]
+		public function get expanded():Boolean
+		{
+			return currentState == "expanded";
+		}
+
+		public function set expanded(value:Boolean):void
+		{
+			currentState = value ? "expanded" : "collapsed";
+
+			if (value)
+				dispatchEvent(new ExpandCollapseEvent(ExpandCollapseEvent.EXPAND));
+		}
+
+		public function set expandButtonVisible(value:Boolean):void
+		{
+			expandButton.visible = value;
+			expandButton.includeInLayout = value;
+		}
+
+		public function get expandButtonVisible():Boolean
+		{
+			return expandButton.visible;
+		}
+
+		public function set drillDownEnabled(value:Boolean):void
+		{
+			contentButton.mouseEnabled = value;
+		}
+
+		public function get drillDownEnabled():Boolean
+		{
+			return contentButton.mouseEnabled;
+		}
+
+		private function initializeStepsListY(yShown:Number, yHidden:Number):Number
+		{
+			return stepsList.visible ? yShown : yHidden;
+		}
+		]]></fx:Script>
+</s:Group>

@@ -34,7 +34,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-17T14:57:00Z</dateReported>
                               <recurrenceIndex>2</recurrenceIndex>
                               <adherence>true</adherence>
@@ -46,7 +46,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T14:57:00Z</dateMeasuredStart>
                                        <result>
                                           <value>118</value>
@@ -61,7 +61,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T14:57:00Z</dateMeasuredStart>
                                        <result>
                                           <value>78</value>
@@ -76,7 +76,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T14:57:00Z</dateMeasuredStart>
                                        <result>
                                           <value>78</value>
@@ -94,7 +94,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-18T13:07:00Z</dateReported>
                               <recurrenceIndex>3</recurrenceIndex>
                               <adherence>true</adherence>
@@ -106,7 +106,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T13:07:00Z</dateMeasuredStart>
                                        <result>
                                           <value>116</value>
@@ -121,7 +121,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T13:07:00Z</dateMeasuredStart>
                                        <result>
                                           <value>73</value>
@@ -136,7 +136,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T13:07:00Z</dateMeasuredStart>
                                        <result>
                                           <value>72</value>
@@ -154,7 +154,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-19T13:54:00Z</dateReported>
                               <recurrenceIndex>4</recurrenceIndex>
                               <adherence>true</adherence>
@@ -166,7 +166,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-19T13:54:00Z</dateMeasuredStart>
                                        <result>
                                           <value>115</value>
@@ -181,7 +181,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-19T13:54:00Z</dateMeasuredStart>
                                        <result>
                                           <value>75</value>
@@ -196,7 +196,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-19T13:54:00Z</dateMeasuredStart>
                                        <result>
                                           <value>75</value>
@@ -214,7 +214,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-20T13:52:00Z</dateReported>
                               <recurrenceIndex>5</recurrenceIndex>
                               <adherence>true</adherence>
@@ -226,7 +226,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-20T13:52:00Z</dateMeasuredStart>
                                        <result>
                                           <value>129</value>
@@ -241,7 +241,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-20T13:52:00Z</dateMeasuredStart>
                                        <result>
                                           <value>82</value>
@@ -256,7 +256,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-20T13:52:00Z</dateMeasuredStart>
                                        <result>
                                           <value>70</value>
@@ -274,7 +274,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-21T13:48:00Z</dateReported>
                               <recurrenceIndex>6</recurrenceIndex>
                               <adherence>true</adherence>
@@ -286,7 +286,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-21T13:48:00Z</dateMeasuredStart>
                                        <result>
                                           <value>141</value>
@@ -301,7 +301,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-21T13:48:00Z</dateMeasuredStart>
                                        <result>
                                           <value>90</value>
@@ -316,7 +316,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-21T13:48:00Z</dateMeasuredStart>
                                        <result>
                                           <value>69</value>
@@ -334,7 +334,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-22T14:27:00Z</dateReported>
                               <recurrenceIndex>7</recurrenceIndex>
                               <adherence>true</adherence>
@@ -346,7 +346,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-22T14:27:00Z</dateMeasuredStart>
                                        <result>
                                           <value>139</value>
@@ -361,7 +361,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-22T14:27:00Z</dateMeasuredStart>
                                        <result>
                                           <value>92</value>
@@ -376,7 +376,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-22T14:27:00Z</dateMeasuredStart>
                                        <result>
                                           <value>68</value>
@@ -394,7 +394,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-23T14:24:00Z</dateReported>
                               <recurrenceIndex>8</recurrenceIndex>
                               <adherence>true</adherence>
@@ -406,7 +406,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-23T14:24:00Z</dateMeasuredStart>
                                        <result>
                                           <value>126</value>
@@ -421,7 +421,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-23T14:24:00Z</dateMeasuredStart>
                                        <result>
                                           <value>85</value>
@@ -436,7 +436,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-23T14:24:00Z</dateMeasuredStart>
                                        <result>
                                           <value>68</value>
@@ -454,7 +454,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-24T14:14:00Z</dateReported>
                               <recurrenceIndex>9</recurrenceIndex>
                               <adherence>true</adherence>
@@ -466,7 +466,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-24T14:14:00Z</dateMeasuredStart>
                                        <result>
                                           <value>120</value>
@@ -481,7 +481,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-24T14:14:00Z</dateMeasuredStart>
                                        <result>
                                           <value>79</value>
@@ -496,7 +496,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-24T14:14:00Z</dateMeasuredStart>
                                        <result>
                                           <value>75</value>
@@ -514,7 +514,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-25T14:15:00Z</dateReported>
                               <recurrenceIndex>10</recurrenceIndex>
                               <adherence>true</adherence>
@@ -526,7 +526,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-25T14:15:00Z</dateMeasuredStart>
                                        <result>
                                           <value>119</value>
@@ -541,7 +541,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-25T14:15:00Z</dateMeasuredStart>
                                        <result>
                                           <value>80</value>
@@ -556,7 +556,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-25T14:15:00Z</dateMeasuredStart>
                                        <result>
                                           <value>73</value>
@@ -574,7 +574,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-26T14:59:00Z</dateReported>
                               <recurrenceIndex>11</recurrenceIndex>
                               <adherence>true</adherence>
@@ -586,7 +586,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-26T14:59:00Z</dateMeasuredStart>
                                        <result>
                                           <value>131</value>
@@ -601,7 +601,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-26T14:59:00Z</dateMeasuredStart>
                                        <result>
                                           <value>85</value>
@@ -616,7 +616,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-26T14:59:00Z</dateMeasuredStart>
                                        <result>
                                           <value>70</value>
@@ -634,7 +634,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-27T13:12:00Z</dateReported>
                               <recurrenceIndex>12</recurrenceIndex>
                               <adherence>true</adherence>
@@ -646,7 +646,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-27T13:12:00Z</dateMeasuredStart>
                                        <result>
                                           <value>139</value>
@@ -661,7 +661,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-27T13:12:00Z</dateMeasuredStart>
                                        <result>
                                           <value>89</value>
@@ -676,7 +676,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-27T13:12:00Z</dateMeasuredStart>
                                        <result>
                                           <value>68</value>
@@ -694,7 +694,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-28T15:26:00Z</dateReported>
                               <recurrenceIndex>13</recurrenceIndex>
                               <adherence>true</adherence>
@@ -706,7 +706,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-28T15:26:00Z</dateMeasuredStart>
                                        <result>
                                           <value>138</value>
@@ -721,7 +721,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-28T15:26:00Z</dateMeasuredStart>
                                        <result>
                                           <value>91</value>
@@ -736,7 +736,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-28T15:26:00Z</dateMeasuredStart>
                                        <result>
                                           <value>65</value>
@@ -754,7 +754,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-29T13:47:00Z</dateReported>
                               <recurrenceIndex>14</recurrenceIndex>
                               <adherence>true</adherence>
@@ -766,7 +766,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-29T13:47:00Z</dateMeasuredStart>
                                        <result>
                                           <value>124</value>
@@ -781,7 +781,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-29T13:47:00Z</dateMeasuredStart>
                                        <result>
                                           <value>86</value>
@@ -796,7 +796,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-29T13:47:00Z</dateMeasuredStart>
                                        <result>
                                           <value>76</value>
@@ -814,7 +814,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-30T14:12:00Z</dateReported>
                               <recurrenceIndex>15</recurrenceIndex>
                               <adherence>true</adherence>
@@ -826,7 +826,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-30T14:12:00Z</dateMeasuredStart>
                                        <result>
                                           <value>118</value>
@@ -841,7 +841,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-30T14:12:00Z</dateMeasuredStart>
                                        <result>
                                           <value>79</value>
@@ -856,7 +856,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-30T14:12:00Z</dateMeasuredStart>
                                        <result>
                                           <value>78</value>
@@ -874,7 +874,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-31T14:44:00Z</dateReported>
                               <recurrenceIndex>16</recurrenceIndex>
                               <adherence>true</adherence>
@@ -886,7 +886,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-31T14:44:00Z</dateMeasuredStart>
                                        <result>
                                           <value>119</value>
@@ -901,7 +901,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-31T14:44:00Z</dateMeasuredStart>
                                        <result>
                                           <value>81</value>
@@ -916,7 +916,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-31T14:44:00Z</dateMeasuredStart>
                                        <result>
                                           <value>80</value>
@@ -934,7 +934,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-01T14:02:00Z</dateReported>
                               <recurrenceIndex>17</recurrenceIndex>
                               <adherence>true</adherence>
@@ -946,7 +946,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-01T14:02:00Z</dateMeasuredStart>
                                        <result>
                                           <value>128</value>
@@ -961,7 +961,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-01T14:02:00Z</dateMeasuredStart>
                                        <result>
                                           <value>85</value>
@@ -976,7 +976,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-01T14:02:00Z</dateMeasuredStart>
                                        <result>
                                           <value>79</value>
@@ -994,7 +994,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-02T13:24:00Z</dateReported>
                               <recurrenceIndex>18</recurrenceIndex>
                               <adherence>true</adherence>
@@ -1006,7 +1006,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-02T13:24:00Z</dateMeasuredStart>
                                        <result>
                                           <value>140</value>
@@ -1021,7 +1021,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-02T13:24:00Z</dateMeasuredStart>
                                        <result>
                                           <value>94</value>
@@ -1036,7 +1036,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-02T13:24:00Z</dateMeasuredStart>
                                        <result>
                                           <value>77</value>
@@ -1054,7 +1054,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-03T15:22:00Z</dateReported>
                               <recurrenceIndex>19</recurrenceIndex>
                               <adherence>true</adherence>
@@ -1066,7 +1066,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-03T15:22:00Z</dateMeasuredStart>
                                        <result>
                                           <value>136</value>
@@ -1081,7 +1081,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-03T15:22:00Z</dateMeasuredStart>
                                        <result>
                                           <value>95</value>
@@ -1096,7 +1096,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-03T15:22:00Z</dateMeasuredStart>
                                        <result>
                                           <value>74</value>
@@ -1114,7 +1114,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-04T15:00:00Z</dateReported>
                               <recurrenceIndex>20</recurrenceIndex>
                               <adherence>true</adherence>
@@ -1126,7 +1126,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-04T15:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>122</value>
@@ -1141,7 +1141,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-04T15:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>84</value>
@@ -1156,7 +1156,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-04T15:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>78</value>
@@ -1174,7 +1174,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-05T13:53:00Z</dateReported>
                               <recurrenceIndex>21</recurrenceIndex>
                               <adherence>true</adherence>
@@ -1186,7 +1186,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-05T13:53:00Z</dateMeasuredStart>
                                        <result>
                                           <value>118</value>
@@ -1201,7 +1201,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-05T13:53:00Z</dateMeasuredStart>
                                        <result>
                                           <value>76</value>
@@ -1216,7 +1216,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-05T13:53:00Z</dateMeasuredStart>
                                        <result>
                                           <value>82</value>
@@ -1234,7 +1234,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-06T14:00:00Z</dateReported>
                               <recurrenceIndex>22</recurrenceIndex>
                               <adherence>true</adherence>
@@ -1246,7 +1246,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-06T14:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>117</value>
@@ -1261,7 +1261,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-06T14:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>78</value>
@@ -1276,7 +1276,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-06T14:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>81</value>
@@ -1294,7 +1294,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-07T13:54:00Z</dateReported>
                               <recurrenceIndex>23</recurrenceIndex>
                               <adherence>true</adherence>
@@ -1306,7 +1306,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-07T13:54:00Z</dateMeasuredStart>
                                        <result>
                                           <value>138</value>
@@ -1321,7 +1321,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-07T13:54:00Z</dateMeasuredStart>
                                        <result>
                                           <value>89</value>
@@ -1336,7 +1336,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-07T13:54:00Z</dateMeasuredStart>
                                        <result>
                                           <value>80</value>
@@ -1354,7 +1354,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-08T13:14:00Z</dateReported>
                               <recurrenceIndex>24</recurrenceIndex>
                               <adherence>true</adherence>
@@ -1366,7 +1366,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-08T13:14:00Z</dateMeasuredStart>
                                        <result>
                                           <value>147</value>
@@ -1381,7 +1381,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-08T13:14:00Z</dateMeasuredStart>
                                        <result>
                                           <value>92</value>
@@ -1396,7 +1396,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-08T13:14:00Z</dateMeasuredStart>
                                        <result>
                                           <value>75</value>
@@ -1414,7 +1414,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-09T13:00:00Z</dateReported>
                               <recurrenceIndex>25</recurrenceIndex>
                               <adherence>true</adherence>
@@ -1426,7 +1426,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-09T13:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>152</value>
@@ -1441,7 +1441,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-09T13:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>96</value>
@@ -1456,7 +1456,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-09T13:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>70</value>
@@ -1474,7 +1474,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-10T13:10:00Z</dateReported>
                               <recurrenceIndex>26</recurrenceIndex>
                               <adherence>true</adherence>
@@ -1486,7 +1486,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-10T13:10:00Z</dateMeasuredStart>
                                        <result>
                                           <value>157</value>
@@ -1501,7 +1501,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-10T13:10:00Z</dateMeasuredStart>
                                        <result>
                                           <value>99</value>
@@ -1516,7 +1516,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-10T13:10:00Z</dateMeasuredStart>
                                        <result>
                                           <value>71</value>
@@ -1534,7 +1534,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-11T13:18:00Z</dateReported>
                               <recurrenceIndex>27</recurrenceIndex>
                               <adherence>true</adherence>
@@ -1546,7 +1546,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-11T13:18:00Z</dateMeasuredStart>
                                        <result>
                                           <value>141</value>
@@ -1561,7 +1561,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-11T13:18:00Z</dateMeasuredStart>
                                        <result>
                                           <value>94</value>
@@ -1576,7 +1576,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-11T13:18:00Z</dateMeasuredStart>
                                        <result>
                                           <value>70</value>
@@ -1594,7 +1594,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-12T13:29:00Z</dateReported>
                               <recurrenceIndex>28</recurrenceIndex>
                               <adherence>true</adherence>
@@ -1606,7 +1606,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-12T13:29:00Z</dateMeasuredStart>
                                        <result>
                                           <value>134</value>
@@ -1621,7 +1621,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-12T13:29:00Z</dateMeasuredStart>
                                        <result>
                                           <value>85</value>
@@ -1636,7 +1636,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-12T13:29:00Z</dateMeasuredStart>
                                        <result>
                                           <value>73</value>
@@ -1654,7 +1654,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">FORA D40b</name>
-                              <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">csantos@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-13T13:40:00Z</dateReported>
                               <recurrenceIndex>29</recurrenceIndex>
                               <adherence>true</adherence>
@@ -1666,7 +1666,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-13T13:40:00Z</dateMeasuredStart>
                                        <result>
                                           <value>122</value>
@@ -1681,7 +1681,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-13T13:40:00Z</dateMeasuredStart>
                                        <result>
                                           <value>82</value>
@@ -1696,7 +1696,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
-                                       <measuredBy>rpoole@records.media.mit.edu</measuredBy>
+                                       <measuredBy>csantos@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-13T13:40:00Z</dateMeasuredStart>
                                        <result>
                                           <value>75</value>

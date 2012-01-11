@@ -17,6 +17,7 @@
 
 		import mx.events.FlexEvent;
 
+		[Bindable]
 		private var _applicationInfo:AboutApplicationModel = new AboutApplicationModel();
 
 		private function preinitializeHandler(event:FlexEvent):void

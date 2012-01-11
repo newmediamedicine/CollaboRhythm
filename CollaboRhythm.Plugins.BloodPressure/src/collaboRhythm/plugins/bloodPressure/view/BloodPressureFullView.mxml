@@ -18,17 +18,14 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 xmlns:dataShapes="qs.charts.dataShapes.*"
+		 xmlns:view="collaboRhythm.plugins.bloodPressure.view.*"
 		 xmlns:simulation="collaboRhythm.plugins.bloodPressure.view.simulation.*"
-		 xmlns:controls="com.dougmccune.controls.*" xmlns:view="collaboRhythm.plugins.bloodPressure.view.*"
-		 xmlns:images="assets.images.*"
-		 xmlns:buttons="collaboRhythm.plugins.bloodPressure.view.simulation.buttons.*"
 		 width="100%" height="100%"
 		 creationComplete="creationCompleteHandler(event)"
 		 clipAndEnableScrolling="true"
 		 implements="mx.managers.IFocusManagerComponent, collaboRhythm.plugins.bloodPressure.view.IBloodPressureFullView"
 		>
-	<fx:Style source="/collaboRhythm/plugins/bloodPressure/view/ChartStyles.css"/>
+	<fx:Style source="/collaboRhythm/visualization/view/ChartStyles.css"/>
 
 	<mx:HDividedBox height="100%" width="100%" paddingRight="0" clipContent="true" horizontalScrollPolicy="off"
 					verticalScrollPolicy="off" backgroundColor="#F1F2F2"
@@ -38,7 +35,7 @@
 		<s:VGroup id="leftGroup" height="100%" width="100%" gap="15" paddingLeft="0" paddingRight="0" paddingTop="0"
 				  paddingBottom="0">
 
-<!--
+			<!--
 			<s:Group width="100%">
 				<buttons:ContentLabel
 						id="hypertensionTitle" horizontalCenter="0"
@@ -56,7 +53,7 @@
 			</s:Group>
 -->
 
-			<view:SynchronizedCharts id="chartsGroup" modality="{modality}" model="{model}"/>
+			<view:BloodPressureSynchronizedCharts id="chartsGroup" modality="{modality}" model="{model}"/>
 		</s:VGroup>
 		<s:VGroup id="simulationGroup" height="100%" gap="15" paddingLeft="0" paddingRight="0" paddingTop="5"
 				  clipAndEnableScrolling="true"
@@ -112,7 +109,8 @@
 				chartsGroup.percentWidth = 100;
 				chartsGroup.visible = true;
 				simulationGroup.percentWidth = NaN;
-				simulationGroup.width = SIMULATION_VIEW_WIDTH + simulationGroup.paddingLeft + simulationGroup.paddingRight;
+				simulationGroup.width = SIMULATION_VIEW_WIDTH + simulationGroup.paddingLeft +
+						simulationGroup.paddingRight;
 				simulationGroup.visible = true;
 			}
 		}
@@ -120,7 +118,7 @@
 		private function creationCompleteHandler(event:FlexEvent):void
 		{
 			updateComponentsForSimulationOnlyViewMode();
-			initalizeSimulationView();
+			initializeSimulationView();
 		}
 
 		public function get chartsOnlyViewMode():Boolean
@@ -143,7 +141,7 @@
 		{
 			_model = value;
 
-			initalizeSimulationView();
+			initializeSimulationView();
 //			if (chartsGroup)
 //				chartsGroup.model = model;
 		}
@@ -156,7 +154,7 @@
 			}
 			if (simulationView)
 			{
-				initalizeSimulationView();
+				initializeSimulationView();
 			}
 		}
 
@@ -171,7 +169,7 @@
 			_modality = value;
 		}
 
-		private function initalizeSimulationView():void
+		private function initializeSimulationView():void
 		{
 			if (simulationView)
 			{

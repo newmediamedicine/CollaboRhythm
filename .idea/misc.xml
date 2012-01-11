@@ -59,6 +59,7 @@
   </component>
   <component name="ProjectResources">
     <resource url="http://collaborhythm.org/application/settings" location="$PROJECT_DIR$/CollaboRhythm.Shared/src/resources/settings.xsd" />
+    <resource url="http://indivo.org/vocab/xml/documents#" location="$PROJECT_DIR$/CollaboRhythm.Core.Model/src/assets/healthRecord/schemas/documents.xsd" />
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="4.6.0 AIR" project-jdk-type="AIR SDK Type">

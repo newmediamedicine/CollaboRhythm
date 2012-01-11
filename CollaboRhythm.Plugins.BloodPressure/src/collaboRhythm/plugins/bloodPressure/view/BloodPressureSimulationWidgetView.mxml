@@ -44,7 +44,7 @@
 			if (model && model.currentSimulation)
 			{
 				model.currentSimulation.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
-													   simulationModel_propertyChangeHandler);
+						simulationModel_propertyChangeHandler);
 				lookupMedications();
 			}
 		}

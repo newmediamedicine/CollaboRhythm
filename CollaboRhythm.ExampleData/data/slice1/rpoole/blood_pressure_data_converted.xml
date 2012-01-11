@@ -17,15 +17,14 @@
                   <EquipmentScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
                      <name xmlns="">FORA D40b</name>
                      <scheduledBy>jking@records.media.mit.edu</scheduledBy>
-                     <dateScheduled>2010-01-14T19:13:11Z</dateScheduled>
-                     <dateStart>2010-01-15T13:00:00Z</dateStart>
-                     <dateEnd>2010-01-15T17:00:00Z</dateEnd>
+                     <dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
+                     <dateStart>2011-07-15T13:00:00Z</dateStart>
+                     <dateEnd>2011-07-15T17:00:00Z</dateEnd>
                      <recurrenceRule>
                         <frequency>DAILY</frequency>
                         <count>90</count>
                      </recurrenceRule>
-                     <instructions>press the power button and wait several seconds to take reading
-									</instructions>
+                     <instructions xmlns="">Use device to record blood pressure systolic and blood pressure diastolic readings. Heart rate will also be recorded. Press the power button and wait several seconds to take reading.</instructions>
                   </EquipmentScheduleItem>
                </document>
                <relatesTo>
@@ -36,7 +35,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-15T14:57:00Z</dateReported>
-                              <recurrenceIndex>0</recurrenceIndex>
+                              <recurrenceIndex>-545</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -96,7 +95,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-16T13:07:00Z</dateReported>
-                              <recurrenceIndex>1</recurrenceIndex>
+                              <recurrenceIndex>-544</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -156,7 +155,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-17T13:54:00Z</dateReported>
-                              <recurrenceIndex>2</recurrenceIndex>
+                              <recurrenceIndex>-543</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -216,7 +215,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-18T13:52:00Z</dateReported>
-                              <recurrenceIndex>3</recurrenceIndex>
+                              <recurrenceIndex>-542</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -276,7 +275,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-19T13:48:00Z</dateReported>
-                              <recurrenceIndex>4</recurrenceIndex>
+                              <recurrenceIndex>-541</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -336,7 +335,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-20T14:27:00Z</dateReported>
-                              <recurrenceIndex>5</recurrenceIndex>
+                              <recurrenceIndex>-540</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -396,7 +395,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-21T14:24:00Z</dateReported>
-                              <recurrenceIndex>6</recurrenceIndex>
+                              <recurrenceIndex>-539</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -456,7 +455,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-22T14:14:00Z</dateReported>
-                              <recurrenceIndex>7</recurrenceIndex>
+                              <recurrenceIndex>-538</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -516,7 +515,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-23T14:15:00Z</dateReported>
-                              <recurrenceIndex>8</recurrenceIndex>
+                              <recurrenceIndex>-537</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -576,7 +575,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-24T14:59:00Z</dateReported>
-                              <recurrenceIndex>9</recurrenceIndex>
+                              <recurrenceIndex>-536</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -636,7 +635,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-25T13:12:00Z</dateReported>
-                              <recurrenceIndex>10</recurrenceIndex>
+                              <recurrenceIndex>-535</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -696,7 +695,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-26T15:26:00Z</dateReported>
-                              <recurrenceIndex>11</recurrenceIndex>
+                              <recurrenceIndex>-534</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -756,7 +755,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-27T13:47:00Z</dateReported>
-                              <recurrenceIndex>12</recurrenceIndex>
+                              <recurrenceIndex>-533</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -816,7 +815,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-28T14:12:00Z</dateReported>
-                              <recurrenceIndex>13</recurrenceIndex>
+                              <recurrenceIndex>-532</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -876,7 +875,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-29T14:44:00Z</dateReported>
-                              <recurrenceIndex>14</recurrenceIndex>
+                              <recurrenceIndex>-531</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -936,7 +935,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-30T14:02:00Z</dateReported>
-                              <recurrenceIndex>15</recurrenceIndex>
+                              <recurrenceIndex>-530</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -996,7 +995,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-01-31T13:24:00Z</dateReported>
-                              <recurrenceIndex>16</recurrenceIndex>
+                              <recurrenceIndex>-529</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -1056,7 +1055,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-02-01T15:22:00Z</dateReported>
-                              <recurrenceIndex>17</recurrenceIndex>
+                              <recurrenceIndex>-528</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -1116,7 +1115,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-02-02T15:00:00Z</dateReported>
-                              <recurrenceIndex>18</recurrenceIndex>
+                              <recurrenceIndex>-527</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -1176,7 +1175,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-02-03T13:53:00Z</dateReported>
-                              <recurrenceIndex>19</recurrenceIndex>
+                              <recurrenceIndex>-526</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -1236,7 +1235,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-02-04T14:00:00Z</dateReported>
-                              <recurrenceIndex>20</recurrenceIndex>
+                              <recurrenceIndex>-525</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -1296,7 +1295,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-02-05T13:54:00Z</dateReported>
-                              <recurrenceIndex>21</recurrenceIndex>
+                              <recurrenceIndex>-524</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -1356,7 +1355,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-02-06T13:14:00Z</dateReported>
-                              <recurrenceIndex>22</recurrenceIndex>
+                              <recurrenceIndex>-523</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -1416,7 +1415,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-02-07T13:00:00Z</dateReported>
-                              <recurrenceIndex>23</recurrenceIndex>
+                              <recurrenceIndex>-523</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -1476,7 +1475,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-02-08T13:10:00Z</dateReported>
-                              <recurrenceIndex>24</recurrenceIndex>
+                              <recurrenceIndex>-521</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -1536,7 +1535,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-02-09T13:18:00Z</dateReported>
-                              <recurrenceIndex>25</recurrenceIndex>
+                              <recurrenceIndex>-520</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -1596,7 +1595,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-02-10T13:29:00Z</dateReported>
-                              <recurrenceIndex>26</recurrenceIndex>
+                              <recurrenceIndex>-519</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -1656,7 +1655,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-02-11T13:40:00Z</dateReported>
-                              <recurrenceIndex>27</recurrenceIndex>
+                              <recurrenceIndex>-518</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -1716,7 +1715,7 @@
                               <name xmlns="">FORA D40b</name>
                               <reportedBy xmlns="">rpoole@records.media.mit.edu</reportedBy>
                               <dateReported>2010-02-12T13:51:00Z</dateReported>
-                              <recurrenceIndex>28</recurrenceIndex>
+                              <recurrenceIndex>-517</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -1772,23 +1771,6 @@
                      </LoadableIndivoDocument>
                   </relation>
                </relatesTo>
-            </LoadableIndivoDocument>
-            <LoadableIndivoDocument>
-               <document>
-                  <EquipmentScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
-                     <name xmlns="">FORA D40b</name>
-                     <scheduledBy>jking@records.media.mit.edu</scheduledBy>
-                     <dateScheduled>2011-07-28T19:13:11Z</dateScheduled>
-                     <dateStart>2011-07-29T13:00:00Z</dateStart>
-                     <dateEnd>2011-07-29T17:00:00Z</dateEnd>
-                     <recurrenceRule>
-                        <frequency>DAILY</frequency>
-                        <count>90</count>
-                     </recurrenceRule>
-                     <instructions>press the power button and wait several seconds to take reading
-									</instructions>
-                  </EquipmentScheduleItem>
-               </document>
             </LoadableIndivoDocument>
          </relation>
       </relatesTo>

@@ -20,7 +20,7 @@
 	<scheduledBy>jking@records.media.mit.edu</scheduledBy>
 	<dateScheduled>2011-07-14T10:00:00-04:00</dateScheduled>
 	<dateStart>2011-07-14T18:00:00-04:00</dateStart>
-	<dateEnd>2011-07-15T22:00:00-04:00</dateEnd>
+	<dateEnd>2011-07-14T22:00:00-04:00</dateEnd>
 	<recurrenceRule>
 		<frequency>DAILY</frequency>
 		<count>30</count>

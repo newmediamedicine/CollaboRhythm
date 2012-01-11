@@ -83,7 +83,7 @@ package collaboRhythm.plugins.equipment.model
 			var systolicBloodPressures:ArrayCollection = record.vitalSignsModel.vitalSignsByCategory[VitalSignsModel.SYSTOLIC_CATEGORY];
 			var diastolicBloodPressures:ArrayCollection = record.vitalSignsModel.vitalSignsByCategory[VitalSignsModel.DIASTOLIC_CATEGORY];
 
-			if (systolicBloodPressures.length > 0 && diastolicBloodPressures.length > 0)
+			if (systolicBloodPressures && systolicBloodPressures.length > 0 && diastolicBloodPressures && diastolicBloodPressures.length > 0)
 			{
 				var mostRecentSystolicBloodPressure:VitalSign = systolicBloodPressures[systolicBloodPressures.length - 1];
 				var mostRecentDiastolicBloodPressure:VitalSign = diastolicBloodPressures[diastolicBloodPressures.length - 1];

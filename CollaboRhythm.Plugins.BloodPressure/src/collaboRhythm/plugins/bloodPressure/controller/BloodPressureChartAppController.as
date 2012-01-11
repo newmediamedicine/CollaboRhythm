@@ -17,7 +17,7 @@
 package collaboRhythm.plugins.bloodPressure.controller
 {
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureMobileChartView;
-	import collaboRhythm.plugins.bloodPressure.view.SynchronizedCharts;
+	import collaboRhythm.plugins.bloodPressure.view.BloodPressureSynchronizedCharts;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 
@@ -27,7 +27,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 	{
 		public static const DEFAULT_NAME:String = "Blood Pressure Chart";
 
-		private var _widgetView:SynchronizedCharts;
+		private var _widgetView:BloodPressureSynchronizedCharts;
 
 		public function BloodPressureChartAppController(constructorParams:AppControllerConstructorParams)
 		{
@@ -46,14 +46,14 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 		override public function set widgetView(value:UIComponent):void
 		{
-			_widgetView = value as SynchronizedCharts;
+			_widgetView = value as BloodPressureSynchronizedCharts;
 		}
 
 		protected override function createWidgetView():UIComponent
 		{
 			if (isMobileMode)
 			{
-				_widgetView = new SynchronizedCharts();
+				_widgetView = new BloodPressureSynchronizedCharts();
 				if (_widgetView && _activeRecordAccount)
 					_widgetView.model = _activeRecordAccount.primaryRecord.bloodPressureModel;
 				return _widgetView;

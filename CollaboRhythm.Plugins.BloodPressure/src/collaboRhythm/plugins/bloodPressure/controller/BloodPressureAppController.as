@@ -24,7 +24,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureSimulationWidgetView;
 	import collaboRhythm.plugins.bloodPressure.view.IBloodPressureFullView;
 	import collaboRhythm.plugins.bloodPressure.view.IBloodPressureWidgetView;
-	import collaboRhythm.plugins.bloodPressure.view.SynchronizedCharts;
+	import collaboRhythm.plugins.bloodPressure.view.BloodPressureSynchronizedCharts;
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
 	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
@@ -98,7 +98,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 			if (isWorkstationMode)
 				_fullView = new BloodPressureFullView();
 			else
-				_fullView = new SynchronizedCharts();
+				_fullView = new BloodPressureSynchronizedCharts();
 
 			return _fullView as UIComponent;
 		}
