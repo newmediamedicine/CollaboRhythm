@@ -1,7 +1,6 @@
 package collaboRhythm.plugins.equipment.model
 {
 
-    import collaboRhythm.plugins.equipment.view.BloodPressureReportingView;
     import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
@@ -26,7 +25,7 @@ package collaboRhythm.plugins.equipment.model
 
         override public function additionalInformationView():Class
         {
-            return BloodPressureReportingView;
+            return null;
         }
 	}
 }

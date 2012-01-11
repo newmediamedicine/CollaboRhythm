@@ -1,6 +1,8 @@
 package collaboRhythm.plugins.schedule.controller
 {
+    import collaboRhythm.plugins.schedule.shared.model.DataInputViewInitializationModel;
     import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
+    import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
     import spark.components.ViewNavigator;
     import spark.transitions.SlideViewTransition;
@@ -16,7 +18,7 @@ package collaboRhythm.plugins.schedule.controller
             _viewNavigator = viewNavigator;
         }
 
-        public function reportAdherence():void
+        public function reportAdherence(scheduleItemOccurrence:ScheduleItemOccurrence):void
         {
             if (_scheduleItemOccurrenceReportingModel.scheduleItemOccurrence.adherenceItem)
             {
@@ -26,7 +28,8 @@ package collaboRhythm.plugins.schedule.controller
             {
                 if (_scheduleItemOccurrenceReportingModel.isAdditionalInformationRequired())
                 {
-                    _viewNavigator.pushView(_scheduleItemOccurrenceReportingModel.additionalInformationView(), null, null, new SlideViewTransition())
+                    var dataInputViewInitializationModel:DataInputViewInitializationModel = new DataInputViewInitializationModel(scheduleItemOccurrence);
+                    _viewNavigator.pushView(_scheduleItemOccurrenceReportingModel.dataInputView, dataInputViewInitializationModel, null, new SlideViewTransition());
                 }
                 else
                 {

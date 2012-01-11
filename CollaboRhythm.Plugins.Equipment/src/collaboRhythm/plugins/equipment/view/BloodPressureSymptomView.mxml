@@ -44,7 +44,8 @@
 		}
 	</fx:Style>
 	<fx:Script><![CDATA[
-		import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEvent;
+        import collaboRhythm.plugins.foraD40b.view.BloodPressureReportingView;
+        import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEvent;
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 

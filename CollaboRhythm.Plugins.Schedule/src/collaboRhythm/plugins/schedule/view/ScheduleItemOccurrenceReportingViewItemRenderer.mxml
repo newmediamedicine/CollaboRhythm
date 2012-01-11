@@ -68,6 +68,7 @@
                         scheduleModel.scheduleReportingModel);
                 _scheduleItemOccurrenceReportingModel = scheduleModel.viewFactory.createScheduleItemOccurrenceReportingModel(_scheduleItemOccurrence,
                         scheduleModel);
+                _scheduleItemOccurrenceReportingModel.dataInputView = scheduleModel.dataInputViewFactory.createDataInputView(_scheduleItemOccurrence.scheduleItem.name.text, _scheduleItemOccurrence.scheduleItem.instructions, _scheduleItemOccurrence);
                 _scheduleItemOccurrenceReportingController = new ScheduleItemOccurrenceReportingController(_scheduleItemOccurrenceReportingModel, scheduleGroupReportingView.scheduleReportingController.viewNavigator);
 
                 nameLabel.text = scheduleItemOccurrenceReportingViewAdapter.name;
@@ -91,7 +92,7 @@
 
         private function adherenceCheckBoxClickHandler(event:MouseEvent):void
         {
-            _scheduleItemOccurrenceReportingController.reportAdherence();
+            _scheduleItemOccurrenceReportingController.reportAdherence(_scheduleItemOccurrence);
         }
 
         private function adherenceCheckBoxMouseDownHandler(event:MouseEvent):void

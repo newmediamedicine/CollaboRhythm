@@ -17,37 +17,35 @@
 package collaboRhythm.plugins.schedule.model
 {
 
-	import collaboRhythm.plugins.schedule.shared.model.*;
-	import collaboRhythm.shared.model.Record;
-	import collaboRhythm.shared.model.healthRecord.DocumentBase;
-	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
-	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
-	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
-	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
-	import collaboRhythm.shared.model.services.IComponentContainer;
-	import collaboRhythm.shared.model.services.ICurrentDateSource;
-	import collaboRhythm.shared.model.services.WorkstationKernel;
+    import collaboRhythm.plugins.schedule.shared.model.*;
+    import collaboRhythm.shared.model.Record;
+    import collaboRhythm.shared.model.healthRecord.DocumentBase;
+    import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
+    import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+    import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
+    import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+    import collaboRhythm.shared.model.services.IComponentContainer;
+    import collaboRhythm.shared.model.services.ICurrentDateSource;
+    import collaboRhythm.shared.model.services.WorkstationKernel;
 
-	import flash.events.EventDispatcher;
-	import flash.utils.getQualifiedClassName;
+    import flash.events.EventDispatcher;
+    import flash.utils.getQualifiedClassName;
 
-	import j2as3.collection.HashMap;
+    import j2as3.collection.HashMap;
 
-	import mx.binding.utils.BindingUtils;
-	import mx.binding.utils.ChangeWatcher;
-	import mx.collections.ArrayCollection;
-	import mx.logging.ILogger;
-	import mx.logging.Log;
+    import mx.binding.utils.BindingUtils;
+    import mx.binding.utils.ChangeWatcher;
+    import mx.collections.ArrayCollection;
+    import mx.logging.ILogger;
+    import mx.logging.Log;
 
-	[Bindable]
+    [Bindable]
 	public class ScheduleModel extends EventDispatcher implements IScheduleCollectionsProvider, IScheduleModel
 	{
-		/**
-		 * Key to the ScheduleModel instance in Record.appData
-		 */
-		public static const SCHEDULE_MODEL_KEY:String = "scheduleModel";
+        // Key to the ScheduleModel instance in Record.appData is in ScheduleModelKey Class in CollaboRhythm.Plugins.Schedule.Shared
+        // so that it is available to other plugins
 
-		private static const MILLISECONDS_IN_HOUR:Number = 1000 * 60 * 60;
+        private static const MILLISECONDS_IN_HOUR:Number = 1000 * 60 * 60;
 		private static const MILLISECONDS_IN_DAY:Number = 1000 * 60 * 60 * 24;
 
 		private var _record:Record;
@@ -71,6 +69,7 @@ package collaboRhythm.plugins.schedule.model
 		private var _scheduleItemsCollectionsArray:Array = new Array();
 		private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>();
 		private var _handledInvokeEvents:Vector.<String>;
+        private var _dataInputViewFactory:MasterDataInputViewFactory;
 
 		public function ScheduleModel(componentContainer:IComponentContainer, record:Record, accountId:String,
 									  handledInvokeEvents:Vector.<String>)
@@ -91,6 +90,7 @@ package collaboRhythm.plugins.schedule.model
 			}
 
 			_viewFactory = new MasterScheduleViewFactory(componentContainer);
+            _dataInputViewFactory = new MasterDataInputViewFactory(componentContainer);
 		}
 
 		private function init(isStitched:Boolean):void
@@ -363,5 +363,10 @@ package collaboRhythm.plugins.schedule.model
 		{
 			return _accountId;
 		}
-	}
+
+        public function get dataInputViewFactory():MasterDataInputViewFactory
+        {
+            return _dataInputViewFactory;
+        }
+    }
 }

@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~
+~ Copyright 2011 John Moore, Scott Gilroy
+~
+~ This file is part of CollaboRhythm.
+~
+~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+~ version.
+~
+~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+~ details.
+~
+~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+~ <http://www.gnu.org/licenses/>.
+-->
+<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+                                       xmlns:s="library://ns.adobe.com/flex/spark"
+                                       xmlns:mx="library://ns.adobe.com/flex/mx"
+                                       xmlns:sharedViews="collaboRhythm.shared.view.*"
+                                       xmlns:sharedScheduleViews="collaboRhythm.plugins.schedule.shared.view.*"
+                                       xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+                                       implements="collaboRhythm.plugins.schedule.shared.model.IDataInputView"
+                                       remove="removeHandler()"
+                                       click="bloodPressureReportingView_clickHandler()">
+    <fx:Declarations>
+        <!-- Place non-visual elements (e.g., services, value objects) here -->
+    </fx:Declarations>
+    <!--	<s:states>
+         <s:State name="initial"/>
+         <s:State name="repeat"/>
+     </s:states>-->
+    <fx:Style>
+        @namespace s "library://ns.adobe.com/flex/spark";
+
+        .reportingLabelsText {
+            color: #000000;
+            fontSize: 40;
+        }
+
+        .textInputText {
+            color: #000000;
+            fontSize: 150;
+        }
+
+        #heartRateResult {
+            color: #000000;
+            fontSize: 110;
+        }
+
+        #bloodPressureIncompleteLabel {
+            color: red;
+            fontSize: 30;
+        }
+
+        #autoSubmitCountdownLabel {
+            color: red;
+            fontSize: 24;
+        }
+
+        #submitButton {
+            fontSize: 50;
+        }
+    </fx:Style>
+    <fx:Script>
+		<![CDATA[
+        import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseDataInputController;
+        import collaboRhythm.plugins.foraD40b.controller.BloodPressureDataInputController;
+        import collaboRhythm.plugins.foraD40b.model.BloodPressureDataInputModel;
+        import collaboRhythm.plugins.schedule.shared.model.DataInputModelBase;
+        import collaboRhythm.plugins.schedule.shared.model.DataInputViewInitializationModel;
+        import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEvent;
+        import collaboRhythm.shared.model.healthRecord.CodedValue;
+        import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
+        import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+        import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+        import collaboRhythm.shared.model.healthRecord.document.VitalSign;
+        import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
+        import collaboRhythm.shared.model.services.ICurrentDateSource;
+        import collaboRhythm.shared.model.services.WorkstationKernel;
+
+        import org.osmf.events.TimeEvent;
+
+        private static const HYPOTENSION_SYSTOLIC_THRESHOLD:int = 90;
+        private static const HYPOTENSION_DIASTOLIC_THRESHOLD:int = 60;
+        private static const HYPERTENSION_SYSTOLIC_THRESHOLD:int = 180;
+        private static const HYPERTENSION_DIASTOLIC_THRESHOLD:int = 120;
+
+        private static const AUTOMATIC_SUBMIT_INTERVAL:int = 6;
+
+        private const NUMBER_PAD_GAP:int = 2;
+
+        private var _scheduleItemOccurrence:ScheduleItemOccurrence;
+        private var _adherenceItem:AdherenceItem;
+        private var _repeat:Boolean;
+        [Bindable]
+        private var _submitFailed:Boolean;
+        [Bindable]
+        private var _fromDevice:Boolean = false;
+        private var _measurementsFromDevice:int = 0;
+        private var _hasUserInteracted:Boolean;
+        private var _automaticSubmitTimer:Timer;
+
+        private const VITAL_SIGN_URL:String = "http://codes.indivo.org/vitalsigns/";
+
+        private var _currentDateSource:ICurrentDateSource;
+        private var _handledInvokeEvents:Vector.<String> = new Vector.<String>();
+
+        [Bindable]
+        protected var _dataInputModel:BloodPressureDataInputModel;
+        protected var _dataInputController:BloodPressureDataInputController;
+
+        override public function set data(value:Object):void
+        {
+            super.data = value;
+
+            var dataInputViewInitializationModel:DataInputViewInitializationModel = DataInputViewInitializationModel(value);
+
+            _dataInputModel = new BloodPressureDataInputModel(dataInputViewInitializationModel.scheduleItemOccurrence, dataInputViewInitializationModel.urlVariables);
+            _dataInputController = new BloodPressureDataInputController();
+        }
+
+        public function get dataInputModel():DataInputModelBase
+        {
+            return _dataInputModel;
+        }
+
+        public function set dataInputModel(value:DataInputModelBase):void
+        {
+            _dataInputModel = value as BloodPressureDataInputModel;
+        }
+
+        public function get dataInputController():BloodPressureDataInputController
+        {
+            return _dataInputController as BloodPressureDataInputController;
+        }
+
+        public function set dataInputController(value:BloodPressureDataInputController):void
+        {
+            _dataInputController = value;
+        }
+
+        //        private function invokeHandler(event:InvokeEvent):void
+        //        {
+        //            if (event.arguments.length != 0)
+        //            {
+        //                var urlString:String = event.arguments[0];
+        //                var urlVariablesString:String = urlString.split("//")[1];
+        //                var urlVariables:URLVariables = new URLVariables(urlVariablesString);
+        //
+        //                if (urlVariables.success == "true" && _handledInvokeEvents.indexOf(urlVariables.date) == -1)
+        //                {
+        //                    systolicResult.text = urlVariables.systolic;
+        //                    systolicResult.enabled = false;
+        //                    diastolicResult.text = urlVariables.diastolic;
+        //                    diastolicResult.enabled = false;
+        //                    heartRateResult.text = urlVariables.heartrate;
+        //                    heartRateResult.enabled = false;
+        //                    _fromDevice = true;
+        //                    _hasUserInteracted = false;
+        //                    _automaticSubmitTimer = new Timer(1000, AUTOMATIC_SUBMIT_INTERVAL);
+        //                    _automaticSubmitTimer.addEventListener(TimerEvent.TIMER, automaticSubmitTimer_timerEventHandler);
+        //                    _automaticSubmitTimer.addEventListener(TimerEvent.TIMER_COMPLETE,
+        //                            automaticSubmitTimer_timerCompleteEvent);
+        //                    _automaticSubmitTimer.start();
+        //
+        //                    _handledInvokeEvents.push(urlVariables.date);
+        //                }
+        //            }
+        //        }
+
+        private function automaticSubmitTimer_timerEventHandler(event:TimerEvent):void
+        {
+            var automaticSubmitTimerCountdown:int = AUTOMATIC_SUBMIT_INTERVAL - _automaticSubmitTimer.currentCount;
+            autoSubmitCountdownLabel.text = "Blood pressure will be automatically submitted in... " + automaticSubmitTimerCountdown.toString();
+        }
+
+        private function automaticSubmitTimer_timerCompleteEvent(event:TimerEvent):void
+        {
+            if (!_hasUserInteracted)
+            {
+                submit();
+            }
+        }
+
+        private function createVitalSign(category:String, value:int):void
+        {
+            //TODO: determine if it is possible to have optional parameters in the constructor
+            // It may cause problems with marshalling the xml
+            var bloodPressure:VitalSign = new VitalSign();
+            var valueString:String;
+            var abbrev:String;
+            switch (category)
+            {
+                case VitalSignsModel.SYSTOLIC_CATEGORY:
+                    valueString = "123";
+                    abbrev = "BPsys";
+                    break;
+                case VitalSignsModel.DIASTOLIC_CATEGORY:
+                    valueString = "124";
+                    abbrev = "BPdia";
+                    break;
+            }
+            bloodPressure.name = new CodedValue(VITAL_SIGN_URL, valueString, abbrev, category);
+            bloodPressure.dateMeasuredStart = _currentDateSource.now();
+            //TODO: Introduce a lookup for coded values based on the value
+            bloodPressure.result = new ValueAndUnit(value.toString(),
+                    new CodedValue("http://codes.indivo.org/units/", "31", "mmHg",
+                            "millimeters of mercury"));
+            bloodPressure.position = positionDropDownList.selectedItem;
+            bloodPressure.site = siteDropDownList.selectedItem;
+            if (_fromDevice)
+            {
+                bloodPressure.comments = _adherenceItem.name.text;
+            }
+            else
+            {
+                bloodPressure.comments = "manual entry";
+            }
+            _adherenceItem.adherenceResults.push(bloodPressure);
+        }
+
+        private function submitButton_clickHandler():void
+        {
+            if (systolicResult.text && diastolicResult.text && heartRateResult.text)
+            {
+                submit();
+            }
+            else
+            {
+                _submitFailed = true;
+            }
+        }
+
+        private function showBloodPressureSymptomView(state:String):void
+        {
+//			var bloodPressureSymptomView:BloodPressureSymptomView = new BloodPressureSymptomView();
+//			bloodPressureSymptomView.init(_scheduleItemOccurrence, _adherenceItem, _measurementsFromDevice,
+//										  _handledInvokeEvents);
+//			bloodPressureSymptomView.currentState = state;
+//			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_COMPLETE,
+//															 _scheduleItemOccurrence, _adherenceItem, null, false));
+//			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
+//															 _scheduleItemOccurrence, _adherenceItem,
+//															 bloodPressureSymptomView));
+        }
+
+        private function showEmergencyView(state:String):void
+        {
+//			var bloodPressureEmergencyView:BloodPressureEmergencyView = new BloodPressureEmergencyView();
+//			bloodPressureEmergencyView.init(_scheduleItemOccurrence, _adherenceItem);
+//			bloodPressureEmergencyView.currentState = state;
+//			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_COMPLETE,
+//															 _scheduleItemOccurrence, _adherenceItem, null, false));
+//			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
+//															 _scheduleItemOccurrence, _adherenceItem,
+//															 bloodPressureEmergencyView));
+        }
+
+        private function returnBloodPressureResult():void
+        {
+            dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_COMPLETE,
+                    _scheduleItemOccurrence, _adherenceItem));
+        }
+
+        private function submit():void
+        {
+//            var oldAdherenceItem:AdherenceItem = _adherenceItem;
+//            _adherenceItem = new AdherenceItem();
+//            _adherenceItem.init(oldAdherenceItem.name, oldAdherenceItem.reportedBy, oldAdherenceItem.dateReported,
+//                    oldAdherenceItem.recurrenceIndex, oldAdherenceItem.adherence);
+//            createVitalSign(VitalSignsModel.SYSTOLIC_CATEGORY, int(systolicResult.text));
+//            createVitalSign(VitalSignsModel.DIASTOLIC_CATEGORY, int(diastolicResult.text));
+//            //TODO: add heart rate
+//            if (int(systolicResult.text) < HYPOTENSION_SYSTOLIC_THRESHOLD || int(diastolicResult.text) < HYPOTENSION_DIASTOLIC_THRESHOLD)
+//            {
+//                if (!_repeat)
+//                {
+//                    showBloodPressureSymptomView("hypotension");
+//                }
+//                else
+//                {
+//                    showEmergencyView("hypotension");
+//                }
+//            }
+//            else if (int(systolicResult.text) > HYPERTENSION_SYSTOLIC_THRESHOLD || int(diastolicResult.text) > HYPERTENSION_DIASTOLIC_THRESHOLD)
+//            {
+//                if (!_repeat)
+//                {
+//                    showBloodPressureSymptomView("hypertension");
+//                }
+//                else
+//                {
+//                    showEmergencyView("hypertension");
+//                }
+//            }
+//            else
+//            {
+//                returnBloodPressureResult();
+//            }
+        }
+
+        private function bloodPressureReportingView_clickHandler():void
+        {
+            _hasUserInteracted = true;
+        }
+
+        private function showNumberPad(globalPoint:Point, textInput:TextInput):void
+        {
+            var localPoint:Point = this.globalToLocal(globalPoint);
+            numberPad.x = localPoint.x;
+            numberPad.y = localPoint.y;
+            numberPad.visible = true;
+            numberPad.setFocus();
+            numberPad.textInput = textInput;
+        }
+
+        private function systolicResult_focusInHandler():void
+        {
+            var globalPoint:Point = systolicResultGroup.localToGlobal(new Point(systolicResult.x + systolicResult.width + NUMBER_PAD_GAP,
+                    systolicResult.y + systolicResult.height - numberPad.height));
+            showNumberPad(globalPoint, systolicResult);
+        }
+
+        private function diastolicResult_focusInHandler():void
+        {
+            var globalPoint:Point = diastolicResultGroup.localToGlobal(new Point(diastolicResult.x + diastolicResult.width + NUMBER_PAD_GAP,
+                    diastolicResult.y + diastolicResult.height - numberPad.height));
+            showNumberPad(globalPoint, diastolicResult);
+        }
+
+        private function heartRateResult_focusInHandler():void
+        {
+            var globalPoint:Point = heartRateResultGroup.localToGlobal(new Point(heartRateResult.x + heartRateResult.width - numberPad.width,
+                    heartRateResult.y - numberPad.height - NUMBER_PAD_GAP));
+            showNumberPad(globalPoint, heartRateResult);
+        }
+
+        private function removeHandler():void
+        {
+//            NativeApplication.nativeApplication.removeEventListener(InvokeEvent.INVOKE, invokeHandler);
+        }
+        ]]>
+	</fx:Script>
+    <s:Rect width="100%" height="100%">
+        <s:fill>
+            <s:SolidColor color="0xAAAAAA"/>
+        </s:fill>
+    </s:Rect>
+    <s:VGroup top="10" left="10" right="10" gap="10" horizontalAlign="center">
+        <!--		<s:Label text="Please enter your blood pressure" includeIn="initial"
+                   styleName="reportingLabelsText" paddingBottom="15"/>
+          <s:Label text="Please repeat your blood pressure" includeIn="repeat" styleName="reportingLabelsText"
+                   paddingBottom="15"/>-->
+        <s:DropDownList id="positionDropDownList" width="100%" selectedIndex="0"
+                        skinClass="spark.skins.spark.DropDownListSkin"
+                        styleName="reportingLabelsText">
+            <mx:ArrayCollection>
+                <fx:String>Sitting</fx:String>
+                <fx:String>Lying Down</fx:String>
+                <fx:String>Standing</fx:String>
+            </mx:ArrayCollection>
+        </s:DropDownList>
+        <s:DropDownList id="siteDropDownList" width="100%" selectedIndex="0"
+                        skinClass="spark.skins.spark.DropDownListSkin"
+                        styleName="reportingLabelsText">
+            <mx:ArrayCollection>
+                <fx:String>Left Arm</fx:String>
+                <fx:String>Right Arm</fx:String>
+            </mx:ArrayCollection>
+        </s:DropDownList>
+        <s:Group width="100%">
+            <s:HGroup id="systolicResultGroup" gap="15" paddingTop="20" left="0">
+                <!--TODO: Determine why the font size from the style is not working-->
+                <s:Label id="systolicLabel" text="SYS" width="65" styleName="reportingLabelsText" fontSize="40"/>
+                <s:TextInput id="systolicResult" width="240" height="130"
+                             skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
+                             textAlign="right" restrict="0-9" maxChars="3" focusIn="systolicResult_focusInHandler()"
+                             text="{_dataInputModel.systolic}"/>
+                <s:Group height="100%">
+                    <s:Label text="mmHg" verticalCenter="0" styleName="reportingLabelsText"/>
+                </s:Group>
+            </s:HGroup>
+        </s:Group>
+        <s:Group width="100%">
+            <s:HGroup id="diastolicResultGroup" gap="15" left="0">
+                <s:Label id="diastolicLabel" text="DIA" width="65" styleName="reportingLabelsText"/>
+                <s:TextInput id="diastolicResult" width="240" height="130"
+                             skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
+                             textAlign="right" restrict="0-9" maxChars="3" focusIn="diastolicResult_focusInHandler()"
+                             text="{_dataInputModel.diastolic}"/>
+            </s:HGroup>
+        </s:Group>
+        <s:Group width="100%">
+            <s:VGroup id="heartRateResultGroup" right="0">
+                <s:TextInput id="heartRateResult" width="200" height="95"
+                             skinClass="spark.skins.spark.TextInputSkin"
+                             textAlign="center" restrict="0-9" maxChars="3" focusIn="heartRateResult_focusInHandler()"
+                             text="{_dataInputModel.heartRate}"/>
+                <s:Label text="Beats/min" styleName="reportingLabelsText"/>
+            </s:VGroup>
+        </s:Group>
+    </s:VGroup>
+    <s:VGroup left="10" right="10" bottom="10" verticalAlign="bottom">
+        <s:Group>
+            <s:Label id="autoSubmitCountdownLabel" visible="{_fromDevice &amp;&amp; !_hasUserInteracted}"/>
+            <s:Label id="bloodPressureIncompleteLabel" text="Please enter a blood pressure and heart rate."
+                     visible="{_submitFailed}"/>
+        </s:Group>
+        <s:Group width="100%">
+            <s:Button id="submitButton" label="Submit" click="submitButton_clickHandler()" width="100%" height="80"
+                      horizontalCenter="0"/>
+        </s:Group>
+    </s:VGroup>
+    <sharedViews:NumberPad id="numberPad" visible="false"/>
+</tablet:TabletViewBase>

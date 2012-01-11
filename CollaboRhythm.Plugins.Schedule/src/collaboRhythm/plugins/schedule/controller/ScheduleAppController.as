@@ -17,11 +17,16 @@
 package collaboRhythm.plugins.schedule.controller
 {
 
-	import collaboRhythm.plugins.schedule.model.ScheduleModel;
+    import castle.flexbridge.reflection.ReflectionUtils;
+
+    import collaboRhythm.plugins.schedule.model.ScheduleModel;
 	import collaboRhythm.plugins.schedule.model.ScheduleModelEvent;
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
-	import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
-	import collaboRhythm.plugins.schedule.view.IScheduleFullView;
+    import collaboRhythm.plugins.schedule.shared.model.DataInputViewInitializationModel;
+    import collaboRhythm.plugins.schedule.shared.model.IDataInputView;
+    import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
+    import collaboRhythm.plugins.schedule.shared.model.ScheduleModelKey;
+    import collaboRhythm.plugins.schedule.view.IScheduleFullView;
 	import collaboRhythm.plugins.schedule.view.ScheduleClockWidgetView;
 	import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
 	import collaboRhythm.plugins.schedule.view.ScheduleTimelineFullView;
@@ -29,14 +34,17 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.shared.controller.apps.AppEvent;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.model.InteractionLogUtil;
+    import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
-	import flash.desktop.NativeApplication;
+    import flash.desktop.NativeApplication;
 	import flash.events.InvokeEvent;
 	import flash.net.URLVariables;
 
 	import mx.core.UIComponent;
 
-	public class ScheduleAppController extends AppControllerBase
+    import spark.transitions.SlideViewTransition;
+
+    public class ScheduleAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Schedule";
 
@@ -77,7 +85,7 @@ package collaboRhythm.plugins.schedule.controller
 			{
 				_scheduleModel = new ScheduleModel(_componentContainer, _activeRecordAccount.primaryRecord,
 												   _activeRecordAccount.accountId, _handledInvokeEvents);
-				_activeRecordAccount.primaryRecord.appData.put(ScheduleModel.SCHEDULE_MODEL_KEY, _scheduleModel);
+				_activeRecordAccount.primaryRecord.appData.put(ScheduleModelKey.SCHEDULE_MODEL_KEY, _scheduleModel);
 				_activeRecordAccount.primaryRecord.appData.put(AdherencePerformanceModel.ADHERENCE_PERFORMANCE_MODEL_KEY,
 															   _scheduleModel.adherencePerformanceModel);
 				_scheduleModel.addEventListener(ScheduleModelEvent.INITIALIZED, scheduleModel_initializedHandler, false,
@@ -158,9 +166,28 @@ package collaboRhythm.plugins.schedule.controller
 				var urlString:String = event.arguments[0];
 				var urlVariablesString:String = urlString.split("//")[1];
 				var urlVariables:URLVariables = new URLVariables(urlVariablesString);
-				var pendingAdherenceItem:PendingAdherenceItem = scheduleModel.scheduleReportingModel.createPendingAdherenceItem(urlVariables);
-				scheduleModel.scheduleReportingModel.currentScheduleGroup = pendingAdherenceItem.scheduleGroup;
-				dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this, null, null, "InvokeEvent"));
+
+                if (urlVariables.success == "true")
+                {
+                    var closestScheduleItemOccurrence:ScheduleItemOccurrence = scheduleModel.scheduleReportingModel.findClosestScheduleItemOccurrence(urlVariables.name, urlVariables.measurements);
+                    var dataInputViewInitializationModel:DataInputViewInitializationModel = new DataInputViewInitializationModel(closestScheduleItemOccurrence, urlVariables);
+                    var dataInputViewClass:Class = scheduleModel.dataInputViewFactory.createDataInputView(urlVariables.name, urlVariables.measurements, closestScheduleItemOccurrence);
+
+                    if (ReflectionUtils.getClass(_viewNavigator.activeView) == dataInputViewClass)
+                    {
+                        var dataInputView:IDataInputView = IDataInputView(_viewNavigator.activeView);
+                        dataInputView.dataInputModel.urlVariables = urlVariables;
+                    }    
+                    else
+                    {
+                        _viewNavigator.pushView(dataInputViewClass, dataInputViewInitializationModel, null, new SlideViewTransition());
+                    }
+                }
+
+
+//				var pendingAdherenceItem:PendingAdherenceItem = scheduleModel.scheduleReportingModel.createPendingAdherenceItem(urlVariables);
+//				scheduleModel.scheduleReportingModel.currentScheduleGroup = pendingAdherenceItem.scheduleGroup;
+//				dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this, null, null, "InvokeEvent"));
 			}
 		}
 
@@ -273,7 +300,7 @@ package collaboRhythm.plugins.schedule.controller
 				_scheduleModel = null;
 			}
 
-			_activeRecordAccount.primaryRecord.appData.remove(ScheduleModel.SCHEDULE_MODEL_KEY);
+			_activeRecordAccount.primaryRecord.appData.remove(ScheduleModelKey.SCHEDULE_MODEL_KEY);
 			_activeRecordAccount.primaryRecord.appData.remove(AdherencePerformanceModel.ADHERENCE_PERFORMANCE_MODEL_KEY);
 			_scheduleClockController = null;
 			_scheduleTimelineController = null;

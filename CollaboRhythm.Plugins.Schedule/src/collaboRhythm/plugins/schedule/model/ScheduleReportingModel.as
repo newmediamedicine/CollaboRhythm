@@ -17,22 +17,21 @@
 package collaboRhythm.plugins.schedule.model
 {
 
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
-	import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
-	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
-	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
-	import collaboRhythm.shared.model.services.ICurrentDateSource;
-	import collaboRhythm.shared.model.services.WorkstationKernel;
+    import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
+    import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
+    import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+    import collaboRhythm.shared.model.healthRecord.CodedValue;
+    import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+    import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+    import collaboRhythm.shared.model.services.ICurrentDateSource;
+    import collaboRhythm.shared.model.services.WorkstationKernel;
 
-	import flash.events.InvokeEvent;
-	import flash.net.URLVariables;
+    import flash.net.URLVariables;
 
-	import mx.collections.ArrayCollection;
-	import mx.core.UIComponent;
+    import mx.collections.ArrayCollection;
+    import mx.core.UIComponent;
 
-	[Bindable]
+    [Bindable]
 	public class ScheduleReportingModel implements IScheduleReportingModel
 	{
 		private var _scheduleModel:ScheduleModel;
@@ -91,7 +90,7 @@ package collaboRhythm.plugins.schedule.model
 			var success:Boolean = (urlVariables.success == "true");
 			if (success)
 			{
-				var closestScheduleItemOccurrence:ScheduleItemOccurrence = findClosestScheduleItemOccurrence(name);
+				var closestScheduleItemOccurrence:ScheduleItemOccurrence = findClosestScheduleItemOccurrence(name, urlVariables.measurements);
 				if (closestScheduleItemOccurrence)
 				{
 					var parentScheduleGroup:ScheduleGroup;
@@ -122,7 +121,7 @@ package collaboRhythm.plugins.schedule.model
 			return pendingAdherenceItem;
 		}
 
-		public function findClosestScheduleItemOccurrence(name:String):ScheduleItemOccurrence
+		public function findClosestScheduleItemOccurrence(name:String, measurements:String):ScheduleItemOccurrence
 		{
 			var closestScheduleItemOccurrence:ScheduleItemOccurrence;
 			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in _scheduleModel.scheduleItemOccurrencesHashMap)

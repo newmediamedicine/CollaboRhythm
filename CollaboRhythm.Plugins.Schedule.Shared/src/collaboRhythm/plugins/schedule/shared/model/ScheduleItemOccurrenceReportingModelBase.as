@@ -7,6 +7,7 @@ package collaboRhythm.plugins.schedule.shared.model
 	{
 		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
 		protected var _scheduleModel:IScheduleModel;
+        private var _dataInputView:Class;
 
 		public function ScheduleItemOccurrenceReportingModelBase(scheduleItemOccurrence:ScheduleItemOccurrence,
 																 scheduleModel:IScheduleModel)
@@ -57,6 +58,16 @@ package collaboRhythm.plugins.schedule.shared.model
         public function set scheduleItemOccurrence(value:ScheduleItemOccurrence):void
         {
             _scheduleItemOccurrence = value;
+        }
+
+        public function get dataInputView():Class
+        {
+            return _dataInputView;
+        }
+
+        public function set dataInputView(value:Class):void
+        {
+            _dataInputView = value;
         }
     }
 }
