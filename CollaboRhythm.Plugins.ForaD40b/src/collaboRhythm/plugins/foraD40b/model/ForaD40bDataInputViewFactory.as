@@ -1,11 +1,11 @@
 package collaboRhythm.plugins.foraD40b.model
 {
-    import collaboRhythm.plugins.foraD40b.view.BloodGlucoseDataInputView;
-    import collaboRhythm.plugins.foraD40b.view.BloodPressureDataInputView;
-    import collaboRhythm.plugins.schedule.shared.model.IDataInputViewFactory;
-    import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseDataInputView;
+	import collaboRhythm.plugins.foraD40b.view.BloodPressureDataInputView;
+	import collaboRhythm.plugins.schedule.shared.model.IDataInputViewFactory;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
-    public class ForaD40bDataInputViewFactory implements IDataInputViewFactory
+	public class ForaD40bDataInputViewFactory implements IDataInputViewFactory
     {
         private static const NAME:String = "FORA D40b";
         private static const BLOOD_PRESSURE:String = "Blood Pressure";
@@ -22,7 +22,8 @@ package collaboRhythm.plugins.foraD40b.model
             return name == NAME;
         }
 
-        public function createDataInputView(name:String, measurements:String = "", scheduleItemOccurrence:ScheduleItemOccurrence = null):Class
+        public function createDataInputView(name:String, measurements:String,
+											scheduleItemOccurrence:ScheduleItemOccurrence):Class
         {
             if (measurements == BLOOD_PRESSURE || measurements == BLOOD_PRESSURE_INSTRUCTIONS)
                 return BloodPressureDataInputView;

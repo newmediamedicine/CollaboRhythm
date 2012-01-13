@@ -23,7 +23,6 @@ package collaboRhythm.plugins.medications.model
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceEvaluatorBase;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleItemOccurrenceReportingViewAdapter;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleViewFactory;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
@@ -46,9 +45,9 @@ package collaboRhythm.plugins.medications.model
 			return new MedicationsAdherencePerformanceEvaluator();
 		}
 
-		public function createScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence, scheduleReportingModel:IScheduleReportingModel):IScheduleItemOccurrenceReportingViewAdapter
+		public function createScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence):IScheduleItemOccurrenceReportingViewAdapter
 		{
-			var medicationScheduleItemOccurrenceReportingViewAdapter:MedicationScheduleItemOccurrenceReportingViewAdapter = new MedicationScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence, scheduleReportingModel);
+			var medicationScheduleItemOccurrenceReportingViewAdapter:MedicationScheduleItemOccurrenceReportingViewAdapter = new MedicationScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence);
 			return medicationScheduleItemOccurrenceReportingViewAdapter;
 		}
 

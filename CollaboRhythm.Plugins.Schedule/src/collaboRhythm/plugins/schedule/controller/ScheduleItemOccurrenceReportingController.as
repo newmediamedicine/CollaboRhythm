@@ -2,9 +2,9 @@ package collaboRhythm.plugins.schedule.controller
 {
     import collaboRhythm.plugins.schedule.shared.model.DataInputViewInitializationModel;
     import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
-    import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
-    import spark.components.ViewNavigator;
+	import spark.components.ViewNavigator;
     import spark.transitions.SlideViewTransition;
 
     public class ScheduleItemOccurrenceReportingController
@@ -28,7 +28,8 @@ package collaboRhythm.plugins.schedule.controller
             {
                 if (_scheduleItemOccurrenceReportingModel.isAdditionalInformationRequired())
                 {
-                    var dataInputViewInitializationModel:DataInputViewInitializationModel = new DataInputViewInitializationModel(scheduleItemOccurrence);
+                    var dataInputViewInitializationModel:DataInputViewInitializationModel = new DataInputViewInitializationModel(scheduleItemOccurrence,
+							null, _scheduleItemOccurrenceReportingModel.scheduleModel, _viewNavigator);
                     _viewNavigator.pushView(_scheduleItemOccurrenceReportingModel.dataInputView, dataInputViewInitializationModel, null, new SlideViewTransition());
                 }
                 else

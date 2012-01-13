@@ -1,7 +1,6 @@
 package collaboRhythm.plugins.equipment.model
 {
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleItemOccurrenceReportingViewAdapter;
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 	import collaboRhythm.shared.model.healthRecord.document.Equipment;
 	import collaboRhythm.shared.model.healthRecord.document.EquipmentModel;
 	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
@@ -15,8 +14,7 @@ package collaboRhythm.plugins.equipment.model
 		private var _equipmentScheduleItem:EquipmentScheduleItem;
 		private var _equipment:Equipment;
 
-		public function EquipmentScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
-																			scheduleReportingModel:IScheduleReportingModel)
+		public function EquipmentScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence)
 		{
 			_equipmentScheduleItem = scheduleItemOccurrence.scheduleItem as EquipmentScheduleItem;
 			_equipment = _equipmentScheduleItem.scheduledEquipment;

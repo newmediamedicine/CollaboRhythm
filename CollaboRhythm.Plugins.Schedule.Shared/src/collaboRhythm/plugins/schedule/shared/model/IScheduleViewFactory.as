@@ -26,7 +26,7 @@ package collaboRhythm.plugins.schedule.shared.model
     {
         function get scheduleItemType():ClassInfo;
 		function createAdherencePerformanceEvaluator(scheduleItem:ScheduleItemBase):AdherencePerformanceEvaluatorBase;
-		function createScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence, scheduleReportingModel:IScheduleReportingModel):IScheduleItemOccurrenceReportingViewAdapter
+		function createScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence):IScheduleItemOccurrenceReportingViewAdapter
 		function createScheduleItemOccurrenceReportingModel(scheduleItemOccurrence:ScheduleItemOccurrence,
 															scheduleModel:IScheduleModel):ScheduleItemOccurrenceReportingModelBase;
     }

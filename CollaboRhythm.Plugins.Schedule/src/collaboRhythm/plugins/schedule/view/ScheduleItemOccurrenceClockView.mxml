@@ -18,8 +18,7 @@
 		{
 			_scheduleItemOccurrence = scheduleItemOccurrence;
 
-			var scheduleItemOccurrenceReportingViewAdapter:IScheduleItemOccurrenceReportingViewAdapter = scheduleModel.viewFactory.createScheduleItemOccurrenceReportingViewAdapter(_scheduleItemOccurrence,
-																																													scheduleModel.scheduleReportingModel);
+			var scheduleItemOccurrenceReportingViewAdapter:IScheduleItemOccurrenceReportingViewAdapter = scheduleModel.viewFactory.createScheduleItemOccurrenceReportingViewAdapter(_scheduleItemOccurrence);
 
 			var image:Image = scheduleItemOccurrenceReportingViewAdapter.image;
 			image.smooth = true;

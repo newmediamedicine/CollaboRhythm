@@ -1,11 +1,11 @@
 package collaboRhythm.plugins.schedule.model
 {
-    import collaboRhythm.plugins.schedule.shared.model.IDataInputViewFactory;
-    import collaboRhythm.plugins.schedule.view.DefaultDataInputView;
-    import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
-    import collaboRhythm.shared.model.services.IComponentContainer;
+	import collaboRhythm.plugins.schedule.shared.model.IDataInputViewFactory;
+	import collaboRhythm.plugins.schedule.view.DefaultDataInputView;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.services.IComponentContainer;
 
-    public class MasterDataInputViewFactory implements IDataInputViewFactory
+	public class MasterDataInputViewFactory implements IDataInputViewFactory
     {
         private var _factoryArray:Array;
 
@@ -19,7 +19,8 @@ package collaboRhythm.plugins.schedule.model
             return false;
         }
 
-        public function createDataInputView(name:String, measurements:String = "", scheduleItemOccurrence:ScheduleItemOccurrence = null):Class
+        public function createDataInputView(name:String, measurements:String,
+											scheduleItemOccurrence:ScheduleItemOccurrence):Class
         {
             var matchingDataInputViewFactory:IDataInputViewFactory;
             for each (var dataInputViewFactory:IDataInputViewFactory in _factoryArray)

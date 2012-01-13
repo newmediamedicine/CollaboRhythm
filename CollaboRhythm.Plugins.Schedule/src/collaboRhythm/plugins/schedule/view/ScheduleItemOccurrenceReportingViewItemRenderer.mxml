@@ -33,74 +33,75 @@
 	</fx:Style>
 	<fx:Script>
         <![CDATA[
-        import collaboRhythm.plugins.schedule.controller.ScheduleItemOccurrenceReportingController;
-        import collaboRhythm.plugins.schedule.model.ScheduleModel;
-        import collaboRhythm.plugins.schedule.shared.model.IScheduleItemOccurrenceReportingViewAdapter;
-        import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
-        import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+		import collaboRhythm.plugins.schedule.controller.ScheduleItemOccurrenceReportingController;
+		import collaboRhythm.plugins.schedule.model.ScheduleModel;
+		import collaboRhythm.plugins.schedule.shared.model.IScheduleItemOccurrenceReportingViewAdapter;
+		import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
-        import spark.components.Image;
+		import spark.components.Image;
 
-        public static const SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT:Number = 142;
+		public static const SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT:Number = 142;
 
-        [Bindable]
-        private var _scheduleItemOccurrence:ScheduleItemOccurrence;
-        [Bindable]
-        private var _scheduleItemOccurrenceReportingModel:ScheduleItemOccurrenceReportingModelBase;
-        private var _scheduleItemOccurrenceReportingController:ScheduleItemOccurrenceReportingController;
+		[Bindable]
+		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
+		[Bindable]
+		private var _scheduleItemOccurrenceReportingModel:ScheduleItemOccurrenceReportingModelBase;
+		private var _scheduleItemOccurrenceReportingController:ScheduleItemOccurrenceReportingController;
 
-        private var _isDataSet:Boolean = false;
+		private var _isDataSet:Boolean = false;
 
-        override public function set data(value:Object):void
-        {
-            // This function gets called every time that the scheduleItemOccurrence is modified. This is problematic
-            // because it adds the image every time that the user checks the adherenceCheckBox. It may be necessary
-            // to write code that more specifically prevents the image from being added multiple times if other components
-            // of the view need to be updated dynamically
-            if (!_isDataSet)
-            {
-                super.data = value;
-                _scheduleItemOccurrence = ScheduleItemOccurrence(value);
+		override public function set data(value:Object):void
+		{
+			// This function gets called every time that the scheduleItemOccurrence is modified. This is problematic
+			// because it adds the image every time that the user checks the adherenceCheckBox. It may be necessary
+			// to write code that more specifically prevents the image from being added multiple times if other components
+			// of the view need to be updated dynamically
+			if (!_isDataSet)
+			{
+				super.data = value;
+				_scheduleItemOccurrence = ScheduleItemOccurrence(value);
 
-                var scheduleGroupReportingView:ScheduleGroupReportingView = ScheduleGroupReportingView(owner);
-                var scheduleModel:ScheduleModel = scheduleGroupReportingView.scheduleModel;
-                var scheduleItemOccurrenceReportingViewAdapter:IScheduleItemOccurrenceReportingViewAdapter = scheduleModel.viewFactory.createScheduleItemOccurrenceReportingViewAdapter(_scheduleItemOccurrence,
-                        scheduleModel.scheduleReportingModel);
-                _scheduleItemOccurrenceReportingModel = scheduleModel.viewFactory.createScheduleItemOccurrenceReportingModel(_scheduleItemOccurrence,
-                        scheduleModel);
-                _scheduleItemOccurrenceReportingModel.dataInputView = scheduleModel.dataInputViewFactory.createDataInputView(_scheduleItemOccurrence.scheduleItem.name.text, _scheduleItemOccurrence.scheduleItem.instructions, _scheduleItemOccurrence);
-                _scheduleItemOccurrenceReportingController = new ScheduleItemOccurrenceReportingController(_scheduleItemOccurrenceReportingModel, scheduleGroupReportingView.scheduleReportingController.viewNavigator);
+				var scheduleGroupReportingView:ScheduleGroupReportingView = ScheduleGroupReportingView(owner);
+				var scheduleModel:ScheduleModel = scheduleGroupReportingView.scheduleModel;
+				var scheduleItemOccurrenceReportingViewAdapter:IScheduleItemOccurrenceReportingViewAdapter = scheduleModel.viewFactory.createScheduleItemOccurrenceReportingViewAdapter(_scheduleItemOccurrence);
+				_scheduleItemOccurrenceReportingModel = scheduleModel.viewFactory.createScheduleItemOccurrenceReportingModel(_scheduleItemOccurrence,
+						scheduleModel);
+				_scheduleItemOccurrenceReportingModel.dataInputView = scheduleModel.dataInputViewFactory.createDataInputView(_scheduleItemOccurrence.scheduleItem.name.text,
+						_scheduleItemOccurrence.scheduleItem.instructions, _scheduleItemOccurrence);
+				_scheduleItemOccurrenceReportingController = new ScheduleItemOccurrenceReportingController(_scheduleItemOccurrenceReportingModel,
+						scheduleGroupReportingView.scheduleReportingController.viewNavigator);
 
-                nameLabel.text = scheduleItemOccurrenceReportingViewAdapter.name;
-                descriptionLabel.text = scheduleItemOccurrenceReportingViewAdapter.description;
-                indicationLabel.text = scheduleItemOccurrenceReportingViewAdapter.indication;
-                instructionsLabel.text = scheduleItemOccurrenceReportingViewAdapter.instructions;
+				nameLabel.text = scheduleItemOccurrenceReportingViewAdapter.name;
+				descriptionLabel.text = scheduleItemOccurrenceReportingViewAdapter.description;
+				indicationLabel.text = scheduleItemOccurrenceReportingViewAdapter.indication;
+				instructionsLabel.text = scheduleItemOccurrenceReportingViewAdapter.instructions;
 
-                var image:Image = scheduleItemOccurrenceReportingViewAdapter.image;
-                image.left = 5;
-                image.right = 5;
-                image.top = 5;
-                image.bottom = 5;
-                image.smooth = true;
-                imageRegion.addElement(image);
+				var image:Image = scheduleItemOccurrenceReportingViewAdapter.image;
+				image.left = 5;
+				image.right = 5;
+				image.top = 5;
+				image.bottom = 5;
+				image.smooth = true;
+				imageRegion.addElement(image);
 
-                additionalInformationLabel.visible = _scheduleItemOccurrenceReportingModel.isAdditionalInformationRequired();
+				additionalInformationLabel.visible = _scheduleItemOccurrenceReportingModel.isAdditionalInformationRequired();
 
-                _isDataSet = true;
-            }
-        }
+				_isDataSet = true;
+			}
+		}
 
-        private function adherenceCheckBoxClickHandler(event:MouseEvent):void
-        {
-            _scheduleItemOccurrenceReportingController.reportAdherence(_scheduleItemOccurrence);
-        }
+		private function adherenceCheckBoxClickHandler(event:MouseEvent):void
+		{
+			_scheduleItemOccurrenceReportingController.reportAdherence(_scheduleItemOccurrence);
+		}
 
-        private function adherenceCheckBoxMouseDownHandler(event:MouseEvent):void
-        {
-            // Prevent the scheduleItemOccurrence in the list from being selected when the check box is clicked
-            event.stopImmediatePropagation();
-        }
-        ]]>
+		private function adherenceCheckBoxMouseDownHandler(event:MouseEvent):void
+		{
+			// Prevent the scheduleItemOccurrence in the list from being selected when the check box is clicked
+			event.stopImmediatePropagation();
+		}
+		]]>
     </fx:Script>
 
 	<s:Group id="imageRegion" width="{this.height}" height="100%">

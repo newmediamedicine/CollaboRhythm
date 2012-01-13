@@ -34,9 +34,9 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.shared.controller.apps.AppEvent;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.model.InteractionLogUtil;
-    import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
-    import flash.desktop.NativeApplication;
+	import flash.desktop.NativeApplication;
 	import flash.events.InvokeEvent;
 	import flash.net.URLVariables;
 
@@ -170,8 +170,10 @@ package collaboRhythm.plugins.schedule.controller
                 if (urlVariables.success == "true")
                 {
                     var closestScheduleItemOccurrence:ScheduleItemOccurrence = scheduleModel.scheduleReportingModel.findClosestScheduleItemOccurrence(urlVariables.name, urlVariables.measurements);
-                    var dataInputViewInitializationModel:DataInputViewInitializationModel = new DataInputViewInitializationModel(closestScheduleItemOccurrence, urlVariables);
-                    var dataInputViewClass:Class = scheduleModel.dataInputViewFactory.createDataInputView(urlVariables.name, urlVariables.measurements, closestScheduleItemOccurrence);
+                    var dataInputViewInitializationModel:DataInputViewInitializationModel = new DataInputViewInitializationModel(closestScheduleItemOccurrence,
+							urlVariables, scheduleModel, _viewNavigator);
+                    var dataInputViewClass:Class = scheduleModel.dataInputViewFactory.createDataInputView(urlVariables.name,
+							urlVariables.measurements, closestScheduleItemOccurrence);
 
                     if (ReflectionUtils.getClass(_viewNavigator.activeView) == dataInputViewClass)
                     {
@@ -183,11 +185,6 @@ package collaboRhythm.plugins.schedule.controller
                         _viewNavigator.pushView(dataInputViewClass, dataInputViewInitializationModel, null, new SlideViewTransition());
                     }
                 }
-
-
-//				var pendingAdherenceItem:PendingAdherenceItem = scheduleModel.scheduleReportingModel.createPendingAdherenceItem(urlVariables);
-//				scheduleModel.scheduleReportingModel.currentScheduleGroup = pendingAdherenceItem.scheduleGroup;
-//				dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this, null, null, "InvokeEvent"));
 			}
 		}
 

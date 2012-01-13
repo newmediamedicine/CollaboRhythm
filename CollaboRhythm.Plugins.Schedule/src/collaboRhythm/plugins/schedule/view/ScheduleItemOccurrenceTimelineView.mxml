@@ -56,8 +56,7 @@
 		{
 			_scheduleItemOccurrence = scheduleItemOccurrence;
 
-			var scheduleItemOccurrenceReportingViewAdapter:IScheduleItemOccurrenceReportingViewAdapter = scheduleModel.viewFactory.createScheduleItemOccurrenceReportingViewAdapter(_scheduleItemOccurrence,
-																																													scheduleModel.scheduleReportingModel);
+			var scheduleItemOccurrenceReportingViewAdapter:IScheduleItemOccurrenceReportingViewAdapter = scheduleModel.viewFactory.createScheduleItemOccurrenceReportingViewAdapter(_scheduleItemOccurrence);
 
 			nameLabel.text = scheduleItemOccurrenceReportingViewAdapter.name;
 			descriptionLabel.text = scheduleItemOccurrenceReportingViewAdapter.description;
@@ -81,7 +80,7 @@
 			{
 				var moveData:MoveData = createMoveData(event);
 				dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_ITEM_TIMELINE_VIEW_MOUSE_DOWN,
-															moveData));
+						moveData));
 			}
 		}
 

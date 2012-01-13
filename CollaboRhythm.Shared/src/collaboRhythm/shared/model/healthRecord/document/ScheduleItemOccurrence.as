@@ -16,97 +16,109 @@
  */
 package collaboRhythm.shared.model.healthRecord.document
 {
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
+	import collaboRhythm.shared.model.services.ICurrentDateSource;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
 
 
 	[Bindable]
-    public class ScheduleItemOccurrence
-    {
-        private var _dateStart:Date;
-        private var _dateEnd:Date;
-        private var _recurrenceIndex:int;
-        private var _scheduleItem:ScheduleItemBase;
-        private var _adherenceItem:AdherenceItem;
-        private var _moving:Boolean;
-        private var _yPosition:int;
+	public class ScheduleItemOccurrence
+	{
+		private var _dateStart:Date;
+		private var _dateEnd:Date;
+		private var _recurrenceIndex:int;
+		private var _scheduleItem:ScheduleItemBase;
+		private var _adherenceItem:AdherenceItem;
+		private var _moving:Boolean;
+		private var _yPosition:int;
+		private var _currentDateSource:ICurrentDateSource;
 
-        public function get yPosition():int
-        {
-            return _yPosition;
-        }
-
-        public function set yPosition(value:int):void
-        {
-            _yPosition = value;
-        }
-
-        public function ScheduleItemOccurrence(scheduleItem:ScheduleItemBase, dateStart:Date, dateEnd:Date,
+		public function ScheduleItemOccurrence(scheduleItem:ScheduleItemBase, dateStart:Date, dateEnd:Date,
 											   recurrenceIndex:int)
-        {
-            _dateStart = dateStart;
-            _dateEnd = dateEnd;
-            _recurrenceIndex = recurrenceIndex;
+		{
+			_dateStart = dateStart;
+			_dateEnd = dateEnd;
+			_recurrenceIndex = recurrenceIndex;
 			_scheduleItem = scheduleItem;
-        }
 
-        public function get recurrenceIndex():int
-        {
-            return _recurrenceIndex;
-        }
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+		}
 
-        public function set recurrenceIndex(value:int):void
-        {
-            _recurrenceIndex = value;
-        }
+		public function createAdherenceItem(adherenceResults:Vector.<DocumentBase>, reportedBy:String):void
+		{
+			adherenceItem = new AdherenceItem();
+			adherenceItem.init(scheduleItem.name, reportedBy, _currentDateSource.now(), _recurrenceIndex, adherenceResults);
+		}
 
-        public function get scheduleItem():ScheduleItemBase
-        {
-            return _scheduleItem;
-        }
+		public function get recurrenceIndex():int
+		{
+			return _recurrenceIndex;
+		}
 
-        public function set scheduleItem(value:ScheduleItemBase):void
-        {
-            _scheduleItem = value;
-        }
+		public function set recurrenceIndex(value:int):void
+		{
+			_recurrenceIndex = value;
+		}
 
-        public function get adherenceItem():AdherenceItem
-        {
-            return _adherenceItem;
-        }
+		public function get scheduleItem():ScheduleItemBase
+		{
+			return _scheduleItem;
+		}
 
-        public function set adherenceItem(value:AdherenceItem):void
-        {
-            _adherenceItem = value;
-        }
+		public function set scheduleItem(value:ScheduleItemBase):void
+		{
+			_scheduleItem = value;
+		}
 
-        public function get dateStart():Date
-        {
-            return _dateStart;
-        }
+		public function get adherenceItem():AdherenceItem
+		{
+			return _adherenceItem;
+		}
 
-        public function set dateStart(value:Date):void
-        {
-            _dateStart = value;
-        }
+		public function set adherenceItem(value:AdherenceItem):void
+		{
+			_adherenceItem = value;
+		}
 
-        public function get dateEnd():Date
-        {
-            return _dateEnd;
-        }
+		public function get dateStart():Date
+		{
+			return _dateStart;
+		}
 
-        public function set dateEnd(value:Date):void
-        {
-            _dateEnd = value;
-        }
+		public function set dateStart(value:Date):void
+		{
+			_dateStart = value;
+		}
 
-        public function get moving():Boolean
-        {
-            return _moving;
-        }
+		public function get dateEnd():Date
+		{
+			return _dateEnd;
+		}
 
-        public function set moving(value:Boolean):void
-        {
-            _moving = value;
-        }
+		public function set dateEnd(value:Date):void
+		{
+			_dateEnd = value;
+		}
+
+		public function get moving():Boolean
+		{
+			return _moving;
+		}
+
+		public function set moving(value:Boolean):void
+		{
+			_moving = value;
+		}
+
+		public function get yPosition():int
+		{
+			return _yPosition;
+		}
+
+		public function set yPosition(value:int):void
+		{
+			_yPosition = value;
+		}
 
 		/**
 		 * The unique deterministic identifier of this occurrence. The id combines the document id of the associated

@@ -17,29 +17,29 @@
 package collaboRhythm.plugins.schedule.model
 {
 
-    import collaboRhythm.plugins.schedule.shared.model.*;
-    import collaboRhythm.shared.model.Record;
-    import collaboRhythm.shared.model.healthRecord.DocumentBase;
-    import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
-    import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
-    import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
-    import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
-    import collaboRhythm.shared.model.services.IComponentContainer;
-    import collaboRhythm.shared.model.services.ICurrentDateSource;
-    import collaboRhythm.shared.model.services.WorkstationKernel;
+	import collaboRhythm.plugins.schedule.shared.model.*;
+	import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
+	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.services.IComponentContainer;
+	import collaboRhythm.shared.model.services.ICurrentDateSource;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
 
-    import flash.events.EventDispatcher;
-    import flash.utils.getQualifiedClassName;
+	import flash.events.EventDispatcher;
+	import flash.utils.getQualifiedClassName;
 
-    import j2as3.collection.HashMap;
+	import j2as3.collection.HashMap;
 
-    import mx.binding.utils.BindingUtils;
-    import mx.binding.utils.ChangeWatcher;
-    import mx.collections.ArrayCollection;
-    import mx.logging.ILogger;
-    import mx.logging.Log;
+	import mx.binding.utils.BindingUtils;
+	import mx.binding.utils.ChangeWatcher;
+	import mx.collections.ArrayCollection;
+	import mx.logging.ILogger;
+	import mx.logging.Log;
 
-    [Bindable]
+	[Bindable]
 	public class ScheduleModel extends EventDispatcher implements IScheduleCollectionsProvider, IScheduleModel
 	{
         // Key to the ScheduleModel instance in Record.appData is in ScheduleModelKey Class in CollaboRhythm.Plugins.Schedule.Shared
@@ -209,31 +209,33 @@ package collaboRhythm.plugins.schedule.model
 			return _scheduleGroupsCollection;
 		}
 
-		public function get now():Date
-		{
-			return _currentDateSource.now();
-		}
-
 		public function get viewFactory():IScheduleViewFactory
 		{
 			return _viewFactory;
 		}
 
-		public function createAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence,
-											adherenceItem:AdherenceItem):void
+		public function createAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void
 		{
-			scheduleItemOccurrence.adherenceItem = adherenceItem;
-			adherenceItem.pendingAction = DocumentBase.ACTION_CREATE;
-			_record.addDocument(adherenceItem);
+			scheduleItemOccurrence.adherenceItem.pendingAction = DocumentBase.ACTION_CREATE;
+			_record.addDocument(scheduleItemOccurrence.adherenceItem);
 			_record.addNewRelationship(ScheduleItemBase.RELATION_TYPE_ADHERENCE_ITEM,
-									   scheduleItemOccurrence.scheduleItem, adherenceItem);
-			for each (var adherenceResult:DocumentBase in adherenceItem.adherenceResults)
+									   scheduleItemOccurrence.scheduleItem, scheduleItemOccurrence.adherenceItem);
+			for each (var adherenceResult:DocumentBase in scheduleItemOccurrence.adherenceItem.adherenceResults)
 			{
 				adherenceResult.pendingAction = DocumentBase.ACTION_CREATE;
 				_record.addDocument(adherenceResult);
-				_record.addNewRelationship(AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT, adherenceItem, adherenceResult)
+				_record.addNewRelationship(AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT, scheduleItemOccurrence.adherenceItem, adherenceResult)
 			}
 			_adherencePerformanceModel.updateAdherencePerformance();
+		}		
+		
+		public function createResults(results:Vector.<DocumentBase>):void
+		{
+			for each (var result:DocumentBase in results)
+			{
+				result.pendingAction = DocumentBase.ACTION_CREATE;
+				_record.addDocument(result);
+			}
 		}
 
 		public function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void
@@ -265,7 +267,7 @@ package collaboRhythm.plugins.schedule.model
 		{
 			if (!_scheduleReportingModel)
 			{
-				_scheduleReportingModel = new ScheduleReportingModel(this, _accountId, _handledInvokeEvents);
+				_scheduleReportingModel = new ScheduleReportingModel(this, _accountId);
 			}
 			return _scheduleReportingModel;
 		}
@@ -368,5 +370,6 @@ package collaboRhythm.plugins.schedule.model
         {
             return _dataInputViewFactory;
         }
-    }
+
+	}
 }

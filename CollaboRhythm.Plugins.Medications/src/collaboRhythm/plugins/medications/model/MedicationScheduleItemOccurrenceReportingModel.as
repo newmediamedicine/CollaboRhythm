@@ -33,17 +33,15 @@ package collaboRhythm.plugins.medications.model
 		override public function createAdherenceItem():void
 		{
 			var medicationAdministration:MedicationAdministration = new MedicationAdministration();
-			medicationAdministration.init(_medicationOrder.name, _scheduleModel.accountId,
+			medicationAdministration.init(_medicationOrder.name, scheduleModel.accountId,
 										  _currentDateSource.now(), _currentDateSource.now(),
 										  _medicationScheduleItem.dose);
 
-			var adherenceItem:AdherenceItem = new AdherenceItem();
 			var adherenceResults:Vector.<DocumentBase> = new Vector.<DocumentBase>();
 			adherenceResults.push(medicationAdministration);
-			adherenceItem.init(_medicationOrder.name, _scheduleModel.accountId, _currentDateSource.now(),
-							   scheduleItemOccurrence.recurrenceIndex, true, null, adherenceResults);
+			scheduleItemOccurrence.createAdherenceItem(adherenceResults, scheduleModel.accountId);
 
-			_scheduleModel.createAdherenceItem(scheduleItemOccurrence, adherenceItem);
+			scheduleModel.createAdherenceItem(scheduleItemOccurrence);
 		}
 
 		override public function isAdditionalInformationRequired():Boolean

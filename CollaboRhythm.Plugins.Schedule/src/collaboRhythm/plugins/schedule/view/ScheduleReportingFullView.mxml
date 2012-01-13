@@ -43,179 +43,143 @@
 		}
 	</fx:Style>
 	<fx:Script><![CDATA[
-        import collaboRhythm.plugins.schedule.controller.ScheduleAppController;
-        import collaboRhythm.plugins.schedule.controller.ScheduleReportingController;
-        import collaboRhythm.plugins.schedule.model.ScheduleModel;
-        import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
-        import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEvent;
+		import collaboRhythm.plugins.schedule.controller.ScheduleAppController;
+		import collaboRhythm.plugins.schedule.controller.ScheduleReportingController;
+		import collaboRhythm.plugins.schedule.model.ScheduleModel;
+		import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
 
-        import mx.core.UIComponent;
-        import mx.events.CollectionEvent;
-        import mx.events.CollectionEventKind;
-        import mx.events.FlexMouseEvent;
-        import mx.logging.ILogger;
-        import mx.logging.Log;
+		import mx.events.FlexMouseEvent;
+		import mx.logging.ILogger;
 
-        import spark.components.Callout;
+		import spark.events.IndexChangeEvent;
+		import spark.skins.mobile.CalloutSkin;
 
-        import spark.events.IndexChangeEvent;
-        import spark.skins.mobile.CalloutSkin;
+		private const COUNTDOWN_DURATION:int = 10;
+		private static const TIMEOUT_TIMER_DURATION:int = 1000;//600000;
 
-        private const COUNTDOWN_DURATION:int = 10;
+		private var _scheduleReportingController:ScheduleReportingController;
+		private var _scheduleModel:ScheduleModel;
+		private var _scheduleReportingModel:ScheduleReportingModel;
+		private var _timeoutTimer:Timer;
+		private var _countdownTimer:Timer;
+		[Bindable]
+		private var _countdownIndex:int;
+		[Bindable]
+		private var _isCountdownRunning:Boolean;
+		protected var _logger:ILogger;
 
-        private var _scheduleReportingController:ScheduleReportingController;
-        private var _scheduleModel:ScheduleModel;
-        private var _scheduleReportingModel:ScheduleReportingModel;
-        private var _timeoutTimer:Timer;
-        private var _countdownTimer:Timer;
-        [Bindable]
-        private var _countdownIndex:int;
-        [Bindable]
-        private var _isCountdownRunning:Boolean;
-        protected var _logger:ILogger;
+		public function init(scheduleAppController:ScheduleAppController, scheduleModel:ScheduleModel):void
+		{
+			_scheduleReportingController = scheduleAppController.scheduleReportingController;
+			_scheduleModel = scheduleModel;
+			_scheduleReportingModel = _scheduleModel.scheduleReportingModel;
 
-        public function init(scheduleAppController:ScheduleAppController, scheduleModel:ScheduleModel):void
-        {
-            _scheduleReportingController = scheduleAppController.scheduleReportingController;
-            _scheduleModel = scheduleModel;
-            _scheduleReportingModel = _scheduleModel.scheduleReportingModel;
-            _scheduleReportingModel.viewStack.addEventListener(CollectionEvent.COLLECTION_CHANGE, viewStackChangeEvent);
+			scheduleGroupReportingView.init(scheduleModel, scheduleAppController.activeAccount.accountId,
+					_scheduleReportingController);
+		}
 
-            scheduleGroupReportingView.init(scheduleModel, scheduleAppController.activeAccount.accountId, _scheduleReportingController);
-        }
+		//TODO: Determine why this is not being called when the view is shown, likely because of the change in implementation to use the viewNavigator
+		//As it stands, the timeout does not work.
+		private function showHandler():void
+		{
+			trace("ok this has been shown.");
+			// Every time that the view is shown, create a 10 minute timeout timer
+			_timeoutTimer = new Timer(TIMEOUT_TIMER_DURATION, 1);
+			_timeoutTimer.addEventListener(TimerEvent.TIMER, timeoutTimer_timerEventHandler);
+			_timeoutTimer.start();
+		}
 
-        private function showHandler():void
-        {
-            // Every time that the view is shown, create a 10 minute timeout timer
-            _timeoutTimer = new Timer(600000, 1);
-            _timeoutTimer.addEventListener(TimerEvent.TIMER, timeoutTimer_timerEventHandler);
-            _timeoutTimer.start();
-        }
+		private function timeoutTimer_timerEventHandler(event:TimerEvent):void
+		{
+			trace("ok the timer went off.");
+			if (visible)
+			{
+				_countdownTimer = new Timer(1000, COUNTDOWN_DURATION);
+				_countdownTimer.addEventListener(TimerEvent.TIMER, countdownTimer_timerEventHandler);
+				_countdownTimer.addEventListener(TimerEvent.TIMER_COMPLETE, countdownTimer_timerCompleteHandler);
+				_countdownIndex = COUNTDOWN_DURATION;
+				_countdownTimer.start();
+				_isCountdownRunning = true;
+			}
+		}
 
-        private function timeoutTimer_timerEventHandler(event:TimerEvent):void
-        {
-            if (visible)
-            {
-                _countdownTimer = new Timer(1000, COUNTDOWN_DURATION);
-                _countdownTimer.addEventListener(TimerEvent.TIMER, countdownTimer_timerEventHandler);
-                _countdownTimer.addEventListener(TimerEvent.TIMER_COMPLETE, countdownTimer_timerCompleteHandler);
-                _countdownIndex = COUNTDOWN_DURATION;
-                _countdownTimer.start();
-                _isCountdownRunning = true;
-            }
-        }
+		private function countdownTimer_timerEventHandler(event:TimerEvent):void
+		{
+			_countdownIndex = COUNTDOWN_DURATION - _countdownTimer.currentCount;
+		}
 
-        private function countdownTimer_timerEventHandler(event:TimerEvent):void
-        {
-            _countdownIndex = COUNTDOWN_DURATION - _countdownTimer.currentCount;
-        }
+		private function countdownTimer_timerCompleteHandler(event:TimerEvent):void
+		{
+			_isCountdownRunning = false;
+			closeScheduleReportingFullView("timer timeout elapsed");
+		}
 
-        private function countdownTimer_timerCompleteHandler(event:TimerEvent):void
-        {
-            _isCountdownRunning = false;
-            closeScheduleReportingFullView("timer timeout elapsed");
-        }
+		private function okButton_clickHandler():void
+		{
+			_isCountdownRunning = false;
+			_countdownTimer.stop();
 
-        private function okButton_clickHandler():void
-        {
-            _isCountdownRunning = false;
-            _countdownTimer.stop();
+			closeScheduleReportingFullView("time timeout elapsed - user pressed ok");
+		}
 
-            closeScheduleReportingFullView("time timeout elapsed - user pressed ok");
-        }
+		private function cancelButton_clickHandler():void
+		{
+			if (_timeoutTimer)
+			{
+				_timeoutTimer.reset();
+				_timeoutTimer.start();
+			}
+			_isCountdownRunning = false;
+			_countdownTimer.stop();
+		}
 
-        private function cancelButton_clickHandler():void
-        {
-            if (_timeoutTimer)
-            {
-                _timeoutTimer.reset();
-                _timeoutTimer.start();
-            }
-            _isCountdownRunning = false;
-            _countdownTimer.stop();
-        }
+		private function closeScheduleReportingFullView(viaMechanism:String):void
+		{
+			_scheduleReportingController.closeScheduleReportingFullView(viaMechanism);
+		}
 
-        private function closeScheduleReportingFullView(viaMechanism:String):void
-        {
-            _scheduleReportingController.closeScheduleReportingFullView(viaMechanism);
-        }
+		private function hideHandler():void
+		{
+			if (_countdownTimer)
+				_countdownTimer.stop();
+			if (_timeoutTimer)
+				_timeoutTimer.stop();
+		}
 
-        private function hideHandler():void
-        {
-            if (_countdownTimer)
-                _countdownTimer.stop();
-            if (_timeoutTimer)
-                _timeoutTimer.stop();
-        }
+		private function addedToStage():void
+		{
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
+		}
 
-        public function viewStackChangeEvent(event:CollectionEvent):void
-        {
-            if (event.kind == CollectionEventKind.ADD)
-            {
-                for each (var itemAdded:UIComponent in event.items)
-                {
-                    additionalInformationViews.addElement(itemAdded)
-                }
-            }
-            else if (event.kind == CollectionEventKind.REMOVE)
-            {
-                for each (var itemRemoved:UIComponent in event.items)
-                {
-                    if (additionalInformationViews.containsElement(itemRemoved))
-                        additionalInformationViews.removeElement(itemRemoved)
-                }
-            }
-            else if (event.kind == CollectionEventKind.RESET)
-            {
-                additionalInformationViews.removeAllElements();
-            }
-            setFocus();
-        }
+		private function removedFromStage():void
+		{
+			stage.removeEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
+		}
 
-        private function addedToStage():void
-        {
-            stage.addEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
-        }
+		private function stage_keyDownHandler(event:KeyboardEvent):void
+		{
+			if (event.keyCode == Keyboard.BACK && visible)
+			{
+				_scheduleReportingController.saveChangesToRecord();
+			}
+		}
 
-        private function removedFromStage():void
-        {
-            stage.removeEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
-        }
-
-        private function stage_keyDownHandler(event:KeyboardEvent):void
-        {
-            if (event.keyCode == Keyboard.BACK && visible)
-            {
-                if (_scheduleReportingModel.viewStack.length == 0)
-                {
-                    _scheduleReportingController.saveChangesToRecord();
-                }
-                else if (_scheduleReportingModel.viewStack.length != 0)
-                {
-                    event.preventDefault();
-                    event.stopImmediatePropagation();
-                    _scheduleReportingController.goBack();
-                }
-            }
-        }
-
-        public function destroyChildren():void
-        {
-            additionalInformationViews.removeAllElements();
+		public function destroyChildren():void
+		{
 //			scheduleGroupReportingView.scheduleItemsGroup.removeAllElements();
-        }
+		}
 
-        private function scheduleReportingFullView_clickHandler():void
-        {
-            if (_timeoutTimer)
-            {
-                _timeoutTimer.reset();
-                _timeoutTimer.start();
-            }
-        }
+		private function scheduleReportingFullView_clickHandler():void
+		{
+			if (_timeoutTimer)
+			{
+				_timeoutTimer.reset();
+				_timeoutTimer.start();
+			}
+		}
 
-        private function scheduleGroupReportingView_changeHandler(event:IndexChangeEvent):void
-        {
+		private function scheduleGroupReportingView_changeHandler(event:IndexChangeEvent):void
+		{
 //			var callout:Callout = new Callout();
 //			callout.setStyle("skinClass", CalloutSkin);
 //			callout.width = this.width / 2;
@@ -228,14 +192,14 @@
 //			callout.addElement(group);
 //			callout.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE, mouseDownOutsideHandler);
 //			callout.open(scheduleGroupReportingView.dataGroup.getElementAt(scheduleGroupReportingView.selectedIndex) as DisplayObjectContainer, false);
-        }
+		}
 
-        private function mouseDownOutsideHandler(event:FlexMouseEvent):void
-        {
-            scheduleGroupReportingView.selectedIndex = -1;
-            event.target.close();
-        }
-        ]]></fx:Script>
+		private function mouseDownOutsideHandler(event:FlexMouseEvent):void
+		{
+			scheduleGroupReportingView.selectedIndex = -1;
+			event.target.close();
+		}
+		]]></fx:Script>
 	<s:Rect width="100%" height="100%">
 		<s:fill>
 			<s:SolidColor color="0xE6E7E8"/>
@@ -260,7 +224,6 @@
 			</s:stroke>
 		</s:Line>
 	</s:Group>
-	<s:Group id="additionalInformationViews" width="55%" height="100%" right="0"/>
 	<s:Group width="100%" height="100%" visible="{_isCountdownRunning}">
 		<s:Rect width="100%" height="100%">
 			<s:fill>

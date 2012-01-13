@@ -11,6 +11,8 @@ package collaboRhythm.shared.model.healthRecord.document
 	public class VitalSign extends DocumentBase
 	{
 		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#VitalSign";
+		public static const CODED_VALUE_TYPE:String = "http://codes.indivo.org/vitalsigns/";
+
 		private var _name:CodedValue;
 		private var _measuredBy:String;
 		private var _dateMeasuredStart:Date;
