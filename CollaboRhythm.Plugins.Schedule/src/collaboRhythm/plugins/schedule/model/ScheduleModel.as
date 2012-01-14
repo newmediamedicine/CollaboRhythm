@@ -16,7 +16,6 @@
  */
 package collaboRhythm.plugins.schedule.model
 {
-
 	import collaboRhythm.plugins.schedule.shared.model.*;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
@@ -68,14 +67,12 @@ package collaboRhythm.plugins.schedule.model
 		private var _documentCollectionDependenciesArray:Array = new Array();
 		private var _scheduleItemsCollectionsArray:Array = new Array();
 		private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>();
-		private var _handledInvokeEvents:Vector.<String>;
         private var _dataInputViewFactory:MasterDataInputViewFactory;
 
-		public function ScheduleModel(componentContainer:IComponentContainer, record:Record, accountId:String,
-									  handledInvokeEvents:Vector.<String>)
+		public function ScheduleModel(componentContainer:IComponentContainer,
+									  record:Record, accountId:String)
 		{
 			_accountId = accountId;
-			_handledInvokeEvents = handledInvokeEvents;
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 
