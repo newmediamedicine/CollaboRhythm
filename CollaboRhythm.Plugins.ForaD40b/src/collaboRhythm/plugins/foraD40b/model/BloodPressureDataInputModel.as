@@ -2,8 +2,10 @@ package collaboRhythm.plugins.foraD40b.model
 {
 	import collaboRhythm.plugins.schedule.shared.model.DataInputModelBase;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
+	import collaboRhythm.shared.model.VitalSignFactory;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 
 	import flash.net.URLVariables;
 
@@ -32,9 +34,11 @@ package collaboRhythm.plugins.foraD40b.model
 
 		private function createVitalSigns():void
 		{
-			var bloodPressureSystolic:BloodPressureSystolic = new BloodPressureSystolic(_currentDateSource.now(), systolic, null, position, site);
-			var bloodPressureDiastolic:BloodPressureDiastolic = new BloodPressureDiastolic(_currentDateSource.now(), diastolic, null, position, site);
-			var heartRate:HeartRate = new HeartRate(_currentDateSource.now(), heartRate, null, position, site);
+			var vitalSignFactory:VitalSignFactory = new VitalSignFactory();
+			
+			var bloodPressureSystolic:VitalSign = vitalSignFactory.createBloodPressureSystolic(_currentDateSource.now(), systolic, null, null, site, position);
+			var bloodPressureDiastolic:VitalSign = vitalSignFactory.createBloodPressureDiastolic(_currentDateSource.now(), diastolic, null, null, site, position);
+			var heartRate:VitalSign = vitalSignFactory.createHeartRate(_currentDateSource.now(), heartRate, null, null, site, position);
 
 			var results:Vector.<DocumentBase> = new Vector.<DocumentBase>();
 			results.push(bloodPressureSystolic, bloodPressureDiastolic, heartRate);
