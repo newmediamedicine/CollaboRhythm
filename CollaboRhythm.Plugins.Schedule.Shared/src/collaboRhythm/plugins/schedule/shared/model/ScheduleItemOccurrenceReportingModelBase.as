@@ -1,13 +1,14 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
 
+	import collaboRhythm.plugins.schedule.shared.controller.DataInputControllerBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	public class ScheduleItemOccurrenceReportingModelBase
 	{
 		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
 		private var _scheduleModel:IScheduleModel;
-        private var _dataInputView:Class;
+        private var _dataInputController:DataInputControllerBase;
 
 		public function ScheduleItemOccurrenceReportingModelBase(scheduleItemOccurrence:ScheduleItemOccurrence,
 																 scheduleModel:IScheduleModel)
@@ -44,12 +45,6 @@ package collaboRhythm.plugins.schedule.shared.model
 			return false;
 		}
 
-        public function additionalInformationView():Class
-        {
-            // abstract; subclasses should override
-            return null;
-        }
-
         public function get scheduleItemOccurrence():ScheduleItemOccurrence
         {
             return _scheduleItemOccurrence;
@@ -60,16 +55,6 @@ package collaboRhythm.plugins.schedule.shared.model
             _scheduleItemOccurrence = value;
         }
 
-        public function get dataInputView():Class
-        {
-            return _dataInputView;
-        }
-
-        public function set dataInputView(value:Class):void
-        {
-            _dataInputView = value;
-        }
-
 		public function get scheduleModel():IScheduleModel
 		{
 			return _scheduleModel;
@@ -78,6 +63,16 @@ package collaboRhythm.plugins.schedule.shared.model
 		public function set scheduleModel(value:IScheduleModel):void
 		{
 			_scheduleModel = value;
+		}
+
+		public function get dataInputController():DataInputControllerBase
+		{
+			return _dataInputController;
+		}
+
+		public function set dataInputController(value:DataInputControllerBase):void
+		{
+			_dataInputController = value;
 		}
 	}
 }

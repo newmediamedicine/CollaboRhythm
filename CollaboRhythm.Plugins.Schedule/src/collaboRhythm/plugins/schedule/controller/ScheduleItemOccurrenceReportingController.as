@@ -1,6 +1,6 @@
 package collaboRhythm.plugins.schedule.controller
 {
-    import collaboRhythm.plugins.schedule.shared.model.DataInputViewInitializationModel;
+    import collaboRhythm.plugins.schedule.shared.model.DataInputModelAndController;
     import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
@@ -28,9 +28,7 @@ package collaboRhythm.plugins.schedule.controller
             {
                 if (_scheduleItemOccurrenceReportingModel.isAdditionalInformationRequired())
                 {
-                    var dataInputViewInitializationModel:DataInputViewInitializationModel = new DataInputViewInitializationModel(scheduleItemOccurrence,
-							null, _scheduleItemOccurrenceReportingModel.scheduleModel, _viewNavigator);
-                    _viewNavigator.pushView(_scheduleItemOccurrenceReportingModel.dataInputView, dataInputViewInitializationModel, null, new SlideViewTransition());
+                    _scheduleItemOccurrenceReportingModel.dataInputController.handleVariables();
                 }
                 else
                 {

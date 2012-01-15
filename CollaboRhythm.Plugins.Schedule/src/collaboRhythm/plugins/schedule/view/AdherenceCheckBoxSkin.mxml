@@ -30,7 +30,7 @@
 		/**
 		 * @copy spark.skins.spark.ApplicationSkin#hostComponent
 		 */
-		[HostComponent("spark.components.CheckBox")]
+		[HostComponent("collaboRhythm.plugins.schedule.view.AdherenceCheckBox")]
 		]]>
     </fx:Metadata>
 

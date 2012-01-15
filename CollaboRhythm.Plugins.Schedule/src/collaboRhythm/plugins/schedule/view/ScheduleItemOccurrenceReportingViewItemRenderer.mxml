@@ -67,8 +67,8 @@
 				var scheduleItemOccurrenceReportingViewAdapter:IScheduleItemOccurrenceReportingViewAdapter = scheduleModel.viewFactory.createScheduleItemOccurrenceReportingViewAdapter(_scheduleItemOccurrence);
 				_scheduleItemOccurrenceReportingModel = scheduleModel.viewFactory.createScheduleItemOccurrenceReportingModel(_scheduleItemOccurrence,
 						scheduleModel);
-				_scheduleItemOccurrenceReportingModel.dataInputView = scheduleModel.dataInputViewFactory.createDataInputView(_scheduleItemOccurrence.scheduleItem.name.text,
-						_scheduleItemOccurrence.scheduleItem.instructions, _scheduleItemOccurrence);
+				_scheduleItemOccurrenceReportingModel.dataInputController = scheduleModel.dataInputViewFactory.createDataInputController(_scheduleItemOccurrence.scheduleItem.name.text,
+										_scheduleItemOccurrence.scheduleItem.instructions, _scheduleItemOccurrence, null, scheduleModel, scheduleGroupReportingView.scheduleReportingController.viewNavigator);
 				_scheduleItemOccurrenceReportingController = new ScheduleItemOccurrenceReportingController(_scheduleItemOccurrenceReportingModel,
 						scheduleGroupReportingView.scheduleReportingController.viewNavigator);
 

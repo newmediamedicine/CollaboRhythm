@@ -22,10 +22,5 @@ package collaboRhythm.plugins.equipment.model
 		{
 			return true;
 		}
-
-        override public function additionalInformationView():Class
-        {
-            return null;
-        }
 	}
 }

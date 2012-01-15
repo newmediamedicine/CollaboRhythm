@@ -6,12 +6,12 @@ package collaboRhythm.plugins.schedule.shared.model
 
 	public interface IScheduleModel
 	{
-		function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void;
-
 		function get accountId():String;
 
 		function createAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void;
 
 		function createResults(results:Vector.<DocumentBase>):void;
+
+		function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void;
 	}
 }

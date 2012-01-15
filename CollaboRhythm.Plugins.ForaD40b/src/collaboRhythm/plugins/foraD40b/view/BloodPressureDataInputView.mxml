@@ -46,8 +46,9 @@
 		<![CDATA[
 		import collaboRhythm.plugins.foraD40b.controller.BloodPressureDataInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodPressureDataInputModel;
+		import collaboRhythm.plugins.schedule.shared.controller.DataInputControllerBase;
 		import collaboRhythm.plugins.schedule.shared.model.DataInputModelBase;
-		import collaboRhythm.plugins.schedule.shared.model.DataInputViewInitializationModel;
+		import collaboRhythm.plugins.schedule.shared.model.DataInputModelAndController;
 
 		import spark.components.ViewNavigator;
 
@@ -66,12 +67,10 @@
 		{
 			super.data = value;
 
-			var dataInputViewInitializationModel:DataInputViewInitializationModel = DataInputViewInitializationModel(value);
+			var dataInputModelAndController:DataInputModelAndController = DataInputModelAndController(value);
 
-			_dataInputModel = new BloodPressureDataInputModel(dataInputViewInitializationModel.scheduleItemOccurrence,
-					dataInputViewInitializationModel.urlVariables, dataInputViewInitializationModel.scheduleModel);
-			_dataInputController = new BloodPressureDataInputController(_dataInputModel,
-					dataInputViewInitializationModel.viewNavigator);
+			_dataInputModel = BloodPressureDataInputModel(dataInputModelAndController.dataInputModel);
+			_dataInputController = BloodPressureDataInputController(dataInputModelAndController.dataInputController);
 		}
 
 		public function get dataInputModel():DataInputModelBase
@@ -84,14 +83,14 @@
 			_dataInputModel = value as BloodPressureDataInputModel;
 		}
 
-		public function get dataInputController():BloodPressureDataInputController
+		public function get dataInputController():DataInputControllerBase
 		{
-			return _dataInputController as BloodPressureDataInputController;
+			return _dataInputController;
 		}
 
-		public function set dataInputController(value:BloodPressureDataInputController):void
+		public function set dataInputController(value:DataInputControllerBase):void
 		{
-			_dataInputController = value;
+			_dataInputController = value as BloodPressureDataInputController;
 		}
 
 		override protected function createChildren():void

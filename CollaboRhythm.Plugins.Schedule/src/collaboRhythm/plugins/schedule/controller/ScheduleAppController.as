@@ -21,8 +21,9 @@ package collaboRhythm.plugins.schedule.controller
 
     import collaboRhythm.plugins.schedule.model.ScheduleModel;
 	import collaboRhythm.plugins.schedule.model.ScheduleModelEvent;
+	import collaboRhythm.plugins.schedule.shared.controller.DataInputControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
-    import collaboRhythm.plugins.schedule.shared.model.DataInputViewInitializationModel;
+    import collaboRhythm.plugins.schedule.shared.model.DataInputModelAndController;
     import collaboRhythm.plugins.schedule.shared.model.IDataInputView;
     import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
     import collaboRhythm.plugins.schedule.shared.model.ScheduleModelKey;
@@ -170,19 +171,18 @@ package collaboRhythm.plugins.schedule.controller
                 if (urlVariables.success == "true")
                 {
                     var closestScheduleItemOccurrence:ScheduleItemOccurrence = scheduleModel.scheduleReportingModel.findClosestScheduleItemOccurrence(urlVariables.name, urlVariables.measurements);
-                    var dataInputViewInitializationModel:DataInputViewInitializationModel = new DataInputViewInitializationModel(closestScheduleItemOccurrence,
-							urlVariables, scheduleModel, _viewNavigator);
-                    var dataInputViewClass:Class = scheduleModel.dataInputViewFactory.createDataInputView(urlVariables.name,
+					var dataInputViewClass:Class = scheduleModel.dataInputViewFactory.createDataInputView(urlVariables.name,
 							urlVariables.measurements, closestScheduleItemOccurrence);
 
                     if (ReflectionUtils.getClass(_viewNavigator.activeView) == dataInputViewClass)
                     {
                         var dataInputView:IDataInputView = IDataInputView(_viewNavigator.activeView);
-                        dataInputView.dataInputModel.urlVariables = urlVariables;
+                        dataInputView.dataInputController.updateVariables(urlVariables);
                     }    
                     else
                     {
-                        _viewNavigator.pushView(dataInputViewClass, dataInputViewInitializationModel, null, new SlideViewTransition());
+						var dataInputController:DataInputControllerBase = scheduleModel.dataInputViewFactory.createDataInputController(urlVariables.name, urlVariables.measurements, closestScheduleItemOccurrence, urlVariables, scheduleModel, _viewNavigator);
+                        dataInputController.handleVariables();
                     }
                 }
 			}
@@ -202,7 +202,6 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			_widgetView = value as ScheduleClockWidgetView;
 		}
-
 
 		override public function get fullView():UIComponent
 		{
