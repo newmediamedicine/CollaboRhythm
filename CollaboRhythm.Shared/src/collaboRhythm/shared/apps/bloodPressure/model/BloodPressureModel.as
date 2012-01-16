@@ -327,8 +327,9 @@ package collaboRhythm.shared.apps.bloodPressure.model
 
 		private function determineShowAdherence():Boolean
 		{
-			return (record.medicationAdministrationsModel.isInitialized && record.adherenceItemsModel.isInitialized) &&
-					record.medicationAdministrationsModel.medicationAdministrationsCollection.length > 0 || record.adherenceItemsModel.adherenceItems.size() > 0;
+			return record && record.medicationAdministrationsModel &&
+					(record.medicationAdministrationsModel.isInitialized && record.adherenceItemsModel.isInitialized) &&
+					(record.medicationAdministrationsModel.medicationAdministrationsCollection.length > 0 || record.adherenceItemsModel.adherenceItems.size() > 0);
 		}
 
 		public function get isInitialized():Boolean

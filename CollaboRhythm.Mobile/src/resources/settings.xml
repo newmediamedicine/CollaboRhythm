@@ -36,10 +36,15 @@
 		<demoDatePreset>2010-02-04T00:00:00-5:00</demoDatePreset>
 		<demoDatePreset>2010-02-17T00:00:00-5:00</demoDatePreset>
 	</demoDatePresets>
-	<!--
-		Note that overriding appGroups in the user settings.xml file does not currently work so we are not defining any
-		default here (appGroups is commented out below) and appGroups MUST be defined in the user settings.xml.
-	-->
+	<pluginSearchPaths>
+		<pluginSearchPath>$APPLICATION_STORAGE_DIRECTORY$/plugins</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.BloodPressure/bin-debug</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Equipment/bin-debug</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Medications/bin-debug</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Schedule/bin-debug</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.VideoMessages/bin-debug</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins</pluginSearchPath>
+	</pluginSearchPaths>
 <!--
 	<appGroups>
 		<appGroup id="standard">

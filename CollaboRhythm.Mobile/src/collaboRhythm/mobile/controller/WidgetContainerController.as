@@ -161,7 +161,7 @@ package collaboRhythm.mobile.controller
 		private function getNumPluginFiles():int
 		{
 			var num:int;
-			var pluginLoader:PluginLoader = new PluginLoader();
+			var pluginLoader:PluginLoader = new PluginLoader(_moblieApplicationController.settings);
 			num = pluginLoader.getNumPluginFiles();
 			return num;
 		}

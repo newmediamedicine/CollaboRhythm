@@ -19,9 +19,11 @@ package collaboRhythm.core.pluginsManagement
 	import castle.flexbridge.reflection.ReflectionUtils;
 
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
+	import collaboRhythm.shared.model.StringUtils;
 	import collaboRhythm.shared.model.services.IComponentContainer;
+	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
-	
+
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.filesystem.File;
@@ -29,7 +31,6 @@ package collaboRhythm.core.pluginsManagement
 	import flash.filesystem.FileStream;
 	import flash.system.ApplicationDomain;
 	import flash.utils.ByteArray;
-
 	import flash.utils.getQualifiedClassName;
 
 	import mx.collections.ArrayCollection;
@@ -52,18 +53,23 @@ package collaboRhythm.core.pluginsManagement
 		private var _moduleApplicationDomain:ApplicationDomain;
 
 		private static const PLUGINS_DIRECTORY_NAME:String = "plugins";
+		private static const APPLICATION_STORAGE_DIRECTORY_VARIABLE:String = "$APPLICATION_STORAGE_DIRECTORY$/";
+		private static const APPLICATION_DIRECTORY_VARIABLE:String = "$APPLICATION_DIRECTORY$/";
+
 		private var completedModuleLoaders:ArrayCollection;
-		protected var logger:ILogger;
+		protected var _logger:ILogger;
+		private var _settings:Settings;
 
 		public function get numPluginsLoaded():int
 		{
 			return loadedPlugins.length;
 		}
 
-		public function PluginLoader()
+		public function PluginLoader(settings:Settings)
 		{
-			logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 
+			_settings = settings;
 			_applicationPluginsDirectoryPath = File.applicationDirectory.resolvePath(PLUGINS_DIRECTORY_NAME).nativePath;
 			_userPluginsDirectoryPath = File.applicationStorageDirectory.resolvePath(PLUGINS_DIRECTORY_NAME).nativePath;
 
@@ -94,13 +100,14 @@ package collaboRhythm.core.pluginsManagement
 
 		public function loadPlugins():void
 		{
-			logger.info("Preparing to load plugins from " + userPluginsDirectoryPath);
-			var files:Array = getPluginFiles(userPluginsDirectoryPath);
-
+			var pluginSearchFiles:Array = getPluginSearchFiles();
+			_logger.info("Preparing to load plugins from the following directories/files: \n" + fileArrayToStringForTrace(pluginSearchFiles));
+			var files:Array = findPluginFiles(pluginSearchFiles);
+			
 			var pluginFilesMessage:String =
 				"Loading plugin files:\n" +
 				fileArrayToStringForTrace(files);
-			logger.info(pluginFilesMessage);
+			_logger.info(pluginFilesMessage);
 
 			loadedPlugins = new Vector.<IPlugin>(files.length);
 			pendingModuleLoaders = new ArrayCollection();
@@ -112,28 +119,131 @@ package collaboRhythm.core.pluginsManagement
 				loadPlugin(file);
 			}
 		}
-		
-		private function getPluginFiles(directoryPath:String):Array
+
+		private function findPluginFiles(pluginSearchFiles:Array):Array
 		{
-			var directory:File = new File(directoryPath); 
-			if (directory.exists)
+			var files:Array = new Array();
+			var fileNames:ArrayCollection = new ArrayCollection();
+
+			for each (var pluginSearchFile:File in pluginSearchFiles)
 			{
-				var directoryListing:Array = directory.getDirectoryListing();
-				// TODO: remove (or recursively load) directories from the list
-				// TODO: remove Array.DESCENDING, this is a hack for ordering loading
-				directoryListing.sortOn("nativePath", Array.DESCENDING);
-				return directoryListing;
+				if (pluginSearchFile.exists)
+				{
+					if (pluginSearchFile.isDirectory)
+					{
+						var directoryListing:Array = pluginSearchFile.getDirectoryListing();
+						// TODO: remove (or recursively load) directories from the list
+						// TODO: remove Array.DESCENDING, this is a hack for ordering loading
+						directoryListing.sortOn("url", Array.DESCENDING);
+
+						for each (var file:File in directoryListing)
+						{
+							var fileName:String = file.name;
+							if (file.exists && !file.isDirectory && !fileNames.contains(fileName) && isPluginFile(file))
+							{
+								files.push(file);
+								fileNames.addItem(fileName);
+							}
+						}
+					}
+					else
+					{
+						fileName = pluginSearchFile.name;
+						if (!fileNames.contains(fileName))
+						{
+							files.push(pluginSearchFile);
+							fileNames.addItem(fileName);
+						}
+					}
+				}
 			}
-			else
-				return new Array();
+			return files;
 		}
 
+		private function getPluginSearchFiles():Array
+		{
+			var searchFiles:Array = new Array();
+			for each (var pluginSearchPath:String in _settings.pluginSearchPaths)
+			{
+
+				var pluginSearchFile:File = resolvePluginSearchPath(pluginSearchPath);
+				if (pluginSearchFile)
+				{
+					searchFiles.push(pluginSearchFile);
+				}
+			}
+			return searchFiles;
+		}
+
+		private function resolvePluginSearchPath(pluginSearchPath:String):File
+		{
+			var pluginSearchPathResolved:String = null;
+			var startDirectory:File;
+			var subPath:String;
+			var pluginSearchFile:File;
+
+			if (pluginSearchPath.indexOf(APPLICATION_STORAGE_DIRECTORY_VARIABLE) == 0)
+			{
+				startDirectory = File.applicationStorageDirectory;
+				subPath = pluginSearchPath.substring(APPLICATION_STORAGE_DIRECTORY_VARIABLE.length);
+			}
+			else if (pluginSearchPath.indexOf(APPLICATION_DIRECTORY_VARIABLE) == 0)
+			{
+				startDirectory = File.applicationDirectory;
+				subPath = pluginSearchPath.substring(APPLICATION_DIRECTORY_VARIABLE.length);
+			}
+			else
+			{
+				pluginSearchPathResolved = pluginSearchPath;
+				pluginSearchFile = new File(pluginSearchPathResolved);
+			}
+
+			if (pluginSearchFile == null)
+			{
+				var currentFile:File = startDirectory;
+				var subPathParts:Array = subPath.split("/");
+				for each (var subPathPart:String in subPathParts)
+				{
+					if (subPathPart == "..")
+					{
+						// Note that we don't just use currentFile.parent because if we are using the app: or
+						// appStorage: URL scheme then .parent may return null
+						if (StringUtils.isEmpty(currentFile.nativePath))
+						{
+							// This is expected if a path such as $APPLICATION_DIRECTORY$/../ is used
+							_logger.warn("Failed to resolve plugin search path: " + pluginSearchPath);
+							currentFile = null;
+							break;
+						}
+						else
+						{
+							currentFile = new File(currentFile.nativePath).parent;
+						}
+					}
+					else
+					{
+						currentFile = currentFile.resolvePath(subPathPart);
+					}
+				}
+
+				pluginSearchFile = currentFile;
+			}
+
+			return pluginSearchFile;
+		}
+
+		private static function isPluginFile(file:File):Boolean
+		{
+			// TODO: come up with a more robust way to exclude non-module swf files or added error handling that will catch these
+			return file.extension && file.extension.toLowerCase() == "swf" && file.name.toLowerCase().indexOf("pluginmodule") != -1;
+		}
+		
 		private static function fileArrayToStringForTrace(array:Array):String
 		{
 			var result:String = "";
 			for each (var file:File in array)
 			{
-				result += "  " + file.nativePath + "\n";
+				result += "  " + (StringUtils.isEmpty(file.nativePath) ? file.url : file.nativePath) + "\n";
 			}
 			return result;
 		}
@@ -148,6 +258,7 @@ package collaboRhythm.core.pluginsManagement
 			stream.open(file, FileMode.READ);
 			var moduleBytes:ByteArray = new ByteArray();
 			stream.readBytes(moduleBytes);
+			stream.close();
 			
 			moduleLoaders.addItem(moduleLoader);
 			pendingModuleLoaders.addItem(moduleLoader);
@@ -161,7 +272,7 @@ package collaboRhythm.core.pluginsManagement
 			// all of the modules are in the same domain.
 			// http://livedocs.adobe.com/flex/3/html/help.html?content=modular_2.html
 			moduleLoader.applicationDomain = _moduleApplicationDomain;
-			moduleLoader.loadModule(file.nativePath, moduleBytes);
+			moduleLoader.loadModule(file.url, moduleBytes);
 		}
 		
 		protected function moduleLoader_readyHandler(event:ModuleEvent):void
@@ -181,14 +292,14 @@ package collaboRhythm.core.pluginsManagement
 
 				loadedPlugins[loaderIndex] = plugin;
 
-				logger.info("Plugin " + getQualifiedClassName(plugin) + " loaded successfully from " + moduleInfo.url);
+				_logger.info("Plugin " + getQualifiedClassName(plugin) + " loaded successfully from " + moduleInfo.url);
 
 				// Note that we do not register components yet; wait and register components for each plugin in the same
 				// order that the plugins were read from file
 			}
 			else
 			{
-				trace("Failed to create a module from " + moduleInfo.url + " or module is not an instance of " + ReflectionUtils.getClassInfo(IPlugin).name);
+				_logger.warn("Failed to create a module from " + moduleInfo.url + " or module is not an instance of " + ReflectionUtils.getClassInfo(IPlugin).name);
 
 				// TODO: handle failed plugin loading gracefully
 			}
@@ -210,7 +321,7 @@ package collaboRhythm.core.pluginsManagement
 			if (pendingLoaderIndex == -1)
 			{
 				var message:String = "Error: module loader " + moduleLoader.url + " not found in pendingModuleLoaders.";
-				logger.error(message);
+				_logger.error(message);
 				throw new Error(message);
 			}
 
@@ -234,7 +345,7 @@ package collaboRhythm.core.pluginsManagement
 				plugin.registerComponents(componentContainer);
 			}
 
-			logger.info("Registered all components. Num AppControllerInfo: " + componentContainer.resolveAll(AppControllerInfo).length);
+			_logger.info("Registered all components. Num AppControllerInfo: " + componentContainer.resolveAll(AppControllerInfo).length);
 		}
 
 		private function removeNullItems(plugins:Vector.<IPlugin>):Vector.<IPlugin>
@@ -264,7 +375,7 @@ package collaboRhythm.core.pluginsManagement
 			}
 
 			trace(event.errorText);
-			logger.error("Error loading module " + moduleLoader.url + " " + event.errorText);
+			_logger.error("Error loading module " + moduleLoader.url + " " + event.errorText);
 
 			// TODO: update pendingModuleLoaders as in moduleLoader_readyHandler
 			finishWithModuleLoader(moduleLoader);
@@ -285,7 +396,7 @@ package collaboRhythm.core.pluginsManagement
 
 		public function getNumPluginFiles():int
 		{
-			var files:Array = getPluginFiles(userPluginsDirectoryPath);
+			var files:Array = findPluginFiles(getPluginSearchFiles());
 			return files.length;
 		}
 	}

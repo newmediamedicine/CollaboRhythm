@@ -164,18 +164,25 @@ package collaboRhythm.core.controller.apps
 		{
 			var infoArray:Array = componentContainer.resolveAll(AppControllerInfo);
 
-			infoArray = AppControllersSorter.orderAppsByInitializationOrderConstraints(infoArray);
-			_appsInitialized = new ArrayCollection();
-
-			_logger.info("Initializing {0} apps", _appsById.length);
-			for each (var info:AppControllerInfo in infoArray)
+			if (infoArray)
 			{
-				var app:AppControllerBase = _appsById.getValueByKey(info.appId);
-				if (app)
+				infoArray = AppControllersSorter.orderAppsByInitializationOrderConstraints(infoArray);
+				_appsInitialized = new ArrayCollection();
+
+				_logger.info("Initializing {0} apps", _appsById.length);
+				for each (var info:AppControllerInfo in infoArray)
 				{
-					app.initialize();
-					_appsInitialized.addItem(app);
+					var app:AppControllerBase = _appsById.getValueByKey(info.appId);
+					if (app)
+					{
+						app.initialize();
+						_appsInitialized.addItem(app);
+					}
 				}
+			}
+			else
+			{
+				_logger.warn("No apps to initialize. There were 0 AppControllerInfo instances registered by the plugins.");
 			}
 		}
 

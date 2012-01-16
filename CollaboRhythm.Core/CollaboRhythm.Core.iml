@@ -104,7 +104,7 @@
           <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/spark_rb.swc!/" />
         </CLASSES>
         <JAVADOC>
-          <root url="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/index.html?filter_flex=4.6&amp;filter_flashplayer=11.1&amp;filter_air=3.1" />
+          <root url="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/" />
         </JAVADOC>
         <SOURCES>
           <root url="file://$PROJECT_FRAMEWORKS$/projects/advancedgrids/src" />

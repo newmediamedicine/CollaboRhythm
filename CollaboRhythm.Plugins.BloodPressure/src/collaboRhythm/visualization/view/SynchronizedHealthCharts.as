@@ -98,6 +98,8 @@ package collaboRhythm.visualization.view
 			this.addEventListener(FlexEvent.CREATION_COMPLETE, creationCompleteHandler, false, 0, true);
 		}
 
+		public static const ADHERENCE_STRIP_CHART_HEIGHT:int = 40;
+
 		private static const STRIP_CHART_VERTICAL_AXIS_MINIMUM:Number = -0.5;
 		private static const STRIP_CHART_VERTICAL_AXIS_MAXIMUM:Number = 0.5;
 
@@ -332,7 +334,7 @@ package collaboRhythm.visualization.view
 		private function initializeAdherenceStripChart(chart:TouchScrollingScrubChart, adherenceItemsCode:String):void
 		{
 			chart.setStyle("topBorderVisible", false);
-			chart.height = 20;
+			chart.height = ADHERENCE_STRIP_CHART_HEIGHT;
 			chart.seriesName = "adherence";
 			chart.data = model.adherenceItemsCollectionsByCode.getItem(adherenceItemsCode);
 			chart.dateField = "dateReported";

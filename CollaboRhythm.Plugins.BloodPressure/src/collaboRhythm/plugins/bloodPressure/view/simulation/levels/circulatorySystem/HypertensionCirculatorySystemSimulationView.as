@@ -37,6 +37,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 		private var _currentAfterload:int;
 		private var _currentDamage:int;
 		private var _playPauseButton:ToggleButton;
+		private var _usePlayPauseButton:Boolean = false;
 
 		public function HypertensionCirculatorySystemSimulationView()
 		{
@@ -55,14 +56,17 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 				loadMovieClip();
 			}
 
-			_playPauseButton = new ToggleButton();
-			_playPauseButton.bottom = 0;
-			_playPauseButton.width = 48;
-			_playPauseButton.height = 48;
-			_playPauseButton.setStyle("skinClass", PlayPauseToggleButtonSkin);
-			_playPauseButton.selected = true;
-			_playPauseButton.addEventListener(MouseEvent.CLICK, playPauseButton_clickHandler);
-			this.addChild(_playPauseButton);
+			if (_usePlayPauseButton)
+			{
+				_playPauseButton = new ToggleButton();
+				_playPauseButton.bottom = 0;
+				_playPauseButton.width = 48;
+				_playPauseButton.height = 48;
+				_playPauseButton.setStyle("skinClass", PlayPauseToggleButtonSkin);
+				_playPauseButton.selected = true;
+				_playPauseButton.addEventListener(MouseEvent.CLICK, playPauseButton_clickHandler);
+				this.addChild(_playPauseButton);
+			}
 		}
 
 		override public function setVisible(value:Boolean, noEvent:Boolean = false):void
@@ -102,7 +106,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 			if (_circulatorySystemSimulationMovieClip)
 			{
 				_circulatorySystemSimulationMovieClip.current_preload = value;
-				if (_playPauseButton.selected)
+				if (!_playPauseButton || _playPauseButton.selected)
 					_circulatorySystemSimulationMovieClip.update();
 			}
 		}
@@ -113,7 +117,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 			if (_circulatorySystemSimulationMovieClip)
 			{
 				_circulatorySystemSimulationMovieClip.current_contractility = value;
-				if (_playPauseButton.selected)
+				if (!_playPauseButton || _playPauseButton.selected)
 					_circulatorySystemSimulationMovieClip.update();
 			}
 		}
@@ -124,7 +128,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 			if (_circulatorySystemSimulationMovieClip)
 			{
 				_circulatorySystemSimulationMovieClip.current_afterload = value;
-				if (_playPauseButton.selected)
+				if (!_playPauseButton || _playPauseButton.selected)
 					_circulatorySystemSimulationMovieClip.update();
 			}
 		}
@@ -135,7 +139,7 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 			if (_circulatorySystemSimulationMovieClip)
 			{
 				_circulatorySystemSimulationMovieClip.current_damage = value;
-				if (_playPauseButton.selected)
+				if (!_playPauseButton || _playPauseButton.selected)
 					_circulatorySystemSimulationMovieClip.update();
 			}
 		}
@@ -249,14 +253,14 @@ package collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySy
 					_circulatorySystemSimulationMovieClip.current_afterload = _currentAfterload;
 				if (_currentDamage != 0)
 					_circulatorySystemSimulationMovieClip.current_damage = _currentDamage;
-				if (_playPauseButton.selected)
+				if (!_playPauseButton || _playPauseButton.selected)
 					_circulatorySystemSimulationMovieClip.update();
 			}
 		}
 
 		private function playPauseButton_clickHandler(event:MouseEvent):void
 		{
-			if (_playPauseButton.selected)
+			if (!_playPauseButton || _playPauseButton.selected)
 			{
 				// TODO: play
 				if (_circulatorySystemSimulationMovieClip)
