@@ -37,9 +37,8 @@
 		}
 	</fx:Style>
 	<fx:Script><![CDATA[
-		import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEvent;
-		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
 		private var _adherenceItem:AdherenceItem;
@@ -52,8 +51,8 @@
 
 		private function okButtonClickHandler():void
 		{
-			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_COMPLETE,
-															 _scheduleItemOccurrence, _adherenceItem));
+//			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_COMPLETE,
+//					_scheduleItemOccurrence, _adherenceItem));
 		}
 		]]></fx:Script>
 	<s:Rect width="100%" height="100%">

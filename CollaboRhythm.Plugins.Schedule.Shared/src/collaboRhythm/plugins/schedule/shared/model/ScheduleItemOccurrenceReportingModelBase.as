@@ -1,13 +1,14 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
 
+	import collaboRhythm.plugins.schedule.shared.controller.DataInputControllerBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	public class ScheduleItemOccurrenceReportingModelBase
 	{
-		protected var _scheduleItemOccurrence:ScheduleItemOccurrence;
-		protected var _scheduleModel:IScheduleModel;
-		private var _additionalInformation:Boolean = false;
+		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
+		private var _scheduleModel:IScheduleModel;
+        private var _dataInputController:DataInputControllerBase;
 
 		public function ScheduleItemOccurrenceReportingModelBase(scheduleItemOccurrence:ScheduleItemOccurrence,
 																 scheduleModel:IScheduleModel)
@@ -28,12 +29,12 @@ package collaboRhythm.plugins.schedule.shared.model
 			}
 		}
 
-		protected function createAdherenceItem():void
+		public function createAdherenceItem():void
 		{
 			// abstract; subclasses should override
 		}
 
-		private function voidAdherenceItem():void
+		public function voidAdherenceItem():void
 		{
 			_scheduleModel.voidAdherenceItem(_scheduleItemOccurrence);
 		}
@@ -42,6 +43,36 @@ package collaboRhythm.plugins.schedule.shared.model
 		{
 			// abstract; subclasses should override
 			return false;
+		}
+
+        public function get scheduleItemOccurrence():ScheduleItemOccurrence
+        {
+            return _scheduleItemOccurrence;
+        }
+
+        public function set scheduleItemOccurrence(value:ScheduleItemOccurrence):void
+        {
+            _scheduleItemOccurrence = value;
+        }
+
+		public function get scheduleModel():IScheduleModel
+		{
+			return _scheduleModel;
+		}
+
+		public function set scheduleModel(value:IScheduleModel):void
+		{
+			_scheduleModel = value;
+		}
+
+		public function get dataInputController():DataInputControllerBase
+		{
+			return _dataInputController;
+		}
+
+		public function set dataInputController(value:DataInputControllerBase):void
+		{
+			_dataInputController = value;
 		}
 	}
 }

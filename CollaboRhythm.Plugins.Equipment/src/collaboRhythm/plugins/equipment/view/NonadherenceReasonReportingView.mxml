@@ -38,7 +38,6 @@
 
 	</fx:Style>
 	<fx:Script><![CDATA[
-		import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEvent;
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
@@ -56,8 +55,8 @@
 			if (reasonList.selectedItem != null)
 			{
 				_adherenceItem.nonadherenceReason = reasonList.selectedItem;
-				dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_COMPLETE,
-																 _scheduleItemOccurrence, _adherenceItem));
+//				dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_COMPLETE,
+//						_scheduleItemOccurrence, _adherenceItem));
 			}
 		}
 

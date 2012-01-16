@@ -11,6 +11,7 @@ package collaboRhythm.shared.model.healthRecord.document
 	public class VitalSign extends DocumentBase
 	{
 		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#VitalSign";
+
 		private var _name:CodedValue;
 		private var _measuredBy:String;
 		private var _dateMeasuredStart:Date;
@@ -21,9 +22,18 @@ package collaboRhythm.shared.model.healthRecord.document
 		private var _technique:String;
 		private var _comments:String;
 
-		public function VitalSign()
+		public function VitalSign(name:CodedValue = null, measuredBy:String = null, dateMeasuredStart:Date = null, dateMeasuredEnd:Date = null, result:ValueAndUnit = null, site:String = null, position:String = null, technique:String = null, comments:String = null)
 		{
 			meta.type = DOCUMENT_TYPE;
+			_name = name;
+			_measuredBy = measuredBy;
+			_dateMeasuredStart = dateMeasuredStart;
+			_dateMeasuredEnd = dateMeasuredEnd;
+			_result = result;
+			_site = site;
+			_position = position;
+			_technique = technique;
+			_comments = comments;
 		}
 
 		public function get name():CodedValue

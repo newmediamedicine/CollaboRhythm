@@ -64,18 +64,18 @@
 			_scheduleItemsCollection = scheduleGroup.scheduleItemsOccurrencesCollection;
 
 			_scheduleItemsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
-													  scheduleItemsCollectionChangeHandler, false, 0, true);
+					scheduleItemsCollectionChangeHandler, false, 0, true);
 
 			_changeWatchers.push(BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroup,
-														 "dateStart"));
+					"dateStart"));
 			_changeWatchers.push(BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroup,
-														 "dateEnd"));
+					"dateEnd"));
 			_changeWatchers.push(BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroupsContainer,
-														 "width"));
+					"width"));
 			_changeWatchers.push(BindingUtils.bindSetter(sizeChangeHandler, _scheduleGroupsContainer,
-														 "height"));
+					"height"));
 			_changeWatchers.push(BindingUtils.bindSetter(stackingUpdateHandler,
-														 _scheduleGroup, "stackingUpdated"));
+					_scheduleGroup, "stackingUpdated"));
 		}
 
 		private function creationCompleteHandler():void
@@ -184,7 +184,7 @@
 			scheduleGroupWedge.graphics.clear();
 			scheduleGroupWedge.graphics.beginFill(0xFFFFFF, 0.5);
 			Wedge.draw(scheduleGroupWedge, _scheduleGroupsContainer.width / 2, _scheduleGroupsContainer.width / 2,
-					   _scheduleGroupsContainer.width / 2 - 1, arc, startAngle - 90);
+					_scheduleGroupsContainer.width / 2 - 1, arc, startAngle - 90);
 			scheduleGroupWedge.graphics.endFill();
 		}
 
@@ -242,7 +242,7 @@
 
 		private function mouseDownHandler():void
 		{
-		 	scheduleGroupWedge.filters = [glowFilter];
+			scheduleGroupWedge.filters = [glowFilter];
 		}
 
 		private function mouseOutHandler():void
@@ -253,13 +253,13 @@
 		private function clickHandler():void
 		{
 			dispatchEvent(new ScheduleClockWidgetViewEvent(ScheduleClockWidgetViewEvent.SCHEDULE_GROUP_CLOCK_VIEW_CLICK,
-														   _scheduleGroup));
+					_scheduleGroup));
 		}
 
 		private function removeHandler():void
 		{
 			_scheduleItemsCollection.removeEventListener(CollectionEvent.COLLECTION_CHANGE,
-														 scheduleItemsCollectionChangeHandler);
+					scheduleItemsCollectionChangeHandler);
 			for each (var changeWatcher:ChangeWatcher in _changeWatchers)
 			{
 				changeWatcher.unwatch();

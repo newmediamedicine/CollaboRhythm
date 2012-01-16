@@ -23,7 +23,6 @@ package collaboRhythm.plugins.equipment.model
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceEvaluatorBase;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleItemOccurrenceReportingViewAdapter;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleViewFactory;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
 	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
@@ -46,10 +45,9 @@ package collaboRhythm.plugins.equipment.model
 			return new EquipmentAdherencePerformanceEvaluator();
 		}
 
-		public function createScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
-																		 scheduleReportingModel:IScheduleReportingModel):IScheduleItemOccurrenceReportingViewAdapter
+		public function createScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence):IScheduleItemOccurrenceReportingViewAdapter
 		{
-			var equipmentScheduleItemOccurrenceReportingViewAdapter:EquipmentScheduleItemOccurrenceReportingViewAdapter = new EquipmentScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence, scheduleReportingModel);
+			var equipmentScheduleItemOccurrenceReportingViewAdapter:EquipmentScheduleItemOccurrenceReportingViewAdapter = new EquipmentScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence);
 			return equipmentScheduleItemOccurrenceReportingViewAdapter;
 		}
 

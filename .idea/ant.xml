@@ -90,6 +90,14 @@
       <maximumStackSize value="2" />
       <properties />
     </buildFile>
+    <buildFile url="file://$PROJECT_DIR$/CollaboRhythm.Plugins.ForaD40b/build.xml">
+      <additionalClassPath />
+      <antReference projectDefault="true" />
+      <customJdkName value="1.6" />
+      <maximumHeapSize value="128" />
+      <maximumStackSize value="2" />
+      <properties />
+    </buildFile>
   </component>
 </project>
 

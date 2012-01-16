@@ -23,7 +23,6 @@ package collaboRhythm.plugins.schedule.model
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceEvaluatorBase;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleItemOccurrenceReportingViewAdapter;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleViewFactory;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
@@ -56,9 +55,9 @@ package collaboRhythm.plugins.schedule.model
 			return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItem)).name].createAdherencePerformanceEvaluator(scheduleItem);
 		}
 
-		public function createScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence, scheduleReportingModel:IScheduleReportingModel):IScheduleItemOccurrenceReportingViewAdapter
+		public function createScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence):IScheduleItemOccurrenceReportingViewAdapter
 		{
-			return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem)).name].createScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence, scheduleReportingModel);
+			return _factoryDictionary[ReflectionUtils.getClassInfo(ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem)).name].createScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence);
 		}
 
 		public function createScheduleItemOccurrenceReportingModel(scheduleItemOccurrence:ScheduleItemOccurrence,

@@ -19,8 +19,6 @@ package collaboRhythm.plugins.schedule.shared.model
 
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
-	import j2as3.collection.HashMap;
-
 	import mx.collections.ArrayCollection;
 
 	public interface IScheduleCollectionsProvider

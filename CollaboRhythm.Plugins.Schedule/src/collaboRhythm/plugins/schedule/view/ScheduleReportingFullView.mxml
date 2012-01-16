@@ -17,7 +17,6 @@
   -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:scheduleViews="collaboRhythm.plugins.schedule.view.*"
 		 addedToStage="addedToStage()"
 		 removedFromStage="removedFromStage()"
@@ -48,21 +47,15 @@
 		import collaboRhythm.plugins.schedule.controller.ScheduleReportingController;
 		import collaboRhythm.plugins.schedule.model.ScheduleModel;
 		import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
-		import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEvent;
 
-		import mx.core.UIComponent;
-		import mx.events.CollectionEvent;
-		import mx.events.CollectionEventKind;
 		import mx.events.FlexMouseEvent;
 		import mx.logging.ILogger;
-		import mx.logging.Log;
-
-		import spark.components.Callout;
 
 		import spark.events.IndexChangeEvent;
 		import spark.skins.mobile.CalloutSkin;
 
 		private const COUNTDOWN_DURATION:int = 10;
+		private static const TIMEOUT_TIMER_DURATION:int = 1000;//600000;
 
 		private var _scheduleReportingController:ScheduleReportingController;
 		private var _scheduleModel:ScheduleModel;
@@ -80,21 +73,25 @@
 			_scheduleReportingController = scheduleAppController.scheduleReportingController;
 			_scheduleModel = scheduleModel;
 			_scheduleReportingModel = _scheduleModel.scheduleReportingModel;
-			_scheduleReportingModel.viewStack.addEventListener(CollectionEvent.COLLECTION_CHANGE, viewStackChangeEvent);
 
-			scheduleGroupReportingView.init(scheduleModel, scheduleAppController.activeAccount.accountId);
+			scheduleGroupReportingView.init(scheduleModel, scheduleAppController.activeAccount.accountId,
+					_scheduleReportingController);
 		}
 
+		//TODO: Determine why this is not being called when the view is shown, likely because of the change in implementation to use the viewNavigator
+		//As it stands, the timeout does not work.
 		private function showHandler():void
 		{
+			trace("ok this has been shown.");
 			// Every time that the view is shown, create a 10 minute timeout timer
-			_timeoutTimer = new Timer(600000, 1);
+			_timeoutTimer = new Timer(TIMEOUT_TIMER_DURATION, 1);
 			_timeoutTimer.addEventListener(TimerEvent.TIMER, timeoutTimer_timerEventHandler);
 			_timeoutTimer.start();
 		}
 
 		private function timeoutTimer_timerEventHandler(event:TimerEvent):void
 		{
+			trace("ok the timer went off.");
 			if (visible)
 			{
 				_countdownTimer = new Timer(1000, COUNTDOWN_DURATION);
@@ -149,30 +146,6 @@
 				_timeoutTimer.stop();
 		}
 
-		public function viewStackChangeEvent(event:CollectionEvent):void
-		{
-			if (event.kind == CollectionEventKind.ADD)
-			{
-				for each (var itemAdded:UIComponent in event.items)
-				{
-					additionalInformationViews.addElement(itemAdded)
-				}
-			}
-			else if (event.kind == CollectionEventKind.REMOVE)
-			{
-				for each (var itemRemoved:UIComponent in event.items)
-				{
-					if (additionalInformationViews.containsElement(itemRemoved))
-						additionalInformationViews.removeElement(itemRemoved)
-				}
-			}
-			else if (event.kind == CollectionEventKind.RESET)
-			{
-				additionalInformationViews.removeAllElements();
-			}
-			setFocus();
-		}
-
 		private function addedToStage():void
 		{
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
@@ -187,22 +160,12 @@
 		{
 			if (event.keyCode == Keyboard.BACK && visible)
 			{
-				if (_scheduleReportingModel.viewStack.length == 0)
-				{
-					_scheduleReportingController.saveChangesToRecord();
-				}
-				else if (_scheduleReportingModel.viewStack.length != 0)
-				{
-					event.preventDefault();
-					event.stopImmediatePropagation();
-					_scheduleReportingController.goBack();
-				}
+				_scheduleReportingController.saveChangesToRecord();
 			}
 		}
 
 		public function destroyChildren():void
 		{
-			additionalInformationViews.removeAllElements();
 //			scheduleGroupReportingView.scheduleItemsGroup.removeAllElements();
 		}
 
@@ -261,7 +224,6 @@
 			</s:stroke>
 		</s:Line>
 	</s:Group>
-	<s:Group id="additionalInformationViews" width="55%" height="100%" right="0"/>
 	<s:Group width="100%" height="100%" visible="{_isCountdownRunning}">
 		<s:Rect width="100%" height="100%">
 			<s:fill>

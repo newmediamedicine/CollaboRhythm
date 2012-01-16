@@ -16,7 +16,6 @@
  */
 package collaboRhythm.shared.model.healthRecord.document
 {
-
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
@@ -46,14 +45,19 @@ package collaboRhythm.shared.model.healthRecord.document
 			meta.type = DOCUMENT_TYPE;
 		}
 
-		public function init(name:CodedValue, reportedBy:String, dateReported:Date, recurrenceIndex:int,  adherence:Boolean, nonadherenceReason:String = null, adherenceResults:Vector.<DocumentBase> = null):void
+		public function init(name:CodedValue, reportedBy:String,
+							 dateReported:Date, recurrenceIndex:int,
+							 adherenceResults:Vector.<DocumentBase> = null):void
 		{
 			_name = name;
 			_reportedBy = reportedBy;
 			_dateReported = dateReported;
             _recurrenceIndex = recurrenceIndex;
-			_adherence = adherence;
-			_nonadherenceReason = nonadherenceReason;
+			//TODO: revamp the schemas associated with adherence
+			//Currently there is no such thing as a nonAdherence report, this was an old concept
+			//Instead, it will be possible to create notes that are documents related to scheduleItems or scheduleItemOccurrences
+			_adherence = true;
+			_nonadherenceReason = null;
 			if (adherenceResults)
 			{
             	_adherenceResults = adherenceResults;

@@ -17,25 +17,15 @@
 package collaboRhythm.plugins.schedule.controller
 {
 
-	import collaboRhythm.plugins.schedule.model.ScheduleModel;
-	import collaboRhythm.plugins.schedule.model.ScheduleModelEvent;
-	import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
-	import collaboRhythm.plugins.schedule.view.AdherencePerformanceWidgetView;
-	import collaboRhythm.plugins.schedule.view.IScheduleFullView;
-	import collaboRhythm.plugins.schedule.view.ScheduleClockWidgetView;
-	import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
-	import collaboRhythm.plugins.schedule.view.ScheduleTimelineFullView;
-	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.controller.apps.AppEvent;
-	import collaboRhythm.shared.controller.apps.AppControllerBase;
+    import collaboRhythm.plugins.schedule.model.ScheduleModel;
+    import collaboRhythm.plugins.schedule.shared.model.ScheduleModelKey;
+    import collaboRhythm.plugins.schedule.view.AdherencePerformanceWidgetView;
+    import collaboRhythm.shared.controller.apps.AppControllerBase;
+    import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 
-	import flash.desktop.NativeApplication;
-	import flash.events.InvokeEvent;
-	import flash.net.URLVariables;
+    import mx.core.UIComponent;
 
-	import mx.core.UIComponent;
-
-	public class AdherencePerformanceAppController extends AppControllerBase
+    public class AdherencePerformanceAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "AdherencePerformance";
 
@@ -60,7 +50,7 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			if (!_scheduleModel)
 			{
-				_scheduleModel = _activeRecordAccount.primaryRecord.getAppData(ScheduleModel.SCHEDULE_MODEL_KEY,
+				_scheduleModel = _activeRecordAccount.primaryRecord.getAppData(ScheduleModelKey.SCHEDULE_MODEL_KEY,
 																			   ScheduleModel) as ScheduleModel;
 			}
 		}

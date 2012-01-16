@@ -3,7 +3,6 @@ package collaboRhythm.plugins.medications.model
 
 	import collaboRhythm.plugins.medications.view.MedicationImage;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleItemOccurrenceReportingViewAdapter;
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleReportingModel;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
@@ -22,8 +21,7 @@ package collaboRhythm.plugins.medications.model
 		private var _medicationName:MedicationName;
 		private var _medicationColorSource:IMedicationColorSource;
 
-		public function MedicationScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
-																			 scheduleReportingModel:IScheduleReportingModel)
+		public function MedicationScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence)
 		{
 			_medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
 			_medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;

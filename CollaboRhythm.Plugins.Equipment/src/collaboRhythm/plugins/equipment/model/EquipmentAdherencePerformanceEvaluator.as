@@ -21,7 +21,6 @@ package collaboRhythm.plugins.equipment.model
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceEvaluatorBase;
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
 	import collaboRhythm.shared.model.Record;
-	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:shared="collaboRhythm.shared.view.*"
 		width="110" height="110">
 		<fx:Style>
 			@namespace s "library://ns.adobe.com/flex/spark";
@@ -13,7 +13,6 @@
 
 		</fx:Style>
 	<fx:Script><![CDATA[
-		import assets.images.videos;
 
 		import collaboRhythm.plugins.videoMessages.controller.VideoMessagesAppController;
 		import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
@@ -80,7 +79,7 @@
 			_videoMessagesAppController.dispatchShowFullView("VideoMessages widget button click");
 		}
 		]]></fx:Script>
-	<s:Button id="showFullViewButton" icon="{videos}" width="100" height="100" left="0" bottom="0" click="showFullViewButton_clickHandler()" skinClass="collaboRhythm.shared.view.IconButtonSkin" enabled="{_collaborationLobbyNetConnectionService.isConnected &amp;&amp; _videoMessageCount != 0}"/>
+	<shared:WidgetButton id="showFullViewButton" icon="{MessagesIcon}" width="70" height="70" left="0" bottom="0" click="showFullViewButton_clickHandler()" skinClass="collaboRhythm.shared.view.WidgetButtonSkin" enabled="{_collaborationLobbyNetConnectionService.isConnected &amp;&amp; _videoMessageCount != 0}"/>
 	<s:Group id="unreadVideoMessageIndicator" width="40" height="40" top="0" right="0" visible="false">
 		<s:Ellipse width="100%" height="100%">
 			<s:fill>

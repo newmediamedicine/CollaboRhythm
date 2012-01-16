@@ -44,7 +44,6 @@
 		}
 	</fx:Style>
 	<fx:Script><![CDATA[
-		import collaboRhythm.plugins.schedule.shared.view.ScheduleItemReportingViewEvent;
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
@@ -70,18 +69,18 @@
 			var bloodPressuerEmergencyView:BloodPressureEmergencyView = new BloodPressureEmergencyView();
 			bloodPressuerEmergencyView.init(_scheduleItemOccurrence, _adherenceItem);
 			bloodPressuerEmergencyView.currentState = currentState;
-			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
-															 _scheduleItemOccurrence, _adherenceItem,
-															 bloodPressuerEmergencyView));
+//			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
+//					_scheduleItemOccurrence, _adherenceItem,
+//					bloodPressuerEmergencyView));
 		}
 
 		private function noSymptomButtonClickHandler(event:MouseEvent):void
 		{
-			var bloodPressureReportingView:BloodPressureReportingView = new BloodPressureReportingView();
-			bloodPressureReportingView.init(_scheduleItemOccurrence, _adherenceItem, _handledInvokeEvents, true);
-			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
-															 _scheduleItemOccurrence, _adherenceItem,
-															 bloodPressureReportingView));
+//			var bloodPressureReportingView:BloodPressureReportingView = new BloodPressureReportingView();
+//			bloodPressureReportingView.init(_scheduleItemOccurrence, _adherenceItem, _handledInvokeEvents, true);
+//			dispatchEvent(new ScheduleItemReportingViewEvent(ScheduleItemReportingViewEvent.ADHERENCE_ITEM_INCOMPLETE,
+//															 _scheduleItemOccurrence, _adherenceItem,
+//															 bloodPressureReportingView));
 		}
 		]]></fx:Script>
 	<s:Rect width="100%" height="100%">

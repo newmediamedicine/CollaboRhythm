@@ -20,7 +20,6 @@ package collaboRhythm.plugins.schedule.shared.model
 	import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
 	import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 	import collaboRhythm.shared.model.Record;
-	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;

@@ -36,9 +36,6 @@
 		import collaboRhythm.plugins.schedule.shared.model.MoveData;
 		import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 		import collaboRhythm.plugins.schedule.shared.view.ScheduleTimelineViewEvent;
-		import collaboRhythm.shared.model.healthRecord.DocumentBase;
-		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
-		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 		import mx.binding.utils.BindingUtils;
 		import mx.binding.utils.ChangeWatcher;
@@ -74,30 +71,30 @@
 			_scheduleGroupsCollection = _scheduleModel.scheduleGroupsCollection;
 
 			_scheduleGroupsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
-													   scheduleGroupsCollectionChangeHandler, false, 0, true);
+					scheduleGroupsCollectionChangeHandler, false, 0, true);
 
 			this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_DOWN,
-								  scheduleGroupTimelineViewMouseDownHandler, false, 0, true);
+					scheduleGroupTimelineViewMouseDownHandler, false, 0, true);
 			this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_MOVE,
-								  scheduleGroupTimelineViewMouseMoveHandler, false, 0, true);
+					scheduleGroupTimelineViewMouseMoveHandler, false, 0, true);
 			this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_UP,
-								  scheduleGroupTimelineViewMouseUpHandler, false, 0, true);
+					scheduleGroupTimelineViewMouseUpHandler, false, 0, true);
 
 			this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_SPOTLIGHT_VIEW_MOUSE_DOWN,
-								  scheduleGroupSpotlightViewMouseDownHandler, false, 0, true);
+					scheduleGroupSpotlightViewMouseDownHandler, false, 0, true);
 			this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_SPOTLIGHT_VIEW_LEFT_MOUSE_MOVE,
-								  scheduleGroupSpotlightViewLeftMouseMoveHandler, false, 0, true);
+					scheduleGroupSpotlightViewLeftMouseMoveHandler, false, 0, true);
 			this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_SPOTLIGHT_VIEW_RIGHT_MOUSE_MOVE,
-								  scheduleGroupSpotlightViewRightMouseMoveHandler, false, 0, true);
+					scheduleGroupSpotlightViewRightMouseMoveHandler, false, 0, true);
 			this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_SPOTLIGHT_VIEW_MOUSE_UP,
-								  scheduleGroupSpotlightViewMouseUpHandler, false, 0, true);
+					scheduleGroupSpotlightViewMouseUpHandler, false, 0, true);
 
 			this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_ITEM_TIMELINE_VIEW_MOUSE_DOWN,
-								  scheduleItemOccurrenceTimelineViewMouseDownHandler, false, 0, true);
+					scheduleItemOccurrenceTimelineViewMouseDownHandler, false, 0, true);
 
 			_initializedChangeWatcher = BindingUtils.bindSetter(initializedChangeHandler,
-																_scheduleModel,
-																"isInitialized", false, true);
+					_scheduleModel,
+					"isInitialized", false, true);
 		}
 
 		private function creationCompleteHandler():void
@@ -160,7 +157,7 @@
 			}
 			var scheduleGroupTimelineView:ScheduleGroupTimelineView = new ScheduleGroupTimelineView();
 			scheduleGroupTimelineView.init(_scheduleModel, _scheduleTimelineModel, scheduleGroup,
-										   scheduleGroupsContainer, this);
+					scheduleGroupsContainer, this);
 			scheduleGroupsContainer.addElement(scheduleGroupTimelineView);
 			_scheduleGroupTimelineViews.push(scheduleGroupTimelineView);
 
@@ -173,7 +170,8 @@
 			{
 				if (scheduleGroupTimelineView.scheduleGroup == scheduleGroup)
 				{
-					for each (var scheduleItemOccurrenceTimelineView:ScheduleItemOccurrenceTimelineView in scheduleGroupTimelineView.scheduleItemTimelineViews)
+					for each (var scheduleItemOccurrenceTimelineView:ScheduleItemOccurrenceTimelineView in
+							scheduleGroupTimelineView.scheduleItemTimelineViews)
 					{
 						scheduleGroupTimelineView.scheduleItemsContainer.removeElement(scheduleItemOccurrenceTimelineView);
 						scheduleItemOccurrenceTimelineView = null;
@@ -192,7 +190,10 @@
 
 		private function calculateTimeWidth():void
 		{
-			_scheduleTimelineModel.timeWidth = (scheduleGroupsContainer.width - ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH + (ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2) - ScheduleGroupTimelineView.SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH) / 26;
+			_scheduleTimelineModel.timeWidth = (scheduleGroupsContainer.width -
+					ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH +
+					(ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2) -
+					ScheduleGroupTimelineView.SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH) / 26;
 		}
 
 		private function updateContainerHeigth():void
@@ -209,7 +210,7 @@
 		private function addContainerMoveData(moveData:MoveData):MoveData
 		{
 			var scheduleGroupsContainerCoordinates:Point = scheduleGroupsContainer.globalToLocal(new Point(moveData.stageX,
-																										   moveData.stageY));
+					moveData.stageY));
 
 			moveData.containerX = scheduleGroupsContainerCoordinates.x;
 			moveData.containerY = scheduleGroupsContainerCoordinates.y;
@@ -269,27 +270,26 @@
 		private function removeHandler():void
 		{
 			this.removeEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_DOWN,
-									 scheduleGroupTimelineViewMouseDownHandler);
+					scheduleGroupTimelineViewMouseDownHandler);
 			this.removeEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_MOVE,
-									 scheduleGroupTimelineViewMouseMoveHandler);
+					scheduleGroupTimelineViewMouseMoveHandler);
 			this.removeEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_TIMELINE_VIEW_MOUSE_UP,
-									 scheduleGroupTimelineViewMouseUpHandler);
+					scheduleGroupTimelineViewMouseUpHandler);
 
 			this.removeEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_SPOTLIGHT_VIEW_MOUSE_DOWN,
-									 scheduleGroupSpotlightViewMouseDownHandler);
+					scheduleGroupSpotlightViewMouseDownHandler);
 			this.removeEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_SPOTLIGHT_VIEW_LEFT_MOUSE_MOVE,
-									 scheduleGroupSpotlightViewLeftMouseMoveHandler);
+					scheduleGroupSpotlightViewLeftMouseMoveHandler);
 			this.removeEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_SPOTLIGHT_VIEW_RIGHT_MOUSE_MOVE,
-									 scheduleGroupSpotlightViewRightMouseMoveHandler);
+					scheduleGroupSpotlightViewRightMouseMoveHandler);
 			this.removeEventListener(ScheduleTimelineViewEvent.SCHEDULE_GROUP_SPOTLIGHT_VIEW_MOUSE_UP,
-									 scheduleGroupSpotlightViewMouseUpHandler);
+					scheduleGroupSpotlightViewMouseUpHandler);
 
 			this.removeEventListener(ScheduleTimelineViewEvent.SCHEDULE_ITEM_TIMELINE_VIEW_MOUSE_DOWN,
-									 scheduleItemOccurrenceTimelineViewMouseDownHandler);
+					scheduleItemOccurrenceTimelineViewMouseDownHandler);
 
 			_initializedChangeWatcher.unwatch();
 		}
-
 		]]>
 	</fx:Script>
 	<s:Rect width="100%" height="100%">

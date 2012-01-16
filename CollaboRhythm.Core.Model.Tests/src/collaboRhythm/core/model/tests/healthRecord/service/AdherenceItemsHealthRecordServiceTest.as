@@ -120,7 +120,7 @@ package collaboRhythm.core.model.tests.healthRecord.service
 			var date:Date = new Date();
 			date.setTime(DateUtil.parseW3CDTF("2009-05-17T12:52:21-00:00"));
 			document.init(new CodedValue(null, null, null, "Atorvastatin 40 MG Oral Tablet [Lipitor]"),
-						  "rpoole@records.media.mit.edu", date, 10, true);
+					"rpoole@records.media.mit.edu", date, 10);
 
 			var resultXml = service.marshallToXml(document);
 
@@ -143,7 +143,7 @@ package collaboRhythm.core.model.tests.healthRecord.service
 			var date:Date = new Date();
 			date.setTime(DateUtil.parseW3CDTF("2009-05-17T12:52:21-00:00"));
 			document.init(new CodedValue(null, null, null, "Atorvastatin 40 MG Oral Tablet [Lipitor]"),
-						  "rpoole@records.media.mit.edu", date, 10, false, "upset stomach");
+					"rpoole@records.media.mit.edu", date, 10);
 
 			var resultXml = service.marshallToXml(document);
 
