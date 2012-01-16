@@ -2,7 +2,7 @@ package collaboRhythm.plugins.medications.model
 {
 
 	import collaboRhythm.plugins.medications.view.MedicationImage;
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleItemOccurrenceReportingViewAdapter;
+	import collaboRhythm.plugins.schedule.shared.model.IReportingViewAdapter;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
@@ -14,7 +14,7 @@ package collaboRhythm.plugins.medications.model
 
 	import spark.components.Image;
 
-	public class MedicationScheduleItemOccurrenceReportingViewAdapter implements IScheduleItemOccurrenceReportingViewAdapter
+	public class MedicationScheduleItemOccurrenceReportingViewAdapter implements IReportingViewAdapter
 	{
 		private var _medicationScheduleItem:MedicationScheduleItem;
 		private var _medicationOrder:MedicationOrder;

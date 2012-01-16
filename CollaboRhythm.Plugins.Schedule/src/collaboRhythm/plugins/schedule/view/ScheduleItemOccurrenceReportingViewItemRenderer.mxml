@@ -4,7 +4,7 @@
 				xmlns:view="collaboRhythm.plugins.schedule.view.*"
 				width="100%"
 				height="{SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT}"
-		autoDrawBackground="false">
+				autoDrawBackground="false">
 	<fx:Style>
 
 		#nameLabel {
@@ -35,7 +35,7 @@
         <![CDATA[
 		import collaboRhythm.plugins.schedule.controller.ScheduleItemOccurrenceReportingController;
 		import collaboRhythm.plugins.schedule.model.ScheduleModel;
-		import collaboRhythm.plugins.schedule.shared.model.IScheduleItemOccurrenceReportingViewAdapter;
+		import collaboRhythm.plugins.schedule.shared.model.IReportingViewAdapter;
 		import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
@@ -64,11 +64,12 @@
 
 				var scheduleGroupReportingView:ScheduleGroupReportingView = ScheduleGroupReportingView(owner);
 				var scheduleModel:ScheduleModel = scheduleGroupReportingView.scheduleModel;
-				var scheduleItemOccurrenceReportingViewAdapter:IScheduleItemOccurrenceReportingViewAdapter = scheduleModel.viewFactory.createScheduleItemOccurrenceReportingViewAdapter(_scheduleItemOccurrence);
-				_scheduleItemOccurrenceReportingModel = scheduleModel.viewFactory.createScheduleItemOccurrenceReportingModel(_scheduleItemOccurrence,
+				var scheduleItemOccurrenceReportingViewAdapter:IReportingViewAdapter = scheduleModel.viewFactory.createReportingViewAdapter(_scheduleItemOccurrence);
+				_scheduleItemOccurrenceReportingModel = scheduleModel.viewFactory.createReportingModel(_scheduleItemOccurrence,
 						scheduleModel);
-				_scheduleItemOccurrenceReportingModel.dataInputController = scheduleModel.dataInputViewFactory.createDataInputController(_scheduleItemOccurrence.scheduleItem.name.text,
-										_scheduleItemOccurrence.scheduleItem.instructions, _scheduleItemOccurrence, null, scheduleModel, scheduleGroupReportingView.scheduleReportingController.viewNavigator);
+				_scheduleItemOccurrenceReportingModel.dataInputController = scheduleModel.dataInputControllerFactory.createDataInputController(_scheduleItemOccurrence.scheduleItem.name.text,
+						_scheduleItemOccurrence.scheduleItem.instructions, _scheduleItemOccurrence, null, scheduleModel,
+						scheduleGroupReportingView.scheduleReportingController.viewNavigator);
 				_scheduleItemOccurrenceReportingController = new ScheduleItemOccurrenceReportingController(_scheduleItemOccurrenceReportingModel,
 						scheduleGroupReportingView.scheduleReportingController.viewNavigator);
 

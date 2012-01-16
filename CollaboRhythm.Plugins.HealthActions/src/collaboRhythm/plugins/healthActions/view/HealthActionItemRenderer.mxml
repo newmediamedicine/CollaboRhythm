@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				width="100%"
+				height="{SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT}"
+				autoDrawBackground="false">
+	<fx:Style>
+
+		#nameLabel {
+			font-size: 30;
+			font-weight: bold;
+		}
+
+		#descriptionLabel {
+			font-size: 20;
+		}
+
+		#indicationLabel {
+			fontSize: 20;
+			fontStyle: italic;
+		}
+
+		#instructionsLabel {
+			fontSize: 26;
+			font-weight: bold;
+		}
+
+		#additionalInformationLabel {
+			fontSize: 26;
+			fontWeight: bold;
+		}
+	</fx:Style>
+	<fx:Script>
+	    <![CDATA[
+		import collaboRhythm.plugins.schedule.shared.model.IReportingViewAdapter;
+
+		import spark.components.Image;
+
+		public static const SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT:Number = 142;
+
+		private var _isDataSet:Boolean = false;
+
+		override public function set data(value:Object):void
+		{
+			// This function gets called every time that the scheduleItemOccurrence is modified. This is problematic
+			// because it adds the image every time that the user checks the adherenceCheckBox. It may be necessary
+			// to write code that more specifically prevents the image from being added multiple times if other components
+			// of the view need to be updated dynamically
+			if (!_isDataSet)
+			{
+				super.data = value;
+				var reportingViewAdapter:IReportingViewAdapter = IReportingViewAdapter(value);
+
+				nameLabel.text = reportingViewAdapter.name;
+				descriptionLabel.text = reportingViewAdapter.description;
+				indicationLabel.text = reportingViewAdapter.indication;
+				instructionsLabel.text = reportingViewAdapter.instructions;
+
+				var image:Image = reportingViewAdapter.image;
+				image.left = 5;
+				image.right = 5;
+				image.top = 5;
+				image.bottom = 5;
+				image.smooth = true;
+				imageRegion.addElement(image);
+
+				_isDataSet = true;
+			}
+		}
+		]]>
+	    </fx:Script>
+
+	<s:Group id="imageRegion" width="{this.height}" height="100%">
+
+	</s:Group>
+
+	<s:Group id="descriptionRegion" height="100%" left="{imageRegion.width}" right="0">
+		<s:VGroup left="5" right="5" top="5" bottom="5" gap="1">
+			<s:Label id="nameLabel" maxDisplayedLines="1" width="100%"/>
+			<s:Label id="descriptionLabel" maxDisplayedLines="1" width="100%"/>
+			<s:Label id="indicationLabel" paddingTop="16" maxDisplayedLines="1" width="100%"/>
+			<s:Label id="instructionsLabel" paddingTop="16" maxDisplayedLines="1" width="100%"/>
+		</s:VGroup>
+	</s:Group>
+
+	<s:Line width="100%" bottom="0">
+		<s:stroke>
+			<s:SolidColorStroke color="0x000000"/>
+		</s:stroke>
+	</s:Line>
+</s:ItemRenderer>

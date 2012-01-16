@@ -2,8 +2,8 @@
 <module type="Flex" version="4">
   <component name="Flex.Build.Configuration">
     <option name="DO_BUILD" value="true" />
-    <option name="MAIN_CLASS" value="collaboRhythm.plugins.foraD40b.controller.ForaD40bPluginModule" />
-    <option name="OUTPUT_FILE_NAME" value="ForaD40bPluginModule.swf" />
+    <option name="MAIN_CLASS" value="collaboRhythm.plugins.painReport.controller.PainReportPluginModule" />
+    <option name="OUTPUT_FILE_NAME" value="PainReportPluginModule.swf" />
     <option name="TARGET_PLAYER_VERSION" value="11.1" />
     <option name="VERSION" value="3" />
   </component>
@@ -18,8 +18,18 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" />
+    <orderEntry type="module-library">
+      <library name="libs" type="flex">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/libs" />
+          <root url="file://$MODULE_DIR$/libs" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
+      </library>
+    </orderEntry>
     <orderEntry type="module" module-name="CollaboRhythm.Plugins.Schedule.Shared" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -36,17 +46,6 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="libs" type="flex">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/libs" />
-          <root url="file://$MODULE_DIR$/libs" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-        <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
   </component>

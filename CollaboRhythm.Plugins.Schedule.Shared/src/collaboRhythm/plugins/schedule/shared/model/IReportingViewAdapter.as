@@ -2,7 +2,7 @@ package collaboRhythm.plugins.schedule.shared.model
 {
 	import spark.components.Image;
 
-	public interface IScheduleItemOccurrenceReportingViewAdapter
+	public interface IReportingViewAdapter
 	{
 		function get image():Image;
 		function get name():String;

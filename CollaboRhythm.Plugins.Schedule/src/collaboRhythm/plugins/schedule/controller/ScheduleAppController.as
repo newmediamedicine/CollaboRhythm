@@ -171,17 +171,16 @@ package collaboRhythm.plugins.schedule.controller
                 if (urlVariables.success == "true")
                 {
                     var closestScheduleItemOccurrence:ScheduleItemOccurrence = scheduleModel.scheduleReportingModel.findClosestScheduleItemOccurrence(urlVariables.name, urlVariables.measurements);
-					var dataInputViewClass:Class = scheduleModel.dataInputViewFactory.createDataInputView(urlVariables.name,
-							urlVariables.measurements, closestScheduleItemOccurrence);
 
-                    if (ReflectionUtils.getClass(_viewNavigator.activeView) == dataInputViewClass)
+					var dataInputController:DataInputControllerBase = scheduleModel.dataInputControllerFactory.createDataInputController(urlVariables.name, urlVariables.measurements, closestScheduleItemOccurrence, urlVariables, scheduleModel, _viewNavigator);
+
+                    if (ReflectionUtils.getClass(_viewNavigator.activeView) == dataInputController.dataInputViewClass)
                     {
                         var dataInputView:IDataInputView = IDataInputView(_viewNavigator.activeView);
                         dataInputView.dataInputController.updateVariables(urlVariables);
                     }    
                     else
                     {
-						var dataInputController:DataInputControllerBase = scheduleModel.dataInputViewFactory.createDataInputController(urlVariables.name, urlVariables.measurements, closestScheduleItemOccurrence, urlVariables, scheduleModel, _viewNavigator);
                         dataInputController.handleVariables();
                     }
                 }

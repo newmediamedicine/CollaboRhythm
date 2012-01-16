@@ -2,11 +2,11 @@ package collaboRhythm.plugins.foraD40b.controller
 {
     import castle.flexbridge.reflection.ReflectionUtils;
 
-    import collaboRhythm.plugins.foraD40b.model.ForaD40bDataInputViewFactory;
+    import collaboRhythm.plugins.foraD40b.model.ForaD40bDataInputControllerFactory;
 
-    import collaboRhythm.plugins.foraD40b.model.ForaD40bDataInputViewFactory;
+    import collaboRhythm.plugins.foraD40b.model.ForaD40bDataInputControllerFactory;
     import collaboRhythm.plugins.schedule.shared.controller.ScheduleAppControllerInfo;
-    import collaboRhythm.plugins.schedule.shared.model.IDataInputViewFactory;
+    import collaboRhythm.plugins.schedule.shared.model.IDataInputControllerFactory;
 
     import collaboRhythm.shared.controller.apps.AppControllerInfo;
     import collaboRhythm.shared.controller.apps.AppOrderConstraint;
@@ -30,7 +30,7 @@ package collaboRhythm.plugins.foraD40b.controller
             appControllerInfo.initializationOrderConstraints.push(afterScheduleAppOrderConstraint);
             componentContainer.registerComponentInstance(typeName, AppControllerInfo, appControllerInfo);
 
-            componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(ForaD40bDataInputViewFactory).name, IDataInputViewFactory, new ForaD40bDataInputViewFactory());
+            componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(ForaD40bDataInputControllerFactory).name, IDataInputControllerFactory, new ForaD40bDataInputControllerFactory());
         }
     }
 }

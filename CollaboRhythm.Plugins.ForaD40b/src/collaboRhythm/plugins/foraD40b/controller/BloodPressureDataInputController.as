@@ -30,7 +30,7 @@ package collaboRhythm.plugins.foraD40b.controller
 			var dataInputModelAndController:DataInputModelAndController = new DataInputModelAndController(_dataInputModel,
 					this);
 
-			_viewNavigator.pushView(BloodPressureDataInputView, dataInputModelAndController, null,
+			_viewNavigator.pushView(dataInputViewClass, dataInputModelAndController, null,
 					new SlideViewTransition());
 		}
 
@@ -43,6 +43,11 @@ package collaboRhythm.plugins.foraD40b.controller
 		override public function updateVariables(urlVariables:URLVariables):void
 		{
 			_dataInputModel.urlVariables = urlVariables;
+		}
+
+		override public function get dataInputViewClass():Class
+		{
+			return BloodPressureDataInputView;
 		}
 	}
 }

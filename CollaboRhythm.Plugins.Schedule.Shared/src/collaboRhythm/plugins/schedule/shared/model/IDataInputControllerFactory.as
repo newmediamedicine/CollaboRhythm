@@ -7,11 +7,9 @@ package collaboRhythm.plugins.schedule.shared.model
 
 	import spark.components.ViewNavigator;
 
-	public interface IDataInputViewFactory
+	public interface IDataInputControllerFactory
     {
-        function isMatchingDataInputViewFactory(name:String):Boolean;
-        function createDataInputView(name:String, measurements:String,
-									 scheduleItemOccurrence:ScheduleItemOccurrence):Class;
+        function isMatchingDataInputControllerFactory(name:String):Boolean;
 		function createDataInputController(name:String, measurements:String,
 										   scheduleItemOccurrence:ScheduleItemOccurrence,
 										   urlVariables:URLVariables,

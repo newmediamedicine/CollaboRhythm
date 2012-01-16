@@ -73,24 +73,9 @@
 			_dataInputController = BloodPressureDataInputController(dataInputModelAndController.dataInputController);
 		}
 
-		public function get dataInputModel():DataInputModelBase
-		{
-			return _dataInputModel;
-		}
-
-		public function set dataInputModel(value:DataInputModelBase):void
-		{
-			_dataInputModel = value as BloodPressureDataInputModel;
-		}
-
 		public function get dataInputController():DataInputControllerBase
 		{
 			return _dataInputController;
-		}
-
-		public function set dataInputController(value:DataInputControllerBase):void
-		{
-			_dataInputController = value as BloodPressureDataInputController;
 		}
 
 		override protected function createChildren():void

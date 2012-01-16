@@ -49,7 +49,7 @@ package collaboRhythm.plugins.schedule.model
 
 		private var _record:Record;
 		private var _accountId:String;
-		private var _viewFactory:IScheduleViewFactory;
+		private var _viewFactory:IReportingViewAdapterFactory;
 		private var _isInitialized:Boolean = false;
 		private var _scheduleGroupsHashMap:HashMap = new HashMap();
 		private var _scheduleGroupsCollection:ArrayCollection = new ArrayCollection();
@@ -67,7 +67,7 @@ package collaboRhythm.plugins.schedule.model
 		private var _documentCollectionDependenciesArray:Array = new Array();
 		private var _scheduleItemsCollectionsArray:Array = new Array();
 		private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>();
-        private var _dataInputViewFactory:MasterDataInputViewFactory;
+        private var _dataInputControllerFactory:MasterDataInputControllerFactory;
 
 		public function ScheduleModel(componentContainer:IComponentContainer,
 									  record:Record, accountId:String)
@@ -86,8 +86,8 @@ package collaboRhythm.plugins.schedule.model
 				_changeWatchers.push(BindingUtils.bindSetter(init, documentCollection, "isStitched"));
 			}
 
-			_viewFactory = new MasterScheduleViewFactory(componentContainer);
-            _dataInputViewFactory = new MasterDataInputViewFactory(componentContainer);
+			_viewFactory = new MasterReportingViewAdapterFactory(componentContainer);
+            _dataInputControllerFactory = new MasterDataInputControllerFactory(componentContainer);
 		}
 
 		private function init(isStitched:Boolean):void
@@ -206,7 +206,7 @@ package collaboRhythm.plugins.schedule.model
 			return _scheduleGroupsCollection;
 		}
 
-		public function get viewFactory():IScheduleViewFactory
+		public function get viewFactory():IReportingViewAdapterFactory
 		{
 			return _viewFactory;
 		}
@@ -363,9 +363,9 @@ package collaboRhythm.plugins.schedule.model
 			return _accountId;
 		}
 
-        public function get dataInputViewFactory():MasterDataInputViewFactory
+        public function get dataInputControllerFactory():MasterDataInputControllerFactory
         {
-            return _dataInputViewFactory;
+            return _dataInputControllerFactory;
         }
 
 	}

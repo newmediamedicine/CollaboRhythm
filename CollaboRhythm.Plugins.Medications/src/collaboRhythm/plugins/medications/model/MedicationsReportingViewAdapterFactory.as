@@ -21,42 +21,49 @@ package collaboRhythm.plugins.medications.model
 	import castle.flexbridge.reflection.ReflectionUtils;
 
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceEvaluatorBase;
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleItemOccurrenceReportingViewAdapter;
+	import collaboRhythm.plugins.schedule.shared.model.IReportingViewAdapter;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleViewFactory;
+	import collaboRhythm.plugins.schedule.shared.model.IReportingViewAdapterFactory;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
-	public class MedicationsScheduleViewFactory implements IScheduleViewFactory
+	import mx.collections.ArrayCollection;
+
+	public class MedicationsReportingViewAdapterFactory implements IReportingViewAdapterFactory
     {
-        public function MedicationsScheduleViewFactory()
+        public function MedicationsReportingViewAdapterFactory()
         {
         }
 
-        public function get scheduleItemType():ClassInfo
-        {
-            return ReflectionUtils.getClassInfo(MedicationScheduleItem);
-        }
+		public function isMatchingReportingViewAdapterFactory(name:String = null, scheduleItem:ScheduleItemBase = null):Boolean
+		{
+			return ReflectionUtils.getClass(scheduleItem) == MedicationScheduleItem;
+		}
 
-		public function createAdherencePerformanceEvaluator(scheduleItem:ScheduleItemBase):AdherencePerformanceEvaluatorBase
+		public function createAdherencePerformanceEvaluator(scheduleItemOccurrence:ScheduleItemOccurrence):AdherencePerformanceEvaluatorBase
 		{
 			return new MedicationsAdherencePerformanceEvaluator();
 		}
 
-		public function createScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence):IScheduleItemOccurrenceReportingViewAdapter
+		public function createReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence):IReportingViewAdapter
 		{
 			var medicationScheduleItemOccurrenceReportingViewAdapter:MedicationScheduleItemOccurrenceReportingViewAdapter = new MedicationScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence);
 			return medicationScheduleItemOccurrenceReportingViewAdapter;
 		}
 
-		public function createScheduleItemOccurrenceReportingModel(scheduleItemOccurrence:ScheduleItemOccurrence,
+		public function createReportingModel(scheduleItemOccurrence:ScheduleItemOccurrence,
 																   scheduleModel:IScheduleModel):ScheduleItemOccurrenceReportingModelBase
 		{
 			var medicationScheduleItemOccurrenceReportingModel:MedicationScheduleItemOccurrenceReportingModel = new MedicationScheduleItemOccurrenceReportingModel(scheduleItemOccurrence,
 																																								   scheduleModel);
 			return medicationScheduleItemOccurrenceReportingModel;
+		}
+
+		public function get reportingViewAdaptersCollection():ArrayCollection
+		{
+			return null;
 		}
 	}
 }

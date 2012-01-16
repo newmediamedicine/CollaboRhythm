@@ -29,5 +29,17 @@ package collaboRhythm.plugins.schedule.shared.controller
 		{
 			//abstract; subclasses should override
 		}
+
+		public function get dataInputViewClass():Class
+		{
+			//abstract; subclasses should override
+			return null;
+		}
+
+		public function get isUnscheduleReporting():Boolean
+		{
+			//abstract; subclasses should override
+			return false;
+		}
 	}
 }

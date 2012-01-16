@@ -1,6 +1,6 @@
 package collaboRhythm.plugins.equipment.model
 {
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleItemOccurrenceReportingViewAdapter;
+	import collaboRhythm.plugins.schedule.shared.model.IReportingViewAdapter;
 	import collaboRhythm.shared.model.healthRecord.document.Equipment;
 	import collaboRhythm.shared.model.healthRecord.document.EquipmentModel;
 	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
@@ -9,7 +9,7 @@ package collaboRhythm.plugins.equipment.model
 	import spark.components.Image;
 	import spark.skins.spark.ImageSkin;
 
-	public class EquipmentScheduleItemOccurrenceReportingViewAdapter implements IScheduleItemOccurrenceReportingViewAdapter
+	public class EquipmentScheduleItemOccurrenceReportingViewAdapter implements IReportingViewAdapter
 	{
 		private var _equipmentScheduleItem:EquipmentScheduleItem;
 		private var _equipment:Equipment;
