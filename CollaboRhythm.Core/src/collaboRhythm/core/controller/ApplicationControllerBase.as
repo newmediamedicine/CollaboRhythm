@@ -459,7 +459,7 @@ package collaboRhythm.core.controller
 			_kernel.registerComponentInstance("MedicationColorSource", IMedicationColorSource, medicationColorSource);
 
 			_componentContainer = new DefaultComponentContainer();
-			_pluginLoader = new PluginLoader();
+			_pluginLoader = new PluginLoader(_settings);
 			_pluginLoader.addEventListener(Event.COMPLETE, pluginLoader_complete);
 			_pluginLoader.componentContainer = componentContainer;
 			_pluginLoader.loadPlugins();

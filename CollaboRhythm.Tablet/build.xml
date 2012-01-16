@@ -25,4 +25,7 @@
 	<target name="install_and_run_on_device">
 		<ant antfile="../CollaboRhythm.Mobile/build.xml" dir="./" target="install_and_run_on_device" />
 	</target>
+	<target name="uninstall_app_on_device">
+		<ant antfile="../CollaboRhythm.Mobile/build.xml" dir="./" target="uninstall_app_on_device" />
+	</target>
 </project>

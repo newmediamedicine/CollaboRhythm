@@ -105,6 +105,26 @@
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
+			<xs:element name="pluginSearchPaths" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Collection of paths in which to search for plugin files to load. The following strings can be
+						used in the search path:
+						<p>
+							$APPLICATION_STORAGE_DIRECTORY$ - resolves to the directory where the application stores user
+							data. As an example, on Windows 7, this generally resolves to C:\Users\{user}\AppData\Roaming\{CollaboRhythm_application}\Local Store
+						</p>
+						<p>
+							$APPLICATION_DIRECTORY$ - resolves to the directory where the application is installed.
+						</p>
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element type="xs:string" name="pluginSearchPath" maxOccurs="unbounded" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
 		</xs:all>
 	</xs:complexType>
 

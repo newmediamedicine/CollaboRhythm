@@ -48,6 +48,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 		private var _fullView:IBloodPressureFullView;
 		private var _widgetView:IBloodPressureWidgetView;
 		private var _createFullViewOnInitialize:Boolean = true;
+		public static const useSingleCirculatorySystemMovieClip:Boolean = false;
 
 		public override function get widgetView():UIComponent
 		{
@@ -284,7 +285,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 		private function moveMovieClipToFullView():void
 		{
-			if (fullViewWithSimulation)
+			if (fullViewWithSimulation && useSingleCirculatorySystemMovieClip)
 			{
 				var bloodPressureSimulationWidgetView:BloodPressureSimulationWidgetView = (_widgetView as BloodPressureSimulationWidgetView);
 				if (_fullView && bloodPressureSimulationWidgetView)
@@ -298,7 +299,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 		private function moveMovieClipToWidgetView():void
 		{
-			if (fullViewWithSimulation)
+			if (fullViewWithSimulation && useSingleCirculatorySystemMovieClip)
 			{
 				var bloodPressureSimulationWidgetView:BloodPressureSimulationWidgetView = (_widgetView as BloodPressureSimulationWidgetView);
 				if (_fullView && bloodPressureSimulationWidgetView)

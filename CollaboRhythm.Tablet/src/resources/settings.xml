@@ -29,19 +29,23 @@
 	<debuggingToolsEnabled>false</debuggingToolsEnabled>
 	<oauthChromeConsumerKey>collaboRhythmChrome</oauthChromeConsumerKey>
 	<oauthChromeConsumerSecret>collaboRhythmChrome_secret93452</oauthChromeConsumerSecret>
-<!--
+	<targetDate>2011-07-21T20:30:00-5:00</targetDate>
 	<demoDatePresets>
-		<demoDatePreset>2011-08-08T06:00:00-5:00</demoDatePreset>
-		<demoDatePreset>2011-08-08T10:00:00-5:00</demoDatePreset>
-		<demoDatePreset>2011-08-08T14:00:00-5:00</demoDatePreset>
-		<demoDatePreset>2011-08-08T22:00:00-5:00</demoDatePreset>
+		<demoDatePreset>2011-07-14T09:10:00-5:00</demoDatePreset>
+		<demoDatePreset>2011-07-17T00:20:00Z</demoDatePreset>
+		<demoDatePreset>2011-07-21T20:30:00-5:00</demoDatePreset>
+		<demoDatePreset>2011-08-13T10:40:00-5:00</demoDatePreset>
 	</demoDatePresets>
--->
+	<pluginSearchPaths>
+		<pluginSearchPath>$APPLICATION_STORAGE_DIRECTORY$/plugins</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.BloodPressure/bin-debug</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Equipment/bin-debug</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Medications/bin-debug</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Schedule/bin-debug</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.VideoMessages/bin-debug</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins</pluginSearchPath>
+	</pluginSearchPaths>
 
-	<!--
-		Note that overriding appGroups in the user settings.xml file does not currently work so we are not defining any
-		default here (appGroups is commented out below) and appGroups MUST be defined in the user settings.xml.
-	-->
 <!--
 	<appGroups>
 		<appGroup id="standard">

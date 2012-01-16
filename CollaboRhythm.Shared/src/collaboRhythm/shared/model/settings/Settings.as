@@ -48,6 +48,7 @@ package collaboRhythm.shared.model.settings
 		private var _modality:String;
 		private var _demoDatePresets:ArrayCollection;
 		private var _appGroups:ArrayCollection;
+		private var _pluginSearchPaths:ArrayCollection;
 
 		public function Settings()
 		{
@@ -264,6 +265,16 @@ package collaboRhythm.shared.model.settings
 		public function set debuggingToolsEnabled(value:Boolean):void
 		{
 			_debuggingToolsEnabled = value;
+		}
+
+		public function get pluginSearchPaths():ArrayCollection
+		{
+			return _pluginSearchPaths;
+		}
+
+		public function set pluginSearchPaths(value:ArrayCollection):void
+		{
+			_pluginSearchPaths = value;
 		}
 	}
 }

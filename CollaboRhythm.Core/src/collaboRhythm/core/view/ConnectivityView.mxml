@@ -44,6 +44,7 @@
 		.connectivityText {
 			color: #FFFFFF;
 			font-size: 40;
+			lineBreak: "toFit";
 		}
 
 		.connectivityDetailsText {
@@ -130,7 +131,7 @@
 			<s:SolidColor color="#000000" alpha="0.3"/>
 		</s:fill>
 	</s:Rect>
-	<s:Group verticalCenter="0" horizontalCenter="0" minWidth="1000">
+	<s:Group verticalCenter="0" horizontalCenter="0" maxWidth="1000" width="80%">
 		<s:Rect width="100%" height="100%">
 			<s:stroke>
 				<s:SolidColorStroke color="#FFFFFF" alpha="0.5"/>
