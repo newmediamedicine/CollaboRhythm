@@ -43,21 +43,20 @@
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Medications/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Schedule/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.VideoMessages/bin-debug</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.ForaD40b/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins</pluginSearchPath>
 	</pluginSearchPaths>
-
-<!--
 	<appGroups>
-		<appGroup id="standard">
+		<appGroup id="mainWidgets">
 			<appDescriptors>
 				<appDescriptor>collaboRhythm.plugins.schedule.controller::ScheduleAppController</appDescriptor>
 			</appDescriptors>
 		</appGroup>
-		<appGroup id="custom">
+		<appGroup id="buttonWidgets">
 			<appDescriptors>
 				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::BloodPressureAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.plugins.videoMessages.controller::VideoMessagesAppController</appDescriptor>
 			</appDescriptors>
 		</appGroup>
 	</appGroups>
--->
 </settings>
