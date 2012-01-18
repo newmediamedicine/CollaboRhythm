@@ -17,35 +17,37 @@
   -->
 <settings xmlns="http://collaborhythm.org/application/settings">
 	<mode>patient</mode>
-	<username>gwhite</username>
-	<password>gwhite-password</password>
-	<useFileTarget>false</useFileTarget>
-	<useTraceTarget>false</useTraceTarget>
-	<useSyslogTarget>false</useSyslogTarget>
-	<logSourceIdentifier>debug</logSourceIdentifier>
-	<syslogServerIpAddress>127.0.0.1</syslogServerIpAddress>
-	<rtmpBaseURI>rtmp://127.0.0.1</rtmpBaseURI>
-	<indivoServerBaseURL>http://records.media.mit.edu:8000</indivoServerBaseURL>
-	<debuggingToolsEnabled>false</debuggingToolsEnabled>
+	<indivoServerBaseURL>http://184.106.136.151:8000</indivoServerBaseURL>
+	<username>csantos</username>
+	<password>csantos-dope75</password>
+	<useFileTarget>true</useFileTarget>
+	<useTraceTarget>true</useTraceTarget>
+	<useSyslogTarget>true</useSyslogTarget>
+	<logSourceIdentifier>CollaboRhythmDefault</logSourceIdentifier>
+	<syslogServerIpAddress>18.85.55.246</syslogServerIpAddress>
+	<rtmpBaseURI>rtmp://18.85.55.246</rtmpBaseURI>
+	<debuggingToolsEnabled>true</debuggingToolsEnabled>
 	<oauthChromeConsumerKey>collaboRhythmChrome</oauthChromeConsumerKey>
 	<oauthChromeConsumerSecret>collaboRhythmChrome_secret93452</oauthChromeConsumerSecret>
-	<targetDate>2011-07-21T20:30:00-5:00</targetDate>
-	<demoDatePresets>
-		<demoDatePreset>2011-07-14T09:10:00-5:00</demoDatePreset>
-		<demoDatePreset>2011-07-17T00:20:00Z</demoDatePreset>
-		<demoDatePreset>2011-07-21T20:30:00-5:00</demoDatePreset>
-		<demoDatePreset>2011-08-13T10:40:00-5:00</demoDatePreset>
-	</demoDatePresets>
 	<pluginSearchPaths>
 		<pluginSearchPath>$APPLICATION_STORAGE_DIRECTORY$/plugins</pluginSearchPath>
+		<!-- The following paths are to allow the plugins to load during development without deploying them -->
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.BloodPressure/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Equipment/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Medications/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Schedule/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.VideoMessages/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.ForaD40b/bin-debug</pluginSearchPath>
+		<!-- This path is for the plugins that are installed with the application -->
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins</pluginSearchPath>
 	</pluginSearchPaths>
+	<targetDate>2011-08-13T10:40:00-5:00</targetDate>
+	<demoDatePresets>
+		<demoDatePreset>2011-07-14T09:10:00-5:00</demoDatePreset>
+		<demoDatePreset>2011-07-17T00:20:00Z</demoDatePreset>
+		<demoDatePreset>2011-07-21T20:30:00-5:00</demoDatePreset>
+		<demoDatePreset>2011-08-13T10:40:00-5:00</demoDatePreset>
+	</demoDatePresets>
 	<appGroups>
 		<appGroup id="mainWidgets">
 			<appDescriptors>

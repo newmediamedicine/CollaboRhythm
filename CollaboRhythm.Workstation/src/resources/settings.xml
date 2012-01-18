@@ -17,38 +17,53 @@
   -->
 <settings xmlns="http://collaborhythm.org/application/settings">
 	<mode>clinician</mode>
-	<username>mloomis</username>
-	<password>mloomis-password</password>
+	<indivoServerBaseURL>http://184.106.136.151:8000</indivoServerBaseURL>
+	<username>jking</username>
+	<password>jking-dope75</password>
 	<useFileTarget>true</useFileTarget>
-	<useTraceTarget>false</useTraceTarget>
-	<useSyslogTarget>false</useSyslogTarget>
-	<logSourceIdentifier>debug</logSourceIdentifier>
-	<syslogServerIpAddress>127.0.0.1</syslogServerIpAddress>
-	<rtmpBaseURI>rtmp://127.0.0.1</rtmpBaseURI>
-	<indivoServerBaseURL>http://records.media.mit.edu:8000</indivoServerBaseURL>
-	<debuggingToolsEnabled>false</debuggingToolsEnabled>
+	<useTraceTarget>true</useTraceTarget>
+	<useSyslogTarget>true</useSyslogTarget>
+	<logSourceIdentifier>CollaboRhythmDefault</logSourceIdentifier>
+	<syslogServerIpAddress>18.85.55.246</syslogServerIpAddress>
+	<rtmpBaseURI>rtmp://18.85.55.246</rtmpBaseURI>
+	<debuggingToolsEnabled>true</debuggingToolsEnabled>
 	<oauthChromeConsumerKey>collaboRhythmChrome</oauthChromeConsumerKey>
 	<oauthChromeConsumerSecret>collaboRhythmChrome_secret93452</oauthChromeConsumerSecret>
-	<demoDatePresets>
-		<demoDatePreset>2010-01-10T00:00:00-5:00</demoDatePreset>
-		<demoDatePreset>2010-01-17T00:00:00-5:00</demoDatePreset>
-		<demoDatePreset>2010-01-20T00:00:00-5:00</demoDatePreset>
-		<demoDatePreset>2010-02-10T00:00:00-5:00</demoDatePreset>
-	</demoDatePresets>
 	<pluginSearchPaths>
 		<pluginSearchPath>$APPLICATION_STORAGE_DIRECTORY$/plugins</pluginSearchPath>
+		<!-- The following paths are to allow the plugins to load during development without deploying them -->
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.BloodPressure/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Equipment/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Medications/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Schedule/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.VideoMessages/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.ForaD40b/bin-debug</pluginSearchPath>
+		<!-- This path is for the plugins that are installed with the application -->
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins</pluginSearchPath>
 	</pluginSearchPaths>
-<!--
+	<targetDate>2011-08-13T10:40:00-5:00</targetDate>
+	<demoDatePresets>
+		<demoDatePreset>2011-07-14T09:10:00-5:00</demoDatePreset>
+		<demoDatePreset>2011-07-17T00:20:00Z</demoDatePreset>
+		<demoDatePreset>2011-07-21T20:30:00-5:00</demoDatePreset>
+		<demoDatePreset>2011-08-13T10:40:00-5:00</demoDatePreset>
+	</demoDatePresets>
 	<appGroups>
+		<appGroup id="custom">
+			<appDescriptors>
+				<appDescriptor>collaboRhythm.plugins.schedule.controller::ScheduleAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::BloodPressureAppController</appDescriptor>
+			</appDescriptors>
+		</appGroup>
 		<appGroup id="standard">
 			<appDescriptors>
+				<appDescriptor>collaboRhythm.plugins.medications.controller::MedicationsAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.plugins.equipment.controller::EquipmentAppController</appDescriptor>
+			</appDescriptors>
+		</appGroup>
+	</appGroups>
+<!--
+	Some other possible apps:
 				<appDescriptor>collaboRhythm.plugins.problems.controller::ProblemsAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.shared.apps.procedures.controller::ProceduresAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.shared.apps.immunizations.controller::ImmunizationsAppController</appDescriptor>
@@ -64,18 +79,12 @@
 				<appDescriptor>collaboRhythm.shared.apps.vitals.controller::VitalsAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.shared.apps.labs.controller::LabsAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.shared.apps.imaging.controller::ImagingAppController</appDescriptor>
-			</appDescriptors>
-		</appGroup>
-		<appGroup id="custom">
-			<appDescriptors>
+
 				<appDescriptor>collaboRhythm.plugins.schedule.controller::ScheduleAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.shared.apps.bloodPressureAgent.controller::BloodPressureAgentAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::BloodPressureChartAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::BloodPressureAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.cataractMap.controller::CataractMapAppController</appDescriptor>
-			</appDescriptors>
-		</appGroup>
-	</appGroups>
 -->
 
 <!--  
@@ -85,7 +94,6 @@
   <useSingleScreen>true</useSingleScreen>
   
 	targetDate can be used for a demo to change the current date
-	Note that the current time of day will not be changed (it will be based on real time) but the date will be offset to match the targetDate
   <targetDate>2010/01/01</targetDate>
 -->
 </settings>
