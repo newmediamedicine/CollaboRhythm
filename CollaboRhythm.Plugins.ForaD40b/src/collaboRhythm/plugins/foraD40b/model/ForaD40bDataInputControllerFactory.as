@@ -30,7 +30,7 @@ package collaboRhythm.plugins.foraD40b.model
 			return name == NAME;
 		}
 
-		public function createDataInputController(name:String, measurements:String,
+		public function createHealthActionInputController(name:String, measurements:String,
 												  scheduleItemOccurrence:ScheduleItemOccurrence,
 												  urlVariables:URLVariables,
 												  scheduleModel:IScheduleModel,

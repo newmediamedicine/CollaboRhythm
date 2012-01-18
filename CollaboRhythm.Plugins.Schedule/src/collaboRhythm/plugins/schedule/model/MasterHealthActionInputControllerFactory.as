@@ -12,11 +12,11 @@ package collaboRhythm.plugins.schedule.model
 
 	import spark.components.ViewNavigator;
 
-	public class MasterDataInputControllerFactory implements IDataInputControllerFactory
+	public class MasterHealthActionInputControllerFactory implements IDataInputControllerFactory
 	{
 		private var _factoryArray:Array;
 
-		public function MasterDataInputControllerFactory(componentContainer:IComponentContainer)
+		public function MasterHealthActionInputControllerFactory(componentContainer:IComponentContainer)
 		{
 			_factoryArray = componentContainer.resolveAll(IDataInputControllerFactory);
 		}
@@ -26,7 +26,7 @@ package collaboRhythm.plugins.schedule.model
 			return false;
 		}
 
-		public function createDataInputController(name:String, measurements:String,
+		public function createHealthActionInputController(name:String, measurements:String,
 												  scheduleItemOccurrence:ScheduleItemOccurrence,
 												  urlVariables:URLVariables,
 												  scheduleModel:IScheduleModel,
@@ -40,7 +40,7 @@ package collaboRhythm.plugins.schedule.model
 			}
 
 			if (matchingDataInputControllerFactory)
-				return matchingDataInputControllerFactory.createDataInputController(name, measurements,
+				return matchingDataInputControllerFactory.createHealthActionInputController(name, measurements,
 						scheduleItemOccurrence, urlVariables, scheduleModel, viewNavigator);
 			else
 				return new DataInputControllerBase(scheduleItemOccurrence, urlVariables, scheduleModel, viewNavigator);

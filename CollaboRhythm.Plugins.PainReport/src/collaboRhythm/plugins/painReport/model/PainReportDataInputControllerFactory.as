@@ -21,7 +21,7 @@ package collaboRhythm.plugins.painReport.model
 			return false;
 		}
 
-		public function createDataInputController(name:String, measurements:String,
+		public function createHealthActionInputController(name:String, measurements:String,
 												  scheduleItemOccurrence:ScheduleItemOccurrence,
 												  urlVariables:URLVariables, scheduleModel:IScheduleModel,
 												  viewNavigator:ViewNavigator):DataInputControllerBase

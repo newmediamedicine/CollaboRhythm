@@ -1,52 +1,29 @@
 package collaboRhythm.plugins.painReport.model
 {
-
-	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceEvaluatorBase;
-	import collaboRhythm.plugins.schedule.shared.model.IReportingViewAdapter;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
-
-	import collaboRhythm.plugins.schedule.shared.model.IReportingViewAdapterFactory;
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
-	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
+	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import mx.collections.ArrayCollection;
 
-	public class PainReportReportingViewAdapterFactory implements IReportingViewAdapterFactory
+	public class PainReportReportingViewAdapterFactory implements IHealthActionListViewAdapterFactory
 	{
 		public function PainReportReportingViewAdapterFactory()
 		{
 		}
 
-		public function isMatchingReportingViewAdapterFactory(name:String = null,
-															  scheduleItem:ScheduleItemBase = null):Boolean
+		public function createUnscheduledHealthActionViewAdapters(record:Record, adapters:ArrayCollection):void
 		{
-			return false;
+			adapters.addItem(new PainReportViewAdapter());
 		}
 
-		public function createAdherencePerformanceEvaluator(scheduleItemOccurrence:ScheduleItemOccurrence):AdherencePerformanceEvaluatorBase
+		public function createScheduledHealthActionViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
+															   scheduleModel:IScheduleModel,
+															   currentHealthActionListViewAdapter:IHealthActionListViewAdapter):IHealthActionListViewAdapter
 		{
 			return null;
-		}
-
-		public function createReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence):IReportingViewAdapter
-		{
-			return new PainReportViewAdapter();
-		}
-
-		public function createReportingModel(scheduleItemOccurrence:ScheduleItemOccurrence,
-											 scheduleModel:IScheduleModel):ScheduleItemOccurrenceReportingModelBase
-		{
-			return null;
-		}
-
-		public function get reportingViewAdaptersCollection():ArrayCollection
-		{
-			var reportingViewAdaptersCollection:ArrayCollection = new ArrayCollection();
-			var reportingViewAdapter:IReportingViewAdapter = new PainReportViewAdapter();
-			reportingViewAdaptersCollection.addItem(reportingViewAdapter);
-
-			return reportingViewAdaptersCollection;
 		}
 	}
 }

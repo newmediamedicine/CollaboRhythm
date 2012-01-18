@@ -21,7 +21,7 @@ package collaboRhythm.plugins.medications.controller
     import collaboRhythm.plugins.medications.model.MedicationsReportingViewAdapterFactory;
 
     import collaboRhythm.plugins.schedule.shared.controller.ScheduleAppControllerInfo;
-    import collaboRhythm.plugins.schedule.shared.model.IReportingViewAdapterFactory;
+    import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
     import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	import collaboRhythm.shared.controller.apps.AppOrderConstraint;
 	import collaboRhythm.shared.model.services.IComponentContainer;
@@ -45,7 +45,7 @@ package collaboRhythm.plugins.medications.controller
 			appControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER, "collaboRhythm.plugins.cataractMap.controller::CataractMapAppController"));
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo, appControllerInfo);
 
-            componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(MedicationsReportingViewAdapterFactory).name, IReportingViewAdapterFactory, new MedicationsReportingViewAdapterFactory());
+            componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(MedicationsReportingViewAdapterFactory).name, IHealthActionListViewAdapterFactory, new MedicationsReportingViewAdapterFactory());
 		}
 	}
 }

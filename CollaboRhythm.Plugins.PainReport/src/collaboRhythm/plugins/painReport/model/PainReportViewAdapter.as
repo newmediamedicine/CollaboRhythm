@@ -1,10 +1,11 @@
 package collaboRhythm.plugins.painReport.model
 {
-	import collaboRhythm.plugins.schedule.shared.model.IReportingViewAdapter;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
 
 	import spark.components.Image;
 
-	public class PainReportViewAdapter implements IReportingViewAdapter
+	public class PainReportViewAdapter implements IHealthActionListViewAdapter
 	{
 		private static const NAME:String = "Pain Report";
 
@@ -36,6 +37,11 @@ package collaboRhythm.plugins.painReport.model
 		public function get instructions():String
 		{
 			return "";
+		}
+
+		public function get model():ScheduleItemOccurrenceReportingModelBase
+		{
+			return null;
 		}
 	}
 }

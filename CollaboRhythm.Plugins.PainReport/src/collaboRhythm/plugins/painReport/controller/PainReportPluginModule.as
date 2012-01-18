@@ -5,7 +5,7 @@ package collaboRhythm.plugins.painReport.controller
 	import collaboRhythm.plugins.painReport.model.PainReportDataInputControllerFactory;
 	import collaboRhythm.plugins.painReport.model.PainReportReportingViewAdapterFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IDataInputControllerFactory;
-	import collaboRhythm.plugins.schedule.shared.model.IReportingViewAdapterFactory;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
 
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	import collaboRhythm.shared.model.services.IComponentContainer;
@@ -26,7 +26,7 @@ package collaboRhythm.plugins.painReport.controller
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
 					new AppControllerInfo(PainReportAppController));
 
-			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(PainReportReportingViewAdapterFactory).name, IReportingViewAdapterFactory, new PainReportReportingViewAdapterFactory());
+			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(PainReportReportingViewAdapterFactory).name, IHealthActionListViewAdapterFactory, new PainReportReportingViewAdapterFactory());
 			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(PainReportDataInputControllerFactory).name, IDataInputControllerFactory, new PainReportDataInputControllerFactory());
 		}
 	}

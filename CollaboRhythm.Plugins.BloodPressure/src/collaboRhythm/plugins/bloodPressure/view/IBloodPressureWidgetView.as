@@ -17,7 +17,7 @@
 package collaboRhythm.plugins.bloodPressure.view
 {
 
-	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
+	import collaboRhythm.plugins.bloodPressure.controller.BloodPressureAppController;
 	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 
 	public interface IBloodPressureWidgetView
@@ -27,5 +27,7 @@ package collaboRhythm.plugins.bloodPressure.view
 		function set model(value:BloodPressureModel):void;
 
 		function refresh():void;
+
+		function set controller(controller:BloodPressureAppController):void;
 	}
 }

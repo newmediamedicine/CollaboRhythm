@@ -48,7 +48,7 @@
 	</fx:Style>
 	<fx:Script>
 	    <![CDATA[
-		import collaboRhythm.plugins.schedule.shared.model.IReportingViewAdapter;
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 
 		import spark.components.Image;
 
@@ -65,7 +65,7 @@
 			if (!_isDataSet)
 			{
 				super.data = value;
-				var reportingViewAdapter:IReportingViewAdapter = IReportingViewAdapter(value);
+				var reportingViewAdapter:IHealthActionListViewAdapter = IHealthActionListViewAdapter(value);
 
 				nameLabel.text = reportingViewAdapter.name;
 				descriptionLabel.text = reportingViewAdapter.description;
@@ -73,12 +73,15 @@
 				instructionsLabel.text = reportingViewAdapter.instructions;
 
 				var image:Image = reportingViewAdapter.image;
-				image.left = 5;
-				image.right = 5;
-				image.top = 5;
-				image.bottom = 5;
-				image.smooth = true;
-				imageRegion.addElement(image);
+				if (image)
+				{
+					image.left = 5;
+					image.right = 5;
+					image.top = 5;
+					image.bottom = 5;
+					image.smooth = true;
+					imageRegion.addElement(image);
+				}
 
 				_isDataSet = true;
 			}

@@ -16,53 +16,36 @@
  */
 package collaboRhythm.plugins.equipment.model
 {
-
 	import castle.flexbridge.reflection.ReflectionUtils;
 
-	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceEvaluatorBase;
-	import collaboRhythm.plugins.schedule.shared.model.IReportingViewAdapter;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
-	import collaboRhythm.plugins.schedule.shared.model.IReportingViewAdapterFactory;
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
+	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
-	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import mx.collections.ArrayCollection;
 
-	public class EquipmentScheduleViewFactory implements IReportingViewAdapterFactory
-    {
-        public function EquipmentScheduleViewFactory()
-        {
-        }
-
-		public function isMatchingReportingViewAdapterFactory(name:String = null, scheduleItem:ScheduleItemBase = null):Boolean
+	public class EquipmentScheduleViewFactory implements IHealthActionListViewAdapterFactory
+	{
+		public function EquipmentScheduleViewFactory()
 		{
-			return ReflectionUtils.getClass(scheduleItem) == EquipmentScheduleItem;
 		}
 
-		public function createAdherencePerformanceEvaluator(scheduleItemOccurrence:ScheduleItemOccurrence):AdherencePerformanceEvaluatorBase
+		public function createUnscheduledHealthActionViewAdapters(record:Record, adapters:ArrayCollection):void
 		{
-			return new EquipmentAdherencePerformanceEvaluator();
+
 		}
 
-		public function createReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence):IReportingViewAdapter
+		public function createScheduledHealthActionViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
+															   scheduleModel:IScheduleModel,
+															   currentHealthActionListViewAdapter:IHealthActionListViewAdapter):IHealthActionListViewAdapter
 		{
-			var equipmentScheduleItemOccurrenceReportingViewAdapter:EquipmentScheduleItemOccurrenceReportingViewAdapter = new EquipmentScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence);
-			return equipmentScheduleItemOccurrenceReportingViewAdapter;
-		}
-
-		public function createReportingModel(scheduleItemOccurrence:ScheduleItemOccurrence,
-																   scheduleModel:IScheduleModel):ScheduleItemOccurrenceReportingModelBase
-		{
-			var equipmentScheduleItemOccurrenceReportingModel:EquipmentScheduleItemOccurrenceReportingModel = new EquipmentScheduleItemOccurrenceReportingModel(scheduleItemOccurrence,
-																																								scheduleModel);
-			return equipmentScheduleItemOccurrenceReportingModel;
-		}
-
-		public function get reportingViewAdaptersCollection():ArrayCollection
-		{
-			return null;
+			if (ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem) == EquipmentScheduleItem)
+				return new EquipmentScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence, scheduleModel);
+			else
+				return currentHealthActionListViewAdapter;
 		}
 	}
 }

@@ -172,7 +172,7 @@ package collaboRhythm.plugins.schedule.controller
                 {
                     var closestScheduleItemOccurrence:ScheduleItemOccurrence = scheduleModel.scheduleReportingModel.findClosestScheduleItemOccurrence(urlVariables.name, urlVariables.measurements);
 
-					var dataInputController:DataInputControllerBase = scheduleModel.dataInputControllerFactory.createDataInputController(urlVariables.name, urlVariables.measurements, closestScheduleItemOccurrence, urlVariables, scheduleModel, _viewNavigator);
+					var dataInputController:DataInputControllerBase = scheduleModel.dataInputControllerFactory.createHealthActionInputController(urlVariables.name, urlVariables.measurements, closestScheduleItemOccurrence, urlVariables, scheduleModel, _viewNavigator);
 
                     if (ReflectionUtils.getClass(_viewNavigator.activeView) == dataInputController.dataInputViewClass)
                     {

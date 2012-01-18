@@ -5,7 +5,7 @@
 	<fx:Script>
         <![CDATA[
 		import collaboRhythm.plugins.schedule.model.ScheduleModel;
-		import collaboRhythm.plugins.schedule.shared.model.IReportingViewAdapter;
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 		import spark.components.Image;
@@ -18,7 +18,8 @@
 		{
 			_scheduleItemOccurrence = scheduleItemOccurrence;
 
-			var scheduleItemOccurrenceReportingViewAdapter:IReportingViewAdapter = scheduleModel.viewFactory.createReportingViewAdapter(_scheduleItemOccurrence);
+			var scheduleItemOccurrenceReportingViewAdapter:IHealthActionListViewAdapter = scheduleModel.viewFactory.createScheduledHealthActionViewAdapter(_scheduleItemOccurrence,
+					scheduleModel);
 
 			var image:Image = scheduleItemOccurrenceReportingViewAdapter.image;
 			image.smooth = true;

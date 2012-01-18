@@ -17,18 +17,16 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
 
-	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
+	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import mx.collections.ArrayCollection;
 
-	public interface IReportingViewAdapterFactory
+	public interface IHealthActionListViewAdapterFactory
     {
-		function isMatchingReportingViewAdapterFactory(name:String = null, scheduleItem:ScheduleItemBase = null):Boolean;
-		function createAdherencePerformanceEvaluator(scheduleItemOccurrence:ScheduleItemOccurrence):AdherencePerformanceEvaluatorBase;
-		function createReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence):IReportingViewAdapter
-		function createReportingModel(scheduleItemOccurrence:ScheduleItemOccurrence,
-															scheduleModel:IScheduleModel):ScheduleItemOccurrenceReportingModelBase;
-		function get reportingViewAdaptersCollection():ArrayCollection;
+		function createUnscheduledHealthActionViewAdapters(record:Record, adapters:ArrayCollection):void;
+		function createScheduledHealthActionViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
+														scheduleModel:IScheduleModel,
+														currentHealthActionListViewAdapter:IHealthActionListViewAdapter):IHealthActionListViewAdapter;
     }
 }

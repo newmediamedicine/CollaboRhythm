@@ -1,23 +1,25 @@
 package collaboRhythm.plugins.healthActions.model
 {
-	import collaboRhythm.plugins.schedule.shared.model.MasterReportingViewAdapterFactory;
+	import collaboRhythm.plugins.schedule.shared.model.MasterHealthActionListViewAdapterFactory;
+	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 
 	import mx.collections.ArrayCollection;
 
 	public class HealthActionsModel
 	{
-		private var _reportingViewAdaptersCollection:ArrayCollection;
+		private var _healthActionListViewAdapters:ArrayCollection;
 
-		public function HealthActionsModel(componentContainer:IComponentContainer)
+		public function HealthActionsModel(componentContainer:IComponentContainer,
+										   record:Record)
 		{
-			var reportingViewAdapterFactory:MasterReportingViewAdapterFactory = new MasterReportingViewAdapterFactory(componentContainer);
-			_reportingViewAdaptersCollection = reportingViewAdapterFactory.allReportingViewAdaptersCollection;
+			var healthActionListViewAdapterFactory:MasterHealthActionListViewAdapterFactory = new MasterHealthActionListViewAdapterFactory(componentContainer);
+			_healthActionListViewAdapters = healthActionListViewAdapterFactory.createUnscheduledHealthActionViewAdapters(record);
 		}
 
-		public function get reportingViewAdaptersCollection():ArrayCollection
+		public function get healthActionListViewAdapters():ArrayCollection
 		{
-			return _reportingViewAdaptersCollection;
+			return _healthActionListViewAdapters;
 		}
 	}
 }

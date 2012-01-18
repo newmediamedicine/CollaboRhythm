@@ -10,7 +10,7 @@ package collaboRhythm.plugins.schedule.shared.model
 	public interface IDataInputControllerFactory
     {
         function isMatchingDataInputControllerFactory(name:String):Boolean;
-		function createDataInputController(name:String, measurements:String,
+		function createHealthActionInputController(name:String, measurements:String,
 										   scheduleItemOccurrence:ScheduleItemOccurrence,
 										   urlVariables:URLVariables,
 										   scheduleModel:IScheduleModel,

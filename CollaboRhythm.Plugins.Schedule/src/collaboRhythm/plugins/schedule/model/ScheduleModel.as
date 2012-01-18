@@ -49,7 +49,7 @@ package collaboRhythm.plugins.schedule.model
 
 		private var _record:Record;
 		private var _accountId:String;
-		private var _viewFactory:IReportingViewAdapterFactory;
+		private var _viewFactory:MasterHealthActionListViewAdapterFactory;
 		private var _isInitialized:Boolean = false;
 		private var _scheduleGroupsHashMap:HashMap = new HashMap();
 		private var _scheduleGroupsCollection:ArrayCollection = new ArrayCollection();
@@ -67,7 +67,7 @@ package collaboRhythm.plugins.schedule.model
 		private var _documentCollectionDependenciesArray:Array = new Array();
 		private var _scheduleItemsCollectionsArray:Array = new Array();
 		private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>();
-        private var _dataInputControllerFactory:MasterDataInputControllerFactory;
+        private var _dataInputControllerFactory:MasterHealthActionInputControllerFactory;
 
 		public function ScheduleModel(componentContainer:IComponentContainer,
 									  record:Record, accountId:String)
@@ -86,8 +86,8 @@ package collaboRhythm.plugins.schedule.model
 				_changeWatchers.push(BindingUtils.bindSetter(init, documentCollection, "isStitched"));
 			}
 
-			_viewFactory = new MasterReportingViewAdapterFactory(componentContainer);
-            _dataInputControllerFactory = new MasterDataInputControllerFactory(componentContainer);
+			_viewFactory = new MasterHealthActionListViewAdapterFactory(componentContainer);
+            _dataInputControllerFactory = new MasterHealthActionInputControllerFactory(componentContainer);
 		}
 
 		private function init(isStitched:Boolean):void
@@ -206,7 +206,7 @@ package collaboRhythm.plugins.schedule.model
 			return _scheduleGroupsCollection;
 		}
 
-		public function get viewFactory():IReportingViewAdapterFactory
+		public function get viewFactory():MasterHealthActionListViewAdapterFactory
 		{
 			return _viewFactory;
 		}
@@ -363,7 +363,7 @@ package collaboRhythm.plugins.schedule.model
 			return _accountId;
 		}
 
-        public function get dataInputControllerFactory():MasterDataInputControllerFactory
+        public function get dataInputControllerFactory():MasterHealthActionInputControllerFactory
         {
             return _dataInputControllerFactory;
         }

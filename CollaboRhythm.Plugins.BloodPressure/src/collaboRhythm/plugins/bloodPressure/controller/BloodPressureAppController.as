@@ -18,6 +18,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 {
 
 	import collaboRhythm.plugins.bloodPressure.model.BloodPressureHealthRecordService;
+	import collaboRhythm.plugins.bloodPressure.view.BloodPressureButtonWidgetView;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureFullView;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureMeterView;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureMobileWidgetView;
@@ -29,6 +30,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppEvent;
 
 	import flash.display.Loader;
 
@@ -87,7 +89,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 			if (isWorkstationMode)
 				newWidgetView = new BloodPressureSimulationWidgetView();
 			else if (isTabletMode)
-				newWidgetView = new BloodPressureMeterView();
+				newWidgetView = new BloodPressureButtonWidgetView();
 			else
 				newWidgetView = new BloodPressureMobileWidgetView();
 
@@ -108,7 +110,8 @@ package collaboRhythm.plugins.bloodPressure.controller
 		{
 			super.initialize();
 
-			if (!_activeRecordAccount.primaryRecord.bloodPressureModel || !_activeRecordAccount.primaryRecord.bloodPressureModel.isInitialized)
+			if (!_activeRecordAccount.primaryRecord.bloodPressureModel ||
+					!_activeRecordAccount.primaryRecord.bloodPressureModel.isInitialized)
 			{
 				loadBloodPressureData();
 			}
@@ -132,8 +135,8 @@ package collaboRhythm.plugins.bloodPressure.controller
 					else
 					{
 						_activeRecordAccount.primaryRecord.bloodPressureModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
-																							   model_propertyChangeHandler,
-																							   false, 0, true);
+								model_propertyChangeHandler,
+								false, 0, true);
 					}
 					if (_viewNavigator)
 					{
@@ -145,9 +148,11 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 		private function model_propertyChangeHandler(event:PropertyChangeEvent):void
 		{
-			if (event.property == "isInitialized" && _activeRecordAccount.primaryRecord.bloodPressureModel.isInitialized)
+			if (event.property == "isInitialized" &&
+					_activeRecordAccount.primaryRecord.bloodPressureModel.isInitialized)
 			{
-				_activeRecordAccount.primaryRecord.bloodPressureModel.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE, model_propertyChangeHandler);
+				_activeRecordAccount.primaryRecord.bloodPressureModel.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+						model_propertyChangeHandler);
 				listenForFullViewUpdateComplete();
 			}
 		}
@@ -174,9 +179,11 @@ package collaboRhythm.plugins.bloodPressure.controller
 		{
 			super.updateWidgetViewModel();
 
-			if (_widgetView && _activeRecordAccount && _activeRecordAccount.primaryRecord && _activeRecordAccount.primaryRecord.bloodPressureModel)
+			if (_widgetView && _activeRecordAccount && _activeRecordAccount.primaryRecord &&
+					_activeRecordAccount.primaryRecord.bloodPressureModel)
 			{
 				_widgetView.model = _activeRecordAccount.primaryRecord.bloodPressureModel;
+				_widgetView.controller = this;
 			}
 		}
 
@@ -200,9 +207,9 @@ package collaboRhythm.plugins.bloodPressure.controller
 				_activeRecordAccount.primaryRecord.bloodPressureModel.record = _activeRecordAccount.primaryRecord;
 
 				var bloodPressureHealthRecordService:BloodPressureHealthRecordService = new BloodPressureHealthRecordService(_settings.oauthChromeConsumerKey,
-																															 _settings.oauthChromeConsumerSecret,
-																															 _settings.indivoServerBaseURL,
-																															 _activeAccount);
+						_settings.oauthChromeConsumerSecret,
+						_settings.indivoServerBaseURL,
+						_activeAccount);
 				bloodPressureHealthRecordService.initializeBloodPressureModel(_activeRecordAccount);
 			}
 		}
@@ -287,7 +294,8 @@ package collaboRhythm.plugins.bloodPressure.controller
 		{
 			if (fullViewWithSimulation && useSingleCirculatorySystemMovieClip)
 			{
-				var bloodPressureSimulationWidgetView:BloodPressureSimulationWidgetView = (_widgetView as BloodPressureSimulationWidgetView);
+				var bloodPressureSimulationWidgetView:BloodPressureSimulationWidgetView = (_widgetView as
+						BloodPressureSimulationWidgetView);
 				if (_fullView && bloodPressureSimulationWidgetView)
 				{
 					var loader:Loader = bloodPressureSimulationWidgetView.circulatorySystemSimulationView.removeMovieClipLoader();
@@ -301,7 +309,8 @@ package collaboRhythm.plugins.bloodPressure.controller
 		{
 			if (fullViewWithSimulation && useSingleCirculatorySystemMovieClip)
 			{
-				var bloodPressureSimulationWidgetView:BloodPressureSimulationWidgetView = (_widgetView as BloodPressureSimulationWidgetView);
+				var bloodPressureSimulationWidgetView:BloodPressureSimulationWidgetView = (_widgetView as
+						BloodPressureSimulationWidgetView);
 				if (_fullView && bloodPressureSimulationWidgetView)
 				{
 					var loader:Loader = fullViewWithSimulation.simulationView.hypertensionCirculatorySystemGroup.circulatorySystemSimulationView.removeMovieClipLoader();
@@ -309,6 +318,11 @@ package collaboRhythm.plugins.bloodPressure.controller
 						bloodPressureSimulationWidgetView.circulatorySystemSimulationView.injectMovieClipLoader(loader);
 				}
 			}
+		}
+
+		public function dispatchShowFullView(viaMechanism:String):void
+		{
+			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this, null, null, viaMechanism));
 		}
 	}
 }
