@@ -17,19 +17,35 @@
 -->
 <s:List xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark"
-		dataProvider="{_reportingViewAdapters}"
+		dataProvider="{_healthActionListViewAdapters}"
 		itemRenderer="collaboRhythm.plugins.healthActions.view.HealthActionItemRenderer">
 	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.healthActions.controller.HealthActionsAppController;
+		import collaboRhythm.plugins.healthActions.model.HealthActionsModel;
 
 		import mx.collections.ArrayCollection;
 
 		[Bindable]
-		private var _reportingViewAdapters:ArrayCollection;
+		private var _healthActionListViewAdapters:ArrayCollection;
+		private var _healthActionsModel:HealthActionsModel;
+		private var _healthActionsAppController:HealthActionsAppController;
 
-		public function init(reportingViewAdapters:ArrayCollection):void
+		public function init(healthActionsModel:HealthActionsModel,
+							 healthActionsAppController:HealthActionsAppController):void
 		{
-			_reportingViewAdapters = reportingViewAdapters;
+			_healthActionsModel = healthActionsModel;
+			_healthActionsAppController = healthActionsAppController;
+			_healthActionListViewAdapters = healthActionsModel.healthActionListViewAdapters;
+		}
 
+		public function get healthActionsModel():HealthActionsModel
+		{
+			return _healthActionsModel;
+		}
+
+		public function get healthActionsAppController():HealthActionsAppController
+		{
+			return _healthActionsAppController;
 		}
 		]]></fx:Script>
 </s:List>

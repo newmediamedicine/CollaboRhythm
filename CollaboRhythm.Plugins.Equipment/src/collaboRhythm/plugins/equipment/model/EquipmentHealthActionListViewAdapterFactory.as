@@ -27,9 +27,9 @@ package collaboRhythm.plugins.equipment.model
 
 	import mx.collections.ArrayCollection;
 
-	public class EquipmentScheduleViewFactory implements IHealthActionListViewAdapterFactory
+	public class EquipmentHealthActionListViewAdapterFactory implements IHealthActionListViewAdapterFactory
 	{
-		public function EquipmentScheduleViewFactory()
+		public function EquipmentHealthActionListViewAdapterFactory()
 		{
 		}
 

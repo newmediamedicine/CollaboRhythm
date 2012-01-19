@@ -5,11 +5,11 @@ package collaboRhythm.plugins.painReport.model
 
 	import spark.components.Image;
 
-	public class PainReportViewAdapter implements IHealthActionListViewAdapter
+	public class PainReportHealthActionListViewAdapter implements IHealthActionListViewAdapter
 	{
 		private static const NAME:String = "Pain Report";
 
-		public function PainReportViewAdapter()
+		public function PainReportHealthActionListViewAdapter()
 		{
 		}
 
@@ -41,7 +41,7 @@ package collaboRhythm.plugins.painReport.model
 
 		public function get model():ScheduleItemOccurrenceReportingModelBase
 		{
-			return null;
+			return new PainReportHealthActionListViewModel(null, null);
 		}
 	}
 }

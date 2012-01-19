@@ -27,9 +27,9 @@ package collaboRhythm.plugins.medications.model
 
 	import mx.collections.ArrayCollection;
 
-	public class MedicationsReportingViewAdapterFactory implements IHealthActionListViewAdapterFactory
+	public class MedicationsHealthActionListViewAdapterFactory implements IHealthActionListViewAdapterFactory
 	{
-		public function MedicationsReportingViewAdapterFactory()
+		public function MedicationsHealthActionListViewAdapterFactory()
 		{
 		}
 

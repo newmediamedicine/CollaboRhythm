@@ -21,10 +21,10 @@ package collaboRhythm.plugins.schedule.controller
 
     import collaboRhythm.plugins.schedule.model.ScheduleModel;
 	import collaboRhythm.plugins.schedule.model.ScheduleModelEvent;
-	import collaboRhythm.plugins.schedule.shared.controller.DataInputControllerBase;
+	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
-    import collaboRhythm.plugins.schedule.shared.model.DataInputModelAndController;
-    import collaboRhythm.plugins.schedule.shared.model.IDataInputView;
+    import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
+    import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView;
     import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
     import collaboRhythm.plugins.schedule.shared.model.ScheduleModelKey;
     import collaboRhythm.plugins.schedule.view.IScheduleFullView;
@@ -172,16 +172,18 @@ package collaboRhythm.plugins.schedule.controller
                 {
                     var closestScheduleItemOccurrence:ScheduleItemOccurrence = scheduleModel.scheduleReportingModel.findClosestScheduleItemOccurrence(urlVariables.name, urlVariables.measurements);
 
-					var dataInputController:DataInputControllerBase = scheduleModel.dataInputControllerFactory.createHealthActionInputController(urlVariables.name, urlVariables.measurements, closestScheduleItemOccurrence, urlVariables, scheduleModel, _viewNavigator);
+					var healthActionInputController:HealthActionInputControllerBase = scheduleModel.healthActionInputControllerFactory.createHealthActionInputController(urlVariables.name,
+							urlVariables.measurements, closestScheduleItemOccurrence, scheduleModel, _viewNavigator);
 
-                    if (ReflectionUtils.getClass(_viewNavigator.activeView) == dataInputController.dataInputViewClass)
+                    if (ReflectionUtils.getClass(_viewNavigator.activeView) == healthActionInputController.healthActionInputViewClass)
                     {
-                        var dataInputView:IDataInputView = IDataInputView(_viewNavigator.activeView);
-                        dataInputView.dataInputController.updateVariables(urlVariables);
+                        var healthActionInputView:IHealthActionInputView = IHealthActionInputView(_viewNavigator.activeView);
+                        healthActionInputView.healthActionInputController.updateVariables(urlVariables);
                     }    
                     else
                     {
-                        dataInputController.handleVariables();
+                        healthActionInputController.showHealthActionInputView();
+						healthActionInputController.updateVariables(urlVariables);
                     }
                 }
 			}

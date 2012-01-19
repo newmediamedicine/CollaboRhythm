@@ -9,6 +9,8 @@ package collaboRhythm.plugins.healthActions.controller
 
 	import mx.core.UIComponent;
 
+	import spark.components.ViewNavigator;
+
 	public class HealthActionsAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "HealthActions";
@@ -124,6 +126,11 @@ package collaboRhythm.plugins.healthActions.controller
 		protected override function removeUserData():void
 		{
 			_healthActionsModel = null;
+		}
+
+		public function get viewNavigator():ViewNavigator
+		{
+			return _viewNavigator
 		}
 	}
 }

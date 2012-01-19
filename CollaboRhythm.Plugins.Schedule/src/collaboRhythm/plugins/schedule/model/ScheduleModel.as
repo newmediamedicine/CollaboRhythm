@@ -49,25 +49,26 @@ package collaboRhythm.plugins.schedule.model
 
 		private var _record:Record;
 		private var _accountId:String;
-		private var _viewFactory:MasterHealthActionListViewAdapterFactory;
 		private var _isInitialized:Boolean = false;
 		private var _scheduleGroupsHashMap:HashMap = new HashMap();
 		private var _scheduleGroupsCollection:ArrayCollection = new ArrayCollection();
 		private var _scheduleItemOccurrencesHashMap:HashMap = new HashMap();
 		private var _scheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
-
 		private var _scheduleReportingModel:ScheduleReportingModel;
+
 		private var _scheduleTimelineModel:ScheduleTimelineModel;
 		private var _adherencePerformanceModel:AdherencePerformanceModel;
-
 		private var _currentDateSource:ICurrentDateSource;
 
 		private var _logger:ILogger;
 
 		private var _documentCollectionDependenciesArray:Array = new Array();
+
 		private var _scheduleItemsCollectionsArray:Array = new Array();
 		private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>();
-        private var _dataInputControllerFactory:MasterHealthActionInputControllerFactory;
+
+		private var _healthActionListViewAdapterFactory:MasterHealthActionListViewAdapterFactory;
+		private var _healthActionInputControllerFactory:MasterHealthActionInputControllerFactory;
 
 		public function ScheduleModel(componentContainer:IComponentContainer,
 									  record:Record, accountId:String)
@@ -86,8 +87,8 @@ package collaboRhythm.plugins.schedule.model
 				_changeWatchers.push(BindingUtils.bindSetter(init, documentCollection, "isStitched"));
 			}
 
-			_viewFactory = new MasterHealthActionListViewAdapterFactory(componentContainer);
-            _dataInputControllerFactory = new MasterHealthActionInputControllerFactory(componentContainer);
+			_healthActionListViewAdapterFactory = new MasterHealthActionListViewAdapterFactory(componentContainer);
+            _healthActionInputControllerFactory = new MasterHealthActionInputControllerFactory(componentContainer);
 		}
 
 		private function init(isStitched:Boolean):void
@@ -204,11 +205,6 @@ package collaboRhythm.plugins.schedule.model
 		public function get scheduleGroupsCollection():ArrayCollection
 		{
 			return _scheduleGroupsCollection;
-		}
-
-		public function get viewFactory():MasterHealthActionListViewAdapterFactory
-		{
-			return _viewFactory;
 		}
 
 		public function createAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void
@@ -363,9 +359,14 @@ package collaboRhythm.plugins.schedule.model
 			return _accountId;
 		}
 
-        public function get dataInputControllerFactory():MasterHealthActionInputControllerFactory
+		public function get healthActionListViewAdapterFactory():MasterHealthActionListViewAdapterFactory
+		{
+			return _healthActionListViewAdapterFactory;
+		}
+
+        public function get healthActionInputControllerFactory():MasterHealthActionInputControllerFactory
         {
-            return _dataInputControllerFactory;
+            return _healthActionInputControllerFactory;
         }
 
 	}

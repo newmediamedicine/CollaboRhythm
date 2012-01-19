@@ -1,6 +1,6 @@
 package collaboRhythm.plugins.foraD40b.model
 {
-	import collaboRhythm.plugins.schedule.shared.model.DataInputModelBase;
+	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelBase;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
 	import collaboRhythm.shared.model.VitalSignFactory;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
@@ -10,7 +10,7 @@ package collaboRhythm.plugins.foraD40b.model
 	import flash.net.URLVariables;
 
 	[Bindable]
-	public class BloodPressureDataInputModel extends DataInputModelBase
+	public class BloodPressureDataInputModel extends HealthActionInputModelBase
 	{
 		private var _position:String;
 		private var _site:String;
@@ -19,7 +19,7 @@ package collaboRhythm.plugins.foraD40b.model
 		private var _heartRate:String = "";
 
 		public function BloodPressureDataInputModel(scheduleItemOccurrence:ScheduleItemOccurrence = null,
-													urlVariables:URLVariables = null, scheduleModel:IScheduleModel = null)
+													scheduleModel:IScheduleModel = null)
 		{
 			super(scheduleItemOccurrence, urlVariables, scheduleModel);
 		}

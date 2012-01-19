@@ -33,7 +33,7 @@
 	</fx:Style>
 	<fx:Script>
         <![CDATA[
-		import collaboRhythm.plugins.schedule.controller.ScheduleItemOccurrenceReportingController;
+		import collaboRhythm.plugins.schedule.shared.controller.ScheduleItemOccurrenceReportingController;
 		import collaboRhythm.plugins.schedule.model.ScheduleModel;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 		import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
@@ -45,8 +45,6 @@
 
 		[Bindable]
 		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
-		[Bindable]
-		private var _scheduleItemOccurrenceReportingModel:ScheduleItemOccurrenceReportingModelBase;
 		private var _scheduleItemOccurrenceReportingController:ScheduleItemOccurrenceReportingController;
 
 		private var _isDataSet:Boolean = false;
@@ -64,13 +62,13 @@
 
 				var scheduleGroupReportingView:ScheduleGroupReportingView = ScheduleGroupReportingView(owner);
 				var scheduleModel:ScheduleModel = scheduleGroupReportingView.scheduleModel;
-				var scheduleItemOccurrenceReportingViewAdapter:IHealthActionListViewAdapter = scheduleModel.viewFactory.createScheduledHealthActionViewAdapter(_scheduleItemOccurrence,
+				var scheduleItemOccurrenceReportingViewAdapter:IHealthActionListViewAdapter = scheduleModel.healthActionListViewAdapterFactory.createScheduledHealthActionViewAdapter(_scheduleItemOccurrence,
 						scheduleModel);
-				_scheduleItemOccurrenceReportingModel = scheduleItemOccurrenceReportingViewAdapter.model;
-				_scheduleItemOccurrenceReportingModel.dataInputController = scheduleModel.dataInputControllerFactory.createHealthActionInputController(_scheduleItemOccurrence.scheduleItem.name.text,
-						_scheduleItemOccurrence.scheduleItem.instructions, _scheduleItemOccurrence, null, scheduleModel,
+				var scheduleItemOccurrenceReportingModel:ScheduleItemOccurrenceReportingModelBase = scheduleItemOccurrenceReportingViewAdapter.model;
+				scheduleItemOccurrenceReportingModel.healthActionInputController = scheduleModel.healthActionInputControllerFactory.createHealthActionInputController(_scheduleItemOccurrence.scheduleItem.name.text,
+						_scheduleItemOccurrence.scheduleItem.instructions, _scheduleItemOccurrence, scheduleModel,
 						scheduleGroupReportingView.scheduleReportingController.viewNavigator);
-				_scheduleItemOccurrenceReportingController = new ScheduleItemOccurrenceReportingController(_scheduleItemOccurrenceReportingModel,
+				_scheduleItemOccurrenceReportingController = new ScheduleItemOccurrenceReportingController(scheduleItemOccurrenceReportingModel,
 						scheduleGroupReportingView.scheduleReportingController.viewNavigator);
 
 				nameLabel.text = scheduleItemOccurrenceReportingViewAdapter.name;
@@ -86,7 +84,7 @@
 				image.smooth = true;
 				imageRegion.addElement(image);
 
-				additionalInformationLabel.visible = _scheduleItemOccurrenceReportingModel.isAdditionalInformationRequired();
+				additionalInformationLabel.visible = scheduleItemOccurrenceReportingModel.healthActionInputController;
 
 				_isDataSet = true;
 			}
@@ -94,7 +92,7 @@
 
 		private function adherenceCheckBoxClickHandler(event:MouseEvent):void
 		{
-			_scheduleItemOccurrenceReportingController.reportAdherence(_scheduleItemOccurrence);
+			_scheduleItemOccurrenceReportingController.updateAdherence();
 		}
 
 		private function adherenceCheckBoxMouseDownHandler(event:MouseEvent):void

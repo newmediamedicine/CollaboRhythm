@@ -27,6 +27,6 @@ package collaboRhythm.plugins.schedule.shared.model
 		function get scheduleItemOccurrencesVector():Vector.<ScheduleItemOccurrence>;
 		function get scheduleItemsCollectionsArray():Array
 		function getScheduleItemOccurrences(dateStart:Date, dateEnd:Date):Vector.<ScheduleItemOccurrence>
-		function get viewFactory():MasterHealthActionListViewAdapterFactory;
+		function get healthActionListViewAdapterFactory():MasterHealthActionListViewAdapterFactory;
 	}
 }

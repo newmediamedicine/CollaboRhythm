@@ -20,7 +20,7 @@
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:sharedViews="collaboRhythm.shared.view.*"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
-					   implements="collaboRhythm.plugins.schedule.shared.model.IDataInputView">
+					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView">
 	<fx:Declarations>
 		<s:Button id="doneButton" label="Done" click="doneButton_clickHandler()"/>
 	</fx:Declarations>
@@ -46,9 +46,9 @@
 		<![CDATA[
 		import collaboRhythm.plugins.foraD40b.controller.BloodPressureDataInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodPressureDataInputModel;
-		import collaboRhythm.plugins.schedule.shared.controller.DataInputControllerBase;
-		import collaboRhythm.plugins.schedule.shared.model.DataInputModelBase;
-		import collaboRhythm.plugins.schedule.shared.model.DataInputModelAndController;
+		import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
+		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelBase;
+		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 
 		import spark.components.ViewNavigator;
 
@@ -67,13 +67,13 @@
 		{
 			super.data = value;
 
-			var dataInputModelAndController:DataInputModelAndController = DataInputModelAndController(value);
+			var dataInputModelAndController:HealthActionInputModelAndController = HealthActionInputModelAndController(value);
 
-			_dataInputModel = BloodPressureDataInputModel(dataInputModelAndController.dataInputModel);
-			_dataInputController = BloodPressureDataInputController(dataInputModelAndController.dataInputController);
+			_dataInputModel = BloodPressureDataInputModel(dataInputModelAndController.healthActionInputModel);
+			_dataInputController = BloodPressureDataInputController(dataInputModelAndController.healthActionInputController);
 		}
 
-		public function get dataInputController():DataInputControllerBase
+		public function get healthActionInputController():HealthActionInputControllerBase
 		{
 			return _dataInputController;
 		}

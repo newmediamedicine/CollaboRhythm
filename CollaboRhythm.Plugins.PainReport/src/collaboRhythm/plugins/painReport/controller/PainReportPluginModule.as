@@ -2,9 +2,9 @@ package collaboRhythm.plugins.painReport.controller
 {
 	import castle.flexbridge.reflection.ReflectionUtils;
 
-	import collaboRhythm.plugins.painReport.model.PainReportDataInputControllerFactory;
-	import collaboRhythm.plugins.painReport.model.PainReportReportingViewAdapterFactory;
-	import collaboRhythm.plugins.schedule.shared.model.IDataInputControllerFactory;
+	import collaboRhythm.plugins.painReport.model.PainReportHealthActionInputControllerFactory;
+	import collaboRhythm.plugins.painReport.model.PainReportHealthActionListViewAdapterFactory;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputControllerFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
 
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
@@ -26,8 +26,8 @@ package collaboRhythm.plugins.painReport.controller
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
 					new AppControllerInfo(PainReportAppController));
 
-			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(PainReportReportingViewAdapterFactory).name, IHealthActionListViewAdapterFactory, new PainReportReportingViewAdapterFactory());
-			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(PainReportDataInputControllerFactory).name, IDataInputControllerFactory, new PainReportDataInputControllerFactory());
+			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(PainReportHealthActionListViewAdapterFactory).name, IHealthActionListViewAdapterFactory, new PainReportHealthActionListViewAdapterFactory());
+			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(PainReportHealthActionInputControllerFactory).name, IHealthActionInputControllerFactory, new PainReportHealthActionInputControllerFactory());
 		}
 	}
 }

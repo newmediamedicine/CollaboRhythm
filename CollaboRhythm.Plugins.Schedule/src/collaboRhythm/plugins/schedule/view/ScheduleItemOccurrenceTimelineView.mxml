@@ -56,7 +56,7 @@
 		{
 			_scheduleItemOccurrence = scheduleItemOccurrence;
 
-			var scheduleItemOccurrenceReportingViewAdapter:IHealthActionListViewAdapter = scheduleModel.viewFactory.createScheduledHealthActionViewAdapter(_scheduleItemOccurrence,
+			var scheduleItemOccurrenceReportingViewAdapter:IHealthActionListViewAdapter = scheduleModel.healthActionListViewAdapterFactory.createScheduledHealthActionViewAdapter(_scheduleItemOccurrence,
 					scheduleModel);
 
 			nameLabel.text = scheduleItemOccurrenceReportingViewAdapter.name;
