@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:healthActionsViews="collaboRhythm.plugins.healthActions.view.*"
+		 height="100%" width="100%">
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.healthActions.controller.HealthActionsAppController;
+		import collaboRhythm.plugins.healthActions.model.HealthActionsModel;
+
+		public function init(healthActionsAppController:HealthActionsAppController,
+							 healthActionsModel:HealthActionsModel):void
+		{
+			healthActionsList.init(healthActionsModel, healthActionsAppController);
+		}
+		]]></fx:Script>
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="0xE6E7E8"/>
+		</s:fill>
+	</s:Rect>
+	<s:Group width="50%" height="100%">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0xFFFFFF"/>
+			</s:fill>
+		</s:Rect>
+		<healthActionsViews:HealthActionsList id="healthActionsList" width="100%" height="100%"/>
+		<s:Line width="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line right="0" height="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000"/>
+			</s:stroke>
+		</s:Line>
+	</s:Group>
+</s:Group>

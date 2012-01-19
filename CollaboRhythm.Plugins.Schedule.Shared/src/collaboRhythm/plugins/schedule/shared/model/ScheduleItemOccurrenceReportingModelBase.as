@@ -1,32 +1,20 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
 
-	import collaboRhythm.plugins.schedule.shared.controller.DataInputControllerBase;
+	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	public class ScheduleItemOccurrenceReportingModelBase
 	{
 		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
 		private var _scheduleModel:IScheduleModel;
-        private var _dataInputController:DataInputControllerBase;
+        private var _healthActionInputController:HealthActionInputControllerBase;
 
 		public function ScheduleItemOccurrenceReportingModelBase(scheduleItemOccurrence:ScheduleItemOccurrence,
 																 scheduleModel:IScheduleModel)
 		{
 			_scheduleItemOccurrence = scheduleItemOccurrence;
 			_scheduleModel = scheduleModel;
-		}
-
-		public function reportAdherence():void
-		{
-			if (_scheduleItemOccurrence.adherenceItem)
-			{
-				voidAdherenceItem();
-			}
-			else
-			{
-				createAdherenceItem();
-			}
 		}
 
 		public function createAdherenceItem():void
@@ -37,12 +25,6 @@ package collaboRhythm.plugins.schedule.shared.model
 		public function voidAdherenceItem():void
 		{
 			_scheduleModel.voidAdherenceItem(_scheduleItemOccurrence);
-		}
-
-		public function isAdditionalInformationRequired():Boolean
-		{
-			// abstract; subclasses should override
-			return false;
 		}
 
         public function get scheduleItemOccurrence():ScheduleItemOccurrence
@@ -65,14 +47,14 @@ package collaboRhythm.plugins.schedule.shared.model
 			_scheduleModel = value;
 		}
 
-		public function get dataInputController():DataInputControllerBase
+		public function get healthActionInputController():HealthActionInputControllerBase
 		{
-			return _dataInputController;
+			return _healthActionInputController;
 		}
 
-		public function set dataInputController(value:DataInputControllerBase):void
+		public function set healthActionInputController(value:HealthActionInputControllerBase):void
 		{
-			_dataInputController = value;
+			_healthActionInputController = value;
 		}
 	}
 }

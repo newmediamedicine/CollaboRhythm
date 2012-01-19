@@ -225,11 +225,11 @@ package collaboRhythm.plugins.schedule.shared.model
 				// For example, MedicationScheduleItem or EquipmentScheduleItem
 				if (scheduleItemsCollection.length > 0)
 				{
-					var adherencePerformanceEvaluator:AdherencePerformanceEvaluatorBase = _scheduleCollectionsProvider.viewFactory.createAdherencePerformanceEvaluator(scheduleItemsCollection[0]);
-					var adherencePerformanceAssertion:AdherencePerformanceAssertion = adherencePerformanceEvaluator.evaluateAdherencePerformance(scheduleItemOccurrencesVector,
-																																				 _record,
-																																				 adherencePerformanceInterval);
-					_adherencePerformanceAssertionsCollection.addItem(adherencePerformanceAssertion);
+//					var adherencePerformanceEvaluator:AdherencePerformanceEvaluatorBase = _scheduleCollectionsProvider.viewFactory.createAdherencePerformanceEvaluator(scheduleItemsCollection[0]);
+//					var adherencePerformanceAssertion:AdherencePerformanceAssertion = adherencePerformanceEvaluator.evaluateAdherencePerformance(scheduleItemOccurrencesVector,
+//																																				 _record,
+//																																				 adherencePerformanceInterval);
+//					_adherencePerformanceAssertionsCollection.addItem(adherencePerformanceAssertion);
 				}
 			}
 		}

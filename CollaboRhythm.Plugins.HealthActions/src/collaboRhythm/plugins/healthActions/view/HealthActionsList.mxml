@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:List xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		dataProvider="{_healthActionListViewAdapters}"
+		itemRenderer="collaboRhythm.plugins.healthActions.view.HealthActionItemRenderer">
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.healthActions.controller.HealthActionsAppController;
+		import collaboRhythm.plugins.healthActions.model.HealthActionsModel;
+
+		import mx.collections.ArrayCollection;
+
+		[Bindable]
+		private var _healthActionListViewAdapters:ArrayCollection;
+		private var _healthActionsModel:HealthActionsModel;
+		private var _healthActionsAppController:HealthActionsAppController;
+
+		public function init(healthActionsModel:HealthActionsModel,
+							 healthActionsAppController:HealthActionsAppController):void
+		{
+			_healthActionsModel = healthActionsModel;
+			_healthActionsAppController = healthActionsAppController;
+			_healthActionListViewAdapters = healthActionsModel.healthActionListViewAdapters;
+		}
+
+		public function get healthActionsModel():HealthActionsModel
+		{
+			return _healthActionsModel;
+		}
+
+		public function get healthActionsAppController():HealthActionsAppController
+		{
+			return _healthActionsAppController;
+		}
+		]]></fx:Script>
+</s:List>

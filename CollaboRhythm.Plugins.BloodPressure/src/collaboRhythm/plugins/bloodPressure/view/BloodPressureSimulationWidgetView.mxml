@@ -8,13 +8,12 @@
 		 xmlns:circulatorysystem="collaboRhythm.plugins.bloodPressure.view.simulation.levels.circulatorySystem.*"
 		creationComplete="creationCompleteHandler()">
 	<fx:Script><![CDATA[
-		import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceAssertion;
+		import collaboRhythm.plugins.bloodPressure.controller.BloodPressureAppController;
 		import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 
-		import mx.events.CollectionEvent;
 		import mx.events.PropertyChangeEvent;
 		import mx.logging.ILogger;
 		import mx.logging.Log;
@@ -69,6 +68,10 @@
 		}
 
 		public function refresh():void
+		{
+		}
+
+		public function set controller(controller:BloodPressureAppController):void
 		{
 		}
 		]]></fx:Script>

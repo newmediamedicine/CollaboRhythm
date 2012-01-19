@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:shared="collaboRhythm.shared.view.*"
+		 implements="collaboRhythm.plugins.bloodPressure.view.IBloodPressureWidgetView">
+	<fx:Script>
+		<![CDATA[
+		import collaboRhythm.plugins.bloodPressure.controller.BloodPressureAppController;
+		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
+
+		public static const red:uint = 0xED1C24;
+		public static const orange:uint = 0xF7941E;
+		public static const green:uint = 0x00A651;
+
+		[Bindable]
+		private var _model:BloodPressureModel;
+		private var _controller:BloodPressureAppController;
+
+		public function get model():BloodPressureModel
+		{
+			return _model;
+		}
+
+		public function set model(value:BloodPressureModel):void
+		{
+			_model = value;
+		}
+
+		public function refresh():void
+		{
+		}
+
+		public function set controller(controller:BloodPressureAppController):void
+		{
+			_controller = controller;
+		}
+
+		private function showFullViewButton_clickHandler():void
+		{
+			_controller.dispatchShowFullView("VideoMessages widget button click");
+		}
+		]]>
+	</fx:Script>
+
+	<shared:WidgetButton id="showFullViewButton" icon="{ChartsIcon}" width="70" height="70" left="0" bottom="0"
+						 skinClass="collaboRhythm.shared.view.WidgetButtonSkin" click="showFullViewButton_clickHandler()" />
+</s:Group>

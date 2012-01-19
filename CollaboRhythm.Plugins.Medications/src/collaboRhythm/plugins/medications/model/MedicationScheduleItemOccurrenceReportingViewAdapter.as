@@ -1,8 +1,9 @@
 package collaboRhythm.plugins.medications.model
 {
-
 	import collaboRhythm.plugins.medications.view.MedicationImage;
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleItemOccurrenceReportingViewAdapter;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
+	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
@@ -14,15 +15,21 @@ package collaboRhythm.plugins.medications.model
 
 	import spark.components.Image;
 
-	public class MedicationScheduleItemOccurrenceReportingViewAdapter implements IScheduleItemOccurrenceReportingViewAdapter
+	public class MedicationScheduleItemOccurrenceReportingViewAdapter implements IHealthActionListViewAdapter
 	{
 		private var _medicationScheduleItem:MedicationScheduleItem;
 		private var _medicationOrder:MedicationOrder;
 		private var _medicationName:MedicationName;
 		private var _medicationColorSource:IMedicationColorSource;
+		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
+		private var _scheduleModel:IScheduleModel;
 
-		public function MedicationScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence)
+		public function MedicationScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
+																			 scheduleModel:IScheduleModel)
 		{
+			_scheduleItemOccurrence = scheduleItemOccurrence;
+			_scheduleModel = scheduleModel;
+
 			_medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
 			_medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
 			_medicationName = MedicationNameUtil.parseName(_medicationScheduleItem.name.text);
@@ -66,6 +73,11 @@ package collaboRhythm.plugins.medications.model
 		public function get instructions():String
 		{
 			return _medicationScheduleItem.instructions;
+		}
+
+		public function get model():ScheduleItemOccurrenceReportingModelBase
+		{
+			return new MedicationScheduleItemOccurrenceReportingModel(_scheduleItemOccurrence, _scheduleModel);
 		}
 	}
 }

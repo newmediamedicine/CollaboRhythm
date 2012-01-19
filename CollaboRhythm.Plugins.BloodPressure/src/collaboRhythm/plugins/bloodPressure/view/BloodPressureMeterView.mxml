@@ -69,6 +69,7 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
+		import collaboRhythm.plugins.bloodPressure.controller.BloodPressureAppController;
 		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 
 		import mx.events.PropertyChangeEvent;
@@ -157,6 +158,10 @@
 				var simulationModelSystolic:Number = _model.currentSimulation.systolic;
 				updateBloodPressureHeight(simulationModelSystolic);
 			}
+		}
+
+		public function set controller(controller:BloodPressureAppController):void
+		{
 		}
 		]]>
 	</fx:Script>

@@ -18,10 +18,10 @@ package collaboRhythm.plugins.medications.controller
 {
 	import castle.flexbridge.reflection.ReflectionUtils;
 
-    import collaboRhythm.plugins.medications.model.MedicationsScheduleViewFactory;
+    import collaboRhythm.plugins.medications.model.MedicationsHealthActionListViewAdapterFactory;
 
     import collaboRhythm.plugins.schedule.shared.controller.ScheduleAppControllerInfo;
-    import collaboRhythm.plugins.schedule.shared.model.IScheduleViewFactory;
+    import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
     import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	import collaboRhythm.shared.controller.apps.AppOrderConstraint;
 	import collaboRhythm.shared.model.services.IComponentContainer;
@@ -45,7 +45,7 @@ package collaboRhythm.plugins.medications.controller
 			appControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER, "collaboRhythm.plugins.cataractMap.controller::CataractMapAppController"));
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo, appControllerInfo);
 
-            componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(MedicationsScheduleViewFactory).name, IScheduleViewFactory, new MedicationsScheduleViewFactory());
+            componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(MedicationsHealthActionListViewAdapterFactory).name, IHealthActionListViewAdapterFactory, new MedicationsHealthActionListViewAdapterFactory());
 		}
 	}
 }

@@ -35,7 +35,7 @@
 	<fx:Script>
         <![CDATA[
 		import collaboRhythm.plugins.schedule.model.ScheduleModel;
-		import collaboRhythm.plugins.schedule.shared.model.IScheduleItemOccurrenceReportingViewAdapter;
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 		import collaboRhythm.plugins.schedule.shared.model.MoveData;
 		import collaboRhythm.plugins.schedule.shared.view.ScheduleTimelineViewEvent;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
@@ -56,7 +56,8 @@
 		{
 			_scheduleItemOccurrence = scheduleItemOccurrence;
 
-			var scheduleItemOccurrenceReportingViewAdapter:IScheduleItemOccurrenceReportingViewAdapter = scheduleModel.viewFactory.createScheduleItemOccurrenceReportingViewAdapter(_scheduleItemOccurrence);
+			var scheduleItemOccurrenceReportingViewAdapter:IHealthActionListViewAdapter = scheduleModel.healthActionListViewAdapterFactory.createScheduledHealthActionViewAdapter(_scheduleItemOccurrence,
+					scheduleModel);
 
 			nameLabel.text = scheduleItemOccurrenceReportingViewAdapter.name;
 			descriptionLabel.text = scheduleItemOccurrenceReportingViewAdapter.description;

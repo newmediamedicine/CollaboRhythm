@@ -17,17 +17,16 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
 
-	import castle.flexbridge.reflection.ClassInfo;
-
-	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
+	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
-	public interface IScheduleViewFactory
+	import mx.collections.ArrayCollection;
+
+	public interface IHealthActionListViewAdapterFactory
     {
-        function get scheduleItemType():ClassInfo;
-		function createAdherencePerformanceEvaluator(scheduleItem:ScheduleItemBase):AdherencePerformanceEvaluatorBase;
-		function createScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence):IScheduleItemOccurrenceReportingViewAdapter
-		function createScheduleItemOccurrenceReportingModel(scheduleItemOccurrence:ScheduleItemOccurrence,
-															scheduleModel:IScheduleModel):ScheduleItemOccurrenceReportingModelBase;
+		function createUnscheduledHealthActionViewAdapters(record:Record, adapters:ArrayCollection):void;
+		function createScheduledHealthActionViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
+														scheduleModel:IScheduleModel,
+														currentHealthActionListViewAdapter:IHealthActionListViewAdapter):IHealthActionListViewAdapter;
     }
 }

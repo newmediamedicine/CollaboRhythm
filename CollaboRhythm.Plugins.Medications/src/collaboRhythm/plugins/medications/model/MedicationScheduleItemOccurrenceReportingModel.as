@@ -43,10 +43,5 @@ package collaboRhythm.plugins.medications.model
 
 			scheduleModel.createAdherenceItem(scheduleItemOccurrence);
 		}
-
-		override public function isAdditionalInformationRequired():Boolean
-		{
-			return false;
-		}
 	}
 }

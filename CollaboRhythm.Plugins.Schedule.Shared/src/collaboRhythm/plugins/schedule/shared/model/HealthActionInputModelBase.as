@@ -6,14 +6,14 @@ package collaboRhythm.plugins.schedule.shared.model
 
 	import flash.net.URLVariables;
 
-	public class DataInputModelBase
+	public class HealthActionInputModelBase
     {
         private var _scheduleItemOccurrence:ScheduleItemOccurrence;
         private var _urlVariables:URLVariables;
 		protected var _currentDateSource:ICurrentDateSource;
 		protected var _scheduleModel:IScheduleModel;
 
-        public function DataInputModelBase(scheduleItemOccurrence:ScheduleItemOccurrence = null,
+        public function HealthActionInputModelBase(scheduleItemOccurrence:ScheduleItemOccurrence = null,
 										   urlVariables:URLVariables = null,
 										   scheduleModel:IScheduleModel = null)
         {

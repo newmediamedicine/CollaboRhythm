@@ -8,10 +8,12 @@ package collaboRhythm.plugins.schedule.shared.model
 	{
 		function get accountId():String;
 
+		function get healthActionInputControllerFactory():MasterHealthActionInputControllerFactory
+
 		function createAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void;
 
-		function createResults(results:Vector.<DocumentBase>):void;
-
 		function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void;
+
+		function createResults(results:Vector.<DocumentBase>):void;
 	}
 }

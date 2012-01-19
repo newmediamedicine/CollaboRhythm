@@ -28,6 +28,7 @@
 
 	<fx:Script>
 		<![CDATA[
+		import collaboRhythm.plugins.bloodPressure.controller.BloodPressureAppController;
 		import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
 		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 
@@ -80,6 +81,10 @@
 				 hydrochlorothiazideSimulationView.concentration = concentration;
 				 */
 			}
+		}
+
+		public function set controller(controller:BloodPressureAppController):void
+		{
 		}
 		]]>
 	</fx:Script>

@@ -91,7 +91,7 @@
 			<s:HGroup id="mainWidgetsGroup" width="100%" height="100%" gap="20">
 
 			</s:HGroup>
-			<s:VGroup id="buttonWidgetsGroup" width="110" height="100%">
+			<s:VGroup id="buttonWidgetsGroup" paddingTop="100" width="110" height="100%" gap="100">
 
 			</s:VGroup>
 		</s:HGroup>
