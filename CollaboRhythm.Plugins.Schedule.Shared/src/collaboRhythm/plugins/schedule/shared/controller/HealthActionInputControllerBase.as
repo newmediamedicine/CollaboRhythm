@@ -1,6 +1,5 @@
 package collaboRhythm.plugins.schedule.shared.controller
 {
-	import collaboRhythm.plugins.schedule.shared.model.DataInputModelAndController;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
@@ -8,19 +7,18 @@ package collaboRhythm.plugins.schedule.shared.controller
 
 	import spark.components.ViewNavigator;
 
-	public class DataInputControllerBase
+	public class HealthActionInputControllerBase
     {
 		protected var _viewNavigator:ViewNavigator;
 
-        public function DataInputControllerBase(scheduleItemOccurrence:ScheduleItemOccurrence,
-												urlVariables:URLVariables,
-												scheduleModel:IScheduleModel,
-												viewNavigator:ViewNavigator)
+        public function HealthActionInputControllerBase(scheduleItemOccurrence:ScheduleItemOccurrence,
+														scheduleModel:IScheduleModel,
+														viewNavigator:ViewNavigator)
         {
 			_viewNavigator = viewNavigator;
 		}
 
-		public function handleVariables():void
+		public function showHealthActionInputView():void
 		{
 			//abstract; subclasses should override
 		}
@@ -30,7 +28,7 @@ package collaboRhythm.plugins.schedule.shared.controller
 			//abstract; subclasses should override
 		}
 
-		public function get dataInputViewClass():Class
+		public function get healthActionInputViewClass():Class
 		{
 			//abstract; subclasses should override
 			return null;

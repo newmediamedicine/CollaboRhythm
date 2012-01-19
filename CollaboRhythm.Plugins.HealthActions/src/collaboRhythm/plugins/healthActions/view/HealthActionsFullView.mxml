@@ -26,7 +26,7 @@
 		public function init(healthActionsAppController:HealthActionsAppController,
 							 healthActionsModel:HealthActionsModel):void
 		{
-			healthActionsList.init(healthActionsModel.healthActionListViewAdapters);
+			healthActionsList.init(healthActionsModel, healthActionsAppController);
 		}
 		]]></fx:Script>
 	<s:Rect width="100%" height="100%">

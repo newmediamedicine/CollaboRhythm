@@ -2,8 +2,8 @@ package collaboRhythm.plugins.foraD40b.controller
 {
 	import collaboRhythm.plugins.foraD40b.model.BloodPressureDataInputModel;
 	import collaboRhythm.plugins.foraD40b.view.BloodPressureDataInputView;
-	import collaboRhythm.plugins.schedule.shared.controller.DataInputControllerBase;
-	import collaboRhythm.plugins.schedule.shared.model.DataInputModelAndController;
+	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
+	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
@@ -12,25 +12,25 @@ package collaboRhythm.plugins.foraD40b.controller
 	import spark.components.ViewNavigator;
 	import spark.transitions.SlideViewTransition;
 
-	public class BloodPressureDataInputController extends DataInputControllerBase
+	public class BloodPressureDataInputController extends HealthActionInputControllerBase
 	{
 		private var _dataInputModel:BloodPressureDataInputModel;
 
 		public function BloodPressureDataInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
-														 urlVariables:URLVariables, scheduleModel:IScheduleModel,
+														 scheduleModel:IScheduleModel,
 														 viewNavigator:ViewNavigator)
 		{
-			super(scheduleItemOccurrence, urlVariables, scheduleModel, viewNavigator);
+			super(scheduleItemOccurrence, scheduleModel, viewNavigator);
 
-			_dataInputModel = new BloodPressureDataInputModel(scheduleItemOccurrence, urlVariables, scheduleModel);
+			_dataInputModel = new BloodPressureDataInputModel(scheduleItemOccurrence, scheduleModel);
 		}
 
-		override public function handleVariables():void
+		override public function showHealthActionInputView():void
 		{
-			var dataInputModelAndController:DataInputModelAndController = new DataInputModelAndController(_dataInputModel,
+			var dataInputModelAndController:HealthActionInputModelAndController = new HealthActionInputModelAndController(_dataInputModel,
 					this);
 
-			_viewNavigator.pushView(dataInputViewClass, dataInputModelAndController, null,
+			_viewNavigator.pushView(healthActionInputViewClass, dataInputModelAndController, null,
 					new SlideViewTransition());
 		}
 
@@ -45,7 +45,7 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.urlVariables = urlVariables;
 		}
 
-		override public function get dataInputViewClass():Class
+		override public function get healthActionInputViewClass():Class
 		{
 			return BloodPressureDataInputView;
 		}

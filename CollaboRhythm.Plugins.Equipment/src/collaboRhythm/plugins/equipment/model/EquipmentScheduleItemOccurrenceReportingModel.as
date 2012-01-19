@@ -17,10 +17,5 @@ package collaboRhythm.plugins.equipment.model
 		{
 			// abstract; subclasses should override
 		}
-
-		override public function isAdditionalInformationRequired():Boolean
-		{
-			return true;
-		}
 	}
 }

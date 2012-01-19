@@ -8,15 +8,15 @@ package collaboRhythm.plugins.painReport.model
 
 	import mx.collections.ArrayCollection;
 
-	public class PainReportReportingViewAdapterFactory implements IHealthActionListViewAdapterFactory
+	public class PainReportHealthActionListViewAdapterFactory implements IHealthActionListViewAdapterFactory
 	{
-		public function PainReportReportingViewAdapterFactory()
+		public function PainReportHealthActionListViewAdapterFactory()
 		{
 		}
 
 		public function createUnscheduledHealthActionViewAdapters(record:Record, adapters:ArrayCollection):void
 		{
-			adapters.addItem(new PainReportViewAdapter());
+			adapters.addItem(new PainReportHealthActionListViewAdapter());
 		}
 
 		public function createScheduledHealthActionViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
