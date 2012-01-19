@@ -399,11 +399,6 @@ package collaboRhythm.core.controller
 
 		private function copyOldLogFileToAccessiblePath(oldPath:String, path:String):String
 		{
-			var settingsFile:File = _settingsFileStore.userSettingsFile;
-			var accessibleDirectory:File = File.documentsDirectory.resolvePath(NativeApplication.nativeApplication.applicationID);
-			var settingsFileCopy:File = accessibleDirectory.resolvePath("settingsCopy.xml");
-			settingsFile.copyTo(settingsFileCopy, true);
-			
 			var message:String;
 			var destinationFile:File = new File(path);
 			var sourceFile:File = new File(oldPath);

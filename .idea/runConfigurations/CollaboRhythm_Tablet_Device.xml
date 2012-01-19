@@ -27,6 +27,10 @@
           <option name="FILE_PATH" value="$PROJECT_DIR$/CollaboRhythm.Plugins.VideoMessages/bin-debug/VideoMessagesPluginModule.swf" />
           <option name="PATH_IN_PACKAGE" value="plugins/VideoMessagesPluginModule.swf" />
         </FilePathAndPathInPackage>
+        <FilePathAndPathInPackage>
+          <option name="FILE_PATH" value="$PROJECT_DIR$/CollaboRhythm.Plugins.ForaD40b/bin-debug/ForaD40bPluginModule.swf" />
+          <option name="PATH_IN_PACKAGE" value="plugins/ForaD40bPluginModule.swf" />
+        </FilePathAndPathInPackage>
       </list>
     </option>
     <option name="fullScreenHeight" value="0" />
