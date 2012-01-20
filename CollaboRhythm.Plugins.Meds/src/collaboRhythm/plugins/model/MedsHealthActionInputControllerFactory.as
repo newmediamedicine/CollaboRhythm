@@ -1,16 +1,15 @@
-package collaboRhythm.plugins.bathroom.model
+package collaboRhythm.plugins.model
 {
-	import collaboRhythm.plugins.bathroom.controller.BathroomHealthActionInputController;
+	import collaboRhythm.plugins.controller.MedsHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputControllerFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
-
 	import spark.components.ViewNavigator;
 
-	public class BathroomHealthActionInputControllerFactory implements IHealthActionInputControllerFactory
+	public class MedsHealthActionInputControllerFactory implements IHealthActionInputControllerFactory
 	{
-		public function BathroomHealthActionInputControllerFactory()
+		public function MedsHealthActionInputControllerFactory()
 		{
 		}
 
@@ -20,8 +19,8 @@ package collaboRhythm.plugins.bathroom.model
 														  viewNavigator:ViewNavigator,
 														  currentHealthActionInputController:HealthActionInputControllerBase):HealthActionInputControllerBase
 		{
-			if (name == "Bathroom")
-				return new BathroomHealthActionInputController(scheduleItemOccurrence, scheduleModel, viewNavigator);
+			if (name == "Meds")
+				return new MedsHealthActionInputController(scheduleItemOccurrence, scheduleModel, viewNavigator);
 			else
 				return currentHealthActionInputController;
 		}
