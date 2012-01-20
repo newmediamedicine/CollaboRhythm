@@ -28,10 +28,18 @@ package collaboRhythm.shared.model
 		public static const BEATS_PER_MINUTE_CODED_VALUE_ABBREV:String = "BPM";
 		public static const BEATS_PER_MINUTE_CODED_VALUE_TEXT:String = "beats per minute";
 
+		public static const AMBULATION_NUM_TIMES_CODED_VALUE:String = "33";
+		public static const AMBULATION_NUM_TIMES_CODED_VALUE_ABBREV:String = "numAmbul";
+		public static const AMBULATION_NUM_TIMES_CODED_VALUE_TEXT:String = "Number of Times out of Bed";
+
 		public function CodedValueFactory()
 		{
 		}
 
+		public function createNumberAmbulationsCodedValue():CodedValue
+		{
+			return new CodedValue(VITAL_SIGN_CODED_VALUE_TYPE, AMBULATION_NUM_TIMES_CODED_VALUE, AMBULATION_NUM_TIMES_CODED_VALUE_ABBREV, AMBULATION_NUM_TIMES_CODED_VALUE_TEXT);
+		}
 		public function createBloodPressureSystolicCodedValue():CodedValue
 		{
 			return new CodedValue(VITAL_SIGN_CODED_VALUE_TYPE, BLOOD_PRESSURE_SYSTOLIC_CODED_VALUE, BLOOD_PRESSURE_SYSTOLIC_CODED_VALUE_ABBREV, BLOOD_PRESSURE_SYSTOLIC_CODED_VALUE_TEXT);
