@@ -77,7 +77,8 @@
 
 				var healthActionListViewAdapter:IHealthActionListViewAdapter = IHealthActionListViewAdapter(value);
 				var scheduleItemOccurrenceReportingModel:ScheduleItemOccurrenceReportingModelBase = healthActionListViewAdapter.model;
-				scheduleItemOccurrenceReportingModel.healthActionInputController = healthActionsModel.healthActionInputControllerFactory.createHealthActionInputController("Pain",
+				// pass in adapter name instead of hardcoded string
+				scheduleItemOccurrenceReportingModel.healthActionInputController = healthActionsModel.healthActionInputControllerFactory.createHealthActionInputController(healthActionListViewAdapter.name,
 						null, null, healthActionsModel,
 						healthActionsList.healthActionsAppController.viewNavigator);
 				_scheduleItemOccurrenceReportingController = new ScheduleItemOccurrenceReportingController(scheduleItemOccurrenceReportingModel,
