@@ -463,41 +463,41 @@
     <recordId>6b5efbb3-e7fb-48ff-b253-b8b309953a53</recordId>
     <accessKey>VJ5LyhzPUsSBRjHkci0U</accessKey>
     <accessSecret>q7sdxKXcIl7mcUxHa8sV</accessSecret>
-    <status>Record shared. Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;400&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;400&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;400&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;400&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;400&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
+    <status>Record shared. Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
+  &lt;InnerError&gt;
+    &lt;type&gt;complete&lt;/type&gt;
+  &lt;/InnerError&gt;
+  &lt;HTTPStatusEvent&gt;
+    &lt;status&gt;400&lt;/status&gt;
+  &lt;/HTTPStatusEvent&gt;
+&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
+  &lt;InnerError&gt;
+    &lt;type&gt;complete&lt;/type&gt;
+  &lt;/InnerError&gt;
+  &lt;HTTPStatusEvent&gt;
+    &lt;status&gt;400&lt;/status&gt;
+  &lt;/HTTPStatusEvent&gt;
+&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
+  &lt;InnerError&gt;
+    &lt;type&gt;complete&lt;/type&gt;
+  &lt;/InnerError&gt;
+  &lt;HTTPStatusEvent&gt;
+    &lt;status&gt;400&lt;/status&gt;
+  &lt;/HTTPStatusEvent&gt;
+&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
+  &lt;InnerError&gt;
+    &lt;type&gt;complete&lt;/type&gt;
+  &lt;/InnerError&gt;
+  &lt;HTTPStatusEvent&gt;
+    &lt;status&gt;400&lt;/status&gt;
+  &lt;/HTTPStatusEvent&gt;
+&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
+  &lt;InnerError&gt;
+    &lt;type&gt;complete&lt;/type&gt;
+  &lt;/InnerError&gt;
+  &lt;HTTPStatusEvent&gt;
+    &lt;status&gt;400&lt;/status&gt;
+  &lt;/HTTPStatusEvent&gt;
 &lt;/Error&gt;</status>
     <demographicsId>b0476e25-777b-4aa2-bb62-32175347068a</demographicsId>
     <recordSeed>1</recordSeed>
@@ -568,12 +568,12 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>b3e9e24c-cd6a-4829-a650-e6f63bd39085</recordId>
-    <accessKey>KMHrBixTvC2dFcKEk8lG</accessKey>
-    <accessSecret>2LEu06uIDlzCsafGDoN1</accessSecret>
+    <recordId>c4bf3c11-0cbb-4160-b2d3-017cf2b5ae87</recordId>
+    <accessKey>fVB6mxg8PZU0497EamMo</accessKey>
+    <accessSecret>0KWdEKk9wZDxELtZOsoW</accessSecret>
     <status>Login successful</status>
-    <demographicsId>1e0fcab8-ad7f-4ef3-b9b9-af7de0a4c22d</demographicsId>
-    <recordSeed>1</recordSeed>
+    <demographicsId>a747e91a-caa9-45a3-be18-635505f8745c</demographicsId>
+    <recordSeed>2</recordSeed>
   </AccountSource>
   <AccountSource>
     <accountId>ssmith@records.media.mit.edu</accountId>
@@ -718,6 +718,6 @@
     <accessSecret>Zdfz4j4DZqC4jxrCmcsm</accessSecret>
     <demographicsId>d66490ce-2c5b-49ef-8c7d-4e6e70e2dab5</demographicsId>
   </AccountSource>
-  <saveDate>Fri Jan 20 16:42:13 GMT-0500 2012</saveDate>
+  <saveDate>Sat Jan 21 17:40:50 GMT-0500 2012</saveDate>
   <indivoServerBaseURL>http://184.106.136.151:8000</indivoServerBaseURL>
 </dataroot>
