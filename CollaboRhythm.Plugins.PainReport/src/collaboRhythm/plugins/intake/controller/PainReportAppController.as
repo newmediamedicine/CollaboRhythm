@@ -3,11 +3,11 @@ package collaboRhythm.plugins.intake.controller
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 
-	public class IntakeAppController extends AppControllerBase
+	public class PainReportAppController extends AppControllerBase
 	{
-		public static const DEFAULT_NAME:String = "FoodDrink";
+		public static const DEFAULT_NAME:String = "Pain Report";
 
-		public function IntakeAppController(constructorParams:AppControllerConstructorParams)
+		public function PainReportAppController(constructorParams:AppControllerConstructorParams)
 		{
 			super(constructorParams);
 		}

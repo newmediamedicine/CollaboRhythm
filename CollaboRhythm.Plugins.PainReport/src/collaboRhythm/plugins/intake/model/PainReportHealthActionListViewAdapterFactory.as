@@ -8,15 +8,15 @@ package collaboRhythm.plugins.intake.model
 
 	import mx.collections.ArrayCollection;
 
-	public class IntakeHealthActionListViewAdapterFactory implements IHealthActionListViewAdapterFactory
+	public class PainReportHealthActionListViewAdapterFactory implements IHealthActionListViewAdapterFactory
 	{
-		public function IntakeHealthActionListViewAdapterFactory()
+		public function PainReportHealthActionListViewAdapterFactory()
 		{
 		}
 
 		public function createUnscheduledHealthActionViewAdapters(record:Record, adapters:ArrayCollection):void
 		{
-			adapters.addItem(new IntakeHealthActionListViewAdapter());
+			adapters.addItem(new PainReportHealthActionListViewAdapter());
 		}
 
 		public function createScheduledHealthActionViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,

@@ -5,11 +5,11 @@ package collaboRhythm.plugins.intake.model
 
 	import spark.components.Image;
 
-	public class IntakeHealthActionListViewAdapter implements IHealthActionListViewAdapter
+	public class PainReportHealthActionListViewAdapter implements IHealthActionListViewAdapter
 	{
-		private static const NAME:String = "Food / Drink";
+		private static const NAME:String = "Pain Report";
 
-		public function IntakeHealthActionListViewAdapter()
+		public function PainReportHealthActionListViewAdapter()
 		{
 		}
 
@@ -41,7 +41,7 @@ package collaboRhythm.plugins.intake.model
 
 		public function get model():ScheduleItemOccurrenceReportingModelBase
 		{
-			return new IntakeHealthActionListViewModel(null, null);
+			return new PainReportHealthActionListViewModel(null, null);
 		}
 	}
 }

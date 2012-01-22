@@ -1,7 +1,7 @@
 package collaboRhythm.plugins.intake.controller
 {
-	import collaboRhythm.plugins.intake.model.IntakeHealthActionInputModel;
-	import collaboRhythm.plugins.intake.view.IntakeHealthActionInputView;
+	import collaboRhythm.plugins.intake.model.PainReportHealthActionInputModel;
+	import collaboRhythm.plugins.intake.view.PainReportHealthActionInputView;
 	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
@@ -12,16 +12,16 @@ package collaboRhythm.plugins.intake.controller
 	import spark.components.ViewNavigator;
 	import spark.transitions.SlideViewTransition;
 
-	public class IntakeHealthActionInputController extends HealthActionInputControllerBase
+	public class PainReportHealthActionInputController extends HealthActionInputControllerBase
 	{
-		private var _dataInputModel:IntakeHealthActionInputModel;
+		private var _dataInputModel:PainReportHealthActionInputModel;
 
-		public function IntakeHealthActionInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
+		public function PainReportHealthActionInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
 															  scheduleModel:IScheduleModel, viewNavigator:ViewNavigator)
 		{
 			super(scheduleItemOccurrence, scheduleModel, viewNavigator);
 
-			_dataInputModel = new IntakeHealthActionInputModel(scheduleItemOccurrence, scheduleModel);
+			_dataInputModel = new PainReportHealthActionInputModel(scheduleItemOccurrence, scheduleModel);
 		}
 
 		override public function showHealthActionInputView():void
@@ -40,7 +40,7 @@ package collaboRhythm.plugins.intake.controller
 
 		override public function get healthActionInputViewClass():Class
 		{
-			return IntakeHealthActionInputView;
+			return PainReportHealthActionInputView;
 		}
 
 		override public function get isUnscheduleReporting():Boolean

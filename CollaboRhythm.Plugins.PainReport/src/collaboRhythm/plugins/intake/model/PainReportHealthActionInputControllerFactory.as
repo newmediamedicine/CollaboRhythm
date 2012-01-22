@@ -1,6 +1,6 @@
 package collaboRhythm.plugins.intake.model
 {
-	import collaboRhythm.plugins.intake.controller.IntakeHealthActionInputController;
+	import collaboRhythm.plugins.intake.controller.PainReportHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputControllerFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
@@ -8,9 +8,9 @@ package collaboRhythm.plugins.intake.model
 
 	import spark.components.ViewNavigator;
 
-	public class IntakeHealthActionInputControllerFactory implements IHealthActionInputControllerFactory
+	public class PainReportHealthActionInputControllerFactory implements IHealthActionInputControllerFactory
 	{
-		public function IntakeHealthActionInputControllerFactory()
+		public function PainReportHealthActionInputControllerFactory()
 		{
 		}
 
@@ -20,10 +20,10 @@ package collaboRhythm.plugins.intake.model
 														  viewNavigator:ViewNavigator,
 														  currentHealthActionInputController:HealthActionInputControllerBase):HealthActionInputControllerBase
 		{
-			//if (name == "intake")
-				return new IntakeHealthActionInputController(scheduleItemOccurrence, scheduleModel, viewNavigator);
-			//else
-			//	return currentHealthActionInputController;
+			if (name == "Pain")
+				return new PainReportHealthActionInputController(scheduleItemOccurrence, scheduleModel, viewNavigator);
+			else
+				return currentHealthActionInputController;
 		}
 	}
 }

@@ -4,9 +4,9 @@ package collaboRhythm.plugins.intake.model
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
-	public class IntakeHealthActionInputModel extends HealthActionInputModelBase
+	public class PainReportHealthActionInputModel extends HealthActionInputModelBase
 	{
-		public function IntakeHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence,
+		public function PainReportHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence,
 												 scheduleModel:IScheduleModel)
 		{
 
