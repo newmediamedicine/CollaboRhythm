@@ -66,7 +66,7 @@
 	</fx:Script>
 
 	<!-- Align the bottom point of the yesImage (check mark) with the data point by offsetting the horizontalCenter -->
-	<mx:Image visible="false" smoothBitmapContent="true" id="yesImage" verticalCenter="0" horizontalCenter="2" source="@Embed('/resources/images/apps/bloodPressure/adherence_yes.png')"/>
-	<mx:Image visible="false" smoothBitmapContent="true" id="noImage" verticalCenter="0" horizontalCenter="0" source="@Embed('/resources/images/apps/bloodPressure/adherence_no.png')"/>
-	<mx:Image visible="false" smoothBitmapContent="true" id="unreportedImage" verticalCenter="0" horizontalCenter="0" source="@Embed('/resources/images/apps/bloodPressure/adherence_unreported.png')"/>
+	<mx:Image visible="false" smoothBitmapContent="true" id="yesImage" verticalCenter="0" horizontalCenter="2" source="@Embed('/assets/images/adherence/adherence_yes.png')"/>
+	<mx:Image visible="false" smoothBitmapContent="true" id="noImage" verticalCenter="0" horizontalCenter="0" source="@Embed('/assets/images/adherence/adherence_no.png')"/>
+	<mx:Image visible="false" smoothBitmapContent="true" id="unreportedImage" verticalCenter="0" horizontalCenter="0" source="@Embed('/assets/images/adherence/adherence_unreported.png')"/>
 </s:ItemRenderer>

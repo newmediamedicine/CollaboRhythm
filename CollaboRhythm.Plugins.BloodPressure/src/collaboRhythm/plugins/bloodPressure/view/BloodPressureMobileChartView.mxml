@@ -19,7 +19,7 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:view="collaboRhythm.plugins.bloodPressure.view.*"
 		 width="100%" height="100%"
 		>
-	<fx:Style source="/collaboRhythm/visualization/view/ChartStyles.css" />
+	<fx:Style source="/../../../../../../CollaboRhythm.Shared.UI.HealthCharts/src/ChartStyles.css" />
 	<view:BloodPressureFullView id="bloodPressureFullView" width="100%" height="100%"
 								rangeChartVisible="false"
 								chartFooterVisible="false"

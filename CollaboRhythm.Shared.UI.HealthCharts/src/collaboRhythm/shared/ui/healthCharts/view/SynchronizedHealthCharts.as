@@ -1,13 +1,11 @@
-package collaboRhythm.visualization.view
+package collaboRhythm.shared.ui.healthCharts.view
 {
-	import collaboRhythm.plugins.bloodPressure.view.BloodPressureScheduleItemClockView;
 	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 	import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
 	import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 	import collaboRhythm.shared.model.StringUtils;
 	import collaboRhythm.shared.model.healthRecord.derived.MedicationConcentrationSample;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
-	import collaboRhythm.shared.model.healthRecord.document.Equipment;
 	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
@@ -75,6 +73,7 @@ package collaboRhythm.visualization.view
 	import spark.effects.easing.Linear;
 	import spark.events.SkinPartEvent;
 	import spark.layouts.VerticalAlign;
+	import spark.primitives.Rect;
 
 	public class SynchronizedHealthCharts extends VGroup implements IFocusManagerComponent
 	{
@@ -411,11 +410,11 @@ package collaboRhythm.visualization.view
 			return "vitalSign_" + vitalSignKey + "_adherence";
 		}
 
-		private function createAdherenceGroup(image:IVisualElement, concentrationChart:TouchScrollingScrubChart, adherenceStripChart:TouchScrollingScrubChart):void
+		public function createAdherenceGroup(image:IVisualElement, resultChart:TouchScrollingScrubChart, adherenceStripChart:TouchScrollingScrubChart):void
 		{
 			var adherenceChartsGroup:VGroup = new VGroup();
 			adherenceChartsGroup.gap = 0;
-			adherenceChartsGroup.addElement(concentrationChart);
+			adherenceChartsGroup.addElement(resultChart);
 			adherenceChartsGroup.addElement(adherenceStripChart);
 			adherenceChartsGroup.percentWidth = 100;
 			adherenceChartsGroup.percentHeight = 100;
@@ -450,7 +449,8 @@ package collaboRhythm.visualization.view
 					var vitalSignChart:TouchScrollingScrubChart = createVitalSignChart(vitalSignKey, vitalSignCollection);
 					var adherenceStripChart:TouchScrollingScrubChart = createVitalSignAdherenceStripChart(vitalSignKey, equipmentScheduleItem);
 
-					var vitalSignView:BloodPressureScheduleItemClockView = new BloodPressureScheduleItemClockView();
+					var vitalSignView:Rect = new Rect();
+					vitalSignView.fill = new SolidColor(getVitalSignColor(vitalSignKey));
 //					vitalSignView.equipmentScheduleItem = equipmentScheduleItem;
 					vitalSignView.width = 100;
 					vitalSignView.height = 100;

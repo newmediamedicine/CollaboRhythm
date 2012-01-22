@@ -14,14 +14,12 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.visualization.view
+package collaboRhythm.shared.ui.healthCharts.view
 {
-	import collaboRhythm.plugins.bloodPressure.view.*;
 	import mx.charts.renderers.LineRenderer;
 	import mx.graphics.IStroke;
-	import mx.charts.chartClasses.GraphicsUtilities;
 
-	public class DashedLineRenderer extends LineRenderer 
+	public class DashedLineRenderer extends LineRenderer
 	{
 		private var _lineSegment:Object;
 		private var _pattern:Array = [10,15];

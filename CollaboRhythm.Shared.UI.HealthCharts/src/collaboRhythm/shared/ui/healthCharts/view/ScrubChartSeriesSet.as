@@ -1,4 +1,4 @@
-package collaboRhythm.visualization.view
+package collaboRhythm.shared.ui.healthCharts.view
 {
 
 	import mx.charts.chartClasses.CartesianChart;

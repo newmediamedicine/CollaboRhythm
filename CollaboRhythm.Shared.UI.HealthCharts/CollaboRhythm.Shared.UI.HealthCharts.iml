@@ -18,6 +18,19 @@
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" />
     <orderEntry type="module" module-name="McCuneChart" />
+    <orderEntry type="module" module-name="ChartBackgroundsLib" />
+    <orderEntry type="module" module-name="CollaboRhythm.View.Scroll" />
+    <orderEntry type="module-library">
+      <library name="libs" type="flex">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/libs" />
+          <root url="file://$MODULE_DIR$/libs" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>
 

@@ -3,7 +3,7 @@
 								xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:controls="com.dougmccune.controls.*"
 								xmlns:view="collaboRhythm.plugins.bloodPressure.view.*"
 								xmlns:dataShapes="qs.charts.dataShapes.*"
-								xmlns:view2="collaboRhythm.visualization.view.*"
+								xmlns:view2="collaboRhythm.shared.ui.healthCharts.view.*"
 								implements="collaboRhythm.plugins.bloodPressure.view.IBloodPressureFullView"
 								initialize="initializeHandler(event)"
 		>
@@ -125,7 +125,7 @@
 		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 		import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 		import collaboRhythm.shared.model.settings.Settings;
-		import collaboRhythm.visualization.view.ScrubChartSeriesSet;
+		import collaboRhythm.shared.ui.healthCharts.view.ScrubChartSeriesSet;
 
 		import com.dougmccune.controls.ScrubChart;
 		import com.dougmccune.controls.TouchScrollingScrubChart;

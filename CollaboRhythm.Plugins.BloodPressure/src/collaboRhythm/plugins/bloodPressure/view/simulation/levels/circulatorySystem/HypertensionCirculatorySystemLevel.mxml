@@ -43,7 +43,7 @@
 		import collaboRhythm.simulation.view.buttons.SimulationDetail;
 		import collaboRhythm.simulation.view.buttons.SimulationDetailButton;
 		import collaboRhythm.simulation.view.buttons.StepListItem;
-		import collaboRhythm.visualization.view.MedicationScheduleItemChartView;
+		import collaboRhythm.shared.ui.healthCharts.view.MedicationScheduleItemChartView;
 
 		import com.theory9.data.types.OrderedMap;
 
