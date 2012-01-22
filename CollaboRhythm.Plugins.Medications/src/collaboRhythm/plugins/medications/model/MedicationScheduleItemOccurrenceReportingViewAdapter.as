@@ -1,6 +1,7 @@
 package collaboRhythm.plugins.medications.model
 {
 	import collaboRhythm.plugins.medications.view.MedicationImage;
+	import collaboRhythm.plugins.schedule.shared.model.HealthAction;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
@@ -35,6 +36,11 @@ package collaboRhythm.plugins.medications.model
 			_medicationName = MedicationNameUtil.parseName(_medicationScheduleItem.name.text);
 
 			_medicationColorSource = WorkstationKernel.instance.resolve(IMedicationColorSource) as IMedicationColorSource;
+		}
+
+		public function get healthAction():HealthAction
+		{
+			return new HealthAction(_medicationScheduleItem.name.text, _medicationOrder.name.text)
 		}
 
 		public function get image():Image
@@ -74,7 +80,6 @@ package collaboRhythm.plugins.medications.model
 		{
 			return _medicationScheduleItem.instructions;
 		}
-
 		public function get model():ScheduleItemOccurrenceReportingModelBase
 		{
 			return new MedicationScheduleItemOccurrenceReportingModel(_scheduleItemOccurrence, _scheduleModel);

@@ -1,5 +1,6 @@
 package collaboRhythm.plugins.painReport.model
 {
+	import collaboRhythm.plugins.schedule.shared.model.HealthAction;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
 
@@ -7,10 +8,18 @@ package collaboRhythm.plugins.painReport.model
 
 	public class PainReportHealthActionListViewAdapter implements IHealthActionListViewAdapter
 	{
-		private static const NAME:String = "Pain Report";
+		public static const HEALTH_ACTION_TYPE:String = "Pain Report";
+
+		private var _healthAction:HealthAction;
 
 		public function PainReportHealthActionListViewAdapter()
 		{
+			_healthAction = new HealthAction(HEALTH_ACTION_TYPE);
+		}
+
+		public function get healthAction():HealthAction
+		{
+			return _healthAction;
 		}
 
 		public function get image():Image
@@ -18,10 +27,9 @@ package collaboRhythm.plugins.painReport.model
 			return null;
 		}
 
-
 		public function get name():String
 		{
-			return NAME;
+			return _healthAction.healthActionType;
 		}
 
 		public function get description():String
