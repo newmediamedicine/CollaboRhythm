@@ -36,7 +36,7 @@ package collaboRhythm.plugins.schedule.model
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
 
-		public function findClosestScheduleItemOccurrence(name:String, measurements:String):ScheduleItemOccurrence
+		public function findClosestScheduleItemOccurrence(name:String):ScheduleItemOccurrence
 		{
 			var closestScheduleItemOccurrence:ScheduleItemOccurrence;
 			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in _scheduleModel.scheduleItemOccurrencesHashMap)

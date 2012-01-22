@@ -17,23 +17,21 @@
 package collaboRhythm.plugins.schedule.controller
 {
 
-    import castle.flexbridge.reflection.ReflectionUtils;
+	import castle.flexbridge.reflection.ReflectionUtils;
 
-    import collaboRhythm.plugins.schedule.model.ScheduleModel;
+	import collaboRhythm.plugins.schedule.model.ScheduleModel;
 	import collaboRhythm.plugins.schedule.model.ScheduleModelEvent;
 	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
-    import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
-    import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView;
-    import collaboRhythm.plugins.schedule.shared.model.PendingAdherenceItem;
-    import collaboRhythm.plugins.schedule.shared.model.ScheduleModelKey;
-    import collaboRhythm.plugins.schedule.view.IScheduleFullView;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView;
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleModelKey;
+	import collaboRhythm.plugins.schedule.view.IScheduleFullView;
 	import collaboRhythm.plugins.schedule.view.ScheduleClockWidgetView;
 	import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
 	import collaboRhythm.plugins.schedule.view.ScheduleTimelineFullView;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.AppEvent;
-	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.model.InteractionLogUtil;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
@@ -43,9 +41,7 @@ package collaboRhythm.plugins.schedule.controller
 
 	import mx.core.UIComponent;
 
-    import spark.transitions.SlideViewTransition;
-
-    public class ScheduleAppController extends AppControllerBase
+	public class ScheduleAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Schedule";
 
@@ -170,10 +166,10 @@ package collaboRhythm.plugins.schedule.controller
 
                 if (urlVariables.success == "true")
                 {
-                    var closestScheduleItemOccurrence:ScheduleItemOccurrence = scheduleModel.scheduleReportingModel.findClosestScheduleItemOccurrence(urlVariables.name, urlVariables.measurements);
+                    var closestScheduleItemOccurrence:ScheduleItemOccurrence = scheduleModel.scheduleReportingModel.findClosestScheduleItemOccurrence(urlVariables.name);
 
-					var healthActionInputController:HealthActionInputControllerBase = scheduleModel.healthActionInputControllerFactory.createHealthActionInputController(urlVariables.name,
-							urlVariables.measurements, closestScheduleItemOccurrence, scheduleModel, _viewNavigator);
+					var healthActionInputController:HealthActionInputControllerBase = scheduleModel.healthActionInputControllerFactory.createDeviceHealthActionInputController(urlVariables,
+							closestScheduleItemOccurrence, scheduleModel, _viewNavigator);
 
                     if (ReflectionUtils.getClass(_viewNavigator.activeView) == healthActionInputController.healthActionInputViewClass)
                     {
