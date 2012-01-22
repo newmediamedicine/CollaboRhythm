@@ -1,8 +1,10 @@
 package collaboRhythm.plugins.painReport.model
 {
-	import collaboRhythm.plugins.schedule.shared.model.HealthAction;
+	import collaboRhythm.plugins.schedule.shared.controller.HealthActionListViewControllerBase;
+	import collaboRhythm.plugins.schedule.shared.model.HealthActionBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewController;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewModel;
 
 	import spark.components.Image;
 
@@ -10,14 +12,20 @@ package collaboRhythm.plugins.painReport.model
 	{
 		public static const HEALTH_ACTION_TYPE:String = "Pain Report";
 
-		private var _healthAction:HealthAction;
+		private var _healthAction:HealthActionBase;
+
+		private var _model:PainReportHealthActionListViewModel;
+		private var _controller:HealthActionListViewControllerBase;
 
 		public function PainReportHealthActionListViewAdapter()
 		{
-			_healthAction = new HealthAction(HEALTH_ACTION_TYPE);
+			_healthAction = new HealthActionBase(HEALTH_ACTION_TYPE);
+
+			_model = new PainReportHealthActionListViewModel(null, null);
+			_controller = new HealthActionListViewControllerBase(_model);
 		}
 
-		public function get healthAction():HealthAction
+		public function get healthAction():HealthActionBase
 		{
 			return _healthAction;
 		}
@@ -29,7 +37,7 @@ package collaboRhythm.plugins.painReport.model
 
 		public function get name():String
 		{
-			return _healthAction.healthActionType;
+			return _healthAction.type;
 		}
 
 		public function get description():String
@@ -47,9 +55,14 @@ package collaboRhythm.plugins.painReport.model
 			return "";
 		}
 
-		public function get model():ScheduleItemOccurrenceReportingModelBase
+		public function get model():IHealthActionListViewModel
 		{
-			return new PainReportHealthActionListViewModel(null, null);
+			return _model;
+		}
+
+		public function get controller():IHealthActionListViewController
+		{
+			return _controller;
 		}
 	}
 }

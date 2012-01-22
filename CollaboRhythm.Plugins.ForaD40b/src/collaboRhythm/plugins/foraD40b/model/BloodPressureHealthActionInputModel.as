@@ -1,7 +1,7 @@
 package collaboRhythm.plugins.foraD40b.model
 {
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelBase;
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.VitalSignFactory;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
@@ -10,7 +10,7 @@ package collaboRhythm.plugins.foraD40b.model
 	import flash.net.URLVariables;
 
 	[Bindable]
-	public class BloodPressureDataInputModel extends HealthActionInputModelBase
+	public class BloodPressureHealthActionInputModel extends HealthActionInputModelBase
 	{
 		private var _position:String;
 		private var _site:String;
@@ -18,10 +18,10 @@ package collaboRhythm.plugins.foraD40b.model
 		private var _diastolic:String = "";
 		private var _heartRate:String = "";
 
-		public function BloodPressureDataInputModel(scheduleItemOccurrence:ScheduleItemOccurrence = null,
-													scheduleModel:IScheduleModel = null)
+		public function BloodPressureHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence = null,
+															healthActionModelDetailsProvider:IHealthActionModelDetailsProvider = null)
 		{
-			super(scheduleItemOccurrence, urlVariables, scheduleModel);
+			super(scheduleItemOccurrence, healthActionModelDetailsProvider);
 		}
 
 		public function submitBloodPressure(position:String, site:String):void
@@ -35,23 +35,29 @@ package collaboRhythm.plugins.foraD40b.model
 		private function createVitalSigns():void
 		{
 			var vitalSignFactory:VitalSignFactory = new VitalSignFactory();
-			
-			var bloodPressureSystolic:VitalSign = vitalSignFactory.createBloodPressureSystolic(_currentDateSource.now(), systolic, null, null, site, position);
-			var bloodPressureDiastolic:VitalSign = vitalSignFactory.createBloodPressureDiastolic(_currentDateSource.now(), diastolic, null, null, site, position);
-			var heartRate:VitalSign = vitalSignFactory.createHeartRate(_currentDateSource.now(), heartRate, null, null, site, position);
+
+			var bloodPressureSystolic:VitalSign = vitalSignFactory.createBloodPressureSystolic(_currentDateSource.now(),
+					systolic, null, null, site, position);
+			var bloodPressureDiastolic:VitalSign = vitalSignFactory.createBloodPressureDiastolic(_currentDateSource.now(),
+					diastolic, null, null, site, position);
+			var heartRate:VitalSign = vitalSignFactory.createHeartRate(_currentDateSource.now(), heartRate, null, null,
+					site, position);
 
 			var results:Vector.<DocumentBase> = new Vector.<DocumentBase>();
 			results.push(bloodPressureSystolic, bloodPressureDiastolic, heartRate);
 
 			if (scheduleItemOccurrence)
 			{
-				scheduleItemOccurrence.createAdherenceItem(results, _scheduleModel.accountId);
-
-				_scheduleModel.createAdherenceItem(scheduleItemOccurrence);
+				scheduleItemOccurrence.createAdherenceItem(results, _healthActionModelDetailsProvider.record,
+						_healthActionModelDetailsProvider.accountId);
 			}
 			else
 			{
-				_scheduleModel.createResults(results);
+				for each (var result:DocumentBase in results)
+				{
+					result.pendingAction = DocumentBase.ACTION_CREATE;
+					_healthActionModelDetailsProvider.record.addDocument(result);
+				}
 			}
 		}
 
@@ -60,6 +66,8 @@ package collaboRhythm.plugins.foraD40b.model
 			systolic = value.systolic;
 			diastolic = value.diastolic;
 			heartRate = value.heartrate;
+
+			_urlVariables = value;
 		}
 
 		public function get systolic():String

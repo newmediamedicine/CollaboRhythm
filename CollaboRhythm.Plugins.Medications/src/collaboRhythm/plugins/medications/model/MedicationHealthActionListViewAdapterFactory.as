@@ -20,16 +20,16 @@ package collaboRhythm.plugins.medications.model
 
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import mx.collections.ArrayCollection;
 
-	public class MedicationsHealthActionListViewAdapterFactory implements IHealthActionListViewAdapterFactory
+	public class MedicationHealthActionListViewAdapterFactory implements IHealthActionListViewAdapterFactory
 	{
-		public function MedicationsHealthActionListViewAdapterFactory()
+		public function MedicationHealthActionListViewAdapterFactory()
 		{
 		}
 
@@ -38,11 +38,11 @@ package collaboRhythm.plugins.medications.model
 		}
 
 		public function createScheduledHealthActionViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
-															   scheduleModel:IScheduleModel,
+															   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
 															   currentHealthActionListViewAdapter:IHealthActionListViewAdapter):IHealthActionListViewAdapter
 		{
 			if (ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem) == MedicationScheduleItem)
-				return new MedicationScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence, scheduleModel);
+				return new MedicationHealthActionListViewAdapter(scheduleItemOccurrence, healthActionModelDetailsProvider);
 			else
 				return currentHealthActionListViewAdapter;
 		}
