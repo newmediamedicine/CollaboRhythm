@@ -30,7 +30,7 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>46442d00-3d8d-4609-b3f3-9a87da28af31</recordId>
+    <recordId/>
     <accessKey>zwoqzpdSndXrb34Csyxx</accessKey>
     <accessSecret>rAAllpcaa0oY0ir97ovp</accessSecret>
     <demographicsId>12625ea9-f3c7-44a9-bf4d-996da59fd4cc</demographicsId>
@@ -66,11 +66,11 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>09f5c77f-0180-46c4-89d6-6f4cb2ec8ea6</recordId>
-    <accessKey>AS5EiMiG4GA6d7FheBD2</accessKey>
-    <accessSecret>SJL20SbT9NUG3XOKHVAN</accessSecret>
+    <recordId/>
+    <accessKey>oH0FgJenLwTa7UmvnHdm</accessKey>
+    <accessSecret>UusCn2QqnBnwAoUM3jFN</accessSecret>
     <status>Record shared.</status>
-    <demographicsId>01e7fd46-6d60-43a8-a745-3f8d9eb62d99</demographicsId>
+    <demographicsId>d466c1ff-d163-4151-be0d-f88f5af01de2</demographicsId>
   </AccountSource>
   <AccountSource>
     <accountId>rpoole@records.media.mit.edu</accountId>
@@ -102,7 +102,7 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>1a80497e-b996-49a7-bd0d-cd3f797ede05</recordId>
+    <recordId/>
     <accessKey>PGDeXevWbR37NA5B84Nw</accessKey>
     <accessSecret>3EfZiQZNpzrdjSolZP1I</accessSecret>
     <status>Login successful</status>
@@ -138,7 +138,7 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>35a469e7-4d58-47bf-8764-4f548b8e0ba1</recordId>
+    <recordId/>
     <accessKey>trcoG1tTQ3d3H00J1a69</accessKey>
     <accessSecret>Igs81b3oOhhZMCj2z8wD</accessSecret>
     <status>Login successfull</status>
@@ -174,11 +174,11 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>23f75ba5-fe06-4013-afcd-337d06b303f5</recordId>
-    <accessKey>sNdsbMZUbbedU1hBEZv9</accessKey>
-    <accessSecret>oCca3NH8YD0OK1kOiJzj</accessSecret>
+    <recordId>9a3287c1-b16f-4d5b-9a82-e5809178134a</recordId>
+    <accessKey>1YViln7cTgquJmaUOClC</accessKey>
+    <accessSecret>FuVccN7ZvzohaHbN7puf</accessSecret>
     <status>Record shared.</status>
-    <demographicsId>573c3b17-a0a8-4aee-aa28-6fe4f7c11bf3</demographicsId>
+    <demographicsId>d860bdaa-fb75-4688-84d0-79a4334efa00</demographicsId>
   </AccountSource>
   <AccountSource>
     <accountId>dpoole@records.media.mit.edu</accountId>
@@ -249,7 +249,7 @@
     <accessSecret>Qu7dxOqEQddaXzy3o1N2</accessSecret>
     <status>Share deleted.</status>
     <demographicsId>114bc114-279f-4a1f-80bf-cf7703c82452</demographicsId>
-    <recordSeed>1</recordSeed>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>jbrooks@records.media.mit.edu</accountId>
@@ -279,11 +279,11 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>3dcc5dd5-6a61-4db6-84f0-7dbd0635e031</recordId>
-    <accessKey>YWKRFgEeGktZHOWb6jme</accessKey>
-    <accessSecret>Iv5lgAGmtGHH8sUoq1xB</accessSecret>
+    <recordId>fded01a1-f23b-4b13-bf6b-0cd1d9c39ac8</recordId>
+    <accessKey>G2S7E1ZUK3oPRiUvKW2Q</accessKey>
+    <accessSecret>XASPVyA1cXuUNzPwj1BE</accessSecret>
     <status>Record shared.</status>
-    <demographicsId>f221a71c-b9b4-4d68-a351-7d3d270c3474</demographicsId>
+    <demographicsId>8d46965f-ec96-4ff0-8dce-9fdf1d702492</demographicsId>
   </AccountSource>
   <AccountSource>
     <accountId>abrooks@records.media.mit.edu</accountId>
@@ -315,7 +315,7 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>e27ecab3-75fe-4d8d-b858-12f140338ece</recordId>
+    <recordId/>
     <accessKey>G8Zoz6iCqWSgXLHZbgDl</accessKey>
     <accessSecret>9iT8rFMQhSI5EJL238hL</accessSecret>
     <status>Demographics document created. Id: bc90ae1f-45cf-4c2f-80e2-5ac32e3e6fde</status>
@@ -351,12 +351,12 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>6d741034-8b96-4ab1-bc30-8ddbec3a34d0</recordId>
+    <recordId/>
     <accessKey>gvbfaLfSYW0iIgybLxsl</accessKey>
     <accessSecret>mLmwVguhLCtrn9B0IGbu</accessSecret>
     <status>Login successful</status>
     <demographicsId>98b1240b-58b1-4453-9831-0115826c5980</demographicsId>
-    <recordSeed>4</recordSeed>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>lbrooks@records.media.mit.edu</accountId>
@@ -388,7 +388,7 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>ee1b9141-e240-4a39-b5fe-02e5845c9c4c</recordId>
+    <recordId/>
     <accessKey>Z7RcXzrlZBjCguLvAcOV</accessKey>
     <accessSecret>eeOWccOqi0TxwzNpPmQ6</accessSecret>
     <status>Demographics document created. Id: c2372196-6b45-4fda-ba41-f83e4af863d1</status>
@@ -424,7 +424,7 @@
     <religion>Protestant</religion>
     <highestEducation>High School</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>36c6dd88-5bf0-425d-8073-f7b81eeb8b5d</recordId>
+    <recordId/>
     <accessKey>eBYDK8zIKdfCT9VZ6hO3</accessKey>
     <accessSecret>Tt7yBFyZFmrEVJ4dqFWU</accessSecret>
     <status>Record associated with account.</status>
@@ -460,47 +460,12 @@
     <religion>Protestant</religion>
     <highestEducation>High School</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>6b5efbb3-e7fb-48ff-b253-b8b309953a53</recordId>
+    <recordId/>
     <accessKey>VJ5LyhzPUsSBRjHkci0U</accessKey>
     <accessSecret>q7sdxKXcIl7mcUxHa8sV</accessSecret>
-    <status>Record shared. Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;400&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;400&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;400&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;400&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;400&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt;</status>
+    <status>Record shared. Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;</status>
     <demographicsId>b0476e25-777b-4aa2-bb62-32175347068a</demographicsId>
-    <recordSeed>1</recordSeed>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>ksato@records.media.mit.edu</accountId>
@@ -568,12 +533,12 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>c4bf3c11-0cbb-4160-b2d3-017cf2b5ae87</recordId>
-    <accessKey>fVB6mxg8PZU0497EamMo</accessKey>
-    <accessSecret>0KWdEKk9wZDxELtZOsoW</accessSecret>
+    <recordId>96059df0-4314-4ad0-9577-dceefd4a8570</recordId>
+    <accessKey>heVTGuPiCP6M1MganvUm</accessKey>
+    <accessSecret>uwm06qT5DhhcBdt4rigp</accessSecret>
     <status>Login successful</status>
-    <demographicsId>a747e91a-caa9-45a3-be18-635505f8745c</demographicsId>
-    <recordSeed>2</recordSeed>
+    <demographicsId>be69ed63-1552-4f40-8c23-724de1785677</demographicsId>
+    <recordSeed>3</recordSeed>
   </AccountSource>
   <AccountSource>
     <accountId>ssmith@records.media.mit.edu</accountId>
@@ -641,10 +606,11 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>58415f05-bd96-4bf6-90ae-8e98d950eae2</recordId>
-    <status>Record shared.</status>
-    <accessKey>8ccSKk0vtxrlfYVHqu6k</accessKey>
-    <accessSecret>mhdKT07dvvhwUZlTVSUV</accessSecret>
+    <recordId>1ad7cdd8-15d4-4440-9e95-3f806d08a8e8</recordId>
+    <status>Demographics document created. Id: c8def815-cde4-4dd7-bf83-640902eab693</status>
+    <accessKey>MOB8nUwY9TveWMTnZzhm</accessKey>
+    <accessSecret>WdNXvQm9701fn11zP3af</accessSecret>
+    <demographicsId>c8def815-cde4-4dd7-bf83-640902eab693</demographicsId>
   </AccountSource>
   <AccountSource>
     <accountId>gwhite@records.media.mit.edu</accountId>
@@ -712,12 +678,12 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>3c97a9d5-5d6c-4161-962b-06aacecae6bf</recordId>
-    <status>Demographics document created. Id: d66490ce-2c5b-49ef-8c7d-4e6e70e2dab5</status>
+    <recordId/>
+    <status>Password set.</status>
     <accessKey>JPK9US7ynBGfl0wxrzqC</accessKey>
     <accessSecret>Zdfz4j4DZqC4jxrCmcsm</accessSecret>
     <demographicsId>d66490ce-2c5b-49ef-8c7d-4e6e70e2dab5</demographicsId>
   </AccountSource>
-  <saveDate>Sat Jan 21 17:40:50 GMT-0500 2012</saveDate>
-  <indivoServerBaseURL>http://184.106.136.151:8000</indivoServerBaseURL>
+  <saveDate>Sat Jan 21 19:16:05 GMT-0500 2012</saveDate>
+  <indivoServerBaseURL>http://indivo-dev.media.mit.edu:8080</indivoServerBaseURL>
 </dataroot>
