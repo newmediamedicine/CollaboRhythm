@@ -21,8 +21,8 @@ package collaboRhythm.plugins.schedule.controller
 
 	import collaboRhythm.plugins.schedule.model.ScheduleModel;
 	import collaboRhythm.plugins.schedule.model.ScheduleModelEvent;
-	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleModelKey;
 	import collaboRhythm.plugins.schedule.view.IScheduleFullView;
@@ -168,7 +168,7 @@ package collaboRhythm.plugins.schedule.controller
                 {
                     var closestScheduleItemOccurrence:ScheduleItemOccurrence = scheduleModel.scheduleReportingModel.findClosestScheduleItemOccurrence(urlVariables.name);
 
-					var healthActionInputController:HealthActionInputControllerBase = scheduleModel.healthActionInputControllerFactory.createDeviceHealthActionInputController(urlVariables,
+					var healthActionInputController:IHealthActionInputController = scheduleModel.healthActionInputControllerFactory.createDeviceHealthActionInputController(urlVariables,
 							closestScheduleItemOccurrence, scheduleModel, _viewNavigator);
 
                     if (ReflectionUtils.getClass(_viewNavigator.activeView) == healthActionInputController.healthActionInputViewClass)

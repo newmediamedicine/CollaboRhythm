@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.plugins.equipment.model
+package collaboRhythm.plugins.medications.model
 {
 	import castle.flexbridge.reflection.ReflectionUtils;
 
@@ -22,28 +22,27 @@ package collaboRhythm.plugins.equipment.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.Record;
-	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import mx.collections.ArrayCollection;
 
-	public class EquipmentHealthActionListViewAdapterFactory implements IHealthActionListViewAdapterFactory
+	public class MedicationHealthActionListViewAdapterFactory implements IHealthActionListViewAdapterFactory
 	{
-		public function EquipmentHealthActionListViewAdapterFactory()
+		public function MedicationHealthActionListViewAdapterFactory()
 		{
 		}
 
 		public function createUnscheduledHealthActionViewAdapters(record:Record, adapters:ArrayCollection):void
 		{
-
 		}
 
 		public function createScheduledHealthActionViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
-															   healthActionModelDetailsProviderModel:IHealthActionModelDetailsProvider,
+															   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
 															   currentHealthActionListViewAdapter:IHealthActionListViewAdapter):IHealthActionListViewAdapter
 		{
-			if (ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem) == EquipmentScheduleItem)
-				return new EquipmentHealthActionListViewAdapter(scheduleItemOccurrence, healthActionModelDetailsProviderModel);
+			if (ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem) == MedicationScheduleItem)
+				return new MedicationHealthActionListViewAdapter(scheduleItemOccurrence, healthActionModelDetailsProvider);
 			else
 				return currentHealthActionListViewAdapter;
 		}

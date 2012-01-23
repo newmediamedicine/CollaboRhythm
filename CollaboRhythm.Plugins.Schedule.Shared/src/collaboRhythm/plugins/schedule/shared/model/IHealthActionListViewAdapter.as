@@ -4,7 +4,7 @@ package collaboRhythm.plugins.schedule.shared.model
 
 	public interface IHealthActionListViewAdapter
 	{
-		function get healthAction():HealthAction;
+		function get healthAction():HealthActionBase;
 
 		function get image():Image;
 		function get name():String;
@@ -12,6 +12,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		function get indication():String;
 		function get instructions():String;
 
-		function get model():ScheduleItemOccurrenceReportingModelBase
+		function get model():IHealthActionListViewModel
+		function get controller():IHealthActionListViewController
 	}
 }

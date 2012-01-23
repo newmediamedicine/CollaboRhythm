@@ -1,7 +1,7 @@
-package collaboRhythm.plugins.bathroom.controller
+package collaboRhythm.plugins.painReport.controller
 {
-	import collaboRhythm.plugins.bathroom.model.BathroomHealthActionInputModel;
-	import collaboRhythm.plugins.bathroom.view.BathroomHealthActionInputView;
+	import collaboRhythm.plugins.painReport.model.PainReportHealthActionInputModel;
+	import collaboRhythm.plugins.painReport.view.PainReportHealthActionInputView;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
@@ -12,19 +12,17 @@ package collaboRhythm.plugins.bathroom.controller
 	import spark.components.ViewNavigator;
 	import spark.transitions.SlideViewTransition;
 
-	public class BathroomHealthActionInputController implements IHealthActionInputController
+	public class PainReportHealthActionInputController implements IHealthActionInputController
 	{
-		private const HEALTH_ACTION_INPUT_VIEW_CLASS:Class = BathroomHealthActionInputView;
+		private const HEALTH_ACTION_INPUT_VIEW_CLASS:Class = PainReportHealthActionInputView;
 
-		private var _dataInputModel:BathroomHealthActionInputModel;
+		private var _dataInputModel:PainReportHealthActionInputModel;
 		private var _viewNavigator:ViewNavigator;
 
-		public function BathroomHealthActionInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
-															  healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
-															  viewNavigator:ViewNavigator)
+		public function PainReportHealthActionInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
+															  healthActionModelDetailsProvider:IHealthActionModelDetailsProvider, viewNavigator:ViewNavigator)
 		{
-			_dataInputModel = new BathroomHealthActionInputModel(scheduleItemOccurrence,
-					healthActionModelDetailsProvider);
+			_dataInputModel = new PainReportHealthActionInputModel(scheduleItemOccurrence, healthActionModelDetailsProvider);
 			_viewNavigator = viewNavigator;
 		}
 

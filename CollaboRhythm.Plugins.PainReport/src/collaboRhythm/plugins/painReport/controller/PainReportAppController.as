@@ -1,4 +1,4 @@
-package collaboRhythm.plugins.intake.controller
+package collaboRhythm.plugins.painReport.controller
 {
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;

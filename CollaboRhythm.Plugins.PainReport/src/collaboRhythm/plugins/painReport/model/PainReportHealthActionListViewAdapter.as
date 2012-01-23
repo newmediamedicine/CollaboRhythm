@@ -1,4 +1,4 @@
-package collaboRhythm.plugins.intake.model
+package collaboRhythm.plugins.painReport.model
 {
 	import collaboRhythm.plugins.schedule.shared.controller.HealthActionListViewControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionBase;
@@ -8,28 +8,32 @@ package collaboRhythm.plugins.intake.model
 
 	import spark.components.Image;
 
-	public class IntakeHealthActionListViewAdapter implements IHealthActionListViewAdapter
+	public class PainReportHealthActionListViewAdapter implements IHealthActionListViewAdapter
 	{
-		public static const HEALTH_ACTION_TYPE:String = "Food / Drink";
+		public static const HEALTH_ACTION_TYPE:String = "Pain Report";
 
 		private var _healthAction:HealthActionBase;
 
-		private var _model:IntakeHealthActionListViewModel;
+		private var _model:PainReportHealthActionListViewModel;
 		private var _controller:HealthActionListViewControllerBase;
 
-		public function IntakeHealthActionListViewAdapter()
+		public function PainReportHealthActionListViewAdapter()
 		{
 			_healthAction = new HealthActionBase(HEALTH_ACTION_TYPE);
 
-			_model = new IntakeHealthActionListViewModel(null, null);
+			_model = new PainReportHealthActionListViewModel(null, null);
 			_controller = new HealthActionListViewControllerBase(_model);
+		}
+
+		public function get healthAction():HealthActionBase
+		{
+			return _healthAction;
 		}
 
 		public function get image():Image
 		{
 			return null;
 		}
-
 
 		public function get name():String
 		{
@@ -54,11 +58,6 @@ package collaboRhythm.plugins.intake.model
 		public function get model():IHealthActionListViewModel
 		{
 			return _model;
-		}
-
-		public function get healthAction():HealthActionBase
-		{
-			return _healthAction;
 		}
 
 		public function get controller():IHealthActionListViewController

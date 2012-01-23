@@ -1,15 +1,15 @@
 package collaboRhythm.plugins.bathroom.model
 {
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
+	import collaboRhythm.plugins.schedule.shared.model.HealthActionListViewModelBase;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
-	public class BathroomHealthActionListViewModel extends ScheduleItemOccurrenceReportingModelBase
-	{
-		public function BathroomHealthActionListViewModel(scheduleItemOccurrence:ScheduleItemOccurrence,
-																		 scheduleModel:IScheduleModel)
+	public class BathroomHealthActionListViewModel extends HealthActionListViewModelBase
 		{
-			super(scheduleItemOccurrence, scheduleModel)
+			public function BathroomHealthActionListViewModel(scheduleItemOccurrence:ScheduleItemOccurrence,
+																healthActionModelDetailsProvider:IHealthActionModelDetailsProvider)
+			{
+				super(scheduleItemOccurrence, healthActionModelDetailsProvider)
+			}
 		}
 	}
-}

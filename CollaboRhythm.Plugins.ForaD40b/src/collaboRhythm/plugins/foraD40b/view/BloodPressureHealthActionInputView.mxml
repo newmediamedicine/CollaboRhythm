@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--~
-~ Copyright 2011 John Moore, Scott Gilroy
-~
-~ This file is part of CollaboRhythm.
-~
-~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
-~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
-~ version.
-~
-~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
-~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-~ details.
-~
-~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
-~ <http://www.gnu.org/licenses/>.
--->
+<!---
+  - Copyright 2012 John Moore, Scott Gilroy
+  -
+  - This file is part of CollaboRhythm.
+  -
+  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  - version.
+  -
+  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  - details.
+  -
+  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  - <http://www.gnu.org/licenses/>.
+  -->
 <tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
@@ -44,11 +44,10 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
-		import collaboRhythm.plugins.foraD40b.controller.BloodPressureDataInputController;
-		import collaboRhythm.plugins.foraD40b.model.BloodPressureDataInputModel;
-		import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
-		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelBase;
+		import collaboRhythm.plugins.foraD40b.controller.BloodPressureHealthActionInputController;
+		import collaboRhythm.plugins.foraD40b.model.BloodPressureHealthActionInputModel;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 
 		import spark.components.ViewNavigator;
 
@@ -60,8 +59,8 @@
 		private const NUMBER_PAD_GAP:int = 2;
 
 		[Bindable]
-		protected var _dataInputModel:BloodPressureDataInputModel;
-		protected var _dataInputController:BloodPressureDataInputController;
+		protected var _dataInputModel:BloodPressureHealthActionInputModel;
+		protected var _dataInputController:BloodPressureHealthActionInputController;
 
 		override public function set data(value:Object):void
 		{
@@ -69,11 +68,11 @@
 
 			var dataInputModelAndController:HealthActionInputModelAndController = HealthActionInputModelAndController(value);
 
-			_dataInputModel = BloodPressureDataInputModel(dataInputModelAndController.healthActionInputModel);
-			_dataInputController = BloodPressureDataInputController(dataInputModelAndController.healthActionInputController);
+			_dataInputModel = BloodPressureHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
+			_dataInputController = BloodPressureHealthActionInputController(dataInputModelAndController.healthActionInputController);
 		}
 
-		public function get healthActionInputController():HealthActionInputControllerBase
+		public function get healthActionInputController():IHealthActionInputController
 		{
 			return _dataInputController;
 		}

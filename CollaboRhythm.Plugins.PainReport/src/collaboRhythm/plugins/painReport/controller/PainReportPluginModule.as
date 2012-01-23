@@ -1,9 +1,9 @@
-package collaboRhythm.plugins.intake.controller
+package collaboRhythm.plugins.painReport.controller
 {
 	import castle.flexbridge.reflection.ReflectionUtils;
 
-	import collaboRhythm.plugins.intake.model.PainReportHealthActionInputControllerFactory;
-	import collaboRhythm.plugins.intake.model.PainReportHealthActionListViewAdapterFactory;
+	import collaboRhythm.plugins.painReport.model.PainReportHealthActionInputControllerFactory;
+	import collaboRhythm.plugins.painReport.model.PainReportHealthActionListViewAdapterFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputControllerFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
 

@@ -22,8 +22,8 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.bathroom.controller.BathroomHealthActionInputController;
 		import collaboRhythm.plugins.bathroom.model.BathroomHealthActionInputModel;
-		import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 
 		[Bindable]
 		protected var _dataInputModel:BathroomHealthActionInputModel;
@@ -39,7 +39,7 @@
 			_dataInputController = BathroomHealthActionInputController(dataInputModelAndController.healthActionInputController);
 		}
 
-		public function get healthActionInputController():HealthActionInputControllerBase
+		public function get healthActionInputController():IHealthActionInputController
 		{
 			return _dataInputController;
 		}
