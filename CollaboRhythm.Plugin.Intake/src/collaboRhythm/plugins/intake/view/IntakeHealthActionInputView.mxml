@@ -185,55 +185,56 @@
 
 		<!-- UI components ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
-	<mx:Panel title="Food / Drink"
-			  width="100%" height="100%">
+		<mx:Panel title="Food / Drink"
+				  width="100%" height="100%">
 
-		<s:Group top="5" right="5">
-			<mx:Form>
+			<s:Group top="5" right="5">
+				<mx:Form>
 
-				<mx:FormItem label="Drink - Number of Cups" fontSize="20">
-					<s:HGroup id="systolicResultGroup" gap="15" paddingTop="20" left="0">
-					<s:TextInput id="foodDrinkGroupTextInput" softKeyboardType="number"
-													 skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
-													 textAlign="right" restrict="0-9" maxChars="3" focusIn=""
-													 text=""/>
-					</s:HGroup>
-				</mx:FormItem>
+					<mx:FormItem label="Drink - Number of Cups" fontSize="20">
+						<s:HGroup id="systolicResultGroup" gap="15" paddingTop="20" left="0">
+							<s:TextInput id="foodDrinkGroupTextInput"
+										 softKeyboardType="number"
+										 skinClass="spark.skins.spark.TextInputSkin"
+										 textAlign="left" restrict="0-9" maxChars="3" focusIn=""
+										 text=""/>
+						</s:HGroup>
+					</mx:FormItem>
 
-				<mx:FormItem label="Compared to pre surgery, are you eating" fontSize="20">
-					<s:DropDownList id="positionDropDownList"
-									width = "100%"
-									skinClass="spark.skins.spark.DropDownListSkin"
-									styleName="reportingLabelsText">
-						<mx:ArrayCollection>
-							<fx:String>More</fx:String>
-							<fx:String>Less</fx:String>
-							<fx:String>Same</fx:String>
-						</mx:ArrayCollection>
-					</s:DropDownList>
+					<mx:FormItem label="Compared to pre surgery, are you eating" fontSize="20">
+						<s:DropDownList id="positionDropDownList"
+										width = "100%"
+										skinClass="spark.skins.spark.DropDownListSkin"
+										styleName="reportingLabelsText">
+							<mx:ArrayCollection>
+								<fx:String>More</fx:String>
+								<fx:String>Less</fx:String>
+								<fx:String>Same</fx:String>
+							</mx:ArrayCollection>
+						</s:DropDownList>
 
-				</mx:FormItem>
-
-
-			</mx:Form>
-
-		</s:Group>
+					</mx:FormItem>
 
 
-		<s:Group>
-			<mx:Image horizontalAlign="center"
-					  y="0"
-					  id="myImage"
-					  source="@Embed(source='/assets/characters.png')"
-					  click="bounceEffect.end();bounceEffect.play();"/>
-		</s:Group>
+				</mx:Form>
+
+			</s:Group>
 
 
-
+			<s:Group horizontalCenter="0">
+				<mx:Image
+						  y="0"
+						  id="myImage"
+						  source="@Embed(source='/assets/characters.png')"
+						  click="bounceEffect.end();bounceEffect.play();"/>
+			</s:Group>
 
 
 
-	</mx:Panel>
+
+
+
+		</mx:Panel>
 
 	<sharedViews:NumberPad id="numberPad" visible="false"/>
 </tablet:TabletViewBase>

@@ -174,11 +174,11 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId/>
-    <accessKey>JlI0ZJczuXFVi4aCQ35W</accessKey>
-    <accessSecret>GgcArI2Rbv3iYOqVSan9</accessSecret>
-    <status>Demographics document created. Id: 9ea3cbc6-9b98-4369-bbcc-a952783069d1</status>
-    <demographicsId>9ea3cbc6-9b98-4369-bbcc-a952783069d1</demographicsId>
+    <recordId>9a3287c1-b16f-4d5b-9a82-e5809178134a</recordId>
+    <accessKey>1YViln7cTgquJmaUOClC</accessKey>
+    <accessSecret>FuVccN7ZvzohaHbN7puf</accessSecret>
+    <status>Record shared.</status>
+    <demographicsId>d860bdaa-fb75-4688-84d0-79a4334efa00</demographicsId>
   </AccountSource>
   <AccountSource>
     <accountId>dpoole@records.media.mit.edu</accountId>
@@ -279,11 +279,11 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId/>
-    <accessKey>YWKRFgEeGktZHOWb6jme</accessKey>
-    <accessSecret>Iv5lgAGmtGHH8sUoq1xB</accessSecret>
+    <recordId>fded01a1-f23b-4b13-bf6b-0cd1d9c39ac8</recordId>
+    <accessKey>G2S7E1ZUK3oPRiUvKW2Q</accessKey>
+    <accessSecret>XASPVyA1cXuUNzPwj1BE</accessSecret>
     <status>Record shared.</status>
-    <demographicsId>f221a71c-b9b4-4d68-a351-7d3d270c3474</demographicsId>
+    <demographicsId>8d46965f-ec96-4ff0-8dce-9fdf1d702492</demographicsId>
   </AccountSource>
   <AccountSource>
     <accountId>abrooks@records.media.mit.edu</accountId>
@@ -463,252 +463,7 @@
     <recordId/>
     <accessKey>VJ5LyhzPUsSBRjHkci0U</accessKey>
     <accessSecret>q7sdxKXcIl7mcUxHa8sV</accessSecret>
-    <status>Record shared. Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
-
-
-
-
-
-
-  &lt;InnerError&gt;
-
-
-
-
-
-
-    &lt;type&gt;complete&lt;/type&gt;
-
-
-
-
-
-
-  &lt;/InnerError&gt;
-
-
-
-
-
-
-  &lt;HTTPStatusEvent&gt;
-
-
-
-
-
-
-    &lt;status&gt;400&lt;/status&gt;
-
-
-
-
-
-
-  &lt;/HTTPStatusEvent&gt;
-
-
-
-
-
-
-&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
-
-
-
-
-
-
-  &lt;InnerError&gt;
-
-
-
-
-
-
-    &lt;type&gt;complete&lt;/type&gt;
-
-
-
-
-
-
-  &lt;/InnerError&gt;
-
-
-
-
-
-
-  &lt;HTTPStatusEvent&gt;
-
-
-
-
-
-
-    &lt;status&gt;400&lt;/status&gt;
-
-
-
-
-
-
-  &lt;/HTTPStatusEvent&gt;
-
-
-
-
-
-
-&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
-
-
-
-
-
-
-  &lt;InnerError&gt;
-
-
-
-
-
-
-    &lt;type&gt;complete&lt;/type&gt;
-
-
-
-
-
-
-  &lt;/InnerError&gt;
-
-
-
-
-
-
-  &lt;HTTPStatusEvent&gt;
-
-
-
-
-
-
-    &lt;status&gt;400&lt;/status&gt;
-
-
-
-
-
-
-  &lt;/HTTPStatusEvent&gt;
-
-
-
-
-
-
-&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
-
-
-
-
-
-
-  &lt;InnerError&gt;
-
-
-
-
-
-
-    &lt;type&gt;complete&lt;/type&gt;
-
-
-
-
-
-
-  &lt;/InnerError&gt;
-
-
-
-
-
-
-  &lt;HTTPStatusEvent&gt;
-
-
-
-
-
-
-    &lt;status&gt;400&lt;/status&gt;
-
-
-
-
-
-
-  &lt;/HTTPStatusEvent&gt;
-
-
-
-
-
-
-&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
-
-
-
-
-
-
-  &lt;InnerError&gt;
-
-
-
-
-
-
-    &lt;type&gt;complete&lt;/type&gt;
-
-
-
-
-
-
-  &lt;/InnerError&gt;
-
-
-
-
-
-
-  &lt;HTTPStatusEvent&gt;
-
-
-
-
-
-
-    &lt;status&gt;400&lt;/status&gt;
-
-
-
-
-
-
-  &lt;/HTTPStatusEvent&gt;
-
-
-
-
-
-
-&lt;/Error&gt;</status>
+    <status>Record shared. Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;</status>
     <demographicsId>b0476e25-777b-4aa2-bb62-32175347068a</demographicsId>
     <recordSeed/>
   </AccountSource>
@@ -778,12 +533,12 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId/>
-    <accessKey>KMHrBixTvC2dFcKEk8lG</accessKey>
-    <accessSecret>2LEu06uIDlzCsafGDoN1</accessSecret>
+    <recordId>96059df0-4314-4ad0-9577-dceefd4a8570</recordId>
+    <accessKey>heVTGuPiCP6M1MganvUm</accessKey>
+    <accessSecret>uwm06qT5DhhcBdt4rigp</accessSecret>
     <status>Login successful</status>
-    <demographicsId>1e0fcab8-ad7f-4ef3-b9b9-af7de0a4c22d</demographicsId>
-    <recordSeed/>
+    <demographicsId>be69ed63-1552-4f40-8c23-724de1785677</demographicsId>
+    <recordSeed>3</recordSeed>
   </AccountSource>
   <AccountSource>
     <accountId>ssmith@records.media.mit.edu</accountId>
@@ -851,24 +606,11 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId/>
-    <status>Account created. Setting password. Failed on POST http://184.106.136.151:8000/accounts/jking@records.media.mit.edu/authsystems/ Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;400&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt; Failed on POST http://184.106.136.151:8000/accounts/jking@records.media.mit.edu/authsystems/ Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;400&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt;</status>
-    <accessKey>8ccSKk0vtxrlfYVHqu6k</accessKey>
-    <accessSecret>mhdKT07dvvhwUZlTVSUV</accessSecret>
+    <recordId>1ad7cdd8-15d4-4440-9e95-3f806d08a8e8</recordId>
+    <status>Demographics document created. Id: c8def815-cde4-4dd7-bf83-640902eab693</status>
+    <accessKey>MOB8nUwY9TveWMTnZzhm</accessKey>
+    <accessSecret>WdNXvQm9701fn11zP3af</accessSecret>
+    <demographicsId>c8def815-cde4-4dd7-bf83-640902eab693</demographicsId>
   </AccountSource>
   <AccountSource>
     <accountId>gwhite@records.media.mit.edu</accountId>
@@ -937,11 +679,11 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <status>Demographics document created. Id: d66490ce-2c5b-49ef-8c7d-4e6e70e2dab5</status>
+    <status>Password set.</status>
     <accessKey>JPK9US7ynBGfl0wxrzqC</accessKey>
     <accessSecret>Zdfz4j4DZqC4jxrCmcsm</accessSecret>
     <demographicsId>d66490ce-2c5b-49ef-8c7d-4e6e70e2dab5</demographicsId>
   </AccountSource>
-  <saveDate>Thu Jan 19 10:36:16 GMT-0500 2012</saveDate>
-  <indivoServerBaseURL>http://184.106.136.151:8000</indivoServerBaseURL>
+  <saveDate>Sat Jan 21 19:16:05 GMT-0500 2012</saveDate>
+  <indivoServerBaseURL>http://indivo-dev.media.mit.edu:8080</indivoServerBaseURL>
 </dataroot>

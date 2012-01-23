@@ -72,15 +72,14 @@
 			{
 				super.data = value;
 
+				var healthActionListViewAdapter:IHealthActionListViewAdapter = IHealthActionListViewAdapter(value);
+
 				var healthActionsList:HealthActionsList = HealthActionsList(owner);
 				var healthActionsModel:HealthActionsModel = healthActionsList.healthActionsModel;
 
-				var healthActionListViewAdapter:IHealthActionListViewAdapter = IHealthActionListViewAdapter(value);
 				var scheduleItemOccurrenceReportingModel:ScheduleItemOccurrenceReportingModelBase = healthActionListViewAdapter.model;
-				// pass in adapter name instead of hardcoded string
-				scheduleItemOccurrenceReportingModel.healthActionInputController = healthActionsModel.healthActionInputControllerFactory.createHealthActionInputController(healthActionListViewAdapter.name,
-						null, null, healthActionsModel,
-						healthActionsList.healthActionsAppController.viewNavigator);
+				scheduleItemOccurrenceReportingModel.healthActionInputController = healthActionsModel.healthActionInputControllerFactory.createHealthActionInputController(healthActionListViewAdapter.healthAction,
+						null, healthActionsModel, healthActionsList.healthActionsAppController.viewNavigator);
 				_scheduleItemOccurrenceReportingController = new ScheduleItemOccurrenceReportingController(scheduleItemOccurrenceReportingModel,
 						healthActionsList.healthActionsAppController.viewNavigator);
 

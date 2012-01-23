@@ -65,8 +65,8 @@
 				var scheduleItemOccurrenceReportingViewAdapter:IHealthActionListViewAdapter = scheduleModel.healthActionListViewAdapterFactory.createScheduledHealthActionViewAdapter(_scheduleItemOccurrence,
 						scheduleModel);
 				var scheduleItemOccurrenceReportingModel:ScheduleItemOccurrenceReportingModelBase = scheduleItemOccurrenceReportingViewAdapter.model;
-				scheduleItemOccurrenceReportingModel.healthActionInputController = scheduleModel.healthActionInputControllerFactory.createHealthActionInputController(_scheduleItemOccurrence.scheduleItem.name.text,
-						_scheduleItemOccurrence.scheduleItem.instructions, _scheduleItemOccurrence, scheduleModel,
+				scheduleItemOccurrenceReportingModel.healthActionInputController = scheduleModel.healthActionInputControllerFactory.createHealthActionInputController(scheduleItemOccurrenceReportingViewAdapter.healthAction,
+						_scheduleItemOccurrence, scheduleModel,
 						scheduleGroupReportingView.scheduleReportingController.viewNavigator);
 				_scheduleItemOccurrenceReportingController = new ScheduleItemOccurrenceReportingController(scheduleItemOccurrenceReportingModel,
 						scheduleGroupReportingView.scheduleReportingController.viewNavigator);
