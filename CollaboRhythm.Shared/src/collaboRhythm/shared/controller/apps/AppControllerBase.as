@@ -16,30 +16,21 @@
  */
 package collaboRhythm.shared.controller.apps
 {
-
-	import castle.flexbridge.reflection.ReflectionUtils;
-
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
-	import collaboRhythm.shared.model.CollaborationModel;
 	import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
-	import collaboRhythm.shared.model.InteractionLogUtil;
 	import collaboRhythm.shared.model.User;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.view.BitmapCopyComponent;
 
-	import flash.desktop.NativeApplication;
-
 	import flash.display.BitmapData;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.events.TransformGestureEvent;
 	import flash.geom.Point;
-	import flash.ui.Keyboard;
 	import flash.utils.getQualifiedClassName;
 
 	import mx.controls.Image;
@@ -58,13 +49,11 @@ package collaboRhythm.shared.controller.apps
 	import mx.managers.DragManager;
 
 	import spark.components.Application;
-
 	import spark.components.Button;
 	import spark.components.ViewNavigator;
 	import spark.components.ViewNavigatorApplication;
 	import spark.components.Window;
 	import spark.effects.*;
-	import spark.events.ViewNavigatorEvent;
 	import spark.primitives.Rect;
 
 	/**
@@ -104,6 +93,8 @@ package collaboRhythm.shared.controller.apps
 
 		private var _traceEventHandlers:Boolean = false;
 		private var _cacheFullView:Boolean = false;
+
+		private var _createFullViewOnInitialize:Boolean = false;
 
 		public function AppControllerBase(constructorParams:AppControllerConstructorParams)
 		{
@@ -340,7 +331,6 @@ package collaboRhythm.shared.controller.apps
 			if (fullView != null && !_isFullViewPrepared)
 			{
 				updateFullViewModel();
-				fullView.addEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler, false, 0, true);
 				_primaryShowFullViewParallelEffect.stop();
 				_secondaryShowFullViewParallelEffect.stop();
 				fullView.visible = false;
@@ -348,11 +338,6 @@ package collaboRhythm.shared.controller.apps
 					_fullContainer.addElement(fullView);
 				_isFullViewPrepared = true;
 			}
-		}
-
-		private function fullView_updateCompleteHandler(event:FlexEvent):void
-		{
-//			_logger.info("fullView_updateCompleteHandler " + event.target.toString());
 		}
 
 		/**
@@ -1169,6 +1154,62 @@ package collaboRhythm.shared.controller.apps
 		public function set cacheFullView(value:Boolean):void
 		{
 			_cacheFullView = value;
+		}
+
+		public function dispatchShowFullView(viaMechanism:String):void
+		{
+			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this, null, null, viaMechanism));
+		}
+
+		protected function listenForFullViewUpdateComplete():void
+		{
+			fullView.addEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler, false, 0, true);
+		}
+
+		private function fullView_updateCompleteHandler(event:FlexEvent):void
+		{
+			takeFullViewSnapshot();
+			removeFromParent(fullView);
+			fullView.visible = false;
+			fullView.removeEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler);
+		}
+
+		protected function get shouldPreCreateFullView():Boolean
+		{
+			return !fullView && _createFullViewOnInitialize && cacheFullView && isFullViewSupported;
+		}
+
+		protected function doPrecreationForFullView():void
+		{
+			if (shouldPreCreateFullView)
+			{
+				createFullView();
+				prepareFullView();
+
+				// special handling to get a bitmap snapshot of the fullView so we can do a quick transition the first time it is shown
+				if (isTabletMode)
+				{
+					listenForModelInitialized();
+					if (_viewNavigator)
+					{
+						_viewNavigator.activeView.addElement(fullView);
+					}
+				}
+			}
+		}
+
+		protected function listenForModelInitialized():void
+		{
+		}
+
+		protected function get createFullViewOnInitialize():Boolean
+		{
+			return _createFullViewOnInitialize;
+		}
+
+		protected function set createFullViewOnInitialize(value:Boolean):void
+		{
+			_createFullViewOnInitialize = value;
 		}
 	}
 }

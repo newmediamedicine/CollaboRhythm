@@ -20,25 +20,18 @@ package collaboRhythm.plugins.bloodPressure.controller
 	import collaboRhythm.plugins.bloodPressure.model.BloodPressureHealthRecordService;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureButtonWidgetView;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureFullView;
-	import collaboRhythm.plugins.bloodPressure.view.BloodPressureMeterView;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureMobileWidgetView;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureSimulationWidgetView;
+	import collaboRhythm.plugins.bloodPressure.view.BloodPressureSynchronizedCharts;
 	import collaboRhythm.plugins.bloodPressure.view.IBloodPressureFullView;
 	import collaboRhythm.plugins.bloodPressure.view.IBloodPressureWidgetView;
-	import collaboRhythm.plugins.bloodPressure.view.BloodPressureSynchronizedCharts;
-	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
 	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
-	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
-	import collaboRhythm.shared.controller.apps.AppEvent;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 
 	import flash.display.Loader;
 
-	import flash.display.MovieClip;
-	import flash.events.Event;
-
 	import mx.core.UIComponent;
-	import mx.events.FlexEvent;
 	import mx.events.PropertyChangeEvent;
 
 	import spark.primitives.Rect;
@@ -49,7 +42,6 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 		private var _fullView:IBloodPressureFullView;
 		private var _widgetView:IBloodPressureWidgetView;
-		private var _createFullViewOnInitialize:Boolean = true;
 		public static const useSingleCirculatorySystemMovieClip:Boolean = false;
 
 		public override function get widgetView():UIComponent
@@ -81,6 +73,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 		{
 			super(constructorParams);
 			cacheFullView = true;
+			createFullViewOnInitialize = true;
 		}
 
 		protected override function createWidgetView():UIComponent
@@ -119,30 +112,20 @@ package collaboRhythm.plugins.bloodPressure.controller
 			// TODO: We should either 1) make sure that the bloodPressureModel is created when the record is created
 			// or 2) lazy initialize it or 3) rework the timing of initialize and updateWidgetViewModel
 			updateWidgetViewModel();
+			doPrecreationForFullView();
+		}
 
-			if (shouldPreCreateFullView)
+		protected override function listenForModelInitialized():void
+		{
+			if (_activeRecordAccount.primaryRecord.bloodPressureModel.isInitialized)
 			{
-				createFullView();
-				prepareFullView();
-
-				// special handling to get a bitmap snapshot of the fullView so we can do a quick transition the first time it is shown
-				if (isTabletMode)
-				{
-					if (_activeRecordAccount.primaryRecord.bloodPressureModel.isInitialized)
-					{
-						listenForFullViewUpdateComplete();
-					}
-					else
-					{
-						_activeRecordAccount.primaryRecord.bloodPressureModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
-								model_propertyChangeHandler,
-								false, 0, true);
-					}
-					if (_viewNavigator)
-					{
-						_viewNavigator.activeView.addElement(fullView);
-					}
-				}
+				listenForFullViewUpdateComplete();
+			}
+			else
+			{
+				_activeRecordAccount.primaryRecord.bloodPressureModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+						model_propertyChangeHandler,
+						false, 0, true);
 			}
 		}
 
@@ -155,24 +138,6 @@ package collaboRhythm.plugins.bloodPressure.controller
 						model_propertyChangeHandler);
 				listenForFullViewUpdateComplete();
 			}
-		}
-
-		private function listenForFullViewUpdateComplete():void
-		{
-			fullView.addEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler, false, 0, true);
-		}
-
-		private function fullView_updateCompleteHandler(event:FlexEvent):void
-		{
-			takeFullViewSnapshot();
-			removeFromParent(fullView);
-			fullView.visible = false;
-			fullView.removeEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler);
-		}
-
-		protected function get shouldPreCreateFullView():Boolean
-		{
-			return !_fullView && _createFullViewOnInitialize && cacheFullView && isFullViewSupported;
 		}
 
 		override protected function updateWidgetViewModel():void
@@ -318,11 +283,6 @@ package collaboRhythm.plugins.bloodPressure.controller
 						bloodPressureSimulationWidgetView.circulatorySystemSimulationView.injectMovieClipLoader(loader);
 				}
 			}
-		}
-
-		public function dispatchShowFullView(viaMechanism:String):void
-		{
-			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this, null, null, viaMechanism));
 		}
 	}
 }

@@ -139,11 +139,6 @@ package collaboRhythm.plugins.videoMessages.controller
 			return false;
 		}
 
-		public function dispatchShowFullView(viaMechanism:String):void
-		{
-			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this, null, null, viaMechanism));
-		}
-
 		public function deleteVideoMessage(videoMessage:VideoMessage):void
 		{
 			videoMessagesModel.removeDocumentFromRecord(videoMessage, DocumentBase.ACTION_VOID, "deleted by user");
