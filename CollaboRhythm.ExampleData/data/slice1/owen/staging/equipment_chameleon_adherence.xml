@@ -18,199 +18,115 @@
 <IndivoDocuments>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<instructions>Use device to record blood glucose. Insert test strip into device and apply a drop of blood.</instructions>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-17T14:57:00Z</dateReported>
+		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-15T20:00:00Z</dateReported>
 		<adherence>true</adherence>
-		<peakFlow>110</peakFlow>
+		<peakFlow>299</peakFlow>
+		<equipmentType>spirometer</equipmentType>
+		<pollenCount>2.3</pollenCount>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-18T13:07:00Z</dateReported>
+		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-16T20:00:00Z</dateReported>
 		<adherence>true</adherence>
-		<peakFlow>110</peakFlow>
+		<peakFlow>301</peakFlow>
+		<pollenCount>2.5</pollenCount>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-19T13:54:00Z</dateReported>
+		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-17T20:00:00Z</dateReported>
 		<adherence>true</adherence>
-		<peakFlow>110</peakFlow>
+		<peakFlow>298</peakFlow>
+		<pollenCount>3.3</pollenCount>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-20T13:52:00Z</dateReported>
+		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-18T20:00:00Z</dateReported>
 		<adherence>true</adherence>
-		<peakFlow>110</peakFlow>
+		<peakFlow>300</peakFlow>
+		<pollenCount>4.0</pollenCount>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-21T13:48:00Z</dateReported>
+		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-19T20:00:00Z</dateReported>
 		<adherence>true</adherence>
-		<peakFlow>110</peakFlow>
+		<peakFlow>297</peakFlow>
+		<pollenCount>1.2</pollenCount>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-22T14:27:00Z</dateReported>
+		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-20T20:00:00Z</dateReported>
 		<adherence>true</adherence>
-		<peakFlow>110</peakFlow>
+		<peakFlow>301</peakFlow>
+		<pollenCount>5.1</pollenCount>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-23T14:24:00Z</dateReported>
+		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-21T20:00:00Z</dateReported>
 		<adherence>true</adherence>
-		<peakFlow>110</peakFlow>
+		<peakFlow>295</peakFlow>
+		<pollenCount>6.0</pollenCount>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-24T14:14:00Z</dateReported>
+		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-22T20:00:00Z</dateReported>
 		<adherence>true</adherence>
-		<peakFlow>118</peakFlow>
+		<peakFlow>270</peakFlow>
+		<pollenCount>7.6</pollenCount>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-25T14:15:00Z</dateReported>
+		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-23T20:00:00Z</dateReported>
 		<adherence>true</adherence>
-		<peakFlow>125</peakFlow>
+		<peakFlow>250</peakFlow>
+		<pollenCount>6.6</pollenCount>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-26T14:59:00Z</dateReported>
+		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-24T20:00:00Z</dateReported>
 		<adherence>true</adherence>
-		<peakFlow>131</peakFlow>
+		<peakFlow>220</peakFlow>
+		<pollenCount>5.5</pollenCount>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-27T13:12:00Z</dateReported>
+		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-25T20:00:00Z</dateReported>
 		<adherence>true</adherence>
-		<peakFlow>128</peakFlow>
+		<peakFlow>210</peakFlow>
+		<pollenCount>8.1</pollenCount>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-28T15:26:00Z</dateReported>
+		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-26T20:00:00Z</dateReported>
 		<adherence>true</adherence>
-		<peakFlow>110</peakFlow>
+		<peakFlow>200</peakFlow>
+		<pollenCount>5.5</pollenCount>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-29T13:47:00Z</dateReported>
+		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-27T20:00:00Z</dateReported>
 		<adherence>true</adherence>
-		<peakFlow>110</peakFlow>
+		<peakFlow>250</peakFlow>
+		<pollenCount>7.8</pollenCount>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-30T14:12:00Z</dateReported>
+		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-28T20:00:00Z</dateReported>
 		<adherence>true</adherence>
-		<peakFlow>110</peakFlow>
-	</BloodPressureAdherenceItem>
-	<BloodPressureAdherenceItem>
-		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-31T14:44:00Z</dateReported>
-		<adherence>true</adherence>
-		<peakFlow>110</peakFlow>
-	</BloodPressureAdherenceItem>
-	<BloodPressureAdherenceItem>
-		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-01T14:02:00Z</dateReported>
-		<adherence>true</adherence>
-		<peakFlow>116</peakFlow>
-	</BloodPressureAdherenceItem>
-	<BloodPressureAdherenceItem>
-		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-02T13:24:00Z</dateReported>
-		<adherence>true</adherence>
-		<peakFlow>121</peakFlow>
-	</BloodPressureAdherenceItem>
-	<BloodPressureAdherenceItem>
-		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-03T15:22:00Z</dateReported>
-		<adherence>true</adherence>
-		<peakFlow>126</peakFlow>
-	</BloodPressureAdherenceItem>
-	<BloodPressureAdherenceItem>
-		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-04T15:00:00Z</dateReported>
-		<adherence>true</adherence>
-		<peakFlow>115</peakFlow>
-	</BloodPressureAdherenceItem>
-	<BloodPressureAdherenceItem>
-		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-05T13:53:00Z</dateReported>
-		<adherence>true</adherence>
-		<peakFlow>110</peakFlow>
-	</BloodPressureAdherenceItem>
-	<BloodPressureAdherenceItem>
-		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-06T14:00:00Z</dateReported>
-		<adherence>true</adherence>
-		<peakFlow>110</peakFlow>
-	</BloodPressureAdherenceItem>
-	<BloodPressureAdherenceItem>
-		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-07T13:54:00Z</dateReported>
-		<adherence>true</adherence>
-		<peakFlow>119</peakFlow>
-	</BloodPressureAdherenceItem>
-	<BloodPressureAdherenceItem>
-		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-08T13:14:00Z</dateReported>
-		<adherence>true</adherence>
-		<peakFlow>129</peakFlow>
-	</BloodPressureAdherenceItem>
-	<BloodPressureAdherenceItem>
-		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-09T13:00:00Z</dateReported>
-		<adherence>true</adherence>
-		<peakFlow>143</peakFlow>
-	</BloodPressureAdherenceItem>
-	<BloodPressureAdherenceItem>
-		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-10T13:10:00Z</dateReported>
-		<adherence>true</adherence>
-		<peakFlow>134</peakFlow>
-	</BloodPressureAdherenceItem>
-	<BloodPressureAdherenceItem>
-		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-11T13:18:00Z</dateReported>
-		<adherence>true</adherence>
-		<peakFlow>110</peakFlow>
-	</BloodPressureAdherenceItem>
-	<BloodPressureAdherenceItem>
-		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-12T13:29:00Z</dateReported>
-		<adherence>true</adherence>
-		<peakFlow>110</peakFlow>
-	</BloodPressureAdherenceItem>
-	<BloodPressureAdherenceItem>
-		<name>Chameleon</name>
-		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-13T13:40:00Z</dateReported>
-		<adherence>true</adherence>
-		<peakFlow>110</peakFlow>
+		<peakFlow>285</peakFlow>
+		<pollenCount>7.0</pollenCount>
 	</BloodPressureAdherenceItem>
 </IndivoDocuments>
