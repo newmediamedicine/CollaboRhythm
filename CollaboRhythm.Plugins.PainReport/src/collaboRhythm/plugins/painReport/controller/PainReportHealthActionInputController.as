@@ -2,9 +2,9 @@ package collaboRhythm.plugins.painReport.controller
 {
 	import collaboRhythm.plugins.painReport.model.PainReportHealthActionInputModel;
 	import collaboRhythm.plugins.painReport.view.PainReportHealthActionInputView;
-	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import flash.net.URLVariables;
@@ -12,40 +12,37 @@ package collaboRhythm.plugins.painReport.controller
 	import spark.components.ViewNavigator;
 	import spark.transitions.SlideViewTransition;
 
-	public class PainReportHealthActionInputController extends HealthActionInputControllerBase
+	public class PainReportHealthActionInputController implements IHealthActionInputController
 	{
+		private const HEALTH_ACTION_INPUT_VIEW_CLASS:Class = PainReportHealthActionInputView;
+
 		private var _dataInputModel:PainReportHealthActionInputModel;
+		private var _viewNavigator:ViewNavigator;
 
 		public function PainReportHealthActionInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
-															  scheduleModel:IScheduleModel, viewNavigator:ViewNavigator)
+															  healthActionModelDetailsProvider:IHealthActionModelDetailsProvider, viewNavigator:ViewNavigator)
 		{
-			super(scheduleItemOccurrence, scheduleModel, viewNavigator);
-
-			_dataInputModel = new PainReportHealthActionInputModel(scheduleItemOccurrence, scheduleModel);
+			_dataInputModel = new PainReportHealthActionInputModel(scheduleItemOccurrence, healthActionModelDetailsProvider);
+			_viewNavigator = viewNavigator;
 		}
 
-		override public function showHealthActionInputView():void
+		public function showHealthActionInputView():void
 		{
 			var dataInputModelAndController:HealthActionInputModelAndController = new HealthActionInputModelAndController(_dataInputModel,
 					this);
 
-			_viewNavigator.pushView(healthActionInputViewClass, dataInputModelAndController, null,
+			_viewNavigator.pushView(HEALTH_ACTION_INPUT_VIEW_CLASS, dataInputModelAndController, null,
 					new SlideViewTransition());
 		}
 
-		override public function updateVariables(urlVariables:URLVariables):void
+		public function updateVariables(urlVariables:URLVariables):void
 		{
-			//abstract; subclasses should override
+
 		}
 
-		override public function get healthActionInputViewClass():Class
+		public function get healthActionInputViewClass():Class
 		{
-			return PainReportHealthActionInputView;
-		}
-
-		override public function get isUnscheduleReporting():Boolean
-		{
-			return true;
+			return HEALTH_ACTION_INPUT_VIEW_CLASS;
 		}
 	}
 }

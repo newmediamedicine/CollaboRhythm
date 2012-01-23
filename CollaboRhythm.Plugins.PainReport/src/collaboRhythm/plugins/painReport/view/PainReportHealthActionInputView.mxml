@@ -22,8 +22,8 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.painReport.controller.PainReportHealthActionInputController;
 		import collaboRhythm.plugins.painReport.model.PainReportHealthActionInputModel;
-		import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 
 		[Bindable]
 		protected var _dataInputModel:PainReportHealthActionInputModel;
@@ -39,7 +39,7 @@
 			_dataInputController = PainReportHealthActionInputController(dataInputModelAndController.healthActionInputController);
 		}
 
-		public function get healthActionInputController():HealthActionInputControllerBase
+		public function get healthActionInputController():IHealthActionInputController
 		{
 			return _dataInputController;
 		}

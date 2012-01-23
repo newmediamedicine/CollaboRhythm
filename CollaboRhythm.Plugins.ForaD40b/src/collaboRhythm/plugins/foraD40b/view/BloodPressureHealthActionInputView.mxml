@@ -44,11 +44,10 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
-		import collaboRhythm.plugins.foraD40b.controller.BloodPressureDataInputController;
-		import collaboRhythm.plugins.foraD40b.model.BloodPressureDataInputModel;
-		import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
-		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelBase;
+		import collaboRhythm.plugins.foraD40b.controller.BloodPressureHealthActionInputController;
+		import collaboRhythm.plugins.foraD40b.model.BloodPressureHealthActionInputModel;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 
 		import spark.components.ViewNavigator;
 
@@ -60,8 +59,8 @@
 		private const NUMBER_PAD_GAP:int = 2;
 
 		[Bindable]
-		protected var _dataInputModel:BloodPressureDataInputModel;
-		protected var _dataInputController:BloodPressureDataInputController;
+		protected var _dataInputModel:BloodPressureHealthActionInputModel;
+		protected var _dataInputController:BloodPressureHealthActionInputController;
 
 		override public function set data(value:Object):void
 		{
@@ -69,11 +68,11 @@
 
 			var dataInputModelAndController:HealthActionInputModelAndController = HealthActionInputModelAndController(value);
 
-			_dataInputModel = BloodPressureDataInputModel(dataInputModelAndController.healthActionInputModel);
-			_dataInputController = BloodPressureDataInputController(dataInputModelAndController.healthActionInputController);
+			_dataInputModel = BloodPressureHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
+			_dataInputController = BloodPressureHealthActionInputController(dataInputModelAndController.healthActionInputController);
 		}
 
-		public function get healthActionInputController():HealthActionInputControllerBase
+		public function get healthActionInputController():IHealthActionInputController
 		{
 			return _dataInputController;
 		}

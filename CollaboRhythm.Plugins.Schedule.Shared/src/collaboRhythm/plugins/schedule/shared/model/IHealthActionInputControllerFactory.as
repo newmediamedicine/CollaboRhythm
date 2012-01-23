@@ -1,6 +1,5 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
-	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import flash.net.URLVariables;
@@ -9,15 +8,16 @@ package collaboRhythm.plugins.schedule.shared.model
 
 	public interface IHealthActionInputControllerFactory
 	{
-		function createHealthActionInputController(healthAction:HealthAction,
+		function createHealthActionInputController(healthAction:HealthActionBase,
 												   scheduleItemOccurrence:ScheduleItemOccurrence,
-												   scheduleModel:IScheduleModel,
+												   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
 												   viewNavigator:ViewNavigator,
-												   currentHealthActionInputController:HealthActionInputControllerBase):HealthActionInputControllerBase;
+												   currentHealthActionInputController:IHealthActionInputController):IHealthActionInputController;
 
 		function createDeviceHealthActionInputController(urlVariables:URLVariables,
 														 scheduleItemOccurrence:ScheduleItemOccurrence,
-														 scheduleModel:IScheduleModel, viewNavigator:ViewNavigator,
-														 currentDeviceHealthActionInputController:HealthActionInputControllerBase):HealthActionInputControllerBase;
+														 healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+														 viewNavigator:ViewNavigator,
+														 currentDeviceHealthActionInputController:IHealthActionInputController):IHealthActionInputController;
 	}
 }

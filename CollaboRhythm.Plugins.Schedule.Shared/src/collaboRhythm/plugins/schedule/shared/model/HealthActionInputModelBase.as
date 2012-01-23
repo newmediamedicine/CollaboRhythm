@@ -6,38 +6,31 @@ package collaboRhythm.plugins.schedule.shared.model
 
 	import flash.net.URLVariables;
 
-	public class HealthActionInputModelBase
-    {
+	public class HealthActionInputModelBase implements IHealthActionInputModel
+	{
         private var _scheduleItemOccurrence:ScheduleItemOccurrence;
-        private var _urlVariables:URLVariables;
+        protected var _urlVariables:URLVariables;
 		protected var _currentDateSource:ICurrentDateSource;
-		protected var _scheduleModel:IScheduleModel;
+		protected var _healthActionModelDetailsProvider:IHealthActionModelDetailsProvider;
 
         public function HealthActionInputModelBase(scheduleItemOccurrence:ScheduleItemOccurrence = null,
-										   urlVariables:URLVariables = null,
-										   scheduleModel:IScheduleModel = null)
+												   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider = null)
         {
             _scheduleItemOccurrence = scheduleItemOccurrence;
-            this.urlVariables = urlVariables;
-			_scheduleModel = scheduleModel;
+			_healthActionModelDetailsProvider = healthActionModelDetailsProvider;
 
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
         }
 
-        public function get scheduleItemOccurrence():ScheduleItemOccurrence
-        {
-            return _scheduleItemOccurrence;
-        }
+		public function get scheduleItemOccurrence():ScheduleItemOccurrence
+		{
+			return _scheduleItemOccurrence;
+		}
 
-        public function get urlVariables():URLVariables
-        {
-            return _urlVariables;
-        }
-
-        public function set urlVariables(value:URLVariables):void
-        {
-            // abstract, subclasses should override
-            _urlVariables = value;
-        }
+		public function set urlVariables(value:URLVariables):void
+		{
+			// abstract, subclasses should override
+			_urlVariables = value;
+		}
 	}
 }

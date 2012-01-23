@@ -83,7 +83,8 @@ package collaboRhythm.plugins.healthActions.controller
 		{
 			if (!_healthActionsModel)
 			{
-				_healthActionsModel = new HealthActionsModel(_componentContainer, _activeRecordAccount.primaryRecord);
+				_healthActionsModel = new HealthActionsModel(_componentContainer, _activeRecordAccount.primaryRecord,
+						_activeRecordAccount.accountId);
 			}
 			return _healthActionsModel;
 		}

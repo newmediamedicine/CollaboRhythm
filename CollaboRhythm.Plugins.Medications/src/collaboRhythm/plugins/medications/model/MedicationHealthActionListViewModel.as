@@ -1,10 +1,9 @@
 package collaboRhythm.plugins.medications.model
 {
 
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
+	import collaboRhythm.plugins.schedule.shared.model.HealthActionListViewModelBase;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
-	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
@@ -12,17 +11,17 @@ package collaboRhythm.plugins.medications.model
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
-	public class MedicationScheduleItemOccurrenceReportingModel extends ScheduleItemOccurrenceReportingModelBase
+	public class MedicationHealthActionListViewModel extends HealthActionListViewModelBase
 	{
 		private var _medicationScheduleItem:MedicationScheduleItem;
 		private var _medicationOrder:MedicationOrder;
 
 		private var _currentDateSource:ICurrentDateSource;
 
-		public function MedicationScheduleItemOccurrenceReportingModel(scheduleItemOccurrence:ScheduleItemOccurrence,
-																	   scheduleModel:IScheduleModel)
+		public function MedicationHealthActionListViewModel(scheduleItemOccurrence:ScheduleItemOccurrence,
+															healthActionModelDetailsProvider:IHealthActionModelDetailsProvider)
 		{
-			super(scheduleItemOccurrence, scheduleModel);
+			super(scheduleItemOccurrence, healthActionModelDetailsProvider);
 
 			_medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
 			_medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
@@ -30,18 +29,17 @@ package collaboRhythm.plugins.medications.model
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
 
-		override public function createAdherenceItem():void
+		override public function createHealthActionResult():void
 		{
 			var medicationAdministration:MedicationAdministration = new MedicationAdministration();
-			medicationAdministration.init(_medicationOrder.name, scheduleModel.accountId,
-										  _currentDateSource.now(), _currentDateSource.now(),
-										  _medicationScheduleItem.dose);
+			medicationAdministration.init(_medicationOrder.name, healthActionInputModelDetailsProvider.accountId,
+					_currentDateSource.now(), _currentDateSource.now(),
+					_medicationScheduleItem.dose);
 
 			var adherenceResults:Vector.<DocumentBase> = new Vector.<DocumentBase>();
 			adherenceResults.push(medicationAdministration);
-			scheduleItemOccurrence.createAdherenceItem(adherenceResults, scheduleModel.accountId);
-
-			scheduleModel.createAdherenceItem(scheduleItemOccurrence);
+			scheduleItemOccurrence.createAdherenceItem(adherenceResults, healthActionInputModelDetailsProvider.record,
+					healthActionInputModelDetailsProvider.accountId);
 		}
 	}
 }

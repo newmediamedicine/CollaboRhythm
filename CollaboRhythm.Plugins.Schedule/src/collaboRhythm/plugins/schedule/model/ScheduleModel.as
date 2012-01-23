@@ -39,12 +39,12 @@ package collaboRhythm.plugins.schedule.model
 	import mx.logging.Log;
 
 	[Bindable]
-	public class ScheduleModel extends EventDispatcher implements IScheduleCollectionsProvider, IScheduleModel
+	public class ScheduleModel extends EventDispatcher implements IScheduleCollectionsProvider, IHealthActionModelDetailsProvider
 	{
-        // Key to the ScheduleModel instance in Record.appData is in ScheduleModelKey Class in CollaboRhythm.Plugins.Schedule.Shared
-        // so that it is available to other plugins
+		// Key to the ScheduleModel instance in Record.appData is in ScheduleModelKey Class in CollaboRhythm.Plugins.Schedule.Shared
+		// so that it is available to other plugins
 
-        private static const MILLISECONDS_IN_HOUR:Number = 1000 * 60 * 60;
+		private static const MILLISECONDS_IN_HOUR:Number = 1000 * 60 * 60;
 		private static const MILLISECONDS_IN_DAY:Number = 1000 * 60 * 60 * 24;
 
 		private var _record:Record;
@@ -70,8 +70,7 @@ package collaboRhythm.plugins.schedule.model
 		private var _healthActionListViewAdapterFactory:MasterHealthActionListViewAdapterFactory;
 		private var _healthActionInputControllerFactory:MasterHealthActionInputControllerFactory;
 
-		public function ScheduleModel(componentContainer:IComponentContainer,
-									  record:Record, accountId:String)
+		public function ScheduleModel(componentContainer:IComponentContainer, record:Record, accountId:String)
 		{
 			_accountId = accountId;
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
@@ -88,7 +87,7 @@ package collaboRhythm.plugins.schedule.model
 			}
 
 			_healthActionListViewAdapterFactory = new MasterHealthActionListViewAdapterFactory(componentContainer);
-            _healthActionInputControllerFactory = new MasterHealthActionInputControllerFactory(componentContainer);
+			_healthActionInputControllerFactory = new MasterHealthActionInputControllerFactory(componentContainer);
 		}
 
 		private function init(isStitched:Boolean):void
@@ -140,7 +139,7 @@ package collaboRhythm.plugins.schedule.model
 				for each (var scheduleItem:ScheduleItemBase in scheduleItemCollection)
 				{
 					var newScheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = scheduleItem.getScheduleItemOccurrences(dateStart,
-																																dateEnd);
+							dateEnd);
 					scheduleItemOccurrencesVector = scheduleItemOccurrencesVector.concat(newScheduleItemOccurrencesVector);
 				}
 			}
@@ -168,7 +167,7 @@ package collaboRhythm.plugins.schedule.model
 											yPosition:int = NaN):ScheduleGroup
 		{
 			var scheduleGroup:ScheduleGroup = new ScheduleGroup(scheduleItemOccurrence.dateStart,
-																scheduleItemOccurrence.dateEnd);
+					scheduleItemOccurrence.dateEnd);
 			scheduleGroup.addScheduleItemOccurrence(scheduleItemOccurrence);
 			scheduleGroup.moving = moving;
 			if (yPosition)
@@ -205,38 +204,6 @@ package collaboRhythm.plugins.schedule.model
 		public function get scheduleGroupsCollection():ArrayCollection
 		{
 			return _scheduleGroupsCollection;
-		}
-
-		public function createAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void
-		{
-			scheduleItemOccurrence.adherenceItem.pendingAction = DocumentBase.ACTION_CREATE;
-			_record.addDocument(scheduleItemOccurrence.adherenceItem);
-			_record.addNewRelationship(ScheduleItemBase.RELATION_TYPE_ADHERENCE_ITEM,
-									   scheduleItemOccurrence.scheduleItem, scheduleItemOccurrence.adherenceItem);
-			for each (var adherenceResult:DocumentBase in scheduleItemOccurrence.adherenceItem.adherenceResults)
-			{
-				adherenceResult.pendingAction = DocumentBase.ACTION_CREATE;
-				_record.addDocument(adherenceResult);
-				_record.addNewRelationship(AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT, scheduleItemOccurrence.adherenceItem, adherenceResult)
-			}
-			_adherencePerformanceModel.updateAdherencePerformance();
-		}		
-		
-		public function createResults(results:Vector.<DocumentBase>):void
-		{
-			for each (var result:DocumentBase in results)
-			{
-				result.pendingAction = DocumentBase.ACTION_CREATE;
-				_record.addDocument(result);
-			}
-		}
-
-		public function voidAdherenceItem(scheduleItemOccurrence:ScheduleItemOccurrence):void
-		{
-			_record.removeDocument(scheduleItemOccurrence.adherenceItem, DocumentBase.ACTION_VOID, "deleted by user",
-								   true);
-			scheduleItemOccurrence.adherenceItem = null;
-			_adherencePerformanceModel.updateAdherencePerformance();
 		}
 
 		public function saveChangesToRecord():void
@@ -298,7 +265,8 @@ package collaboRhythm.plugins.schedule.model
 
 		public function updateScheduleItems(scheduleGroup:ScheduleGroup):void
 		{
-			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleGroup.scheduleItemsOccurrencesCollection)
+			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in
+					scheduleGroup.scheduleItemsOccurrencesCollection)
 			{
 				var scheduleItem:ScheduleItemBase = scheduleItemOccurrence.scheduleItem;
 				scheduleItem.rescheduleItem(_currentDateSource.now(), scheduleGroup.dateStart, scheduleGroup.dateEnd);
@@ -364,10 +332,10 @@ package collaboRhythm.plugins.schedule.model
 			return _healthActionListViewAdapterFactory;
 		}
 
-        public function get healthActionInputControllerFactory():MasterHealthActionInputControllerFactory
-        {
-            return _healthActionInputControllerFactory;
-        }
+		public function get healthActionInputControllerFactory():MasterHealthActionInputControllerFactory
+		{
+			return _healthActionInputControllerFactory;
+		}
 
 	}
 }

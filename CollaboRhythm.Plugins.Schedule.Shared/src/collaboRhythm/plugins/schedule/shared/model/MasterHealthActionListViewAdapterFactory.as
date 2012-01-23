@@ -43,13 +43,13 @@ package collaboRhythm.plugins.schedule.shared.model
 		}
 
 		public function createScheduledHealthActionViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
-															   scheduleModel:IScheduleModel):IHealthActionListViewAdapter
+															   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider):IHealthActionListViewAdapter
 		{
 			var currentHealthActionListViewAdapter:IHealthActionListViewAdapter = null;
 			for each (var healthActionListViewAdapterFactory:IHealthActionListViewAdapterFactory in _factoryArray)
 			{
 				var healthActionListViewAdapter:IHealthActionListViewAdapter = healthActionListViewAdapterFactory.createScheduledHealthActionViewAdapter(scheduleItemOccurrence,
-						scheduleModel, currentHealthActionListViewAdapter);
+						healthActionModelDetailsProvider, currentHealthActionListViewAdapter);
 				if (healthActionListViewAdapter)
 					currentHealthActionListViewAdapter = healthActionListViewAdapter;
 			}
