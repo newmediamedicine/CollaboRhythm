@@ -42,6 +42,8 @@
 		import mx.events.CollectionEventKind;
 
 		import spark.components.Group;
+		import spark.components.Image;
+		import spark.skins.spark.ImageSkin;
 
 		private var _scheduleModel:ScheduleModel;
 		[Bindable]
@@ -54,6 +56,19 @@
 		private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>();
 
 		private var _isCreationComplete:Boolean = false;
+		private var _isReducedClockView:Boolean = true;
+
+		[Embed (source="/assets/images/pill.png" )]
+  		public static const pillImage:Class;
+
+		[Embed (source="/assets/images/bathroom.png" )]
+  		public static const bathroomImage:Class;
+		
+		[Embed (source="/assets/images/bathroom pill.png" )]
+  		public static const bathroomPillImage:Class;
+		
+		[Embed (source="/assets/images/chartpill.png" )]
+  		public static const chartPillImage:Class;
 
 		public function init(scheduleModel:ScheduleModel, scheduleGroup:ScheduleGroup,
 							 scheduleGroupsContainer:Group):void
@@ -80,11 +95,15 @@
 
 		private function creationCompleteHandler():void
 		{
-			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in _scheduleItemsCollection)
-			{
-				createScheduleItemClockView(scheduleItemOccurrence);
+			if(_isReducedClockView){
+				processReducedScheduleItemClockView();
 			}
-
+			else{
+				for each (var scheduleItemOccurrence:ScheduleItemOccurrence in _scheduleItemsCollection)
+				{
+					createScheduleItemClockView(scheduleItemOccurrence);
+				}
+			}
 			_isCreationComplete = true;
 
 			updateView();
@@ -97,25 +116,96 @@
 
 		public function scheduleItemsCollectionChangeHandler(event:CollectionEvent):void
 		{
-			if (event.kind == CollectionEventKind.ADD)
-			{
-				if (_isCreationComplete)
+			if(_isReducedClockView){
+				if(event.kind == CollectionEventKind.ADD || event.kind == CollectionEventKind.REMOVE){
+					processReducedScheduleItemClockView();
+				}
+			}
+			else{
+				if (event.kind == CollectionEventKind.ADD)
 				{
-					for each (var scheduleItemOccurrenceAdded:ScheduleItemOccurrence in event.items)
+					if (_isCreationComplete)
 					{
-						createScheduleItemClockView(scheduleItemOccurrenceAdded);
+						for each (var scheduleItemOccurrenceAdded:ScheduleItemOccurrence in event.items)
+						{
+							createScheduleItemClockView(scheduleItemOccurrenceAdded);
+						}
+					}
+				}
+				else if (event.kind == CollectionEventKind.REMOVE)
+				{
+					for each (var scheduleItemOccurrenceRemoved:ScheduleItemOccurrence in event.items)
+					{
+						destroyScheduleItemClockView(scheduleItemOccurrenceRemoved);
 					}
 				}
 			}
-			else if (event.kind == CollectionEventKind.REMOVE)
+			updateView();
+		}
+
+		public function processReducedScheduleItemClockView():void
+		{
+			scheduleItemOccurrencesContainer.removeAllElements();
+			var reducedScheduleItemOccurrenceClockView:ScheduleItemOccurrenceClockView = new ScheduleItemOccurrenceClockView();
+			var containsMeds:Boolean = false;
+			var containsDoc:Boolean = false;
+			var containsBathroom:Boolean = false;
+			
+			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in _scheduleItemsCollection)
 			{
-				for each (var scheduleItemOccurrenceRemoved:ScheduleItemOccurrence in event.items)
-				{
-					destroyScheduleItemClockView(scheduleItemOccurrenceRemoved);
+				var scheduleItemOccurrenceClockView:ScheduleItemOccurrenceClockView = new ScheduleItemOccurrenceClockView();
+				scheduleItemOccurrenceClockView.init(scheduleItemOccurrence, _scheduleModel);
+
+				// TODO: currently adding any scheduleItemOccurrence to the reducedScheduleItemOccurenceClockView to handle adherence
+				// Need to make some kind of master item to handle adherence
+				reducedScheduleItemOccurrenceClockView.scheduleItemOccurrence = scheduleItemOccurrence;
+
+				var type:String = scheduleItemOccurrenceClockView.scheduleItemViewAdapterType;
+				switch(type){
+					case "Medication":
+						containsMeds = true;
+						break;
+					case "Bathroom":
+						containsBathroom = true;
+						break;
+					case "Pain Report":
+						containsDoc = true;
+						break;
+					case "Food / Drink":
+						containsDoc = true;
+						break;
+					case "Equipment": // for testing purposes with existing data
+						containsBathroom = true;
+						break;
+					default:
+						break;
 				}
+
+				trace("type: " + type);
 			}
 
-			updateView();
+			// only push 1 view to represent all items
+			var image:Image = new Image();
+			image.setStyle("skinClass", ImageSkin);
+			
+			if(containsMeds){
+				if(containsBathroom){
+					image.source = bathroomPillImage;
+				}
+				else if(containsDoc){
+					image.source = chartPillImage;
+				}
+				else{
+					image.source = pillImage;
+				}
+			}
+			else if(containsBathroom){
+				image.source = bathroomImage;
+			}
+
+			reducedScheduleItemOccurrenceClockView.initImage(image);
+			scheduleItemOccurrencesContainer.addElement(reducedScheduleItemOccurrenceClockView);
+			_scheduleItemClockViews.push(reducedScheduleItemOccurrenceClockView);
 		}
 
 		public function createScheduleItemClockView(scheduleItemOccurrence:ScheduleItemOccurrence):void

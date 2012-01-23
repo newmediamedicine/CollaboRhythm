@@ -65,5 +65,10 @@ package collaboRhythm.plugins.intake.model
 		{
 			return _controller;
 		}
+
+		public function get type():String
+		{
+			return HEALTH_ACTION_TYPE;
+		}
 	}
 }

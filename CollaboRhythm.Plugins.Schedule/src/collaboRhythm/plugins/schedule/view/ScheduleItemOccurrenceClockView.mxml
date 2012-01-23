@@ -14,14 +14,21 @@
 		[Bindable]
 		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
 
+		public var scheduleItemViewAdapterType:String;
+
 		public function init(scheduleItemOccurrence:ScheduleItemOccurrence, scheduleModel:ScheduleModel):void
 		{
 			_scheduleItemOccurrence = scheduleItemOccurrence;
 
 			var scheduleItemOccurrenceReportingViewAdapter:IHealthActionListViewAdapter = scheduleModel.healthActionListViewAdapterFactory.createScheduledHealthActionViewAdapter(_scheduleItemOccurrence,
 					scheduleModel);
+			scheduleItemViewAdapterType = scheduleItemOccurrenceReportingViewAdapter.type;
 
 			var image:Image = scheduleItemOccurrenceReportingViewAdapter.image;
+			initImage(image);
+		}
+
+		public function initImage(image:Image):void{
 			image.smooth = true;
 			image.left = 0;
 			image.right = 0;
@@ -29,7 +36,7 @@
 			image.bottom = 0;
 			imageRegion.addElement(image);
 		}
-
+		
 		public function get scheduleItemOccurrence():ScheduleItemOccurrence
 		{
 			return _scheduleItemOccurrence;
