@@ -64,6 +64,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 	import skins.LineSeriesCustomRenderer;
 
+	import spark.components.Group;
+
 	import spark.components.HGroup;
 	import spark.components.Label;
 	import spark.components.VGroup;
@@ -283,7 +285,6 @@ package collaboRhythm.shared.ui.healthCharts.view
 					var medicationView:MedicationScheduleItemChartView = new MedicationScheduleItemChartView();
 					medicationView.medicationScheduleItem = medicationScheduleItem;
 					medicationView.verticalAlign = VerticalAlign.MIDDLE;
-					medicationView.percentHeight = 100;
 					createAdherenceGroup(medicationView, concentrationChart, adherenceStripChart);
 				}
 			}
@@ -343,7 +344,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 		{
 			var chart:TouchScrollingScrubChart = new TouchScrollingScrubChart();
 			chart.id = chartKey;
-			chart.setStyle("skinClass", ScrubChartMedicationSkin);
+			chart.setStyle("skinClass", HealthChartSkin);
 //			chart.setStyle("skinClass", ScrubChartMinimalSkin);
 			chart.percentWidth = 100;
 			chart.percentHeight = 100;
@@ -383,7 +384,12 @@ package collaboRhythm.shared.ui.healthCharts.view
 		{
 			_charts.push(chart);
 		}
-		
+
+		/**
+		 * Adds the specified chart to the list of charts that are synchronized. Note that this does NOT add the
+		 * chart to the visual hierarchy.
+		 * @param chart
+		 */
 		protected function addCustomChart(chart:TouchScrollingScrubChart):void
 		{
 			addChart(chart);
@@ -410,6 +416,13 @@ package collaboRhythm.shared.ui.healthCharts.view
 			return "vitalSign_" + vitalSignKey + "_adherence";
 		}
 
+		/**
+		 * Creates a group and adds it to the synchronized charts (at the bottom). The group will use the specified
+		 * image (or other component) on the left and the two charts on the right (stacked on on top of the other).
+		 * @param image The image representing the health action or other content represented by the charts
+		 * @param resultChart The chart representing the results (such as medication concentration or vital signs)
+		 * @param adherenceStripChart The adherence strip chart showing the scheduled health actions and the correspond adherence/actions taken
+		 */
 		public function createAdherenceGroup(image:IVisualElement, resultChart:TouchScrollingScrubChart, adherenceStripChart:TouchScrollingScrubChart):void
 		{
 			var adherenceChartsGroup:VGroup = new VGroup();
@@ -418,6 +431,12 @@ package collaboRhythm.shared.ui.healthCharts.view
 			adherenceChartsGroup.addElement(adherenceStripChart);
 			adherenceChartsGroup.percentWidth = 100;
 			adherenceChartsGroup.percentHeight = 100;
+			
+//			var adherenceImageGroup:Group = new Group();
+//			image.verticalCenter = 0;
+//			adherenceImageGroup.addElement(image);
+//			adherenceImageGroup.percentWidth = 100;
+//			adherenceImageGroup.width = 100;
 
 			var adherenceGroup:HGroup = new HGroup();
 			adherenceGroup.gap = 0;
@@ -425,6 +444,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			adherenceGroup.addElement(adherenceChartsGroup);
 			adherenceGroup.percentWidth = 100;
 			adherenceGroup.percentHeight = 100;
+			adherenceGroup.verticalAlign = VerticalAlign.MIDDLE;
 
 			this.addElement(adherenceGroup);
 		}
@@ -438,26 +458,35 @@ package collaboRhythm.shared.ui.healthCharts.view
 		{
 			for each (var vitalSignKey:String in vitalSignChartCategories)
 			{
-				// find any equipment scheduled to be used to collect this vital sign
-				var equipmentScheduleItem:EquipmentScheduleItem = getMatchingEquipmentScheduleItem(vitalSignKey);
-//				var equipment:Equipment = equipmentScheduleItem.scheduledEquipment;
-				
-				var vitalSignCollection:ArrayCollection = model.record.vitalSignsModel.vitalSignsByCategory[vitalSignKey];
-
-				if (vitalSignCollection && vitalSignCollection.length > 0 && vitalSignCollection[0])
-				{
-					var vitalSignChart:TouchScrollingScrubChart = createVitalSignChart(vitalSignKey, vitalSignCollection);
-					var adherenceStripChart:TouchScrollingScrubChart = createVitalSignAdherenceStripChart(vitalSignKey, equipmentScheduleItem);
-
-					var vitalSignView:Rect = new Rect();
-					vitalSignView.fill = new SolidColor(getVitalSignColor(vitalSignKey));
-//					vitalSignView.equipmentScheduleItem = equipmentScheduleItem;
-					vitalSignView.width = 100;
-					vitalSignView.height = 100;
-					vitalSignView.verticalCenter = 0;
-					createAdherenceGroup(vitalSignView, vitalSignChart, adherenceStripChart);
-				}
+				createVitalSignAdherenceChart(vitalSignKey);
 			}
+		}
+
+		private function createVitalSignAdherenceChart(vitalSignKey:String):void
+		{
+			// find any equipment scheduled to be used to collect this vital sign
+			var equipmentScheduleItem:EquipmentScheduleItem = getMatchingEquipmentScheduleItem(vitalSignKey);
+			var vitalSignCollection:ArrayCollection = model.record.vitalSignsModel.vitalSignsByCategory[vitalSignKey];
+
+			if (vitalSignCollection && vitalSignCollection.length > 0 && vitalSignCollection[0])
+			{
+				var vitalSignChart:TouchScrollingScrubChart = createVitalSignChart(vitalSignKey, vitalSignCollection);
+				var adherenceStripChart:TouchScrollingScrubChart = createVitalSignAdherenceStripChart(vitalSignKey,
+						equipmentScheduleItem);
+				var vitalSignImage:IVisualElement = createVitalSignImage(vitalSignKey);
+				createAdherenceGroup(vitalSignImage, vitalSignChart, adherenceStripChart);
+			}
+		}
+
+		private function createVitalSignImage(vitalSignKey:String):Rect
+		{
+			var vitalSignView:Rect = new Rect();
+			vitalSignView.fill = new SolidColor(getVitalSignColor(vitalSignKey));
+//					vitalSignView.equipmentScheduleItem = equipmentScheduleItem;
+			vitalSignView.width = 100;
+			vitalSignView.height = 100;
+			vitalSignView.verticalCenter = 0;
+			return vitalSignView;
 		}
 
 		/**
@@ -493,7 +522,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			chart.setStyle("vitalSignKey", vitalSignKey);
 		}
 
-		private function createVitalSignAdherenceStripChart(vitalSignKey:String, equipmentScheduleItem:EquipmentScheduleItem):TouchScrollingScrubChart
+		protected function createVitalSignAdherenceStripChart(vitalSignKey:String, equipmentScheduleItem:EquipmentScheduleItem):TouchScrollingScrubChart
 		{
 			var chart:TouchScrollingScrubChart = createAdherenceChart(getVitalSignAdherenceStripChartKey(vitalSignKey));
 			setVitalSignChartStyles(chart, vitalSignKey);
@@ -506,16 +535,17 @@ package collaboRhythm.shared.ui.healthCharts.view
 			return chart;
 		}
 
-		private function getMatchingEquipmentScheduleItem(vitalSignKey:String):EquipmentScheduleItem
+		protected function getMatchingEquipmentScheduleItem(vitalSignKey:String):EquipmentScheduleItem
 		{
 			for each (var equipmentScheduleItem:EquipmentScheduleItem in model.record.equipmentScheduleItemsModel.equipmentScheduleItemCollection)
 			{
+				// TODO: use something more robust than matching the string in the instructions;
 				if (equipmentScheduleItem.instructions.toLowerCase().search(vitalSignKey.toLowerCase()) != -1)
 				{
-					break;
+					return equipmentScheduleItem;
 				}
 			}
-			return equipmentScheduleItem;
+			return null;
 		}
 
 		// TODO: implement and use this method to update the charts when the demo date changes

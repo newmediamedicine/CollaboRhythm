@@ -12,10 +12,10 @@
 
 		<s:HGroup id="bloodPressureGroup" height="100%" width="100%" gap="0" minHeight="100">
 			<s:Group height="100%">
-				<view:BloodPressureScheduleItemClockView width="100" height="100" verticalCenter="0"/>
+				<view:BloodPressureScheduleItemClockView id="bloodPressureImage" width="100" height="100" verticalCenter="0"/>
 			</s:Group>
 			<controls:TouchScrollingScrubChart id="bloodPressureChart"
-											   skinClass="com.dougmccune.controls.ScrubChartMinimalSkin"
+											   skinClass="collaboRhythm.shared.ui.healthCharts.view.HealthChartSkin"
 											   height="100%" width="100%"
 											   creationComplete="bloodPressureChart_creationCompleteHandler(event)"
 											   topBorderVisible="true"
@@ -122,6 +122,7 @@
 
 	<fx:Script><![CDATA[
 		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
+		import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
 		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 		import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 		import collaboRhythm.shared.model.settings.Settings;
@@ -153,7 +154,13 @@
 			if (model.systolicData && model.systolicData.length > 0)
 			{
 				_useBloodPressureChart = true;
-				addCustomChartGroup(bloodPressureGroup);
+
+				var vitalSignKey:String = VitalSignsModel.SYSTOLIC_CATEGORY;
+				var equipmentScheduleItem:EquipmentScheduleItem = getMatchingEquipmentScheduleItem(vitalSignKey);
+				var adherenceStripChart:TouchScrollingScrubChart = createVitalSignAdherenceStripChart(vitalSignKey,
+						equipmentScheduleItem);
+
+				createAdherenceGroup(bloodPressureImage, bloodPressureChart, adherenceStripChart);
 				addCustomChart(bloodPressureChart);
 			}
 		}
@@ -220,9 +227,12 @@
 			var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
 			verticalAxis.minimum = BLOOD_PRESSURE_VERTICAL_AXIS_MINIMUM;
 			verticalAxis.maximum = BLOOD_PRESSURE_VERTICAL_AXIS_MAXIMUM;
-			verticalAxis = chart.mainChartCover.verticalAxis as LinearAxis;
-			verticalAxis.minimum = BLOOD_PRESSURE_VERTICAL_AXIS_MINIMUM;
-			verticalAxis.maximum = BLOOD_PRESSURE_VERTICAL_AXIS_MAXIMUM;
+			if (chart.mainChartCover)
+			{
+				verticalAxis = chart.mainChartCover.verticalAxis as LinearAxis;
+				verticalAxis.minimum = BLOOD_PRESSURE_VERTICAL_AXIS_MINIMUM;
+				verticalAxis.maximum = BLOOD_PRESSURE_VERTICAL_AXIS_MAXIMUM;
+			}
 
 			if (chart.rangeChart)
 			{

@@ -135,20 +135,23 @@ package collaboRhythm.core.controller.apps
 
 		public function showWidgetsInNewContainers():void
 		{
-			var widgetContainerIndex:uint = 0;
-			for each (var appGroup:AppGroup in _appGroups.values())
+			if (_appGroups)
 			{
-				var widgetContainer:IVisualElementContainer = _widgetContainers[widgetContainerIndex];
-				createWidgetViewsForGroup(appGroup, widgetContainer);
-				widgetContainerIndex++;
-			}
+				var widgetContainerIndex:uint = 0;
+				for each (var appGroup:AppGroup in _appGroups.values())
+				{
+					var widgetContainer:IVisualElementContainer = _widgetContainers[widgetContainerIndex];
+					createWidgetViewsForGroup(appGroup, widgetContainer);
+					widgetContainerIndex++;
+				}
 
-			if (_appGroups.length > _widgetContainers.length)
-			{
-				_logger.warn("Warning: a container was not provided for at least one app group specified in settings.xml.");
-			}
+				if (_appGroups.length > _widgetContainers.length)
+				{
+					_logger.warn("Warning: a container was not provided for at least one app group specified in settings.xml.");
+				}
 
-			showAllWidgets();
+				showAllWidgets();
+			}
 		}
 
 		private function createWidgetViewsForGroup(appGroup:AppGroup, widgetContainer:IVisualElementContainer):void

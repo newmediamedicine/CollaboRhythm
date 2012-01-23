@@ -74,6 +74,12 @@ package collaboRhythm.tablet.controller
 		{
 			if (!(_tabletApplication.navigator.activeView is TabletWidgetViewContainer))
 				_tabletAppControllersMediator.destroyWidgetViews();
+
+			if (_reloadWithFullView)
+			{
+				appControllersMediator.showFullView(_reloadWithFullView);
+				_reloadWithFullView = null;
+			}
 		}
 
 		private function viewNavigator_addedHandler(event:Event):void
@@ -109,6 +115,14 @@ package collaboRhythm.tablet.controller
                 activeRecordView.init(this, recordAccount);
                 activeRecordView.visible = true;
             }
+			else if (_reloadWithFullView)
+			{
+				openRecordAndShowWidgets(recordAccount);
+				if (navigator)
+				{
+					navigator.popToFirstView();
+				}
+			}
 		}
 
 		private function get activeRecordView():ActiveRecordView
@@ -120,11 +134,18 @@ package collaboRhythm.tablet.controller
 		// only after the active record view has been made visible are they loaded, this makes the UI more responsive
 		public function openRecordAndShowWidgets(recordAccount:Account):void
 		{
-			_tabletAppControllersMediator = new TabletAppControllersMediator(activeRecordView.widgetContainers,
-																			 _fullContainer, _settings,
-																			 _componentContainer,
-																			 _collaborationController.collaborationModel.collaborationLobbyNetConnectionService,
-			this);
+			if (_tabletAppControllersMediator == null)
+			{
+				_tabletAppControllersMediator = new TabletAppControllersMediator(activeRecordView.widgetContainers,
+						_fullContainer, _settings,
+						_componentContainer,
+						_collaborationController.collaborationModel.collaborationLobbyNetConnectionService,
+						this);
+			}
+			else if (activeRecordView)
+			{
+				_tabletAppControllersMediator.widgetContainers = activeRecordView.widgetContainers;
+			}
 			_tabletAppControllersMediator.createAndStartApps(_activeAccount, recordAccount);
 			loadDocuments(recordAccount);
 		}
