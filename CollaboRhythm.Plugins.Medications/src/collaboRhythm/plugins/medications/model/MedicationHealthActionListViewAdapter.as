@@ -1,9 +1,13 @@
 package collaboRhythm.plugins.medications.model
 {
 	import collaboRhythm.plugins.medications.view.MedicationImage;
+	import collaboRhythm.plugins.schedule.shared.controller.HealthActionListViewControllerBase;
+	import collaboRhythm.plugins.schedule.shared.model.HealthActionBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewController;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewModel;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
+	import collaboRhythm.plugins.schedule.shared.model.MedicationHealthAction;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
@@ -15,26 +19,35 @@ package collaboRhythm.plugins.medications.model
 
 	import spark.components.Image;
 
-	public class MedicationScheduleItemOccurrenceReportingViewAdapter implements IHealthActionListViewAdapter
+	public class MedicationHealthActionListViewAdapter implements IHealthActionListViewAdapter
 	{
 		private var _medicationScheduleItem:MedicationScheduleItem;
 		private var _medicationOrder:MedicationOrder;
 		private var _medicationName:MedicationName;
 		private var _medicationColorSource:IMedicationColorSource;
-		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
-		private var _scheduleModel:IScheduleModel;
+		private var _medicationHealthAction:MedicationHealthAction;
 
-		public function MedicationScheduleItemOccurrenceReportingViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
-																			 scheduleModel:IScheduleModel)
+		private var _model:MedicationHealthActionListViewModel;
+		private var _controller:HealthActionListViewControllerBase;
+
+		public function MedicationHealthActionListViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
+																			 healthActionModelDetailsProvider:IHealthActionModelDetailsProvider)
 		{
-			_scheduleItemOccurrence = scheduleItemOccurrence;
-			_scheduleModel = scheduleModel;
-
 			_medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
 			_medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
 			_medicationName = MedicationNameUtil.parseName(_medicationScheduleItem.name.text);
 
 			_medicationColorSource = WorkstationKernel.instance.resolve(IMedicationColorSource) as IMedicationColorSource;
+
+			_medicationHealthAction = new MedicationHealthAction(_medicationScheduleItem.name.text, _medicationOrder.name.text);
+
+			_model = new MedicationHealthActionListViewModel(scheduleItemOccurrence, healthActionModelDetailsProvider);
+			_controller = new HealthActionListViewControllerBase(_model)
+		}
+
+		public function get healthAction():HealthActionBase
+		{
+			return _medicationHealthAction;
 		}
 
 		public function get image():Image
@@ -75,9 +88,14 @@ package collaboRhythm.plugins.medications.model
 			return _medicationScheduleItem.instructions;
 		}
 
-		public function get model():ScheduleItemOccurrenceReportingModelBase
+		public function get model():IHealthActionListViewModel
 		{
-			return new MedicationScheduleItemOccurrenceReportingModel(_scheduleItemOccurrence, _scheduleModel);
+			return _model;
+		}
+
+		public function get controller():IHealthActionListViewController
+		{
+			return _controller;
 		}
 	}
 }

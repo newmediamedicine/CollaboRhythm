@@ -928,42 +928,6 @@
     <accessSecret>Zdfz4j4DZqC4jxrCmcsm</accessSecret>
     <demographicsId>d66490ce-2c5b-49ef-8c7d-4e6e70e2dab5</demographicsId>
   </AccountSource>
-  <AccountSource>
-   <accountId>owen@records.media.mit.edu</accountId>
-   <contactEmail>sgilroy@mit.edu</contactEmail>
-   <fullName>Owen Chiu</fullName>
-   <username>ochiu</username>
-   <password>asthma</password>
-   <givenName>Owen</givenName>
-   <familyName>Chiu</familyName>
-   <streetAddress>20 Main Street</streetAddress>
-   <postalCode>12345</postalCode>
-   <locality>Boston</locality>
-   <region>Massachusetts</region>
-   <country>US</country>
-   <timeZone>-5GMT</timeZone>
-   <emailPersonal>owen@records.media.mit.edu</emailPersonal>
-   <phoneNumberHome>1-555-555-6548</phoneNumberHome>
-   <phoneNumberWork>1-555-555-8654</phoneNumberWork>
-   <instantMessengerName>owen@records.media.mit.edu</instantMessengerName>
-   <dateOfBirth>2002-06-04T00:00:00Z</dateOfBirth>
-   <age>9</age>
-   <gender>Male</gender>
-   <ethnicity>American</ethnicity>
-   <language>English</language>
-   <maritalStatus>Single</maritalStatus>
-   <employmentStatus>Student</employmentStatus>
-   <employmentIndustry>School</employmentIndustry>
-   <occupation>Student</occupation>
-   <religion>None</religion>
-   <highestEducation>Elementary</highestEducation>
-   <organDonar>true</organDonar>
-   <recordId>46442d00-3d8d-4609-b3f3-9a87da28af31</recordId>
-   <accessKey>zwoqzpdSndXrb34Csyxx</accessKey>
-   <accessSecret>rAAllpcaa0oY0ir97ovp</accessSecret>
-   <demographicsId>12625ea9-f3c7-44a9-bf4d-996da59fd4cc</demographicsId>
-   <status>Demographics document created. Id: 12625ea9-f3c7-44a9-bf4d-996da59fd4cc</status>
- </AccountSource>
   <saveDate>Wed Jan 18 17:29:10 GMT-0500 2012</saveDate>
   <indivoServerBaseURL>http://184.106.136.151:8000</indivoServerBaseURL>
 </dataroot>

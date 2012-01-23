@@ -5,12 +5,12 @@
    <LoadableIndivoDocument>
       <document>
          <MedicationOrder xmlns="http://indivo.org/vocab/xml/documents#">
-            <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+            <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
             <orderType>prescribed</orderType>
             <orderedBy>jking@records.media.mit.edu</orderedBy>
             <dateOrdered>2011-07-14T19:13:11Z</dateOrdered>
             <dateExpires>2012-07-14T09:00:00-04:00</dateExpires>
-            <indication>diabetes</indication>
+            <indication>asthma</indication>
             <amountOrdered>
                <value>90</value>
                <unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
@@ -24,15 +24,14 @@
             <LoadableIndivoDocument>
                <document>
                   <MedicationFill xmlns="http://indivo.org/vocab/xml/documents#">
-                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
                      <filledBy>ljohnson@records.media.mit.edu</filledBy>
                      <dateFilled>2011-07-14T19:13:11Z</dateFilled>
                      <amountFilled>
                         <value>90</value>
                         <unit>tab</unit>
                      </amountFilled>
-                     <ndc>003782072</ndc>
-                     <instructions>do not expose to direct sunlight</instructions>
+                     <ndc>0173071820</ndc>
                   </MedicationFill>
                </document>
             </LoadableIndivoDocument>
@@ -41,7 +40,7 @@
             <LoadableIndivoDocument>
                <document>
                   <MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
-                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
+                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
                      <scheduledBy>jking@records.media.mit.edu</scheduledBy>
                      <dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
                      <dateStart>2011-07-15T13:00:00Z</dateStart>
@@ -62,9 +61,9 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-15T14:57:00Z</dateReported>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-15T08:00:00Z</dateReported>
                               <recurrenceIndex>0</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
@@ -74,10 +73,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-15T14:57:00Z</dateReported>
-                                       <dateAdministered>2011-07-15T14:57:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-15T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-15T08:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -95,10 +94,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-16T13:07:00Z</dateReported>
-                              <recurrenceIndex>1</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-15T20:00:00Z</dateReported>
+                              <recurrenceIndex>0</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -107,10 +106,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-16T13:07:00Z</dateReported>
-                                       <dateAdministered>2011-07-16T13:07:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-15T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-15T20:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -128,10 +127,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-17T13:54:00Z</dateReported>
-                              <recurrenceIndex>2</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-16T08:00:00Z</dateReported>
+                              <recurrenceIndex>0</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -140,10 +139,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-17T13:54:00Z</dateReported>
-                                       <dateAdministered>2011-07-17T13:54:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-16T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-16T08:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -161,10 +160,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-18T13:52:00Z</dateReported>
-                              <recurrenceIndex>3</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-16T20:00:00Z</dateReported>
+                              <recurrenceIndex>1</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -173,10 +172,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-18T13:52:00Z</dateReported>
-                                       <dateAdministered>2011-07-18T13:52:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-16T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-16T20:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -194,10 +193,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-19T13:48:00Z</dateReported>
-                              <recurrenceIndex>4</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-17T08:00:00Z</dateReported>
+                              <recurrenceIndex>1</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -206,10 +205,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-19T13:48:00Z</dateReported>
-                                       <dateAdministered>2011-07-19T13:48:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-17T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-17T08:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -227,10 +226,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-20T14:27:00Z</dateReported>
-                              <recurrenceIndex>5</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-17T20:00:00Z</dateReported>
+                              <recurrenceIndex>2</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -239,10 +238,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-20T14:27:00Z</dateReported>
-                                       <dateAdministered>2011-07-20T14:27:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-17T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-17T20:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -260,10 +259,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-21T14:24:00Z</dateReported>
-                              <recurrenceIndex>6</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-18T08:00:00Z</dateReported>
+                              <recurrenceIndex>2</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -272,10 +271,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-21T14:24:00Z</dateReported>
-                                       <dateAdministered>2011-07-21T14:24:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-18T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-18T08:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -293,10 +292,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-22T14:14:00Z</dateReported>
-                              <recurrenceIndex>7</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-18T20:00:00Z</dateReported>
+                              <recurrenceIndex>3</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -305,10 +304,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-22T14:14:00Z</dateReported>
-                                       <dateAdministered>2011-07-22T14:14:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-18T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-18T20:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -326,10 +325,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-23T14:15:00Z</dateReported>
-                              <recurrenceIndex>8</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-19T08:00:00Z</dateReported>
+                              <recurrenceIndex>3</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -338,10 +337,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-23T14:15:00Z</dateReported>
-                                       <dateAdministered>2011-07-23T14:15:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-19T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-19T08:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -359,43 +358,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-24T14:59:00Z</dateReported>
-                              <recurrenceIndex>9</recurrenceIndex>
-                              <adherence>false</adherence>
-                           </AdherenceItem>
-                        </document>
-                     </LoadableIndivoDocument>
-                     <LoadableIndivoDocument>
-                        <document>
-                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-25T13:12:00Z</dateReported>
-                              <recurrenceIndex>10</recurrenceIndex>
-                              <adherence>false</adherence>
-                           </AdherenceItem>
-                        </document>
-                     </LoadableIndivoDocument>
-                     <LoadableIndivoDocument>
-                        <document>
-                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-26T15:26:00Z</dateReported>
-                              <recurrenceIndex>11</recurrenceIndex>
-                              <adherence>false</adherence>
-                           </AdherenceItem>
-                        </document>
-                     </LoadableIndivoDocument>
-                     <LoadableIndivoDocument>
-                        <document>
-                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-27T13:47:00Z</dateReported>
-                              <recurrenceIndex>12</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-19T20:00:00Z</dateReported>
+                              <recurrenceIndex>4</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -404,10 +370,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-27T13:47:00Z</dateReported>
-                                       <dateAdministered>2011-07-27T13:47:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-19T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-19T20:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -425,10 +391,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-28T14:12:00Z</dateReported>
-                              <recurrenceIndex>13</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-20T08:00:00Z</dateReported>
+                              <recurrenceIndex>4</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -437,10 +403,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-28T14:12:00Z</dateReported>
-                                       <dateAdministered>2011-07-28T14:12:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-20T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-20T08:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -458,10 +424,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-29T14:44:00Z</dateReported>
-                              <recurrenceIndex>14</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-20T20:00:00Z</dateReported>
+                              <recurrenceIndex>5</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -470,10 +436,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-29T14:44:00Z</dateReported>
-                                       <dateAdministered>2011-07-29T14:44:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-20T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-20T20:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -491,10 +457,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-30T14:02:00Z</dateReported>
-                              <recurrenceIndex>15</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-21T08:00:00Z</dateReported>
+                              <recurrenceIndex>5</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -503,10 +469,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-30T14:02:00Z</dateReported>
-                                       <dateAdministered>2011-07-30T14:02:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-21T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-21T08:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -524,10 +490,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-31T13:24:00Z</dateReported>
-                              <recurrenceIndex>16</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-21T20:00:00Z</dateReported>
+                              <recurrenceIndex>6</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -536,10 +502,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-31T13:24:00Z</dateReported>
-                                       <dateAdministered>2011-07-31T13:24:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-21T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-21T20:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -557,10 +523,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-08-01T15:22:00Z</dateReported>
-                              <recurrenceIndex>17</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-22T08:00:00Z</dateReported>
+                              <recurrenceIndex>6</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -569,10 +535,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-08-01T15:22:00Z</dateReported>
-                                       <dateAdministered>2011-08-01T15:22:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-22T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-22T08:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -590,10 +556,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-08-02T15:00:00Z</dateReported>
-                              <recurrenceIndex>18</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-22T20:00:00Z</dateReported>
+                              <recurrenceIndex>7</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -602,10 +568,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-08-02T15:00:00Z</dateReported>
-                                       <dateAdministered>2011-08-02T15:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-22T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-22T20:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -623,10 +589,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-08-03T13:53:00Z</dateReported>
-                              <recurrenceIndex>19</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-23T08:00:00Z</dateReported>
+                              <recurrenceIndex>7</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -635,10 +601,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-08-03T13:53:00Z</dateReported>
-                                       <dateAdministered>2011-08-03T13:53:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-23T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-23T08:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -656,10 +622,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-08-04T14:00:00Z</dateReported>
-                              <recurrenceIndex>20</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-23T20:00:00Z</dateReported>
+                              <recurrenceIndex>8</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -668,10 +634,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-08-04T14:00:00Z</dateReported>
-                                       <dateAdministered>2011-08-04T14:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-23T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-23T20:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -689,10 +655,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-08-05T13:54:00Z</dateReported>
-                              <recurrenceIndex>21</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-24T08:00:00Z</dateReported>
+                              <recurrenceIndex>8</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -701,10 +667,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-08-05T13:54:00Z</dateReported>
-                                       <dateAdministered>2011-08-05T13:54:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-24T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-24T08:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -722,10 +688,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-08-06T13:14:00Z</dateReported>
-                              <recurrenceIndex>22</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-24T20:00:00Z</dateReported>
+                              <recurrenceIndex>9</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -734,10 +700,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-08-06T13:14:00Z</dateReported>
-                                       <dateAdministered>2011-08-06T13:14:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-24T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-24T20:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -755,43 +721,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-08-07T13:00:00Z</dateReported>
-                              <recurrenceIndex>23</recurrenceIndex>
-                              <adherence>false</adherence>
-                           </AdherenceItem>
-                        </document>
-                     </LoadableIndivoDocument>
-                     <LoadableIndivoDocument>
-                        <document>
-                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-08-08T13:10:00Z</dateReported>
-                              <recurrenceIndex>24</recurrenceIndex>
-                              <adherence>false</adherence>
-                           </AdherenceItem>
-                        </document>
-                     </LoadableIndivoDocument>
-                     <LoadableIndivoDocument>
-                        <document>
-                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-08-09T13:18:00Z</dateReported>
-                              <recurrenceIndex>25</recurrenceIndex>
-                              <adherence>false</adherence>
-                           </AdherenceItem>
-                        </document>
-                     </LoadableIndivoDocument>
-                     <LoadableIndivoDocument>
-                        <document>
-                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-08-10T13:29:00Z</dateReported>
-                              <recurrenceIndex>26</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-25T08:00:00Z</dateReported>
+                              <recurrenceIndex>9</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -800,10 +733,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-08-10T13:29:00Z</dateReported>
-                                       <dateAdministered>2011-08-10T13:29:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-25T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-25T08:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -821,10 +754,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-08-11T13:40:00Z</dateReported>
-                              <recurrenceIndex>27</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-25T20:00:00Z</dateReported>
+                              <recurrenceIndex>10</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -833,10 +766,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-08-11T13:40:00Z</dateReported>
-                                       <dateAdministered>2011-08-11T13:40:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-25T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-25T20:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -854,10 +787,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                              <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-08-12T13:51:00Z</dateReported>
-                              <recurrenceIndex>28</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-26T08:00:00Z</dateReported>
+                              <recurrenceIndex>10</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -866,16 +799,181 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="104375">Lisinopril 2.5 MG Oral Tablet [Zestril]</name>
-                                       <reportedBy>csantos@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-08-12T13:51:00Z</dateReported>
-                                       <dateAdministered>2011-08-12T13:51:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-26T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-26T08:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>67</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-26T20:00:00Z</dateReported>
+                              <recurrenceIndex>11</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-26T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-26T20:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>66</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-27T08:00:00Z</dateReported>
+                              <recurrenceIndex>11</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-27T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-27T08:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>65</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-27T20:00:00Z</dateReported>
+                              <recurrenceIndex>12</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-27T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-27T20:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>64</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-28T08:00:00Z</dateReported>
+                              <recurrenceIndex>12</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-28T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-28T08:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>63</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-28T20:00:00Z</dateReported>
+                              <recurrenceIndex>13</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-28T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-28T20:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>62</value>
                                           <unit>tablet</unit>
                                        </amountRemaining>
                                     </MedicationAdministration>

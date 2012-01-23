@@ -16,10 +16,10 @@
  */
 package collaboRhythm.shared.model.healthRecord.document
 {
+	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
-
 
 	[Bindable]
 	public class ScheduleItemOccurrence
@@ -44,10 +44,30 @@ package collaboRhythm.shared.model.healthRecord.document
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
 
-		public function createAdherenceItem(adherenceResults:Vector.<DocumentBase>, reportedBy:String):void
+		public function createAdherenceItem(adherenceResults:Vector.<DocumentBase>,
+											record:Record, reportedBy:String):void
 		{
 			adherenceItem = new AdherenceItem();
-			adherenceItem.init(scheduleItem.name, reportedBy, _currentDateSource.now(), _recurrenceIndex, adherenceResults);
+			adherenceItem.init(scheduleItem.name, reportedBy, _currentDateSource.now(), _recurrenceIndex,
+					adherenceResults);
+
+			adherenceItem.pendingAction = DocumentBase.ACTION_CREATE;
+			record.addDocument(adherenceItem);
+			record.addNewRelationship(ScheduleItemBase.RELATION_TYPE_ADHERENCE_ITEM,
+					scheduleItem, adherenceItem);
+			for each (var adherenceResult:DocumentBase in adherenceItem.adherenceResults)
+			{
+				adherenceResult.pendingAction = DocumentBase.ACTION_CREATE;
+				record.addDocument(adherenceResult);
+				record.addNewRelationship(AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT,
+						adherenceItem, adherenceResult)
+			}
+		}
+
+		public function voidAdherenceItem(record:Record):void
+		{
+			record.removeDocument(adherenceItem, DocumentBase.ACTION_VOID, "deleted by user", true);
+			adherenceItem = null;
 		}
 
 		public function get recurrenceIndex():int

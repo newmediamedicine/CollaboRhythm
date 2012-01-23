@@ -1,10 +1,13 @@
 package collaboRhythm.plugins.painReport.model
 {
 	import collaboRhythm.plugins.painReport.controller.PainReportHealthActionInputController;
-	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
+	import collaboRhythm.plugins.schedule.shared.model.HealthActionBase;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputControllerFactory;
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+
+	import flash.net.URLVariables;
 
 	import spark.components.ViewNavigator;
 
@@ -14,16 +17,25 @@ package collaboRhythm.plugins.painReport.model
 		{
 		}
 
-		public function createHealthActionInputController(name:String, measurements:String,
+		public function createHealthActionInputController(healthAction:HealthActionBase,
 														  scheduleItemOccurrence:ScheduleItemOccurrence,
-														  scheduleModel:IScheduleModel,
+														  healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
 														  viewNavigator:ViewNavigator,
-														  currentHealthActionInputController:HealthActionInputControllerBase):HealthActionInputControllerBase
+														  currentHealthActionInputController:IHealthActionInputController):IHealthActionInputController
 		{
-			if (name == "Pain")
-				return new PainReportHealthActionInputController(scheduleItemOccurrence, scheduleModel, viewNavigator);
+			if (healthAction.type == PainReportHealthActionListViewAdapter.HEALTH_ACTION_TYPE)
+				return new PainReportHealthActionInputController(scheduleItemOccurrence, healthActionModelDetailsProvider, viewNavigator);
 			else
 				return currentHealthActionInputController;
+		}
+
+		public function createDeviceHealthActionInputController(urlVariables:URLVariables,
+																scheduleItemOccurrence:ScheduleItemOccurrence,
+																healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+																viewNavigator:ViewNavigator,
+																currentDeviceHealthActionInputController:IHealthActionInputController):IHealthActionInputController
+		{
+			return currentDeviceHealthActionInputController;
 		}
 	}
 }

@@ -1,15 +1,15 @@
 package collaboRhythm.plugins.painReport.model
 {
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
+	import collaboRhythm.plugins.schedule.shared.model.HealthActionListViewModelBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
-	public class PainReportHealthActionListViewModel extends ScheduleItemOccurrenceReportingModelBase
+	public class PainReportHealthActionListViewModel extends HealthActionListViewModelBase
 	{
 		public function PainReportHealthActionListViewModel(scheduleItemOccurrence:ScheduleItemOccurrence,
-																		 scheduleModel:IScheduleModel)
+															healthActionModelDetailsProvider:IHealthActionModelDetailsProvider)
 		{
-			super(scheduleItemOccurrence, scheduleModel)
+			super(scheduleItemOccurrence, healthActionModelDetailsProvider)
 		}
 	}
 }

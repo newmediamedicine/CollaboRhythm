@@ -26,7 +26,7 @@ package collaboRhythm.plugins.schedule.shared.model
     {
 		function createUnscheduledHealthActionViewAdapters(record:Record, adapters:ArrayCollection):void;
 		function createScheduledHealthActionViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
-														scheduleModel:IScheduleModel,
+														healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
 														currentHealthActionListViewAdapter:IHealthActionListViewAdapter):IHealthActionListViewAdapter;
     }
 }

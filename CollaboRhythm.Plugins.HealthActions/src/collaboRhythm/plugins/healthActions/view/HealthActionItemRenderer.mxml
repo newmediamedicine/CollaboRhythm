@@ -50,17 +50,17 @@
 	<fx:Script>
 	    <![CDATA[
 		import collaboRhythm.plugins.healthActions.model.HealthActionsModel;
-		import collaboRhythm.plugins.schedule.shared.controller.ScheduleItemOccurrenceReportingController;
+		import collaboRhythm.plugins.schedule.shared.controller.HealthActionListViewControllerBase;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
-		import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
-		import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewController;
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewModel;
 
 		import spark.components.Image;
 
 		public static const SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT:Number = 142;
 
 		private var _isDataSet:Boolean = false;
-		private var _scheduleItemOccurrenceReportingController:ScheduleItemOccurrenceReportingController;
+		private var _scheduleItemOccurrenceReportingController:IHealthActionListViewController;
 
 		override public function set data(value:Object):void
 		{
@@ -72,16 +72,15 @@
 			{
 				super.data = value;
 
+				var healthActionListViewAdapter:IHealthActionListViewAdapter = IHealthActionListViewAdapter(value);
+
 				var healthActionsList:HealthActionsList = HealthActionsList(owner);
 				var healthActionsModel:HealthActionsModel = healthActionsList.healthActionsModel;
 
-				var healthActionListViewAdapter:IHealthActionListViewAdapter = IHealthActionListViewAdapter(value);
-				var scheduleItemOccurrenceReportingModel:ScheduleItemOccurrenceReportingModelBase = healthActionListViewAdapter.model;
-				scheduleItemOccurrenceReportingModel.healthActionInputController = healthActionsModel.healthActionInputControllerFactory.createHealthActionInputController("Pain",
-						null, null, healthActionsModel,
-						healthActionsList.healthActionsAppController.viewNavigator);
-				_scheduleItemOccurrenceReportingController = new ScheduleItemOccurrenceReportingController(scheduleItemOccurrenceReportingModel,
-						healthActionsList.healthActionsAppController.viewNavigator);
+				var scheduleItemOccurrenceReportingModel:IHealthActionListViewModel = healthActionListViewAdapter.model;
+				_scheduleItemOccurrenceReportingController = healthActionListViewAdapter.controller;
+				scheduleItemOccurrenceReportingModel.healthActionInputController = healthActionsModel.healthActionInputControllerFactory.createHealthActionInputController(healthActionListViewAdapter.healthAction,
+						null, healthActionsModel, healthActionsList.healthActionsAppController.viewNavigator);
 
 				nameLabel.text = healthActionListViewAdapter.name;
 				descriptionLabel.text = healthActionListViewAdapter.description;
@@ -105,7 +104,7 @@
 
 		private function healthActionItemRenderer_clickHandler():void
 		{
-			_scheduleItemOccurrenceReportingController.updateAdherence();
+			_scheduleItemOccurrenceReportingController.handleHealthActionResult();
 		}
 		]]>
 	    </fx:Script>
