@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="mbrooks - Convert blood glucose data to hierarchy" type="XSLT" factoryName="XSLT">
-    <option name="myOutputFile" value="F:\CollaboRhythmCardiacRehab\CollaboRhythmCardiacRehab\CollaboRhythm.ExampleData\data\slice1\mbrooks\blood_glucose_data_converted.xml" />
+  <configuration default="false" name="mfletcher - Convert exercise sideways arm bend" type="XSLT" factoryName="XSLT">
+    <option name="myOutputFile" value="F:\CollaboRhythmCardiacRehab\CollaboRhythmCardiacRehab\CollaboRhythm.ExampleData\data\slice1\mfletcher\staging\exercise_sidewaysarmbends_adherence_hierarchy.xml" />
     <option name="myOpenOutputFile" value="true" />
     <option name="myOpenInBrowser" value="false" />
     <option name="mySmartErrorHandling" value="true" />
@@ -10,13 +10,11 @@
     <option name="myModule" />
     <option name="myJdk" value="1.6" />
     <XsltFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/xslt/equipment_adherence_flat_to_hierarchy.xsl" />
-    <XmlFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/slice1/mbrooks/staging/equipment_foraD40b_adherence.xml" />
+    <XmlFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/slice1/mfletcher/staging/exercise_sidewaysarmbends_adherence.xml" />
     <parameters />
     <OutputType value="CONSOLE" save-to-file="true" />
     <FileType name="XML" />
     <JdkChoice value="FROM_MODULE" />
-    <RunnerSettings RunnerId="Run" />
-    <ConfigurationWrapper RunnerId="Run" />
     <method>
       <option name="Make" enabled="false" />
     </method>
