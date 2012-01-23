@@ -441,7 +441,7 @@ package collaboRhythm.visualization.view
 			{
 				// find any equipment scheduled to be used to collect this vital sign
 				var equipmentScheduleItem:EquipmentScheduleItem = getMatchingEquipmentScheduleItem(vitalSignKey);
-				var equipment:Equipment = equipmentScheduleItem.scheduledEquipment;
+//				var equipment:Equipment = equipmentScheduleItem.scheduledEquipment;
 				
 				var vitalSignCollection:ArrayCollection = model.record.vitalSignsModel.vitalSignsByCategory[vitalSignKey];
 
@@ -498,7 +498,7 @@ package collaboRhythm.visualization.view
 			var chart:TouchScrollingScrubChart = createAdherenceChart(getVitalSignAdherenceStripChartKey(vitalSignKey));
 			setVitalSignChartStyles(chart, vitalSignKey);
 
-			initializeAdherenceStripChart(chart, equipmentScheduleItem.name.text);
+			initializeAdherenceStripChart(chart, equipmentScheduleItem ? equipmentScheduleItem.name.text : null);
 
 			chart.addEventListener(SkinPartEvent.PART_ADDED, vitalSignAdherenceStripChart_skinPartAddedHandler, false, 0,
 					true);

@@ -92,8 +92,10 @@ package collaboRhythm.core.model.healthRecord.service
 
             for each (var medicationAdministrationXml:XML in value.Report)
             {
-                var medicationAdministration:MedicationAdministration = new MedicationAdministration();
-                if (initFromReportXML(medicationAdministrationXml, medicationAdministration))
+                var medicationAdministration:MedicationAdministration = unmarshallReportXml(medicationAdministrationXml) as MedicationAdministration;
+				DocumentMetadata.parseDocumentMetadata(medicationAdministrationXml.Meta.Document[0], medicationAdministration.meta);
+				loadReplacedDocuments(record, medicationAdministration);
+                if (medicationAdministration)
 				{
 					if (medicationAdministration.dateAdministered.valueOf() <= nowTime && medicationAdministration.dateReported.valueOf() <= nowTime)
 					{

@@ -64,6 +64,7 @@
 										<unit>tab</unit>
 									</amountFilled>
 									<xsl:copy-of select="$ndc"/>
+									<instructions>do not expose to direct sunlight</instructions>
 								</MedicationFill>
 							</document>
 						</LoadableIndivoDocument>

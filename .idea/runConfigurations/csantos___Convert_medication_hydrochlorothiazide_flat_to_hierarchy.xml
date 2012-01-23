@@ -16,7 +16,9 @@
     <FileType name="XML" />
     <JdkChoice value="FROM_MODULE" />
     <RunnerSettings RunnerId="Run" />
+    <RunnerSettings RunnerId="XsltDebuggerRunner" />
     <ConfigurationWrapper RunnerId="Run" />
+    <ConfigurationWrapper RunnerId="XsltDebuggerRunner" />
     <method>
       <option name="Make" enabled="false" />
     </method>

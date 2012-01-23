@@ -1,5 +1,6 @@
 package collaboRhythm.plugins.equipment.model
 {
+	import collaboRhythm.plugins.schedule.shared.model.HealthAction;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
@@ -13,6 +14,8 @@ package collaboRhythm.plugins.equipment.model
 
 	public class EquipmentScheduleItemOccurrenceReportingViewAdapter implements IHealthActionListViewAdapter
 	{
+		public static const HEALTH_ACTION_TYPE:String = "Equipment";
+
 		private var _equipmentScheduleItem:EquipmentScheduleItem;
 		private var _equipment:Equipment;
 		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
@@ -26,6 +29,11 @@ package collaboRhythm.plugins.equipment.model
 
 			_equipmentScheduleItem = scheduleItemOccurrence.scheduleItem as EquipmentScheduleItem;
 			_equipment = _equipmentScheduleItem.scheduledEquipment;
+		}
+
+		public function get healthAction():HealthAction
+		{
+			return new HealthAction(HEALTH_ACTION_TYPE, _equipmentScheduleItem.instructions, _equipment.name);
 		}
 
 		public function get image():Image

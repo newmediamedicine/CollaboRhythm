@@ -1,0 +1,30 @@
+<!--~
+  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<project name="CollaboRhythm ASDoc" basedir=".">
+	<taskdef name="asdoc" classpath="${basedir}/asdoc-ant.jar" classname="org.pranaframework.ant.Asdoc"/>
+	<target name="docs">
+		<asdoc
+				docSources="${basedir}\src"
+				windowTitle="CollaboRhythm Documentation"
+				mainTitle="CollaboRhythm"
+				footer="Copyright 2012 John Moore, Scott Gilroy"
+				leftFramesetWidth="200"
+				output="${basedir}\api"
+				executable="C:\Program Files (x86)\Adobe\flex\sdks\4.6.0\bin\asdoc.exe"
+				/>
+	</target>
+</project>

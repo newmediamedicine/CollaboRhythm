@@ -4,6 +4,8 @@ package collaboRhythm.plugins.schedule.shared.model
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 
+	import flash.net.URLVariables;
+
 	import spark.components.ViewNavigator;
 
 	public class MasterHealthActionInputControllerFactory
@@ -15,7 +17,7 @@ package collaboRhythm.plugins.schedule.shared.model
 			_factoryArray = componentContainer.resolveAll(IHealthActionInputControllerFactory);
 		}
 
-		public function createHealthActionInputController(name:String, measurements:String,
+		public function createHealthActionInputController(healthAction:HealthAction,
 														  scheduleItemOccurrence:ScheduleItemOccurrence,
 														  scheduleModel:IScheduleModel,
 														  viewNavigator:ViewNavigator):HealthActionInputControllerBase
@@ -23,14 +25,30 @@ package collaboRhythm.plugins.schedule.shared.model
 			var currentHealthActionInputController:HealthActionInputControllerBase = null;
 			for each (var healthActionInputControllerFactory:IHealthActionInputControllerFactory in _factoryArray)
 			{
-				var healthActionInputController:HealthActionInputControllerBase = healthActionInputControllerFactory.createHealthActionInputController(name,
-						measurements, scheduleItemOccurrence, scheduleModel, viewNavigator,
-						currentHealthActionInputController);
+				var healthActionInputController:HealthActionInputControllerBase = healthActionInputControllerFactory.createHealthActionInputController(healthAction,
+						scheduleItemOccurrence, scheduleModel, viewNavigator, currentHealthActionInputController);
 				if (healthActionInputController)
 					currentHealthActionInputController = healthActionInputController;
 			}
 
 			return currentHealthActionInputController;
+		}
+
+		public function createDeviceHealthActionInputController(urlVariables:URLVariables,
+																scheduleItemOccurrence:ScheduleItemOccurrence,
+																scheduleModel:IScheduleModel,
+																viewNavigator:ViewNavigator):HealthActionInputControllerBase
+		{
+			var currentDeviceHealthActionInputController:HealthActionInputControllerBase = null;
+			for each (var healthActionInputControllerFactory:IHealthActionInputControllerFactory in _factoryArray)
+			{
+				var deviceHealthActionInputController:HealthActionInputControllerBase = healthActionInputControllerFactory.createDeviceHealthActionInputController(urlVariables,
+						scheduleItemOccurrence, scheduleModel, viewNavigator, currentDeviceHealthActionInputController);
+				if (deviceHealthActionInputController)
+					currentDeviceHealthActionInputController = deviceHealthActionInputController;
+			}
+
+			return currentDeviceHealthActionInputController;
 		}
 	}
 }
