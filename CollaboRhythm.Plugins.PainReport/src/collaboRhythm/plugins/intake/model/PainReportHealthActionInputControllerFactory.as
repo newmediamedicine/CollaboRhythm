@@ -20,7 +20,7 @@ package collaboRhythm.plugins.intake.model
 														  viewNavigator:ViewNavigator,
 														  currentHealthActionInputController:HealthActionInputControllerBase):HealthActionInputControllerBase
 		{
-			if (name == "Pain")
+			if (name == "Pain Report")
 				return new PainReportHealthActionInputController(scheduleItemOccurrence, scheduleModel, viewNavigator);
 			else
 				return currentHealthActionInputController;

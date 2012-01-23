@@ -20,10 +20,10 @@ package collaboRhythm.plugins.intake.model
 														  viewNavigator:ViewNavigator,
 														  currentHealthActionInputController:HealthActionInputControllerBase):HealthActionInputControllerBase
 		{
-			//if (name == "intake")
+			if (name == "Food / Drink")
 				return new IntakeHealthActionInputController(scheduleItemOccurrence, scheduleModel, viewNavigator);
-			//else
-			//	return currentHealthActionInputController;
+			else
+				return currentHealthActionInputController;
 		}
 	}
 }
