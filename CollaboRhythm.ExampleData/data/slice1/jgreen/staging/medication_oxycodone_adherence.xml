@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+- <!-- 
+~
+  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~ Edited 23-Jan-12 by Elizabeth Phillips
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  
+--> 
+- <IndivoDocuments> 
+- <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#"> 
+<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="1049621">Oxycodone Hydrochloride 5 MG Oral Tablet [Oxycodone]</name> 
+<reportedBy>jgreen@records.media.mit.edu</reportedBy> 
+<dateReported>2011-07-15T14:57:00Z</dateReported> 
+<adherence>true</adherence> 
+<ndc>6079352501</ndc>
+<indication>pain relief</indication> 
+</AdherenceItem> 
+- <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#"> 
+<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="1049621">Oxycodone Hydrochloride 5 MG Oral Tablet [Oxycodone]</name> 
+<reportedBy>jgreen@records.media.mit.edu</reportedBy> 
+<dateReported>2011-07-16T13:07:00Z</dateReported> 
+<adherence>true</adherence> 
+</AdherenceItem> 
+- <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#"> 
+<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="1049621">Oxycodone Hydrochloride 5 MG Oral Tablet [Oxycodone]</name> 
+<reportedBy>jgreen@records.media.mit.edu</reportedBy> 
+<dateReported>2011-07-17T13:54:00Z</dateReported> 
+<adherence>true</adherence> 
+</AdherenceItem> 
+- <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#"> 
+<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="1049621">Oxycodone Hydrochloride 5 MG Oral Tablet [Oxycodone]</name> 
+<reportedBy>jgreen@records.media.mit.edu</reportedBy> 
+<dateReported>2011-07-18T13:52:00Z</dateReported> 
+<adherence>true</adherence> 
+</AdherenceItem> 
+- <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#"> 
+<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="1049621">Oxycodone Hydrochloride 5 MG Oral Tablet [Oxycodone]</name> 
+<reportedBy>jgreen@records.media.mit.edu</reportedBy> 
+<dateReported>2011-07-19T13:48:00Z</dateReported> 
+<adherence>true</adherence> 
+</AdherenceItem> 
+- <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#"> 
+<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="1049621">Oxycodone Hydrochloride 5 MG Oral Tablet [Oxycodone]</name> 
+<reportedBy>jgreen@records.media.mit.edu</reportedBy> 
+<dateReported>2011-07-20T14:27:00Z</dateReported> 
+<adherence>true</adherence> 
+</AdherenceItem> 
+</IndivoDocuments>
+
