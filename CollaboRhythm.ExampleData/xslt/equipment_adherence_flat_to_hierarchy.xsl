@@ -24,6 +24,7 @@
 	<xsl:template match="/">
 		<xsl:variable name="dateStart">2011-07-15T13:00:00Z</xsl:variable>
 		<xsl:variable name="equipmentName" select="IndivoDocuments/BloodPressureAdherenceItem[1]/name"/>
+		<xsl:variable name="equipmentType" select="IndivoDocuments/BloodPressureAdherenceItem[1]/name"/>
 		<xsl:variable name="equipmentScheduleItemInstructions" select="IndivoDocuments/BloodPressureAdherenceItem[1]/instructions"/>
 		<xsl:variable name="reportedBy" select="IndivoDocuments/BloodPressureAdherenceItem[1]/reportedBy"/>
 		<IndivoDocuments>
@@ -171,6 +172,24 @@
 																			<unit abbrev="mg/dL">milligrams per deciliter</unit>
 																		</result>
 																		<site>abdomen</site>
+																	</VitalSign>
+																</document>
+															</LoadableIndivoDocument>
+														</xsl:if>
+														<xsl:if test="peakFlow">
+															<LoadableIndivoDocument>
+																<document>
+																	<VitalSign
+																			xmlns="http://indivo.org/vocab/xml/documents#">
+																		<name>Peak Expiratory Flow Rate</name>
+																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
+																		<dateMeasuredStart>
+																			<xsl:value-of select="dateReported"/>
+																		</dateMeasuredStart>
+																		<result>
+																			<value><xsl:value-of select="peakFlow"/></value>
+																			<unit abbrev="L/min">litres/minute</unit>
+																		</result>
 																	</VitalSign>
 																</document>
 															</LoadableIndivoDocument>

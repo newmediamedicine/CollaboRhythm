@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IndivoDocuments xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:fn="http://www.w3.org/2005/xpath-functions"
+                 xmlns:d="http://indivo.org/vocab/xml/documents#">
+   <LoadableIndivoDocument>
+      <document>
+         <Equipment xmlns="http://indivo.org/vocab/xml/documents#">
+            <dateStarted>2009-12-15</dateStarted>
+            <type>blood pressure monitor</type>
+            <name xmlns="">Chameleon</name>
+         </Equipment>
+      </document>
+      <relatesTo>
+         <relation type="scheduleItem">
+            <LoadableIndivoDocument>
+               <document>
+                  <EquipmentScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
+                     <name xmlns="">Chameleon</name>
+                     <scheduledBy>jking@records.media.mit.edu</scheduledBy>
+                     <dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
+                     <dateStart>2011-07-15T13:00:00Z</dateStart>
+                     <dateEnd>2011-07-15T17:00:00Z</dateEnd>
+                     <recurrenceRule>
+                        <frequency>DAILY</frequency>
+                        <count>90</count>
+                     </recurrenceRule>
+                  </EquipmentScheduleItem>
+               </document>
+               <relatesTo>
+                  <relation type="adherenceItem">
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Chameleon</name>
+                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-15T20:00:00Z</dateReported>
+                              <recurrenceIndex>0</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Peak Expiratory Flow Rate</name>
+                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-15T20:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>299</value>
+                                          <unit abbrev="L/min">litres/minute</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Chameleon</name>
+                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-16T20:00:00Z</dateReported>
+                              <recurrenceIndex>1</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Peak Expiratory Flow Rate</name>
+                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-16T20:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>301</value>
+                                          <unit abbrev="L/min">litres/minute</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Chameleon</name>
+                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-17T20:00:00Z</dateReported>
+                              <recurrenceIndex>2</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Peak Expiratory Flow Rate</name>
+                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-17T20:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>298</value>
+                                          <unit abbrev="L/min">litres/minute</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Chameleon</name>
+                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-18T20:00:00Z</dateReported>
+                              <recurrenceIndex>3</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Peak Expiratory Flow Rate</name>
+                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-18T20:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>300</value>
+                                          <unit abbrev="L/min">litres/minute</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Chameleon</name>
+                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-19T20:00:00Z</dateReported>
+                              <recurrenceIndex>4</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Peak Expiratory Flow Rate</name>
+                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-19T20:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>297</value>
+                                          <unit abbrev="L/min">litres/minute</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Chameleon</name>
+                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-20T20:00:00Z</dateReported>
+                              <recurrenceIndex>5</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Peak Expiratory Flow Rate</name>
+                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-20T20:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>301</value>
+                                          <unit abbrev="L/min">litres/minute</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Chameleon</name>
+                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-21T20:00:00Z</dateReported>
+                              <recurrenceIndex>6</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Peak Expiratory Flow Rate</name>
+                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-21T20:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>295</value>
+                                          <unit abbrev="L/min">litres/minute</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Chameleon</name>
+                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-22T20:00:00Z</dateReported>
+                              <recurrenceIndex>7</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Peak Expiratory Flow Rate</name>
+                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-22T20:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>270</value>
+                                          <unit abbrev="L/min">litres/minute</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Chameleon</name>
+                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-23T20:00:00Z</dateReported>
+                              <recurrenceIndex>8</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Peak Expiratory Flow Rate</name>
+                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-23T20:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>250</value>
+                                          <unit abbrev="L/min">litres/minute</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Chameleon</name>
+                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-24T20:00:00Z</dateReported>
+                              <recurrenceIndex>9</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Peak Expiratory Flow Rate</name>
+                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-24T20:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>220</value>
+                                          <unit abbrev="L/min">litres/minute</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Chameleon</name>
+                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-25T20:00:00Z</dateReported>
+                              <recurrenceIndex>10</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Peak Expiratory Flow Rate</name>
+                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-25T20:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>210</value>
+                                          <unit abbrev="L/min">litres/minute</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Chameleon</name>
+                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-26T20:00:00Z</dateReported>
+                              <recurrenceIndex>11</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Peak Expiratory Flow Rate</name>
+                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-26T20:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>200</value>
+                                          <unit abbrev="L/min">litres/minute</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Chameleon</name>
+                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-27T20:00:00Z</dateReported>
+                              <recurrenceIndex>12</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Peak Expiratory Flow Rate</name>
+                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-27T20:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>250</value>
+                                          <unit abbrev="L/min">litres/minute</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Chameleon</name>
+                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-28T20:00:00Z</dateReported>
+                              <recurrenceIndex>13</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Peak Expiratory Flow Rate</name>
+                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-28T20:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>285</value>
+                                          <unit abbrev="L/min">litres/minute</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                  </relation>
+               </relatesTo>
+            </LoadableIndivoDocument>
+         </relation>
+      </relatesTo>
+   </LoadableIndivoDocument>
+</IndivoDocuments>
