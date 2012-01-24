@@ -57,9 +57,10 @@ package collaboRhythm.shared.controller.apps
 	import spark.primitives.Rect;
 
 	/**
-	 * Represents an instance of a workstation app which can be used to view and/or manipulate some aspect of a health record
-	 * in a collaborative (or solo) work session. Workstation apps can have a mini "widget" view and a larger "full"
-	 * view.
+	 * Represents an instance of a CollaboRhythm app which can be used to view and/or manipulate some aspect of a health record
+	 * in a collaborative (or solo) work session. CollaboRhythm apps can have a mini "widget" view and a larger "full"
+	 * view. They can also use the ViewNavigator (currently in Tablet mode only) to navigate to
+	 * spark.componenets.View instances that they create.
 	 */
 	public class AppControllerBase extends EventDispatcher
 	{
