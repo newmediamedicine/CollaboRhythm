@@ -20,39 +20,292 @@
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-15T14:57:00Z</dateReported>
+		<dateReported>2011-07-15T08:57:00Z</dateReported>
 		<adherence>true</adherence>
 		<ndc>1731485001</ndc>
 		<indication>prevent bladder spasms</indication>
+		<frequency>8</frequency>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-16T13:07:00Z</dateReported>
+		<dateReported>2011-07-15T16:57:00Z</dateReported>
 		<adherence>true</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-17T13:54:00Z</dateReported>
+		<dateReported>2011-07-15T24:57:00Z</dateReported>
 		<adherence>true</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-18T13:52:00Z</dateReported>
+		<dateReported>2011-07-16T08:57:00Z</dateReported>
 		<adherence>true</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-19T13:48:00Z</dateReported>
+		<dateReported>2011-07-16T16:57:00Z</dateReported>
 		<adherence>true</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-20T14:27:00Z</dateReported>
+		<dateReported>2011-07-16T24:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-17T08:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-17T16:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-17T24:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-18T08:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-18T16:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-18T24:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-196T08:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-19T16:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-19T24:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-20T08:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-20T16:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-20T24:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-21T08:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-21T16:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-21T24:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-22T08:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-22T16:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-22T24:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-23T08:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-23T16:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-23T24:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-24T08:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-24T16:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-24T24:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-25T08:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-2516:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-25T24:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-26T08:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-26T16:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-26T24:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-27T08:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-27T16:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-27T24:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-28T08:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-28T16:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-28T24:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-29T08:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-29T16:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-29T24:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-30T08:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-30T16:57:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="863609">Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-30T24:57:00Z</dateReported>
 		<adherence>true</adherence>
 	</AdherenceItem>
 </IndivoDocuments>

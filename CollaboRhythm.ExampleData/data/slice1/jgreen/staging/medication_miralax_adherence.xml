@@ -19,44 +19,45 @@
   
 --> 
 - <IndivoDocuments> 
-- <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#"> 
-<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="876193">Polyethylene glycol 3350 17 GM per 4 Ounces Oral Solution [Miralax]</name> 
-<reportedBy>jgreen@records.media.mit.edu</reportedBy> 
-<dateReported>2011-07-15T14:57:00Z</dateReported> 
-<adherence>true</adherence> 
-<ndc>1152372683</ndc>
-<indication>laxative</indication> 
-</AdherenceItem> 
-- <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#"> 
-<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="876193">Polyethylene glycol 3350 17 GM per 4 Ounces Oral Solution [Miralax]</name> 
-<reportedBy>jgreen@records.media.mit.edu</reportedBy> 
-<dateReported>2011-07-16T13:07:00Z</dateReported> 
-<adherence>true</adherence> 
-</AdherenceItem> 
-- <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#"> 
-<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="876193">Polyethylene glycol 3350 17 GM per 4 Ounces Oral Solution [Miralax]</name> 
-<reportedBy>jgreen@records.media.mit.edu</reportedBy> 
-<dateReported>2011-07-17T13:54:00Z</dateReported> 
-<adherence>true</adherence> 
-</AdherenceItem> 
-- <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#"> 
-<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="876193">Polyethylene glycol 3350 17 GM per 4 Ounces Oral Solution [Miralax]</name> 
-<reportedBy>jgreen@records.media.mit.edu</reportedBy> 
-<dateReported>2011-07-18T13:52:00Z</dateReported> 
-<adherence>true</adherence> 
-</AdherenceItem> 
-- <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#"> 
-<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="876193">Polyethylene glycol 3350 17 GM per 4 Ounces Oral Solution [Miralax]</name> 
-<reportedBy>jgreen@records.media.mit.edu</reportedBy> 
-<dateReported>2011-07-19T13:48:00Z</dateReported> 
-<adherence>true</adherence> 
-</AdherenceItem> 
-- <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#"> 
-<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="876193">Polyethylene glycol 3350 17 GM per 4 Ounces Oral Solution [Miralax]</name> 
-<reportedBy>jgreen@records.media.mit.edu</reportedBy> 
-<dateReported>2011-07-20T14:27:00Z</dateReported> 
-<adherence>true</adherence> 
-</AdherenceItem> 
+	- <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="876193">Polyethylene glycol 3350 17 GM per 4 Ounces Oral Solution [Miralax]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-15T14:57:00Z</dateReported>
+		<adherence>true</adherence>
+		<ndc>1152372683</ndc>
+		<indication>laxative</indication>
+	<twiceDaily>true</twiceDaily>
+	</AdherenceItem>
+- <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="876193">Polyethylene glycol 3350 17 GM per 4 Ounces Oral Solution [Miralax]</name>
+<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+<dateReported>2011-07-16T13:07:00Z</dateReported>
+<adherence>true</adherence>
+</AdherenceItem>
+- <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="876193">Polyethylene glycol 3350 17 GM per 4 Ounces Oral Solution [Miralax]</name>
+<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+<dateReported>2011-07-17T13:54:00Z</dateReported>
+<adherence>true</adherence>
+</AdherenceItem>
+- <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="876193">Polyethylene glycol 3350 17 GM per 4 Ounces Oral Solution [Miralax]</name>
+<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+<dateReported>2011-07-18T13:52:00Z</dateReported>
+<adherence>true</adherence>
+</AdherenceItem>
+- <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="876193">Polyethylene glycol 3350 17 GM per 4 Ounces Oral Solution [Miralax]</name>
+<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+<dateReported>2011-07-19T13:48:00Z</dateReported>
+<adherence>true</adherence>
+</AdherenceItem>
+- <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="876193">Polyethylene glycol 3350 17 GM per 4 Ounces Oral Solution [Miralax]</name>
+<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+<dateReported>2011-07-20T14:27:00Z</dateReported>
+<adherence>true</adherence>
+</AdherenceItem>
 </IndivoDocuments>
 
 

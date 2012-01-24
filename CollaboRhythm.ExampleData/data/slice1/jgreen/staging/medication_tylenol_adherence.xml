@@ -19,190 +19,190 @@
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-15T14:57:00Z</dateReported>
+		<dateReported>2011-07-15T20:00:00Z</dateReported>
 		<adherence>true</adherence>
 		<ndc>s006033496</ndc>
-		<indication>diabetes</indication>
+		<indication>pain relief</indication>
 		<twiceDaily>true</twiceDaily>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-16T02:57:00Z</dateReported>
+		<dateReported>2011-07-16T12:00:00Z</dateReported>
 		<adherence>true</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-16T14:57:00Z</dateReported>
+		<dateReported>2011-07-16T20:00:00Z</dateReported>
 		<adherence>true</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-17T02:57:00Z</dateReported>
+		<dateReported>2011-07-17T12:00:00Z</dateReported>
 		<adherence>true</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-17T14:57:00Z</dateReported>
+		<dateReported>2011-07-17T20:00:00Z</dateReported>
 		<adherence>true</adherence>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-18T02:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
-		<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-18T14:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-18T12:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-19T02:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
-		<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-19T14:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-18T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-20T02:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
-		<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-20T14:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-19T12:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-21T02:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
-		<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-21T14:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-19T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-22T02:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
-		<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-22T14:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-20T12:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-23T02:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
-		<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-23T14:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-20T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-24T02:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
-		<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-24T14:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-21T12:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-25T02:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
-		<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-25T14:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-21T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-26T02:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
-		<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-26T14:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-22T12:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-27T02:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
-		<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-27T14:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-22T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-28T02:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
-		<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-28T14:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-23T12:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-29T02:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
-		<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-29T14:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-23T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-30T02:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
-		<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-			<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
-			<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-			<dateReported>2011-07-30T14:57:00Z</dateReported>
-			<adherence>true</adherence>
-		</AdherenceItem>
-	</IndivoDocuments>
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-24T12:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-24T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-25T12:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-25T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-26T12:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-26T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-27T12:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-27T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-28T12:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-28T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-29T12:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-29T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-30T12:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-30T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+</IndivoDocuments>
