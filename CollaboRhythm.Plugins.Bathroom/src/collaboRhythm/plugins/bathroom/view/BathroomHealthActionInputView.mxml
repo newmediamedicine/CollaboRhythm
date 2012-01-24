@@ -11,6 +11,8 @@
 
 	<fx:Declarations>
 		<s:Button id="doneButton" label="Done" click="doneButton_clickHandler()"/>
+
+		<!-- RadioButton Group Declarations -->
 		<s:RadioButtonGroup id="voidingGroup"/>
 		<s:RadioButtonGroup id="bowelGroup"/>
 		<s:RadioButtonGroup id="urineFrmUreGroup"/>
@@ -22,7 +24,9 @@
 		<s:RadioButtonGroup id="urineAbleCathGroup"/>
 		<s:RadioButtonGroup id="bowelHaveGroup"/>
 		<s:RadioButtonGroup id="bowelOutGroup"/>
+		<s:RadioButtonGroup id="bowelFlushProbGroup"/>
 
+		<!-- Spinner List Array for Bowel Stool Types -->
 		<s:ArrayCollection id="bristolStoolType">
 			<fx:Object name="Type 1"/>
 			<fx:Object name="Type 2"/>
@@ -33,9 +37,9 @@
 			<fx:Object name="Type 7"/>
 		</s:ArrayCollection>
 
-		<!--
+
 		<s:AnimateTransform id="bounceEffect"
-							target="{myImage}">
+							target="{bristolStoolImage}">
 
 			<s:motionPaths>
 				<s:MotionPath property="translationX">
@@ -69,7 +73,30 @@
 				</s:MotionPath>
 			</s:motionPaths>
 		</s:AnimateTransform>
-		-->
+
+		<!---->
+		<!--<fx:Component className="AlertMsg">-->
+			<!--<s:SkinnablePopUpContainer x="70" y="300">-->
+				<!--<s:TitleWindow title="Education Materials" close="close()">-->
+					<!--<s:VGroup horizontalAlign="center" paddingTop="8" paddingBottom="8" paddingLeft="8" paddingRight="8" gap="5" width="100%">-->
+						<!--<s:Label text="My alert message text here..."/>-->
+						<!--<s:Button label="OK" click="close()"/>-->
+					<!--</s:VGroup>-->
+				<!--</s:TitleWindow>-->
+			<!--</s:SkinnablePopUpContainer>-->
+		<!--</fx:Component>-->
+
+		        <fx:Component className="AlertMsg">
+		            <s:SkinnablePopUpContainer>
+		                <s:Panel title="Education Materials" width="100%" height="100%">
+		                    <s:VGroup width="100%" horizontalAlign="center"
+		                              paddingTop="20" gap="20">
+		                        <s:Label text="Your custom alert box"/>
+		                        <s:Button label="OK" click="close();"/>
+		                    </s:VGroup>
+		                </s:Panel>
+		            </s:SkinnablePopUpContainer>
+		        </fx:Component>
 
 
 	</fx:Declarations>
@@ -147,11 +174,12 @@
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 
-		import mx.controls.Alert;
 
 		[Bindable]
 		protected var _dataInputModel:BathroomHealthActionInputModel;
 		protected var _dataInputController:BathroomHealthActionInputController;
+
+
 
 		override public function set data(value:Object):void
 		{
@@ -186,230 +214,171 @@
 	<s:Panel id="mainPanel"
 				 width="100%" height="100%"
 	             title="Bathroom">
-		<mx:HBox>
+		<s:HGroup width="100%" height="100%">
 
-			<mx:Panel id="panelVoiding"
-					  title="Voiding" status="1"
-					  width="100%" height="55%"
-					  paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10"
+			<s:Panel id="panelVoiding"
+					  title="Voiding"
+					  width="50%" height="100%"
 					  horizontalCenter="0" verticalCenter="0"
-					  verticalScrollPolicy="on">
+					  >
 
-				<!--<s:Scroller width="100%" height="100%">-->
+				<s:Scroller width="100%" height="100%">
+					<s:Group width="100%" height="100%">
 
-				<mx:Form x="50" y="50"
-						verticalGap="15">
+						<mx:Form x="50" y="50"
+								verticalGap="15">
 
-					<mx:FormItem label="Voiding">
-						<s:RadioButton groupName="voidingGroup" id="optionCatheterized" label="Catheterized" skinClass="spark.skins.mobile.RadioButtonSkin" />
-						<s:RadioButton groupName="voidingGroup" id="optionSchedule" label="Schedule" skinClass="spark.skins.mobile.RadioButtonSkin" />
-					</mx:FormItem>
+							<mx:FormItem label="Voiding">
+								<s:RadioButton groupName="voidingGroup" id="optionCatheterized" label="Catheterized" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="voidingGroup" id="optionSchedule" label="Schedule" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							</mx:FormItem>
 
-					<mx:FormItem label="Time:">
-						<s:DateSpinner id="urineDateSpinner"
-									   minDate="{new Date(new Date().getTime() - 1000*60*60*24*3)}"
-									   maxDate="{new Date(new Date().getTime() + 1000*60*60*24*7)}"
-									   displayMode="dateAndTime"
-									   skinClass="spark.skins.mobile.DateSpinnerSkin"
-									   />
-					</mx:FormItem>
-
-					<mx:FormItem label="Urine Output (ml):">
-						<mx:TextInput id="urineTxtInput"/><mx:TextInput id="urineTxtInputII"/>
-					</mx:FormItem>
-
-					<mx:FormItem label="Urine from urethra?">
-						<s:RadioButton groupName="urineFrmUreGroup" id="optionUrineFrmUreYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
-						<s:RadioButton groupName="urineFrmUreGroup" id="optionUrineFrmUreNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
-						<mx:TextInput id="urineFrmUreAmt"/>
-					</mx:FormItem>
-
-					<mx:FormItem label="Is urine red/pink?">
-						<s:RadioButton groupName="urineColorGroup" id="optionUrineColorYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
-						<s:RadioButton groupName="urineColorGroup" id="optionUrineColorNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
-					</mx:FormItem>
-
-					<mx:FormItem label="Are there clots?">
-						<s:RadioButton groupName="urineClotsGroup" id="optionUrineClotsYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
-						<s:RadioButton groupName="urineClotsGroup" id="optionUrineClotsNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
-					</mx:FormItem>
-
-					<mx:FormItem label="If on schedule; Pain with catheterization?">
-						<s:RadioButton groupName="urinePainCathGroup" id="optionPainCathYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
-						<s:RadioButton groupName="urinePainCathGroup" id="optionPainCathNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
-					</mx:FormItem>
-
-					<mx:FormItem label="Did you have any difficulty catheterizing?">
-						<s:RadioButton groupName="urineDiffCathGroup" id="optionDiffCathYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
-						<s:RadioButton groupName="urineDiffCathGroup" id="optionDiffCathNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
-					</mx:FormItem>
-
-					<mx:FormItem label="If Yes, ask Did you try flushing?">
-						<s:RadioButton groupName="urineFlushGroup" id="optionFlushYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
-						<s:RadioButton groupName="urineFlushGroup" id="optionFlushNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
-					</mx:FormItem>
-
-					<mx:FormItem label="Where you able to catheterize?">
-						<s:RadioButton groupName="urineAbleCathGroup" id="optionAbleCathYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
-						<s:RadioButton groupName="urineAbleCathGroup" id="optionAbleCathNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
-					</mx:FormItem>
-
-
-				</mx:Form>
-
-				<!--</s:Scroller>-->
-
-			</mx:Panel>
-
-			<mx:Panel id="panelBowel"
-					  title="Bowel Movements"
-					  status="2"
-					 width="100%" height="55%"
-					 paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10"
-					 horizontalCenter="0" verticalCenter="0"
-					 verticalScrollPolicy="on">
-
-				<mx:Form x="50" y="50"
-						verticalGap="15">
-
-					<mx:FormItem label="Bowel">
-						<s:RadioButton groupName="bowelGroup" id="optionCatheter" label="Catheter" skinClass="spark.skins.mobile.RadioButtonSkin" />
-						<s:RadioButton groupName="bowelGroup" id="optionFlush" label="Flush" skinClass="spark.skins.mobile.RadioButtonSkin" />
-					</mx:FormItem>
-
-					<mx:FormItem label="Time:">
-						<s:DateSpinner id="bowelDateSpinner"
-									   minDate="{new Date(new Date().getTime() - 1000*60*60*24*3)}"
-									   maxDate="{new Date(new Date().getTime() + 1000*60*60*24*7)}"
-									   displayMode="dateAndTime"
-									   skinClass="spark.skins.mobile.DateSpinnerSkin"
-									   />
-					</mx:FormItem>
-
-					<mx:FormItem label="Did you have:">
-						<s:RadioButton groupName="bowelHaveGroup" id="optionBowelMove" label="Bowel Movement" skinClass="spark.skins.mobile.RadioButtonSkin" />
-						<s:RadioButton groupName="bowelHaveGroup" id="optionACEFlush" label="ACE Flush" skinClass="spark.skins.mobile.RadioButtonSkin" />
-						<s:RadioButton groupName="bowelHaveGroup" id="optionNeither" label="Neither" skinClass="spark.skins.mobile.RadioButtonSkin" />
-					</mx:FormItem>
-
-					<mx:FormItem label="Amount (ml):">
-						<mx:TextInput id="bowelAmountML"/>
-					</mx:FormItem>
-
-					<mx:FormItem label="Amount Out:">
-						<s:RadioButton groupName="bowelOutGroup" id="optionAsMuch" label="As much as I put in" skinClass="spark.skins.mobile.RadioButtonSkin" />
-						<s:RadioButton groupName="bowelOutGroup" id="optionNone" label="None" skinClass="spark.skins.mobile.RadioButtonSkin" />
-						<s:RadioButton groupName="bowelOutGroup" id="optionMost" label="Most of what I put in" skinClass="spark.skins.mobile.RadioButtonSkin" />
-						<s:RadioButton groupName="bowelOutGroup" id="optionOnly" label="Only a little" skinClass="spark.skins.mobile.RadioButtonSkin" />
-					</mx:FormItem>
-
-					<mx:FormItem label="Type (Bristol Scale 1-7)">
-						<s:SpinnerListContainer width="220">
-							<s:SpinnerList id="list" width="20%">
-								<s:dataProvider>
-									<s:NumericDataProvider minimum="0" maximum="5" stepSize="1"/>
-								</s:dataProvider>
-							</s:SpinnerList>
-								<s:SpinnerList id="supplyList"
-											   width="80%"
-											   labelField="name"
-											   dataProvider="{bristolStoolType}"
-											   selectedIndex="{list.selectedItem}"
-											   skinClass="spark.skins.mobile.SpinnerListSkin"
+							<mx:FormItem label="Time:">
+								<s:DateSpinner id="urineDateSpinner"
+											   minDate="{new Date(new Date().getTime() - 1000*60*60*24*3)}"
+											   maxDate="{new Date(new Date().getTime() + 1000*60*60*24*7)}"
+											   displayMode="dateAndTime"
+											   skinClass="spark.skins.mobile.DateSpinnerSkin"
 											   />
-						</s:SpinnerListContainer>
-					</mx:FormItem>
+							</mx:FormItem>
 
-				</mx:Form>
+							<mx:FormItem label="Urine Output (ml):">
+								<mx:TextInput id="urineTxtInput"/><mx:TextInput id="urineTxtInputII"/>
+							</mx:FormItem>
 
-			</mx:Panel>
+							<mx:FormItem label="Urine from urethra?">
+								<s:RadioButton groupName="urineFrmUreGroup" id="optionUrineFrmUreYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="urineFrmUreGroup" id="optionUrineFrmUreNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<mx:TextInput id="urineFrmUreAmt"/>
+							</mx:FormItem>
 
-		</mx:HBox>
-	</s:Panel>
-	<!--
-	<s:Panel id="mainPanel"
-			 width="100%" height="100%"
-             title="Bathroom">
+							<mx:FormItem label="Is urine red/pink?">
+								<s:RadioButton groupName="urineColorGroup" id="optionUrineColorYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="urineColorGroup" id="optionUrineColorNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							</mx:FormItem>
 
+							<mx:FormItem label="Are there clots?">
+								<s:RadioButton groupName="urineClotsGroup" id="optionUrineClotsYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="urineClotsGroup" id="optionUrineClotsNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							</mx:FormItem>
 
-         <s:HGroup horizontalCenter="0">
+							<mx:FormItem label="If on schedule; Pain with catheterization?">
+								<s:RadioButton groupName="urinePainCathGroup" id="optionPainCathYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="urinePainCathGroup" id="optionPainCathNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							</mx:FormItem>
 
-             <s:Panel title="Voiding" top="25" left="10" width="90%">
-				 <s:layout>
-					  <s:HorizontalLayout/>
-				  </s:layout>
-				 <s:RadioButton groupName="voidingGroup" id="optionCatheterized" label="Catheterized" skinClass="spark.skins.mobile.RadioButtonSkin" />
-				 <s:RadioButton groupName="voidingGroup" id="optionSchedule" label="Schedule" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							<mx:FormItem label="Did you have any difficulty catheterizing?">
+								<s:RadioButton groupName="urineDiffCathGroup" id="optionDiffCathYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="urineDiffCathGroup" id="optionDiffCathNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							</mx:FormItem>
 
+							<mx:FormItem label="If Yes, ask Did you try flushing?">
+								<s:RadioButton groupName="urineFlushGroup" id="optionFlushYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="urineFlushGroup" id="optionFlushNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							</mx:FormItem>
 
-				 <s:DateSpinner id="dt"
-							   minDate="{new Date(new Date().getTime() - 1000*60*60*24*3)}"
-							   maxDate="{new Date(new Date().getTime() + 1000*60*60*24*7)}"
-							   displayMode="dateAndTime"
-							   skinClass="spark.skins.mobile.DateSpinnerSkin"
-							   />
-
-             </s:Panel>
-
-         </s:HGroup>
-     <s:Group bottom="5" width="100%">
-
-     <s:Label color="0x323232" verticalAlign="justify"
-              left="5" bottom="15" width="95%"
-              text="The Panel class defines a container that includes a title bar, a caption, a border, and a content area for its children.
-The Panel has a basic layout by default, which means it lays out elements within the panel by their individual constraints. You can specify a different layout to use within the panel such
-as shown in the inner panels (basic, horizontal and vertical layout) panels. In that case the individual constraints on the Text items are ignored, as shown here."/>
-     </s:Group>
+							<mx:FormItem label="Where you able to catheterize?">
+								<s:RadioButton groupName="urineAbleCathGroup" id="optionAbleCathYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="urineAbleCathGroup" id="optionAbleCathNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							</mx:FormItem>
 
 
- </s:Panel>
+						</mx:Form>
+					</s:Group>
 
-	-->
-
-
-<!--
-	<s:Panel title="Bathroom"
-			  width="100%" height="100%">
-		<s:HGroup horizontalCenter="0"/>
-			<s:Panel title="Voiding">
-				<s:HGroup horizontalCenter="0" top="20" bottom="10">
-					<s:VGroup left="10" right="10" top="20" bottom="10">
-						<mx:Image y="0"
-								  id="myImage"
-								  source="@Embed(source='/assets/bathroom.png')"
-								  click="bounceEffect.end();bounceEffect.play();"/>
-					</s:VGroup>
-				</s:HGroup>
-
-
-				<s:HGroup horizontalCenter="0" top="100">
-
-						<s:Label width="100%"
-								 color="blue"
-								 text="Voiding"/>
-
-						<s:RadioButton groupName="voidingGroup" id="optionCatheterized" label="Catheterized" skinClass="spark.skins.mobile.RadioButtonSkin" />
-						<s:RadioButton groupName="voidingGroup" id="optionSchedule" label="Schedule" skinClass="spark.skins.mobile.RadioButtonSkin" />
-
-				</s:HGroup>
-
-				<s:HGroup horizontalCenter="0" top="500">
-					<s:Label width="100%"
-							 color="blue"
-							 text="Time"/>
-
-					<s:DateSpinner id="dt"
-								   minDate="{new Date(new Date().getTime() - 1000*60*60*24*3)}"
-								   maxDate="{new Date(new Date().getTime() + 1000*60*60*24*7)}"
-								   displayMode="dateAndTime"
-								   skinClass="spark.skins.mobile.DateSpinnerSkin"
-								   right="500"/>
-				</s:HGroup>
+				</s:Scroller>
 
 			</s:Panel>
 
 
-		</s:Panel>
+			<s:Panel id="panelBowel"
+					 title="Bowel Movements"
+					 width="50%" height="100%"
+					 horizontalCenter="0" verticalCenter="0">
+
+				<s:Scroller width="100%" height="100%">
+					<s:Group width="100%" height="100%">
+						<mx:Form x="50" y="50" verticalGap="15">
+							<mx:FormItem label="Bowel">
+								<s:RadioButton groupName="bowelGroup" id="optionCatheter" label="Catheter" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="bowelGroup" id="optionFlush" label="Flush" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							</mx:FormItem>
+
+							<mx:FormItem label="Time:">
+								<s:DateSpinner id="bowelDateSpinner"
+											   minDate="{new Date(new Date().getTime() - 1000*60*60*24*3)}"
+											   maxDate="{new Date(new Date().getTime() + 1000*60*60*24*7)}"
+											   displayMode="dateAndTime"
+											   skinClass="spark.skins.mobile.DateSpinnerSkin"
+											   />
+							</mx:FormItem>
+
+							<mx:FormItem label="Did you have:">
+								<s:RadioButton groupName="bowelHaveGroup" id="optionBowelMove" label="Bowel Movement" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="bowelHaveGroup" id="optionACEFlush" label="ACE Flush" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="bowelHaveGroup" id="optionNeither" label="Neither" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							</mx:FormItem>
+
+							<mx:FormItem label="Amount (ml):">
+								<mx:TextInput id="bowelAmountML"/>
+							</mx:FormItem>
+
+							<mx:FormItem label="Amount Out:">
+								<s:RadioButton groupName="bowelOutGroup" id="optionAsMuch" label="As much as I put in" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="bowelOutGroup" id="optionNone" label="None" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="bowelOutGroup" id="optionMost" label="Most of what I put in" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="bowelOutGroup" id="optionOnly" label="Only a little" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							</mx:FormItem>
+
+							<mx:FormItem label="Bristol Scale Chart">
+								<mx:Image y="0"
+										  id="bristolStoolImage"
+										  source="@Embed(source='/assets/Bristol_stool_chart.png')"
+										  />
+							</mx:FormItem>
+
+							<mx:FormItem label="See above chart for reference">
+								<s:SpinnerListContainer width="220">
+									<s:SpinnerList id="bristolStoolTypeList"
+												   width="100%"
+												   labelField="name"
+												   dataProvider="{bristolStoolType}"
+												   selectedIndex="{bristolStoolTypeList.selectedItem}"
+												   skinClass="spark.skins.mobile.SpinnerListSkin"
+												   />
+								</s:SpinnerListContainer>
+							</mx:FormItem>
+
+							<mx:FormItem label="Any problems flushing?">
+								<s:RadioButton groupName="bowelFlushProbGroup" id="optionBowelFlushProbYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="bowelFlushProbGroup" id="optionBowelFlushProbNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							</mx:FormItem>
+
+							<mx:FormItem label="Education:">
+								<s:Button label="Launch Education Materials" click="(new AlertMsg()).open(this, false)"/>
+							</mx:FormItem>
+						</mx:Form>
+
+					</s:Group>
+
+				</s:Scroller>
+
+			</s:Panel>
+
+		</s:HGroup>
+	</s:Panel>
+
+
+<!--
+
+						<mx:Image y="0"
+								  id="myImage"
+								  source="@Embed(source='/assets/bathroom.png')"
+								  click="bounceEffect.end();bounceEffect.play();"/>
+
+
+
+
 		-->
 
 </tablet:TabletViewBase>
