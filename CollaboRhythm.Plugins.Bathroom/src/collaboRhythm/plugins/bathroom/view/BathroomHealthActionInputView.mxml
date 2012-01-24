@@ -6,7 +6,7 @@
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
-					   >
+					   viewDeactivate="callout.close()">
 
 
 	<fx:Declarations>
@@ -37,10 +37,8 @@
 			<fx:Object name="Type 7"/>
 		</s:ArrayCollection>
 
-
-		<s:AnimateTransform id="bounceEffect"
-							target="{bristolStoolImage}">
-
+		<!-- Animation -->
+		<s:AnimateTransform id="bounceEffect" target="{bristolStoolImage}">
 			<s:motionPaths>
 				<s:MotionPath property="translationX">
 					<s:keyframes>
@@ -73,31 +71,29 @@
 				</s:MotionPath>
 			</s:motionPaths>
 		</s:AnimateTransform>
+		
+		<!-- Education Materials Alert -->
+		<fx:Component className="AlertBox">
+			<s:SkinnablePopUpContainer>
+				<s:Panel title="Education Materials" width="100%" height="100%">
+					<s:VGroup width="100%" horizontalAlign="center"
+							  paddingTop="20" gap="20">
+						<s:Label text="Needs Brian's Context!!"/>
+						<s:Button label="Close" click="close();"/>
+					</s:VGroup>
+				</s:Panel>
+			</s:SkinnablePopUpContainer>
+		</fx:Component>
 
-		<!---->
-		<!--<fx:Component className="AlertMsg">-->
-			<!--<s:SkinnablePopUpContainer x="70" y="300">-->
-				<!--<s:TitleWindow title="Education Materials" close="close()">-->
-					<!--<s:VGroup horizontalAlign="center" paddingTop="8" paddingBottom="8" paddingLeft="8" paddingRight="8" gap="5" width="100%">-->
-						<!--<s:Label text="My alert message text here..."/>-->
-						<!--<s:Button label="OK" click="close()"/>-->
-					<!--</s:VGroup>-->
-				<!--</s:TitleWindow>-->
-			<!--</s:SkinnablePopUpContainer>-->
-		<!--</fx:Component>-->
-
-		        <fx:Component className="AlertMsg">
-		            <s:SkinnablePopUpContainer>
-		                <s:Panel title="Education Materials" width="100%" height="100%">
-		                    <s:VGroup width="100%" horizontalAlign="center"
-		                              paddingTop="20" gap="20">
-		                        <s:Label text="Your custom alert box"/>
-		                        <s:Button label="OK" click="close();"/>
-		                    </s:VGroup>
-		                </s:Panel>
-		            </s:SkinnablePopUpContainer>
-		        </fx:Component>
-
+		<!-- Callout For Education Materials -->
+		<s:Callout id="callout" height="250" horizontalPosition="middle" mouseDownOutside="callout.close()">
+			<s:VGroup paddingTop="10" paddingBottom="10" paddingLeft="10" paddingRight="10" horizontalAlign="center">
+				<s:Label text="Education Materials" fontWeight="bold" fontSize="30" color="0xAA0D0A"/>
+				<s:TextArea text="Brian's education materials goes here, consectetur adipiscing elit. Curabitur accumsan felis ac tortor aliquam iaculis. Phasellus hendrerit viverra enim, sit amet scelerisque lectus dictum at. Aenean sodales nisi sed leo congue et porttitor ligula vehicula.
+							Pellentesque turpis massa, suscipit vel fermentum quis, dignissim sed ipsum. Nulla aliquet libero adipiscing risus lobortis eleifend quis at velit. Duis at leo urna.
+							Praesent facilisis faucibus neque, ut ullamcorper lacus gravida a. Donec vel iaculis sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur accumsan felis ac tortor aliquam iaculis. Phasellus hendrerit viverra enim, sit amet scelerisque lectus dictum at. Aenean sodales nisi sed leo congue et porttitor ligula vehicula." width="80%" height="100" editable="false"/>
+			</s:VGroup>
+		</s:Callout>
 
 	</fx:Declarations>
 
@@ -153,18 +149,16 @@
 
 
 		Panel {
-		            backgroundAlpha: 1;
-		            borderAlpha: 1;
-		            headerColors: #c7c7c7, #ffffff;
-		            footerColors: #ffffff, #c7c7c7;
-		            paddingTop: 15;
-		            paddingRight: 15;
-		            paddingLeft: 15;
-		            paddingBottom: 15;
-		            shadowDirection: "right";
-		        }
-
-
+			backgroundAlpha: 1;
+			borderAlpha: 1;
+			headerColors: #c7c7c7, #ffffff;
+			footerColors: #ffffff, #c7c7c7;
+			paddingTop: 15;
+			paddingRight: 15;
+			paddingLeft: 15;
+			paddingBottom: 15;
+			shadowDirection: "right";
+		}
 	</fx:Style>
 
 	<fx:Script>
@@ -173,6 +167,9 @@
 		import collaboRhythm.plugins.bathroom.model.BathroomHealthActionInputModel;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
+
+		import mx.collections.ArrayCollection;
+		import mx.managers.PopUpManager;
 
 
 		[Bindable]
@@ -208,6 +205,24 @@
 			//Alert.show(option4.selected ? 'Correct Answer!':'Wrong Answer', 'Result');
 			//_dataInputController.submitBloodPressure(positionDropDownList.selectedItem, siteDropDownList.selectedItem);
 		}
+
+
+		<!-- Popup Education Materials -->
+		protected function educationButton_clickHandler(event:MouseEvent):void
+		{
+			// Create an instance of AlertBox.
+			var alert:AlertBox = new AlertBox();
+			alert.open(this, true);
+
+			// Increase the width and height.
+			alert.width += 100;
+			alert.height += 100;
+
+			// Center the pop-up in the parent container.
+			PopUpManager.centerPopUp(alert);
+		}
+
+
 		]]>
 	</fx:Script>
 
@@ -252,9 +267,13 @@
 								<mx:TextInput id="urineFrmUreAmt"/>
 							</mx:FormItem>
 
-							<mx:FormItem label="Is urine red/pink?">
+							<mx:FormItem label="Is urine red/pink?" id="lbl" click="callout.open(lbl)">
 								<s:RadioButton groupName="urineColorGroup" id="optionUrineColorYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
 								<s:RadioButton groupName="urineColorGroup" id="optionUrineColorNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<!--<s:helpContent>-->
+									<!--<s:Button label="?" width="30" baseline="24" x="120"/>-->
+								<!--</s:helpContent>-->
+								<!--<s:Label id="lbl" x="270" y="240" fontSize="40" text="Click Me" click="callout.open(lbl)"/>-->
 							</mx:FormItem>
 
 							<mx:FormItem label="Are there clots?">
@@ -355,8 +374,9 @@
 							</mx:FormItem>
 
 							<mx:FormItem label="Education:">
-								<s:Button label="Launch Education Materials" click="(new AlertMsg()).open(this, false)"/>
+								<s:Button label="Launch Education Materials" click="educationButton_clickHandler(event);"/>
 							</mx:FormItem>
+
 						</mx:Form>
 
 					</s:Group>
@@ -367,18 +387,5 @@
 
 		</s:HGroup>
 	</s:Panel>
-
-
-<!--
-
-						<mx:Image y="0"
-								  id="myImage"
-								  source="@Embed(source='/assets/bathroom.png')"
-								  click="bounceEffect.end();bounceEffect.play();"/>
-
-
-
-
-		-->
 
 </tablet:TabletViewBase>

@@ -191,7 +191,7 @@
 			<s:Group top="5" right="5">
 				<mx:Form>
 
-					<mx:FormItem label="Drink - Number of Cups" fontSize="20">
+					<mx:FormItem label="How much have you have to drink today (Estimate)" fontSize="20">
 						<s:HGroup id="systolicResultGroup" gap="15" paddingTop="20" left="0">
 							<s:TextInput id="foodDrinkGroupTextInput"
 										 softKeyboardType="number"
