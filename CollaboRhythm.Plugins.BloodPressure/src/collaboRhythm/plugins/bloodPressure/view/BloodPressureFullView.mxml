@@ -34,25 +34,6 @@
 
 		<s:VGroup id="leftGroup" height="100%" width="100%" gap="15" paddingLeft="0" paddingRight="0" paddingTop="0"
 				  paddingBottom="0">
-
-			<!--
-			<s:Group width="100%">
-				<buttons:ContentLabel
-						id="hypertensionTitle" horizontalCenter="0"
-						width="400" height="60"
-						text="Hypertension"
-						>
-					<buttons:leftContent>
-						<simulation:ProblemsIcon left="15" verticalCenter="0"/>
-					</buttons:leftContent>
-					<buttons:rightContent>
-						<simulation:HypertensionGauge id="hypertensionGauge" right="10" verticalCenter="0"
-													  value="{model.simulation.systolic}"/>
-					</buttons:rightContent>
-				</buttons:ContentLabel>
-			</s:Group>
--->
-
 			<view:BloodPressureSynchronizedCharts id="chartsGroup" modality="{modality}" model="{model}"/>
 		</s:VGroup>
 		<s:VGroup id="simulationGroup" height="100%" gap="15" paddingLeft="0" paddingRight="0" paddingTop="5"
@@ -62,10 +43,6 @@
 				> <!-- TODO: paddingBottom should be the same as the chartsGroup, but one or both of these components have some internal padding (the ScrubChart currently has an extra 15 paddingBottom "built in" to the footer) -->
 			<simulation:SimulationView id="simulationView" height="100%" width="100%"
 					/>
-			<!--
-			   doubleClickEnabled="true"
-										  doubleClick="simulationView_doubleClickHandler(event)"
-   -->
 		</s:VGroup>
 	</mx:HDividedBox>
 	<fx:Script><![CDATA[
