@@ -175,6 +175,61 @@
 																</document>
 															</LoadableIndivoDocument>
 														</xsl:if>
+														<xsl:if test="durationOfExercise">
+															<LoadableIndivoDocument>
+																<document>
+																	<VitalSign
+																			xmlns="http://indivo.org/vocab/xml/documents#">
+																		<name>Duration of Exercise</name>
+																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
+																		<dateMeasuredStart>
+																			<xsl:value-of select="dateReported"/>
+																		</dateMeasuredStart>
+																		<result>
+																			<value><xsl:value-of select="durationOfExercise"/></value>
+																			<unit abbrev="sec">seconds</unit>
+																		</result>
+																	</VitalSign>
+																</document>
+															</LoadableIndivoDocument>
+														</xsl:if>
+														<xsl:if test="metabolicEquivalent">
+															<LoadableIndivoDocument>
+																<document>
+																	<VitalSign
+																			xmlns="http://indivo.org/vocab/xml/documents#">
+																		<name>Metabolic Equivalent Task</name>
+																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
+																		<dateMeasuredStart>
+																			<xsl:value-of select="dateReported"/>
+																		</dateMeasuredStart>
+																		<result>
+																			<value><xsl:value-of select="metabolicEquivalent"/></value>
+																			<unit abbrev="met">met</unit>
+																		</result>
+																	</VitalSign>
+																</document>
+															</LoadableIndivoDocument>
+														</xsl:if>
+														<xsl:if test="oxygenSaturation">
+															<LoadableIndivoDocument>
+																<document>
+																	<VitalSign
+																			xmlns="http://indivo.org/vocab/xml/documents#">
+																		<name>Oxygen Saturation</name>
+																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
+																		<dateMeasuredStart>
+																			<xsl:value-of select="dateReported"/>
+																		</dateMeasuredStart>
+																		<result>
+																			<value><xsl:value-of select="oxygenSaturation"/></value>
+																			<unit abbrev="%">percent</unit>
+																		</result>
+																		<site>abdomen</site>
+																	</VitalSign>
+																</document>
+															</LoadableIndivoDocument>
+														</xsl:if>
 													</relation>
 												</relatesTo>
 											</xsl:if>

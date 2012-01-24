@@ -28,12 +28,11 @@
 							 healthActionsModel:HealthActionsModel):void
 		{
 			_healthActionsAppController = healthActionsAppController;
-
 		}
 
 		private function showFullViewButton_clickHandler():void
 		{
-			_healthActionsAppController.dispatchShowFullView("VideoMessages widget button click");
+			_healthActionsAppController.dispatchShowFullView("widget button click");
 		}
 		]]></fx:Script>
 	<shared:WidgetButton id="showFullViewButton" icon="{HealthActionsIcon}" width="70" height="70" left="0" bottom="0" skinClass="collaboRhythm.shared.view.WidgetButtonSkin" click="showFullViewButton_clickHandler()"/>

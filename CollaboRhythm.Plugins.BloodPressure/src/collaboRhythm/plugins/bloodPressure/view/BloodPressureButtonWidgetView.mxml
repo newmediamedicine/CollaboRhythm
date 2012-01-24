@@ -52,11 +52,11 @@
 
 		private function showFullViewButton_clickHandler():void
 		{
-			_controller.dispatchShowFullView("VideoMessages widget button click");
+			_controller.dispatchShowFullView("widget button click");
 		}
 		]]>
 	</fx:Script>
 
-	<shared:WidgetButton id="showFullViewButton" icon="{ChartsIcon}" width="70" height="70" left="0" bottom="0"
+	<shared:WidgetButton id="showFullViewButton" icon="{BloodPressureScheduleItemClockView}" width="70" height="70" left="0" bottom="0"
 						 skinClass="collaboRhythm.shared.view.WidgetButtonSkin" click="showFullViewButton_clickHandler()" />
 </s:Group>

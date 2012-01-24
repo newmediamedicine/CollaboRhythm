@@ -22,7 +22,7 @@
 		xmlns:hydrochlorothiazide="collaboRhythm.plugins.bloodPressure.view.simulation.levels.hydrochlorothiazide.*"
 		xmlns:buttons="collaboRhythm.simulation.view.buttons.*"
 		xmlns:view3="collaboRhythm.simulation.view.*"
-		xmlns:view4="collaboRhythm.visualization.view.*"
+		xmlns:view4="collaboRhythm.shared.ui.healthCharts.view.*"
 		width="100%" height="100%"
 		title="Kidney"
 		>

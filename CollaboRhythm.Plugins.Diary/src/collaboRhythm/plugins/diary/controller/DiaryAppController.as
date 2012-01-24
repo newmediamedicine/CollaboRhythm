@@ -132,11 +132,6 @@ import collaboRhythm.plugins.diary.model.DiaryModel;
 			return true;
 		}
 
-		public function dispatchShowFullView(viaMechanism:String):void
-		{
-			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this, null, null, viaMechanism));
-		}
-
 		protected override function removeUserData():void
 		{
 			_diaryModel = null;
