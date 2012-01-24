@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <dataroot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <AccountSource>
+    <accountId>mfletcher@records.media.mit.edu</accountId>
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    <fullName>Markus Fletcher</fullName>
+    <username>mfletcher</username>
+    <password>mfletcher-dope75</password>
+    <givenName>Markus</givenName>
+    <familyName>Fletcher</familyName>
+    <streetAddress>89 Spruce Street</streetAddress>
+    <postalCode>2215</postalCode>
+    <locality>Boston</locality>
+    <region>Massachusetts</region>
+    <country>US</country>
+    <timeZone>-5GMT</timeZone>
+    <emailPersonal>mfletcher@records.media.mit.edu</emailPersonal>
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    <instantMessengerName>mfletcher@records.media.mit.edu</instantMessengerName>
+    <dateOfBirth>1940-02-26T00:00:00Z</dateOfBirth>
+    <age>70</age>
+    <gender>Male</gender>
+    <ethnicity>White</ethnicity>
+    <language>English</language>
+    <maritalStatus>Widowed</maritalStatus>
+    <employmentStatus>Retired</employmentStatus>
+    <employmentIndustry>Education</employmentIndustry>
+    <occupation>Teacher</occupation>
+    <religion>Protestant</religion>
+    <highestEducation>University</highestEducation>
+    <organDonar>true</organDonar>
+    <recordId>772417e8-00fa-4b8d-8dda-a523e0d715d6</recordId>
+    <accessKey>1MunohR49DYw7naktVNx</accessKey>
+    <accessSecret>wPCwONlHmCMLzgeozt8t</accessSecret>
+    <status>Login successful</status>
+    <demographicsId>079bafd8-db4d-436c-9ca3-63a04fc6b903</demographicsId>
+    <notes>Demo for Markus and cardiac-rehab</notes>
+  </AccountSource>
+  <AccountSource>
     <accountId>agreen@records.media.mit.edu</accountId>
     <contactEmail>sgilroy@mit.edu</contactEmail>
     <fullName>Alice Green</fullName>
@@ -463,41 +500,426 @@
     <recordId>6b5efbb3-e7fb-48ff-b253-b8b309953a53</recordId>
     <accessKey>VJ5LyhzPUsSBRjHkci0U</accessKey>
     <accessSecret>q7sdxKXcIl7mcUxHa8sV</accessSecret>
-    <status>Record shared. Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;400&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;400&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;400&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;400&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;400&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
+    <status>Record shared. Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
+
+
+
+
+
+
+
+
+
+
+
+  &lt;InnerError&gt;
+
+
+
+
+
+
+
+
+
+
+
+    &lt;type&gt;complete&lt;/type&gt;
+
+
+
+
+
+
+
+
+
+
+
+  &lt;/InnerError&gt;
+
+
+
+
+
+
+
+
+
+
+
+  &lt;HTTPStatusEvent&gt;
+
+
+
+
+
+
+
+
+
+
+
+    &lt;status&gt;400&lt;/status&gt;
+
+
+
+
+
+
+
+
+
+
+
+  &lt;/HTTPStatusEvent&gt;
+
+
+
+
+
+
+
+
+
+
+
+&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
+
+
+
+
+
+
+
+
+
+
+
+  &lt;InnerError&gt;
+
+
+
+
+
+
+
+
+
+
+
+    &lt;type&gt;complete&lt;/type&gt;
+
+
+
+
+
+
+
+
+
+
+
+  &lt;/InnerError&gt;
+
+
+
+
+
+
+
+
+
+
+
+  &lt;HTTPStatusEvent&gt;
+
+
+
+
+
+
+
+
+
+
+
+    &lt;status&gt;400&lt;/status&gt;
+
+
+
+
+
+
+
+
+
+
+
+  &lt;/HTTPStatusEvent&gt;
+
+
+
+
+
+
+
+
+
+
+
+&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
+
+
+
+
+
+
+
+
+
+
+
+  &lt;InnerError&gt;
+
+
+
+
+
+
+
+
+
+
+
+    &lt;type&gt;complete&lt;/type&gt;
+
+
+
+
+
+
+
+
+
+
+
+  &lt;/InnerError&gt;
+
+
+
+
+
+
+
+
+
+
+
+  &lt;HTTPStatusEvent&gt;
+
+
+
+
+
+
+
+
+
+
+
+    &lt;status&gt;400&lt;/status&gt;
+
+
+
+
+
+
+
+
+
+
+
+  &lt;/HTTPStatusEvent&gt;
+
+
+
+
+
+
+
+
+
+
+
+&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
+
+
+
+
+
+
+
+
+
+
+
+  &lt;InnerError&gt;
+
+
+
+
+
+
+
+
+
+
+
+    &lt;type&gt;complete&lt;/type&gt;
+
+
+
+
+
+
+
+
+
+
+
+  &lt;/InnerError&gt;
+
+
+
+
+
+
+
+
+
+
+
+  &lt;HTTPStatusEvent&gt;
+
+
+
+
+
+
+
+
+
+
+
+    &lt;status&gt;400&lt;/status&gt;
+
+
+
+
+
+
+
+
+
+
+
+  &lt;/HTTPStatusEvent&gt;
+
+
+
+
+
+
+
+
+
+
+
+&lt;/Error&gt; Failed on PUT http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner Response: &lt;Error&gt;
+
+
+
+
+
+
+
+
+
+
+
+  &lt;InnerError&gt;
+
+
+
+
+
+
+
+
+
+
+
+    &lt;type&gt;complete&lt;/type&gt;
+
+
+
+
+
+
+
+
+
+
+
+  &lt;/InnerError&gt;
+
+
+
+
+
+
+
+
+
+
+
+  &lt;HTTPStatusEvent&gt;
+
+
+
+
+
+
+
+
+
+
+
+    &lt;status&gt;400&lt;/status&gt;
+
+
+
+
+
+
+
+
+
+
+
+  &lt;/HTTPStatusEvent&gt;
+
+
+
+
+
+
+
+
+
+
+
 &lt;/Error&gt;</status>
     <demographicsId>b0476e25-777b-4aa2-bb62-32175347068a</demographicsId>
     <recordSeed>1</recordSeed>
@@ -718,6 +1140,6 @@
     <accessSecret>Zdfz4j4DZqC4jxrCmcsm</accessSecret>
     <demographicsId>d66490ce-2c5b-49ef-8c7d-4e6e70e2dab5</demographicsId>
   </AccountSource>
-  <saveDate>Mon Jan 23 19:04:33 GMT-0500 2012</saveDate>
+  <saveDate>Mon Jan 23 21:58:18 GMT-0500 2012</saveDate>
   <indivoServerBaseURL>http://184.106.136.151:8000</indivoServerBaseURL>
 </dataroot>
