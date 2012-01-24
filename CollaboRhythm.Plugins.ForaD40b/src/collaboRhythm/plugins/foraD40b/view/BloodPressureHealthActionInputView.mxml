@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!---
+  - Copyright 2012 John Moore, Scott Gilroy
+  -
+  - This file is part of CollaboRhythm.
+  -
+  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  - version.
+  -
+  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  - details.
+  -
+  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  - <http://www.gnu.org/licenses/>.
+  -->
+<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   xmlns:sharedViews="collaboRhythm.shared.view.*"
+					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView">
+	<fx:Declarations>
+		<s:Button id="doneButton" label="Done" click="doneButton_clickHandler()"/>
+	</fx:Declarations>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		.reportingLabelsText {
+			color: #000000;
+			fontSize: 40;
+		}
+
+		.textInputText {
+			color: #000000;
+			fontSize: 150;
+		}
+
+		#heartRate {
+			color: #000000;
+			fontSize: 110;
+		}
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+		import collaboRhythm.plugins.foraD40b.controller.BloodPressureHealthActionInputController;
+		import collaboRhythm.plugins.foraD40b.model.BloodPressureHealthActionInputModel;
+		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
+
+		import spark.components.ViewNavigator;
+
+		private static const HYPOTENSION_SYSTOLIC_THRESHOLD:int = 90;
+		private static const HYPOTENSION_DIASTOLIC_THRESHOLD:int = 60;
+		private static const HYPERTENSION_SYSTOLIC_THRESHOLD:int = 180;
+		private static const HYPERTENSION_DIASTOLIC_THRESHOLD:int = 120;
+
+		private const NUMBER_PAD_GAP:int = 2;
+
+		[Bindable]
+		protected var _dataInputModel:BloodPressureHealthActionInputModel;
+		protected var _dataInputController:BloodPressureHealthActionInputController;
+
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+
+			var dataInputModelAndController:HealthActionInputModelAndController = HealthActionInputModelAndController(value);
+
+			_dataInputModel = BloodPressureHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
+			_dataInputController = BloodPressureHealthActionInputController(dataInputModelAndController.healthActionInputController);
+		}
+
+		public function get healthActionInputController():IHealthActionInputController
+		{
+			return _dataInputController;
+		}
+
+		override protected function createChildren():void
+		{
+			super.createChildren();
+			actionContent.unshift(doneButton);
+		}
+
+		private function systolicResult_focusInHandler():void
+		{
+			var globalPoint:Point = systolicResultGroup.localToGlobal(new Point(systolic.x +
+					systolic.width + NUMBER_PAD_GAP,
+					systolic.y + systolic.height - numberPad.height));
+			showNumberPad(globalPoint, systolic);
+		}
+
+		private function diastolicResult_focusInHandler():void
+		{
+			var globalPoint:Point = diastolicResultGroup.localToGlobal(new Point(diastolic.x +
+					diastolic.width + NUMBER_PAD_GAP,
+					diastolic.y + diastolic.height - numberPad.height));
+			showNumberPad(globalPoint, diastolic);
+		}
+
+		private function heartRateResult_focusInHandler():void
+		{
+			var globalPoint:Point = heartRateResultGroup.localToGlobal(new Point(heartRate.x +
+					heartRate.width - numberPad.width,
+					heartRate.y - numberPad.height - NUMBER_PAD_GAP));
+			showNumberPad(globalPoint, heartRate);
+		}
+
+		private function showNumberPad(globalPoint:Point, textInput:TextInput):void
+		{
+			var localPoint:Point = this.globalToLocal(globalPoint);
+			numberPad.x = localPoint.x;
+			numberPad.y = localPoint.y;
+			numberPad.visible = true;
+			numberPad.setFocus();
+			numberPad.textInput = textInput;
+		}
+
+		private function doneButton_clickHandler():void
+		{
+			_dataInputController.submitBloodPressure(positionDropDownList.selectedItem, siteDropDownList.selectedItem);
+		}
+		]]>
+	</fx:Script>
+
+
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="0xAAAAAA"/>
+		</s:fill>
+	</s:Rect>
+	<s:VGroup top="10" left="10" right="10" gap="10" horizontalAlign="center">
+		<s:DropDownList id="positionDropDownList" width="100%" selectedIndex="0"
+						skinClass="spark.skins.spark.DropDownListSkin"
+						styleName="reportingLabelsText">
+			<mx:ArrayCollection>
+				<fx:String>Sitting</fx:String>
+				<fx:String>Lying Down</fx:String>
+				<fx:String>Standing</fx:String>
+			</mx:ArrayCollection>
+		</s:DropDownList>
+		<s:DropDownList id="siteDropDownList" width="100%" selectedIndex="0"
+						skinClass="spark.skins.spark.DropDownListSkin"
+						styleName="reportingLabelsText">
+			<mx:ArrayCollection>
+				<fx:String>Left Arm</fx:String>
+				<fx:String>Right Arm</fx:String>
+			</mx:ArrayCollection>
+		</s:DropDownList>
+		<s:Group width="100%">
+			<s:HGroup id="systolicResultGroup" gap="15" paddingTop="20" left="0">
+				<!--TODO: Determine why the font size from the style is not working-->
+				<s:Label id="systolicLabel" text="SYS" width="65" styleName="reportingLabelsText" fontSize="40"/>
+				<s:TextInput id="systolic" width="240" height="130"
+							 skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
+							 textAlign="right" restrict="0-9" maxChars="3" focusIn="systolicResult_focusInHandler()"
+							 text="@{_dataInputModel.systolic}"/>
+				<s:Group height="100%">
+					<s:Label text="mmHg" verticalCenter="0" styleName="reportingLabelsText"/>
+				</s:Group>
+			</s:HGroup>
+		</s:Group>
+		<s:Group width="100%">
+			<s:HGroup id="diastolicResultGroup" gap="15" left="0">
+				<s:Label id="diastolicLabel" text="DIA" width="65" styleName="reportingLabelsText"/>
+				<s:TextInput id="diastolic" width="240" height="130"
+							 skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
+							 textAlign="right" restrict="0-9" maxChars="3" focusIn="diastolicResult_focusInHandler()"
+							 text="@{_dataInputModel.diastolic}"/>
+			</s:HGroup>
+		</s:Group>
+		<s:Group width="100%">
+			<s:VGroup id="heartRateResultGroup" right="0">
+				<s:TextInput id="heartRate" width="200" height="95"
+							 skinClass="spark.skins.spark.TextInputSkin"
+							 textAlign="center" restrict="0-9" maxChars="3" focusIn="heartRateResult_focusInHandler()"
+							 text="@{_dataInputModel.heartRate}"/>
+				<s:Label text="Beats/min" styleName="reportingLabelsText"/>
+			</s:VGroup>
+		</s:Group>
+	</s:VGroup>
+	<sharedViews:NumberPad id="numberPad" visible="false"/>
+</tablet:TabletViewBase>

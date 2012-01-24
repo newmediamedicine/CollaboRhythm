@@ -123,8 +123,8 @@
 		//import collaboRhythm.plugins.intake.controller.IntakeHealthActionInputController;
 		import collaboRhythm.plugins.intake.controller.IntakeHealthActionInputController;
 		import collaboRhythm.plugins.intake.model.IntakeHealthActionInputModel;
-		import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 
 		private const NUMBER_PAD_GAP:int = 2;
 
@@ -142,7 +142,7 @@
 			_dataInputController = IntakeHealthActionInputController(dataInputModelAndController.healthActionInputController);
 		}
 
-		public function get healthActionInputController():HealthActionInputControllerBase
+		public function get healthActionInputController():IHealthActionInputController
 		{
 			return _dataInputController;
 		}

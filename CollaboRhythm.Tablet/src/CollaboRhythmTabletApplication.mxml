@@ -66,5 +66,6 @@
 		<mx:LineChart visible="false" includeInLayout="false"/>
 		<mx:AreaSeries visible="false" includeInLayout="false"/>
 		<mx:PlotSeries visible="false" includeInLayout="false"/>
+		<s:DateSpinner visible="false" includeInLayout="false"/>
 	</s:navigationContent>
 </s:ViewNavigatorApplication>

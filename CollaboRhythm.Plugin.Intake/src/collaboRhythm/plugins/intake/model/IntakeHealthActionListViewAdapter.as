@@ -1,16 +1,28 @@
 package collaboRhythm.plugins.intake.model
 {
+	import collaboRhythm.plugins.schedule.shared.controller.HealthActionListViewControllerBase;
+	import collaboRhythm.plugins.schedule.shared.model.HealthActionBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewController;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewModel;
 
 	import spark.components.Image;
 
 	public class IntakeHealthActionListViewAdapter implements IHealthActionListViewAdapter
 	{
-		private static const NAME:String = "Food / Drink";
+		public static const HEALTH_ACTION_TYPE:String = "Food / Drink";
+
+		private var _healthAction:HealthActionBase;
+
+		private var _model:IntakeHealthActionListViewModel;
+		private var _controller:HealthActionListViewControllerBase;
 
 		public function IntakeHealthActionListViewAdapter()
 		{
+			_healthAction = new HealthActionBase(HEALTH_ACTION_TYPE);
+
+			_model = new IntakeHealthActionListViewModel(null, null);
+			_controller = new HealthActionListViewControllerBase(_model);
 		}
 
 		public function get image():Image
@@ -21,7 +33,7 @@ package collaboRhythm.plugins.intake.model
 
 		public function get name():String
 		{
-			return NAME;
+			return _healthAction.type;
 		}
 
 		public function get description():String
@@ -39,9 +51,19 @@ package collaboRhythm.plugins.intake.model
 			return "";
 		}
 
-		public function get model():ScheduleItemOccurrenceReportingModelBase
+		public function get model():IHealthActionListViewModel
 		{
-			return new IntakeHealthActionListViewModel(null, null);
+			return _model;
+		}
+
+		public function get healthAction():HealthActionBase
+		{
+			return _healthAction;
+		}
+
+		public function get controller():IHealthActionListViewController
+		{
+			return _controller;
 		}
 	}
 }

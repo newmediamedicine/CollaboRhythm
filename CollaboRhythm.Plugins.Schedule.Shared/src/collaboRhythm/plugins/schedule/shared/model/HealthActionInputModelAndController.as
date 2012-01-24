@@ -1,24 +1,23 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
-	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
-
 	public class HealthActionInputModelAndController
     {
-		private var _healthActionInputModel:HealthActionInputModelBase;
-		private var _healthActionInputController:HealthActionInputControllerBase;
+		private var _healthActionInputModel:IHealthActionInputModel;
+		private var _healthActionInputController:IHealthActionInputController;
 
-		public function HealthActionInputModelAndController(dataInputModel:HealthActionInputModelBase, dataInputController:HealthActionInputControllerBase)
+		public function HealthActionInputModelAndController(healthActionInputModel:IHealthActionInputModel,
+															healthActionInputController:IHealthActionInputController)
         {
-			_healthActionInputModel = dataInputModel;
-			_healthActionInputController = dataInputController;
+			_healthActionInputModel = healthActionInputModel;
+			_healthActionInputController = healthActionInputController;
 		}
 
-		public function get healthActionInputModel():HealthActionInputModelBase
+		public function get healthActionInputModel():IHealthActionInputModel
 		{
 			return _healthActionInputModel;
 		}
 
-		public function get healthActionInputController():HealthActionInputControllerBase
+		public function get healthActionInputController():IHealthActionInputController
 		{
 			return _healthActionInputController;
 		}

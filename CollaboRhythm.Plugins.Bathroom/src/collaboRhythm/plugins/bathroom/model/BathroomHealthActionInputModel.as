@@ -1,29 +1,33 @@
 package collaboRhythm.plugins.bathroom.model
 {
-	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelBase;
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
-	import collaboRhythm.shared.model.VitalSignFactory;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputModel;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
-	import collaboRhythm.shared.model.healthRecord.DocumentBase;
-	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
-	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 
 	import flash.net.URLVariables;
 
-	public class BathroomHealthActionInputModel extends HealthActionInputModelBase
+	public class BathroomHealthActionInputModel implements IHealthActionInputModel
 	{
 		private var _numActivity:String = "";
 
 		public function BathroomHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence = null,
-															scheduleModel:IScheduleModel = null)
+															healthActionModelDetailsProvider:IHealthActionModelDetailsProvider = null)
 		{
 			//super(scheduleItemOccurrence, urlVariables, scheduleModel);
 		}
 
-/*		private function createVitalSigns():void
+		public function get scheduleItemOccurrence():ScheduleItemOccurrence
+		{
+			return null;
+		}
+
+		public function set urlVariables(value:URLVariables):void
+		{
+		}
+		/*		private function createVitalSigns():void
 		{
 			var vitalSignFactory:VitalSignFactory = new VitalSignFactory();
-			
+
 			var numAmbulations:VitalSign = vitalSignFactory.createNumberAmbulations(_currentDateSource.now(), numActivity, null, null, null, null);
 
 			var results:Vector.<DocumentBase> = new Vector.<DocumentBase>();

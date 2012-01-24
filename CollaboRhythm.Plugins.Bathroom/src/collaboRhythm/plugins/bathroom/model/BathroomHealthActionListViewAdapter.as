@@ -1,16 +1,33 @@
 package collaboRhythm.plugins.bathroom.model
 {
+	import collaboRhythm.plugins.schedule.shared.controller.HealthActionListViewControllerBase;
+	import collaboRhythm.plugins.schedule.shared.model.HealthActionBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleItemOccurrenceReportingModelBase;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewController;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewModel;
 
 	import spark.components.Image;
 
 	public class BathroomHealthActionListViewAdapter implements IHealthActionListViewAdapter
 	{
-		private static const NAME:String = "Bathroom";
+		public static const HEALTH_ACTION_TYPE:String = "Bathroom";
+
+		private var _healthAction:HealthActionBase;
+
+		private var _model:BathroomHealthActionListViewModel;
+		private var _controller:HealthActionListViewControllerBase;
 
 		public function BathroomHealthActionListViewAdapter()
 		{
+			_healthAction = new HealthActionBase(HEALTH_ACTION_TYPE);
+
+			_model = new BathroomHealthActionListViewModel(null, null);
+			_controller = new HealthActionListViewControllerBase(_model);
+		}
+
+		public function get healthAction():HealthActionBase
+		{
+			return _healthAction;
 		}
 
 		public function get image():Image
@@ -18,10 +35,9 @@ package collaboRhythm.plugins.bathroom.model
 			return null;
 		}
 
-
 		public function get name():String
 		{
-			return NAME;
+			return _healthAction.type;
 		}
 
 		public function get description():String
@@ -39,9 +55,14 @@ package collaboRhythm.plugins.bathroom.model
 			return "";
 		}
 
-		public function get model():ScheduleItemOccurrenceReportingModelBase
+		public function get model():IHealthActionListViewModel
 		{
-			return new BathroomHealthActionListViewModel(null, null);
+			return _model;
+		}
+
+		public function get controller():IHealthActionListViewController
+		{
+			return _controller;
 		}
 	}
 }

@@ -1,11 +1,12 @@
 package collaboRhythm.plugins.foraD40b.model
 {
-	import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseDataInputController;
-	import collaboRhythm.plugins.foraD40b.controller.BloodPressureDataInputController;
-	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
-	import collaboRhythm.plugins.schedule.shared.model.HealthAction;
+	import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
+	import collaboRhythm.plugins.foraD40b.controller.BloodPressureHealthActionInputController;
+	import collaboRhythm.plugins.schedule.shared.model.EquipmentHealthAction;
+	import collaboRhythm.plugins.schedule.shared.model.HealthActionBase;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputControllerFactory;
-	import collaboRhythm.plugins.schedule.shared.model.IScheduleModel;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import flash.net.URLVariables;
@@ -22,30 +23,37 @@ package collaboRhythm.plugins.foraD40b.model
 		{
 		}
 
-		public function createHealthActionInputController(healthAction:HealthAction,
+		public function createHealthActionInputController(healthAction:HealthActionBase,
 														  scheduleItemOccurrence:ScheduleItemOccurrence,
-														  scheduleModel:IScheduleModel,
+														  healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
 														  viewNavigator:ViewNavigator,
-														  currentHealthActionInputController:HealthActionInputControllerBase):HealthActionInputControllerBase
+														  currentHealthActionInputController:IHealthActionInputController):IHealthActionInputController
 		{
-			if (healthAction.healthActionName == BLOOD_PRESSURE_INSTRUCTIONS && healthAction.sourceName == NAME)
-				return new BloodPressureDataInputController(scheduleItemOccurrence, scheduleModel, viewNavigator);
-			else if (healthAction.healthActionName == BLOOD_GLUCOSE_INSTRUCTIONS && healthAction.sourceName == NAME)
-				return new BloodGlucoseDataInputController(scheduleItemOccurrence, scheduleModel, viewNavigator);
-			else
-				return currentHealthActionInputController;
+			if (healthAction.type == EquipmentHealthAction.TYPE)
+			{
+				var equipmentHealthAction:EquipmentHealthAction = EquipmentHealthAction(healthAction);
+				if (equipmentHealthAction.name == BLOOD_PRESSURE_INSTRUCTIONS &&
+						equipmentHealthAction.equipmentName == NAME)
+					return new BloodPressureHealthActionInputController(scheduleItemOccurrence, healthActionModelDetailsProvider, viewNavigator);
+				else if (equipmentHealthAction.name == BLOOD_GLUCOSE_INSTRUCTIONS &&
+						equipmentHealthAction.equipmentName == NAME)
+					return new BloodGlucoseHealthActionInputController(scheduleItemOccurrence, healthActionModelDetailsProvider, viewNavigator);
+			}
+			return currentHealthActionInputController;
 		}
 
 		public function createDeviceHealthActionInputController(urlVariables:URLVariables,
 																scheduleItemOccurrence:ScheduleItemOccurrence,
-																scheduleModel:IScheduleModel,
+																healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
 																viewNavigator:ViewNavigator,
-																currentDeviceHealthActionInputController:HealthActionInputControllerBase):HealthActionInputControllerBase
+																currentDeviceHealthActionInputController:IHealthActionInputController):IHealthActionInputController
 		{
-			if (urlVariables.healthActionType == "Equipment" && urlVariables.healthActionName == "Blood Pressure" && urlVariables.equipmentName == "ForaD40b")
-				return new BloodPressureDataInputController(scheduleItemOccurrence, scheduleModel, viewNavigator);
-			else if (urlVariables.healthActionType == "Equipment" && urlVariables.healthActionName == "Blood Glucose" && urlVariables.equipmentName == "ForaD40b")
-				return new BloodGlucoseDataInputController(scheduleItemOccurrence, scheduleModel, viewNavigator);
+			if (urlVariables.healthActionType == "Equipment" && urlVariables.healthActionName == "Blood Pressure" &&
+					urlVariables.equipmentName == "ForaD40b")
+				return new BloodPressureHealthActionInputController(scheduleItemOccurrence, healthActionModelDetailsProvider, viewNavigator);
+			else if (urlVariables.healthActionType == "Equipment" && urlVariables.healthActionName == "Blood Glucose" &&
+					urlVariables.equipmentName == "ForaD40b")
+				return new BloodGlucoseHealthActionInputController(scheduleItemOccurrence, healthActionModelDetailsProvider, viewNavigator);
 			else
 				return currentDeviceHealthActionInputController;
 		}
