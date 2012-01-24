@@ -34,7 +34,7 @@ package collaboRhythm.shared.model
 
 		public static const INTAKE_FLUID_CODED_VALUE:String = "34";
 		public static const INTAKE_FLUID_CODED_VALUE_ABBREV:String = "amtFluid";
-		public static const INTAKE_FLUID_CODED_VALUE_TEXT:String = "Fluid Amount";
+		public static const INTAKE_FLUID_CODED_VALUE_TEXT:String = "Fluid Intake";
 		
 		public static const INTAKE_FOOD_CODED_VALUE:String = "35";
 		public static const INTAKE_FOOD_CODED_VALUE_ABBREV:String = "foodLevel";

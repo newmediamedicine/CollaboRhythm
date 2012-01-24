@@ -32,7 +32,7 @@ package collaboRhythm.plugins.intake.model
 			var intakeFluid:VitalSign = vitalSignFactory.createIntakeFluid(_currentDateSource.now(),
 					fluid, null, null, null, null);
 			var intakeFood:VitalSign = vitalSignFactory.createIntakeFood(_currentDateSource.now(),
-					food, null, null, null, null);
+					null, null, null, fluid, null);
 
 
 			var results:Vector.<DocumentBase> = new Vector.<DocumentBase>();
