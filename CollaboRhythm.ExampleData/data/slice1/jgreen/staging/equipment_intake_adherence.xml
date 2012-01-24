@@ -24,6 +24,7 @@
 		<adherence>true</adherence>
 		<fluid>5</fluid>
 		<food>less</food>
+		<recurrenceIndex>0</recurrenceIndex>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Intake</name>
@@ -32,6 +33,7 @@
 		<adherence>true</adherence>
 		<fluid>6</fluid>
 		<food>same</food>
+		<recurrenceIndex>1</recurrenceIndex>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Intake</name>
@@ -40,6 +42,7 @@
 		<adherence>true</adherence>
 		<fluid>8</fluid>
 		<food>more</food>
+		<recurrenceIndex>2</recurrenceIndex>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Intake</name>
@@ -48,6 +51,7 @@
 		<adherence>true</adherence>
 		<fluid>7</fluid>
 		<food>same</food>
+		<recurrenceIndex>3</recurrenceIndex>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Intake</name>
@@ -56,6 +60,7 @@
 		<adherence>true</adherence>
 		<fluid>8</fluid>
 		<food>more</food>
+		<recurrenceIndex>4</recurrenceIndex>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Intake</name>
@@ -64,6 +69,7 @@
 		<adherence>true</adherence>
 		<fluid>8</fluid>
 		<food>same</food>
+		<recurrenceIndex>5</recurrenceIndex>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Intake</name>
@@ -72,12 +78,16 @@
 		<adherence>true</adherence>
 		<fluid>9</fluid>
 		<food>more</food>
+		<recurrenceIndex>6</recurrenceIndex>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Intake</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-24T14:14:00Z</dateReported>
-		<adherence>false</adherence>
+		<adherence>true</adherence>
+		<fluid>9</fluid>
+		<food>more</food>
+		<recurrenceIndex>7</recurrenceIndex>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Intake</name>
@@ -86,6 +96,7 @@
 		<adherence>true</adherence>
 		<fluid>9</fluid>
 		<food>more</food>
+		<recurrenceIndex>8</recurrenceIndex>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Intake</name>
@@ -94,6 +105,7 @@
 		<adherence>true</adherence>
 		<fluid>6</fluid>
 		<food>less</food>
+		<recurrenceIndex>9</recurrenceIndex>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Intake</name>
@@ -102,6 +114,7 @@
 		<adherence>true</adherence>
 		<fluid>6</fluid>
 		<food>same</food>
+		<recurrenceIndex>10</recurrenceIndex>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Intake</name>
@@ -110,6 +123,7 @@
 		<adherence>true</adherence>
 		<fluid>7</fluid>
 		<food>more</food>
+		<recurrenceIndex>11</recurrenceIndex>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Intake</name>
@@ -118,6 +132,7 @@
 		<adherence>true</adherence>
 		<fluid>8</fluid>
 		<food>more</food>
+		<recurrenceIndex>12</recurrenceIndex>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Intake</name>
@@ -126,6 +141,7 @@
 		<adherence>true</adherence>
 		<fluid>7</fluid>
 		<food>same</food>
+		<recurrenceIndex>13</recurrenceIndex>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Intake</name>
@@ -134,19 +150,6 @@
 		<adherence>true</adherence>
 		<fluid>8</fluid>
 		<food>more</food>
-	</BloodPressureAdherenceItem>
-	<BloodPressureAdherenceItem>
-		<name>Intake</name>
-		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-01T14:02:00Z</dateReported>
-		<adherence>false</adherence>
-	</BloodPressureAdherenceItem>
-	<BloodPressureAdherenceItem>
-		<name>Intake</name>
-		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-02T13:24:00Z</dateReported>
-		<adherence>true</adherence>
-		<fluid>9</fluid>
-		<food>more</food>
+		<recurrenceIndex>14</recurrenceIndex>
 	</BloodPressureAdherenceItem>
 </IndivoDocuments>

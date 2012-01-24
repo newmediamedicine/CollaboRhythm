@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IndivoDocuments xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:fn="http://www.w3.org/2005/xpath-functions"
+                 xmlns:d="http://indivo.org/vocab/xml/documents#">
+   <LoadableIndivoDocument>
+      <document>
+         <Equipment xmlns="http://indivo.org/vocab/xml/documents#">
+            <dateStarted>2009-12-15</dateStarted>
+            <type>blood pressure monitor</type>
+            <name xmlns="">Bathroom</name>
+         </Equipment>
+      </document>
+      <relatesTo>
+         <relation type="scheduleItem">
+            <LoadableIndivoDocument>
+               <document>
+                  <EquipmentScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
+                     <name xmlns="">Bathroom</name>
+                     <scheduledBy>jking@records.media.mit.edu</scheduledBy>
+                     <dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
+                     <dateStart>2011-07-15T13:00:00Z</dateStart>
+                     <dateEnd>2011-07-15T17:00:00Z</dateEnd>
+                     <recurrenceRule>
+                        <frequency>HOURLY</frequency>
+                        <interval>2</interval>
+                        <count>500</count>
+                     </recurrenceRule>
+                     <instructions xmlns="">Bathroom documentation</instructions>
+                  </EquipmentScheduleItem>
+               </document>
+               <relatesTo>
+                  <relation type="adherenceItem">
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Bathroom</name>
+                              <reportedBy xmlns="">jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-17T08:00:00Z</dateReported>
+                              <recurrenceIndex>0</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-17T08:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>140</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-17T08:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>60</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Bathroom</name>
+                              <reportedBy xmlns="">jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-17T10:00:00Z</dateReported>
+                              <recurrenceIndex>1</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-17T10:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>140</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-17T10:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>60</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Bathroom</name>
+                              <reportedBy xmlns="">jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-17T12:00:00Z</dateReported>
+                              <recurrenceIndex>2</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-17T12:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>140</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-17T12:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>60</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Bathroom</name>
+                              <reportedBy xmlns="">jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-17T14:00:00Z</dateReported>
+                              <recurrenceIndex>3</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-17T14:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>130</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-17T14:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>55</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Bathroom</name>
+                              <reportedBy xmlns="">jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-17T16:00:00Z</dateReported>
+                              <recurrenceIndex>4</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-17T16:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>135</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-17T16:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>60</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Bathroom</name>
+                              <reportedBy xmlns="">jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-17T18:00:00Z</dateReported>
+                              <recurrenceIndex>5</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-17T18:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>140</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-17T18:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>60</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Bathroom</name>
+                              <reportedBy xmlns="">jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-17T20:00:00Z</dateReported>
+                              <recurrenceIndex>6</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-17T20:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>140</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-17T20:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>60</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Bathroom</name>
+                              <reportedBy xmlns="">jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-18T08:00:00Z</dateReported>
+                              <recurrenceIndex>7</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-18T08:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>130</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-18T08:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>55</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Bathroom</name>
+                              <reportedBy xmlns="">jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-18T10:00:00Z</dateReported>
+                              <recurrenceIndex>8</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-18T10:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>140</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-18T10:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>60</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Bathroom</name>
+                              <reportedBy xmlns="">jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-18T12:00:00Z</dateReported>
+                              <recurrenceIndex>9</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-18T12:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>140</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-18T12:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>60</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Bathroom</name>
+                              <reportedBy xmlns="">jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-18T14:00:00Z</dateReported>
+                              <recurrenceIndex>10</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-18T14:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>145</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-18T14:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>55</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Bathroom</name>
+                              <reportedBy xmlns="">jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-18T16:00:00Z</dateReported>
+                              <recurrenceIndex>11</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-18T16:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>140</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-18T16:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>60</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Bathroom</name>
+                              <reportedBy xmlns="">jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-18T18:00:00Z</dateReported>
+                              <recurrenceIndex>12</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-18T18:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>135</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-18T18:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>55</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Bathroom</name>
+                              <reportedBy xmlns="">jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-18T20:00:00Z</dateReported>
+                              <recurrenceIndex>13</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-18T20:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>140</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Food Level</name>
+                                       <measuredBy>jgreen@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-18T20:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>60</value>
+                                          <unit abbrev="mL">millileters</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                  </relation>
+               </relatesTo>
+            </LoadableIndivoDocument>
+         </relation>
+      </relatesTo>
+   </LoadableIndivoDocument>
+</IndivoDocuments>

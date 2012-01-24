@@ -26,6 +26,9 @@
 		<xsl:variable name="equipmentName" select="IndivoDocuments/BloodPressureAdherenceItem[1]/name"/>
 		<xsl:variable name="equipmentScheduleItemInstructions" select="IndivoDocuments/BloodPressureAdherenceItem[1]/instructions"/>
 		<xsl:variable name="reportedBy" select="IndivoDocuments/BloodPressureAdherenceItem[1]/reportedBy"/>
+		<xsl:variable name="recurrenceFrequency" select="IndivoDocuments/BloodPressureAdherenceItem[1]/recurrenceFrequency"/>
+		<xsl:variable name="recurrenceInterval" select="IndivoDocuments/BloodPressureAdherenceItem[1]/recurrenceInterval"/>
+		<xsl:variable name="recurrenceCount" select="IndivoDocuments/BloodPressureAdherenceItem[1]/recurrenceCount"/>
 		<IndivoDocuments>
 			<LoadableIndivoDocument>
 				<document>
@@ -49,8 +52,30 @@
 									</dateStart>
 									<dateEnd>2011-07-15T17:00:00Z</dateEnd>
 									<recurrenceRule>
-										<frequency>DAILY</frequency>
-										<count>90</count>
+										<xsl:choose>
+											<xsl:when test="$recurrenceFrequency != ''">
+												<frequency><xsl:value-of select="$recurrenceFrequency"/></frequency>
+											</xsl:when>
+											<xsl:otherwise>
+												<frequency>DAILY</frequency>
+											</xsl:otherwise>
+										</xsl:choose>
+										<xsl:choose>
+											<xsl:when test="$recurrenceInterval != ''">
+												<interval><xsl:value-of select="$recurrenceInterval"/></interval>
+											</xsl:when>
+											<xsl:otherwise>
+												<interval>1</interval>
+											</xsl:otherwise>
+										</xsl:choose>
+										<xsl:choose>
+											<xsl:when test="$recurrenceCount != ''">
+												<count><xsl:value-of select="$recurrenceCount"/></count>
+											</xsl:when>
+											<xsl:otherwise>
+												<count>90</count>
+											</xsl:otherwise>
+										</xsl:choose>
 									</recurrenceRule>
 									<xsl:copy-of select="$equipmentScheduleItemInstructions"/>
 								</EquipmentScheduleItem>
@@ -68,24 +93,15 @@
 														<xsl:value-of select="dateReported"/>
 													</dateReported>
 													<recurrenceIndex>
-														<xsl:value-of
-																select="fn:days-from-duration(xs:dateTime(dateReported) - xs:dateTime($dateStart))"/>
-<!--
-														<xsl:value-of
-																select="xs:dateTime(dateReported)"/>
--->
-<!--
-														<xsl:value-of
-																select="xs:dateTime($dateStart)"/>
--->
-<!--
-														<xsl:value-of
-																select="$dateStart"/>
--->
-<!--
-														<xsl:value-of
-																select="fn:days-from-duration(xs:dateTime($dateStart) - xs:dateTime($dateStart))"/>
--->
+														<xsl:choose>
+															<xsl:when test="recurrenceIndex">
+																<xsl:value-of select="recurrenceIndex"/>
+															</xsl:when>
+															<xsl:otherwise>
+																<xsl:value-of
+																		select="fn:days-from-duration(xs:dateTime(dateReported) - xs:dateTime($dateStart))"/>
+															</xsl:otherwise>
+														</xsl:choose>
 													</recurrenceIndex>
 													<adherence>
 														<xsl:value-of select="adherence"/>
@@ -226,6 +242,77 @@
 																			<unit abbrev="%">percent</unit>
 																		</result>
 																		<site>abdomen</site>
+																	</VitalSign>
+																</document>
+															</LoadableIndivoDocument>
+														</xsl:if>
+														<xsl:if test="fluid">
+															<LoadableIndivoDocument>
+																<document>
+																	<VitalSign
+																			xmlns="http://indivo.org/vocab/xml/documents#">
+																		<name>Fluid Intake</name>
+																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
+																		<dateMeasuredStart>
+																			<xsl:value-of select="dateReported"/>
+																		</dateMeasuredStart>
+																		<result>
+																			<value><xsl:value-of select="fluid"/></value>
+																			<unit abbrev="cups">cups</unit>
+																		</result>
+																	</VitalSign>
+																</document>
+															</LoadableIndivoDocument>
+														</xsl:if>
+														<xsl:if test="food">
+															<LoadableIndivoDocument>
+																<document>
+																	<VitalSign
+																			xmlns="http://indivo.org/vocab/xml/documents#">
+																		<name>Food Level</name>
+																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
+																		<dateMeasuredStart>
+																			<xsl:value-of select="dateReported"/>
+																		</dateMeasuredStart>
+																		<site>
+																			<xsl:value-of select="food"/>
+																		</site>
+																	</VitalSign>
+																</document>
+															</LoadableIndivoDocument>
+														</xsl:if>
+														<xsl:if test="urineoutone">
+															<LoadableIndivoDocument>
+																<document>
+																	<VitalSign
+																			xmlns="http://indivo.org/vocab/xml/documents#">
+																		<name>Food Level</name>
+																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
+																		<dateMeasuredStart>
+																			<xsl:value-of select="dateReported"/>
+																		</dateMeasuredStart>
+																		<result>
+																			<value><xsl:value-of select="urineoutone"/></value>
+																			<unit abbrev="mL">millileters</unit>
+																		</result>
+																	</VitalSign>
+																</document>
+															</LoadableIndivoDocument>
+														</xsl:if>
+														<xsl:if test="urineouttwo">
+															<LoadableIndivoDocument>
+																<document>
+																	<VitalSign
+																			xmlns="http://indivo.org/vocab/xml/documents#">
+																		<name>Food Level</name>
+																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
+																		<dateMeasuredStart>
+																			<xsl:value-of select="dateReported"/>
+																		</dateMeasuredStart>
+																		<result>
+																			<value><xsl:value-of select="urineouttwo"/></value>
+																			<unit abbrev="mL">millileters</unit>
+																		</result>
 																	</VitalSign>
 																</document>
 															</LoadableIndivoDocument>
