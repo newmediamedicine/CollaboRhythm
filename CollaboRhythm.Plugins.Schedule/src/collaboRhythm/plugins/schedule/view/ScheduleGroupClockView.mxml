@@ -60,6 +60,9 @@
 
 		[Embed (source="/assets/images/pill.png" )]
   		public static const pillImage:Class;
+	
+		[Embed (source="/assets/images/chart.png")]
+		public static const chartImage:Class;
 
 		[Embed (source="/assets/images/bathroom.png" )]
   		public static const bathroomImage:Class;
@@ -187,7 +190,7 @@
 			// only push 1 view to represent all items
 			var image:Image = new Image();
 			image.setStyle("skinClass", ImageSkin);
-			
+
 			if(containsMeds){
 				if(containsBathroom){
 					image.source = bathroomPillImage;
@@ -200,7 +203,15 @@
 				}
 			}
 			else if(containsBathroom){
-				image.source = bathroomImage;
+				if(containsDoc){
+					image.source = chartImage;
+				}
+				else{
+					image.source = bathroomImage;
+				}
+			}
+			else{
+				image.source = chartImage;
 			}
 
 			reducedScheduleItemOccurrenceClockView.initImage(image);
