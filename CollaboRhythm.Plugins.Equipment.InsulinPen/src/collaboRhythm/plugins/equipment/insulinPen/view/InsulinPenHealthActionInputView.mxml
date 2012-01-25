@@ -21,14 +21,14 @@
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView">
 	<fx:Script><![CDATA[
-		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
-		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
+		import collaboRhythm.plugins.equipment.insulinPen.controller.InsulinPenHealthActionInputController;
+		import collaboRhythm.plugins.equipment.insulinPen.model.InsulinPenHealthActionInputModel;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 
 		[Bindable]
-		protected var _dataInputModel:BloodGlucoseHealthActionInputModel;
-		protected var _dataInputController:BloodGlucoseHealthActionInputController;
+		protected var _dataInputModel:InsulinPenHealthActionInputModel;
+		protected var _dataInputController:InsulinPenHealthActionInputController;
 
 		override public function set data(value:Object):void
 		{
@@ -36,8 +36,8 @@
 
 			var dataInputModelAndController:HealthActionInputModelAndController = HealthActionInputModelAndController(value);
 
-			_dataInputModel = BloodGlucoseHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
-			_dataInputController = BloodGlucoseHealthActionInputController(dataInputModelAndController.healthActionInputController);
+			_dataInputModel = InsulinPenHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
+			_dataInputController = InsulinPenHealthActionInputController(dataInputModelAndController.healthActionInputController);
 		}
 
 		public function get healthActionInputController():IHealthActionInputController

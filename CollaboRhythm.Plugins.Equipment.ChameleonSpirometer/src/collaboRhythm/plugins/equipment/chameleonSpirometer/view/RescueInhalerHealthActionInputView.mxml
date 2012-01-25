@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!---
+  - Copyright 2012 John Moore, Scott Gilroy
+  -
+  - This file is part of CollaboRhythm.
+  -
+  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  - version.
+  -
+  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  - details.
+  -
+  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  - <http://www.gnu.org/licenses/>.
+  -->
+<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView">
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.equipment.chameleonSpirometer.controller.RescueInhalerHealthActionInputController;
+		import collaboRhythm.plugins.equipment.chameleonSpirometer.model.RescueInhalerHealthActionInputModel;
+		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
+
+		[Bindable]
+		protected var _dataInputModel:RescueInhalerHealthActionInputModel;
+		protected var _dataInputController:RescueInhalerHealthActionInputController;
+
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+
+			var dataInputModelAndController:HealthActionInputModelAndController = HealthActionInputModelAndController(value);
+
+			_dataInputModel = RescueInhalerHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
+			_dataInputController = RescueInhalerHealthActionInputController(dataInputModelAndController.healthActionInputController);
+		}
+
+		public function get healthActionInputController():IHealthActionInputController
+		{
+			return _dataInputController;
+		}
+		]]></fx:Script>
+</tablet:TabletViewBase>
