@@ -1,4 +1,4 @@
-package collaboRhythm.plugins.foraD40b.model
+package collaboRhythm.plugins.equipment.chameleonSpirometer.model
 {
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
@@ -6,16 +6,18 @@ package collaboRhythm.plugins.foraD40b.model
 
 	import flash.net.URLVariables;
 
-	public class BloodGlucoseHealthActionInputModel extends HealthActionInputModelBase
+	public class SteroidInhalerHealthActionInputModel extends HealthActionInputModelBase
 	{
-		public function BloodGlucoseHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence = null,
-														   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider = null)
+		public function SteroidInhalerHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence = null,
+													  healthActionModelDetailsProvider:IHealthActionModelDetailsProvider = null)
 		{
 			super(scheduleItemOccurrence, healthActionModelDetailsProvider);
 		}
 
+
 		override public function set urlVariables(value:URLVariables):void
 		{
+			// abstract, subclasses should override
 			_urlVariables = value;
 		}
 	}
