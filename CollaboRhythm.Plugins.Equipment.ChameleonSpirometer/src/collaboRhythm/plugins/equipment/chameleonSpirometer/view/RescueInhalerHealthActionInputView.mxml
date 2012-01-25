@@ -45,4 +45,9 @@
 			return _dataInputController;
 		}
 		]]></fx:Script>
+	<s:Rect>
+		<s:fill>
+			<s:SolidColor color="0x000000"/>
+		</s:fill>
+	</s:Rect>
 </tablet:TabletViewBase>

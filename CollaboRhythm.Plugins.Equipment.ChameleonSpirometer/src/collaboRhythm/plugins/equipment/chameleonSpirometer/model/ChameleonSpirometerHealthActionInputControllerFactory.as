@@ -8,6 +8,7 @@ package collaboRhythm.plugins.equipment.chameleonSpirometer.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputControllerFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
+	import collaboRhythm.plugins.schedule.shared.model.MedicationHealthAction;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import flash.net.URLVariables;
@@ -31,6 +32,14 @@ package collaboRhythm.plugins.equipment.chameleonSpirometer.model
 														  viewNavigator:ViewNavigator,
 														  currentHealthActionInputController:IHealthActionInputController):IHealthActionInputController
 		{
+			if (healthAction.type == MedicationHealthAction.TYPE)
+			{
+				var medicationHealthAction:MedicationHealthAction = healthAction as MedicationHealthAction;
+				if (medicationHealthAction && medicationHealthAction.medicationOrderName == "Albuterol")
+				{
+					return new RescueInhalerHealthActionInputController(scheduleItemOccurrence, healthActionModelDetailsProvider, viewNavigator);
+				}
+			}
 			return currentHealthActionInputController;
 		}
 
