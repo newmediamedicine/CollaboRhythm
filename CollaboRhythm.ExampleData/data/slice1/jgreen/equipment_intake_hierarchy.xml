@@ -6,9 +6,7 @@
       <document>
          <Equipment xmlns="http://indivo.org/vocab/xml/documents#">
             <dateStarted>2009-12-15</dateStarted>
-            <type>
-									blood pressure monitor
-								</type>
+            <type>blood pressure monitor</type>
             <name xmlns="">Intake</name>
          </Equipment>
       </document>
@@ -20,8 +18,8 @@
                      <name xmlns="">Intake</name>
                      <scheduledBy>jking@records.media.mit.edu</scheduledBy>
                      <dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
-                     <dateStart>2011-07-15T13:00:00Z</dateStart>
-                     <dateEnd>2011-07-15T17:00:00Z</dateEnd>
+                     <dateStart>2011-07-17T07:30:00Z</dateStart>
+                     <dateEnd>2011-07-17T08:30:00Z</dateEnd>
                      <recurrenceRule>
                         <frequency>DAILY</frequency>
                         <count>90</count>

@@ -19,6 +19,8 @@
 	<BloodPressureAdherenceItem>
 		<name>Bathroom</name>
 		<instructions>Bathroom documentation</instructions>
+		<scheduleDateStart>2011-07-17T07:30:00Z</scheduleDateStart>
+		<scheduleDateEnd>2011-07-17T08:30:00Z</scheduleDateEnd>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-17T08:00:00Z</dateReported>
 		<adherence>true</adherence>
@@ -32,7 +34,7 @@
 		<type>6</type>
 		<recurrenceFrequency>HOURLY</recurrenceFrequency>
 		<recurrenceInterval>2</recurrenceInterval>
-		<recurrenceCount>500</recurrenceCount>
+		<recurrenceCount>1080</recurrenceCount>
 		<recurrenceIndex>0</recurrenceIndex>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
