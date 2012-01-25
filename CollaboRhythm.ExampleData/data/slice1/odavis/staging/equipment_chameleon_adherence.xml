@@ -18,7 +18,8 @@
 <IndivoDocuments>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<instructions>Measure you Peak Expiratory Flow Rate by blowing into the device</instructions>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-15T20:00:00Z</dateReported>
 		<adherence>true</adherence>
 		<peakFlow>299</peakFlow>
@@ -27,7 +28,7 @@
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-16T20:00:00Z</dateReported>
 		<adherence>true</adherence>
 		<peakFlow>301</peakFlow>
@@ -35,7 +36,7 @@
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-17T20:00:00Z</dateReported>
 		<adherence>true</adherence>
 		<peakFlow>298</peakFlow>
@@ -43,7 +44,7 @@
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-18T20:00:00Z</dateReported>
 		<adherence>true</adherence>
 		<peakFlow>300</peakFlow>
@@ -51,7 +52,7 @@
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-19T20:00:00Z</dateReported>
 		<adherence>true</adherence>
 		<peakFlow>297</peakFlow>
@@ -59,7 +60,7 @@
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-20T20:00:00Z</dateReported>
 		<adherence>true</adherence>
 		<peakFlow>301</peakFlow>
@@ -67,7 +68,7 @@
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-21T20:00:00Z</dateReported>
 		<adherence>true</adherence>
 		<peakFlow>295</peakFlow>
@@ -75,7 +76,7 @@
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-22T20:00:00Z</dateReported>
 		<adherence>true</adherence>
 		<peakFlow>270</peakFlow>
@@ -83,7 +84,7 @@
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-23T20:00:00Z</dateReported>
 		<adherence>true</adherence>
 		<peakFlow>250</peakFlow>
@@ -91,7 +92,7 @@
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-24T20:00:00Z</dateReported>
 		<adherence>true</adherence>
 		<peakFlow>220</peakFlow>
@@ -99,7 +100,7 @@
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-25T20:00:00Z</dateReported>
 		<adherence>true</adherence>
 		<peakFlow>210</peakFlow>
@@ -107,7 +108,7 @@
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-26T20:00:00Z</dateReported>
 		<adherence>true</adherence>
 		<peakFlow>200</peakFlow>
@@ -115,7 +116,7 @@
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-27T20:00:00Z</dateReported>
 		<adherence>true</adherence>
 		<peakFlow>250</peakFlow>
@@ -123,7 +124,7 @@
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
 		<name>Chameleon</name>
-		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-28T20:00:00Z</dateReported>
 		<adherence>true</adherence>
 		<peakFlow>285</peakFlow>

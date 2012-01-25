@@ -14,12 +14,10 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.shared.apps.bloodPressure.model
+package collaboRhythm.shared.apps.healthCharts.model
 {
-
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.derived.MedicationConcentrationSample;
-	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItemsModel;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
@@ -46,7 +44,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 	[Event(name="change", type="flash.events.Event")]
 
 	[Bindable]
-	public class BloodPressureModel
+	public class HealthChartsModel
 	{
 		private var _record:Record;
 		private var _currentDateSource:ICurrentDateSource;
@@ -150,7 +148,7 @@ package collaboRhythm.shared.apps.bloodPressure.model
 			}
 		}
 
-		public function BloodPressureModel()
+		public function HealthChartsModel()
 		{
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}

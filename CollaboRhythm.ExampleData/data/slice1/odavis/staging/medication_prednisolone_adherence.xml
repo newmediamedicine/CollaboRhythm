@@ -18,7 +18,7 @@
 <IndivoDocuments>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">Prednisone 20 MG Oral Tablet</name>
-		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-25T13:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<ndc>06035339</ndc>
@@ -26,7 +26,7 @@
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">Prednisone 20 MG Oral Tablet</name>
-		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-26T13:30:30Z</dateReported>
 		<adherence>true</adherence>
 		<ndc>06035339</ndc>
@@ -34,7 +34,7 @@
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">Prednisone 20 MG Oral Tablet</name>
-		<reportedBy>owen@records.media.mit.edu</reportedBy>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-27T13:30:30Z</dateReported>
 		<adherence>true</adherence>
 		<ndc>06035339</ndc>

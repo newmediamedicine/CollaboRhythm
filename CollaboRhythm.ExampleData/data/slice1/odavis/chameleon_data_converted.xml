@@ -24,6 +24,7 @@
                         <frequency>DAILY</frequency>
                         <count>90</count>
                      </recurrenceRule>
+                     <instructions xmlns="">Measure you Peak Expiratory Flow Rate by blowing into the device</instructions>
                   </EquipmentScheduleItem>
                </document>
                <relatesTo>
@@ -32,7 +33,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">Chameleon</name>
-                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">odavis@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-15T20:00:00Z</dateReported>
                               <recurrenceIndex>0</recurrenceIndex>
                               <adherence>true</adherence>
@@ -44,7 +45,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
-                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-15T20:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>299</value>
@@ -60,7 +61,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">Chameleon</name>
-                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">odavis@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-16T20:00:00Z</dateReported>
                               <recurrenceIndex>1</recurrenceIndex>
                               <adherence>true</adherence>
@@ -72,7 +73,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
-                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-16T20:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>301</value>
@@ -88,7 +89,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">Chameleon</name>
-                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">odavis@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-17T20:00:00Z</dateReported>
                               <recurrenceIndex>2</recurrenceIndex>
                               <adherence>true</adherence>
@@ -100,7 +101,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
-                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T20:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>298</value>
@@ -116,7 +117,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">Chameleon</name>
-                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">odavis@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-18T20:00:00Z</dateReported>
                               <recurrenceIndex>3</recurrenceIndex>
                               <adherence>true</adherence>
@@ -128,7 +129,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
-                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T20:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>300</value>
@@ -144,7 +145,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">Chameleon</name>
-                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">odavis@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-19T20:00:00Z</dateReported>
                               <recurrenceIndex>4</recurrenceIndex>
                               <adherence>true</adherence>
@@ -156,7 +157,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
-                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-19T20:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>297</value>
@@ -172,7 +173,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">Chameleon</name>
-                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">odavis@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-20T20:00:00Z</dateReported>
                               <recurrenceIndex>5</recurrenceIndex>
                               <adherence>true</adherence>
@@ -184,7 +185,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
-                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-20T20:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>301</value>
@@ -200,7 +201,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">Chameleon</name>
-                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">odavis@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-21T20:00:00Z</dateReported>
                               <recurrenceIndex>6</recurrenceIndex>
                               <adherence>true</adherence>
@@ -212,7 +213,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
-                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-21T20:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>295</value>
@@ -228,7 +229,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">Chameleon</name>
-                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">odavis@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-22T20:00:00Z</dateReported>
                               <recurrenceIndex>7</recurrenceIndex>
                               <adherence>true</adherence>
@@ -240,7 +241,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
-                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-22T20:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>270</value>
@@ -256,7 +257,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">Chameleon</name>
-                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">odavis@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-23T20:00:00Z</dateReported>
                               <recurrenceIndex>8</recurrenceIndex>
                               <adherence>true</adherence>
@@ -268,7 +269,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
-                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-23T20:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>250</value>
@@ -284,7 +285,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">Chameleon</name>
-                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">odavis@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-24T20:00:00Z</dateReported>
                               <recurrenceIndex>9</recurrenceIndex>
                               <adherence>true</adherence>
@@ -296,7 +297,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
-                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-24T20:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>220</value>
@@ -312,7 +313,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">Chameleon</name>
-                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">odavis@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-25T20:00:00Z</dateReported>
                               <recurrenceIndex>10</recurrenceIndex>
                               <adherence>true</adherence>
@@ -324,7 +325,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
-                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-25T20:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>210</value>
@@ -340,7 +341,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">Chameleon</name>
-                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">odavis@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-26T20:00:00Z</dateReported>
                               <recurrenceIndex>11</recurrenceIndex>
                               <adherence>true</adherence>
@@ -352,7 +353,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
-                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-26T20:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>200</value>
@@ -368,7 +369,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">Chameleon</name>
-                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">odavis@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-27T20:00:00Z</dateReported>
                               <recurrenceIndex>12</recurrenceIndex>
                               <adherence>true</adherence>
@@ -380,7 +381,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
-                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-27T20:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>250</value>
@@ -396,7 +397,7 @@
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
                               <name xmlns="">Chameleon</name>
-                              <reportedBy xmlns="">owen@records.media.mit.edu</reportedBy>
+                              <reportedBy xmlns="">odavis@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-28T20:00:00Z</dateReported>
                               <recurrenceIndex>13</recurrenceIndex>
                               <adherence>true</adherence>
@@ -408,7 +409,7 @@
                                  <document>
                                     <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
-                                       <measuredBy>owen@records.media.mit.edu</measuredBy>
+                                       <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-28T20:00:00Z</dateMeasuredStart>
                                        <result>
                                           <value>285</value>

@@ -1,4 +1,4 @@
-package collaboRhythm.shared.ui.healthCharts.model
+package collaboRhythm.shared.ui.healthCharts.model.descriptors
 {
 	public class VitalSignChartDescriptor implements IChartDescriptor
 	{
@@ -8,7 +8,7 @@ package collaboRhythm.shared.ui.healthCharts.model
 		{
 		}
 
-		public function get chartKey():String
+		public function get descriptorKey():String
 		{
 			return "vitalSign_" + vitalSignCategory;
 		}

@@ -20,7 +20,7 @@ package collaboRhythm.plugins.medications.model
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceAssertion;
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceEvaluatorBase;
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
-	import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
+	import collaboRhythm.shared.apps.healthCharts.model.MedicationComponentAdherenceModel;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
@@ -196,7 +196,7 @@ package collaboRhythm.plugins.medications.model
 			_medicationsWithinGoal = new Vector.<String>();
 			_medicationsAboveGoal = new Vector.<String>();
 
-			var medicationComponentAdherenceModelsVector:Vector.<MedicationComponentAdherenceModel> = record.bloodPressureModel.currentSimulation.medications;
+			var medicationComponentAdherenceModelsVector:Vector.<MedicationComponentAdherenceModel> = record.healthChartsModel.currentSimulation.medications;
 			_numberOfMedications = medicationComponentAdherenceModelsVector.length;
 			for each (var medicationComponentAdherenceModel:MedicationComponentAdherenceModel in medicationComponentAdherenceModelsVector)
 			{

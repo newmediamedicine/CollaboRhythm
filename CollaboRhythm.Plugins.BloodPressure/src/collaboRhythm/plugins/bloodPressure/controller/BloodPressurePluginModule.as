@@ -23,7 +23,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 	import collaboRhythm.shared.controller.apps.AppOrderConstraint;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
-	import collaboRhythm.shared.ui.healthCharts.model.IChartModifierFactory;
+	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifierFactory;
 
 	import mx.modules.ModuleBase;
 

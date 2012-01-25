@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--~
+  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
 <IndivoDocuments xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:fn="http://www.w3.org/2005/xpath-functions"
                  xmlns:d="http://indivo.org/vocab/xml/documents#">
    <LoadableIndivoDocument>
       <document>
          <MedicationOrder xmlns="http://indivo.org/vocab/xml/documents#">
-            <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+            <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
             <orderType>prescribed</orderType>
             <orderedBy>jking@records.media.mit.edu</orderedBy>
             <dateOrdered>2011-07-14T19:13:11Z</dateOrdered>
@@ -24,14 +40,14 @@
             <LoadableIndivoDocument>
                <document>
                   <MedicationFill xmlns="http://indivo.org/vocab/xml/documents#">
-                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
                      <filledBy>ljohnson@records.media.mit.edu</filledBy>
                      <dateFilled>2011-07-14T19:13:11Z</dateFilled>
                      <amountFilled>
                         <value>90</value>
                         <unit>tab</unit>
                      </amountFilled>
-                     <ndc>0173071820</ndc>
+                     <ndc>173068224</ndc>
                   </MedicationFill>
                </document>
             </LoadableIndivoDocument>
@@ -40,7 +56,7 @@
             <LoadableIndivoDocument>
                <document>
                   <MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
-                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
                      <scheduledBy>jking@records.media.mit.edu</scheduledBy>
                      <dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
                      <dateStart>2011-07-15T13:00:00Z</dateStart>
@@ -61,10 +77,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-15T08:00:00Z</dateReported>
-                              <recurrenceIndex>0</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-22T13:30:00Z</dateReported>
+                              <recurrenceIndex>7</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -73,10 +89,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-15T08:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-15T08:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-22T13:30:00Z</dateReported>
+                                       <dateAdministered>2011-07-22T13:30:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -94,10 +110,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-15T20:00:00Z</dateReported>
-                              <recurrenceIndex>0</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-22T16:42:00Z</dateReported>
+                              <recurrenceIndex>7</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -106,10 +122,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-15T20:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-15T20:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-22T16:42:00Z</dateReported>
+                                       <dateAdministered>2011-07-22T16:42:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -127,10 +143,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-16T08:00:00Z</dateReported>
-                              <recurrenceIndex>0</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-23T10:30:00Z</dateReported>
+                              <recurrenceIndex>7</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -139,10 +155,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-16T08:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-16T08:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-23T10:30:00Z</dateReported>
+                                       <dateAdministered>2011-07-23T10:30:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -160,10 +176,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-16T20:00:00Z</dateReported>
-                              <recurrenceIndex>1</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-23T16:42:00Z</dateReported>
+                              <recurrenceIndex>8</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -172,10 +188,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-16T20:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-16T20:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-23T16:42:00Z</dateReported>
+                                       <dateAdministered>2011-07-23T16:42:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -193,10 +209,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-17T08:00:00Z</dateReported>
-                              <recurrenceIndex>1</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-23T19:16:00Z</dateReported>
+                              <recurrenceIndex>8</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -205,10 +221,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-17T08:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-17T08:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-23T19:16:00Z</dateReported>
+                                       <dateAdministered>2011-07-23T19:16:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -226,10 +242,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-17T20:00:00Z</dateReported>
-                              <recurrenceIndex>2</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-24T10:30:00Z</dateReported>
+                              <recurrenceIndex>8</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -238,10 +254,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-17T20:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-17T20:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-24T10:30:00Z</dateReported>
+                                       <dateAdministered>2011-07-24T10:30:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -259,10 +275,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-18T08:00:00Z</dateReported>
-                              <recurrenceIndex>2</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-24T15:03:00Z</dateReported>
+                              <recurrenceIndex>9</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -271,10 +287,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-18T08:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-18T08:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-24T15:03:00Z</dateReported>
+                                       <dateAdministered>2011-07-24T15:03:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -292,10 +308,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-18T20:00:00Z</dateReported>
-                              <recurrenceIndex>3</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-24T18:51:00Z</dateReported>
+                              <recurrenceIndex>9</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -304,10 +320,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-18T20:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-18T20:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-24T18:51:00Z</dateReported>
+                                       <dateAdministered>2011-07-24T18:51:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -325,10 +341,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-19T08:00:00Z</dateReported>
-                              <recurrenceIndex>3</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-25T10:00:00Z</dateReported>
+                              <recurrenceIndex>9</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -337,10 +353,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-19T08:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-19T08:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-25T10:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-25T10:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -358,10 +374,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-19T20:00:00Z</dateReported>
-                              <recurrenceIndex>4</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-25T13:30:00Z</dateReported>
+                              <recurrenceIndex>10</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -370,10 +386,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-19T20:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-19T20:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-25T13:30:00Z</dateReported>
+                                       <dateAdministered>2011-07-25T13:30:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -391,10 +407,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-20T08:00:00Z</dateReported>
-                              <recurrenceIndex>4</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-25T16:15:00Z</dateReported>
+                              <recurrenceIndex>10</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -403,10 +419,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-20T08:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-20T08:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-25T16:15:00Z</dateReported>
+                                       <dateAdministered>2011-07-25T16:15:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -424,10 +440,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-20T20:00:00Z</dateReported>
-                              <recurrenceIndex>5</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-25T19:24:00Z</dateReported>
+                              <recurrenceIndex>10</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -436,10 +452,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-20T20:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-20T20:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-25T19:24:00Z</dateReported>
+                                       <dateAdministered>2011-07-25T19:24:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -457,10 +473,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-21T08:00:00Z</dateReported>
-                              <recurrenceIndex>5</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-26T10:00:00Z</dateReported>
+                              <recurrenceIndex>10</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -469,10 +485,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-21T08:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-21T08:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-26T10:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-26T10:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -490,10 +506,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-21T20:00:00Z</dateReported>
-                              <recurrenceIndex>6</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-26T13:30:00Z</dateReported>
+                              <recurrenceIndex>11</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -502,10 +518,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-21T20:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-21T20:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-26T13:30:00Z</dateReported>
+                                       <dateAdministered>2011-07-26T13:30:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -523,10 +539,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-22T08:00:00Z</dateReported>
-                              <recurrenceIndex>6</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-26T15:30:00Z</dateReported>
+                              <recurrenceIndex>11</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -535,10 +551,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-22T08:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-22T08:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-26T15:30:00Z</dateReported>
+                                       <dateAdministered>2011-07-26T15:30:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -556,10 +572,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-22T20:00:00Z</dateReported>
-                              <recurrenceIndex>7</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-26T17:15:00Z</dateReported>
+                              <recurrenceIndex>11</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -568,10 +584,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-22T20:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-22T20:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-26T17:15:00Z</dateReported>
+                                       <dateAdministered>2011-07-26T17:15:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -589,10 +605,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-23T08:00:00Z</dateReported>
-                              <recurrenceIndex>7</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-26T19:04:00Z</dateReported>
+                              <recurrenceIndex>11</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -601,10 +617,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-23T08:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-23T08:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-26T19:04:00Z</dateReported>
+                                       <dateAdministered>2011-07-26T19:04:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -622,10 +638,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-23T20:00:00Z</dateReported>
-                              <recurrenceIndex>8</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-26T21:24:00Z</dateReported>
+                              <recurrenceIndex>11</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -634,10 +650,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-23T20:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-23T20:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-26T21:24:00Z</dateReported>
+                                       <dateAdministered>2011-07-26T21:24:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -655,10 +671,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-24T08:00:00Z</dateReported>
-                              <recurrenceIndex>8</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-27T10:00:00Z</dateReported>
+                              <recurrenceIndex>11</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -667,10 +683,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-24T08:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-24T08:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-27T10:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-27T10:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -688,10 +704,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-24T20:00:00Z</dateReported>
-                              <recurrenceIndex>9</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-27T13:30:00Z</dateReported>
+                              <recurrenceIndex>12</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -700,10 +716,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-24T20:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-24T20:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-27T13:30:00Z</dateReported>
+                                       <dateAdministered>2011-07-27T13:30:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -721,10 +737,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-25T08:00:00Z</dateReported>
-                              <recurrenceIndex>9</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-27T16:15:00Z</dateReported>
+                              <recurrenceIndex>12</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -733,10 +749,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-25T08:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-25T08:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-27T16:15:00Z</dateReported>
+                                       <dateAdministered>2011-07-27T16:15:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -754,10 +770,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-25T20:00:00Z</dateReported>
-                              <recurrenceIndex>10</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-27T19:24:00Z</dateReported>
+                              <recurrenceIndex>12</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -766,10 +782,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-25T20:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-25T20:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-27T19:24:00Z</dateReported>
+                                       <dateAdministered>2011-07-27T19:24:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -787,10 +803,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-26T08:00:00Z</dateReported>
-                              <recurrenceIndex>10</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-28T10:30:00Z</dateReported>
+                              <recurrenceIndex>12</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -799,10 +815,10 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-26T08:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-26T08:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-28T10:30:00Z</dateReported>
+                                       <dateAdministered>2011-07-28T10:30:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
@@ -820,141 +836,9 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-26T20:00:00Z</dateReported>
-                              <recurrenceIndex>11</recurrenceIndex>
-                              <adherence>true</adherence>
-                           </AdherenceItem>
-                        </document>
-                        <relatesTo>
-                           <relation type="adherenceResult">
-                              <LoadableIndivoDocument>
-                                 <document>
-                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-26T20:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-26T20:00:00Z</dateAdministered>
-                                       <amountAdministered>
-                                          <value>1</value>
-                                          <unit>tablet</unit>
-                                       </amountAdministered>
-                                       <amountRemaining>
-                                          <value>66</value>
-                                          <unit>tablet</unit>
-                                       </amountRemaining>
-                                    </MedicationAdministration>
-                                 </document>
-                              </LoadableIndivoDocument>
-                           </relation>
-                        </relatesTo>
-                     </LoadableIndivoDocument>
-                     <LoadableIndivoDocument>
-                        <document>
-                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-27T08:00:00Z</dateReported>
-                              <recurrenceIndex>11</recurrenceIndex>
-                              <adherence>true</adherence>
-                           </AdherenceItem>
-                        </document>
-                        <relatesTo>
-                           <relation type="adherenceResult">
-                              <LoadableIndivoDocument>
-                                 <document>
-                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-27T08:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-27T08:00:00Z</dateAdministered>
-                                       <amountAdministered>
-                                          <value>1</value>
-                                          <unit>tablet</unit>
-                                       </amountAdministered>
-                                       <amountRemaining>
-                                          <value>65</value>
-                                          <unit>tablet</unit>
-                                       </amountRemaining>
-                                    </MedicationAdministration>
-                                 </document>
-                              </LoadableIndivoDocument>
-                           </relation>
-                        </relatesTo>
-                     </LoadableIndivoDocument>
-                     <LoadableIndivoDocument>
-                        <document>
-                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-27T20:00:00Z</dateReported>
-                              <recurrenceIndex>12</recurrenceIndex>
-                              <adherence>true</adherence>
-                           </AdherenceItem>
-                        </document>
-                        <relatesTo>
-                           <relation type="adherenceResult">
-                              <LoadableIndivoDocument>
-                                 <document>
-                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-27T20:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-27T20:00:00Z</dateAdministered>
-                                       <amountAdministered>
-                                          <value>1</value>
-                                          <unit>tablet</unit>
-                                       </amountAdministered>
-                                       <amountRemaining>
-                                          <value>64</value>
-                                          <unit>tablet</unit>
-                                       </amountRemaining>
-                                    </MedicationAdministration>
-                                 </document>
-                              </LoadableIndivoDocument>
-                           </relation>
-                        </relatesTo>
-                     </LoadableIndivoDocument>
-                     <LoadableIndivoDocument>
-                        <document>
-                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-28T08:00:00Z</dateReported>
-                              <recurrenceIndex>12</recurrenceIndex>
-                              <adherence>true</adherence>
-                           </AdherenceItem>
-                        </document>
-                        <relatesTo>
-                           <relation type="adherenceResult">
-                              <LoadableIndivoDocument>
-                                 <document>
-                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-28T08:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-28T08:00:00Z</dateAdministered>
-                                       <amountAdministered>
-                                          <value>1</value>
-                                          <unit>tablet</unit>
-                                       </amountAdministered>
-                                       <amountRemaining>
-                                          <value>63</value>
-                                          <unit>tablet</unit>
-                                       </amountRemaining>
-                                    </MedicationAdministration>
-                                 </document>
-                              </LoadableIndivoDocument>
-                           </relation>
-                        </relatesTo>
-                     </LoadableIndivoDocument>
-                     <LoadableIndivoDocument>
-                        <document>
-                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                              <reportedBy>owen@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-28T20:00:00Z</dateReported>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-28T16:42:00Z</dateReported>
                               <recurrenceIndex>13</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
@@ -964,16 +848,16 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
-                                       <reportedBy>owen@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-28T20:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-28T20:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-28T16:42:00Z</dateReported>
+                                       <dateAdministered>2011-07-28T16:42:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>1</value>
                                           <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
-                                          <value>62</value>
+                                          <value>66</value>
                                           <unit>tablet</unit>
                                        </amountRemaining>
                                     </MedicationAdministration>

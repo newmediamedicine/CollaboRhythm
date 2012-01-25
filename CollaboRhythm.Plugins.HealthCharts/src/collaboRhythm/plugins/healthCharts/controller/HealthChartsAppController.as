@@ -1,9 +1,10 @@
 package collaboRhythm.plugins.healthCharts.controller
 {
 	import collaboRhythm.plugins.healthCharts.view.HealthChartsButtonWidgetView;
-	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
+	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
+	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.ui.healthCharts.view.SynchronizedHealthCharts;
 
 	import mx.core.UIComponent;
@@ -15,8 +16,7 @@ package collaboRhythm.plugins.healthCharts.controller
 
 		private var _widgetView:HealthChartsButtonWidgetView;
 		private var _fullView:SynchronizedHealthCharts;
-
-		private var _healthChartsModel:BloodPressureModel;
+		private var _healthChartsModel:HealthChartsModel;
 
 		public function HealthChartsAppController(constructorParams:AppControllerConstructorParams)
 		{
@@ -38,13 +38,13 @@ package collaboRhythm.plugins.healthCharts.controller
 
 		protected override function listenForModelInitialized():void
 		{
-			if (_activeRecordAccount.primaryRecord.bloodPressureModel.isInitialized)
+			if (_activeRecordAccount.primaryRecord.healthChartsModel.isInitialized)
 			{
 				listenForFullViewUpdateComplete();
 			}
 			else
 			{
-				_activeRecordAccount.primaryRecord.bloodPressureModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+				_activeRecordAccount.primaryRecord.healthChartsModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
 						model_propertyChangeHandler,
 						false, 0, true);
 			}
@@ -53,9 +53,9 @@ package collaboRhythm.plugins.healthCharts.controller
 		private function model_propertyChangeHandler(event:PropertyChangeEvent):void
 		{
 			if (event.property == "isInitialized" &&
-					_activeRecordAccount.primaryRecord.bloodPressureModel.isInitialized)
+					_activeRecordAccount.primaryRecord.healthChartsModel.isInitialized)
 			{
-				_activeRecordAccount.primaryRecord.bloodPressureModel.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+				_activeRecordAccount.primaryRecord.healthChartsModel.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
 						model_propertyChangeHandler);
 				listenForFullViewUpdateComplete();
 			}
@@ -98,6 +98,8 @@ package collaboRhythm.plugins.healthCharts.controller
 			{
 				_fullView.model = healthChartsModel;
 				_fullView.modality = modality;
+				_fullView.componentContainer  = _componentContainer;
+				_fullView.activeAccountId = activeAccount.accountId;
 			}
 		}
 
@@ -106,11 +108,11 @@ package collaboRhythm.plugins.healthCharts.controller
 			return DEFAULT_NAME;
 		}
 
-		private function get healthChartsModel():BloodPressureModel
+		private function get healthChartsModel():HealthChartsModel
 		{
 			if (!_healthChartsModel)
 			{
-				_healthChartsModel = _activeRecordAccount.primaryRecord.bloodPressureModel;
+				_healthChartsModel = _activeRecordAccount.primaryRecord.healthChartsModel;
 			}
 			return _healthChartsModel;
 		}

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.shared.apps.bloodPressure.model
+package collaboRhythm.shared.apps.healthCharts.model
 {
 
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
@@ -22,7 +22,6 @@ package collaboRhythm.shared.apps.bloodPressure.model
 	import com.theory9.data.types.OrderedMap;
 
 	import mx.binding.utils.BindingUtils;
-
 	import mx.events.PropertyChangeEvent;
 
 	/**

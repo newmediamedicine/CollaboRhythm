@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="owen - Convert chameleon data to hierarchy" type="XSLT" factoryName="XSLT">
-    <option name="myOutputFile" value="D:\Michael\Git Repositories\CollaboRhythmAsthma\CollaboRhythm.ExampleData\data\slice1\owen\chameleon_data_converted.xml" />
+  <configuration default="false" name="odavis - Convert chameleon data to hierarchy" type="XSLT" factoryName="XSLT">
+    <option name="myOutputFile" value="C:\Users\sgilroy\Git Repositories\CollaboRhythm\CollaboRhythm.ExampleData\data\slice1\odavis\chameleon_data_converted.xml" />
     <option name="myOpenOutputFile" value="true" />
     <option name="myOpenInBrowser" value="false" />
     <option name="mySmartErrorHandling" value="true" />
@@ -10,13 +10,15 @@
     <option name="myModule" value="CollaboRhythm.ExampleData" />
     <option name="myJdk" value="1.6" />
     <XsltFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/xslt/equipment_adherence_flat_to_hierarchy.xsl" />
-    <XmlFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/slice1/owen/staging/equipment_chameleon_adherence.xml" />
+    <XmlFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/slice1/odavis/staging/equipment_chameleon_adherence.xml" />
     <parameters />
     <OutputType value="CONSOLE" save-to-file="true" />
     <FileType name="XML" />
     <JdkChoice value="FROM_MODULE" />
     <RunnerSettings RunnerId="Run" />
+    <RunnerSettings RunnerId="XsltDebuggerRunner" />
     <ConfigurationWrapper RunnerId="Run" />
+    <ConfigurationWrapper RunnerId="XsltDebuggerRunner" />
     <method>
       <option name="Make" enabled="false" />
     </method>

@@ -17,14 +17,13 @@
 package collaboRhythm.plugins.bloodPressure.model
 {
 
-	import collaboRhythm.shared.apps.bloodPressure.model.ConcentrationSeverityProvider;
-	import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
-	import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
-	import collaboRhythm.shared.apps.bloodPressure.model.StepsProvider;
+	import collaboRhythm.shared.apps.healthCharts.model.ConcentrationSeverityProvider;
+	import collaboRhythm.shared.apps.healthCharts.model.MedicationComponentAdherenceModel;
+	import collaboRhythm.shared.apps.healthCharts.model.SimulationModel;
+	import collaboRhythm.shared.apps.healthCharts.model.StepsProvider;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
-	import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministrationsModel;
@@ -33,19 +32,17 @@ package collaboRhythm.plugins.bloodPressure.model
 	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayCollection;
 
-	public class BloodPressureHealthRecordService extends PhaHealthRecordServiceBase
+	public class HealthChartsInitializationService
 	{
 		private var _record:Record;
 
-		public function BloodPressureHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String,
-														 account:Account)
+		public function HealthChartsInitializationService()
 		{
-			super(consumerKey, consumerSecret, baseURL, account);
 		}
 
 		/**
-		 * Initializes the medication simulation model of the BloodPressureModel for the primary record, and does any
-		 * other initialization needed to prepare the BloodPressureModel for use.
+		 * Initializes the medication simulation model of the HealthChartsModel for the primary record, and does any
+		 * other initialization needed to prepare the HealthChartsModel for use.
 		 * @param recordAccount
 		 */
 		public function initializeBloodPressureModel(recordAccount:Account):void
@@ -64,12 +61,12 @@ package collaboRhythm.plugins.bloodPressure.model
 		{
 			if (isDoneLoading)
 			{
-				initializeMedicationSimulationModel(record.bloodPressureModel.focusSimulation,
+				initializeMedicationSimulationModel(record.healthChartsModel.focusSimulation,
 													record.medicationAdministrationsModel);
-				initializeMedicationSimulationModel(record.bloodPressureModel.currentSimulation,
+				initializeMedicationSimulationModel(record.healthChartsModel.currentSimulation,
 													record.medicationAdministrationsModel);
-				initializeVitalSignSimulationModel(record.bloodPressureModel.focusSimulation);
-				initializeVitalSignSimulationModel(record.bloodPressureModel.currentSimulation);
+				initializeVitalSignSimulationModel(record.healthChartsModel.focusSimulation);
+				initializeVitalSignSimulationModel(record.healthChartsModel.currentSimulation);
 			}
 		}
 

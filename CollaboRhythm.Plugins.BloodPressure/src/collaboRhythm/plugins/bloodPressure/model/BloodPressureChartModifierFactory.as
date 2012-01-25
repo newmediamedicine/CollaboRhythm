@@ -1,11 +1,11 @@
 package collaboRhythm.plugins.bloodPressure.model
 {
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
-	import collaboRhythm.shared.ui.healthCharts.model.IChartDescriptor;
+	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
-	import collaboRhythm.shared.ui.healthCharts.model.IChartModifier;
-	import collaboRhythm.shared.ui.healthCharts.model.IChartModifierFactory;
-	import collaboRhythm.shared.ui.healthCharts.model.VitalSignChartDescriptor;
+	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifier;
+	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifierFactory;
+	import collaboRhythm.shared.ui.healthCharts.model.descriptors.VitalSignChartDescriptor;
 
 	public class BloodPressureChartModifierFactory implements IChartModifierFactory
 	{
@@ -13,10 +13,13 @@ package collaboRhythm.plugins.bloodPressure.model
 		{
 		}
 
-		public function createChartModifier(chartDescriptor:IChartDescriptor, chartModelDetails:IChartModelDetails, currentChartModifier:IChartModifier):IChartModifier
+		public function createChartModifier(chartDescriptor:IChartDescriptor, chartModelDetails:IChartModelDetails,
+											currentChartModifier:IChartModifier):IChartModifier
 		{
-			if (chartDescriptor is VitalSignChartDescriptor && (chartDescriptor as VitalSignChartDescriptor).vitalSignCategory == VitalSignsModel.SYSTOLIC_CATEGORY)
-				return new BloodPressureChartModifier(chartModelDetails, currentChartModifier);
+			if (chartDescriptor is VitalSignChartDescriptor &&
+					(chartDescriptor as VitalSignChartDescriptor).vitalSignCategory ==
+							VitalSignsModel.SYSTOLIC_CATEGORY)
+				return new BloodPressureChartModifier(chartDescriptor as VitalSignChartDescriptor, chartModelDetails, currentChartModifier);
 			else
 				return currentChartModifier;
 		}
