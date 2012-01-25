@@ -2,8 +2,8 @@
 <module type="Flex" version="4">
   <component name="Flex.Build.Configuration">
     <option name="DO_BUILD" value="true" />
-    <option name="MAIN_CLASS" value="collaboRhythm.plugins.bathroom.controller.BathroomPluginModule" />
-    <option name="OUTPUT_FILE_NAME" value="BathroomPluginModule.swf" />
+    <option name="MAIN_CLASS" value="collaboRhythm.plugins.postOpHome.controller.PostOpHomePluginModule" />
+    <option name="OUTPUT_FILE_NAME" value="PostOpHomePluginModule.swf" />
     <option name="TARGET_PLAYER_VERSION" value="11.1" />
     <option name="VERSION" value="3" />
   </component>
@@ -29,8 +29,6 @@
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="CollaboRhythm.Plugins.Schedule.Shared" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
