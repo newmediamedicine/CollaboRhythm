@@ -27,7 +27,8 @@
 			scheduleItemViewAdapterName = scheduleItemOccurrenceReportingViewAdapter.name;
 
 			var image:Image = scheduleItemOccurrenceReportingViewAdapter.image;
-			initImage(image);
+			if (image)
+				initImage(image);
 		}
 
 		public function initImage(image:Image):void{
