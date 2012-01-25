@@ -39,7 +39,13 @@ package collaboRhythm.plugins.bathroom.controller
 
 		public function updateVariables(urlVariables:URLVariables):void
 		{
+			_dataInputModel.urlVariables = urlVariables;
+		}
 
+		public function submitBathroom():void
+		{
+			_dataInputModel.submitBathroom();
+			_viewNavigator.popView();
 		}
 
 		public function get healthActionInputViewClass():Class

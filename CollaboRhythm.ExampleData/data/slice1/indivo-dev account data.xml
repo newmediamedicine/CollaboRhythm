@@ -35,6 +35,7 @@
     <accessSecret>rAAllpcaa0oY0ir97ovp</accessSecret>
     <demographicsId>12625ea9-f3c7-44a9-bf4d-996da59fd4cc</demographicsId>
     <status>Demographics document created. Id: 12625ea9-f3c7-44a9-bf4d-996da59fd4cc</status>
+    <notes/>
   </AccountSource>
   <AccountSource>
     <accountId>jgreen@records.media.mit.edu</accountId>
@@ -174,11 +175,12 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>9a3287c1-b16f-4d5b-9a82-e5809178134a</recordId>
-    <accessKey>1YViln7cTgquJmaUOClC</accessKey>
-    <accessSecret>FuVccN7ZvzohaHbN7puf</accessSecret>
+    <recordId>bd330492-c88b-4e5c-9d7d-07f526210553</recordId>
+    <accessKey>m0Gw0CDigLQwlfvgqrZd</accessKey>
+    <accessSecret>gLAB9p1sdsw75zfGoWKC</accessSecret>
     <status>Record shared.</status>
-    <demographicsId>d860bdaa-fb75-4688-84d0-79a4334efa00</demographicsId>
+    <demographicsId>93d427c0-59c5-495e-870b-1a3ea446ef37</demographicsId>
+    <notes>Demo account for Yadid and pain-management-hw2012@googlegroups.com</notes>
   </AccountSource>
   <AccountSource>
     <accountId>dpoole@records.media.mit.edu</accountId>
@@ -279,11 +281,12 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>fded01a1-f23b-4b13-bf6b-0cd1d9c39ac8</recordId>
-    <accessKey>G2S7E1ZUK3oPRiUvKW2Q</accessKey>
-    <accessSecret>XASPVyA1cXuUNzPwj1BE</accessSecret>
+    <recordId>a96b9678-6983-48e8-9c76-708796b490a1</recordId>
+    <accessKey>s6SQTpLO1Dhwr6QDNUOd</accessKey>
+    <accessSecret>xSqlXOgroznIfF1lrMEI</accessSecret>
     <status>Record shared.</status>
-    <demographicsId>8d46965f-ec96-4ff0-8dce-9fdf1d702492</demographicsId>
+    <demographicsId>475cb101-130f-4961-818c-5b6aa8217d3e</demographicsId>
+    <notes>Demo account for Frank and fitness-tracking-hw2012@googlegroups.com</notes>
   </AccountSource>
   <AccountSource>
     <accountId>abrooks@records.media.mit.edu</accountId>
@@ -533,12 +536,13 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>96059df0-4314-4ad0-9577-dceefd4a8570</recordId>
-    <accessKey>heVTGuPiCP6M1MganvUm</accessKey>
-    <accessSecret>uwm06qT5DhhcBdt4rigp</accessSecret>
+    <recordId>b29cf355-2419-49d9-9ff2-4c49603df0cb</recordId>
+    <accessKey>LdHD7lPFDyzPnTDrbjny</accessKey>
+    <accessSecret>XhSPmHqK8cinYYrO6tMI</accessSecret>
     <status>Login successful</status>
-    <demographicsId>be69ed63-1552-4f40-8c23-724de1785677</demographicsId>
-    <recordSeed>3</recordSeed>
+    <demographicsId>ba1e90d4-e4d0-46c1-be86-5ecdbbd8e407</demographicsId>
+    <recordSeed/>
+    <notes>Primary demo account with diabetes data</notes>
   </AccountSource>
   <AccountSource>
     <accountId>ssmith@records.media.mit.edu</accountId>
@@ -606,11 +610,12 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>1ad7cdd8-15d4-4440-9e95-3f806d08a8e8</recordId>
-    <status>Demographics document created. Id: c8def815-cde4-4dd7-bf83-640902eab693</status>
-    <accessKey>MOB8nUwY9TveWMTnZzhm</accessKey>
-    <accessSecret>WdNXvQm9701fn11zP3af</accessSecret>
-    <demographicsId>c8def815-cde4-4dd7-bf83-640902eab693</demographicsId>
+    <recordId>13b7d1b3-3a73-4248-824a-e3a4c34a9cd0</recordId>
+    <status>Demographics document created. Id: 97c66088-9985-4444-b9ef-ef139ca50331</status>
+    <accessKey>QTk0SDAPI7cgl5Fg0ZEp</accessKey>
+    <accessSecret>SX4fefkDLDnddQMcY7Y9</accessSecret>
+    <demographicsId>97c66088-9985-4444-b9ef-ef139ca50331</demographicsId>
+    <notes>Demo physician</notes>
   </AccountSource>
   <AccountSource>
     <accountId>gwhite@records.media.mit.edu</accountId>
@@ -683,7 +688,8 @@
     <accessKey>JPK9US7ynBGfl0wxrzqC</accessKey>
     <accessSecret>Zdfz4j4DZqC4jxrCmcsm</accessSecret>
     <demographicsId>d66490ce-2c5b-49ef-8c7d-4e6e70e2dab5</demographicsId>
+    <notes>Trash can account</notes>
   </AccountSource>
-  <saveDate>Sat Jan 21 19:16:05 GMT-0500 2012</saveDate>
+  <saveDate>Mon Jan 23 19:09:54 GMT-0500 2012</saveDate>
   <indivoServerBaseURL>http://indivo-dev.media.mit.edu:8080</indivoServerBaseURL>
 </dataroot>

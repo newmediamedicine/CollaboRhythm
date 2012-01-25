@@ -35,9 +35,16 @@ package collaboRhythm.plugins.intake.controller
 						new SlideViewTransition());
 			}
 
+
 			public function updateVariables(urlVariables:URLVariables):void
 			{
+				_dataInputModel.urlVariables = urlVariables;
+			}
 
+			public function submitIntake():void
+			{
+				_dataInputModel.submitIntake();
+				_viewNavigator.popView();
 			}
 
 			public function get healthActionInputViewClass():Class

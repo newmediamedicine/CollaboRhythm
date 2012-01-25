@@ -15,11 +15,11 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-@namespace "collaboRhythm.plugins.bloodPressure.view.simulation.*";
+@namespace "collaboRhythm.simulation.view.*";
 
 SimulationLevelPanel
 {
     backgroundAlpha: 0;
     borderVisible: false;
-    skinClass: ClassReference("collaboRhythm.plugins.bloodPressure.view.simulation.skins.SimulationLevelPanelSkin");
+    skinClass: ClassReference("collaboRhythm.simulation.view.skins.SimulationLevelPanelSkin");
 }

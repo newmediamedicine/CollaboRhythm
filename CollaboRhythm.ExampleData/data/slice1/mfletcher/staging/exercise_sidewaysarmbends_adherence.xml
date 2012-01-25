@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--~
+  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<IndivoDocuments>
+	<BloodPressureAdherenceItem>
+		<name>Sideways Arm Bends</name>
+		<instructions>Bend your arms on the side of your body!</instructions>
+		<reportedBy>mfletcher@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-17T14:57:00Z</dateReported>
+		<adherence>true</adherence>
+		<durationOfExercise>120</durationOfExercise>
+		<metabolicEquivalent>2.2</metabolicEquivalent>
+		<heartRate>129</heartRate>
+		<oxygenSaturation>94</oxygenSaturation>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Sideways Arm Bends</name>
+		<instructions>Bend your arms on the side of your body!</instructions>
+		<reportedBy>mfletcher@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-19T15:57:00Z</dateReported>
+		<adherence>true</adherence>
+		<durationOfExercise>120</durationOfExercise>
+		<metabolicEquivalent>2.3</metabolicEquivalent>
+		<heartRate>127</heartRate>
+		<oxygenSaturation>95</oxygenSaturation>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Sideways Arm Bends</name>
+		<instructions>Bend your arms on the side of your body!</instructions>
+		<reportedBy>mfletcher@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-21T13:57:00Z</dateReported>
+		<adherence>true</adherence>
+		<durationOfExercise>120</durationOfExercise>
+		<metabolicEquivalent>2.4</metabolicEquivalent>
+		<heartRate>125</heartRate>
+		<oxygenSaturation>95</oxygenSaturation>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Sideways Arm Bends</name>
+		<instructions>Bend your arms on the side of your body!</instructions>
+		<reportedBy>mfletcher@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-23T16:45:00Z</dateReported>
+		<adherence>true</adherence>
+		<durationOfExercise>120</durationOfExercise>
+		<metabolicEquivalent>2.4</metabolicEquivalent>
+		<heartRate>121</heartRate>
+		<oxygenSaturation>94</oxygenSaturation>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Sideways Arm Bends</name>
+		<instructions>Bend your arms on the side of your body!</instructions>
+		<reportedBy>mfletcher@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-25T16:57:00Z</dateReported>
+		<adherence>true</adherence>
+		<durationOfExercise>120</durationOfExercise>
+		<metabolicEquivalent>2.5</metabolicEquivalent>
+		<heartRate>118</heartRate>
+		<oxygenSaturation>95</oxygenSaturation>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Sideways Arm Bends</name>
+		<instructions>Bend your arms on the side of your body!</instructions>
+		<reportedBy>mfletcher@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-27T14:05:00Z</dateReported>
+		<adherence>false</adherence>
+		<durationOfExercise>120</durationOfExercise>
+		<metabolicEquivalent>0</metabolicEquivalent>
+		<heartRate>0</heartRate>
+		<oxygenSaturation>0</oxygenSaturation>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Sideways Arm Bends</name>
+		<instructions>Bend your arms on the side of your body!</instructions>
+		<reportedBy>mfletcher@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-29T14:57:00Z</dateReported>
+		<adherence>false</adherence>
+		<durationOfExercise>120</durationOfExercise>
+		<metabolicEquivalent>0</metabolicEquivalent>
+		<heartRate>0</heartRate>
+		<oxygenSaturation>0</oxygenSaturation>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Sideways Arm Bends</name>
+		<instructions>Bend your arms on the side of your body!</instructions>
+		<reportedBy>mfletcher@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-31T14:57:00Z</dateReported>
+		<adherence>true</adherence>
+		<durationOfExercise>120</durationOfExercise>
+		<metabolicEquivalent>2</metabolicEquivalent>
+		<heartRate>138</heartRate>
+		<oxygenSaturation>94</oxygenSaturation>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Sideways Arm Bends</name>
+		<instructions>Bend your arms on the side of your body!</instructions>
+		<reportedBy>mfletcher@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-02T19:10:00Z</dateReported>
+		<adherence>true</adherence>
+		<durationOfExercise>120</durationOfExercise>
+		<metabolicEquivalent>2.2</metabolicEquivalent>
+		<heartRate>133</heartRate>
+		<oxygenSaturation>95</oxygenSaturation>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Sideways Arm Bends</name>
+		<instructions>Bend your arms on the side of your body!</instructions>
+		<reportedBy>mfletcher@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-03T10:35:00Z</dateReported>
+		<adherence>true</adherence>
+		<durationOfExercise>120</durationOfExercise>
+		<metabolicEquivalent>2.3</metabolicEquivalent>
+		<heartRate>126</heartRate>
+		<oxygenSaturation>94</oxygenSaturation>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Sideways Arm Bends</name>
+		<instructions>Bend your arms on the side of your body!</instructions>
+		<reportedBy>mfletcher@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-05T15:28:00Z</dateReported>
+		<adherence>true</adherence>
+		<durationOfExercise>120</durationOfExercise>
+		<metabolicEquivalent>2.4</metabolicEquivalent>
+		<heartRate>124</heartRate>
+		<oxygenSaturation>94</oxygenSaturation>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Sideways Arm Bends</name>
+		<instructions>Bend your arms on the side of your body!</instructions>
+		<reportedBy>mfletcher@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-07T17:22:00Z</dateReported>
+		<adherence>true</adherence>
+		<durationOfExercise>120</durationOfExercise>
+		<metabolicEquivalent>2.4</metabolicEquivalent>
+		<heartRate>122</heartRate>
+		<oxygenSaturation>94</oxygenSaturation>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Sideways Arm Bends</name>
+		<instructions>Bend your arms on the side of your body!</instructions>
+		<reportedBy>mfletcher@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-09T15:44:00Z</dateReported>
+		<adherence>true</adherence>
+		<durationOfExercise>120</durationOfExercise>
+		<metabolicEquivalent>2.5</metabolicEquivalent>
+		<heartRate>121</heartRate>
+		<oxygenSaturation>95</oxygenSaturation>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Sideways Arm Bends</name>
+		<instructions>Bend your arms on the side of your body!</instructions>
+		<reportedBy>mfletcher@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-11T11:32:00Z</dateReported>
+		<adherence>true</adherence>
+		<durationOfExercise>120</durationOfExercise>
+		<metabolicEquivalent>2.6</metabolicEquivalent>
+		<heartRate>122</heartRate>
+		<oxygenSaturation>94</oxygenSaturation>
+		</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Sideways Arm Bends</name>
+		<instructions>Bend your arms on the side of your body!</instructions>
+		<reportedBy>mfletcher@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-13T14:51:00Z</dateReported>
+		<adherence>true</adherence>
+		<durationOfExercise>120</durationOfExercise>
+		<metabolicEquivalent>2.6</metabolicEquivalent>
+		<heartRate>120</heartRate>
+		<oxygenSaturation>95</oxygenSaturation>
+		</BloodPressureAdherenceItem>
+</IndivoDocuments>

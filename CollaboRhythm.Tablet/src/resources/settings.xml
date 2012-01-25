@@ -40,6 +40,7 @@
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.ForaD40b/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.HealthActions/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.PainReport/bin-debug</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.HealthCharts/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Bathroom/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugin.Intake/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.PostOpHome/bin-debug</pluginSearchPath>
@@ -63,6 +64,7 @@
 			<appDescriptors>
 				<appDescriptor>collaboRhythm.plugins.healthActions.controller::HealthActionsAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::BloodPressureAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.plugins.healthCharts.controller::HealthChartsAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.videoMessages.controller::VideoMessagesAppController</appDescriptor>
 			</appDescriptors>
 		</appGroup>

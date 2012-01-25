@@ -25,7 +25,7 @@
 		 clipAndEnableScrolling="true"
 		 implements="mx.managers.IFocusManagerComponent, collaboRhythm.plugins.bloodPressure.view.IBloodPressureFullView"
 		>
-	<fx:Style source="/collaboRhythm/visualization/view/ChartStyles.css"/>
+	<fx:Style source="/defaults.css" />
 
 	<mx:HDividedBox height="100%" width="100%" paddingRight="0" clipContent="true" horizontalScrollPolicy="off"
 					verticalScrollPolicy="off" backgroundColor="#F1F2F2"
