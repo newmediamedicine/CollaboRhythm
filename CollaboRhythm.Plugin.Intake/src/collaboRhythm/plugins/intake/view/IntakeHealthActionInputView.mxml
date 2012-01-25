@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
 <!---
-  - Copyright 2012 John Moore, Scott Gilroy
-  -
-  - This file is part of CollaboRhythm.
-  -
-  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
-  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
-  - version.
-  -
-  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
-  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-  - details.
-  -
-  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
-  - <http://www.gnu.org/licenses/>.
-  -->
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
 <tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
@@ -23,100 +23,99 @@
 					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView">
 
 	<fx:Declarations>
-			<s:Button id="doneButton" label="Done" click="doneButton_clickHandler()"/>
+		<s:Button id="doneButton" label="Done" click="doneButton_clickHandler()"/>
 
 		<s:AnimateTransform id="bounceEffect"
-		                            target="{myImage}">
+							target="{myImage}">
 
-		                <s:motionPaths>
-		                    <s:MotionPath property="translationX" >
-		                        <s:keyframes>
-		                            <s:Keyframe time="250" value="0"/>
-		                            <s:Keyframe time="550" value="60"/>
-		                            <s:Keyframe time="850" value="100"/>
-		                            <s:Keyframe time="1150" value="140"/>
-		                            <s:Keyframe time="1450" value="180"/>
-		                            <s:Keyframe time="1750" value="220"/>
-		                            <s:Keyframe time="2050" value="140"/>
-		                            <s:Keyframe time="2350" value="100"/>
-		                            <s:Keyframe time="2650" value="60"/>
-		                            <s:Keyframe time="2950" value="0"/>
-		                        </s:keyframes>
-		                    </s:MotionPath>
+			<s:motionPaths>
+				<s:MotionPath property="translationX">
+					<s:keyframes>
+						<s:Keyframe time="250" value="0"/>
+						<s:Keyframe time="550" value="60"/>
+						<s:Keyframe time="850" value="100"/>
+						<s:Keyframe time="1150" value="140"/>
+						<s:Keyframe time="1450" value="180"/>
+						<s:Keyframe time="1750" value="220"/>
+						<s:Keyframe time="2050" value="140"/>
+						<s:Keyframe time="2350" value="100"/>
+						<s:Keyframe time="2650" value="60"/>
+						<s:Keyframe time="2950" value="0"/>
+					</s:keyframes>
+				</s:MotionPath>
 
-		                    <s:MotionPath property="translationY" >
-		                        <s:keyframes>
-		                            <s:Keyframe time="250" value="100"/>
-		                            <s:Keyframe time="550" value="0"/>
-		                            <s:Keyframe time="850" value="100"/>
-		                            <s:Keyframe time="1150" value="0"/>
-		                            <s:Keyframe time="1450" value="100"/>
-		                            <s:Keyframe time="1750" value="0"/>
-		                            <s:Keyframe time="2050" value="100"/>
-		                            <s:Keyframe time="2350" value="0"/>
-		                            <s:Keyframe time="2650" value="100"/>
-		                            <s:Keyframe time="2950" value="0"/>
-		                        </s:keyframes>
-		                    </s:MotionPath>
-		                </s:motionPaths>
-		        </s:AnimateTransform>
-
-
-
+				<s:MotionPath property="translationY">
+					<s:keyframes>
+						<s:Keyframe time="250" value="100"/>
+						<s:Keyframe time="550" value="0"/>
+						<s:Keyframe time="850" value="100"/>
+						<s:Keyframe time="1150" value="0"/>
+						<s:Keyframe time="1450" value="100"/>
+						<s:Keyframe time="1750" value="0"/>
+						<s:Keyframe time="2050" value="100"/>
+						<s:Keyframe time="2350" value="0"/>
+						<s:Keyframe time="2650" value="100"/>
+						<s:Keyframe time="2950" value="0"/>
+					</s:keyframes>
+				</s:MotionPath>
+			</s:motionPaths>
+		</s:AnimateTransform>
 
 
 	</fx:Declarations>
 
 	<fx:Style>
-			@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace s "library://ns.adobe.com/flex/spark";
 
-			.reportingLabelsText {
-				color: #000000;
-				fontSize: 40;
-			}
+		.reportingLabelsText {
+			color: #000000;
+			fontSize: 40;
+		}
 
-			.textInputText {
-				color: #000000;
-				fontSize: 150;
-			}
+		.textInputText {
+			color: #000000;
+			fontSize: 150;
+		}
 
-			FormItem {
-				labelStyleName: labelStyle;
-			}
+		FormItem {
+			labelStyleName: labelStyle;
+		}
 
-			.labelStyle{
-				textAlign: left;
-			}
+		.labelStyle {
+			textAlign: left;
+		}
 
-			Button:up{
-			            baseColor: #000000;
-			            color: #FFFFFF;
-			            fontWeight: "bold";
-			        }
-			        Button:over{
-			            baseColor: #878787;
-			            color: #FFFFFF;
-			            fontWeight: "bold";
-			        }
-			        Button:down{
-			            baseColor: #878787;
-			            color: #000000;
-			            fontWeight: "bold";
-			        }
-			        Button:disabled {
-			            baseColor: #FFFFFF;
-			            color: #878787;
-			            fontWeight: "bold";
-			        }
-			        Label {
-			            fontFamily: "Arial";
-			            fontWeight: "bold";
-			        }
+		Button:up {
+			baseColor: #000000;
+			color: #FFFFFF;
+			fontWeight: "bold";
+		}
+
+		Button:over {
+			baseColor: #878787;
+			color: #FFFFFF;
+			fontWeight: "bold";
+		}
+
+		Button:down {
+			baseColor: #878787;
+			color: #000000;
+			fontWeight: "bold";
+		}
+
+		Button:disabled {
+			baseColor: #FFFFFF;
+			color: #878787;
+			fontWeight: "bold";
+		}
+
+		Label {
+			fontFamily: "Arial";
+			fontWeight: "bold";
+		}
 
 
 	</fx:Style>
-
-
 
 
 	<fx:Script><![CDATA[
@@ -136,10 +135,14 @@
 		{
 			super.data = value;
 
-			var dataInputModelAndController:HealthActionInputModelAndController = HealthActionInputModelAndController(value);
+			var dataInputModelAndController:HealthActionInputModelAndController = value as
+					HealthActionInputModelAndController;
 
-			_dataInputModel = IntakeHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
-			_dataInputController = IntakeHealthActionInputController(dataInputModelAndController.healthActionInputController);
+			if (dataInputModelAndController)
+			{
+				_dataInputModel = IntakeHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
+				_dataInputController = IntakeHealthActionInputController(dataInputModelAndController.healthActionInputController);
+			}
 		}
 
 		public function get healthActionInputController():IHealthActionInputController
@@ -147,7 +150,7 @@
 			return _dataInputController;
 		}
 
-		
+
 		private function numDrinkResult_focusInHandler():void
 		{
 			var globalPoint:Point = systolicResultGroup.localToGlobal(new Point(foodDrinkGroupTextInput.x +
@@ -155,7 +158,7 @@
 					foodDrinkGroupTextInput.y + foodDrinkGroupTextInput.height - numberPad.height));
 			showNumberPad(globalPoint, foodDrinkGroupTextInput);
 		}
-		
+
 
 		private function showNumberPad(globalPoint:Point, textInput:TextInput):void
 		{
@@ -166,8 +169,7 @@
 			numberPad.setFocus();
 			numberPad.textInput = textInput;
 		}
-		
-		
+
 
 		override protected function createChildren():void
 		{
@@ -180,61 +182,56 @@
 		{
 			//_dataInputController.submitBloodPressure(positionDropDownList.selectedItem, siteDropDownList.selectedItem);
 		}
-
 		]]></fx:Script>
 
-		<!-- UI components ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- UI components ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
-		<mx:Panel title="Food / Drink"
-				  width="100%" height="100%">
+	<mx:Panel title="Food / Drink"
+			  width="100%" height="100%">
 
-			<s:Group top="5" right="5">
-				<mx:Form>
+		<s:Group top="5" right="5">
+			<mx:Form>
 
-					<mx:FormItem label="How much have you have to drink today (Estimate)" fontSize="20">
-						<s:HGroup id="systolicResultGroup" gap="15" paddingTop="20" left="0">
-							<s:TextInput id="foodDrinkGroupTextInput"
-										 softKeyboardType="number"
-										 skinClass="spark.skins.spark.TextInputSkin"
-										 textAlign="left" restrict="0-9" maxChars="3" focusIn=""
-										 text=""/>
-						</s:HGroup>
-					</mx:FormItem>
+				<mx:FormItem label="How much have you have to drink today (Estimate)" fontSize="20">
+					<s:HGroup id="systolicResultGroup" gap="15" paddingTop="20" left="0">
+						<s:TextInput id="foodDrinkGroupTextInput"
+									 softKeyboardType="number"
+									 skinClass="spark.skins.spark.TextInputSkin"
+									 textAlign="left" restrict="0-9" maxChars="3" focusIn=""
+									 text=""/>
+					</s:HGroup>
+				</mx:FormItem>
 
-					<mx:FormItem label="Compared to pre surgery, are you eating" fontSize="20">
-						<s:DropDownList id="positionDropDownList"
-										width = "100%"
-										skinClass="spark.skins.spark.DropDownListSkin"
-										styleName="reportingLabelsText">
-							<mx:ArrayCollection>
-								<fx:String>More</fx:String>
-								<fx:String>Less</fx:String>
-								<fx:String>Same</fx:String>
-							</mx:ArrayCollection>
-						</s:DropDownList>
+				<mx:FormItem label="Compared to pre surgery, are you eating" fontSize="20">
+					<s:DropDownList id="positionDropDownList"
+									width="100%"
+									skinClass="spark.skins.spark.DropDownListSkin"
+									styleName="reportingLabelsText">
+						<mx:ArrayCollection>
+							<fx:String>More</fx:String>
+							<fx:String>Less</fx:String>
+							<fx:String>Same</fx:String>
+						</mx:ArrayCollection>
+					</s:DropDownList>
 
-					</mx:FormItem>
-
-
-				</mx:Form>
-
-			</s:Group>
+				</mx:FormItem>
 
 
-			<s:Group horizontalCenter="0">
-				<mx:Image
-						  y="0"
-						  id="myImage"
-						  source="@Embed(source='/assets/characters.png')"
-						  click="bounceEffect.end();bounceEffect.play();"/>
-			</s:Group>
+			</mx:Form>
+
+		</s:Group>
 
 
+		<s:Group horizontalCenter="0">
+			<mx:Image
+					y="0"
+					id="myImage"
+					source="@Embed(source='/assets/characters.png')"
+					click="bounceEffect.end();bounceEffect.play();"/>
+		</s:Group>
 
 
-
-
-		</mx:Panel>
+	</mx:Panel>
 
 	<sharedViews:NumberPad id="numberPad" visible="false"/>
 </tablet:TabletViewBase>
