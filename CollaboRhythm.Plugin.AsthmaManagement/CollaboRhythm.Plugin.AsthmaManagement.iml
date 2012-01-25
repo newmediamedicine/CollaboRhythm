@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="Flex" version="4">
+  <component name="Flex.Build.Configuration">
+    <option name="DO_BUILD" value="true" />
+    <option name="MAIN_CLASS" value="collaboRhythm.plugins.asthmaManagement.controller.AsthmaManagementPluginModule" />
+    <option name="OUTPUT_FILE_NAME" value="AsthmaManagementPluginModule" />
+    <option name="TARGET_PLAYER_VERSION" value="11.1" />
+    <option name="VERSION" value="3" />
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/../out/production/CollaboRhythm.Plugin.AsthmaManagement/bin-debug" />
+    <output-test url="file://$MODULE_DIR$/../out/test/CollaboRhythm.Plugin.AsthmaManagement/bin-debug" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="4.6.0 AIR" jdkType="AIR SDK Type" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/libs" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="libs" type="flex">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/libs" />
+          <root url="file://$MODULE_DIR$/libs" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
+      </library>
+    </orderEntry>
+  </component>
+</module>
+

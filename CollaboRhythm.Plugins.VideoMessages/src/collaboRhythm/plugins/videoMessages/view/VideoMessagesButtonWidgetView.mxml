@@ -76,7 +76,7 @@
 
 		private function showFullViewButton_clickHandler():void
 		{
-			_videoMessagesAppController.dispatchShowFullView("VideoMessages widget button click");
+			_videoMessagesAppController.dispatchShowFullView("widget button click");
 		}
 		]]></fx:Script>
 	<shared:WidgetButton id="showFullViewButton" icon="{MessagesIcon}" width="70" height="70" left="0" bottom="0" click="showFullViewButton_clickHandler()" skinClass="collaboRhythm.shared.view.WidgetButtonSkin" enabled="{_collaborationLobbyNetConnectionService.isConnected &amp;&amp; _videoMessageCount != 0}"/>

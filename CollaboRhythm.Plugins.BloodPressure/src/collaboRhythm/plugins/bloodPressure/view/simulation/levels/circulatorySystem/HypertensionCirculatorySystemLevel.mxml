@@ -34,8 +34,8 @@
 	<s:Group id="arrowsGroup" width="100%" height="100%"/>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.bloodPressure.controller.BloodPressureAppController;
-		import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
-		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
+		import collaboRhythm.shared.apps.healthCharts.model.MedicationComponentAdherenceModel;
+		import collaboRhythm.shared.apps.healthCharts.model.SimulationModel;
 		import collaboRhythm.shared.model.healthRecord.util.MedicationName;
 		import collaboRhythm.shared.model.healthRecord.util.MedicationNameUtil;
 		import collaboRhythm.simulation.view.SimulationLevelEvent;
@@ -43,7 +43,7 @@
 		import collaboRhythm.simulation.view.buttons.SimulationDetail;
 		import collaboRhythm.simulation.view.buttons.SimulationDetailButton;
 		import collaboRhythm.simulation.view.buttons.StepListItem;
-		import collaboRhythm.visualization.view.MedicationScheduleItemChartView;
+		import collaboRhythm.shared.ui.healthCharts.view.MedicationScheduleItemChartView;
 
 		import com.theory9.data.types.OrderedMap;
 

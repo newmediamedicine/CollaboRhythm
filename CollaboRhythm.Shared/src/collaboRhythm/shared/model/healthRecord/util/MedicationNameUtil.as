@@ -15,6 +15,7 @@ package collaboRhythm.shared.model.healthRecord.util
 		 * 	24 HR Diltiazem Hydrochloride 240 MG Extended Release Capsule
 		 * 	3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]
 		 * 	Lisinopril 2.5 MG Oral Tablet [Zestril]
+		 *  200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]
 		 *
 		 * @param nameString
 		 * @return
@@ -23,7 +24,7 @@ package collaboRhythm.shared.model.healthRecord.util
 		{
 			var medicationName:MedicationName = new MedicationName();
 
-			var rxNormRegExp:RegExp = /(?:(\d+ HR) )?(?:(\d+(?:\.\d+)? (?:ML|MG)) )?([A-Za-z\s]+) (\d+(?:\.\d+)? (?:MG|UNT\/ML|ML)) ([A-Za-z\s]+)(?:(\[[A-Za-z]+\]))?/;
+			var rxNormRegExp:RegExp = /(?:(\d+ HR) )?(?:(\d+(?:\.\d+)? (?:ML|MG|ACTUAT)) )?([A-Za-z\s]+) (\d+(?:\.\d+)? (?:MG|UNT\/ML|ML|MG\/ACTUAT)) ([A-Za-z\s]+)(?:(\[[A-Za-z]+\]))?/;
 
 			var substrings:Array = nameString.split(rxNormRegExp);
 

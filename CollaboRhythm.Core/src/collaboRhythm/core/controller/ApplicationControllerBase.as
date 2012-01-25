@@ -17,63 +17,63 @@
 package collaboRhythm.core.controller
 {
 
-    import castle.flexbridge.kernel.IKernel;
+	import castle.flexbridge.kernel.IKernel;
 
-    import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
-    import collaboRhythm.core.model.AboutApplicationModel;
-    import collaboRhythm.core.model.ApplicationControllerModel;
-    import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
-    import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
-    import collaboRhythm.core.pluginsManagement.PluginLoader;
-    import collaboRhythm.core.view.AboutApplicationView;
-    import collaboRhythm.core.view.ConnectivityEvent;
-    import collaboRhythm.core.view.ConnectivityView;
-    import collaboRhythm.shared.controller.CollaborationController;
-    import collaboRhythm.shared.controller.IApplicationControllerBase;
-    import collaboRhythm.shared.controller.apps.AppControllerInfo;
-    import collaboRhythm.shared.model.Account;
-    import collaboRhythm.shared.model.BackgroundProcessCollectionModel;
-    import collaboRhythm.shared.model.CollaborationLobbyNetConnectionEvent;
-    import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
-    import collaboRhythm.shared.model.InteractionLogUtil;
-    import collaboRhythm.shared.model.healthRecord.AccountInformationHealthRecordService;
-    import collaboRhythm.shared.model.healthRecord.CreateSessionHealthRecordService;
-    import collaboRhythm.shared.model.healthRecord.DemographicsHealthRecordService;
-    import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
-    import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
-    import collaboRhythm.shared.model.healthRecord.RecordsHealthRecordService;
-    import collaboRhythm.shared.model.healthRecord.SharesHealthRecordService;
-    import collaboRhythm.shared.model.services.DefaultMedicationColorSource;
-    import collaboRhythm.shared.model.services.DemoCurrentDateSource;
-    import collaboRhythm.shared.model.services.IComponentContainer;
-    import collaboRhythm.shared.model.services.ICurrentDateSource;
-    import collaboRhythm.shared.model.services.IMedicationColorSource;
-    import collaboRhythm.shared.model.services.WorkstationKernel;
-    import collaboRhythm.shared.model.settings.Settings;
-    import collaboRhythm.shared.model.settings.SettingsFileStore;
-    import collaboRhythm.shared.view.CollaborationView;
+	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
+	import collaboRhythm.core.model.AboutApplicationModel;
+	import collaboRhythm.core.model.ApplicationControllerModel;
+	import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
+	import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
+	import collaboRhythm.core.pluginsManagement.PluginLoader;
+	import collaboRhythm.core.view.AboutApplicationView;
+	import collaboRhythm.core.view.ConnectivityEvent;
+	import collaboRhythm.core.view.ConnectivityView;
+	import collaboRhythm.shared.controller.CollaborationController;
+	import collaboRhythm.shared.controller.IApplicationControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerInfo;
+	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.BackgroundProcessCollectionModel;
+	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionEvent;
+	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
+	import collaboRhythm.shared.model.InteractionLogUtil;
+	import collaboRhythm.shared.model.healthRecord.AccountInformationHealthRecordService;
+	import collaboRhythm.shared.model.healthRecord.CreateSessionHealthRecordService;
+	import collaboRhythm.shared.model.healthRecord.DemographicsHealthRecordService;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
+	import collaboRhythm.shared.model.healthRecord.RecordsHealthRecordService;
+	import collaboRhythm.shared.model.healthRecord.SharesHealthRecordService;
+	import collaboRhythm.shared.model.services.DefaultMedicationColorSource;
+	import collaboRhythm.shared.model.services.DemoCurrentDateSource;
+	import collaboRhythm.shared.model.services.IComponentContainer;
+	import collaboRhythm.shared.model.services.ICurrentDateSource;
+	import collaboRhythm.shared.model.services.IMedicationColorSource;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
+	import collaboRhythm.shared.model.settings.Settings;
+	import collaboRhythm.shared.model.settings.SettingsFileStore;
+	import collaboRhythm.shared.view.CollaborationView;
 
-    import com.coltware.airxlib.log.TCPSyslogTarget;
-    import com.daveoncode.logging.LogFileTarget;
+	import com.coltware.airxlib.log.TCPSyslogTarget;
+	import com.daveoncode.logging.LogFileTarget;
 
-    import flash.desktop.NativeApplication;
-    import flash.events.Event;
-    import flash.events.TimerEvent;
-    import flash.filesystem.File;
-    import flash.net.NetworkInfo;
-    import flash.net.NetworkInterface;
-    import flash.utils.Timer;
-    import flash.utils.getQualifiedClassName;
+	import flash.desktop.NativeApplication;
+	import flash.events.Event;
+	import flash.events.TimerEvent;
+	import flash.filesystem.File;
+	import flash.net.NetworkInfo;
+	import flash.net.NetworkInterface;
+	import flash.utils.Timer;
+	import flash.utils.getQualifiedClassName;
 
-    import mx.binding.utils.BindingUtils;
-    import mx.collections.ArrayCollection;
-    import mx.core.IVisualElementContainer;
-    import mx.logging.ILogger;
-    import mx.logging.Log;
-    import mx.logging.LogEventLevel;
-    import mx.logging.targets.TraceTarget;
+	import mx.binding.utils.BindingUtils;
+	import mx.collections.ArrayCollection;
+	import mx.core.IVisualElementContainer;
+	import mx.logging.ILogger;
+	import mx.logging.Log;
+	import mx.logging.LogEventLevel;
+	import mx.logging.targets.TraceTarget;
 
-    public class ApplicationControllerBase implements IApplicationControllerBase
+	public class ApplicationControllerBase implements IApplicationControllerBase
     {
 		private static const ONE_MINUTE:int = 1000 * 60;
 

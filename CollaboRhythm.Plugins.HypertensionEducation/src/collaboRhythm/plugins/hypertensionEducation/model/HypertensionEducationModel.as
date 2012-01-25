@@ -1,7 +1,7 @@
 package collaboRhythm.plugins.hypertensionEducation.model
 {
 
-	import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
+	import collaboRhythm.shared.apps.healthCharts.model.MedicationComponentAdherenceModel;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.settings.Settings;
 
@@ -26,7 +26,7 @@ package collaboRhythm.plugins.hypertensionEducation.model
 
 		private function getCurrentConcentrations():void
 		{
-			for each (var medication:MedicationComponentAdherenceModel in _activeRecord.bloodPressureModel.focusSimulation.medications)
+			for each (var medication:MedicationComponentAdherenceModel in _activeRecord.healthChartsModel.focusSimulation.medications)
 			{
 				createUtterance(medication);
 			}

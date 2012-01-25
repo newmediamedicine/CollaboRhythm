@@ -1,0 +1,970 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IndivoDocuments xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:fn="http://www.w3.org/2005/xpath-functions"
+                 xmlns:d="http://indivo.org/vocab/xml/documents#">
+   <LoadableIndivoDocument>
+      <document>
+         <Equipment xmlns="http://indivo.org/vocab/xml/documents#">
+            <dateStarted>2009-12-15</dateStarted>
+            <type>blood pressure monitor</type>
+            <name xmlns="">Sideways Arm Bends</name>
+         </Equipment>
+      </document>
+      <relatesTo>
+         <relation type="scheduleItem">
+            <LoadableIndivoDocument>
+               <document>
+                  <EquipmentScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
+                     <name xmlns="">Sideways Arm Bends</name>
+                     <scheduledBy>jking@records.media.mit.edu</scheduledBy>
+                     <dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
+                     <dateStart>2011-07-15T13:00:00Z</dateStart>
+                     <dateEnd>2011-07-15T17:00:00Z</dateEnd>
+                     <recurrenceRule>
+                        <frequency>DAILY</frequency>
+                        <count>90</count>
+                     </recurrenceRule>
+                     <instructions xmlns="">Bend your arms on the side of your body!</instructions>
+                  </EquipmentScheduleItem>
+               </document>
+               <relatesTo>
+                  <relation type="adherenceItem">
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Sideways Arm Bends</name>
+                              <reportedBy xmlns="">mfletcher@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-17T14:57:00Z</dateReported>
+                              <recurrenceIndex>2</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-17T14:57:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>129</value>
+                                          <unit type="http://codes.indivo.org/units/" value="30" abbrev="bpm">beats per minute</unit>
+                                       </result>
+                                       <site>left arm</site>
+                                       <position>sitting</position>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Duration of Exercise</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-17T14:57:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>120</value>
+                                          <unit abbrev="sec">seconds</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Metabolic Equivalent Task</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-17T14:57:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>2.2</value>
+                                          <unit abbrev="met">met</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Oxygen Saturation</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-17T14:57:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>94</value>
+                                          <unit abbrev="%">percent</unit>
+                                       </result>
+                                       <site>abdomen</site>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Sideways Arm Bends</name>
+                              <reportedBy xmlns="">mfletcher@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-19T15:57:00Z</dateReported>
+                              <recurrenceIndex>4</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-19T15:57:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>127</value>
+                                          <unit type="http://codes.indivo.org/units/" value="30" abbrev="bpm">beats per minute</unit>
+                                       </result>
+                                       <site>left arm</site>
+                                       <position>sitting</position>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Duration of Exercise</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-19T15:57:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>120</value>
+                                          <unit abbrev="sec">seconds</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Metabolic Equivalent Task</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-19T15:57:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>2.3</value>
+                                          <unit abbrev="met">met</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Oxygen Saturation</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-19T15:57:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>95</value>
+                                          <unit abbrev="%">percent</unit>
+                                       </result>
+                                       <site>abdomen</site>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Sideways Arm Bends</name>
+                              <reportedBy xmlns="">mfletcher@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-21T13:57:00Z</dateReported>
+                              <recurrenceIndex>6</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-21T13:57:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>125</value>
+                                          <unit type="http://codes.indivo.org/units/" value="30" abbrev="bpm">beats per minute</unit>
+                                       </result>
+                                       <site>left arm</site>
+                                       <position>sitting</position>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Duration of Exercise</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-21T13:57:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>120</value>
+                                          <unit abbrev="sec">seconds</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Metabolic Equivalent Task</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-21T13:57:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>2.4</value>
+                                          <unit abbrev="met">met</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Oxygen Saturation</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-21T13:57:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>95</value>
+                                          <unit abbrev="%">percent</unit>
+                                       </result>
+                                       <site>abdomen</site>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Sideways Arm Bends</name>
+                              <reportedBy xmlns="">mfletcher@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-23T16:45:00Z</dateReported>
+                              <recurrenceIndex>8</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-23T16:45:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>121</value>
+                                          <unit type="http://codes.indivo.org/units/" value="30" abbrev="bpm">beats per minute</unit>
+                                       </result>
+                                       <site>left arm</site>
+                                       <position>sitting</position>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Duration of Exercise</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-23T16:45:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>120</value>
+                                          <unit abbrev="sec">seconds</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Metabolic Equivalent Task</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-23T16:45:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>2.4</value>
+                                          <unit abbrev="met">met</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Oxygen Saturation</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-23T16:45:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>94</value>
+                                          <unit abbrev="%">percent</unit>
+                                       </result>
+                                       <site>abdomen</site>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Sideways Arm Bends</name>
+                              <reportedBy xmlns="">mfletcher@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-25T16:57:00Z</dateReported>
+                              <recurrenceIndex>10</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-25T16:57:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>118</value>
+                                          <unit type="http://codes.indivo.org/units/" value="30" abbrev="bpm">beats per minute</unit>
+                                       </result>
+                                       <site>left arm</site>
+                                       <position>sitting</position>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Duration of Exercise</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-25T16:57:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>120</value>
+                                          <unit abbrev="sec">seconds</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Metabolic Equivalent Task</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-25T16:57:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>2.5</value>
+                                          <unit abbrev="met">met</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Oxygen Saturation</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-25T16:57:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>95</value>
+                                          <unit abbrev="%">percent</unit>
+                                       </result>
+                                       <site>abdomen</site>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Sideways Arm Bends</name>
+                              <reportedBy xmlns="">mfletcher@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-27T14:05:00Z</dateReported>
+                              <recurrenceIndex>12</recurrenceIndex>
+                              <adherence>false</adherence>
+                           </AdherenceItem>
+                        </document>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Sideways Arm Bends</name>
+                              <reportedBy xmlns="">mfletcher@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-29T14:57:00Z</dateReported>
+                              <recurrenceIndex>14</recurrenceIndex>
+                              <adherence>false</adherence>
+                           </AdherenceItem>
+                        </document>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Sideways Arm Bends</name>
+                              <reportedBy xmlns="">mfletcher@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-31T14:57:00Z</dateReported>
+                              <recurrenceIndex>16</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-31T14:57:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>138</value>
+                                          <unit type="http://codes.indivo.org/units/" value="30" abbrev="bpm">beats per minute</unit>
+                                       </result>
+                                       <site>left arm</site>
+                                       <position>sitting</position>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Duration of Exercise</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-31T14:57:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>120</value>
+                                          <unit abbrev="sec">seconds</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Metabolic Equivalent Task</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-31T14:57:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>2</value>
+                                          <unit abbrev="met">met</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Oxygen Saturation</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-31T14:57:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>94</value>
+                                          <unit abbrev="%">percent</unit>
+                                       </result>
+                                       <site>abdomen</site>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Sideways Arm Bends</name>
+                              <reportedBy xmlns="">mfletcher@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-02T19:10:00Z</dateReported>
+                              <recurrenceIndex>18</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-02T19:10:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>133</value>
+                                          <unit type="http://codes.indivo.org/units/" value="30" abbrev="bpm">beats per minute</unit>
+                                       </result>
+                                       <site>left arm</site>
+                                       <position>sitting</position>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Duration of Exercise</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-02T19:10:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>120</value>
+                                          <unit abbrev="sec">seconds</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Metabolic Equivalent Task</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-02T19:10:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>2.2</value>
+                                          <unit abbrev="met">met</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Oxygen Saturation</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-02T19:10:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>95</value>
+                                          <unit abbrev="%">percent</unit>
+                                       </result>
+                                       <site>abdomen</site>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Sideways Arm Bends</name>
+                              <reportedBy xmlns="">mfletcher@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-03T10:35:00Z</dateReported>
+                              <recurrenceIndex>18</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-03T10:35:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>126</value>
+                                          <unit type="http://codes.indivo.org/units/" value="30" abbrev="bpm">beats per minute</unit>
+                                       </result>
+                                       <site>left arm</site>
+                                       <position>sitting</position>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Duration of Exercise</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-03T10:35:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>120</value>
+                                          <unit abbrev="sec">seconds</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Metabolic Equivalent Task</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-03T10:35:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>2.3</value>
+                                          <unit abbrev="met">met</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Oxygen Saturation</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-03T10:35:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>94</value>
+                                          <unit abbrev="%">percent</unit>
+                                       </result>
+                                       <site>abdomen</site>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Sideways Arm Bends</name>
+                              <reportedBy xmlns="">mfletcher@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-05T15:28:00Z</dateReported>
+                              <recurrenceIndex>21</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-05T15:28:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>124</value>
+                                          <unit type="http://codes.indivo.org/units/" value="30" abbrev="bpm">beats per minute</unit>
+                                       </result>
+                                       <site>left arm</site>
+                                       <position>sitting</position>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Duration of Exercise</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-05T15:28:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>120</value>
+                                          <unit abbrev="sec">seconds</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Metabolic Equivalent Task</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-05T15:28:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>2.4</value>
+                                          <unit abbrev="met">met</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Oxygen Saturation</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-05T15:28:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>94</value>
+                                          <unit abbrev="%">percent</unit>
+                                       </result>
+                                       <site>abdomen</site>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Sideways Arm Bends</name>
+                              <reportedBy xmlns="">mfletcher@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-07T17:22:00Z</dateReported>
+                              <recurrenceIndex>23</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-07T17:22:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>122</value>
+                                          <unit type="http://codes.indivo.org/units/" value="30" abbrev="bpm">beats per minute</unit>
+                                       </result>
+                                       <site>left arm</site>
+                                       <position>sitting</position>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Duration of Exercise</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-07T17:22:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>120</value>
+                                          <unit abbrev="sec">seconds</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Metabolic Equivalent Task</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-07T17:22:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>2.4</value>
+                                          <unit abbrev="met">met</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Oxygen Saturation</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-07T17:22:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>94</value>
+                                          <unit abbrev="%">percent</unit>
+                                       </result>
+                                       <site>abdomen</site>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Sideways Arm Bends</name>
+                              <reportedBy xmlns="">mfletcher@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-09T15:44:00Z</dateReported>
+                              <recurrenceIndex>25</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-09T15:44:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>121</value>
+                                          <unit type="http://codes.indivo.org/units/" value="30" abbrev="bpm">beats per minute</unit>
+                                       </result>
+                                       <site>left arm</site>
+                                       <position>sitting</position>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Duration of Exercise</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-09T15:44:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>120</value>
+                                          <unit abbrev="sec">seconds</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Metabolic Equivalent Task</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-09T15:44:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>2.5</value>
+                                          <unit abbrev="met">met</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Oxygen Saturation</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-09T15:44:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>95</value>
+                                          <unit abbrev="%">percent</unit>
+                                       </result>
+                                       <site>abdomen</site>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Sideways Arm Bends</name>
+                              <reportedBy xmlns="">mfletcher@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-11T11:32:00Z</dateReported>
+                              <recurrenceIndex>26</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-11T11:32:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>122</value>
+                                          <unit type="http://codes.indivo.org/units/" value="30" abbrev="bpm">beats per minute</unit>
+                                       </result>
+                                       <site>left arm</site>
+                                       <position>sitting</position>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Duration of Exercise</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-11T11:32:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>120</value>
+                                          <unit abbrev="sec">seconds</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Metabolic Equivalent Task</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-11T11:32:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>2.6</value>
+                                          <unit abbrev="met">met</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Oxygen Saturation</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-11T11:32:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>94</value>
+                                          <unit abbrev="%">percent</unit>
+                                       </result>
+                                       <site>abdomen</site>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">Sideways Arm Bends</name>
+                              <reportedBy xmlns="">mfletcher@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-13T14:51:00Z</dateReported>
+                              <recurrenceIndex>29</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-13T14:51:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>120</value>
+                                          <unit type="http://codes.indivo.org/units/" value="30" abbrev="bpm">beats per minute</unit>
+                                       </result>
+                                       <site>left arm</site>
+                                       <position>sitting</position>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Duration of Exercise</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-13T14:51:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>120</value>
+                                          <unit abbrev="sec">seconds</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Metabolic Equivalent Task</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-13T14:51:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>2.6</value>
+                                          <unit abbrev="met">met</unit>
+                                       </result>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Oxygen Saturation</name>
+                                       <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-08-13T14:51:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>95</value>
+                                          <unit abbrev="%">percent</unit>
+                                       </result>
+                                       <site>abdomen</site>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                  </relation>
+               </relatesTo>
+            </LoadableIndivoDocument>
+         </relation>
+      </relatesTo>
+   </LoadableIndivoDocument>
+</IndivoDocuments>

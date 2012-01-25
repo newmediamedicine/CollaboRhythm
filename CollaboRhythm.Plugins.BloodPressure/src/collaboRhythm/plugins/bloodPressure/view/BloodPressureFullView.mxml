@@ -25,7 +25,7 @@
 		 clipAndEnableScrolling="true"
 		 implements="mx.managers.IFocusManagerComponent, collaboRhythm.plugins.bloodPressure.view.IBloodPressureFullView"
 		>
-	<fx:Style source="/collaboRhythm/visualization/view/ChartStyles.css"/>
+	<fx:Style source="/defaults.css" />
 
 	<mx:HDividedBox height="100%" width="100%" paddingRight="0" clipContent="true" horizontalScrollPolicy="off"
 					verticalScrollPolicy="off" backgroundColor="#F1F2F2"
@@ -34,26 +34,7 @@
 
 		<s:VGroup id="leftGroup" height="100%" width="100%" gap="15" paddingLeft="0" paddingRight="0" paddingTop="0"
 				  paddingBottom="0">
-
-			<!--
-			<s:Group width="100%">
-				<buttons:ContentLabel
-						id="hypertensionTitle" horizontalCenter="0"
-						width="400" height="60"
-						text="Hypertension"
-						>
-					<buttons:leftContent>
-						<simulation:ProblemsIcon left="15" verticalCenter="0"/>
-					</buttons:leftContent>
-					<buttons:rightContent>
-						<simulation:HypertensionGauge id="hypertensionGauge" right="10" verticalCenter="0"
-													  value="{model.simulation.systolic}"/>
-					</buttons:rightContent>
-				</buttons:ContentLabel>
-			</s:Group>
--->
-
-			<view:BloodPressureSynchronizedCharts id="chartsGroup" modality="{modality}" model="{model}"/>
+			<view:BloodPressureSynchronizedCharts id="chartsGroup" modality="{modality}" model="{model}" componentContainer="{componentContainer}" activeAccountId="{activeAccountId}" />
 		</s:VGroup>
 		<s:VGroup id="simulationGroup" height="100%" gap="15" paddingLeft="0" paddingRight="0" paddingTop="5"
 				  clipAndEnableScrolling="true"
@@ -62,14 +43,11 @@
 				> <!-- TODO: paddingBottom should be the same as the chartsGroup, but one or both of these components have some internal padding (the ScrubChart currently has an extra 15 paddingBottom "built in" to the footer) -->
 			<simulation:SimulationView id="simulationView" height="100%" width="100%"
 					/>
-			<!--
-			   doubleClickEnabled="true"
-										  doubleClick="simulationView_doubleClickHandler(event)"
-   -->
 		</s:VGroup>
 	</mx:HDividedBox>
 	<fx:Script><![CDATA[
-		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
+		import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
+		import collaboRhythm.shared.model.services.IComponentContainer;
 
 		import mx.events.FlexEvent;
 
@@ -77,8 +55,10 @@
 
 		private var simulationOnlyViewMode:Boolean = false;
 		private var _chartsOnlyViewMode:Boolean = false;
-		private var _model:BloodPressureModel;
+		private var _model:HealthChartsModel;
 		private var _modality:String;
+		private var _componentContainer:IComponentContainer;
+		private var _activeAccountId:String;
 
 		protected function simulationView_doubleClickHandler(event:MouseEvent):void
 		{
@@ -132,12 +112,12 @@
 		}
 
 		[Bindable]
-		public function get model():BloodPressureModel
+		public function get model():HealthChartsModel
 		{
 			return _model;
 		}
 
-		public function set model(value:BloodPressureModel):void
+		public function set model(value:HealthChartsModel):void
 		{
 			_model = value;
 
@@ -176,6 +156,28 @@
 				simulationView.initializeModel(model.focusSimulation, model);
 				simulationView.refresh();
 			}
+		}
+
+		[Bindable]
+		public function get componentContainer():IComponentContainer
+		{
+			return _componentContainer;
+		}
+
+		public function set componentContainer(value:IComponentContainer):void
+		{
+			_componentContainer = value;
+		}
+
+		[Bindable]
+		public function get activeAccountId():String
+		{
+			return _activeAccountId;
+		}
+
+		public function set activeAccountId(value:String):void
+		{
+			_activeAccountId = value;
 		}
 		]]></fx:Script>
 </s:Group>
