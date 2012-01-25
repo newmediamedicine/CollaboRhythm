@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--~
+  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<IndivoDocuments>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-15T22:57:00Z</dateReported>
+		<adherence>true</adherence>
+		<ndc>0169643910</ndc>
+		<indication>diabetes</indication>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-16T23:07:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-17T23:54:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-18T23:52:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-19T23:48:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-20T22:27:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-21T22:24:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-22T22:14:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-23T22:15:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-24T22:59:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-25T23:12:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-26T23:26:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-27T23:47:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-28T22:12:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-29T22:44:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-30T22:02:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-31T23:24:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-01T23:22:00Z</dateReported>
+		<adherence>false</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-02T23:00:00Z</dateReported>
+		<adherence>false</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-03T23:53:00Z</dateReported>
+		<adherence>false</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-04T22:00:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-05T23:54:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-06T23:14:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-07T23:00:00Z</dateReported>
+		<adherence>false</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-08T23:10:00Z</dateReported>
+		<adherence>false</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-09T23:18:00Z</dateReported>
+		<adherence>false</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-10T23:29:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-11T23:40:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-12T23:51:00Z</dateReported>
+		<adherence>true</adherence>
+	</AdherenceItem>
+</IndivoDocuments>
