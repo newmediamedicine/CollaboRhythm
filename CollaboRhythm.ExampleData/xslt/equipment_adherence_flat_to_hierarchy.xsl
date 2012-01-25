@@ -297,9 +297,18 @@
 																		<dateMeasuredStart>
 																			<xsl:value-of select="dateReported"/>
 																		</dateMeasuredStart>
-																		<site>
-																			<xsl:value-of select="food"/>
-																		</site>
+																		<result>
+																			<value>
+																				<xsl:choose>
+																					<xsl:when test="food = 'more'">1</xsl:when>
+																					<xsl:when test="food = 'less'">-1</xsl:when>
+																					<xsl:when test="food = 'same'">0</xsl:when>
+																					<xsl:otherwise>0</xsl:otherwise>
+																				</xsl:choose>
+																			</value>
+																			<textValue><xsl:value-of select="food"/></textValue>
+																			<unit>Delta from Average</unit>
+																		</result>
 																	</VitalSign>
 																</document>
 															</LoadableIndivoDocument>

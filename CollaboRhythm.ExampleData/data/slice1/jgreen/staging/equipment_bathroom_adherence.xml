@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<IndivoDocuments>
+	<BloodPressureAdherenceItem>
+		<name>Bathroom</name>
+		<instructions>Bathroom documentation</instructions>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-17T08:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<urineoutone>140</urineoutone>
+		<urineouttwo>60</urineouttwo>
+		<urineurethra>0</urineurethra>
+		<color>Y</color>
+		<clots>N</clots>
+		<flushin>100</flushin>
+		<output>most of what I put in</output>
+		<type>6</type>
+		<recurrenceFrequency>HOURLY</recurrenceFrequency>
+		<recurrenceInterval>2</recurrenceInterval>
+		<recurrenceCount>500</recurrenceCount>
+		<recurrenceIndex>0</recurrenceIndex>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Bathroom</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-17T10:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<urineoutone>140</urineoutone>
+		<urineouttwo>60</urineouttwo>
+		<urineurethra>0</urineurethra>
+		<color>Y</color>
+		<clots>N</clots>
+		<flushin>100</flushin>
+		<output>most of what I put in</output>
+		<type>6</type>
+		<recurrenceIndex>1</recurrenceIndex>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Bathroom</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-17T12:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<urineoutone>140</urineoutone>
+		<urineouttwo>60</urineouttwo>
+		<urineurethra>0</urineurethra>
+		<color>Y</color>
+		<clots>N</clots>
+		<flushin>100</flushin>
+		<output>most of what I put in</output>
+		<type>6</type>
+		<recurrenceIndex>2</recurrenceIndex>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Bathroom</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-17T14:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<urineoutone>130</urineoutone>
+		<urineouttwo>55</urineouttwo>
+		<urineurethra>0</urineurethra>
+		<color>Y</color>
+		<clots>N</clots>
+		<flushin>100</flushin>
+		<output>most of what I put in</output>
+		<type>6</type>
+		<recurrenceIndex>3</recurrenceIndex>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Bathroom</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-17T16:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<urineoutone>135</urineoutone>
+		<urineouttwo>60</urineouttwo>
+		<urineurethra>0</urineurethra>
+		<color>Y</color>
+		<clots>N</clots>
+		<flushin>100</flushin>
+		<output>most of what I put in</output>
+		<type>6</type>
+		<recurrenceIndex>4</recurrenceIndex>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Bathroom</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-17T18:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<urineoutone>140</urineoutone>
+		<urineouttwo>60</urineouttwo>
+		<urineurethra>0</urineurethra>
+		<color>Y</color>
+		<clots>N</clots>
+		<flushin>100</flushin>
+		<output>most of what I put in</output>
+		<type>6</type>
+		<recurrenceIndex>5</recurrenceIndex>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Bathroom</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-17T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<urineoutone>140</urineoutone>
+		<urineouttwo>60</urineouttwo>
+		<urineurethra>0</urineurethra>
+		<color>Y</color>
+		<clots>N</clots>
+		<flushin>100</flushin>
+		<output>most of what I put in</output>
+		<type>6</type>
+		<recurrenceIndex>6</recurrenceIndex>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Bathroom</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-18T08:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<urineoutone>130</urineoutone>
+		<urineouttwo>55</urineouttwo>
+		<urineurethra>0</urineurethra>
+		<color>Y</color>
+		<clots>N</clots>
+		<flushin>100</flushin>
+		<output>most of what I put in</output>
+		<type>6</type>
+		<recurrenceIndex>7</recurrenceIndex>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Bathroom</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-18T10:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<urineoutone>140</urineoutone>
+		<urineouttwo>60</urineouttwo>
+		<urineurethra>0</urineurethra>
+		<color>Y</color>
+		<clots>N</clots>
+		<flushin>100</flushin>
+		<output>most of what I put in</output>
+		<type>6</type>
+		<recurrenceIndex>8</recurrenceIndex>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Bathroom</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-18T12:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<urineoutone>140</urineoutone>
+		<urineouttwo>60</urineouttwo>
+		<urineurethra>0</urineurethra>
+		<color>Y</color>
+		<clots>N</clots>
+		<flushin>100</flushin>
+		<output>most of what I put in</output>
+		<type>6</type>
+		<recurrenceIndex>9</recurrenceIndex>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Bathroom</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-18T14:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<urineoutone>145</urineoutone>
+		<urineouttwo>55</urineouttwo>
+		<urineurethra>0</urineurethra>
+		<color>Y</color>
+		<clots>N</clots>
+		<flushin>100</flushin>
+		<output>most of what I put in</output>
+		<type>6</type>
+		<recurrenceIndex>10</recurrenceIndex>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Bathroom</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-18T16:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<urineoutone>140</urineoutone>
+		<urineouttwo>60</urineouttwo>
+		<urineurethra>0</urineurethra>
+		<color>Y</color>
+		<clots>N</clots>
+		<flushin>100</flushin>
+		<output>most of what I put in</output>
+		<type>6</type>
+		<recurrenceIndex>11</recurrenceIndex>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Bathroom</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-18T18:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<urineoutone>135</urineoutone>
+		<urineouttwo>55</urineouttwo>
+		<urineurethra>0</urineurethra>
+		<color>Y</color>
+		<clots>N</clots>
+		<flushin>100</flushin>
+		<output>most of what I put in</output>
+		<type>6</type>
+		<recurrenceIndex>12</recurrenceIndex>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Bathroom</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-18T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<urineoutone>140</urineoutone>
+		<urineouttwo>60</urineouttwo>
+		<urineurethra>0</urineurethra>
+		<color>Y</color>
+		<clots>N</clots>
+		<flushin>100</flushin>
+		<output>most of what I put in</output>
+		<type>6</type>
+		<recurrenceIndex>13</recurrenceIndex>
+	</BloodPressureAdherenceItem>
+</IndivoDocuments>
