@@ -121,7 +121,7 @@ package collaboRhythm.plugins.postOpHome.controller
 			return false;
 		}
 
-		public function dispatchShowFullView(viaMechanism:String):void
+		override public function dispatchShowFullView(viaMechanism:String):void
 		{
 			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this, null, null, viaMechanism));
 		}
