@@ -163,26 +163,31 @@
 				// Need to make some kind of master item to handle adherence
 				reducedScheduleItemOccurrenceClockView.scheduleItemOccurrence = scheduleItemOccurrence;
 
+				//weird hack
 				var type:String = scheduleItemOccurrenceClockView.scheduleItemViewAdapterType;
-				switch(type){
-					case "Medication":
-						containsMeds = true;
-						break;
-					case "Bathroom":
-						containsBathroom = true;
-						break;
-					case "Pain Report":
-						containsDoc = true;
-						break;
-					case "Food / Drink":
-						containsDoc = true;
-						break;
-					case "Equipment": // for testing purposes with existing data
-						containsBathroom = true;
-						break;
-					default:
-						break;
+				if(type == "Medication"){
+					containsMeds = true;
 				}
+				else{
+					type = scheduleItemOccurrenceClockView.scheduleItemViewAdapterName;
+					switch(type){
+						case "Bathroom":
+							containsBathroom = true;
+							break;
+						case "Pain Report":
+							containsDoc = true;
+							break;
+						case "Intake":
+							containsDoc = true;
+							break;
+						case "Equipment": // for testing purposes with existing data
+							containsBathroom = true;
+							break;
+						default:
+							break;
+					}
+				}
+
 
 				trace("type: " + type);
 			}
@@ -192,11 +197,11 @@
 			image.setStyle("skinClass", ImageSkin);
 
 			if(containsMeds){
-				if(containsBathroom){
-					image.source = bathroomPillImage;
-				}
-				else if(containsDoc){
+				if(containsDoc){
 					image.source = chartPillImage;
+				}
+				else if(containsBathroom){
+					image.source = bathroomPillImage;
 				}
 				else{
 					image.source = pillImage;
