@@ -13,183 +13,191 @@
   ~ details.
   ~
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
-  ~ <http://www.gnu.org/licenses/>.
+  ~ <http://www.gnu.org/licenses/>
   -->
 <IndivoDocuments>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-15T14:57:00Z</dateReported>
+		<scheduleDateStart>2011-07-15T07:30:00Z</scheduleDateStart>
+		<scheduleDateEnd>2011-07-15T08:30:00Z</scheduleDateEnd>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-15T16:00:00Z</dateReported>
 		<adherence>true</adherence>
 		<ndc>motrin400</ndc>
-		<indication>back pain</indication>
+		<indication>pain relief</indication>
+		<recurrenceFrequency>HOURLY</recurrenceFrequency>
+		<recurrenceInterval>8</recurrenceInterval>
+		<recurrenceCount>270</recurrenceCount>
+		<recurrenceIndex>0</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-16T13:07:00Z</dateReported>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-16T08:00:00Z</dateReported>
 		<adherence>true</adherence>
+		<recurrenceIndex>1</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-17T13:54:00Z</dateReported>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-16T16:00:00Z</dateReported>
 		<adherence>true</adherence>
+		<recurrenceIndex>2</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-18T13:52:00Z</dateReported>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-17T08:00:00Z</dateReported>
 		<adherence>true</adherence>
+		<recurrenceIndex>3</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-19T13:48:00Z</dateReported>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-17T16:00:00Z</dateReported>
 		<adherence>true</adherence>
+		<recurrenceIndex>4</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-20T14:27:00Z</dateReported>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-18T08:00:00Z</dateReported>
 		<adherence>true</adherence>
+		<recurrenceIndex>5</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-21T14:24:00Z</dateReported>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-18T16:00:00Z</dateReported>
 		<adherence>true</adherence>
+		<recurrenceIndex>6</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-22T14:14:00Z</dateReported>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-19T08:00:00Z</dateReported>
 		<adherence>true</adherence>
+		<recurrenceIndex>7</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-23T14:15:00Z</dateReported>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-19T16:00:00Z</dateReported>
 		<adherence>true</adherence>
+		<recurrenceIndex>8</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-24T14:59:00Z</dateReported>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-20T08:00:00Z</dateReported>
 		<adherence>true</adherence>
+		<recurrenceIndex>9</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-25T13:12:00Z</dateReported>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-20T16:00:00Z</dateReported>
 		<adherence>true</adherence>
+		<recurrenceIndex>10</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-26T15:26:00Z</dateReported>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-21T08:00:00Z</dateReported>
 		<adherence>true</adherence>
+		<recurrenceIndex>11</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-27T13:47:00Z</dateReported>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-21T16:00:00Z</dateReported>
 		<adherence>true</adherence>
+		<recurrenceIndex>12</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-28T14:12:00Z</dateReported>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-22T08:00:00Z</dateReported>
 		<adherence>true</adherence>
+		<recurrenceIndex>13</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-29T14:44:00Z</dateReported>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-22T16:00:00Z</dateReported>
 		<adherence>true</adherence>
+		<recurrenceIndex>14</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-30T14:02:00Z</dateReported>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-23T08:00:00Z</dateReported>
 		<adherence>true</adherence>
+		<recurrenceIndex>15</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-31T13:24:00Z</dateReported>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-23T16:00:00Z</dateReported>
 		<adherence>true</adherence>
+		<recurrenceIndex>16</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-01T15:22:00Z</dateReported>
-		<adherence>false</adherence>
-	</AdherenceItem>
-	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-02T15:00:00Z</dateReported>
-		<adherence>false</adherence>
-	</AdherenceItem>
-	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-03T13:53:00Z</dateReported>
-		<adherence>false</adherence>
-	</AdherenceItem>
-	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-04T14:00:00Z</dateReported>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-24T08:00:00Z</dateReported>
 		<adherence>true</adherence>
+		<recurrenceIndex>17</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-05T13:54:00Z</dateReported>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-24T16:00:00Z</dateReported>
 		<adherence>true</adherence>
+		<recurrenceIndex>18</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-06T13:14:00Z</dateReported>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-25T08:00:00Z</dateReported>
 		<adherence>true</adherence>
+		<recurrenceIndex>19</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-07T13:00:00Z</dateReported>
-		<adherence>false</adherence>
-	</AdherenceItem>
-	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-08T13:10:00Z</dateReported>
-		<adherence>false</adherence>
-	</AdherenceItem>
-	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-09T13:18:00Z</dateReported>
-		<adherence>false</adherence>
-	</AdherenceItem>
-	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-10T13:29:00Z</dateReported>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-25T16:00:00Z</dateReported>
 		<adherence>true</adherence>
+		<recurrenceIndex>20</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-11T13:40:00Z</dateReported>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-26T08:00:00Z</dateReported>
 		<adherence>true</adherence>
+		<recurrenceIndex>21</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
-		<reportedBy>csantos@records.media.mit.edu</reportedBy>
-		<dateReported>2011-08-12T13:51:00Z</dateReported>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-26T16:00:00Z</dateReported>
 		<adherence>true</adherence>
+		<recurrenceIndex>22</recurrenceIndex>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-27T08:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<recurrenceIndex>23</recurrenceIndex>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+		<reportedBy>gstark@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-27T16:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<recurrenceIndex>24</recurrenceIndex>
 	</AdherenceItem>
 </IndivoDocuments>
+
+
