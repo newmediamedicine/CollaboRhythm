@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!---
+  - Copyright 2012 John Moore, Scott Gilroy
+  -
+  - This file is part of CollaboRhythm.
+  -
+  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  - version.
+  -
+  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  - details.
+  -
+  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  - <http://www.gnu.org/licenses/>.
+  -->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.postOpHome.controller.PostOpHomeAppController;
+		import collaboRhythm.plugins.postOpHome.model.PostOpHomeModel;
+		import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
+
+		private var _postOpHomeAppController:PostOpHomeAppController;
+
+		public function init(postOpHomeAppController:PostOpHomeAppController, postOpHomeModel:PostOpHomeModel,
+					  _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService):void
+		{
+			_postOpHomeAppController = postOpHomeAppController;
+		}
+
+		private function helpButton_clickHandler():void
+		{
+			//_postOpHomeAppController.dispatchShowFullView("user click");
+			_postOpHomeAppController.openPostOpHelpView();
+		}
+
+		]]>
+	</fx:Script>
+
+	<s:Button label="Help" click="helpButton_clickHandler()"/>
+
+
+</s:Group>

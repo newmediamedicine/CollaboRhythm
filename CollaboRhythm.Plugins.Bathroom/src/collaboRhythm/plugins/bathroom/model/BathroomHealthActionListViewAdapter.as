@@ -5,6 +5,8 @@ package collaboRhythm.plugins.bathroom.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewModel;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import spark.components.Image;
 
@@ -17,7 +19,8 @@ package collaboRhythm.plugins.bathroom.model
 		private var _model:BathroomHealthActionListViewModel;
 		private var _controller:HealthActionListViewControllerBase;
 
-		public function BathroomHealthActionListViewAdapter()
+		public function BathroomHealthActionListViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
+															healthActionModelDetailsProvider:IHealthActionModelDetailsProvider)
 		{
 			_healthAction = new HealthActionBase(HEALTH_ACTION_TYPE);
 

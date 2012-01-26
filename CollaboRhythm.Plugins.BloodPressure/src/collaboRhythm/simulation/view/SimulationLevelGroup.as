@@ -16,7 +16,7 @@
  */
 package collaboRhythm.simulation.view
 {
-	import collaboRhythm.shared.apps.healthCharts.model.SimulationModel;
+	import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 	import collaboRhythm.simulation.view.buttons.SimulationDetail;
 	import collaboRhythm.simulation.view.buttons.SimulationDetailButton;
 

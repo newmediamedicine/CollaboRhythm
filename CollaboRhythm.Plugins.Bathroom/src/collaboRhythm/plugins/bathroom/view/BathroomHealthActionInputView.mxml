@@ -1,33 +1,182 @@
 <?xml version="1.0"?>
-<!---
- - Copyright 2012 John Moore, Scott Gilroy
- -
- - This file is part of CollaboRhythm.
- -
- - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
- - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
- - version.
- -
- - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
- - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
- - details.
- -
- - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
- - <http://www.gnu.org/licenses/>.
--->
+
+
 <tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
-					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView">
-	<fx:Script><![CDATA[
+					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
+					   viewDeactivate="callout.close()">
+
+
+	<fx:Declarations>
+		<s:Button id="doneButton" label="Done" click="doneButton_clickHandler()"/>
+
+		<!-- RadioButton Group Declarations -->
+		<s:RadioButtonGroup id="voidingGroup"/>
+		<s:RadioButtonGroup id="bowelGroup"/>
+		<s:RadioButtonGroup id="urineFrmUreGroup"/>
+		<s:RadioButtonGroup id="urineColorGroup"/>
+		<s:RadioButtonGroup id="urineClotsGroup"/>
+		<s:RadioButtonGroup id="urinePainCathGroup"/>
+		<s:RadioButtonGroup id="urineDiffCathGroup"/>
+		<s:RadioButtonGroup id="urineFlushGroup"/>
+		<s:RadioButtonGroup id="urineAbleCathGroup"/>
+		<s:RadioButtonGroup id="bowelHaveGroup"/>
+		<s:RadioButtonGroup id="bowelOutGroup"/>
+		<s:RadioButtonGroup id="bowelFlushProbGroup"/>
+
+		<!-- Spinner List Array for Bowel Stool Types -->
+		<s:ArrayCollection id="bristolStoolType">
+			<fx:Object name="Type 1"/>
+			<fx:Object name="Type 2"/>
+			<fx:Object name="Type 3"/>
+			<fx:Object name="Type 4"/>
+			<fx:Object name="Type 5"/>
+			<fx:Object name="Type 6"/>
+			<fx:Object name="Type 7"/>
+		</s:ArrayCollection>
+
+		<!-- Animation -->
+		<s:AnimateTransform id="bounceEffect" target="{bristolStoolImage}">
+			<s:motionPaths>
+				<s:MotionPath property="translationX">
+					<s:keyframes>
+						<s:Keyframe time="250" value="0"/>
+						<s:Keyframe time="550" value="60"/>
+						<s:Keyframe time="850" value="100"/>
+						<s:Keyframe time="1150" value="140"/>
+						<s:Keyframe time="1450" value="180"/>
+						<s:Keyframe time="1750" value="220"/>
+						<s:Keyframe time="2050" value="140"/>
+						<s:Keyframe time="2350" value="100"/>
+						<s:Keyframe time="2650" value="60"/>
+						<s:Keyframe time="2950" value="0"/>
+					</s:keyframes>
+				</s:MotionPath>
+
+				<s:MotionPath property="translationY">
+					<s:keyframes>
+						<s:Keyframe time="250" value="100"/>
+						<s:Keyframe time="550" value="0"/>
+						<s:Keyframe time="850" value="100"/>
+						<s:Keyframe time="1150" value="0"/>
+						<s:Keyframe time="1450" value="100"/>
+						<s:Keyframe time="1750" value="0"/>
+						<s:Keyframe time="2050" value="100"/>
+						<s:Keyframe time="2350" value="0"/>
+						<s:Keyframe time="2650" value="100"/>
+						<s:Keyframe time="2950" value="0"/>
+					</s:keyframes>
+				</s:MotionPath>
+			</s:motionPaths>
+		</s:AnimateTransform>
+		
+		<!-- Education Materials Alert -->
+		<fx:Component className="AlertBox">
+			<s:SkinnablePopUpContainer>
+				<s:Panel title="Education Materials" width="100%" height="100%">
+					<s:VGroup width="100%" horizontalAlign="center"
+							  paddingTop="20" gap="20">
+						<s:Label text="Needs Brian's Context!!"/>
+						<s:Button label="Close" click="close();"/>
+					</s:VGroup>
+				</s:Panel>
+			</s:SkinnablePopUpContainer>
+		</fx:Component>
+
+		<!-- Callout For Education Materials -->
+		<s:Callout id="callout" height="250" horizontalPosition="middle" mouseDownOutside="callout.close()">
+			<s:VGroup paddingTop="10" paddingBottom="10" paddingLeft="10" paddingRight="10" horizontalAlign="center">
+				<s:Label text="Education Materials" fontWeight="bold" fontSize="30" color="0xAA0D0A"/>
+				<s:TextArea text="Brian's education materials goes here, consectetur adipiscing elit. Curabitur accumsan felis ac tortor aliquam iaculis. Phasellus hendrerit viverra enim, sit amet scelerisque lectus dictum at. Aenean sodales nisi sed leo congue et porttitor ligula vehicula.
+							Pellentesque turpis massa, suscipit vel fermentum quis, dignissim sed ipsum. Nulla aliquet libero adipiscing risus lobortis eleifend quis at velit. Duis at leo urna.
+							Praesent facilisis faucibus neque, ut ullamcorper lacus gravida a. Donec vel iaculis sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur accumsan felis ac tortor aliquam iaculis. Phasellus hendrerit viverra enim, sit amet scelerisque lectus dictum at. Aenean sodales nisi sed leo congue et porttitor ligula vehicula." width="80%" height="100" editable="false"/>
+			</s:VGroup>
+		</s:Callout>
+
+	</fx:Declarations>
+
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		.reportingLabelsText {
+			color: #000000;
+			fontSize: 40;
+		}
+
+		.textInputText {
+			color: #000000;
+			fontSize: 150;
+		}
+
+		FormItem {
+			labelStyleName: labelStyle;
+		}
+
+		.labelStyle {
+			textAlign: left;
+		}
+
+		Button:up {
+			baseColor: #000000;
+			color: #FFFFFF;
+			fontWeight: "bold";
+		}
+
+		Button:over {
+			baseColor: #878787;
+			color: #FFFFFF;
+			fontWeight: "bold";
+		}
+
+		Button:down {
+			baseColor: #878787;
+			color: #000000;
+			fontWeight: "bold";
+		}
+
+		Button:disabled {
+			baseColor: #FFFFFF;
+			color: #878787;
+			fontWeight: "bold";
+		}
+
+		Label {
+			fontFamily: "Arial";
+			fontWeight: "bold";
+		}
+
+
+		Panel {
+			backgroundAlpha: 1;
+			borderAlpha: 1;
+			headerColors: #c7c7c7, #ffffff;
+			footerColors: #ffffff, #c7c7c7;
+			paddingTop: 15;
+			paddingRight: 15;
+			paddingLeft: 15;
+			paddingBottom: 15;
+			shadowDirection: "right";
+		}
+	</fx:Style>
+
+	<fx:Script>
+		<![CDATA[
 		import collaboRhythm.plugins.bathroom.controller.BathroomHealthActionInputController;
 		import collaboRhythm.plugins.bathroom.model.BathroomHealthActionInputModel;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 
+		import mx.collections.ArrayCollection;
+		import mx.managers.PopUpManager;
+
+
 		[Bindable]
 		protected var _dataInputModel:BathroomHealthActionInputModel;
 		protected var _dataInputController:BathroomHealthActionInputController;
+
+
 
 		override public function set data(value:Object):void
 		{
@@ -43,10 +192,200 @@
 		{
 			return _dataInputController;
 		}
-		]]></fx:Script>
-	<s:Rect width="100%" height="100%">
-		<s:fill>
-			<s:SolidColor color="#ffffff"/>
-		</s:fill>
-	</s:Rect>
+
+		override protected function createChildren():void
+		{
+			super.createChildren();
+			actionContent.unshift(doneButton);
+		}
+
+
+		private function doneButton_clickHandler():void
+		{
+			//Alert.show(option4.selected ? 'Correct Answer!':'Wrong Answer', 'Result');
+			//_dataInputController.submitBloodPressure(positionDropDownList.selectedItem, siteDropDownList.selectedItem);
+		}
+
+
+		<!-- Popup Education Materials -->
+		protected function educationButton_clickHandler(event:MouseEvent):void
+		{
+			// Create an instance of AlertBox.
+			var alert:AlertBox = new AlertBox();
+			alert.open(this, true);
+
+			// Increase the width and height.
+			alert.width += 100;
+			alert.height += 100;
+
+			// Center the pop-up in the parent container.
+			PopUpManager.centerPopUp(alert);
+		}
+
+
+		]]>
+	</fx:Script>
+
+	<s:Panel id="mainPanel"
+				 width="100%" height="100%"
+	             title="Bathroom">
+		<s:HGroup width="100%" height="100%">
+
+			<s:Panel id="panelVoiding"
+					  title="Voiding"
+					  width="50%" height="100%"
+					  horizontalCenter="0" verticalCenter="0"
+					  >
+
+				<s:Scroller width="100%" height="100%">
+					<s:Group width="100%" height="100%">
+
+						<mx:Form x="50" y="50"
+								verticalGap="15">
+
+							<mx:FormItem label="Voiding">
+								<s:RadioButton groupName="voidingGroup" id="optionCatheterized" label="Catheterized" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="voidingGroup" id="optionSchedule" label="Schedule" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							</mx:FormItem>
+
+							<mx:FormItem label="Time:">
+								<s:DateSpinner id="urineDateSpinner"
+											   minDate="{new Date(new Date().getTime() - 1000*60*60*24*3)}"
+											   maxDate="{new Date(new Date().getTime() + 1000*60*60*24*7)}"
+											   displayMode="dateAndTime"
+											   skinClass="spark.skins.mobile.DateSpinnerSkin"
+											   />
+							</mx:FormItem>
+
+							<mx:FormItem label="Urine Output (ml):">
+								<mx:TextInput id="urineTxtInput"/><mx:TextInput id="urineTxtInputII"/>
+							</mx:FormItem>
+
+							<mx:FormItem label="Urine from urethra?">
+								<s:RadioButton groupName="urineFrmUreGroup" id="optionUrineFrmUreYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="urineFrmUreGroup" id="optionUrineFrmUreNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<mx:TextInput id="urineFrmUreAmt"/>
+							</mx:FormItem>
+
+							<mx:FormItem label="Is urine red/pink?" id="lbl" click="callout.open(lbl)">
+								<s:RadioButton groupName="urineColorGroup" id="optionUrineColorYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="urineColorGroup" id="optionUrineColorNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<!--<s:helpContent>-->
+									<!--<s:Button label="?" width="30" baseline="24" x="120"/>-->
+								<!--</s:helpContent>-->
+								<!--<s:Label id="lbl" x="270" y="240" fontSize="40" text="Click Me" click="callout.open(lbl)"/>-->
+							</mx:FormItem>
+
+							<mx:FormItem label="Are there clots?">
+								<s:RadioButton groupName="urineClotsGroup" id="optionUrineClotsYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="urineClotsGroup" id="optionUrineClotsNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							</mx:FormItem>
+
+							<mx:FormItem label="If on schedule; Pain with catheterization?">
+								<s:RadioButton groupName="urinePainCathGroup" id="optionPainCathYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="urinePainCathGroup" id="optionPainCathNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							</mx:FormItem>
+
+							<mx:FormItem label="Did you have any difficulty catheterizing?">
+								<s:RadioButton groupName="urineDiffCathGroup" id="optionDiffCathYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="urineDiffCathGroup" id="optionDiffCathNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							</mx:FormItem>
+
+							<mx:FormItem label="If Yes, ask Did you try flushing?">
+								<s:RadioButton groupName="urineFlushGroup" id="optionFlushYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="urineFlushGroup" id="optionFlushNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							</mx:FormItem>
+
+							<mx:FormItem label="Where you able to catheterize?">
+								<s:RadioButton groupName="urineAbleCathGroup" id="optionAbleCathYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="urineAbleCathGroup" id="optionAbleCathNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							</mx:FormItem>
+
+
+						</mx:Form>
+					</s:Group>
+
+				</s:Scroller>
+
+			</s:Panel>
+
+
+			<s:Panel id="panelBowel"
+					 title="Bowel Movements"
+					 width="50%" height="100%"
+					 horizontalCenter="0" verticalCenter="0">
+
+				<s:Scroller width="100%" height="100%">
+					<s:Group width="100%" height="100%">
+						<mx:Form x="50" y="50" verticalGap="15">
+							<mx:FormItem label="Bowel">
+								<s:RadioButton groupName="bowelGroup" id="optionCatheter" label="Catheter" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="bowelGroup" id="optionFlush" label="Flush" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							</mx:FormItem>
+
+							<mx:FormItem label="Time:">
+								<s:DateSpinner id="bowelDateSpinner"
+											   minDate="{new Date(new Date().getTime() - 1000*60*60*24*3)}"
+											   maxDate="{new Date(new Date().getTime() + 1000*60*60*24*7)}"
+											   displayMode="dateAndTime"
+											   skinClass="spark.skins.mobile.DateSpinnerSkin"
+											   />
+							</mx:FormItem>
+
+							<mx:FormItem label="Did you have:">
+								<s:RadioButton groupName="bowelHaveGroup" id="optionBowelMove" label="Bowel Movement" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="bowelHaveGroup" id="optionACEFlush" label="ACE Flush" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="bowelHaveGroup" id="optionNeither" label="Neither" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							</mx:FormItem>
+
+							<mx:FormItem label="Amount (ml):">
+								<mx:TextInput id="bowelAmountML"/>
+							</mx:FormItem>
+
+							<mx:FormItem label="Amount Out:">
+								<s:RadioButton groupName="bowelOutGroup" id="optionAsMuch" label="As much as I put in" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="bowelOutGroup" id="optionNone" label="None" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="bowelOutGroup" id="optionMost" label="Most of what I put in" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="bowelOutGroup" id="optionOnly" label="Only a little" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							</mx:FormItem>
+
+							<mx:FormItem label="Bristol Scale Chart">
+								<mx:Image y="0"
+										  id="bristolStoolImage"
+										  source="@Embed(source='/assets/Bristol_stool_chart.png')"
+										  />
+							</mx:FormItem>
+
+							<mx:FormItem label="See above chart for reference">
+								<s:SpinnerListContainer width="220">
+									<s:SpinnerList id="bristolStoolTypeList"
+												   width="100%"
+												   labelField="name"
+												   dataProvider="{bristolStoolType}"
+												   selectedIndex="{bristolStoolTypeList.selectedItem}"
+												   skinClass="spark.skins.mobile.SpinnerListSkin"
+												   />
+								</s:SpinnerListContainer>
+							</mx:FormItem>
+
+							<mx:FormItem label="Any problems flushing?">
+								<s:RadioButton groupName="bowelFlushProbGroup" id="optionBowelFlushProbYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
+								<s:RadioButton groupName="bowelFlushProbGroup" id="optionBowelFlushProbNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							</mx:FormItem>
+
+							<mx:FormItem label="Education:">
+								<s:Button label="Launch Education Materials" click="educationButton_clickHandler(event);"/>
+							</mx:FormItem>
+
+						</mx:Form>
+
+					</s:Group>
+
+				</s:Scroller>
+
+			</s:Panel>
+
+		</s:HGroup>
+	</s:Panel>
+
 </tablet:TabletViewBase>

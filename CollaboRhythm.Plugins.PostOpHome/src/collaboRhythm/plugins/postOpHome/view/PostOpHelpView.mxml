@@ -1,0 +1,273 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+					   >
+
+	<fx:Declarations>
+		<!-- RadioButton Group Declarations -->
+		<s:RadioButtonGroup id="tempDeterGroup"/>
+		<s:RadioButtonGroup id="flushCathGroup"/>
+		<s:RadioButtonGroup id="painMedGroup"/>
+		<s:RadioButtonGroup id="vomitColorGroup"/>
+
+		<!-- Child felt better Alert -->
+		<fx:Component className="AlertBox">
+			<s:SkinnablePopUpContainer>
+				<s:Panel title="Education Materials" width="100%" height="100%">
+					<s:VGroup width="100%" horizontalAlign="center"
+							  paddingTop="20" gap="20">
+						<s:Label text="Did the child feel better?"/>
+						<s:Button label="Yes" click="close();"/><s:Button label="No" click="close();"/>
+					</s:VGroup>
+				</s:Panel>
+			</s:SkinnablePopUpContainer>
+		</fx:Component>
+
+		<!-- VGo Video Emulation -->
+		<fx:Component className="callVGo">
+			<s:SkinnablePopUpContainer>
+				<s:Panel title="Calling Clinician" width="100%" height="100%">
+					<s:VGroup width="100%" horizontalAlign="center"
+							  paddingTop="20" gap="20">
+						<s:Label text="Calling Clinician..."/>
+						<s:Button label="Cancel" click="close();"/>
+					</s:VGroup>
+				</s:Panel>
+			</s:SkinnablePopUpContainer>
+		</fx:Component>
+
+		<!-- Callout For Education Materials -->
+		<s:Callout id="callout" height="350" horizontalPosition="middle" mouseDownOutside="callout.close()">
+			<s:VGroup paddingTop="10" paddingBottom="10" paddingLeft="10" paddingRight="10" horizontalAlign="center">
+				<s:Label text="Education Materials" fontWeight="bold" fontSize="30" color="0xAA0D0A"/>
+				<s:TextArea text="Bladder augmentation with pieces of bowel is a good treatment for spina bifida, but unfortunately the bowel sewn into the bladder wall still thinks that it is bowel. That means that it will continue to make mucus, which can plug up the catheter that drains the bladder. When the bladder can’t drain, it fills up with urine, which stretches the bowel segment, and can cause belly pain. If this is the problem, it can be relieved by flushing the catheter with fluid to unclog it, and allow the bladder to drain. A large quantity of urine should come out, and the belly pain start to lessen." width="80%" height="175" editable="false"/>
+				<s:Label text="Did the child feel better?"/>
+				<s:Button label="Yes" click=""/><s:Button label="No" click=""/>
+			</s:VGroup>
+		</s:Callout>
+
+	</fx:Declarations>
+
+
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+	</fx:Style>
+
+	<fx:Script>
+		<![CDATA[
+
+			import mx.managers.PopUpManager;
+
+			<!-- Popup Education Materials -->
+			protected function educationButton_clickHandler(event:MouseEvent):void
+			{
+				// Create an instance of AlertBox.
+				var alert:AlertBox = new AlertBox();
+				alert.open(this, true);
+
+				// Increase the width and height.
+				alert.width += 100;
+				alert.height += 100;
+
+				// Center the pop-up in the parent container.
+				PopUpManager.centerPopUp(alert);
+			}
+
+
+			<!--VGo Video Emulation -->
+			protected function vGoButton_clickHandler(event:MouseEvent):void
+			{
+				// Create an instance of AlertBox.
+				var alert3:callVGo = new callVGo();
+				alert3.open(this, true);
+
+				// Increase the width and height.
+				alert3.width += 300;
+				alert3.height += 250;
+
+				// Center the pop-up in the parent container.
+				PopUpManager.centerPopUp(alert3);
+			}
+
+		]]>
+	</fx:Script>
+
+	<s:Panel id="mainPanel"
+				 width="100%" height="100%"
+				 title="Help">
+
+		<s:layout>
+			<s:VerticalLayout paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10"/>
+		</s:layout>
+
+		<s:Label width="100%" color="0x323232" textAlign="center"
+			                 text="What's wrong?"/>
+
+		<mx:LinkBar color="0x0050AA" horizontalAlign="center" width="100%" fontWeight="bold"
+					dataProvider="{myViewStack}" borderColor="0xACACAC" borderStyle="solid"/>
+
+		<!-- Define the ViewStack and the three child containers -->
+		<mx:ViewStack id="myViewStack" borderStyle="solid" width="100%" height="80%" color="0x323232">
+
+			<s:NavigatorContent id="vomitting" label="Vomiting" backgroundColor="0xDCDCDC" fontWeight="bold">
+				<s:layout>
+					<s:VerticalLayout horizontalAlign="center"/>
+				</s:layout>
+
+				<s:Label text="Vomiting" width="100%" textAlign="center" paddingTop="10"/>
+
+				<s:Scroller width="100%" height="100%">
+									<s:Group width="100%" height="100%">
+
+										<mx:Form x="50" y="50"
+												verticalGap="15">
+
+											<mx:FormItem label="Temperature:">
+												<mx:TextInput id="temperature"/>
+												<s:Label text="A fever is a temperature over 100.4 degrees F or 38 degrees C." width="100%" textAlign="right" paddingTop="10"/>
+											</mx:FormItem>
+
+											<mx:FormItem label="Temperature determined by:">
+												<s:RadioButton groupName="tempDeterGroup" id="optionHandOnHead" label="Hand on head" skinClass="spark.skins.mobile.RadioButtonSkin" />
+												<s:RadioButton groupName="tempDeterGroup" id="optionTympanic" label="Tympanic" skinClass="spark.skins.mobile.RadioButtonSkin" />
+												<s:RadioButton groupName="tempDeterGroup" id="optionRectal" label="Rectal" skinClass="spark.skins.mobile.RadioButtonSkin" />
+												<s:RadioButton groupName="tempDeterGroup" id="optionOral" label="Oral" skinClass="spark.skins.mobile.RadioButtonSkin" />
+											</mx:FormItem>
+
+											<mx:FormItem label="Have you flushed the catheter?">
+												<s:RadioButton groupName="flushCathGroup" id="optionFlushCathYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin"  click="educationButton_clickHandler(event);"/>
+												<s:RadioButton groupName="flushCathGroup" id="optionFlushCathNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" click="callout.open(optionFlushCathNo)"/>
+											</mx:FormItem>
+
+											<mx:FormItem label="Education Materials">
+												<s:Label id="lbl" click="callout.open(lbl)" text="Learn more about flushing the catheter" width="100%" textAlign="right" paddingTop="10"/>
+											</mx:FormItem>
+
+											<mx:FormItem label="Last Pain Medication:">
+												<s:RadioButton groupName="painMedGroup" id="optionOxy" label="Oxycodone" skinClass="spark.skins.mobile.RadioButtonSkin" />
+												<s:RadioButton groupName="painMedGroup" id="optionTylenol" label="Tylenol" skinClass="spark.skins.mobile.RadioButtonSkin" />
+												<s:RadioButton groupName="painMedGroup" id="optionMotrin" label="Motrin" skinClass="spark.skins.mobile.RadioButtonSkin" />
+											</mx:FormItem>
+
+											<mx:FormItem label="How much was given (mg)?">
+												<mx:TextInput id="howMuch"/>
+											</mx:FormItem>
+
+											<mx:FormItem label="What time was it given?">
+												<s:DateSpinner id="medTime"
+															   minDate="{new Date(new Date().getTime() - 1000*60*60*24*3)}"
+															   maxDate="{new Date(new Date().getTime() + 1000*60*60*24*7)}"
+															   displayMode="dateAndTime"
+															   skinClass="spark.skins.mobile.DateSpinnerSkin"
+															   />
+											</mx:FormItem>
+
+											<mx:FormItem label="What color was the vomit?">
+												<s:RadioButton groupName="vomitColorGroup" id="optionGreen" label="Green"
+															   skinClass="spark.skins.mobile.RadioButtonSkin"/>
+												<s:RadioButton groupName="vomitColorGroup" id="optionBrown"
+															   label="Brown"
+															   skinClass="spark.skins.mobile.RadioButtonSkin"/>
+												<s:RadioButton groupName="vomitColorGroup" id="optionBlood" label="Included Blood"
+															   skinClass="spark.skins.mobile.RadioButtonSkin"/>
+											</mx:FormItem>
+
+											<s:Button label="Call Clinician" click="vGoButton_clickHandler(event)"/>
+
+
+										</mx:Form>
+									</s:Group>
+
+								</s:Scroller>
+
+
+
+
+			</s:NavigatorContent>
+
+			<s:NavigatorContent id="extremePain" label="Extreme Pain" backgroundColor="0xDCDCDC" width="100%"
+								height="100%">
+
+				<s:layout>
+					<s:VerticalLayout horizontalAlign="center"/>
+				</s:layout>
+
+				<s:Label text="Extreme Pain" width="100%" textAlign="center" paddingTop="10"/>
+
+
+			</s:NavigatorContent>
+
+			<s:NavigatorContent id="blood" label="Concerning Blood and/or Wound Issue" backgroundColor="0xDCDCDC" width="100%"
+								height="100%" fontWeight="bold">
+
+				<s:layout>
+					<s:VerticalLayout horizontalAlign="center"/>
+				</s:layout>
+
+				<s:Label text="Concerning Blood and/or Wound Issue" width="100%" textAlign="center" paddingTop="10"/>
+
+			</s:NavigatorContent>
+
+
+			<s:NavigatorContent id="fever" label="Fever and/or Chills" backgroundColor="0xDCDCDC" width="100%"
+								height="100%" fontWeight="bold">
+
+				<s:layout>
+					<s:VerticalLayout horizontalAlign="center"/>
+				</s:layout>
+
+				<s:Label text="Fever and/or Chills" width="100%" textAlign="center" paddingTop="10"/>
+
+			</s:NavigatorContent>
+
+			<s:NavigatorContent id="mental" label="Mental Status Change" backgroundColor="0xDCDCDC" width="100%"
+								height="100%" fontWeight="bold">
+
+				<s:layout>
+					<s:VerticalLayout horizontalAlign="center"/>
+				</s:layout>
+
+				<s:Label text="Mental Status Change" width="100%" textAlign="center" paddingTop="10"/>
+
+			</s:NavigatorContent>
+
+
+
+			<s:NavigatorContent id="something" label="Something Else" backgroundColor="0xDCDCDC" width="100%"
+								height="100%" fontWeight="bold">
+
+				<s:layout>
+					<s:VerticalLayout horizontalAlign="center"/>
+				</s:layout>
+
+				<s:Label text="Something Else" width="100%" textAlign="center" paddingTop="10"/>
+
+			</s:NavigatorContent>
+
+		</mx:ViewStack>
+
+
+	</s:Panel>
+
+
+</tablet:TabletViewBase>
+

@@ -50,7 +50,7 @@
 				/>
 	</view:backgroundContent>
 	<fx:Script><![CDATA[
-		import collaboRhythm.shared.apps.healthCharts.model.SimulationModel;
+		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 
 		import mx.core.Application;
 		import mx.core.FlexGlobals;
@@ -81,11 +81,11 @@
 
 			// limit the number of plugs to 2x the number of gaps
 			this.plugRatio = Math.min(SimulationModel.maxPlugRatio,
-					concentration / SimulationModel.HYDROCHLOROTHIAZIDE_GOAL);
+									  concentration / SimulationModel.HYDROCHLOROTHIAZIDE_GOAL);
 
 			this.soluteInBloodRatioAnimated = linearTransform(concentration, 0,
-					SimulationModel.HYDROCHLOROTHIAZIDE_GOAL, 0.95,
-					0.05);
+															  SimulationModel.HYDROCHLOROTHIAZIDE_GOAL, 0.95,
+															  0.05);
 
 //			// TODO: move the bloodAreaPercentWidth in a more appropriate way
 //			this.bloodAreaPercentWidthAnimated = linearTransform(concentration, 0,

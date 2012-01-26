@@ -15,7 +15,8 @@
 		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
 
 		public var scheduleItemViewAdapterType:String;
-
+		public var scheduleItemViewAdapterName:String;
+		
 		public function init(scheduleItemOccurrence:ScheduleItemOccurrence, scheduleModel:ScheduleModel):void
 		{
 			_scheduleItemOccurrence = scheduleItemOccurrence;
@@ -23,9 +24,11 @@
 			var scheduleItemOccurrenceReportingViewAdapter:IHealthActionListViewAdapter = scheduleModel.healthActionListViewAdapterFactory.createScheduledHealthActionViewAdapter(_scheduleItemOccurrence,
 					scheduleModel);
 			scheduleItemViewAdapterType = scheduleItemOccurrenceReportingViewAdapter.type;
+			scheduleItemViewAdapterName = scheduleItemOccurrenceReportingViewAdapter.name;
 
 			var image:Image = scheduleItemOccurrenceReportingViewAdapter.image;
-			initImage(image);
+			if (image)
+				initImage(image);
 		}
 
 		public function initImage(image:Image):void{

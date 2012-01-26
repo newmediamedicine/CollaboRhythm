@@ -30,20 +30,20 @@
 		<![CDATA[
 		import collaboRhythm.plugins.bloodPressure.controller.BloodPressureAppController;
 		import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
-		import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
+		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 
 		import mx.events.PropertyChangeEvent;
 
 		[Bindable]
-		private var _model:HealthChartsModel;
+		private var _model:BloodPressureModel;
 		private var _currentPerformanceModel:AdherencePerformanceModel;
 
-		public function get model():HealthChartsModel
+		public function get model():BloodPressureModel
 		{
 			return _model;
 		}
 
-		public function set model(value:HealthChartsModel):void
+		public function set model(value:BloodPressureModel):void
 		{
 			_model = value;
 			refresh();

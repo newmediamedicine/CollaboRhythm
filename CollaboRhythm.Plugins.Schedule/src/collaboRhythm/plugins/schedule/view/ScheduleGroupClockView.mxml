@@ -174,7 +174,7 @@
 					case "Pain Report":
 						containsDoc = true;
 						break;
-					case "Food / Drink":
+					case "Intake":
 						containsDoc = true;
 						break;
 					case "Equipment": // for testing purposes with existing data
@@ -184,6 +184,7 @@
 						break;
 				}
 
+
 				trace("type: " + type);
 			}
 
@@ -192,11 +193,11 @@
 			image.setStyle("skinClass", ImageSkin);
 
 			if(containsMeds){
-				if(containsBathroom){
-					image.source = bathroomPillImage;
-				}
-				else if(containsDoc){
+				if(containsDoc){
 					image.source = chartPillImage;
+				}
+				else if(containsBathroom){
+					image.source = bathroomPillImage;
 				}
 				else{
 					image.source = pillImage;

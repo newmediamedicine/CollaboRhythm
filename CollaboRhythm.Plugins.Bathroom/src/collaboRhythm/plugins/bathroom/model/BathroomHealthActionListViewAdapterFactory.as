@@ -16,14 +16,15 @@ package collaboRhythm.plugins.bathroom.model
 
 		public function createUnscheduledHealthActionViewAdapters(record:Record, adapters:ArrayCollection):void
 		{
-			adapters.addItem(new BathroomHealthActionListViewAdapter());
+			adapters.addItem(new BathroomHealthActionListViewAdapter(null,
+					null));
 		}
 
 		public function createScheduledHealthActionViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
 															   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
 															   currentHealthActionListViewAdapter:IHealthActionListViewAdapter):IHealthActionListViewAdapter
 		{
-			return null;
+			return new BathroomHealthActionListViewAdapter(scheduleItemOccurrence, healthActionModelDetailsProvider);
 		}
 	}
 }
