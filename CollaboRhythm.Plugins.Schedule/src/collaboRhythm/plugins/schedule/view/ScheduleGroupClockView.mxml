@@ -67,7 +67,7 @@
 		[Embed (source="/assets/images/bathroom.png" )]
   		public static const bathroomImage:Class;
 
-		[Embed (source="/assets/images/bathroom pill.png" )]
+		[Embed (source="/assets/images/bathroompill.png" )]
   		public static const bathroomPillImage:Class;
 
 		[Embed (source="/assets/images/chartpill.png" )]
