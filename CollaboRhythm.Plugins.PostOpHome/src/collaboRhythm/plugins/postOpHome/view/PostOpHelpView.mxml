@@ -48,6 +48,10 @@
 					<s:VGroup width="100%" horizontalAlign="center"
 							  paddingTop="20" gap="20">
 						<s:Label text="Calling Clinician..."/>
+						<mx:Image y="0"
+								  id="vgoPatientDisplay"
+								  source="@Embed(source='/assets/vgoPatientDisplay.png')"
+								  />
 						<s:Button label="Cancel" click="close();"/>
 					</s:VGroup>
 				</s:Panel>
@@ -111,7 +115,7 @@
 
 				// Increase the width and height.
 				alert3.width += 300;
-				alert3.height += 250;
+				alert3.height += 50;
 
 				// Center the pop-up in the parent container.
 				PopUpManager.centerPopUp(alert3);
