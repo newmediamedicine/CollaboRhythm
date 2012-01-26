@@ -18,13 +18,13 @@ package collaboRhythm.plugins.bloodPressure.view
 {
 
 	import collaboRhythm.plugins.bloodPressure.controller.BloodPressureAppController;
-	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
+	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
 
 	public interface IBloodPressureWidgetView
 	{
-		function get model():BloodPressureModel;
+		function get model():HealthChartsModel;
 
-		function set model(value:BloodPressureModel):void;
+		function set model(value:HealthChartsModel):void;
 
 		function refresh():void;
 

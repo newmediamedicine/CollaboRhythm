@@ -17,7 +17,7 @@
 package collaboRhythm.shared.model
 {
 
-	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
+	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
@@ -70,8 +70,8 @@ package collaboRhythm.shared.model
 		private var _vitalSignsModel:VitalSignsModel;
 		private var _newRelationships:ArrayCollection = new ArrayCollection(); // of Relationship instances that have not been persisted
 
-		// TODO: move BloodPressureModel to blood pressure plugin; eliminate bloodPressureModel property and field; use appData instead
-		private var _bloodPressureModel:BloodPressureModel;
+		// TODO: move HealthChartsModel to blood pressure plugin; eliminate healthChartsModel property and field; use appData instead
+		private var _healthChartsModel:HealthChartsModel;
 		private var _storageService:IRecordStorageService;
 		private var _isLoading:Boolean;
 		private var _isSaving:Boolean;
@@ -317,15 +317,15 @@ package collaboRhythm.shared.model
 			addDocumentCollection(value);
 		}
 
-		// TODO: move BloodPressureModel to blood pressure plugin; eliminate bloodPressureModel property and field; use appData instead
-		public function get bloodPressureModel():BloodPressureModel
+		// TODO: move HealthChartsModel to blood pressure plugin; eliminate healthChartsModel property and field; use appData instead
+		public function get healthChartsModel():HealthChartsModel
 		{
-			return _bloodPressureModel;
+			return _healthChartsModel;
 		}
 
-		public function set bloodPressureModel(value:BloodPressureModel):void
+		public function set healthChartsModel(value:HealthChartsModel):void
 		{
-			_bloodPressureModel = value;
+			_healthChartsModel = value;
 		}
 
 		/**

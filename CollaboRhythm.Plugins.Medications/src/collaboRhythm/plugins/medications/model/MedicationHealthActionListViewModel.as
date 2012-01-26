@@ -1,6 +1,5 @@
 package collaboRhythm.plugins.medications.model
 {
-
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionListViewModelBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
@@ -19,27 +18,39 @@ package collaboRhythm.plugins.medications.model
 		private var _currentDateSource:ICurrentDateSource;
 
 		public function MedicationHealthActionListViewModel(scheduleItemOccurrence:ScheduleItemOccurrence,
-															healthActionModelDetailsProvider:IHealthActionModelDetailsProvider)
+															healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+															medicationOrder:MedicationOrder = null)
 		{
 			super(scheduleItemOccurrence, healthActionModelDetailsProvider);
 
-			_medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
-			_medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
+			if (scheduleItemOccurrence)
+			{
+				_medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
+				_medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
+			}
+			else
+			{
+				_medicationOrder = medicationOrder;
+			}
 
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
 
 		override public function createHealthActionResult():void
 		{
-			var medicationAdministration:MedicationAdministration = new MedicationAdministration();
-			medicationAdministration.init(_medicationOrder.name, healthActionInputModelDetailsProvider.accountId,
-					_currentDateSource.now(), _currentDateSource.now(),
-					_medicationScheduleItem.dose);
+			if (_medicationScheduleItem)
+			{
+				var medicationAdministration:MedicationAdministration = new MedicationAdministration();
+				medicationAdministration.init(_medicationOrder.name, healthActionInputModelDetailsProvider.accountId,
+						_currentDateSource.now(), _currentDateSource.now(),
+						_medicationScheduleItem.dose);
 
-			var adherenceResults:Vector.<DocumentBase> = new Vector.<DocumentBase>();
-			adherenceResults.push(medicationAdministration);
-			scheduleItemOccurrence.createAdherenceItem(adherenceResults, healthActionInputModelDetailsProvider.record,
-					healthActionInputModelDetailsProvider.accountId);
+				var adherenceResults:Vector.<DocumentBase> = new Vector.<DocumentBase>();
+				adherenceResults.push(medicationAdministration);
+				scheduleItemOccurrence.createAdherenceItem(adherenceResults,
+						healthActionInputModelDetailsProvider.record,
+						healthActionInputModelDetailsProvider.accountId);
+			}
 		}
 	}
 }

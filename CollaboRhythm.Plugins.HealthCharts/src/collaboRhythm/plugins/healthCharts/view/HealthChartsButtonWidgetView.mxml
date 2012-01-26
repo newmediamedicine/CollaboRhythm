@@ -21,18 +21,18 @@
 	<fx:Script>
 		<![CDATA[
 		import collaboRhythm.plugins.healthCharts.controller.HealthChartsAppController;
-		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
+		import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
 
 		public static const red:uint = 0xED1C24;
 		public static const orange:uint = 0xF7941E;
 		public static const green:uint = 0x00A651;
 
 		[Bindable]
-		private var _model:BloodPressureModel;
+		private var _model:HealthChartsModel;
 		private var _controller:HealthChartsAppController;
 
 		public function init(healthChartsAppController:HealthChartsAppController,
-							 healthChartsModel:BloodPressureModel):void
+							 healthChartsModel:HealthChartsModel):void
 		{
 			_controller = healthChartsAppController;
 		}

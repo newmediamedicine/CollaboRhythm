@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--~
+  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<IndivoDocuments>
+	<BloodPressureAdherenceItem>
+		<name>Chameleon</name>
+		<instructions>Measure you Peak Expiratory Flow Rate by blowing into the device</instructions>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-15T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<peakFlow>299</peakFlow>
+		<equipmentType>spirometer</equipmentType>
+		<pollenCount>2.3</pollenCount>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Chameleon</name>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-16T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<peakFlow>301</peakFlow>
+		<pollenCount>2.5</pollenCount>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Chameleon</name>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-17T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<peakFlow>298</peakFlow>
+		<pollenCount>3.3</pollenCount>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Chameleon</name>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-18T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<peakFlow>300</peakFlow>
+		<pollenCount>4.0</pollenCount>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Chameleon</name>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-19T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<peakFlow>297</peakFlow>
+		<pollenCount>1.2</pollenCount>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Chameleon</name>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-20T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<peakFlow>301</peakFlow>
+		<pollenCount>5.1</pollenCount>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Chameleon</name>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-21T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<peakFlow>295</peakFlow>
+		<pollenCount>6.0</pollenCount>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Chameleon</name>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-22T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<peakFlow>270</peakFlow>
+		<pollenCount>7.6</pollenCount>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Chameleon</name>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-23T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<peakFlow>250</peakFlow>
+		<pollenCount>6.6</pollenCount>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Chameleon</name>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-24T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<peakFlow>220</peakFlow>
+		<pollenCount>5.5</pollenCount>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Chameleon</name>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-25T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<peakFlow>210</peakFlow>
+		<pollenCount>8.1</pollenCount>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Chameleon</name>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-26T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<peakFlow>200</peakFlow>
+		<pollenCount>5.5</pollenCount>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Chameleon</name>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-27T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<peakFlow>250</peakFlow>
+		<pollenCount>7.8</pollenCount>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>Chameleon</name>
+		<reportedBy>odavis@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-28T20:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<peakFlow>285</peakFlow>
+		<pollenCount>7.0</pollenCount>
+	</BloodPressureAdherenceItem>
+</IndivoDocuments>

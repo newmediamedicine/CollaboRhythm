@@ -19,6 +19,8 @@
 	<BloodPressureAdherenceItem>
 		<name>Intake</name>
 		<instructions>Intake documentation</instructions>
+		<scheduleDateStart>2011-07-17T07:30:00Z</scheduleDateStart>
+		<scheduleDateEnd>2011-07-17T08:30:00Z</scheduleDateEnd>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-17T14:57:00Z</dateReported>
 		<adherence>true</adherence>
