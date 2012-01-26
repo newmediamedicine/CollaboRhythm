@@ -671,11 +671,9 @@ package collaboRhythm.shared.ui.healthCharts.view
 				}
 
 				var medicationCode:String = chart.getStyle("medicationCode");
-				var medicationModel:MedicationComponentAdherenceModel = model.focusSimulation.getMedication(medicationCode);
 
 				var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
-				verticalAxis.minimum = 0;
-//				verticalAxis.maximum = medicationModel.concentrationAxisMaximum;
+				verticalAxis.minimum = NaN;
 				verticalAxis.maximum = NaN;
 
 				var ndcCode:String = chart.getStyle("ndcCode");
@@ -709,12 +707,9 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 				if (chart.rangeChart)
 				{
-					var medicationCode:String = chart.getStyle("medicationCode");
-					var medicationModel:MedicationComponentAdherenceModel = model.focusSimulation.getMedication(medicationCode);
-
 					verticalAxis = chart.rangeChart.verticalAxis as LinearAxis;
-					verticalAxis.minimum = 0;
-					verticalAxis.maximum = medicationModel.concentrationAxisMaximum;
+					verticalAxis.minimum = NaN;
+					verticalAxis.maximum = NaN;
 				}
 			}
 		}
@@ -738,8 +733,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 				var vitalSignKey:String = chart.getStyle("vitalSignKey");
 
 				var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
-				verticalAxis.minimum = 0;
-//				verticalAxis.maximum = 200;
+				verticalAxis.minimum = NaN;
 				verticalAxis.maximum = NaN;
 				
 				chart.removeDefaultSeries();
@@ -774,8 +768,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 				if (chart.rangeChart)
 				{
 					verticalAxis = chart.rangeChart.verticalAxis as LinearAxis;
-					verticalAxis.minimum = 0;
-					verticalAxis.maximum = 201;
+					verticalAxis.minimum = NaN;
+					verticalAxis.maximum = NaN;
 				}
 			}
 		}

@@ -32,7 +32,7 @@ package collaboRhythm.shared.apps.healthCharts.model
 		private var _stepsProvider:IStepsProvider;
 		private var _goalConcentrationMinimum:Number = 0.05;
 		private var _goalConcentrationMaximum:Number = 0.35;
-		private var _concentrationAxisMaximum:Number = 0.4;
+		private var _concentrationAxisMaximum:Number = NaN;
 		private var _medicationScheduleItem:MedicationScheduleItem;
 
 		private var _concentration:Number;
