@@ -20,6 +20,8 @@
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="849582">Trimethoprim 80 MG Oral Tablet [Bactrim]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<scheduleDateStart>2011-07-15T07:30:00Z</scheduleDateStart>
+		<scheduleDateEnd>2011-07-15T08:30:00Z</scheduleDateEnd>
 		<dateReported>2011-07-15T08:00:00Z</dateReported>
 		<adherence>true</adherence>
 		<ndc>1331014601</ndc>

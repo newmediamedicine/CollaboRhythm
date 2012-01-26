@@ -22,10 +22,10 @@
 		<scheduleDateStart>2011-07-15T07:30:00Z</scheduleDateStart>
 		<scheduleDateEnd>2011-07-15T08:30:00Z</scheduleDateEnd>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-15T08:00:00Z</dateReported>
+		<dateReported>2011-07-15T08:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<ndc>5486823371</ndc>
-		<indication>bowel preperation</indication>
+		<indication>bowel preparation</indication>
 		<recurrenceFrequency>HOURLY</recurrenceFrequency>
 		<recurrenceInterval>12</recurrenceInterval>
 		<recurrenceCount>180</recurrenceCount>
@@ -34,168 +34,168 @@
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-15T20:00:00Z</dateReported>
+		<dateReported>2011-07-15T20:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>1</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-16T08:00:00Z</dateReported>
+		<dateReported>2011-07-16T08:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>2</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-16T20:00:00Z</dateReported>
+		<dateReported>2011-07-16T20:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>3</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-17T08:00:00Z</dateReported>
+		<dateReported>2011-07-17T08:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>4</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-17T20:00:00Z</dateReported>
+		<dateReported>2011-07-17T20:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>5</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-18T08:00:00Z</dateReported>
+		<dateReported>2011-07-18T08:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>6</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-18T20:00:00Z</dateReported>
+		<dateReported>2011-07-18T20:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>7</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-19T08:00:00Z</dateReported>
+		<dateReported>2011-07-19T08:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>8</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-19T20:00:00Z</dateReported>
+		<dateReported>2011-07-19T20:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>9</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-20T08:00:00Z</dateReported>
+		<dateReported>2011-07-20T08:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>10</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-20T20:00:00Z</dateReported>
+		<dateReported>2011-07-20T20:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>11</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-21T08:00:00Z</dateReported>
+		<dateReported>2011-07-21T08:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>12</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-21T20:00:00Z</dateReported>
+		<dateReported>2011-07-21T20:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>13</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-22T08:00:00Z</dateReported>
+		<dateReported>2011-07-22T08:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>14</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-22T20:00:00Z</dateReported>
+		<dateReported>2011-07-22T20:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>15</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-23T08:00:00Z</dateReported>
+		<dateReported>2011-07-23T08:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>16</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-23T20:00:00Z</dateReported>
+		<dateReported>2011-07-23T20:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>17</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-24T08:00:00Z</dateReported>
+		<dateReported>2011-07-24T08:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>18</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-24T20:00:00Z</dateReported>
+		<dateReported>2011-07-24T20:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>19</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-25T08:00:00Z</dateReported>
+		<dateReported>2011-07-25T08:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>20</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-25T20:00:00Z</dateReported>
+		<dateReported>2011-07-25T20:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>21</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-26T08:00:00Z</dateReported>
+		<dateReported>2011-07-26T08:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>22</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-26T20:00:00Z</dateReported>
+		<dateReported>2011-07-26T20:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>23</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-27T08:00:00Z</dateReported>
+		<dateReported>2011-07-27T08:30:00Z</dateReported>
 		<adherence>true</adherence>
 		<recurrenceIndex>24</recurrenceIndex>
 	</AdherenceItem>

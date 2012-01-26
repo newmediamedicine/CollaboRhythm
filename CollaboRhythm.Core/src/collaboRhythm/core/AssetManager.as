@@ -21,7 +21,7 @@ package collaboRhythm.core
 //		[Embed(systemFont='Verdana', fontName="Verdana", mimeType="application/x-font-truetype")]
 //		public static const FONT_VERDANA:String;
 
-		[Embed(source="C:\\WINDOWS\\Fonts\\verdana.ttf", fontName="Verdana", mimeType="application/x-font-truetype")]
+		[Embed(source="/Library/Fonts/Microsoft/Verdana.ttf", fontName="Verdana", mimeType="application/x-font-truetype")]
 		public static const FONT_VERDANA:String;
 		
 //		[Embed(systemFont='Myriad Pro', fontName="Myriad Pro", mimeType="application/x-font-truetype")]

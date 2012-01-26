@@ -103,8 +103,8 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
-		import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
-		import collaboRhythm.shared.apps.healthCharts.model.SimulationModel;
+		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
+		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 		import collaboRhythm.shared.view.BitmapCopyComponent;
 		import collaboRhythm.simulation.view.*;
 
@@ -125,7 +125,7 @@
 		[Bindable]
 		private var _simulationModel:SimulationModel;
 		[Bindable]
-		private var _healthChartsModel:HealthChartsModel;
+		private var _bloodPressureModel:BloodPressureModel;
 
 		public function get isRunning():Boolean
 		{
@@ -138,15 +138,15 @@
 //			hydrochlorothiazideSimulationView.isRunning = value;
 		}
 
-		public function initializeModel(simulationModel:SimulationModel, healthChartsModel:HealthChartsModel):void
+		public function initializeModel(simulationModel:SimulationModel, bloodPressureModel:BloodPressureModel):void
 		{
 			_simulationModel = simulationModel;
-			_healthChartsModel = healthChartsModel;
+			_bloodPressureModel = bloodPressureModel;
 		}
 
 		public function refresh():void
 		{
-			if (_healthChartsModel.showAdherence == true)
+			if (_bloodPressureModel.showAdherence == true)
 			{
 			}
 			else

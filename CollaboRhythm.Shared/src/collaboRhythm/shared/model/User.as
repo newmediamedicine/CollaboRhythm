@@ -16,7 +16,7 @@
  */
 package collaboRhythm.shared.model
 {
-	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
+	import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 
 	import collaboRhythm.shared.model.healthRecord.IDocumentMetadata;
 
@@ -60,7 +60,7 @@ package collaboRhythm.shared.model
 		private var _netStream:NetStream;
 		private var _collaborationColor:String = "0xFFFFFF";
 		
-		private var _bloodPressureModel:HealthChartsModel = new HealthChartsModel();
+		private var _bloodPressureModel:BloodPressureModel = new BloodPressureModel();
 		
 		private var _appData:HashMap = new HashMap();
 		private var _documentsById:HashMap = new HashMap();
@@ -167,12 +167,12 @@ package collaboRhythm.shared.model
 			_collaborationColor = value;
 		}
 
-		public function get bloodPressureModel():HealthChartsModel
+		public function get bloodPressureModel():BloodPressureModel
 		{
 			return _bloodPressureModel;
 		}
 
-		public function set bloodPressureModel(bloodPressureModel:HealthChartsModel):void
+		public function set bloodPressureModel(bloodPressureModel:BloodPressureModel):void
 		{
 			_bloodPressureModel = bloodPressureModel;
 		}

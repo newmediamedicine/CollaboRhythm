@@ -11,6 +11,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		function get description():String;
 		function get indication():String;
 		function get instructions():String;
+		function get type():String;
 
 		function get model():IHealthActionListViewModel
 		function get controller():IHealthActionListViewController

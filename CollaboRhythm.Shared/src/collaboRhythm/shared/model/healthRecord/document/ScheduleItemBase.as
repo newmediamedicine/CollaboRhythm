@@ -46,11 +46,13 @@ package collaboRhythm.shared.model.healthRecord.document
 		 */
 		public static const RELATION_TYPE_SCHEDULE_ITEM:String = "http://indivo.org/vocab/documentrels#scheduleItem";
 
-		public static const DAILY:String = "DAILY";
 
+		public static const DAILY:String = "DAILY";
+		public static const HOURLY:String = "HOURLY";
 		private static const MILLISECONDS_IN_HOUR:Number = 1000 * 60 * 60;
 		private static const MILLISECONDS_IN_DAY:Number = 1000 * 60 * 60 * 24;
 
+		private var _currentDateSource:ICurrentDateSource;
 		private var _scheduleItemXml:XML;
 		private var _name:CodedValue;
 		private var _scheduledBy:String;
@@ -58,12 +60,11 @@ package collaboRhythm.shared.model.healthRecord.document
 		private var _dateStart:Date;
 		private var _dateEnd:Date;
 		private var _recurrenceRule:RecurrenceRule;
+
 		private var _instructions:String;
 
 		private var _adherenceItems:HashMap = new HashMap();
-
 		private var _logger:ILogger;
-		private var _currentDateSource:ICurrentDateSource;
 
 		public function ScheduleItemBase():void
 		{
@@ -153,10 +154,14 @@ package collaboRhythm.shared.model.healthRecord.document
 		private function getFrequencyMilliseconds(frequency:String):int
 		{
 			var frequencyMilliseconds:int;
+			//TODO: Refactor so that this works for all recurrence intervals
 			switch (frequency)
 			{
 				case DAILY:
 					frequencyMilliseconds = MILLISECONDS_IN_DAY;
+					break;
+				case HOURLY:
+					frequencyMilliseconds = MILLISECONDS_IN_HOUR;
 					break;
 			}
 			return frequencyMilliseconds;
@@ -189,7 +194,12 @@ package collaboRhythm.shared.model.healthRecord.document
 		{
 			//TODO: Implement for the case that the recurrence rule uses until instead of count
 			var scheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
-			var frequencyMilliseconds:int = getFrequencyMilliseconds(_recurrenceRule.frequency.text);
+			var interval:CodedValue = _recurrenceRule.interval;
+			var frequencyMilliseconds:int;
+			if (interval)
+				frequencyMilliseconds = getFrequencyMilliseconds(_recurrenceRule.frequency.text) * int(_recurrenceRule.interval.text);
+			else
+				frequencyMilliseconds = getFrequencyMilliseconds(_recurrenceRule.frequency.text);
 			var excludeOccurrencesBecauseReplaced:int = -1;
 			for (var recurrenceIndex:int = 0; recurrenceIndex < _recurrenceRule.count; recurrenceIndex++)
 			{
