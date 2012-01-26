@@ -57,6 +57,8 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="CollaboRhythm.Plugins.Schedule" />
+    <orderEntry type="module" module-name="McCuneChart" />
   </component>
 </module>
 

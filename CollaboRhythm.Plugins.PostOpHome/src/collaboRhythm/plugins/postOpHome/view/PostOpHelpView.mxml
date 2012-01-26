@@ -78,8 +78,17 @@
 
 	<fx:Script>
 		<![CDATA[
+		import collaboRhythm.plugins.postOpHome.controller.PostOpHelpAppController;
+		import collaboRhythm.plugins.postOpHome.model.PostOpHomeModel;
+		import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
 
-			import mx.managers.PopUpManager;
+		import mx.managers.PopUpManager;
+
+			public function init(postOpHelpAppController:PostOpHelpAppController, videoMessagesModel:PostOpHomeModel,
+										 _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService,
+										 accountId:String):void
+			{
+			}
 
 			<!-- Popup Education Materials -->
 			protected function educationButton_clickHandler(event:MouseEvent):void
