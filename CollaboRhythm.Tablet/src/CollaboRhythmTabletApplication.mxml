@@ -66,5 +66,19 @@
 		<mx:LineChart visible="false" includeInLayout="false"/>
 		<mx:AreaSeries visible="false" includeInLayout="false"/>
 		<mx:PlotSeries visible="false" includeInLayout="false"/>
+		<s:DateSpinner visible="false" includeInLayout="false"/>
+		<s:Callout visible="false" includeInLayout="false"/>
+		<mx:LinkBar visible="false" includeInLayout="false"/>
+		<mx:ViewStack visible="false" includeInLayout="false"/>
+		<s:NavigatorContent visible="false" includeInLayout="false"/>
+
+
+
+
+		<!--<s:TitleWindow visible="false" includeInLayout="false"/>-->
+		<!--<mx:TitleWindow visible="false" includeInLayout="false"/>-->
+
+
+
 	</s:navigationContent>
 </s:ViewNavigatorApplication>
