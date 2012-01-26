@@ -281,12 +281,19 @@
 
 		private function drawScheduleGroup(startAngle:Number, endAngle:Number):void
 		{
-			var arc:Number = endAngle - startAngle;
-
 			scheduleGroupWedge.graphics.clear();
 			scheduleGroupWedge.graphics.beginFill(0xFFFFFF, 0.5);
+
+
+			// check for case where startAngle and endAngle overlap midnight
+			if(endAngle < startAngle){
+				endAngle += 360;
+			}
+
+			var arc:Number = endAngle - startAngle;
+
 			Wedge.draw(scheduleGroupWedge, _scheduleGroupsContainer.width / 2, _scheduleGroupsContainer.width / 2,
-					_scheduleGroupsContainer.width / 2 - 1, arc, startAngle - 90);
+								_scheduleGroupsContainer.width / 2 - 1, arc, startAngle - 90);
 			scheduleGroupWedge.graphics.endFill();
 		}
 
@@ -298,6 +305,11 @@
 		private function determineScheduleItemPositions(scheduleItemSize:Number, startAngle:Number,
 														endAngle:Number):Array
 		{
+			// check for case where startAngle and endAngle overlap midnight
+			if(endAngle < startAngle){
+				endAngle += 360;
+			}
+
 			startAngle += 15;
 			var positionAngle:Number;
 			var totalAngle:Number = 15;
