@@ -21,7 +21,7 @@ package collaboRhythm.plugins.medications.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
-	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
+	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
@@ -33,13 +33,8 @@ package collaboRhythm.plugins.medications.model
 		{
 		}
 
-		public function createUnscheduledHealthActionViewAdapters(healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
-																  adapters:ArrayCollection):void
+		public function createUnscheduledHealthActionViewAdapters(record:Record, adapters:ArrayCollection):void
 		{
-			for each (var medicationOrder:MedicationOrder in healthActionModelDetailsProvider.record.medicationOrdersModel.medicationOrdersCollection)
-			{
-				adapters.addItem(new MedicationHealthActionListViewAdapter(null, healthActionModelDetailsProvider, medicationOrder));
-			}
 		}
 
 		public function createScheduledHealthActionViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
@@ -47,8 +42,7 @@ package collaboRhythm.plugins.medications.model
 															   currentHealthActionListViewAdapter:IHealthActionListViewAdapter):IHealthActionListViewAdapter
 		{
 			if (ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem) == MedicationScheduleItem)
-				return new MedicationHealthActionListViewAdapter(scheduleItemOccurrence,
-						healthActionModelDetailsProvider);
+				return new MedicationHealthActionListViewAdapter(scheduleItemOccurrence, healthActionModelDetailsProvider);
 			else
 				return currentHealthActionListViewAdapter;
 		}

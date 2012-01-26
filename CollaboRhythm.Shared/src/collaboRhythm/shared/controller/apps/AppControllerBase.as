@@ -1080,7 +1080,7 @@ package collaboRhythm.shared.controller.apps
 		 * Removes any references to user data owned by this app on the Record object.
 		 * This is called when closing the user/record and/or when closing or reloading the whole application.
 		 * <p>
-		 * Subclasses should override this method if they have added any data to the Record/Account, such as on Record.appData.
+		 * Subclasses should override this method if they have added any data to the Record/User, such as on Record.appData.
 		 */
 		protected function removeUserData():void
 		{

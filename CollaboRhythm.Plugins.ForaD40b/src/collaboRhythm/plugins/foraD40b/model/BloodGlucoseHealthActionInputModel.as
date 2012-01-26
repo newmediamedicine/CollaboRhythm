@@ -4,19 +4,12 @@ package collaboRhythm.plugins.foraD40b.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
-	import flash.net.URLVariables;
-
 	public class BloodGlucoseHealthActionInputModel extends HealthActionInputModelBase
-	{
-		public function BloodGlucoseHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence = null,
-														   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider = null)
-		{
+    {
+        public function BloodGlucoseHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence = null,
+        													healthActionModelDetailsProvider:IHealthActionModelDetailsProvider = null)
+        {
 			super(scheduleItemOccurrence, healthActionModelDetailsProvider);
-		}
-
-		override public function set urlVariables(value:URLVariables):void
-		{
-			_urlVariables = value;
-		}
-	}
+        }
+    }
 }

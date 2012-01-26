@@ -24,7 +24,8 @@
                         <frequency>DAILY</frequency>
                         <count>90</count>
                      </recurrenceRule>
-                     <instructions xmlns="">Use device to record blood pressure systolic and blood pressure diastolic readings. Heart rate will also be recorded. Press the power button and wait several seconds to take reading.</instructions>
+                     <instructions>press the power button and wait several seconds to take reading
+									</instructions>
                   </EquipmentScheduleItem>
                </document>
                <relatesTo>

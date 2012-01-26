@@ -48,6 +48,7 @@
                      <dateEnd>2011-07-15T17:00:00Z</dateEnd>
                      <recurrenceRule>
                         <frequency>DAILY</frequency>
+                        <interval>1</interval>
                         <count>90</count>
                      </recurrenceRule>
                      <dose>

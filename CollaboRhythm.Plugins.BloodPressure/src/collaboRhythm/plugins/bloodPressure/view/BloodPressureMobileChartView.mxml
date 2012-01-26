@@ -30,16 +30,16 @@
 			/>
 	<fx:Script>
 		<![CDATA[
-		import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
+		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 
 		import com.dougmccune.controls.ScrubChart;
 
-		public function get model():HealthChartsModel
+		public function get model():BloodPressureModel
 		{
 			return bloodPressureFullView.model;
 		}
 
-		public function set model(model:HealthChartsModel):void
+		public function set model(model:BloodPressureModel):void
 		{
 			bloodPressureFullView.model = model;
 		}

@@ -70,7 +70,7 @@
 	<fx:Script>
 		<![CDATA[
 		import collaboRhythm.plugins.bloodPressure.controller.BloodPressureAppController;
-		import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
+		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 
 		import mx.events.PropertyChangeEvent;
 
@@ -79,14 +79,14 @@
 		public static const green:uint = 0x00A651;
 
 		[Bindable]
-		private var _model:HealthChartsModel;
+		private var _model:BloodPressureModel;
 
-		public function get model():HealthChartsModel
+		public function get model():BloodPressureModel
 		{
 			return _model;
 		}
 
-		public function set model(value:HealthChartsModel):void
+		public function set model(value:BloodPressureModel):void
 		{
 			_model = value;
 			refresh();

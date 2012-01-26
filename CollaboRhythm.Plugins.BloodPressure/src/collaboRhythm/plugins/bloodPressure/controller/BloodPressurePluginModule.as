@@ -18,12 +18,13 @@ package collaboRhythm.plugins.bloodPressure.controller
 {
 	import castle.flexbridge.reflection.ReflectionUtils;
 
-	import collaboRhythm.plugins.bloodPressure.model.BloodPressureChartModifierFactory;
-	import collaboRhythm.shared.controller.apps.AppControllerInfo;
+	import collaboRhythm.plugins.schedule.shared.controller.ScheduleAppControllerInfo;
+
+//	import collaboRhythm.plugins.schedule.shared.controller.ScheduleAppControllerInfo;
 	import collaboRhythm.shared.controller.apps.AppOrderConstraint;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
-	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifierFactory;
+	import collaboRhythm.shared.controller.apps.AppControllerInfo;
 
 	import mx.modules.ModuleBase;
 
@@ -40,16 +41,20 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 			typeName = ReflectionUtils.getClassInfo(BloodPressureChartAppController).name;
 			var chartAppControllerInfo:AppControllerInfo = new AppControllerInfo(BloodPressureChartAppController);
-			componentContainer.registerComponentInstance(typeName, AppControllerInfo, chartAppControllerInfo);
+//			chartAppControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER,
+//																							  ScheduleAppControllerInfo.APP_ID));
+			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
+														 chartAppControllerInfo);
 
 			typeName = ReflectionUtils.getClassInfo(BloodPressureAppController).name;
 			var mainAppControllerInfo:AppControllerInfo = new AppControllerInfo(BloodPressureAppController);
 			mainAppControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER,
 																							 chartAppControllerInfo.appId));
-			componentContainer.registerComponentInstance(typeName, AppControllerInfo, mainAppControllerInfo);
+//			mainAppControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER,
+//																							 ScheduleAppControllerInfo.APP_ID));
+			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
+														 mainAppControllerInfo);
 
-			typeName = ReflectionUtils.getClassInfo(BloodPressureChartModifierFactory).name;
-			componentContainer.registerComponentInstance(typeName, IChartModifierFactory, new BloodPressureChartModifierFactory());
 		}
 	}
 }

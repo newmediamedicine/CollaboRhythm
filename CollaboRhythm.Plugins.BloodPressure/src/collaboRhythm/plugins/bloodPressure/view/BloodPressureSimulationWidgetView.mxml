@@ -10,15 +10,15 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.bloodPressure.controller.BloodPressureAppController;
 		import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
-		import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
-		import collaboRhythm.shared.apps.healthCharts.model.MedicationComponentAdherenceModel;
-		import collaboRhythm.shared.apps.healthCharts.model.SimulationModel;
+		import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
+		import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
+		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
 
 		import mx.events.PropertyChangeEvent;
 		import mx.logging.ILogger;
 		import mx.logging.Log;
 
-		private var _model:HealthChartsModel;
+		private var _model:BloodPressureModel;
 
 		private var _adherencePerformanceModel:AdherencePerformanceModel;
 		private var hydrochlorothiazideMedicationModel:MedicationComponentAdherenceModel;
@@ -31,12 +31,12 @@
 		private var _simulationModel:SimulationModel;
 
 		[Bindable]
-		public function get model():HealthChartsModel
+		public function get model():BloodPressureModel
 		{
 			return _model;
 		}
 
-		public function set model(value:HealthChartsModel):void
+		public function set model(value:BloodPressureModel):void
 		{
 			_model = value;
 			_simulationModel = _model.currentSimulation;
@@ -52,7 +52,7 @@
 		{
 			if (model && model.currentSimulation)
 			{
-				hydrochlorothiazideMedicationModel = model.currentSimulation.getMedication(HealthChartsModel.RXNORM_HYDROCHLOROTHIAZIDE);
+				hydrochlorothiazideMedicationModel = model.currentSimulation.getMedication(BloodPressureModel.RXNORM_HYDROCHLOROTHIAZIDE);
 			}
 		}
 

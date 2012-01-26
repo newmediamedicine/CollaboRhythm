@@ -44,12 +44,12 @@
                      <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="707327">Acetaminophen 33.3 MG/ML Oral Solution [Tylenol]</name>
                      <scheduledBy>jking@records.media.mit.edu</scheduledBy>
                      <dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
-                     <dateStart>2011-07-15T19:30:00Z</dateStart>
-                     <dateEnd>2011-07-15T20:30:00Z</dateEnd>
+                     <dateStart>2011-07-15T13:00:00Z</dateStart>
+                     <dateEnd>2011-07-15T17:00:00Z</dateEnd>
                      <recurrenceRule>
                         <frequency>HOURLY</frequency>
                         <interval>12</interval>
-                        <count>180</count>
+                        <count>100</count>
                      </recurrenceRule>
                      <dose>
                         <value>1</value>

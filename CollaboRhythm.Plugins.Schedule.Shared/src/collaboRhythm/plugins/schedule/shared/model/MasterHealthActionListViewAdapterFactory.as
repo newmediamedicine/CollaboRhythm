@@ -16,6 +16,7 @@
  */
 package collaboRhythm.plugins.schedule.shared.model
 {
+	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 
@@ -30,13 +31,12 @@ package collaboRhythm.plugins.schedule.shared.model
 			_factoryArray = componentContainer.resolveAll(IHealthActionListViewAdapterFactory);
 		}
 		
-		public function createUnscheduledHealthActionViewAdapters(healthActionModelDetailsProvider:IHealthActionModelDetailsProvider):ArrayCollection
+		public function createUnscheduledHealthActionViewAdapters(record:Record):ArrayCollection
 		{
 			var unscheduledHealthActionViewAdapters:ArrayCollection = new ArrayCollection();
 			for each (var healthActionListViewAdapterFactory:IHealthActionListViewAdapterFactory in _factoryArray)
 			{
-				healthActionListViewAdapterFactory.createUnscheduledHealthActionViewAdapters(healthActionModelDetailsProvider,
-						unscheduledHealthActionViewAdapters);
+				healthActionListViewAdapterFactory.createUnscheduledHealthActionViewAdapters(record, unscheduledHealthActionViewAdapters);
 			}
 
 			return unscheduledHealthActionViewAdapters;

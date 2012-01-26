@@ -166,27 +166,7 @@ package collaboRhythm.plugins.schedule.controller
 
                 if (urlVariables.success == "true")
                 {
-					//TODO: Refactor so that the individual healthActionInputControllers are responsible for finding the closestScheduleItemOccurrence.
-					//I don't want to refactor this now because it will break the plugins from the teams
-					//Consider using something like constructorParams so that future changes in parameters will not break plugins
-
-					var name:String;
-					if (urlVariables.equipmentName == "PillBox")
-						switch (urlVariables.bin)
-						{
-							case "1":
-								break;
-							case "2":
-								break;
-							case "3":
-								break;
-							case "4":
-								break;
-						}
-					else
-						name = urlVariables.equipmentName;
-					
-                    var closestScheduleItemOccurrence:ScheduleItemOccurrence = scheduleModel.scheduleReportingModel.findClosestScheduleItemOccurrence(name);
+                    var closestScheduleItemOccurrence:ScheduleItemOccurrence = scheduleModel.scheduleReportingModel.findClosestScheduleItemOccurrence(urlVariables.name);
 
 					var healthActionInputController:IHealthActionInputController = scheduleModel.healthActionInputControllerFactory.createDeviceHealthActionInputController(urlVariables,
 							closestScheduleItemOccurrence, scheduleModel, _viewNavigator);

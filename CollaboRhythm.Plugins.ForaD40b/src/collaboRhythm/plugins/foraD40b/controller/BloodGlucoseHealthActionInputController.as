@@ -38,7 +38,6 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function updateVariables(urlVariables:URLVariables):void
 		{
-			_dataInputModel.urlVariables = urlVariables;
 		}
 
 		public function get healthActionInputViewClass():Class

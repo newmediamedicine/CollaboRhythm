@@ -18,10 +18,11 @@
                      <name xmlns="">Intake</name>
                      <scheduledBy>jking@records.media.mit.edu</scheduledBy>
                      <dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
-                     <dateStart>2011-07-17T07:30:00Z</dateStart>
-                     <dateEnd>2011-07-17T08:30:00Z</dateEnd>
+                     <dateStart>2011-07-15T13:00:00Z</dateStart>
+                     <dateEnd>2011-07-15T17:00:00Z</dateEnd>
                      <recurrenceRule>
                         <frequency>DAILY</frequency>
+                        <interval>1</interval>
                         <count>90</count>
                      </recurrenceRule>
                      <instructions xmlns="">Intake documentation</instructions>
@@ -60,11 +61,7 @@
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T14:57:00Z</dateMeasuredStart>
-                                       <result>
-                                          <value>-1</value>
-                                          <textValue>less</textValue>
-                                          <unit>Delta from Average</unit>
-                                       </result>
+                                       <site>less</site>
                                     </VitalSign>
                                  </document>
                               </LoadableIndivoDocument>
@@ -102,11 +99,7 @@
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T13:07:00Z</dateMeasuredStart>
-                                       <result>
-                                          <value>0</value>
-                                          <textValue>same</textValue>
-                                          <unit>Delta from Average</unit>
-                                       </result>
+                                       <site>same</site>
                                     </VitalSign>
                                  </document>
                               </LoadableIndivoDocument>
@@ -144,11 +137,7 @@
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-19T13:54:00Z</dateMeasuredStart>
-                                       <result>
-                                          <value>1</value>
-                                          <textValue>more</textValue>
-                                          <unit>Delta from Average</unit>
-                                       </result>
+                                       <site>more</site>
                                     </VitalSign>
                                  </document>
                               </LoadableIndivoDocument>
@@ -186,11 +175,7 @@
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-20T13:52:00Z</dateMeasuredStart>
-                                       <result>
-                                          <value>0</value>
-                                          <textValue>same</textValue>
-                                          <unit>Delta from Average</unit>
-                                       </result>
+                                       <site>same</site>
                                     </VitalSign>
                                  </document>
                               </LoadableIndivoDocument>
@@ -228,11 +213,7 @@
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-21T13:48:00Z</dateMeasuredStart>
-                                       <result>
-                                          <value>1</value>
-                                          <textValue>more</textValue>
-                                          <unit>Delta from Average</unit>
-                                       </result>
+                                       <site>more</site>
                                     </VitalSign>
                                  </document>
                               </LoadableIndivoDocument>
@@ -270,11 +251,7 @@
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-22T14:27:00Z</dateMeasuredStart>
-                                       <result>
-                                          <value>0</value>
-                                          <textValue>same</textValue>
-                                          <unit>Delta from Average</unit>
-                                       </result>
+                                       <site>same</site>
                                     </VitalSign>
                                  </document>
                               </LoadableIndivoDocument>
@@ -312,11 +289,7 @@
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-23T14:24:00Z</dateMeasuredStart>
-                                       <result>
-                                          <value>1</value>
-                                          <textValue>more</textValue>
-                                          <unit>Delta from Average</unit>
-                                       </result>
+                                       <site>more</site>
                                     </VitalSign>
                                  </document>
                               </LoadableIndivoDocument>
@@ -354,11 +327,7 @@
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-24T14:14:00Z</dateMeasuredStart>
-                                       <result>
-                                          <value>1</value>
-                                          <textValue>more</textValue>
-                                          <unit>Delta from Average</unit>
-                                       </result>
+                                       <site>more</site>
                                     </VitalSign>
                                  </document>
                               </LoadableIndivoDocument>
@@ -396,11 +365,7 @@
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-25T14:15:00Z</dateMeasuredStart>
-                                       <result>
-                                          <value>1</value>
-                                          <textValue>more</textValue>
-                                          <unit>Delta from Average</unit>
-                                       </result>
+                                       <site>more</site>
                                     </VitalSign>
                                  </document>
                               </LoadableIndivoDocument>
@@ -438,11 +403,7 @@
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-26T14:59:00Z</dateMeasuredStart>
-                                       <result>
-                                          <value>-1</value>
-                                          <textValue>less</textValue>
-                                          <unit>Delta from Average</unit>
-                                       </result>
+                                       <site>less</site>
                                     </VitalSign>
                                  </document>
                               </LoadableIndivoDocument>
@@ -480,11 +441,7 @@
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-27T13:12:00Z</dateMeasuredStart>
-                                       <result>
-                                          <value>0</value>
-                                          <textValue>same</textValue>
-                                          <unit>Delta from Average</unit>
-                                       </result>
+                                       <site>same</site>
                                     </VitalSign>
                                  </document>
                               </LoadableIndivoDocument>
@@ -522,11 +479,7 @@
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-28T15:26:00Z</dateMeasuredStart>
-                                       <result>
-                                          <value>1</value>
-                                          <textValue>more</textValue>
-                                          <unit>Delta from Average</unit>
-                                       </result>
+                                       <site>more</site>
                                     </VitalSign>
                                  </document>
                               </LoadableIndivoDocument>
@@ -564,11 +517,7 @@
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-29T13:47:00Z</dateMeasuredStart>
-                                       <result>
-                                          <value>1</value>
-                                          <textValue>more</textValue>
-                                          <unit>Delta from Average</unit>
-                                       </result>
+                                       <site>more</site>
                                     </VitalSign>
                                  </document>
                               </LoadableIndivoDocument>
@@ -606,11 +555,7 @@
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-30T14:12:00Z</dateMeasuredStart>
-                                       <result>
-                                          <value>0</value>
-                                          <textValue>same</textValue>
-                                          <unit>Delta from Average</unit>
-                                       </result>
+                                       <site>same</site>
                                     </VitalSign>
                                  </document>
                               </LoadableIndivoDocument>
@@ -648,11 +593,7 @@
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-31T14:44:00Z</dateMeasuredStart>
-                                       <result>
-                                          <value>1</value>
-                                          <textValue>more</textValue>
-                                          <unit>Delta from Average</unit>
-                                       </result>
+                                       <site>more</site>
                                     </VitalSign>
                                  </document>
                               </LoadableIndivoDocument>

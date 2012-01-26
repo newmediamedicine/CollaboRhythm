@@ -44,12 +44,12 @@
                      <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
                      <scheduledBy>jking@records.media.mit.edu</scheduledBy>
                      <dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
-                     <dateStart>2011-07-15T07:30:00Z</dateStart>
-                     <dateEnd>2011-07-15T08:30:00Z</dateEnd>
+                     <dateStart>2011-07-15T13:00:00Z</dateStart>
+                     <dateEnd>2011-07-15T17:00:00Z</dateEnd>
                      <recurrenceRule>
                         <frequency>HOURLY</frequency>
                         <interval>12</interval>
-                        <count>180</count>
+                        <count>100</count>
                      </recurrenceRule>
                      <dose>
                         <value>1</value>

@@ -17,14 +17,14 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
 
+	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import mx.collections.ArrayCollection;
 
 	public interface IHealthActionListViewAdapterFactory
     {
-		function createUnscheduledHealthActionViewAdapters(healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
-														   adapters:ArrayCollection):void;
+		function createUnscheduledHealthActionViewAdapters(record:Record, adapters:ArrayCollection):void;
 		function createScheduledHealthActionViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
 														healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
 														currentHealthActionListViewAdapter:IHealthActionListViewAdapter):IHealthActionListViewAdapter;

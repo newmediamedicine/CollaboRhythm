@@ -17,7 +17,7 @@
 package collaboRhythm.shared.model
 {
 
-    import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
+    import collaboRhythm.shared.apps.bloodPressure.model.BloodPressureModel;
 
     import j2as3.collection.HashMap;
 

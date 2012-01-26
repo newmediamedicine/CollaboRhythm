@@ -149,7 +149,7 @@ package collaboRhythm.plugins.bloodPressure.view
          *  @playerversion AIR 1.1
          *  @productversion Flex 3
          */
-        public var deltaY:Number = -8;
+        public var deltaY:Number = 8;
 
         [Inspectable]
 

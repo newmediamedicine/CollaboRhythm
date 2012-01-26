@@ -21,6 +21,7 @@ package collaboRhythm.plugins.equipment.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
+	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
@@ -32,8 +33,7 @@ package collaboRhythm.plugins.equipment.model
 		{
 		}
 
-		public function createUnscheduledHealthActionViewAdapters(healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
-																  adapters:ArrayCollection):void
+		public function createUnscheduledHealthActionViewAdapters(record:Record, adapters:ArrayCollection):void
 		{
 
 		}
