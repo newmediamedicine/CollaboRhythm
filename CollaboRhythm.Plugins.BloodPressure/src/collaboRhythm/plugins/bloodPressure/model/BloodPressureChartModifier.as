@@ -22,6 +22,11 @@ package collaboRhythm.plugins.bloodPressure.model
 	import mx.core.IVisualElement;
 	import mx.graphics.SolidColorStroke;
 
+	import qs.charts.dataShapes.DataDrawingCanvas;
+	import qs.charts.dataShapes.Edge;
+
+	import spark.components.Label;
+
 	public class BloodPressureChartModifier extends ChartModifierBase implements IChartModifier
 	{
 		private static const BLOOD_PRESSURE_VERTICAL_AXIS_MAXIMUM:Number = 180;
@@ -113,6 +118,25 @@ package collaboRhythm.plugins.bloodPressure.model
 			image.height = 100;
 			image.verticalCenter = 100;
 			return image;
+		}
+
+		public function drawBackgroundElements(canvas:DataDrawingCanvas, zoneLabel:Label):void
+		{
+			canvas.clear();
+
+			var color:uint = GOAL_ZONE_COLOR;
+			canvas.lineStyle(1, color);
+
+			canvas.beginFill(color, 0.25);
+			canvas.drawRect([Edge.LEFT, -1], 40, [Edge.RIGHT, 1],
+					120);
+			canvas.endFill();
+
+			if (zoneLabel)
+			{
+				zoneLabel.setStyle("color", color);
+				canvas.updateDataChild(zoneLabel, {left:Edge.LEFT, top:200});
+			}
 		}
 	}
 }

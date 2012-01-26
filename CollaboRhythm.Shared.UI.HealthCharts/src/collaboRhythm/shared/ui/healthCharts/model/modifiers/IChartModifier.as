@@ -5,6 +5,10 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 
 	import mx.core.IVisualElement;
 
+	import qs.charts.dataShapes.DataDrawingCanvas;
+
+	import spark.components.Label;
+
 	public interface IChartModifier
 	{
 		function get chartKey():String;
@@ -36,5 +40,12 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 		 * @return The new/modified image to use (if any)
 		 */
 		function createImage(currentChartImage:IVisualElement):IVisualElement;
+
+		/**
+		 * Draws background elements, such as the goal region.
+		 * @param canvas Canvas to draw on
+		 * @param zoneLabel Label to position. Might be null depending on the skin used.
+		 */
+		function drawBackgroundElements(canvas:DataDrawingCanvas, zoneLabel:Label):void;
 	}
 }

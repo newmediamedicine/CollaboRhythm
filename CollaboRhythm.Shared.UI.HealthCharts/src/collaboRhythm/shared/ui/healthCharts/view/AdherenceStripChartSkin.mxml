@@ -1,45 +1,19 @@
 <?xml version="1.0"?>
-<!--~
-  ~ Copyright 2011 John Moore, Scott Gilroy
-  ~
-  ~ This file is part of CollaboRhythm.
-  ~
-  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
-  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
-  ~ version.
-  ~
-  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
-  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-  ~ details.
-  ~
-  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
-  ~ <http://www.gnu.org/licenses/>.
-
-This code is based in part on code by Brendan Meutzner.
-
-Portions Copyright (c) 2007 Brendan Meutzner
-
-Permission is hereby granted, free of charge, to any person
-obtaining a copy of this software and associated documentation
-files (the "Software"), to deal in the Software without
-restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following
-conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
-
+<!---
+  - Copyright 2012 John Moore, Scott Gilroy
+  -
+  - This file is part of CollaboRhythm.
+  -
+  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  - version.
+  -
+  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  - details.
+  -
+  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  - <http://www.gnu.org/licenses/>.
   -->
 <s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
 			 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:mccune="com.dougmccune.controls.*" xmlns:skins="skins.*"
@@ -125,10 +99,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 				<mx:Canvas id="annotationCanvas" width="100%" height="100%"
 						   horizontalScrollPolicy="off" verticalScrollPolicy="off"/>
-				<s:Group width="100%" height="100%">
-					<s:Label id="fpsDisplay" right="0" text="FPS: ???" visible="false" styleName="MainChartTitleLabel">
-					</s:Label>
-				</s:Group>
 
 				<!-- annotations for highlighting a selected data point	-->
 				<s:Group id="highlightChartItemGroup" width="100%" height="100%" visible="false">
@@ -140,55 +110,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 							<s:SolidColorStroke color="0x000033" weight="3"/>
 						</s:stroke>
 					</s:Ellipse>
-				</s:Group>
-			</mx:annotationElements>
-
-		</mx:LineChart>
-		<s:Label id="titleDisplay" styleName="MainChartTitleLabel" mouseEnabled="false">
-			<s:filters>
-				<s:GlowFilter id="glow" blurX="12" blurY="12" color="#FFFFFF" quality="2" strength="4"/>
-			</s:filters>
-		</s:Label>
-
-		<mx:LineChart id="mainChartCover"
-					  mouseEnabled="false"
-					  x="0" y="0"
-					  width="{mainChartContainer.width}" height="{mainChartContainer.height}"
-					  gutterBottom="0"
-					  styleName="mainChartStyle"
-					  seriesFilters="[]"
-					  verticalAxisStyleNames="mainChartVerticalAxisStyle"
-					  selectionMode="none"
-					  >
-			<mx:backgroundElements>
-				<!--Prevent default grid lines from being used-->
-			</mx:backgroundElements>
-			<mx:verticalAxis>
-				<mx:LinearAxis id="mainChartCoverVerticalAxis" baseAtZero="false"/>
-			</mx:verticalAxis>
-			<mx:verticalAxisRenderers>
-				<mccune:StaticAxisRenderer id="mainChartCoverVerticalAxisRenderer" axis="{mainChartVerticalAxis}"
-										   fontSize="14" tickPlacement="none" labelPlacement="inside"
-										   labelAlign="top" showLine="false" canClipLabels="false"
-										   placement="right"
-										   mask="{mainChartCoverVerticalAxisRendererMask}"/>
-			</mx:verticalAxisRenderers>
-
-			<mx:horizontalAxis>
-				<mx:LinearAxis id="mainChartCoverHorizontalAxis" baseAtZero="false"/>
-			</mx:horizontalAxis>
-
-			<mx:horizontalAxisRenderers>
-				<mccune:BlankAxisRenderer axis="{mainChartCoverHorizontalAxis}"/>
-			</mx:horizontalAxisRenderers>
-
-			<mx:annotationElements>
-				<s:Group id="mainChartCoverVerticalAxisRendererMask">
-					<s:Rect width="{mainChartCover.width}" height="{mainChartCover.height}">
-						<s:fill>
-							<s:SolidColor alpha="0"/>
-						</s:fill>
-					</s:Rect>
 				</s:Group>
 			</mx:annotationElements>
 		</mx:LineChart>
@@ -223,8 +144,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 	<fx:Script><![CDATA[
 		import mx.core.UIComponent;
-		import mx.events.ResizeEvent;
-		import mx.graphics.SolidColor;
 
 		// TODO: make these const and eliminate Bindable
 		private const HEADER_HEIGHT:Number = 25;
