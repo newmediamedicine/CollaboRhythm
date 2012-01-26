@@ -23,8 +23,24 @@
 
 	<xsl:template match="/">
 		<xsl:variable name="numPillsOrdered" select="90"/>
-		<xsl:variable name="dateStart">2011-07-15T13:00:00Z</xsl:variable>
-		<xsl:variable name="dateEnd">2011-07-15T17:00:00Z</xsl:variable>
+		<xsl:variable name="dateStartCustom" select="IndivoDocuments/d:AdherenceItem[1]/d:scheduleDateStart"/>
+		<xsl:variable name="dateStart">
+			<xsl:choose>
+				<xsl:when test="$dateStartCustom">
+					<xsl:value-of select="xs:dateTime($dateStartCustom)"/>
+				</xsl:when>
+				<xsl:otherwise><xsl:value-of select="xs:dateTime('2011-07-15T13:00:00Z')"/></xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="dateEndCustom" select="IndivoDocuments/d:AdherenceItem[1]/d:scheduleDateEnd"/>
+		<xsl:variable name="dateEnd">
+			<xsl:choose>
+				<xsl:when test="$dateEndCustom">
+					<xsl:value-of select="$dateEndCustom"/>
+				</xsl:when>
+				<xsl:otherwise>2011-07-15T17:00:00Z</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 		<xsl:variable name="dateStartEvening">2011-07-15T22:00:00Z</xsl:variable>
 		<xsl:variable name="dateEndEvening">2011-07-16T02:00:00Z</xsl:variable>
 		<xsl:variable name="medicationName" select="IndivoDocuments/d:AdherenceItem[1]/d:name"/>
@@ -32,7 +48,15 @@
 		<xsl:variable name="ndc" select="IndivoDocuments/d:AdherenceItem[1]/d:ndc"/>
 		<xsl:variable name="indication" select="IndivoDocuments/d:AdherenceItem[1]/d:indication"/>
 		<xsl:variable name="twiceDaily" select="IndivoDocuments/d:AdherenceItem[1]/d:twiceDaily"/>
-		<xsl:variable name="recurrenceFrequency" select="IndivoDocuments/d:AdherenceItem[1]/d:recurrenceFrequency"/>
+		<xsl:variable name="recurrenceFrequencyCustom" select="IndivoDocuments/d:AdherenceItem[1]/d:recurrenceFrequency"/>
+		<xsl:variable name="recurrenceFrequency">
+			<xsl:choose>
+				<xsl:when test="$recurrenceFrequencyCustom">
+					<xsl:value-of select="$recurrenceFrequencyCustom"/>
+				</xsl:when>
+				<xsl:otherwise>DAILY</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 		<xsl:variable name="recurrenceInterval" select="IndivoDocuments/d:AdherenceItem[1]/d:recurrenceInterval"/>
 		<xsl:variable name="recurrenceCount" select="IndivoDocuments/d:AdherenceItem[1]/d:recurrenceCount"/>
 		<IndivoDocuments>
@@ -83,22 +107,10 @@
 									<dateStart><xsl:value-of select="$dateStart"/></dateStart>
 									<dateEnd><xsl:value-of select="$dateEnd"/></dateEnd>
 									<recurrenceRule>
-										<xsl:choose>
-											<xsl:when test="$recurrenceFrequency">
-												<frequency><xsl:value-of select="$recurrenceFrequency"/></frequency>
-											</xsl:when>
-											<xsl:otherwise>
-												<frequency>DAILY</frequency>
-											</xsl:otherwise>
-										</xsl:choose>
-										<xsl:choose>
-											<xsl:when test="$recurrenceInterval">
-												<interval><xsl:value-of select="$recurrenceInterval"/></interval>
-											</xsl:when>
-											<xsl:otherwise>
-												<interval>1</interval>
-											</xsl:otherwise>
-										</xsl:choose>
+										<frequency><xsl:value-of select="$recurrenceFrequency"/></frequency>
+										<xsl:if test="$recurrenceInterval != ''">
+											<interval><xsl:value-of select="$recurrenceInterval"/></interval>
+										</xsl:if>
 										<xsl:choose>
 											<xsl:when test="$recurrenceCount">
 												<count><xsl:value-of select="$recurrenceCount"/></count>
@@ -138,7 +150,7 @@
 																</xsl:when>
 																<xsl:otherwise>
 																	<xsl:value-of
-																			select="fn:days-from-duration(xs:dateTime(dateReported) - xs:dateTime($dateStart))"/>
+																			select="fn:days-from-duration(xs:dateTime(d:dateReported) - xs:dateTime($dateStart))"/>
 																</xsl:otherwise>
 															</xsl:choose>
 														</recurrenceIndex>
@@ -158,8 +170,22 @@
 																	<dateReported><xsl:value-of select="d:dateReported"/></dateReported>
 																	<dateAdministered><xsl:value-of select="d:dateReported"/></dateAdministered>
 																	<amountAdministered>
-																		<value>1</value>
-																		<unit>tablet</unit>
+																		<value>
+																			<xsl:choose>
+																				<xsl:when test="d:amountAdministeredValue">
+																					<xsl:value-of select="d:amountAdministeredValue"/>
+																				</xsl:when>
+																				<xsl:otherwise>1</xsl:otherwise>
+																			</xsl:choose>
+																		</value>
+																		<unit>
+																			<xsl:choose>
+																				<xsl:when test="d:amountAdministeredUnit">
+																					<xsl:value-of select="d:amountAdministeredUnit"/>
+																				</xsl:when>
+																				<xsl:otherwise>tablet</xsl:otherwise>
+																			</xsl:choose>
+																		</unit>
 																	</amountAdministered>
 																	<!--Note that this value will be off if we have any "false" adherence values-->
 																	<amountRemaining><value><xsl:value-of select="$numPillsOrdered - count(preceding::d:adherence[.='true']) - 1" /></value>

@@ -53,8 +53,8 @@
 	</buttons:SimulationDetailButton>
 
 	<fx:Script><![CDATA[
-		import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
-		import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
+		import collaboRhythm.shared.apps.healthCharts.model.MedicationComponentAdherenceModel;
+		import collaboRhythm.shared.apps.healthCharts.model.SimulationModel;
 		import collaboRhythm.simulation.view.buttons.StepListItem;
 
 		import mx.collections.ArrayCollection;

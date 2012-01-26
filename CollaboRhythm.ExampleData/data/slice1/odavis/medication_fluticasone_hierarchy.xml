@@ -1,0 +1,993 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IndivoDocuments xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:fn="http://www.w3.org/2005/xpath-functions"
+                 xmlns:d="http://indivo.org/vocab/xml/documents#">
+   <LoadableIndivoDocument>
+      <document>
+         <MedicationOrder xmlns="http://indivo.org/vocab/xml/documents#">
+            <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+            <orderType>prescribed</orderType>
+            <orderedBy>jking@records.media.mit.edu</orderedBy>
+            <dateOrdered>2011-07-14T19:13:11Z</dateOrdered>
+            <dateExpires>2012-07-14T09:00:00-04:00</dateExpires>
+            <indication>asthma</indication>
+            <amountOrdered>
+               <value>90</value>
+               <unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
+            </amountOrdered>
+            <substitutionPermitted>true</substitutionPermitted>
+            <instructions>take with water</instructions>
+         </MedicationOrder>
+      </document>
+      <relatesTo>
+         <relation type="medicationFill">
+            <LoadableIndivoDocument>
+               <document>
+                  <MedicationFill xmlns="http://indivo.org/vocab/xml/documents#">
+                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                     <filledBy>ljohnson@records.media.mit.edu</filledBy>
+                     <dateFilled>2011-07-14T19:13:11Z</dateFilled>
+                     <amountFilled>
+                        <value>90</value>
+                        <unit>tab</unit>
+                     </amountFilled>
+                     <ndc>0173071820</ndc>
+                     <instructions>do not expose to direct sunlight</instructions>
+                  </MedicationFill>
+               </document>
+            </LoadableIndivoDocument>
+         </relation>
+         <relation type="scheduleItem">
+            <LoadableIndivoDocument>
+               <document>
+                  <MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
+                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                     <scheduledBy>jking@records.media.mit.edu</scheduledBy>
+                     <dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
+                     <dateStart>2011-07-15T13:00:00Z</dateStart>
+                     <dateEnd>2011-07-15T17:00:00Z</dateEnd>
+                     <recurrenceRule>
+                        <frequency>DAILY</frequency>
+                        <interval>1</interval>
+                        <count>90</count>
+                     </recurrenceRule>
+                     <dose>
+                        <value>1</value>
+                        <unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
+                     </dose>
+                     <instructions>take with water</instructions>
+                  </MedicationScheduleItem>
+               </document>
+               <relatesTo>
+                  <relation type="adherenceItem">
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-15T08:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-15T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-15T08:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>89</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-15T20:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-15T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-15T20:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>88</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-16T08:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-16T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-16T08:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>87</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-16T20:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-16T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-16T20:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>86</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-17T08:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-17T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-17T08:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>85</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-17T20:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-17T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-17T20:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>84</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-18T08:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-18T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-18T08:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>83</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-18T20:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-18T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-18T20:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>82</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-19T08:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-19T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-19T08:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>81</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-19T20:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-19T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-19T20:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>80</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-20T08:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-20T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-20T08:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>79</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-20T20:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-20T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-20T20:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>78</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-21T08:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-21T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-21T08:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>77</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-21T20:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-21T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-21T20:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>76</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-22T08:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-22T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-22T08:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>75</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-22T20:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-22T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-22T20:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>74</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-23T08:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-23T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-23T08:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>73</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-23T20:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-23T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-23T20:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>72</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-24T08:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-24T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-24T08:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>71</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-24T20:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-24T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-24T20:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>70</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-25T08:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-25T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-25T08:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>69</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-25T20:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-25T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-25T20:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>68</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-26T08:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-26T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-26T08:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>67</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-26T20:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-26T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-26T20:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>66</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-27T08:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-27T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-27T08:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>65</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-27T20:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-27T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-27T20:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>64</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-28T08:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-28T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-28T08:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>63</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-28T20:00:00Z</dateReported>
+                              <recurrenceIndex/>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-28T20:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-28T20:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>62</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                  </relation>
+               </relatesTo>
+            </LoadableIndivoDocument>
+         </relation>
+      </relatesTo>
+   </LoadableIndivoDocument>
+</IndivoDocuments>

@@ -3,7 +3,6 @@ package collaboRhythm.plugins.painReport.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
-	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import mx.collections.ArrayCollection;
@@ -14,7 +13,8 @@ package collaboRhythm.plugins.painReport.model
 		{
 		}
 
-		public function createUnscheduledHealthActionViewAdapters(record:Record, adapters:ArrayCollection):void
+		public function createUnscheduledHealthActionViewAdapters(healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+																  adapters:ArrayCollection):void
 		{
 			adapters.addItem(new PainReportHealthActionListViewAdapter());
 		}

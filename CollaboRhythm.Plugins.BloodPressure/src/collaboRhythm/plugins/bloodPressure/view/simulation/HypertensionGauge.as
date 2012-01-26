@@ -16,7 +16,7 @@
  */
 package collaboRhythm.plugins.bloodPressure.view.simulation
 {
-	import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
+	import collaboRhythm.shared.apps.healthCharts.model.SimulationModel;
 	import collaboRhythm.simulation.view.gauge.Gauge;
 
 	/**

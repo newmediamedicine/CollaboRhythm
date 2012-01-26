@@ -21,8 +21,6 @@ package collaboRhythm.plugins.medications.model
 
 	public class MedicationHealthActionListViewAdapter implements IHealthActionListViewAdapter
 	{
-		public static const HEALTH_ACTION_TYPE:String = "Medication";
-
 		private var _medicationScheduleItem:MedicationScheduleItem;
 		private var _medicationOrder:MedicationOrder;
 		private var _medicationName:MedicationName;
@@ -33,17 +31,26 @@ package collaboRhythm.plugins.medications.model
 		private var _controller:HealthActionListViewControllerBase;
 
 		public function MedicationHealthActionListViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
-																			 healthActionModelDetailsProvider:IHealthActionModelDetailsProvider)
+															  healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+															  medicationOrder:MedicationOrder = null)
 		{
-			_medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
-			_medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
-			_medicationName = MedicationNameUtil.parseName(_medicationScheduleItem.name.text);
+			if (scheduleItemOccurrence)
+			{
+				_medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
+				_medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
+			}
+			else if (medicationOrder)
+			{
+				_medicationOrder = medicationOrder;
+			}
+
+			_medicationName = MedicationNameUtil.parseName(_medicationOrder.name.text);
 
 			_medicationColorSource = WorkstationKernel.instance.resolve(IMedicationColorSource) as IMedicationColorSource;
 
-			_medicationHealthAction = new MedicationHealthAction(_medicationScheduleItem.name.text, _medicationOrder.name.text);
+			_medicationHealthAction = new MedicationHealthAction(_medicationOrder.name.text);
 
-			_model = new MedicationHealthActionListViewModel(scheduleItemOccurrence, healthActionModelDetailsProvider);
+			_model = new MedicationHealthActionListViewModel(scheduleItemOccurrence, healthActionModelDetailsProvider, _medicationOrder);
 			_controller = new HealthActionListViewControllerBase(_model)
 		}
 
@@ -55,11 +62,11 @@ package collaboRhythm.plugins.medications.model
 		public function get image():Image
 		{
 			var medicationImage:MedicationImage = new MedicationImage();
-			if (_medicationScheduleItem && _medicationOrder && _medicationOrder.medicationFill)
+			if (_medicationOrder && _medicationOrder.medicationFill)
 			{
 				medicationImage.setStyle("loadingImageColor",
 										 _medicationColorSource.getMedicationColor(_medicationOrder.medicationFill.ndc.text));
-				medicationImage.source = MedicationFillsModel.MEDICATION_API_URL_BASE + _medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc.text + "-front.png";
+				medicationImage.source = MedicationFillsModel.MEDICATION_API_URL_BASE + _medicationOrder.medicationFill.ndc.text + "-front.png";
 			}
 			return medicationImage;
 		}
@@ -87,7 +94,12 @@ package collaboRhythm.plugins.medications.model
 
 		public function get instructions():String
 		{
-			return _medicationScheduleItem.instructions;
+			if (_medicationScheduleItem)
+				return _medicationScheduleItem.instructions;
+			else if (_medicationOrder)
+				return _medicationOrder.instructions;
+			else
+				return "";
 		}
 
 		public function get model():IHealthActionListViewModel
@@ -98,11 +110,6 @@ package collaboRhythm.plugins.medications.model
 		public function get controller():IHealthActionListViewController
 		{
 			return _controller;
-		}
-
-		public function get type():String
-		{
-			return HEALTH_ACTION_TYPE;
 		}
 	}
 }

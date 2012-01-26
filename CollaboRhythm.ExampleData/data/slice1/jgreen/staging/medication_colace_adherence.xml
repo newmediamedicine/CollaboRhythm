@@ -19,6 +19,8 @@
 <IndivoDocuments>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="209834">Docusate 100 MG Oral Capsule [Colace]</name>
+		<scheduleDateStart>2011-07-15T07:30:00Z</scheduleDateStart>
+		<scheduleDateEnd>2011-07-15T08:30:00Z</scheduleDateEnd>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-15T08:00:00Z</dateReported>
 		<adherence>true</adherence>
@@ -26,7 +28,7 @@
 		<indication>bowel preperation</indication>
 		<recurrenceFrequency>HOURLY</recurrenceFrequency>
 		<recurrenceInterval>12</recurrenceInterval>
-		<recurrenceCount>100</recurrenceCount>
+		<recurrenceCount>180</recurrenceCount>
 		<recurrenceIndex>0</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">

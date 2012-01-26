@@ -18,12 +18,12 @@
                      <name xmlns="">Bathroom</name>
                      <scheduledBy>jking@records.media.mit.edu</scheduledBy>
                      <dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
-                     <dateStart>2011-07-15T13:00:00Z</dateStart>
-                     <dateEnd>2011-07-15T17:00:00Z</dateEnd>
+                     <dateStart>2011-07-17T07:30:00Z</dateStart>
+                     <dateEnd>2011-07-17T08:30:00Z</dateEnd>
                      <recurrenceRule>
                         <frequency>HOURLY</frequency>
                         <interval>2</interval>
-                        <count>500</count>
+                        <count>1080</count>
                      </recurrenceRule>
                      <instructions xmlns="">Bathroom documentation</instructions>
                   </EquipmentScheduleItem>

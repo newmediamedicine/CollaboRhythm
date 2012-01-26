@@ -17,8 +17,8 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
 
-	import collaboRhythm.shared.apps.bloodPressure.model.MedicationComponentAdherenceModel;
-	import collaboRhythm.shared.apps.bloodPressure.model.SimulationModel;
+	import collaboRhythm.shared.apps.healthCharts.model.MedicationComponentAdherenceModel;
+	import collaboRhythm.shared.apps.healthCharts.model.SimulationModel;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
@@ -59,14 +59,14 @@ package collaboRhythm.plugins.schedule.shared.model
 		public function AdherencePerformanceModel(scheduleCollectionsProvider:IScheduleCollectionsProvider,
 												  record:Record)
 		{
-			if (record.bloodPressureModel == null)
+			if (record.healthChartsModel == null)
 			{
-				throw new Error("record.bloodPressureModel must be initialized before AdherencePerformanceModel is created");
+				throw new Error("record.healthChartsModel must be initialized before AdherencePerformanceModel is created");
 			}
 			
 			_scheduleCollectionsProvider = scheduleCollectionsProvider;
 			_record = record;
-			_simulationModel = _record.bloodPressureModel.currentSimulation;
+			_simulationModel = _record.healthChartsModel.currentSimulation;
 
 			BindingUtils.bindSetter(simulationModelInitialized_changeHandler, _simulationModel, "isInitialized");
 

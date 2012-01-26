@@ -22,8 +22,26 @@
 	<xsl:output method="xml" indent="yes"/>
 
 	<xsl:template match="/">
-		<xsl:variable name="dateStart">2011-07-15T13:00:00Z</xsl:variable>
+		<xsl:variable name="dateStartCustom" select="IndivoDocuments/BloodPressureAdherenceItem[1]/scheduleDateStart"/>
+		<xsl:variable name="dateStart">
+			<xsl:choose>
+				<xsl:when test="$dateStartCustom">
+					<xsl:value-of select="$dateStartCustom"/>
+				</xsl:when>
+				<xsl:otherwise>2011-07-15T13:00:00Z</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="dateEndCustom" select="IndivoDocuments/BloodPressureAdherenceItem[1]/scheduleDateEnd"/>
+		<xsl:variable name="dateEnd">
+			<xsl:choose>
+				<xsl:when test="$dateEndCustom">
+					<xsl:value-of select="$dateEndCustom"/>
+				</xsl:when>
+				<xsl:otherwise>2011-07-15T17:00:00Z</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 		<xsl:variable name="equipmentName" select="IndivoDocuments/BloodPressureAdherenceItem[1]/name"/>
+		<xsl:variable name="equipmentType" select="IndivoDocuments/BloodPressureAdherenceItem[1]/equipmentType"/>
 		<xsl:variable name="equipmentScheduleItemInstructions" select="IndivoDocuments/BloodPressureAdherenceItem[1]/instructions"/>
 		<xsl:variable name="reportedBy" select="IndivoDocuments/BloodPressureAdherenceItem[1]/reportedBy"/>
 		<xsl:variable name="recurrenceFrequency" select="IndivoDocuments/BloodPressureAdherenceItem[1]/recurrenceFrequency"/>
@@ -34,7 +52,14 @@
 				<document>
 					<Equipment xmlns="http://indivo.org/vocab/xml/documents#">
 						<dateStarted>2009-12-15</dateStarted>
-						<type>blood pressure monitor</type>
+						<type>
+							<xsl:choose>
+								<xsl:when test="$equipmentType != ''">
+									<xsl:value-of select="$equipmentType"/>
+								</xsl:when>
+								<xsl:otherwise>blood pressure monitor</xsl:otherwise>
+							</xsl:choose>
+						</type>
 						<xsl:copy-of select="$equipmentName"/>
 					</Equipment>
 				</document>
@@ -50,7 +75,9 @@
 									<dateStart>
 										<xsl:value-of select="$dateStart"/>
 									</dateStart>
-									<dateEnd>2011-07-15T17:00:00Z</dateEnd>
+									<dateEnd>
+										<xsl:value-of select="$dateEnd"/>
+									</dateEnd>
 									<recurrenceRule>
 										<xsl:choose>
 											<xsl:when test="$recurrenceFrequency != ''">
@@ -60,14 +87,9 @@
 												<frequency>DAILY</frequency>
 											</xsl:otherwise>
 										</xsl:choose>
-										<xsl:choose>
-											<xsl:when test="$recurrenceInterval != ''">
-												<interval><xsl:value-of select="$recurrenceInterval"/></interval>
-											</xsl:when>
-											<xsl:otherwise>
-												<interval>1</interval>
-											</xsl:otherwise>
-										</xsl:choose>
+										<xsl:if test="$recurrenceInterval != ''">
+											<interval><xsl:value-of select="$recurrenceInterval"/></interval>
+										</xsl:if>
 										<xsl:choose>
 											<xsl:when test="$recurrenceCount != ''">
 												<count><xsl:value-of select="$recurrenceCount"/></count>
@@ -191,6 +213,24 @@
 																</document>
 															</LoadableIndivoDocument>
 														</xsl:if>
+														<xsl:if test="peakFlow">
+															<LoadableIndivoDocument>
+																<document>
+																	<VitalSign
+																			xmlns="http://indivo.org/vocab/xml/documents#">
+																		<name>Peak Expiratory Flow Rate</name>
+																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
+																		<dateMeasuredStart>
+																			<xsl:value-of select="dateReported"/>
+																		</dateMeasuredStart>
+																		<result>
+																			<value><xsl:value-of select="peakFlow"/></value>
+																			<unit abbrev="L/min">litres/minute</unit>
+																		</result>
+																	</VitalSign>
+																</document>
+															</LoadableIndivoDocument>
+														</xsl:if>
 														<xsl:if test="durationOfExercise">
 															<LoadableIndivoDocument>
 																<document>
@@ -274,9 +314,18 @@
 																		<dateMeasuredStart>
 																			<xsl:value-of select="dateReported"/>
 																		</dateMeasuredStart>
-																		<site>
-																			<xsl:value-of select="food"/>
-																		</site>
+																		<result>
+																			<value>
+																				<xsl:choose>
+																					<xsl:when test="food = 'more'">1</xsl:when>
+																					<xsl:when test="food = 'less'">-1</xsl:when>
+																					<xsl:when test="food = 'same'">0</xsl:when>
+																					<xsl:otherwise>0</xsl:otherwise>
+																				</xsl:choose>
+																			</value>
+																			<textValue><xsl:value-of select="food"/></textValue>
+																			<unit>Delta from Average</unit>
+																		</result>
 																	</VitalSign>
 																</document>
 															</LoadableIndivoDocument>

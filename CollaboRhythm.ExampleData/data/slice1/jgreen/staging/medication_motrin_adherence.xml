@@ -18,6 +18,8 @@
 <IndivoDocuments>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201126">Motrin 200 MG Oral Tablet [Motrin]</name>
+		<scheduleDateStart>2011-07-15T07:30:00Z</scheduleDateStart>
+		<scheduleDateEnd>2011-07-15T08:30:00Z</scheduleDateEnd>
 		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-15T16:00:00Z</dateReported>
 		<adherence>true</adherence>
@@ -25,7 +27,7 @@
 		<indication>pain relief</indication>
 		<recurrenceFrequency>HOURLY</recurrenceFrequency>
 		<recurrenceInterval>8</recurrenceInterval>
-		<recurrenceCount>100</recurrenceCount>
+		<recurrenceCount>270</recurrenceCount>
 		<recurrenceIndex>0</recurrenceIndex>
 	</AdherenceItem>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
