@@ -3,9 +3,9 @@ package collaboRhythm.plugins.postOpHome.controller
 	import avmplus.implementsXml;
 
 	import collaboRhythm.plugins.postOpHome.model.PostOpHomeModel;
-	import collaboRhythm.plugins.postOpHome.view.PostOpHelpView;
-	import collaboRhythm.plugins.postOpHome.view.PostOpHomeButtonWidgetView;
 	import collaboRhythm.plugins.postOpHome.view.PostOpHomeFullView;
+	import collaboRhythm.plugins.postOpHome.view.PostOpHomeWidgetView;
+	import collaboRhythm.plugins.schedule.view.ScheduleClockWidgetView;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.AppEvent;
@@ -19,7 +19,7 @@ package collaboRhythm.plugins.postOpHome.controller
 		public static const DEFAULT_NAME:String = "PostOpHome";
 
 
-		private var _widgetView:PostOpHomeButtonWidgetView;
+		private var _widgetView:PostOpHomeWidgetView;
 		private var _fullView:PostOpHomeFullView;
 
 		private var _postOpHomeModel:PostOpHomeModel;
@@ -41,7 +41,7 @@ package collaboRhythm.plugins.postOpHome.controller
 
 		override protected function createWidgetView():UIComponent
 		{
-			_widgetView = new PostOpHomeButtonWidgetView();
+			_widgetView = new PostOpHomeWidgetView();
 			return _widgetView
 		}
 
@@ -74,8 +74,7 @@ package collaboRhythm.plugins.postOpHome.controller
 
 			if (_fullView)
 			{
-				_fullView.init(this, postOpHomeModel, _collaborationLobbyNetConnectionService,
-						_activeRecordAccount.accountId);
+				_fullView.init(this, postOpHomeModel, _collaborationLobbyNetConnectionService);
 			}
 		}
 
@@ -100,7 +99,7 @@ package collaboRhythm.plugins.postOpHome.controller
 
 		override public function set widgetView(value:UIComponent):void
 		{
-			_widgetView = value as PostOpHomeButtonWidgetView;
+			_widgetView = value as PostOpHomeWidgetView;
 		}
 
 		override public function get fullView():UIComponent
@@ -128,9 +127,9 @@ package collaboRhythm.plugins.postOpHome.controller
 			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, this, null, null, viaMechanism));
 		}
 
-		public function openPostOpHelpView():void
+		public function openPostOpClockView():void
 		{
-			_viewNavigator.pushView(PostOpHelpView, null, null, new SlideViewTransition());
+			_viewNavigator.pushView(ScheduleClockWidgetView, null, null, new SlideViewTransition());
 		}
 	}
 }
