@@ -21,6 +21,7 @@ package collaboRhythm.plugins.medications.model
 
 	public class MedicationHealthActionListViewAdapter implements IHealthActionListViewAdapter
 	{
+		public static const HEALTH_ACTION_TYPE:String = "Medication";
 		private var _medicationScheduleItem:MedicationScheduleItem;
 		private var _medicationOrder:MedicationOrder;
 		private var _medicationName:MedicationName;
@@ -110,6 +111,11 @@ package collaboRhythm.plugins.medications.model
 		public function get controller():IHealthActionListViewController
 		{
 			return _controller;
+		}
+
+		public function get type():String
+		{
+			return HEALTH_ACTION_TYPE;
 		}
 	}
 }
