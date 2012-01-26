@@ -21,6 +21,9 @@ package collaboRhythm.plugins.postOpHome.controller
 	        {
 	            var typeName:String = ReflectionUtils.getClassInfo(PostOpHomeAppController).name;
 	            componentContainer.registerComponentInstance(typeName, AppControllerInfo, new AppControllerInfo(PostOpHomeAppController));
+				
+				typeName = ReflectionUtils.getClassInfo(PostOpHelpAppController).name;
+				componentContainer.registerComponentInstance(typeName, AppControllerInfo,  new AppControllerInfo(PostOpHelpAppController));
 	        }
 	    }
 	}
