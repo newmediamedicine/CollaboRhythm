@@ -82,6 +82,9 @@
 		<mx:FormItem label="Command" width="100%">
 			<s:HGroup width="100%">
 				<s:TextInput id="command" width="100%" change="command_changeHandler(event)"/>
+				<!-- TODO: add an icon for the API help link button -->
+				<mx:LinkButton label="?" color="0x3380DD" click="navigateToURL(new URLRequest('http://wiki.chip.org/indivo/static/api.html'))"
+				             textDecoration="underline" fontWeight="normal" />
 				<s:ToggleButton id="commandLock" width="30" label="L"/>
 			</s:HGroup>
 		</mx:FormItem>

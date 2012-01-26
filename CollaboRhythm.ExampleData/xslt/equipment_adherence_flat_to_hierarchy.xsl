@@ -22,7 +22,24 @@
 	<xsl:output method="xml" indent="yes"/>
 
 	<xsl:template match="/">
-		<xsl:variable name="dateStart">2011-07-15T13:00:00Z</xsl:variable>
+		<xsl:variable name="dateStartCustom" select="IndivoDocuments/BloodPressureAdherenceItem[1]/scheduleDateStart"/>
+		<xsl:variable name="dateStart">
+			<xsl:choose>
+				<xsl:when test="$dateStartCustom">
+					<xsl:value-of select="$dateStartCustom"/>
+				</xsl:when>
+				<xsl:otherwise>2011-07-15T13:00:00Z</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="dateEndCustom" select="IndivoDocuments/BloodPressureAdherenceItem[1]/scheduleDateEnd"/>
+		<xsl:variable name="dateEnd">
+			<xsl:choose>
+				<xsl:when test="$dateEndCustom">
+					<xsl:value-of select="$dateEndCustom"/>
+				</xsl:when>
+				<xsl:otherwise>2011-07-15T17:00:00Z</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 		<xsl:variable name="equipmentName" select="IndivoDocuments/BloodPressureAdherenceItem[1]/name"/>
 		<xsl:variable name="equipmentType" select="IndivoDocuments/BloodPressureAdherenceItem[1]/equipmentType"/>
 		<xsl:variable name="equipmentScheduleItemInstructions" select="IndivoDocuments/BloodPressureAdherenceItem[1]/instructions"/>
@@ -40,9 +57,7 @@
 								<xsl:when test="$equipmentType != ''">
 									<xsl:value-of select="$equipmentType"/>
 								</xsl:when>
-								<xsl:otherwise>
-									blood pressure monitor
-								</xsl:otherwise>
+								<xsl:otherwise>blood pressure monitor</xsl:otherwise>
 							</xsl:choose>
 						</type>
 						<xsl:copy-of select="$equipmentName"/>
@@ -60,7 +75,9 @@
 									<dateStart>
 										<xsl:value-of select="$dateStart"/>
 									</dateStart>
-									<dateEnd>2011-07-15T17:00:00Z</dateEnd>
+									<dateEnd>
+										<xsl:value-of select="$dateEnd"/>
+									</dateEnd>
 									<recurrenceRule>
 										<xsl:choose>
 											<xsl:when test="$recurrenceFrequency != ''">
@@ -297,9 +314,54 @@
 																		<dateMeasuredStart>
 																			<xsl:value-of select="dateReported"/>
 																		</dateMeasuredStart>
-																		<site>
-																			<xsl:value-of select="food"/>
-																		</site>
+																		<result>
+																			<value>
+																				<xsl:choose>
+																					<xsl:when test="food = 'more'">1</xsl:when>
+																					<xsl:when test="food = 'less'">-1</xsl:when>
+																					<xsl:when test="food = 'same'">0</xsl:when>
+																					<xsl:otherwise>0</xsl:otherwise>
+																				</xsl:choose>
+																			</value>
+																			<textValue><xsl:value-of select="food"/></textValue>
+																			<unit>Delta from Average</unit>
+																		</result>
+																	</VitalSign>
+																</document>
+															</LoadableIndivoDocument>
+														</xsl:if>
+														<xsl:if test="caloricIntake">
+															<LoadableIndivoDocument>
+																<document>
+																	<VitalSign
+																			xmlns="http://indivo.org/vocab/xml/documents#">
+																		<name>Caloric Intake</name>
+																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
+																		<dateMeasuredStart>
+																			<xsl:value-of select="dateReported"/>
+																		</dateMeasuredStart>
+																		<result>
+																			<value><xsl:value-of select="caloricIntake"/></value>
+																			<unit>Calories</unit>
+																		</result>
+																	</VitalSign>
+																</document>
+															</LoadableIndivoDocument>
+														</xsl:if>
+														<xsl:if test="stepCount">
+															<LoadableIndivoDocument>
+																<document>
+																	<VitalSign
+																			xmlns="http://indivo.org/vocab/xml/documents#">
+																		<name>Step Count</name>
+																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
+																		<dateMeasuredStart>
+																			<xsl:value-of select="dateReported"/>
+																		</dateMeasuredStart>
+																		<result>
+																			<value><xsl:value-of select="stepCount"/></value>
+																			<unit>Steps</unit>
+																		</result>
 																	</VitalSign>
 																</document>
 															</LoadableIndivoDocument>

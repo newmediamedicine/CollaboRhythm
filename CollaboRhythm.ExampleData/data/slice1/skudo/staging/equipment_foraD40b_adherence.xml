@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<IndivoDocuments>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<equipmentType>blood pressure monitor</equipmentType>
+		<instructions>Use device to record blood glucose. Insert test strip into device and apply a drop of blood.</instructions>
+		<reportedBy>skudo@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-15T11:15:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>200</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<dateReported>2011-07-16T10:45:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>185</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<dateReported>2011-07-17T10:30:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>175</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<dateReported>2011-07-18T09:45:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>169</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<dateReported>2011-07-19T09:30:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>154</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<dateReported>2011-07-20T11:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>137</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<dateReported>2011-07-21T11:15:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>120</bloodGlucose>
+	</BloodPressureAdherenceItem>
+</IndivoDocuments>

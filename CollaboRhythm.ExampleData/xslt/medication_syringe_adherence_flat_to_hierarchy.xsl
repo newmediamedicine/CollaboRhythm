@@ -24,8 +24,24 @@
 	<xsl:template match="/">
 		<xsl:variable name="amountOrderedValue" select="2"/>
 		<xsl:variable name="unitsPerSyringe" select="1000"/>
-		<xsl:variable name="dateStart">2011-07-14T18:00:00-04:00</xsl:variable>
-		<xsl:variable name="dateEnd">2011-07-14T22:00:00-04:00</xsl:variable>
+		<xsl:variable name="dateStartCustom" select="IndivoDocuments/d:AdherenceItem[1]/d:scheduleDateStart"/>
+		<xsl:variable name="dateStart">
+			<xsl:choose>
+				<xsl:when test="$dateStartCustom">
+					<xsl:value-of select="$dateStartCustom"/>
+				</xsl:when>
+				<xsl:otherwise>2011-07-15T18:00:00Z</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="dateEndCustom" select="IndivoDocuments/d:AdherenceItem[1]/d:scheduleDateEnd"/>
+		<xsl:variable name="dateEnd">
+			<xsl:choose>
+				<xsl:when test="$dateEndCustom">
+					<xsl:value-of select="$dateEndCustom"/>
+				</xsl:when>
+				<xsl:otherwise>2011-07-15T22:00:00Z</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 		<xsl:variable name="dateStartEvening">2011-07-15T22:00:00Z</xsl:variable>
 		<xsl:variable name="dateEndEvening">2011-07-16T02:00:00Z</xsl:variable>
 		<xsl:variable name="medicationName" select="IndivoDocuments/d:AdherenceItem[1]/d:name"/>
@@ -130,7 +146,16 @@
 																	<dateReported><xsl:value-of select="d:dateReported"/></dateReported>
 																	<dateAdministered><xsl:value-of select="d:dateReported"/></dateAdministered>
 																	<amountAdministered>
-																		<value>12</value>
+																		<value>
+																			<xsl:choose>
+																				<xsl:when
+																						test="d:amountAdministeredValue">
+																					<xsl:value-of
+																							select="d:amountAdministeredValue"/>
+																				</xsl:when>
+																				<xsl:otherwise>12</xsl:otherwise>
+																			</xsl:choose>
+																		</value>
 																		<unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
 																	</amountAdministered>
 																	<!--Note that this value will be off if we have any "false" adherence values-->
@@ -205,7 +230,16 @@
 																		<dateReported><xsl:value-of select="d:dateReported"/></dateReported>
 																		<dateAdministered><xsl:value-of select="d:dateReported"/></dateAdministered>
 																		<amountAdministered>
-																			<value>12</value>
+																			<value>
+																				<xsl:choose>
+																					<xsl:when
+																							test="d:amountAdministeredValue">
+																						<xsl:value-of
+																								select="d:amountAdministeredValue"/>
+																					</xsl:when>
+																					<xsl:otherwise>12</xsl:otherwise>
+																				</xsl:choose>
+																			</value>
 																			<unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
 																		</amountAdministered>
 																		<!--Note that this value will be off if we have any "false" adherence values-->

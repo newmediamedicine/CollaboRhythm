@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="csantos - Convert medication lisinopril flat to hierarchy" type="XSLT" factoryName="XSLT">
-    <option name="myOutputFile" value="C:\Users\sgilroy\Git Repositories\CollaboRhythm\CollaboRhythm.ExampleData\data\slice1\csantos\medication_lisinopril_hierarchy.xml" />
+  <configuration default="false" name="jgreen - Convert medication ditropan flat to hierarchy" type="XSLT" factoryName="XSLT">
+    <option name="myOutputFile" value="$PROJECT_DIR$/CollaboRhythm.ExampleData/data/slice1/jgreen/medication_ditropan_hierarchy.xml" />
     <option name="myOpenOutputFile" value="true" />
     <option name="myOpenInBrowser" value="false" />
     <option name="mySmartErrorHandling" value="true" />
@@ -8,23 +8,15 @@
     <option name="myVmArguments" value="" />
     <option name="myWorkingDirectory" value="" />
     <option name="myModule" />
-    <option name="myJdk" value="1.6" />
+    <option name="myJdk" />
     <XsltFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/xslt/medication_pill_adherence_flat_to_hierarchy.xsl" />
-    <XmlFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/slice1/csantos/staging/medication_lisinopril_adherence.xml" />
+    <XmlFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/slice1/jgreen/staging/medication_ditropan_adherence.xml" />
     <parameters />
     <OutputType value="CONSOLE" save-to-file="true" />
     <FileType name="XML" />
     <JdkChoice value="FROM_MODULE" />
-    <RunnerSettings RunnerId="Debug">
-      <option name="DEBUG_PORT" value="51322" />
-      <option name="TRANSPORT" value="0" />
-      <option name="LOCAL" value="true" />
-    </RunnerSettings>
     <RunnerSettings RunnerId="Run" />
-    <RunnerSettings RunnerId="XsltDebuggerRunner" />
-    <ConfigurationWrapper RunnerId="Debug" />
     <ConfigurationWrapper RunnerId="Run" />
-    <ConfigurationWrapper RunnerId="XsltDebuggerRunner" />
     <method>
       <option name="Make" enabled="false" />
     </method>

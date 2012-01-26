@@ -1,6 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <dataroot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <AccountSource>
+    <accountId>skudo@records.media.mit.edu</accountId>
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    <fullName>Sarah Kudo</fullName>
+    <username>skudo</username>
+    <password>skudo-dope75</password>
+    <givenName>Sarah</givenName>
+    <familyName>Kudo</familyName>
+    <streetAddress>28 Green Street</streetAddress>
+    <postalCode>92101</postalCode>
+    <locality>San Diego</locality>
+    <region>California</region>
+    <country>US</country>
+    <timeZone>-8GMT</timeZone>
+    <emailPersonal>skudo@records.media.mit.edu</emailPersonal>
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    <instantMessengerName>skudo@records.media.mit.edu</instantMessengerName>
+    <dateOfBirth>1988-03-21T00:00:00Z</dateOfBirth>
+    <age>23</age>
+    <gender>Female</gender>
+    <ethnicity>Asian</ethnicity>
+    <language>Japanese</language>
+    <maritalStatus>Single</maritalStatus>
+    <employmentStatus>Employed</employmentStatus>
+    <employmentIndustry>Retail</employmentIndustry>
+    <occupation>Sales</occupation>
+    <religion>Christian</religion>
+    <highestEducation>University</highestEducation>
+    <organDonar>true</organDonar>
+    <recordId>070a616a-c5da-402c-a6ed-323db06cd0db</recordId>
+    <accessKey>tCgis8qZPb77MeNu4XRX</accessKey>
+    <accessSecret>cMfIH9tUW7K84hjTB9Qg</accessSecret>
+    <status>Login successful</status>
+    <demographicsId>e8dd4a57-dd58-4f50-b210-7dbcab9ad683</demographicsId>
+    <notes>Demo for fitness-tracking group</notes>
+  </AccountSource>
+  <AccountSource>
+    <accountId>abrooks@records.media.mit.edu</accountId>
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    <fullName>Amy Brooks</fullName>
+    <username>abrooks</username>
+    <password>abrooks-dope75</password>
+    <givenName>Amy</givenName>
+    <familyName>Brooks</familyName>
+    <streetAddress>22 Green Street</streetAddress>
+    <postalCode>92101</postalCode>
+    <locality>San Diego</locality>
+    <region>California</region>
+    <country>US</country>
+    <timeZone>-8GMT</timeZone>
+    <emailPersonal>abrooks@records.media.mit.edu</emailPersonal>
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    <instantMessengerName>abrooks@records.media.mit.edu</instantMessengerName>
+    <dateOfBirth>1966-03-18T00:00:00Z</dateOfBirth>
+    <age>44</age>
+    <gender>Female</gender>
+    <ethnicity>Black</ethnicity>
+    <language>English</language>
+    <maritalStatus>Married</maritalStatus>
+    <employmentStatus>Employed</employmentStatus>
+    <employmentIndustry>Medical</employmentIndustry>
+    <occupation>Doctor</occupation>
+    <religion>Protestant</religion>
+    <highestEducation>University</highestEducation>
+    <organDonar>true</organDonar>
+    <recordId>e27ecab3-75fe-4d8d-b858-12f140338ece</recordId>
+    <accessKey>G8Zoz6iCqWSgXLHZbgDl</accessKey>
+    <accessSecret>9iT8rFMQhSI5EJL238hL</accessSecret>
+    <status>Demographics document created. Id: bc90ae1f-45cf-4c2f-80e2-5ac32e3e6fde</status>
+    <demographicsId>bc90ae1f-45cf-4c2f-80e2-5ac32e3e6fde</demographicsId>
+  </AccountSource>
+  <AccountSource>
     <accountId>mfletcher@records.media.mit.edu</accountId>
     <contactEmail>sgilroy@mit.edu</contactEmail>
     <fullName>Markus Fletcher</fullName>
@@ -138,11 +211,13 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>09f5c77f-0180-46c4-89d6-6f4cb2ec8ea6</recordId>
-    <accessKey>AS5EiMiG4GA6d7FheBD2</accessKey>
-    <accessSecret>SJL20SbT9NUG3XOKHVAN</accessSecret>
-    <status>Record shared.</status>
-    <demographicsId>01e7fd46-6d60-43a8-a745-3f8d9eb62d99</demographicsId>
+    <recordId>8a21cb88-ae63-4c41-a0f1-07dcb7c3d70d</recordId>
+    <accessKey>md3DG6WbA5osPWKxbLcV</accessKey>
+    <accessSecret>AHru7IykfonXAEyM2Nsa</accessSecret>
+    <status>Login successful</status>
+    <demographicsId>7007e6a6-c8c8-491b-8b6a-06153e129f40</demographicsId>
+    <notes>Demo for Melinda and post-op</notes>
+    <recordSeed>5</recordSeed>
   </AccountSource>
   <AccountSource>
     <accountId>rpoole@records.media.mit.edu</accountId>
@@ -569,11 +644,12 @@
     <religion>Protestant</religion>
     <highestEducation>High School</highestEducation>
     <organDonar>true</organDonar>
-    <recordId/>
-    <accessKey>FlxFVlvFBbQp47DDXUAK</accessKey>
-    <accessSecret>Ilk5fruuNKnz0uvAZcxT</accessSecret>
-    <status>Record shared.</status>
-    <demographicsId>697f9267-f68e-4056-a012-24164c711708</demographicsId>
+    <recordId>f231928c-3e0a-440b-8dff-6836775ff513</recordId>
+    <accessKey>f8mntmxXPG1cF85gOoQ1</accessKey>
+    <accessSecret>XgHCe91ngEbgC2WgGjYF</accessSecret>
+    <status>Login successful</status>
+    <demographicsId>8a357c5e-94da-419e-b8ab-5c130eabdb33</demographicsId>
+    <notes>Used to test IndivoAccountCreator</notes>
   </AccountSource>
   <AccountSource>
     <accountId>csantos@records.media.mit.edu</accountId>
@@ -716,9 +792,9 @@
     <recordId/>
     <accessKey>2aZWoBykoS9FweOJktVL</accessKey>
     <accessSecret>lrwYcHvFE5XAsHcAloz1</accessSecret>
-    <status>Record shared. Failed on POST
-
-
+    <status>Record shared. Failed on POST
+
+
 			http://records.media.mit.edu:8000/accounts/mloomis@records.media.mit.edu/authsystems/ Response:</status>
     <demographicsId>a3236c63-79d0-4542-9ef4-ab2f6956e42b</demographicsId>
   </AccountSource>
@@ -758,6 +834,6 @@
     <accessSecret>Zdfz4j4DZqC4jxrCmcsm</accessSecret>
     <demographicsId>d66490ce-2c5b-49ef-8c7d-4e6e70e2dab5</demographicsId>
   </AccountSource>
-  <saveDate>Tue Jan 24 22:29:12 GMT-0500 2012</saveDate>
+  <saveDate>Thu Jan 26 09:24:05 GMT-0500 2012</saveDate>
   <indivoServerBaseURL>http://184.106.136.151:8000</indivoServerBaseURL>
 </dataroot>

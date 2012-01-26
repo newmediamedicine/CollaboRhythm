@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IndivoDocuments xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:fn="http://www.w3.org/2005/xpath-functions"
+                 xmlns:d="http://indivo.org/vocab/xml/documents#">
+   <LoadableIndivoDocument>
+      <document>
+         <Equipment xmlns="http://indivo.org/vocab/xml/documents#">
+            <dateStarted>2009-12-15</dateStarted>
+            <type>blood pressure monitor</type>
+            <name xmlns="">FORA D40b</name>
+         </Equipment>
+      </document>
+      <relatesTo>
+         <relation type="scheduleItem">
+            <LoadableIndivoDocument>
+               <document>
+                  <EquipmentScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
+                     <name xmlns="">FORA D40b</name>
+                     <scheduledBy>jking@records.media.mit.edu</scheduledBy>
+                     <dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
+                     <dateStart>2011-07-15T13:00:00Z</dateStart>
+                     <dateEnd>2011-07-15T17:00:00Z</dateEnd>
+                     <recurrenceRule>
+                        <frequency>DAILY</frequency>
+                        <count>90</count>
+                     </recurrenceRule>
+                     <instructions xmlns="">Use device to record blood glucose. Insert test strip into device and apply a drop of blood.</instructions>
+                  </EquipmentScheduleItem>
+               </document>
+               <relatesTo>
+                  <relation type="adherenceItem">
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">FORA D40b</name>
+                              <reportedBy xmlns="">skudo@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-15T11:15:00Z</dateReported>
+                              <recurrenceIndex>0</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Blood Glucose</name>
+                                       <measuredBy>skudo@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-15T11:15:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>200</value>
+                                          <unit abbrev="mg/dL">milligrams per deciliter</unit>
+                                       </result>
+                                       <site>abdomen</site>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">FORA D40b</name>
+                              <reportedBy xmlns="">skudo@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-16T10:45:00Z</dateReported>
+                              <recurrenceIndex>0</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Blood Glucose</name>
+                                       <measuredBy>skudo@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-16T10:45:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>185</value>
+                                          <unit abbrev="mg/dL">milligrams per deciliter</unit>
+                                       </result>
+                                       <site>abdomen</site>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">FORA D40b</name>
+                              <reportedBy xmlns="">skudo@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-17T10:30:00Z</dateReported>
+                              <recurrenceIndex>1</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Blood Glucose</name>
+                                       <measuredBy>skudo@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-17T10:30:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>175</value>
+                                          <unit abbrev="mg/dL">milligrams per deciliter</unit>
+                                       </result>
+                                       <site>abdomen</site>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">FORA D40b</name>
+                              <reportedBy xmlns="">skudo@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-18T09:45:00Z</dateReported>
+                              <recurrenceIndex>2</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Blood Glucose</name>
+                                       <measuredBy>skudo@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-18T09:45:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>169</value>
+                                          <unit abbrev="mg/dL">milligrams per deciliter</unit>
+                                       </result>
+                                       <site>abdomen</site>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">FORA D40b</name>
+                              <reportedBy xmlns="">skudo@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-19T09:30:00Z</dateReported>
+                              <recurrenceIndex>3</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Blood Glucose</name>
+                                       <measuredBy>skudo@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-19T09:30:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>154</value>
+                                          <unit abbrev="mg/dL">milligrams per deciliter</unit>
+                                       </result>
+                                       <site>abdomen</site>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">FORA D40b</name>
+                              <reportedBy xmlns="">skudo@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-20T11:00:00Z</dateReported>
+                              <recurrenceIndex>4</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Blood Glucose</name>
+                                       <measuredBy>skudo@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-20T11:00:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>137</value>
+                                          <unit abbrev="mg/dL">milligrams per deciliter</unit>
+                                       </result>
+                                       <site>abdomen</site>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name xmlns="">FORA D40b</name>
+                              <reportedBy xmlns="">skudo@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-21T11:15:00Z</dateReported>
+                              <recurrenceIndex>5</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name>Blood Glucose</name>
+                                       <measuredBy>skudo@records.media.mit.edu</measuredBy>
+                                       <dateMeasuredStart>2011-07-21T11:15:00Z</dateMeasuredStart>
+                                       <result>
+                                          <value>120</value>
+                                          <unit abbrev="mg/dL">milligrams per deciliter</unit>
+                                       </result>
+                                       <site>abdomen</site>
+                                    </VitalSign>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                  </relation>
+               </relatesTo>
+            </LoadableIndivoDocument>
+         </relation>
+      </relatesTo>
+   </LoadableIndivoDocument>
+</IndivoDocuments>

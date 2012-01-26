@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--~
+  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~ Edited 21-Jan-12 by Paul Franzosa
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<IndivoDocuments>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="849582">Trimethoprim 80 MG Oral Tablet [Bactrim]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-15T08:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<ndc>1331014601</ndc>
+		<indication>prevent infection</indication>
+		<recurrenceIndex>0</recurrenceIndex>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="849582">Trimethoprim 80 MG Oral Tablet [Bactrim]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-16T08:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<recurrenceIndex>1</recurrenceIndex>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="849582">Trimethoprim 80 MG Oral Tablet [Bactrim]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-17T08:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<recurrenceIndex>2</recurrenceIndex>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="849582">Trimethoprim 80 MG Oral Tablet [Bactrim]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-18T08:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<recurrenceIndex>3</recurrenceIndex>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="849582">Trimethoprim 80 MG Oral Tablet [Bactrim]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-19T08:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<recurrenceIndex>4</recurrenceIndex>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="849582">Trimethoprim 80 MG Oral Tablet [Bactrim]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-20T08:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<recurrenceIndex>5</recurrenceIndex>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="849582">Trimethoprim 80 MG Oral Tablet [Bactrim]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-21T08:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<recurrenceIndex>6</recurrenceIndex>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="849582">Trimethoprim 80 MG Oral Tablet [Bactrim]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-22T08:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<recurrenceIndex>7</recurrenceIndex>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="849582">Trimethoprim 80 MG Oral Tablet [Bactrim]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-23T08:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<recurrenceIndex>8</recurrenceIndex>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="849582">Trimethoprim 80 MG Oral Tablet [Bactrim]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-24T08:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<recurrenceIndex>9</recurrenceIndex>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="849582">Trimethoprim 80 MG Oral Tablet [Bactrim]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-25T08:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<recurrenceIndex>10</recurrenceIndex>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="849582">Trimethoprim 80 MG Oral Tablet [Bactrim]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-26T08:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<recurrenceIndex>11</recurrenceIndex>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="849582">Trimethoprim 80 MG Oral Tablet [Bactrim]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-27T08:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<recurrenceIndex>12</recurrenceIndex>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="849582">Trimethoprim 80 MG Oral Tablet [Bactrim]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-28T08:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<recurrenceIndex>13</recurrenceIndex>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="849582">Trimethoprim 80 MG Oral Tablet [Bactrim]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-29T08:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<recurrenceIndex>14</recurrenceIndex>
+	</AdherenceItem>
+	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="849582">Trimethoprim 80 MG Oral Tablet [Bactrim]</name>
+		<reportedBy>jgreen@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-30T08:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<recurrenceIndex>15</recurrenceIndex>
+		</AdherenceItem>
+</IndivoDocuments>

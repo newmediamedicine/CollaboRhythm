@@ -500,11 +500,11 @@
     <religion>Protestant</religion>
     <highestEducation>High School</highestEducation>
     <organDonar>true</organDonar>
-    <recordId/>
-    <accessKey>FlxFVlvFBbQp47DDXUAK</accessKey>
-    <accessSecret>Ilk5fruuNKnz0uvAZcxT</accessSecret>
-    <status>Record shared.</status>
-    <demographicsId>697f9267-f68e-4056-a012-24164c711708</demographicsId>
+    <recordId>e5ba3e0a-d6cb-4d09-aa06-49c50c6e0474</recordId>
+    <accessKey>BiFYELoiOJ74mww3YLR6</accessKey>
+    <accessSecret>qKCtQnC7yDFEBonq5VIF</accessSecret>
+    <status>Login successful</status>
+    <demographicsId>8458345b-e2b3-43c9-8348-da62720a33d5</demographicsId>
   </AccountSource>
   <AccountSource>
     <accountId>csantos@records.media.mit.edu</accountId>
@@ -574,11 +574,11 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId/>
-    <accessKey>nB2YozzXPKVdqIv90i3D</accessKey>
-    <accessSecret>Cl6omFyB0E6HD549HXf6</accessSecret>
-    <status>Record shared.</status>
-    <demographicsId>e0e59e59-d9fc-4ec0-bc2d-8627de94f3db</demographicsId>
+    <recordId>92ddcf0a-64ab-434c-b61a-099014d06c32</recordId>
+    <accessKey>a5Oa1kKwbAGLPf0nImMg</accessKey>
+    <accessSecret>cEUF1GFnt5pyj7YnevMv</accessSecret>
+    <status>Login successful</status>
+    <demographicsId>84f096b3-88e3-4999-8843-1f7d5ec9452c</demographicsId>
   </AccountSource>
   <AccountSource>
     <accountId>jking@records.media.mit.edu</accountId>
@@ -690,6 +690,6 @@
     <demographicsId>d66490ce-2c5b-49ef-8c7d-4e6e70e2dab5</demographicsId>
     <notes>Trash can account</notes>
   </AccountSource>
-  <saveDate>Tue Jan 24 12:08:47 GMT-0500 2012</saveDate>
+  <saveDate>Wed Jan 25 20:55:56 GMT-0500 2012</saveDate>
   <indivoServerBaseURL>http://indivo-dev.media.mit.edu:8080</indivoServerBaseURL>
 </dataroot>
