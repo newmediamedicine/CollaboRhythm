@@ -41,6 +41,7 @@
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.HealthActions/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.PainReport/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.HealthCharts/bin-debug</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Equipment.PillBox/bin-debug</pluginSearchPath>
 		<!-- This path is for the plugins that are installed with the application -->
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins</pluginSearchPath>
 	</pluginSearchPaths>

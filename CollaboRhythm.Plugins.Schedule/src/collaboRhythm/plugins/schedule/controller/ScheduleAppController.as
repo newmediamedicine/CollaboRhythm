@@ -175,6 +175,8 @@ package collaboRhythm.plugins.schedule.controller
 						switch (urlVariables.bin)
 						{
 							case "1":
+								name = "Hydrochlorothiazide 25 MG Oral Tablet";
+								urlVariables.healthActionName = "MedicationAdministration";
 								break;
 							case "2":
 								break;
