@@ -5,6 +5,7 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 
 	import com.dougmccune.controls.ScrubChart;
 	import com.dougmccune.controls.SeriesDataSet;
+	import com.theory9.data.types.OrderedMap;
 
 	import mx.core.IVisualElement;
 
@@ -38,6 +39,11 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 
 		public function drawBackgroundElements(canvas:DataDrawingCanvas, zoneLabel:Label):void
 		{
+		}
+
+		public function updateChartDescriptors(chartDescriptors:OrderedMap):OrderedMap
+		{
+			return chartDescriptors;
 		}
 	}
 }

@@ -254,12 +254,21 @@ package collaboRhythm.shared.ui.healthCharts.view
 				initializeModifierFactories();
 				createChartDescriptors();
 				createChartModifiers();
+				updateChartDescriptors();
 				createChartsFromDescriptors();
 				createCustomCharts();
 			}
 			else
 			{
 				updateAdherenceCharts();
+			}
+		}
+
+		private function updateChartDescriptors():void
+		{
+			for each (var chartModifier:IChartModifier in _chartModifiers.values())
+			{
+				_chartDescriptors = chartModifier.updateChartDescriptors(_chartDescriptors);
 			}
 		}
 
@@ -2040,10 +2049,10 @@ package collaboRhythm.shared.ui.healthCharts.view
 		{
 			_seriesWithPendingUpdateComplete.removeAll();
 
-			if (model.isInitialized)
+			if (model && model.isInitialized)
 				initializeSeriesSets();
 
-			if (model.isInitialized && model.showAdherence)
+			if (model && model.isInitialized && model.showAdherence)
 			{
 				createAdherenceCharts();
 				updateSeries();

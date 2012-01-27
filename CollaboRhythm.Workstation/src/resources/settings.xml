@@ -53,7 +53,6 @@
 		<appGroup id="custom">
 			<appDescriptors>
 				<appDescriptor>collaboRhythm.plugins.schedule.controller::ScheduleAppController</appDescriptor>
-				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::BloodPressureAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.healthCharts.controller::HealthChartsAppController</appDescriptor>
 			</appDescriptors>
 		</appGroup>

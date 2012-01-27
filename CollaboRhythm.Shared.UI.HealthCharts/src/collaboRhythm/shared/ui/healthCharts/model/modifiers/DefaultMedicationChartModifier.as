@@ -10,6 +10,7 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 
 	import com.dougmccune.controls.ScrubChart;
 	import com.dougmccune.controls.SeriesDataSet;
+	import com.theory9.data.types.OrderedMap;
 
 	import mx.charts.LinearAxis;
 	import mx.charts.series.AreaSeries;
@@ -151,5 +152,9 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 			}
 		}
 
+		public function updateChartDescriptors(chartDescriptors:OrderedMap):OrderedMap
+		{
+			return chartDescriptors;
+		}
 	}
 }
