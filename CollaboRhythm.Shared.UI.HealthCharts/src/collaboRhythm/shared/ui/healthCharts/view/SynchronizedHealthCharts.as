@@ -7,7 +7,6 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import collaboRhythm.shared.model.healthRecord.derived.MedicationConcentrationSample;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
-	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
@@ -24,7 +23,6 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.MedicationChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.VitalSignChartDescriptor;
-	import collaboRhythm.shared.ui.healthCharts.model.modifiers.DefaultChartModifier;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.DefaultChartModifierFactory;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifier;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifierFactory;
@@ -49,12 +47,13 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import mx.charts.LinearAxis;
 	import mx.charts.chartClasses.CartesianChart;
 	import mx.charts.chartClasses.CartesianDataCanvas;
+	import mx.charts.chartClasses.IAxisRenderer;
 	import mx.charts.chartClasses.Series;
-	import mx.charts.series.AreaSeries;
 	import mx.charts.series.PlotSeries;
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
 	import mx.core.ClassFactory;
+	import mx.core.IUIComponent;
 	import mx.core.IVisualElement;
 	import mx.core.UIComponent;
 	import mx.effects.Sequence;
@@ -63,8 +62,6 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import mx.events.PropertyChangeEvent;
 	import mx.events.ResizeEvent;
 	import mx.events.ScrollEvent;
-	import mx.graphics.SolidColor;
-	import mx.graphics.SolidColorStroke;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 	import mx.managers.IFocusManagerComponent;
@@ -72,8 +69,6 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 	import qs.charts.dataShapes.DataDrawingCanvas;
 	import qs.charts.dataShapes.Edge;
-
-	import skins.LineSeriesCustomRenderer;
 
 	import spark.components.HGroup;
 	import spark.components.Label;
@@ -112,7 +107,6 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private var _initialDurationTime:Number = ScrubChart.DAYS_TO_MILLISECONDS * 7;
 		private var _useHorizontalTouchScrolling:Boolean = true;
 
-		protected const GOAL_ZONE_COLOR:uint = 0x8DCB86;
 		private var _seriesSets:Vector.<ScrubChartSeriesSet> = new Vector.<ScrubChartSeriesSet>();
 		private var _seriesWithPendingUpdateComplete:ArrayCollection = new ArrayCollection();
 		private var _chartsWithPendingCreationComplete:ArrayCollection = new ArrayCollection();
@@ -410,6 +404,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			var chart:TouchScrollingScrubChart = createAdherenceChart(
 					getAdherenceStripChartKey(medicationCode), chartDescriptor);
 
+			chart.setStyle("skinClass", AdherenceStripChartSkin);
 			setMedicationChartStyles(medicationCode, medicationFill, chart);
 			initializeAdherenceStripChart(chart, medicationCode);
 
@@ -529,7 +524,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 			var adherenceChartsGroup:VGroup = new VGroup();
 			adherenceChartsGroup.gap = 0;
 			adherenceChartsGroup.addElement(resultChart);
-			adherenceChartsGroup.addElement(adherenceStripChart);
+			if (adherenceStripChart)
+				adherenceChartsGroup.addElement(adherenceStripChart);
 			adherenceChartsGroup.percentWidth = 100;
 			adherenceChartsGroup.percentHeight = 100;
 			
@@ -561,8 +557,11 @@ package collaboRhythm.shared.ui.healthCharts.view
 			if (vitalSignCollection && vitalSignCollection.length > 0 && vitalSignCollection[0])
 			{
 				var vitalSignChart:TouchScrollingScrubChart = createVitalSignChart(vitalSignChartDescriptor, vitalSignCollection);
-				var adherenceStripChart:TouchScrollingScrubChart = createVitalSignAdherenceStripChart(vitalSignChartDescriptor,
-						equipmentScheduleItem);
+				if (equipmentScheduleItem)
+				{
+					var adherenceStripChart:TouchScrollingScrubChart = createVitalSignAdherenceStripChart(vitalSignChartDescriptor,
+							equipmentScheduleItem);
+				}
 				createAdherenceGroup(createChartImage(vitalSignChartDescriptor), vitalSignChart, adherenceStripChart);
 			}
 		}
@@ -607,6 +606,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			var chart:TouchScrollingScrubChart = createAdherenceChart(getVitalSignAdherenceStripChartKey(vitalSignKey), vitalSignChartDescriptor);
 			setVitalSignChartStyles(chart, vitalSignKey);
 
+			chart.setStyle("skinClass", AdherenceStripChartSkin);
 			initializeAdherenceStripChart(chart, equipmentScheduleItem ? equipmentScheduleItem.name.text : null);
 
 			chart.addEventListener(SkinPartEvent.PART_ADDED, vitalSignAdherenceStripChart_skinPartAddedHandler, false, 0,
@@ -681,14 +681,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 				if (chartModifier)
 					addSeriesDataSets(chartModifier, chart);
 
-				var mainCanvas:DataDrawingCanvas = chart.mainChart.backgroundElements[0] as DataDrawingCanvas;
-				if (mainCanvas)
-				{
-					updateAdherenceChartSeriesCompleteHandler(chart, mainCanvas,
-							mainCanvas ? mainCanvas.getChildAt(0) as Label : null,
-							null, medicationCode, ndcCode);
-					mainCanvas.invalidateSize();
-				}
+				if (chartModifier)
+					drawBackgroundElements(chartModifier, chart);
 
 				var index:int = _chartsWithPendingCreationComplete.getItemIndex(chart);
 				if (index != -1)
@@ -711,6 +705,36 @@ package collaboRhythm.shared.ui.healthCharts.view
 					verticalAxis.minimum = NaN;
 					verticalAxis.maximum = NaN;
 				}
+			}
+		}
+
+		private function fixVerticalAxis(chart:ScrubChart):void
+		{
+			fixVerticalAxis2(chart.mainChart);
+			if (chart.mainChartCover)
+			{
+				fixVerticalAxis2(chart.mainChartCover);
+			}
+		}
+
+		private function fixVerticalAxis2(cartesianChart:CartesianChart):void
+		{
+			for each (var axisRenderer:IAxisRenderer in cartesianChart.verticalAxisRenderers)
+			{
+				doResizeFix(axisRenderer as UIComponent);
+			}
+		}
+
+		private function doResizeFix(component:UIComponent):void
+		{
+			if (component)
+			{
+				callLater(
+						function ():void
+						{
+							component.invalidateDisplayList();
+						}
+				);
 			}
 		}
 
@@ -740,14 +764,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 				if (chartModifier)
 					addSeriesDataSets(chartModifier, chart);
 
-				var mainCanvas:DataDrawingCanvas = chart.mainChart.backgroundElements[0] as DataDrawingCanvas;
-				if (mainCanvas)
-				{
-					updateVitalSignAdherenceChartSeriesCompleteHandler(chart, mainCanvas,
-							mainCanvas ? mainCanvas.getChildAt(0) as Label : null,
-							null, vitalSignKey);
-					mainCanvas.invalidateSize();
-				}
+				if (chartModifier)
+					drawBackgroundElements(chartModifier, chart);
 
 				var index:int = _chartsWithPendingCreationComplete.getItemIndex(chart);
 				if (index != -1)
@@ -771,6 +789,36 @@ package collaboRhythm.shared.ui.healthCharts.view
 					verticalAxis.minimum = NaN;
 					verticalAxis.maximum = NaN;
 				}
+			}
+		}
+
+		private function drawBackgroundElements(chartModifier:IChartModifier,
+												chart:ScrubChart):void
+		{
+			var mainCanvas:DataDrawingCanvas = chart.mainChart.backgroundElements[0] as DataDrawingCanvas;
+			if (mainCanvas)
+			{
+				var zoneLabel:Label = mainCanvas ? mainCanvas.getChildAt(0) as Label : null;
+				if (zoneLabel)
+				{
+					// Position the zone label to some neutral location so that we don't get rendering errors if the chart modifier doesn't do anything with the label
+					mainCanvas.updateDataChild(zoneLabel, {left:Edge.LEFT, bottom:Edge.BOTTOM});
+				}
+
+				chartModifier.drawBackgroundElements(mainCanvas, zoneLabel);
+				callLater(
+						function ():void
+						{
+							mainCanvas.invalidateDisplayList();
+						}
+				);
+
+				if (chart.rangeChart)
+				{
+					// TODO: add support for the range chart
+				}
+
+				mainCanvas.invalidateSize();
 			}
 		}
 
@@ -1051,29 +1099,6 @@ package collaboRhythm.shared.ui.healthCharts.view
 			updateRangeChartVisibleStyles();
 		}
 
-		public function drawConcentrationGoalRegion(canvas:DataDrawingCanvas, zoneLabel:Label, medicationCode:String, ndcCode:String):void
-		{
-			if (_traceEventHandlers)
-				trace(this + ".drawConcentrationGoalRegion");
-
-			canvas.clear();
-
-			var medicationModel:MedicationComponentAdherenceModel = model.focusSimulation.getMedication(medicationCode);
-			var color:uint = getMedicationColor(ndcCode);
-			canvas.lineStyle(1, color);
-
-			canvas.beginFill(color, 0.25);
-			canvas.drawRect([Edge.LEFT, -1], medicationModel.goalConcentrationMinimum, [Edge.RIGHT, 1],
-					medicationModel.goalConcentrationMaximum);
-			canvas.endFill();
-
-			if (zoneLabel)
-			{
-				zoneLabel.setStyle("color", color);
-				canvas.updateDataChild(zoneLabel, {left:Edge.LEFT, top:medicationModel.goalConcentrationMaximum});
-			}
-		}
-
 		public function drawVitalSignGoalRegion(canvas:DataDrawingCanvas, zoneLabel:Label, vitalSignKey:String):void
 		{
 			if (_traceEventHandlers)
@@ -1295,49 +1320,6 @@ package collaboRhythm.shared.ui.healthCharts.view
 			// TODO Auto-generated method stub
 			if (_traceEventHandlers)
 				trace("adherenceChart_initializeHandler");
-		}
-
-		protected function heartRateChart_creationCompleteHandler(event:FlexEvent):void
-		{
-			var chart:ScrubChart = ScrubChart(event.target);
-
-			var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
-			verticalAxis.minimum = 50;
-			verticalAxis.maximum = 100;
-		}
-
-		private function updateAdherenceChartSeriesCompleteHandler(chart:ScrubChart, mainCanvas:DataDrawingCanvas, zoneLabel:Label, rangeCanvas:DataDrawingCanvas, medicationCode:String, ndcCode:String):void
-		{
-			drawConcentrationGoalRegion(mainCanvas, zoneLabel, medicationCode, ndcCode);
-			callLater(
-					function ():void
-					{
-						mainCanvas.invalidateDisplayList();
-					}
-			);
-
-			if (chart.rangeChart)
-			{
-				chart.rangeChart.backgroundElements.push(rangeCanvas);
-				drawConcentrationGoalRegion(rangeCanvas, null, medicationCode, ndcCode);
-			}
-		}
-
-		private function updateVitalSignAdherenceChartSeriesCompleteHandler(chart:ScrubChart, mainCanvas:DataDrawingCanvas, zoneLabel:Label, rangeCanvas:DataDrawingCanvas, vitalSignKey:String):void
-		{
-			drawVitalSignGoalRegion(mainCanvas, zoneLabel, vitalSignKey);
-			callLater(
-					function ():void
-					{
-						mainCanvas.invalidateDisplayList();
-					}
-			);
-
-			if (chart.rangeChart)
-			{
-				chart.rangeChart.backgroundElements.push(rangeCanvas);
-				drawVitalSignGoalRegion(rangeCanvas, null, vitalSignKey);
-			}
 		}
 
 		private function updateAdherenceStripChartSeriesCompleteHandler(chart:ScrubChart, mainCanvas:DataDrawingCanvas, zoneLabel:Label, rangeCanvas:DataDrawingCanvas, scheduleItemName:String, scheduleItemCollection:ArrayCollection):void

@@ -12,7 +12,6 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	import com.dougmccune.controls.SeriesDataSet;
 
 	import mx.charts.LinearAxis;
-
 	import mx.charts.series.AreaSeries;
 	import mx.collections.ArrayCollection;
 	import mx.core.ClassFactory;
@@ -20,8 +19,12 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	import mx.graphics.SolidColor;
 	import mx.graphics.SolidColorStroke;
 
+	import qs.charts.dataShapes.DataDrawingCanvas;
+	import qs.charts.dataShapes.Edge;
+
 	import skins.LineSeriesCustomRenderer;
 
+	import spark.components.Label;
 	import spark.layouts.VerticalAlign;
 
 	/**
@@ -121,5 +124,32 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 			medicationView.verticalAlign = VerticalAlign.MIDDLE;
 			return medicationView;
 		}
+
+		public function drawBackgroundElements(canvas:DataDrawingCanvas, zoneLabel:Label):void
+		{
+			var medicationCode:String = medicationChartDescriptor.medicationCode;
+			var ndcCode:String = medicationChartDescriptor.ndcCode;
+
+			canvas.clear();
+
+			var medicationModel:MedicationComponentAdherenceModel = chartModelDetails.record.healthChartsModel.focusSimulation.getMedication(medicationCode);
+			if (!isNaN(medicationModel.goalConcentrationMinimum) && !isNaN(medicationModel.goalConcentrationMaximum))
+			{
+				var color:uint = getMedicationColor();
+				canvas.lineStyle(1, color);
+
+				canvas.beginFill(color, 0.25);
+				canvas.drawRect([Edge.LEFT, -1], medicationModel.goalConcentrationMinimum, [Edge.RIGHT, 1],
+						medicationModel.goalConcentrationMaximum);
+				canvas.endFill();
+
+				if (zoneLabel)
+				{
+					zoneLabel.setStyle("color", color);
+					canvas.updateDataChild(zoneLabel, {left:Edge.LEFT, top:medicationModel.goalConcentrationMaximum});
+				}
+			}
+		}
+
 	}
 }

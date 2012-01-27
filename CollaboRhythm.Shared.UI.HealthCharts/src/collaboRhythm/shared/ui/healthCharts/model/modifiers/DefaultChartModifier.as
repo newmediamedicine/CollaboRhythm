@@ -8,6 +8,10 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 
 	import mx.core.IVisualElement;
 
+	import qs.charts.dataShapes.DataDrawingCanvas;
+
+	import spark.components.Label;
+
 	public class DefaultChartModifier extends ChartModifierBase implements IChartModifier
 	{
 		public function DefaultChartModifier(chartDescriptor:IChartDescriptor,
@@ -30,6 +34,10 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 		public function createImage(currentChartImage:IVisualElement):IVisualElement
 		{
 			return currentChartImage;
+		}
+
+		public function drawBackgroundElements(canvas:DataDrawingCanvas, zoneLabel:Label):void
+		{
 		}
 	}
 }

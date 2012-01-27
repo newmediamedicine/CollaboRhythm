@@ -17,6 +17,8 @@ package collaboRhythm.shared.model.healthRecord.document
 		public static const DIASTOLIC_CATEGORY:String = "Blood Pressure Diastolic";
 		public static const HEART_RATE_CATEGORY:String = "Heart Rate";
 		public static const BLOOD_GLUCOSE_CATEGORY:String = "Blood Glucose";
+		public static const METABOLIC_EQUIVALENT_TASK_CATEGORY:String = "Metabolic Equivalent Task";
+		public static const OXYGEN_SATURATION_CATEGORY:String = "Oxygen Saturation";
 
 		public function VitalSignsModel()
 		{
