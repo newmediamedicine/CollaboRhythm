@@ -5,8 +5,7 @@
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
-					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
-					   viewDeactivate="callout.close()">
+					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView">
 
 
 	<fx:Declarations>
@@ -85,13 +84,21 @@
 			</s:SkinnablePopUpContainer>
 		</fx:Component>
 
-		<!-- Callout For Education Materials -->
-		<s:Callout id="callout" height="250" horizontalPosition="middle" mouseDownOutside="callout.close()">
+		<!-- Callout For Red Pink Urine -->
+		<s:Callout id="calloutRedPinkUrine" height="250" horizontalPosition="after" mouseDownOutside="calloutRedPinkUrine.close()">
 			<s:VGroup paddingTop="10" paddingBottom="10" paddingLeft="10" paddingRight="10" horizontalAlign="center">
-				<s:Label text="Education Materials" fontWeight="bold" fontSize="30" color="0xAA0D0A"/>
-				<s:TextArea text="Brian's education materials goes here, consectetur adipiscing elit. Curabitur accumsan felis ac tortor aliquam iaculis. Phasellus hendrerit viverra enim, sit amet scelerisque lectus dictum at. Aenean sodales nisi sed leo congue et porttitor ligula vehicula.
-							Pellentesque turpis massa, suscipit vel fermentum quis, dignissim sed ipsum. Nulla aliquet libero adipiscing risus lobortis eleifend quis at velit. Duis at leo urna.
-							Praesent facilisis faucibus neque, ut ullamcorper lacus gravida a. Donec vel iaculis sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur accumsan felis ac tortor aliquam iaculis. Phasellus hendrerit viverra enim, sit amet scelerisque lectus dictum at. Aenean sodales nisi sed leo congue et porttitor ligula vehicula." width="80%" height="100" editable="false"/>
+				<s:Label text="Red/Pink Urine" fontWeight="bold" fontSize="30" color="0xAA0D0A"/>
+				<s:TextArea text="Though red or pink urine can be quite scary, it is to be expected after this surgery. Even a tiny amount of blood in the urine can turn urine red or pink. Urine should stay pink/red for 4-7 days after surgery, and slowly start to clear. Occasional episodes of worsening red color are not unexpected, as long as they don’t happen along with pain or clots, and then start to go away. If red urine persists for longer than 1 week after arriving home, please let your clinician know.
+					Clots are formed when there is active bleeding in the bladder, and there is enough blood to clot. Clots can block catheters, and should be removed by irrigating (flushing a lot of fluid in and out of the bladder). If you notice clots after several days of clear urine, please let your clinician know." width="80%" height="100" editable="false"/>
+			</s:VGroup>
+		</s:Callout>
+
+
+		<!-- Callout For Bowel Movements -->
+		<s:Callout id="calloutBowelMovements" height="250" horizontalPosition="after" mouseDownOutside="calloutBowelMovements.close()">
+			<s:VGroup paddingTop="10" paddingBottom="10" paddingLeft="10" paddingRight="10" horizontalAlign="center">
+				<s:Label text="Bowel Movements" fontWeight="bold" fontSize="30" color="0xAA0D0A"/>
+				<s:TextArea text="While it can be embarrassing to talk about bowel movements, it is important for a couple of reason. You just had surgery on your belly, and that includes your intestines. Knowing how much and what kind of bowel movement you are having can tell us if there is a blockage in your bowels, an infection, constipation (hard stool that is tough to get out), if you are bleeding from your surgery, and if the tube that allows water to clean out your bowels is working properly. We also don’t want you to have to strain to go to the bathroom, because it puts pressure on the site of surgery, so it is important to have soft stool." width="80%" height="100" editable="false"/>
 			</s:VGroup>
 		</s:Callout>
 
@@ -99,16 +106,6 @@
 
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
-
-		.reportingLabelsText {
-			color: #000000;
-			fontSize: 40;
-		}
-
-		.textInputText {
-			color: #000000;
-			fontSize: 150;
-		}
 
 		FormItem {
 			labelStyleName: labelStyle;
@@ -267,13 +264,9 @@
 								<mx:TextInput id="urineFrmUreAmt"/>
 							</mx:FormItem>
 
-							<mx:FormItem label="Is urine red/pink?" id="lbl" click="callout.open(lbl)">
-								<s:RadioButton groupName="urineColorGroup" id="optionUrineColorYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" />
-								<s:RadioButton groupName="urineColorGroup" id="optionUrineColorNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" />
-								<!--<s:helpContent>-->
-									<!--<s:Button label="?" width="30" baseline="24" x="120"/>-->
-								<!--</s:helpContent>-->
-								<!--<s:Label id="lbl" x="270" y="240" fontSize="40" text="Click Me" click="callout.open(lbl)"/>-->
+							<mx:FormItem label="Is urine red/pink?" id="lbl" click="calloutRedPinkUrine.open(lbl)" fontStyle="italic" fontWeight="bold" textDecoration="underline">
+								<s:RadioButton groupName="urineColorGroup" id="optionUrineColorYes" label="Yes" skinClass="spark.skins.mobile.RadioButtonSkin" textDecoration="none" fontWeight="normal"/>
+								<s:RadioButton groupName="urineColorGroup" id="optionUrineColorNo" label="No" skinClass="spark.skins.mobile.RadioButtonSkin" textDecoration="none" fontWeight="normal"/>
 							</mx:FormItem>
 
 							<mx:FormItem label="Are there clots?">
@@ -332,10 +325,10 @@
 											   />
 							</mx:FormItem>
 
-							<mx:FormItem label="Did you have:">
-								<s:RadioButton groupName="bowelHaveGroup" id="optionBowelMove" label="Bowel Movement" skinClass="spark.skins.mobile.RadioButtonSkin" />
-								<s:RadioButton groupName="bowelHaveGroup" id="optionACEFlush" label="ACE Flush" skinClass="spark.skins.mobile.RadioButtonSkin" />
-								<s:RadioButton groupName="bowelHaveGroup" id="optionNeither" label="Neither" skinClass="spark.skins.mobile.RadioButtonSkin" />
+							<mx:FormItem label="Did you have:" click="calloutBowelMovements.open(lbl)" fontStyle="italic" fontWeight="bold" textDecoration="underline">
+								<s:RadioButton groupName="bowelHaveGroup" id="optionBowelMove" label="Bowel Movement" skinClass="spark.skins.mobile.RadioButtonSkin" textDecoration="none" fontWeight="normal"/>
+								<s:RadioButton groupName="bowelHaveGroup" id="optionACEFlush" label="ACE Flush" skinClass="spark.skins.mobile.RadioButtonSkin" textDecoration="none" fontWeight="normal"/>
+								<s:RadioButton groupName="bowelHaveGroup" id="optionNeither" label="Neither" skinClass="spark.skins.mobile.RadioButtonSkin" textDecoration="none" fontWeight="normal"/>
 							</mx:FormItem>
 
 							<mx:FormItem label="Amount (ml):">
