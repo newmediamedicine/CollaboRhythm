@@ -38,7 +38,7 @@
 		]]>
 	</fx:Script>
 
-	<s:Button label="Education" click="educationButton_clickHandler()"/>
+	<s:Button icon="@Embed(source='/assets/education.png')" iconPlacement="top" width="200" height="100" left="0" bottom="0" label="Education" click="educationButton_clickHandler()"/>
 
 
 </s:Group>

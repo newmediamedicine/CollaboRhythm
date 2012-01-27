@@ -43,7 +43,7 @@
 		}
 		]]>
 	</fx:Script>
-
-	<shared:WidgetButton id="showFullViewButton" icon="{ChartsIcon}" width="70" height="70" left="0" bottom="0"
-						 skinClass="collaboRhythm.shared.view.WidgetButtonSkin" click="showFullViewButton_clickHandler()" />
+	<s:Button id="showFullViewButton" iconPlacement="top" icon="{ChartsIcon}" label="Charts" width="200" height="100" left="0" bottom="0" click="showFullViewButton_clickHandler()"/>
+	<!--<shared:WidgetButton id="showFullViewButton" icon="{ChartsIcon}" width="70" height="70" left="0" bottom="0"-->
+						 <!--skinClass="collaboRhythm.shared.view.WidgetButtonSkin" click="showFullViewButton_clickHandler()" />-->
 </s:Group>

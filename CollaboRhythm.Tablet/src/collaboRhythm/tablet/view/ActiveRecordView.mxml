@@ -93,10 +93,6 @@
 				<s:layout>
 					<s:TileLayout requestedColumnCount="1" verticalAlign="middle" horizontalAlign="center" />
 				</s:layout>
-
-				<!--<s:Button width="100%" height="80" right="0" label="Documentation"/>-->
-						<!--<s:Button width="100%" height="80" right="0" label="Education"/>-->
-						<s:Button width="100%" height="80" right="0" label="Customize Avatar"/>
 			</s:Group>
 		</s:HGroup>
 	</s:VGroup>

@@ -57,6 +57,6 @@
 		]]>
 	</fx:Script>
 
-	<shared:WidgetButton id="showFullViewButton" icon="{BloodPressureScheduleItemClockView}" width="70" height="70" left="0" bottom="0"
-						 skinClass="collaboRhythm.shared.view.WidgetButtonSkin" click="showFullViewButton_clickHandler()" />
+	<!--<shared:WidgetButton id="showFullViewButton" icon="{BloodPressureScheduleItemClockView}" width="70" height="70" left="0" bottom="0"-->
+						 <!--skinClass="collaboRhythm.shared.view.WidgetButtonSkin" click="showFullViewButton_clickHandler()" />-->
 </s:Group>

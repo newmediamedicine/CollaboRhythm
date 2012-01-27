@@ -17,6 +17,8 @@
   -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark">
 	<fx:Script><![CDATA[
+		import assets.warning;
+
 		import collaboRhythm.plugins.postOpHome.controller.PostOpHelpAppController;
 		import collaboRhythm.plugins.postOpHome.model.PostOpHomeModel;
 		import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
@@ -38,7 +40,7 @@
 		]]>
 	</fx:Script>
 
-	<s:Button label="Help" click="helpButton_clickHandler()"/>
+	<s:Button icon="{warning}" iconPlacement="top" width="200" height="100" left="0" bottom="0" label="Help" click="helpButton_clickHandler()"/>
 
 
 </s:Group>
