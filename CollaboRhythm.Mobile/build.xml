@@ -29,7 +29,7 @@
 		<exec executable="${ADB}">
 			<arg value="push"/>
 			<arg value="${app.data}/${APP_ID}/Local Store/settings.xml"/>
-			<arg value="${collaboRhythm.application-device.local-store}"/>
+			<arg value="${collaboRhythm.application-device.local-store}/settings.xml"/>
 		</exec>
 	</target>
 

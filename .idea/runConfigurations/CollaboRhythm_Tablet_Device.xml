@@ -31,6 +31,30 @@
           <option name="FILE_PATH" value="$PROJECT_DIR$/CollaboRhythm.Plugins.ForaD40b/bin-debug/ForaD40bPluginModule.swf" />
           <option name="PATH_IN_PACKAGE" value="plugins/ForaD40bPluginModule.swf" />
         </FilePathAndPathInPackage>
+        <FilePathAndPathInPackage>
+          <option name="FILE_PATH" value="$PROJECT_DIR$/CollaboRhythm.Plugins.Intake/bin-debug/IntakePluginModule.swf" />
+          <option name="PATH_IN_PACKAGE" value="plugins/IntakePluginModule.swf" />
+        </FilePathAndPathInPackage>
+        <FilePathAndPathInPackage>
+          <option name="FILE_PATH" value="$PROJECT_DIR$/CollaboRhythm.Plugins.Bathroom/bin-debug/BathroomPluginModule.swf" />
+          <option name="PATH_IN_PACKAGE" value="plugins/BathroomPluginModule.swf" />
+        </FilePathAndPathInPackage>
+        <FilePathAndPathInPackage>
+          <option name="FILE_PATH" value="$PROJECT_DIR$/CollaboRhythm.Plugins.HealthActions/bin-debug/HealthActionsPluginModule.swf" />
+          <option name="PATH_IN_PACKAGE" value="plugins/HealthActionsPluginModule.swf" />
+        </FilePathAndPathInPackage>
+        <FilePathAndPathInPackage>
+          <option name="FILE_PATH" value="$PROJECT_DIR$/CollaboRhythm.Plugins.PostOpHome/bin-debug/PostOpHomePluginModule.swf" />
+          <option name="PATH_IN_PACKAGE" value="plugins/PostOpHomePluginModule.swf" />
+        </FilePathAndPathInPackage>
+        <FilePathAndPathInPackage>
+          <option name="FILE_PATH" value="$PROJECT_DIR$/CollaboRhythm.Plugins.PainReport/bin-debug/PainReportPluginModule.swf" />
+          <option name="PATH_IN_PACKAGE" value="plugins/PainReportPluginModule.swf" />
+        </FilePathAndPathInPackage>
+        <FilePathAndPathInPackage>
+          <option name="FILE_PATH" value="$PROJECT_DIR$/CollaboRhythm.Tablet/bin-debug/CollaboRhythmTabletApplication.swf" />
+          <option name="PATH_IN_PACKAGE" value="plugins/CollaboRhythmTabletApplication.swf" />
+        </FilePathAndPathInPackage>
       </list>
     </option>
     <option name="fullScreenHeight" value="0" />

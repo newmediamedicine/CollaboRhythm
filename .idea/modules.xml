@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Box2DFlashAS3/Box2DFlashAS3.iml" filepath="$PROJECT_DIR$/Box2DFlashAS3/Box2DFlashAS3.iml" group="CollaboRhythm/3rd Party Libraries" />
       <module fileurl="file://$PROJECT_DIR$/ChartBackgroundsLib/ChartBackgroundsLib.iml" filepath="$PROJECT_DIR$/ChartBackgroundsLib/ChartBackgroundsLib.iml" group="CollaboRhythm/3rd Party Libraries" />
-      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Android.DeviceGateway/CollaboRhythm.Android.DeviceGateway.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Android.DeviceGateway/CollaboRhythm.Android.DeviceGateway.iml" group="CollaboRhythm/Other" />
       <module fileurl="file://$PROJECT_DIR$/FlashMediaServer.Applications/CollaboRhythm.CollaborationServer/CollaboRhythm.CollaborationServer.iml" filepath="$PROJECT_DIR$/FlashMediaServer.Applications/CollaboRhythm.CollaborationServer/CollaboRhythm.CollaborationServer.iml" group="CollaboRhythm/Other" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Core/CollaboRhythm.Core.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Core/CollaboRhythm.Core.iml" group="CollaboRhythm/Libraries" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Core.Model/CollaboRhythm.Core.Model.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Core.Model/CollaboRhythm.Core.Model.iml" group="CollaboRhythm/Libraries" />
