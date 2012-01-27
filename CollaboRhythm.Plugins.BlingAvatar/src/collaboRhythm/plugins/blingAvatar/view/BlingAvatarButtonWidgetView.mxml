@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!---
+  - Copyright 2012 John Moore, Scott Gilroy
+  -
+  - This file is part of CollaboRhythm.
+  -
+  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  - version.
+  -
+  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  - details.
+  -
+  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  - <http://www.gnu.org/licenses/>.
+  -->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx">
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.blingAvatar.controller.BlingAvatarAppController;
+		import collaboRhythm.plugins.blingAvatar.model.BlingAvatarModel;
+		import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
+		import collaboRhythm.shared.model.healthRecord.document.VideoMessagesModel;
+
+		private var _blingAppController:BlingAvatarAppController;
+
+		public function init(blingAvatarAppController:BlingAvatarAppController, blingAvatarModel:BlingAvatarModel,
+					  _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService):void
+		{
+			_blingAppController = blingAvatarAppController;
+		}
+
+		private function blingButton_clickHandler():void
+		{
+			_blingAppController.dispatchShowFullView("widget button click");
+			//_postOpHomeAppController.dispatchShowFullView("user click");
+			//_blingAppController.openBlingView();
+		}
+		]]></fx:Script>
+	<s:Button icon="@Embed(source='/assets/images/avatar_images/avatarSmileSmall.png')" iconPlacement="top" width="200" height="100" left="0" bottom="0" label="Customize Avatar" click="blingButton_clickHandler()"/>
+
+	<!--<s:Image source="@Embed(source='/assets/images/avatar_images/avatarSmile.png')" skinClass="spark.skins.spark.ImageSkin" width="50" height="50"/>-->
+</s:Group>

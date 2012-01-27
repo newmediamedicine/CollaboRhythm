@@ -1,6 +1,7 @@
 package collaboRhythm.shared.ui.healthCharts.model.modifiers
 {
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
+	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.VitalSignChartDescriptor;
 
@@ -13,14 +14,30 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	import mx.core.IVisualElement;
 	import mx.graphics.SolidColor;
 	import mx.graphics.SolidColorStroke;
+	import mx.utils.HSBColor;
+
+	import qs.charts.dataShapes.DataDrawingCanvas;
+
+	import spark.components.Image;
+	import spark.components.Label;
 
 	import spark.primitives.Rect;
+	import spark.skins.spark.ImageSkin;
 
 	/**
 	 * Default modifier for vitalSign charts. Draws a goal region and renders the vitalSign concentration as an area series.
 	 */
 	public class DefaultVitalSignChartModifier extends ChartModifierBase implements IChartModifier
 	{
+		[Embed("/assets/images/vitalSigns/Heart_Rate.png")]
+		private var _heartRateImageClass:Class;
+
+		[Embed("/assets/images/vitalSigns/Metabolic_Equivalent_Task.png")]
+		private var _metabolicEquivalentTaskImageClass:Class;
+
+		[Embed("/assets/images/vitalSigns/Oxygen_Saturation.png")]
+		private var _oxygenSaturationImageClass:Class;
+
 		public function DefaultVitalSignChartModifier(chartDescriptor:VitalSignChartDescriptor,
 														   chartModelDetails:IChartModelDetails,
 														   decoratedChartModifier:IChartModifier)
@@ -77,21 +94,60 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 			return createVitalSignImage(vitalSignChartDescriptor.vitalSignCategory);
 		}
 
-		private function createVitalSignImage(vitalSignKey:String):Rect
+		private function createVitalSignImage(vitalSignKey:String):IVisualElement
 		{
-			var vitalSignView:Rect = new Rect();
-			vitalSignView.fill = new SolidColor(getVitalSignColor(vitalSignKey));
-			vitalSignView.width = 100;
-			vitalSignView.height = 100;
-			vitalSignView.verticalCenter = 0;
-			return vitalSignView;
+			var imageClass:Class;
+			switch (vitalSignKey)
+			{
+				case VitalSignsModel.HEART_RATE_CATEGORY:
+					imageClass = _heartRateImageClass;
+					break;
+				case VitalSignsModel.METABOLIC_EQUIVALENT_TASK_CATEGORY:
+					imageClass = _metabolicEquivalentTaskImageClass;
+					break;
+				case VitalSignsModel.OXYGEN_SATURATION_CATEGORY:
+					imageClass = _oxygenSaturationImageClass;
+					break;
+			}
+			
+			if (imageClass)
+			{
+				var image:Image = new Image();
+				image.setStyle("skinClass", ImageSkin);
+				image.source = imageClass;
+				image.smooth = true;
+				image.width = 100;
+				image.height = 100;
+
+				return image;
+			}
+			else
+			{
+				var vitalSignView:Rect = new Rect();
+				vitalSignView.fill = new SolidColor(getVitalSignColor(vitalSignKey));
+				vitalSignView.width = 100;
+				vitalSignView.height = 100;
+				vitalSignView.verticalCenter = 0;
+				return vitalSignView;
+			}
 		}
 
 		private function getVitalSignColor(vitalSignKey:String):uint
 		{
 			// TODO: implement a better system for coloring the vital sign charts
-			return 0x4444FF;
+//			return 0x4444FF;
+			var hue:Number = 180;
+			for (var i:int = 0; i < vitalSignKey.length; i++)
+			{
+				hue = hue + vitalSignKey.charCodeAt(i);
+			}
+			
+			hue = hue % 360;
+			return HSBColor.convertHSBtoRGB(hue, 0.5, 0.5);
 		}
 
+		public function drawBackgroundElements(canvas:DataDrawingCanvas, zoneLabel:Label):void
+		{
+		}
 	}
 }

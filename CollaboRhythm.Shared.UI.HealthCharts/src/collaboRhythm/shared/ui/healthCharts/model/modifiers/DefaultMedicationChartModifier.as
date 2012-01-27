@@ -5,23 +5,26 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	import collaboRhythm.shared.model.services.IMedicationColorSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
-	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.MedicationChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.view.MedicationScheduleItemChartView;
 
 	import com.dougmccune.controls.ScrubChart;
 	import com.dougmccune.controls.SeriesDataSet;
 
+	import mx.charts.LinearAxis;
 	import mx.charts.series.AreaSeries;
 	import mx.collections.ArrayCollection;
 	import mx.core.ClassFactory;
 	import mx.core.IVisualElement;
-
 	import mx.graphics.SolidColor;
 	import mx.graphics.SolidColorStroke;
 
+	import qs.charts.dataShapes.DataDrawingCanvas;
+	import qs.charts.dataShapes.Edge;
+
 	import skins.LineSeriesCustomRenderer;
 
+	import spark.components.Label;
 	import spark.layouts.VerticalAlign;
 
 	/**
@@ -48,6 +51,21 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 		{
 			if (decoratedModifier)
 				decoratedModifier.modifyMainChart(chart);
+
+			var medicationModel:MedicationComponentAdherenceModel = getMedicationModel();
+
+			if (medicationModel)
+			{
+				var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
+				verticalAxis.minimum = 0;
+				verticalAxis.maximum = medicationModel.concentrationAxisMaximum;
+				if (chart.mainChartCover)
+				{
+					verticalAxis = chart.mainChartCover.verticalAxis as LinearAxis;
+					verticalAxis.minimum = 0;
+					verticalAxis.maximum = medicationModel.concentrationAxisMaximum;
+				}
+			}
 		}
 
 		public function createMainChartSeriesDataSets(chart:ScrubChart,
@@ -70,6 +88,13 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 
 			seriesDataSets.push(new SeriesDataSet(concentrationSeries, seriesDataCollection, "date"));
 			return seriesDataSets;
+		}
+
+		public function getMedicationModel():MedicationComponentAdherenceModel
+		{
+			var medicationCode:String = medicationChartDescriptor.medicationCode;
+			var medicationModel:MedicationComponentAdherenceModel = chartModelDetails.record.healthChartsModel.focusSimulation.getMedication(medicationCode);
+			return medicationModel;
 		}
 
 		private function getMedicationColor():uint
@@ -99,5 +124,32 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 			medicationView.verticalAlign = VerticalAlign.MIDDLE;
 			return medicationView;
 		}
+
+		public function drawBackgroundElements(canvas:DataDrawingCanvas, zoneLabel:Label):void
+		{
+			var medicationCode:String = medicationChartDescriptor.medicationCode;
+			var ndcCode:String = medicationChartDescriptor.ndcCode;
+
+			canvas.clear();
+
+			var medicationModel:MedicationComponentAdherenceModel = chartModelDetails.record.healthChartsModel.focusSimulation.getMedication(medicationCode);
+			if (!isNaN(medicationModel.goalConcentrationMinimum) && !isNaN(medicationModel.goalConcentrationMaximum))
+			{
+				var color:uint = getMedicationColor();
+				canvas.lineStyle(1, color);
+
+				canvas.beginFill(color, 0.25);
+				canvas.drawRect([Edge.LEFT, -1], medicationModel.goalConcentrationMinimum, [Edge.RIGHT, 1],
+						medicationModel.goalConcentrationMaximum);
+				canvas.endFill();
+
+				if (zoneLabel)
+				{
+					zoneLabel.setStyle("color", color);
+					canvas.updateDataChild(zoneLabel, {left:Edge.LEFT, top:medicationModel.goalConcentrationMaximum});
+				}
+			}
+		}
+
 	}
 }

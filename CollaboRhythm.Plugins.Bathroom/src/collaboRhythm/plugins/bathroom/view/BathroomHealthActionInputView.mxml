@@ -200,7 +200,7 @@
 		private function doneButton_clickHandler():void
 		{
 			//Alert.show(option4.selected ? 'Correct Answer!':'Wrong Answer', 'Result');
-			//_dataInputController.submitBloodPressure(positionDropDownList.selectedItem, siteDropDownList.selectedItem);
+			_dataInputController.submitBathroom();
 		}
 
 
@@ -255,7 +255,7 @@
 							</mx:FormItem>
 
 							<mx:FormItem label="Urine Output (ml):">
-								<mx:TextInput id="urineTxtInput"/><mx:TextInput id="urineTxtInputII"/>
+								<mx:TextInput text="@{_dataInputModel.urine1}" id="urineTxtInput"/><mx:TextInput text="@{_dataInputModel.urine2}" id="urineTxtInputII"/>
 							</mx:FormItem>
 
 							<mx:FormItem label="Urine from urethra?">

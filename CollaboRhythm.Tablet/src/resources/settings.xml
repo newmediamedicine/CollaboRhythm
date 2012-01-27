@@ -18,8 +18,8 @@
 <settings xmlns="http://collaborhythm.org/application/settings">
 	<mode>patient</mode>
 	<indivoServerBaseURL>http://184.106.136.151:8000</indivoServerBaseURL>
-	<username>jgreen</username>
-	<password>jgreen-dope75</password>
+	<username>csantos</username>
+	<password>csantos-dope75</password>
 	<useFileTarget>true</useFileTarget>
 	<useTraceTarget>true</useTraceTarget>
 	<useSyslogTarget>true</useSyslogTarget>
@@ -41,9 +41,8 @@
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.HealthActions/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.PainReport/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.HealthCharts/bin-debug</pluginSearchPath>
-		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Bathroom/bin-debug</pluginSearchPath>
-		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Intake/bin-debug</pluginSearchPath>
-		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.PostOpHome/bin-debug</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Equipment.PillBox/bin-debug</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.BlingAvatar/bin-debug</pluginSearchPath>
 		<!-- This path is for the plugins that are installed with the application -->
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins</pluginSearchPath>
 	</pluginSearchPaths>
@@ -65,9 +64,8 @@
 				<appDescriptor>collaboRhythm.plugins.healthActions.controller::HealthActionsAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::BloodPressureAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.healthCharts.controller::HealthChartsAppController</appDescriptor>
-				<appDescriptor>collaboRhythm.plugins.postOpHome.controller::PostOpEducationAppController</appDescriptor>
-				<appDescriptor>collaboRhythm.plugins.postOpHome.controller::PostOpHelpAppController</appDescriptor>
-				<!--<appDescriptor>collaboRhythm.plugins.videoMessages.controller::VideoMessagesAppController</appDescriptor>-->
+				<appDescriptor>collaboRhythm.plugins.videoMessages.controller::VideoMessagesAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.plugins.blingAvatar.controller::BlingAvatarAppController</appDescriptor>
 			</appDescriptors>
 		</appGroup>
 	</appGroups>
