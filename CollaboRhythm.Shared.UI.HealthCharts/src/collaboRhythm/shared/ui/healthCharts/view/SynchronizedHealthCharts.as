@@ -1238,53 +1238,6 @@ package collaboRhythm.shared.ui.healthCharts.view
 			}
 		}
 
-		public function drawAdherenceData2(chart:CartesianChart, canvas:CartesianDataCanvas, zoneLabel:Label, medicationCode:String, ndcCode:String):void
-		{
-			if (_traceEventHandlers)
-				trace(this + ".drawAdherenceData2");
-
-			canvas.clear();
-
-			var medicationModel:MedicationComponentAdherenceModel = model.focusSimulation.getMedication(medicationCode);
-			var color:uint = getMedicationColor(ndcCode);
-//			canvas.lineStyle(1, color, 0.5);
-
-			canvas.beginFill(color, 0.25);
-			canvas.drawRect(new Date(1970), medicationModel.goalConcentrationMinimum,
-					model.currentDateSource.now(),
-					medicationModel.goalConcentrationMaximum / 2);
-			canvas.endFill();
-
-			if (zoneLabel)
-			{
-				zoneLabel.setStyle("color", color);
-				canvas.updateDataChild(zoneLabel, {left:Edge.LEFT, top:medicationModel.goalConcentrationMaximum});
-			}
-		}
-
-		//			private function offsetDataToToday(data:ArrayCollection, newDate:Date):void
-		//			{
-		//				var lastDate:Date = bloodPressureChart.dateParse(data[data.length - 1].date);
-		//				var delta:Number = newDate.time - lastDate.time;
-		//
-		//				for each (var dataItem:Object in data)
-		//				{
-		//					var dataItemDate:Date = bloodPressureChart.dateParse(dataItem.date);
-		//					dataItemDate.time += delta;
-		//					var formattedDate:String = fullDateFormat.format(dataItemDate);
-		//
-		//					dataItem.date = formattedDate;
-		//				}
-		//			}
-
-		/**
-		 * If an error occurs loading the XML chart info
-		 */
-		private function faultResult(event:FaultEvent):void
-		{
-			Alert.show("Error retrieving XML data", "Error");
-		}
-
 		private function synchronizeDateLimits():void
 		{
 			var charts:Vector.<TouchScrollingScrubChart> = _visibleCharts;

@@ -61,7 +61,8 @@ package collaboRhythm.plugins.bloodPressure.model
 
 		public function modifyMainChart(chart:ScrubChart):void
 		{
-			decoratedModifier.modifyMainChart(chart);
+			if (decoratedModifier)
+				decoratedModifier.modifyMainChart(chart);
 			chart.mainChartTitle = "Blood Pressure (mmHg)";
 
 			var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
