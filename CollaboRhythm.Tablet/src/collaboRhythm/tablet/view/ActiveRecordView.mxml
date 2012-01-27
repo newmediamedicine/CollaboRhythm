@@ -89,10 +89,14 @@
 		<s:HGroup width="100%" height="100%" gap="0" paddingLeft="10" paddingRight="10" paddingTop="10"
 				  paddingBottom="10" verticalAlign="middle">
 			<s:HGroup id="mainWidgetsGroup" width="100%" height="100%" gap="20"/>
-			<s:Group id="buttonWidgetsGroup" width="110">
+			<s:Group id="buttonWidgetsGroup" width="300">
 				<s:layout>
 					<s:TileLayout requestedColumnCount="1" verticalAlign="middle" horizontalAlign="center" />
 				</s:layout>
+
+				<!--<s:Button width="100%" height="80" right="0" label="Documentation"/>-->
+						<!--<s:Button width="100%" height="80" right="0" label="Education"/>-->
+						<s:Button width="100%" height="80" right="0" label="Customize Avatar"/>
 			</s:Group>
 		</s:HGroup>
 	</s:VGroup>

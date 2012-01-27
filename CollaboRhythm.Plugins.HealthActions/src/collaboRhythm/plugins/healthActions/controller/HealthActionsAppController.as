@@ -3,6 +3,7 @@ package collaboRhythm.plugins.healthActions.controller
 	import collaboRhythm.plugins.healthActions.model.HealthActionsModel;
 	import collaboRhythm.plugins.healthActions.view.HealthActionsButtonWidgetView;
 	import collaboRhythm.plugins.healthActions.view.HealthActionsFullView;
+	import collaboRhythm.plugins.healthActions.view.PostOpHealthActionsButtonWidgetView;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.AppEvent;
@@ -15,7 +16,7 @@ package collaboRhythm.plugins.healthActions.controller
 	{
 		public static const DEFAULT_NAME:String = "HealthActions";
 
-		private var _widgetView:HealthActionsButtonWidgetView;
+		private var _widgetView:PostOpHealthActionsButtonWidgetView;
 		private var _fullView:HealthActionsFullView;
 
 		private var _healthActionsModel:HealthActionsModel;
@@ -37,7 +38,7 @@ package collaboRhythm.plugins.healthActions.controller
 
 		override protected function createWidgetView():UIComponent
 		{
-			_widgetView = new HealthActionsButtonWidgetView();
+			_widgetView = new PostOpHealthActionsButtonWidgetView();
 			return _widgetView
 		}
 
@@ -96,7 +97,7 @@ package collaboRhythm.plugins.healthActions.controller
 
 		override public function set widgetView(value:UIComponent):void
 		{
-			_widgetView = value as HealthActionsButtonWidgetView;
+			_widgetView = value as PostOpHealthActionsButtonWidgetView;
 		}
 
 		override public function get fullView():UIComponent
