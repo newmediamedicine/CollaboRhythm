@@ -28,8 +28,44 @@ package collaboRhythm.shared.model
 		public static const BEATS_PER_MINUTE_CODED_VALUE_ABBREV:String = "BPM";
 		public static const BEATS_PER_MINUTE_CODED_VALUE_TEXT:String = "beats per minute";
 
+		public static const INTAKE_FLUID_CODED_VALUE:String = "34";
+		public static const INTAKE_FLUID_CODED_VALUE_ABBREV:String = "amtFluid";
+		public static const INTAKE_FLUID_CODED_VALUE_TEXT:String = "Fluid Intake";
+
+		public static const INTAKE_FOOD_CODED_VALUE:String = "35";
+		public static const INTAKE_FOOD_CODED_VALUE_ABBREV:String = "foodLevel";
+		public static const INTAKE_FOOD_CODED_VALUE_TEXT:String = "Food Level";
+
+		public static const BATHROOM_URINE1_CODED_VALUE:String = "36";
+		public static const BATHROOM_URINE1_CODED_VALUE_ABBREV:String ="urine1";
+		public static const BATHROOM_URINE1_CODED_VALUE_TEXT:String = "Urine Output 1";
+
+		public static const BATHROOM_URINE2_CODED_VALUE:String = "37";
+		public static const BATHROOM_URINE2_CODED_VALUE_ABBREV:String ="urine2";
+		public static const BATHROOM_URINE2_CODED_VALUE_TEXT:String = "Urine Output 2";
+
 		public function CodedValueFactory()
 		{
+		}
+
+
+		public function createBathroomUrine1CodedValue():CodedValue
+		{
+			return new CodedValue(VITAL_SIGN_CODED_VALUE_TYPE, BATHROOM_URINE1_CODED_VALUE, BATHROOM_URINE1_CODED_VALUE_ABBREV, BATHROOM_URINE1_CODED_VALUE_TEXT);
+		}
+
+		public function createBathroomUrine2CodedValue():CodedValue
+		{
+			return new CodedValue(VITAL_SIGN_CODED_VALUE_TYPE, BATHROOM_URINE2_CODED_VALUE, BATHROOM_URINE2_CODED_VALUE_ABBREV, BATHROOM_URINE2_CODED_VALUE_TEXT);
+		}
+
+		public function createIntakeFluidCodedValue():CodedValue
+		{
+			return new CodedValue(VITAL_SIGN_CODED_VALUE_TYPE, INTAKE_FLUID_CODED_VALUE, INTAKE_FLUID_CODED_VALUE_ABBREV, INTAKE_FLUID_CODED_VALUE_TEXT);
+		}
+
+		public function createIntakeFoodCodedValue():CodedValue{
+			return new CodedValue(VITAL_SIGN_CODED_VALUE_TYPE, INTAKE_FOOD_CODED_VALUE, INTAKE_FOOD_CODED_VALUE_ABBREV, INTAKE_FOOD_CODED_VALUE_TEXT);
 		}
 
 		public function createBloodPressureSystolicCodedValue():CodedValue

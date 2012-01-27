@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<!---
+  - Copyright 2012 John Moore, Scott Gilroy
+  -
+  - This file is part of CollaboRhythm.
+  -
+  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  - version.
+  -
+  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  - details.
+  -
+  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  - <http://www.gnu.org/licenses/>.
+  -->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:images="assets.images.*"
+		 clipAndEnableScrolling="true"
+         height="100%" width="50%"
+		 >
+
+	<fx:Declarations>
+		<!-- Animation -->
+				<s:AnimateTransform id="bounceEffect" target="{avatarImage}">
+					<s:motionPaths>
+						<s:MotionPath property="translationX">
+							<s:keyframes>
+								<s:Keyframe time="250" value="0"/>
+								<s:Keyframe time="550" value="60"/>
+								<s:Keyframe time="850" value="100"/>
+								<s:Keyframe time="1150" value="140"/>
+								<s:Keyframe time="1450" value="180"/>
+								<s:Keyframe time="1750" value="220"/>
+								<s:Keyframe time="2050" value="140"/>
+								<s:Keyframe time="2350" value="100"/>
+								<s:Keyframe time="2650" value="60"/>
+								<s:Keyframe time="2950" value="0"/>
+							</s:keyframes>
+						</s:MotionPath>
+
+						<s:MotionPath property="translationY">
+							<s:keyframes>
+								<s:Keyframe time="250" value="100"/>
+								<s:Keyframe time="550" value="0"/>
+								<s:Keyframe time="850" value="100"/>
+								<s:Keyframe time="1150" value="0"/>
+								<s:Keyframe time="1450" value="100"/>
+								<s:Keyframe time="1750" value="0"/>
+								<s:Keyframe time="2050" value="100"/>
+								<s:Keyframe time="2350" value="0"/>
+								<s:Keyframe time="2650" value="100"/>
+								<s:Keyframe time="2950" value="0"/>
+							</s:keyframes>
+						</s:MotionPath>
+					</s:motionPaths>
+				</s:AnimateTransform>
+	</fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
+		import collaboRhythm.plugins.postOpHome.controller.PostOpHomeAppController;
+		import collaboRhythm.plugins.postOpHome.model.PostOpHomeModel;
+		import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
+
+
+		private var _postOpHomeAppController:PostOpHomeAppController;
+
+
+
+
+
+
+
+		public function init(postOpHomeAppController:PostOpHomeAppController, postOpHomeModel:PostOpHomeModel,
+							 _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService):void
+		{
+			_postOpHomeAppController = postOpHomeAppController;
+		}
+
+		private function clockButton_clickHandler():void
+		{
+			_postOpHomeAppController.dispatchShowFullView("user click");
+			_postOpHomeAppController.openPostOpClockView();
+		}
+
+
+
+		]]>
+	</fx:Script>
+
+	<s:Panel id="mainPanel"
+				 width="100%" height="100%"
+				 title="Home">
+
+		<s:Group width="100%" height="100%" verticalCenter="0">
+			<!--<mx:Image-->
+					<!--y="0"-->
+					<!--id="avatarImage"-->
+					<!--source="@Embed(source='/assets/avatarMain.png')"-->
+					<!--/>-->
+			<mx:Image
+				y="0"
+				id="avatarImage"
+				source="@Embed(source='/assets/avatarMain.png')"
+				click="bounceEffect.end();bounceEffect.play();"/>
+
+		</s:Group>
+
+	</s:Panel>
+</s:Group>

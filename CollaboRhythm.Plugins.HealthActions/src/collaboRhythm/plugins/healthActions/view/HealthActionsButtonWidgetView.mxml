@@ -19,6 +19,7 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:shared="collaboRhythm.shared.view.*">
 	<fx:Script><![CDATA[
+
 		import collaboRhythm.plugins.healthActions.controller.HealthActionsAppController;
 		import collaboRhythm.plugins.healthActions.model.HealthActionsModel;
 
@@ -35,5 +36,7 @@
 			_healthActionsAppController.dispatchShowFullView("widget button click");
 		}
 		]]></fx:Script>
-	<shared:WidgetButton id="showFullViewButton" icon="{HealthActionsIcon}" width="70" height="70" left="0" bottom="0" skinClass="collaboRhythm.shared.view.WidgetButtonSkin" click="showFullViewButton_clickHandler()"/>
+	<s:Button id="showFullViewButton" label="Documentation" iconPlacement="top" icon="@Embed(source='/assets/chart.png')"  width="200" height="90" left="0" bottom="0" click="showFullViewButton_clickHandler()"/>
+
+	<!--<shared:WidgetButton id="showFullViewButton" icon="{HealthActionsIcon}" width="70" height="70" left="0" bottom="0" skinClass="collaboRhythm.shared.view.WidgetButtonSkin" click="showFullViewButton_clickHandler()"/>-->
 </s:Group>

@@ -21,6 +21,43 @@
 		 xmlns:tabletViews="collaboRhythm.tablet.view.*"
 		 show="showHandler()"
 		 height="100%" width="100%">
+
+	<fx:Declarations>
+		<!-- Animation -->
+				<s:AnimateTransform id="bounceEffect" target="{avatarImage}">
+					<s:motionPaths>
+						<s:MotionPath property="translationX">
+							<s:keyframes>
+								<s:Keyframe time="250" value="0"/>
+								<s:Keyframe time="550" value="60"/>
+								<s:Keyframe time="850" value="100"/>
+								<s:Keyframe time="1150" value="140"/>
+								<s:Keyframe time="1450" value="180"/>
+								<s:Keyframe time="1750" value="220"/>
+								<s:Keyframe time="2050" value="140"/>
+								<s:Keyframe time="2350" value="100"/>
+								<s:Keyframe time="2650" value="60"/>
+								<s:Keyframe time="2950" value="0"/>
+							</s:keyframes>
+						</s:MotionPath>
+
+						<s:MotionPath property="translationY">
+							<s:keyframes>
+								<s:Keyframe time="250" value="100"/>
+								<s:Keyframe time="550" value="0"/>
+								<s:Keyframe time="850" value="100"/>
+								<s:Keyframe time="1150" value="0"/>
+								<s:Keyframe time="1450" value="100"/>
+								<s:Keyframe time="1750" value="0"/>
+								<s:Keyframe time="2050" value="100"/>
+								<s:Keyframe time="2350" value="0"/>
+								<s:Keyframe time="2650" value="100"/>
+								<s:Keyframe time="2950" value="0"/>
+							</s:keyframes>
+						</s:MotionPath>
+					</s:motionPaths>
+				</s:AnimateTransform>
+	</fx:Declarations>
 	<fx:Script>
         <![CDATA[
         import collaboRhythm.core.model.AboutApplicationModel;
@@ -89,11 +126,21 @@
 		<s:HGroup width="100%" height="100%" gap="0" paddingLeft="10" paddingRight="10" paddingTop="10"
 				  paddingBottom="10" verticalAlign="middle">
 			<s:HGroup id="mainWidgetsGroup" width="100%" height="100%" gap="20"/>
-			<s:Group id="buttonWidgetsGroup" width="110">
-				<s:layout>
-					<s:TileLayout requestedColumnCount="1" verticalAlign="middle" horizontalAlign="center" />
-				</s:layout>
-			</s:Group>
+			<s:VGroup width="300" height="100%">
+				<mx:Image height="160" width="200"
+						  y="0"
+						  id="avatarImage"
+						  source="@Embed(source='/assets/avatarMain.png')"
+						  click="bounceEffect.end();bounceEffect.play();"/>
+				<s:Group id="buttonWidgetsGroup" width="300">
+					<s:layout>
+						<s:TileLayout requestedColumnCount="1" verticalAlign="middle" horizontalAlign="center"/>
+					</s:layout>
+
+
+				</s:Group>
+			</s:VGroup>
+
 		</s:HGroup>
 	</s:VGroup>
 	<s:VGroup id="versionWatermarkGroup" width="100%" height="100%" color="#888888" visible="false">

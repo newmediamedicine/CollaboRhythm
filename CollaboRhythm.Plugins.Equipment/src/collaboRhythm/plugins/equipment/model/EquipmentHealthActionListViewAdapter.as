@@ -18,6 +18,8 @@ package collaboRhythm.plugins.equipment.model
 
 	public class EquipmentHealthActionListViewAdapter implements IHealthActionListViewAdapter
 	{
+		public static const HEALTH_ACTION_TYPE:String = "Equipment";
+
 		private var _equipmentScheduleItem:EquipmentScheduleItem;
 		private var _equipment:Equipment;
 		private var _equipmentHealthAction:EquipmentHealthAction;
@@ -79,6 +81,11 @@ package collaboRhythm.plugins.equipment.model
 		public function get controller():IHealthActionListViewController
 		{
 			return _controller;
+		}
+
+		public function get type():String
+		{
+			return HEALTH_ACTION_TYPE;
 		}
 	}
 }

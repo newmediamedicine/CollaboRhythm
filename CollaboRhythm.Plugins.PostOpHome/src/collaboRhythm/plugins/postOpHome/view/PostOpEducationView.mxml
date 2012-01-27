@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+					   >
+
+	<fx:Declarations>
+		<!-- Education Materials Alert -->
+		<fx:Component className="AlertBoxSpina">
+			<s:SkinnablePopUpContainer>
+				<s:Panel title="Spina Bifida" width="100%" height="100%">
+					<s:VGroup width="100%" horizontalAlign="center"
+							  paddingTop="20" gap="20">
+						<mx:Image y="0"
+									  id="spinaImage"
+									  source="@Embed(source='/assets/spinaBifida.png')"
+									  />
+						<s:Button label="Close" click="close();"/>
+					</s:VGroup>
+				</s:Panel>
+			</s:SkinnablePopUpContainer>
+		</fx:Component>
+	</fx:Declarations>
+
+
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+	</fx:Style>
+
+	<fx:Script>
+		<![CDATA[
+		import collaboRhythm.plugins.postOpHome.controller.PostOpEducationAppController;
+		import collaboRhythm.plugins.postOpHome.model.PostOpHomeModel;
+		import collaboRhythm.plugins.postOpHome.view.AlertBoxSpina;
+		import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
+
+
+		import mx.managers.PopUpManager;
+
+		public function init(postOpEducationAppController:PostOpEducationAppController, videoMessagesModel:PostOpHomeModel,
+									 _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService,
+									 accountId:String):void
+		{
+		}
+
+
+		<!-- Popup Education Materials -->
+		protected function spinaBifidaButton_clickHandler(event:MouseEvent):void
+		{
+			// Create an instance of AlertBox.
+			var alert:AlertBoxSpina = new AlertBoxSpina();
+			alert.open(this, true);
+
+			// Increase the width and height.
+			alert.width += 100;
+			alert.height += 100;
+
+			// Center the pop-up in the parent container.
+			PopUpManager.centerPopUp(alert);
+		}
+
+		]]>
+	</fx:Script>
+
+	<s:Panel id="mainPanel"
+				 width="100%" height="100%"
+				 title="Help">
+
+		<s:layout>
+			<s:VerticalLayout paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10"/>
+		</s:layout>
+
+		<s:Button
+				  click="spinaBifidaButton_clickHandler(event);"
+				  icon="@Embed(source='/assets/educationNav.png')"
+				/>
+
+	</s:Panel>
+
+
+</tablet:TabletViewBase>
+
