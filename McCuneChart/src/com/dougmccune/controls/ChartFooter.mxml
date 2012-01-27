@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!---
+  - Copyright 2012 John Moore, Scott Gilroy
+  -
+  - This file is part of CollaboRhythm.
+  -
+  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  - version.
+  -
+  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  - details.
+  -
+  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  - <http://www.gnu.org/licenses/>.
+  -->
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+			 width="100%"
+			 gap="10" horizontalAlign="left"
+			 verticalAlign="middle"
+			 fontSize="20">
+		<s:Button id="rangeOneDayButton" styleName="rangeButton" fontWeight="normal" label="1 day"
+					   width="{FOOTER_BUTTON_WIDTH}" click="rangeOneDayButton_clickHandler(event)"
+					   />
+		<s:Button id="rangeOneWeekButton" styleName="rangeButton" fontWeight="normal" label="1 week"
+					   width="{FOOTER_BUTTON_WIDTH}" click="rangeOneWeekButton_clickHandler(event)"
+					   />
+		<s:Button id="rangeOneMonthButton" styleName="rangeButton" fontWeight="normal" label="1 month"
+					   width="{FOOTER_BUTTON_WIDTH}" click="rangeOneMonthButton_clickHandler(event)"
+					   />
+		<s:Button id="rangeOneYearButton" styleName="rangeButton" fontWeight="normal" label="1 year"
+					   width="{FOOTER_BUTTON_WIDTH}" click="rangeOneYearButton_clickHandler(event)"
+					   />
+		<s:Button id="rangeMaxButton" styleName="rangeButton" fontWeight="normal" label="max"
+					   width="{FOOTER_BUTTON_WIDTH}" click="rangeMaxButton_clickHandler(event)"
+					   />
+		<mx:Spacer width="100%" />
+		<s:Button styleName="rangeButton"
+				  id="rangeTodayButton" label="Today" click="rangeTodayButton_clickHandler(event)"
+				  
+				  width="{FOOTER_BUTTON_WIDTH}"/>
+
+	<fx:Script><![CDATA[
+		private const FOOTER_BUTTON_WIDTH:Number = 100;
+		private const PADDING_BOTTOM:Number = 15;
+		private var _chart:TouchScrollingScrubChart;
+
+		public function set chart(chart:TouchScrollingScrubChart):void
+		{
+			_chart = chart;
+		}
+
+		public function get chart():TouchScrollingScrubChart
+		{
+			return _chart;
+		}
+
+		private function rangeOneDayButton_clickHandler(event:MouseEvent):void
+		{
+			if (chart) chart.rangeOneDayButton_clickHandler(event);
+		}
+
+		private function rangeOneWeekButton_clickHandler(event:MouseEvent):void
+		{
+			if (chart) chart.rangeOneWeekButton_clickHandler(event);
+		}
+
+		private function rangeOneMonthButton_clickHandler(event:MouseEvent):void
+		{
+			if (chart) chart.rangeOneMonthButton_clickHandler(event);
+		}
+
+		private function rangeOneYearButton_clickHandler(event:MouseEvent):void
+		{
+			if (chart) chart.rangeOneYearButton_clickHandler(event);
+		}
+
+		private function rangeMaxButton_clickHandler(event:MouseEvent):void
+		{
+			if (chart) chart.rangeMaxButton_clickHandler(event);
+		}
+
+		private function rangeTodayButton_clickHandler(event:MouseEvent):void
+		{
+			if (chart) chart.rangeTodayButton_clickHandler(event);
+		}
+		]]></fx:Script>
+</s:HGroup>

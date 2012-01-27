@@ -2,6 +2,7 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 {
 	import com.dougmccune.controls.ScrubChart;
 	import com.dougmccune.controls.SeriesDataSet;
+	import com.theory9.data.types.OrderedMap;
 
 	import mx.core.IVisualElement;
 
@@ -47,5 +48,13 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 		 * @param zoneLabel Label to position. Might be null depending on the skin used.
 		 */
 		function drawBackgroundElements(canvas:DataDrawingCanvas, zoneLabel:Label):void;
+
+		/**
+		 * Updates the set of chart descriptors which will be used to create charts.
+		 * Descriptors can be removed or reordered. Adding new descriptors is not currently supported.
+		 * @param chartDescriptors the current set of chart descriptors
+		 * @return the new set of chart descriptors
+		 */
+		function updateChartDescriptors(chartDescriptors:OrderedMap):OrderedMap;
 	}
 }

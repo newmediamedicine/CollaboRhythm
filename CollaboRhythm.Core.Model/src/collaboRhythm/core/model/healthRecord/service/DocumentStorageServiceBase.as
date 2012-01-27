@@ -197,8 +197,14 @@ package collaboRhythm.core.model.healthRecord.service
 			_xmlMarshaller = new XmlMarshaller();
 			_xmlMarshaller.addSchema(Schemas.CodedValuesSchema);
 			_xmlMarshaller.addSchema(Schemas.ValuesSchema);
-			_xmlMarshaller.addSchema(targetDocumentSchema);
-			_xmlMarshaller.registerClass(targetDocumentQName, targetClass);
+			if (targetDocumentSchema)
+			{
+				_xmlMarshaller.addSchema(targetDocumentSchema);
+			}
+			if (targetDocumentType && targetDocumentQName && targetClass)
+			{
+				_xmlMarshaller.registerClass(targetDocumentQName, targetClass);
+			}
 			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "CodedValue"), CodedValue);
 			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "ValueAndUnit"),
 										 ValueAndUnit);
@@ -302,7 +308,8 @@ package collaboRhythm.core.model.healthRecord.service
 		public function closeRecord():void
 		{
 			activeAccount = null;
-			_relationshipXmlMarshaller.record = null;
+			if (_relationshipXmlMarshaller)
+				_relationshipXmlMarshaller.record = null;
 		}
 
 		protected function loadReplacedDocuments(record:Record, document:IDocument):void

@@ -16,8 +16,6 @@
  */
 package collaboRhythm.plugins.bloodPressure.controller
 {
-
-	import collaboRhythm.plugins.bloodPressure.model.HealthChartsInitializationService;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureButtonWidgetView;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureFullView;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureMobileWidgetView;
@@ -25,7 +23,6 @@ package collaboRhythm.plugins.bloodPressure.controller
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureSynchronizedCharts;
 	import collaboRhythm.plugins.bloodPressure.view.IBloodPressureFullView;
 	import collaboRhythm.plugins.bloodPressure.view.IBloodPressureWidgetView;
-	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 
@@ -103,14 +100,6 @@ package collaboRhythm.plugins.bloodPressure.controller
 		{
 			super.initialize();
 
-			if (!_activeRecordAccount.primaryRecord.healthChartsModel ||
-					!_activeRecordAccount.primaryRecord.healthChartsModel.isInitialized)
-			{
-				loadBloodPressureData();
-			}
-
-			// TODO: We should either 1) make sure that the healthChartsModel is created when the record is created
-			// or 2) lazy initialize it or 3) rework the timing of initialize and updateWidgetViewModel
 			updateWidgetViewModel();
 			doPrecreationForFullView();
 		}
@@ -165,19 +154,6 @@ package collaboRhythm.plugins.bloodPressure.controller
 			}
 		}
 
-		protected function loadBloodPressureData():void
-		{
-			if (_activeRecordAccount)
-			{
-				// first cleanup any existing healthChartsModel
-				removeUserData();
-				_activeRecordAccount.primaryRecord.healthChartsModel.record = _activeRecordAccount.primaryRecord;
-
-				var healthChartsInitializationService:HealthChartsInitializationService = new HealthChartsInitializationService();
-				healthChartsInitializationService.initializeBloodPressureModel(_activeRecordAccount);
-			}
-		}
-
 		override public function showWidgetAsDraggable(value:Boolean):void
 		{
 		}
@@ -188,8 +164,6 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 		override public function reloadUserData():void
 		{
-			loadBloodPressureData();
-
 			super.reloadUserData();
 
 			if (_fullView)
@@ -248,10 +222,6 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 		override protected function removeUserData():void
 		{
-			if (_activeRecordAccount.primaryRecord.healthChartsModel)
-				_activeRecordAccount.primaryRecord.healthChartsModel.record = null;
-
-			_activeRecordAccount.primaryRecord.healthChartsModel = new HealthChartsModel();
 		}
 
 		private function moveMovieClipToFullView():void

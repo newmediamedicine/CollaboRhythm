@@ -14,13 +14,9 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.plugins.bloodPressure.model
+package collaboRhythm.core.model.healthRecord.service
 {
-
-	import collaboRhythm.shared.apps.healthCharts.model.ConcentrationSeverityProvider;
-	import collaboRhythm.shared.apps.healthCharts.model.MedicationComponentAdherenceModel;
-	import collaboRhythm.shared.apps.healthCharts.model.SimulationModel;
-	import collaboRhythm.shared.apps.healthCharts.model.StepsProvider;
+	import collaboRhythm.shared.apps.healthCharts.model.*;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
@@ -32,22 +28,40 @@ package collaboRhythm.plugins.bloodPressure.model
 	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayCollection;
 
-	public class HealthChartsInitializationService
+	public class HealthChartsInitializationService extends DocumentStorageServiceBase
 	{
 		private var _record:Record;
 
-		public function HealthChartsInitializationService()
+
+		public function HealthChartsInitializationService(consumerKey:String, consumerSecret:String, baseURL:String,
+																  account:Account, debuggingToolsEnabled:Boolean)
 		{
+			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled, null,
+				  null, null);
+		}
+
+
+		override public function loadDocuments(record:Record):void
+		{
+			initializeBloodPressureModel(record);
+		}
+
+		override public function closeRecord():void
+		{
+			_record.healthChartsModel.record = null;
+			super.closeRecord();
 		}
 
 		/**
 		 * Initializes the medication simulation model of the HealthChartsModel for the primary record, and does any
 		 * other initialization needed to prepare the HealthChartsModel for use.
-		 * @param recordAccount
+		 * @param record
 		 */
-		public function initializeBloodPressureModel(recordAccount:Account):void
+		private function initializeBloodPressureModel(record:Record):void
 		{
-			_record = recordAccount.primaryRecord;
+			_record = record;
+			_record.healthChartsModel = new HealthChartsModel();
+			_record.healthChartsModel.record = _record;
 			attemptInitializeMedicationSimulationModel();
 			BindingUtils.bindSetter(record_isLoadingHandler, record, "isLoading");
 		}
@@ -295,19 +309,9 @@ package collaboRhythm.plugins.bloodPressure.model
 											 "Decreased blood pressure"]]);
 		}
 
-//		private function datesAreClose(date1:Date, date2:Date):Boolean
-//		{
-//			return (Math.abs(date1.time - date2.time) < millisecondsPerHour * 12);
-//		}
-
-		public function get record():Record
+		protected function get record():Record
 		{
 			return _record;
-		}
-
-		public function set record(value:Record):void
-		{
-			_record = value;
 		}
 	}
 }

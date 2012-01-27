@@ -18,6 +18,7 @@
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				xmlns:s="library://ns.adobe.com/flex/spark"
 				xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:controls="com.dougmccune.controls.*"
+				xmlns:images="assets.images.*" xmlns:sharedView="collaboRhythm.plugins.schedule.shared.view.*"
 				autoDrawBackground="false"
 				creationComplete="creationCompleteHandler(event)"
 		>
@@ -26,8 +27,12 @@
 	</s:layout>
 	<fx:Script>
 		<![CDATA[
+		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+
 		import mx.charts.series.items.PlotSeriesItem;
 		import mx.events.FlexEvent;
+
+		import assets.images.check;
 
 		override public function set data(value:Object):void
 		{
@@ -42,31 +47,36 @@
 
 		private function updateImageVisible():void
 		{
-			var adherence:String = (data as PlotSeriesItem).item.adherence;
-			if (adherence == "true")
+			var adherenceItem:AdherenceItem = (data as PlotSeriesItem).item as AdherenceItem;
+			if (adherenceItem)
 			{
-				yesImage.visible = true;
-				noImage.visible = false;
-				unreportedImage.visible = false;
-			}
-			else if (adherence == "false")
-			{
-				yesImage.visible = false;
-				noImage.visible = true;
-				unreportedImage.visible = false;
-			}
-			else if (adherence == "unreported")
-			{
-				yesImage.visible = false;
-				noImage.visible = false;
-				unreportedImage.visible = true;
+				if (adherenceItem.adherence)
+				{
+					yesImage.visible = true;
+					noImage.visible = false;
+					unreportedImage.visible = false;
+				}
+				else
+				{
+					yesImage.visible = false;
+					noImage.visible = true;
+					unreportedImage.visible = false;
+				}
+/*
+				else if (adherence == "unreported")
+				{
+					yesImage.visible = false;
+					noImage.visible = false;
+					unreportedImage.visible = true;
+				}
+*/
 			}
 		}
 		]]>
 	</fx:Script>
 
 	<!-- Align the bottom point of the yesImage (check mark) with the data point by offsetting the horizontalCenter -->
-	<mx:Image visible="false" smoothBitmapContent="true" id="yesImage" verticalCenter="0" horizontalCenter="2" source="@Embed('/assets/images/adherence/adherence_yes.png')"/>
-	<mx:Image visible="false" smoothBitmapContent="true" id="noImage" verticalCenter="0" horizontalCenter="0" source="@Embed('/assets/images/adherence/adherence_no.png')"/>
-	<mx:Image visible="false" smoothBitmapContent="true" id="unreportedImage" verticalCenter="0" horizontalCenter="0" source="@Embed('/assets/images/adherence/adherence_unreported.png')"/>
+	<sharedView:AdherenceCheck id="yesImage" width="26.53" height="28.057" horizontalCenter="3" verticalCenter="0"/>
+	<s:Label id="unreportedImage" text="?" fontSize="36" fontWeight="bold" color="#ED1C24" horizontalCenter="0" verticalCenter="3"/>
+	<s:Label id="noImage" text="X" fontSize="36" fontWeight="bold" color="#ED1C24" horizontalCenter="0" verticalCenter="3"/>
 </s:ItemRenderer>

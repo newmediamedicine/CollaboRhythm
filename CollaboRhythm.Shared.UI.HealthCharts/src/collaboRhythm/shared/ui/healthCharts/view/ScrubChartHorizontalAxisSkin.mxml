@@ -26,10 +26,6 @@
 		<mccune:ChildIndependentLayout/>
 	</s:layout>
 
-	<fx:Declarations>
-		<s:Fade id="highlightChartItemEffect" target="{highlightChartItemGroup}" alphaFrom="1" alphaTo="0" startDelay="500" effectEnd="{highlightChartItemGroup.visible = false}"/>
-	</fx:Declarations>
-
 	<!-- host component -->
 	<fx:Metadata>
 	<![CDATA[
@@ -40,69 +36,57 @@
 	]]>
 	</fx:Metadata>
 
-<!--
 	<fx:Style source="/defaults.css" />
--->
 
 	<s:states>
 		<s:State name="hideAnnotationControls"/>
 		<s:State name="showAnnotationControls"/>
 	</s:states>
-	
+
 	<mx:Canvas id="mainChartContainer"
 			   x="{SLIDER_SCROLL_BUTTON_WIDTH}"
 			   width="{this.width - SLIDER_SCROLL_BUTTON_WIDTH * 2}"
 			   height="{this.height}"
 			   horizontalScrollPolicy="off" verticalScrollPolicy="off"
-			   styleName="canvasContainerStyles"
-			   backgroundColor="#BFBEBE"
 			   borderStyle="none"
 			   >
+		<!-- borderSides="left right top" -->
+		<!-- the bottom bar on which the labels for HAxis get rendered
+		<mx:HBox x="0" y="{mainChart.height - 18}" backgroundColor="#CDE2F8" width="100%" height="18" />
+		-->
+
 		<mx:LineChart id="mainChart"
 					  x="0" y="0"
 					  showDataTips="true"
 					  width="{mainChartContainer.width * 3}" height="{mainChartContainer.height}"
+					  gutterBottom="35"
 					  styleName="mainChartStyle"
 					  seriesFilters="[]"
 					  horizontalAxisStyleNames="mainChartHorizontalAxisStyle"
 					  verticalAxisStyleNames="mainChartVerticalAxisStyle"
 					  selectionMode="none"
 					  cacheAsBitmap="true"
-					  gutterBottom="0"
 					  >
-			<mx:backgroundElements>
-				<datashapes:DataDrawingCanvas id="mainDataDrawingCanvas" includeInRanges="true" width="100%" height="100%">
-					<s:Label id="goalZoneLabel" styleName="ZoneLabel" visible="false" text="Goal Range"/>
-				</datashapes:DataDrawingCanvas>
-				<mx:GridLines gridDirection="vertical" horizontalShowOrigin="false">
-					<mx:verticalStroke>
-						<s:SolidColorStroke color="#808285" weight="1"/>
-					</mx:verticalStroke>
-					<mx:horizontalStroke>
-						<s:Stroke weight="0"/>
-					</mx:horizontalStroke>
-				</mx:GridLines>
-			</mx:backgroundElements>
+			<!--
+			Note that we don't need a gutterLeft in the mainChart if we are using InnerAxisRenderer
+					  gutterRight="1"
+					  gutterLeft="40"
+			-->
 
 			<mx:horizontalAxis>
 				<mccune:InclusiveDateTimeAxis id="mainChartHorizontalAxis" dataUnits="milliseconds"
 								 disabledDays="[]" displayLocalTime="true"
 								 />
 			</mx:horizontalAxis>
-
 			<mx:horizontalAxisRenderers>
-				<!--<mccune:BlankAxisRenderer axis="{mainChartHorizontalAxis}"/>-->
-				<mx:AxisRenderer axis="{mainChartHorizontalAxis}" showLabels="false" tickLength="0" tickPlacement="none" labelGap="0">
-					<mx:axisStroke>
-						<s:Stroke weight="0" alpha="0"/>
-					</mx:axisStroke>
-				</mx:AxisRenderer>
+				<mx:AxisRenderer id="mainChartHorizontalAxisRenderer" axis="{mainChartHorizontalAxis}"
+										fontSize="32" tickPlacement="inside" labelAlign="center"
+										showLine="false" labelGap="0"
+										mask="{mainChartHorizontalAxisRendererMask}" />
 			</mx:horizontalAxisRenderers>
-
 			<mx:verticalAxis>
 				<mx:LinearAxis id="mainChartVerticalAxis" baseAtZero="false"/>
 			</mx:verticalAxis>
-
 			<mx:verticalAxisRenderers>
 				<mccune:BlankAxisRenderer axis="{mainChartVerticalAxis}"/>
 			</mx:verticalAxisRenderers>
@@ -112,54 +96,19 @@
 				<mx:Canvas id="mainChartArea" width="100%" height="100%" buttonMode="true" mouseEnabled="true"
 						   />
 
-				<mx:Canvas id="annotationCanvas" width="100%" height="100%"
-						   horizontalScrollPolicy="off" verticalScrollPolicy="off"/>
-
-				<!-- annotations for highlighting a selected data point	-->
-				<s:Group id="highlightChartItemGroup" width="100%" height="100%" visible="false">
-					<s:Ellipse id="highlightChartItemBullsEye" width="30" height="30">
-						<s:filters>
-							<s:GlowFilter id="highlightChartItemBullsEyeGlow" blurX="8" blurY="8" color="0x88FF88" quality="2" strength="4"/>
-						</s:filters>
-						<s:stroke>
-							<s:SolidColorStroke color="0x000033" weight="3"/>
-						</s:stroke>
-					</s:Ellipse>
+				<s:Group id="mainChartHorizontalAxisRendererMask">
+					<s:Rect width="{mainChart.width}" height="{mainChart.height}">
+						<s:fill>
+							<s:SolidColor alpha="0"/>
+						</s:fill>
+					</s:Rect>
 				</s:Group>
 			</mx:annotationElements>
 		</mx:LineChart>
 
-		<!-- mainChart border lines -->
-		<s:Group height="100%" width="100%">
-			<s:Line left="0" top="0" bottom="0">
-				<s:stroke>
-					<s:SolidColorStroke/>
-				</s:stroke>
-			</s:Line>
-			<s:Line x="{mainChartContainer.width - 1}" top="0" bottom="0">
-				<s:stroke>
-					<s:SolidColorStroke/>
-				</s:stroke>
-			</s:Line>
-			<s:Line id="topBorderLine" top="0" left="0" right="0">
-				<s:stroke>
-					<s:SolidColorStroke/>
-				</s:stroke>
-			</s:Line>
-			<s:Line bottom="0" left="0" right="0">
-				<s:stroke>
-					<s:SolidColorStroke/>
-				</s:stroke>
-			</s:Line>
-		</s:Group>
-
 	</mx:Canvas> <!-- end mainChartContainer -->
 
-
-
 	<fx:Script><![CDATA[
-		import mx.core.UIComponent;
-
 		// TODO: make these const and eliminate Bindable
 		private const HEADER_HEIGHT:Number = 25;
 		private const VOLUME_CHART_HEIGHT:Number = 50;
@@ -175,19 +124,5 @@
 		private static const RANGE_SELECTOR_CONTAINER_COLLAPSED_HEIGHT:int = 8;
 		private const FOOTER_BUTTON_WIDTH:Number = 100;
 
-		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
-		{
-			var topBorderVisible:Boolean = getStyle("topBorderVisible");
-
-			if (topBorderLine.visible != topBorderVisible)
-			{
-				topBorderLine.visible = topBorderVisible;
-			}
-		}
-
-		private function get traceEventsPrefix():String
-		{
-			return (this.parent as UIComponent).id + ".";
-		}
 		]]></fx:Script>
 </s:SparkSkin>
