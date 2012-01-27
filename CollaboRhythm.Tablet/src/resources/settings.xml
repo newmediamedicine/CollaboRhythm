@@ -62,7 +62,6 @@
 		<appGroup id="buttonWidgets">
 			<appDescriptors>
 				<appDescriptor>collaboRhythm.plugins.healthActions.controller::HealthActionsAppController</appDescriptor>
-				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::BloodPressureAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.healthCharts.controller::HealthChartsAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.videoMessages.controller::VideoMessagesAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.blingAvatar.controller::BlingAvatarAppController</appDescriptor>

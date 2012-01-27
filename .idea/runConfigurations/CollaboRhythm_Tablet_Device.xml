@@ -24,10 +24,6 @@
           <option name="PATH_IN_PACKAGE" value="plugins/SchedulePluginModule.swf" />
         </FilePathAndPathInPackage>
         <FilePathAndPathInPackage>
-          <option name="FILE_PATH" value="$PROJECT_DIR$/CollaboRhythm.Plugins.VideoMessages/bin-debug/VideoMessagesPluginModule.swf" />
-          <option name="PATH_IN_PACKAGE" value="plugins/VideoMessagesPluginModule.swf" />
-        </FilePathAndPathInPackage>
-        <FilePathAndPathInPackage>
           <option name="FILE_PATH" value="$PROJECT_DIR$/CollaboRhythm.Plugins.ForaD40b/bin-debug/ForaD40bPluginModule.swf" />
           <option name="PATH_IN_PACKAGE" value="plugins/ForaD40bPluginModule.swf" />
         </FilePathAndPathInPackage>
@@ -44,16 +40,24 @@
           <option name="PATH_IN_PACKAGE" value="plugins/HealthActionsPluginModule.swf" />
         </FilePathAndPathInPackage>
         <FilePathAndPathInPackage>
-          <option name="FILE_PATH" value="$PROJECT_DIR$/CollaboRhythm.Plugins.PostOpHome/bin-debug/PostOpHomePluginModule.swf" />
-          <option name="PATH_IN_PACKAGE" value="plugins/PostOpHomePluginModule.swf" />
-        </FilePathAndPathInPackage>
-        <FilePathAndPathInPackage>
           <option name="FILE_PATH" value="$PROJECT_DIR$/CollaboRhythm.Plugins.PainReport/bin-debug/PainReportPluginModule.swf" />
           <option name="PATH_IN_PACKAGE" value="plugins/PainReportPluginModule.swf" />
         </FilePathAndPathInPackage>
         <FilePathAndPathInPackage>
           <option name="FILE_PATH" value="$PROJECT_DIR$/CollaboRhythm.Tablet/bin-debug/CollaboRhythmTabletApplication.swf" />
           <option name="PATH_IN_PACKAGE" value="plugins/CollaboRhythmTabletApplication.swf" />
+        </FilePathAndPathInPackage>
+        <FilePathAndPathInPackage>
+          <option name="FILE_PATH" value="$PROJECT_DIR$/CollaboRhythm.Plugins.BlingAvatar/bin-debug/BlingAvatarPluginModule.swf" />
+          <option name="PATH_IN_PACKAGE" value="plugins/BlingAvatarPluginModule.swf" />
+        </FilePathAndPathInPackage>
+        <FilePathAndPathInPackage>
+          <option name="FILE_PATH" value="$PROJECT_DIR$/CollaboRhythm.Plugins.HealthCharts/bin-debug/HealthChartsPluginModule.swf" />
+          <option name="PATH_IN_PACKAGE" value="plugins/HealthChartsPluginModule.swf" />
+        </FilePathAndPathInPackage>
+        <FilePathAndPathInPackage>
+          <option name="FILE_PATH" value="$PROJECT_DIR$/CollaboRhythm.Plugins.PostOpHome/bin-debug/PostOpHomePluginModule.swf" />
+          <option name="PATH_IN_PACKAGE" value="plugins/PostOpHomePluginModule.swf" />
         </FilePathAndPathInPackage>
       </list>
     </option>

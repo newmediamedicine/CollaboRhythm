@@ -4,6 +4,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import collaboRhythm.shared.apps.healthCharts.model.MedicationComponentAdherenceModel;
 	import collaboRhythm.shared.apps.healthCharts.model.SimulationModel;
 	import collaboRhythm.shared.model.StringUtils;
+	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.derived.MedicationConcentrationSample;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
@@ -28,6 +29,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifierFactory;
 	import collaboRhythm.view.scroll.TouchScrollerEvent;
 
+	import com.dougmccune.controls.ChartFooter;
+
 	import com.dougmccune.controls.ScrubChart;
 	import com.dougmccune.controls.SeriesDataSet;
 	import com.dougmccune.controls.SynchronizedAxisCache;
@@ -46,14 +49,11 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import mx.charts.HitData;
 	import mx.charts.LinearAxis;
 	import mx.charts.chartClasses.CartesianChart;
-	import mx.charts.chartClasses.CartesianDataCanvas;
 	import mx.charts.chartClasses.IAxisRenderer;
 	import mx.charts.chartClasses.Series;
 	import mx.charts.series.PlotSeries;
 	import mx.collections.ArrayCollection;
-	import mx.controls.Alert;
 	import mx.core.ClassFactory;
-	import mx.core.IUIComponent;
 	import mx.core.IVisualElement;
 	import mx.core.UIComponent;
 	import mx.effects.Sequence;
@@ -65,14 +65,17 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 	import mx.managers.IFocusManagerComponent;
-	import mx.rpc.events.FaultEvent;
 
 	import qs.charts.dataShapes.DataDrawingCanvas;
 	import qs.charts.dataShapes.Edge;
 
+	import spark.components.Button;
+
 	import spark.components.HGroup;
 	import spark.components.Label;
 	import spark.components.VGroup;
+	import spark.components.View;
+	import spark.components.ViewNavigator;
 	import spark.effects.Animate;
 	import spark.effects.animation.MotionPath;
 	import spark.effects.animation.SimpleMotionPath;
@@ -80,6 +83,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import spark.events.SkinPartEvent;
 	import spark.layouts.VerticalAlign;
 	import spark.primitives.Rect;
+	import spark.skins.mobile.ButtonSkin;
 
 	public class SynchronizedHealthCharts extends VGroup implements IFocusManagerComponent
 	{
@@ -141,6 +145,9 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private var _chartDescriptors:OrderedMap;
 		private var _activeAccountId:String;
 		private var _chartModifiers:OrderedMap;
+		protected var _footer:ChartFooter;
+		private var _viewNavigator:ViewNavigator;
+		private var _rangeButtonTargetChart:TouchScrollingScrubChart;
 
 		public function SynchronizedHealthCharts():void
 		{
@@ -160,6 +167,24 @@ package collaboRhythm.shared.ui.healthCharts.view
 			showFocusTimeMarker = !skipUpdateSimulation;
 
 			this.addEventListener(FlexEvent.CREATION_COMPLETE, creationCompleteHandler, false, 0, true);
+		}
+		
+		public function createRangeButtons(view:View):void
+		{
+			if (view && view.actionContent)
+			{
+				var rangeTodayButton:Button = new Button();
+				rangeTodayButton.label = "Today";
+				rangeTodayButton.addEventListener(MouseEvent.CLICK, rangeTodayButton_clickHandler, false, 0, true);
+				rangeTodayButton.setStyle("skinClass", ButtonSkin);
+				view.actionContent.unshift(rangeTodayButton);
+			}
+		}
+
+		private function rangeTodayButton_clickHandler(event:MouseEvent):void
+		{
+			if (_rangeButtonTargetChart)
+				_rangeButtonTargetChart.rangeTodayButton_clickHandler(event);
 		}
 
 		[Bindable]
@@ -254,12 +279,48 @@ package collaboRhythm.shared.ui.healthCharts.view
 				initializeModifierFactories();
 				createChartDescriptors();
 				createChartModifiers();
+				updateChartDescriptors();
 				createChartsFromDescriptors();
 				createCustomCharts();
+				createHorizontalAxisChart();
+				createFooter();
 			}
 			else
 			{
 				updateAdherenceCharts();
+			}
+		}
+
+		private function createFooter():void
+		{
+			if (modality == Settings.MODALITY_WORKSTATION)
+			{
+				_footer = new ChartFooter();
+				_footer.paddingLeft = 100 + 16;
+				_footer.paddingRight = 16;
+				this.addElement(_footer);
+			}
+		}
+
+		private function createHorizontalAxisChart():void
+		{
+			var chart:TouchScrollingScrubChart = createAdherenceChart("horizontalAxisChart", null, false);
+			chart.setStyle("skinClass", ScrubChartHorizontalAxisSkin);
+			chart.setStyle("footerVisible", false);
+			chart.height = 35;
+
+			var spacer:UIComponent = new UIComponent();
+			spacer.width = 100;
+
+			var group:HGroup = createAdherenceGroup(spacer, chart, null);
+			group.height = 35;
+		}
+
+		private function updateChartDescriptors():void
+		{
+			for each (var chartModifier:IChartModifier in _chartModifiers.values())
+			{
+				_chartDescriptors = chartModifier.updateChartDescriptors(_chartDescriptors);
 			}
 		}
 
@@ -425,7 +486,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			chart.dateField = "dateReported";
 		}
 
-		private function createAdherenceChart(chartKey:String, chartDescriptor:IChartDescriptor):TouchScrollingScrubChart
+		private function createAdherenceChart(chartKey:String, chartDescriptor:IChartDescriptor, expectCreationComplete:Boolean=true):TouchScrollingScrubChart
 		{
 			var chart:TouchScrollingScrubChart = new TouchScrollingScrubChart();
 			chart.id = chartKey;
@@ -453,11 +514,11 @@ package collaboRhythm.shared.ui.healthCharts.view
 			chart.addEventListener(FocusTimeEvent.FOCUS_TIME_CHANGE, chart_focusTimeChangeHandler, false, 0,
 					true);
 
-			_chartsWithPendingCreationComplete.addItem(chart);
+			if (expectCreationComplete)
+				_chartsWithPendingCreationComplete.addItem(chart);
+
 			_adherenceCharts.addKeyValue(chartKey, chart);
 			addChart(chart);
-			chart.percentWidth = 100;
-			chart.percentHeight = 100;
 
 			return chart;
 		}
@@ -512,7 +573,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 		 * @param resultChart The chart representing the results (such as medication concentration or vital signs)
 		 * @param adherenceStripChart The adherence strip chart showing the scheduled health actions and the correspond adherence/actions taken
 		 */
-		public function createAdherenceGroup(image:IVisualElement, resultChart:TouchScrollingScrubChart, adherenceStripChart:TouchScrollingScrubChart):void
+		public function createAdherenceGroup(image:IVisualElement, resultChart:TouchScrollingScrubChart, adherenceStripChart:TouchScrollingScrubChart):HGroup
 		{
 			if (!image)
 			{
@@ -539,6 +600,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			adherenceGroup.verticalAlign = VerticalAlign.MIDDLE;
 
 			this.addElement(adherenceGroup);
+			return adherenceGroup;
 		}
 
 		protected function addCustomChartGroup(group:UIComponent):void
@@ -624,6 +686,25 @@ package collaboRhythm.shared.ui.healthCharts.view
 						equipmentScheduleItem.instructions.toLowerCase().search(vitalSignKey.toLowerCase()) != -1)
 				{
 					return equipmentScheduleItem;
+				}
+				if (equipmentScheduleItem.adherenceItems.size() > 0)
+				{
+					for each (var adherenceItem:AdherenceItem in equipmentScheduleItem.adherenceItems.values())
+					{
+						if (adherenceItem.adherence)
+						{
+							for each (var document:IDocument in adherenceItem.adherenceResults)
+							{
+								var vitalSign:VitalSign = document as VitalSign;
+								if (vitalSign && vitalSign.name.text == vitalSignKey)
+								{
+									return equipmentScheduleItem;
+								}
+							}
+							// To avoid checking too many adherence items, only check the first adherence item with adherence == true
+							break;
+						}
+					}
 				}
 			}
 			return null;
@@ -1132,7 +1213,29 @@ package collaboRhythm.shared.ui.healthCharts.view
 		{
 			if (_traceEventHandlers)
 				trace(this + ".drawAdherenceStripRegions");
+			var scheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = getScheduleItemOccurrences(scheduleItemCollection,
+					scheduleItemName);
+			canvas.clear();
 
+			canvas.beginFill(0xFFFFFF);
+
+			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrences)
+			{
+				canvas.drawRect(scheduleItemOccurrence.dateStart, [Edge.TOP, 3],
+						scheduleItemOccurrence.dateEnd, [Edge.BOTTOM, -4]);
+			}
+
+			canvas.endFill();
+
+			if (zoneLabel)
+			{
+				canvas.updateDataChild(zoneLabel, {left:Edge.LEFT, top:Edge.TOP});
+			}
+		}
+
+		private function getScheduleItemOccurrences(scheduleItemCollection:ArrayCollection,
+													scheduleItemName:String):Vector.<ScheduleItemOccurrence>
+		{
 			var scheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
 			var firstDateStart:Date;
 			var lastDateEnd:Date;
@@ -1145,57 +1248,13 @@ package collaboRhythm.shared.ui.healthCharts.view
 					scheduleItemOccurrences = scheduleItemOccurrences.concat(newScheduleItemOccurrences);
 					if (firstDateStart == null || newScheduleItemOccurrences[0].dateStart.time < firstDateStart.time)
 						firstDateStart = newScheduleItemOccurrences[0].dateStart;
-					if (lastDateEnd == null || newScheduleItemOccurrences[newScheduleItemOccurrences.length - 1].dateEnd.time > lastDateEnd.time)
+					if (lastDateEnd == null ||
+							newScheduleItemOccurrences[newScheduleItemOccurrences.length - 1].dateEnd.time >
+									lastDateEnd.time)
 						lastDateEnd = newScheduleItemOccurrences[newScheduleItemOccurrences.length - 1].dateEnd;
 				}
 			}
-
-			canvas.clear();
-
-			canvas.beginFill(STRIP_CHART_NIGHT_COLOR);
-
-			if (firstDateStart != null)
-			{
-				var currentNightStart:Date = new Date();
-				currentNightStart.setTime(firstDateStart.time - 1000 * 60 * 60 * 24);
-				currentNightStart.setHours(18, 0, 0, 0);
-				var currentNightEnd:Date;
-				do
-				{
-					currentNightEnd = new Date();
-					currentNightEnd.setTime(currentNightStart.time + 1000 * 60 * 60 * 12);
-					// Because of daylight savings, 6am might not be 12 hours after 6pm, so adjust
-					currentNightEnd.setHours(6, 0, 0, 0);
-
-					canvas.drawRect(currentNightStart, [Edge.TOP, -1],
-							currentNightEnd, [Edge.BOTTOM, 1]);
-
-					// advance night start to 6pm on the next day
-					var nextNightStartTime:Number = currentNightStart.time + 1000 * 60 * 60 * 24;
-					currentNightStart = new Date();
-					currentNightStart.setTime(nextNightStartTime);
-					// Because of daylight savings, 6am might not be 12 hours after 6pm, so adjust
-					currentNightStart.setHours(18, 0, 0, 0);
-				}
-				while (currentNightStart.time < lastDateEnd.time);
-			}
-
-			canvas.endFill();
-
-			canvas.beginFill(0xFFFFFF);
-
-			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrences)
-			{
-				canvas.drawRect(scheduleItemOccurrence.dateStart, [Edge.TOP, -1],
-						scheduleItemOccurrence.dateEnd, [Edge.BOTTOM, 1]);
-			}
-
-			canvas.endFill();
-
-			if (zoneLabel)
-			{
-				canvas.updateDataChild(zoneLabel, {left:Edge.LEFT, top:Edge.TOP});
-			}
+			return scheduleItemOccurrences;
 		}
 
 		private function scheduleItemMatches(scheduleItem:ScheduleItemBase, scheduleItemName:String):Boolean
@@ -1210,53 +1269,6 @@ package collaboRhythm.shared.ui.healthCharts.view
 			}
 		}
 
-		public function drawAdherenceData2(chart:CartesianChart, canvas:CartesianDataCanvas, zoneLabel:Label, medicationCode:String, ndcCode:String):void
-		{
-			if (_traceEventHandlers)
-				trace(this + ".drawAdherenceData2");
-
-			canvas.clear();
-
-			var medicationModel:MedicationComponentAdherenceModel = model.focusSimulation.getMedication(medicationCode);
-			var color:uint = getMedicationColor(ndcCode);
-//			canvas.lineStyle(1, color, 0.5);
-
-			canvas.beginFill(color, 0.25);
-			canvas.drawRect(new Date(1970), medicationModel.goalConcentrationMinimum,
-					model.currentDateSource.now(),
-					medicationModel.goalConcentrationMaximum / 2);
-			canvas.endFill();
-
-			if (zoneLabel)
-			{
-				zoneLabel.setStyle("color", color);
-				canvas.updateDataChild(zoneLabel, {left:Edge.LEFT, top:medicationModel.goalConcentrationMaximum});
-			}
-		}
-
-		//			private function offsetDataToToday(data:ArrayCollection, newDate:Date):void
-		//			{
-		//				var lastDate:Date = bloodPressureChart.dateParse(data[data.length - 1].date);
-		//				var delta:Number = newDate.time - lastDate.time;
-		//
-		//				for each (var dataItem:Object in data)
-		//				{
-		//					var dataItemDate:Date = bloodPressureChart.dateParse(dataItem.date);
-		//					dataItemDate.time += delta;
-		//					var formattedDate:String = fullDateFormat.format(dataItemDate);
-		//
-		//					dataItem.date = formattedDate;
-		//				}
-		//			}
-
-		/**
-		 * If an error occurs loading the XML chart info
-		 */
-		private function faultResult(event:FaultEvent):void
-		{
-			Alert.show("Error retrieving XML data", "Error");
-		}
-
 		private function synchronizeDateLimits():void
 		{
 			var charts:Vector.<TouchScrollingScrubChart> = _visibleCharts;
@@ -1269,12 +1281,12 @@ package collaboRhythm.shared.ui.healthCharts.view
 				chart.commitPendingDataChanges();
 				if (isNaN(minimum))
 					minimum = chart.minimumDataTime;
-				else
+				else if (!isNaN(chart.minimumDataTime))
 					minimum = Math.min(minimum, chart.minimumDataTime);
 
 				if (isNaN(maximum))
 					maximum = chart.maximumDataTime;
-				else
+				else if (!isNaN(chart.maximumDataTime))
 					maximum = Math.max(maximum, chart.maximumDataTime);
 			}
 
@@ -1431,8 +1443,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			}
 			setSingleChartMode(visibleCharts[0], false);
 
-			visibleCharts = getVisibleCharts(allCharts, null, _singleChartMode, model.showAdherence
-			);
+			visibleCharts = getVisibleCharts(allCharts, null, _singleChartMode, model.showAdherence);
 
 			this.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 
@@ -1454,8 +1465,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			_synchronizedTrial.stop(_benchmarkFrameCount);
 
 			var allCharts:Vector.<TouchScrollingScrubChart> = getAllCharts();
-			_individualChartsQueue = getVisibleCharts(allCharts, null, _singleChartMode, model.showAdherence
-			);
+			_individualChartsQueue = getVisibleCharts(allCharts, null, _singleChartMode, model.showAdherence);
 
 			startIndividualTrial();
 		}
@@ -1577,31 +1587,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 			updateChartsCache(targetChart);
 
 			var allCharts:Vector.<TouchScrollingScrubChart> = getAllCharts();
-			for (var i:int = 0; i < _visibleCharts.length; i++)
-			{
-				var chart:TouchScrollingScrubChart = _visibleCharts[i] as TouchScrollingScrubChart;
 
-				// middle chart
-				chart.setStyle("headerVisible", false);
-				chart.setStyle("footerVisible", false);
-				chart.setStyle("sliderVisible", false);
-				chart.setStyle("rangeChartVisible", rangeChartVisible);
-
-				if (i == 0)
-				{
-					// top chart
-//					chart.setStyle("topBorderVisible", true);
-				}
-
-				// TODO: the order of the charts in _charts is currently inconsistent with the order the charts are in visually
-				if (i == _visibleCharts.length - 1)
-				{
-					// bottom chart
-					chart.setStyle("footerVisible", chartFooterVisible);
-				}
-			}
-
-			for each (chart in allCharts)
+			for each (var chart:TouchScrollingScrubChart in allCharts)
 			{
 				var visible:Boolean = _visibleCharts.indexOf(chart) != -1;
 				chart.visible = visible;
@@ -1614,6 +1601,20 @@ package collaboRhythm.shared.ui.healthCharts.view
 						targetChart);
 				synchronizeScrollPositions(targetChart, nonTargetCharts);
 				synchronizeFocusTimes(targetChart, nonTargetCharts);
+			}
+
+			if (_visibleCharts && _visibleCharts.length > 0)
+			{
+				_rangeButtonTargetChart = _visibleCharts[0];
+			}
+			else
+			{
+				_rangeButtonTargetChart = null;
+			}
+
+			if (_footer)
+			{
+				_footer.chart = _rangeButtonTargetChart;
 			}
 		}
 
@@ -1771,8 +1772,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			if (targetChart == null || _scrollTargetChart != targetChart)
 			{
 				var allCharts:Vector.<TouchScrollingScrubChart> = getAllCharts();
-				_visibleCharts = getVisibleCharts(allCharts, targetChart, _singleChartMode, model.showAdherence
-				);
+				_visibleCharts = getVisibleCharts(allCharts, targetChart, _singleChartMode, model.showAdherence);
 				_nonTargetCharts = getVisibleNonTargetCharts(_visibleCharts, targetChart);
 				_scrollTargetChart = targetChart;
 			}
@@ -2021,10 +2021,10 @@ package collaboRhythm.shared.ui.healthCharts.view
 		{
 			_seriesWithPendingUpdateComplete.removeAll();
 
-			if (model.isInitialized)
+			if (model && model.isInitialized)
 				initializeSeriesSets();
 
-			if (model.isInitialized && model.showAdherence)
+			if (model && model.isInitialized && model.showAdherence)
 			{
 				createAdherenceCharts();
 				updateSeries();
@@ -2073,6 +2073,11 @@ package collaboRhythm.shared.ui.healthCharts.view
 		public function set activeAccountId(value:String):void
 		{
 			_activeAccountId = value;
+		}
+
+		public function set viewNavigator(viewNavigator:ViewNavigator):void
+		{
+			_viewNavigator = viewNavigator;
 		}
 	}
 }

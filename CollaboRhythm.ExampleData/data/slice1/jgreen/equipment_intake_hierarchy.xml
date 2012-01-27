@@ -24,7 +24,7 @@
                         <frequency>DAILY</frequency>
                         <count>90</count>
                      </recurrenceRule>
-                     <instructions xmlns="">Intake documentation</instructions>
+                     <instructions xmlns="">Food/drink intake documentation to complete once a day</instructions>
                   </EquipmentScheduleItem>
                </document>
                <relatesTo>

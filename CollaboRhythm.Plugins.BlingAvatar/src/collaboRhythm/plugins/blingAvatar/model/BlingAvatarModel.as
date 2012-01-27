@@ -65,7 +65,7 @@ package collaboRhythm.plugins.blingAvatar.model
 
 		private function updateCurrency():void
 		{
-			currency = _medicationAdministrationsCollection.length - 1;
+			currency = _medicationAdministrationsCollection.length + 7;
 			if (currency < 20)
 			{
 				areGlassesPurchased = false;
@@ -105,8 +105,7 @@ package collaboRhythm.plugins.blingAvatar.model
 				areGlassesPurchased = true;
 				currency = currency - 20;
 			}
-
-			if (areGlassesPurchased)
+			else if (areGlassesPurchased)
 			{
 				areGlassesPurchased = false;
 				currency = currency + 20;

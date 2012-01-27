@@ -18,6 +18,7 @@
 <IndivoDocuments>
 	<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="895996">120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler [Flovent]</name>
+		<instructions>Use as directed</instructions>
 		<reportedBy>odavis@records.media.mit.edu</reportedBy>
 		<dateReported>2011-07-15T08:00:00Z</dateReported>
 		<adherence>true</adherence>

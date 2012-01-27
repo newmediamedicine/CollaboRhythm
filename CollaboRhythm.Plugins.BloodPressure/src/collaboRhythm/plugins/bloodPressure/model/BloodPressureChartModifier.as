@@ -12,6 +12,7 @@ package collaboRhythm.plugins.bloodPressure.model
 
 	import com.dougmccune.controls.ScrubChart;
 	import com.dougmccune.controls.SeriesDataSet;
+	import com.theory9.data.types.OrderedMap;
 
 	import mx.charts.HitData;
 	import mx.charts.LinearAxis;
@@ -60,7 +61,8 @@ package collaboRhythm.plugins.bloodPressure.model
 
 		public function modifyMainChart(chart:ScrubChart):void
 		{
-			decoratedModifier.modifyMainChart(chart);
+			if (decoratedModifier)
+				decoratedModifier.modifyMainChart(chart);
 			chart.mainChartTitle = "Blood Pressure (mmHg)";
 
 			var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
@@ -137,6 +139,14 @@ package collaboRhythm.plugins.bloodPressure.model
 				zoneLabel.setStyle("color", color);
 				canvas.updateDataChild(zoneLabel, {left:Edge.LEFT, top:200});
 			}
+		}
+
+		public function updateChartDescriptors(chartDescriptors:OrderedMap):OrderedMap
+		{
+			var diastolicDescriptor:VitalSignChartDescriptor = new VitalSignChartDescriptor();
+			diastolicDescriptor.vitalSignCategory = VitalSignsModel.DIASTOLIC_CATEGORY;
+			chartDescriptors.removeByKey(diastolicDescriptor.descriptorKey);
+			return chartDescriptors;
 		}
 	}
 }

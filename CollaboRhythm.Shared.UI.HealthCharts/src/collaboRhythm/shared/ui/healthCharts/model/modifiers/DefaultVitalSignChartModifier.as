@@ -7,6 +7,7 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 
 	import com.dougmccune.controls.ScrubChart;
 	import com.dougmccune.controls.SeriesDataSet;
+	import com.theory9.data.types.OrderedMap;
 
 	import mx.charts.HitData;
 	import mx.charts.series.PlotSeries;
@@ -14,13 +15,11 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	import mx.core.IVisualElement;
 	import mx.graphics.SolidColor;
 	import mx.graphics.SolidColorStroke;
-	import mx.utils.HSBColor;
 
 	import qs.charts.dataShapes.DataDrawingCanvas;
 
 	import spark.components.Image;
 	import spark.components.Label;
-
 	import spark.primitives.Rect;
 	import spark.skins.spark.ImageSkin;
 
@@ -37,6 +36,24 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 
 		[Embed("/assets/images/vitalSigns/Oxygen_Saturation.png")]
 		private var _oxygenSaturationImageClass:Class;
+
+		[Embed("/assets/images/vitalSigns/asthma_symptom.png")]
+		private var _asthmaSymptomImageClass:Class;
+
+		[Embed("/assets/images/vitalSigns/asthma_trigger.png")]
+		private var _asthmaTriggerImageClass:Class;
+
+		[Embed("/assets/images/vitalSigns/Blood_Glucose.png")]
+		private var _bloodGlucoseImageClass:Class;
+
+		[Embed("/assets/images/vitalSigns/Caloric_Intake.png")]
+		private var _caloricIntakeImageClass:Class;
+
+		[Embed("/assets/images/vitalSigns/Peak_Expiratory_Flow_Rate.png")]
+		private var _peakExpiratoryFlowRateImageClass:Class;
+
+		[Embed("/assets/images/vitalSigns/Step_Count.png")]
+		private var _stepCountImageClass:Class;
 
 		public function DefaultVitalSignChartModifier(chartDescriptor:VitalSignChartDescriptor,
 														   chartModelDetails:IChartModelDetails,
@@ -62,7 +79,13 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 			var vitalSign:VitalSign = hitData.item as VitalSign;
 			if (vitalSign)
 			{
-				return vitalSign.name.text + " " + vitalSign.resultAsNumber.toFixed(2) + "<br/>" +
+				var result:String;
+				if (vitalSign.result && vitalSign.result.textValue && isNaN(vitalSign.resultAsNumber))
+					result = vitalSign.result.textValue;
+				else
+					result = vitalSign.resultAsNumber.toFixed(2);
+
+				return vitalSign.name.text + " " + result + "<br/>" +
 						"Date: " + vitalSign.dateMeasuredStart.toLocaleString();
 			}
 
@@ -82,8 +105,8 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 			vitalSignSeries.displayName = vitalSignChartDescriptor.vitalSignCategory;
 			vitalSignSeries.setStyle("radius", 5);
 			vitalSignSeries.filterDataValues = "none";
-//			var color:uint = getVitalSignColor(vitalSignKey);
-			vitalSignSeries.setStyle("stroke", new SolidColorStroke(0x000000, 2));
+			var color:uint = getVitalSignColor(vitalSignChartDescriptor.vitalSignCategory);
+			vitalSignSeries.setStyle("stroke", new SolidColorStroke(color, 2));
 
 			seriesDataSets.push(new SeriesDataSet(vitalSignSeries, seriesDataCollection, "dateMeasuredStart"));
 			return seriesDataSets;
@@ -107,6 +130,24 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 					break;
 				case VitalSignsModel.OXYGEN_SATURATION_CATEGORY:
 					imageClass = _oxygenSaturationImageClass;
+					break;
+				case VitalSignsModel.ASTHMA_SYMPTOM_CATEGORY:
+					imageClass = _asthmaSymptomImageClass;
+					break;
+				case VitalSignsModel.ASTHMA_TRIGGER_CATEGORY:
+					imageClass = _asthmaTriggerImageClass;
+					break;
+				case VitalSignsModel.BLOOD_GLUCOSE_CATEGORY:
+					imageClass = _bloodGlucoseImageClass;
+					break;
+				case VitalSignsModel.CALORIC_INTAKE_CATEGORY:
+					imageClass = _caloricIntakeImageClass;
+					break;
+				case VitalSignsModel.PEAK_EXPIRATORY_FLOW_RATE_CATEGORY:
+					imageClass = _peakExpiratoryFlowRateImageClass;
+					break;
+				case VitalSignsModel.STEP_COUNT_CATEGORY:
+					imageClass = _stepCountImageClass;
 					break;
 			}
 			
@@ -134,20 +175,25 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 
 		private function getVitalSignColor(vitalSignKey:String):uint
 		{
-			// TODO: implement a better system for coloring the vital sign charts
-//			return 0x4444FF;
-			var hue:Number = 180;
-			for (var i:int = 0; i < vitalSignKey.length; i++)
+			switch (vitalSignKey)
 			{
-				hue = hue + vitalSignKey.charCodeAt(i);
+				case VitalSignsModel.HEART_RATE_CATEGORY:
+					return 0x00A200;
+				case VitalSignsModel.OXYGEN_SATURATION_CATEGORY:
+					return 0x0042A6;
+				case VitalSignsModel.METABOLIC_EQUIVALENT_TASK_CATEGORY:
+					return 0xAC00AD;
 			}
-			
-			hue = hue % 360;
-			return HSBColor.convertHSBtoRGB(hue, 0.5, 0.5);
+			return ColorFromNameUtil.getColorFromName(vitalSignKey);
 		}
 
 		public function drawBackgroundElements(canvas:DataDrawingCanvas, zoneLabel:Label):void
 		{
+		}
+
+		public function updateChartDescriptors(chartDescriptors:OrderedMap):OrderedMap
+		{
+			return chartDescriptors;
 		}
 	}
 }

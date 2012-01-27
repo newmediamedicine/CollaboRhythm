@@ -5,18 +5,18 @@
    <LoadableIndivoDocument>
       <document>
          <MedicationOrder xmlns="http://indivo.org/vocab/xml/documents#">
-            <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+            <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
             <orderType>prescribed</orderType>
             <orderedBy>jking@records.media.mit.edu</orderedBy>
             <dateOrdered>2011-07-14T19:13:11Z</dateOrdered>
             <dateExpires>2012-07-14T09:00:00-04:00</dateExpires>
-            <indication>asthma</indication>
+            <indication>pain relief</indication>
             <amountOrdered>
                <value>90</value>
                <unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
             </amountOrdered>
             <substitutionPermitted>true</substitutionPermitted>
-            <instructions>Use as directed</instructions>
+            <instructions>Take with water</instructions>
          </MedicationOrder>
       </document>
       <relatesTo>
@@ -24,14 +24,14 @@
             <LoadableIndivoDocument>
                <document>
                   <MedicationFill xmlns="http://indivo.org/vocab/xml/documents#">
-                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
                      <filledBy>ljohnson@records.media.mit.edu</filledBy>
                      <dateFilled>2011-07-14T19:13:11Z</dateFilled>
                      <amountFilled>
                         <value>90</value>
                         <unit>tab</unit>
                      </amountFilled>
-                     <ndc>173068224</ndc>
+                     <ndc>motrin400</ndc>
                      <instructions>Do not expose to direct sunlight</instructions>
                   </MedicationFill>
                </document>
@@ -41,20 +41,21 @@
             <LoadableIndivoDocument>
                <document>
                   <MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
-                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
+                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
                      <scheduledBy>jking@records.media.mit.edu</scheduledBy>
                      <dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
-                     <dateStart>2011-07-15T13:00:00Z</dateStart>
-                     <dateEnd>2011-07-15T17:00:00Z</dateEnd>
+                     <dateStart>2011-07-15T07:30:00Z</dateStart>
+                     <dateEnd>2011-07-15T08:30:00Z</dateEnd>
                      <recurrenceRule>
-                        <frequency>DAILY</frequency>
-                        <count>90</count>
+                        <frequency>HOURLY</frequency>
+                        <interval>8</interval>
+                        <count>270</count>
                      </recurrenceRule>
                      <dose>
                         <value>1</value>
                         <unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
                      </dose>
-                     <instructions>Use as directed</instructions>
+                     <instructions>Take with water</instructions>
                   </MedicationScheduleItem>
                </document>
                <relatesTo>
@@ -62,10 +63,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-22T13:30:00Z</dateReported>
-                              <recurrenceIndex>7</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-15T16:00:00Z</dateReported>
+                              <recurrenceIndex>0</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -74,13 +75,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-22T13:30:00Z</dateReported>
-                                       <dateAdministered>2011-07-22T13:30:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-15T16:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-15T16:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>2</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>89</value>
@@ -88,38 +89,6 @@
                                        </amountRemaining>
                                     </MedicationAdministration>
                                  </document>
-                                 <relatesTo>
-                                    <relation type="annotation">
-                                       <LoadableIndivoDocument>
-                                          <document>
-                                             <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
-                                                <name>asthma symptom</name>
-                                                <measuredBy>odavis@records.media.mit.edu</measuredBy>
-                                                <dateMeasuredStart>2011-07-22T13:30:00Z</dateMeasuredStart>
-                                                <result>
-                                                   <value>1</value>
-                                                   <textValue>coughing,wheezing,shortness of breath</textValue>
-                                                   <unit>Count</unit>
-                                                </result>
-                                             </VitalSign>
-                                          </document>
-                                       </LoadableIndivoDocument>
-                                       <LoadableIndivoDocument>
-                                          <document>
-                                             <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
-                                                <name>asthma trigger</name>
-                                                <measuredBy>odavis@records.media.mit.edu</measuredBy>
-                                                <dateMeasuredStart>2011-07-22T13:30:00Z</dateMeasuredStart>
-                                                <result>
-                                                   <value>1</value>
-                                                   <textValue>cold</textValue>
-                                                   <unit>Count</unit>
-                                                </result>
-                                             </VitalSign>
-                                          </document>
-                                       </LoadableIndivoDocument>
-                                    </relation>
-                                 </relatesTo>
                               </LoadableIndivoDocument>
                            </relation>
                         </relatesTo>
@@ -127,10 +96,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-22T16:42:00Z</dateReported>
-                              <recurrenceIndex>7</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-16T08:00:00Z</dateReported>
+                              <recurrenceIndex>1</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -139,13 +108,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-22T16:42:00Z</dateReported>
-                                       <dateAdministered>2011-07-22T16:42:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-16T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-16T08:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>2</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>88</value>
@@ -160,10 +129,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-23T10:30:00Z</dateReported>
-                              <recurrenceIndex>7</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-16T16:00:00Z</dateReported>
+                              <recurrenceIndex>2</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -172,13 +141,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-23T10:30:00Z</dateReported>
-                                       <dateAdministered>2011-07-23T10:30:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-16T16:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-16T16:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>2</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>87</value>
@@ -193,10 +162,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-23T16:42:00Z</dateReported>
-                              <recurrenceIndex>8</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-17T08:00:00Z</dateReported>
+                              <recurrenceIndex>3</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -205,13 +174,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-23T16:42:00Z</dateReported>
-                                       <dateAdministered>2011-07-23T16:42:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-17T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-17T08:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>2</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>86</value>
@@ -226,10 +195,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-23T19:16:00Z</dateReported>
-                              <recurrenceIndex>8</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-17T16:00:00Z</dateReported>
+                              <recurrenceIndex>4</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -238,13 +207,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-23T19:16:00Z</dateReported>
-                                       <dateAdministered>2011-07-23T19:16:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-17T16:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-17T16:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>2</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>85</value>
@@ -259,10 +228,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-24T10:30:00Z</dateReported>
-                              <recurrenceIndex>8</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-18T08:00:00Z</dateReported>
+                              <recurrenceIndex>5</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -271,13 +240,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-24T10:30:00Z</dateReported>
-                                       <dateAdministered>2011-07-24T10:30:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-18T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-18T08:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>4</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>84</value>
@@ -292,10 +261,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-24T15:03:00Z</dateReported>
-                              <recurrenceIndex>9</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-18T16:00:00Z</dateReported>
+                              <recurrenceIndex>6</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -304,13 +273,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-24T15:03:00Z</dateReported>
-                                       <dateAdministered>2011-07-24T15:03:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-18T16:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-18T16:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>4</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>83</value>
@@ -325,10 +294,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-24T18:51:00Z</dateReported>
-                              <recurrenceIndex>9</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-19T08:00:00Z</dateReported>
+                              <recurrenceIndex>7</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -337,13 +306,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-24T18:51:00Z</dateReported>
-                                       <dateAdministered>2011-07-24T18:51:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-19T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-19T08:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>4</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>82</value>
@@ -358,10 +327,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-25T10:00:00Z</dateReported>
-                              <recurrenceIndex>9</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-19T16:00:00Z</dateReported>
+                              <recurrenceIndex>8</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -370,13 +339,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-25T10:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-25T10:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-19T16:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-19T16:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>4</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>81</value>
@@ -391,10 +360,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-25T13:30:00Z</dateReported>
-                              <recurrenceIndex>10</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-20T08:00:00Z</dateReported>
+                              <recurrenceIndex>9</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -403,13 +372,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-25T13:30:00Z</dateReported>
-                                       <dateAdministered>2011-07-25T13:30:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-20T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-20T08:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>4</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>80</value>
@@ -424,9 +393,9 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-25T16:15:00Z</dateReported>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-20T16:00:00Z</dateReported>
                               <recurrenceIndex>10</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
@@ -436,13 +405,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-25T16:15:00Z</dateReported>
-                                       <dateAdministered>2011-07-25T16:15:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-20T16:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-20T16:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>4</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>79</value>
@@ -457,10 +426,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-25T19:24:00Z</dateReported>
-                              <recurrenceIndex>10</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-21T08:00:00Z</dateReported>
+                              <recurrenceIndex>11</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -469,13 +438,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-25T19:24:00Z</dateReported>
-                                       <dateAdministered>2011-07-25T19:24:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-21T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-21T08:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>4</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>78</value>
@@ -490,10 +459,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-26T10:00:00Z</dateReported>
-                              <recurrenceIndex>10</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-21T16:00:00Z</dateReported>
+                              <recurrenceIndex>12</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -502,13 +471,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-26T10:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-26T10:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-21T16:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-21T16:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>4</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>77</value>
@@ -523,10 +492,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-26T13:30:00Z</dateReported>
-                              <recurrenceIndex>11</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-22T08:00:00Z</dateReported>
+                              <recurrenceIndex>13</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -535,13 +504,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-26T13:30:00Z</dateReported>
-                                       <dateAdministered>2011-07-26T13:30:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-22T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-22T08:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>4</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>76</value>
@@ -556,10 +525,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-26T15:30:00Z</dateReported>
-                              <recurrenceIndex>11</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-22T16:00:00Z</dateReported>
+                              <recurrenceIndex>14</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -568,13 +537,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-26T15:30:00Z</dateReported>
-                                       <dateAdministered>2011-07-26T15:30:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-22T16:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-22T16:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>4</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>75</value>
@@ -589,10 +558,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-26T17:15:00Z</dateReported>
-                              <recurrenceIndex>11</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-23T08:00:00Z</dateReported>
+                              <recurrenceIndex>15</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -601,13 +570,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-26T17:15:00Z</dateReported>
-                                       <dateAdministered>2011-07-26T17:15:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-23T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-23T08:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>4</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>74</value>
@@ -622,10 +591,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-26T19:04:00Z</dateReported>
-                              <recurrenceIndex>11</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-23T16:00:00Z</dateReported>
+                              <recurrenceIndex>16</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -634,13 +603,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-26T19:04:00Z</dateReported>
-                                       <dateAdministered>2011-07-26T19:04:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-23T16:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-23T16:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>4</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>73</value>
@@ -655,10 +624,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-26T21:24:00Z</dateReported>
-                              <recurrenceIndex>11</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-24T08:00:00Z</dateReported>
+                              <recurrenceIndex>17</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -667,13 +636,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-26T21:24:00Z</dateReported>
-                                       <dateAdministered>2011-07-26T21:24:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-24T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-24T08:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>4</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>72</value>
@@ -688,10 +657,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-27T10:00:00Z</dateReported>
-                              <recurrenceIndex>11</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-24T16:00:00Z</dateReported>
+                              <recurrenceIndex>18</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -700,13 +669,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-27T10:00:00Z</dateReported>
-                                       <dateAdministered>2011-07-27T10:00:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-24T16:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-24T16:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>4</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>71</value>
@@ -721,10 +690,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-27T13:30:00Z</dateReported>
-                              <recurrenceIndex>12</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-25T08:00:00Z</dateReported>
+                              <recurrenceIndex>19</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -733,13 +702,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-27T13:30:00Z</dateReported>
-                                       <dateAdministered>2011-07-27T13:30:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-25T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-25T08:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>4</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>70</value>
@@ -754,10 +723,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-27T16:15:00Z</dateReported>
-                              <recurrenceIndex>12</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-25T16:00:00Z</dateReported>
+                              <recurrenceIndex>20</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -766,13 +735,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-27T16:15:00Z</dateReported>
-                                       <dateAdministered>2011-07-27T16:15:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-25T16:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-25T16:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>4</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>69</value>
@@ -787,10 +756,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-27T19:24:00Z</dateReported>
-                              <recurrenceIndex>12</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-26T08:00:00Z</dateReported>
+                              <recurrenceIndex>21</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -799,13 +768,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-27T19:24:00Z</dateReported>
-                                       <dateAdministered>2011-07-27T19:24:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-26T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-26T08:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>4</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>68</value>
@@ -820,10 +789,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-28T10:30:00Z</dateReported>
-                              <recurrenceIndex>12</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-26T16:00:00Z</dateReported>
+                              <recurrenceIndex>22</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -832,13 +801,13 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-28T10:30:00Z</dateReported>
-                                       <dateAdministered>2011-07-28T10:30:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-26T16:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-26T16:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>2</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>67</value>
@@ -853,10 +822,10 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                              <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                              <dateReported>2011-07-28T16:42:00Z</dateReported>
-                              <recurrenceIndex>13</recurrenceIndex>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-27T08:00:00Z</dateReported>
+                              <recurrenceIndex>23</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -865,16 +834,49 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]</name>
-                                       <reportedBy>odavis@records.media.mit.edu</reportedBy>
-                                       <dateReported>2011-07-28T16:42:00Z</dateReported>
-                                       <dateAdministered>2011-07-28T16:42:00Z</dateAdministered>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-27T08:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-27T08:00:00Z</dateAdministered>
                                        <amountAdministered>
-                                          <value>2</value>
-                                          <unit>puff</unit>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>66</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                              <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-27T16:00:00Z</dateReported>
+                              <recurrenceIndex>24</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="201142">Ibuprofen 400 MG Oral Tablet [Motrin]</name>
+                                       <reportedBy>gstark@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-27T16:00:00Z</dateReported>
+                                       <dateAdministered>2011-07-27T16:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>65</value>
                                           <unit>tablet</unit>
                                        </amountRemaining>
                                     </MedicationAdministration>

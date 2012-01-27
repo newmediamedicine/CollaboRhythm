@@ -134,6 +134,7 @@ package collaboRhythm.tablet.controller
 		// only after the active record view has been made visible are they loaded, this makes the UI more responsive
 		public function openRecordAndShowWidgets(recordAccount:Account):void
 		{
+			loadDocuments(recordAccount);
 			if (_tabletAppControllersMediator == null)
 			{
 				_tabletAppControllersMediator = new TabletAppControllersMediator(activeRecordView.widgetContainers,
@@ -147,7 +148,6 @@ package collaboRhythm.tablet.controller
 				_tabletAppControllersMediator.widgetContainers = activeRecordView.widgetContainers;
 			}
 			_tabletAppControllersMediator.createAndStartApps(_activeAccount, recordAccount);
-			loadDocuments(recordAccount);
 		}
 
 		public override function get fullContainer():IVisualElementContainer

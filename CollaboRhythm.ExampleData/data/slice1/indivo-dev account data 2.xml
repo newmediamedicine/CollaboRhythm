@@ -30,7 +30,7 @@
     <religion>Christian</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>c69fd802-9e38-4061-aee1-1302e8fd9f42</recordId>
+    <recordId/>
     <accessKey>sHddaL4L3F17jtU16DuP</accessKey>
     <accessSecret>BDsJq6PcIr1Sw7uHQ44j</accessSecret>
     <status>Login successful</status>
@@ -213,10 +213,10 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId>38b08df7-8fe0-4f92-854c-b2b7a1c49a52</recordId>
-    <accessKey>HPxdRGdMsOmVY4j4Kyec</accessKey>
-    <accessSecret>drE0fL2H5iWlKn7GXdOk</accessSecret>
+    <accessKey>xsSMaFykzgoMKNM41nJH</accessKey>
+    <accessSecret>UhFN3Qf0ZGtyRHFdPGRe</accessSecret>
     <status>Login successful</status>
-    <demographicsId>353924dd-b8e9-4f85-b1a6-413716143ba9</demographicsId>
+    <demographicsId>1c7f83d6-cd11-436c-8dc5-fc14f95aae09</demographicsId>
     <notes>Demo account for Yadid and pain-management-hw2012@googlegroups.com</notes>
   </AccountSource>
   <AccountSource>
@@ -318,7 +318,7 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>d43b7946-4648-456a-bb30-544bc49cca56</recordId>
+    <recordId/>
     <accessKey>pct8PAYu3NHL5VuSV3hC</accessKey>
     <accessSecret>F8HvJJSwwtRbBDV3cFHq</accessSecret>
     <status>Record shared.</status>
@@ -503,8 +503,16 @@
     <recordId/>
     <accessKey>VJ5LyhzPUsSBRjHkci0U</accessKey>
     <accessSecret>q7sdxKXcIl7mcUxHa8sV</accessSecret>
-    <status>Record shared. Failed on PUT
-			http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner
+    <status>Record shared. Failed on PUT
+
+
+
+
+			http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner
+
+
+
+
 			Response: &lt;Error&gt;</status>
     <demographicsId>b0476e25-777b-4aa2-bb62-32175347068a</demographicsId>
     <recordSeed/>
@@ -575,7 +583,7 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>edce25bb-ce04-4c83-ad0a-aa49d45b5bbd</recordId>
+    <recordId/>
     <accessKey>uxoXvLNras7VTwa9fZm4</accessKey>
     <accessSecret>lgs5HmtFOm5oYy8ovL9L</accessSecret>
     <status>Login successful</status>
@@ -650,7 +658,7 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId>5682c2b4-8b5e-4036-8de6-827654eca2e4</recordId>
-    <status>Demographics document created. Id: b762806c-4ded-456e-b77e-23e372d6460b</status>
+    <status>No action taken. Record ID for selected row must be empty.</status>
     <accessKey>2JjLAVUH9JCIHROWZiGn</accessKey>
     <accessSecret>dUdCnsd9BGS0Q1izuBdb</accessSecret>
     <demographicsId>b762806c-4ded-456e-b77e-23e372d6460b</demographicsId>
@@ -689,7 +697,11 @@
     <recordId/>
     <accessKey>2aZWoBykoS9FweOJktVL</accessKey>
     <accessSecret>lrwYcHvFE5XAsHcAloz1</accessSecret>
-    <status>Record shared. Failed on POST
+    <status>Record shared. Failed on POST
+
+
+
+
 			http://records.media.mit.edu:8000/accounts/mloomis@records.media.mit.edu/authsystems/ Response:</status>
     <demographicsId>a3236c63-79d0-4542-9ef4-ab2f6956e42b</demographicsId>
   </AccountSource>
@@ -730,6 +742,6 @@
     <demographicsId>d66490ce-2c5b-49ef-8c7d-4e6e70e2dab5</demographicsId>
     <notes>Trash can account</notes>
   </AccountSource>
-  <saveDate>Fri Jan 27 01:31:04 GMT-0500 2012</saveDate>
-  <indivoServerBaseURL>http://indivo-dev.media.mit.edu:8080</indivoServerBaseURL>
+  <saveDate>Fri Jan 27 04:51:32 GMT-0500 2012</saveDate>
+  <indivoServerBaseURL>http://indivo-dev.media.mit.edu:8091</indivoServerBaseURL>
 </dataroot>

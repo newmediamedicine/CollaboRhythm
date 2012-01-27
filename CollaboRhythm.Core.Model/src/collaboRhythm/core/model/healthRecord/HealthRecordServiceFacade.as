@@ -5,6 +5,7 @@ package collaboRhythm.core.model.healthRecord
 	import collaboRhythm.core.model.healthRecord.service.DocumentStorageServiceBase;
 	import collaboRhythm.core.model.healthRecord.service.EquipmentHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.EquipmentScheduleItemsHealthRecordService;
+	import collaboRhythm.core.model.healthRecord.service.HealthChartsInitializationService;
 	import collaboRhythm.core.model.healthRecord.service.MedicationAdministrationsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.MedicationFillsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.MedicationOrdersHealthRecordService;
@@ -85,6 +86,8 @@ package collaboRhythm.core.model.healthRecord
 			addService(new MedicationFillsHealthRecordService(consumerKey, consumerSecret, baseURL, account,
 															  debuggingToolsEnabled));
 			addService(_adherenceItemsHealthRecordService);
+			addService(new HealthChartsInitializationService(consumerKey, consumerSecret, baseURL, account,
+																		  debuggingToolsEnabled));
 
 			for each (var service:DocumentStorageServiceBase in _services)
 			{
@@ -216,25 +219,28 @@ package collaboRhythm.core.model.healthRecord
 				for each (var service:DocumentStorageServiceBase in _services)
 				{
 					var documentType:String = service.targetDocumentType;
-					var documentCollection:DocumentCollectionBase = currentRecord.documentCollections.getItem(documentType);
-
-					// assume that duplicates will be consecutive
-					var previousDocument:DocumentBase = null;
-					var previousDocumentXmlString:String = null;
-					for each (var document:DocumentBase in documentCollection.documents)
+					if (documentType)
 					{
-						documentsCount++;
-						var documentXmlString:String = service.marshallToXml(document);
-						if (previousDocument)
+						var documentCollection:DocumentCollectionBase = currentRecord.documentCollections.getItem(documentType);
+
+						// assume that duplicates will be consecutive
+						var previousDocument:DocumentBase = null;
+						var previousDocumentXmlString:String = null;
+						for each (var document:DocumentBase in documentCollection.documents)
 						{
-							if (documentXmlString == previousDocumentXmlString)
+							documentsCount++;
+							var documentXmlString:String = service.marshallToXml(document);
+							if (previousDocument)
 							{
-								// duplicate detected; delete oldest
-								documentsToDelete.addItem(deleteOlderDocument(document, previousDocument));
+								if (documentXmlString == previousDocumentXmlString)
+								{
+									// duplicate detected; delete oldest
+									documentsToDelete.addItem(deleteOlderDocument(document, previousDocument));
+								}
 							}
+							previousDocument = document;
+							previousDocumentXmlString = documentXmlString;
 						}
-						previousDocument = document;
-						previousDocumentXmlString = documentXmlString;
 					}
 				}
 

@@ -48,7 +48,7 @@ package collaboRhythm.plugins.equipment.model
 		{
 			var equipmentImage:Image = new Image();
 			equipmentImage.setStyle("skinClass", ImageSkin);
-			equipmentImage.source = encodeURI(EquipmentModel.EQUIPMENT_API_URL_BASE + _equipment.name + ".jpg");
+			equipmentImage.source = encodeURI(EquipmentModel.EQUIPMENT_API_URL_BASE + _equipment.name + ".png");
 
 			return equipmentImage;
 		}

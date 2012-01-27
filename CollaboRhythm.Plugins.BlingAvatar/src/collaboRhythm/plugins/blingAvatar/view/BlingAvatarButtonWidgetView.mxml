@@ -38,7 +38,7 @@
 			//_blingAppController.openBlingView();
 		}
 		]]></fx:Script>
-	<s:Button icon="@Embed(source='/assets/images/avatar_images/avatarSmileSmall.png')" iconPlacement="top" width="200" height="100" left="0" bottom="0" label="Customize Avatar" click="blingButton_clickHandler()"/>
+	<s:Button icon="@Embed(source='/assets/images/avatar_images/avatarSmileSmall.png')" iconPlacement="top" width="200" height="90" left="0" bottom="0" label="Customize Avatar" click="blingButton_clickHandler()"/>
 
 	<!--<s:Image source="@Embed(source='/assets/images/avatar_images/avatarSmile.png')" skinClass="spark.skins.spark.ImageSkin" width="50" height="50"/>-->
 </s:Group>
