@@ -150,6 +150,49 @@ OTHER DEALINGS IN THE SOFTWARE.
 			</s:filters>
 		</s:Label>
 
+		<mx:LineChart id="mainChartCover"
+					  mouseEnabled="false"
+					  x="0" y="0"
+					  width="{mainChartContainer.width}" height="{mainChartContainer.height}"
+					  gutterBottom="0"
+					  styleName="mainChartStyle"
+					  seriesFilters="[]"
+					  verticalAxisStyleNames="mainChartVerticalAxisStyle"
+					  selectionMode="none"
+					  >
+			<mx:backgroundElements>
+				<!--Prevent default grid lines from being used-->
+			</mx:backgroundElements>
+			<mx:verticalAxis>
+				<mx:LinearAxis id="mainChartCoverVerticalAxis" baseAtZero="false"/>
+			</mx:verticalAxis>
+			<mx:verticalAxisRenderers>
+				<mccune:StaticAxisRenderer id="mainChartCoverVerticalAxisRenderer" axis="{mainChartVerticalAxis}"
+										   fontSize="14" tickPlacement="none" labelPlacement="inside"
+										   labelAlign="top" showLine="false" canClipLabels="false"
+										   placement="right"
+										   mask="{mainChartCoverVerticalAxisRendererMask}"/>
+			</mx:verticalAxisRenderers>
+
+			<mx:horizontalAxis>
+				<mx:LinearAxis id="mainChartCoverHorizontalAxis" baseAtZero="false"/>
+			</mx:horizontalAxis>
+
+			<mx:horizontalAxisRenderers>
+				<mccune:BlankAxisRenderer axis="{mainChartCoverHorizontalAxis}"/>
+			</mx:horizontalAxisRenderers>
+
+			<mx:annotationElements>
+				<s:Group id="mainChartCoverVerticalAxisRendererMask">
+					<s:Rect width="{mainChartCover.width}" height="{mainChartCover.height}">
+						<s:fill>
+							<s:SolidColor alpha="0"/>
+						</s:fill>
+					</s:Rect>
+				</s:Group>
+			</mx:annotationElements>
+		</mx:LineChart>
+
 		<!-- mainChart border lines -->
 		<s:Group height="100%" width="100%">
 			<s:Line left="0" top="0" bottom="0">

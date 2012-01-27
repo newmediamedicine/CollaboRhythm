@@ -1,35 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!--~
-  ~ Copyright 2012 John Moore, Scott Gilroy
-  ~
-  ~ This file is part of CollaboRhythm.
-  ~
-  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
-  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
-  ~ version.
-  ~
-  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
-  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-  ~ details.
-  ~
-  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
-  ~ <http://www.gnu.org/licenses/>.
-  -->
 <IndivoDocuments>
 	<BloodPressureAdherenceItem>
 		<name>FORA D40b</name>
 		<equipmentType>blood pressure monitor</equipmentType>
 		<instructions>Use device to record blood glucose. Insert test strip into device and apply a drop of blood.</instructions>
 		<reportedBy>skudo@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-17T14:57:00Z</dateReported>
+		<dateReported>2011-07-15T11:15:00Z</dateReported>
 		<adherence>true</adherence>
-		<bloodGlucose>110</bloodGlucose>
+		<bloodGlucose>200</bloodGlucose>
 	</BloodPressureAdherenceItem>
 	<BloodPressureAdherenceItem>
-		<name>FORA D40b</name>
-		<reportedBy>skudo@records.media.mit.edu</reportedBy>
-		<dateReported>2011-07-18T13:07:00Z</dateReported>
+		<dateReported>2011-07-16T10:45:00Z</dateReported>
 		<adherence>true</adherence>
-		<bloodGlucose>110</bloodGlucose>
+		<bloodGlucose>185</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<dateReported>2011-07-17T10:30:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>175</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<dateReported>2011-07-18T09:45:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>169</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<dateReported>2011-07-19T09:30:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>154</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<dateReported>2011-07-20T11:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>137</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<dateReported>2011-07-21T11:15:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>120</bloodGlucose>
 	</BloodPressureAdherenceItem>
 </IndivoDocuments>
