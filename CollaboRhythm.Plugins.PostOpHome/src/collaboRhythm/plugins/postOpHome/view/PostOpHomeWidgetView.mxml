@@ -22,12 +22,58 @@
 		 clipAndEnableScrolling="true"
          height="100%" width="50%"
 		 >
-	<fx:Script><![CDATA[
+
+	<fx:Declarations>
+		<!-- Animation -->
+				<s:AnimateTransform id="bounceEffect" target="{avatarImage}">
+					<s:motionPaths>
+						<s:MotionPath property="translationX">
+							<s:keyframes>
+								<s:Keyframe time="250" value="0"/>
+								<s:Keyframe time="550" value="60"/>
+								<s:Keyframe time="850" value="100"/>
+								<s:Keyframe time="1150" value="140"/>
+								<s:Keyframe time="1450" value="180"/>
+								<s:Keyframe time="1750" value="220"/>
+								<s:Keyframe time="2050" value="140"/>
+								<s:Keyframe time="2350" value="100"/>
+								<s:Keyframe time="2650" value="60"/>
+								<s:Keyframe time="2950" value="0"/>
+							</s:keyframes>
+						</s:MotionPath>
+
+						<s:MotionPath property="translationY">
+							<s:keyframes>
+								<s:Keyframe time="250" value="100"/>
+								<s:Keyframe time="550" value="0"/>
+								<s:Keyframe time="850" value="100"/>
+								<s:Keyframe time="1150" value="0"/>
+								<s:Keyframe time="1450" value="100"/>
+								<s:Keyframe time="1750" value="0"/>
+								<s:Keyframe time="2050" value="100"/>
+								<s:Keyframe time="2350" value="0"/>
+								<s:Keyframe time="2650" value="100"/>
+								<s:Keyframe time="2950" value="0"/>
+							</s:keyframes>
+						</s:MotionPath>
+					</s:motionPaths>
+				</s:AnimateTransform>
+	</fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
 		import collaboRhythm.plugins.postOpHome.controller.PostOpHomeAppController;
 		import collaboRhythm.plugins.postOpHome.model.PostOpHomeModel;
 		import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
 
+
 		private var _postOpHomeAppController:PostOpHomeAppController;
+
+
+
+
+
+
 
 		public function init(postOpHomeAppController:PostOpHomeAppController, postOpHomeModel:PostOpHomeModel,
 							 _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService):void
@@ -40,25 +86,29 @@
 			_postOpHomeAppController.dispatchShowFullView("user click");
 			_postOpHomeAppController.openPostOpClockView();
 		}
-		]]></fx:Script>
-	<!--<s:Button label="Widget"/>-->
+
+
+
+		]]>
+	</fx:Script>
+
 	<s:Panel id="mainPanel"
 				 width="100%" height="100%"
 				 title="Home">
 
-		<s:layout>
-			<s:VerticalLayout verticalAlign="middle" paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10"/>
-		</s:layout>
-		<s:Button width="100%" height="80" right="0" label="Documentation"/>
-		<s:Button width="100%" height="80" right="0" label="Education"/>
-		<s:Button width="100%" height="80" right="0" label="Customize Avatar"/>
+		<s:Group width="100%" height="100%" verticalCenter="0">
+			<!--<mx:Image-->
+					<!--y="0"-->
+					<!--id="avatarImage"-->
+					<!--source="@Embed(source='/assets/avatarMain.png')"-->
+					<!--/>-->
+			<mx:Image
+				y="0"
+				id="avatarImage"
+				source="@Embed(source='/assets/avatarMain.png')"
+				click="bounceEffect.end();bounceEffect.play();"/>
+
+		</s:Group>
+
 	</s:Panel>
-
-	<!--<s:Rect width="100%" height="100%">-->
-
-		<!--<s:fill>-->
-			<!--<s:SolidColor color="0xFF0000"/>-->
-
-		<!--</s:fill>-->
-	<!--</s:Rect>-->
 </s:Group>
