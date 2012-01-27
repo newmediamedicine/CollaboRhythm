@@ -166,6 +166,7 @@
 
 		private function doneButton_clickHandler():void
 		{
+			_dataInputController.submitIntake();
 			//_dataInputController.submitBloodPressure(positionDropDownList.selectedItem, siteDropDownList.selectedItem);
 		}
 		]]>
