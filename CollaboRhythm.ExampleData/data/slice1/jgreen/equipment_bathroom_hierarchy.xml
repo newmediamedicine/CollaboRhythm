@@ -25,7 +25,7 @@
                         <interval>2</interval>
                         <count>1080</count>
                      </recurrenceRule>
-                     <instructions xmlns="">Bathroom documentation</instructions>
+                     <instructions xmlns="">Bathroom documentation, complete all appropriate fields</instructions>
                   </EquipmentScheduleItem>
                </document>
                <relatesTo>

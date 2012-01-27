@@ -44,6 +44,15 @@
 		<xsl:variable name="dateStartEvening">2011-07-15T22:00:00Z</xsl:variable>
 		<xsl:variable name="dateEndEvening">2011-07-16T02:00:00Z</xsl:variable>
 		<xsl:variable name="medicationName" select="IndivoDocuments/d:AdherenceItem[1]/d:name"/>
+		<xsl:variable name="medicationScheduleItemInstructionsCustom" select="IndivoDocuments/d:AdherenceItem[1]/d:instructions"/>
+		<xsl:variable name="medicationScheduleItemInstructions">
+			<xsl:choose>
+				<xsl:when test="$medicationScheduleItemInstructionsCustom">
+					<xsl:value-of select="$medicationScheduleItemInstructionsCustom"/>
+				</xsl:when>
+				<xsl:otherwise>Take with water</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 		<xsl:variable name="reportedBy" select="IndivoDocuments/d:AdherenceItem[1]/d:reportedBy"/>
 		<xsl:variable name="ndc" select="IndivoDocuments/d:AdherenceItem[1]/d:ndc"/>
 		<xsl:variable name="indication" select="IndivoDocuments/d:AdherenceItem[1]/d:indication"/>
@@ -74,7 +83,7 @@
 							<unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
 						</amountOrdered>
 						<substitutionPermitted>true</substitutionPermitted>
-						<instructions>take with water</instructions>
+						<instructions><xsl:value-of select="$medicationScheduleItemInstructions"/></instructions>
 					</MedicationOrder>
 				</document>
 				<relatesTo>
@@ -91,7 +100,7 @@
 										<unit>tab</unit>
 									</amountFilled>
 									<xsl:copy-of select="$ndc"/>
-									<instructions>do not expose to direct sunlight</instructions>
+									<instructions>Do not expose to direct sunlight</instructions>
 								</MedicationFill>
 							</document>
 						</LoadableIndivoDocument>
@@ -127,7 +136,7 @@
 										<value>1</value>
 										<unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
 									</dose>
-									<instructions>take with water</instructions>
+									<instructions><xsl:value-of select="$medicationScheduleItemInstructions"/></instructions>
 								</MedicationScheduleItem>
 							</document>
 							<relatesTo>
@@ -193,6 +202,50 @@
 																	</amountRemaining>
 																</MedicationAdministration>
 															</document>
+															<xsl:if test="d:symptoms or d:trigger">
+																<relatesTo>
+																	<relation type="annotation">
+																		<xsl:if test="d:symptoms">
+																			<LoadableIndivoDocument>
+																				<document>
+																					<VitalSign
+																							xmlns="http://indivo.org/vocab/xml/documents#">
+																						<name>asthma symptom</name>
+																						<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
+																						<dateMeasuredStart>
+																							<xsl:value-of select="d:dateReported"/>
+																						</dateMeasuredStart>
+																						<result>
+																							<value>1</value>
+																							<textValue><xsl:value-of select="d:symptoms"/></textValue>
+																							<unit>Count</unit>
+																						</result>
+																					</VitalSign>
+																				</document>
+																			</LoadableIndivoDocument>
+																		</xsl:if>
+																		<xsl:if test="d:trigger">
+																			<LoadableIndivoDocument>
+																				<document>
+																					<VitalSign
+																							xmlns="http://indivo.org/vocab/xml/documents#">
+																						<name>asthma trigger</name>
+																						<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
+																						<dateMeasuredStart>
+																							<xsl:value-of select="d:dateReported"/>
+																						</dateMeasuredStart>
+																						<result>
+																							<value>1</value>
+																							<textValue><xsl:value-of select="d:trigger"/></textValue>
+																							<unit>Count</unit>
+																						</result>
+																					</VitalSign>
+																				</document>
+																			</LoadableIndivoDocument>
+																		</xsl:if>
+																	</relation>
+																</relatesTo>
+															</xsl:if>
 														</LoadableIndivoDocument>
 													</relation>
 												</relatesTo>

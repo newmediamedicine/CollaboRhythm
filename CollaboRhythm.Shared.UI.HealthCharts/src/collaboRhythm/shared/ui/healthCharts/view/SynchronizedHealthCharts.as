@@ -4,6 +4,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import collaboRhythm.shared.apps.healthCharts.model.MedicationComponentAdherenceModel;
 	import collaboRhythm.shared.apps.healthCharts.model.SimulationModel;
 	import collaboRhythm.shared.model.StringUtils;
+	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.derived.MedicationConcentrationSample;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
@@ -53,7 +54,6 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
 	import mx.core.ClassFactory;
-	import mx.core.IUIComponent;
 	import mx.core.IVisualElement;
 	import mx.core.UIComponent;
 	import mx.effects.Sequence;
@@ -624,6 +624,25 @@ package collaboRhythm.shared.ui.healthCharts.view
 						equipmentScheduleItem.instructions.toLowerCase().search(vitalSignKey.toLowerCase()) != -1)
 				{
 					return equipmentScheduleItem;
+				}
+				if (equipmentScheduleItem.adherenceItems.size() > 0)
+				{
+					for each (var adherenceItem:AdherenceItem in equipmentScheduleItem.adherenceItems.values())
+					{
+						if (adherenceItem.adherence)
+						{
+							for each (var document:IDocument in adherenceItem.adherenceResults)
+							{
+								var vitalSign:VitalSign = document as VitalSign;
+								if (vitalSign && vitalSign.name.text == vitalSignKey)
+								{
+									return equipmentScheduleItem;
+								}
+							}
+							// To avoid checking too many adherence items, only check the first adherence item with adherence == true
+							break;
+						}
+					}
 				}
 			}
 			return null;

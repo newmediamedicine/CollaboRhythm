@@ -16,7 +16,7 @@
                <unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
             </amountOrdered>
             <substitutionPermitted>true</substitutionPermitted>
-            <instructions>take with water</instructions>
+            <instructions>Take with water</instructions>
          </MedicationOrder>
       </document>
       <relatesTo>
@@ -32,7 +32,7 @@
                         <unit>tab</unit>
                      </amountFilled>
                      <ndc>06035339</ndc>
-                     <instructions>do not expose to direct sunlight</instructions>
+                     <instructions>Do not expose to direct sunlight</instructions>
                   </MedicationFill>
                </document>
             </LoadableIndivoDocument>
@@ -48,14 +48,13 @@
                      <dateEnd>2011-07-15T17:00:00Z</dateEnd>
                      <recurrenceRule>
                         <frequency>DAILY</frequency>
-                        <interval>1</interval>
                         <count>90</count>
                      </recurrenceRule>
                      <dose>
                         <value>1</value>
                         <unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
                      </dose>
-                     <instructions>take with water</instructions>
+                     <instructions>Take with water</instructions>
                   </MedicationScheduleItem>
                </document>
                <relatesTo>
@@ -66,7 +65,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">Prednisone 20 MG Oral Tablet</name>
                               <reportedBy>odavis@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-25T13:30:00Z</dateReported>
-                              <recurrenceIndex/>
+                              <recurrenceIndex>10</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -99,7 +98,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">Prednisone 20 MG Oral Tablet</name>
                               <reportedBy>odavis@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-26T13:30:30Z</dateReported>
-                              <recurrenceIndex/>
+                              <recurrenceIndex>11</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>
@@ -132,7 +131,7 @@
                               <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="746763">Prednisone 20 MG Oral Tablet</name>
                               <reportedBy>odavis@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-27T13:30:30Z</dateReported>
-                              <recurrenceIndex/>
+                              <recurrenceIndex>12</recurrenceIndex>
                               <adherence>true</adherence>
                            </AdherenceItem>
                         </document>

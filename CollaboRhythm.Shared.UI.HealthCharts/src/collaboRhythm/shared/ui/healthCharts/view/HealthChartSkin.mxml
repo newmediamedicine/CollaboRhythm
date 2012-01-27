@@ -167,7 +167,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 				<mx:LinearAxis id="mainChartCoverVerticalAxis" baseAtZero="false"/>
 			</mx:verticalAxis>
 			<mx:verticalAxisRenderers>
-				<mccune:StaticAxisRenderer id="mainChartCoverVerticalAxisRenderer" axis="{mainChartVerticalAxis}"
+				<mccune:AxisRendererExt id="mainChartCoverVerticalAxisRenderer" axis="{mainChartVerticalAxis}"
 										   fontSize="14" tickPlacement="none" labelPlacement="inside"
 										   labelAlign="top" showLine="false" canClipLabels="false"
 										   placement="right"
