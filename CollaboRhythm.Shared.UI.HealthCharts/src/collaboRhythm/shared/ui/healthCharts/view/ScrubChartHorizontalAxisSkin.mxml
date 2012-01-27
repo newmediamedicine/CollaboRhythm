@@ -48,7 +48,6 @@
 			   width="{this.width - SLIDER_SCROLL_BUTTON_WIDTH * 2}"
 			   height="{this.height}"
 			   horizontalScrollPolicy="off" verticalScrollPolicy="off"
-			   styleName="canvasContainerStyles"
 			   borderStyle="none"
 			   >
 		<!-- borderSides="left right top" -->

@@ -2207,7 +2207,7 @@ package com.dougmccune.controls
 			updateFocusTime(oldFocusTime);
 		}
 
-		protected function rangeTodayButton_clickHandler(event:MouseEvent):void
+		public function rangeTodayButton_clickHandler(event:MouseEvent):void
 		{
 			var delta:Number = rightRangeTime - leftRangeTime;
 
@@ -2218,7 +2218,8 @@ package com.dougmccune.controls
 			todayTime = Math.min(todayTime, rangeChartMaximum);
 
 			animateRangeTimes(todayTime - delta, todayTime);
-			animateFocusTimeMarker(focusTimeMarkerMaxX);
+			if (focusTimeMarker)
+				animateFocusTimeMarker(focusTimeMarkerMaxX);
 		}
 
 		public function get today():Date
@@ -2599,12 +2600,12 @@ package com.dougmccune.controls
 			}
 		}
 
-		private function rangeOneDayButton_clickHandler(event:MouseEvent):void
+		public function rangeOneDayButton_clickHandler(event:MouseEvent):void
 		{
 			animateRangeDuration(DAYS_TO_MILLISECONDS);
 		}
 
-		private function rangeOneWeekButton_clickHandler(event:MouseEvent):void
+		public function rangeOneWeekButton_clickHandler(event:MouseEvent):void
 		{
 			animateRangeDuration(7 * DAYS_TO_MILLISECONDS);
 		}
@@ -2623,17 +2624,17 @@ package com.dougmccune.controls
 			animateRangeTimes(focusTime - leftToFocus, focusTime + focusToRight);
 		}
 
-		private function rangeOneMonthButton_clickHandler(event:MouseEvent):void
+		public function rangeOneMonthButton_clickHandler(event:MouseEvent):void
 		{
 			animateRangeDuration(31 * DAYS_TO_MILLISECONDS);
 		}
 
-		private function rangeOneYearButton_clickHandler(event:MouseEvent):void
+		public function rangeOneYearButton_clickHandler(event:MouseEvent):void
 		{
 			animateRangeDuration(365 * DAYS_TO_MILLISECONDS);
 		}
 
-		private function rangeMaxButton_clickHandler(event:MouseEvent):void
+		public function rangeMaxButton_clickHandler(event:MouseEvent):void
 		{
 			animateRangeTimes(_minimumTime, _maximumTime);
 		}
