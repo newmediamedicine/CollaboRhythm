@@ -105,8 +105,7 @@ package collaboRhythm.plugins.blingAvatar.model
 				areGlassesPurchased = true;
 				currency = currency - 20;
 			}
-
-			if (areGlassesPurchased)
+			else if (areGlassesPurchased)
 			{
 				areGlassesPurchased = false;
 				currency = currency + 20;
