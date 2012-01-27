@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		.currencyLabel {
+			color: #000000;
+			fontSize: 80;
+			fontWeight: bold;
+		}
+
+		.costLabel {
+			color: #000000;
+			fontSize: 40;
+			textAlpha: 0.4;
+			fontWeight: bold;
+		}
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.blingAvatar.controller.BlingAvatarAppController;
+		import collaboRhythm.plugins.blingAvatar.model.BlingAvatarModel;
+		import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
+
+		[Bindable]
+		private var _blingAvatarModel:BlingAvatarModel;
+
+		public function init(blingAvatarAppController:BlingAvatarAppController, blingAvatarModel:BlingAvatarModel,
+							 _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService,
+							 accountId:String):void
+		{
+			_blingAvatarModel = blingAvatarModel;
+		}
+
+		private function buyGlasses():void
+		{
+			_blingAvatarModel.buyGlasses();
+		}
+
+		private function canPurchaseGlasses(currency:Number):Boolean
+		{
+			return currency >= 20;
+		}
+		]]></fx:Script>
+		<s:HGroup gap="50" verticalAlign="bottom" x="250" y="150">
+			<s:VGroup horizontalAlign="center">
+				<s:HGroup horizontalCenter="0" verticalAlign="middle">
+					<s:Image source="@Embed(source='/assets/images/icon_images/goldIcon.png')"
+							 skinClass="spark.skins.spark.ImageSkin" width="80" height="80" smooth="true"/>
+					<s:Label text="{_blingAvatarModel.currency}" styleName="currencyLabel"/>
+				</s:HGroup>
+
+				<s:TileGroup>
+					<s:Group>
+						<s:Image source="@Embed(source='/assets/images/selector_images/eyeglassesAviatorSelector.png')"
+								 skinClass="spark.skins.spark.ImageSkin" width="75" height="75" click="buyGlasses()"/>
+						<s:Rect width="100%" height="100%" visible="{!canPurchaseGlasses(_blingAvatarModel.currency)}">
+							<s:fill>
+								<s:SolidColor color="0xFFFFFF" alpha="0.7"/>
+							</s:fill>
+						</s:Rect>
+						<s:Label text="20" styleName="costLabel" horizontalCenter="0" verticalCenter="0" enabled="false" click="buyGlasses()"/>
+					</s:Group>
+					<s:Group>
+						<s:Image source="@Embed(source='/assets/images/selector_images/eyeglassesDesignerSelector.png')"
+								 skinClass="spark.skins.spark.ImageSkin" width="75" height="75"/>
+						<s:Rect width="100%" height="100%">
+							<s:fill>
+								<s:SolidColor color="0xFFFFFF" alpha="0.7"/>
+							</s:fill>
+						</s:Rect>
+						<s:Label text="25" styleName="costLabel" horizontalCenter="0" verticalCenter="0"/>
+					</s:Group>
+					<s:Group>
+						<s:Image
+								source="@Embed(source='/assets/images/selector_images/eyeglassesWireframeSelector.png')"
+								skinClass="spark.skins.spark.ImageSkin" width="75" height="75"/>
+						<s:Rect width="100%" height="100%">
+							<s:fill>
+								<s:SolidColor color="0xFFFFFF" alpha="0.7"/>
+							</s:fill>
+						</s:Rect>
+						<s:Label text="30" styleName="costLabel" horizontalCenter="0" verticalCenter="0"/>
+					</s:Group>
+					<s:Group>
+						<s:Image source="@Embed(source='/assets/images/selector_images/necklaceDogtagSelector.png')"
+								 skinClass="spark.skins.spark.ImageSkin" width="75" height="75"/>
+						<s:Rect width="100%" height="100%">
+							<s:fill>
+								<s:SolidColor color="0xFFFFFF" alpha="0.7"/>
+							</s:fill>
+						</s:Rect>
+						<s:Label text="35" styleName="costLabel" horizontalCenter="0" verticalCenter="0"/>
+					</s:Group>
+					<s:Group>
+						<s:Image source="@Embed(source='/assets/images/selector_images/necklacePlainSelector.png')"
+								 skinClass="spark.skins.spark.ImageSkin" width="75" height="75"/>
+						<s:Rect width="100%" height="100%">
+							<s:fill>
+								<s:SolidColor color="0xFFFFFF" alpha="0.7"/>
+							</s:fill>
+						</s:Rect>
+						<s:Label text="40" styleName="costLabel" horizontalCenter="0" verticalCenter="0"/>
+					</s:Group>
+					<s:Group>
+						<s:Image source="@Embed(source='/assets/images/selector_images/necklaceSkullSelector.png')"
+								 skinClass="spark.skins.spark.ImageSkin" width="75" height="75"/>
+						<s:Rect width="100%" height="100%">
+							<s:fill>
+								<s:SolidColor color="0xFFFFFF" alpha="0.7"/>
+							</s:fill>
+						</s:Rect>
+						<s:Label text="45" styleName="costLabel" horizontalCenter="0" verticalCenter="0"/>
+					</s:Group>
+					<s:Group>
+						<s:Image source="@Embed(source='/assets/images/selector_images/gadgetBasketballSelector.png')"
+								 skinClass="spark.skins.spark.ImageSkin" width="75" height="75"/>
+						<s:Rect width="100%" height="100%">
+							<s:fill>
+								<s:SolidColor color="0xFFFFFF" alpha="0.7"/>
+							</s:fill>
+						</s:Rect>
+						<s:Label text="50" styleName="costLabel" horizontalCenter="0" verticalCenter="0"/>
+					</s:Group>
+					<s:Group>
+						<s:Image source="@Embed(source='/assets/images/selector_images/gadgetGuitarSelector.png')"
+								 skinClass="spark.skins.spark.ImageSkin" width="75" height="75"/>
+						<s:Rect width="100%" height="100%">
+							<s:fill>
+								<s:SolidColor color="0xFFFFFF" alpha="0.7"/>
+							</s:fill>
+						</s:Rect>
+						<s:Label text="55" styleName="costLabel" horizontalCenter="0" verticalCenter="0"/>
+					</s:Group>
+					<s:Group>
+						<s:Image source="@Embed(source='/assets/images/selector_images/gadgetMicrophoneSelector.png')"
+								 skinClass="spark.skins.spark.ImageSkin" width="75" height="75"/>
+						<s:Rect width="100%" height="100%">
+							<s:fill>
+								<s:SolidColor color="0xFFFFFF" alpha="0.7"/>
+							</s:fill>
+						</s:Rect>
+						<s:Label text="60" styleName="costLabel" horizontalCenter="0" verticalCenter="0"/>
+					</s:Group>
+				</s:TileGroup>
+			</s:VGroup>
+			<s:Group>
+				<s:Image source="@Embed(source='/assets/images/avatar_images/avatarSmile.png')"
+						 skinClass="spark.skins.spark.ImageSkin" width="400" height="400" smooth="true"/>
+				<s:Image id="avatarGlasses" source="@Embed(source='/assets/images/avatar_images/avatarGlasses.png')"
+						 skinClass="spark.skins.spark.ImageSkin" visible="{_blingAvatarModel.areGlassesPurchased}"
+						 width="400" height="400" smooth="true"/>
+			</s:Group>
+		</s:HGroup>
+</s:Group>

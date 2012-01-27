@@ -172,21 +172,28 @@ package collaboRhythm.plugins.schedule.controller
 
 					var name:String;
 					if (urlVariables.equipmentName == "PillBox")
+					{
+						urlVariables.healthActionName = "MedicationAdministration";
 						switch (urlVariables.bin)
 						{
 							case "1":
-								name = "Hydrochlorothiazide 25 MG Oral Tablet";
-								urlVariables.healthActionName = "MedicationAdministration";
+								name = "Ibuprofen 400 MG Oral Tablet [Motrin]";
 								break;
 							case "2":
+								name = "Cyclobenzaprine hydrochloride 5 MG Oral Tablet [Flexeril]";
 								break;
 							case "3":
+								name = "Ibuprofen 400 MG Oral Tablet [Motrin]";
 								break;
 							case "4":
+								name = "Cyclobenzaprine hydrochloride 5 MG Oral Tablet [Flexeril]";
 								break;
 						}
+					}
 					else
+					{
 						name = urlVariables.equipmentName;
+					}
 					
                     var closestScheduleItemOccurrence:ScheduleItemOccurrence = scheduleModel.scheduleReportingModel.findClosestScheduleItemOccurrence(name);
 
