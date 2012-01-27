@@ -49,6 +49,7 @@
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="CollaboRhythm.Plugins.Schedule.Shared" />
   </component>
 </module>
 

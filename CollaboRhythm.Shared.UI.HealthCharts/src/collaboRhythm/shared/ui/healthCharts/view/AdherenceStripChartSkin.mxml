@@ -55,6 +55,7 @@
 			   height="{this.height}"
 			   horizontalScrollPolicy="off" verticalScrollPolicy="off"
 			   styleName="canvasContainerStyles"
+			   backgroundColor="#BFBEBE"
 			   borderStyle="none"
 			   >
 		<mx:LineChart id="mainChart"
@@ -67,11 +68,20 @@
 					  verticalAxisStyleNames="mainChartVerticalAxisStyle"
 					  selectionMode="none"
 					  cacheAsBitmap="true"
+					  gutterBottom="0"
 					  >
 			<mx:backgroundElements>
 				<datashapes:DataDrawingCanvas id="mainDataDrawingCanvas" includeInRanges="true" width="100%" height="100%">
 					<s:Label id="goalZoneLabel" styleName="ZoneLabel" visible="false" text="Goal Range"/>
 				</datashapes:DataDrawingCanvas>
+				<mx:GridLines gridDirection="vertical" horizontalShowOrigin="false">
+					<mx:verticalStroke>
+						<s:SolidColorStroke color="#808285" weight="1"/>
+					</mx:verticalStroke>
+					<mx:horizontalStroke>
+						<s:Stroke weight="0"/>
+					</mx:horizontalStroke>
+				</mx:GridLines>
 			</mx:backgroundElements>
 
 			<mx:horizontalAxis>
@@ -81,7 +91,12 @@
 			</mx:horizontalAxis>
 
 			<mx:horizontalAxisRenderers>
-				<mccune:BlankAxisRenderer axis="{mainChartHorizontalAxis}"/>
+				<!--<mccune:BlankAxisRenderer axis="{mainChartHorizontalAxis}"/>-->
+				<mx:AxisRenderer axis="{mainChartHorizontalAxis}" showLabels="false" tickLength="0" tickPlacement="none" labelGap="0">
+					<mx:axisStroke>
+						<s:Stroke weight="0" alpha="0"/>
+					</mx:axisStroke>
+				</mx:AxisRenderer>
 			</mx:horizontalAxisRenderers>
 
 			<mx:verticalAxis>

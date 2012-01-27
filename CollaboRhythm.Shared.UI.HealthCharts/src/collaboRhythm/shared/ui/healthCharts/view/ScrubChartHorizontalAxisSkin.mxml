@@ -80,7 +80,7 @@
 			</mx:horizontalAxis>
 			<mx:horizontalAxisRenderers>
 				<mx:AxisRenderer id="mainChartHorizontalAxisRenderer" axis="{mainChartHorizontalAxis}"
-										fontSize="32" tickPlacement="inside"
+										fontSize="32" tickPlacement="inside" labelAlign="center"
 										showLine="false" labelGap="0"
 										mask="{mainChartHorizontalAxisRendererMask}" />
 			</mx:horizontalAxisRenderers>

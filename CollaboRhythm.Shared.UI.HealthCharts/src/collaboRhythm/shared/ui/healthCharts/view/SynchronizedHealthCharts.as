@@ -1213,7 +1213,29 @@ package collaboRhythm.shared.ui.healthCharts.view
 		{
 			if (_traceEventHandlers)
 				trace(this + ".drawAdherenceStripRegions");
+			var scheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = getScheduleItemOccurrences(scheduleItemCollection,
+					scheduleItemName);
+			canvas.clear();
 
+			canvas.beginFill(0xFFFFFF);
+
+			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrences)
+			{
+				canvas.drawRect(scheduleItemOccurrence.dateStart, [Edge.TOP, 3],
+						scheduleItemOccurrence.dateEnd, [Edge.BOTTOM, -4]);
+			}
+
+			canvas.endFill();
+
+			if (zoneLabel)
+			{
+				canvas.updateDataChild(zoneLabel, {left:Edge.LEFT, top:Edge.TOP});
+			}
+		}
+
+		private function getScheduleItemOccurrences(scheduleItemCollection:ArrayCollection,
+													scheduleItemName:String):Vector.<ScheduleItemOccurrence>
+		{
 			var scheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
 			var firstDateStart:Date;
 			var lastDateEnd:Date;
@@ -1226,57 +1248,13 @@ package collaboRhythm.shared.ui.healthCharts.view
 					scheduleItemOccurrences = scheduleItemOccurrences.concat(newScheduleItemOccurrences);
 					if (firstDateStart == null || newScheduleItemOccurrences[0].dateStart.time < firstDateStart.time)
 						firstDateStart = newScheduleItemOccurrences[0].dateStart;
-					if (lastDateEnd == null || newScheduleItemOccurrences[newScheduleItemOccurrences.length - 1].dateEnd.time > lastDateEnd.time)
+					if (lastDateEnd == null ||
+							newScheduleItemOccurrences[newScheduleItemOccurrences.length - 1].dateEnd.time >
+									lastDateEnd.time)
 						lastDateEnd = newScheduleItemOccurrences[newScheduleItemOccurrences.length - 1].dateEnd;
 				}
 			}
-
-			canvas.clear();
-
-			canvas.beginFill(STRIP_CHART_NIGHT_COLOR);
-
-			if (firstDateStart != null)
-			{
-				var currentNightStart:Date = new Date();
-				currentNightStart.setTime(firstDateStart.time - 1000 * 60 * 60 * 24);
-				currentNightStart.setHours(18, 0, 0, 0);
-				var currentNightEnd:Date;
-				do
-				{
-					currentNightEnd = new Date();
-					currentNightEnd.setTime(currentNightStart.time + 1000 * 60 * 60 * 12);
-					// Because of daylight savings, 6am might not be 12 hours after 6pm, so adjust
-					currentNightEnd.setHours(6, 0, 0, 0);
-
-					canvas.drawRect(currentNightStart, [Edge.TOP, -1],
-							currentNightEnd, [Edge.BOTTOM, 1]);
-
-					// advance night start to 6pm on the next day
-					var nextNightStartTime:Number = currentNightStart.time + 1000 * 60 * 60 * 24;
-					currentNightStart = new Date();
-					currentNightStart.setTime(nextNightStartTime);
-					// Because of daylight savings, 6am might not be 12 hours after 6pm, so adjust
-					currentNightStart.setHours(18, 0, 0, 0);
-				}
-				while (currentNightStart.time < lastDateEnd.time);
-			}
-
-			canvas.endFill();
-
-			canvas.beginFill(0xFFFFFF);
-
-			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrences)
-			{
-				canvas.drawRect(scheduleItemOccurrence.dateStart, [Edge.TOP, -1],
-						scheduleItemOccurrence.dateEnd, [Edge.BOTTOM, 1]);
-			}
-
-			canvas.endFill();
-
-			if (zoneLabel)
-			{
-				canvas.updateDataChild(zoneLabel, {left:Edge.LEFT, top:Edge.TOP});
-			}
+			return scheduleItemOccurrences;
 		}
 
 		private function scheduleItemMatches(scheduleItem:ScheduleItemBase, scheduleItemName:String):Boolean

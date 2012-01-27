@@ -2169,7 +2169,8 @@ package com.dougmccune.controls
 		protected function hideAnnotations():void
 		{
 			showAnnotations = false;
-			annotationCanvas.removeAllChildren();
+			if (annotationCanvas)
+				annotationCanvas.removeAllChildren();
 		}
 
 		/**
