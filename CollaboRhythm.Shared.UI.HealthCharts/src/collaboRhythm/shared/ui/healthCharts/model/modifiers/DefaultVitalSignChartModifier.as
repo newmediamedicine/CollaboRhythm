@@ -37,6 +37,24 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 		[Embed("/assets/images/vitalSigns/Oxygen_Saturation.png")]
 		private var _oxygenSaturationImageClass:Class;
 
+		[Embed("/assets/images/vitalSigns/asthma_symptom.png")]
+		private var _asthmaSymptomImageClass:Class;
+
+		[Embed("/assets/images/vitalSigns/asthma_trigger.png")]
+		private var _asthmaTriggerImageClass:Class;
+
+		[Embed("/assets/images/vitalSigns/Blood_Glucose.png")]
+		private var _bloodGlucoseImageClass:Class;
+
+		[Embed("/assets/images/vitalSigns/Caloric_Intake.png")]
+		private var _caloricIntakeImageClass:Class;
+
+		[Embed("/assets/images/vitalSigns/Peak_Expiratory_Flow_Rate.png")]
+		private var _peakExpiratoryFlowRateImageClass:Class;
+
+		[Embed("/assets/images/vitalSigns/Step_Count.png")]
+		private var _stepCountImageClass:Class;
+
 		public function DefaultVitalSignChartModifier(chartDescriptor:VitalSignChartDescriptor,
 														   chartModelDetails:IChartModelDetails,
 														   decoratedChartModifier:IChartModifier)
@@ -61,7 +79,13 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 			var vitalSign:VitalSign = hitData.item as VitalSign;
 			if (vitalSign)
 			{
-				return vitalSign.name.text + " " + vitalSign.resultAsNumber.toFixed(2) + "<br/>" +
+				var result:String;
+				if (vitalSign.result && vitalSign.result.textValue && isNaN(vitalSign.resultAsNumber))
+					result = vitalSign.result.textValue;
+				else
+					result = vitalSign.resultAsNumber.toFixed(2);
+
+				return vitalSign.name.text + " " + result + "<br/>" +
 						"Date: " + vitalSign.dateMeasuredStart.toLocaleString();
 			}
 
@@ -106,6 +130,24 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 					break;
 				case VitalSignsModel.OXYGEN_SATURATION_CATEGORY:
 					imageClass = _oxygenSaturationImageClass;
+					break;
+				case VitalSignsModel.ASTHMA_SYMPTOM_CATEGORY:
+					imageClass = _asthmaSymptomImageClass;
+					break;
+				case VitalSignsModel.ASTHMA_TRIGGER_CATEGORY:
+					imageClass = _asthmaTriggerImageClass;
+					break;
+				case VitalSignsModel.BLOOD_GLUCOSE_CATEGORY:
+					imageClass = _bloodGlucoseImageClass;
+					break;
+				case VitalSignsModel.CALORIC_INTAKE_CATEGORY:
+					imageClass = _caloricIntakeImageClass;
+					break;
+				case VitalSignsModel.PEAK_EXPIRATORY_FLOW_RATE_CATEGORY:
+					imageClass = _peakExpiratoryFlowRateImageClass;
+					break;
+				case VitalSignsModel.STEP_COUNT_CATEGORY:
+					imageClass = _stepCountImageClass;
 					break;
 			}
 			

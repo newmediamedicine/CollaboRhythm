@@ -47,12 +47,10 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import mx.charts.HitData;
 	import mx.charts.LinearAxis;
 	import mx.charts.chartClasses.CartesianChart;
-	import mx.charts.chartClasses.CartesianDataCanvas;
 	import mx.charts.chartClasses.IAxisRenderer;
 	import mx.charts.chartClasses.Series;
 	import mx.charts.series.PlotSeries;
 	import mx.collections.ArrayCollection;
-	import mx.controls.Alert;
 	import mx.core.ClassFactory;
 	import mx.core.IVisualElement;
 	import mx.core.UIComponent;
@@ -65,7 +63,6 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 	import mx.managers.IFocusManagerComponent;
-	import mx.rpc.events.FaultEvent;
 
 	import qs.charts.dataShapes.DataDrawingCanvas;
 	import qs.charts.dataShapes.Edge;
@@ -257,11 +254,26 @@ package collaboRhythm.shared.ui.healthCharts.view
 				updateChartDescriptors();
 				createChartsFromDescriptors();
 				createCustomCharts();
+				createHorizontalAxisChart();
 			}
 			else
 			{
 				updateAdherenceCharts();
 			}
+		}
+
+		private function createHorizontalAxisChart():void
+		{
+			var chart:TouchScrollingScrubChart = createAdherenceChart("horizontalAxisChart", null, false);
+			chart.setStyle("skinClass", ScrubChartHorizontalAxisSkin);
+			chart.setStyle("footerVisible", false);
+			chart.height = 35;
+
+			var spacer:UIComponent = new UIComponent();
+			spacer.width = 100;
+
+			var group:HGroup = createAdherenceGroup(spacer, chart, null);
+			group.height = 35;
 		}
 
 		private function updateChartDescriptors():void
@@ -434,7 +446,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			chart.dateField = "dateReported";
 		}
 
-		private function createAdherenceChart(chartKey:String, chartDescriptor:IChartDescriptor):TouchScrollingScrubChart
+		private function createAdherenceChart(chartKey:String, chartDescriptor:IChartDescriptor, expectCreationComplete:Boolean=true):TouchScrollingScrubChart
 		{
 			var chart:TouchScrollingScrubChart = new TouchScrollingScrubChart();
 			chart.id = chartKey;
@@ -462,11 +474,11 @@ package collaboRhythm.shared.ui.healthCharts.view
 			chart.addEventListener(FocusTimeEvent.FOCUS_TIME_CHANGE, chart_focusTimeChangeHandler, false, 0,
 					true);
 
-			_chartsWithPendingCreationComplete.addItem(chart);
+			if (expectCreationComplete)
+				_chartsWithPendingCreationComplete.addItem(chart);
+
 			_adherenceCharts.addKeyValue(chartKey, chart);
 			addChart(chart);
-			chart.percentWidth = 100;
-			chart.percentHeight = 100;
 
 			return chart;
 		}
@@ -521,7 +533,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 		 * @param resultChart The chart representing the results (such as medication concentration or vital signs)
 		 * @param adherenceStripChart The adherence strip chart showing the scheduled health actions and the correspond adherence/actions taken
 		 */
-		public function createAdherenceGroup(image:IVisualElement, resultChart:TouchScrollingScrubChart, adherenceStripChart:TouchScrollingScrubChart):void
+		public function createAdherenceGroup(image:IVisualElement, resultChart:TouchScrollingScrubChart, adherenceStripChart:TouchScrollingScrubChart):HGroup
 		{
 			if (!image)
 			{
@@ -548,6 +560,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			adherenceGroup.verticalAlign = VerticalAlign.MIDDLE;
 
 			this.addElement(adherenceGroup);
+			return adherenceGroup;
 		}
 
 		protected function addCustomChartGroup(group:UIComponent):void
@@ -1250,12 +1263,12 @@ package collaboRhythm.shared.ui.healthCharts.view
 				chart.commitPendingDataChanges();
 				if (isNaN(minimum))
 					minimum = chart.minimumDataTime;
-				else
+				else if (!isNaN(chart.minimumDataTime))
 					minimum = Math.min(minimum, chart.minimumDataTime);
 
 				if (isNaN(maximum))
 					maximum = chart.maximumDataTime;
-				else
+				else if (!isNaN(chart.maximumDataTime))
 					maximum = Math.max(maximum, chart.maximumDataTime);
 			}
 
@@ -1558,31 +1571,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 			updateChartsCache(targetChart);
 
 			var allCharts:Vector.<TouchScrollingScrubChart> = getAllCharts();
-			for (var i:int = 0; i < _visibleCharts.length; i++)
-			{
-				var chart:TouchScrollingScrubChart = _visibleCharts[i] as TouchScrollingScrubChart;
 
-				// middle chart
-				chart.setStyle("headerVisible", false);
-				chart.setStyle("footerVisible", false);
-				chart.setStyle("sliderVisible", false);
-				chart.setStyle("rangeChartVisible", rangeChartVisible);
-
-				if (i == 0)
-				{
-					// top chart
-//					chart.setStyle("topBorderVisible", true);
-				}
-
-				// TODO: the order of the charts in _charts is currently inconsistent with the order the charts are in visually
-				if (i == _visibleCharts.length - 1)
-				{
-					// bottom chart
-					chart.setStyle("footerVisible", chartFooterVisible);
-				}
-			}
-
-			for each (chart in allCharts)
+			for each (var chart:TouchScrollingScrubChart in allCharts)
 			{
 				var visible:Boolean = _visibleCharts.indexOf(chart) != -1;
 				chart.visible = visible;

@@ -20,12 +20,14 @@ package collaboRhythm.shared.model.healthRecord
 	public class ValueAndUnit
 	{
 		private var _value:String;
+		private var _textValue:String;
 		private var _unit:CodedValue;
 		
-		public function ValueAndUnit(value:String=null, unit:CodedValue=null)
+		public function ValueAndUnit(value:String=null, unit:CodedValue=null, textValue:String=null)
 		{
 			_value = value;
 			_unit = unit;
+			_textValue = textValue;
 		}
 
         public function get value():String
@@ -47,5 +49,15 @@ package collaboRhythm.shared.model.healthRecord
         {
             _unit = value;
         }
-    }
+
+		public function get textValue():String
+		{
+			return _textValue;
+		}
+
+		public function set textValue(value:String):void
+		{
+			_textValue = value;
+		}
+	}
 }

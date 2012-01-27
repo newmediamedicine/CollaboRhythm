@@ -19,6 +19,11 @@ package collaboRhythm.shared.model.healthRecord.document
 		public static const BLOOD_GLUCOSE_CATEGORY:String = "Blood Glucose";
 		public static const METABOLIC_EQUIVALENT_TASK_CATEGORY:String = "Metabolic Equivalent Task";
 		public static const OXYGEN_SATURATION_CATEGORY:String = "Oxygen Saturation";
+		public static const ASTHMA_SYMPTOM_CATEGORY:String = "asthma symptom";
+		public static const ASTHMA_TRIGGER_CATEGORY:String = "asthma trigger";
+		public static const CALORIC_INTAKE_CATEGORY:String = "Caloric Intake";
+		public static const PEAK_EXPIRATORY_FLOW_RATE_CATEGORY:String = "Peak Expiratory Flow Rate";
+		public static const STEP_COUNT_CATEGORY:String = "Step Count";
 
 		public function VitalSignsModel()
 		{
