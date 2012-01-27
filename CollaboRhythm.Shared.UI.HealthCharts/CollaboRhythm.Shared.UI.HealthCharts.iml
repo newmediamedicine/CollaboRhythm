@@ -21,6 +21,24 @@
     <orderEntry type="module" module-name="ChartBackgroundsLib" />
     <orderEntry type="module" module-name="CollaboRhythm.View.Scroll" />
     <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$PROJECT_FRAMEWORKS$/libs/mobile/mobilecomponents.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$PROJECT_FRAMEWORKS$/themes/Mobile/mobile.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
       <library name="libs" type="flex">
         <CLASSES>
           <root url="file://$MODULE_DIR$/libs" />

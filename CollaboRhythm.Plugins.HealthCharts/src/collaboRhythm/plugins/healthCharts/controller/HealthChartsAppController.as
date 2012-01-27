@@ -10,6 +10,10 @@ package collaboRhythm.plugins.healthCharts.controller
 	import mx.core.UIComponent;
 	import mx.events.PropertyChangeEvent;
 
+	import spark.components.View;
+
+	import spark.components.ViewNavigator;
+
 	public class HealthChartsAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Health Charts";
@@ -100,7 +104,15 @@ package collaboRhythm.plugins.healthCharts.controller
 				_fullView.modality = modality;
 				_fullView.componentContainer  = _componentContainer;
 				_fullView.activeAccountId = activeAccount.accountId;
+				_fullView.viewNavigator = _viewNavigator;
 			}
+		}
+
+		override protected function prepareFullViewContainer(view:View):void
+		{
+			super.prepareFullViewContainer(view);
+			if (_fullView)
+				_fullView.createRangeButtons(view);
 		}
 
 		public override function get defaultName():String

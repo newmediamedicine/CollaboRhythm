@@ -50,6 +50,7 @@ package collaboRhythm.shared.controller.apps
 
 	import spark.components.Application;
 	import spark.components.Button;
+	import spark.components.View;
 	import spark.components.ViewNavigator;
 	import spark.components.ViewNavigatorApplication;
 	import spark.components.Window;
@@ -761,6 +762,7 @@ package collaboRhythm.shared.controller.apps
 						}
 						if (_viewNavigator)
 						{
+							prepareFullViewContainer(fullContainer as View);
 							_viewNavigator.addEventListener("viewChangeComplete", viewNavigator_viewChangeCompleteHandler, false, 0, true);
 						}
 						fullContainer.addElement(centerSpaceTransitionComponent);
@@ -790,6 +792,11 @@ package collaboRhythm.shared.controller.apps
 			fullView.includeInLayout = true;
 			centerSpaceTransitionComponent = null;
 			_viewNavigator.removeEventListener("viewChangeComplete", viewNavigator_viewChangeCompleteHandler);
+		}
+
+		protected function prepareFullViewContainer(view:View):void
+		{
+
 		}
 
 		private function shrinkRectToAspectRatio(rect:Rect, targetView:UIComponent):void

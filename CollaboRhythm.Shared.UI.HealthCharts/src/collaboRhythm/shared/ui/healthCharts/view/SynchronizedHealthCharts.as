@@ -69,9 +69,13 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import qs.charts.dataShapes.DataDrawingCanvas;
 	import qs.charts.dataShapes.Edge;
 
+	import spark.components.Button;
+
 	import spark.components.HGroup;
 	import spark.components.Label;
 	import spark.components.VGroup;
+	import spark.components.View;
+	import spark.components.ViewNavigator;
 	import spark.effects.Animate;
 	import spark.effects.animation.MotionPath;
 	import spark.effects.animation.SimpleMotionPath;
@@ -79,6 +83,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import spark.events.SkinPartEvent;
 	import spark.layouts.VerticalAlign;
 	import spark.primitives.Rect;
+	import spark.skins.mobile.ButtonSkin;
 
 	public class SynchronizedHealthCharts extends VGroup implements IFocusManagerComponent
 	{
@@ -141,6 +146,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private var _activeAccountId:String;
 		private var _chartModifiers:OrderedMap;
 		protected var _footer:ChartFooter;
+		private var _viewNavigator:ViewNavigator;
+		private var _rangeButtonTargetChart:TouchScrollingScrubChart;
 
 		public function SynchronizedHealthCharts():void
 		{
@@ -160,6 +167,24 @@ package collaboRhythm.shared.ui.healthCharts.view
 			showFocusTimeMarker = !skipUpdateSimulation;
 
 			this.addEventListener(FlexEvent.CREATION_COMPLETE, creationCompleteHandler, false, 0, true);
+		}
+		
+		public function createRangeButtons(view:View):void
+		{
+			if (view && view.actionContent)
+			{
+				var rangeTodayButton:Button = new Button();
+				rangeTodayButton.label = "Today";
+				rangeTodayButton.addEventListener(MouseEvent.CLICK, rangeTodayButton_clickHandler, false, 0, true);
+				rangeTodayButton.setStyle("skinClass", ButtonSkin);
+				view.actionContent.unshift(rangeTodayButton);
+			}
+		}
+
+		private function rangeTodayButton_clickHandler(event:MouseEvent):void
+		{
+			if (_rangeButtonTargetChart)
+				_rangeButtonTargetChart.rangeTodayButton_clickHandler(event);
 		}
 
 		[Bindable]
@@ -1600,9 +1625,18 @@ package collaboRhythm.shared.ui.healthCharts.view
 				synchronizeFocusTimes(targetChart, nonTargetCharts);
 			}
 
-			if (_footer && _visibleCharts && _visibleCharts.length > 0)
+			if (_visibleCharts && _visibleCharts.length > 0)
 			{
-				_footer.chart = _visibleCharts[0];
+				_rangeButtonTargetChart = _visibleCharts[0];
+			}
+			else
+			{
+				_rangeButtonTargetChart = null;
+			}
+
+			if (_footer)
+			{
+				_footer.chart = _rangeButtonTargetChart;
 			}
 		}
 
@@ -2061,6 +2095,11 @@ package collaboRhythm.shared.ui.healthCharts.view
 		public function set activeAccountId(value:String):void
 		{
 			_activeAccountId = value;
+		}
+
+		public function set viewNavigator(viewNavigator:ViewNavigator):void
+		{
+			_viewNavigator = viewNavigator;
 		}
 	}
 }
