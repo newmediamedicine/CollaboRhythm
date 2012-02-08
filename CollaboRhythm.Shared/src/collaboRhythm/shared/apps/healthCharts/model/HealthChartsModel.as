@@ -337,9 +337,12 @@ package collaboRhythm.shared.apps.healthCharts.model
 
 		public function set isInitialized(value:Boolean):void
 		{
-			_isInitialized = value;
-			if (_isInitialized)
-				updateModel();
+			if (_isInitialized != value)
+			{
+				_isInitialized = value;
+				if (_isInitialized)
+					updateModel();
+			}
 		}
 
 		public function get systolicData():ArrayCollection

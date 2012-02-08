@@ -447,6 +447,7 @@ package com.dougmccune.controls
 		private var _pendingInitializeChartsFromMinMaxTimes:Boolean;
 		private var focusTimePositionLocked:Boolean = true;
 		private var _useSliceMainData:Boolean;
+		private var _initialRightRangeTime:Number;
 
 		public function get dateField():String
 		{
@@ -802,7 +803,7 @@ package com.dougmccune.controls
 
 			try
 			{
-				rightRangeTime = _maximumTime;
+				rightRangeTime = initialRightRangeTime;
 			} catch(e:Error)
 			{
 				trace("Error setting rightRangeTime: " + e.message);
@@ -811,7 +812,7 @@ package com.dougmccune.controls
 			try
 			{
 //				leftRangeTime = Math.max(t0, t1 - initialDurationTime);
-				leftRangeTime = _maximumTime - initialDurationTime;
+				leftRangeTime = rightRangeTime - initialDurationTime;
 			} catch(e:Error)
 			{
 				trace("Error setting leftRangeTime: " + e.message);
@@ -979,8 +980,8 @@ package com.dougmccune.controls
 		private function initializeRangeTimes():void
 		{
 			updateBoxFromRangeTimes = true;
-			rightRangeTime = _maximumTime;
-			leftRangeTime = Math.max(_minimumTime, _maximumTime - initialDurationTime);
+			rightRangeTime = initialRightRangeTime;
+			leftRangeTime = Math.max(_minimumTime, initialRightRangeTime - initialDurationTime);
 			updateBox();
 			callLater(refreshAnnotations);
 			this.visible = true;
@@ -2940,6 +2941,19 @@ package com.dougmccune.controls
 			{
 				sliceMainData();
 			}
+		}
+
+		public function get initialRightRangeTime():Number
+		{
+			if (isNaN(_initialDurationTime))
+				return _maximumTime;
+			else
+				return _initialRightRangeTime;
+		}
+
+		public function set initialRightRangeTime(value:Number):void
+		{
+			_initialRightRangeTime = value;
 		}
 	}
 }

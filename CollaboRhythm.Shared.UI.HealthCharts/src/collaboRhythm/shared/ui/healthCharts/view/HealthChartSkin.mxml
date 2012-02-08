@@ -82,6 +82,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 			   horizontalScrollPolicy="off" verticalScrollPolicy="off"
 			   styleName="canvasContainerStyles"
 			   borderStyle="none"
+			   backgroundColor="#FFFFFF"
 			   >
 		<mx:LineChart id="mainChart"
 					  x="0" y="0"

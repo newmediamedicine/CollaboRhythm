@@ -1,6 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <dataroot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <AccountSource>
+    <accountId>singlemed1@records.media.mit.edu</accountId>
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    <fullName>Single Medication Test1</fullName>
+    <username>singlemed1</username>
+    <password>singlemed1-dope75</password>
+    <givenName>Single Medication</givenName>
+    <familyName>Test1</familyName>
+    <streetAddress>30 Green St</streetAddress>
+    <postalCode>94101</postalCode>
+    <locality>San Francisco</locality>
+    <region>California</region>
+    <country>US</country>
+    <timeZone>-8GMT</timeZone>
+    <emailPersonal>singlemed1@records.media.mit.edu</emailPersonal>
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    <instantMessengerName>singlemed1@records.media.mit.edu</instantMessengerName>
+    <dateOfBirth>1955-04-17T00:00:00Z</dateOfBirth>
+    <age>54</age>
+    <gender>Male</gender>
+    <ethnicity>Latino</ethnicity>
+    <language>English</language>
+    <maritalStatus>Married</maritalStatus>
+    <employmentStatus>Employed</employmentStatus>
+    <employmentIndustry>Banking</employmentIndustry>
+    <occupation>Branch Manager</occupation>
+    <religion>Protestant</religion>
+    <highestEducation>University</highestEducation>
+    <organDonar>true</organDonar>
+    <recordId>97ee7ba9-dbee-4167-82a1-830219cdf4af</recordId>
+    <accessKey>zqsETk3BSC8LPUp3Nhlb</accessKey>
+    <accessSecret>Cjfz49A0W8eyb8NRMsRU</accessSecret>
+    <status>Login successful</status>
+    <demographicsId>9129dcbd-e440-4314-9213-d8c7ec4fc643</demographicsId>
+    <notes>Test single medication (hydrochlorothiazide)</notes>
+  </AccountSource>
+  <AccountSource>
+    <accountId>singlevital1@records.media.mit.edu</accountId>
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    <fullName>Single Vital Test1</fullName>
+    <username>singlevital1</username>
+    <password>singlevital1-dope75</password>
+    <givenName>Single Vital</givenName>
+    <familyName>Test1</familyName>
+    <streetAddress>30 Green St</streetAddress>
+    <postalCode>94101</postalCode>
+    <locality>San Francisco</locality>
+    <region>California</region>
+    <country>US</country>
+    <timeZone>-8GMT</timeZone>
+    <emailPersonal>singlevital1@records.media.mit.edu</emailPersonal>
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    <instantMessengerName>singlevital1@records.media.mit.edu</instantMessengerName>
+    <dateOfBirth>1955-04-17T00:00:00Z</dateOfBirth>
+    <age>54</age>
+    <gender>Male</gender>
+    <ethnicity>Latino</ethnicity>
+    <language>English</language>
+    <maritalStatus>Married</maritalStatus>
+    <employmentStatus>Employed</employmentStatus>
+    <employmentIndustry>Banking</employmentIndustry>
+    <occupation>Branch Manager</occupation>
+    <religion>Protestant</religion>
+    <highestEducation>University</highestEducation>
+    <organDonar>true</organDonar>
+    <recordId>51fa1da1-e252-4dfe-9415-c6f415cadaf1</recordId>
+    <accessKey>8bdK64n8xIwGow03dd4G</accessKey>
+    <accessSecret>ULe5KtB3jvusSvjbjkrQ</accessSecret>
+    <status>Login successful</status>
+    <demographicsId>bd4e8069-6195-43df-a4ff-342fe4bb30b8</demographicsId>
+    <notes>Test single vital sign (peak flow)</notes>
+  </AccountSource>
+  <AccountSource>
     <accountId>skudo@records.media.mit.edu</accountId>
     <contactEmail>sgilroy@mit.edu</contactEmail>
     <fullName>Sarah Kudo</fullName>
@@ -30,12 +104,13 @@
     <religion>Christian</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>c69fd802-9e38-4061-aee1-1302e8fd9f42</recordId>
-    <accessKey>sHddaL4L3F17jtU16DuP</accessKey>
-    <accessSecret>BDsJq6PcIr1Sw7uHQ44j</accessSecret>
+    <recordId>b679aa7d-2fa0-45b4-b198-2bb4df6a6c5b</recordId>
+    <accessKey>i3D8rBCGbGviQAvwbIMh</accessKey>
+    <accessSecret>p3uPOiccOU0526iRbJlY</accessSecret>
     <status>Login successful</status>
-    <demographicsId>8fc28bdb-0666-4fc8-9fc2-9a3a6d674670</demographicsId>
+    <demographicsId>47feb63c-d717-4a45-ba39-1e007fba4a40</demographicsId>
     <notes>Demo for fitness-tracking group</notes>
+    <recordSeed>1</recordSeed>
   </AccountSource>
   <AccountSource>
     <accountId>agreen@records.media.mit.edu</accountId>
@@ -212,7 +287,7 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>38b08df7-8fe0-4f92-854c-b2b7a1c49a52</recordId>
+    <recordId/>
     <accessKey>HPxdRGdMsOmVY4j4Kyec</accessKey>
     <accessSecret>drE0fL2H5iWlKn7GXdOk</accessSecret>
     <status>Login successful</status>
@@ -318,11 +393,19 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>d43b7946-4648-456a-bb30-544bc49cca56</recordId>
-    <accessKey>pct8PAYu3NHL5VuSV3hC</accessKey>
-    <accessSecret>F8HvJJSwwtRbBDV3cFHq</accessSecret>
-    <status>Record shared.</status>
-    <demographicsId>f3af9de8-3445-412a-bae3-4c6e248f3fcd</demographicsId>
+    <recordId>c1bbecbf-706c-43b3-9f8f-04aa42fc7557</recordId>
+    <accessKey>L5f8p9zt4OPXfCwo43cH</accessKey>
+    <accessSecret>F7klkUULbb7w5LmIxQrw</accessSecret>
+    <status>Sharing record. Failed on POST
+			http://indivo-dev.media.mit.edu:8080/records/c1bbecbf-706c-43b3-9f8f-04aa42fc7557/shares/ Response: &lt;Error&gt;
+			&lt;InnerError&gt;
+			&lt;type&gt;complete&lt;/type&gt;
+			&lt;/InnerError&gt;
+			&lt;HTTPStatusEvent&gt;
+			&lt;status&gt;404&lt;/status&gt;
+			&lt;/HTTPStatusEvent&gt;
+			&lt;/Error&gt;</status>
+    <demographicsId>f56ea259-0709-4827-b527-acaaaf6ee728</demographicsId>
     <notes>Demo account for Frank and fitness-tracking-hw2012@googlegroups.com</notes>
   </AccountSource>
   <AccountSource>
@@ -504,7 +587,11 @@
     <accessKey>VJ5LyhzPUsSBRjHkci0U</accessKey>
     <accessSecret>q7sdxKXcIl7mcUxHa8sV</accessSecret>
     <status>Record shared. Failed on PUT
+
+
 			http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner
+
+
 			Response: &lt;Error&gt;</status>
     <demographicsId>b0476e25-777b-4aa2-bb62-32175347068a</demographicsId>
     <recordSeed/>
@@ -575,11 +662,18 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>edce25bb-ce04-4c83-ad0a-aa49d45b5bbd</recordId>
-    <accessKey>uxoXvLNras7VTwa9fZm4</accessKey>
-    <accessSecret>lgs5HmtFOm5oYy8ovL9L</accessSecret>
-    <status>Login successful</status>
-    <demographicsId>5a0b80b7-2528-4736-a90e-de6708897c6b</demographicsId>
+    <recordId>9fa47df4-db00-4b48-95c6-f07d71a87fdf</recordId>
+    <accessKey>qSjznu4ZnTpQLL0rEGAz</accessKey>
+    <accessSecret>TqIUtJnTeJ5ucrVGCs6m</accessSecret>
+    <status>Sharing record. Failed on POST http://indivo-dev.media.mit.edu:8080/records/9fa47df4-db00-4b48-95c6-f07d71a87fdf/shares/ Response: &lt;Error&gt;
+  &lt;InnerError&gt;
+    &lt;type&gt;complete&lt;/type&gt;
+  &lt;/InnerError&gt;
+  &lt;HTTPStatusEvent&gt;
+    &lt;status&gt;404&lt;/status&gt;
+  &lt;/HTTPStatusEvent&gt;
+&lt;/Error&gt;</status>
+    <demographicsId>8700b633-ecbd-46eb-aba4-051b39971c5e</demographicsId>
     <recordSeed/>
     <notes>Primary demo account with diabetes data</notes>
   </AccountSource>
@@ -649,11 +743,11 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>5682c2b4-8b5e-4036-8de6-827654eca2e4</recordId>
-    <status>Demographics document created. Id: b762806c-4ded-456e-b77e-23e372d6460b</status>
-    <accessKey>2JjLAVUH9JCIHROWZiGn</accessKey>
-    <accessSecret>dUdCnsd9BGS0Q1izuBdb</accessSecret>
-    <demographicsId>b762806c-4ded-456e-b77e-23e372d6460b</demographicsId>
+    <recordId>0c61a363-c32a-4408-99f6-c6f6d040b24a</recordId>
+    <status>Demographics document created. Id: 86e5cdab-ed80-4426-8e6a-a00d6926eac0</status>
+    <accessKey>XvJtrYhT2XHXp583Ny3F</accessKey>
+    <accessSecret>ja5Gbb2FMNHurCCZeedt</accessSecret>
+    <demographicsId>86e5cdab-ed80-4426-8e6a-a00d6926eac0</demographicsId>
     <notes>Demo physician</notes>
   </AccountSource>
   <AccountSource>
@@ -690,6 +784,8 @@
     <accessKey>2aZWoBykoS9FweOJktVL</accessKey>
     <accessSecret>lrwYcHvFE5XAsHcAloz1</accessSecret>
     <status>Record shared. Failed on POST
+
+
 			http://records.media.mit.edu:8000/accounts/mloomis@records.media.mit.edu/authsystems/ Response:</status>
     <demographicsId>a3236c63-79d0-4542-9ef4-ab2f6956e42b</demographicsId>
   </AccountSource>
@@ -730,6 +826,6 @@
     <demographicsId>d66490ce-2c5b-49ef-8c7d-4e6e70e2dab5</demographicsId>
     <notes>Trash can account</notes>
   </AccountSource>
-  <saveDate>Fri Jan 27 01:31:04 GMT-0500 2012</saveDate>
+  <saveDate>Tue Feb 7 11:33:36 GMT-0500 2012</saveDate>
   <indivoServerBaseURL>http://indivo-dev.media.mit.edu:8080</indivoServerBaseURL>
 </dataroot>

@@ -48,7 +48,8 @@ package collaboRhythm.shared.model
 		{
 			if (Camera.isSupported)
 			{
-                _camera = Camera.getCamera();
+				_logger.info("Initializing camera...");
+                _camera = Camera.getCamera("0");
                 var cameraIndex:int;
                 for each (var cameraName:String in Camera.names)
                 {
@@ -63,7 +64,12 @@ package collaboRhythm.shared.model
                     _camera.setKeyFrameInterval(15);
                     _camera.setMode(320,240,15);
                     _camera.setQuality(0,80);
+					_logger.info("Camera initialized: " + _camera.name);
                 }
+				else
+				{
+					_logger.info("No camera found. Camera NOT initialized.");
+				}
             }
 		}
 		
@@ -72,13 +78,17 @@ package collaboRhythm.shared.model
 			if (Microphone.isSupported)
 			{
 				_logger.info("Initializing microphone...");
-				_microphone = Microphone.getMicrophone();
+				_microphone = Microphone.getMicrophone(0);
 				if (_microphone != null)
 				{
 					_microphone.gain=85;
 					_microphone.rate=11;
 					_microphone.setSilenceLevel(15,2000);
 					_logger.info("Microphone initialized: " + _microphone.name);
+				}
+				else
+				{
+					_logger.info("No microphone found. Microphone NOT initialized.");
 				}
 			}
 		}

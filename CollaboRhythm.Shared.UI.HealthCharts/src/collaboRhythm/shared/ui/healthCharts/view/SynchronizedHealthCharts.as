@@ -20,7 +20,9 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import collaboRhythm.shared.model.services.IMedicationColorSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	import collaboRhythm.shared.model.settings.Settings;
+	import collaboRhythm.shared.ui.healthCharts.model.AdherenceStripItemProxy;
 	import collaboRhythm.shared.ui.healthCharts.model.ChartModelDetails;
+	import collaboRhythm.shared.ui.healthCharts.model.descriptors.HorizontalAxisChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.MedicationChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.VitalSignChartDescriptor;
@@ -30,7 +32,6 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import collaboRhythm.view.scroll.TouchScrollerEvent;
 
 	import com.dougmccune.controls.ChartFooter;
-
 	import com.dougmccune.controls.ScrubChart;
 	import com.dougmccune.controls.SeriesDataSet;
 	import com.dougmccune.controls.SynchronizedAxisCache;
@@ -53,6 +54,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import mx.charts.chartClasses.Series;
 	import mx.charts.series.PlotSeries;
 	import mx.collections.ArrayCollection;
+	import mx.collections.Sort;
+	import mx.collections.SortField;
 	import mx.core.ClassFactory;
 	import mx.core.IVisualElement;
 	import mx.core.UIComponent;
@@ -70,7 +73,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import qs.charts.dataShapes.Edge;
 
 	import spark.components.Button;
-
+	import spark.components.Group;
 	import spark.components.HGroup;
 	import spark.components.Label;
 	import spark.components.VGroup;
@@ -148,6 +151,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 		protected var _footer:ChartFooter;
 		private var _viewNavigator:ViewNavigator;
 		private var _rangeButtonTargetChart:TouchScrollingScrubChart;
+		private var _stripChartDataCollections:OrderedMap = new OrderedMap();
+		private var _adherenceGroups:OrderedMap = new OrderedMap();
 
 		public function SynchronizedHealthCharts():void
 		{
@@ -264,7 +269,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private function model_propertyChangeHandler(event:PropertyChangeEvent):void
 		{
 			//trace("model_propertyChangeHandler", event.property);
-			if (event.property == "showAdherence" || event.property == "isInitialized" && _createChildrenComplete)
+			if ((event.property == "showAdherence" || (event.property == "isInitialized" && event.newValue as Boolean)) && _createChildrenComplete)
 			{
 				respondToModelUpdate();
 			}
@@ -280,6 +285,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 				createChartDescriptors();
 				createChartModifiers();
 				updateChartDescriptors();
+				updateAdherenceStripChartDataCollections();
 				createChartsFromDescriptors();
 				createCustomCharts();
 				createHorizontalAxisChart();
@@ -287,8 +293,53 @@ package collaboRhythm.shared.ui.healthCharts.view
 			}
 			else
 			{
+				updateAdherenceStripChartDataCollections();
 				updateAdherenceCharts();
 			}
+		}
+
+		private function updateAdherenceStripChartDataCollections():void
+		{
+			_stripChartDataCollections = new OrderedMap();
+			for each (var chartDescriptor:IChartDescriptor in _chartDescriptors.values())
+			{
+				var dataCollection:ArrayCollection;
+				var scheduleItemCollection:ArrayCollection;
+				var medicationChartDescriptor:MedicationChartDescriptor = chartDescriptor as MedicationChartDescriptor;
+				if (medicationChartDescriptor)
+				{
+					scheduleItemCollection = model.record.medicationScheduleItemsModel.medicationScheduleItemCollection;
+					dataCollection = createAdherenceStripItemProxies(scheduleItemCollection,
+							medicationChartDescriptor.medicationCode, AdherenceStripItemProxy.MEDICATION_TYPE);
+				}
+				else
+				{
+					var vitalSignChartDescriptor:VitalSignChartDescriptor = chartDescriptor as VitalSignChartDescriptor;
+					if (vitalSignChartDescriptor)
+					{
+						scheduleItemCollection = model.record.equipmentScheduleItemsModel.equipmentScheduleItemCollection;
+
+						var equipmentScheduleItem:EquipmentScheduleItem = getMatchingEquipmentScheduleItem(vitalSignChartDescriptor.vitalSignCategory);
+						if (equipmentScheduleItem)
+						{
+							var scheduleItemName:String = equipmentScheduleItem.name.text;
+							dataCollection = createAdherenceStripItemProxies(scheduleItemCollection, scheduleItemName,
+									AdherenceStripItemProxy.EQUIPMENT_TYPE);
+						}
+					}
+				}
+
+				if (dataCollection)
+				{
+					_stripChartDataCollections.addKeyValue(chartDescriptor.descriptorKey, dataCollection);
+				}
+			}
+		}
+
+		private function getAdherenceStripItemProxies(descriptorKey:String):ArrayCollection
+		{
+			var dataCollection:ArrayCollection = _stripChartDataCollections.getValueByKey(descriptorKey);
+			return dataCollection;
 		}
 
 		private function createFooter():void
@@ -312,7 +363,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			var spacer:UIComponent = new UIComponent();
 			spacer.width = 100;
 
-			var group:HGroup = createAdherenceGroup(spacer, chart, null);
+			var group:HGroup = createAdherenceGroup(new HorizontalAxisChartDescriptor(), spacer, chart, null);
 			group.height = 35;
 		}
 
@@ -420,7 +471,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 				var adherenceStripChart:TouchScrollingScrubChart = createMedicationAdherenceStripChart(chartDescriptor,
 						medicationFill
 				);
-				createAdherenceGroup(createChartImage(chartDescriptor), concentrationChart, adherenceStripChart);
+				createAdherenceGroup(chartDescriptor, createChartImage(chartDescriptor), concentrationChart, adherenceStripChart);
 			}
 		}
 
@@ -463,11 +514,18 @@ package collaboRhythm.shared.ui.healthCharts.view
 		{
 			var medicationCode:String = chartDescriptor.medicationCode;
 			var chart:TouchScrollingScrubChart = createAdherenceChart(
-					getAdherenceStripChartKey(medicationCode), chartDescriptor);
+					getMedicationAdherenceStripChartKey(medicationCode), chartDescriptor);
 
 			chart.setStyle("skinClass", AdherenceStripChartSkin);
 			setMedicationChartStyles(medicationCode, medicationFill, chart);
-			initializeAdherenceStripChart(chart, medicationCode);
+
+			var medicationModel:MedicationComponentAdherenceModel = model.focusSimulation.getMedication(medicationCode);
+			if (medicationModel == null)
+				throw new Error("Medication " + medicationCode +
+						" is in model.medicationConcentrationCurvesByCode but not in model.simulation.medicationsByCode");
+			var medicationScheduleItem:MedicationScheduleItem = medicationModel.medicationScheduleItem;
+
+			initializeAdherenceStripChart(chart, medicationScheduleItem);
 
 			chart.addEventListener(SkinPartEvent.PART_ADDED, medicationAdherenceStripChart_skinPartAddedHandler, false, 0,
 					true);
@@ -477,13 +535,18 @@ package collaboRhythm.shared.ui.healthCharts.view
 			return chart;
 		}
 
-		private function initializeAdherenceStripChart(chart:TouchScrollingScrubChart, adherenceItemsCode:String):void
+		private function initializeAdherenceStripChart(chart:TouchScrollingScrubChart, scheduleItem:ScheduleItemBase):void
 		{
 			chart.setStyle("topBorderVisible", false);
 			chart.height = ADHERENCE_STRIP_CHART_HEIGHT;
-			chart.seriesName = "adherence";
-			chart.data = model.adherenceItemsCollectionsByCode.getItem(adherenceItemsCode);
-			chart.dateField = "dateReported";
+			chart.seriesName = "yPosition";
+
+			if (scheduleItem)
+			{
+				var descriptorKey:String = chart.getStyle("descriptorKey");
+				chart.data = getAdherenceStripItemProxies(descriptorKey);
+				chart.dateField = "date";
+			}
 		}
 
 		private function createAdherenceChart(chartKey:String, chartDescriptor:IChartDescriptor, expectCreationComplete:Boolean=true):TouchScrollingScrubChart
@@ -500,6 +563,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			chart.percentHeight = 100;
 			chart.setStyle("sliderVisible", false);
 			chart.today = model.currentDateSource.now();
+			chart.initialRightRangeTime = chart.today.valueOf();
 			chart.showFps = model.showFps;
 			chart.initialDurationTime = initialDurationTime;
 			chart.showFocusTimeMarker = false;
@@ -551,7 +615,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			return "medication_" + medicationCode + "_concentration";
 		}
 
-		private function getAdherenceStripChartKey(medicationCode:String):String
+		private function getMedicationAdherenceStripChartKey(medicationCode:String):String
 		{
 			return "medication_" + medicationCode + "_adherence";
 		}
@@ -573,7 +637,10 @@ package collaboRhythm.shared.ui.healthCharts.view
 		 * @param resultChart The chart representing the results (such as medication concentration or vital signs)
 		 * @param adherenceStripChart The adherence strip chart showing the scheduled health actions and the correspond adherence/actions taken
 		 */
-		public function createAdherenceGroup(image:IVisualElement, resultChart:TouchScrollingScrubChart, adherenceStripChart:TouchScrollingScrubChart):HGroup
+		public function createAdherenceGroup(chartDescriptor:IChartDescriptor,
+											 image:IVisualElement,
+											 resultChart:TouchScrollingScrubChart,
+											 adherenceStripChart:TouchScrollingScrubChart):HGroup
 		{
 			if (!image)
 			{
@@ -599,6 +666,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			adherenceGroup.percentHeight = 100;
 			adherenceGroup.verticalAlign = VerticalAlign.MIDDLE;
 
+			_adherenceGroups.addKeyValue(chartDescriptor.descriptorKey, adherenceGroup);
 			this.addElement(adherenceGroup);
 			return adherenceGroup;
 		}
@@ -624,7 +692,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 					var adherenceStripChart:TouchScrollingScrubChart = createVitalSignAdherenceStripChart(vitalSignChartDescriptor,
 							equipmentScheduleItem);
 				}
-				createAdherenceGroup(createChartImage(vitalSignChartDescriptor), vitalSignChart, adherenceStripChart);
+				createAdherenceGroup(vitalSignChartDescriptor, createChartImage(vitalSignChartDescriptor), vitalSignChart,
+						adherenceStripChart);
 			}
 		}
 
@@ -669,7 +738,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 			setVitalSignChartStyles(chart, vitalSignKey);
 
 			chart.setStyle("skinClass", AdherenceStripChartSkin);
-			initializeAdherenceStripChart(chart, equipmentScheduleItem ? equipmentScheduleItem.name.text : null);
+
+			initializeAdherenceStripChart(chart, equipmentScheduleItem);
 
 			chart.addEventListener(SkinPartEvent.PART_ADDED, vitalSignAdherenceStripChart_skinPartAddedHandler, false, 0,
 					true);
@@ -710,16 +780,47 @@ package collaboRhythm.shared.ui.healthCharts.view
 			return null;
 		}
 
+		protected function getMatchingMedicationScheduleItem(medicationCode:String):MedicationScheduleItem
+		{
+			for each (var medicationScheduleItem:MedicationScheduleItem in
+					model.record.medicationScheduleItemsModel.medicationScheduleItemCollection)
+			{
+				if (medicationScheduleItem.name.value == medicationCode)
+				{
+					return medicationScheduleItem;
+				}
+			}
+			return null;
+		}
+
 		// TODO: implement and use this method to update the charts when the demo date changes
 		private function updateAdherenceCharts():void
 		{
-			for each (var medicationCode:String in model.medicationConcentrationCurvesByCode.keys)
+			for each (var chartDescriptor:IChartDescriptor in _chartDescriptors.values())
 			{
-				updateAdherenceChart(getConcentrationChartKey(medicationCode),
-						model.medicationConcentrationCurvesByCode.getItem(medicationCode), "date");
-				updateAdherenceChart(getAdherenceStripChartKey(medicationCode),
-						model.adherenceItemsCollectionsByCode.getItem(medicationCode), "dateReported");
+				var adherenceStripItemProxies:ArrayCollection = getAdherenceStripItemProxies(chartDescriptor.descriptorKey);
+
+				// TODO: support updating vital sign charts
+				var medicationChartDescriptor:MedicationChartDescriptor = chartDescriptor as MedicationChartDescriptor;
+				if (medicationChartDescriptor)
+				{
+					var medicationCode:String = medicationChartDescriptor.medicationCode;
+					updateAdherenceChart(getConcentrationChartKey(medicationCode),
+							model.medicationConcentrationCurvesByCode.getItem(medicationCode), "date");
+					updateAdherenceChart(getMedicationAdherenceStripChartKey(medicationCode),
+							adherenceStripItemProxies, "date");
+				}
+				var vitalSignChartDescriptor:VitalSignChartDescriptor = chartDescriptor as VitalSignChartDescriptor;
+				if (vitalSignChartDescriptor)
+				{
+					updateAdherenceChart(getVitalSignChartKey(vitalSignChartDescriptor.vitalSignCategory),
+							model.record.vitalSignsModel.vitalSignsByCategory.getItem(vitalSignChartDescriptor.vitalSignCategory),
+							"dateMeasuredStart");
+					updateAdherenceChart(getVitalSignAdherenceStripChartKey(vitalSignChartDescriptor.vitalSignCategory),
+							adherenceStripItemProxies, "date");
+				}
 			}
+			queueSynchronizeDateLimits();
 		}
 
 		private function updateAdherenceChart(chartKey:String, seriesDataCollection:ArrayCollection, dateField:String):void
@@ -920,36 +1021,9 @@ package collaboRhythm.shared.ui.healthCharts.view
 			else if (event.partName == "mainChart")
 			{
 				var chart:ScrubChart = ScrubChart(event.target);
-				//			chart.removeDefaultSeries();
-
 				var medicationCode:String = chart.getStyle("medicationCode");
-
-				var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
-				verticalAxis.minimum = STRIP_CHART_VERTICAL_AXIS_MINIMUM;
-				verticalAxis.maximum = STRIP_CHART_VERTICAL_AXIS_MAXIMUM;
-
-				var ndcCode:String = chart.getStyle("ndcCode");
-
-				chart.removeDefaultSeries();
-				addAdherenceSeries(chart, medicationCode);
-
-				var mainCanvas:DataDrawingCanvas = chart.mainChart.backgroundElements[0] as DataDrawingCanvas;
-				if (mainCanvas)
-				{
-					updateAdherenceStripChartSeriesCompleteHandler(chart, mainCanvas,
-							mainCanvas ? mainCanvas.getChildAt(0) as Label : null, null, medicationCode,
-							model.record.medicationScheduleItemsModel.medicationScheduleItemCollection);
-					mainCanvas.invalidateSize();
-				}
-
-				var index:int = _chartsWithPendingCreationComplete.getItemIndex(chart);
-				if (index != -1)
-				{
-					_chartsWithPendingCreationComplete.removeItemAt(index);
-					checkReadyToSynchronizeDateLimits();
-				}
-
-				chart.mainChart.dataTipFunction = adherenceChart_dataTipFunction;
+				var scheduleItem:ScheduleItemBase = getMatchingMedicationScheduleItem(medicationCode);
+				updateAdherenceStripMainChart(chart, scheduleItem);
 			}
 			else if (event.partName == "rangeChart")
 			{
@@ -957,6 +1031,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 				if (chart.rangeChart)
 				{
+					var verticalAxis:LinearAxis;
 					verticalAxis = chart.rangeChart.verticalAxis as LinearAxis;
 					verticalAxis.minimum = STRIP_CHART_VERTICAL_AXIS_MINIMUM;
 					verticalAxis.maximum = STRIP_CHART_VERTICAL_AXIS_MAXIMUM;
@@ -975,36 +1050,9 @@ package collaboRhythm.shared.ui.healthCharts.view
 			else if (event.partName == "mainChart")
 			{
 				var chart:ScrubChart = ScrubChart(event.target);
-				//			chart.removeDefaultSeries();
-
 				var vitalSignKey:String = chart.getStyle("vitalSignKey");
-
-				var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
-				verticalAxis.minimum = STRIP_CHART_VERTICAL_AXIS_MINIMUM;
-				verticalAxis.maximum = STRIP_CHART_VERTICAL_AXIS_MAXIMUM;
-
-				chart.removeDefaultSeries();
-				// TODO: get the equipment name to use for the adherence items code
-				var scheduleItemName:String = "FORA D40b";
-				addAdherenceSeries(chart, scheduleItemName);
-
-				var mainCanvas:DataDrawingCanvas = chart.mainChart.backgroundElements[0] as DataDrawingCanvas;
-				if (mainCanvas)
-				{
-					updateAdherenceStripChartSeriesCompleteHandler(chart, mainCanvas,
-							mainCanvas ? mainCanvas.getChildAt(0) as Label : null, null, scheduleItemName,
-							model.record.equipmentScheduleItemsModel.equipmentScheduleItemCollection);
-					mainCanvas.invalidateSize();
-				}
-
-				var index:int = _chartsWithPendingCreationComplete.getItemIndex(chart);
-				if (index != -1)
-				{
-					_chartsWithPendingCreationComplete.removeItemAt(index);
-					checkReadyToSynchronizeDateLimits();
-				}
-
-				chart.mainChart.dataTipFunction = adherenceChart_dataTipFunction;
+				var scheduleItem:ScheduleItemBase = getMatchingEquipmentScheduleItem(vitalSignKey);
+				updateAdherenceStripMainChart(chart, scheduleItem);
 			}
 			else if (event.partName == "rangeChart")
 			{
@@ -1012,11 +1060,45 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 				if (chart.rangeChart)
 				{
+					var verticalAxis:LinearAxis;
 					verticalAxis = chart.rangeChart.verticalAxis as LinearAxis;
 					verticalAxis.minimum = STRIP_CHART_VERTICAL_AXIS_MINIMUM;
 					verticalAxis.maximum = STRIP_CHART_VERTICAL_AXIS_MAXIMUM;
 				}
 			}
+		}
+
+		private function updateAdherenceStripMainChart(chart:ScrubChart, scheduleItem:ScheduleItemBase):void
+		{
+			var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
+			verticalAxis.minimum = STRIP_CHART_VERTICAL_AXIS_MINIMUM;
+			verticalAxis.maximum = STRIP_CHART_VERTICAL_AXIS_MAXIMUM;
+
+			chart.removeDefaultSeries();
+
+			if (scheduleItem)
+			{
+				var scheduleItemName:String = scheduleItem.name.text;
+				addAdherenceSeries(chart, scheduleItemName);
+
+				var mainCanvas:DataDrawingCanvas = chart.mainChart.backgroundElements[0] as DataDrawingCanvas;
+				if (mainCanvas)
+				{
+					updateAdherenceStripChartSeriesCompleteHandler(chart, mainCanvas,
+							(mainCanvas && mainCanvas.numChildren > 0) ? mainCanvas.getChildAt(0) as Label : null,
+							null);
+					mainCanvas.invalidateSize();
+				}
+			}
+
+			var index:int = _chartsWithPendingCreationComplete.getItemIndex(chart);
+			if (index != -1)
+			{
+				_chartsWithPendingCreationComplete.removeItemAt(index);
+				checkReadyToSynchronizeDateLimits();
+			}
+
+			chart.mainChart.dataTipFunction = adherenceChart_dataTipFunction;
 		}
 
 		protected function medicationAdherenceStripChart_creationCompleteHandler(event:FlexEvent):void
@@ -1025,21 +1107,16 @@ package collaboRhythm.shared.ui.healthCharts.view
 				trace("medicationAdherenceStripChart_creationCompleteHandler");
 		}
 
+		// TODO: separate out code for specific charts to different functions
 		private function adherenceChart_dataTipFunction(hitData:HitData):String
 		{
-			var adherenceItem:AdherenceItem = hitData.item as AdherenceItem;
-			if (adherenceItem)
+			var proxy:AdherenceStripItemProxy = hitData.item as AdherenceStripItemProxy;
+//			if (proxy == null)
+//				throw new Error("hitData.item is a " + ReflectionUtils.getClassInfo(ReflectionUtils.getClass(hitData.item)).name + "; expected AdherenceStripItemProxy");
+
+			if (proxy)
 			{
-				if (adherenceItem.scheduleItem is MedicationScheduleItem)
-				{
-					return "Medication " + (adherenceItem.adherence ? "<b>Taken</b>" : "<b>Not</b> Taken") + "<br/>" +
-							"Date reported: " + adherenceItem.dateReported.toLocaleString();
-				}
-				else if (adherenceItem.scheduleItem is EquipmentScheduleItem)
-				{
-					return "Equipment " + (adherenceItem.adherence ? "<b>Used</b>" : "<b>Not</b> Used") + "<br/>" +
-							"Date reported: " + adherenceItem.dateReported.toLocaleString();
-				}
+				return proxy.dataTip;
 			}
 
 			var sample:MedicationConcentrationSample = hitData.item as MedicationConcentrationSample;
@@ -1093,22 +1170,26 @@ package collaboRhythm.shared.ui.healthCharts.view
 			checkAllSeriesComplete(series);
 		}
 
-		private function addAdherenceSeries(chart:ScrubChart, adherenceItemsCode:String):void
+		private function addAdherenceSeries(chart:ScrubChart, scheduleItemName:String):void
 		{
 			var adherenceSeries:PlotSeries = new PlotSeries();
 			adherenceSeries.name = "adherence";
 			adherenceSeries.id = chart.id + "_adherenceSeries";
-			adherenceSeries.xField = "dateReported";
+			adherenceSeries.xField = "date";
 //			TODO: position the adherence series without the hack of using adherencePosition
-			adherenceSeries.yField = "adherencePosition";
-			adherenceSeries.dataProvider = model.adherenceItemsCollectionsByCode.getItem(adherenceItemsCode);
+			adherenceSeries.yField = "yPosition";
+			
+			var descriptorKey:String = chart.getStyle("descriptorKey");
+			var adherenceStripItemProxies:ArrayCollection = getAdherenceStripItemProxies(descriptorKey);
+
+			adherenceSeries.dataProvider = adherenceStripItemProxies;
 			adherenceSeries.setStyle("itemRenderer", new ClassFactory(AdherencePlotItemRenderer));
 //			adherenceSeries.filterFunction = adherenceSeriesFilter;
 			_seriesWithPendingUpdateComplete.addItem(adherenceSeries);
 			adherenceSeries.addEventListener(FlexEvent.UPDATE_COMPLETE, series_updateCompleteHandler);
 
 			chart.mainChart.series.push(adherenceSeries);
-			chart.addDataSet(model.adherenceItemsCollectionsByCode.getItem(adherenceItemsCode), "dateReported");
+			chart.addDataSet(adherenceStripItemProxies, "date");
 
 			addSeriesSet(chart, adherenceSeries);
 		}
@@ -1209,20 +1290,22 @@ package collaboRhythm.shared.ui.healthCharts.view
 			return 0x4444FF;
 		}
 
-		public function drawAdherenceStripRegions(canvas:DataDrawingCanvas, zoneLabel:Label, scheduleItemName:String, scheduleItemCollection:ArrayCollection):void
+		public function drawAdherenceStripRegions(canvas:DataDrawingCanvas, zoneLabel:Label, descriptorKey:String):void
 		{
 			if (_traceEventHandlers)
 				trace(this + ".drawAdherenceStripRegions");
-			var scheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = getScheduleItemOccurrences(scheduleItemCollection,
-					scheduleItemName);
+			var adherenceStripItemProxies:ArrayCollection = getAdherenceStripItemProxies(descriptorKey);
 			canvas.clear();
 
 			canvas.beginFill(0xFFFFFF);
 
-			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrences)
+			for each (var adherenceStripItemProxy:AdherenceStripItemProxy in adherenceStripItemProxies)
 			{
-				canvas.drawRect(scheduleItemOccurrence.dateStart, [Edge.TOP, 3],
-						scheduleItemOccurrence.dateEnd, [Edge.BOTTOM, -4]);
+				if (adherenceStripItemProxy.scheduleItemOccurrence)
+				{
+					canvas.drawRect(adherenceStripItemProxy.scheduleItemOccurrence.dateStart, [Edge.TOP, 3],
+							adherenceStripItemProxy.scheduleItemOccurrence.dateEnd, [Edge.BOTTOM, -4]);
+				}
 			}
 
 			canvas.endFill();
@@ -1233,10 +1316,17 @@ package collaboRhythm.shared.ui.healthCharts.view
 			}
 		}
 
-		private function getScheduleItemOccurrences(scheduleItemCollection:ArrayCollection,
-													scheduleItemName:String):Vector.<ScheduleItemOccurrence>
+		/**
+		 * Gets an ArrayCollection of AdherenceStripItemProxy objects corresponding to the schedule occurrences for the
+		 * specified scheduleItemCollection and scheduleItemName.
+		 * @param scheduleItemCollection The collection to search for matching schedule items. This could be a collection of EquipmentScheduleItem or MedicationScheduleItem instances.
+		 * @param scheduleItemName The name.value (if any) or name.text (if name.value is null) of the ScheduleItem instances to match. All occurrences from all matching schedule items will be included.
+		 * @return The new ArrayCollection of AdherenceStripItemProxy objects. If no schedule items are found matching the specified name, then the resulting ArrayCollection will have no elements.
+		 */
+		private function createAdherenceStripItemProxies(scheduleItemCollection:ArrayCollection,
+														 scheduleItemName:String, proxyType:String):ArrayCollection
 		{
-			var scheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
+			var adherenceStripItemProxies:ArrayCollection = new ArrayCollection();
 			var firstDateStart:Date;
 			var lastDateEnd:Date;
 
@@ -1244,17 +1334,40 @@ package collaboRhythm.shared.ui.healthCharts.view
 			{
 				if (scheduleItemMatches(scheduleItem, scheduleItemName))
 				{
-					var newScheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = scheduleItem.getScheduleItemOccurrences();
-					scheduleItemOccurrences = scheduleItemOccurrences.concat(newScheduleItemOccurrences);
-					if (firstDateStart == null || newScheduleItemOccurrences[0].dateStart.time < firstDateStart.time)
-						firstDateStart = newScheduleItemOccurrences[0].dateStart;
+					var scheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = scheduleItem.getScheduleItemOccurrences();
+					for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrences)
+					{
+						var proxy:AdherenceStripItemProxy = new AdherenceStripItemProxy(model.currentDateSource, proxyType, scheduleItemOccurrence, null);
+						adherenceStripItemProxies.addItem(proxy);
+					}
+
+					if (firstDateStart == null || scheduleItemOccurrences[0].dateStart.time < firstDateStart.time)
+						firstDateStart = scheduleItemOccurrences[0].dateStart;
 					if (lastDateEnd == null ||
-							newScheduleItemOccurrences[newScheduleItemOccurrences.length - 1].dateEnd.time >
+							scheduleItemOccurrences[scheduleItemOccurrences.length - 1].dateEnd.time >
 									lastDateEnd.time)
-						lastDateEnd = newScheduleItemOccurrences[newScheduleItemOccurrences.length - 1].dateEnd;
+						lastDateEnd = scheduleItemOccurrences[scheduleItemOccurrences.length - 1].dateEnd;
 				}
 			}
-			return scheduleItemOccurrences;
+			
+			// Also include all AdherenceItem instances that are not associated with any schedule item
+			// Note that in general, there shouldn't be any orphaned AdherenceItem instances, but if it does happen we want
+			// to include them anyways.
+			var adherenceItemsCollection:ArrayCollection = model.adherenceItemsCollectionsByCode.getItem(scheduleItemName);
+			for each (var adherenceItem:AdherenceItem in adherenceItemsCollection)
+			{
+				if (adherenceItem.scheduleItem == null)
+				{
+					proxy = new AdherenceStripItemProxy(model.currentDateSource, proxyType, null, adherenceItem);
+					adherenceStripItemProxies.addItem(proxy);
+				}
+			}
+
+			var sort:Sort = new Sort();
+			sort.fields = [new SortField("date")];
+			adherenceStripItemProxies.sort = sort;
+			adherenceStripItemProxies.refresh();
+			return adherenceStripItemProxies;
 		}
 
 		private function scheduleItemMatches(scheduleItem:ScheduleItemBase, scheduleItemName:String):Boolean
@@ -1295,19 +1408,20 @@ package collaboRhythm.shared.ui.healthCharts.view
 				for each (chart in charts)
 				{
 					chart.today = today;
+					chart.initialRightRangeTime = today.valueOf();
 					chart.minimumTime = minimum;
 					chart.maximumTime = maximum;
-					if (chart.allSeriesUpdated())
-					{
-						// first time initialization complete; nothing else to do
-					}
-					else //if (chart.focusTime == chart.rightRangeTime == chart.maximumTime)
-					{
-						chart.rightRangeTime = maximum;
-						chart.leftRangeTime = Math.max(minimum, maximum - initialDurationTime);
+//					if (chart.allSeriesUpdated())
+//					{
+//						// first time initialization complete; nothing else to do
+//					}
+//					else //if (chart.focusTime == chart.rightRangeTime == chart.maximumTime)
+//					{
+						chart.rightRangeTime = today.valueOf();
+						chart.leftRangeTime = Math.max(minimum, chart.rightRangeTime - initialDurationTime);
 						chart.updateForScroll();
-						chart.focusTime = maximum;
-					}
+						chart.focusTime = today.valueOf();
+//					}
 				}
 			}
 
@@ -1334,9 +1448,10 @@ package collaboRhythm.shared.ui.healthCharts.view
 				trace("adherenceChart_initializeHandler");
 		}
 
-		private function updateAdherenceStripChartSeriesCompleteHandler(chart:ScrubChart, mainCanvas:DataDrawingCanvas, zoneLabel:Label, rangeCanvas:DataDrawingCanvas, scheduleItemName:String, scheduleItemCollection:ArrayCollection):void
+		private function updateAdherenceStripChartSeriesCompleteHandler(chart:ScrubChart, mainCanvas:DataDrawingCanvas, zoneLabel:Label, rangeCanvas:DataDrawingCanvas):void
 		{
-			drawAdherenceStripRegions(mainCanvas, zoneLabel, scheduleItemName, scheduleItemCollection);
+			var descriptorKey:String = chart.getStyle("descriptorKey");
+			drawAdherenceStripRegions(mainCanvas, zoneLabel, descriptorKey);
 			callLater(
 					function ():void
 					{
@@ -1347,7 +1462,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			if (chart.rangeChart)
 			{
 				chart.rangeChart.backgroundElements.push(rangeCanvas);
-				drawAdherenceStripRegions(rangeCanvas, null, scheduleItemName, scheduleItemCollection);
+				drawAdherenceStripRegions(rangeCanvas, null, descriptorKey);
 			}
 		}
 
@@ -1594,6 +1709,18 @@ package collaboRhythm.shared.ui.healthCharts.view
 				chart.visible = visible;
 				chart.includeInLayout = visible;
 			}
+			
+			for each (var adherenceGroup:Group in _adherenceGroups.values())
+			{
+				var groupVisible:Boolean = false;
+				for each (var chart:TouchScrollingScrubChart in getChartsInGroup(adherenceGroup))
+				{
+					if (_visibleCharts.indexOf(chart) != -1)
+						groupVisible = true;
+				}
+				adherenceGroup.visible = groupVisible;
+				adherenceGroup.includeInLayout = groupVisible;
+			}
 
 			if (_visibleCharts.length > 1 && targetChart != null)
 			{
@@ -1616,6 +1743,25 @@ package collaboRhythm.shared.ui.healthCharts.view
 			{
 				_footer.chart = _rangeButtonTargetChart;
 			}
+		}
+
+		private function getChartsInGroup(adherenceGroup:Group):Vector.<TouchScrollingScrubChart>
+		{
+			var charts:Vector.<TouchScrollingScrubChart> = new Vector.<TouchScrollingScrubChart>();
+			
+			var chartsGroup:Group = adherenceGroup.getElementAt(1) as Group;
+			if (chartsGroup)
+			{
+				for (var i:int = 0; i < chartsGroup.numElements; i++)
+				{
+					var chart:TouchScrollingScrubChart = chartsGroup.getElementAt(i) as TouchScrollingScrubChart;
+					if (chart)
+					{
+						charts.push(chart);
+					}
+				}
+			}
+			return charts;
 		}
 
 		protected function getAllCharts():Vector.<TouchScrollingScrubChart>
