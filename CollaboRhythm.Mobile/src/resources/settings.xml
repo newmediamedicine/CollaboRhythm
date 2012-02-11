@@ -23,8 +23,8 @@
 	<useTraceTarget>false</useTraceTarget>
 	<useSyslogTarget>false</useSyslogTarget>
 	<logSourceIdentifier>debug</logSourceIdentifier>
-	<syslogServerIpAddress>127.0.0.1</syslogServerIpAddress>
-	<rtmpBaseURI>rtmp://127.0.0.1</rtmpBaseURI>
+	<syslogServerIpAddress>collaborhythm.media.mit.edu</syslogServerIpAddress>
+	<rtmpBaseURI>rtmp://collaborhythm.media.mit.edu</rtmpBaseURI>
 	<indivoServerBaseURL>http://records.media.mit.edu:8000</indivoServerBaseURL>
 	<debuggingToolsEnabled>false</debuggingToolsEnabled>
 	<oauthChromeConsumerKey>collaboRhythmChrome</oauthChromeConsumerKey>

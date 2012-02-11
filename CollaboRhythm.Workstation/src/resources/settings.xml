@@ -24,8 +24,8 @@
 	<useTraceTarget>true</useTraceTarget>
 	<useSyslogTarget>true</useSyslogTarget>
 	<logSourceIdentifier>CollaboRhythmDefault</logSourceIdentifier>
-	<syslogServerIpAddress>18.85.55.246</syslogServerIpAddress>
-	<rtmpBaseURI>rtmp://18.85.55.246</rtmpBaseURI>
+	<syslogServerIpAddress>collaborhythm.media.mit.edu</syslogServerIpAddress>
+	<rtmpBaseURI>rtmp://collaborhythm.media.mit.edu</rtmpBaseURI>
 	<debuggingToolsEnabled>true</debuggingToolsEnabled>
 	<oauthChromeConsumerKey>collaboRhythmChrome</oauthChromeConsumerKey>
 	<oauthChromeConsumerSecret>collaboRhythmChrome_secret93452</oauthChromeConsumerSecret>

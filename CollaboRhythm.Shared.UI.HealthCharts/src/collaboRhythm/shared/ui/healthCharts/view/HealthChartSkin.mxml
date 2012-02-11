@@ -94,6 +94,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 					  verticalAxisStyleNames="mainChartVerticalAxisStyle"
 					  selectionMode="none"
 					  cacheAsBitmap="true"
+					  gutterBottom="0"
+					  gutterLeft="0"
+					  gutterRight="0"
+					  gutterTop="0"
 					  >
 			<mx:backgroundElements>
 				<datashapes:DataDrawingCanvas id="mainDataDrawingCanvas" includeInRanges="true" width="100%" height="100%">
@@ -121,7 +125,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 			<mx:annotationElements>
 				<!-- Skin part to receive mouse events for scrolling the main chart -->
-				<mx:Canvas id="mainChartArea" width="100%" height="100%" buttonMode="true" mouseEnabled="true"
+				<mx:Canvas id="mainChartArea"
+						   width="{mainChart.width}" height="{mainChart.height}"
+						   buttonMode="true" mouseEnabled="true"
 						   />
 
 				<mx:Canvas id="annotationCanvas" width="100%" height="100%"
@@ -156,6 +162,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 					  x="0" y="0"
 					  width="{mainChartContainer.width}" height="{mainChartContainer.height}"
 					  gutterBottom="0"
+					  gutterLeft="0"
+					  gutterRight="0"
+					  gutterTop="0"
 					  styleName="mainChartStyle"
 					  seriesFilters="[]"
 					  verticalAxisStyleNames="mainChartVerticalAxisStyle"
@@ -232,7 +241,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 		private const VOLUME_CHART_HEIGHT:Number = 50;
 		private const RANGE_CHART_HEIGHT:Number = 80;
 		private const RANGE_CHART_OVERLAP:Number = 1;
-		private const SLIDER_SCROLL_BUTTON_WIDTH:Number = 16;
+		private const SLIDER_SCROLL_BUTTON_WIDTH:Number = 0;
 		private const FOOTER_HEIGHT:Number = 65;
 		private const PADDING_BOTTOM:Number = 15;
 		private const GROUP_BETWEEN_MAIN_RANGE_HEIGHT:Number = 15;

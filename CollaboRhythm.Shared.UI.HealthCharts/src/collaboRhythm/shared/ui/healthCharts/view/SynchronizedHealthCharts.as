@@ -57,6 +57,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import mx.collections.Sort;
 	import mx.collections.SortField;
 	import mx.core.ClassFactory;
+	import mx.core.FlexGlobals;
 	import mx.core.IVisualElement;
 	import mx.core.UIComponent;
 	import mx.effects.Sequence;
@@ -68,11 +69,13 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 	import mx.managers.IFocusManagerComponent;
+	import mx.styles.CSSStyleDeclaration;
 
 	import qs.charts.dataShapes.DataDrawingCanvas;
 	import qs.charts.dataShapes.Edge;
 
 	import spark.components.Button;
+	import spark.components.CalloutButton;
 	import spark.components.Group;
 	import spark.components.HGroup;
 	import spark.components.Label;
@@ -84,9 +87,15 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import spark.effects.animation.SimpleMotionPath;
 	import spark.effects.easing.Linear;
 	import spark.events.SkinPartEvent;
+	import spark.layouts.HorizontalAlign;
 	import spark.layouts.VerticalAlign;
+	import spark.layouts.VerticalLayout;
+	import spark.primitives.BitmapImage;
 	import spark.primitives.Rect;
 	import spark.skins.mobile.ButtonSkin;
+	import spark.skins.mobile.CalloutSkin;
+	import spark.skins.mobile.TransparentActionButtonSkin;
+	import spark.skins.mobile.TransparentNavigationButtonSkin;
 
 	public class SynchronizedHealthCharts extends VGroup implements IFocusManagerComponent
 	{
@@ -97,6 +106,10 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private static const STRIP_CHART_DAY_COLOR:int = 0xD6D6D6;
 		private static const STRIP_CHART_NIGHT_COLOR:int = 0xBFBEBE;
+
+		private static const HORIZONTAL_AXIS_CHART_KEY:String = "horizontalAxisChart";
+
+		private static const SPARK_COMPONENTS_CALLOUT_SELECTOR:String = "spark.components.Callout";
 
 		private var _textFormat:TextFormat = new TextFormat("Myriad Pro, Verdana, Helvetica, Arial", 16, 0, true);
 
@@ -153,6 +166,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private var _rangeButtonTargetChart:TouchScrollingScrubChart;
 		private var _stripChartDataCollections:OrderedMap = new OrderedMap();
 		private var _adherenceGroups:OrderedMap = new OrderedMap();
+		private var _showAllChartsButton:Button;
+		private var _appliedCalloutSkinFix:Boolean;
 
 		public function SynchronizedHealthCharts():void
 		{
@@ -161,10 +176,11 @@ package collaboRhythm.shared.ui.healthCharts.view
 			percentWidth = 100;
 			gap = 10;
 			paddingLeft = 10;
-			paddingRight = 0;
+			paddingRight = 10;
 			paddingTop = 10;
 			paddingBottom = 8;
 			clipAndEnableScrolling = true;
+			setStyle("fontSize", 20);
 
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_medicationColorSource = WorkstationKernel.instance.resolve(IMedicationColorSource) as IMedicationColorSource;
@@ -172,17 +188,26 @@ package collaboRhythm.shared.ui.healthCharts.view
 			showFocusTimeMarker = !skipUpdateSimulation;
 
 			this.addEventListener(FlexEvent.CREATION_COMPLETE, creationCompleteHandler, false, 0, true);
+			this.addEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler, false, 0, true);
 		}
 		
-		public function createRangeButtons(view:View):void
+		public function createActionButtons(view:View):void
 		{
 			if (view && view.actionContent)
 			{
 				var rangeTodayButton:Button = new Button();
 				rangeTodayButton.label = "Today";
 				rangeTodayButton.addEventListener(MouseEvent.CLICK, rangeTodayButton_clickHandler, false, 0, true);
-				rangeTodayButton.setStyle("skinClass", ButtonSkin);
+				rangeTodayButton.setStyle("skinClass", TransparentActionButtonSkin);
 				view.actionContent.unshift(rangeTodayButton);
+
+				_showAllChartsButton = new Button();
+				_showAllChartsButton.label = "Show All Charts";
+				_showAllChartsButton.addEventListener(MouseEvent.CLICK, showAllChartsButton_clickHandler);
+				_showAllChartsButton.setStyle("skinClass", TransparentActionButtonSkin);
+				_showAllChartsButton.visible = false;
+				_showAllChartsButton.setStyle("skinClass", TransparentActionButtonSkin);
+				view.actionContent.unshift(_showAllChartsButton);
 			}
 		}
 
@@ -342,20 +367,9 @@ package collaboRhythm.shared.ui.healthCharts.view
 			return dataCollection;
 		}
 
-		private function createFooter():void
-		{
-			if (modality == Settings.MODALITY_WORKSTATION)
-			{
-				_footer = new ChartFooter();
-				_footer.paddingLeft = 100 + 16;
-				_footer.paddingRight = 16;
-				this.addElement(_footer);
-			}
-		}
-
 		private function createHorizontalAxisChart():void
 		{
-			var chart:TouchScrollingScrubChart = createAdherenceChart("horizontalAxisChart", null, false);
+			var chart:TouchScrollingScrubChart = createAdherenceChart(HORIZONTAL_AXIS_CHART_KEY, null, false);
 			chart.setStyle("skinClass", ScrubChartHorizontalAxisSkin);
 			chart.setStyle("footerVisible", false);
 			chart.height = 35;
@@ -642,6 +656,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 											 resultChart:TouchScrollingScrubChart,
 											 adherenceStripChart:TouchScrollingScrubChart):HGroup
 		{
+			var adherenceGroup:HGroup = new HGroup();
+
 			if (!image)
 			{
 				image = new Rect();
@@ -656,11 +672,49 @@ package collaboRhythm.shared.ui.healthCharts.view
 				adherenceChartsGroup.addElement(adherenceStripChart);
 			adherenceChartsGroup.percentWidth = 100;
 			adherenceChartsGroup.percentHeight = 100;
+			fixCalloutSkin();
+			var adherenceLeftContentGroup:Group = new Group();
 			
-			var adherenceGroup:HGroup = new HGroup();
+			var calloutButton:CalloutButton = new CalloutButton();
+
+			var hideChartButton:Button = new Button();
+			hideChartButton.label = "Hide";
+			hideChartButton.addEventListener(MouseEvent.CLICK, hideChartButton_clickHandler, false, 0, true);
+			initializeChartButton(hideChartButton, chartDescriptor, calloutButton);
+
+			var singleChartButton:Button = new Button();
+			singleChartButton.label = "Just This Chart";
+			singleChartButton.addEventListener(MouseEvent.CLICK, singleChartButton_clickHandler, false, 0, true);
+			initializeChartButton(singleChartButton, chartDescriptor, calloutButton);
+
+			var verticalLayout:VerticalLayout = new VerticalLayout();
+			verticalLayout.paddingBottom = verticalLayout.paddingTop = verticalLayout.paddingLeft = verticalLayout.paddingRight = 10;
+			verticalLayout.horizontalAlign = HorizontalAlign.CENTER;
+			calloutButton.calloutLayout = verticalLayout;
+			calloutButton.calloutContent = new Array(hideChartButton, singleChartButton);
+			adherenceLeftContentGroup.width = calloutButton.width = 100;
+			adherenceLeftContentGroup.maxHeight = calloutButton.maxHeight = 100;
+			if (chartDescriptor.descriptorKey == HORIZONTAL_AXIS_CHART_KEY)
+			{
+/*
+				// For debugging, it may be helpfull to allow the horizontal axis to be hidden
+				calloutButton.setStyle("skinClass", ButtonSkin);
+				calloutButton.label = "Axis";
+				calloutButton.visible = false;
+				adherenceLeftContentGroup.addEventListener(MouseEvent.MOUSE_OVER, calloutButton_mouseOverHandler, false, 0, true);
+				adherenceLeftContentGroup.addEventListener(MouseEvent.MOUSE_OUT, calloutButton_mouseOutHandler, false, 0, true);
+*/
+			}
+			else
+			{
+				calloutButton.setStyle("skinClass", ChartButtonSkin);
+				calloutButton.setStyle("icon", image);
+				adherenceLeftContentGroup.addElement(calloutButton);
+			}
+
 			adherenceGroup.gap = 0;
 
-			adherenceGroup.addElement(image);
+			adherenceGroup.addElement(adherenceLeftContentGroup);
 			adherenceGroup.addElement(adherenceChartsGroup);
 			adherenceGroup.percentWidth = 100;
 			adherenceGroup.percentHeight = 100;
@@ -669,6 +723,57 @@ package collaboRhythm.shared.ui.healthCharts.view
 			_adherenceGroups.addKeyValue(chartDescriptor.descriptorKey, adherenceGroup);
 			this.addElement(adherenceGroup);
 			return adherenceGroup;
+		}
+
+		private function fixCalloutSkin():void
+		{
+			if (!FlexGlobals.topLevelApplication.styleManager.
+					getStyleDeclaration(SPARK_COMPONENTS_CALLOUT_SELECTOR))
+			{
+				var styleDeclaration:CSSStyleDeclaration = new CSSStyleDeclaration();
+				styleDeclaration.defaultFactory = function ():void
+				{
+					this.skinClass = CalloutSkin;
+				};
+
+				FlexGlobals.topLevelApplication.styleManager.
+						setStyleDeclaration(SPARK_COMPONENTS_CALLOUT_SELECTOR, styleDeclaration, true);
+				_appliedCalloutSkinFix = true;
+			}
+		}
+
+		private function initializeChartButton(hideChartButton:Button, chartDescriptor:IChartDescriptor,
+											   calloutButton:CalloutButton):void
+		{
+			hideChartButton.setStyle("descriptorKey", chartDescriptor.descriptorKey);
+			hideChartButton.setStyle("calloutButton", calloutButton);
+			hideChartButton.percentWidth = 100;
+			hideChartButton.setStyle("fontSize", 20);
+		}
+
+		private function createFooter():void
+		{
+			if (modality == Settings.MODALITY_WORKSTATION)
+			{
+				_showAllChartsButton = new Button();
+				_showAllChartsButton.label = "Show All";
+				_showAllChartsButton.addEventListener(MouseEvent.CLICK, showAllChartsButton_clickHandler);
+				_showAllChartsButton.width = 100;
+				_showAllChartsButton.setStyle("skinClass", ButtonSkin);
+				_showAllChartsButton.visible = false;
+
+				_footer = new ChartFooter();
+				_footer.paddingLeft = 16;
+				_footer.paddingRight = 16;
+
+				var footerGroup:HGroup = new HGroup();
+				footerGroup.percentWidth = 100;
+				footerGroup.gap = 0;
+				footerGroup.addElement(_showAllChartsButton);
+				footerGroup.addElement(_footer);
+
+				this.addElement(footerGroup);
+			}
 		}
 
 		protected function addCustomChartGroup(group:UIComponent):void
@@ -1700,7 +1805,12 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 			_scrollTargetChart = null;
 			updateChartsCache(targetChart);
+			updateChartsVisibility(targetChart);
+		}
 
+		private function updateChartsVisibility(targetChart:TouchScrollingScrubChart):void
+		{
+			var someChartsHidden:Boolean = false;
 			var allCharts:Vector.<TouchScrollingScrubChart> = getAllCharts();
 
 			for each (var chart:TouchScrollingScrubChart in allCharts)
@@ -1708,8 +1818,10 @@ package collaboRhythm.shared.ui.healthCharts.view
 				var visible:Boolean = _visibleCharts.indexOf(chart) != -1;
 				chart.visible = visible;
 				chart.includeInLayout = visible;
+				if (!visible)
+					someChartsHidden = true;
 			}
-			
+
 			for each (var adherenceGroup:Group in _adherenceGroups.values())
 			{
 				var groupVisible:Boolean = false;
@@ -1743,6 +1855,11 @@ package collaboRhythm.shared.ui.healthCharts.view
 			{
 				_footer.chart = _rangeButtonTargetChart;
 			}
+
+			if (_showAllChartsButton)
+			{
+				_showAllChartsButton.visible = someChartsHidden;
+			}
 		}
 
 		private function getChartsInGroup(adherenceGroup:Group):Vector.<TouchScrollingScrubChart>
@@ -1766,17 +1883,6 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		protected function getAllCharts():Vector.<TouchScrollingScrubChart>
 		{
-//			var allCharts:Vector.<TouchScrollingScrubChart> = new Vector.<TouchScrollingScrubChart>();
-//			for each (var chart:TouchScrollingScrubChart in _adherenceCharts.values())
-//			{
-//				allCharts.push(chart);
-//			}
-//			if (bloodPressureChart)
-//			{
-//				allCharts.push(bloodPressureChart);
-//			}
-//			return allCharts;
-//			return _charts;
 			var allCharts:Vector.<TouchScrollingScrubChart> = new Vector.<TouchScrollingScrubChart>();
 			for each (var chart:TouchScrollingScrubChart in _adherenceCharts.values())
 			{
@@ -1830,7 +1936,6 @@ package collaboRhythm.shared.ui.healthCharts.view
 		protected function chart_scrollHandler(event:ScrollEvent):void
 		{
 			var targetChart:TouchScrollingScrubChart = TouchScrollingScrubChart(event.currentTarget);
-			updateChartsCache(targetChart);
 
 			if (!_singleChartMode)
 			{
@@ -1840,11 +1945,11 @@ package collaboRhythm.shared.ui.healthCharts.view
 			queueUpdateSimulation(targetChart);
 		}
 
-		protected function synchronizeScrollPositions(targetChart:TouchScrollingScrubChart, otherCharts:Vector.<TouchScrollingScrubChart>):void
+		protected function synchronizeScrollPositions(targetChart:TouchScrollingScrubChart, otherCharts:Vector.<TouchScrollingScrubChart>, visibleOnly:Boolean = true):void
 		{
 			for each (var otherChart:TouchScrollingScrubChart in otherCharts)
 			{
-				if (otherChart.visible)
+				if (otherChart.visible || !visibleOnly)
 				{
 					otherChart.synchronizeScrollPosition(targetChart);
 				}
@@ -1857,10 +1962,6 @@ package collaboRhythm.shared.ui.healthCharts.view
 			{
 				if (otherChart.visible)
 				{
-					//						otherChart.stopInertiaScrolling();
-					//						otherChart.leftRangeTime = targetChart.leftRangeTime;
-					//						otherChart.rightRangeTime = targetChart.rightRangeTime;
-					//						otherChart.updateForScroll();
 					otherChart.focusTime = targetChart.focusTime;
 				}
 			}
@@ -1869,6 +1970,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 		protected function chart_scrollStartHandler(event:TouchScrollerEvent):void
 		{
 			var targetChart:TouchScrollingScrubChart = TouchScrollingScrubChart(event.currentTarget);
+			updateChartsCache(targetChart);
 
 			if (_traceEventHandlers)
 				trace(this.id + ".chart_scrollStartHandler " + targetChart.id);
@@ -1889,7 +1991,11 @@ package collaboRhythm.shared.ui.healthCharts.view
 			var charts:Vector.<TouchScrollingScrubChart> = _visibleCharts;
 			for each (var chart:TouchScrollingScrubChart in charts)
 			{
-				chart.resetAfterQuickScroll();
+				// TODO: ensure that _visibleCharts is up-to-date so that this additional check is unnecessary
+				if (chart.visible)
+				{
+					chart.resetAfterQuickScroll();
+				}
 			}
 		}
 
@@ -1945,7 +2051,6 @@ package collaboRhythm.shared.ui.healthCharts.view
 			if (skipUpdateSimulation)
 				return;
 
-//			if (shouldApplyChangesToSimulation)
 			model.focusSimulation.date = new Date(targetChart.focusTime);
 			var dataIndexMessage:String = updateSimulationForCustomCharts();
 			var medicationUpdateDescriptions:Array = new Array();
@@ -2224,6 +2329,125 @@ package collaboRhythm.shared.ui.healthCharts.view
 		public function set viewNavigator(viewNavigator:ViewNavigator):void
 		{
 			_viewNavigator = viewNavigator;
+		}
+
+		private function hideChartButton_clickHandler(event:MouseEvent):void
+		{
+			var descriptorKey:String = handleChartButton(event);
+			if (descriptorKey)
+			{
+				var adherenceGroup:Group = _adherenceGroups.getValueByKey(descriptorKey);
+				if (adherenceGroup)
+				{
+					for each (var chart:TouchScrollingScrubChart in getChartsInGroup(adherenceGroup))
+					{
+						chart.visible = false;
+						chart.includeInLayout = false;
+					}
+					
+					_visibleCharts = new Vector.<TouchScrollingScrubChart>();
+					for each (chart in getAllCharts())
+					{
+						if (chart.visible)
+							_visibleCharts.push(chart);
+					}
+					
+					adherenceGroup.visible = false;
+					adherenceGroup.includeInLayout = false;
+					if (_showAllChartsButton)
+					{
+						_showAllChartsButton.visible = true;
+					}
+				}
+			}
+		}
+
+		private function singleChartButton_clickHandler(event:MouseEvent):void
+		{
+			// hide all charts except for those in the group associated with the button
+
+			var descriptorKey:String = handleChartButton(event);
+			if (descriptorKey)
+			{
+				var adherenceGroup:Group = _adherenceGroups.getValueByKey(descriptorKey);
+				if (adherenceGroup)
+				{
+					var allCharts:Vector.<TouchScrollingScrubChart> = getAllCharts();
+
+					_visibleCharts = getChartsInGroup(adherenceGroup);
+					var horizontalAxisChart:TouchScrollingScrubChart = _adherenceCharts.getValueByKey(HORIZONTAL_AXIS_CHART_KEY);
+					if (horizontalAxisChart)
+					{
+						_visibleCharts.push(horizontalAxisChart);
+					}
+
+					for each (var chart:TouchScrollingScrubChart in allCharts)
+					{
+						var visible:Boolean = _visibleCharts.indexOf(chart) != -1;
+						chart.visible = visible;
+						chart.includeInLayout = visible;
+					}
+
+					updateChartsVisibility(null);
+				}
+			}
+		}
+
+		private function handleChartButton(event:MouseEvent):String
+		{
+			var button:Button = event.target as Button;
+			var calloutButton:CalloutButton = button.getStyle("calloutButton");
+
+			if (calloutButton)
+				calloutButton.closeDropDown();
+
+			var descriptorKey:String = button.getStyle("descriptorKey");
+			return descriptorKey;
+		}
+
+		private function showAllChartsButton_clickHandler(event:MouseEvent):void
+		{
+			var firstVisibleChart:TouchScrollingScrubChart = (_visibleCharts && _visibleCharts.length > 0) ? _visibleCharts[0] : null;
+			synchronizeScrollPositions(firstVisibleChart, getAllCharts(), false);
+			setSingleChartMode(null, false);
+		}
+
+		private function calloutButton_mouseOverHandler(event:MouseEvent):void
+		{
+			var calloutButton:CalloutButton = getCalloutButton(event);
+			if (calloutButton)
+			{
+				calloutButton.visible = true;
+			}
+		}
+
+		private function getCalloutButton(event:MouseEvent):CalloutButton
+		{
+			var adherenceLeftContentGroup:Group = event.currentTarget as Group;
+			if (adherenceLeftContentGroup)
+			{
+				var calloutButton:CalloutButton = adherenceLeftContentGroup.getElementAt(0) as CalloutButton;
+				return calloutButton;
+			}
+			return null;
+		}
+
+		private function calloutButton_mouseOutHandler(event:MouseEvent):void
+		{
+			var calloutButton:CalloutButton = getCalloutButton(event);
+			if (calloutButton)
+			{
+				calloutButton.visible = false;
+			}
+		}
+
+		private function removedFromStageHandler(event:Event):void
+		{
+			if (_appliedCalloutSkinFix && FlexGlobals.topLevelApplication.styleManager.
+								getStyleDeclaration(SPARK_COMPONENTS_CALLOUT_SELECTOR))
+			{
+				FlexGlobals.topLevelApplication.styleManager.clearStyleDeclaration(SPARK_COMPONENTS_CALLOUT_SELECTOR, false);
+			}
 		}
 	}
 }

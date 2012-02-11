@@ -20,7 +20,7 @@
 			 width="100%"
 			 gap="10" horizontalAlign="left"
 			 verticalAlign="middle"
-			 fontSize="20">
+			 >
 		<s:Button id="rangeOneDayButton" styleName="rangeButton" fontWeight="normal" label="1 day"
 					   width="{FOOTER_BUTTON_WIDTH}" click="rangeOneDayButton_clickHandler(event)"
 					   />

@@ -612,7 +612,7 @@ package collaboRhythm.view.scroll
 			_shouldStopMouseAndTouchEventPropagation = true;
 			_shouldStopClickEventPropagation = true;
 			this.dispatchEvent(new TouchScrollerEvent(TouchScrollerEvent.SCROLL_START, _adapter.component));
-			event.target.dispatchEvent(new TouchScrollerEvent(TouchScrollerEvent.SCROLL_START, _adapter.component, true));
+			_adapter.component.dispatchEvent(new TouchScrollerEvent(TouchScrollerEvent.SCROLL_START, _adapter.component, true));
 		}
 		
 		private function scrollStartHandler(event:TouchScrollerEvent):void
@@ -842,6 +842,7 @@ package collaboRhythm.view.scroll
 			else
 			{
 				this.dispatchEvent(new TouchScrollerEvent(TouchScrollerEvent.SCROLL_STOP, _adapter.component));
+				_adapter.component.dispatchEvent(new TouchScrollerEvent(TouchScrollerEvent.SCROLL_STOP, _adapter.component, true));
 			}
 		}
 		
@@ -883,7 +884,8 @@ package collaboRhythm.view.scroll
 				
 				_adapter.component.removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
 				this.dispatchEvent(new TouchScrollerEvent(TouchScrollerEvent.SCROLL_STOP, _adapter.component));
-				
+				_adapter.component.dispatchEvent(new TouchScrollerEvent(TouchScrollerEvent.SCROLL_STOP, _adapter.component, true));
+
 				_isInertiaScrolling = false;
 			}
 		}
