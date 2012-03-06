@@ -73,7 +73,7 @@ package collaboRhythm.core.controller
 	import mx.logging.LogEventLevel;
 	import mx.logging.targets.TraceTarget;
 
-	public class ApplicationControllerBase implements IApplicationControllerBase
+	public class ApplicationControllerBase implements IApplicationControllerBase, IErrorDetailsProvider
     {
 		private static const ONE_MINUTE:int = 1000 * 60;
 
@@ -1007,7 +1007,7 @@ package collaboRhythm.core.controller
 				else if (_applicationControllerModel && _applicationControllerModel.hasErrors)
 				{
 					connectivityState = ConnectivityView.CONNECT_FAILED_STATE;
-					_connectivityView.detailsMessage = "Connection to health record server failed. You will not be able to access your health record until this is resolved. " + _applicationControllerModel.errorMessage;
+					_connectivityView.detailsMessage = "Connection to health record server " + settings.indivoServerBaseURL + " failed. You will not be able to access your health record until this is resolved. " + _applicationControllerModel.errorMessage;
 				}
 				else if (_collaborationLobbyNetConnectionService && _collaborationLobbyNetConnectionService.isConnecting)
 				{
@@ -1027,17 +1027,17 @@ package collaboRhythm.core.controller
 				else if (_healthRecordServiceFacade && _healthRecordServiceFacade.hasConnectionErrorsSaving)
 				{
 					connectivityState = ConnectivityView.CONNECTION_ERRORS_SAVING_STATE;
-					_connectivityView.detailsMessage = "Connection to health record server failed. " + _healthRecordServiceFacade.errorsSavingSummary;
+					_connectivityView.detailsMessage = "Connection to health record server " + settings.indivoServerBaseURL + " failed. " + _healthRecordServiceFacade.errorsSavingSummary;
 				}
 				else if (_healthRecordServiceFacade && _healthRecordServiceFacade.hasUnexpectedErrorsSaving)
 				{
 					connectivityState = ConnectivityView.UNEXPECTED_ERRORS_SAVING_STATE;
-					_connectivityView.detailsMessage = "Unexpected errors occurred while saving changes to health record server. " + _healthRecordServiceFacade.errorsSavingSummary;
+					_connectivityView.detailsMessage = "Unexpected errors occurred while saving changes to health record server " + settings.indivoServerBaseURL + ". " + _healthRecordServiceFacade.errorsSavingSummary;
 				}
 				else if (_collaborationLobbyNetConnectionService && _collaborationLobbyNetConnectionService.hasConnectionFailed)
 				{
 					connectivityState = ConnectivityView.CONNECT_FAILED_STATE;
-					_connectivityView.detailsMessage = "Connection to collaboration server failed. You will not be able to access video messages or synchronization messages if data is changed from another device.";
+					_connectivityView.detailsMessage = "Connection to collaboration server " + settings.rtmpBaseURI + " failed. You will not be able to access video messages or synchronization messages if data is changed from another device.";
 				}
 
 				if (connectivityState)
@@ -1049,9 +1049,33 @@ package collaboRhythm.core.controller
 
 		protected function initializeConnectivityView():void
 		{
+			_connectivityView.errorDetailsProvider = this;
 			_connectivityView.addEventListener(ConnectivityEvent.IGNORE, connectivityView_ignoreHandler);
 			_connectivityView.addEventListener(ConnectivityEvent.QUIT, connectivityView_quitHandler);
 			_connectivityView.addEventListener(ConnectivityEvent.RETRY, connectivityView_retryHandler);
+		}
+
+		public function getExtendedErrorDetails():String
+		{
+			var parts:Array = new Array();
+			var applicationInfo:AboutApplicationModel = new AboutApplicationModel();
+			applicationInfo.initialize();
+			parts.push("Application: " + applicationInfo.appName);
+			parts.push("  " + applicationInfo.appCopyright);
+			parts.push("  Version " + applicationInfo.appVersion);
+			if (applicationInfo.appModificationDateString)
+			{
+				parts.push("  Updated " + applicationInfo.appModificationDateString);
+			}
+			var settingsSourceClause:String = settingsFileStore.isUserSettingsLoaded ? (" (based on a combination of the default settings and user settings from " +
+					settingsFileStore.userSettingsFile.nativePath + "):") : " (based on the default settings; user settings not loaded):";
+			parts.push("\nSettings" + settingsSourceClause);
+			parts.push(settingsFileStore.encodeToXML());
+			var logFile:File = LogFileReader.getLogFile();
+			var logFilePath:String = logFile ? logFile.nativePath : "";
+			parts.push("\nLog (last part of file \"" + logFilePath + "\"):");
+			parts.push(LogFileReader.getLogFileText());
+			return parts.join("\n");
 		}
 
 		private function connectivityView_retryHandler(event:ConnectivityEvent):void

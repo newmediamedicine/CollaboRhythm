@@ -17,7 +17,7 @@
   -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:view="collaboRhythm.core.view.*"
 		 hideEffect="{hideEffect}"
 		 showEffect="{showEffect}"
 		 height="100%" width="100%">
@@ -65,6 +65,7 @@
 
 	</fx:Style>
 	<fx:Script><![CDATA[
+		import collaboRhythm.core.controller.IErrorDetailsProvider;
 		import collaboRhythm.core.view.ConnectivityEvent;
 
 		public static const CONNECT_IN_PROGRESS_STATE:String = "connectInProgress";
@@ -79,6 +80,7 @@
 		private var _isLoading:Boolean;
 		private var _isSaving:Boolean;
 		private var _detailsMessage:String;
+		private var _errorDetailsProvider:IErrorDetailsProvider;
 
 		private function retryButton_clickHandler():void
 		{
@@ -124,6 +126,31 @@
 		public function set detailsMessage(value:String):void
 		{
 			_detailsMessage = value;
+		}
+
+		private function sendEmail_clickHandler(event:MouseEvent):void
+		{
+			var variables:URLVariables = new URLVariables();
+			variables.subject = "CollaboRhythm Connection Error Report";
+			variables.body = "\n\n---------------------------------------------------------------------------------\n" +
+					"Please add details of what you were doing and why you are sending this error report in the space above above.\n" +
+					"Automatically generated details for this error reported are included below.\n" +
+					"---------------------------------------------------------------------------------\n" +
+					"Error Message:\n" + detailsMessage + "\n\n" + errorDetailsProvider.getExtendedErrorDetails();
+			var defaultEmailTo:String = "";
+			var urlRequest:URLRequest = new URLRequest("mailto:" + encodeURIComponent(defaultEmailTo));
+			urlRequest.data = variables;
+			navigateToURL(urlRequest);
+		}
+
+		public function get errorDetailsProvider():IErrorDetailsProvider
+		{
+			return _errorDetailsProvider;
+		}
+
+		public function set errorDetailsProvider(value:IErrorDetailsProvider):void
+		{
+			_errorDetailsProvider = value;
 		}
 		]]></fx:Script>
 	<s:Rect width="100%" height="100%">
@@ -179,6 +206,11 @@
 								  styleName="connectivityButtonText"
 								  width="180" height="100%"
 								  click="ignoreButton_clickHandler()"/>
+						<s:Button id="sendEmail" label="Send E-mail"
+								  styleName="connectivityButtonText"
+								  minWidth="180" height="100%"
+								  click="sendEmail_clickHandler(event)"
+								  />
 					</s:HGroup>
 				</s:Group>
 				<!--TODO: come up with a simpler way to position this component so that buttonsGroup doesn't take up any space when buttonsGroup is excluded because of the state-->

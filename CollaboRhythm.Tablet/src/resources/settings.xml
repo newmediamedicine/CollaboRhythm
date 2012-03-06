@@ -17,7 +17,7 @@
   -->
 <settings xmlns="http://collaborhythm.org/application/settings">
 	<mode>patient</mode>
-	<indivoServerBaseURL>http://184.106.136.151:8000</indivoServerBaseURL>
+	<indivoServerBaseURL>http://184.106.136.151:80010</indivoServerBaseURL>
 	<username>csantos</username>
 	<password>csantos-dope75</password>
 	<useFileTarget>true</useFileTarget>
