@@ -75,28 +75,28 @@ package collaboRhythm.plugins.cataractMap.controller
 		protected override function createWidgetView():UIComponent
 		{
 			var newWidgetView:CataractMapWidgetView = new CataractMapWidgetView();
-			if (_user != null)
-				newWidgetView.model = _user.getAppData(CataractMapModel.CATARACT_MAP_KEY, CataractMapModel) as CataractMapModel;
+			if (_activeRecordAccount != null)
+				newWidgetView.model = _activeRecordAccount.primaryRecord.getAppData(CataractMapModel.CATARACT_MAP_KEY, CataractMapModel) as CataractMapModel;
 			return newWidgetView;
 		}
 
 		protected override function createFullView():UIComponent
 		{
 			var newFullView:CataractMapFullView = new CataractMapFullView();
-			if (_user != null)
-				newFullView.model = _user.getAppData(CataractMapModel.CATARACT_MAP_KEY, CataractMapModel) as CataractMapModel;
+			if (_activeRecordAccount != null)
+				newFullView.model = _activeRecordAccount.primaryRecord.getAppData(CataractMapModel.CATARACT_MAP_KEY, CataractMapModel) as CataractMapModel;
 			return newFullView;
 		}
 
 		public override function initialize():void
 		{
 			super.initialize();
-			if (_user.appData[CataractMapModel.CATARACT_MAP_KEY] == null)
+			if (_activeRecordAccount.primaryRecord.appData[CataractMapModel.CATARACT_MAP_KEY] == null)
 			{
 				loadCataractMapData();
 			}
 			if (_widgetView)
-				_widgetView.model = _user.getAppData(CataractMapModel.CATARACT_MAP_KEY, CataractMapModel) as CataractMapModel;
+				_widgetView.model = _activeRecordAccount.primaryRecord.getAppData(CataractMapModel.CATARACT_MAP_KEY, CataractMapModel) as CataractMapModel;
 
 			prepareFullView();
 		}
@@ -113,7 +113,7 @@ package collaboRhythm.plugins.cataractMap.controller
 			super.prepareFullView();
 			if (_fullView)
 			{
-				_fullView.model = _user.getAppData(CataractMapModel.CATARACT_MAP_KEY, CataractMapModel) as CataractMapModel;
+				_fullView.model = _activeRecordAccount.primaryRecord.getAppData(CataractMapModel.CATARACT_MAP_KEY, CataractMapModel) as CataractMapModel;
 				_fullView.simulationView.initializeModel(_fullView.model.simulation, _fullView.model);
 			}
 		}
@@ -163,7 +163,7 @@ package collaboRhythm.plugins.cataractMap.controller
 		
 		override protected function removeUserData():void
 		{
-			user.appData[CataractMapModel.CATARACT_MAP_KEY] = null;
+			_activeRecordAccount.primaryRecord.appData[CataractMapModel.CATARACT_MAP_KEY] = null;
 		}
 	}
 }

@@ -16,9 +16,7 @@
  */
 package collaboRhythm.shared.model.healthRecord
 {
-
 	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.User;
 
 	import flash.events.Event;
 
@@ -53,14 +51,13 @@ package collaboRhythm.shared.model.healthRecord
 		 */
         public static const ERROR:String = "error";
 
-        private var _user:User;
         private var _account:Account;
         private var _healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails;
         private var _responseXml:XML;
         private var _errorStatus:String;
 		private var _indivoClientEvent:IndivoClientEvent;
 
-        public function HealthRecordServiceEvent(type:String, indivoClientEvent:IndivoClientEvent, user:User = null,
+        public function HealthRecordServiceEvent(type:String, indivoClientEvent:IndivoClientEvent,
 												 account:Account = null,
 												 healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = null,
 												 responseXml:XML = null, errorStatus:String = null,
@@ -68,26 +65,10 @@ package collaboRhythm.shared.model.healthRecord
         {
             super(type, bubbles, cancelable);
             _indivoClientEvent = indivoClientEvent;
-			_user = user;
             _account = account;
             _healthRecordServiceRequestDetails = healthRecordServiceRequestDetails;
             _responseXml = responseXml;
             _errorStatus = errorStatus;
-        }
-
-        /**
-         * The user associated with the event, if applicable. (Optional)
-         * @return the User object, or null if not applicable
-         *
-         */
-        public function get user():User
-        {
-            return _user;
-        }
-
-        public function set user(value:User):void
-        {
-            _user = value;
         }
 
         /**

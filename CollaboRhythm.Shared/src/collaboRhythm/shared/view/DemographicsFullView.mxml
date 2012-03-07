@@ -32,65 +32,43 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.shared.model.User;
-			
-			import mx.collections.XMLListCollection;
-			import mx.events.PropertyChangeEvent;
+		import mx.events.PropertyChangeEvent;
 
-			private static const SEPARATOR_COLOR:String = "0xA7A9AC";
+		private static const SEPARATOR_COLOR:String = "0xA7A9AC";
 
-			[Bindable]
-			private var _user:User;
-			
-			public function set user(value:User):void
-			{
-				_user = value;
-				
-				if(_user != null)
-				{
-					setDataProviders();
-					_user.contact.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, contact_handlePropertyChange);
-				}
-			}   
-			
-			public function get user():User
-			{
-				return _user
-			}
-			
-			private function contact_handlePropertyChange(event:PropertyChangeEvent):void
-			{
-				if (event.property == "rawData")
-					setDataProviders();
-			}
-			
-			public function setDataProviders():void
-			{
-				// but DataGroup requires the dataProvider
-				// to be an IList so we wrap the XMLList in an XMLListCollection
+		private function contact_handlePropertyChange(event:PropertyChangeEvent):void
+		{
+			if (event.property == "rawData")
+				setDataProviders();
+		}
+
+		public function setDataProviders():void
+		{
+			// but DataGroup requires the dataProvider
+			// to be an IList so we wrap the XMLList in an XMLListCollection
 //				if (_user.contact.rawData != null)
 //				{
 //					addressesDataGroup.dataProvider = new XMLListCollection(_user.contact.rawData.address);
 //					phoneNumbersDataGroup.dataProvider = new XMLListCollection(_user.contact.rawData.phoneNumber);
 //					emailsDataGroup.dataProvider = new XMLListCollection(_user.contact.rawData.email);
 //				}
-			}
-			
-			public static function booleanToYesNo(value:Boolean):String
-			{
-				if (value)
-					return "Yes";
-				else
-					return "No";
-			}
-			
-			public static function fixCapitalization(value:String):String
-			{
-				var firstChar:String = value.substr(0, 1); 
-				var restOfString:String = value.substr(1, value.length); 
-				
-				return firstChar.toUpperCase() + restOfString.toLowerCase();
-			}
+		}
+
+		public static function booleanToYesNo(value:Boolean):String
+		{
+			if (value)
+				return "Yes";
+			else
+				return "No";
+		}
+
+		public static function fixCapitalization(value:String):String
+		{
+			var firstChar:String = value.substr(0, 1);
+			var restOfString:String = value.substr(1, value.length);
+
+			return firstChar.toUpperCase() + restOfString.toLowerCase();
+		}
 		]]>
 	</fx:Script>
 
@@ -120,7 +98,7 @@
 			<s:layout>
 				<s:VerticalLayout paddingBottom="5" paddingLeft="5" paddingRight="5" paddingTop="5"/>
 			</s:layout>
-			<s:Label text="{_user.contact.givenName} {_user.contact.familyName}" fontSize="32" fontWeight="bold"/>
+			<!--<s:Label text="{_user.contact.givenName} {_user.contact.familyName}" fontSize="32" fontWeight="bold"/>-->
 <!--			<s:RichText>
 				<s:textFlow>	
 					<s:TextFlow>
@@ -145,7 +123,7 @@
 											angle="90" color="0x000000" />
 					</s:filters>
 					<!--TODO: use the Account.imageURI here-->
-					<mx:Image source="{_user.contact.imageURI}" width="300" height="300" smoothBitmapContent="true"/>
+					<!--<mx:Image source="{_user.contact.imageURI}" width="300" height="300" smoothBitmapContent="true"/>-->
 				</s:BorderContainer>
 
 				<s:VGroup id="demographicsFullViewGroup">

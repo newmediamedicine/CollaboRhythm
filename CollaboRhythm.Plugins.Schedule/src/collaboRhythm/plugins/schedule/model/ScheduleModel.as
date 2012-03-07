@@ -92,12 +92,19 @@ package collaboRhythm.plugins.schedule.model
 
 		private function init(isStitched:Boolean):void
 		{
-			for each (var documentCollection:DocumentCollectionBase in _documentCollectionDependenciesArray)
+			if (isStitched)
 			{
-				if (!documentCollection.isStitched)
+				for each (var documentCollection:DocumentCollectionBase in _documentCollectionDependenciesArray)
 				{
-					return;
+					if (!documentCollection.isStitched)
+					{
+						return;
+					}
 				}
+			}
+			else
+			{
+				return;
 			}
 			updateScheduleModelForToday();
 			isInitialized = true;
@@ -335,6 +342,43 @@ package collaboRhythm.plugins.schedule.model
 		public function get healthActionInputControllerFactory():MasterHealthActionInputControllerFactory
 		{
 			return _healthActionInputControllerFactory;
+		}
+
+		public function findClosestScheduleItemOccurrence(name:String):ScheduleItemOccurrence
+		{
+			var closestScheduleItemOccurrence:ScheduleItemOccurrence;
+			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrencesHashMap)
+			{
+				if (scheduleItemOccurrence.scheduleItem.name.text == name)
+				{
+					if (_currentDateSource.now() > scheduleItemOccurrence.dateStart &&
+							_currentDateSource.now() < scheduleItemOccurrence.dateEnd)
+					{
+						closestScheduleItemOccurrence = scheduleItemOccurrence;
+						break;
+					}
+					else
+					{
+						if (closestScheduleItemOccurrence)
+						{
+							if ((_currentDateSource.now().time - scheduleItemOccurrence.dateEnd.time <
+									_currentDateSource.now().time - closestScheduleItemOccurrence.dateEnd.time)
+									||
+									(scheduleItemOccurrence.dateStart.time - _currentDateSource.now().time <
+											closestScheduleItemOccurrence.dateStart.time -
+													_currentDateSource.now().time))
+							{
+								closestScheduleItemOccurrence = scheduleItemOccurrence;
+							}
+						}
+						else
+						{
+							closestScheduleItemOccurrence = scheduleItemOccurrence;
+						}
+					}
+				}
+			}
+			return closestScheduleItemOccurrence;
 		}
 
 	}

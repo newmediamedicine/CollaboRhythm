@@ -17,32 +17,34 @@
 package collaboRhythm.tablet.controller
 {
 
-    import collaboRhythm.core.controller.ApplicationControllerBase;
-    import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
-    import collaboRhythm.shared.controller.apps.AppControllerBase;
-    import collaboRhythm.shared.model.Account;
-    import collaboRhythm.shared.model.settings.Settings;
-    import collaboRhythm.tablet.view.ActiveRecordView;
-    import collaboRhythm.tablet.view.TabletFullViewContainer;
-    import collaboRhythm.shared.view.tablet.TabletViewBase;
-    import collaboRhythm.tablet.view.TabletWidgetViewContainer;
+	import collaboRhythm.core.controller.ApplicationControllerBase;
+	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
+	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.settings.Settings;
+	import collaboRhythm.tablet.view.ActiveRecordView;
+	import collaboRhythm.tablet.view.SelectRecordView;
+	import collaboRhythm.tablet.view.TabletFullViewContainer;
+	import collaboRhythm.shared.view.tablet.TabletViewBase;
+	import collaboRhythm.tablet.view.TabletHomeView;
 
-    import flash.events.Event;
+	import flash.events.Event;
 
-    import mx.core.IVisualElementContainer;
-    import mx.events.FlexEvent;
+	import mx.core.IVisualElementContainer;
+	import mx.events.FlexEvent;
 
-    import spark.components.ViewNavigator;
-    import spark.transitions.SlideViewTransition;
+	import spark.components.ViewNavigator;
+	import spark.transitions.SlideViewTransition;
 
-    public class TabletApplicationController extends ApplicationControllerBase
-    {
+	public class TabletApplicationController extends ApplicationControllerBase
+	{
 		private var _tabletApplication:CollaboRhythmTabletApplication;
 		private var _tabletAppControllersMediator:TabletAppControllersMediator;
 		private var _fullContainer:IVisualElementContainer;
 
 		[Embed("/resources/settings.xml", mimeType="application/octet-stream")]
 		private var _applicationSettingsEmbeddedFile:Class;
+		private var _openingRecordAccount:Boolean = false;
 
 		public function TabletApplicationController(collaboRhythmTabletApplication:CollaboRhythmTabletApplication)
 		{
@@ -52,28 +54,38 @@ package collaboRhythm.tablet.controller
 			initializeConnectivityView();
 		}
 
-        override public function main():void
-        {
-            super.main();
-
-            _settings.modality = Settings.MODALITY_TABLET;
-
-            initCollaborationController();
-
-            _tabletApplication.navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
-            _tabletApplication.navigator.addEventListener("viewChangeComplete",
-                    viewNavigator_transitionCompleteHandler);
-            _tabletApplication.navigator.addEventListener(Event.ADDED, viewNavigator_addedHandler);
-
-            initializeActiveView();
-
-            createSession();
-        }
-
-        private function viewNavigator_transitionCompleteHandler(event:Event):void
+		override public function main():void
 		{
-			if (!(_tabletApplication.navigator.activeView is TabletWidgetViewContainer))
+			super.main();
+
+			_settings.modality = Settings.MODALITY_TABLET;
+
+			initCollaborationController();
+
+			_tabletApplication.navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
+			_tabletApplication.navigator.addEventListener("viewChangeComplete",
+					viewNavigator_transitionCompleteHandler);
+			_tabletApplication.navigator.addEventListener(Event.ADDED, viewNavigator_addedHandler);
+
+			initializeActiveView();
+
+			createSession();
+		}
+
+		private function viewNavigator_transitionCompleteHandler(event:Event):void
+		{
+			if (tabletHomeView)
+			{
+				if (_openingRecordAccount)
+				{
+					showWidgets(_activeRecordAccount);
+					_openingRecordAccount = false;
+				}
+			}
+			else if (_tabletAppControllersMediator)
+			{
 				_tabletAppControllersMediator.destroyWidgetViews();
+			}
 
 			if (_reloadWithFullView)
 			{
@@ -94,6 +106,7 @@ package collaboRhythm.tablet.controller
 		private function initializeView(view:TabletViewBase):void
 		{
 			view.tabletApplicationController = this;
+			view.activeAccount = _activeAccount;
 			view.activeRecordAccount = _activeRecordAccount;
 		}
 
@@ -106,46 +119,55 @@ package collaboRhythm.tablet.controller
 			}
 		}
 
+		override protected function showSelectRecordView():void
+		{
+			_tabletApplication.navigator.pushView(SelectRecordView);
+		}
+
 		public override function openRecordAccount(recordAccount:Account):void
 		{
 			super.openRecordAccount(recordAccount);
-			initializeActiveView();
-			if (activeRecordView)
-            {
-                activeRecordView.init(this, recordAccount);
-                activeRecordView.visible = true;
-            }
-			else if (_reloadWithFullView)
+			if (tabletHomeView)
 			{
-				openRecordAndShowWidgets(recordAccount);
-				if (navigator)
-				{
-					navigator.popToFirstView();
-				}
+				initializeActiveView();
+				tabletHomeView.init();
+				showWidgets(recordAccount);
+			}
+			else
+			{
+				_openingRecordAccount = true;
+				navigator.popToFirstView();
 			}
 		}
 
-		private function get activeRecordView():ActiveRecordView
+		override protected function showCollaborationInvitationReceivedMessage():void
 		{
-			return _tabletApplication.activeRecordView;
+			var tabletViewBase:TabletViewBase = _tabletApplication.navigator.activeView as TabletViewBase;
+			if (tabletViewBase)
+				tabletViewBase.showCollaborationInvitationReceivedMessage();
+		}
+
+		private function get tabletHomeView():TabletHomeView
+		{
+			return _tabletApplication.tabletHomeView;
+		}
+
+		private function get selectRecordView():SelectRecordView
+		{
+			return _tabletApplication.selectRecordView;
 		}
 
 		// the apps are not actually loaded immediately when a record is opened
 		// only after the active record view has been made visible are they loaded, this makes the UI more responsive
-		public function openRecordAndShowWidgets(recordAccount:Account):void
+		public function showWidgets(recordAccount:Account):void
 		{
-			loadDocuments(recordAccount);
 			if (_tabletAppControllersMediator == null)
 			{
-				_tabletAppControllersMediator = new TabletAppControllersMediator(activeRecordView.widgetContainers,
+				_tabletAppControllersMediator = new TabletAppControllersMediator(tabletHomeView.widgetContainers,
 						_fullContainer, _settings,
 						_componentContainer,
 						_collaborationController.collaborationModel.collaborationLobbyNetConnectionService,
 						this);
-			}
-			else if (activeRecordView)
-			{
-				_tabletAppControllersMediator.widgetContainers = activeRecordView.widgetContainers;
 			}
 			_tabletAppControllersMediator.createAndStartApps(_activeAccount, recordAccount);
 		}
@@ -178,22 +200,23 @@ package collaboRhythm.tablet.controller
 			if (recordAccount)
 				recordAccount.primaryRecord.clearDocuments();
 			_activeRecordAccount = null;
-			if (activeRecordView)
-                activeRecordView.visible = false;
+			if (tabletHomeView)
+				tabletHomeView.visible = false;
 		}
 
-        protected override function changeDemoDate():void
+		protected override function changeDemoDate():void
 		{
 			reloadData();
 
-			if (_activeRecordAccount && _activeRecordAccount.primaryRecord && _activeRecordAccount.primaryRecord.demographics)
+			if (_activeRecordAccount && _activeRecordAccount.primaryRecord &&
+					_activeRecordAccount.primaryRecord.demographics)
 				_activeRecordAccount.primaryRecord.demographics.dispatchAgeChangeEvent();
 		}
 
 		protected override function restoreFocus():void
 		{
-			if (activeRecordView)
-				activeRecordView.setFocus();
+			if (tabletHomeView)
+				tabletHomeView.setFocus();
 		}
 
 		public function pushFullView(appController:AppControllerBase):void
@@ -201,7 +224,8 @@ package collaboRhythm.tablet.controller
 			if (appController.fullView)
 			{
 				backgroundProcessModel.updateProcess("fullViewUpdate", "Updating...", true);
-				appController.fullView.addEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler, false, 0, true);
+				appController.fullView.addEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler,
+						false, 0, true);
 			}
 			_tabletApplication.navigator.pushView(TabletFullViewContainer, appController, new SlideViewTransition());
 		}
@@ -214,14 +238,23 @@ package collaboRhythm.tablet.controller
 
 		public function useWidgetContainers():void
 		{
-			_tabletAppControllersMediator.widgetContainers = activeRecordView.widgetContainers;
-			_tabletAppControllersMediator.showWidgetsInNewContainers();
-			activeRecordView.visible = true;
+			if (_tabletAppControllersMediator)
+			{
+				_tabletAppControllersMediator.widgetContainers = tabletHomeView.widgetContainers;
+				_tabletAppControllersMediator.showWidgetsInNewContainers();
+			}
 		}
 
 		public function get navigator():ViewNavigator
 		{
 			return _tabletApplication ? _tabletApplication.navigator : null;
 		}
+
+		public function get tabletAppControllersMediator():TabletAppControllersMediator
+		{
+			return _tabletAppControllersMediator;
+		}
+
+
 	}
 }

@@ -265,9 +265,6 @@ package collaboRhythm.workstation.controller
 			_activeRecordView = new ActiveRecordView();
 			_activeRecordView.init(this, recordAccount);
 			_primaryWindowView.mainGroup.addElement(_activeRecordView);
-
-			// TODO: Rework document retrieval
-			loadDocuments(recordAccount);
 		}
 
 		// the apps are not actually loaded immediately when a record is opened

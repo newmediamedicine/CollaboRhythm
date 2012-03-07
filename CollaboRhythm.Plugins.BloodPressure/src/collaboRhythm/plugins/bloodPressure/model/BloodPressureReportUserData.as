@@ -17,8 +17,7 @@
 package collaboRhythm.plugins.bloodPressure.model
 {
 
-    import collaboRhythm.shared.model.Account;
-    import collaboRhythm.shared.model.User;
+	import collaboRhythm.shared.model.Account;
 
 	/**
 	 * Data used by the response handler in the health record service when a blood pressure report is returned.
@@ -26,20 +25,13 @@ package collaboRhythm.plugins.bloodPressure.model
 	public class BloodPressureReportUserData
 	{
         private var _account:Account;
-		private var _user:User;
 		private var _report:String;
 		private var _category:String;
 		public function BloodPressureReportUserData(account:Account, report:String, category:String=null)
 		{
             _account = account;
-			_user = user;
 			_report = report;
 			_category = category;
-		}
-
-		public function get user():User
-		{
-			return _user;
 		}
 
 		public function get category():String

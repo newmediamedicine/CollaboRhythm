@@ -54,6 +54,7 @@ package collaboRhythm.plugins.schedule.controller
 		private var _fullView:IScheduleFullView;
 
 		private var _isInvokeEventListenerAdded:Boolean;
+		//TODO: Determine if the handled invoke events still need to be tracked
 		private var _handledInvokeEvents:Vector.<String> = new Vector.<String>();
 
 		public function ScheduleAppController(constructorParams:AppControllerConstructorParams)
@@ -166,39 +167,8 @@ package collaboRhythm.plugins.schedule.controller
 
                 if (urlVariables.success == "true")
                 {
-					//TODO: Refactor so that the individual healthActionInputControllers are responsible for finding the closestScheduleItemOccurrence.
-					//I don't want to refactor this now because it will break the plugins from the teams
-					//Consider using something like constructorParams so that future changes in parameters will not break plugins
-
-					var name:String;
-					if (urlVariables.equipmentName == "PillBox")
-					{
-						urlVariables.healthActionName = "MedicationAdministration";
-						switch (urlVariables.bin)
-						{
-							case "1":
-								name = "Ibuprofen 400 MG Oral Tablet [Motrin]";
-								break;
-							case "2":
-								name = "Cyclobenzaprine hydrochloride 5 MG Oral Tablet [Flexeril]";
-								break;
-							case "3":
-								name = "Ibuprofen 400 MG Oral Tablet [Motrin]";
-								break;
-							case "4":
-								name = "Cyclobenzaprine hydrochloride 5 MG Oral Tablet [Flexeril]";
-								break;
-						}
-					}
-					else
-					{
-						name = urlVariables.equipmentName;
-					}
-					
-                    var closestScheduleItemOccurrence:ScheduleItemOccurrence = scheduleModel.scheduleReportingModel.findClosestScheduleItemOccurrence(name);
-
 					var healthActionInputController:IHealthActionInputController = scheduleModel.healthActionInputControllerFactory.createDeviceHealthActionInputController(urlVariables,
-							closestScheduleItemOccurrence, scheduleModel, _viewNavigator);
+							scheduleModel, scheduleModel, _viewNavigator);
 
                     if (ReflectionUtils.getClass(_viewNavigator.activeView) == healthActionInputController.healthActionInputViewClass)
                     {

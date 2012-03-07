@@ -36,38 +36,6 @@ package collaboRhythm.plugins.schedule.model
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
 
-		public function findClosestScheduleItemOccurrence(name:String):ScheduleItemOccurrence
-		{
-			var closestScheduleItemOccurrence:ScheduleItemOccurrence;
-			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in _scheduleModel.scheduleItemOccurrencesHashMap)
-			{
-				if (scheduleItemOccurrence.scheduleItem.name.text == name)
-				{
-					if (_currentDateSource.now() > scheduleItemOccurrence.dateStart && _currentDateSource.now() < scheduleItemOccurrence.dateEnd)
-					{
-						closestScheduleItemOccurrence = scheduleItemOccurrence;
-						break;
-					}
-					else
-					{
-						if (closestScheduleItemOccurrence)
-						{
-							if ((_currentDateSource.now().time - scheduleItemOccurrence.dateEnd.time < _currentDateSource.now().time - closestScheduleItemOccurrence.dateEnd.time)
-									|| (scheduleItemOccurrence.dateStart.time - _currentDateSource.now().time < closestScheduleItemOccurrence.dateStart.time - _currentDateSource.now().time))
-							{
-								closestScheduleItemOccurrence = scheduleItemOccurrence;
-							}
-						}
-						else
-						{
-							closestScheduleItemOccurrence = scheduleItemOccurrence;
-						}
-					}
-				}
-			}
-			return closestScheduleItemOccurrence;
-		}
-
 		public function get currentScheduleGroup():ScheduleGroup
 		{
 			return _currentScheduleGroup;

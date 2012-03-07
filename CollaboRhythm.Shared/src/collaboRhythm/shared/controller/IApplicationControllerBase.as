@@ -1,6 +1,7 @@
 package collaboRhythm.shared.controller
 {
-    import collaboRhythm.shared.model.BackgroundProcessCollectionModel;
+	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.BackgroundProcessCollectionModel;
     import collaboRhythm.shared.model.settings.Settings;
 
     public interface IApplicationControllerBase
@@ -34,5 +35,11 @@ package collaboRhythm.shared.controller
         function get backgroundProcessModel():BackgroundProcessCollectionModel;
 
         function set backgroundProcessModel(value:BackgroundProcessCollectionModel):void;
-    }
+
+		function get collaborationController():CollaborationController;
+
+		function openRecordAccount(sharedRecordAccount:Account):void;
+
+		function collaborate():void;
+	}
 }

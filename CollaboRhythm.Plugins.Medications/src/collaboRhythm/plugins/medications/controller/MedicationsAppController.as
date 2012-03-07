@@ -63,7 +63,7 @@ package collaboRhythm.plugins.medications.controller
 		protected override function createWidgetView():UIComponent
 		{
 			var newWidgetView:MedicationsWidgetView = new MedicationsWidgetView();
-			if (_user != null)
+			if (_activeRecordAccount.primaryRecord != null)
 				newWidgetView.init(_activeRecordAccount.primaryRecord.medicationOrdersModel);
 			return newWidgetView;
 		}

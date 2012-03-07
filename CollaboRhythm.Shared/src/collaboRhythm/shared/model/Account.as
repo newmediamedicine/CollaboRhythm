@@ -19,7 +19,9 @@ package collaboRhythm.shared.model
 
     import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
 
-    import j2as3.collection.HashMap;
+	import flash.net.NetStream;
+
+	import j2as3.collection.HashMap;
 
     import mx.collections.ArrayCollection;
 	import mx.events.CollectionEvent;
@@ -51,9 +53,21 @@ package collaboRhythm.shared.model
         private var _recordShareAccounts:HashMap = new HashMap(); // accountId as key
         private var _allSharingAccounts:HashMap = new HashMap(); // accountId as key
         private var _collaborationLobbyConnectionStatus:String = COLLABORATION_LOBBY_NOT_CONNECTED;
+		private var _collaborationRoomConnectionStatus:String = COLLABORATION_ROOM_EXITED;
 		private var _isInitialized:Boolean;
+		private var _netStream:NetStream;
 
-        public function Account()
+		public function get netStream():NetStream
+		{
+			return _netStream;
+		}
+
+		public function set netStream(value:NetStream):void
+		{
+			_netStream = value;
+		}
+
+		public function Account()
         {
 			var sort:Sort = new Sort();
 			sort.compareFunction = sortCompare;
@@ -217,6 +231,16 @@ package collaboRhythm.shared.model
 		private function get accountIdPrefix():String
 		{
 			return _accountId ? _accountId.split("@")[0] : null;
+		}
+
+		public function get collaborationRoomConnectionStatus():String
+		{
+			return _collaborationRoomConnectionStatus;
+		}
+
+		public function set collaborationRoomConnectionStatus(value:String):void
+		{
+			_collaborationRoomConnectionStatus = value;
 		}
 	}
 }

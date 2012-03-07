@@ -15,8 +15,8 @@ package collaboRhythm.plugins.schedule.shared.model
 												   currentHealthActionInputController:IHealthActionInputController):IHealthActionInputController;
 
 		function createDeviceHealthActionInputController(urlVariables:URLVariables,
-														 scheduleItemOccurrence:ScheduleItemOccurrence,
 														 healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+														 scheduleCollectionsProvider:IScheduleCollectionsProvider,
 														 viewNavigator:ViewNavigator,
 														 currentDeviceHealthActionInputController:IHealthActionInputController):IHealthActionInputController;
 	}
