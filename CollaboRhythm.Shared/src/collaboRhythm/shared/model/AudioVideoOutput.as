@@ -18,9 +18,6 @@ package collaboRhythm.shared.model
 {
 	import flash.media.Camera;
 	import flash.media.Microphone;
-	import flash.media.MicrophoneEnhancedMode;
-	import flash.media.MicrophoneEnhancedOptions;
-	import flash.media.SoundChannel;
 	import flash.media.SoundCodec;
 	import flash.utils.getQualifiedClassName;
 
@@ -44,7 +41,7 @@ package collaboRhythm.shared.model
 		public function AudioVideoOutput()
 		{
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
-//			setCamera();
+			setCamera();
 			setMicrophone();
 		}
 		
@@ -52,7 +49,8 @@ package collaboRhythm.shared.model
 		{
 			if (Camera.isSupported)
 			{
-                _camera = Camera.getCamera();
+				_logger.info("Initializing camera...");
+                _camera = Camera.getCamera("0");
                 var cameraIndex:int;
                 for each (var cameraName:String in Camera.names)
                 {
@@ -67,7 +65,12 @@ package collaboRhythm.shared.model
                     _camera.setKeyFrameInterval(15);
                     _camera.setMode(320,240,15);
                     _camera.setQuality(0,80);
+					_logger.info("Camera initialized: " + _camera.name);
                 }
+				else
+				{
+					_logger.info("No camera found. Camera NOT initialized.");
+				}
             }
 		}
 		
@@ -76,16 +79,17 @@ package collaboRhythm.shared.model
 			if (Microphone.isSupported)
 			{
 				_logger.info("Initializing microphone...");
-				_microphone = Microphone.getMicrophone();
-
-				var enhancedMicrophone:Microphone = Microphone.getEnhancedMicrophone();
-				
+				_microphone = Microphone.getMicrophone(0);
 				if (_microphone != null)
 				{
 					_microphone.codec = SoundCodec.SPEEX;
 					_microphone.setSilenceLevel(0);
 					_microphone.setUseEchoSuppression(true);
 					_logger.info("Microphone initialized: " + _microphone.name);
+				}
+				else
+				{
+					_logger.info("No microphone found. Microphone NOT initialized.");
 				}
 			}
 		}

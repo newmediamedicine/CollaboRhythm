@@ -43,7 +43,7 @@ package collaboRhythm.core.model.healthRecord.service
 
 		override public function loadDocuments(record:Record):void
 		{
-			initializeBloodPressureModel(record);
+			initializeHealthChartsModel(record);
 		}
 
 		override public function closeRecord():void
@@ -57,8 +57,21 @@ package collaboRhythm.core.model.healthRecord.service
 		 * other initialization needed to prepare the HealthChartsModel for use.
 		 * @param record
 		 */
-		private function initializeBloodPressureModel(record:Record):void
+		private function initializeHealthChartsModel(record:Record):void
 		{
+			if (_record && _record.healthChartsModel)
+			{
+				if (_record.healthChartsModel.currentSimulation)
+				{
+					_record.healthChartsModel.currentSimulation.isInitialized = false;
+					_record.healthChartsModel.currentSimulation = null;
+				}
+				if (_record.healthChartsModel.focusSimulation)
+				{
+					_record.healthChartsModel.focusSimulation.isInitialized = false;
+					_record.healthChartsModel.focusSimulation = null;
+				}
+			}
 			_record = record;
 			_record.healthChartsModel = new HealthChartsModel();
 			_record.healthChartsModel.record = _record;

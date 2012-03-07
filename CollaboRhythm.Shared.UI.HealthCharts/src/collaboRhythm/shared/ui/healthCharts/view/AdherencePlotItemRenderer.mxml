@@ -27,7 +27,12 @@
 	</s:layout>
 	<fx:Script>
 		<![CDATA[
+		import castle.flexbridge.reflection.ReflectionUtils;
+
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+		import collaboRhythm.shared.ui.healthCharts.model.AdherenceStripItemProxy;
 
 		import mx.charts.series.items.PlotSeriesItem;
 		import mx.events.FlexEvent;
@@ -47,7 +52,12 @@
 
 		private function updateImageVisible():void
 		{
-			var adherenceItem:AdherenceItem = (data as PlotSeriesItem).item as AdherenceItem;
+			var adherenceStripItemProxy:AdherenceStripItemProxy = (data as PlotSeriesItem).item as AdherenceStripItemProxy;
+			if (adherenceStripItemProxy == null)
+				throw new Error("data.item of renderer is a " + ReflectionUtils.getClassInfo(ReflectionUtils.getClass(data)).name + "; expected AdherenceStripItemProxy");
+
+			var adherenceItem:AdherenceItem = adherenceStripItemProxy.adherenceItem;
+
 			if (adherenceItem)
 			{
 				if (adherenceItem.adherence)
@@ -62,15 +72,14 @@
 					noImage.visible = true;
 					unreportedImage.visible = false;
 				}
-/*
-				else if (adherence == "unreported")
-				{
-					yesImage.visible = false;
-					noImage.visible = false;
-					unreportedImage.visible = true;
-				}
-*/
 			}
+			else
+			{
+				yesImage.visible = false;
+				noImage.visible = false;
+				unreportedImage.visible = adherenceStripItemProxy.isEndBeforeCurrentDate;
+			}
+
 		}
 		]]>
 	</fx:Script>

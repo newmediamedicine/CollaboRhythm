@@ -166,6 +166,7 @@
 	<fx:Script>
 		<![CDATA[
 		import collaboRhythm.core.controller.ApplicationExitUtil;
+		import collaboRhythm.core.controller.LogFileReader;
 		import collaboRhythm.core.pluginsManagement.PluginEvent;
 		import collaboRhythm.mobile.controller.WidgetContainerController;
 		import collaboRhythm.shared.controller.apps.AppControllerBase;
@@ -173,14 +174,10 @@
 		import collaboRhythm.shared.model.services.DemoEvent;
 		import collaboRhythm.view.scroll.TouchScrollerEvent;
 
-		import com.daveoncode.logging.LogFileTarget;
-
 		import mx.collections.ArrayCollection;
 		import mx.core.IButton;
 		import mx.core.IVisualElement;
-
 		import mx.events.FlexEvent;
-
 		import mx.formatters.DateFormatter;
 		import mx.logging.ILogger;
 		import mx.logging.Log;
@@ -373,40 +370,10 @@
 			setElementIndex(infoGroup, numElements - 1);
 			showInfoEffect.play();
 
-			logTextArea.text = getLogFileText();
+			logTextArea.text = LogFileReader.getLogFileText();
 			logTextArea.selectRange(logTextArea.text.length, logTextArea.text.length);
 			logTextArea.scrollToRange(logTextArea.text.length, logTextArea.text.length);
 			logTextArea.setFocus();
-		}
-
-		private function getLogFileText():String
-		{
-			var logTarget:LogFileTarget = LogFileTarget.getInstance();
-			var file:File = logTarget.file;
-
-			if (!file.exists)
-				return "";
-
-			var fileStream:FileStream = new FileStream();
-
-			try
-			{
-				fileStream.open(file, FileMode.READ);
-			}
-			catch (error:Error)
-			{
-				trace("File exists but could not be read: ", file.nativePath);
-				return "";
-			}
-
-			// TODO: read the last 20 lines of text
-			// grab a reasonable chunk of text from the end of the log file
-			fileStream.position = Math.max(0, fileStream.bytesAvailable - 1024 * 8);
-			var logText:String = fileStream.readUTFBytes(fileStream.bytesAvailable);
-			logText = logText.substring(logText.indexOf("\n"));
-			fileStream.close();
-
-			return logText;
 		}
 
 		public function hideMenu():void

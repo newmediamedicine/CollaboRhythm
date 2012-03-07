@@ -447,6 +447,7 @@ package com.dougmccune.controls
 		private var _pendingInitializeChartsFromMinMaxTimes:Boolean;
 		private var focusTimePositionLocked:Boolean = true;
 		private var _useSliceMainData:Boolean;
+		private var _initialRightRangeTime:Number;
 
 		public function get dateField():String
 		{
@@ -802,7 +803,7 @@ package com.dougmccune.controls
 
 			try
 			{
-				rightRangeTime = _maximumTime;
+				rightRangeTime = initialRightRangeTime;
 			} catch(e:Error)
 			{
 				trace("Error setting rightRangeTime: " + e.message);
@@ -811,7 +812,7 @@ package com.dougmccune.controls
 			try
 			{
 //				leftRangeTime = Math.max(t0, t1 - initialDurationTime);
-				leftRangeTime = _maximumTime - initialDurationTime;
+				leftRangeTime = rightRangeTime - initialDurationTime;
 			} catch(e:Error)
 			{
 				trace("Error setting leftRangeTime: " + e.message);
@@ -979,8 +980,8 @@ package com.dougmccune.controls
 		private function initializeRangeTimes():void
 		{
 			updateBoxFromRangeTimes = true;
-			rightRangeTime = _maximumTime;
-			leftRangeTime = Math.max(_minimumTime, _maximumTime - initialDurationTime);
+			rightRangeTime = initialRightRangeTime;
+			leftRangeTime = Math.max(_minimumTime, initialRightRangeTime - initialDurationTime);
 			updateBox();
 			callLater(refreshAnnotations);
 			this.visible = true;
@@ -1149,9 +1150,10 @@ package com.dougmccune.controls
 
 		private function updateMainDataRatio():void
 		{
-			mainDataRatio = (mainChartArea.width / mainChartToContainerRatio) / mainChartDurationTime;
+			var oldMainDataRatio:Number = mainDataRatio;
+			mainDataRatio = (mainChart.width / mainChartToContainerRatio) / mainChartDurationTime;
 			if (_traceEvents)
-				trace(traceEventsPrefix + "updateMainDataRatio", "mainDataRatio", mainDataRatio, "mainChartArea.width", mainChartArea.width, "mainChartToContainerRatio", mainChartToContainerRatio);
+				trace(traceEventsPrefix + "updateMainDataRatio", "mainDataRatio", mainDataRatio, "changedBy", mainDataRatio - oldMainDataRatio, "mainChart.width", mainChart.width, "mainChartArea.width", mainChartArea.width, "mainChartToContainerRatio", mainChartToContainerRatio);
 		}
 		
 		protected function setAxisMinimum(axis:IAxis, minimum:Date):void
@@ -1551,7 +1553,7 @@ package com.dougmccune.controls
 
 			if (mainDrag)
 			{
-				var mainChartPixelsToTime:Number = mainChartDurationTime / (mainChartArea.width / mainChartToContainerRatio);
+				var mainChartPixelsToTime:Number = mainChartDurationTime / (mainChart.width / mainChartToContainerRatio);
 				targetLeftRangeTime = staticLeftBoundary + (mouseXRef - this.mouseX) * mainChartPixelsToTime;
 		//					targetRightRangeTime = staticRightBoundary + (mouseXRef - this.mouseX) * mainChartPixelsToTime;
 			}
@@ -2370,7 +2372,6 @@ package com.dougmccune.controls
 			this.dispatchScrollEvent();
 		}
 
-
 		protected function mainChart_resizeHandler(event:ResizeEvent):void
 		{
 			if (_traceEvents)
@@ -2381,6 +2382,12 @@ package com.dougmccune.controls
 			}
 			updateMainChartToContainerRatio();
 			updateMainDataRatio();
+		}
+
+		protected function mainChartArea_resizeHandler(event:ResizeEvent):void
+		{
+			if (_traceEvents)
+				trace(traceEventsPrefix + "mainChartArea_resizeHandler", "width", width, "mainChartContainer.width", mainChartContainer ? mainChartContainer.width : "n/a", "mainChart.width", mainChart ? mainChart.width : "n/a", "mainChartArea.width", mainChartArea ? mainChartArea.width : "n/a", "parent.width", parent.width);
 		}
 
 		private function updateMainChartToContainerRatio():void
@@ -2489,6 +2496,7 @@ package com.dougmccune.controls
 				mainChartArea.addEventListener(MouseEvent.CLICK, mainChartArea_clickHandler);
 				mainChartArea.addEventListener(MouseEvent.MOUSE_DOWN, mainChartArea_mouseDownHandler);
 				mainChartArea.addEventListener(MouseEvent.MOUSE_UP, mainChartArea_mouseUpHandler);
+				mainChartArea.addEventListener(Event.RESIZE, mainChartArea_resizeHandler);
 			}
 			else if (instance == focusTimeMarker)
 			{
@@ -2616,13 +2624,20 @@ package com.dougmccune.controls
 			// Maintain the current focusTime
 			var currentDuration:Number = rightRangeTime - leftRangeTime;
 
-			var leftToFocus:Number = focusTime - leftRangeTime;
-			var focusToRight:Number = rightRangeTime - focusTime;
+			// the time to center the zoom effect (range change animation) on
+			var rangeChangeCenter:Number;
 
-			leftToFocus *= duration / currentDuration;
-			focusToRight *= duration / currentDuration;
+			// TODO: use the focusTime if the focus time marker is being used
+//			rangeChangeCenter = focusTime;
+			rangeChangeCenter = leftRangeTime + currentDuration / 2;
 
-			animateRangeTimes(focusTime - leftToFocus, focusTime + focusToRight);
+			var leftToCenter:Number = rangeChangeCenter - leftRangeTime;
+			var focusToCenter:Number = rightRangeTime - rangeChangeCenter;
+
+			leftToCenter *= duration / currentDuration;
+			focusToCenter *= duration / currentDuration;
+
+			animateRangeTimes(rangeChangeCenter - leftToCenter, rangeChangeCenter + focusToCenter);
 		}
 
 		public function rangeOneMonthButton_clickHandler(event:MouseEvent):void
@@ -2940,6 +2955,19 @@ package com.dougmccune.controls
 			{
 				sliceMainData();
 			}
+		}
+
+		public function get initialRightRangeTime():Number
+		{
+			if (isNaN(_initialDurationTime))
+				return _maximumTime;
+			else
+				return _initialRightRangeTime;
+		}
+
+		public function set initialRightRangeTime(value:Number):void
+		{
+			_initialRightRangeTime = value;
 		}
 	}
 }

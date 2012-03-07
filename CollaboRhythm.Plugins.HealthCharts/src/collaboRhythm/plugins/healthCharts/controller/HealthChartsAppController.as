@@ -112,7 +112,7 @@ package collaboRhythm.plugins.healthCharts.controller
 		{
 			super.prepareFullViewContainer(view);
 			if (_fullView)
-				_fullView.createRangeButtons(view);
+				_fullView.createActionButtons(view);
 		}
 
 		public override function get defaultName():String

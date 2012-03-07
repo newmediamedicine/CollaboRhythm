@@ -178,8 +178,6 @@ package com.dougmccune.controls
 				trace(this + ".scrollStartHandler");
 			
 			hideAnnotations();
-			
-			dispatchEvent(new TouchScrollerEvent(event.type, event.scrollTarget));
 		}
 		
 		private function scrollStopHandler(event:TouchScrollerEvent):void
@@ -189,8 +187,6 @@ package com.dougmccune.controls
 			
 			showAnnotations = true;
 			refreshAnnotations();
-			
-			dispatchEvent(new TouchScrollerEvent(event.type, event.scrollTarget));
 		}
 		
 		public function hideScrollBarV():void
@@ -225,20 +221,26 @@ package com.dougmccune.controls
 
 		public function synchronizeScrollPosition(targetChart:TouchScrollingScrubChart):void
 		{
-			stopInertiaScrolling();
+			if (this != targetChart)
+			{
+				stopInertiaScrolling();
 
-			// We can only use the optimized synchronization method of setting the contentPositionX if the charts match up as expected
-			if (minimumTime == targetChart.minimumTime && maximumTime == targetChart.maximumTime && mainChartToContainerRatio == targetChart.mainChartToContainerRatio && mainDataRatio == targetChart.mainDataRatio)
-			{
-				updateContentPositionX(targetChart.contentPositionX);
-			}
-			else
-			{
-				if (_traceEvents)
-					trace("Optimization in synchronizeScrollPosition failed because of mismatch between this chart " + traceEventsPrefix + " and target " + targetChart.traceEventsPrefix); // + "minimumTime " + targetChart.minimumTime)
-				leftRangeTime = targetChart.leftRangeTime;
-				rightRangeTime = targetChart.rightRangeTime;
-				updateForScroll();
+				// We can only use the optimized synchronization method of setting the contentPositionX if the charts match up as expected
+				if (minimumTime == targetChart.minimumTime && maximumTime == targetChart.maximumTime &&
+						mainChartToContainerRatio == targetChart.mainChartToContainerRatio &&
+						mainDataRatio == targetChart.mainDataRatio)
+				{
+					updateContentPositionX(targetChart.contentPositionX);
+				}
+				else
+				{
+					if (_traceEvents)
+						trace("Optimization in synchronizeScrollPosition failed because of mismatch between this chart " +
+								traceEventsPrefix + " and target " + targetChart.traceEventsPrefix); // + "minimumTime " + targetChart.minimumTime)
+					leftRangeTime = targetChart.leftRangeTime;
+					rightRangeTime = targetChart.rightRangeTime;
+					updateForScroll();
+				}
 			}
 		}
 	}

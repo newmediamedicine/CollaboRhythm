@@ -1,5 +1,6 @@
 package collaboRhythm.shared.model.healthRecord
 {
+	import mx.collections.ArrayCollection;
 
 	/**
 	 * Represents a relationship between documents in a health record.
@@ -16,6 +17,17 @@ package collaboRhythm.shared.model.healthRecord
 
 		public function Relationship()
 		{
+		}
+		
+		/**
+		 * This property getter was added to allow documents to be viewed as a hierarchy in HealthRecordTree.
+		 */
+		public function get documents():ArrayCollection
+		{
+			if (relatesTo)
+				return new ArrayCollection([relatesTo]);
+			else
+				return null;
 		}
 
 		public function get pendingAction():String

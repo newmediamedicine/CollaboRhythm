@@ -11,7 +11,8 @@
 			<mx:HierarchicalData id="recordHierarchicalData" source="{record.documentCollections.values()}" childrenField="documents"/>
 		</mx:dataProvider>
 		<mx:columns>
-			<mx:AdvancedDataGridColumn headerText="Name" dataField="documentType" labelFunction="nameLabelFunction"/>
+			<mx:AdvancedDataGridColumn headerText="Name" labelFunction="nameLabelFunction"/>
+			<mx:AdvancedDataGridColumn headerText="Type" labelFunction="typeLabelFunction"/>
 			<mx:AdvancedDataGridColumn headerText="Count" labelFunction="countLabelFunction"/>
 			<mx:AdvancedDataGridColumn headerText="Date Start" labelFunction="dateStartLabelFunction"/>
 			<mx:AdvancedDataGridColumn headerText="Date End" labelFunction="dateEndLabelFunction"/>
@@ -26,6 +27,7 @@
 		import collaboRhythm.shared.model.healthRecord.CodedValue;
 		import collaboRhythm.shared.model.healthRecord.IDocument;
 		import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
+		import collaboRhythm.shared.model.healthRecord.Relationship;
 
 		import mx.collections.HierarchicalData;
 
@@ -56,6 +58,40 @@
 							return documentNameCodedValue.text;
 						}
 						return documentName ? documentName.toString() : null;
+					}
+				}
+				else
+				{
+					var relationship:Relationship = item as Relationship;
+					if (relationship)
+					{
+						return relationship.shortType;
+					}
+				}
+			}
+			return null;
+		}
+
+		private function typeLabelFunction(item:Object, column:AdvancedDataGridColumn):String
+		{
+			var documentCollection:IDocumentCollection = item as IDocumentCollection;
+			if (documentCollection)
+			{
+				return "Collection";
+			}
+			else
+			{
+				var document:IDocument = item as IDocument;
+				if (document)
+				{
+					return document.meta.shortType;
+				}
+				else
+				{
+					var relationship:Relationship = item as Relationship;
+					if (relationship)
+					{
+						return "Relationship";
 					}
 				}
 			}
