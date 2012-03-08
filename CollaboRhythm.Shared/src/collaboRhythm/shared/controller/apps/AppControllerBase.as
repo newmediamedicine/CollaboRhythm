@@ -19,7 +19,6 @@ package collaboRhythm.shared.controller.apps
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
-	import collaboRhythm.shared.model.User;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.view.BitmapCopyComponent;
@@ -72,7 +71,6 @@ package collaboRhythm.shared.controller.apps
 
 		protected var _widgetContainer:IVisualElementContainer;
 		protected var _fullContainer:IVisualElementContainer;
-		protected var _user:User;
 		protected var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
 
 		private var _topSpaceTransitionComponent:UIComponent;
@@ -239,19 +237,6 @@ package collaboRhythm.shared.controller.apps
 
 		public function set fullView(value:UIComponent):void
 		{
-		}
-
-		/**
-		 * @deprecated Use activeRecordAccount instead.
-		 */
-		public function get user():User
-		{
-			return _user;
-		}
-
-		public function set user(value:User):void
-		{
-			_user = value;
 		}
 
 		public function get collaborationRoomNetConnectionServiceProxy():CollaborationRoomNetConnectionServiceProxy

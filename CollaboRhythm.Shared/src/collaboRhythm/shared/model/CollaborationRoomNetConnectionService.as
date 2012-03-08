@@ -16,21 +16,14 @@
  */
 package collaboRhythm.shared.model
 {
-	import collaboRhythm.shared.controller.CollaborationEvent;
-	
 	import flash.events.AsyncErrorEvent;
 	import flash.events.EventDispatcher;
-	import flash.events.IEventDispatcher;
 	import flash.events.IOErrorEvent;
 	import flash.events.NetStatusEvent;
 	import flash.events.StatusEvent;
-	import flash.media.Video;
 	import flash.net.NetConnection;
 	import flash.net.NetStream;
-	
-	import mx.collections.ArrayCollection;
-	import mx.events.CollectionEvent;
-	
+
 	/**
 	 * 
 	 * @author jom
@@ -42,16 +35,17 @@ package collaboRhythm.shared.model
 	 */
 	public class CollaborationRoomNetConnectionService extends EventDispatcher
 	{
-		private var _localUserName:String;
+		private var _activeAccount:Account;
 		private var _rtmpURI:String; 	
 		private var _collaborationModel:CollaborationModel;
 		
 		private var _netConnection:NetConnection;
 		
-		public function CollaborationRoomNetConnectionService(userName:String, rtmpBaseURI:String, collaborationModel:CollaborationModel)
+		public function CollaborationRoomNetConnectionService(activeAccount:Account, rtmpBaseURI:String,
+															  collaborationModel:CollaborationModel)
 		{
-			_localUserName = userName;
-			_rtmpURI = rtmpBaseURI + "/CollaboRhythmServer/";
+			_activeAccount = activeAccount;
+			_rtmpURI = rtmpBaseURI + "/CollaboRhythm.CollaborationServer/";
 			_collaborationModel = collaborationModel;
 			
 			_netConnection = new NetConnection();
@@ -64,14 +58,14 @@ package collaboRhythm.shared.model
 			return proxy;
 		}
 
-		public function get localUserName():String
+		public function get activeAccount():Account
 		{
-			return _localUserName;
+			return _activeAccount;
 		}
 		
-		public function set localUserName(value:String):void
+		public function set activeAccount(value:Account):void
 		{
-			_localUserName = value;
+			_activeAccount = value;
 		}
 		
 		public function get netConnection():NetConnection
@@ -94,94 +88,82 @@ package collaboRhythm.shared.model
 			_collaborationModel = value;
 		}
 		
-		public function enterCollaborationRoom(roomID:String, passWord:String, subjectUserName:String):void
+		public function enterCollaborationRoom(roomID:String, passWord:String, subjectAccountId:String):void
 		{
 			var rtmpRoomURI:String = _rtmpURI + roomID;
 
-			_netConnection.client.localUserEnteredCollaborationRoom = localUserEnteredCollaborationRoom;
-			_netConnection.client.localUserJoinedCollaborationRoom = localUserJoinedCollaborationRoom;
-			_netConnection.client.localUserExitedCollaborationRoom = localUserExitedCollaborationRoom;
-			_netConnection.client.remoteUserEnteredCollaborationRoom = remoteUserEnteredCollaborationRoom;
-			_netConnection.client.remoteUserJoinedCollaborationRoom = remoteUserJoinedCollaborationRoom;
-			_netConnection.client.remoteUserExitedCollaborationRoom = remoteUserExitedCollaborationRoom;
+			_netConnection.client.activeAccountEnteredCollaborationRoom = activeAccountEnteredCollaborationRoom;
+			_netConnection.client.activeAccountJoinedCollaborationRoom = activeAccountJoinedCollaborationRoom;
+			_netConnection.client.activeAccountExitedCollaborationRoom = activeAccountExitedCollaborationRoom;
+			_netConnection.client.sharingAccountEnteredCollaborationRoom = sharingAccountEnteredCollaborationRoom;
+			_netConnection.client.sharingAccountJoinedCollaborationRoom = sharingAccountJoinedCollaborationRoom;
+			_netConnection.client.sharingAccountExitedCollaborationRoom = sharingAccountExitedCollaborationRoom;
 			_netConnection.client.invitedUserAdded = invitedUserAdded;
-			_netConnection.client.playRemoteUserVideoStream = playRemoteUserVideoStream;
-			_netConnection.client.reconnectLocalUserVideoStream = reconnectLocalUserVideoStream;
+			_netConnection.client.playSharingAccountVideoStream = playSharingAccountVideoStream;
+			_netConnection.client.reconnectActiveAccountVideoStream = reconnectActiveAccountVideoStream;
 			
 			_netConnection.addEventListener(NetStatusEvent.NET_STATUS, collaborationRoomNetStatusHandler);
-			_netConnection.connect(rtmpRoomURI, _localUserName, passWord, subjectUserName);
+			_netConnection.connect(rtmpRoomURI, _activeAccount.accountId, passWord, subjectAccountId);
 		}
 					
 		public function joinCollaborationRoom():void
 		{
-			_netConnection.call("joinCollaborationRoom", null, _localUserName);
+			_netConnection.call("joinCollaborationRoom", null, _activeAccount.accountId);
 		}
 		
 		public function exitCollaborationRoom():void
 		{
-			_netConnection.call("exitCollaborationRoom", null, _localUserName);
+			_netConnection.call("exitCollaborationRoom", null, _activeAccount.accountId);
 		}
 		
 		public function addInvitedUser(invitedUserName:String):void
 		{
-			_netConnection.call("addInvitedUser", null, _localUserName, invitedUserName);
+			_netConnection.call("addInvitedUser", null, _activeAccount.accountId, invitedUserName);
 		}
 		
-		public function localUserEnteredCollaborationRoom(collaborationColor:String, invitedUserNames:Array):void
+		public function activeAccountEnteredCollaborationRoom(collaborationColor:String, invitedAccountIds:Array):void
 		{
-//			_collaborationModel.active = true;
-//
-//			_collaborationModel.collaborationLobbyNetConnectionService.updateCollaborationLobbyConnectionStatus(User.COLLABORATION_LOBBY_AWAY);
-//			_collaborationModel.localUser.collaborationRoomConnectionStatus = User.COLLABORATION_ROOM_ENTERED;
-//			_collaborationModel.localUser.collaborationColor = collaborationColor;
-//			for each (var invitedUserName:String in invitedUserNames)
-//			{
-//				var invitedUser:User = _collaborationModel.usersModel.retrieveUserByAccountId(invitedUserName);
-//				_collaborationModel.addInvitedUser(invitedUser);
-//			}
-//
-//			if (_collaborationModel.creatingUser == _collaborationModel.localUser)
-//			{
-//				_collaborationModel.collaborationLobbyNetConnectionService.sendCollaborationRequest(_collaborationModel.subjectUser.accountId, _collaborationModel.roomID, _collaborationModel.passWord, _collaborationModel.creatingUser.accountId, _collaborationModel.subjectUser.accountId);
-//				// TODO: if there are other invited users, need to invite them here
-//			}
+			_collaborationModel.active = true;
+
+			_collaborationModel.collaborationLobbyNetConnectionService.updateCollaborationLobbyConnectionStatus(Account.COLLABORATION_LOBBY_AWAY);
+			_collaborationModel.activeAccount.collaborationRoomConnectionStatus = Account.COLLABORATION_ROOM_ENTERED;
 		}
 		
-		public function localUserJoinedCollaborationRoom():void
+		public function activeAccountJoinedCollaborationRoom():void
 		{
-//			_collaborationModel.localUser.collaborationRoomConnectionStatus = User.COLLABORATION_ROOM_JOINED;
+			_collaborationModel.activeAccount.collaborationRoomConnectionStatus = Account.COLLABORATION_ROOM_JOINED;
+			connectActiveAccountVideoStream();
 		}
 		
-		public function localUserExitedCollaborationRoom():void
+		public function activeAccountExitedCollaborationRoom():void
 		{
-//			_collaborationModel.collaborationLobbyNetConnectionService.updateCollaborationLobbyConnectionStatus(User.COLLABORATION_LOBBY_AVAILABLE);
-//			_collaborationModel.localUser.collaborationRoomConnectionStatus = User.COLLABORATION_ROOM_EXITED;
-//			stopPublishingLocalUserVideoStream();
-//			_netConnection.close();
-//			_collaborationModel.active = false;
+			_collaborationModel.collaborationLobbyNetConnectionService.updateCollaborationLobbyConnectionStatus(Account.COLLABORATION_LOBBY_AVAILABLE);
+			_collaborationModel.activeAccount.collaborationRoomConnectionStatus = Account.COLLABORATION_ROOM_EXITED;
+			stopPublishingLocalUserVideoStream();
+			_netConnection.close();
+			_collaborationModel.active = false;
 		}
 				
-		private function remoteUserEnteredCollaborationRoom(remoteUserName:String, collaborationColor:String):void
+		private function sharingAccountEnteredCollaborationRoom(sharingAccountId:String, collaborationColor:String):void
 		{
-//			var remoteUser:User = _collaborationModel.usersModel.retrieveUserByAccountId(remoteUserName);
-//			remoteUser.collaborationRoomConnectionStatus = User.COLLABORATION_ROOM_ENTERED;
-//			remoteUser.collaborationColor = collaborationColor;
+			var sharingAccount:Account = _collaborationModel.activeAccount.allSharingAccounts[sharingAccountId];
+			sharingAccount.collaborationRoomConnectionStatus = Account.COLLABORATION_ROOM_ENTERED;
 
-//			_collaborationModel.addCollaboratingRemoteUser(remoteUser);
+			_collaborationModel.collaborationRoomAccounts.addItem(sharingAccount);
 		}
 		
-		private function remoteUserJoinedCollaborationRoom(remoteUserName:String):void
+		private function sharingAccountJoinedCollaborationRoom(sharingAccountId:String):void
 		{
-//			var remoteUser:User = _collaborationModel.usersModel.retrieveUserByAccountId(remoteUserName);
-//			remoteUser.collaborationRoomConnectionStatus = User.COLLABORATION_ROOM_JOINED;
+			var sharingAccount:Account = _collaborationModel.activeAccount.allSharingAccounts[sharingAccountId];
+			sharingAccount.collaborationRoomConnectionStatus = Account.COLLABORATION_ROOM_JOINED;
 		}
 		
-		public function remoteUserExitedCollaborationRoom(remoteUserName:String):void
+		public function sharingAccountExitedCollaborationRoom(sharingAccountId:String):void
 		{
-//			var remoteUser:User = _collaborationModel.usersModel.retrieveUserByAccountId(remoteUserName);
-//			remoteUser.collaborationRoomConnectionStatus = User.COLLABORATION_ROOM_EXITED;
-//			remoteUser.collaborationColor = "0xFFFFFF";
-//			stopPlayingRemoteUserVideoStream(remoteUser);
+			var sharingAccount:Account = _collaborationModel.activeAccount.allSharingAccounts[sharingAccountId];
+			sharingAccount.collaborationRoomConnectionStatus = Account.COLLABORATION_ROOM_EXITED;
+//			sharingAccount.collaborationColor = "0xFFFFFF";
+			stopPlayingRemoteUserVideoStream(sharingAccount);
 		}
 		
 		private function invitedUserAdded(remoteUserName:String):void
@@ -190,63 +172,66 @@ package collaboRhythm.shared.model
 //			_collaborationModel.addInvitedUser(remoteUser);
 		}
 		
-		public function connectLocalUserVideoStream():void
+		public function connectActiveAccountVideoStream():void
 		{
 			if (_netConnection && _netConnection.connected)
 			{
-				publishLocalUserVideoStream();
-				_netConnection.call("videoStreamConnected", null, _localUserName);
+				publishActiveAccountVideoStream();
+				_netConnection.call("videoStreamConnected", null, _activeAccount.accountId);
 			}
 		}
 		
-		private function reconnectLocalUserVideoStream():void
+		private function reconnectActiveAccountVideoStream():void
 		{		
-			publishLocalUserVideoStream();
+			publishActiveAccountVideoStream();
 		}
 		
-		public function publishLocalUserVideoStream():void
+		public function publishActiveAccountVideoStream():void
 		{		
 			var netStreamOut:NetStream = new NetStream(_netConnection);
-			netStreamOut.attachCamera(_collaborationModel.audioVideoOutput.camera);
-//			_nsOut.attachAudio(_videoOutput.microphone);
+//			netStreamOut.attachCamera(_collaborationModel.audioVideoOutput.camera);
+			netStreamOut.attachAudio(_collaborationModel.audioVideoOutput.microphone);
 			netStreamOut.addEventListener(StatusEvent.STATUS, netStreamOutHandler);
 			netStreamOut.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
 			netStreamOut.addEventListener(AsyncErrorEvent.ASYNC_ERROR, asyncErrorHandler);
-			netStreamOut.publish(_localUserName, "live");
-			
+			netStreamOut.publish(_activeAccount.accountId, "live");
+
 //			_collaborationModel.localUser.video.attachCamera(_collaborationModel.audioVideoOutput.camera);
-//			_collaborationModel.localUser.netStream = netStreamOut;
+			_activeAccount.netStream = netStreamOut;
 		}
 		
 		public function stopPublishingLocalUserVideoStream():void
 		{
-//			if (_collaborationModel.localUser.netStream != null)
+//			if (_collaborationModel.activeAccount.netStream != null)
 //			{
-//				_collaborationModel.localUser.netStream.close();
-//				_collaborationModel.localUser.netStream = null;
+//				_collaborationModel.activeAccount.netStream.close();
+//				_collaborationModel.activeAccount.netStream = null;
 //			}
 		}
 		
-		private function playRemoteUserVideoStream(userName:String):void
+		private function playSharingAccountVideoStream(accountId:String):void
 		{
 			var netStreamIn:NetStream = new NetStream(_netConnection);
 			netStreamIn.addEventListener(NetStatusEvent.NET_STATUS, netStreamInHandler);
 			netStreamIn.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
 			netStreamIn.addEventListener(AsyncErrorEvent.ASYNC_ERROR, asyncErrorHandler);
-			netStreamIn.play(userName);
-			
-//			var collaboratingRemoteUser:User = _collaborationModel.usersModel.retrieveUserByAccountId(userName);
+			netStreamIn.play(accountId);
+
+			var sharingAccount:Account = _collaborationModel.activeAccount.allSharingAccounts[accountId];
+			sharingAccount.netStream = netStreamIn;
+
+//			var collaboratingRemoteUser:User = _collaborationModel.usersModel.retrieveUserByAccountId(accountId);
 //			collaboratingRemoteUser.video.attachNetStream(netStreamIn);
 //			collaboratingRemoteUser.netStream = netStreamIn;
 		}
 		
-		public function stopPlayingRemoteUserVideoStream(remoteUser:User):void
+		public function stopPlayingRemoteUserVideoStream(sharingAccount:Account):void
 		{
-			if (remoteUser.netStream != null)
-			{
-				remoteUser.netStream.close();
-				remoteUser.netStream = null;
-			}
+//			if (sharingAccount.netStream != null)
+//			{
+//				sharingAccount.netStream.close();
+//				sharingAccount.netStream = null;
+//			}
 		}
 		
 		private function collaborationRoomNetStatusHandler(event:NetStatusEvent):void 
@@ -259,14 +244,14 @@ package collaboRhythm.shared.model
 			trace(event.info.code);
 			if (event.info.code == "NetStream.Play.UnpublishNotify")
 			{
-				for each(var collaboratingRemoteUser:User in _collaborationModel.collaborationRoomUsers)
-				{
-					if (collaboratingRemoteUser.video == event.target)
-					{
-						var now:Date = new Date();
-						_netConnection.call("videoStreamInterrupted", null, collaboratingRemoteUser.accountId, now.getTime()); 
-					}
-				}
+//				for each(var collaboratingRemoteUser:User in _collaborationModel.collaborationRoomAccounts)
+//				{
+//					if (collaboratingRemoteUser.video == event.target)
+//					{
+//						var now:Date = new Date();
+//						_netConnection.call("videoStreamInterrupted", null, collaboratingRemoteUser.accountId, now.getTime());
+//					}
+//				}
 			}
 		}
 		

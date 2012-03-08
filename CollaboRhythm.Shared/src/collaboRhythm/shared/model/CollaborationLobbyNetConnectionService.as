@@ -17,14 +17,9 @@
 package collaboRhythm.shared.model
 {
 
-	import castle.flexbridge.reflection.Void;
-
-	import collaboRhythm.shared.controller.CollaborationController;
 	import collaboRhythm.shared.controller.CollaborationEvent;
-	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionEvent;
 
 	import flash.events.AsyncErrorEvent;
-
 	import flash.events.EventDispatcher;
 	import flash.events.IOErrorEvent;
 	import flash.events.NetStatusEvent;
@@ -33,12 +28,10 @@ package collaboRhythm.shared.model
 	import flash.net.NetConnection;
 	import flash.net.Responder;
 	import flash.utils.Timer;
+	import flash.utils.getQualifiedClassName;
 
-	import mx.collections.ArrayCollection;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
-
-	import flash.utils.getQualifiedClassName;
 
 	/**
 	 *
@@ -51,7 +44,8 @@ package collaboRhythm.shared.model
 	[Bindable]
 	public class CollaborationLobbyNetConnectionService extends EventDispatcher
 	{
-		private var _localUserName:String;
+		private var _activeAccount:Account;
+		private var _collaborationModel:CollaborationModel;
 		private var _rtmpURI:String;
 
 		private const MAX_FAILED_ATTEMPTS:int = 3;
@@ -59,40 +53,35 @@ package collaboRhythm.shared.model
 		private var _automaticRetryEnabled:Boolean = true;
 
 		private const COLLABORATION_LOBBY:String = "Collaboration Lobby";
-
 		private const NETCONNECTION_STATUS_CALL_FAILED:String = "NetConnection.Call.Failed";
 		private const NETCONNECTION_STATUS_CONNECT_APPSHUTDOWN:String = "NetConnection.Connect.AppShutdown";
 		private const NETCONNECTION_STATUS_CONNECT_CLOSED:String = "NetConnection.Connect.Closed";
 		private const NETCONNECTION_STATUS_CONNECT_FAILED:String = "NetConnection.Connect.Failed";
+
 		private const NETCONNECTION_STATUS_CONNECT_REJECTED:String = "NetConnection.Connect.Rejected";
 		private const NETCONNECTION_STATUS_CONNECT_SUCCESS:String = "NetConnection.Connect.Success";
-
 		private var _isConnecting:Boolean = false;
 		private var _hasConnectionFailed:Boolean = false;
 		private var _isConnected:Boolean = false;
 		private var _netConnection:NetConnection;
-		private var _activeAccount:Account;
-		private var _collaborationModel:CollaborationModel;
 		private var _logger:ILogger;
 
 		private var _retryConnectionTimer:Timer;
 
-		public function CollaborationLobbyNetConnectionService(localUserName:String, rtmpBaseURI:String,
-															   collaborationModel:CollaborationModel,
-															   activeAccount:Account)
+		public function CollaborationLobbyNetConnectionService(activeAccount:Account, rtmpBaseURI:String,
+															   collaborationModel:CollaborationModel)
 		{
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 
-			_localUserName = localUserName;
+			_activeAccount = activeAccount;
 			_rtmpURI = rtmpBaseURI + "/CollaboRhythm.CollaborationServer/_definst_";
 			_collaborationModel = collaborationModel;
-			_activeAccount = activeAccount;
 
 			_netConnection = new NetConnection();
 			_netConnection.client = new Object();
 			_netConnection.client.activeAccountCollaborationLobbyConnectionStatusChanged = activeAccountCollaborationLobbyConnectionStatusChanged;
 			_netConnection.client.sharingAccountCollaborationLobbyConnectionStatusChanged = sharingAccountCollaborationLobbyConnectionStatusChanged;
-			_netConnection.client.receiveCollaborationRequest = receiveCollaborationRequest;
+			_netConnection.client.receiveCollaborationInvitation = receiveCollaborationInvitation;
 			_netConnection.client.receiveSynchronizationMessage = receiveSynchronizationMessage;
 
 			_netConnection.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
@@ -108,7 +97,7 @@ package collaboRhythm.shared.model
 				_logger.info(COLLABORATION_LOBBY + " initial connection attempt...");
 			}
 			isConnecting = true;
-			_netConnection.connect(_rtmpURI, _activeAccount.accountId, User.COLLABORATION_LOBBY_AVAILABLE,
+			_netConnection.connect(_rtmpURI, _activeAccount.accountId, Account.COLLABORATION_LOBBY_AVAILABLE,
 								   _activeAccount.allSharingAccounts.keys.toArray());
 		}
 
@@ -204,7 +193,7 @@ package collaboRhythm.shared.model
 
 		public function exitCollaborationLobby():void
 		{
-			updateCollaborationLobbyConnectionStatus(User.COLLABORATION_LOBBY_NOT_CONNECTED);
+			updateCollaborationLobbyConnectionStatus(Account.COLLABORATION_LOBBY_NOT_CONNECTED);
 			_netConnection.close();
 		}
 
@@ -233,9 +222,14 @@ package collaboRhythm.shared.model
 		{
 			_collaborationModel.roomID = roomID;
 			_collaborationModel.passWord = String(Math.round(Math.random() * 10000));
+			for each (var targetAccount:Account in _collaborationModel.invitedAccounts)
+			{
+				sendCollaborationInvitation(targetAccount, _collaborationModel.roomID, _collaborationModel.passWord,
+						_collaborationModel.creatingAccount, _collaborationModel.subjectAccount);
+			}
 			_collaborationModel.collaborationRoomNetConnectionService.enterCollaborationRoom(_collaborationModel.roomID,
 																							 _collaborationModel.passWord,
-																							 _collaborationModel.subjectUser.accountId);
+																							 _collaborationModel.subjectAccount.accountId);
 		}
 
 		public function getCollaborationRoomIDFailed(info:Object):void
@@ -243,26 +237,28 @@ package collaboRhythm.shared.model
 			trace(info);
 		}
 
-		public function sendCollaborationRequest(remoteUserName:String, roomID:String, passWord:String,
-												 creatingUserName:String, subjectUserName:String):void
+		public function sendCollaborationInvitation(targetAccount:Account, roomID:String,
+													passWord:String, creatingAccount:Account,
+													subjectAccount:Account):void
 		{
-//			var remoteUser:User = _usersModel.retrieveUser(remoteUserName);
-//			remoteUser.collaborationRoomConnectionStatus = User.COLLABORATION_REQUEST_SENT;
-			_netConnection.call("sendCollaborationRequest", null, _localUserName, remoteUserName, roomID, passWord,
-								creatingUserName, subjectUserName);
+			targetAccount.collaborationRoomConnectionStatus = Account.COLLABORATION_REQUEST_SENT;
+			_netConnection.call("sendCollaborationInvitation", null, _activeAccount.accountId, targetAccount.accountId, roomID, passWord,
+								creatingAccount.accountId, subjectAccount.accountId);
 		}
 
-		public function receiveCollaborationRequest(invitingUserName:String, roomID:String, passWord:String,
-													creatingUserName:String, subjectUserName:String):void
+		public function receiveCollaborationInvitation(sourceAccountId:String, roomID:String, passWord:String,
+													creatingAccountId:String, subjectAccountId:String):void
 		{
-//			remoteUser.collaborationRoomConnectionStatus = User.COLLABORATION_REQUEST_RECEIVED;
+			_activeAccount.collaborationRoomConnectionStatus = Account.COLLABORATION_REQUEST_RECEIVED;
+			var collaborationEvent:CollaborationEvent = new CollaborationEvent(CollaborationEvent.COLLABORATION_INVITATION_RECEIVED);
+			dispatchEvent(collaborationEvent);
 
-//			_collaborationModel.collaborationRoomNetConnectionService.enterCollaborationRoom(roomID, passWord, subjectUserName);
-//			_collaborationModel.invitingUser = _usersModel.retrieveUserByAccountId(invitingUserName);
-//			_collaborationModel.creatingUser = _usersModel.retrieveUserByAccountId(creatingUserName);
-//			_collaborationModel.subjectUser = _usersModel.retrieveUserByAccountId(subjectUserName);
-//			_collaborationModel.roomID = roomID;
-//			_collaborationModel.passWord = passWord;
+			_collaborationModel.collaborationRoomNetConnectionService.enterCollaborationRoom(roomID, passWord, subjectAccountId);
+			_collaborationModel.sourceAccount = _activeAccount.allSharingAccounts[sourceAccountId];
+			_collaborationModel.creatingAccount = _activeAccount.allSharingAccounts[creatingAccountId];
+			_collaborationModel.subjectAccount = _activeAccount.allSharingAccounts[subjectAccountId];
+			_collaborationModel.roomID = roomID;
+			_collaborationModel.passWord = passWord;
 		}
 
 		public function sendSynchronizationMessage():void

@@ -40,15 +40,17 @@ package collaboRhythm.shared.model
 		private var _active:Boolean = false;
         private var _activeAccount:Account;
         private var _activeRecordAccount:Account;
-		private var _creatingUser:User;
-		private var _subjectUser:User;
-		private var _invitedUsers:Vector.<User> = new Vector.<User>;
-		private var _invitingUser:User;
-		private var _controllingUser:User;
+
+		private var _creatingAccount:Account;
+		private var _subjectAccount:Account;
+		private var _invitedAccounts:Vector.<Account> = new Vector.<Account>();
+		private var _sourceAccount:Account;
+		private var _controllingAccount:Account;
+
 		private var _roomID:String;
 		private var _passWord:String;
 		private var _audioVideoOutput:AudioVideoOutput;
-		private var _collaborationRoomUsers:ArrayCollection;
+		private var _collaborationRoomAccounts:ArrayCollection;
 		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
 		private var _collaborationRoomNetConnectionService:CollaborationRoomNetConnectionService;
 		private var _recordVideo:Boolean = false;
@@ -56,11 +58,12 @@ package collaboRhythm.shared.model
 		public function CollaborationModel(settings:Settings, activeAccount:Account)
 		{
 			_activeAccount = activeAccount;
-			_audioVideoOutput = new AudioVideoOutput();
-			_collaborationRoomUsers = new ArrayCollection();
+			_collaborationRoomAccounts = new ArrayCollection();
 			
-			_collaborationLobbyNetConnectionService = new CollaborationLobbyNetConnectionService(_activeAccount.accountId, settings.rtmpBaseURI, this, _activeAccount);
-			_collaborationRoomNetConnectionService = new CollaborationRoomNetConnectionService(_activeAccount.accountId, settings.rtmpBaseURI, this);
+			_collaborationLobbyNetConnectionService = new CollaborationLobbyNetConnectionService(_activeAccount,
+					settings.rtmpBaseURI, this);
+			_collaborationRoomNetConnectionService = new CollaborationRoomNetConnectionService(_activeAccount,
+					settings.rtmpBaseURI, this);
 		}
 
 		public function get active():Boolean
@@ -78,69 +81,6 @@ package collaboRhythm.shared.model
 			return _activeAccount;
 		}
 
-//		public function get localUser():User
-//		{
-//			return usersModel.localUser;
-//		}
-
-//		public function set localUser(value:User):void
-//		{
-//			_localUser = value;
-//		}
-//
-		public function get creatingUser():User
-		{
-			return _creatingUser;
-		}
-		
-		public function set creatingUser(value:User):void
-		{
-//			_creatingUser = value;
-//			if (value != localUser)
-//			{
-//				_collaborationRoomUsers.addItem(value);
-//			}
-		}
-
-		public function get subjectUser():User
-		{
-			return _subjectUser;
-		}
-		
-		public function set subjectUser(value:User):void
-		{
-//			_subjectUser = value;
-//			if (value != localUser)
-//			{
-//				_collaborationRoomUsers.addItem(value);
-//			}
-		}
-		
-		public function get invitedUsers():Vector.<User>
-		{
-			return _invitedUsers;
-		}
-		
-		public function get invitingUser():User
-		{
-			return _invitingUser;
-		}
-		
-		public function set invitingUser(value:User):void
-		{
-			_invitingUser = value;
-		}
-		
-		public function get controllingUser():User
-		{
-			return _controllingUser;
-		}
-		
-		public function set controllingUser(value:User):void
-		{
-			_controllingUser = value;
-		}
-		
 		public function get roomID():String
 		{
 			return _roomID;
@@ -181,13 +121,17 @@ package collaboRhythm.shared.model
 			_recordVideo = value;
 		}
 		
-		public function get collaborationRoomUsers():ArrayCollection
+		public function get collaborationRoomAccounts():ArrayCollection
 		{
-			return _collaborationRoomUsers;
+			return _collaborationRoomAccounts;
 		}
 		
 		public function get audioVideoOutput():AudioVideoOutput
 		{
+			if (!_audioVideoOutput)
+			{
+				_audioVideoOutput = new AudioVideoOutput();
+			}
 			return _audioVideoOutput;
 		}
 
@@ -195,32 +139,28 @@ package collaboRhythm.shared.model
         {
             _audioVideoOutput = value;
         }
-
-        private function usersHealthRecordService_completeHandler(event:UserDatabaseEvent):void
-		{
-			_collaborationLobbyNetConnectionService.enterCollaborationLobby();
-		}
 		
-		public function addInvitedUser(invitedUser:User):void
+		public function addInvitedUser(invitedAccount:Account):void
 		{
-			_invitedUsers.push(invitedUser);
-			_collaborationRoomUsers.addItem(invitedUser);
+			if (_invitedAccounts.indexOf(invitedAccount) == -1)
+			{
+				_invitedAccounts.push(invitedAccount);
+			}
+			if (_collaborationRoomAccounts.getItemIndex(invitedAccount) == -1)
+			{
+				_collaborationRoomAccounts.addItem(invitedAccount);
+			}
 		}
 		
 		public function closeCollaborationRoom():void
 		{
-			while (_collaborationRoomUsers.length > 0)
+			while (_collaborationRoomAccounts.length > 0)
 			{	
-				var collaborationRoomUser:User = User(_collaborationRoomUsers.getItemAt(_collaborationRoomUsers.length - 1));
-				_collaborationRoomNetConnectionService.remoteUserExitedCollaborationRoom(collaborationRoomUser.accountId);
-				_collaborationRoomUsers.removeItemAt(_collaborationRoomUsers.length - 1);
+//				var collaborationRoomUser:User = User(_collaborationRoomAccounts.getItemAt(_collaborationRoomAccounts.length - 1));
+//				_collaborationRoomNetConnectionService.sharingAccountExitedCollaborationRoom(collaborationRoomUser.accountId);
+//				_collaborationRoomAccounts.removeItemAt(_collaborationRoomAccounts.length - 1);
 			}
 			_collaborationRoomNetConnectionService.exitCollaborationRoom();
-			_creatingUser = null;
-			_subjectUser = null;
-			_invitedUsers = new Vector.<User>;
-			_invitingUser = null;
-			_controllingUser = null;
 			_roomID = "";
 			_passWord = "";
 //			localUser.collaborationColor = "0x000000";
@@ -240,5 +180,55 @@ package collaboRhythm.shared.model
         {
             _activeRecordAccount = value;
         }
-    }
+
+		public function get creatingAccount():Account
+		{
+			return _creatingAccount;
+		}
+
+		public function set creatingAccount(value:Account):void
+		{
+			_creatingAccount = value;
+		}
+
+		public function get subjectAccount():Account
+		{
+			return _subjectAccount;
+		}
+
+		public function set subjectAccount(value:Account):void
+		{
+			_subjectAccount = value;
+		}
+
+		public function get invitedAccounts():Vector.<Account>
+		{
+			return _invitedAccounts;
+		}
+
+		public function set invitedAccounts(value:Vector.<Account>):void
+		{
+			_invitedAccounts = value;
+		}
+
+		public function get sourceAccount():Account
+		{
+			return _sourceAccount;
+		}
+
+		public function set sourceAccount(value:Account):void
+		{
+			_sourceAccount = value;
+		}
+
+		public function get controllingAccount():Account
+		{
+			return _controllingAccount;
+		}
+
+		public function set controllingAccount(value:Account):void
+		{
+			_controllingAccount = value;
+		}
+	}
 }

@@ -38,48 +38,50 @@
 	</fx:Style>
     <fx:Script>
         <![CDATA[
-        import collaboRhythm.shared.model.Account;
-        import collaboRhythm.shared.model.CollaborationModel;
-        import collaboRhythm.workstation.controller.WorkstationApplicationController;
+		import collaboRhythm.shared.controller.IApplicationControllerBase;
+		import collaboRhythm.shared.model.Account;
+		import collaboRhythm.shared.model.CollaborationModel;
+		import collaboRhythm.shared.view.RecordInformationView;
+		import collaboRhythm.workstation.controller.WorkstationApplicationController;
 
+		private var _workstationApplicationController:IApplicationControllerBase;
+		[Bindable]
+		private var _activeAccount:Account;
+		[Bindable]
+		private var _collaborationModel:CollaborationModel;
 
+		public function init(workstationApplicationController:IApplicationControllerBase, activeAccount:Account,
+							 collaborationModel:CollaborationModel):void
+		{
+			_workstationApplicationController = workstationApplicationController;
+			_activeAccount = activeAccount;
+			_collaborationModel = collaborationModel;
+		}
 
-        private var _workstationApplicationController:WorkstationApplicationController;
-        [Bindable]
-        private var _activeAccount:Account;
-        [Bindable]
-        private var _collaborationModel:CollaborationModel;
-
-        public function init(workstationApplicationController:WorkstationApplicationController, activeAccount:Account, collaborationModel:CollaborationModel):void
-        {
-            _workstationApplicationController = workstationApplicationController;
-            _activeAccount = activeAccount;
-            _collaborationModel = collaborationModel;
-        }
-
-        private function updateCollaborationServerConnectionIndicator(isConnected:Boolean, collaborationLobbyConnectionStatus:String):uint
-        {
-            var color:uint = RecordInformationView.COLLABORATION_LOBBY_NOT_CONNECTED_COLOR;
-            if (isConnected)
-            {
-                switch (collaborationLobbyConnectionStatus)
-                {
-                    case Account.COLLABORATION_LOBBY_NOT_CONNECTED:
-                        color = RecordInformationView.COLLABORATION_LOBBY_NOT_CONNECTED_COLOR;
-                        break;
-                    case Account.COLLABORATION_LOBBY_AVAILABLE:
-                        color = RecordInformationView.COLLABORATION_LOBBY_AVAILABLE_COLOR;
-                        break;
-                }
-            }
-            return color;
-        }
+		private function updateCollaborationServerConnectionIndicator(isConnected:Boolean,
+																	  collaborationLobbyConnectionStatus:String):uint
+		{
+			var color:uint = RecordInformationView.COLLABORATION_LOBBY_NOT_CONNECTED_COLOR;
+			if (isConnected)
+			{
+				switch (collaborationLobbyConnectionStatus)
+				{
+					case Account.COLLABORATION_LOBBY_NOT_CONNECTED:
+						color = RecordInformationView.COLLABORATION_LOBBY_NOT_CONNECTED_COLOR;
+						break;
+					case Account.COLLABORATION_LOBBY_AVAILABLE:
+						color = RecordInformationView.COLLABORATION_LOBBY_AVAILABLE_COLOR;
+						break;
+				}
+			}
+			return color;
+		}
 
 		private function aboutButton_clickHandler(event:MouseEvent):void
 		{
 			_workstationApplicationController.showAboutApplicationView();
 		}
-        ]]>
+		]]>
     </fx:Script>
 	<s:HGroup horizontalAlign="left" gap="10" paddingLeft="10" paddingTop="5">
 		<s:Button

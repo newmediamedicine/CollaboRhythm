@@ -198,7 +198,7 @@ package collaboRhythm.shared.model.healthRecord
 			else
 			{
 				dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.FAILED, event, null, null, null,
-														   null, errorStatus));
+						errorStatus));
 				return false;
 			}
 		}

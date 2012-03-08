@@ -29,8 +29,7 @@ package collaboRhythm.shared.model
 		private var _netConnection:NetConnection;
 		private var _synchronizeHandler:*;
 		private var _registeredAliases:Vector.<String>;
-		private var _localUserName:String;
-		
+
 		public function CollaborationRoomNetConnectionServiceProxy(collaborationRoomNetConnectionService:CollaborationRoomNetConnectionService)
 		{
 			_collaborationRoomNetConnectionService = collaborationRoomNetConnectionService;
@@ -38,19 +37,13 @@ package collaboRhythm.shared.model
 			_netConnection = _collaborationRoomNetConnectionService.netConnection;
 			_netConnection.client.receiveCollaborationSynchronization = receiveCollaborationSynchronization;
 			_registeredAliases = new Vector.<String>;
-			_localUserName = _collaborationRoomNetConnectionService.localUserName;
 		}
 
 		public function set synchronizeHandler(value:*):void
 		{
 			_synchronizeHandler = value;
 		}
-		
-		public function get localUserName():String
-		{
-			return _localUserName;
-		}
-		
+
 		public function getLocalUserCollaborationColor():String
 		{
             return "#FFFFFF";

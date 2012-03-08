@@ -66,16 +66,16 @@ package collaboRhythm.plugins.problems.controller
 		protected override function createWidgetView():UIComponent
 		{
 			var newWidgetView:ProblemsWidgetView = new ProblemsWidgetView();
-			if (_user != null)
-				newWidgetView.model = _user.getAppData(ProblemsModel.PROBLEMS_KEY, ProblemsModel) as ProblemsModel;
+			if (_activeRecordAccount.primaryRecord != null)
+				newWidgetView.model = _activeRecordAccount.primaryRecord.getAppData(ProblemsModel.PROBLEMS_KEY, ProblemsModel) as ProblemsModel;
 			return newWidgetView;
 		}
 		
 		protected override function createFullView():UIComponent
 		{
 			var newFullView:ProblemsFullView = new ProblemsFullView();
-			if (_user != null)
-				newFullView.model = _user.getAppData(ProblemsModel.PROBLEMS_KEY, ProblemsModel) as ProblemsModel;
+			if (_activeRecordAccount.primaryRecord != null)
+				newFullView.model = _activeRecordAccount.primaryRecord.getAppData(ProblemsModel.PROBLEMS_KEY, ProblemsModel) as ProblemsModel;
 			return newFullView;
 		}
 		

@@ -22,9 +22,8 @@ package collaboRhythm.shared.controller.apps
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
-    import collaboRhythm.shared.model.User;
-    import collaboRhythm.shared.model.services.IComponentContainer;
-    import collaboRhythm.shared.model.settings.Settings;
+	import collaboRhythm.shared.model.services.IComponentContainer;
+	import collaboRhythm.shared.model.settings.Settings;
 
 	import flash.utils.getQualifiedClassName;
 
@@ -42,7 +41,6 @@ package collaboRhythm.shared.controller.apps
 	{
 		private var _widgetContainer:IVisualElementContainer;
 		private var _fullContainer:IVisualElementContainer;
-		private var _user:User;
 		private var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
 		private var _modality:String;
         private var _activeAccount:Account;
@@ -79,16 +77,6 @@ package collaboRhythm.shared.controller.apps
 			_fullContainer = value;
 		}
 
-		public function get user():User
-		{
-			return _user;
-		}
-
-		public function set user(value:User):void
-		{
-			_user = value;
-		}
-		
 		public function get collaborationRoomNetConnectionServiceProxy():CollaborationRoomNetConnectionServiceProxy
 		{
 			return _collaborationRoomNetConnectionServiceProxy;
@@ -131,7 +119,6 @@ package collaboRhythm.shared.controller.apps
 			if (appName != null)
 				app.name = appName;
 			
-			app.user = _user;
 			app.collaborationRoomNetConnectionServiceProxy = _collaborationRoomNetConnectionServiceProxy;
 
 			logger.info("  App created: " + ReflectionUtils.getClassInfo(appClass).name);

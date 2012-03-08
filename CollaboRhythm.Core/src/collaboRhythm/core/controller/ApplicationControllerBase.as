@@ -29,6 +29,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.core.view.ConnectivityEvent;
 	import collaboRhythm.core.view.ConnectivityView;
 	import collaboRhythm.shared.controller.CollaborationController;
+	import collaboRhythm.shared.controller.CollaborationEvent;
 	import collaboRhythm.shared.controller.IApplicationControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	import collaboRhythm.shared.model.Account;
@@ -332,6 +333,9 @@ package collaboRhythm.core.controller
 			}
 		}
 
+		/**
+		 * Initializes the logging capabilities of CollaboRhythm (trace, file, and syslog) based on settings
+		 */
 		private function initLogging():void
 		{
 			// create a file target for logging if specified in the settings file
@@ -472,9 +476,13 @@ package collaboRhythm.core.controller
 
 			_collaborationController = new CollaborationController(_activeAccount, collaborationView, _settings);
 			_collaborationLobbyNetConnectionService = _collaborationController.collaborationModel.collaborationLobbyNetConnectionService;
-			_collaborationController.addEventListener(CollaborationLobbyNetConnectionEvent.SYNCHRONIZE, synchronizeHandler);
-			BindingUtils.bindSetter(collaborationLobbyIsConnecting_changeHandler, _collaborationLobbyNetConnectionService, "isConnecting");
-			BindingUtils.bindSetter(collaborationLobbyHasConnectionFailed_changeHandler, _collaborationLobbyNetConnectionService, "hasConnectionFailed");
+			_collaborationController.addEventListener(CollaborationLobbyNetConnectionEvent.SYNCHRONIZE,
+					synchronizeHandler);
+			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_RECEIVED, collaborationInvitationReceived_eventHandler);
+			BindingUtils.bindSetter(collaborationLobbyIsConnecting_changeHandler,
+					_collaborationLobbyNetConnectionService, "isConnecting");
+			BindingUtils.bindSetter(collaborationLobbyHasConnectionFailed_changeHandler,
+					_collaborationLobbyNetConnectionService, "hasConnectionFailed");
 			if (collaborationView != null)
 				collaborationView.init(_collaborationController);
 		}
@@ -483,6 +491,19 @@ package collaboRhythm.core.controller
 		{
 			if (!_activeRecordAccount.primaryRecord.isLoading && !_activeRecordAccount.primaryRecord.isSaving && !_pendingExit && !_pendingReloadData)
 				reloadData();
+		}
+
+		private function collaborationInvitationReceived_eventHandler(event:CollaborationEvent):void
+		{
+			showCollaborationInvitationReceivedMessage();
+		}
+
+		/**
+		 * Virtual method which subclasses should override to dictate what happens when a collaboration invitation is received
+		 */
+		protected function showCollaborationInvitationReceivedMessage():void
+		{
+
 		}
 
 		/**
@@ -597,6 +618,8 @@ package collaboRhythm.core.controller
 			}
 			else if (_settings.isClinicianMode)
 			{
+				showSelectRecordView();
+
 				// enter the collaboration lobby, since all of the necessary accountIds are known, a clinician does not have any shares
 				enterCollaborationLobby();
 
@@ -611,6 +634,11 @@ package collaboRhythm.core.controller
 			_applicationControllerModel.errorMessage = "Failed to get records.";
 			_applicationControllerModel.hasErrors = true;
 			removePendingService(event.target);
+		}
+
+		protected function showSelectRecordView():void
+		{
+
 		}
 
 		// if the application is in patient mode, get the accounts with which the primary record of the active account is shared
@@ -728,6 +756,10 @@ package collaboRhythm.core.controller
 		{
 			_activeRecordAccount = recordAccount;
 			_collaborationController.setActiveRecordAccount(recordAccount);
+
+			// TODO: Rework document retrieval
+			loadDocuments(recordAccount);
+
 			updateAutoSyncTime();
 		}
 
@@ -1007,7 +1039,7 @@ package collaboRhythm.core.controller
 				else if (_applicationControllerModel && _applicationControllerModel.hasErrors)
 				{
 					connectivityState = ConnectivityView.CONNECT_FAILED_STATE;
-					_connectivityView.detailsMessage = "Connection to health record server " + settings.indivoServerBaseURL + " failed. You will not be able to access your health record until this is resolved. " + _applicationControllerModel.errorMessage;
+					_connectivityView.detailsMessage = "Connection to health record server failed. You will not be able to access your health record until this is resolved. " + _applicationControllerModel.errorMessage;
 				}
 				else if (_collaborationLobbyNetConnectionService && _collaborationLobbyNetConnectionService.isConnecting)
 				{
@@ -1181,5 +1213,21 @@ package collaboRhythm.core.controller
             if (_settings.demoDatePresets && _settings.demoDatePresets.length > demoPresetIndex)
                 targetDate = _settings.demoDatePresets[demoPresetIndex];
         }
+		
+		public function collaborate():void
+		{
+			var invitedAccounts:Vector.<Account> = new Vector.<Account>();
+			if (_settings.mode == Settings.MODE_CLINICIAN)
+			{
+				invitedAccounts.push(_activeRecordAccount);
+				_collaborationController.collaborate(_activeRecordAccount, invitedAccounts);
+			}
+			else if (_settings.mode = Settings.MODE_PATIENT)
+			{
+				//TODO: Implement a method to determine the account id for the clinician
+				invitedAccounts.push(_activeAccount.allSharingAccounts["jking@records.media.mit.edu"]);
+				_collaborationController.collaborate(_activeAccount, invitedAccounts);
+			}
+		}
     }
 }

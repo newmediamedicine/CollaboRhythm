@@ -5,6 +5,7 @@ package collaboRhythm.plugins.painReport.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputControllerFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
+	import collaboRhythm.plugins.schedule.shared.model.IScheduleCollectionsProvider;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import flash.net.URLVariables;
@@ -30,8 +31,8 @@ package collaboRhythm.plugins.painReport.model
 		}
 
 		public function createDeviceHealthActionInputController(urlVariables:URLVariables,
-																scheduleItemOccurrence:ScheduleItemOccurrence,
 																healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+																scheduleCollectionsProvider:IScheduleCollectionsProvider,
 																viewNavigator:ViewNavigator,
 																currentDeviceHealthActionInputController:IHealthActionInputController):IHealthActionInputController
 		{

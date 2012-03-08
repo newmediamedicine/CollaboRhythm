@@ -16,8 +16,6 @@
  */
 package collaboRhythm.shared.controller
 {
-	import collaboRhythm.shared.model.User;
-	
 	import flash.events.Event;
 
 	public class CollaborationEvent extends Event
@@ -28,20 +26,13 @@ package collaboRhythm.shared.controller
 		public static const OPEN_RECORD:String = "OpenRecord";
 		public static const CLOSE_RECORD:String = "CloseRecord";
 		public static const RECORD_CLOSED:String = "RecordClosed";
-		
+
 		public static const LOCAL_USER_JOINED_COLLABORATION_ROOM_ANIMATION_COMPLETE:String = "LocalUserJoinedCollaborationRoom";
+		public static const COLLABORATION_INVITATION_RECEIVED:String = "CollaborationInvitationReceived";
 		
-		private var _remoteUser:User;
-		
-		public function CollaborationEvent(type:String, remoteUser:User)
+		public function CollaborationEvent(type:String)
 		{
 			super(type);
-			_remoteUser = remoteUser; 
-		}
-
-		public function get remoteUser():User 
-		{
-			return _remoteUser;
 		}
 	}
 }

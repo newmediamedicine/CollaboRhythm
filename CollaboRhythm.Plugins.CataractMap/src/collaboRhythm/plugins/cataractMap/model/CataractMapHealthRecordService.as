@@ -17,15 +17,12 @@
 package collaboRhythm.plugins.cataractMap.model
 {
 
-    import collaboRhythm.shared.model.Account;
-    import collaboRhythm.shared.model.DateUtil;
-	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
-	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
-	import collaboRhythm.shared.model.User;
-    import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
-    import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
+	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.DateUtil;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
+	import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
 
-    import flash.net.URLVariables;
+	import flash.net.URLVariables;
 
 	import mx.collections.ArrayCollection;
 
@@ -38,18 +35,18 @@ package collaboRhythm.plugins.cataractMap.model
 			super(consumerKey, consumerSecret, baseURL, account);
 		}
 		
-		public function loadCataractMap(user:User):void
+		public function loadCataractMap(activeRecordAccount:Account):void
 		{
-			if (user.appData[CataractMapModel.CATARACT_MAP_KEY] == null)
+			if (activeRecordAccount.primaryRecord.appData[CataractMapModel.CATARACT_MAP_KEY] == null)
 			{
-				user.appData.put(CataractMapModel.CATARACT_MAP_KEY, new CataractMapModel());
+				activeRecordAccount.primaryRecord.appData.put(CataractMapModel.CATARACT_MAP_KEY, new CataractMapModel());
 			}
 			
 			var params:URLVariables = new URLVariables();
 			params["order_by"] = "date_measured";
 			
-			if (user.recordId != null && _activeAccount.oauthAccountToken != null && _activeAccount.oauthAccountTokenSecret != null)
-				_pha.reports_minimal_vitals_X_GET(params, null, null, null, user.recordId, "Cataract_Map", _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, user);
+			if (activeRecordAccount.primaryRecord.id != null && _activeAccount.oauthAccountToken != null && _activeAccount.oauthAccountTokenSecret != null)
+				_pha.reports_minimal_vitals_X_GET(params, null, null, null, activeRecordAccount.primaryRecord.id, "Cataract_Map", _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, activeRecordAccount);
 			
 		}
 		
@@ -57,12 +54,12 @@ package collaboRhythm.plugins.cataractMap.model
 		{
 			if (responseXml.name() == "Reports")
 			{
-				var user:User = event.userData as User;
+				var activeRecordAccount:Account = event.userData as Account;
 
-				if (user == null)
+				if (activeRecordAccount == null)
 					throw new Error("userData must be a User object");
 				
-				var cataractMapModel:CataractMapModel = user.getAppData(CataractMapModel.CATARACT_MAP_KEY, CataractMapModel) as CataractMapModel;
+				var cataractMapModel:CataractMapModel = activeRecordAccount.primaryRecord.getAppData(CataractMapModel.CATARACT_MAP_KEY, CataractMapModel) as CataractMapModel;
 				if (cataractMapModel)
 				{
 					cataractMapModel.rawData = responseXml;

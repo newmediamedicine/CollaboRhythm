@@ -1,57 +1,58 @@
 <?xml version="1.0"?>
 <s:ViewNavigatorApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
 							xmlns:s="library://ns.adobe.com/flex/spark"
-							xmlns:views="collaboRhythm.tablet.view.*" xmlns:view="collaboRhythm.core.view.*"
-							xmlns:utils="spark.utils.*" xmlns:mx="library://ns.adobe.com/flex/mx"
-							firstView="collaboRhythm.tablet.view.TabletWidgetViewContainer"
+							xmlns:mx="library://ns.adobe.com/flex/mx"
+							xmlns:utils="spark.utils.*"
+							firstView="collaboRhythm.tablet.view.TabletHomeView"
 							skinClass="collaboRhythm.tablet.view.skins.CollaboRhythmTabletApplicationSkin"
 							creationComplete="creationCompleteHandler(event)"
 		>
 	<fx:Style source="defaults.css"/>
 	<fx:Script><![CDATA[
-        import collaboRhythm.core.view.AboutApplicationView;
-        import collaboRhythm.core.view.ConnectivityView;
-        import collaboRhythm.tablet.controller.TabletApplicationController;
-        import collaboRhythm.tablet.view.ActiveRecordView;
-        import collaboRhythm.tablet.view.TabletWidgetViewContainer;
+		import collaboRhythm.core.view.AboutApplicationView;
+		import collaboRhythm.core.view.ConnectivityView;
+		import collaboRhythm.tablet.controller.TabletApplicationController;
+		import collaboRhythm.tablet.view.SelectRecordView;
+		import collaboRhythm.tablet.view.TabletHomeView;
 
-        import mx.events.FlexEvent;
+		import mx.events.FlexEvent;
+		private var _applicationController:TabletApplicationController;
 
-        private var _applicationController:TabletApplicationController;
+		[SkinPart(required="false")]
+		public var connectivityView:ConnectivityView;
 
-        [SkinPart(required="false")]
-        public var connectivityView:ConnectivityView;
+		[SkinPart(required="false")]
+		public var aboutApplicationView:AboutApplicationView;
 
-        [SkinPart(required="false")]
-        public var aboutApplicationView:AboutApplicationView;
+		protected function creationCompleteHandler(event:FlexEvent):void
+		{
+			this.addEventListener(FlexEvent.MENU_KEY_PRESSED, menuKeyPressedHandler);
+			main();
+		}
+		private function main():void
+		{
+			_applicationController = new TabletApplicationController(this);
+			_applicationController.main();
+		}
 
-        protected function creationCompleteHandler(event:FlexEvent):void
-        {
-            this.addEventListener(FlexEvent.MENU_KEY_PRESSED, menuKeyPressedHandler);
+		public function get tabletHomeView():TabletHomeView
+		{
+			return navigator.activeView as TabletHomeView;
+		}
 
-            main();
-        }
+		private function menuKeyPressedHandler(event:FlexEvent):void
+		{
+			if (connectivityView.visible)
+			{
+				event.preventDefault();
+			}
+		}
 
-        private function main():void
-        {
-            _applicationController = new TabletApplicationController(this);
-            _applicationController.main();
-        }
-
-        public function get activeRecordView():ActiveRecordView
-        {
-            var tabletWidgetViewContainer:TabletWidgetViewContainer = navigator.activeView as TabletWidgetViewContainer;
-            return tabletWidgetViewContainer ? tabletWidgetViewContainer.activeRecordView : null;
-        }
-
-        private function menuKeyPressedHandler(event:FlexEvent):void
-        {
-            if (connectivityView.visible)
-            {
-                event.preventDefault();
-            }
-        }
-        ]]></fx:Script>
+		public function get selectRecordView():SelectRecordView
+		{
+			return navigator.activeView as SelectRecordView;
+		}
+		]]></fx:Script>
 	<s:navigationContent>
 		<s:Button id="homeButton" label="Home" iconPlacement="left" click="navigator.popToFirstView()">
 			<s:icon>
