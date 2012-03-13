@@ -23,6 +23,7 @@ package collaboRhythm.core.model.healthRecord.service
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministrationsModel;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 
 	import mx.binding.utils.BindingUtils;
@@ -215,6 +216,10 @@ package collaboRhythm.core.model.healthRecord.service
 
 			// TODO: find a more robust way to get a medicationScheduleItem without depending on an AdherenceItem
 			medication.medicationScheduleItem = getMedicationScheduleItem(medication.name.value);
+			if (medication.medicationScheduleItem && medication.medicationScheduleItem.scheduledMedicationOrder && medication.medicationScheduleItem.scheduledMedicationOrder.medicationFill)
+				medication.medicationFill = medication.medicationScheduleItem.scheduledMedicationOrder.medicationFill;
+			else
+				medication.medicationFill = getMedicationFill(medication.name.value);
 		}
 
 		private function getMedicationScheduleItem(medicationCode:String):MedicationScheduleItem
@@ -243,6 +248,18 @@ package collaboRhythm.core.model.healthRecord.service
 			return null;
 		}
 
+		private function getMedicationFill(medicationCode:String):MedicationFill
+		{
+			for each (var medicationFill:MedicationFill in record.medicationFillsModel.medicationFillsCollection)
+			{
+				if (medicationFill.name.value == medicationCode)
+				{
+					return medicationFill;
+				}
+			}
+
+			return null;
+		}
 
 		private function get qdConcentrationSeverityProvider():ConcentrationSeverityProvider
 		{

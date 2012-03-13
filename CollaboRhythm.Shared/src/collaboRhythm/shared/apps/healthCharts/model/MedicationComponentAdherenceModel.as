@@ -18,6 +18,7 @@ package collaboRhythm.shared.apps.healthCharts.model
 {
 
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 
 	[Bindable]
@@ -40,6 +41,7 @@ package collaboRhythm.shared.apps.healthCharts.model
 		private var _concentrationSeverityLevel:int = -1;
 		private var _concentrationSeverityColor:uint;
 		private var _concentrationSeverityProvider:IConcentrationSeverityProvider;
+		private var _medicationFill:MedicationFill;
 
 		public function MedicationComponentAdherenceModel()
 		{
@@ -173,6 +175,16 @@ package collaboRhythm.shared.apps.healthCharts.model
 		public function set medicationScheduleItem(value:MedicationScheduleItem):void
 		{
 			_medicationScheduleItem = value;
+		}
+
+		public function get medicationFill():MedicationFill
+		{
+			return _medicationFill;
+		}
+
+		public function set medicationFill(value:MedicationFill):void
+		{
+			_medicationFill = value;
 		}
 	}
 }

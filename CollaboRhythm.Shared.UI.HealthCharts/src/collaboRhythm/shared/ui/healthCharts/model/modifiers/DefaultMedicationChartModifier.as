@@ -122,6 +122,7 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 
 			var medicationView:MedicationScheduleItemChartView = new MedicationScheduleItemChartView();
 			medicationView.medicationScheduleItem = medicationScheduleItem;
+			medicationView.medicationModel = medicationModel;
 			medicationView.verticalAlign = VerticalAlign.MIDDLE;
 			return medicationView;
 		}
