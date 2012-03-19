@@ -123,13 +123,6 @@
 		}
 		]]>
 	</fx:Script>
-
-
-	<s:Rect width="100%" height="100%">
-		<s:fill>
-			<s:SolidColor color="0xAAAAAA"/>
-		</s:fill>
-	</s:Rect>
 	<s:VGroup top="10" left="10" right="10" gap="10" horizontalAlign="center">
 		<s:DropDownList id="positionDropDownList" width="100%" selectedIndex="0"
 						skinClass="spark.skins.spark.DropDownListSkin"

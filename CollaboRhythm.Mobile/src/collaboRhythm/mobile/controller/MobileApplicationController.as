@@ -55,7 +55,7 @@ package collaboRhythm.mobile.controller
 		{
 			super.main();
 
-			_settings.modality = Settings.MODALITY_MOBILE;
+			settings.modality = Settings.MODALITY_MOBILE;
 
 //			_collaborationMediator = new MobileCollaborationMediator(this);
 			initCollaborationController(null);
@@ -83,7 +83,7 @@ package collaboRhythm.mobile.controller
 			_mobileAppControllersMediator = new MobileAppControllersMediator(null,
 																			 null,
 																			 fullContainer,
-																			 _settings,
+																			 settings,
 																			 _componentContainer,
 																			 _collaborationController.collaborationModel.collaborationLobbyNetConnectionService);
 			_mobileAppControllersMediator.createMobileApps(_activeAccount, recordAccount);
@@ -113,7 +113,7 @@ package collaboRhythm.mobile.controller
 			{
 				initializeView(view);
 
-				if (_activeRecordAccount)
+				if (activeRecordAccount)
 					_mobileApplication.busy = false;
 			}
 		}
@@ -121,7 +121,7 @@ package collaboRhythm.mobile.controller
 		private function initializeView(view:WidgetContainerView):void
 		{
 			_widgetContainerController.initializeView(view);
-			view.demoDatePresets = _settings.demoDatePresets;
+			view.demoDatePresets = settings.demoDatePresets;
 			view.addEventListener(DemoEvent.CHANGE_DEMO_DATE, view_changeDemoDateHandler);
 		}
 

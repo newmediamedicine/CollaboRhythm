@@ -98,7 +98,7 @@ package collaboRhythm.workstation.controller
         {
             super.main();
 
-			_settings.modality = Settings.MODALITY_WORKSTATION;
+			settings.modality = Settings.MODALITY_WORKSTATION;
 
             initWindows();
 			_logger.info("Windows initialized");
@@ -288,7 +288,7 @@ package collaboRhythm.workstation.controller
 			}
 
             _fullContainer = _activeRecordView.fullViewGroup;
-            _appControllersMediator = new WorkstationAppControllersMediator(widgetContainers, _fullContainer, _settings, _componentContainer, _collaborationController.collaborationModel.collaborationLobbyNetConnectionService);
+            _appControllersMediator = new WorkstationAppControllersMediator(widgetContainers, _fullContainer, settings, _componentContainer, _collaborationController.collaborationModel.collaborationLobbyNetConnectionService);
             _appControllersMediator.createAndStartApps(_activeAccount, recordAccount);
 
             if (_reloadWithFullView != null)
@@ -305,7 +305,7 @@ package collaboRhythm.workstation.controller
             _appControllersMediator.closeApps();
 			if (recordAccount)
                 recordAccount.primaryRecord.clearDocuments();
-            _activeRecordAccount = null;
+            activeRecordAccount = null;
             _primaryWindowView.mainGroup.removeElement(_activeRecordView);
             if (_secondaryWindowView)
             {
@@ -315,14 +315,14 @@ package collaboRhythm.workstation.controller
 
         protected override function changeDemoDate():void
         {
-            if (_activeRecordAccount != null)
+            if (activeRecordAccount != null)
 			{
-				reloadDocuments(_activeRecordAccount);
+				reloadDocuments(activeRecordAccount);
 				appControllersMediator.reloadUserData();
 			}
 
-			if (_activeRecordAccount && _activeRecordAccount.primaryRecord && _activeRecordAccount.primaryRecord.demographics)
-				_activeRecordAccount.primaryRecord.demographics.dispatchAgeChangeEvent();
+			if (activeRecordAccount && activeRecordAccount.primaryRecord && activeRecordAccount.primaryRecord.demographics)
+				activeRecordAccount.primaryRecord.demographics.dispatchAgeChangeEvent();
         }
 
         public function showRecordVideoView():void
@@ -706,12 +706,12 @@ package collaboRhythm.workstation.controller
 				}
 				else if (event.keyCode == Keyboard.NUMBER_1)
 				{
-					_settings.useSingleScreen = true;
+					settings.useSingleScreen = true;
 //					resetWindows();
 				}
 				else if (event.keyCode == Keyboard.NUMBER_2)
 				{
-					_settings.useSingleScreen = false;
+					settings.useSingleScreen = false;
 //					resetWindows();
 				}
 				else if (event.keyCode == Keyboard.V)
@@ -724,7 +724,7 @@ package collaboRhythm.workstation.controller
 				}
 				else if (event.keyCode == Keyboard.S)
 				{
-					_healthRecordServiceFacade.saveAllChanges(_activeRecordAccount.primaryRecord);
+					_healthRecordServiceFacade.saveAllChanges(activeRecordAccount.primaryRecord);
 				}
 				else if (event.keyCode == Keyboard.F)
 				{
@@ -732,10 +732,10 @@ package collaboRhythm.workstation.controller
 				}
 				else if (event.keyCode == Keyboard.R)
 				{
-					if (_activeRecordAccount && _activeRecordAccount.primaryRecord)
+					if (activeRecordAccount && activeRecordAccount.primaryRecord)
 					{
 						var healthRecordWindow:HealthRecordWindow = new HealthRecordWindow();
-						healthRecordWindow.record = _activeRecordAccount.primaryRecord;
+						healthRecordWindow.record = activeRecordAccount.primaryRecord;
 						healthRecordWindow.open();
 					}
 				}
@@ -796,14 +796,14 @@ package collaboRhythm.workstation.controller
 			for each (var documentType:String in documentTypes)
 			{
 				var deletedCountByType:int = 0;
-				var documentCollection:IDocumentCollection = _activeRecordAccount.primaryRecord.documentCollections[documentType];
+				var documentCollection:IDocumentCollection = activeRecordAccount.primaryRecord.documentCollections[documentType];
 
 				// make a copy of the collection because we are about to iterate through it and (indirectly) remove documents from it
 				var documents:ArrayCollection = new ArrayCollection();
 				documents.addAll(documentCollection.documents);
 				for each (var document:IDocument in documents)
 				{
-					deletedCountByType += _activeRecordAccount.primaryRecord.removeDocument(document,
+					deletedCountByType += activeRecordAccount.primaryRecord.removeDocument(document,
 																							deleteAction,
 																							reason,
 																							true);
@@ -949,7 +949,7 @@ package collaboRhythm.workstation.controller
 
 		public function forceClientSynchronization():void
 		{
-			_logger.info("Forced synchronization on client device of: " + _activeRecordAccount.accountId);
+			_logger.info("Forced synchronization on client device of: " + activeRecordAccount.accountId);
 			_collaborationLobbyNetConnectionService.sendSynchronizationMessage();
 		}
 	}

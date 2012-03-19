@@ -57,7 +57,7 @@ package collaboRhythm.shared.model.healthRecord
         private var _errorStatus:String;
 		private var _indivoClientEvent:IndivoClientEvent;
 
-        public function HealthRecordServiceEvent(type:String, indivoClientEvent:IndivoClientEvent,
+        public function HealthRecordServiceEvent(type:String, indivoClientEvent:IndivoClientEvent = null,
 												 account:Account = null,
 												 healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = null,
 												 responseXml:XML = null, errorStatus:String = null,

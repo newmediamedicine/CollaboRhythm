@@ -23,6 +23,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.core.model.AboutApplicationModel;
 	import collaboRhythm.core.model.ApplicationControllerModel;
 	import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
+	import collaboRhythm.core.model.healthRecord.service.ProblemsHealthRecordService;
 	import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
 	import collaboRhythm.core.pluginsManagement.PluginLoader;
 	import collaboRhythm.core.view.AboutApplicationView;
@@ -74,17 +75,20 @@ package collaboRhythm.core.controller
 	import mx.logging.LogEventLevel;
 	import mx.logging.targets.TraceTarget;
 
+	import spark.components.ViewNavigator;
+
+	[Bindable]
 	public class ApplicationControllerBase implements IApplicationControllerBase, IErrorDetailsProvider
-    {
+	{
 		private static const ONE_MINUTE:int = 1000 * 60;
 
 		protected var _applicationControllerModel:ApplicationControllerModel;
 		protected var _kernel:IKernel;
 		protected var _settingsFileStore:SettingsFileStore;
-		protected var _settings:Settings;
+		private var _settings:Settings;
 		protected var _hasActiveNetworkInterface:Boolean = false;
 		protected var _activeAccount:Account;
-		protected var _activeRecordAccount:Account;
+		private var _activeRecordAccount:Account;
 		protected var _collaborationController:CollaborationController;
 		protected var _logger:ILogger;
 		protected var _componentContainer:IComponentContainer;
@@ -130,7 +134,7 @@ package collaboRhythm.core.controller
 			var delay:Number = _nextAutoSyncTime.getTime() - now.getTime() + cushionDelay;
 
 			_logger.info("Automatic synchronization timer set to go off at or after " + _nextAutoSyncTime +
-						 " in " + delay / ONE_MINUTE + " minutes");
+					" in " + delay / ONE_MINUTE + " minutes");
 			_autoSyncTimer.delay = delay;
 			_autoSyncTimer.start();
 		}
@@ -144,72 +148,76 @@ package collaboRhythm.core.controller
 			}
 
 			_logger.info("Performing automatic synchronization from timer event. Local time: " + now.toString() +
-						 ". Expected auto sync time: " + _nextAutoSyncTime.toString() + ". Previous timer delay (minutes): " + _autoSyncTimer.delay / ONE_MINUTE);
+					". Expected auto sync time: " + _nextAutoSyncTime.toString() +
+					". Previous timer delay (minutes): " + _autoSyncTimer.delay / ONE_MINUTE);
 			synchronize();
 			updateAutoSyncTime();
 		}
 
-        /**
-         * Main function to start the application running.
-         * This method should be overridden by subclasses with the super method called at the beginning subclasses
-         * can then perform appropriate actions after settings, logging, and components have been initialized.
-         */
-        public function main():void
-        {
-            _applicationControllerModel = new ApplicationControllerModel();
-            _applicationControllerModel.isLoading = true;
-            BindingUtils.bindSetter(applicationControllerModel_isLoadingChangeHandler, _applicationControllerModel, "isLoading");
-            BindingUtils.bindSetter(applicationControllerModel_hasErrorsChangeHandler, _applicationControllerModel, "hasErrors");
+		/**
+		 * Main function to start the application running.
+		 * This method should be overridden by subclasses with the super method called at the beginning subclasses
+		 * can then perform appropriate actions after settings, logging, and components have been initialized.
+		 */
+		public function main():void
+		{
+			_applicationControllerModel = new ApplicationControllerModel();
+			_applicationControllerModel.isLoading = true;
+			BindingUtils.bindSetter(applicationControllerModel_isLoadingChangeHandler, _applicationControllerModel,
+					"isLoading");
+			BindingUtils.bindSetter(applicationControllerModel_hasErrorsChangeHandler, _applicationControllerModel,
+					"hasErrors");
 
-            initSettings();
+			// initSettings needs to be called prior to initLogging because the settings for logging need to be loaded first
+			initSettings();
 
-            // TODO: provide feedback if there is not an active NetworkInterface
-            checkNetworkStatus();
+			// TODO: provide feedback if there is not an active NetworkInterface
+			checkNetworkStatus();
 
-            initLogging();
+			initLogging();
 
-            var applicationInfo:AboutApplicationModel = new AboutApplicationModel();
-            applicationInfo.initialize();
-            _logger.info("Application: " + applicationInfo.appName);
-            _logger.info("  " + applicationInfo.appCopyright);
-            _logger.info("  Version " + applicationInfo.appVersion);
-            if (applicationInfo.appModificationDateString)
-            {
-                _logger.info("  Updated " + applicationInfo.appModificationDateString);
-            }
+			var applicationInfo:AboutApplicationModel = new AboutApplicationModel();
+			applicationInfo.initialize();
+			_logger.info("Application: " + applicationInfo.appName);
+			_logger.info("  " + applicationInfo.appCopyright);
+			_logger.info("  Version " + applicationInfo.appVersion);
+			if (applicationInfo.appModificationDateString)
+			{
+				_logger.info("  Updated " + applicationInfo.appModificationDateString);
+			}
 
-            /*
-             <s:Label id="applicationNameLabel" text="{_applicationInfo.appName}" fontSize="36"/>
-             <s:Label id="applicationCopyrightLabel" text="{_applicationInfo.appCopyright}"/>
-             <s:Label id="applicationVersionLabel" text="Version {_applicationInfo.appVersion}"/>
-             <s:Label id="applicationModificationLabel" text="Updated {_applicationInfo.appModificationDateString}"
-             */
+			/*
+			 <s:Label id="applicationNameLabel" text="{_applicationInfo.appName}" fontSize="36"/>
+			 <s:Label id="applicationCopyrightLabel" text="{_applicationInfo.appCopyright}"/>
+			 <s:Label id="applicationVersionLabel" text="Version {_applicationInfo.appVersion}"/>
+			 <s:Label id="applicationModificationLabel" text="Updated {_applicationInfo.appModificationDateString}"
+			 */
 
 
-            // initSettings needs to be called prior to initLogging because the settings for logging need to be loaded first
-            _logger.info("Settings initialized");
-            _logger.info("  Application settings file loaded: " + _settingsFileStore.isApplicationSettingsLoaded);
-            _logger.info("  User settings file loaded: " + _settingsFileStore.isUserSettingsLoaded + " path=" + _settingsFileStore.userSettingsFile.nativePath);
-            _logger.info("  Mode: " + _settings.mode);
-            _logger.info("  Username: " + _settings.username);
-            if (_settings.targetDate)
-                _logger.info("  Demo mode ON; target date: " + _settings.targetDate.toLocaleString());
-            else
-                _logger.info("  Demo mode OFF");
+			_logger.info("Settings initialized");
+			_logger.info("  Application settings file loaded: " + _settingsFileStore.isApplicationSettingsLoaded);
+			_logger.info("  User settings file loaded: " + _settingsFileStore.isUserSettingsLoaded + " path=" +
+					_settingsFileStore.userSettingsFile.nativePath);
+			_logger.info("  Mode: " + _settings.mode);
+			_logger.info("  Username: " + _settings.username);
+			if (_settings.targetDate)
+				_logger.info("  Demo mode ON; target date: " + _settings.targetDate.toLocaleString());
+			else
+				_logger.info("  Demo mode OFF");
 
-            initNativeApplicationEventListeners();
+			initNativeApplicationEventListeners();
 
-            initComponents();
-            _logger.info("Components initialized. Asynchronous plugin loading initiated.");
-            _logger.info("  User plugins directory: " + _pluginLoader.userPluginsDirectoryPath);
-            _logger.info("  Number of loaded plugins: " + _pluginLoader.numPluginsLoaded);
+			initComponents();
+			_logger.info("Components initialized. Asynchronous plugin loading initiated.");
+			_logger.info("  User plugins directory: " + _pluginLoader.userPluginsDirectoryPath);
+			_logger.info("  Number of loaded plugins: " + _pluginLoader.numPluginsLoaded);
 
-            // the activeAccount is that which is actively in session with the Indivo server, there can only be one active account at a time
-            // create an instance of this model class before creating a session so that the results are tracked by that instance
-            _activeAccount = new Account();
-        }
+			// the activeAccount is that which is actively in session with the Indivo server, there can only be one active account at a time
+			// create an instance of this model class before creating a session so that the results are tracked by that instance
+			_activeAccount = new Account();
+		}
 
-        protected function initNativeApplicationEventListeners():void
+		protected function initNativeApplicationEventListeners():void
 		{
 			NativeApplication.nativeApplication.addEventListener(Event.EXITING, nativeApplication_exitingHandler);
 
@@ -219,15 +227,15 @@ package collaboRhythm.core.controller
 			// User idle/resent events don't work on mobile devices. Note that default NativeApplication.nativeApplication.idleThreshold = 300 (5 minutes)
 			NativeApplication.nativeApplication.addEventListener(Event.USER_IDLE, nativeApplication_userIdleHandler);
 			NativeApplication.nativeApplication.addEventListener(Event.USER_PRESENT,
-																 nativeApplication_userPresentHandler);
+					nativeApplication_userPresentHandler);
 		}
 
 		private function nativeApplication_exitingHandler(event:Event):void
 		{
-			if (_activeRecordAccount)
+			if (activeRecordAccount)
 			{
 				autoSave();
-				if (_activeRecordAccount.primaryRecord.isSaving)
+				if (activeRecordAccount.primaryRecord.isSaving)
 				{
 					event.preventDefault();
 					_pendingExit = true;
@@ -246,8 +254,8 @@ package collaboRhythm.core.controller
 		private function autoSave():void
 		{
 			// Don't try to auto-save on quit if we just tried to save and had errors (allow the user to force quit)
-			if (_activeRecordAccount && !hasErrorsSaving && !isSaving)
-				_activeRecordAccount.primaryRecord.saveAllChanges();
+			if (activeRecordAccount && !hasErrorsSaving && !isSaving)
+				activeRecordAccount.primaryRecord.saveAllChanges();
 		}
 
 		/**
@@ -267,10 +275,10 @@ package collaboRhythm.core.controller
 		{
 			InteractionLogUtil.log(_logger, "Application deactivate");
 
-			if (isAutoSaveOnDeactivateEnabled && _activeRecordAccount)
+			if (isAutoSaveOnDeactivateEnabled && activeRecordAccount)
 			{
 				autoSave();
-				if (_activeRecordAccount.primaryRecord.isSaving)
+				if (activeRecordAccount.primaryRecord.isSaving)
 				{
 					// TODO: can we or should we prevent/delay deactivate while saving?
 				}
@@ -292,7 +300,8 @@ package collaboRhythm.core.controller
 
 		private function nativeApplication_userIdleHandler(event:Event):void
 		{
-			InteractionLogUtil.log(_logger, "User idle timeSinceLastUserInput=" + NativeApplication.nativeApplication.timeSinceLastUserInput);
+			InteractionLogUtil.log(_logger,
+					"User idle timeSinceLastUserInput=" + NativeApplication.nativeApplication.timeSinceLastUserInput);
 		}
 
 		private function nativeApplication_userPresentHandler(event:Event):void
@@ -318,6 +327,10 @@ package collaboRhythm.core.controller
 			_settings = _settingsFileStore.settings;
 		}
 
+		/**
+		 * Determines if the device has an available network interface, which is necessary to have a network connection.
+		 * This feature is not supported for all mobile devices.
+		 */
 		private function checkNetworkStatus():void
 		{
 			if (NetworkInfo.isSupported)
@@ -334,7 +347,7 @@ package collaboRhythm.core.controller
 		}
 
 		/**
-		 * Initializes the logging capabilities of CollaboRhythm (trace, file, and syslog) based on settings
+		 * Initializes the logging capabilities of CollaboRhythm (trace, file, and syslog) based on settings.
 		 */
 		private function initLogging():void
 		{
@@ -394,9 +407,11 @@ package collaboRhythm.core.controller
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 
 			_logger.info("Logging initialized");
-			_logger.info("  Use file target: " + _settings.useFileTarget + (_settings.useFileTarget ? " path=" + path : ""));
+			_logger.info("  Use file target: " + _settings.useFileTarget +
+					(_settings.useFileTarget ? " path=" + path : ""));
 			_logger.info("  Use trace target: " + _settings.useTraceTarget);
-			_logger.info("  Use syslog target: " + _settings.useSyslogTarget + (_settings.useSyslogTarget ? " address=" + _settings.syslogServerIpAddress : ""));
+			_logger.info("  Use syslog target: " + _settings.useSyslogTarget +
+					(_settings.useSyslogTarget ? " address=" + _settings.syslogServerIpAddress : ""));
 			if (migrationMessage)
 				_logger.info("  " + migrationMessage);
 		}
@@ -417,7 +432,8 @@ package collaboRhythm.core.controller
 				}
 				else
 				{
-					message = "Log file was not copied to accessible path because log file does not exist at: " + oldPath;
+					message = "Log file was not copied to accessible path because log file does not exist at: " +
+							oldPath;
 				}
 
 				var directoryListing:Array = sourceFile.parent.getDirectoryListing();
@@ -434,7 +450,8 @@ package collaboRhythm.core.controller
 			}
 			else
 			{
-				message = "Old log file migration unnecessary. Log file was not copied to accessible path because log file is not in a path that is known to be inaccessible: " + path;
+				message = "Old log file migration unnecessary. Log file was not copied to accessible path because log file is not in a path that is known to be inaccessible: " +
+						path;
 			}
 			return message;
 		}
@@ -478,7 +495,8 @@ package collaboRhythm.core.controller
 			_collaborationLobbyNetConnectionService = _collaborationController.collaborationModel.collaborationLobbyNetConnectionService;
 			_collaborationController.addEventListener(CollaborationLobbyNetConnectionEvent.SYNCHRONIZE,
 					synchronizeHandler);
-			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_RECEIVED, collaborationInvitationReceived_eventHandler);
+			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_RECEIVED,
+					collaborationInvitationReceived_eventHandler);
 			BindingUtils.bindSetter(collaborationLobbyIsConnecting_changeHandler,
 					_collaborationLobbyNetConnectionService, "isConnecting");
 			BindingUtils.bindSetter(collaborationLobbyHasConnectionFailed_changeHandler,
@@ -489,7 +507,8 @@ package collaboRhythm.core.controller
 
 		private function synchronizeHandler(event:CollaborationLobbyNetConnectionEvent):void
 		{
-			if (!_activeRecordAccount.primaryRecord.isLoading && !_activeRecordAccount.primaryRecord.isSaving && !_pendingExit && !_pendingReloadData)
+			if (!activeRecordAccount.primaryRecord.isLoading && !activeRecordAccount.primaryRecord.isSaving &&
+					!_pendingExit && !_pendingReloadData)
 				reloadData();
 		}
 
@@ -514,14 +533,14 @@ package collaboRhythm.core.controller
 			_logger.info("Creating session in Indivo...");
 			_applicationControllerModel.createSessionStatus = ApplicationControllerModel.CREATE_SESSION_STATUS_ATTEMPTING;
 			var createSessionHealthRecordService:CreateSessionHealthRecordService = new CreateSessionHealthRecordService(_settings.oauthChromeConsumerKey,
-																														 _settings.oauthChromeConsumerSecret,
-																														 _settings.indivoServerBaseURL,
-																														 _activeAccount);
+					_settings.oauthChromeConsumerSecret,
+					_settings.indivoServerBaseURL,
+					_activeAccount);
 			addPendingService(createSessionHealthRecordService);
 			createSessionHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE,
-															  createSessionSucceededHandler);
+					createSessionSucceededHandler);
 			createSessionHealthRecordService.addEventListener(HealthRecordServiceEvent.FAILED,
-															  createSessionFailedHandler);
+					createSessionFailedHandler);
 			createSessionHealthRecordService.createSession(_settings.username, _settings.password);
 		}
 
@@ -555,7 +574,7 @@ package collaboRhythm.core.controller
 			_logger.info("Creating session in Indivo - FAILED - " + event.errorStatus);
 			_applicationControllerModel.createSessionStatus = ApplicationControllerModel.CREATE_SESSION_STATUS_FAILED;
 			handleServiceFailed(event,
-								"Failed to authenticate with health record service. Check settings and internet connection and try again.");
+					"Failed to authenticate with health record service. Check settings and internet connection and try again.");
 		}
 
 		protected function handleServiceFailed(event:HealthRecordServiceEvent, errorMessage:String):void
@@ -581,9 +600,9 @@ package collaboRhythm.core.controller
 		private function getAccountInformation():void
 		{
 			var accountInformationHealthRecordService:AccountInformationHealthRecordService = new AccountInformationHealthRecordService(_settings.oauthChromeConsumerKey,
-																																		_settings.oauthChromeConsumerSecret,
-																																		_settings.indivoServerBaseURL,
-																																		_activeAccount);
+					_settings.oauthChromeConsumerSecret,
+					_settings.indivoServerBaseURL,
+					_activeAccount);
 			accountInformationHealthRecordService.retrieveAccountInformation(_activeAccount);
 		}
 
@@ -593,16 +612,16 @@ package collaboRhythm.core.controller
 			_logger.info("Getting records from Indivo...");
 
 			var recordsHealthRecordService:RecordsHealthRecordService = new RecordsHealthRecordService(_settings.oauthChromeConsumerKey,
-																									   _settings.oauthChromeConsumerSecret,
-																									   _settings.indivoServerBaseURL,
-																									   _activeAccount,
-																									   _settings);
+					_settings.oauthChromeConsumerSecret,
+					_settings.indivoServerBaseURL,
+					_activeAccount,
+					_settings);
 			addPendingService(recordsHealthRecordService);
 
 			recordsHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE,
-														getRecordsCompleteHandler);
+					getRecordsCompleteHandler);
 			recordsHealthRecordService.addEventListener(HealthRecordServiceEvent.FAILED,
-														getRecordsFailedHandler);
+					getRecordsFailedHandler);
 			recordsHealthRecordService.getRecords();
 		}
 
@@ -625,6 +644,9 @@ package collaboRhythm.core.controller
 
 				// get the demographics for the active account all of the shared records
 				getDemographics();
+
+				// get the problems for all of the shred records
+				getProblems();
 			}
 			removePendingService(event.target);
 		}
@@ -636,7 +658,7 @@ package collaboRhythm.core.controller
 			removePendingService(event.target);
 		}
 
-		protected function showSelectRecordView():void
+		public function showSelectRecordView():void
 		{
 
 		}
@@ -647,14 +669,14 @@ package collaboRhythm.core.controller
 			_logger.info("Getting shares from Indivo...");
 
 			var sharesHealthRecordService:SharesHealthRecordService = new SharesHealthRecordService(_settings.oauthChromeConsumerKey,
-																									_settings.oauthChromeConsumerSecret,
-																									_settings.indivoServerBaseURL,
-																									_activeAccount);
+					_settings.oauthChromeConsumerSecret,
+					_settings.indivoServerBaseURL,
+					_activeAccount);
 			addPendingService(sharesHealthRecordService);
 			sharesHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE,
-													   getSharesCompleteHandler);
+					getSharesCompleteHandler);
 			sharesHealthRecordService.addEventListener(HealthRecordServiceEvent.FAILED,
-													   getSharesFailedHandler);
+					getSharesFailedHandler);
 			sharesHealthRecordService.getShares(_activeAccount.primaryRecord);
 		}
 
@@ -686,14 +708,16 @@ package collaboRhythm.core.controller
 		{
 			var demographicsHealthRecordService:DemographicsHealthRecordService =
 					new DemographicsHealthRecordService(_settings.oauthChromeConsumerKey,
-														  _settings.oauthChromeConsumerSecret,
-														  _settings.indivoServerBaseURL,
-														  _activeAccount);
+							_settings.oauthChromeConsumerSecret,
+							_settings.indivoServerBaseURL,
+							_activeAccount);
 
 			addPendingService(demographicsHealthRecordService);
-			demographicsHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE, demographicsHealthRecordService_completeHandler, false, 0, true);
+			demographicsHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE,
+					demographicsHealthRecordService_completeHandler, false, 0, true);
 			// TODO: add support to DemographicsHealthRecordService for failing and retrying; currently, this event is not being dispatched
-			demographicsHealthRecordService.addEventListener(HealthRecordServiceEvent.FAILED, demographicsHealthRecordService_failedHandler, false, 0, true);
+			demographicsHealthRecordService.addEventListener(HealthRecordServiceEvent.FAILED,
+					demographicsHealthRecordService_failedHandler, false, 0, true);
 			demographicsHealthRecordService.getDemographics(_activeAccount.primaryRecord);
 
 			for each (var account:Account in _activeAccount.allSharingAccounts)
@@ -701,7 +725,32 @@ package collaboRhythm.core.controller
 				if (account.primaryRecord)
 					demographicsHealthRecordService.getDemographics(account.primaryRecord);
 				else
-					_logger.warn("Record from account " + account.accountId + " is not available (probably not shared) to account " + _activeAccount.accountId + ". You may need to share this record.");
+					_logger.warn("Record from account " + account.accountId +
+							" is not available (probably not shared) to account " + _activeAccount.accountId +
+							". You may need to share this record.");
+			}
+		}
+
+		// get the problems for each of the sharedRecords when in clinician mode
+		private function getProblems():void
+		{
+			var problemsHealthRecordService:ProblemsHealthRecordService = new ProblemsHealthRecordService(_settings.oauthChromeConsumerKey,
+					_settings.oauthChromeConsumerSecret, _settings.indivoServerBaseURL, _activeAccount,
+					_settings.debuggingToolsEnabled);
+			addPendingService(problemsHealthRecordService);
+			problemsHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE,
+								problemsHealthRecordService_completeHandler, false, 0, true);
+			problemsHealthRecordService.addEventListener(HealthRecordServiceEvent.FAILED,
+					problemsHealthRecordService_failedHandler, false, 0, true);
+
+			for each (var account:Account in _activeAccount.sharedRecordAccounts)
+			{
+				if (account.primaryRecord)
+					problemsHealthRecordService.loadDocuments(account.primaryRecord);
+				else
+					_logger.warn("Record from account " + account.accountId +
+							" is not available (probably not shared) to account " + _activeAccount.accountId +
+							". You may need to share this record.");
 			}
 		}
 
@@ -715,6 +764,18 @@ package collaboRhythm.core.controller
 		private function demographicsHealthRecordService_failedHandler(event:HealthRecordServiceEvent):void
 		{
 			_applicationControllerModel.errorMessage = "Failed to load demographics.";
+			_applicationControllerModel.hasErrors = true;
+			removePendingService(event.target);
+		}
+
+		private function problemsHealthRecordService_completeHandler(event:HealthRecordServiceEvent):void
+		{
+			removePendingService(event.target);
+		}
+
+		private function problemsHealthRecordService_failedHandler(event:HealthRecordServiceEvent):void
+		{
+			_applicationControllerModel.errorMessage = "Failed to load problems.";
 			_applicationControllerModel.hasErrors = true;
 			removePendingService(event.target);
 		}
@@ -754,7 +815,7 @@ package collaboRhythm.core.controller
 		 */
 		public function openRecordAccount(recordAccount:Account):void
 		{
-			_activeRecordAccount = recordAccount;
+			activeRecordAccount = recordAccount;
 			_collaborationController.setActiveRecordAccount(recordAccount);
 
 			// TODO: Rework document retrieval
@@ -767,10 +828,10 @@ package collaboRhythm.core.controller
 		{
 			InteractionLogUtil.log(_logger, "Close record", "close record button");
 
-			if (_activeRecordAccount)
+			if (activeRecordAccount)
 			{
 				autoSave();
-				if (_activeRecordAccount.primaryRecord.isSaving)
+				if (activeRecordAccount.primaryRecord.isSaving)
 				{
 					_pendingCloseRecordAccount = recordAccount;
 				}
@@ -795,19 +856,21 @@ package collaboRhythm.core.controller
 				_healthRecordServiceFacade.closeRecord();
 		}
 
-        public function set targetDate(value:Date):void
-        {
-            _settings.targetDate = value;
-            var dateSource:DemoCurrentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as DemoCurrentDateSource;
-            if (dateSource != null)
-            {
-                _logger.info("Changing demo date from " + getTargetDateString(dateSource.targetDate) + " to " + getTargetDateString(value) + "...");
-                dateSource.targetDate = value;
-                changeDemoDate();
-            }
-        }
+		public function set targetDate(value:Date):void
+		{
+			_settings.targetDate = value;
+			var dateSource:DemoCurrentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as
+					DemoCurrentDateSource;
+			if (dateSource != null)
+			{
+				_logger.info("Changing demo date from " + getTargetDateString(dateSource.targetDate) + " to " +
+						getTargetDateString(value) + "...");
+				dateSource.targetDate = value;
+				changeDemoDate();
+			}
+		}
 
-        private function getTargetDateString(value:Date):String
+		private function getTargetDateString(value:Date):String
 		{
 			if (value)
 				return value.toDateString();
@@ -815,19 +878,19 @@ package collaboRhythm.core.controller
 				return "null (demo mode off)";
 		}
 
-        public function reloadPlugins():void
-        {
-            _reloadWithRecordAccount = _activeRecordAccount;
-            _reloadWithFullView = currentFullView;
+		public function reloadPlugins():void
+		{
+			_reloadWithRecordAccount = activeRecordAccount;
+			_reloadWithFullView = currentFullView;
 
-            closeRecordAccount(_activeRecordAccount);
-            _componentContainer.removeAllComponents();
-            _pluginLoader.unloadPlugins();
+			closeRecordAccount(activeRecordAccount);
+			_componentContainer.removeAllComponents();
+			_pluginLoader.unloadPlugins();
 
-            _pluginLoader.loadPlugins();
-        }
+			_pluginLoader.loadPlugins();
+		}
 
-        private function pluginLoader_complete(event:Event):void
+		private function pluginLoader_complete(event:Event):void
 		{
 			handlePluginsLoaded();
 		}
@@ -872,12 +935,12 @@ package collaboRhythm.core.controller
 			return _componentContainer;
 		}
 
-        public function get settings():Settings
-        {
-            return _settings;
-        }
+		public function get settings():Settings
+		{
+			return _settings;
+		}
 
-        public function get currentFullView():String
+		public function get currentFullView():String
 		{
 			throw new Error("virtual function must be overriden in subclass");
 		}
@@ -896,13 +959,15 @@ package collaboRhythm.core.controller
 		{
 			// TODO: What if we are already saving or loading? What if there are unsaved pending changes?
 			_healthRecordServiceFacade = new HealthRecordServiceFacade(settings.oauthChromeConsumerKey,
-																	   settings.oauthChromeConsumerSecret,
-																	   settings.indivoServerBaseURL, _activeAccount,
-																	   settings.debuggingToolsEnabled);
+					settings.oauthChromeConsumerSecret,
+					settings.indivoServerBaseURL, _activeAccount,
+					settings.debuggingToolsEnabled);
 			BindingUtils.bindSetter(serviceIsLoading_changeHandler, _healthRecordServiceFacade, "isLoading");
 			BindingUtils.bindSetter(serviceIsSaving_changeHandler, _healthRecordServiceFacade, "isSaving");
-			BindingUtils.bindSetter(serviceHasConnectionErrorsSaving_changeHandler, _healthRecordServiceFacade, "hasConnectionErrorsSaving");
-			BindingUtils.bindSetter(serviceHasUnexpectedErrorsSaving_changeHandler, _healthRecordServiceFacade, "hasUnexpectedErrorsSaving");
+			BindingUtils.bindSetter(serviceHasConnectionErrorsSaving_changeHandler, _healthRecordServiceFacade,
+					"hasConnectionErrorsSaving");
+			BindingUtils.bindSetter(serviceHasUnexpectedErrorsSaving_changeHandler, _healthRecordServiceFacade,
+					"hasUnexpectedErrorsSaving");
 			_healthRecordServiceFacade.loadDocuments(recordAccount.primaryRecord);
 		}
 
@@ -968,12 +1033,15 @@ package collaboRhythm.core.controller
 
 		private function updateBackgroundProcess():void
 		{
-			backgroundProcessModel.updateProcess("healthRecordServiceFacade", "Saving...", _healthRecordServiceFacade && _healthRecordServiceFacade.isSaving);
+			backgroundProcessModel.updateProcess("healthRecordServiceFacade", "Saving...",
+					_healthRecordServiceFacade && _healthRecordServiceFacade.isSaving);
 		}
 
 		private function get hasErrorsSaving():Boolean
 		{
-			return _healthRecordServiceFacade && (_healthRecordServiceFacade.hasConnectionErrorsSaving || _healthRecordServiceFacade.hasUnexpectedErrorsSaving);
+			return _healthRecordServiceFacade &&
+					(_healthRecordServiceFacade.hasConnectionErrorsSaving ||
+							_healthRecordServiceFacade.hasUnexpectedErrorsSaving);
 		}
 
 		private function get isSaving():Boolean
@@ -997,32 +1065,32 @@ package collaboRhythm.core.controller
 			updateConnectivityView();
 		}
 
-        public function reloadData():void
-        {
-            if (_activeRecordAccount != null)
-            {
-                reloadDocuments(_activeRecordAccount);
-                appControllersMediator.reloadUserData();
-            }
-        }
+		public function reloadData():void
+		{
+			if (activeRecordAccount != null)
+			{
+				reloadDocuments(activeRecordAccount);
+				appControllersMediator.reloadUserData();
+			}
+		}
 
-        public function synchronize():void
-        {
-            if (_activeRecordAccount)
-            {
-                _activeRecordAccount.primaryRecord.saveAllChanges();
-                if (_activeRecordAccount.primaryRecord.isSaving)
-                    _pendingReloadData = true;
-                else
-                    reloadData();
-            }
-            if (!_collaborationLobbyNetConnectionService.isConnected)
-            {
-                _collaborationLobbyNetConnectionService.enterCollaborationLobby();
-            }
-        }
+		public function synchronize():void
+		{
+			if (activeRecordAccount)
+			{
+				activeRecordAccount.primaryRecord.saveAllChanges();
+				if (activeRecordAccount.primaryRecord.isSaving)
+					_pendingReloadData = true;
+				else
+					reloadData();
+			}
+			if (!_collaborationLobbyNetConnectionService.isConnected)
+			{
+				_collaborationLobbyNetConnectionService.enterCollaborationLobby();
+			}
+		}
 
-        protected function updateConnectivityView():void
+		protected function updateConnectivityView():void
 		{
 			if (_connectivityView)
 			{
@@ -1039,9 +1107,11 @@ package collaboRhythm.core.controller
 				else if (_applicationControllerModel && _applicationControllerModel.hasErrors)
 				{
 					connectivityState = ConnectivityView.CONNECT_FAILED_STATE;
-					_connectivityView.detailsMessage = "Connection to health record server failed. You will not be able to access your health record until this is resolved. " + _applicationControllerModel.errorMessage;
+					_connectivityView.detailsMessage = "Connection to health record server failed. You will not be able to access your health record until this is resolved. " +
+							_applicationControllerModel.errorMessage;
 				}
-				else if (_collaborationLobbyNetConnectionService && _collaborationLobbyNetConnectionService.isConnecting)
+				else if (_collaborationLobbyNetConnectionService &&
+						_collaborationLobbyNetConnectionService.isConnecting)
 				{
 					connectivityState = ConnectivityView.CONNECT_IN_PROGRESS_STATE;
 					_connectivityView.detailsMessage = "Connecting to collaboration server...";
@@ -1059,17 +1129,21 @@ package collaboRhythm.core.controller
 				else if (_healthRecordServiceFacade && _healthRecordServiceFacade.hasConnectionErrorsSaving)
 				{
 					connectivityState = ConnectivityView.CONNECTION_ERRORS_SAVING_STATE;
-					_connectivityView.detailsMessage = "Connection to health record server " + settings.indivoServerBaseURL + " failed. " + _healthRecordServiceFacade.errorsSavingSummary;
+					_connectivityView.detailsMessage = "Connection to health record server " +
+							settings.indivoServerBaseURL + " failed. " + _healthRecordServiceFacade.errorsSavingSummary;
 				}
 				else if (_healthRecordServiceFacade && _healthRecordServiceFacade.hasUnexpectedErrorsSaving)
 				{
 					connectivityState = ConnectivityView.UNEXPECTED_ERRORS_SAVING_STATE;
-					_connectivityView.detailsMessage = "Unexpected errors occurred while saving changes to health record server " + settings.indivoServerBaseURL + ". " + _healthRecordServiceFacade.errorsSavingSummary;
+					_connectivityView.detailsMessage = "Unexpected errors occurred while saving changes to health record server " +
+							settings.indivoServerBaseURL + ". " + _healthRecordServiceFacade.errorsSavingSummary;
 				}
-				else if (_collaborationLobbyNetConnectionService && _collaborationLobbyNetConnectionService.hasConnectionFailed)
+				else if (_collaborationLobbyNetConnectionService &&
+						_collaborationLobbyNetConnectionService.hasConnectionFailed)
 				{
 					connectivityState = ConnectivityView.CONNECT_FAILED_STATE;
-					_connectivityView.detailsMessage = "Connection to collaboration server " + settings.rtmpBaseURI + " failed. You will not be able to access video messages or synchronization messages if data is changed from another device.";
+					_connectivityView.detailsMessage = "Connection to collaboration server " + settings.rtmpBaseURI +
+							" failed. You will not be able to access video messages or synchronization messages if data is changed from another device.";
 				}
 
 				if (connectivityState)
@@ -1100,7 +1174,8 @@ package collaboRhythm.core.controller
 				parts.push("  Updated " + applicationInfo.appModificationDateString);
 			}
 			var settingsSourceClause:String = settingsFileStore.isUserSettingsLoaded ? (" (based on a combination of the default settings and user settings from " +
-					settingsFileStore.userSettingsFile.nativePath + "):") : " (based on the default settings; user settings not loaded):";
+					settingsFileStore.userSettingsFile.nativePath +
+					"):") : " (based on the default settings; user settings not loaded):";
 			parts.push("\nSettings" + settingsSourceClause);
 			parts.push(settingsFileStore.encodeToXML());
 			var logFile:File = LogFileReader.getLogFile();
@@ -1162,65 +1237,65 @@ package collaboRhythm.core.controller
 			return _pendingServices;
 		}
 
-        public function exitApplication(exitMethod:String):void
-        {
-            _collaborationLobbyNetConnectionService.exitCollaborationLobby();
-            InteractionLogUtil.log(_logger, "Application exit", exitMethod);
-            ApplicationExitUtil.exit();
-        }
+		public function exitApplication(exitMethod:String):void
+		{
+			_collaborationLobbyNetConnectionService.exitCollaborationLobby();
+			InteractionLogUtil.log(_logger, "Application exit", exitMethod);
+			ApplicationExitUtil.exit();
+		}
 
-        public function showAboutApplicationView():void
-        {
-            if (_aboutApplicationView)
-                _aboutApplicationView.visible = true;
-        }
+		public function showAboutApplicationView():void
+		{
+			if (_aboutApplicationView)
+				_aboutApplicationView.visible = true;
+		}
 
-        [Bindable]
-        public function get fastForwardEnabled():Boolean
-        {
-            var fastForwardEnabled:Boolean;
-            var demoCurrentDateSource:DemoCurrentDateSource = _currentDateSource as DemoCurrentDateSource;
-            if (demoCurrentDateSource)
-            {
-                fastForwardEnabled = demoCurrentDateSource.fastForwardEnabled;
+		[Bindable]
+		public function get fastForwardEnabled():Boolean
+		{
+			var fastForwardEnabled:Boolean;
+			var demoCurrentDateSource:DemoCurrentDateSource = _currentDateSource as DemoCurrentDateSource;
+			if (demoCurrentDateSource)
+			{
+				fastForwardEnabled = demoCurrentDateSource.fastForwardEnabled;
 
-            }
-            return fastForwardEnabled;
-        }
+			}
+			return fastForwardEnabled;
+		}
 
-        public function set fastForwardEnabled(value:Boolean):void
-        {
-            var demoCurrentDateSource:DemoCurrentDateSource = _currentDateSource as DemoCurrentDateSource;
-            if (demoCurrentDateSource)
-            {
-                demoCurrentDateSource.fastForwardEnabled = value;
-            }
-        }
+		public function set fastForwardEnabled(value:Boolean):void
+		{
+			var demoCurrentDateSource:DemoCurrentDateSource = _currentDateSource as DemoCurrentDateSource;
+			if (demoCurrentDateSource)
+			{
+				demoCurrentDateSource.fastForwardEnabled = value;
+			}
+		}
 
-        [Bindable]
-        public function get backgroundProcessModel():BackgroundProcessCollectionModel
-        {
-            return _backgroundProcessModel;
-        }
+		[Bindable]
+		public function get backgroundProcessModel():BackgroundProcessCollectionModel
+		{
+			return _backgroundProcessModel;
+		}
 
-        public function set backgroundProcessModel(value:BackgroundProcessCollectionModel):void
-        {
-            _backgroundProcessModel = value;
-        }
+		public function set backgroundProcessModel(value:BackgroundProcessCollectionModel):void
+		{
+			_backgroundProcessModel = value;
+		}
 
-        public function useDemoPreset(demoPresetIndex:int):void
-        {
-            if (_settings.demoDatePresets && _settings.demoDatePresets.length > demoPresetIndex)
-                targetDate = _settings.demoDatePresets[demoPresetIndex];
-        }
-		
+		public function useDemoPreset(demoPresetIndex:int):void
+		{
+			if (_settings.demoDatePresets && _settings.demoDatePresets.length > demoPresetIndex)
+				targetDate = _settings.demoDatePresets[demoPresetIndex];
+		}
+
 		public function collaborate():void
 		{
 			var invitedAccounts:Vector.<Account> = new Vector.<Account>();
 			if (_settings.mode == Settings.MODE_CLINICIAN)
 			{
-				invitedAccounts.push(_activeRecordAccount);
-				_collaborationController.collaborate(_activeRecordAccount, invitedAccounts);
+				invitedAccounts.push(activeRecordAccount);
+				_collaborationController.collaborate(activeRecordAccount, invitedAccounts);
 			}
 			else if (_settings.mode = Settings.MODE_PATIENT)
 			{
@@ -1229,5 +1304,25 @@ package collaboRhythm.core.controller
 				_collaborationController.collaborate(_activeAccount, invitedAccounts);
 			}
 		}
-    }
+
+		public function get activeRecordAccount():Account
+		{
+			return _activeRecordAccount;
+		}
+
+		public function set activeRecordAccount(value:Account):void
+		{
+			_activeRecordAccount = value;
+		}
+
+		public function get navigator():ViewNavigator
+		{
+			return null;
+		}
+
+		public function acceptCollaborationInvitation():void
+		{
+
+		}
+	}
 }

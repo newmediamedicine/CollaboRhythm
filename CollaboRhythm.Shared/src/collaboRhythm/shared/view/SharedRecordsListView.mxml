@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!---
-  - Copyright 2012 John Moore, Scott Gilroy
-  -
-  - This file is part of CollaboRhythm.
-  -
-  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
-  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
-  - version.
-  -
-  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
-  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-  - details.
-  -
-  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
-  - <http://www.gnu.org/licenses/>.
-  -->
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 width="500" xmlns:scroll="collaboRhythm.view.scroll.*">
+		 xmlns:s="library://ns.adobe.com/flex/spark">
 	<fx:Declarations>
 		<s:Animate id="showEffect" target="{this}">
 			<s:motionPaths>
@@ -48,7 +46,7 @@
 			_activeAccount = activeAccount;
 		}
 
-		protected function sharedRecordsList_changeHandler(event:ListEvent):void
+		protected function sharedRecordsList_changeHandler():void
 		{
 			var sharedRecordAccount:Account = sharedRecordAccountsList.selectedItem as Account;
 			if (sharedRecordAccount != null && sharedRecordAccount.primaryRecord != null)
@@ -59,26 +57,32 @@
 		}
 		]]>
 	</fx:Script>
-	<!-- Note that we are using TouchScrollingDataGrid instead of TouchScrollingList because:
-			(1) The grid seems to be more responsive on quick flicks. Sometimes there is a small delay with the list.
-			(2) For the edge bounce effect in the list, we have not yet figured out how to move the content without moving the scroll bars.
-	-->
 
-	<scroll:TouchScrollingDataGrid
-		id="sharedRecordAccountsList"
-		width="100%"
-		height="100%"
-		dataProvider = "{_activeAccount.isInitialized ? _activeAccount.sharedRecordAccountsCollection : null}"
-        change="sharedRecordsList_changeHandler(event)"
-		showHeaders="false"
-		useHorizontalTouchScrolling="false"
-		paddingTop="0"
-		paddingBottom="0"
-		>
-		<scroll:columns>
-			<mx:DataGridColumn id="remoteUserListColumn"
-							   itemRenderer="collaboRhythm.shared.view.SharedRecordItemRenderer"/>
-		</scroll:columns>
-	</scroll:TouchScrollingDataGrid>
+
+	<s:Group width="100%" height="100%">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0xFFFFFF"/>
+			</s:fill>
+		</s:Rect>
+		<s:List id="sharedRecordAccountsList"
+				width="100%"
+				height="100%"
+				dataProvider="{_activeAccount.isInitialized ? _activeAccount.sharedRecordAccountsCollection : null}"
+				itemRenderer="collaboRhythm.shared.view.SharedRecordItemRenderer"
+				change="sharedRecordsList_changeHandler()"
+				interactionMode="touch"/>
+		<s:Line width="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line right="0" height="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000"/>
+			</s:stroke>
+		</s:Line>
+	</s:Group>
+
 
 </s:Group>

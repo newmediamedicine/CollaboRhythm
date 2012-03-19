@@ -9,7 +9,7 @@ package collaboRhythm.tablet.view.skins
 	{
 		public function TabletActionBarSkin()
 		{
-			borderClass = null;
+			borderClass = TabletActionBarBorder;
 			layoutShadowHeight = 0;
 
 			switch (applicationDPI)

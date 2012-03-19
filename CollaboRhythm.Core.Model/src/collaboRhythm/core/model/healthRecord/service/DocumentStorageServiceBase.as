@@ -8,6 +8,7 @@ package collaboRhythm.core.model.healthRecord.service
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
@@ -381,6 +382,7 @@ package collaboRhythm.core.model.healthRecord.service
 			documentCollection.isInitialized = true;
 
 			isLoading = false;
+			dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE));
 		}
 	}
 }

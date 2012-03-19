@@ -17,6 +17,7 @@
 package collaboRhythm.shared.model
 {
 	import flash.media.Camera;
+	import flash.media.CameraPosition;
 	import flash.media.Microphone;
 	import flash.media.SoundCodec;
 	import flash.utils.getQualifiedClassName;
@@ -54,17 +55,18 @@ package collaboRhythm.shared.model
                 var cameraIndex:int;
                 for each (var cameraName:String in Camera.names)
                 {
-                    if (cameraName == "HP High Definition Webcam")
-                    {
-                        _camera = Camera.getCamera(cameraIndex.toString());
-                    }
+					var camera:Camera = Camera.getCamera(cameraIndex.toString());
+					if (camera.position == CameraPosition.FRONT || cameraName == "HP High Definition Webcam")
+					{
+						_camera = camera
+					}
                     cameraIndex += 1;
                 }
                 if (_camera != null)
                 {
-                    _camera.setKeyFrameInterval(15);
+//                    _camera.setKeyFrameInterval(15);
                     _camera.setMode(320,240,15);
-                    _camera.setQuality(0,80);
+                    _camera.setQuality(0,50);
 					_logger.info("Camera initialized: " + _camera.name);
                 }
 				else
@@ -84,7 +86,9 @@ package collaboRhythm.shared.model
 				{
 					_microphone.codec = SoundCodec.SPEEX;
 					_microphone.setSilenceLevel(0);
-					_microphone.setUseEchoSuppression(true);
+					_microphone.framesPerPacket = 1;
+//					_microphone.setUseEchoSuppression(true);
+//					_microphone.encodeQuality = 4;
 					_logger.info("Microphone initialized: " + _microphone.name);
 				}
 				else

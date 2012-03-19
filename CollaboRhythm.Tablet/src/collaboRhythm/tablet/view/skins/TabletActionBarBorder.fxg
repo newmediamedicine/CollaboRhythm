@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!---
   - Copyright 2012 John Moore, Scott Gilroy
   -
@@ -15,20 +15,12 @@
   - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   - <http://www.gnu.org/licenses/>.
   -->
-<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
-					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
-					   xmlns:sharedViews="collaboRhythm.shared.view.*">
-	<fx:Script><![CDATA[
-		import collaboRhythm.tablet.controller.TabletApplicationController;
+<Graphic version="2.0" xmlns="http://ns.adobe.com/fxg/2008"
+    scaleGridLeft="1" scaleGridTop="2" scaleGridRight="64" scaleGridBottom="42">
 
-		override protected function createChildren():void
-		{
-			super.createChildren();
-			if (_tabletApplicationController && _activeAccount)
-			{
-				sharedRecordsListView.init(_tabletApplicationController as TabletApplicationController, _activeAccount);
-			}
-		}
-		]]></fx:Script>
-	<sharedViews:SharedRecordsListView id="sharedRecordsListView" width="50%" height="100%"/>
-</tablet:TabletViewBase>
+    <Rect x="0" y="45" width="65" height="1">
+        <fill>
+            <SolidColor color="#D1D3D4"/>
+        </fill>
+    </Rect>
+</Graphic>

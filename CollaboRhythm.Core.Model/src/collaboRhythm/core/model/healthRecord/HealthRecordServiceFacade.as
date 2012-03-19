@@ -67,6 +67,8 @@ package collaboRhythm.core.model.healthRecord
 																					   debuggingToolsEnabled);
 
 			_services = new Vector.<DocumentStorageServiceBase>();
+			addService(new ProblemsHealthRecordService(consumerKey, consumerSecret, baseURL, account,
+													   debuggingToolsEnabled));
 			addService(new MedicationAdministrationsHealthRecordService(consumerKey, consumerSecret, baseURL, account,
 																		debuggingToolsEnabled));
 			addService(new MedicationOrdersHealthRecordService(consumerKey, consumerSecret, baseURL, account,
@@ -79,8 +81,6 @@ package collaboRhythm.core.model.healthRecord
 																	  debuggingToolsEnabled));
 			addService(new VitalSignHealthRecordService(consumerKey, consumerSecret, baseURL, account,
 														debuggingToolsEnabled));
-			addService(new ProblemsHealthRecordService(consumerKey, consumerSecret, baseURL, account,
-													   debuggingToolsEnabled));
 			addService(new VideoMessagesHealthRecordService(consumerKey, consumerSecret, baseURL, account,
 															debuggingToolsEnabled));
 			addService(new MedicationFillsHealthRecordService(consumerKey, consumerSecret, baseURL, account,

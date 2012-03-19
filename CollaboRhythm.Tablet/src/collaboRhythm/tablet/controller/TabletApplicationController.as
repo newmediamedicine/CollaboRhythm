@@ -22,7 +22,7 @@ package collaboRhythm.tablet.controller
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.settings.Settings;
-	import collaboRhythm.tablet.view.ActiveRecordView;
+	import collaboRhythm.tablet.view.CollaborationVideoView;
 	import collaboRhythm.tablet.view.SelectRecordView;
 	import collaboRhythm.tablet.view.TabletFullViewContainer;
 	import collaboRhythm.shared.view.tablet.TabletViewBase;
@@ -58,7 +58,7 @@ package collaboRhythm.tablet.controller
 		{
 			super.main();
 
-			_settings.modality = Settings.MODALITY_TABLET;
+			settings.modality = Settings.MODALITY_TABLET;
 
 			initCollaborationController();
 
@@ -78,7 +78,7 @@ package collaboRhythm.tablet.controller
 			{
 				if (_openingRecordAccount)
 				{
-					showWidgets(_activeRecordAccount);
+					showWidgets(activeRecordAccount);
 					_openingRecordAccount = false;
 				}
 			}
@@ -107,7 +107,7 @@ package collaboRhythm.tablet.controller
 		{
 			view.tabletApplicationController = this;
 			view.activeAccount = _activeAccount;
-			view.activeRecordAccount = _activeRecordAccount;
+			view.activeRecordAccount = activeRecordAccount;
 		}
 
 		public function initializeActiveView():void
@@ -119,13 +119,17 @@ package collaboRhythm.tablet.controller
 			}
 		}
 
-		override protected function showSelectRecordView():void
+		override public function showSelectRecordView():void
 		{
 			_tabletApplication.navigator.pushView(SelectRecordView);
 		}
 
 		public override function openRecordAccount(recordAccount:Account):void
 		{
+			if (activeRecordAccount)
+			{
+				closeRecordAccount(activeRecordAccount);
+			}
 			super.openRecordAccount(recordAccount);
 			if (tabletHomeView)
 			{
@@ -145,6 +149,7 @@ package collaboRhythm.tablet.controller
 			var tabletViewBase:TabletViewBase = _tabletApplication.navigator.activeView as TabletViewBase;
 			if (tabletViewBase)
 				tabletViewBase.showCollaborationInvitationReceivedMessage();
+
 		}
 
 		private function get tabletHomeView():TabletHomeView
@@ -164,7 +169,7 @@ package collaboRhythm.tablet.controller
 			if (_tabletAppControllersMediator == null)
 			{
 				_tabletAppControllersMediator = new TabletAppControllersMediator(tabletHomeView.widgetContainers,
-						_fullContainer, _settings,
+						_fullContainer, settings,
 						_componentContainer,
 						_collaborationController.collaborationModel.collaborationLobbyNetConnectionService,
 						this);
@@ -199,7 +204,7 @@ package collaboRhythm.tablet.controller
 			_tabletAppControllersMediator.closeApps();
 			if (recordAccount)
 				recordAccount.primaryRecord.clearDocuments();
-			_activeRecordAccount = null;
+			activeRecordAccount = null;
 			if (tabletHomeView)
 				tabletHomeView.visible = false;
 		}
@@ -208,9 +213,9 @@ package collaboRhythm.tablet.controller
 		{
 			reloadData();
 
-			if (_activeRecordAccount && _activeRecordAccount.primaryRecord &&
-					_activeRecordAccount.primaryRecord.demographics)
-				_activeRecordAccount.primaryRecord.demographics.dispatchAgeChangeEvent();
+			if (activeRecordAccount && activeRecordAccount.primaryRecord &&
+					activeRecordAccount.primaryRecord.demographics)
+				activeRecordAccount.primaryRecord.demographics.dispatchAgeChangeEvent();
 		}
 
 		protected override function restoreFocus():void
@@ -245,7 +250,7 @@ package collaboRhythm.tablet.controller
 			}
 		}
 
-		public function get navigator():ViewNavigator
+		override public function get navigator():ViewNavigator
 		{
 			return _tabletApplication ? _tabletApplication.navigator : null;
 		}
@@ -255,6 +260,19 @@ package collaboRhythm.tablet.controller
 			return _tabletAppControllersMediator;
 		}
 
+		override public function collaborate():void
+		{
+			_tabletApplication.navigator.popToFirstView();
+			_tabletApplication.navigator.pushView(CollaborationVideoView);
+			super.collaborate();
+		}
+
+		override public function acceptCollaborationInvitation():void
+		{
+			_collaborationController.acceptCollaborationInvitation();
+			navigator.popToFirstView();
+			navigator.pushView(CollaborationVideoView);
+		}
 
 	}
 }

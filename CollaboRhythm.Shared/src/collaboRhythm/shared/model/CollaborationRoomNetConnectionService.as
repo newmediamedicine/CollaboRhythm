@@ -21,6 +21,9 @@ package collaboRhythm.shared.model
 	import flash.events.IOErrorEvent;
 	import flash.events.NetStatusEvent;
 	import flash.events.StatusEvent;
+	import flash.media.Camera;
+	import flash.media.Microphone;
+	import flash.media.SoundCodec;
 	import flash.net.NetConnection;
 	import flash.net.NetStream;
 
@@ -45,7 +48,7 @@ package collaboRhythm.shared.model
 															  collaborationModel:CollaborationModel)
 		{
 			_activeAccount = activeAccount;
-			_rtmpURI = rtmpBaseURI + "/CollaboRhythm.CollaborationServer/";
+			_rtmpURI = "rtmfp://18.85.55.246/CollaboRhythm.CollaborationServer/";
 			_collaborationModel = collaborationModel;
 			
 			_netConnection = new NetConnection();
@@ -188,13 +191,21 @@ package collaboRhythm.shared.model
 		
 		public function publishActiveAccountVideoStream():void
 		{		
-			var netStreamOut:NetStream = new NetStream(_netConnection);
-//			netStreamOut.attachCamera(_collaborationModel.audioVideoOutput.camera);
-			netStreamOut.attachAudio(_collaborationModel.audioVideoOutput.microphone);
+			var netStreamOut:NetStream = new NetStream(_netConnection, NetStream.DIRECT_CONNECTIONS);
 			netStreamOut.addEventListener(StatusEvent.STATUS, netStreamOutHandler);
 			netStreamOut.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
 			netStreamOut.addEventListener(AsyncErrorEvent.ASYNC_ERROR, asyncErrorHandler);
 			netStreamOut.publish(_activeAccount.accountId, "live");
+
+			var microphone:Microphone = Microphone.getMicrophone(0);
+			microphone.codec = SoundCodec.SPEEX;
+			microphone.setSilenceLevel(0);
+			microphone.framesPerPacket = 1;
+			netStreamOut.attachAudio(microphone);
+			var camera:Camera = Camera.getCamera("1");
+			camera.setMode(320,240,15);
+			camera.setQuality(0,70);
+			netStreamOut.attachCamera(camera);
 
 //			_collaborationModel.localUser.video.attachCamera(_collaborationModel.audioVideoOutput.camera);
 			_activeAccount.netStream = netStreamOut;
@@ -209,9 +220,9 @@ package collaboRhythm.shared.model
 //			}
 		}
 		
-		private function playSharingAccountVideoStream(accountId:String):void
+		private function playSharingAccountVideoStream(accountId:String, peerId:String):void
 		{
-			var netStreamIn:NetStream = new NetStream(_netConnection);
+			var netStreamIn:NetStream = new NetStream(_netConnection, peerId);
 			netStreamIn.addEventListener(NetStatusEvent.NET_STATUS, netStreamInHandler);
 			netStreamIn.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
 			netStreamIn.addEventListener(AsyncErrorEvent.ASYNC_ERROR, asyncErrorHandler);

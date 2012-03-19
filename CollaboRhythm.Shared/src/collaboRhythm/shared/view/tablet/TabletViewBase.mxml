@@ -22,13 +22,13 @@
 		import collaboRhythm.shared.model.Account;
 
 		import mx.core.FlexGlobals;
-
 		[Bindable]
 		protected var _tabletApplicationController:IApplicationControllerBase;
 
 		[Bindable]
 		private var _isControllerReady:Boolean;
 		protected var _activeAccount:Account;
+		[Bindable]
 		protected var _activeRecordAccount:Account;
 
 		private function creationCompleteHandler():void
@@ -72,6 +72,11 @@
 		public function set isControllerReady(value:Boolean):void
 		{
 			_isControllerReady = value;
+		}
+
+		private function changeRecordButton_clickHandler(event:MouseEvent):void
+		{
+			_tabletApplicationController.showSelectRecordView();
 		}
 
 		private function collaborateButton_clickHandler(event:MouseEvent):void
@@ -141,7 +146,7 @@
 		private function acceptCollaborationInvitation():void
 		{
 			collaborationInvitationAlert.close();
-			_tabletApplicationController.collaborationController.acceptCollaborationInvitation();
+			_tabletApplicationController.acceptCollaborationInvitation();
 		}
 
 		private function rejectCollaborationInvitation():void
@@ -150,7 +155,6 @@
 			_tabletApplicationController.collaborationController.rejectCollaborationInvitation();
 		}
 		]]></fx:Script>
-
 	<s:viewMenuItems>
 		<s:ViewMenuItem label="{createDemoDateLabel(_isControllerReady, 0)}" includeIn="debuggingToolsEnabled"
 						click="demoDateMenuItem_clickHandler(0)"/>
@@ -169,6 +173,7 @@
 		<s:ViewMenuItem label="Synchronize" click="synchronizeMenuItem_clickHandler()"/>
 		<s:ViewMenuItem label="Reload Plugins" includeIn="debuggingToolsEnabled"
 						click="reloadPluginsViewMenuItem_clickHandler()"/>
+		<s:ViewMenuItem label="Change Record" id="changeRecordButton" click="changeRecordButton_clickHandler(event)"/>
 		<s:ViewMenuItem label="Collaborate" id="collaborateButton" click="collaborateButton_clickHandler(event)"/>
 		<s:ViewMenuItem label="About" id="aboutButton" click="aboutButton_clickHandler(event)"/>
 		<s:ViewMenuItem label="Quit" id="quitButton" click="quitButton_clickHandler(event)"/>

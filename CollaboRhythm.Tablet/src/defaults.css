@@ -149,6 +149,16 @@ chart|DataTip
 	backgroundColor: #000000;
 }
 
+s|ViewNavigatorApplication
+{
+	backgroundColor: #E6E7E8;
+}
+
+s|View
+{
+	backgroundColor: #E6E7E8;
+}
+
 s|ViewMenu
 {
 	skinClass: ClassReference("collaboRhythm.tablet.view.skins.TabletViewMenuSkin");
@@ -170,7 +180,7 @@ s|Label.ActionBarLabel
 s|ActionBar
 {
 	color: #000000;
-	chromeColor: #FFFFFF;
+	chromeColor: #E6E7E8;
 	fontSize: 21;
 	textShadowAlpha: 0;
 	textShadowColor: #000000;
@@ -194,5 +204,15 @@ s|ActionBar s|ButtonBase
 s|ActionBar s|Button
 {
     fontWeight: "normal";
+}
+
+#activeRecordGivenName
+{
+	fontSize: 16;
+}
+
+#activeRecordFamilyName
+{
+	fontSize: 22;
 }
 

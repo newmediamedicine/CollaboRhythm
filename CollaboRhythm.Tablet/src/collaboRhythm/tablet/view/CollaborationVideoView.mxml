@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   xmlns:tablet="collaboRhythm.shared.view.tablet.*">
+	<fx:Script><![CDATA[
+		private function determineVisible(activeRecordAccountNetStream:NetStream, creatingAccountNetStream):Boolean
+		{
+			if (_activeAccount ==
+					_tabletApplicationController.collaborationController.collaborationModel.creatingAccount)
+			{
+				if (activeRecordAccountNetStream)
+				{
+//				netStream.client = {};
+//				netStream.client.onMetaData = handleMetaData;
+//				netStream.client.onPlayStatus = handlePlayStatus;
+//				netStream.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
+//				netStream.addEventListener(ErrorEvent.ERROR, netStatusErrorHandler);
+//				videoDisplay.attachCamera(null);
+					var video:Video = new Video();
+					video.height = 240;
+					video.width = 320;
+					video.attachNetStream(activeRecordAccountNetStream);
+					videoDisplay.addChild(video);
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				if (creatingAccountNetStream)
+				{
+					var video:Video = new Video();
+					video.height = 240;
+					video.width = 320;
+					video.attachNetStream(creatingAccountNetStream);
+					videoDisplay.addChild(video);
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
+
+		private function handleMetaData(metaData:Object):void
+		{
+//						_netStreamTime = 0;
+//						_netStreamDuration = metaData.duration;
+		}
+
+		private function handlePlayStatus(playStatus:Object):void
+		{
+//						if (playStatus.code == "NetStream.Play.Complete")
+//						{
+//							currentState = "complete";
+//							_netStreamTime = _netStream.time;
+//							clearInterval(_playheadInterval);
+//							_playheadInterval = NaN;
+//						}
+		}
+
+		private function netStatusHandler(event:NetStatusEvent):void
+		{
+//						switch (event.info.code)
+//						{
+//							case NETSTREAM_BUFFER_EMPTY:
+//								if (currentState != "complete")
+//								{
+//									currentState = "buffering";
+//								}
+//								break;
+//							case NETSTREAM_BUFFER_FULL:
+//								currentState = "playing";
+//								break;
+//							case NETSTREAM_BUFFER_FLUSH:
+//								currentState = "playing";
+//								break;
+//							case NETSTREAM_FAILED:
+//								_logger.warn("VideoPlayer status " + NETSTREAM_FAILED + " " + _netStreamLocation);
+//								currentState = "failedToPlay";
+//								break;
+//							case NETSTREAM_PLAY_FAILED:
+//								_logger.warn("VideoPlayer status " + NETSTREAM_PLAY_FAILED + " " + _netStreamLocation);
+//								currentState = "failedToPlay";
+//								break;
+//							case NETSTREAM_PLAY_INSUFFICIENTBW:
+//								_logger.info("VideoPlayer status " + NETSTREAM_PLAY_INSUFFICIENTBW + " " + _netStreamLocation);
+//								break;
+//							case NETSTREAM_PLAY_STREAMNOTFOUND:
+//								_logger.warn("VideoPlayer status " + NETSTREAM_PLAY_STREAMNOTFOUND + " " + _netStreamLocation);
+//								currentState = "streamNotFound";
+//								break;
+//						}
+		}
+
+		private function netStatusErrorHandler(event:ErrorEvent):void
+		{
+//						_logger.warn("VideoPlayer status ERROR " + _netStreamLocation);
+		}
+		]]></fx:Script>
+	<mx:VideoDisplay id="videoDisplay" width="320" height="240" verticalCenter="0" horizontalCenter="0"
+					visible="{determineVisible(_activeRecordAccount.netStream, _tabletApplicationController.collaborationController.collaborationModel.creatingAccount.netStream)}"/>
+</tablet:TabletViewBase>

@@ -53,6 +53,7 @@
         public function init(recordAccount:Account):void
         {
             _recordAccount = recordAccount;
+			accountImage.source = _recordAccount.imageURI;
         }
 
         private function updateCollaborationServerConnectionIndicator(collaborationLobbyConnectionStatus:String):uint
@@ -85,7 +86,7 @@
             <s:SolidColorStroke color="#000000"/>
         </s:stroke>
     </s:Line>
-    <mx:Image source="{_recordAccount.imageURI}" height="{this.height}" width="{this.height}" smoothBitmapContent="true"/>
+    <s:Image id="accountImage" height="{this.height}" width="{this.height}" smooth="true"/>
     <s:Line height="100%">
         <s:stroke>
             <s:SolidColorStroke color="#000000"/>
