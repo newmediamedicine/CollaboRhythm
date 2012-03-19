@@ -37,16 +37,25 @@ package collaboRhythm.shared.model
 	[Bindable]
 	public class CollaborationModel
 	{
+		public static const COLLABORATION_INACTIVE:String = "CollaborationInactive";
+		public static const INVITATION_SENT:String = "InvitationSent";
+		public static const INVITATION_RECEIVED:String = "InvitationReceived";
+		public static const COLLABORATION_ACTIVE:String = "CollaborationActive";
+		public static const INVITATION_REJECTED:String = "InvitationRejected";
+		
+		private var _collaborationState:String = COLLABORATION_INACTIVE;
+
 		private var _active:Boolean = false;
         private var _activeAccount:Account;
         private var _activeRecordAccount:Account;
 
-		private var _creatingAccount:Account;
 		private var _subjectAccount:Account;
+		private var _peerAccount:Account;
+		private var _creatingAccount:Account;
 		private var _invitedAccounts:Vector.<Account> = new Vector.<Account>();
 		private var _sourceAccount:Account;
-		private var _controllingAccount:Account;
 
+		private var _controllingAccount:Account;
 		private var _roomID:String;
 		private var _passWord:String;
 		private var _audioVideoOutput:AudioVideoOutput;
@@ -54,7 +63,7 @@ package collaboRhythm.shared.model
 		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
 		private var _collaborationRoomNetConnectionService:CollaborationRoomNetConnectionService;
 		private var _recordVideo:Boolean = false;
-		
+
 		public function CollaborationModel(settings:Settings, activeAccount:Account)
 		{
 			_activeAccount = activeAccount;
@@ -229,6 +238,26 @@ package collaboRhythm.shared.model
 		public function set controllingAccount(value:Account):void
 		{
 			_controllingAccount = value;
+		}
+
+		public function get peerAccount():Account
+		{
+			return _peerAccount;
+		}
+
+		public function set peerAccount(value:Account):void
+		{
+			_peerAccount = value;
+		}
+
+		public function get collaborationState():String
+		{
+			return _collaborationState;
+		}
+
+		public function set collaborationState(value:String):void
+		{
+			_collaborationState = value;
 		}
 	}
 }

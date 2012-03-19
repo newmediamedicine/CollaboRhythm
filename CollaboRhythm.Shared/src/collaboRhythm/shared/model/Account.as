@@ -35,8 +35,8 @@ package collaboRhythm.shared.model
 		public static const COLLABORATION_LOBBY_AVAILABLE:String = "CollaborationLobbyAvailable";
 		public static const COLLABORATION_LOBBY_AWAY:String = "CollaborationLobbyAway";
 
-		public static const COLLABORATION_REQUEST_SENT:String = "CollaborationRequestSent";
-		public static const COLLABORATION_REQUEST_RECEIVED:String = "CollaborationRequestReceived";
+		public static const COLLABORATION_INVITATION_SENT:String = "CollaborationInvitationSent";
+		public static const COLLABORATION_INVITATION_RECEIVED:String = "CollaborationInvitationReceived";
 		public static const COLLABORATION_ROOM_EXITED:String = "CollaborationRoomExited";
 		public static const COLLABORATION_ROOM_ENTERED:String = "CollaborationRoomEntered";
 		public static const COLLABORATION_ROOM_JOINED:String = "CollaborationRoomJoined";
@@ -56,6 +56,7 @@ package collaboRhythm.shared.model
 		private var _collaborationRoomConnectionStatus:String = COLLABORATION_ROOM_EXITED;
 		private var _isInitialized:Boolean;
 		private var _netStream:NetStream;
+		private var _peerId:String;
 
 		public function get netStream():NetStream
 		{
@@ -241,6 +242,16 @@ package collaboRhythm.shared.model
 		public function set collaborationRoomConnectionStatus(value:String):void
 		{
 			_collaborationRoomConnectionStatus = value;
+		}
+
+		public function get peerId():String
+		{
+			return _peerId;
+		}
+
+		public function set peerId(value:String):void
+		{
+			_peerId = value;
 		}
 	}
 }

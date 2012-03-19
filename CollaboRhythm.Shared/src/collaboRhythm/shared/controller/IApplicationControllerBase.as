@@ -42,12 +42,10 @@ package collaboRhythm.shared.controller
 
 		function openRecordAccount(sharedRecordAccount:Account):void;
 
-		function collaborate():void;
+		function sendCollaborationInvitation():void;
 
 		function showSelectRecordView():void;
 
 		function get navigator():ViewNavigator;
-
-		function acceptCollaborationInvitation():void;
 	}
 }

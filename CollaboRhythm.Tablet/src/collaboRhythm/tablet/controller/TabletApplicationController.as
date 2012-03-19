@@ -19,10 +19,11 @@ package collaboRhythm.tablet.controller
 
 	import collaboRhythm.core.controller.ApplicationControllerBase;
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
+	import collaboRhythm.shared.controller.CollaborationEvent;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.settings.Settings;
-	import collaboRhythm.tablet.view.CollaborationVideoView;
+	import collaboRhythm.shared.view.CollaborationVideoView;
 	import collaboRhythm.tablet.view.SelectRecordView;
 	import collaboRhythm.tablet.view.TabletFullViewContainer;
 	import collaboRhythm.shared.view.tablet.TabletViewBase;
@@ -61,11 +62,12 @@ package collaboRhythm.tablet.controller
 			settings.modality = Settings.MODALITY_TABLET;
 
 			initCollaborationController();
+			_collaborationController.viewNavigator = navigator;
 
-			_tabletApplication.navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
-			_tabletApplication.navigator.addEventListener("viewChangeComplete",
+			navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
+			navigator.addEventListener("viewChangeComplete",
 					viewNavigator_transitionCompleteHandler);
-			_tabletApplication.navigator.addEventListener(Event.ADDED, viewNavigator_addedHandler);
+			navigator.addEventListener(Event.ADDED, viewNavigator_addedHandler);
 
 			initializeActiveView();
 
@@ -124,7 +126,7 @@ package collaboRhythm.tablet.controller
 			_tabletApplication.navigator.pushView(SelectRecordView);
 		}
 
-		public override function openRecordAccount(recordAccount:Account):void
+		override public function openRecordAccount(recordAccount:Account):void
 		{
 			if (activeRecordAccount)
 			{
@@ -144,12 +146,45 @@ package collaboRhythm.tablet.controller
 			}
 		}
 
-		override protected function showCollaborationInvitationReceivedMessage():void
+		override public function sendCollaborationInvitation():void
 		{
-			var tabletViewBase:TabletViewBase = _tabletApplication.navigator.activeView as TabletViewBase;
-			if (tabletViewBase)
-				tabletViewBase.showCollaborationInvitationReceivedMessage();
+			super.sendCollaborationInvitation();
+			navigator.popToFirstView();
+			navigator.pushView(CollaborationVideoView);
+		}
 
+		override protected function collaborationInvitationReceived_eventHandler(event:CollaborationEvent):void
+		{
+			_collaborationController.receiveCollaborationInvitation(event.subjectAccountId, event.sourceAccountId,
+					event.sourcePeerId, event.passWord);
+			navigator.popToFirstView();
+			navigator.pushView(CollaborationVideoView);
+		}
+
+		override protected function collaborationInvitationAccepted_eventHandler(event:CollaborationEvent):void
+		{
+			_collaborationController.receiveCollaborationInvitationAccepted(event.subjectAccountId,
+					event.sourceAccountId,
+					event.sourcePeerId, event.passWord);
+		}
+
+		override protected function collaborationInvitationRejected_eventHandler(event:CollaborationEvent):void
+		{
+			_collaborationController.receiveCollaborationInvitationRejected(event.subjectAccountId,
+					event.sourceAccountId,
+					event.sourcePeerId, event.passWord);
+		}
+
+		override protected function collaborationInvitationCancelled_eventHandler(event:CollaborationEvent):void
+		{
+			_collaborationController.receiveCollaborationInvitationCancelled(event.subjectAccountId,
+					event.sourceAccountId,
+					event.sourcePeerId, event.passWord);
+		}
+
+		override protected function collaborationEnded_eventHandler(event:CollaborationEvent):void
+		{
+			_collaborationController.receiveCollaborationEnded(event.subjectAccountId, event.sourceAccountId, event.sourcePeerId, event.passWord);
 		}
 
 		private function get tabletHomeView():TabletHomeView
@@ -259,20 +294,5 @@ package collaboRhythm.tablet.controller
 		{
 			return _tabletAppControllersMediator;
 		}
-
-		override public function collaborate():void
-		{
-			_tabletApplication.navigator.popToFirstView();
-			_tabletApplication.navigator.pushView(CollaborationVideoView);
-			super.collaborate();
-		}
-
-		override public function acceptCollaborationInvitation():void
-		{
-			_collaborationController.acceptCollaborationInvitation();
-			navigator.popToFirstView();
-			navigator.pushView(CollaborationVideoView);
-		}
-
 	}
 }

@@ -213,7 +213,7 @@
 
 		private function inviteButton_clickHandler(event:MouseEvent):void
 		{
-			_collaborationController.inviteUserToCollaborationRoom();
+//			_collaborationController.inviteUserToCollaborationRoom();
 		}
 
 		private function exitButton_clickHandler(event:MouseEvent):void

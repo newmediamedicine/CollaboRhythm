@@ -73,7 +73,7 @@
 			<view:CallIcon id="callIcon"
 						   includeInLayout="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; _applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE &amp;&amp; _applicationController.activeRecordAccount.collaborationRoomConnectionStatus == Account.COLLABORATION_ROOM_EXITED}"
 						   visible="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; _applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE &amp;&amp; _applicationController.activeRecordAccount.collaborationRoomConnectionStatus == Account.COLLABORATION_ROOM_EXITED}"
-							click="_applicationController.collaborate()"/>
+							click="_applicationController.sendCollaborationInvitation()"/>
 			<view:EndCallIcon id="endCallIcon"
 							  includeInLayout="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; !_applicationController.activeRecordAccount.collaborationRoomConnectionStatus == Account.COLLABORATION_ROOM_EXITED}"
 							  visible="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; !_applicationController.activeRecordAccount.collaborationRoomConnectionStatus == Account.COLLABORATION_ROOM_EXITED}"/>

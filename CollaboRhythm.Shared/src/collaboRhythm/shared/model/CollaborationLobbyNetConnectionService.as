@@ -50,20 +50,27 @@ package collaboRhythm.shared.model
 
 		private const MAX_FAILED_ATTEMPTS:int = 3;
 		private var _failedAttempts:uint = 0;
-		private var _automaticRetryEnabled:Boolean = true;
 
+		public static const INVITE:String = "invite";
+		public static const ACCEPT:String = "accept";
+		public static const REJECT:String = "reject";
+		public static const CANCEL:String = "cancel";
+		public static const END:String = "end";
+
+		private var _automaticRetryEnabled:Boolean = true;
 		private const COLLABORATION_LOBBY:String = "Collaboration Lobby";
 		private const NETCONNECTION_STATUS_CALL_FAILED:String = "NetConnection.Call.Failed";
 		private const NETCONNECTION_STATUS_CONNECT_APPSHUTDOWN:String = "NetConnection.Connect.AppShutdown";
 		private const NETCONNECTION_STATUS_CONNECT_CLOSED:String = "NetConnection.Connect.Closed";
-		private const NETCONNECTION_STATUS_CONNECT_FAILED:String = "NetConnection.Connect.Failed";
 
+		private const NETCONNECTION_STATUS_CONNECT_FAILED:String = "NetConnection.Connect.Failed";
 		private const NETCONNECTION_STATUS_CONNECT_REJECTED:String = "NetConnection.Connect.Rejected";
 		private const NETCONNECTION_STATUS_CONNECT_SUCCESS:String = "NetConnection.Connect.Success";
 		private var _isConnecting:Boolean = false;
 		private var _hasConnectionFailed:Boolean = false;
 		private var _isConnected:Boolean = false;
 		private var _netConnection:NetConnection;
+
 		private var _logger:ILogger;
 
 		private var _retryConnectionTimer:Timer;
@@ -78,11 +85,11 @@ package collaboRhythm.shared.model
 			_collaborationModel = collaborationModel;
 
 			_netConnection = new NetConnection();
+
 			_netConnection.client = new Object();
 			_netConnection.client.activeAccountCollaborationLobbyConnectionStatusChanged = activeAccountCollaborationLobbyConnectionStatusChanged;
 			_netConnection.client.sharingAccountCollaborationLobbyConnectionStatusChanged = sharingAccountCollaborationLobbyConnectionStatusChanged;
-			_netConnection.client.receiveCollaborationInvitation = receiveCollaborationInvitation;
-			_netConnection.client.receiveSynchronizationMessage = receiveSynchronizationMessage;
+			_netConnection.client.receiveMessage = receiveMessage;
 
 			_netConnection.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
 			_netConnection.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
@@ -98,7 +105,7 @@ package collaboRhythm.shared.model
 			}
 			isConnecting = true;
 			_netConnection.connect(_rtmpURI, _activeAccount.accountId, Account.COLLABORATION_LOBBY_AVAILABLE,
-								   _activeAccount.allSharingAccounts.keys.toArray());
+					_activeAccount.allSharingAccounts.keys.toArray());
 		}
 
 		private function connectionFailedHandler():void
@@ -108,13 +115,13 @@ package collaboRhythm.shared.model
 			if (_failedAttempts <= MAX_FAILED_ATTEMPTS && _automaticRetryEnabled)
 			{
 				_logger.info(COLLABORATION_LOBBY + " retry {0} of {1}.", _failedAttempts,
-							 MAX_FAILED_ATTEMPTS.toString());
+						MAX_FAILED_ATTEMPTS.toString());
 				startRetryConnectionTimer();
 			}
 			else
 			{
 				_logger.warn(COLLABORATION_LOBBY + " failed {0} of {1}. Giving up.", MAX_FAILED_ATTEMPTS.toString(),
-							 MAX_FAILED_ATTEMPTS.toString());
+						MAX_FAILED_ATTEMPTS.toString());
 				hasConnectionFailed = true;
 				isConnecting = false;
 				_failedAttempts = 0;
@@ -161,7 +168,8 @@ package collaboRhythm.shared.model
 					connectionFailedHandler();
 					break;
 				case NETCONNECTION_STATUS_CONNECT_REJECTED:
-					_logger.warn(COLLABORATION_LOBBY + " status " + NETCONNECTION_STATUS_CONNECT_REJECTED + " " + event.info);
+					_logger.warn(COLLABORATION_LOBBY + " status " + NETCONNECTION_STATUS_CONNECT_REJECTED + " " +
+							event.info);
 					break;
 				case NETCONNECTION_STATUS_CONNECT_SUCCESS:
 					_logger.info(COLLABORATION_LOBBY + " status " + NETCONNECTION_STATUS_CONNECT_SUCCESS);
@@ -188,7 +196,7 @@ package collaboRhythm.shared.model
 		public function updateCollaborationLobbyConnectionStatus(collaborationLobbyConnectionStatus:String):void
 		{
 			_netConnection.call("updateCollaborationLobbyConnectionStatus", null, _activeAccount.accountId,
-								collaborationLobbyConnectionStatus);
+					collaborationLobbyConnectionStatus);
 		}
 
 		public function exitCollaborationLobby():void
@@ -197,9 +205,11 @@ package collaboRhythm.shared.model
 			_netConnection.close();
 		}
 
-		private function activeAccountCollaborationLobbyConnectionStatusChanged(collaborationLobbyConnectionStatus:String):void
+		private function activeAccountCollaborationLobbyConnectionStatusChanged(collaborationLobbyConnectionStatus:String,
+																				peerId:String):void
 		{
 			_activeAccount.collaborationLobbyConnectionStatus = collaborationLobbyConnectionStatus;
+			_activeAccount.peerId = peerId;
 		}
 
 		private function sharingAccountCollaborationLobbyConnectionStatusChanged(accountId:String,
@@ -215,7 +225,7 @@ package collaboRhythm.shared.model
 		public function getCollaborationRoomID():void
 		{
 			_netConnection.call("getCollaborationRoomID",
-								new Responder(getCollaborationRoomIDSucceeded, getCollaborationRoomIDFailed));
+					new Responder(getCollaborationRoomIDSucceeded, getCollaborationRoomIDFailed));
 		}
 
 		public function getCollaborationRoomIDSucceeded(roomID:String):void
@@ -224,12 +234,12 @@ package collaboRhythm.shared.model
 			_collaborationModel.passWord = String(Math.round(Math.random() * 10000));
 			for each (var targetAccount:Account in _collaborationModel.invitedAccounts)
 			{
-				sendCollaborationInvitation(targetAccount, _collaborationModel.roomID, _collaborationModel.passWord,
-						_collaborationModel.creatingAccount, _collaborationModel.subjectAccount);
+//				sendCollaborationInvitation(targetAccount, _collaborationModel.roomID, _collaborationModel.passWord,
+//						_collaborationModel.creatingAccount, _collaborationModel.subjectAccount);
 			}
 			_collaborationModel.collaborationRoomNetConnectionService.enterCollaborationRoom(_collaborationModel.roomID,
-																							 _collaborationModel.passWord,
-																							 _collaborationModel.subjectAccount.accountId);
+					_collaborationModel.passWord,
+					_collaborationModel.subjectAccount.accountId);
 		}
 
 		public function getCollaborationRoomIDFailed(info:Object):void
@@ -237,28 +247,75 @@ package collaboRhythm.shared.model
 			trace(info);
 		}
 
-		public function sendCollaborationInvitation(targetAccount:Account, roomID:String,
-													passWord:String, creatingAccount:Account,
-													subjectAccount:Account):void
+		public function sendMessage(messageType:String, subjectAccountId:String, sourceAccountId:String,
+									sourcePeerId:String, targetAccountId:String, targetPeerId:String,
+									passWord:String):void
 		{
-			targetAccount.collaborationRoomConnectionStatus = Account.COLLABORATION_REQUEST_SENT;
-			_netConnection.call("sendCollaborationInvitation", null, _activeAccount.accountId, targetAccount.accountId, roomID, passWord,
-								creatingAccount.accountId, subjectAccount.accountId);
+			_netConnection.call("sendMessage", null, messageType, subjectAccountId, sourceAccountId, sourcePeerId,
+					targetAccountId, targetPeerId, passWord);
 		}
 
-		public function receiveCollaborationInvitation(sourceAccountId:String, roomID:String, passWord:String,
-													creatingAccountId:String, subjectAccountId:String):void
+		public function receiveMessage(messageType:String, subjectAccountId:String, sourceAccountId:String,
+									   sourcePeerId:String, passWord:String):void
 		{
-			_activeAccount.collaborationRoomConnectionStatus = Account.COLLABORATION_REQUEST_RECEIVED;
-			var collaborationEvent:CollaborationEvent = new CollaborationEvent(CollaborationEvent.COLLABORATION_INVITATION_RECEIVED);
-			dispatchEvent(collaborationEvent);
+			switch (messageType)
+			{
+				case INVITE:
+					receiveCollaborationInvitation(subjectAccountId, sourceAccountId, sourcePeerId, passWord);
+					break;
+				case ACCEPT:
+					receiveCollaborationInvitationAccept(subjectAccountId, sourceAccountId, sourcePeerId, passWord);
+					break;
+				case REJECT:
+					receiveCollaborationInvitationReject(subjectAccountId, sourceAccountId, sourcePeerId, passWord);
+					break;
+				case CANCEL:
+					receiveCollaborationInvitationCancel(subjectAccountId, sourceAccountId, sourcePeerId, passWord);
+					break;
+				case END:
+					receiveCollaborationEnd(subjectAccountId, sourceAccountId, sourcePeerId, passWord);
+					break;
+			}
+		}
 
-			_collaborationModel.collaborationRoomNetConnectionService.enterCollaborationRoom(roomID, passWord, subjectAccountId);
-			_collaborationModel.sourceAccount = _activeAccount.allSharingAccounts[sourceAccountId];
-			_collaborationModel.creatingAccount = _activeAccount.allSharingAccounts[creatingAccountId];
-			_collaborationModel.subjectAccount = _activeAccount.allSharingAccounts[subjectAccountId];
-			_collaborationModel.roomID = roomID;
-			_collaborationModel.passWord = passWord;
+		public function receiveCollaborationInvitation(subjectAccountId:String, sourceAccountId:String,
+													   sourcePeerId:String, passWord:String):void
+		{
+			var collaborationEvent:CollaborationEvent = new CollaborationEvent(CollaborationEvent.COLLABORATION_INVITATION_RECEIVED,
+					subjectAccountId, sourceAccountId, sourcePeerId, passWord);
+			dispatchEvent(collaborationEvent);
+		}
+
+		private function receiveCollaborationInvitationAccept(subjectAccountId:String, sourceAccountId:String,
+															  sourcePeerId:String, passWord:String):void
+		{
+			var collaborationEvent:CollaborationEvent = new CollaborationEvent(CollaborationEvent.COLLABORATION_INVITATION_ACCEPTED,
+					subjectAccountId, sourceAccountId, sourcePeerId, passWord);
+			dispatchEvent(collaborationEvent);
+		}
+
+		private function receiveCollaborationInvitationReject(subjectAccountId:String, sourceAccountId:String,
+															  sourcePeerId:String, passWord:String):void
+		{
+			var collaborationEvent:CollaborationEvent = new CollaborationEvent(CollaborationEvent.COLLABORATION_INVITATION_REJECTED,
+					subjectAccountId, sourceAccountId, sourcePeerId, passWord);
+			dispatchEvent(collaborationEvent);
+		}
+
+		private function receiveCollaborationInvitationCancel(subjectAccountId:String, sourceAccountId:String,
+															  sourcePeerId:String, passWord:String):void
+		{
+			var collaborationEvent:CollaborationEvent = new CollaborationEvent(CollaborationEvent.COLLABORATION_INVITATION_CANCELLED,
+					subjectAccountId, sourceAccountId, sourcePeerId, passWord);
+			dispatchEvent(collaborationEvent);
+		}
+
+		private function receiveCollaborationEnd(subjectAccountId:String, sourceAccountId:String, sourcePeerId:String,
+												 passWord:String):void
+		{
+			var collaborationEvent:CollaborationEvent = new CollaborationEvent(CollaborationEvent.COLLABORATION_ENDED,
+					subjectAccountId, sourceAccountId, sourcePeerId, passWord);
+			dispatchEvent(collaborationEvent);
 		}
 
 		public function sendSynchronizationMessage():void

@@ -497,6 +497,14 @@ package collaboRhythm.core.controller
 					synchronizeHandler);
 			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_RECEIVED,
 					collaborationInvitationReceived_eventHandler);
+			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_ACCEPTED,
+					collaborationInvitationAccepted_eventHandler);
+			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_REJECTED,
+					collaborationInvitationRejected_eventHandler);
+			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_CANCELLED,
+					collaborationInvitationCancelled_eventHandler);
+			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_ENDED,
+					collaborationEnded_eventHandler);
 			BindingUtils.bindSetter(collaborationLobbyIsConnecting_changeHandler,
 					_collaborationLobbyNetConnectionService, "isConnecting");
 			BindingUtils.bindSetter(collaborationLobbyHasConnectionFailed_changeHandler,
@@ -512,15 +520,42 @@ package collaboRhythm.core.controller
 				reloadData();
 		}
 
-		private function collaborationInvitationReceived_eventHandler(event:CollaborationEvent):void
+		/**
+		 * Virtual method which subclasses should override to dictate what happens when a collaboration invitation is received
+		 */
+		protected function collaborationInvitationReceived_eventHandler(event:CollaborationEvent):void
 		{
-			showCollaborationInvitationReceivedMessage();
+
 		}
 
 		/**
 		 * Virtual method which subclasses should override to dictate what happens when a collaboration invitation is received
 		 */
-		protected function showCollaborationInvitationReceivedMessage():void
+		protected function collaborationInvitationAccepted_eventHandler(event:CollaborationEvent):void
+		{
+
+		}
+
+		/**
+		 * Virtual method which subclasses should override to dictate what happens when a collaboration invitation is received
+		 */
+		protected function collaborationInvitationRejected_eventHandler(event:CollaborationEvent):void
+		{
+
+		}
+
+		/**
+		 * Virtual method which subclasses should override to dictate what happens when a collaboration invitation is received
+		 */
+		protected function collaborationInvitationCancelled_eventHandler(event:CollaborationEvent):void
+		{
+
+		}
+
+		/**
+		 * Virtual method which subclasses should override to dictate what happens when a collaboration invitation is received
+		 */
+		protected function collaborationEnded_eventHandler(event:CollaborationEvent):void
 		{
 
 		}
@@ -739,7 +774,7 @@ package collaboRhythm.core.controller
 					_settings.debuggingToolsEnabled);
 			addPendingService(problemsHealthRecordService);
 			problemsHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE,
-								problemsHealthRecordService_completeHandler, false, 0, true);
+					problemsHealthRecordService_completeHandler, false, 0, true);
 			problemsHealthRecordService.addEventListener(HealthRecordServiceEvent.FAILED,
 					problemsHealthRecordService_failedHandler, false, 0, true);
 
@@ -1289,19 +1324,16 @@ package collaboRhythm.core.controller
 				targetDate = _settings.demoDatePresets[demoPresetIndex];
 		}
 
-		public function collaborate():void
+		public function sendCollaborationInvitation():void
 		{
-			var invitedAccounts:Vector.<Account> = new Vector.<Account>();
 			if (_settings.mode == Settings.MODE_CLINICIAN)
 			{
-				invitedAccounts.push(activeRecordAccount);
-				_collaborationController.collaborate(activeRecordAccount, invitedAccounts);
+				_collaborationController.sendCollaborationInvitation(activeRecordAccount, activeRecordAccount);
 			}
 			else if (_settings.mode = Settings.MODE_PATIENT)
 			{
-				//TODO: Implement a method to determine the account id for the clinician
-				invitedAccounts.push(_activeAccount.allSharingAccounts["jking@records.media.mit.edu"]);
-				_collaborationController.collaborate(_activeAccount, invitedAccounts);
+				_collaborationController.sendCollaborationInvitation(_activeAccount,
+						_activeAccount.allSharingAccounts["jking@records.media.mit.edu"]);
 			}
 		}
 
@@ -1318,11 +1350,6 @@ package collaboRhythm.core.controller
 		public function get navigator():ViewNavigator
 		{
 			return null;
-		}
-
-		public function acceptCollaborationInvitation():void
-		{
-
 		}
 	}
 }

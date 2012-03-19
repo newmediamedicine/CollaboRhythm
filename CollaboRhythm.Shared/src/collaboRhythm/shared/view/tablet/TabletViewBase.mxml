@@ -22,6 +22,7 @@
 		import collaboRhythm.shared.model.Account;
 
 		import mx.core.FlexGlobals;
+
 		[Bindable]
 		protected var _tabletApplicationController:IApplicationControllerBase;
 
@@ -81,7 +82,7 @@
 
 		private function collaborateButton_clickHandler(event:MouseEvent):void
 		{
-			_tabletApplicationController.collaborate();
+			_tabletApplicationController.sendCollaborationInvitation();
 		}
 
 		private function quitButton_clickHandler(event:MouseEvent):void
@@ -145,14 +146,14 @@
 
 		private function acceptCollaborationInvitation():void
 		{
-			collaborationInvitationAlert.close();
-			_tabletApplicationController.acceptCollaborationInvitation();
+//			collaborationInvitationAlert.close();
+//			_tabletApplicationController.acceptCollaborationInvitation();
 		}
 
 		private function rejectCollaborationInvitation():void
 		{
-			collaborationInvitationAlert.close();
-			_tabletApplicationController.collaborationController.rejectCollaborationInvitation();
+//			collaborationInvitationAlert.close();
+//			_tabletApplicationController.collaborationController.rejectCollaborationInvitation();
 		}
 		]]></fx:Script>
 	<s:viewMenuItems>
