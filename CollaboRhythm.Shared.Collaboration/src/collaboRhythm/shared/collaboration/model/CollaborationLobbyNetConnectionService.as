@@ -14,10 +14,10 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.shared.model
+package collaboRhythm.shared.collaboration.model
 {
-
-	import collaboRhythm.shared.controller.CollaborationEvent;
+	import collaboRhythm.shared.collaboration.controller.CollaborationEvent;
+	import collaboRhythm.shared.model.*;
 
 	import flash.events.AsyncErrorEvent;
 	import flash.events.EventDispatcher;
@@ -25,7 +25,11 @@ package collaboRhythm.shared.model
 	import flash.events.NetStatusEvent;
 	import flash.events.SecurityErrorEvent;
 	import flash.events.TimerEvent;
+	import flash.media.Camera;
+	import flash.media.Microphone;
+	import flash.media.SoundCodec;
 	import flash.net.NetConnection;
+	import flash.net.NetStream;
 	import flash.net.Responder;
 	import flash.utils.Timer;
 	import flash.utils.getQualifiedClassName;
@@ -42,7 +46,7 @@ package collaboRhythm.shared.model
 	 *
 	 */
 	[Bindable]
-	public class CollaborationLobbyNetConnectionService extends EventDispatcher
+	public class CollaborationLobbyNetConnectionService extends EventDispatcher implements ICollaborationLobbyNetConnectionService
 	{
 		private var _activeAccount:Account;
 		private var _collaborationModel:CollaborationModel;
@@ -376,6 +380,53 @@ package collaboRhythm.shared.model
 		public function set isConnecting(value:Boolean):void
 		{
 			_isConnecting = value;
+		}
+
+		public function createCommunicationConnection():void
+		{
+			var netStreamOut:NetStream = new NetStream(_netConnection, NetStream.DIRECT_CONNECTIONS);
+			netStreamOut.addEventListener(NetStatusEvent.NET_STATUS, netStreamOut_netStatusHandler);
+			netStreamOut.publish(_activeAccount.accountId, "live");
+
+//			var microphone:Microphone = Microphone.getMicrophone(0);
+//			if (microphone)
+//			{
+//				microphone.codec = SoundCodec.SPEEX;
+//				microphone.setSilenceLevel(0);
+//				microphone.framesPerPacket = 1;
+//			}
+//			netStreamOut.attachAudio(microphone);
+			var camera:Camera = Camera.getCamera();
+			if (camera)
+			{
+				camera.setMode(320, 240, 15);
+				camera.setQuality(0, 70);
+			}
+			netStreamOut.attachCamera(camera);
+
+			_collaborationModel.netStreamOut = netStreamOut;
+
+			var netStreamIn:NetStream = new NetStream(_netConnection, _collaborationModel.peerAccount.peerId);
+			netStreamIn.addEventListener(NetStatusEvent.NET_STATUS, netStreamIn_netStatusHandler);
+			netStreamIn.bufferTime = 0;
+			netStreamIn.play(_collaborationModel.peerAccount.accountId);
+
+			_collaborationModel.netStreamIn = netStreamIn;
+		}
+
+		private function netStreamOut_netStatusHandler(event:NetStatusEvent):void
+		{
+			trace("Outgoing stream event: " + event.info.code + "\n");
+		}
+
+		private function netStreamIn_netStatusHandler(event:NetStatusEvent):void
+		{
+			trace("Incoming stream event: " + event.info.code + "\n");
+		}
+
+		private function establishNetStreamOut():void
+		{
+
 		}
 	}
 }

@@ -33,33 +33,29 @@
 	<fx:Script>
         <![CDATA[
 		import collaboRhythm.plugins.videoMessages.controller.VideoMessagesAppController;
-		import collaboRhythm.shared.model.Account;
-		import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
+		import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionService;
 		import collaboRhythm.shared.model.InteractionLogUtil;
 		import collaboRhythm.shared.model.healthRecord.document.VideoMessage;
 		import collaboRhythm.shared.model.healthRecord.document.VideoMessagesModel;
 
-		import mx.collections.ArrayCollection;
 		import mx.events.CollectionEvent;
 		import mx.events.CollectionEventKind;
 		import mx.logging.ILogger;
 		import mx.logging.Log;
-
-		import spark.events.IndexChangeEvent;
 
 		private var _videoMessagesAppController:VideoMessagesAppController;
 		[Bindable]
 		private var _videoMessagesModel:VideoMessagesModel;
 		private var _accountId:String;
 		[Bindable]
-		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
+		private var _collaborationLobbyNetConnectionService:ICollaborationLobbyNetConnectionService;
 		private var _netStream:NetStream;
 		private var _isCreationComplete:Boolean;
 		private var _logger:ILogger;
 
 		public function init(videoMessagesAppController:VideoMessagesAppController,
 							 videoMessagesModel:VideoMessagesModel,
-							 collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService,
+							 collaborationLobbyNetConnectionService:ICollaborationLobbyNetConnectionService,
 							 accountId:String):void
 		{
 			_videoMessagesAppController = videoMessagesAppController;
@@ -68,22 +64,22 @@
 			_accountId = accountId;
 
 			_videoMessagesModel.videoMessagesCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
-																		 videoMessagesCollection_changeHandler);
+					videoMessagesCollection_changeHandler);
 			videosMessagesList.addEventListener(VideoMessageItemRendererEvent.PLAY_VIDEO_MESSAGE,
-												playVideoMessageHandler);
+					playVideoMessageHandler);
 			videosMessagesList.addEventListener(VideoMessageItemRendererEvent.PLAY_VIDEO_FULL_SCREEN_MESSAGE,
-												playVideoMessageFullScreenHandler);
+					playVideoMessageFullScreenHandler);
 			videosMessagesList.addEventListener(VideoMessageItemRendererEvent.DELETE_VIDEO_MESSAGE,
-												deleteVideoMessageHandler);
+					deleteVideoMessageHandler);
 
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 		}
 
-        private function playVideoMessageFullScreenHandler(event:VideoMessageItemRendererEvent):void
-        {
-            InteractionLogUtil.log(_logger, "Delete video message " + event.videoMessage.meta.id, "delete button");
-            _videoMessagesAppController.playVideoMessageFullScreen(event.videoMessage);
-        }
+		private function playVideoMessageFullScreenHandler(event:VideoMessageItemRendererEvent):void
+		{
+			InteractionLogUtil.log(_logger, "Delete video message " + event.videoMessage.meta.id, "delete button");
+			_videoMessagesAppController.playVideoMessageFullScreen(event.videoMessage);
+		}
 
 		private function videoMessagesCollection_changeHandler(event:CollectionEvent):void
 		{

@@ -29,14 +29,15 @@ package collaboRhythm.core.controller
 	import collaboRhythm.core.view.AboutApplicationView;
 	import collaboRhythm.core.view.ConnectivityEvent;
 	import collaboRhythm.core.view.ConnectivityView;
-	import collaboRhythm.shared.controller.CollaborationController;
-	import collaboRhythm.shared.controller.CollaborationEvent;
+	import collaboRhythm.shared.collaboration.controller.CollaborationController;
+	import collaboRhythm.shared.collaboration.controller.CollaborationEvent;
 	import collaboRhythm.shared.controller.IApplicationControllerBase;
+	import collaboRhythm.shared.controller.ICollaborationController;
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.BackgroundProcessCollectionModel;
-	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionEvent;
-	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
+	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionEvent;
+	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.InteractionLogUtil;
 	import collaboRhythm.shared.model.healthRecord.AccountInformationHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.CreateSessionHealthRecordService;
@@ -53,7 +54,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.model.settings.SettingsFileStore;
-	import collaboRhythm.shared.view.CollaborationView;
+	import collaboRhythm.shared.collaboration.view.CollaborationView;
 
 	import com.coltware.airxlib.log.TCPSyslogTarget;
 	import com.daveoncode.logging.LogFileTarget;
@@ -492,18 +493,18 @@ package collaboRhythm.core.controller
 			// It also allows collaboration with these account owners and sending and viewing of asynchronous video
 
 			_collaborationController = new CollaborationController(_activeAccount, collaborationView, _settings);
-			_collaborationLobbyNetConnectionService = _collaborationController.collaborationModel.collaborationLobbyNetConnectionService;
+			_collaborationLobbyNetConnectionService = _collaborationController.collaborationModel.collaborationLobbyNetConnectionService as CollaborationLobbyNetConnectionService;
 			_collaborationController.addEventListener(CollaborationLobbyNetConnectionEvent.SYNCHRONIZE,
 					synchronizeHandler);
-			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_RECEIVED,
+			_collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_RECEIVED,
 					collaborationInvitationReceived_eventHandler);
-			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_ACCEPTED,
+			_collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_ACCEPTED,
 					collaborationInvitationAccepted_eventHandler);
-			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_REJECTED,
+			_collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_REJECTED,
 					collaborationInvitationRejected_eventHandler);
-			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_CANCELLED,
+			_collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_CANCELLED,
 					collaborationInvitationCancelled_eventHandler);
-			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_ENDED,
+			_collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_ENDED,
 					collaborationEnded_eventHandler);
 			BindingUtils.bindSetter(collaborationLobbyIsConnecting_changeHandler,
 					_collaborationLobbyNetConnectionService, "isConnecting");
@@ -955,14 +956,14 @@ package collaboRhythm.core.controller
 			return _settingsFileStore;
 		}
 
-		public function get collaborationController():CollaborationController
+		public function get collaborationController():ICollaborationController
 		{
 			return _collaborationController;
 		}
 
-		public function set collaborationController(value:CollaborationController):void
+		public function set collaborationController(value:ICollaborationController):void
 		{
-			_collaborationController = value;
+			_collaborationController = value as CollaborationController;
 		}
 
 		public function get componentContainer():IComponentContainer

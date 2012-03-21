@@ -57,7 +57,8 @@
 	<fx:Script>
 		<![CDATA[
 		import collaboRhythm.shared.model.Account;
-		import collaboRhythm.shared.model.CollaborationModel;
+		import collaboRhythm.shared.collaboration.model.CollaborationModel;
+		import collaboRhythm.shared.view.*;
 
 		import mx.collections.ArrayCollection;
 		import mx.events.EffectEvent;

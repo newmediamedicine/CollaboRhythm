@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:view2="collaboRhythm.shared.collaboration.view.*"
+		 width="100%" height="0"
+		 visible="{isVisible(_collaborationModel.recordVideo)}"
+		 showEffect="{(_isHidden) ? showEffect : null}"
+		 hideEffect="{(!_isHidden) ? hideEffect : null}">
+	<fx:Declarations>
+		<s:Resize id="showEffect" heightBy="{COLLABORATION_VIEW_CHILD_HEIGHT}" effectUpdate="{showEffectUpdate()}"
+				  effectEnd="{showEffectEnd()}"/>
+		<s:Resize id="hideEffect" heightBy="{-COLLABORATION_VIEW_CHILD_HEIGHT}" effectUpdate="{showEffectUpdate()}"
+				  effectEnd="{hideEffectEnd()}"/>
+	</fx:Declarations>
+	<fx:Script>
+        <![CDATA[
+		import collaboRhythm.shared.collaboration.controller.CollaborationController;
+		import collaboRhythm.shared.collaboration.model.CollaborationModel;
+
+		import mx.logging.ILogger;
+		import mx.logging.Log;
+
+		public static const COLLABORATION_VIEW_CHILD_HEIGHT:int = 200;
+
+		private var _collaborationController:CollaborationController;
+		[Bindable]
+		private var _collaborationModel:CollaborationModel;
+		private var _mainGroup:Group;
+		private var _logger:ILogger;
+		[Bindable]
+		private var _isHidden:Boolean = true;
+
+		public function init(collaborationController:CollaborationController):void
+		{
+			_collaborationController = collaborationController;
+			_collaborationModel = _collaborationController.collaborationModel as CollaborationModel;
+//            _mainGroup = mainGroup;
+			recordVideoView.init(_collaborationController);
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+		}
+
+		private function isVisible(recordVideo:Boolean):Boolean
+		{
+			if (recordVideo)
+			{
+				setElementIndex(recordVideoView, 0);
+				return true;
+			}
+			return false;
+		}
+
+		private function showEffectUpdate():void
+		{
+//            _logger.info(this.height.toString());
+//            if (this.top == 0)
+//            {
+//                _mainGroup.top = this.height;
+//            }
+//            else
+//            {
+//                _mainGroup.bottom = this.height;
+//            }
+		}
+
+		private function showEffectEnd():void
+		{
+			_isHidden = false;
+			if (_collaborationModel.recordVideo)
+			{
+				recordVideoView.showEffectEndHandler();
+			}
+		}
+
+		private function hideEffectEnd():void
+		{
+			_isHidden = true;
+			recordVideoView.hideEffectEndHandler();
+		}
+		]]>
+    </fx:Script>
+	<view2:RecordVideoView id="recordVideoView" width="100%" height="{COLLABORATION_VIEW_CHILD_HEIGHT}"/>
+	<view2:CollaborationRoomView id="collaborationRoomView" width="100%" height="{COLLABORATION_VIEW_CHILD_HEIGHT}"/>
+</s:Group>

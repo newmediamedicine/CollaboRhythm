@@ -16,39 +16,39 @@
   ~ <http://www.gnu.org/licenses/>.
   -->
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
-         xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
-         xmlns:sharedViews="collaboRhythm.shared.view.*"
-         xmlns:workstationViews="collaboRhythm.workstation.view.*"
-         currentState="recordClosed"
-		 height="100%" width="100%" gap="0">
-    <s:states>
-        <s:State name="recordOpened"/>
-        <s:State name="recordClosed"/>
-    </s:states>
-    <fx:Script>
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  xmlns:workstationViews="collaboRhythm.workstation.view.*"
+		  xmlns:view="collaboRhythm.shared.collaboration.view.*"
+		  currentState="recordClosed"
+		  height="100%" width="100%" gap="0">
+	<s:states>
+		<s:State name="recordOpened"/>
+		<s:State name="recordClosed"/>
+	</s:states>
+	<fx:Script>
         <![CDATA[
-        private const CUSTOM_WIDGETS_VIEW_HEIGHT:int = 200;
-
-
-        ]]>
+		private const CUSTOM_WIDGETS_VIEW_HEIGHT:int = 200;
+		]]>
     </fx:Script>
-<!--    <s:Rect width="100%" height="100%">
+	<!--    <s:Rect width="100%" height="100%">
         <s:fill>
             <s:SolidColor color="{ActiveAccountView.ACTIVE_ACCOUNT_BACKGROUND_COLOR}"/>
         </s:fill>
     </s:Rect>-->
-    <s:Group id="mainGroup" width="100%" height="100%">
-        <!-- This Group holds any views that should be displayed on the second screen if a second screen exists and useSingleScreen mode is off -->
-        <s:VGroup id="widgetsGroup" width="100%" height="100%" gap="0" includeIn="recordOpened">
-            <workstationViews:TiledWidgetsContainerView id="standardWidgetsContainerView" width="100%" height="100%" includeIn="recordOpened"/>
-            <s:HGroup id="customWidgetsGroup" width="100%" height="{CUSTOM_WIDGETS_VIEW_HEIGHT}" paddingLeft="10" paddingRight="10" paddingBottom="10"/>
-            <s:Line width="100%">
-                <s:stroke>
-                    <s:SolidColorStroke color="0x000000"/>
-                </s:stroke>
-            </s:Line>
-        </s:VGroup>
-    </s:Group>
-    <sharedViews:CollaborationView id="collaborationView" width="100%" height="0"/>
+	<s:Group id="mainGroup" width="100%" height="100%">
+		<!-- This Group holds any views that should be displayed on the second screen if a second screen exists and useSingleScreen mode is off -->
+		<s:VGroup id="widgetsGroup" width="100%" height="100%" gap="0" includeIn="recordOpened">
+			<workstationViews:TiledWidgetsContainerView id="standardWidgetsContainerView" width="100%" height="100%"
+														includeIn="recordOpened"/>
+			<s:HGroup id="customWidgetsGroup" width="100%" height="{CUSTOM_WIDGETS_VIEW_HEIGHT}" paddingLeft="10"
+					  paddingRight="10" paddingBottom="10"/>
+			<s:Line width="100%">
+				<s:stroke>
+					<s:SolidColorStroke color="0x000000"/>
+				</s:stroke>
+			</s:Line>
+		</s:VGroup>
+	</s:Group>
+	<view:CollaborationView id="collaborationView" width="100%" height="0"/>
 </s:VGroup>

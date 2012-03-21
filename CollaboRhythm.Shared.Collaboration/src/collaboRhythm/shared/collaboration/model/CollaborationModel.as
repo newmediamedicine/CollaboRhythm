@@ -14,18 +14,15 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.shared.model
+package collaboRhythm.shared.collaboration.model
 {
-	import castle.flexbridge.kernel.IKernel;
-	
-	import collaboRhythm.shared.model.services.WorkstationKernel;
-
+	import collaboRhythm.shared.model.*;
 	import collaboRhythm.shared.model.settings.Settings;
 
-	import flash.events.NetStatusEvent;
-	
+	import flash.net.NetStream;
+
 	import mx.collections.ArrayCollection;
-	
+
 	/**
 	 * 
 	 * @author jom
@@ -35,7 +32,7 @@ package collaboRhythm.shared.model
 	 * 
 	 */
 	[Bindable]
-	public class CollaborationModel
+	public class CollaborationModel implements ICollaborationModel
 	{
 		public static const COLLABORATION_INACTIVE:String = "CollaborationInactive";
 		public static const INVITATION_SENT:String = "InvitationSent";
@@ -63,6 +60,8 @@ package collaboRhythm.shared.model
 		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
 		private var _collaborationRoomNetConnectionService:CollaborationRoomNetConnectionService;
 		private var _recordVideo:Boolean = false;
+		private var _netStreamOut:NetStream;
+		private var _netStreamIn:NetStream;
 
 		public function CollaborationModel(settings:Settings, activeAccount:Account)
 		{
@@ -110,31 +109,36 @@ package collaboRhythm.shared.model
 			_passWord = value;
 		}
 		
-		public function get collaborationLobbyNetConnectionService():CollaborationLobbyNetConnectionService
+		public function get collaborationLobbyNetConnectionService():ICollaborationLobbyNetConnectionService
 		{
 			return _collaborationLobbyNetConnectionService;
 		}
-		
+
+		public function set collaborationLobbyNetConnectionService(value:ICollaborationLobbyNetConnectionService):void
+		{
+			_collaborationLobbyNetConnectionService = value as CollaborationLobbyNetConnectionService;
+		}
+
 		public function get collaborationRoomNetConnectionService():CollaborationRoomNetConnectionService
 		{
 			return _collaborationRoomNetConnectionService;
 		}
-		
+
 		public function get recordVideo():Boolean
 		{
 			return _recordVideo;
 		}
-		
+
 		public function set recordVideo(value:Boolean):void
 		{
 			_recordVideo = value;
 		}
-		
+
 		public function get collaborationRoomAccounts():ArrayCollection
 		{
 			return _collaborationRoomAccounts;
 		}
-		
+
 		public function get audioVideoOutput():AudioVideoOutput
 		{
 			if (!_audioVideoOutput)
@@ -148,7 +152,7 @@ package collaboRhythm.shared.model
         {
             _audioVideoOutput = value;
         }
-		
+
 		public function addInvitedUser(invitedAccount:Account):void
 		{
 			if (_invitedAccounts.indexOf(invitedAccount) == -1)
@@ -160,11 +164,11 @@ package collaboRhythm.shared.model
 				_collaborationRoomAccounts.addItem(invitedAccount);
 			}
 		}
-		
+
 		public function closeCollaborationRoom():void
 		{
 			while (_collaborationRoomAccounts.length > 0)
-			{	
+			{
 //				var collaborationRoomUser:User = User(_collaborationRoomAccounts.getItemAt(_collaborationRoomAccounts.length - 1));
 //				_collaborationRoomNetConnectionService.sharingAccountExitedCollaborationRoom(collaborationRoomUser.accountId);
 //				_collaborationRoomAccounts.removeItemAt(_collaborationRoomAccounts.length - 1);
@@ -174,11 +178,6 @@ package collaboRhythm.shared.model
 			_passWord = "";
 //			localUser.collaborationColor = "0x000000";
 		}
-
-        public function set collaborationLobbyNetConnectionService(value:CollaborationLobbyNetConnectionService):void
-        {
-            _collaborationLobbyNetConnectionService = value;
-        }
 
         public function get activeRecordAccount():Account
         {
@@ -258,6 +257,26 @@ package collaboRhythm.shared.model
 		public function set collaborationState(value:String):void
 		{
 			_collaborationState = value;
+		}
+
+		public function get netStreamOut():NetStream
+		{
+			return _netStreamOut;
+		}
+
+		public function set netStreamOut(value:NetStream):void
+		{
+			_netStreamOut = value;
+		}
+
+		public function get netStreamIn():NetStream
+		{
+			return _netStreamIn;
+		}
+
+		public function set netStreamIn(value:NetStream):void
+		{
+			_netStreamIn = value;
 		}
 	}
 }

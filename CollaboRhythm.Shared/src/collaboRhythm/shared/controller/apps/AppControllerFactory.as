@@ -20,8 +20,7 @@ package collaboRhythm.shared.controller.apps
 	import castle.flexbridge.reflection.ReflectionUtils;
 
 	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
-	import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
+	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.Settings;
 
@@ -41,13 +40,12 @@ package collaboRhythm.shared.controller.apps
 	{
 		private var _widgetContainer:IVisualElementContainer;
 		private var _fullContainer:IVisualElementContainer;
-		private var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
 		private var _modality:String;
         private var _activeAccount:Account;
         private var _activeRecordAccount:Account;
         private var _settings:Settings;
         private var _componentContainer:IComponentContainer;
-		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
+		private var _collaborationLobbyNetConnectionService:ICollaborationLobbyNetConnectionService;
 		private var _viewNavigator:ViewNavigator;
 		protected var logger:ILogger;
 
@@ -75,16 +73,6 @@ package collaboRhythm.shared.controller.apps
 		public function set fullContainer(value:IVisualElementContainer):void
 		{
 			_fullContainer = value;
-		}
-
-		public function get collaborationRoomNetConnectionServiceProxy():CollaborationRoomNetConnectionServiceProxy
-		{
-			return _collaborationRoomNetConnectionServiceProxy;
-		}
-		
-		public function set collaborationRoomNetConnectionServiceProxy(value:CollaborationRoomNetConnectionServiceProxy):void
-		{
-			_collaborationRoomNetConnectionServiceProxy = value;
 		}
 
 		public function get modality():String
@@ -118,8 +106,6 @@ package collaboRhythm.shared.controller.apps
 
 			if (appName != null)
 				app.name = appName;
-			
-			app.collaborationRoomNetConnectionServiceProxy = _collaborationRoomNetConnectionServiceProxy;
 
 			logger.info("  App created: " + ReflectionUtils.getClassInfo(appClass).name);
 			return app;
@@ -163,12 +149,12 @@ package collaboRhythm.shared.controller.apps
             _componentContainer = value;
         }
 
-		public function get collaborationLobbyNetConnectionService():CollaborationLobbyNetConnectionService
+		public function get collaborationLobbyNetConnectionService():ICollaborationLobbyNetConnectionService
 		{
 			return _collaborationLobbyNetConnectionService;
 		}
 
-		public function set collaborationLobbyNetConnectionService(value:CollaborationLobbyNetConnectionService):void
+		public function set collaborationLobbyNetConnectionService(value:ICollaborationLobbyNetConnectionService):void
 		{
 			_collaborationLobbyNetConnectionService = value;
 		}

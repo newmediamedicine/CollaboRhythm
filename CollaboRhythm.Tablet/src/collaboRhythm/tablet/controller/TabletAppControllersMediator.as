@@ -20,7 +20,7 @@ package collaboRhythm.tablet.controller
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
+	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.Settings;
 

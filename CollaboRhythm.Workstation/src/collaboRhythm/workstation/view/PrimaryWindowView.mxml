@@ -16,43 +16,43 @@
   ~ <http://www.gnu.org/licenses/>.
   -->
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
-         xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
-         xmlns:workstationViews="collaboRhythm.workstation.view.*"
-         xmlns:sharedViews="collaboRhythm.shared.view.*"
-         width="100%" height="100%" gap="0">
-    <s:states>
-        <s:State name="useSingleScreen"/>
-        <s:State name="useDualScreen"/>
-    </s:states>
-    <fx:Script>
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  xmlns:workstationViews="collaboRhythm.workstation.view.*"
+		  xmlns:view="collaboRhythm.shared.collaboration.view.*"
+		  width="100%" height="100%" gap="0">
+	<s:states>
+		<s:State name="useSingleScreen"/>
+		<s:State name="useDualScreen"/>
+	</s:states>
+	<fx:Script>
         <![CDATA[
-        import collaboRhythm.workstation.controller.WorkstationApplicationController;
+		import collaboRhythm.workstation.controller.WorkstationApplicationController;
 
-        private const COLLABORATION_VIEW_HEIGHT:int = 200;
+		private const COLLABORATION_VIEW_HEIGHT:int = 200;
 
-        private const ACTIVE_ACCOUNT_AND_RECORD_GROUP_HEIGHT:int = 70;
+		private const ACTIVE_ACCOUNT_AND_RECORD_GROUP_HEIGHT:int = 70;
 
-        private var _workstationApplicationController:WorkstationApplicationController;
-        //        private var _activeAccount:Account;
+		private var _workstationApplicationController:WorkstationApplicationController;
+		//        private var _activeAccount:Account;
 
-        public function init(workstationApplicationController:WorkstationApplicationController):void
-        {
-            _workstationApplicationController = workstationApplicationController;
+		public function init(workstationApplicationController:WorkstationApplicationController):void
+		{
+			_workstationApplicationController = workstationApplicationController;
 
 //            _activeAccount = activeAccount;
 //            activeAccountView.init(_workstationApplicationController, _activeAccount);
-        }
-        ]]>
+		}
+		]]>
     </fx:Script>
-<!--    <s:Rect width="100%" height="100%">
+	<!--    <s:Rect width="100%" height="100%">
         <s:fill>
             <s:SolidColor color="{ActiveAccountView.ACTIVE_ACCOUNT_BACKGROUND_COLOR}"/>
         </s:fill>
     </s:Rect>-->
-    <sharedViews:CollaborationView id="collaborationView" width="100%" height="0" includeIn="useSingleScreen"/>
-    <s:Group id="mainGroup" width="100%" height="100%">
-        <!-- This Group holds the activeAccount and the activeRecord -->
-        <workstationViews:ActiveAccountView id="activeAccountView" width="100%" height="100%"/>
-    </s:Group>
+	<view:CollaborationView id="collaborationView" width="100%" height="0" includeIn="useSingleScreen"/>
+	<s:Group id="mainGroup" width="100%" height="100%">
+		<!-- This Group holds the activeAccount and the activeRecord -->
+		<workstationViews:ActiveAccountView id="activeAccountView" width="100%" height="100%"/>
+	</s:Group>
 </s:VGroup>

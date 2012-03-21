@@ -140,6 +140,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" />
   </component>
 </module>
 

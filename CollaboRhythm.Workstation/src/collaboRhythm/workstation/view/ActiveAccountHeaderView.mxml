@@ -40,7 +40,7 @@
         <![CDATA[
 		import collaboRhythm.shared.controller.IApplicationControllerBase;
 		import collaboRhythm.shared.model.Account;
-		import collaboRhythm.shared.model.CollaborationModel;
+		import collaboRhythm.shared.collaboration.model.CollaborationModel;
 		import collaboRhythm.shared.view.RecordInformationView;
 		import collaboRhythm.workstation.controller.WorkstationApplicationController;
 

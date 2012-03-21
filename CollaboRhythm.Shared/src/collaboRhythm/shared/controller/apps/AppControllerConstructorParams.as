@@ -17,8 +17,7 @@
 package collaboRhythm.shared.controller.apps
 {
 import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
-	import collaboRhythm.shared.model.CollaborationModel;
+	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.services.IComponentContainer;
     import collaboRhythm.shared.model.settings.Settings;
 
@@ -35,7 +34,7 @@ import collaboRhythm.shared.model.Account;
         private var _activeRecordAccount:Account;
         private var _settings:Settings;
         private var _componentContainer:IComponentContainer;
-		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
+		private var _collaborationLobbyNetConnectionService:ICollaborationLobbyNetConnectionService;
 		private var _viewNavigator:ViewNavigator;
 
 		public function AppControllerConstructorParams()
@@ -110,12 +109,12 @@ import collaboRhythm.shared.model.Account;
             _componentContainer = value;
         }
 
-		public function get collaborationLobbyNetConnectionService():CollaborationLobbyNetConnectionService
+		public function get collaborationLobbyNetConnectionService():ICollaborationLobbyNetConnectionService
 		{
 			return _collaborationLobbyNetConnectionService;
 		}
 
-		public function set collaborationLobbyNetConnectionService(value:CollaborationLobbyNetConnectionService):void
+		public function set collaborationLobbyNetConnectionService(value:ICollaborationLobbyNetConnectionService):void
 		{
 			_collaborationLobbyNetConnectionService = value;
 		}

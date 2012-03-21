@@ -14,8 +14,9 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.shared.model
+package collaboRhythm.shared.collaboration.model
 {
+	import collaboRhythm.shared.model.*;
 	import flash.events.AsyncErrorEvent;
 	import flash.events.EventDispatcher;
 	import flash.events.IOErrorEvent;
@@ -126,10 +127,10 @@ package collaboRhythm.shared.model
 		
 		public function activeAccountEnteredCollaborationRoom(collaborationColor:String, invitedAccountIds:Array):void
 		{
-			_collaborationModel.active = true;
-
-			_collaborationModel.collaborationLobbyNetConnectionService.updateCollaborationLobbyConnectionStatus(Account.COLLABORATION_LOBBY_AWAY);
-			_collaborationModel.activeAccount.collaborationRoomConnectionStatus = Account.COLLABORATION_ROOM_ENTERED;
+//			_collaborationModel.active = true;
+//
+//			_collaborationModel.collaborationLobbyNetConnectionService.updateCollaborationLobbyConnectionStatus(Account.COLLABORATION_LOBBY_AWAY);
+//			_collaborationModel.activeAccount.collaborationRoomConnectionStatus = Account.COLLABORATION_ROOM_ENTERED;
 		}
 		
 		public function activeAccountJoinedCollaborationRoom():void
@@ -140,11 +141,11 @@ package collaboRhythm.shared.model
 		
 		public function activeAccountExitedCollaborationRoom():void
 		{
-			_collaborationModel.collaborationLobbyNetConnectionService.updateCollaborationLobbyConnectionStatus(Account.COLLABORATION_LOBBY_AVAILABLE);
-			_collaborationModel.activeAccount.collaborationRoomConnectionStatus = Account.COLLABORATION_ROOM_EXITED;
-			stopPublishingLocalUserVideoStream();
-			_netConnection.close();
-			_collaborationModel.active = false;
+//			_collaborationModel.collaborationLobbyNetConnectionService.updateCollaborationLobbyConnectionStatus(Account.COLLABORATION_LOBBY_AVAILABLE);
+//			_collaborationModel.activeAccount.collaborationRoomConnectionStatus = Account.COLLABORATION_ROOM_EXITED;
+//			stopPublishingLocalUserVideoStream();
+//			_netConnection.close();
+//			_collaborationModel.active = false;
 		}
 				
 		private function sharingAccountEnteredCollaborationRoom(sharingAccountId:String, collaborationColor:String):void

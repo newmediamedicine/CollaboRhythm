@@ -43,10 +43,11 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
-		import collaboRhythm.shared.controller.CollaborationController;
-		import collaboRhythm.shared.controller.CollaborationEvent;
+		import collaboRhythm.shared.collaboration.controller.CollaborationController;
+		import collaboRhythm.shared.collaboration.controller.CollaborationEvent;
+		import collaboRhythm.shared.collaboration.model.CollaborationModel;
 		import collaboRhythm.shared.model.Account;
-		import collaboRhythm.shared.model.CollaborationModel;
+		import collaboRhythm.shared.view.*;
 
 		import mx.collections.ArrayCollection;
 		import mx.events.CollectionEvent;
@@ -238,7 +239,7 @@
 	<view:IconButton
 		id="exitButton" 
 		click="exitButton_clickHandler(event)"
-		icon="@Embed('/resources/images/icons/buttonIcons/collaborationRoomView_Exit.png')"
+		icon="@Embed('/assets/images/icons/buttonIcons/collaborationRoomView_Exit.png')"
 		right="5" bottom="5"/>
 	<s:Line top="0" width="100%">
 		<s:stroke>

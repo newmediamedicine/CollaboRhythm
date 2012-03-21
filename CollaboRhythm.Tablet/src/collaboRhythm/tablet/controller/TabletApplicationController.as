@@ -19,11 +19,12 @@ package collaboRhythm.tablet.controller
 
 	import collaboRhythm.core.controller.ApplicationControllerBase;
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
-	import collaboRhythm.shared.controller.CollaborationEvent;
+	import collaboRhythm.shared.collaboration.controller.CollaborationEvent;
+	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.settings.Settings;
-	import collaboRhythm.shared.view.CollaborationVideoView;
+	import collaboRhythm.shared.collaboration.view.CollaborationVideoView;
 	import collaboRhythm.tablet.view.SelectRecordView;
 	import collaboRhythm.tablet.view.TabletFullViewContainer;
 	import collaboRhythm.shared.view.tablet.TabletViewBase;
@@ -206,7 +207,7 @@ package collaboRhythm.tablet.controller
 				_tabletAppControllersMediator = new TabletAppControllersMediator(tabletHomeView.widgetContainers,
 						_fullContainer, settings,
 						_componentContainer,
-						_collaborationController.collaborationModel.collaborationLobbyNetConnectionService,
+						_collaborationController.collaborationModel.collaborationLobbyNetConnectionService as CollaborationLobbyNetConnectionService,
 						this);
 			}
 			_tabletAppControllersMediator.createAndStartApps(_activeAccount, recordAccount);

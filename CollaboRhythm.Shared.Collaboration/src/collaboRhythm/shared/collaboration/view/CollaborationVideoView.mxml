@@ -20,8 +20,8 @@
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*">
 	<fx:Script><![CDATA[
-		import collaboRhythm.shared.controller.CollaborationController;
-		import collaboRhythm.shared.model.CollaborationModel;
+		import collaboRhythm.shared.collaboration.controller.CollaborationController;
+		import collaboRhythm.shared.collaboration.model.CollaborationModel;
 
 		private var _collaborationController:CollaborationController;
 		[Bindable]
@@ -32,54 +32,27 @@
 			super.createChildren();
 			if (_tabletApplicationController)
 			{
-				_collaborationController = _tabletApplicationController.collaborationController;
-				_collaborationModel = _collaborationController.collaborationModel;
+				_collaborationController = _tabletApplicationController.collaborationController as
+						CollaborationController;
+				_collaborationModel = _collaborationController.collaborationModel as CollaborationModel;
 				peerAccountImage.source = _collaborationModel.peerAccount.imageURI;
+
 			}
 		}
 
-		/*		private function determineVisible(activeRecordAccountNetStream:NetStream, creatingAccountNetStream):Boolean
-		 {
-		 if (_activeAccount ==
-		 _tabletApplicationController.collaborationController.collaborationModel.creatingAccount)
-		 {
-		 if (activeRecordAccountNetStream)
-		 {
-		 //				netStream.client = {};
-		 //				netStream.client.onMetaData = handleMetaData;
-		 //				netStream.client.onPlayStatus = handlePlayStatus;
-		 //				netStream.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
-		 //				netStream.addEventListener(ErrorEvent.ERROR, netStatusErrorHandler);
-		 //				videoDisplay.attachCamera(null);
-		 var video:Video = new Video();
-		 video.height = 240;
-		 video.width = 320;
-		 video.attachNetStream(activeRecordAccountNetStream);
-		 videoDisplay.addChild(video);
-		 return true;
-		 }
-		 else
-		 {
-		 return false;
-		 }
-		 }
-		 else
-		 {
-		 if (creatingAccountNetStream)
-		 {
-		 var video:Video = new Video();
-		 video.height = 240;
-		 video.width = 320;
-		 video.attachNetStream(creatingAccountNetStream);
-		 videoDisplay.addChild(video);
-		 return true;
-		 }
-		 else
-		 {
-		 return false;
-		 }
-		 }
-		 }*/
+		private function determineVisible(netStreamIn:NetStream):Boolean
+		{
+			if (netStreamIn)
+			{
+				var video:Video = new Video();
+				video.height = 240;
+				video.width = 320;
+				video.attachNetStream(netStreamIn);
+				videoDisplay.addChild(video);
+				return true;
+			}
+			return false;
+		}
 
 		private function handleMetaData(metaData:Object):void
 		{
@@ -185,16 +158,25 @@
 		}
 		]]></fx:Script>
 	<s:VGroup horizontalAlign="center" verticalCenter="0">
-		<s:Label id="collaborationLabel" text="{determineCollaborationLabelText(_collaborationModel.collaborationState)}"/>
-		<s:Image id="peerAccountImage" width="240" height="240"/>
-		<s:HGroup visible="{_collaborationModel.collaborationState == CollaborationModel.INVITATION_RECEIVED}" includeInLayout="{_collaborationModel.collaborationState == CollaborationModel.INVITATION_RECEIVED}">
+		<s:Label id="collaborationLabel"
+				 text="{determineCollaborationLabelText(_collaborationModel.collaborationState)}"/>
+		<s:Group>
+			<s:Image id="peerAccountImage" width="240" height="240"/>
+			<mx:VideoDisplay id="videoDisplay" width="320" height="240" verticalCenter="0" horizontalCenter="0"
+							 visible="{determineVisible(_collaborationModel.netStreamIn)}"/>
+		</s:Group>
+		<s:HGroup visible="{_collaborationModel.collaborationState == CollaborationModel.INVITATION_RECEIVED}"
+				  includeInLayout="{_collaborationModel.collaborationState == CollaborationModel.INVITATION_RECEIVED}">
 			<s:Button id="acceptButton" label="Accept" click="acceptButton_clickHandler()"/>
 			<s:Button id="rejectButton" label="Reject" click="rejectButton_clickHandler()"/>
 		</s:HGroup>
-		<s:Button id="cancelButton" label="Cancel" visible="{_collaborationModel.collaborationState == CollaborationModel.INVITATION_SENT}" includeInLayout="{_collaborationModel.collaborationState == CollaborationModel.INVITATION_SENT}" click="cancelButton_clickHandler()"/>
-		<s:Button id="endCall" label="End Call" visible="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_ACTIVE}" includeInLayout="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_ACTIVE}" click="endCall_clickHandler()"/>
+		<s:Button id="cancelButton" label="Cancel"
+				  visible="{_collaborationModel.collaborationState == CollaborationModel.INVITATION_SENT}"
+				  includeInLayout="{_collaborationModel.collaborationState == CollaborationModel.INVITATION_SENT}"
+				  click="cancelButton_clickHandler()"/>
+		<s:Button id="endCall" label="End Call"
+				  visible="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_ACTIVE}"
+				  includeInLayout="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_ACTIVE}"
+				  click="endCall_clickHandler()"/>
 	</s:VGroup>
-
-	<!--	<mx:VideoDisplay id="videoDisplay" width="320" height="240" verticalCenter="0" horizontalCenter="0"
-						 visible="{determineVisible(_activeRecordAccount.netStream, _tabletApplicationController.collaborationController.collaborationModel.creatingAccount.netStream)}"/>-->
 </tablet:TabletViewBase>

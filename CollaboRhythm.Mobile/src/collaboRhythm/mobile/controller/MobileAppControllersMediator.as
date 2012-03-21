@@ -2,7 +2,7 @@ package collaboRhythm.mobile.controller
 {
 
     import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
-	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
+	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.settings.Settings;
     import collaboRhythm.shared.model.services.IComponentContainer;
 

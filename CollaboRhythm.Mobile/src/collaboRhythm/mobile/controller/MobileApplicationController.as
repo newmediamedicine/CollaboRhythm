@@ -20,12 +20,13 @@ package collaboRhythm.mobile.controller
 	import collaboRhythm.core.controller.ApplicationControllerBase;
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.mobile.view.WidgetContainerView;
+	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.services.DemoEvent;
 	import collaboRhythm.shared.model.settings.Settings;
-	import collaboRhythm.shared.view.CollaborationRoomView;
-	import collaboRhythm.shared.view.CollaborationView;
-	import collaboRhythm.shared.view.RecordVideoView;
+	import collaboRhythm.shared.collaboration.view.CollaborationRoomView;
+	import collaboRhythm.shared.collaboration.view.CollaborationView;
+	import collaboRhythm.shared.collaboration.view.RecordVideoView;
 
 	import flash.desktop.NativeApplication;
 	import flash.events.Event;
@@ -85,7 +86,7 @@ package collaboRhythm.mobile.controller
 																			 fullContainer,
 																			 settings,
 																			 _componentContainer,
-																			 _collaborationController.collaborationModel.collaborationLobbyNetConnectionService);
+																			 _collaborationController.collaborationModel.collaborationLobbyNetConnectionService as CollaborationLobbyNetConnectionService);
 			_mobileAppControllersMediator.createMobileApps(_activeAccount, recordAccount);
 			initializeActiveView();
 		}

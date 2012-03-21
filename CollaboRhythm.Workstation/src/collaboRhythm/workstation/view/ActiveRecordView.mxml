@@ -27,7 +27,8 @@
     </s:states>
     <fx:Script>
         <![CDATA[
-        import collaboRhythm.shared.model.Account;
+		import collaboRhythm.shared.collaboration.model.CollaborationModel;
+		import collaboRhythm.shared.model.Account;
         import collaboRhythm.workstation.controller.WorkstationApplicationController;
 
         public static const RECORD_BACKGROUND_COLOR:uint = 0xE6E7E8;
@@ -41,7 +42,7 @@
         {
             _workstationApplicationController = workstationApplicationController;
             _recordAccount = recordAccount;
-            activeRecordTabView.init(_workstationApplicationController, _recordAccount, _workstationApplicationController.collaborationController.collaborationModel);
+            activeRecordTabView.init(_workstationApplicationController, _recordAccount, _workstationApplicationController.collaborationController.collaborationModel as CollaborationModel);
         }
 
         private function creationCompleteHandler():void

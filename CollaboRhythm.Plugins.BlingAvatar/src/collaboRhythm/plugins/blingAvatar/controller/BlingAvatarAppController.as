@@ -5,7 +5,6 @@ package collaboRhythm.plugins.blingAvatar.controller
 	import collaboRhythm.plugins.blingAvatar.view.BlingAvatarFullView;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
 
 	import mx.core.UIComponent;
 

@@ -22,9 +22,9 @@
 		 xmlns:sharedViews="collaboRhythm.shared.view.*">
 	<fx:Script>
         <![CDATA[
+		import collaboRhythm.shared.collaboration.model.CollaborationModel;
 		import collaboRhythm.shared.controller.IApplicationControllerBase;
 		import collaboRhythm.shared.model.Account;
-		import collaboRhythm.workstation.controller.WorkstationApplicationController;
 
 		public static const ACTIVE_ACCOUNT_BACKGROUND_COLOR:uint = 0x939598;
 		public static const ACTIVE_ACCOUNT_HEADER_HEIGHT:int = 70;
@@ -38,7 +38,7 @@
 			_workstationApplicationController = workstationApplicationController;
 			_activeAccount = activeAccount;
 			activeAccountHeaderView.init(_workstationApplicationController, _activeAccount,
-					_workstationApplicationController.collaborationController.collaborationModel);
+					_workstationApplicationController.collaborationController.collaborationModel as CollaborationModel);
 			sharedRecordsListView.init(_workstationApplicationController, _activeAccount);
 		}
 		]]>

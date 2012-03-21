@@ -17,8 +17,7 @@
 package collaboRhythm.shared.controller.apps
 {
 	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
-	import collaboRhythm.shared.model.CollaborationRoomNetConnectionServiceProxy;
+	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.view.BitmapCopyComponent;
@@ -71,7 +70,6 @@ package collaboRhythm.shared.controller.apps
 
 		protected var _widgetContainer:IVisualElementContainer;
 		protected var _fullContainer:IVisualElementContainer;
-		protected var _collaborationRoomNetConnectionServiceProxy:CollaborationRoomNetConnectionServiceProxy;
 
 		private var _topSpaceTransitionComponent:UIComponent;
 		private var _centerSpaceTransitionComponent:UIComponent;
@@ -82,7 +80,7 @@ package collaboRhythm.shared.controller.apps
 		protected var _activeRecordAccount:Account;
 		protected var _settings:Settings;
 		protected var _componentContainer:IComponentContainer;
-		protected var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
+		protected var _collaborationLobbyNetConnectionService:ICollaborationLobbyNetConnectionService;
 		protected var _viewNavigator:ViewNavigator;
 		protected var _primaryShowFullViewParallelEffect:Parallel;
 		protected var _secondaryShowFullViewParallelEffect:Parallel;
@@ -237,16 +235,6 @@ package collaboRhythm.shared.controller.apps
 
 		public function set fullView(value:UIComponent):void
 		{
-		}
-
-		public function get collaborationRoomNetConnectionServiceProxy():CollaborationRoomNetConnectionServiceProxy
-		{
-			return _collaborationRoomNetConnectionServiceProxy;
-		}
-
-		public function set collaborationRoomNetConnectionServiceProxy(value:CollaborationRoomNetConnectionServiceProxy):void
-		{
-			_collaborationRoomNetConnectionServiceProxy = value;
 		}
 
 		/**

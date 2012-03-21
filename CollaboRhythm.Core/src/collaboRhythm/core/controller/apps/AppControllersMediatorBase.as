@@ -29,6 +29,8 @@ package collaboRhythm.core.controller.apps
 	import collaboRhythm.shared.apps.procedures.controller.ProceduresAppController;
 	import collaboRhythm.shared.apps.socialHistory.controller.SocialHistoryAppController;
 	import collaboRhythm.shared.apps.vitals.controller.VitalsAppController;
+	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
+	import collaboRhythm.shared.collaboration.model.CollaborationRoomNetConnectionService;
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	import collaboRhythm.shared.controller.apps.AppEvent;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
@@ -309,7 +311,7 @@ package collaboRhythm.core.controller.apps
 			_factory.activeRecordAccount = activeRecordAccount;
 			_factory.settings = _settings;
 			_factory.componentContainer = _componentContainer;
-			_factory.collaborationLobbyNetConnectionService = _collaborationLobbyNetConnectionService;
+			_factory.collaborationLobbyNetConnectionService = _collaborationLobbyNetConnectionService as ICollaborationLobbyNetConnectionService;
 		}
 
 		private function initializeDynamicAppLookup():void

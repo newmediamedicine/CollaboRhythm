@@ -2,7 +2,7 @@ package collaboRhythm.shared.controller
 {
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.BackgroundProcessCollectionModel;
-    import collaboRhythm.shared.model.settings.Settings;
+	import collaboRhythm.shared.model.settings.Settings;
 
 	import spark.components.ViewNavigator;
 
@@ -38,7 +38,7 @@ package collaboRhythm.shared.controller
 
         function set backgroundProcessModel(value:BackgroundProcessCollectionModel):void;
 
-		function get collaborationController():CollaborationController;
+		function get collaborationController():ICollaborationController;
 
 		function openRecordAccount(sharedRecordAccount:Account):void;
 

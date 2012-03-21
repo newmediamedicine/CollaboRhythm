@@ -14,19 +14,21 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.shared.controller
+package collaboRhythm.shared.collaboration.controller
 {
+	import collaboRhythm.shared.controller.ICollaborationController;
 	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionEvent;
-	import collaboRhythm.shared.model.CollaborationLobbyNetConnectionService;
-	import collaboRhythm.shared.model.CollaborationModel;
+	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionEvent;
+	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
+	import collaboRhythm.shared.collaboration.model.CollaborationModel;
+	import collaboRhythm.shared.model.ICollaborationModel;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.document.VideoMessage;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	import collaboRhythm.shared.model.settings.Settings;
-	import collaboRhythm.shared.view.CollaborationVideoView;
-	import collaboRhythm.shared.view.CollaborationView;
+	import collaboRhythm.shared.collaboration.view.CollaborationVideoView;
+	import collaboRhythm.shared.collaboration.view.CollaborationView;
 
 	import flash.events.EventDispatcher;
 	import flash.events.TimerEvent;
@@ -46,7 +48,7 @@ package collaboRhythm.shared.controller
 	 *
 	 * @author jom
 	 */
-	public class CollaborationController extends EventDispatcher
+	public class CollaborationController extends EventDispatcher implements ICollaborationController
 	{
 		private var _activeAccount:Account;
 		private var _settings:Settings;
@@ -102,19 +104,14 @@ package collaboRhythm.shared.controller
 			return _activeAccount;
 		}
 
-		public function get collaborationModel():CollaborationModel
+		public function get collaborationModel():ICollaborationModel
 		{
 			return _collaborationModel;
 		}
 
-		public function set collaborationModel(value:CollaborationModel):void
+		public function set collaborationModel(value:ICollaborationModel):void
 		{
-			_collaborationModel = value;
-		}
-
-		public function exitCollaborationLobby():void
-		{
-			_collaborationModel.collaborationLobbyNetConnectionService.exitCollaborationLobby();
+			_collaborationModel = value as CollaborationModel;
 		}
 
 		public function sendCollaborationInvitation(subjectAccount:Account, targetAccount:Account):void
@@ -152,6 +149,7 @@ package collaboRhythm.shared.controller
 					_collaborationModel.peerAccount.accountId, _collaborationModel.peerAccount.peerId,
 					_collaborationModel.passWord);
 			_collaborationModel.collaborationState = CollaborationModel.COLLABORATION_ACTIVE;
+			_collaborationModel.collaborationLobbyNetConnectionService.createCommunicationConnection();
 		}
 
 		public function receiveCollaborationInvitationAccepted(subjectAccountId:String, sourceAccountId:String,
@@ -161,6 +159,7 @@ package collaboRhythm.shared.controller
 			{
 				_collaborationModel.peerAccount.peerId = sourcePeerId;
 				_collaborationModel.collaborationState = CollaborationModel.COLLABORATION_ACTIVE;
+				_collaborationModel.collaborationLobbyNetConnectionService.createCommunicationConnection();
 			}
 			else
 			{

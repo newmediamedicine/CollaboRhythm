@@ -31,7 +31,7 @@
     <fx:Script>
         <![CDATA[
 		import collaboRhythm.shared.model.Account;
-		import collaboRhythm.shared.model.CollaborationModel;
+		import collaboRhythm.shared.collaboration.model.CollaborationModel;
 		import collaboRhythm.shared.model.settings.Settings;
 		import collaboRhythm.workstation.controller.WorkstationApplicationController;
 

@@ -6,16 +6,18 @@
 					   title="CollaboRhythm Home">
 	<fx:Script><![CDATA[
 		import collaboRhythm.core.model.AboutApplicationModel;
-		import collaboRhythm.shared.model.CollaborationModel;
+		import collaboRhythm.shared.collaboration.model.CollaborationModel;
 		import collaboRhythm.tablet.controller.TabletApplicationController;
 
 		import mx.core.IVisualElementContainer;
+
 		public static const RECORD_BACKGROUND_COLOR:uint = 0xE6E7E8;
 
 		[Bindable]
 		private var _collaborationModel:CollaborationModel;
 		private var _widgetContainers:Vector.<IVisualElementContainer> = new Vector.<IVisualElementContainer>();
 		private var _applicationInfo:AboutApplicationModel = new AboutApplicationModel();
+
 		override protected function createChildren():void
 		{
 			super.createChildren();
@@ -28,7 +30,7 @@
 
 		public function init():void
 		{
-			_collaborationModel = _tabletApplicationController.collaborationController.collaborationModel;
+			_collaborationModel = _tabletApplicationController.collaborationController.collaborationModel as CollaborationModel;
 
 			_widgetContainers.push(mainWidgetsGroup);
 			_widgetContainers.push(buttonWidgetsGroup);

@@ -22,6 +22,7 @@ package collaboRhythm.workstation.controller
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.core.view.AboutApplicationView;
 	import collaboRhythm.core.view.ConnectivityView;
+	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.InteractionLogUtil;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
@@ -36,7 +37,7 @@ package collaboRhythm.workstation.controller
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.settings.Settings;
-	import collaboRhythm.shared.view.CollaborationView;
+	import collaboRhythm.shared.collaboration.view.CollaborationView;
 	import collaboRhythm.workstation.model.settings.ComponentLayout;
 	import collaboRhythm.workstation.model.settings.WindowSettings;
 	import collaboRhythm.workstation.model.settings.WindowSettingsDataStore;
@@ -288,7 +289,7 @@ package collaboRhythm.workstation.controller
 			}
 
             _fullContainer = _activeRecordView.fullViewGroup;
-            _appControllersMediator = new WorkstationAppControllersMediator(widgetContainers, _fullContainer, settings, _componentContainer, _collaborationController.collaborationModel.collaborationLobbyNetConnectionService);
+            _appControllersMediator = new WorkstationAppControllersMediator(widgetContainers, _fullContainer, settings, _componentContainer, _collaborationController.collaborationModel.collaborationLobbyNetConnectionService as CollaborationLobbyNetConnectionService);
             _appControllersMediator.createAndStartApps(_activeAccount, recordAccount);
 
             if (_reloadWithFullView != null)
