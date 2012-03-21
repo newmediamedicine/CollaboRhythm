@@ -40,7 +40,7 @@ TODO: fix bugs in XMLEncoder/XMLDecoder so that we can support xs:choice
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="MedicationScheduleItem">
+	<xs:complexType name="HealthActionSchedule">
 		<xs:sequence>
 			<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="scheduledBy" type="xs:string" minOccurs="1" maxOccurs="1"/>
@@ -48,11 +48,10 @@ TODO: fix bugs in XMLEncoder/XMLDecoder so that we can support xs:choice
 			<xs:element name="dateStart" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="dateEnd" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="recurrenceRule" type="indivo:RecurrenceRule" minOccurs="0" maxOccurs="1" />
-			<xs:element name="dose" type="indivo:ValueAndUnit" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="instructions" type="xs:string" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:element name="MedicationScheduleItem" type="indivo:MedicationScheduleItem"/>
+	<xs:element name="HealthActionSchedule" type="indivo:HealthActionSchedule"/>
 
 </xs:schema>

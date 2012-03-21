@@ -15,23 +15,24 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<schema xmlns="http://www.w3.org/2001/XMLSchema"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 		targetNamespace="http://indivo.org/vocab/xml/documents#"
 		xmlns:indivo="http://indivo.org/vocab/xml/documents#"
 		elementFormDefault="qualified">
 
-	 <complexType name="Equipment">
-		 <sequence>
-			 <element name="dateStarted" type="date" minOccurs="0" maxOccurs="1"/>
-			 <element name="dateStopped" type="date" minOccurs="0" maxOccurs="1"/>
-			 <element name="type" type="string" minOccurs="0" maxOccurs="1"/>
-			 <element name="name" type="string" minOccurs="1" maxOccurs="1"/>
-			 <element name="vendor" type="string" minOccurs="0" maxOccurs="1"/>
-			 <element name="id" type="string" minOccurs="0" maxOccurs="1"/>
-			 <element name="description" type="string" minOccurs="0" maxOccurs="1"/>
-			 <element name="specification" type="string" minOccurs="0" maxOccurs="1"/>
-			 <element name="certification" type="string" minOccurs="0" maxOccurs="1"/>
-		 </sequence>
-	 </complexType>
-	 <element name="Equipment" type="indivo:Equipment"/>
-</schema>
+	<xs:include schemaLocation="codes.xsd"/>
+
+	 <xs:complexType name="Device">
+		 <xs:sequence>
+			 <xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1"/>
+			 <xs:element name="id" type="indivo:CodedValue" minOccurs="0" maxOccurs="1"/>
+			 <xs:element name="type" type="indivo:CodedValue" minOccurs="0" maxOccurs="1"/>
+			 <xs:element name="indication" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			 <xs:element name="vendor" type="indivo:CodedValue" minOccurs="0" maxOccurs="1"/>
+			 <xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			 <xs:element name="specification" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			 <xs:element name="certification" type="xs:string" minOccurs="0" maxOccurs="1"/>
+		 </xs:sequence>
+	 </xs:complexType>
+	 <xs:element name="Device" type="indivo:Device"/>
+</xs:schema>

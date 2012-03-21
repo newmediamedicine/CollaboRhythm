@@ -24,17 +24,15 @@
 	<xs:include schemaLocation="provider.xsd"/>
 	<xs:include schemaLocation="values.xsd"/>
 
-	<xs:complexType name="AdherenceItem">
+	<xs:complexType name="HealthActionOccurrence">
 		<xs:sequence>
 			<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="reportedBy" type="xs:string" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="dateReported" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="recurrenceIndex" type="xs:integer" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="adherence" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="nonadherenceReason" type="xs:string" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:element name="AdherenceItem" type="indivo:AdherenceItem"/>
+	<xs:element name="HealthActionOccurrence" type="indivo:HealthActionOccurrence"/>
 
 </xs:schema>

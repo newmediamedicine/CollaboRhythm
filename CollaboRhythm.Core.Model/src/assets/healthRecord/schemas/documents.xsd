@@ -23,19 +23,19 @@
 	<xs:include schemaLocation="provider.xsd"/>
 	<xs:include schemaLocation="values.xsd"/>
 
-	<xs:include schemaLocation="AdherenceItem.xsd"/>
+	<xs:include schemaLocation="HealthActionOccurrence.xsd"/>
 	<xs:include schemaLocation="Allergy.xsd"/>
-	<xs:include schemaLocation="Equipment.xsd"/>
-	<xs:include schemaLocation="EquipmentScheduleItem.xsd"/>
+	<xs:include schemaLocation="Device.xsd"/>
+	<xs:include schemaLocation="HealthActionSchedule.xsd"/>
 	<xs:include schemaLocation="Immunization.xsd"/>
 	<xs:include schemaLocation="Lab.xsd"/>
 	<xs:include schemaLocation="MedicationAdministration.xsd"/>
 	<xs:include schemaLocation="MedicationFill.xsd"/>
 	<xs:include schemaLocation="MedicationOrder.xsd"/>
-	<xs:include schemaLocation="MedicationScheduleItem.xsd"/>
+	<xs:include schemaLocation="MedicationSchedule.xsd"/>
 	<xs:include schemaLocation="Problem.xsd"/>
 	<xs:include schemaLocation="Procedure.xsd"/>
 	<xs:include schemaLocation="SimpleClinicalNote.xsd"/>
 	<xs:include schemaLocation="VideoMessage.xsd"/>
-	<xs:include schemaLocation="VitalSign.xsd"/>
+	<xs:include schemaLocation="Measurement.xsd"/>
 </xs:schema>

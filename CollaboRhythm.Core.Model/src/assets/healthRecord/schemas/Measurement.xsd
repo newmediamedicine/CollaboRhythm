@@ -24,34 +24,19 @@
 	<xs:include schemaLocation="provider.xsd"/>
 	<xs:include schemaLocation="values.xsd"/>
 
-	<xs:complexType name="RecurrenceRule">
-		<xs:sequence>
-			<xs:element name="frequency" type="indivo:CodedValue" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="interval" type="indivo:CodedValue" minOccurs="0" maxOccurs="1"/>
-<!--
-TODO: fix bugs in XMLEncoder/XMLDecoder so that we can support xs:choice
-			<xs:choice>
-				<xs:element name="dateUntil" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
--->
-				<xs:element name="count" type="xs:integer" minOccurs="0" maxOccurs="1"/>
-<!--
-			</xs:choice>
--->
-		</xs:sequence>
-	</xs:complexType>
-
-	<xs:complexType name="EquipmentScheduleItem">
+	<xs:complexType name="Measurement">
 		<xs:sequence>
 			<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="scheduledBy" type="xs:string" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="dateScheduled" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="dateStart" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="dateEnd" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="recurrenceRule" type="indivo:RecurrenceRule" minOccurs="0" maxOccurs="1" />
-			<xs:element name="instructions" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="measuredBy" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="dateMeasuredStart" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="dateMeasuredEnd" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="result" type="indivo:ValueAndUnit" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="site" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="position" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="technique" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="comments" type="xs:string" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
 	</xs:complexType>
-
-	<xs:element name="EquipmentScheduleItem" type="indivo:EquipmentScheduleItem"/>
+	<xs:element name="Measurement" type="indivo:Measurement"/>
 
 </xs:schema>
