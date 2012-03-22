@@ -122,6 +122,17 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:element name="MedicationOrder" type="indivo:MedicationOrder"/>
+	<xs:element name="MedicationOrder" type="indivo:MedicationOrder">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				A MedicationOrder document is created every time that a medication is ?ordered?, meaning that it is
+				prescribed by a provider (for prescription drugs), recommended by a health care provider, friend, etc.
+				(for over-the-counter medications), or patient self-prescribed (for over-the-counter or illegal
+				medications). A MedicationOrder document should relate to its MedicationFIll document using the
+				?medicationFill? relationship type and to its HealthActionSchedule (MedicationSchedule for now)
+				documents using the ?healthActionSchedule? relationship type.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 
 </xs:schema>

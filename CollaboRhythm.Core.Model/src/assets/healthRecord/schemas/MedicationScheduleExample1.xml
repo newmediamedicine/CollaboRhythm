@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <!--~
   ~ Copyright 2012 John Moore, Scott Gilroy
   ~
@@ -15,13 +14,19 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
-   <name>Blood Glucose</name>
-   <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
-   <dateMeasuredStart>2011-07-17T14:57:00Z</dateMeasuredStart>
-   <result>
-      <value>110</value>
-      <unit abbrev="mg/dL">milligrams per deciliter</unit>
-   </result>
-   <site>abdomen</site>
-</VitalSign>
+<MedicationSchedule xmlns="http://indivo.org/vocab/xml/documents#">
+    <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+    <scheduledBy>jking@records.media.mit.edu</scheduledBy>
+    <dateScheduled>July 14, 2011, midnight</dateScheduled>
+    <dateStart>2011-07-15T00:00:00Z</dateStart>
+    <dateEnd>2011-07-16T00:00:00Z</dateEnd>
+    <recurrenceRule>
+        <frequency>DAILY</frequency>
+        <count>45</count>
+	</recurrenceRule>
+    <dose>
+        <value>1</value>
+        <unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
+    </dose>
+    <instructions>take with water</instructions>
+</MedicationSchedule>

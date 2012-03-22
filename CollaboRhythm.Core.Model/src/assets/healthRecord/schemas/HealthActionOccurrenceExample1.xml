@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--~
   ~ Copyright 2012 John Moore, Scott Gilroy
   ~
@@ -15,13 +14,7 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<MedicationFill xmlns="http://indivo.org/vocab/xml/documents#">
-	<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">Hydrochlorothiazide 25 MG Oral Tablet</name>
-	<filledBy>ljohnson@records.media.mit.edu</filledBy>
-	<dateFilled>2011-07-14T19:13:11Z</dateFilled>
-	<amountFilled>
-		<value>90</value>
-		<unit>tab</unit>
-	</amountFilled>
-	<ndc>006033856</ndc>
-</MedicationFill>
+<HealthActionOccurrence xmlns="http://indivo.org/vocab/xml/documents#">
+	<name>Atorvastatin 40 MG Oral Tablet [Lipitor]</name>
+	<recurrenceIndex>0</recurrenceIndex>
+</HealthActionOccurrence>

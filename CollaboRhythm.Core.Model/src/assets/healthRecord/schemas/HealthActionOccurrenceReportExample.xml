@@ -1,0 +1,60 @@
+<!--~
+  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<Reports>
+	<Summary total_document_count="2" limit="100" offset="0" order_by="-created_at"/>
+	<Report>
+		<Meta>
+			<Document id="785c98vd-14b4-48bb-a71a-9db2742354dv " type="http://indivo.org/vocab/xml/documents#Medication"
+					  size="908" digest="0bf5cd51c9c3db6183a6bea43fe4aad4a048f7d426f30b2165a7ce1ee26f8f3f"
+					  record_id="6d4d246f-b518-4d03-a353-07b2f84f65ca">
+				<createdAt>
+					2011-02-16T22:20:35Z
+				</createdAt>
+				<creator id="gwhite@records.media.mit.edu" type="Account">
+					<fullname>
+						George White
+					</fullname>
+				</creator>
+				<original id="785c98vd-14b4-48bb-a71a-9db2742354dv"/>
+				<latest id="785c98vd-14b4-48bb-a71a-9db2742354dv " createdAt="2011-02-16T22:20:35Z"
+						createdBy="gwhite@records.media.mit.edu"/>
+				<status>
+					active
+				</status>
+				<nevershare>
+					false
+				</nevershare>
+				<isRelatedFrom>
+					<relation type="http://indivo.org/vocab/documentrels#healthActionOccurrence" count="1">
+						<relatedDocument id="138a12fb-14b4-48bb-a71a-9db2742354ce"/>
+					</relation>
+				</isRelatedFrom>
+				<relatesTo>
+					<relation type="http://indivo.org/vocab/documentrels#healthActionResult" count="1">
+						<relatedDocument id="5fffda4e-5b39-4703-b044-6468c66efa05"/>
+					</relation>
+				</relatesTo>
+			</Document>
+		</Meta>
+		<Item>
+			<HealthActionOccurrence xmlns="http://indivo.org/vocab/xml/documents#">
+				<name>Atorvastatin 40 MG Oral Tablet [Lipitor]</name>
+				<recurrenceIndex>0</recurrenceIndex>
+			</HealthActionOccurrence>
+		</Item>
+	</Report>
+</Reports>

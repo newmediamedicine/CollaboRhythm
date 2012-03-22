@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <!--~
   ~ Copyright 2012 John Moore, Scott Gilroy
   ~
@@ -15,18 +14,14 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
-	<name>Pain Report</name>
-	<measuredBy>jsmith@records.media.mit.edu</measuredBy>
-	<dateMeasuredStart>2012-01-20T22:03:31Z</dateMeasuredStart>
-	<dateMeasuredEnd>2012-01-20T22:05:21Z</dateMeasuredEnd>
-	<result>
-		<value>8.3</value>
-		<textValue>some special report encoding here</textValue>
-		<unit>MIT Pain Report Encoding v1</unit>
-	</result>
-	<site>left foot</site>
-	<position>standing</position>
-	<technique>self assessment</technique>
-	<comments>Pretty unpleasant</comments>
-</VitalSign>
+<HealthActionSchedule xmlns="http://indivo.org/vocab/xml/documents#">
+	<name>Average Blood Pressure</name>
+	<scheduledBy>jking@records.media.mit.edu</scheduledBy>
+	<dateScheduled>2011-02-14T13:00:00-04:00</dateScheduled>
+	<dateStart>2011-02-15T10:00:00-04:00</dateStart>
+	<dateEnd>2011-02-15T14:00:00-04:00</dateEnd>
+	<recurrenceRule>
+		<frequency>DAILY</frequency>
+		<count>30</count>
+	</recurrenceRule>
+</HealthActionSchedule>

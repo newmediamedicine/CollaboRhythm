@@ -26,15 +26,71 @@
 
 	<xs:complexType name="MedicationAdministration">
 		<xs:sequence>
-			<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="reportedBy" type="xs:string" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="dateReported" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="dateAdministered" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="amountAdministered" type="indivo:ValueAndUnit" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="amountRemaining" type="indivo:ValueAndUnit" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						RxNorm name for the medication
+						This is a coded value using the url http://rxnav.nlm.nih.gov/REST/rxcui/ where the value is the
+						rxcui (RxNorm Coded Unique Identifier). The rxcui should correspond to the SBD (branded drug
+						name) or SCD (clinical drug name) that is most specific for the medication and includes name and
+						dose for each clinical drug component.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="reportedBy" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Person or device that reported the administration
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dateReported" type="xs:dateTime" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Date and time that the medication administration was reported
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dateAdministered" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Date and time that the medication was administered
+						If the medication was administered, it was not necessarily administered at the same time that it
+						was reported.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="amountAdministered" type="indivo:ValueAndUnit" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Amount of medication that was administered
+						If the medication was administered, an amount was administered. This includes a value and a
+						unit.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="amountRemaining" type="indivo:ValueAndUnit" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Amount of medication that remains after the administration
+						If the medication was administered, this value needs to be calculated by subtracting the
+						amountAdministered from the amountRemaining in the most recent MedicationAdministration
+						document. This includes a value and a unit.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:element name="MedicationAdministration" type="indivo:MedicationAdministration"/>
+	<xs:element name="MedicationAdministration" type="indivo:MedicationAdministration">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				The administration of medications is tracked using MedicationAdministration documents. Each
+				MedicationAdministration document should be related to the appropriate MedicationFill document using the
+				?source? relationship type and from the appropriate HealthActionOccurrence document using the
+				?healthActionResult? relationship type.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 
 </xs:schema>

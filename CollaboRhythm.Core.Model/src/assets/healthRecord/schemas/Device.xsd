@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!--~
-  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~ Copyright 2012 John Moore, Scott Gilroy
   ~
   ~ This file is part of CollaboRhythm.
   ~
@@ -16,23 +16,83 @@
   ~ <http://www.gnu.org/licenses/>.
   -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-		targetNamespace="http://indivo.org/vocab/xml/documents#"
-		xmlns:indivo="http://indivo.org/vocab/xml/documents#"
-		elementFormDefault="qualified">
+		   targetNamespace="http://indivo.org/vocab/xml/documents#"
+		   xmlns:indivo="http://indivo.org/vocab/xml/documents#"
+		   elementFormDefault="qualified">
 
 	<xs:include schemaLocation="codes.xsd"/>
 
-	 <xs:complexType name="Device">
-		 <xs:sequence>
-			 <xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1"/>
-			 <xs:element name="id" type="indivo:CodedValue" minOccurs="0" maxOccurs="1"/>
-			 <xs:element name="type" type="indivo:CodedValue" minOccurs="0" maxOccurs="1"/>
-			 <xs:element name="indication" type="xs:string" minOccurs="0" maxOccurs="1"/>
-			 <xs:element name="vendor" type="indivo:CodedValue" minOccurs="0" maxOccurs="1"/>
-			 <xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1"/>
-			 <xs:element name="specification" type="xs:string" minOccurs="0" maxOccurs="1"/>
-			 <xs:element name="certification" type="xs:string" minOccurs="0" maxOccurs="1"/>
-		 </xs:sequence>
-	 </xs:complexType>
-	 <xs:element name="Device" type="indivo:Device"/>
+	<xs:complexType name="Device">
+		<xs:sequence>
+			<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Name of the device
+						Fora D40d for example
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="id" type="indivo:CodedValue" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Unique id associated with this piece of equipment
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="type" type="indivo:CodedValue" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Category of equipment
+						sphygmomanometer for example
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="indication" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Reason for the device
+						Devices can also be related to problems, but some devices, such as a pedometer does not need to
+						be related to a problem
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="vendor" type="indivo:CodedValue" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Company that manufactures the device
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Description of this device
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="specification" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Potentially specific specifications that the device meets
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="certification" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Potentially the type of FDA or other certification associated with the device
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Device" type="indivo:Device">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Durable health device. Each Device document should be related from any HealthActionPlan that uses it
+				with the ?device? relationship type and from any appropriate Measurement documents using the ?source?
+				relationship type.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 </xs:schema>

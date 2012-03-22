@@ -1,0 +1,162 @@
+<!--~
+  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<Reports>
+	<Summary total_document_count="2" limit="100" offset="0" order_by="-created_at"/>
+	<Report>
+		<Meta>
+			<Document id="138a12fb-14b4-48bb-a71a-9db2742354ce"
+					  type="http://indivo.org/vocab/xml/documents#MedicationScheduleItem" size="524"
+					  digest="fc62023160649d46272b158989fb2d7cc5d17d52a0fafbcbbd3d3cc84ba44068"
+					  record_id="6d4d246f-b518-4d03-a353-07b2f84f65ca">
+				<createdAt>
+					2011-02-16T22:19:26Z
+				</createdAt>
+				<creator id="gwhite@records.media.mit.edu" type="Account">
+					<fullname>
+						George White
+					</fullname>
+				</creator>
+				<original id="138a12fb-14b4-48bb-a71a-9db2742354ce"/>
+				<latest id="138a12fb-14b4-48bb-a71a-9db2742354ce" createdAt="2011-02-16T22:19:26Z"
+						createdBy="gwhite@records.media.mit.edu"/>
+				<status>
+					active
+				</status>
+				<nevershare>
+					false
+				</nevershare>
+				<relatesTo>
+					<relation type="http://indivo.org/vocab/documentrels#healthActionOccurrence" count="1">
+						<relatedDocument id="785c98vd-14b4-48bb-a71a-9db2742354dv"/>
+					</relation>
+				</relatesTo>
+				<isRelatedFrom>
+					<relation type="http://indivo.org/vocab/documentrels#healthActionSchedule" count="1">
+						<relatedDocument id="2fffda4e-5b39-4703-b044-6468c66efa05"/>
+					</relation>
+				</isRelatedFrom>
+			</Document>
+		</Meta>
+		<Item>
+			<MedicationSchedule xmlns="http://indivo.org/vocab/xml/documents#">
+				<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="617320">
+					Atorvastatin 40 MG Oral Tablet [Lipitor]
+				</name>
+				<scheduledBy>
+					jking@records.media.mit.edu
+				</scheduledBy>
+				<dateScheduled>
+					2011-02-14T13:00:00-04:00
+				</dateScheduled>
+				<dateStart>
+					2011-02-15T10:00:00-04:00
+				</dateStart>
+				<dateEnd>
+					2011-02-15T14:00:00-04:00
+				</dateEnd>
+				<recurrenceRule>
+					<frequency>
+						DAILY
+					</frequency>
+					<count>
+						30
+					</count>
+				</recurrenceRule>
+				<dose>
+					<value>
+						1
+					</value>
+					<unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">
+						tablet
+					</unit>
+				</dose>
+				<instructions>
+					take in the evening for maximum benefit
+				</instructions>
+			</MedicationSchedule>
+		</Item>
+	</Report>
+	<Report>
+		<Meta>
+			<Document id="298323ab-e0b2-4bd6-8d1a-f964d242fb7c"
+					  type="http://indivo.org/vocab/xml/documents#MedicationScheduleItem" size="496"
+					  digest="f546a17c2b6c9e83474c719a811c40af021bb5d97dbe7421e428fae1bfe3f091"
+					  record_id="6d4d246f-b518-4d03-a353-07b2f84f65ca">
+				<createdAt>
+					2011-02-16T22:19:45Z
+				</createdAt>
+				<creator id="gwhite@records.media.mit.edu" type="Account">
+					<fullname>
+						George White
+					</fullname>
+				</creator>
+				<original id="298323ab-e0b2-4bd6-8d1a-f964d242fb7c"/>
+				<latest id="298323ab-e0b2-4bd6-8d1a-f964d242fb7c" createdAt="2011-02-16T22:19:45Z"
+						createdBy="gwhite@records.media.mit.edu"/>
+				<status>
+					active
+				</status>
+				<nevershare>
+					false
+				</nevershare>
+				<isRelatedFrom>
+					<relation type="http://indivo.org/vocab/documentrels#healthActionSchedule" count="1">
+						<relatedDocument id="79bd9d8d-9948-43dc-9a6b-4327ae083da7"/>
+					</relation>
+				</isRelatedFrom>
+			</Document>
+		</Meta>
+		<Item>
+			<MedicationSchedule xmlns="http://indivo.org/vocab/xml/documents#">
+				<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310798">
+					Hydrochlorothiazide 25 MG Oral Tablet
+				</name>
+				<scheduledBy>
+					jking@records.media.mit.edu
+				</scheduledBy>
+				<dateScheduled>
+					2011-02-14T13:00:00-04:00
+				</dateScheduled>
+				<dateStart>
+					2011-02-15T10:00:00-04:00
+				</dateStart>
+				<dateEnd>
+					2011-02-15T14:00:00-04:00
+				</dateEnd>
+				<recurrenceRule>
+					<frequency>
+						DAILY
+					</frequency>
+					<count>
+						30
+					</count>
+				</recurrenceRule>
+				<dose>
+					<value>
+						1
+					</value>
+					<unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">
+						tablet
+					</unit>
+				</dose>
+				<instructions>
+					take with water
+				</instructions>
+			</MedicationSchedule>
+		</Item>
+	</Report>
+</Reports>

@@ -26,18 +26,96 @@
 
 	<xs:complexType name="MedicationFill">
 		<xs:sequence>
-			<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="filledBy" type="xs:string" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="dateFilled" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="amountFilled" type="indivo:ValueAndUnit" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="ndc" type="indivo:CodedValue" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="fillSequenceNumber" type="xs:integer" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="lotNumber" type="xs:integer" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="refillsRemaining" type="xs:integer" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="instructions" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						RxNorm name for the medication
+						This is a coded value using the url http://rxnav.nlm.nih.gov/REST/rxcui/ where the value is the
+						rxcui (RxNorm Coded Unique Identifier). The rxcui should correspond to the SBD (branded drug
+						name) or SCD (clinical drug name) that is most specific for the medication and includes name and
+						dose for each clinical drug component
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="filledBy" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Person or pharmacy that filled the medication
+						Medications can be filled by pharmacies (for prescription medications) or by people (for
+						over-the-counter or illegal medications).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dateFilled" type="xs:dateTime" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Date and time that the medication was filled
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="amountFilled" type="indivo:ValueAndUnit" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Amount of medication that was filled
+						This includes a value and unit.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ndc" type="indivo:CodedValue" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						NDC code that specifies the exact form in which the medication was dispensed
+						This can be used as a key to retrieve a specific image of the medication.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="fillSequenceNumber" type="xs:integer" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Fill sequence number for pharmacy use
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="lotNumber" type="xs:integer" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Lot number for pharmacy use
+						In the Lipitor example provided, the lot number is one that was recalled in December of 2010.
+						Having this info in the personal health record will allow better patient protection.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="refillsRemaining" type="xs:integer" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Number of refills remaining for the medication
+						Like the refills element in the MedicationOrder document, this element is not used by
+						CollaboRhythm.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="instructions" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Instructions specific to this medication fill
+						Usually used by the pharmacist to provide additional instructions to those given by the person
+						who ordered the medication.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:element name="MedicationFill" type="indivo:MedicationFill"/>
+	<xs:element name="MedicationFill" type="indivo:MedicationFill">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Fills of medications, either by a pharmacy (for a prescription medication) or by the patient (for an
+				over-the-counter or illegal medication), are tracked using MedicationFill documents. Each MedicationFill
+				document should be related from the appropriate MedicationOrder document using the ?medicationFill?
+				relationship and from the appropriate MedicationAdministration documents using the ?source?
+				relationship.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 
 </xs:schema>

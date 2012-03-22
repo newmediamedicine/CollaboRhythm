@@ -26,15 +26,59 @@
 
 	<xs:complexType name="VideoMessage">
 		<xs:sequence>
-			<xs:element name="fileId" type="xs:string" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="storageType" type="xs:string" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="subject" type="xs:string" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="from" type="xs:string" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="dateRecorded" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="dateSent" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="fileId" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						ID of the video file
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="storageType" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Type of video file storage, for example ?FlashMediaServer?
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subject" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Subject of the message
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="from" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Person that sent the video message
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dateRecorded" type="xs:dateTime" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Date and time that the video message was recorded
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dateSent" type="xs:dateTime" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Date and time that the video message was sent
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:element name="VideoMessage" type="indivo:VideoMessage"/>
+	<xs:element name="VideoMessage" type="indivo:VideoMessage">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				It is possible to send video messages to patients using the collaborative workstation. Currently they
+				are stored on the flash media server. The VideoMessage document allows the mobile application to know
+				what videos are available for a given patient.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 
 </xs:schema>

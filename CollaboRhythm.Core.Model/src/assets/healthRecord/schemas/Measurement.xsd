@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!--~
-  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~ Copyright 2012 John Moore, Scott Gilroy
   ~
   ~ This file is part of CollaboRhythm.
   ~
@@ -26,17 +26,92 @@
 
 	<xs:complexType name="Measurement">
 		<xs:sequence>
-			<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="measuredBy" type="xs:string" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="dateMeasuredStart" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="dateMeasuredEnd" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="result" type="indivo:ValueAndUnit" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="site" type="xs:string" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="position" type="xs:string" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="technique" type="xs:string" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="comments" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Name of the vital sign
+						This is a coded value. Examples of the text are "Systolic Blood Pressure" and "Diastolic Blood
+						Pressure."
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="measuredBy" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Person that measured the vital sign
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dateMeasuredStart" type="xs:dateTime" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Date and time that the measurement started
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dateMeasuredEnd" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Date and time that the measurement ended
+						Some measurements reflect a period of time. For example, a pedometer provides a step count for a
+						window of time. It is necessary to have an end date and time as well as a begin date and time to
+						represent this.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="result" type="indivo:ValueAndUnit" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Result of the measurement
+						This has a value and a unit.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="site" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Site where the measurement was taken
+						right arm for example
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="position" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Position of the subject when the measurement was taken
+						seated or supine for example
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="technique" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Technique used to take the measurement
+						Auscultation or palpation for example. This optional field should be used in the case that a
+						device is not used in taking the measurement, for example, if the pulse is taken by palpation.
+						If a device is used to take the measurement, then the measurement should be related to the
+						Device document.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="comments" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Additional comments
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:element name="Measurement" type="indivo:Measurement"/>
+
+	<xs:element name="Measurement" type="indivo:Measurement">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Basic health measurements such as height, weight, blood pressure, etc. Each Measurement document should
+				be related from the appropriate HealthActionOccurrence document using the ?healthActionResult? relationship
+				type and to the appropriate Device document using the ?source? relationship type.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 
 </xs:schema>
