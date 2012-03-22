@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           targetNamespace="http://indivo.org/vocab/xml/documents#"
-		       xmlns:indivo="http://indivo.org/vocab/xml/documents#"
+<xs:schema  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			xmlns:indivo="http://indivo.org/vocab/xml/documents#"
+			targetNamespace="http://indivo.org/vocab/xml/documents#"
 		   		 elementFormDefault="qualified">
 
 	<xs:include schemaLocation="codes.xsd" />
@@ -25,7 +25,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="planmedBy" type="xs:string" minOccurs="1" maxOccurs="1">
+			<xs:element name="plannedBy" type="xs:string" minOccurs="1" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation xml:lang="en">Person or agent who prescribed the Health Action Plan. Currently,
 						this uses the e-mail address of the person, eventually it should use a more robust form of identity.
@@ -81,10 +81,17 @@
 
 	<xs:complexType name="Action">
 		<xs:sequence>
-			<xs:element name="stopConditions" type="indivo:stopConditions" minOccurs="1" maxOccurs="1" >
+			<xs:element name="position" type="indivo:CodedValue" minOccurs="0" maxOccurs="1" >
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The current action has to be performed with a body in a specific position.
+						For example, you may take the blood pressure standing, lying or seating. Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="stopConditions" type="indivo:stopConditions" minOccurs="0" maxOccurs="1" >
 				<xs:annotation>
 					<xs:documentation xml:lang="en">The current action and its children in the tree structure will stop when one item
-						in the list of conditions is true. Required
+						in the list of conditions is true. Optional
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -93,13 +100,6 @@
 					<xs:documentation xml:lang="en">The current action has ranged values of measures that define target zones.
 						These targets may have different severity levels. For example: maintaining a certain Heart Rate during a
 						physical exercise may be a good target, but having some range of Blood Oxygenation may be a dangerous target. Optional
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="position" type="indivo:CodedValue" minOccurs="0" maxOccurs="1" >
-				<xs:annotation>
-					<xs:documentation xml:lang="en">The current action has to be performed with a body in a specific position.
-						For example, you may take the blood pressure standing, lying or seating. Optional
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -199,7 +199,7 @@
 
 	<xs:complexType name="measurementPlans">
 		<xs:sequence>
-			<xs:element name="measurementPlan" minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="measurementPlan" minOccurs="0" maxOccurs="unbounded">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
@@ -231,12 +231,12 @@
 
 	<xs:complexType name="devicePlans">
 		<xs:sequence>
-			<xs:element name="devicePlan" minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="devicePlan" minOccurs="0" maxOccurs="unbounded">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element name="name" type="indivo:CodedValue" minOccurs="0" maxOccurs="1">
 							<xs:annotation>
-								<xs:documentation xml:lang="en">Name of the device. For example, Fora D40d. Required
+								<xs:documentation xml:lang="en">Name of the device. For example, Fora D40d. Optional
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
@@ -273,7 +273,7 @@
 
 	<xs:complexType name="stopConditions">
 		<xs:sequence>
-			<xs:element name="stopCondition" minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="stopCondition" minOccurs="0" maxOccurs="unbounded">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1" >
@@ -312,7 +312,7 @@
 
 	<xs:complexType name="medicationPlans">
 		<xs:sequence>
-			<xs:element name="medicationPlan" minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="medicationPlan" minOccurs="0" maxOccurs="unbounded">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
@@ -357,7 +357,7 @@
 
 	<xs:complexType name="targets">
 		<xs:sequence>
-			<xs:element name="target" minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="target" minOccurs="0" maxOccurs="unbounded">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1"  >
