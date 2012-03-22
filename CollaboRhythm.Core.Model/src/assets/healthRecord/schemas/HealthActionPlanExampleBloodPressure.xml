@@ -15,7 +15,7 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<HealthActionPlan xmlns="http://indivo.org/vocab/xml/documents#">
+<HealthActionPlan xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://indivo.org/vocab/xml/documents#">
 	<name>Blood Pressure Plan</name>
 	<planType>prescribed</planType>
 	<plannedBy>rpoole@records.media.mit.edu </plannedBy>

@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
+<!--~
+  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
 <xs:schema  xmlns:xs="http://www.w3.org/2001/XMLSchema"
 			xmlns:indivo="http://indivo.org/vocab/xml/documents#"
 			targetNamespace="http://indivo.org/vocab/xml/documents#"
@@ -151,7 +167,6 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-
 	<xs:complexType name="ActionStep">
 		<xs:complexContent>
 			<xs:extension base="indivo:Action">
@@ -184,7 +199,6 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-
 
 	<xs:complexType name="actions">
 		<xs:sequence>
@@ -271,45 +285,6 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="stopConditions">
-		<xs:sequence>
-			<xs:element name="stopCondition" minOccurs="0" maxOccurs="unbounded">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1" >
-							<xs:annotation>
-								<xs:documentation xml:lang="en">Name of the measure that will trigger the stop condition recorded during the execution
-									of the Action. They can be both vital signs and other kind of measures.
-									For example: Heart Rate, Blood Pressure, Adherence, Oxygenation, Distance, Repetitions, Time etc. Required
-								</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-						<xs:element name="value" type="indivo:ValueAndUnit" minOccurs="1" maxOccurs="1">
-							<xs:annotation>
-								<xs:documentation xml:lang="en">Value and unit that will trigger the stop condition.
-									For example, 130 bpm for a Heart Rate. Optional
-								</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-						<xs:element name="operator" type="indivo:CodedValue" minOccurs="1" maxOccurs="1" >
-							<xs:annotation>
-								<xs:documentation xml:lang="en">Value and unit that will trigger the stop condition.
-									For example, 130 bpm for a Heart Rate. Optional
-								</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-						<xs:element name="detail" type="indivo:CodedValue"  minOccurs="0" maxOccurs="1">
-							<xs:annotation>
-								<xs:documentation xml:lang="en">Additional Details. Optional
-								</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-
 	<xs:complexType name="medicationPlans">
 		<xs:sequence>
 			<xs:element name="medicationPlan" minOccurs="0" maxOccurs="unbounded">
@@ -346,6 +321,45 @@
 						<xs:element name="instructions" type="xs:string" minOccurs="0" maxOccurs="1">
 							<xs:annotation>
 								<xs:documentation xml:lang="en">Instructions for the specific Device. Optional
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="stopConditions">
+		<xs:sequence>
+			<xs:element name="stopCondition" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1" >
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Name of the measure that will trigger the stop condition recorded during the execution
+									of the Action. They can be both vital signs and other kind of measures.
+									For example: Heart Rate, Blood Pressure, Adherence, Oxygenation, Distance, Repetitions, Time etc. Required
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="value" type="indivo:ValueAndUnit" minOccurs="1" maxOccurs="1">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Value and unit that will trigger the stop condition.
+									For example, 130 bpm for a Heart Rate. Optional
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="operator" type="indivo:CodedValue" minOccurs="1" maxOccurs="1" >
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Value and unit that will trigger the stop condition.
+									For example, 130 bpm for a Heart Rate. Optional
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="detail" type="indivo:CodedValue"  minOccurs="0" maxOccurs="1">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Additional Details. Optional
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
