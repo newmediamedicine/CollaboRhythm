@@ -22,6 +22,7 @@
 		 xmlns:sharedViews="collaboRhythm.shared.view.*">
 	<fx:Script>
         <![CDATA[
+		import collaboRhythm.shared.collaboration.controller.CollaborationController;
 		import collaboRhythm.shared.collaboration.model.CollaborationModel;
 		import collaboRhythm.shared.controller.IApplicationControllerBase;
 		import collaboRhythm.shared.model.Account;
@@ -37,8 +38,9 @@
 		{
 			_workstationApplicationController = workstationApplicationController;
 			_activeAccount = activeAccount;
+			var collaborationController:CollaborationController = _workstationApplicationController.iCollaborationController as CollaborationController;
 			activeAccountHeaderView.init(_workstationApplicationController, _activeAccount,
-					_workstationApplicationController.collaborationController.collaborationModel as CollaborationModel);
+					collaborationController.collaborationModel as CollaborationModel);
 			sharedRecordsListView.init(_workstationApplicationController, _activeAccount);
 		}
 		]]>

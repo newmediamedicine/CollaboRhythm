@@ -956,14 +956,14 @@ package collaboRhythm.core.controller
 			return _settingsFileStore;
 		}
 
-		public function get collaborationController():ICollaborationController
+		public function get collaborationController():CollaborationController
 		{
 			return _collaborationController;
 		}
 
-		public function set collaborationController(value:ICollaborationController):void
+		public function set collaborationController(value:CollaborationController):void
 		{
-			_collaborationController = value as CollaborationController;
+			_collaborationController = value;
 		}
 
 		public function get componentContainer():IComponentContainer
@@ -1351,6 +1351,11 @@ package collaboRhythm.core.controller
 		public function get navigator():ViewNavigator
 		{
 			return null;
+		}
+
+		public function get iCollaborationController():ICollaborationController
+		{
+			return _collaborationController;
 		}
 	}
 }

@@ -13,8 +13,6 @@
 
 		public static const RECORD_BACKGROUND_COLOR:uint = 0xE6E7E8;
 
-		[Bindable]
-		private var _collaborationModel:CollaborationModel;
 		private var _widgetContainers:Vector.<IVisualElementContainer> = new Vector.<IVisualElementContainer>();
 		private var _applicationInfo:AboutApplicationModel = new AboutApplicationModel();
 
@@ -30,8 +28,6 @@
 
 		public function init():void
 		{
-			_collaborationModel = _tabletApplicationController.collaborationController.collaborationModel as CollaborationModel;
-
 			_widgetContainers.push(mainWidgetsGroup);
 			_widgetContainers.push(buttonWidgetsGroup);
 

@@ -24,54 +24,54 @@ package collaboRhythm.shared.collaboration.model
 	import mx.collections.ArrayCollection;
 
 	/**
-	 * 
+	 *
 	 * @author jom
-	 * 
+	 *
 	 * Keeps track of all of the remoteUsers actively collaborating with the localUser.  It also keeps a reference to the videoOutput, as this is part of any collaboration.
 	 * Considering that only userNames are sent over the netConnection with the FMS, the retrieveCollaboratingRemoteUser function allows a collaboratingRemoteUser to be resolved from its userName.
-	 * 
+	 *
 	 */
 	[Bindable]
 	public class CollaborationModel implements ICollaborationModel
 	{
-		public static const COLLABORATION_INACTIVE:String = "CollaborationInactive";
-		public static const INVITATION_SENT:String = "InvitationSent";
-		public static const INVITATION_RECEIVED:String = "InvitationReceived";
 		public static const COLLABORATION_ACTIVE:String = "CollaborationActive";
-		public static const INVITATION_REJECTED:String = "InvitationRejected";
-		
-		private var _collaborationState:String = COLLABORATION_INACTIVE;
+		public static const COLLABORATION_INACTIVE:String = "CollaborationInactive";
+		public static const COLLABORATION_INVITATION_SENT:String = "CollaborationInvitationSent";
+		public static const COLLABORATION_INVITATION_RECEIVED:String = "CollaborationInvitationReceived";
+		public static const COLLABORATION_INVITATION_REJECTED:String = "CollaborationInvitationRejected";
+
+		private var _collaborationState:String;
 
 		private var _active:Boolean = false;
-        private var _activeAccount:Account;
-        private var _activeRecordAccount:Account;
+		private var _activeAccount:Account;
+		private var _activeRecordAccount:Account;
+
+		private var _audioVideoOutput:AudioVideoOutput;
+		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
 
 		private var _subjectAccount:Account;
 		private var _peerAccount:Account;
-		private var _creatingAccount:Account;
-		private var _invitedAccounts:Vector.<Account> = new Vector.<Account>();
-		private var _sourceAccount:Account;
 
-		private var _controllingAccount:Account;
-		private var _roomID:String;
 		private var _passWord:String;
-		private var _audioVideoOutput:AudioVideoOutput;
-		private var _collaborationRoomAccounts:ArrayCollection;
-		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
-		private var _collaborationRoomNetConnectionService:CollaborationRoomNetConnectionService;
 		private var _recordVideo:Boolean = false;
-		private var _netStreamOut:NetStream;
-		private var _netStreamIn:NetStream;
 
 		public function CollaborationModel(settings:Settings, activeAccount:Account)
 		{
 			_activeAccount = activeAccount;
-			_collaborationRoomAccounts = new ArrayCollection();
-			
+
+			_audioVideoOutput = new AudioVideoOutput();
 			_collaborationLobbyNetConnectionService = new CollaborationLobbyNetConnectionService(_activeAccount,
 					settings.rtmpBaseURI, this);
-			_collaborationRoomNetConnectionService = new CollaborationRoomNetConnectionService(_activeAccount,
-					settings.rtmpBaseURI, this);
+
+			collaborationState = COLLABORATION_INACTIVE;
+		}
+
+		public function endCollaboration():void
+		{
+			collaborationState = COLLABORATION_INACTIVE;
+			collaborationLobbyNetConnectionService.closeCollaborationConnection();
+			subjectAccount = null;
+			peerAccount = null;
 		}
 
 		public function get active():Boolean
@@ -89,39 +89,24 @@ package collaboRhythm.shared.collaboration.model
 			return _activeAccount;
 		}
 
-		public function get roomID():String
-		{
-			return _roomID;
-		}
-		
-		public function set roomID(value:String):void
-		{
-			_roomID = value;
-		}
-		
 		public function get passWord():String
 		{
 			return _passWord;
 		}
-		
+
 		public function set passWord(value:String):void
 		{
 			_passWord = value;
 		}
-		
-		public function get collaborationLobbyNetConnectionService():ICollaborationLobbyNetConnectionService
+
+		public function get collaborationLobbyNetConnectionService():CollaborationLobbyNetConnectionService
 		{
 			return _collaborationLobbyNetConnectionService;
 		}
 
-		public function set collaborationLobbyNetConnectionService(value:ICollaborationLobbyNetConnectionService):void
+		public function set collaborationLobbyNetConnectionService(value:CollaborationLobbyNetConnectionService):void
 		{
-			_collaborationLobbyNetConnectionService = value as CollaborationLobbyNetConnectionService;
-		}
-
-		public function get collaborationRoomNetConnectionService():CollaborationRoomNetConnectionService
-		{
-			return _collaborationRoomNetConnectionService;
+			_collaborationLobbyNetConnectionService = value;
 		}
 
 		public function get recordVideo():Boolean
@@ -134,69 +119,24 @@ package collaboRhythm.shared.collaboration.model
 			_recordVideo = value;
 		}
 
-		public function get collaborationRoomAccounts():ArrayCollection
-		{
-			return _collaborationRoomAccounts;
-		}
-
 		public function get audioVideoOutput():AudioVideoOutput
 		{
-			if (!_audioVideoOutput)
-			{
-				_audioVideoOutput = new AudioVideoOutput();
-			}
-			return _audioVideoOutput;
+			return _audioVideoOutput
 		}
 
-        public function set audioVideoOutput(value:AudioVideoOutput):void
-        {
-            _audioVideoOutput = value;
-        }
-
-		public function addInvitedUser(invitedAccount:Account):void
+		public function set audioVideoOutput(value:AudioVideoOutput):void
 		{
-			if (_invitedAccounts.indexOf(invitedAccount) == -1)
-			{
-				_invitedAccounts.push(invitedAccount);
-			}
-			if (_collaborationRoomAccounts.getItemIndex(invitedAccount) == -1)
-			{
-				_collaborationRoomAccounts.addItem(invitedAccount);
-			}
+			_audioVideoOutput = value;
 		}
 
-		public function closeCollaborationRoom():void
+		public function get activeRecordAccount():Account
 		{
-			while (_collaborationRoomAccounts.length > 0)
-			{
-//				var collaborationRoomUser:User = User(_collaborationRoomAccounts.getItemAt(_collaborationRoomAccounts.length - 1));
-//				_collaborationRoomNetConnectionService.sharingAccountExitedCollaborationRoom(collaborationRoomUser.accountId);
-//				_collaborationRoomAccounts.removeItemAt(_collaborationRoomAccounts.length - 1);
-			}
-			_collaborationRoomNetConnectionService.exitCollaborationRoom();
-			_roomID = "";
-			_passWord = "";
-//			localUser.collaborationColor = "0x000000";
+			return _activeRecordAccount;
 		}
 
-        public function get activeRecordAccount():Account
-        {
-            return _activeRecordAccount;
-        }
-
-        public function set activeRecordAccount(value:Account):void
-        {
-            _activeRecordAccount = value;
-        }
-
-		public function get creatingAccount():Account
+		public function set activeRecordAccount(value:Account):void
 		{
-			return _creatingAccount;
-		}
-
-		public function set creatingAccount(value:Account):void
-		{
-			_creatingAccount = value;
+			_activeRecordAccount = value;
 		}
 
 		public function get subjectAccount():Account
@@ -207,36 +147,6 @@ package collaboRhythm.shared.collaboration.model
 		public function set subjectAccount(value:Account):void
 		{
 			_subjectAccount = value;
-		}
-
-		public function get invitedAccounts():Vector.<Account>
-		{
-			return _invitedAccounts;
-		}
-
-		public function set invitedAccounts(value:Vector.<Account>):void
-		{
-			_invitedAccounts = value;
-		}
-
-		public function get sourceAccount():Account
-		{
-			return _sourceAccount;
-		}
-
-		public function set sourceAccount(value:Account):void
-		{
-			_sourceAccount = value;
-		}
-
-		public function get controllingAccount():Account
-		{
-			return _controllingAccount;
-		}
-
-		public function set controllingAccount(value:Account):void
-		{
-			_controllingAccount = value;
 		}
 
 		public function get peerAccount():Account
@@ -259,24 +169,5 @@ package collaboRhythm.shared.collaboration.model
 			_collaborationState = value;
 		}
 
-		public function get netStreamOut():NetStream
-		{
-			return _netStreamOut;
-		}
-
-		public function set netStreamOut(value:NetStream):void
-		{
-			_netStreamOut = value;
-		}
-
-		public function get netStreamIn():NetStream
-		{
-			return _netStreamIn;
-		}
-
-		public function set netStreamIn(value:NetStream):void
-		{
-			_netStreamIn = value;
-		}
 	}
 }

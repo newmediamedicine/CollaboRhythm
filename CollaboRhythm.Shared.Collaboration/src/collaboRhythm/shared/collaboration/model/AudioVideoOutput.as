@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package collaboRhythm.shared.model
+package collaboRhythm.shared.collaboration.model
 {
 	import flash.media.Camera;
 	import flash.media.CameraPosition;
@@ -26,11 +26,11 @@ package collaboRhythm.shared.model
 	import mx.logging.Log;
 
 	/**
-	 * 
+	 *
 	 * @author jom
-	 * 
+	 *
 	 * Models the audio and video output from the local user.
-	 * 
+	 *
 	 */
     [Bindable]
 	public class AudioVideoOutput
@@ -45,7 +45,7 @@ package collaboRhythm.shared.model
 			setCamera();
 			setMicrophone();
 		}
-		
+
 		private function setCamera():void
 		{
 			if (Camera.isSupported)
@@ -64,7 +64,6 @@ package collaboRhythm.shared.model
                 }
                 if (_camera != null)
                 {
-//                    _camera.setKeyFrameInterval(15);
                     _camera.setMode(320,240,15);
                     _camera.setQuality(0,50);
 					_logger.info("Camera initialized: " + _camera.name);
@@ -75,7 +74,7 @@ package collaboRhythm.shared.model
 				}
             }
 		}
-		
+
 		private function setMicrophone():void
 		{
 			if (Microphone.isSupported)
@@ -87,8 +86,6 @@ package collaboRhythm.shared.model
 					_microphone.codec = SoundCodec.SPEEX;
 					_microphone.setSilenceLevel(0);
 					_microphone.framesPerPacket = 1;
-//					_microphone.setUseEchoSuppression(true);
-//					_microphone.encodeQuality = 4;
 					_logger.info("Microphone initialized: " + _microphone.name);
 				}
 				else
@@ -97,7 +94,7 @@ package collaboRhythm.shared.model
 				}
 			}
 		}
-		
+
 		public function get camera():Camera
 		{
 			return _camera;
@@ -107,7 +104,7 @@ package collaboRhythm.shared.model
         {
             _camera = value;
         }
-		
+
 		public function get microphone():Microphone
 		{
 			return _microphone;

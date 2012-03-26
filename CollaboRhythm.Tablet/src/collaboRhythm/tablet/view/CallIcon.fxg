@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="2.0" viewHeight="26" viewWidth="26" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+  <Library/>
+  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="26" d:pageWidth="26" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:objID="51a4d200" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+      <Path winding="nonZero" ai:objID="51c5f300" ai:seqID="3" data="M22.2852 0C22.2852 0 14.7627 0.835938 7.80029 7.80078 0.835938 14.7646 0 22.2852 0 22.2852L3.71387 26 7.89209 25.5352 10.0288 19.3145 7.05713 17.085C7.05713 17.085 8.26367 14.0215 11.1426 11.1431 14.0205 8.26465 17.0859 7.05762 17.0859 7.05762
+L19.3154 10.0288 25.5342 7.89307 26 3.71387 22.2852 0Z">
+        <fill>
+          <SolidColor color="#00A651"/>
+        </fill>
+      </Path>
+    </Group>
+  </Group>
+  <Private>
+      <ai:PrivateElement d:ref="#1">
+        <ai:SaveOptions>
+          <ai:Dict data="B includeObjectOutsideArtboard 0 B includeSymbol 0 B aiEditCap 1 I versionKey 2 B writeImages 1 B includeXMP 0 I preserveFilterPolicy 3 I preserveTextPolicy 4 I expandBlendsOption 5 B downsampleLinkedImages 0 I rasterizeResolution 72 I preserveGradientPolicy 4 "/>
+        </ai:SaveOptions>
+        <ai:DocData base="CallIcon.assets/images" rulerCanvasDiffH="13.5" rulerCanvasDiffV="13.5">
+          <ai:DocRasterSettings>
+            <ai:Dict data="R padd 36 B mask 0 B spot 1 B alis 0 I dpi. 300 I colr 5 "/>
+          </ai:DocRasterSettings>
+        </ai:DocData>
+        <ai:AutoGenImageList>
+          <ai:Dict/>
+        </ai:AutoGenImageList>
+      </ai:PrivateElement>
+      <ai:PrivateElement flm:hashcode="47C4EC988DCD88EF69374B1468047365" d:ref="#2">
+        <ai:LayerOptions color="5 79.31 257 128.502"/>
+      </ai:PrivateElement>
+    </Private>
+  </Graphic>

@@ -48,6 +48,7 @@ package collaboRhythm.shared.collaboration.controller
 	 *
 	 * @author jom
 	 */
+	[Bindable]
 	public class CollaborationController extends EventDispatcher implements ICollaborationController
 	{
 		private var _activeAccount:Account;
@@ -104,14 +105,14 @@ package collaboRhythm.shared.collaboration.controller
 			return _activeAccount;
 		}
 
-		public function get collaborationModel():ICollaborationModel
+		public function get collaborationModel():CollaborationModel
 		{
 			return _collaborationModel;
 		}
 
-		public function set collaborationModel(value:ICollaborationModel):void
+		public function set collaborationModel(value:CollaborationModel):void
 		{
-			_collaborationModel = value as CollaborationModel;
+			_collaborationModel = value;
 		}
 
 		public function sendCollaborationInvitation(subjectAccount:Account, targetAccount:Account):void
@@ -122,7 +123,7 @@ package collaboRhythm.shared.collaboration.controller
 			_collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.INVITE,
 					_collaborationModel.subjectAccount.accountId, _activeAccount.accountId, _activeAccount.peerId,
 					_collaborationModel.peerAccount.accountId, null, _collaborationModel.passWord);
-			_collaborationModel.collaborationState = CollaborationModel.INVITATION_SENT;
+			_collaborationModel.collaborationState = CollaborationModel.COLLABORATION_INVITATION_SENT;
 		}
 
 		public function receiveCollaborationInvitation(subjectAccountId:String, sourceAccountId:String,
@@ -139,7 +140,7 @@ package collaboRhythm.shared.collaboration.controller
 			_collaborationModel.peerAccount = _activeAccount.allSharingAccounts[sourceAccountId];
 			_collaborationModel.peerAccount.peerId = sourcePeerId;
 			_collaborationModel.passWord = passWord;
-			_collaborationModel.collaborationState = CollaborationModel.INVITATION_RECEIVED;
+			_collaborationModel.collaborationState = CollaborationModel.COLLABORATION_INVITATION_RECEIVED;
 		}
 
 		public function sendCollaborationInvitationAccepted():void
@@ -182,7 +183,7 @@ package collaboRhythm.shared.collaboration.controller
 		{
 			if (_collaborationModel.passWord == passWord)
 			{
-				_collaborationModel.collaborationState = CollaborationModel.INVITATION_REJECTED;
+				_collaborationModel.collaborationState = CollaborationModel.COLLABORATION_INVITATION_REJECTED;
 				var invitationRejectedTimer:Timer = new Timer(1000, 1);
 				invitationRejectedTimer.addEventListener(TimerEvent.TIMER_COMPLETE,
 						invitationRejectedTimer_completeEventHandler);
@@ -224,14 +225,14 @@ package collaboRhythm.shared.collaboration.controller
 			}
 		}
 
-		public function sendCollaborationEnd():void
+		public function endCollaboration():void
 		{
 			popCollaborationVideoView();
 			_collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.END,
-					_collaborationModel.subjectAccount.accountId, _activeAccount.accountId, _activeAccount.peerId,
+					_activeAccount.accountId, _activeAccount.accountId, _activeAccount.peerId,
 					_collaborationModel.peerAccount.accountId, _collaborationModel.peerAccount.peerId,
 					_collaborationModel.passWord);
-			_collaborationModel.collaborationState = CollaborationModel.COLLABORATION_INACTIVE;
+			_collaborationModel.endCollaboration();
 		}
 
 		public function receiveCollaborationEnded(subjectAccountId:String, sourceAccountId:String, sourcePeerId:String,
@@ -240,7 +241,7 @@ package collaboRhythm.shared.collaboration.controller
 			if (_collaborationModel.passWord == passWord)
 			{
 				popCollaborationVideoView();
-				_collaborationModel.collaborationState = CollaborationModel.COLLABORATION_INACTIVE;
+				_collaborationModel.endCollaboration();
 			}
 			else
 			{
@@ -259,17 +260,17 @@ package collaboRhythm.shared.collaboration.controller
 
 		private function localUserJoinedCollaborationRoomAnimationCompleteHandler(event:CollaborationEvent):void
 		{
-			_collaborationModel.collaborationRoomNetConnectionService.connectActiveAccountVideoStream();
+//			_collaborationModel.collaborationRoomNetConnectionService.connectActiveAccountVideoStream();
 		}
 
 		public function joinCollaborationRoom():void
 		{
-			_collaborationModel.collaborationRoomNetConnectionService.joinCollaborationRoom();
+//			_collaborationModel.collaborationRoomNetConnectionService.joinCollaborationRoom();
 		}
 
 		public function closeCollaborationRoom():void
 		{
-			_collaborationModel.closeCollaborationRoom();
+//			_collaborationModel.closeCollaborationRoom();
 		}
 
 		public function get viewNavigator():ViewNavigator

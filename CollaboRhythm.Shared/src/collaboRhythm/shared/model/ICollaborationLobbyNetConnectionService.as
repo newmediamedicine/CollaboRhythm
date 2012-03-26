@@ -14,5 +14,7 @@ package collaboRhythm.shared.model
 		function enterCollaborationLobby():void;
 
 		function createCommunicationConnection():void;
+
+		function closeCollaborationConnection():void;
 	}
 }

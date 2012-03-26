@@ -21,22 +21,25 @@
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*">
 	<fx:Script><![CDATA[
 		import collaboRhythm.shared.collaboration.controller.CollaborationController;
+		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
 		import collaboRhythm.shared.collaboration.model.CollaborationModel;
 
 		private var _collaborationController:CollaborationController;
 		[Bindable]
 		private var _collaborationModel:CollaborationModel;
+		[Bindable]
+		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
 
 		override protected function createChildren():void
 		{
 			super.createChildren();
 			if (_tabletApplicationController)
 			{
-				_collaborationController = _tabletApplicationController.collaborationController as
-						CollaborationController;
-				_collaborationModel = _collaborationController.collaborationModel as CollaborationModel;
-				peerAccountImage.source = _collaborationModel.peerAccount.imageURI;
+				_collaborationController = _tabletApplicationController.iCollaborationController as CollaborationController;
+				peerAccountImage.source = _collaborationController.collaborationModel.peerAccount.imageURI;
 
+				_collaborationModel = _collaborationController.collaborationModel;
+				_collaborationLobbyNetConnectionService = _collaborationModel.collaborationLobbyNetConnectionService;
 			}
 		}
 
@@ -116,15 +119,15 @@
 
 			switch (collaborationState)
 			{
-				case CollaborationModel.INVITATION_SENT:
+				case CollaborationModel.COLLABORATION_INVITATION_SENT:
 					collaborationLabelText = "Calling " +
 							_collaborationModel.peerAccount.primaryRecord.contact.fullName + "...";
 					break;
-				case CollaborationModel.INVITATION_RECEIVED:
+				case CollaborationModel.COLLABORATION_INVITATION_RECEIVED:
 					collaborationLabelText = "Incoming call from " +
 							_collaborationModel.peerAccount.primaryRecord.contact.fullName;
 					break;
-				case CollaborationModel.INVITATION_REJECTED:
+				case CollaborationModel.COLLABORATION_INVITATION_REJECTED:
 					collaborationLabelText = "Call rejected by " +
 							_collaborationModel.peerAccount.primaryRecord.contact.fullName;
 					break;
@@ -154,7 +157,7 @@
 
 		private function endCall_clickHandler():void
 		{
-			_collaborationController.sendCollaborationEnd();
+			_collaborationController.endCollaboration();
 		}
 		]]></fx:Script>
 	<s:VGroup horizontalAlign="center" verticalCenter="0">
@@ -163,16 +166,16 @@
 		<s:Group>
 			<s:Image id="peerAccountImage" width="240" height="240"/>
 			<mx:VideoDisplay id="videoDisplay" width="320" height="240" verticalCenter="0" horizontalCenter="0"
-							 visible="{determineVisible(_collaborationModel.netStreamIn)}"/>
+							 visible="{determineVisible(_collaborationLobbyNetConnectionService.netStreamIn)}"/>
 		</s:Group>
-		<s:HGroup visible="{_collaborationModel.collaborationState == CollaborationModel.INVITATION_RECEIVED}"
-				  includeInLayout="{_collaborationModel.collaborationState == CollaborationModel.INVITATION_RECEIVED}">
+		<s:HGroup visible="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_RECEIVED}"
+				  includeInLayout="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_RECEIVED}">
 			<s:Button id="acceptButton" label="Accept" click="acceptButton_clickHandler()"/>
 			<s:Button id="rejectButton" label="Reject" click="rejectButton_clickHandler()"/>
 		</s:HGroup>
 		<s:Button id="cancelButton" label="Cancel"
-				  visible="{_collaborationModel.collaborationState == CollaborationModel.INVITATION_SENT}"
-				  includeInLayout="{_collaborationModel.collaborationState == CollaborationModel.INVITATION_SENT}"
+				  visible="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_SENT}"
+				  includeInLayout="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_SENT}"
 				  click="cancelButton_clickHandler()"/>
 		<s:Button id="endCall" label="End Call"
 				  visible="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_ACTIVE}"

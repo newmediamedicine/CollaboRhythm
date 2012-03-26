@@ -7,22 +7,12 @@
 	</s:states>
 	<fx:Declarations>
 		<s:DateTimeFormatter id="dateFormatter" dateTimePattern="MM/dd/yyyy"/>
-		<s:SkinnablePopUpContainer id="collaborationInvitationAlert">
-			<s:Panel title="Collaboration Invitation from {_tabletApplicationController.collaborationController.collaborationModel.sourceAccount.accountId}">
-				<s:HGroup width="100%" horizontalAlign="center"
-						  paddingTop="20" gap="20">
-					<s:Button label="Accept" click="acceptCollaborationInvitation()"/>
-					<s:Button label="Reject" click="rejectCollaborationInvitation()"/>
-				</s:HGroup>
-			</s:Panel>
-		</s:SkinnablePopUpContainer>
 	</fx:Declarations>
 	<fx:Script><![CDATA[
 		import collaboRhythm.shared.controller.IApplicationControllerBase;
 		import collaboRhythm.shared.model.Account;
 
 		import mx.core.FlexGlobals;
-
 		[Bindable]
 		protected var _tabletApplicationController:IApplicationControllerBase;
 
@@ -137,23 +127,6 @@
 		private function menuButton_clickHandler(event:MouseEvent):void
 		{
 			FlexGlobals.topLevelApplication.viewMenuOpen = true;
-		}
-
-		public function showCollaborationInvitationReceivedMessage():void
-		{
-			collaborationInvitationAlert.open(this, false);
-		}
-
-		private function acceptCollaborationInvitation():void
-		{
-//			collaborationInvitationAlert.close();
-//			_tabletApplicationController.acceptCollaborationInvitation();
-		}
-
-		private function rejectCollaborationInvitation():void
-		{
-//			collaborationInvitationAlert.close();
-//			_tabletApplicationController.collaborationController.rejectCollaborationInvitation();
 		}
 		]]></fx:Script>
 	<s:viewMenuItems>

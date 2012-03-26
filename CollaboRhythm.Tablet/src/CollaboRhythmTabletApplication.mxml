@@ -10,6 +10,8 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.core.view.AboutApplicationView;
 		import collaboRhythm.core.view.ConnectivityView;
+		import collaboRhythm.shared.collaboration.controller.CollaborationController;
+		import collaboRhythm.shared.collaboration.model.CollaborationModel;
 		import collaboRhythm.shared.model.Account;
 		import collaboRhythm.shared.model.settings.Settings;
 		import collaboRhythm.tablet.controller.TabletApplicationController;
@@ -27,6 +29,9 @@
 		[SkinPart(required="false")]
 		public var aboutApplicationView:AboutApplicationView;
 
+		[Bindable]
+		private var _collaborationController:CollaborationController;
+
 		protected function creationCompleteHandler(event:FlexEvent):void
 		{
 			this.addEventListener(FlexEvent.MENU_KEY_PRESSED, menuKeyPressedHandler);
@@ -37,6 +42,8 @@
 		{
 			_applicationController = new TabletApplicationController(this);
 			_applicationController.main();
+
+			_collaborationController = _applicationController.collaborationController;
 		}
 
 		public function get tabletHomeView():TabletHomeView
@@ -57,6 +64,11 @@
 			return navigator.activeView as SelectRecordView;
 		}
 
+		private function test(b:Boolean, b2:Boolean, b3:Boolean):Boolean
+		{
+			return true;
+		}
+
 
 		]]></fx:Script>
 	<s:navigationContent>
@@ -71,12 +83,12 @@
 						 text="{_applicationController.activeRecordAccount.primaryRecord.contact.familyName}"/>
 			</s:VGroup>
 			<view:CallIcon id="callIcon"
-						   includeInLayout="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; _applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE &amp;&amp; _applicationController.activeRecordAccount.collaborationRoomConnectionStatus == Account.COLLABORATION_ROOM_EXITED}"
-						   visible="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; _applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE &amp;&amp; _applicationController.activeRecordAccount.collaborationRoomConnectionStatus == Account.COLLABORATION_ROOM_EXITED}"
+						   includeInLayout="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; _applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE &amp;&amp; _collaborationController.collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INACTIVE}"
+						   visible="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; _applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE &amp;&amp; _collaborationController.collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INACTIVE}"
 							click="_applicationController.sendCollaborationInvitation()"/>
 			<view:EndCallIcon id="endCallIcon"
-							  includeInLayout="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; !_applicationController.activeRecordAccount.collaborationRoomConnectionStatus == Account.COLLABORATION_ROOM_EXITED}"
-							  visible="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; !_applicationController.activeRecordAccount.collaborationRoomConnectionStatus == Account.COLLABORATION_ROOM_EXITED}"/>
+							  includeInLayout="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; _collaborationController.collaborationModel.collaborationState != CollaborationModel.COLLABORATION_INACTIVE}"
+							  visible="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; _collaborationController.collaborationModel.collaborationState != CollaborationModel.COLLABORATION_INACTIVE}"/>
 		</s:HGroup>
 
 		<!-- Instances of charting components which started causing errors (in plugins which use charts) when we upgraded to Flex SDK 4.6.0 preview -->
