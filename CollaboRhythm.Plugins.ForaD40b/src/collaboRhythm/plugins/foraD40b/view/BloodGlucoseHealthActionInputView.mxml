@@ -97,16 +97,19 @@
 			_dataInputController.submitBloodGlucose();
 		}
 		]]></fx:Script>
-	<s:HGroup id="bloodGlucoseGroup" gap="15" paddingTop="20" left="0">
-		<!--TODO: Determine why the font size from the style is not working-->
-		<s:Label id="bloodGlucoseLabel" text="SYS" width="65" styleName="reportingLabelsText" fontSize="40"/>
-		<s:TextInput id="bloodGlucose" width="240" height="130"
-					 skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
-					 textAlign="right" restrict="0-9" maxChars="3" focusIn="bloodGlucoseResult_focusInHandler()"
-					 text="@{_dataInputModel.bloodGlucose}"/>
-		<s:Group height="100%">
-			<s:Label text="mg/dL" verticalCenter="0" styleName="reportingLabelsText"/>
-		</s:Group>
-	</s:HGroup>
+	<s:Group height="100%" width="100%">
+		<s:VGroup horizontalCenter="0" verticalCenter="0">
+			<s:Label id="bloodGlucoseLabel" text="SYS" width="65" styleName="reportingLabelsText" fontSize="40"/>
+			<s:HGroup id="bloodGlucoseGroup" gap="15">
+				<s:TextInput id="bloodGlucose" width="240" height="130"
+							 skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
+							 textAlign="right" restrict="0-9" maxChars="3" focusIn="bloodGlucoseResult_focusInHandler()"
+							 text="@{_dataInputModel.bloodGlucose}"/>
+				<s:Group height="100%">
+					<s:Label text="mg/dL" verticalCenter="0" styleName="reportingLabelsText"/>
+				</s:Group>
+			</s:HGroup>
+		</s:VGroup>
+	</s:Group>
 	<sharedViews:NumberPad id="numberPad" visible="false"/>
 </tablet:TabletViewBase>
