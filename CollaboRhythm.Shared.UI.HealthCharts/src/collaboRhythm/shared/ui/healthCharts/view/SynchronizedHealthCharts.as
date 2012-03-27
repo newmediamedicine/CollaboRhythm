@@ -56,6 +56,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import mx.collections.ArrayCollection;
 	import mx.collections.Sort;
 	import mx.collections.SortField;
+	import mx.controls.HRule;
 	import mx.core.ClassFactory;
 	import mx.core.FlexGlobals;
 	import mx.core.IVisualElement;
@@ -66,6 +67,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import mx.events.PropertyChangeEvent;
 	import mx.events.ResizeEvent;
 	import mx.events.ScrollEvent;
+	import mx.graphics.SolidColor;
+	import mx.graphics.SolidColorStroke;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 	import mx.managers.IFocusManagerComponent;
@@ -73,6 +76,10 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 	import qs.charts.dataShapes.DataDrawingCanvas;
 	import qs.charts.dataShapes.Edge;
+
+	import spark.components.BorderContainer;
+
+	import spark.components.BorderContainer;
 
 	import spark.components.Button;
 	import spark.components.CalloutButton;
@@ -91,11 +98,13 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import spark.layouts.VerticalAlign;
 	import spark.layouts.VerticalLayout;
 	import spark.primitives.BitmapImage;
+	import spark.primitives.Line;
 	import spark.primitives.Rect;
 	import spark.skins.mobile.ButtonSkin;
 	import spark.skins.mobile.CalloutSkin;
 	import spark.skins.mobile.TransparentActionButtonSkin;
 	import spark.skins.mobile.TransparentNavigationButtonSkin;
+	import spark.skins.spark.BorderContainerSkin;
 
 	public class SynchronizedHealthCharts extends VGroup implements IFocusManagerComponent
 	{
@@ -407,7 +416,11 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private function initializeModifierFactories():void
 		{
 			_chartModifierFactories = [new DefaultChartModifierFactory()];
-			_chartModifierFactories = _chartModifierFactories.concat(componentContainer.resolveAll(IChartModifierFactory));
+			var factories:Array = componentContainer.resolveAll(IChartModifierFactory);
+			if (factories != null)
+			{
+				_chartModifierFactories = _chartModifierFactories.concat(factories);
+			}
 		}
 
 		private function createChartDescriptors():void
@@ -504,7 +517,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			var chart:TouchScrollingScrubChart = createAdherenceChart(
 					getConcentrationChartKey(medicationCode), chartDescriptor);
 			setMedicationChartStyles(medicationCode, medicationFill, chart);
-			chart.setStyle("topBorderVisible", true);
+			chart.setStyle("borderVisible", false);
 			var nameString:String;
 			if (medicationFill)
 				nameString = medicationFill.name.text;
@@ -551,7 +564,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private function initializeAdherenceStripChart(chart:TouchScrollingScrubChart, scheduleItem:ScheduleItemBase):void
 		{
-			chart.setStyle("topBorderVisible", false);
+			chart.setStyle("borderVisible", false);
 			chart.height = ADHERENCE_STRIP_CHART_HEIGHT;
 			chart.seriesName = "yPosition";
 
@@ -669,9 +682,30 @@ package collaboRhythm.shared.ui.healthCharts.view
 			adherenceChartsGroup.gap = 0;
 			adherenceChartsGroup.addElement(resultChart);
 			if (adherenceStripChart)
+			{
+				var line:HRule = new HRule();
+				line.percentWidth = 100;
+				line.setStyle("strokeColor", 0x808285);
+				adherenceChartsGroup.addElement(line);
 				adherenceChartsGroup.addElement(adherenceStripChart);
+			}
 			adherenceChartsGroup.percentWidth = 100;
 			adherenceChartsGroup.percentHeight = 100;
+			var adherenceChartsBorderContainer:BorderContainer = new BorderContainer();
+			adherenceChartsBorderContainer.setStyle("skinClass", BorderContainerSkin);
+			adherenceChartsBorderContainer.addElement(adherenceChartsGroup);
+			if (chartDescriptor is HorizontalAxisChartDescriptor)
+			{
+				adherenceChartsBorderContainer.backgroundFill = new SolidColor(0, 0);
+				adherenceChartsBorderContainer.borderStroke = new SolidColorStroke(0, 0, 0);
+			}
+			else
+			{
+				adherenceChartsBorderContainer.borderStroke = new SolidColorStroke(0x231F20);
+			}
+			adherenceChartsBorderContainer.percentWidth = 100;
+			adherenceChartsBorderContainer.percentHeight = 100;
+
 			fixCalloutSkin();
 			var adherenceLeftContentGroup:Group = new Group();
 			
@@ -715,7 +749,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 			adherenceGroup.gap = 0;
 
 			adherenceGroup.addElement(adherenceLeftContentGroup);
-			adherenceGroup.addElement(adherenceChartsGroup);
+			adherenceGroup.addElement(adherenceChartsBorderContainer);
+//			adherenceGroup.addElement(adherenceChartsGroup);
 			adherenceGroup.percentWidth = 100;
 			adherenceGroup.percentHeight = 100;
 			adherenceGroup.verticalAlign = VerticalAlign.MIDDLE;
@@ -818,7 +853,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			var chart:TouchScrollingScrubChart = createAdherenceChart(getVitalSignChartKey(vitalSignKey), vitalSignChartDescriptor);
 			setVitalSignChartStyles(chart, vitalSignKey);
 
-			chart.setStyle("topBorderVisible", true);
+			chart.setStyle("borderVisible", false);
 			chart.mainChartTitle = vitalSignKey;
 
 			chart.dateField = "dateMeasuredStart";
@@ -1866,7 +1901,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 		{
 			var charts:Vector.<TouchScrollingScrubChart> = new Vector.<TouchScrollingScrubChart>();
 			
-			var chartsGroup:Group = adherenceGroup.getElementAt(1) as Group;
+			var chartsGroup:Group = getChartsGroup(adherenceGroup);
 			if (chartsGroup)
 			{
 				for (var i:int = 0; i < chartsGroup.numElements; i++)
@@ -1879,6 +1914,13 @@ package collaboRhythm.shared.ui.healthCharts.view
 				}
 			}
 			return charts;
+		}
+
+		private function getChartsGroup(adherenceGroup:Group):Group
+		{
+//			return adherenceGroup.getElementAt(1) as Group;
+			var borderContainer:BorderContainer = adherenceGroup.getElementAt(1) as BorderContainer;
+			return borderContainer ? borderContainer.getElementAt(0) as Group : null;
 		}
 
 		protected function getAllCharts():Vector.<TouchScrollingScrubChart>
