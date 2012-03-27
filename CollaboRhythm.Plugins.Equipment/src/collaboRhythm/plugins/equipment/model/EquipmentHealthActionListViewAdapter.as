@@ -26,14 +26,14 @@ package collaboRhythm.plugins.equipment.model
 		private var _controller:HealthActionListViewControllerBase;
 
 		public function EquipmentHealthActionListViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
-																			healthcationModelDetailsProvider:IHealthActionModelDetailsProvider)
+																			healthActionModelDetailsProvider:IHealthActionModelDetailsProvider)
 		{
 			_equipmentScheduleItem = scheduleItemOccurrence.scheduleItem as EquipmentScheduleItem;
 			_equipment = _equipmentScheduleItem.scheduledEquipment;
 
 			_equipmentHealthAction = new EquipmentHealthAction(_equipmentScheduleItem.instructions, _equipment.name);
 
-			_model = new HealthActionListViewModelBase(scheduleItemOccurrence, healthcationModelDetailsProvider);
+			_model = new HealthActionListViewModelBase(scheduleItemOccurrence, healthActionModelDetailsProvider);
 			_controller = new HealthActionListViewControllerBase(_model);
 		}
 

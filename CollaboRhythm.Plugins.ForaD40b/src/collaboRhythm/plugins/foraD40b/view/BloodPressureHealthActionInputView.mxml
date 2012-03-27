@@ -17,7 +17,6 @@
 -->
 <tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
-					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:sharedViews="collaboRhythm.shared.view.*"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView">
@@ -127,19 +126,19 @@
 		<s:DropDownList id="positionDropDownList" width="100%" selectedIndex="0"
 						skinClass="spark.skins.spark.DropDownListSkin"
 						styleName="reportingLabelsText">
-			<mx:ArrayCollection>
+			<s:ArrayCollection>
 				<fx:String>Sitting</fx:String>
 				<fx:String>Lying Down</fx:String>
 				<fx:String>Standing</fx:String>
-			</mx:ArrayCollection>
+			</s:ArrayCollection>
 		</s:DropDownList>
 		<s:DropDownList id="siteDropDownList" width="100%" selectedIndex="0"
 						skinClass="spark.skins.spark.DropDownListSkin"
 						styleName="reportingLabelsText">
-			<mx:ArrayCollection>
+			<s:ArrayCollection>
 				<fx:String>Left Arm</fx:String>
 				<fx:String>Right Arm</fx:String>
-			</mx:ArrayCollection>
+			</s:ArrayCollection>
 		</s:DropDownList>
 		<s:Group width="100%">
 			<s:HGroup id="systolicResultGroup" gap="15" paddingTop="20" left="0">

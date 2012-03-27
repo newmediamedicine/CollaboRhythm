@@ -56,7 +56,9 @@ package collaboRhythm.shared.model.services
 			{key: "5486823371", value: 0xc7c5b8},
 			{key: "motrin400", value: 0xcdcacb},
 			{key: "flexeril5", value: 0xfeb864},
-			{key: "6079352501", value: 0xe1e0e0}
+			{key: "6079352501", value: 0xe1e0e0},
+			{key: "007811452", value: 0xbab9b8},
+			{key: "000931048", value: 0xd3d4d4}
 		];
 
 		private var _medicationColorsDictionary:Dictionary = new Dictionary();

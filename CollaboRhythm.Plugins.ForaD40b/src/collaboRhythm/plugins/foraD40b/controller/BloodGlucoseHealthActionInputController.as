@@ -41,6 +41,12 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.urlVariables = urlVariables;
 		}
 
+		public function submitBloodGlucose():void
+		{
+			_dataInputModel.submitBloodGlucose();
+			_viewNavigator.popView();
+		}
+
 		public function get healthActionInputViewClass():Class
 		{
 			return HEALTH_ACTION_INPUT_VIEW_CLASS;
