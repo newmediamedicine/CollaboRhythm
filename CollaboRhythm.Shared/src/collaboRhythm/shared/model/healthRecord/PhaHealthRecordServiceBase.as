@@ -50,7 +50,10 @@ package collaboRhythm.shared.model.healthRecord
                                                                                                                             record);
 			healthRecordServiceRequestDetails.document = document;
 
-            _pha.documents_external_X_XPUT(null, null, null, record.id, INDIVO_APP_ID_FOR_DOCUMENT_CREATION, document.meta.id, _activeAccount.oauthAccountToken,
+			// TODO: figure out why external id is not working on new Indivo server (version 1.0); currently we are not using the external id, which could potentially result in duplicate documents being created
+//            _pha.documents_external_X_XPUT(null, null, null, record.id, INDIVO_APP_ID_FOR_DOCUMENT_CREATION, document.meta.id, _activeAccount.oauthAccountToken,
+//                                _activeAccount.oauthAccountTokenSecret, documentXmlString, healthRecordServiceRequestDetails);
+            _pha.documents_POST(null, null, null, record.id, _activeAccount.oauthAccountToken,
                                 _activeAccount.oauthAccountTokenSecret, documentXmlString, healthRecordServiceRequestDetails);
         }
 
