@@ -47,7 +47,7 @@ package collaboRhythm.shared.model.services
 			{key: "06035339", value: 0xcbc8ca},
 			{key: "0173071820", value: 0xa52b2a},
 			{key: "173068224", value: 0x3e84a6},
-			{key: "0169643910", value: 0x81c4b7},
+			{key: "0169643910", value: 0x7F5468}, // levemir
 			{key: "169643910", value: 0x81c4b7},
 			{key: "551541918", value: 0xdbd8cf},
 			{key: "667159712", value: 0xec6a5d},
@@ -57,8 +57,8 @@ package collaboRhythm.shared.model.services
 			{key: "motrin400", value: 0xcdcacb},
 			{key: "flexeril5", value: 0xfeb864},
 			{key: "6079352501", value: 0xe1e0e0},
-			{key: "007811452", value: 0xbab9b8},
-			{key: "000931048", value: 0xd3d4d4}
+			{key: "007811452", value: 0x86625B}, // glipizide
+			{key: "000931048", value: 0x638AA7} // metformin
 		];
 
 		private var _medicationColorsDictionary:Dictionary = new Dictionary();
