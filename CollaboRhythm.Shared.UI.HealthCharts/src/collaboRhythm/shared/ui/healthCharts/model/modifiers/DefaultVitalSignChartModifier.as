@@ -10,13 +10,18 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	import com.theory9.data.types.OrderedMap;
 
 	import mx.charts.HitData;
+	import mx.charts.LinearAxis;
+	import mx.charts.renderers.CircleItemRenderer;
+	import mx.charts.renderers.DiamondItemRenderer;
 	import mx.charts.series.PlotSeries;
 	import mx.collections.ArrayCollection;
+	import mx.core.ClassFactory;
 	import mx.core.IVisualElement;
 	import mx.graphics.SolidColor;
 	import mx.graphics.SolidColorStroke;
 
 	import qs.charts.dataShapes.DataDrawingCanvas;
+	import qs.charts.dataShapes.Edge;
 
 	import spark.components.Image;
 	import spark.components.Label;
@@ -55,6 +60,9 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 		[Embed("/assets/images/vitalSigns/Step_Count.png")]
 		private var _stepCountImageClass:Class;
 
+		private const BLOOD_GLUCOSE_VERTICAL_AXIS_MINIMUM:Number = 50;
+		private const BLOOD_GLUCOSE_VERTICAL_AXIS_MAXIMUM:Number = 150;
+
 		public function DefaultVitalSignChartModifier(chartDescriptor:VitalSignChartDescriptor,
 														   chartModelDetails:IChartModelDetails,
 														   decoratedChartModifier:IChartModifier)
@@ -72,6 +80,24 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 			if (decoratedModifier)
 				decoratedModifier.modifyMainChart(chart);
 			chart.mainChart.dataTipFunction = mainChart_dataTipFunction;
+
+			if (vitalSignChartDescriptor.vitalSignCategory == VitalSignsModel.BLOOD_GLUCOSE_CATEGORY)
+			{
+				modifyMainChartBloodGlucose(chart);
+			}
+		}
+
+		private function modifyMainChartBloodGlucose(chart:ScrubChart):void
+		{
+			var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
+			verticalAxis.minimum = BLOOD_GLUCOSE_VERTICAL_AXIS_MINIMUM;
+			verticalAxis.maximum = BLOOD_GLUCOSE_VERTICAL_AXIS_MAXIMUM;
+			if (chart.mainChartCover)
+			{
+				verticalAxis = chart.mainChartCover.verticalAxis as LinearAxis;
+				verticalAxis.minimum = BLOOD_GLUCOSE_VERTICAL_AXIS_MINIMUM;
+				verticalAxis.maximum = BLOOD_GLUCOSE_VERTICAL_AXIS_MAXIMUM;
+			}
 		}
 
 		private function mainChart_dataTipFunction(hitData:HitData):String
@@ -103,10 +129,13 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 			var seriesDataCollection:ArrayCollection = chartModelDetails.record.vitalSignsModel.vitalSignsByCategory.getItem(vitalSignChartDescriptor.vitalSignCategory);
 			vitalSignSeries.dataProvider = seriesDataCollection;
 			vitalSignSeries.displayName = vitalSignChartDescriptor.vitalSignCategory;
-			vitalSignSeries.setStyle("radius", 5);
+			vitalSignSeries.setStyle("radius", 10);
 			vitalSignSeries.filterDataValues = "none";
-			var color:uint = getVitalSignColor(vitalSignChartDescriptor.vitalSignCategory);
+//			var color:uint = getVitalSignColor(vitalSignChartDescriptor.vitalSignCategory);
+			var color:uint = 0;
+			vitalSignSeries.setStyle("itemRenderer", new ClassFactory(CircleItemRenderer));
 			vitalSignSeries.setStyle("stroke", new SolidColorStroke(color, 2));
+			vitalSignSeries.setStyle("fill", new SolidColor(color));
 
 			seriesDataSets.push(new SeriesDataSet(vitalSignSeries, seriesDataCollection, "dateMeasuredStart"));
 			return seriesDataSets;
@@ -187,8 +216,25 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 			return ColorFromNameUtil.getColorFromName(vitalSignKey);
 		}
 
+		protected const GOAL_ZONE_COLOR:uint = 0x8DCB86;
+
 		public function drawBackgroundElements(canvas:DataDrawingCanvas, zoneLabel:Label):void
 		{
+			if (vitalSignChartDescriptor.vitalSignCategory == VitalSignsModel.BLOOD_GLUCOSE_CATEGORY)
+			{
+				canvas.clear();
+
+				var color:uint = GOAL_ZONE_COLOR;
+				canvas.beginFill(color, 1);
+				canvas.drawRect([Edge.LEFT, -1], 80, [Edge.RIGHT, 1], 110);
+				canvas.endFill();
+
+				if (zoneLabel)
+				{
+					zoneLabel.setStyle("color", color);
+					canvas.updateDataChild(zoneLabel, {left:Edge.LEFT, top:200});
+				}
+			}
 		}
 
 		public function updateChartDescriptors(chartDescriptors:OrderedMap):OrderedMap

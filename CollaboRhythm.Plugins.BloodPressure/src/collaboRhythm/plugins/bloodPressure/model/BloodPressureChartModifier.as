@@ -127,11 +127,8 @@ package collaboRhythm.plugins.bloodPressure.model
 			canvas.clear();
 
 			var color:uint = GOAL_ZONE_COLOR;
-			canvas.lineStyle(1, color);
-
-			canvas.beginFill(color, 0.25);
-			canvas.drawRect([Edge.LEFT, -1], 40, [Edge.RIGHT, 1],
-					120);
+			canvas.beginFill(color, 1);
+			canvas.drawRect([Edge.LEFT, -1], 40, [Edge.RIGHT, 1], 120);
 			canvas.endFill();
 
 			if (zoneLabel)

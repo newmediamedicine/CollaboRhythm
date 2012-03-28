@@ -84,7 +84,6 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 			concentrationSeries.setStyle("itemRenderer", new ClassFactory(LineSeriesCustomRenderer));
 			concentrationSeries.filterDataValues = "none";
 			var color:uint = getMedicationColor();
-			concentrationSeries.setStyle("areaStroke", new SolidColorStroke(0x000000, 1));
 			concentrationSeries.setStyle("areaFill", new SolidColor(color, 1));
 
 			seriesDataSets.push(new SeriesDataSet(concentrationSeries, seriesDataCollection, "date"));
@@ -138,9 +137,7 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 			if (!isNaN(medicationModel.goalConcentrationMinimum) && !isNaN(medicationModel.goalConcentrationMaximum))
 			{
 				var color:uint = getMedicationColor();
-				canvas.lineStyle(1, color);
-
-				canvas.beginFill(color, 0.25);
+				canvas.beginFill(color, 0.5);
 				canvas.drawRect([Edge.LEFT, -1], medicationModel.goalConcentrationMinimum, [Edge.RIGHT, 1],
 						medicationModel.goalConcentrationMaximum);
 				canvas.endFill();
