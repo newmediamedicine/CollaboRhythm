@@ -63,7 +63,6 @@
 		{
 			return navigator.activeView as SelectRecordView;
 		}
-
 		]]></fx:Script>
 	<s:navigationContent>
 		<s:HGroup click="navigator.popToFirstView()" includeInLayout="{_applicationController.activeRecordAccount}"
@@ -76,13 +75,17 @@
 				<s:Label id="activeRecordFamilyName"
 						 text="{_applicationController.activeRecordAccount.primaryRecord.contact.familyName}"/>
 			</s:VGroup>
-			<view:CallIcon id="callIcon"
-						   includeInLayout="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; _applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE &amp;&amp; _collaborationController.collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INACTIVE}"
-						   visible="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; _applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE &amp;&amp; _collaborationController.collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INACTIVE}"
-							click="_applicationController.sendCollaborationInvitation()"/>
-			<view:EndCallIcon id="endCallIcon"
-							  includeInLayout="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; _collaborationController.collaborationModel.collaborationState != CollaborationModel.COLLABORATION_INACTIVE}"
-							  visible="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; _collaborationController.collaborationModel.collaborationState != CollaborationModel.COLLABORATION_INACTIVE}"/>
+			<s:Group click="_applicationController.sendCollaborationInvitation()">
+				<view:CallIcon id="callIcon"
+							   includeInLayout="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; _applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE &amp;&amp; _collaborationController.collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INACTIVE}"
+							   visible="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; _applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE &amp;&amp; _collaborationController.collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INACTIVE}"
+							   />
+			</s:Group>
+			<s:Group>
+				<view:EndCallIcon id="endCallIcon"
+								  includeInLayout="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; _collaborationController.collaborationModel.collaborationState != CollaborationModel.COLLABORATION_INACTIVE}"
+								  visible="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; _collaborationController.collaborationModel.collaborationState != CollaborationModel.COLLABORATION_INACTIVE}"/>
+			</s:Group>
 		</s:HGroup>
 
 		<!-- Instances of charting components which started causing errors (in plugins which use charts) when we upgraded to Flex SDK 4.6.0 preview -->
