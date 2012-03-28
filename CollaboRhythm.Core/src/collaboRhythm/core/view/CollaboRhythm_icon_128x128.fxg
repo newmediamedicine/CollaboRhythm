@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="2.0" viewHeight="128" viewWidth="128" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+  <Library/>
+  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="128" d:pageWidth="128" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:objID="1c695700" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+      <Group x="11.0469" ai:objID="22e37d80" ai:seqID="3">
+        <Rect x="21.8037" width="18.6885" height="18.7314" ai:objID="1cdb0680" ai:seqID="4">
+          <fill>
+            <SolidColor color="#0095D3"/>
+          </fill>
+        </Rect>
+        <Rect x="65.4141" width="18.6895" height="18.7314" ai:objID="1cdb0080" ai:seqID="5">
+          <fill>
+            <SolidColor color="#0095D3"/>
+          </fill>
+        </Rect>
+        <Rect y="43.7061" width="18.6885" height="18.7344" ai:objID="22ebc800" ai:seqID="6">
+          <fill>
+            <SolidColor color="#0095D3"/>
+          </fill>
+        </Rect>
+        <Rect x="87.2188" y="43.7061" width="18.6875" height="18.7344" ai:objID="22ebc500" ai:seqID="7">
+          <fill>
+            <SolidColor color="#0095D3"/>
+          </fill>
+        </Rect>
+        <Rect x="21.8037" y="87.4136" width="18.6885" height="18.7319" ai:objID="22ebc380" ai:seqID="8">
+          <fill>
+            <SolidColor color="#0095D3"/>
+          </fill>
+        </Rect>
+        <Rect x="65.4141" y="87.4136" width="18.6895" height="18.7319" ai:objID="22ebc080" ai:seqID="9">
+          <fill>
+            <SolidColor color="#0095D3"/>
+          </fill>
+        </Rect>
+        <Path winding="nonZero" ai:objID="22ebd280" ai:seqID="10" data="M0 18.7314 18.6885 0 18.6885 18.7314 0 18.7314Z">
+          <fill>
+            <SolidColor color="#7AC143"/>
+          </fill>
+        </Path>
+        <Rect x="21.8037" y="21.853" width="18.6885" height="18.7314" ai:objID="22ebcc80" ai:seqID="11">
+          <fill>
+            <SolidColor color="#7AC143"/>
+          </fill>
+        </Rect>
+        <Rect x="65.4141" y="21.853" width="18.6895" height="18.7314" ai:objID="22ebb900" ai:seqID="12">
+          <fill>
+            <SolidColor color="#7AC143"/>
+          </fill>
+        </Rect>
+        <Rect x="21.8037" y="65.5615" width="18.6885" height="18.7295" ai:objID="22ebbf00" ai:seqID="13">
+          <fill>
+            <SolidColor color="#7AC143"/>
+          </fill>
+        </Rect>
+        <Rect x="65.4141" y="65.5615" width="18.6895" height="18.7295" ai:objID="22ebce00" ai:seqID="14">
+          <fill>
+            <SolidColor color="#7AC143"/>
+          </fill>
+        </Rect>
+        <Path y="87.4136" winding="nonZero" ai:objID="22ebcb00" ai:seqID="15" data="M0 0 18.6885 18.7319 18.6885 0 0 0Z">
+          <fill>
+            <SolidColor color="#7AC143"/>
+          </fill>
+        </Path>
+        <Path x="87.2188" y="87.4136" winding="nonZero" ai:objID="22ebd100" ai:seqID="16" data="M0 18.7319 18.6875 0 0 0 0 18.7319Z">
+          <fill>
+            <SolidColor color="#7AC143"/>
+          </fill>
+        </Path>
+        <Path x="87.2188" winding="nonZero" ai:objID="22ebc980" ai:seqID="17" data="M0 0 18.6875 18.7314 0 18.7314 0 0Z">
+          <fill>
+            <SolidColor color="#7AC143"/>
+          </fill>
+        </Path>
+        <Rect x="43.6104" width="18.6855" height="18.7314" ai:objID="22ebc200" ai:seqID="18">
+          <fill>
+            <SolidColor color="#E7578C"/>
+          </fill>
+        </Rect>
+        <Rect y="21.853" width="18.6885" height="18.7314" ai:objID="22ebbc00" ai:seqID="19">
+          <fill>
+            <SolidColor color="#E7578C"/>
+          </fill>
+        </Rect>
+        <Rect x="87.2188" y="21.853" width="18.6875" height="18.7314" ai:objID="22ebbd80" ai:seqID="20">
+          <fill>
+            <SolidColor color="#E7578C"/>
+          </fill>
+        </Rect>
+        <Rect y="65.5615" width="18.6885" height="18.7295" ai:objID="22ebba80" ai:seqID="21">
+          <fill>
+            <SolidColor color="#E7578C"/>
+          </fill>
+        </Rect>
+        <Rect x="87.2188" y="65.5615" width="18.6875" height="18.7295" ai:objID="22ebc680" ai:seqID="22">
+          <fill>
+            <SolidColor color="#E7578C"/>
+          </fill>
+        </Rect>
+        <Rect x="43.6104" y="87.4136" width="18.6855" height="18.7319" ai:objID="22ebd400" ai:seqID="23">
+          <fill>
+            <SolidColor color="#E7578C"/>
+          </fill>
+        </Rect>
+        <Path x="21.8037" y="109.268" winding="nonZero" ai:objID="22ebe600" ai:seqID="24" data="M0 0 18.6885 18.7319 18.6885 0 0 0Z">
+          <fill>
+            <SolidColor color="#E7578C"/>
+          </fill>
+        </Path>
+      </Group>
+    </Group>
+  </Group>
+  <Private>
+      <ai:PrivateElement d:ref="#1">
+        <ai:SaveOptions>
+          <ai:Dict data="B aiEditCap 1 B includeSymbol 0 I versionKey 2 B includeXMP 0 B writeImages 1 B clipToActiveArtboard 1 I expandBlendsOption 5 B downsampleLinkedImages 0 I rasterizeResolution 72 I preserveGradientPolicy 4 I preserveFilterPolicy 3 I preserveTextPolicy 4 B includeObjectOutsideArtboard 0 "/>
+        </ai:SaveOptions>
+        <ai:DocData base="CollaboRhythm_icon_128x128.assets/images" rulerCanvasDiffH="450.5" rulerCanvasDiffV="130.5">
+          <ai:DocRasterSettings>
+            <ai:Dict data="B mask 0 R padd 36 B spot 1 B alis 0 I dpi. 300 I colr 5 "/>
+          </ai:DocRasterSettings>
+        </ai:DocData>
+        <ai:AutoGenImageList>
+          <ai:Dict/>
+        </ai:AutoGenImageList>
+      </ai:PrivateElement>
+      <ai:PrivateElement flm:hashcode="BA82D5993E3D6C35745C6CA07B55F552" d:ref="#2">
+        <ai:LayerOptions color="5 79.31 257 128.502"/>
+      </ai:PrivateElement>
+    </Private>
+  </Graphic>

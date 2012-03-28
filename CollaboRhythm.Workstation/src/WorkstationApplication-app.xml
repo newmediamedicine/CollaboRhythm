@@ -107,12 +107,17 @@
 
 	<!-- The icon the system uses for the application. For at least one resolution,
 		 specify the path to a PNG file included in the AIR package. Optional. -->
-	<!-- <icon>
+	<icon>
+<!--
 		<image16x16></image16x16>
 		<image32x32></image32x32>
+		<image36x36></image36x36>
 		<image48x48></image48x48>
-		<image128x128></image128x128>
-	</icon> -->
+		<image72x72></image72x72>
+		<image114x114>/assets/icons/CollaboRhythm_icon_114x114.png</image114x114>
+-->
+		<image128x128>assets/images/icons/CollaboRhythm_icon_128x128.png</image128x128>
+	</icon>
 
 	<!-- Whether the application handles the update when a user double-clicks an update version
 	of the AIR file (true), or the default AIR application installer handles the update (false).

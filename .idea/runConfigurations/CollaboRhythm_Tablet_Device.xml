@@ -43,6 +43,10 @@
           <option name="FILE_PATH" value="$PROJECT_DIR$/CollaboRhythm.Plugins.HealthCharts/bin-debug/HealthChartsPluginModule.swf" />
           <option name="PATH_IN_PACKAGE" value="plugins/HealthChartsPluginModule.swf" />
         </FilePathAndPathInPackage>
+        <FilePathAndPathInPackage>
+          <option name="FILE_PATH" value="$PROJECT_DIR$/CollaboRhythm.Tablet/src/assets/images/icons" />
+          <option name="PATH_IN_PACKAGE" value="assets/images/icons" />
+        </FilePathAndPathInPackage>
       </list>
     </option>
     <option name="fullScreenHeight" value="0" />
@@ -53,6 +57,7 @@
     <option name="usbDebugPort" value="7936" />
     <RunnerSettings RunnerId="FlexDebugRunner" />
     <RunnerSettings RunnerId="FlexRunner" />
+    <RunnerSettings RunnerId="Profile" />
     <ConfigurationWrapper RunnerId="FlexDebugRunner" />
     <ConfigurationWrapper RunnerId="FlexRunner" />
     <method />
