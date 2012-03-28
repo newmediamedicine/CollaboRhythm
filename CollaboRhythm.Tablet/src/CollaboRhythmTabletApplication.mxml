@@ -64,12 +64,6 @@
 			return navigator.activeView as SelectRecordView;
 		}
 
-		private function test(b:Boolean, b2:Boolean, b3:Boolean):Boolean
-		{
-			return true;
-		}
-
-
 		]]></fx:Script>
 	<s:navigationContent>
 		<s:HGroup click="navigator.popToFirstView()" includeInLayout="{_applicationController.activeRecordAccount}"

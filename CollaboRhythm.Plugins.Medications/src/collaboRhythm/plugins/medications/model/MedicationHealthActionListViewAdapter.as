@@ -92,7 +92,28 @@ package collaboRhythm.plugins.medications.model
 				return "";
 		}
 
-		public function get instructions():String
+		public function get primaryInstructions():String
+		{
+			if (_medicationScheduleItem)
+			{
+				//TODO: Use the actual route from Indivo once it is modeled in the data
+				var route:String = "";
+				switch (_medicationName.form)
+				{
+					case "Oral Tablet":
+						route = "by mouth";
+						break;
+					case "Prefilled Syringe":
+						route = "subcutaneous injection";
+						break;
+				}
+				return _medicationScheduleItem.dose.value + " " + _medicationScheduleItem.dose.unit.text + " " + route;
+			}
+			else
+				return "";
+		}
+
+		public function get secondaryInstructions():String
 		{
 			if (_medicationScheduleItem)
 				return _medicationScheduleItem.instructions;

@@ -85,7 +85,7 @@
 				nameLabel.text = healthActionListViewAdapter.name;
 				descriptionLabel.text = healthActionListViewAdapter.description;
 				indicationLabel.text = healthActionListViewAdapter.indication;
-				instructionsLabel.text = healthActionListViewAdapter.instructions;
+				instructionsLabel.text = healthActionListViewAdapter.secondaryInstructions;
 
 				var image:Image = healthActionListViewAdapter.image;
 				if (image)

@@ -21,8 +21,13 @@
 			fontStyle: italic;
 		}
 
-		#instructionsLabel {
-			fontSize: 26;
+		#primaryInstructionsLabel {
+			fontSize: 22;
+			font-weight: bold;
+		}
+
+		#secondaryInstructionsLabel {
+			fontSize: 22;
 			font-weight: bold;
 		}
 
@@ -74,14 +79,14 @@
 
 				nameLabel.text = scheduleItemOccurrenceReportingViewAdapter.name;
 				descriptionLabel.text = scheduleItemOccurrenceReportingViewAdapter.description;
-				indicationLabel.text = scheduleItemOccurrenceReportingViewAdapter.indication;
-				instructionsLabel.text = scheduleItemOccurrenceReportingViewAdapter.instructions;
+				primaryInstructionsLabel.text = scheduleItemOccurrenceReportingViewAdapter.primaryInstructions;
+				secondaryInstructionsLabel.text = scheduleItemOccurrenceReportingViewAdapter.secondaryInstructions;
 
 				var image:Image = scheduleItemOccurrenceReportingViewAdapter.image;
-				image.left = 5;
-				image.right = 5;
-				image.top = 5;
-				image.bottom = 5;
+				image.left = 10;
+				image.right = 10;
+				image.top = 10;
+				image.bottom = 10;
 				image.smooth = true;
 				imageRegion.addElement(image);
 
@@ -109,11 +114,11 @@
 	</s:Group>
 
 	<s:Group id="descriptionRegion" height="100%" left="{imageRegion.width}" right="{buttonRegion.width}">
-		<s:VGroup left="5" right="5" top="5" bottom="5" gap="1">
+		<s:VGroup left="10" right="10" top="10" bottom="10" gap="1">
 			<s:Label id="nameLabel" maxDisplayedLines="1" width="100%"/>
-			<s:Label id="descriptionLabel" maxDisplayedLines="1" width="100%"/>
-			<s:Label id="indicationLabel" paddingTop="16" maxDisplayedLines="1" width="100%"/>
-			<s:Label id="instructionsLabel" paddingTop="16" maxDisplayedLines="1" width="100%"/>
+			<s:Label id="descriptionLabel" paddingTop="2" maxDisplayedLines="1" width="100%"/>
+			<s:Label id="primaryInstructionsLabel" paddingTop="24" maxDisplayedLines="1" width="100%"/>
+			<s:Label id="secondaryInstructionsLabel" maxDisplayedLines="1" width="100%"/>
 		</s:VGroup>
 	</s:Group>
 
