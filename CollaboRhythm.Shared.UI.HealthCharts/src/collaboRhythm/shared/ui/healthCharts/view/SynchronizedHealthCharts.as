@@ -184,10 +184,10 @@ package collaboRhythm.shared.ui.healthCharts.view
 			percentHeight = 100;
 			percentWidth = 100;
 			gap = 10;
-			paddingLeft = 10;
+			paddingLeft = 0;
 			paddingRight = 10;
 			paddingTop = 10;
-			paddingBottom = 8;
+			paddingBottom = 0;
 			clipAndEnableScrolling = true;
 			setStyle("fontSize", 20);
 
