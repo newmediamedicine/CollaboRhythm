@@ -19,6 +19,14 @@
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		#collaborationLabel {
+			color: #000000;
+			fontSize: 26;
+		}
+	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.shared.collaboration.controller.CollaborationController;
 		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
@@ -48,10 +56,16 @@
 			if (netStreamIn)
 			{
 				var video:Video = new Video();
-				video.height = 240;
-				video.width = 320;
+				video.height = 480;
+				video.width = 640;
 				video.attachNetStream(netStreamIn);
 				videoDisplay.addChild(video);
+
+				var videoOut:Video = new Video();
+				videoOut.height = 120;
+				videoOut.width = 160;
+				videoOut.attachCamera(_collaborationModel.audioVideoOutput.camera);
+				videoDisplayOut.addChild(videoOut);
 				return true;
 			}
 			return false;
@@ -160,14 +174,16 @@
 			_collaborationController.endCollaboration();
 		}
 		]]></fx:Script>
-	<s:VGroup horizontalAlign="center" verticalCenter="0">
+	<s:Group width="100%" height="100%">
+	<s:VGroup horizontalAlign="center" verticalCenter="0" horizontalCenter="0">
+		<s:Group width="640" height="480">
+			<s:Image id="peerAccountImage" width="480" height="480" horizontalCenter="0"/>
+			<mx:VideoDisplay id="videoDisplay" width="640" height="480"
+							 visible="{determineVisible(_collaborationLobbyNetConnectionService.netStreamIn)}"/>
+			<mx:VideoDisplay id="videoDisplayOut" width="160" height="120" right="0" bottom="0" visible="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_ACTIVE}"/>
+		</s:Group>
 		<s:Label id="collaborationLabel"
 				 text="{determineCollaborationLabelText(_collaborationModel.collaborationState)}"/>
-		<s:Group>
-			<s:Image id="peerAccountImage" width="240" height="240"/>
-			<mx:VideoDisplay id="videoDisplay" width="320" height="240" verticalCenter="0" horizontalCenter="0"
-							 visible="{determineVisible(_collaborationLobbyNetConnectionService.netStreamIn)}"/>
-		</s:Group>
 		<s:HGroup visible="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_RECEIVED}"
 				  includeInLayout="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_RECEIVED}">
 			<s:Button id="acceptButton" label="Accept" click="acceptButton_clickHandler()"/>
@@ -182,4 +198,5 @@
 				  includeInLayout="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_ACTIVE}"
 				  click="endCall_clickHandler()"/>
 	</s:VGroup>
+	</s:Group>
 </tablet:TabletViewBase>

@@ -21,6 +21,33 @@
 	<fx:Declarations>
 		<s:Button id="doneButton" label="OK" click="recheckButton_clickHandler()"/>
 	</fx:Declarations>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		#bloodGlucoseLabel {
+			color: #000000;
+			fontSize: 28;
+		}
+
+		#hypoglycemiaLabel {
+			color: #000000;
+			fontSize: 40;
+		}
+
+		#recheckLabel {
+			color: #000000;
+			fontSize: 40;
+		}
+
+		#eatThenRecheckLabel {
+			color: #000000;
+			fontSize: 40;
+		}
+
+		#okButton {
+			fontSize: 40;
+		}
+	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
@@ -52,13 +79,18 @@
 		}
 		]]></fx:Script>
 	<s:Group width="100%" height="100%">
-		<s:VGroup verticalCenter="0" horizontalCenter="0">
-			<s:Label id="bloodGlucoseLabel" text="Your blood glucose measurement was {_dataInputModel.bloodGlucose}."/>
-			<s:Label text="This may be dangerously low."/>
-			<s:Label text="Please recheck your blood glucose to make sure it was not an error."
-					 visible="{!_dataInputModel.repeat}"/>
-			<s:Label text="Please eat something and recheck your blood glucose in 15 minutes."
-					 visible="{_dataInputModel.repeat}"/>
+		<s:VGroup verticalCenter="0" horizontalCenter="0" horizontalAlign="center">
+			<s:Label id="hypoglycemiaLabel" text="Your blood glucose may be dangerously low."/>
+			<s:Label id="bloodGlucoseLabel"
+					 text="For reference, the value you provided was {_dataInputModel.bloodGlucose} mg/dL."/>
+			<s:Label id="recheckLabel" text="Please recheck your blood glucose to make sure it was not an error."
+					 paddingTop="20"
+					 visible="{!_dataInputModel.repeat}" includeInLayout="{!_dataInputModel.repeat}"/>
+			<s:Label id="eatThenRecheckLabel"
+					 text="Please eat something sugary and recheck your blood glucose in 15 minutes." paddingTop="20"
+					 paddingBottom="20"
+					 visible="{_dataInputModel.repeat}" includeInLayout="{!_dataInputModel.repeat}"/>
+			<s:Button id="okButton" label="OK" click="recheckButton_clickHandler()"/>
 		</s:VGroup>
 
 	</s:Group>

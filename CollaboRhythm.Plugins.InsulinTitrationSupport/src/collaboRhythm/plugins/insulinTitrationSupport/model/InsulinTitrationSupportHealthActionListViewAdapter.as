@@ -49,7 +49,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			return "Diabetes";
 		}
 
-		public function get instructions():String
+		public function get primaryInstructions():String
+		{
+			return "";
+		}
+
+		public function get secondaryInstructions():String
 		{
 			return "";
 		}
