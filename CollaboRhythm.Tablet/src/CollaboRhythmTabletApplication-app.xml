@@ -134,15 +134,13 @@
 	<!-- The icon the system uses for the application. For at least one resolution,
 	specify the path to a PNG file included in the AIR package. Optional. -->
 	<icon>
-<!--
-		<image16x16></image16x16>
-		<image32x32></image32x32>
-		<image36x36></image36x36>
-		<image48x48></image48x48>
-		<image72x72></image72x72>
-		<image114x114>/assets/icons/CollaboRhythm_icon_114x114.png</image114x114>
--->
-		<image128x128>assets/images/icons/CollaboRhythm_icon_128x128.png</image128x128>
+		<image16x16>assets/images/icons/CollaboRhythm_icon_white_16.png</image16x16>
+		<image32x32>assets/images/icons/CollaboRhythm_icon_white_32.png</image32x32>
+		<image36x36>assets/images/icons/CollaboRhythm_icon_white_36.png</image36x36>
+		<image48x48>assets/images/icons/CollaboRhythm_icon_white_48.png</image48x48>
+		<image72x72>assets/images/icons/CollaboRhythm_icon_white_72.png</image72x72>
+		<image114x114>assets/images/icons/CollaboRhythm_icon_white_114.png</image114x114>
+		<image128x128>assets/images/icons/CollaboRhythm_icon_white_128.png</image128x128>
 	</icon>
 
 	<!-- Whether the application handles the update when a user double-clicks an update version
