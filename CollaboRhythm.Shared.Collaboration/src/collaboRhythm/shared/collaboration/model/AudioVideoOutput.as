@@ -65,7 +65,7 @@ package collaboRhythm.shared.collaboration.model
                 if (_camera != null)
                 {
                     _camera.setMode(640,480,15);
-                    _camera.setQuality(0,70);
+                    _camera.setQuality(0,60);
 					_logger.info("Camera initialized: " + _camera.name);
                 }
 				else
@@ -83,9 +83,9 @@ package collaboRhythm.shared.collaboration.model
 				_microphone = Microphone.getMicrophone(0);
 				if (_microphone != null)
 				{
-					_microphone.codec = SoundCodec.SPEEX;
+//					_microphone.codec = SoundCodec.SPEEX;
 					_microphone.setSilenceLevel(0);
-					_microphone.framesPerPacket = 1;
+//					_microphone.framesPerPacket = 1;
 					_logger.info("Microphone initialized: " + _microphone.name);
 				}
 				else

@@ -9,6 +9,7 @@ package collaboRhythm.plugins.foraD40b.model
 
 	import flash.net.URLVariables;
 
+	[Bindable]
 	public class BloodGlucoseHealthActionInputModel extends HealthActionInputModelBase
 	{
 		public static const HYPOGLYCEMIA:String = "Hypoglycemia";
@@ -56,7 +57,7 @@ package collaboRhythm.plugins.foraD40b.model
 
 		override public function set urlVariables(value:URLVariables):void
 		{
-			bloodGlucose = _urlVariables.bloodGlucose;
+			bloodGlucose = value.bloodGlucose;
 
 			_urlVariables = value;
 		}

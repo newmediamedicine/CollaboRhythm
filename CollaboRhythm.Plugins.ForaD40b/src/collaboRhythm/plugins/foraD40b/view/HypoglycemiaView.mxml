@@ -89,7 +89,7 @@
 			<s:Label id="eatThenRecheckLabel"
 					 text="Please eat something sugary and recheck your blood glucose in 15 minutes." paddingTop="20"
 					 paddingBottom="20"
-					 visible="{_dataInputModel.repeat}" includeInLayout="{!_dataInputModel.repeat}"/>
+					 visible="{_dataInputModel.repeat}" includeInLayout="{_dataInputModel.repeat}"/>
 			<s:Button id="okButton" label="OK" click="recheckButton_clickHandler()"/>
 		</s:VGroup>
 
