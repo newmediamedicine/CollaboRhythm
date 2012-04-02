@@ -4,5 +4,8 @@
     <option name="HEAP_SIZE_MB" value="1024" />
     <option name="VM_OPTIONS" value="-Xms512m -Xmx1024m" />
   </component>
+  <component name="FlexIdeProjectLevelCompilerOptionsHolder">
+    <compiler-options />
+  </component>
 </project>
 

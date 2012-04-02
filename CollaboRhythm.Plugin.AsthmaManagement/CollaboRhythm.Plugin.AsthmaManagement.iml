@@ -1,11 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="Flex" version="4">
-  <component name="Flex.Build.Configuration">
-    <option name="DO_BUILD" value="true" />
-    <option name="MAIN_CLASS" value="collaboRhythm.plugins.asthmaManagement.controller.AsthmaManagementPluginModule" />
-    <option name="OUTPUT_FILE_NAME" value="AsthmaManagementPluginModule" />
-    <option name="TARGET_PLAYER_VERSION" value="11.1" />
-    <option name="VERSION" value="3" />
+  <component name="FlexBuildConfigurationManager" active="CollaboRhythm.Plugin.AsthmaManagement">
+    <configurations>
+      <configuration name="CollaboRhythm.Plugin.AsthmaManagement" target-platform="Desktop" output-type="RuntimeLoadedModule" main-class="collaboRhythm.plugins.asthmaManagement.controller.AsthmaManagementPluginModule" output-file="AsthmaManagementPluginModule.swf" output-folder="$MODULE_DIR$/../out/production/CollaboRhythm.Plugin.AsthmaManagement/bin-debug">
+        <dependencies>
+          <entries>
+            <entry library-id="2fe36d4b-dc31-4108-8795-1f0c5c3b3884">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="e967138a-d536-4b92-91d0-58a12303b748">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared" build-configuration-name="CollaboRhythm.Shared">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.PluginsSupport" build-configuration-name="CollaboRhythm.Shared.PluginsSupport">
+              <dependency linkage="Merged" />
+            </entry>
+          </entries>
+          <sdk name="4.6.0" />
+        </dependencies>
+        <compiler-options />
+        <packaging-air-desktop />
+        <packaging-android />
+        <packaging-ios />
+      </configuration>
+    </configurations>
+    <compiler-options />
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/../out/production/CollaboRhythm.Plugin.AsthmaManagement/bin-debug" />
@@ -14,12 +35,12 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="4.6.0 AIR" jdkType="AIR SDK Type" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" />
     <orderEntry type="module-library">
-      <library>
+      <library type="flex">
+        <properties id="2fe36d4b-dc31-4108-8795-1f0c5c3b3884" />
         <CLASSES>
           <root url="file://$MODULE_DIR$/libs" />
         </CLASSES>
@@ -30,6 +51,7 @@
     </orderEntry>
     <orderEntry type="module-library">
       <library name="libs" type="flex">
+        <properties id="e967138a-d536-4b92-91d0-58a12303b748" />
         <CLASSES>
           <root url="file://$MODULE_DIR$/libs" />
           <root url="file://$MODULE_DIR$/libs" />
@@ -39,6 +61,7 @@
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
+    <orderEntry type="jdk" jdkName="4.6.0" jdkType="__CompositeFlexSdk__" />
   </component>
 </module>
 

@@ -1,11 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="Flex" version="4">
-  <component name="Flex.Build.Configuration">
-    <option name="DO_BUILD" value="true" />
-    <option name="MAIN_CLASS" value="collaboRhythm.plugins.foraD40b.controller.ForaD40bPluginModule" />
-    <option name="OUTPUT_FILE_NAME" value="ForaD40bPluginModule.swf" />
-    <option name="TARGET_PLAYER_VERSION" value="11.1" />
-    <option name="VERSION" value="3" />
+  <component name="FlexBuildConfigurationManager" active="CollaboRhythm.Plugins.ForaD40b">
+    <configurations>
+      <configuration name="CollaboRhythm.Plugins.ForaD40b" target-platform="Desktop" output-type="RuntimeLoadedModule" main-class="collaboRhythm.plugins.foraD40b.controller.ForaD40bPluginModule" output-file="ForaD40bPluginModule.swf" output-folder="$MODULE_DIR$/bin-debug">
+        <dependencies>
+          <entries>
+            <entry module-name="CollaboRhythm.Shared.Model" build-configuration-name="CollaboRhythm.Shared.Model">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="91353508-de89-487f-b61e-f23991ff7852">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="e97385d4-3001-4818-af24-4b146061024f">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="58a43f90-8ca1-41c2-b8f3-12456e80afd3">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared" build-configuration-name="CollaboRhythm.Shared">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.PluginsSupport" build-configuration-name="CollaboRhythm.Shared.PluginsSupport">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Plugins.Schedule.Shared" build-configuration-name="CollaboRhythm.Plugins.Schedule.Shared">
+              <dependency linkage="Merged" />
+            </entry>
+          </entries>
+          <sdk name="4.6.0" />
+        </dependencies>
+        <compiler-options />
+        <packaging-air-desktop />
+        <packaging-android />
+        <packaging-ios />
+      </configuration>
+    </configurations>
+    <compiler-options />
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/bin-debug" />
@@ -14,14 +44,14 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="4.6.0 AIR" jdkType="AIR SDK Type" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" />
     <orderEntry type="module" module-name="CollaboRhythm.Plugins.Schedule.Shared" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" />
     <orderEntry type="module-library">
-      <library>
+      <library type="flex">
+        <properties id="91353508-de89-487f-b61e-f23991ff7852" />
         <CLASSES>
           <root url="jar://$PROJECT_FRAMEWORKS$/themes/Mobile/mobile.swc!/" />
         </CLASSES>
@@ -30,7 +60,8 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library>
+      <library type="flex">
+        <properties id="e97385d4-3001-4818-af24-4b146061024f" />
         <CLASSES>
           <root url="jar://$PROJECT_FRAMEWORKS$/libs/mobile/mobilecomponents.swc!/" />
         </CLASSES>
@@ -40,6 +71,7 @@
     </orderEntry>
     <orderEntry type="module-library">
       <library name="libs" type="flex">
+        <properties id="58a43f90-8ca1-41c2-b8f3-12456e80afd3" />
         <CLASSES>
           <root url="file://$MODULE_DIR$/libs" />
           <root url="file://$MODULE_DIR$/libs" />
@@ -49,6 +81,7 @@
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
+    <orderEntry type="jdk" jdkName="4.6.0" jdkType="__CompositeFlexSdk__" />
   </component>
 </module>
 
