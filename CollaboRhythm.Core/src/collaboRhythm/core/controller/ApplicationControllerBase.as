@@ -186,6 +186,7 @@ package collaboRhythm.core.controller
 			{
 				_logger.info("  Updated " + applicationInfo.appModificationDateString);
 			}
+			_logger.info("  " + applicationInfo.deviceDetails);
 
 			/*
 			 <s:Label id="applicationNameLabel" text="{_applicationInfo.appName}" fontSize="36"/>
