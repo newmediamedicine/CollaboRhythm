@@ -5,7 +5,9 @@
 							xmlns:view="collaboRhythm.tablet.view.*"
 							firstView="collaboRhythm.tablet.view.TabletHomeView"
 							skinClass="collaboRhythm.tablet.view.skins.CollaboRhythmTabletApplicationSkin"
-							creationComplete="creationCompleteHandler(event)">
+							creationComplete="creationCompleteHandler(event)"
+							runtimeDPIProvider="collaboRhythm.tablet.model.EmulatorDpiProvider"
+		>
 	<fx:Style source="defaults.css"/>
 	<fx:Script><![CDATA[
 		import collaboRhythm.core.view.AboutApplicationView;
@@ -32,8 +34,21 @@
 		[Bindable]
 		private var _collaborationController:CollaborationController;
 
+		override protected function invokeHandler(event:InvokeEvent):void
+		{
+			super.invokeHandler(event);
+			if (event.arguments.length > 0)
+			{
+				trace("Arguments: " + event.arguments.concat(" "));
+			}
+		}
+
 		protected function creationCompleteHandler(event:FlexEvent):void
 		{
+			if (actionBar)
+			{
+				activeRecordProfileImage.height = activeRecordProfileImage.width = actionBar.getPreferredBoundsHeight();
+			}
 			this.addEventListener(FlexEvent.MENU_KEY_PRESSED, menuKeyPressedHandler);
 			main();
 		}
@@ -67,7 +82,7 @@
 	<s:navigationContent>
 		<s:HGroup click="navigator.popToFirstView()" includeInLayout="{_applicationController.activeRecordAccount}"
 				  visible="{_applicationController.activeRecordAccount}" verticalAlign="middle">
-			<s:Image source="{_applicationController.activeRecordAccount.imageURI}" height="45" width="45"
+			<s:Image id="activeRecordProfileImage" source="{_applicationController.activeRecordAccount.imageURI}" height="45"
 					 smooth="true"/>
 			<s:VGroup gap="1" paddingTop="3">
 				<s:Label id="activeRecordGivenName"

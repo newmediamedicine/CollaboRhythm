@@ -55,19 +55,38 @@
 
 		.connectivityText {
 			color: #FFFFFF;
-			font-size: 40;
 			lineBreak: "toFit";
 			textAlign: "center";
+		}
+
+		@media (application-dpi: 320) {
+			.connectivityText {
+				font-size: 40;
+			}
+		}
+		@media (application-dpi: 240) {
+			.connectivityText {
+				font-size: 32;
+			}
+		}
+		@media (application-dpi: 160) {
+			.connectivityText {
+				font-size: 24;
+			}
 		}
 
 		.connectivityDetailsText {
 			contentBackgroundAlpha: 0;
 			color: #FFFFFF;
-			font-size: 16;
+			/*font-size: 16;*/
+		}
+
+		s|ToggleButton #showDetailsButton {
+			/* this doesn't appear to work; I'm not sure why */
 		}
 
 		.connectivityButtonText {
-			font-size: 40;
+			/*font-size: 40;*/
 			/* note that padding unfortunately isn't supported by the default skin, so we have to set the size of the button instead
 			paddingTop: 20;
 			paddingBottom: 20;
@@ -222,24 +241,24 @@
 						<view:FlowLayout gap="20"/>
 					</s:layout>
 					<s:ToggleButton id="showDetailsButton"
-									height="60"
+									skinClass="spark.skins.mobile.ButtonSkin"
 									label="{showDetailsButton.selected ? 'Hide Details &lt;&lt;' : 'Show Details &gt;&gt;'}"
 									styleName="connectivityButtonText"/>
 					<s:Button id="retryButton" label="Retry" includeIn="connectFailed, connectionErrorsSaving"
-							  width="180" height="60"
+							  width="180"
 							  styleName="connectivityButtonText" click="retryButton_clickHandler()"/>
 					<s:Button id="quitButton" label="Quit" includeIn="connectFailed, unexpectedErrorsSaving"
 							  styleName="connectivityButtonText"
-							  width="180" height="60"
+							  width="180"
 							  click="quitButton_clickHandler()"/>
 					<s:Button id="ignoreButton" label="Ignore"
 							  includeIn="connectionErrorsSaving, unexpectedErrorsSaving"
 							  styleName="connectivityButtonText"
-							  width="180" height="60"
+							  width="180"
 							  click="ignoreButton_clickHandler()"/>
 					<s:Button id="sendEmail" label="Send E-mail"
 							  styleName="connectivityButtonText"
-							  minWidth="180" height="60"
+							  minWidth="180"
 							  click="sendEmail_clickHandler(event)"
 							  />
 				</s:Group>

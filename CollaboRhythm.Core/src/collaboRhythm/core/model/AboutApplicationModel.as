@@ -3,6 +3,9 @@ package collaboRhythm.core.model
 
 	import flash.desktop.NativeApplication;
 	import flash.filesystem.File;
+	import flash.system.Capabilities;
+
+	import mx.core.FlexGlobals;
 
 	import mx.formatters.DateFormatter;
 
@@ -95,6 +98,13 @@ package collaboRhythm.core.model
 		public function set appModificationDateString(value:String):void
 		{
 			_appModificationDateString = value;
+		}
+
+		public function get deviceDetails():String
+		{
+			var nativeDpiClause:String = Capabilities.screenDPI != FlexGlobals.topLevelApplication.applicationDPI ? " (native " + Capabilities.screenDPI + " DPI)" : "";
+			return "Screen " + Capabilities.screenResolutionX + " x " + Capabilities.screenResolutionY + " at " +
+					FlexGlobals.topLevelApplication.applicationDPI + " DPI" + nativeDpiClause;
 		}
 	}
 }

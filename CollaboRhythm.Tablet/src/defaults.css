@@ -181,7 +181,7 @@ s|ActionBar
 {
 	color: #000000;
 	chromeColor: #E6E7E8;
-	fontSize: 21;
+	/*fontSize: 21;*/
 	textShadowAlpha: 0;
 	textShadowColor: #000000;
 	skinClass: ClassReference("collaboRhythm.tablet.view.skins.TabletActionBarSkin");
@@ -191,7 +191,7 @@ s|ActionBar
 s|ActionBar #titleDisplay
 {
 	color: #000000;
-    fontSize: 21;
+    /*fontSize: 21;*/
     fontWeight: normal;
 }
 
@@ -206,13 +206,39 @@ s|ActionBar s|Button
     fontWeight: "normal";
 }
 
-#activeRecordGivenName
-{
-	fontSize: 16;
+@media (application-dpi: 320) {
+	#activeRecordGivenName
+	{
+		fontSize: 32;
+	}
+
+	#activeRecordFamilyName
+	{
+		fontSize: 44;
+	}
 }
 
-#activeRecordFamilyName
-{
-	fontSize: 22;
+@media (application-dpi: 240) {
+	#activeRecordGivenName
+	{
+		fontSize: 24;
+	}
+
+	#activeRecordFamilyName
+	{
+		fontSize: 33;
+	}
+}
+
+@media (application-dpi: 160) {
+	#activeRecordGivenName
+	{
+		fontSize: 16;
+	}
+
+	#activeRecordFamilyName
+	{
+		fontSize: 22;
+	}
 }
 
