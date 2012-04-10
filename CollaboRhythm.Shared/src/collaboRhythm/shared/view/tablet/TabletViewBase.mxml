@@ -11,6 +11,7 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.shared.controller.IApplicationControllerBase;
 		import collaboRhythm.shared.model.Account;
+		import collaboRhythm.shared.view.MenuIcon;
 
 		import mx.core.FlexGlobals;
 		[Bindable]
@@ -159,13 +160,7 @@
 		<s:Label id="backgroundProgressLabel" text="{tabletApplicationController.backgroundProcessModel.summary}"
 				 visible="{tabletApplicationController.backgroundProcessModel.isRunning}"
 				 includeInLayout="{tabletApplicationController.backgroundProcessModel.isRunning}" paddingLeft="10"/>
-		<s:Button id="menuButton" click="menuButton_clickHandler(event)">
-			<s:icon>
-				<utils:MultiDPIBitmapSource
-						source160dpi="@Embed('/assets/images160dpi/ic_menu_moreoverflow.png')"
-						source240dpi="@Embed('/assets/images240dpi/ic_menu_moreoverflow.png')"
-						source320dpi="@Embed('/assets/images320dpi/ic_menu_moreoverflow.png')"/>
-			</s:icon>
-		</s:Button>
+		<s:Button id="menuButton" click="menuButton_clickHandler(event)" icon="{MenuIcon}"/>
+
 	</s:actionContent>
 </s:View>

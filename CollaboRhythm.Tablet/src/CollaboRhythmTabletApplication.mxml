@@ -7,18 +7,95 @@
 							skinClass="collaboRhythm.tablet.view.skins.CollaboRhythmTabletApplicationSkin"
 							creationComplete="creationCompleteHandler(event)"
 							runtimeDPIProvider="collaboRhythm.tablet.model.EmulatorDpiProvider"
-		>
+							currentState="uninitialized">
+	<s:states>
+		<s:State name="uninitialized"/>
+
+		<s:State name="clinicianTabletHomeViewCollaborationInactive"
+				 stateGroups="clinician, TabletHomeView, CollaborationInactive, clinicianCollaborationInactive"/>
+		<s:State name="clinicianTabletHomeViewCollaborationInvitationSent"
+				 stateGroups="clinician, TabletHomeView, CollaborationInvitationSent"/>
+		<s:State name="clinicianTabletHomeViewCollaborationInvitationReceived"
+				 stateGroups="clinician, TabletHomeView, CollaborationInvitationReceived"/>
+		<s:State name="clinicianTabletHomeViewCollaborationInvitationRejected"
+				 stateGroups="clinician, TabletHomeView, CollaborationInvitationRejected"/>
+		<s:State name="clinicianTabletHomeViewCollaborationActive"
+				 stateGroups="clinician, TabletHomeView, CollaborationActive, TabletHomeViewCollaborationActive"/>
+
+		<s:State name="clinicianCollaborationVideoViewCollaborationInactive"
+				 stateGroups="clinician, CollaborationVideoView, notHome, CollaborationInactive, clinicianCollaborationInactive"/>
+		<s:State name="clinicianCollaborationVideoViewCollaborationInvitationSent"
+				 stateGroups="clinician, CollaborationVideoView, notHome, CollaborationInvitationSent"/>
+		<s:State name="clinicianCollaborationVideoViewCollaborationInvitationReceived"
+				 stateGroups="clinician, CollaborationVideoView, notHome, CollaborationInvitationReceived"/>
+		<s:State name="clinicianCollaborationVideoViewCollaborationInvitationRejected"
+				 stateGroups="clinician, CollaborationVideoView, notHome, CollaborationInvitationRejected"/>
+		<s:State name="clinicianCollaborationVideoViewCollaborationActive"
+				 stateGroups="clinician, CollaborationVideoView, notHome, CollaborationActive"/>
+
+		<s:State name="clinicianOtherCollaborationInactive"
+				 stateGroups="clinician, Other, notHome, CollaborationInactive, clinicianCollaborationInactive"/>
+		<s:State name="clinicianOtherCollaborationInvitationSent"
+				 stateGroups="clinician, Other, notHome, CollaborationInvitationSent"/>
+		<s:State name="clinicianOtherCollaborationInvitationReceived"
+				 stateGroups="clinician, Other, notHome, CollaborationInvitationReceived"/>
+		<s:State name="clinicianOtherCollaborationInvitationRejected"
+				 stateGroups="clinician, Other, notHome, CollaborationInvitationRejected"/>
+		<s:State name="clinicianOtherCollaborationActive"
+				 stateGroups="clinician, Other, notHome, CollaborationActive, OtherCollaborationActive"/>
+
+		<s:State name="patientTabletHomeViewCollaborationInactive"
+				 stateGroups="patient, TabletHomeView, CollaborationInactive, patientCollaborationInactive"/>
+		<s:State name="patientTabletHomeViewCollaborationInvitationSent"
+				 stateGroups="patient, TabletHomeView, CollaborationInvitationSent"/>
+		<s:State name="patientTabletHomeViewCollaborationInvitationReceived"
+				 stateGroups="patient, TabletHomeView, CollaborationInvitationReceived"/>
+		<s:State name="patientTabletHomeViewCollaborationInvitationRejected"
+				 stateGroups="patient, TabletHomeView, CollaborationInvitationRejected"/>
+		<s:State name="patientTabletHomeViewCollaborationActive"
+				 stateGroups="patient, TabletHomeView, CollaborationActive, TabletHomeViewCollaborationActive"/>
+
+		<s:State name="patientCollaborationVideoViewCollaborationInactive"
+				 stateGroups="patient, CollaborationVideoView, notHome, CollaborationInactive, patientCollaborationInactive"/>
+		<s:State name="patientCollaborationVideoViewCollaborationInvitationSent"
+				 stateGroups="patient, CollaborationVideoView, notHome, CollaborationInvitationSent"/>
+		<s:State name="patientCollaborationVideoViewCollaborationInvitationReceived"
+				 stateGroups="patient, CollaborationVideoView, notHome, CollaborationInvitationReceived"/>
+		<s:State name="patientCollaborationVideoViewCollaborationInvitationRejected"
+				 stateGroups="patient, CollaborationVideoView, notHome, CollaborationInvitationRejected"/>
+		<s:State name="patientCollaborationVideoViewCollaborationActive"
+				 stateGroups="patient, CollaborationVideoView, notHome, CollaborationActive"/>
+
+		<s:State name="patientOtherCollaborationInactive"
+				 stateGroups="patient, Other, notHome, CollaborationInactive, patientCollaborationInactive"/>
+		<s:State name="patientOtherCollaborationInvitationSent"
+				 stateGroups="patient, Other, notHome, CollaborationInvitationSent"/>
+		<s:State name="patientOtherCollaborationInvitationReceived"
+				 stateGroups="patient, Other, notHome, CollaborationInvitationReceived"/>
+		<s:State name="patientOtherCollaborationInvitationRejected"
+				 stateGroups="patient, Other, notHome, CollaborationInvitationRejected"/>
+		<s:State name="patientOtherCollaborationActive"
+				 stateGroups="patient, Other, notHome, CollaborationActive, OtherCollaborationActive"/>
+	</s:states>
 	<fx:Style source="defaults.css"/>
 	<fx:Script><![CDATA[
 		import collaboRhythm.core.view.AboutApplicationView;
 		import collaboRhythm.core.view.ConnectivityView;
 		import collaboRhythm.shared.collaboration.controller.CollaborationController;
 		import collaboRhythm.shared.collaboration.model.CollaborationModel;
+		import collaboRhythm.shared.collaboration.view.CollaborationVideoView;
 		import collaboRhythm.shared.model.Account;
-		import collaboRhythm.shared.model.settings.Settings;
+		import collaboRhythm.shared.view.tablet.TabletViewBase;
 		import collaboRhythm.tablet.controller.TabletApplicationController;
+		import collaboRhythm.tablet.view.OfflineIcon;
+		import collaboRhythm.tablet.view.OnlineIcon;
+		import collaboRhythm.tablet.view.CallIcon;
+		import collaboRhythm.tablet.view.EndCallIcon;
 		import collaboRhythm.tablet.view.SelectRecordView;
 		import collaboRhythm.tablet.view.TabletHomeView;
+		import collaboRhythm.tablet.view.VideoIcon;
+
+		import mx.binding.utils.BindingUtils;
 
 		import mx.events.FlexEvent;
 
@@ -50,6 +127,7 @@
 				activeRecordProfileImage.height = activeRecordProfileImage.width = actionBar.getPreferredBoundsHeight();
 			}
 			this.addEventListener(FlexEvent.MENU_KEY_PRESSED, menuKeyPressedHandler);
+
 			main();
 		}
 
@@ -59,6 +137,50 @@
 			_applicationController.main();
 
 			_collaborationController = _applicationController.collaborationController;
+
+			BindingUtils.bindSetter(activeView_changeHandler, navigator, "activeView");
+			BindingUtils.bindSetter(mode_changeHandler, _applicationController.settings, "mode");
+			BindingUtils.bindSetter(collaborationState_changeHandler, _collaborationController.collaborationModel,
+					"collaborationState");
+		}
+
+		private function collaborationState_changeHandler(value:String):void
+		{
+			updateState();
+		}
+
+		private function activeView_changeHandler(value:TabletViewBase):void
+		{
+			updateState();
+		}
+
+		private function mode_changeHandler(value:int):void
+		{
+			updateState();
+		}
+
+		private function updateState():void
+		{
+			if (_applicationController)
+			{
+				var activeView:String;
+
+				if (navigator.activeView as TabletHomeView)
+				{
+					activeView = "TabletHomeView";
+				}
+				else if (navigator.activeView as CollaborationVideoView)
+				{
+					activeView = "CollaborationVideoView";
+				}
+				else
+				{
+					activeView = "Other";
+				}
+
+				currentState = _applicationController.settings.mode + activeView +
+						_collaborationController.collaborationModel.collaborationState;
+			}
 		}
 
 		public function get tabletHomeView():TabletHomeView
@@ -80,27 +202,43 @@
 		}
 		]]></fx:Script>
 	<s:navigationContent>
-		<s:HGroup click="navigator.popToFirstView()" includeInLayout="{_applicationController.activeRecordAccount}"
-				  visible="{_applicationController.activeRecordAccount}" verticalAlign="middle">
-			<s:Image id="activeRecordProfileImage" source="{_applicationController.activeRecordAccount.imageURI}" height="45"
-					 smooth="true"/>
-			<s:VGroup gap="1" paddingTop="3">
-				<s:Label id="activeRecordGivenName"
-						 text="{_applicationController.activeRecordAccount.primaryRecord.contact.givenName}"/>
-				<s:Label id="activeRecordFamilyName"
-						 text="{_applicationController.activeRecordAccount.primaryRecord.contact.familyName}"/>
-			</s:VGroup>
-			<s:Group click="_applicationController.sendCollaborationInvitation()">
-				<view:CallIcon id="callIcon"
-							   includeInLayout="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; _applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE &amp;&amp; _collaborationController.collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INACTIVE}"
-							   visible="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; _applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE &amp;&amp; _collaborationController.collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INACTIVE}"
-							   />
-			</s:Group>
-			<s:Group>
-				<view:EndCallIcon id="endCallIcon"
-								  includeInLayout="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; _collaborationController.collaborationModel.collaborationState != CollaborationModel.COLLABORATION_INACTIVE}"
-								  visible="{_applicationController.settings.mode == Settings.MODE_CLINICIAN &amp;&amp; _collaborationController.collaborationModel.collaborationState != CollaborationModel.COLLABORATION_INACTIVE}"/>
-			</s:Group>
+		<s:HGroup gap="0">
+			<s:HGroup click="navigator.popToFirstView()"
+					  includeInLayout="{_applicationController.activeRecordAccount != null}"
+					  visible="{_applicationController.activeRecordAccount != null}" verticalAlign="middle" gap="0">
+				<view:BackIcon id="backIcon" visible="false" visible.notHome="true"/>
+				<s:Image id="activeRecordProfileImage" source="{_applicationController.activeRecordAccount.imageURI}"
+						 smooth="true"/>
+				<s:VGroup gap="1" paddingTop="3" paddingLeft="5">
+					<s:Label id="activeRecordGivenName"
+							 text="{_applicationController.activeRecordAccount.primaryRecord.contact.givenName}"/>
+					<s:Label id="activeRecordFamilyName"
+							 text="{_applicationController.activeRecordAccount.primaryRecord.contact.familyName}"/>
+				</s:VGroup>
+			</s:HGroup>
+			<s:HGroup gap="0" includeInLayout="{_applicationController.activeRecordAccount != null}"
+					  visible="{_applicationController.activeRecordAccount != null}">
+				<s:Button icon="{VideoIcon}" includeIn="TabletHomeViewCollaborationActive, OtherCollaborationActive"
+						  skinClass="collaboRhythm.tablet.view.skins.TabletTransparentNavigationButtonSkin"
+						  click="_applicationController.showCollaborationVideoView()"/>
+				<s:Button icon="{OnlineIcon}" includeIn="patientCollaborationInactive"
+						  skinClass="collaboRhythm.tablet.view.skins.TabletTransparentNavigationButtonSkin"
+						  includeInLayout="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}"
+						  visible="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}"/>
+				<s:Button icon="{OfflineIcon}"
+						  skinClass="collaboRhythm.tablet.view.skins.TabletTransparentNavigationButtonSkin"
+						  includeInLayout="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_NOT_CONNECTED}"
+						  visible="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_NOT_CONNECTED}"/>
+				<s:Button icon="{CallIcon}" includeIn="clinicianCollaborationInactive"
+						  skinClass="collaboRhythm.tablet.view.skins.TabletTransparentNavigationButtonSkin"
+						  visible="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}"
+						  includeInLayout="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}"
+						  click="_applicationController.sendCollaborationInvitation()"/>
+				<s:Button icon="{EndCallIcon}"
+						  includeIn="CollaborationInvitationReceived, CollaborationInvitationSent, CollaborationActive"
+						  skinClass="collaboRhythm.tablet.view.skins.TabletTransparentNavigationButtonSkin"
+						  includeInLayout="{_applicationController.collaborationController.collaborationModel.collaborationState != CollaborationModel.COLLABORATION_INACTIVE}"/>
+			</s:HGroup>
 		</s:HGroup>
 
 		<!-- Instances of charting components which started causing errors (in plugins which use charts) when we upgraded to Flex SDK 4.6.0 preview -->

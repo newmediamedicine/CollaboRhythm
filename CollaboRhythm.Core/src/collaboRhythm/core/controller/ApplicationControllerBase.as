@@ -88,7 +88,7 @@ package collaboRhythm.core.controller
 		protected var _settingsFileStore:SettingsFileStore;
 		private var _settings:Settings;
 		protected var _hasActiveNetworkInterface:Boolean = false;
-		protected var _activeAccount:Account;
+		private var _activeAccount:Account;
 		private var _activeRecordAccount:Account;
 		protected var _collaborationController:CollaborationController;
 		protected var _logger:ILogger;
@@ -520,6 +520,19 @@ package collaboRhythm.core.controller
 			if (!activeRecordAccount.primaryRecord.isLoading && !activeRecordAccount.primaryRecord.isSaving &&
 					!_pendingExit && !_pendingReloadData)
 				reloadData();
+		}
+
+		public function sendCollaborationInvitation():void
+		{
+			if (_settings.mode == Settings.MODE_CLINICIAN)
+			{
+				_collaborationController.sendCollaborationInvitation(activeRecordAccount, activeRecordAccount);
+			}
+			else if (_settings.mode = Settings.MODE_PATIENT)
+			{
+				_collaborationController.sendCollaborationInvitation(_activeAccount,
+						_activeAccount.allSharingAccounts["jking@records.media.mit.edu"]);
+			}
 		}
 
 		/**
@@ -1326,19 +1339,6 @@ package collaboRhythm.core.controller
 				targetDate = _settings.demoDatePresets[demoPresetIndex];
 		}
 
-		public function sendCollaborationInvitation():void
-		{
-			if (_settings.mode == Settings.MODE_CLINICIAN)
-			{
-				_collaborationController.sendCollaborationInvitation(activeRecordAccount, activeRecordAccount);
-			}
-			else if (_settings.mode = Settings.MODE_PATIENT)
-			{
-				_collaborationController.sendCollaborationInvitation(_activeAccount,
-						_activeAccount.allSharingAccounts["jking@records.media.mit.edu"]);
-			}
-		}
-
 		public function get activeRecordAccount():Account
 		{
 			return _activeRecordAccount;
@@ -1357,6 +1357,16 @@ package collaboRhythm.core.controller
 		public function get iCollaborationController():ICollaborationController
 		{
 			return _collaborationController;
+		}
+
+		public function get activeAccount():Account
+		{
+			return _activeAccount;
+		}
+
+		public function set activeAccount(value:Account):void
+		{
+			_activeAccount = value;
 		}
 	}
 }

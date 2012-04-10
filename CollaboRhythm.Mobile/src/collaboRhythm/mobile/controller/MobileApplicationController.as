@@ -87,7 +87,7 @@ package collaboRhythm.mobile.controller
 																			 settings,
 																			 _componentContainer,
 																			 _collaborationController.collaborationModel.collaborationLobbyNetConnectionService as CollaborationLobbyNetConnectionService);
-			_mobileAppControllersMediator.createMobileApps(_activeAccount, recordAccount);
+			_mobileAppControllersMediator.createMobileApps(activeAccount, recordAccount);
 			initializeActiveView();
 		}
 

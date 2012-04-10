@@ -109,7 +109,7 @@ package collaboRhythm.tablet.controller
 		private function initializeView(view:TabletViewBase):void
 		{
 			view.tabletApplicationController = this;
-			view.activeAccount = _activeAccount;
+			view.activeAccount = activeAccount;
 			view.activeRecordAccount = activeRecordAccount;
 		}
 
@@ -210,7 +210,7 @@ package collaboRhythm.tablet.controller
 						_collaborationController.collaborationModel.collaborationLobbyNetConnectionService as CollaborationLobbyNetConnectionService,
 						this);
 			}
-			_tabletAppControllersMediator.createAndStartApps(_activeAccount, recordAccount);
+			_tabletAppControllersMediator.createAndStartApps(activeAccount, recordAccount);
 		}
 
 		public override function get fullContainer():IVisualElementContainer
@@ -294,6 +294,11 @@ package collaboRhythm.tablet.controller
 		public function get tabletAppControllersMediator():TabletAppControllersMediator
 		{
 			return _tabletAppControllersMediator;
+		}
+
+		public function showCollaborationVideoView():void
+		{
+			navigator.pushView(CollaborationVideoView);
 		}
 	}
 }

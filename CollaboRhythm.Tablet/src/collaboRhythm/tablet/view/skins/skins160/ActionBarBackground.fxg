@@ -16,11 +16,31 @@
   - <http://www.gnu.org/licenses/>.
   -->
 <Graphic version="2.0" xmlns="http://ns.adobe.com/fxg/2008"
-    scaleGridLeft="1" scaleGridTop="2" scaleGridRight="64" scaleGridBottom="42">
+		 scaleGridLeft="1" scaleGridTop="2" scaleGridRight="64" scaleGridBottom="42">
 
-    <Rect x="0" y="45" width="65" height="1">
-        <fill>
-            <SolidColor color="#D1D3D4"/>
-        </fill>
-    </Rect>
+	<!-- fill -->
+	<Rect x="0" y="0" width="65" height="47">
+		<fill>
+			<SolidColor color="#222222"/>
+		</fill>
+	</Rect>
+	<!-- border top -->
+	<Rect x="0" y="0" width="65" height="1">
+		<fill>
+			<SolidColor color="#303030"/>
+		</fill>
+	</Rect>
+	<!-- border bottom -->
+	<Rect x="0" y="47" width="65" height="1">
+		<fill>
+			<SolidColor color="#303030"/>
+		</fill>
+	</Rect>
+
+	<!-- invisible fix for scaling -->
+	<Rect x="0" y="0" width="65" height="48">
+		<fill>
+			<SolidColor color="#ffffff" alpha="0"/>
+		</fill>
+	</Rect>
 </Graphic>
