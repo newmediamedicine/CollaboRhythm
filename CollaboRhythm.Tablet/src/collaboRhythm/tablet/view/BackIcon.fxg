@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Graphic version="2.0" viewHeight="18" viewWidth="8" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+<Graphic version="2.0" viewHeight="18" viewWidth="10" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
   <Library/>
-  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="18" d:pageWidth="8" d:type="layer" d:userLabel="Artboard 1">
+  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="18" d:pageWidth="10" d:type="layer" d:userLabel="Artboard 1">
     <Group ai:objID="163bff80" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
-      <Path x="2" y="1" winding="nonZero" ai:objID="16870c80" ai:seqID="3" data="M3.5 0 0 8 3.5 16">
+      <Path x="2" y="1" winding="nonZero" ai:objID="288d7500" ai:seqID="3" data="M4.5 0 0 8 4.5 16">
         <stroke>
           <SolidColorStroke weight="3" caps="none" joints="miter" miterLimit="10" color="#919191"/>
         </stroke>
@@ -24,7 +24,7 @@
           <ai:Dict/>
         </ai:AutoGenImageList>
       </ai:PrivateElement>
-      <ai:PrivateElement flm:hashcode="5FCCF8023FC284FF5500B88ACA96B480" d:ref="#2">
+      <ai:PrivateElement flm:hashcode="11CA3D90036DE532756D69F1AE55D1CE" d:ref="#2">
         <ai:LayerOptions color="5 79.31 257 128.502"/>
       </ai:PrivateElement>
     </Private>

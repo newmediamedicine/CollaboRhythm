@@ -25,7 +25,6 @@ package collaboRhythm.shared.collaboration.model
 	import flash.events.NetStatusEvent;
 	import flash.events.SecurityErrorEvent;
 	import flash.events.TimerEvent;
-	import flash.media.Camera;
 	import flash.net.NetConnection;
 	import flash.net.NetStream;
 	import flash.net.Responder;
@@ -51,31 +50,31 @@ package collaboRhythm.shared.collaboration.model
 		public static const REJECT:String = "reject";
 		public static const CANCEL:String = "cancel";
 		public static const END:String = "end";
+		public static const SYNCHRONIZE:String = "synchronize";
 
 		private const COLLABORATION_LOBBY:String = "Collaboration Lobby";
-
 		private const NETCONNECTION_STATUS_CALL_FAILED:String = "NetConnection.Call.Failed";
 		private const NETCONNECTION_STATUS_CONNECT_APPSHUTDOWN:String = "NetConnection.Connect.AppShutdown";
 		private const NETCONNECTION_STATUS_CONNECT_CLOSED:String = "NetConnection.Connect.Closed";
 		private const NETCONNECTION_STATUS_CONNECT_FAILED:String = "NetConnection.Connect.Failed";
 		private const NETCONNECTION_STATUS_CONNECT_REJECTED:String = "NetConnection.Connect.Rejected";
-		private const NETCONNECTION_STATUS_CONNECT_SUCCESS:String = "NetConnection.Connect.Success";
 
+		private const NETCONNECTION_STATUS_CONNECT_SUCCESS:String = "NetConnection.Connect.Success";
 		private var _activeAccount:Account;
 		private var _collaborationModel:CollaborationModel;
+
 		private var _rtmpURI:String;
-
 		private const MAX_FAILED_ATTEMPTS:int = 3;
-		private var _failedAttempts:uint = 0;
 
+		private var _failedAttempts:uint = 0;
 		private var _automaticRetryEnabled:Boolean = true;
 		private var _isConnecting:Boolean = false;
 		private var _hasConnectionFailed:Boolean = false;
 		private var _isConnected:Boolean = false;
+
 		private var _netConnection:NetConnection;
 
 		private var _logger:ILogger;
-
 		private var _retryConnectionTimer:Timer;
 		private var _netStreamOut:NetStream;
 		private var _netStreamIn:NetStream;
@@ -227,16 +226,16 @@ package collaboRhythm.shared.collaboration.model
 			_netConnection.close();
 		}
 
-		public function sendMessage(messageType:String, subjectAccountId:String, sourceAccountId:String,
-									sourcePeerId:String, targetAccountId:String, targetPeerId:String,
-									passWord:String):void
+		public function sendMessage(messageType:String, method:String = null):void
 		{
-			_netConnection.call("sendMessage", null, messageType, subjectAccountId, sourceAccountId, sourcePeerId,
-					targetAccountId, targetPeerId, passWord);
+			_netConnection.call("sendMessage", null, messageType, _activeAccount.accountId, _activeAccount.accountId,
+					_activeAccount.peerId,
+					_collaborationModel.peerAccount.accountId, _collaborationModel.peerAccount.peerId,
+					_collaborationModel.passWord, method);
 		}
 
 		public function receiveMessage(messageType:String, subjectAccountId:String, sourceAccountId:String,
-									   sourcePeerId:String, passWord:String):void
+									   sourcePeerId:String, passWord:String, method:String):void
 		{
 			var eventType:String;
 			switch (messageType)
@@ -256,10 +255,13 @@ package collaboRhythm.shared.collaboration.model
 				case END:
 					eventType = CollaborationEvent.COLLABORATION_ENDED;
 					break;
+				case SYNCHRONIZE:
+					eventType = CollaborationEvent.SYNCHRONIZE;
+					break;
 			}
 
 			var collaborationEvent:CollaborationEvent = new CollaborationEvent(eventType,
-					subjectAccountId, sourceAccountId, sourcePeerId, passWord);
+					subjectAccountId, sourceAccountId, sourcePeerId, passWord, method);
 			dispatchEvent(collaborationEvent);
 		}
 
@@ -270,7 +272,6 @@ package collaboRhythm.shared.collaboration.model
 			netStreamOut.publish(_activeAccount.accountId, "live");
 
 			netStreamOut.attachAudio(_collaborationModel.audioVideoOutput.microphone);
-			netStreamOut.attachCamera(_collaborationModel.audioVideoOutput.camera);
 
 			netStreamIn = new NetStream(_netConnection, _collaborationModel.peerAccount.peerId);
 			netStreamIn.addEventListener(NetStatusEvent.NET_STATUS, netStreamIn_netStatusHandler);

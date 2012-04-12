@@ -496,7 +496,7 @@ package collaboRhythm.core.controller
 			_collaborationController = new CollaborationController(_activeAccount, collaborationView, _settings);
 			_collaborationLobbyNetConnectionService = _collaborationController.collaborationModel.collaborationLobbyNetConnectionService as CollaborationLobbyNetConnectionService;
 			_collaborationController.addEventListener(CollaborationLobbyNetConnectionEvent.SYNCHRONIZE,
-					synchronizeHandler);
+					synchronizeDataHandler);
 			_collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_RECEIVED,
 					collaborationInvitationReceived_eventHandler);
 			_collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_ACCEPTED,
@@ -515,7 +515,7 @@ package collaboRhythm.core.controller
 				collaborationView.init(_collaborationController);
 		}
 
-		private function synchronizeHandler(event:CollaborationLobbyNetConnectionEvent):void
+		protected function synchronizeDataHandler(event:CollaborationLobbyNetConnectionEvent):void
 		{
 			if (!activeRecordAccount.primaryRecord.isLoading && !activeRecordAccount.primaryRecord.isSaving &&
 					!_pendingExit && !_pendingReloadData)

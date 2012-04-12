@@ -72,11 +72,6 @@
 				itemRenderer="collaboRhythm.shared.view.SharedRecordItemRenderer"
 				change="sharedRecordsList_changeHandler()"
 				interactionMode="touch"/>
-		<s:Line width="100%">
-			<s:stroke>
-				<s:SolidColorStroke color="0x000000"/>
-			</s:stroke>
-		</s:Line>
 		<s:Line right="0" height="100%">
 			<s:stroke>
 				<s:SolidColorStroke color="0x000000"/>

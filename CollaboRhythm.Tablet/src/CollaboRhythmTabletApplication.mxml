@@ -82,6 +82,8 @@
 		import collaboRhythm.core.view.AboutApplicationView;
 		import collaboRhythm.core.view.ConnectivityView;
 		import collaboRhythm.shared.collaboration.controller.CollaborationController;
+		import collaboRhythm.shared.collaboration.controller.CollaborationEvent;
+		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
 		import collaboRhythm.shared.collaboration.model.CollaborationModel;
 		import collaboRhythm.shared.collaboration.view.CollaborationVideoView;
 		import collaboRhythm.shared.model.Account;
@@ -138,10 +140,21 @@
 
 			_collaborationController = _applicationController.collaborationController;
 
+			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.SYNCHRONIZE,
+					synchronizeHandler);
+
 			BindingUtils.bindSetter(activeView_changeHandler, navigator, "activeView");
 			BindingUtils.bindSetter(mode_changeHandler, _applicationController.settings, "mode");
 			BindingUtils.bindSetter(collaborationState_changeHandler, _collaborationController.collaborationModel,
 					"collaborationState");
+		}
+
+		private function synchronizeHandler(event:CollaborationEvent):void
+		{
+			if (event.method == "navigateHome")
+			{
+				navigateHome("remote");
+			}
 		}
 
 		private function collaborationState_changeHandler(value:String):void
@@ -200,10 +213,20 @@
 		{
 			return navigator.activeView as SelectRecordView;
 		}
+
+		private function navigateHome(source:String):void
+		{
+			if (source == "local")
+			{
+				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.SYNCHRONIZE,
+						"navigateHome");
+			}
+			navigator.popToFirstView()
+		}
 		]]></fx:Script>
 	<s:navigationContent>
 		<s:HGroup gap="0">
-			<s:HGroup click="navigator.popToFirstView()"
+			<s:HGroup click="navigateHome('local')"
 					  includeInLayout="{_applicationController.activeRecordAccount != null}"
 					  visible="{_applicationController.activeRecordAccount != null}" verticalAlign="middle" gap="0">
 				<view:BackIcon id="backIcon" visible="false" visible.notHome="true"/>
@@ -220,7 +243,7 @@
 					  visible="{_applicationController.activeRecordAccount != null}">
 				<s:Button icon="{VideoIcon}" includeIn="TabletHomeViewCollaborationActive, OtherCollaborationActive"
 						  skinClass="collaboRhythm.tablet.view.skins.TabletTransparentNavigationButtonSkin"
-						  click="_applicationController.showCollaborationVideoView()"/>
+						  click="_applicationController.showCollaborationVideoView('local')"/>
 				<s:Button icon="{OnlineIcon}" includeIn="patientCollaborationInactive"
 						  skinClass="collaboRhythm.tablet.view.skins.TabletTransparentNavigationButtonSkin"
 						  includeInLayout="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}"
