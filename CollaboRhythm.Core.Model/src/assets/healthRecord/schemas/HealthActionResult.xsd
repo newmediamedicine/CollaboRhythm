@@ -53,13 +53,23 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="actions" type="indivo:actions" minOccurs="1" maxOccurs="1">
+			<xs:element name="actions" minOccurs="1" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation xml:lang="en">List of the actions of the Health Action Result. This can contain one or more
 						ActionsResult of the type ActionGroupsResult or ActionStepsResult. It generates a tree data structure were the leafs are
 						represented by ActionStepsResult, and the internal nodes are represented by ActionGroupsResult. Required
 					</xs:documentation>
 				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="action" type="indivo:ActionResult" minOccurs="1" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Instance of an action of the type ActionGroupResult or ActionStepResult. Required
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
@@ -91,7 +101,7 @@
 		<xs:complexContent>
 			<xs:extension base="indivo:ActionResult">
 				<xs:sequence>
-					<xs:element name="actions" type="indivo:ActionResult" minOccurs="0" maxOccurs="unbounded" >
+					<xs:element name="actions" minOccurs="0" maxOccurs="unbounded" >
 						<xs:annotation>
 							<xs:documentation xml:lang="en">List of the ActionResults of this ActionGroupResult.
 								This can contain one or more actions of the type ActionGroupResult or ActionStepResult.
@@ -99,6 +109,16 @@
 								and the branches are represented by ActionGroupResult. Required
 							</xs:documentation>
 						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="action" type="indivo:ActionResult" minOccurs="1" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">Instance of an action of the type ActionGroupResult or ActionStepResult. Required
+										</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
 					</xs:element>
 				</xs:sequence>
 			</xs:extension>
@@ -125,17 +145,6 @@
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
-	</xs:complexType>
-
-	<xs:complexType name="actions">
-		<xs:sequence>
-			<xs:element name="action" type="indivo:ActionResult" minOccurs="1" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation xml:lang="en">Instance of an action of the type ActionGroupResult or ActionStepResult. Required
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="measurements">
@@ -214,7 +223,7 @@
 
 	<xs:complexType name="medicationAdministrations">
 		<xs:sequence>
-			<xs:element name="medicationAdministration" minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="medicationAdministration" minOccurs="0" maxOccurs="unbounded">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">

@@ -22,7 +22,7 @@
 	<datePlanned>2009-05-16T12:51:00-04:00</datePlanned>
 	<dateExpires>2009-05-16T12:51:00-04:00</dateExpires>
 	<indication>blood pressure measurementPlans protocol</indication> <!-- optional. allows you to specify that this plan has an specific indication -->
-	<instructions>Put on the blod pressure monitor and Follow the protocol</instructions>
+	<instructions>Put on the blood pressure monitor and Follow the protocol</instructions>
 	<system type="http://system.repository.coded.values/" value="1">CollaboRhythm</system>
 	
 	<actions>	
