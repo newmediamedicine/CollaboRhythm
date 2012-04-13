@@ -88,7 +88,7 @@
 				image.top = 10;
 				image.bottom = 10;
 				image.smooth = true;
-				imageRegion.addElement(image);
+				imageGroup.addElement(image);
 
 				additionalInformationLabel.visible = scheduleItemOccurrenceReportingModel.healthActionInputController;
 
@@ -109,11 +109,11 @@
 		]]>
     </fx:Script>
 
-	<s:Group id="imageRegion" width="{this.height}" height="100%">
+	<s:Group id="imageGroup" width="{this.height}" height="{this.height}">
 
 	</s:Group>
 
-	<s:Group id="descriptionRegion" height="100%" left="{imageRegion.width}" right="{buttonRegion.width}">
+	<s:Group id="descriptionGroup" height="100%" left="{imageGroup.width}" right="{buttonGroup.width}">
 		<s:VGroup left="10" right="10" top="10" bottom="10" gap="1">
 			<s:Label id="nameLabel" maxDisplayedLines="1" width="100%"/>
 			<s:Label id="descriptionLabel" paddingTop="2" maxDisplayedLines="1" width="100%"/>
@@ -122,7 +122,7 @@
 		</s:VGroup>
 	</s:Group>
 
-	<s:Group id="buttonRegion" right="5" height="100%">
+	<s:Group id="buttonGroup" right="5" height="100%">
 		<view:AdherenceCheckBox width="50" height="50" verticalCenter="0"
 								skinClass="collaboRhythm.plugins.schedule.view.AdherenceCheckBoxSkin"
 								selected="{_scheduleItemOccurrence.adherenceItem != null}"

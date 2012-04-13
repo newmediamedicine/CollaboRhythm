@@ -84,24 +84,6 @@
 			actionContent.unshift(doneButton);
 		}
 
-		private function bloodGlucoseResult_focusInHandler():void
-		{
-			var globalPoint:Point = bloodGlucoseGroup.localToGlobal(new Point(bloodGlucose.x +
-					bloodGlucose.width + NUMBER_PAD_GAP,
-					bloodGlucose.y + bloodGlucose.height - numberPad.height));
-			showNumberPad(globalPoint, bloodGlucose);
-		}
-
-		private function showNumberPad(globalPoint:Point, textInput:TextInput):void
-		{
-			var localPoint:Point = this.globalToLocal(globalPoint);
-			numberPad.x = localPoint.x;
-			numberPad.y = localPoint.y;
-			numberPad.visible = true;
-			numberPad.setFocus();
-			numberPad.textInput = textInput;
-		}
-
 		private function doneButton_clickHandler():void
 		{
 			_dataInputController.submitBloodGlucose();
@@ -114,8 +96,8 @@
 					 text="If you use the FORA D40b, the result will be automatically entered below."/>
 			<s:HGroup id="bloodGlucoseGroup" gap="15" paddingTop="20">
 				<s:TextInput id="bloodGlucose" width="240" height="130"
-							 skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
-							 textAlign="right" restrict="0-9" maxChars="3" focusIn="bloodGlucoseResult_focusInHandler()"
+							 skinClass="spark.skins.mobile.StageTextInputSkin" styleName="textInputText"
+							 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number"
 							 text="@{_dataInputModel.bloodGlucose}"/>
 				<s:Group height="100%">
 					<s:Label text="mg/dL" verticalCenter="0" styleName="reportingLabelsText"/>

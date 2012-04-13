@@ -21,6 +21,19 @@
 		xmlns:view="collaboRhythm.shared.view.*"
 		width="100%"
 		height="120">
+	<fx:Style>
+		#fullNameLabel {
+			font-size: 28;
+		}
+
+		#demographicsText {
+			font-size: 18;
+		}
+
+		#problemsText {
+			font-size: 21;
+		}
+	</fx:Style>
 	<fx:Script>
 		<![CDATA[
 		import collaboRhythm.shared.model.Account;
@@ -40,7 +53,7 @@
 			// TODO: determine why this gets called twice when the status is changed once
 			super.data = value;
 			_recordAccount = Account(value);
-			recordInformationView.init(_recordAccount);
+			accountImage.source = _recordAccount.imageURI;
 
 			if (_recordAccount != null)
 			{
@@ -84,22 +97,61 @@
 		]]>
 	</fx:Script>
 
-	<view:RecordInformationView id="recordInformationView"/>
+	<s:HGroup id="imageGroup" gap="0">
+		<s:Image id="accountImage" height="{this.height}" width="{this.height}" smooth="true"/>
+		<s:Line height="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="#000000"/>
+			</s:stroke>
+		</s:Line>
+	</s:HGroup>
 
-	<s:RichText id="problems" fontSize="20" verticalAlign="bottom" bottom="2" height="42" left="145" right="2"
-				lineHeight="20">
-		<s:textFlow>
-			<s:TextFlow>
-				<s:p id="problemsParagraph" color="0x000066">
-					<s:span>Problem 1</s:span>
-					<s:span color="{SEPARATOR_COLOR}">|</s:span>
-					<s:span>Problem 2</s:span>
-					<s:span color="{SEPARATOR_COLOR}">|</s:span>
-					<s:span>Problem 3</s:span>
-				</s:p>
-			</s:TextFlow>
-		</s:textFlow>
-	</s:RichText>
+	<s:Group id="descriptionGroup" height="100%" left="{imageGroup.width}" right="{statusGroup.width}">
+		<s:VGroup left="10" right="10" top="10" gap="1">
+			<s:Label id="fullNameLabel" text="{_recordAccount.primaryRecord.contact.fullName}" maxDisplayedLines="1"
+					 width="100%" paddingLeft="1"/>
+			<s:RichText id="demographicsText" maxDisplayedLines="1" width="100%">
+				<s:textFlow>
+					<s:TextFlow>
+						<s:p>
+							<s:span text="{_recordAccount.primaryRecord.demographics.age}"/>
+							<s:span color="{SEPARATOR_COLOR}">|</s:span>
+							<s:span text="{_recordAccount.primaryRecord.demographics.ethnicity}"/>
+							<s:span color="{SEPARATOR_COLOR}">|</s:span>
+							<s:span text="{_recordAccount.primaryRecord.demographics.gender}"/>
+						</s:p>
+					</s:TextFlow>
+				</s:textFlow>
+			</s:RichText>
+		</s:VGroup>
+		<s:Group left="10" right="10" bottom="20">
+			<s:RichText id="problemsText" maxDisplayedLines="1" width="100%">
+				<s:textFlow>
+					<s:TextFlow>
+						<s:p id="problemsParagraph">
+							<s:span>Problem 1</s:span>
+							<s:span color="{SEPARATOR_COLOR}">|</s:span>
+							<s:span>Problem 2</s:span>
+							<s:span color="{SEPARATOR_COLOR}">|</s:span>
+							<s:span>Problem 3</s:span>
+						</s:p>
+					</s:TextFlow>
+				</s:textFlow>
+			</s:RichText>
+		</s:Group>
+	</s:Group>
+
+	<s:Group id="statusGroup" height="{this.height}" width="{this.height}" right="0">
+		<view:OnlineIcon width="{this.height * (5/12)}" height="{this.height * (5/12)}" verticalCenter="0"
+						 horizontalCenter="0"
+						 visible="{_recordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}"/>
+		<view:OfflineIcon width="{this.height * (5/12)}" height="{this.height * (5/12)}" verticalCenter="0"
+						  horizontalCenter="0"
+						  visible="{_recordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_NOT_CONNECTED}"/>
+		<view:AwayIcon width="{this.height * (5/12)}" height="{this.height * (5/12)}" verticalCenter="0"
+					   horizontalCenter="0"
+					   visible="{_recordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AWAY}"/>
+	</s:Group>
 
 	<s:Line left="0" right="0" bottom="0">
 		<s:stroke>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!---
+  - Copyright 2012 John Moore, Scott Gilroy
+  -
+  - This file is part of CollaboRhythm.
+  -
+  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  - version.
+  -
+  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  - details.
+  -
+  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  - <http://www.gnu.org/licenses/>.
+  -->
+<Graphic version="2.0" xmlns="http://ns.adobe.com/fxg/2008"
+		 scaleGridLeft="2" scaleGridTop="3" scaleGridRight="88" scaleGridBottom="61">
+
+	<!-- fill -->
+	<Rect x="0" y="0" width="90" height="69">
+		<fill>
+			<SolidColor color="#222222"/>
+		</fill>
+	</Rect>
+	<!-- border top -->
+	<Rect x="0" y="0" width="90" height="2">
+		<fill>
+			<SolidColor color="#303030"/>
+		</fill>
+	</Rect>
+	<!-- border bottom -->
+	<Rect x="0" y="69" width="90" height="2">
+		<fill>
+			<SolidColor color="#303030"/>
+		</fill>
+	</Rect>
+
+	<!-- invisible fix for scaling -->
+	<Rect x="0" y="0" width="90" height="70">
+		<fill>
+			<SolidColor color="#ffffff" alpha="0"/>
+		</fill>
+	</Rect>
+</Graphic>

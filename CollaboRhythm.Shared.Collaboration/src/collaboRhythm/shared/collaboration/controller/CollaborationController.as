@@ -66,7 +66,6 @@ package collaboRhythm.shared.collaboration.controller
 			_activeAccount = activeAccount;
 			_settings = settings;
 			_collaborationModel = new CollaborationModel(settings, _activeAccount);
-			_collaborationModel.addEventListener(CollaborationLobbyNetConnectionEvent.SYNCHRONIZE, synchronizeHandler);
 			_collaborationView = collaborationView;
 //				_collaborationRoomView.addEventListener(CollaborationEvent.LOCAL_USER_JOINED_COLLABORATION_ROOM_ANIMATION_COMPLETE, localUserJoinedCollaborationRoomAnimationCompleteHandler);
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
@@ -121,8 +120,7 @@ package collaboRhythm.shared.collaboration.controller
 			_collaborationModel.peerAccount = targetAccount;
 			_collaborationModel.passWord = String(Math.round(Math.random() * 10000));
 			_collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.INVITE,
-					_collaborationModel.subjectAccount.accountId, _activeAccount.accountId, _activeAccount.peerId,
-					_collaborationModel.peerAccount.accountId, null, _collaborationModel.passWord);
+					null);
 			_collaborationModel.collaborationState = CollaborationModel.COLLABORATION_INVITATION_SENT;
 		}
 
@@ -146,9 +144,7 @@ package collaboRhythm.shared.collaboration.controller
 		public function sendCollaborationInvitationAccepted():void
 		{
 			_collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.ACCEPT,
-					_collaborationModel.subjectAccount.accountId, _activeAccount.accountId, _activeAccount.peerId,
-					_collaborationModel.peerAccount.accountId, _collaborationModel.peerAccount.peerId,
-					_collaborationModel.passWord);
+					null);
 			_collaborationModel.collaborationState = CollaborationModel.COLLABORATION_ACTIVE;
 			_collaborationModel.collaborationLobbyNetConnectionService.createCommunicationConnection();
 		}
@@ -172,9 +168,7 @@ package collaboRhythm.shared.collaboration.controller
 		{
 			popCollaborationVideoView();
 			_collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.REJECT,
-					_collaborationModel.subjectAccount.accountId, _activeAccount.accountId, _activeAccount.peerId,
-					_collaborationModel.peerAccount.accountId, _collaborationModel.peerAccount.peerId,
-					_collaborationModel.passWord);
+					null);
 			_collaborationModel.collaborationState = CollaborationModel.COLLABORATION_INACTIVE;
 		}
 
@@ -205,9 +199,7 @@ package collaboRhythm.shared.collaboration.controller
 		{
 			popCollaborationVideoView();
 			_collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.CANCEL,
-					_collaborationModel.subjectAccount.accountId, _activeAccount.accountId, _activeAccount.peerId,
-					_collaborationModel.peerAccount.accountId, _collaborationModel.peerAccount.peerId,
-					_collaborationModel.passWord);
+					null);
 			_collaborationModel.collaborationState = CollaborationModel.COLLABORATION_INACTIVE;
 		}
 
@@ -229,9 +221,7 @@ package collaboRhythm.shared.collaboration.controller
 		{
 			popCollaborationVideoView();
 			_collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.END,
-					_activeAccount.accountId, _activeAccount.accountId, _activeAccount.peerId,
-					_collaborationModel.peerAccount.accountId, _collaborationModel.peerAccount.peerId,
-					_collaborationModel.passWord);
+					null);
 			_collaborationModel.endCollaboration();
 		}
 

@@ -290,7 +290,7 @@ package collaboRhythm.workstation.controller
 
             _fullContainer = _activeRecordView.fullViewGroup;
             _appControllersMediator = new WorkstationAppControllersMediator(widgetContainers, _fullContainer, settings, _componentContainer, _collaborationController.collaborationModel.collaborationLobbyNetConnectionService as CollaborationLobbyNetConnectionService);
-            _appControllersMediator.createAndStartApps(_activeAccount, recordAccount);
+            _appControllersMediator.createAndStartApps(activeAccount, recordAccount);
 
             if (_reloadWithFullView != null)
             {

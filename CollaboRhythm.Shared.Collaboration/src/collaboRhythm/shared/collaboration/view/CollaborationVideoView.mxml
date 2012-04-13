@@ -18,7 +18,8 @@
 <tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
-					   xmlns:tablet="collaboRhythm.shared.view.tablet.*">
+					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+						remove="removeHandler()">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 
@@ -61,6 +62,8 @@
 				video.attachNetStream(netStreamIn);
 				videoDisplay.addChild(video);
 
+				_collaborationLobbyNetConnectionService.netStreamOut.attachCamera(_collaborationModel.audioVideoOutput.camera);
+
 				var videoOut:Video = new Video();
 				videoOut.height = 120;
 				videoOut.width = 160;
@@ -69,6 +72,14 @@
 				return true;
 			}
 			return false;
+		}
+
+		private function removeHandler():void
+		{
+			if (_collaborationLobbyNetConnectionService.netStreamOut)
+			{
+				_collaborationLobbyNetConnectionService.netStreamOut.attachCamera(null);
+			}
 		}
 
 		private function handleMetaData(metaData:Object):void

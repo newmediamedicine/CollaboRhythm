@@ -82,40 +82,6 @@
 			actionContent.unshift(doneButton);
 		}
 
-		private function systolicResult_focusInHandler():void
-		{
-			var globalPoint:Point = systolicResultGroup.localToGlobal(new Point(systolic.x +
-					systolic.width + NUMBER_PAD_GAP,
-					systolic.y + systolic.height - numberPad.height));
-			showNumberPad(globalPoint, systolic);
-		}
-
-		private function diastolicResult_focusInHandler():void
-		{
-			var globalPoint:Point = diastolicResultGroup.localToGlobal(new Point(diastolic.x +
-					diastolic.width + NUMBER_PAD_GAP,
-					diastolic.y + diastolic.height - numberPad.height));
-			showNumberPad(globalPoint, diastolic);
-		}
-
-		private function heartRateResult_focusInHandler():void
-		{
-			var globalPoint:Point = heartRateResultGroup.localToGlobal(new Point(heartRate.x +
-					heartRate.width - numberPad.width,
-					heartRate.y - numberPad.height - NUMBER_PAD_GAP));
-			showNumberPad(globalPoint, heartRate);
-		}
-
-		private function showNumberPad(globalPoint:Point, textInput:TextInput):void
-		{
-			var localPoint:Point = this.globalToLocal(globalPoint);
-			numberPad.x = localPoint.x;
-			numberPad.y = localPoint.y;
-			numberPad.visible = true;
-			numberPad.setFocus();
-			numberPad.textInput = textInput;
-		}
-
 		private function doneButton_clickHandler():void
 		{
 			_dataInputController.submitBloodPressure(positionDropDownList.selectedItem, siteDropDownList.selectedItem);
@@ -145,8 +111,8 @@
 				<!--TODO: Determine why the font size from the style is not working-->
 				<s:Label id="systolicLabel" text="SYS" width="65" styleName="reportingLabelsText" fontSize="40"/>
 				<s:TextInput id="systolic" width="240" height="130"
-							 skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
-							 textAlign="right" restrict="0-9" maxChars="3" focusIn="systolicResult_focusInHandler()"
+							 skinClass="spark.skins.mobile.StageTextInputSkin" styleName="textInputText"
+							 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number"
 							 text="@{_dataInputModel.systolic}"/>
 				<s:Group height="100%">
 					<s:Label text="mmHg" verticalCenter="0" styleName="reportingLabelsText"/>
@@ -157,16 +123,16 @@
 			<s:HGroup id="diastolicResultGroup" gap="15" left="0">
 				<s:Label id="diastolicLabel" text="DIA" width="65" styleName="reportingLabelsText"/>
 				<s:TextInput id="diastolic" width="240" height="130"
-							 skinClass="spark.skins.spark.TextInputSkin" styleName="textInputText"
-							 textAlign="right" restrict="0-9" maxChars="3" focusIn="diastolicResult_focusInHandler()"
+							 skinClass="spark.skins.mobile.StageTextInputSkin" styleName="textInputText"
+							 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number"
 							 text="@{_dataInputModel.diastolic}"/>
 			</s:HGroup>
 		</s:Group>
 		<s:Group width="100%">
 			<s:VGroup id="heartRateResultGroup" right="0">
 				<s:TextInput id="heartRate" width="200" height="95"
-							 skinClass="spark.skins.spark.TextInputSkin"
-							 textAlign="center" restrict="0-9" maxChars="3" focusIn="heartRateResult_focusInHandler()"
+							 skinClass="spark.skins.mobile.StageTextInputSkin"
+							 textAlign="center" restrict="0-9" maxChars="3" softKeyboardType="number"
 							 text="@{_dataInputModel.heartRate}"/>
 				<s:Label text="Beats/min" styleName="reportingLabelsText"/>
 			</s:VGroup>
