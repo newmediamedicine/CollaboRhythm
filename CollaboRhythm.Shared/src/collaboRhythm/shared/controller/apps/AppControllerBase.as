@@ -974,6 +974,7 @@ package collaboRhythm.shared.controller.apps
 
 		protected function takeFullViewSnapshot():void
 		{
+			_logger.debug("takeFullViewSnapshot " + fullView.className);
 			centerSpaceTransitionComponent = BitmapCopyComponent.createFromComponent(fullView);
 		}
 
@@ -1149,10 +1150,28 @@ package collaboRhythm.shared.controller.apps
 
 		private function fullView_updateCompleteHandler(event:FlexEvent):void
 		{
-			takeFullViewSnapshot();
-			removeFromParent(fullView);
-			fullView.visible = false;
-			fullView.removeEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler);
+			if (doneUpdating(fullView))
+			{
+				takeFullViewSnapshot();
+				removeFromParent(fullView);
+				fullView.visible = false;
+				fullView.removeEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler);
+			}
+		}
+
+		private function doneUpdating(fullView:UIComponent):Boolean
+		{
+			if (fullView == null)
+				return false;
+
+			if (fullView.hasOwnProperty("doneUpdating"))
+			{
+				return fullView["doneUpdating"];
+			}
+			else
+			{
+				return true;
+			}
 		}
 
 		protected function get shouldPreCreateFullView():Boolean
