@@ -84,13 +84,23 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="actions" type="indivo:actions" minOccurs="1" maxOccurs="1">
+			<xs:element name="actions"  minOccurs="1" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation xml:lang="en">List of the actions of the Health Action Plan. This can contain one or more
 						actions of the type ActionGroups or ActionSteps. It generates a tree data structure were the leafs are
 						represented by ActionSteps, and the internal nodes are represented by ActionGroups. Required
 					</xs:documentation>
 				</xs:annotation>
+				<xs:complexType >
+					<xs:sequence>
+						<xs:element name="action" type="indivo:Action" minOccurs="1" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Instance of an action of the type ActionGroups or ActionSteps. Required
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
@@ -153,7 +163,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="actions" type="indivo:actions" minOccurs="1" maxOccurs="1" >
+					<xs:element name="actions" minOccurs="1" maxOccurs="1" >
 						<xs:annotation>
 							<xs:documentation xml:lang="en">List of the actions of this ActionGroup.
 								This can contain one or more actions of the type ActionGroups or ActionSteps.
@@ -161,6 +171,16 @@
 								and the branches are represented by ActionGroups. Required
 							</xs:documentation>
 						</xs:annotation>
+						<xs:complexType >
+							<xs:sequence>
+								<xs:element name="action" type="indivo:Action" minOccurs="1" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">Instance of an action of the type ActionGroups or ActionSteps. Required
+										</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
 					</xs:element>
 				</xs:sequence>
 			</xs:extension>
@@ -200,16 +220,7 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:complexType name="actions">
-		<xs:sequence>
-			<xs:element name="action" type="indivo:Action" minOccurs="1" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation xml:lang="en">Instance of an action of the type ActionGroups or ActionSteps. Required
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
+
 
 	<xs:complexType name="measurementPlans">
 		<xs:sequence>
