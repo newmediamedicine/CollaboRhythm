@@ -33,13 +33,15 @@ package collaboRhythm.shared.collaboration.controller
 		public static const COLLABORATION_INVITATION_REJECTED:String = "CollaborationInvitationRejected";
 		public static const COLLABORATION_INVITATION_CANCELLED:String = "CollaborationInvitationCancelled";
 		public static const COLLABORATION_ENDED:String = "CollaborationEnded";
+		public static const SYNCHRONIZE:String = "Synchronize";
 
 		private var _subjectAccountId:String;
 		private var _sourceAccountId:String;
 		private var _sourcePeerId:String;
 		private var _passWord:String;
-		
-		public function CollaborationEvent(type:String, subjectAccountId:String, sourceAccountId:String, sourcePeerId:String, passWord:String)
+		private var _method:String;
+
+		public function CollaborationEvent(type:String, subjectAccountId:String, sourceAccountId:String, sourcePeerId:String, passWord:String, method:String)
 		{
 			super(type);
 
@@ -47,6 +49,7 @@ package collaboRhythm.shared.collaboration.controller
 			_sourceAccountId = sourceAccountId;
 			_sourcePeerId = sourcePeerId;
 			_passWord = passWord;
+			_method = method;
 		}
 
 		public function get subjectAccountId():String
@@ -87,6 +90,16 @@ package collaboRhythm.shared.collaboration.controller
 		public function set passWord(value:String):void
 		{
 			_passWord = value;
+		}
+
+		public function get method():String
+		{
+			return _method;
+		}
+
+		public function set method(value:String):void
+		{
+			_method = value;
 		}
 	}
 }

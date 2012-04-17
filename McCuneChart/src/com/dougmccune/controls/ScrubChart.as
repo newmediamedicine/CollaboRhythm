@@ -786,7 +786,7 @@ package com.dougmccune.controls
 				_pendingInitializeChartsFromMinMaxTimes = true;
 				invalidateProperties();
 				if (_traceEvents)
-					trace(traceEventsPrefix + "commitDataChanges leftRangeTime", traceDate(leftRangeTime),
+					logDebugEvent("commitDataChanges leftRangeTime", traceDate(leftRangeTime),
 						  "rightRangeTime",
 						  traceDate(rightRangeTime), "minimumTime", traceDate(minimumTime), "maximumTime",
 						  traceDate(maximumTime),
@@ -795,6 +795,12 @@ package com.dougmccune.controls
 					);
 
 			}
+		}
+
+		private function logDebugEvent(... rest):void
+		{
+			var message:String = rest.join(" ");
+			_logger.debug(traceEventsPrefix + message);
 		}
 
 		private function initializeChartsFromMinMaxTimes():void
@@ -826,7 +832,7 @@ package com.dougmccune.controls
 			updateMainDataSource();
 
 			if (_traceEvents)
-				trace(traceEventsPrefix + "initializeChartsFromMinMaxTimes (after)", "minimumTime", traceDate(minimumTime), "maximumTime", traceDate(maximumTime));
+				logDebugEvent("initializeChartsFromMinMaxTimes (after)", "minimumTime", traceDate(minimumTime), "maximumTime", traceDate(maximumTime));
 		}
 
 		public function set data(value:ArrayCollection):void
@@ -883,6 +889,9 @@ package com.dougmccune.controls
 
 		override protected function commitProperties():void
 		{
+			if (_traceEvents)
+				logDebugEvent("commitProperties", "pendingInitializeFromData", pendingInitializeFromData, "pendingUpdateFromData", pendingUpdateFromData, "_pendingInitializeChartsFromMinMaxTimes", _pendingInitializeChartsFromMinMaxTimes, "leftRangeTime", traceDate(leftRangeTime), "rightRangeTime", traceDate(rightRangeTime), "minimumTime", traceDate(minimumTime), "maximumTime", traceDate(maximumTime));
+
 			super.commitProperties();
 			if (pendingInitializeFromData)
 			{
@@ -963,7 +972,7 @@ package com.dougmccune.controls
 
 		public function allSeriesUpdated():Boolean
 		{
-			if (mainData.length > 0 && allowUpdateComplete)
+			if (allowUpdateComplete)
 			{
 				allowUpdateComplete = false;
 
@@ -981,7 +990,12 @@ package com.dougmccune.controls
 		{
 			updateBoxFromRangeTimes = true;
 			rightRangeTime = initialRightRangeTime;
-			leftRangeTime = Math.max(_minimumTime, initialRightRangeTime - initialDurationTime);
+			if (isNaN(_minimumTime))
+				leftRangeTime = initialRightRangeTime - initialDurationTime;
+			else if (isNaN(initialRightRangeTime) || isNaN(initialDurationTime))
+				leftRangeTime = _minimumTime;
+			else
+				leftRangeTime = Math.max(_minimumTime, initialRightRangeTime - initialDurationTime);
 			updateBox();
 			callLater(refreshAnnotations);
 			this.visible = true;
@@ -994,6 +1008,9 @@ package com.dougmccune.controls
 			}
 
 			initializeFocusTime();
+
+			if (_traceEvents)
+				logDebugEvent("initializeRangeTimes", "leftRangeTime", traceDate(leftRangeTime), "rightRangeTime", traceDate(rightRangeTime), "minimumTime", traceDate(minimumTime), "maximumTime", traceDate(maximumTime), "mainDataRatio", mainDataRatio, "mainChartArea.width", mainChartArea.width, "mainChartToContainerRatio", mainChartToContainerRatio, "initialRightRangeTime", traceDate(initialRightRangeTime), "initialDurationTime", initialDurationTime);
 		}
 
 		private function initializeFocusTime():void
@@ -1145,7 +1162,7 @@ package com.dougmccune.controls
 				_performanceCounter["updateMainDataSource"] += 1;
 
 			if (_traceEvents)
-				trace(traceEventsPrefix + "updateMainDataSource leftRangeTime", traceDate(leftRangeTime), "rightRangeTime", traceDate(rightRangeTime), "minimumTime", traceDate(minimumTime), "maximumTime", traceDate(maximumTime), "mainDataRatio", mainDataRatio, "mainChartArea.width", mainChartArea.width, "mainChartToContainerRatio", mainChartToContainerRatio);
+				logDebugEvent("updateMainDataSource leftRangeTime", traceDate(leftRangeTime), "rightRangeTime", traceDate(rightRangeTime), "minimumTime", traceDate(minimumTime), "maximumTime", traceDate(maximumTime), "mainDataRatio", mainDataRatio, "mainChartArea.width", mainChartArea.width, "mainChartToContainerRatio", mainChartToContainerRatio);
 		}
 
 		private function updateMainDataRatio():void
@@ -1153,7 +1170,7 @@ package com.dougmccune.controls
 			var oldMainDataRatio:Number = mainDataRatio;
 			mainDataRatio = (mainChart.width / mainChartToContainerRatio) / mainChartDurationTime;
 			if (_traceEvents)
-				trace(traceEventsPrefix + "updateMainDataRatio", "mainDataRatio", mainDataRatio, "changedBy", mainDataRatio - oldMainDataRatio, "mainChart.width", mainChart.width, "mainChartArea.width", mainChartArea.width, "mainChartToContainerRatio", mainChartToContainerRatio);
+				logDebugEvent("updateMainDataRatio", "mainDataRatio", mainDataRatio, "changedBy", mainDataRatio - oldMainDataRatio, "mainChart.width", mainChart.width, "mainChartArea.width", mainChartArea.width, "mainChartToContainerRatio", mainChartToContainerRatio);
 		}
 		
 		protected function setAxisMinimum(axis:IAxis, minimum:Date):void
@@ -2262,7 +2279,7 @@ package com.dougmccune.controls
 		{
 			// TODO: support reseting/clearing the minimum/maximum to the default (based on the data)
 			if (_traceEvents)
-				trace(traceEventsPrefix + "set minimumTime", traceDate(value), "old value", traceDate(minimumTime));
+				logDebugEvent("set minimumTime", traceDate(value), "old value", traceDate(minimumTime));
 			if (this.rangeChart)
 				setAxisMinimum(this.rangeChart.horizontalAxis, new Date(value));
 			_minimumTime = value;
@@ -2273,7 +2290,7 @@ package com.dougmccune.controls
 		public function set maximumTime(value:Number):void
 		{
 			if (_traceEvents)
-				trace(traceEventsPrefix + "set maximumTime", traceDate(value), "old value", traceDate(maximumTime));
+				logDebugEvent("set maximumTime", traceDate(value), "old value", traceDate(maximumTime));
 			if (this.rangeChart)
 				setAxisMaximum(this.rangeChart.horizontalAxis, new Date(value));
 			_maximumTime = value;
@@ -2375,7 +2392,7 @@ package com.dougmccune.controls
 		protected function mainChart_resizeHandler(event:ResizeEvent):void
 		{
 			if (_traceEvents)
-				trace(traceEventsPrefix + "mainChart_resizeHandler", "width", width, "mainChartContainer.width", mainChartContainer ? mainChartContainer.width : "n/a", "mainChart.width", mainChart ? mainChart.width : "n/a", "mainChartArea.width", mainChartArea ? mainChartArea.width : "n/a", "parent.width", parent.width);
+				logDebugEvent("mainChart_resizeHandler", "width", width, "mainChartContainer.width", mainChartContainer ? mainChartContainer.width : "n/a", "mainChart.width", mainChart ? mainChart.width : "n/a", "mainChartArea.width", mainChartArea ? mainChartArea.width : "n/a", "parent.width", parent.width);
 			if (focusTimeMarker)
 			{
 				updateFocusTime(_focusTime);
@@ -2387,7 +2404,7 @@ package com.dougmccune.controls
 		protected function mainChartArea_resizeHandler(event:ResizeEvent):void
 		{
 			if (_traceEvents)
-				trace(traceEventsPrefix + "mainChartArea_resizeHandler", "width", width, "mainChartContainer.width", mainChartContainer ? mainChartContainer.width : "n/a", "mainChart.width", mainChart ? mainChart.width : "n/a", "mainChartArea.width", mainChartArea ? mainChartArea.width : "n/a", "parent.width", parent.width);
+				logDebugEvent("mainChartArea_resizeHandler", "width", width, "mainChartContainer.width", mainChartContainer ? mainChartContainer.width : "n/a", "mainChart.width", mainChart ? mainChart.width : "n/a", "mainChartArea.width", mainChartArea ? mainChartArea.width : "n/a", "parent.width", parent.width);
 		}
 
 		private function updateMainChartToContainerRatio():void
@@ -2423,14 +2440,17 @@ package com.dougmccune.controls
 
 		public static function traceDate(dateValue:Number):String
 		{
-			var date:Date = new Date(dateValue);
-			var formatter:DateTimeFormatter = new DateTimeFormatter("en-US");//, DateTimeStyle.SHORT, DateTimeStyle.SHORT);
-			formatter.setDateTimePattern("yyyy-MM-dd'T'HH:mm");
-		//	formatter.setDateTimePattern("M/d/yyyy @ h:mma");
-		//	formatter.useUTC = true;
-			return formatter.formatUTC(date);
-		//	return "test!";
-		//	return date.toUTCString();
+			if (isNaN(dateValue))
+			{
+				return "NaN";
+			}
+			else
+			{
+				var date:Date = new Date(dateValue);
+				var formatter:DateTimeFormatter = new DateTimeFormatter("en-US");//, DateTimeStyle.SHORT, DateTimeStyle.SHORT);
+				formatter.setDateTimePattern("yyyy-MM-dd'T'HH:mm");
+				return formatter.formatUTC(date);
+			}
 		}
 
 		protected function get traceEventsPrefix():String
@@ -2443,7 +2463,7 @@ package com.dougmccune.controls
 			if (focusTimeMarker)
 			{
 				if (_traceEvents)
-					trace(traceEventsPrefix + "isFocusOnMaximumTime focusTime", traceDate(focusTime), "maximumTime",
+					logDebugEvent("isFocusOnMaximumTime focusTime", traceDate(focusTime), "maximumTime",
 						  traceDate(maximumTime),
 						  "focusTimeMarker.x", focusTimeMarker.x, "focusTimeMarkerMaxX", focusTimeMarkerMaxX,
 						  "rightRangeTime",

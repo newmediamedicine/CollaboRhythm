@@ -50,7 +50,14 @@ package collaboRhythm.shared.model.healthRecord
                                                                                                                             record);
 			healthRecordServiceRequestDetails.document = document;
 
-            _pha.documents_external_X_XPUT(null, null, null, record.id, INDIVO_APP_ID_FOR_DOCUMENT_CREATION, document.meta.id, _activeAccount.oauthAccountToken,
+			// Use an external id to avoid creating duplicates. It appears that occasionally the Indivo server will
+			// return a failure code (403 I believe) even though the document was created successfully. Retrying the
+			// request without using an external id will result in a duplicate document being created.
+//            _pha.documents_external_X_XPUT(null, null, null, record.id, INDIVO_APP_ID_FOR_DOCUMENT_CREATION, document.meta.id, _activeAccount.oauthAccountToken,
+//                                _activeAccount.oauthAccountTokenSecret, documentXmlString, healthRecordServiceRequestDetails);
+
+			// TODO: figure out why external id is not working on new Indivo server (version 1.0); currently we are not using the external id, which could potentially result in duplicate documents being created
+            _pha.documents_POST(null, null, null, record.id, _activeAccount.oauthAccountToken,
                                 _activeAccount.oauthAccountTokenSecret, documentXmlString, healthRecordServiceRequestDetails);
         }
 

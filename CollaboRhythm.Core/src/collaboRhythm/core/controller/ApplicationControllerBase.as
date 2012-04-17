@@ -88,7 +88,7 @@ package collaboRhythm.core.controller
 		protected var _settingsFileStore:SettingsFileStore;
 		private var _settings:Settings;
 		protected var _hasActiveNetworkInterface:Boolean = false;
-		protected var _activeAccount:Account;
+		private var _activeAccount:Account;
 		private var _activeRecordAccount:Account;
 		protected var _collaborationController:CollaborationController;
 		protected var _logger:ILogger;
@@ -186,6 +186,7 @@ package collaboRhythm.core.controller
 			{
 				_logger.info("  Updated " + applicationInfo.appModificationDateString);
 			}
+			_logger.info("  " + applicationInfo.deviceDetails);
 
 			/*
 			 <s:Label id="applicationNameLabel" text="{_applicationInfo.appName}" fontSize="36"/>
@@ -376,6 +377,7 @@ package collaboRhythm.core.controller
 				fileTarget.file = targetFile;
 				/* Log all log levels. */
 				fileTarget.level = LogEventLevel.ALL;
+				fileTarget.sizeLimit = 1024;
 				Log.addTarget(fileTarget);
 			}
 
@@ -495,7 +497,7 @@ package collaboRhythm.core.controller
 			_collaborationController = new CollaborationController(_activeAccount, collaborationView, _settings);
 			_collaborationLobbyNetConnectionService = _collaborationController.collaborationModel.collaborationLobbyNetConnectionService as CollaborationLobbyNetConnectionService;
 			_collaborationController.addEventListener(CollaborationLobbyNetConnectionEvent.SYNCHRONIZE,
-					synchronizeHandler);
+					synchronizeDataHandler);
 			_collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_RECEIVED,
 					collaborationInvitationReceived_eventHandler);
 			_collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_ACCEPTED,
@@ -514,11 +516,24 @@ package collaboRhythm.core.controller
 				collaborationView.init(_collaborationController);
 		}
 
-		private function synchronizeHandler(event:CollaborationLobbyNetConnectionEvent):void
+		protected function synchronizeDataHandler(event:CollaborationLobbyNetConnectionEvent):void
 		{
 			if (!activeRecordAccount.primaryRecord.isLoading && !activeRecordAccount.primaryRecord.isSaving &&
 					!_pendingExit && !_pendingReloadData)
 				reloadData();
+		}
+
+		public function sendCollaborationInvitation():void
+		{
+			if (_settings.mode == Settings.MODE_CLINICIAN)
+			{
+				_collaborationController.sendCollaborationInvitation(activeRecordAccount, activeRecordAccount);
+			}
+			else if (_settings.mode = Settings.MODE_PATIENT)
+			{
+				_collaborationController.sendCollaborationInvitation(_activeAccount,
+						_activeAccount.allSharingAccounts["jking@records.media.mit.edu"]);
+			}
 		}
 
 		/**
@@ -956,14 +971,14 @@ package collaboRhythm.core.controller
 			return _settingsFileStore;
 		}
 
-		public function get collaborationController():ICollaborationController
+		public function get collaborationController():CollaborationController
 		{
 			return _collaborationController;
 		}
 
-		public function set collaborationController(value:ICollaborationController):void
+		public function set collaborationController(value:CollaborationController):void
 		{
-			_collaborationController = value as CollaborationController;
+			_collaborationController = value;
 		}
 
 		public function get componentContainer():IComponentContainer
@@ -1325,19 +1340,6 @@ package collaboRhythm.core.controller
 				targetDate = _settings.demoDatePresets[demoPresetIndex];
 		}
 
-		public function sendCollaborationInvitation():void
-		{
-			if (_settings.mode == Settings.MODE_CLINICIAN)
-			{
-				_collaborationController.sendCollaborationInvitation(activeRecordAccount, activeRecordAccount);
-			}
-			else if (_settings.mode = Settings.MODE_PATIENT)
-			{
-				_collaborationController.sendCollaborationInvitation(_activeAccount,
-						_activeAccount.allSharingAccounts["jking@records.media.mit.edu"]);
-			}
-		}
-
 		public function get activeRecordAccount():Account
 		{
 			return _activeRecordAccount;
@@ -1351,6 +1353,21 @@ package collaboRhythm.core.controller
 		public function get navigator():ViewNavigator
 		{
 			return null;
+		}
+
+		public function get iCollaborationController():ICollaborationController
+		{
+			return _collaborationController;
+		}
+
+		public function get activeAccount():Account
+		{
+			return _activeAccount;
+		}
+
+		public function set activeAccount(value:Account):void
+		{
+			_activeAccount = value;
 		}
 	}
 }

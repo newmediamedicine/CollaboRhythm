@@ -56,6 +56,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import mx.collections.ArrayCollection;
 	import mx.collections.Sort;
 	import mx.collections.SortField;
+	import mx.controls.HRule;
 	import mx.core.ClassFactory;
 	import mx.core.FlexGlobals;
 	import mx.core.IVisualElement;
@@ -66,6 +67,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import mx.events.PropertyChangeEvent;
 	import mx.events.ResizeEvent;
 	import mx.events.ScrollEvent;
+	import mx.graphics.SolidColor;
+	import mx.graphics.SolidColorStroke;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 	import mx.managers.IFocusManagerComponent;
@@ -73,6 +76,10 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 	import qs.charts.dataShapes.DataDrawingCanvas;
 	import qs.charts.dataShapes.Edge;
+
+	import spark.components.BorderContainer;
+
+	import spark.components.BorderContainer;
 
 	import spark.components.Button;
 	import spark.components.CalloutButton;
@@ -91,11 +98,13 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import spark.layouts.VerticalAlign;
 	import spark.layouts.VerticalLayout;
 	import spark.primitives.BitmapImage;
+	import spark.primitives.Line;
 	import spark.primitives.Rect;
 	import spark.skins.mobile.ButtonSkin;
 	import spark.skins.mobile.CalloutSkin;
 	import spark.skins.mobile.TransparentActionButtonSkin;
 	import spark.skins.mobile.TransparentNavigationButtonSkin;
+	import spark.skins.spark.BorderContainerSkin;
 
 	public class SynchronizedHealthCharts extends VGroup implements IFocusManagerComponent
 	{
@@ -129,7 +138,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private var _seriesSets:Vector.<ScrubChartSeriesSet> = new Vector.<ScrubChartSeriesSet>();
 		private var _seriesWithPendingUpdateComplete:ArrayCollection = new ArrayCollection();
-		private var _chartsWithPendingCreationComplete:ArrayCollection = new ArrayCollection();
+		private var _chartsWithPendingMainChartAdded:ArrayCollection = new ArrayCollection();
 		private var _pendingSynchronizeDateLimits:Boolean;
 		private var _useSliceMainData:Boolean;
 
@@ -168,6 +177,9 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private var _adherenceGroups:OrderedMap = new OrderedMap();
 		private var _showAllChartsButton:Button;
 		private var _appliedCalloutSkinFix:Boolean;
+		private var _pendingUpdateBackgroundElements:Boolean = false;
+		private var _shouldRunIndividualBenchmarks:Boolean = false;
+		private var _blankBackgrounds:Boolean = false;
 
 		public function SynchronizedHealthCharts():void
 		{
@@ -175,10 +187,10 @@ package collaboRhythm.shared.ui.healthCharts.view
 			percentHeight = 100;
 			percentWidth = 100;
 			gap = 10;
-			paddingLeft = 10;
+			paddingLeft = 0;
 			paddingRight = 10;
 			paddingTop = 10;
-			paddingBottom = 8;
+			paddingBottom = 0;
 			clipAndEnableScrolling = true;
 			setStyle("fontSize", 20);
 
@@ -230,7 +242,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			{
 				chart.scrollEnabled = scrollEnabled;
 			}
-			trace("scrollEnabled", scrollEnabled);
+			logDebugEvent("scrollEnabled", scrollEnabled);
 		}
 
 		[Bindable]
@@ -277,16 +289,25 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private function model_changeHandler(event:Event):void
 		{
+			if (_traceEventHandlers)
+				logDebugEvent("model_changeHandler");
+
 			queueSynchronizeDateLimits();
 		}
 
 		private function model_updateCompleteHandler(event:FlexEvent):void
 		{
+			if (_traceEventHandlers)
+				logDebugEvent("model_updateCompleteHandler");
+
 			queueSynchronizeDateLimits();
 		}
 
 		private function queueSynchronizeDateLimits():void
 		{
+			if (_traceEventHandlers)
+				logDebugEvent("queueSynchronizeDateLimits (and invalidateProperties())");
+
 			_pendingSynchronizeDateLimits = true;
 			invalidateProperties();
 		}
@@ -407,7 +428,11 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private function initializeModifierFactories():void
 		{
 			_chartModifierFactories = [new DefaultChartModifierFactory()];
-			_chartModifierFactories = _chartModifierFactories.concat(componentContainer.resolveAll(IChartModifierFactory));
+			var factories:Array = componentContainer.resolveAll(IChartModifierFactory);
+			if (factories != null)
+			{
+				_chartModifierFactories = _chartModifierFactories.concat(factories);
+			}
 		}
 
 		private function createChartDescriptors():void
@@ -504,7 +529,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			var chart:TouchScrollingScrubChart = createAdherenceChart(
 					getConcentrationChartKey(medicationCode), chartDescriptor);
 			setMedicationChartStyles(medicationCode, medicationFill, chart);
-			chart.setStyle("topBorderVisible", true);
+			chart.setStyle("borderVisible", false);
 			var nameString:String;
 			if (medicationFill)
 				nameString = medicationFill.name.text;
@@ -551,7 +576,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private function initializeAdherenceStripChart(chart:TouchScrollingScrubChart, scheduleItem:ScheduleItemBase):void
 		{
-			chart.setStyle("topBorderVisible", false);
+			chart.setStyle("borderVisible", false);
 			chart.height = ADHERENCE_STRIP_CHART_HEIGHT;
 			chart.seriesName = "yPosition";
 
@@ -593,7 +618,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 					true);
 
 			if (expectCreationComplete)
-				_chartsWithPendingCreationComplete.addItem(chart);
+				_chartsWithPendingMainChartAdded.addItem(chart);
 
 			_adherenceCharts.addKeyValue(chartKey, chart);
 			addChart(chart);
@@ -669,9 +694,31 @@ package collaboRhythm.shared.ui.healthCharts.view
 			adherenceChartsGroup.gap = 0;
 			adherenceChartsGroup.addElement(resultChart);
 			if (adherenceStripChart)
+			{
+				var line:HRule = new HRule();
+				line.percentWidth = 100;
+				line.setStyle("strokeColor", 0x808285);
+				adherenceChartsGroup.addElement(line);
 				adherenceChartsGroup.addElement(adherenceStripChart);
+			}
 			adherenceChartsGroup.percentWidth = 100;
 			adherenceChartsGroup.percentHeight = 100;
+			var adherenceChartsBorderContainer:BorderContainer = new BorderContainer();
+			adherenceChartsBorderContainer.setStyle("skinClass", BorderContainerSkin);
+			adherenceChartsBorderContainer.addElement(adherenceChartsGroup);
+			if (chartDescriptor is HorizontalAxisChartDescriptor)
+			{
+				adherenceChartsBorderContainer.backgroundFill = new SolidColor(0, 0);
+				// make sure there is a 1 pixel invisible border so that the chart is the exact same size as the other charts
+				adherenceChartsBorderContainer.borderStroke = new SolidColorStroke(0, 1, 0);
+			}
+			else
+			{
+				adherenceChartsBorderContainer.borderStroke = new SolidColorStroke(0x231F20);
+			}
+			adherenceChartsBorderContainer.percentWidth = 100;
+			adherenceChartsBorderContainer.percentHeight = 100;
+
 			fixCalloutSkin();
 			var adherenceLeftContentGroup:Group = new Group();
 			
@@ -715,7 +762,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 			adherenceGroup.gap = 0;
 
 			adherenceGroup.addElement(adherenceLeftContentGroup);
-			adherenceGroup.addElement(adherenceChartsGroup);
+			adherenceGroup.addElement(adherenceChartsBorderContainer);
+//			adherenceGroup.addElement(adherenceChartsGroup);
 			adherenceGroup.percentWidth = 100;
 			adherenceGroup.percentHeight = 100;
 			adherenceGroup.verticalAlign = VerticalAlign.MIDDLE;
@@ -818,7 +866,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			var chart:TouchScrollingScrubChart = createAdherenceChart(getVitalSignChartKey(vitalSignKey), vitalSignChartDescriptor);
 			setVitalSignChartStyles(chart, vitalSignKey);
 
-			chart.setStyle("topBorderVisible", true);
+			chart.setStyle("borderVisible", false);
 			chart.mainChartTitle = vitalSignKey;
 
 			chart.dateField = "dateMeasuredStart";
@@ -901,6 +949,9 @@ package collaboRhythm.shared.ui.healthCharts.view
 		// TODO: implement and use this method to update the charts when the demo date changes
 		private function updateAdherenceCharts():void
 		{
+			if (_traceEventHandlers)
+				logDebugEvent("updateAdherenceCharts");
+
 			for each (var chartDescriptor:IChartDescriptor in _chartDescriptors.values())
 			{
 				var adherenceStripItemProxies:ArrayCollection = getAdherenceStripItemProxies(chartDescriptor.descriptorKey);
@@ -968,13 +1019,16 @@ package collaboRhythm.shared.ui.healthCharts.view
 				if (chartModifier)
 					addSeriesDataSets(chartModifier, chart);
 
-				if (chartModifier)
-					drawBackgroundElements(chartModifier, chart);
+//				queueUpdateBackgroundElements();
+				/*
+					if (chartModifier)
+						drawBackgroundElements(chartModifier, chart);
+	*/
 
-				var index:int = _chartsWithPendingCreationComplete.getItemIndex(chart);
+				var index:int = _chartsWithPendingMainChartAdded.getItemIndex(chart);
 				if (index != -1)
 				{
-					_chartsWithPendingCreationComplete.removeItemAt(index);
+					_chartsWithPendingMainChartAdded.removeItemAt(index);
 					checkReadyToSynchronizeDateLimits();
 				}
 
@@ -993,6 +1047,12 @@ package collaboRhythm.shared.ui.healthCharts.view
 					verticalAxis.maximum = NaN;
 				}
 			}
+		}
+
+		private function queueUpdateBackgroundElements():void
+		{
+			invalidateProperties();
+			_pendingUpdateBackgroundElements = true;
 		}
 
 		private function fixVerticalAxis(chart:ScrubChart):void
@@ -1031,16 +1091,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			{
 				var chart:ScrubChart = ScrubChart(event.target);
 				//			chart.removeDefaultSeries();
-
-				var descriptorKey:String = chart.getStyle("descriptorKey");
-				var chartDescriptor:IChartDescriptor;
-				var chartModifier:IChartModifier;
-				if (!StringUtils.isEmpty(descriptorKey))
-				{
-					chartDescriptor = _chartDescriptors.getValueByKey(descriptorKey);
-					chartModifier = _chartModifiers.getValueByKey(descriptorKey);
-				}
-
+				var chartModifier:IChartModifier = getChartModifier(chart);
 				var vitalSignKey:String = chart.getStyle("vitalSignKey");
 
 				var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
@@ -1051,13 +1102,16 @@ package collaboRhythm.shared.ui.healthCharts.view
 				if (chartModifier)
 					addSeriesDataSets(chartModifier, chart);
 
+//				queueUpdateBackgroundElements();
+/*
 				if (chartModifier)
 					drawBackgroundElements(chartModifier, chart);
+*/
 
-				var index:int = _chartsWithPendingCreationComplete.getItemIndex(chart);
+				var index:int = _chartsWithPendingMainChartAdded.getItemIndex(chart);
 				if (index != -1)
 				{
-					_chartsWithPendingCreationComplete.removeItemAt(index);
+					_chartsWithPendingMainChartAdded.removeItemAt(index);
 					checkReadyToSynchronizeDateLimits();
 				}
 
@@ -1079,26 +1133,49 @@ package collaboRhythm.shared.ui.healthCharts.view
 			}
 		}
 
+		public function getChartModifier(chart:ScrubChart):IChartModifier
+		{
+			var descriptorKey:String = chart.getStyle("descriptorKey");
+//				var chartDescriptor:IChartDescriptor;
+			var chartModifier:IChartModifier;
+			if (!StringUtils.isEmpty(descriptorKey))
+			{
+//					chartDescriptor = _chartDescriptors.getValueByKey(descriptorKey);
+				chartModifier = _chartModifiers.getValueByKey(descriptorKey);
+			}
+			return chartModifier;
+		}
+
 		private function drawBackgroundElements(chartModifier:IChartModifier,
 												chart:ScrubChart):void
 		{
+			if (_traceEventHandlers)
+				logDebugEvent("drawBackgroundElements", chartToTraceString(chart));
+
 			var mainCanvas:DataDrawingCanvas = chart.mainChart.backgroundElements[0] as DataDrawingCanvas;
 			if (mainCanvas)
 			{
-				var zoneLabel:Label = mainCanvas ? mainCanvas.getChildAt(0) as Label : null;
+				var zoneLabel:Label = (mainCanvas && mainCanvas.numChildren > 0) ? mainCanvas.getChildAt(0) as Label : null;
 				if (zoneLabel)
 				{
 					// Position the zone label to some neutral location so that we don't get rendering errors if the chart modifier doesn't do anything with the label
 					mainCanvas.updateDataChild(zoneLabel, {left:Edge.LEFT, bottom:Edge.BOTTOM});
 				}
 
-				chartModifier.drawBackgroundElements(mainCanvas, zoneLabel);
-				callLater(
-						function ():void
-						{
-							mainCanvas.invalidateDisplayList();
-						}
-				);
+				if (_blankBackgrounds)
+				{
+					mainCanvas.clear();
+				}
+				else
+				{
+					chartModifier.drawBackgroundElements(mainCanvas, zoneLabel);
+					callLater(
+							function ():void
+							{
+								mainCanvas.invalidateDisplayList();
+							}
+					);
+				}
 
 				if (chart.rangeChart)
 				{
@@ -1112,7 +1189,27 @@ package collaboRhythm.shared.ui.healthCharts.view
 		protected function medicationAdherenceChart_creationCompleteHandler(event:FlexEvent):void
 		{
 			if (_traceEventHandlers)
-				trace("medicationAdherenceChart_creationCompleteHandler");
+				logDebugEvent("medicationAdherenceChart_creationCompleteHandler", chartToTraceString(event));
+		}
+
+		private function updateAdherenceStripMainChartAny(chart:ScrubChart):void
+		{
+			var vitalSignKey:String = chart.getStyle("vitalSignKey");
+			var scheduleItem:ScheduleItemBase;
+			if (vitalSignKey)
+			{
+				scheduleItem = getMatchingEquipmentScheduleItem(vitalSignKey);
+			}
+			else
+			{
+				var medicationCode:String = chart.getStyle("medicationCode");
+				if (medicationCode)
+				{
+					scheduleItem = getMatchingMedicationScheduleItem(medicationCode);
+				}
+			}
+
+			updateAdherenceStripMainChart(chart, scheduleItem);
 		}
 
 		private function medicationAdherenceStripChart_skinPartAddedHandler(event:SkinPartEvent):void
@@ -1196,10 +1293,10 @@ package collaboRhythm.shared.ui.healthCharts.view
 				}
 			}
 
-			var index:int = _chartsWithPendingCreationComplete.getItemIndex(chart);
+			var index:int = _chartsWithPendingMainChartAdded.getItemIndex(chart);
 			if (index != -1)
 			{
-				_chartsWithPendingCreationComplete.removeItemAt(index);
+				_chartsWithPendingMainChartAdded.removeItemAt(index);
 				checkReadyToSynchronizeDateLimits();
 			}
 
@@ -1209,7 +1306,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 		protected function medicationAdherenceStripChart_creationCompleteHandler(event:FlexEvent):void
 		{
 			if (_traceEventHandlers)
-				trace("medicationAdherenceStripChart_creationCompleteHandler");
+				logDebugEvent("medicationAdherenceStripChart_creationCompleteHandler", chartToTraceString(event));
 		}
 
 		// TODO: separate out code for specific charts to different functions
@@ -1243,6 +1340,9 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private function addSeriesDataSets(chartModifier:IChartModifier, chart:ScrubChart):void
 		{
+			if (_traceEventHandlers)
+				logDebugEvent("addSeriesDataSets", chartToTraceString(chart));
+
 			var seriesDataSets:Vector.<SeriesDataSet> = new Vector.<SeriesDataSet>();
 			
 			seriesDataSets = chartModifier.createMainChartSeriesDataSets(chart, seriesDataSets);
@@ -1271,12 +1371,18 @@ package collaboRhythm.shared.ui.healthCharts.view
 		protected function series_updateCompleteHandler(event:FlexEvent):void
 		{
 			var series:Series = event.target as Series;
+			if (_traceEventHandlers)
+				logDebugEvent("series_updateCompleteHandler", series.id);
+
 			series.removeEventListener(FlexEvent.UPDATE_COMPLETE, series_updateCompleteHandler, false);
 			checkAllSeriesComplete(series);
 		}
 
 		private function addAdherenceSeries(chart:ScrubChart, scheduleItemName:String):void
 		{
+			if (_traceEventHandlers)
+				logDebugEvent("addAdherenceSeries", chartToTraceString(chart));
+
 			var adherenceSeries:PlotSeries = new PlotSeries();
 			adherenceSeries.name = "adherence";
 			adherenceSeries.id = chart.id + "_adherenceSeries";
@@ -1369,7 +1475,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 		public function drawVitalSignGoalRegion(canvas:DataDrawingCanvas, zoneLabel:Label, vitalSignKey:String):void
 		{
 			if (_traceEventHandlers)
-				trace(this + ".drawVitalSignGoalRegion");
+				logDebugEvent("drawVitalSignGoalRegion", vitalSignKey);
 
 			canvas.clear();
 
@@ -1398,22 +1504,25 @@ package collaboRhythm.shared.ui.healthCharts.view
 		public function drawAdherenceStripRegions(canvas:DataDrawingCanvas, zoneLabel:Label, descriptorKey:String):void
 		{
 			if (_traceEventHandlers)
-				trace(this + ".drawAdherenceStripRegions");
+				logDebugEvent("drawAdherenceStripRegions", descriptorKey);
 			var adherenceStripItemProxies:ArrayCollection = getAdherenceStripItemProxies(descriptorKey);
 			canvas.clear();
 
-			canvas.beginFill(0xFFFFFF);
-
-			for each (var adherenceStripItemProxy:AdherenceStripItemProxy in adherenceStripItemProxies)
+			if (!_blankBackgrounds)
 			{
-				if (adherenceStripItemProxy.scheduleItemOccurrence)
-				{
-					canvas.drawRect(adherenceStripItemProxy.scheduleItemOccurrence.dateStart, [Edge.TOP, 3],
-							adherenceStripItemProxy.scheduleItemOccurrence.dateEnd, [Edge.BOTTOM, -4]);
-				}
-			}
+				canvas.beginFill(0xFFFFFF);
 
-			canvas.endFill();
+				for each (var adherenceStripItemProxy:AdherenceStripItemProxy in adherenceStripItemProxies)
+				{
+					if (adherenceStripItemProxy.scheduleItemOccurrence)
+					{
+						canvas.drawRect(adherenceStripItemProxy.scheduleItemOccurrence.dateStart, [Edge.TOP, 3],
+								adherenceStripItemProxy.scheduleItemOccurrence.dateEnd, [Edge.BOTTOM, -4]);
+					}
+				}
+
+				canvas.endFill();
+			}
 
 			if (zoneLabel)
 			{
@@ -1489,6 +1598,9 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private function synchronizeDateLimits():void
 		{
+			if (_traceEventHandlers)
+				logDebugEvent("synchronizeDateLimits (start)", "minimum " + ScrubChart.traceDate(minimum) + " maximum " + ScrubChart.traceDate(maximum));
+
 			var charts:Vector.<TouchScrollingScrubChart> = _visibleCharts;
 
 			var minimum:Number;
@@ -1527,11 +1639,16 @@ package collaboRhythm.shared.ui.healthCharts.view
 						chart.updateForScroll();
 						chart.focusTime = today.valueOf();
 //					}
+
+					// TODO: it might be more optimal to only draw background elements after the dates have been synchronized
+//					var chartModifier:IChartModifier = getChartModifier(chart);
+//					if (chartModifier)
+//						drawBackgroundElements(chartModifier, chart);
 				}
 			}
 
 			if (_traceEventHandlers)
-				trace("synchronizeDateLimits minimum " + ScrubChart.traceDate(minimum) + " maximum " + ScrubChart.traceDate(maximum));
+				logDebugEvent("synchronizeDateLimits (end)", "minimum " + ScrubChart.traceDate(minimum) + " maximum " + ScrubChart.traceDate(maximum));
 		}
 
 		protected function updateSeries():void
@@ -1548,9 +1665,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		protected function adherenceChart_initializeHandler(event:FlexEvent):void
 		{
-			// TODO Auto-generated method stub
 			if (_traceEventHandlers)
-				trace("adherenceChart_initializeHandler");
+				logDebugEvent("adherenceChart_initializeHandler", chartToTraceString(event));
 		}
 
 		private function updateAdherenceStripChartSeriesCompleteHandler(chart:ScrubChart, mainCanvas:DataDrawingCanvas, zoneLabel:Label, rangeCanvas:DataDrawingCanvas):void
@@ -1612,7 +1728,21 @@ package collaboRhythm.shared.ui.healthCharts.view
 					}
 					case Keyboard.B:
 					{
+						_shouldRunIndividualBenchmarks = true;
 						runScrollingBenchmark();
+						break;
+					}
+					case Keyboard.G:
+					{
+						_shouldRunIndividualBenchmarks = false;
+						runScrollingBenchmark();
+						break;
+					}
+					case Keyboard.Y:
+					{
+						_blankBackgrounds = !_blankBackgrounds;
+
+						drawBackgroundElementsForAdherenceCharts(true);
 						break;
 					}
 					case Keyboard.R:
@@ -1628,7 +1758,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 					case Keyboard.T:
 					{
 						_traceEventHandlers = !_traceEventHandlers;
-						trace("_traceEventHandlers " + _traceEventHandlers);
+						logDebugEvent("_traceEventHandlers = " + _traceEventHandlers);
 						break;
 					}
 					case Keyboard.A:
@@ -1684,10 +1814,17 @@ package collaboRhythm.shared.ui.healthCharts.view
 		{
 			_synchronizedTrial.stop(_benchmarkFrameCount);
 
-			var allCharts:Vector.<TouchScrollingScrubChart> = getAllCharts();
-			_individualChartsQueue = getVisibleCharts(allCharts, null, _singleChartMode, model.showAdherence);
+			if (_shouldRunIndividualBenchmarks)
+			{
+				var allCharts:Vector.<TouchScrollingScrubChart> = getAllCharts();
+				_individualChartsQueue = getVisibleCharts(allCharts, null, _singleChartMode, model.showAdherence);
 
-			startIndividualTrial();
+				startIndividualTrial();
+			}
+			else
+			{
+				finishScrollingBenchmark();
+			}
 		}
 
 		private function startIndividualTrial():void
@@ -1715,40 +1852,22 @@ package collaboRhythm.shared.ui.healthCharts.view
 				startIndividualTrial();
 			else
 			{
-				_completeTrial.stop(_benchmarkFrameCount);
-
-				traceAndLog("======= Benchmark Results ========");
-
-				//					trace("  Overall:        ", _completeTrial.fps.toFixed(2));
-				//					trace("  Synchronized:   ", _synchronizedTrial.fps.toFixed(2));
-				//					trace("  Adherence:      ", adherenceTrial.fps.toFixed(2));
-				//					trace("  Blood Pressure: ", bloodPressureTrial.fps.toFixed(2));
-				//					trace("  Heart Rate:     ", heartRateTrial.fps.toFixed(2));
-
-				for each (var trial:BenchmarkTrial in _individualTrials)
-				{
-					traceAndLog("  " + StringUtils.padRight(trial.name + ":", " ",
-							20) + " " + trial.fps.toFixed(2));
-				}
+				finishScrollingBenchmark();
 			}
 		}
 
-		//			private function benchmarkStep4(event:Event):void
-		//			{
-		//				bloodPressureTrial.stop(_benchmarkFrameCount);
-		//				setSingleChartMode(bloodPressureChart, false);
-		//				setSingleChartMode(heartRateChart, true);
-		//				heartRateTrial = new BenchmarkTrial();
-		//				heartRateTrial.start(_benchmarkFrameCount);
-		//				doScrollTest(heartRateChart, 1, 6000, benchmarkStep5);
-		//			}
+		private function finishScrollingBenchmark():void
+		{
+			_completeTrial.stop(_benchmarkFrameCount);
 
-		//			private function benchmarkStep5(event:Event):void
-		//			{
-		//				heartRateTrial.stop(_benchmarkFrameCount);
-		//				setSingleChartMode(heartRateChart, false);
-		//
-		//			}
+			logDebugEvent("======= Benchmark Results ========");
+
+			for each (var trial:BenchmarkTrial in _individualTrials)
+			{
+				logDebugEvent("  " + StringUtils.padRight(trial.name + ":", " ",
+						20) + " " + trial.fps.toFixed(2));
+			}
+		}
 
 		private function doScrollTest(chart:TouchScrollingScrubChart, screensToScroll:Number, timeToScroll:Number, effectEndHandler:Function):void
 		{
@@ -1866,7 +1985,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 		{
 			var charts:Vector.<TouchScrollingScrubChart> = new Vector.<TouchScrollingScrubChart>();
 			
-			var chartsGroup:Group = adherenceGroup.getElementAt(1) as Group;
+			var chartsGroup:Group = getChartsGroup(adherenceGroup);
 			if (chartsGroup)
 			{
 				for (var i:int = 0; i < chartsGroup.numElements; i++)
@@ -1879,6 +1998,13 @@ package collaboRhythm.shared.ui.healthCharts.view
 				}
 			}
 			return charts;
+		}
+
+		private function getChartsGroup(adherenceGroup:Group):Group
+		{
+//			return adherenceGroup.getElementAt(1) as Group;
+			var borderContainer:BorderContainer = adherenceGroup.getElementAt(1) as BorderContainer;
+			return borderContainer ? borderContainer.getElementAt(0) as Group : null;
 		}
 
 		protected function getAllCharts():Vector.<TouchScrollingScrubChart>
@@ -1973,7 +2099,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			updateChartsCache(targetChart);
 
 			if (_traceEventHandlers)
-				trace(this.id + ".chart_scrollStartHandler " + targetChart.id);
+				logDebugEvent("chart_scrollStartHandler", chartToTraceString(targetChart));
 		}
 
 		protected function chart_scrollStopHandler(event:TouchScrollerEvent):void
@@ -1981,7 +2107,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			var targetChart:TouchScrollingScrubChart = TouchScrollingScrubChart(event.currentTarget);
 
 			if (_traceEventHandlers)
-				trace(this.id + ".chart_scrollStopHandler " + targetChart.id);
+				logDebugEvent("chart_scrollStopHandler", chartToTraceString(targetChart));
 
 			updateChartsAfterScrollStop();
 		}
@@ -2030,8 +2156,16 @@ package collaboRhythm.shared.ui.healthCharts.view
 			}
 		}
 
+		public function get doneUpdating():Boolean
+		{
+			return !_pendingSynchronizeDateLimits && !_pendingUpdateSimulation;
+		}
+
 		override protected function commitProperties():void
 		{
+			if (_traceEventHandlers)
+				logDebugEvent("commitProperties");
+
 			super.commitProperties();
 
 			if (_pendingSynchronizeDateLimits)
@@ -2043,6 +2177,58 @@ package collaboRhythm.shared.ui.healthCharts.view
 			{
 				updateSimulation(_pendingUpdateSimulation);
 				_pendingUpdateSimulation = null;
+			}
+
+			if (_pendingUpdateBackgroundElements)
+			{
+				drawBackgroundElementsForAdherenceCharts();
+				_pendingUpdateBackgroundElements = false;
+			}
+		}
+
+		private function drawBackgroundElementsForAdherenceCharts(updateStripCharts:Boolean = false):void
+		{
+			for each (var chartDescriptor:IChartDescriptor in _chartDescriptors.values())
+			{
+				var chartKey:String;
+				var stripChartKey:String;
+				var medicationChartDescriptor:MedicationChartDescriptor = chartDescriptor as MedicationChartDescriptor;
+				if (medicationChartDescriptor)
+				{
+					var medicationCode:String = medicationChartDescriptor.medicationCode;
+					chartKey = getConcentrationChartKey(medicationCode);
+					stripChartKey = getMedicationAdherenceStripChartKey(medicationCode);
+				}
+				else
+				{
+					var vitalSignChartDescriptor:VitalSignChartDescriptor = chartDescriptor as VitalSignChartDescriptor;
+					if (vitalSignChartDescriptor)
+					{
+						chartKey = getVitalSignChartKey(vitalSignChartDescriptor.vitalSignCategory);
+						stripChartKey = getVitalSignAdherenceStripChartKey(vitalSignChartDescriptor.vitalSignCategory);
+					}
+				}
+
+				if (chartKey)
+				{
+					var chart:TouchScrollingScrubChart;
+					chart = _adherenceCharts.getValueByKey(chartKey);
+					if (chart)
+					{
+						var chartModifier:IChartModifier = getChartModifier(chart);
+						if (chartModifier)
+							drawBackgroundElements(chartModifier, chart);
+					}
+				}
+
+				if (stripChartKey && updateStripCharts)
+				{
+					var stripChart:TouchScrollingScrubChart = _adherenceCharts.getValueByKey(stripChartKey);
+					if (stripChart)
+					{
+						updateAdherenceStripMainChartAny(stripChart);
+					}
+				}
 			}
 		}
 
@@ -2072,12 +2258,36 @@ package collaboRhythm.shared.ui.healthCharts.view
 			}
 
 			if (_traceEventHandlers)
-				trace("updateSimulation " + targetChart.id + " focusTime " +
+				logDebugEvent("updateSimulation", chartToTraceString(targetChart), "focusTime " +
 						ScrubChart.traceDate(model.focusSimulation.date.time) + " dateMeasuredStart " +
 						(model.focusSimulation.dataPointDate ? ScrubChart.traceDate(model.focusSimulation.dataPointDate.time) : "(unavailable)") +
 						" systolic " +
 						model.focusSimulation.systolic + dataIndexMessage +
 						" [" + medicationUpdateDescriptions.join(", ") + "]");
+		}
+
+		/**
+		 * Gets a string describing the chart that is suitable for logging or trace messages.
+		 * @param chartOrEvent the Event or ScrubChart
+		 * @return string describing the chart
+		 */
+		private function chartToTraceString(chartOrEvent:*):String
+		{
+			var scrubChart:ScrubChart;
+			var event:Event = chartOrEvent as Event;
+			if (event != null)
+			{
+				scrubChart = event.target as ScrubChart;
+			}
+			if (scrubChart == null)
+			{
+				scrubChart = chartOrEvent as ScrubChart;
+			}
+
+			if (scrubChart)
+				return scrubChart.id;
+			else
+				return "(no chart)";
 		}
 
 		protected function updateSimulationForCustomCharts():String
@@ -2106,10 +2316,12 @@ package collaboRhythm.shared.ui.healthCharts.view
 			_initialDurationTime = value;
 		}
 
-		private function traceAndLog(message:String):void
+		private function logDebugEvent(... rest):void
 		{
-			trace(message);
-			_logger.info(message);
+			var message:String = rest.join(" ");
+			// Rely on the trace target of the logger for tracing
+//			trace(message, rest);
+			_logger.debug(message);
 		}
 
 		private function updateRangeChartVisibleStyles():void
@@ -2173,7 +2385,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 			if (medicationModel == null)
 			{
-				trace("Warning: No medication found in the model.simulation for key " + medicationCode + ". This will happen if there are no MedicationAdministration documents in the record for this medication.");
+				logDebugEvent("Warning: No medication found in the model.simulation for key " + medicationCode + ". This will happen if there are no MedicationAdministration documents in the record for this medication.");
 				return medicationCode + " not found";
 			}
 			else
@@ -2224,8 +2436,18 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private function checkReadyToSynchronizeDateLimits():void
 		{
-			if (_seriesWithPendingUpdateComplete.length == 0 && _chartsWithPendingCreationComplete.length == 0)
+			if (_traceEventHandlers)
+				logDebugEvent("checkReadyToSynchronizeDateLimits", "_seriesWithPendingUpdateComplete.length =", _seriesWithPendingUpdateComplete.length, "_chartsWithPendingMainChartAdded.length =", _chartsWithPendingMainChartAdded.length);
+
+			if (_seriesWithPendingUpdateComplete.length == 0 && _chartsWithPendingMainChartAdded.length == 0)
+			{
+				for each (var chart:TouchScrollingScrubChart in getAllCharts())
+				{
+					chart.allSeriesUpdated();
+				}
 				queueSynchronizeDateLimits();
+				queueUpdateBackgroundElements();
+			}
 		}
 
 		public function get useSliceMainData():Boolean
@@ -2240,7 +2462,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			{
 				chart.useSliceMainData = useSliceMainData;
 			}
-			trace("useSliceMainData", useSliceMainData);
+			logDebugEvent("useSliceMainData", useSliceMainData);
 		}
 
 		public function get shouldApplyChangesToSimulation():Boolean
@@ -2251,7 +2473,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 		public function set shouldApplyChangesToSimulation(value:Boolean):void
 		{
 			_shouldApplyChangesToSimulation = value;
-			trace("shouldApplyChangesToSimulation", shouldApplyChangesToSimulation);
+			logDebugEvent("shouldApplyChangesToSimulation", shouldApplyChangesToSimulation);
 		}
 
 		private function addSeriesSet(chart:ScrubChart, series:Series):void

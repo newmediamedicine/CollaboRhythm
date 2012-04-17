@@ -134,25 +134,25 @@
 		</mx:LineChart>
 
 		<!-- mainChart border lines -->
-		<s:Group height="100%" width="100%">
+		<s:Group id="borderGroup" height="100%" width="100%">
 			<s:Line left="0" top="0" bottom="0">
 				<s:stroke>
-					<s:SolidColorStroke/>
+					<s:SolidColorStroke color="#231F20"/>
 				</s:stroke>
 			</s:Line>
 			<s:Line x="{mainChartContainer.width - 1}" top="0" bottom="0">
 				<s:stroke>
-					<s:SolidColorStroke/>
+					<s:SolidColorStroke color="#231F20"/>
 				</s:stroke>
 			</s:Line>
 			<s:Line id="topBorderLine" top="0" left="0" right="0">
 				<s:stroke>
-					<s:SolidColorStroke/>
+					<s:SolidColorStroke color="#808285"/>
 				</s:stroke>
 			</s:Line>
 			<s:Line bottom="0" left="0" right="0">
 				<s:stroke>
-					<s:SolidColorStroke/>
+					<s:SolidColorStroke color="#231F20"/>
 				</s:stroke>
 			</s:Line>
 		</s:Group>
@@ -186,6 +186,13 @@
 			if (topBorderLine.visible != topBorderVisible)
 			{
 				topBorderLine.visible = topBorderVisible;
+			}
+
+			var borderVisible:Boolean = getStyle("borderVisible");
+
+			if (borderGroup.visible != borderVisible)
+			{
+				borderGroup.visible = borderVisible;
 			}
 		}
 

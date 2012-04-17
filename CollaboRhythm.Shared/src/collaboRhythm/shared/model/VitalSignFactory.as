@@ -24,7 +24,12 @@ package collaboRhythm.shared.model
 
 		public function createHeartRate(dateMeasuredStart:Date, resultValue:String, measuredBy:String = null, dateMeasuredEnd:Date = null, site:String = null, position:String = null, technique:String = null, comments:String = null):VitalSign
 		{
-			return new VitalSign(_codedValueFactory.createHeartRateCodedValue(), measuredBy, dateMeasuredStart, dateMeasuredEnd, new ValueAndUnit(resultValue, _codedValueFactory.createMillimetersOfMercuryCodedValue()), site,  position, technique, comments);
+			return new VitalSign(_codedValueFactory.createHeartRateCodedValue(), measuredBy, dateMeasuredStart, dateMeasuredEnd, new ValueAndUnit(resultValue, _codedValueFactory.createBeatsPerMinuteCodedValue()), site,  position, technique, comments);
+		}
+
+		public function createBloodGlucose(dateMeasuredStart:Date, resultValue:String, measuredBy:String = null, dateMeasuredEnd:Date = null, site:String = null, position:String = null, technique:String = null, comments:String = null):VitalSign
+		{
+			return new VitalSign(_codedValueFactory.createBloodGlucoseCodedValue(), measuredBy, dateMeasuredStart, dateMeasuredEnd, new ValueAndUnit(resultValue, _codedValueFactory.createMilligramsPerDeciliterCodedValue()), site,  position, technique, comments);
 		}
 	}
 }

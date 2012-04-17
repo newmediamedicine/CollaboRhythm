@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Desktop libraries for mobile applications" type="flex">
+    <CLASSES>
+      <root url="jar://$PROJECT_FRAMEWORKS$/libs/mx/mx.swc!/" />
+      <root url="jar://$PROJECT_FRAMEWORKS$/libs/charts.swc!/" />
+      <root url="jar://$PROJECT_FRAMEWORKS$/libs/sparkskins.swc!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -234,14 +234,27 @@ package com.dougmccune.controls
 				}
 				else
 				{
+					var mismatches:Array = new Array();
+					checkMismatchProperty(targetChart, mismatches, "minimumTime", true);
+					checkMismatchProperty(targetChart, mismatches, "maximumTime", true);
+					checkMismatchProperty(targetChart, mismatches, "mainChartToContainerRatio");
+					checkMismatchProperty(targetChart, mismatches, "mainDataRatio");
 					if (_traceEvents)
-						trace("Optimization in synchronizeScrollPosition failed because of mismatch between this chart " +
-								traceEventsPrefix + " and target " + targetChart.traceEventsPrefix); // + "minimumTime " + targetChart.minimumTime)
+						_logger.debug("Optimization in synchronizeScrollPosition failed because of mismatch between this chart " +
+								traceEventsPrefix + " and target " + targetChart.traceEventsPrefix + " Mismatches: " + mismatches.join(", ")); // + "minimumTime " + targetChart.minimumTime)
 					leftRangeTime = targetChart.leftRangeTime;
 					rightRangeTime = targetChart.rightRangeTime;
 					updateForScroll();
 				}
 			}
+		}
+
+		private function checkMismatchProperty(targetChart:TouchScrollingScrubChart, mismatches:Array,
+											   propertyName:String, isDate:Boolean = false):void
+		{
+			if (this[propertyName] != targetChart[propertyName])
+				mismatches.push(propertyName + " != targetChart." + propertyName + " (" + (isDate ? traceDate(this[propertyName]) : this[propertyName]) + " != " +
+						(isDate ? traceDate(targetChart[propertyName]) : targetChart[propertyName]) + ")");
 		}
 	}
 }

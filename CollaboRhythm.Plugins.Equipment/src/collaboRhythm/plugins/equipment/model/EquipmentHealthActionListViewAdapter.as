@@ -26,14 +26,14 @@ package collaboRhythm.plugins.equipment.model
 		private var _controller:HealthActionListViewControllerBase;
 
 		public function EquipmentHealthActionListViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
-																			healthcationModelDetailsProvider:IHealthActionModelDetailsProvider)
+																			healthActionModelDetailsProvider:IHealthActionModelDetailsProvider)
 		{
 			_equipmentScheduleItem = scheduleItemOccurrence.scheduleItem as EquipmentScheduleItem;
 			_equipment = _equipmentScheduleItem.scheduledEquipment;
 
 			_equipmentHealthAction = new EquipmentHealthAction(_equipmentScheduleItem.instructions, _equipment.name);
 
-			_model = new HealthActionListViewModelBase(scheduleItemOccurrence, healthcationModelDetailsProvider);
+			_model = new HealthActionListViewModelBase(scheduleItemOccurrence, healthActionModelDetailsProvider);
 			_controller = new HealthActionListViewControllerBase(_model);
 		}
 
@@ -53,12 +53,12 @@ package collaboRhythm.plugins.equipment.model
 
 		public function get name():String
 		{
-			return _equipmentScheduleItem.name.text;
+			return _equipment.name;
 		}
 
 		public function get description():String
 		{
-			return "";
+			return "Blood Glucose Meter";
 		}
 
 		public function get indication():String
@@ -66,9 +66,14 @@ package collaboRhythm.plugins.equipment.model
 			return "";
 		}
 
-		public function get instructions():String
+		public function get primaryInstructions():String
 		{
-			return "";
+			return "1 measurement from fingerstick";
+		}
+
+		public function get secondaryInstructions():String
+		{
+			return "take measurement before eating";
 		}
 
 		public function get model():IHealthActionListViewModel

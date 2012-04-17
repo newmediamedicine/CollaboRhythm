@@ -1,22 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="Flex" version="4">
-  <component name="Flex.Build.Configuration">
-    <option name="DO_BUILD" value="true" />
-    <option name="OUTPUT_TYPE" value="Library" />
-    <option name="OUTPUT_FILE_NAME" value="CollaboRhythm_Shared_Collaboration.swc" />
-    <option name="TARGET_PLAYER_VERSION" value="11.1" />
-    <option name="VERSION" value="3" />
+  <component name="FlexBuildConfigurationManager" active="CollaboRhythm.Shared.Collaboration">
+    <configurations>
+      <configuration name="CollaboRhythm.Shared.Collaboration" target-platform="Desktop" output-type="Library" output-file="CollaboRhythm_Shared_Collaboration.swc" output-folder="$MODULE_DIR$/../out/production/CollaboRhythm.Shared.Collaboration">
+        <dependencies>
+          <entries>
+            <entry library-id="6c2b03d4-29d7-4a6e-b895-f1356532eded">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="26d3ed18-c40e-427d-9606-6c2a12c3741a">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared" build-configuration-name="CollaboRhythm.Shared">
+              <dependency linkage="Merged" />
+            </entry>
+          </entries>
+          <sdk name="4.6.0" />
+        </dependencies>
+        <compiler-options />
+        <packaging-air-desktop />
+        <packaging-android />
+        <packaging-ios />
+      </configuration>
+    </configurations>
+    <compiler-options />
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="4.6.0 AIR" jdkType="AIR SDK Type" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared" />
     <orderEntry type="module-library">
-      <library>
+      <library type="flex">
+        <properties id="6c2b03d4-29d7-4a6e-b895-f1356532eded" />
         <CLASSES>
           <root url="jar://$PROJECT_FRAMEWORKS$/libs/mobile/mobilecomponents.swc!/" />
         </CLASSES>
@@ -25,7 +43,8 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library>
+      <library type="flex">
+        <properties id="26d3ed18-c40e-427d-9606-6c2a12c3741a" />
         <CLASSES>
           <root url="jar://$PROJECT_FRAMEWORKS$/themes/Mobile/mobile.swc!/" />
         </CLASSES>
@@ -33,6 +52,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="jdk" jdkName="4.6.0" jdkType="__CompositeFlexSdk__" />
   </component>
 </module>
 

@@ -50,7 +50,12 @@ package collaboRhythm.plugins.painReport.model
 			return "";
 		}
 
-		public function get instructions():String
+		public function get primaryInstructions():String
+		{
+			return "";
+		}
+
+		public function get secondaryInstructions():String
 		{
 			return "";
 		}

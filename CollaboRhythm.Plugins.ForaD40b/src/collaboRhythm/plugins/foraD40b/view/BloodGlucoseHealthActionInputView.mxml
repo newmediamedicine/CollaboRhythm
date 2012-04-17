@@ -17,14 +17,47 @@
 -->
 <tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
-					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   xmlns:sharedViews="collaboRhythm.shared.view.*"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView">
+	<fx:Declarations>
+		<s:Button id="doneButton" label="Done" click="doneButton_clickHandler()"/>
+	</fx:Declarations>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		.reportingLabelsText {
+			color: #000000;
+			fontSize: 40;
+		}
+
+		#instructionsLabel {
+			color: #000000;
+			fontSize: 40;
+		}
+
+		#foraD40bLabel {
+			color: #000000;
+			fontSize: 24;
+		}
+
+		.textInputText {
+			color: #000000;
+			fontSize: 150;
+		}
+
+		#bloodGlucose {
+			color: #000000;
+			fontSize: 110;
+		}
+	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
+
+		private const NUMBER_PAD_GAP:int = 2;
 
 		[Bindable]
 		protected var _dataInputModel:BloodGlucoseHealthActionInputModel;
@@ -44,5 +77,33 @@
 		{
 			return _dataInputController;
 		}
+
+		override protected function createChildren():void
+		{
+			super.createChildren();
+			actionContent.unshift(doneButton);
+		}
+
+		private function doneButton_clickHandler():void
+		{
+			_dataInputController.submitBloodGlucose();
+		}
 		]]></fx:Script>
+	<s:Group height="100%" width="100%">
+		<s:VGroup horizontalCenter="0" verticalCenter="0" horizontalAlign="center">
+			<s:Label id="instructionsLabel" text="Please measure your blood glucose."/>
+			<s:Label id="foraD40bLabel"
+					 text="If you use the FORA D40b, the result will be automatically entered below."/>
+			<s:HGroup id="bloodGlucoseGroup" gap="15" paddingTop="20">
+				<s:TextInput id="bloodGlucose" width="240" height="130"
+							 skinClass="spark.skins.mobile.StageTextInputSkin" styleName="textInputText"
+							 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number"
+							 text="@{_dataInputModel.bloodGlucose}"/>
+				<s:Group height="100%">
+					<s:Label text="mg/dL" verticalCenter="0" styleName="reportingLabelsText"/>
+				</s:Group>
+			</s:HGroup>
+		</s:VGroup>
+	</s:Group>
+	<sharedViews:NumberPad id="numberPad" visible="false"/>
 </tablet:TabletViewBase>

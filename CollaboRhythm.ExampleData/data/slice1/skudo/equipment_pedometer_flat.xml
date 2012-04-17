@@ -15,7 +15,7 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<IndivoDocuments xmlns="http://indivo.org/vocab/xml/documents#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<IndivoDocuments>
 	<LoadableIndivoDocument>
 		<document>
 			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">

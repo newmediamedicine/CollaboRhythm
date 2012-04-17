@@ -8,11 +8,12 @@ package collaboRhythm.shared.model
 
 		function get netConnection():NetConnection;
 
-		function sendMessage(messageType:String, subjectAccountId:String, sourceAccountId:String, sourcePeerId:String,
-							 targetAccountId:String, targetPeerId:String, passWord:String):void;
+		function sendMessage(messageType:String, method:String = null):void;
 
 		function enterCollaborationLobby():void;
 
 		function createCommunicationConnection():void;
+
+		function closeCollaborationConnection():void;
 	}
 }
