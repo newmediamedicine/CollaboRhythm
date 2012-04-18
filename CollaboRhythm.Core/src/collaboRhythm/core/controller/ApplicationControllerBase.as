@@ -377,6 +377,7 @@ package collaboRhythm.core.controller
 				fileTarget.file = targetFile;
 				/* Log all log levels. */
 				fileTarget.level = LogEventLevel.ALL;
+				fileTarget.sizeLimit = 1024;
 				Log.addTarget(fileTarget);
 			}
 

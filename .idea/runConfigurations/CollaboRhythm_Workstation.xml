@@ -28,7 +28,9 @@
     <option name="url" value="http://" />
     <option name="usbDebugPort" value="7936" />
     <RunnerSettings RunnerId="FlexDebugRunner" />
+    <RunnerSettings RunnerId="FlexRunner" />
     <ConfigurationWrapper RunnerId="FlexDebugRunner" />
+    <ConfigurationWrapper RunnerId="FlexRunner" />
     <method />
   </configuration>
 </component>
