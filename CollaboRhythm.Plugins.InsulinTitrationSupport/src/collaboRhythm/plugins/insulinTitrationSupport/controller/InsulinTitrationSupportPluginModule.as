@@ -19,7 +19,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 	import castle.flexbridge.reflection.ReflectionUtils;
 
 	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationSupportChartModifierFactory;
+	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationSupportHealthActionInputControllerFactory;
 	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationSupportHealthActionListViewAdapterFactory;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputControllerFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
@@ -37,10 +39,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 		public function registerComponents(componentContainer:IComponentContainer):void
 		{
             componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(InsulinTitrationSupportHealthActionListViewAdapterFactory).name, IHealthActionListViewAdapterFactory, new InsulinTitrationSupportHealthActionListViewAdapterFactory());
+			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(InsulinTitrationSupportHealthActionInputControllerFactory).name, IHealthActionInputControllerFactory, new InsulinTitrationSupportHealthActionInputControllerFactory());
 
-			var typeName:String;
-			typeName = ReflectionUtils.getClassInfo(InsulinTitrationSupportChartModifierFactory).name;
-			componentContainer.registerComponentInstance(typeName, IChartModifierFactory, new InsulinTitrationSupportChartModifierFactory());
+			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(InsulinTitrationSupportChartModifierFactory).name, IChartModifierFactory, new InsulinTitrationSupportChartModifierFactory());
 		}
 	}
 }

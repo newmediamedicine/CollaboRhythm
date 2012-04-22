@@ -22,6 +22,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.core.model.AboutApplicationModel;
 	import collaboRhythm.core.model.ApplicationControllerModel;
+	import collaboRhythm.core.model.ApplicationNavigationProxy;
 	import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
 	import collaboRhythm.core.model.healthRecord.service.ProblemsHealthRecordService;
 	import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
@@ -38,6 +39,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.model.BackgroundProcessCollectionModel;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionEvent;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
+	import collaboRhythm.shared.model.IApplicationNavigationProxy;
 	import collaboRhythm.shared.model.InteractionLogUtil;
 	import collaboRhythm.shared.model.healthRecord.AccountInformationHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.CreateSessionHealthRecordService;
@@ -114,6 +116,7 @@ package collaboRhythm.core.controller
 		protected var _currentDateSource:ICurrentDateSource;
 
 		private var _backgroundProcessModel:BackgroundProcessCollectionModel = new BackgroundProcessCollectionModel();
+		protected var _navigationProxy:IApplicationNavigationProxy;
 
 		public function ApplicationControllerBase()
 		{
@@ -217,6 +220,8 @@ package collaboRhythm.core.controller
 			// the activeAccount is that which is actively in session with the Indivo server, there can only be one active account at a time
 			// create an instance of this model class before creating a session so that the results are tracked by that instance
 			_activeAccount = new Account();
+
+			_navigationProxy = new ApplicationNavigationProxy(this);
 		}
 
 		protected function initNativeApplicationEventListeners():void
@@ -956,7 +961,7 @@ package collaboRhythm.core.controller
 				openRecordAccount(_reloadWithRecordAccount);
 		}
 
-		protected function get appControllersMediator():AppControllersMediatorBase
+		public function get appControllersMediator():AppControllersMediatorBase
 		{
 			throw new Error("virtual function must be overridden in subclass");
 		}
@@ -1158,7 +1163,7 @@ package collaboRhythm.core.controller
 				else if (_applicationControllerModel && _applicationControllerModel.hasErrors)
 				{
 					connectivityState = ConnectivityView.CONNECT_FAILED_STATE;
-					_connectivityView.detailsMessage = "Connection to health record server failed. You will not be able to access your health record until this is resolved. " +
+					_connectivityView.detailsMessage = "Connection to health record server " + settings.indivoServerBaseURL + " failed. You will not be able to access your health record until this is resolved. " +
 							_applicationControllerModel.errorMessage;
 				}
 				else if (_collaborationLobbyNetConnectionService &&

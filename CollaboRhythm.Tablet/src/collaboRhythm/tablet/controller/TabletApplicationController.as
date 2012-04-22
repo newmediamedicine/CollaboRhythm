@@ -218,7 +218,8 @@ package collaboRhythm.tablet.controller
 						_fullContainer, settings,
 						_componentContainer,
 						_collaborationController.collaborationModel.collaborationLobbyNetConnectionService as CollaborationLobbyNetConnectionService,
-						this);
+						this,
+						_navigationProxy);
 			}
 			_tabletAppControllersMediator.createAndStartApps(activeAccount, recordAccount);
 		}
@@ -233,7 +234,7 @@ package collaboRhythm.tablet.controller
 			return _applicationSettingsEmbeddedFile;
 		}
 
-		protected override function get appControllersMediator():AppControllersMediatorBase
+		public override function get appControllersMediator():AppControllersMediatorBase
 		{
 			return _tabletAppControllersMediator;
 		}

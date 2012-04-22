@@ -17,6 +17,7 @@
 package collaboRhythm.shared.controller.apps
 {
 import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.IApplicationNavigationProxy;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.services.IComponentContainer;
     import collaboRhythm.shared.model.settings.Settings;
@@ -36,6 +37,7 @@ import collaboRhythm.shared.model.Account;
         private var _componentContainer:IComponentContainer;
 		private var _collaborationLobbyNetConnectionService:ICollaborationLobbyNetConnectionService;
 		private var _viewNavigator:ViewNavigator;
+		private var _navigationProxy:IApplicationNavigationProxy;
 
 		public function AppControllerConstructorParams()
 		{
@@ -127,6 +129,16 @@ import collaboRhythm.shared.model.Account;
 		public function set viewNavigator(value:ViewNavigator):void
 		{
 			_viewNavigator = value;
+		}
+
+		public function get navigationProxy():IApplicationNavigationProxy
+		{
+			return _navigationProxy;
+		}
+
+		public function set navigationProxy(value:IApplicationNavigationProxy):void
+		{
+			_navigationProxy = value;
 		}
 	}
 }

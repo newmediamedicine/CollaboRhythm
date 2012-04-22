@@ -29,6 +29,9 @@
             <entry module-name="ChartBackgroundsLib" build-configuration-name="ChartBackgroundsLib">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-name="mobile" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -67,6 +70,7 @@
     <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.HealthCharts" />
     <orderEntry type="module" module-name="McCuneChart" />
     <orderEntry type="module" module-name="ChartBackgroundsLib" />
+    <orderEntry type="library" name="mobile" level="project" />
   </component>
 </module>
 

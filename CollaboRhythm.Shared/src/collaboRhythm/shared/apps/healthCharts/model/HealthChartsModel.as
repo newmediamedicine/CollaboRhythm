@@ -57,6 +57,7 @@ package collaboRhythm.shared.apps.healthCharts.model
 		public static const RXNORM_HYDROCHLOROTHIAZIDE:String = "310798";
 		public static const RXNORM_ATENOLOL:String = "197381";
 		private var _isInitialized:Boolean;
+		private var _decisionPending:Boolean = false;
 
 		/**
 		 * The simulation state corresponding to the time currently being focused on (the time specified by the focus
@@ -363,6 +364,16 @@ package collaboRhythm.shared.apps.healthCharts.model
 		public function set medicationConcentrationCurvesByCode(value:HashMap):void
 		{
 			throw new Error("Property is read-only. Setter exists to facilitate data binding.");
+		}
+
+		public function prepareForDecision():void
+		{
+			_decisionPending = true;
+		}
+
+		public function finishedDecision():void
+		{
+			_decisionPending = false;
 		}
 	}
 }
