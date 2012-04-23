@@ -7,7 +7,10 @@
 							skinClass="collaboRhythm.tablet.view.skins.CollaboRhythmTabletApplicationSkin"
 							creationComplete="creationCompleteHandler(event)"
 							runtimeDPIProvider="collaboRhythm.tablet.model.EmulatorDpiProvider"
-							currentState="uninitialized">
+							currentState="uninitialized"
+							mouseDown="mouseDownHandler(event)"
+							mouseMove="mouseMoveHandler(event)"
+							mouseUp="mouseUpHandler(event)">
 	<s:states>
 		<s:State name="uninitialized"/>
 
@@ -101,6 +104,8 @@
 
 		import mx.events.FlexEvent;
 
+		import spark.primitives.Graphic;
+
 		[Bindable]
 		private var _applicationController:TabletApplicationController;
 
@@ -110,8 +115,12 @@
 		[SkinPart(required="false")]
 		public var aboutApplicationView:AboutApplicationView;
 
+		[SkinPart(required="false")]
+		public var pointer:Graphic;
+
 		[Bindable]
 		private var _collaborationController:CollaborationController;
+		private var _mouseDown:Boolean;
 
 		override protected function invokeHandler(event:InvokeEvent):void
 		{
@@ -142,6 +151,8 @@
 
 			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.SYNCHRONIZE,
 					synchronizeHandler);
+			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.POINTER,
+					pointerHandler);
 
 			BindingUtils.bindSetter(activeView_changeHandler, navigator, "activeView");
 			BindingUtils.bindSetter(mode_changeHandler, _applicationController.settings, "mode");
@@ -149,9 +160,26 @@
 					"collaborationState");
 		}
 
+		private function pointerHandler(event:CollaborationEvent):void
+		{
+			if (event.method == "showPointer")
+			{
+				showPointer("remote", event.x, event.y)
+			}
+			else if (event.method == "movePointer")
+			{
+				movePointer("remote", event.x, event.y)
+			}
+			else if (event.method == "hidePointer")
+			{
+				hidePointer("remote");
+			}
+		}
+
 		private function synchronizeHandler(event:CollaborationEvent):void
 		{
-			if (event.method == "navigateHome")
+			if (event.method == "navigateHome" && _collaborationController.collaborationModel.collaborationState ==
+					CollaborationModel.COLLABORATION_ACTIVE)
 			{
 				navigateHome("remote");
 			}
@@ -216,12 +244,84 @@
 
 		private function navigateHome(source:String):void
 		{
-			if (source == "local")
+			if (source == "local" && _collaborationController.collaborationModel.collaborationState ==
+								CollaborationModel.COLLABORATION_ACTIVE)
 			{
 				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.SYNCHRONIZE,
 						"navigateHome");
 			}
 			navigator.popToFirstView()
+		}
+
+		private function mouseDownHandler(event:MouseEvent):void
+		{
+			if (_collaborationController.collaborationModel.collaborationState ==
+					CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_mouseDown = true;
+				showPointer("local", event.stageX, event.stageY);
+			}
+		}
+
+		private function showPointer(source:String, x:int, y:int):void
+		{
+			if (source == "local")
+			{
+				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.POINTER,
+						"showPointer", x, y);
+			}
+			else if (source == "remote")
+			{
+				pointer.x = x;
+				pointer.y = y;
+				pointer.visible = true;
+			}
+		}
+
+		private function mouseMoveHandler(event:MouseEvent):void
+		{
+			if (_collaborationController.collaborationModel.collaborationState ==
+					CollaborationModel.COLLABORATION_ACTIVE && _mouseDown)
+			{
+				movePointer("local", event.stageX, event.stageY);
+			}
+		}
+
+		private function movePointer(source:String, x:int, y:int):void
+		{
+			if (source == "local")
+			{
+				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.POINTER,
+						"movePointer", x, y);
+			}
+			else if (source == "remote")
+			{
+				pointer.x = x;
+				pointer.y = y;
+			}
+		}
+
+		private function mouseUpHandler(event:MouseEvent):void
+		{
+			if (_collaborationController.collaborationModel.collaborationState ==
+					CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_mouseDown = false;
+				hidePointer("local");
+			}
+		}
+
+		private function hidePointer(source:String):void
+		{
+			if (source == "local")
+			{
+				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.POINTER,
+						"hidePointer", x, y);
+			}
+			else if (source == "remote")
+			{
+				pointer.visible = false;
+			}
 		}
 		]]></fx:Script>
 	<s:navigationContent>

@@ -2,21 +2,21 @@
 <Graphic version="2.0" viewHeight="26" viewWidth="26" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
   <Library/>
   <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="26" d:pageWidth="26" d:type="layer" d:userLabel="Artboard 1">
-    <Group ai:objID="28bd8580" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
-      <Ellipse x="1.5" y="1.5" width="23" height="23" ai:objID="28f5d080" ai:seqID="3">
+    <Group ai:objID="43a9e580" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+      <Ellipse x="1.5" y="1.5" width="23" height="23" ai:objID="16340c80" ai:seqID="3">
         <fill>
-          <SolidColor color="#BE1E2D"/>
+          <SolidColor color="#A7A9AC"/>
         </fill>
         <stroke>
           <SolidColorStroke weight="3" caps="none" joints="miter" miterLimit="10" color="#414141"/>
         </stroke>
       </Ellipse>
-      <Line xFrom="5" yFrom="5" xTo="21" yTo="21" ai:objID="28c29880" ai:seqID="4">
+      <Line xFrom="5" yFrom="5" xTo="21" yTo="21" ai:objID="1633be80" ai:seqID="4">
         <stroke>
           <SolidColorStroke weight="3" caps="none" joints="miter" miterLimit="10" color="#414141"/>
         </stroke>
       </Line>
-      <Line xFrom="21" yFrom="5" xTo="5" yTo="21" ai:objID="28c2b800" ai:seqID="5">
+      <Line xFrom="21" yFrom="5" xTo="5" yTo="21" ai:objID="16332d00" ai:seqID="5">
         <stroke>
           <SolidColorStroke weight="3" caps="none" joints="miter" miterLimit="10" color="#414141"/>
         </stroke>
@@ -37,7 +37,7 @@
           <ai:Dict/>
         </ai:AutoGenImageList>
       </ai:PrivateElement>
-      <ai:PrivateElement flm:hashcode="9E6192AE04F2208B49E639AC093E0E2E" d:ref="#2">
+      <ai:PrivateElement flm:hashcode="4B90D9E9C2D082A47330C2EC8EF5726E" d:ref="#2">
         <ai:LayerOptions color="5 79.31 257 128.502"/>
       </ai:PrivateElement>
     </Private>

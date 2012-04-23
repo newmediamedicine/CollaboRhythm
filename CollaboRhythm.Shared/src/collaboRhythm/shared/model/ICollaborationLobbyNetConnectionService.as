@@ -8,7 +8,7 @@ package collaboRhythm.shared.model
 
 		function get netConnection():NetConnection;
 
-		function sendMessage(messageType:String, method:String = null):void;
+		function sendMessage(messageType:String, method:String = null, x:int = 0, y:int = 0):void;
 
 		function enterCollaborationLobby():void;
 

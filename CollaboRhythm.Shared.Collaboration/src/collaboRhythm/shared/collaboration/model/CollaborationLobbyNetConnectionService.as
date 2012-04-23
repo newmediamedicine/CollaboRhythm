@@ -51,6 +51,7 @@ package collaboRhythm.shared.collaboration.model
 		public static const CANCEL:String = "cancel";
 		public static const END:String = "end";
 		public static const SYNCHRONIZE:String = "synchronize";
+		public static const POINTER:String = "pointer";
 
 		private const COLLABORATION_LOBBY:String = "Collaboration Lobby";
 		private const NETCONNECTION_STATUS_CALL_FAILED:String = "NetConnection.Call.Failed";
@@ -78,6 +79,7 @@ package collaboRhythm.shared.collaboration.model
 		private var _retryConnectionTimer:Timer;
 		private var _netStreamOut:NetStream;
 		private var _netStreamIn:NetStream;
+
 
 		public function CollaborationLobbyNetConnectionService(activeAccount:Account, rtmpBaseURI:String,
 															   collaborationModel:CollaborationModel)
@@ -226,20 +228,19 @@ package collaboRhythm.shared.collaboration.model
 			_netConnection.close();
 		}
 
-		public function sendMessage(messageType:String, method:String = null):void
+		public function sendMessage(messageType:String, method:String = null, x:int = 0, y:int = 0):void
 		{
 			if (_collaborationModel && _collaborationModel.peerAccount)
 			{
-				_netConnection.call("sendMessage", null, messageType, _activeAccount.accountId,
-						_activeAccount.accountId,
+				_netConnection.call("sendMessage", null, messageType, _activeAccount.accountId, _activeAccount.accountId,
 						_activeAccount.peerId,
 						_collaborationModel.peerAccount.accountId, _collaborationModel.peerAccount.peerId,
-						_collaborationModel.passWord, method);
+						_collaborationModel.passWord, method, x, y);
 			}
 		}
 
 		public function receiveMessage(messageType:String, subjectAccountId:String, sourceAccountId:String,
-									   sourcePeerId:String, passWord:String, method:String):void
+									   sourcePeerId:String, passWord:String, method:String, x:int, y:int):void
 		{
 			var eventType:String;
 			switch (messageType)
@@ -262,10 +263,13 @@ package collaboRhythm.shared.collaboration.model
 				case SYNCHRONIZE:
 					eventType = CollaborationEvent.SYNCHRONIZE;
 					break;
+				case POINTER:
+					eventType = CollaborationEvent.POINTER;
+					break;
 			}
 
-			var collaborationEvent:CollaborationEvent = new CollaborationEvent(eventType,
-					subjectAccountId, sourceAccountId, sourcePeerId, passWord, method);
+			var collaborationEvent:CollaborationEvent = new CollaborationEvent(eventType, subjectAccountId,
+					sourceAccountId, sourcePeerId, passWord, method, x, y);
 			dispatchEvent(collaborationEvent);
 		}
 
