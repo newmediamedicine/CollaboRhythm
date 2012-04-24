@@ -360,7 +360,8 @@
 				<s:Button icon="{EndCallIcon}"
 						  includeIn="CollaborationInvitationReceived, CollaborationInvitationSent, CollaborationActive"
 						  skinClass="collaboRhythm.tablet.view.skins.TabletTransparentNavigationButtonSkin"
-						  includeInLayout="{_applicationController.collaborationController.collaborationModel.collaborationState != CollaborationModel.COLLABORATION_INACTIVE}"/>
+						  includeInLayout="{_applicationController.collaborationController.collaborationModel.collaborationState != CollaborationModel.COLLABORATION_INACTIVE}"
+						click="_applicationController.endCollaboration()"/>
 			</s:HGroup>
 		</s:HGroup>
 

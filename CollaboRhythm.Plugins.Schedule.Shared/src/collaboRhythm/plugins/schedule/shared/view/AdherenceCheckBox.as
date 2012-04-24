@@ -1,4 +1,4 @@
-package collaboRhythm.plugins.schedule.view
+package collaboRhythm.plugins.schedule.shared.view
 {
 
 	import spark.components.CheckBox;
