@@ -230,10 +230,13 @@ package collaboRhythm.shared.collaboration.model
 
 		public function sendMessage(messageType:String, method:String = null, x:int = 0, y:int = 0):void
 		{
-			_netConnection.call("sendMessage", null, messageType, _activeAccount.accountId, _activeAccount.accountId,
-					_activeAccount.peerId,
-					_collaborationModel.peerAccount.accountId, _collaborationModel.peerAccount.peerId,
-					_collaborationModel.passWord, method, x, y);
+			if (_collaborationModel && _collaborationModel.peerAccount)
+			{
+				_netConnection.call("sendMessage", null, messageType, _activeAccount.accountId, _activeAccount.accountId,
+						_activeAccount.peerId,
+						_collaborationModel.peerAccount.accountId, _collaborationModel.peerAccount.peerId,
+						_collaborationModel.passWord, method, x, y);
+			}
 		}
 
 		public function receiveMessage(messageType:String, subjectAccountId:String, sourceAccountId:String,

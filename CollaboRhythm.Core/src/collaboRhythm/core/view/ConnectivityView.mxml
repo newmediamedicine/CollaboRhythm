@@ -252,7 +252,7 @@
 							  width="180"
 							  click="quitButton_clickHandler()"/>
 					<s:Button id="ignoreButton" label="Ignore"
-							  includeIn="connectionErrorsSaving, unexpectedErrorsSaving"
+							  includeIn="connectionErrorsSaving, unexpectedErrorsSaving, connectFailed"
 							  styleName="connectivityButtonText"
 							  width="180"
 							  click="ignoreButton_clickHandler()"/>

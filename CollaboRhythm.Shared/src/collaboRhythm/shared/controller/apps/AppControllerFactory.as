@@ -20,6 +20,7 @@ package collaboRhythm.shared.controller.apps
 	import castle.flexbridge.reflection.ReflectionUtils;
 
 	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.IApplicationNavigationProxy;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.Settings;
@@ -48,6 +49,7 @@ package collaboRhythm.shared.controller.apps
 		private var _collaborationLobbyNetConnectionService:ICollaborationLobbyNetConnectionService;
 		private var _viewNavigator:ViewNavigator;
 		protected var logger:ILogger;
+		private var _navigationProxy:IApplicationNavigationProxy;
 
 
 		public function AppControllerFactory()
@@ -97,6 +99,7 @@ package collaboRhythm.shared.controller.apps
             constructorParams.componentContainer = _componentContainer;
 			constructorParams.collaborationLobbyNetConnectionService = _collaborationLobbyNetConnectionService;
 			constructorParams.viewNavigator = _viewNavigator;
+			constructorParams.navigationProxy = _navigationProxy;
 
 			var appObject:Object = new appClass(constructorParams);
 			if (appObject == null)
@@ -167,6 +170,16 @@ package collaboRhythm.shared.controller.apps
 		public function set viewNavigator(value:ViewNavigator):void
 		{
 			_viewNavigator = value;
+		}
+
+		public function get navigationProxy():IApplicationNavigationProxy
+		{
+			return _navigationProxy;
+		}
+
+		public function set navigationProxy(value:IApplicationNavigationProxy):void
+		{
+			_navigationProxy = value;
 		}
 	}
 }

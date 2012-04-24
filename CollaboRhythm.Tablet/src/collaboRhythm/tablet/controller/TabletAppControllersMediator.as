@@ -21,6 +21,7 @@ package collaboRhythm.tablet.controller
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
+	import collaboRhythm.shared.model.IApplicationNavigationProxy;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.Settings;
 
@@ -36,9 +37,10 @@ package collaboRhythm.tablet.controller
         public function TabletAppControllersMediator(widgetContainers:Vector.<IVisualElementContainer>,
 													 fullParentContainer:IVisualElementContainer, settings:Settings,
 													 componentContainer:IComponentContainer, collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService,
-				tabletApplicationController:TabletApplicationController)
+				tabletApplicationController:TabletApplicationController,
+				navigationProxy:IApplicationNavigationProxy)
         {
-            super(widgetContainers, fullParentContainer, settings, componentContainer, collaborationLobbyNetConnectionService);
+            super(widgetContainers, fullParentContainer, settings, componentContainer, collaborationLobbyNetConnectionService, navigationProxy);
 			_tabletApplicationController = tabletApplicationController;
         }
 

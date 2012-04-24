@@ -17,6 +17,7 @@
 package collaboRhythm.shared.controller.apps
 {
 	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.IApplicationNavigationProxy;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.Settings;
@@ -93,6 +94,7 @@ package collaboRhythm.shared.controller.apps
 		private var _cacheFullView:Boolean = false;
 
 		private var _createFullViewOnInitialize:Boolean = false;
+		protected var _navigationProxy:IApplicationNavigationProxy;
 
 		public function AppControllerBase(constructorParams:AppControllerConstructorParams)
 		{
@@ -109,6 +111,7 @@ package collaboRhythm.shared.controller.apps
 			_componentContainer = constructorParams.componentContainer;
 			_collaborationLobbyNetConnectionService = constructorParams.collaborationLobbyNetConnectionService;
 			_viewNavigator = constructorParams.viewNavigator;
+			_navigationProxy = constructorParams.navigationProxy;
 
 			initializeShowFullViewParallelEffects();
 

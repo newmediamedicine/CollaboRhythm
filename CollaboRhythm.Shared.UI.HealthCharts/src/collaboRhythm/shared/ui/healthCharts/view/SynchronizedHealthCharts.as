@@ -42,6 +42,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
+	import flash.geom.Point;
 	import flash.text.TextFormat;
 	import flash.ui.Keyboard;
 	import flash.utils.getQualifiedClassName;
@@ -106,7 +107,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import spark.skins.mobile.TransparentNavigationButtonSkin;
 	import spark.skins.spark.BorderContainerSkin;
 
-	public class SynchronizedHealthCharts extends VGroup implements IFocusManagerComponent
+	public class SynchronizedHealthCharts extends Group implements IFocusManagerComponent
 	{
 		public static const ADHERENCE_STRIP_CHART_HEIGHT:int = 40;
 
@@ -180,17 +181,14 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private var _pendingUpdateBackgroundElements:Boolean = false;
 		private var _shouldRunIndividualBenchmarks:Boolean = false;
 		private var _blankBackgrounds:Boolean = false;
+		private var _todayHighlight:Rect;
+		private var _chartsContainer:VGroup;
 
 		public function SynchronizedHealthCharts():void
 		{
 			// TODO: use CSS instead for these
 			percentHeight = 100;
 			percentWidth = 100;
-			gap = 10;
-			paddingLeft = 0;
-			paddingRight = 10;
-			paddingTop = 10;
-			paddingBottom = 0;
 			clipAndEnableScrolling = true;
 			setStyle("fontSize", 20);
 
@@ -226,7 +224,10 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private function rangeTodayButton_clickHandler(event:MouseEvent):void
 		{
 			if (_rangeButtonTargetChart)
+			{
+				updateChartsCache(_rangeButtonTargetChart);
 				_rangeButtonTargetChart.rangeTodayButton_clickHandler(event);
+			}
 		}
 
 		[Bindable]
@@ -332,6 +333,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 				createChartModifiers();
 				updateChartDescriptors();
 				updateAdherenceStripChartDataCollections();
+				createChartsContainer();
+				createTodayHighlight();
 				createChartsFromDescriptors();
 				createCustomCharts();
 				createHorizontalAxisChart();
@@ -407,6 +410,66 @@ package collaboRhythm.shared.ui.healthCharts.view
 			for each (var chartModifier:IChartModifier in _chartModifiers.values())
 			{
 				_chartDescriptors = chartModifier.updateChartDescriptors(_chartDescriptors);
+			}
+		}
+
+		private function createChartsContainer():void
+		{
+			_chartsContainer = new VGroup();
+
+			_chartsContainer.percentHeight = 100;
+			_chartsContainer.percentWidth = 100;
+			_chartsContainer.gap = 10;
+			_chartsContainer.paddingLeft = 0;
+			_chartsContainer.paddingRight = 10;
+			_chartsContainer.paddingTop = 10;
+			_chartsContainer.paddingBottom = 0;
+			this.addElement(_chartsContainer);
+		}
+
+		private function createTodayHighlight():void
+		{
+			_todayHighlight = new Rect();
+			_todayHighlight.top = _chartsContainer.paddingTop;
+			_todayHighlight.bottom = _chartsContainer.paddingBottom;
+			moveTodayHighlight();
+			_todayHighlight.fill = new SolidColor(0xFBB040, 0.3);
+//			_todayHighlight.includeInLayout = false;
+			this.addElementAt(_todayHighlight, 0);
+		}
+
+		private function moveTodayHighlight():void
+		{
+			var horizontalAxisChart:TouchScrollingScrubChart = _adherenceCharts.getValueByKey(HORIZONTAL_AXIS_CHART_KEY);
+			if (horizontalAxisChart)
+			{
+				var xOffset:Number = this.globalToLocal(horizontalAxisChart.localToGlobal(new Point())).x;
+				var rightLimit:Number = horizontalAxisChart.width;
+				var todayLeft:Number = horizontalAxisChart.transformTimeToPosition(horizontalAxisChart.initialRightRangeTime - ScrubChart.DAYS_TO_MILLISECONDS);
+				if (todayLeft > rightLimit)
+				{
+					_todayHighlight.visible = false
+				}
+				else
+				{
+					if (todayLeft < 0)
+						todayLeft = 0;
+					var todayRight:Number = horizontalAxisChart.transformTimeToPosition(horizontalAxisChart.initialRightRangeTime);
+
+					if (todayRight > rightLimit)
+						todayRight = rightLimit;
+
+					if (todayRight < 0)
+					{
+						_todayHighlight.visible = false
+					}
+					else
+					{
+						_todayHighlight.x = xOffset + todayLeft;
+						_todayHighlight.width = todayRight - todayLeft;
+						_todayHighlight.visible = true;
+					}
+				}
 			}
 		}
 
@@ -769,7 +832,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			adherenceGroup.verticalAlign = VerticalAlign.MIDDLE;
 
 			_adherenceGroups.addKeyValue(chartDescriptor.descriptorKey, adherenceGroup);
-			this.addElement(adherenceGroup);
+			_chartsContainer.addElement(adherenceGroup);
 			return adherenceGroup;
 		}
 
@@ -820,13 +883,13 @@ package collaboRhythm.shared.ui.healthCharts.view
 				footerGroup.addElement(_showAllChartsButton);
 				footerGroup.addElement(_footer);
 
-				this.addElement(footerGroup);
+				_chartsContainer.addElement(footerGroup);
 			}
 		}
 
 		protected function addCustomChartGroup(group:UIComponent):void
 		{
-			this.addElement(group);
+			_chartsContainer.addElement(group);
 		}
 
 		private function createVitalSignAdherenceChart(vitalSignChartDescriptor:VitalSignChartDescriptor):void
@@ -1606,6 +1669,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			var minimum:Number;
 			var maximum:Number;
 			var today:Date = model.currentDateSource.now();
+			var initialRightRangeTime:Number = getInitialRightRangeTime(today);
 			for each (var chart:TouchScrollingScrubChart in charts)
 			{
 				chart.commitPendingDataChanges();
@@ -1625,7 +1689,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 				for each (chart in charts)
 				{
 					chart.today = today;
-					chart.initialRightRangeTime = today.valueOf();
+					chart.initialRightRangeTime = initialRightRangeTime;
 					chart.minimumTime = minimum;
 					chart.maximumTime = maximum;
 //					if (chart.allSeriesUpdated())
@@ -1634,7 +1698,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 //					}
 //					else //if (chart.focusTime == chart.rightRangeTime == chart.maximumTime)
 //					{
-						chart.rightRangeTime = today.valueOf();
+						chart.rightRangeTime = initialRightRangeTime;
 						chart.leftRangeTime = Math.max(minimum, chart.rightRangeTime - initialDurationTime);
 						chart.updateForScroll();
 						chart.focusTime = today.valueOf();
@@ -1644,11 +1708,30 @@ package collaboRhythm.shared.ui.healthCharts.view
 //					var chartModifier:IChartModifier = getChartModifier(chart);
 //					if (chartModifier)
 //						drawBackgroundElements(chartModifier, chart);
+
+					moveTodayHighlight();
 				}
 			}
 
 			if (_traceEventHandlers)
 				logDebugEvent("synchronizeDateLimits (end)", "minimum " + ScrubChart.traceDate(minimum) + " maximum " + ScrubChart.traceDate(maximum));
+		}
+
+		private function getInitialRightRangeTime(today:Date):Number
+		{
+//			return today.date.valueOf();
+			return roundTimeToNextDay(today).valueOf();
+		}
+
+		protected function roundTimeToNextDay(date:Date):Date
+		{
+			var interval:int = 60 * 24;
+			var timezoneOffsetMilliseconds:Number = date.getTimezoneOffset() * 60 * 1000;
+			var time:Number = date.getTime() - timezoneOffsetMilliseconds;
+			var roundNumerator = 60000 * interval; //there are 60000 milliseconds in a minute
+			var newTime:Number = (Math.ceil(time / roundNumerator) * roundNumerator);
+			date.setTime(newTime + timezoneOffsetMilliseconds);
+			return date;
 		}
 
 		protected function updateSeries():void
@@ -2080,6 +2163,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 					otherChart.synchronizeScrollPosition(targetChart);
 				}
 			}
+			moveTodayHighlight();
 		}
 
 		protected function synchronizeFocusTimes(targetChart:TouchScrollingScrubChart, otherCharts:Vector.<TouchScrollingScrubChart>):void
