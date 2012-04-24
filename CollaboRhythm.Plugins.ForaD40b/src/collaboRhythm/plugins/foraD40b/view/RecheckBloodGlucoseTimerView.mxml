@@ -19,44 +19,34 @@
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
-					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
 					   creationComplete="creationCompleteHandler(event)"
-					   title="Report Blood Glucose">
-	<fx:Declarations>
-		<s:Button id="saveButton" label="Save" click="saveButton_clickHandler()"/>
-	</fx:Declarations>
+					   title="Low Blood Glucose - Countdown to Next Blood Glucose Measurement">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
-
-		.reportingLabelsText {
-			fontSize: 40;
-		}
 
 		#recheckLabel {
 			fontSize: 36;
 		}
 
-		.textInputText {
-			fontSize: 150;
-		}
-
-		#bloodGlucose {
-			fontSize: 110;
+		#timerLabel {
+			fontSize: 200;
 		}
 	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
-		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 
 		import mx.events.FlexEvent;
 
-		private const NUMBER_PAD_GAP:int = 2;
+		private static const FIRST_RECHECK_TIMER_COUNT:int = 9;
+		private static const SUBSEQUENT_RECHECK_TIMER_COUNT:int = 600;
 
-		[Bindable]
-		protected var _dataInputModel:BloodGlucoseHealthActionInputModel;
-		protected var _dataInputController:BloodGlucoseHealthActionInputController;
+		private var _dataInputModel:BloodGlucoseHealthActionInputModel;
+		private var _dataInputController:BloodGlucoseHealthActionInputController;
+
+		private var _timer:Timer;
+		private var _seconds:int;
 
 		override public function set data(value:Object):void
 		{
@@ -71,43 +61,64 @@
 		private function creationCompleteHandler(event:FlexEvent):void
 		{
 			hypoglycemiaWarningView.init(_dataInputModel);
-		}
 
-		public function get healthActionInputController():IHealthActionInputController
-		{
-			return _dataInputController;
-		}
-
-		override protected function createChildren():void
-		{
-			super.createChildren();
-			actionContent.unshift(saveButton);
-		}
-
-		private function saveButton_clickHandler():void
-		{
-			if (bloodGlucose.text != "")
+			if (_dataInputModel.repeatCount == 1)
 			{
-				_dataInputController.submitBloodGlucose(bloodGlucose.text);
+				_seconds = FIRST_RECHECK_TIMER_COUNT;
 			}
 			else
 			{
-				//TODO: Toast an error message here. User must enter a value to save.
+				_seconds = SUBSEQUENT_RECHECK_TIMER_COUNT;
+			}
+
+			recheckLabel.text = "Recheck in " + String(_seconds / 60) + " minutes.";
+			updateTimerLabel();
+
+			_timer = new Timer(1000, _seconds);
+			_timer.addEventListener(TimerEvent.TIMER, timerHandler);
+			_timer.addEventListener(TimerEvent.TIMER_COMPLETE, timerCompleteHandler);
+			_timer.start();
+		}
+
+		private function timerCompleteHandler(event:TimerEvent):void
+		{
+			_dataInputController.recheckBloodGlucose();
+		}
+
+		private function timerHandler(event:TimerEvent):void
+		{
+			updateTimerLabel();
+		}
+
+		private function updateTimerLabel():void
+		{
+			_seconds--;
+
+			var minutes:int = _seconds / 60;
+			var seconds:int = _seconds % 60;
+
+			if (minutes < 10)
+			{
+				timerLabel.text = "0" + String(minutes);
+			}
+			else
+			{
+				timerLabel.text = String(minutes);
+			}
+
+			timerLabel.text = timerLabel.text += ":";
+
+			if (seconds < 10)
+			{
+				timerLabel.text = timerLabel.text + "0" + String(seconds);
+			}
+			else
+			{
+				timerLabel.text = timerLabel.text + String(seconds);
 			}
 		}
 		]]></fx:Script>
-	<view:HypoglycemiaWarningView id="hypoglycemiaWarningView" visible="{_dataInputModel.repeatCount != 0}"/>
-	<s:Group height="100%" width="100%">
-		<s:Label id="recheckLabel" text="Please recheck now." top="100" visible="{_dataInputModel.repeatCount != 0}" horizontalCenter="0"/>
-		<s:VGroup horizontalCenter="0" verticalCenter="0" horizontalAlign="center">
-			<s:HGroup id="bloodGlucoseGroup" gap="15" paddingTop="20" verticalAlign="middle">
-				<s:Image source="http://www.mit.edu/~jom/temp/equipment/FORA D40b.png" width="140" height="140"
-						 smooth="true"/>
-				<s:TextInput id="bloodGlucose" width="240" height="130"
-							 skinClass="spark.skins.mobile.StageTextInputSkin" styleName="textInputText"
-							 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number"/>
-				<s:Label text="mg/dL" verticalCenter="0" styleName="reportingLabelsText"/>
-			</s:HGroup>
-		</s:VGroup>
-	</s:Group>
+	<view:HypoglycemiaWarningView id="hypoglycemiaWarningView"/>
+	<s:Label id="recheckLabel" top="100" horizontalCenter="0"/>
+	<s:Label id="timerLabel" verticalCenter="0" horizontalCenter="0"/>
 </tablet:TabletViewBase>

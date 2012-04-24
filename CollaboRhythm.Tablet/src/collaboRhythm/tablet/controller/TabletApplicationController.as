@@ -318,5 +318,10 @@ package collaboRhythm.tablet.controller
 			}
 			navigator.pushView(CollaborationVideoView);
 		}
+
+		public function endCollaboration():void
+		{
+			_collaborationController.endCollaboration();
+		}
 	}
 }

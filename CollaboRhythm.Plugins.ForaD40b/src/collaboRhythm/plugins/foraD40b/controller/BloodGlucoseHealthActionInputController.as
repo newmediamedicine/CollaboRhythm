@@ -2,7 +2,8 @@ package collaboRhythm.plugins.foraD40b.controller
 {
 	import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
 	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseHealthActionInputView;
-	import collaboRhythm.plugins.foraD40b.view.HypoglycemiaView;
+	import collaboRhythm.plugins.foraD40b.view.EatSomethingSugaryView;
+	import collaboRhythm.plugins.foraD40b.view.RecheckBloodGlucoseTimerView;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
@@ -24,7 +25,8 @@ package collaboRhythm.plugins.foraD40b.controller
 																healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
 																viewNavigator:ViewNavigator)
 		{
-			_dataInputModel = new BloodGlucoseHealthActionInputModel(scheduleItemOccurrence, healthActionModelDetailsProvider);
+			_dataInputModel = new BloodGlucoseHealthActionInputModel(scheduleItemOccurrence,
+					healthActionModelDetailsProvider);
 			_viewNavigator = viewNavigator;
 		}
 
@@ -33,10 +35,6 @@ package collaboRhythm.plugins.foraD40b.controller
 			var healthActionInputModelAndController:HealthActionInputModelAndController = new HealthActionInputModelAndController(_dataInputModel,
 					this);
 
-			if (_dataInputModel.repeat)
-			{
-				_dataInputModel.bloodGlucose = "";
-			}
 			_dataInputModel.pushedViewCount += 1;
 			_viewNavigator.pushView(HEALTH_ACTION_INPUT_VIEW_CLASS, healthActionInputModelAndController, null,
 					new SlideViewTransition());
@@ -47,14 +45,15 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.urlVariables = urlVariables;
 		}
 
-		public function submitBloodGlucose():void
+		public function submitBloodGlucose(bloodGlucose:String):void
 		{
-			if (int(_dataInputModel.bloodGlucose) < 70)
+			_dataInputModel.bloodGlucose = bloodGlucose;
+			if (int(_dataInputModel.bloodGlucose) < 60)
 			{
 				var healthActionInputModelAndController:HealthActionInputModelAndController = new HealthActionInputModelAndController(_dataInputModel,
-									this);
+						this);
 				_dataInputModel.pushedViewCount += 1;
-				_viewNavigator.pushView(HypoglycemiaView, healthActionInputModelAndController);
+				_viewNavigator.pushView(EatSomethingSugaryView, healthActionInputModelAndController);
 			}
 			else
 			{
@@ -71,9 +70,17 @@ package collaboRhythm.plugins.foraD40b.controller
 			return HEALTH_ACTION_INPUT_VIEW_CLASS;
 		}
 
+		public function showRecheckBloodGlucoseTimer():void
+		{
+			var healthActionInputModelAndController:HealthActionInputModelAndController = new HealthActionInputModelAndController(_dataInputModel,
+					this);
+			_dataInputModel.repeatCount += 1;
+			_dataInputModel.pushedViewCount += 1;
+			_viewNavigator.pushView(RecheckBloodGlucoseTimerView, healthActionInputModelAndController);
+		}
+
 		public function recheckBloodGlucose():void
 		{
-			_dataInputModel.repeat = true;
 			showHealthActionInputView();
 		}
 	}

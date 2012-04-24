@@ -19,7 +19,7 @@
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
-						remove="removeHandler()">
+					   remove="removeHandler()">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 
@@ -44,7 +44,8 @@
 			super.createChildren();
 			if (_tabletApplicationController)
 			{
-				_collaborationController = _tabletApplicationController.iCollaborationController as CollaborationController;
+				_collaborationController = _tabletApplicationController.iCollaborationController as
+						CollaborationController;
 				peerAccountImage.source = _collaborationController.collaborationModel.peerAccount.imageURI;
 
 				_collaborationModel = _collaborationController.collaborationModel;
@@ -57,16 +58,16 @@
 			if (netStreamIn)
 			{
 				var video:Video = new Video();
-				video.height = 480;
-				video.width = 640;
+				video.width = this.width;
+				video.height = this.height;
 				video.attachNetStream(netStreamIn);
 				videoDisplay.addChild(video);
 
 				_collaborationLobbyNetConnectionService.netStreamOut.attachCamera(_collaborationModel.audioVideoOutput.camera);
 
 				var videoOut:Video = new Video();
-				videoOut.height = 120;
-				videoOut.width = 160;
+				videoOut.width = this.width / 4;
+				videoOut.height = this.height / 4;
 				videoOut.attachCamera(_collaborationModel.audioVideoOutput.camera);
 				videoDisplayOut.addChild(videoOut);
 				return true;
@@ -145,21 +146,23 @@
 			switch (collaborationState)
 			{
 				case CollaborationModel.COLLABORATION_INVITATION_SENT:
-					collaborationLabelText = "Calling " +
-							_collaborationModel.peerAccount.primaryRecord.contact.fullName + "...";
+					collaborationLabelText = "Calling ";
 					break;
 				case CollaborationModel.COLLABORATION_INVITATION_RECEIVED:
-					collaborationLabelText = "Incoming call from " +
-							_collaborationModel.peerAccount.primaryRecord.contact.fullName;
+					collaborationLabelText = "Incoming call from ";
 					break;
 				case CollaborationModel.COLLABORATION_INVITATION_REJECTED:
-					collaborationLabelText = "Call rejected by " +
-							_collaborationModel.peerAccount.primaryRecord.contact.fullName;
+					collaborationLabelText = "Call rejected by ";
 					break;
-				case CollaborationModel.COLLABORATION_ACTIVE:
-					collaborationLabelText = "Collaborating with " +
-							_collaborationModel.peerAccount.primaryRecord.contact.fullName;
-					break;
+			}
+
+			if (_collaborationModel.peerAccount.primaryRecord.contact.fullName)
+			{
+				collaborationLabelText += _collaborationModel.peerAccount.primaryRecord.contact.fullName;
+			}
+			else
+			{
+				collaborationLabelText += _collaborationModel.peerAccount.accountId;
 			}
 
 			return collaborationLabelText;
@@ -179,35 +182,27 @@
 		{
 			_collaborationController.sendCollaborationInvitationCancelled();
 		}
-
-		private function endCall_clickHandler():void
-		{
-			_collaborationController.endCollaboration();
-		}
 		]]></fx:Script>
-	<s:Group width="100%" height="100%">
-	<s:VGroup horizontalAlign="center" verticalCenter="0" horizontalCenter="0">
-		<s:Group width="640" height="480">
-			<s:Image id="peerAccountImage" width="480" height="480" horizontalCenter="0"/>
-			<mx:VideoDisplay id="videoDisplay" width="640" height="480"
-							 visible="{determineVisible(_collaborationLobbyNetConnectionService.netStreamIn)}"/>
-			<mx:VideoDisplay id="videoDisplayOut" width="160" height="120" right="0" bottom="0" visible="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_ACTIVE}"/>
-		</s:Group>
-		<s:Label id="collaborationLabel"
-				 text="{determineCollaborationLabelText(_collaborationModel.collaborationState)}"/>
-		<s:HGroup visible="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_RECEIVED}"
-				  includeInLayout="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_RECEIVED}">
-			<s:Button id="acceptButton" label="Accept" click="acceptButton_clickHandler()"/>
-			<s:Button id="rejectButton" label="Reject" click="rejectButton_clickHandler()"/>
-		</s:HGroup>
-		<s:Button id="cancelButton" label="Cancel"
-				  visible="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_SENT}"
-				  includeInLayout="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_SENT}"
-				  click="cancelButton_clickHandler()"/>
-		<s:Button id="endCall" label="End Call"
-				  visible="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_ACTIVE}"
-				  includeInLayout="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_ACTIVE}"
-				  click="endCall_clickHandler()"/>
-	</s:VGroup>
+	<s:Group width="100%" height="100%" visible="{_collaborationModel.collaborationState != CollaborationModel.COLLABORATION_ACTIVE}">
+		<s:VGroup horizontalAlign="center" verticalCenter="0" horizontalCenter="0" paddingTop="50" gap="20">
+			<s:Image id="peerAccountImage" width="500" height="500"/>
+			<s:Label id="collaborationLabel"
+			visible="{_collaborationModel.collaborationState != CollaborationModel.COLLABORATION_ACTIVE}"
+			text="{determineCollaborationLabelText(_collaborationModel.collaborationState)}"/>
+			<s:HGroup
+					visible="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_RECEIVED}"
+					includeInLayout="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_RECEIVED}">
+				<s:Button id="acceptButton" label="Accept" click="acceptButton_clickHandler()"/>
+				<s:Button id="rejectButton" label="Reject" click="rejectButton_clickHandler()"/>
+			</s:HGroup>
+			<s:Button id="cancelButton" label="Cancel" top="10"
+			visible="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_SENT}"
+			includeInLayout="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_SENT}"
+			click="cancelButton_clickHandler()"/>
+		</s:VGroup>
+	</s:Group>
+	<s:Group width="100%" height="100%" visible="{determineVisible(_collaborationLobbyNetConnectionService.netStreamIn)}">
+		<mx:VideoDisplay id="videoDisplay" width="100%" height="100%"/>
+		<mx:VideoDisplay id="videoDisplayOut" width="{this.width / 4}" height="{this.height / 4}" right="0" bottom="0"/>
 	</s:Group>
 </tablet:TabletViewBase>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				xmlns:s="library://ns.adobe.com/flex/spark"
-				xmlns:view="collaboRhythm.plugins.schedule.view.*"
+				xmlns:view="collaboRhythm.plugins.schedule.shared.view.*"
 				width="100%"
 				height="{SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT}"
 				autoDrawBackground="false">
@@ -124,7 +124,7 @@
 
 	<s:Group id="buttonGroup" right="5" height="100%">
 		<view:AdherenceCheckBox width="50" height="50" verticalCenter="0"
-								skinClass="collaboRhythm.plugins.schedule.view.AdherenceCheckBoxSkin"
+								skinClass="collaboRhythm.plugins.schedule.shared.view.AdherenceCheckBoxSkin"
 								selected="{_scheduleItemOccurrence.adherenceItem != null}"
 								mouseDown="adherenceCheckBoxMouseDownHandler(event)"
 								click="adherenceCheckBoxClickHandler(event)"/>
