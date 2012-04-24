@@ -3,6 +3,8 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
 
+	import spark.components.Group;
+
 	public class ChartModifierBase
 	{
 		protected var _chartDescriptor:IChartDescriptor;
@@ -36,6 +38,10 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 		public function get chartModelDetails():IChartModelDetails
 		{
 			return _chartModelDetails;
+		}
+
+		public function prepareAdherenceGroup(chartDescriptor:IChartDescriptor, adherenceGroup:Group):void
+		{
 		}
 	}
 }

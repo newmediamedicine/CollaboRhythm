@@ -375,5 +375,10 @@ package collaboRhythm.shared.apps.healthCharts.model
 		{
 			_decisionPending = false;
 		}
+
+		public function get decisionPending():Boolean
+		{
+			return _decisionPending;
+		}
 	}
 }

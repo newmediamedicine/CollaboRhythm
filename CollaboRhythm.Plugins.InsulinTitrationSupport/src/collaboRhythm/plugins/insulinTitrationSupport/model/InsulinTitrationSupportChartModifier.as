@@ -1,5 +1,6 @@
 package collaboRhythm.plugins.insulinTitrationSupport.model
 {
+	import collaboRhythm.plugins.insulinTitrationSupport.view.TitrationPanelMockup;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
@@ -7,21 +8,19 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.VitalSignChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.ChartModifierBase;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifier;
-	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifier;
-
-	import com.dougmccune.controls.ScrubChart;
 
 	import com.dougmccune.controls.ScrubChart;
 	import com.dougmccune.controls.SeriesDataSet;
-	import com.dougmccune.controls.SeriesDataSet;
-	import com.theory9.data.types.OrderedMap;
 	import com.theory9.data.types.OrderedMap;
 
 	import mx.core.IVisualElement;
+	import mx.core.UIComponent;
 
 	import qs.charts.dataShapes.DataDrawingCanvas;
 
+	import spark.components.Group;
 	import spark.components.Label;
+	import spark.primitives.Rect;
 
 	public class InsulinTitrationSupportChartModifier extends ChartModifierBase implements IChartModifier
 	{
@@ -81,6 +80,44 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				reorderedChartDescriptors.addKeyValue(matchingBloodGlucoseChartDescriptor.descriptorKey, matchingBloodGlucoseChartDescriptor);
 
 			return reorderedChartDescriptors;
+		}
+
+		public override function prepareAdherenceGroup(chartDescriptor:IChartDescriptor, adherenceGroup:Group):void
+		{
+			//synchronizedHealthCharts:SynchronizedHealthCharts
+//			for each (var adherenceGroup:Group in synchronizedHealthCharts.adherenceGroups.values())
+//			{
+//				for each (var chart:TouchScrollingScrubChart in getChartsInGroup(adherenceGroup))
+//				{
+//				}
+			if (chartModelDetails.record.healthChartsModel.decisionPending)
+			{
+				if (adherenceGroup.numElements == 2)
+				{
+					var extraPanel:IVisualElement;
+
+					if (InsulinTitrationSupportChartModifierFactory.isBloodGlucoseChartDescriptor(chartDescriptor))
+					{
+						var titrationPanelMockup:TitrationPanelMockup = new TitrationPanelMockup();
+	//					titrationPanelMockup.percentHeight = 100;
+						extraPanel = titrationPanelMockup;
+					}
+					else
+					{
+						var spacerRect:Rect = new Rect();
+						spacerRect.width = 478;
+						spacerRect.visible = false;
+						extraPanel = spacerRect;
+					}
+					adherenceGroup.addElement(extraPanel);
+				}
+			}
+			else
+			{
+				while (adherenceGroup.numElements > 2)
+					adherenceGroup.removeElementAt(adherenceGroup.numElements - 1);
+			}
+//			}
 		}
 	}
 }

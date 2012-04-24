@@ -33,8 +33,8 @@ package collaboRhythm.shared.model.services
 		protected var _logger:ILogger;
 		private var _targetDate:Date;
 		private var _offset:Number;
-		private var _fastForwardRepeatDelay:Number = 1000 * 5;
-		private var _fastForwardIncrement:Number = 1000 * 60 * 60;
+		private var _fastForwardRepeatDelay:Number = 1000 * 3;
+		private var _fastForwardIncrement:Number = 1000 * 60 * 60 * 3;
 		private var _fastForwardTimer:Timer = new Timer(0);
 		private var _fastForwardEnabled:Boolean = false;
 
