@@ -17,7 +17,7 @@
         <compiler-options>
           <option name="additionalOptions" value="-locale en_US" />
         </compiler-options>
-        <packaging-air-desktop package-file-name="PianoChord" />
+        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/PianoChord-app.xml" package-file-name="PianoChord" />
         <packaging-android />
         <packaging-ios />
       </configuration>

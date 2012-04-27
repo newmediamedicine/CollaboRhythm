@@ -30,12 +30,13 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>b2a41f02-49d4-4011-a012-cb7d5b250e86</recordId>
-    <accessKey>qlGx9SMcdZLynLtkpsfm</accessKey>
-    <accessSecret>8BS7TNdwsyO1aFWdg44V</accessSecret>
-    <status>Login successful</status>
-    <demographicsId>c6f334d8-cbd3-48db-a12c-52a85ae379c4</demographicsId>
+    <recordId>e9786820-11a5-4820-9679-08a2f1da3b2a</recordId>
+    <accessKey>qS2mxiDAQPSEzpgrhva7</accessKey>
+    <accessSecret>6zHLDao7pwIXagk71Nko</accessSecret>
+    <status>Created 55/54 documents, 53/54 relationships</status>
+    <demographicsId>13ac01a3-961e-4bb8-84d0-48508c846a2b</demographicsId>
     <notes>Test single medication (hydrochlorothiazide)</notes>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>singlevital1@records.media.mit.edu</accountId>
@@ -67,12 +68,13 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>df51aec1-1ca8-43a9-94da-ebd5aafcaa9b</recordId>
-    <accessKey>wZEOaVvx2HvsuhUtX0pE</accessKey>
-    <accessSecret>NnpQQcZRIGe0uZUlvt6W</accessSecret>
-    <status>Login successful</status>
-    <demographicsId>d4461d8e-836c-4482-aec9-9d89c5ad5a21</demographicsId>
+    <recordId>b5ade9a5-c9c5-4833-aa65-6a0c57f07791</recordId>
+    <accessKey>0wrvkFKn3JsiUXLDh70b</accessKey>
+    <accessSecret>qMTM4IVUQaZjBS6gJbxg</accessSecret>
+    <status>Created 30/29 documents, 28/29 relationships</status>
+    <demographicsId>e93b4c0a-0832-4f29-a88b-7f3fce7f714a</demographicsId>
     <notes>Test single vital sign (peak flow)</notes>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>skudo@records.media.mit.edu</accountId>
@@ -104,13 +106,13 @@
     <religion>Christian</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>402a6ddb-fc40-4423-8d35-458b8db549d6</recordId>
-    <accessKey>M9KwqCnyFWf3orcWXKGA</accessKey>
-    <accessSecret>X2kAVX6F5xX8utHZla3l</accessSecret>
-    <status>Login successful</status>
-    <demographicsId>f4198a93-2108-41a4-bbd8-2bb2ace9c2dc</demographicsId>
+    <recordId>b2b7fa43-70ac-46fd-b860-bea38bef5c2c</recordId>
+    <accessKey>TDsoBEndUqo75fgrPZsj</accessKey>
+    <accessSecret>Dml3rw63mwPNvC5uzgfy</accessSecret>
+    <status>Created 728/728 documents, 29/29 relationships</status>
+    <demographicsId>c8abaf43-222b-42f6-a9d5-2625b5eb37e6</demographicsId>
     <notes>Demo for fitness-tracking group</notes>
-    <recordSeed>1</recordSeed>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>agreen@records.media.mit.edu</accountId>
@@ -143,11 +145,12 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>zwoqzpdSndXrb34Csyxx</accessKey>
-    <accessSecret>rAAllpcaa0oY0ir97ovp</accessSecret>
+    <accessKey/>
+    <accessSecret/>
     <demographicsId>12625ea9-f3c7-44a9-bf4d-996da59fd4cc</demographicsId>
-    <status>Demographics document created. Id: 12625ea9-f3c7-44a9-bf4d-996da59fd4cc</status>
+    <status/>
     <notes/>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>jgreen@records.media.mit.edu</accountId>
@@ -179,11 +182,12 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId/>
-    <accessKey>4nN4e5PZXbOP14eYUUCa</accessKey>
-    <accessSecret>2aC0wXq2meqakh3itA9Q</accessSecret>
-    <status>Login successful</status>
-    <demographicsId>07229319-7795-4827-bf4a-e10f928ea7fe</demographicsId>
+    <recordId>f83b2cf2-69ea-41d7-8add-cd02271d00bd</recordId>
+    <accessKey>JPvb7uicYxIOPXYpAEv2</accessKey>
+    <accessSecret>A0lo5ol3dQAjkyQRwZOT</accessSecret>
+    <status>Created 306/362 documents, 299/355 relationships</status>
+    <demographicsId>af41168b-7faa-4f1c-80d1-46b1d1050906</demographicsId>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>rpoole@records.media.mit.edu</accountId>
@@ -216,10 +220,11 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>PGDeXevWbR37NA5B84Nw</accessKey>
-    <accessSecret>3EfZiQZNpzrdjSolZP1I</accessSecret>
-    <status>Login successful</status>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>18124489-3b91-45bd-90a9-375a520eca26</demographicsId>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>rpoole_test@records.media.mit.edu</accountId>
@@ -251,11 +256,12 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId/>
-    <accessKey>trcoG1tTQ3d3H00J1a69</accessKey>
-    <accessSecret>Igs81b3oOhhZMCj2z8wD</accessSecret>
-    <status>Login successfull</status>
-    <demographicsId/>
+    <recordId>70dff722-8069-4178-aed5-f8a245163034</recordId>
+    <accessKey>VshmncZzhzchEDXS9so7</accessKey>
+    <accessSecret>g7U9pD9OHEvm4Xbc012l</accessSecret>
+    <status>Created 340/340 documents, 335/336 relationships</status>
+    <demographicsId>0a78c9ac-7d9d-4459-8d27-8ab7a75c0c67</demographicsId>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>gstark@records.media.mit.edu</accountId>
@@ -288,11 +294,12 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>xsSMaFykzgoMKNM41nJH</accessKey>
-    <accessSecret>UhFN3Qf0ZGtyRHFdPGRe</accessSecret>
-    <status>Login successful</status>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>1c7f83d6-cd11-436c-8dc5-fc14f95aae09</demographicsId>
     <notes>Demo account for Yadid and pain-management-hw2012@googlegroups.com</notes>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>dpoole@records.media.mit.edu</accountId>
@@ -325,10 +332,11 @@
     <highestEducation>High School</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>3iauSLaAjqKH8ZubSlkn</accessKey>
-    <accessSecret>MiOyx1B4oL9TvSTlSecB</accessSecret>
-    <status>Record shared.</status>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>6b0eebd9-6968-4532-87aa-6fa17073bdc3</demographicsId>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>cbrooks@records.media.mit.edu</accountId>
@@ -359,9 +367,9 @@
     <highestEducation>High School</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>TlhxvsXAeMH0PqHhBPGG</accessKey>
-    <accessSecret>Qu7dxOqEQddaXzy3o1N2</accessSecret>
-    <status>Share deleted.</status>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>114bc114-279f-4a1f-80bf-cf7703c82452</demographicsId>
     <recordSeed/>
   </AccountSource>
@@ -394,11 +402,12 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>pct8PAYu3NHL5VuSV3hC</accessKey>
-    <accessSecret>F8HvJJSwwtRbBDV3cFHq</accessSecret>
-    <status>Record shared.</status>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>f3af9de8-3445-412a-bae3-4c6e248f3fcd</demographicsId>
     <notes>Demo account for Frank and fitness-tracking-hw2012@googlegroups.com</notes>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>abrooks@records.media.mit.edu</accountId>
@@ -431,10 +440,11 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>G8Zoz6iCqWSgXLHZbgDl</accessKey>
-    <accessSecret>9iT8rFMQhSI5EJL238hL</accessSecret>
-    <status>Demographics document created. Id: bc90ae1f-45cf-4c2f-80e2-5ac32e3e6fde</status>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>bc90ae1f-45cf-4c2f-80e2-5ac32e3e6fde</demographicsId>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>mbrooks@records.media.mit.edu</accountId>
@@ -466,11 +476,11 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>11394fdf-7867-41f1-acae-522fc64b2f30</recordId>
-    <accessKey>qpqnLfqhqEzxXhaY5MuA</accessKey>
-    <accessSecret>CMcupUm07pOb9xDjDr2B</accessSecret>
-    <status>Login successful</status>
-    <demographicsId>2a8cf8c8-20c1-4d68-85f3-0fb5c49cd0e1</demographicsId>
+    <recordId>56c46698-ed50-4335-b27c-b61e9b27aa82</recordId>
+    <accessKey>b9hYwKgsnsJkyvzNgCQl</accessKey>
+    <accessSecret>bHnQNmJcJi8eo0W8o009</accessSecret>
+    <status>Created 223/223 documents, 218/219 relationships</status>
+    <demographicsId>38b721fd-f652-449c-8f1e-23165dde15df</demographicsId>
     <recordSeed/>
   </AccountSource>
   <AccountSource>
@@ -504,10 +514,11 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>Z7RcXzrlZBjCguLvAcOV</accessKey>
-    <accessSecret>eeOWccOqi0TxwzNpPmQ6</accessSecret>
-    <status>Demographics document created. Id: c2372196-6b45-4fda-ba41-f83e4af863d1</status>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>c2372196-6b45-4fda-ba41-f83e4af863d1</demographicsId>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>mjones@records.media.mit.edu</accountId>
@@ -540,10 +551,11 @@
     <highestEducation>High School</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>cvPxuTrE8p9aPu1M9Wp4</accessKey>
-    <accessSecret>7HOAxMpVmum27RUSBheE</accessSecret>
-    <status>Record shared.</status>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>5595ba6f-646d-40de-837d-a9b01a31fb63</demographicsId>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>msato@records.media.mit.edu</accountId>
@@ -576,409 +588,9 @@
     <highestEducation>High School</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>VJ5LyhzPUsSBRjHkci0U</accessKey>
-    <accessSecret>q7sdxKXcIl7mcUxHa8sV</accessSecret>
-    <status>Record shared. Failed on PUT
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			Response: &lt;Error&gt;</status>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>b0476e25-777b-4aa2-bb62-32175347068a</demographicsId>
     <recordSeed/>
   </AccountSource>
@@ -1013,10 +625,11 @@
     <highestEducation>High School</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>BiFYELoiOJ74mww3YLR6</accessKey>
-    <accessSecret>qKCtQnC7yDFEBonq5VIF</accessSecret>
-    <status>Login successful</status>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>8458345b-e2b3-43c9-8348-da62720a33d5</demographicsId>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>csantos@records.media.mit.edu</accountId>
@@ -1048,10 +661,10 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>a4724b7f-5218-4a1c-8911-5d61fccbd1ca</recordId>
-    <accessKey>vxzklG26qDEpTD7A22ZX</accessKey>
-    <accessSecret>GjIOk3X0U6dl0cMbO1CF</accessSecret>
-    <status>Login successful</status>
+    <recordId/>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>f93419ab-83c9-449f-9f91-28849b993eab</demographicsId>
     <recordSeed/>
     <notes>Primary demo account with diabetes data</notes>
@@ -1087,10 +700,11 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>a5Oa1kKwbAGLPf0nImMg</accessKey>
-    <accessSecret>cEUF1GFnt5pyj7YnevMv</accessSecret>
-    <status>Login successful</status>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>84f096b3-88e3-4999-8843-1f7d5ec9452c</demographicsId>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>jking@records.media.mit.edu</accountId>
@@ -1122,11 +736,11 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>cdde1fd9-a547-4e9c-a0bb-93b1d2390417</recordId>
-    <status>Demographics document created. Id: 9004ac9b-2f65-4c96-a8a1-794a998fb73b</status>
-    <accessKey>kqVrlndlfekxEt8uXO53</accessKey>
-    <accessSecret>DXtAsIq5Sg7X8JPZtAUx</accessSecret>
-    <demographicsId>9004ac9b-2f65-4c96-a8a1-794a998fb73b</demographicsId>
+    <recordId>c26ddf48-1c57-4301-9c7c-cd47f3eb8647</recordId>
+    <status>Demographics document created. Id: 7deb473e-c26d-4364-a240-3858b1a423ef</status>
+    <accessKey>O6TBqJrMAq53Pwk7KPAy</accessKey>
+    <accessSecret>9YdwOkivG6CGapNlNmDA</accessSecret>
+    <demographicsId>7deb473e-c26d-4364-a240-3858b1a423ef</demographicsId>
     <notes>Demo physician</notes>
     <recordSeed/>
   </AccountSource>
@@ -1160,211 +774,12 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId/>
-    <accessKey>2aZWoBykoS9FweOJktVL</accessKey>
-    <accessSecret>lrwYcHvFE5XAsHcAloz1</accessSecret>
-    <status>Record shared. Failed on POST
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			http://records.media.mit.edu:8000/accounts/mloomis@records.media.mit.edu/authsystems/ Response:</status>
-    <demographicsId>a3236c63-79d0-4542-9ef4-ab2f6956e42b</demographicsId>
+    <recordId>c7fc112b-6f25-463c-a3b1-e559a149013a</recordId>
+    <accessKey>95XR5S41NGXGKNAQhfce</accessKey>
+    <accessSecret>f7NFv8eXvrfvbPQnhqph</accessSecret>
+    <status>Login successful</status>
+    <demographicsId>32c66f0b-0588-40e3-be6c-7547c53620e9</demographicsId>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>janitor@records.media.mit.edu</accountId>
@@ -1398,11 +813,12 @@
     <organDonar>true</organDonar>
     <recordId/>
     <status>Password set.</status>
-    <accessKey>JPK9US7ynBGfl0wxrzqC</accessKey>
-    <accessSecret>Zdfz4j4DZqC4jxrCmcsm</accessSecret>
+    <accessKey/>
+    <accessSecret/>
     <demographicsId>d66490ce-2c5b-49ef-8c7d-4e6e70e2dab5</demographicsId>
     <notes>Trash can account</notes>
+    <recordSeed/>
   </AccountSource>
-  <saveDate>Fri Apr 13 16:19:33 GMT-0400 2012</saveDate>
+  <saveDate>Wed Apr 25 13:14:44 GMT-0400 2012</saveDate>
   <indivoServerBaseURL>http://indivo-dev.media.mit.edu:9091</indivoServerBaseURL>
 </dataroot>
