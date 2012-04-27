@@ -77,10 +77,13 @@ package collaboRhythm.core.controller.apps
 		private var _currentFullView:String;
 		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
 		private var _appsInitialized:ArrayCollection;
+		private var _navigationProxy:IApplicationNavigationProxy;
 
 		public function AppControllersMediatorBase(widgetContainers:Vector.<IVisualElementContainer>,
 												   fullParentContainer:IVisualElementContainer, settings:Settings,
-												   componentContainer:IComponentContainer, collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService)
+												   componentContainer:IComponentContainer,
+												   collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService,
+												   navigationProxy:IApplicationNavigationProxy)
 		{
 			_collaborationLobbyNetConnectionService = collaborationLobbyNetConnectionService;
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
@@ -90,6 +93,7 @@ package collaboRhythm.core.controller.apps
 //			_healthRecordService = healthRecordService;
 //			_collaborationRoomNetConnectionService = collaborationRoomNetConnectionService;
 			_componentContainer = componentContainer;
+			_navigationProxy = navigationProxy;
 
 //			_collaborationRoomNetConnectionService.netConnection.client.showFullView = showFullView;
 
@@ -312,6 +316,7 @@ package collaboRhythm.core.controller.apps
 			_factory.settings = _settings;
 			_factory.componentContainer = _componentContainer;
 			_factory.collaborationLobbyNetConnectionService = _collaborationLobbyNetConnectionService as ICollaborationLobbyNetConnectionService;
+			_factory.navigationProxy = _navigationProxy;
 		}
 
 		private function initializeDynamicAppLookup():void
@@ -492,6 +497,16 @@ package collaboRhythm.core.controller.apps
 		protected function get factory():AppControllerFactory
 		{
 			return _factory;
+		}
+
+		public function get navigationProxy():IApplicationNavigationProxy
+		{
+			return _navigationProxy;
+		}
+
+		public function set navigationProxy(value:IApplicationNavigationProxy):void
+		{
+			_navigationProxy = value;
 		}
 	}
 }

@@ -6,12 +6,16 @@ package collaboRhythm.tablet.view.skins
 
 	import flash.events.Event;
 
+	import spark.primitives.Ellipse;
+	import spark.primitives.Graphic;
+
 	import spark.skins.mobile.ViewNavigatorApplicationSkin;
 
 	public class CollaboRhythmTabletApplicationSkin extends ViewNavigatorApplicationSkin
 	{
 		public var connectivityView:ConnectivityView;
 		public var aboutApplicationView:AboutApplicationView;
+		public var pointer:Graphic;
 
 		public function CollaboRhythmTabletApplicationSkin()
 		{
@@ -33,6 +37,13 @@ package collaboRhythm.tablet.view.skins
 			aboutApplicationView.height = 600;
 			aboutApplicationView.visible = false;
 			addChild(aboutApplicationView);
+
+			pointer = new Graphic();
+			pointer.graphics.beginFill(0x000000);
+			pointer.graphics.drawCircle(0, 0, 10);
+			pointer.graphics.endFill();
+			pointer.visible = false;
+			addChild(pointer);
 		}
 
 		private function resizeHandler(event:Event):void

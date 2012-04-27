@@ -3,6 +3,7 @@ package collaboRhythm.mobile.controller
 
     import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
+	import collaboRhythm.shared.model.IApplicationNavigationProxy;
 	import collaboRhythm.shared.model.settings.Settings;
     import collaboRhythm.shared.model.services.IComponentContainer;
 
@@ -18,12 +19,11 @@ package collaboRhythm.mobile.controller
 //			healthRecordService:CommonHealthRecordService,
 //			collaborationRoomNetConnectionService:CollaborationRoomNetConnectionService,
 			componentContainer:IComponentContainer,
-			collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService
+			collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService,
+			navigationProxy:IApplicationNavigationProxy
 		)
         {
-            super(widgetParentContainer, fullParentContainer, settings, componentContainer, collaborationLobbyNetConnectionService)
-        }
-        {
+            super(widgetParentContainer, fullParentContainer, settings, componentContainer, collaborationLobbyNetConnectionService, navigationProxy);
         }
     }
 }

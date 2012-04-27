@@ -21,6 +21,7 @@ package collaboRhythm.tablet.controller
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.shared.collaboration.controller.CollaborationEvent;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
+	import collaboRhythm.shared.collaboration.model.CollaborationModel;
 	import collaboRhythm.shared.collaboration.view.CollaborationVideoView;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.model.Account;
@@ -218,7 +219,8 @@ package collaboRhythm.tablet.controller
 						_fullContainer, settings,
 						_componentContainer,
 						_collaborationController.collaborationModel.collaborationLobbyNetConnectionService as CollaborationLobbyNetConnectionService,
-						this);
+						this,
+						_navigationProxy);
 			}
 			_tabletAppControllersMediator.createAndStartApps(activeAccount, recordAccount);
 		}
@@ -233,7 +235,7 @@ package collaboRhythm.tablet.controller
 			return _applicationSettingsEmbeddedFile;
 		}
 
-		protected override function get appControllersMediator():AppControllersMediatorBase
+		public override function get appControllersMediator():AppControllersMediatorBase
 		{
 			return _tabletAppControllersMediator;
 		}
@@ -308,11 +310,18 @@ package collaboRhythm.tablet.controller
 
 		public function showCollaborationVideoView(source:String):void
 		{
-			if (source == "local")
+			if (source == "local" && _collaborationController.collaborationModel.collaborationState ==
+								CollaborationModel.COLLABORATION_ACTIVE)
 			{
-				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.SYNCHRONIZE, "showCollaborationVideoView");
+				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.SYNCHRONIZE,
+						"showCollaborationVideoView");
 			}
 			navigator.pushView(CollaborationVideoView);
+		}
+
+		public function endCollaboration():void
+		{
+			_collaborationController.endCollaboration();
 		}
 	}
 }

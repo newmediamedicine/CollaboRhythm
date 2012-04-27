@@ -15,7 +15,7 @@ package collaboRhythm.plugins.foraD40b.model
 		public static const HYPOGLYCEMIA:String = "Hypoglycemia";
 		public static const HYPERGLYCEMIA:String = "Hyperglycemia";
 
-		private var _repeat:Boolean = false;
+		private var _repeatCount:int = 0;
 		private var _state:String;
 		private var _pushedViewCount:int = 0;
 		
@@ -72,14 +72,14 @@ package collaboRhythm.plugins.foraD40b.model
 			_bloodGlucose = value;
 		}
 
-		public function get repeat():Boolean
+		public function get repeatCount():int
 		{
-			return _repeat;
+			return _repeatCount;
 		}
 
-		public function set repeat(value:Boolean):void
+		public function set repeatCount(value:int):void
 		{
-			_repeat = value;
+			_repeatCount = value;
 		}
 
 		public function get state():String

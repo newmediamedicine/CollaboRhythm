@@ -163,5 +163,11 @@ package collaboRhythm.plugins.healthCharts.controller
 		{
 			_healthChartsModel = null;
 		}
+
+		override protected function hideFullViewComplete():void
+		{
+			super.hideFullViewComplete();
+			healthChartsModel.finishedDecision();
+		}
 	}
 }

@@ -70,15 +70,15 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			var matchingBloodGlucoseChartDescriptor:IChartDescriptor = chartDescriptors.removeByKey(bloodGlucoseDescriptorTemplate.descriptorKey) as IChartDescriptor;
 
 			var reorderedChartDescriptors:OrderedMap = new OrderedMap();
-			if (matchingInsulinChartDescriptor)
-				reorderedChartDescriptors.addKeyValue(matchingInsulinChartDescriptor.descriptorKey, matchingInsulinChartDescriptor);
-			if (matchingBloodGlucoseChartDescriptor)
-				reorderedChartDescriptors.addKeyValue(matchingBloodGlucoseChartDescriptor.descriptorKey, matchingBloodGlucoseChartDescriptor);
-
 			for each (var otherChartDescriptor:IChartDescriptor in chartDescriptors.values())
 			{
 				reorderedChartDescriptors.addKeyValue(otherChartDescriptor.descriptorKey, otherChartDescriptor);
 			}
+
+			if (matchingInsulinChartDescriptor)
+				reorderedChartDescriptors.addKeyValue(matchingInsulinChartDescriptor.descriptorKey, matchingInsulinChartDescriptor);
+			if (matchingBloodGlucoseChartDescriptor)
+				reorderedChartDescriptors.addKeyValue(matchingBloodGlucoseChartDescriptor.descriptorKey, matchingBloodGlucoseChartDescriptor);
 
 			return reorderedChartDescriptors;
 		}

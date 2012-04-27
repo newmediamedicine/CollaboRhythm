@@ -24,9 +24,6 @@ package collaboRhythm.mobile.controller
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.services.DemoEvent;
 	import collaboRhythm.shared.model.settings.Settings;
-	import collaboRhythm.shared.collaboration.view.CollaborationRoomView;
-	import collaboRhythm.shared.collaboration.view.CollaborationView;
-	import collaboRhythm.shared.collaboration.view.RecordVideoView;
 
 	import flash.desktop.NativeApplication;
 	import flash.events.Event;
@@ -64,7 +61,7 @@ package collaboRhythm.mobile.controller
 			_widgetContainerController = new WidgetContainerController(_mobileApplication.navigator, this);
 			_mobileApplication.navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
 			_mobileApplication.navigator.addEventListener("viewChangeComplete",
-														  viewNavigator_transitionCompleteHandler);
+					viewNavigator_transitionCompleteHandler);
 			_mobileApplication.navigator.addEventListener(Event.ADDED, viewNavigator_addedHandler);
 			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 
@@ -81,12 +78,14 @@ package collaboRhythm.mobile.controller
 		public override function openRecordAccount(recordAccount:Account):void
 		{
 			super.openRecordAccount(recordAccount);
-			_mobileAppControllersMediator = new MobileAppControllersMediator(null,
-																			 null,
-																			 fullContainer,
-																			 settings,
-																			 _componentContainer,
-																			 _collaborationController.collaborationModel.collaborationLobbyNetConnectionService as CollaborationLobbyNetConnectionService);
+			_mobileAppControllersMediator = new MobileAppControllersMediator(
+					null,
+					null,
+					fullContainer,
+					settings,
+					_componentContainer,
+					_collaborationController.collaborationModel.collaborationLobbyNetConnectionService as
+							CollaborationLobbyNetConnectionService, _navigationProxy);
 			_mobileAppControllersMediator.createMobileApps(activeAccount, recordAccount);
 			initializeActiveView();
 		}
@@ -175,7 +174,7 @@ package collaboRhythm.mobile.controller
 			return _applicationSettingsEmbeddedFile;
 		}
 
-		protected override function get appControllersMediator():AppControllersMediatorBase
+		public override function get appControllersMediator():AppControllersMediatorBase
 		{
 			return _mobileAppControllersMediator;
 		}

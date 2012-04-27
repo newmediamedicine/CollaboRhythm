@@ -64,7 +64,7 @@ package collaboRhythm.shared.collaboration.model
                 }
                 if (_camera != null)
                 {
-                    _camera.setMode(640,480,15);
+                    _camera.setMode(640,360,15);
                     _camera.setQuality(0,60);
 					_logger.info("Camera initialized: " + _camera.name);
                 }
