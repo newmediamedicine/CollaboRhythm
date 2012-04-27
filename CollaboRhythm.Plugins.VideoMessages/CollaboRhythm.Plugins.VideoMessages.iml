@@ -1,11 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="Flex" version="4">
-  <component name="Flex.Build.Configuration">
-    <option name="DO_BUILD" value="true" />
-    <option name="MAIN_CLASS" value="collaboRhythm.plugins.videoMessages.controller.VideoMessagesPluginModule" />
-    <option name="OUTPUT_FILE_NAME" value="VideoMessagesPluginModule.swf" />
-    <option name="TARGET_PLAYER_VERSION" value="11.1" />
-    <option name="VERSION" value="3" />
+  <component name="FlexBuildConfigurationManager" active="CollaboRhythm.Plugins.VideoMessages">
+    <configurations>
+      <configuration name="CollaboRhythm.Plugins.VideoMessages" target-platform="Desktop" output-type="RuntimeLoadedModule" main-class="collaboRhythm.plugins.videoMessages.controller.VideoMessagesPluginModule" output-file="VideoMessagesPluginModule.swf" output-folder="$MODULE_DIR$/bin-debug">
+        <dependencies>
+          <entries>
+            <entry library-id="f0fcfc07-9054-4f19-a144-ca5449351668">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.Model" build-configuration-name="CollaboRhythm.Shared.Model">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="5939ba2a-5b25-4771-9465-f9f00599913f">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared" build-configuration-name="CollaboRhythm.Shared">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.PluginsSupport" build-configuration-name="CollaboRhythm.Shared.PluginsSupport">
+              <dependency linkage="Merged" />
+            </entry>
+          </entries>
+          <sdk name="4.6.0" />
+        </dependencies>
+        <compiler-options />
+        <packaging-air-desktop />
+        <packaging-android />
+        <packaging-ios />
+      </configuration>
+    </configurations>
+    <compiler-options />
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/bin-debug" />
@@ -14,12 +38,12 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" />
     <orderEntry type="module-library">
       <library name="libs" type="flex">
+        <properties id="f0fcfc07-9054-4f19-a144-ca5449351668" />
         <CLASSES>
           <root url="file://$MODULE_DIR$/libs" />
           <root url="file://$MODULE_DIR$/libs" />
@@ -31,7 +55,8 @@
     </orderEntry>
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" />
     <orderEntry type="module-library">
-      <library>
+      <library type="flex">
+        <properties id="5939ba2a-5b25-4771-9465-f9f00599913f" />
         <CLASSES>
           <root url="jar://$PROJECT_FRAMEWORKS$/libs/mobile/mobilecomponents.swc!/" />
         </CLASSES>
@@ -39,6 +64,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="jdk" jdkName="4.6.0" jdkType="__CompositeFlexSdk__" />
   </component>
 </module>
 

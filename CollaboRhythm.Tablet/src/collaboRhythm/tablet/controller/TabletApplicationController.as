@@ -21,13 +21,14 @@ package collaboRhythm.tablet.controller
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.shared.collaboration.controller.CollaborationEvent;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
+	import collaboRhythm.shared.collaboration.model.CollaborationModel;
+	import collaboRhythm.shared.collaboration.view.CollaborationVideoView;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.settings.Settings;
-	import collaboRhythm.shared.collaboration.view.CollaborationVideoView;
+	import collaboRhythm.shared.view.tablet.TabletViewBase;
 	import collaboRhythm.tablet.view.SelectRecordView;
 	import collaboRhythm.tablet.view.TabletFullViewContainer;
-	import collaboRhythm.shared.view.tablet.TabletViewBase;
 	import collaboRhythm.tablet.view.TabletHomeView;
 
 	import flash.events.Event;
@@ -64,6 +65,8 @@ package collaboRhythm.tablet.controller
 
 			initCollaborationController();
 			_collaborationController.viewNavigator = navigator;
+			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.SYNCHRONIZE,
+								synchronizeHandler);
 
 			navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
 			navigator.addEventListener("viewChangeComplete",
@@ -73,6 +76,14 @@ package collaboRhythm.tablet.controller
 			initializeActiveView();
 
 			createSession();
+		}
+
+		private function synchronizeHandler(event:CollaborationEvent):void
+		{
+			if (event.method == "showCollaborationVideoView")
+			{
+				showCollaborationVideoView("remote");
+			}
 		}
 
 		private function viewNavigator_transitionCompleteHandler(event:Event):void
@@ -109,7 +120,7 @@ package collaboRhythm.tablet.controller
 		private function initializeView(view:TabletViewBase):void
 		{
 			view.tabletApplicationController = this;
-			view.activeAccount = _activeAccount;
+			view.activeAccount = activeAccount;
 			view.activeRecordAccount = activeRecordAccount;
 		}
 
@@ -208,9 +219,10 @@ package collaboRhythm.tablet.controller
 						_fullContainer, settings,
 						_componentContainer,
 						_collaborationController.collaborationModel.collaborationLobbyNetConnectionService as CollaborationLobbyNetConnectionService,
-						this);
+						this,
+						_navigationProxy);
 			}
-			_tabletAppControllersMediator.createAndStartApps(_activeAccount, recordAccount);
+			_tabletAppControllersMediator.createAndStartApps(activeAccount, recordAccount);
 		}
 
 		public override function get fullContainer():IVisualElementContainer
@@ -223,7 +235,7 @@ package collaboRhythm.tablet.controller
 			return _applicationSettingsEmbeddedFile;
 		}
 
-		protected override function get appControllersMediator():AppControllersMediatorBase
+		public override function get appControllersMediator():AppControllersMediatorBase
 		{
 			return _tabletAppControllersMediator;
 		}
@@ -294,6 +306,22 @@ package collaboRhythm.tablet.controller
 		public function get tabletAppControllersMediator():TabletAppControllersMediator
 		{
 			return _tabletAppControllersMediator;
+		}
+
+		public function showCollaborationVideoView(source:String):void
+		{
+			if (source == "local" && _collaborationController.collaborationModel.collaborationState ==
+								CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.SYNCHRONIZE,
+						"showCollaborationVideoView");
+			}
+			navigator.pushView(CollaborationVideoView);
+		}
+
+		public function endCollaboration():void
+		{
+			_collaborationController.endCollaboration();
 		}
 	}
 }

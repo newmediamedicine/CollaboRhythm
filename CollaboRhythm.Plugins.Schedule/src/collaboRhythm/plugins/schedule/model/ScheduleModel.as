@@ -17,6 +17,7 @@
 package collaboRhythm.plugins.schedule.model
 {
 	import collaboRhythm.plugins.schedule.shared.model.*;
+	import collaboRhythm.shared.model.IApplicationNavigationProxy;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
@@ -381,5 +382,9 @@ package collaboRhythm.plugins.schedule.model
 			return closestScheduleItemOccurrence;
 		}
 
+		public function get navigationProxy():IApplicationNavigationProxy
+		{
+			return null;
+		}
 	}
 }

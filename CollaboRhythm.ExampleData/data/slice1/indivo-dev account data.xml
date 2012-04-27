@@ -396,14 +396,14 @@
     <recordId>c1bbecbf-706c-43b3-9f8f-04aa42fc7557</recordId>
     <accessKey>L5f8p9zt4OPXfCwo43cH</accessKey>
     <accessSecret>F7klkUULbb7w5LmIxQrw</accessSecret>
-    <status>Sharing record. Failed on POST
-			http://indivo-dev.media.mit.edu:8080/records/c1bbecbf-706c-43b3-9f8f-04aa42fc7557/shares/ Response: &lt;Error&gt;
-			&lt;InnerError&gt;
-			&lt;type&gt;complete&lt;/type&gt;
-			&lt;/InnerError&gt;
-			&lt;HTTPStatusEvent&gt;
-			&lt;status&gt;404&lt;/status&gt;
-			&lt;/HTTPStatusEvent&gt;
+    <status>Sharing record. Failed on POST
+			http://indivo-dev.media.mit.edu:8080/records/c1bbecbf-706c-43b3-9f8f-04aa42fc7557/shares/ Response: &lt;Error&gt;
+			&lt;InnerError&gt;
+			&lt;type&gt;complete&lt;/type&gt;
+			&lt;/InnerError&gt;
+			&lt;HTTPStatusEvent&gt;
+			&lt;status&gt;404&lt;/status&gt;
+			&lt;/HTTPStatusEvent&gt;
 			&lt;/Error&gt;</status>
     <demographicsId>f56ea259-0709-4827-b527-acaaaf6ee728</demographicsId>
     <notes>Demo account for Frank and fitness-tracking-hw2012@googlegroups.com</notes>
@@ -586,12 +586,12 @@
     <recordId/>
     <accessKey>VJ5LyhzPUsSBRjHkci0U</accessKey>
     <accessSecret>q7sdxKXcIl7mcUxHa8sV</accessSecret>
-    <status>Record shared. Failed on PUT
-
-
-			http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner
-
-
+    <status>Record shared. Failed on PUT
+
+
+			http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner
+
+
 			Response: &lt;Error&gt;</status>
     <demographicsId>b0476e25-777b-4aa2-bb62-32175347068a</demographicsId>
     <recordSeed/>
@@ -665,13 +665,13 @@
     <recordId>9fa47df4-db00-4b48-95c6-f07d71a87fdf</recordId>
     <accessKey>qSjznu4ZnTpQLL0rEGAz</accessKey>
     <accessSecret>TqIUtJnTeJ5ucrVGCs6m</accessSecret>
-    <status>Sharing record. Failed on POST http://indivo-dev.media.mit.edu:8080/records/9fa47df4-db00-4b48-95c6-f07d71a87fdf/shares/ Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;404&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
+    <status>Sharing record. Failed on POST http://indivo-dev.media.mit.edu:8080/records/9fa47df4-db00-4b48-95c6-f07d71a87fdf/shares/ Response: &lt;Error&gt;
+  &lt;InnerError&gt;
+    &lt;type&gt;complete&lt;/type&gt;
+  &lt;/InnerError&gt;
+  &lt;HTTPStatusEvent&gt;
+    &lt;status&gt;404&lt;/status&gt;
+  &lt;/HTTPStatusEvent&gt;
 &lt;/Error&gt;</status>
     <demographicsId>8700b633-ecbd-46eb-aba4-051b39971c5e</demographicsId>
     <recordSeed/>
@@ -783,9 +783,9 @@
     <recordId/>
     <accessKey>2aZWoBykoS9FweOJktVL</accessKey>
     <accessSecret>lrwYcHvFE5XAsHcAloz1</accessSecret>
-    <status>Record shared. Failed on POST
-
-
+    <status>Record shared. Failed on POST
+
+
 			http://records.media.mit.edu:8000/accounts/mloomis@records.media.mit.edu/authsystems/ Response:</status>
     <demographicsId>a3236c63-79d0-4542-9ef4-ab2f6956e42b</demographicsId>
   </AccountSource>
@@ -826,6 +826,6 @@
     <demographicsId>d66490ce-2c5b-49ef-8c7d-4e6e70e2dab5</demographicsId>
     <notes>Trash can account</notes>
   </AccountSource>
-  <saveDate>Tue Feb 7 11:33:36 GMT-0500 2012</saveDate>
+  <saveDate>Wed Apr 18 10:28:25 GMT-0400 2012</saveDate>
   <indivoServerBaseURL>http://indivo-dev.media.mit.edu:8080</indivoServerBaseURL>
 </dataroot>

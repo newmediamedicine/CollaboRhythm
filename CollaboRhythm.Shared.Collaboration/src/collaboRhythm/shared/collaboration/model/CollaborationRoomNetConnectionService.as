@@ -152,8 +152,6 @@ package collaboRhythm.shared.collaboration.model
 		{
 			var sharingAccount:Account = _collaborationModel.activeAccount.allSharingAccounts[sharingAccountId];
 			sharingAccount.collaborationRoomConnectionStatus = Account.COLLABORATION_ROOM_ENTERED;
-
-			_collaborationModel.collaborationRoomAccounts.addItem(sharingAccount);
 		}
 		
 		private function sharingAccountJoinedCollaborationRoom(sharingAccountId:String):void

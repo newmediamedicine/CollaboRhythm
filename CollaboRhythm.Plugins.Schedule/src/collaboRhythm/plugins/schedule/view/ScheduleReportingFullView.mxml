@@ -208,11 +208,6 @@
 		</s:Rect>
 		<scheduleViews:ScheduleGroupReportingView id="scheduleGroupReportingView" width="100%" height="100%"
 												  change="scheduleGroupReportingView_changeHandler(event)"/>
-		<s:Line width="100%">
-			<s:stroke>
-				<s:SolidColorStroke color="0x000000"/>
-			</s:stroke>
-		</s:Line>
 		<s:Line right="0" height="100%">
 			<s:stroke>
 				<s:SolidColorStroke color="0x000000"/>

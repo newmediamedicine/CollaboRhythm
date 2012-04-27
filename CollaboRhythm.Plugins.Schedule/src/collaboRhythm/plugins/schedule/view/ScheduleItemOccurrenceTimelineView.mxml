@@ -62,7 +62,7 @@
 			nameLabel.text = scheduleItemOccurrenceReportingViewAdapter.name;
 			descriptionLabel.text = scheduleItemOccurrenceReportingViewAdapter.description;
 			indicationLabel.text = scheduleItemOccurrenceReportingViewAdapter.indication;
-			instructionsLabel.text = scheduleItemOccurrenceReportingViewAdapter.instructions;
+			instructionsLabel.text = scheduleItemOccurrenceReportingViewAdapter.secondaryInstructions;
 
 			var image:Image = scheduleItemOccurrenceReportingViewAdapter.image;
 			image.left = 5;

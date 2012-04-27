@@ -3,15 +3,13 @@ package collaboRhythm.plugins.healthActions.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.plugins.schedule.shared.model.MasterHealthActionInputControllerFactory;
 	import collaboRhythm.plugins.schedule.shared.model.MasterHealthActionListViewAdapterFactory;
+	import collaboRhythm.shared.model.IApplicationNavigationProxy;
 	import collaboRhythm.shared.model.Record;
-	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
-	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 
 	import mx.binding.utils.BindingUtils;
 	import mx.binding.utils.ChangeWatcher;
-
 	import mx.collections.ArrayCollection;
 
 	public class HealthActionsModel implements IHealthActionModelDetailsProvider
@@ -23,12 +21,16 @@ package collaboRhythm.plugins.healthActions.model
 		private var _documentCollectionDependenciesArray:Array;
 		private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>();
 		private var _componentContainer:IComponentContainer;
+		private var _navigationProxy:IApplicationNavigationProxy;
 
-		public function HealthActionsModel(componentContainer:IComponentContainer, record:Record, accountId:String)
+		public function HealthActionsModel(componentContainer:IComponentContainer,
+										   record:Record, accountId:String,
+										   navigationProxy:IApplicationNavigationProxy)
 		{
 			_componentContainer = componentContainer;
 			_record = record;
 			_accountId = accountId;
+			_navigationProxy = navigationProxy;
 
 			_documentCollectionDependenciesArray = [_record.medicationOrdersModel, _record.medicationScheduleItemsModel, _record.equipmentModel, _record.equipmentScheduleItemsModel, _record.adherenceItemsModel];
 
@@ -78,6 +80,11 @@ package collaboRhythm.plugins.healthActions.model
 		public function get healthActionInputControllerFactory():MasterHealthActionInputControllerFactory
 		{
 			return _healthActionInputControllerFactory;
+		}
+
+		public function get navigationProxy():IApplicationNavigationProxy
+		{
+			return _navigationProxy;
 		}
 	}
 }

@@ -17,6 +17,7 @@
 package collaboRhythm.shared.controller.apps
 {
 	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.IApplicationNavigationProxy;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.Settings;
@@ -93,6 +94,7 @@ package collaboRhythm.shared.controller.apps
 		private var _cacheFullView:Boolean = false;
 
 		private var _createFullViewOnInitialize:Boolean = false;
+		protected var _navigationProxy:IApplicationNavigationProxy;
 
 		public function AppControllerBase(constructorParams:AppControllerConstructorParams)
 		{
@@ -109,6 +111,7 @@ package collaboRhythm.shared.controller.apps
 			_componentContainer = constructorParams.componentContainer;
 			_collaborationLobbyNetConnectionService = constructorParams.collaborationLobbyNetConnectionService;
 			_viewNavigator = constructorParams.viewNavigator;
+			_navigationProxy = constructorParams.navigationProxy;
 
 			initializeShowFullViewParallelEffects();
 
@@ -974,6 +977,7 @@ package collaboRhythm.shared.controller.apps
 
 		protected function takeFullViewSnapshot():void
 		{
+			_logger.debug("takeFullViewSnapshot " + fullView.className);
 			centerSpaceTransitionComponent = BitmapCopyComponent.createFromComponent(fullView);
 		}
 
@@ -1149,10 +1153,28 @@ package collaboRhythm.shared.controller.apps
 
 		private function fullView_updateCompleteHandler(event:FlexEvent):void
 		{
-			takeFullViewSnapshot();
-			removeFromParent(fullView);
-			fullView.visible = false;
-			fullView.removeEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler);
+			if (doneUpdating(fullView))
+			{
+				takeFullViewSnapshot();
+				removeFromParent(fullView);
+				fullView.visible = false;
+				fullView.removeEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler);
+			}
+		}
+
+		private function doneUpdating(fullView:UIComponent):Boolean
+		{
+			if (fullView == null)
+				return false;
+
+			if (fullView.hasOwnProperty("doneUpdating"))
+			{
+				return fullView["doneUpdating"];
+			}
+			else
+			{
+				return true;
+			}
 		}
 
 		protected function get shouldPreCreateFullView():Boolean

@@ -38,9 +38,9 @@ package collaboRhythm.shared.controller
 
         function set backgroundProcessModel(value:BackgroundProcessCollectionModel):void;
 
-		function get collaborationController():ICollaborationController;
-
 		function openRecordAccount(sharedRecordAccount:Account):void;
+
+		function get iCollaborationController():ICollaborationController;
 
 		function sendCollaborationInvitation():void;
 

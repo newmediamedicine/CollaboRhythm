@@ -6,7 +6,7 @@
       <document>
          <Equipment xmlns="http://indivo.org/vocab/xml/documents#">
             <dateStarted>2009-12-15</dateStarted>
-            <type>blood pressure monitor</type>
+            <type>Blood Glucose Meter</type>
             <name xmlns="">FORA D40b</name>
          </Equipment>
       </document>

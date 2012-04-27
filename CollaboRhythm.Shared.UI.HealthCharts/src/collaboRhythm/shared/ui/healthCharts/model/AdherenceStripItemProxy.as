@@ -1,8 +1,6 @@
 package collaboRhythm.shared.ui.healthCharts.model
 {
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
-	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
-	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 
@@ -14,9 +12,9 @@ package collaboRhythm.shared.ui.healthCharts.model
 		private var _proxyType:String;
 		public static const MEDICATION_TYPE:String = "Medication";
 		public static const EQUIPMENT_TYPE:String = "Equipment";
-		
-		public function AdherenceStripItemProxy(currentDateSource:ICurrentDateSource,
-												proxyType:String,
+		private var _date:Date;
+
+		public function AdherenceStripItemProxy(currentDateSource:ICurrentDateSource, proxyType:String,
 												scheduleItemOccurrence:ScheduleItemOccurrence,
 												adherenceItem:AdherenceItem)
 		{
@@ -27,23 +25,37 @@ package collaboRhythm.shared.ui.healthCharts.model
 				_adherenceItem = scheduleItemOccurrence.adherenceItem;
 			if (adherenceItem)
 				_adherenceItem = adherenceItem;
+			_date = calculateDate();
 		}
 
 		public function get scheduleItemOccurrence():ScheduleItemOccurrence
 		{
 			return _scheduleItemOccurrence;
 		}
-		
+
 		public function get date():Date
 		{
-			if (adherenceItem)
-				return adherenceItem.dateReported;
-			else if (scheduleItemOccurrence)
-				return new Date(scheduleItemOccurrence.dateStart.valueOf() + (scheduleItemOccurrence.dateEnd.valueOf() - scheduleItemOccurrence.dateStart.valueOf()) / 2);
-			else
-				return null;
+			return _date;
 		}
-		
+
+		private function calculateDate():Date
+		{
+			if (adherenceItem)
+			{
+				return adherenceItem.dateReported;
+			}
+			else if (scheduleItemOccurrence)
+			{
+				return new Date(scheduleItemOccurrence.dateStart.valueOf() +
+						(scheduleItemOccurrence.dateEnd.valueOf() - scheduleItemOccurrence.dateStart.valueOf()) /
+								2);
+			}
+			else
+			{
+				return null;
+			}
+		}
+
 		public function get yPosition():Number
 		{
 			return 0;

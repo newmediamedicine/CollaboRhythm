@@ -22,6 +22,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.core.model.AboutApplicationModel;
 	import collaboRhythm.core.model.ApplicationControllerModel;
+	import collaboRhythm.core.model.ApplicationNavigationProxy;
 	import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
 	import collaboRhythm.core.model.healthRecord.service.ProblemsHealthRecordService;
 	import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
@@ -38,6 +39,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.model.BackgroundProcessCollectionModel;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionEvent;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
+	import collaboRhythm.shared.model.IApplicationNavigationProxy;
 	import collaboRhythm.shared.model.InteractionLogUtil;
 	import collaboRhythm.shared.model.healthRecord.AccountInformationHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.CreateSessionHealthRecordService;
@@ -88,7 +90,7 @@ package collaboRhythm.core.controller
 		protected var _settingsFileStore:SettingsFileStore;
 		private var _settings:Settings;
 		protected var _hasActiveNetworkInterface:Boolean = false;
-		protected var _activeAccount:Account;
+		private var _activeAccount:Account;
 		private var _activeRecordAccount:Account;
 		protected var _collaborationController:CollaborationController;
 		protected var _logger:ILogger;
@@ -114,6 +116,7 @@ package collaboRhythm.core.controller
 		protected var _currentDateSource:ICurrentDateSource;
 
 		private var _backgroundProcessModel:BackgroundProcessCollectionModel = new BackgroundProcessCollectionModel();
+		protected var _navigationProxy:IApplicationNavigationProxy;
 
 		public function ApplicationControllerBase()
 		{
@@ -186,6 +189,7 @@ package collaboRhythm.core.controller
 			{
 				_logger.info("  Updated " + applicationInfo.appModificationDateString);
 			}
+			_logger.info("  " + applicationInfo.deviceDetails);
 
 			/*
 			 <s:Label id="applicationNameLabel" text="{_applicationInfo.appName}" fontSize="36"/>
@@ -216,6 +220,8 @@ package collaboRhythm.core.controller
 			// the activeAccount is that which is actively in session with the Indivo server, there can only be one active account at a time
 			// create an instance of this model class before creating a session so that the results are tracked by that instance
 			_activeAccount = new Account();
+
+			_navigationProxy = new ApplicationNavigationProxy(this);
 		}
 
 		protected function initNativeApplicationEventListeners():void
@@ -376,6 +382,7 @@ package collaboRhythm.core.controller
 				fileTarget.file = targetFile;
 				/* Log all log levels. */
 				fileTarget.level = LogEventLevel.ALL;
+				fileTarget.sizeLimit = 1024;
 				Log.addTarget(fileTarget);
 			}
 
@@ -495,7 +502,7 @@ package collaboRhythm.core.controller
 			_collaborationController = new CollaborationController(_activeAccount, collaborationView, _settings);
 			_collaborationLobbyNetConnectionService = _collaborationController.collaborationModel.collaborationLobbyNetConnectionService as CollaborationLobbyNetConnectionService;
 			_collaborationController.addEventListener(CollaborationLobbyNetConnectionEvent.SYNCHRONIZE,
-					synchronizeHandler);
+					synchronizeDataHandler);
 			_collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_RECEIVED,
 					collaborationInvitationReceived_eventHandler);
 			_collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_ACCEPTED,
@@ -514,11 +521,24 @@ package collaboRhythm.core.controller
 				collaborationView.init(_collaborationController);
 		}
 
-		private function synchronizeHandler(event:CollaborationLobbyNetConnectionEvent):void
+		protected function synchronizeDataHandler(event:CollaborationLobbyNetConnectionEvent):void
 		{
 			if (!activeRecordAccount.primaryRecord.isLoading && !activeRecordAccount.primaryRecord.isSaving &&
 					!_pendingExit && !_pendingReloadData)
 				reloadData();
+		}
+
+		public function sendCollaborationInvitation():void
+		{
+			if (_settings.mode == Settings.MODE_CLINICIAN)
+			{
+				_collaborationController.sendCollaborationInvitation(activeRecordAccount, activeRecordAccount);
+			}
+			else if (_settings.mode = Settings.MODE_PATIENT)
+			{
+				_collaborationController.sendCollaborationInvitation(_activeAccount,
+						_activeAccount.allSharingAccounts["jking@records.media.mit.edu"]);
+			}
 		}
 
 		/**
@@ -941,7 +961,7 @@ package collaboRhythm.core.controller
 				openRecordAccount(_reloadWithRecordAccount);
 		}
 
-		protected function get appControllersMediator():AppControllersMediatorBase
+		public function get appControllersMediator():AppControllersMediatorBase
 		{
 			throw new Error("virtual function must be overridden in subclass");
 		}
@@ -956,14 +976,14 @@ package collaboRhythm.core.controller
 			return _settingsFileStore;
 		}
 
-		public function get collaborationController():ICollaborationController
+		public function get collaborationController():CollaborationController
 		{
 			return _collaborationController;
 		}
 
-		public function set collaborationController(value:ICollaborationController):void
+		public function set collaborationController(value:CollaborationController):void
 		{
-			_collaborationController = value as CollaborationController;
+			_collaborationController = value;
 		}
 
 		public function get componentContainer():IComponentContainer
@@ -1143,7 +1163,7 @@ package collaboRhythm.core.controller
 				else if (_applicationControllerModel && _applicationControllerModel.hasErrors)
 				{
 					connectivityState = ConnectivityView.CONNECT_FAILED_STATE;
-					_connectivityView.detailsMessage = "Connection to health record server failed. You will not be able to access your health record until this is resolved. " +
+					_connectivityView.detailsMessage = "Connection to health record server " + settings.indivoServerBaseURL + " failed. You will not be able to access your health record until this is resolved. " +
 							_applicationControllerModel.errorMessage;
 				}
 				else if (_collaborationLobbyNetConnectionService &&
@@ -1325,19 +1345,6 @@ package collaboRhythm.core.controller
 				targetDate = _settings.demoDatePresets[demoPresetIndex];
 		}
 
-		public function sendCollaborationInvitation():void
-		{
-			if (_settings.mode == Settings.MODE_CLINICIAN)
-			{
-				_collaborationController.sendCollaborationInvitation(activeRecordAccount, activeRecordAccount);
-			}
-			else if (_settings.mode = Settings.MODE_PATIENT)
-			{
-				_collaborationController.sendCollaborationInvitation(_activeAccount,
-						_activeAccount.allSharingAccounts["jking@records.media.mit.edu"]);
-			}
-		}
-
 		public function get activeRecordAccount():Account
 		{
 			return _activeRecordAccount;
@@ -1351,6 +1358,21 @@ package collaboRhythm.core.controller
 		public function get navigator():ViewNavigator
 		{
 			return null;
+		}
+
+		public function get iCollaborationController():ICollaborationController
+		{
+			return _collaborationController;
+		}
+
+		public function get activeAccount():Account
+		{
+			return _activeAccount;
+		}
+
+		public function set activeAccount(value:Account):void
+		{
+			_activeAccount = value;
 		}
 	}
 }

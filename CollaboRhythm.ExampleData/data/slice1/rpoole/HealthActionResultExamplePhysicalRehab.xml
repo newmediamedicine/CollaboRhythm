@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--~
+  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<HealthActionResult xmlns="http://indivo.org/vocab/xml/documents#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" >
+	<name type="http://actions.repository.coded.values/" value="Exercise Plan"> Exercise Plan 1 </name>
+	<planType>prescribed</planType>
+	<reportedBy>rpoole</reportedBy>
+	<dateReported>2012-04-05T16:00:35.835336-04:00</dateReported>
+	<actions>
+		<action xsi:type="ActionGroupResult">
+			<measurements>
+				<measurement>
+					<name type="http://measures.coded.values/" value="1">Knee Angle</name>
+					<type type="http://measures.type.coded.values/" value="3">Extension</type>
+					<value>
+						<value>150</value>
+						<unit type="http://indivo.org/codes/units#" value="m" abbrev="m">degrees</unit>
+					</value>
+					<aggregationFunction type="http://aggregation.coded.values/">max</aggregationFunction>
+				</measurement>
+				<measurement>
+					<name type="http://measures.coded.values/" value="1">Knee Angle</name>
+					<type type="http://measures.type.coded.values/" value="3">Flexion</type>
+					<value>
+						<value>30</value>
+						<unit type="http://indivo.org/codes/units#" value="m" abbrev="m">degrees</unit>
+					</value>
+					<aggregationFunction type="http://aggregation.coded.values/">min</aggregationFunction>
+				</measurement>
+			</measurements>
+			<deviceResults>
+				<deviceResult>
+					<name type="http://devices.repository.coded.values/" value="Wocket"> Wocket</name>
+					<type type="http://equipment.coded.values/" value="1">Accelerometer</type>
+					<value/>
+					<site type="http://equipment.coded.values/" value="1">Lower Leg</site>
+				</deviceResult>
+				<deviceResult>
+					<name type="http://devices.repository.coded.values/" value="Wocket"> Wocket</name>
+					<type type="http://equipment.coded.values/" value="1">Accelerometer</type>
+					<value/>
+					<site type="http://equipment.coded.values/" value="1">Upper Leg</site>
+				</deviceResult>
+			</deviceResults>
+			<actions>
+				<action xsi:type="ActionStepResult">
+					<measurements>
+						<measurement>
+							<name type="http://measures.coded.values/" value="1">Knee Angle</name>
+							<type type="http://measures.type.coded.values/" value="3">Extension</type>
+							<value>
+								<value>150</value>
+								<unit type="http://indivo.org/codes/units#" value="m" abbrev="m">degrees</unit>
+							</value>
+							<aggregationFunction type="http://aggregation.coded.values/">max</aggregationFunction>
+						</measurement>
+						<measurement>
+							<name type="http://measures.coded.values/" value="1">Knee Angle</name>
+							<type type="http://measures.type.coded.values/" value="3">Flexion</type>
+							<value>
+								<value>30</value>
+								<unit type="http://indivo.org/codes/units#" value="m" abbrev="m">degrees</unit>
+							</value>
+							<aggregationFunction type="http://aggregation.coded.values/">min</aggregationFunction>
+						</measurement>
+					</measurements>
+					<deviceResults>
+						<deviceResult>
+							<name type="http://devices.repository.coded.values/" value="Wocket"> Wocket</name>
+							<type type="http://equipment.coded.values/" value="1">Accelerometer</type>
+							<value/>
+							<site type="http://equipment.coded.values/" value="1">Lower Leg</site>
+						</deviceResult>
+						<deviceResult>
+							<name type="http://devices.repository.coded.values/" value="Wocket"> Wocket</name>
+							<type type="http://equipment.coded.values/" value="1">Accelerometer</type>
+							<value/>
+							<site type="http://equipment.coded.values/" value="1">Upper Leg</site>
+						</deviceResult>
+					</deviceResults>
+					<medicationAdministrations />
+					<name type="http://actions.repository/" value="2">Kick Balls</name>
+					<occurrences>
+						<occurrence>
+							<startTime>2012-04-05T16:00:35.8509355-04:00</startTime>
+							<endTime>2012-04-05T16:00:43.135902-04:00</endTime>
+							<additionalDetails/>
+							<stopCondition>
+								<name />
+								<value>
+									<unit />
+								</value>
+							</stopCondition>
+							<measurements>
+								<measurement>
+									<name type="http://measures.coded.values/" value="1">Knee Angle</name>
+									<type type="http://measures.type.coded.values/" value="3">Extension</type>
+									<value>
+										<value>150</value>
+										<unit type="http://indivo.org/codes/units#" value="m" abbrev="m">degrees</unit>
+									</value>
+									<aggregationFunction type="http://aggregation.coded.values/">max</aggregationFunction>
+								</measurement>
+								<measurement>
+									<name type="http://measures.coded.values/" value="1">Knee Angle</name>
+									<type type="http://measures.type.coded.values/" value="3">Flexion</type>
+									<value>
+										<value>30</value>
+										<unit type="http://indivo.org/codes/units#" value="m" abbrev="m">degrees</unit>
+									</value>
+									<aggregationFunction type="http://aggregation.coded.values/">min</aggregationFunction>
+								</measurement>
+								<measurement>
+									<name type="http://measures.coded.values/" value="3">Adherence</name>
+									<type />
+									<value>
+										<value>0</value>
+										<unit>%</unit>
+									</value>
+									<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+								</measurement>
+								<measurement>
+									<name type="http://measures.coded.values/" value="5">Repetitions</name>
+									<type />
+									<value>
+										<value>1</value>
+										<unit>num</unit>
+									</value>
+									<aggregationFunction type="http://aggregation.coded.values/">sum</aggregationFunction>
+								</measurement>
+							</measurements>
+							<deviceResults>
+								<deviceResult>
+									<name type="http://devices.repository.coded.values/" value="Wocket"> Wocket</name>
+									<type type="http://equipment.coded.values/" value="1">Accelerometer</type>
+									<value/>
+									<site type="http://equipment.coded.values/" value="1">Lower Leg</site>
+								</deviceResult>
+								<deviceResult>
+									<name type="http://devices.repository.coded.values/" value="Wocket"> Wocket</name>
+									<type type="http://equipment.coded.values/" value="1">Accelerometer</type>
+									<value/>
+									<site type="http://equipment.coded.values/" value="1">Upper Leg</site>
+								</deviceResult>
+							</deviceResults>
+							<medicationAdministrations />
+						</occurrence>
+					</occurrences>
+				</action>
+			</actions>
+		</action>
+	</actions>
+</HealthActionResult>

@@ -1,35 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module type="JAVA_MODULE" version="4">
-  <component name="FacetManager">
-    <facet type="flex" name="AIR Application">
-      <configuration flex_sdk="4.6.0 AIR">
-        <option name="DO_BUILD" value="true" />
-        <option name="OUTPUT_TYPE" value="Application" />
-        <option name="USE_DEFAULT_SDK_CONFIG_FILE" value="true" />
-        <option name="USE_CUSTOM_CONFIG_FILE" value="false" />
-        <option name="CUSTOM_CONFIG_FILE" value="$PROJECT_FRAMEWORKS$/airmobile-config.xml" />
-        <option name="USE_CUSTOM_CONFIG_FILE_FOR_TESTS" value="false" />
-        <option name="CUSTOM_CONFIG_FILE_FOR_TESTS" value="" />
-        <option name="APPLICATION_ENTRY_POINT" value="" />
-        <option name="MAIN_CLASS" value="CollaboRhythmMobileApplication" />
-        <option name="OUTPUT_FILE_NAME" value="CollaboRhythmMobileApplication.swf" />
-        <option name="USE_FACET_COMPILE_OUTPUT_PATH" value="false" />
-        <option name="FACET_COMPILE_OUTPUT_PATH" value="" />
-        <option name="FACET_COMPILE_OUTPUT_PATH_FOR_TESTS" value="" />
-        <option name="INCLUDE_RESOURCE_FILES_IN_SWC" value="false" />
-        <option name="TARGET_PLAYER_VERSION" value="11.1" />
-        <option name="STATIC_LINK_RUNTIME_SHARED_LIBRARIES" value="true" />
-        <option name="USE_LOCALE_SETTINGS" value="false" />
-        <option name="LOCALE" value="en_US" />
-        <option name="ADDITIONAL_COMPILER_OPTIONS" value="-locale en_US" />
-        <option name="PATH_TO_SERVICES_CONFIG_XML" value="" />
-        <option name="CONTEXT_ROOT" value="" />
-        <option name="VERSION" value="3" />
-        <NAMESPACE_AND_MANIFEST_FILE_INFO_LIST />
-        <CONDITIONAL_COMPILATION_DEFINITION_LIST />
-        <CSS_FILES_LIST />
+<module type="Flex" version="4">
+  <component name="FlexBuildConfigurationManager" active="AIR Application">
+    <configurations>
+      <configuration name="AIR Application" target-platform="Desktop" main-class="CollaboRhythmMobileApplication" output-file="CollaboRhythmMobileApplication.swf" output-folder="$MODULE_DIR$/bin-debug">
+        <dependencies>
+          <entries>
+            <entry library-name="Android 2.2 Platform" library-level="application">
+              <dependency linkage="External" />
+            </entry>
+            <entry library-id="cb855614-0520-4356-b496-33f89aad7f96">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="3d66619a-9439-46c4-a956-5a0a52cdb887">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="ba20774e-2b7d-4a35-94bd-a45af24e4cca">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Core.Model" build-configuration-name="CollaboRhythm.Core.Model">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.Collaboration" build-configuration-name="CollaboRhythm.Shared.Collaboration">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="Desktop libraries for mobile applications" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Core" build-configuration-name="CollaboRhythm.Core">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared" build-configuration-name="CollaboRhythm.Shared">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.PluginsSupport" build-configuration-name="CollaboRhythm.Shared.PluginsSupport">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.View.Scroll" build-configuration-name="CollaboRhythm.View.Scroll">
+              <dependency linkage="Merged" />
+            </entry>
+          </entries>
+          <sdk name="4.6.0" />
+        </dependencies>
+        <compiler-options>
+          <option name="additionalOptions" value="-locale en_US" />
+        </compiler-options>
+        <packaging-air-desktop package-file-name="CollaboRhythmMobileApplication" />
+        <packaging-android />
+        <packaging-ios />
       </configuration>
-    </facet>
+    </configurations>
+    <compiler-options />
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/bin-debug" />
@@ -38,11 +58,11 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="Android 2.2 Platform" level="application" />
     <orderEntry type="module-library">
-      <library name="Imported from Flash/Flex Builder: libs">
+      <library name="Imported from Flash/Flex Builder: libs" type="flex">
+        <properties id="cb855614-0520-4356-b496-33f89aad7f96" />
         <CLASSES>
           <root url="file://$MODULE_DIR$/libs" />
         </CLASSES>
@@ -51,13 +71,13 @@
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="CollaboRhythm.Plugins.Problems" />
     <orderEntry type="module" module-name="CollaboRhythm.Core" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared" />
     <orderEntry type="module" module-name="CollaboRhythm.View.Scroll" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" />
     <orderEntry type="module-library">
-      <library>
+      <library type="flex">
+        <properties id="3d66619a-9439-46c4-a956-5a0a52cdb887" />
         <CLASSES>
           <root url="jar://$PROJECT_FRAMEWORKS$/libs/mobile/mobilecomponents.swc!/" />
         </CLASSES>
@@ -66,7 +86,8 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library>
+      <library type="flex">
+        <properties id="ba20774e-2b7d-4a35-94bd-a45af24e4cca" />
         <CLASSES>
           <root url="jar://$PROJECT_FRAMEWORKS$/themes/Mobile/mobile.swc!/" />
         </CLASSES>
@@ -75,82 +96,9 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="CollaboRhythm.Core.Model" />
-    <orderEntry type="module-library">
-      <library name="AUTOGENERATED library equal to Flex SDK 4.6.0 AIR">
-        <CLASSES>
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/airglobal.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/authoringsupport.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/core.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/framework.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/sparkskins.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/spark_dmv.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/spark.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/rpc.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/textLayout.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/osmf.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/flash-integration.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/charts.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/advancedgrids.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/mx/mx.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/applicationupdater.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/airframework.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/applicationupdater_ui.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/aircore.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/airspark.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/servicemonitor.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/rpc_rb.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/charts_rb.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/flash-integration_rb.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/airspark_rb.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/mx_rb.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/automation_rb.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/qtp_air_rb.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/mobilecomponents_rb.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/framework_rb.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/airframework_rb.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/playerglobal_rb.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/textLayout_rb.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/osmf_rb.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/advancedgrids_rb.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/automation_agent_rb.swc!/" />
-          <root url="jar://$PROJECT_FRAMEWORKS$/locale/en_US/spark_rb.swc!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/advancedgrids/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/air/ApplicationUpdater/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/air/Core/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/air/Licensing/Android/AndroidLicensingJavaProject/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/air/Licensing/Android/AndroidLicensingLib/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/airframework/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/airspark/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/authoringsupport/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/automation/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/automation_air/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/automation_airspark/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/automation_dmv/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/automation_flashflexkit/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/automation_spark/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/charts/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/core/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/flash-integration/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/framework/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/mobilecomponents/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/mobiletheme/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/mx/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/osmf/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/rpc/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/spark/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/sparkskins/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/spark_dmv/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/textLayout/src" />
-          <root url="file://$PROJECT_FRAMEWORKS$/projects/wireframe/src" />
-        </SOURCES>
-      </library>
-    </orderEntry>
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" />
+    <orderEntry type="jdk" jdkName="4.6.0" jdkType="__CompositeFlexSdk__" />
+    <orderEntry type="library" name="Desktop libraries for mobile applications" level="project" />
   </component>
 </module>
 

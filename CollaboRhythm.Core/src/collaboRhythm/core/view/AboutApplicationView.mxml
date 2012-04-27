@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:model="collaboRhythm.core.model.*"
+		 xmlns:view="collaboRhythm.core.view.*"
 		 hideEffect="{hideEffect}"
 		 showEffect="{showEffect}"
 		 height="100%" width="100%"
@@ -62,6 +63,7 @@
 			</s:filters>
 			<s:VGroup id="versionWatermarkGroup" width="100%" height="100%" visible="false" fontSize="24" horizontalAlign="center" >
 				<s:Label id="applicationNameLabel" text="{_applicationInfo.appName}" fontSize="36"/>
+				<view:CollaboRhythm_icon_128x128/>
 				<s:Label id="applicationCopyrightLabel" text="{_applicationInfo.appCopyright}"/>
 				<s:Label id="applicationVersionLabel" text="Version {_applicationInfo.appVersion}"/>
 				<s:Label id="applicationModificationLabel" text="Updated {_applicationInfo.appModificationDateString}"

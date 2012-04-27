@@ -1,9 +1,34 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="PianoChord" type="AirRunConfigurationType" factoryName="AIR" adl_options="" air_descriptor_path="$PROJECT_DIR$/PianoChord/src/PianoChord-app.xml" air_program_params="" air_publisher_id="" air_root_dir_path="$PROJECT_DIR$/PianoChord/bin-debug" air_run_mode="AppDescriptor" browser_family="FIREFOX" debugger_sdk="Module SDK" html_or_swf_file_path="" launcher_type="OSDefault" main_class_name="PianoChord" module_name="PianoChord" player_path="FlashPlayer.exe" run_mode="HtmlOrSwfFile" run_trusted="false" url_to_launch="http://">
+  <configuration default="false" name="PianoChord" type="FlashRunConfigurationType" factoryName="Flash App">
+    <option name="BCName" value="PianoChord" />
+    <option name="adlOptions" value="" />
+    <option name="airProgramParameters" value="" />
+    <option name="appDescriptorForEmulator" value="Generated" />
+    <option name="debugTransport" value="USB" />
+    <option name="emulator" value="NexusOne" />
+    <option name="emulatorAdlOptions" value="" />
+    <option name="fullScreenHeight" value="0" />
+    <option name="fullScreenWidth" value="0" />
+    <option name="launchUrl" value="false" />
+    <option name="launcherParameters">
+      <LauncherParameters>
+        <option name="browserFamily" value="FIREFOX" />
+        <option name="launcherType" value="OSDefault" />
+        <option name="playerPath" value="FlashPlayerDebugger.exe" />
+      </LauncherParameters>
+    </option>
+    <option name="mobileRunTarget" value="Emulator" />
+    <option name="moduleName" value="PianoChord" />
+    <option name="overriddenMainClass" value="" />
+    <option name="overriddenOutputFileName" value="" />
+    <option name="overrideMainClass" value="false" />
+    <option name="runTrusted" value="true" />
+    <option name="screenHeight" value="0" />
+    <option name="screenWidth" value="0" />
+    <option name="url" value="http://" />
+    <option name="usbDebugPort" value="7936" />
     <RunnerSettings RunnerId="FlexDebugRunner" />
-    <RunnerSettings RunnerId="FlexRunner" />
     <ConfigurationWrapper RunnerId="FlexDebugRunner" />
-    <ConfigurationWrapper RunnerId="FlexRunner" />
     <method />
   </configuration>
 </component>

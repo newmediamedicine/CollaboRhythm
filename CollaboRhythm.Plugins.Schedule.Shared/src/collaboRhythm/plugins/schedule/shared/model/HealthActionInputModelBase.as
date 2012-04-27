@@ -27,6 +27,12 @@ package collaboRhythm.plugins.schedule.shared.model
 			return _scheduleItemOccurrence;
 		}
 
+
+		public function set scheduleItemOccurrence(value:ScheduleItemOccurrence):void
+		{
+			_scheduleItemOccurrence = value;
+		}
+
 		public function set urlVariables(value:URLVariables):void
 		{
 			// abstract, subclasses should override

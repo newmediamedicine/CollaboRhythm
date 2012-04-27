@@ -24,6 +24,7 @@ package collaboRhythm.workstation.controller
 	import collaboRhythm.core.view.ConnectivityView;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.IApplicationNavigationProxy;
 	import collaboRhythm.shared.model.InteractionLogUtil;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
@@ -289,8 +290,8 @@ package collaboRhythm.workstation.controller
 			}
 
             _fullContainer = _activeRecordView.fullViewGroup;
-            _appControllersMediator = new WorkstationAppControllersMediator(widgetContainers, _fullContainer, settings, _componentContainer, _collaborationController.collaborationModel.collaborationLobbyNetConnectionService as CollaborationLobbyNetConnectionService);
-            _appControllersMediator.createAndStartApps(_activeAccount, recordAccount);
+            _appControllersMediator = new WorkstationAppControllersMediator(widgetContainers, _fullContainer, settings, _componentContainer, _collaborationController.collaborationModel.collaborationLobbyNetConnectionService as CollaborationLobbyNetConnectionService, _navigationProxy);
+            _appControllersMediator.createAndStartApps(activeAccount, recordAccount);
 
             if (_reloadWithFullView != null)
             {
@@ -336,7 +337,7 @@ package collaboRhythm.workstation.controller
             collaborationController.hideRecordVideoView();
         }
 
-        protected override function get appControllersMediator():AppControllersMediatorBase
+        public override function get appControllersMediator():AppControllersMediatorBase
         {
             return _appControllersMediator;
         }

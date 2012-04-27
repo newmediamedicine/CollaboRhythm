@@ -74,7 +74,7 @@
 		{
 			_collaborationController = collaborationController;
 			_collaborationModel = collaborationModel;
-			_collaborationRoomUsers = collaborationModel.collaborationRoomAccounts;
+//			_collaborationRoomUsers = collaborationModel.collaborationRoomAccounts;
 			_collaborationRoomUsers.addEventListener(CollectionEvent.COLLECTION_CHANGE,
 					collaboratingRemoteUsersChangeHandler);
 			_collaborationRoomUserViews = new Vector.<CollaborationRoomUserView>;
@@ -108,7 +108,7 @@
 			collaborationRoomUserView.collaborationRoomView = this;
 //			collaborationRoomUserView.user = user;
 			collaborationRoomUserView.collaborationModel = _collaborationModel;
-			collaborationRoomUserView.collaboratingRemoteUsers = _collaborationModel.collaborationRoomAccounts;
+//			collaborationRoomUserView.collaboratingRemoteUsers = _collaborationModel.collaborationRoomAccounts;
 			collaborationRoomUserView.addEventListener(CollaborationEvent.LOCAL_USER_JOINED_COLLABORATION_ROOM_ANIMATION_COMPLETE,
 					localUserJoinedCollaborationRoomHandler);
 			this.addElement(collaborationRoomUserView);
