@@ -58,6 +58,7 @@ package collaboRhythm.shared.apps.healthCharts.model
 		public static const RXNORM_ATENOLOL:String = "197381";
 		private var _isInitialized:Boolean;
 		private var _decisionPending:Boolean = false;
+		private var _decisionTitle:String;
 
 		/**
 		 * The simulation state corresponding to the time currently being focused on (the time specified by the focus
@@ -366,9 +367,10 @@ package collaboRhythm.shared.apps.healthCharts.model
 			throw new Error("Property is read-only. Setter exists to facilitate data binding.");
 		}
 
-		public function prepareForDecision():void
+		public function prepareForDecision(decisionTitle:String):void
 		{
 			_decisionPending = true;
+			_decisionTitle = decisionTitle;
 		}
 
 		public function finishedDecision():void
@@ -379,6 +381,16 @@ package collaboRhythm.shared.apps.healthCharts.model
 		public function get decisionPending():Boolean
 		{
 			return _decisionPending;
+		}
+
+		public function get decisionTitle():String
+		{
+			return _decisionTitle;
+		}
+
+		public function set decisionTitle(value:String):void
+		{
+			_decisionTitle = value;
 		}
 	}
 }

@@ -1,17 +1,23 @@
 package collaboRhythm.plugins.insulinTitrationSupport.model
 {
+	import collaboRhythm.plugins.insulinTitrationSupport.view.InsulinTitrationDecisionPanel;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.TitrationPanelMockup;
+	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
+	import collaboRhythm.shared.ui.healthCharts.model.ChartModelDetails;
 	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.MedicationChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.VitalSignChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.ChartModifierBase;
+	import collaboRhythm.shared.ui.healthCharts.model.modifiers.DefaultVitalSignChartModifier;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifier;
 
 	import com.dougmccune.controls.ScrubChart;
 	import com.dougmccune.controls.SeriesDataSet;
 	import com.theory9.data.types.OrderedMap;
+
+	import mx.collections.ArrayCollection;
 
 	import mx.core.IVisualElement;
 	import mx.core.UIComponent;
@@ -82,6 +88,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			return reorderedChartDescriptors;
 		}
 
+		private var _insulinTitrationDecisionPanelModel:InsulinTitrationDecisionPanelModel;
+
 		public override function prepareAdherenceGroup(chartDescriptor:IChartDescriptor, adherenceGroup:Group):void
 		{
 			//synchronizedHealthCharts:SynchronizedHealthCharts
@@ -98,9 +106,20 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 					if (InsulinTitrationSupportChartModifierFactory.isBloodGlucoseChartDescriptor(chartDescriptor))
 					{
-						var titrationPanelMockup:TitrationPanelMockup = new TitrationPanelMockup();
-	//					titrationPanelMockup.percentHeight = 100;
-						extraPanel = titrationPanelMockup;
+						var panel:InsulinTitrationDecisionPanel = new InsulinTitrationDecisionPanel();
+						_insulinTitrationDecisionPanelModel = new InsulinTitrationDecisionPanelModel(chartModelDetails);
+						// TODO: only average consecutive blood glucose readings in the last 3 days
+						_insulinTitrationDecisionPanelModel.isAverageAvailable = !isNaN(_insulinTitrationDecisionPanelModel.bloodGlucoseAverage);
+						// TODO: determine whether adherence is perfect
+						_insulinTitrationDecisionPanelModel.isAdherencePerfect = true;
+						_insulinTitrationDecisionPanelModel.verticalAxisMinimum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_VERTICAL_AXIS_MINIMUM;
+						_insulinTitrationDecisionPanelModel.verticalAxisMaximum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_VERTICAL_AXIS_MAXIMUM;
+						_insulinTitrationDecisionPanelModel.goalZoneMinimum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_GOAL_ZONE_MINIMUM;
+						_insulinTitrationDecisionPanelModel.goalZoneMaximum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_GOAL_ZONE_MAXIMUM;
+						_insulinTitrationDecisionPanelModel.goalZoneColor = DefaultVitalSignChartModifier.GOAL_ZONE_COLOR;
+						panel.model = _insulinTitrationDecisionPanelModel;
+						panel.percentHeight = 100;
+						extraPanel = panel;
 					}
 					else
 					{
@@ -118,6 +137,16 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 					adherenceGroup.removeElementAt(adherenceGroup.numElements - 1);
 			}
 //			}
+		}
+
+
+		override public function set chartModelDetails(chartModelDetails:IChartModelDetails):void
+		{
+			super.chartModelDetails = chartModelDetails;
+			if (_insulinTitrationDecisionPanelModel)
+			{
+				_insulinTitrationDecisionPanelModel.chartModelDetails = chartModelDetails;
+			}
 		}
 	}
 }

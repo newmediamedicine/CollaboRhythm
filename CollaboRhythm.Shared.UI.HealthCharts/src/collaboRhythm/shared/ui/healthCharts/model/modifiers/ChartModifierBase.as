@@ -1,5 +1,6 @@
 package collaboRhythm.shared.ui.healthCharts.model.modifiers
 {
+	import collaboRhythm.shared.ui.healthCharts.model.ChartModelDetails;
 	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
 
@@ -42,6 +43,11 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 
 		public function prepareAdherenceGroup(chartDescriptor:IChartDescriptor, adherenceGroup:Group):void
 		{
+		}
+
+		public function set chartModelDetails(chartModelDetails:IChartModelDetails):void
+		{
+			_chartModelDetails = chartModelDetails;
 		}
 	}
 }

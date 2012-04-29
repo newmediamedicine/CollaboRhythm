@@ -553,7 +553,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 				var currentModifier:IChartModifier = null;
 				for each (var chartModifierFactory:IChartModifierFactory in _chartModifierFactories)
 				{
-					currentModifier = chartModifierFactory.createChartModifier(chartDescriptor, new ChartModelDetails(model.record, _activeAccountId), currentModifier);
+					currentModifier = chartModifierFactory.createChartModifier(chartDescriptor, createChartModelDetails(), currentModifier);
 				}
 
 				if (currentModifier)
@@ -561,6 +561,11 @@ package collaboRhythm.shared.ui.healthCharts.view
 					_chartModifiers.addKeyValue(currentModifier.chartKey, currentModifier);
 				}
 			}
+		}
+
+		private function createChartModelDetails():ChartModelDetails
+		{
+			return new ChartModelDetails(model.record, _activeAccountId, model.currentDateSource);
 		}
 
 		/**
@@ -2568,10 +2573,16 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private function respondToModelUpdate():void
 		{
+			if (_traceEventHandlers)
+				logDebugEvent("respondToModelUpdate", "model =", model, "model.isInitialized =", model.isInitialized);
+
 			_seriesWithPendingUpdateComplete.removeAll();
 
 			if (model && model.isInitialized)
+			{
 				initializeSeriesSets();
+				updateChartModifiers();
+			}
 
 			if (model && model.isInitialized && model.showAdherence)
 			{
@@ -2580,6 +2591,17 @@ package collaboRhythm.shared.ui.healthCharts.view
 			}
 
 			setSingleChartMode(null, false);
+		}
+
+		private function updateChartModifiers():void
+		{
+			if (_chartModifiers)
+			{
+				for each (var chartModifier:IChartModifier in _chartModifiers.values())
+				{
+					chartModifier.chartModelDetails = createChartModelDetails();
+				}
+			}
 		}
 
 		public function get skipUpdateSimulation():Boolean

@@ -1,5 +1,6 @@
 package collaboRhythm.shared.ui.healthCharts.model.modifiers
 {
+	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
 
 	import com.dougmccune.controls.ScrubChart;
@@ -61,5 +62,7 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 		function updateChartDescriptors(chartDescriptors:OrderedMap):OrderedMap;
 
 		function prepareAdherenceGroup(chartDescriptor:IChartDescriptor, adherenceGroup:Group):void;
+
+		function set chartModelDetails(chartModelDetails:IChartModelDetails):void;
 	}
 }
