@@ -15,10 +15,12 @@ package collaboRhythm.plugins.foraD40b.model
 		public static const HYPOGLYCEMIA:String = "Hypoglycemia";
 		public static const HYPERGLYCEMIA:String = "Hyperglycemia";
 
+		private var _fromDevice:Boolean = false;
 		private var _repeatCount:int = 0;
 		private var _state:String;
 		private var _pushedViewCount:int = 0;
-		
+
+		private var _previousBloodGlucose:String = "";
 		private var _bloodGlucose:String = "";
 
 		public function BloodGlucoseHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence = null,
@@ -57,6 +59,7 @@ package collaboRhythm.plugins.foraD40b.model
 
 		override public function set urlVariables(value:URLVariables):void
 		{
+			fromDevice = true;
 			bloodGlucose = value.bloodGlucose;
 
 			_urlVariables = value;
@@ -100,6 +103,26 @@ package collaboRhythm.plugins.foraD40b.model
 		public function set pushedViewCount(value:int):void
 		{
 			_pushedViewCount = value;
+		}
+
+		public function get fromDevice():Boolean
+		{
+			return _fromDevice;
+		}
+
+		public function set fromDevice(value:Boolean):void
+		{
+			_fromDevice = value;
+		}
+
+		public function get previousBloodGlucose():String
+		{
+			return _previousBloodGlucose;
+		}
+
+		public function set previousBloodGlucose(value:String):void
+		{
+			_previousBloodGlucose = value;
 		}
 	}
 }

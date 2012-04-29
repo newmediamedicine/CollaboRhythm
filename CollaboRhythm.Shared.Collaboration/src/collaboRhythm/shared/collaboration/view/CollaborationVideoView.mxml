@@ -58,16 +58,16 @@
 			if (netStreamIn)
 			{
 				var video:Video = new Video();
-				video.width = this.width;
-				video.height = this.height;
+				video.width = 1280;
+				video.height = 720;
 				video.attachNetStream(netStreamIn);
 				videoDisplay.addChild(video);
 
 				_collaborationLobbyNetConnectionService.netStreamOut.attachCamera(_collaborationModel.audioVideoOutput.camera);
 
 				var videoOut:Video = new Video();
-				videoOut.width = this.width / 4;
-				videoOut.height = this.height / 4;
+				videoOut.width = 1280 / 4;
+				videoOut.height = 720  / 4;
 				videoOut.attachCamera(_collaborationModel.audioVideoOutput.camera);
 				videoDisplayOut.addChild(videoOut);
 				return true;

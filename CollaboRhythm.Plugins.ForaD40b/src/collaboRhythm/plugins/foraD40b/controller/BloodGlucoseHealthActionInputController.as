@@ -1,5 +1,7 @@
 package collaboRhythm.plugins.foraD40b.controller
 {
+	import avmplus.factoryXml;
+
 	import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
 	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseHealthActionInputView;
 	import collaboRhythm.plugins.foraD40b.view.EatSomethingSugaryView;
@@ -48,7 +50,8 @@ package collaboRhythm.plugins.foraD40b.controller
 		public function submitBloodGlucose(bloodGlucose:String):void
 		{
 			_dataInputModel.bloodGlucose = bloodGlucose;
-			if (int(_dataInputModel.bloodGlucose) < 60)
+			_dataInputModel.previousBloodGlucose = _dataInputModel.bloodGlucose;
+			if (int(_dataInputModel.bloodGlucose) < 70)
 			{
 				var healthActionInputModelAndController:HealthActionInputModelAndController = new HealthActionInputModelAndController(_dataInputModel,
 						this);
@@ -63,6 +66,7 @@ package collaboRhythm.plugins.foraD40b.controller
 				}
 			}
 			_dataInputModel.submitBloodGlucose();
+			_dataInputModel.fromDevice = false;
 		}
 
 		public function get healthActionInputViewClass():Class

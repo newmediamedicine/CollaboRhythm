@@ -38,7 +38,7 @@
 			_dataInputModel = dataInputModel;
 		}
 		]]></fx:Script>
-	<s:Label text="Your blood glucose ({_dataInputModel.bloodGlucose}) was low." styleName="warningText" top="40"
+	<s:Label text="Your blood glucose ({_dataInputModel.previousBloodGlucose}) was low." styleName="warningText" top="40"
 			 horizontalCenter="0"/>
 	<s:Label text="If you need help, call 911." styleName="warningText" bottom="20" horizontalCenter="0"/>
 </s:Group>

@@ -95,6 +95,18 @@
 				//TODO: Toast an error message here. User must enter a value to save.
 			}
 		}
+
+		private function showBloodGlucoseFromDevice(bloodGlucose:String):String
+		{
+			if (_dataInputModel.fromDevice)
+			{
+				return _dataInputModel.bloodGlucose;
+			}
+			else
+			{
+				return "";
+			}
+		}
 		]]></fx:Script>
 	<view:HypoglycemiaWarningView id="hypoglycemiaWarningView" visible="{_dataInputModel.repeatCount != 0}"/>
 	<s:Group height="100%" width="100%">
@@ -105,7 +117,7 @@
 						 smooth="true"/>
 				<s:TextInput id="bloodGlucose" width="240" height="130"
 							 skinClass="spark.skins.mobile.StageTextInputSkin" styleName="textInputText"
-							 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number"/>
+							 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number" text="{showBloodGlucoseFromDevice(_dataInputModel.bloodGlucose)}"/>
 				<s:Label text="mg/dL" verticalCenter="0" styleName="reportingLabelsText"/>
 			</s:HGroup>
 		</s:VGroup>
