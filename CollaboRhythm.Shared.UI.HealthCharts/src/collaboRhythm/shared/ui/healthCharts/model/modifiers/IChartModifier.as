@@ -1,5 +1,8 @@
 package collaboRhythm.shared.ui.healthCharts.model.modifiers
 {
+	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
+	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
+
 	import com.dougmccune.controls.ScrubChart;
 	import com.dougmccune.controls.SeriesDataSet;
 	import com.theory9.data.types.OrderedMap;
@@ -8,6 +11,7 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 
 	import qs.charts.dataShapes.DataDrawingCanvas;
 
+	import spark.components.Group;
 	import spark.components.Label;
 
 	public interface IChartModifier
@@ -56,5 +60,9 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 		 * @return the new set of chart descriptors
 		 */
 		function updateChartDescriptors(chartDescriptors:OrderedMap):OrderedMap;
+
+		function prepareAdherenceGroup(chartDescriptor:IChartDescriptor, adherenceGroup:Group):void;
+
+		function set chartModelDetails(chartModelDetails:IChartModelDetails):void;
 	}
 }

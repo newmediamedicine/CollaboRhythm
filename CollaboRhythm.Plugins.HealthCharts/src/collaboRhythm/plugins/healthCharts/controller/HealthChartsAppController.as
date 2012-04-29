@@ -168,6 +168,23 @@ package collaboRhythm.plugins.healthCharts.controller
 		{
 			super.hideFullViewComplete();
 			healthChartsModel.finishedDecision();
+			updateFullViewTitle();
+		}
+
+		override protected function updateFullViewTitle():void
+		{
+			if (healthChartsModel.decisionPending && healthChartsModel.decisionTitle)
+				fullViewTitle = healthChartsModel.decisionTitle;
+			else
+				fullViewTitle = name;
+		}
+
+		override protected function showFullViewStart():void
+		{
+			super.showFullViewStart();
+			updateFullViewTitle();
+			if (fullView)
+				_fullView.prepareAllAdherenceGroups();
 		}
 	}
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Graphic version="2.0" viewHeight="195" viewWidth="490" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+<Graphic version="2.0" viewHeight="180" viewWidth="478" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
   <Library>
-    <Definition name="average_glucose_plot_item_renderer" ai:objID="185d7300" ai:symType="1" d:userLabel="average glucose plot item renderer">
-      <Group ai:objID="185d7300" ai:symType="1" d:userLabel="average glucose plot item renderer">
-        <Path x="-9.83496" y="-9.83496" winding="nonZero" ai:objID="17d71b80" ai:seqID="23" data="M0 9.83496 9.83594 19.6699 19.6709 9.83496 9.83594 0 0 9.83496Z">
+    <Definition name="average_glucose_plot_item_renderer" ai:symType="1" d:userLabel="average glucose plot item renderer">
+      <Group ai:symType="1" d:userLabel="average glucose plot item renderer">
+        <Path x="-9.83496" y="-9.83496" winding="nonZero" ai:seqID="25" data="M0 9.83496 9.83594 19.6699 19.6709 9.83496 9.83594 0 0 9.83496Z">
           <fill>
             <SolidColor color="#F7941E"/>
           </fill>
@@ -14,175 +14,179 @@
       </Group>
     </Definition>
   </Library>
-  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="195" d:pageWidth="490" d:type="layer" d:userLabel="Artboard 1">
-    <Group ai:objID="17eed980" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
-      <Group x="7" y="4.5" ai:objID="185d8300" ai:seqID="3">
-        <Rect x="40" y="0.5" width="110" height="140" ai:objID="17d76e00" ai:seqID="4">
+  <Group ai:seqID="1" d:layerType="page" d:pageHeight="180" d:pageWidth="478" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:seqID="2" d:type="layer" d:userLabel="Layer 1">
+      <Rect x="48" visible="false" width="110" height="140" ai:seqID="3" d:userLabel="white_box_1">
+        <fill>
+          <SolidColor color="#FFFFFF"/>
+        </fill>
+      </Rect>
+      <Rect x="48" y="58" visible="false" width="110" height="48" ai:seqID="4" d:userLabel="goal_zone_1">
+        <fill>
+          <SolidColor color="#79A773"/>
+        </fill>
+      </Rect>
+      <Group x="48" visible="false" ai:seqID="5" flm:knockout="false" d:userLabel="chart_border_1">
+        <Path winding="nonZero" ai:seqID="6" data="M109 1 109 139 1 139 1 1 109 1M110 0 0 0 0 140 110 140 110 0 110 0Z">
           <fill>
-            <SolidColor color="#FFFFFF"/>
+            <SolidColor/>
           </fill>
-        </Rect>
-        <Rect x="40" y="58.2734" width="110" height="47.8418" ai:objID="17d76f80" ai:seqID="5">
+        </Path>
+      </Group>
+      <Rect x="208" visible="false" width="110" height="140" ai:seqID="7">
+        <fill>
+          <SolidColor color="#FFFFFF"/>
+        </fill>
+      </Rect>
+      <Rect x="208" y="58" visible="false" width="110" height="48" ai:seqID="8">
+        <fill>
+          <SolidColor color="#79A773"/>
+        </fill>
+      </Rect>
+      <Group x="208" visible="false" ai:seqID="9" flm:knockout="false">
+        <Path winding="nonZero" ai:seqID="10" data="M109 1 109 139 1 139 1 1 109 1M110 0 0 0 0 140 110 140 110 0 110 0Z">
           <fill>
-            <SolidColor color="#79A773"/>
+            <SolidColor/>
           </fill>
-        </Rect>
-        <Rect x="40" y="0.5" width="110" height="140" ai:objID="17d77100" ai:seqID="6">
-          <stroke>
-            <SolidColorStroke caps="none" joints="miter" miterLimit="10"/>
-          </stroke>
-        </Rect>
-        <Rect x="200" y="0.5" width="110" height="140" ai:objID="17d77280" ai:seqID="7">
-          <fill>
-            <SolidColor color="#FFFFFF"/>
-          </fill>
-        </Rect>
-        <Rect x="200" y="58.2734" width="110" height="48" ai:objID="1878e000" ai:seqID="8">
-          <fill>
-            <SolidColor color="#79A773"/>
-          </fill>
-        </Rect>
-        <Rect x="200" y="0.5" width="110" height="140" ai:objID="1878e300" ai:seqID="9">
-          <stroke>
-            <SolidColorStroke caps="none" joints="miter" miterLimit="10"/>
-          </stroke>
-        </Rect>
-        <Line xFrom="360" yFrom="140.344" xTo="469.842" yTo="140.344" ai:objID="1878e480" ai:seqID="10">
+        </Path>
+      </Group>
+      <Group x="368" y="129.83" visible="false" ai:seqID="11">
+        <Line yFrom="9.66992" xTo="109.842" yTo="9.66992" ai:seqID="12">
           <stroke>
             <SolidColorStroke caps="none" joints="miter" miterLimit="10" color="#666766"/>
           </stroke>
         </Line>
-        <Line xFrom="360.158" yFrom="140.5" xTo="360.158" yTo="135.174" ai:objID="185eb700" ai:seqID="11">
+        <Line xFrom="0.5" yFrom="9.49609" xTo="0.5" yTo="4.16992" ai:seqID="13">
           <stroke>
             <SolidColorStroke caps="none" joints="miter" miterLimit="10" color="#666766"/>
           </stroke>
         </Line>
-        <Path x="459.016" y="130.33" winding="nonZero" ai:objID="185eb580" ai:seqID="12" data="M10.9844 10 0 10 10.9844 0 10.9844 10Z">
+        <Path x="99.0156" winding="nonZero" ai:seqID="14" data="M10.9844 10 0 10 10.9844 0 10.9844 10Z">
           <fill>
             <SolidColor color="#666766"/>
           </fill>
         </Path>
-        <Group y="72.9941" alpha="0.25" ai:objID="185d7a00" ai:seqID="13" flm:isolated="false" flm:knockout="false">
-          <Line yFrom="9.2002" xTo="27.5601" yTo="9.2002" ai:objID="185dfb80" ai:seqID="14">
-            <stroke>
-              <SolidColorStroke weight="3" caps="none" joints="miter" miterLimit="10" color="#666766"/>
-            </stroke>
-          </Line>
-          <Path x="18.5698" winding="nonZero" ai:objID="224b5780" ai:seqID="15" data="M1.53467 18.4023 0 16.7544 8.12646 9.20215 0 1.64844 1.53467 0 11.4302 9.20215 1.53467 18.4023Z">
-            <fill>
-              <SolidColor color="#666766"/>
-            </fill>
-          </Path>
-        </Group>
-        <Group x="160" y="72.9941" alpha="0.25" ai:objID="185d7e00" ai:seqID="16" flm:isolated="false" flm:knockout="false">
-          <Line yFrom="9.2002" xTo="27.5601" yTo="9.2002" ai:objID="224b5a80" ai:seqID="17">
-            <stroke>
-              <SolidColorStroke weight="3" caps="none" joints="miter" miterLimit="10" color="#666766"/>
-            </stroke>
-          </Line>
-          <Path x="18.5698" winding="nonZero" ai:objID="224b5c00" ai:seqID="18" data="M1.53467 18.4023 0 16.7544 8.12646 9.20215 0 1.64844 1.53467 0 11.4302 9.20215 1.53467 18.4023Z">
-            <fill>
-              <SolidColor color="#666766"/>
-            </fill>
-          </Path>
-        </Group>
-        <Group x="320" y="72.9941" alpha="0.25" ai:objID="185d8200" ai:seqID="19" flm:isolated="false" flm:knockout="false">
-          <Line yFrom="9.2002" xTo="27.5596" yTo="9.2002" ai:objID="224b5f00" ai:seqID="20">
-            <stroke>
-              <SolidColorStroke weight="3" caps="none" joints="miter" miterLimit="10" color="#666766"/>
-            </stroke>
-          </Line>
-          <Path x="18.5703" winding="nonZero" ai:objID="224b6080" ai:seqID="21" data="M1.53418 18.4023 0 16.7544 8.12598 9.20215 0 1.64844 1.53418 0 11.4297 9.20215 1.53418 18.4023Z">
-            <fill>
-              <SolidColor color="#666766"/>
-            </fill>
-          </Path>
-        </Group>
       </Group>
-      <Group x="7" y="19.8145" ai:objID="71f6f80" ai:seqID="22" d:userLabel="Decision Support - Perfect">
-        <average_glucose_plot_item_renderer x="94.0781" y="27.7549" ai:objID="185d8400" ai:seqID="24" flm:knockout="false"/>
-        <RichText x="200" y="2.61029" columnCount="1" textAlign="center" tabStops="S36 S72 S108" fontFamily="Myriad Pro" fontWeight="bold" kerning="on" whiteSpaceCollapse="preserve" width="110.83" height="28" ai:aa="2" ai:objID="185d8600" ai:seqID="25" flm:variant="1" d:id="3">
+      <Group x="8" y="72.2998" alpha="0.25" visible="false" ai:seqID="15" flm:isolated="false" flm:knockout="false">
+        <Line yFrom="9.2002" xTo="27.5601" yTo="9.2002" ai:seqID="16">
+          <stroke>
+            <SolidColorStroke weight="3" caps="none" joints="miter" miterLimit="10" color="#666766"/>
+          </stroke>
+        </Line>
+        <Path x="18.5698" winding="nonZero" ai:seqID="17" data="M1.53467 18.4023 0 16.7544 8.12646 9.20215 0 1.64844 1.53467 0 11.4302 9.20215 1.53467 18.4023Z">
+          <fill>
+            <SolidColor color="#666766"/>
+          </fill>
+        </Path>
+      </Group>
+      <Group x="168" y="72.2998" alpha="0.25" visible="false" ai:seqID="18" flm:isolated="false" flm:knockout="false">
+        <Line yFrom="9.2002" xTo="27.5601" yTo="9.2002" ai:seqID="19">
+          <stroke>
+            <SolidColorStroke weight="3" caps="none" joints="miter" miterLimit="10" color="#666766"/>
+          </stroke>
+        </Line>
+        <Path x="18.5698" winding="nonZero" ai:seqID="20" data="M1.53467 18.4023 0 16.7544 8.12646 9.20215 0 1.64844 1.53467 0 11.4302 9.20215 1.53467 18.4023Z">
+          <fill>
+            <SolidColor color="#666766"/>
+          </fill>
+        </Path>
+      </Group>
+      <Group x="328" y="72.2998" alpha="0.25" visible="false" ai:seqID="21" flm:isolated="false" flm:knockout="false">
+        <Line yFrom="9.2002" xTo="27.5601" yTo="9.2002" ai:seqID="22">
+          <stroke>
+            <SolidColorStroke weight="3" caps="none" joints="miter" miterLimit="10" color="#666766"/>
+          </stroke>
+        </Line>
+        <Path x="18.5698" winding="nonZero" ai:seqID="23" data="M1.53467 18.4023 0 16.7544 8.12646 9.20215 0 1.64844 1.53467 0 11.4302 9.20215 1.53467 18.4023Z">
+          <fill>
+            <SolidColor color="#666766"/>
+          </fill>
+        </Path>
+      </Group>
+      <Group x="56" y="14.1895" ai:seqID="24" d:userLabel="Decision Support - Perfect">
+        <average_glucose_plot_item_renderer x="46.0781" y="27.7549" visible="false" ai:seqID="26" flm:knockout="false"/>
+        <RichText x="152" y="2.61029" visible="false" columnCount="1" textAlign="center" tabStops="S36 S72 S108" fontFamily="Myriad Pro" fontWeight="bold" kerning="on" whiteSpaceCollapse="preserve" width="110.83" height="28" ai:aa="2" ai:seqID="27">
           <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro" fontSize="30">+3</span><span fontFamily="Myriad Pro" fontSize="24"> </span><span fontFamily="Myriad Pro" fontSize="18">Units</span></p></content>
         </RichText>
-        <RichText x="241" y="134.352" columnCount="1" tabStops="S36 S72" fontFamily="Myriad Pro" kerning="on" whiteSpaceCollapse="preserve" width="98.1328" height="39.9785" ai:aa="2" ai:objID="185d8800" ai:seqID="26" flm:variant="2" d:id="4">
+        <RichText x="193" y="134.352" columnCount="1" tabStops="S36 S72" fontFamily="Myriad Pro" kerning="on" whiteSpaceCollapse="preserve" width="98.1328" height="39.9785" ai:aa="2" ai:seqID="28">
           <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">Consider</span></p><p fontFamily="Myriad Pro" fontSize="18" baselineShift="4"><span fontFamily="Myriad Pro">Protocol</span></p></content>
         </RichText>
-        <RichText x="399.189" y="134.352" columnCount="1" tabStops="S36 S72" fontFamily="Myriad Pro" kerning="on" whiteSpaceCollapse="preserve" width="98.8105" height="43.3125" ai:aa="2" ai:objID="185d8a00" ai:seqID="27" flm:variant="3" d:id="5">
+        <RichText x="351.189" y="134.352" columnCount="1" tabStops="S36 S72" fontFamily="Myriad Pro" kerning="on" whiteSpaceCollapse="preserve" width="98.8105" height="43.3125" ai:aa="2" ai:seqID="29">
           <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">Choose</span></p><p fontFamily="Myriad Pro" fontSize="18" baselineShift="4"><span fontFamily="Myriad Pro">Change</span></p></content>
         </RichText>
-        <RichText x="82" y="134.352" columnCount="1" tabStops="S36" fontFamily="Myriad Pro" kerning="on" whiteSpaceCollapse="preserve" width="69.334" height="45.9785" ai:aa="2" ai:objID="185d8c00" ai:seqID="28" flm:variant="4" d:id="6">
+        <RichText x="34" y="134.352" columnCount="1" tabStops="S36" fontFamily="Myriad Pro" kerning="on" whiteSpaceCollapse="preserve" width="69.334" height="45.9785" ai:aa="2" ai:seqID="30">
           <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">Observe</span></p><p fontFamily="Myriad Pro" fontSize="18" baselineShift="4"><span fontFamily="Myriad Pro">Average</span></p></content>
         </RichText>
-        <Group x="48" y="133.832" ai:objID="185d8f00" ai:seqID="29">
-          <Ellipse width="30" height="30" ai:objID="224b9800" ai:seqID="30">
+        <Group y="133.832" ai:seqID="31">
+          <Ellipse width="30" height="30" ai:seqID="32">
             <fill>
               <SolidColor color="#F7941E"/>
             </fill>
           </Ellipse>
-          <RichText x="8.84375" y="9.04395" columnCount="1" tabStops="S36" fontFamily="Myriad Pro" fontSize="24" kerning="on" whiteSpaceCollapse="preserve" baselineShift="4" ai:aa="2" ai:objID="185d8e00" ai:seqID="31" flm:variant="5" d:id="7">
+          <RichText x="8.84375" y="9.04395" columnCount="1" tabStops="S36" fontFamily="Myriad Pro" fontSize="24" kerning="on" whiteSpaceCollapse="preserve" baselineShift="4" ai:aa="2" ai:seqID="33">
             <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">1</span></p></content>
           </RichText>
         </Group>
-        <Group x="206" y="133.832" ai:objID="185db200" ai:seqID="32">
-          <Ellipse width="30" height="30" ai:objID="224ba400" ai:seqID="33">
+        <Group x="158" y="133.832" ai:seqID="34">
+          <Ellipse width="30" height="30" ai:seqID="35">
             <fill>
               <SolidColor color="#F7941E"/>
             </fill>
           </Ellipse>
-          <RichText x="9" y="8.04395" columnCount="1" tabStops="S36" fontFamily="Myriad Pro" fontSize="24" kerning="on" whiteSpaceCollapse="preserve" baselineShift="4" ai:aa="2" ai:objID="185db100" ai:seqID="34" flm:variant="6" d:id="8">
+          <RichText x="9" y="8.04395" columnCount="1" tabStops="S36" fontFamily="Myriad Pro" fontSize="24" kerning="on" whiteSpaceCollapse="preserve" baselineShift="4" ai:aa="2" ai:seqID="36">
             <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">2</span></p></content>
           </RichText>
         </Group>
-        <Group x="365" y="133.832" ai:objID="185dae00" ai:seqID="35">
-          <Ellipse width="30" height="30" ai:objID="224bb000" ai:seqID="36">
+        <Group x="317" y="133.832" ai:seqID="37">
+          <Ellipse width="30" height="30" ai:seqID="38">
             <fill>
               <SolidColor color="#F7941E"/>
             </fill>
           </Ellipse>
-          <RichText x="9.45557" y="8.54102" columnCount="1" tabStops="S36" fontFamily="Myriad Pro" fontSize="24" kerning="on" whiteSpaceCollapse="preserve" baselineShift="4" ai:aa="2" ai:objID="185dad00" ai:seqID="37" flm:variant="7" d:id="9">
+          <RichText x="9.45557" y="8.54102" columnCount="1" tabStops="S36" fontFamily="Myriad Pro" fontSize="24" kerning="on" whiteSpaceCollapse="preserve" baselineShift="4" ai:aa="2" ai:seqID="39">
             <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">3</span></p></content>
           </RichText>
         </Group>
-        <Group x="200" y="61.8281" alpha="0.15" ai:objID="185d4600" ai:seqID="38" flm:isolated="false" flm:knockout="false">
-          <Path y="0.00390625" winding="nonZero" ai:objID="17d6f000" ai:seqID="39" data="M111.831 28 1.10938 28 0 0 110.721 0 111.831 28Z"/>
-          <Path x="15.1484" y="0.648438" winding="nonZero" ai:objID="17d70680" ai:seqID="40" data="M0 12.1357 0 0 1.72852 0 5.59961 6.13965C6.48242 7.5625 7.20215 8.84082 7.76074 10.083L7.81445 10.0654C7.6709 8.44434 7.63477 6.96777 7.63477 5.07813L7.63477 0 9.11133 0 9.11133 12.1357 7.52637 12.1357 3.67285 5.97754C2.82715 4.62793 2.0166 3.24121
+        <Group x="152" y="61.8281" alpha="0.15" visible="false" ai:seqID="40" flm:isolated="false" flm:knockout="false">
+          <Path y="0.00390625" winding="nonZero" ai:seqID="41" data="M111.831 28 1.10938 28 0 0 110.721 0 111.831 28Z"/>
+          <Path x="15.1484" y="0.648438" winding="nonZero" ai:seqID="42" data="M0 12.1357 0 0 1.72852 0 5.59961 6.13965C6.48242 7.5625 7.20215 8.84082 7.76074 10.083L7.81445 10.0654C7.6709 8.44434 7.63477 6.96777 7.63477 5.07813L7.63477 0 9.11133 0 9.11133 12.1357 7.52637 12.1357 3.67285 5.97754C2.82715 4.62793 2.0166 3.24121
  1.42285 1.92676L1.36816 1.94434C1.45898 3.47559 1.47656 4.93359 1.47656 6.9502L1.47656 12.1357 0 12.1357Z">
             <fill>
               <SolidColor/>
             </fill>
           </Path>
-          <Path x="26.3086" y="3.88965" winding="nonZero" ai:objID="17d70200" ai:seqID="41" data="M8.5166 4.46484C8.5166 7.68848 6.26563 9.09277 4.17676 9.09277 1.83594 9.09277 0 7.36426 0 4.60938 0 1.70996 1.92578 0 4.32129 0 6.82324 0 8.5166 1.81836 8.5166 4.46484ZM1.62012 4.55566C1.62012 6.46387 2.7002 7.9043 4.24902 7.9043 5.76172 7.9043
+          <Path x="26.3086" y="3.88965" winding="nonZero" ai:seqID="43" data="M8.5166 4.46484C8.5166 7.68848 6.26563 9.09277 4.17676 9.09277 1.83594 9.09277 0 7.36426 0 4.60938 0 1.70996 1.92578 0 4.32129 0 6.82324 0 8.5166 1.81836 8.5166 4.46484ZM1.62012 4.55566C1.62012 6.46387 2.7002 7.9043 4.24902 7.9043 5.76172 7.9043
  6.89551 6.48145 6.89551 4.51953 6.89551 3.04297 6.15723 1.18848 4.28516 1.18848 2.43066 1.18848 1.62012 2.91699 1.62012 4.55566Z">
             <fill>
               <SolidColor/>
             </fill>
           </Path>
-          <Path x="39.9697" y="0.450195" winding="nonZero" ai:objID="17d70080" ai:seqID="42" data="M9.18262 11.9561C8.62402 12.2441 7.4541 12.5322 5.97754 12.5322 2.55664 12.5322 0 10.3711 0 6.37402 0 2.55664 2.57422 0 6.33789 0 7.83203 0 8.80469 0.324219 9.21875 0.540039L8.82227 1.81934C8.24609 1.53027 7.40039 1.31445 6.3916 1.31445 3.54688
+          <Path x="39.9697" y="0.450195" winding="nonZero" ai:seqID="44" data="M9.18262 11.9561C8.62402 12.2441 7.4541 12.5322 5.97754 12.5322 2.55664 12.5322 0 10.3711 0 6.37402 0 2.55664 2.57422 0 6.33789 0 7.83203 0 8.80469 0.324219 9.21875 0.540039L8.82227 1.81934C8.24609 1.53027 7.40039 1.31445 6.3916 1.31445 3.54688
  1.31445 1.65625 3.13281 1.65625 6.32031 1.65625 9.30957 3.36719 11.1992 6.30176 11.1992 7.27344 11.1992 8.24609 11.002 8.87598 10.6953L9.18262 11.9561Z">
             <fill>
               <SolidColor/>
             </fill>
           </Path>
-          <Path x="51.0752" winding="nonZero" ai:objID="17d6fd80" ai:seqID="43" data="M0 0 1.58398 0 1.58398 5.45605 1.62012 5.45605C1.87207 5.00586 2.26855 4.5918 2.75488 4.32129 3.22266 4.05176 3.78125 3.88965 4.375 3.88965 5.5459 3.88965 7.41797 4.60938 7.41797 7.59863L7.41797 12.7842 5.83398 12.7842 5.83398 7.77832C5.83398
+          <Path x="51.0752" winding="nonZero" ai:seqID="45" data="M0 0 1.58398 0 1.58398 5.45605 1.62012 5.45605C1.87207 5.00586 2.26855 4.5918 2.75488 4.32129 3.22266 4.05176 3.78125 3.88965 4.375 3.88965 5.5459 3.88965 7.41797 4.60938 7.41797 7.59863L7.41797 12.7842 5.83398 12.7842 5.83398 7.77832C5.83398
  6.37402 5.31152 5.2041 3.81738 5.2041 2.79102 5.2041 1.99805 5.92383 1.69238 6.77051 1.60254 7.00488 1.58398 7.23828 1.58398 7.52637L1.58398 12.7842 0 12.7842 0 0Z">
             <fill>
               <SolidColor/>
             </fill>
           </Path>
-          <Path x="60.3809" y="3.88965" winding="nonZero" ai:objID="17d6fa80" ai:seqID="44" data="M6.80664 6.80566C6.80664 7.5625 6.84277 8.30078 6.93262 8.89453L5.50977 8.89453 5.38379 7.7959 5.33008 7.7959C4.84375 8.48047 3.90723 9.09277 2.66504 9.09277 0.900391 9.09277 0 7.85059 0 6.58984 0 4.4834 1.87305 3.33105 5.24023 3.34863L5.24023
+          <Path x="60.3809" y="3.88965" winding="nonZero" ai:seqID="46" data="M6.80664 6.80566C6.80664 7.5625 6.84277 8.30078 6.93262 8.89453L5.50977 8.89453 5.38379 7.7959 5.33008 7.7959C4.84375 8.48047 3.90723 9.09277 2.66504 9.09277 0.900391 9.09277 0 7.85059 0 6.58984 0 4.4834 1.87305 3.33105 5.24023 3.34863L5.24023
  3.16895C5.24023 2.4668 5.04199 1.15234 3.25879 1.16992 2.43066 1.16992 1.58496 1.4043 0.972656 1.81836L0.612305 0.755859C1.33301 0.305664 2.39551 0 3.49316 0 6.1582 0 6.80664 1.81836 6.80664 3.54688L6.80664 6.80566ZM5.27637 4.44727C3.54785 4.41113
  1.58496 4.71777 1.58496 6.41016 1.58496 7.4541 2.26855 7.92188 3.06152 7.92188 4.21387 7.92188 4.95215 7.20215 5.2041 6.46387 5.25781 6.28418 5.27637 6.10352 5.27637 5.95996L5.27637 4.44727Z">
             <fill>
               <SolidColor/>
             </fill>
           </Path>
-          <Path x="69.6689" y="3.88965" winding="nonZero" ai:objID="17d6f900" ai:seqID="45" data="M0.0722656 2.53906C0.0722656 1.62012 0.0546875 0.900391 0 0.179688L1.4043 0.179688 1.49414 1.62012 1.53027 1.62012C1.96289 0.810547 2.9707 0 4.41113 0 5.61816 0 7.49023 0.719727 7.49023 3.70898L7.49023 8.89453 5.90625 8.89453 5.90625 3.87109C5.90625
+          <Path x="69.6689" y="3.88965" winding="nonZero" ai:seqID="47" data="M0.0722656 2.53906C0.0722656 1.62012 0.0546875 0.900391 0 0.179688L1.4043 0.179688 1.49414 1.62012 1.53027 1.62012C1.96289 0.810547 2.9707 0 4.41113 0 5.61816 0 7.49023 0.719727 7.49023 3.70898L7.49023 8.89453 5.90625 8.89453 5.90625 3.87109C5.90625
  2.4668 5.38379 1.2959 3.88965 1.2959 2.86328 1.2959 2.05273 2.03418 1.76465 2.91699 1.69238 3.11523 1.65625 3.38477 1.65625 3.65527L1.65625 8.89453 0.0722656 8.89453 0.0722656 2.53906Z">
             <fill>
               <SolidColor/>
             </fill>
           </Path>
-          <Path x="79.1016" y="3.88965" winding="nonZero" ai:objID="17d6f600" ai:seqID="46" data="M8.08398 7.61621C8.08398 9.63281 7.66992 10.8389 6.8418 11.6133 5.97754 12.3877 4.75293 12.6572 3.6543 12.6572 2.61035 12.6572 1.45801 12.4053 0.755859 11.9375L1.15234 10.7129C1.72852 11.0908 2.62793 11.415 3.70898 11.415 5.3291 11.415 6.51758
+          <Path x="79.1016" y="3.88965" winding="nonZero" ai:seqID="48" data="M8.08398 7.61621C8.08398 9.63281 7.66992 10.8389 6.8418 11.6133 5.97754 12.3877 4.75293 12.6572 3.6543 12.6572 2.61035 12.6572 1.45801 12.4053 0.755859 11.9375L1.15234 10.7129C1.72852 11.0908 2.62793 11.415 3.70898 11.415 5.3291 11.415 6.51758
  10.5693 6.51758 8.35449L6.51758 7.40039 6.48145 7.40039C6.01367 8.20996 5.05957 8.8584 3.70898 8.8584 1.54785 8.8584 0 7.02246 0 4.60938 0 1.65625 1.92578 0 3.94238 0 5.45508 0 6.26563 0.774414 6.66113 1.49414L6.69727 1.49414 6.75195 0.179688
  8.15625 0.179688C8.10254 0.791992 8.08398 1.5127 8.08398 2.55664L8.08398 7.61621ZM6.5 3.61914C6.5 3.34863 6.48145 3.11523 6.40918 2.91699 6.12109 1.98047 5.36523 1.22461 4.19531 1.22461 2.68262 1.22461 1.60254 2.50293 1.60254 4.51953 1.60254
  6.22949 2.48438 7.65234 4.17676 7.65234 5.16699 7.65234 6.0498 7.04004 6.37402 6.03125 6.46387 5.76172 6.5 5.45508 6.5 5.18555L6.5 3.61914Z">
@@ -190,47 +194,65 @@
               <SolidColor/>
             </fill>
           </Path>
-          <Path x="89.1631" y="3.88965" winding="nonZero" ai:objID="17d6f180" ai:seqID="47" data="M1.51172 4.8252C1.54785 6.96777 2.89844 7.85059 4.50098 7.85059 5.63574 7.85059 6.33789 7.65234 6.91406 7.40039L7.20215 8.53418C6.64355 8.78613 5.6709 9.09277 4.28516 9.09277 1.60254 9.09277 0 7.30957 0 4.68164 0 2.05273 1.54785 0 4.08691 0 6.94922
+          <Path x="89.1631" y="3.88965" winding="nonZero" ai:seqID="49" data="M1.51172 4.8252C1.54785 6.96777 2.89844 7.85059 4.50098 7.85059 5.63574 7.85059 6.33789 7.65234 6.91406 7.40039L7.20215 8.53418C6.64355 8.78613 5.6709 9.09277 4.28516 9.09277 1.60254 9.09277 0 7.30957 0 4.68164 0 2.05273 1.54785 0 4.08691 0 6.94922
  0 7.6875 2.48438 7.6875 4.08691 7.6875 4.41113 7.66992 4.64551 7.63379 4.8252L1.51172 4.8252ZM6.15723 3.69141C6.17578 2.7002 5.74316 1.13379 3.96094 1.13379 2.33984 1.13379 1.65625 2.59277 1.53027 3.69141L6.15723 3.69141Z">
             <fill>
               <SolidColor/>
             </fill>
           </Path>
         </Group>
-        <RichText x="200" y="95.6318" alpha="0.15" columnCount="1" textAlign="center" tabStops="S36 S72 S108" fontFamily="Myriad Pro" kerning="on" whiteSpaceCollapse="preserve" width="109.83" height="28" ai:aa="2" ai:objID="185daa00" ai:seqID="48" flm:variant="8" d:id="10">
+        <RichText x="152" y="95.6318" alpha="0.15" visible="false" columnCount="1" textAlign="center" tabStops="S36 S72 S108" fontFamily="Myriad Pro" kerning="on" whiteSpaceCollapse="preserve" width="109.83" height="28" ai:aa="2" ai:seqID="50">
           <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro" fontSize="30">-3</span><span fontFamily="Myriad Pro" fontSize="24"> </span><span fontFamily="Myriad Pro" fontSize="18">Units</span></p></content>
         </RichText>
-        <Group y="57.6318" ai:objID="18676c80" ai:seqID="49" flm:knockout="false">
-          <Line yFrom="9.2002" xTo="27.5605" yTo="9.2002" ai:objID="224bd880" ai:seqID="50">
-            <stroke>
-              <SolidColorStroke weight="3" caps="none" joints="miter" miterLimit="10" color="#666766"/>
-            </stroke>
-          </Line>
-          <Path x="18.5703" winding="nonZero" ai:objID="224bda00" ai:seqID="51" data="M1.53418 18.4023 0 16.7549 8.12598 9.20215 0 1.64844 1.53418 0 11.4297 9.20215 1.53418 18.4023Z">
+      </Group>
+      <Group x="328.133" y="71.7788" visible="false" ai:seqID="51">
+        <Group ai:seqID="52">
+          <mask>
+            <Group x="0.000488281" ai:spare="1">
+              <Rect width="29.7329" height="19.4424" ai:seqID="53">
+                <fill>
+                  <SolidColor color="#FFFFFF"/>
+                </fill>
+              </Rect>
+            </Group>
+          </mask>
+          <Path winding="nonZero" ai:seqID="54" data="M19.6289 0 18.1084 1.68652 24.8579 8.18604 0 8.18604 0 11.2563 24.8618 11.2563 18.1064 17.7603 19.6235 19.4424 19.6309 19.4424 29.7329 9.72314 19.6289 0Z">
             <fill>
               <SolidColor color="#666766"/>
             </fill>
           </Path>
         </Group>
-        <Group x="160" y="57.6318" ai:objID="71f6e80" ai:seqID="52" flm:knockout="false">
-          <Line yFrom="9.2002" xTo="27.5605" yTo="9.2002" ai:objID="224bd280" ai:seqID="53">
-            <stroke>
-              <SolidColorStroke weight="3" caps="none" joints="miter" miterLimit="10" color="#666766"/>
-            </stroke>
-          </Line>
-          <Path x="18.5703" winding="nonZero" ai:objID="224bd400" ai:seqID="54" data="M1.53418 18.4023 0 16.7549 8.12598 9.20215 0 1.64844 1.53418 0 11.4297 9.20215 1.53418 18.4023Z">
+      </Group>
+      <Group x="168.133" y="71.7788" visible="false" ai:seqID="55">
+        <Group ai:seqID="56">
+          <mask>
+            <Group x="0.000488281" ai:spare="1">
+              <Rect width="29.7329" height="19.4424" ai:seqID="57">
+                <fill>
+                  <SolidColor color="#FFFFFF"/>
+                </fill>
+              </Rect>
+            </Group>
+          </mask>
+          <Path winding="nonZero" ai:seqID="58" data="M19.6289 0 18.1084 1.68652 24.8579 8.18604 0 8.18604 0 11.2563 24.8618 11.2563 18.1064 17.7603 19.6235 19.4424 19.6309 19.4424 29.7329 9.72314 19.6289 0Z">
             <fill>
               <SolidColor color="#666766"/>
             </fill>
           </Path>
         </Group>
-        <Group x="320" y="57.6318" ai:objID="71f5f80" ai:seqID="55" flm:knockout="false">
-          <Line yFrom="9.2002" xTo="27.5605" yTo="9.2002" ai:objID="224bdd00" ai:seqID="56">
-            <stroke>
-              <SolidColorStroke weight="3" caps="none" joints="miter" miterLimit="10" color="#666766"/>
-            </stroke>
-          </Line>
-          <Path x="18.5703" winding="nonZero" ai:objID="224be300" ai:seqID="57" data="M1.53418 18.4023 0 16.7549 8.12598 9.20215 0 1.64844 1.53418 0 11.4297 9.20215 1.53418 18.4023Z">
+      </Group>
+      <Group x="7.99951" y="72" visible="false" ai:seqID="59">
+        <Group ai:seqID="60">
+          <mask>
+            <Group x="0.000488281" ai:spare="1">
+              <Rect width="30" height="19" ai:seqID="61">
+                <fill>
+                  <SolidColor color="#FFFFFF"/>
+                </fill>
+              </Rect>
+            </Group>
+          </mask>
+          <Path winding="nonZero" ai:seqID="62" data="M19.8052 0 18.271 1.64795 25.0811 8 0 8 0 11 25.085 11 18.269 17.356 19.7998 19 19.8071 19 30 9.50195 19.8052 0Z">
             <fill>
               <SolidColor color="#666766"/>
             </fill>
@@ -239,100 +261,10 @@
       </Group>
     </Group>
   </Group>
-  <Private variant:using="" mngo:using="" xmlns:mngo="http://ns.adobe.com/flamingo/apd" xmlns:variant="http://ns.adobe.com/flame/2008/apd">
+  <Private>
       <d:FontMap>
         <d:Map fontFamily="Myriad Pro" fontStyle="normal" fontWeight="normal" postScriptName="MyriadPro-Regular"/>
         <d:Map fontFamily="Myriad Pro" fontStyle="normal" fontWeight="bold" postScriptName="MyriadPro-Bold"/>
       </d:FontMap>
-      <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="14814AE60BA087D6E807A5CDECB694DB" flm:original="1" d:ref="#3">
-        <variant:RichText x="200" y="2.61029" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="185d8600" ai:seqID="25" d:id="11">
-          <variant:content><variant:p fontFamily="Arial" d:id="12"><variant:span fontFamily="Arial" d:id="13">+3</variant:span><variant:span fontFamily="Arial" d:id="14"> </variant:span><variant:span fontFamily="Arial" d:id="15">Units</variant:span></variant:p></variant:content>
-        </variant:RichText>
-      </mngo:VariantContent>
-      <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="B74CAF9CABE5D58F96681CD7988520D5" flm:original="2" d:ref="#4">
-        <variant:RichText x="241" y="134.352" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="185d8800" ai:seqID="26" d:id="16">
-          <variant:content><variant:p fontFamily="Arial" d:id="17"><variant:span fontFamily="Arial" d:id="18">Consider</variant:span></variant:p><variant:p fontFamily="Arial" d:id="19"><variant:span fontFamily="Arial" d:id="20">Protocol</variant:span></variant:p></variant:content>
-        </variant:RichText>
-      </mngo:VariantContent>
-      <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="C188A388BDC201757D2945E23BAD825D" flm:original="3" d:ref="#5">
-        <variant:RichText x="399.189" y="134.352" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="185d8a00" ai:seqID="27" d:id="21">
-          <variant:content><variant:p fontFamily="Arial" d:id="22"><variant:span fontFamily="Arial" d:id="23">Choose</variant:span></variant:p><variant:p fontFamily="Arial" d:id="24"><variant:span fontFamily="Arial" d:id="25">Change</variant:span></variant:p></variant:content>
-        </variant:RichText>
-      </mngo:VariantContent>
-      <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="9C25710ED2FFCACB6AE81F65DDFFD27C" flm:original="4" d:ref="#6">
-        <variant:RichText x="82" y="134.352" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="185d8c00" ai:seqID="28" d:id="26">
-          <variant:content><variant:p fontFamily="Arial" d:id="27"><variant:span fontFamily="Arial" d:id="28">Observe</variant:span></variant:p><variant:p fontFamily="Arial" d:id="29"><variant:span fontFamily="Arial" d:id="30">Average</variant:span></variant:p></variant:content>
-        </variant:RichText>
-      </mngo:VariantContent>
-      <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="D970C065349A73D782FE5AEA86EDF2B3" flm:original="5" d:ref="#7">
-        <variant:RichText x="8.84375" y="27.0439" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="185d8e00" ai:seqID="31" d:id="31">
-          <variant:content><variant:p fontFamily="Arial" d:id="32"><variant:span fontFamily="Arial" d:id="33">1</variant:span></variant:p></variant:content>
-        </variant:RichText>
-      </mngo:VariantContent>
-      <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="616B4A423D2CDEE66D06EA24A90A1CCC" flm:original="6" d:ref="#8">
-        <variant:RichText x="9" y="26.0439" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="185db100" ai:seqID="34" d:id="34">
-          <variant:content><variant:p fontFamily="Arial" d:id="35"><variant:span fontFamily="Arial" d:id="36">2</variant:span></variant:p></variant:content>
-        </variant:RichText>
-      </mngo:VariantContent>
-      <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="F85676E17B31EEBDE2F23968822EB48A" flm:original="7" d:ref="#9">
-        <variant:RichText x="9.45557" y="26.541" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="185dad00" ai:seqID="37" d:id="37">
-          <variant:content><variant:p fontFamily="Arial" d:id="38"><variant:span fontFamily="Arial" d:id="39">3</variant:span></variant:p></variant:content>
-        </variant:RichText>
-      </mngo:VariantContent>
-      <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="B4F44597CE9D43198A0DF784CCCC34F9" flm:original="8" d:ref="#10">
-        <variant:RichText x="200" y="95.6318" alpha="0.15" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="185daa00" ai:seqID="48" d:id="40">
-          <variant:content><variant:p fontFamily="Arial" d:id="41"><variant:span fontFamily="Arial" d:id="42">-3</variant:span><variant:span fontFamily="Arial" d:id="43"> </variant:span><variant:span fontFamily="Arial" d:id="44">Units</variant:span></variant:p></variant:content>
-        </variant:RichText>
-      </mngo:VariantContent>
-      <ai:PrivateElement d:ref="#1">
-        <ai:SaveOptions>
-          <ai:Dict data="B writeImages 1 B includeXMP 0 B includeSymbol 0 B aiEditCap 1 I versionKey 2 I expandBlendsOption 5 B downsampleLinkedImages 0 I rasterizeResolution 72 I preserveGradientPolicy 4 I preserveFilterPolicy 3 I preserveTextPolicy 4 B includeObjectOutsideArtboard 0 "/>
-        </ai:SaveOptions>
-        <ai:DocData base="TitrationPanelMockup.assets/images" rulerCanvasDiffH="450.5" rulerCanvasDiffV="130.5">
-          <ai:DocRasterSettings>
-            <ai:Dict data="R padd 36 B mask 0 B spot 1 B alis 0 I dpi. 300 I colr 5 "/>
-          </ai:DocRasterSettings>
-        </ai:DocData>
-        <ai:AutoGenImageList>
-          <ai:Dict/>
-        </ai:AutoGenImageList>
-      </ai:PrivateElement>
-      <ai:PrivateElement flm:hashcode="26F3C409695C4A1B406C0F1E551640D3" d:ref="#2">
-        <ai:LayerOptions color="5 79.31 257 128.502"/>
-      </ai:PrivateElement>
-      <ATE:ATEAttributes ATE:C_autoLeading="true" ATE:C_baseLine="normal" ATE:C_baselineShift="0" ATE:C_charRotation="0" ATE:C_color="#000000" ATE:C_fill="true" ATE:C_fillFirst="true" ATE:C_fillOverprint="false" ATE:C_fillVisible="true" ATE:C_font="MyriadPro-Bold" ATE:C_fontCaps="normal" ATE:C_fontSize="12" ATE:C_horizontalScale="1" ATE:C_kerning="metric" ATE:C_leading="27" ATE:C_lineCapType="buttCap" ATE:C_lineDashOffset="0" ATE:C_lineJoinType="miterJoin" ATE:C_lineWidth="1" ATE:C_miterLimit="10" ATE:C_noBreak="false" ATE:C_strikethroughPos="off" ATE:C_stroke="false" ATE:C_strokeOverprint="false" ATE:C_strokeVisible="true" ATE:C_tracking="0" ATE:C_underlineOffset="0" ATE:C_underlinePos="off" ATE:C_verticalScale="1" ATE:JC_leftAki="-1" ATE:JC_rightAki="-1" ATE:JC_styleRunAlign="byRomanHori_centerVertical" ATE:JC_tusme="0" ATE:JO_japAltFeature="default" ATE:JO_kana="false" ATE:JO_language="english" ATE:JO_proportionalMetrics="false" ATE:JO_romanItalics="false" ATE:JO_ruby="false" ATE:JP_autoTCY="0" ATE:JP_burasagariType="none" ATE:JP_hangingRoman="false" ATE:JP_kurikaeshiMojiShori="false" ATE:JP_leadingType="roman" ATE:MC_diacVPosition="openType" ATE:MC_diacXPos="0" ATE:MC_diacYPos="0" ATE:MC_digitSet="default" ATE:MC_directionOverride="default" ATE:MC_kashidas="default" ATE:MO_justificationAlt="false" ATE:MO_overlapSwash="false" ATE:MO_stretchedAlt="false" ATE:MP_justificationMethod="default" ATE:O_alternateLigatures="false" ATE:O_connectionForms="true" ATE:O_contextualLigatures="true" ATE:O_discretionaryLigatures="false" ATE:O_figureStyle="default" ATE:O_fontOTPos="normal" ATE:O_fractions="false" ATE:O_ligature="true" ATE:O_oldStyle="false" ATE:O_ordinals="false" ATE:O_ornaments="false" ATE:O_stylisticAlternates="false" ATE:O_swash="false" ATE:O_titling="false" ATE:P_autoHyphenate="true" ATE:P_autoLeadingPercentage="1.2" ATE:P_composerEngine="latinCJK" ATE:P_consecutiveHyphenLimit="0" ATE:P_defaultTabWidth="36" ATE:P_endIndent="0" ATE:P_everyLineComposer="false" ATE:P_firstlineIndent="0" ATE:P_glyphScaling="1" ATE:P_hyphenateCapitalized="true" ATE:P_hyphenatedWordSize="6" ATE:P_hyphenationPreference="0.5" ATE:P_hyphenationZone="36" ATE:P_letterSpacing="0" ATE:P_maxGlyphScaling="1" ATE:P_maxLetterSpacing="0" ATE:P_maxWordSpacing="1.33" ATE:P_minGlyphScaling="1" ATE:P_minLetterSpacing="0" ATE:P_minWordSpacing="0.8" ATE:P_paragraphDirection="ltr" ATE:P_postHyphenSize="2" ATE:P_preHyphenSize="2" ATE:P_singleWordJustif="fullJustifyLastLineFull" ATE:P_spaceAfter="0" ATE:P_spaceBefore="0" ATE:P_startIndent="0" ATE:P_textAlign="center" ATE:P_wordSpacing="1" ATE:TA_columnCount="1" ATE:TA_height="28" ATE:TA_lineOrientation="horiz" ATE:TA_spacing="0" ATE:TA_width="110.83" ATE:T_baselineDirection="withStream" ATE:T_leftRightAdjust="0" ATE:T_upDownAdjust="0" ATE:W_lineCount="2" ATE:W_lineGap="0" ATE:W_orphanAmount="2" ATE:W_scale="0.5" ATE:W_warichuEnabled="false" ATE:W_warichuJustification="autoJustify" ATE:W_widowAmount="2" flm:hashcode="D8FD6593042B6A4D21879D32C2F5ABB1" d:ref="#11"/>
-      <ATE:ATEAttributes ATE:C_kerning="metric" d:ref="#12"/>
-      <ATE:ATEAttributes ATE:C_fontSize="30" ATE:C_kerning="metric" d:ref="#13"/>
-      <ATE:ATEAttributes ATE:C_fontSize="24" ATE:C_kerning="metric" d:ref="#14"/>
-      <ATE:ATEAttributes ATE:C_fontSize="18" ATE:C_kerning="metric" d:ref="#15"/>
-      <ATE:ATEAttributes ATE:C_autoLeading="true" ATE:C_baseLine="normal" ATE:C_baselineShift="0" ATE:C_charRotation="0" ATE:C_color="#000000" ATE:C_fill="true" ATE:C_fillFirst="true" ATE:C_fillOverprint="false" ATE:C_fillVisible="true" ATE:C_font="MyriadPro-Regular" ATE:C_fontCaps="normal" ATE:C_fontSize="12" ATE:C_horizontalScale="1" ATE:C_kerning="metric" ATE:C_leading="27" ATE:C_lineCapType="buttCap" ATE:C_lineDashOffset="0" ATE:C_lineJoinType="miterJoin" ATE:C_lineWidth="1" ATE:C_miterLimit="10" ATE:C_noBreak="false" ATE:C_strikethroughPos="off" ATE:C_stroke="false" ATE:C_strokeOverprint="false" ATE:C_strokeVisible="true" ATE:C_tracking="0" ATE:C_underlineOffset="0" ATE:C_underlinePos="off" ATE:C_verticalScale="1" ATE:JC_leftAki="-1" ATE:JC_rightAki="-1" ATE:JC_styleRunAlign="byRomanHori_centerVertical" ATE:JC_tusme="0" ATE:JO_japAltFeature="default" ATE:JO_kana="false" ATE:JO_language="english" ATE:JO_proportionalMetrics="false" ATE:JO_romanItalics="false" ATE:JO_ruby="false" ATE:JP_autoTCY="0" ATE:JP_burasagariType="none" ATE:JP_hangingRoman="false" ATE:JP_kurikaeshiMojiShori="false" ATE:JP_leadingType="roman" ATE:MC_diacVPosition="openType" ATE:MC_diacXPos="0" ATE:MC_diacYPos="0" ATE:MC_digitSet="default" ATE:MC_directionOverride="default" ATE:MC_kashidas="default" ATE:MO_justificationAlt="false" ATE:MO_overlapSwash="false" ATE:MO_stretchedAlt="false" ATE:MP_justificationMethod="default" ATE:O_alternateLigatures="false" ATE:O_connectionForms="true" ATE:O_contextualLigatures="true" ATE:O_discretionaryLigatures="false" ATE:O_figureStyle="default" ATE:O_fontOTPos="normal" ATE:O_fractions="false" ATE:O_ligature="true" ATE:O_oldStyle="false" ATE:O_ordinals="false" ATE:O_ornaments="false" ATE:O_stylisticAlternates="false" ATE:O_swash="false" ATE:O_titling="false" ATE:P_autoHyphenate="true" ATE:P_autoLeadingPercentage="1.2" ATE:P_composerEngine="latinCJK" ATE:P_consecutiveHyphenLimit="0" ATE:P_defaultTabWidth="36" ATE:P_endIndent="0" ATE:P_everyLineComposer="false" ATE:P_firstlineIndent="0" ATE:P_glyphScaling="1" ATE:P_hyphenateCapitalized="true" ATE:P_hyphenatedWordSize="6" ATE:P_hyphenationPreference="0.5" ATE:P_hyphenationZone="36" ATE:P_letterSpacing="0" ATE:P_maxGlyphScaling="1" ATE:P_maxLetterSpacing="0" ATE:P_maxWordSpacing="1.33" ATE:P_minGlyphScaling="1" ATE:P_minLetterSpacing="0" ATE:P_minWordSpacing="0.8" ATE:P_paragraphDirection="ltr" ATE:P_postHyphenSize="2" ATE:P_preHyphenSize="2" ATE:P_singleWordJustif="fullJustifyLastLineFull" ATE:P_spaceAfter="0" ATE:P_spaceBefore="0" ATE:P_startIndent="0" ATE:P_textAlign="left" ATE:P_wordSpacing="1" ATE:TA_columnCount="1" ATE:TA_height="39.9785" ATE:TA_lineOrientation="horiz" ATE:TA_spacing="0" ATE:TA_width="98.1328" ATE:T_baselineDirection="withStream" ATE:T_leftRightAdjust="0" ATE:T_upDownAdjust="0" ATE:W_lineCount="2" ATE:W_lineGap="0" ATE:W_orphanAmount="2" ATE:W_scale="0.5" ATE:W_warichuEnabled="false" ATE:W_warichuJustification="autoJustify" ATE:W_widowAmount="2" flm:hashcode="C205CDA1FF1120EDBD3D632E5F655233" d:ref="#16"/>
-      <ATE:ATEAttributes ATE:C_kerning="metric" d:ref="#17"/>
-      <ATE:ATEAttributes ATE:C_kerning="metric" d:ref="#18"/>
-      <ATE:ATEAttributes ATE:C_baselineShift="4" ATE:C_fontSize="18" ATE:C_kerning="metric" d:ref="#19"/>
-      <ATE:ATEAttributes ATE:C_kerning="metric" d:ref="#20"/>
-      <ATE:ATEAttributes ATE:C_autoLeading="true" ATE:C_baseLine="normal" ATE:C_baselineShift="0" ATE:C_charRotation="0" ATE:C_color="#000000" ATE:C_fill="true" ATE:C_fillFirst="true" ATE:C_fillOverprint="false" ATE:C_fillVisible="true" ATE:C_font="MyriadPro-Regular" ATE:C_fontCaps="normal" ATE:C_fontSize="12" ATE:C_horizontalScale="1" ATE:C_kerning="metric" ATE:C_leading="27" ATE:C_lineCapType="buttCap" ATE:C_lineDashOffset="0" ATE:C_lineJoinType="miterJoin" ATE:C_lineWidth="1" ATE:C_miterLimit="10" ATE:C_noBreak="false" ATE:C_strikethroughPos="off" ATE:C_stroke="false" ATE:C_strokeOverprint="false" ATE:C_strokeVisible="true" ATE:C_tracking="0" ATE:C_underlineOffset="0" ATE:C_underlinePos="off" ATE:C_verticalScale="1" ATE:JC_leftAki="-1" ATE:JC_rightAki="-1" ATE:JC_styleRunAlign="byRomanHori_centerVertical" ATE:JC_tusme="0" ATE:JO_japAltFeature="default" ATE:JO_kana="false" ATE:JO_language="english" ATE:JO_proportionalMetrics="false" ATE:JO_romanItalics="false" ATE:JO_ruby="false" ATE:JP_autoTCY="0" ATE:JP_burasagariType="none" ATE:JP_hangingRoman="false" ATE:JP_kurikaeshiMojiShori="false" ATE:JP_leadingType="roman" ATE:MC_diacVPosition="openType" ATE:MC_diacXPos="0" ATE:MC_diacYPos="0" ATE:MC_digitSet="default" ATE:MC_directionOverride="default" ATE:MC_kashidas="default" ATE:MO_justificationAlt="false" ATE:MO_overlapSwash="false" ATE:MO_stretchedAlt="false" ATE:MP_justificationMethod="default" ATE:O_alternateLigatures="false" ATE:O_connectionForms="true" ATE:O_contextualLigatures="true" ATE:O_discretionaryLigatures="false" ATE:O_figureStyle="default" ATE:O_fontOTPos="normal" ATE:O_fractions="false" ATE:O_ligature="true" ATE:O_oldStyle="false" ATE:O_ordinals="false" ATE:O_ornaments="false" ATE:O_stylisticAlternates="false" ATE:O_swash="false" ATE:O_titling="false" ATE:P_autoHyphenate="true" ATE:P_autoLeadingPercentage="1.2" ATE:P_composerEngine="latinCJK" ATE:P_consecutiveHyphenLimit="0" ATE:P_defaultTabWidth="36" ATE:P_endIndent="0" ATE:P_everyLineComposer="false" ATE:P_firstlineIndent="0" ATE:P_glyphScaling="1" ATE:P_hyphenateCapitalized="true" ATE:P_hyphenatedWordSize="6" ATE:P_hyphenationPreference="0.5" ATE:P_hyphenationZone="36" ATE:P_letterSpacing="0" ATE:P_maxGlyphScaling="1" ATE:P_maxLetterSpacing="0" ATE:P_maxWordSpacing="1.33" ATE:P_minGlyphScaling="1" ATE:P_minLetterSpacing="0" ATE:P_minWordSpacing="0.8" ATE:P_paragraphDirection="ltr" ATE:P_postHyphenSize="2" ATE:P_preHyphenSize="2" ATE:P_singleWordJustif="fullJustifyLastLineFull" ATE:P_spaceAfter="0" ATE:P_spaceBefore="0" ATE:P_startIndent="0" ATE:P_textAlign="left" ATE:P_wordSpacing="1" ATE:TA_columnCount="1" ATE:TA_height="43.3125" ATE:TA_lineOrientation="horiz" ATE:TA_spacing="0" ATE:TA_width="98.8105" ATE:T_baselineDirection="withStream" ATE:T_leftRightAdjust="0" ATE:T_upDownAdjust="0" ATE:W_lineCount="2" ATE:W_lineGap="0" ATE:W_orphanAmount="2" ATE:W_scale="0.5" ATE:W_warichuEnabled="false" ATE:W_warichuJustification="autoJustify" ATE:W_widowAmount="2" flm:hashcode="32ACB367543DC804343789C1B7B459A0" d:ref="#21"/>
-      <ATE:ATEAttributes ATE:C_kerning="metric" d:ref="#22"/>
-      <ATE:ATEAttributes ATE:C_kerning="metric" d:ref="#23"/>
-      <ATE:ATEAttributes ATE:C_baselineShift="4" ATE:C_fontSize="18" ATE:C_kerning="metric" d:ref="#24"/>
-      <ATE:ATEAttributes ATE:C_kerning="metric" d:ref="#25"/>
-      <ATE:ATEAttributes ATE:C_autoLeading="true" ATE:C_baseLine="normal" ATE:C_baselineShift="0" ATE:C_charRotation="0" ATE:C_color="#000000" ATE:C_fill="true" ATE:C_fillFirst="true" ATE:C_fillOverprint="false" ATE:C_fillVisible="true" ATE:C_font="MyriadPro-Regular" ATE:C_fontCaps="normal" ATE:C_fontSize="12" ATE:C_horizontalScale="1" ATE:C_kerning="metric" ATE:C_leading="27" ATE:C_lineCapType="buttCap" ATE:C_lineDashOffset="0" ATE:C_lineJoinType="miterJoin" ATE:C_lineWidth="1" ATE:C_miterLimit="4" ATE:C_noBreak="false" ATE:C_strikethroughPos="off" ATE:C_stroke="false" ATE:C_strokeOverprint="false" ATE:C_strokeVisible="true" ATE:C_tracking="0" ATE:C_underlineOffset="0" ATE:C_underlinePos="off" ATE:C_verticalScale="1" ATE:JC_leftAki="-1" ATE:JC_rightAki="-1" ATE:JC_styleRunAlign="byRomanHori_centerVertical" ATE:JC_tusme="0" ATE:JO_japAltFeature="default" ATE:JO_kana="false" ATE:JO_language="english" ATE:JO_proportionalMetrics="false" ATE:JO_romanItalics="false" ATE:JO_ruby="false" ATE:JP_autoTCY="0" ATE:JP_burasagariType="none" ATE:JP_hangingRoman="false" ATE:JP_kurikaeshiMojiShori="false" ATE:JP_leadingType="roman" ATE:MC_diacVPosition="openType" ATE:MC_diacXPos="0" ATE:MC_diacYPos="0" ATE:MC_digitSet="default" ATE:MC_directionOverride="default" ATE:MC_kashidas="default" ATE:MO_justificationAlt="false" ATE:MO_overlapSwash="false" ATE:MO_stretchedAlt="false" ATE:MP_justificationMethod="default" ATE:O_alternateLigatures="false" ATE:O_connectionForms="true" ATE:O_contextualLigatures="true" ATE:O_discretionaryLigatures="false" ATE:O_figureStyle="default" ATE:O_fontOTPos="normal" ATE:O_fractions="false" ATE:O_ligature="true" ATE:O_oldStyle="false" ATE:O_ordinals="false" ATE:O_ornaments="false" ATE:O_stylisticAlternates="false" ATE:O_swash="false" ATE:O_titling="false" ATE:P_autoHyphenate="true" ATE:P_autoLeadingPercentage="1.2" ATE:P_composerEngine="latinCJK" ATE:P_consecutiveHyphenLimit="0" ATE:P_defaultTabWidth="36" ATE:P_endIndent="0" ATE:P_everyLineComposer="false" ATE:P_firstlineIndent="0" ATE:P_glyphScaling="1" ATE:P_hyphenateCapitalized="true" ATE:P_hyphenatedWordSize="6" ATE:P_hyphenationPreference="0.5" ATE:P_hyphenationZone="36" ATE:P_letterSpacing="0" ATE:P_maxGlyphScaling="1" ATE:P_maxLetterSpacing="0" ATE:P_maxWordSpacing="1.33" ATE:P_minGlyphScaling="1" ATE:P_minLetterSpacing="0" ATE:P_minWordSpacing="0.8" ATE:P_paragraphDirection="ltr" ATE:P_postHyphenSize="2" ATE:P_preHyphenSize="2" ATE:P_singleWordJustif="fullJustifyLastLineFull" ATE:P_spaceAfter="0" ATE:P_spaceBefore="0" ATE:P_startIndent="0" ATE:P_textAlign="left" ATE:P_wordSpacing="1" ATE:TA_columnCount="1" ATE:TA_height="45.9785" ATE:TA_lineOrientation="horiz" ATE:TA_spacing="0" ATE:TA_width="69.334" ATE:T_baselineDirection="withStream" ATE:T_leftRightAdjust="0" ATE:T_upDownAdjust="0" ATE:W_lineCount="2" ATE:W_lineGap="0" ATE:W_orphanAmount="2" ATE:W_scale="0.5" ATE:W_warichuEnabled="false" ATE:W_warichuJustification="autoJustify" ATE:W_widowAmount="2" flm:hashcode="E0C4E87597EF4DDF361B0ED10E23D258" d:ref="#26"/>
-      <ATE:ATEAttributes ATE:C_kerning="metric" d:ref="#27"/>
-      <ATE:ATEAttributes ATE:C_kerning="metric" d:ref="#28"/>
-      <ATE:ATEAttributes ATE:C_baselineShift="4" ATE:C_fontSize="18" ATE:C_kerning="metric" d:ref="#29"/>
-      <ATE:ATEAttributes ATE:C_kerning="metric" d:ref="#30"/>
-      <ATE:ATEAttributes ATE:C_autoLeading="true" ATE:C_baseLine="normal" ATE:C_baselineShift="4" ATE:C_charRotation="0" ATE:C_color="#000000" ATE:C_fill="true" ATE:C_fillFirst="true" ATE:C_fillOverprint="false" ATE:C_fillVisible="true" ATE:C_font="MyriadPro-Regular" ATE:C_fontCaps="normal" ATE:C_fontSize="24" ATE:C_horizontalScale="1" ATE:C_kerning="metric" ATE:C_leading="28.8" ATE:C_lineCapType="buttCap" ATE:C_lineDashOffset="0" ATE:C_lineJoinType="miterJoin" ATE:C_lineWidth="1" ATE:C_miterLimit="4" ATE:C_noBreak="false" ATE:C_strikethroughPos="off" ATE:C_stroke="false" ATE:C_strokeOverprint="false" ATE:C_strokeVisible="true" ATE:C_tracking="0" ATE:C_underlineOffset="0" ATE:C_underlinePos="off" ATE:C_verticalScale="1" ATE:JC_leftAki="-1" ATE:JC_rightAki="-1" ATE:JC_styleRunAlign="byRomanHori_centerVertical" ATE:JC_tusme="0" ATE:JO_japAltFeature="default" ATE:JO_kana="false" ATE:JO_language="english" ATE:JO_proportionalMetrics="false" ATE:JO_romanItalics="false" ATE:JO_ruby="false" ATE:JP_autoTCY="0" ATE:JP_burasagariType="none" ATE:JP_hangingRoman="false" ATE:JP_kurikaeshiMojiShori="false" ATE:JP_leadingType="roman" ATE:MC_diacVPosition="openType" ATE:MC_diacXPos="0" ATE:MC_diacYPos="0" ATE:MC_digitSet="default" ATE:MC_directionOverride="default" ATE:MC_kashidas="default" ATE:MO_justificationAlt="false" ATE:MO_overlapSwash="false" ATE:MO_stretchedAlt="false" ATE:MP_justificationMethod="default" ATE:O_alternateLigatures="false" ATE:O_connectionForms="true" ATE:O_contextualLigatures="true" ATE:O_discretionaryLigatures="false" ATE:O_figureStyle="default" ATE:O_fontOTPos="normal" ATE:O_fractions="false" ATE:O_ligature="true" ATE:O_oldStyle="false" ATE:O_ordinals="false" ATE:O_ornaments="false" ATE:O_stylisticAlternates="false" ATE:O_swash="false" ATE:O_titling="false" ATE:P_autoHyphenate="true" ATE:P_autoLeadingPercentage="1.2" ATE:P_composerEngine="latinCJK" ATE:P_consecutiveHyphenLimit="0" ATE:P_defaultTabWidth="36" ATE:P_endIndent="0" ATE:P_everyLineComposer="false" ATE:P_firstlineIndent="0" ATE:P_glyphScaling="1" ATE:P_hyphenateCapitalized="true" ATE:P_hyphenatedWordSize="6" ATE:P_hyphenationPreference="0.5" ATE:P_hyphenationZone="36" ATE:P_letterSpacing="0" ATE:P_maxGlyphScaling="1" ATE:P_maxLetterSpacing="0" ATE:P_maxWordSpacing="1.33" ATE:P_minGlyphScaling="1" ATE:P_minLetterSpacing="0" ATE:P_minWordSpacing="0.8" ATE:P_paragraphDirection="ltr" ATE:P_postHyphenSize="2" ATE:P_preHyphenSize="2" ATE:P_singleWordJustif="fullJustifyLastLineFull" ATE:P_spaceAfter="0" ATE:P_spaceBefore="0" ATE:P_startIndent="0" ATE:P_textAlign="left" ATE:P_wordSpacing="1" ATE:TA_columnCount="1" ATE:TA_height="0" ATE:TA_lineOrientation="horiz" ATE:TA_spacing="0" ATE:TA_width="0" ATE:T_baselineDirection="withStream" ATE:T_leftRightAdjust="0" ATE:T_upDownAdjust="0" ATE:W_lineCount="2" ATE:W_lineGap="0" ATE:W_orphanAmount="2" ATE:W_scale="0.5" ATE:W_warichuEnabled="false" ATE:W_warichuJustification="autoJustify" ATE:W_widowAmount="2" flm:hashcode="17825ED1B9CBB1BECBA0EF8360C2A5D4" d:ref="#31"/>
-      <ATE:ATEAttributes ATE:C_kerning="metric" d:ref="#32"/>
-      <ATE:ATEAttributes ATE:C_kerning="metric" d:ref="#33"/>
-      <ATE:ATEAttributes ATE:C_autoLeading="true" ATE:C_baseLine="normal" ATE:C_baselineShift="4" ATE:C_charRotation="0" ATE:C_color="#000000" ATE:C_fill="true" ATE:C_fillFirst="true" ATE:C_fillOverprint="false" ATE:C_fillVisible="true" ATE:C_font="MyriadPro-Regular" ATE:C_fontCaps="normal" ATE:C_fontSize="24" ATE:C_horizontalScale="1" ATE:C_kerning="metric" ATE:C_leading="28.8" ATE:C_lineCapType="buttCap" ATE:C_lineDashOffset="0" ATE:C_lineJoinType="miterJoin" ATE:C_lineWidth="1" ATE:C_miterLimit="4" ATE:C_noBreak="false" ATE:C_strikethroughPos="off" ATE:C_stroke="false" ATE:C_strokeOverprint="false" ATE:C_strokeVisible="true" ATE:C_tracking="0" ATE:C_underlineOffset="0" ATE:C_underlinePos="off" ATE:C_verticalScale="1" ATE:JC_leftAki="-1" ATE:JC_rightAki="-1" ATE:JC_styleRunAlign="byRomanHori_centerVertical" ATE:JC_tusme="0" ATE:JO_japAltFeature="default" ATE:JO_kana="false" ATE:JO_language="english" ATE:JO_proportionalMetrics="false" ATE:JO_romanItalics="false" ATE:JO_ruby="false" ATE:JP_autoTCY="0" ATE:JP_burasagariType="none" ATE:JP_hangingRoman="false" ATE:JP_kurikaeshiMojiShori="false" ATE:JP_leadingType="roman" ATE:MC_diacVPosition="openType" ATE:MC_diacXPos="0" ATE:MC_diacYPos="0" ATE:MC_digitSet="default" ATE:MC_directionOverride="default" ATE:MC_kashidas="default" ATE:MO_justificationAlt="false" ATE:MO_overlapSwash="false" ATE:MO_stretchedAlt="false" ATE:MP_justificationMethod="default" ATE:O_alternateLigatures="false" ATE:O_connectionForms="true" ATE:O_contextualLigatures="true" ATE:O_discretionaryLigatures="false" ATE:O_figureStyle="default" ATE:O_fontOTPos="normal" ATE:O_fractions="false" ATE:O_ligature="true" ATE:O_oldStyle="false" ATE:O_ordinals="false" ATE:O_ornaments="false" ATE:O_stylisticAlternates="false" ATE:O_swash="false" ATE:O_titling="false" ATE:P_autoHyphenate="true" ATE:P_autoLeadingPercentage="1.2" ATE:P_composerEngine="latinCJK" ATE:P_consecutiveHyphenLimit="0" ATE:P_defaultTabWidth="36" ATE:P_endIndent="0" ATE:P_everyLineComposer="false" ATE:P_firstlineIndent="0" ATE:P_glyphScaling="1" ATE:P_hyphenateCapitalized="true" ATE:P_hyphenatedWordSize="6" ATE:P_hyphenationPreference="0.5" ATE:P_hyphenationZone="36" ATE:P_letterSpacing="0" ATE:P_maxGlyphScaling="1" ATE:P_maxLetterSpacing="0" ATE:P_maxWordSpacing="1.33" ATE:P_minGlyphScaling="1" ATE:P_minLetterSpacing="0" ATE:P_minWordSpacing="0.8" ATE:P_paragraphDirection="ltr" ATE:P_postHyphenSize="2" ATE:P_preHyphenSize="2" ATE:P_singleWordJustif="fullJustifyLastLineFull" ATE:P_spaceAfter="0" ATE:P_spaceBefore="0" ATE:P_startIndent="0" ATE:P_textAlign="left" ATE:P_wordSpacing="1" ATE:TA_columnCount="1" ATE:TA_height="0" ATE:TA_lineOrientation="horiz" ATE:TA_spacing="0" ATE:TA_width="0" ATE:T_baselineDirection="withStream" ATE:T_leftRightAdjust="0" ATE:T_upDownAdjust="0" ATE:W_lineCount="2" ATE:W_lineGap="0" ATE:W_orphanAmount="2" ATE:W_scale="0.5" ATE:W_warichuEnabled="false" ATE:W_warichuJustification="autoJustify" ATE:W_widowAmount="2" flm:hashcode="256FC6E4D98EC4195641CB43EB62765C" d:ref="#34"/>
-      <ATE:ATEAttributes ATE:C_kerning="metric" d:ref="#35"/>
-      <ATE:ATEAttributes ATE:C_kerning="metric" d:ref="#36"/>
-      <ATE:ATEAttributes ATE:C_autoLeading="true" ATE:C_baseLine="normal" ATE:C_baselineShift="4" ATE:C_charRotation="0" ATE:C_color="#000000" ATE:C_fill="true" ATE:C_fillFirst="true" ATE:C_fillOverprint="false" ATE:C_fillVisible="true" ATE:C_font="MyriadPro-Regular" ATE:C_fontCaps="normal" ATE:C_fontSize="24" ATE:C_horizontalScale="1" ATE:C_kerning="metric" ATE:C_leading="28.8" ATE:C_lineCapType="buttCap" ATE:C_lineDashOffset="0" ATE:C_lineJoinType="miterJoin" ATE:C_lineWidth="1" ATE:C_miterLimit="4" ATE:C_noBreak="false" ATE:C_strikethroughPos="off" ATE:C_stroke="false" ATE:C_strokeOverprint="false" ATE:C_strokeVisible="true" ATE:C_tracking="0" ATE:C_underlineOffset="0" ATE:C_underlinePos="off" ATE:C_verticalScale="1" ATE:JC_leftAki="-1" ATE:JC_rightAki="-1" ATE:JC_styleRunAlign="byRomanHori_centerVertical" ATE:JC_tusme="0" ATE:JO_japAltFeature="default" ATE:JO_kana="false" ATE:JO_language="english" ATE:JO_proportionalMetrics="false" ATE:JO_romanItalics="false" ATE:JO_ruby="false" ATE:JP_autoTCY="0" ATE:JP_burasagariType="none" ATE:JP_hangingRoman="false" ATE:JP_kurikaeshiMojiShori="false" ATE:JP_leadingType="roman" ATE:MC_diacVPosition="openType" ATE:MC_diacXPos="0" ATE:MC_diacYPos="0" ATE:MC_digitSet="default" ATE:MC_directionOverride="default" ATE:MC_kashidas="default" ATE:MO_justificationAlt="false" ATE:MO_overlapSwash="false" ATE:MO_stretchedAlt="false" ATE:MP_justificationMethod="default" ATE:O_alternateLigatures="false" ATE:O_connectionForms="true" ATE:O_contextualLigatures="true" ATE:O_discretionaryLigatures="false" ATE:O_figureStyle="default" ATE:O_fontOTPos="normal" ATE:O_fractions="false" ATE:O_ligature="true" ATE:O_oldStyle="false" ATE:O_ordinals="false" ATE:O_ornaments="false" ATE:O_stylisticAlternates="false" ATE:O_swash="false" ATE:O_titling="false" ATE:P_autoHyphenate="true" ATE:P_autoLeadingPercentage="1.2" ATE:P_composerEngine="latinCJK" ATE:P_consecutiveHyphenLimit="0" ATE:P_defaultTabWidth="36" ATE:P_endIndent="0" ATE:P_everyLineComposer="false" ATE:P_firstlineIndent="0" ATE:P_glyphScaling="1" ATE:P_hyphenateCapitalized="true" ATE:P_hyphenatedWordSize="6" ATE:P_hyphenationPreference="0.5" ATE:P_hyphenationZone="36" ATE:P_letterSpacing="0" ATE:P_maxGlyphScaling="1" ATE:P_maxLetterSpacing="0" ATE:P_maxWordSpacing="1.33" ATE:P_minGlyphScaling="1" ATE:P_minLetterSpacing="0" ATE:P_minWordSpacing="0.8" ATE:P_paragraphDirection="ltr" ATE:P_postHyphenSize="2" ATE:P_preHyphenSize="2" ATE:P_singleWordJustif="fullJustifyLastLineFull" ATE:P_spaceAfter="0" ATE:P_spaceBefore="0" ATE:P_startIndent="0" ATE:P_textAlign="left" ATE:P_wordSpacing="1" ATE:TA_columnCount="1" ATE:TA_height="0" ATE:TA_lineOrientation="horiz" ATE:TA_spacing="0" ATE:TA_width="0" ATE:T_baselineDirection="withStream" ATE:T_leftRightAdjust="0" ATE:T_upDownAdjust="0" ATE:W_lineCount="2" ATE:W_lineGap="0" ATE:W_orphanAmount="2" ATE:W_scale="0.5" ATE:W_warichuEnabled="false" ATE:W_warichuJustification="autoJustify" ATE:W_widowAmount="2" flm:hashcode="846EA72EE0DDDC62DA5F16B803DA3B58" d:ref="#37"/>
-      <ATE:ATEAttributes ATE:C_kerning="metric" d:ref="#38"/>
-      <ATE:ATEAttributes ATE:C_kerning="metric" d:ref="#39"/>
-      <ATE:ATEAttributes ATE:C_autoLeading="true" ATE:C_baseLine="normal" ATE:C_baselineShift="0" ATE:C_charRotation="0" ATE:C_color="#000000" ATE:C_fill="true" ATE:C_fillFirst="true" ATE:C_fillOverprint="false" ATE:C_fillVisible="true" ATE:C_font="MyriadPro-Regular" ATE:C_fontCaps="normal" ATE:C_fontSize="12" ATE:C_horizontalScale="1" ATE:C_kerning="metric" ATE:C_leading="27" ATE:C_lineCapType="buttCap" ATE:C_lineDashOffset="0" ATE:C_lineJoinType="miterJoin" ATE:C_lineWidth="1" ATE:C_miterLimit="10" ATE:C_noBreak="false" ATE:C_strikethroughPos="off" ATE:C_stroke="false" ATE:C_strokeOverprint="false" ATE:C_strokeVisible="true" ATE:C_tracking="0" ATE:C_underlineOffset="0" ATE:C_underlinePos="off" ATE:C_verticalScale="1" ATE:JC_leftAki="-1" ATE:JC_rightAki="-1" ATE:JC_styleRunAlign="byRomanHori_centerVertical" ATE:JC_tusme="0" ATE:JO_japAltFeature="default" ATE:JO_kana="false" ATE:JO_language="english" ATE:JO_proportionalMetrics="false" ATE:JO_romanItalics="false" ATE:JO_ruby="false" ATE:JP_autoTCY="0" ATE:JP_burasagariType="none" ATE:JP_hangingRoman="false" ATE:JP_kurikaeshiMojiShori="false" ATE:JP_leadingType="roman" ATE:MC_diacVPosition="openType" ATE:MC_diacXPos="0" ATE:MC_diacYPos="0" ATE:MC_digitSet="default" ATE:MC_directionOverride="default" ATE:MC_kashidas="default" ATE:MO_justificationAlt="false" ATE:MO_overlapSwash="false" ATE:MO_stretchedAlt="false" ATE:MP_justificationMethod="default" ATE:O_alternateLigatures="false" ATE:O_connectionForms="true" ATE:O_contextualLigatures="true" ATE:O_discretionaryLigatures="false" ATE:O_figureStyle="default" ATE:O_fontOTPos="normal" ATE:O_fractions="false" ATE:O_ligature="true" ATE:O_oldStyle="false" ATE:O_ordinals="false" ATE:O_ornaments="false" ATE:O_stylisticAlternates="false" ATE:O_swash="false" ATE:O_titling="false" ATE:P_autoHyphenate="true" ATE:P_autoLeadingPercentage="1.2" ATE:P_composerEngine="latinCJK" ATE:P_consecutiveHyphenLimit="0" ATE:P_defaultTabWidth="36" ATE:P_endIndent="0" ATE:P_everyLineComposer="false" ATE:P_firstlineIndent="0" ATE:P_glyphScaling="1" ATE:P_hyphenateCapitalized="true" ATE:P_hyphenatedWordSize="6" ATE:P_hyphenationPreference="0.5" ATE:P_hyphenationZone="36" ATE:P_letterSpacing="0" ATE:P_maxGlyphScaling="1" ATE:P_maxLetterSpacing="0" ATE:P_maxWordSpacing="1.33" ATE:P_minGlyphScaling="1" ATE:P_minLetterSpacing="0" ATE:P_minWordSpacing="0.8" ATE:P_paragraphDirection="ltr" ATE:P_postHyphenSize="2" ATE:P_preHyphenSize="2" ATE:P_singleWordJustif="fullJustifyLastLineFull" ATE:P_spaceAfter="0" ATE:P_spaceBefore="0" ATE:P_startIndent="0" ATE:P_textAlign="center" ATE:P_wordSpacing="1" ATE:TA_columnCount="1" ATE:TA_height="28" ATE:TA_lineOrientation="horiz" ATE:TA_spacing="0" ATE:TA_width="109.83" ATE:T_baselineDirection="withStream" ATE:T_leftRightAdjust="0" ATE:T_upDownAdjust="0" ATE:W_lineCount="2" ATE:W_lineGap="0" ATE:W_orphanAmount="2" ATE:W_scale="0.5" ATE:W_warichuEnabled="false" ATE:W_warichuJustification="autoJustify" ATE:W_widowAmount="2" flm:hashcode="BE7E521D8CB91972998582A45A8E7EBF" d:ref="#40"/>
-      <ATE:ATEAttributes ATE:C_kerning="metric" d:ref="#41"/>
-      <ATE:ATEAttributes ATE:C_fontSize="30" ATE:C_kerning="metric" d:ref="#42"/>
-      <ATE:ATEAttributes ATE:C_fontSize="24" ATE:C_kerning="metric" d:ref="#43"/>
-      <ATE:ATEAttributes ATE:C_fontSize="18" ATE:C_kerning="metric" d:ref="#44"/>
     </Private>
   </Graphic>
