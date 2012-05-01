@@ -573,12 +573,12 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>7a4c2252-6bed-42cc-ad1b-f0cc4765f2e8</recordId>
-    <accessKey>YUy3tWBdnP6My7FAcuXO</accessKey>
-    <accessSecret>QkSIbSkqjLRQdozPjvTl</accessSecret>
-    <status>Login successful</status>
-    <demographicsId>9e230fc5-63fa-4c11-bc9f-90c19251e60b</demographicsId>
-    <recordSeed>5</recordSeed>
+    <recordId>4372aa1a-d01f-4ceb-b6c6-4aec1770b3cf</recordId>
+    <accessKey>lc5AUDOaeJmmdUev9ci3</accessKey>
+    <accessSecret>TDkrqRFZPZvvjyBsslK7</accessSecret>
+    <status>Created 223/223 documents, 218/219 relationships</status>
+    <demographicsId>ae695b9d-3943-409a-b826-15547e126aa6</demographicsId>
+    <recordSeed>6</recordSeed>
   </AccountSource>
   <AccountSource>
     <accountId>lbrooks@records.media.mit.edu</accountId>
@@ -867,9 +867,9 @@
     <recordId/>
     <accessKey>2aZWoBykoS9FweOJktVL</accessKey>
     <accessSecret>lrwYcHvFE5XAsHcAloz1</accessSecret>
-    <status>Record shared. Failed on POST
-
-
+    <status>Record shared. Failed on POST
+
+
 			http://records.media.mit.edu:8000/accounts/mloomis@records.media.mit.edu/authsystems/ Response:</status>
     <demographicsId>a3236c63-79d0-4542-9ef4-ab2f6956e42b</demographicsId>
   </AccountSource>
@@ -909,6 +909,6 @@
     <accessSecret>Zdfz4j4DZqC4jxrCmcsm</accessSecret>
     <demographicsId>d66490ce-2c5b-49ef-8c7d-4e6e70e2dab5</demographicsId>
   </AccountSource>
-  <saveDate>Tue Mar 27 17:45:04 GMT-0400 2012</saveDate>
+  <saveDate>Tue May 1 16:38:42 GMT-0400 2012</saveDate>
   <indivoServerBaseURL>http://184.106.136.151:8000</indivoServerBaseURL>
 </dataroot>
