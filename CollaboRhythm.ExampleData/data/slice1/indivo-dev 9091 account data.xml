@@ -819,27 +819,55 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId>911bfe62-4205-4248-bb4d-15e48da34a64</recordId>
-    <status>Sharing record. Failed on POST http://indivo-dev.media.mit.edu:9091/records/911bfe62-4205-4248-bb4d-15e48da34a64/shares/ Response: &lt;Error&gt;  &lt;InnerError&gt;    &lt;type&gt;complete&lt;/type&gt;  &lt;/InnerError&gt;  &lt;HTTPStatusEvent&gt;    &lt;status&gt;404&lt;/status&gt;  &lt;/HTTPStatusEvent&gt;&lt;/Error&gt; Failed on PUT http://indivo-dev.media.mit.edu:9091/records/b3ce662a-f125-45a2-b249-a551bd7bf004/owner Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;500&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt; Failed on PUT http://indivo-dev.media.mit.edu:9091/records/b3ce662a-f125-45a2-b249-a551bd7bf004/owner Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;500&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt; Failed on PUT http://indivo-dev.media.mit.edu:9091/records/b3ce662a-f125-45a2-b249-a551bd7bf004/owner Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;500&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
+    <status>Sharing record. Failed on POST http://indivo-dev.media.mit.edu:9091/records/911bfe62-4205-4248-bb4d-15e48da34a64/shares/ Response: &lt;Error&gt;
+  &lt;InnerError&gt;
+    &lt;type&gt;complete&lt;/type&gt;
+  &lt;/InnerError&gt;
+  &lt;HTTPStatusEvent&gt;
+    &lt;status&gt;404&lt;/status&gt;
+  &lt;/HTTPStatusEvent&gt;
+&lt;/Error&gt; Failed on PUT http://indivo-dev.media.mit.edu:9091/records/b3ce662a-f125-45a2-b249-a551bd7bf004/owner Response: &lt;Error&gt;
+
+  &lt;InnerError&gt;
+
+    &lt;type&gt;complete&lt;/type&gt;
+
+  &lt;/InnerError&gt;
+
+  &lt;HTTPStatusEvent&gt;
+
+    &lt;status&gt;500&lt;/status&gt;
+
+  &lt;/HTTPStatusEvent&gt;
+
+&lt;/Error&gt; Failed on PUT http://indivo-dev.media.mit.edu:9091/records/b3ce662a-f125-45a2-b249-a551bd7bf004/owner Response: &lt;Error&gt;
+
+  &lt;InnerError&gt;
+
+    &lt;type&gt;complete&lt;/type&gt;
+
+  &lt;/InnerError&gt;
+
+  &lt;HTTPStatusEvent&gt;
+
+    &lt;status&gt;500&lt;/status&gt;
+
+  &lt;/HTTPStatusEvent&gt;
+
+&lt;/Error&gt; Failed on PUT http://indivo-dev.media.mit.edu:9091/records/b3ce662a-f125-45a2-b249-a551bd7bf004/owner Response: &lt;Error&gt;
+
+  &lt;InnerError&gt;
+
+    &lt;type&gt;complete&lt;/type&gt;
+
+  &lt;/InnerError&gt;
+
+  &lt;HTTPStatusEvent&gt;
+
+    &lt;status&gt;500&lt;/status&gt;
+
+  &lt;/HTTPStatusEvent&gt;
+
 &lt;/Error&gt;</status>
     <accessKey>LaOtGfpP3QJGaBoPlKju</accessKey>
     <accessSecret>lVLrHdyh3V4WnslJn4eU</accessSecret>
@@ -847,6 +875,6 @@
     <notes>Trash can account</notes>
     <recordSeed/>
   </AccountSource>
-  <saveDate>Tue May 1 16:53:11 GMT-0400 2012</saveDate>
+  <saveDate>Wed Apr 25 13:14:44 GMT-0400 2012</saveDate>
   <indivoServerBaseURL>http://indivo-dev.media.mit.edu:9091</indivoServerBaseURL>
 </dataroot>

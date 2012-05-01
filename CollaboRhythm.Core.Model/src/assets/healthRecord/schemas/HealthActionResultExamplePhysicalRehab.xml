@@ -56,6 +56,7 @@
 					<site type="http://equipment.coded.values/" value="1">Upper Leg</site>
 				</deviceResult>
 			</deviceResults>
+			<medicationAdministrations />
 			<actions>
 				<action xsi:type="ActionStepResult">
 					<measurements>
@@ -92,7 +93,7 @@
 							<site type="http://equipment.coded.values/" value="1">Upper Leg</site>
 						</deviceResult>
 					</deviceResults>
-					<medicationAdministrations />
+					<medicationAdministrations/>
 					<name type="http://actions.repository/" value="2">Kick Balls</name>
 					<occurrences>
 						<occurrence>
