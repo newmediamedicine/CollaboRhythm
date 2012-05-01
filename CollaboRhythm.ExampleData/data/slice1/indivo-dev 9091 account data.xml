@@ -819,6 +819,44 @@
     <notes>Trash can account</notes>
     <recordSeed/>
   </AccountSource>
+  <AccountSource>
+   <accountId>osmith@records.media.mit.edu</accountId>
+   <contactEmail>margf@mit.edu</contactEmail>
+   <fullName>osmith</fullName>
+   <username>osmith</username>
+   <password>osmith-password</password>
+   <givenName>Owen</givenName>
+   <familyName>Smith</familyName>
+   <streetAddress>86 Mass Avenue</streetAddress>
+   <postalCode>2138</postalCode>
+   <locality>Cambridge</locality>
+   <region>Massachusetts</region>
+   <country>US</country>
+   <timeZone>-5GMT</timeZone>
+   <emailPersonal>osmith@records.media.mit.edu</emailPersonal>
+   <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+   <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+   <instantMessengerName>osmith@records.media.mit.edu</instantMessengerName>
+   <dateOfBirth>1975-01-15T00:00:00Z</dateOfBirth>
+   <age>37</age>
+   <gender>Male</gender>
+   <ethnicity>White</ethnicity>
+   <language>English</language>
+   <maritalStatus>Single</maritalStatus>
+   <employmentStatus>Employed</employmentStatus>
+   <employmentIndustry>Education</employmentIndustry>
+   <occupation>Professor</occupation>
+   <religion>Protestant</religion>
+   <highestEducation>University</highestEducation>
+   <organDonar>true</organDonar>
+   <recordId/>
+   <status>Password set.</status>
+   <accessKey/>
+   <accessSecret/>
+   <demographicsId>d66490ce-2c5b-49ef-8c7d-4e6e70e2dab5</demographicsId>
+   <notes>Trash can account</notes>
+   <recordSeed/>
+  </AccountSource>
   <saveDate>Wed Apr 25 13:14:44 GMT-0400 2012</saveDate>
   <indivoServerBaseURL>http://indivo-dev.media.mit.edu:9091</indivoServerBaseURL>
 </dataroot>

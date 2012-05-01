@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--~
+  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<HealthActionPlan xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://indivo.org/vocab/xml/documents#">
+	<name type="http://actions.repository.coded.values/" value="Exercise Plan"> Exercise Plan 1 </name>
+	<planType>prescribed</planType>
+	<plannedBy>rpoole@records.media.mit.edu </plannedBy>
+	<datePlanned>2012-02-17T12:11:46.4650833-05:00</datePlanned>
+	<dateExpires>2014-02-17T14:08:21.8574848-05:00</dateExpires>
+	<indication>orthopedic rehab</indication>
+	<instructions>put on the wockets on</instructions>
+	<system type="http://system.repository.coded.values/" value="1">OrthoRehabVR</system>
+	<actions>
+		<action	xsi:type="ActionGroup">
+			<position />
+			<stopConditions />
+			<targets>
+				<target>
+					<name type="http://measures.coded.values/" value="1">Heart Rate</name>
+					<minimumValue>
+						<value>60</value>
+						<unit type="http://indivo.org/codes/units#" value="m" abbrev="m">bpm</unit>
+					</minimumValue>
+					<maximumValue>
+						<value>120</value>
+						<unit type="http://indivo.org/codes/units#" value="m" abbrev="m">bpm</unit>
+					</maximumValue>
+					<severityLevel type="http://severity.levels.coded.values/" value="1">Great Job</severityLevel>
+				</target>
+			</targets>
+			<measurementPlans>
+				<measurementPlan>
+					<name type="http://measures.coded.values/" value="5">UpAngle</name>
+					<type />
+					<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+				</measurementPlan>
+				<measurementPlan>
+					<name type="http://measures.coded.values/" value="1">DownAngle</name>
+					<type />
+					<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+				</measurementPlan>
+				<measurementPlan>
+					<name type="http://measures.coded.values/" value="3">Adherence</name>
+					<type />
+					<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+				</measurementPlan>
+				<measurementPlan>
+					<name type="http://measures.coded.values/" value="5">Repetitions</name>
+					<type />
+					<aggregationFunction type="http://aggregation.coded.values/">sum</aggregationFunction>
+				</measurementPlan>
+			</measurementPlans>
+			<devicePlans>
+				<devicePlan>
+					<name type="http://equipment.coded.values/" value="1">Wockets W</name>
+					<type type="http://equipment.coded.values/" value="1">Wocket</type>
+					<value/>
+					<site type="http://equipment.coded.values/" value="1">Upper Leg</site>
+					<instructions>put on the wocket labelled W in the Upper Leg</instructions>
+				</devicePlan>
+				<devicePlan>
+					<name type="http://equipment.coded.values/" value="1">Wockets A</name>
+					<type type="http://equipment.coded.values/" value="1">Wocket</type>
+					<value/>
+					<site type="http://equipment.coded.values/" value="1">Lower Leg</site>
+					<instructions>put on the wocket labelled A in the Lower Leg</instructions>
+				</devicePlan>
+			</devicePlans>
+			<medicationPlans />
+
+			<repeatCount>2</repeatCount>
+
+			<actions>
+				<action xsi:type="ActionStep">
+					<position />
+					<stopConditions>
+						<stopCondition>
+							<name type="http://actions.repository/" value="2">Repetitions</name>
+							<value>
+								<value>5</value>
+								<unit type="http://indivo.org/codes/units#" value="t" abbrev="t">Times</unit>
+							</value>
+							<operator type="http://comparison.operators/" value="2">Greater or equal than</operator>
+							<detail/>
+						</stopCondition>
+					</stopConditions>
+					<targets />
+					<measurementPlans />
+					<devicePlans />
+					<medicationPlans />
+
+
+					<name type="http://actions.repository/" value="1">bend knee</name>
+					<type type="http://actions.repository.type/" value="1">Physical Exercise</type>
+					<additionalDetails>This is the knee rehab exercise</additionalDetails>
+					<instructions>put on the wockets and turn on your VR system</instructions>
+				</action>
+
+
+				<action xsi:type="ActionStep">
+					<position />
+					<stopConditions>
+						<stopCondition>
+							<name type="http://measures.coded.values/" value="1">Repetitions</name>
+							<value>
+								<value>5</value>
+								<unit type="http://indivo.org/codes/units#" value="t" abbrev="t">Times</unit>
+							</value>
+							<operator type="http://comparison.operators/" value="2">Greater or equal than</operator>
+						</stopCondition>
+					</stopConditions>
+					<targets />
+					<measurementPlans />
+					<devicePlans />
+					<medicationPlans />
+
+					<name type="http://actions.repository/" value="2">lift quadriceps</name>
+					<type type="http://actions.repository.type/" value="1">Physical Exercise</type>
+					<additionalDetails>This is the knee rehab exercise</additionalDetails>
+					<instructions>put on the wockets and turn on your VR system</instructions>
+				</action>
+			</actions>
+		</action>
+	</actions>
+</HealthActionPlan>
