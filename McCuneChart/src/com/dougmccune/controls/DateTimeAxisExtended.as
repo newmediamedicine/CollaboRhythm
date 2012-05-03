@@ -2,15 +2,21 @@ package com.dougmccune.controls
 {
 //	public class DateTimeAxisExtended
 	import flash.events.Event;
-	
+	import flash.utils.getQualifiedClassName;
+
 	import mx.charts.AxisLabel;
 	import mx.charts.chartClasses.AxisLabelSet;
 	import mx.charts.chartClasses.DataDescription;
 	import mx.charts.chartClasses.DateRangeUtilities;
 	import mx.charts.chartClasses.NumericAxis;
 	import mx.core.mx_internal;
-	
-	
+	import mx.logging.ILogger;
+	import mx.logging.Log;
+	import mx.utils.ObjectUtil;
+
+	import qs.utils.DebugUtils;
+
+
 	use namespace mx_internal;
 	
 	/**
@@ -164,6 +170,8 @@ package com.dougmccune.controls
 				months: "weeks",
 				years: "months"
 			};
+
+		private var _logger:ILogger;
 		
 		//--------------------------------------------------------------------------
 		//
@@ -183,6 +191,8 @@ package com.dougmccune.controls
 		{
 			super();
 			
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+
 			baseAtZero = false;
 			autoAdjust = false;
 			
@@ -941,7 +951,9 @@ package com.dougmccune.controls
 		/**
 		 *  @private
 		 */
-		private var _userMinorTickUnits:String = null;  
+		private var _userMinorTickUnits:String = null;
+
+		private var _traceEventHandlers:Boolean = false;
 		
 		[Inspectable(category="General", enumeration="milliseconds,seconds,minutes,hours,days,weeks,months,years")]
 		
@@ -1002,8 +1014,11 @@ package com.dougmccune.controls
 		override public function transformCache(cache:Array /* of ChartItem */, field:String,
 												convertedField:String):void
 		{
+			if (_traceEventHandlers)
+				_logger.debug("transformCache for cache with " + cache.length + " item(s)" + (cache.length > 0 ? "; cache[0] = " + DebugUtils.getObjectMemoryHash(cache[0]) : ""));
+
 			update();
-			var alen:Number = computedMaximum - computedMinimum - dateRangeUtilities.calculateDisabledRange(computedMinimum, computedMaximum);;
+			var alen:Number = computedMaximum - computedMinimum - dateRangeUtilities.calculateDisabledRange(computedMinimum, computedMaximum);
 			var n:int = cache.length;
 			var i:int;
 			
