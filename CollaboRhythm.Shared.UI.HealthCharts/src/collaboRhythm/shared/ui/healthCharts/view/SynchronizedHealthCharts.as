@@ -186,6 +186,9 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private var _pendingMoveTodayHighlight:Boolean = false;
 		private var _useRedrawFix:Boolean = true;
 
+		private var _focusTimeMarker:Rect;
+		private var _focusTime:Number;
+
 		public function SynchronizedHealthCharts():void
 		{
 			// TODO: use CSS instead for these
@@ -257,6 +260,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 		public function set showFocusTimeMarker(value:Boolean):void
 		{
 			_showFocusTimeMarker = value;
+			if (_focusTimeMarker)
+				_focusTimeMarker.visible = value;
 		}
 
 		public function get rangeChartVisible():Boolean
@@ -443,13 +448,21 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private function createTodayHighlight():void
 		{
+			_focusTimeMarker = new Rect();
+			_focusTimeMarker.top = _chartsContainer.paddingTop;
+			_focusTimeMarker.bottom = _chartsContainer.paddingBottom;
+			_focusTimeMarker.width = 2;
+			_focusTimeMarker.fill = new SolidColor(0xFBB040, 0.4);
+
 			_todayHighlight = new Rect();
 			_todayHighlight.top = _chartsContainer.paddingTop;
 			_todayHighlight.bottom = _chartsContainer.paddingBottom;
-			moveTodayHighlight();
 			_todayHighlight.fill = new SolidColor(0xFBB040, 0.3);
+			moveTodayHighlight();
+
 //			_todayHighlight.includeInLayout = false;
 			this.addElementAt(_todayHighlight, 0);
+			this.addElement(_focusTimeMarker);
 		}
 
 		private function moveTodayHighlight():void
@@ -463,6 +476,21 @@ package collaboRhythm.shared.ui.healthCharts.view
 				var xOffset:Number = this.globalToLocal(horizontalAxisChart.localToGlobal(new Point())).x;
 				var rightLimit:Number = horizontalAxisChart.width;
 				var todayLeft:Number = horizontalAxisChart.transformTimeToPosition(horizontalAxisChart.initialRightRangeTime - ScrubChart.DAYS_TO_MILLISECONDS);
+
+				if (showFocusTimeMarker && _focusTimeMarker && !isNaN(focusTime))
+				{
+					var nowPosition:Number = horizontalAxisChart.transformTimeToPosition(focusTime);
+					if (nowPosition >= 0 && nowPosition <= rightLimit)
+					{
+						_focusTimeMarker.x = xOffset + nowPosition - _focusTimeMarker.width / 2;
+						_focusTimeMarker.visible = true;
+					}
+					else
+					{
+						_focusTimeMarker.visible = false;
+					}
+				}
+
 				if (todayLeft > rightLimit)
 				{
 					_todayHighlight.visible = false
@@ -1657,6 +1685,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			var minimum:Number;
 			var maximum:Number;
 			var today:Date = model.currentDateSource.now();
+			focusTime = today.valueOf();
 			var initialRightRangeTime:Number = getInitialRightRangeTime(today);
 			for each (var chart:TouchScrollingScrubChart in charts)
 			{
@@ -2781,6 +2810,18 @@ package collaboRhythm.shared.ui.healthCharts.view
 				logDebugEvent("chart_mainChart_resizeHandler", chartToTraceString(event));
 
 			queueMoveTodayHighlight();
+		}
+
+		public function get focusTime():Number
+		{
+			return _focusTime;
+		}
+
+		public function set focusTime(value:Number):void
+		{
+			_focusTime = value;
+
+			moveTodayHighlight();
 		}
 	}
 }
