@@ -8,6 +8,9 @@
             <entry module-name="CollaboRhythm.View.Scroll" build-configuration-name="CollaboRhythm.View.Scroll">
               <dependency linkage="Merged" />
             </entry>
+            <entry module-name="ChartBackgroundsLib" build-configuration-name="ChartBackgroundsLib">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -29,6 +32,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="CollaboRhythm.View.Scroll" />
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="__CompositeFlexSdk__" />
+    <orderEntry type="module" module-name="ChartBackgroundsLib" />
   </component>
 </module>
 

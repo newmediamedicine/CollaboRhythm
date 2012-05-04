@@ -2,6 +2,8 @@
 
 package qs.charts.dataShapes
 {
+	import flash.utils.getQualifiedClassName;
+
 	import mx.charts.chartClasses.ChartElement;
 	import mx.graphics.SolidColor;
 	import mx.charts.chartClasses.IAxis;
@@ -20,6 +22,11 @@ package qs.charts.dataShapes
 	import mx.core.IUIComponent;
 	import flash.events.Event;
 	import mx.graphics.IStroke;
+	import mx.logging.ILogger;
+	import mx.logging.Log;
+	import mx.utils.ObjectUtil;
+
+	import qs.utils.DebugUtils;
 
 	[DefaultProperty("dataChildren")]
 	public class DataDrawingCanvas extends ChartElement
@@ -46,10 +53,13 @@ package qs.charts.dataShapes
 
 		
 		private var _childMap:Dictionary;
+		private var _logger:ILogger;
+		private var _traceEventHandlers:Boolean = false;
 				
 		public function DataDrawingCanvas()
 		{
 		    super();
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_hDataDesc = new DataDescription();
 			_vDataDesc = new DataDescription();
 			_childMap = new Dictionary(true);
@@ -419,6 +429,9 @@ package qs.charts.dataShapes
 		{
 			if(_dataCacheDirty)
 			{
+				if (_traceEventHandlers)
+					_logger.debug("updateMapping resetting _dataCache of " + this.id + "(" + DebugUtils.getObjectMemoryHash(this) + ")");
+
 				_dataCache = new DataCache();
 				var i:int;
 				var key:*;
@@ -455,6 +468,7 @@ package qs.charts.dataShapes
 					_vDataDesc.max = Math.max(_vDataDesc.max,value);
 				}
 				_mappingDirty = true;
+				_dataCacheDirty = false;
 			}
 			if(_mappingDirty)
 			{
@@ -493,7 +507,8 @@ package qs.charts.dataShapes
 				{
 					_vDataDesc.boundedValues = boundedValues;
 				}
-				
+
+				_mappingDirty = false;
 			}
 		}
 		
@@ -515,10 +530,24 @@ package qs.charts.dataShapes
 			if(_transformDirty)
 			{
 				updated = true;
-				dataTransform.transformCache(_dataCache.xCache,"mappedValue","pixelValue",null,null);			
-				dataTransform.transformCache(_dataCache.yCache,null,null,"mappedValue","pixelValue");			
-	
-				for(i=0;i<_dataCache.xCache.length;i++)
+				if (_traceEventHandlers)
+					_logger.debug("updateTransform " + describeCache("xCache"));
+
+				var repeatCount:int = 0;
+				var dataCacheChanged:Boolean;
+				do {
+					var oldDataCache:DataCache = _dataCache;
+					dataTransform.transformCache(_dataCache.xCache, "mappedValue", "pixelValue", null, null);
+					dataTransform.transformCache(_dataCache.yCache, null, null, "mappedValue", "pixelValue");
+					dataCacheChanged = (_dataCache != oldDataCache);
+				} while (dataCacheChanged && repeatCount < 2);
+
+				if (dataCacheChanged)
+				{
+					_logger.warn("updateTransform will fail because _dataCache changed more than once " + describeCache("xCache"));
+				}
+
+				for (i = 0; i < _dataCache.xCache.length; i++)
 				{
 					record = _dataCache.xCache[i];
 					if (record.hasOwnProperty("pixelValue"))
@@ -527,12 +556,12 @@ package qs.charts.dataShapes
 					}
 					else
 					{
-						trace("warning: transformCache failed for _dataCache.xCache of", this.id);
+						_logger.warn("updateTransform warning: transformCache failed " + describeCache("xCache"));
 						updated = false;
 						break;
 					}
 				}
-				for(i=0;i<_dataCache.yCache.length;i++)
+				for (i = 0; i < _dataCache.yCache.length; i++)
 				{
 					record = _dataCache.yCache[i];
 					if (record.hasOwnProperty("pixelValue"))
@@ -541,21 +570,43 @@ package qs.charts.dataShapes
 					}
 					else
 					{
-						trace("warning: transformCache failed for _dataCache.yCache of", this.id);
+						_logger.warn("updateTransform warning: transformCache failed " + describeCache("yCache"));
 						updated = false;
 						break;
 					}
 				}
-				
+
 				_dataCache.xMap[Edge.LEFT] = 0;
 				_dataCache.xMap[Edge.RIGHT] = unscaledWidth;
 				_dataCache.yMap[Edge.TOP] = 0;
 				_dataCache.yMap[Edge.BOTTOM] = unscaledHeight;
-				
+
 				if (updated)
+				{
 					_transformDirty = false;
+					if (_traceEventHandlers)
+						_logger.debug("updateTransform transformCache succeeded " + describeCache("xCache"));
+				}
 			}
 			return updated;
+		}
+
+		private function describeCache(cacheProperty:String):String
+		{
+			var ancestor:UIComponent = getAncestor(5);
+			var cacheItem:Object = _dataCache[cacheProperty][0];
+			//  + " " + ObjectUtil.toString(cacheItem)
+			return "for _dataCache(" + DebugUtils.getObjectMemoryHash(_dataCache) + ")." + cacheProperty + "(" + DebugUtils.getObjectMemoryHash(_dataCache[cacheProperty]) + ") of " + this.id + "(" + DebugUtils.getObjectMemoryHash(this) + ") of " + (ancestor ? ancestor.id : "(unknown)") + " with " + _dataCache[cacheProperty].length + " " + cacheProperty + " item(s)" + (cacheItem ? " _dataCache." + cacheProperty + "[0] " + DebugUtils.getObjectMemoryHash(cacheItem) : "");
+		}
+
+		private function getAncestor(levels:int):UIComponent
+		{
+			var ancestor:DisplayObject = this;
+			for (var i:int; i < levels && ancestor != null; i++)
+			{
+				ancestor = ancestor.parent;
+			}
+			return ancestor as UIComponent;
 		}
 
 		override public function describeData(dimension:String,

@@ -184,7 +184,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private var _todayHighlight:Rect;
 		private var _chartsContainer:VGroup;
 		private var _pendingMoveTodayHighlight:Boolean = false;
-		private var _useRedrawFix:Boolean = false;
+		private var _useRedrawFix:Boolean = true;
 
 		public function SynchronizedHealthCharts():void
 		{
