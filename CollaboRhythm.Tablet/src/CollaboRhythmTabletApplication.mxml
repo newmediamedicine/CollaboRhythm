@@ -92,16 +92,15 @@
 		import collaboRhythm.shared.model.Account;
 		import collaboRhythm.shared.view.tablet.TabletViewBase;
 		import collaboRhythm.tablet.controller.TabletApplicationController;
-		import collaboRhythm.tablet.view.OfflineIcon;
-		import collaboRhythm.tablet.view.OnlineIcon;
 		import collaboRhythm.tablet.view.CallIcon;
 		import collaboRhythm.tablet.view.EndCallIcon;
+		import collaboRhythm.tablet.view.OfflineIcon;
+		import collaboRhythm.tablet.view.OnlineIcon;
 		import collaboRhythm.tablet.view.SelectRecordView;
 		import collaboRhythm.tablet.view.TabletHomeView;
 		import collaboRhythm.tablet.view.VideoIcon;
 
 		import mx.binding.utils.BindingUtils;
-
 		import mx.events.FlexEvent;
 
 		import spark.primitives.Graphic;
@@ -149,8 +148,6 @@
 
 			_collaborationController = _applicationController.collaborationController;
 
-			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.SYNCHRONIZE,
-					synchronizeHandler);
 			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.POINTER,
 					pointerHandler);
 
@@ -173,15 +170,6 @@
 			else if (event.method == "hidePointer")
 			{
 				hidePointer("remote");
-			}
-		}
-
-		private function synchronizeHandler(event:CollaborationEvent):void
-		{
-			if (event.method == "navigateHome" && _collaborationController.collaborationModel.collaborationState ==
-					CollaborationModel.COLLABORATION_ACTIVE)
-			{
-				navigateHome("remote");
 			}
 		}
 
@@ -240,17 +228,6 @@
 		public function get selectRecordView():SelectRecordView
 		{
 			return navigator.activeView as SelectRecordView;
-		}
-
-		private function navigateHome(source:String):void
-		{
-			if (source == "local" && _collaborationController.collaborationModel.collaborationState ==
-								CollaborationModel.COLLABORATION_ACTIVE)
-			{
-				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.SYNCHRONIZE,
-						"navigateHome");
-			}
-			navigator.popToFirstView()
 		}
 
 		private function mouseDownHandler(event:MouseEvent):void
@@ -323,10 +300,15 @@
 				pointer.visible = false;
 			}
 		}
+
+		private function homeButton_clickHandler():void
+		{
+			(navigator.activeView as TabletViewBase).homeButton_clickHandler();
+		}
 		]]></fx:Script>
 	<s:navigationContent>
 		<s:HGroup gap="0">
-			<s:HGroup click="navigateHome('local')"
+			<s:HGroup click="homeButton_clickHandler()"
 					  includeInLayout="{_applicationController.activeRecordAccount != null}"
 					  visible="{_applicationController.activeRecordAccount != null}" verticalAlign="middle" gap="0">
 				<view:BackIcon id="backIcon" visible="false" visible.notHome="true"/>

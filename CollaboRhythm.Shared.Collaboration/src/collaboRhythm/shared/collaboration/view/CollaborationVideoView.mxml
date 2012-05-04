@@ -19,6 +19,7 @@
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+					   resize="setVideoDisplaySize()"
 					   remove="removeHandler()">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
@@ -30,6 +31,7 @@
 	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.shared.collaboration.controller.CollaborationController;
+		import collaboRhythm.shared.collaboration.model.AudioVideoOutput;
 		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
 		import collaboRhythm.shared.collaboration.model.CollaborationModel;
 
@@ -57,19 +59,12 @@
 		{
 			if (netStreamIn)
 			{
-				var video:Video = new Video();
-				video.width = 1280;
-				video.height = 720;
-				video.attachNetStream(netStreamIn);
-				videoDisplay.addChild(video);
+				videoDisplay.mx_internal::videoPlayer.attachNetStream(netStreamIn);
+				videoDisplay.mx_internal::videoPlayer.visible = true;
 
-				_collaborationLobbyNetConnectionService.netStreamOut.attachCamera(_collaborationModel.audioVideoOutput.camera);
-
-				var videoOut:Video = new Video();
-				videoOut.width = 1280 / 4;
-				videoOut.height = 720  / 4;
-				videoOut.attachCamera(_collaborationModel.audioVideoOutput.camera);
-				videoDisplayOut.addChild(videoOut);
+				var camera:Camera = AudioVideoOutput.getCamera();
+				_collaborationLobbyNetConnectionService.netStreamOut.attachCamera(camera);
+				videoDisplayOut.attachCamera(camera);
 				return true;
 			}
 			return false;
@@ -182,13 +177,28 @@
 		{
 			_collaborationController.sendCollaborationInvitationCancelled();
 		}
+
+		private function setVideoDisplaySize():void
+		{
+			if (this.width > this.height)
+			{
+				videoDisplay.height = this.height;
+				videoDisplay.width = this.height * (4 / 3);
+			}
+			else
+			{
+				videoDisplay.width = this.width;
+				videoDisplay.height = this.width * (3 / 4);
+			}
+		}
 		]]></fx:Script>
-	<s:Group width="100%" height="100%" visible="{_collaborationModel.collaborationState != CollaborationModel.COLLABORATION_ACTIVE}">
+	<s:Group width="100%" height="100%"
+			 visible="{_collaborationModel.collaborationState != CollaborationModel.COLLABORATION_ACTIVE}">
 		<s:VGroup horizontalAlign="center" verticalCenter="0" horizontalCenter="0" paddingTop="50" gap="20">
 			<s:Image id="peerAccountImage" width="500" height="500"/>
 			<s:Label id="collaborationLabel"
-			visible="{_collaborationModel.collaborationState != CollaborationModel.COLLABORATION_ACTIVE}"
-			text="{determineCollaborationLabelText(_collaborationModel.collaborationState)}"/>
+					 visible="{_collaborationModel.collaborationState != CollaborationModel.COLLABORATION_ACTIVE}"
+					 text="{determineCollaborationLabelText(_collaborationModel.collaborationState)}"/>
 			<s:HGroup
 					visible="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_RECEIVED}"
 					includeInLayout="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_RECEIVED}">
@@ -196,13 +206,26 @@
 				<s:Button id="rejectButton" label="Reject" click="rejectButton_clickHandler()"/>
 			</s:HGroup>
 			<s:Button id="cancelButton" label="Cancel" top="10"
-			visible="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_SENT}"
-			includeInLayout="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_SENT}"
-			click="cancelButton_clickHandler()"/>
+					  visible="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_SENT}"
+					  includeInLayout="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_SENT}"
+					  click="cancelButton_clickHandler()"/>
 		</s:VGroup>
 	</s:Group>
-	<s:Group width="100%" height="100%" visible="{determineVisible(_collaborationLobbyNetConnectionService.netStreamIn)}">
-		<mx:VideoDisplay id="videoDisplay" width="100%" height="100%"/>
-		<mx:VideoDisplay id="videoDisplayOut" width="{this.width / 4}" height="{this.height / 4}" right="0" bottom="0"/>
+	<s:Group width="100%" height="100%"
+			 visible="{determineVisible(_collaborationLobbyNetConnectionService.netStreamIn)}">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0x000000"/>
+			</s:fill>
+		</s:Rect>
+		<mx:VideoDisplay id="videoDisplay" horizontalCenter="0" verticalCenter="0"/>
+		<s:Group width="320" height="240" right="0" bottom="0">
+			<mx:VideoDisplay id="videoDisplayOut" width="100%" height="100%"/>
+			<s:Rect width="100%" height="100%">
+				<s:stroke>
+					<s:SolidColorStroke color="0x000000"/>
+				</s:stroke>
+			</s:Rect>
+		</s:Group>
 	</s:Group>
 </tablet:TabletViewBase>

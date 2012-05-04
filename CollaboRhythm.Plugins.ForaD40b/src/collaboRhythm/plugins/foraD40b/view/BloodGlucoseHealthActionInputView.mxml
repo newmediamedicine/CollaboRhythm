@@ -21,6 +21,7 @@
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
 					   creationComplete="creationCompleteHandler(event)"
+					   addedToStage="addedToStageHandler()"
 					   title="Report Blood Glucose">
 	<fx:Declarations>
 		<s:Button id="saveButton" label="Save" click="saveButton_clickHandler()"/>
@@ -37,10 +38,6 @@
 		}
 
 		.textInputText {
-			fontSize: 150;
-		}
-
-		#bloodGlucose {
 			fontSize: 110;
 		}
 	</fx:Style>
@@ -50,7 +47,10 @@
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 
+		import mx.binding.utils.BindingUtils;
 		import mx.events.FlexEvent;
+
+		import spark.skins.mobile.TextInputSkin;
 
 		private const NUMBER_PAD_GAP:int = 2;
 
@@ -66,11 +66,39 @@
 
 			_dataInputModel = BloodGlucoseHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
 			_dataInputController = BloodGlucoseHealthActionInputController(dataInputModelAndController.healthActionInputController);
+
+			BindingUtils.bindSetter(setDeviceBloodGlucose, _dataInputModel, "deviceBloodGlucose");
+		}
+
+		private function setDeviceBloodGlucose(deviceBloodGlucose:String):void
+		{
+			if (_dataInputModel.deviceBloodGlucose != "" && bloodGlucoseTextInput)
+			{
+				showDeviceBloodGlucose();
+			}
 		}
 
 		private function creationCompleteHandler(event:FlexEvent):void
 		{
-			hypoglycemiaWarningView.init(_dataInputModel);
+			if (_dataInputModel.repeatCount > 0)
+			{
+				hypoglycemiaWarningView.init(_dataInputModel);
+				hypoglycemiaWarningView.visible = true;
+				recheckLabel.visible = true;
+			}
+
+
+			if (_dataInputModel.deviceBloodGlucose != "")
+			{
+				showDeviceBloodGlucose();
+			}
+		}
+
+		private function showDeviceBloodGlucose():void
+		{
+			bloodGlucoseTextInput.setStyle("skinClass", TextInputSkin);
+			bloodGlucoseTextInput.text = _dataInputModel.deviceBloodGlucose;
+			bloodGlucoseTextInput.enabled = false;
 		}
 
 		public function get healthActionInputController():IHealthActionInputController
@@ -86,38 +114,43 @@
 
 		private function saveButton_clickHandler():void
 		{
-			if (bloodGlucose.text != "")
+			_dataInputController.submitBloodGlucose(bloodGlucoseTextInput.text);
+		}
+
+		private function addedToStageHandler():void
+		{
+			addEventListener(KeyboardEvent.KEY_UP, hardwareKeyUpHandler)
+		}
+
+		private function hardwareKeyUpHandler(event:KeyboardEvent):void
+		{
+			if (_dataInputModel.repeatCount > 0 && (event.keyCode == Keyboard.BACK || event.keyCode == Keyboard.HOME))
 			{
-				_dataInputController.submitBloodGlucose(bloodGlucose.text);
-			}
-			else
-			{
-				//TODO: Toast an error message here. User must enter a value to save.
+				event.stopImmediatePropagation();
+				event.preventDefault();
 			}
 		}
 
-		private function showBloodGlucoseFromDevice(bloodGlucose:String):String
+		override public function homeButton_clickHandler():void
 		{
-			if (_dataInputModel.fromDevice)
+			if (_dataInputModel.repeatCount == 0)
 			{
-				return _dataInputModel.bloodGlucose;
-			}
-			else
-			{
-				return "";
+				super.homeButton_clickHandler();
 			}
 		}
 		]]></fx:Script>
-	<view:HypoglycemiaWarningView id="hypoglycemiaWarningView" visible="{_dataInputModel.repeatCount != 0}"/>
+	<view:HypoglycemiaWarningView id="hypoglycemiaWarningView" visible="false"/>
 	<s:Group height="100%" width="100%">
-		<s:Label id="recheckLabel" text="Please recheck now." top="100" visible="{_dataInputModel.repeatCount != 0}" horizontalCenter="0"/>
+		<s:Label id="recheckLabel" text="Please recheck now." top="100" visible="false" horizontalCenter="0"/>
 		<s:VGroup horizontalCenter="0" verticalCenter="0" horizontalAlign="center">
 			<s:HGroup id="bloodGlucoseGroup" gap="15" paddingTop="20" verticalAlign="middle">
 				<s:Image source="http://www.mit.edu/~jom/temp/equipment/FORA D40b.png" width="140" height="140"
 						 smooth="true"/>
-				<s:TextInput id="bloodGlucose" width="240" height="130"
-							 skinClass="spark.skins.mobile.StageTextInputSkin" styleName="textInputText"
-							 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number" text="{showBloodGlucoseFromDevice(_dataInputModel.bloodGlucose)}"/>
+				<s:Group width="240" height="130">
+					<s:TextInput id="bloodGlucoseTextInput" width="100%" height="100%"
+								 skinClass="spark.skins.mobile.StageTextInputSkin" styleName="textInputText"
+								 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number"/>
+				</s:Group>
 				<s:Label text="mg/dL" verticalCenter="0" styleName="reportingLabelsText"/>
 			</s:HGroup>
 		</s:VGroup>

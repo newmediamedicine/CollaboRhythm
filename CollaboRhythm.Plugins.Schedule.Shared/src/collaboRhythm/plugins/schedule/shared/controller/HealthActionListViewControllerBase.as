@@ -23,7 +23,7 @@ package collaboRhythm.plugins.schedule.shared.controller
 			{
 				if (_healthActionListViewModel.healthActionInputController)
 				{
-					_healthActionListViewModel.healthActionInputController.showHealthActionInputView();
+					_healthActionListViewModel.healthActionInputController.handleHealthActionResult();
 				}
 				else
 				{
