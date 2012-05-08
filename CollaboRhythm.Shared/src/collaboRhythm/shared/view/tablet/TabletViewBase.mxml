@@ -129,6 +129,11 @@
 		{
 			FlexGlobals.topLevelApplication.viewMenuOpen = true;
 		}
+
+		public function homeButton_clickHandler():void
+		{
+			_tabletApplicationController.navigateHome('local');
+		}
 		]]></fx:Script>
 	<s:viewMenuItems>
 		<s:ViewMenuItem label="{createDemoDateLabel(_isControllerReady, 0)}" includeIn="debuggingToolsEnabled"

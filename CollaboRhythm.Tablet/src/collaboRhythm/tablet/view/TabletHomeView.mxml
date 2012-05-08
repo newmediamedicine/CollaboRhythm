@@ -6,7 +6,6 @@
 					   title="CollaboRhythm Home">
 	<fx:Script><![CDATA[
 		import collaboRhythm.core.model.AboutApplicationModel;
-		import collaboRhythm.shared.collaboration.model.CollaborationModel;
 		import collaboRhythm.tablet.controller.TabletApplicationController;
 
 		import mx.core.IVisualElementContainer;
@@ -69,11 +68,7 @@
 		<s:HGroup width="100%" height="100%" gap="0" paddingLeft="10" paddingRight="10" paddingTop="10"
 				  paddingBottom="10" verticalAlign="middle">
 			<s:HGroup id="mainWidgetsGroup" width="100%" height="100%" gap="20"/>
-			<s:Group id="buttonWidgetsGroup" width="110">
-				<s:layout>
-					<s:TileLayout requestedColumnCount="1" verticalAlign="middle" horizontalAlign="center"/>
-				</s:layout>
-			</s:Group>
+			<s:VGroup id="buttonWidgetsGroup" width="110" gap="100"/>
 		</s:HGroup>
 	</s:VGroup>
 </tablet:TabletViewBase>

@@ -24,12 +24,12 @@ package collaboRhythm.plugins.equipment.chameleonSpirometer.controller
 						healthActionModelDetailsProvider);
 			}
 	
-			public function showHealthActionInputView():void
+			public function handleHealthActionResult():void
 			{
 	
 			}
 	
-			public function updateVariables(urlVariables:URLVariables):void
+			public function handleUrlVariables(urlVariables:URLVariables):void
 			{
 				_dataInputModel.urlVariables = urlVariables;
 			}

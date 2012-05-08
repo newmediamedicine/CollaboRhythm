@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
+					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+					   creationComplete="creationCompleteHandler(event)"
+					   addedToStage="addedToStageHandler()"
+					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
+					   title="Low Blood Glucose - Countdown to Next Blood Glucose Measurement">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		#recheckLabel {
+			fontSize: 36;
+		}
+
+		#timerLabel {
+			fontSize: 200;
+		}
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
+		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
+		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
+
+		import mx.events.FlexEvent;
+
+		private static const TIMER_COUNT:int = 9;
+
+		private var _dataInputModel:BloodGlucoseHealthActionInputModel;
+		private var _dataInputController:BloodGlucoseHealthActionInputController;
+
+		private var _timer:Timer;
+		private var _seconds:int;
+
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+
+			var dataInputModelAndController:HealthActionInputModelAndController = HealthActionInputModelAndController(value);
+
+			_dataInputModel = BloodGlucoseHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
+			_dataInputController = BloodGlucoseHealthActionInputController(dataInputModelAndController.healthActionInputController);
+		}
+
+		private function creationCompleteHandler(event:FlexEvent):void
+		{
+			hypoglycemiaWarningView.init(_dataInputModel);
+
+			_seconds = TIMER_COUNT;
+
+			recheckLabel.text = "Recheck in " + String(_seconds / 60) + " minutes.";
+			updateTimerLabel();
+
+			_timer = new Timer(1000, _seconds);
+			_timer.addEventListener(TimerEvent.TIMER, timerHandler);
+			_timer.addEventListener(TimerEvent.TIMER_COMPLETE, timerCompleteHandler);
+			_timer.start();
+		}
+
+		private function timerCompleteHandler(event:TimerEvent):void
+		{
+			_dataInputController.recheckBloodGlucose();
+		}
+
+		private function timerHandler(event:TimerEvent):void
+		{
+			updateTimerLabel();
+		}
+
+		private function updateTimerLabel():void
+		{
+			_seconds--;
+
+			var minutes:int = _seconds / 60;
+			var seconds:int = _seconds % 60;
+
+			if (minutes < 10)
+			{
+				timerLabel.text = "0" + String(minutes);
+			}
+			else
+			{
+				timerLabel.text = String(minutes);
+			}
+
+			timerLabel.text = timerLabel.text += ":";
+
+			if (seconds < 10)
+			{
+				timerLabel.text = timerLabel.text + "0" + String(seconds);
+			}
+			else
+			{
+				timerLabel.text = timerLabel.text + String(seconds);
+			}
+		}
+
+		private function addedToStageHandler():void
+		{
+			addEventListener(KeyboardEvent.KEY_UP, hardwareKeyUpHandler)
+		}
+
+		private function hardwareKeyUpHandler(event:KeyboardEvent):void
+		{
+			if (event.keyCode == Keyboard.BACK || event.keyCode == Keyboard.HOME)
+			{
+				event.stopImmediatePropagation();
+				event.preventDefault();
+			}
+		}
+
+		override public function homeButton_clickHandler():void
+		{
+
+		}
+
+		public function get healthActionInputController():IHealthActionInputController
+		{
+			return _dataInputController;
+		}
+		]]></fx:Script>
+	<view:HypoglycemiaWarningView id="hypoglycemiaWarningView"/>
+	<s:Label id="recheckLabel" top="100" horizontalCenter="0"/>
+	<s:Label id="timerLabel" verticalCenter="0" horizontalCenter="0"/>
+</tablet:TabletViewBase>

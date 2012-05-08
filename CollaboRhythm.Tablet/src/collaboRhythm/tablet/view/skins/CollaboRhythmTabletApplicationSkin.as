@@ -39,8 +39,8 @@ package collaboRhythm.tablet.view.skins
 			addChild(aboutApplicationView);
 
 			pointer = new Graphic();
-			pointer.graphics.beginFill(0x000000);
-			pointer.graphics.drawCircle(0, 0, 10);
+			pointer.graphics.beginFill(0xFFF200, 0.7);
+			pointer.graphics.drawCircle(0, 0, 30);
 			pointer.graphics.endFill();
 			pointer.visible = false;
 			addChild(pointer);

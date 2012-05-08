@@ -2,14 +2,14 @@ package collaboRhythm.plugins.foraD40b.controller
 {
 	import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
 	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseHealthActionInputView;
-	import collaboRhythm.plugins.foraD40b.view.EatSomethingSugaryView;
-	import collaboRhythm.plugins.foraD40b.view.RecheckBloodGlucoseTimerView;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import flash.net.URLVariables;
+
+	import mx.binding.utils.BindingUtils;
 
 	import spark.components.ViewNavigator;
 	import spark.transitions.SlideViewTransition;
@@ -28,41 +28,48 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel = new BloodGlucoseHealthActionInputModel(scheduleItemOccurrence,
 					healthActionModelDetailsProvider);
 			_viewNavigator = viewNavigator;
+
+			BindingUtils.bindSetter(currentView_changeHandler, _dataInputModel, "currentView");
 		}
 
-		public function showHealthActionInputView():void
+		public function handleHealthActionResult():void
+		{
+			_dataInputModel.handleHealthActionResult();
+		}
+
+		public function handleUrlVariables(urlVariables:URLVariables):void
+		{
+			_dataInputModel.handleUrlVariables(urlVariables);
+		}
+
+		private function currentView_changeHandler(currentView:Class):void
+		{
+			if (currentView == null)
+			{
+				if (_dataInputModel.pushedViewCount != 0)
+				{
+					for (var pushedViewIndex:int = 0; pushedViewIndex < _dataInputModel.pushedViewCount;
+						 pushedViewIndex++)
+					{
+						_viewNavigator.popView();
+					}
+				}
+			}
+			else
+			{
+				pushView(currentView);
+			}
+		}
+		public function pushView(currentView:Class):void
 		{
 			var healthActionInputModelAndController:HealthActionInputModelAndController = new HealthActionInputModelAndController(_dataInputModel,
 					this);
-
-			_dataInputModel.pushedViewCount += 1;
-			_viewNavigator.pushView(HEALTH_ACTION_INPUT_VIEW_CLASS, healthActionInputModelAndController, null,
-					new SlideViewTransition());
-		}
-
-		public function updateVariables(urlVariables:URLVariables):void
-		{
-			_dataInputModel.urlVariables = urlVariables;
+			_viewNavigator.pushView(currentView, healthActionInputModelAndController, null,	new SlideViewTransition());
 		}
 
 		public function submitBloodGlucose(bloodGlucose:String):void
 		{
-			_dataInputModel.bloodGlucose = bloodGlucose;
-			if (int(_dataInputModel.bloodGlucose) < 60)
-			{
-				var healthActionInputModelAndController:HealthActionInputModelAndController = new HealthActionInputModelAndController(_dataInputModel,
-						this);
-				_dataInputModel.pushedViewCount += 1;
-				_viewNavigator.pushView(EatSomethingSugaryView, healthActionInputModelAndController);
-			}
-			else
-			{
-				for (var pushedViewIndex:int = 0; pushedViewIndex < _dataInputModel.pushedViewCount; pushedViewIndex++)
-				{
-					_viewNavigator.popView();
-				}
-			}
-			_dataInputModel.submitBloodGlucose();
+			_dataInputModel.submitBloodGlucose(bloodGlucose);
 		}
 
 		public function get healthActionInputViewClass():Class
@@ -70,18 +77,14 @@ package collaboRhythm.plugins.foraD40b.controller
 			return HEALTH_ACTION_INPUT_VIEW_CLASS;
 		}
 
-		public function showRecheckBloodGlucoseTimer():void
-		{
-			var healthActionInputModelAndController:HealthActionInputModelAndController = new HealthActionInputModelAndController(_dataInputModel,
-					this);
-			_dataInputModel.repeatCount += 1;
-			_dataInputModel.pushedViewCount += 1;
-			_viewNavigator.pushView(RecheckBloodGlucoseTimerView, healthActionInputModelAndController);
-		}
-
 		public function recheckBloodGlucose():void
 		{
-			showHealthActionInputView();
+			handleHealthActionResult();
+		}
+
+		public function showRecheckBloodGlucoseTimer():void
+		{
+			_dataInputModel.pushWaitView();
 		}
 	}
 }

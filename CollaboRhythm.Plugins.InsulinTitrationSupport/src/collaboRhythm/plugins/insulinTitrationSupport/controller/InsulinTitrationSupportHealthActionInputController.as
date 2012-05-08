@@ -8,8 +8,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 
 	import flash.net.URLVariables;
 
-	import mx.controls.Alert;
-
 	import spark.components.ViewNavigator;
 
 	public class InsulinTitrationSupportHealthActionInputController implements IHealthActionInputController
@@ -27,14 +25,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 			_viewNavigator = viewNavigator;
 		}
 
-		public function showHealthActionInputView():void
+		public function handleHealthActionResult():void
 		{
 //			Alert.show("Show insulin titration support health action input view.")
 
 			_dataInputModel.showCharts();
 		}
 
-		public function updateVariables(urlVariables:URLVariables):void
+		public function handleUrlVariables(urlVariables:URLVariables):void
 		{
 		}
 

@@ -26,7 +26,7 @@ package collaboRhythm.plugins.painReport.controller
 			_viewNavigator = viewNavigator;
 		}
 
-		public function showHealthActionInputView():void
+		public function handleHealthActionResult():void
 		{
 			var dataInputModelAndController:HealthActionInputModelAndController = new HealthActionInputModelAndController(_dataInputModel,
 					this);
@@ -35,7 +35,7 @@ package collaboRhythm.plugins.painReport.controller
 					new SlideViewTransition());
 		}
 
-		public function updateVariables(urlVariables:URLVariables):void
+		public function handleUrlVariables(urlVariables:URLVariables):void
 		{
 
 		}

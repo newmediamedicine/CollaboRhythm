@@ -33,7 +33,6 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.AppEvent;
 	import collaboRhythm.shared.model.InteractionLogUtil;
-	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import flash.desktop.NativeApplication;
 	import flash.events.InvokeEvent;
@@ -85,9 +84,9 @@ package collaboRhythm.plugins.schedule.controller
 						_activeRecordAccount.accountId);
 				_activeRecordAccount.primaryRecord.appData.put(ScheduleModelKey.SCHEDULE_MODEL_KEY, _scheduleModel);
 				_activeRecordAccount.primaryRecord.appData.put(AdherencePerformanceModel.ADHERENCE_PERFORMANCE_MODEL_KEY,
-															   _scheduleModel.adherencePerformanceModel);
+						_scheduleModel.adherencePerformanceModel);
 				_scheduleModel.addEventListener(ScheduleModelEvent.INITIALIZED, scheduleModel_initializedHandler, false,
-												0, true);
+						0, true);
 			}
 		}
 
@@ -165,22 +164,30 @@ package collaboRhythm.plugins.schedule.controller
 				var urlVariablesString:String = urlString.split("//")[1];
 				var urlVariables:URLVariables = new URLVariables(urlVariablesString);
 
-                if (urlVariables.success == "true")
-                {
+				if (urlVariables.success == "true")
+				{
 					var healthActionInputController:IHealthActionInputController = scheduleModel.healthActionInputControllerFactory.createDeviceHealthActionInputController(urlVariables,
 							scheduleModel, scheduleModel, _viewNavigator);
 
-                    if (ReflectionUtils.getClass(_viewNavigator.activeView) == healthActionInputController.healthActionInputViewClass)
-                    {
-                        var healthActionInputView:IHealthActionInputView = IHealthActionInputView(_viewNavigator.activeView);
-                        healthActionInputView.healthActionInputController.updateVariables(urlVariables);
-                    }    
-                    else
-                    {
-                        healthActionInputController.showHealthActionInputView();
-						healthActionInputController.updateVariables(urlVariables);
-                    }
-                }
+					if (_viewNavigator.activeView as IHealthActionInputView)
+					{
+						var healthActionInputView:IHealthActionInputView = _viewNavigator.activeView as
+								IHealthActionInputView;
+						if (ReflectionUtils.getClass(healthActionInputView.healthActionInputController) ==
+								ReflectionUtils.getClass(healthActionInputController))
+						{
+							healthActionInputView.healthActionInputController.handleUrlVariables(urlVariables);
+						}
+						else
+						{
+							healthActionInputController.handleUrlVariables(urlVariables)
+						}
+					}
+					else
+					{
+						healthActionInputController.handleUrlVariables(urlVariables);
+					}
+				}
 			}
 		}
 
@@ -222,7 +229,7 @@ package collaboRhythm.plugins.schedule.controller
 		private function showFullViewHandler(event:AppEvent):void
 		{
 			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, event.appController, event.startRect,
-									   event.applicationName, event.viaMechanism));
+					event.applicationName, event.viaMechanism));
 		}
 
 		private function hideFullViewHandler(event:AppEvent):void
@@ -241,7 +248,7 @@ package collaboRhythm.plugins.schedule.controller
 			if (!_scheduleClockController)
 			{
 				_scheduleClockController = new ScheduleClockController(scheduleModel,
-																	   _widgetView as ScheduleClockWidgetView);
+						_widgetView as ScheduleClockWidgetView);
 				_scheduleClockController.addEventListener(AppEvent.SHOW_FULL_VIEW, showFullViewHandler, false, 0, true);
 			}
 			return _scheduleClockController;
@@ -252,7 +259,7 @@ package collaboRhythm.plugins.schedule.controller
 			if (!_scheduleTimelineController)
 			{
 				_scheduleTimelineController = new ScheduleTimelineController(scheduleModel,
-																			 _fullView as ScheduleTimelineFullView);
+						_fullView as ScheduleTimelineFullView);
 			}
 			return _scheduleTimelineController;
 		}
@@ -261,11 +268,12 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			if (!_scheduleReportingController)
 			{
-				_scheduleReportingController = new ScheduleReportingController(scheduleModel, _fullView as ScheduleReportingFullView, _viewNavigator);
+				_scheduleReportingController = new ScheduleReportingController(scheduleModel,
+						_fullView as ScheduleReportingFullView, _viewNavigator);
 				_scheduleReportingController.addEventListener(AppEvent.HIDE_FULL_VIEW, hideFullViewHandler, false, 0,
-															  true);
+						true);
 				_scheduleReportingController.addEventListener(AppEvent.SHOW_FULL_VIEW, showFullViewHandler, false, 0,
-															  true);
+						true);
 			}
 			return _scheduleReportingController;
 		}
@@ -278,7 +286,7 @@ package collaboRhythm.plugins.schedule.controller
 				if (_scheduleModel.hasEventListener(ScheduleModelEvent.INITIALIZED))
 				{
 					_scheduleModel.removeEventListener(ScheduleModelEvent.INITIALIZED,
-													   scheduleModel_initializedHandler);
+							scheduleModel_initializedHandler);
 				}
 				if (_scheduleModel.hasEventListener(AppEvent.SHOW_FULL_VIEW))
 				{

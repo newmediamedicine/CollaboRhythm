@@ -32,13 +32,14 @@ package collaboRhythm.core.controller
 	import collaboRhythm.core.view.ConnectivityView;
 	import collaboRhythm.shared.collaboration.controller.CollaborationController;
 	import collaboRhythm.shared.collaboration.controller.CollaborationEvent;
+	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionEvent;
+	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
+	import collaboRhythm.shared.collaboration.view.CollaborationView;
 	import collaboRhythm.shared.controller.IApplicationControllerBase;
 	import collaboRhythm.shared.controller.ICollaborationController;
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.BackgroundProcessCollectionModel;
-	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionEvent;
-	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.IApplicationNavigationProxy;
 	import collaboRhythm.shared.model.InteractionLogUtil;
 	import collaboRhythm.shared.model.healthRecord.AccountInformationHealthRecordService;
@@ -56,7 +57,6 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.model.settings.SettingsFileStore;
-	import collaboRhythm.shared.collaboration.view.CollaborationView;
 
 	import com.coltware.airxlib.log.TCPSyslogTarget;
 	import com.daveoncode.logging.LogFileTarget;
@@ -1373,6 +1373,10 @@ package collaboRhythm.core.controller
 		public function set activeAccount(value:Account):void
 		{
 			_activeAccount = value;
+		}
+
+		public function navigateHome(source:String):void
+		{
 		}
 	}
 }
