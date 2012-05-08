@@ -77,14 +77,19 @@ package collaboRhythm.plugins.foraD40b.controller
 			return HEALTH_ACTION_INPUT_VIEW_CLASS;
 		}
 
-		public function recheckBloodGlucose():void
-		{
-			handleHealthActionResult();
-		}
-
-		public function showRecheckBloodGlucoseTimer():void
+		public function pushWaitView():void
 		{
 			_dataInputModel.pushWaitView();
+		}
+
+		public function startWaitTimer():void
+		{
+			_dataInputModel.startWaitTimer();
+		}
+
+		public function cancelBloodGlucose():void
+		{
+			_dataInputModel.cancelBloodGlucose();
 		}
 	}
 }

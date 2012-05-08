@@ -324,26 +324,21 @@
 			<s:HGroup gap="0" includeInLayout="{_applicationController.activeRecordAccount != null}"
 					  visible="{_applicationController.activeRecordAccount != null}">
 				<s:Button icon="{VideoIcon}" includeIn="TabletHomeViewCollaborationActive, OtherCollaborationActive"
-						  skinClass="collaboRhythm.tablet.view.skins.TabletTransparentNavigationButtonSkin"
 						  click="_applicationController.showCollaborationVideoView('local')"/>
 				<s:Button icon="{OnlineIcon}" includeIn="patientCollaborationInactive"
-						  skinClass="collaboRhythm.tablet.view.skins.TabletTransparentNavigationButtonSkin"
 						  includeInLayout="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}"
 						  visible="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}"/>
 				<s:Button icon="{OfflineIcon}"
-						  skinClass="collaboRhythm.tablet.view.skins.TabletTransparentNavigationButtonSkin"
 						  includeInLayout="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_NOT_CONNECTED}"
 						  visible="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_NOT_CONNECTED}"/>
 				<s:Button icon="{CallIcon}" includeIn="clinicianCollaborationInactive"
-						  skinClass="collaboRhythm.tablet.view.skins.TabletTransparentNavigationButtonSkin"
 						  visible="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}"
 						  includeInLayout="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}"
 						  click="_applicationController.sendCollaborationInvitation()"/>
 				<s:Button icon="{EndCallIcon}"
 						  includeIn="CollaborationInvitationReceived, CollaborationInvitationSent, CollaborationActive"
-						  skinClass="collaboRhythm.tablet.view.skins.TabletTransparentNavigationButtonSkin"
 						  includeInLayout="{_applicationController.collaborationController.collaborationModel.collaborationState != CollaborationModel.COLLABORATION_INACTIVE}"
-						click="_applicationController.endCollaboration()"/>
+						  click="_applicationController.endCollaboration()"/>
 			</s:HGroup>
 		</s:HGroup>
 

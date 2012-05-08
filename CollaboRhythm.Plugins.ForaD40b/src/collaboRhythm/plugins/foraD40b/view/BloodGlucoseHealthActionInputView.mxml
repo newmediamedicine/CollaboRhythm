@@ -21,10 +21,10 @@
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
 					   creationComplete="creationCompleteHandler(event)"
-					   addedToStage="addedToStageHandler()"
-					   title="Report Blood Glucose">
+					   addedToStage="addedToStageHandler()">
 	<fx:Declarations>
 		<s:Button id="saveButton" label="Save" click="saveButton_clickHandler()"/>
+		<s:Button id="cancelButton" label="Cancel" click="cancelButton_clickHandler()"/>
 	</fx:Declarations>
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
@@ -67,14 +67,32 @@
 			_dataInputModel = BloodGlucoseHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
 			_dataInputController = BloodGlucoseHealthActionInputController(dataInputModelAndController.healthActionInputController);
 
+			if (_dataInputModel.repeatCount == 0)
+			{
+				title = "Report Blood Glucose"
+			}
+			else
+			{
+				title = "Hypoglycemia Action Plan - Step 3: Recheck Blood Glucose"
+			}
+
 			BindingUtils.bindSetter(setDeviceBloodGlucose, _dataInputModel, "deviceBloodGlucose");
+			BindingUtils.bindSetter(handleInvalidBloodGlucose, _dataInputModel, "invalidBloodGlucose");
 		}
 
 		private function setDeviceBloodGlucose(deviceBloodGlucose:String):void
 		{
-			if (_dataInputModel.deviceBloodGlucose != "" && bloodGlucoseTextInput)
+			if (deviceBloodGlucose != "" && bloodGlucoseTextInput)
 			{
 				showDeviceBloodGlucose();
+			}
+		}
+
+		private function handleInvalidBloodGlucose(invalidBloodGlucose:Boolean):void
+		{
+			if (invalidBloodGlucose)
+			{
+				//TODO: Decide whether to show an alert or flash the text box
 			}
 		}
 
@@ -82,9 +100,8 @@
 		{
 			if (_dataInputModel.repeatCount > 0)
 			{
-				hypoglycemiaWarningView.init(_dataInputModel);
-				hypoglycemiaWarningView.visible = true;
-				recheckLabel.visible = true;
+				hypoglycemiaActionPlanView.init(_dataInputModel);
+				hypoglycemiaActionPlanView.visible = true;
 			}
 
 
@@ -96,6 +113,7 @@
 
 		private function showDeviceBloodGlucose():void
 		{
+			wirelessIcon.visible = true;
 			bloodGlucoseTextInput.setStyle("skinClass", TextInputSkin);
 			bloodGlucoseTextInput.text = _dataInputModel.deviceBloodGlucose;
 			bloodGlucoseTextInput.enabled = false;
@@ -109,12 +127,11 @@
 		override protected function createChildren():void
 		{
 			super.createChildren();
+			if (_dataInputModel.repeatCount == 0)
+			{
+				actionContent.unshift(cancelButton);
+			}
 			actionContent.unshift(saveButton);
-		}
-
-		private function saveButton_clickHandler():void
-		{
-			_dataInputController.submitBloodGlucose(bloodGlucoseTextInput.text);
 		}
 
 		private function addedToStageHandler():void
@@ -138,21 +155,29 @@
 				super.homeButton_clickHandler();
 			}
 		}
+
+		private function saveButton_clickHandler():void
+		{
+			_dataInputController.submitBloodGlucose(bloodGlucoseTextInput.text);
+		}
+
+		private function cancelButton_clickHandler():void
+		{
+			_dataInputController.cancelBloodGlucose();
+		}
 		]]></fx:Script>
-	<view:HypoglycemiaWarningView id="hypoglycemiaWarningView" visible="false"/>
+	<view:HypoglycemiaActionPlanView id="hypoglycemiaActionPlanView" visible="false"/>
 	<s:Group height="100%" width="100%">
-		<s:Label id="recheckLabel" text="Please recheck now." top="100" visible="false" horizontalCenter="0"/>
-		<s:VGroup horizontalCenter="0" verticalCenter="0" horizontalAlign="center">
-			<s:HGroup id="bloodGlucoseGroup" gap="15" paddingTop="20" verticalAlign="middle">
-				<s:Image source="http://www.mit.edu/~jom/temp/equipment/FORA D40b.png" width="140" height="140"
-						 smooth="true"/>
-				<s:Group width="240" height="130">
-					<s:TextInput id="bloodGlucoseTextInput" width="100%" height="100%"
-								 skinClass="spark.skins.mobile.StageTextInputSkin" styleName="textInputText"
-								 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number"/>
-				</s:Group>
-				<s:Label text="mg/dL" verticalCenter="0" styleName="reportingLabelsText"/>
-			</s:HGroup>
-		</s:VGroup>
+		<s:HGroup id="bloodGlucoseGroup" gap="15" verticalAlign="middle" horizontalCenter="0" top="200">
+			<s:Image source="http://www.mit.edu/~jom/temp/equipment/FORA D40b.png" width="140" height="140"
+					 smooth="true"/>
+			<view:WirelessIcon id="wirelessIcon" visible="false"/>
+			<s:Group width="240" height="130">
+				<s:TextInput id="bloodGlucoseTextInput" width="100%" height="100%"
+							 skinClass="spark.skins.mobile.StageTextInputSkin" styleName="textInputText"
+							 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number"/>
+			</s:Group>
+			<s:Label text="mg/dL" verticalCenter="0" styleName="reportingLabelsText"/>
+		</s:HGroup>
 	</s:Group>
 </tablet:TabletViewBase>

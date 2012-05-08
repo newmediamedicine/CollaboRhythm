@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="2.0" viewHeight="25" viewWidth="50" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+  <Library/>
+  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="25" d:pageWidth="50" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:objID="9e46780" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+      <Group y="0.233398" ai:objID="25f8bd00" ai:seqID="3" flm:knockout="false">
+        <Line yFrom="12.2666" xTo="46.7466" yTo="12.2666" ai:objID="1b0b8d80" ai:seqID="4">
+          <stroke>
+            <SolidColorStroke weight="3" caps="none" joints="miter" miterLimit="10" color="#666766"/>
+          </stroke>
+        </Line>
+        <Path x="34.7598" winding="nonZero" ai:objID="1b0af780" ai:seqID="5" data="M2.04639 24.5361 0 22.3389 10.8354 12.2695 0 2.19727 2.04639 0 15.2402 12.2695 2.04639 24.5361Z">
+          <fill>
+            <SolidColor color="#666766"/>
+          </fill>
+        </Path>
+      </Group>
+    </Group>
+  </Group>
+  <Private>
+      <ai:PrivateElement d:ref="#1">
+        <ai:SaveOptions>
+          <ai:Dict data="I rasterizeResolution 72 I preserveGradientPolicy 4 I preserveFilterPolicy 3 I expandBlendsOption 5 B downsampleLinkedImages 0 I preserveTextPolicy 4 B includeObjectOutsideArtboard 0 B aiEditCap 1 B writeImages 1 B includeXMP 0 B includeSymbol 0 I versionKey 2 "/>
+        </ai:SaveOptions>
+        <ai:DocData base="Arrow.assets/images" rulerCanvasDiffH="600.5" rulerCanvasDiffV="100.5">
+          <ai:DocRasterSettings>
+            <ai:Dict data="R padd 36 B mask 0 B spot 1 B alis 0 I dpi. 300 I colr 5 "/>
+          </ai:DocRasterSettings>
+        </ai:DocData>
+        <ai:AutoGenImageList>
+          <ai:Dict/>
+        </ai:AutoGenImageList>
+      </ai:PrivateElement>
+      <ai:PrivateElement flm:hashcode="757472E42A9BEC6495A294E49B695FD3" d:ref="#2">
+        <ai:LayerOptions color="5 79.31 257 128.502"/>
+      </ai:PrivateElement>
+    </Private>
+  </Graphic>

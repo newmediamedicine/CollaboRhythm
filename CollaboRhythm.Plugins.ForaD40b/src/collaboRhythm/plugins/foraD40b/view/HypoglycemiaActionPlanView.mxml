@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
+		 width="100%" height="100%">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		.warningText {
+			color: #ED1C24;
+			fontSize: 36;
+		}
+
+		.actionPlanStepLarge {
+			fontSize: 36;
+		}
+
+		.actionPlanStepSmall {
+			fontSize: 24;
+		}
+
+		.stepNumber {
+			fontSize: 46;
+		}
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
+
+		import spark.filters.ColorMatrixFilter;
+
+		[Bindable]
+		private var _dataInputModel:BloodGlucoseHealthActionInputModel;
+
+		public function init(dataInputModel:BloodGlucoseHealthActionInputModel):void
+		{
+			_dataInputModel = dataInputModel;
+
+			var grayscaleFilter:ColorMatrixFilter = new ColorMatrixFilter([0.3, 0.59, 0.11, 0, 0,
+				0.3, 0.59, 0.11, 0, 0,
+				0.3, 0.59, 0.11, 0, 0,
+				0, 0, 0, 1, 0]);
+
+			if (_dataInputModel.currentView == EatView)
+			{
+				waitHGroup.alpha = 0.3;
+				waitHGroup.filters = [grayscaleFilter];
+
+				recheckHGroup.alpha = 0.3;
+				recheckHGroup.filters = [grayscaleFilter];
+			}
+			else if (_dataInputModel.currentView == WaitView)
+			{
+				eatHGroup.alpha = 0.3;
+				eatHGroup.filters = [grayscaleFilter];
+
+				recheckHGroup.alpha = 0.3;
+				recheckHGroup.filters = [grayscaleFilter];
+			}
+			else if (_dataInputModel.currentView == BloodGlucoseHealthActionInputView)
+			{
+				eatHGroup.alpha = 0.3;
+				eatHGroup.filters = [grayscaleFilter];
+
+				waitHGroup.alpha = 0.3;
+				waitHGroup.filters = [grayscaleFilter];
+			}
+
+			bloodGlucoseLabel.text = _dataInputModel.bloodGlucose + " mg/dL";
+		}
+		]]></fx:Script>
+	<s:Group width="100%" height="110">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0xF4F4F4"/>
+			</s:fill>
+		</s:Rect>
+		<s:HGroup paddingLeft="20" paddingTop="20" gap="70">
+			<s:HGroup gap="10">
+				<view:WarningIcon/>
+				<s:VGroup paddingTop="10" gap="0">
+					<s:Label text="Hypoglycemia" styleName="actionPlanStepLarge"/>
+					<s:Label id="bloodGlucoseLabel" styleName="actionPlanStepSmall"/>
+				</s:VGroup>
+			</s:HGroup>
+			<s:HGroup gap="25" verticalAlign="middle">
+				<s:HGroup id="eatHGroup" gap="10">
+					<s:Group>
+						<s:Ellipse width="70" height="70">
+							<s:fill>
+								<s:SolidColor color="0xF7941E"/>
+							</s:fill>
+						</s:Ellipse>
+						<s:Label text="1" styleName="stepNumber" horizontalCenter="1" verticalCenter="3"/>
+					</s:Group>
+					<s:VGroup paddingTop="10" gap="0">
+						<s:Label text="Eat" styleName="actionPlanStepLarge"/>
+						<s:Label text="Quick Sugar" styleName="actionPlanStepSmall"/>
+					</s:VGroup>
+				</s:HGroup>
+				<view:Arrow id="waitArrow" alpha="0.3"/>
+				<s:HGroup id="waitHGroup" gap="10">
+					<s:Group>
+						<s:Ellipse width="70" height="70">
+							<s:fill>
+								<s:SolidColor color="0xF7941E"/>
+							</s:fill>
+						</s:Ellipse>
+						<s:Label text="2" styleName="stepNumber" horizontalCenter="1" verticalCenter="3"/>
+					</s:Group>
+					<s:VGroup paddingTop="10" gap="0">
+						<s:Label text="Wait" styleName="actionPlanStepLarge"/>
+						<s:Label text="15 Minutes" styleName="actionPlanStepSmall"/>
+					</s:VGroup>
+				</s:HGroup>
+				<view:Arrow id="recheckArrow" alpha="0.3" verticalCenter="0"/>
+				<s:HGroup id="recheckHGroup" gap="10">
+					<s:Group>
+						<s:Ellipse width="70" height="70">
+							<s:fill>
+								<s:SolidColor color="0xF7941E"/>
+							</s:fill>
+						</s:Ellipse>
+						<s:Label text="3" styleName="stepNumber" horizontalCenter="1" verticalCenter="3"/>
+					</s:Group>
+					<s:VGroup paddingTop="10" gap="0">
+						<s:Label text="Recheck" styleName="actionPlanStepLarge"/>
+						<s:Label text="Blood Glucose" styleName="actionPlanStepSmall"/>
+					</s:VGroup>
+				</s:HGroup>
+			</s:HGroup>
+		</s:HGroup>
+		<s:Line left="0" right="0" bottom="0">
+			<s:stroke>
+				<s:SolidColorStroke color="0x666766"/>
+			</s:stroke>
+		</s:Line>
+	</s:Group>
+
+	<s:Group width="100%" height="56" bottom="0">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0x000000"/>
+			</s:fill>
+		</s:Rect>
+		<s:Label text="If you need help, call 911." styleName="warningText" bottom="8" horizontalCenter="0"/>
+	</s:Group>
+</s:Group>

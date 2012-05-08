@@ -50,7 +50,6 @@
 	<fx:Script>
 	    <![CDATA[
 		import collaboRhythm.plugins.healthActions.model.HealthActionsModel;
-		import collaboRhythm.plugins.schedule.shared.controller.HealthActionListViewControllerBase;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewModel;
@@ -72,7 +71,7 @@
 			{
 				super.data = value;
 
-				var healthActionListViewAdapter:IHealthActionListViewAdapter = IHealthActionListViewAdapter(value);
+				var healthActionListViewAdapter:IHealthActionListViewAdapter = value as IHealthActionListViewAdapter;
 
 				var healthActionsList:HealthActionsList = HealthActionsList(owner);
 				var healthActionsModel:HealthActionsModel = healthActionsList.healthActionsModel;

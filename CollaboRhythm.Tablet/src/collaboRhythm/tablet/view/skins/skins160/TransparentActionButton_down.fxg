@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+
+	ADOBE SYSTEMS INCORPORATED
+	Copyright 2010 Adobe Systems Incorporated
+	All Rights Reserved.
+
+	NOTICE: Adobe permits you to use, modify, and distribute this file
+	in accordance with the terms of the license agreement accompanying it.
+
+-->
+
+<Graphic version="2.0" xmlns="http://ns.adobe.com/fxg/2008"
+		 scaleGridTop="6" scaleGridBottom="59" scaleGridLeft="6" scaleGridRight="74"
+		 xmlns:s="http://ns.adobe.com/fxg/2008">
+
+	<!-- inner glow -->
+	<Rect x="0" y="0" width="80" height="65">
+		<fill>
+			<s:SolidColor color="#2d7b97"/>
+		</fill>
+	</Rect>
+
+	<!-- separator -->
+	<Rect x="0" y="10" width="1" height="45">
+		<fill>
+			<SolidColor color="#888888" alpha="0.8"/>
+		</fill>
+	</Rect>
+
+	<!-- invisible fix for scaling -->
+	<Rect x="0" y="1" width="82" height="63">
+		<fill>
+			<SolidColor color="#ffffff" alpha="0"/>
+		</fill>
+	</Rect>
+
+</Graphic>

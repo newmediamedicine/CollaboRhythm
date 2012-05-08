@@ -22,7 +22,7 @@
 					   creationComplete="creationCompleteHandler(event)"
 					   addedToStage="addedToStageHandler()"
 					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
-					   title="Low Blood Glucose - Countdown to Next Blood Glucose Measurement">
+					   title="Hypoglycemia Action Plan - Step 2: Wait 15 Minutes">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 
@@ -40,15 +40,12 @@
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 
+		import mx.binding.utils.BindingUtils;
 		import mx.events.FlexEvent;
 
-		private static const TIMER_COUNT:int = 9;
-
+		[Bindable]
 		private var _dataInputModel:BloodGlucoseHealthActionInputModel;
 		private var _dataInputController:BloodGlucoseHealthActionInputController;
-
-		private var _timer:Timer;
-		private var _seconds:int;
 
 		override public function set data(value:Object):void
 		{
@@ -64,33 +61,17 @@
 		{
 			hypoglycemiaWarningView.init(_dataInputModel);
 
-			_seconds = TIMER_COUNT;
+			_dataInputController.startWaitTimer();
 
-			recheckLabel.text = "Recheck in " + String(_seconds / 60) + " minutes.";
-			updateTimerLabel();
+			updateTimerLabel(BloodGlucoseHealthActionInputModel.TIMER_COUNT);
 
-			_timer = new Timer(1000, _seconds);
-			_timer.addEventListener(TimerEvent.TIMER, timerHandler);
-			_timer.addEventListener(TimerEvent.TIMER_COMPLETE, timerCompleteHandler);
-			_timer.start();
+			BindingUtils.bindSetter(updateTimerLabel, _dataInputModel, "seconds");
 		}
 
-		private function timerCompleteHandler(event:TimerEvent):void
+		private function updateTimerLabel(totalSeconds:int):void
 		{
-			_dataInputController.recheckBloodGlucose();
-		}
-
-		private function timerHandler(event:TimerEvent):void
-		{
-			updateTimerLabel();
-		}
-
-		private function updateTimerLabel():void
-		{
-			_seconds--;
-
-			var minutes:int = _seconds / 60;
-			var seconds:int = _seconds % 60;
+			var minutes:int = totalSeconds / 60;
+			var seconds:int = totalSeconds % 60;
 
 			if (minutes < 10)
 			{
@@ -137,7 +118,6 @@
 			return _dataInputController;
 		}
 		]]></fx:Script>
-	<view:HypoglycemiaWarningView id="hypoglycemiaWarningView"/>
-	<s:Label id="recheckLabel" top="100" horizontalCenter="0"/>
+	<view:HypoglycemiaActionPlanView id="hypoglycemiaWarningView"/>
 	<s:Label id="timerLabel" verticalCenter="0" horizontalCenter="0"/>
 </tablet:TabletViewBase>

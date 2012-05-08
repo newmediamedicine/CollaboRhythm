@@ -10,7 +10,9 @@ package collaboRhythm.plugins.foraD40b.model
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 
+	import flash.events.TimerEvent;
 	import flash.net.URLVariables;
+	import flash.utils.Timer;
 
 	[Bindable]
 	public class BloodGlucoseHealthActionInputModel extends HealthActionInputModelBase
@@ -26,6 +28,7 @@ package collaboRhythm.plugins.foraD40b.model
 		public static const HYPERGLYCEMIA:String = "Hyperglycemia";
 
 		private var _deviceBloodGlucose:String = "";
+		private var _invalidBloodGlucose:Boolean = false;
 
 		private var _bloodGlucose:String = "";
 		private var _glycemicState:String;
@@ -33,6 +36,11 @@ package collaboRhythm.plugins.foraD40b.model
 
 		private var _currentView:Class;
 		private var _pushedViewCount:int = 0;
+
+		public static const TIMER_COUNT:int = 9;
+
+		private var _timer:Timer;
+		private var _seconds:int;
 
 		public function BloodGlucoseHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence = null,
 														   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider = null)
@@ -49,11 +57,7 @@ package collaboRhythm.plugins.foraD40b.model
 		{
 			deviceBloodGlucose = urlVariables.bloodGlucose;
 
-			if ((currentView == EatView || currentView == WaitView) && (glycemicState == SEVERE_HYPOGLYCEMIA || glycemicState == HYPOGLYCEMIA))
-			{
-//				pushView(PrematureBloodGlucosePopUp);
-			}
-			else if (currentView != BloodGlucoseHealthActionInputView)
+			if (currentView != BloodGlucoseHealthActionInputView)
 			{
 				pushView(BloodGlucoseHealthActionInputView);
 			}
@@ -62,6 +66,18 @@ package collaboRhythm.plugins.foraD40b.model
 		}
 
 		public function submitBloodGlucose(bloodGlucose:String):void
+		{
+			if (bloodGlucose != "")
+			{
+				saveBloodGlucose(bloodGlucose);
+			}
+			else
+			{
+				invalidBloodGlucose = true;
+			}
+		}
+
+		private function saveBloodGlucose(bloodGlucose:String):void
 		{
 			this.bloodGlucose = bloodGlucose;
 
@@ -115,6 +131,31 @@ package collaboRhythm.plugins.foraD40b.model
 			pushView(WaitView);
 		}
 
+		public function cancelBloodGlucose():void
+		{
+			currentView = null;
+		}
+
+		public function startWaitTimer():void
+		{
+			seconds = BloodGlucoseHealthActionInputModel.TIMER_COUNT;
+
+			timer = new Timer(1000, seconds);
+			timer.addEventListener(TimerEvent.TIMER, timerHandler);
+			timer.addEventListener(TimerEvent.TIMER_COMPLETE, timerCompleteHandler);
+			timer.start();
+		}
+
+		private function timerCompleteHandler(event:TimerEvent):void
+		{
+			handleHealthActionResult();
+		}
+
+		private function timerHandler(event:TimerEvent):void
+		{
+			seconds--;
+		}
+
 		override public function set urlVariables(value:URLVariables):void
 		{
 			bloodGlucose = value.bloodGlucose;
@@ -137,15 +178,15 @@ package collaboRhythm.plugins.foraD40b.model
 			else if ((repeatCount == 0 && bloodGlucoseValue < HYPOGLYCEMIA_THRESHOLD) ||
 					(repeatCount > 0 && bloodGlucoseValue < REPEAT_HYPOGLYCEMIA_THRESHOLD))
 			{
-				glycemicState =  HYPOGLYCEMIA;
+				glycemicState = HYPOGLYCEMIA;
 			}
 			else if (bloodGlucoseValue < HYPERGLYCEMIA_THRESHOLD)
 			{
-				glycemicState =  NORMOGLYCEMIA;
+				glycemicState = NORMOGLYCEMIA;
 			}
 			else
 			{
-				glycemicState =  HYPERGLYCEMIA;
+				glycemicState = HYPERGLYCEMIA;
 			}
 
 			_bloodGlucose = value;
@@ -199,6 +240,36 @@ package collaboRhythm.plugins.foraD40b.model
 		public function set pushedViewCount(value:int):void
 		{
 			_pushedViewCount = value;
+		}
+
+		public function get timer():Timer
+		{
+			return _timer;
+		}
+
+		public function set timer(value:Timer):void
+		{
+			_timer = value;
+		}
+
+		public function get seconds():int
+		{
+			return _seconds;
+		}
+
+		public function set seconds(value:int):void
+		{
+			_seconds = value;
+		}
+
+		public function get invalidBloodGlucose():Boolean
+		{
+			return _invalidBloodGlucose;
+		}
+
+		public function set invalidBloodGlucose(value:Boolean):void
+		{
+			_invalidBloodGlucose = value;
 		}
 	}
 }

@@ -203,6 +203,16 @@ s|ActionBar s|Button
     fontWeight: "normal";
 }
 
+s|ActionBar s|Group#navigationGroup s|Button
+{
+	skinClass: ClassReference("collaboRhythm.tablet.view.skins.TabletTransparentNavigationButtonSkin");
+}
+
+s|ActionBar s|Group#actionGroup s|Button
+{
+	skinClass: ClassReference("collaboRhythm.tablet.view.skins.TabletTransparentActionButtonSkin");
+}
+
 @media (application-dpi: 320) {
 	#activeRecordGivenName
 	{
