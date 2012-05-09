@@ -91,7 +91,7 @@
 						represented by ActionSteps, and the internal nodes are represented by ActionGroups. Required
 					</xs:documentation>
 				</xs:annotation>
-				<xs:complexType >
+				<xs:complexType>
 					<xs:sequence>
 						<xs:element name="action" type="indivo:Action" minOccurs="1" maxOccurs="unbounded">
 							<xs:annotation>
