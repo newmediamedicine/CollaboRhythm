@@ -27,10 +27,12 @@
 -->
 
 	<!-- invisible fix for scaling -->
+<!--
 	<Rect x="0" y="0" width="80" height="65">
 		<fill>
 			<SolidColor color="#ffffff" alpha="0"/>
 		</fill>
 	</Rect>
-	
+-->
+
 </Graphic>

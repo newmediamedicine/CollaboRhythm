@@ -1,8 +1,10 @@
 package collaboRhythm.plugins.insulinTitrationSupport.view
 {
 	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationDecisionPanelModel;
+	import collaboRhythm.plugins.insulinTitrationSupport.view.skins.SolidFillButtonSkin;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.skins.TransparentButtonSkin;
 	import collaboRhythm.shared.model.StringUtils;
+	import collaboRhythm.shared.ui.healthCharts.view.DashedGraphicUtilities;
 	import collaboRhythm.shared.ui.healthCharts.view.SynchronizedHealthCharts;
 
 	import flash.events.Event;
@@ -36,8 +38,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		private var _dosageDecreaseButton:Button;
 
 		private static const SUGGESTED_CHANGE_LABEL_COLOR:int = 0x000000;
-
 		private static const OTHER_CHANGE_LABEL_COLOR:int = 0xBFBFBF;
+		private static const SUGGESTED_CHANGE_BACKGROUND_COLOR:int = 0xF7941E;
+		private static const OTHER_CHANGE_BACKGROUND_COLOR:int = 0xFFFFFF;
+
 		private const PREREQUISITE_SATISFIED_ARROW_ALPHA:Number = 1;
 		private const PREREQUISITE_NOT_SATISFIED_ARROW_ALPHA:Number = 0.25;
 
@@ -123,16 +127,23 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 		private function updateDosageChangeButtons():void
 		{
-			_dosageNoChangeButton.y = chartValueToPosition(_model.goalZoneMaximum);
-			_dosageDecreaseButton.y = chartValueToPosition(_model.goalZoneMinimum);
-			_dosageIncreaseButton.height = _dosageNoChangeButton.y - _dosageIncreaseButton.y;
-			_dosageNoChangeButton.height = _dosageDecreaseButton.y - _dosageNoChangeButton.y;
+			_dosageNoChangeButton.y = chartValueToPosition(_model.goalZoneMaximum) + 1;
+			_dosageDecreaseButton.y = chartValueToPosition(_model.goalZoneMinimum) + 1;
+			_dosageIncreaseButton.height = _dosageNoChangeButton.y - _dosageIncreaseButton.y - 1;
+			_dosageNoChangeButton.height = _dosageDecreaseButton.y - _dosageNoChangeButton.y - 1;
 			_dosageDecreaseButton.height = chartValueToPosition(_model.verticalAxisMinimum) - _dosageDecreaseButton.y + 1;
 
 			// TODO: need to invalidateDisplayList when any inputs to algorithm change so that the button label colors will be updated
-			_dosageIncreaseButton.setStyle("color", getDosageChangeLabelColor(_model.algorithmSuggestsIncreaseDose));
-			_dosageNoChangeButton.setStyle("color", getDosageChangeLabelColor(_model.algorithmSuggestsNoChangeDose));
-			_dosageDecreaseButton.setStyle("color", getDosageChangeLabelColor(_model.algorithmSuggestsDecreaseDose));
+			setStylesForSuggestedAction(_dosageIncreaseButton, _model.algorithmSuggestsIncreaseDose);
+			setStylesForSuggestedAction(_dosageNoChangeButton, _model.algorithmSuggestsNoChangeDose);
+			setStylesForSuggestedAction(_dosageDecreaseButton, _model.algorithmSuggestsDecreaseDose);
+		}
+
+		private function setStylesForSuggestedAction(button:Button, isSuggested:Boolean):void
+		{
+			button.setStyle("color", getDosageChangeLabelColor(isSuggested));
+			button.setStyle("chromeColor", isSuggested ? SUGGESTED_CHANGE_BACKGROUND_COLOR : OTHER_CHANGE_BACKGROUND_COLOR);
+			button.setStyle("skinClass", isSuggested ? SolidFillButtonSkin : TransparentButtonSkin);
 		}
 
 		private function determineChartHeight():void
@@ -148,34 +159,47 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			chartBorder.stroke = new SolidColorStroke();
 			chartBorder.fill = new SolidColor(0xFFFFFF);
 
-			var goalRange:Rect = new Rect();
-			goalRange.x = x + 1;
-			goalRange.width = STEP_WIDTH - 1;
-			goalRange.fill = new SolidColor(_model.goalZoneColor);
-
-			var chart:Array = [chartBorder, goalRange];
+			var goalMaxLine:DottedLine = createGoalLine(x);
+			var goalMinLine:DottedLine = createGoalLine(x);
+			var chart:Array = [chartBorder, goalMaxLine, goalMinLine];
 			resizeChart(chart);
 
 			addElement(chartBorder);
-			addElement(goalRange);
+			addElement(goalMaxLine);
+			addElement(goalMinLine);
 
 			return chart;
+		}
+
+		private function createGoalLine(x:int):DottedLine
+		{
+			var goalMaxLine:DottedLine = new DottedLine();
+			goalMaxLine.dotColor = 0x808285;
+			goalMaxLine.dotWidth = 12;
+			goalMaxLine.spacerWidth = 12;
+			goalMaxLine.dotHeight = 1;
+			goalMaxLine.spacerHeight = 1;
+			goalMaxLine.x = x + 1;
+			goalMaxLine.width = STEP_WIDTH - 1;
+			goalMaxLine.height = 1;
+			return goalMaxLine;
 		}
 
 		private function resizeChart(chart:Array):void
 		{
 			var chartBorder:Rect = chart[0];
-			var goalRange:Rect = chart[1];
+			var goalMaxLine:DottedLine = chart[1];
+			var goalMinLine:DottedLine = chart[2];
 
 			chartBorder.y = _chartY - 1;
 			chartBorder.height = _chartHeight + 2;
-			goalRange.y = chartValueToPosition(_model.goalZoneMaximum);
-			goalRange.height = chartValueToPosition(_model.goalZoneMinimum) - goalRange.y;
+			goalMaxLine.y = chartValueToPosition(_model.goalZoneMaximum);
+			goalMinLine.y = chartValueToPosition(_model.goalZoneMinimum);
 		}
 
 		private function chartValueToPosition(bloodGlucoseAverage:Number):Number
 		{
-			return map(bloodGlucoseAverage, _model.verticalAxisMinimum, _model.verticalAxisMaximum, _chartY + _chartHeight, _chartY);
+			return Math.round(map(bloodGlucoseAverage, _model.verticalAxisMinimum, _model.verticalAxisMaximum, _chartY + _chartHeight, _chartY));
 		}
 
 		private static function map(x:Number, inMin:Number, inMax:Number, outMin:Number, outMax:Number):Number
@@ -195,7 +219,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			button.setStyle("skinClass", TransparentButtonSkin);
 			button.x = STEP2_X + 1;
 			button.y = y;
-			button.width = 108;
+			button.width = STEP_WIDTH - 1;
 			button.height = height;
 			button.label = label;
 			button.setStyle("color", labelColor);
