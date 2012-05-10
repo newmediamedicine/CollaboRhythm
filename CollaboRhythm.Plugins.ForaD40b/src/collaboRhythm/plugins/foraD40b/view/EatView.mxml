@@ -21,6 +21,8 @@
 					   xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
 					   xmlns:sharedView="collaboRhythm.plugins.schedule.shared.view.*"
 					   creationComplete="creationCompleteHandler(event)"
+					   addedToStage="addedToStageHandler()"
+					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
 					   title="Low Blood Glucose - Eat Something Sugary">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
@@ -46,6 +48,7 @@
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 
 		import mx.events.FlexEvent;
 
@@ -66,6 +69,7 @@
 		private function creationCompleteHandler(event:FlexEvent):void
 		{
 			hypoglycemiaWarningView.init(_dataInputModel);
+			okButton.setFocus();
 		}
 
 		private function okButton_clickHandler():void
@@ -77,13 +81,37 @@
 		{
 			event.target.selected = !(event.target.selected);
 		}
+
+		private function addedToStageHandler():void
+		{
+			addEventListener(KeyboardEvent.KEY_UP, hardwareKeyUpHandler)
+		}
+
+		private function hardwareKeyUpHandler(event:KeyboardEvent):void
+		{
+			if (event.keyCode == Keyboard.BACK || event.keyCode == Keyboard.HOME)
+			{
+				event.stopImmediatePropagation();
+				event.preventDefault();
+			}
+		}
+
+		override public function homeButton_clickHandler():void
+		{
+
+		}
+
+		public function get healthActionInputController():IHealthActionInputController
+		{
+			return _dataInputController;
+		}
 		]]></fx:Script>
 	<view:HypoglycemiaWarningView id="hypoglycemiaWarningView"/>
 	<s:Group width="100%" height="100%">
 		<s:VGroup verticalCenter="0" horizontalCenter="0" horizontalAlign="center">
 			<s:HGroup verticalAlign="middle">
 				<s:Image source="@Embed(source='/assets/images/juice.png')"/>
-				<s:Label text="Drink a cup of fruit juice" styleName="optionLabel" width="380"/>
+				<s:Label text="Drink {(_dataInputModel.glycemicState == BloodGlucoseHealthActionInputModel.HYPOGLYCEMIA) ? '1/2' : '1'} cup of fruit juice" styleName="optionLabel" width="420" maxDisplayedLines="1"/>
 				<s:Group height="100%">
 					<sharedView:AdherenceCheckBox id="juiceCheckBox" width="50" height="50" verticalCenter="-5"
 											skinClass="collaboRhythm.plugins.schedule.shared.view.AdherenceCheckBoxSkin"
@@ -93,7 +121,7 @@
 			<s:Label text="or" styleName="orLabel"/>
 			<s:HGroup verticalAlign="middle">
 				<s:Image source="@Embed(source='/assets/images/soda.png')"/>
-				<s:Label text="Drink a cup of soda" styleName="optionLabel" width="380"/>
+				<s:Label text="Drink {(_dataInputModel.glycemicState == BloodGlucoseHealthActionInputModel.HYPOGLYCEMIA) ? '1/2' : '1'} cup of soda" styleName="optionLabel" width="420" maxDisplayedLines="1"/>
 				<s:Group height="100%">
 					<sharedView:AdherenceCheckBox id="sodaCheckBox" width="50" height="50" verticalCenter="-5"
 											skinClass="collaboRhythm.plugins.schedule.shared.view.AdherenceCheckBoxSkin"
@@ -103,7 +131,7 @@
 			<s:Label text="or" styleName="orLabel"/>
 			<s:HGroup verticalAlign="middle">
 				<s:Image source="@Embed(source='/assets/images/glucoseTablets.png')"/>
-				<s:Label text="Take 4 glucose tablets" styleName="optionLabel" width="380"/>
+				<s:Label text="Take {(_dataInputModel.glycemicState == BloodGlucoseHealthActionInputModel.HYPOGLYCEMIA) ? '4' : '8'} glucose tablets" styleName="optionLabel" width="420" maxDisplayedLines="1"/>
 				<s:Group height="100%">
 					<sharedView:AdherenceCheckBox id="glucoseTabletsCheckBox" width="50" height="50" verticalCenter="-5"
 											skinClass="collaboRhythm.plugins.schedule.shared.view.AdherenceCheckBoxSkin"

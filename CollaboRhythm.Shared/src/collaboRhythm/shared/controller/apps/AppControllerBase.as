@@ -95,12 +95,11 @@ package collaboRhythm.shared.controller.apps
 
 		private var _createFullViewOnInitialize:Boolean = false;
 		protected var _navigationProxy:IApplicationNavigationProxy;
+		private var _fullViewTitle:String;
 
 		public function AppControllerBase(constructorParams:AppControllerConstructorParams)
 		{
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
-
-			name = defaultName;
 
 			_widgetContainer = constructorParams.widgetContainer;
 			_fullContainer = constructorParams.fullContainer;
@@ -112,6 +111,8 @@ package collaboRhythm.shared.controller.apps
 			_collaborationLobbyNetConnectionService = constructorParams.collaborationLobbyNetConnectionService;
 			_viewNavigator = constructorParams.viewNavigator;
 			_navigationProxy = constructorParams.navigationProxy;
+
+			name = defaultName;
 
 			initializeShowFullViewParallelEffects();
 
@@ -169,6 +170,7 @@ package collaboRhythm.shared.controller.apps
 		public function set name(value:String):void
 		{
 			_name = value;
+			updateFullViewTitle();
 		}
 
 		/**
@@ -977,8 +979,11 @@ package collaboRhythm.shared.controller.apps
 
 		protected function takeFullViewSnapshot():void
 		{
-			_logger.debug("takeFullViewSnapshot " + fullView.className);
-			centerSpaceTransitionComponent = BitmapCopyComponent.createFromComponent(fullView);
+			if (fullView)
+			{
+				_logger.debug("takeFullViewSnapshot " + fullView.className);
+				centerSpaceTransitionComponent = BitmapCopyComponent.createFromComponent(fullView);
+			}
 		}
 
 		public function destroyFullView():void
@@ -1213,6 +1218,21 @@ package collaboRhythm.shared.controller.apps
 		protected function set createFullViewOnInitialize(value:Boolean):void
 		{
 			_createFullViewOnInitialize = value;
+		}
+
+		protected function updateFullViewTitle():void
+		{
+			_fullViewTitle = name;
+		}
+
+		public function get fullViewTitle():String
+		{
+			return _fullViewTitle;
+		}
+
+		public function set fullViewTitle(value:String):void
+		{
+			_fullViewTitle = value;
 		}
 	}
 }

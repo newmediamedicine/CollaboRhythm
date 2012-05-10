@@ -183,6 +183,11 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private var _blankBackgrounds:Boolean = false;
 		private var _todayHighlight:Rect;
 		private var _chartsContainer:VGroup;
+		private var _pendingMoveTodayHighlight:Boolean = false;
+		private var _useRedrawFix:Boolean = true;
+
+		private var _focusTimeMarker:Rect;
+		private var _focusTime:Number;
 
 		public function SynchronizedHealthCharts():void
 		{
@@ -255,6 +260,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 		public function set showFocusTimeMarker(value:Boolean):void
 		{
 			_showFocusTimeMarker = value;
+			if (_focusTimeMarker)
+				_focusTimeMarker.visible = value;
 		}
 
 		public function get rangeChartVisible():Boolean
@@ -302,6 +309,15 @@ package collaboRhythm.shared.ui.healthCharts.view
 				logDebugEvent("model_updateCompleteHandler");
 
 			queueSynchronizeDateLimits();
+		}
+
+		private function queueMoveTodayHighlight():void
+		{
+			if (_traceEventHandlers)
+				logDebugEvent("queueMoveTodayHighlight");
+
+			_pendingMoveTodayHighlight = true;
+			invalidateProperties();
 		}
 
 		private function queueSynchronizeDateLimits():void
@@ -398,6 +414,9 @@ package collaboRhythm.shared.ui.healthCharts.view
 			chart.setStyle("footerVisible", false);
 			chart.height = 35;
 
+			chart.addEventListener(SkinPartEvent.PART_ADDED, adherenceChart_skinPartAddedHandler, false, 0,
+					true);
+
 			var spacer:UIComponent = new UIComponent();
 			spacer.width = 100;
 
@@ -429,23 +448,49 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private function createTodayHighlight():void
 		{
+			_focusTimeMarker = new Rect();
+			_focusTimeMarker.top = _chartsContainer.paddingTop;
+			_focusTimeMarker.bottom = _chartsContainer.paddingBottom;
+			_focusTimeMarker.width = 2;
+			_focusTimeMarker.fill = new SolidColor(0xFBB040, 0.4);
+
 			_todayHighlight = new Rect();
 			_todayHighlight.top = _chartsContainer.paddingTop;
 			_todayHighlight.bottom = _chartsContainer.paddingBottom;
-			moveTodayHighlight();
 			_todayHighlight.fill = new SolidColor(0xFBB040, 0.3);
+			moveTodayHighlight();
+
 //			_todayHighlight.includeInLayout = false;
 			this.addElementAt(_todayHighlight, 0);
+			this.addElement(_focusTimeMarker);
 		}
 
 		private function moveTodayHighlight():void
 		{
+			if (_traceEventHandlers)
+				logDebugEvent("moveTodayHighlight");
+
 			var horizontalAxisChart:TouchScrollingScrubChart = _adherenceCharts.getValueByKey(HORIZONTAL_AXIS_CHART_KEY);
 			if (horizontalAxisChart)
 			{
 				var xOffset:Number = this.globalToLocal(horizontalAxisChart.localToGlobal(new Point())).x;
 				var rightLimit:Number = horizontalAxisChart.width;
 				var todayLeft:Number = horizontalAxisChart.transformTimeToPosition(horizontalAxisChart.initialRightRangeTime - ScrubChart.DAYS_TO_MILLISECONDS);
+
+				if (showFocusTimeMarker && _focusTimeMarker && !isNaN(focusTime))
+				{
+					var nowPosition:Number = horizontalAxisChart.transformTimeToPosition(focusTime);
+					if (nowPosition >= 0 && nowPosition <= rightLimit)
+					{
+						_focusTimeMarker.x = xOffset + nowPosition - _focusTimeMarker.width / 2;
+						_focusTimeMarker.visible = true;
+					}
+					else
+					{
+						_focusTimeMarker.visible = false;
+					}
+				}
+
 				if (todayLeft > rightLimit)
 				{
 					_todayHighlight.visible = false
@@ -536,7 +581,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 				var currentModifier:IChartModifier = null;
 				for each (var chartModifierFactory:IChartModifierFactory in _chartModifierFactories)
 				{
-					currentModifier = chartModifierFactory.createChartModifier(chartDescriptor, new ChartModelDetails(model.record, _activeAccountId), currentModifier);
+					currentModifier = chartModifierFactory.createChartModifier(chartDescriptor, createChartModelDetails(), currentModifier);
 				}
 
 				if (currentModifier)
@@ -544,6 +589,11 @@ package collaboRhythm.shared.ui.healthCharts.view
 					_chartModifiers.addKeyValue(currentModifier.chartKey, currentModifier);
 				}
 			}
+		}
+
+		private function createChartModelDetails():ChartModelDetails
+		{
+			return new ChartModelDetails(model.record, _activeAccountId, model.currentDateSource);
 		}
 
 		/**
@@ -604,7 +654,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			chart.seriesName = "concentration";
 			chart.data = model.medicationConcentrationCurvesByCode.getItem(medicationCode);
 
-			chart.addEventListener(SkinPartEvent.PART_ADDED, medicationAdherenceChart_skinPartAddedHandler, false, 0,
+			chart.addEventListener(SkinPartEvent.PART_ADDED, adherenceChart_skinPartAddedHandler, false, 0,
 					true);
 			chart.addEventListener(FlexEvent.CREATION_COMPLETE, medicationAdherenceChart_creationCompleteHandler,
 					false, 0, true);
@@ -831,9 +881,30 @@ package collaboRhythm.shared.ui.healthCharts.view
 			adherenceGroup.percentHeight = 100;
 			adherenceGroup.verticalAlign = VerticalAlign.MIDDLE;
 
+			chartModifiersPrepareAdherenceGroup(chartDescriptor, adherenceGroup);
+
 			_adherenceGroups.addKeyValue(chartDescriptor.descriptorKey, adherenceGroup);
 			_chartsContainer.addElement(adherenceGroup);
 			return adherenceGroup;
+		}
+
+		private function chartModifiersPrepareAdherenceGroup(chartDescriptor:IChartDescriptor,
+															 adherenceGroup:HGroup):void
+		{
+			for each (var chartModifier:IChartModifier in _chartModifiers.values())
+			{
+				chartModifier.prepareAdherenceGroup(chartDescriptor, adherenceGroup);
+			}
+		}
+
+		public function prepareAllAdherenceGroups():void
+		{
+			for each (var key:String in adherenceGroups.arrayOfKeys)
+			{
+				var chartDescriptor:IChartDescriptor = _chartDescriptors.getValueByKey(key);
+				var adherenceGroup:HGroup = adherenceGroups.getValueByKey(key);
+				chartModifiersPrepareAdherenceGroup(chartDescriptor, adherenceGroup);
+			}
 		}
 
 		private function fixCalloutSkin():void
@@ -936,7 +1007,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			chart.seriesName = "resultAsNumber";
 			chart.data = model.record.vitalSignsModel.vitalSignsByCategory.getItem(vitalSignKey);
 
-			chart.addEventListener(SkinPartEvent.PART_ADDED, vitalSignAdherenceChart_skinPartAddedHandler, false, 0,
+			chart.addEventListener(SkinPartEvent.PART_ADDED, adherenceChart_skinPartAddedHandler, false, 0,
 					true);
 
 			return chart;
@@ -1058,35 +1129,23 @@ package collaboRhythm.shared.ui.healthCharts.view
 			}
 		}
 
-		private function medicationAdherenceChart_skinPartAddedHandler(event:SkinPartEvent):void
+		private function adherenceChart_skinPartAddedHandler(event:SkinPartEvent):void
 		{
 			if (event.partName == "mainChart")
 			{
+				if (_traceEventHandlers)
+					logDebugEvent("adherenceChart_skinPartAddedHandler", "mainChart", chartToTraceString(event));
+
 				var chart:ScrubChart = ScrubChart(event.target);
-
-				var descriptorKey:String = chart.getStyle("descriptorKey");
-				var chartModifier:IChartModifier;
-				if (!StringUtils.isEmpty(descriptorKey))
-				{
-					chartModifier = _chartModifiers.getValueByKey(descriptorKey);
-				}
-
-				var medicationCode:String = chart.getStyle("medicationCode");
+				var chartModifier:IChartModifier = getChartModifier(chart);
 
 				var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
 				verticalAxis.minimum = NaN;
 				verticalAxis.maximum = NaN;
 
-				var ndcCode:String = chart.getStyle("ndcCode");
 				chart.removeDefaultSeries();
 				if (chartModifier)
 					addSeriesDataSets(chartModifier, chart);
-
-//				queueUpdateBackgroundElements();
-				/*
-					if (chartModifier)
-						drawBackgroundElements(chartModifier, chart);
-	*/
 
 				var index:int = _chartsWithPendingMainChartAdded.getItemIndex(chart);
 				if (index != -1)
@@ -1098,6 +1157,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 				chart.mainChart.dataTipFunction = adherenceChart_dataTipFunction;
 				if (chartModifier)
 					chartModifier.modifyMainChart(chart);
+
+				chart.mainChart.addEventListener(Event.RESIZE, chart_mainChart_resizeHandler);
 			}
 			else if (event.partName == "rangeChart")
 			{
@@ -1137,7 +1198,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private function doResizeFix(component:UIComponent):void
 		{
-			if (component)
+			if (_useRedrawFix && component)
 			{
 				callLater(
 						function ():void
@@ -1145,54 +1206,6 @@ package collaboRhythm.shared.ui.healthCharts.view
 							component.invalidateDisplayList();
 						}
 				);
-			}
-		}
-
-		private function vitalSignAdherenceChart_skinPartAddedHandler(event:SkinPartEvent):void
-		{
-			if (event.partName == "mainChart")
-			{
-				var chart:ScrubChart = ScrubChart(event.target);
-				//			chart.removeDefaultSeries();
-				var chartModifier:IChartModifier = getChartModifier(chart);
-				var vitalSignKey:String = chart.getStyle("vitalSignKey");
-
-				var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
-				verticalAxis.minimum = NaN;
-				verticalAxis.maximum = NaN;
-				
-				chart.removeDefaultSeries();
-				if (chartModifier)
-					addSeriesDataSets(chartModifier, chart);
-
-//				queueUpdateBackgroundElements();
-/*
-				if (chartModifier)
-					drawBackgroundElements(chartModifier, chart);
-*/
-
-				var index:int = _chartsWithPendingMainChartAdded.getItemIndex(chart);
-				if (index != -1)
-				{
-					_chartsWithPendingMainChartAdded.removeItemAt(index);
-					checkReadyToSynchronizeDateLimits();
-				}
-
-				chart.mainChart.dataTipFunction = adherenceChart_dataTipFunction;
-
-				if (chartModifier)
-					chartModifier.modifyMainChart(chart);
-			}
-			else if (event.partName == "rangeChart")
-			{
-				chart = ScrubChart(event.target);
-
-				if (chart.rangeChart)
-				{
-					verticalAxis = chart.rangeChart.verticalAxis as LinearAxis;
-					verticalAxis.minimum = NaN;
-					verticalAxis.maximum = NaN;
-				}
 			}
 		}
 
@@ -1232,12 +1245,15 @@ package collaboRhythm.shared.ui.healthCharts.view
 				else
 				{
 					chartModifier.drawBackgroundElements(mainCanvas, zoneLabel);
-					callLater(
-							function ():void
-							{
-								mainCanvas.invalidateDisplayList();
-							}
-					);
+					if (_useRedrawFix)
+					{
+						callLater(
+								function ():void
+								{
+									mainCanvas.invalidateDisplayList();
+								}
+						);
+					}
 				}
 
 				if (chart.rangeChart)
@@ -1669,6 +1685,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			var minimum:Number;
 			var maximum:Number;
 			var today:Date = model.currentDateSource.now();
+			focusTime = today.valueOf();
 			var initialRightRangeTime:Number = getInitialRightRangeTime(today);
 			for each (var chart:TouchScrollingScrubChart in charts)
 			{
@@ -1756,12 +1773,15 @@ package collaboRhythm.shared.ui.healthCharts.view
 		{
 			var descriptorKey:String = chart.getStyle("descriptorKey");
 			drawAdherenceStripRegions(mainCanvas, zoneLabel, descriptorKey);
-			callLater(
-					function ():void
-					{
-						mainCanvas.invalidateDisplayList();
-					}
-			);
+			if (_useRedrawFix)
+			{
+				callLater(
+						function ():void
+						{
+							mainCanvas.invalidateDisplayList();
+						}
+				);
+			}
 
 			if (chart.rangeChart)
 			{
@@ -2163,7 +2183,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 					otherChart.synchronizeScrollPosition(targetChart);
 				}
 			}
-			moveTodayHighlight();
+			queueMoveTodayHighlight();
 		}
 
 		protected function synchronizeFocusTimes(targetChart:TouchScrollingScrubChart, otherCharts:Vector.<TouchScrollingScrubChart>):void
@@ -2267,6 +2287,12 @@ package collaboRhythm.shared.ui.healthCharts.view
 			{
 				drawBackgroundElementsForAdherenceCharts();
 				_pendingUpdateBackgroundElements = false;
+			}
+
+			if (_pendingMoveTodayHighlight)
+			{
+				moveTodayHighlight();
+				_pendingMoveTodayHighlight = false;
 			}
 		}
 
@@ -2576,10 +2602,16 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private function respondToModelUpdate():void
 		{
+			if (_traceEventHandlers)
+				logDebugEvent("respondToModelUpdate", "model =", model, "model.isInitialized =", model.isInitialized);
+
 			_seriesWithPendingUpdateComplete.removeAll();
 
 			if (model && model.isInitialized)
+			{
 				initializeSeriesSets();
+				updateChartModifiers();
+			}
 
 			if (model && model.isInitialized && model.showAdherence)
 			{
@@ -2588,6 +2620,17 @@ package collaboRhythm.shared.ui.healthCharts.view
 			}
 
 			setSingleChartMode(null, false);
+		}
+
+		private function updateChartModifiers():void
+		{
+			if (_chartModifiers)
+			{
+				for each (var chartModifier:IChartModifier in _chartModifiers.values())
+				{
+					chartModifier.chartModelDetails = createChartModelDetails();
+				}
+			}
 		}
 
 		public function get skipUpdateSimulation():Boolean
@@ -2754,6 +2797,31 @@ package collaboRhythm.shared.ui.healthCharts.view
 			{
 				FlexGlobals.topLevelApplication.styleManager.clearStyleDeclaration(SPARK_COMPONENTS_CALLOUT_SELECTOR, false);
 			}
+		}
+
+		public function get adherenceGroups():OrderedMap
+		{
+			return _adherenceGroups;
+		}
+
+		private function chart_mainChart_resizeHandler(event:Event):void
+		{
+			if (_traceEventHandlers)
+				logDebugEvent("chart_mainChart_resizeHandler", chartToTraceString(event));
+
+			queueMoveTodayHighlight();
+		}
+
+		public function get focusTime():Number
+		{
+			return _focusTime;
+		}
+
+		public function set focusTime(value:Number):void
+		{
+			_focusTime = value;
+
+			moveTodayHighlight();
 		}
 	}
 }

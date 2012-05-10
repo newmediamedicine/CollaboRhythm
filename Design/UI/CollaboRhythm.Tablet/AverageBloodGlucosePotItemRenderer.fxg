@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="2.0" viewHeight="29" viewWidth="29" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+  <Library/>
+  <Group ai:seqID="1" d:layerType="page" d:pageHeight="29" d:pageWidth="29" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:seqID="2" d:type="layer" d:userLabel="Layer 1">
+      <Rect rotation="225.001" x="14.5002" y="24.6306" width="14.3269" height="14.3269" ai:seqID="3">
+        <fill>
+          <SolidColor color="#F7941E"/>
+        </fill>
+      </Rect>
+      <Path winding="nonZero" ai:seqID="4" data="M14.5005 29 0 14.5 14.5005 0 29 14.5 14.5005 29ZM8.74023 14.5 14.5005 20.2598 20.2598 14.5 14.5005 8.74023 8.74023 14.5Z">
+        <fill>
+          <SolidColor/>
+        </fill>
+      </Path>
+    </Group>
+  </Group>
+  <Private/>
+</Graphic>

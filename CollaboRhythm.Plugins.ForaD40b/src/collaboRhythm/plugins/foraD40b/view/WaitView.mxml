@@ -20,6 +20,8 @@
 					   xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   creationComplete="creationCompleteHandler(event)"
+					   addedToStage="addedToStageHandler()"
+					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
 					   title="Low Blood Glucose - Countdown to Next Blood Glucose Measurement">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
@@ -36,11 +38,11 @@
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 
 		import mx.events.FlexEvent;
 
-		private static const FIRST_RECHECK_TIMER_COUNT:int = 9;
-		private static const SUBSEQUENT_RECHECK_TIMER_COUNT:int = 600;
+		private static const TIMER_COUNT:int = 9;
 
 		private var _dataInputModel:BloodGlucoseHealthActionInputModel;
 		private var _dataInputController:BloodGlucoseHealthActionInputController;
@@ -62,14 +64,7 @@
 		{
 			hypoglycemiaWarningView.init(_dataInputModel);
 
-			if (_dataInputModel.repeatCount == 1)
-			{
-				_seconds = FIRST_RECHECK_TIMER_COUNT;
-			}
-			else
-			{
-				_seconds = SUBSEQUENT_RECHECK_TIMER_COUNT;
-			}
+			_seconds = TIMER_COUNT;
 
 			recheckLabel.text = "Recheck in " + String(_seconds / 60) + " minutes.";
 			updateTimerLabel();
@@ -116,6 +111,30 @@
 			{
 				timerLabel.text = timerLabel.text + String(seconds);
 			}
+		}
+
+		private function addedToStageHandler():void
+		{
+			addEventListener(KeyboardEvent.KEY_UP, hardwareKeyUpHandler)
+		}
+
+		private function hardwareKeyUpHandler(event:KeyboardEvent):void
+		{
+			if (event.keyCode == Keyboard.BACK || event.keyCode == Keyboard.HOME)
+			{
+				event.stopImmediatePropagation();
+				event.preventDefault();
+			}
+		}
+
+		override public function homeButton_clickHandler():void
+		{
+
+		}
+
+		public function get healthActionInputController():IHealthActionInputController
+		{
+			return _dataInputController;
 		}
 		]]></fx:Script>
 	<view:HypoglycemiaWarningView id="hypoglycemiaWarningView"/>

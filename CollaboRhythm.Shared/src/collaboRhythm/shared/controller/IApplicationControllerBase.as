@@ -47,5 +47,7 @@ package collaboRhythm.shared.controller
 		function showSelectRecordView():void;
 
 		function get navigator():ViewNavigator;
+
+		function navigateHome(source:String):void;
 	}
 }

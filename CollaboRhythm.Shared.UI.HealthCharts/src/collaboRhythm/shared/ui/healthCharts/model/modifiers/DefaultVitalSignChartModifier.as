@@ -60,8 +60,12 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 		[Embed("/assets/images/vitalSigns/Step_Count.png")]
 		private var _stepCountImageClass:Class;
 
-		private const BLOOD_GLUCOSE_VERTICAL_AXIS_MINIMUM:Number = 50;
-		private const BLOOD_GLUCOSE_VERTICAL_AXIS_MAXIMUM:Number = 150;
+		public static const BLOOD_GLUCOSE_VERTICAL_AXIS_MINIMUM:Number = 50;
+		public static const BLOOD_GLUCOSE_VERTICAL_AXIS_MAXIMUM:Number = 150;
+		public static const GOAL_ZONE_COLOR:uint = 0x79A773;
+		public static const BLOOD_GLUCOSE_GOAL_ZONE_MINIMUM:Number = 80;
+		public static const BLOOD_GLUCOSE_GOAL_ZONE_MAXIMUM:Number = 110;
+
 
 		public function DefaultVitalSignChartModifier(chartDescriptor:VitalSignChartDescriptor,
 														   chartModelDetails:IChartModelDetails,
@@ -216,8 +220,6 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 			return ColorFromNameUtil.getColorFromName(vitalSignKey);
 		}
 
-		protected const GOAL_ZONE_COLOR:uint = 0x8DCB86;
-
 		public function drawBackgroundElements(canvas:DataDrawingCanvas, zoneLabel:Label):void
 		{
 			if (vitalSignChartDescriptor.vitalSignCategory == VitalSignsModel.BLOOD_GLUCOSE_CATEGORY)
@@ -226,7 +228,7 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 
 				var color:uint = GOAL_ZONE_COLOR;
 				canvas.beginFill(color, 1);
-				canvas.drawRect([Edge.LEFT, -1], 80, [Edge.RIGHT, 1], 110);
+				canvas.drawRect([Edge.LEFT, -1], BLOOD_GLUCOSE_GOAL_ZONE_MINIMUM, [Edge.RIGHT, 1], BLOOD_GLUCOSE_GOAL_ZONE_MAXIMUM);
 				canvas.endFill();
 
 				if (zoneLabel)

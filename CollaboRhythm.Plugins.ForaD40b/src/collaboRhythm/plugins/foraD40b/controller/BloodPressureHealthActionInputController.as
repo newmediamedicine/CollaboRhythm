@@ -27,7 +27,7 @@ package collaboRhythm.plugins.foraD40b.controller
 			_viewNavigator = viewNavigator;
 		}
 
-		public function showHealthActionInputView():void
+		public function handleHealthActionResult():void
 		{
 			var healthActionInputModelAndController:HealthActionInputModelAndController = new HealthActionInputModelAndController(_dataInputModel,
 					this);
@@ -36,7 +36,7 @@ package collaboRhythm.plugins.foraD40b.controller
 					new SlideViewTransition());
 		}
 
-		public function updateVariables(urlVariables:URLVariables):void
+		public function handleUrlVariables(urlVariables:URLVariables):void
 		{
 			_dataInputModel.urlVariables = urlVariables;
 		}

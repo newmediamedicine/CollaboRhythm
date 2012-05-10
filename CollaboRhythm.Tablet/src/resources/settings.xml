@@ -39,10 +39,8 @@
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.VideoMessages/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.ForaD40b/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.HealthActions/bin-debug</pluginSearchPath>
-		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.PainReport/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.HealthCharts/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Equipment.PillBox/bin-debug</pluginSearchPath>
-		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.BlingAvatar/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.InsulinTitrationSupport/bin-debug</pluginSearchPath>
 		<!-- This path is for the plugins that are installed with the application -->
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins</pluginSearchPath>
@@ -51,7 +49,7 @@
 	<demoDatePresets>
 		<demoDatePreset>2011-07-14T09:10:00-5:00</demoDatePreset>
 		<demoDatePreset>2011-07-17T00:20:00Z</demoDatePreset>
-		<demoDatePreset>2011-07-21T20:30:00-5:00</demoDatePreset>
+		<demoDatePreset>2011-07-26T09:20:00-5:00</demoDatePreset>
 		<demoDatePreset>2011-08-13T10:40:00-5:00</demoDatePreset>
 	</demoDatePresets>
 	<appGroups>
@@ -64,8 +62,6 @@
 			<appDescriptors>
 				<appDescriptor>collaboRhythm.plugins.healthActions.controller::HealthActionsAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.healthCharts.controller::HealthChartsAppController</appDescriptor>
-				<appDescriptor>collaboRhythm.plugins.videoMessages.controller::VideoMessagesAppController</appDescriptor>
-				<appDescriptor>collaboRhythm.plugins.blingAvatar.controller::BlingAvatarAppController</appDescriptor>
 			</appDescriptors>
 		</appGroup>
 	</appGroups>

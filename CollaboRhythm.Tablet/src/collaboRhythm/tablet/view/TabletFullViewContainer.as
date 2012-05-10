@@ -30,7 +30,7 @@ package collaboRhythm.tablet.view
 		{
 			super.initialize();
 
-			title = app.name;
+			title = app.fullViewTitle;
 		}
 
 		public function get app():AppControllerBase

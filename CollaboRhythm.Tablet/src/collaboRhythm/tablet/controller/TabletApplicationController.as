@@ -66,7 +66,7 @@ package collaboRhythm.tablet.controller
 			initCollaborationController();
 			_collaborationController.viewNavigator = navigator;
 			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.SYNCHRONIZE,
-								synchronizeHandler);
+					synchronizeHandler);
 
 			navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
 			navigator.addEventListener("viewChangeComplete",
@@ -83,6 +83,11 @@ package collaboRhythm.tablet.controller
 			if (event.method == "showCollaborationVideoView")
 			{
 				showCollaborationVideoView("remote");
+			}
+			else if (event.method == "navigateHome" && _collaborationController.collaborationModel.collaborationState ==
+					CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				navigateHome("remote");
 			}
 		}
 
@@ -196,7 +201,19 @@ package collaboRhythm.tablet.controller
 
 		override protected function collaborationEnded_eventHandler(event:CollaborationEvent):void
 		{
-			_collaborationController.receiveCollaborationEnded(event.subjectAccountId, event.sourceAccountId, event.sourcePeerId, event.passWord);
+			_collaborationController.receiveCollaborationEnded(event.subjectAccountId, event.sourceAccountId,
+					event.sourcePeerId, event.passWord);
+		}
+
+		override public function navigateHome(source:String):void
+		{
+			if (source == "local" && _collaborationController.collaborationModel.collaborationState ==
+					CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.SYNCHRONIZE,
+						"navigateHome");
+			}
+			navigator.popToFirstView()
 		}
 
 		private function get tabletHomeView():TabletHomeView
@@ -218,7 +235,8 @@ package collaboRhythm.tablet.controller
 				_tabletAppControllersMediator = new TabletAppControllersMediator(tabletHomeView.widgetContainers,
 						_fullContainer, settings,
 						_componentContainer,
-						_collaborationController.collaborationModel.collaborationLobbyNetConnectionService as CollaborationLobbyNetConnectionService,
+						_collaborationController.collaborationModel.collaborationLobbyNetConnectionService as
+								CollaborationLobbyNetConnectionService,
 						this,
 						_navigationProxy);
 			}
@@ -311,7 +329,7 @@ package collaboRhythm.tablet.controller
 		public function showCollaborationVideoView(source:String):void
 		{
 			if (source == "local" && _collaborationController.collaborationModel.collaborationState ==
-								CollaborationModel.COLLABORATION_ACTIVE)
+					CollaborationModel.COLLABORATION_ACTIVE)
 			{
 				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.SYNCHRONIZE,
 						"showCollaborationVideoView");

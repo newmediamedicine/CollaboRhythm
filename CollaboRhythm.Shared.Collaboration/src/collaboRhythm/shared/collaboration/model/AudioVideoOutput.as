@@ -19,7 +19,6 @@ package collaboRhythm.shared.collaboration.model
 	import flash.media.Camera;
 	import flash.media.CameraPosition;
 	import flash.media.Microphone;
-	import flash.media.SoundCodec;
 	import flash.utils.getQualifiedClassName;
 
 	import mx.logging.ILogger;
@@ -32,12 +31,12 @@ package collaboRhythm.shared.collaboration.model
 	 * Models the audio and video output from the local user.
 	 *
 	 */
-    [Bindable]
+	[Bindable]
 	public class AudioVideoOutput
 	{
 		private var _camera:Camera;
 		private var _microphone:Microphone;
-		private var _logger:ILogger;
+		static private var _logger:ILogger;
 
 		public function AudioVideoOutput()
 		{
@@ -46,33 +45,69 @@ package collaboRhythm.shared.collaboration.model
 			setMicrophone();
 		}
 
+		static public function getCamera():Camera
+		{
+			var camera:Camera;
+			if (Camera.isSupported)
+			{
+				_logger.info("Initializing camera...");
+				camera = Camera.getCamera("0");
+				var cameraIndex:int;
+				for each (var cameraName:String in Camera.names)
+				{
+					var currentCamera:Camera = Camera.getCamera(cameraIndex.toString());
+					if (currentCamera.position == CameraPosition.FRONT || cameraName == "HP High Definition Webcam")
+					{
+						camera = currentCamera
+					}
+					cameraIndex += 1;
+				}
+				if (camera != null)
+				{
+					camera.setMode(320,240,15);
+					//                    _camera.setQuality(0,60);
+					_logger.info("Camera initialized: " + camera.name);
+				}
+				else
+				{
+					_logger.info("No camera found. Camera NOT initialized.");
+				}
+			}
+			else
+			{
+				_logger.info("Camera not supported.");
+			}
+
+			return camera;
+		}
+
 		private function setCamera():void
 		{
 			if (Camera.isSupported)
 			{
 				_logger.info("Initializing camera...");
-                _camera = Camera.getCamera("0");
-                var cameraIndex:int;
-                for each (var cameraName:String in Camera.names)
-                {
+				_camera = Camera.getCamera("0");
+				var cameraIndex:int;
+				for each (var cameraName:String in Camera.names)
+				{
 					var camera:Camera = Camera.getCamera(cameraIndex.toString());
 					if (camera.position == CameraPosition.FRONT || cameraName == "HP High Definition Webcam")
 					{
 						_camera = camera
 					}
-                    cameraIndex += 1;
-                }
-                if (_camera != null)
-                {
-                    _camera.setMode(640,360,15);
-                    _camera.setQuality(0,60);
+					cameraIndex += 1;
+				}
+				if (_camera != null)
+				{
+//                    _camera.setMode(320,240,15);
+//                    _camera.setQuality(0,60);
 					_logger.info("Camera initialized: " + _camera.name);
-                }
+				}
 				else
 				{
 					_logger.info("No camera found. Camera NOT initialized.");
 				}
-            }
+			}
 		}
 
 		private function setMicrophone():void
@@ -100,19 +135,19 @@ package collaboRhythm.shared.collaboration.model
 			return _camera;
 		}
 
-        public function set camera(value:Camera):void
-        {
-            _camera = value;
-        }
+		public function set camera(value:Camera):void
+		{
+			_camera = value;
+		}
 
 		public function get microphone():Microphone
 		{
 			return _microphone;
 		}
 
-        public function set microphone(value:Microphone):void
-        {
-            _microphone = value;
-        }
-    }
+		public function set microphone(value:Microphone):void
+		{
+			_microphone = value;
+		}
+	}
 }
