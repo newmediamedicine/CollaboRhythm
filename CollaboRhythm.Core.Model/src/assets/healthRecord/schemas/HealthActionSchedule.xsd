@@ -122,14 +122,6 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="dose" type="indivo:ValueAndUnit" minOccurs="1" maxOccurs="1">
-				<xs:annotation>
-					<xs:documentation xml:lang="en">
-						Dose of the medication
-						This includes a value and a unit.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
 			<xs:element name="instructions" type="xs:string" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation xml:lang="en">
