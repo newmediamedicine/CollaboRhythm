@@ -102,10 +102,6 @@ package collaboRhythm.plugins.schedule.controller
 			{
 				_fullView = new ScheduleTimelineFullView();
 			}
-			else
-			{
-				_fullView = new ScheduleReportingFullView();
-			}
 
 			return _fullView as UIComponent;
 		}
@@ -247,8 +243,8 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			if (!_scheduleClockController)
 			{
-				_scheduleClockController = new ScheduleClockController(scheduleModel,
-						_widgetView as ScheduleClockWidgetView);
+				_scheduleClockController = new ScheduleClockController(this, scheduleModel,
+						_widgetView as ScheduleClockWidgetView, _viewNavigator);
 				_scheduleClockController.addEventListener(AppEvent.SHOW_FULL_VIEW, showFullViewHandler, false, 0, true);
 			}
 			return _scheduleClockController;

@@ -23,8 +23,7 @@
 					   creationComplete="creationCompleteHandler(event)"
 					   addedToStage="addedToStageHandler()">
 	<fx:Declarations>
-		<s:Button id="saveButton" label="Save" click="saveButton_clickHandler()"/>
-		<s:Button id="cancelButton" label="Cancel" click="cancelButton_clickHandler()"/>
+		<s:Button id="saveButton" label="Save" enabled="false" click="saveButton_clickHandler()"/>
 	</fx:Declarations>
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
@@ -62,7 +61,8 @@
 		{
 			super.data = value;
 
-			var dataInputModelAndController:HealthActionInputModelAndController = HealthActionInputModelAndController(value);
+			var dataInputModelAndController:HealthActionInputModelAndController = value as
+					HealthActionInputModelAndController;
 
 			_dataInputModel = BloodGlucoseHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
 			_dataInputController = BloodGlucoseHealthActionInputController(dataInputModelAndController.healthActionInputController);
@@ -78,6 +78,32 @@
 
 			BindingUtils.bindSetter(setDeviceBloodGlucose, _dataInputModel, "deviceBloodGlucose");
 			BindingUtils.bindSetter(handleInvalidBloodGlucose, _dataInputModel, "invalidBloodGlucose");
+		}
+
+		override protected function createChildren():void
+		{
+			super.createChildren();
+			if (_dataInputModel.repeatCount != 0)
+			{
+				saveButton.label = "Next Step";
+				nextStepButton.visible = true;
+			}
+			actionContent.unshift(saveButton);
+		}
+
+		private function creationCompleteHandler(event:FlexEvent):void
+		{
+			if (_dataInputModel.repeatCount > 0)
+			{
+				hypoglycemiaActionPlanView.init(_dataInputModel);
+				hypoglycemiaActionPlanView.visible = true;
+				nextStepButton.visible = true;
+			}
+
+			if (_dataInputModel.deviceBloodGlucose != "")
+			{
+				showDeviceBloodGlucose();
+			}
 		}
 
 		private function setDeviceBloodGlucose(deviceBloodGlucose:String):void
@@ -96,21 +122,6 @@
 			}
 		}
 
-		private function creationCompleteHandler(event:FlexEvent):void
-		{
-			if (_dataInputModel.repeatCount > 0)
-			{
-				hypoglycemiaActionPlanView.init(_dataInputModel);
-				hypoglycemiaActionPlanView.visible = true;
-			}
-
-
-			if (_dataInputModel.deviceBloodGlucose != "")
-			{
-				showDeviceBloodGlucose();
-			}
-		}
-
 		private function showDeviceBloodGlucose():void
 		{
 			wirelessIcon.visible = true;
@@ -122,16 +133,6 @@
 		public function get healthActionInputController():IHealthActionInputController
 		{
 			return _dataInputController;
-		}
-
-		override protected function createChildren():void
-		{
-			super.createChildren();
-			if (_dataInputModel.repeatCount == 0)
-			{
-				actionContent.unshift(cancelButton);
-			}
-			actionContent.unshift(saveButton);
 		}
 
 		private function addedToStageHandler():void
@@ -161,12 +162,27 @@
 			_dataInputController.submitBloodGlucose(bloodGlucoseTextInput.text);
 		}
 
-		private function cancelButton_clickHandler():void
+		private function bloodGlucoseTextInput_changeHandler():void
 		{
-			_dataInputController.cancelBloodGlucose();
+			if (bloodGlucoseTextInput.text == "")
+			{
+				saveButton.enabled = false;
+				if (nextStepButton.visible)
+				{
+					nextStepButton.enabled = false;
+				}
+			}
+			else
+			{
+				saveButton.enabled = true;
+				if (nextStepButton.visible)
+				{
+					nextStepButton.enabled = true;
+				}
+			}
 		}
 		]]></fx:Script>
-	<view:HypoglycemiaActionPlanView id="hypoglycemiaActionPlanView" visible="false"/>
+	<view:HypoglycemiaActionPlanStepsView id="hypoglycemiaActionPlanView" visible="false"/>
 	<s:Group height="100%" width="100%">
 		<s:HGroup id="bloodGlucoseGroup" gap="15" verticalAlign="middle" horizontalCenter="0" top="200">
 			<s:Image source="http://www.mit.edu/~jom/temp/equipment/FORA D40b.png" width="140" height="140"
@@ -175,9 +191,12 @@
 			<s:Group width="240" height="130">
 				<s:TextInput id="bloodGlucoseTextInput" width="100%" height="100%"
 							 skinClass="spark.skins.mobile.StageTextInputSkin" styleName="textInputText"
-							 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number"/>
+							 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number"
+							 change="bloodGlucoseTextInput_changeHandler()"/>
 			</s:Group>
 			<s:Label text="mg/dL" verticalCenter="0" styleName="reportingLabelsText"/>
 		</s:HGroup>
+		<s:Button id="nextStepButton" label="Next Step" width="160" height="50" bottom="90" horizontalCenter="0"
+				  visible="false" enabled="false" click="saveButton_clickHandler()"/>
 	</s:Group>
 </tablet:TabletViewBase>

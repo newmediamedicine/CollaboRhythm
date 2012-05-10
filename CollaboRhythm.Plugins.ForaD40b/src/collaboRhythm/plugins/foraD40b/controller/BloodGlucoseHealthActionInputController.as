@@ -87,9 +87,14 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.startWaitTimer();
 		}
 
-		public function cancelBloodGlucose():void
+		public function clearStack():void
 		{
-			_dataInputModel.cancelBloodGlucose();
+			_dataInputModel.clearStack();
+		}
+
+		public function nextStep():void
+		{
+			_dataInputModel.nextStep();
 		}
 	}
 }

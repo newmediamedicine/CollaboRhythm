@@ -17,21 +17,23 @@
 -->
 <tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
-					   xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+					   xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
+					   xmlns:sharedView="collaboRhythm.plugins.schedule.shared.view.*"
 					   creationComplete="creationCompleteHandler(event)"
 					   addedToStage="addedToStageHandler()"
 					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
-					   title="Hypoglycemia Action Plan - Step 2: Wait 15 Minutes">
+					   title="Hypoglycemia Action Plan - Step 1: Eat Quick Sugar">
+	<fx:Declarations>
+		<s:Button id="startActionButton" label="Start" click="startButton_clickHandler()"/>
+	</fx:Declarations>
 	<fx:Style>
-		@namespace s "library://ns.adobe.com/flex/spark";
-
-		#recheckLabel {
+		#interpretationLabel {
 			fontSize: 36;
 		}
 
-		#timerLabel {
-			fontSize: 200;
+		#startActionPlanLabel {
+			fontSize: 48;
 		}
 	</fx:Style>
 	<fx:Script><![CDATA[
@@ -40,12 +42,11 @@
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 
-		import mx.binding.utils.BindingUtils;
 		import mx.events.FlexEvent;
 
+		private var _dataInputController:BloodGlucoseHealthActionInputController;
 		[Bindable]
 		private var _dataInputModel:BloodGlucoseHealthActionInputModel;
-		private var _dataInputController:BloodGlucoseHealthActionInputController;
 
 		override public function set data(value:Object):void
 		{
@@ -59,39 +60,56 @@
 
 		private function creationCompleteHandler(event:FlexEvent):void
 		{
-			hypoglycemiaWarningView.init(_dataInputModel);
+			hypoglycemiaActionPlanView.init(_dataInputModel);
 
-			_dataInputController.startWaitTimer();
-
-			updateTimerLabel(BloodGlucoseHealthActionInputModel.TIMER_COUNT);
-
-			BindingUtils.bindSetter(updateTimerLabel, _dataInputModel, "seconds");
+			if (_dataInputModel.glycemicState == BloodGlucoseHealthActionInputModel.HYPOGLYCEMIA)
+			{
+				if (_dataInputModel.repeatCount == 0)
+				{
+					interpretationLabel.text = "Your blood glucose is low (< " +
+							BloodGlucoseHealthActionInputModel.HYPOGLYCEMIA_THRESHOLD + " mg/dL).";
+					showStartActionPlanMessage();
+				}
+				else
+				{
+					interpretationLabel.text = "Your blood glucose is still low (< " +
+							BloodGlucoseHealthActionInputModel.REPEAT_HYPOGLYCEMIA_THRESHOLD + " mg/dL).";
+					showContinueActionPlanMessage();
+				}
+			}
+			else if (_dataInputModel.glycemicState == BloodGlucoseHealthActionInputModel.SEVERE_HYPOGLYCEMIA)
+			{
+				if (_dataInputModel.repeatCount == 0)
+				{
+					interpretationLabel.text = "Your blood glucose is very low (< " +
+							BloodGlucoseHealthActionInputModel.SEVERE_HYPOGLYCEMIA_THRESHOLD + " mg/dL).";
+					showStartActionPlanMessage();
+				}
+				else
+				{
+					interpretationLabel.text = "Your blood glucose is still very low (< " +
+							BloodGlucoseHealthActionInputModel.SEVERE_HYPOGLYCEMIA_THRESHOLD + " mg/dL).";
+					showContinueActionPlanMessage();
+				}
+			}
 		}
 
-		private function updateTimerLabel(totalSeconds:int):void
+		private function showStartActionPlanMessage():void
 		{
-			var minutes:int = totalSeconds / 60;
-			var seconds:int = totalSeconds % 60;
+			startActionPlanLabel.text = "You should start your hypoglycemia action plan.";
+		}
 
-			if (minutes < 10)
-			{
-				timerLabel.text = "0" + String(minutes);
-			}
-			else
-			{
-				timerLabel.text = String(minutes);
-			}
+		private function showContinueActionPlanMessage():void
+		{
+			startActionPlanLabel.text = "You should continue your hypoglycemia action plan.";
+			startActionButton.label = "Continue";
+			startButton.label = "Continue;"
+		}
 
-			timerLabel.text = timerLabel.text += ":";
-
-			if (seconds < 10)
-			{
-				timerLabel.text = timerLabel.text + "0" + String(seconds);
-			}
-			else
-			{
-				timerLabel.text = timerLabel.text + String(seconds);
-			}
+		override protected function createChildren():void
+		{
+			super.createChildren();
+			actionContent.unshift(startActionButton);
 		}
 
 		private function addedToStageHandler():void
@@ -117,7 +135,17 @@
 		{
 			return _dataInputController;
 		}
+
+		private function startButton_clickHandler():void
+		{
+			_dataInputController.nextStep();
+		}
 		]]></fx:Script>
-	<view:HypoglycemiaActionPlanView id="hypoglycemiaWarningView"/>
-	<s:Label id="timerLabel" verticalCenter="0" horizontalCenter="0"/>
+	<s:Group width="100%" height="100%">
+		<view:HypoglycemiaActionPlanStepsView id="hypoglycemiaActionPlanView"/>
+		<s:Label id="interpretationLabel" top="40" horizontalCenter="0"/>
+		<s:Label id="startActionPlanLabel" horizontalCenter="0" verticalCenter="0"/>
+		<s:Button id="startButton" label="Start" width="160" height="50" bottom="90" horizontalCenter="0"
+				  click="startButton_clickHandler()"/>
+	</s:Group>
 </tablet:TabletViewBase>

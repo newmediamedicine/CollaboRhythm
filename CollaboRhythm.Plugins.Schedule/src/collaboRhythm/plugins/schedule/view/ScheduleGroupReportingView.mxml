@@ -24,48 +24,49 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-        import collaboRhythm.plugins.schedule.controller.ScheduleReportingController;
-        import collaboRhythm.plugins.schedule.model.ScheduleModel;
-        import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
+		import collaboRhythm.plugins.schedule.controller.ScheduleReportingController;
+		import collaboRhythm.plugins.schedule.model.ScheduleModel;
+		import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
 
-        private var _scheduleModel:ScheduleModel;
-        [Bindable]
-        private var _scheduleReportingModel:ScheduleReportingModel;
-        private var _creationComplete:Boolean;
-        private var _activeAccountId:String;
-        private var _scheduleReportingController:ScheduleReportingController;
+		private var _scheduleModel:ScheduleModel;
+		[Bindable]
+		private var _scheduleReportingModel:ScheduleReportingModel;
+		private var _creationComplete:Boolean;
+		private var _activeAccountId:String;
+		private var _scheduleReportingController:ScheduleReportingController;
 
-        public function init(scheduleModel:ScheduleModel, activeAccountId:String, scheduleReportingController:ScheduleReportingController):void
-        {
-            _scheduleModel = scheduleModel;
-            _activeAccountId = activeAccountId;
-            _scheduleReportingController = scheduleReportingController;
+		public function init(scheduleModel:ScheduleModel, activeAccountId:String,
+							 scheduleReportingController:ScheduleReportingController):void
+		{
+			_scheduleModel = scheduleModel;
+			_activeAccountId = activeAccountId;
+			_scheduleReportingController = scheduleReportingController;
 
-            _scheduleReportingModel = _scheduleModel.scheduleReportingModel;
-        }
+			_scheduleReportingModel = _scheduleModel.scheduleReportingModel;
+		}
 
-        public function get scheduleModel():ScheduleModel
-        {
-            return _scheduleModel;
-        }
+		public function get scheduleModel():ScheduleModel
+		{
+			return _scheduleModel;
+		}
 
-        public function set scheduleModel(value:ScheduleModel):void
-        {
-            _scheduleModel = value;
-        }
+		public function set scheduleModel(value:ScheduleModel):void
+		{
+			_scheduleModel = value;
+		}
 
-        public function get scheduleReportingController():ScheduleReportingController
-        {
-            return _scheduleReportingController;
-        }
+		public function get scheduleReportingController():ScheduleReportingController
+		{
+			return _scheduleReportingController;
+		}
 
-        public function set scheduleReportingController(value:ScheduleReportingController):void
-        {
-            _scheduleReportingController = value;
-        }
-        ]]>
+		public function set scheduleReportingController(value:ScheduleReportingController):void
+		{
+			_scheduleReportingController = value;
+		}
+		]]>
 	</fx:Script>
 	<s:layout>
 		<s:VerticalLayout gap="0"/>
 	</s:layout>
- </s:List>
+</s:List>

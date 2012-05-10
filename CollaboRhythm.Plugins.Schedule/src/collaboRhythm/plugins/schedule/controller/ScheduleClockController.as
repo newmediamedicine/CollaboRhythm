@@ -16,29 +16,42 @@
  */
 package collaboRhythm.plugins.schedule.controller
 {
-
 	import collaboRhythm.plugins.schedule.model.ScheduleModel;
+	import collaboRhythm.plugins.schedule.model.ScheduleViewInitializationParameters;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 	import collaboRhythm.plugins.schedule.view.ScheduleClockWidgetView;
-	import collaboRhythm.shared.controller.apps.AppEvent;
+	import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
 
 	import flash.events.EventDispatcher;
 
+	import spark.components.ViewNavigator;
+
 	public class ScheduleClockController extends EventDispatcher
 	{
+		private var _scheduleAppController:ScheduleAppController;
 		private var _scheduleModel:ScheduleModel;
 		private var _scheduleWidgetView:ScheduleClockWidgetView;
+		private var _viewNavigator:ViewNavigator;
 
-		public function ScheduleClockController(scheduleModel:ScheduleModel, scheduleWidgetView:ScheduleClockWidgetView)
+		public function ScheduleClockController(scheduleAppController:ScheduleAppController,
+												scheduleModel:ScheduleModel,
+												scheduleWidgetView:ScheduleClockWidgetView,
+												viewNavigator:ViewNavigator)
 		{
+			_scheduleAppController = scheduleAppController;
 			_scheduleModel = scheduleModel;
 			_scheduleWidgetView = scheduleWidgetView;
+			_viewNavigator = viewNavigator;
 		}
 
 		public function openScheduleReportingFullView(scheduleGroup:ScheduleGroup, viaMechanism:String):void
 		{
 			_scheduleModel.scheduleReportingModel.currentScheduleGroup = scheduleGroup;
-			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, null, null, "Schedule", viaMechanism));
+
+			var scheduleViewInitializationParameters:ScheduleViewInitializationParameters = new ScheduleViewInitializationParameters(_scheduleAppController, _scheduleModel);
+
+			_viewNavigator.pushView(ScheduleReportingFullView, scheduleViewInitializationParameters);
+//			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, null, null, "Schedule", viaMechanism));
 		}
 	}
 }

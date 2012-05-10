@@ -15,16 +15,16 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:scheduleViews="collaboRhythm.plugins.schedule.view.*"
-		 addedToStage="addedToStage()"
-		 removedFromStage="removedFromStage()"
-		 implements="collaboRhythm.plugins.schedule.view.IScheduleFullView"
-		 width="100%" height="100%"
-		 show="showHandler()"
-		 hide="hideHandler()"
-		 click="scheduleReportingFullView_clickHandler()">
+<sharedViews:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+							xmlns:s="library://ns.adobe.com/flex/spark"
+							xmlns:sharedViews="collaboRhythm.shared.view.tablet.*"
+							xmlns:scheduleViews="collaboRhythm.plugins.schedule.view.*"
+							creationComplete="creationCompleteHandler()"
+							addedToStage="addedToStage()"
+							removedFromStage="removedFromStage()">
+	<fx:Declarations>
+		<s:Button id="saveButton" label="Save" click="saveButton_clickHandler()"/>
+	</fx:Declarations>
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 
@@ -47,16 +47,17 @@
 		import collaboRhythm.plugins.schedule.controller.ScheduleReportingController;
 		import collaboRhythm.plugins.schedule.model.ScheduleModel;
 		import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
+		import collaboRhythm.plugins.schedule.model.ScheduleViewInitializationParameters;
 
 		import mx.events.FlexMouseEvent;
 		import mx.logging.ILogger;
 
 		import spark.events.IndexChangeEvent;
-		import spark.skins.mobile.CalloutSkin;
 
 		private const COUNTDOWN_DURATION:int = 10;
 		private static const TIMEOUT_TIMER_DURATION:int = 1000;//600000;
 
+		private var _scheduleAppController:ScheduleAppController;
 		private var _scheduleReportingController:ScheduleReportingController;
 		private var _scheduleModel:ScheduleModel;
 		private var _scheduleReportingModel:ScheduleReportingModel;
@@ -68,83 +69,121 @@
 		private var _isCountdownRunning:Boolean;
 		protected var _logger:ILogger;
 
-		public function init(scheduleAppController:ScheduleAppController, scheduleModel:ScheduleModel):void
+		override public function set data(value:Object):void
 		{
-			_scheduleReportingController = scheduleAppController.scheduleReportingController;
-			_scheduleModel = scheduleModel;
+			super.data = value;
+
+			var scheduleViewInitializationParameters:ScheduleViewInitializationParameters = value as
+					ScheduleViewInitializationParameters;
+
+			_scheduleAppController = scheduleViewInitializationParameters.scheduleAppController;
+			_scheduleReportingController = _scheduleAppController.scheduleReportingController;
+			_scheduleModel = scheduleViewInitializationParameters.scheduleModel;
 			_scheduleReportingModel = _scheduleModel.scheduleReportingModel;
 
-			scheduleGroupReportingView.init(scheduleModel, scheduleAppController.activeAccount.accountId,
+			title = "Scheduled Health Actions (" +
+					hourToString(_scheduleReportingModel.currentScheduleGroup.dateStart.hours) + " to " +
+					hourToString(_scheduleReportingModel.currentScheduleGroup.dateEnd.hours) + ")";
+		}
+
+		private function hourToString(hour:int):String
+		{
+			if (hour == 0)
+			{
+				return "12am";
+			}
+			else if (hour < 12)
+			{
+				return hour.toString() + "am";
+			}
+			else if (hour == 12)
+			{
+				return "12pm"
+			}
+			{
+				return (hour - 12).toString() + "pm";
+			}
+		}
+
+		override protected function createChildren():void
+		{
+			super.createChildren();
+			actionContent.unshift(saveButton);
+		}
+
+		private function creationCompleteHandler():void
+		{
+			scheduleGroupReportingView.init(_scheduleModel, _scheduleAppController.activeAccount.accountId,
 					_scheduleReportingController);
 		}
 
-		//TODO: Determine why this is not being called when the view is shown, likely because of the change in implementation to use the viewNavigator
-		//As it stands, the timeout does not work.
-		private function showHandler():void
-		{
-			trace("ok this has been shown.");
-			// Every time that the view is shown, create a 10 minute timeout timer
-			_timeoutTimer = new Timer(TIMEOUT_TIMER_DURATION, 1);
-			_timeoutTimer.addEventListener(TimerEvent.TIMER, timeoutTimer_timerEventHandler);
-			_timeoutTimer.start();
-		}
-
-		private function timeoutTimer_timerEventHandler(event:TimerEvent):void
-		{
-			trace("ok the timer went off.");
-			if (visible)
-			{
-				_countdownTimer = new Timer(1000, COUNTDOWN_DURATION);
-				_countdownTimer.addEventListener(TimerEvent.TIMER, countdownTimer_timerEventHandler);
-				_countdownTimer.addEventListener(TimerEvent.TIMER_COMPLETE, countdownTimer_timerCompleteHandler);
-				_countdownIndex = COUNTDOWN_DURATION;
-				_countdownTimer.start();
-				_isCountdownRunning = true;
-			}
-		}
-
-		private function countdownTimer_timerEventHandler(event:TimerEvent):void
-		{
-			_countdownIndex = COUNTDOWN_DURATION - _countdownTimer.currentCount;
-		}
-
-		private function countdownTimer_timerCompleteHandler(event:TimerEvent):void
-		{
-			_isCountdownRunning = false;
-			closeScheduleReportingFullView("timer timeout elapsed");
-		}
-
-		private function okButton_clickHandler():void
-		{
-			_isCountdownRunning = false;
-			_countdownTimer.stop();
-
-			closeScheduleReportingFullView("time timeout elapsed - user pressed ok");
-		}
-
-		private function cancelButton_clickHandler():void
-		{
-			if (_timeoutTimer)
-			{
-				_timeoutTimer.reset();
-				_timeoutTimer.start();
-			}
-			_isCountdownRunning = false;
-			_countdownTimer.stop();
-		}
-
-		private function closeScheduleReportingFullView(viaMechanism:String):void
-		{
-			_scheduleReportingController.closeScheduleReportingFullView(viaMechanism);
-		}
-
-		private function hideHandler():void
-		{
-			if (_countdownTimer)
-				_countdownTimer.stop();
-			if (_timeoutTimer)
-				_timeoutTimer.stop();
-		}
+		//		//TODO: Determine why this is not being called when the view is shown, likely because of the change in implementation to use the viewNavigator
+		//		//As it stands, the timeout does not work.
+		//		private function showHandler():void
+		//		{
+		//			trace("ok this has been shown.");
+		//			// Every time that the view is shown, create a 10 minute timeout timer
+		//			_timeoutTimer = new Timer(TIMEOUT_TIMER_DURATION, 1);
+		//			_timeoutTimer.addEventListener(TimerEvent.TIMER, timeoutTimer_timerEventHandler);
+		//			_timeoutTimer.start();
+		//		}
+		//
+		//		private function timeoutTimer_timerEventHandler(event:TimerEvent):void
+		//		{
+		//			trace("ok the timer went off.");
+		//			if (visible)
+		//			{
+		//				_countdownTimer = new Timer(1000, COUNTDOWN_DURATION);
+		//				_countdownTimer.addEventListener(TimerEvent.TIMER, countdownTimer_timerEventHandler);
+		//				_countdownTimer.addEventListener(TimerEvent.TIMER_COMPLETE, countdownTimer_timerCompleteHandler);
+		//				_countdownIndex = COUNTDOWN_DURATION;
+		//				_countdownTimer.start();
+		//				_isCountdownRunning = true;
+		//			}
+		//		}
+		//
+		//		private function countdownTimer_timerEventHandler(event:TimerEvent):void
+		//		{
+		//			_countdownIndex = COUNTDOWN_DURATION - _countdownTimer.currentCount;
+		//		}
+		//
+		//		private function countdownTimer_timerCompleteHandler(event:TimerEvent):void
+		//		{
+		//			_isCountdownRunning = false;
+		//			closeScheduleReportingFullView("timer timeout elapsed");
+		//		}
+		//
+		//		private function okButton_clickHandler():void
+		//		{
+		//			_isCountdownRunning = false;
+		//			_countdownTimer.stop();
+		//
+		//			closeScheduleReportingFullView("time timeout elapsed - user pressed ok");
+		//		}
+		//
+		//		private function cancelButton_clickHandler():void
+		//		{
+		//			if (_timeoutTimer)
+		//			{
+		//				_timeoutTimer.reset();
+		//				_timeoutTimer.start();
+		//			}
+		//			_isCountdownRunning = false;
+		//			_countdownTimer.stop();
+		//		}
+		//
+		//		private function closeScheduleReportingFullView(viaMechanism:String):void
+		//		{
+		//			_scheduleReportingController.closeScheduleReportingFullView(viaMechanism);
+		//		}
+		//
+		//		private function hideHandler():void
+		//		{
+		//			if (_countdownTimer)
+		//				_countdownTimer.stop();
+		//			if (_timeoutTimer)
+		//				_timeoutTimer.stop();
+		//		}
 
 		private function addedToStage():void
 		{
@@ -169,14 +208,14 @@
 //			scheduleGroupReportingView.scheduleItemsGroup.removeAllElements();
 		}
 
-		private function scheduleReportingFullView_clickHandler():void
-		{
-			if (_timeoutTimer)
-			{
-				_timeoutTimer.reset();
-				_timeoutTimer.start();
-			}
-		}
+		//		private function scheduleReportingFullView_clickHandler():void
+		//		{
+		//			if (_timeoutTimer)
+		//			{
+		//				_timeoutTimer.reset();
+		//				_timeoutTimer.start();
+		//			}
+		//		}
 
 		private function scheduleGroupReportingView_changeHandler(event:IndexChangeEvent):void
 		{
@@ -199,6 +238,18 @@
 			scheduleGroupReportingView.selectedIndex = -1;
 			event.target.close();
 		}
+
+		private function saveButton_clickHandler():void
+		{
+			_scheduleReportingController.saveChangesToRecord();
+			_scheduleReportingController.goBack();
+		}
+
+		override public function homeButton_clickHandler():void
+		{
+			_scheduleReportingController.saveChangesToRecord();
+			super.homeButton_clickHandler();
+		}
 		]]></fx:Script>
 	<s:Group width="50%" height="100%">
 		<s:Rect width="100%" height="100%">
@@ -214,7 +265,7 @@
 			</s:stroke>
 		</s:Line>
 	</s:Group>
-	<s:Group width="100%" height="100%" visible="{_isCountdownRunning}">
+<!--	<s:Group width="100%" height="100%" visible="{_isCountdownRunning}">
 		<s:Rect width="100%" height="100%">
 			<s:fill>
 				<s:SolidColor color="0x000000" alpha="0.5"/>
@@ -243,5 +294,5 @@
 				</s:HGroup>
 			</s:VGroup>
 		</s:Group>
-	</s:Group>
-</s:Group>
+	</s:Group>-->
+</sharedViews:TabletViewBase>

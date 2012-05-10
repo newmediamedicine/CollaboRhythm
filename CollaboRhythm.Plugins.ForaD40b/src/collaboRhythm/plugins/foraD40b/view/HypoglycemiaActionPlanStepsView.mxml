@@ -56,7 +56,7 @@
 				0.3, 0.59, 0.11, 0, 0,
 				0, 0, 0, 1, 0]);
 
-			if (_dataInputModel.currentView == EatView)
+			if (_dataInputModel.currentView == Step1HypoglycemiaActionPlanView)
 			{
 				waitHGroup.alpha = 0.3;
 				waitHGroup.filters = [grayscaleFilter];
@@ -64,7 +64,7 @@
 				recheckHGroup.alpha = 0.3;
 				recheckHGroup.filters = [grayscaleFilter];
 			}
-			else if (_dataInputModel.currentView == WaitView)
+			else if (_dataInputModel.currentView == Step2HypoglycemiaActionPlanView)
 			{
 				eatHGroup.alpha = 0.3;
 				eatHGroup.filters = [grayscaleFilter];
@@ -80,6 +80,25 @@
 				waitHGroup.alpha = 0.3;
 				waitHGroup.filters = [grayscaleFilter];
 			}
+			else if (_dataInputModel.currentView == Step4HypoglycemiaActionPlanView)
+			{
+				eatHGroup.alpha = 0.3;
+				eatHGroup.filters = [grayscaleFilter];
+
+				waitHGroup.alpha = 0.3;
+				waitHGroup.filters = [grayscaleFilter];
+
+				recheckHGroup.alpha = 0.3;
+				recheckHGroup.filters = [grayscaleFilter];
+
+				eatSlowCarbsArrow.includeInLayout = true;
+				eatSlowCarbsArrow.visible = true;
+				eatSlowCarbsHGroup.includeInLayout = true;
+				eatSlowCarbsHGroup.visible = true;
+
+				hypoglycemiaHGroup.includeInLayout = false;
+				hypoglycemiaHGroup.visible = false;
+			}
 
 			bloodGlucoseLabel.text = _dataInputModel.bloodGlucose + " mg/dL";
 		}
@@ -91,59 +110,77 @@
 			</s:fill>
 		</s:Rect>
 		<s:HGroup paddingLeft="20" paddingTop="20" gap="70">
-			<s:HGroup gap="10">
+			<s:HGroup id="hypoglycemiaHGroup" gap="10">
 				<view:WarningIcon/>
 				<s:VGroup paddingTop="10" gap="0">
 					<s:Label text="Hypoglycemia" styleName="actionPlanStepLarge"/>
 					<s:Label id="bloodGlucoseLabel" styleName="actionPlanStepSmall"/>
 				</s:VGroup>
 			</s:HGroup>
-			<s:HGroup gap="25" verticalAlign="middle">
-				<s:HGroup id="eatHGroup" gap="10">
-					<s:Group>
-						<s:Ellipse width="70" height="70">
-							<s:fill>
-								<s:SolidColor color="0xF7941E"/>
-							</s:fill>
-						</s:Ellipse>
-						<s:Label text="1" styleName="stepNumber" horizontalCenter="1" verticalCenter="3"/>
-					</s:Group>
-					<s:VGroup paddingTop="10" gap="0">
-						<s:Label text="Eat" styleName="actionPlanStepLarge"/>
-						<s:Label text="Quick Sugar" styleName="actionPlanStepSmall"/>
-					</s:VGroup>
+			<s:Group >
+				<s:HGroup gap="25" verticalAlign="middle">
+					<s:HGroup id="eatHGroup" gap="10">
+						<s:Group>
+							<s:Ellipse width="70" height="70">
+								<s:fill>
+									<s:SolidColor color="0xF7941E"/>
+								</s:fill>
+							</s:Ellipse>
+							<s:Label text="1" styleName="stepNumber" horizontalCenter="1" verticalCenter="3"/>
+						</s:Group>
+						<s:VGroup paddingTop="10" gap="0">
+							<s:Label text="Eat" styleName="actionPlanStepLarge"/>
+							<s:Label text="Quick Sugar" styleName="actionPlanStepSmall"/>
+						</s:VGroup>
+					</s:HGroup>
+					<view:Arrow id="waitArrow" alpha="0.3"/>
+					<s:HGroup id="waitHGroup" gap="10">
+						<s:Group>
+							<s:Ellipse width="70" height="70">
+								<s:fill>
+									<s:SolidColor color="0xF7941E"/>
+								</s:fill>
+							</s:Ellipse>
+							<s:Label text="2" styleName="stepNumber" horizontalCenter="1" verticalCenter="3"/>
+						</s:Group>
+						<s:VGroup paddingTop="10" gap="0">
+							<s:Label text="Wait" styleName="actionPlanStepLarge"/>
+							<s:Label text="15 Minutes" styleName="actionPlanStepSmall"/>
+						</s:VGroup>
+					</s:HGroup>
+					<view:Arrow id="recheckArrow" alpha="0.3" verticalCenter="0"/>
+					<s:HGroup id="recheckHGroup" gap="10">
+						<s:Group>
+							<s:Ellipse width="70" height="70">
+								<s:fill>
+									<s:SolidColor color="0xF7941E"/>
+								</s:fill>
+							</s:Ellipse>
+							<s:Label text="3" styleName="stepNumber" horizontalCenter="1" verticalCenter="3"/>
+						</s:Group>
+						<s:VGroup paddingTop="10" gap="0">
+							<s:Label text="Recheck" styleName="actionPlanStepLarge"/>
+							<s:Label text="Blood Glucose" styleName="actionPlanStepSmall"/>
+						</s:VGroup>
+					</s:HGroup>
+					<view:Arrow id="eatSlowCarbsArrow" alpha="0.3" verticalCenter="0" includeInLayout="false"
+								visible="false"/>
+					<s:HGroup id="eatSlowCarbsHGroup" gap="10" includeInLayout="false" visible="false">
+						<s:Group>
+							<s:Ellipse width="70" height="70">
+								<s:fill>
+									<s:SolidColor color="0xF7941E"/>
+								</s:fill>
+							</s:Ellipse>
+							<s:Label text="4" styleName="stepNumber" horizontalCenter="1" verticalCenter="3"/>
+						</s:Group>
+						<s:VGroup paddingTop="10" gap="0">
+							<s:Label text="Eat" styleName="actionPlanStepLarge"/>
+							<s:Label text="Slow Carbs" styleName="actionPlanStepSmall"/>
+						</s:VGroup>
+					</s:HGroup>
 				</s:HGroup>
-				<view:Arrow id="waitArrow" alpha="0.3"/>
-				<s:HGroup id="waitHGroup" gap="10">
-					<s:Group>
-						<s:Ellipse width="70" height="70">
-							<s:fill>
-								<s:SolidColor color="0xF7941E"/>
-							</s:fill>
-						</s:Ellipse>
-						<s:Label text="2" styleName="stepNumber" horizontalCenter="1" verticalCenter="3"/>
-					</s:Group>
-					<s:VGroup paddingTop="10" gap="0">
-						<s:Label text="Wait" styleName="actionPlanStepLarge"/>
-						<s:Label text="15 Minutes" styleName="actionPlanStepSmall"/>
-					</s:VGroup>
-				</s:HGroup>
-				<view:Arrow id="recheckArrow" alpha="0.3" verticalCenter="0"/>
-				<s:HGroup id="recheckHGroup" gap="10">
-					<s:Group>
-						<s:Ellipse width="70" height="70">
-							<s:fill>
-								<s:SolidColor color="0xF7941E"/>
-							</s:fill>
-						</s:Ellipse>
-						<s:Label text="3" styleName="stepNumber" horizontalCenter="1" verticalCenter="3"/>
-					</s:Group>
-					<s:VGroup paddingTop="10" gap="0">
-						<s:Label text="Recheck" styleName="actionPlanStepLarge"/>
-						<s:Label text="Blood Glucose" styleName="actionPlanStepSmall"/>
-					</s:VGroup>
-				</s:HGroup>
-			</s:HGroup>
+			</s:Group>
 		</s:HGroup>
 		<s:Line left="0" right="0" bottom="0">
 			<s:stroke>

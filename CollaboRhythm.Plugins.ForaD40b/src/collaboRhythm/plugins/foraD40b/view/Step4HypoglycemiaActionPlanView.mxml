@@ -23,20 +23,30 @@
 					   creationComplete="creationCompleteHandler(event)"
 					   addedToStage="addedToStageHandler()"
 					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
-					   title="Hypoglycemia Action Plan - Step 1: Eat Quick Sugar">
+					   title="Hypoglycemia Action Plan - Step 4: Eat Slow Carbs">
+	<fx:Declarations>
+		<s:Button id="finishActionButton" label="Finish" click="finishButton_clickHandler()"/>
+	</fx:Declarations>
 	<fx:Style>
 		#instructionsLabel {
-			fontSize: 24;
+			fontSize: 36;
+		}
+
+		.timeCondition {
+			fontSize: 36;
+			color: #808285;
+		}
+
+		.carbInstructions {
+			fontSize: 30;
 		}
 	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
-		import collaboRhythm.plugins.foraD40b.model.QuickSugarItem;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 
-		import mx.collections.ArrayCollection;
 		import mx.events.FlexEvent;
 
 		[Embed(source="/assets/images/juice.png")]
@@ -69,45 +79,14 @@
 		{
 			hypoglycemiaActionPlanView.init(_dataInputModel);
 
-			var imageClassArray:Array = [juiceImageClass, sodaImageClass, glucoseTabletsImageClass, honeyImageClass];
-			var textArray:Array = ["Drink a cup of fruit juice", "Drink a cup of (non-diet) soda", "Take 8 glucose tablets", "Eat 30g of other quick sugar"];
-			var quickSugarItemArrayCollection:ArrayCollection = new ArrayCollection();
-
-			var index:int = 0;
-			for each (var imageClass:Class in imageClassArray)
-			{
-				var quickSugarItemText:String = textArray[index];
-
-				if (_dataInputModel.glycemicState == BloodGlucoseHealthActionInputModel.HYPOGLYCEMIA)
-				{
-					quickSugarItemText = quickSugarItemText.replace("a cup", "1/2 cup");
-					quickSugarItemText = quickSugarItemText.replace("8", "4");
-					quickSugarItemText = quickSugarItemText.replace("30g", "15g");
-
-					if (index == 0)
-					{
-						if (_dataInputModel.repeatCount == 1)
-						{
-							instructionsLabel.text = "Choose one for blood glucose < 70 mg/dL"
-						}
-						else
-						{
-							instructionsLabel.text = "Choose one for repeat blood glucose < 90 mg/dL"
-						}
-					}
-				}
-
-				var quickSugarItem:QuickSugarItem = new QuickSugarItem(imageClass, quickSugarItemText);
-				quickSugarItemArrayCollection.addItem(quickSugarItem);
-				index++;
-			}
-
-			quickSugarItemList.dataProvider = quickSugarItemArrayCollection;
+			instructionsLabel.text = "Your blood glucose (" + _dataInputModel.bloodGlucose +
+					" mg/dL) is back to normal."
 		}
 
-		private function quickSugarItemList_changeHandler():void
+		override protected function createChildren():void
 		{
-			_dataInputController.pushWaitView();
+			super.createChildren();
+			actionContent.unshift(finishActionButton);
 		}
 
 		private function addedToStageHandler():void
@@ -133,22 +112,29 @@
 		{
 			return _dataInputController;
 		}
+
+		private function finishButton_clickHandler():void
+		{
+			_dataInputController.clearStack();
+		}
 		]]></fx:Script>
-	<view:HypoglycemiaActionPlanView id="hypoglycemiaActionPlanView"/>
 	<s:Group width="100%" height="100%">
-		<s:VGroup gap="20" top="160" horizontalCenter="0" horizontalAlign="center">
-			<s:Label id="instructionsLabel" text="Choose one for blood glucose &#0060; 60 mg/dL"/>
-			<s:Group height="400">
-				<s:List id="quickSugarItemList" height="100%" width="590"
-						itemRenderer="collaboRhythm.plugins.foraD40b.view.QuickSugarItemRenderer"
-						verticalScrollPolicy="off" horizontalScrollPolicy="off"
-						change="quickSugarItemList_changeHandler()"/>
-				<s:Rect width="100%" height="100%">
-					<s:stroke>
-						<s:SolidColorStroke color="0x000000"/>
-					</s:stroke>
-				</s:Rect>
-			</s:Group>
+		<view:HypoglycemiaActionPlanStepsView id="hypoglycemiaActionPlanView"/>
+		<s:VGroup gap="90" top="150" horizontalCenter="0" horizontalAlign="center">
+			<s:Label id="instructionsLabel"/>
+			<s:VGroup gap="60" horizontalAlign="center">
+				<s:VGroup horizontalAlign="center">
+					<s:Label text="If you plan to eat within 1 hour:" styleName="timeCondition"/>
+					<s:Label text="Eat 15g of slow carbs now (6 saltine crackers or 3 graham cracker squares)"
+							 styleName="carbInstructions"/>
+				</s:VGroup>
+				<s:VGroup horizontalAlign="center">
+					<s:Label text="If you plan to eat after more than 1 hour:" styleName="timeCondition"/>
+					<s:Label text="Eat 30g of slow carbs now (1 peanut butter sandwich)" styleName="carbInstructions"/>
+				</s:VGroup>
+			</s:VGroup>
 		</s:VGroup>
+		<s:Button id="finishButton" label="Finish" width="160" height="50" bottom="90" horizontalCenter="0"
+				  click="finishButton_clickHandler()"/>
 	</s:Group>
 </tablet:TabletViewBase>

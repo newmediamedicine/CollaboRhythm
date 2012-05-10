@@ -16,26 +16,20 @@
  */
 package collaboRhythm.plugins.schedule.controller
 {
-    import collaboRhythm.plugins.schedule.model.ScheduleModel;
-    import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
-    import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-    import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
-    import collaboRhythm.shared.controller.apps.AppEvent;
-    import collaboRhythm.shared.model.InteractionLogUtil;
-    import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
-	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+	import collaboRhythm.plugins.schedule.model.ScheduleModel;
+	import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
+	import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
+	import collaboRhythm.shared.controller.apps.AppEvent;
 
 	import flash.events.EventDispatcher;
-    import flash.utils.getQualifiedClassName;
+	import flash.utils.getQualifiedClassName;
 
-    import mx.binding.utils.BindingUtils;
-    import mx.core.UIComponent;
-    import mx.logging.ILogger;
-    import mx.logging.Log;
+	import mx.logging.ILogger;
+	import mx.logging.Log;
 
-    import spark.components.ViewNavigator;
+	import spark.components.ViewNavigator;
 
-    public class ScheduleReportingController extends EventDispatcher
+	public class ScheduleReportingController extends EventDispatcher
 	{
 		private var _scheduleModel:ScheduleModel;
 		private var _scheduleReportingFullView:ScheduleReportingFullView;
@@ -73,5 +67,10 @@ package collaboRhythm.plugins.schedule.controller
         {
             _viewNavigator = value;
         }
-    }
+
+		public function goBack():void
+		{
+			_viewNavigator.popView();
+		}
+	}
 }

@@ -1,8 +1,9 @@
 package collaboRhythm.plugins.foraD40b.model
 {
 	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseHealthActionInputView;
-	import collaboRhythm.plugins.foraD40b.view.EatView;
-	import collaboRhythm.plugins.foraD40b.view.WaitView;
+	import collaboRhythm.plugins.foraD40b.view.Step1HypoglycemiaActionPlanView;
+	import collaboRhythm.plugins.foraD40b.view.Step2HypoglycemiaActionPlanView;
+	import collaboRhythm.plugins.foraD40b.view.Step4HypoglycemiaActionPlanView;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.VitalSignFactory;
@@ -70,6 +71,7 @@ package collaboRhythm.plugins.foraD40b.model
 			if (bloodGlucose != "")
 			{
 				saveBloodGlucose(bloodGlucose);
+				determineNextView();
 			}
 			else
 			{
@@ -106,10 +108,17 @@ package collaboRhythm.plugins.foraD40b.model
 			_healthActionModelDetailsProvider.record.saveAllChanges();
 
 			scheduleItemOccurrence = null;
+		}
 
+		private function determineNextView():void
+		{
 			if (glycemicState == HYPOGLYCEMIA || glycemicState == SEVERE_HYPOGLYCEMIA)
 			{
-				pushView(EatView);
+				pushView(Step1HypoglycemiaActionPlanView);
+			}
+			else if (repeatCount > 0)
+			{
+				pushView(Step4HypoglycemiaActionPlanView);
 			}
 			else
 			{
@@ -128,12 +137,12 @@ package collaboRhythm.plugins.foraD40b.model
 
 		public function pushWaitView():void
 		{
-			pushView(WaitView);
+			pushView(Step2HypoglycemiaActionPlanView);
 		}
 
-		public function cancelBloodGlucose():void
+		public function nextStep():void
 		{
-			currentView = null;
+
 		}
 
 		public function startWaitTimer():void
@@ -142,18 +151,17 @@ package collaboRhythm.plugins.foraD40b.model
 
 			timer = new Timer(1000, seconds);
 			timer.addEventListener(TimerEvent.TIMER, timerHandler);
-			timer.addEventListener(TimerEvent.TIMER_COMPLETE, timerCompleteHandler);
 			timer.start();
-		}
-
-		private function timerCompleteHandler(event:TimerEvent):void
-		{
-			handleHealthActionResult();
 		}
 
 		private function timerHandler(event:TimerEvent):void
 		{
 			seconds--;
+		}
+
+		public function clearStack():void
+		{
+			currentView = null;
 		}
 
 		override public function set urlVariables(value:URLVariables):void
