@@ -115,7 +115,7 @@
 
 		private function finishButton_clickHandler():void
 		{
-			_dataInputController.clearStack();
+			_dataInputController.nextStep();
 		}
 		]]></fx:Script>
 	<s:Group width="100%" height="100%">

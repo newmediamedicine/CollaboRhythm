@@ -42,6 +42,16 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.handleUrlVariables(urlVariables);
 		}
 
+		public function nextStep():void
+		{
+			_dataInputModel.nextStep();
+		}
+
+		public function submitBloodGlucose(bloodGlucose:String):void
+		{
+			_dataInputModel.submitBloodGlucose(bloodGlucose);
+		}
+
 		private function currentView_changeHandler(currentView:Class):void
 		{
 			if (currentView == null)
@@ -60,6 +70,7 @@ package collaboRhythm.plugins.foraD40b.controller
 				pushView(currentView);
 			}
 		}
+
 		public function pushView(currentView:Class):void
 		{
 			var healthActionInputModelAndController:HealthActionInputModelAndController = new HealthActionInputModelAndController(_dataInputModel,
@@ -67,19 +78,9 @@ package collaboRhythm.plugins.foraD40b.controller
 			_viewNavigator.pushView(currentView, healthActionInputModelAndController, null,	new SlideViewTransition());
 		}
 
-		public function submitBloodGlucose(bloodGlucose:String):void
-		{
-			_dataInputModel.submitBloodGlucose(bloodGlucose);
-		}
-
 		public function get healthActionInputViewClass():Class
 		{
 			return HEALTH_ACTION_INPUT_VIEW_CLASS;
-		}
-
-		public function pushWaitView():void
-		{
-			_dataInputModel.pushWaitView();
 		}
 
 		public function startWaitTimer():void
@@ -87,14 +88,9 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.startWaitTimer();
 		}
 
-		public function clearStack():void
+		public function updateManualBloodGlucose(text:String):void
 		{
-			_dataInputModel.clearStack();
-		}
-
-		public function nextStep():void
-		{
-			_dataInputModel.nextStep();
+			_dataInputModel.updateManualBloodGlucose(text);
 		}
 	}
 }

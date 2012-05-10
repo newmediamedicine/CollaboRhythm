@@ -80,26 +80,10 @@
 
 			if (_dataInputModel.glycemicState == BloodGlucoseHealthActionInputModel.HYPOGLYCEMIA)
 			{
-				if (_dataInputModel.repeatCount == 1)
-				{
-					instructionsLabel.text = "Your blood glucose is low (<70)."
-				}
-				else
-				{
-					instructionsLabel.text = "Your blood glucose is still low (<90)."
-				}
 				textArray = hypoglycemiaTextArray;
 			}
 			else if (_dataInputModel.glycemicState == BloodGlucoseHealthActionInputModel.SEVERE_HYPOGLYCEMIA)
 			{
-				if (_dataInputModel.repeatCount == 1)
-				{
-					instructionsLabel.text = "Your blood glucose is very low (<60)."
-				}
-				else
-				{
-					instructionsLabel.text = "Your blood glucose is still very low (<60)."
-				}
 				textArray = severeHypoglycemiaTextArray;
 			}
 
@@ -156,14 +140,13 @@
 
 		private function nextStepButton_clickHandler():void
 		{
-			_dataInputController.pushWaitView();
+			_dataInputController.nextStep();
 		}
 		]]></fx:Script>
 	<s:Group width="100%" height="100%">
 		<view:HypoglycemiaActionPlanStepsView id="hypoglycemiaActionPlanView"/>
-		<s:VGroup gap="26" top="150" horizontalCenter="0" horizontalAlign="center">
-			<s:Label id="instructionsLabel"/>
-			<s:Group height="328">
+		<s:VGroup gap="26" top="160" horizontalCenter="0" horizontalAlign="center">
+			<s:Group height="360">
 				<s:List id="quickSugarItemList" height="100%" width="590"
 						itemRenderer="collaboRhythm.plugins.foraD40b.view.QuickSugarItemRenderer"
 						verticalScrollPolicy="off" horizontalScrollPolicy="off"

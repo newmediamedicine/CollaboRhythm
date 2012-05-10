@@ -19,24 +19,13 @@
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
 					   creationComplete="creationCompleteHandler(event)"
 					   addedToStage="addedToStageHandler()"
-					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
-					   title="Hypoglycemia Action Plan - Step 2: Wait 15 Minutes">
+					   title="Hypoglycemia Action Plan - Step 3: Recheck Blood Glucose">
 	<fx:Declarations>
 		<s:Button id="nextStepActionButton" label="Next Step" enabled="false" click="nextStepButton_clickHandler()"/>
 	</fx:Declarations>
-	<fx:Style>
-		@namespace s "library://ns.adobe.com/flex/spark";
-
-		#recheckLabel {
-			fontSize: 36;
-		}
-
-		#timerLabel {
-			fontSize: 200;
-		}
-	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
@@ -47,28 +36,20 @@
 		import mx.events.FlexEvent;
 
 		[Bindable]
-		private var _dataInputModel:BloodGlucoseHealthActionInputModel;
-		private var _dataInputController:BloodGlucoseHealthActionInputController;
+		protected var _dataInputModel:BloodGlucoseHealthActionInputModel;
+		protected var _dataInputController:BloodGlucoseHealthActionInputController;
 
 		override public function set data(value:Object):void
 		{
 			super.data = value;
 
-			var dataInputModelAndController:HealthActionInputModelAndController = HealthActionInputModelAndController(value);
+			var dataInputModelAndController:HealthActionInputModelAndController = value as
+					HealthActionInputModelAndController;
 
 			_dataInputModel = BloodGlucoseHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
 			_dataInputController = BloodGlucoseHealthActionInputController(dataInputModelAndController.healthActionInputController);
-		}
 
-		private function creationCompleteHandler(event:FlexEvent):void
-		{
-			hypoglycemiaWarningView.init(_dataInputModel);
-
-			_dataInputController.startWaitTimer();
-
-			updateTimerLabel(BloodGlucoseHealthActionInputModel.TIMER_COUNT);
-
-			BindingUtils.bindSetter(updateTimerLabel, _dataInputModel, "seconds");
+			BindingUtils.bindSetter(setManualBloodGlucose, _dataInputModel, "manualBloodGlucose");
 		}
 
 		override protected function createChildren():void
@@ -77,36 +58,29 @@
 			actionContent.unshift(nextStepActionButton);
 		}
 
-		private function updateTimerLabel(totalSeconds:int):void
+		private function creationCompleteHandler(event:FlexEvent):void
 		{
-			var minutes:int = totalSeconds / 60;
-			var seconds:int = totalSeconds % 60;
+			hypoglycemiaWarningView.init(_dataInputModel);
+			reportBloodGlucoseView.init(_dataInputModel, _dataInputController);
+		}
 
-			if (minutes < 10)
+		private function setManualBloodGlucose(manualBloodGlucose:String):void
+		{
+			if (manualBloodGlucose == "" && nextStepButton)
 			{
-				timerLabel.text = "0" + String(minutes);
+				nextStepActionButton.enabled = false;
+				nextStepButton.enabled = false;
 			}
-			else
-			{
-				timerLabel.text = String(minutes);
-			}
-
-			timerLabel.text = timerLabel.text += ":";
-
-			if (seconds < 10)
-			{
-				timerLabel.text = timerLabel.text + "0" + String(seconds);
-			}
-			else
-			{
-				timerLabel.text = timerLabel.text + String(seconds);
-			}
-
-			if (totalSeconds == 0)
+			else if (manualBloodGlucose != "" && nextStepButton)
 			{
 				nextStepActionButton.enabled = true;
 				nextStepButton.enabled = true;
 			}
+		}
+
+		public function get healthActionInputController():IHealthActionInputController
+		{
+			return _dataInputController;
 		}
 
 		private function addedToStageHandler():void
@@ -128,18 +102,13 @@
 
 		}
 
-		public function get healthActionInputController():IHealthActionInputController
-		{
-			return _dataInputController;
-		}
-
 		private function nextStepButton_clickHandler():void
 		{
-			_dataInputController.nextStep();
+			_dataInputController.submitBloodGlucose(reportBloodGlucoseView.bloodGlucoseTextInput.text);
 		}
 		]]></fx:Script>
 	<view:HypoglycemiaActionPlanStepsView id="hypoglycemiaWarningView"/>
-	<s:Label id="timerLabel" verticalCenter="0" horizontalCenter="0"/>
+	<view:ReportBloodGlucoseView id="reportBloodGlucoseView"/>
 	<s:Button id="nextStepButton" label="Next Step" width="160" height="50" bottom="90" horizontalCenter="0"
 			  enabled="false" click="nextStepButton_clickHandler()"/>
 </tablet:TabletViewBase>

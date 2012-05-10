@@ -19,6 +19,17 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
 		 width="100%" height="100%">
+	<fx:Declarations>
+		<s:ColorMatrixFilter id="grayScaleFilter"
+							 matrix="0.3, 0.59, 0.11, 0, 0, 0.3, 0.59, 0.11, 0, 0,	0.3, 0.59, 0.11, 0, 0, 0, 0, 0, 1, 0"/>
+	</fx:Declarations>
+	<s:states>
+		<s:State name="start"/>
+		<s:State name="step1"/>
+		<s:State name="step2"/>
+		<s:State name="step3"/>
+		<s:State name="step4"/>
+	</s:states>
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 
@@ -42,8 +53,6 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
 
-		import spark.filters.ColorMatrixFilter;
-
 		[Bindable]
 		private var _dataInputModel:BloodGlucoseHealthActionInputModel;
 
@@ -51,56 +60,28 @@
 		{
 			_dataInputModel = dataInputModel;
 
-			var grayscaleFilter:ColorMatrixFilter = new ColorMatrixFilter([0.3, 0.59, 0.11, 0, 0,
-				0.3, 0.59, 0.11, 0, 0,
-				0.3, 0.59, 0.11, 0, 0,
-				0, 0, 0, 1, 0]);
+			bloodGlucoseLabel.text = _dataInputModel.bloodGlucose + " mg/dL";
 
-			if (_dataInputModel.currentView == Step1HypoglycemiaActionPlanView)
+			if (_dataInputModel.currentView == StartHypoglycemiaActionPlanView)
 			{
-				waitHGroup.alpha = 0.3;
-				waitHGroup.filters = [grayscaleFilter];
-
-				recheckHGroup.alpha = 0.3;
-				recheckHGroup.filters = [grayscaleFilter];
+				currentState = "start";
+			}
+			else if (_dataInputModel.currentView == Step1HypoglycemiaActionPlanView)
+			{
+				currentState = "step1";
 			}
 			else if (_dataInputModel.currentView == Step2HypoglycemiaActionPlanView)
 			{
-				eatHGroup.alpha = 0.3;
-				eatHGroup.filters = [grayscaleFilter];
-
-				recheckHGroup.alpha = 0.3;
-				recheckHGroup.filters = [grayscaleFilter];
+				currentState = "step2";
 			}
-			else if (_dataInputModel.currentView == BloodGlucoseHealthActionInputView)
+			else if (_dataInputModel.currentView == Step3HypoglycemiaActionPlanView)
 			{
-				eatHGroup.alpha = 0.3;
-				eatHGroup.filters = [grayscaleFilter];
-
-				waitHGroup.alpha = 0.3;
-				waitHGroup.filters = [grayscaleFilter];
+				currentState = "step3";
 			}
 			else if (_dataInputModel.currentView == Step4HypoglycemiaActionPlanView)
 			{
-				eatHGroup.alpha = 0.3;
-				eatHGroup.filters = [grayscaleFilter];
-
-				waitHGroup.alpha = 0.3;
-				waitHGroup.filters = [grayscaleFilter];
-
-				recheckHGroup.alpha = 0.3;
-				recheckHGroup.filters = [grayscaleFilter];
-
-				eatSlowCarbsArrow.includeInLayout = true;
-				eatSlowCarbsArrow.visible = true;
-				eatSlowCarbsHGroup.includeInLayout = true;
-				eatSlowCarbsHGroup.visible = true;
-
-				hypoglycemiaHGroup.includeInLayout = false;
-				hypoglycemiaHGroup.visible = false;
+				currentState = "step4";
 			}
-
-			bloodGlucoseLabel.text = _dataInputModel.bloodGlucose + " mg/dL";
 		}
 		]]></fx:Script>
 	<s:Group width="100%" height="110">
@@ -109,17 +90,16 @@
 				<s:SolidColor color="0xF4F4F4"/>
 			</s:fill>
 		</s:Rect>
-		<s:HGroup paddingLeft="20" paddingTop="20" gap="70">
-			<s:HGroup id="hypoglycemiaHGroup" gap="10">
+			<s:HGroup id="hypoglycemiaHGroup" left="20" top="20" gap="10" excludeFrom="step4">
 				<view:WarningIcon/>
 				<s:VGroup paddingTop="10" gap="0">
 					<s:Label text="Hypoglycemia" styleName="actionPlanStepLarge"/>
 					<s:Label id="bloodGlucoseLabel" styleName="actionPlanStepSmall"/>
 				</s:VGroup>
 			</s:HGroup>
-			<s:Group >
+			<s:Group right="20" top="20" horizontalCenter.step4="0">
 				<s:HGroup gap="25" verticalAlign="middle">
-					<s:HGroup id="eatHGroup" gap="10">
+					<s:HGroup id="step1HGroup" gap="10" filters="{[grayScaleFilter]}" filters.step1="{[]}" alpha="0.3" alpha.step1="1">
 						<s:Group>
 							<s:Ellipse width="70" height="70">
 								<s:fill>
@@ -133,8 +113,8 @@
 							<s:Label text="Quick Sugar" styleName="actionPlanStepSmall"/>
 						</s:VGroup>
 					</s:HGroup>
-					<view:Arrow id="waitArrow" alpha="0.3"/>
-					<s:HGroup id="waitHGroup" gap="10">
+					<view:Arrow id="step2Arrow" alpha="0.3"/>
+					<s:HGroup id="step2HGroup" gap="10" filters="{[grayScaleFilter]}" filters.step2="{[]}" alpha="0.3" alpha.step2="1">
 						<s:Group>
 							<s:Ellipse width="70" height="70">
 								<s:fill>
@@ -148,8 +128,8 @@
 							<s:Label text="15 Minutes" styleName="actionPlanStepSmall"/>
 						</s:VGroup>
 					</s:HGroup>
-					<view:Arrow id="recheckArrow" alpha="0.3" verticalCenter="0"/>
-					<s:HGroup id="recheckHGroup" gap="10">
+					<view:Arrow id="step3Arrow" alpha="0.3" verticalCenter="0"/>
+					<s:HGroup id="step3HGroup" gap="10" filters="{[grayScaleFilter]}" filters.step3="{[]}" alpha="0.3" alpha.step3="1">
 						<s:Group>
 							<s:Ellipse width="70" height="70">
 								<s:fill>
@@ -163,9 +143,8 @@
 							<s:Label text="Blood Glucose" styleName="actionPlanStepSmall"/>
 						</s:VGroup>
 					</s:HGroup>
-					<view:Arrow id="eatSlowCarbsArrow" alpha="0.3" verticalCenter="0" includeInLayout="false"
-								visible="false"/>
-					<s:HGroup id="eatSlowCarbsHGroup" gap="10" includeInLayout="false" visible="false">
+					<view:Arrow id="step4Arrow" alpha="0.3" verticalCenter="0" includeIn="step4"/>
+					<s:HGroup id="step4HGroup" gap="10" includeIn="step4">
 						<s:Group>
 							<s:Ellipse width="70" height="70">
 								<s:fill>
@@ -181,7 +160,6 @@
 					</s:HGroup>
 				</s:HGroup>
 			</s:Group>
-		</s:HGroup>
 		<s:Line left="0" right="0" bottom="0">
 			<s:stroke>
 				<s:SolidColorStroke color="0x666766"/>
