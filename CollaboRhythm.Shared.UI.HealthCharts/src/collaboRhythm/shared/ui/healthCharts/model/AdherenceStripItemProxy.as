@@ -1,6 +1,7 @@
 package collaboRhythm.shared.ui.healthCharts.model
 {
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 
@@ -82,7 +83,11 @@ package collaboRhythm.shared.ui.healthCharts.model
 
 				if (_proxyType == MEDICATION_TYPE)
 				{
-					return "Medication " + (adherenceItem.adherence ? "<b>Taken</b>" : "<b>Not</b> Taken") +
+					var adherenceResultMessage:String = "";
+					var medicationAdministration:MedicationAdministration = adherenceItem.adherenceResults.length > 0 ? adherenceItem.adherenceResults[0] as MedicationAdministration : null;
+					if (medicationAdministration && medicationAdministration.amountAdministered)
+						adherenceResultMessage = " " + medicationAdministration.amountAdministered.value + " " + medicationAdministration.amountAdministered.unit.text;
+					return "Medication " + (adherenceItem.adherence ? "<b>Taken</b>" : "<b>Not</b> Taken") + adherenceResultMessage +
 							dateReportedMessage;
 				}
 				else if (_proxyType == EQUIPMENT_TYPE)
