@@ -34,7 +34,7 @@
 		@namespace s "library://ns.adobe.com/flex/spark";
 
 		.warningText {
-			color: #ED1C24;
+			color: #FCEE22;
 			fontSize: 36;
 		}
 
@@ -90,76 +90,79 @@
 				<s:SolidColor color="0xF4F4F4"/>
 			</s:fill>
 		</s:Rect>
-			<s:HGroup id="hypoglycemiaHGroup" left="20" top="20" gap="10" excludeFrom="step4">
-				<view:WarningIcon/>
-				<s:VGroup paddingTop="10" gap="0">
-					<s:Label text="Hypoglycemia" styleName="actionPlanStepLarge"/>
-					<s:Label id="bloodGlucoseLabel" styleName="actionPlanStepSmall"/>
-				</s:VGroup>
-			</s:HGroup>
-			<s:Group right="20" top="20" horizontalCenter.step4="0">
-				<s:HGroup gap="25" verticalAlign="middle">
-					<s:HGroup id="step1HGroup" gap="10" filters="{[grayScaleFilter]}" filters.step1="{[]}" alpha="0.3" alpha.step1="1">
-						<s:Group>
-							<s:Ellipse width="70" height="70">
-								<s:fill>
-									<s:SolidColor color="0xF7941E"/>
-								</s:fill>
-							</s:Ellipse>
-							<s:Label text="1" styleName="stepNumber" horizontalCenter="1" verticalCenter="3"/>
-						</s:Group>
-						<s:VGroup paddingTop="10" gap="0">
-							<s:Label text="Eat" styleName="actionPlanStepLarge"/>
-							<s:Label text="Quick Sugar" styleName="actionPlanStepSmall"/>
-						</s:VGroup>
-					</s:HGroup>
-					<view:Arrow id="step2Arrow" alpha="0.3"/>
-					<s:HGroup id="step2HGroup" gap="10" filters="{[grayScaleFilter]}" filters.step2="{[]}" alpha="0.3" alpha.step2="1">
-						<s:Group>
-							<s:Ellipse width="70" height="70">
-								<s:fill>
-									<s:SolidColor color="0xF7941E"/>
-								</s:fill>
-							</s:Ellipse>
-							<s:Label text="2" styleName="stepNumber" horizontalCenter="1" verticalCenter="3"/>
-						</s:Group>
-						<s:VGroup paddingTop="10" gap="0">
-							<s:Label text="Wait" styleName="actionPlanStepLarge"/>
-							<s:Label text="15 Minutes" styleName="actionPlanStepSmall"/>
-						</s:VGroup>
-					</s:HGroup>
-					<view:Arrow id="step3Arrow" alpha="0.3" verticalCenter="0"/>
-					<s:HGroup id="step3HGroup" gap="10" filters="{[grayScaleFilter]}" filters.step3="{[]}" alpha="0.3" alpha.step3="1">
-						<s:Group>
-							<s:Ellipse width="70" height="70">
-								<s:fill>
-									<s:SolidColor color="0xF7941E"/>
-								</s:fill>
-							</s:Ellipse>
-							<s:Label text="3" styleName="stepNumber" horizontalCenter="1" verticalCenter="3"/>
-						</s:Group>
-						<s:VGroup paddingTop="10" gap="0">
-							<s:Label text="Recheck" styleName="actionPlanStepLarge"/>
-							<s:Label text="Blood Glucose" styleName="actionPlanStepSmall"/>
-						</s:VGroup>
-					</s:HGroup>
-					<view:Arrow id="step4Arrow" alpha="0.3" verticalCenter="0" includeIn="step4"/>
-					<s:HGroup id="step4HGroup" gap="10" includeIn="step4">
-						<s:Group>
-							<s:Ellipse width="70" height="70">
-								<s:fill>
-									<s:SolidColor color="0xF7941E"/>
-								</s:fill>
-							</s:Ellipse>
-							<s:Label text="4" styleName="stepNumber" horizontalCenter="1" verticalCenter="3"/>
-						</s:Group>
-						<s:VGroup paddingTop="10" gap="0">
-							<s:Label text="Eat" styleName="actionPlanStepLarge"/>
-							<s:Label text="Slow Carbs" styleName="actionPlanStepSmall"/>
-						</s:VGroup>
-					</s:HGroup>
+		<s:HGroup id="hypoglycemiaHGroup" left="20" top="20" gap="10" excludeFrom="step4">
+			<view:WarningIcon/>
+			<s:VGroup paddingTop="10" gap="0">
+				<s:Label text="Hypoglycemia" styleName="actionPlanStepLarge"/>
+				<s:Label id="bloodGlucoseLabel" styleName="actionPlanStepSmall"/>
+			</s:VGroup>
+		</s:HGroup>
+		<s:Group right="20" top="20" horizontalCenter.step4="0">
+			<s:HGroup gap="25" verticalAlign="middle">
+				<s:HGroup id="step1HGroup" gap="10" filters="{[grayScaleFilter]}" filters.step1="{[]}" alpha="0.3"
+						  alpha.step1="1">
+					<s:Group>
+						<s:Ellipse width="70" height="70">
+							<s:fill>
+								<s:SolidColor color="0xF7941E"/>
+							</s:fill>
+						</s:Ellipse>
+						<s:Label text="1" styleName="stepNumber" horizontalCenter="1" verticalCenter="3"/>
+					</s:Group>
+					<s:VGroup paddingTop="10" gap="0">
+						<s:Label text="Eat" styleName="actionPlanStepLarge"/>
+						<s:Label text="Quick Sugar" styleName="actionPlanStepSmall"/>
+					</s:VGroup>
 				</s:HGroup>
-			</s:Group>
+				<view:Arrow id="step2Arrow" alpha="0.3"/>
+				<s:HGroup id="step2HGroup" gap="10" filters="{[grayScaleFilter]}" filters.step2="{[]}" alpha="0.3"
+						  alpha.step2="1">
+					<s:Group>
+						<s:Ellipse width="70" height="70">
+							<s:fill>
+								<s:SolidColor color="0xF7941E"/>
+							</s:fill>
+						</s:Ellipse>
+						<s:Label text="2" styleName="stepNumber" horizontalCenter="1" verticalCenter="3"/>
+					</s:Group>
+					<s:VGroup paddingTop="10" gap="0">
+						<s:Label text="Wait" styleName="actionPlanStepLarge"/>
+						<s:Label text="15 Minutes" styleName="actionPlanStepSmall"/>
+					</s:VGroup>
+				</s:HGroup>
+				<view:Arrow id="step3Arrow" alpha="0.3" verticalCenter="0"/>
+				<s:HGroup id="step3HGroup" gap="10" filters="{[grayScaleFilter]}" filters.step3="{[]}" alpha="0.3"
+						  alpha.step3="1">
+					<s:Group>
+						<s:Ellipse width="70" height="70">
+							<s:fill>
+								<s:SolidColor color="0xF7941E"/>
+							</s:fill>
+						</s:Ellipse>
+						<s:Label text="3" styleName="stepNumber" horizontalCenter="1" verticalCenter="3"/>
+					</s:Group>
+					<s:VGroup paddingTop="10" gap="0">
+						<s:Label text="Recheck" styleName="actionPlanStepLarge"/>
+						<s:Label text="Blood Glucose" styleName="actionPlanStepSmall"/>
+					</s:VGroup>
+				</s:HGroup>
+				<view:Arrow id="step4Arrow" alpha="0.3" verticalCenter="0" includeIn="step4"/>
+				<s:HGroup id="step4HGroup" gap="10" includeIn="step4">
+					<s:Group>
+						<s:Ellipse width="70" height="70">
+							<s:fill>
+								<s:SolidColor color="0xF7941E"/>
+							</s:fill>
+						</s:Ellipse>
+						<s:Label text="4" styleName="stepNumber" horizontalCenter="1" verticalCenter="3"/>
+					</s:Group>
+					<s:VGroup paddingTop="10" gap="0">
+						<s:Label text="Eat" styleName="actionPlanStepLarge"/>
+						<s:Label text="Slow Carbs" styleName="actionPlanStepSmall"/>
+					</s:VGroup>
+				</s:HGroup>
+			</s:HGroup>
+		</s:Group>
 		<s:Line left="0" right="0" bottom="0">
 			<s:stroke>
 				<s:SolidColorStroke color="0x666766"/>

@@ -25,6 +25,7 @@
 					   title="Hypoglycemia Action Plan">
 	<fx:Declarations>
 		<s:Button id="startActionButton" label="Start" click="startButton_clickHandler()"/>
+		<view:QuitHypoglycemiaActionPlanPopUp id="quitHypoglycemiaActionPlanPopUp"/>
 	</fx:Declarations>
 	<fx:Style>
 		#interpretationLabel {
@@ -34,6 +35,10 @@
 		#startActionPlanLabel {
 			fontSize: 48;
 		}
+
+		#startButton {
+			chromeColor: #F7941E;
+		}
 	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
@@ -42,6 +47,9 @@
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 
 		import mx.events.FlexEvent;
+		import mx.managers.PopUpManager;
+
+		import spark.events.PopUpEvent;
 
 		private var _dataInputController:BloodGlucoseHealthActionInputController;
 		[Bindable]
@@ -127,7 +135,17 @@
 
 		override public function homeButton_clickHandler():void
 		{
+			quitHypoglycemiaActionPlanPopUp.addEventListener('close', quitHypoglycemiaActionPlanPopUp_closeHandler);
+			quitHypoglycemiaActionPlanPopUp.open(this, true);
+			PopUpManager.centerPopUp(quitHypoglycemiaActionPlanPopUp);
+		}
 
+		private function quitHypoglycemiaActionPlanPopUp_closeHandler(event:PopUpEvent):void
+		{
+			if (event.commit)
+			{
+				_dataInputController.quitHypoglycemiaActionPlan();
+			}
 		}
 
 		public function get healthActionInputController():IHealthActionInputController

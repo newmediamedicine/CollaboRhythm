@@ -189,6 +189,11 @@ package collaboRhythm.plugins.foraD40b.model
 			seconds--;
 		}
 
+		public function quitHypoglycemiaActionPlan():void
+		{
+			pushView(null);
+		}
+
 		override public function set urlVariables(value:URLVariables):void
 		{
 			bloodGlucose = value.bloodGlucose;

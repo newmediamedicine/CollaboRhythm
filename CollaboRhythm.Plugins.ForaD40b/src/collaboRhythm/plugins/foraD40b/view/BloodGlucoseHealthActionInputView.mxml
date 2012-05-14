@@ -65,7 +65,11 @@
 
 		private function setManualBloodGlucose(manualBloodGlucose:String):void
 		{
-			if (manualBloodGlucose != "")
+			if (manualBloodGlucose == "")
+			{
+				saveActionButton.enabled = false;
+			}
+			else if (manualBloodGlucose != "")
 			{
 				saveActionButton.enabled = true;
 			}

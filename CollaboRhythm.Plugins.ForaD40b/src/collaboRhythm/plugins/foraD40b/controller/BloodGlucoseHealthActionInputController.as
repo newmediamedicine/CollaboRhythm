@@ -71,7 +71,7 @@ package collaboRhythm.plugins.foraD40b.controller
 			}
 		}
 
-		public function pushView(currentView:Class):void
+		private function pushView(currentView:Class):void
 		{
 			var healthActionInputModelAndController:HealthActionInputModelAndController = new HealthActionInputModelAndController(_dataInputModel,
 					this);
@@ -91,6 +91,11 @@ package collaboRhythm.plugins.foraD40b.controller
 		public function updateManualBloodGlucose(text:String):void
 		{
 			_dataInputModel.updateManualBloodGlucose(text);
+		}
+
+		public function quitHypoglycemiaActionPlan():void
+		{
+			_dataInputModel.quitHypoglycemiaActionPlan();
 		}
 	}
 }
