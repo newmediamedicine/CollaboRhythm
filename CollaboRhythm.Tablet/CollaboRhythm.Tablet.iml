@@ -40,12 +40,59 @@
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.HealthActions/bin-debug/HealthActionsPluginModule.swf" path-in-package="plugins/HealthActionsPluginModule.swf" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.HypertensionEducation/bin-debug/HypertensionEducationPluginModule.swf" path-in-package="plugins/HypertensionEducationPluginModule.swf" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.InsulinTitrationSupport/bin-debug/CollaboRhythm_Plugins_InsulinTitrationSupportPluginModule.swf" path-in-package="plugins/InsulinTitrationSupportPluginModule.swf" />
-            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.PainReport/bin-debug/PainReportPluginModule.swf" path-in-package="plugins/PainReportPluginModule.swf" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.VideoMessages/bin-debug/VideoMessagesPluginModule.swf" path-in-package="plugins/VideoMessagesPluginModule.swf" />
           </files-to-package>
           <AirSigningOptions keystore-path="$MODULE_DIR$/../CollaboRhythm.Workstation/CollaboRhythmKeystore.p12" />
         </packaging-android>
         <packaging-ios package-file-name="CollaboRhythm_Tablet" />
+      </configuration>
+      <configuration name="CollaboRhythm.Tablet Release" target-platform="Mobile" main-class="CollaboRhythmTabletApplication" output-file="CollaboRhythm_Tablet_Release.swf" output-folder="$MODULE_DIR$/../out/production/CollaboRhythm.Tablet">
+        <dependencies>
+          <entries>
+            <entry module-name="CollaboRhythm.Core.Model" build-configuration-name="CollaboRhythm.Core.Model">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.Collaboration" build-configuration-name="CollaboRhythm.Shared.Collaboration">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Core" build-configuration-name="CollaboRhythm.Core">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared" build-configuration-name="CollaboRhythm.Shared">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.PluginsSupport" build-configuration-name="CollaboRhythm.Shared.PluginsSupport">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="Desktop libraries for mobile applications" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+          </entries>
+          <sdk name="4.6.0" />
+        </dependencies>
+        <compiler-options>
+          <map>
+            <entry key="compiler.debug.swf" value="false" />
+          </map>
+        </compiler-options>
+        <packaging-air-desktop />
+        <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/CollaboRhythmTabletApplication-app.xml" package-file-name="CollaboRhythm_Tablet_Release">
+          <files-to-package>
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/assets/images/icons" path-in-package="assets/images/icons" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Schedule/bin-debug/SchedulePluginModule.swf" path-in-package="plugins/SchedulePluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Medications/bin-debug/MedicationsPluginModule.swf" path-in-package="plugins/MedicationsPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.HealthCharts/bin-debug/HealthChartsPluginModule.swf" path-in-package="plugins/HealthChartsPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Equipment/bin-debug/EquipmentPluginModule.swf" path-in-package="plugins/EquipmentPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../out/production/CollaboRhythm.Plugins.Equipment.InsulinPen/CollaboRhythm_Plugins_Equipment_InsulinPen.swf" path-in-package="plugins/CollaboRhythm_Plugins_InsulinPenPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.ForaD40b/bin-debug/ForaD40bPluginModule.swf" path-in-package="plugins/ForaD40bPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.HealthActions/bin-debug/HealthActionsPluginModule.swf" path-in-package="plugins/HealthActionsPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.HypertensionEducation/bin-debug/HypertensionEducationPluginModule.swf" path-in-package="plugins/HypertensionEducationPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.InsulinTitrationSupport/bin-debug/CollaboRhythm_Plugins_InsulinTitrationSupportPluginModule.swf" path-in-package="plugins/InsulinTitrationSupportPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.VideoMessages/bin-debug/VideoMessagesPluginModule.swf" path-in-package="plugins/VideoMessagesPluginModule.swf" />
+          </files-to-package>
+          <AirSigningOptions keystore-path="$MODULE_DIR$/../CollaboRhythm.Workstation/CollaboRhythmKeystore.p12" use-temp-certificate="false" />
+        </packaging-android>
+        <packaging-ios package-file-name="CollaboRhythm_Tablet_Release" />
       </configuration>
     </configurations>
     <compiler-options />
