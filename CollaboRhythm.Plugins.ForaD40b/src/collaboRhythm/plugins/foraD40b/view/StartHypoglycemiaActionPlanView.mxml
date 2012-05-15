@@ -15,17 +15,11 @@
  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  - <http://www.gnu.org/licenses/>.
 -->
-<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+<view:HypoglycemiaActionPlanViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
-					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
 					   creationComplete="creationCompleteHandler(event)"
-					   addedToStage="addedToStageHandler()"
-					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
-					   title="Hypoglycemia Action Plan">
-	<fx:Declarations>
-		<s:Button id="startActionButton" label="Start" click="startButton_clickHandler()"/>
-	</fx:Declarations>
+					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView">
 	<fx:Style>
 		#interpretationLabel {
 			fontSize: 36;
@@ -34,28 +28,15 @@
 		#startActionPlanLabel {
 			fontSize: 48;
 		}
+
+		#nextStepButton {
+			chromeColor: #F7941E;
+		}
 	</fx:Style>
 	<fx:Script><![CDATA[
-		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
-		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
-		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 
 		import mx.events.FlexEvent;
-
-		private var _dataInputController:BloodGlucoseHealthActionInputController;
-		[Bindable]
-		private var _dataInputModel:BloodGlucoseHealthActionInputModel;
-
-		override public function set data(value:Object):void
-		{
-			super.data = value;
-
-			var dataInputModelAndController:HealthActionInputModelAndController = HealthActionInputModelAndController(value);
-
-			_dataInputModel = BloodGlucoseHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
-			_dataInputController = BloodGlucoseHealthActionInputController(dataInputModelAndController.healthActionInputController);
-		}
 
 		private function creationCompleteHandler(event:FlexEvent):void
 		{
@@ -95,56 +76,26 @@
 
 		private function showStartActionPlanMessage():void
 		{
+			title = "Start Hypoglycemia Action Plan";
 			startActionPlanLabel.text = "Start your hypoglycemia action plan.";
+			nextStepActionButton.label = "Start";
+			nextStepActionButton.enabled = true;
 		}
 
 		private function showContinueActionPlanMessage():void
 		{
+			title = "Continue Hypoglycemia Action Plan";
 			startActionPlanLabel.text = "Continue your hypoglycemia action plan.";
-			startActionButton.label = "Continue";
-			startButton.label = "Continue"
-		}
-
-		override protected function createChildren():void
-		{
-			super.createChildren();
-			actionContent.unshift(startActionButton);
-		}
-
-		private function addedToStageHandler():void
-		{
-			addEventListener(KeyboardEvent.KEY_UP, hardwareKeyUpHandler)
-		}
-
-		private function hardwareKeyUpHandler(event:KeyboardEvent):void
-		{
-			if (event.keyCode == Keyboard.BACK || event.keyCode == Keyboard.HOME)
-			{
-				event.stopImmediatePropagation();
-				event.preventDefault();
-			}
-		}
-
-		override public function homeButton_clickHandler():void
-		{
-
-		}
-
-		public function get healthActionInputController():IHealthActionInputController
-		{
-			return _dataInputController;
-		}
-
-		private function startButton_clickHandler():void
-		{
-			_dataInputController.nextStep();
+			nextStepActionButton.label = "Continue";
+			nextStepActionButton.enabled = true;
+			nextStepButton.label = "Continue"
 		}
 		]]></fx:Script>
 	<s:Group width="100%" height="100%">
 		<view:HypoglycemiaActionPlanStepsView id="hypoglycemiaActionPlanView"/>
 		<s:Label id="interpretationLabel" top="150" horizontalCenter="0"/>
 		<s:Label id="startActionPlanLabel" horizontalCenter="0" verticalCenter="0"/>
-		<s:Button id="startButton" label="Start" width="160" height="50" bottom="90" horizontalCenter="0"
-				  click="startButton_clickHandler()"/>
+		<s:Button id="nextStepButton" label="Start" width="160" height="50" bottom="90" horizontalCenter="0"
+				  click="nextStepButton_clickHandler()"/>
 	</s:Group>
-</tablet:TabletViewBase>
+</view:HypoglycemiaActionPlanViewBase>

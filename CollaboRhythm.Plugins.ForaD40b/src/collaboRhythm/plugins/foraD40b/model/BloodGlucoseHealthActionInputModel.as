@@ -39,12 +39,13 @@ package collaboRhythm.plugins.foraD40b.model
 		private var _invalidBloodGlucose:Boolean = false;
 		private var _glycemicState:String;
 
+		private var _currentStep:int = 0;
 		private var _currentView:Class;
 		private var _pushedViewCount:int = 0;
 
-		public static const TIMER_COUNT:int = 9;
+		public static const TIMER_COUNT:int = 900;
 
-		private var _timer:Timer;
+		private var _timer:Timer = new Timer(1000, BloodGlucoseHealthActionInputModel.TIMER_COUNT);
 		private var _seconds:int;
 
 		public function BloodGlucoseHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence = null,
@@ -60,7 +61,7 @@ package collaboRhythm.plugins.foraD40b.model
 
 		public function handleUrlVariables(urlVariables:URLVariables):void
 		{
-			deviceBloodGlucose = urlVariables.bloodGlucose;
+			deviceBloodGlucose = "54";//urlVariables.bloodGlucose;
 
 			if (hypoglycemiaActionPlanIterationCount == 0)
 			{
@@ -89,18 +90,23 @@ package collaboRhythm.plugins.foraD40b.model
 		{
 			if (currentView == StartHypoglycemiaActionPlanView)
 			{
+				currentStep = 1;
 				pushView(Step1HypoglycemiaActionPlanView);
 			}
 			else if (currentView == Step1HypoglycemiaActionPlanView)
 			{
+				currentStep = 2;
 				pushView(Step2HypoglycemiaActionPlanView);
 			}
 			else if (currentView == Step2HypoglycemiaActionPlanView)
 			{
+				currentStep = 3;
+				timer.stop();
 				pushView(Step3HypoglycemiaActionPlanView);
 			}
 			else if (currentView == Step4HypoglycemiaActionPlanView)
 			{
+				currentStep = 0;
 				pushView(null);
 			}
 		}
@@ -116,16 +122,39 @@ package collaboRhythm.plugins.foraD40b.model
 
 			if (glycemicState == HYPOGLYCEMIA || glycemicState == SEVERE_HYPOGLYCEMIA)
 			{
-				startHypoglycemiaActionPlan();
+				if (currentStep == 0)
+				{
+					startHypoglycemiaActionPlan();
+				}
+				else if (currentStep == 1)
+				{
+					pushView(Step1HypoglycemiaActionPlanView);
+				}
+				else if (currentStep == 2)
+				{
+					pushView(Step2HypoglycemiaActionPlanView);
+				}
+				else if (currentStep == 3)
+				{
+					currentStep = 0;
+					startHypoglycemiaActionPlan();
+				}
+				else if (currentStep == 4)
+				{
+					currentStep = 0;
+					pushView(StartHypoglycemiaActionPlanView);
+				}
 			}
 			else
 			{
 				if (currentView == Step3HypoglycemiaActionPlanView)
 				{
+					currentStep = 4;
 					pushView(Step4HypoglycemiaActionPlanView);
 				}
 				else if (currentView == BloodGlucoseHealthActionInputView)
 				{
+					currentStep = 0;
 					pushView(null);
 				}
 			}
@@ -177,16 +206,24 @@ package collaboRhythm.plugins.foraD40b.model
 
 		public function startWaitTimer():void
 		{
-			seconds = BloodGlucoseHealthActionInputModel.TIMER_COUNT;
+			if (!timer.running)
+			{
+				seconds = BloodGlucoseHealthActionInputModel.TIMER_COUNT;
 
-			timer = new Timer(1000, seconds);
-			timer.addEventListener(TimerEvent.TIMER, timerHandler);
-			timer.start();
+				timer = new Timer(1000, BloodGlucoseHealthActionInputModel.TIMER_COUNT);
+				timer.addEventListener(TimerEvent.TIMER, timerHandler);
+				timer.start();
+			}
 		}
 
 		private function timerHandler(event:TimerEvent):void
 		{
 			seconds--;
+		}
+
+		public function quitHypoglycemiaActionPlan():void
+		{
+			pushView(null);
 		}
 
 		override public function set urlVariables(value:URLVariables):void
@@ -263,6 +300,16 @@ package collaboRhythm.plugins.foraD40b.model
 		public function set hypoglycemiaActionPlanIterationCount(value:int):void
 		{
 			_hypoglycemiaActionPlanIterationCount = value;
+		}
+
+		public function get currentStep():int
+		{
+			return _currentStep;
+		}
+
+		public function set currentStep(value:int):void
+		{
+			_currentStep = value;
 		}
 
 		public function get currentView():Class

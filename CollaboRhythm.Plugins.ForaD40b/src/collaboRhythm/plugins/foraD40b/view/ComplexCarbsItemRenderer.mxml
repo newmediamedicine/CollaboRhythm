@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				height="90">
+	<fx:Style>
+		#complexCarbsItemLabel {
+			font-size: 36;
+		}
+
+		#complexCarbsItemExampleLabel {
+			font-size: 21;
+		}
+	</fx:Style>
+	<fx:Script>
+	    <![CDATA[
+		import collaboRhythm.plugins.foraD40b.model.ComplexCarbsItem;
+
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+
+			var complexCarbsItem:ComplexCarbsItem = value as ComplexCarbsItem;
+
+			complexCarbsItemImage.source = complexCarbsItem.imageClass;
+			complexCarbsItemLabel.text = complexCarbsItem.text;
+			complexCarbsItemExampleLabel.text = complexCarbsItem.example;
+		}
+		]]>
+	    </fx:Script>
+
+	<s:HGroup verticalAlign="middle" paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10">
+		<s:Image id="complexCarbsItemImage"/>
+		<s:VGroup gap="0">
+			<s:Label id="complexCarbsItemLabel" maxDisplayedLines="1"/>
+			<s:Label id="complexCarbsItemExampleLabel" maxDisplayedLines="1"/>
+		</s:VGroup>
+	</s:HGroup>
+
+	<s:Line width="100%" bottom="0">
+		<s:stroke>
+			<s:SolidColorStroke color="0x808285"/>
+		</s:stroke>
+	</s:Line>
+</s:ItemRenderer>

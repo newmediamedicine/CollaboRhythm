@@ -15,20 +15,14 @@
  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  - <http://www.gnu.org/licenses/>.
 -->
-<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+<view:HypoglycemiaActionPlanViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
-					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
-					   xmlns:sharedView="collaboRhythm.plugins.schedule.shared.view.*"
 					   creationComplete="creationCompleteHandler(event)"
-					   addedToStage="addedToStageHandler()"
 					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
-					   title="Hypoglycemia Action Plan - Step 4: Eat Slow Carbs">
-	<fx:Declarations>
-		<s:Button id="finishActionButton" label="Finish" click="finishButton_clickHandler()"/>
-	</fx:Declarations>
+					   title="Hypoglycemia Action Plan - Step 4: Eat Complex Carbs">
 	<fx:Style>
-		#instructionsLabel {
+		#interpretationLabel {
 			fontSize: 36;
 		}
 
@@ -37,104 +31,132 @@
 			color: #808285;
 		}
 
-		.carbInstructions {
-			fontSize: 30;
+		.complexCarbsItemList {
+			selectionColor: #F7941E;
+			downColor: #F4BA7A;
+		}
+
+		#finishButton {
+			chromeColor: #F7941E;
 		}
 	</fx:Style>
 	<fx:Script><![CDATA[
-		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
-		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
-		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
-		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
+		import collaboRhythm.plugins.foraD40b.model.ComplexCarbsItem;
 
+		import mx.collections.ArrayCollection;
 		import mx.events.FlexEvent;
 
-		[Embed(source="/assets/images/juice.png")]
-		public var juiceImageClass:Class;
+		[Embed(source="/assets/images/saltines.png")]
+		public var saltinesImageClass:Class;
 
-		[Embed(source="/assets/images/soda.png")]
-		public var sodaImageClass:Class;
-
-		[Embed(source="/assets/images/glucoseTablets.png")]
-		public var glucoseTabletsImageClass:Class;
-
-		[Embed(source="/assets/images/honey.png")]
-		public var honeyImageClass:Class;
-
-		private var _dataInputController:BloodGlucoseHealthActionInputController;
-		[Bindable]
-		private var _dataInputModel:BloodGlucoseHealthActionInputModel;
-
-		override public function set data(value:Object):void
-		{
-			super.data = value;
-
-			var dataInputModelAndController:HealthActionInputModelAndController = HealthActionInputModelAndController(value);
-
-			_dataInputModel = BloodGlucoseHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
-			_dataInputController = BloodGlucoseHealthActionInputController(dataInputModelAndController.healthActionInputController);
-		}
+		[Embed(source="/assets/images/peanutButterSandwich.png")]
+		public var peanutButterSandwichImageClass:Class;
 
 		private function creationCompleteHandler(event:FlexEvent):void
 		{
 			hypoglycemiaActionPlanView.init(_dataInputModel);
 
-			instructionsLabel.text = "Your blood glucose (" + _dataInputModel.bloodGlucose +
+			nextStepActionButton.label = "Finish";
+
+			interpretationLabel.text = "Your blood glucose (" + _dataInputModel.bloodGlucose +
 					" mg/dL) is back to normal."
+
+			var complexCarbs15gItem:ComplexCarbsItem = new ComplexCarbsItem(saltinesImageClass,
+					"Eat 15g of complex carbs now", "6 saltines crackers for example");
+			var complexCarbs15gItemArray:ArrayCollection = new ArrayCollection();
+			complexCarbs15gItemArray.addItem(complexCarbs15gItem);
+			complexCarbs15gItemList.dataProvider = complexCarbs15gItemArray;
+
+			var complexCarbs30gItem:ComplexCarbsItem = new ComplexCarbsItem(peanutButterSandwichImageClass,
+					"Eat 30g of complex carbs now", "1 peanut butter sandwich for example");
+			var complexCarbs30gItemArray:ArrayCollection = new ArrayCollection();
+			complexCarbs30gItemArray.addItem(complexCarbs30gItem);
+			complexCarbs30gItemList.dataProvider = complexCarbs30gItemArray;
 		}
 
-		override protected function createChildren():void
+		private function complexCarbs15gItemList_changeHandler():void
 		{
-			super.createChildren();
-			actionContent.unshift(finishActionButton);
-		}
-
-		private function addedToStageHandler():void
-		{
-			addEventListener(KeyboardEvent.KEY_UP, hardwareKeyUpHandler)
-		}
-
-		private function hardwareKeyUpHandler(event:KeyboardEvent):void
-		{
-			if (event.keyCode == Keyboard.BACK || event.keyCode == Keyboard.HOME)
+			if (complexCarbs15gItemList.selectedItem == null)
 			{
-				event.stopImmediatePropagation();
-				event.preventDefault();
+				disableFinishButtons();
+			}
+			else
+			{
+				complexCarbs30gItemList.selectedItem = null;
+				enableFinishButtons();
 			}
 		}
 
-		override public function homeButton_clickHandler():void
+		private function complexCarbs30gItemList_changeHandler():void
 		{
-
+			if (complexCarbs30gItemList.selectedItem == null)
+			{
+				disableFinishButtons();
+			}
+			else
+			{
+				complexCarbs15gItemList.selectedItem = null;
+				enableFinishButtons();
+			}
 		}
 
-		public function get healthActionInputController():IHealthActionInputController
+		private function enableFinishButtons():void
 		{
-			return _dataInputController;
+			nextStepButton.enabled = true;
+			nextStepActionButton.enabled = true;
 		}
 
-		private function finishButton_clickHandler():void
+		private function disableFinishButtons():void
+		{
+			nextStepButton.enabled = false;
+			nextStepActionButton.enabled = false;
+		}
+
+		override protected function nextStepButton_clickHandler():void
 		{
 			_dataInputController.nextStep();
 		}
 		]]></fx:Script>
 	<s:Group width="100%" height="100%">
 		<view:HypoglycemiaActionPlanStepsView id="hypoglycemiaActionPlanView"/>
-		<s:VGroup gap="90" top="150" horizontalCenter="0" horizontalAlign="center">
-			<s:Label id="instructionsLabel"/>
-			<s:VGroup gap="60" horizontalAlign="center">
+		<s:VGroup gap="55" top="150" horizontalCenter="0" horizontalAlign="center">
+			<s:Label id="interpretationLabel"/>
+			<s:VGroup gap="35" horizontalAlign="center">
 				<s:VGroup horizontalAlign="center">
 					<s:Label text="If you plan to eat within 1 hour:" styleName="timeCondition"/>
-					<s:Label text="Eat 15g of slow carbs now (6 saltine crackers or 3 graham cracker squares)"
-							 styleName="carbInstructions"/>
+					<s:Group width="590" height="90" horizontalCenter="0">
+						<s:List id="complexCarbs15gItemList" width="100%" height="100%"
+								itemRenderer="collaboRhythm.plugins.foraD40b.view.ComplexCarbsItemRenderer"
+								verticalScrollPolicy="off" horizontalScrollPolicy="off"
+								styleName="complexCarbsItemList"
+								allowMultipleSelection="true"
+								change="complexCarbs15gItemList_changeHandler()"/>
+						<s:Rect width="100%" height="100%">
+							<s:stroke>
+								<s:SolidColorStroke color="0x808285"/>
+							</s:stroke>
+						</s:Rect>
+					</s:Group>
 				</s:VGroup>
 				<s:VGroup horizontalAlign="center">
 					<s:Label text="If you plan to eat after more than 1 hour:" styleName="timeCondition"/>
-					<s:Label text="Eat 30g of slow carbs now (1 peanut butter sandwich)" styleName="carbInstructions"/>
+					<s:Group width="590" height="90" horizontalCenter="0">
+						<s:List id="complexCarbs30gItemList" width="100%" height="100%"
+								itemRenderer="collaboRhythm.plugins.foraD40b.view.ComplexCarbsItemRenderer"
+								verticalScrollPolicy="off" horizontalScrollPolicy="off"
+								styleName="complexCarbsItemList"
+								allowMultipleSelection="true"
+								change="complexCarbs30gItemList_changeHandler()"/>
+						<s:Rect width="100%" height="100%">
+							<s:stroke>
+								<s:SolidColorStroke color="0x808285"/>
+							</s:stroke>
+						</s:Rect>
+					</s:Group>
 				</s:VGroup>
 			</s:VGroup>
 		</s:VGroup>
-		<s:Button id="finishButton" label="Finish" width="160" height="50" bottom="90" horizontalCenter="0"
-				  click="finishButton_clickHandler()"/>
+		<s:Button id="nextStepButton" label="Finish" width="160" height="50" bottom="90" horizontalCenter="0"
+				  enabled="false" click="nextStepButton_clickHandler()"/>
 	</s:Group>
-</tablet:TabletViewBase>
+</view:HypoglycemiaActionPlanViewBase>

@@ -15,94 +15,46 @@
  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  - <http://www.gnu.org/licenses/>.
 -->
-<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+<view:HypoglycemiaActionPlanViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
-					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
 					   creationComplete="creationCompleteHandler(event)"
-					   addedToStage="addedToStageHandler()"
 					   title="Hypoglycemia Action Plan - Step 3: Recheck Blood Glucose">
-	<fx:Declarations>
-		<s:Button id="nextStepActionButton" label="Next Step" enabled="false" click="nextStepButton_clickHandler()"/>
-	</fx:Declarations>
 	<fx:Script><![CDATA[
-		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
-		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
-		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
-		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
-
 		import mx.binding.utils.BindingUtils;
 		import mx.events.FlexEvent;
-
-		[Bindable]
-		protected var _dataInputModel:BloodGlucoseHealthActionInputModel;
-		protected var _dataInputController:BloodGlucoseHealthActionInputController;
-
-		override public function set data(value:Object):void
-		{
-			super.data = value;
-
-			var dataInputModelAndController:HealthActionInputModelAndController = value as
-					HealthActionInputModelAndController;
-
-			_dataInputModel = BloodGlucoseHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
-			_dataInputController = BloodGlucoseHealthActionInputController(dataInputModelAndController.healthActionInputController);
-
-			BindingUtils.bindSetter(setManualBloodGlucose, _dataInputModel, "manualBloodGlucose");
-		}
-
-		override protected function createChildren():void
-		{
-			super.createChildren();
-			actionContent.unshift(nextStepActionButton);
-		}
 
 		private function creationCompleteHandler(event:FlexEvent):void
 		{
 			hypoglycemiaWarningView.init(_dataInputModel);
 			reportBloodGlucoseView.init(_dataInputModel, _dataInputController);
+
+			BindingUtils.bindSetter(setManualBloodGlucose, _dataInputModel, "manualBloodGlucose");
+			BindingUtils.bindSetter(setDeviceBloodGlucose, _dataInputModel, "deviceBloodGlucose");
 		}
 
 		private function setManualBloodGlucose(manualBloodGlucose:String):void
 		{
-			if (manualBloodGlucose == "" && nextStepButton)
+			if (manualBloodGlucose == "")
 			{
 				nextStepActionButton.enabled = false;
 				nextStepButton.enabled = false;
 			}
-			else if (manualBloodGlucose != "" && nextStepButton)
+			else if (manualBloodGlucose != "")
 			{
 				nextStepActionButton.enabled = true;
 				nextStepButton.enabled = true;
 			}
 		}
 
-		public function get healthActionInputController():IHealthActionInputController
+		private function setDeviceBloodGlucose(deviceBloodGlucose:int):void
 		{
-			return _dataInputController;
+			nextStepActionButton.enabled = true;
+			nextStepButton.enabled = true;
 		}
 
-		private function addedToStageHandler():void
-		{
-			addEventListener(KeyboardEvent.KEY_UP, hardwareKeyUpHandler)
-		}
-
-		private function hardwareKeyUpHandler(event:KeyboardEvent):void
-		{
-			if (event.keyCode == Keyboard.BACK || event.keyCode == Keyboard.HOME)
-			{
-				event.stopImmediatePropagation();
-				event.preventDefault();
-			}
-		}
-
-		override public function homeButton_clickHandler():void
-		{
-
-		}
-
-		private function nextStepButton_clickHandler():void
+		override protected function nextStepButton_clickHandler():void
 		{
 			_dataInputController.submitBloodGlucose(reportBloodGlucoseView.bloodGlucoseTextInput.text);
 		}
@@ -111,4 +63,4 @@
 	<view:ReportBloodGlucoseView id="reportBloodGlucoseView"/>
 	<s:Button id="nextStepButton" label="Next Step" width="160" height="50" bottom="90" horizontalCenter="0"
 			  enabled="false" click="nextStepButton_clickHandler()"/>
-</tablet:TabletViewBase>
+</view:HypoglycemiaActionPlanViewBase>

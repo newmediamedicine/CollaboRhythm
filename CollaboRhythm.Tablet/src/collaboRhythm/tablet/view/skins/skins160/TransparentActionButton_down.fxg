@@ -15,13 +15,6 @@
 		 scaleGridTop="6" scaleGridBottom="59" scaleGridLeft="6" scaleGridRight="74"
 		 xmlns:s="http://ns.adobe.com/fxg/2008">
 
-	<!-- inner glow -->
-	<Rect x="0" y="0" width="80" height="65">
-		<fill>
-			<s:SolidColor color="#2d7b97"/>
-		</fill>
-	</Rect>
-
 	<!-- separator -->
 	<Rect x="0" y="10" width="1" height="45">
 		<fill>

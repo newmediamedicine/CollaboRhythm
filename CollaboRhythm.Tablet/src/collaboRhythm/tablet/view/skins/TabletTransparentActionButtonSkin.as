@@ -14,22 +14,22 @@ package collaboRhythm.tablet.view.skins
 		public function TabletTransparentActionButtonSkin()
 		{
 			switch (applicationDPI)
-						{
-							case DPIClassification.DPI_320:
-							{
-								upBorderSkin = collaboRhythm.tablet.view.skins.skins320.TransparentActionButton_up;
-								downBorderSkin = collaboRhythm.tablet.view.skins.skins320.TransparentActionButton_down;
+			{
+				case DPIClassification.DPI_320:
+				{
+					upBorderSkin = collaboRhythm.tablet.view.skins.skins320.TransparentActionButton_up;
+					downBorderSkin = collaboRhythm.tablet.view.skins.skins320.TransparentActionButton_down;
 
-								break;
-							}
-							default:
-							{
-								upBorderSkin = collaboRhythm.tablet.view.skins.skins160.TransparentActionButton_up;
-								downBorderSkin = collaboRhythm.tablet.view.skins.skins160.TransparentActionButton_down;
+					break;
+				}
+				default:
+				{
+					upBorderSkin = collaboRhythm.tablet.view.skins.skins160.TransparentActionButton_up;
+					downBorderSkin = collaboRhythm.tablet.view.skins.skins160.TransparentActionButton_down;
 
-								break;
-							}
-						}
+					break;
+				}
+			}
 		}
 	}
 }

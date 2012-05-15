@@ -15,29 +15,29 @@
  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  - <http://www.gnu.org/licenses/>.
 -->
-<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+<view:HypoglycemiaActionPlanViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
-					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
-					   xmlns:sharedView="collaboRhythm.plugins.schedule.shared.view.*"
 					   creationComplete="creationCompleteHandler(event)"
-					   addedToStage="addedToStageHandler()"
 					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
-					   title="Hypoglycemia Action Plan - Step 1: Eat Quick Sugar">
-	<fx:Declarations>
-		<s:Button id="nextStepActionButton" label="Next Step" enabled="false" click="nextStepButton_clickHandler()"/>
-	</fx:Declarations>
+					   title="Hypoglycemia Action Plan - Step 1: Eat Simple Carbs">
 	<fx:Style>
 		#instructionsLabel {
 			fontSize: 36;
 		}
+
+		#nextStepButton {
+			chromeColor: #F7941E;
+		}
+
+		#simpleCarbsItemList {
+			selectionColor: #F7941E;
+			downColor: #F4BA7A;
+		}
 	</fx:Style>
 	<fx:Script><![CDATA[
-		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
-		import collaboRhythm.plugins.foraD40b.model.QuickSugarItem;
-		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
-		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
+		import collaboRhythm.plugins.foraD40b.model.SimpleCarbsItem;
 
 		import mx.collections.ArrayCollection;
 		import mx.events.FlexEvent;
@@ -54,28 +54,14 @@
 		[Embed(source="/assets/images/honey.png")]
 		public var honeyImageClass:Class;
 
-		private var _dataInputController:BloodGlucoseHealthActionInputController;
-		[Bindable]
-		private var _dataInputModel:BloodGlucoseHealthActionInputModel;
-
-		override public function set data(value:Object):void
-		{
-			super.data = value;
-
-			var dataInputModelAndController:HealthActionInputModelAndController = HealthActionInputModelAndController(value);
-
-			_dataInputModel = BloodGlucoseHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
-			_dataInputController = BloodGlucoseHealthActionInputController(dataInputModelAndController.healthActionInputController);
-		}
-
 		private function creationCompleteHandler(event:FlexEvent):void
 		{
 			hypoglycemiaActionPlanView.init(_dataInputModel);
 
 			var imageClassArray:Array = [juiceImageClass, sodaImageClass, glucoseTabletsImageClass, honeyImageClass];
 			var textArray:Array;
-			var hypoglycemiaTextArray:Array = ["Drink 1/2 cup of fruit juice", "Drink 1/2 cup of (non-diet) soda", "Take 4 glucose tablets", "Eat 15g of other quick sugar"];
-			var severeHypoglycemiaTextArray:Array = ["Drink a cup of fruit juice", "Drink a cup of (non-diet) soda", "Take 8 glucose tablets", "Eat 30g of other quick sugar"];
+			var hypoglycemiaTextArray:Array = ["Drink 1/2 cup of fruit juice", "Drink 1/2 cup of (non-diet) soda", "Take 4 glucose tablets", "Eat 15g of other simple carbs"];
+			var severeHypoglycemiaTextArray:Array = ["Drink 1 cup of fruit juice", "Drink 1 cup of (non-diet) soda", "Take 8 glucose tablets", "Eat 30g of other simple carbs"];
 			var quickSugarItemArrayCollection:ArrayCollection = new ArrayCollection();
 
 			if (_dataInputModel.glycemicState == BloodGlucoseHealthActionInputModel.HYPOGLYCEMIA)
@@ -91,74 +77,37 @@
 			for each (var imageClass:Class in imageClassArray)
 			{
 				var quickSugarItemText:String = textArray[index];
-				var quickSugarItem:QuickSugarItem = new QuickSugarItem(imageClass, quickSugarItemText);
+				var quickSugarItem:SimpleCarbsItem = new SimpleCarbsItem(imageClass, quickSugarItemText);
 				quickSugarItemArrayCollection.addItem(quickSugarItem);
 				index++;
 			}
 
-			quickSugarItemList.dataProvider = quickSugarItemArrayCollection;
+			simpleCarbsItemList.dataProvider = quickSugarItemArrayCollection;
 		}
 
-		override protected function createChildren():void
+		private function simpleCarbsItemList_changeHandler():void
 		{
-			super.createChildren();
-			actionContent.unshift(nextStepActionButton);
-		}
-
-		private function quickSugarItemList_changeHandler():void
-		{
-			if (quickSugarItemList.selectedItem != null)
+			if (simpleCarbsItemList.selectedItem != null)
 			{
 				nextStepButton.enabled = true;
 				nextStepActionButton.enabled = true;
 			}
 		}
-
-		private function addedToStageHandler():void
-		{
-			addEventListener(KeyboardEvent.KEY_UP, hardwareKeyUpHandler)
-		}
-
-		private function hardwareKeyUpHandler(event:KeyboardEvent):void
-		{
-			if (event.keyCode == Keyboard.BACK || event.keyCode == Keyboard.HOME)
-			{
-				event.stopImmediatePropagation();
-				event.preventDefault();
-			}
-		}
-
-		override public function homeButton_clickHandler():void
-		{
-
-		}
-
-		public function get healthActionInputController():IHealthActionInputController
-		{
-			return _dataInputController;
-		}
-
-		private function nextStepButton_clickHandler():void
-		{
-			_dataInputController.nextStep();
-		}
 		]]></fx:Script>
 	<s:Group width="100%" height="100%">
 		<view:HypoglycemiaActionPlanStepsView id="hypoglycemiaActionPlanView"/>
-		<s:VGroup gap="26" top="160" horizontalCenter="0" horizontalAlign="center">
-			<s:Group height="360">
-				<s:List id="quickSugarItemList" height="100%" width="590"
-						itemRenderer="collaboRhythm.plugins.foraD40b.view.QuickSugarItemRenderer"
-						verticalScrollPolicy="off" horizontalScrollPolicy="off"
-						change="quickSugarItemList_changeHandler()"/>
-				<s:Rect width="100%" height="100%">
-					<s:stroke>
-						<s:SolidColorStroke color="0x808285"/>
-					</s:stroke>
-				</s:Rect>
-			</s:Group>
-		</s:VGroup>
+		<s:Group width="590" height="360" top="160" horizontalCenter="0" verticalCenter="0">
+			<s:List id="simpleCarbsItemList" width="100%" height="100%"
+					itemRenderer="collaboRhythm.plugins.foraD40b.view.SimpleCarbsItemRenderer"
+					verticalScrollPolicy="off" horizontalScrollPolicy="off"
+					change="simpleCarbsItemList_changeHandler()"/>
+			<s:Rect width="100%" height="100%">
+				<s:stroke>
+					<s:SolidColorStroke color="0x808285"/>
+				</s:stroke>
+			</s:Rect>
+		</s:Group>
 		<s:Button id="nextStepButton" label="Next Step" width="160" height="50" bottom="90" horizontalCenter="0"
 				  enabled="false" click="nextStepButton_clickHandler()"/>
 	</s:Group>
-</tablet:TabletViewBase>
+</view:HypoglycemiaActionPlanViewBase>
