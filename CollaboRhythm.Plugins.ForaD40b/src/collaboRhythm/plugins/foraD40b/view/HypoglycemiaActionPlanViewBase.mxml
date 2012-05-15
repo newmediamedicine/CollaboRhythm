@@ -22,7 +22,7 @@
 					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
 					   addedToStage="addedToStageHandler()">
 	<fx:Declarations>
-		<s:Button id="nextStepActionButton" label="Start" click="nextStepButton_clickHandler()"/>
+		<s:Button id="nextStepActionButton" label="Next Step" enabled="false" click="nextStepButton_clickHandler()"/>
 		<view:QuitHypoglycemiaActionPlanPopUp id="quitHypoglycemiaActionPlanPopUp"/>
 	</fx:Declarations>
 
@@ -36,9 +36,9 @@
 
 		import spark.events.PopUpEvent;
 
-		private var _dataInputController:BloodGlucoseHealthActionInputController;
+		protected var _dataInputController:BloodGlucoseHealthActionInputController;
 		[Bindable]
-		private var _dataInputModel:BloodGlucoseHealthActionInputModel;
+		protected var _dataInputModel:BloodGlucoseHealthActionInputModel;
 
 		override public function set data(value:Object):void
 		{
@@ -58,7 +58,7 @@
 
 		private function addedToStageHandler():void
 		{
-			addEventListener(KeyboardEvent.KEY_UP, hardwareKeyUpHandler)
+			stage.addEventListener(KeyboardEvent.KEY_UP, hardwareKeyUpHandler)
 		}
 
 		private function hardwareKeyUpHandler(event:KeyboardEvent):void
@@ -67,10 +67,17 @@
 			{
 				event.stopImmediatePropagation();
 				event.preventDefault();
+
+				showQuitHypoglycemiaActionPlanPopUp();
 			}
 		}
 
 		override public function homeButton_clickHandler():void
+		{
+			showQuitHypoglycemiaActionPlanPopUp();
+		}
+
+		private function showQuitHypoglycemiaActionPlanPopUp():void
 		{
 			quitHypoglycemiaActionPlanPopUp.addEventListener('close', quitHypoglycemiaActionPlanPopUp_closeHandler);
 			quitHypoglycemiaActionPlanPopUp.open(this, true);

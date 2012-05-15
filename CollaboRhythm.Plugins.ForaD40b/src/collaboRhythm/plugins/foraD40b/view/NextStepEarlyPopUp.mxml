@@ -34,7 +34,7 @@
 			color: #F3F3F3;
 		}
 
-		.quitButtons {
+		.proceedButtons {
 			fontSize: 16;
 			fontWeight: normal;
 			color: #F3F3F3;
@@ -47,27 +47,29 @@
 		</s:fill>
 	</s:Rect>
 	<s:VGroup gap="0" width="100%">
-		<s:HGroup width="100%" paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10" verticalAlign="middle">
+		<s:HGroup width="100%" paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10"
+				  verticalAlign="middle">
 			<view:WarningIcon width="40" height="35" filters="{[grayScaleFilter]}"/>
-			<s:Label id="mainLabel" text="This will quit your hypoglycemia action plan."/>
+			<s:Label id="mainLabel" text="You have not waited 15 minutes."/>
 		</s:HGroup>
 		<s:Line width="100%">
 			<s:stroke>
 				<s:SolidColorStroke color="0x43C0EF"/>
 			</s:stroke>
 		</s:Line>
-		<s:Label id="subLabel" text="Quitting your hypoglycemia action plan is not recommended." width="100%"
-				 paddingLeft="20" paddingRight="20" paddingTop="20" paddingBottom="20"/>
+		<s:Label id="subLabel"
+				 text="Proceeding before 15 minutes is not recommended because the simple carbs that you ate have not had time to work."
+				 width="100%" paddingLeft="20" paddingRight="20" paddingTop="20" paddingBottom="20"/>
 		<s:Line width="100%">
 			<s:stroke>
 				<s:SolidColorStroke color="0x444444"/>
 			</s:stroke>
 		</s:Line>
 		<s:HGroup width="100%">
-			<s:Button label="Quit" width="50%" height="50" skinClass="spark.skins.mobile.TransparentActionButtonSkin"
-					  styleName="quitButtons" click="this.close(true)"/>
-			<s:Button label="Don't Quit" width="50%" height="50" click="this.close()"
-					  skinClass="spark.skins.mobile.TransparentActionButtonSkin" styleName="quitButtons"/>
+			<s:Button label="Proceed" width="50%" height="50" skinClass="spark.skins.mobile.TransparentActionButtonSkin"
+					  styleName="proceedButtons" click="this.close(true)"/>
+			<s:Button label="Don't Proceed" width="50%" height="50" click="this.close()"
+					  skinClass="spark.skins.mobile.TransparentActionButtonSkin" styleName="proceedButtons"/>
 		</s:HGroup>
 	</s:VGroup>
 </s:SkinnablePopUpContainer>

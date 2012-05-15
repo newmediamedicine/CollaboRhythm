@@ -50,6 +50,7 @@
 			_dataInputController = BloodGlucoseHealthActionInputController(dataInputModelAndController.healthActionInputController);
 
 			BindingUtils.bindSetter(setManualBloodGlucose, _dataInputModel, "manualBloodGlucose");
+			BindingUtils.bindSetter(setDeviceBloodGlucose, _dataInputModel, "deviceBloodGlucose");
 		}
 
 		override protected function createChildren():void
@@ -73,6 +74,11 @@
 			{
 				saveActionButton.enabled = true;
 			}
+		}
+
+		private function setDeviceBloodGlucose(deviceBloodGlucose:int):void
+		{
+			saveActionButton.enabled = true;
 		}
 
 		public function get healthActionInputController():IHealthActionInputController
