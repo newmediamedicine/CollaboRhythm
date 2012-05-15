@@ -58,7 +58,7 @@
 
 		private function addedToStageHandler():void
 		{
-			stage.addEventListener(KeyboardEvent.KEY_UP, hardwareKeyUpHandler)
+			addEventListener(KeyboardEvent.KEY_UP, hardwareKeyUpHandler)
 		}
 
 		private function hardwareKeyUpHandler(event:KeyboardEvent):void
