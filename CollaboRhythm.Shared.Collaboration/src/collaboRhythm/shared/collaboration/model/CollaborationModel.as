@@ -19,10 +19,6 @@ package collaboRhythm.shared.collaboration.model
 	import collaboRhythm.shared.model.*;
 	import collaboRhythm.shared.model.settings.Settings;
 
-	import flash.net.NetStream;
-
-	import mx.collections.ArrayCollection;
-
 	/**
 	 *
 	 * @author jom
@@ -42,7 +38,6 @@ package collaboRhythm.shared.collaboration.model
 
 		private var _collaborationState:String;
 
-		private var _active:Boolean = false;
 		private var _activeAccount:Account;
 		private var _activeRecordAccount:Account;
 
@@ -66,22 +61,164 @@ package collaboRhythm.shared.collaboration.model
 			collaborationState = COLLABORATION_INACTIVE;
 		}
 
-		public function endCollaboration():void
+		public function receiveCollaborationMessage(messageType:String, subjectAccountId:String, sourceAccountId:String,
+													sourcePeerId:String, passWord:String):void
 		{
-			collaborationState = COLLABORATION_INACTIVE;
-			collaborationLobbyNetConnectionService.closeCollaborationConnection();
+			if (messageType == CollaborationLobbyNetConnectionService.INVITE)
+			{
+				receiveCollaborationInvitation(subjectAccountId, sourceAccountId, sourcePeerId, passWord);
+			}
+			else if (this.passWord == passWord)
+			{
+				switch (messageType)
+				{
+					case CollaborationLobbyNetConnectionService.ACCEPT:
+						receiveCollaborationInvitationAccepted(subjectAccountId, sourceAccountId, sourcePeerId,
+								passWord);
+						break;
+					case CollaborationLobbyNetConnectionService.REJECT:
+						receiveCollaborationInvitationRejected(subjectAccountId, sourceAccountId, sourcePeerId,
+								passWord);
+						break;
+					case CollaborationLobbyNetConnectionService.CANCEL:
+						receiveCollaborationInvitationCancelled(subjectAccountId, sourceAccountId, sourcePeerId,
+								passWord);
+						break;
+					case CollaborationLobbyNetConnectionService.END:
+						receiveCollaborationEnded(subjectAccountId, sourceAccountId, sourcePeerId, passWord);
+						break;
+				}
+			}
+			else
+			{
+				//TODO: Logging potential security issue
+			}
+		}
+
+		public function sendCollaborationInvitation(subjectAccount:Account, targetAccount:Account):void
+		{
+			this.subjectAccount = subjectAccount;
+			peerAccount = targetAccount;
+			passWord = String(Math.round(Math.random() * 10000));
+			collaborationState = CollaborationModel.COLLABORATION_INVITATION_SENT;
+
+			collaborationLobbyNetConnectionService.sendCollaborationMessage(CollaborationLobbyNetConnectionService.INVITE);
+		}
+
+		private function receiveCollaborationInvitation(subjectAccountId:String, sourceAccountId:String,
+														sourcePeerId:String, passWord:String):void
+		{
+			if (_activeAccount.accountId == subjectAccountId)
+			{
+				subjectAccount = _activeAccount;
+			}
+			else
+			{
+				subjectAccount = _activeAccount.allSharingAccounts[subjectAccountId];
+			}
+			peerAccount = _activeAccount.allSharingAccounts[sourceAccountId];
+			peerAccount.peerId = sourcePeerId;
+			this.passWord = passWord;
+			collaborationState = CollaborationModel.COLLABORATION_INVITATION_RECEIVED;
+		}
+
+		public function acceptCollaborationInvitation():void
+		{
+			collaborationLobbyNetConnectionService.createNetStreamConnections(audioVideoOutput.microphone,
+					peerAccount.peerId, peerAccount.accountId);
+			collaborationState = CollaborationModel.COLLABORATION_ACTIVE;
+
+			collaborationLobbyNetConnectionService.sendCollaborationMessage(CollaborationLobbyNetConnectionService.ACCEPT);
+		}
+
+		private function receiveCollaborationInvitationAccepted(subjectAccountId:String, sourceAccountId:String,
+																sourcePeerId:String, passWord:String):void
+		{
+			peerAccount.peerId = sourcePeerId;
+			collaborationLobbyNetConnectionService.createNetStreamConnections(audioVideoOutput.microphone,
+					peerAccount.peerId, peerAccount.accountId);
+			collaborationState = CollaborationModel.COLLABORATION_ACTIVE;
+		}
+
+		public function rejectCollaborationInvitation():void
+		{
+			collaborationLobbyNetConnectionService.sendCollaborationMessage(CollaborationLobbyNetConnectionService.REJECT);
+
+			resetCollaborationModel();
+		}
+
+		private function receiveCollaborationInvitationRejected(subjectAccountId:String, sourceAccountId:String,
+																sourcePeerId:String, passWord:String):void
+		{
+			resetCollaborationModel();
+		}
+
+		public function cancelCollaborationInvitation():void
+		{
+			collaborationLobbyNetConnectionService.sendCollaborationMessage(CollaborationLobbyNetConnectionService.CANCEL);
+
+			resetCollaborationModel();
+		}
+
+		private function receiveCollaborationInvitationCancelled(subjectAccountId:String, sourceAccountId:String,
+																 sourcePeerId:String, passWord:String):void
+		{
+			resetCollaborationModel();
+		}
+
+		private function endActiveCollaboration():void
+		{
+			collaborationLobbyNetConnectionService.sendCollaborationMessage(CollaborationLobbyNetConnectionService.END);
+
+			resetCollaborationModel();
+		}
+
+		private function receiveCollaborationEnded(subjectAccountId:String, sourceAccountId:String, sourcePeerId:String,
+												   passWord:String):void
+		{
+			resetCollaborationModel();
+		}
+
+		private function resetCollaborationModel():void
+		{
+			collaborationLobbyNetConnectionService.closeNetStreamConnections();
 			subjectAccount = null;
 			peerAccount = null;
+			passWord = null;
+			collaborationState = COLLABORATION_INACTIVE;
 		}
 
-		public function get active():Boolean
+		public function endCollaboration():void
 		{
-			return _active;
+			if (collaborationState == COLLABORATION_ACTIVE)
+			{
+				endActiveCollaboration();
+			}
+			else if (collaborationState == COLLABORATION_INVITATION_SENT)
+			{
+				cancelCollaborationInvitation();
+			}
+			else if (collaborationState == COLLABORATION_INVITATION_RECEIVED)
+			{
+				rejectCollaborationInvitation();
+			}
 		}
 
-		public function set active(value:Boolean):void
+		public function prepareToExit():void
 		{
-			_active = value;
+			endCollaboration();
+
+			_collaborationLobbyNetConnectionService.exitCollaborationLobby();
+		}
+
+		public function get collaborationState():String
+		{
+			return _collaborationState;
+		}
+
+		public function set collaborationState(value:String):void
+		{
+			_collaborationState = value;
 		}
 
 		public function get activeAccount():Account
@@ -89,34 +226,14 @@ package collaboRhythm.shared.collaboration.model
 			return _activeAccount;
 		}
 
-		public function get passWord():String
+		public function get activeRecordAccount():Account
 		{
-			return _passWord;
+			return _activeRecordAccount;
 		}
 
-		public function set passWord(value:String):void
+		public function set activeRecordAccount(value:Account):void
 		{
-			_passWord = value;
-		}
-
-		public function get collaborationLobbyNetConnectionService():CollaborationLobbyNetConnectionService
-		{
-			return _collaborationLobbyNetConnectionService;
-		}
-
-		public function set collaborationLobbyNetConnectionService(value:CollaborationLobbyNetConnectionService):void
-		{
-			_collaborationLobbyNetConnectionService = value;
-		}
-
-		public function get recordVideo():Boolean
-		{
-			return _recordVideo;
-		}
-
-		public function set recordVideo(value:Boolean):void
-		{
-			_recordVideo = value;
+			_activeRecordAccount = value;
 		}
 
 		public function get audioVideoOutput():AudioVideoOutput
@@ -129,14 +246,14 @@ package collaboRhythm.shared.collaboration.model
 			_audioVideoOutput = value;
 		}
 
-		public function get activeRecordAccount():Account
+		public function get collaborationLobbyNetConnectionService():CollaborationLobbyNetConnectionService
 		{
-			return _activeRecordAccount;
+			return _collaborationLobbyNetConnectionService;
 		}
 
-		public function set activeRecordAccount(value:Account):void
+		public function set collaborationLobbyNetConnectionService(value:CollaborationLobbyNetConnectionService):void
 		{
-			_activeRecordAccount = value;
+			_collaborationLobbyNetConnectionService = value;
 		}
 
 		public function get subjectAccount():Account
@@ -159,15 +276,24 @@ package collaboRhythm.shared.collaboration.model
 			_peerAccount = value;
 		}
 
-		public function get collaborationState():String
+		public function get passWord():String
 		{
-			return _collaborationState;
+			return _passWord;
 		}
 
-		public function set collaborationState(value:String):void
+		public function set passWord(value:String):void
 		{
-			_collaborationState = value;
+			_passWord = value;
 		}
 
+		public function get recordVideo():Boolean
+		{
+			return _recordVideo;
+		}
+
+		public function set recordVideo(value:Boolean):void
+		{
+			_recordVideo = value;
+		}
 	}
 }

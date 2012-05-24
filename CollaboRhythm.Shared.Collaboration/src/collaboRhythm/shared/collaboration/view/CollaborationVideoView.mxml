@@ -20,7 +20,10 @@
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   resize="setVideoDisplaySize()"
-					   remove="removeHandler()">
+					   remove="removeHandler()"
+					   addedToStage="addedToStageHandler()"
+					   removedFromStage="removedFromStageHandler()"
+						title="Video View">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 
@@ -52,6 +55,40 @@
 
 				_collaborationModel = _collaborationController.collaborationModel;
 				_collaborationLobbyNetConnectionService = _collaborationModel.collaborationLobbyNetConnectionService;
+			}
+		}
+
+		private function addedToStageHandler():void
+		{
+			stage.addEventListener(KeyboardEvent.KEY_UP, hardwareKeyUpHandler);
+		}
+
+		private function removedFromStageHandler():void
+		{
+			stage.removeEventListener(KeyboardEvent.KEY_UP, hardwareKeyUpHandler);
+		}
+
+		private function hardwareKeyUpHandler(event:KeyboardEvent):void
+		{
+			if (event.keyCode == Keyboard.BACK &&
+					_collaborationModel.collaborationState != CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				event.stopImmediatePropagation();
+				event.preventDefault();
+
+				_collaborationController.endCollaboration()
+			}
+		}
+
+		override public function homeButton_clickHandler():void
+		{
+			if (_collaborationModel.collaborationState != CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationController.endCollaboration();
+			}
+			else
+			{
+				super.homeButton_clickHandler();
 			}
 		}
 
@@ -165,17 +202,17 @@
 
 		private function acceptButton_clickHandler():void
 		{
-			_collaborationController.sendCollaborationInvitationAccepted();
+			_collaborationController.acceptCollaborationInvitation();
 		}
 
 		private function rejectButton_clickHandler():void
 		{
-			_collaborationController.sendCollaborationInvitationRejected();
+			_collaborationController.rejectCollaborationInvitation();
 		}
 
 		private function cancelButton_clickHandler():void
 		{
-			_collaborationController.sendCollaborationInvitationCancelled();
+			_collaborationController.cancelCollaborationInvitation();
 		}
 
 		private function setVideoDisplaySize():void

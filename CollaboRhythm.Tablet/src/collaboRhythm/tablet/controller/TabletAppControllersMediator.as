@@ -16,31 +16,27 @@
  */
 package collaboRhythm.tablet.controller
 {
-
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
-	import collaboRhythm.shared.model.IApplicationNavigationProxy;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.Settings;
 
 	import mx.core.IVisualElementContainer;
-	import mx.core.UIComponent;
-
-	import spark.components.ViewNavigator;
 
 	public class TabletAppControllersMediator extends AppControllersMediatorBase
     {
 		private var _tabletApplicationController:TabletApplicationController;
 
         public function TabletAppControllersMediator(widgetContainers:Vector.<IVisualElementContainer>,
-													 fullParentContainer:IVisualElementContainer, settings:Settings,
-													 componentContainer:IComponentContainer, collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService,
-				tabletApplicationController:TabletApplicationController,
-				navigationProxy:IApplicationNavigationProxy)
+													 fullParentContainer:IVisualElementContainer,
+													 componentContainer:IComponentContainer,
+													 settings:Settings,
+													 appControllerConstructorParams:AppControllerConstructorParams,
+													 tabletApplicationController:TabletApplicationController)
         {
-            super(widgetContainers, fullParentContainer, settings, componentContainer, collaborationLobbyNetConnectionService, navigationProxy);
+            super(widgetContainers, fullParentContainer, componentContainer, settings, appControllerConstructorParams);
 			_tabletApplicationController = tabletApplicationController;
         }
 

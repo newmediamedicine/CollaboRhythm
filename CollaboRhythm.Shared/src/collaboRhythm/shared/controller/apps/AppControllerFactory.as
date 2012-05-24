@@ -20,8 +20,6 @@ package collaboRhythm.shared.controller.apps
 	import castle.flexbridge.reflection.ReflectionUtils;
 
 	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.IApplicationNavigationProxy;
-	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.Settings;
 
@@ -41,15 +39,14 @@ package collaboRhythm.shared.controller.apps
 	{
 		private var _widgetContainer:IVisualElementContainer;
 		private var _fullContainer:IVisualElementContainer;
+		private var _componentContainer:IComponentContainer;
 		private var _modality:String;
-        private var _activeAccount:Account;
-        private var _activeRecordAccount:Account;
-        private var _settings:Settings;
-        private var _componentContainer:IComponentContainer;
-		private var _collaborationLobbyNetConnectionService:ICollaborationLobbyNetConnectionService;
+		private var _activeAccount:Account;
+		private var _activeRecordAccount:Account;
+		private var _settings:Settings;
+		private var _appControllerConstructorParams:AppControllerConstructorParams;
 		private var _viewNavigator:ViewNavigator;
 		protected var logger:ILogger;
-		private var _navigationProxy:IApplicationNavigationProxy;
 
 
 		public function AppControllerFactory()
@@ -89,19 +86,16 @@ package collaboRhythm.shared.controller.apps
 
 		public function createApp(appClass:Class, appName:String=null):AppControllerBase
 		{
-			var constructorParams:AppControllerConstructorParams = new AppControllerConstructorParams();
-			constructorParams.widgetContainer = _widgetContainer;
-			constructorParams.fullContainer = _fullContainer;
-			constructorParams.modality = _modality;
-            constructorParams.activeAccount = _activeAccount;
-            constructorParams.activeRecordAccount = _activeRecordAccount;
-            constructorParams.settings = _settings;
-            constructorParams.componentContainer = _componentContainer;
-			constructorParams.collaborationLobbyNetConnectionService = _collaborationLobbyNetConnectionService;
-			constructorParams.viewNavigator = _viewNavigator;
-			constructorParams.navigationProxy = _navigationProxy;
+			_appControllerConstructorParams.widgetContainer = _widgetContainer;
+			_appControllerConstructorParams.fullContainer = _fullContainer;
+			_appControllerConstructorParams.componentContainer = _componentContainer;
+			_appControllerConstructorParams.modality = _modality;
+			_appControllerConstructorParams.activeAccount = _activeAccount;
+			_appControllerConstructorParams.activeRecordAccount = _activeRecordAccount;
+			_appControllerConstructorParams.settings = _settings;
+			_appControllerConstructorParams.viewNavigator = _viewNavigator;
 
-			var appObject:Object = new appClass(constructorParams);
+			var appObject:Object = new appClass(_appControllerConstructorParams);
 			if (appObject == null)
 				throw new Error("Unable to create instance of app: " + appClass);
 			
@@ -152,16 +146,6 @@ package collaboRhythm.shared.controller.apps
             _componentContainer = value;
         }
 
-		public function get collaborationLobbyNetConnectionService():ICollaborationLobbyNetConnectionService
-		{
-			return _collaborationLobbyNetConnectionService;
-		}
-
-		public function set collaborationLobbyNetConnectionService(value:ICollaborationLobbyNetConnectionService):void
-		{
-			_collaborationLobbyNetConnectionService = value;
-		}
-
 		public function get viewNavigator():ViewNavigator
 		{
 			return _viewNavigator;
@@ -172,14 +156,14 @@ package collaboRhythm.shared.controller.apps
 			_viewNavigator = value;
 		}
 
-		public function get navigationProxy():IApplicationNavigationProxy
+		public function get appControllerConstructorParams():AppControllerConstructorParams
 		{
-			return _navigationProxy;
+			return _appControllerConstructorParams;
 		}
 
-		public function set navigationProxy(value:IApplicationNavigationProxy):void
+		public function set appControllerConstructorParams(value:AppControllerConstructorParams):void
 		{
-			_navigationProxy = value;
+			_appControllerConstructorParams = value;
 		}
 	}
 }

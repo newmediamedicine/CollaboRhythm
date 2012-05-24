@@ -14,6 +14,7 @@
 		import collaboRhythm.shared.view.MenuIcon;
 
 		import mx.core.FlexGlobals;
+
 		[Bindable]
 		protected var _tabletApplicationController:IApplicationControllerBase;
 
@@ -132,7 +133,7 @@
 
 		public function homeButton_clickHandler():void
 		{
-			_tabletApplicationController.navigateHome('local');
+			_tabletApplicationController.navigateHome("local");
 		}
 		]]></fx:Script>
 	<s:viewMenuItems>

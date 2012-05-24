@@ -43,12 +43,8 @@ package collaboRhythm.plugins.schedule.shared.model
 		private var _scheduleItemsOccurrencesCollection:ArrayCollection = new ArrayCollection();
 		private var _stackNumber:Number;
 
-		public function ScheduleGroup(dateStart:Date,
-									  dateEnd:Date)//scheduleModel:ScheduleModel, scheduleGroupReportXML:XML)
+		public function ScheduleGroup()//scheduleModel:ScheduleModel, scheduleGroupReportXML:XML)
 		{
-			_dateStart = dateStart;
-			_dateEnd = dateEnd;
-			_dateCenter = new Date(dateStart.time + (dateEnd.time - dateStart.time) / 2);
 		}
 
 		public function get dateStart():Date
@@ -78,6 +74,10 @@ package collaboRhythm.plugins.schedule.shared.model
 		public function set dateEnd(value:Date):void
 		{
 			_dateEnd = value;
+			if (!_moving)
+			{
+				_dateCenter = new Date(dateStart.time + (dateEnd.time - dateStart.time) / 2);
+			}
 		}
 
 		public function get dateCenter():Date

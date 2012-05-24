@@ -19,6 +19,7 @@ package collaboRhythm.shared.controller.apps
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.IApplicationNavigationProxy;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionService;
+	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.view.BitmapCopyComponent;
@@ -96,6 +97,7 @@ package collaboRhythm.shared.controller.apps
 		private var _createFullViewOnInitialize:Boolean = false;
 		protected var _navigationProxy:IApplicationNavigationProxy;
 		private var _fullViewTitle:String;
+		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
 
 		public function AppControllerBase(constructorParams:AppControllerConstructorParams)
 		{
@@ -108,8 +110,8 @@ package collaboRhythm.shared.controller.apps
 			_activeRecordAccount = constructorParams.activeRecordAccount;
 			_settings = constructorParams.settings;
 			_componentContainer = constructorParams.componentContainer;
-			_collaborationLobbyNetConnectionService = constructorParams.collaborationLobbyNetConnectionService;
 			_viewNavigator = constructorParams.viewNavigator;
+			_collaborationLobbyNetConnectionServiceProxy = constructorParams.collaborationLobbyNetConnectionServiceProxy;
 			_navigationProxy = constructorParams.navigationProxy;
 
 			name = defaultName;
@@ -1233,6 +1235,11 @@ package collaboRhythm.shared.controller.apps
 		public function set fullViewTitle(value:String):void
 		{
 			_fullViewTitle = value;
+		}
+
+		public function get collaborationLobbyNetConnectionServiceProxy():ICollaborationLobbyNetConnectionServiceProxy
+		{
+			return _collaborationLobbyNetConnectionServiceProxy;
 		}
 	}
 }

@@ -20,7 +20,7 @@ package collaboRhythm.mobile.controller
 	import collaboRhythm.core.controller.ApplicationControllerBase;
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.mobile.view.WidgetContainerView;
-	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.services.DemoEvent;
 	import collaboRhythm.shared.model.settings.Settings;
@@ -78,14 +78,12 @@ package collaboRhythm.mobile.controller
 		public override function openRecordAccount(recordAccount:Account):void
 		{
 			super.openRecordAccount(recordAccount);
-			_mobileAppControllersMediator = new MobileAppControllersMediator(
-					null,
-					null,
-					fullContainer,
-					settings,
-					_componentContainer,
-					_collaborationController.collaborationModel.collaborationLobbyNetConnectionService as
-							CollaborationLobbyNetConnectionService, _navigationProxy);
+
+			var appControllerConstructorParams:AppControllerConstructorParams = new AppControllerConstructorParams();
+			appControllerConstructorParams.collaborationLobbyNetConnectionServiceProxy = _collaborationLobbyNetConnectionServiceProxy;
+			appControllerConstructorParams.navigationProxy = _navigationProxy;
+			_mobileAppControllersMediator = new MobileAppControllersMediator(null, null, fullContainer,
+					_componentContainer, settings, appControllerConstructorParams);
 			_mobileAppControllersMediator.createMobileApps(activeAccount, recordAccount);
 			initializeActiveView();
 		}

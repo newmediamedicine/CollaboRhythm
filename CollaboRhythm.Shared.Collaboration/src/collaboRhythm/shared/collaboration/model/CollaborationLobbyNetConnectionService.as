@@ -16,7 +16,6 @@
  */
 package collaboRhythm.shared.collaboration.model
 {
-	import collaboRhythm.shared.collaboration.controller.CollaborationEvent;
 	import collaboRhythm.shared.model.*;
 
 	import flash.events.AsyncErrorEvent;
@@ -25,9 +24,11 @@ package collaboRhythm.shared.collaboration.model
 	import flash.events.NetStatusEvent;
 	import flash.events.SecurityErrorEvent;
 	import flash.events.TimerEvent;
+	import flash.media.Microphone;
 	import flash.net.NetConnection;
 	import flash.net.NetStream;
 	import flash.net.Responder;
+	import flash.system.ApplicationDomain;
 	import flash.utils.Timer;
 	import flash.utils.getQualifiedClassName;
 
@@ -95,12 +96,21 @@ package collaboRhythm.shared.collaboration.model
 			_netConnection.client = new Object();
 			_netConnection.client.activeAccountCollaborationLobbyConnectionStatusChanged = activeAccountCollaborationLobbyConnectionStatusChanged;
 			_netConnection.client.sharingAccountCollaborationLobbyConnectionStatusChanged = sharingAccountCollaborationLobbyConnectionStatusChanged;
-			_netConnection.client.receiveMessage = receiveMessage;
+			_netConnection.client.receiveCollaborationMessage = receiveCollaborationMessage;
+			_netConnection.client.receiveCollaborationViewSynchronization = receiveCollaborationViewSynchronization;
+			_netConnection.client.receiveCollaborationPointerSynchronization = receiveCollaborationPointerSynchronization;
 
 			_netConnection.addEventListener(NetStatusEvent.NET_STATUS, netConnection_NetStatusHandler);
 			_netConnection.addEventListener(IOErrorEvent.IO_ERROR, netConnection_IOErrorHandler);
 			_netConnection.addEventListener(AsyncErrorEvent.ASYNC_ERROR, netConnection_AsyncErrorHandler);
-			_netConnection.addEventListener(SecurityErrorEvent.SECURITY_ERROR, netConneciton_SecurityErrorHandler);
+			_netConnection.addEventListener(SecurityErrorEvent.SECURITY_ERROR, netConnection_SecurityErrorHandler);
+		}
+
+		public function createProxy(applicationDomain:ApplicationDomain):CollaborationLobbyNetConnectionServiceProxy
+		{
+			var proxy:CollaborationLobbyNetConnectionServiceProxy = new CollaborationLobbyNetConnectionServiceProxy(this,
+					applicationDomain);
+			return proxy;
 		}
 
 		public function enterCollaborationLobby():void
@@ -154,7 +164,7 @@ package collaboRhythm.shared.collaboration.model
 			_logger.warn(AsyncErrorEvent.ASYNC_ERROR + error.errorID + " " + error.text);
 		}
 
-		private function netConneciton_SecurityErrorHandler(error:SecurityErrorEvent):void
+		private function netConnection_SecurityErrorHandler(error:SecurityErrorEvent):void
 		{
 			_logger.warn(SecurityErrorEvent.SECURITY_ERROR + error.errorID + " " + error.text);
 		}
@@ -224,76 +234,84 @@ package collaboRhythm.shared.collaboration.model
 
 		public function exitCollaborationLobby():void
 		{
-			updateCollaborationLobbyConnectionStatus(Account.COLLABORATION_LOBBY_NOT_CONNECTED);
+//			updateCollaborationLobbyConnectionStatus(Account.COLLABORATION_LOBBY_NOT_CONNECTED);
 			_netConnection.close();
 		}
 
-		public function sendMessage(messageType:String, method:String = null, x:int = 0, y:int = 0):void
+		public function sendCollaborationMessage(messageType:String):void
 		{
 			if (_collaborationModel && _collaborationModel.peerAccount)
 			{
-				_netConnection.call("sendMessage", null, messageType, _activeAccount.accountId, _activeAccount.accountId,
+				_netConnection.call("sendCollaborationMessage", null, messageType, _activeAccount.accountId,
+						_activeAccount.accountId,
 						_activeAccount.peerId,
 						_collaborationModel.peerAccount.accountId, _collaborationModel.peerAccount.peerId,
-						_collaborationModel.passWord, method, x, y);
+						_collaborationModel.passWord);
 			}
 		}
 
-		public function receiveMessage(messageType:String, subjectAccountId:String, sourceAccountId:String,
-									   sourcePeerId:String, passWord:String, method:String, x:int, y:int):void
+		private function receiveCollaborationMessage(messageType:String, subjectAccountId:String,
+													 sourceAccountId:String, sourcePeerId:String, passWord:String):void
 		{
-			var eventType:String;
-			switch (messageType)
-			{
-				case INVITE:
-					eventType = CollaborationEvent.COLLABORATION_INVITATION_RECEIVED;
-					break;
-				case ACCEPT:
-					eventType = CollaborationEvent.COLLABORATION_INVITATION_ACCEPTED;
-					break;
-				case REJECT:
-					eventType = CollaborationEvent.COLLABORATION_INVITATION_REJECTED;
-					break;
-				case CANCEL:
-					eventType = CollaborationEvent.COLLABORATION_INVITATION_CANCELLED;
-					break;
-				case END:
-					eventType = CollaborationEvent.COLLABORATION_ENDED;
-					break;
-				case SYNCHRONIZE:
-					eventType = CollaborationEvent.SYNCHRONIZE;
-					break;
-				case POINTER:
-					eventType = CollaborationEvent.POINTER;
-					break;
-			}
-
-			var collaborationEvent:CollaborationEvent = new CollaborationEvent(eventType, subjectAccountId,
-					sourceAccountId, sourcePeerId, passWord, method, x, y);
-			dispatchEvent(collaborationEvent);
+			var collaborationMessageEvent:CollaborationMessageEvent = new CollaborationMessageEvent(CollaborationMessageEvent.MESSAGE_RECEIVED,
+					messageType, subjectAccountId, sourceAccountId, sourcePeerId, passWord);
+			dispatchEvent(collaborationMessageEvent);
 		}
 
-		public function createCommunicationConnection():void
+		public function sendCollaborationViewSynchronization():void
+		{
+
+		}
+
+		private function receiveCollaborationViewSynchronization():void
+		{
+
+		}
+
+		public function sendCollaborationPointerSynchronization(type:String, x:Number, y:Number):void
+		{
+			if (_collaborationModel && _collaborationModel.peerAccount)
+			{
+				_netConnection.call("sendCollaborationPointerSynchronization", null, type, x, y, _activeAccount.peerId,
+						_collaborationModel.peerAccount.peerId, _collaborationModel.passWord);
+			}
+		}
+
+		private function receiveCollaborationPointerSynchronization(type:String, x:Number, y:Number,
+																	sourcePeerId:String, passWord:String):void
+		{
+			var collaborationPointerSynchronizationEvent:CollaborationPointerSynchronizationEvent = new CollaborationPointerSynchronizationEvent(type,
+					x, y, sourcePeerId, passWord);
+			dispatchEvent(collaborationPointerSynchronizationEvent);
+		}
+
+		public function createNetStreamConnections(microphone:Microphone, peerId:String, peerAccountId:String):void
 		{
 			netStreamOut = new NetStream(_netConnection, NetStream.DIRECT_CONNECTIONS);
 			netStreamOut.addEventListener(NetStatusEvent.NET_STATUS, netStreamOut_netStatusHandler);
 			netStreamOut.publish(_activeAccount.accountId, "live");
 
-			netStreamOut.attachAudio(_collaborationModel.audioVideoOutput.microphone);
+			netStreamOut.attachAudio(microphone);
 
-			netStreamIn = new NetStream(_netConnection, _collaborationModel.peerAccount.peerId);
+			netStreamIn = new NetStream(_netConnection, peerId);
 			netStreamIn.addEventListener(NetStatusEvent.NET_STATUS, netStreamIn_netStatusHandler);
 			netStreamIn.bufferTime = 0;
-			netStreamIn.play(_collaborationModel.peerAccount.accountId);
+			netStreamIn.play(peerAccountId);
 		}
 
-		public function closeCollaborationConnection():void
+		public function closeNetStreamConnections():void
 		{
-			netStreamOut.close();
-			netStreamOut = null;
+			if (netStreamOut)
+			{
+				netStreamOut.close();
+				netStreamOut = null;
+			}
 
-			netStreamIn.close();
-			netStreamIn = null;
+			if (netStreamIn)
+			{
+				netStreamIn.close();
+				netStreamIn = null;
+			}
 		}
 
 		private function netStreamOut_netStatusHandler(event:NetStatusEvent):void
@@ -383,7 +401,7 @@ package collaboRhythm.shared.collaboration.model
 
 		public function receiveSynchronizationMessage():void
 		{
-			_collaborationModel.dispatchEvent(new CollaborationLobbyNetConnectionEvent(CollaborationLobbyNetConnectionEvent.SYNCHRONIZE));
+//			_collaborationModel.dispatchEvent(new CollaborationLobbyNetConnectionEvent(CollaborationLobbyNetConnectionEvent.SYNCHRONIZE));
 		}
 
 		public function getCollaborationRoomID():void
@@ -412,5 +430,9 @@ package collaboRhythm.shared.collaboration.model
 		}
 
 
+		public function get collaborationModel():CollaborationModel
+		{
+			return _collaborationModel;
+		}
 	}
 }

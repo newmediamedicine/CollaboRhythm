@@ -85,17 +85,16 @@
 		import collaboRhythm.core.view.AboutApplicationView;
 		import collaboRhythm.core.view.ConnectivityView;
 		import collaboRhythm.shared.collaboration.controller.CollaborationController;
-		import collaboRhythm.shared.collaboration.controller.CollaborationEvent;
-		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
 		import collaboRhythm.shared.collaboration.model.CollaborationModel;
+		import collaboRhythm.shared.collaboration.model.CollaborationPointerSynchronizationEvent;
 		import collaboRhythm.shared.collaboration.view.CollaborationVideoView;
 		import collaboRhythm.shared.model.Account;
+		import collaboRhythm.shared.view.OfflineIcon;
+		import collaboRhythm.shared.view.OnlineIcon;
 		import collaboRhythm.shared.view.tablet.TabletViewBase;
 		import collaboRhythm.tablet.controller.TabletApplicationController;
 		import collaboRhythm.tablet.view.CallIcon;
 		import collaboRhythm.tablet.view.EndCallIcon;
-		import collaboRhythm.tablet.view.OfflineIcon;
-		import collaboRhythm.tablet.view.OnlineIcon;
 		import collaboRhythm.tablet.view.SelectRecordView;
 		import collaboRhythm.tablet.view.TabletHomeView;
 		import collaboRhythm.tablet.view.VideoIcon;
@@ -148,8 +147,12 @@
 
 			_collaborationController = _applicationController.collaborationController;
 
-			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.POINTER,
-					pointerHandler);
+			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationPointerSynchronizationEvent.SHOW_POINTER,
+					showPointerHandler);
+			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationPointerSynchronizationEvent.MOVE_POINTER,
+					movePointerHandler);
+			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationPointerSynchronizationEvent.HIDE_POINTER,
+					hidePointerHandler);
 
 			BindingUtils.bindSetter(activeView_changeHandler, navigator, "activeView");
 			BindingUtils.bindSetter(mode_changeHandler, _applicationController.settings, "mode");
@@ -157,20 +160,19 @@
 					"collaborationState");
 		}
 
-		private function pointerHandler(event:CollaborationEvent):void
+		private function showPointerHandler(event:CollaborationPointerSynchronizationEvent):void
 		{
-			if (event.method == "showPointer")
-			{
-				showPointer("remote", event.x, event.y)
-			}
-			else if (event.method == "movePointer")
-			{
-				movePointer("remote", event.x, event.y)
-			}
-			else if (event.method == "hidePointer")
-			{
-				hidePointer("remote");
-			}
+			showPointer("remote", event.x, event.y)
+		}
+
+		private function movePointerHandler(event:CollaborationPointerSynchronizationEvent):void
+		{
+			movePointer("remote", event.x, event.y);
+		}
+
+		private function hidePointerHandler(event:CollaborationPointerSynchronizationEvent):void
+		{
+			hidePointer("remote");
 		}
 
 		private function collaborationState_changeHandler(value:String):void
@@ -244,8 +246,8 @@
 		{
 			if (source == "local")
 			{
-				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.POINTER,
-						"showPointer", x, y);
+				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.sendCollaborationPointerSynchronization(CollaborationPointerSynchronizationEvent.SHOW_POINTER,
+						x, y);
 			}
 			else if (source == "remote")
 			{
@@ -268,8 +270,8 @@
 		{
 			if (source == "local")
 			{
-				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.POINTER,
-						"movePointer", x, y);
+				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.sendCollaborationPointerSynchronization(CollaborationPointerSynchronizationEvent.MOVE_POINTER,
+						x, y);
 			}
 			else if (source == "remote")
 			{
@@ -292,8 +294,8 @@
 		{
 			if (source == "local")
 			{
-				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.POINTER,
-						"hidePointer", x, y);
+				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.sendCollaborationPointerSynchronization(CollaborationPointerSynchronizationEvent.HIDE_POINTER,
+						x, y);
 			}
 			else if (source == "remote")
 			{

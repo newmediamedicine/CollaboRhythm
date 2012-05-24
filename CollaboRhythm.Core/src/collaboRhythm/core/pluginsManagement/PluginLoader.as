@@ -50,7 +50,7 @@ package collaboRhythm.core.pluginsManagement
 		private var _applicationPluginsDirectoryPath:String;
 		private var _userPluginsDirectoryPath:String;
 		private var _componentContainer:IComponentContainer;
-		private var _moduleApplicationDomain:ApplicationDomain;
+		private var _pluginsApplicationDomain:ApplicationDomain;
 
 		private static const PLUGINS_DIRECTORY_NAME:String = "plugins";
 		private static const APPLICATION_STORAGE_DIRECTORY_VARIABLE:String = "$APPLICATION_STORAGE_DIRECTORY$/";
@@ -112,7 +112,7 @@ package collaboRhythm.core.pluginsManagement
 			loadedPlugins = new Vector.<IPlugin>(files.length);
 			pendingModuleLoaders = new ArrayCollection();
 			completedModuleLoaders = new ArrayCollection();
-			_moduleApplicationDomain = new ApplicationDomain(ApplicationDomain.currentDomain);
+			_pluginsApplicationDomain = new ApplicationDomain(ApplicationDomain.currentDomain);
 
 			for each (var file:File in files)
 			{
@@ -271,7 +271,7 @@ package collaboRhythm.core.pluginsManagement
 			// Changing the application domain from the child domain to the current domain resolves this problem because
 			// all of the modules are in the same domain.
 			// http://livedocs.adobe.com/flex/3/html/help.html?content=modular_2.html
-			moduleLoader.applicationDomain = _moduleApplicationDomain;
+			moduleLoader.applicationDomain = _pluginsApplicationDomain;
 			moduleLoader.loadModule(file.url, moduleBytes);
 		}
 		
@@ -387,7 +387,7 @@ package collaboRhythm.core.pluginsManagement
 			{
 				moduleLoader.unloadModule();
 			}
-//			_moduleApplicationDomain.domainMemory.clear();
+//			_pluginsApplicationDomain.domainMemory.clear();
 			moduleLoaders = new ArrayCollection();
 			loadedPlugins = new Vector.<IPlugin>();
 			pendingModuleLoaders = null;
@@ -398,6 +398,11 @@ package collaboRhythm.core.pluginsManagement
 		{
 			var files:Array = findPluginFiles(getPluginSearchFiles());
 			return files.length;
+		}
+
+		public function get pluginsApplicationDomain():ApplicationDomain
+		{
+			return _pluginsApplicationDomain;
 		}
 	}
 }

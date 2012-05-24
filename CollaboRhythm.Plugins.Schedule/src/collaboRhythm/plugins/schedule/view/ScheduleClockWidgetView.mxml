@@ -74,14 +74,14 @@
 
 			_scheduleGroupsCollection = _scheduleModel.scheduleGroupsCollection;
 			_scheduleGroupsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
-													   scheduleGroupsCollectionChangeHandler);
+					scheduleGroupsCollectionChangeHandler);
 
 			this.addEventListener(ScheduleClockWidgetViewEvent.SCHEDULE_GROUP_CLOCK_VIEW_CLICK,
-								  scheduleGroupClockViewClickHandler);
+					scheduleGroupClockViewClickHandler);
 
 			_scheduleModelInitialized_changeWatcher = BindingUtils.bindSetter(scheduleModelInitialized_changeWatcher,
-																			  _scheduleModel, "isInitialized", false,
-																			  true);
+					_scheduleModel, "isInitialized", false,
+					true);
 		}
 
 		private function creationCompleteHandler():void
@@ -198,7 +198,7 @@
 		private function scheduleGroupClockViewClickHandler(event:ScheduleClockWidgetViewEvent):void
 		{
 			var scheduleGroup:ScheduleGroup = event.scheduleGroup;
-			_scheduleClockController.openScheduleReportingFullView(scheduleGroup, "clock view click");
+			_scheduleClockController.openScheduleReportingFullView("local", scheduleGroup);
 		}
 
 		public function destroyChildren():void

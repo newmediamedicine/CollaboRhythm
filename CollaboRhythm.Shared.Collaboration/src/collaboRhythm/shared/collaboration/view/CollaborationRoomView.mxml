@@ -44,7 +44,7 @@
 	<fx:Script>
 		<![CDATA[
 		import collaboRhythm.shared.collaboration.controller.CollaborationController;
-		import collaboRhythm.shared.collaboration.controller.CollaborationEvent;
+		import collaboRhythm.shared.collaboration.model.CollaborationMessageEvent;
 		import collaboRhythm.shared.collaboration.model.CollaborationModel;
 		import collaboRhythm.shared.model.Account;
 		import collaboRhythm.shared.view.*;
@@ -109,8 +109,8 @@
 //			collaborationRoomUserView.user = user;
 			collaborationRoomUserView.collaborationModel = _collaborationModel;
 //			collaborationRoomUserView.collaboratingRemoteUsers = _collaborationModel.collaborationRoomAccounts;
-			collaborationRoomUserView.addEventListener(CollaborationEvent.LOCAL_USER_JOINED_COLLABORATION_ROOM_ANIMATION_COMPLETE,
-					localUserJoinedCollaborationRoomHandler);
+//			collaborationRoomUserView.addEventListener(CollaborationEvent.LOCAL_USER_JOINED_COLLABORATION_ROOM_ANIMATION_COMPLETE,
+//										localUserJoinedCollaborationRoomHandler);
 			this.addElement(collaborationRoomUserView);
 //			if (user != _localUser)
 //			{
@@ -131,7 +131,7 @@
 //			}
 		}
 
-		private function localUserJoinedCollaborationRoomHandler(event:CollaborationEvent):void
+		private function localUserJoinedCollaborationRoomHandler(event:CollaborationMessageEvent):void
 		{
 //			dispatchEvent(new CollaborationEvent(CollaborationEvent.LOCAL_USER_JOINED_COLLABORATION_ROOM_ANIMATION_COMPLETE,
 //					event.remoteUser));

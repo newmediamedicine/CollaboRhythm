@@ -21,8 +21,11 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 	import collaboRhythm.plugins.schedule.view.ScheduleClockWidgetView;
 	import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
+	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+	import collaboRhythm.shared.collaboration.model.CollaborationViewSynchronizationEvent;
 
 	import flash.events.EventDispatcher;
+	import flash.utils.getQualifiedClassName;
 
 	import spark.components.ViewNavigator;
 
@@ -33,25 +36,46 @@ package collaboRhythm.plugins.schedule.controller
 		private var _scheduleWidgetView:ScheduleClockWidgetView;
 		private var _viewNavigator:ViewNavigator;
 
+		private var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
+
 		public function ScheduleClockController(scheduleAppController:ScheduleAppController,
-												scheduleModel:ScheduleModel,
-												scheduleWidgetView:ScheduleClockWidgetView,
+												scheduleModel:ScheduleModel, scheduleWidgetView:ScheduleClockWidgetView,
 												viewNavigator:ViewNavigator)
 		{
 			_scheduleAppController = scheduleAppController;
 			_scheduleModel = scheduleModel;
 			_scheduleWidgetView = scheduleWidgetView;
 			_viewNavigator = viewNavigator;
+
+			_collaborationLobbyNetConnectionServiceProxy = _scheduleAppController.collaborationLobbyNetConnectionServiceProxy as CollaborationLobbyNetConnectionServiceProxy;
+			_collaborationLobbyNetConnectionServiceProxy.addEventListener(getQualifiedClassName(this), collaborationViewSynchronization_eventHandler);
 		}
 
-		public function openScheduleReportingFullView(scheduleGroup:ScheduleGroup, viaMechanism:String):void
+		private function collaborationViewSynchronization_eventHandler(event:CollaborationViewSynchronizationEvent):void
+				{
+					if (event.synchronizeData)
+					{
+						this[event.synchronizeFunction]("remote", event.synchronizeData);
+					}
+					else
+					{
+						this[event.synchronizeFunction]("remote");
+					}
+				}
+
+		public function openScheduleReportingFullView(source:String, scheduleGroup:ScheduleGroup):void
 		{
+//			if (source == "local")
+//			{
+//				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this), "openScheduleReportingFullView",
+//						scheduleGroup);
+//			}
 			_scheduleModel.scheduleReportingModel.currentScheduleGroup = scheduleGroup;
 
-			var scheduleViewInitializationParameters:ScheduleViewInitializationParameters = new ScheduleViewInitializationParameters(_scheduleAppController, _scheduleModel);
+			var scheduleViewInitializationParameters:ScheduleViewInitializationParameters = new ScheduleViewInitializationParameters(_scheduleAppController,
+					_scheduleModel);
 
 			_viewNavigator.pushView(ScheduleReportingFullView, scheduleViewInitializationParameters);
-//			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, null, null, "Schedule", viaMechanism));
 		}
 	}
 }
