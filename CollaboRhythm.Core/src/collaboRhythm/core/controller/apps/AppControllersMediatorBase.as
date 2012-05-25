@@ -16,7 +16,6 @@
  */
 package collaboRhythm.core.controller.apps
 {
-
 	import castle.flexbridge.reflection.ReflectionUtils;
 
 	import collaboRhythm.plugins.problems.controller.ProblemsAppController;
@@ -29,12 +28,11 @@ package collaboRhythm.core.controller.apps
 	import collaboRhythm.shared.apps.procedures.controller.ProceduresAppController;
 	import collaboRhythm.shared.apps.socialHistory.controller.SocialHistoryAppController;
 	import collaboRhythm.shared.apps.vitals.controller.VitalsAppController;
-	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
-	import collaboRhythm.shared.collaboration.model.CollaborationRoomNetConnectionService;
+	import collaboRhythm.shared.controller.apps.AppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
+	import collaboRhythm.shared.controller.apps.AppControllerFactory;
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	import collaboRhythm.shared.controller.apps.AppEvent;
-	import collaboRhythm.shared.controller.apps.AppControllerBase;
-	import collaboRhythm.shared.controller.apps.AppControllerFactory;
 	import collaboRhythm.shared.model.*;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.AppGroupDescriptor;
@@ -45,7 +43,6 @@ package collaboRhythm.core.controller.apps
 	import flash.desktop.NativeApplication;
 	import flash.events.KeyboardEvent;
 	import flash.net.registerClassAlias;
-	import flash.ui.Keyboard;
 	import flash.utils.getQualifiedClassName;
 
 	import mx.collections.ArrayCollection;
@@ -62,12 +59,11 @@ package collaboRhythm.core.controller.apps
 	{
 		private var _widgetContainers:Vector.<IVisualElementContainer>;
 		private var _fullContainer:IVisualElementContainer;
+		private var _componentContainer:IComponentContainer;
 		private var _settings:Settings;
 		private var _apps:OrderedMap;
 		private var _appsById:OrderedMap;
-		private var _collaborationRoomNetConnectionService:CollaborationRoomNetConnectionService;
 		private var _factory:AppControllerFactory;
-		private var _componentContainer:IComponentContainer;
 		private static const STANDARD_APP_GROUP:String = "standard";
 		private static const CUSTOM_APP_GROUP:String = "custom";
 		private var _currentAppGroup:AppGroup;
@@ -75,25 +71,21 @@ package collaboRhythm.core.controller.apps
 		private var dynamicAppDictionary:OrderedMap;
 		protected var _logger:ILogger;
 		private var _currentFullView:String;
-		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
 		private var _appsInitialized:ArrayCollection;
-		private var _navigationProxy:IApplicationNavigationProxy;
+		private var _appControllerConstructorParams:AppControllerConstructorParams;
 
 		public function AppControllersMediatorBase(widgetContainers:Vector.<IVisualElementContainer>,
-												   fullParentContainer:IVisualElementContainer, settings:Settings,
+												   fullParentContainer:IVisualElementContainer,
 												   componentContainer:IComponentContainer,
-												   collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService,
-												   navigationProxy:IApplicationNavigationProxy)
+												   settings:Settings,
+												   appControllerConstructorParams:AppControllerConstructorParams)
 		{
-			_collaborationLobbyNetConnectionService = collaborationLobbyNetConnectionService;
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_widgetContainers = widgetContainers;
 			_fullContainer = fullParentContainer;
-			_settings = settings;
-//			_healthRecordService = healthRecordService;
-//			_collaborationRoomNetConnectionService = collaborationRoomNetConnectionService;
 			_componentContainer = componentContainer;
-			_navigationProxy = navigationProxy;
+			_settings = settings;
+			_appControllerConstructorParams = appControllerConstructorParams;
 
 //			_collaborationRoomNetConnectionService.netConnection.client.showFullView = showFullView;
 
@@ -308,15 +300,12 @@ package collaboRhythm.core.controller.apps
 			_appsById = new OrderedMap();
 			_factory = new AppControllerFactory();
 			_factory.fullContainer = _fullContainer;
-//			_factory.healthRecordService = _healthRecordService;
-//			_factory.collaborationRoomNetConnectionServiceProxy = _collaborationRoomNetConnectionService.createProxy();
+			_factory.componentContainer = _componentContainer;
+			_factory.settings = _settings;
 			_factory.modality = _settings.modality;
 			_factory.activeAccount = activeAccount;
 			_factory.activeRecordAccount = activeRecordAccount;
-			_factory.settings = _settings;
-			_factory.componentContainer = _componentContainer;
-			_factory.collaborationLobbyNetConnectionService = _collaborationLobbyNetConnectionService as ICollaborationLobbyNetConnectionService;
-			_factory.navigationProxy = _navigationProxy;
+			_factory.appControllerConstructorParams = _appControllerConstructorParams;
 		}
 
 		private function initializeDynamicAppLookup():void
@@ -497,16 +486,6 @@ package collaboRhythm.core.controller.apps
 		protected function get factory():AppControllerFactory
 		{
 			return _factory;
-		}
-
-		public function get navigationProxy():IApplicationNavigationProxy
-		{
-			return _navigationProxy;
-		}
-
-		public function set navigationProxy(value:IApplicationNavigationProxy):void
-		{
-			_navigationProxy = value;
 		}
 	}
 }

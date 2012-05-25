@@ -16,13 +16,13 @@
  */
 package collaboRhythm.shared.controller.apps
 {
-import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.IApplicationNavigationProxy;
-	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionService;
+	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.services.IComponentContainer;
-    import collaboRhythm.shared.model.settings.Settings;
+	import collaboRhythm.shared.model.settings.Settings;
 
-    import mx.core.IVisualElementContainer;
+	import mx.core.IVisualElementContainer;
 
 	import spark.components.ViewNavigator;
 
@@ -30,14 +30,14 @@ import collaboRhythm.shared.model.Account;
 	{
 		private var _widgetContainer:IVisualElementContainer;
 		private var _fullContainer:IVisualElementContainer;
-		private var _modality:String;
-        private var _activeAccount:Account;
-        private var _activeRecordAccount:Account;
-        private var _settings:Settings;
-        private var _componentContainer:IComponentContainer;
-		private var _collaborationLobbyNetConnectionService:ICollaborationLobbyNetConnectionService;
-		private var _viewNavigator:ViewNavigator;
+		private var _componentContainer:IComponentContainer;
 		private var _navigationProxy:IApplicationNavigationProxy;
+		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
+		private var _settings:Settings;
+		private var _modality:String;
+		private var _activeAccount:Account;
+		private var _activeRecordAccount:Account;
+		private var _viewNavigator:ViewNavigator;
 
 		public function AppControllerConstructorParams()
 		{
@@ -111,16 +111,6 @@ import collaboRhythm.shared.model.Account;
             _componentContainer = value;
         }
 
-		public function get collaborationLobbyNetConnectionService():ICollaborationLobbyNetConnectionService
-		{
-			return _collaborationLobbyNetConnectionService;
-		}
-
-		public function set collaborationLobbyNetConnectionService(value:ICollaborationLobbyNetConnectionService):void
-		{
-			_collaborationLobbyNetConnectionService = value;
-		}
-
 		public function get viewNavigator():ViewNavigator
 		{
 			return _viewNavigator;
@@ -139,6 +129,16 @@ import collaboRhythm.shared.model.Account;
 		public function set navigationProxy(value:IApplicationNavigationProxy):void
 		{
 			_navigationProxy = value;
+		}
+
+		public function get collaborationLobbyNetConnectionServiceProxy():ICollaborationLobbyNetConnectionServiceProxy
+		{
+			return _collaborationLobbyNetConnectionServiceProxy;
+		}
+
+		public function set collaborationLobbyNetConnectionServiceProxy(value:ICollaborationLobbyNetConnectionServiceProxy):void
+		{
+			_collaborationLobbyNetConnectionServiceProxy = value;
 		}
 	}
 }

@@ -89,12 +89,12 @@
 
 		private function nextStepEarlyButton_clickHandler():void
 		{
-			nextStepEarlyPopUp.addEventListener('close', quitHypoglycemiaActionPlanPopUp_closeHandler);
+			nextStepEarlyPopUp.addEventListener('close', nextStepEarlyButton_closeHandler);
 			nextStepEarlyPopUp.open(this, true);
 			PopUpManager.centerPopUp(nextStepEarlyPopUp);
 		}
 
-		private function quitHypoglycemiaActionPlanPopUp_closeHandler(event:PopUpEvent):void
+		private function nextStepEarlyButton_closeHandler(event:PopUpEvent):void
 		{
 			if (event.commit)
 			{

@@ -31,9 +31,9 @@ package collaboRhythm.core.controller
 	import collaboRhythm.core.view.ConnectivityEvent;
 	import collaboRhythm.core.view.ConnectivityView;
 	import collaboRhythm.shared.collaboration.controller.CollaborationController;
-	import collaboRhythm.shared.collaboration.controller.CollaborationEvent;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionEvent;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
+	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.collaboration.view.CollaborationView;
 	import collaboRhythm.shared.controller.IApplicationControllerBase;
 	import collaboRhythm.shared.controller.ICollaborationController;
@@ -117,6 +117,7 @@ package collaboRhythm.core.controller
 
 		private var _backgroundProcessModel:BackgroundProcessCollectionModel = new BackgroundProcessCollectionModel();
 		protected var _navigationProxy:IApplicationNavigationProxy;
+		protected var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
 
 		public function ApplicationControllerBase()
 		{
@@ -501,18 +502,9 @@ package collaboRhythm.core.controller
 
 			_collaborationController = new CollaborationController(_activeAccount, collaborationView, _settings);
 			_collaborationLobbyNetConnectionService = _collaborationController.collaborationModel.collaborationLobbyNetConnectionService as CollaborationLobbyNetConnectionService;
+			_collaborationLobbyNetConnectionServiceProxy = _collaborationController.collaborationModel.collaborationLobbyNetConnectionService.createProxy(_pluginLoader.pluginsApplicationDomain);
 			_collaborationController.addEventListener(CollaborationLobbyNetConnectionEvent.SYNCHRONIZE,
 					synchronizeDataHandler);
-			_collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_RECEIVED,
-					collaborationInvitationReceived_eventHandler);
-			_collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_ACCEPTED,
-					collaborationInvitationAccepted_eventHandler);
-			_collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_REJECTED,
-					collaborationInvitationRejected_eventHandler);
-			_collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_INVITATION_CANCELLED,
-					collaborationInvitationCancelled_eventHandler);
-			_collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.COLLABORATION_ENDED,
-					collaborationEnded_eventHandler);
 			BindingUtils.bindSetter(collaborationLobbyIsConnecting_changeHandler,
 					_collaborationLobbyNetConnectionService, "isConnecting");
 			BindingUtils.bindSetter(collaborationLobbyHasConnectionFailed_changeHandler,
@@ -539,46 +531,6 @@ package collaboRhythm.core.controller
 				_collaborationController.sendCollaborationInvitation(_activeAccount,
 						_activeAccount.allSharingAccounts["jking@records.media.mit.edu"]);
 			}
-		}
-
-		/**
-		 * Virtual method which subclasses should override to dictate what happens when a collaboration invitation is received
-		 */
-		protected function collaborationInvitationReceived_eventHandler(event:CollaborationEvent):void
-		{
-
-		}
-
-		/**
-		 * Virtual method which subclasses should override to dictate what happens when a collaboration invitation is received
-		 */
-		protected function collaborationInvitationAccepted_eventHandler(event:CollaborationEvent):void
-		{
-
-		}
-
-		/**
-		 * Virtual method which subclasses should override to dictate what happens when a collaboration invitation is received
-		 */
-		protected function collaborationInvitationRejected_eventHandler(event:CollaborationEvent):void
-		{
-
-		}
-
-		/**
-		 * Virtual method which subclasses should override to dictate what happens when a collaboration invitation is received
-		 */
-		protected function collaborationInvitationCancelled_eventHandler(event:CollaborationEvent):void
-		{
-
-		}
-
-		/**
-		 * Virtual method which subclasses should override to dictate what happens when a collaboration invitation is received
-		 */
-		protected function collaborationEnded_eventHandler(event:CollaborationEvent):void
-		{
-
 		}
 
 		/**
@@ -1295,7 +1247,6 @@ package collaboRhythm.core.controller
 
 		public function exitApplication(exitMethod:String):void
 		{
-			_collaborationLobbyNetConnectionService.exitCollaborationLobby();
 			InteractionLogUtil.log(_logger, "Application exit", exitMethod);
 			ApplicationExitUtil.exit();
 		}

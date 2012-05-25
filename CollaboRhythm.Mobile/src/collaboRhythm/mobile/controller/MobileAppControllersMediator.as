@@ -1,29 +1,23 @@
 package collaboRhythm.mobile.controller
 {
-
-    import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
-	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
-	import collaboRhythm.shared.model.IApplicationNavigationProxy;
+	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
+	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.Settings;
-    import collaboRhythm.shared.model.services.IComponentContainer;
 
-    import mx.core.IVisualElementContainer;
+	import mx.core.IVisualElementContainer;
 
-    public class MobileAppControllersMediator extends AppControllersMediatorBase
+	public class MobileAppControllersMediator extends AppControllersMediatorBase
     {
-        public function MobileAppControllersMediator(
-            widgetParentContainer:Vector.<IVisualElementContainer>,
-			scheduleWidgetParentContainer:IVisualElementContainer,
-			fullParentContainer:IVisualElementContainer,
-			settings:Settings,
-//			healthRecordService:CommonHealthRecordService,
-//			collaborationRoomNetConnectionService:CollaborationRoomNetConnectionService,
-			componentContainer:IComponentContainer,
-			collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService,
-			navigationProxy:IApplicationNavigationProxy
-		)
+        public function MobileAppControllersMediator(widgetParentContainer:Vector.<IVisualElementContainer>,
+													 scheduleWidgetParentContainer:IVisualElementContainer,
+													 fullParentContainer:IVisualElementContainer,
+													 componentContainer:IComponentContainer,
+													 settings:Settings,
+													 appControllerConstructorParams:AppControllerConstructorParams)
         {
-            super(widgetParentContainer, fullParentContainer, settings, componentContainer, collaborationLobbyNetConnectionService, navigationProxy);
+            super(widgetParentContainer, fullParentContainer, componentContainer, settings,
+					appControllerConstructorParams);
         }
     }
 }

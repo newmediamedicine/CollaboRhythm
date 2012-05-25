@@ -21,7 +21,6 @@ package collaboRhythm.plugins.schedule.model
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
-	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.services.IComponentContainer;
@@ -174,8 +173,9 @@ package collaboRhythm.plugins.schedule.model
 		public function createScheduleGroup(scheduleItemOccurrence:ScheduleItemOccurrence, moving:Boolean,
 											yPosition:int = NaN):ScheduleGroup
 		{
-			var scheduleGroup:ScheduleGroup = new ScheduleGroup(scheduleItemOccurrence.dateStart,
-					scheduleItemOccurrence.dateEnd);
+			var scheduleGroup:ScheduleGroup = new ScheduleGroup();
+			scheduleGroup.dateStart = scheduleItemOccurrence.dateStart;
+			scheduleGroup.dateEnd = scheduleItemOccurrence.dateEnd;
 			scheduleGroup.addScheduleItemOccurrence(scheduleItemOccurrence);
 			scheduleGroup.moving = moving;
 			if (yPosition)

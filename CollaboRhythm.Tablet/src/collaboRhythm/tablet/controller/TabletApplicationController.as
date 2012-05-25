@@ -19,11 +19,11 @@ package collaboRhythm.tablet.controller
 
 	import collaboRhythm.core.controller.ApplicationControllerBase;
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
-	import collaboRhythm.shared.collaboration.controller.CollaborationEvent;
-	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.collaboration.model.CollaborationModel;
+	import collaboRhythm.shared.collaboration.model.CollaborationViewSynchronizationEvent;
 	import collaboRhythm.shared.collaboration.view.CollaborationVideoView;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
+	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.view.tablet.TabletViewBase;
@@ -32,7 +32,9 @@ package collaboRhythm.tablet.controller
 	import collaboRhythm.tablet.view.TabletHomeView;
 
 	import flash.events.Event;
+	import flash.utils.getQualifiedClassName;
 
+	import mx.binding.utils.BindingUtils;
 	import mx.core.IVisualElementContainer;
 	import mx.events.FlexEvent;
 
@@ -65,8 +67,9 @@ package collaboRhythm.tablet.controller
 
 			initCollaborationController();
 			_collaborationController.viewNavigator = navigator;
-			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationEvent.SYNCHRONIZE,
-					synchronizeHandler);
+			_collaborationLobbyNetConnectionServiceProxy.addEventListener(getQualifiedClassName(this), collaborationViewSynchronization_eventHandler);
+
+			BindingUtils.bindSetter(collaborationState_changeHandler, _collaborationController.collaborationModel, "collaborationState");
 
 			navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
 			navigator.addEventListener("viewChangeComplete",
@@ -78,16 +81,37 @@ package collaboRhythm.tablet.controller
 			createSession();
 		}
 
-		private function synchronizeHandler(event:CollaborationEvent):void
+		private function collaborationViewSynchronization_eventHandler(event:CollaborationViewSynchronizationEvent):void
 		{
-			if (event.method == "showCollaborationVideoView")
+			if (event.synchronizeData)
 			{
-				showCollaborationVideoView("remote");
+				this[event.synchronizeFunction]("remote", event.synchronizeData);
 			}
-			else if (event.method == "navigateHome" && _collaborationController.collaborationModel.collaborationState ==
-					CollaborationModel.COLLABORATION_ACTIVE)
+			else
 			{
-				navigateHome("remote");
+				this[event.synchronizeFunction]("remote");
+			}
+		}
+
+		private function collaborationState_changeHandler(collaborationState:String):void
+		{
+			if (collaborationState == CollaborationModel.COLLABORATION_INVITATION_SENT || collaborationState == CollaborationModel.COLLABORATION_INVITATION_RECEIVED)
+			{
+				navigator.popToFirstView();
+				navigator.pushView(CollaborationVideoView);
+			}
+			else if (collaborationState == CollaborationModel.COLLABORATION_INACTIVE)
+			{
+				popCollaborationVideoView();
+			}
+		}
+
+		private function popCollaborationVideoView():void
+		{
+			var collaborationVideoView:CollaborationVideoView = navigator.activeView as CollaborationVideoView;
+			if (collaborationVideoView)
+			{
+				navigator.popView();
 			}
 		}
 
@@ -166,43 +190,6 @@ package collaboRhythm.tablet.controller
 		override public function sendCollaborationInvitation():void
 		{
 			super.sendCollaborationInvitation();
-			navigator.popToFirstView();
-			navigator.pushView(CollaborationVideoView);
-		}
-
-		override protected function collaborationInvitationReceived_eventHandler(event:CollaborationEvent):void
-		{
-			_collaborationController.receiveCollaborationInvitation(event.subjectAccountId, event.sourceAccountId,
-					event.sourcePeerId, event.passWord);
-			navigator.popToFirstView();
-			navigator.pushView(CollaborationVideoView);
-		}
-
-		override protected function collaborationInvitationAccepted_eventHandler(event:CollaborationEvent):void
-		{
-			_collaborationController.receiveCollaborationInvitationAccepted(event.subjectAccountId,
-					event.sourceAccountId,
-					event.sourcePeerId, event.passWord);
-		}
-
-		override protected function collaborationInvitationRejected_eventHandler(event:CollaborationEvent):void
-		{
-			_collaborationController.receiveCollaborationInvitationRejected(event.subjectAccountId,
-					event.sourceAccountId,
-					event.sourcePeerId, event.passWord);
-		}
-
-		override protected function collaborationInvitationCancelled_eventHandler(event:CollaborationEvent):void
-		{
-			_collaborationController.receiveCollaborationInvitationCancelled(event.subjectAccountId,
-					event.sourceAccountId,
-					event.sourcePeerId, event.passWord);
-		}
-
-		override protected function collaborationEnded_eventHandler(event:CollaborationEvent):void
-		{
-			_collaborationController.receiveCollaborationEnded(event.subjectAccountId, event.sourceAccountId,
-					event.sourcePeerId, event.passWord);
 		}
 
 		override public function navigateHome(source:String):void
@@ -210,8 +197,7 @@ package collaboRhythm.tablet.controller
 			if (source == "local" && _collaborationController.collaborationModel.collaborationState ==
 					CollaborationModel.COLLABORATION_ACTIVE)
 			{
-				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.SYNCHRONIZE,
-						"navigateHome");
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this), "navigateHome");
 			}
 			navigator.popToFirstView()
 		}
@@ -232,13 +218,11 @@ package collaboRhythm.tablet.controller
 		{
 			if (_tabletAppControllersMediator == null)
 			{
+				var appControllerConstructorParams:AppControllerConstructorParams = new AppControllerConstructorParams();
+				appControllerConstructorParams.collaborationLobbyNetConnectionServiceProxy = _collaborationLobbyNetConnectionServiceProxy;
+				appControllerConstructorParams.navigationProxy = _navigationProxy;
 				_tabletAppControllersMediator = new TabletAppControllersMediator(tabletHomeView.widgetContainers,
-						_fullContainer, settings,
-						_componentContainer,
-						_collaborationController.collaborationModel.collaborationLobbyNetConnectionService as
-								CollaborationLobbyNetConnectionService,
-						this,
-						_navigationProxy);
+						_fullContainer, _componentContainer, settings, appControllerConstructorParams, this);
 			}
 			_tabletAppControllersMediator.createAndStartApps(activeAccount, recordAccount);
 		}
@@ -331,8 +315,7 @@ package collaboRhythm.tablet.controller
 			if (source == "local" && _collaborationController.collaborationModel.collaborationState ==
 					CollaborationModel.COLLABORATION_ACTIVE)
 			{
-				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.SYNCHRONIZE,
-						"showCollaborationVideoView");
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this), "showCollaborationVideoView");
 			}
 			navigator.pushView(CollaborationVideoView);
 		}
@@ -340,6 +323,11 @@ package collaboRhythm.tablet.controller
 		public function endCollaboration():void
 		{
 			_collaborationController.endCollaboration();
+		}
+
+		override protected function prepareToExit():void
+		{
+			_collaborationController.prepareToExit();
 		}
 	}
 }

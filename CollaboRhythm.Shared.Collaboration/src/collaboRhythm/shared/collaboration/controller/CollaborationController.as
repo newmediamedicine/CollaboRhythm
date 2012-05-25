@@ -16,23 +16,19 @@
  */
 package collaboRhythm.shared.collaboration.controller
 {
+	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionEvent;
+	import collaboRhythm.shared.collaboration.model.CollaborationMessageEvent;
+	import collaboRhythm.shared.collaboration.model.CollaborationModel;
+	import collaboRhythm.shared.collaboration.view.CollaborationView;
 	import collaboRhythm.shared.controller.ICollaborationController;
 	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionEvent;
-	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
-	import collaboRhythm.shared.collaboration.model.CollaborationModel;
-	import collaboRhythm.shared.model.ICollaborationModel;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.document.VideoMessage;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	import collaboRhythm.shared.model.settings.Settings;
-	import collaboRhythm.shared.collaboration.view.CollaborationVideoView;
-	import collaboRhythm.shared.collaboration.view.CollaborationView;
 
 	import flash.events.EventDispatcher;
-	import flash.events.TimerEvent;
-	import flash.utils.Timer;
 	import flash.utils.getQualifiedClassName;
 
 	import mx.logging.ILogger;
@@ -67,8 +63,15 @@ package collaboRhythm.shared.collaboration.controller
 			_settings = settings;
 			_collaborationModel = new CollaborationModel(settings, _activeAccount);
 			_collaborationView = collaborationView;
-//				_collaborationRoomView.addEventListener(CollaborationEvent.LOCAL_USER_JOINED_COLLABORATION_ROOM_ANIMATION_COMPLETE, localUserJoinedCollaborationRoomAnimationCompleteHandler);
+
+			_collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationMessageEvent.MESSAGE_RECEIVED, collaborationMessageReceived_eventHandler);
+
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+		}
+
+		private function collaborationMessageReceived_eventHandler(event:CollaborationMessageEvent):void
+		{
+			_collaborationModel.receiveCollaborationMessage(event.messageType, event.subjectAccountId, event.sourceAccountId, event.sourcePeerId, event.passWord);
 		}
 
 		private function synchronizeHandler(event:CollaborationLobbyNetConnectionEvent):void
@@ -116,139 +119,35 @@ package collaboRhythm.shared.collaboration.controller
 
 		public function sendCollaborationInvitation(subjectAccount:Account, targetAccount:Account):void
 		{
-			_collaborationModel.subjectAccount = subjectAccount;
-			_collaborationModel.peerAccount = targetAccount;
-			_collaborationModel.passWord = String(Math.round(Math.random() * 10000));
-			_collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.INVITE,
-					null);
-			_collaborationModel.collaborationState = CollaborationModel.COLLABORATION_INVITATION_SENT;
+			_collaborationModel.sendCollaborationInvitation(subjectAccount, targetAccount);
 		}
 
-		public function receiveCollaborationInvitation(subjectAccountId:String, sourceAccountId:String,
-													   sourcePeerId:String, passWord:String):void
+		public function acceptCollaborationInvitation():void
 		{
-			if (_activeAccount.accountId == subjectAccountId)
-			{
-				_collaborationModel.subjectAccount = _activeAccount;
-			}
-			else
-			{
-				_collaborationModel.subjectAccount = _activeAccount.allSharingAccounts[subjectAccountId];
-			}
-			_collaborationModel.peerAccount = _activeAccount.allSharingAccounts[sourceAccountId];
-			_collaborationModel.peerAccount.peerId = sourcePeerId;
-			_collaborationModel.passWord = passWord;
-			_collaborationModel.collaborationState = CollaborationModel.COLLABORATION_INVITATION_RECEIVED;
+			_collaborationModel.acceptCollaborationInvitation();
 		}
 
-		public function sendCollaborationInvitationAccepted():void
+		public function rejectCollaborationInvitation():void
 		{
-			_collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.ACCEPT,
-					null);
-			_collaborationModel.collaborationState = CollaborationModel.COLLABORATION_ACTIVE;
-			_collaborationModel.collaborationLobbyNetConnectionService.createCommunicationConnection();
+			_collaborationModel.rejectCollaborationInvitation();
 		}
 
-		public function receiveCollaborationInvitationAccepted(subjectAccountId:String, sourceAccountId:String,
-															   sourcePeerId:String, passWord:String):void
+		public function cancelCollaborationInvitation():void
 		{
-			if (_collaborationModel.passWord == passWord)
-			{
-				_collaborationModel.peerAccount.peerId = sourcePeerId;
-				_collaborationModel.collaborationState = CollaborationModel.COLLABORATION_ACTIVE;
-				_collaborationModel.collaborationLobbyNetConnectionService.createCommunicationConnection();
-			}
-			else
-			{
-				//TODO: Logging potential security issue
-			}
-		}
-
-		public function sendCollaborationInvitationRejected():void
-		{
-			popCollaborationVideoView();
-			_collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.REJECT,
-					null);
-			_collaborationModel.collaborationState = CollaborationModel.COLLABORATION_INACTIVE;
-		}
-
-		public function receiveCollaborationInvitationRejected(subjectAccountId:String, sourceAccountId:String,
-															   sourcePeerId:String, passWord:String):void
-		{
-			if (_collaborationModel.passWord == passWord)
-			{
-				_collaborationModel.collaborationState = CollaborationModel.COLLABORATION_INVITATION_REJECTED;
-				var invitationRejectedTimer:Timer = new Timer(1000, 1);
-				invitationRejectedTimer.addEventListener(TimerEvent.TIMER_COMPLETE,
-						invitationRejectedTimer_completeEventHandler);
-				invitationRejectedTimer.start();
-			}
-			else
-			{
-				//TODO: Logging potential security issue
-			}
-		}
-
-		private function invitationRejectedTimer_completeEventHandler(event:TimerEvent):void
-		{
-			popCollaborationVideoView();
-			_collaborationModel.collaborationState = CollaborationModel.COLLABORATION_INACTIVE;
-		}
-
-		public function sendCollaborationInvitationCancelled():void
-		{
-			popCollaborationVideoView();
-			_collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.CANCEL,
-					null);
-			_collaborationModel.collaborationState = CollaborationModel.COLLABORATION_INACTIVE;
-		}
-
-		public function receiveCollaborationInvitationCancelled(subjectAccountId:String, sourceAccountId:String,
-																sourcePeerId:String, passWord:String):void
-		{
-			if (_collaborationModel.passWord == passWord)
-			{
-				popCollaborationVideoView();
-				_collaborationModel.collaborationState = CollaborationModel.COLLABORATION_INACTIVE;
-			}
-			else
-			{
-				//TODO: Logging potential security issue
-			}
+			_collaborationModel.cancelCollaborationInvitation();
 		}
 
 		public function endCollaboration():void
 		{
-			popCollaborationVideoView();
-			_collaborationModel.collaborationLobbyNetConnectionService.sendMessage(CollaborationLobbyNetConnectionService.END,
-					null);
 			_collaborationModel.endCollaboration();
 		}
 
-		public function receiveCollaborationEnded(subjectAccountId:String, sourceAccountId:String, sourcePeerId:String,
-												  passWord:String):void
+		public function prepareToExit():void
 		{
-			if (_collaborationModel.passWord == passWord)
-			{
-				popCollaborationVideoView();
-				_collaborationModel.endCollaboration();
-			}
-			else
-			{
-				//TODO: Logging potential security issue
-			}
+			_collaborationModel.prepareToExit();
 		}
 
-		private function popCollaborationVideoView():void
-		{
-			var collaborationVideoView:CollaborationVideoView = _viewNavigator.activeView as CollaborationVideoView;
-			if (collaborationVideoView)
-			{
-				_viewNavigator.popView();
-			}
-		}
-
-		private function localUserJoinedCollaborationRoomAnimationCompleteHandler(event:CollaborationEvent):void
+		private function localUserJoinedCollaborationRoomAnimationCompleteHandler(event:CollaborationMessageEvent):void
 		{
 //			_collaborationModel.collaborationRoomNetConnectionService.connectActiveAccountVideoStream();
 		}

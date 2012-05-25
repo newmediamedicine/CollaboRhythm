@@ -21,7 +21,7 @@
 					   xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
 					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
 					   addedToStage="addedToStageHandler()"
-						removedFromStage="removedFromStageHandler()">
+					   removedFromStage="removedFromStageHandler()">
 	<fx:Declarations>
 		<s:Button id="nextStepActionButton" label="Next Step" enabled="false" click="nextStepButton_clickHandler()"/>
 		<view:QuitHypoglycemiaActionPlanPopUp id="quitHypoglycemiaActionPlanPopUp"/>
