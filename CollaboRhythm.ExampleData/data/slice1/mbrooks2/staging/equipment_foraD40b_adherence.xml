@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<IndivoDocuments>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<equipmentType>Blood Glucose Meter</equipmentType>
+		<instructions>Use device to record blood glucose. Insert test strip into device and apply a drop of blood.</instructions>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-17T14:57:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>110</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-18T13:07:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>110</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-19T13:54:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>110</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-20T13:52:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>110</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-21T13:48:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>110</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-22T14:27:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>110</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-23T14:24:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>110</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-24T14:14:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>118</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-25T14:15:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>125</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-26T14:59:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>131</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-27T13:12:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>128</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-28T15:26:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>110</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-29T13:47:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>110</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-30T14:12:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>110</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-07-31T14:44:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>110</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-01T14:02:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>116</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-02T13:24:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>121</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-03T15:22:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>126</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-04T15:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>115</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-05T13:53:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>110</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-06T14:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>110</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-07T13:54:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>119</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-08T13:14:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>129</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-09T13:00:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>143</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-10T13:10:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>134</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-11T13:18:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>110</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-12T13:29:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>110</bloodGlucose>
+	</BloodPressureAdherenceItem>
+	<BloodPressureAdherenceItem>
+		<name>FORA D40b</name>
+		<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+		<dateReported>2011-08-13T13:40:00Z</dateReported>
+		<adherence>true</adherence>
+		<bloodGlucose>110</bloodGlucose>
+	</BloodPressureAdherenceItem>
+</IndivoDocuments>

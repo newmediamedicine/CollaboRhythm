@@ -1,5 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<dataroot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<dataroot>
+  <AccountSource>
+    <accountId>janitor@records.media.mit.edu</accountId>
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    <fullName>Janitor</fullName>
+    <username>janitor</username>
+    <password>janitor-password</password>
+    <givenName>Janitor</givenName>
+    <familyName>Garbageman</familyName>
+    <streetAddress>86 Spruce Street</streetAddress>
+    <postalCode>2215</postalCode>
+    <locality>Boston</locality>
+    <region>Massachusetts</region>
+    <country>US</country>
+    <timeZone>-5GMT</timeZone>
+    <emailPersonal>janitor@records.media.mit.edu</emailPersonal>
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    <instantMessengerName>janitor@records.media.mit.edu</instantMessengerName>
+    <dateOfBirth>1940-02-24T00:00:00Z</dateOfBirth>
+    <age>70</age>
+    <gender>Male</gender>
+    <ethnicity>White</ethnicity>
+    <language>English</language>
+    <maritalStatus>Widowed</maritalStatus>
+    <employmentStatus>Employed</employmentStatus>
+    <employmentIndustry>Education</employmentIndustry>
+    <occupation>Janitor</occupation>
+    <religion>Protestant</religion>
+    <highestEducation>University</highestEducation>
+    <organDonar>true</organDonar>
+    <recordId>911bfe62-4205-4248-bb4d-15e48da34a64</recordId>
+    <status/>
+    <accessKey>LaOtGfpP3QJGaBoPlKju</accessKey>
+    <accessSecret>lVLrHdyh3V4WnslJn4eU</accessSecret>
+    <demographicsId>374946d9-232e-47a2-a9f4-303a66e4030f</demographicsId>
+    <notes>Trash can account</notes>
+    <recordSeed/>
+  </AccountSource>
+  <AccountSource>
+    <accountId>jking@records.media.mit.edu</accountId>
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    <fullName>James King</fullName>
+    <username>jking</username>
+    <password>jking-dope75</password>
+    <givenName>James</givenName>
+    <familyName>King</familyName>
+    <streetAddress>1066 Spinel Rd</streetAddress>
+    <postalCode>2142</postalCode>
+    <locality>Cambridge</locality>
+    <region>Massachusetts</region>
+    <country>US</country>
+    <timeZone>-5GMT</timeZone>
+    <emailPersonal>jking@records.media.mit.edu</emailPersonal>
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    <instantMessengerName>jking@records.media.mit.edu</instantMessengerName>
+    <dateOfBirth>1957-03-29T00:00:00Z</dateOfBirth>
+    <age>53</age>
+    <gender>Male</gender>
+    <ethnicity>White</ethnicity>
+    <language>English</language>
+    <maritalStatus>Married</maritalStatus>
+    <employmentStatus>Employed</employmentStatus>
+    <employmentIndustry>Medical</employmentIndustry>
+    <occupation>Doctor</occupation>
+    <religion>Protestant</religion>
+    <highestEducation>University</highestEducation>
+    <organDonar>true</organDonar>
+    <recordId>b3ce662a-f125-45a2-b249-a551bd7bf004</recordId>
+    <status>Creating demographics. Failed on PUT
+
+
+
+
+
+			http://indivo-dev.media.mit.edu:9091/records/b3ce662a-f125-45a2-b249-a551bd7bf004/documents/special/demographics
+
+
+
+
+
+			Response: &lt;Error&gt;
+
+
+
+
+
+			&lt;InnerError&gt;
+
+
+
+
+
+			&lt;type&gt;complete&lt;/type&gt;
+
+
+
+
+
+			&lt;/InnerError&gt;
+
+
+
+
+
+			&lt;HTTPStatusEvent&gt;
+
+
+
+
+
+			&lt;status&gt;500&lt;/status&gt;
+
+
+
+
+
+			&lt;/HTTPStatusEvent&gt;
+
+
+
+
+
+			&lt;/Error&gt;</status>
+    <accessKey>at2RIzJ6RRoSVCu63mDA</accessKey>
+    <accessSecret>1YbD3sHRYOJTCM26h8XQ</accessSecret>
+    <demographicsId>7deb473e-c26d-4364-a240-3858b1a423ef</demographicsId>
+    <notes>Demo physician</notes>
+    <recordSeed/>
+  </AccountSource>
+  <AccountSource>
+    <accountId>jking2@records.media.mit.edu</accountId>
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    <fullName>James King2</fullName>
+    <username>jking2</username>
+    <password>jking2-dope75</password>
+    <givenName>James</givenName>
+    <familyName>King2</familyName>
+    <streetAddress>1066 Spinel Rd</streetAddress>
+    <postalCode>2142</postalCode>
+    <locality>Cambridge</locality>
+    <region>Massachusetts</region>
+    <country>US</country>
+    <timeZone>-5GMT</timeZone>
+    <emailPersonal>jking2@records.media.mit.edu</emailPersonal>
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    <instantMessengerName>jking2@records.media.mit.edu</instantMessengerName>
+    <dateOfBirth>1957-03-29T00:00:00Z</dateOfBirth>
+    <age>53</age>
+    <gender>Male</gender>
+    <ethnicity>White</ethnicity>
+    <language>English</language>
+    <maritalStatus>Married</maritalStatus>
+    <employmentStatus>Employed</employmentStatus>
+    <employmentIndustry>Medical</employmentIndustry>
+    <occupation>Doctor</occupation>
+    <religion>Protestant</religion>
+    <highestEducation>University</highestEducation>
+    <organDonar>true</organDonar>
+    <recordId>ce4931ee-0570-4de9-ab53-c32ce17fcc63</recordId>
+    <status>Demographics document created. Id: 79d7bffd-d268-42bb-bf61-480957846d88</status>
+    <accessKey>CPhCUbGFr9VZhDtfqMAS</accessKey>
+    <accessSecret>9yjnsOuWjz0loksqcx4F</accessSecret>
+    <demographicsId>79d7bffd-d268-42bb-bf61-480957846d88</demographicsId>
+    <notes>Demo physician copy for titration</notes>
+    <recordSeed/>
+  </AccountSource>
   <AccountSource>
     <accountId>singlemed1@records.media.mit.edu</accountId>
     <contactEmail>sgilroy@mit.edu</contactEmail>
@@ -30,12 +198,13 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>b2a41f02-49d4-4011-a012-cb7d5b250e86</recordId>
-    <accessKey>qlGx9SMcdZLynLtkpsfm</accessKey>
-    <accessSecret>8BS7TNdwsyO1aFWdg44V</accessSecret>
-    <status>Login successful</status>
-    <demographicsId>c6f334d8-cbd3-48db-a12c-52a85ae379c4</demographicsId>
+    <recordId>1568acd3-b904-40c7-9dab-4b23e3b81062</recordId>
+    <accessKey>wOusizhl2YsslcSDvYKG</accessKey>
+    <accessSecret>4Lpx27j840geSZB925MM</accessSecret>
+    <status>Created 55/55 documents, 53/54 relationships</status>
+    <demographicsId>36c61591-772e-41ae-9023-b893292c8597</demographicsId>
     <notes>Test single medication (hydrochlorothiazide)</notes>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>singlevital1@records.media.mit.edu</accountId>
@@ -67,12 +236,13 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>df51aec1-1ca8-43a9-94da-ebd5aafcaa9b</recordId>
-    <accessKey>wZEOaVvx2HvsuhUtX0pE</accessKey>
-    <accessSecret>NnpQQcZRIGe0uZUlvt6W</accessSecret>
-    <status>Login successful</status>
-    <demographicsId>d4461d8e-836c-4482-aec9-9d89c5ad5a21</demographicsId>
+    <recordId>81058266-14c1-4145-9b56-9663cbf9f11c</recordId>
+    <accessKey>ZNxae04xDZFt6QkuyIG5</accessKey>
+    <accessSecret>MvXNpPWCfaB28apFW61H</accessSecret>
+    <status>Created 30/30 documents, 28/29 relationships</status>
+    <demographicsId>52f82f6a-5f8d-4151-94ad-1fb8f02b4d08</demographicsId>
     <notes>Test single vital sign (peak flow)</notes>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>skudo@records.media.mit.edu</accountId>
@@ -104,13 +274,13 @@
     <religion>Christian</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>402a6ddb-fc40-4423-8d35-458b8db549d6</recordId>
-    <accessKey>M9KwqCnyFWf3orcWXKGA</accessKey>
-    <accessSecret>X2kAVX6F5xX8utHZla3l</accessSecret>
-    <status>Login successful</status>
-    <demographicsId>f4198a93-2108-41a4-bbd8-2bb2ace9c2dc</demographicsId>
+    <recordId/>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
+    <demographicsId>c8abaf43-222b-42f6-a9d5-2625b5eb37e6</demographicsId>
     <notes>Demo for fitness-tracking group</notes>
-    <recordSeed>1</recordSeed>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>agreen@records.media.mit.edu</accountId>
@@ -143,11 +313,12 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>zwoqzpdSndXrb34Csyxx</accessKey>
-    <accessSecret>rAAllpcaa0oY0ir97ovp</accessSecret>
+    <accessKey/>
+    <accessSecret/>
     <demographicsId>12625ea9-f3c7-44a9-bf4d-996da59fd4cc</demographicsId>
-    <status>Demographics document created. Id: 12625ea9-f3c7-44a9-bf4d-996da59fd4cc</status>
+    <status/>
     <notes/>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>jgreen@records.media.mit.edu</accountId>
@@ -180,10 +351,11 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>4nN4e5PZXbOP14eYUUCa</accessKey>
-    <accessSecret>2aC0wXq2meqakh3itA9Q</accessSecret>
-    <status>Login successful</status>
-    <demographicsId>07229319-7795-4827-bf4a-e10f928ea7fe</demographicsId>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
+    <demographicsId>af41168b-7faa-4f1c-80d1-46b1d1050906</demographicsId>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>rpoole@records.media.mit.edu</accountId>
@@ -216,10 +388,11 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>PGDeXevWbR37NA5B84Nw</accessKey>
-    <accessSecret>3EfZiQZNpzrdjSolZP1I</accessSecret>
-    <status>Login successful</status>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>18124489-3b91-45bd-90a9-375a520eca26</demographicsId>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>rpoole_test@records.media.mit.edu</accountId>
@@ -252,10 +425,11 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>trcoG1tTQ3d3H00J1a69</accessKey>
-    <accessSecret>Igs81b3oOhhZMCj2z8wD</accessSecret>
-    <status>Login successfull</status>
-    <demographicsId/>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
+    <demographicsId>0a78c9ac-7d9d-4459-8d27-8ab7a75c0c67</demographicsId>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>gstark@records.media.mit.edu</accountId>
@@ -288,11 +462,12 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>xsSMaFykzgoMKNM41nJH</accessKey>
-    <accessSecret>UhFN3Qf0ZGtyRHFdPGRe</accessSecret>
-    <status>Login successful</status>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>1c7f83d6-cd11-436c-8dc5-fc14f95aae09</demographicsId>
     <notes>Demo account for Yadid and pain-management-hw2012@googlegroups.com</notes>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>dpoole@records.media.mit.edu</accountId>
@@ -325,10 +500,11 @@
     <highestEducation>High School</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>3iauSLaAjqKH8ZubSlkn</accessKey>
-    <accessSecret>MiOyx1B4oL9TvSTlSecB</accessSecret>
-    <status>Record shared.</status>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>6b0eebd9-6968-4532-87aa-6fa17073bdc3</demographicsId>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>cbrooks@records.media.mit.edu</accountId>
@@ -359,9 +535,9 @@
     <highestEducation>High School</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>TlhxvsXAeMH0PqHhBPGG</accessKey>
-    <accessSecret>Qu7dxOqEQddaXzy3o1N2</accessSecret>
-    <status>Share deleted.</status>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>114bc114-279f-4a1f-80bf-cf7703c82452</demographicsId>
     <recordSeed/>
   </AccountSource>
@@ -394,11 +570,12 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>pct8PAYu3NHL5VuSV3hC</accessKey>
-    <accessSecret>F8HvJJSwwtRbBDV3cFHq</accessSecret>
-    <status>Record shared.</status>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>f3af9de8-3445-412a-bae3-4c6e248f3fcd</demographicsId>
     <notes>Demo account for Frank and fitness-tracking-hw2012@googlegroups.com</notes>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>abrooks@records.media.mit.edu</accountId>
@@ -431,10 +608,11 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>G8Zoz6iCqWSgXLHZbgDl</accessKey>
-    <accessSecret>9iT8rFMQhSI5EJL238hL</accessSecret>
-    <status>Demographics document created. Id: bc90ae1f-45cf-4c2f-80e2-5ac32e3e6fde</status>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>bc90ae1f-45cf-4c2f-80e2-5ac32e3e6fde</demographicsId>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>mbrooks@records.media.mit.edu</accountId>
@@ -466,12 +644,51 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>11394fdf-7867-41f1-acae-522fc64b2f30</recordId>
-    <accessKey>qpqnLfqhqEzxXhaY5MuA</accessKey>
-    <accessSecret>CMcupUm07pOb9xDjDr2B</accessSecret>
-    <status>Login successful</status>
-    <demographicsId>2a8cf8c8-20c1-4d68-85f3-0fb5c49cd0e1</demographicsId>
+    <recordId>b0675c3f-c02a-4651-bbfd-2505d4bf92cd</recordId>
+    <accessKey>XzxISs5katRmXsdV5pI1</accessKey>
+    <accessSecret>RAmde77bqDsYpOwXmd2s</accessSecret>
+    <status>Created 223/223 documents, 218/219 relationships</status>
+    <demographicsId>ea1b9878-9cdd-4678-8807-4077fb22cf63</demographicsId>
     <recordSeed/>
+    <notes>Demo for diabetes</notes>
+  </AccountSource>
+  <AccountSource>
+    <accountId>mbrooks2@records.media.mit.edu</accountId>
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    <fullName>Michael Brooks2</fullName>
+    <username>mbrooks2</username>
+    <password>mbrooks2-dope75</password>
+    <givenName>Michael</givenName>
+    <familyName>Brooks2</familyName>
+    <streetAddress>22 Green Street</streetAddress>
+    <postalCode>92101</postalCode>
+    <locality>San Diego</locality>
+    <region>California</region>
+    <country>US</country>
+    <timeZone>-8GMT</timeZone>
+    <emailPersonal>mbrooks2@records.media.mit.edu</emailPersonal>
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    <instantMessengerName>mbrooks2@records.media.mit.edu</instantMessengerName>
+    <dateOfBirth>1963-12-03T00:00:00Z</dateOfBirth>
+    <age>46</age>
+    <gender>Male</gender>
+    <ethnicity>Black</ethnicity>
+    <language>English</language>
+    <maritalStatus>Married</maritalStatus>
+    <employmentStatus>Employed</employmentStatus>
+    <employmentIndustry>Law</employmentIndustry>
+    <occupation>Lawyer</occupation>
+    <religion>Protestant</religion>
+    <highestEducation>University</highestEducation>
+    <organDonar>true</organDonar>
+    <recordId>1487ad0c-fd89-4506-9b28-769c6df02ada</recordId>
+    <accessKey>queomK9qMTKnx6eQQRe5</accessKey>
+    <accessSecret>dnfKN9JVuHuDcu8PrM64</accessSecret>
+    <status>Created 225/225 documents, 219/220 relationships</status>
+    <demographicsId>edd0b0cf-a9b5-4262-be23-f6a5c5d66577</demographicsId>
+    <recordSeed>3</recordSeed>
+    <notes>Demo for diabetes with titration</notes>
   </AccountSource>
   <AccountSource>
     <accountId>lbrooks@records.media.mit.edu</accountId>
@@ -504,10 +721,11 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>Z7RcXzrlZBjCguLvAcOV</accessKey>
-    <accessSecret>eeOWccOqi0TxwzNpPmQ6</accessSecret>
-    <status>Demographics document created. Id: c2372196-6b45-4fda-ba41-f83e4af863d1</status>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>c2372196-6b45-4fda-ba41-f83e4af863d1</demographicsId>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>mjones@records.media.mit.edu</accountId>
@@ -540,10 +758,11 @@
     <highestEducation>High School</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>cvPxuTrE8p9aPu1M9Wp4</accessKey>
-    <accessSecret>7HOAxMpVmum27RUSBheE</accessSecret>
-    <status>Record shared.</status>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>5595ba6f-646d-40de-837d-a9b01a31fb63</demographicsId>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>msato@records.media.mit.edu</accountId>
@@ -576,409 +795,9 @@
     <highestEducation>High School</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>VJ5LyhzPUsSBRjHkci0U</accessKey>
-    <accessSecret>q7sdxKXcIl7mcUxHa8sV</accessSecret>
-    <status>Record shared. Failed on PUT
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			http://184.106.136.151:8000/records/d06bae69-943f-4024-96e8-8dac66f29fd1/owner
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			Response: &lt;Error&gt;</status>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>b0476e25-777b-4aa2-bb62-32175347068a</demographicsId>
     <recordSeed/>
   </AccountSource>
@@ -1013,10 +832,11 @@
     <highestEducation>High School</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>BiFYELoiOJ74mww3YLR6</accessKey>
-    <accessSecret>qKCtQnC7yDFEBonq5VIF</accessSecret>
-    <status>Login successful</status>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>8458345b-e2b3-43c9-8348-da62720a33d5</demographicsId>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
     <accountId>csantos@records.media.mit.edu</accountId>
@@ -1048,11 +868,11 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>a4724b7f-5218-4a1c-8911-5d61fccbd1ca</recordId>
-    <accessKey>vxzklG26qDEpTD7A22ZX</accessKey>
-    <accessSecret>GjIOk3X0U6dl0cMbO1CF</accessSecret>
-    <status>Login successful</status>
-    <demographicsId>f93419ab-83c9-449f-9f91-28849b993eab</demographicsId>
+    <recordId>25a423d6-28ce-4e60-b1ec-df77905cc304</recordId>
+    <accessKey>rlPMwTX4fBUELNwmviuZ</accessKey>
+    <accessSecret>rB52uBydU1JdWhTXDKf7</accessSecret>
+    <status>Created 334/334 documents, 329/330 relationships</status>
+    <demographicsId>b8c02544-e585-4c17-bf64-fc2a4a705e9c</demographicsId>
     <recordSeed/>
     <notes>Primary demo account with diabetes data</notes>
   </AccountSource>
@@ -1087,47 +907,10 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>a5Oa1kKwbAGLPf0nImMg</accessKey>
-    <accessSecret>cEUF1GFnt5pyj7YnevMv</accessSecret>
-    <status>Login successful</status>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
     <demographicsId>84f096b3-88e3-4999-8843-1f7d5ec9452c</demographicsId>
-  </AccountSource>
-  <AccountSource>
-    <accountId>jking@records.media.mit.edu</accountId>
-    <contactEmail>sgilroy@mit.edu</contactEmail>
-    <fullName>James King</fullName>
-    <username>jking</username>
-    <password>jking-dope75</password>
-    <givenName>James</givenName>
-    <familyName>King</familyName>
-    <streetAddress>1066 Spinel Rd</streetAddress>
-    <postalCode>2142</postalCode>
-    <locality>Cambridge</locality>
-    <region>Massachusetts</region>
-    <country>US</country>
-    <timeZone>-5GMT</timeZone>
-    <emailPersonal>jking@records.media.mit.edu</emailPersonal>
-    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
-    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
-    <instantMessengerName>jking@records.media.mit.edu</instantMessengerName>
-    <dateOfBirth>1957-03-29T00:00:00Z</dateOfBirth>
-    <age>53</age>
-    <gender>Male</gender>
-    <ethnicity>White</ethnicity>
-    <language>English</language>
-    <maritalStatus>Married</maritalStatus>
-    <employmentStatus>Employed</employmentStatus>
-    <employmentIndustry>Medical</employmentIndustry>
-    <occupation>Doctor</occupation>
-    <religion>Protestant</religion>
-    <highestEducation>University</highestEducation>
-    <organDonar>true</organDonar>
-    <recordId>cdde1fd9-a547-4e9c-a0bb-93b1d2390417</recordId>
-    <status>Demographics document created. Id: 9004ac9b-2f65-4c96-a8a1-794a998fb73b</status>
-    <accessKey>kqVrlndlfekxEt8uXO53</accessKey>
-    <accessSecret>DXtAsIq5Sg7X8JPZtAUx</accessSecret>
-    <demographicsId>9004ac9b-2f65-4c96-a8a1-794a998fb73b</demographicsId>
-    <notes>Demo physician</notes>
     <recordSeed/>
   </AccountSource>
   <AccountSource>
@@ -1161,248 +944,50 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId/>
-    <accessKey>2aZWoBykoS9FweOJktVL</accessKey>
-    <accessSecret>lrwYcHvFE5XAsHcAloz1</accessSecret>
-    <status>Record shared. Failed on POST
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			http://records.media.mit.edu:8000/accounts/mloomis@records.media.mit.edu/authsystems/ Response:</status>
-    <demographicsId>a3236c63-79d0-4542-9ef4-ab2f6956e42b</demographicsId>
+    <accessKey/>
+    <accessSecret/>
+    <status/>
+    <demographicsId>32c66f0b-0588-40e3-be6c-7547c53620e9</demographicsId>
+    <recordSeed/>
   </AccountSource>
   <AccountSource>
-    <accountId>janitor@records.media.mit.edu</accountId>
-    <contactEmail>sgilroy@mit.edu</contactEmail>
-    <fullName>Janitor</fullName>
-    <username>janitor</username>
-    <password>janitor-password</password>
-    <givenName>Janitor</givenName>
-    <familyName>Garbageman</familyName>
-    <streetAddress>86 Spruce Street</streetAddress>
-    <postalCode>2215</postalCode>
-    <locality>Boston</locality>
+    <accountId>osmith@records.media.mit.edu</accountId>
+    <contactEmail>margf@mit.edu</contactEmail>
+    <fullName>osmith</fullName>
+    <username>osmith</username>
+    <password>osmith-password</password>
+    <givenName>Owen</givenName>
+    <familyName>Smith</familyName>
+    <streetAddress>86 Mass Avenue</streetAddress>
+    <postalCode>2138</postalCode>
+    <locality>Cambridge</locality>
     <region>Massachusetts</region>
     <country>US</country>
     <timeZone>-5GMT</timeZone>
-    <emailPersonal>janitor@records.media.mit.edu</emailPersonal>
+    <emailPersonal>osmith@records.media.mit.edu</emailPersonal>
     <phoneNumberHome>1-555-555-6548</phoneNumberHome>
     <phoneNumberWork>1-555-555-8654</phoneNumberWork>
-    <instantMessengerName>janitor@records.media.mit.edu</instantMessengerName>
-    <dateOfBirth>1940-02-24T00:00:00Z</dateOfBirth>
-    <age>70</age>
+    <instantMessengerName>osmith@records.media.mit.edu</instantMessengerName>
+    <dateOfBirth>1975-01-15T00:00:00Z</dateOfBirth>
+    <age>37</age>
     <gender>Male</gender>
     <ethnicity>White</ethnicity>
     <language>English</language>
-    <maritalStatus>Widowed</maritalStatus>
+    <maritalStatus>Single</maritalStatus>
     <employmentStatus>Employed</employmentStatus>
     <employmentIndustry>Education</employmentIndustry>
-    <occupation>Janitor</occupation>
+    <occupation>Professor</occupation>
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId/>
-    <status>Password set.</status>
-    <accessKey>JPK9US7ynBGfl0wxrzqC</accessKey>
-    <accessSecret>Zdfz4j4DZqC4jxrCmcsm</accessSecret>
-    <demographicsId>d66490ce-2c5b-49ef-8c7d-4e6e70e2dab5</demographicsId>
-    <notes>Trash can account</notes>
+    <recordId>33a17c35-a3cc-4a96-833d-5c19998907d6</recordId>
+    <status>Login successful</status>
+    <accessKey>yYQRYPQOc9IgvjxC8ciE</accessKey>
+    <accessSecret>QluXbBbSQoMj2iGNu3AU</accessSecret>
+    <demographicsId>95c26b78-b703-45c4-a718-975d0303da12</demographicsId>
+    <notes>Demo account for Mar and Oovit</notes>
+    <recordSeed/>
   </AccountSource>
-  <saveDate>Fri Apr 13 16:19:33 GMT-0400 2012</saveDate>
+  <saveDate>Fri May 25 10:08:43 GMT-0400 2012</saveDate>
   <indivoServerBaseURL>http://indivo-dev.media.mit.edu:9091</indivoServerBaseURL>
 </dataroot>
