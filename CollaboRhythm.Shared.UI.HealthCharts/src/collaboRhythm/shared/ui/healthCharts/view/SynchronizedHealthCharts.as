@@ -7,7 +7,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.derived.MedicationConcentrationSample;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
-	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
@@ -382,12 +382,12 @@ package collaboRhythm.shared.ui.healthCharts.view
 					var vitalSignChartDescriptor:VitalSignChartDescriptor = chartDescriptor as VitalSignChartDescriptor;
 					if (vitalSignChartDescriptor)
 					{
-						scheduleItemCollection = model.record.equipmentScheduleItemsModel.equipmentScheduleItemCollection;
+						scheduleItemCollection = model.record.healthActionSchedulesModel.healthActionScheduleCollection;
 
-						var equipmentScheduleItem:EquipmentScheduleItem = getMatchingEquipmentScheduleItem(vitalSignChartDescriptor.vitalSignCategory);
-						if (equipmentScheduleItem)
+						var healthActionSchedule:HealthActionSchedule = getMatchingHealthActionSchedule(vitalSignChartDescriptor.vitalSignCategory);
+						if (healthActionSchedule)
 						{
-							var scheduleItemName:String = equipmentScheduleItem.name.text;
+							var scheduleItemName:String = healthActionSchedule.name.text;
 							dataCollection = createAdherenceStripItemProxies(scheduleItemCollection, scheduleItemName,
 									AdherenceStripItemProxy.EQUIPMENT_TYPE);
 						}
@@ -968,16 +968,16 @@ package collaboRhythm.shared.ui.healthCharts.view
 			var vitalSignKey:String = vitalSignChartDescriptor.vitalSignCategory;
 
 			// find any equipment scheduled to be used to collect this vital sign
-			var equipmentScheduleItem:EquipmentScheduleItem = getMatchingEquipmentScheduleItem(vitalSignKey);
+			var healthActionSchedule:HealthActionSchedule = getMatchingHealthActionSchedule(vitalSignKey);
 			var vitalSignCollection:ArrayCollection = model.record.vitalSignsModel.vitalSignsByCategory[vitalSignKey];
 
 			if (vitalSignCollection && vitalSignCollection.length > 0 && vitalSignCollection[0])
 			{
 				var vitalSignChart:TouchScrollingScrubChart = createVitalSignChart(vitalSignChartDescriptor, vitalSignCollection);
-				if (equipmentScheduleItem)
+				if (healthActionSchedule)
 				{
 					var adherenceStripChart:TouchScrollingScrubChart = createVitalSignAdherenceStripChart(vitalSignChartDescriptor,
-							equipmentScheduleItem);
+							healthActionSchedule);
 				}
 				createAdherenceGroup(vitalSignChartDescriptor, createChartImage(vitalSignChartDescriptor), vitalSignChart,
 						adherenceStripChart);
@@ -1018,7 +1018,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			chart.setStyle("vitalSignKey", vitalSignKey);
 		}
 
-		protected function createVitalSignAdherenceStripChart(vitalSignChartDescriptor:VitalSignChartDescriptor, equipmentScheduleItem:EquipmentScheduleItem):TouchScrollingScrubChart
+		protected function createVitalSignAdherenceStripChart(vitalSignChartDescriptor:VitalSignChartDescriptor, healthActionSchedule:HealthActionSchedule):TouchScrollingScrubChart
 		{
 			var vitalSignKey:String = vitalSignChartDescriptor.vitalSignCategory;
 			var chart:TouchScrollingScrubChart = createAdherenceChart(getVitalSignAdherenceStripChartKey(vitalSignKey), vitalSignChartDescriptor);
@@ -1026,7 +1026,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 			chart.setStyle("skinClass", AdherenceStripChartSkin);
 
-			initializeAdherenceStripChart(chart, equipmentScheduleItem);
+			initializeAdherenceStripChart(chart, healthActionSchedule);
 
 			chart.addEventListener(SkinPartEvent.PART_ADDED, vitalSignAdherenceStripChart_skinPartAddedHandler, false, 0,
 					true);
@@ -1034,19 +1034,19 @@ package collaboRhythm.shared.ui.healthCharts.view
 			return chart;
 		}
 
-		protected function getMatchingEquipmentScheduleItem(vitalSignKey:String):EquipmentScheduleItem
+		protected function getMatchingHealthActionSchedule(vitalSignKey:String):HealthActionSchedule
 		{
-			for each (var equipmentScheduleItem:EquipmentScheduleItem in model.record.equipmentScheduleItemsModel.equipmentScheduleItemCollection)
+			for each (var healthActionSchedule:HealthActionSchedule in model.record.healthActionSchedulesModel.healthActionScheduleCollection)
 			{
 				// TODO: use something more robust than matching the string in the instructions;
-				if (equipmentScheduleItem.instructions &&
-						equipmentScheduleItem.instructions.toLowerCase().search(vitalSignKey.toLowerCase()) != -1)
+				if (healthActionSchedule.instructions &&
+						healthActionSchedule.instructions.toLowerCase().search(vitalSignKey.toLowerCase()) != -1)
 				{
-					return equipmentScheduleItem;
+					return healthActionSchedule;
 				}
-				if (equipmentScheduleItem.adherenceItems.size() > 0)
+				if (healthActionSchedule.adherenceItems.size() > 0)
 				{
-					for each (var adherenceItem:AdherenceItem in equipmentScheduleItem.adherenceItems.values())
+					for each (var adherenceItem:AdherenceItem in healthActionSchedule.adherenceItems.values())
 					{
 						if (adherenceItem.adherence)
 						{
@@ -1055,7 +1055,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 								var vitalSign:VitalSign = document as VitalSign;
 								if (vitalSign && vitalSign.name.text == vitalSignKey)
 								{
-									return equipmentScheduleItem;
+									return healthActionSchedule;
 								}
 							}
 							// To avoid checking too many adherence items, only check the first adherence item with adherence == true
@@ -1277,7 +1277,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			var scheduleItem:ScheduleItemBase;
 			if (vitalSignKey)
 			{
-				scheduleItem = getMatchingEquipmentScheduleItem(vitalSignKey);
+				scheduleItem = getMatchingHealthActionSchedule(vitalSignKey);
 			}
 			else
 			{
@@ -1332,7 +1332,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			{
 				var chart:ScrubChart = ScrubChart(event.target);
 				var vitalSignKey:String = chart.getStyle("vitalSignKey");
-				var scheduleItem:ScheduleItemBase = getMatchingEquipmentScheduleItem(vitalSignKey);
+				var scheduleItem:ScheduleItemBase = getMatchingHealthActionSchedule(vitalSignKey);
 				updateAdherenceStripMainChart(chart, scheduleItem);
 			}
 			else if (event.partName == "rangeChart")
@@ -1612,7 +1612,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 		/**
 		 * Gets an ArrayCollection of AdherenceStripItemProxy objects corresponding to the schedule occurrences for the
 		 * specified scheduleItemCollection and scheduleItemName.
-		 * @param scheduleItemCollection The collection to search for matching schedule items. This could be a collection of EquipmentScheduleItem or MedicationScheduleItem instances.
+		 * @param scheduleItemCollection The collection to search for matching schedule items. This could be a collection of HealthActionSchedule or MedicationScheduleItem instances.
 		 * @param scheduleItemName The name.value (if any) or name.text (if name.value is null) of the ScheduleItem instances to match. All occurrences from all matching schedule items will be included.
 		 * @return The new ArrayCollection of AdherenceStripItemProxy objects. If no schedule items are found matching the specified name, then the resulting ArrayCollection will have no elements.
 		 */

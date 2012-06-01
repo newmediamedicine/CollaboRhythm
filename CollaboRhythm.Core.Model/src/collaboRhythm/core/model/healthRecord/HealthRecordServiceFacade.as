@@ -4,7 +4,8 @@ package collaboRhythm.core.model.healthRecord
 	import collaboRhythm.core.model.healthRecord.service.AdherenceItemsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.DocumentStorageServiceBase;
 	import collaboRhythm.core.model.healthRecord.service.EquipmentHealthRecordService;
-	import collaboRhythm.core.model.healthRecord.service.EquipmentScheduleItemsHealthRecordService;
+	import collaboRhythm.core.model.healthRecord.service.HealthActionPlansHealthRecordService;
+	import collaboRhythm.core.model.healthRecord.service.HealthActionSchedulesHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.HealthChartsInitializationService;
 	import collaboRhythm.core.model.healthRecord.service.MedicationAdministrationsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.MedicationFillsHealthRecordService;
@@ -15,7 +16,8 @@ package collaboRhythm.core.model.healthRecord
 	import collaboRhythm.core.model.healthRecord.service.VideoMessagesHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.VitalSignHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.stitchers.AdherenceItemStitcher;
-	import collaboRhythm.core.model.healthRecord.stitchers.EquipmentScheduleItemStitcher;
+	import collaboRhythm.core.model.healthRecord.stitchers.HealthActionPlanStitcher;
+	import collaboRhythm.core.model.healthRecord.stitchers.HealthActionScheduleStitcher;
 	import collaboRhythm.core.model.healthRecord.stitchers.EquipmentStitcher;
 	import collaboRhythm.core.model.healthRecord.stitchers.MedicationOrderStitcher;
 	import collaboRhythm.core.model.healthRecord.stitchers.MedicationScheduleItemStitcher;
@@ -75,7 +77,7 @@ package collaboRhythm.core.model.healthRecord
 															   debuggingToolsEnabled));
 			addService(new EquipmentHealthRecordService(consumerKey, consumerSecret, baseURL, account,
 														debuggingToolsEnabled));
-			addService(new EquipmentScheduleItemsHealthRecordService(consumerKey, consumerSecret, baseURL, account,
+			addService(new HealthActionSchedulesHealthRecordService(consumerKey, consumerSecret, baseURL, account,
 																	 debuggingToolsEnabled));
 			addService(new MedicationScheduleItemsHealthRecordService(consumerKey, consumerSecret, baseURL, account,
 																	  debuggingToolsEnabled));
@@ -85,6 +87,8 @@ package collaboRhythm.core.model.healthRecord
 															debuggingToolsEnabled));
 			addService(new MedicationFillsHealthRecordService(consumerKey, consumerSecret, baseURL, account,
 															  debuggingToolsEnabled));
+			addService(new HealthActionPlansHealthRecordService(consumerKey, consumerSecret, baseURL, account,
+																		  debuggingToolsEnabled));
 			addService(_adherenceItemsHealthRecordService);
 			addService(new HealthChartsInitializationService(consumerKey, consumerSecret, baseURL, account,
 																		  debuggingToolsEnabled));
@@ -117,8 +121,9 @@ package collaboRhythm.core.model.healthRecord
 			_stitchers.push(new MedicationOrderStitcher(record));
 			_stitchers.push(new MedicationScheduleItemStitcher(record));
 			_stitchers.push(new EquipmentStitcher(record));
-			_stitchers.push(new EquipmentScheduleItemStitcher(record));
+			_stitchers.push(new HealthActionScheduleStitcher(record));
 			_stitchers.push(new AdherenceItemStitcher(record));
+			_stitchers.push(new HealthActionPlanStitcher(record));
 
 			for each (var stitcher:IDocumentStitcher in _stitchers)
 			{

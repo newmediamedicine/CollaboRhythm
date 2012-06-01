@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<!--~
+  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   xmlns:indivo="http://indivo.org/vocab/xml/documents#"
+		   targetNamespace="http://indivo.org/vocab/xml/documents#"
+		   elementFormDefault="qualified">
+
+	<xs:include schemaLocation="codes.xsd"/>
+	<xs:include schemaLocation="values.xsd"/>
+
+	<xs:complexType name="HealthActionPlan">
+		<xs:sequence>
+			<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Name of the Health Action Plan. Required
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="planType" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Type of the Health Action Plan. All plans are ordered in some
+						capacity,
+						whether it is prescribed by a health professional, recommended by a professional or a friend,
+						or self-prescribed. Possible values are "Prescribed", "Recommended", or "Self-prescribed".
+						Note that some patients self-prescribe health actions illegally as well as over-the-counter.
+						Required
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="plannedBy" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Person or agent who prescribed the Health Action Plan. Currently,
+						this uses the e-mail address of the person, eventually it should use a more robust form of
+						identity.
+						It might also use an identity for a software agent that automates reordering in the future based
+						on patient data. Required
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="datePlanned" type="xs:dateTime" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Date and time that the Health Action Plan was ordered. This may be
+						different than the date created in the meta data, for example if it is ordered from a mobile
+						phone
+						and later uploaded, so it needs to be specified here. Required
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dateExpires" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Date and time that the medication will expire. If the patient should
+						only
+						be able to fill the medication during a specific interval, this optional element can be used.
+						Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="indication" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Reason for which the Health Action Plan was ordered. Health Action
+						Plans
+						should be related to problems, but some Health Action Plan such as vitamins do not require
+						problems,
+						so having an indication is needed. Required
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="instructions" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Instructions for administering the Health Action Plan. Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="system" type="indivo:CodedValue" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Name of the system to use. Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="actions" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">List of the actions of the Health Action Plan. This can contain one
+						or more
+						actions of the type ActionGroups or ActionSteps. It generates a tree data structure were the
+						leafs are
+						represented by ActionSteps, and the internal nodes are represented by ActionGroups. Required
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="action" type="indivo:Action" minOccurs="1" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Instance of an action of the type ActionGroups or
+									ActionSteps. Required
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Action">
+		<xs:sequence>
+			<xs:element name="position" type="indivo:CodedValue" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The current action has to be performed with a body in a specific
+						position.
+						For example, you may take the blood pressure standing, lying or seating. Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="stopConditions" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The current action and its children in the tree structure will stop
+						when one item
+						in the list of conditions is true. Optional
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="stopCondition" type="indivo:StopCondition" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="targets" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The current action has ranged values of measures that define target
+						zones.
+						These targets may have different severity levels. For example: maintaining a certain Heart Rate
+						during a
+						physical exercise may be a good target, but having some range of Blood Oxygenation may be a
+						dangerous target. Optional
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="target" type="indivo:Target" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="measurementPlans" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">List of measurements that should be taken while the health action is
+						performed. Optional
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="measurementPlan" type="indivo:MeasurementPlan" minOccurs="0"
+									maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="devicePlans" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">List of devices that should be used for this health action. Optional
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="devicePlan" type="indivo:DevicePlan" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="medicationPlans" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">List of medications that should be administered during this health
+						action. Optional
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="medicationPlan" type="indivo:MedicationPlan" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ActionGroup">
+		<xs:complexContent>
+			<xs:extension base="indivo:Action">
+				<xs:sequence>
+					<xs:element name="repeatCount" type="xs:integer" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Number of times the actions in the group should be repeated
+								in the same order they were prescribed.
+								For example, if action one is rest lying for 5 minutes, and the following action is take
+								a blood pressure reading,
+								and the repeatCount is 3 you will do the same procedure 3 times. Similarly, in the
+								results you will find as many
+								occurrences as times every action has been repeated. In case repeatCount is not
+								specified then its value is 1. Optional
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="actions" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">List of the actions of this ActionGroup.
+								This can contain one or more actions of the type ActionGroups or ActionSteps.
+								It generates a sub tree data structure were the leafs are represented by ActionSteps,
+								and the branches are represented by ActionGroups. Required
+							</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="action" type="indivo:Action" minOccurs="1" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">Instance of an action of the type ActionGroups
+											or ActionSteps. Required
+										</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ActionStep">
+		<xs:complexContent>
+			<xs:extension base="indivo:Action">
+				<xs:sequence>
+					<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Name of the ActionStep. Required
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="type" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Category of the ActionStep. Required
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="additionalDetails" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Additional Details. Optional
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="instructions" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Instructions for the specific ActionStep. Optional
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:complexType name="MeasurementPlan">
+		<xs:sequence>
+			<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Name of the measure that has to be recorded during the execution of
+						the Action.
+						They can be both vital signs and other kind of measures.
+						For example: Heart Rate, Blood Pressure, Adherence, Oxygenation, Distance etc. Required
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="type" type="indivo:CodedValue" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Category of the measurement. Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="aggregationFunction" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Rule that will be use as an Aggregation function when combining the
+						measured data.
+						For example: average, sum, minimum, maximum, counter. Required
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="DevicePlan">
+		<xs:sequence>
+			<xs:element name="name" type="indivo:CodedValue" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Name of the device. For example, Fora D40d. Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="type" type="indivo:CodedValue" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Category of the device. Sphygmomanometer, for example. Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="value" type="indivo:ValueAndUnit" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Specification of a tuning value for the device. For example,
+						when using a dumbbell you may want to specify the weight. Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="site" type="indivo:CodedValue" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Site where the device has to be applied. For example, right arm.
+						Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="instructions" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Instructions for the specific Device. Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MedicationPlan">
+		<xs:sequence>
+			<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">RxNorm name for the medication. This is a coded value using the url
+						http://rxnav.nlm.nih.gov/REST/rxcui/ where the value is the rxcui (RxNorm Coded Unique
+						Identifier).
+						The rxcui should correspond to the SBD (branded drug name) or SCD (clinical drug name) that is
+						most
+						specific for the medication and includes name and dose for each clinical drug component.
+						Required
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="indication" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Reason for the medication. Medications should be related to
+						problems, but
+						some medications such as vitamins do not require problems, so having an indication is needed.
+						Required
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dose" type="indivo:ValueAndUnit" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Dose of the medication. Required
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="route" type="indivo:CodedValue" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Route for administering the medication. Required
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="instructions" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Instructions for the specific Device. Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="StopCondition">
+		<xs:sequence>
+			<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Name of the measure that will trigger the stop condition recorded
+						during the execution
+						of the Action. They can be both vital signs and other kind of measures.
+						For example: Heart Rate, Blood Pressure, Adherence, Oxygenation, Distance, Repetitions, Time
+						etc. Required
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="value" type="indivo:ValueAndUnit" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Value and unit that will trigger the stop condition.
+						For example, 130 bpm for a Heart Rate. Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="operator" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Value and unit that will trigger the stop condition.
+						For example, 130 bpm for a Heart Rate. Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="detail" type="indivo:CodedValue" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Additional Details. Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Target">
+		<xs:sequence>
+			<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Name of the measure that will be used as a target during the
+						execution
+						of the Action. They can be both vital signs and other kind of measures.
+						For example: Heart Rate, Blood Pressure, Adherence, Oxygenation etc. Required
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="minimumValue" type="indivo:ValueAndUnit" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Value and unit that will be the lower boundary of the target.
+						For example, 60 bpm for a Heart Rate. If you don't specify it then it will be only used the
+						maximumValue. Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="maximumValue" type="indivo:ValueAndUnit" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Value and unit that will be the higher boundary of the target.
+						For example, 120 bpm for a Heart Rate. If you don't specify it then it will be only used the
+						minimumValue. Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="severityLevel" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Level of Severity associated with being in the range of the target.
+						For example: High would represent a danger area, Desired would represent a positive target that
+						you have to reach. Required
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="HealthActionPlan" type="indivo:HealthActionPlan"/>
+
+</xs:schema>

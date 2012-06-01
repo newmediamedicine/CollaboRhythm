@@ -21,7 +21,7 @@ package collaboRhythm.plugins.equipment.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
-	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import mx.collections.ArrayCollection;
@@ -42,7 +42,8 @@ package collaboRhythm.plugins.equipment.model
 															   healthActionModelDetailsProviderModel:IHealthActionModelDetailsProvider,
 															   currentHealthActionListViewAdapter:IHealthActionListViewAdapter):IHealthActionListViewAdapter
 		{
-			if (ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem) == EquipmentScheduleItem)
+			var healthActionSchedule:HealthActionSchedule = scheduleItemOccurrence.scheduleItem as HealthActionSchedule;
+			if (healthActionSchedule && healthActionSchedule.scheduledEquipment)
 				return new EquipmentHealthActionListViewAdapter(scheduleItemOccurrence, healthActionModelDetailsProviderModel);
 			else
 				return currentHealthActionListViewAdapter;

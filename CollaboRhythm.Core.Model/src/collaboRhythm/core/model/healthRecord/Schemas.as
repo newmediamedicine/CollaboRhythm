@@ -18,8 +18,8 @@ package collaboRhythm.core.model.healthRecord
 		[Embed("/assets/healthRecord/schemas/Equipment.xsd", mimeType="application/octet-stream")]
 		public static const EquipmentSchema:Class;
 
-		[Embed("/assets/healthRecord/schemas/EquipmentScheduleItem.xsd", mimeType="application/octet-stream")]
-		public static const EquipmentScheduleItemSchema:Class;
+		[Embed("/assets/healthRecord/schemas/HealthActionSchedule.xsd", mimeType="application/octet-stream")]
+		public static const HealthActionScheduleSchema:Class;
 
 		[Embed("/assets/healthRecord/schemas/MedicationScheduleItem.xsd", mimeType="application/octet-stream")]
 		public static const MedicationScheduleItemSchema:Class;
@@ -41,6 +41,9 @@ package collaboRhythm.core.model.healthRecord
 
 		[Embed("/assets/healthRecord/schemas/AdherenceItem.xsd", mimeType="application/octet-stream")]
 		public static const AdherenceItemSchema:Class;
+
+		[Embed("/assets/healthRecord/schemas/HealthActionPlan.xsd", mimeType="application/octet-stream")]
+		public static const HealthActionPlanSchema:Class;
 
 		public function Schemas()
 		{

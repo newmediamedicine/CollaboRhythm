@@ -222,7 +222,7 @@ package collaboRhythm.plugins.schedule.shared.model
 			{
 				// There needs to be at least one ScheduleItem instance in the scheduleItemsCollection to evaluate performance
 				// The first instance is used to determine what type of ScheduleItem the scheduleItemsCollection contains
-				// For example, MedicationScheduleItem or EquipmentScheduleItem
+				// For example, MedicationScheduleItem or HealthActionSchedule
 				if (scheduleItemsCollection.length > 0)
 				{
 //					var adherencePerformanceEvaluator:AdherencePerformanceEvaluatorBase = _scheduleCollectionsProvider.viewFactory.createAdherencePerformanceEvaluator(scheduleItemsCollection[0]);

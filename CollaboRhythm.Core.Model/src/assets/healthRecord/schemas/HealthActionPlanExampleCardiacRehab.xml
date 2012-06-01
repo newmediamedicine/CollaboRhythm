@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--~
+  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<HealthActionPlan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://indivo.org/vocab/xml/documents#">
+	<name type="http://actions.repository.coded.values/" value="Exercise Plan"> Exercise Plan 1 </name>
+	<planType>prescribed</planType>
+	<plannedBy>rpoole@records.media.mit.edu </plannedBy>
+	<datePlanned>2012-02-17T12:11:46.4650833-05:00</datePlanned>
+	<dateExpires>2014-02-17T14:08:21.8574848-05:00</dateExpires>
+	<indication>cardiac rehab</indication>
+	<instructions>put on your PulseOxymeter and turn on your VR+kinect system</instructions>
+	<system type="http://system.repository.coded.values/" value="1">CardioRehabVR</system>
+	<actions>
+		<action	xsi:type="ActionGroup">
+			<position />
+			<stopConditions />
+			<targets>
+				<target>
+					<name type="http://measures.coded.values/" value="1">Heart Rate</name>
+					<minimumValue>
+						<unit />
+					</minimumValue>
+					<maximumValue>
+						<value>140</value>
+						<unit type="http://indivo.org/codes/units#" value="m" abbrev="m">bpm</unit>
+					</maximumValue>
+					<severityLevel type="http://severity.levels.coded.values/" value="2">High</severityLevel>
+				</target>
+				<target>
+					<name type="http://measures.coded.values/" value="2">Oxygenation</name>
+					<minimumValue>
+						<value>92</value>
+						<unit type="http://indivo.org/codes/units#" value="m" abbrev="m">%</unit>
+					</minimumValue>
+					<maximumValue>
+						<unit />
+					</maximumValue>
+					<severityLevel type="http://severity.levels.coded.values/" value="2">High</severityLevel>
+				</target>
+				<target>
+					<name type="http://measures.coded.values/" value="1">Heart Rate</name>
+					<minimumValue>
+						<value>60</value>
+						<unit type="http://indivo.org/codes/units#" value="m" abbrev="m">bpm</unit>
+					</minimumValue>
+					<maximumValue>
+						<value>120</value>
+						<unit type="http://indivo.org/codes/units#" value="m" abbrev="m">bpm</unit>
+					</maximumValue>
+					<severityLevel type="http://severity.levels.coded.values/" value="1">Great Job</severityLevel>
+				</target>
+			</targets>
+			<measurementPlans>
+				<measurementPlan>
+					<name type="http://measures.coded.values/" value="1">Heart Rate</name>
+					<type />
+					<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+				</measurementPlan>
+				<measurementPlan>
+					<name type="http://measures.coded.values/" value="1">Heart Rate</name>
+					<type />
+					<aggregationFunction type="http://aggregation.coded.values/">max</aggregationFunction>
+				</measurementPlan>
+				<measurementPlan>
+					<name type="http://measures.coded.values/" value="2">Oxygenation</name>
+					<type />
+					<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+				</measurementPlan>
+				<measurementPlan>
+					<name type="http://measures.coded.values/" value="2">Oxygenation</name>
+					<type />
+					<aggregationFunction type="http://aggregation.coded.values/">min</aggregationFunction>
+				</measurementPlan>
+				<measurementPlan>
+					<name type="http://measures.coded.values/" value="4">MET</name>
+					<type />
+					<aggregationFunction type="http://aggregation.coded.values/">sum</aggregationFunction>
+				</measurementPlan>
+				<measurementPlan>
+					<name type="http://measures.coded.values/" value="3">Adherence</name>
+					<type />
+					<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+				</measurementPlan>
+				<measurementPlan>
+					<name type="http://measures.coded.values/" value="5">Repetitions</name>
+					<type />
+					<aggregationFunction type="http://aggregation.coded.values/">sum</aggregationFunction>
+				</measurementPlan>
+			</measurementPlans>
+			<devicePlans>
+				<devicePlan>
+					<name type="http://equipment.coded.values/" value="1">Nonin Onyx II</name>
+					<type type="http://equipment.coded.values/" value="1">PulseOxymeter</type>
+					<value/>
+					<site type="http://equipment.coded.values/" value="1">Index Finger Right Hand</site>
+					<instructions>put on the PulseOxymeter</instructions>
+				</devicePlan>
+			</devicePlans>
+			<medicationPlans />
+
+			<repeatCount>1</repeatCount>
+
+			<actions>
+				<action xsi:type="ActionGroup">
+					<position />
+					<stopConditions>
+						<stopCondition>
+							<name type="http://measures.coded.values/" value="6">Time</name>
+							<value>
+								<value>1200</value>
+								<unit type="http://indivo.org/codes/units#" value="s" abbrev="s">seconds</unit>
+							</value>
+							<operator type="http://comparison.operators/" value="2">Greater or equal than</operator>
+							<detail/>
+						</stopCondition>
+					</stopConditions>
+					<targets />
+					<measurementPlans />
+					<devicePlans />
+					<medicationPlans />
+
+					<repeatCount>3</repeatCount>
+
+					<actions>
+						<action	xsi:type="ActionStep">
+							<position />
+							<stopConditions>
+								<stopCondition>
+									<name type="http://measures.coded.values/" value="7">Repetitions</name>
+									<value>
+										<value>10</value>
+										<unit type="http://indivo.org/codes/units#" value="t" abbrev="t">Times</unit>
+									</value>
+									<operator type="http://comparison.operators/" value="2">Greater or equal than</operator>
+									<detail/>
+								</stopCondition>
+							</stopConditions>
+							<targets />
+							<measurementPlans />
+							<devicePlans />
+							<medicationPlans />
+
+							<name type="http://actions.repository/" value="2">Side Bend</name>
+							<type type="http://actions.repository.type/" value="1">Physical Exercise</type>
+							<additionalDetails>This is the cardio conditioning exercise</additionalDetails>
+							<instructions/>
+						</action>
+
+						<action xsi:type="ActionStep">
+							<stopConditions>
+								<stopCondition>
+									<name type="http://measures.coded.values/" value="7">Repetitions</name>
+									<value>
+										<value>10</value>
+										<unit type="http://indivo.org/codes/units#" value="t" abbrev="t">Times</unit>
+									</value>
+									<operator type="http://comparison.operators/" value="2">Greater or equal than</operator>
+									<detail/>
+								</stopCondition>
+							</stopConditions>
+							<targets />
+							<measurementPlans />
+							<devicePlans>
+								<devicePlan>
+									<name/>
+									<type type="http://equipment.coded.values/" value="2">Dumbbell</type>
+									<value>
+										<value>500</value>
+										<unit type="http://indivo.org/codes/units#" value="g" abbrev="g">grams</unit>
+									</value>		
+									<site type="http://equipment.coded.values/" value="2">Left Hand</site>			
+									<instructions>Lift the weight</instructions>					
+								</devicePlan>
+							</devicePlans>
+							<medicationPlans />
+
+							<name type="http://actions.repository/" value="1">Arms Circles</name>
+							<type type="http://actions.repository.type/" value="1">Physical Exercise</type>
+							<additionalDetails>This is the cardio conditioning exercise</additionalDetails>
+							<instructions/>
+						</action>
+					</actions>
+				</action>
+				<action xsi:type="ActionStep">
+					<stopConditions>
+						<stopCondition>
+							<name type="http://measures.coded.values/" value="3">Repetitions</name>
+							<value>
+								<value>10</value>
+								<unit type="http://indivo.org/codes/units#" value="t" abbrev="t">Times</unit>
+							</value>
+							<operator type="http://comparison.operators/" value="2">Greater or equal than</operator>
+							<detail/>
+						</stopCondition>
+					</stopConditions>
+					<targets />
+					<measurementPlans />
+					<devicePlans />
+					<medicationPlans />
+
+					<name type="http://actions.repository/" value="3">Lift Arms</name>
+					<type type="http://actions.repository.type/" value="1">Physical Exercise</type>
+					<additionalDetails>This is the cardio conditioning exercise</additionalDetails>
+					<instructions/>
+				</action>
+			</actions>
+		</action>
+	</actions>
+</HealthActionPlan>

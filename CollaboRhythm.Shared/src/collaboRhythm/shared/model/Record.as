@@ -28,7 +28,8 @@ package collaboRhythm.shared.model
 	import collaboRhythm.shared.model.healthRecord.Relationship;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItemsModel;
 	import collaboRhythm.shared.model.healthRecord.document.EquipmentModel;
-	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItemsModel;
+	import collaboRhythm.shared.model.healthRecord.document.HealthActionPlansModel;
+	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedulesModel;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministrationsModel;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrdersModel;
@@ -62,12 +63,13 @@ package collaboRhythm.shared.model
         private var _medicationScheduleItemsModel:MedicationScheduleItemsModel;
         private var _medicationAdministrationsModel:MedicationAdministrationsModel;
         private var _equipmentModel:EquipmentModel;
-		private var _equipmentScheduleItemsModel:EquipmentScheduleItemsModel;
+		private var _healthActionSchedulesModel:HealthActionSchedulesModel;
         private var _adherenceItemsModel:AdherenceItemsModel;
         private var _videoMessagesModel:VideoMessagesModel;
         private var _problemsModel:ProblemsModel;
         private var _appData:HashMap = new HashMap();
 		private var _vitalSignsModel:VitalSignsModel;
+		private var _healthActionPlansModel:HealthActionPlansModel;
 		private var _newRelationships:ArrayCollection = new ArrayCollection(); // of Relationship instances that have not been persisted
 
 		// TODO: move HealthChartsModel to blood pressure plugin; eliminate healthChartsModel property and field; use appData instead
@@ -98,11 +100,12 @@ package collaboRhythm.shared.model
             medicationScheduleItemsModel = new MedicationScheduleItemsModel();
             medicationAdministrationsModel = new MedicationAdministrationsModel();
             equipmentModel = new EquipmentModel();
-            equipmentScheduleItemsModel = new EquipmentScheduleItemsModel();
+            healthActionSchedulesModel = new HealthActionSchedulesModel();
             adherenceItemsModel = new AdherenceItemsModel();
             videoMessagesModel = new VideoMessagesModel();
             problemsModel = new ProblemsModel();
 			vitalSignsModel = new VitalSignsModel();
+			healthActionPlansModel = new HealthActionPlansModel();
 
 			documentCollections.clear();
 			addDocumentCollection(medicationOrdersModel);
@@ -110,11 +113,12 @@ package collaboRhythm.shared.model
 			addDocumentCollection(medicationScheduleItemsModel);
 			addDocumentCollection(medicationAdministrationsModel);
 			addDocumentCollection(equipmentModel);
-			addDocumentCollection(equipmentScheduleItemsModel);
+			addDocumentCollection(healthActionSchedulesModel);
 			addDocumentCollection(adherenceItemsModel);
 			addDocumentCollection(videoMessagesModel);
 			addDocumentCollection(problemsModel);
 			addDocumentCollection(vitalSignsModel);
+			addDocumentCollection(healthActionPlansModel);
 		}
 
 		protected function addDocumentCollection(documentCollection:IDocumentCollection):void
@@ -295,14 +299,14 @@ package collaboRhythm.shared.model
 			addDocumentCollection(value);
         }
 
-        public function get equipmentScheduleItemsModel():EquipmentScheduleItemsModel
+        public function get healthActionSchedulesModel():HealthActionSchedulesModel
         {
-            return _equipmentScheduleItemsModel;
+            return _healthActionSchedulesModel;
         }
 
-        public function set equipmentScheduleItemsModel(value:EquipmentScheduleItemsModel):void
+        public function set healthActionSchedulesModel(value:HealthActionSchedulesModel):void
         {
-            _equipmentScheduleItemsModel = value;
+            _healthActionSchedulesModel = value;
 			addDocumentCollection(value);
         }
 
@@ -640,6 +644,17 @@ package collaboRhythm.shared.model
 		public function set dateLoaded(value:Date):void
 		{
 			_dateLoaded = value;
+		}
+
+		public function get healthActionPlansModel():HealthActionPlansModel
+		{
+			return _healthActionPlansModel;
+		}
+
+		public function set healthActionPlansModel(value:HealthActionPlansModel):void
+		{
+			_healthActionPlansModel = value;
+			addDocumentCollection(value);
 		}
 	}
 }
