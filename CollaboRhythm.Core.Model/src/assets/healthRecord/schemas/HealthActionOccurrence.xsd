@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--~
+  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   targetNamespace="http://indivo.org/vocab/xml/documents#"
+		   xmlns:indivo="http://indivo.org/vocab/xml/documents#"
+		   elementFormDefault="qualified">
+
+	<xs:include schemaLocation="codes.xsd"/>
+	<xs:include schemaLocation="provider.xsd"/>
+	<xs:include schemaLocation="values.xsd"/>
+
+	<xs:complexType name="HealthActionOccurrence">
+		<xs:sequence>
+			<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Name of the health action
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="recurrenceIndex" type="xs:integer" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						The number of the recurrence instance to which the HealthActionOccurrence document applies.
+						Index is 0-based, so first recurrence would have an index of 0.
+						For HealthActionSchedule documents that recur, there needs to be a way for the HealthActionOccurrence to refer to a specific occurrence. This element refers to a specific index in the recurrence count.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="HealthActionOccurrence" type="indivo:HealthActionOccurrence">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Documents are related to specific occurrences of a HealthActionSchedule by creating a
+				HeathActionOccurrence document for any appropriate occurrence. These documents may include
+				MedicationAdministration, HealthActionResult, Measurement, Annotation, etc. Each HealthActionOccurrence
+				document should be related from the appropriate HealthActionSchedule document with the
+				?healthActionOccurrence? relationship type and to the appropriate MedicationAdministration, Measurement,
+				etc with the ?healthActionResult? relationship type.
+
+				If relationships in Indivo supported an index attribute, then this document type would be unnecessary.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>

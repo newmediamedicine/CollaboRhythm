@@ -39,4 +39,6 @@
 	<xs:include schemaLocation="VideoMessage.xsd"/>
 	<xs:include schemaLocation="VitalSign.xsd"/>
 	<xs:include schemaLocation="HealthActionPlan.xsd"/>
+	<xs:include schemaLocation="HealthActionResult.xsd"/>
+	<xs:include schemaLocation="HealthActionOccurrence.xsd"/>
 </xs:schema>

@@ -1,16 +1,18 @@
-package collaboRhythm.shared.model.healthRecord.document.supportClasses
+package collaboRhythm.shared.model.healthRecord.document.healthActionPlan
 {
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
 
 	[Bindable]
-	public class ActionStep extends Action
+	public class DevicePlan
 	{
 		private var _name:CodedValue;
 		private var _type:CodedValue;
-		private var _additionalDetails:String;
+		private var _value:ValueAndUnit;
+		private var _site:CodedValue;
 		private var _instructions:String;
 
-		public function ActionStep()
+		public function DevicePlan()
 		{
 		}
 
@@ -34,14 +36,24 @@ package collaboRhythm.shared.model.healthRecord.document.supportClasses
 			_type = value;
 		}
 
-		public function get additionalDetails():String
+		public function get value():ValueAndUnit
 		{
-			return _additionalDetails;
+			return _value;
 		}
 
-		public function set additionalDetails(value:String):void
+		public function set value(value:ValueAndUnit):void
 		{
-			_additionalDetails = value;
+			_value = value;
+		}
+
+		public function get site():CodedValue
+		{
+			return _site;
+		}
+
+		public function set site(value:CodedValue):void
+		{
+			_site = value;
 		}
 
 		public function get instructions():String

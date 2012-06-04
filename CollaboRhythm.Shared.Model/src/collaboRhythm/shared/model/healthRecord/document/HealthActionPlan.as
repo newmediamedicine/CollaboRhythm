@@ -107,7 +107,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		}
 
 		/**
-		 * Collection of collaboRhythm.shared.model.healthRecord.document.supportClasses.Action (ActionStep and ActionGroup) instances
+		 * Collection of collaboRhythm.shared.model.healthRecord.document.healthActionPlan.Action (ActionStep and ActionGroup) instances
 		 */
 		public function get actions():ArrayCollection
 		{

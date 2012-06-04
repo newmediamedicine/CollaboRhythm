@@ -20,14 +20,14 @@ package collaboRhythm.core.model.healthRecord.service
 	import collaboRhythm.core.model.healthRecord.Schemas;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionPlan;
-	import collaboRhythm.shared.model.healthRecord.document.supportClasses.Action;
-	import collaboRhythm.shared.model.healthRecord.document.supportClasses.ActionGroup;
-	import collaboRhythm.shared.model.healthRecord.document.supportClasses.ActionStep;
-	import collaboRhythm.shared.model.healthRecord.document.supportClasses.DevicePlan;
-	import collaboRhythm.shared.model.healthRecord.document.supportClasses.MeasurementPlan;
-	import collaboRhythm.shared.model.healthRecord.document.supportClasses.MedicationPlan;
-	import collaboRhythm.shared.model.healthRecord.document.supportClasses.StopCondition;
-	import collaboRhythm.shared.model.healthRecord.document.supportClasses.Target;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionPlan.Action;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionPlan.ActionGroup;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionPlan.ActionStep;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionPlan.DevicePlan;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionPlan.MeasurementPlan;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionPlan.MedicationPlan;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionPlan.StopCondition;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionPlan.Target;
 
 	public class HealthActionPlansHealthRecordService extends DocumentStorageSingleReportServiceBase
 	{

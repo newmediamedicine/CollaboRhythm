@@ -1,4 +1,4 @@
-package collaboRhythm.shared.model.healthRecord.document.supportClasses
+package collaboRhythm.shared.model.healthRecord.document.healthActionPlan
 {
 	import mx.collections.ArrayCollection;
 

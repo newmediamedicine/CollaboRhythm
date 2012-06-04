@@ -1,18 +1,17 @@
-package collaboRhythm.shared.model.healthRecord.document.supportClasses
+package collaboRhythm.shared.model.healthRecord.document.healthActionResult
 {
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
 	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
 
 	[Bindable]
-	public class DevicePlan
+	public class Measurement
 	{
 		private var _name:CodedValue;
 		private var _type:CodedValue;
 		private var _value:ValueAndUnit;
-		private var _site:CodedValue;
-		private var _instructions:String;
+		private var _aggregationFunction:CodedValue;
 
-		public function DevicePlan()
+		public function Measurement()
 		{
 		}
 
@@ -46,24 +45,14 @@ package collaboRhythm.shared.model.healthRecord.document.supportClasses
 			_value = value;
 		}
 
-		public function get site():CodedValue
+		public function get aggregationFunction():CodedValue
 		{
-			return _site;
+			return _aggregationFunction;
 		}
 
-		public function set site(value:CodedValue):void
+		public function set aggregationFunction(value:CodedValue):void
 		{
-			_site = value;
-		}
-
-		public function get instructions():String
-		{
-			return _instructions;
-		}
-
-		public function set instructions(value:String):void
-		{
-			_instructions = value;
+			_aggregationFunction = value;
 		}
 	}
 }

@@ -28,7 +28,9 @@ package collaboRhythm.shared.model
 	import collaboRhythm.shared.model.healthRecord.Relationship;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItemsModel;
 	import collaboRhythm.shared.model.healthRecord.document.EquipmentModel;
+	import collaboRhythm.shared.model.healthRecord.document.HealthActionOccurrencesModel;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionPlansModel;
+	import collaboRhythm.shared.model.healthRecord.document.HealthActionResultsModel;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedulesModel;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministrationsModel;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
@@ -70,6 +72,8 @@ package collaboRhythm.shared.model
         private var _appData:HashMap = new HashMap();
 		private var _vitalSignsModel:VitalSignsModel;
 		private var _healthActionPlansModel:HealthActionPlansModel;
+		private var _healthActionResultsModel:HealthActionResultsModel;
+		private var _healthActionOccurrencesModel:HealthActionOccurrencesModel;
 		private var _newRelationships:ArrayCollection = new ArrayCollection(); // of Relationship instances that have not been persisted
 
 		// TODO: move HealthChartsModel to blood pressure plugin; eliminate healthChartsModel property and field; use appData instead
@@ -106,6 +110,8 @@ package collaboRhythm.shared.model
             problemsModel = new ProblemsModel();
 			vitalSignsModel = new VitalSignsModel();
 			healthActionPlansModel = new HealthActionPlansModel();
+			healthActionResultsModel = new HealthActionResultsModel();
+			healthActionOccurrencesModel = new HealthActionOccurrencesModel();
 
 			documentCollections.clear();
 			addDocumentCollection(medicationOrdersModel);
@@ -119,6 +125,8 @@ package collaboRhythm.shared.model
 			addDocumentCollection(problemsModel);
 			addDocumentCollection(vitalSignsModel);
 			addDocumentCollection(healthActionPlansModel);
+			addDocumentCollection(healthActionResultsModel);
+			addDocumentCollection(healthActionOccurrencesModel);
 		}
 
 		protected function addDocumentCollection(documentCollection:IDocumentCollection):void
@@ -655,6 +663,26 @@ package collaboRhythm.shared.model
 		{
 			_healthActionPlansModel = value;
 			addDocumentCollection(value);
+		}
+
+		public function get healthActionResultsModel():HealthActionResultsModel
+		{
+			return _healthActionResultsModel;
+		}
+
+		public function set healthActionResultsModel(value:HealthActionResultsModel):void
+		{
+			_healthActionResultsModel = value;
+		}
+
+		public function get healthActionOccurrencesModel():HealthActionOccurrencesModel
+		{
+			return _healthActionOccurrencesModel;
+		}
+
+		public function set healthActionOccurrencesModel(value:HealthActionOccurrencesModel):void
+		{
+			_healthActionOccurrencesModel = value;
 		}
 	}
 }

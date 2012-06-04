@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<!--~
+  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   targetNamespace="http://indivo.org/vocab/xml/documents/HealthActionResult#"
+		   xmlns:indivo="http://indivo.org/vocab/xml/documents#"
+		   xmlns:result="http://indivo.org/vocab/xml/documents/HealthActionResult#"
+		   elementFormDefault="qualified">
+
+	<xs:include schemaLocation="codes.xsd"/>
+	<xs:include schemaLocation="values.xsd"/>
+
+	<xs:complexType name="ActionResult">
+		<xs:sequence>
+			<xs:element name="measurements" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">List of measurements that were taken while the health action was
+						performed. Optional
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="measurement" type="result:Measurement" minOccurs="1" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="deviceResults" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">List of devices that were used for this health action. Optional
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="deviceResult" type="result:DeviceResult" minOccurs="1" maxOccurs="unbounded">
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="medicationAdministrations" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">List of medications that were administered during this health
+						action. Optional
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="medicationAdministration" type="result:MedicationAdministration" minOccurs="0"
+									maxOccurs="unbounded">
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ActionGroupResult">
+		<xs:complexContent>
+			<xs:extension base="result:ActionResult">
+				<xs:sequence>
+					<xs:element name="actions" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">List of the ActionResults of this ActionGroupResult.
+								This can contain one or more actions of the type ActionGroupResult or ActionStepResult.
+								It generates a sub tree data structure were the leafs are represented by
+								ActionStepResult,
+								and the branches are represented by ActionGroupResult. Required
+							</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="action" type="result:ActionResult" minOccurs="1"
+											maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">Instance of an action of the type
+											ActionGroupResult or ActionStepResult. Required
+										</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ActionStepResult">
+		<xs:complexContent>
+			<xs:extension base="result:ActionResult">
+				<xs:sequence>
+					<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Name of the ActionStepResult. Required
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="occurrences" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">List of all the occurrences of repetitions of this action.
+								If the action was repeated 3 times there will be 3 occurrences in this list. Optional
+							</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="occurrence" type="result:Occurrence" minOccurs="1"
+											maxOccurs="unbounded">
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Measurement">
+		<xs:sequence>
+			<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Name of the measure that was recorded during the execution of the
+						Action.
+						They can be both vital signs and other kind of measures.
+						For example: Heart Rate, Blood Pressure, Adherence, Oxygenation, Distance etc. Required
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="type" type="indivo:CodedValue" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Category of the measurement. Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="value" type="indivo:ValueAndUnit" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Value recorded, and calculated from the raw data using the
+						aggregation function. Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="aggregationFunction" type="indivo:CodedValue" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Rule that has been used as an Aggregation function when combining
+						the measured data.
+						For example: average, sum, minimum, maximum, counter. Required
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="DeviceResult">
+		<xs:sequence>
+			<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Name of the device. For example, Fora D40d. Required
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="type" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Category of the device. Sphygmomanometer, for example. Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="value" type="indivo:ValueAndUnit" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Specification of the tuning value used for the device. For example,
+						when using a dumbbell the weight used. Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="site" type="indivo:CodedValue" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Site where the device was applied. For example, right arm. Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MedicationAdministration">
+		<xs:sequence>
+			<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">RxNorm name for the medication. This is a coded value using the url
+						http://rxnav.nlm.nih.gov/REST/rxcui/ where the value is the rxcui (RxNorm Coded Unique
+						Identifier).
+						The rxcui should correspond to the SBD (branded drug name) or SCD (clinical drug name) that is
+						most
+						specific for the medication and includes name and dose for each clinical drug component.
+						Required
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dose" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Dose of the medication. Required
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="route" type="indivo:ValueAndUnit" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Route used for administering the medication. Required
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="StopCondition">
+		<xs:sequence>
+			<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Name of the measure that triggered the stop condition recorded
+						during the execution
+						of the Action. They can be both vital signs and other kind of measures.
+						For example: Heart Rate, Blood Pressure, Adherence, Oxygenation, Distance, Repetitions, Time
+						etc. Required
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="value" type="indivo:ValueAndUnit" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Value and unit that triggered the stop condition.
+						For example, 130 bpm for a Heart Rate. Optional
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Occurrence">
+		<xs:sequence>
+			<xs:element name="startTime" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="endTime" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="additionalDetails" type="xs:string" minOccurs="0"/>
+			<xs:element name="stopCondition" type="result:StopCondition" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="measurements" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">List of measurements that were taken while the health action was
+						performed. Optional
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="measurement" type="result:Measurement" minOccurs="1" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="deviceResults" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">List of devices that were used for this health action. Optional
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="deviceResult" type="result:DeviceResult" minOccurs="1" maxOccurs="unbounded">
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="medicationAdministrations" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">List of medications that were administered during this health
+						action. Optional
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="medicationAdministration" type="result:MedicationAdministration" minOccurs="0"
+									maxOccurs="unbounded">
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

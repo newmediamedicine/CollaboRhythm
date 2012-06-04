@@ -1,4 +1,4 @@
-package collaboRhythm.shared.model.healthRecord.document.supportClasses
+package collaboRhythm.shared.model.healthRecord.document.healthActionPlan
 {
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
 	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;

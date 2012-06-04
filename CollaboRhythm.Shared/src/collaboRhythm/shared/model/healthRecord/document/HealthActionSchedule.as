@@ -4,6 +4,8 @@ package collaboRhythm.shared.model.healthRecord.document
 	import collaboRhythm.shared.model.*;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 
+	import mx.collections.ArrayCollection;
+
 
 	[Bindable]
     public class HealthActionSchedule extends ScheduleItemBase
@@ -16,6 +18,7 @@ package collaboRhythm.shared.model.healthRecord.document
 //		private var _scheduledAction:Equipment;
 //		private var _scheduleGroupID:String;
 		private var _scheduledHealthAction:DocumentBase;
+		private var _occurrences:ArrayCollection;
 		
 		public function HealthActionSchedule():void
 		{
@@ -67,6 +70,16 @@ package collaboRhythm.shared.model.healthRecord.document
 		public function set scheduledHealthAction(value:DocumentBase):void
 		{
 			_scheduledHealthAction = value;
+		}
+
+		public function get occurrences():ArrayCollection
+		{
+			return _occurrences;
+		}
+
+		public function set occurrences(value:ArrayCollection):void
+		{
+			_occurrences = value;
 		}
 	}
 }
