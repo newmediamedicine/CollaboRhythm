@@ -69,17 +69,19 @@ package collaboRhythm.plugins.schedule.model
 
 		private var _healthActionListViewAdapterFactory:MasterHealthActionListViewAdapterFactory;
 		private var _healthActionInputControllerFactory:MasterHealthActionInputControllerFactory;
+		private var _navigationProxy:IApplicationNavigationProxy;
 
-		public function ScheduleModel(componentContainer:IComponentContainer, record:Record, accountId:String)
+		public function ScheduleModel(componentContainer:IComponentContainer, record:Record, accountId:String, navigationProxy:IApplicationNavigationProxy)
 		{
 			_accountId = accountId;
+			_navigationProxy = navigationProxy;
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 
 			_record = record;
 
-			_documentCollectionDependenciesArray = [_record.medicationOrdersModel, _record.medicationScheduleItemsModel, _record.equipmentModel, _record.equipmentScheduleItemsModel, _record.adherenceItemsModel];
-			_scheduleItemsCollectionsArray = [_record.medicationScheduleItemsModel.medicationScheduleItemCollection, _record.equipmentScheduleItemsModel.equipmentScheduleItemCollection];
+			_documentCollectionDependenciesArray = [_record.medicationOrdersModel, _record.medicationScheduleItemsModel, _record.equipmentModel, _record.healthActionSchedulesModel, _record.adherenceItemsModel];
+			_scheduleItemsCollectionsArray = [_record.medicationScheduleItemsModel.medicationScheduleItemCollection, _record.healthActionSchedulesModel.healthActionScheduleCollection];
 
 			for each (var documentCollection:DocumentCollectionBase in _documentCollectionDependenciesArray)
 			{
@@ -384,7 +386,7 @@ package collaboRhythm.plugins.schedule.model
 
 		public function get navigationProxy():IApplicationNavigationProxy
 		{
-			return null;
+			return _navigationProxy;
 		}
 	}
 }

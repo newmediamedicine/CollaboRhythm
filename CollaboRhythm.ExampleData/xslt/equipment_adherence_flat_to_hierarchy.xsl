@@ -42,7 +42,7 @@
 		</xsl:variable>
 		<xsl:variable name="equipmentName" select="IndivoDocuments/BloodPressureAdherenceItem[1]/name"/>
 		<xsl:variable name="equipmentType" select="IndivoDocuments/BloodPressureAdherenceItem[1]/equipmentType"/>
-		<xsl:variable name="equipmentScheduleItemInstructions" select="IndivoDocuments/BloodPressureAdherenceItem[1]/instructions"/>
+		<xsl:variable name="healthActionScheduleInstructions" select="IndivoDocuments/BloodPressureAdherenceItem[1]/instructions"/>
 		<xsl:variable name="reportedBy" select="IndivoDocuments/BloodPressureAdherenceItem[1]/reportedBy"/>
 		<xsl:variable name="recurrenceFrequency" select="IndivoDocuments/BloodPressureAdherenceItem[1]/recurrenceFrequency"/>
 		<xsl:variable name="recurrenceInterval" select="IndivoDocuments/BloodPressureAdherenceItem[1]/recurrenceInterval"/>
@@ -68,7 +68,7 @@
 						<!-- child elements can be either (1) IndivoDocumentWithRelationships or (2) IndivoDocument document type -->
 						<LoadableIndivoDocument>
 							<document>
-								<EquipmentScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
+								<HealthActionSchedule xmlns="http://indivo.org/vocab/xml/documents#">
 									<xsl:copy-of select="$equipmentName"/>
 									<scheduledBy>jking@records.media.mit.edu</scheduledBy>
 									<dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
@@ -99,8 +99,8 @@
 											</xsl:otherwise>
 										</xsl:choose>
 									</recurrenceRule>
-									<xsl:copy-of select="$equipmentScheduleItemInstructions"/>
-								</EquipmentScheduleItem>
+									<xsl:copy-of select="$healthActionScheduleInstructions"/>
+								</HealthActionSchedule>
 							</document>
 							<relatesTo>
 								<relation type="adherenceItem">
@@ -413,7 +413,7 @@
 <!--
 						<LoadableIndivoDocument>
 							<document>
-								<EquipmentScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
+								<HealthActionSchedule xmlns="http://indivo.org/vocab/xml/documents#">
 									<xsl:copy-of select="$equipmentName"/>
 									<scheduledBy>jking@records.media.mit.edu</scheduledBy>
 									<dateScheduled>2011-07-28T19:13:11Z</dateScheduled>
@@ -425,7 +425,7 @@
 									</recurrenceRule>
 									<instructions>press the power button and wait several seconds to take reading
 									</instructions>
-								</EquipmentScheduleItem>
+								</HealthActionSchedule>
 							</document>
 						</LoadableIndivoDocument>
 -->

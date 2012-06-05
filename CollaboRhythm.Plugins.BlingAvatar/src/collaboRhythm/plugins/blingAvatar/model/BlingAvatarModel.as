@@ -23,7 +23,7 @@ package collaboRhythm.plugins.blingAvatar.model
 		{
 			_record = record;
 
-			_documentCollectionDependenciesArray = [_record.medicationOrdersModel, _record.medicationScheduleItemsModel, _record.equipmentModel, _record.equipmentScheduleItemsModel, _record.adherenceItemsModel];
+			_documentCollectionDependenciesArray = [_record.medicationOrdersModel, _record.medicationScheduleItemsModel, _record.equipmentModel, _record.healthActionSchedulesModel, _record.adherenceItemsModel];
 
 			for each (var documentCollection:DocumentCollectionBase in _documentCollectionDependenciesArray)
 			{

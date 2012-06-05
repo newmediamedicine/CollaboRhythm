@@ -14,7 +14,7 @@
          <relation type="scheduleItem">
             <LoadableIndivoDocument>
                <document>
-                  <EquipmentScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
+                  <HealthActionSchedule xmlns="http://indivo.org/vocab/xml/documents#">
                      <name xmlns="">FORA D40b</name>
                      <scheduledBy>jking@records.media.mit.edu</scheduledBy>
                      <dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
@@ -25,7 +25,7 @@
                         <count>90</count>
                      </recurrenceRule>
                      <instructions xmlns="">Use device to record blood glucose. Insert test strip into device and apply a drop of blood.</instructions>
-                  </EquipmentScheduleItem>
+                  </HealthActionSchedule>
                </document>
                <relatesTo>
                   <relation type="adherenceItem">

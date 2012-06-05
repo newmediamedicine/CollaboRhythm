@@ -9,6 +9,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import spark.components.Image;
+	import spark.skins.spark.ImageSkin;
 
 	public class InsulinTitrationSupportHealthActionListViewAdapter implements IHealthActionListViewAdapter
 	{
@@ -29,9 +30,18 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			return _healthAction;
 		}
 
+		[Embed("/assets/images/titrateLevemir.png")]
+		private var _titrateLevemirImageClass:Class;
+
 		public function get image():Image
 		{
-			return null;
+			var image:Image = new Image();
+			image.setStyle("skinClass", ImageSkin);
+			image.source = _titrateLevemirImageClass;
+			image.smooth = true;
+			image.width = 100;
+			image.height = 100;
+			return image;
 		}
 
 		public function get name():String

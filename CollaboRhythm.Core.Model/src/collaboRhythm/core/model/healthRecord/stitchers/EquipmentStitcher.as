@@ -20,14 +20,14 @@ package collaboRhythm.core.model.healthRecord.stitchers
 	import collaboRhythm.shared.model.*;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.document.Equipment;
-	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
 
 	public class EquipmentStitcher extends DocumentStitcherBase
     {
         public function EquipmentStitcher(record:Record)
 		{
 			super(record, Equipment.DOCUMENT_TYPE);
-			addRequiredDocumentType(EquipmentScheduleItem.DOCUMENT_TYPE);
+			addRequiredDocumentType(HealthActionSchedule.DOCUMENT_TYPE);
 		}
 
 		override protected function stitchSpecialReferencesOnDocument(document:IDocument):void
@@ -35,17 +35,17 @@ package collaboRhythm.core.model.healthRecord.stitchers
 			var equipment:Equipment = document as Equipment;
 			for each (var scheduleItemId:String in equipment.scheduleItems.keys)
 			{
-				var equipmentScheduleItem:EquipmentScheduleItem = record.equipmentScheduleItemsModel.equipmentScheduleItems[scheduleItemId];
-				if (equipmentScheduleItem)
+				var healthActionSchedule:HealthActionSchedule = record.healthActionSchedulesModel.healthActionSchedules[scheduleItemId];
+				if (healthActionSchedule)
 				{
-					equipment.scheduleItems.put(scheduleItemId, equipmentScheduleItem);
-					equipmentScheduleItem.scheduledEquipment = equipment;
+					equipment.scheduleItems.put(scheduleItemId, healthActionSchedule);
+					healthActionSchedule.scheduledEquipment = equipment;
 				}
 				else
 				{
-					// EquipmentScheduleItem may not be loaded into model if it was filtered out based on the demo date
+					// HealthActionSchedule may not be loaded into model if it was filtered out based on the demo date
 					equipment.scheduleItems.remove(scheduleItemId);
-					_logger.warn("Warning: Failed to stitch; scheduleItem relationship ignored. EquipmentScheduleItem not found with id " + scheduleItemId);
+					_logger.warn("Warning: Failed to stitch; scheduleItem relationship ignored. HealthActionSchedule not found with id " + scheduleItemId);
 				}
 			}
         }

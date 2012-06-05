@@ -10,7 +10,7 @@ package collaboRhythm.plugins.equipment.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.healthRecord.document.Equipment;
 	import collaboRhythm.shared.model.healthRecord.document.EquipmentModel;
-	import collaboRhythm.shared.model.healthRecord.document.EquipmentScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import spark.components.Image;
@@ -18,7 +18,7 @@ package collaboRhythm.plugins.equipment.model
 
 	public class EquipmentHealthActionListViewAdapter implements IHealthActionListViewAdapter
 	{
-		private var _equipmentScheduleItem:EquipmentScheduleItem;
+		private var _healthActionSchedule:HealthActionSchedule;
 		private var _equipment:Equipment;
 		private var _equipmentHealthAction:EquipmentHealthAction;
 		
@@ -28,10 +28,10 @@ package collaboRhythm.plugins.equipment.model
 		public function EquipmentHealthActionListViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
 																			healthActionModelDetailsProvider:IHealthActionModelDetailsProvider)
 		{
-			_equipmentScheduleItem = scheduleItemOccurrence.scheduleItem as EquipmentScheduleItem;
-			_equipment = _equipmentScheduleItem.scheduledEquipment;
+			_healthActionSchedule = scheduleItemOccurrence.scheduleItem as HealthActionSchedule;
+			_equipment = _healthActionSchedule.scheduledEquipment;
 
-			_equipmentHealthAction = new EquipmentHealthAction(_equipmentScheduleItem.instructions, _equipment.name);
+			_equipmentHealthAction = new EquipmentHealthAction(_healthActionSchedule.instructions, _equipment.name);
 
 			_model = new HealthActionListViewModelBase(scheduleItemOccurrence, healthActionModelDetailsProvider);
 			_controller = new HealthActionListViewControllerBase(_model);

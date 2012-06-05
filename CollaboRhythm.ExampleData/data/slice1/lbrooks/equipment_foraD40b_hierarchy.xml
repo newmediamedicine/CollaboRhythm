@@ -30,7 +30,7 @@
 			<relation type="scheduleItem">
 				<LoadableIndivoDocument>
 					<document>
-						<EquipmentScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
+						<HealthActionSchedule xmlns="http://indivo.org/vocab/xml/documents#">
 							<name>FORA D40b</name>
 							<scheduledBy>unknown@records.media.mit.edu</scheduledBy>
 							<dateScheduled>2011-07-30T12:00:00Z</dateScheduled>
@@ -41,7 +41,7 @@
 								<count>90</count>
 							</recurrenceRule>
 							<instructions>Measure blood pressure once from left arm in sitting position</instructions>
-						</EquipmentScheduleItem>
+						</HealthActionSchedule>
 					</document>
 				</LoadableIndivoDocument>
 			</relation>

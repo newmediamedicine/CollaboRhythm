@@ -3,6 +3,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
+	import collaboRhythm.shared.model.healthRecord.document.HealthActionPlan;
+	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import mx.collections.ArrayCollection;
@@ -23,7 +25,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 															   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
 															   currentHealthActionListViewAdapter:IHealthActionListViewAdapter):IHealthActionListViewAdapter
 		{
-			return null;
+			var healthActionSchedule:HealthActionSchedule = scheduleItemOccurrence.scheduleItem as HealthActionSchedule;
+			if (healthActionSchedule && healthActionSchedule.scheduledHealthAction is HealthActionPlan)
+				return new InsulinTitrationSupportHealthActionListViewAdapter(scheduleItemOccurrence, healthActionModelDetailsProvider);
+			else
+				return currentHealthActionListViewAdapter;
 		}
 	}
 }

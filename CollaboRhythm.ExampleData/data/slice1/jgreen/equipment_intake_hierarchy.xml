@@ -14,7 +14,7 @@
          <relation type="scheduleItem">
             <LoadableIndivoDocument>
                <document>
-                  <EquipmentScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
+                  <HealthActionSchedule xmlns="http://indivo.org/vocab/xml/documents#">
                      <name xmlns="">Intake</name>
                      <scheduledBy>jking@records.media.mit.edu</scheduledBy>
                      <dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
@@ -25,7 +25,7 @@
                         <count>90</count>
                      </recurrenceRule>
                      <instructions xmlns="">Food/drink intake documentation to complete once a day</instructions>
-                  </EquipmentScheduleItem>
+                  </HealthActionSchedule>
                </document>
                <relatesTo>
                   <relation type="adherenceItem">

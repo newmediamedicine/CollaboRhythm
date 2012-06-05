@@ -131,9 +131,9 @@ package collaboRhythm.core.model.tests.healthRecord.service
 					</MedicationScheduleItem>
 				],
 				[
-					"EquipmentScheduleItem",
-					"http://indivo.org/vocab/xml/documents#EquipmentScheduleItem",
-					<EquipmentScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
+					"HealthActionSchedule",
+					"http://indivo.org/vocab/xml/documents#HealthActionSchedule",
+					<HealthActionSchedule xmlns="http://indivo.org/vocab/xml/documents#">
 						<name> FORA D15b </name>
 						<scheduledBy>jking@records.media.mit.edu</scheduledBy>
 						<dateScheduled>2011-02-14T17:00:00Z</dateScheduled>
@@ -144,7 +144,7 @@ package collaboRhythm.core.model.tests.healthRecord.service
 							<count>30</count>
 						</recurrenceRule>
 						<instructions>press the big blue button</instructions>
-					</EquipmentScheduleItem>
+					</HealthActionSchedule>
 				],
 				[
 					"VideoMessage",

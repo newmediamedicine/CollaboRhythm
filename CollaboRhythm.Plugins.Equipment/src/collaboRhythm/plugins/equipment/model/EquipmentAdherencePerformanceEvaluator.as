@@ -31,7 +31,7 @@ package collaboRhythm.plugins.equipment.model
 
 	public class EquipmentAdherencePerformanceEvaluator extends AdherencePerformanceEvaluatorBase
 	{
-		public static const SCHEDULE_ITEM_TYPE:String = "http://indivo.org/vocab/xml/documents#EquipmentScheduleItem";
+		public static const SCHEDULE_ITEM_TYPE:String = "http://indivo.org/vocab/xml/documents#HealthActionSchedule";
 
 		public static const BLOOD_PRESSURE_NONADHERENCE_ASSERTION_YESTERDAY:String = "You did not take your scheduled blood pressure yesterday.";
 		public static const BLOOD_PRESSURE_NONADHERENCE_ASSERTION_TODAY:String = "You have not taken your scheduled blood pressure today.";
@@ -57,10 +57,10 @@ package collaboRhythm.plugins.equipment.model
 																 record:Record,
 																 adherencePerformanceInterval:String):AdherencePerformanceAssertion
 		{
-			var equipmentScheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = getScheduleItemOccurrencesForType(scheduleItemOccurrencesVector);
-			if (equipmentScheduleItemOccurrencesVector.length > 0)
+			var healthActionScheduleOccurrencesVector:Vector.<ScheduleItemOccurrence> = getScheduleItemOccurrencesForType(scheduleItemOccurrencesVector);
+			if (healthActionScheduleOccurrencesVector.length > 0)
 			{
-				if (!isAdherencePerformancePerfect(equipmentScheduleItemOccurrencesVector))
+				if (!isAdherencePerformancePerfect(healthActionScheduleOccurrencesVector))
 				{
 					if (adherencePerformanceInterval == AdherencePerformanceModel.ADHERENCE_PERFORMANCE_INTERVAL_TODAY)
 					{

@@ -71,26 +71,29 @@
 				var scheduleModel:ScheduleModel = scheduleGroupReportingView.scheduleModel;
 				var scheduleItemOccurrenceReportingViewAdapter:IHealthActionListViewAdapter = scheduleModel.healthActionListViewAdapterFactory.createScheduledHealthActionViewAdapter(_scheduleItemOccurrence,
 						scheduleModel);
-				var scheduleItemOccurrenceReportingModel:IHealthActionListViewModel = scheduleItemOccurrenceReportingViewAdapter.model;
-				_scheduleItemOccurrenceReportingController = scheduleItemOccurrenceReportingViewAdapter.controller;
-				scheduleItemOccurrenceReportingModel.healthActionInputController = scheduleModel.healthActionInputControllerFactory.createHealthActionInputController(scheduleItemOccurrenceReportingViewAdapter.healthAction,
-						_scheduleItemOccurrence, scheduleModel,
-						scheduleGroupReportingView.scheduleReportingController.viewNavigator);
+				if (scheduleItemOccurrenceReportingViewAdapter)
+				{
+					var scheduleItemOccurrenceReportingModel:IHealthActionListViewModel = scheduleItemOccurrenceReportingViewAdapter.model;
+					_scheduleItemOccurrenceReportingController = scheduleItemOccurrenceReportingViewAdapter.controller;
+					scheduleItemOccurrenceReportingModel.healthActionInputController = scheduleModel.healthActionInputControllerFactory.createHealthActionInputController(scheduleItemOccurrenceReportingViewAdapter.healthAction,
+							_scheduleItemOccurrence, scheduleModel,
+							scheduleGroupReportingView.scheduleReportingController.viewNavigator);
 
-				nameLabel.text = scheduleItemOccurrenceReportingViewAdapter.name;
-				descriptionLabel.text = scheduleItemOccurrenceReportingViewAdapter.description;
-				primaryInstructionsLabel.text = scheduleItemOccurrenceReportingViewAdapter.primaryInstructions;
-				secondaryInstructionsLabel.text = scheduleItemOccurrenceReportingViewAdapter.secondaryInstructions;
+					nameLabel.text = scheduleItemOccurrenceReportingViewAdapter.name;
+					descriptionLabel.text = scheduleItemOccurrenceReportingViewAdapter.description;
+					primaryInstructionsLabel.text = scheduleItemOccurrenceReportingViewAdapter.primaryInstructions;
+					secondaryInstructionsLabel.text = scheduleItemOccurrenceReportingViewAdapter.secondaryInstructions;
 
-				var image:Image = scheduleItemOccurrenceReportingViewAdapter.image;
-				image.left = 10;
-				image.right = 10;
-				image.top = 10;
-				image.bottom = 10;
-				image.smooth = true;
-				imageGroup.addElement(image);
+					var image:Image = scheduleItemOccurrenceReportingViewAdapter.image;
+					image.left = 10;
+					image.right = 10;
+					image.top = 10;
+					image.bottom = 10;
+					image.smooth = true;
+					imageGroup.addElement(image);
 
-				additionalInformationLabel.visible = scheduleItemOccurrenceReportingModel.healthActionInputController;
+					additionalInformationLabel.visible = scheduleItemOccurrenceReportingModel.healthActionInputController;
+				}
 
 				_isDataSet = true;
 			}

@@ -30,7 +30,7 @@
          <relation type="scheduleItem">
             <LoadableIndivoDocument>
                <document>
-                  <EquipmentScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
+                  <HealthActionSchedule xmlns="http://indivo.org/vocab/xml/documents#">
                      <name xmlns="">Chameleon</name>
                      <scheduledBy>jking@records.media.mit.edu</scheduledBy>
                      <dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
@@ -41,7 +41,7 @@
                         <count>90</count>
                      </recurrenceRule>
                      <instructions xmlns="">Measure you Peak Expiratory Flow Rate by blowing into the device</instructions>
-                  </EquipmentScheduleItem>
+                  </HealthActionSchedule>
                </document>
                <relatesTo>
                   <relation type="adherenceItem">

@@ -38,11 +38,11 @@ package collaboRhythm.shared.model.healthRecord.document
 	public class ScheduleItemBase extends DocumentBase
 	{
 		/**
-		 * From an EquipmentScheduleItem or MedicationScheduleItem to an AdherenceItem.
+		 * From an HealthActionSchedule or MedicationScheduleItem to an AdherenceItem.
 		 */
 		public static const RELATION_TYPE_ADHERENCE_ITEM:String = "http://indivo.org/vocab/documentrels#adherenceItem";
 		/**
-		 * From an Equipment to an EquipmentScheduleItem or from a MedicationOrder to a MedicationScheduleItem.
+		 * From an Equipment to an HealthActionSchedule or from a MedicationOrder to a MedicationScheduleItem.
 		 */
 		public static const RELATION_TYPE_SCHEDULE_ITEM:String = "http://indivo.org/vocab/documentrels#scheduleItem";
 
