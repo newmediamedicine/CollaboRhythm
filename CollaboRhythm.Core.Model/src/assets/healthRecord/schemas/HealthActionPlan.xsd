@@ -18,11 +18,12 @@
   -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 		   xmlns:indivo="http://indivo.org/vocab/xml/documents#"
-		   targetNamespace="http://indivo.org/vocab/xml/documents#"
+		   xmlns:plan="http://indivo.org/vocab/xml/documents/healthActionPlan#"
+		   targetNamespace="http://indivo.org/vocab/xml/documents/healthActionPlan#"
 		   elementFormDefault="qualified">
 
-	<xs:include schemaLocation="codes.xsd"/>
-	<xs:include schemaLocation="values.xsd"/>
+	<xs:import schemaLocation="values.xsd" namespace="http://indivo.org/vocab/xml/documents#"/>
+	<xs:import schemaLocation="codes.xsd" namespace="http://indivo.org/vocab/xml/documents#"/>
 
 	<xs:complexType name="HealthActionPlan">
 		<xs:sequence>
@@ -104,7 +105,7 @@
 				</xs:annotation>
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="action" type="indivo:Action" minOccurs="1" maxOccurs="unbounded">
+						<xs:element name="action" type="plan:Action" minOccurs="1" maxOccurs="unbounded">
 							<xs:annotation>
 								<xs:documentation xml:lang="en">Instance of an action of the type ActionGroups or
 									ActionSteps. Required
@@ -136,7 +137,7 @@
 				</xs:annotation>
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="stopCondition" type="indivo:StopCondition" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="stopCondition" type="plan:StopCondition" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -152,7 +153,7 @@
 				</xs:annotation>
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="target" type="indivo:Target" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="target" type="plan:Target" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -164,7 +165,7 @@
 				</xs:annotation>
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="measurementPlan" type="indivo:MeasurementPlan" minOccurs="0"
+						<xs:element name="measurementPlan" type="plan:MeasurementPlan" minOccurs="0"
 									maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:complexType>
@@ -176,7 +177,7 @@
 				</xs:annotation>
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="devicePlan" type="indivo:DevicePlan" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="devicePlan" type="plan:DevicePlan" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -188,7 +189,7 @@
 				</xs:annotation>
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="medicationPlan" type="indivo:MedicationPlan" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="medicationPlan" type="plan:MedicationPlan" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -197,7 +198,7 @@
 
 	<xs:complexType name="ActionGroup">
 		<xs:complexContent>
-			<xs:extension base="indivo:Action">
+			<xs:extension base="plan:Action">
 				<xs:sequence>
 					<xs:element name="repeatCount" type="xs:integer" minOccurs="0" maxOccurs="1">
 						<xs:annotation>
@@ -222,7 +223,7 @@
 						</xs:annotation>
 						<xs:complexType>
 							<xs:sequence>
-								<xs:element name="action" type="indivo:Action" minOccurs="1" maxOccurs="unbounded">
+								<xs:element name="action" type="plan:Action" minOccurs="1" maxOccurs="unbounded">
 									<xs:annotation>
 										<xs:documentation xml:lang="en">Instance of an action of the type ActionGroups
 											or ActionSteps. Required
@@ -239,7 +240,7 @@
 
 	<xs:complexType name="ActionStep">
 		<xs:complexContent>
-			<xs:extension base="indivo:Action">
+			<xs:extension base="plan:Action">
 				<xs:sequence>
 					<xs:element name="name" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
 						<xs:annotation>
@@ -453,6 +454,5 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:element name="HealthActionPlan" type="indivo:HealthActionPlan"/>
-
+	<xs:element name="HealthActionPlan" type="plan:HealthActionPlan"/>
 </xs:schema>

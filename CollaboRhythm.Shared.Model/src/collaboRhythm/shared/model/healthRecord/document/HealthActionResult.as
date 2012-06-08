@@ -8,7 +8,7 @@ package collaboRhythm.shared.model.healthRecord.document
 	[Bindable]
 	public class HealthActionResult extends DocumentBase
 	{
-		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#HealthActionResult";
+		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents/healthActionResult#HealthActionResult";
 
 		private var _name:CodedValue;
 		private var _planType:String;

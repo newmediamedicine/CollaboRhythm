@@ -44,16 +44,14 @@ package collaboRhythm.core.model.healthRecord.service
 		{
 			super.initializeXmlMarshaller();
 
-			_xmlMarshaller.addSchema(Schemas.HealthActionResultSupportSchema);
-
-			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/HealthActionResult#", "ActionResult"), ActionResult);
-			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/HealthActionResult#", "ActionGroupResult"), ActionGroupResult);
-			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/HealthActionResult#", "ActionStepResult"), ActionStepResult);
-			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/HealthActionResult#", "DeviceResult"), DeviceResult);
-			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/HealthActionResult#", "Measurement"), Measurement);
-			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/HealthActionResult#", "MedicationAdministration"), MedicationAdministration);
-			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/HealthActionResult#", "StopCondition"), StopCondition);
-			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/HealthActionResult#", "Occurrence"), Occurrence);
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/healthActionResult#", "ActionResult"), ActionResult);
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/healthActionResult#", "ActionGroupResult"), ActionGroupResult);
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/healthActionResult#", "ActionStepResult"), ActionStepResult);
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/healthActionResult#", "DeviceResult"), DeviceResult);
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/healthActionResult#", "Measurement"), Measurement);
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/healthActionResult#", "MedicationAdministration"), MedicationAdministration);
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/healthActionResult#", "StopCondition"), StopCondition);
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/healthActionResult#", "Occurrence"), Occurrence);
 		}
 	}
 }

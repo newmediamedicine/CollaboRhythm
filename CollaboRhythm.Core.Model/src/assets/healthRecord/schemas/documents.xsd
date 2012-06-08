@@ -38,7 +38,7 @@
 	<xs:include schemaLocation="SimpleClinicalNote.xsd"/>
 	<xs:include schemaLocation="VideoMessage.xsd"/>
 	<xs:include schemaLocation="VitalSign.xsd"/>
-	<xs:include schemaLocation="HealthActionPlan.xsd"/>
+	<xs:import schemaLocation="HealthActionPlan.xsd" namespace="http://indivo.org/vocab/xml/documents/healthActionResult#"/>
 	<xs:include schemaLocation="HealthActionResult.xsd"/>
 	<xs:include schemaLocation="HealthActionOccurrence.xsd"/>
 </xs:schema>

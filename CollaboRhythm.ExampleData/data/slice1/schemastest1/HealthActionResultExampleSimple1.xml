@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--~
+  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<HealthActionResult xmlns="http://indivo.org/vocab/xml/documents/healthActionResult#"
+					xmlns:indivo="http://indivo.org/vocab/xml/documents#"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<name type="http://actions.repository.coded.values/" value="Exercise Plan">Exercise Plan 2</name>
+	<planType>prescribed</planType>
+	<reportedBy>rpoole</reportedBy>
+	<dateReported>2012-04-05T16:00:35.835336-04:00</dateReported>
+	<actions>
+		<action xsi:type="ActionStepResult">
+			<name type="http://actions.repository/" value="2">Kick Balls</name>
+		</action>
+	</actions>
+</HealthActionResult>

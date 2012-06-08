@@ -1,0 +1,27 @@
+<!--~
+  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<HealthActionSchedule xmlns="http://indivo.org/vocab/xml/documents#">
+	<name>Average Blood Pressure</name>
+	<scheduledBy>jking@records.media.mit.edu</scheduledBy>
+	<dateScheduled>2011-02-14T13:00:00-04:00</dateScheduled>
+	<dateStart>2011-02-15T10:00:00-04:00</dateStart>
+	<dateEnd>2011-02-15T14:00:00-04:00</dateEnd>
+	<recurrenceRule>
+		<frequency>DAILY</frequency>
+		<count>30</count>
+	</recurrenceRule>
+</HealthActionSchedule>
