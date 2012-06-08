@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/AndroidTest/AndroidTest.iml" filepath="$PROJECT_DIR$/AndroidTest/AndroidTest.iml" group="CollaboRhythm/Other" />
+      <module fileurl="file://$PROJECT_DIR$/AndroidTestActivity/AndroidTestActivity.iml" filepath="$PROJECT_DIR$/AndroidTestActivity/AndroidTestActivity.iml" group="CollaboRhythm/Other" />
       <module fileurl="file://$PROJECT_DIR$/Box2DFlashAS3/Box2DFlashAS3.iml" filepath="$PROJECT_DIR$/Box2DFlashAS3/Box2DFlashAS3.iml" group="CollaboRhythm/3rd Party Libraries" />
       <module fileurl="file://$PROJECT_DIR$/ChartBackgroundsLib/ChartBackgroundsLib.iml" filepath="$PROJECT_DIR$/ChartBackgroundsLib/ChartBackgroundsLib.iml" group="CollaboRhythm/3rd Party Libraries" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Android.DeviceGateway/CollaboRhythm.Android.DeviceGateway.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Android.DeviceGateway/CollaboRhythm.Android.DeviceGateway.iml" group="CollaboRhythm/Other" />
@@ -12,6 +14,8 @@
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Core.Tests/CollaboRhythm.Core.Tests.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Core.Tests/CollaboRhythm.Core.Tests.iml" group="CollaboRhythm/Tests" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/CollaboRhythm.ExampleData.iml" filepath="$PROJECT_DIR$/CollaboRhythm.ExampleData/CollaboRhythm.ExampleData.iml" group="CollaboRhythm/Example Data" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Mobile/CollaboRhythm.Mobile.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Mobile/CollaboRhythm.Mobile.iml" group="CollaboRhythm/Modalities" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.NativeExtensions.PlayVideo.Android/CollaboRhythm.NativeExtensions.PlayVideo.Android.iml" filepath="$PROJECT_DIR$/CollaboRhythm.NativeExtensions.PlayVideo.Android/CollaboRhythm.NativeExtensions.PlayVideo.Android.iml" group="CollaboRhythm/Other" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.NativeExtensions.PlayVideo.Flex/CollaboRhythm.NativeExtensions.PlayVideo.Flex.iml" filepath="$PROJECT_DIR$/CollaboRhythm.NativeExtensions.PlayVideo.Flex/CollaboRhythm.NativeExtensions.PlayVideo.Flex.iml" group="CollaboRhythm/Other" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugin.AsthmaManagement/CollaboRhythm.Plugin.AsthmaManagement.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugin.AsthmaManagement/CollaboRhythm.Plugin.AsthmaManagement.iml" group="CollaboRhythm/Plugins" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.BlingAvatar/CollaboRhythm.Plugins.BlingAvatar.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.BlingAvatar/CollaboRhythm.Plugins.BlingAvatar.iml" group="CollaboRhythm/Plugins" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.BloodPressure/CollaboRhythm.Plugins.BloodPressure.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.BloodPressure/CollaboRhythm.Plugins.BloodPressure.iml" group="CollaboRhythm/Plugins" />
@@ -28,6 +32,7 @@
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.HypertensionEducation/CollaboRhythm.Plugins.HypertensionEducation.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.HypertensionEducation/CollaboRhythm.Plugins.HypertensionEducation.iml" group="CollaboRhythm/Plugins" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.InsulinTitrationSupport/CollaboRhythm.Plugins.InsulinTitrationSupport.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.InsulinTitrationSupport/CollaboRhythm.Plugins.InsulinTitrationSupport.iml" group="CollaboRhythm/Plugins" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Medications/CollaboRhythm.Plugins.Medications.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.Medications/CollaboRhythm.Plugins.Medications.iml" group="CollaboRhythm/Plugins" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Medications.Insulin/CollaboRhythm.Plugins.Medications.Insulin.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.Medications.Insulin/CollaboRhythm.Plugins.Medications.Insulin.iml" group="CollaboRhythm/Plugins" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.PainReport/CollaboRhythm.Plugins.PainReport.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.PainReport/CollaboRhythm.Plugins.PainReport.iml" group="CollaboRhythm/Plugins" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.PhysicalTherapy/CollaboRhythm.Plugins.PhysicalTherapy.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.PhysicalTherapy/CollaboRhythm.Plugins.PhysicalTherapy.iml" group="CollaboRhythm/Plugins" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Problems/CollaboRhythm.Plugins.Problems.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Plugins.Problems/CollaboRhythm.Plugins.Problems.iml" group="CollaboRhythm/Plugins" />

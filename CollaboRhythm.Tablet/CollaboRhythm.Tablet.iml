@@ -23,6 +23,9 @@
             <entry library-name="Desktop libraries for mobile applications" library-level="project">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-id="73cf38ed-5aae-4e11-bfce-467f52c03bdc">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -41,6 +44,7 @@
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.HypertensionEducation/bin-debug/HypertensionEducationPluginModule.swf" path-in-package="plugins/HypertensionEducationPluginModule.swf" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.InsulinTitrationSupport/bin-debug/CollaboRhythm_Plugins_InsulinTitrationSupportPluginModule.swf" path-in-package="plugins/InsulinTitrationSupportPluginModule.swf" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.VideoMessages/bin-debug/VideoMessagesPluginModule.swf" path-in-package="plugins/VideoMessagesPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Medications.Insulin/bin-debug/InsulinPluginModule.swf" path-in-package="plugins/InsulinPluginModule.swf" />
           </files-to-package>
           <AirSigningOptions keystore-path="$MODULE_DIR$/../CollaboRhythm.Workstation/CollaboRhythmKeystore.p12" />
         </packaging-android>
@@ -67,6 +71,9 @@
             <entry library-name="Desktop libraries for mobile applications" library-level="project">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-id="350588ab-5c30-411a-8619-f60cf60d99f0">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -89,6 +96,7 @@
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.HypertensionEducation/bin-debug/HypertensionEducationPluginModule.swf" path-in-package="plugins/HypertensionEducationPluginModule.swf" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.InsulinTitrationSupport/bin-debug/CollaboRhythm_Plugins_InsulinTitrationSupportPluginModule.swf" path-in-package="plugins/InsulinTitrationSupportPluginModule.swf" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.VideoMessages/bin-debug/VideoMessagesPluginModule.swf" path-in-package="plugins/VideoMessagesPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Medications.Insulin/bin-debug/InsulinPluginModule.swf" path-in-package="plugins/InsulinPluginModule.swf" />
           </files-to-package>
           <AirSigningOptions keystore-path="$MODULE_DIR$/../CollaboRhythm.Workstation/CollaboRhythmKeystore.p12" use-temp-certificate="false" />
         </packaging-android>
@@ -110,8 +118,30 @@
     <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" />
     <orderEntry type="module" module-name="CollaboRhythm.Core.Model" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" />
-    <orderEntry type="jdk" jdkName="4.6.0" jdkType="__CompositeFlexSdk__" />
+    <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
     <orderEntry type="library" name="Desktop libraries for mobile applications" level="project" />
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="73cf38ed-5aae-4e11-bfce-467f52c03bdc" />
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/libs" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="350588ab-5c30-411a-8619-f60cf60d99f0" />
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/libs" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>
 

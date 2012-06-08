@@ -4,6 +4,11 @@
     <option name="DEFAULT_COMPILER" value="Javac" />
     <excludeFromCompile>
       <directory url="file://$PROJECT_DIR$/CollaboRhythm.Android.DeviceGateway/gen" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/CollaboRhythm.Android.NativeExtension.PlayMovieIntent/gen" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/CollaboRhythm.NativeExtensions.Android.PlayVideo/gen" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/AndroidTest/gen" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/AndroidTestActivity/gen" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/CollaboRhythm.NativeExtensions.PlayVideo.Android/gen" includeSubdirectories="true" />
     </excludeFromCompile>
     <resourceExtensions />
     <wildcardResourcePatterns>

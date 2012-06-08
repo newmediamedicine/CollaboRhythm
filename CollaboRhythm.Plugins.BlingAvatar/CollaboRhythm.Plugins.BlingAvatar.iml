@@ -51,7 +51,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" />
-    <orderEntry type="jdk" jdkName="4.6.0" jdkType="__CompositeFlexSdk__" />
+    <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
   </component>
 </module>
 

@@ -60,6 +60,16 @@ package collaboRhythm.plugins.painReport.model
 			return "";
 		}
 
+		public function get instructionalVideo():String
+		{
+			return "";
+		}
+
+		public function set instructionalVideo(value:String):void
+		{
+
+		}
+
 		public function get model():IHealthActionListViewModel
 		{
 			return _model;

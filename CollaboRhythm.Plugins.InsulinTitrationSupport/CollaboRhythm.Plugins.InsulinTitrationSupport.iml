@@ -66,7 +66,7 @@
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="jdk" jdkName="4.6.0" jdkType="__CompositeFlexSdk__" />
+    <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.HealthCharts" />
     <orderEntry type="module" module-name="McCuneChart" />
     <orderEntry type="module" module-name="ChartBackgroundsLib" />

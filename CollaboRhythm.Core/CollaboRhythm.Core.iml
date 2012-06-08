@@ -115,7 +115,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" />
-    <orderEntry type="jdk" jdkName="4.6.0" jdkType="__CompositeFlexSdk__" />
+    <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
     <orderEntry type="module" module-name="CollaboRhythm.Plugins.Problems" />
   </component>
 </module>

@@ -1,5 +1,6 @@
 package collaboRhythm.plugins.schedule.shared.controller
 {
+//	import collaboRhythm.nativeExtensions.playVideo.flex.PlayVideoInterface;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewModel;
 
@@ -30,6 +31,14 @@ package collaboRhythm.plugins.schedule.shared.controller
 					_healthActionListViewModel.createHealthActionResult();
 				}
 			}
+		}
+
+		public function playVideo(instructionalVideo:String):void
+		{
+			// TODO: Currently using the vibration native extension with modifications to play a video
+			// it is commented out here and in the manifest because it interferes with debugging
+//			var vibration:Vibration = new Vibration();
+//			vibration.vibrate(2000);
 		}
 	}
 }

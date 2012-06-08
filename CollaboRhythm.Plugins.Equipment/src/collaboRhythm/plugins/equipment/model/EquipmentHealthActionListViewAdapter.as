@@ -21,12 +21,12 @@ package collaboRhythm.plugins.equipment.model
 		private var _healthActionSchedule:HealthActionSchedule;
 		private var _equipment:Equipment;
 		private var _equipmentHealthAction:EquipmentHealthAction;
-		
+
 		private var _model:HealthActionListViewModelBase;
 		private var _controller:HealthActionListViewControllerBase;
 
 		public function EquipmentHealthActionListViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
-																			healthActionModelDetailsProvider:IHealthActionModelDetailsProvider)
+															 healthActionModelDetailsProvider:IHealthActionModelDetailsProvider)
 		{
 			_healthActionSchedule = scheduleItemOccurrence.scheduleItem as HealthActionSchedule;
 			_equipment = _healthActionSchedule.scheduledEquipment;
@@ -74,6 +74,16 @@ package collaboRhythm.plugins.equipment.model
 		public function get secondaryInstructions():String
 		{
 			return "take measurement before eating";
+		}
+
+		public function get instructionalVideo():String
+		{
+			return "";
+		}
+
+		public function set instructionalVideo(value:String):void
+		{
+
 		}
 
 		public function get model():IHealthActionListViewModel
