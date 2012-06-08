@@ -565,6 +565,10 @@ package collaboRhythm.shared.ui.healthCharts.view
 				vitalSignChartDescriptor.vitalSignCategory = vitalSignKey;
 				addChartDescriptor(vitalSignChartDescriptor);
 			}
+
+			/*var measurementChartDescriptor:MeasurementChartDescriptor = new MeasurementChartDescriptor();
+						measurementChartDescriptor.measurementCode = "Performance";
+						addChartDescriptor(measurementChartDescriptor);*/
 		}
 
 		private function addChartDescriptor(chartDescriptor:IChartDescriptor):void
