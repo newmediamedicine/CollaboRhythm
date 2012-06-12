@@ -21,9 +21,7 @@ package collaboRhythm.core.model.healthRecord.stitchers
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.Relationship;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionOccurrence;
-	import collaboRhythm.shared.model.healthRecord.document.HealthActionPlan;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
-	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
 
 	public class HealthActionOccurrenceStitcher extends DocumentStitcherBase
     {

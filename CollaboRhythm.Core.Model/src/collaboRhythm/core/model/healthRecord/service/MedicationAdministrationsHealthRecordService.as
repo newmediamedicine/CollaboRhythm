@@ -66,7 +66,8 @@ package collaboRhythm.core.model.healthRecord.service
 
 			var medicationAdministrationsModel:MedicationAdministrationsModel = record.medicationAdministrationsModel;
 			medicationAdministrationsModel.isInitialized = false;
-            var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(null, null, record);
+            var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(null,
+					null, record);
             _pha.reports_minimal_X_GET(params, null, null, null, record.id, "medicationadministrations", _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
         }
 

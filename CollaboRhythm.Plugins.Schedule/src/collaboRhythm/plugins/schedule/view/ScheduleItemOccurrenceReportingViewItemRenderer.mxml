@@ -31,6 +31,11 @@
 			font-weight: bold;
 		}
 
+		.secondaryInstructionsLabelLink {
+			color: #2CB5E6;
+			textDecoration: underline;
+		}
+
 		#additionalInformationLabel {
 			fontSize: 26;
 			fontWeight: bold;
@@ -38,10 +43,8 @@
 	</fx:Style>
 	<fx:Script>
         <![CDATA[
-		import collaboRhythm.plugins.schedule.shared.controller.HealthActionListViewControllerBase;
 		import collaboRhythm.plugins.schedule.model.ScheduleModel;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
-		import collaboRhythm.plugins.schedule.shared.model.HealthActionListViewModelBase;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewModel;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
@@ -55,6 +58,7 @@
 		private var _scheduleItemOccurrenceReportingController:IHealthActionListViewController;
 
 		private var _isDataSet:Boolean = false;
+		private var _instructionalVideo:String;
 
 		override public function set data(value:Object):void
 		{
@@ -84,6 +88,15 @@
 					primaryInstructionsLabel.text = scheduleItemOccurrenceReportingViewAdapter.primaryInstructions;
 					secondaryInstructionsLabel.text = scheduleItemOccurrenceReportingViewAdapter.secondaryInstructions;
 
+					if (scheduleItemOccurrenceReportingViewAdapter.instructionalVideo != "")
+					{
+						secondaryInstructionsLabel.text = "Click to watch an instructional video";
+						secondaryInstructionsLabel.addEventListener(MouseEvent.CLICK,
+								secondaryInstructionsLabel_clickHandler);
+						secondaryInstructionsLabel.styleName = "secondaryInstructionsLabelLink";
+						_instructionalVideo = scheduleItemOccurrenceReportingViewAdapter.instructionalVideo;
+					}
+
 					var image:Image = scheduleItemOccurrenceReportingViewAdapter.image;
 					image.left = 10;
 					image.right = 10;
@@ -97,6 +110,11 @@
 
 				_isDataSet = true;
 			}
+		}
+
+		private function secondaryInstructionsLabel_clickHandler(event:MouseEvent):void
+		{
+			_scheduleItemOccurrenceReportingController.playVideo(_instructionalVideo);
 		}
 
 		private function adherenceCheckBoxClickHandler(event:MouseEvent):void

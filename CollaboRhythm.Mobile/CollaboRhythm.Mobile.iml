@@ -97,7 +97,7 @@
     </orderEntry>
     <orderEntry type="module" module-name="CollaboRhythm.Core.Model" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" />
-    <orderEntry type="jdk" jdkName="4.6.0" jdkType="__CompositeFlexSdk__" />
+    <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
     <orderEntry type="library" name="Desktop libraries for mobile applications" level="project" />
   </component>
 </module>

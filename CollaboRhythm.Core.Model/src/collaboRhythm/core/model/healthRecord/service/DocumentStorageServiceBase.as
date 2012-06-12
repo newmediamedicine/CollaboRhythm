@@ -35,6 +35,8 @@ package collaboRhythm.core.model.healthRecord.service
 	public class DocumentStorageServiceBase extends PhaHealthRecordServiceBase
 	{
 		protected static const GET_REPORTS_MINIMAL:String = "reports_minimal_X_GET";
+		protected static const GET_INBOX:String = "accounts_X_inboxGET";
+		protected static const GET_SENT:String = "accounts_X_sentGET";
 
 		/**
 		 * Event that is dispatched when the isLoading property changes.
@@ -124,6 +126,14 @@ package collaboRhythm.core.model.healthRecord.service
 					loadReplacedDocuments(record, document);
 				}
 			}
+			else if (requestDetails.indivoApiCall == GET_INBOX)
+			{
+				handleGetInbox(responseXml, healthRecordServiceRequestDetails);
+			}
+			else if (requestDetails.indivoApiCall == GET_SENT)
+			{
+				handleGetSent(responseXml, healthRecordServiceRequestDetails);
+			}
 			checkPendingRequests(record);
 		}
 
@@ -139,12 +149,24 @@ package collaboRhythm.core.model.healthRecord.service
 			var document:IDocument = unmarshallDocumentXml(responseXml);
 			document.meta.id = previousHealthRecordServiceRequestDetails.customData as String;
 
-			var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_METADATA, null, record);
+			var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_METADATA,
+					null, record);
 			healthRecordServiceRequestDetails.document = document;
 			_pha.documents_X_metaGET(null, null, null, record.id, document.meta.id,
 									 _activeAccount.oauthAccountToken,
 									 _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
 			return document;
+		}
+
+		protected function handleGetInbox(responseXml:XML, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+		{
+
+		}
+
+		protected function handleGetSent(responseXml:XML,
+									   healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+		{
+
 		}
 
 		override protected function handleError(event:IndivoClientEvent, errorStatus:String,
@@ -320,8 +342,7 @@ package collaboRhythm.core.model.healthRecord.service
 				if (document.meta.replacesId)
 				{
 					var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_DOCUMENT,
-																																	null,
-																																	record);
+							null, record);
 					healthRecordServiceRequestDetails.customData = document.meta.replacesId;
 					_pha.documents_XGET(null, null, null, record.id, document.meta.replacesId,
 										_activeAccount.oauthAccountToken,

@@ -22,6 +22,7 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.plugins.schedule.view.ScheduleClockWidgetView;
 	import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+	import collaboRhythm.shared.collaboration.model.CollaborationModel;
 	import collaboRhythm.shared.collaboration.model.CollaborationViewSynchronizationEvent;
 
 	import flash.events.EventDispatcher;
@@ -47,30 +48,43 @@ package collaboRhythm.plugins.schedule.controller
 			_scheduleWidgetView = scheduleWidgetView;
 			_viewNavigator = viewNavigator;
 
-			_collaborationLobbyNetConnectionServiceProxy = _scheduleAppController.collaborationLobbyNetConnectionServiceProxy as CollaborationLobbyNetConnectionServiceProxy;
-			_collaborationLobbyNetConnectionServiceProxy.addEventListener(getQualifiedClassName(this), collaborationViewSynchronization_eventHandler);
+			_collaborationLobbyNetConnectionServiceProxy = _scheduleAppController.collaborationLobbyNetConnectionServiceProxy as
+					CollaborationLobbyNetConnectionServiceProxy;
+			_collaborationLobbyNetConnectionServiceProxy.addEventListener(getQualifiedClassName(this),
+					collaborationViewSynchronization_eventHandler);
 		}
 
 		private function collaborationViewSynchronization_eventHandler(event:CollaborationViewSynchronizationEvent):void
-				{
-					if (event.synchronizeData)
-					{
-						this[event.synchronizeFunction]("remote", event.synchronizeData);
-					}
-					else
-					{
-						this[event.synchronizeFunction]("remote");
-					}
-				}
-
-		public function openScheduleReportingFullView(source:String, scheduleGroup:ScheduleGroup):void
 		{
-//			if (source == "local")
-//			{
-//				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this), "openScheduleReportingFullView",
-//						scheduleGroup);
-//			}
-			_scheduleModel.scheduleReportingModel.currentScheduleGroup = scheduleGroup;
+			if (event.synchronizeData)
+			{
+				this[event.synchronizeFunction]("remote", event.synchronizeData);
+			}
+			else
+			{
+				this[event.synchronizeFunction]("remote");
+			}
+		}
+
+		public function openScheduleReportingFullView(source:String, selectedScheduleGroup:ScheduleGroup):void
+		{
+			if (source == "local" && _collaborationLobbyNetConnectionServiceProxy.collaborationState == CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"openScheduleReportingFullView",
+						selectedScheduleGroup);
+			}
+
+			for each (var scheduleGroup:ScheduleGroup in _scheduleModel.scheduleGroupsCollection)
+			{
+				if (scheduleGroup.dateStart.getTime() == selectedScheduleGroup.dateStart.getTime() &&
+						scheduleGroup.dateEnd.getTime() == selectedScheduleGroup.dateEnd.getTime())
+				{
+					_scheduleModel.scheduleReportingModel.currentScheduleGroup = scheduleGroup;
+				}
+			}
+
+//			_scheduleModel.scheduleReportingModel.currentScheduleGroup = selectedScheduleGroup;
 
 			var scheduleViewInitializationParameters:ScheduleViewInitializationParameters = new ScheduleViewInitializationParameters(_scheduleAppController,
 					_scheduleModel);

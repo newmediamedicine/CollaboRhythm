@@ -50,6 +50,9 @@ package collaboRhythm.core.model.healthRecord
 
 		[Embed("/assets/healthRecord/schemas/HealthActionOccurrence.xsd", mimeType="application/octet-stream")]
 		public static const HealthActionOccurrenceSchema:Class;
+		
+		[Embed("/assets/healthRecord/schemas/Message.xsd", mimeType="application/octet-stream")]
+		public static const MessageSchema:Class;
 
 		public function Schemas()
 		{

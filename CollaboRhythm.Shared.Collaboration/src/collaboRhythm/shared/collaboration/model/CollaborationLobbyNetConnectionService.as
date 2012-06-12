@@ -97,7 +97,6 @@ package collaboRhythm.shared.collaboration.model
 			_netConnection.client.activeAccountCollaborationLobbyConnectionStatusChanged = activeAccountCollaborationLobbyConnectionStatusChanged;
 			_netConnection.client.sharingAccountCollaborationLobbyConnectionStatusChanged = sharingAccountCollaborationLobbyConnectionStatusChanged;
 			_netConnection.client.receiveCollaborationMessage = receiveCollaborationMessage;
-			_netConnection.client.receiveCollaborationViewSynchronization = receiveCollaborationViewSynchronization;
 			_netConnection.client.receiveCollaborationPointerSynchronization = receiveCollaborationPointerSynchronization;
 
 			_netConnection.addEventListener(NetStatusEvent.NET_STATUS, netConnection_NetStatusHandler);
@@ -253,19 +252,9 @@ package collaboRhythm.shared.collaboration.model
 		private function receiveCollaborationMessage(messageType:String, subjectAccountId:String,
 													 sourceAccountId:String, sourcePeerId:String, passWord:String):void
 		{
-			var collaborationMessageEvent:CollaborationMessageEvent = new CollaborationMessageEvent(CollaborationMessageEvent.MESSAGE_RECEIVED,
+			var collaborationCoordinationEvent:CollaborationMessageEvent = new CollaborationMessageEvent(CollaborationMessageEvent.MESSAGE_RECEIVED,
 					messageType, subjectAccountId, sourceAccountId, sourcePeerId, passWord);
-			dispatchEvent(collaborationMessageEvent);
-		}
-
-		public function sendCollaborationViewSynchronization():void
-		{
-
-		}
-
-		private function receiveCollaborationViewSynchronization():void
-		{
-
+			dispatchEvent(collaborationCoordinationEvent);
 		}
 
 		public function sendCollaborationPointerSynchronization(type:String, x:Number, y:Number):void

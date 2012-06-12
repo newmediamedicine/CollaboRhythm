@@ -34,7 +34,7 @@
     <orderEntry type="library" name="flexunit-4.1.0_RC2-4-flex_4.1.0.16076.swc" level="project" />
     <orderEntry type="module" module-name="CollaboRhythm.Core" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared" />
-    <orderEntry type="jdk" jdkName="4.6.0" jdkType="__CompositeFlexSdk__" />
+    <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
   </component>
 </module>
 

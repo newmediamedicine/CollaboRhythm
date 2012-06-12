@@ -1,18 +1,16 @@
 package collaboRhythm.shared.model.healthRecord
 {
 
-    import collaboRhythm.shared.model.Account;
-    import collaboRhythm.shared.model.Contact;
-    import collaboRhythm.shared.model.Demographics;
-    import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.Contact;
+	import collaboRhythm.shared.model.Demographics;
+	import collaboRhythm.shared.model.Record;
 
 	import j2as3.collection.HashMap;
 
-	import mx.collections.ArrayCollection;
-
 	import org.indivo.client.IndivoClientEvent;
 
-    public class DemographicsHealthRecordService extends PhaHealthRecordServiceBase
+	public class DemographicsHealthRecordService extends PhaHealthRecordServiceBase
     {
          // Indivo Api calls used in this healthRecordService
         public static const GET_DEMOGRAPHICS:String = "Get Demographics";
@@ -34,7 +32,8 @@ package collaboRhythm.shared.model.healthRecord
 			_pendingDemographics.put(record.id, record);
 			_pendingContacts.put(record.id, record);
 
-            var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_DEMOGRAPHICS, null, record);
+            var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_DEMOGRAPHICS,
+					null, record);
             _pha.special_demographicsGET(null, null, null, record.id, _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
             healthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_CONTACT, null, record);
             _pha.special_contactGET(null, null, null, record.id, _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);

@@ -1,11 +1,9 @@
 package collaboRhythm.shared.model.healthRecord.document
 {
 
-	import collaboRhythm.shared.model.*;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 
 	import mx.collections.ArrayCollection;
-
 
 	[Bindable]
     public class HealthActionSchedule extends ScheduleItemBase

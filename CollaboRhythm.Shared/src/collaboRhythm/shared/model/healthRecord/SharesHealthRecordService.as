@@ -1,12 +1,12 @@
 package collaboRhythm.shared.model.healthRecord
 {
 
-    import collaboRhythm.shared.model.Account;
-    import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.Record;
 
-    import org.indivo.client.IndivoClientEvent;
+	import org.indivo.client.IndivoClientEvent;
 
-    public class SharesHealthRecordService extends PhaHealthRecordServiceBase
+	public class SharesHealthRecordService extends PhaHealthRecordServiceBase
     {
         public function SharesHealthRecordService(oauthConsumerKey:String, oauthConsumerSecret:String,
                                                   indivoServerBaseURL:String, account:Account)
@@ -18,7 +18,8 @@ package collaboRhythm.shared.model.healthRecord
         public function getShares(primaryRecord:Record):void
         {
             _pha.shares_GET(null, null, null, null, primaryRecord.id, _activeAccount.oauthAccountToken,
-                            _activeAccount.oauthAccountTokenSecret, new HealthRecordServiceRequestDetails("Get Shares", null, primaryRecord));
+                            _activeAccount.oauthAccountTokenSecret, new HealthRecordServiceRequestDetails("Get Shares",
+							null, primaryRecord));
         }
 
         // loop through all of the records with which the primary record is shared

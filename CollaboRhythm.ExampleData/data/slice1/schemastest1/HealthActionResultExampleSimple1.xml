@@ -16,7 +16,6 @@
   ~ <http://www.gnu.org/licenses/>.
   -->
 <HealthActionResult xmlns="http://indivo.org/vocab/xml/documents/healthActionResult#"
-					xmlns:indivo="http://indivo.org/vocab/xml/documents#"
 					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<name type="http://actions.repository.coded.values/" value="Exercise Plan">Exercise Plan 2</name>
 	<planType>prescribed</planType>

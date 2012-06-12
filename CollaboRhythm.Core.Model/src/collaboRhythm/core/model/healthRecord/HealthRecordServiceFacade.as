@@ -13,15 +13,16 @@ package collaboRhythm.core.model.healthRecord
 	import collaboRhythm.core.model.healthRecord.service.MedicationFillsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.MedicationOrdersHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.MedicationScheduleItemsHealthRecordService;
+	import collaboRhythm.core.model.healthRecord.service.MessagesHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.ProblemsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.SaveChangesHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.VideoMessagesHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.VitalSignHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.stitchers.AdherenceItemStitcher;
+	import collaboRhythm.core.model.healthRecord.stitchers.EquipmentStitcher;
 	import collaboRhythm.core.model.healthRecord.stitchers.HealthActionOccurrenceStitcher;
 	import collaboRhythm.core.model.healthRecord.stitchers.HealthActionPlanStitcher;
 	import collaboRhythm.core.model.healthRecord.stitchers.HealthActionScheduleStitcher;
-	import collaboRhythm.core.model.healthRecord.stitchers.EquipmentStitcher;
 	import collaboRhythm.core.model.healthRecord.stitchers.MedicationOrderStitcher;
 	import collaboRhythm.core.model.healthRecord.stitchers.MedicationScheduleItemStitcher;
 	import collaboRhythm.shared.model.Account;
@@ -30,7 +31,7 @@ package collaboRhythm.core.model.healthRecord
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
 	import collaboRhythm.shared.model.healthRecord.IDocumentStitcher;
-	import collaboRhythm.shared.model.healthRecord.document.HealthActionOccurrence;
+	import collaboRhythm.shared.model.healthRecord.document.Message;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -62,49 +63,58 @@ package collaboRhythm.core.model.healthRecord
 		protected var _currentDateSource:ICurrentDateSource;
 
 		public function HealthRecordServiceFacade(consumerKey:String, consumerSecret:String, baseURL:String,
-												  account:Account, debuggingToolsEnabled:Boolean)
+												  activeAccount:Account, activeRecordAccount:Account,
+												  debuggingToolsEnabled:Boolean)
 		{
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_saveChangesHealthRecordService = new SaveChangesHealthRecordService(consumerKey, consumerSecret, baseURL,
-																				 account, this);
+					activeAccount, this);
 			_adherenceItemsHealthRecordService = new AdherenceItemsHealthRecordService(consumerKey, consumerSecret,
-																					   baseURL, account,
-																					   debuggingToolsEnabled);
+					baseURL, activeAccount,
+					debuggingToolsEnabled);
 
 			_services = new Vector.<DocumentStorageServiceBase>();
-			addService(new ProblemsHealthRecordService(consumerKey, consumerSecret, baseURL, account,
-													   debuggingToolsEnabled));
-			addService(new MedicationAdministrationsHealthRecordService(consumerKey, consumerSecret, baseURL, account,
-																		debuggingToolsEnabled));
-			addService(new MedicationOrdersHealthRecordService(consumerKey, consumerSecret, baseURL, account,
-															   debuggingToolsEnabled));
-			addService(new EquipmentHealthRecordService(consumerKey, consumerSecret, baseURL, account,
-														debuggingToolsEnabled));
-			addService(new HealthActionSchedulesHealthRecordService(consumerKey, consumerSecret, baseURL, account,
-																	 debuggingToolsEnabled));
-			addService(new MedicationScheduleItemsHealthRecordService(consumerKey, consumerSecret, baseURL, account,
-																	  debuggingToolsEnabled));
-			addService(new VitalSignHealthRecordService(consumerKey, consumerSecret, baseURL, account,
-														debuggingToolsEnabled));
-			addService(new VideoMessagesHealthRecordService(consumerKey, consumerSecret, baseURL, account,
-															debuggingToolsEnabled));
-			addService(new MedicationFillsHealthRecordService(consumerKey, consumerSecret, baseURL, account,
-															  debuggingToolsEnabled));
-			addService(new HealthActionPlansHealthRecordService(consumerKey, consumerSecret, baseURL, account,
+			addService(new ProblemsHealthRecordService(consumerKey, consumerSecret, baseURL, activeAccount,
+					debuggingToolsEnabled));
+			addService(new MedicationAdministrationsHealthRecordService(consumerKey, consumerSecret, baseURL,
+					activeAccount,
+					debuggingToolsEnabled));
+			addService(new MedicationOrdersHealthRecordService(consumerKey, consumerSecret, baseURL, activeAccount,
+					debuggingToolsEnabled));
+			addService(new EquipmentHealthRecordService(consumerKey, consumerSecret, baseURL, activeAccount,
+					debuggingToolsEnabled));
+			addService(new HealthActionSchedulesHealthRecordService(consumerKey, consumerSecret, baseURL, activeAccount,
+					debuggingToolsEnabled));
+			addService(new MedicationScheduleItemsHealthRecordService(consumerKey, consumerSecret, baseURL,
+					activeAccount,
+					debuggingToolsEnabled));
+			addService(new VitalSignHealthRecordService(consumerKey, consumerSecret, baseURL, activeAccount,
+					debuggingToolsEnabled));
+			addService(new VideoMessagesHealthRecordService(consumerKey, consumerSecret, baseURL, activeAccount,
+					debuggingToolsEnabled));
+			addService(new MedicationFillsHealthRecordService(consumerKey, consumerSecret, baseURL, activeAccount,
+					debuggingToolsEnabled));
+			addService(new HealthActionPlansHealthRecordService(consumerKey, consumerSecret, baseURL, activeAccount,
+					debuggingToolsEnabled));
+			addService(new HealthActionResultsHealthRecordService(consumerKey, consumerSecret, baseURL, activeAccount,
 																		  debuggingToolsEnabled));
-			addService(new HealthActionResultsHealthRecordService(consumerKey, consumerSecret, baseURL, account,
+			addService(new HealthActionOccurrencesHealthRecordService(consumerKey, consumerSecret, baseURL, activeAccount,
 																		  debuggingToolsEnabled));
-			addService(new HealthActionOccurrencesHealthRecordService(consumerKey, consumerSecret, baseURL, account,
-																		  debuggingToolsEnabled));
+			var messagesHealthRecordService:MessagesHealthRecordService = new MessagesHealthRecordService(consumerKey,
+					consumerSecret, baseURL,
+					activeAccount, debuggingToolsEnabled,
+					Message.DOCUMENT_TYPE, Message, Schemas.MessageSchema);
+			messagesHealthRecordService.activeRecordAccount = activeRecordAccount;
+			addService(messagesHealthRecordService);
 			addService(_adherenceItemsHealthRecordService);
-			addService(new HealthChartsInitializationService(consumerKey, consumerSecret, baseURL, account,
-																		  debuggingToolsEnabled));
+			addService(new HealthChartsInitializationService(consumerKey, consumerSecret, baseURL, activeAccount,
+					debuggingToolsEnabled));
 
 			for each (var service:DocumentStorageServiceBase in _services)
 			{
 				service.addEventListener(DocumentStorageServiceBase.IS_LOADING_CHANGE_EVENT,
-										 service_isLoadingChangeHandler, false, 0, true);
+						service_isLoadingChangeHandler, false, 0, true);
 			}
 		}
 
@@ -213,13 +223,15 @@ package collaboRhythm.core.model.healthRecord
 				checkForDuplicates();
 
 				// TODO: loading is complete, but we are not distinguishing between failed/complete results for each service; some may have failed
-				_logger.info("Loading documents COMPLETE. " + _currentRecord.currentDocumentsById.size() + " documents loaded " + loadingMessageSuffix);
+				_logger.info("Loading documents COMPLETE. " + _currentRecord.currentDocumentsById.size() +
+						" documents loaded " + loadingMessageSuffix);
 				_currentRecord.dateLoaded = _currentDateSource.now();
 				isLoading = false;
 			}
 			else
 			{
-				_logger.info("Loading documents in progress. " + _pendingServices.length + " service(s) pending: " + getServiceNamesFromCollection(_pendingServices));
+				_logger.info("Loading documents in progress. " + _pendingServices.length + " service(s) pending: " +
+						getServiceNamesFromCollection(_pendingServices));
 			}
 		}
 
@@ -262,7 +274,9 @@ package collaboRhythm.core.model.healthRecord
 				var elapsedTime:Number = (new Date()).valueOf() - startTime;
 				var messageSuffix:String = " Checked " + documentsCount + " documents in " + elapsedTime + " ms.";
 				if (documentsToDelete.length > 0)
-					_logger.warn("DUPLICATES --- Detected " + documentsToDelete.length + " duplicate documents" + (VOID_ALL_DUPLICATES ? " and marked them for deletion (void)" : " but left them untouched") + "." + messageSuffix);
+					_logger.warn("DUPLICATES --- Detected " + documentsToDelete.length + " duplicate documents" +
+							(VOID_ALL_DUPLICATES ? " and marked them for deletion (void)" : " but left them untouched") +
+							"." + messageSuffix);
 				else
 					_logger.info("No duplicates detected." + messageSuffix);
 			}
@@ -272,31 +286,39 @@ package collaboRhythm.core.model.healthRecord
 		{
 			var documentToDelete:DocumentBase;
 			var documentToKeep:DocumentBase;
-			if (document1.meta.createdAt.valueOf() < document2.meta.createdAt.valueOf())
-			{
-				documentToDelete = document1;
-				documentToKeep = document2;
-			}
-			else
-			{
-				documentToDelete = document2;
-				documentToKeep = document1;
-			}
 
-			_logger.warn("  Duplicate detected: " + documentToDelete.meta.type + " " +
-								 documentToDelete.meta.id + " created " + DateUtil.toW3CDTF(documentToDelete.meta.createdAt) +
-								 " is older than " +
-								 documentToKeep.meta.id + " created " + DateUtil.toW3CDTF(documentToKeep.meta.createdAt));
+			//TODO: determine if messages should not be treated as documents and therefore this check can be removed
+			//messages don't have meta data, so check to see if there is meta data first
+			if (document1.meta.createdAt && document2.meta.createdAt)
+			{
+				if (document1.meta.createdAt.valueOf() < document2.meta.createdAt.valueOf())
+				{
+					documentToDelete = document1;
+					documentToKeep = document2;
+				}
+				else
+				{
+					documentToDelete = document2;
+					documentToKeep = document1;
+				}
 
-			if (VOID_ALL_DUPLICATES)
-				currentRecord.removeDocument(documentToDelete, DocumentBase.ACTION_VOID, "automatic duplicate detection", true);
+				_logger.warn("  Duplicate detected: " + documentToDelete.meta.type + " " +
+						documentToDelete.meta.id + " created " + DateUtil.toW3CDTF(documentToDelete.meta.createdAt) +
+						" is older than " +
+						documentToKeep.meta.id + " created " + DateUtil.toW3CDTF(documentToKeep.meta.createdAt));
+
+				if (VOID_ALL_DUPLICATES)
+					currentRecord.removeDocument(documentToDelete, DocumentBase.ACTION_VOID,
+							"automatic duplicate detection", true);
+			}
 
 			return documentToDelete;
 		}
 
 		private function get loadingMessageSuffix():String
 		{
-			return "using " + _services.length + " document storage " + (_services.length == 1 ? "service" : "services") + " (" + getServiceNames(_services) + ")";
+			return "using " + _services.length + " document storage " +
+					(_services.length == 1 ? "service" : "services") + " (" + getServiceNames(_services) + ")";
 		}
 
 		private function getServiceNames(services:Vector.<DocumentStorageServiceBase>):String
@@ -339,7 +361,7 @@ package collaboRhythm.core.model.healthRecord
 			_saveChangesHealthRecordService.resetUnexpectedErrorChangeSet();
 		}
 
-		public function saveChanges(record:Record, documents:ArrayCollection, relationships:ArrayCollection=null):void
+		public function saveChanges(record:Record, documents:ArrayCollection, relationships:ArrayCollection = null):void
 		{
 			_saveChangesHealthRecordService.saveChanges(record, documents, relationships);
 		}

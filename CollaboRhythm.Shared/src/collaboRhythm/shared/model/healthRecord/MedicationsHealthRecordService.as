@@ -17,12 +17,12 @@
 package collaboRhythm.shared.model.healthRecord
 {
 
-    import collaboRhythm.shared.model.Account;
-    import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.Record;
 
-    import org.indivo.client.IndivoClientEvent;
+	import org.indivo.client.IndivoClientEvent;
 
-    public class MedicationsHealthRecordService extends PhaHealthRecordServiceBase
+	public class MedicationsHealthRecordService extends PhaHealthRecordServiceBase
 	{
         // Indivo Api calls used in this healthRecordService
         public static const GET_MEDICATIONORDERS_REPORT:String = "Get MedicationOrders Report";
@@ -41,13 +41,17 @@ package collaboRhythm.shared.model.healthRecord
         {
             _apiCallsCompleted = 0;
 
-            var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_MEDICATIONORDERS_REPORT, null, record);
+            var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_MEDICATIONORDERS_REPORT,
+					null, record);
             _pha.reports_minimal_X_GET(null, null, null, null, record.id, "medicationorders", _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
-            healthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_MEDICATIONSCHEDULEITEMS_REPORT, null, record);
+            healthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_MEDICATIONSCHEDULEITEMS_REPORT,
+					null, record);
             _pha.reports_minimal_X_GET(null, null, null, null, record.id, "medicationscheduleitems", _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
-            healthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_MEDICATIONADMINISTRATIONS_REPORT, null, record);
+            healthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_MEDICATIONADMINISTRATIONS_REPORT,
+					null, record);
             _pha.reports_minimal_X_GET(null, null, null, null, record.id, "medicationadministrations", _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
-            healthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_MEDICATIONFILLS_REPORT, null, record);
+            healthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_MEDICATIONFILLS_REPORT, null,
+					record);
             _pha.reports_minimal_X_GET(null, null, null, null, record.id, "medicationfills", _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
         }
 

@@ -29,6 +29,7 @@ package collaboRhythm.plugins.medications.model
 
 		private var _model:MedicationHealthActionListViewModel;
 		private var _controller:HealthActionListViewControllerBase;
+		private var _instructionalVideo:String = "";
 
 		public function MedicationHealthActionListViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
 															  healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
@@ -121,6 +122,16 @@ package collaboRhythm.plugins.medications.model
 				return _medicationOrder.instructions;
 			else
 				return "";
+		}
+
+		public function get instructionalVideo():String
+		{
+			return _instructionalVideo;
+		}
+
+		public function set instructionalVideo(value:String):void
+		{
+			_instructionalVideo = value;
 		}
 
 		public function get model():IHealthActionListViewModel

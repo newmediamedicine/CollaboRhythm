@@ -2,18 +2,11 @@ package collaboRhythm.core.model.tests.healthRecord.service
 {
 
 	import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
-	import collaboRhythm.core.model.healthRecord.service.AdherenceItemsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.DocumentStorageServiceBase;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
-	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.services.DefaultCurrentDateSource;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
-
-	import org.flexunit.asserts.assertEquals;
-
-	import org.flexunit.asserts.assertNotNull;
-	import org.flexunit.runners.Parameterized;
 
 	[RunWith("org.flexunit.runners.Parameterized")]
 	public class MarshallDocumentTypesTest
@@ -225,7 +218,8 @@ package collaboRhythm.core.model.tests.healthRecord.service
 				WorkstationKernel.instance.registerComponentInstance("CurrentDateSource", ICurrentDateSource,
 																	 dateSource);
 			}
-			serviceFacade = new HealthRecordServiceFacade(null, null, "", null, settings.debuggingToolsEnabled);
+			serviceFacade = new HealthRecordServiceFacade(null, null, "", null, _activeRecordAccount,
+					settings.debuggingToolsEnabled);
 		}
 
 //		[Test(dataProvider="data", description = "Tests that unmarshalling from XML and then back results in the exact same string")]

@@ -11,5 +11,9 @@ package collaboRhythm.shared.model
 														 synchronizeDataName:String,
 														 synchronizeDataByteArray:ByteArray,
 														 sourcePeerId:String, passWord:String):void;
+
+		function receiveMessage(messageDataName:String, messageDataByteArray:ByteArray):void;
+
+		function sendMessage(accountId:String, messageData:*):void;
 	}
 }

@@ -97,7 +97,7 @@ package collaboRhythm.shared.controller.apps
 		private var _createFullViewOnInitialize:Boolean = false;
 		protected var _navigationProxy:IApplicationNavigationProxy;
 		private var _fullViewTitle:String;
-		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
+		protected var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
 
 		public function AppControllerBase(constructorParams:AppControllerConstructorParams)
 		{
