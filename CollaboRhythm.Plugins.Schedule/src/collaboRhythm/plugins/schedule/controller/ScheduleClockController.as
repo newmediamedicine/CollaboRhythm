@@ -22,6 +22,7 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.plugins.schedule.view.ScheduleClockWidgetView;
 	import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+	import collaboRhythm.shared.collaboration.model.CollaborationModel;
 	import collaboRhythm.shared.collaboration.model.CollaborationViewSynchronizationEvent;
 
 	import flash.events.EventDispatcher;
@@ -67,23 +68,23 @@ package collaboRhythm.plugins.schedule.controller
 
 		public function openScheduleReportingFullView(source:String, selectedScheduleGroup:ScheduleGroup):void
 		{
-//			if (source == "local")
-//			{
-//				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
-//						"openScheduleReportingFullView",
-//						selectedScheduleGroup);
-//			}
-//
-//			for each (var scheduleGroup:ScheduleGroup in _scheduleModel.scheduleGroupsCollection)
-//			{
-//				if (scheduleGroup.dateStart.getTime() == selectedScheduleGroup.dateStart.getTime() &&
-//						scheduleGroup.dateEnd.getTime() == selectedScheduleGroup.dateEnd.getTime())
-//				{
-//					_scheduleModel.scheduleReportingModel.currentScheduleGroup = scheduleGroup;
-//				}
-//			}
+			if (source == "local" && _collaborationLobbyNetConnectionServiceProxy.collaborationState == CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"openScheduleReportingFullView",
+						selectedScheduleGroup);
+			}
 
-			_scheduleModel.scheduleReportingModel.currentScheduleGroup = selectedScheduleGroup;
+			for each (var scheduleGroup:ScheduleGroup in _scheduleModel.scheduleGroupsCollection)
+			{
+				if (scheduleGroup.dateStart.getTime() == selectedScheduleGroup.dateStart.getTime() &&
+						scheduleGroup.dateEnd.getTime() == selectedScheduleGroup.dateEnd.getTime())
+				{
+					_scheduleModel.scheduleReportingModel.currentScheduleGroup = scheduleGroup;
+				}
+			}
+
+//			_scheduleModel.scheduleReportingModel.currentScheduleGroup = selectedScheduleGroup;
 
 			var scheduleViewInitializationParameters:ScheduleViewInitializationParameters = new ScheduleViewInitializationParameters(_scheduleAppController,
 					_scheduleModel);

@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+					   creationComplete="creationCompleteHandler(event)"
+					   remove="removeHandler(event)">
+	<fx:Style>
+		#messageTextInput {
+			fontSize: 20;
+		}
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.messages.controller.MessagesAppController;
+		import collaboRhythm.plugins.messages.model.MessagesModelAndController;
+		import collaboRhythm.shared.model.healthRecord.document.Message;
+		import collaboRhythm.shared.model.healthRecord.document.MessagesModel;
+
+		import mx.events.CollectionEvent;
+		import mx.events.CollectionEventKind;
+		import mx.events.FlexEvent;
+
+		import spark.collections.Sort;
+		import spark.collections.SortField;
+
+		[Bindable]
+		private var _messagesModel:MessagesModel;
+		private var _messagesAppController:MessagesAppController;
+
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+
+			var messagesModelAndController:MessagesModelAndController = value as MessagesModelAndController;
+
+			_messagesModel = messagesModelAndController.messagesModel;
+			_messagesAppController = messagesModelAndController.messagesAppController;
+
+			_messagesModel.documents.addEventListener(CollectionEvent.COLLECTION_CHANGE,
+					messagesCollection_changeHandler);
+		}
+
+		private function messagesCollection_changeHandler(event:CollectionEvent):void
+		{
+			if (event.kind == CollectionEventKind.ADD)
+			{
+				messagesList.dataGroup.verticalScrollPosition = messagesList.dataGroup.contentHeight;
+			}
+		}
+
+		private function sendButton_clickHandler():void
+		{
+			_messagesAppController.createAndSendMessage(messageTextInput.text);
+			messageTextInput.text = "";
+		}
+
+		private function creationCompleteHandler(event:FlexEvent):void
+		{
+			var sort:Sort = new Sort();
+			sort.fields = [new SortField("received_at")];
+			_messagesModel.documents.sort = sort;
+			_messagesModel.documents.refresh();
+
+			callLater(scrollToEnd);
+		}
+
+		private function scrollToEnd():void
+		{
+			messagesList.dataGroup.verticalScrollPosition = messagesList.dataGroup.contentHeight - messagesList.height;
+		}
+
+		private function removeHandler(event:FlexEvent):void
+		{
+			for each (var message:Message in _messagesModel.documents)
+			{
+				if (message.read_at == "" || message.read_at == null)
+				{
+					message.read_at = (new Date()).toString();
+				}
+			}
+		}
+		]]></fx:Script>
+	<s:VGroup width="100%" height="100%" gap="0">
+		<s:List id="messagesList" width="100%" height="100%" dataProvider="{_messagesModel.documents}"
+				itemRenderer="collaboRhythm.plugins.messages.view.MessageItemRenderer" interactionMode="touch"
+				horizontalScrollPolicy="off"/>
+		<s:Group width="100%" height="100">
+			<s:Line width="100%" top="0">
+				<s:stroke>
+					<s:SolidColorStroke color="0x666666"/>
+				</s:stroke>
+			</s:Line>
+			<s:HGroup left="10" right="10" top="10" bottom="10" gap="20">
+				<s:TextArea id="messageTextInput" height="100%" width="100%"
+							skinClass="spark.skins.spark.TextAreaSkin"/>
+				<s:Button label="Send" height="100%" width="100" click="sendButton_clickHandler()"/>
+			</s:HGroup>
+			<s:Rect>
+				<s:fill>
+					<s:SolidColor color="0x333333"/>
+				</s:fill>
+			</s:Rect>
+		</s:Group>
+	</s:VGroup>
+</tablet:TabletViewBase>

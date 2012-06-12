@@ -1,10 +1,10 @@
 package collaboRhythm.shared.model.healthRecord
 {
+	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.healthRecord.document.Message;
 
-    import collaboRhythm.shared.model.Account;
-    import collaboRhythm.shared.model.Record;
-
-    public class HealthRecordServiceRequestDetails
+	public class HealthRecordServiceRequestDetails
     {
         private var _indivoApiCall:String;
         private var _account:Account;
@@ -14,14 +14,20 @@ package collaboRhythm.shared.model.healthRecord
 		private var _failedAttempts:int = 0;
 		private var _document:IDocument;
 		private var _customData:Object;
+		private var _message:Message;
 
-		public function HealthRecordServiceRequestDetails(indivoApiCall:String=null, account:Account=null, record:Record=null, report:String=null, category:String=null)
+		public function HealthRecordServiceRequestDetails(indivoApiCall:String = null,
+														  account:Account = null,
+														  record:Record = null,
+														  report:String = null, category:String = null,
+														  message:Message = null)
 		{
             _indivoApiCall = indivoApiCall;
             _account = account;
             _record = record;
 			_report = report;
 			_category = category;
+			_message = message;
 		}
 
         public function get indivoApiCall():String
@@ -83,6 +89,16 @@ package collaboRhythm.shared.model.healthRecord
 		public function set customData(value:Object):void
 		{
 			_customData = value;
+		}
+
+		public function get message():Message
+		{
+			return _message;
+		}
+
+		public function set message(value:Message):void
+		{
+			_message = value;
 		}
 	}
 }

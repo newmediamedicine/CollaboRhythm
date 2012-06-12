@@ -26,7 +26,28 @@ package collaboRhythm.shared.collaboration.model
 			_collaborationModel = _collaborationLobbyNetConnectionService.collaborationModel;
 			_netConnection = _collaborationLobbyNetConnectionService.netConnection;
 			_netConnection.client.receiveCollaborationViewSynchronization = receiveCollaborationViewSynchronization;
+			_netConnection.client.receiveMessage = receiveMessage;
 			_registeredAliases = new Vector.<String>;
+		}
+
+		public function sendMessage(accountId:String, messageData:*):void
+		{
+			var messageDataName:String = getQualifiedClassName(messageData);
+			var messageDataByteArray:ByteArray = new ByteArray();
+			registerClassAliasForSynchronizeData(messageDataName);
+			messageDataByteArray.writeObject(messageData);
+			messageDataByteArray.position = 0;
+			_netConnection.call("sendMessage", null, accountId, messageDataName, messageDataByteArray);
+		}
+
+		public function receiveMessage(messageDataName:String, messageDataByteArray:ByteArray):void
+		{
+			registerClassAliasForSynchronizeData(messageDataName);
+			var messageData:* = messageDataByteArray.readObject();
+
+			var collaborationMessageEvent:MessageEvent = new MessageEvent(MessageEvent.MESSAGE,
+					messageData);
+			dispatchEvent(collaborationMessageEvent);
 		}
 
 		public function sendCollaborationViewSynchronization(synchronizeClassName:String, synchronizeFunction:String,
@@ -73,6 +94,11 @@ package collaboRhythm.shared.collaboration.model
 				registerClassAlias(synchronizeDataName, _applicationDomain.getDefinition(synchronizeDataName) as Class);
 				_registeredAliases.push(synchronizeDataName);
 			}
+		}
+
+		public function get collaborationState():String
+		{
+			return _collaborationModel.collaborationState;
 		}
 	}
 }

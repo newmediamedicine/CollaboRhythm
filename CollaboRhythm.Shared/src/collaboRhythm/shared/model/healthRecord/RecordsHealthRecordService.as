@@ -1,15 +1,13 @@
 package collaboRhythm.shared.model.healthRecord
 {
 
-    import collaboRhythm.shared.model.Account;
-    import collaboRhythm.shared.model.Record;
-    import collaboRhythm.shared.model.settings.Settings;
+	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.settings.Settings;
 
-    import j2as3.collection.HashMap;
+	import org.indivo.client.IndivoClientEvent;
 
-    import org.indivo.client.IndivoClientEvent;
-
-    public class RecordsHealthRecordService extends PhaHealthRecordServiceBase
+	public class RecordsHealthRecordService extends PhaHealthRecordServiceBase
     {
         // Indivo Api calls used in this healthRecordService
         public static const GET_RECORDS:String = "Get Records";
@@ -98,7 +96,8 @@ package collaboRhythm.shared.model.healthRecord
         // call to get the account that owns a record that is shared with the account actively in session
         private function getRecordOwner(record:Record):void
         {
-            var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_RECORD_OWNER, null, record);
+            var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_RECORD_OWNER,
+					null, record);
             _pha.records_X_owner_GET(null, null, null, record.id, _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
         }
 

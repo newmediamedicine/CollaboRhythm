@@ -68,7 +68,8 @@ package collaboRhythm.core.model.healthRecord.service
 			if (_limit >= 0)
 				params["limit"] = _limit;
 			
-			var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_REPORTS_MINIMAL, null, record, indivoReportName);
+			var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_REPORTS_MINIMAL,
+					null, record, indivoReportName);
 			_pha.reports_minimal_X_GET(params, null, null, null, record.id, indivoReportName, _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
 			_pendingReportRequests.put(PRIMARY_REPORT_REQUEST, PRIMARY_REPORT_REQUEST);
 		}

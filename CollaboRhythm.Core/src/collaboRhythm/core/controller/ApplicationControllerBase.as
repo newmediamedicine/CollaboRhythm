@@ -967,9 +967,8 @@ package collaboRhythm.core.controller
 		{
 			// TODO: What if we are already saving or loading? What if there are unsaved pending changes?
 			_healthRecordServiceFacade = new HealthRecordServiceFacade(settings.oauthChromeConsumerKey,
-					settings.oauthChromeConsumerSecret,
-					settings.indivoServerBaseURL, _activeAccount,
-					settings.debuggingToolsEnabled);
+					settings.oauthChromeConsumerSecret, settings.indivoServerBaseURL, _activeAccount,
+					_activeRecordAccount, settings.debuggingToolsEnabled);
 			BindingUtils.bindSetter(serviceIsLoading_changeHandler, _healthRecordServiceFacade, "isLoading");
 			BindingUtils.bindSetter(serviceIsSaving_changeHandler, _healthRecordServiceFacade, "isSaving");
 			BindingUtils.bindSetter(serviceHasConnectionErrorsSaving_changeHandler, _healthRecordServiceFacade,

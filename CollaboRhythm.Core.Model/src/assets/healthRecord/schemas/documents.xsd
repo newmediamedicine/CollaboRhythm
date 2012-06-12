@@ -16,7 +16,6 @@
   -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 		   targetNamespace="http://indivo.org/vocab/xml/documents#"
-		   xmlns:indivo="http://indivo.org/vocab/xml/documents#"
 		   elementFormDefault="qualified">
 
 	<xs:include schemaLocation="codes.xsd"/>
@@ -39,4 +38,5 @@
 	<xs:include schemaLocation="VideoMessage.xsd"/>
 	<xs:include schemaLocation="VitalSign.xsd"/>
 	<xs:include schemaLocation="HealthActionPlan.xsd"/>
+	<xs:include schemaLocation="Message.xsd"/>
 </xs:schema>

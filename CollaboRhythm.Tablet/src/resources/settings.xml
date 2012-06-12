@@ -36,7 +36,7 @@
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Equipment/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Medications/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Schedule/bin-debug</pluginSearchPath>
-		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.VideoMessages/bin-debug</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Messages/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.ForaD40b/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.HealthActions/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.HealthCharts/bin-debug</pluginSearchPath>
@@ -63,6 +63,7 @@
 			<appDescriptors>
 				<appDescriptor>collaboRhythm.plugins.healthActions.controller::HealthActionsAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.healthCharts.controller::HealthChartsAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.plugins.messages.controller::MessagesAppController</appDescriptor>
 			</appDescriptors>
 		</appGroup>
 	</appGroups>

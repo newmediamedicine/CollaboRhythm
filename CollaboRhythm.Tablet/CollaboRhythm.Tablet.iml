@@ -43,7 +43,7 @@
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.HealthActions/bin-debug/HealthActionsPluginModule.swf" path-in-package="plugins/HealthActionsPluginModule.swf" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.HypertensionEducation/bin-debug/HypertensionEducationPluginModule.swf" path-in-package="plugins/HypertensionEducationPluginModule.swf" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.InsulinTitrationSupport/bin-debug/CollaboRhythm_Plugins_InsulinTitrationSupportPluginModule.swf" path-in-package="plugins/InsulinTitrationSupportPluginModule.swf" />
-            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.VideoMessages/bin-debug/VideoMessagesPluginModule.swf" path-in-package="plugins/VideoMessagesPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Messages/bin-debug/MessagesPluginModule.swf" path-in-package="plugins/MessagesPluginModule.swf" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Medications.Insulin/bin-debug/InsulinPluginModule.swf" path-in-package="plugins/InsulinPluginModule.swf" />
           </files-to-package>
           <AirSigningOptions keystore-path="$MODULE_DIR$/../CollaboRhythm.Workstation/CollaboRhythmKeystore.p12" />

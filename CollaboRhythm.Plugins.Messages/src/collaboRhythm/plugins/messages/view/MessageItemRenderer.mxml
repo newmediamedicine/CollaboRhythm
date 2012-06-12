@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				height="100">
+	<fx:Script><![CDATA[
+		import collaboRhythm.shared.model.healthRecord.document.Message;
+		import collaboRhythm.shared.model.healthRecord.document.MessagesModel;
+
+		public static const ACCOUNT_IMAGES_API_URL_BASE:String = "http://www.mit.edu/~jom/temp/accountImages/";
+
+		[Bindable]
+		private var _message:Message;
+
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+
+			_message = value as Message;
+
+			if (_message.type == MessagesModel.SENT)
+			{
+				senderImage.left = null;
+				senderImage.right = 0;
+				body.left = null;
+				body.right = this.height + 20;
+				body.setStyle("textAlign", "right")
+			}
+			else if (_message.type == MessagesModel.RECEIVED)
+			{
+				senderImage.right = null;
+				senderImage.left = 0;
+				body.right = null;
+				body.left = this.height + 20;
+				body.setStyle("textAlign", "left")
+			}
+
+			senderImage.source = imageURI(_message.sender);
+
+			body.text = _message.body;
+		}
+
+		public function imageURI(sender:String):String
+		{
+			return accountIdPrefix(sender) ? ACCOUNT_IMAGES_API_URL_BASE + accountIdPrefix(sender) + ".jpg" : null;
+		}
+
+		private function accountIdPrefix(sender:String):String
+		{
+			return sender ? sender.split("@")[0] : null;
+		}
+		]]></fx:Script>
+	<s:Image id="senderImage" height="{this.height}" width="{this.height}"/>
+	<s:Label id="body" top="10" text="{_message.body}" width="{this.width - 140}" maxDisplayedLines="4"/>
+	<s:Line width="100%" bottom="0">
+		<s:stroke>
+			<s:SolidColorStroke color="0x666666"/>
+		</s:stroke>
+	</s:Line>
+</s:ItemRenderer>

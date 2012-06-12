@@ -1,8 +1,9 @@
 package collaboRhythm.plugins.schedule.shared.controller
 {
-//	import collaboRhythm.nativeExtensions.playVideo.flex.PlayVideoInterface;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewModel;
+
+	import com.adobe.nativeExtensions.Vibration;
 
 	public class HealthActionListViewControllerBase implements IHealthActionListViewController
 	{
@@ -37,8 +38,8 @@ package collaboRhythm.plugins.schedule.shared.controller
 		{
 			// TODO: Currently using the vibration native extension with modifications to play a video
 			// it is commented out here and in the manifest because it interferes with debugging
-//			var vibration:Vibration = new Vibration();
-//			vibration.vibrate(2000);
+			var vibration:Vibration = new Vibration();
+			vibration.vibrate(2000);
 		}
 	}
 }

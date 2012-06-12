@@ -34,6 +34,7 @@ package collaboRhythm.shared.model
 	import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrdersModel;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItemsModel;
+	import collaboRhythm.shared.model.healthRecord.document.MessagesModel;
 	import collaboRhythm.shared.model.healthRecord.document.ProblemsModel;
 	import collaboRhythm.shared.model.healthRecord.document.VideoMessagesModel;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
@@ -70,6 +71,7 @@ package collaboRhythm.shared.model
         private var _appData:HashMap = new HashMap();
 		private var _vitalSignsModel:VitalSignsModel;
 		private var _healthActionPlansModel:HealthActionPlansModel;
+		private var _messagesModel:MessagesModel;
 		private var _newRelationships:ArrayCollection = new ArrayCollection(); // of Relationship instances that have not been persisted
 
 		// TODO: move HealthChartsModel to blood pressure plugin; eliminate healthChartsModel property and field; use appData instead
@@ -106,6 +108,7 @@ package collaboRhythm.shared.model
             problemsModel = new ProblemsModel();
 			vitalSignsModel = new VitalSignsModel();
 			healthActionPlansModel = new HealthActionPlansModel();
+			messagesModel = new MessagesModel();
 
 			documentCollections.clear();
 			addDocumentCollection(medicationOrdersModel);
@@ -119,6 +122,7 @@ package collaboRhythm.shared.model
 			addDocumentCollection(problemsModel);
 			addDocumentCollection(vitalSignsModel);
 			addDocumentCollection(healthActionPlansModel);
+			addDocumentCollection(messagesModel);
 		}
 
 		protected function addDocumentCollection(documentCollection:IDocumentCollection):void
@@ -654,6 +658,17 @@ package collaboRhythm.shared.model
 		public function set healthActionPlansModel(value:HealthActionPlansModel):void
 		{
 			_healthActionPlansModel = value;
+			addDocumentCollection(value);
+		}
+
+		public function get messagesModel():MessagesModel
+		{
+			return _messagesModel;
+		}
+
+		public function set messagesModel(value:MessagesModel):void
+		{
+			_messagesModel = value;
 			addDocumentCollection(value);
 		}
 	}
