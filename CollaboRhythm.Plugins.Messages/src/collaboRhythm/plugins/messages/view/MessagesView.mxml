@@ -107,7 +107,7 @@
 			</s:Line>
 			<s:HGroup left="10" right="10" top="10" bottom="10" gap="20">
 				<s:TextArea id="messageTextInput" height="100%" width="100%"
-							skinClass="spark.skins.spark.TextAreaSkin"/>
+							skinClass="spark.skins.mobile.StageTextAreaSkin"/>
 				<s:Button label="Send" height="100%" width="100" click="sendButton_clickHandler()"/>
 			</s:HGroup>
 			<s:Rect>
