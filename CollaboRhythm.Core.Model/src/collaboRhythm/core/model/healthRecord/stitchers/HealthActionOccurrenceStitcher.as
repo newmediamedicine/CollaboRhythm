@@ -41,7 +41,7 @@ package collaboRhythm.core.model.healthRecord.stitchers
 				var healthActionResult:HealthActionResult = healthActionResultRelationship.relatesTo as HealthActionResult;
 				if (healthActionResult)
 				{
-					healthActionOccurrence.results.addItem(healthActionResult);
+					healthActionOccurrence.results.push(healthActionResult);
 					healthActionResult.healthActionOccurrence = healthActionOccurrence;
 				}
 			}

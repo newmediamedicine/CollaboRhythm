@@ -765,6 +765,11 @@ package collaboRhythm.shared.controller.apps
 			return result;
 		}
 
+		protected function get sparkView():View
+		{
+			return fullContainer as View;
+		}
+
 		private function viewNavigator_viewChangeCompleteHandler(event:Event):void
 		{
 			fullContainer.addElement(fullView);

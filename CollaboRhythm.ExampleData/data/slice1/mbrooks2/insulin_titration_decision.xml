@@ -56,6 +56,38 @@
 							</recurrenceRule>
 						</HealthActionSchedule>
 					</document>
+					<relatesTo>
+						<relation type="occurrence">
+							<LoadableIndivoDocument>
+								<document>
+									<HealthActionOccurrence xmlns="http://indivo.org/vocab/xml/documents#">
+										<name>Insulin Titration Decision</name>
+										<recurrenceIndex>0</recurrenceIndex>
+									</HealthActionOccurrence>
+								</document>
+								<relatesTo>
+									<relation type="healthActionResult">
+										<LoadableIndivoDocument>
+											<document>
+												<HealthActionResult xmlns="http://indivo.org/vocab/xml/documents/healthActionResult#"
+																	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+													<name>Insulin Titration Decision</name>
+													<planType>Prescribed</planType>
+													<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+													<dateReported>2011-07-15T13:42:05Z</dateReported>
+													<actions>
+														<action xsi:type="ActionStepResult">
+															<name>Chose a new dose</name>
+														</action>
+													</actions>
+												</HealthActionResult>
+											</document>
+										</LoadableIndivoDocument>
+									</relation>
+								</relatesTo>
+							</LoadableIndivoDocument>
+						</relation>
+					</relatesTo>
 				</LoadableIndivoDocument>
 			</relation>
 		</relatesTo>

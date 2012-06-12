@@ -71,5 +71,10 @@ package collaboRhythm.shared.model.healthRecord
         {
             _text = value;
         }
+
+		public function clone():CodedValue
+		{
+			return new CodedValue(type, value, abbrev, text);
+		}
     }
 }

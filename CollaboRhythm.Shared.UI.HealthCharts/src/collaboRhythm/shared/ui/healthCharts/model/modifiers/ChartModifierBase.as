@@ -5,6 +5,7 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
 
 	import spark.components.Group;
+	import spark.components.View;
 
 	public class ChartModifierBase
 	{
@@ -48,6 +49,15 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 		public function set chartModelDetails(chartModelDetails:IChartModelDetails):void
 		{
 			_chartModelDetails = chartModelDetails;
+		}
+
+		public function updateSparkView(view:View):void
+		{
+		}
+
+		public function save():Boolean
+		{
+			return true;
 		}
 	}
 }
