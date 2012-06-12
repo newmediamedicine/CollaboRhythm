@@ -19,7 +19,7 @@
 		>
 	<LoadableIndivoDocument>
 		<document>
-			<HealthActionPlan xmlns="http://indivo.org/vocab/xml/documents#"
+			<HealthActionPlan xmlns="http://indivo.org/vocab/xml/documents/healthActionPlan#"
 							  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 				<name>Insulin Titration Decision</name>
 				<planType>Prescribed</planType>

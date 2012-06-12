@@ -16,32 +16,33 @@
  */
 package collaboRhythm.core.model.healthRecord.stitchers
 {
+
 	import collaboRhythm.shared.model.*;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.Relationship;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionOccurrence;
-	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
+	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
 
-	public class HealthActionScheduleStitcher extends DocumentStitcherBase
+	public class HealthActionOccurrenceStitcher extends DocumentStitcherBase
     {
-        public function HealthActionScheduleStitcher(record:Record)
+        public function HealthActionOccurrenceStitcher(record:Record)
 		{
-			super(record, HealthActionSchedule.DOCUMENT_TYPE);
-			addRequiredDocumentType(HealthActionOccurrence.DOCUMENT_TYPE);
+			super(record, HealthActionOccurrence.DOCUMENT_TYPE);
+			addRequiredDocumentType(HealthActionResult.DOCUMENT_TYPE);
 		}
 
 		override protected function stitchSpecialReferencesOnDocument(document:IDocument):void
 		{
-			var healthActionSchedule:HealthActionSchedule = document as HealthActionSchedule;
-			for each (var healthActionOccurrenceRelationship:Relationship in healthActionSchedule.relatesTo)
+			var healthActionOccurrence:HealthActionOccurrence = document as HealthActionOccurrence;
+			for each (var healthActionResultRelationship:Relationship in healthActionOccurrence.relatesTo)
 			{
-				var healthActionOccurrence:HealthActionOccurrence = healthActionOccurrenceRelationship.relatesTo as HealthActionOccurrence;
-				if (healthActionOccurrence)
+				var healthActionResult:HealthActionResult = healthActionResultRelationship.relatesTo as HealthActionResult;
+				if (healthActionResult)
 				{
-					healthActionSchedule.occurrences.addItem(healthActionOccurrence);
-//					healthActionOccurrence.schedule = healthActionSchedule;
+					healthActionOccurrence.results.addItem(healthActionResult);
+					healthActionResult.healthActionOccurrence = healthActionOccurrence;
 				}
 			}
-	    }
+        }
     }
 }

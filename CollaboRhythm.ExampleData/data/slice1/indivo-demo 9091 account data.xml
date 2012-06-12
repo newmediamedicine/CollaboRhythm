@@ -69,61 +69,7 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId>b3ce662a-f125-45a2-b249-a551bd7bf004</recordId>
-    <status>Creating demographics. Failed on PUT
-
-
-
-
-
-			http://indivo-dev.media.mit.edu:9091/records/b3ce662a-f125-45a2-b249-a551bd7bf004/documents/special/demographics
-
-
-
-
-
-			Response: &lt;Error&gt;
-
-
-
-
-
-			&lt;InnerError&gt;
-
-
-
-
-
-			&lt;type&gt;complete&lt;/type&gt;
-
-
-
-
-
-			&lt;/InnerError&gt;
-
-
-
-
-
-			&lt;HTTPStatusEvent&gt;
-
-
-
-
-
-			&lt;status&gt;500&lt;/status&gt;
-
-
-
-
-
-			&lt;/HTTPStatusEvent&gt;
-
-
-
-
-
-			&lt;/Error&gt;</status>
+    <status/>
     <accessKey>at2RIzJ6RRoSVCu63mDA</accessKey>
     <accessSecret>1YbD3sHRYOJTCM26h8XQ</accessSecret>
     <demographicsId>7deb473e-c26d-4364-a240-3858b1a423ef</demographicsId>
@@ -167,6 +113,44 @@
     <demographicsId>79d7bffd-d268-42bb-bf61-480957846d88</demographicsId>
     <notes>Demo physician copy for titration</notes>
     <recordSeed/>
+  </AccountSource>
+  <AccountSource>
+    <accountId>schemastest1@records.media.mit.edu</accountId>
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    <fullName>Schemas Test1</fullName>
+    <username>schemastest1</username>
+    <password>schemastest1-dope75</password>
+    <givenName>Schemas</givenName>
+    <familyName>Test1</familyName>
+    <streetAddress>30 Green St</streetAddress>
+    <postalCode>94101</postalCode>
+    <locality>San Francisco</locality>
+    <region>California</region>
+    <country>US</country>
+    <timeZone>-8GMT</timeZone>
+    <emailPersonal>schemastest1@records.media.mit.edu</emailPersonal>
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    <instantMessengerName>schemastest1@records.media.mit.edu</instantMessengerName>
+    <dateOfBirth>1955-04-17T00:00:00Z</dateOfBirth>
+    <age>54</age>
+    <gender>Male</gender>
+    <ethnicity>Latino</ethnicity>
+    <language>English</language>
+    <maritalStatus>Married</maritalStatus>
+    <employmentStatus>Employed</employmentStatus>
+    <employmentIndustry>Banking</employmentIndustry>
+    <occupation>Branch Manager</occupation>
+    <religion>Protestant</religion>
+    <highestEducation>University</highestEducation>
+    <organDonar>true</organDonar>
+    <recordId>e0ce7acb-e84d-434b-b89f-2d7d270f22de</recordId>
+    <accessKey>2HruA3OT2Vusq0Ardcp7</accessKey>
+    <accessSecret>fmacL3q3OCBchVX045rp</accessSecret>
+    <status>Login successful</status>
+    <demographicsId>ef576e27-458e-423b-9066-15c9110a0eee</demographicsId>
+    <notes>Test single medication (hydrochlorothiazide)</notes>
+    <recordSeed>3</recordSeed>
   </AccountSource>
   <AccountSource>
     <accountId>singlemed1@records.media.mit.edu</accountId>
@@ -682,12 +666,12 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>590747de-f936-4d4d-9b68-ab0c69a8630c</recordId>
-    <accessKey>VRfpuV4E4nvAt01KQOZm</accessKey>
-    <accessSecret>a6GIB5K3NdEqR1qyOPpf</accessSecret>
+    <recordId>f7bd54f3-adf4-4d69-8559-4f01e57e6b7c</recordId>
+    <accessKey>MrxcctzntHHldQMPZgfO</accessKey>
+    <accessSecret>dKbGcw787HzCpI7NkTTL</accessSecret>
     <status>Created 225/225 documents, 219/220 relationships</status>
-    <demographicsId>e2f7dc77-bb63-4e19-af87-8247e9181490</demographicsId>
-    <recordSeed>5</recordSeed>
+    <demographicsId>7786a0a6-d4cf-4b6a-b2c1-8654fe420384</demographicsId>
+    <recordSeed>7</recordSeed>
     <notes>Demo for diabetes with titration</notes>
   </AccountSource>
   <AccountSource>
@@ -980,14 +964,14 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>0e9c1a35-c5d4-4959-9700-720215209886</recordId>
-    <status>Login successful</status>
-    <accessKey>OXrdSw26wDGgjeIOE6fj</accessKey>
-    <accessSecret>9sHTMnLZXLgQsoEAwoIH</accessSecret>
-    <demographicsId>0bd4a08d-0b5a-44b7-937b-e65fc983d051</demographicsId>
+    <recordId>33a17c35-a3cc-4a96-833d-5c19998907d6</recordId>
+    <status>Record shared.</status>
+    <accessKey>GDHIdnIyoBMaoPesLwIL</accessKey>
+    <accessSecret>oDRgwwyN772z6HWf6wIj</accessSecret>
+    <demographicsId>95c26b78-b703-45c4-a718-975d0303da12</demographicsId>
     <notes>Demo account for Mar and Oovit</notes>
-    <recordSeed>1</recordSeed>
+    <recordSeed/>
   </AccountSource>
-  <saveDate>Fri Jun 8 19:09:35 GMT-0400 2012</saveDate>
-  <indivoServerBaseURL>http://indivo-dev.media.mit.edu:9091</indivoServerBaseURL>
+  <saveDate>Fri Jun 8 19:11:50 GMT-0400 2012</saveDate>
+  <indivoServerBaseURL>http://indivo-demo.media.mit.edu:9091</indivoServerBaseURL>
 </dataroot>

@@ -20,14 +20,14 @@ package collaboRhythm.core.model.healthRecord.service
 	import collaboRhythm.core.model.healthRecord.Schemas;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionPlan;
-	import collaboRhythm.shared.model.healthRecord.document.supportClasses.Action;
-	import collaboRhythm.shared.model.healthRecord.document.supportClasses.ActionGroup;
-	import collaboRhythm.shared.model.healthRecord.document.supportClasses.ActionStep;
-	import collaboRhythm.shared.model.healthRecord.document.supportClasses.DevicePlan;
-	import collaboRhythm.shared.model.healthRecord.document.supportClasses.MeasurementPlan;
-	import collaboRhythm.shared.model.healthRecord.document.supportClasses.MedicationPlan;
-	import collaboRhythm.shared.model.healthRecord.document.supportClasses.StopCondition;
-	import collaboRhythm.shared.model.healthRecord.document.supportClasses.Target;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionPlan.Action;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionPlan.ActionGroup;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionPlan.ActionStep;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionPlan.DevicePlan;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionPlan.MeasurementPlan;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionPlan.MedicationPlan;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionPlan.StopCondition;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionPlan.Target;
 
 	public class HealthActionPlansHealthRecordService extends DocumentStorageSingleReportServiceBase
 	{
@@ -43,14 +43,15 @@ package collaboRhythm.core.model.healthRecord.service
 		override protected function initializeXmlMarshaller():void
 		{
 			super.initializeXmlMarshaller();
-			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "Action"), Action);
-			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "ActionGroup"), ActionGroup);
-			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "ActionStep"), ActionStep);
-			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "DevicePlan"), DevicePlan);
-			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "MeasurementPlan"), MeasurementPlan);
-			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "MedicationPlan"), MedicationPlan);
-			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "StopCondition"), StopCondition);
-			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "Target"), Target);
+
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/healthActionPlan#", "Action"), Action);
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/healthActionPlan#", "ActionGroup"), ActionGroup);
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/healthActionPlan#", "ActionStep"), ActionStep);
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/healthActionPlan#", "DevicePlan"), DevicePlan);
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/healthActionPlan#", "MeasurementPlan"), MeasurementPlan);
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/healthActionPlan#", "MedicationPlan"), MedicationPlan);
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/healthActionPlan#", "StopCondition"), StopCondition);
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents/healthActionPlan#", "Target"), Target);
 		}
 	}
 }

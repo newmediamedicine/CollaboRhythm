@@ -16,7 +16,9 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<HealthActionPlan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://indivo.org/vocab/xml/documents#">
+<HealthActionPlan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://indivo.org/vocab/xml/documents/healthActionPlan#"
+				  xmlns:indivo="http://indivo.org/vocab/xml/documents#"
+		>
 	<name type="http://actions.repository.coded.values/" value="Exercise Plan"> Exercise Plan 1 </name>
 	<planType>prescribed</planType>
 	<plannedBy>rpoole@records.media.mit.edu </plannedBy>
@@ -33,34 +35,34 @@
 				<target>
 					<name type="http://measures.coded.values/" value="1">Heart Rate</name>
 					<minimumValue>
-						<unit />
+						<indivo:unit />
 					</minimumValue>
 					<maximumValue>
-						<value>140</value>
-						<unit type="http://indivo.org/codes/units#" value="m" abbrev="m">bpm</unit>
+						<indivo:value>140</indivo:value>
+						<indivo:unit type="http://indivo.org/codes/units#" value="m" abbrev="m">bpm</indivo:unit>
 					</maximumValue>
 					<severityLevel type="http://severity.levels.coded.values/" value="2">High</severityLevel>
 				</target>
 				<target>
 					<name type="http://measures.coded.values/" value="2">Oxygenation</name>
 					<minimumValue>
-						<value>92</value>
-						<unit type="http://indivo.org/codes/units#" value="m" abbrev="m">%</unit>
+						<indivo:value>92</indivo:value>
+						<indivo:unit type="http://indivo.org/codes/units#" value="m" abbrev="m">%</indivo:unit>
 					</minimumValue>
 					<maximumValue>
-						<unit />
+						<indivo:unit />
 					</maximumValue>
 					<severityLevel type="http://severity.levels.coded.values/" value="2">High</severityLevel>
 				</target>
 				<target>
 					<name type="http://measures.coded.values/" value="1">Heart Rate</name>
 					<minimumValue>
-						<value>60</value>
-						<unit type="http://indivo.org/codes/units#" value="m" abbrev="m">bpm</unit>
+						<indivo:value>60</indivo:value>
+						<indivo:unit type="http://indivo.org/codes/units#" value="m" abbrev="m">bpm</indivo:unit>
 					</minimumValue>
 					<maximumValue>
-						<value>120</value>
-						<unit type="http://indivo.org/codes/units#" value="m" abbrev="m">bpm</unit>
+						<indivo:value>120</indivo:value>
+						<indivo:unit type="http://indivo.org/codes/units#" value="m" abbrev="m">bpm</indivo:unit>
 					</maximumValue>
 					<severityLevel type="http://severity.levels.coded.values/" value="1">Great Job</severityLevel>
 				</target>
@@ -122,8 +124,8 @@
 						<stopCondition>
 							<name type="http://measures.coded.values/" value="6">Time</name>
 							<value>
-								<value>1200</value>
-								<unit type="http://indivo.org/codes/units#" value="s" abbrev="s">seconds</unit>
+								<indivo:value>1200</indivo:value>
+								<indivo:unit type="http://indivo.org/codes/units#" value="s" abbrev="s">seconds</indivo:unit>
 							</value>
 							<operator type="http://comparison.operators/" value="2">Greater or equal than</operator>
 							<detail/>
@@ -143,8 +145,8 @@
 								<stopCondition>
 									<name type="http://measures.coded.values/" value="7">Repetitions</name>
 									<value>
-										<value>10</value>
-										<unit type="http://indivo.org/codes/units#" value="t" abbrev="t">Times</unit>
+										<indivo:value>10</indivo:value>
+										<indivo:unit type="http://indivo.org/codes/units#" value="t" abbrev="t">Times</indivo:unit>
 									</value>
 									<operator type="http://comparison.operators/" value="2">Greater or equal than</operator>
 									<detail/>
@@ -166,8 +168,8 @@
 								<stopCondition>
 									<name type="http://measures.coded.values/" value="7">Repetitions</name>
 									<value>
-										<value>10</value>
-										<unit type="http://indivo.org/codes/units#" value="t" abbrev="t">Times</unit>
+										<indivo:value>10</indivo:value>
+										<indivo:unit type="http://indivo.org/codes/units#" value="t" abbrev="t">Times</indivo:unit>
 									</value>
 									<operator type="http://comparison.operators/" value="2">Greater or equal than</operator>
 									<detail/>
@@ -180,8 +182,8 @@
 									<name/>
 									<type type="http://equipment.coded.values/" value="2">Dumbbell</type>
 									<value>
-										<value>500</value>
-										<unit type="http://indivo.org/codes/units#" value="g" abbrev="g">grams</unit>
+										<indivo:value>500</indivo:value>
+										<indivo:unit type="http://indivo.org/codes/units#" value="g" abbrev="g">grams</indivo:unit>
 									</value>		
 									<site type="http://equipment.coded.values/" value="2">Left Hand</site>			
 									<instructions>Lift the weight</instructions>					
@@ -201,8 +203,8 @@
 						<stopCondition>
 							<name type="http://measures.coded.values/" value="3">Repetitions</name>
 							<value>
-								<value>10</value>
-								<unit type="http://indivo.org/codes/units#" value="t" abbrev="t">Times</unit>
+								<indivo:value>10</indivo:value>
+								<indivo:unit type="http://indivo.org/codes/units#" value="t" abbrev="t">Times</indivo:unit>
 							</value>
 							<operator type="http://comparison.operators/" value="2">Greater or equal than</operator>
 							<detail/>

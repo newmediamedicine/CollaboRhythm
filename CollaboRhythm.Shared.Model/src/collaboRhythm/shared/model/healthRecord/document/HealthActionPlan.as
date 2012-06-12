@@ -8,7 +8,7 @@ package collaboRhythm.shared.model.healthRecord.document
 	[Bindable]
 	public class HealthActionPlan extends DocumentBase
 	{
-		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#HealthActionPlan";
+		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents/healthActionPlan#HealthActionPlan";
 
 		private var _name:CodedValue;
 		private var _planType:String;
@@ -107,7 +107,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		}
 
 		/**
-		 * Collection of collaboRhythm.shared.model.healthRecord.document.supportClasses.Action (ActionStep and ActionGroup) instances
+		 * Collection of collaboRhythm.shared.model.healthRecord.document.healthActionPlan.Action (ActionStep and ActionGroup) instances
 		 */
 		public function get actions():ArrayCollection
 		{
