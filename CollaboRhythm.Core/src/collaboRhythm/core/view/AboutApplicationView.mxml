@@ -15,16 +15,44 @@
 	</fx:Declarations>
 	<fx:Script><![CDATA[
 		import collaboRhythm.core.model.AboutApplicationModel;
+		import collaboRhythm.shared.model.settings.Settings;
+
+		import com.riaspace.nativeApplicationUpdater.NativeApplicationUpdater;
 
 		import mx.events.FlexEvent;
 
 		[Bindable]
 		private var _applicationInfo:AboutApplicationModel = new AboutApplicationModel();
+		private var _settings:Settings;
 
 		private function preinitializeHandler(event:FlexEvent):void
 		{
+			_applicationInfo.settings = settings;
 			_applicationInfo.initialize();
 			versionWatermarkGroup.visible = true;
+		}
+
+		public function get settings():Settings
+		{
+			return _settings;
+		}
+
+		public function set settings(value:Settings):void
+		{
+			_settings = value;
+			_applicationInfo.settings = settings;
+		}
+
+		private function checkForUpdateButton_clickHandler(event:MouseEvent):void
+		{
+			event.stopImmediatePropagation();
+			_applicationInfo.checkForUpdate();
+		}
+
+		private function updateNowButton_clickHandler(event:MouseEvent):void
+		{
+			event.stopImmediatePropagation();
+			_applicationInfo.updateNow();
 		}
 		]]></fx:Script>
 	<s:Rect width="100%" height="100%">
@@ -68,6 +96,13 @@
 				<s:Label id="applicationVersionLabel" text="Version {_applicationInfo.appVersion}"/>
 				<s:Label id="applicationModificationLabel" text="Updated {_applicationInfo.appModificationDateString}"
 						 visible="{_applicationInfo.appModificationDateString != null}"/>
+			</s:VGroup>
+			<s:VGroup id="updateGroup" width="100%" height="100%" fontSize="24" horizontalAlign="center" >
+				<s:Button id="checkForUpdateButton" label="Check for Update" click="checkForUpdateButton_clickHandler(event)" visible="{_applicationInfo.isUpdateDescriptorAvailable}" includeInLayout="{_applicationInfo.isUpdateDescriptorAvailable}"/>
+				<s:Label id="applicationUpdateAvailability"
+						 text="{_applicationInfo.appUpdateStatus}"/>
+				<s:Button id="updateNowButton" label="Update Now" click="updateNowButton_clickHandler(event)" visible="{_applicationInfo.isUpdateAvailable}" includeInLayout="{_applicationInfo.isUpdateAvailable}"/>
+				<mx:ProgressBar id="progressBar" source="{_applicationInfo.updater}" label="Downloading %3%" visible="{_applicationInfo.downloading}" includeInLayout="{_applicationInfo.downloading}"/>
 			</s:VGroup>
 		</s:VGroup>
 	</s:Group>

@@ -227,6 +227,7 @@ package collaboRhythm.workstation.controller
 			initializeConnectivityView();
 
 			_aboutApplicationView = new AboutApplicationView();
+			_aboutApplicationView.settings = settings;
 			primaryWindow.addElement(_aboutApplicationView);
 		}
 

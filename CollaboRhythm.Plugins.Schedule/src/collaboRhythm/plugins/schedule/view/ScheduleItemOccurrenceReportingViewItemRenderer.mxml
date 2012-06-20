@@ -58,7 +58,7 @@
 		private var _scheduleItemOccurrenceReportingController:IHealthActionListViewController;
 
 		private var _isDataSet:Boolean = false;
-		private var _instructionalVideo:String;
+		private var _instructionalVideoPath:String;
 
 		override public function set data(value:Object):void
 		{
@@ -88,13 +88,13 @@
 					primaryInstructionsLabel.text = scheduleItemOccurrenceReportingViewAdapter.primaryInstructions;
 					secondaryInstructionsLabel.text = scheduleItemOccurrenceReportingViewAdapter.secondaryInstructions;
 
-					if (scheduleItemOccurrenceReportingViewAdapter.instructionalVideo != "")
+					if (scheduleItemOccurrenceReportingViewAdapter.instructionalVideoPath != "")
 					{
 						secondaryInstructionsLabel.text = "Click to watch an instructional video";
 						secondaryInstructionsLabel.addEventListener(MouseEvent.CLICK,
 								secondaryInstructionsLabel_clickHandler);
 						secondaryInstructionsLabel.styleName = "secondaryInstructionsLabelLink";
-						_instructionalVideo = scheduleItemOccurrenceReportingViewAdapter.instructionalVideo;
+						_instructionalVideoPath = scheduleItemOccurrenceReportingViewAdapter.instructionalVideoPath;
 					}
 
 					var image:Image = scheduleItemOccurrenceReportingViewAdapter.image;
@@ -114,7 +114,7 @@
 
 		private function secondaryInstructionsLabel_clickHandler(event:MouseEvent):void
 		{
-			_scheduleItemOccurrenceReportingController.playVideo(_instructionalVideo);
+			_scheduleItemOccurrenceReportingController.playVideo(_instructionalVideoPath);
 		}
 
 		private function adherenceCheckBoxClickHandler(event:MouseEvent):void

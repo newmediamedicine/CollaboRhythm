@@ -26,6 +26,9 @@
             <entry library-id="73cf38ed-5aae-4e11-bfce-467f52c03bdc">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-id="092dc380-9bdb-417d-9fd6-2c5466a86dfb">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -72,6 +75,9 @@
               <dependency linkage="Merged" />
             </entry>
             <entry library-id="350588ab-5c30-411a-8619-f60cf60d99f0">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="167a450b-eb6f-4e63-bba3-2d58755ec563">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -140,6 +146,26 @@
         <JAVADOC />
         <SOURCES />
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="092dc380-9bdb-417d-9fd6-2c5466a86dfb" />
+        <CLASSES>
+          <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/applicationupdater.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="167a450b-eb6f-4e63-bba3-2d58755ec563" />
+        <CLASSES>
+          <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/applicationupdater.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
       </library>
     </orderEntry>
   </component>

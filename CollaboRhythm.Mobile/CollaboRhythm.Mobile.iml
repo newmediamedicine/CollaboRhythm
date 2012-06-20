@@ -38,6 +38,9 @@
             <entry module-name="CollaboRhythm.View.Scroll" build-configuration-name="CollaboRhythm.View.Scroll">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-id="8a3c5505-93da-414f-8a14-4700dff467f2">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -99,6 +102,16 @@
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" />
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
     <orderEntry type="library" name="Desktop libraries for mobile applications" level="project" />
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="8a3c5505-93da-414f-8a14-4700dff467f2" />
+        <CLASSES>
+          <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/applicationupdater.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 

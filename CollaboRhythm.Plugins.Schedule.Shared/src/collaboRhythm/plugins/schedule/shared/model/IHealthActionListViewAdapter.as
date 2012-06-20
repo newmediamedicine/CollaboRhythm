@@ -12,8 +12,12 @@ package collaboRhythm.plugins.schedule.shared.model
 		function get indication():String;
 		function get primaryInstructions():String;
 		function get secondaryInstructions():String;
-		function get instructionalVideo():String;
-		function set instructionalVideo(value:String):void
+
+		/**
+		 * Path to the video file instructing the user how to perform the health action.
+		 */
+		function get instructionalVideoPath():String;
+		function set instructionalVideoPath(value:String):void
 
 		function get model():IHealthActionListViewModel
 

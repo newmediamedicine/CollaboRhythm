@@ -34,12 +34,12 @@ package collaboRhythm.plugins.schedule.shared.controller
 			}
 		}
 
-		public function playVideo(instructionalVideo:String):void
+		public function playVideo(instructionalVideoPath:String):void
 		{
 			// TODO: Currently using the vibration native extension with modifications to play a video
 			// it is commented out here and in the manifest because it interferes with debugging
 			var vibration:Vibration = new Vibration();
-			vibration.vibrate(2000);
+			vibration.vibrate(instructionalVideoPath, "video/*");
 		}
 	}
 }

@@ -6,6 +6,7 @@
 					   title="CollaboRhythm Home">
 	<fx:Script><![CDATA[
 		import collaboRhythm.core.model.AboutApplicationModel;
+		import collaboRhythm.shared.model.settings.Settings;
 		import collaboRhythm.tablet.controller.TabletApplicationController;
 
 		import mx.core.IVisualElementContainer;
@@ -37,6 +38,7 @@
 
 		private function initializeVersionWatermark():void
 		{
+			_applicationInfo.settings = _tabletApplicationController.settings;
 			_applicationInfo.initialize();
 			if (_applicationInfo.appModificationDate != null)
 			{

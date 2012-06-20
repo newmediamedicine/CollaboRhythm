@@ -60,12 +60,12 @@ package collaboRhythm.plugins.painReport.model
 			return "";
 		}
 
-		public function get instructionalVideo():String
+		public function get instructionalVideoPath():String
 		{
 			return "";
 		}
 
-		public function set instructionalVideo(value:String):void
+		public function set instructionalVideoPath(value:String):void
 		{
 
 		}
