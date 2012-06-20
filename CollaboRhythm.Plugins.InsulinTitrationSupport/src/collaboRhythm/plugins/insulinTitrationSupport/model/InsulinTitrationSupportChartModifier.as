@@ -17,6 +17,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import com.dougmccune.controls.SeriesDataSet;
 	import com.theory9.data.types.OrderedMap;
 
+	import flash.events.MouseEvent;
+
 	import mx.collections.ArrayCollection;
 
 	import mx.core.IVisualElement;
@@ -24,9 +26,13 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 	import qs.charts.dataShapes.DataDrawingCanvas;
 
+	import spark.components.Button;
+
 	import spark.components.Group;
 	import spark.components.Label;
+	import spark.components.View;
 	import spark.primitives.Rect;
+	import spark.skins.mobile.TransparentActionButtonSkin;
 
 	public class InsulinTitrationSupportChartModifier extends ChartModifierBase implements IChartModifier
 	{
@@ -139,7 +145,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 //			}
 		}
 
-
 		override public function set chartModelDetails(chartModelDetails:IChartModelDetails):void
 		{
 			super.chartModelDetails = chartModelDetails;
@@ -147,6 +152,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			{
 				_insulinTitrationDecisionPanelModel.chartModelDetails = chartModelDetails;
 			}
+		}
+
+		override public function save():Boolean
+		{
+			if (!super.save())
+				return false;
+
+			return _insulinTitrationDecisionPanelModel.save();
 		}
 	}
 }

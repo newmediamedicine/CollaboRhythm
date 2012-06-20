@@ -41,6 +41,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		 * From an HealthActionSchedule or MedicationScheduleItem to an AdherenceItem.
 		 */
 		public static const RELATION_TYPE_ADHERENCE_ITEM:String = "http://indivo.org/vocab/documentrels#adherenceItem";
+		public static const RELATION_TYPE_OCCURRENCE:String = "http://indivo.org/vocab/documentrels#occurrence";
 		/**
 		 * From an Equipment to an HealthActionSchedule or from a MedicationOrder to a MedicationScheduleItem.
 		 */
@@ -50,7 +51,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		public static const DAILY:String = "DAILY";
 		public static const HOURLY:String = "HOURLY";
 		private static const MILLISECONDS_IN_HOUR:Number = 1000 * 60 * 60;
-		private static const MILLISECONDS_IN_DAY:Number = 1000 * 60 * 60 * 24;
+		public static const MILLISECONDS_IN_DAY:Number = 1000 * 60 * 60 * 24;
 
 		private var _currentDateSource:ICurrentDateSource;
 		private var _scheduleItemXml:XML;

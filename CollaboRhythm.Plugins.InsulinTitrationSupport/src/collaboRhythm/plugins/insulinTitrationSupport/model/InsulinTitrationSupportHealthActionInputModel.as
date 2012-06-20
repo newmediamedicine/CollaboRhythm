@@ -14,7 +14,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		public function showCharts():void
 		{
-			_healthActionModelDetailsProvider.record.healthChartsModel.prepareForDecision("Health Charts - Insulin Titration");
+			_healthActionModelDetailsProvider.record.healthChartsModel.prepareForDecision("Health Charts - Insulin Titration", scheduleItemOccurrence);
 			_healthActionModelDetailsProvider.navigationProxy.showFullView("Health Charts");
 		}
 	}

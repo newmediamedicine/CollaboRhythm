@@ -19,19 +19,23 @@ package collaboRhythm.core.model.healthRecord.stitchers
 	import collaboRhythm.shared.model.*;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.Relationship;
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
 
-	public class HealthActionScheduleStitcher extends DocumentStitcherBase
+	public class HealthActionScheduleStitcher extends ScheduleItemStitcherBase
     {
         public function HealthActionScheduleStitcher(record:Record)
 		{
 			super(record, HealthActionSchedule.DOCUMENT_TYPE);
 			addRequiredDocumentType(HealthActionOccurrence.DOCUMENT_TYPE);
+			addRequiredDocumentType(AdherenceItem.DOCUMENT_TYPE);
 		}
 
 		override protected function stitchSpecialReferencesOnDocument(document:IDocument):void
 		{
+			super.stitchSpecialReferencesOnDocument(document);
+
 			var healthActionSchedule:HealthActionSchedule = document as HealthActionSchedule;
 			for each (var healthActionOccurrenceRelationship:Relationship in healthActionSchedule.relatesTo)
 			{

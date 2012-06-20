@@ -1,7 +1,16 @@
 package collaboRhythm.plugins.insulinTitrationSupport.model
 {
+	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
+	import collaboRhythm.shared.model.healthRecord.document.HealthActionPlan;
+	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
+	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.ActionStepResult;
 	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
 
 	import mx.binding.utils.BindingUtils;
@@ -356,6 +365,101 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				_isInitialized = value;
 				updateBloodGlucoseAverage();
 			}
+		}
+
+		public function save():Boolean
+		{
+			var decisionScheduleItemOccurrence:ScheduleItemOccurrence = chartModelDetails.healthChartsModel.decisionData as ScheduleItemOccurrence;
+
+			if (decisionScheduleItemOccurrence == null)
+				throw new Error("Failed to save. Decision data on the health charts model was not a ScheduleItemOccurrence.");
+
+			var healthActionSchedule:HealthActionSchedule = decisionScheduleItemOccurrence.scheduleItem as HealthActionSchedule;
+			var plan:HealthActionPlan = healthActionSchedule.scheduledHealthAction as HealthActionPlan;
+
+			// validate
+			if (isChangeSpecified)
+			{
+				var scheduleDetails:ScheduleDetails = getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_LEVEMIR_CODE);
+				var currentMedicationScheduleItem:MedicationScheduleItem = scheduleDetails.schedule;
+				var currentDoseValue:Number;
+				var newDose:Number;
+				if (currentMedicationScheduleItem)
+				{
+					currentDoseValue = currentMedicationScheduleItem.dose ? Number(currentMedicationScheduleItem.dose.value) : NaN;
+					newDose = currentDoseValue + dosageChangeValue;
+				}
+				else
+				{
+					currentDoseValue = NaN;
+					newDose = dosageChangeValue;
+				}
+
+				// if dose is specified and is different
+				if (newDose != currentDoseValue)
+				{
+					// create new HealthActionOccurrence, related to HealthActionSchedule
+					var results:Vector.<DocumentBase> = new Vector.<DocumentBase>();
+					var decisionHealthActionResult:HealthActionResult = new HealthActionResult();
+
+					decisionHealthActionResult.name = plan.name.clone();
+					decisionHealthActionResult.planType = plan.planType;
+					decisionHealthActionResult.dateReported = chartModelDetails.currentDateSource.now();
+					decisionHealthActionResult.reportedBy = chartModelDetails.accountId;
+					var actionStepResult:ActionStepResult = new ActionStepResult();
+					actionStepResult.name = new CodedValue("Chose a new dose");
+					decisionHealthActionResult.actions = new ArrayCollection();
+					decisionHealthActionResult.actions.addItem(actionStepResult);
+					results.push(decisionHealthActionResult);
+
+					if (decisionScheduleItemOccurrence)
+					{
+						// TODO: switch to the new data types
+//						decisionScheduleItemOccurrence.createHealthActionOccurrence(results, chartModelDetails.record,
+//								chartModelDetails.accountId);
+						decisionScheduleItemOccurrence.createAdherenceItem(results, chartModelDetails.record,
+								chartModelDetails.accountId);
+					}
+					else
+					{
+						for each (var result:DocumentBase in results)
+						{
+							result.pendingAction = DocumentBase.ACTION_CREATE;
+							chartModelDetails.record.addDocument(result);
+						}
+					}
+
+
+					// create new HealthActionResult, related to HealthActionOccurrence
+					// determine cut off date for schedule change
+					// update existing MedicationScheduleItem (old dose) to end the recurrence by cut off date
+					// create new MedicationScheduleItem with new dose starting at cut off day
+				}
+			}
+
+			return true;
+		}
+
+		public function getNextMedicationScheduleDetails(medicationCode:String):ScheduleDetails
+		{
+			var now:Date = _chartModelDetails.currentDateSource.now();
+			for each (var medicationScheduleItem:MedicationScheduleItem in chartModelDetails.record.medicationScheduleItemsModel.medicationScheduleItemCollection)
+			{
+				if (medicationScheduleItem.name.value == medicationCode)
+				{
+					// TODO: exactly what span of time should we use to look for the "next" scheduled item?
+					var scheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = medicationScheduleItem.getScheduleItemOccurrences(now, new Date(now.valueOf() + ScheduleItemBase.MILLISECONDS_IN_DAY));
+					for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrences)
+					{
+						if (scheduleItemOccurrence.adherenceItem == null)
+						{
+							return new ScheduleDetails(medicationScheduleItem, scheduleItemOccurrence);
+						}
+					}
+				}
+			}
+
+			return null;
 		}
 	}
 }

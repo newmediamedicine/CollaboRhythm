@@ -13,6 +13,7 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 
 	import spark.components.Group;
 	import spark.components.Label;
+	import spark.components.View;
 
 	public interface IChartModifier
 	{
@@ -61,8 +62,27 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 		 */
 		function updateChartDescriptors(chartDescriptors:OrderedMap):OrderedMap;
 
+		/**
+		 * Prepares the adherence group for the specified chart descriptor before the charts are shown.
+		 * @param chartDescriptor The current chart descriptor.
+		 * @param adherenceGroup The adherence group to update. The group contains the chart associated with the chart
+		 * descriptor and the chart modifier.
+		 */
 		function prepareAdherenceGroup(chartDescriptor:IChartDescriptor, adherenceGroup:Group):void;
 
 		function set chartModelDetails(chartModelDetails:IChartModelDetails):void;
+
+		/**
+		 * Updates the Spark View (the container View that is used by the ViewNavigator). The chart modifier can
+		 * update the actionContent (for example, add a Save button) or other properties of the View.
+		 * @param view The view to update. The view is the container of the charts used in the ViewNavigator.
+		 */
+		function updateSparkView(view:View):void;
+
+		/**
+		 * Saves any data that has been modified by the user.
+		 * @return true if successful/allowed
+		 */
+		function save():Boolean;
 	}
 }

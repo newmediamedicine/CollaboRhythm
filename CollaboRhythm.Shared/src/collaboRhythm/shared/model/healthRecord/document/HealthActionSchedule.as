@@ -20,7 +20,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		
 		public function HealthActionSchedule():void
 		{
-
+			meta.type = DOCUMENT_TYPE;
 		}
 
         override public function initFromReportXML(scheduleItemReportXml:XML, scheduleItemElementName:String):void

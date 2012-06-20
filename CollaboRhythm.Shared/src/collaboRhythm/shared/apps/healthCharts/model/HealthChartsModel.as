@@ -18,6 +18,7 @@ package collaboRhythm.shared.apps.healthCharts.model
 {
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.derived.MedicationConcentrationSample;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
@@ -59,6 +60,7 @@ package collaboRhythm.shared.apps.healthCharts.model
 		private var _isInitialized:Boolean;
 		private var _decisionPending:Boolean = false;
 		private var _decisionTitle:String;
+		private var _decisionData:Object;
 
 		/**
 		 * The simulation state corresponding to the time currently being focused on (the time specified by the focus
@@ -367,10 +369,12 @@ package collaboRhythm.shared.apps.healthCharts.model
 			throw new Error("Property is read-only. Setter exists to facilitate data binding.");
 		}
 
-		public function prepareForDecision(decisionTitle:String):void
+		public function prepareForDecision(decisionTitle:String,
+										   decisionData:Object):void
 		{
 			_decisionPending = true;
 			_decisionTitle = decisionTitle;
+			_decisionData = decisionData;
 		}
 
 		public function finishedDecision():void
@@ -391,6 +395,11 @@ package collaboRhythm.shared.apps.healthCharts.model
 		public function set decisionTitle(value:String):void
 		{
 			_decisionTitle = value;
+		}
+
+		public function get decisionData():Object
+		{
+			return _decisionData;
 		}
 	}
 }

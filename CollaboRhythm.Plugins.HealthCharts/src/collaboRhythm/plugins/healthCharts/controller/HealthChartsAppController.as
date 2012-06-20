@@ -7,12 +7,19 @@ package collaboRhythm.plugins.healthCharts.controller
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.ui.healthCharts.view.SynchronizedHealthCharts;
 
+	import flash.events.MouseEvent;
+
+	import mx.core.IVisualElement;
+
 	import mx.core.UIComponent;
 	import mx.events.PropertyChangeEvent;
+
+	import spark.components.Button;
 
 	import spark.components.View;
 
 	import spark.components.ViewNavigator;
+	import spark.skins.mobile.TransparentActionButtonSkin;
 
 	public class HealthChartsAppController extends AppControllerBase
 	{
@@ -184,7 +191,53 @@ package collaboRhythm.plugins.healthCharts.controller
 			super.showFullViewStart();
 			updateFullViewTitle();
 			if (fullView)
-				_fullView.prepareAllAdherenceGroups();
+			{
+				_fullView.prepareToShowView(sparkView);
+				updateSaveButton(healthChartsModel.decisionPending);
+			}
+		}
+
+		private function updateSaveButton(decisionPending:Boolean):void
+		{
+			if (sparkView && sparkView.actionContent)
+			{
+				var foundSaveButton:Boolean = false;
+				for each (var component:IVisualElement in sparkView.actionContent)
+				{
+					var button:Button = component as Button;
+					if (button && button.label == "Save")
+					{
+						foundSaveButton = true;
+
+						// hide save button if it is not needed
+						button.visible = decisionPending;
+						button.includeInLayout = decisionPending;
+
+						break;
+					}
+				}
+
+				if (foundSaveButton)
+					return;
+
+				if (decisionPending)
+				{
+					var saveButton:Button = new Button();
+					saveButton.label = "Save";
+					saveButton.addEventListener(MouseEvent.CLICK, saveButton_clickHandler, false, 0, true);
+					saveButton.setStyle("skinClass", TransparentActionButtonSkin);
+					sparkView.actionContent.unshift(saveButton);
+				}
+			}
+
+		}
+
+		private function saveButton_clickHandler(event:MouseEvent):void
+		{
+			if(_fullView.save())
+			{
+				closeFullView();
+			}
 		}
 	}
 }

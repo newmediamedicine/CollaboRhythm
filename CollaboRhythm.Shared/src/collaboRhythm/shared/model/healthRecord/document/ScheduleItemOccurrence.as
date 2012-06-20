@@ -17,6 +17,7 @@
 package collaboRhythm.shared.model.healthRecord.document
 {
 	import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.healthRecord.CodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
@@ -61,6 +62,25 @@ package collaboRhythm.shared.model.healthRecord.document
 				record.addDocument(adherenceResult);
 				record.addNewRelationship(AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT,
 						adherenceItem, adherenceResult)
+			}
+		}
+
+		public function createHealthActionOccurrence(results:Vector.<DocumentBase>,
+											record:Record, reportedBy:String):void
+		{
+			var occurrence:HealthActionOccurrence = new HealthActionOccurrence();
+			occurrence.init(scheduleItem.name, _recurrenceIndex, results);
+
+			occurrence.pendingAction = DocumentBase.ACTION_CREATE;
+			record.addDocument(occurrence);
+			record.addNewRelationship(ScheduleItemBase.RELATION_TYPE_OCCURRENCE,
+					scheduleItem, occurrence);
+			for each (var adherenceResult:DocumentBase in occurrence.results)
+			{
+				adherenceResult.pendingAction = DocumentBase.ACTION_CREATE;
+				record.addDocument(adherenceResult);
+				record.addNewRelationship(HealthActionOccurrence.RELATION_TYPE_HEALTH_ACTION_RESULT,
+						occurrence, adherenceResult)
 			}
 		}
 

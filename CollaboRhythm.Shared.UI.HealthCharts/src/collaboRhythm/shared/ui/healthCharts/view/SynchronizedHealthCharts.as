@@ -597,7 +597,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private function createChartModelDetails():ChartModelDetails
 		{
-			return new ChartModelDetails(model.record, _activeAccountId, model.currentDateSource);
+			return new ChartModelDetails(model.record, _activeAccountId, model.currentDateSource, model);
 		}
 
 		/**
@@ -901,8 +901,16 @@ package collaboRhythm.shared.ui.healthCharts.view
 			}
 		}
 
-		public function prepareAllAdherenceGroups():void
+		public function prepareToShowView(view:View):void
 		{
+			if (view && view.actionContent)
+			{
+				for each (var chartModifier:IChartModifier in _chartModifiers.values())
+				{
+					chartModifier.updateSparkView(view);
+				}
+			}
+
 			for each (var key:String in adherenceGroups.arrayOfKeys)
 			{
 				var chartDescriptor:IChartDescriptor = _chartDescriptors.getValueByKey(key);
@@ -1052,7 +1060,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 				{
 					for each (var adherenceItem:AdherenceItem in healthActionSchedule.adherenceItems.values())
 					{
-						if (adherenceItem.adherence)
+						if (adherenceItem && adherenceItem.adherence)
 						{
 							for each (var document:IDocument in adherenceItem.adherenceResults)
 							{
@@ -2826,6 +2834,20 @@ package collaboRhythm.shared.ui.healthCharts.view
 			_focusTime = value;
 
 			moveTodayHighlight();
+		}
+
+		/**
+		 * Saves any data that has been modified by the user.
+		 * @return true if successful/allowed
+		 */
+		public function save():Boolean
+		{
+			for each (var chartModifier:IChartModifier in _chartModifiers.values())
+			{
+				if (!chartModifier.save())
+					return false;
+			}
+			return true;
 		}
 	}
 }

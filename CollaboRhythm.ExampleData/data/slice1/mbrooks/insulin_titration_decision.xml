@@ -55,6 +55,7 @@
 							</recurrenceRule>
 						</HealthActionSchedule>
 					</document>
+<!--
 					<relatesTo>
 						<relation type="occurrence">
 							<LoadableIndivoDocument>
@@ -87,6 +88,7 @@
 							</LoadableIndivoDocument>
 						</relation>
 					</relatesTo>
+-->
 				</LoadableIndivoDocument>
 			</relation>
 		</relatesTo>
