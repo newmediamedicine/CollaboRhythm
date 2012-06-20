@@ -49,6 +49,7 @@ package collaboRhythm.shared.model.settings
 		private var _demoDatePresets:ArrayCollection;
 		private var _appGroups:ArrayCollection;
 		private var _pluginSearchPaths:ArrayCollection;
+		private var _applicationUpdateDescriptorURL:String;
 
 		public function Settings()
 		{
@@ -275,6 +276,16 @@ package collaboRhythm.shared.model.settings
 		public function set pluginSearchPaths(value:ArrayCollection):void
 		{
 			_pluginSearchPaths = value;
+		}
+
+		public function get applicationUpdateDescriptorURL():String
+		{
+			return _applicationUpdateDescriptorURL;
+		}
+
+		public function set applicationUpdateDescriptorURL(value:String):void
+		{
+			_applicationUpdateDescriptorURL = value;
 		}
 	}
 }

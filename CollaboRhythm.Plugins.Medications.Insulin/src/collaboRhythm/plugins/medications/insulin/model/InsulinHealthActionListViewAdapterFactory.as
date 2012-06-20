@@ -8,6 +8,8 @@ package collaboRhythm.plugins.medications.insulin.model
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
+	import flash.filesystem.File;
+
 	import mx.collections.ArrayCollection;
 
 	public class InsulinHealthActionListViewAdapterFactory implements IHealthActionListViewAdapterFactory
@@ -31,7 +33,7 @@ package collaboRhythm.plugins.medications.insulin.model
 				if (medicationScheduleItem.name.value == "847241")
 				{
 					if (currentHealthActionListViewAdapter)
-						currentHealthActionListViewAdapter.instructionalVideo = "Joslin_Insulin_Pen_demo.mp4"
+						currentHealthActionListViewAdapter.instructionalVideoPath = File.documentsDirectory.resolvePath("Movies").resolvePath("Joslin_Insulin_Pen_demo.mp4").nativePath;
 				}
 			}
 			return currentHealthActionListViewAdapter;

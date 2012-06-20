@@ -50,6 +50,9 @@
             <entry module-name="CollaboRhythm.Plugins.Problems" build-configuration-name="CollaboRhythm.Plugins.Problems">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-id="36069884-1ff8-4d83-aa86-64cd52dc5be2">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -87,7 +90,9 @@
         <JAVADOC>
           <root url="http://www.daveoncode.com/_docs/air_logging_framework/" />
         </JAVADOC>
-        <SOURCES />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../../NativeApplicationUpdater/NativeApplicationUpdater/src" />
+        </SOURCES>
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
@@ -117,6 +122,16 @@
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" />
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
     <orderEntry type="module" module-name="CollaboRhythm.Plugins.Problems" />
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="36069884-1ff8-4d83-aa86-64cd52dc5be2" />
+        <CLASSES>
+          <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/applicationupdater.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 

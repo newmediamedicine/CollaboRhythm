@@ -124,12 +124,12 @@ package collaboRhythm.plugins.medications.model
 				return "";
 		}
 
-		public function get instructionalVideo():String
+		public function get instructionalVideoPath():String
 		{
 			return _instructionalVideo;
 		}
 
-		public function set instructionalVideo(value:String):void
+		public function set instructionalVideoPath(value:String):void
 		{
 			_instructionalVideo = value;
 		}

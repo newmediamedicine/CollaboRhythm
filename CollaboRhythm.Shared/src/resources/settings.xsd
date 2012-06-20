@@ -125,6 +125,13 @@
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
+			<xs:element type="xs:string" name="applicationUpdateDescriptorURL" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						URL specifying the location of the update descriptor XML file to use for updating the application (CollaboRhythm).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:all>
 	</xs:complexType>
 

@@ -145,6 +145,8 @@
 			_applicationController = new TabletApplicationController(this);
 			_applicationController.main();
 
+			aboutApplicationView.settings = _applicationController.settings;
+
 			_collaborationController = _applicationController.collaborationController;
 
 			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationPointerSynchronizationEvent.SHOW_POINTER,

@@ -39,6 +39,9 @@
           <option name="additionalOptions" value="-locale en_US" />
         </compiler-options>
         <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WorkstationApplication-app.xml" package-file-name="CollaboRhythm.Workstation">
+          <files-to-package>
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/assets/images/icons/CollaboRhythm_icon_128x128.png" path-in-package="assets/images/icons/CollaboRhythm_icon_128x128.png" />
+          </files-to-package>
           <AirSigningOptions keystore-path="$MODULE_DIR$/CollaboRhythmKeystore.p12" use-temp-certificate="false" />
         </packaging-air-desktop>
         <packaging-android />
