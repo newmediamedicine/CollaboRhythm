@@ -1,0 +1,256 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:view="collaboRhythm.plugins.messages.view.*"
+		 removedFromStage="removedFromStageHandler()"
+		 resize="setVideoDisplaySize()">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		#recordVideoButton {
+			font-size: 15;
+			font-weight: bold;
+		}
+
+		#recordingLabel {
+			color: #ED1C24;
+		}
+
+		#recordingDuration {
+			color: #ED1C24;
+		}
+
+		.playhead {
+			font-size: 30;
+		}
+
+		.countdown {
+			font-size: 240;
+			color: #ED1C24;
+			font-weight: bold;
+		}
+
+		.errorLabel {
+			font-size: 20;
+			font-weight: bold;
+		}
+	</fx:Style>
+	<s:states>
+		<s:State name="attachingCamera"/>
+		<s:State name="cameraNotAvailable"/>
+		<s:State name="readyToRecord"/>
+		<s:State name="countdownInProgress"/>
+		<s:State name="recording"/>
+		<s:State name="recordingComplete"/>
+	</s:states>
+	<fx:Script><![CDATA[
+		import collaboRhythm.shared.collaboration.model.AudioVideoOutput;
+
+		import mx.utils.UIDUtil;
+
+		private var _netConnection:NetConnection;
+		private var _subject:String;
+
+		[Bindable]
+		private var _camera:Camera;
+		[Bindable]
+		private var _microphone:Microphone;
+
+		private var _netStream:NetStream;
+
+		private var _countdownTimer:Timer;
+		[Bindable]
+		private var _countdownTimerCount:int;
+
+		private var _recordingTimer:Timer;
+		[Bindable]
+		private var _recordingTimerCount:int = 0;
+
+		private var _netStreamLocation:String;
+
+		public function init(netConnection:NetConnection, subject:String):void
+		{
+			_netConnection = netConnection;
+			_subject = subject;
+
+			_camera = AudioVideoOutput.getVideoRecordingCamera();
+			_microphone = AudioVideoOutput.getMicrophone();
+
+			if (_camera != null)
+			{
+				attachCamera();
+			}
+			else
+			{
+				currentState = "cameraNotAvailable";
+			}
+		}
+
+		private function attachCamera():void
+		{
+			videoDisplay.attachCamera(_camera);
+			_netStream = new NetStream(_netConnection);
+			currentState = "readyToRecord";
+		}
+
+		public function recordVideoButtonClickHandler():void
+		{
+			if (currentState == "readyToRecord")
+			{
+				startCountdown();
+			}
+			else if (currentState == "countdownInProgress")
+			{
+				_countdownTimer.stop();
+				currentState = "readyToRecord";
+			}
+			else if (currentState == "recording")
+			{
+				_netStream.close();
+				_recordingTimer.stop();
+				currentState = "recordingComplete";
+				dispatchEvent(new VideoAvailableEvent(VideoAvailableEvent.VIDEO_AVAILABLE, _netStreamLocation));
+			}
+		}
+
+		private function startCountdown():void
+		{
+			_countdownTimerCount = 0;
+			_countdownTimer = new Timer(1000, 3);
+			_countdownTimer.addEventListener(TimerEvent.TIMER, countdownTimer_updateHandler);
+			_countdownTimer.addEventListener(TimerEvent.TIMER_COMPLETE, countdownCompleteHandler);
+			_countdownTimer.start();
+			currentState = "countdownInProgress";
+		}
+
+		private function countdownTimer_updateHandler(event:TimerEvent):void
+		{
+			_countdownTimerCount += 1;
+		}
+
+		private function countdownCompleteHandler(event:TimerEvent):void
+		{
+			recordVideo();
+		}
+
+		private function recordVideo():void
+		{
+			if (_netStream)
+			{
+				if (_camera)
+					_netStream.attachCamera(_camera);
+				if (_microphone)
+					_netStream.attachAudio(_microphone);
+
+				var fileId:String = UIDUtil.createUID();
+				_netStreamLocation = _subject + "/" + fileId;
+				_netStream.publish(_netStreamLocation, "record");
+
+				_recordingTimerCount = 0;
+				_recordingTimer = new Timer(1000);
+				_recordingTimer.addEventListener(TimerEvent.TIMER, recordingTimer_updateHandler);
+				_recordingTimer.start();
+				currentState = "recording";
+			}
+		}
+
+		private function recordingTimer_updateHandler(event:TimerEvent):void
+		{
+			_recordingTimerCount += 1;
+		}
+
+		private function removedFromStageHandler():void
+		{
+			videoDisplay.attachCamera(null);
+			_netStream.attachCamera(null);
+			_netStream.attachAudio(null);
+			_camera = null;
+			_microphone = null;
+		}
+
+		private function setVideoDisplaySize():void
+		{
+			if (this.width > this.height)
+			{
+				videoDisplayGroup.height = this.height;
+				videoDisplayGroup.width = this.height * (4 / 3);
+			}
+			else
+			{
+				videoDisplayGroup.width = this.width;
+				videoDisplayGroup.height = this.width * (3 / 4);
+			}
+		}
+
+		public function reset():void
+		{
+			currentState = "readyToRecord";
+		}
+		]]></fx:Script>
+	<s:Group id="videoDisplayGroup" horizontalCenter="0" verticalCenter="0">
+		<!-- The component that displays video from the camera or video being played back from the netstream -->
+		<mx:VideoDisplay id="videoDisplay" width="100%" height="100%"/>
+		<!-- Label to show if a webcam is not available -->
+		<s:Label id="cameraNotAvailableLabel" text="Webcam not available" styleName="errorLabel"
+				 verticalCenter="0" horizontalCenter="0" includeIn="cameraNotAvailable"/>
+		<!-- Labels that show the countdown after the record button is pressed and before the video actually starts recording -->
+		<s:Label id="countdown1" text="1" styleName="countdown" alpha="0.8" verticalCenter="10" horizontalCenter="0"
+				 includeIn="countdownInProgress" visible="{_countdownTimerCount == 2}"/>
+		<s:Label id="countdown2" text="2" styleName="countdown" alpha="0.8" verticalCenter="10" horizontalCenter="0"
+				 includeIn="countdownInProgress" visible="{_countdownTimerCount == 1}"/>
+		<s:Label id="countdown3" text="3" styleName="countdown" alpha="0.8" verticalCenter="10" horizontalCenter="0"
+				 includeIn="countdownInProgress" visible="{_countdownTimerCount == 0}"/>
+		<s:Group width="100%" height="10%" bottom="0">
+			<s:Rect width="100%" height="100%">
+				<s:fill>
+					<s:SolidColor color="0x000000" alpha="0.5"/>
+				</s:fill>
+			</s:Rect>
+			<s:Line width="100%" top="0">
+				<s:stroke>
+					<s:SolidColorStroke color="0x666666"/>
+				</s:stroke>
+			</s:Line>
+			<s:Label id="recordingLabel" text="Recording..." verticalCenter="0" left="20" includeIn="recording"
+					 styleName="playhead"/>
+			<!-- Displays the length of the video to be played in seconds and the current location of the playhead in text -->
+			<s:HGroup id="recordingDuration" right="20" horizontalAlign="right" verticalCenter="1" gap="3"
+					  includeIn="recording">
+				<s:Label text="{int(_recordingTimerCount)}" styleName="playhead"/>
+				<s:Label text="s" styleName="playhead"/>
+			</s:HGroup>
+		</s:Group>
+		<s:Rect width="100%" height="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="0x666666"/>
+			</s:stroke>
+		</s:Rect>
+	</s:Group>
+	<s:Group width="100" height="100%" right="0">
+		<s:Group width="80" height="80" horizontalCenter="0" verticalCenter="0">
+			<s:Button width="100%" height="100%"
+					  click="recordVideoButtonClickHandler()"
+					  includeIn="readyToRecord, countdownInProgress, recording"
+					  skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin"/>
+			<view:RecordIcon left="10" top="10" includeIn="readyToRecord" mouseEnabled="false" mouseChildren="false"/>
+			<view:StopRecordingIcon left="10" top="10" includeIn="countdownInProgress, recording" mouseEnabled="false" mouseChildren="false"/>
+		</s:Group>
+	</s:Group>
+</s:Group>

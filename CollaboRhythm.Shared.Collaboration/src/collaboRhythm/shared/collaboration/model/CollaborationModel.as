@@ -124,8 +124,7 @@ package collaboRhythm.shared.collaboration.model
 
 		public function acceptCollaborationInvitation():void
 		{
-			collaborationLobbyNetConnectionService.createNetStreamConnections(audioVideoOutput.microphone,
-					peerAccount.peerId, peerAccount.accountId);
+			collaborationLobbyNetConnectionService.createNetStreamConnections(peerAccount.peerId, peerAccount.accountId);
 			collaborationState = CollaborationModel.COLLABORATION_ACTIVE;
 
 			collaborationLobbyNetConnectionService.sendCollaborationMessage(CollaborationLobbyNetConnectionService.ACCEPT);
@@ -135,8 +134,7 @@ package collaboRhythm.shared.collaboration.model
 																sourcePeerId:String, passWord:String):void
 		{
 			peerAccount.peerId = sourcePeerId;
-			collaborationLobbyNetConnectionService.createNetStreamConnections(audioVideoOutput.microphone,
-					peerAccount.peerId, peerAccount.accountId);
+			collaborationLobbyNetConnectionService.createNetStreamConnections(peerAccount.peerId, peerAccount.accountId);
 			collaborationState = CollaborationModel.COLLABORATION_ACTIVE;
 		}
 
@@ -234,16 +232,6 @@ package collaboRhythm.shared.collaboration.model
 		public function set activeRecordAccount(value:Account):void
 		{
 			_activeRecordAccount = value;
-		}
-
-		public function get audioVideoOutput():AudioVideoOutput
-		{
-			return _audioVideoOutput
-		}
-
-		public function set audioVideoOutput(value:AudioVideoOutput):void
-		{
-			_audioVideoOutput = value;
 		}
 
 		public function get collaborationLobbyNetConnectionService():CollaborationLobbyNetConnectionService

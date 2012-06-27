@@ -1,6 +1,7 @@
 package collaboRhythm.plugins.messages.model
 {
 	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
 	import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
@@ -11,6 +12,8 @@ package collaboRhythm.plugins.messages.model
 
 	import flash.net.URLVariables;
 
+	import mx.utils.UIDUtil;
+
 	public class IndividualMessageHealthRecordService extends PhaHealthRecordServiceBase
 	{
 		private var _messagesModel:MessagesModel;
@@ -18,10 +21,8 @@ package collaboRhythm.plugins.messages.model
 		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
 
 		public function IndividualMessageHealthRecordService(oauthPhaConsumerKey:String, oauthPhaConsumerSecret:String,
-															 indivoServerBaseURL:String,
-															 activeAccount:Account,
-															 activeRecordAccount:Account,
-															 messagesModel:MessagesModel,
+															 indivoServerBaseURL:String, activeAccount:Account,
+															 activeRecordAccount:Account, messagesModel:MessagesModel,
 															 collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy)
 		{
 			super(oauthPhaConsumerKey, oauthPhaConsumerSecret, indivoServerBaseURL, activeAccount);
@@ -35,58 +36,80 @@ package collaboRhythm.plugins.messages.model
 
 		public function getAllMessages():void
 		{
-			for each (var message:Message in _messagesModel.documents)
+			for each (var message:Message in _messagesModel.messages)
 			{
-				if (message.type == MessagesModel.RECEIVED)
+				if (message.read_at == null || message.body == null)
 				{
-					getMessage(activeAccount.accountId, message);
-				}
-				else if (message.type == MessagesModel.SENT)
-				{
-					getSentMessage(activeAccount.accountId, message);
+					if (message.type == Message.INBOX)
+					{
+						getMessage(activeAccount.accountId, message);
+					}
+					else if (message.type == Message.SENT)
+					{
+						getSentMessage(activeAccount.accountId, message);
+					}
 				}
 			}
 		}
 
 		override protected function getMessageCompleteHandler(responseXml:XML,
-												   healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+															  healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
 			var message:Message = healthRecordServiceRequestDetails.message;
 
 			message.body = responseXml.body;
-			message.read_at = responseXml.read_at;
+			message.read_at = DateUtil.parseW3CDTF(responseXml.read_at, true);
 		}
 
-		public function createAndSendMessage(text:String):Message
+		public function createAndSendMessage(body:String):Message
+		{
+			var subject:String = getMessageSubject();
+
+			if (subject == null)
+			{
+				return null;
+				// TODO: Log that no message was sent;
+			}
+
+			var message:Message = new Message();
+			message.id = UIDUtil.createUID();
+			message.subject = subject;
+			message.body = body;
+			message.sender = _activeAccount.accountId;
+			message.received_at = new Date();
+			message.type = Message.SENT;
+
+			_messagesModel.addSentMessage(message);
+
+			_collaborationLobbyNetConnectionServiceProxy.sendMessage(subject, message);
+
+			var params:URLVariables = new URLVariables();
+			params["subject"] = subject;
+			params["body"] = body;
+			params["message_id"] = message.id;
+
+			sendMessage(subject, params.toString());
+
+			return message;
+		}
+
+		public function getMessageSubject():String
 		{
 			var subject:String;
 			if (_activeRecordAccount == _activeAccount)
 			{
-				subject = "jking@records.media.mit.edu";
+				if (_activeAccount.recordShareAccounts.getIndex(0))
+				{
+					var recordShareAccount:Account = _activeAccount.recordShareAccounts.getIndex(0);
+					subject = recordShareAccount.accountId;
+				}
 			}
 			else
 			{
 				subject = _activeRecordAccount.accountId;
 			}
 
-			var params:URLVariables = new URLVariables();
-			params["subject"] = subject;
-			params["body"] = text;
-
-			var message:Message = new Message();
-			message.subject = subject;
-			message.body = text;
-			message.type = MessagesModel.SENT;
-			message.sender = _activeAccount.accountId;
-			message.received_at = new Date();
-
-			_messagesModel.addMessage(message, MessagesModel.SENT);
-
-			_collaborationLobbyNetConnectionServiceProxy.sendMessage(subject, message);
-
-			sendMessage(subject, params.toString());
-
-			return message;
+			return subject;
 		}
 	}
 }

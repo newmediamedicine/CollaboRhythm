@@ -7,13 +7,16 @@ package collaboRhythm.shared.model.healthRecord.document
 	{
 		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#Message";
 
+		public static const INBOX:String = "Inbox";
+		public static const SENT:String = "Sent";
+
 		private var _id:String;
 		private var _sender:String;
 		private var _received_at:Date;
-		private var _read_at:String;
+		private var _read_at:Date;
 		private var _subject:String;
 		private var _body:String;
-		private var _severity: String;
+		private var _severity:String;
 		private var _record_id:String;
 		private var _attachment:Attachment;
 		private var _type:String;
@@ -53,12 +56,12 @@ package collaboRhythm.shared.model.healthRecord.document
 			_received_at = value;
 		}
 
-		public function get read_at():String
+		public function get read_at():Date
 		{
 			return _read_at;
 		}
 
-		public function set read_at(value:String):void
+		public function set read_at(value:Date):void
 		{
 			_read_at = value;
 		}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="2.0" viewHeight="60" viewWidth="60" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+  <Library/>
+  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="60" d:pageWidth="60" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:objID="10292f80" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+      <Path winding="nonZero" ai:objID="10d23280" ai:seqID="3" data="M23.1826 48.0996 55.9082 48.0996C58.1689 48.0996 60 46.2813 60 44.0371L60 4.06152C60 1.81836 58.1689 0 55.9082 0L4.0918 0C1.83105 0 0 1.81836 0 4.06152L0 44.0371C0 46.2813 1.83105 48.0996 4.0918 48.0996L9.54492 48.0996 9.54492 60 23.1826 48.0996Z">
+        <fill>
+          <SolidColor color="#2EB5E5"/>
+        </fill>
+      </Path>
+    </Group>
+  </Group>
+  <Private>
+      <ai:PrivateElement d:ref="#1">
+        <ai:SaveOptions>
+          <ai:Dict data="B includeSymbol 0 I versionKey 2 B writeImages 1 B includeXMP 0 B aiEditCap 1 B includeObjectOutsideArtboard 0 I preserveTextPolicy 4 I expandBlendsOption 5 I rasterizeResolution 72 B downsampleLinkedImages 0 I preserveGradientPolicy 4 I preserveFilterPolicy 3 "/>
+        </ai:SaveOptions>
+        <ai:DocData base="MessagesIcon.assets/images" rulerCanvasDiffH="15.5" rulerCanvasDiffV="13.5">
+          <ai:DocRasterSettings>
+            <ai:Dict data="R padd 36 B mask 0 B spot 1 B alis 0 I dpi. 300 I colr 5 "/>
+          </ai:DocRasterSettings>
+        </ai:DocData>
+        <ai:AutoGenImageList>
+          <ai:Dict/>
+        </ai:AutoGenImageList>
+      </ai:PrivateElement>
+      <ai:PrivateElement flm:hashcode="E56D492BB2836465A30BF08767667D2F" d:ref="#2">
+        <ai:LayerOptions color="5 79.31 257 128.502"/>
+      </ai:PrivateElement>
+    </Private>
+  </Graphic>

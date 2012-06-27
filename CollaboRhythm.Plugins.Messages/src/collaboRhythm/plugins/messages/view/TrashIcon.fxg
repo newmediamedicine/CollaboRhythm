@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="2.0" viewHeight="60" viewWidth="60" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+  <Library/>
+  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="60" d:pageWidth="60" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:objID="21cc8580" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+      <Path x="11.4702" y="21.9233" winding="nonZero" ai:objID="d2f7a00" ai:seqID="3" data="M0 0 2.46973 34.6157C2.46973 34.6157 7.20703 38.0767 18.5298 38.0767 29.854 38.0767 34.5903 34.6157 34.5903 34.6157L37.0601 0C37.0601 0 32.2212 2.30713 18.5298 2.30713 4.83984 2.30713 0 0 0 0Z">
+        <fill>
+          <SolidColor color="#666766"/>
+        </fill>
+      </Path>
+      <Path x="9" y="8.07666" winding="nonZero" ai:objID="d2f7b80" ai:seqID="4" data="M42 5.76953C42 8.95605 33.2656 11.5386 21 11.5386 8.73438 11.5386 0 8.95605 0 5.76953 0 2.58252 8.73438 0 21 0 33.2656 0 42 2.58252 42 5.76953Z">
+        <fill>
+          <SolidColor color="#666766"/>
+        </fill>
+      </Path>
+      <Path x="20.7349" winding="nonZero" ai:objID="d2f8000" ai:seqID="5" data="M18.5308 11.5381C18.5308 12.813 17.5054 13.8462 16.2378 13.8462L2.29443 13.8462C1.02783 13.8462 0 12.813 0 11.5381L0 2.30762C0 1.0332 1.02783 0 2.29443 0L16.2378 0C17.5054 0 18.5308 1.0332 18.5308 2.30762L18.5308 11.5381ZM14.8247 4.03857C14.8247
+ 3.71973 14.5171 3.46143 14.1372 3.46143L4.39551 3.46143C4.01465 3.46143 3.70557 3.71973 3.70557 4.03857L3.70557 9.80762C3.70557 10.1265 4.01465 10.3848 4.39551 10.3848L14.1372 10.3848C14.5171 10.3848 14.8247 10.1265 14.8247 9.80762L14.8247 4.03857Z">
+        <fill>
+          <SolidColor color="#666766"/>
+        </fill>
+      </Path>
+    </Group>
+  </Group>
+  <Private>
+      <ai:PrivateElement d:ref="#1">
+        <ai:SaveOptions>
+          <ai:Dict data="B includeSymbol 0 I versionKey 2 B writeImages 1 B includeXMP 0 B aiEditCap 1 B includeObjectOutsideArtboard 0 I preserveTextPolicy 4 I expandBlendsOption 5 I rasterizeResolution 72 B downsampleLinkedImages 0 I preserveGradientPolicy 4 I preserveFilterPolicy 3 "/>
+        </ai:SaveOptions>
+        <ai:DocData base="TrashIcon.assets/images" rulerCanvasDiffH="40.5" rulerCanvasDiffV="40.5">
+          <ai:DocRasterSettings>
+            <ai:Dict data="R padd 36 B mask 0 B spot 1 B alis 0 I dpi. 300 I colr 5 "/>
+          </ai:DocRasterSettings>
+        </ai:DocData>
+        <ai:AutoGenImageList>
+          <ai:Dict/>
+        </ai:AutoGenImageList>
+      </ai:PrivateElement>
+      <ai:PrivateElement flm:hashcode="0A32BFB3C4B61A6A5C5E5421278D2C39" d:ref="#2">
+        <ai:LayerOptions color="5 79.31 257 128.502"/>
+      </ai:PrivateElement>
+    </Private>
+  </Graphic>

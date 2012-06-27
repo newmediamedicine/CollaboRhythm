@@ -274,13 +274,13 @@ package collaboRhythm.shared.collaboration.model
 			dispatchEvent(collaborationPointerSynchronizationEvent);
 		}
 
-		public function createNetStreamConnections(microphone:Microphone, peerId:String, peerAccountId:String):void
+		public function createNetStreamConnections(peerId:String, peerAccountId:String):void
 		{
 			netStreamOut = new NetStream(_netConnection, NetStream.DIRECT_CONNECTIONS);
 			netStreamOut.addEventListener(NetStatusEvent.NET_STATUS, netStreamOut_netStatusHandler);
 			netStreamOut.publish(_activeAccount.accountId, "live");
 
-			netStreamOut.attachAudio(microphone);
+			netStreamOut.attachAudio(Microphone.getMicrophone());
 
 			netStreamIn = new NetStream(_netConnection, peerId);
 			netStreamIn.addEventListener(NetStatusEvent.NET_STATUS, netStreamIn_netStatusHandler);
