@@ -52,10 +52,12 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.model.healthRecord.RecordsHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.SharesHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.document.Message;
+	import collaboRhythm.shared.model.services.DefaultImageCacheService;
 	import collaboRhythm.shared.model.services.DefaultMedicationColorSource;
 	import collaboRhythm.shared.model.services.DemoCurrentDateSource;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
+	import collaboRhythm.shared.model.services.IImageCacheService;
 	import collaboRhythm.shared.model.services.IMedicationColorSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	import collaboRhythm.shared.model.settings.Settings;
@@ -485,6 +487,9 @@ package collaboRhythm.core.controller
 
 			var medicationColorSource:DefaultMedicationColorSource = new DefaultMedicationColorSource();
 			_kernel.registerComponentInstance("MedicationColorSource", IMedicationColorSource, medicationColorSource);
+
+			var imageCacheService:DefaultImageCacheService = new DefaultImageCacheService();
+			_kernel.registerComponentInstance("ImageCacheService", IImageCacheService, imageCacheService);
 
 			_componentContainer = new DefaultComponentContainer();
 			_pluginLoader = new PluginLoader(_settings);

@@ -99,7 +99,7 @@
 				videoDisplay.mx_internal::videoPlayer.attachNetStream(netStreamIn);
 				videoDisplay.mx_internal::videoPlayer.visible = true;
 
-				var camera:Camera = AudioVideoOutput.getCamera();
+				var camera:Camera = AudioVideoOutput.getVideoConferencingCamera();
 				_collaborationLobbyNetConnectionService.netStreamOut.attachCamera(camera);
 				videoDisplayOut.attachCamera(camera);
 				return true;

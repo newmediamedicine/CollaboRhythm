@@ -2,6 +2,12 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:sharedView="collaboRhythm.plugins.schedule.shared.view.*">
+	<fx:Style>
+		#additionalAdherenceInformationLabel {
+			fontSize: 24;
+			fontWeight: bold;
+		}
+	</fx:Style>
 	<fx:Script>
         <![CDATA[
 		import collaboRhythm.plugins.schedule.model.ScheduleModel;
@@ -33,6 +39,17 @@
 					image.bottom = 0;
 					imageRegion.addElement(image);
 				}
+
+				if (scheduleItemOccurrenceReportingViewAdapter.additionalAdherenceInformation &&
+						scheduleItemOccurrenceReportingViewAdapter.additionalAdherenceInformation != "...")
+				{
+					additionalAdherenceInformationLabel.text = scheduleItemOccurrenceReportingViewAdapter.additionalAdherenceInformation;
+					additionalAdherenceInformationLabel.visible = true;
+				}
+				else
+				{
+					adherenceImage.verticalCenter = 0;
+				}
 			}
 		}
 
@@ -52,9 +69,13 @@
 
 	</s:Group>
 
-	<s:Group id="adherenceImage" width="70%" height="70%" horizontalCenter="0" verticalCenter="0">
+	<s:Group id="adherenceImage" width="70%" height="70%" horizontalCenter="0">
 		<sharedView:AdherenceCheck width="{adherenceImage.width}" height="{adherenceImage.height}"
 					  filters="{[new GlowFilter(0xFFFFFF, 0.7, this.width / 8, this.width / 8, this.width / 8)]}"
 					  visible="{_scheduleItemOccurrence.adherenceItem != null}"/>
 	</s:Group>
+
+	<s:Label id="additionalAdherenceInformationLabel" visible="false" bottom="0" horizontalCenter="-4"
+			 filters="{[new GlowFilter(0xFFFFFF, 0.7, this.width / 8, this.width / 8, this.width / 8)]}"/>
+
 </s:Group>

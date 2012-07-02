@@ -44,6 +44,8 @@
 		import collaboRhythm.shared.model.Account;
 		import collaboRhythm.shared.model.healthRecord.document.Problem;
 		import collaboRhythm.shared.model.healthRecord.document.ProblemsModel;
+		import collaboRhythm.shared.model.services.IImageCacheService;
+		import collaboRhythm.shared.model.services.WorkstationKernel;
 
 		import mx.events.PropertyChangeEvent;
 
@@ -55,10 +57,13 @@
 
 		override public function set data(value:Object):void
 		{
+			var imageCacheService:IImageCacheService = WorkstationKernel.instance.resolve(IImageCacheService) as
+					IImageCacheService;
+
 			// TODO: determine why this gets called twice when the status is changed once
 			super.data = value;
 			_recordAccount = Account(value);
-			accountImage.source = _recordAccount.imageURI;
+			accountImage.source = imageCacheService.getImage(accountImage, _recordAccount.imageURI);
 
 			if (_recordAccount != null)
 			{

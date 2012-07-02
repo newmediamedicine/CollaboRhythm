@@ -86,6 +86,11 @@ package collaboRhythm.plugins.equipment.model
 
 		}
 
+		public function get additionalAdherenceInformation():String
+		{
+			return "...";
+		}
+
 		public function get model():IHealthActionListViewModel
 		{
 			return _model;

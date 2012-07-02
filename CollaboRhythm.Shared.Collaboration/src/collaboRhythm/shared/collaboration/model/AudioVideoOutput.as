@@ -58,6 +58,7 @@ package collaboRhythm.shared.collaboration.model
 			if (camera != null)
 			{
 				camera.setMode(640, 480, 15);
+				camera.setQuality(0,80);
 			}
 
 			return camera;

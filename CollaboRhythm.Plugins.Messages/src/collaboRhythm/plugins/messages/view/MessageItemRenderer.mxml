@@ -22,6 +22,8 @@
 				height="100">
 	<fx:Script><![CDATA[
 		import collaboRhythm.shared.model.healthRecord.document.Message;
+		import collaboRhythm.shared.model.services.IImageCacheService;
+		import collaboRhythm.shared.model.services.WorkstationKernel;
 
 		public static const ACCOUNT_IMAGES_API_URL_BASE:String = "http://www.mit.edu/~jom/temp/accountImages/";
 
@@ -33,6 +35,9 @@
 		override public function set data(value:Object):void
 		{
 			super.data = value;
+
+			var imageCacheService:IImageCacheService = WorkstationKernel.instance.resolve(IImageCacheService) as
+					IImageCacheService;
 
 			_netStreamLocation = "";
 			playVideoGroup.visible = false;
@@ -57,7 +62,7 @@
 				bodyLabel.setStyle("textAlign", "left")
 			}
 
-			senderImage.source = imageURI(_message.sender);
+			senderImage.source = imageCacheService.getImage(senderImage, imageURI(_message.sender));
 
 
 			if (_message.body)
