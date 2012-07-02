@@ -65,7 +65,7 @@
 									</HealthActionOccurrence>
 								</document>
 								<relatesTo>
-									<relation type="healthActionResult">
+									<relation type="adherenceResult">
 										<LoadableIndivoDocument>
 											<document>
 												<HealthActionResult xmlns="http://indivo.org/vocab/xml/documents/healthActionResult#"

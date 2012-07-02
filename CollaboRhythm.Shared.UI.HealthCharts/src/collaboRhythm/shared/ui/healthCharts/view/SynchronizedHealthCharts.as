@@ -170,7 +170,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private var _chartModifierFactories:Array;
 		private var _chartDescriptors:OrderedMap;
 		private var _activeAccountId:String;
-		private var _chartModifiers:OrderedMap;
+		private var _chartModifiers:OrderedMap = new OrderedMap();
 		protected var _footer:ChartFooter;
 		private var _viewNavigator:ViewNavigator;
 		private var _rangeButtonTargetChart:TouchScrollingScrubChart;

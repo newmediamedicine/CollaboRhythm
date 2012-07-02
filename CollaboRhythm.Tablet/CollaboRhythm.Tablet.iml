@@ -53,7 +53,7 @@
         </packaging-android>
         <packaging-ios package-file-name="CollaboRhythm_Tablet" />
       </configuration>
-      <configuration name="CollaboRhythm.Tablet Release" target-platform="Mobile" main-class="CollaboRhythmTabletApplication" output-file="CollaboRhythm_Tablet_Release.swf" output-folder="$MODULE_DIR$/../out/production/CollaboRhythm.Tablet">
+      <configuration name="CollaboRhythm.Tablet Release" target-platform="Mobile" main-class="CollaboRhythmTabletApplication" output-file="CollaboRhythm.Tablet.Release.swf" output-folder="$MODULE_DIR$/bin-debug">
         <dependencies>
           <entries>
             <entry module-name="CollaboRhythm.Core.Model" build-configuration-name="CollaboRhythm.Core.Model">
@@ -89,7 +89,7 @@
           </map>
         </compiler-options>
         <packaging-air-desktop />
-        <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/CollaboRhythmTabletApplication-app.xml" package-file-name="CollaboRhythm_Tablet_Release">
+        <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/CollaboRhythmTabletApplication-app.xml" package-file-name="CollaboRhythm.Tablet.Release">
           <files-to-package>
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/assets/images/icons" path-in-package="assets/images/icons" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Schedule/bin-debug/SchedulePluginModule.swf" path-in-package="plugins/SchedulePluginModule.swf" />

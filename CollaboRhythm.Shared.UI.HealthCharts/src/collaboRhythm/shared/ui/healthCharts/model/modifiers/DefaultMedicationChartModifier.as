@@ -82,6 +82,7 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 			concentrationSeries.setStyle("radius", 2.5);
 			concentrationSeries.setStyle("form", "curve");
 			concentrationSeries.setStyle("itemRenderer", new ClassFactory(LineSeriesCustomRenderer));
+			concentrationSeries.setStyle("areaRenderer", new ClassFactory(AreaRendererEx));
 			concentrationSeries.filterDataValues = "none";
 			var color:uint = getMedicationColor();
 			concentrationSeries.setStyle("areaFill", new SolidColor(color, 1));

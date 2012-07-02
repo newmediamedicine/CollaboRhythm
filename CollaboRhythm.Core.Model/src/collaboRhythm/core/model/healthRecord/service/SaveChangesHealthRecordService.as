@@ -31,6 +31,7 @@ package collaboRhythm.core.model.healthRecord.service
 		private var _pendingRelateDocuments:ArrayCollection = new ArrayCollection();
 		private var _unexpectedErrorsChangeSet:ChangeSet = new ChangeSet();
 		private var _connectionErrorsChangeSet:ChangeSet = new ChangeSet();
+		private const REMOVE_RELATES_TO_RELATIONSHIPS_FROM_UPDATED_DOCUMENTS:Boolean = false;
 
 		public function SaveChangesHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account, healthRecordServiceFacade:HealthRecordServiceFacade)
 		{
@@ -363,13 +364,23 @@ package collaboRhythm.core.model.healthRecord.service
 
 			for each (relationship in document.relatesTo)
 			{
-				var otherDocument:IDocument = relationship.relatesTo;
-				if (otherDocument)
+				if (REMOVE_RELATES_TO_RELATIONSHIPS_FROM_UPDATED_DOCUMENTS)
 				{
-					removeFromCollection(otherDocument.isRelatedFrom, relationship);
+					var otherDocument:IDocument = relationship.relatesTo;
+					if (otherDocument)
+					{
+						removeFromCollection(otherDocument.isRelatedFrom, relationship);
+					}
+					removeFromCollection(document.relatesTo, relationship);
 				}
-				removeFromCollection(document.relatesTo, relationship);
+				else
+				{
+					relationship.relatesFromId = document.meta.id;
+					relationship.pendingAction = Relationship.ACTION_CREATE;
+				}
 			}
+
+			saveChanges(record, null, document.relatesTo);
 		}
 
 		private function removeFromCollection(relationshipsCollection:ArrayCollection, relationship:Relationship):void

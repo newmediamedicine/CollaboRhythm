@@ -41,7 +41,7 @@ package collaboRhythm.plugins.medications.model
 			if (_medicationScheduleItem)
 			{
 				var medicationAdministration:MedicationAdministration = new MedicationAdministration();
-				medicationAdministration.init(_medicationOrder.name, healthActionInputModelDetailsProvider.accountId,
+				medicationAdministration.init(_medicationOrder ? _medicationOrder.name : _medicationScheduleItem.name, healthActionInputModelDetailsProvider.accountId,
 						_currentDateSource.now(), _currentDateSource.now(),
 						_medicationScheduleItem.dose);
 

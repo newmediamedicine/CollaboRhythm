@@ -52,6 +52,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.model.healthRecord.RecordsHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.SharesHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.document.Message;
+	import collaboRhythm.shared.model.services.DefaultCurrentDateSource;
 	import collaboRhythm.shared.model.services.DefaultImageCacheService;
 	import collaboRhythm.shared.model.services.DefaultMedicationColorSource;
 	import collaboRhythm.shared.model.services.DemoCurrentDateSource;
@@ -211,8 +212,8 @@ package collaboRhythm.core.controller
 					_settingsFileStore.userSettingsFile.nativePath);
 			_logger.info("  Mode: " + _settings.mode);
 			_logger.info("  Username: " + _settings.username);
-			if (_settings.targetDate)
-				_logger.info("  Demo mode ON; target date: " + _settings.targetDate.toLocaleString());
+			if (_settings.demoModeEnabled)
+				_logger.info("  Demo mode ON; target date: " + (_settings.targetDate ? _settings.targetDate.toLocaleString() : "(not specified)"));
 			else
 				_logger.info("  Demo mode OFF");
 
@@ -480,8 +481,17 @@ package collaboRhythm.core.controller
 			_kernel = WorkstationKernel.instance;
 
 			//	_kernel.registerComponentInstance("CurrentDateSource", ICurrentDateSource, new DefaultCurrentDateSource());
-			var dateSource:DemoCurrentDateSource = new DemoCurrentDateSource();
-			dateSource.targetDate = _settings.targetDate;
+			var dateSource:ICurrentDateSource;
+			if (_settings.demoModeEnabled)
+			{
+				var demoCurrentDateSource:DemoCurrentDateSource = new DemoCurrentDateSource();
+				demoCurrentDateSource.targetDate = _settings.targetDate;
+				dateSource = demoCurrentDateSource;
+			}
+			else
+			{
+				dateSource = new DefaultCurrentDateSource();
+			}
 			_kernel.registerComponentInstance("CurrentDateSource", ICurrentDateSource, dateSource);
 			_currentDateSource = dateSource;
 
@@ -535,7 +545,7 @@ package collaboRhythm.core.controller
 			{
 				_collaborationController.sendCollaborationInvitation(activeRecordAccount, activeRecordAccount);
 			}
-			else if (_settings.mode = Settings.MODE_PATIENT)
+			else if (_settings.mode == Settings.MODE_PATIENT)
 			{
 				_collaborationController.sendCollaborationInvitation(_activeAccount,
 						_activeAccount.allSharingAccounts["jking@records.media.mit.edu"]);
