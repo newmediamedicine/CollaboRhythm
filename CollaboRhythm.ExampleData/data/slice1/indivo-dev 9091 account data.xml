@@ -69,61 +69,7 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId>b3ce662a-f125-45a2-b249-a551bd7bf004</recordId>
-    <status>Creating demographics. Failed on PUT
-
-
-
-
-
-			http://indivo-dev.media.mit.edu:9091/records/b3ce662a-f125-45a2-b249-a551bd7bf004/documents/special/demographics
-
-
-
-
-
-			Response: &lt;Error&gt;
-
-
-
-
-
-			&lt;InnerError&gt;
-
-
-
-
-
-			&lt;type&gt;complete&lt;/type&gt;
-
-
-
-
-
-			&lt;/InnerError&gt;
-
-
-
-
-
-			&lt;HTTPStatusEvent&gt;
-
-
-
-
-
-			&lt;status&gt;500&lt;/status&gt;
-
-
-
-
-
-			&lt;/HTTPStatusEvent&gt;
-
-
-
-
-
-			&lt;/Error&gt;</status>
+    <status></status>
     <accessKey>at2RIzJ6RRoSVCu63mDA</accessKey>
     <accessSecret>1YbD3sHRYOJTCM26h8XQ</accessSecret>
     <demographicsId>7deb473e-c26d-4364-a240-3858b1a423ef</demographicsId>
@@ -168,6 +114,44 @@
     <notes>Demo physician copy for titration</notes>
     <recordSeed/>
   </AccountSource>
+	<AccountSource>
+   <accountId>whsu@records.media.mit.edu</accountId>
+   <contactEmail>sgilroy@mit.edu</contactEmail>
+   <fullName>Will Hsu</fullName>
+   <username>whsu</username>
+   <password>whsu-dope75</password>
+   <givenName>Will</givenName>
+   <familyName>Hsu</familyName>
+   <streetAddress>1066 Spinel Rd</streetAddress>
+   <postalCode>2142</postalCode>
+   <locality>Cambridge</locality>
+   <region>Massachusetts</region>
+   <country>US</country>
+   <timeZone>-5GMT</timeZone>
+   <emailPersonal>whsu@records.media.mit.edu</emailPersonal>
+   <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+   <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+   <instantMessengerName>whsu@records.media.mit.edu</instantMessengerName>
+   <dateOfBirth>1957-03-29T00:00:00Z</dateOfBirth>
+   <age>53</age>
+   <gender>Male</gender>
+   <ethnicity>Asian</ethnicity>
+   <language>English</language>
+   <maritalStatus>Married</maritalStatus>
+   <employmentStatus>Employed</employmentStatus>
+   <employmentIndustry>Medical</employmentIndustry>
+   <occupation>Doctor</occupation>
+   <religion>Protestant</religion>
+   <highestEducation>University</highestEducation>
+   <organDonar>true</organDonar>
+   <recordId></recordId>
+   <status></status>
+   <accessKey>at2RIzJ6RRoSVCu63mDA</accessKey>
+   <accessSecret>1YbD3sHRYOJTCM26h8XQ</accessSecret>
+   <demographicsId>7deb473e-c26d-4364-a240-3858b1a423ef</demographicsId>
+   <notes>Demo physician for Will</notes>
+   <recordSeed/>
+ </AccountSource>
   <AccountSource>
     <accountId>singlemed1@records.media.mit.edu</accountId>
     <contactEmail>sgilroy@mit.edu</contactEmail>

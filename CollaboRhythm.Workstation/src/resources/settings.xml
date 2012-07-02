@@ -47,6 +47,7 @@
 		<!-- This path is for the plugins that are installed with the application -->
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins</pluginSearchPath>
 	</pluginSearchPaths>
+	<demoModeEnabled>true</demoModeEnabled>
 	<targetDate>2011-08-13T10:40:00-5:00</targetDate>
 	<demoDatePresets>
 		<demoDatePreset>2011-07-14T09:10:00-5:00</demoDatePreset>

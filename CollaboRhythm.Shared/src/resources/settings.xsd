@@ -70,6 +70,13 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element type="xs:boolean" name="demoModeEnabled" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Enable demo mode (use targetDate to simulate a specific date/time for demo purposessa)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element type="xs:dateTime" name="targetDate" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation xml:lang="en">
