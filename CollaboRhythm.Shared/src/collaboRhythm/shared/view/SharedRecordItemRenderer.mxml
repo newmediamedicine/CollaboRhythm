@@ -157,8 +157,7 @@
 						  visible="{_recordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_NOT_CONNECTED}"/>
 		<view:OnlineIcon left="0" bottom="0" width="60" height="80"
 						 visible="{_recordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}"/>
-		<view:AwayIcon width="{this.height * (5/12)}" height="{this.height * (5/12)}" verticalCenter="0"
-					   horizontalCenter="0"
+		<view:AwayIcon left="0" bottom="0" width="60" height="80"
 					   visible="{_recordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AWAY}"/>
 		<s:Group right="0" top="10" width="60" height="60">
 			<view:MessagesIcon visible="{_recordAccount.messagesModel.unreadMessageCount != 0}"/>
