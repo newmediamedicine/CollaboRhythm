@@ -72,11 +72,6 @@
 			_tabletApplicationController.showSelectRecordView();
 		}
 
-		private function collaborateButton_clickHandler(event:MouseEvent):void
-		{
-			_tabletApplicationController.sendCollaborationInvitation();
-		}
-
 		private function quitButton_clickHandler(event:MouseEvent):void
 		{
 			_tabletApplicationController.exitApplication("quit menu button");
@@ -155,7 +150,6 @@
 		<s:ViewMenuItem label="Reload Plugins" includeIn="debuggingToolsEnabled"
 						click="reloadPluginsViewMenuItem_clickHandler()"/>
 		<s:ViewMenuItem label="Change Record" id="changeRecordButton" click="changeRecordButton_clickHandler(event)"/>
-		<s:ViewMenuItem label="Collaborate" id="collaborateButton" click="collaborateButton_clickHandler(event)"/>
 		<s:ViewMenuItem label="About" id="aboutButton" click="aboutButton_clickHandler(event)"/>
 		<s:ViewMenuItem label="Quit" id="quitButton" click="quitButton_clickHandler(event)"/>
 	</s:viewMenuItems>

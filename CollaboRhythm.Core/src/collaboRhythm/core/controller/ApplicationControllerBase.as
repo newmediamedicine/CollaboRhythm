@@ -545,11 +545,6 @@ package collaboRhythm.core.controller
 			{
 				_collaborationController.sendCollaborationInvitation(activeRecordAccount, activeRecordAccount);
 			}
-			else if (_settings.mode == Settings.MODE_PATIENT)
-			{
-				_collaborationController.sendCollaborationInvitation(_activeAccount,
-						_activeAccount.allSharingAccounts["jking@records.media.mit.edu"]);
-			}
 		}
 
 		/**
