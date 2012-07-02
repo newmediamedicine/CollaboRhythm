@@ -186,7 +186,7 @@ package collaboRhythm.shared.model.healthRecord
 			}
 			else if (healthRecordServiceRequestDetails.indivoApiCall == SEND_MESSAGE)
 			{
-				sendMessageCompleteHandler(event,  responseXml, healthRecordServiceRequestDetails);
+				sendMessageCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
 			}
 		}
 

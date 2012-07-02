@@ -1,21 +1,20 @@
 package collaboRhythm.plugins.foraD40b.controller
 {
-    import castle.flexbridge.reflection.ReflectionUtils;
+	import castle.flexbridge.reflection.ReflectionUtils;
 
-    import collaboRhythm.plugins.foraD40b.model.ForaD40bHealthActionInputControllerFactory;
+	import collaboRhythm.plugins.foraD40b.model.ForaD40bHealthActionInputControllerFactory;
+	import collaboRhythm.plugins.foraD40b.model.ForaD40bHealthActionListViewAdapterFactory;
+	import collaboRhythm.plugins.schedule.shared.controller.ScheduleAppControllerInfo;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputControllerFactory;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
+	import collaboRhythm.shared.controller.apps.AppControllerInfo;
+	import collaboRhythm.shared.controller.apps.AppOrderConstraint;
+	import collaboRhythm.shared.model.services.IComponentContainer;
+	import collaboRhythm.shared.pluginsSupport.IPlugin;
 
-    import collaboRhythm.plugins.foraD40b.model.ForaD40bHealthActionInputControllerFactory;
-    import collaboRhythm.plugins.schedule.shared.controller.ScheduleAppControllerInfo;
-    import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputControllerFactory;
+	import mx.modules.ModuleBase;
 
-    import collaboRhythm.shared.controller.apps.AppControllerInfo;
-    import collaboRhythm.shared.controller.apps.AppOrderConstraint;
-    import collaboRhythm.shared.model.services.IComponentContainer;
-    import collaboRhythm.shared.pluginsSupport.IPlugin;
-
-    import mx.modules.ModuleBase;
-
-    public class ForaD40bPluginModule extends ModuleBase implements IPlugin
+	public class ForaD40bPluginModule extends ModuleBase implements IPlugin
     {
         public function ForaD40bPluginModule()
         {
@@ -31,6 +30,7 @@ package collaboRhythm.plugins.foraD40b.controller
             componentContainer.registerComponentInstance(typeName, AppControllerInfo, appControllerInfo);
 
             componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(ForaD40bHealthActionInputControllerFactory).name, IHealthActionInputControllerFactory, new ForaD40bHealthActionInputControllerFactory());
+			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(ForaD40bHealthActionListViewAdapterFactory).name, IHealthActionListViewAdapterFactory, new ForaD40bHealthActionListViewAdapterFactory());
         }
     }
 }

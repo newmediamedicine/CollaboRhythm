@@ -1,5 +1,6 @@
 package collaboRhythm.shared.model
 {
+	import flash.net.NetConnection;
 	import flash.utils.ByteArray;
 
 	public interface ICollaborationLobbyNetConnectionServiceProxy
@@ -15,5 +16,6 @@ package collaboRhythm.shared.model
 		function receiveMessage(messageDataName:String, messageDataByteArray:ByteArray):void;
 
 		function sendMessage(accountId:String, messageData:*):void;
+		function get netConnection():NetConnection
 	}
 }

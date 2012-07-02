@@ -1,6 +1,5 @@
 package collaboRhythm.shared.model
 {
-	import flash.media.Microphone;
 	import flash.net.NetConnection;
 
 	public interface ICollaborationLobbyNetConnectionService
@@ -13,8 +12,7 @@ package collaboRhythm.shared.model
 
 		function enterCollaborationLobby():void;
 
-		function createNetStreamConnections(microphone:Microphone, peerId:String,
-											   peerAccountId:String):void;
+		function createNetStreamConnections(peerId:String, peerAccountId:String):void;
 
 		function closeNetStreamConnections():void;
 	}

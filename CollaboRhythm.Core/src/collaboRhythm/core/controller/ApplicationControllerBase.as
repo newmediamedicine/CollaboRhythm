@@ -24,6 +24,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.core.model.ApplicationControllerModel;
 	import collaboRhythm.core.model.ApplicationNavigationProxy;
 	import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
+	import collaboRhythm.core.model.healthRecord.service.MessagesHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.ProblemsHealthRecordService;
 	import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
 	import collaboRhythm.core.pluginsManagement.PluginLoader;
@@ -34,6 +35,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionEvent;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+	import collaboRhythm.shared.collaboration.model.MessageEvent;
 	import collaboRhythm.shared.collaboration.view.CollaborationView;
 	import collaboRhythm.shared.controller.IApplicationControllerBase;
 	import collaboRhythm.shared.controller.ICollaborationController;
@@ -49,10 +51,13 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
 	import collaboRhythm.shared.model.healthRecord.RecordsHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.SharesHealthRecordService;
+	import collaboRhythm.shared.model.healthRecord.document.Message;
+	import collaboRhythm.shared.model.services.DefaultImageCacheService;
 	import collaboRhythm.shared.model.services.DefaultMedicationColorSource;
 	import collaboRhythm.shared.model.services.DemoCurrentDateSource;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
+	import collaboRhythm.shared.model.services.IImageCacheService;
 	import collaboRhythm.shared.model.services.IMedicationColorSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	import collaboRhythm.shared.model.settings.Settings;
@@ -483,6 +488,9 @@ package collaboRhythm.core.controller
 			var medicationColorSource:DefaultMedicationColorSource = new DefaultMedicationColorSource();
 			_kernel.registerComponentInstance("MedicationColorSource", IMedicationColorSource, medicationColorSource);
 
+			var imageCacheService:DefaultImageCacheService = new DefaultImageCacheService();
+			_kernel.registerComponentInstance("ImageCacheService", IImageCacheService, imageCacheService);
+
 			_componentContainer = new DefaultComponentContainer();
 			_pluginLoader = new PluginLoader(_settings);
 			_pluginLoader.addEventListener(Event.COMPLETE, pluginLoader_complete);
@@ -501,7 +509,8 @@ package collaboRhythm.core.controller
 			// It also allows collaboration with these account owners and sending and viewing of asynchronous video
 
 			_collaborationController = new CollaborationController(_activeAccount, collaborationView, _settings);
-			_collaborationLobbyNetConnectionService = _collaborationController.collaborationModel.collaborationLobbyNetConnectionService as CollaborationLobbyNetConnectionService;
+			_collaborationLobbyNetConnectionService = _collaborationController.collaborationModel.collaborationLobbyNetConnectionService as
+					CollaborationLobbyNetConnectionService;
 			_collaborationLobbyNetConnectionServiceProxy = _collaborationController.collaborationModel.collaborationLobbyNetConnectionService.createProxy(_pluginLoader.pluginsApplicationDomain);
 			_collaborationController.addEventListener(CollaborationLobbyNetConnectionEvent.SYNCHRONIZE,
 					synchronizeDataHandler);
@@ -653,8 +662,12 @@ package collaboRhythm.core.controller
 				// get the demographics for the active account all of the shared records
 				getDemographics();
 
-				// get the problems for all of the shred records
+				// get the problems for all of the shared records
 				getProblems();
+
+				// get the messages for the account actively in session
+				// do this after the records have been retrieved so that the number of new messages from each record can be tracked
+				getMessages();
 			}
 			removePendingService(event.target);
 		}
@@ -663,6 +676,32 @@ package collaboRhythm.core.controller
 		{
 			_applicationControllerModel.errorMessage = "Failed to get records.";
 			_applicationControllerModel.hasErrors = true;
+			removePendingService(event.target);
+		}
+
+		// get the messages for the account actively in session
+		private function getMessages():void
+		{
+			_logger.info("Getting messages from Indivo...");
+
+			var messagesHealthRecordService:MessagesHealthRecordService = new MessagesHealthRecordService(_settings.oauthChromeConsumerKey,
+					_settings.oauthChromeConsumerSecret,
+					_settings.indivoServerBaseURL,
+					_activeAccount);
+			addPendingService(messagesHealthRecordService);
+
+			messagesHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE, getMessagesCompleteHandler);
+			messagesHealthRecordService.addEventListener(HealthRecordServiceEvent.FAILED, getMessagesFailedHandler);
+			messagesHealthRecordService.getMessages(_activeAccount.accountId);
+		}
+
+		private function getMessagesCompleteHandler(event:HealthRecordServiceEvent):void
+		{
+			removePendingService(event.target);
+		}
+
+		private function getMessagesFailedHandler(event:HealthRecordServiceEvent):void
+		{
 			removePendingService(event.target);
 		}
 
@@ -700,6 +739,9 @@ package collaboRhythm.core.controller
 
 			// get the demographics for the active account
 			getDemographics();
+
+			// get the messages for the account actively in session
+			getMessages();
 
 			removePendingService(event.target);
 		}
@@ -812,7 +854,21 @@ package collaboRhythm.core.controller
 		private function enterCollaborationLobby():void
 		{
 			// Enter the collaboration lobby, so that the user can see when other account owners are online
-			collaborationController.collaborationModel.collaborationLobbyNetConnectionService.enterCollaborationLobby();
+			_collaborationLobbyNetConnectionService.enterCollaborationLobby();
+
+			_collaborationLobbyNetConnectionServiceProxy.addEventListener(MessageEvent.MESSAGE, collaborationMessage_eventHandler);
+		}
+
+		private function collaborationMessage_eventHandler(event:MessageEvent):void
+		{
+			var message:Message = event.messageData as Message;
+			message.received_at = new Date();
+			message.type = Message.INBOX;
+
+			_activeAccount.messagesModel.addInboxMessage(message);
+
+			var senderAccount:Account = _activeAccount.allSharingAccounts[message.sender];
+			senderAccount.messagesModel.addInboxMessage(message);
 		}
 
 		/**
@@ -968,7 +1024,7 @@ package collaboRhythm.core.controller
 			// TODO: What if we are already saving or loading? What if there are unsaved pending changes?
 			_healthRecordServiceFacade = new HealthRecordServiceFacade(settings.oauthChromeConsumerKey,
 					settings.oauthChromeConsumerSecret, settings.indivoServerBaseURL, _activeAccount,
-					_activeRecordAccount, settings.debuggingToolsEnabled);
+					settings.debuggingToolsEnabled);
 			BindingUtils.bindSetter(serviceIsLoading_changeHandler, _healthRecordServiceFacade, "isLoading");
 			BindingUtils.bindSetter(serviceIsSaving_changeHandler, _healthRecordServiceFacade, "isSaving");
 			BindingUtils.bindSetter(serviceHasConnectionErrorsSaving_changeHandler, _healthRecordServiceFacade,
@@ -1114,7 +1170,9 @@ package collaboRhythm.core.controller
 				else if (_applicationControllerModel && _applicationControllerModel.hasErrors)
 				{
 					connectivityState = ConnectivityView.CONNECT_FAILED_STATE;
-					_connectivityView.detailsMessage = "Connection to health record server " + settings.indivoServerBaseURL + " failed. You will not be able to access your health record until this is resolved. " +
+					_connectivityView.detailsMessage = "Connection to health record server " +
+							settings.indivoServerBaseURL +
+							" failed. You will not be able to access your health record until this is resolved. " +
 							_applicationControllerModel.errorMessage;
 				}
 				else if (_collaborationLobbyNetConnectionService &&

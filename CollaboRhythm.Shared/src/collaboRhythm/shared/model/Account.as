@@ -17,21 +17,20 @@
 package collaboRhythm.shared.model
 {
 
-    import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
+	import collaboRhythm.shared.model.healthRecord.document.MessagesModel;
 
 	import flash.net.NetStream;
 
 	import j2as3.collection.HashMap;
 
-    import mx.collections.ArrayCollection;
-	import mx.events.CollectionEvent;
+	import mx.collections.ArrayCollection;
 
 	import spark.collections.Sort;
 
 	[Bindable]
-    public class Account
-    {
-        public static const COLLABORATION_LOBBY_NOT_CONNECTED:String = "CollaborationLobbyNotConnected";
+	public class Account
+	{
+		public static const COLLABORATION_LOBBY_NOT_CONNECTED:String = "CollaborationLobbyNotConnected";
 		public static const COLLABORATION_LOBBY_AVAILABLE:String = "CollaborationLobbyAvailable";
 		public static const COLLABORATION_LOBBY_AWAY:String = "CollaborationLobbyAway";
 
@@ -43,37 +42,28 @@ package collaboRhythm.shared.model
 
 		public static const ACCOUNT_IMAGES_API_URL_BASE:String = "http://www.mit.edu/~jom/temp/accountImages/";
 
-        private var _accountId:String;
-        private var _oauthAccountToken:String;
-        private var _oauthAccountTokenSecret:String;
-        private var _primaryRecord:Record;
-        // TODO: Figure out why Collection.CHANGE_EVENT is not working for the HashMap so this ArrayCollection can be eliminated
-        private var _sharedRecordAccountsCollection:ArrayCollection = new ArrayCollection();
-        private var _sharedRecordAccounts:HashMap = new HashMap(); // accountId as key
-        private var _recordShareAccounts:HashMap = new HashMap(); // accountId as key
-        private var _allSharingAccounts:HashMap = new HashMap(); // accountId as key
-        private var _collaborationLobbyConnectionStatus:String = COLLABORATION_LOBBY_NOT_CONNECTED;
+		private var _accountId:String;
+		private var _messagesModel:MessagesModel = new MessagesModel();
+		private var _oauthAccountToken:String;
+		private var _oauthAccountTokenSecret:String;
+		private var _primaryRecord:Record;
+		// TODO: Figure out why Collection.CHANGE_EVENT is not working for the HashMap so this ArrayCollection can be eliminated
+		private var _sharedRecordAccountsCollection:ArrayCollection = new ArrayCollection();
+		private var _sharedRecordAccounts:HashMap = new HashMap(); // accountId as key
+		private var _recordShareAccounts:HashMap = new HashMap(); // accountId as key
+		private var _allSharingAccounts:HashMap = new HashMap(); // accountId as key
+		private var _collaborationLobbyConnectionStatus:String = COLLABORATION_LOBBY_NOT_CONNECTED;
 		private var _collaborationRoomConnectionStatus:String = COLLABORATION_ROOM_EXITED;
 		private var _isInitialized:Boolean;
 		private var _netStream:NetStream;
 		private var _peerId:String;
 
-		public function get netStream():NetStream
-		{
-			return _netStream;
-		}
-
-		public function set netStream(value:NetStream):void
-		{
-			_netStream = value;
-		}
-
 		public function Account()
-        {
+		{
 			var sort:Sort = new Sort();
 			sort.compareFunction = sortCompare;
 			_sharedRecordAccountsCollection.sort = sort;
-        }
+		}
 
 		/**
 		 * Sort method for Account which orders accounts alphabetically by familyName, givenName of the associated
@@ -91,8 +81,10 @@ package collaboRhythm.shared.model
 			if (accountA && accountA.primaryRecord.contact &&
 					accountB && accountB.primaryRecord.contact)
 			{
-				var accountFullNameA:String = accountA.primaryRecord.contact.familyName + ", " + accountA.primaryRecord.contact.givenName;
-				var accountFullNameB:String = accountB.primaryRecord.contact.familyName + ", " + accountB.primaryRecord.contact.givenName;
+				var accountFullNameA:String = accountA.primaryRecord.contact.familyName + ", " +
+						accountA.primaryRecord.contact.givenName;
+				var accountFullNameB:String = accountB.primaryRecord.contact.familyName + ", " +
+						accountB.primaryRecord.contact.givenName;
 
 				if (accountFullNameA < accountFullNameB)
 				{
@@ -107,108 +99,118 @@ package collaboRhythm.shared.model
 			return 0;
 		}
 
-        public function get accountId():String
-        {
-            return _accountId;
-        }
+		public function addSharedRecordAccount(sharedRecordAccount:Account):void
+		{
+			_sharedRecordAccounts.put(sharedRecordAccount.accountId, sharedRecordAccount);
+			_allSharingAccounts.put(sharedRecordAccount.accountId, sharedRecordAccount);
+			_sharedRecordAccountsCollection.addItem(sharedRecordAccount);
+		}
 
-        public function set accountId(value:String):void
-        {
-            _accountId = value;
-        }
+		public function addRecordShareAccount(recordShareAccount:Account):void
+		{
+			_recordShareAccounts.put(recordShareAccount.accountId, recordShareAccount);
+			_allSharingAccounts.put(recordShareAccount.accountId, recordShareAccount);
+		}
 
-        public function get oauthAccountToken():String
-        {
-            return _oauthAccountToken;
-        }
+		public function get accountId():String
+		{
+			return _accountId;
+		}
 
-        public function set oauthAccountToken(value:String):void
-        {
-            _oauthAccountToken = value;
-        }
+		public function set accountId(value:String):void
+		{
+			_accountId = value;
+		}
 
-        public function get oauthAccountTokenSecret():String
-        {
-            return _oauthAccountTokenSecret;
-        }
+		public function get messagesModel():MessagesModel
+		{
+			return _messagesModel;
+		}
 
-        public function set oauthAccountTokenSecret(value:String):void
-        {
-            _oauthAccountTokenSecret = value;
-        }
+		public function set messagesModel(value:MessagesModel):void
+		{
+			_messagesModel = value;
+		}
 
-        public function get primaryRecord():Record
-        {
-            return _primaryRecord;
-        }
+		public function get oauthAccountToken():String
+		{
+			return _oauthAccountToken;
+		}
 
-        public function set primaryRecord(value:Record):void
-        {
-            _primaryRecord = value;
-        }
+		public function set oauthAccountToken(value:String):void
+		{
+			_oauthAccountToken = value;
+		}
 
-        public function get sharedRecordAccounts():HashMap
-        {
-            return _sharedRecordAccounts;
-        }
+		public function get oauthAccountTokenSecret():String
+		{
+			return _oauthAccountTokenSecret;
+		}
 
-        public function set sharedRecordAccounts(value:HashMap):void
-        {
-            _sharedRecordAccounts = value;
-        }
+		public function set oauthAccountTokenSecret(value:String):void
+		{
+			_oauthAccountTokenSecret = value;
+		}
 
-        public function get recordShareAccounts():HashMap
-        {
-            return _recordShareAccounts;
-        }
+		public function get primaryRecord():Record
+		{
+			return _primaryRecord;
+		}
 
-        public function set recordShareAccounts(value:HashMap):void
-        {
-            _recordShareAccounts = value;
-        }
+		public function set primaryRecord(value:Record):void
+		{
+			_primaryRecord = value;
+		}
 
-        public function addSharedRecordAccount(sharedRecordAccount:Account):void
-        {
-            _sharedRecordAccounts.put(sharedRecordAccount.accountId, sharedRecordAccount);
-            _allSharingAccounts.put(sharedRecordAccount.accountId, sharedRecordAccount);
-            _sharedRecordAccountsCollection.addItem(sharedRecordAccount);
-        }
+		public function get sharedRecordAccounts():HashMap
+		{
+			return _sharedRecordAccounts;
+		}
 
-        public function addRecordShareAccount(recordShareAccount:Account):void
-        {
-            _recordShareAccounts.put(recordShareAccount.accountId, recordShareAccount);
-            _allSharingAccounts.put(recordShareAccount.accountId, recordShareAccount);
-        }
+		public function set sharedRecordAccounts(value:HashMap):void
+		{
+			_sharedRecordAccounts = value;
+		}
 
-        public function get sharedRecordAccountsCollection():ArrayCollection
-        {
-            return _sharedRecordAccountsCollection;
-        }
+		public function get recordShareAccounts():HashMap
+		{
+			return _recordShareAccounts;
+		}
 
-        public function set sharedRecordAccountsCollection(value:ArrayCollection):void
-        {
-            _sharedRecordAccountsCollection = value;
-        }
+		public function set recordShareAccounts(value:HashMap):void
+		{
+			_recordShareAccounts = value;
+		}
 
-        public function get allSharingAccounts():HashMap
-        {
-            return _allSharingAccounts;
-        }
+		public function get sharedRecordAccountsCollection():ArrayCollection
+		{
+			return _sharedRecordAccountsCollection;
+		}
 
-        public function set allSharingAccounts(value:HashMap):void
-        {
-            _allSharingAccounts = value;
-        }
+		public function set sharedRecordAccountsCollection(value:ArrayCollection):void
+		{
+			_sharedRecordAccountsCollection = value;
+		}
 
-        public function get collaborationLobbyConnectionStatus():String
-        {
-            return _collaborationLobbyConnectionStatus;
-        }
+		public function get allSharingAccounts():HashMap
+		{
+			return _allSharingAccounts;
+		}
 
-        public function set collaborationLobbyConnectionStatus(value:String):void
-        {
-            _collaborationLobbyConnectionStatus = value;
-        }
+		public function set allSharingAccounts(value:HashMap):void
+		{
+			_allSharingAccounts = value;
+		}
+
+		public function get collaborationLobbyConnectionStatus():String
+		{
+			return _collaborationLobbyConnectionStatus;
+		}
+
+		public function set collaborationLobbyConnectionStatus(value:String):void
+		{
+			_collaborationLobbyConnectionStatus = value;
+		}
 
 		/**
 		 * Flag to indicate that the sharedRecordAccountsCollection has been populated and that contact and
@@ -242,6 +244,16 @@ package collaboRhythm.shared.model
 		public function set collaborationRoomConnectionStatus(value:String):void
 		{
 			_collaborationRoomConnectionStatus = value;
+		}
+
+		public function get netStream():NetStream
+		{
+			return _netStream;
+		}
+
+		public function set netStream(value:NetStream):void
+		{
+			_netStream = value;
 		}
 
 		public function get peerId():String

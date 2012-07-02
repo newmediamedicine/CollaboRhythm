@@ -25,7 +25,7 @@
 		 mouseOut="mouseOutHandler()"
 		 click="clickHandler()">
 	<fx:Declarations>
-			<s:GlowFilter id="glowFilter" inner="true" blurX="50" blurY="50" color="0x0167FF"/>
+			<s:GlowFilter id="glowFilter" inner="true" blurX="50" blurY="50" color="0x26B6E7"/>
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[

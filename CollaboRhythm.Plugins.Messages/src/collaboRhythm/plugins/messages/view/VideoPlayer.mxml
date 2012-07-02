@@ -1,0 +1,300 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:view="collaboRhythm.plugins.messages.view.*"
+		 creationComplete="creationCompleteHandler()"
+		 resize="setVideoDisplaySize()"
+		 currentState="complete">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		.playhead {
+			font-size: 30;
+		}
+
+		.bufferingLabel {
+			font-size: 30;
+			font-weight: bold;
+			color: #FFFFFF;
+		}
+
+		.errorLabel {
+			font-size: 30;
+			font-weight: bold;
+			color: #FFFFFF;
+		}
+	</fx:Style>
+	<s:states>
+		<s:State name="complete"/>
+		<s:State name="pausedOnFirstFrame"/>
+		<s:State name="buffering"/>
+		<s:State name="streamNotFound"/>
+		<s:State name="failedToPlay"/>
+		<s:State name="playing"/>
+	</s:states>
+	<fx:Script><![CDATA[
+		import mx.logging.ILogger;
+		import mx.logging.Log;
+
+		private const NETSTREAM_BUFFER_EMPTY:String = "NetStream.Buffer.Empty";
+		private const NETSTREAM_BUFFER_FULL:String = "NetStream.Buffer.Full";
+		private const NETSTREAM_BUFFER_FLUSH:String = "NetStream.Buffer.Flush";
+		private const NETSTREAM_FAILED:String = "NetStream.Failed";
+		private const NETSTREAM_PLAY_FAILED:String = "NetStream.Play.Failed";
+		private const NETSTREAM_PLAY_INSUFFICIENTBW:String = "NetStream.Play.InsufficientBW";
+		private const NETSTREAM_PLAY_STREAMNOTFOUND:String = "NetStream.Play.StreamNotFound";
+
+		private var _netStreamLocation:String;
+
+		private var _netStream:NetStream;
+		[Bindable]
+		private var _netStreamTime:Number = 0;
+		[Bindable]
+		private var _netStreamDuration:Number = 0;
+
+		private var _playheadInterval:uint;
+		private var _isLoadingFirstFrame:Boolean;
+
+		[Embed("../../../../assets/swfs/buffering.swf")]
+		[Bindable]
+		public var bufferingAnimation:Class;
+		private var _logger:ILogger;
+
+		public function init(netConnection:NetConnection, netStreamLocation:String):void
+		{
+			_netStreamLocation = netStreamLocation;
+			initializeNetStream(netConnection);
+		}
+
+		private function creationCompleteHandler():void
+		{
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+		}
+
+		public function initializeNetStream(netConnection:NetConnection):void
+		{
+			_isLoadingFirstFrame = true;
+
+			_netStream = new NetStream(netConnection);
+			_netStream.client = {};
+			_netStream.client.onMetaData = handleMetaData;
+			_netStream.client.onPlayStatus = handlePlayStatus;
+			_netStream.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
+			_netStream.addEventListener(ErrorEvent.ERROR, netStatusErrorHandler);
+			// TODO: Determine why attaching the net stream does not work unless a null camera is first attached
+			videoDisplay.attachCamera(null);
+			videoDisplay.mx_internal::videoPlayer.attachNetStream(_netStream);
+
+			_netStream.play(_netStreamLocation);
+		}
+
+		public function togglePause():void
+		{
+			if (!_playheadInterval)
+			{
+				_playheadInterval = setInterval(updatePlayhead, 100);
+			}
+			if (currentState == "complete")
+			{
+				_netStream.play(_netStreamLocation);
+			}
+			else
+			{
+				_netStream.togglePause();
+			}
+		}
+
+		private function handleMetaData(metaData:Object):void
+		{
+			_netStreamDuration = metaData.duration;
+			updatePlayhead(0);
+		}
+
+		private function handlePlayStatus(playStatus:Object):void
+		{
+			if (playStatus.code == "NetStream.Play.Complete")
+			{
+				currentState = "complete";
+				updatePlayhead();
+				clearInterval(_playheadInterval);
+				_playheadInterval = NaN;
+			}
+		}
+
+		private function netStatusHandler(event:NetStatusEvent):void
+		{
+			switch (event.info.code)
+			{
+				case NETSTREAM_BUFFER_EMPTY:
+					if (currentState != "complete")
+					{
+						currentState = "buffering";
+					}
+					break;
+				case NETSTREAM_BUFFER_FULL:
+					if (_isLoadingFirstFrame)
+					{
+						currentState = "pausedOnFirstFrame";
+						_netStream.pause();
+						_isLoadingFirstFrame = false;
+					}
+					else
+					{
+						currentState = "playing";
+					}
+					break;
+				case NETSTREAM_BUFFER_FLUSH:
+					break;
+				case NETSTREAM_FAILED:
+					_logger.warn("VideoPlayer status " + NETSTREAM_FAILED + " " + _netStreamLocation);
+					currentState = "failedToPlay";
+					break;
+				case NETSTREAM_PLAY_FAILED:
+					_logger.warn("VideoPlayer status " + NETSTREAM_PLAY_FAILED + " " + _netStreamLocation);
+					currentState = "failedToPlay";
+					break;
+				case NETSTREAM_PLAY_INSUFFICIENTBW:
+					_logger.info("VideoPlayer status " + NETSTREAM_PLAY_INSUFFICIENTBW + " " + _netStreamLocation);
+					break;
+				case NETSTREAM_PLAY_STREAMNOTFOUND:
+					_logger.warn("VideoPlayer status " + NETSTREAM_PLAY_STREAMNOTFOUND + " " + _netStreamLocation);
+					currentState = "streamNotFound";
+					break;
+			}
+		}
+
+		private function netStatusErrorHandler(event:ErrorEvent):void
+		{
+			_logger.warn("VideoPlayer status ERROR " + _netStreamLocation);
+		}
+
+		private function updatePlayhead(netStreamTime:Number = NaN):void
+		{
+			if (isNaN(netStreamTime))
+			{
+				_netStreamTime = _netStream.time;
+			}
+			else
+			{
+				_netStreamTime = netStreamTime;
+			}
+			var playheadProgressWidth:Number = _netStreamTime / _netStreamDuration * playhead.width;
+			if (playheadProgressWidth < playhead.width)
+			{
+				playheadProgress.width = playheadProgressWidth;
+			}
+			else
+			{
+				playheadProgress.width = playhead.width;
+			}
+		}
+
+		private function playButton_clickHandler(event:MouseEvent):void
+		{
+			togglePause();
+		}
+
+		private function setVideoDisplaySize():void
+		{
+			if (this.width > this.height)
+			{
+				videoDisplayGroup.height = this.height;
+				videoDisplayGroup.width = this.height * (4 / 3);
+			}
+			else
+			{
+				videoDisplayGroup.width = this.width;
+				videoDisplayGroup.height = this.width * (3 / 4);
+			}
+		}
+		]]></fx:Script>
+
+	<s:Group id="videoDisplayGroup" horizontalCenter="0" verticalCenter="0">
+		<mx:VideoDisplay id="videoDisplay" width="100%" height="100%"/>
+		<s:Group width="100%" height="100%" includeIn="streamNotFound, failedToPlay">
+			<s:Rect width="100%" height="100%">
+				<s:fill>
+					<s:SolidColor color="0x000000"/>
+				</s:fill>
+			</s:Rect>
+			<s:Label text="The video could not be found." horizontalCenter="0" verticalCenter="0"
+					 includeIn="streamNotFound"
+					 styleName="errorLabel"/>
+			<s:Label text="The video could not be played." horizontalCenter="0" verticalCenter="0"
+					 includeIn="failedToPlay"
+					 styleName="errorLabel"/>
+		</s:Group>
+		<s:VGroup horizontalCenter="0" verticalCenter="0" horizontalAlign="center" includeIn="buffering">
+			<s:BusyIndicator width="100" height="100"/>
+			<s:Label styleName="bufferingLabel" text="buffering"/>
+		</s:VGroup>
+		<s:VGroup width="100%" height="100%">
+			<s:Group width="100%" height="100%">
+				<s:Button width="100" height="100" horizontalCenter="0" verticalCenter="0"
+						  skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin"
+						  click="togglePause()"/>
+				<view:PlayButton horizontalCenter="0" verticalCenter="0" includeIn="pausedOnFirstFrame, complete"
+								 mouseEnabled="false" mouseChildren="false"/>
+			</s:Group>
+			<s:Group width="100%" height="10%">
+				<s:Rect width="100%" height="100%">
+					<s:fill>
+						<s:SolidColor color="0xFFFFFF" alpha="0.5"/>
+					</s:fill>
+				</s:Rect>
+				<s:Line width="100%" top="0">
+					<s:stroke>
+						<s:SolidColorStroke color="0x666666"/>
+					</s:stroke>
+				</s:Line>
+				<!-- Displays a progress bar that visualizes the current location of the playhead as a percentage of the length of the video -->
+				<s:Group id="playhead" left="20" right="140" top="20" bottom="20">
+					<s:Rect width="100%" height="100%">
+						<s:fill>
+							<s:SolidColor color="0x000000" alpha="0.5"/>
+						</s:fill>
+					</s:Rect>
+					<s:Rect id="playheadProgress" width="0" height="100%" left="0">
+						<s:fill>
+							<s:SolidColor color="0xFFFFFF"/>
+						</s:fill>
+					</s:Rect>
+					<s:Rect width="100%" height="100%">
+						<s:stroke>
+							<s:SolidColorStroke color="0x000000"/>
+						</s:stroke>
+					</s:Rect>
+				</s:Group>
+				<!-- Displays the length of the video to be played in seconds and the current location of the playhead in text -->
+				<s:HGroup right="20" horizontalAlign="right" verticalCenter="1" gap="3">
+					<s:Label text="{int(_netStreamTime)}" styleName="playhead"/>
+					<s:Label text="/" styleName="playhead"/>
+					<s:Label text="{int(_netStreamDuration)}" styleName="playhead"/>
+					<s:Label text="s" styleName="playhead"/>
+				</s:HGroup>
+			</s:Group>
+		</s:VGroup>
+		<s:Rect width="100%" height="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="0x666666"/>
+			</s:stroke>
+		</s:Rect>
+	</s:Group>
+</s:Group>

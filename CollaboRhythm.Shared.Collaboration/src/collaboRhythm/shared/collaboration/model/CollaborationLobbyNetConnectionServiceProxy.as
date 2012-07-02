@@ -100,5 +100,10 @@ package collaboRhythm.shared.collaboration.model
 		{
 			return _collaborationModel.collaborationState;
 		}
+
+		public function get netConnection():NetConnection
+		{
+			return _netConnection;
+		}
 	}
 }

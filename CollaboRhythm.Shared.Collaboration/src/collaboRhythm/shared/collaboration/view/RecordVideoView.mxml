@@ -67,6 +67,7 @@
 	<fx:Script>
 		<![CDATA[
 		import collaboRhythm.shared.collaboration.controller.CollaborationController;
+		import collaboRhythm.shared.collaboration.model.AudioVideoOutput;
 		import collaboRhythm.shared.collaboration.model.CollaborationModel;
 
 		private const VIDEO_WIDTH:int = 240;
@@ -107,8 +108,8 @@
 		{
 			_collaborationController = collaborationController;
 			_collaborationModel = _collaborationController.collaborationModel as CollaborationModel;
-			_camera = _collaborationModel.audioVideoOutput.camera;
-			_microphone = _collaborationModel.audioVideoOutput.microphone;
+			_camera = AudioVideoOutput.getCamera();
+			_microphone = Microphone.getMicrophone();
 			_netConnection = _collaborationModel.collaborationLobbyNetConnectionService.netConnection;
 		}
 

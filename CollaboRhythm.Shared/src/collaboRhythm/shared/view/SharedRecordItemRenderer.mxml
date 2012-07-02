@@ -33,12 +33,19 @@
 		#problemsText {
 			font-size: 21;
 		}
+
+		#unreadMessageCountLabel {
+			font-size: 40;
+			color: #FFFFFF;
+		}
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
 		import collaboRhythm.shared.model.Account;
 		import collaboRhythm.shared.model.healthRecord.document.Problem;
 		import collaboRhythm.shared.model.healthRecord.document.ProblemsModel;
+		import collaboRhythm.shared.model.services.IImageCacheService;
+		import collaboRhythm.shared.model.services.WorkstationKernel;
 
 		import mx.events.PropertyChangeEvent;
 
@@ -50,10 +57,13 @@
 
 		override public function set data(value:Object):void
 		{
+			var imageCacheService:IImageCacheService = WorkstationKernel.instance.resolve(IImageCacheService) as
+					IImageCacheService;
+
 			// TODO: determine why this gets called twice when the status is changed once
 			super.data = value;
 			_recordAccount = Account(value);
-			accountImage.source = _recordAccount.imageURI;
+			accountImage.source = imageCacheService.getImage(accountImage, _recordAccount.imageURI);
 
 			if (_recordAccount != null)
 			{
@@ -141,16 +151,20 @@
 		</s:Group>
 	</s:Group>
 
-	<s:Group id="statusGroup" height="{this.height}" width="{this.height}" right="0">
-		<view:OnlineIcon width="{this.height * (5/12)}" height="{this.height * (5/12)}" verticalCenter="0"
-						 horizontalCenter="0"
-						 visible="{_recordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}"/>
-		<view:OfflineIcon width="{this.height * (5/12)}" height="{this.height * (5/12)}" verticalCenter="0"
-						  horizontalCenter="0"
+	<s:Group id="statusGroup" height="{this.height}" width="{this.height}" right="10">
+
+		<view:OfflineIcon left="0" bottom="0" width="60" height="80"
 						  visible="{_recordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_NOT_CONNECTED}"/>
+		<view:OnlineIcon left="0" bottom="0" width="60" height="80"
+						 visible="{_recordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}"/>
 		<view:AwayIcon width="{this.height * (5/12)}" height="{this.height * (5/12)}" verticalCenter="0"
 					   horizontalCenter="0"
 					   visible="{_recordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AWAY}"/>
+		<s:Group right="0" top="10" width="60" height="60">
+			<view:MessagesIcon visible="{_recordAccount.messagesModel.unreadMessageCount != 0}"/>
+			<view:NoMessagesIcon visible="{_recordAccount.messagesModel.unreadMessageCount == 0}"/>
+			<s:Label id="unreadMessageCountLabel" horizontalCenter="0" verticalCenter="-2" text="{_recordAccount.messagesModel.unreadMessageCount}"/>
+		</s:Group>
 	</s:Group>
 
 	<s:Line left="0" right="0" bottom="0">

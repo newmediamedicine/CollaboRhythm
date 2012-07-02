@@ -79,6 +79,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		}
 
+		public function get additionalAdherenceInformation():String
+		{
+			return "...";
+		}
+
 		public function get model():IHealthActionListViewModel
 		{
 			return _model;

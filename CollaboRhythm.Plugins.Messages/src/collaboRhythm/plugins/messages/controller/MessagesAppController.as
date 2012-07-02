@@ -4,11 +4,10 @@ package collaboRhythm.plugins.messages.controller
 	import collaboRhythm.plugins.messages.model.MessagesModelAndController;
 	import collaboRhythm.plugins.messages.view.MessagesButtonWidgetView;
 	import collaboRhythm.plugins.messages.view.MessagesView;
-	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
-	import collaboRhythm.shared.collaboration.model.MessageEvent;
+	import collaboRhythm.plugins.messages.view.PlayVideoMessageView;
+	import collaboRhythm.plugins.messages.view.RecordVideoMessageView;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.model.healthRecord.document.Message;
 	import collaboRhythm.shared.model.healthRecord.document.MessagesModel;
 
 	import mx.core.UIComponent;
@@ -25,16 +24,6 @@ package collaboRhythm.plugins.messages.controller
 		public function MessagesAppController(constructorParams:AppControllerConstructorParams)
 		{
 			super(constructorParams);
-
-			(_collaborationLobbyNetConnectionServiceProxy as CollaborationLobbyNetConnectionServiceProxy).addEventListener(MessageEvent.MESSAGE, collaborationMessage_eventHandler);
-		}
-
-		private function collaborationMessage_eventHandler(event:MessageEvent):void
-		{
-			var message:Message = event.messageData as Message;
-			message.type = MessagesModel.RECEIVED;
-
-			_messagesModel.addMessage(message, MessagesModel.RECEIVED);
 		}
 
 		override protected function createWidgetView():UIComponent
@@ -56,7 +45,7 @@ package collaboRhythm.plugins.messages.controller
 
 			if (_widgetView && _activeRecordAccount)
 			{
-				_widgetView.init(this, messagesModel);
+				_widgetView.init(this, _activeRecordAccount.messagesModel);
 			}
 		}
 
@@ -65,22 +54,14 @@ package collaboRhythm.plugins.messages.controller
 			return DEFAULT_NAME;
 		}
 
-		private function get messagesModel():MessagesModel
-		{
-			if (!_messagesModel)
-			{
-				_messagesModel = _activeRecordAccount.primaryRecord.messagesModel;
-			}
-			return _messagesModel;
-		}
-
 		private function get individualMessagesHealthRecordService():IndividualMessageHealthRecordService
 		{
 			if (!_individualMessagesHealthRecordService)
 			{
 				_individualMessagesHealthRecordService = new IndividualMessageHealthRecordService(_settings.oauthChromeConsumerKey,
 						_settings.oauthChromeConsumerSecret, _settings.indivoServerBaseURL, _activeAccount,
-						_activeRecordAccount, messagesModel, collaborationLobbyNetConnectionServiceProxy);
+						_activeRecordAccount, _activeRecordAccount.messagesModel,
+						collaborationLobbyNetConnectionServiceProxy);
 			}
 			return _individualMessagesHealthRecordService;
 		}
@@ -114,7 +95,8 @@ package collaboRhythm.plugins.messages.controller
 		{
 			individualMessagesHealthRecordService.getAllMessages();
 
-			var messagesModelAndController:MessagesModelAndController = new MessagesModelAndController(messagesModel, this);
+			var messagesModelAndController:MessagesModelAndController = new MessagesModelAndController(_activeRecordAccount.messagesModel,
+					this, _collaborationLobbyNetConnectionServiceProxy);
 			_viewNavigator.pushView(MessagesView, messagesModelAndController);
 		}
 
@@ -123,9 +105,28 @@ package collaboRhythm.plugins.messages.controller
 			individualMessagesHealthRecordService.createAndSendMessage(text);
 		}
 
-		private function receiveMessage(source:String, message:Message):void
+		public function getAllMessages():void
 		{
-			_messagesModel.addMessage(message, MessagesModel.RECEIVED);
+			individualMessagesHealthRecordService.getAllMessages();
+		}
+
+		public function recordVideoMessage():void
+		{
+			var messagesModelAndController:MessagesModelAndController = new MessagesModelAndController(_activeRecordAccount.messagesModel,
+					this, _collaborationLobbyNetConnectionServiceProxy);
+			_viewNavigator.pushView(RecordVideoMessageView, messagesModelAndController);
+		}
+
+		public function getMessageSubject():String
+		{
+			return individualMessagesHealthRecordService.getMessageSubject();
+		}
+
+		public function playVideoMessage(netStreamLocation:String):void
+		{
+			var messagesModelAndController:MessagesModelAndController = new MessagesModelAndController(_activeRecordAccount.messagesModel,
+					this, _collaborationLobbyNetConnectionServiceProxy, netStreamLocation);
+			_viewNavigator.pushView(PlayVideoMessageView, messagesModelAndController);
 		}
 	}
 }

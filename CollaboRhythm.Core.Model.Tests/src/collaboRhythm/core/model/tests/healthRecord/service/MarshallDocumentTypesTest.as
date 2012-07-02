@@ -218,8 +218,7 @@ package collaboRhythm.core.model.tests.healthRecord.service
 				WorkstationKernel.instance.registerComponentInstance("CurrentDateSource", ICurrentDateSource,
 																	 dateSource);
 			}
-			serviceFacade = new HealthRecordServiceFacade(null, null, "", null, _activeRecordAccount,
-					settings.debuggingToolsEnabled);
+			serviceFacade = new HealthRecordServiceFacade(null, null, "", null, settings.debuggingToolsEnabled);
 		}
 
 //		[Test(dataProvider="data", description = "Tests that unmarshalling from XML and then back results in the exact same string")]

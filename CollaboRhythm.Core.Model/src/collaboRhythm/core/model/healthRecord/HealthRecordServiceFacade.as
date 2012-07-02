@@ -13,7 +13,6 @@ package collaboRhythm.core.model.healthRecord
 	import collaboRhythm.core.model.healthRecord.service.MedicationFillsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.MedicationOrdersHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.MedicationScheduleItemsHealthRecordService;
-	import collaboRhythm.core.model.healthRecord.service.MessagesHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.ProblemsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.SaveChangesHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.VideoMessagesHealthRecordService;
@@ -31,7 +30,6 @@ package collaboRhythm.core.model.healthRecord
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
 	import collaboRhythm.shared.model.healthRecord.IDocumentStitcher;
-	import collaboRhythm.shared.model.healthRecord.document.Message;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -63,7 +61,7 @@ package collaboRhythm.core.model.healthRecord
 		protected var _currentDateSource:ICurrentDateSource;
 
 		public function HealthRecordServiceFacade(consumerKey:String, consumerSecret:String, baseURL:String,
-												  activeAccount:Account, activeRecordAccount:Account,
+												  activeAccount:Account,
 												  debuggingToolsEnabled:Boolean)
 		{
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
@@ -101,12 +99,6 @@ package collaboRhythm.core.model.healthRecord
 																		  debuggingToolsEnabled));
 			addService(new HealthActionOccurrencesHealthRecordService(consumerKey, consumerSecret, baseURL, activeAccount,
 																		  debuggingToolsEnabled));
-			var messagesHealthRecordService:MessagesHealthRecordService = new MessagesHealthRecordService(consumerKey,
-					consumerSecret, baseURL,
-					activeAccount, debuggingToolsEnabled,
-					Message.DOCUMENT_TYPE, Message, Schemas.MessageSchema);
-			messagesHealthRecordService.activeRecordAccount = activeRecordAccount;
-			addService(messagesHealthRecordService);
 			addService(_adherenceItemsHealthRecordService);
 			addService(new HealthChartsInitializationService(consumerKey, consumerSecret, baseURL, activeAccount,
 					debuggingToolsEnabled));

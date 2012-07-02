@@ -17,10 +17,12 @@ package collaboRhythm.plugins.schedule.shared.model
 		 * Path to the video file instructing the user how to perform the health action.
 		 */
 		function get instructionalVideoPath():String;
-		function set instructionalVideoPath(value:String):void
+		function set instructionalVideoPath(value:String):void;
 
-		function get model():IHealthActionListViewModel
+		function get additionalAdherenceInformation():String;
 
-		function get controller():IHealthActionListViewController
+		function get model():IHealthActionListViewModel;
+
+		function get controller():IHealthActionListViewController;
 	}
 }

@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+					   xmlns:view="collaboRhythm.plugins.messages.view.*"
+					   creationComplete="creationCompleteHandler(event)">
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.messages.controller.MessagesAppController;
+		import collaboRhythm.plugins.messages.model.MessagesModelAndController;
+		import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
+		import collaboRhythm.shared.model.healthRecord.document.Message;
+		import collaboRhythm.shared.model.healthRecord.document.MessagesModel;
+
+		import mx.events.FlexEvent;
+
+		private var _messagesModel:MessagesModel;
+		private var _messagesAppController:MessagesAppController;
+		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
+		private var _message:Message;
+		private var _netStreamLocation:String;
+
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+
+			var messagesModelAndController:MessagesModelAndController = value as MessagesModelAndController;
+
+			_messagesModel = messagesModelAndController.messagesModel;
+			_messagesAppController = messagesModelAndController.messagesAppController;
+			_collaborationLobbyNetConnectionServiceProxy = messagesModelAndController.collaborationLobbyNetConnectionServiceProxy;
+		}
+
+		private function creationCompleteHandler(event:FlexEvent):void
+		{
+			videoRecorder.init(_collaborationLobbyNetConnectionServiceProxy.netConnection,
+					_messagesAppController.getMessageSubject());
+			videoRecorder.addEventListener(VideoAvailableEvent.VIDEO_AVAILABLE, videoAvailableHandler);
+		}
+
+		private function videoAvailableHandler(event:VideoAvailableEvent):void
+		{
+			_netStreamLocation = event.netStreamLocation;
+			videoPlayer.init(_collaborationLobbyNetConnectionServiceProxy.netConnection, _netStreamLocation);
+			videoRecorder.visible = false;
+			videoPlayer.visible = true;
+			trashButtonGroup.visible = true;
+			sendButtonGroup.visible = true;
+		}
+
+		private function sendButton_clickHandler():void
+		{
+			_messagesAppController.createAndSendMessage("<" + _netStreamLocation + ">");
+			_messagesAppController.showMessagesView();
+		}
+
+		private function trashButton_clickHandler():void
+		{
+			videoPlayer.visible = false;
+			trashButtonGroup.visible = false;
+			sendButtonGroup.visible = false;
+			videoRecorder.reset();
+			videoRecorder.visible = true;
+		}
+		]]></fx:Script>
+
+	<s:Group width="100%" height="100%">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0x000000"/>
+			</s:fill>
+		</s:Rect>
+		<view:VideoRecorder id="videoRecorder" width="100%" height="100%"/>
+		<view:VideoPlayer id="videoPlayer" width="100%" height="100%" visible="false"/>
+		<s:Group width="100" height="100%" right="0">
+			<s:VGroup width="100%" gap="100" verticalCenter="0">
+				<s:Group id="trashButtonGroup" width="80" height="80" horizontalCenter="0" verticalCenter="0"
+						 visible="false">
+					<s:Button width="100%" height="100%"
+							  click="trashButton_clickHandler()"
+							  skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin"/>
+					<view:TrashIcon left="10" top="10" mouseEnabled="false" mouseChildren="false"/>
+				</s:Group>
+				<s:Group id="sendButtonGroup" width="80" height="80" horizontalCenter="0" verticalCenter="0"
+						 visible="false">
+					<s:Button width="100%" height="100%"
+							  click="sendButton_clickHandler()"
+							  skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin"/>
+					<view:SendIcon left="10" top="10" mouseEnabled="false" mouseChildren="false"/>
+				</s:Group>
+			</s:VGroup>
+		</s:Group>
+	</s:Group>
+</tablet:TabletViewBase>

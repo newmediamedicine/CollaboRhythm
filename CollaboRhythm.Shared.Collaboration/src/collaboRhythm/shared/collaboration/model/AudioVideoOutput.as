@@ -34,15 +34,34 @@ package collaboRhythm.shared.collaboration.model
 	[Bindable]
 	public class AudioVideoOutput
 	{
-		private var _camera:Camera;
-		private var _microphone:Microphone;
 		static private var _logger:ILogger;
 
 		public function AudioVideoOutput()
 		{
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
-			setCamera();
-			setMicrophone();
+		}
+
+		static public function getVideoConferencingCamera():Camera
+		{
+			var camera:Camera = getCamera();
+			if (camera != null)
+			{
+				camera.setMode(320, 240, 15);
+			}
+
+			return camera;
+		}
+
+		static public function getVideoRecordingCamera():Camera
+		{
+			var camera:Camera = getCamera();
+			if (camera != null)
+			{
+				camera.setMode(640, 480, 15);
+				camera.setQuality(0,80);
+			}
+
+			return camera;
 		}
 
 		static public function getCamera():Camera
@@ -64,8 +83,6 @@ package collaboRhythm.shared.collaboration.model
 				}
 				if (camera != null)
 				{
-					camera.setMode(320,240,15);
-					//                    _camera.setQuality(0,60);
 					_logger.info("Camera initialized: " + camera.name);
 				}
 				else
@@ -81,73 +98,31 @@ package collaboRhythm.shared.collaboration.model
 			return camera;
 		}
 
-		private function setCamera():void
+		static public function getMicrophone():Microphone
 		{
-			if (Camera.isSupported)
-			{
-				_logger.info("Initializing camera...");
-				_camera = Camera.getCamera("0");
-				var cameraIndex:int;
-				for each (var cameraName:String in Camera.names)
-				{
-					var camera:Camera = Camera.getCamera(cameraIndex.toString());
-					if (camera.position == CameraPosition.FRONT || cameraName == "HP High Definition Webcam")
-					{
-						_camera = camera
-					}
-					cameraIndex += 1;
-				}
-				if (_camera != null)
-				{
-//                    _camera.setMode(320,240,15);
-//                    _camera.setQuality(0,60);
-					_logger.info("Camera initialized: " + _camera.name);
-				}
-				else
-				{
-					_logger.info("No camera found. Camera NOT initialized.");
-				}
-			}
-		}
-
-		private function setMicrophone():void
-		{
+			var microphone:Microphone;
 			if (Microphone.isSupported)
 			{
 				_logger.info("Initializing microphone...");
-				_microphone = Microphone.getMicrophone(0);
-				if (_microphone != null)
+				microphone = Microphone.getMicrophone(0);
+				if (microphone != null)
 				{
-//					_microphone.codec = SoundCodec.SPEEX;
-					_microphone.setSilenceLevel(0);
-//					_microphone.framesPerPacket = 1;
-					_logger.info("Microphone initialized: " + _microphone.name);
+					//					_microphone.codec = SoundCodec.SPEEX;
+					microphone.setSilenceLevel(0);
+					//					_microphone.framesPerPacket = 1;
+					_logger.info("Microphone initialized: " + microphone.name);
 				}
 				else
 				{
 					_logger.info("No microphone found. Microphone NOT initialized.");
 				}
 			}
-		}
+			else
+			{
+				_logger.info("Microphone not supported.");
+			}
 
-		public function get camera():Camera
-		{
-			return _camera;
-		}
-
-		public function set camera(value:Camera):void
-		{
-			_camera = value;
-		}
-
-		public function get microphone():Microphone
-		{
-			return _microphone;
-		}
-
-		public function set microphone(value:Microphone):void
-		{
-			_microphone = value;
+			return microphone;
 		}
 	}
 }

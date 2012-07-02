@@ -18,6 +18,7 @@
 <tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+					   xmlns:view="collaboRhythm.plugins.messages.view.*"
 					   creationComplete="creationCompleteHandler(event)"
 					   remove="removeHandler(event)">
 	<fx:Style>
@@ -28,7 +29,6 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.messages.controller.MessagesAppController;
 		import collaboRhythm.plugins.messages.model.MessagesModelAndController;
-		import collaboRhythm.shared.model.healthRecord.document.Message;
 		import collaboRhythm.shared.model.healthRecord.document.MessagesModel;
 
 		import mx.events.CollectionEvent;
@@ -41,6 +41,7 @@
 		[Bindable]
 		private var _messagesModel:MessagesModel;
 		private var _messagesAppController:MessagesAppController;
+		private var _videoAttachmentLocation:String;
 
 		override public function set data(value:Object):void
 		{
@@ -51,8 +52,13 @@
 			_messagesModel = messagesModelAndController.messagesModel;
 			_messagesAppController = messagesModelAndController.messagesAppController;
 
-			_messagesModel.documents.addEventListener(CollectionEvent.COLLECTION_CHANGE,
+			_messagesModel.messages.addEventListener(CollectionEvent.COLLECTION_CHANGE,
 					messagesCollection_changeHandler);
+		}
+
+		private function playVideoHandler(event:VideoAvailableEvent):void
+		{
+			_messagesAppController.playVideoMessage(event.netStreamLocation);
 		}
 
 		private function messagesCollection_changeHandler(event:CollectionEvent):void
@@ -63,18 +69,14 @@
 			}
 		}
 
-		private function sendButton_clickHandler():void
-		{
-			_messagesAppController.createAndSendMessage(messageTextInput.text);
-			messageTextInput.text = "";
-		}
-
 		private function creationCompleteHandler(event:FlexEvent):void
 		{
+			messagesList.addEventListener(VideoAvailableEvent.VIDEO_AVAILABLE, playVideoHandler);
+
 			var sort:Sort = new Sort();
 			sort.fields = [new SortField("received_at")];
-			_messagesModel.documents.sort = sort;
-			_messagesModel.documents.refresh();
+			_messagesModel.messages.sort = sort;
+			_messagesModel.messages.refresh();
 
 			callLater(scrollToEnd);
 		}
@@ -86,17 +88,22 @@
 
 		private function removeHandler(event:FlexEvent):void
 		{
-			for each (var message:Message in _messagesModel.documents)
-			{
-				if (message.read_at == "" || message.read_at == null)
-				{
-					message.read_at = (new Date()).toString();
-				}
-			}
+			_messagesAppController.getAllMessages();
+		}
+
+		private function sendButton_clickHandler():void
+		{
+			_messagesAppController.createAndSendMessage(messageTextInput.text);
+			messageTextInput.text = "";
+		}
+
+		private function videoButton_clickHandler():void
+		{
+			_messagesAppController.recordVideoMessage();
 		}
 		]]></fx:Script>
 	<s:VGroup width="100%" height="100%" gap="0">
-		<s:List id="messagesList" width="100%" height="100%" dataProvider="{_messagesModel.documents}"
+		<s:List id="messagesList" width="100%" height="100%" dataProvider="{_messagesModel.messages}"
 				itemRenderer="collaboRhythm.plugins.messages.view.MessageItemRenderer" interactionMode="touch"
 				horizontalScrollPolicy="off"/>
 		<s:Group width="100%" height="100">
@@ -108,7 +115,14 @@
 			<s:HGroup left="10" right="10" top="10" bottom="10" gap="20">
 				<s:TextArea id="messageTextInput" height="100%" width="100%"
 							skinClass="spark.skins.mobile.StageTextAreaSkin"/>
-				<s:Button label="Send" height="100%" width="100" click="sendButton_clickHandler()"/>
+				<s:Group height="100%" width="80">
+					<s:Button height="100%" width="100%" skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin" click="sendButton_clickHandler()"/>
+					<view:SendIcon left="10" top="10" mouseEnabled="false" mouseChildren="false"/>
+				</s:Group>
+				<s:Group height="100%" width="80">
+					<s:Button height="100%" width="100%" skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin" click="videoButton_clickHandler()"/>
+					<view:VideoIconDark left="10" top="10" mouseEnabled="false" mouseChildren="false"/>
+				</s:Group>
 			</s:HGroup>
 			<s:Rect>
 				<s:fill>

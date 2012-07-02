@@ -17,42 +17,74 @@
 -->
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:view="collaboRhythm.plugins.messages.view.*"
+				autoDrawBackground="false"
 				height="100">
 	<fx:Script><![CDATA[
 		import collaboRhythm.shared.model.healthRecord.document.Message;
-		import collaboRhythm.shared.model.healthRecord.document.MessagesModel;
+		import collaboRhythm.shared.model.services.IImageCacheService;
+		import collaboRhythm.shared.model.services.WorkstationKernel;
 
 		public static const ACCOUNT_IMAGES_API_URL_BASE:String = "http://www.mit.edu/~jom/temp/accountImages/";
 
 		[Bindable]
 		private var _message:Message;
 
+		private var _netStreamLocation:String;
+
 		override public function set data(value:Object):void
 		{
 			super.data = value;
 
+			var imageCacheService:IImageCacheService = WorkstationKernel.instance.resolve(IImageCacheService) as
+					IImageCacheService;
+
+			_netStreamLocation = "";
+			playVideoGroup.visible = false;
+			bodyLabel.visible = false;
+
 			_message = value as Message;
 
-			if (_message.type == MessagesModel.SENT)
+			if (_message.type == Message.SENT)
 			{
 				senderImage.left = null;
 				senderImage.right = 0;
-				body.left = null;
-				body.right = this.height + 20;
-				body.setStyle("textAlign", "right")
+				bodyLabel.left = null;
+				bodyLabel.right = this.height + 10;
+				bodyLabel.setStyle("textAlign", "right")
 			}
-			else if (_message.type == MessagesModel.RECEIVED)
+			else if (_message.type == Message.INBOX)
 			{
 				senderImage.right = null;
 				senderImage.left = 0;
-				body.right = null;
-				body.left = this.height + 20;
-				body.setStyle("textAlign", "left")
+				bodyLabel.right = null;
+				bodyLabel.left = this.height + 10;
+				bodyLabel.setStyle("textAlign", "left")
 			}
 
-			senderImage.source = imageURI(_message.sender);
+			senderImage.source = imageCacheService.getImage(senderImage, imageURI(_message.sender));
 
-			body.text = _message.body;
+
+			if (_message.body)
+			{
+				var regExp:RegExp = /<.+>/;
+				var array:Array = _message.body.match(regExp);
+				if (array != null && array.length != 0)
+				{
+					var rawNetStreamLocation:String = array[0];
+					_netStreamLocation = rawNetStreamLocation.substr(1, rawNetStreamLocation.length - 2);
+				}
+			}
+
+			if (_netStreamLocation)
+			{
+				playVideoGroup.visible = true;
+			}
+			else
+			{
+				bodyLabel.visible = true;
+				bodyLabel.text = _message.body;
+			}
 		}
 
 		public function imageURI(sender:String):String
@@ -64,9 +96,19 @@
 		{
 			return sender ? sender.split("@")[0] : null;
 		}
+
+		private function playVideoButton_clickHandler(event:MouseEvent):void
+		{
+			dispatchEvent(new VideoAvailableEvent(VideoAvailableEvent.VIDEO_AVAILABLE, _netStreamLocation));
+		}
 		]]></fx:Script>
 	<s:Image id="senderImage" height="{this.height}" width="{this.height}"/>
-	<s:Label id="body" top="10" text="{_message.body}" width="{this.width - 140}" maxDisplayedLines="4"/>
+	<s:Label id="bodyLabel" top="10" text="{_message.body}" width="{this.width - 140}" maxDisplayedLines="4"/>
+	<s:Group id="playVideoGroup" width="80" height="80" horizontalCenter="0" verticalCenter="0">
+		<s:Button width="100%" height="100%" skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin" click="playVideoButton_clickHandler(event)"/>
+		<view:VideoIconDark horizontalCenter="0" verticalCenter="0" mouseEnabled="false" mouseChildren="false"/>
+		<view:PlayButton horizontalCenter="0" verticalCenter="0" mouseEnabled="false" mouseChildren="false"/>
+	</s:Group>
 	<s:Line width="100%" bottom="0">
 		<s:stroke>
 			<s:SolidColorStroke color="0x666666"/>

@@ -14,6 +14,7 @@ package collaboRhythm.plugins.medications.model
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.util.MedicationName;
 	import collaboRhythm.shared.model.healthRecord.util.MedicationNameUtil;
+	import collaboRhythm.shared.model.services.IImageCacheService;
 	import collaboRhythm.shared.model.services.IMedicationColorSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -30,6 +31,8 @@ package collaboRhythm.plugins.medications.model
 		private var _model:MedicationHealthActionListViewModel;
 		private var _controller:HealthActionListViewControllerBase;
 		private var _instructionalVideo:String = "";
+
+		private var _imageCacheService:IImageCacheService;
 
 		public function MedicationHealthActionListViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
 															  healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
@@ -56,6 +59,8 @@ package collaboRhythm.plugins.medications.model
 
 			_model = new MedicationHealthActionListViewModel(scheduleItemOccurrence, healthActionModelDetailsProvider, _medicationOrder);
 			_controller = new HealthActionListViewControllerBase(_model)
+
+			_imageCacheService = WorkstationKernel.instance.resolve(IImageCacheService) as IImageCacheService;
 		}
 
 		public function get healthAction():HealthActionBase
@@ -70,7 +75,7 @@ package collaboRhythm.plugins.medications.model
 			{
 				medicationImage.setStyle("loadingImageColor",
 										 _medicationColorSource.getMedicationColor(_medicationOrder.medicationFill.ndc.text));
-				medicationImage.source = MedicationFillsModel.MEDICATION_API_URL_BASE + _medicationOrder.medicationFill.ndc.text + "-front.png";
+				medicationImage.source = _imageCacheService.getImage(medicationImage, MedicationFillsModel.MEDICATION_API_URL_BASE + _medicationOrder.medicationFill.ndc.text + "-front.png");
 			}
 			return medicationImage;
 		}
@@ -135,6 +140,11 @@ package collaboRhythm.plugins.medications.model
 		public function set instructionalVideoPath(value:String):void
 		{
 			_instructionalVideo = value;
+		}
+
+		public function get additionalAdherenceInformation():String
+		{
+			return "...";
 		}
 
 		public function get model():IHealthActionListViewModel
