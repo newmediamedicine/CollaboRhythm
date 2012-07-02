@@ -71,7 +71,8 @@ package collaboRhythm.plugins.schedule.model
 		private var _healthActionInputControllerFactory:MasterHealthActionInputControllerFactory;
 		private var _navigationProxy:IApplicationNavigationProxy;
 
-		public function ScheduleModel(componentContainer:IComponentContainer, record:Record, accountId:String, navigationProxy:IApplicationNavigationProxy)
+		public function ScheduleModel(componentContainer:IComponentContainer, record:Record, accountId:String,
+									  navigationProxy:IApplicationNavigationProxy)
 		{
 			_accountId = accountId;
 			_navigationProxy = navigationProxy;
@@ -94,23 +95,26 @@ package collaboRhythm.plugins.schedule.model
 
 		private function init(isStitched:Boolean):void
 		{
-			if (isStitched)
+			if (!isInitialized)
 			{
-				for each (var documentCollection:DocumentCollectionBase in _documentCollectionDependenciesArray)
+				if (isStitched)
 				{
-					if (!documentCollection.isStitched)
+					for each (var documentCollection:DocumentCollectionBase in _documentCollectionDependenciesArray)
 					{
-						return;
+						if (!documentCollection.isStitched)
+						{
+							return;
+						}
 					}
 				}
+				else
+				{
+					return;
+				}
+				updateScheduleModelForToday();
+				isInitialized = true;
+				dispatchEvent(new ScheduleModelEvent(ScheduleModelEvent.INITIALIZED));
 			}
-			else
-			{
-				return;
-			}
-			updateScheduleModelForToday();
-			isInitialized = true;
-			dispatchEvent(new ScheduleModelEvent(ScheduleModelEvent.INITIALIZED));
 		}
 
 		private function updateScheduleModelForToday():void
