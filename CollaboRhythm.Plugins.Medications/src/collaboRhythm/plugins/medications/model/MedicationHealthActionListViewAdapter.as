@@ -45,11 +45,14 @@ package collaboRhythm.plugins.medications.model
 				_medicationOrder = medicationOrder;
 			}
 
-			_medicationName = MedicationNameUtil.parseName(_medicationOrder.name.text);
+			if (_medicationOrder)
+				_medicationName = MedicationNameUtil.parseName(_medicationOrder.name.text);
+			else if (_medicationScheduleItem)
+				_medicationName = MedicationNameUtil.parseName(_medicationScheduleItem.name.text);
 
 			_medicationColorSource = WorkstationKernel.instance.resolve(IMedicationColorSource) as IMedicationColorSource;
 
-			_medicationHealthAction = new MedicationHealthAction(_medicationOrder.name.text);
+			_medicationHealthAction = new MedicationHealthAction(_medicationName.rawName);
 
 			_model = new MedicationHealthActionListViewModel(scheduleItemOccurrence, healthActionModelDetailsProvider, _medicationOrder);
 			_controller = new HealthActionListViewControllerBase(_model)

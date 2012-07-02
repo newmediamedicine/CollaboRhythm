@@ -142,7 +142,7 @@ package collaboRhythm.shared.model.healthRecord
 					_activeAccount.oauthAccountTokenSecret, message.id, healthRecordServiceRequestDetails);
 		}
 
-		public function sendMessage(accountId:String, requestXml:String)
+		public function sendMessage(accountId:String, requestXml:String):void
 		{
 			var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(SEND_MESSAGE);
 			_pha.accounts_X_sendPOST(requestXml, null, null, null, accountId, _activeAccount.oauthAccountToken,

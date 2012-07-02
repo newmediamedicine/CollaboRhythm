@@ -168,5 +168,10 @@ package collaboRhythm.shared.model.healthRecord.document
 		{
 			return scheduleItem.meta.id + "." + recurrenceIndex;
 		}
+
+		public function get isPast():Boolean
+		{
+			return dateEnd && dateEnd.valueOf() < _currentDateSource.now().valueOf();
+		}
 	}
 }

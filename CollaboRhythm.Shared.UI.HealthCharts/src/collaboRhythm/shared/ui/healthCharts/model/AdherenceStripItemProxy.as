@@ -2,6 +2,7 @@ package collaboRhythm.shared.ui.healthCharts.model
 {
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 
@@ -99,7 +100,18 @@ package collaboRhythm.shared.ui.healthCharts.model
 			}
 			else
 			{
-				return scheduleItemOccurrence.scheduleItem.name.text + " was not reported.<br/>" +
+				var notReportedPhrase:String = scheduleItemOccurrence.isPast ? "was not reported" : "has not been reported yet";
+
+				if (_proxyType == MEDICATION_TYPE)
+				{
+					var medicationScheduleItem:MedicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
+					return "Medication " + notReportedPhrase + " " + medicationScheduleItem.dose.value + " " + medicationScheduleItem.dose.unit.text + ".<br/>" +
+											"Date scheduled: " + scheduleItemOccurrence.dateStart.toLocaleString() + " to " +
+											scheduleItemOccurrence.dateEnd.toLocaleString();
+				}
+
+				// TODO: describe the type of health action instead of the particular name of the item
+				return scheduleItemOccurrence.scheduleItem.name.text + " " + notReportedPhrase + ".<br/>" +
 						"Date scheduled: " + scheduleItemOccurrence.dateStart.toLocaleString() + " to " +
 						scheduleItemOccurrence.dateEnd.toLocaleString();
 			}

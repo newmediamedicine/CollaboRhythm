@@ -24,6 +24,7 @@ package collaboRhythm.shared.model.healthRecord.util
 		public static function parseName(nameString:String):MedicationName
 		{
 			var medicationName:MedicationName = new MedicationName();
+			medicationName.rawName = nameString;
 
 			var rxNormRegExp:RegExp = /(?:(\d+ HR) )?(?:(\d+(?:\.\d+)? (?:ML|MG|ACTUAT)) )?([A-Za-z\s]+) (\d+(?:\.\d+)? (?:MG|UNT\/ML|ML|MG\/ACTUAT|MG\/ML)) ([A-Za-z\s]+)(?:(\[[A-Za-z]+\]))?/;
 
