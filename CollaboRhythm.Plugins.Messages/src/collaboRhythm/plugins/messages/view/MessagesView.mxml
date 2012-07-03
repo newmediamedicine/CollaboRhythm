@@ -20,7 +20,8 @@
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   xmlns:view="collaboRhythm.plugins.messages.view.*"
 					   creationComplete="creationCompleteHandler(event)"
-					   remove="removeHandler(event)">
+					   remove="removeHandler(event)"
+					   title="Messages View">
 	<fx:Style>
 		#messageTextInput {
 			fontSize: 20;
@@ -116,11 +117,15 @@
 				<s:TextArea id="messageTextInput" height="100%" width="100%"
 							skinClass="spark.skins.mobile.StageTextAreaSkin"/>
 				<s:Group height="100%" width="80">
-					<s:Button height="100%" width="100%" skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin" click="sendButton_clickHandler()"/>
+					<s:Button height="100%" width="100%"
+							  skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin"
+							  click="sendButton_clickHandler()"/>
 					<view:SendIcon left="10" top="10" mouseEnabled="false" mouseChildren="false"/>
 				</s:Group>
 				<s:Group height="100%" width="80">
-					<s:Button height="100%" width="100%" skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin" click="videoButton_clickHandler()"/>
+					<s:Button height="100%" width="100%"
+							  skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin"
+							  click="videoButton_clickHandler()"/>
 					<view:VideoIconDark left="10" top="10" mouseEnabled="false" mouseChildren="false"/>
 				</s:Group>
 			</s:HGroup>

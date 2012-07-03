@@ -67,9 +67,11 @@ package collaboRhythm.tablet.controller
 
 			initCollaborationController();
 			_collaborationController.viewNavigator = navigator;
-			_collaborationLobbyNetConnectionServiceProxy.addEventListener(getQualifiedClassName(this), collaborationViewSynchronization_eventHandler);
+			_collaborationLobbyNetConnectionServiceProxy.addEventListener(getQualifiedClassName(this),
+					collaborationViewSynchronization_eventHandler);
 
-			BindingUtils.bindSetter(collaborationState_changeHandler, _collaborationController.collaborationModel, "collaborationState");
+			BindingUtils.bindSetter(collaborationState_changeHandler, _collaborationController.collaborationModel,
+					"collaborationState");
 
 			navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
 			navigator.addEventListener("viewChangeComplete",
@@ -95,7 +97,8 @@ package collaboRhythm.tablet.controller
 
 		private function collaborationState_changeHandler(collaborationState:String):void
 		{
-			if (collaborationState == CollaborationModel.COLLABORATION_INVITATION_SENT || collaborationState == CollaborationModel.COLLABORATION_INVITATION_RECEIVED)
+			if (collaborationState == CollaborationModel.COLLABORATION_INVITATION_SENT ||
+					collaborationState == CollaborationModel.COLLABORATION_INVITATION_RECEIVED)
 			{
 				navigator.popToFirstView();
 				navigator.pushView(CollaborationVideoView);
@@ -197,7 +200,8 @@ package collaboRhythm.tablet.controller
 			if (source == "local" && _collaborationController.collaborationModel.collaborationState ==
 					CollaborationModel.COLLABORATION_ACTIVE)
 			{
-				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this), "navigateHome");
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"navigateHome");
 			}
 			navigator.popToFirstView()
 		}
@@ -315,7 +319,8 @@ package collaboRhythm.tablet.controller
 			if (source == "local" && _collaborationController.collaborationModel.collaborationState ==
 					CollaborationModel.COLLABORATION_ACTIVE)
 			{
-				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this), "showCollaborationVideoView");
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"showCollaborationVideoView");
 			}
 			navigator.pushView(CollaborationVideoView);
 		}
@@ -328,6 +333,18 @@ package collaboRhythm.tablet.controller
 		override protected function prepareToExit():void
 		{
 			_collaborationController.prepareToExit();
+		}
+
+		public function setCollaborationLobbyConnectionStatusAway():void
+		{
+			activeRecordAccount.collaborationLobbyConnectionStatus = Account.COLLABORATION_LOBBY_AWAY;
+			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.updateCollaborationLobbyConnectionStatus(Account.COLLABORATION_LOBBY_AWAY);
+		}
+
+		public function setCollaborationLobbyConnectionStatusAvailable():void
+		{
+			activeRecordAccount.collaborationLobbyConnectionStatus = Account.COLLABORATION_LOBBY_AVAILABLE;
+			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.updateCollaborationLobbyConnectionStatus(Account.COLLABORATION_LOBBY_AVAILABLE);
 		}
 	}
 }

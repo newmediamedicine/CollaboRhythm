@@ -19,7 +19,8 @@
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   xmlns:view="collaboRhythm.plugins.messages.view.*"
-					   creationComplete="creationCompleteHandler(event)">
+					   creationComplete="creationCompleteHandler(event)"
+					   title="Record Video Message View">
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.messages.controller.MessagesAppController;
 		import collaboRhythm.plugins.messages.model.MessagesModelAndController;

@@ -3,6 +3,7 @@
 							xmlns:s="library://ns.adobe.com/flex/spark"
 							xmlns:mx="library://ns.adobe.com/flex/mx"
 							xmlns:view="collaboRhythm.tablet.view.*"
+							xmlns:sharedView="collaboRhythm.shared.view.*"
 							firstView="collaboRhythm.tablet.view.TabletHomeView"
 							skinClass="collaboRhythm.tablet.view.skins.CollaboRhythmTabletApplicationSkin"
 							creationComplete="creationCompleteHandler(event)"
@@ -89,15 +90,10 @@
 		import collaboRhythm.shared.collaboration.model.CollaborationPointerSynchronizationEvent;
 		import collaboRhythm.shared.collaboration.view.CollaborationVideoView;
 		import collaboRhythm.shared.model.Account;
-		import collaboRhythm.shared.view.OfflineIcon;
-		import collaboRhythm.shared.view.OnlineIcon;
 		import collaboRhythm.shared.view.tablet.TabletViewBase;
 		import collaboRhythm.tablet.controller.TabletApplicationController;
-		import collaboRhythm.tablet.view.CallIcon;
-		import collaboRhythm.tablet.view.EndCallIcon;
 		import collaboRhythm.tablet.view.SelectRecordView;
 		import collaboRhythm.tablet.view.TabletHomeView;
-		import collaboRhythm.tablet.view.VideoIcon;
 
 		import mx.binding.utils.BindingUtils;
 		import mx.events.FlexEvent;
@@ -312,37 +308,60 @@
 		]]></fx:Script>
 	<s:navigationContent>
 		<s:HGroup gap="0">
-			<s:HGroup click="homeButton_clickHandler()"
-					  includeInLayout="{_applicationController.activeRecordAccount != null}"
-					  visible="{_applicationController.activeRecordAccount != null}" verticalAlign="middle" gap="0">
-				<view:BackIcon id="backIcon" visible="false" visible.notHome="true"/>
-				<s:Image id="activeRecordProfileImage" source="{_applicationController.activeRecordAccount.imageURI}"
-						 smooth="true"/>
-				<s:VGroup gap="1" paddingTop="3" paddingLeft="5">
-					<s:Label id="activeRecordGivenName"
-							 text="{_applicationController.activeRecordAccount.primaryRecord.contact.givenName}"/>
-					<s:Label id="activeRecordFamilyName"
-							 text="{_applicationController.activeRecordAccount.primaryRecord.contact.familyName}"/>
-				</s:VGroup>
-			</s:HGroup>
+			<s:Group includeInLayout="{_applicationController.activeRecordAccount != null}"
+					 visible="{_applicationController.activeRecordAccount != null}">
+				<s:Button width="{backGroup.width}" height="{backGroup.height}" click="homeButton_clickHandler()"/>
+				<s:HGroup id="backGroup" verticalAlign="middle" gap="0" mouseEnabled="false"
+												   mouseChildren="false">
+					<view:BackIcon id="backIcon" visible="false" visible.notHome="true" />
+					<s:Image id="activeRecordProfileImage"
+							 source="{_applicationController.activeRecordAccount.imageURI}" smooth="true"/>
+					<s:VGroup gap="1" paddingTop="3" paddingLeft="5" paddingRight="10">
+						<s:Label id="activeRecordGivenName"
+								 text="{_applicationController.activeRecordAccount.primaryRecord.contact.givenName}"/>
+						<s:Label id="activeRecordFamilyName"
+								 text="{_applicationController.activeRecordAccount.primaryRecord.contact.familyName}"/>
+					</s:VGroup>
+				</s:HGroup>
+			</s:Group>
 			<s:HGroup gap="0" includeInLayout="{_applicationController.activeRecordAccount != null}"
 					  visible="{_applicationController.activeRecordAccount != null}">
-				<s:Button icon="{VideoIcon}" includeIn="TabletHomeViewCollaborationActive, OtherCollaborationActive"
-						  click="_applicationController.showCollaborationVideoView('local')"/>
-				<s:Button icon="{OnlineIcon}" includeIn="patientCollaborationInactive"
-						  includeInLayout="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}"
-						  visible="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}"/>
-				<s:Button icon="{OfflineIcon}"
-						  includeInLayout="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_NOT_CONNECTED}"
-						  visible="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_NOT_CONNECTED}"/>
-				<s:Button icon="{CallIcon}" includeIn="clinicianCollaborationInactive"
-						  visible="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}"
-						  includeInLayout="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}"
-						  click="_applicationController.sendCollaborationInvitation()"/>
-				<s:Button icon="{EndCallIcon}"
-						  includeIn="CollaborationInvitationReceived, CollaborationInvitationSent, CollaborationActive"
-						  includeInLayout="{_applicationController.collaborationController.collaborationModel.collaborationState != CollaborationModel.COLLABORATION_INACTIVE}"
-						  click="_applicationController.endCollaboration()"/>
+				<s:Group includeIn="patientCollaborationInactive, clinicianCollaborationInactive"
+						 includeInLayout="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}"
+						 visible="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}">
+					<s:Button width="44" height="46"
+							  click.clinicianCollaborationInactive="_applicationController.sendCollaborationInvitation()"
+							click.patientCollaborationInactive="_applicationController.setCollaborationLobbyConnectionStatusAway()"/>
+					<sharedView:OnlineIcon width="24" height="32" verticalCenter="0" horizontalCenter="0"
+										   mouseEnabled="false" mouseChildren="false"/>
+				</s:Group>
+				<s:Group
+						includeInLayout="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_NOT_CONNECTED}"
+						visible="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_NOT_CONNECTED}">
+					<s:Button width="44" height="46"/>
+					<sharedView:OfflineIcon width="24" height="32" verticalCenter="0" horizontalCenter="0"
+											mouseEnabled="false" mouseChildren="false"/>
+				</s:Group>
+				<s:Group includeIn="patientCollaborationInactive, clinicianCollaborationInactive"
+						includeInLayout="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AWAY}"
+						visible="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AWAY}">
+					<s:Button width="44" height="46" click.patient="_applicationController.setCollaborationLobbyConnectionStatusAvailable()"
+							click.clinician="_applicationController.sendCollaborationInvitation()"/>
+					<sharedView:AwayIcon width="24" height="32" verticalCenter="0" horizontalCenter="0"
+										 mouseEnabled="false" mouseChildren="false"/>
+				</s:Group>
+				<s:Group includeIn="CollaborationInvitationReceived, CollaborationInvitationSent, CollaborationActive"
+						 click="_applicationController.endCollaboration()">
+					<s:Button width="44" height="46"/>
+					<view:EndCallIcon width="24" height="32" verticalCenter="0" horizontalCenter="0"
+									  mouseEnabled="false" mouseChildren="false"/>
+				</s:Group>
+				<s:Group includeIn="TabletHomeViewCollaborationActive, OtherCollaborationActive">
+					<s:Button width="46" height="46"
+							  click="_applicationController.showCollaborationVideoView('local')"/>
+					<view:VideoIcon width="23" height="23" verticalCenter="0" horizontalCenter="0" mouseEnabled="false"
+									mouseChildren="false"/>
+				</s:Group>
 			</s:HGroup>
 		</s:HGroup>
 

@@ -1,47 +1,65 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Graphic version="2.0" viewHeight="26" viewWidth="26" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+<Graphic version="2.0" viewHeight="80" viewWidth="60" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
   <Library/>
-  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="26" d:pageWidth="26" d:type="layer" d:userLabel="Artboard 1">
-    <Group ai:objID="29382700" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
-      <Path x="0.749762" y="5.9998" winding="nonZero" ai:objID="33a09000" ai:seqID="3" data="M23.8391 3.01191C25.2053 4.37568 24.5774 9.02461 23.8625 9.54805 23.4436 9.85176 17.4739 8.83613 17.2317 8.48262 17.094 8.27949 17.6877 5.50508 18.345 4.15986 15.1897 2.2917 7.62231 2.9377 6.40405 4.10469 6.84203 5.31172 7.75463 7.57441 7.63403
- 8.2873 7.5725 8.66816 0.933832 9.80879 0.624749 9.49726 0.183832 9.05488 -0.644293 4.3625 0.876214 2.84199 4.62475 -0.906543 19.7737 -1.04473 23.8391 3.01191Z">
+  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="80" d:pageWidth="60" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:objID="31406b80" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+      <Path y="35" winding="nonZero" ai:objID="312cce80" ai:seqID="3" data="M0 45C0 20.1494 13.4346 0 29.9951 0 46.5713 0 60 20.1494 60 45L0 45Z">
         <fill>
-          <SolidColor color="#BE1E2D"/>
+          <SolidColor color="#2EB5E5"/>
         </fill>
-        <stroke>
-          <SolidColorStroke caps="none" joints="miter" miterLimit="10" color="#424242"/>
-        </stroke>
       </Path>
-      <Group x="10.521" y="14" ai:objID="29381c00" ai:seqID="4" flm:knockout="false">
-        <Line xFrom="2.479" xTo="2.479" yTo="4.41211" ai:objID="33a06000" ai:seqID="5">
-          <stroke>
-            <SolidColorStroke weight="2" caps="none" joints="miter" miterLimit="10" color="#D3D3D3"/>
-          </stroke>
-        </Line>
-        <Path y="3.68262" winding="nonZero" ai:objID="33a05d00" ai:seqID="6" data="M0 0 2.49268 4.31738 4.98584 0 0 0Z">
-          <fill>
-            <SolidColor color="#D3D3D3"/>
-          </fill>
-        </Path>
-      </Group>
+      <Ellipse x="10" width="40" height="40" ai:objID="312d0780" ai:seqID="4">
+        <fill>
+          <SolidColor color="#2EB5E5"/>
+        </fill>
+      </Ellipse>
+      <Path x="17.5977" y="71.3428" winding="nonZero" flm:variant="1" d:id="3" data="M23.7192 0 14.5964 -10.8917 23.502 -21.2168 19.1144 -21.2168 15.1612 -16.2431C14.0751 -14.8895 13.3366 -13.9137 12.5112 -12.6545L12.3809 -12.6545C11.599 -13.7878 10.7736 -14.858 9.68752 -16.2431L5.8212 -21.2168 1.43358 -21.2168 10.035 -10.7343
+ 1.08604 0 5.43022 0 8.94901 -4.65887C10.426 -6.51613 11.2949 -7.64937 12.1203 -8.87704L12.2071 -8.87704C13.1194 -7.64937 14.0317 -6.48465 15.5522 -4.69035L19.3316 0Z">
+        <fill>
+          <SolidColor color="#FFFFFF"/>
+        </fill>
+      </Path>
+      <Ellipse x="21" y="11.9995" width="6.00098" height="6.00098" ai:objID="312d3600" ai:seqID="6">
+        <fill>
+          <SolidColor color="#FFFFFF"/>
+        </fill>
+      </Ellipse>
+      <Ellipse x="33" y="12" width="6" height="6" ai:objID="312d2880" ai:seqID="7">
+        <fill>
+          <SolidColor color="#FFFFFF"/>
+        </fill>
+      </Ellipse>
+      <Path x="19" y="25" winding="nonZero" ai:objID="312dc180" ai:seqID="8" data="M22 1.48633C15.9199 7.56641 6.08008 7.56641 0 1.48633L1 0C6.52734 5.52734 15.4727 5.52734 21 0L22 1.48633Z">
+        <fill>
+          <SolidColor color="#FFFFFF"/>
+        </fill>
+      </Path>
     </Group>
   </Group>
-  <Private>
-      <ai:PrivateElement d:ref="#1">
-        <ai:SaveOptions>
-          <ai:Dict data="B downsampleLinkedImages 0 I expandBlendsOption 5 I preserveFilterPolicy 3 I rasterizeResolution 72 I preserveGradientPolicy 4 I preserveTextPolicy 4 B writeImages 1 I versionKey 2 B includeSymbol 0 B includeXMP 0 B aiEditCap 1 B includeObjectOutsideArtboard 0 "/>
-        </ai:SaveOptions>
-        <ai:DocData base="EndCallIcon.assets/images" rulerCanvasDiffH="13.5" rulerCanvasDiffV="13.5">
-          <ai:DocRasterSettings>
-            <ai:Dict data="R padd 36 B mask 0 B spot 1 B alis 0 I dpi. 300 I colr 5 "/>
-          </ai:DocRasterSettings>
-        </ai:DocData>
-        <ai:AutoGenImageList>
-          <ai:Dict/>
-        </ai:AutoGenImageList>
-      </ai:PrivateElement>
-      <ai:PrivateElement flm:hashcode="A79781049011131E4C539AE841A9BE61" d:ref="#2">
-        <ai:LayerOptions color="5 79.31 257 128.502"/>
-      </ai:PrivateElement>
-    </Private>
-  </Graphic>
+  <Private variant:using="" mngo:using="" xmlns:mngo="http://ns.adobe.com/flamingo/apd" xmlns:variant="http://ns.adobe.com/flame/2008/apd">
+    <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="2E87E31D557598E87BB3F1189B36A63C" flm:original="1" d:ref="#3">
+      <variant:RichText x="17.5977" y="71.3428" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="31404580" ai:seqID="5" d:id="4">
+        <variant:content><variant:p fontFamily="Arial" d:id="5"><variant:span fontFamily="Arial" d:id="6">X</variant:span></variant:p></variant:content>
+      </variant:RichText>
+    </mngo:VariantContent>
+    <ai:PrivateElement d:ref="#1">
+      <ai:SaveOptions>
+        <ai:Dict data="B includeObjectOutsideArtboard 0 I expandBlendsOption 5 B downsampleLinkedImages 0 I rasterizeResolution 72 I preserveGradientPolicy 4 I preserveFilterPolicy 3 I preserveTextPolicy 4 B aiEditCap 1 B includeXMP 0 I versionKey 2 B writeImages 1 B includeSymbol 0 "/>
+      </ai:SaveOptions>
+      <ai:DocData base="EndCallIcon.assets/images" rulerCanvasDiffH="13.5" rulerCanvasDiffV="13.5">
+        <ai:DocRasterSettings>
+          <ai:Dict data="R padd 36 B mask 0 B spot 1 B alis 0 I dpi. 300 I colr 5 "/>
+        </ai:DocRasterSettings>
+      </ai:DocData>
+      <ai:AutoGenImageList>
+        <ai:Dict/>
+      </ai:AutoGenImageList>
+    </ai:PrivateElement>
+    <ai:PrivateElement flm:hashcode="084CA5492837F9BBE58FC9CBB4892736" d:ref="#2">
+      <ai:LayerOptions color="5 79.31 257 128.502"/>
+    </ai:PrivateElement>
+    <ATE:ATEAttributes ATE:C_autoLeading="true" ATE:C_baseLine="normal" ATE:C_baselineShift="0" ATE:C_charRotation="0" ATE:C_color="#ffffff" ATE:C_fill="true" ATE:C_fillFirst="true" ATE:C_fillOverprint="false" ATE:C_fillVisible="true" ATE:C_font="MyriadPro-Regular" ATE:C_fontCaps="normal" ATE:C_fontSize="31.4729" ATE:C_horizontalScale="1.38028" ATE:C_kerning="metric" ATE:C_leading="37.7675" ATE:C_lineCapType="buttCap" ATE:C_lineDashOffset="0" ATE:C_lineJoinType="miterJoin" ATE:C_lineWidth="1" ATE:C_miterLimit="10" ATE:C_noBreak="false" ATE:C_strikethroughPos="off" ATE:C_stroke="false" ATE:C_strokeOverprint="false" ATE:C_strokeVisible="true" ATE:C_tracking="0" ATE:C_underlineOffset="0" ATE:C_underlinePos="off" ATE:C_verticalScale="1" ATE:JC_leftAki="-1" ATE:JC_rightAki="-1" ATE:JC_styleRunAlign="byRomanHori_centerVertical" ATE:JC_tusme="0" ATE:JO_japAltFeature="default" ATE:JO_kana="false" ATE:JO_language="english" ATE:JO_proportionalMetrics="false" ATE:JO_romanItalics="false" ATE:JO_ruby="false" ATE:JP_autoTCY="0" ATE:JP_burasagariType="none" ATE:JP_hangingRoman="false" ATE:JP_kurikaeshiMojiShori="false" ATE:JP_leadingType="roman" ATE:MC_diacVPosition="openType" ATE:MC_diacXPos="0" ATE:MC_diacYPos="0" ATE:MC_digitSet="default" ATE:MC_directionOverride="default" ATE:MC_kashidas="default" ATE:MO_justificationAlt="false" ATE:MO_overlapSwash="false" ATE:MO_stretchedAlt="false" ATE:MP_justificationMethod="default" ATE:O_alternateLigatures="false" ATE:O_connectionForms="true" ATE:O_contextualLigatures="true" ATE:O_discretionaryLigatures="false" ATE:O_figureStyle="default" ATE:O_fontOTPos="normal" ATE:O_fractions="false" ATE:O_ligature="true" ATE:O_oldStyle="false" ATE:O_ordinals="false" ATE:O_ornaments="false" ATE:O_stylisticAlternates="false" ATE:O_swash="false" ATE:O_titling="false" ATE:P_autoHyphenate="true" ATE:P_autoLeadingPercentage="1.2" ATE:P_composerEngine="latinCJK" ATE:P_consecutiveHyphenLimit="0" ATE:P_defaultTabWidth="130.325" ATE:P_endIndent="0" ATE:P_everyLineComposer="false" ATE:P_firstlineIndent="0" ATE:P_glyphScaling="1" ATE:P_hyphenateCapitalized="true" ATE:P_hyphenatedWordSize="6" ATE:P_hyphenationPreference="0.5" ATE:P_hyphenationZone="36" ATE:P_letterSpacing="0" ATE:P_maxGlyphScaling="1" ATE:P_maxLetterSpacing="0" ATE:P_maxWordSpacing="1.33" ATE:P_minGlyphScaling="1" ATE:P_minLetterSpacing="0" ATE:P_minWordSpacing="0.8" ATE:P_paragraphDirection="ltr" ATE:P_postHyphenSize="2" ATE:P_preHyphenSize="2" ATE:P_singleWordJustif="fullJustifyLastLineFull" ATE:P_spaceAfter="0" ATE:P_spaceBefore="0" ATE:P_startIndent="0" ATE:P_textAlign="left" ATE:P_wordSpacing="1" ATE:TA_columnCount="1" ATE:TA_height="0" ATE:TA_lineOrientation="horiz" ATE:TA_spacing="0" ATE:TA_width="0" ATE:T_baselineDirection="withStream" ATE:T_leftRightAdjust="0" ATE:T_upDownAdjust="0" ATE:W_lineCount="2" ATE:W_lineGap="0" ATE:W_orphanAmount="2" ATE:W_scale="0.5" ATE:W_warichuEnabled="false" ATE:W_warichuJustification="autoJustify" ATE:W_widowAmount="2" flm:hashcode="2A6FB8975863EF905E8D426CBF0EA1D0" d:ref="#4"/>
+    <ATE:ATEAttributes ATE:C_kerning="metric" d:ref="#5"/>
+    <ATE:ATEAttributes ATE:C_kerning="metric" d:ref="#6"/>
+  </Private>
+</Graphic>

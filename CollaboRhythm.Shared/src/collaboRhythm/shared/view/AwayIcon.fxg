@@ -1,27 +1,34 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Graphic version="2.0" viewHeight="26" viewWidth="26" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+<Graphic version="2.0" viewHeight="80" viewWidth="60" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
   <Library/>
-  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="26" d:pageWidth="26" d:type="layer" d:userLabel="Artboard 1">
-    <Group ai:objID="28bde580" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
-      <Ellipse x="1.5" y="1.5" width="23" height="23" ai:objID="28c2b200" ai:seqID="3">
+  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="80" d:pageWidth="60" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:objID="310db080" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+      <Path y="35" winding="nonZero" ai:objID="1829f600" ai:seqID="3" data="M0 45C0 20.1494 13.4346 0 29.9951 0 46.5713 0 60 20.1494 60 45L0 45Z">
         <fill>
-          <SolidColor color="#FFF200"/>
+          <SolidColor color="#666766"/>
         </fill>
-        <stroke>
-          <SolidColorStroke weight="3" caps="none" joints="miter" miterLimit="10" color="#414141"/>
-        </stroke>
+      </Path>
+      <Ellipse x="10" width="40" height="40" ai:objID="1829ab00" ai:seqID="4">
+        <fill>
+          <SolidColor color="#666766"/>
+        </fill>
       </Ellipse>
-      <Line xFrom="5" yFrom="5" xTo="21" yTo="21" ai:objID="28c2f700" ai:seqID="4">
-        <stroke>
-          <SolidColorStroke weight="3" caps="none" joints="miter" miterLimit="10" color="#414141"/>
-        </stroke>
-      </Line>
+      <Ellipse x="21" y="11.9995" width="6.00098" height="6.00098" ai:objID="1829eb80" ai:seqID="5">
+        <fill>
+          <SolidColor color="#FFFFFF"/>
+        </fill>
+      </Ellipse>
+      <Ellipse x="33" y="12" width="6" height="6" ai:objID="3194ce80" ai:seqID="6">
+        <fill>
+          <SolidColor color="#FFFFFF"/>
+        </fill>
+      </Ellipse>
     </Group>
   </Group>
   <Private>
       <ai:PrivateElement d:ref="#1">
         <ai:SaveOptions>
-          <ai:Dict data="B downsampleLinkedImages 0 I expandBlendsOption 5 I preserveFilterPolicy 3 I rasterizeResolution 72 I preserveGradientPolicy 4 I preserveTextPolicy 4 B writeImages 1 I versionKey 2 B includeSymbol 0 B includeXMP 0 B aiEditCap 1 B includeObjectOutsideArtboard 0 "/>
+          <ai:Dict data="B includeObjectOutsideArtboard 0 I expandBlendsOption 5 B downsampleLinkedImages 0 I rasterizeResolution 72 I preserveGradientPolicy 4 I preserveFilterPolicy 3 I preserveTextPolicy 4 B aiEditCap 1 B includeXMP 0 I versionKey 2 B writeImages 1 B includeSymbol 0 "/>
         </ai:SaveOptions>
         <ai:DocData base="AwayIcon.assets/images" rulerCanvasDiffH="13.5" rulerCanvasDiffV="13.5">
           <ai:DocRasterSettings>
@@ -32,7 +39,7 @@
           <ai:Dict/>
         </ai:AutoGenImageList>
       </ai:PrivateElement>
-      <ai:PrivateElement flm:hashcode="618F96B53E3A5C6A2FDF67B879A4BE10" d:ref="#2">
+      <ai:PrivateElement flm:hashcode="90DD7AFE2422288881AF5AAF48447C74" d:ref="#2">
         <ai:LayerOptions color="5 79.31 257 128.502"/>
       </ai:PrivateElement>
     </Private>
