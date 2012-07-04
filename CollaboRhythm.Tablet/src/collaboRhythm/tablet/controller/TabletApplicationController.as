@@ -135,7 +135,7 @@ package collaboRhythm.tablet.controller
 
 			if (_reloadWithFullView)
 			{
-				appControllersMediator.showFullView(_reloadWithFullView);
+				appControllersMediator.showFullView("local", _reloadWithFullView);
 				_reloadWithFullView = null;
 			}
 		}

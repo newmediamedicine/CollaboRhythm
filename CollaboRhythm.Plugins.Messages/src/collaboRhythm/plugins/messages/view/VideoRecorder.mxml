@@ -179,8 +179,11 @@
 		private function removedFromStageHandler():void
 		{
 			videoDisplay.attachCamera(null);
-			_netStream.attachCamera(null);
-			_netStream.attachAudio(null);
+			if (_netStream)
+			{
+				_netStream.attachCamera(null);
+				_netStream.attachAudio(null);
+			}
 			_camera = null;
 			_microphone = null;
 		}

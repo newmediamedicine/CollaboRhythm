@@ -79,7 +79,8 @@
 				var scheduleItemOccurrenceReportingModel:IHealthActionListViewModel = healthActionListViewAdapter.model;
 				_scheduleItemOccurrenceReportingController = healthActionListViewAdapter.controller;
 				scheduleItemOccurrenceReportingModel.healthActionInputController = healthActionsModel.healthActionInputControllerFactory.createHealthActionInputController(healthActionListViewAdapter.healthAction,
-						null, healthActionsModel, healthActionsList.healthActionsAppController.viewNavigator);
+						null, healthActionsModel, healthActionsList.healthActionsAppController.viewNavigator,
+						healthActionsList.healthActionsAppController.collaborationLobbyNetConnectionServiceProxy);
 
 				nameLabel.text = healthActionListViewAdapter.name;
 				descriptionLabel.text = healthActionListViewAdapter.description;

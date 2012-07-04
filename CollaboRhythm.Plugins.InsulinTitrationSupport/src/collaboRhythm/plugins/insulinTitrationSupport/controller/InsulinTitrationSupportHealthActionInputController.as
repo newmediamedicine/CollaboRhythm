@@ -4,9 +4,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 	import collaboRhythm.plugins.insulinTitrationSupport.view.InsulinTitrationSupportHealthActionInputView;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
+	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+	import collaboRhythm.shared.collaboration.model.CollaborationModel;
+	import collaboRhythm.shared.collaboration.model.CollaborationViewSynchronizationEvent;
+	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import flash.net.URLVariables;
+	import flash.utils.getQualifiedClassName;
 
 	import spark.components.ViewNavigator;
 
@@ -16,19 +21,58 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 
 		private var _dataInputModel:InsulinTitrationSupportHealthActionInputModel;
 		private var _viewNavigator:ViewNavigator;
+		private var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
 
 		public function InsulinTitrationSupportHealthActionInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
-																 healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
-																 viewNavigator:ViewNavigator)
+																		   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+																		   viewNavigator:ViewNavigator,
+																		   collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy)
 		{
-			_dataInputModel = new InsulinTitrationSupportHealthActionInputModel(scheduleItemOccurrence, healthActionModelDetailsProvider);
+			_dataInputModel = new InsulinTitrationSupportHealthActionInputModel(scheduleItemOccurrence,
+					healthActionModelDetailsProvider);
 			_viewNavigator = viewNavigator;
+			_collaborationLobbyNetConnectionServiceProxy = collaborationLobbyNetConnectionServiceProxy as
+					CollaborationLobbyNetConnectionServiceProxy;
+
+			_collaborationLobbyNetConnectionServiceProxy.addEventListener(getQualifiedClassName(this),
+					collaborationViewSynchronization_eventHandler);
+		}
+
+		private function collaborationViewSynchronization_eventHandler(event:CollaborationViewSynchronizationEvent):void
+		{
+			if (event.synchronizeData)
+			{
+				this[event.synchronizeFunction]("remote", event.synchronizeData);
+			}
+			else
+			{
+				this[event.synchronizeFunction]("remote");
+			}
 		}
 
 		public function handleHealthActionResult():void
 		{
 //			Alert.show("Show insulin titration support health action input view.")
 
+			prepareChartsForDecision("local");
+			showCharts();
+		}
+
+		public function prepareChartsForDecision(source:String):void
+		{
+			if (source == "local" &&
+					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"prepareChartsForDecision");
+			}
+
+			_dataInputModel.prepareChartsForDecision();
+		}
+
+		public function showCharts():void
+		{
 			_dataInputModel.showCharts();
 		}
 

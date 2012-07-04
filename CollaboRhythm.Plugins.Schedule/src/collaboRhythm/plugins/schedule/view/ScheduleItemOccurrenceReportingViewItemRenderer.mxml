@@ -82,7 +82,8 @@
 					_scheduleItemOccurrenceReportingController = scheduleItemOccurrenceReportingViewAdapter.controller;
 					scheduleItemOccurrenceReportingModel.healthActionInputController = scheduleModel.healthActionInputControllerFactory.createHealthActionInputController(scheduleItemOccurrenceReportingViewAdapter.healthAction,
 							_scheduleItemOccurrence, scheduleModel,
-							scheduleGroupReportingView.scheduleReportingController.viewNavigator);
+							scheduleGroupReportingView.scheduleReportingController.viewNavigator,
+							scheduleGroupReportingView.scheduleReportingController.collaborationLobbyNetConnectionServiceProxy);
 
 					nameLabel.text = scheduleItemOccurrenceReportingViewAdapter.name;
 					descriptionLabel.text = scheduleItemOccurrenceReportingViewAdapter.description;

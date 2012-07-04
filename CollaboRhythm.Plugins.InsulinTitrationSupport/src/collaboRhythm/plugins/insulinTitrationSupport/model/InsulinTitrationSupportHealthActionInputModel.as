@@ -12,9 +12,13 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			super(scheduleItemOccurrence, healthActionModelDetailsProvider);
 		}
 
-		public function showCharts():void
+		public function prepareChartsForDecision():void
 		{
 			_healthActionModelDetailsProvider.record.healthChartsModel.prepareForDecision("Health Charts - Insulin Titration", scheduleItemOccurrence);
+		}
+
+		public function showCharts():void
+		{
 			_healthActionModelDetailsProvider.navigationProxy.showFullView("Health Charts");
 		}
 	}

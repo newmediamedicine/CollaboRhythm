@@ -14,7 +14,7 @@ package collaboRhythm.core.model
 
 		public function showFullView(fullViewName:String):void
 		{
-			_applicationControllerBase.appControllersMediator.showFullView(fullViewName);
+			_applicationControllerBase.appControllersMediator.showFullView("local", fullViewName);
 		}
 	}
 }

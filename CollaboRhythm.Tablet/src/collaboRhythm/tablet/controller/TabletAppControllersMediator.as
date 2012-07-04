@@ -17,32 +17,42 @@
 package collaboRhythm.tablet.controller
 {
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
+	import collaboRhythm.shared.collaboration.model.CollaborationModel;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.Settings;
 
+	import flash.utils.getQualifiedClassName;
+
 	import mx.core.IVisualElementContainer;
 
 	public class TabletAppControllersMediator extends AppControllersMediatorBase
-    {
+	{
 		private var _tabletApplicationController:TabletApplicationController;
 
-        public function TabletAppControllersMediator(widgetContainers:Vector.<IVisualElementContainer>,
+		public function TabletAppControllersMediator(widgetContainers:Vector.<IVisualElementContainer>,
 													 fullParentContainer:IVisualElementContainer,
-													 componentContainer:IComponentContainer,
-													 settings:Settings,
+													 componentContainer:IComponentContainer, settings:Settings,
 													 appControllerConstructorParams:AppControllerConstructorParams,
 													 tabletApplicationController:TabletApplicationController)
-        {
-            super(widgetContainers, fullParentContainer, componentContainer, settings, appControllerConstructorParams);
+		{
+			super(widgetContainers, fullParentContainer, componentContainer, settings, appControllerConstructorParams);
 			_tabletApplicationController = tabletApplicationController;
-        }
+		}
 
 		override protected function showFullViewResolved(appController:AppControllerBase,
 														 source:String):AppControllerBase
 		{
+			if (source == "local" &&
+					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"showFullView", appController.name);
+			}
+
 			// destroy all full views and widget views
 
 			var appInstance:AppControllerBase;

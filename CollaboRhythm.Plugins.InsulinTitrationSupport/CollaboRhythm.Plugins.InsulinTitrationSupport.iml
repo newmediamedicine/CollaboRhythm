@@ -32,6 +32,9 @@
             <entry library-name="mobile" library-level="project">
               <dependency linkage="Merged" />
             </entry>
+            <entry module-name="CollaboRhythm.Shared.Collaboration" build-configuration-name="CollaboRhythm.Shared.Collaboration">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -71,6 +74,7 @@
     <orderEntry type="module" module-name="McCuneChart" />
     <orderEntry type="module" module-name="ChartBackgroundsLib" />
     <orderEntry type="library" name="mobile" level="project" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" />
   </component>
 </module>
 
