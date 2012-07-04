@@ -35,6 +35,8 @@ package collaboRhythm.plugins.schedule.model
 	import mx.binding.utils.BindingUtils;
 	import mx.binding.utils.ChangeWatcher;
 	import mx.collections.ArrayCollection;
+	import mx.events.CollectionEvent;
+	import mx.events.CollectionEventKind;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 
@@ -111,14 +113,35 @@ package collaboRhythm.plugins.schedule.model
 				{
 					return;
 				}
+				addCollectionChangeEventListeners();
 				updateScheduleModelForToday();
 				isInitialized = true;
 				dispatchEvent(new ScheduleModelEvent(ScheduleModelEvent.INITIALIZED));
 			}
 		}
 
+		private function addCollectionChangeEventListeners():void
+		{
+			for each (var scheduleItemsCollectionsArray:ArrayCollection in _scheduleItemsCollectionsArray)
+			{
+				scheduleItemsCollectionsArray.addEventListener(CollectionEvent.COLLECTION_CHANGE,
+						documentCollection_changeHandler);
+			}
+		}
+
+		private function documentCollection_changeHandler(event:CollectionEvent):void
+		{
+			if (event.kind == CollectionEventKind.ADD)
+			{
+				updateScheduleModelForToday();
+			}
+		}
+
 		private function updateScheduleModelForToday():void
 		{
+			_scheduleGroupsHashMap.clear();
+			_scheduleGroupsCollection.removeAll();
+			_scheduleItemOccurrencesHashMap.clear();
 			_scheduleItemOccurrencesVector = getScheduleItemOccurrencesForToday();
 			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrencesVector)
 			{
