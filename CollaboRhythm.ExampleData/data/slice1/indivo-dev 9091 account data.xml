@@ -69,7 +69,7 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId>b3ce662a-f125-45a2-b249-a551bd7bf004</recordId>
-    <status></status>
+    <status/>
     <accessKey>at2RIzJ6RRoSVCu63mDA</accessKey>
     <accessSecret>1YbD3sHRYOJTCM26h8XQ</accessSecret>
     <demographicsId>7deb473e-c26d-4364-a240-3858b1a423ef</demographicsId>
@@ -114,44 +114,44 @@
     <notes>Demo physician copy for titration</notes>
     <recordSeed/>
   </AccountSource>
-	<AccountSource>
-   <accountId>whsu@records.media.mit.edu</accountId>
-   <contactEmail>sgilroy@mit.edu</contactEmail>
-   <fullName>Will Hsu</fullName>
-   <username>whsu</username>
-   <password>whsu-dope75</password>
-   <givenName>Will</givenName>
-   <familyName>Hsu</familyName>
-   <streetAddress>1066 Spinel Rd</streetAddress>
-   <postalCode>2142</postalCode>
-   <locality>Cambridge</locality>
-   <region>Massachusetts</region>
-   <country>US</country>
-   <timeZone>-5GMT</timeZone>
-   <emailPersonal>whsu@records.media.mit.edu</emailPersonal>
-   <phoneNumberHome>1-555-555-6548</phoneNumberHome>
-   <phoneNumberWork>1-555-555-8654</phoneNumberWork>
-   <instantMessengerName>whsu@records.media.mit.edu</instantMessengerName>
-   <dateOfBirth>1957-03-29T00:00:00Z</dateOfBirth>
-   <age>53</age>
-   <gender>Male</gender>
-   <ethnicity>Asian</ethnicity>
-   <language>English</language>
-   <maritalStatus>Married</maritalStatus>
-   <employmentStatus>Employed</employmentStatus>
-   <employmentIndustry>Medical</employmentIndustry>
-   <occupation>Doctor</occupation>
-   <religion>Protestant</religion>
-   <highestEducation>University</highestEducation>
-   <organDonar>true</organDonar>
-   <recordId></recordId>
-   <status></status>
-   <accessKey>at2RIzJ6RRoSVCu63mDA</accessKey>
-   <accessSecret>1YbD3sHRYOJTCM26h8XQ</accessSecret>
-   <demographicsId>7deb473e-c26d-4364-a240-3858b1a423ef</demographicsId>
-   <notes>Demo physician for Will</notes>
-   <recordSeed/>
- </AccountSource>
+  <AccountSource>
+    <accountId>whsu@records.media.mit.edu</accountId>
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    <fullName>Will Hsu</fullName>
+    <username>whsu</username>
+    <password>whsu-dope75</password>
+    <givenName>Will</givenName>
+    <familyName>Hsu</familyName>
+    <streetAddress>1066 Spinel Rd</streetAddress>
+    <postalCode>2142</postalCode>
+    <locality>Cambridge</locality>
+    <region>Massachusetts</region>
+    <country>US</country>
+    <timeZone>-5GMT</timeZone>
+    <emailPersonal>whsu@records.media.mit.edu</emailPersonal>
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    <instantMessengerName>whsu@records.media.mit.edu</instantMessengerName>
+    <dateOfBirth>1957-03-29T00:00:00Z</dateOfBirth>
+    <age>53</age>
+    <gender>Male</gender>
+    <ethnicity>Asian</ethnicity>
+    <language>English</language>
+    <maritalStatus>Married</maritalStatus>
+    <employmentStatus>Employed</employmentStatus>
+    <employmentIndustry>Medical</employmentIndustry>
+    <occupation>Doctor</occupation>
+    <religion>Protestant</religion>
+    <highestEducation>University</highestEducation>
+    <organDonar>true</organDonar>
+    <recordId>b14e40ae-5bba-46de-8046-c1fb941a326b</recordId>
+    <status>Demographics document created. Id: 657e3b06-1b72-4130-b746-a1a86332d619</status>
+    <accessKey>scjC855R8GC95GyPwk02</accessKey>
+    <accessSecret>a6EZSt04A2APJWzgJZNf</accessSecret>
+    <demographicsId>657e3b06-1b72-4130-b746-a1a86332d619</demographicsId>
+    <notes>Demo physician for Will</notes>
+    <recordSeed/>
+  </AccountSource>
   <AccountSource>
     <accountId>singlemed1@records.media.mit.edu</accountId>
     <contactEmail>sgilroy@mit.edu</contactEmail>
@@ -296,11 +296,11 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId/>
-    <accessKey/>
-    <accessSecret/>
-    <demographicsId>12625ea9-f3c7-44a9-bf4d-996da59fd4cc</demographicsId>
-    <status/>
+    <recordId>628f4ec3-4ea5-4209-bbce-0feaed5f7b0c</recordId>
+    <accessKey>JHplAmT4hZZXaPgLqC5w</accessKey>
+    <accessSecret>AXAp0L9WVGOcl9D0i0sK</accessSecret>
+    <demographicsId>c4262606-291e-4fec-88e5-6502d0e9179b</demographicsId>
+    <status>Created 13/13 documents, 7/8 relationships</status>
     <notes/>
     <recordSeed/>
   </AccountSource>
@@ -972,6 +972,6 @@
     <notes>Demo account for Mar and Oovit</notes>
     <recordSeed>2</recordSeed>
   </AccountSource>
-  <saveDate>Tue Jun 12 14:47:19 GMT-0400 2012</saveDate>
+  <saveDate>Mon Jul 2 18:39:26 GMT-0400 2012</saveDate>
   <indivoServerBaseURL>http://indivo-dev.media.mit.edu:9091</indivoServerBaseURL>
 </dataroot>

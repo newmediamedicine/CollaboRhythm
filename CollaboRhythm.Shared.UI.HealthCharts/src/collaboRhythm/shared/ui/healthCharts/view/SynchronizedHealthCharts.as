@@ -1713,25 +1713,23 @@ package collaboRhythm.shared.ui.healthCharts.view
 					maximum = Math.max(maximum, chart.maximumDataTime);
 			}
 
+			var initialLeftRangeTime:Number = initialRightRangeTime - initialDurationTime;
+
 			if (!isNaN(minimum) && !isNaN(maximum))
 			{
+				minimum = Math.min(minimum, initialLeftRangeTime);
+				maximum = Math.max(maximum, initialRightRangeTime);
+
 				for each (chart in charts)
 				{
 					chart.today = today;
 					chart.initialRightRangeTime = initialRightRangeTime;
 					chart.minimumTime = minimum;
 					chart.maximumTime = maximum;
-//					if (chart.allSeriesUpdated())
-//					{
-//						// first time initialization complete; nothing else to do
-//					}
-//					else //if (chart.focusTime == chart.rightRangeTime == chart.maximumTime)
-//					{
-						chart.rightRangeTime = initialRightRangeTime;
-						chart.leftRangeTime = Math.max(minimum, chart.rightRangeTime - initialDurationTime);
-						chart.updateForScroll();
-						chart.focusTime = today.valueOf();
-//					}
+					chart.rightRangeTime = initialRightRangeTime;
+					chart.leftRangeTime = initialLeftRangeTime;
+					chart.updateForScroll();
+					chart.focusTime = today.valueOf();
 
 					// TODO: it might be more optimal to only draw background elements after the dates have been synchronized
 //					var chartModifier:IChartModifier = getChartModifier(chart);
