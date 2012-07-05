@@ -265,7 +265,8 @@ package collaboRhythm.plugins.schedule.controller
 			if (!_scheduleReportingController)
 			{
 				_scheduleReportingController = new ScheduleReportingController(scheduleModel,
-						_fullView as ScheduleReportingFullView, _viewNavigator);
+						_fullView as ScheduleReportingFullView, _viewNavigator,
+						_collaborationLobbyNetConnectionServiceProxy);
 				_scheduleReportingController.addEventListener(AppEvent.HIDE_FULL_VIEW, hideFullViewHandler, false, 0,
 						true);
 				_scheduleReportingController.addEventListener(AppEvent.SHOW_FULL_VIEW, showFullViewHandler, false, 0,

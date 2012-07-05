@@ -10,9 +10,8 @@ package collaboRhythm.plugins.equipment.chameleonSpirometer.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleCollectionsProvider;
 	import collaboRhythm.plugins.schedule.shared.model.MedicationHealthAction;
+	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
-	import collaboRhythm.shared.model.services.ICurrentDateSource;
-	import collaboRhythm.shared.model.services.WorkstationKernel;
 
 	import flash.net.URLVariables;
 
@@ -35,7 +34,8 @@ package collaboRhythm.plugins.equipment.chameleonSpirometer.model
 														  scheduleItemOccurrence:ScheduleItemOccurrence,
 														  healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
 														  viewNavigator:ViewNavigator,
-														  currentHealthActionInputController:IHealthActionInputController):IHealthActionInputController
+														  currentHealthActionInputController:IHealthActionInputController,
+														  collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy):IHealthActionInputController
 		{
 			if (healthAction.type == MedicationHealthAction.TYPE)
 			{

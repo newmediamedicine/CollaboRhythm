@@ -1,5 +1,6 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
+	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import flash.net.URLVariables;
@@ -26,7 +27,8 @@ package collaboRhythm.plugins.schedule.shared.model
 												   scheduleItemOccurrence:ScheduleItemOccurrence,
 												   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
 												   viewNavigator:ViewNavigator,
-												   currentHealthActionInputController:IHealthActionInputController):IHealthActionInputController;
+												   currentHealthActionInputController:IHealthActionInputController,
+												   collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy):IHealthActionInputController;
 
 		/**
 		 * Creates a health action input controller for handling input from a device. If this factory does not support

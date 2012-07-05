@@ -28,6 +28,9 @@ package collaboRhythm.core.controller.apps
 	import collaboRhythm.shared.apps.procedures.controller.ProceduresAppController;
 	import collaboRhythm.shared.apps.socialHistory.controller.SocialHistoryAppController;
 	import collaboRhythm.shared.apps.vitals.controller.VitalsAppController;
+	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+	import collaboRhythm.shared.collaboration.model.CollaborationModel;
+	import collaboRhythm.shared.collaboration.model.CollaborationViewSynchronizationEvent;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.AppControllerFactory;
@@ -73,11 +76,11 @@ package collaboRhythm.core.controller.apps
 		private var _currentFullView:String;
 		private var _appsInitialized:ArrayCollection;
 		private var _appControllerConstructorParams:AppControllerConstructorParams;
+		protected var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
 
 		public function AppControllersMediatorBase(widgetContainers:Vector.<IVisualElementContainer>,
 												   fullParentContainer:IVisualElementContainer,
-												   componentContainer:IComponentContainer,
-												   settings:Settings,
+												   componentContainer:IComponentContainer, settings:Settings,
 												   appControllerConstructorParams:AppControllerConstructorParams)
 		{
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
@@ -86,10 +89,26 @@ package collaboRhythm.core.controller.apps
 			_componentContainer = componentContainer;
 			_settings = settings;
 			_appControllerConstructorParams = appControllerConstructorParams;
+			_collaborationLobbyNetConnectionServiceProxy = appControllerConstructorParams.collaborationLobbyNetConnectionServiceProxy as
+					CollaborationLobbyNetConnectionServiceProxy;
 
+			_collaborationLobbyNetConnectionServiceProxy.addEventListener(getQualifiedClassName(this),
+					collaborationViewSynchronization_eventHandler);
 //			_collaborationRoomNetConnectionService.netConnection.client.showFullView = showFullView;
 
 			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
+		}
+
+		private function collaborationViewSynchronization_eventHandler(event:CollaborationViewSynchronizationEvent):void
+		{
+			if (event.synchronizeData)
+			{
+				this[event.synchronizeFunction]("remote", event.synchronizeData);
+			}
+			else
+			{
+				this[event.synchronizeFunction]("remote");
+			}
 		}
 
 		protected function get componentContainer():IComponentContainer
@@ -226,7 +245,7 @@ package collaboRhythm.core.controller.apps
 				initializeAppGroup(appGroupDescriptor.id);
 
 				_logger.info("Creating {0} apps for group {1}", appGroupDescriptor.appDescriptors.length,
-							appGroupDescriptor.id);
+						appGroupDescriptor.id);
 				for each (var appDescriptor:String in appGroupDescriptor.appDescriptors)
 				{
 					var appClass:Class = dynamicAppDictionary.getValueByKey(appDescriptor);
@@ -237,7 +256,7 @@ package collaboRhythm.core.controller.apps
 						{
 							appClass = ReflectionUtils.getClassByName(appDescriptor.replace("::", "."));
 						}
-						catch(e:Error)
+						catch (e:Error)
 						{
 							_logger.error("Error attempting to getClassByAlias: " + e.message);
 						}
@@ -246,7 +265,8 @@ package collaboRhythm.core.controller.apps
 					if (appClass)
 						createApp(appClass);
 					else
-						_logger.error("Failed to get instance of app controller class: " + appDescriptor + " for app group #" + groupIndex + " (" + appGroupDescriptor.id + ")");
+						_logger.error("Failed to get instance of app controller class: " + appDescriptor +
+								" for app group #" + groupIndex + " (" + appGroupDescriptor.id + ")");
 				}
 			}
 		}
@@ -351,7 +371,7 @@ package collaboRhythm.core.controller.apps
 			if (event.appController == null)
 			{
 				// TODO: use constant instead of magic string
-				appInstance = showFullView(event.applicationName, "local");
+				appInstance = showFullView("local", event.applicationName);
 			}
 			else
 			{
@@ -362,7 +382,7 @@ package collaboRhythm.core.controller.apps
 				InteractionLogUtil.logAppInstance(_logger, "Show full view", event.viaMechanism, appInstance);
 		}
 
-		public function showFullView(applicationName:String, source:String = "local"):AppControllerBase
+		public function showFullView(source:String, applicationName:String):AppControllerBase
 		{
 			var appController:AppControllerBase = _apps.getValueByKey(applicationName);
 			if (appController != null)
@@ -394,25 +414,26 @@ package collaboRhythm.core.controller.apps
 				(widgetContainer as UIComponent).validateNow();
 			}
 
-//			if (source == "local")
-//			{
-//				_collaborationRoomNetConnectionService.netConnection.call("showFullView", null, _collaborationRoomNetConnectionService.localUserName, appController.name);
-//			}
+			if (source == "local" && _collaborationLobbyNetConnectionServiceProxy.collaborationState == CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+										"showFullView", appController.name);
+			}
 			return appInstance;
 		}
 
 		private function keyDownHandler(event:KeyboardEvent):void
 		{
-/*
-			if (event.keyCode == Keyboard.BACK)
-			{
-				if (currentFullView)
-				{
-					event.preventDefault();
-					hideFullViews("back key pressed");
-				}
-			}
-*/
+			/*
+			 if (event.keyCode == Keyboard.BACK)
+			 {
+			 if (currentFullView)
+			 {
+			 event.preventDefault();
+			 hideFullViews("back key pressed");
+			 }
+			 }
+			 */
 		}
 
 		public function hideFullViews(viaMechanism:String):void
@@ -463,7 +484,7 @@ package collaboRhythm.core.controller.apps
 				for each (var appGroup:AppGroup in _appGroups.values())
 				{
 					_settings.appGroups.addItem(new AppGroupDescriptor(appGroup.id,
-																	   appGroup.appDescriptors));
+							appGroup.appDescriptors));
 				}
 			}
 		}

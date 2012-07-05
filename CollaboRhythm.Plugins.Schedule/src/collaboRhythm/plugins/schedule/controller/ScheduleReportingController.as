@@ -20,6 +20,7 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
 	import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
 	import collaboRhythm.shared.controller.apps.AppEvent;
+	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 
 	import flash.events.EventDispatcher;
 	import flash.utils.getQualifiedClassName;
@@ -37,10 +38,15 @@ package collaboRhythm.plugins.schedule.controller
 		private var _scheduleReportingModel:ScheduleReportingModel;
 		protected var _logger:ILogger;
         private var _viewNavigator:ViewNavigator;
+		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
 
-		public function ScheduleReportingController(scheduleModel:ScheduleModel, scheduleReportingFullView:ScheduleReportingFullView, viewNavigator:ViewNavigator)
+		public function ScheduleReportingController(scheduleModel:ScheduleModel,
+													scheduleReportingFullView:ScheduleReportingFullView,
+													viewNavigator:ViewNavigator,
+													collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy)
 		{
             _viewNavigator = viewNavigator;
+			_collaborationLobbyNetConnectionServiceProxy = collaborationLobbyNetConnectionServiceProxy;
             _logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_scheduleModel = scheduleModel;
 			_scheduleReportingFullView = scheduleReportingFullView;
@@ -71,6 +77,11 @@ package collaboRhythm.plugins.schedule.controller
 		public function goBack():void
 		{
 			_viewNavigator.popView();
+		}
+
+		public function get collaborationLobbyNetConnectionServiceProxy():ICollaborationLobbyNetConnectionServiceProxy
+		{
+			return _collaborationLobbyNetConnectionServiceProxy;
 		}
 	}
 }
