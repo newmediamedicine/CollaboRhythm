@@ -5,6 +5,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.Relationship;
 	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionPlan;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
@@ -15,11 +16,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.ActionStepResult;
 	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
+	import collaboRhythm.shared.ui.healthCharts.view.SynchronizedHealthCharts;
 
 	import flash.utils.getQualifiedClassName;
 
 	import mx.binding.utils.BindingUtils;
-
 	import mx.collections.ArrayCollection;
 	import mx.events.CollectionEvent;
 	import mx.events.CollectionEventKind;
@@ -54,12 +55,15 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _chartModelDetails:IChartModelDetails;
 		private var _isInitialized:Boolean;
 		protected var _logger:ILogger;
+		private var _eligibleBloodGlucoseMeasurements:Vector.<VitalSign>;
+
 		/**
 		 * Number of milliseconds after the end of a schedule occurrence for which the item/action is to be still considered
 		 * "current" or "next" even though it is in the past (has been missed). This a non-negative value would allow the
 		 * schedule to be changed for a dose of medication (for example) after the medication was due to be taken.
 		 */
 		private const NEXT_OCCURRENCE_DELTA:Number = 0;
+		private static const MILLISECONDS_IN_DAY:Number = 1000 * 60 * 60 * 24;
 
 		public function InsulinTitrationDecisionPanelModel(chartModelDetails:IChartModelDetails)
 		{
@@ -70,8 +74,54 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private function updateBloodGlucoseAverage():void
 		{
+			pickEligibleBloodGlucoseMeasurements();
 			bloodGlucoseAverage = getBloodGlucoseAverage();
 			updateStep1State();
+		}
+
+		/**
+		 * Picks the eligible blood glucose measurements for the 303 algorithm.
+		 * For a blood glucose measurement to eligible for determining the average for the algorithm:
+		 * 	1) it must be the first measurement taken in the day
+		 * 	2) it must be taken before eating breakfast (preprandial)
+		 * 	3) it must fall within a window of time including today and the three days prior to today (four day window)
+		 */
+		private function pickEligibleBloodGlucoseMeasurements():void
+		{
+			_eligibleBloodGlucoseMeasurements = new Vector.<VitalSign>();
+			var bloodGlucoseArrayCollection:ArrayCollection = chartModelDetails.record.vitalSignsModel.vitalSignsByCategory.getItem(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY);
+			var previousBloodGlucose:VitalSign;
+			var now:Date = _chartModelDetails.currentDateSource.now();
+			var eligibleWindowCutoff:Date = new Date(SynchronizedHealthCharts.roundTimeToNextDay(now).valueOf() - MILLISECONDS_IN_DAY * 4);
+			if (bloodGlucoseArrayCollection && bloodGlucoseArrayCollection.length > 0)
+			{
+				for each (var bloodGlucose:VitalSign in bloodGlucoseArrayCollection)
+				{
+					if (bloodGlucose.dateMeasuredStart.valueOf() > eligibleWindowCutoff.valueOf() && bloodGlucose.dateMeasuredStart.valueOf() < now.valueOf())
+					{
+						for each (var relationship:Relationship in bloodGlucose.isRelatedFrom)
+						{
+							// TODO: implement more robustly; for now we are assuming that any blood glucose that is an adherence result is the eligible preprandial measurement
+							if (relationship.type == AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT)
+							{
+								// TODO: find a better way to determine if the two measurements are in the same day
+								if (previousBloodGlucose == null
+										|| previousBloodGlucose.dateMeasuredStart.toDateString() != bloodGlucose.dateMeasuredStart.toDateString())
+								{
+									_eligibleBloodGlucoseMeasurements.push(bloodGlucose);
+									previousBloodGlucose = bloodGlucose;
+								}
+							}
+						}
+					}
+				}
+
+				// remove the oldest so we only have the 3 most recent
+				while (_eligibleBloodGlucoseMeasurements.length > 3)
+				{
+					_eligibleBloodGlucoseMeasurements.shift();
+				}
+			}
 		}
 
 		public function get isAverageAvailable():Boolean
@@ -282,49 +332,19 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private function getBloodGlucoseAverage():Number
 		{
-			var bloodGlucoseArrayCollection:ArrayCollection = chartModelDetails.record.vitalSignsModel.vitalSignsByCategory.getItem(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY);
 			var bloodGlucoseSum:Number = 0;
 			var bloodGlucoseCount:int = 0;
-			if (bloodGlucoseArrayCollection && bloodGlucoseArrayCollection.length > 0)
-			{
-				var i:int = 0; // index from 0 = last item in array collection backwards through the data
-				var stillEligible:Boolean = true;
-				while (bloodGlucoseCount < 3 && bloodGlucoseArrayCollection.length - 1 - i >= 0 && stillEligible)
-				{
-					var bloodGlucose:VitalSign = bloodGlucoseArrayCollection[bloodGlucoseArrayCollection.length - 1 -
-							i];
-					if (eligibleForAverage(bloodGlucose))
-					{
-						bloodGlucoseSum += bloodGlucose.resultAsNumber;
-						bloodGlucoseCount++;
-					}
-					else
-					{
-						stillEligible = false;
-					}
 
-					i++;
-				}
+			for each (var bloodGlucose:VitalSign in _eligibleBloodGlucoseMeasurements)
+			{
+				bloodGlucoseSum += bloodGlucose.resultAsNumber;
+				bloodGlucoseCount++;
 			}
 
 			var average:Number = NaN;
 			if (bloodGlucoseCount > 0)
 				average = bloodGlucoseSum / bloodGlucoseCount;
 			return average;
-		}
-
-		/**
-		 * Fora blood glucose measurement to eligible for determining the average for the algorightm:
-		 * 	1) it must be the first measurement taken in the day
-		 * 	2) it must be taken before eating breakfast (preprandial)
-		 * 	3) it must fall within a window of time including today and the three days prior to today (four day window)
-		 * @param bloodGlucose
-		 * @return
-		 */
-		private function eligibleForAverage(bloodGlucose:VitalSign):Boolean
-		{
-			// TODO: implement more robustly
-			return true;
 		}
 
 		public function get chartModelDetails():IChartModelDetails
@@ -539,6 +559,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			}
 
 			return null;
+		}
+
+		public function isMeasurementEligible(vitalSign:VitalSign):Boolean
+		{
+			return _eligibleBloodGlucoseMeasurements && _eligibleBloodGlucoseMeasurements.indexOf(vitalSign) != -1;
 		}
 	}
 }

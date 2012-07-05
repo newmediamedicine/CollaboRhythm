@@ -1115,8 +1115,19 @@ package collaboRhythm.shared.ui.healthCharts.view
 				var vitalSignChartDescriptor:VitalSignChartDescriptor = chartDescriptor as VitalSignChartDescriptor;
 				if (vitalSignChartDescriptor)
 				{
+					var seriesDataCollection:ArrayCollection;
+					var chartModifier:IChartModifier = _chartModifiers.getValueByKey(chartDescriptor.descriptorKey);
+					if (chartModifier)
+					{
+						seriesDataCollection = chartModifier.getSeriesDataCollection();
+					}
+					if (seriesDataCollection == null)
+					{
+						seriesDataCollection = model.record.vitalSignsModel.vitalSignsByCategory.getItem(vitalSignChartDescriptor.vitalSignCategory);
+					}
+
 					updateAdherenceChart(getVitalSignChartKey(vitalSignChartDescriptor.vitalSignCategory),
-							model.record.vitalSignsModel.vitalSignsByCategory.getItem(vitalSignChartDescriptor.vitalSignCategory),
+							seriesDataCollection,
 							"dateMeasuredStart");
 					updateAdherenceChart(getVitalSignAdherenceStripChartKey(vitalSignChartDescriptor.vitalSignCategory),
 							adherenceStripItemProxies, "date");
@@ -1750,7 +1761,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			return roundTimeToNextDay(today).valueOf();
 		}
 
-		protected function roundTimeToNextDay(date:Date):Date
+		public static function roundTimeToNextDay(date:Date):Date
 		{
 			var interval:int = 60 * 24;
 			var timezoneOffsetMilliseconds:Number = date.getTimezoneOffset() * 60 * 1000;
