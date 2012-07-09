@@ -83,9 +83,9 @@ package collaboRhythm.shared.model.healthRecord
 				if (relationship.relatesFrom != null)
 				{
 					var otherDocument:IDocument = relationship.relatesFrom;
-					if (otherDocument.isRelatedFrom.contains(relationship))
+					if (otherDocument.relatesTo.contains(relationship))
 					{
-						otherDocument.isRelatedFrom.removeItemAt(otherDocument.isRelatedFrom.getItemIndex(relationship));
+						otherDocument.relatesTo.removeItemAt(otherDocument.relatesTo.getItemIndex(relationship));
 					}
 				}
 			}
@@ -94,9 +94,9 @@ package collaboRhythm.shared.model.healthRecord
 				if (relationship.relatesTo != null)
 				{
 					otherDocument = relationship.relatesTo;
-					if (otherDocument.relatesTo.contains(relationship))
+					if (otherDocument.isRelatedFrom.contains(relationship))
 					{
-						otherDocument.relatesTo.removeItemAt(otherDocument.relatesTo.getItemIndex(relationship));
+						otherDocument.isRelatedFrom.removeItemAt(otherDocument.isRelatedFrom.getItemIndex(relationship));
 					}
 				}
 			}
@@ -116,7 +116,19 @@ package collaboRhythm.shared.model.healthRecord
 		 */
 		public static function compareDocumentsByCreatedAtValue(documentBaseA:DocumentBase, documentBaseB:DocumentBase):int
 		{
-			if (documentBaseA.meta.createdAt.valueOf() < documentBaseB.meta.createdAt.valueOf())
+			if (documentBaseA.meta.createdAt == null && documentBaseB.meta.createdAt == null)
+			{
+				return 0;
+			}
+			else if (documentBaseA.meta.createdAt == null)
+			{
+				return 1;
+			}
+			else if (documentBaseB.meta.createdAt == null)
+			{
+				return -1;
+			}
+			else if (documentBaseA.meta.createdAt.valueOf() < documentBaseB.meta.createdAt.valueOf())
 			{
 				return 1;
 			}

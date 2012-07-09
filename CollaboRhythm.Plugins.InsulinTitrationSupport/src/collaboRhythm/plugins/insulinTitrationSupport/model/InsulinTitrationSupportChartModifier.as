@@ -1,10 +1,8 @@
 package collaboRhythm.plugins.insulinTitrationSupport.model
 {
 	import collaboRhythm.plugins.insulinTitrationSupport.view.InsulinTitrationDecisionPanel;
-	import collaboRhythm.plugins.insulinTitrationSupport.view.TitrationPanelMockup;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
-	import collaboRhythm.shared.ui.healthCharts.model.ChartModelDetails;
 	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.MedicationChartDescriptor;
@@ -17,37 +15,27 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import com.dougmccune.controls.SeriesDataSet;
 	import com.theory9.data.types.OrderedMap;
 
-	import flash.events.MouseEvent;
-
 	import mx.charts.HitData;
-
-	import mx.charts.renderers.CircleItemRenderer;
-
 	import mx.charts.series.PlotSeries;
-
 	import mx.collections.ArrayCollection;
 	import mx.core.ClassFactory;
-
 	import mx.core.IVisualElement;
-	import mx.core.UIComponent;
+	import mx.events.CollectionEvent;
 	import mx.graphics.SolidColor;
 	import mx.graphics.SolidColorStroke;
 
 	import qs.charts.dataShapes.DataDrawingCanvas;
 
-	import spark.components.Button;
-
 	import spark.components.Group;
 	import spark.components.Label;
-	import spark.components.View;
 	import spark.primitives.Rect;
-	import spark.skins.mobile.TransparentActionButtonSkin;
 
 	public class InsulinTitrationSupportChartModifier extends ChartModifierBase implements IChartModifier
 	{
-		private var _insulinTitrationDecisionPanelModel:InsulinTitrationDecisionPanelModel;
-
 		public static const INSULIN_LEVEMIR_CODE:String = "847241";
+
+		private var _insulinTitrationDecisionPanelModel:InsulinTitrationDecisionPanelModel;
+		private var _vitalSignsDataCollection:ArrayCollection;
 
 		public function InsulinTitrationSupportChartModifier(chartDescriptor:IChartDescriptor,
 															 chartModelDetails:IChartModelDetails,
@@ -94,8 +82,17 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		public override function getSeriesDataCollection():ArrayCollection
 		{
-			var vitalSignsDataCollection:ArrayCollection = chartModelDetails.record.vitalSignsModel.vitalSignsByCategory.getItem(vitalSignChartDescriptor.vitalSignCategory);
-			var seriesDataCollection:ArrayCollection = createProxiesForDecision(vitalSignsDataCollection);
+			if (_vitalSignsDataCollection)
+			{
+				_vitalSignsDataCollection.removeEventListener(CollectionEvent.COLLECTION_CHANGE,
+						vitalSignsDataCollection_collectionChangeHandler);
+			}
+
+			_vitalSignsDataCollection = chartModelDetails.record.vitalSignsModel.vitalSignsByCategory.getItem(vitalSignChartDescriptor.vitalSignCategory);
+			_vitalSignsDataCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
+					vitalSignsDataCollection_collectionChangeHandler, false, 0, true);
+
+			var seriesDataCollection:ArrayCollection = createProxiesForDecision(_vitalSignsDataCollection);
 			return seriesDataCollection;
 		}
 
@@ -230,6 +227,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				return false;
 
 			return _insulinTitrationDecisionPanelModel.save();
+		}
+
+		private function vitalSignsDataCollection_collectionChangeHandler(event:CollectionEvent):void
+		{
 		}
 	}
 }

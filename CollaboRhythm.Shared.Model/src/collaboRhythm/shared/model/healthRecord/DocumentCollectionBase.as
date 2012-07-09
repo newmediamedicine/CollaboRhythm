@@ -1,7 +1,11 @@
 package collaboRhythm.shared.model.healthRecord
 {
 
+	import flash.utils.getQualifiedClassName;
+
 	import mx.collections.ArrayCollection;
+	import mx.logging.ILogger;
+	import mx.logging.Log;
 
 	/**
 	 * Base class for a model class that manages a collection of documents of a specific type on a health record.
@@ -15,9 +19,11 @@ package collaboRhythm.shared.model.healthRecord
 		private var _isStitched:Boolean;
 		private var _isInitialized:Boolean = false;
 		private var _recordProxy:IRecordProxy;
+		protected var _logger:ILogger;
 
 		public function DocumentCollectionBase(documentType:String)
 		{
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_documentType = documentType;
 		}
 

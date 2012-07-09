@@ -17,6 +17,7 @@
 package collaboRhythm.shared.model.healthRecord.document
 {
 
+	import collaboRhythm.shared.model.DebugUtils;
 	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 
@@ -33,6 +34,7 @@ package collaboRhythm.shared.model.healthRecord.document
         private var _medicationAdministrations:HashMap = new HashMap();
 		private var _medicationAdministrationsCollectionsByCode:HashMap = new HashMap();
 		private var _medicationConcentrationCurvesByCode:HashMap = new HashMap();
+		private const _debugCollectionChanges:Boolean = false;
 
 		public function MedicationAdministrationsModel()
 		{
@@ -93,6 +95,8 @@ package collaboRhythm.shared.model.healthRecord.document
 				collection = new ArrayCollection();
 				_medicationAdministrationsCollectionsByCode.put(medicationAdministration.name.value, collection);
 			}
+			if (_debugCollectionChanges)
+				_logger.debug("addToMedicationAdministrationsCollectionsByCode collection(" + DebugUtils.getObjectMemoryHash(collection) + ")");
 			collection.addItem(medicationAdministration);
 		}
 
@@ -119,6 +123,8 @@ package collaboRhythm.shared.model.healthRecord.document
 			{
 				if (collection.contains(medicationAdministration))
 				{
+					if (_debugCollectionChanges)
+						_logger.debug("removeFromMedicationAdministrationsCollectionsByCode collection(" + DebugUtils.getObjectMemoryHash(collection) + ")");
 					collection.removeItemAt(collection.getItemIndex(medicationAdministration));
 				}
 			}

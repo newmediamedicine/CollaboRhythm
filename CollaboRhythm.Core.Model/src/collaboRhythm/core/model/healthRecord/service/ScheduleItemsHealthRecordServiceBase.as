@@ -35,15 +35,5 @@ package collaboRhythm.core.model.healthRecord.service
 			return scheduleItem.dateScheduled.valueOf() <= nowTime;
 		}
 
-		override protected function unmarshallSpecialRelationships(reportXml:XML, document:IDocument):void
-		{
-			var scheduleItem:ScheduleItemBase = document as ScheduleItemBase;
-
-			for each (var adherenceItemXml:XML in reportXml..relatesTo.relation.(@type == ScheduleItemBase.RELATION_TYPE_ADHERENCE_ITEM).relatedDocument)
-			{
-				scheduleItem.adherenceItems.put(adherenceItemXml.@id, null);
-			}
-		}
-
 	}
 }
