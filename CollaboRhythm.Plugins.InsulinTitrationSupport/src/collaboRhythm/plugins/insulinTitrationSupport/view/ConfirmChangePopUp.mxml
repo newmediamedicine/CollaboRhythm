@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<!---
+  - Copyright 2012 John Moore, Scott Gilroy
+  -
+  - This file is part of CollaboRhythm.
+  -
+  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  - version.
+  -
+  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  - details.
+  -
+  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  - <http://www.gnu.org/licenses/>.
+  -->
+<s:SkinnablePopUpContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+						   xmlns:s="library://ns.adobe.com/flex/spark"
+						   xmlns:view="collaboRhythm.plugins.insulinTitrationSupport.view.*"
+						   width="470">
+	<fx:Declarations>
+		<s:ColorMatrixFilter id="grayScaleFilter"
+							 matrix="0.3, 0.59, 0.11, 0, 0, 0.3, 0.59, 0.11, 0, 0,	0.3, 0.59, 0.11, 0, 0, 0, 0, 0, 1, 0"/>
+	</fx:Declarations>
+	<fx:Style>
+		#mainLabel {
+			fontSize: 21;
+			color: #43C0EF;
+		}
+
+		.operandLabel {
+			fontSize: 24;
+			color: #F3F3F3;
+			bottom: 0;
+		}
+
+		.operandNumberLabel {
+			fontSize: 36;
+			color: #F3F3F3;
+			bottom: -3;
+			textAlign: right;
+		}
+
+		.sumLabel {
+			fontSize: 36;
+			color: #F3F3F3;
+			bottom: 0;
+		}
+
+		.sumNumberLabel {
+			fontSize: 48;
+			color: #F3F3F3;
+			bottom: -3;
+			textAlign: right;
+		}
+
+		.proceedButtons {
+			fontSize: 16;
+			fontWeight: normal;
+			color: #F3F3F3;
+			textShadowAlpha: 0;
+		}
+	</fx:Style>
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="0x282828"/>
+		</s:fill>
+	</s:Rect>
+	<s:VGroup gap="0" width="100%">
+		<s:HGroup width="100%" paddingLeft="10" paddingRight="10" paddingTop="17" paddingBottom="15"
+				  verticalAlign="middle" horizontalAlign="center">
+			<s:Label id="mainLabel" textAlign="center" text="Please confirm change in insulin dose."/>
+		</s:HGroup>
+		<s:Line width="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="0x43C0EF"/>
+			</s:stroke>
+		</s:Line>
+		<s:Spacer width="100%" height="30"/>
+		<s:Group width="100%">
+			<s:Label styleName="operandLabel"
+					 text="Previous dose"
+					 width="250" paddingLeft="56" paddingRight="20" paddingTop="20" paddingBottom="0"/>
+			<s:Label styleName="operandNumberLabel"
+					 text="{_model.currentDoseValue}"
+					 paddingLeft="56" right="150" paddingTop="20" paddingBottom="0"/>
+			<s:Label styleName="operandLabel"
+					 text="Units"
+					 paddingLeft="0" left="327" paddingTop="20" paddingBottom="0"/>
+		</s:Group>
+		<s:Group width="100%">
+			<s:Label styleName="operandLabel"
+					 text="Change"
+					 width="250" paddingLeft="56" paddingRight="20" paddingTop="20" paddingBottom="0"/>
+			<s:Label styleName="operandNumberLabel"
+					 text="{_model.dosageChangeValueLabel}"
+					 paddingLeft="56" right="150" paddingTop="20" paddingBottom="0"/>
+			<s:Label styleName="operandLabel"
+					 text="Units"
+					 paddingLeft="0" left="327" paddingTop="20" paddingBottom="0"/>
+		</s:Group>
+		<s:Spacer width="100%" height="26"/>
+		<s:Group width="100%">
+			<s:Line width="390" left="40">
+				<s:stroke>
+					<s:SolidColorStroke color="0xF3F3F3" weight="2"/>
+				</s:stroke>
+			</s:Line>
+		</s:Group>
+
+		<s:Group width="100%">
+			<s:Label styleName="sumLabel"
+					 text="New Dose"
+					 width="250" paddingLeft="56" paddingRight="20" paddingTop="20" paddingBottom="0"/>
+			<s:Label styleName="sumNumberLabel"
+					 text="{_model.newDose}"
+					 paddingLeft="56" right="150" paddingTop="20" paddingBottom="0"/>
+			<s:Label styleName="sumLabel"
+					 text="Units"
+					 paddingLeft="0" left="327" paddingTop="20" paddingBottom="0"/>
+		</s:Group>
+		<s:Spacer width="100%" height="64"/>
+		<s:Line width="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="0x444444"/>
+			</s:stroke>
+		</s:Line>
+		<s:HGroup width="100%">
+			<s:Button label="OK" width="50%" height="50" skinClass="spark.skins.mobile.TransparentActionButtonSkin"
+					  styleName="proceedButtons" click="this.close(true)"/>
+			<s:Button label="Cancel" width="50%" height="50" click="this.close()"
+					  skinClass="spark.skins.mobile.TransparentActionButtonSkin" styleName="proceedButtons"/>
+		</s:HGroup>
+	</s:VGroup>
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.insulinTitrationSupport.model.ConfirmChangePopUpModel;
+
+		[Bindable]
+		private var _model:ConfirmChangePopUpModel;
+
+		public function set model(model:ConfirmChangePopUpModel):void
+		{
+			_model = model;
+		}
+		]]></fx:Script>
+</s:SkinnablePopUpContainer>

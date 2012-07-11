@@ -1,5 +1,6 @@
 package collaboRhythm.plugins.insulinTitrationSupport.model
 {
+	import collaboRhythm.plugins.insulinTitrationSupport.view.ConfirmChangePopUp;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.InsulinTitrationDecisionPanel;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
@@ -15,19 +16,26 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import com.dougmccune.controls.SeriesDataSet;
 	import com.theory9.data.types.OrderedMap;
 
+	import flash.desktop.NativeApplication;
+	import flash.events.Event;
+
 	import mx.charts.HitData;
 	import mx.charts.series.PlotSeries;
 	import mx.collections.ArrayCollection;
+	import mx.controls.Alert;
 	import mx.core.ClassFactory;
 	import mx.core.IVisualElement;
 	import mx.events.CollectionEvent;
 	import mx.graphics.SolidColor;
 	import mx.graphics.SolidColorStroke;
+	import mx.managers.PopUpManager;
 
 	import qs.charts.dataShapes.DataDrawingCanvas;
 
 	import spark.components.Group;
 	import spark.components.Label;
+	import spark.components.SkinnablePopUpContainer;
+	import spark.events.PopUpEvent;
 	import spark.primitives.Rect;
 
 	public class InsulinTitrationSupportChartModifier extends ChartModifierBase implements IChartModifier
@@ -36,6 +44,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private var _insulinTitrationDecisionPanelModel:InsulinTitrationDecisionPanelModel;
 		private var _vitalSignsDataCollection:ArrayCollection;
+		private var confirmChangePopUp:ConfirmChangePopUp = new ConfirmChangePopUp();
+		private var _changeConfirmed:Boolean = false;
 
 		public function InsulinTitrationSupportChartModifier(chartDescriptor:IChartDescriptor,
 															 chartModelDetails:IChartModelDetails,
@@ -226,7 +236,41 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			if (!super.save())
 				return false;
 
-			return _insulinTitrationDecisionPanelModel.save();
+			_insulinTitrationDecisionPanelModel.evaluateForSave();
+
+			if (!_insulinTitrationDecisionPanelModel.isChangeSpecified)
+			{
+				// TODO: tell the user that a change must be specified to save
+				Alert.show("Please choose a change to the dose before saving.");
+				return false;
+			}
+			else if (_changeConfirmed)
+			{
+				// already showing popup, so assume this is the result of user clicking OK
+				_changeConfirmed = false;
+				return true;
+			}
+			else
+			{
+				confirmChangePopUp.model = new ConfirmChangePopUpModel(_insulinTitrationDecisionPanelModel.currentDoseValue, _insulinTitrationDecisionPanelModel.dosageChangeValue, _insulinTitrationDecisionPanelModel.newDose);
+				confirmChangePopUp.addEventListener(PopUpEvent.CLOSE, confirmChangePopUp_closeHandler);
+				confirmChangePopUp.open(chartModelDetails.container, true);
+				PopUpManager.centerPopUp(confirmChangePopUp);
+
+				return false;
+			}
+		}
+
+		private function confirmChangePopUp_closeHandler(event:PopUpEvent):void
+		{
+			if (event.commit)
+			{
+				if (_insulinTitrationDecisionPanelModel.save())
+				{
+					_changeConfirmed = true;
+					chartModelDetails.healthChartsModel.save();
+				}
+			}
 		}
 
 		private function vitalSignsDataCollection_collectionChangeHandler(event:CollectionEvent):void

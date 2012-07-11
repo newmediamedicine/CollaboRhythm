@@ -607,7 +607,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private function createChartModelDetails():ChartModelDetails
 		{
-			return new ChartModelDetails(model.record, _activeAccountId, model.currentDateSource, model);
+			return new ChartModelDetails(model.record, _activeAccountId, model.currentDateSource, model, this);
 		}
 
 		/**

@@ -25,6 +25,7 @@ package collaboRhythm.shared.apps.healthCharts.model
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
 	import flash.events.Event;
+	import flash.events.EventDispatcher;
 
 	import j2as3.collection.HashMap;
 
@@ -45,7 +46,7 @@ package collaboRhythm.shared.apps.healthCharts.model
 	[Event(name="change", type="flash.events.Event")]
 
 	[Bindable]
-	public class HealthChartsModel
+	public class HealthChartsModel extends EventDispatcher
 	{
 		private var _record:Record;
 		private var _currentDateSource:ICurrentDateSource;
@@ -400,6 +401,15 @@ package collaboRhythm.shared.apps.healthCharts.model
 		public function get decisionData():Object
 		{
 			return _decisionData;
+		}
+
+		/**
+		 * Starts or continues the save process by dispatching an event (generally to the HealthChartsAppController)
+		 * signalling that the user wants to save/proceed.
+		 */
+		public function save():void
+		{
+			dispatchEvent(new HealthChartsEvent(HealthChartsEvent.SAVE));
 		}
 	}
 }

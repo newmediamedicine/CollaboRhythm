@@ -1,17 +1,21 @@
 package collaboRhythm.plugins.healthCharts.controller
 {
 	import collaboRhythm.plugins.healthCharts.view.HealthChartsButtonWidgetView;
+	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsEvent;
 	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.ui.healthCharts.view.SynchronizedHealthCharts;
 
+	import flash.events.Event;
+
 	import flash.events.MouseEvent;
 
 	import mx.core.IVisualElement;
 
 	import mx.core.UIComponent;
+	import mx.events.FlexEvent;
 	import mx.events.PropertyChangeEvent;
 
 	import spark.components.Button;
@@ -132,6 +136,7 @@ package collaboRhythm.plugins.healthCharts.controller
 			if (!_healthChartsModel)
 			{
 				_healthChartsModel = _activeRecordAccount.primaryRecord.healthChartsModel;
+				_healthChartsModel.addEventListener(HealthChartsEvent.SAVE, healthChartsModel_saveHandler)
 			}
 			return _healthChartsModel;
 		}
@@ -234,10 +239,20 @@ package collaboRhythm.plugins.healthCharts.controller
 
 		private function saveButton_clickHandler(event:MouseEvent):void
 		{
-			if(_fullView.save())
+			save();
+		}
+
+		private function save():void
+		{
+			if (_fullView.save())
 			{
 				closeFullView();
 			}
+		}
+
+		private function healthChartsModel_saveHandler(event:HealthChartsEvent):void
+		{
+			save();
 		}
 	}
 }

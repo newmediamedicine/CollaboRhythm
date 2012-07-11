@@ -402,6 +402,35 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			}
 		}
 
+		private var _scheduleDetails:ScheduleDetails;
+		private var _currentDoseValue:Number;
+		private var _newDose:Number;
+
+		public function evaluateForSave():void
+		{
+			var decisionScheduleItemOccurrence:ScheduleItemOccurrence = chartModelDetails.healthChartsModel.decisionData as ScheduleItemOccurrence;
+
+			if (decisionScheduleItemOccurrence == null)
+				throw new Error("Failed to save. Decision data on the health charts model was not a ScheduleItemOccurrence.");
+
+			// validate
+			if (isChangeSpecified)
+			{
+				_scheduleDetails = getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_LEVEMIR_CODE);
+				var currentMedicationScheduleItem:MedicationScheduleItem = _scheduleDetails.schedule;
+				if (currentMedicationScheduleItem)
+				{
+					_currentDoseValue = currentMedicationScheduleItem.dose ? Number(currentMedicationScheduleItem.dose.value) : NaN;
+					_newDose = _currentDoseValue + dosageChangeValue;
+				}
+				else
+				{
+					_currentDoseValue = NaN;
+					_newDose = dosageChangeValue;
+				}
+			}
+		}
+
 		public function save():Boolean
 		{
 			var decisionScheduleItemOccurrence:ScheduleItemOccurrence = chartModelDetails.healthChartsModel.decisionData as ScheduleItemOccurrence;
@@ -415,20 +444,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			// validate
 			if (isChangeSpecified)
 			{
-				var scheduleDetails:ScheduleDetails = getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_LEVEMIR_CODE);
-				var currentMedicationScheduleItem:MedicationScheduleItem = scheduleDetails.schedule;
-				var currentDoseValue:Number;
-				var newDose:Number;
-				if (currentMedicationScheduleItem)
-				{
-					currentDoseValue = currentMedicationScheduleItem.dose ? Number(currentMedicationScheduleItem.dose.value) : NaN;
-					newDose = currentDoseValue + dosageChangeValue;
-				}
-				else
-				{
-					currentDoseValue = NaN;
-					newDose = dosageChangeValue;
-				}
+				evaluateForSave();
+				var currentMedicationScheduleItem:MedicationScheduleItem = _scheduleDetails.schedule;
 
 				// create new HealthActionOccurrence, related to HealthActionSchedule
 				// create new HealthActionResult, related to HealthActionOccurrence
@@ -463,12 +480,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				}
 
 				// if dose is specified and is different, update existing and/or create a new schedule
-				if (newDose != currentDoseValue)
+				if (_newDose != _currentDoseValue)
 				{
 					// determine cut off date for schedule change
 					// update existing MedicationScheduleItem (old dose) to end the recurrence by cut off date
 
-					var administeredOccurrenceCount:int = scheduleDetails.occurrence.recurrenceIndex;
+					var administeredOccurrenceCount:int = _scheduleDetails.occurrence.recurrenceIndex;
 					if (administeredOccurrenceCount > 0)
 					{
 						if (currentMedicationScheduleItem.recurrenceRule)
@@ -483,13 +500,13 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 								// create new MedicationScheduleItem with new dose starting at cut off day
 								var newMedicationScheduleItem:MedicationScheduleItem = new MedicationScheduleItem();
 								newMedicationScheduleItem.pendingAction = DocumentBase.ACTION_CREATE;
-								newMedicationScheduleItem.dose = new ValueAndUnit(newDose.toString(),
+								newMedicationScheduleItem.dose = new ValueAndUnit(_newDose.toString(),
 										new CodedValue("http://indivo.org/codes/units#", "Units", "U", "Units"));
 								newMedicationScheduleItem.name = currentMedicationScheduleItem.name.clone();
 								newMedicationScheduleItem.scheduledBy = chartModelDetails.accountId;
 								newMedicationScheduleItem.dateScheduled = chartModelDetails.currentDateSource.now();
-								newMedicationScheduleItem.dateStart = scheduleDetails.occurrence.dateStart;
-								newMedicationScheduleItem.dateEnd = scheduleDetails.occurrence.dateEnd;
+								newMedicationScheduleItem.dateStart = _scheduleDetails.occurrence.dateStart;
+								newMedicationScheduleItem.dateEnd = _scheduleDetails.occurrence.dateEnd;
 								newMedicationScheduleItem.recurrenceRule = new RecurrenceRule();
 								if (currentMedicationScheduleItem.recurrenceRule.frequency)
 									newMedicationScheduleItem.recurrenceRule.frequency = currentMedicationScheduleItem.recurrenceRule.frequency.clone();
@@ -521,7 +538,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 					else
 					{
 						currentMedicationScheduleItem.pendingAction = DocumentBase.ACTION_UPDATE;
-						currentMedicationScheduleItem.dose.value = newDose.toString();
+						currentMedicationScheduleItem.dose.value = _newDose.toString();
 					}
 
 				}
@@ -564,6 +581,16 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function isMeasurementEligible(vitalSign:VitalSign):Boolean
 		{
 			return _eligibleBloodGlucoseMeasurements && _eligibleBloodGlucoseMeasurements.indexOf(vitalSign) != -1;
+		}
+
+		public function get currentDoseValue():Number
+		{
+			return _currentDoseValue;
+		}
+
+		public function get newDose():Number
+		{
+			return _newDose;
 		}
 	}
 }
