@@ -53,17 +53,17 @@
 		</s:Rect>
 		<s:Rect width="100%" height="100%" includeIn="overStates">
 			<s:fill>
-				<s:SolidColor color="0x26B6E7" alpha="0.5"/>
+				<s:SolidColor color="0x33B5E5" alpha="0.5"/>
 			</s:fill>
 		</s:Rect>
 		<s:Rect width="100%" height="100%" includeIn="downStates">
 			<s:fill>
-				<s:SolidColor color="0x26B6E7" alpha="0.5"/>
+				<s:SolidColor color="0x33B5E5" alpha="0.5"/>
 			</s:fill>
 		</s:Rect>
 		<s:Rect width="100%" height="100%">
 			<s:stroke>
-				<s:SolidColorStroke color="0x231F20"/>
+				<s:SolidColorStroke color="0x414042"/>
 			</s:stroke>
 		</s:Rect>
 	</s:Group>
