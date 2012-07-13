@@ -58,6 +58,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		protected var _logger:ILogger;
 		private var _eligibleBloodGlucoseMeasurements:Vector.<VitalSign>;
 
+		private var _scheduleDetails:ScheduleDetails;
+		private var _currentDoseValue:Number;
+		private var _newDose:Number;
+		private var _previousDoseValue:Number;
+
 		/**
 		 * Number of milliseconds after the end of a schedule occurrence for which the item/action is to be still considered
 		 * "current" or "next" even though it is in the past (has been missed). This a non-negative value would allow the
@@ -429,12 +434,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			{
 				_isInitialized = value;
 				updateBloodGlucoseAverage();
+				evaluateForInitialize();
 			}
 		}
-
-		private var _scheduleDetails:ScheduleDetails;
-		private var _currentDoseValue:Number;
-		private var _newDose:Number;
 
 		public function evaluateForSave():void
 		{
@@ -447,18 +449,42 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			if (isChangeSpecified)
 			{
 				_scheduleDetails = getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_LEVEMIR_CODE);
-				var currentMedicationScheduleItem:MedicationScheduleItem = _scheduleDetails.schedule;
-				if (currentMedicationScheduleItem)
+				var previousMedicationScheduleItem:MedicationScheduleItem = _scheduleDetails.previousSchedule;
+				if (previousMedicationScheduleItem)
 				{
-					_currentDoseValue = currentMedicationScheduleItem.dose ? Number(currentMedicationScheduleItem.dose.value) : NaN;
-					_newDose = _currentDoseValue + dosageChangeValue;
+					_previousDoseValue = previousMedicationScheduleItem.dose ? Number(previousMedicationScheduleItem.dose.value) : NaN;
+					_newDose = _previousDoseValue + dosageChangeValue;
 				}
 				else
 				{
-					_currentDoseValue = NaN;
+					_previousDoseValue = NaN;
 					_newDose = dosageChangeValue;
 				}
+				_currentDoseValue = (_scheduleDetails.currentSchedule && _scheduleDetails.currentSchedule.dose) ? Number(_scheduleDetails.currentSchedule.dose.value) : NaN;
 			}
+		}
+
+		public function evaluateForInitialize():void
+		{
+			var decisionScheduleItemOccurrence:ScheduleItemOccurrence = chartModelDetails.healthChartsModel.decisionData as
+					ScheduleItemOccurrence;
+
+			if (decisionScheduleItemOccurrence == null)
+				return;
+//				throw new Error("Failed to initialize. Decision data on the health charts model was not a ScheduleItemOccurrence.");
+
+			_scheduleDetails = getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_LEVEMIR_CODE);
+			_currentDoseValue = _newDose = (_scheduleDetails.currentSchedule &&
+					_scheduleDetails.currentSchedule.dose) ? Number(_scheduleDetails.currentSchedule.dose.value) : NaN;
+			var previousMedicationScheduleItem:MedicationScheduleItem = _scheduleDetails.previousSchedule;
+			_previousDoseValue = previousMedicationScheduleItem ? previousMedicationScheduleItem.dose ? Number(previousMedicationScheduleItem.dose.value) : NaN : NaN;
+
+			// TODO: eliminate this line; attempting to first set the value to NaN to force data binding to trigger in the case where the change occurs too soon (?)
+			dosageChangeValue = NaN;
+			if (!isNaN(_currentDoseValue) && !isNaN(previousDoseValue))
+				dosageChangeValue = _newDose - previousDoseValue;
+			else
+				dosageChangeValue = NaN;
 		}
 
 		public function save():Boolean
@@ -475,7 +501,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			if (isChangeSpecified)
 			{
 				evaluateForSave();
-				var currentMedicationScheduleItem:MedicationScheduleItem = _scheduleDetails.schedule;
+				var currentMedicationScheduleItem:MedicationScheduleItem = _scheduleDetails.currentSchedule;
 
 				// create new HealthActionOccurrence, related to HealthActionSchedule
 				// create new HealthActionResult, related to HealthActionOccurrence
@@ -586,6 +612,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		 */
 		public function getNextMedicationScheduleDetails(medicationCode:String):ScheduleDetails
 		{
+			var scheduleDetails:ScheduleDetails;
 			var now:Date = _chartModelDetails.currentDateSource.now();
 			for each (var medicationScheduleItem:MedicationScheduleItem in chartModelDetails.record.medicationScheduleItemsModel.medicationScheduleItemCollection)
 			{
@@ -599,13 +626,35 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 					{
 						if (scheduleItemOccurrence.adherenceItem == null && scheduleItemOccurrence.dateEnd.valueOf() >= (now.valueOf() - NEXT_OCCURRENCE_DELTA))
 						{
-							return new ScheduleDetails(medicationScheduleItem, scheduleItemOccurrence);
+							scheduleDetails = new ScheduleDetails(medicationScheduleItem, scheduleItemOccurrence);
+							break;
+						}
+					}
+					if (scheduleDetails)
+						break;
+				}
+			}
+
+			if (scheduleDetails)
+			{
+				for each (medicationScheduleItem in
+						chartModelDetails.record.medicationScheduleItemsModel.medicationScheduleItemCollection)
+				{
+					if (medicationScheduleItem.name.value == medicationCode)
+					{
+						scheduleItemOccurrences = medicationScheduleItem.getScheduleItemOccurrences(
+								new Date(scheduleDetails.occurrence.dateStart.valueOf() -
+										ScheduleItemBase.MILLISECONDS_IN_DAY),
+								scheduleDetails.occurrence.dateStart);
+						for each (scheduleItemOccurrence in scheduleItemOccurrences)
+						{
+							scheduleDetails.previousSchedule = medicationScheduleItem;
 						}
 					}
 				}
 			}
 
-			return null;
+			return scheduleDetails;
 		}
 
 		public function isMeasurementEligible(vitalSign:VitalSign):Boolean
@@ -618,9 +667,22 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			return _currentDoseValue;
 		}
 
+		public function get previousDoseValue():Number
+		{
+			return _previousDoseValue;
+		}
+
 		public function get newDose():Number
 		{
 			return _newDose;
+		}
+
+		public function get dosageChangeValueLabel():String
+		{
+			if (isNaN(dosageChangeValue))
+				return "";
+			else
+				return dosageChangeValue > 0 ? "+" + dosageChangeValue.toString() : dosageChangeValue.toString();
 		}
 	}
 }

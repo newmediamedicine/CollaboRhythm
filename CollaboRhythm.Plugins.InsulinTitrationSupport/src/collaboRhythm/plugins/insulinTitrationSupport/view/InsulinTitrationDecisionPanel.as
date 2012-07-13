@@ -12,6 +12,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 	import flashx.textLayout.conversion.TextConverter;
 
+	import mx.binding.utils.BindingUtils;
+
 	import mx.core.IVisualElement;
 	import mx.events.PropertyChangeEvent;
 	import mx.graphics.SolidColor;
@@ -107,8 +109,16 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 //			_dosageChangeTextInput.maxChars = 3;
 			_dosageChangeTextInput.softKeyboardType = "number";
 			_dosageChangeTextInput.addEventListener(Event.CHANGE, dosageChangeTextInput_changeHandler);
+			_dosageChangeTextInput.text = _model.dosageChangeValueLabel;
+			BindingUtils.bindSetter(model_dosageChangeValue_changeHandler, _model, "dosageChangeValue");
 
 			addElement(_dosageChangeTextInput);
+		}
+
+		private function model_dosageChangeValue_changeHandler(value:Number):void
+		{
+			_dosageChangeTextInput.text = _model.dosageChangeValueLabel;
+			_dosageChangeTextInput.invalidateDisplayList();
 		}
 
 		private function updateAveragePlotItemRenderer():void
@@ -294,7 +304,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 		private function dosageChangeTextInput_changeHandler(event:Event):void
 		{
-			_model.dosageChangeValue = StringUtils.isEmpty(_dosageChangeTextInput.text) ? NaN : Number(_dosageChangeTextInput.text);
+			if (StringUtils.isEmpty(_dosageChangeTextInput.text) || !isNaN(Number(_dosageChangeTextInput.text)))
+				_model.dosageChangeValue = StringUtils.isEmpty(_dosageChangeTextInput.text) ? NaN : Number(_dosageChangeTextInput.text);
 		}
 
 		public function get model():InsulinTitrationDecisionPanelModel

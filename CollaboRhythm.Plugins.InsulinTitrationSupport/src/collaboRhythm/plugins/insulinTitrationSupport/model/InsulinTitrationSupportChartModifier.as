@@ -180,6 +180,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			//synchronizedHealthCharts:SynchronizedHealthCharts
 			if (chartModelDetails.record.healthChartsModel.decisionPending)
 			{
+				// TODO: re-evaluate only when data or conditions change that could affect the panel instead of any time the view is shown
+				if (InsulinTitrationSupportChartModifierFactory.isBloodGlucoseChartDescriptor(chartDescriptor))
+				{
+					_insulinTitrationDecisionPanelModel.evaluateForInitialize();
+				}
+
 				if (adherenceGroup.numElements == 2)
 				{
 					var extraPanel:IVisualElement;
@@ -252,7 +258,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			}
 			else
 			{
-				confirmChangePopUp.model = new ConfirmChangePopUpModel(_insulinTitrationDecisionPanelModel.currentDoseValue, _insulinTitrationDecisionPanelModel.dosageChangeValue, _insulinTitrationDecisionPanelModel.newDose);
+				confirmChangePopUp.model = new ConfirmChangePopUpModel(_insulinTitrationDecisionPanelModel.previousDoseValue, _insulinTitrationDecisionPanelModel.dosageChangeValueLabel, _insulinTitrationDecisionPanelModel.newDose);
 				confirmChangePopUp.addEventListener(PopUpEvent.CLOSE, confirmChangePopUp_closeHandler);
 				confirmChangePopUp.open(chartModelDetails.container, true);
 				PopUpManager.centerPopUp(confirmChangePopUp);
