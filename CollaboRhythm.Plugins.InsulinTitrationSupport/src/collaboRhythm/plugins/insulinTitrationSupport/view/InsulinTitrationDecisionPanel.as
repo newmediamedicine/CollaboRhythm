@@ -115,6 +115,15 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		{
 			if (_model.isAverageAvailable)
 			{
+				if (_model.areBloodGlucoseRequirementsMet)
+				{
+					_averagePlotItemRenderer.alpha = 1;
+				}
+				else
+				{
+					_averagePlotItemRenderer.alpha = 0.5
+				}
+
 				_averagePlotItemRenderer.y = chartValueToPosition(_model.bloodGlucoseAverage) -
 						_averagePlotItemRenderer.height / 2;
 				_averagePlotItemRenderer.visible = true;

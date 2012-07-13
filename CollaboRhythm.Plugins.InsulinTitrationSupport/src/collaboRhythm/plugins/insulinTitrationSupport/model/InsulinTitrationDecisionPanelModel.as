@@ -33,8 +33,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public static const STEP_SATISFIED:String = "satisfied";
 		public static const STEP_STOP:String = "stop";
 		public static const STEP_PREVIOUS_STOP:String = "previous stop";
+		private static const REQUIRED_BLOOD_GLUCOSE_MEASUREMENTS:int = 3;
 
-		private var _isAverageAvailable:Boolean = true;
+		private var _areBloodGlucoseRequirementsMet:Boolean = true;
 		private var _dosageChangeValue:Number;
 		private var _isAdherencePerfect:Boolean = true;
 		private var _algorithmSuggestsIncreaseDose:Boolean = true;
@@ -117,27 +118,32 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				}
 
 				// remove the oldest so we only have the 3 most recent
-				while (_eligibleBloodGlucoseMeasurements.length > 3)
+				while (_eligibleBloodGlucoseMeasurements.length > REQUIRED_BLOOD_GLUCOSE_MEASUREMENTS)
 				{
 					_eligibleBloodGlucoseMeasurements.shift();
 				}
 			}
 		}
 
-		public function get isAverageAvailable():Boolean
+		public function get areBloodGlucoseRequirementsMet():Boolean
 		{
-			return _isAverageAvailable;
+			return _areBloodGlucoseRequirementsMet;
 		}
 
-		public function set isAverageAvailable(value:Boolean):void
+		public function get isAverageAvailable():Boolean
 		{
-			_isAverageAvailable = value;
+			return !isNaN(_bloodGlucoseAverage);
+		}
+
+		public function set areBloodGlucoseRequirementsMet(value:Boolean):void
+		{
+			_areBloodGlucoseRequirementsMet = value;
 			updateStep1State();
 		}
 
 		private function updateStep1State():void
 		{
-			step1State = isAverageAvailable ? STEP_SATISFIED : STEP_STOP;
+			step1State = areBloodGlucoseRequirementsMet ? STEP_SATISFIED : STEP_STOP;
 			updateStep2State();
 		}
 
@@ -263,7 +269,31 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function set bloodGlucoseAverage(value:Number):void
 		{
 			_bloodGlucoseAverage = value;
+			updateIsAverageAvailable();
 			updateAlgorithmSuggestions();
+		}
+
+		public function updateIsAverageAvailable():void
+		{
+			areBloodGlucoseRequirementsMet = !isNaN(bloodGlucoseAverage) && _eligibleBloodGlucoseMeasurements != null &&
+					_eligibleBloodGlucoseMeasurements.length >= REQUIRED_BLOOD_GLUCOSE_MEASUREMENTS &&
+					isLastBloodGlucoseMeasurementFromToday();
+		}
+
+		private function isLastBloodGlucoseMeasurementFromToday():Boolean
+		{
+			var now:Date = _chartModelDetails.currentDateSource.now();
+			var startOfToday:Date = new Date(SynchronizedHealthCharts.roundTimeToNextDay(now).valueOf() -
+					MILLISECONDS_IN_DAY);
+
+			if (_eligibleBloodGlucoseMeasurements && _eligibleBloodGlucoseMeasurements.length > 0)
+			{
+				var bloodGlucose:VitalSign = _eligibleBloodGlucoseMeasurements[_eligibleBloodGlucoseMeasurements.length -
+						1];
+				return bloodGlucose && bloodGlucose.dateMeasuredStart != null &&
+						bloodGlucose.dateMeasuredStart.valueOf() >= startOfToday.valueOf();
+			}
+			return false;
 		}
 
 		private function updateAlgorithmSuggestions():void

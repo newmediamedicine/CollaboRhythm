@@ -212,7 +212,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		{
 			_insulinTitrationDecisionPanelModel = new InsulinTitrationDecisionPanelModel(chartModelDetails);
 			// TODO: only average consecutive blood glucose readings in the last 3 days
-			_insulinTitrationDecisionPanelModel.isAverageAvailable = !isNaN(_insulinTitrationDecisionPanelModel.bloodGlucoseAverage);
+			_insulinTitrationDecisionPanelModel.updateIsAverageAvailable();
 			// TODO: determine whether adherence is perfect
 			_insulinTitrationDecisionPanelModel.isAdherencePerfect = true;
 			_insulinTitrationDecisionPanelModel.verticalAxisMinimum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_VERTICAL_AXIS_MINIMUM;
