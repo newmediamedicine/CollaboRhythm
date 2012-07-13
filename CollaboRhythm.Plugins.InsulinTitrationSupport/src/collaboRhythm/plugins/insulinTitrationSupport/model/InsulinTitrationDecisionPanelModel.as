@@ -305,7 +305,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private function algorithmValuesAvailable():Boolean
 		{
-			return !isNaN(bloodGlucoseAverage) && !isNaN(goalZoneMinimum) && !isNaN(goalZoneMaximum);
+			return areBloodGlucoseRequirementsMet && !isNaN(goalZoneMinimum) && !isNaN(goalZoneMaximum);
 		}
 
 		public function get verticalAxisMinimum():Number
