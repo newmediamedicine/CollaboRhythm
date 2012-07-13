@@ -6,6 +6,8 @@ package collaboRhythm.plugins.painReport.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewModel;
 
+	import mx.core.IVisualElement;
+
 	import spark.components.Image;
 
 	public class PainReportHealthActionListViewAdapter implements IHealthActionListViewAdapter
@@ -30,7 +32,7 @@ package collaboRhythm.plugins.painReport.model
 			return _healthAction;
 		}
 
-		public function get image():Image
+		public function createImage():Image
 		{
 			return null;
 		}
@@ -83,6 +85,11 @@ package collaboRhythm.plugins.painReport.model
 		public function get controller():IHealthActionListViewController
 		{
 			return _controller;
+		}
+
+		public function createCustomView():IVisualElement
+		{
+			return null;
 		}
 	}
 }

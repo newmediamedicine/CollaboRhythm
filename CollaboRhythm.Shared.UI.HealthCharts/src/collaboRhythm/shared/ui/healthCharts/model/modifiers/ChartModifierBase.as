@@ -4,6 +4,8 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
 
+	import mx.collections.ArrayCollection;
+
 	import spark.components.Group;
 	import spark.components.View;
 
@@ -58,6 +60,11 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 		public function save():Boolean
 		{
 			return true;
+		}
+
+		public function getSeriesDataCollection():ArrayCollection
+		{
+			return null;
 		}
 	}
 }

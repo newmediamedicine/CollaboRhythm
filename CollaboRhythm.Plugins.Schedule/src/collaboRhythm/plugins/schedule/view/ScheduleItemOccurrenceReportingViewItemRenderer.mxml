@@ -51,6 +51,8 @@
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
+		import mx.core.IVisualElement;
+
 		import spark.components.Image;
 
 		public static const SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT:Number = 142;
@@ -101,13 +103,23 @@
 						_instructionalVideoPath = scheduleItemOccurrenceReportingViewAdapter.instructionalVideoPath;
 					}
 
-					var image:Image = scheduleItemOccurrenceReportingViewAdapter.image;
-					image.left = 10;
-					image.right = 10;
-					image.top = 10;
-					image.bottom = 10;
-					image.smooth = true;
-					imageGroup.addElement(image);
+					var customView:IVisualElement = scheduleItemOccurrenceReportingViewAdapter.createCustomView();
+					if (customView)
+					{
+						imageGroup.addElement(customView);
+					}
+					else
+					{
+						var image:Image = scheduleItemOccurrenceReportingViewAdapter.createImage();
+						image.percentWidth = 100;
+						image.percentHeight = 100;
+						image.smooth = true;
+						imageGroup.addElement(image);
+					}
+					imageGroup.left = 10;
+					imageGroup.right = 10;
+					imageGroup.top = 10;
+					imageGroup.bottom = 10;
 
 					additionalInformationLabel.visible = scheduleItemOccurrenceReportingModel.healthActionInputController;
 					additionalInformationLabel.text = scheduleItemOccurrenceReportingViewAdapter.additionalAdherenceInformation;
@@ -157,11 +169,12 @@
 		]]>
     </fx:Script>
 
-	<s:Group id="imageGroup" width="{this.height}" height="{this.height}">
-
+	<s:Group id="imageContainerGroup" width="{this.height}" height="{this.height}">
+		<s:Group id="imageGroup"/>
 	</s:Group>
 
-	<s:Group id="descriptionGroup" height="100%" left="{imageGroup.width}" right="{buttonGroup.width}">
+
+	<s:Group id="descriptionGroup" height="100%" left="{imageContainerGroup.width}" right="{buttonGroup.width}">
 		<s:VGroup left="10" right="10" top="10" bottom="10" gap="1">
 			<s:Label id="nameLabel" maxDisplayedLines="1" width="100%"/>
 			<s:Label id="descriptionLabel" paddingTop="2" maxDisplayedLines="1" width="100%"/>

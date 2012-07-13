@@ -22,6 +22,7 @@ package collaboRhythm.shared.model.healthRecord.document
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
+	import collaboRhythm.shared.model.healthRecord.Relationship;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -64,7 +65,6 @@ package collaboRhythm.shared.model.healthRecord.document
 
 		private var _instructions:String;
 
-		private var _adherenceItems:HashMap = new HashMap();
 		private var _logger:ILogger;
 
 		public function ScheduleItemBase():void
@@ -74,8 +74,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		}
 
 		public function init(name:CodedValue, scheduledBy:String, dateScheduled:Date, dateStart:Date,
-							 dateEnd:Date = null, recurrenceRule:RecurrenceRule = null, instructions:String = null,
-							 adherenceItems:HashMap = null):void
+							 dateEnd:Date = null, recurrenceRule:RecurrenceRule = null, instructions:String = null):void
 		{
 			_name = name;
 			_scheduledBy = scheduledBy;
@@ -84,7 +83,6 @@ package collaboRhythm.shared.model.healthRecord.document
 			_dateEnd = dateEnd;
 			_recurrenceRule = recurrenceRule;
 			_instructions = instructions;
-			_adherenceItems = adherenceItems;
 		}
 
 		public function initFromReportXML(scheduleItemReportXml:XML, scheduleItemElementName:String):void
@@ -100,10 +98,6 @@ package collaboRhythm.shared.model.healthRecord.document
 			_dateEnd = collaboRhythm.shared.model.DateUtil.parseW3CDTF(_scheduleItemXml.dateEnd.toString());
 			_recurrenceRule = new RecurrenceRule(_scheduleItemXml.recurrenceRule[0]);
 			_instructions = _scheduleItemXml.instructions;
-			for each (var adherenceItemXml:XML in scheduleItemReportXml..relatesTo.relation.(@type == RELATION_TYPE_ADHERENCE_ITEM).relatedDocument)
-			{
-				_adherenceItems.put(adherenceItemXml.@id, null);
-			}
 		}
 
 		public function createXmlDocument():XML
@@ -224,7 +218,7 @@ package collaboRhythm.shared.model.healthRecord.document
 																								   occurrenceDateEnd,
 																								   recurrenceIndex);
 					var matchingAdherenceItems:Vector.<AdherenceItem> = new Vector.<AdherenceItem>();
-					for each (var adherenceItem:AdherenceItem in _adherenceItems)
+					for each (var adherenceItem:AdherenceItem in adherenceItems)
 					{
 						if (adherenceItem && adherenceItem.recurrenceIndex == recurrenceIndex)
 						{
@@ -335,14 +329,17 @@ package collaboRhythm.shared.model.healthRecord.document
 			_instructions = value;
 		}
 
-		public function get adherenceItems():HashMap
+		public function get adherenceItems():Vector.<AdherenceItem>
 		{
-			return _adherenceItems;
-		}
-
-		public function set adherenceItems(value:HashMap):void
-		{
-			_adherenceItems = value;
+			var adherenceItems:Vector.<AdherenceItem> = new Vector.<AdherenceItem>();
+			for each (var relationship:Relationship in relatesTo)
+			{
+				if (relationship.type == RELATION_TYPE_ADHERENCE_ITEM && relationship.relatesTo != null)
+				{
+					adherenceItems.push(relationship.relatesTo);
+				}
+			}
+			return adherenceItems;
 		}
 	}
 }

@@ -1,10 +1,9 @@
 package collaboRhythm.plugins.insulinTitrationSupport.model
 {
+	import collaboRhythm.plugins.insulinTitrationSupport.view.ConfirmChangePopUp;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.InsulinTitrationDecisionPanel;
-	import collaboRhythm.plugins.insulinTitrationSupport.view.TitrationPanelMockup;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
-	import collaboRhythm.shared.ui.healthCharts.model.ChartModelDetails;
 	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.MedicationChartDescriptor;
@@ -17,43 +16,125 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import com.dougmccune.controls.SeriesDataSet;
 	import com.theory9.data.types.OrderedMap;
 
-	import flash.events.MouseEvent;
+	import flash.desktop.NativeApplication;
+	import flash.events.Event;
 
+	import mx.charts.HitData;
+	import mx.charts.series.PlotSeries;
 	import mx.collections.ArrayCollection;
-
+	import mx.controls.Alert;
+	import mx.core.ClassFactory;
 	import mx.core.IVisualElement;
-	import mx.core.UIComponent;
+	import mx.events.CollectionEvent;
+	import mx.graphics.SolidColor;
+	import mx.graphics.SolidColorStroke;
+	import mx.managers.PopUpManager;
 
 	import qs.charts.dataShapes.DataDrawingCanvas;
 
-	import spark.components.Button;
-
 	import spark.components.Group;
 	import spark.components.Label;
-	import spark.components.View;
+	import spark.components.SkinnablePopUpContainer;
+	import spark.events.PopUpEvent;
 	import spark.primitives.Rect;
-	import spark.skins.mobile.TransparentActionButtonSkin;
 
 	public class InsulinTitrationSupportChartModifier extends ChartModifierBase implements IChartModifier
 	{
 		public static const INSULIN_LEVEMIR_CODE:String = "847241";
 
-		public function InsulinTitrationSupportChartModifier(medicationChartDescriptor:MedicationChartDescriptor,
+		private var _insulinTitrationDecisionPanelModel:InsulinTitrationDecisionPanelModel;
+		private var _vitalSignsDataCollection:ArrayCollection;
+		private var confirmChangePopUp:ConfirmChangePopUp = new ConfirmChangePopUp();
+		private var _changeConfirmed:Boolean = false;
+
+		public function InsulinTitrationSupportChartModifier(chartDescriptor:IChartDescriptor,
 															 chartModelDetails:IChartModelDetails,
 															 currentChartModifier:IChartModifier)
 		{
-			super(medicationChartDescriptor, chartModelDetails, currentChartModifier);
+			super(chartDescriptor, chartModelDetails, currentChartModifier);
+			initializeInsulinTitrationDecisionPanelModel();
 		}
 
 		public function modifyMainChart(chart:ScrubChart):void
 		{
-			return decoratedModifier.modifyMainChart(chart);
+			if (decoratedModifier)
+				decoratedModifier.modifyMainChart(chart);
+			chart.mainChart.dataTipFunction = mainChart_dataTipFunction;
+		}
+
+		protected function get vitalSignChartDescriptor():VitalSignChartDescriptor
+		{
+			return chartDescriptor as VitalSignChartDescriptor;
 		}
 
 		public function createMainChartSeriesDataSets(chart:ScrubChart,
 													  seriesDataSets:Vector.<SeriesDataSet>):Vector.<SeriesDataSet>
 		{
-			return decoratedModifier.createMainChartSeriesDataSets(chart, seriesDataSets);
+			var vitalSignSeries:PlotSeries = new PlotSeries();
+			vitalSignSeries.name = "vitalSignPrimary";
+			vitalSignSeries.id = chart.id + "_primarySeries";
+			vitalSignSeries.xField = "dateMeasuredStart";
+			vitalSignSeries.yField = "resultAsNumber";
+			var seriesDataCollection:ArrayCollection = getSeriesDataCollection();
+			vitalSignSeries.dataProvider = seriesDataCollection;
+			vitalSignSeries.displayName = vitalSignChartDescriptor.vitalSignCategory;
+			vitalSignSeries.setStyle("radius", 11);
+			vitalSignSeries.filterDataValues = "none";
+//			var color:uint = getVitalSignColor(vitalSignChartDescriptor.vitalSignCategory);
+			var color:uint = 0;
+			vitalSignSeries.setStyle("itemRenderer", new ClassFactory(VitalSignForDecisionItemRenderer));
+			vitalSignSeries.setStyle("stroke", new SolidColorStroke(color, 6));
+			vitalSignSeries.setStyle("fill", new SolidColor(color));
+
+			seriesDataSets.push(new SeriesDataSet(vitalSignSeries, seriesDataCollection, "dateMeasuredStart"));
+			return seriesDataSets;
+		}
+
+		public override function getSeriesDataCollection():ArrayCollection
+		{
+			if (_vitalSignsDataCollection)
+			{
+				_vitalSignsDataCollection.removeEventListener(CollectionEvent.COLLECTION_CHANGE,
+						vitalSignsDataCollection_collectionChangeHandler);
+			}
+
+			_vitalSignsDataCollection = chartModelDetails.record.vitalSignsModel.vitalSignsByCategory.getItem(vitalSignChartDescriptor.vitalSignCategory);
+			_vitalSignsDataCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
+					vitalSignsDataCollection_collectionChangeHandler, false, 0, true);
+
+			var seriesDataCollection:ArrayCollection = createProxiesForDecision(_vitalSignsDataCollection);
+			return seriesDataCollection;
+		}
+
+		private function createProxiesForDecision(vitalSignsDataCollection:ArrayCollection):ArrayCollection
+		{
+			var seriesDataCollection:ArrayCollection = new ArrayCollection();
+			for each (var vitalSign:VitalSign in vitalSignsDataCollection)
+			{
+				seriesDataCollection.addItem(new VitalSignForDecisionProxy(vitalSign, _insulinTitrationDecisionPanelModel));
+			}
+			return seriesDataCollection;
+		}
+
+		private function mainChart_dataTipFunction(hitData:HitData):String
+		{
+			var proxy:VitalSignForDecisionProxy = hitData.item as VitalSignForDecisionProxy;
+			var vitalSign:VitalSign = proxy.vitalSign;
+			if (vitalSign)
+			{
+				var result:String;
+				if (vitalSign.result && vitalSign.result.textValue && isNaN(vitalSign.resultAsNumber))
+					result = vitalSign.result.textValue;
+				else
+					result = vitalSign.resultAsNumber.toFixed(2);
+
+				var eligiblePhrase:String = proxy.isEligible ? "Measurement is <b>eligible</b> for algorithm" : "Measurement is <b>not</b> eligible for algorithm";
+				return vitalSign.name.text + " " + result + "<br/>" +
+						eligiblePhrase + "<br/>" +
+						"Date: " + vitalSign.dateMeasuredStart.toLocaleString();
+			}
+
+			return hitData.item.toString();
 		}
 
 		public function createImage(currentChartImage:IVisualElement):IVisualElement
@@ -94,16 +175,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			return reorderedChartDescriptors;
 		}
 
-		private var _insulinTitrationDecisionPanelModel:InsulinTitrationDecisionPanelModel;
-
 		public override function prepareAdherenceGroup(chartDescriptor:IChartDescriptor, adherenceGroup:Group):void
 		{
 			//synchronizedHealthCharts:SynchronizedHealthCharts
-//			for each (var adherenceGroup:Group in synchronizedHealthCharts.adherenceGroups.values())
-//			{
-//				for each (var chart:TouchScrollingScrubChart in getChartsInGroup(adherenceGroup))
-//				{
-//				}
 			if (chartModelDetails.record.healthChartsModel.decisionPending)
 			{
 				if (adherenceGroup.numElements == 2)
@@ -113,16 +187,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 					if (InsulinTitrationSupportChartModifierFactory.isBloodGlucoseChartDescriptor(chartDescriptor))
 					{
 						var panel:InsulinTitrationDecisionPanel = new InsulinTitrationDecisionPanel();
-						_insulinTitrationDecisionPanelModel = new InsulinTitrationDecisionPanelModel(chartModelDetails);
-						// TODO: only average consecutive blood glucose readings in the last 3 days
-						_insulinTitrationDecisionPanelModel.isAverageAvailable = !isNaN(_insulinTitrationDecisionPanelModel.bloodGlucoseAverage);
-						// TODO: determine whether adherence is perfect
-						_insulinTitrationDecisionPanelModel.isAdherencePerfect = true;
-						_insulinTitrationDecisionPanelModel.verticalAxisMinimum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_VERTICAL_AXIS_MINIMUM;
-						_insulinTitrationDecisionPanelModel.verticalAxisMaximum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_VERTICAL_AXIS_MAXIMUM;
-						_insulinTitrationDecisionPanelModel.goalZoneMinimum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_GOAL_ZONE_MINIMUM;
-						_insulinTitrationDecisionPanelModel.goalZoneMaximum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_GOAL_ZONE_MAXIMUM;
-						_insulinTitrationDecisionPanelModel.goalZoneColor = DefaultVitalSignChartModifier.GOAL_ZONE_COLOR;
 						panel.model = _insulinTitrationDecisionPanelModel;
 						panel.percentHeight = 100;
 						extraPanel = panel;
@@ -142,7 +206,20 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				while (adherenceGroup.numElements > 2)
 					adherenceGroup.removeElementAt(adherenceGroup.numElements - 1);
 			}
-//			}
+		}
+
+		private function initializeInsulinTitrationDecisionPanelModel():void
+		{
+			_insulinTitrationDecisionPanelModel = new InsulinTitrationDecisionPanelModel(chartModelDetails);
+			// TODO: only average consecutive blood glucose readings in the last 3 days
+			_insulinTitrationDecisionPanelModel.isAverageAvailable = !isNaN(_insulinTitrationDecisionPanelModel.bloodGlucoseAverage);
+			// TODO: determine whether adherence is perfect
+			_insulinTitrationDecisionPanelModel.isAdherencePerfect = true;
+			_insulinTitrationDecisionPanelModel.verticalAxisMinimum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_VERTICAL_AXIS_MINIMUM;
+			_insulinTitrationDecisionPanelModel.verticalAxisMaximum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_VERTICAL_AXIS_MAXIMUM;
+			_insulinTitrationDecisionPanelModel.goalZoneMinimum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_GOAL_ZONE_MINIMUM;
+			_insulinTitrationDecisionPanelModel.goalZoneMaximum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_GOAL_ZONE_MAXIMUM;
+			_insulinTitrationDecisionPanelModel.goalZoneColor = DefaultVitalSignChartModifier.GOAL_ZONE_COLOR;
 		}
 
 		override public function set chartModelDetails(chartModelDetails:IChartModelDetails):void
@@ -159,7 +236,45 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			if (!super.save())
 				return false;
 
-			return _insulinTitrationDecisionPanelModel.save();
+			_insulinTitrationDecisionPanelModel.evaluateForSave();
+
+			if (!_insulinTitrationDecisionPanelModel.isChangeSpecified)
+			{
+				// TODO: tell the user that a change must be specified to save
+				Alert.show("Please choose a change to the dose before saving.");
+				return false;
+			}
+			else if (_changeConfirmed)
+			{
+				// already showing popup, so assume this is the result of user clicking OK
+				_changeConfirmed = false;
+				return true;
+			}
+			else
+			{
+				confirmChangePopUp.model = new ConfirmChangePopUpModel(_insulinTitrationDecisionPanelModel.currentDoseValue, _insulinTitrationDecisionPanelModel.dosageChangeValue, _insulinTitrationDecisionPanelModel.newDose);
+				confirmChangePopUp.addEventListener(PopUpEvent.CLOSE, confirmChangePopUp_closeHandler);
+				confirmChangePopUp.open(chartModelDetails.container, true);
+				PopUpManager.centerPopUp(confirmChangePopUp);
+
+				return false;
+			}
+		}
+
+		private function confirmChangePopUp_closeHandler(event:PopUpEvent):void
+		{
+			if (event.commit)
+			{
+				if (_insulinTitrationDecisionPanelModel.save())
+				{
+					_changeConfirmed = true;
+					chartModelDetails.healthChartsModel.save();
+				}
+			}
+		}
+
+		private function vitalSignsDataCollection_collectionChangeHandler(event:CollectionEvent):void
+		{
 		}
 	}
 }

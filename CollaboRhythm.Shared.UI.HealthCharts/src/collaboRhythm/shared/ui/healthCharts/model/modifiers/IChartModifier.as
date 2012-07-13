@@ -7,6 +7,8 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	import com.dougmccune.controls.SeriesDataSet;
 	import com.theory9.data.types.OrderedMap;
 
+	import mx.collections.ArrayCollection;
+
 	import mx.core.IVisualElement;
 
 	import qs.charts.dataShapes.DataDrawingCanvas;
@@ -84,5 +86,12 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 		 * @return true if successful/allowed
 		 */
 		function save():Boolean;
+
+		/**
+		 * Gets the data to be used for the primary series in the chart associated with this chart modifier when
+		 * creating or updating the chart.
+		 * @return the collection of data items to use for the main series or null if the default should be used instead
+		 */
+		function getSeriesDataCollection():ArrayCollection;
 	}
 }

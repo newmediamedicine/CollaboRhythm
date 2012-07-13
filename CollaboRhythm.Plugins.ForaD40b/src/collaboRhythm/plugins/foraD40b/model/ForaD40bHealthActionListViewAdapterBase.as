@@ -15,6 +15,8 @@ package collaboRhythm.plugins.foraD40b.model
 	import collaboRhythm.shared.model.services.IImageCacheService;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
+	import mx.core.IVisualElement;
+
 	import spark.components.Image;
 	import spark.skins.spark.ImageSkin;
 
@@ -50,7 +52,7 @@ package collaboRhythm.plugins.foraD40b.model
 			return _equipmentHealthAction;
 		}
 
-		public function get image():Image
+		public function createImage():Image
 		{
 			var equipmentImage:Image = new Image();
 			equipmentImage.setStyle("skinClass", ImageSkin);
@@ -106,6 +108,11 @@ package collaboRhythm.plugins.foraD40b.model
 		public function get controller():IHealthActionListViewController
 		{
 			return _controller;
+		}
+
+		public function createCustomView():IVisualElement
+		{
+			return null;
 		}
 	}
 }

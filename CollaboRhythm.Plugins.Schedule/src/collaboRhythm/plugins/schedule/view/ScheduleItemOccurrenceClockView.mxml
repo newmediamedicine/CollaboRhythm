@@ -14,6 +14,8 @@
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
+		import mx.core.IVisualElement;
+
 		import spark.components.Image;
 		import spark.filters.GlowFilter;
 
@@ -29,16 +31,27 @@
 
 			if (scheduleItemOccurrenceReportingViewAdapter)
 			{
-				var image:Image = scheduleItemOccurrenceReportingViewAdapter.image;
-				if (image)
+				var customView:IVisualElement = scheduleItemOccurrenceReportingViewAdapter.createCustomView();
+				if (customView)
 				{
-					image.smooth = true;
-					image.left = 0;
-					image.right = 0;
-					image.top = 0;
-					image.bottom = 0;
-					imageRegion.addElement(image);
+					imageRegion.addElement(customView);
 				}
+				else
+				{
+					var image:Image = scheduleItemOccurrenceReportingViewAdapter.createImage();
+					if (image)
+					{
+						image.percentWidth = 100;
+						image.percentHeight = 100;
+						image.smooth = true;
+						imageRegion.addElement(image);
+					}
+				}
+				imageRegion.left = 0;
+				imageRegion.right = 0;
+				imageRegion.top = 0;
+				imageRegion.bottom = 0;
+
 
 				if (scheduleItemOccurrenceReportingViewAdapter.additionalAdherenceInformation &&
 						scheduleItemOccurrenceReportingViewAdapter.additionalAdherenceInformation != "...")
@@ -65,9 +78,10 @@
 		]]>
     </fx:Script>
 
-	<s:Group id="imageRegion" width="100%" height="100%">
-
+	<s:Group id="imageContainerGroup" width="100%" height="100%">
+		<s:Group id="imageRegion"/>
 	</s:Group>
+
 
 	<s:Group id="adherenceImage" width="70%" height="70%" horizontalCenter="0">
 		<sharedView:AdherenceCheck width="{adherenceImage.width}" height="{adherenceImage.height}"
