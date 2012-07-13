@@ -54,6 +54,8 @@
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewModel;
 
+		import mx.core.IVisualElement;
+
 		import spark.components.Image;
 
 		public static const SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT:Number = 142;
@@ -87,15 +89,23 @@
 				indicationLabel.text = healthActionListViewAdapter.indication;
 				instructionsLabel.text = healthActionListViewAdapter.secondaryInstructions;
 
-				var image:Image = healthActionListViewAdapter.image;
-				if (image)
+				var customView:IVisualElement = healthActionListViewAdapter.createCustomView();
+				if (customView)
 				{
-					image.left = 5;
-					image.right = 5;
-					image.top = 5;
-					image.bottom = 5;
-					image.smooth = true;
-					imageRegion.addElement(image);
+					imageRegion.addElement(customView);
+				}
+				else
+				{
+					var image:Image = healthActionListViewAdapter.createImage();
+					if (image)
+					{
+						image.left = 5;
+						image.right = 5;
+						image.top = 5;
+						image.bottom = 5;
+						image.smooth = true;
+						imageRegion.addElement(image);
+					}
 				}
 
 				_isDataSet = true;

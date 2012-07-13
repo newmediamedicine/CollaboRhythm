@@ -104,7 +104,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			_dosageChangeTextInput.setStyle("fontSize", 32);
 			_dosageChangeTextInput.setStyle("textAlign", "right");
 			_dosageChangeTextInput.restrict = "\\-+0-9";
-			_dosageChangeTextInput.maxChars = 3;
+//			_dosageChangeTextInput.maxChars = 3;
 			_dosageChangeTextInput.softKeyboardType = "number";
 			_dosageChangeTextInput.addEventListener(Event.CHANGE, dosageChangeTextInput_changeHandler);
 

@@ -41,6 +41,7 @@
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 		import mx.binding.utils.ChangeWatcher;
+		import mx.core.IVisualElement;
 
 		import spark.components.Image;
 
@@ -64,13 +65,23 @@
 			indicationLabel.text = scheduleItemOccurrenceReportingViewAdapter.indication;
 			instructionsLabel.text = scheduleItemOccurrenceReportingViewAdapter.secondaryInstructions;
 
-			var image:Image = scheduleItemOccurrenceReportingViewAdapter.image;
-			image.left = 5;
-			image.right = 5;
-			image.top = 5;
-			image.bottom = 5;
-			image.smooth = true;
-			imageRegion.addElement(image);
+			var customView:IVisualElement = scheduleItemOccurrenceReportingViewAdapter.createCustomView();
+			if (customView)
+			{
+				imageRegion.addElement(customView);
+			}
+			else
+			{
+				var image:Image = scheduleItemOccurrenceReportingViewAdapter.createImage();
+				image.percentWidth = 100;
+				image.percentHeight = 100;
+				image.smooth = true;
+				imageRegion.addElement(image);
+			}
+			imageRegion.left = 5;
+			imageRegion.right = 5;
+			imageRegion.top = 5;
+			imageRegion.bottom = 5;
 		}
 
 		private function mouseDownHandler(event:MouseEvent):void
@@ -147,11 +158,12 @@
 		</s:stroke>
 	</s:Rect>
 
-	<s:Group id="imageRegion" width="{this.height}" height="100%">
-
+	<s:Group id="imageContainerGroup" width="{this.height}" height="100%">
+		<s:Group id="imageRegion"/>
 	</s:Group>
 
-	<s:Group id="descriptionRegion" height="100%" left="{imageRegion.width}" right="{gripRegion.width}">
+
+	<s:Group id="descriptionRegion" height="100%" left="{imageContainerGroup.width}" right="{gripRegion.width}">
 		<s:VGroup left="5" right="5" top="5" bottom="5" gap="1">
 			<s:Label id="nameLabel" maxDisplayedLines="1" width="100%"/>
 			<s:Label id="descriptionLabel" maxDisplayedLines="1" width="100%"/>

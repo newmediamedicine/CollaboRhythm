@@ -18,6 +18,8 @@ package collaboRhythm.plugins.medications.model
 	import collaboRhythm.shared.model.services.IMedicationColorSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
+	import mx.core.IVisualElement;
+
 	import spark.components.Image;
 
 	public class MedicationHealthActionListViewAdapter implements IHealthActionListViewAdapter
@@ -58,7 +60,7 @@ package collaboRhythm.plugins.medications.model
 			_medicationHealthAction = new MedicationHealthAction(_medicationName.rawName);
 
 			_model = new MedicationHealthActionListViewModel(scheduleItemOccurrence, healthActionModelDetailsProvider, _medicationOrder);
-			_controller = new HealthActionListViewControllerBase(_model)
+			_controller = new HealthActionListViewControllerBase(_model);
 
 			_imageCacheService = WorkstationKernel.instance.resolve(IImageCacheService) as IImageCacheService;
 		}
@@ -68,7 +70,7 @@ package collaboRhythm.plugins.medications.model
 			return _medicationHealthAction;
 		}
 
-		public function get image():Image
+		public function createImage():Image
 		{
 			var medicationImage:MedicationImage = new MedicationImage();
 			if (_medicationOrder && _medicationOrder.medicationFill)
@@ -155,6 +157,11 @@ package collaboRhythm.plugins.medications.model
 		public function get controller():IHealthActionListViewController
 		{
 			return _controller;
+		}
+
+		public function createCustomView():IVisualElement
+		{
+			return null;
 		}
 	}
 }
