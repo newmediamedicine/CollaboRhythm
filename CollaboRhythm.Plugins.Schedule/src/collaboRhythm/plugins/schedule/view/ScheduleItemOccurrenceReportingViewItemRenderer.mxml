@@ -47,7 +47,6 @@
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewModel;
-		import collaboRhythm.shared.model.healthRecord.DocumentBase;
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
@@ -124,9 +123,7 @@
 					additionalInformationLabel.visible = scheduleItemOccurrenceReportingModel.healthActionInputController;
 					additionalInformationLabel.text = scheduleItemOccurrenceReportingViewAdapter.additionalAdherenceInformation;
 
-					adherenceCheckBox.enabled = !(_scheduleItemOccurrence.adherenceItem &&
-							_scheduleItemOccurrence.adherenceItem.pendingAction != DocumentBase.ACTION_CREATE &&
-							!_scheduleModel.settings.allowAdherenceVoiding)
+					adherenceCheckBox.enabled = isAdherenceCheckBoxEnabled(_scheduleItemOccurrence.adherenceItem);
 				}
 
 				_isDataSet = true;
@@ -161,9 +158,9 @@
 			}
 		}
 
-		private function isAdherenceCheckBoxEnabled(adherenceItem:AdherenceItem, pendingAction:String):Boolean
+		private function isAdherenceCheckBoxEnabled(adherenceItem:AdherenceItem, pendingAction:String = null):Boolean
 		{
-			return !(adherenceItem && pendingAction != DocumentBase.ACTION_CREATE &&
+			return !(adherenceItem && !adherenceItem.pendingAction &&
 					!_scheduleModel.settings.allowAdherenceVoiding);
 		}
 		]]>
@@ -189,7 +186,7 @@
 								selected="{_scheduleItemOccurrence.adherenceItem != null}"
 								mouseDown="adherenceCheckBoxMouseDownHandler(event)"
 								click="adherenceCheckBoxClickHandler(event)"
-								enabled="{isAdherenceCheckBoxEnabled(_scheduleItemOccurrence.adherenceItem, _scheduleItemOccurrence.adherenceItem.pendingAction)}"/>
+								enabled="{isAdherenceCheckBoxEnabled(_scheduleItemOccurrence.adherenceItem, _scheduleItemOccurrence.adherenceItem ? _scheduleItemOccurrence.adherenceItem.pendingAction : null)}"/>
 		<s:Label id="additionalInformationLabel" text="{removeAdditionalAdherenceInformation(_scheduleItemOccurrence.adherenceItem)}" verticalCenter="42" horizontalCenter="-2" visible="false"/>
 	</s:Group>
 
