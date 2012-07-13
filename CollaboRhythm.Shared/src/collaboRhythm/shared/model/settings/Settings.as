@@ -45,6 +45,7 @@ package collaboRhythm.shared.model.settings
 
 		private var _resetWindowSettings:Boolean;
 		private var _demoModeEnabled:Boolean;
+		private var _allowAdherenceVoiding:Boolean;
 		private var _targetDate:Date;
 		private var _modality:String;
 		private var _demoDatePresets:ArrayCollection;
@@ -297,6 +298,16 @@ package collaboRhythm.shared.model.settings
 		public function set demoModeEnabled(value:Boolean):void
 		{
 			_demoModeEnabled = value;
+		}
+
+		public function get allowAdherenceVoiding():Boolean
+		{
+			return _allowAdherenceVoiding;
+		}
+
+		public function set allowAdherenceVoiding(value:Boolean):void
+		{
+			_allowAdherenceVoiding = value;
 		}
 	}
 }

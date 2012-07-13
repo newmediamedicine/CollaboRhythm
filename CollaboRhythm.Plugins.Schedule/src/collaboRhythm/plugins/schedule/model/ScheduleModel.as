@@ -26,6 +26,7 @@ package collaboRhythm.plugins.schedule.model
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
+	import collaboRhythm.shared.model.settings.Settings;
 
 	import flash.events.EventDispatcher;
 	import flash.utils.getQualifiedClassName;
@@ -72,12 +73,16 @@ package collaboRhythm.plugins.schedule.model
 		private var _healthActionListViewAdapterFactory:MasterHealthActionListViewAdapterFactory;
 		private var _healthActionInputControllerFactory:MasterHealthActionInputControllerFactory;
 		private var _navigationProxy:IApplicationNavigationProxy;
+		private var _settings:Settings;
 
-		public function ScheduleModel(componentContainer:IComponentContainer, record:Record, accountId:String,
-									  navigationProxy:IApplicationNavigationProxy)
+		public function ScheduleModel(componentContainer:IComponentContainer,
+									  record:Record, accountId:String,
+									  navigationProxy:IApplicationNavigationProxy,
+									  settings:Settings)
 		{
 			_accountId = accountId;
 			_navigationProxy = navigationProxy;
+			_settings = settings;
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 
@@ -414,6 +419,11 @@ package collaboRhythm.plugins.schedule.model
 		public function get navigationProxy():IApplicationNavigationProxy
 		{
 			return _navigationProxy;
+		}
+
+		public function get settings():Settings
+		{
+			return _settings;
 		}
 	}
 }

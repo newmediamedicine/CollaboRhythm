@@ -158,6 +158,14 @@
 					destroyScheduleGroupView(scheduleGroupRemoved);
 				}
 			}
+			else if (event.kind == CollectionEventKind.RESET)
+			{
+				for each (var scheduleGroupClockView:ScheduleGroupClockView in _scheduleGroupClockViews)
+				{
+					scheduleGroupsContainer.removeElement(scheduleGroupClockView);
+				}
+				_scheduleGroupClockViews = new Vector.<ScheduleGroupClockView>();
+			}
 		}
 
 		public function createScheduleGroupView(scheduleGroup:ScheduleGroup):void

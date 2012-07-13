@@ -62,6 +62,7 @@
 
 		private var _isDataSet:Boolean = false;
 		private var _instructionalVideoPath:String;
+		private var _scheduleModel:ScheduleModel;
 
 		override public function set data(value:Object):void
 		{
@@ -74,16 +75,16 @@
 				super.data = value;
 				_scheduleItemOccurrence = ScheduleItemOccurrence(value);
 
-				var scheduleGroupReportingView:ScheduleGroupReportingView = ScheduleGroupReportingView(owner);
-				var scheduleModel:ScheduleModel = scheduleGroupReportingView.scheduleModel;
-				var scheduleItemOccurrenceReportingViewAdapter:IHealthActionListViewAdapter = scheduleModel.healthActionListViewAdapterFactory.createScheduledHealthActionViewAdapter(_scheduleItemOccurrence,
-						scheduleModel);
+				var scheduleGroupReportingView:ScheduleGroupReportingView = owner as ScheduleGroupReportingView;
+				_scheduleModel = scheduleGroupReportingView.scheduleModel;
+				var scheduleItemOccurrenceReportingViewAdapter:IHealthActionListViewAdapter = _scheduleModel.healthActionListViewAdapterFactory.createScheduledHealthActionViewAdapter(_scheduleItemOccurrence,
+						_scheduleModel);
 				if (scheduleItemOccurrenceReportingViewAdapter)
 				{
 					var scheduleItemOccurrenceReportingModel:IHealthActionListViewModel = scheduleItemOccurrenceReportingViewAdapter.model;
 					_scheduleItemOccurrenceReportingController = scheduleItemOccurrenceReportingViewAdapter.controller;
-					scheduleItemOccurrenceReportingModel.healthActionInputController = scheduleModel.healthActionInputControllerFactory.createHealthActionInputController(scheduleItemOccurrenceReportingViewAdapter.healthAction,
-							_scheduleItemOccurrence, scheduleModel,
+					scheduleItemOccurrenceReportingModel.healthActionInputController = _scheduleModel.healthActionInputControllerFactory.createHealthActionInputController(scheduleItemOccurrenceReportingViewAdapter.healthAction,
+							_scheduleItemOccurrence, _scheduleModel,
 							scheduleGroupReportingView.scheduleReportingController.viewNavigator,
 							scheduleGroupReportingView.scheduleReportingController.collaborationLobbyNetConnectionServiceProxy);
 
@@ -121,6 +122,8 @@
 
 					additionalInformationLabel.visible = scheduleItemOccurrenceReportingModel.healthActionInputController;
 					additionalInformationLabel.text = scheduleItemOccurrenceReportingViewAdapter.additionalAdherenceInformation;
+
+					adherenceCheckBox.enabled = isAdherenceCheckBoxEnabled(_scheduleItemOccurrence.adherenceItem);
 				}
 
 				_isDataSet = true;
@@ -154,6 +157,12 @@
 				return "...";
 			}
 		}
+
+		private function isAdherenceCheckBoxEnabled(adherenceItem:AdherenceItem, pendingAction:String = null):Boolean
+		{
+			return !(adherenceItem && !adherenceItem.pendingAction &&
+					!_scheduleModel.settings.allowAdherenceVoiding);
+		}
 		]]>
     </fx:Script>
 
@@ -172,11 +181,12 @@
 	</s:Group>
 
 	<s:Group id="buttonGroup" right="10" height="100%">
-		<view:AdherenceCheckBox width="70" height="70" verticalCenter="0"
+		<view:AdherenceCheckBox id="adherenceCheckBox" width="70" height="70" verticalCenter="0"
 								skinClass="collaboRhythm.plugins.schedule.shared.view.AdherenceCheckBoxSkin"
 								selected="{_scheduleItemOccurrence.adherenceItem != null}"
 								mouseDown="adherenceCheckBoxMouseDownHandler(event)"
-								click="adherenceCheckBoxClickHandler(event)"/>
+								click="adherenceCheckBoxClickHandler(event)"
+								enabled="{isAdherenceCheckBoxEnabled(_scheduleItemOccurrence.adherenceItem, _scheduleItemOccurrence.adherenceItem ? _scheduleItemOccurrence.adherenceItem.pendingAction : null)}"/>
 		<s:Label id="additionalInformationLabel" text="{removeAdditionalAdherenceInformation(_scheduleItemOccurrence.adherenceItem)}" verticalCenter="42" horizontalCenter="-2" visible="false"/>
 	</s:Group>
 

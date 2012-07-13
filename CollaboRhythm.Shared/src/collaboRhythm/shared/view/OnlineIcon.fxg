@@ -5,12 +5,12 @@
     <Group ai:objID="310daf80" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
       <Path y="35" winding="nonZero" ai:objID="1aef5900" ai:seqID="3" data="M0 45C0 20.1494 13.4346 0 29.9951 0 46.5713 0 60 20.1494 60 45L0 45Z">
         <fill>
-          <SolidColor color="#2EB5E5"/>
+          <SolidColor color="#35B5E4"/>
         </fill>
       </Path>
       <Ellipse x="10" width="40" height="40" ai:objID="1aeef600" ai:seqID="4">
         <fill>
-          <SolidColor color="#2EB5E5"/>
+          <SolidColor color="#35B5E4"/>
         </fill>
       </Ellipse>
       <Ellipse x="21" y="11.9995" width="6.00098" height="6.00098" ai:objID="1aee9180" ai:seqID="5">
@@ -44,7 +44,7 @@
           <ai:Dict/>
         </ai:AutoGenImageList>
       </ai:PrivateElement>
-      <ai:PrivateElement flm:hashcode="E7F22928F4EF3E463C13A82C67B567CA" d:ref="#2">
+      <ai:PrivateElement flm:hashcode="B9F13FD958E6DF46F46EE88841AA4FDC" d:ref="#2">
         <ai:LayerOptions color="5 79.31 257 128.502"/>
       </ai:PrivateElement>
     </Private>
