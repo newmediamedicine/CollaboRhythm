@@ -246,6 +246,9 @@ package collaboRhythm.plugins.healthCharts.controller
 		{
 			if (_fullView.save())
 			{
+				if (_healthChartsModel && _healthChartsModel.record)
+					_healthChartsModel.record.saveAllChanges();
+
 				closeFullView();
 			}
 		}

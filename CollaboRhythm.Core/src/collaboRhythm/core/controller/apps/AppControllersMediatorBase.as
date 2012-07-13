@@ -75,7 +75,7 @@ package collaboRhythm.core.controller.apps
 		protected var _logger:ILogger;
 		private var _currentFullView:String;
 		private var _appsInitialized:ArrayCollection;
-		private var _appControllerConstructorParams:AppControllerConstructorParams;
+		protected var _appControllerConstructorParams:AppControllerConstructorParams;
 		protected var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
 
 		public function AppControllersMediatorBase(widgetContainers:Vector.<IVisualElementContainer>,
@@ -507,6 +507,11 @@ package collaboRhythm.core.controller.apps
 		protected function get factory():AppControllerFactory
 		{
 			return _factory;
+		}
+
+		public function hideFullView(appController:AppControllerBase):void
+		{
+
 		}
 	}
 }

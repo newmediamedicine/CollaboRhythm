@@ -23,6 +23,7 @@ package collaboRhythm.tablet.controller
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.Settings;
+	import collaboRhythm.tablet.view.TabletFullViewContainer;
 
 	import flash.utils.getQualifiedClassName;
 
@@ -78,6 +79,13 @@ package collaboRhythm.tablet.controller
 		{
 			super.initializeForAccount(activeAccount, activeRecordAccount);
 			factory.viewNavigator = _tabletApplicationController.navigator;
+		}
+
+		override public function hideFullView(appController:AppControllerBase):void
+		{
+			var view:TabletFullViewContainer = _appControllerConstructorParams.viewNavigator.activeView as TabletFullViewContainer;
+			if (_appControllerConstructorParams.viewNavigator.length > 1 && view && view.app == appController)
+				_appControllerConstructorParams.viewNavigator.popView();
 		}
 	}
 }

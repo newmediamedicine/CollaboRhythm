@@ -918,9 +918,7 @@ package collaboRhythm.shared.controller.apps
 				{
 					if (_viewNavigator)
 					{
-						// TODO: implement a more robust way of determining the correct navigation behavior
-						if (_viewNavigator.length > 1)
-							_viewNavigator.popToFirstView();
+						_navigationProxy.hideFullView(this);
 					}
 					else
 					{
