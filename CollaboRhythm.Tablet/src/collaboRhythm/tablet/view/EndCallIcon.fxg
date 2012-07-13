@@ -5,12 +5,12 @@
     <Group ai:objID="31406b80" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
       <Path y="35" winding="nonZero" ai:objID="312cce80" ai:seqID="3" data="M0 45C0 20.1494 13.4346 0 29.9951 0 46.5713 0 60 20.1494 60 45L0 45Z">
         <fill>
-          <SolidColor color="#2EB5E5"/>
+          <SolidColor color="#35B5E4"/>
         </fill>
       </Path>
       <Ellipse x="10" width="40" height="40" ai:objID="312d0780" ai:seqID="4">
         <fill>
-          <SolidColor color="#2EB5E5"/>
+          <SolidColor color="#35B5E4"/>
         </fill>
       </Ellipse>
       <Path x="17.5977" y="71.3428" winding="nonZero" flm:variant="1" d:id="3" data="M23.7192 0 14.5964 -10.8917 23.502 -21.2168 19.1144 -21.2168 15.1612 -16.2431C14.0751 -14.8895 13.3366 -13.9137 12.5112 -12.6545L12.3809 -12.6545C11.599 -13.7878 10.7736 -14.858 9.68752 -16.2431L5.8212 -21.2168 1.43358 -21.2168 10.035 -10.7343
@@ -55,7 +55,7 @@
         <ai:Dict/>
       </ai:AutoGenImageList>
     </ai:PrivateElement>
-    <ai:PrivateElement flm:hashcode="084CA5492837F9BBE58FC9CBB4892736" d:ref="#2">
+    <ai:PrivateElement flm:hashcode="FC279B5837DDE34F806D075B2C5F1035" d:ref="#2">
       <ai:LayerOptions color="5 79.31 257 128.502"/>
     </ai:PrivateElement>
     <ATE:ATEAttributes ATE:C_autoLeading="true" ATE:C_baseLine="normal" ATE:C_baselineShift="0" ATE:C_charRotation="0" ATE:C_color="#ffffff" ATE:C_fill="true" ATE:C_fillFirst="true" ATE:C_fillOverprint="false" ATE:C_fillVisible="true" ATE:C_font="MyriadPro-Regular" ATE:C_fontCaps="normal" ATE:C_fontSize="31.4729" ATE:C_horizontalScale="1.38028" ATE:C_kerning="metric" ATE:C_leading="37.7675" ATE:C_lineCapType="buttCap" ATE:C_lineDashOffset="0" ATE:C_lineJoinType="miterJoin" ATE:C_lineWidth="1" ATE:C_miterLimit="10" ATE:C_noBreak="false" ATE:C_strikethroughPos="off" ATE:C_stroke="false" ATE:C_strokeOverprint="false" ATE:C_strokeVisible="true" ATE:C_tracking="0" ATE:C_underlineOffset="0" ATE:C_underlinePos="off" ATE:C_verticalScale="1" ATE:JC_leftAki="-1" ATE:JC_rightAki="-1" ATE:JC_styleRunAlign="byRomanHori_centerVertical" ATE:JC_tusme="0" ATE:JO_japAltFeature="default" ATE:JO_kana="false" ATE:JO_language="english" ATE:JO_proportionalMetrics="false" ATE:JO_romanItalics="false" ATE:JO_ruby="false" ATE:JP_autoTCY="0" ATE:JP_burasagariType="none" ATE:JP_hangingRoman="false" ATE:JP_kurikaeshiMojiShori="false" ATE:JP_leadingType="roman" ATE:MC_diacVPosition="openType" ATE:MC_diacXPos="0" ATE:MC_diacYPos="0" ATE:MC_digitSet="default" ATE:MC_directionOverride="default" ATE:MC_kashidas="default" ATE:MO_justificationAlt="false" ATE:MO_overlapSwash="false" ATE:MO_stretchedAlt="false" ATE:MP_justificationMethod="default" ATE:O_alternateLigatures="false" ATE:O_connectionForms="true" ATE:O_contextualLigatures="true" ATE:O_discretionaryLigatures="false" ATE:O_figureStyle="default" ATE:O_fontOTPos="normal" ATE:O_fractions="false" ATE:O_ligature="true" ATE:O_oldStyle="false" ATE:O_ordinals="false" ATE:O_ornaments="false" ATE:O_stylisticAlternates="false" ATE:O_swash="false" ATE:O_titling="false" ATE:P_autoHyphenate="true" ATE:P_autoLeadingPercentage="1.2" ATE:P_composerEngine="latinCJK" ATE:P_consecutiveHyphenLimit="0" ATE:P_defaultTabWidth="130.325" ATE:P_endIndent="0" ATE:P_everyLineComposer="false" ATE:P_firstlineIndent="0" ATE:P_glyphScaling="1" ATE:P_hyphenateCapitalized="true" ATE:P_hyphenatedWordSize="6" ATE:P_hyphenationPreference="0.5" ATE:P_hyphenationZone="36" ATE:P_letterSpacing="0" ATE:P_maxGlyphScaling="1" ATE:P_maxLetterSpacing="0" ATE:P_maxWordSpacing="1.33" ATE:P_minGlyphScaling="1" ATE:P_minLetterSpacing="0" ATE:P_minWordSpacing="0.8" ATE:P_paragraphDirection="ltr" ATE:P_postHyphenSize="2" ATE:P_preHyphenSize="2" ATE:P_singleWordJustif="fullJustifyLastLineFull" ATE:P_spaceAfter="0" ATE:P_spaceBefore="0" ATE:P_startIndent="0" ATE:P_textAlign="left" ATE:P_wordSpacing="1" ATE:TA_columnCount="1" ATE:TA_height="0" ATE:TA_lineOrientation="horiz" ATE:TA_spacing="0" ATE:TA_width="0" ATE:T_baselineDirection="withStream" ATE:T_leftRightAdjust="0" ATE:T_upDownAdjust="0" ATE:W_lineCount="2" ATE:W_lineGap="0" ATE:W_orphanAmount="2" ATE:W_scale="0.5" ATE:W_warichuEnabled="false" ATE:W_warichuJustification="autoJustify" ATE:W_widowAmount="2" flm:hashcode="2A6FB8975863EF905E8D426CBF0EA1D0" d:ref="#4"/>
