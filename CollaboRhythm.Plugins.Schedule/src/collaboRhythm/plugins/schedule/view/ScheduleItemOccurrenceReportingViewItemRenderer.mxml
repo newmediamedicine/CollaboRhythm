@@ -63,6 +63,7 @@
 
 		private var _isDataSet:Boolean = false;
 		private var _instructionalVideoPath:String;
+		[Bindable]
 		private var _scheduleModel:ScheduleModel;
 
 		override public function set data(value:Object):void
@@ -159,11 +160,12 @@
 			}
 		}
 
-		private function isAdherenceCheckBoxEnabled(adherenceItem:AdherenceItem, pendingAction:String = null):Boolean
+		private function isAdherenceCheckBoxEnabled(adherenceItem:AdherenceItem, pendingAction:String = null,
+													adherenceVoidingEnabled:Boolean = false):Boolean
 		{
 			if (_scheduleModel.accountId == _scheduleModel.activeAccount.accountId)
 			{
-				if (_scheduleModel.settings.allowAdherenceVoiding)
+				if (_scheduleModel.settings.adherenceVoidingEnabled)
 				{
 					return true;
 				}
@@ -212,7 +214,7 @@
 								selected="{_scheduleItemOccurrence.adherenceItem != null}"
 								mouseDown="adherenceCheckBoxMouseDownHandler(event)"
 								click="adherenceCheckBoxClickHandler(event)"
-								enabled="{isAdherenceCheckBoxEnabled(_scheduleItemOccurrence.adherenceItem, _scheduleItemOccurrence.adherenceItem ? _scheduleItemOccurrence.adherenceItem.pendingAction : null)}"/>
+								enabled="{isAdherenceCheckBoxEnabled(_scheduleItemOccurrence.adherenceItem, _scheduleItemOccurrence.adherenceItem ? _scheduleItemOccurrence.adherenceItem.pendingAction : null, _scheduleModel ? _scheduleModel.settings.adherenceVoidingEnabled : null)}"/>
 		<s:Label id="additionalInformationLabel" text="{removeAdditionalAdherenceInformation(_scheduleItemOccurrence.adherenceItem)}" verticalCenter="42" horizontalCenter="-2" visible="false"/>
 	</s:Group>
 

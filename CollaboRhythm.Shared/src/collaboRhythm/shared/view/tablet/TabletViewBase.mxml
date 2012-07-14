@@ -151,6 +151,18 @@
 				_tabletApplicationController.goBack("local");
 			}
 		}
+
+		private function determineEnableVoidingMenuItemLabel(adherenceVoidingEnabled:Boolean):String
+		{
+			if (adherenceVoidingEnabled)
+			{
+				return "Disable Voiding";
+			}
+			else
+			{
+				return "Enable Voiding";
+			}
+		}
 		]]></fx:Script>
 	<s:viewMenuItems>
 		<s:ViewMenuItem label="{createDemoDateLabel(_isControllerReady, 0)}" includeIn="debuggingToolsEnabled"
@@ -167,10 +179,12 @@
 				label="{(_tabletApplicationController &amp;&amp; _tabletApplicationController.fastForwardEnabled ? 'Stop' : 'Start') + ' Fast Forward'}"
 				includeIn="debuggingToolsEnabled"
 				click="toggleFastForwardMenuItem_clickHandler(event)"/>
+		<s:ViewMenuItem label="Change Record" id="changeRecordButton" click="changeRecordButton_clickHandler(event)"/>
 		<s:ViewMenuItem label="Synchronize" click="synchronizeMenuItem_clickHandler()"/>
+		<s:ViewMenuItem id="enableVoidingMenuItem" label="{determineEnableVoidingMenuItemLabel(_tabletApplicationController.settings.adherenceVoidingEnabled)}" visible="{_activeAccount.accountId == _activeRecordAccount.accountId &amp;&amp; _tabletApplicationController.settings.demoModeEnabled}" includeInLayout="{_activeAccount.accountId == _activeRecordAccount.accountId &amp;&amp; _tabletApplicationController.settings.demoModeEnabled}"
+						click="_tabletApplicationController.settings.adherenceVoidingEnabled = !_tabletApplicationController.settings.adherenceVoidingEnabled"/>
 		<s:ViewMenuItem label="Reload Plugins" includeIn="debuggingToolsEnabled"
 						click="reloadPluginsViewMenuItem_clickHandler()"/>
-		<s:ViewMenuItem label="Change Record" id="changeRecordButton" click="changeRecordButton_clickHandler(event)"/>
 		<s:ViewMenuItem label="About" id="aboutButton" click="aboutButton_clickHandler(event)"/>
 		<s:ViewMenuItem label="Quit" id="quitButton" click="quitButton_clickHandler(event)"/>
 	</s:viewMenuItems>

@@ -77,7 +77,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element type="xs:boolean" name="allowAdherenceVoiding" minOccurs="0" maxOccurs="1">
+			<xs:element type="xs:boolean" name="adherenceVoidingEnabled" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation xml:lang="en">
 						Allow the user to void adherence items (for demo purposes)

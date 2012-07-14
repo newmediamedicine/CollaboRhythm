@@ -45,7 +45,7 @@ package collaboRhythm.shared.model.settings
 
 		private var _resetWindowSettings:Boolean;
 		private var _demoModeEnabled:Boolean;
-		private var _allowAdherenceVoiding:Boolean;
+		private var _adherenceVoidingEnabled:Boolean;
 		private var _targetDate:Date;
 		private var _modality:String;
 		private var _demoDatePresets:ArrayCollection;
@@ -300,14 +300,14 @@ package collaboRhythm.shared.model.settings
 			_demoModeEnabled = value;
 		}
 
-		public function get allowAdherenceVoiding():Boolean
+		public function get adherenceVoidingEnabled():Boolean
 		{
-			return _allowAdherenceVoiding;
+			return _adherenceVoidingEnabled;
 		}
 
-		public function set allowAdherenceVoiding(value:Boolean):void
+		public function set adherenceVoidingEnabled(value:Boolean):void
 		{
-			_allowAdherenceVoiding = value;
+			_adherenceVoidingEnabled = value;
 		}
 	}
 }
