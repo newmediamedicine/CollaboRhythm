@@ -53,6 +53,7 @@
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewModel;
+		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 
 		import mx.core.IVisualElement;
 
@@ -114,7 +115,7 @@
 
 		private function healthActionItemRenderer_clickHandler():void
 		{
-			_scheduleItemOccurrenceReportingController.handleHealthActionResult();
+			_scheduleItemOccurrenceReportingController.handleHealthActionResult(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
 		}
 		]]>
 	    </fx:Script>

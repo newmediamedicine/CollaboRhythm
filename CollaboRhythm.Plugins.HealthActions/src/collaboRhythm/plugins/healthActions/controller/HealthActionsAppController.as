@@ -5,7 +5,6 @@ package collaboRhythm.plugins.healthActions.controller
 	import collaboRhythm.plugins.healthActions.view.HealthActionsFullView;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.controller.apps.AppEvent;
 
 	import mx.core.UIComponent;
 
@@ -84,7 +83,7 @@ package collaboRhythm.plugins.healthActions.controller
 			if (!_healthActionsModel)
 			{
 				_healthActionsModel = new HealthActionsModel(_componentContainer, _activeRecordAccount.primaryRecord,
-						_activeRecordAccount.accountId, _navigationProxy);
+						_activeRecordAccount.accountId, _navigationProxy, collaborationLobbyNetConnectionServiceProxy);
 			}
 			return _healthActionsModel;
 		}

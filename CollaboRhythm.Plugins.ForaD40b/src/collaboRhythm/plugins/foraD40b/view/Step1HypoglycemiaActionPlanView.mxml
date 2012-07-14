@@ -26,13 +26,9 @@
 			fontSize: 36;
 		}
 
-		#nextStepButton {
-			chromeColor: #F7941E;
-		}
-
 		#simpleCarbsItemList {
-			selectionColor: #F7941E;
-			downColor: #F4BA7A;
+			selectionColor: #33B5E5;
+			downColor: #0099CC;
 		}
 	</fx:Style>
 	<fx:Script><![CDATA[

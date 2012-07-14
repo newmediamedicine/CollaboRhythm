@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
-<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
-		xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:utils="spark.utils.*">
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		addedToStage="addedToStage()"
+		removedFromStage="removedFromStage()">
 	<s:states>
 		<s:State name="debuggingToolsEnabled"/>
 		<s:State name="debuggingToolsDisabled"/>
@@ -96,6 +98,7 @@
 		public function set tabletApplicationController(value:IApplicationControllerBase):void
 		{
 			_tabletApplicationController = value;
+
 			if (_tabletApplicationController)
 			{
 				if (_tabletApplicationController.settings.debuggingToolsEnabled)
@@ -129,6 +132,24 @@
 		public function homeButton_clickHandler():void
 		{
 			_tabletApplicationController.navigateHome("local");
+		}
+
+		private function addedToStage():void
+		{
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
+		}
+
+		private function removedFromStage():void
+		{
+			stage.removeEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
+		}
+
+		private function stage_keyDownHandler(event:KeyboardEvent):void
+		{
+			if (event.keyCode == Keyboard.BACK && visible)
+			{
+				_tabletApplicationController.goBack("local");
+			}
 		}
 		]]></fx:Script>
 	<s:viewMenuItems>

@@ -42,7 +42,7 @@ package collaboRhythm.plugins.foraD40b.model
 			_equipmentHealthAction = new EquipmentHealthAction(_healthActionSchedule.instructions, _equipment.name);
 
 			_model = new HealthActionListViewModelBase(scheduleItemOccurrence, healthActionModelDetailsProvider);
-			_controller = new HealthActionListViewControllerBase(_model);
+
 
 			_imageCacheService = WorkstationKernel.instance.resolve(IImageCacheService) as IImageCacheService;
 		}
@@ -107,6 +107,10 @@ package collaboRhythm.plugins.foraD40b.model
 
 		public function get controller():IHealthActionListViewController
 		{
+			if (!_controller)
+			{
+				_controller = new HealthActionListViewControllerBase(_model);
+			}
 			return _controller;
 		}
 

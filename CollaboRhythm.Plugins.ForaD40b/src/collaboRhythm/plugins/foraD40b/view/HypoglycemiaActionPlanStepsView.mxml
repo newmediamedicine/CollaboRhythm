@@ -34,7 +34,7 @@
 		@namespace s "library://ns.adobe.com/flex/spark";
 
 		.warningText {
-			color: #FCEE22;
+			color: #F79521;
 			fontSize: 36;
 		}
 

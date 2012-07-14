@@ -47,7 +47,14 @@ package collaboRhythm.shared.model.healthRecord.document
 
         override public function getScheduleActionId():String
         {
-            return _scheduledEquipment.meta.id;
+			if (_scheduledEquipment)
+			{
+            	return _scheduledEquipment.meta.id;
+			}
+			else
+			{
+				return null;
+			}
         }
 		
         public function get scheduledEquipment():Equipment

@@ -80,8 +80,8 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			if (!_scheduleModel)
 			{
-				_scheduleModel = new ScheduleModel(_componentContainer, _activeRecordAccount.primaryRecord,
-						_activeRecordAccount.accountId, _navigationProxy, _settings);
+				_scheduleModel = new ScheduleModel(_componentContainer, _activeAccount, _activeRecordAccount,
+						_navigationProxy, _settings, collaborationLobbyNetConnectionServiceProxy);
 				_activeRecordAccount.primaryRecord.appData.put(ScheduleModelKey.SCHEDULE_MODEL_KEY, _scheduleModel);
 				_activeRecordAccount.primaryRecord.appData.put(AdherencePerformanceModel.ADHERENCE_PERFORMANCE_MODEL_KEY,
 						_scheduleModel.adherencePerformanceModel);

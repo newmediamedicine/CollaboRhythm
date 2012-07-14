@@ -60,7 +60,7 @@ package collaboRhythm.plugins.medications.model
 			_medicationHealthAction = new MedicationHealthAction(_medicationName.rawName);
 
 			_model = new MedicationHealthActionListViewModel(scheduleItemOccurrence, healthActionModelDetailsProvider, _medicationOrder);
-			_controller = new HealthActionListViewControllerBase(_model);
+
 
 			_imageCacheService = WorkstationKernel.instance.resolve(IImageCacheService) as IImageCacheService;
 		}
@@ -156,6 +156,10 @@ package collaboRhythm.plugins.medications.model
 
 		public function get controller():IHealthActionListViewController
 		{
+			if (!_controller)
+			{
+				_controller = new HealthActionListViewControllerBase(_model);
+			}
 			return _controller;
 		}
 

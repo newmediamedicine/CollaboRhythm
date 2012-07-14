@@ -28,19 +28,6 @@
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 
-		.automaticSubmitInstructions {
-			color: #FFFFFF;
-			fontSize: 40;
-		}
-
-		.automaticSubmitCountdown {
-			color: #FFFFFF;
-			fontSize: 160;
-		}
-
-		.automaticSubmitButton {
-			fontSize: 40;
-		}
 	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.schedule.controller.ScheduleAppController;
@@ -48,14 +35,9 @@
 		import collaboRhythm.plugins.schedule.model.ScheduleModel;
 		import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
 		import collaboRhythm.plugins.schedule.model.ScheduleViewInitializationParameters;
+		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 
-		import mx.events.FlexMouseEvent;
 		import mx.logging.ILogger;
-
-		import spark.events.IndexChangeEvent;
-
-		private const COUNTDOWN_DURATION:int = 10;
-		private static const TIMEOUT_TIMER_DURATION:int = 1000;//600000;
 
 		private var _scheduleAppController:ScheduleAppController;
 		private var _scheduleReportingController:ScheduleReportingController;
@@ -108,7 +90,10 @@
 		override protected function createChildren():void
 		{
 			super.createChildren();
-			actionContent.unshift(saveButton);
+			if (_scheduleModel.activeAccount.accountId == _scheduleModel.accountId)
+			{
+				actionContent.unshift(saveButton);
+			}
 		}
 
 		private function creationCompleteHandler():void
@@ -116,74 +101,6 @@
 			scheduleGroupReportingView.init(_scheduleModel, _scheduleAppController.activeAccount.accountId,
 					_scheduleReportingController);
 		}
-
-		//		//TODO: Determine why this is not being called when the view is shown, likely because of the change in implementation to use the viewNavigator
-		//		//As it stands, the timeout does not work.
-		//		private function showHandler():void
-		//		{
-		//			trace("ok this has been shown.");
-		//			// Every time that the view is shown, create a 10 minute timeout timer
-		//			_timeoutTimer = new Timer(TIMEOUT_TIMER_DURATION, 1);
-		//			_timeoutTimer.addEventListener(TimerEvent.TIMER, timeoutTimer_timerEventHandler);
-		//			_timeoutTimer.start();
-		//		}
-		//
-		//		private function timeoutTimer_timerEventHandler(event:TimerEvent):void
-		//		{
-		//			trace("ok the timer went off.");
-		//			if (visible)
-		//			{
-		//				_countdownTimer = new Timer(1000, COUNTDOWN_DURATION);
-		//				_countdownTimer.addEventListener(TimerEvent.TIMER, countdownTimer_timerEventHandler);
-		//				_countdownTimer.addEventListener(TimerEvent.TIMER_COMPLETE, countdownTimer_timerCompleteHandler);
-		//				_countdownIndex = COUNTDOWN_DURATION;
-		//				_countdownTimer.start();
-		//				_isCountdownRunning = true;
-		//			}
-		//		}
-		//
-		//		private function countdownTimer_timerEventHandler(event:TimerEvent):void
-		//		{
-		//			_countdownIndex = COUNTDOWN_DURATION - _countdownTimer.currentCount;
-		//		}
-		//
-		//		private function countdownTimer_timerCompleteHandler(event:TimerEvent):void
-		//		{
-		//			_isCountdownRunning = false;
-		//			closeScheduleReportingFullView("timer timeout elapsed");
-		//		}
-		//
-		//		private function okButton_clickHandler():void
-		//		{
-		//			_isCountdownRunning = false;
-		//			_countdownTimer.stop();
-		//
-		//			closeScheduleReportingFullView("time timeout elapsed - user pressed ok");
-		//		}
-		//
-		//		private function cancelButton_clickHandler():void
-		//		{
-		//			if (_timeoutTimer)
-		//			{
-		//				_timeoutTimer.reset();
-		//				_timeoutTimer.start();
-		//			}
-		//			_isCountdownRunning = false;
-		//			_countdownTimer.stop();
-		//		}
-		//
-		//		private function closeScheduleReportingFullView(viaMechanism:String):void
-		//		{
-		//			_scheduleReportingController.closeScheduleReportingFullView(viaMechanism);
-		//		}
-		//
-		//		private function hideHandler():void
-		//		{
-		//			if (_countdownTimer)
-		//				_countdownTimer.stop();
-		//			if (_timeoutTimer)
-		//				_timeoutTimer.stop();
-		//		}
 
 		private function addedToStage():void
 		{
@@ -199,55 +116,19 @@
 		{
 			if (event.keyCode == Keyboard.BACK && visible)
 			{
-				_scheduleReportingController.saveChangesToRecord();
+				_scheduleReportingController.synchronizeSaving(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
 			}
-		}
-
-		public function destroyChildren():void
-		{
-//			scheduleGroupReportingView.scheduleItemsGroup.removeAllElements();
-		}
-
-		//		private function scheduleReportingFullView_clickHandler():void
-		//		{
-		//			if (_timeoutTimer)
-		//			{
-		//				_timeoutTimer.reset();
-		//				_timeoutTimer.start();
-		//			}
-		//		}
-
-		private function scheduleGroupReportingView_changeHandler(event:IndexChangeEvent):void
-		{
-//			var callout:Callout = new Callout();
-//			callout.setStyle("skinClass", CalloutSkin);
-//			callout.width = this.width / 2;
-//			callout.height = this.height;
-//			callout.horizontalPosition="after";
-//			callout.verticalPosition="middle";
-//			var group:Group = new Group();
-//			group.width = 100;
-//			group.height = 100;
-//			callout.addElement(group);
-//			callout.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE, mouseDownOutsideHandler);
-//			callout.open(scheduleGroupReportingView.dataGroup.getElementAt(scheduleGroupReportingView.selectedIndex) as DisplayObjectContainer, false);
-		}
-
-		private function mouseDownOutsideHandler(event:FlexMouseEvent):void
-		{
-			scheduleGroupReportingView.selectedIndex = -1;
-			event.target.close();
 		}
 
 		private function saveButton_clickHandler():void
 		{
-			_scheduleReportingController.saveChangesToRecord();
-			_scheduleReportingController.goBack();
+			_scheduleReportingController.synchronizeSaving(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
+			_scheduleReportingController.goBack(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
 		}
 
 		override public function homeButton_clickHandler():void
 		{
-			_scheduleReportingController.saveChangesToRecord();
+			_scheduleReportingController.synchronizeSaving(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
 			super.homeButton_clickHandler();
 		}
 		]]></fx:Script>
@@ -257,42 +138,11 @@
 				<s:SolidColor color="0xFFFFFF"/>
 			</s:fill>
 		</s:Rect>
-		<scheduleViews:ScheduleGroupReportingView id="scheduleGroupReportingView" width="100%" height="100%"
-												  change="scheduleGroupReportingView_changeHandler(event)"/>
+		<scheduleViews:ScheduleGroupReportingView id="scheduleGroupReportingView" width="100%" height="100%"/>
 		<s:Line right="0" height="100%">
 			<s:stroke>
 				<s:SolidColorStroke color="0x000000"/>
 			</s:stroke>
 		</s:Line>
 	</s:Group>
-<!--	<s:Group width="100%" height="100%" visible="{_isCountdownRunning}">
-		<s:Rect width="100%" height="100%">
-			<s:fill>
-				<s:SolidColor color="0x000000" alpha="0.5"/>
-			</s:fill>
-			<s:stroke>
-				<s:SolidColorStroke color="0xFFFFFF"/>
-			</s:stroke>
-		</s:Rect>
-		<s:Group verticalCenter="0" horizontalCenter="0">
-			<s:Rect width="100%" height="100%">
-				<s:fill>
-					<s:SolidColor color="0x000000"/>
-				</s:fill>
-			</s:Rect>
-			<s:VGroup paddingLeft="25" paddingRight="25" paddingTop="25" paddingBottom="25" horizontalAlign="center">
-				<s:Label styleName="automaticSubmitInstructions" text="You have not interacted in 10 minutes."/>
-				<s:Label styleName="automaticSubmitInstructions" paddingTop="10"
-						 text="Your adherence results will be submitted in:"/>
-				<s:Label styleName="automaticSubmitCountdown" id="countdownIndexLabel" paddingTop="10"
-						 text="{_countdownIndex}"/>
-				<s:HGroup gap="20">
-					<s:Button width="150" height="70" styleName="automaticSubmitButton" label="OK"
-							  click="okButton_clickHandler()"/>
-					<s:Button width="150" height="70" styleName="automaticSubmitButton" label="Cancel"
-							  click="cancelButton_clickHandler()"/>
-				</s:HGroup>
-			</s:VGroup>
-		</s:Group>
-	</s:Group>-->
 </sharedViews:TabletViewBase>

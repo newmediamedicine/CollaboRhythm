@@ -32,12 +32,8 @@
 		}
 
 		.complexCarbsItemList {
-			selectionColor: #F7941E;
-			downColor: #F4BA7A;
-		}
-
-		#finishButton {
-			chromeColor: #F7941E;
+			selectionColor: #33B5E5;
+			downColor: #0099CC;
 		}
 	</fx:Style>
 	<fx:Script><![CDATA[

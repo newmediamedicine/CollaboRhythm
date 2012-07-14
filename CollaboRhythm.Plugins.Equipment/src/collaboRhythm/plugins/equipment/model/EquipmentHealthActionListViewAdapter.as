@@ -36,7 +36,7 @@ package collaboRhythm.plugins.equipment.model
 			_equipmentHealthAction = new EquipmentHealthAction(_healthActionSchedule.instructions, _equipment.name);
 
 			_model = new HealthActionListViewModelBase(scheduleItemOccurrence, healthActionModelDetailsProvider);
-			_controller = new HealthActionListViewControllerBase(_model);
+
 		}
 
 		public function get healthAction():HealthActionBase
@@ -100,6 +100,10 @@ package collaboRhythm.plugins.equipment.model
 
 		public function get controller():IHealthActionListViewController
 		{
+			if (!_controller)
+			{
+				_controller = new HealthActionListViewControllerBase(_model);
+			}
 			return _controller;
 		}
 

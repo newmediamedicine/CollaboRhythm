@@ -268,7 +268,7 @@ package collaboRhythm.core.controller
 		private function autoSave():void
 		{
 			// Don't try to auto-save on quit if we just tried to save and had errors (allow the user to force quit)
-			if (activeRecordAccount && !hasErrorsSaving && !isSaving)
+			if (activeRecordAccount && !hasErrorsSaving && !isSaving && _activeAccount.accountId == _activeRecordAccount.accountId)
 				activeRecordAccount.primaryRecord.saveAllChanges();
 		}
 
@@ -1146,7 +1146,10 @@ package collaboRhythm.core.controller
 		{
 			if (activeRecordAccount)
 			{
-				activeRecordAccount.primaryRecord.saveAllChanges();
+				if (activeAccount.accountId == activeRecordAccount.accountId)
+				{
+					activeRecordAccount.primaryRecord.saveAllChanges();
+				}
 				if (activeRecordAccount.primaryRecord.isSaving)
 					_pendingReloadData = true;
 				else
@@ -1389,6 +1392,10 @@ package collaboRhythm.core.controller
 		}
 
 		public function navigateHome(source:String):void
+		{
+		}
+
+		public function goBack(source:String):void
 		{
 		}
 	}

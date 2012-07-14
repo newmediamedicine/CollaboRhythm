@@ -30,6 +30,8 @@ package collaboRhythm.plugins.foraD40b.controller
 			_viewNavigator = viewNavigator;
 
 			BindingUtils.bindSetter(currentView_changeHandler, _dataInputModel, "currentView");
+
+
 		}
 
 		public function handleHealthActionResult():void

@@ -26,6 +26,9 @@
             <entry module-name="CollaboRhythm.Plugins.Schedule.Shared" build-configuration-name="CollaboRhythm.Plugins.Schedule.Shared">
               <dependency linkage="Merged" />
             </entry>
+            <entry module-name="CollaboRhythm.Shared.Collaboration" build-configuration-name="CollaboRhythm.Shared.Collaboration">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -82,6 +85,7 @@
     </orderEntry>
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" />
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" />
   </component>
 </module>
 

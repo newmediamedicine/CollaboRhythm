@@ -19,7 +19,9 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.plugins.schedule.model.ScheduleModel;
 	import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
 	import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
-	import collaboRhythm.shared.controller.apps.AppEvent;
+	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+	import collaboRhythm.shared.collaboration.model.CollaborationModel;
+	import collaboRhythm.shared.collaboration.model.CollaborationViewSynchronizationEvent;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 
 	import flash.events.EventDispatcher;
@@ -37,51 +39,80 @@ package collaboRhythm.plugins.schedule.controller
 		[Bindable]
 		private var _scheduleReportingModel:ScheduleReportingModel;
 		protected var _logger:ILogger;
-        private var _viewNavigator:ViewNavigator;
-		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
+		private var _viewNavigator:ViewNavigator;
+		private var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
 
 		public function ScheduleReportingController(scheduleModel:ScheduleModel,
 													scheduleReportingFullView:ScheduleReportingFullView,
 													viewNavigator:ViewNavigator,
 													collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy)
 		{
-            _viewNavigator = viewNavigator;
-			_collaborationLobbyNetConnectionServiceProxy = collaborationLobbyNetConnectionServiceProxy;
-            _logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+			_viewNavigator = viewNavigator;
+			_collaborationLobbyNetConnectionServiceProxy = collaborationLobbyNetConnectionServiceProxy as
+					CollaborationLobbyNetConnectionServiceProxy;
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_scheduleModel = scheduleModel;
 			_scheduleReportingFullView = scheduleReportingFullView;
 			_scheduleReportingModel = _scheduleModel.scheduleReportingModel;
+
+			_collaborationLobbyNetConnectionServiceProxy.addEventListener(getQualifiedClassName(this),
+					collaborationViewSynchronization_eventHandler);
 		}
 
-		public function closeScheduleReportingFullView(viaMechanism:String):void
+		private function collaborationViewSynchronization_eventHandler(event:CollaborationViewSynchronizationEvent):void
 		{
-			saveChangesToRecord();
-			dispatchEvent(new AppEvent(AppEvent.HIDE_FULL_VIEW, null, null, null, viaMechanism));
+			if (event.synchronizeData)
+			{
+				this[event.synchronizeFunction]("remote", event.synchronizeData);
+			}
+			else
+			{
+				this[event.synchronizeFunction]("remote");
+			}
 		}
 
-		public function saveChangesToRecord():void
+		public function get viewNavigator():ViewNavigator
 		{
-			_scheduleModel.saveChangesToRecord();
+			return _viewNavigator;
 		}
 
-        public function get viewNavigator():ViewNavigator
-        {
-            return _viewNavigator;
-        }
-
-        public function set viewNavigator(value:ViewNavigator):void
-        {
-            _viewNavigator = value;
-        }
-
-		public function goBack():void
+		public function set viewNavigator(value:ViewNavigator):void
 		{
-			_viewNavigator.popView();
+			_viewNavigator = value;
+		}
+
+		public function goBack(source:String):void
+		{
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
+					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"goBack");
+			}
+
+			viewNavigator.popView();
 		}
 
 		public function get collaborationLobbyNetConnectionServiceProxy():ICollaborationLobbyNetConnectionServiceProxy
 		{
 			return _collaborationLobbyNetConnectionServiceProxy;
+		}
+
+		public function synchronizeSaving(source:String):void
+		{
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
+					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"synchronizeSaving");
+			}
+
+			if (_scheduleModel.accountId == _scheduleModel.activeAccount.accountId)
+			{
+				_scheduleModel.saveChangesToRecord();
+			}
 		}
 	}
 }

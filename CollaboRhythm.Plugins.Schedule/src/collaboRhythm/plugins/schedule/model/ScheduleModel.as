@@ -17,7 +17,9 @@
 package collaboRhythm.plugins.schedule.model
 {
 	import collaboRhythm.plugins.schedule.shared.model.*;
+	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.IApplicationNavigationProxy;
+	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
@@ -74,19 +76,25 @@ package collaboRhythm.plugins.schedule.model
 		private var _healthActionInputControllerFactory:MasterHealthActionInputControllerFactory;
 		private var _navigationProxy:IApplicationNavigationProxy;
 		private var _settings:Settings;
+		private var _activeAccount:Account;
+		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
 
 		public function ScheduleModel(componentContainer:IComponentContainer,
-									  record:Record, accountId:String,
+									  activeAccount:Account,
+									  activeRecordAccount:Account,
 									  navigationProxy:IApplicationNavigationProxy,
-									  settings:Settings)
+									  settings:Settings,
+									  collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy)
 		{
-			_accountId = accountId;
+			_accountId = activeRecordAccount.accountId;
 			_navigationProxy = navigationProxy;
 			_settings = settings;
+			_collaborationLobbyNetConnectionServiceProxy = collaborationLobbyNetConnectionServiceProxy;
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 
-			_record = record;
+			_record = activeRecordAccount.primaryRecord;
+			_activeAccount = activeAccount;
 
 			_documentCollectionDependenciesArray = [_record.medicationOrdersModel, _record.medicationScheduleItemsModel, _record.equipmentModel, _record.healthActionSchedulesModel, _record.adherenceItemsModel];
 			_scheduleItemsCollectionsArray = [_record.medicationScheduleItemsModel.medicationScheduleItemCollection, _record.healthActionSchedulesModel.healthActionScheduleCollection];
@@ -424,6 +432,16 @@ package collaboRhythm.plugins.schedule.model
 		public function get settings():Settings
 		{
 			return _settings;
+		}
+
+		public function get activeAccount():Account
+		{
+			return _activeAccount;
+		}
+
+		public function get collaborationLobbyNetConnectionServiceProxy():ICollaborationLobbyNetConnectionServiceProxy
+		{
+			return _collaborationLobbyNetConnectionServiceProxy;
 		}
 	}
 }

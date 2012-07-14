@@ -11,6 +11,9 @@ package collaboRhythm.shared.collaboration.model
 
 	public class CollaborationLobbyNetConnectionServiceProxy extends EventDispatcher implements ICollaborationLobbyNetConnectionServiceProxy
 	{
+		public static const LOCAL:String = "local";
+		public static const REMOTE:String = "remote";
+
 		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
 		private var _applicationDomain:ApplicationDomain;
 

@@ -49,5 +49,7 @@ package collaboRhythm.shared.controller
 		function get navigator():ViewNavigator;
 
 		function navigateHome(source:String):void;
+
+		function goBack(source:String):void;
 	}
 }

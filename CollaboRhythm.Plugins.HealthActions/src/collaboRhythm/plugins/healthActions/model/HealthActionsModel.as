@@ -4,6 +4,7 @@ package collaboRhythm.plugins.healthActions.model
 	import collaboRhythm.plugins.schedule.shared.model.MasterHealthActionInputControllerFactory;
 	import collaboRhythm.plugins.schedule.shared.model.MasterHealthActionListViewAdapterFactory;
 	import collaboRhythm.shared.model.IApplicationNavigationProxy;
+	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
 	import collaboRhythm.shared.model.services.IComponentContainer;
@@ -22,15 +23,18 @@ package collaboRhythm.plugins.healthActions.model
 		private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>();
 		private var _componentContainer:IComponentContainer;
 		private var _navigationProxy:IApplicationNavigationProxy;
+		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
 
 		public function HealthActionsModel(componentContainer:IComponentContainer,
 										   record:Record, accountId:String,
-										   navigationProxy:IApplicationNavigationProxy)
+										   navigationProxy:IApplicationNavigationProxy,
+										   collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy)
 		{
 			_componentContainer = componentContainer;
 			_record = record;
 			_accountId = accountId;
 			_navigationProxy = navigationProxy;
+			_collaborationLobbyNetConnectionServiceProxy = collaborationLobbyNetConnectionServiceProxy;
 
 			_documentCollectionDependenciesArray = [_record.medicationOrdersModel, _record.medicationScheduleItemsModel, _record.equipmentModel, _record.healthActionSchedulesModel, _record.adherenceItemsModel];
 
@@ -85,6 +89,11 @@ package collaboRhythm.plugins.healthActions.model
 		public function get navigationProxy():IApplicationNavigationProxy
 		{
 			return _navigationProxy;
+		}
+
+		public function get collaborationLobbyNetConnectionServiceProxy():ICollaborationLobbyNetConnectionServiceProxy
+		{
+			return _collaborationLobbyNetConnectionServiceProxy;
 		}
 	}
 }

@@ -24,7 +24,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		{
 			_healthAction = new InsulinTitrationSupportHealthAction();
 			_model = new InsulinTitrationSupportHealthActionListViewModel(scheduleItemOccurrence, healthActionModelDetailsProvider);
-			_controller = new HealthActionListViewControllerBase(_model)
+
 		}
 
 		public function get healthAction():HealthActionBase
@@ -91,6 +91,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		public function get controller():IHealthActionListViewController
 		{
+			if (!_controller)
+			{
+				_controller = new HealthActionListViewControllerBase(_model)
+			}
 			return _controller;
 		}
 

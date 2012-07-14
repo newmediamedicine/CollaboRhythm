@@ -68,7 +68,7 @@ package collaboRhythm.plugins.schedule.controller
 
 		public function openScheduleReportingFullView(source:String, selectedScheduleGroup:ScheduleGroup):void
 		{
-			if (source == "local" && _collaborationLobbyNetConnectionServiceProxy.collaborationState == CollaborationModel.COLLABORATION_ACTIVE)
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL && _collaborationLobbyNetConnectionServiceProxy.collaborationState == CollaborationModel.COLLABORATION_ACTIVE)
 			{
 				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
 						"openScheduleReportingFullView",

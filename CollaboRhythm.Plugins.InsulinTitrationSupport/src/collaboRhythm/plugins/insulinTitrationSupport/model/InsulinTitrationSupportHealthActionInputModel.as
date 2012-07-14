@@ -14,6 +14,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		public function prepareChartsForDecision():void
 		{
+			//TODO: I have not been able to reproduce it, but the record was null once
 			_healthActionModelDetailsProvider.record.healthChartsModel.prepareForDecision("Health Charts - Insulin Titration", scheduleItemOccurrence);
 		}
 

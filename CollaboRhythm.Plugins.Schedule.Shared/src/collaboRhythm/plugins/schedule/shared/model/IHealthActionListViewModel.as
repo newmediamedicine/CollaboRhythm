@@ -9,5 +9,6 @@ package collaboRhythm.plugins.schedule.shared.model
 		function get scheduleItemOccurrence():ScheduleItemOccurrence;
 		function get healthActionInputController():IHealthActionInputController;
 		function set healthActionInputController(healthActionInputController:IHealthActionInputController):void;
+		function get healthActionInputModelDetailsProvider():IHealthActionModelDetailsProvider;
 	}
 }

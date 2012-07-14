@@ -28,10 +28,6 @@
 		#startActionPlanLabel {
 			fontSize: 48;
 		}
-
-		#nextStepButton {
-			chromeColor: #F7941E;
-		}
 	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;

@@ -24,7 +24,7 @@ package collaboRhythm.plugins.painReport.model
 			_healthAction = new HealthActionBase(HEALTH_ACTION_TYPE);
 
 			_model = new PainReportHealthActionListViewModel(null, null);
-			_controller = new HealthActionListViewControllerBase(_model);
+
 		}
 
 		public function get healthAction():HealthActionBase
@@ -84,6 +84,10 @@ package collaboRhythm.plugins.painReport.model
 
 		public function get controller():IHealthActionListViewController
 		{
+			if (!_controller)
+			{
+				_controller = new HealthActionListViewControllerBase(_model);
+			}
 			return _controller;
 		}
 

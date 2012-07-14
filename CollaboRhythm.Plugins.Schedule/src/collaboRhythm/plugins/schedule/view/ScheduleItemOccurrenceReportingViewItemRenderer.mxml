@@ -4,9 +4,9 @@
 				xmlns:view="collaboRhythm.plugins.schedule.shared.view.*"
 				width="100%"
 				height="{SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT}"
-				autoDrawBackground="false">
+				autoDrawBackground="false"
+		removedFromStage="removedHandler(event)">
 	<fx:Style>
-
 		#nameLabel {
 			font-size: 30;
 			font-weight: bold;
@@ -47,6 +47,7 @@
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewModel;
+		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
@@ -132,7 +133,7 @@
 
 		private function adherenceCheckBoxClickHandler(event:MouseEvent):void
 		{
-			_scheduleItemOccurrenceReportingController.handleHealthActionResult();
+			_scheduleItemOccurrenceReportingController.handleHealthActionResult(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
 		}
 
 		private function secondaryInstructionsLabel_clickHandler(event:MouseEvent):void
@@ -160,8 +161,33 @@
 
 		private function isAdherenceCheckBoxEnabled(adherenceItem:AdherenceItem, pendingAction:String = null):Boolean
 		{
-			return !(adherenceItem && !adherenceItem.pendingAction &&
-					!_scheduleModel.settings.allowAdherenceVoiding);
+			if (_scheduleModel.accountId == _scheduleModel.activeAccount.accountId)
+			{
+				if (_scheduleModel.settings.allowAdherenceVoiding)
+				{
+					return true;
+				}
+				else
+				{
+					if (adherenceItem)
+					{
+						return adherenceItem.pendingAction;
+					}
+					else
+					{
+						return true;
+					}
+				}
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		private function removedHandler(event:Event):void
+		{
+			_scheduleItemOccurrenceReportingController.removeEventListener();
 		}
 		]]>
     </fx:Script>
