@@ -4,8 +4,8 @@
 				xmlns:view="collaboRhythm.plugins.schedule.shared.view.*"
 				width="100%"
 				height="{SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT}"
-				autoDrawBackground="false"
-		removedFromStage="removedHandler(event)">
+				removedFromStage="removedHandler(event)"
+				click="clickHandler(event)">
 	<fx:Style>
 		#nameLabel {
 			font-size: 30;
@@ -191,6 +191,11 @@
 		{
 			_scheduleItemOccurrenceReportingController.removeEventListener();
 		}
+
+		private function clickHandler(event:MouseEvent):void
+		{
+			_scheduleItemOccurrenceReportingController.handleHealthActionSelected(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
+		}
 		]]>
     </fx:Script>
 
@@ -215,7 +220,9 @@
 								mouseDown="adherenceCheckBoxMouseDownHandler(event)"
 								click="adherenceCheckBoxClickHandler(event)"
 								enabled="{isAdherenceCheckBoxEnabled(_scheduleItemOccurrence.adherenceItem, _scheduleItemOccurrence.adherenceItem ? _scheduleItemOccurrence.adherenceItem.pendingAction : null, _scheduleModel ? _scheduleModel.settings.adherenceVoidingEnabled : null)}"/>
-		<s:Label id="additionalInformationLabel" text="{removeAdditionalAdherenceInformation(_scheduleItemOccurrence.adherenceItem)}" verticalCenter="42" horizontalCenter="-2" visible="false"/>
+		<s:Label id="additionalInformationLabel"
+				 text="{removeAdditionalAdherenceInformation(_scheduleItemOccurrence.adherenceItem)}"
+				 verticalCenter="42" horizontalCenter="-2" visible="false"/>
 	</s:Group>
 
 	<s:Line width="100%" bottom="0">

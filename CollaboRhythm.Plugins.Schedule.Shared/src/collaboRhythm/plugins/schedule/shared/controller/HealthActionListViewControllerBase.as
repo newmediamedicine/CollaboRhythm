@@ -27,7 +27,9 @@ package collaboRhythm.plugins.schedule.shared.controller
 
 		private function collaborationViewSynchronization_eventHandler(event:CollaborationViewSynchronizationEvent):void
 		{
-			if (event.synchronizeData && event.synchronizeData as String == _healthActionListViewModel.scheduleItemOccurrence.scheduleItem.getScheduleActionId())
+			if (event.synchronizeData &&
+					event.synchronizeData as String ==
+							_healthActionListViewModel.scheduleItemOccurrence.scheduleItem.getScheduleActionId())
 			{
 				this[event.synchronizeFunction](CollaborationLobbyNetConnectionServiceProxy.REMOTE);
 			}
@@ -35,10 +37,13 @@ package collaboRhythm.plugins.schedule.shared.controller
 
 		public function handleHealthActionResult(source:String):void
 		{
-			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL && _collaborationLobbyNetConnectionServiceProxy.collaborationState == CollaborationModel.COLLABORATION_ACTIVE)
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
+					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
 			{
 				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
-										"handleHealthActionResult", _healthActionListViewModel.scheduleItemOccurrence.scheduleItem.getScheduleActionId());
+						"handleHealthActionResult",
+						_healthActionListViewModel.scheduleItemOccurrence.scheduleItem.getScheduleActionId());
 			}
 
 			if (_healthActionListViewModel.scheduleItemOccurrence &&
@@ -59,6 +64,23 @@ package collaboRhythm.plugins.schedule.shared.controller
 			}
 		}
 
+		public function handleHealthActionSelected(source:String):void
+		{
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
+					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"handleHealthActionSelected",
+						_healthActionListViewModel.scheduleItemOccurrence.scheduleItem.getScheduleActionId());
+			}
+
+			if (_healthActionListViewModel.healthActionInputController)
+			{
+				_healthActionListViewModel.healthActionInputController.handleHealthActionSelected();
+			}
+		}
+
 		public function playVideo(instructionalVideoPath:String):void
 		{
 			// TODO: Currently using the vibration native extension with modifications to play a video
@@ -69,7 +91,7 @@ package collaboRhythm.plugins.schedule.shared.controller
 		public function removeEventListener():void
 		{
 			_collaborationLobbyNetConnectionServiceProxy.removeEventListener(getQualifiedClassName(this),
-								collaborationViewSynchronization_eventHandler);
+					collaborationViewSynchronization_eventHandler);
 		}
 	}
 }

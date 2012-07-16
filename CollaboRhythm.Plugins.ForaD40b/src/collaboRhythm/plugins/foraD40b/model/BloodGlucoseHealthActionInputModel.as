@@ -43,9 +43,10 @@ package collaboRhythm.plugins.foraD40b.model
 		private var _currentView:Class;
 		private var _pushedViewCount:int = 0;
 
-		public static const TIMER_COUNT:int = 900;
+		public static const TIMER_COUNT:int = 15 * 60; // fifteen minutes
+		public static const TIMER_STEP:int = 1000; // one second
 
-		private var _timer:Timer = new Timer(1000, BloodGlucoseHealthActionInputModel.TIMER_COUNT);
+		private var _timer:Timer = new Timer(TIMER_STEP, TIMER_COUNT);
 		private var _seconds:int;
 
 		public function BloodGlucoseHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence = null,
@@ -59,9 +60,14 @@ package collaboRhythm.plugins.foraD40b.model
 			pushView(BloodGlucoseHealthActionInputView);
 		}
 
+		public function handleHealthActionSelected():void
+		{
+
+		}
+
 		public function handleUrlVariables(urlVariables:URLVariables):void
 		{
-			deviceBloodGlucose = "54";//urlVariables.bloodGlucose;
+			deviceBloodGlucose = urlVariables.bloodGlucose;
 
 			if (hypoglycemiaActionPlanIterationCount == 0)
 			{

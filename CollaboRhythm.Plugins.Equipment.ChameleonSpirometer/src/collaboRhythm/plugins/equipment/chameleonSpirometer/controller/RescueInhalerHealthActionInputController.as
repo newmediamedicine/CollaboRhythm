@@ -11,32 +11,36 @@ package collaboRhythm.plugins.equipment.chameleonSpirometer.controller
 	import spark.components.ViewNavigator;
 
 	public class RescueInhalerHealthActionInputController implements IHealthActionInputController
+	{
+		private const HEALTH_ACTION_INPUT_VIEW_CLASS:Class = RescueInhalerHealthActionInputView;
+
+		private var _dataInputModel:RescueInhalerHealthActionInputModel;
+
+		public function RescueInhalerHealthActionInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
+																 healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+																 viewNavigator:ViewNavigator)
 		{
-			private const HEALTH_ACTION_INPUT_VIEW_CLASS:Class = RescueInhalerHealthActionInputView;
-	
-			private var _dataInputModel:RescueInhalerHealthActionInputModel;
-	
-			public function RescueInhalerHealthActionInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
-															   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
-															   viewNavigator:ViewNavigator)
-			{
-				_dataInputModel = new RescueInhalerHealthActionInputModel(scheduleItemOccurrence,
-						healthActionModelDetailsProvider);
-			}
-	
-			public function handleHealthActionResult():void
-			{
-	
-			}
-	
-			public function handleUrlVariables(urlVariables:URLVariables):void
-			{
-				_dataInputModel.urlVariables = urlVariables;
-			}
-	
-			public function get healthActionInputViewClass():Class
-			{
-				return HEALTH_ACTION_INPUT_VIEW_CLASS;
-			}
+			_dataInputModel = new RescueInhalerHealthActionInputModel(scheduleItemOccurrence,
+					healthActionModelDetailsProvider);
+		}
+
+		public function handleHealthActionResult():void
+		{
+
+		}
+
+		public function handleHealthActionSelected():void
+		{
+		}
+
+		public function handleUrlVariables(urlVariables:URLVariables):void
+		{
+			_dataInputModel.urlVariables = urlVariables;
+		}
+
+		public function get healthActionInputViewClass():Class
+		{
+			return HEALTH_ACTION_INPUT_VIEW_CLASS;
 		}
 	}
+}

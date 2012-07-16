@@ -42,11 +42,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 		{
 			if (event.synchronizeData)
 			{
-				this[event.synchronizeFunction]("remote", event.synchronizeData);
+				this[event.synchronizeFunction](CollaborationLobbyNetConnectionServiceProxy.REMOTE, event.synchronizeData);
 			}
 			else
 			{
-				this[event.synchronizeFunction]("remote");
+				this[event.synchronizeFunction](CollaborationLobbyNetConnectionServiceProxy.REMOTE);
 			}
 		}
 
@@ -54,13 +54,19 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 		{
 //			Alert.show("Show insulin titration support health action input view.")
 
-			prepareChartsForDecision("local");
+			prepareChartsForDecision(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
+			showCharts();
+		}
+
+		public function handleHealthActionSelected():void
+		{
+			prepareChartsForDecision(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
 			showCharts();
 		}
 
 		public function prepareChartsForDecision(source:String):void
 		{
-			if (source == "local" &&
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
 					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
 							CollaborationModel.COLLABORATION_ACTIVE)
 			{

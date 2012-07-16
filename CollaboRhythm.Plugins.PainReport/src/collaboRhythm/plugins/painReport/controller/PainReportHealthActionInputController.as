@@ -35,6 +35,10 @@ package collaboRhythm.plugins.painReport.controller
 					new SlideViewTransition());
 		}
 
+		public function handleHealthActionSelected():void
+		{
+		}
+
 		public function handleUrlVariables(urlVariables:URLVariables):void
 		{
 

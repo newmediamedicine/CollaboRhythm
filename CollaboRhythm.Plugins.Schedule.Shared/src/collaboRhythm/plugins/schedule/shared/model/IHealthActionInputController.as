@@ -12,6 +12,12 @@ package collaboRhythm.plugins.schedule.shared.model
 		function handleHealthActionResult():void;
 
 		/**
+		 * Shows the appropriate view when a health action is selected from the list of scheduled health actions. The
+		 * controller should push an appropriate spark.components.View onto the ViewNavigator.
+		 */
+		function handleHealthActionSelected():void;
+
+		/**
 		 * Updates the input controller with new data (urlVariables) from a device.
 		 * @param urlVariables Data from the device, received via an InvokeEvent from the DeviceGateway.
 		 */

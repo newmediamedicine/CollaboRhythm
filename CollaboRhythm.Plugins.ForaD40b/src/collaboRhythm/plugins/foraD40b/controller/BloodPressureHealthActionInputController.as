@@ -36,6 +36,10 @@ package collaboRhythm.plugins.foraD40b.controller
 					new SlideViewTransition());
 		}
 
+		public function handleHealthActionSelected():void
+		{
+		}
+
 		public function handleUrlVariables(urlVariables:URLVariables):void
 		{
 			_dataInputModel.urlVariables = urlVariables;

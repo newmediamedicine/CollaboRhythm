@@ -39,6 +39,11 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.handleHealthActionResult();
 		}
 
+		public function handleHealthActionSelected():void
+		{
+			_dataInputModel.handleHealthActionSelected();
+		}
+
 		public function handleUrlVariables(urlVariables:URLVariables):void
 		{
 			_dataInputModel.handleUrlVariables(urlVariables);

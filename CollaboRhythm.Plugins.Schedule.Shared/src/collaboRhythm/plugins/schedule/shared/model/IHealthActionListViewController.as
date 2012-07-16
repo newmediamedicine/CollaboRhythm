@@ -4,6 +4,8 @@ package collaboRhythm.plugins.schedule.shared.model
 	{
 		function handleHealthActionResult(source:String):void;
 
+		function handleHealthActionSelected(source:String):void;
+
 		function playVideo(instructionalVideo:String):void;
 
 		function removeEventListener():void;

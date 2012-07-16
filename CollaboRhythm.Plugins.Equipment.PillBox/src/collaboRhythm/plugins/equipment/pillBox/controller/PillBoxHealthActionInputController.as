@@ -28,6 +28,10 @@ package collaboRhythm.plugins.equipment.pillBox.controller
 
 		}
 
+		public function handleHealthActionSelected():void
+		{
+		}
+
 		public function handleUrlVariables(urlVariables:URLVariables):void
 		{
 			_dataInputModel.urlVariables = urlVariables;
