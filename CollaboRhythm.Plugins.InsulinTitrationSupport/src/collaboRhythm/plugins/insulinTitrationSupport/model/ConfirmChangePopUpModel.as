@@ -2,35 +2,30 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 {
 	public class ConfirmChangePopUpModel
 	{
-		private var _currentDoseValue:Number;
-		private var _dosageChangeValue:Number;
+		private var _previousDoseValue:Number;
+		private var _dosageChangeValueLabel:String;
 		private var _newDose:Number;
 
-		public function ConfirmChangePopUpModel(currentDoseValue:Number, dosageChangeValue:Number, newDose:Number)
+		public function ConfirmChangePopUpModel(previousDoseValue:Number, dosageChangeValueLabel:String, newDose:Number)
 		{
-			_currentDoseValue = currentDoseValue;
-			_dosageChangeValue = dosageChangeValue;
+			_previousDoseValue = previousDoseValue;
+			_dosageChangeValueLabel = dosageChangeValueLabel;
 			_newDose = newDose;
-		}
-
-		public function get currentDoseValue():Number
-		{
-			return _currentDoseValue;
-		}
-
-		public function get dosageChangeValue():Number
-		{
-			return _dosageChangeValue;
-		}
-
-		public function get dosageChangeValueLabel():String
-		{
-			return dosageChangeValue > 0 ? "+" + dosageChangeValue.toString() : dosageChangeValue.toString();
 		}
 
 		public function get newDose():Number
 		{
 			return _newDose;
+		}
+
+		public function get dosageChangeValueLabel():String
+		{
+			return _dosageChangeValueLabel;
+		}
+
+		public function get previousDoseValue():Number
+		{
+			return _previousDoseValue;
 		}
 	}
 }

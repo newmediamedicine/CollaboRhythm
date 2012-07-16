@@ -16,9 +16,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import com.dougmccune.controls.SeriesDataSet;
 	import com.theory9.data.types.OrderedMap;
 
-	import flash.desktop.NativeApplication;
-	import flash.events.Event;
-
 	import mx.charts.HitData;
 	import mx.charts.series.PlotSeries;
 	import mx.collections.ArrayCollection;
@@ -34,7 +31,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 	import spark.components.Group;
 	import spark.components.Label;
-	import spark.components.SkinnablePopUpContainer;
 	import spark.events.PopUpEvent;
 	import spark.primitives.Rect;
 
@@ -180,6 +176,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			//synchronizedHealthCharts:SynchronizedHealthCharts
 			if (chartModelDetails.record.healthChartsModel.decisionPending)
 			{
+				// TODO: re-evaluate only when data or conditions change that could affect the panel instead of any time the view is shown
+				if (InsulinTitrationSupportChartModifierFactory.isBloodGlucoseChartDescriptor(chartDescriptor))
+				{
+					_insulinTitrationDecisionPanelModel.evaluateForInitialize();
+				}
+
 				if (adherenceGroup.numElements == 2)
 				{
 					var extraPanel:IVisualElement;
@@ -252,7 +254,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			}
 			else
 			{
-				confirmChangePopUp.model = new ConfirmChangePopUpModel(_insulinTitrationDecisionPanelModel.currentDoseValue, _insulinTitrationDecisionPanelModel.dosageChangeValue, _insulinTitrationDecisionPanelModel.newDose);
+				confirmChangePopUp.model = new ConfirmChangePopUpModel(_insulinTitrationDecisionPanelModel.previousDoseValue, _insulinTitrationDecisionPanelModel.dosageChangeValueLabel, _insulinTitrationDecisionPanelModel.newDose);
 				confirmChangePopUp.addEventListener(PopUpEvent.CLOSE, confirmChangePopUp_closeHandler);
 				confirmChangePopUp.open(chartModelDetails.container, true);
 				PopUpManager.centerPopUp(confirmChangePopUp);
