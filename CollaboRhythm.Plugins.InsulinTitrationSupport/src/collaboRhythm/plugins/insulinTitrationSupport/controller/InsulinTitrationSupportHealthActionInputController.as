@@ -52,8 +52,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 
 		public function handleHealthActionResult():void
 		{
-//			Alert.show("Show insulin titration support health action input view.")
-
 			prepareChartsForDecision(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
 			showCharts();
 		}
