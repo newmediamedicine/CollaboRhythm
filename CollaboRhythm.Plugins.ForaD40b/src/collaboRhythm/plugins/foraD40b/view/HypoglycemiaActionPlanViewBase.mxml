@@ -55,7 +55,7 @@
 			actionContent.unshift(nextStepActionButton);
 		}
 
-		override protected function hardwareKeyUpHandler(event:KeyboardEvent):void
+		override protected function stage_keyUpHandler(event:KeyboardEvent):void
 		{
 			if (event.keyCode == Keyboard.BACK)
 			{

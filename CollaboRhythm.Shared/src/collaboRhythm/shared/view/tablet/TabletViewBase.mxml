@@ -136,15 +136,15 @@
 
 		private function addedToStage():void
 		{
-			stage.addEventListener(KeyboardEvent.KEY_UP, hardwareKeyUpHandler);
+			stage.addEventListener(KeyboardEvent.KEY_UP, stage_keyUpHandler);
 		}
 
 		private function removedFromStage():void
 		{
-			stage.removeEventListener(KeyboardEvent.KEY_UP, hardwareKeyUpHandler);
+			stage.removeEventListener(KeyboardEvent.KEY_UP, stage_keyUpHandler);
 		}
 
-		protected function hardwareKeyUpHandler(event:KeyboardEvent):void
+		protected function stage_keyUpHandler(event:KeyboardEvent):void
 		{
 			if (event.keyCode == Keyboard.BACK)
 			{

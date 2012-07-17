@@ -101,14 +101,14 @@
 					_scheduleReportingController);
 		}
 
-		override protected function hardwareKeyUpHandler(event:KeyboardEvent):void
+		override protected function stage_keyUpHandler(event:KeyboardEvent):void
 		{
 			if (event.keyCode == Keyboard.BACK)
 			{
 				_scheduleReportingController.synchronizeSaving(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
 			}
 
-			super.hardwareKeyUpHandler(event);
+			super.stage_keyUpHandler(event);
 		}
 
 		private function saveButton_clickHandler():void
