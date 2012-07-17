@@ -1395,7 +1395,7 @@ package collaboRhythm.core.controller
 		{
 		}
 
-		public function goBack(source:String):void
+		public function synchronizeBack(source:String):void
 		{
 		}
 	}

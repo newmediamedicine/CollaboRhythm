@@ -50,6 +50,6 @@ package collaboRhythm.shared.controller
 
 		function navigateHome(source:String):void;
 
-		function goBack(source:String):void;
+		function synchronizeBack(source:String):void;
 	}
 }

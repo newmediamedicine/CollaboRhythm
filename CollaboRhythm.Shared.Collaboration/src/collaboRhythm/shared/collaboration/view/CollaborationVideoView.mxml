@@ -21,8 +21,6 @@
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   resize="setVideoDisplaySize()"
 					   remove="removeHandler()"
-					   addedToStage="addedToStageHandler()"
-					   removedFromStage="removedFromStageHandler()"
 						title="Video View">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
@@ -58,17 +56,7 @@
 			}
 		}
 
-		private function addedToStageHandler():void
-		{
-			stage.addEventListener(KeyboardEvent.KEY_UP, hardwareKeyUpHandler);
-		}
-
-		private function removedFromStageHandler():void
-		{
-			stage.removeEventListener(KeyboardEvent.KEY_UP, hardwareKeyUpHandler);
-		}
-
-		private function hardwareKeyUpHandler(event:KeyboardEvent):void
+		override protected function stage_keyUpHandler(event:KeyboardEvent):void
 		{
 			if (event.keyCode == Keyboard.BACK &&
 					_collaborationModel.collaborationState != CollaborationModel.COLLABORATION_ACTIVE)

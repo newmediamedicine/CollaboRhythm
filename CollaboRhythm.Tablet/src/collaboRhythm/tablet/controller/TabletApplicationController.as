@@ -206,17 +206,20 @@ package collaboRhythm.tablet.controller
 			navigator.popToFirstView()
 		}
 
-		override public function goBack(source:String):void
+		override public function synchronizeBack(source:String):void
 		{
-			if (source == "local" && _collaborationController.collaborationModel.collaborationState ==
+			if (_collaborationController.collaborationModel.collaborationState ==
 					CollaborationModel.COLLABORATION_ACTIVE)
 			{
-				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
-						"goBack");
-			}
-			else
-			{
-				navigator.popView();
+				if (source == "local")
+				{
+					_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+							"synchronizeBack");
+				}
+				else
+				{
+					navigator.popView();
+				}
 			}
 		}
 

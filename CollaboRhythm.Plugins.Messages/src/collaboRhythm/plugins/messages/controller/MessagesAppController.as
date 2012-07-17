@@ -6,9 +6,14 @@ package collaboRhythm.plugins.messages.controller
 	import collaboRhythm.plugins.messages.view.MessagesView;
 	import collaboRhythm.plugins.messages.view.PlayVideoMessageView;
 	import collaboRhythm.plugins.messages.view.RecordVideoMessageView;
+	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+	import collaboRhythm.shared.collaboration.model.CollaborationModel;
+	import collaboRhythm.shared.collaboration.model.CollaborationViewSynchronizationEvent;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.model.healthRecord.document.MessagesModel;
+
+	import flash.utils.getQualifiedClassName;
 
 	import mx.core.UIComponent;
 
@@ -20,10 +25,29 @@ package collaboRhythm.plugins.messages.controller
 
 		private var _messagesModel:MessagesModel;
 		private var _individualMessagesHealthRecordService:IndividualMessageHealthRecordService;
+		private var _collaborationLobbyNetConnectionServiceProxyLocal:CollaborationLobbyNetConnectionServiceProxy;
 
 		public function MessagesAppController(constructorParams:AppControllerConstructorParams)
 		{
 			super(constructorParams);
+
+			_collaborationLobbyNetConnectionServiceProxyLocal = _collaborationLobbyNetConnectionServiceProxy as
+					CollaborationLobbyNetConnectionServiceProxy;
+			_collaborationLobbyNetConnectionServiceProxyLocal.addEventListener(getQualifiedClassName(this),
+					collaborationViewSynchronization_eventHandler);
+		}
+
+		private function collaborationViewSynchronization_eventHandler(event:CollaborationViewSynchronizationEvent):void
+		{
+			if (event.synchronizeData)
+			{
+				this[event.synchronizeFunction](CollaborationLobbyNetConnectionServiceProxy.REMOTE,
+						event.synchronizeData);
+			}
+			else
+			{
+				this[event.synchronizeFunction](CollaborationLobbyNetConnectionServiceProxy.REMOTE);
+			}
 		}
 
 		override protected function createWidgetView():UIComponent
@@ -91,8 +115,16 @@ package collaboRhythm.plugins.messages.controller
 			_messagesModel = null;
 		}
 
-		public function showMessagesView():void
+		public function showMessagesView(source:String):void
 		{
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
+					_collaborationLobbyNetConnectionServiceProxyLocal.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxyLocal.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"showMessagesView");
+			}
+
 			individualMessagesHealthRecordService.getAllMessages();
 
 			var messagesModelAndController:MessagesModelAndController = new MessagesModelAndController(_activeRecordAccount.messagesModel,
@@ -122,8 +154,16 @@ package collaboRhythm.plugins.messages.controller
 			return individualMessagesHealthRecordService.getMessageSubject();
 		}
 
-		public function playVideoMessage(netStreamLocation:String):void
+		public function playVideoMessage(source:String, netStreamLocation:String):void
 		{
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
+					_collaborationLobbyNetConnectionServiceProxyLocal.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxyLocal.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"playVideoMessage", netStreamLocation);
+			}
+
 			var messagesModelAndController:MessagesModelAndController = new MessagesModelAndController(_activeRecordAccount.messagesModel,
 					this, _collaborationLobbyNetConnectionServiceProxy, netStreamLocation);
 			_viewNavigator.pushView(PlayVideoMessageView, messagesModelAndController);

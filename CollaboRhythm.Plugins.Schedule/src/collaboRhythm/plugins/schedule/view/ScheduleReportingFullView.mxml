@@ -20,8 +20,6 @@
 							xmlns:sharedViews="collaboRhythm.shared.view.tablet.*"
 							xmlns:scheduleViews="collaboRhythm.plugins.schedule.view.*"
 							creationComplete="creationCompleteHandler()"
-							addedToStage="addedToStage()"
-							removedFromStage="removedFromStage()"
 							resize="resizeHandler()">
 	<fx:Declarations>
 		<s:Button id="saveButton" label="Save" click="saveButton_clickHandler()"/>
@@ -103,22 +101,14 @@
 					_scheduleReportingController);
 		}
 
-		private function addedToStage():void
+		override protected function stage_keyUpHandler(event:KeyboardEvent):void
 		{
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
-		}
-
-		private function removedFromStage():void
-		{
-			stage.removeEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
-		}
-
-		private function stage_keyDownHandler(event:KeyboardEvent):void
-		{
-			if (event.keyCode == Keyboard.BACK && visible)
+			if (event.keyCode == Keyboard.BACK)
 			{
 				_scheduleReportingController.synchronizeSaving(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
 			}
+
+			super.stage_keyUpHandler(event);
 		}
 
 		private function saveButton_clickHandler():void
