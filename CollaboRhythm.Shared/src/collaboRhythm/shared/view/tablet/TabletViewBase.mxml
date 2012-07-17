@@ -136,19 +136,19 @@
 
 		private function addedToStage():void
 		{
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
+			stage.addEventListener(KeyboardEvent.KEY_UP, hardwareKeyUpHandler);
 		}
 
 		private function removedFromStage():void
 		{
-			stage.removeEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
+			stage.removeEventListener(KeyboardEvent.KEY_UP, hardwareKeyUpHandler);
 		}
 
-		private function stage_keyDownHandler(event:KeyboardEvent):void
+		protected function hardwareKeyUpHandler(event:KeyboardEvent):void
 		{
-			if (event.keyCode == Keyboard.BACK && visible)
+			if (event.keyCode == Keyboard.BACK)
 			{
-				_tabletApplicationController.goBack("local");
+				_tabletApplicationController.synchronizeBack("local");
 			}
 		}
 

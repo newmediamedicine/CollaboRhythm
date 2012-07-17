@@ -21,7 +21,6 @@
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
 					   creationComplete="creationCompleteHandler(event)"
-					   addedToStage="addedToStageHandler()"
 					   title="Report Blood Glucose">
 	<fx:Declarations>
 		<s:Button id="saveActionButton" label="Save" enabled="false" click="saveActionButton_clickHandler()"/>
@@ -86,15 +85,13 @@
 			return _dataInputController;
 		}
 
-		private function addedToStageHandler():void
-		{
-			addEventListener(KeyboardEvent.KEY_UP, hardwareKeyUpHandler)
-		}
-
-		private function hardwareKeyUpHandler(event:KeyboardEvent):void
-		{
-
-		}
+		//		override protected function hardwareKeyUpHandler(event:KeyboardEvent):void
+		//		{
+		//			if (event.keyCode == Keyboard.BACK)
+		//			{
+		//				event.preventDefault()
+		//			}
+		//		}
 
 		override public function homeButton_clickHandler():void
 		{

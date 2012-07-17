@@ -18,6 +18,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
+		 creationComplete="creationCompleteHandler()"
 		 width="100%" height="100%">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
@@ -52,6 +53,18 @@
 
 			BindingUtils.bindSetter(setDeviceBloodGlucose, _dataInputModel, "deviceBloodGlucose");
 			BindingUtils.bindSetter(handleInvalidBloodGlucose, _dataInputModel, "invalidBloodGlucose");
+		}
+
+		private function creationCompleteHandler():void
+		{
+			bloodGlucoseTextInput.addEventListener(SoftKeyboardEvent.SOFT_KEYBOARD_DEACTIVATE,
+					softKeyboardDeactivateHandler);
+		}
+
+		private function softKeyboardDeactivateHandler(event:SoftKeyboardEvent):void
+		{
+			// the back button closes the application if the TextInput has focus, so set the focus to something else
+			bloodGlucoseGroup.setFocus();
 		}
 
 		private function setDeviceBloodGlucose(deviceBloodGlucose:String):void
@@ -99,7 +112,7 @@
 				<s:TextInput id="bloodGlucoseTextInput" width="100%" height="100%"
 							 skinClass="spark.skins.mobile.StageTextInputSkin" styleName="textInputText"
 							 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number"
-							 change="bloodGlucoseTextInput_changeHandler()"/>
+							 change="bloodGlucoseTextInput_changeHandler()" needsSoftKeyboard="true"/>
 			</s:Group>
 			<s:Label text="mg/dL" verticalCenter="0" styleName="unitsText"/>
 		</s:HGroup>

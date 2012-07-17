@@ -104,5 +104,10 @@ package collaboRhythm.plugins.foraD40b.controller
 		{
 			_dataInputModel.quitHypoglycemiaActionPlan();
 		}
+
+		public function goBack():void
+		{
+			_viewNavigator.popView();
+		}
 	}
 }
