@@ -21,7 +21,7 @@
 		 xmlns:view="collaboRhythm.plugins.messages.view.*"
 		 creationComplete="creationCompleteHandler()"
 		 resize="setVideoDisplaySize()"
-		 currentState="complete">
+		 currentState="firstLoad">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 
@@ -42,6 +42,7 @@
 		}
 	</fx:Style>
 	<s:states>
+		<s:State name="firstLoad"/>
 		<s:State name="complete"/>
 		<s:State name="pausedOnFirstFrame"/>
 		<s:State name="buffering"/>
@@ -70,6 +71,7 @@
 		private var _netStreamDuration:Number = 0;
 
 		private var _playheadInterval:uint;
+		private var _hasLoadedMetaData:Boolean;
 		private var _isLoadingFirstFrame:Boolean;
 
 		[Embed("../../../../assets/swfs/buffering.swf")]
@@ -90,6 +92,7 @@
 
 		public function initializeNetStream(netConnection:NetConnection):void
 		{
+			_hasLoadedMetaData = false;
 			_isLoadingFirstFrame = true;
 
 			_netStream = new NetStream(netConnection);
@@ -114,6 +117,7 @@
 			if (currentState == "complete")
 			{
 				_netStream.play(_netStreamLocation);
+				currentState = "playing";
 			}
 			else
 			{
@@ -123,8 +127,12 @@
 
 		private function handleMetaData(metaData:Object):void
 		{
-			_netStreamDuration = metaData.duration;
-			updatePlayhead(0);
+			if (!_hasLoadedMetaData)
+			{
+				_netStreamDuration = metaData.duration;
+				updatePlayhead(0);
+				_hasLoadedMetaData = true;
+			}
 		}
 
 		private function handlePlayStatus(playStatus:Object):void
