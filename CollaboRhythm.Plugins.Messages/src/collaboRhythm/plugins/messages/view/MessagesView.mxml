@@ -30,6 +30,8 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.messages.controller.MessagesAppController;
 		import collaboRhythm.plugins.messages.model.MessagesModelAndController;
+		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+		import collaboRhythm.shared.collaboration.model.CollaborationModel;
 		import collaboRhythm.shared.model.healthRecord.document.MessagesModel;
 
 		import mx.events.CollectionEvent;
@@ -43,6 +45,7 @@
 		private var _messagesModel:MessagesModel;
 		private var _messagesAppController:MessagesAppController;
 		private var _videoAttachmentLocation:String;
+		private var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
 
 		override public function set data(value:Object):void
 		{
@@ -53,13 +56,17 @@
 			_messagesModel = messagesModelAndController.messagesModel;
 			_messagesAppController = messagesModelAndController.messagesAppController;
 
+			_collaborationLobbyNetConnectionServiceProxy = _messagesAppController.collaborationLobbyNetConnectionServiceProxy as
+					CollaborationLobbyNetConnectionServiceProxy;
+
 			_messagesModel.messages.addEventListener(CollectionEvent.COLLECTION_CHANGE,
 					messagesCollection_changeHandler);
 		}
 
 		private function playVideoHandler(event:VideoAvailableEvent):void
 		{
-			_messagesAppController.playVideoMessage(event.netStreamLocation);
+			_messagesAppController.playVideoMessage(CollaborationLobbyNetConnectionServiceProxy.LOCAL,
+					event.netStreamLocation);
 		}
 
 		private function messagesCollection_changeHandler(event:CollectionEvent):void
@@ -122,7 +129,7 @@
 							  click="sendButton_clickHandler()"/>
 					<view:SendIcon left="10" top="10" mouseEnabled="false" mouseChildren="false"/>
 				</s:Group>
-				<s:Group height="100%" width="80">
+				<s:Group height="100%" width="80" visible="{_collaborationLobbyNetConnectionServiceProxy.collaborationState != CollaborationModel.COLLABORATION_ACTIVE}">
 					<s:Button height="100%" width="100%"
 							  skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin"
 							  click="videoButton_clickHandler()"/>

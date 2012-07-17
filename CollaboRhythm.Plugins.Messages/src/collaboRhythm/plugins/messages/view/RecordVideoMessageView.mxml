@@ -24,6 +24,7 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.messages.controller.MessagesAppController;
 		import collaboRhythm.plugins.messages.model.MessagesModelAndController;
+		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 		import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 		import collaboRhythm.shared.model.healthRecord.document.Message;
 		import collaboRhythm.shared.model.healthRecord.document.MessagesModel;
@@ -67,7 +68,7 @@
 		private function sendButton_clickHandler():void
 		{
 			_messagesAppController.createAndSendMessage("<" + _netStreamLocation + ">");
-			_messagesAppController.showMessagesView();
+			_messagesAppController.showMessagesView(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
 		}
 
 		private function trashButton_clickHandler():void
