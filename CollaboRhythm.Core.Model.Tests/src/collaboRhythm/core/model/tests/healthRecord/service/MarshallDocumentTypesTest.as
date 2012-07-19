@@ -8,6 +8,11 @@ package collaboRhythm.core.model.tests.healthRecord.service
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
+	import org.flexunit.asserts.assertEquals;
+
+	import org.flexunit.asserts.assertNotNull;
+	import org.flexunit.runners.Parameterized;
+
 	[RunWith("org.flexunit.runners.Parameterized")]
 	public class MarshallDocumentTypesTest
 	{
@@ -151,6 +156,236 @@ package collaboRhythm.core.model.tests.healthRecord.service
 						<dateSent>2009-05-17T12:52:21Z</dateSent>
 					</VideoMessage>
 				],
+				[
+					"HealthActionResult simple",
+					"http://indivo.org/vocab/xml/documents/healthActionResult#HealthActionResult",
+					<HealthActionResult xmlns="http://indivo.org/vocab/xml/documents/healthActionResult#"
+										  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+						<name>Insulin Titration Decision</name>
+						<planType>Prescribed</planType>
+						<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+						<dateReported>2011-07-15T13:42:05Z</dateReported>
+						<actions>
+							<action xsi:type="ActionStepResult">
+								<name>Chose a new dose</name>
+							</action>
+						</actions>
+					</HealthActionResult>
+				],
+				[
+					"HealthActionPlan complex 1",
+					"http://indivo.org/vocab/xml/documents/healthActionPlan#HealthActionPlan",
+					<HealthActionPlan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://indivo.org/vocab/xml/documents/healthActionPlan#"
+									  xmlns:indivo="http://indivo.org/vocab/xml/documents#"
+							>
+						<name>Blood Pressure Plan</name>
+						<planType>prescribed</planType>
+						<plannedBy>rpoole@records.media.mit.edu </plannedBy>
+						<datePlanned>2009-05-16T12:51:00-04:00</datePlanned>
+						<dateExpires>2009-05-16T12:51:00-04:00</dateExpires>
+						<indication>blood pressure measurementPlans protocol</indication> <!-- optional. allows you to specify that this plan has an specific indication -->
+						<instructions>Put on the blood pressure monitor and Follow the protocol</instructions>
+						<system type="http://system.repository.coded.values/" value="1">CollaboRhythm</system>
+
+						<actions>
+							<action xsi:type="ActionGroup">
+								<position type="http://position.coded.values/" value="2">Seated</position>
+								<stopConditions />
+								<targets />
+								<measurementPlans/>
+								<devicePlans/>
+								<medicationPlans />
+
+								<repeatCount>3</repeatCount>
+								<actions>
+									<action xsi:type="ActionStep">
+										<position />
+										<stopConditions>
+											<stopCondition>
+												<name type="http://actions.repository.coded.values/" value="3">time</name>
+												<value>
+													<indivo:value>3</indivo:value>
+													<indivo:unit type="http://indivo.org/codes/units#" value="m" abbrev="m">minutes</indivo:unit>
+												</value>
+												<operator type="http://comparison.operators/" value="1">Greater or equal than</operator>
+											</stopCondition>
+										</stopConditions>
+										<targets />
+										<measurementPlans/>
+										<devicePlans />
+										<medicationPlans />
+
+										<name type="http://actions.repository/" value="1">Rest</name>
+										<type type="http://actions.repository.type/" value="1">Rest</type>
+										<additionalDetails/>
+										<instructions>Sit for three minutes</instructions>
+									</action>
+
+									<action	xsi:type="ActionStep">
+										<position />
+										<stopConditions />
+										<targets />
+										<measurementPlans>
+											<measurementPlan>
+												<name type="http://measures.coded.values/" value="1">BP</name>
+												<type type="http://measures.type.coded.values/" value="3">Systolic</type>
+												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+											</measurementPlan>
+											<measurementPlan>
+												<name type="http://measures.coded.values/" value="1">BP</name>
+												<type type="http://measures.type.coded.values/" value="3">Diastolic</type>
+												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+											</measurementPlan>
+											<measurementPlan>
+												<name type="http://measures.coded.values/" value="1">HR</name>
+												<type/>
+												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+											</measurementPlan>
+										</measurementPlans>
+
+										<devicePlans/>
+										<medicationPlans />
+
+										<name type="http://actions.repository/" value="1">Take Blood Pressure</name>
+										<type type="http://actions.repository.type/" value="1">Blood Pressure</type>
+										<additionalDetails/>
+										<instructions>Take Blood Pressure while Seated</instructions>
+									</action>
+								</actions>
+							</action>
+							<action xsi:type="ActionGroup">
+								<position type="http://position.coded.values/" value="2">Lie down</position>
+								<stopConditions />
+								<targets />
+								<measurementPlans/>
+								<devicePlans/>
+								<medicationPlans />
+
+								<repeatCount>3</repeatCount>
+								<actions>
+									<action	xsi:type="ActionStep">
+										<position />
+										<stopConditions>
+											<stopCondition>
+												<name type="http://actions.repository.coded.values/" value="3">time</name>
+												<value>
+													<indivo:value>3</indivo:value>
+													<indivo:unit type="http://indivo.org/codes/units#" value="m" abbrev="m">minutes</indivo:unit>
+												</value>
+												<operator type="http://comparison.operators/" value="1">Greater or equal than</operator>
+											</stopCondition>
+										</stopConditions>
+										<targets />
+										<measurementPlans/>
+										<devicePlans />
+										<medicationPlans />
+
+										<name type="http://actions.repository/" value="1">Rest</name>
+										<type type="http://actions.repository.type/" value="1">Rest</type>
+										<additionalDetails/>
+										<instructions>Sit for three minutes</instructions>
+									</action>
+
+									<action	xsi:type="ActionStep">
+										<position />
+										<stopConditions />
+										<targets />
+										<measurementPlans>
+											<measurementPlan>
+												<name type="http://measures.coded.values/" value="1">BP</name>
+												<type type="http://measures.type.coded.values/" value="3">Systolic</type>
+												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+											</measurementPlan>
+											<measurementPlan>
+												<name type="http://measures.coded.values/" value="1">BP</name>
+												<type type="http://measures.type.coded.values/" value="3">Diastolic</type>
+												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+											</measurementPlan>
+											<measurementPlan>
+												<name type="http://measures.coded.values/" value="1">HR</name>
+												<type/>
+												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+											</measurementPlan>
+										</measurementPlans>
+
+										<devicePlans/>
+										<medicationPlans />
+
+										<name type="http://actions.repository/" value="1">Take Blood Pressure</name>
+										<type type="http://actions.repository.type/" value="1">Blood Pressure</type>
+										<additionalDetails/>
+										<instructions>Take Blood Pressure while Seated</instructions>
+									</action>
+								</actions>
+							</action>
+							<action xsi:type="ActionGroup">
+								<position type="http://position.coded.values/" value="2">Stand</position>
+								<stopConditions />
+								<targets />
+								<measurementPlans/>
+								<devicePlans/>
+								<medicationPlans />
+
+								<repeatCount>3</repeatCount>
+								<actions>
+									<action	xsi:type="ActionStep">
+										<position />
+										<stopConditions>
+											<stopCondition>
+												<name type="http://actions.repository.coded.values/" value="3">time</name>
+												<value>
+													<indivo:value>3</indivo:value>
+													<indivo:unit type="http://indivo.org/codes/units#" value="m" abbrev="m">minutes</indivo:unit>
+												</value>
+												<operator type="http://comparison.operators/" value="1">Greater or equal than</operator>
+											</stopCondition>
+										</stopConditions>
+										<targets />
+										<measurementPlans/>
+										<devicePlans />
+										<medicationPlans />
+
+										<name type="http://actions.repository/" value="1">Rest</name>
+										<type type="http://actions.repository.type/" value="1">Rest</type>
+										<additionalDetails/>
+										<instructions>Sit for three minutes</instructions>
+									</action>
+
+									<action	xsi:type="ActionStep">
+										<position />
+										<stopConditions />
+										<targets />
+										<measurementPlans>
+											<measurementPlan>
+												<name type="http://measures.coded.values/" value="1">BP</name>
+												<type type="http://measures.type.coded.values/" value="3">Systolic</type>
+												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+											</measurementPlan>
+											<measurementPlan>
+												<name type="http://measures.coded.values/" value="1">BP</name>
+												<type type="http://measures.type.coded.values/" value="3">Diastolic</type>
+												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+											</measurementPlan>
+											<measurementPlan>
+												<name type="http://measures.coded.values/" value="1">HR</name>
+												<type/>
+												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+											</measurementPlan>
+										</measurementPlans>
+
+										<devicePlans/>
+										<medicationPlans />
+
+										<name type="http://actions.repository/" value="1">Take Blood Pressure</name>
+										<type type="http://actions.repository.type/" value="1">Blood Pressure</type>
+										<additionalDetails/>
+										<instructions>Take Blood Pressure while Seated</instructions>
+									</action>
+								</actions>
+							</action>
+						</actions>
+					</HealthActionPlan>
+				],
 			];
 		}
 
@@ -218,7 +453,7 @@ package collaboRhythm.core.model.tests.healthRecord.service
 				WorkstationKernel.instance.registerComponentInstance("CurrentDateSource", ICurrentDateSource,
 																	 dateSource);
 			}
-			serviceFacade = new HealthRecordServiceFacade(null, null, "", null, settings.debuggingToolsEnabled);
+			serviceFacade = new HealthRecordServiceFacade(null, null, "", null, false);
 		}
 
 //		[Test(dataProvider="data", description = "Tests that unmarshalling from XML and then back results in the exact same string")]

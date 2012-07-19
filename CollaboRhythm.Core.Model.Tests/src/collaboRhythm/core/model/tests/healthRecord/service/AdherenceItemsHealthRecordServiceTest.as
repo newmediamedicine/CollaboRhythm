@@ -144,6 +144,8 @@ package collaboRhythm.core.model.tests.healthRecord.service
 			date.setTime(DateUtil.parseW3CDTF("2009-05-17T12:52:21-00:00"));
 			document.init(new CodedValue(null, null, null, "Atorvastatin 40 MG Oral Tablet [Lipitor]"),
 					"rpoole@records.media.mit.edu", date, 10);
+			document.adherence = false;
+			document.nonadherenceReason = "upset stomach";
 
 			var resultXml = service.marshallToXml(document);
 

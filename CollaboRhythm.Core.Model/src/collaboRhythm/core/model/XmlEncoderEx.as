@@ -1,15 +1,23 @@
 package collaboRhythm.core.model
 {
 
+	import collaboRhythm.core.model.healthRecord.TypeSchemaRegistry;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
+
+	import mx.rpc.xml.SchemaTypeRegistry;
 
 	import mx.rpc.xml.TypeIterator;
 	import mx.rpc.xml.XMLEncoder;
 
 	public class XmlEncoderEx extends XMLEncoder
 	{
+		private var schemaTypeRegistry:SchemaTypeRegistry;
+		private var _typeSchemaRegistry:TypeSchemaRegistry;
+		private var _usedXsiPrefix:Boolean;
+
 		public function XmlEncoderEx()
 		{
+			schemaTypeRegistry = SchemaTypeRegistry.getInstance();
 		}
 
 		/**
@@ -136,6 +144,58 @@ package collaboRhythm.core.model
 			}
 
 			return null;
+		}
+
+		protected function getSpecificType(value:*):QName
+		{
+			var type:QName;
+
+			if (value != null)
+			{
+				type = _typeSchemaRegistry.getSchema(value);
+			}
+
+			return type;
+		}
+
+		override public function encodeType(type:QName, parent:XML, name:QName, value:*, restriction:XML = null):void
+		{
+			var specificType:QName = getSpecificType(value);
+			if (specificType != null && type != specificType)
+			{
+//				setXSIType(parent, specificType);
+				// TODO: make this work for both the current default namespace and a specific namespace (when a prefix must be specified)
+//				var namespaceURI:String = type.uri;
+//				var prefix:String = schemaManager.getOrCreatePrefix(namespaceURI);
+//				var prefixNamespace:Namespace = new Namespace(prefix, namespaceURI);
+//				parent.addNamespace(prefixNamespace);
+				parent.@[constants.getXSIToken(constants.typeAttrQName)] = specificType.localName;
+				_usedXsiPrefix = true;
+
+				type = specificType;
+			}
+
+			super.encodeType(type, parent, name, value, restriction);
+		}
+
+		public function get typeSchemaRegistry():TypeSchemaRegistry
+		{
+			return _typeSchemaRegistry;
+		}
+
+		public function set typeSchemaRegistry(value:TypeSchemaRegistry):void
+		{
+			_typeSchemaRegistry = value;
+		}
+
+		public function get usedXsiPrefix():Boolean
+		{
+			return _usedXsiPrefix;
+		}
+
+		public function set usedXsiPrefix(value:Boolean):void
+		{
+			_usedXsiPrefix = value;
 		}
 	}
 }

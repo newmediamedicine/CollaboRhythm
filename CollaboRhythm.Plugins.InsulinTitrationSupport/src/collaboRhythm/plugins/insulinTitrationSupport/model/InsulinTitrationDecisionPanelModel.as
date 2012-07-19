@@ -528,7 +528,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 						decisionHealthActionResult.dateReported = chartModelDetails.currentDateSource.now();
 						decisionHealthActionResult.reportedBy = chartModelDetails.accountId;
 						var actionStepResult:ActionStepResult = new ActionStepResult();
-						actionStepResult.name = new CodedValue("Chose a new dose");
+						actionStepResult.name = new CodedValue(null, "Chose a new dose");
 						decisionHealthActionResult.actions = new ArrayCollection();
 						decisionHealthActionResult.actions.addItem(actionStepResult);
 						results.push(decisionHealthActionResult);

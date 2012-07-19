@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="CollaboRhythm.Core.Model.Tests.MarshallDocumentTypesTest" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" class_name="collaboRhythm.core.model.tests.healthRecord.service.MarshallDocumentTypesTest" method_name="adherenceItemMarshallToXml" output_log_level="" package_name="collaboRhythm.core.model.tests" scope="Class">
-    <option name="BCName" value="" />
+    <option name="BCName" value="CollaboRhythm.Core.Model.Tests" />
     <option name="launcherParameters">
       <LauncherParameters>
         <option name="browserFamily" value="FIREFOX" />
@@ -8,7 +8,7 @@
         <option name="playerPath" value="FlashPlayerDebugger.exe" />
       </LauncherParameters>
     </option>
-    <option name="moduleName" value="" />
+    <option name="moduleName" value="CollaboRhythm.Core.Model.Tests" />
     <option name="trusted" value="true" />
     <RunnerSettings RunnerId="FlexDebugRunner" />
     <RunnerSettings RunnerId="FlexRunner" />
