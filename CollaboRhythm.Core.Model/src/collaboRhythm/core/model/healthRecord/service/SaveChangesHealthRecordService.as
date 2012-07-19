@@ -165,28 +165,37 @@ package collaboRhythm.core.model.healthRecord.service
 			var relationshipsRequiringDocumentsCopy:ArrayCollection = new ArrayCollection(relationshipsRequiringDocuments.toArray());
 			for each (var relationship:Relationship in relationshipsRequiringDocumentsCopy)
 			{
-				const waitingToCreateMessage:String = "Warning: waiting to create a {0} relationship but the document to relate {1} {2} has a pendingAction of {3} and is not in the pendingCreateDocuments, unexpectedErrorsChangeSet, or connectionErrorsChangeSet. Relationship will probably never be created.";
-				var relatesFromDocumentReady:Boolean = relationship.relatesFrom.pendingAction == null;
-				var relatesToDocumentReady:Boolean = relationship.relatesTo.pendingAction == null;
-				if (!relatesFromDocumentReady)
+				if (relationship.relatesFrom == null || relationship.relatesTo == null || relationship.type == null)
 				{
-					if (pendingCreateDocuments.getItem(relationship.relatesFrom.meta.id) == null &&
-							!unexpectedErrorsChangeSet.containsCreateDocument(relationship.relatesFrom.meta.id) &&
-							!connectionErrorsChangeSet.containsCreateDocument(relationship.relatesFrom.meta.id))
-						_logger.warn(waitingToCreateMessage, relationship.type, "from", relationship.relatesFrom.meta.id, relationship.relatesFrom.pendingAction);
-				}
-				if (!relatesToDocumentReady)
-				{
-					if (pendingCreateDocuments.getItem(relationship.relatesTo.meta.id) == null &&
-							!unexpectedErrorsChangeSet.containsCreateDocument(relationship.relatesTo.meta.id) &&
-							!connectionErrorsChangeSet.containsCreateDocument(relationship.relatesTo.meta.id))
-						_logger.warn(waitingToCreateMessage, relationship.type, "to", relationship.relatesTo.meta.id, relationship.relatesTo.pendingAction);
-				}
-				if (relatesFromDocumentReady && relatesToDocumentReady)
-				{
+					const invalidRelationshipMessage:String = "Warning: failed to create a {0} relationship. relatesFrom={1} relatesFromId={2} relatesTo={3} relatesToId={4}. This can happen if either the relatesFrom or relatesTo document has been deleted, voided, archived, or replaced, or if it has failed to load for some other reason.";
+					_logger.warn(invalidRelationshipMessage, relationship.type, relationship.relatesFrom, relationship.relatesFromId, relationship.relatesTo, relationship.relatesToId);
 					relationshipsRequiringDocuments.removeItemAt(relationshipsRequiringDocuments.getItemIndex(relationship));
-					pendingRelateDocuments.addItem(relationship);
-					relateDocuments(record, relationship);
+				}
+				else
+				{
+					const waitingToCreateMessage:String = "Warning: waiting to create a {0} relationship but the document to relate {1} {2} has a pendingAction of {3} and is not in the pendingCreateDocuments, unexpectedErrorsChangeSet, or connectionErrorsChangeSet. Relationship will probably never be created.";
+					var relatesFromDocumentReady:Boolean = relationship.relatesFrom.pendingAction == null;
+					var relatesToDocumentReady:Boolean = relationship.relatesTo.pendingAction == null;
+					if (!relatesFromDocumentReady)
+					{
+						if (pendingCreateDocuments.getItem(relationship.relatesFrom.meta.id) == null &&
+								!unexpectedErrorsChangeSet.containsCreateDocument(relationship.relatesFrom.meta.id) &&
+								!connectionErrorsChangeSet.containsCreateDocument(relationship.relatesFrom.meta.id))
+							_logger.warn(waitingToCreateMessage, relationship.type, "from", relationship.relatesFrom.meta.id, relationship.relatesFrom.pendingAction);
+					}
+					if (!relatesToDocumentReady)
+					{
+						if (pendingCreateDocuments.getItem(relationship.relatesTo.meta.id) == null &&
+								!unexpectedErrorsChangeSet.containsCreateDocument(relationship.relatesTo.meta.id) &&
+								!connectionErrorsChangeSet.containsCreateDocument(relationship.relatesTo.meta.id))
+							_logger.warn(waitingToCreateMessage, relationship.type, "to", relationship.relatesTo.meta.id, relationship.relatesTo.pendingAction);
+					}
+					if (relatesFromDocumentReady && relatesToDocumentReady)
+					{
+						relationshipsRequiringDocuments.removeItemAt(relationshipsRequiringDocuments.getItemIndex(relationship));
+						pendingRelateDocuments.addItem(relationship);
+						relateDocuments(record, relationship);
+					}
 				}
 			}
 		}

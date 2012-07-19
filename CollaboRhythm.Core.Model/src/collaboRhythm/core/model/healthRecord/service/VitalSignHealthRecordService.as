@@ -9,7 +9,7 @@ package collaboRhythm.core.model.healthRecord.service
 
 	public class VitalSignHealthRecordService extends DocumentStorageSingleReportServiceBase
 	{
-		private const USE_CREATED_AT_FOR_DATE_MEASURED_START:Boolean = true;
+		private const USE_CREATED_AT_FOR_DATE_MEASURED_START:Boolean = false;
 
 		public function VitalSignHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String,
 													 account:Account, debuggingToolsEnabled:Boolean)
