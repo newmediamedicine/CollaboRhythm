@@ -125,10 +125,7 @@ package collaboRhythm.core.model
 			xmlEncoder.targetNamespace = new Namespace(null, qName.uri);
 
 			// to avoid a prefix on the root document element, only provide the local name, no namespace uri
-//			xmlList = xmlEncoder.encode(targetObject, qName);
-//			xmlList = xmlEncoder.encode(targetObject, new QName("", qName.localName), qName);
 			xmlList = xmlEncoder.encode(targetObject, new QName("", qName.localName));
-//			xmlList = xmlEncoder.encode(targetObject, qName);
 
 			xmlEncoder.setAttribute(xmlList[0], "xmlns", qName.uri);
 
@@ -145,7 +142,6 @@ package collaboRhythm.core.model
 			if (xmlEncoder.usedXsiPrefix)
 			{
 				const xsiUri:String = "http://www.w3.org/2001/XMLSchema-instance";
-//				xmlEncoder.setAttribute(xmlList[0], "xmlns:xsi", xsiUri);
 				xmlList.addNamespace(new Namespace("xsi", xsiUri));
 			}
 
