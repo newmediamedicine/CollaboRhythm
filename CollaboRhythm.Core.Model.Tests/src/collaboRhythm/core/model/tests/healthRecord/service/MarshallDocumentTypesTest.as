@@ -157,10 +157,156 @@ package collaboRhythm.core.model.tests.healthRecord.service
 					</VideoMessage>
 				],
 				[
+					"HealthActionPlan complex 1",
+					"http://indivo.org/vocab/xml/documents/healthActionPlan#HealthActionPlan",
+					<HealthActionPlan xmlns="http://indivo.org/vocab/xml/documents/healthActionPlan#"
+										xmlns:indivo="http://indivo.org/vocab/xml/documents#"
+										xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+						<name>Blood Pressure Plan</name>
+						<planType>prescribed</planType>
+						<plannedBy>rpoole@records.media.mit.edu </plannedBy>
+						<datePlanned>2009-05-16T16:51:00Z</datePlanned>
+						<dateExpires>2049-05-16T16:51:00Z</dateExpires>
+						<indication>blood pressure measurementPlans protocol</indication>
+						<!-- optional. allows you to specify that this plan has an specific indication -->
+						<instructions>Put on the blood pressure monitor and Follow the protocol</instructions>
+						<system type="http://system.repository.coded.values/" value="1">CollaboRhythm</system>
+						<actions>
+							<action xsi:type="ActionGroup">
+								<position type="http://position.coded.values/" value="2">Seated</position>
+								<repeatCount>3</repeatCount>
+								<actions>
+									<action xsi:type="ActionStep">
+										<stopConditions>
+											<stopCondition>
+												<name type="http://actions.repository.coded.values/" value="3">time</name>
+												<value>
+													<indivo:value>3</indivo:value>
+													<indivo:unit type="http://indivo.org/codes/units#" value="m" abbrev="m">minutes</indivo:unit>
+												</value>
+												<operator type="http://comparison.operators/" value="1">Greater or equal than</operator>
+											</stopCondition>
+										</stopConditions>
+										<name type="http://actions.repository/" value="1">Rest</name>
+										<type type="http://actions.repository.type/" value="1">Rest</type>
+										<instructions>Sit for three minutes</instructions>
+									</action>
+									<action    xsi:type="ActionStep">
+										<measurementPlans>
+											<measurementPlan>
+												<name type="http://measures.coded.values/" value="1">BP</name>
+												<type type="http://measures.type.coded.values/" value="3">Systolic</type>
+												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+											</measurementPlan>
+											<measurementPlan>
+												<name type="http://measures.coded.values/" value="1">BP</name>
+												<type type="http://measures.type.coded.values/" value="3">Diastolic</type>
+												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+											</measurementPlan>
+											<measurementPlan>
+												<name type="http://measures.coded.values/" value="1">HR</name>
+												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+											</measurementPlan>
+										</measurementPlans>
+										<name type="http://actions.repository/" value="1">Take Blood Pressure</name>
+										<type type="http://actions.repository.type/" value="1">Blood Pressure</type>
+										<instructions>Take Blood Pressure while Seated</instructions>
+									</action>
+								</actions>
+							</action>
+							<action xsi:type="ActionGroup">
+								<position type="http://position.coded.values/" value="2">Lie down</position>
+								<repeatCount>3</repeatCount>
+								<actions>
+									<action    xsi:type="ActionStep">
+										<stopConditions>
+											<stopCondition>
+												<name type="http://actions.repository.coded.values/" value="3">time</name>
+												<value>
+													<indivo:value>3</indivo:value>
+													<indivo:unit type="http://indivo.org/codes/units#" value="m" abbrev="m">minutes</indivo:unit>
+												</value>
+												<operator type="http://comparison.operators/" value="1">Greater or equal than</operator>
+											</stopCondition>
+										</stopConditions>
+										<name type="http://actions.repository/" value="1">Rest</name>
+										<type type="http://actions.repository.type/" value="1">Rest</type>
+										<instructions>Sit for three minutes</instructions>
+									</action>
+									<action    xsi:type="ActionStep">
+										<measurementPlans>
+											<measurementPlan>
+												<name type="http://measures.coded.values/" value="1">BP</name>
+												<type type="http://measures.type.coded.values/" value="3">Systolic</type>
+												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+											</measurementPlan>
+											<measurementPlan>
+												<name type="http://measures.coded.values/" value="1">BP</name>
+												<type type="http://measures.type.coded.values/" value="3">Diastolic</type>
+												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+											</measurementPlan>
+											<measurementPlan>
+												<name type="http://measures.coded.values/" value="1">HR</name>
+												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+											</measurementPlan>
+										</measurementPlans>
+										<name type="http://actions.repository/" value="1">Take Blood Pressure</name>
+										<type type="http://actions.repository.type/" value="1">Blood Pressure</type>
+										<instructions>Take Blood Pressure while Seated</instructions>
+									</action>
+								</actions>
+							</action>
+							<action xsi:type="ActionGroup">
+								<position type="http://position.coded.values/" value="2">Stand</position>
+								<repeatCount>3</repeatCount>
+								<actions>
+									<action    xsi:type="ActionStep">
+										<stopConditions>
+											<stopCondition>
+												<name type="http://actions.repository.coded.values/" value="3">time</name>
+												<value>
+													<indivo:value>3</indivo:value>
+													<indivo:unit type="http://indivo.org/codes/units#" value="m" abbrev="m">minutes</indivo:unit>
+												</value>
+												<operator type="http://comparison.operators/" value="1">Greater or equal than</operator>
+											</stopCondition>
+										</stopConditions>
+										<name type="http://actions.repository/" value="1">Rest</name>
+										<type type="http://actions.repository.type/" value="1">Rest</type>
+										<instructions>Sit for three minutes</instructions>
+									</action>
+									<action    xsi:type="ActionStep">
+										<measurementPlans>
+											<measurementPlan>
+												<name type="http://measures.coded.values/" value="1">BP</name>
+												<type type="http://measures.type.coded.values/" value="3">Systolic</type>
+												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+											</measurementPlan>
+											<measurementPlan>
+												<name type="http://measures.coded.values/" value="1">BP</name>
+												<type type="http://measures.type.coded.values/" value="3">Diastolic</type>
+												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+											</measurementPlan>
+											<measurementPlan>
+												<name type="http://measures.coded.values/" value="1">HR</name>
+												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+											</measurementPlan>
+										</measurementPlans>
+										<name type="http://actions.repository/" value="1">Take Blood Pressure</name>
+										<type type="http://actions.repository.type/" value="1">Blood Pressure</type>
+										<instructions>Take Blood Pressure while Seated</instructions>
+									</action>
+								</actions>
+							</action>
+						</actions>
+					</HealthActionPlan>
+				],
+				[
 					"HealthActionResult simple",
 					"http://indivo.org/vocab/xml/documents/healthActionResult#HealthActionResult",
 					<HealthActionResult xmlns="http://indivo.org/vocab/xml/documents/healthActionResult#"
-										  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+										xmlns:indivo="http://indivo.org/vocab/xml/documents#"
+										xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 						<name>Insulin Titration Decision</name>
 						<planType>Prescribed</planType>
 						<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
@@ -173,218 +319,187 @@ package collaboRhythm.core.model.tests.healthRecord.service
 					</HealthActionResult>
 				],
 				[
-					"HealthActionPlan complex 1",
-					"http://indivo.org/vocab/xml/documents/healthActionPlan#HealthActionPlan",
-					<HealthActionPlan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://indivo.org/vocab/xml/documents/healthActionPlan#"
-									  xmlns:indivo="http://indivo.org/vocab/xml/documents#"
-							>
-						<name>Blood Pressure Plan</name>
-						<planType>prescribed</planType>
-						<plannedBy>rpoole@records.media.mit.edu </plannedBy>
-						<datePlanned>2009-05-16T12:51:00-04:00</datePlanned>
-						<dateExpires>2009-05-16T12:51:00-04:00</dateExpires>
-						<indication>blood pressure measurementPlans protocol</indication> <!-- optional. allows you to specify that this plan has an specific indication -->
-						<instructions>Put on the blood pressure monitor and Follow the protocol</instructions>
-						<system type="http://system.repository.coded.values/" value="1">CollaboRhythm</system>
-
+					"HealthActionResult complex 1",
+					"http://indivo.org/vocab/xml/documents/healthActionResult#HealthActionResult",
+					<HealthActionResult xmlns="http://indivo.org/vocab/xml/documents/healthActionResult#"
+										xmlns:indivo="http://indivo.org/vocab/xml/documents#"
+										xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+						<name>Knee Bend Test</name>
+						<planType>Prescribed</planType>
+						<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+						<dateReported>2011-07-15T13:42:05Z</dateReported>
 						<actions>
-							<action xsi:type="ActionGroup">
-								<position type="http://position.coded.values/" value="2">Seated</position>
-								<stopConditions />
-								<targets />
-								<measurementPlans/>
-								<devicePlans/>
-								<medicationPlans />
-
-								<repeatCount>3</repeatCount>
-								<actions>
-									<action xsi:type="ActionStep">
-										<position />
-										<stopConditions>
-											<stopCondition>
-												<name type="http://actions.repository.coded.values/" value="3">time</name>
-												<value>
-													<indivo:value>3</indivo:value>
-													<indivo:unit type="http://indivo.org/codes/units#" value="m" abbrev="m">minutes</indivo:unit>
-												</value>
-												<operator type="http://comparison.operators/" value="1">Greater or equal than</operator>
-											</stopCondition>
-										</stopConditions>
-										<targets />
-										<measurementPlans/>
-										<devicePlans />
-										<medicationPlans />
-
-										<name type="http://actions.repository/" value="1">Rest</name>
-										<type type="http://actions.repository.type/" value="1">Rest</type>
-										<additionalDetails/>
-										<instructions>Sit for three minutes</instructions>
-									</action>
-
-									<action	xsi:type="ActionStep">
-										<position />
-										<stopConditions />
-										<targets />
-										<measurementPlans>
-											<measurementPlan>
-												<name type="http://measures.coded.values/" value="1">BP</name>
-												<type type="http://measures.type.coded.values/" value="3">Systolic</type>
-												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
-											</measurementPlan>
-											<measurementPlan>
-												<name type="http://measures.coded.values/" value="1">BP</name>
-												<type type="http://measures.type.coded.values/" value="3">Diastolic</type>
-												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
-											</measurementPlan>
-											<measurementPlan>
-												<name type="http://measures.coded.values/" value="1">HR</name>
-												<type/>
-												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
-											</measurementPlan>
-										</measurementPlans>
-
-										<devicePlans/>
-										<medicationPlans />
-
-										<name type="http://actions.repository/" value="1">Take Blood Pressure</name>
-										<type type="http://actions.repository.type/" value="1">Blood Pressure</type>
-										<additionalDetails/>
-										<instructions>Take Blood Pressure while Seated</instructions>
-									</action>
-								</actions>
+							<action xsi:type="ActionStepResult">
+								<measurements>
+									<measurement>
+										<name type="http://measures.coded.values/" value="1">Knee Angle</name>
+										<type type="http://measures.type.coded.values/" value="3">Extension</type>
+										<value>
+											<indivo:value>150</indivo:value>
+											<indivo:unit type="http://indivo.org/codes/units#" value="m" abbrev="m">degrees</indivo:unit>
+										</value>
+										<aggregationFunction type="http://aggregation.coded.values/">max</aggregationFunction>
+									</measurement>
+								</measurements>
+								<name>Bend knee</name>
 							</action>
-							<action xsi:type="ActionGroup">
-								<position type="http://position.coded.values/" value="2">Lie down</position>
-								<stopConditions />
-								<targets />
-								<measurementPlans/>
-								<devicePlans/>
-								<medicationPlans />
-
-								<repeatCount>3</repeatCount>
+						</actions>
+					</HealthActionResult>
+				],
+				[
+					"HealthActionResult complex 2",
+					"http://indivo.org/vocab/xml/documents/healthActionResult#HealthActionResult",
+					<HealthActionResult xmlns="http://indivo.org/vocab/xml/documents/healthActionResult#"
+										xmlns:indivo="http://indivo.org/vocab/xml/documents#"
+										xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+						<name type="http://actions.repository.coded.values/" value="Exercise Plan">Exercise Plan 1</name>
+						<planType>prescribed</planType>
+						<reportedBy>rpoole</reportedBy>
+						<dateReported>2012-04-05T12:00:35.835Z</dateReported>
+						<actions>
+							<action xsi:type="ActionGroupResult">
+								<measurements>
+									<measurement>
+										<name type="http://measures.coded.values/" value="1">Knee Angle</name>
+										<type type="http://measures.type.coded.values/" value="3">Extension</type>
+										<value>
+											<indivo:value>150</indivo:value>
+											<indivo:unit type="http://indivo.org/codes/units#" value="m" abbrev="m">degrees</indivo:unit>
+										</value>
+										<aggregationFunction type="http://aggregation.coded.values/">max</aggregationFunction>
+									</measurement>
+									<measurement>
+										<name type="http://measures.coded.values/" value="1">Knee Angle</name>
+										<type type="http://measures.type.coded.values/" value="3">Flexion</type>
+										<value>
+											<indivo:value>30</indivo:value>
+											<indivo:unit type="http://indivo.org/codes/units#" value="m" abbrev="m">degrees</indivo:unit>
+										</value>
+										<aggregationFunction type="http://aggregation.coded.values/">min</aggregationFunction>
+									</measurement>
+								</measurements>
+								<deviceResults>
+									<deviceResult>
+										<name type="http://devices.repository.coded.values/" value="Wocket">Wocket</name>
+										<type type="http://equipment.coded.values/" value="1">Accelerometer</type>
+										<value/>
+										<site type="http://equipment.coded.values/" value="1">Lower Leg</site>
+									</deviceResult>
+									<deviceResult>
+										<name type="http://devices.repository.coded.values/" value="Wocket">Wocket</name>
+										<type type="http://equipment.coded.values/" value="1">Accelerometer</type>
+										<value/>
+										<site type="http://equipment.coded.values/" value="1">Upper Leg</site>
+									</deviceResult>
+								</deviceResults>
+								<medicationAdministrations />
 								<actions>
-									<action	xsi:type="ActionStep">
-										<position />
-										<stopConditions>
-											<stopCondition>
-												<name type="http://actions.repository.coded.values/" value="3">time</name>
+									<action xsi:type="ActionStepResult">
+										<measurements>
+											<measurement>
+												<name type="http://measures.coded.values/" value="1">Knee Angle</name>
+												<type type="http://measures.type.coded.values/" value="3">Extension</type>
 												<value>
-													<indivo:value>3</indivo:value>
-													<indivo:unit type="http://indivo.org/codes/units#" value="m" abbrev="m">minutes</indivo:unit>
+													<indivo:value>150</indivo:value>
+													<indivo:unit type="http://indivo.org/codes/units#" value="m" abbrev="m">degrees</indivo:unit>
 												</value>
-												<operator type="http://comparison.operators/" value="1">Greater or equal than</operator>
-											</stopCondition>
-										</stopConditions>
-										<targets />
-										<measurementPlans/>
-										<devicePlans />
-										<medicationPlans />
-
-										<name type="http://actions.repository/" value="1">Rest</name>
-										<type type="http://actions.repository.type/" value="1">Rest</type>
-										<additionalDetails/>
-										<instructions>Sit for three minutes</instructions>
-									</action>
-
-									<action	xsi:type="ActionStep">
-										<position />
-										<stopConditions />
-										<targets />
-										<measurementPlans>
-											<measurementPlan>
-												<name type="http://measures.coded.values/" value="1">BP</name>
-												<type type="http://measures.type.coded.values/" value="3">Systolic</type>
-												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
-											</measurementPlan>
-											<measurementPlan>
-												<name type="http://measures.coded.values/" value="1">BP</name>
-												<type type="http://measures.type.coded.values/" value="3">Diastolic</type>
-												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
-											</measurementPlan>
-											<measurementPlan>
-												<name type="http://measures.coded.values/" value="1">HR</name>
-												<type/>
-												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
-											</measurementPlan>
-										</measurementPlans>
-
-										<devicePlans/>
-										<medicationPlans />
-
-										<name type="http://actions.repository/" value="1">Take Blood Pressure</name>
-										<type type="http://actions.repository.type/" value="1">Blood Pressure</type>
-										<additionalDetails/>
-										<instructions>Take Blood Pressure while Seated</instructions>
-									</action>
-								</actions>
-							</action>
-							<action xsi:type="ActionGroup">
-								<position type="http://position.coded.values/" value="2">Stand</position>
-								<stopConditions />
-								<targets />
-								<measurementPlans/>
-								<devicePlans/>
-								<medicationPlans />
-
-								<repeatCount>3</repeatCount>
-								<actions>
-									<action	xsi:type="ActionStep">
-										<position />
-										<stopConditions>
-											<stopCondition>
-												<name type="http://actions.repository.coded.values/" value="3">time</name>
+												<aggregationFunction type="http://aggregation.coded.values/">max</aggregationFunction>
+											</measurement>
+											<measurement>
+												<name type="http://measures.coded.values/" value="1">Knee Angle</name>
+												<type type="http://measures.type.coded.values/" value="3">Flexion</type>
 												<value>
-													<indivo:value>3</indivo:value>
-													<indivo:unit type="http://indivo.org/codes/units#" value="m" abbrev="m">minutes</indivo:unit>
+													<indivo:value>30</indivo:value>
+													<indivo:unit type="http://indivo.org/codes/units#" value="m" abbrev="m">degrees</indivo:unit>
 												</value>
-												<operator type="http://comparison.operators/" value="1">Greater or equal than</operator>
-											</stopCondition>
-										</stopConditions>
-										<targets />
-										<measurementPlans/>
-										<devicePlans />
-										<medicationPlans />
-
-										<name type="http://actions.repository/" value="1">Rest</name>
-										<type type="http://actions.repository.type/" value="1">Rest</type>
-										<additionalDetails/>
-										<instructions>Sit for three minutes</instructions>
-									</action>
-
-									<action	xsi:type="ActionStep">
-										<position />
-										<stopConditions />
-										<targets />
-										<measurementPlans>
-											<measurementPlan>
-												<name type="http://measures.coded.values/" value="1">BP</name>
-												<type type="http://measures.type.coded.values/" value="3">Systolic</type>
-												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
-											</measurementPlan>
-											<measurementPlan>
-												<name type="http://measures.coded.values/" value="1">BP</name>
-												<type type="http://measures.type.coded.values/" value="3">Diastolic</type>
-												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
-											</measurementPlan>
-											<measurementPlan>
-												<name type="http://measures.coded.values/" value="1">HR</name>
-												<type/>
-												<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
-											</measurementPlan>
-										</measurementPlans>
-
-										<devicePlans/>
-										<medicationPlans />
-
-										<name type="http://actions.repository/" value="1">Take Blood Pressure</name>
-										<type type="http://actions.repository.type/" value="1">Blood Pressure</type>
-										<additionalDetails/>
-										<instructions>Take Blood Pressure while Seated</instructions>
+												<aggregationFunction type="http://aggregation.coded.values/">min</aggregationFunction>
+											</measurement>
+										</measurements>
+										<deviceResults>
+											<deviceResult>
+												<name type="http://devices.repository.coded.values/" value="Wocket">Wocket</name>
+												<type type="http://equipment.coded.values/" value="1">Accelerometer</type>
+												<value/>
+												<site type="http://equipment.coded.values/" value="1">Lower Leg</site>
+											</deviceResult>
+											<deviceResult>
+												<name type="http://devices.repository.coded.values/" value="Wocket">Wocket</name>
+												<type type="http://equipment.coded.values/" value="1">Accelerometer</type>
+												<value/>
+												<site type="http://equipment.coded.values/" value="1">Upper Leg</site>
+											</deviceResult>
+										</deviceResults>
+										<medicationAdministrations/>
+										<name type="http://actions.repository/" value="2">Kick Balls</name>
+										<occurrences>
+											<occurrence>
+												<startTime>2012-04-05T20:00:35.850Z</startTime>
+												<endTime>2012-04-05T20:00:43.135Z</endTime>
+												<stopCondition>
+													<name type="http://measures.coded.values/" value="7">Repetitions</name>
+													<value>
+														<indivo:value>10</indivo:value>
+														<indivo:unit type="http://indivo.org/codes/units#" value="t" abbrev="t">Times</indivo:unit>
+													</value>
+												</stopCondition>
+												<measurements>
+													<measurement>
+														<name type="http://measures.coded.values/" value="1">Knee Angle</name>
+														<type type="http://measures.type.coded.values/" value="3">Extension</type>
+														<value>
+															<indivo:value>150</indivo:value>
+															<indivo:unit type="http://indivo.org/codes/units#" value="m" abbrev="m">degrees</indivo:unit>
+														</value>
+														<aggregationFunction type="http://aggregation.coded.values/">max</aggregationFunction>
+													</measurement>
+													<measurement>
+														<name type="http://measures.coded.values/" value="1">Knee Angle</name>
+														<type type="http://measures.type.coded.values/" value="3">Flexion</type>
+														<value>
+															<indivo:value>30</indivo:value>
+															<indivo:unit type="http://indivo.org/codes/units#" value="m" abbrev="m">degrees</indivo:unit>
+														</value>
+														<aggregationFunction type="http://aggregation.coded.values/">min</aggregationFunction>
+													</measurement>
+													<measurement>
+														<name type="http://measures.coded.values/" value="3">Adherence</name>
+														<value>
+															<indivo:value>0</indivo:value>
+															<indivo:unit>%</indivo:unit>
+														</value>
+														<aggregationFunction type="http://aggregation.coded.values/">avg</aggregationFunction>
+													</measurement>
+													<measurement>
+														<name type="http://measures.coded.values/" value="5">Repetitions</name>
+														<value>
+															<indivo:value>1</indivo:value>
+															<indivo:unit>num</indivo:unit>
+														</value>
+														<aggregationFunction type="http://aggregation.coded.values/">sum</aggregationFunction>
+													</measurement>
+												</measurements>
+												<deviceResults>
+													<deviceResult>
+														<name type="http://devices.repository.coded.values/" value="Wocket">Wocket</name>
+														<type type="http://equipment.coded.values/" value="1">Accelerometer</type>
+														<value/>
+														<site type="http://equipment.coded.values/" value="1">Lower Leg</site>
+													</deviceResult>
+													<deviceResult>
+														<name type="http://devices.repository.coded.values/" value="Wocket">Wocket</name>
+														<type type="http://equipment.coded.values/" value="1">Accelerometer</type>
+														<value/>
+														<site type="http://equipment.coded.values/" value="1">Upper Leg</site>
+													</deviceResult>
+												</deviceResults>
+												<medicationAdministrations />
+											</occurrence>
+										</occurrences>
 									</action>
 								</actions>
 							</action>
 						</actions>
-					</HealthActionPlan>
+					</HealthActionResult>
 				],
 			];
 		}
