@@ -20,6 +20,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 	import spark.components.Button;
 	import spark.components.CalloutButton;
 	import spark.components.Group;
+	import spark.components.Label;
 	import spark.components.RichText;
 	import spark.components.TextInput;
 	import spark.primitives.Rect;
@@ -70,6 +71,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		}
 
 		private var _averagePlotItemRenderer:AverageBloodGlucosePotItemRenderer;
+		private const GOAL_LABEL_VERTICAL_OFFSET:Number = 3;
 
 		override protected function createChildren():void
 		{
@@ -84,8 +86,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 			_chartY = 1;
 			determineChartHeight();
-			_step1Chart = createChart(STEP1_X);
-			_step2Chart = createChart(STEP2_X);
+			_step1Chart = createChart(STEP1_X, true);
+			_step2Chart = createChart(STEP2_X, false);
 			_dosageIncreaseButton = createDosageChangeButton(_chartY, 57, _model.dosageIncreaseText + " Units", getDosageChangeLabelColor(_model.algorithmSuggestsIncreaseDose), _model.dosageIncreaseText);
 			_dosageNoChangeButton = createDosageChangeButton(58, 48, "No Change", getDosageChangeLabelColor(_model.algorithmSuggestsNoChangeDose), "0");
 			_dosageDecreaseButton = createDosageChangeButton(106, 33, _model.dosageDecreaseText + " Units", getDosageChangeLabelColor(_model.algorithmSuggestsDecreaseDose), _model.dosageDecreaseText);
@@ -168,7 +170,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			_chartHeight = Math.max(height, minHeight) - SynchronizedHealthCharts.ADHERENCE_STRIP_CHART_HEIGHT - 1 - 2;
 		}
 
-		public function createChart(x:int):Array
+		public function createChart(x:int, showLabels:Boolean):Array
 		{
 			var chartBorder:Rect = new Rect();
 			chartBorder.x = x;
@@ -178,28 +180,49 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 			var goalMaxLine:DottedLine = createGoalLine(x);
 			var goalMinLine:DottedLine = createGoalLine(x);
-			var chart:Array = [chartBorder, goalMaxLine, goalMinLine];
+			if (showLabels)
+			{
+				var goalMaxLabel:Label = createGoalLabel(x, _model.goalZoneMaximum);
+				var goalMinLabel:Label = createGoalLabel(x, _model.goalZoneMinimum);
+			}
+			var chart:Array = [chartBorder, goalMaxLine, goalMinLine, goalMaxLabel, goalMinLabel];
 			resizeChart(chart);
 
 			addElement(chartBorder);
 			addElement(goalMaxLine);
 			addElement(goalMinLine);
+			if (showLabels)
+			{
+				addElement(goalMaxLabel);
+				addElement(goalMinLabel);
+			}
 
 			return chart;
 		}
 
+		private function createGoalLabel(x:int, value:Number):Label
+		{
+			var goalLabel:Label = new Label();
+			goalLabel.setStyle("fontSize", 21);
+			goalLabel.setStyle("color", 0x231F20);
+			goalLabel.text = value.toString();
+//			goalLabel.x = x + STEP_WIDTH - goalLabel.width;
+			goalLabel.right = minWidth - (x + STEP_WIDTH);
+			return goalLabel;
+		}
+
 		private function createGoalLine(x:int):DottedLine
 		{
-			var goalMaxLine:DottedLine = new DottedLine();
-			goalMaxLine.dotColor = 0x808285;
-			goalMaxLine.dotWidth = 12;
-			goalMaxLine.spacerWidth = 12;
-			goalMaxLine.dotHeight = 1;
-			goalMaxLine.spacerHeight = 1;
-			goalMaxLine.x = x + 1;
-			goalMaxLine.width = STEP_WIDTH - 1;
-			goalMaxLine.height = 1;
-			return goalMaxLine;
+			var goalLine:DottedLine = new DottedLine();
+			goalLine.dotColor = 0x808285;
+			goalLine.dotWidth = 12;
+			goalLine.spacerWidth = 12;
+			goalLine.dotHeight = 1;
+			goalLine.spacerHeight = 1;
+			goalLine.x = x + 1;
+			goalLine.width = STEP_WIDTH - 1;
+			goalLine.height = 1;
+			return goalLine;
 		}
 
 		private function resizeChart(chart:Array):void
@@ -207,11 +230,17 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			var chartBorder:Rect = chart[0];
 			var goalMaxLine:DottedLine = chart[1];
 			var goalMinLine:DottedLine = chart[2];
+			var goalMaxLabel:Label = chart[3];
+			var goalMinLabel:Label = chart[4];
 
 			chartBorder.y = _chartY - 1;
 			chartBorder.height = _chartHeight + 2;
 			goalMaxLine.y = chartValueToPosition(_model.goalZoneMaximum);
 			goalMinLine.y = chartValueToPosition(_model.goalZoneMinimum);
+			if (goalMaxLabel)
+				goalMaxLabel.y = goalMaxLine.y - goalMaxLabel.height + GOAL_LABEL_VERTICAL_OFFSET;
+			if (goalMinLabel)
+				goalMinLabel.y = goalMinLine.y - goalMinLabel.height + GOAL_LABEL_VERTICAL_OFFSET;
 		}
 
 		private function chartValueToPosition(bloodGlucoseAverage:Number):Number

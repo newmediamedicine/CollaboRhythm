@@ -61,7 +61,7 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 		private var _stepCountImageClass:Class;
 
 		public static const BLOOD_GLUCOSE_VERTICAL_AXIS_MINIMUM:Number = 50;
-		public static const BLOOD_GLUCOSE_VERTICAL_AXIS_MAXIMUM:Number = 150;
+		public static const BLOOD_GLUCOSE_VERTICAL_AXIS_MAXIMUM:Number = 140;
 		public static const GOAL_ZONE_COLOR:uint = 0x79A773;
 		public static const BLOOD_GLUCOSE_GOAL_ZONE_MINIMUM:Number = 80;
 		public static const BLOOD_GLUCOSE_GOAL_ZONE_MAXIMUM:Number = 110;
