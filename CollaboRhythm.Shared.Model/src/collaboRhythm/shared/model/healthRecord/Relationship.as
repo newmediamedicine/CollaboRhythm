@@ -93,6 +93,8 @@ package collaboRhythm.shared.model.healthRecord
 
 		public function set relatesTo(value:IDocument):void
 		{
+			if (value == null)
+				trace("############### Relationship set relatesTo null");
 			_relatesTo = value;
 		}
 

@@ -1,6 +1,10 @@
 package collaboRhythm.core.model
 {
 
+	import avmplus.typeXml;
+
+	import collaboRhythm.core.model.healthRecord.TypeSchemaRegistry;
+
 	import collaboRhythm.shared.model.settings.XmlDecoderEx2;
 
 	import flash.utils.ByteArray;
@@ -16,12 +20,14 @@ package collaboRhythm.core.model
 	{
 		private var schemaManager:SchemaManager;
 		private var schemaTypeRegistry:SchemaTypeRegistry;
+		private var typeSchemaRegistry:TypeSchemaRegistry;
 		private var traceXmlEncodeDecode:Boolean = false;
 
 		public function XmlMarshaller()
 		{
 			schemaManager = new SchemaManager();
 			schemaTypeRegistry = SchemaTypeRegistry.getInstance();
+			typeSchemaRegistry = new TypeSchemaRegistry();
 		}
 
 		public function addSchema(embeddedSchemaFile:Class, forceUnqualified:Boolean = true):void
@@ -52,6 +58,7 @@ package collaboRhythm.core.model
 		public function registerClass(qName:QName, definition:Object):void
 		{
 			schemaTypeRegistry.registerClass(qName, definition);
+			typeSchemaRegistry.registerSchema(definition, qName);
 		}
 
 		/**
@@ -109,18 +116,20 @@ package collaboRhythm.core.model
 			if (traceXmlEncodeDecode)
 				trace("marshallToXml()");
 
-			var xmlEncoder:XMLEncoder;
+			var xmlEncoder:XmlEncoderEx;
 			var xmlList:XMLList;
 
 			xmlEncoder = new XmlEncoderEx();
 			xmlEncoder.schemaManager = schemaManager;
+			xmlEncoder.typeSchemaRegistry = typeSchemaRegistry;
 
 			// to avoid a prefix on the root document element, only provide the local name, no namespace uri
 //			xmlList = xmlEncoder.encode(targetObject, qName);
 			xmlList = xmlEncoder.encode(targetObject, new QName("", qName.localName));
 
-//			xmlEncoder.setAttribute(xmlList[0], "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			xmlEncoder.setAttribute(xmlList[0], "xmlns", qName.uri);
+			if (xmlEncoder.usedXsiPrefix)
+				xmlEncoder.setAttribute(xmlList[0], "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
 			if (traceXmlEncodeDecode)
 				trace(xmlList.toXMLString());

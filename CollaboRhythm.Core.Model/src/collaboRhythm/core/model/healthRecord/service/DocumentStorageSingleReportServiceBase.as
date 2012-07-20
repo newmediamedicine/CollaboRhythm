@@ -124,7 +124,22 @@ package collaboRhythm.core.model.healthRecord.service
 				}
 			}
 
+			updateModelAfterHandleReportResponse(event, responseXml, healthRecordServiceRequestDetails);
+
 			_pendingReportRequests.remove(PRIMARY_REPORT_REQUEST);
+		}
+
+		/**
+		 * Updates the model or does any additional work that needs to be completed after handling the report response.
+		 * This is an optional virtual method which a sub class can override. The base class does nothing.
+		 * @param event
+		 * @param responseXml
+		 * @param healthRecordServiceRequestDetails
+		 */
+		protected function updateModelAfterHandleReportResponse(event:IndivoClientEvent, responseXml:XML,
+														   healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+		{
+
 		}
 
 	}

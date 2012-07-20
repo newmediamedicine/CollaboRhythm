@@ -84,9 +84,11 @@
 					 width="250" paddingLeft="56" paddingRight="20" paddingTop="20" paddingBottom="0"/>
 			<s:Label styleName="operandNumberLabel"
 					 text="{_model.previousDoseValue}"
+					 visible="{!isNaN(_model.previousDoseValue)}"
 					 paddingLeft="56" right="150" paddingTop="20" paddingBottom="0"/>
 			<s:Label styleName="operandLabel"
 					 text="Units"
+					 visible="{!isNaN(_model.previousDoseValue)}"
 					 paddingLeft="0" left="327" paddingTop="20" paddingBottom="0"/>
 		</s:Group>
 		<s:Group width="100%">

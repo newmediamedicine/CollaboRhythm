@@ -20,6 +20,7 @@ package collaboRhythm.core.model.healthRecord.stitchers
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
+	import collaboRhythm.shared.model.healthRecord.Relationship;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
@@ -38,16 +39,12 @@ package collaboRhythm.core.model.healthRecord.stitchers
 		override protected function stitchSpecialReferencesOnDocument(document:IDocument):void
 		{
 			var adherenceItem:AdherenceItem = document as AdherenceItem;
-			for each (var adherenceResultId:String in adherenceItem.adherenceResultIds)
+			for each (var relationship:Relationship in document.relatesTo)
 			{
-				var adherenceResult:DocumentBase = record.currentDocumentsById[adherenceResultId];
-				if (adherenceResult)
+				// relatesTo may be null if the related document is replaced or voided or fails to be loaded for some other reason
+				if (relationship.type == AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT && relationship.relatesTo != null)
 				{
-					adherenceItem.adherenceResults.push(adherenceResult);
-				}
-				else
-				{
-					_logger.warn("Warning: Failed to stitch; adherenceResult relationship ignored. AdherenceResult not found with id " + adherenceResultId);
+					adherenceItem.adherenceResults.push(relationship.relatesTo);
 				}
 			}
 		}

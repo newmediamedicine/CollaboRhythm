@@ -52,7 +52,6 @@ package collaboRhythm.core.model.healthRecord
 		private var _services:Vector.<DocumentStorageServiceBase>;
 		private var _stitchers:Vector.<IDocumentStitcher>;
 		private var _pendingServices:ArrayCollection = new ArrayCollection();
-		private var _adherenceItemsHealthRecordService:AdherenceItemsHealthRecordService;
 		private var _saveChangesHealthRecordService:SaveChangesHealthRecordService;
 		private var _isLoading:Boolean;
 		private var _currentRecord:Record;
@@ -69,9 +68,6 @@ package collaboRhythm.core.model.healthRecord
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_saveChangesHealthRecordService = new SaveChangesHealthRecordService(consumerKey, consumerSecret, baseURL,
 					activeAccount, this);
-			_adherenceItemsHealthRecordService = new AdherenceItemsHealthRecordService(consumerKey, consumerSecret,
-					baseURL, activeAccount,
-					debuggingToolsEnabled);
 
 			_services = new Vector.<DocumentStorageServiceBase>();
 			addService(new ProblemsHealthRecordService(consumerKey, consumerSecret, baseURL, activeAccount,
@@ -100,7 +96,8 @@ package collaboRhythm.core.model.healthRecord
 																		  debuggingToolsEnabled));
 			addService(new HealthActionOccurrencesHealthRecordService(consumerKey, consumerSecret, baseURL, activeAccount,
 																		  debuggingToolsEnabled));
-			addService(_adherenceItemsHealthRecordService);
+			addService(new AdherenceItemsHealthRecordService(consumerKey, consumerSecret,
+								baseURL, activeAccount, debuggingToolsEnabled));
 			addService(new HealthChartsInitializationService(consumerKey, consumerSecret, baseURL, activeAccount,
 					debuggingToolsEnabled));
 
@@ -179,8 +176,6 @@ package collaboRhythm.core.model.healthRecord
 
 			isLoading = true;
 			_logger.info("Loading documents " + loadingMessageSuffix + "...");
-
-			record.adherenceItemsModel.adherenceItemXmlMarshaller = _adherenceItemsHealthRecordService;
 
 			createStitchers(record);
 

@@ -242,7 +242,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 			if (!_insulinTitrationDecisionPanelModel.isChangeSpecified)
 			{
-				// TODO: tell the user that a change must be specified to save
+				// TODO: Use a better UI to tell the user that a change must be specified to save
 				Alert.show("Please choose a change to the dose before saving.");
 				return false;
 			}

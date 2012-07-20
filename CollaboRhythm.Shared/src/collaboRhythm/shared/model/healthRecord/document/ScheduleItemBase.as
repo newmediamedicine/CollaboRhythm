@@ -334,6 +334,7 @@ package collaboRhythm.shared.model.healthRecord.document
 			var adherenceItems:Vector.<AdherenceItem> = new Vector.<AdherenceItem>();
 			for each (var relationship:Relationship in relatesTo)
 			{
+				// relatesTo may be null if the related document is replaced or voided or fails to be loaded for some other reason
 				if (relationship.type == RELATION_TYPE_ADHERENCE_ITEM && relationship.relatesTo != null)
 				{
 					adherenceItems.push(relationship.relatesTo);
