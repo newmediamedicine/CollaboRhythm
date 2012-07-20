@@ -89,6 +89,13 @@
 				nextStepActionButton.enabled = true;
 			}
 		}
+
+		override protected function nextStepButton_clickHandler():void
+		{
+			_dataInputController.addEatCarbsHealthAction((simpleCarbsItemList.selectedItem as SimpleCarbsItem).text);
+
+			super.nextStepButton_clickHandler();
+		}
 		]]></fx:Script>
 	<s:Group width="100%" height="100%">
 		<view:HypoglycemiaActionPlanStepsView id="hypoglycemiaActionPlanView"/>

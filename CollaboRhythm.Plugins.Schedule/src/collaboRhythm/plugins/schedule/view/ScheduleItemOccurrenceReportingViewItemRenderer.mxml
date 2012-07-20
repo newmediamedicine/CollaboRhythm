@@ -134,6 +134,8 @@
 
 		private function adherenceCheckBoxClickHandler(event:MouseEvent):void
 		{
+			// Prevent the scheduleItemOccurrence in the list from being clicked when the check box is clicked
+			event.stopPropagation();
 			_scheduleItemOccurrenceReportingController.handleHealthActionResult(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
 		}
 

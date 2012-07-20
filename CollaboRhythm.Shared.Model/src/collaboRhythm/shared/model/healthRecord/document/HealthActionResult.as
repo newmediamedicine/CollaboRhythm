@@ -9,6 +9,8 @@ package collaboRhythm.shared.model.healthRecord.document
 	public class HealthActionResult extends DocumentBase
 	{
 		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents/healthActionResult#HealthActionResult";
+		public static const RELATION_TYPE_MEASUREMENT:String = "http://indivo.org/vocab/documentrels#measurement";
+		public static const RELATION_TYPE_TRIGGERED_HEALTH_ACTION_RESULT:String = "http://indivo.org/vocab/documentrels#triggeredHealthActionResult";
 
 		private var _name:CodedValue;
 		private var _planType:String;
@@ -16,6 +18,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		private var _dateReported:Date;
 		private var _actions:ArrayCollection;
 		private var _healthActionOccurrence:HealthActionOccurrence;
+		private var _measurements:Vector.<VitalSign> = new Vector.<VitalSign>();
 
 		public function HealthActionResult()
 		{
@@ -80,6 +83,16 @@ package collaboRhythm.shared.model.healthRecord.document
 		public function set healthActionOccurrence(value:HealthActionOccurrence):void
 		{
 			_healthActionOccurrence = value;
+		}
+
+		public function get measurements():Vector.<VitalSign>
+		{
+			return _measurements;
+		}
+
+		public function set measurements(value:Vector.<VitalSign>):void
+		{
+			_measurements = value;
 		}
 	}
 }

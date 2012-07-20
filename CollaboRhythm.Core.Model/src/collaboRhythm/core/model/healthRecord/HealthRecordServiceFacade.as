@@ -24,6 +24,7 @@ package collaboRhythm.core.model.healthRecord
 	import collaboRhythm.core.model.healthRecord.stitchers.HealthActionScheduleStitcher;
 	import collaboRhythm.core.model.healthRecord.stitchers.MedicationOrderStitcher;
 	import collaboRhythm.core.model.healthRecord.stitchers.MedicationScheduleItemStitcher;
+	import collaboRhythm.core.model.healthRecord.stitchers.VitalSignStitcher;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.IRecordStorageService;
 	import collaboRhythm.shared.model.Record;
@@ -136,6 +137,8 @@ package collaboRhythm.core.model.healthRecord
 			_stitchers.push(new HealthActionPlanStitcher(record));
 			_stitchers.push(new HealthActionScheduleStitcher(record));
 			_stitchers.push(new HealthActionOccurrenceStitcher(record));
+			_stitchers.push(new HealthActionPlanStitcher(record));
+			_stitchers.push(new VitalSignStitcher(record));
 
 			for each (var stitcher:IDocumentStitcher in _stitchers)
 			{

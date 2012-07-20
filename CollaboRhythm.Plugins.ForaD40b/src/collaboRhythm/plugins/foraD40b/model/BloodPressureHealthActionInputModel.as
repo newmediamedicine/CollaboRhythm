@@ -48,15 +48,15 @@ package collaboRhythm.plugins.foraD40b.model
 
 			if (scheduleItemOccurrence)
 			{
-				scheduleItemOccurrence.createAdherenceItem(results, _healthActionModelDetailsProvider.record,
-						_healthActionModelDetailsProvider.accountId);
+				scheduleItemOccurrence.createAdherenceItem(results, healthActionModelDetailsProvider.record,
+						healthActionModelDetailsProvider.accountId);
 			}
 			else
 			{
 				for each (var result:DocumentBase in results)
 				{
 					result.pendingAction = DocumentBase.ACTION_CREATE;
-					_healthActionModelDetailsProvider.record.addDocument(result);
+					healthActionModelDetailsProvider.record.addDocument(result);
 				}
 			}
 		}

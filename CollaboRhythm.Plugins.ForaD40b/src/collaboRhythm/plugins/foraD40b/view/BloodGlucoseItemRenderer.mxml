@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:view="collaboRhythm.plugins.foraD40b.view.*">
+	<fx:Declarations>
+		<s:DateTimeFormatter id="dateFormatter"
+							 dateTimePattern="M-dd-yy"/>
+		<s:DateTimeFormatter id="timeFormatter"
+							 dateTimePattern=" h:mm a"/>
+	</fx:Declarations>
+	<fx:Style>
+		#bloodGlucoseLabel {
+			fontSize: 36;
+		}
+
+		#dateMeasuredStartGroup {
+			fontSize: 24;
+			color: #939598;
+		}
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
+
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+
+			var bloodGlucoseVitalSign:VitalSign = value as VitalSign;
+
+			if (bloodGlucoseVitalSign)
+			{
+				bloodGlucoseLabel.text = bloodGlucoseVitalSign.result.value + " " +
+						bloodGlucoseVitalSign.result.unit.abbrev;
+				dateMeasuredStartLabel.text = dateFormatter.format(bloodGlucoseVitalSign.dateMeasuredStart);
+				timeMeasuredStartLabel.text = timeFormatter.format(bloodGlucoseVitalSign.dateMeasuredStart);
+
+				warningIcon.visible = bloodGlucoseVitalSign.triggeredHealthActionResults.length != 0;
+			}
+		}
+		]]></fx:Script>
+	<s:Group left="10" right="10" top="10" bottom="10">
+		<s:HGroup>
+			<s:Label id="bloodGlucoseLabel" left="0"/>
+			<view:WarningIcon id="warningIcon" width="40" height="35" visible="false"/>
+		</s:HGroup>
+		<s:VGroup id="dateMeasuredStartGroup" right="0" horizontalAlign="right">
+			<s:Label id="dateMeasuredStartLabel"/>
+			<s:Label id="timeMeasuredStartLabel"/>
+		</s:VGroup>
+	</s:Group>
+	<s:Line width="100%" bottom="0">
+		<s:stroke>
+			<s:SolidColorStroke color="0x000000"/>
+		</s:stroke>
+	</s:Line>
+</s:ItemRenderer>

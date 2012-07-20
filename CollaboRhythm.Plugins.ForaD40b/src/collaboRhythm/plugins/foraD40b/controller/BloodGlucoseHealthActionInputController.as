@@ -2,10 +2,12 @@ package collaboRhythm.plugins.foraD40b.controller
 {
 	import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
 	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseHealthActionInputView;
+	import collaboRhythm.plugins.foraD40b.view.HypoglycemiaActionPlanSummaryView;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 
 	import flash.net.URLVariables;
 
@@ -108,6 +110,16 @@ package collaboRhythm.plugins.foraD40b.controller
 		public function goBack():void
 		{
 			_viewNavigator.popView();
+		}
+
+		public function addEatCarbsHealthAction(description:String):void
+		{
+			_dataInputModel.addEatCarbsHealthAction(description);
+		}
+
+		public function showHypoglycemiaActionPlanSummaryView(bloodGlucoseVitalSign:VitalSign):void
+		{
+			_viewNavigator.pushView(HypoglycemiaActionPlanSummaryView, bloodGlucoseVitalSign);
 		}
 	}
 }

@@ -15,12 +15,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function prepareChartsForDecision():void
 		{
 			//TODO: I have not been able to reproduce it, but the record was null once
-			_healthActionModelDetailsProvider.record.healthChartsModel.prepareForDecision("Health Charts - Insulin Titration", scheduleItemOccurrence);
+			healthActionModelDetailsProvider.record.healthChartsModel.prepareForDecision("Health Charts - Insulin Titration", scheduleItemOccurrence);
 		}
 
 		public function showCharts():void
 		{
-			_healthActionModelDetailsProvider.navigationProxy.showFullView("Health Charts");
+			healthActionModelDetailsProvider.navigationProxy.showFullView("Health Charts");
 		}
 	}
 }

@@ -3,10 +3,6 @@ package collaboRhythm.shared.model.healthRecord.document
 
 	import collaboRhythm.shared.model.healthRecord.*;
 
-	import collaboRhythm.shared.model.*;
-
-	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
-
 	[Bindable]
 	public class VitalSign extends DocumentBase
 	{
@@ -21,6 +17,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		private var _position:String;
 		private var _technique:String;
 		private var _comments:String;
+		private var _triggeredHealthActionResults:Vector.<HealthActionResult> = new Vector.<HealthActionResult>();
 
 		public function VitalSign(name:CodedValue = null, measuredBy:String = null, dateMeasuredStart:Date = null, dateMeasuredEnd:Date = null, result:ValueAndUnit = null, site:String = null, position:String = null, technique:String = null, comments:String = null)
 		{
@@ -134,6 +131,16 @@ package collaboRhythm.shared.model.healthRecord.document
 		public function set comments(value:String):void
 		{
 			_comments = value;
+		}
+
+		public function get triggeredHealthActionResults():Vector.<HealthActionResult>
+		{
+			return _triggeredHealthActionResults;
+		}
+
+		public function set triggeredHealthActionResults(value:Vector.<HealthActionResult>):void
+		{
+			_triggeredHealthActionResults = value;
 		}
 	}
 }

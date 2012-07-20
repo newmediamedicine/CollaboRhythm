@@ -110,7 +110,18 @@
 
 		override protected function nextStepButton_clickHandler():void
 		{
-			_dataInputController.nextStep();
+			if (complexCarbs15gItemList.selectedItem != null)
+			{
+				_dataInputController.addEatCarbsHealthAction((complexCarbs15gItemList.selectedItem as
+						ComplexCarbsItem).text);
+			}
+			else if (complexCarbs30gItemList.selectedItem != null)
+			{
+				_dataInputController.addEatCarbsHealthAction((complexCarbs30gItemList.selectedItem as
+						ComplexCarbsItem).text);
+			}
+
+			super.nextStepButton_clickHandler();
 		}
 		]]></fx:Script>
 	<s:Group width="100%" height="100%">

@@ -1,6 +1,7 @@
 package collaboRhythm.plugins.foraD40b.model
 {
 	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseHealthActionInputView;
+	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseHistoryView;
 	import collaboRhythm.plugins.foraD40b.view.StartHypoglycemiaActionPlanView;
 	import collaboRhythm.plugins.foraD40b.view.Step1HypoglycemiaActionPlanView;
 	import collaboRhythm.plugins.foraD40b.view.Step2HypoglycemiaActionPlanView;
@@ -9,17 +10,28 @@ package collaboRhythm.plugins.foraD40b.model
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.VitalSignFactory;
+	import collaboRhythm.shared.model.healthRecord.CodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
+	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.ActionStepResult;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.Measurement;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.Occurrence;
 
 	import flash.events.TimerEvent;
 	import flash.net.URLVariables;
 	import flash.utils.Timer;
 
+	import mx.collections.ArrayCollection;
+
 	[Bindable]
 	public class BloodGlucoseHealthActionInputModel extends HealthActionInputModelBase
 	{
+		private static const HYPOGLYCEMIA_ACTION_PLAN_HEALTH_ACTION_RESULT_NAME:String = "Hypoglycemia Action Plan";
+		private static const EAT_CARBS_ACTION_STEP_NAME:String = "Eat Carbs";
+		private static const MEASURE_BLOOD_GLUCOSE_ACTION_STEP_NAME:String = "Measure Blood Glucose";
+
 		public static const SEVERE_HYPOGLYCEMIA_THRESHOLD:int = 60;
 		public static const HYPOGLYCEMIA_THRESHOLD:int = 70;
 		public static const REPEAT_HYPOGLYCEMIA_THRESHOLD:int = 90;
@@ -31,6 +43,8 @@ package collaboRhythm.plugins.foraD40b.model
 		public static const HYPERGLYCEMIA:String = "Hyperglycemia";
 
 		private var _hypoglycemiaActionPlanIterationCount:int = 0;
+		private var _hypoglycemiaActionPlanInitialBloodGlucose:VitalSign;
+		private var _hypoglycemiaHealthActionResult:HealthActionResult;
 
 		private var _manualBloodGlucose:String = "";
 		private var _deviceBloodGlucose:String = "";
@@ -49,6 +63,7 @@ package collaboRhythm.plugins.foraD40b.model
 		private var _timer:Timer = new Timer(TIMER_STEP, TIMER_COUNT);
 		private var _seconds:int;
 
+
 		public function BloodGlucoseHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence = null,
 														   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider = null)
 		{
@@ -62,7 +77,7 @@ package collaboRhythm.plugins.foraD40b.model
 
 		public function handleHealthActionSelected():void
 		{
-
+			currentView = BloodGlucoseHistoryView;
 		}
 
 		public function handleUrlVariables(urlVariables:URLVariables):void
@@ -112,58 +127,114 @@ package collaboRhythm.plugins.foraD40b.model
 			}
 			else if (currentView == Step4HypoglycemiaActionPlanView)
 			{
+				saveHypoglycemiaHealthActionResult();
 				currentStep = 0;
 				pushView(null);
 			}
 		}
 
+
 		public function submitBloodGlucose(bloodGlucoseText:String):void
 		{
 			bloodGlucose = bloodGlucoseText;
 
+			var vitalSignFactory:VitalSignFactory = new VitalSignFactory();
+
+			var bloodGlucoseVitalSign:VitalSign = vitalSignFactory.createBloodGlucose(_currentDateSource.now(),
+					bloodGlucose);
+
 			manualBloodGlucose = "";
 			deviceBloodGlucose = "";
-
-			saveBloodGlucose();
 
 			if (glycemicState == HYPOGLYCEMIA || glycemicState == SEVERE_HYPOGLYCEMIA)
 			{
 				if (currentStep == 0)
 				{
+					_hypoglycemiaHealthActionResult = new HealthActionResult();
+					_hypoglycemiaHealthActionResult.name = new CodedValue(null, null, null, HYPOGLYCEMIA_ACTION_PLAN_HEALTH_ACTION_RESULT_NAME);
+					_hypoglycemiaHealthActionResult.reportedBy = healthActionModelDetailsProvider.accountId;
+					_hypoglycemiaHealthActionResult.dateReported = _currentDateSource.now();
+					_hypoglycemiaHealthActionResult.actions = new ArrayCollection();
+					_hypoglycemiaActionPlanInitialBloodGlucose = bloodGlucoseVitalSign;
+					_hypoglycemiaActionPlanInitialBloodGlucose.triggeredHealthActionResults.push(_hypoglycemiaHealthActionResult);
+					saveBloodGlucose(_hypoglycemiaActionPlanInitialBloodGlucose);
 					startHypoglycemiaActionPlan();
 				}
-				else if (currentStep == 1)
+				else
 				{
-					pushView(Step1HypoglycemiaActionPlanView);
-				}
-				else if (currentStep == 2)
-				{
-					pushView(Step2HypoglycemiaActionPlanView);
-				}
-				else if (currentStep == 3)
-				{
-					currentStep = 0;
-					startHypoglycemiaActionPlan();
-				}
-				else if (currentStep == 4)
-				{
-					currentStep = 0;
-					pushView(StartHypoglycemiaActionPlanView);
+					addBloodGlucoseHealthAction(bloodGlucoseVitalSign);
+					if (currentStep == 1)
+					{
+						pushView(Step1HypoglycemiaActionPlanView);
+					}
+					else if (currentStep == 2)
+					{
+						pushView(Step2HypoglycemiaActionPlanView);
+					}
+					else if (currentStep == 3)
+					{
+						currentStep = 0;
+						startHypoglycemiaActionPlan();
+					}
+					else if (currentStep == 4)
+					{
+						currentStep = 0;
+						pushView(StartHypoglycemiaActionPlanView);
+					}
 				}
 			}
 			else
 			{
 				if (currentView == Step3HypoglycemiaActionPlanView)
 				{
+					addBloodGlucoseHealthAction(bloodGlucoseVitalSign);
 					currentStep = 4;
 					pushView(Step4HypoglycemiaActionPlanView);
 				}
 				else if (currentView == BloodGlucoseHealthActionInputView)
 				{
+					saveBloodGlucose(bloodGlucoseVitalSign);
 					currentStep = 0;
 					pushView(null);
 				}
 			}
+		}
+
+
+
+		public function addEatCarbsHealthAction(description:String):void
+		{
+			var occurrence:Occurrence = new Occurrence();
+			occurrence.startTime = _currentDateSource.now();
+			occurrence.additionalDetails = description;
+
+			var actionStepResult:ActionStepResult = new ActionStepResult();
+			actionStepResult.name = new CodedValue(null, null, null, EAT_CARBS_ACTION_STEP_NAME);
+			actionStepResult.occurrences = new ArrayCollection();
+			actionStepResult.occurrences.addItem(occurrence);
+
+			_hypoglycemiaHealthActionResult.actions.addItem(actionStepResult);
+		}
+
+		public function addBloodGlucoseHealthAction(vitalSign:VitalSign):void
+		{
+			var measurement:Measurement = new Measurement();
+			measurement.name = vitalSign.name;
+			measurement.value = vitalSign.result.clone();
+
+			var occurrence:Occurrence = new Occurrence();
+			occurrence.startTime = vitalSign.dateMeasuredStart;
+			occurrence.endTime = vitalSign.dateMeasuredEnd;
+			occurrence.measurements = new ArrayCollection();
+			occurrence.measurements.addItem(measurement);
+
+			var actionStepResult:ActionStepResult = new ActionStepResult();
+			actionStepResult.name = new CodedValue(null, null, null, MEASURE_BLOOD_GLUCOSE_ACTION_STEP_NAME);
+			actionStepResult.occurrences = new ArrayCollection();
+			actionStepResult.occurrences.addItem(occurrence);
+
+			_hypoglycemiaHealthActionResult.actions.addItem(actionStepResult);
+			_hypoglycemiaHealthActionResult.measurements.push(vitalSign);
 		}
 
 		private function startHypoglycemiaActionPlan():void
@@ -181,33 +252,47 @@ package collaboRhythm.plugins.foraD40b.model
 			}
 		}
 
-		private function saveBloodGlucose():void
+		private function saveBloodGlucose(bloodGlucoseVitalSign:VitalSign):void
 		{
-			var vitalSignFactory:VitalSignFactory = new VitalSignFactory();
-
-			var bloodGlucoseVitalSign:VitalSign = vitalSignFactory.createBloodGlucose(_currentDateSource.now(),
-					bloodGlucose);
-
 			var results:Vector.<DocumentBase> = new Vector.<DocumentBase>();
 			results.push(bloodGlucoseVitalSign);
 
 			if (scheduleItemOccurrence)
 			{
-				scheduleItemOccurrence.createAdherenceItem(results, _healthActionModelDetailsProvider.record,
-						_healthActionModelDetailsProvider.accountId);
+				scheduleItemOccurrence.createAdherenceItem(results, healthActionModelDetailsProvider.record,
+						healthActionModelDetailsProvider.accountId);
 			}
 			else
 			{
 				for each (var result:DocumentBase in results)
 				{
 					result.pendingAction = DocumentBase.ACTION_CREATE;
-					_healthActionModelDetailsProvider.record.addDocument(result);
+					healthActionModelDetailsProvider.record.addDocument(result);
 				}
 			}
 
-			_healthActionModelDetailsProvider.record.saveAllChanges();
+			healthActionModelDetailsProvider.record.saveAllChanges();
 
 			scheduleItemOccurrence = null;
+		}
+
+		private function saveHypoglycemiaHealthActionResult():void
+		{
+			_hypoglycemiaHealthActionResult.pendingAction = DocumentBase.ACTION_CREATE;
+			healthActionModelDetailsProvider.record.addDocument(_hypoglycemiaHealthActionResult);
+
+			for each (var vitalSign:VitalSign in _hypoglycemiaHealthActionResult.measurements)
+			{
+				vitalSign.pendingAction = DocumentBase.ACTION_CREATE;
+				healthActionModelDetailsProvider.record.addDocument(vitalSign);
+				healthActionModelDetailsProvider.record.addNewRelationship(HealthActionResult.RELATION_TYPE_MEASUREMENT,
+						_hypoglycemiaHealthActionResult, vitalSign)
+			}
+
+			healthActionModelDetailsProvider.record.addNewRelationship(HealthActionResult.RELATION_TYPE_TRIGGERED_HEALTH_ACTION_RESULT,
+					_hypoglycemiaActionPlanInitialBloodGlucose, _hypoglycemiaHealthActionResult);
+
+			healthActionModelDetailsProvider.record.saveAllChanges();
 		}
 
 		public function startWaitTimer():void
@@ -229,6 +314,7 @@ package collaboRhythm.plugins.foraD40b.model
 
 		public function quitHypoglycemiaActionPlan():void
 		{
+			saveHypoglycemiaHealthActionResult();
 			pushView(null);
 		}
 

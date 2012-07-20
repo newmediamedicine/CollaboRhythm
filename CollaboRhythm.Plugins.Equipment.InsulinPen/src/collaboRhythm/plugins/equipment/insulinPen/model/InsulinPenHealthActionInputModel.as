@@ -32,14 +32,14 @@ package collaboRhythm.plugins.equipment.insulinPen.model
 		override public function set urlVariables(value:URLVariables):void
 		{
 			var medicationAdministration:MedicationAdministration = new MedicationAdministration();
-			medicationAdministration.init(_medicationOrder.name, _healthActionModelDetailsProvider.accountId,
+			medicationAdministration.init(_medicationOrder.name, healthActionModelDetailsProvider.accountId,
 					_currentDateSource.now(), _currentDateSource.now(),
 					_medicationScheduleItem.dose);
 
 			var adherenceResults:Vector.<DocumentBase> = new Vector.<DocumentBase>();
 			adherenceResults.push(medicationAdministration);
-			scheduleItemOccurrence.createAdherenceItem(adherenceResults, _healthActionModelDetailsProvider.record,
-					_healthActionModelDetailsProvider.accountId);
+			scheduleItemOccurrence.createAdherenceItem(adherenceResults, healthActionModelDetailsProvider.record,
+					healthActionModelDetailsProvider.accountId);
 
 			_urlVariables = value;
 		}

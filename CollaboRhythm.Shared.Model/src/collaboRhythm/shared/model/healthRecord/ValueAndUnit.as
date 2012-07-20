@@ -59,5 +59,10 @@ package collaboRhythm.shared.model.healthRecord
 		{
 			_textValue = value;
 		}
+
+		public function clone():ValueAndUnit
+		{
+			return new ValueAndUnit(value, unit, textValue);
+		}
 	}
 }

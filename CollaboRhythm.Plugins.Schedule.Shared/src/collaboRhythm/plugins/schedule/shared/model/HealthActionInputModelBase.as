@@ -11,7 +11,7 @@ package collaboRhythm.plugins.schedule.shared.model
         private var _scheduleItemOccurrence:ScheduleItemOccurrence;
         protected var _urlVariables:URLVariables;
 		protected var _currentDateSource:ICurrentDateSource;
-		protected var _healthActionModelDetailsProvider:IHealthActionModelDetailsProvider;
+		private var _healthActionModelDetailsProvider:IHealthActionModelDetailsProvider;
 
         public function HealthActionInputModelBase(scheduleItemOccurrence:ScheduleItemOccurrence = null,
 												   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider = null)
@@ -37,6 +37,11 @@ package collaboRhythm.plugins.schedule.shared.model
 		{
 			// abstract, subclasses should override
 			_urlVariables = value;
+		}
+
+		public function get healthActionModelDetailsProvider():IHealthActionModelDetailsProvider
+		{
+			return _healthActionModelDetailsProvider;
 		}
 	}
 }
