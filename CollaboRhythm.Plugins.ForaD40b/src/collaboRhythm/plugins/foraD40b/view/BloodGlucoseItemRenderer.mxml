@@ -55,7 +55,7 @@
 		}
 		]]></fx:Script>
 	<s:Group left="10" right="10" top="10" bottom="10">
-		<s:HGroup>
+		<s:HGroup verticalCenter="0">
 			<s:Label id="bloodGlucoseLabel" left="0"/>
 			<view:WarningIcon id="warningIcon" width="40" height="35" visible="false"/>
 		</s:HGroup>

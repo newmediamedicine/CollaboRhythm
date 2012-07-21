@@ -63,10 +63,11 @@
 			// TODO: determine why this gets called twice when the status is changed once
 			super.data = value;
 			_recordAccount = Account(value);
-			accountImage.source = imageCacheService.getImage(accountImage, _recordAccount.imageURI);
 
 			if (_recordAccount != null)
 			{
+				accountImage.source = imageCacheService.getImage(accountImage, _recordAccount.imageURI);
+
 				_problemsModel = _recordAccount.primaryRecord.problemsModel;
 				_problemsModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, problems_propertyChangeHandler);
 

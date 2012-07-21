@@ -30,6 +30,7 @@
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
+		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 
 		import mx.managers.PopUpManager;
 
@@ -82,13 +83,13 @@
 		{
 			if (event.commit)
 			{
-				_dataInputController.quitHypoglycemiaActionPlan();
+				_dataInputController.quitHypoglycemiaActionPlan(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
 			}
 		}
 
 		protected function nextStepButton_clickHandler():void
 		{
-			_dataInputController.nextStep();
+			_dataInputController.nextStep(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
 		}
 
 		public function get healthActionInputController():IHealthActionInputController

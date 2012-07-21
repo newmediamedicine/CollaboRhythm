@@ -30,6 +30,9 @@
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
+		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+		import collaboRhythm.shared.model.services.ICurrentDateSource;
+		import collaboRhythm.shared.model.services.WorkstationKernel;
 
 		import mx.binding.utils.BindingUtils;
 		import mx.events.FlexEvent;
@@ -37,6 +40,7 @@
 		[Bindable]
 		protected var _dataInputModel:BloodGlucoseHealthActionInputModel;
 		protected var _dataInputController:BloodGlucoseHealthActionInputController;
+		private var _currentDateSource:ICurrentDateSource;
 
 		override public function set data(value:Object):void
 		{
@@ -47,6 +51,8 @@
 
 			_dataInputModel = BloodGlucoseHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
 			_dataInputController = BloodGlucoseHealthActionInputController(dataInputModelAndController.healthActionInputController);
+
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 
 			BindingUtils.bindSetter(setManualBloodGlucose, _dataInputModel, "manualBloodGlucose");
 			BindingUtils.bindSetter(setDeviceBloodGlucose, _dataInputModel, "deviceBloodGlucose");
@@ -69,15 +75,22 @@
 			{
 				saveActionButton.enabled = false;
 			}
-			else if (manualBloodGlucose != "")
+			else if (manualBloodGlucose != "" &&
+					_dataInputModel.healthActionModelDetailsProvider.accountId ==
+							_dataInputModel.healthActionModelDetailsProvider.activeAccount.accountId)
 			{
 				saveActionButton.enabled = true;
 			}
 		}
 
-		private function setDeviceBloodGlucose(deviceBloodGlucose:int):void
+		private function setDeviceBloodGlucose(deviceBloodGlucose:String):void
 		{
-			saveActionButton.enabled = true;
+			if (deviceBloodGlucose != "" &&
+					_dataInputModel.healthActionModelDetailsProvider.accountId ==
+							_dataInputModel.healthActionModelDetailsProvider.activeAccount.accountId)
+			{
+				saveActionButton.enabled = true;
+			}
 		}
 
 		public function get healthActionInputController():IHealthActionInputController
@@ -85,22 +98,27 @@
 			return _dataInputController;
 		}
 
-		//		override protected function hardwareKeyUpHandler(event:KeyboardEvent):void
-		//		{
-		//			if (event.keyCode == Keyboard.BACK)
-		//			{
-		//				event.preventDefault()
-		//			}
-		//		}
+		private function saveActionButton_clickHandler():void
+		{
+			_dataInputController.submitBloodGlucose(CollaborationLobbyNetConnectionServiceProxy.LOCAL,
+					[reportBloodGlucoseView.bloodGlucoseTextInput.text, _currentDateSource.now()]);
+		}
 
 		override public function homeButton_clickHandler():void
 		{
+			_dataInputController.removeCollaborationViewSynchronizationEventListener(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
+
 			super.homeButton_clickHandler();
 		}
 
-		private function saveActionButton_clickHandler():void
+		override protected function stage_keyUpHandler(event:KeyboardEvent):void
 		{
-			_dataInputController.submitBloodGlucose(reportBloodGlucoseView.bloodGlucoseTextInput.text);
+			if (event.keyCode == Keyboard.BACK)
+			{
+				_dataInputController.removeCollaborationViewSynchronizationEventListener(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
+			}
+
+			super.stage_keyUpHandler(event);
 		}
 		]]></fx:Script>
 	<view:ReportBloodGlucoseView id="reportBloodGlucoseView"/>

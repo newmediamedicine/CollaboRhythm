@@ -16,19 +16,30 @@
  - <http://www.gnu.org/licenses/>.
 -->
 <view:HypoglycemiaActionPlanViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
-					   xmlns:s="library://ns.adobe.com/flex/spark"
-					   xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
-					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
-					   creationComplete="creationCompleteHandler(event)"
-					   title="Hypoglycemia Action Plan - Step 3: Recheck Blood Glucose">
+									 xmlns:s="library://ns.adobe.com/flex/spark"
+									 xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
+									 implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
+									 creationComplete="creationCompleteHandler(event)"
+									 title="Hypoglycemia Action Plan - Step 3: Recheck Blood Glucose">
 	<fx:Script><![CDATA[
+		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+		import collaboRhythm.shared.model.services.ICurrentDateSource;
+		import collaboRhythm.shared.model.services.WorkstationKernel;
+
 		import mx.binding.utils.BindingUtils;
 		import mx.events.FlexEvent;
+
+		private var _currentDateSource:ICurrentDateSource;
 
 		private function creationCompleteHandler(event:FlexEvent):void
 		{
 			hypoglycemiaWarningView.init(_dataInputModel);
 			reportBloodGlucoseView.init(_dataInputModel, _dataInputController);
+
+			nextStepActionButton.enabled = false;
+			nextStepButton.enabled = false;
+
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 
 			BindingUtils.bindSetter(setManualBloodGlucose, _dataInputModel, "manualBloodGlucose");
 			BindingUtils.bindSetter(setDeviceBloodGlucose, _dataInputModel, "deviceBloodGlucose");
@@ -41,22 +52,30 @@
 				nextStepActionButton.enabled = false;
 				nextStepButton.enabled = false;
 			}
-			else if (manualBloodGlucose != "")
+			else if (manualBloodGlucose != "" &&
+					_dataInputModel.healthActionModelDetailsProvider.accountId ==
+							_dataInputModel.healthActionModelDetailsProvider.activeAccount.accountId)
 			{
 				nextStepActionButton.enabled = true;
 				nextStepButton.enabled = true;
 			}
 		}
 
-		private function setDeviceBloodGlucose(deviceBloodGlucose:int):void
+		private function setDeviceBloodGlucose(deviceBloodGlucose:String):void
 		{
-			nextStepActionButton.enabled = true;
-			nextStepButton.enabled = true;
+			if (deviceBloodGlucose != "" &&
+					_dataInputModel.healthActionModelDetailsProvider.accountId ==
+							_dataInputModel.healthActionModelDetailsProvider.activeAccount.accountId)
+			{
+				nextStepActionButton.enabled = true;
+				nextStepButton.enabled = true;
+			}
 		}
 
 		override protected function nextStepButton_clickHandler():void
 		{
-			_dataInputController.submitBloodGlucose(reportBloodGlucoseView.bloodGlucoseTextInput.text);
+			_dataInputController.submitBloodGlucose(CollaborationLobbyNetConnectionServiceProxy.LOCAL,
+					[reportBloodGlucoseView.bloodGlucoseTextInput.text, _currentDateSource.now()]);
 		}
 		]]></fx:Script>
 	<view:HypoglycemiaActionPlanStepsView id="hypoglycemiaWarningView"/>

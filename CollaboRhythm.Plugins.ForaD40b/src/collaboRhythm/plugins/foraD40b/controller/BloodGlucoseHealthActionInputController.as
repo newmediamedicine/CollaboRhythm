@@ -6,10 +6,13 @@ package collaboRhythm.plugins.foraD40b.controller
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
+	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+	import collaboRhythm.shared.collaboration.model.CollaborationModel;
+	import collaboRhythm.shared.collaboration.model.CollaborationViewSynchronizationEvent;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
-	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 
 	import flash.net.URLVariables;
+	import flash.utils.getQualifiedClassName;
 
 	import mx.binding.utils.BindingUtils;
 
@@ -22,6 +25,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		private var _dataInputModel:BloodGlucoseHealthActionInputModel;
 		private var _viewNavigator:ViewNavigator;
+		private var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
 
 		public function BloodGlucoseHealthActionInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
 																healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
@@ -31,18 +35,33 @@ package collaboRhythm.plugins.foraD40b.controller
 					healthActionModelDetailsProvider);
 			_viewNavigator = viewNavigator;
 
-			BindingUtils.bindSetter(currentView_changeHandler, _dataInputModel, "currentView");
+			_collaborationLobbyNetConnectionServiceProxy = healthActionModelDetailsProvider.collaborationLobbyNetConnectionServiceProxy as
+					CollaborationLobbyNetConnectionServiceProxy;
 
+			BindingUtils.bindSetter(currentView_changeHandler, _dataInputModel, "currentView", false, true);
+		}
 
+		private function collaborationViewSynchronization_eventHandler(event:CollaborationViewSynchronizationEvent):void
+		{
+			if (event.synchronizeData != null)
+			{
+				this[event.synchronizeFunction]("remote", event.synchronizeData);
+			}
+			else
+			{
+				this[event.synchronizeFunction]("remote");
+			}
 		}
 
 		public function handleHealthActionResult():void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			_dataInputModel.handleHealthActionResult();
 		}
 
 		public function handleHealthActionSelected():void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			_dataInputModel.handleHealthActionSelected();
 		}
 
@@ -51,14 +70,30 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.handleUrlVariables(urlVariables);
 		}
 
-		public function nextStep():void
+		public function nextStep(source:String):void
 		{
-			_dataInputModel.nextStep();
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
+					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"nextStep");
+			}
+
+			_dataInputModel.nextStep(source);
 		}
 
-		public function submitBloodGlucose(bloodGlucose:String):void
+		public function submitBloodGlucose(source:String, bloodGlucoseAndDateArray:Array):void
 		{
-			_dataInputModel.submitBloodGlucose(bloodGlucose);
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
+					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"submitBloodGlucose", bloodGlucoseAndDateArray);
+			}
+
+			_dataInputModel.submitBloodGlucose(source, bloodGlucoseAndDateArray);
 		}
 
 		private function currentView_changeHandler(currentView:Class):void
@@ -72,6 +107,8 @@ package collaboRhythm.plugins.foraD40b.controller
 					{
 						_viewNavigator.popView();
 					}
+					_dataInputModel.pushedViewCount = 0;
+					removeCollaborationViewSynchronizationEventListener();
 				}
 			}
 			else
@@ -84,7 +121,7 @@ package collaboRhythm.plugins.foraD40b.controller
 		{
 			var healthActionInputModelAndController:HealthActionInputModelAndController = new HealthActionInputModelAndController(_dataInputModel,
 					this);
-			_viewNavigator.pushView(currentView, healthActionInputModelAndController, null,	new SlideViewTransition());
+			_viewNavigator.pushView(currentView, healthActionInputModelAndController, null, new SlideViewTransition());
 		}
 
 		public function get healthActionInputViewClass():Class
@@ -92,34 +129,192 @@ package collaboRhythm.plugins.foraD40b.controller
 			return HEALTH_ACTION_INPUT_VIEW_CLASS;
 		}
 
-		public function startWaitTimer():void
+		public function startWaitTimer(source:String):void
 		{
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
+					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"startWaitTimer");
+			}
+
 			_dataInputModel.startWaitTimer();
 		}
 
-		public function updateManualBloodGlucose(text:String):void
+		public function updateManualBloodGlucose(source:String, text:String):void
 		{
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
+					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"updateManualBloodGlucose",
+						text);
+			}
+
 			_dataInputModel.updateManualBloodGlucose(text);
 		}
 
-		public function quitHypoglycemiaActionPlan():void
+		public function quitHypoglycemiaActionPlan(source:String):void
 		{
-			_dataInputModel.quitHypoglycemiaActionPlan();
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
+					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"quitHypoglycemiaActionPlan");
+			}
+
+			_dataInputModel.quitHypoglycemiaActionPlan(source);
 		}
 
-		public function goBack():void
+		public function addEatCarbsHealthAction(source:String, description:String):void
 		{
-			_viewNavigator.popView();
-		}
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
+					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"addEatCarbsHealthAction",
+						description);
+			}
 
-		public function addEatCarbsHealthAction(description:String):void
-		{
 			_dataInputModel.addEatCarbsHealthAction(description);
 		}
 
-		public function showHypoglycemiaActionPlanSummaryView(bloodGlucoseVitalSign:VitalSign):void
+		public function showHypoglycemiaActionPlanSummaryView(source:String, bloodGlucoseVitalSignDate:Date):void
 		{
-			_viewNavigator.pushView(HypoglycemiaActionPlanSummaryView, bloodGlucoseVitalSign);
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
+					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"showHypoglycemiaActionPlanSummaryView",
+						bloodGlucoseVitalSignDate);
+			}
+
+			_viewNavigator.pushView(HypoglycemiaActionPlanSummaryView,
+					[bloodGlucoseVitalSignDate, this, _dataInputModel]);
+		}
+
+		public function addWaitHealthAction(source:String, seconds:int):void
+		{
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
+					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"addWaitHealthAction",
+						seconds);
+			}
+
+			_dataInputModel.addWaitHealthAction(seconds);
+		}
+
+		public function synchronizeBloodGlucoseHistoryListScrollPosition(source:String, scrollPosition:Number):void
+		{
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
+					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"synchronizeBloodGlucoseHistoryListScrollPosition",
+						scrollPosition);
+			}
+
+			if (source == CollaborationLobbyNetConnectionServiceProxy.REMOTE)
+			{
+				_dataInputModel.synchronizeBloodGlucoseHistoryListScrollerPosition(scrollPosition);
+			}
+		}
+
+		public function simpleCarbsItemList_changeHandler(source:String, selectedIndex:int):void
+		{
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
+					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"simpleCarbsItemList_changeHandler",
+						selectedIndex);
+			}
+
+			if (source == CollaborationLobbyNetConnectionServiceProxy.REMOTE)
+			{
+				_dataInputModel.simpleCarbsItemList_changeHandler(selectedIndex);
+			}
+		}
+
+		public function complexCarbs15gItemList_changeHandler(source:String, selectedIndex:int):void
+		{
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
+					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"complexCarbs15gItemList_changeHandler",
+						selectedIndex);
+			}
+
+			if (source == CollaborationLobbyNetConnectionServiceProxy.REMOTE)
+			{
+				_dataInputModel.complexCarbs15gItemList_changeHandler(selectedIndex);
+			}
+		}
+
+		public function complexCarbs30gItemList_changeHandler(source:String, selectedIndex:int):void
+		{
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
+					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"complexCarbs30gItemList_changeHandler",
+						selectedIndex);
+			}
+
+			if (source == CollaborationLobbyNetConnectionServiceProxy.REMOTE)
+			{
+				_dataInputModel.complexCarbs30gItemList_changeHandler(selectedIndex);
+			}
+		}
+
+		public function synchronizeActionsListScrollPosition(source:String, verticalScrollPosition:Number):void
+		{
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
+					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"synchronizeActionsListScrollPosition",
+						verticalScrollPosition);
+			}
+
+			if (source == CollaborationLobbyNetConnectionServiceProxy.REMOTE)
+			{
+				_dataInputModel.synchronizeActionsListScrollerPosition(verticalScrollPosition);
+			}
+		}
+
+		public function addCollaborationViewSynchronizationEventListener():void
+		{
+			_collaborationLobbyNetConnectionServiceProxy.addEventListener(getQualifiedClassName(this),
+					collaborationViewSynchronization_eventHandler);
+		}
+
+		public function removeCollaborationViewSynchronizationEventListener(source:String = ""):void
+		{
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
+					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"removeCollaborationViewSynchronizationEventListener");
+			}
+
+			_collaborationLobbyNetConnectionServiceProxy.removeEventListener(getQualifiedClassName(this),
+					collaborationViewSynchronization_eventHandler);
 		}
 	}
 }

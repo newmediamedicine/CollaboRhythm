@@ -3,6 +3,7 @@ package collaboRhythm.plugins.healthActions.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.plugins.schedule.shared.model.MasterHealthActionInputControllerFactory;
 	import collaboRhythm.plugins.schedule.shared.model.MasterHealthActionListViewAdapterFactory;
+	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.IApplicationNavigationProxy;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.Record;
@@ -24,12 +25,15 @@ package collaboRhythm.plugins.healthActions.model
 		private var _componentContainer:IComponentContainer;
 		private var _navigationProxy:IApplicationNavigationProxy;
 		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
+		private var _activeAccount:Account;
 
-		public function HealthActionsModel(componentContainer:IComponentContainer,
+		public function HealthActionsModel(activeAccount:Account,
+										   componentContainer:IComponentContainer,
 										   record:Record, accountId:String,
 										   navigationProxy:IApplicationNavigationProxy,
 										   collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy)
 		{
+			_activeAccount = activeAccount;
 			_componentContainer = componentContainer;
 			_record = record;
 			_accountId = accountId;
@@ -94,6 +98,11 @@ package collaboRhythm.plugins.healthActions.model
 		public function get collaborationLobbyNetConnectionServiceProxy():ICollaborationLobbyNetConnectionServiceProxy
 		{
 			return _collaborationLobbyNetConnectionServiceProxy;
+		}
+
+		public function get activeAccount():Account
+		{
+			return _activeAccount;
 		}
 	}
 }

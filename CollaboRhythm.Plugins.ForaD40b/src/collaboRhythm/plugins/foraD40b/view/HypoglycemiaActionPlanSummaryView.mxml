@@ -1,33 +1,187 @@
 <?xml version="1.0"?>
 <!---
-  - Copyright 2012 John Moore, Scott Gilroy
-  -
-  - This file is part of CollaboRhythm.
-  -
-  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
-  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
-  - version.
-  -
-  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
-  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-  - details.
-  -
-  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
-  - <http://www.gnu.org/licenses/>.
-  -->
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
 <tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
-					   xmlns:tablet="collaboRhythm.shared.view.tablet.*">
+					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+					   xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
+					   resize="resizeHandler()"
+					   creationComplete="creationCompleteHandler()">
+	<fx:Declarations>
+		<s:DateTimeFormatter id="dateFormatter"
+							 dateTimePattern="M-dd-yy"/>
+	</fx:Declarations>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		#hypoglycemiaLabel {
+			fontSize: 36;
+		}
+
+		#bloodGlucoseLabel {
+			fontSize: 24;
+		}
+
+		#dateMeasuredStartLabel {
+			fontSize: 24;
+			color: #939598;
+		}
+	</fx:Style>
 	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
+		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
+		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+		import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
 		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
+		import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
+
+		import mx.binding.utils.BindingUtils;
+		import mx.collections.ArrayCollection;
+		import mx.events.PropertyChangeEvent;
+
+		[Bindable]
+		private var _actions:ArrayCollection;
+
+		private var _bloodGlucoseVitalSign:VitalSign;
+		private var _touchInteraction:Boolean = false;
+		private var _dataInputController:BloodGlucoseHealthActionInputController;
+		private var _dataInputModel:BloodGlucoseHealthActionInputModel;
+		private var _bloodGlucoseVitalSignDate:Date;
 
 		override public function set data(value:Object):void
 		{
 			super.data = value;
 
-			var bloodGlucoseVitalSign:VitalSign = value as VitalSign;
+			_bloodGlucoseVitalSignDate = value[0] as Date;
 
+			_dataInputController = value[1] as BloodGlucoseHealthActionInputController;
+			_dataInputModel = value[2] as BloodGlucoseHealthActionInputModel;
+
+			for each (var vitalSign:VitalSign in
+					_dataInputModel.healthActionModelDetailsProvider.record.vitalSignsModel.vitalSignsByCategory[VitalSignsModel.BLOOD_GLUCOSE_CATEGORY])
+			{
+				if (vitalSign.dateMeasuredStart.valueOf() == _bloodGlucoseVitalSignDate.valueOf())
+				{
+					_bloodGlucoseVitalSign = vitalSign;
+				}
+			}
+
+			if (_bloodGlucoseVitalSign)
+			{
+				if (_bloodGlucoseVitalSign.triggeredHealthActionResults.length != 0)
+				{
+					var triggeredHealthActionResult:HealthActionResult = _bloodGlucoseVitalSign.triggeredHealthActionResults[0];
+					if (triggeredHealthActionResult)
+					{
+						_actions = triggeredHealthActionResult.actions;
+					}
+				}
+			}
+
+			BindingUtils.bindSetter(actionsListScrollerPosition_changeHandler, _dataInputModel,
+					"actionsListScrollerPosition");
+		}
+
+		private function actionsListScrollerPosition_changeHandler(actionsListScrollPosition:Number):void
+		{
+			if (!isNaN(actionsListScrollPosition))
+			{
+				actionsList.dataGroup.verticalScrollPosition = actionsListScrollPosition;
+			}
+		}
+
+		private function resizeHandler():void
+		{
+			if (width > height)
+			{
+				hypoGlycemiaActionPlanSummaryGroup.width = width / 2;
+			}
+			else
+			{
+				hypoGlycemiaActionPlanSummaryGroup.width = width;
+			}
+		}
+
+		private function creationCompleteHandler():void
+		{
+			if (_bloodGlucoseVitalSign)
+			{
+				bloodGlucoseLabel.text = _bloodGlucoseVitalSign.result.value + " " +
+						_bloodGlucoseVitalSign.result.unit.abbrev;
+				dateMeasuredStartLabel.text = dateFormatter.format(_bloodGlucoseVitalSign.dateMeasuredStart);
+			}
+		}
+
+		private function actionsList_creationCompleteHandler():void
+		{
+			actionsList.scroller.viewport.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+					propertyChangeHandler);
+		}
+
+		private function propertyChangeHandler(event:PropertyChangeEvent):void
+		{
+			if (event.property == "verticalScrollPosition" && _touchInteraction)
+			{
+				var verticalScrollPosition:Number = event.newValue as Number;
+				_dataInputController.synchronizeActionsListScrollPosition(CollaborationLobbyNetConnectionServiceProxy.LOCAL,
+						verticalScrollPosition);
+			}
+		}
+
+		private function actionsList_touchInteractionStartHandler():void
+		{
+			_touchInteraction = true
+		}
+
+		private function actionsList_touchInteractionEndHandler():void
+		{
+			_touchInteraction = false;
+		}
+
+		override public function homeButton_clickHandler():void
+		{
+			_dataInputController.removeCollaborationViewSynchronizationEventListener(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
+
+			super.homeButton_clickHandler();
 		}
 		]]></fx:Script>
-
+	<s:VGroup id="hypoGlycemiaActionPlanSummaryGroup" height="100%" horizontalCenter="0" gap="20">
+		<s:Group width="100%">
+			<s:HGroup id="hypoglycemiaHGroup" top="10" gap="10" horizontalCenter="0">
+				<view:WarningIcon/>
+				<s:VGroup paddingTop="10" gap="0">
+					<s:Label id="hypoglycemiaLabel" text="Hypoglycemia"/>
+					<s:Label id="bloodGlucoseLabel" fontSize="24"/>
+				</s:VGroup>
+			</s:HGroup>
+			<s:Label id="dateMeasuredStartLabel" verticalCenter="2" right="10"/>
+		</s:Group>
+		<s:Group width="100%" height="100%">
+			<s:List id="actionsList" dataProvider="{_actions}"
+					itemRenderer="collaboRhythm.plugins.foraD40b.view.HypoglycemiaActionItemRenderer" width="100%"
+					height="100%" creationComplete="actionsList_creationCompleteHandler()"
+					touchInteractionStart="actionsList_touchInteractionStartHandler()"
+					touchInteractionEnd="actionsList_touchInteractionEndHandler()"
+					/>
+			<s:Rect width="100%" height="100%">
+				<s:stroke>
+					<s:SolidColorStroke color="0x000000"/>
+				</s:stroke>
+			</s:Rect>
+		</s:Group>
+	</s:VGroup>
 </tablet:TabletViewBase>

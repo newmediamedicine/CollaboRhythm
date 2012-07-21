@@ -16,10 +16,10 @@
  - <http://www.gnu.org/licenses/>.
 -->
 <view:HypoglycemiaActionPlanViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
-					   xmlns:s="library://ns.adobe.com/flex/spark"
-					   xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
-					   creationComplete="creationCompleteHandler(event)"
-					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView">
+									 xmlns:s="library://ns.adobe.com/flex/spark"
+									 xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
+									 creationComplete="creationCompleteHandler(event)"
+									 implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView">
 	<fx:Style>
 		#interpretationLabel {
 			fontSize: 36;
@@ -68,6 +68,18 @@
 					showContinueActionPlanMessage();
 				}
 			}
+
+			if (_dataInputModel.healthActionModelDetailsProvider.accountId ==
+					_dataInputModel.healthActionModelDetailsProvider.activeAccount.accountId)
+			{
+				nextStepButton.enabled = true;
+				nextStepActionButton.enabled = true;
+			}
+			else
+			{
+				nextStepButton.enabled = false;
+				nextStepActionButton.enabled = false;
+			}
 		}
 
 		private function showStartActionPlanMessage():void
@@ -75,7 +87,6 @@
 			title = "Start Hypoglycemia Action Plan";
 			startActionPlanLabel.text = "Start your hypoglycemia action plan.";
 			nextStepActionButton.label = "Start";
-			nextStepActionButton.enabled = true;
 		}
 
 		private function showContinueActionPlanMessage():void
@@ -83,7 +94,6 @@
 			title = "Continue Hypoglycemia Action Plan";
 			startActionPlanLabel.text = "Continue your hypoglycemia action plan.";
 			nextStepActionButton.label = "Continue";
-			nextStepActionButton.enabled = true;
 			nextStepButton.label = "Continue"
 		}
 		]]></fx:Script>

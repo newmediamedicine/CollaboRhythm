@@ -34,6 +34,9 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
+		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+		import collaboRhythm.shared.model.services.ICurrentDateSource;
+		import collaboRhythm.shared.model.services.WorkstationKernel;
 
 		import mx.binding.utils.BindingUtils;
 
@@ -42,6 +45,7 @@
 		[Bindable]
 		protected var _dataInputModel:BloodGlucoseHealthActionInputModel;
 		protected var _dataInputController:BloodGlucoseHealthActionInputController;
+		private var _currentDateSource:ICurrentDateSource;
 
 		public function init(dataInputModel:BloodGlucoseHealthActionInputModel,
 							 dataInputController:BloodGlucoseHealthActionInputController)
@@ -51,6 +55,15 @@
 
 			setDeviceBloodGlucose(_dataInputModel.deviceBloodGlucose);
 
+			if (_dataInputModel.healthActionModelDetailsProvider.accountId !=
+					_dataInputModel.healthActionModelDetailsProvider.activeAccount.accountId)
+			{
+				bloodGlucoseTextInput.enabled = false;
+			}
+
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+
+			BindingUtils.bindSetter(setManualBloodGlucose, _dataInputModel, "manualBloodGlucose");
 			BindingUtils.bindSetter(setDeviceBloodGlucose, _dataInputModel, "deviceBloodGlucose");
 			BindingUtils.bindSetter(handleInvalidBloodGlucose, _dataInputModel, "invalidBloodGlucose");
 		}
@@ -65,6 +78,11 @@
 		{
 			// the back button closes the application if the TextInput has focus, so set the focus to something else
 			bloodGlucoseGroup.setFocus();
+		}
+
+		private function setManualBloodGlucose(manualBloodGlucose:String):void
+		{
+			bloodGlucoseTextInput.text = manualBloodGlucose;
 		}
 
 		private function setDeviceBloodGlucose(deviceBloodGlucose:String):void
@@ -95,25 +113,27 @@
 		{
 			if (bloodGlucoseTextInput.enabled)
 			{
-				_dataInputController.updateManualBloodGlucose(bloodGlucoseTextInput.text);
+				_dataInputController.updateManualBloodGlucose(CollaborationLobbyNetConnectionServiceProxy.LOCAL,
+						bloodGlucoseTextInput.text);
 			}
 		}
 
 		private function saveButton_clickHandler():void
 		{
-			_dataInputController.submitBloodGlucose(bloodGlucoseTextInput.text);
+			_dataInputController.submitBloodGlucose(CollaborationLobbyNetConnectionServiceProxy.LOCAL,
+					[bloodGlucoseTextInput.text, _currentDateSource.now()]);
 		}
 		]]></fx:Script>
-		<s:HGroup id="bloodGlucoseGroup" gap="15" verticalAlign="middle" horizontalCenter="0" top="200">
-			<s:Image source="http://www.mit.edu/~jom/temp/equipment/FORA D40b.png" width="140" height="140"
-					 smooth="true"/>
-			<view:WirelessIcon id="wirelessIcon" visible="false"/>
-			<s:Group width="240" height="130">
-				<s:TextInput id="bloodGlucoseTextInput" width="100%" height="100%"
-							 skinClass="spark.skins.mobile.StageTextInputSkin" styleName="textInputText"
-							 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number"
-							 change="bloodGlucoseTextInput_changeHandler()" needsSoftKeyboard="true"/>
-			</s:Group>
-			<s:Label text="mg/dL" verticalCenter="0" styleName="unitsText"/>
-		</s:HGroup>
+	<s:HGroup id="bloodGlucoseGroup" gap="15" verticalAlign="middle" horizontalCenter="0" top="200">
+		<s:Image source="http://www.mit.edu/~jom/temp/equipment/FORA D40b.png" width="140" height="140"
+				 smooth="true"/>
+		<view:WirelessIcon id="wirelessIcon" visible="false"/>
+		<s:Group width="240" height="130">
+			<s:TextInput id="bloodGlucoseTextInput" width="100%" height="100%"
+						 skinClass="spark.skins.mobile.StageTextInputSkin" styleName="textInputText"
+						 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number"
+						 change="bloodGlucoseTextInput_changeHandler()" needsSoftKeyboard="true"/>
+		</s:Group>
+		<s:Label text="mg/dL" verticalCenter="0" styleName="unitsText"/>
+	</s:HGroup>
 </s:Group>

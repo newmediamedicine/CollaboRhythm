@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Declarations>
+		<s:DateTimeFormatter id="timeFormatter"
+							 dateTimePattern=" h:mm a"/>
+	</fx:Declarations>
+	<fx:Style>
+		#textLabel {
+			font-size: 36;
+		}
+
+		#timeMeasuredStartLabel {
+			fontSize: 24;
+			color: #939598;
+		}
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.shared.model.healthRecord.document.healthActionResult.ActionStepResult;
+		import collaboRhythm.shared.model.healthRecord.document.healthActionResult.Measurement;
+		import collaboRhythm.shared.model.healthRecord.document.healthActionResult.Occurrence;
+
+		[Embed(source="/assets/images/juice.png")]
+		public var juiceImageClass:Class;
+
+		[Embed(source="/assets/images/soda.png")]
+		public var sodaImageClass:Class;
+
+		[Embed(source="/assets/images/glucoseTablets.png")]
+		public var glucoseTabletsImageClass:Class;
+
+		[Embed(source="/assets/images/honey.png")]
+		public var honeyImageClass:Class;
+
+		[Embed(source="/assets/images/saltines.png")]
+		public var saltinesImageClass:Class;
+
+		[Embed(source="/assets/images/peanutButterSandwich.png")]
+		public var peanutButterSandwichImageClass:Class;
+
+		[Embed(source="/assets/images/hourglass.png")]
+		public var hourglassImageClass:Class;
+
+		[Embed(source="/assets/images/ForaD40b.png")]
+		public var ForaD40bImageClass:Class;
+
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+
+			var actionStepResult:ActionStepResult = value as ActionStepResult;
+
+			if (actionStepResult)
+			{
+				if (actionStepResult.occurrences.length != 0)
+				{
+					var occurrence:Occurrence = actionStepResult.occurrences[0];
+					if (occurrence.additionalDetails)
+					{
+						switch (occurrence.additionalDetails)
+						{
+							case Step1HypoglycemiaActionPlanView.DRINK_1_2_CUP_OF_FRUIT_JUICE:
+								iconImage.source = juiceImageClass;
+								textLabel.text = "1/2 cup of fruit juice";
+								break;
+							case Step1HypoglycemiaActionPlanView.DRINK_1_CUP_OF_FRUIT_JUICE:
+								iconImage.source = juiceImageClass;
+								textLabel.text = "1 cup of fruit juice";
+								break;
+							case Step1HypoglycemiaActionPlanView.DRINK_1_2_CUP_OF__NON_DIET__SODA:
+								iconImage.source = sodaImageClass;
+								textLabel.text = "1/2 cup of (non-diet) soda";
+								break;
+							case Step1HypoglycemiaActionPlanView.DRINK_1_CUP_OF__NON_DIET__SODA:
+								iconImage.source = sodaImageClass;
+								textLabel.text = "1 cup of (non-diet) soda";
+								break;
+							case Step1HypoglycemiaActionPlanView.TAKE_4_GLUCOSE_TABLETS:
+								iconImage.source = glucoseTabletsImageClass;
+								textLabel.text = "4 glucose tablets";
+								break;
+							case Step1HypoglycemiaActionPlanView.TAKE_8_GLUCOSE_TABLETS:
+								iconImage.source = glucoseTabletsImageClass;
+								textLabel.text = "8 glucose tablets";
+								break;
+							case Step1HypoglycemiaActionPlanView.EAT_15G_OF_OTHER_SIMPLE_CARBS:
+								iconImage.source = honeyImageClass;
+								textLabel.text = "15g of simple carbs";
+								break;
+							case Step1HypoglycemiaActionPlanView.EAT_30G_OF_OTHER_SIMPLE_CARBS:
+								iconImage.source = honeyImageClass;
+								textLabel.text = "30g of simple carbs";
+								break;
+							case Step4HypoglycemiaActionPlanView.EAT_15G_OF_COMPLEX_CARBS_NOW:
+								iconImage.source = saltinesImageClass;
+								textLabel.text = "15g of complex carbs";
+								break;
+							case Step4HypoglycemiaActionPlanView.EAT_30G_OF_COMPLEX_CARBS_NOW:
+								iconImage.source = peanutButterSandwichImageClass;
+								textLabel.text = "30g of complex carbs";
+								break;
+							default :
+								iconImage.source = hourglassImageClass;
+								textLabel.text = occurrence.additionalDetails;
+						}
+					}
+					else if (occurrence.measurements.length != 0)
+					{
+						var measurement:Measurement = occurrence.measurements[0];
+						iconImage.source = ForaD40bImageClass;
+						textLabel.text = measurement.value.value + " " + measurement.value.unit.abbrev;
+					}
+					if (occurrence.startTime)
+					{
+						timeMeasuredStartLabel.text = timeFormatter.format(occurrence.startTime);
+					}
+				}
+			}
+		}
+		]]></fx:Script>
+	<s:Group left="10" right="10" top="10" bottom="10">
+		<s:HGroup verticalAlign="middle" gap="10">
+			<s:Image id="iconImage" width="70" height="70" smooth="true"/>
+			<s:Label id="textLabel"/>
+		</s:HGroup>
+		<s:Label id="timeMeasuredStartLabel" verticalCenter="0" right="0"/>
+	</s:Group>
+	<s:Line width="100%" bottom="0">
+		<s:stroke>
+			<s:SolidColorStroke color="0x808285"/>
+		</s:stroke>
+	</s:Line>
+</s:ItemRenderer>
