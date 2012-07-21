@@ -128,7 +128,7 @@
 		<xs:complexContent>
 			<xs:extension base="result:ActionResult">
 				<xs:sequence>
-					<xs:element name="actions" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="actions" minOccurs="0" maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation xml:lang="en">List of the ActionResults of this ActionGroupResult.
 								This can contain one or more actions of the type ActionGroupResult or ActionStepResult.

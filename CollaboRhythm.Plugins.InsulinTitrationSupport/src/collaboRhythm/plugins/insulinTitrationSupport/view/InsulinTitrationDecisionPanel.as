@@ -12,6 +12,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 	import flashx.textLayout.conversion.TextConverter;
 
 	import mx.binding.utils.BindingUtils;
+	import mx.collections.ArrayCollection;
 	import mx.core.IVisualElement;
 	import mx.events.PropertyChangeEvent;
 	import mx.graphics.SolidColor;
@@ -20,16 +21,23 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 	import spark.components.Button;
 	import spark.components.CalloutButton;
 	import spark.components.Group;
+	import spark.components.Label;
 	import spark.components.RichText;
+	import spark.components.SpinnerList;
+	import spark.components.SpinnerListContainer;
 	import spark.components.TextInput;
+	import spark.events.ListEvent;
 	import spark.primitives.Rect;
+	import spark.skins.mobile.SpinnerListContainerSkin;
+	import spark.skins.mobile.SpinnerListSkin;
 	import spark.skins.mobile.StageTextInputSkin;
 
 	public class InsulinTitrationDecisionPanel extends Group
 	{
 		private var _model:InsulinTitrationDecisionPanelModel;
 
-		private var _dosageChangeTextInput:TextInput;
+		private var _dosageChangeSpinnerList:SpinnerList;
+		private var _dosageChangeSpinnerListContainer:SpinnerListContainer;
 		private var _arrow1CalloutButton:CalloutButton;
 		private var _arrow2CalloutButton:CalloutButton;
 		private var _arrow3CalloutButton:CalloutButton;
@@ -70,6 +78,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		}
 
 		private var _averagePlotItemRenderer:AverageBloodGlucosePotItemRenderer;
+		private const GOAL_LABEL_VERTICAL_OFFSET:Number = 3;
 
 		override protected function createChildren():void
 		{
@@ -84,11 +93,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 			_chartY = 1;
 			determineChartHeight();
-			_step1Chart = createChart(STEP1_X);
-			_step2Chart = createChart(STEP2_X);
-			_dosageIncreaseButton = createDosageChangeButton(_chartY, 57, _model.dosageIncreaseText + " Units", getDosageChangeLabelColor(_model.algorithmSuggestsIncreaseDose), _model.dosageIncreaseText);
-			_dosageNoChangeButton = createDosageChangeButton(58, 48, "No Change", getDosageChangeLabelColor(_model.algorithmSuggestsNoChangeDose), "0");
-			_dosageDecreaseButton = createDosageChangeButton(106, 33, _model.dosageDecreaseText + " Units", getDosageChangeLabelColor(_model.algorithmSuggestsDecreaseDose), _model.dosageDecreaseText);
+			_step1Chart = createChart(STEP1_X, true);
+			_step2Chart = createChart(STEP2_X, false);
+			_dosageIncreaseButton = createDosageChangeButton(_chartY, 57, _model.dosageIncreaseText + " Units", getDosageChangeLabelColor(_model.algorithmSuggestsIncreaseDose), _model.dosageIncreaseValue);
+			_dosageNoChangeButton = createDosageChangeButton(58, 48, "No Change", getDosageChangeLabelColor(_model.algorithmSuggestsNoChangeDose), 0);
+			_dosageDecreaseButton = createDosageChangeButton(106, 33, _model.dosageDecreaseText + " Units", getDosageChangeLabelColor(_model.algorithmSuggestsDecreaseDose), _model.dosageDecreaseValue);
 			updateDosageChangeButtons();
 
 			_averagePlotItemRenderer = new AverageBloodGlucosePotItemRenderer();
@@ -96,27 +105,46 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			updateAveragePlotItemRenderer();
 			addElement(_averagePlotItemRenderer);
 
-			_dosageChangeTextInput = new TextInput();
-			_dosageChangeTextInput.x = STEP3_X;
-			_dosageChangeTextInput.bottom = SynchronizedHealthCharts.ADHERENCE_STRIP_CHART_HEIGHT;
-			_dosageChangeTextInput.width = STEP_WIDTH;
-			_dosageChangeTextInput.setStyle("skinClass", StageTextInputSkin);
-			_dosageChangeTextInput.setStyle("fontSize", 32);
-			_dosageChangeTextInput.setStyle("textAlign", "right");
-			_dosageChangeTextInput.restrict = "\\-+0-9";
-//			_dosageChangeTextInput.maxChars = 3;
-			_dosageChangeTextInput.softKeyboardType = "number";
-			_dosageChangeTextInput.addEventListener(Event.CHANGE, dosageChangeTextInput_changeHandler);
-			_dosageChangeTextInput.text = _model.dosageChangeValueLabel;
+			_dosageChangeSpinnerListContainer = new SpinnerListContainer();
+			_dosageChangeSpinnerListContainer.x = STEP3_X;
+			_dosageChangeSpinnerListContainer.bottom = SynchronizedHealthCharts.ADHERENCE_STRIP_CHART_HEIGHT;
+			_dosageChangeSpinnerListContainer.width = STEP_WIDTH;
+			_dosageChangeSpinnerList = new SpinnerList();
+			_dosageChangeSpinnerListContainer.addElement(_dosageChangeSpinnerList);
+			_dosageChangeSpinnerList.setStyle("skinClass", SpinnerListSkin);
+			_dosageChangeSpinnerList.setStyle("textAlign", "right");
+			_dosageChangeSpinnerListContainer.setStyle("skinClass", SpinnerListContainerSkin);
+			_dosageChangeSpinnerList.percentWidth = 100;
+			var spinnerData:ArrayCollection = new ArrayCollection();
+			spinnerData.addItem(NaN);
+			for (var i:Number = 5; i >= -5; i--)
+			{
+				spinnerData.addItem(i);
+			}
+			_dosageChangeSpinnerList.labelFunction = dosageChangeLabelFunction;
+			_dosageChangeSpinnerList.dataProvider = spinnerData;
+			_dosageChangeSpinnerList.selectedItem = _model.dosageChangeValue;
+			_dosageChangeSpinnerList.addEventListener(Event.CHANGE, dosageChangeSpinnerList_changeHandler);
+			_dosageChangeSpinnerList.wrapElements = false;
+
 			BindingUtils.bindSetter(model_dosageChangeValue_changeHandler, _model, "dosageChangeValue");
 
-			addElement(_dosageChangeTextInput);
+			addElement(_dosageChangeSpinnerListContainer);
+		}
+
+		protected function dosageChangeLabelFunction(i:Number):String
+		{
+			if (isNaN(i))
+				return "";
+			else
+				return (i > 0 ? "+" : "") + i.toString();
 		}
 
 		private function model_dosageChangeValue_changeHandler(value:Number):void
 		{
-			_dosageChangeTextInput.text = _model.dosageChangeValueLabel;
-			_dosageChangeTextInput.invalidateDisplayList();
+//			_dosageChangeTextInput.text = _model.dosageChangeValueLabel;
+//			_dosageChangeTextInput.invalidateDisplayList();
+			_dosageChangeSpinnerList.selectedItem = _model.dosageChangeValue;
 		}
 
 		private function updateAveragePlotItemRenderer():void
@@ -168,7 +196,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			_chartHeight = Math.max(height, minHeight) - SynchronizedHealthCharts.ADHERENCE_STRIP_CHART_HEIGHT - 1 - 2;
 		}
 
-		public function createChart(x:int):Array
+		public function createChart(x:int, showLabels:Boolean):Array
 		{
 			var chartBorder:Rect = new Rect();
 			chartBorder.x = x;
@@ -178,28 +206,49 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 			var goalMaxLine:DottedLine = createGoalLine(x);
 			var goalMinLine:DottedLine = createGoalLine(x);
-			var chart:Array = [chartBorder, goalMaxLine, goalMinLine];
+			if (showLabels)
+			{
+				var goalMaxLabel:Label = createGoalLabel(x, _model.goalZoneMaximum);
+				var goalMinLabel:Label = createGoalLabel(x, _model.goalZoneMinimum);
+			}
+			var chart:Array = [chartBorder, goalMaxLine, goalMinLine, goalMaxLabel, goalMinLabel];
 			resizeChart(chart);
 
 			addElement(chartBorder);
 			addElement(goalMaxLine);
 			addElement(goalMinLine);
+			if (showLabels)
+			{
+				addElement(goalMaxLabel);
+				addElement(goalMinLabel);
+			}
 
 			return chart;
 		}
 
+		private function createGoalLabel(x:int, value:Number):Label
+		{
+			var goalLabel:Label = new Label();
+			goalLabel.setStyle("fontSize", 21);
+			goalLabel.setStyle("color", 0x231F20);
+			goalLabel.text = value.toString();
+//			goalLabel.x = x + STEP_WIDTH - goalLabel.width;
+			goalLabel.right = minWidth - (x + STEP_WIDTH);
+			return goalLabel;
+		}
+
 		private function createGoalLine(x:int):DottedLine
 		{
-			var goalMaxLine:DottedLine = new DottedLine();
-			goalMaxLine.dotColor = 0x808285;
-			goalMaxLine.dotWidth = 12;
-			goalMaxLine.spacerWidth = 12;
-			goalMaxLine.dotHeight = 1;
-			goalMaxLine.spacerHeight = 1;
-			goalMaxLine.x = x + 1;
-			goalMaxLine.width = STEP_WIDTH - 1;
-			goalMaxLine.height = 1;
-			return goalMaxLine;
+			var goalLine:DottedLine = new DottedLine();
+			goalLine.dotColor = 0x808285;
+			goalLine.dotWidth = 12;
+			goalLine.spacerWidth = 12;
+			goalLine.dotHeight = 1;
+			goalLine.spacerHeight = 1;
+			goalLine.x = x + 1;
+			goalLine.width = STEP_WIDTH - 1;
+			goalLine.height = 1;
+			return goalLine;
 		}
 
 		private function resizeChart(chart:Array):void
@@ -207,11 +256,17 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			var chartBorder:Rect = chart[0];
 			var goalMaxLine:DottedLine = chart[1];
 			var goalMinLine:DottedLine = chart[2];
+			var goalMaxLabel:Label = chart[3];
+			var goalMinLabel:Label = chart[4];
 
 			chartBorder.y = _chartY - 1;
 			chartBorder.height = _chartHeight + 2;
 			goalMaxLine.y = chartValueToPosition(_model.goalZoneMaximum);
 			goalMinLine.y = chartValueToPosition(_model.goalZoneMinimum);
+			if (goalMaxLabel)
+				goalMaxLabel.y = goalMaxLine.y - goalMaxLabel.height + GOAL_LABEL_VERTICAL_OFFSET;
+			if (goalMinLabel)
+				goalMinLabel.y = goalMinLine.y - goalMinLabel.height + GOAL_LABEL_VERTICAL_OFFSET;
 		}
 
 		private function chartValueToPosition(bloodGlucoseAverage:Number):Number
@@ -230,7 +285,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		}
 
 		private function createDosageChangeButton(y:int, height:int, label:String, labelColor:int,
-												  dosageChangeTextInputText:String):Button
+												  dosageChangeValue:Number):Button
 		{
 			var button:Button = new Button();
 			button.setStyle("skinClass", TransparentButtonSkin);
@@ -242,7 +297,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			button.setStyle("color", labelColor);
 			button.addEventListener(MouseEvent.CLICK,
 			            function(event:MouseEvent):void {
-			                _dosageChangeTextInput.text = dosageChangeTextInputText;
+			                //_dosageChangeTextInput.text = dosageChangeTextInputText;
+							_dosageChangeSpinnerList.selectedItem = dosageChangeValue;
 			            });
 			addElement(button);
 			return button;
@@ -300,10 +356,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			calloutButton.calloutContent = contentArray;
 		}
 
-		private function dosageChangeTextInput_changeHandler(event:Event):void
+		private function dosageChangeSpinnerList_changeHandler(event:Event):void
 		{
-			if (StringUtils.isEmpty(_dosageChangeTextInput.text) || !isNaN(Number(_dosageChangeTextInput.text)))
-				_model.dosageChangeValue = StringUtils.isEmpty(_dosageChangeTextInput.text) ? NaN : Number(_dosageChangeTextInput.text);
+			_model.dosageChangeValue = _dosageChangeSpinnerList.selectedItem;
 		}
 
 		public function get model():InsulinTitrationDecisionPanelModel
@@ -353,6 +408,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			updateArrowButtonY(_arrow1CalloutButton);
 			updateArrowButtonY(_arrow2CalloutButton);
 			updateArrowButtonY(_arrow3CalloutButton);
+			_dosageChangeSpinnerListContainer.height = _chartHeight;
 		}
 	}
 }

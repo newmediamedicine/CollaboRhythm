@@ -12,5 +12,25 @@ package collaboRhythm.shared.model.healthRecord.document.healthActionResult
 		public function StopCondition()
 		{
 		}
+
+		public function get name():CodedValue
+		{
+			return _name;
+		}
+
+		public function set name(value:CodedValue):void
+		{
+			_name = value;
+		}
+
+		public function get value():ValueAndUnit
+		{
+			return _value;
+		}
+
+		public function set value(value:ValueAndUnit):void
+		{
+			_value = value;
+		}
 	}
 }

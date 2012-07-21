@@ -122,14 +122,28 @@ package collaboRhythm.core.model
 			xmlEncoder = new XmlEncoderEx();
 			xmlEncoder.schemaManager = schemaManager;
 			xmlEncoder.typeSchemaRegistry = typeSchemaRegistry;
+			xmlEncoder.targetNamespace = new Namespace(null, qName.uri);
 
 			// to avoid a prefix on the root document element, only provide the local name, no namespace uri
-//			xmlList = xmlEncoder.encode(targetObject, qName);
 			xmlList = xmlEncoder.encode(targetObject, new QName("", qName.localName));
 
 			xmlEncoder.setAttribute(xmlList[0], "xmlns", qName.uri);
+
+			for each (var schema:Schema in schemaManager.currentScope())
+			{
+				if (schema.targetNamespace.uri != qName.uri)
+				{
+					var prefix:String = schemaManager.getOrCreatePrefix(schema.targetNamespace.uri);
+					var ns:Namespace = new Namespace(prefix, schema.targetNamespace.uri);
+					xmlList.addNamespace(ns);
+				}
+			}
+
 			if (xmlEncoder.usedXsiPrefix)
-				xmlEncoder.setAttribute(xmlList[0], "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			{
+				const xsiUri:String = "http://www.w3.org/2001/XMLSchema-instance";
+				xmlList.addNamespace(new Namespace("xsi", xsiUri));
+			}
 
 			if (traceXmlEncodeDecode)
 				trace(xmlList.toXMLString());

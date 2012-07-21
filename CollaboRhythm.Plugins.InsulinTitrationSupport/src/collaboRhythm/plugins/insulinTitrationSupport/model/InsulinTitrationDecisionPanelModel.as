@@ -43,6 +43,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _algorithmSuggestsDecreaseDose:Boolean;
 		private const _dosageIncreaseText:String = "+3";
 		private const _dosageDecreaseText:String = "-3";
+		private const _dosageIncreaseValue:Number = +3;
+		private const _dosageDecreaseValue:Number = -3;
 		private var _isChangeSpecified:Boolean;
 		private var _step1State:String;
 		private var _step2State:String;
@@ -229,6 +231,16 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function get dosageDecreaseText():String
 		{
 			return _dosageDecreaseText;
+		}
+
+		public function get dosageIncreaseValue():Number
+		{
+			return _dosageIncreaseValue;
+		}
+
+		public function get dosageDecreaseValue():Number
+		{
+			return _dosageDecreaseValue;
 		}
 
 		public function set isChangeSpecified(value:Boolean):void

@@ -14,62 +14,25 @@ package collaboRhythm.core.model
 		private var schemaTypeRegistry:SchemaTypeRegistry;
 		private var _typeSchemaRegistry:TypeSchemaRegistry;
 		private var _usedXsiPrefix:Boolean;
+		private var _targetNamespace:Namespace;
 
 		public function XmlEncoderEx()
 		{
 			schemaTypeRegistry = SchemaTypeRegistry.getInstance();
 		}
 
-		/**
-		 * @private
-		 */
-		override public function getValue(parent:*, name:*):*
+		// Added special handling for CodedValue type which has both attributes (which already map correctly to
+		// properties) and a child/content/value element that needs to be mapped explicitly to the "text" property of
+		// the CodedValue class.
+		override public function getSimpleValue(parent:*, name:*):*
 		{
-			var value:*;
-
-			if (parent is XML || parent is XMLList)
+			var codedValue:CodedValue = parent as CodedValue;
+			if (codedValue != null)
 			{
-				var node:XMLList = parent[name];
-				if (node.length() > 0)
-					value = node;
+				return codedValue.text;
 			}
-			else if (TypeIterator.isIterable(parent))
-			{
-				// We may have an associative Array
-				if (parent.hasOwnProperty(name) && parent[name] !== undefined)
-				{
-					value = resolveNamedProperty(parent, name);
-				}
-				else
-				{
-					// Otherwise, we just return the value as this may be for an
-					// ArrayOfSomeType that needs special casing to map directly
-					// to an Array without a wrapper type
-					value = parent;
-				}
-			}
-			else if (parent is CodedValue && name is QName && (name as QName).localName != "type" && (name as QName).localName != "value" && (name as QName).localName != "abbrev")
-			{
-				var codedValue:CodedValue = parent as CodedValue;
-				value = codedValue.text;
-			}
-			else if (!isSimpleValue(parent))
-			{
-				// We only support the public namespace for now
-				if (name is QName)
-					name = QName(name).localName;
-
-				value = resolveNamedProperty(parent, name);
-			}
-			else
-			{
-				// FIXME: Shouldn't this be an error condition?
-				value = parent;
-			}
-
-			return value;
+			return super.getSimpleValue(parent, name);
 		}
-
 
 		/**
 		 * Sets the xsi:nil attribute when necessary
@@ -163,21 +126,21 @@ package collaboRhythm.core.model
 			var specificType:QName = getSpecificType(value);
 			if (specificType != null && type != specificType)
 			{
-//				setXSIType(parent, specificType);
 				// TODO: make this work for both the current default namespace and a specific namespace (when a prefix must be specified)
-//				var namespaceURI:String = type.uri;
-//				var prefix:String = schemaManager.getOrCreatePrefix(namespaceURI);
-//				var prefixNamespace:Namespace = new Namespace(prefix, namespaceURI);
-//				parent.addNamespace(prefixNamespace);
 				parent.@[constants.getXSIToken(constants.typeAttrQName)] = specificType.localName;
 				_usedXsiPrefix = true;
 
 				type = specificType;
 			}
 
+			name = new QName(type.uri, name.localName);
+
 			super.encodeType(type, parent, name, value, restriction);
 		}
 
+		/**
+		 * Registry for looking up
+		 */
 		public function get typeSchemaRegistry():TypeSchemaRegistry
 		{
 			return _typeSchemaRegistry;
@@ -188,6 +151,9 @@ package collaboRhythm.core.model
 			_typeSchemaRegistry = value;
 		}
 
+		/**
+		 * Indicates that the "xsi" prefix was used on some element while encoding.
+		 */
 		public function get usedXsiPrefix():Boolean
 		{
 			return _usedXsiPrefix;
@@ -196,6 +162,173 @@ package collaboRhythm.core.model
 		public function set usedXsiPrefix(value:Boolean):void
 		{
 			_usedXsiPrefix = value;
+		}
+
+		// Override the default to achieve the behavior we want with elements that have a different namespace
+		override public function encodeGroupElement(definition:XML, siblings:XMLList, name:QName, value:*, isRequired:Boolean = true):Boolean
+		{
+			// <element minOccurs="..." maxOccurs="..."> occur on the local element,
+			// not on a referent, so we capture this information first.
+			var maxOccurs:uint = getMaxOccurs(definition);
+			var minOccurs:uint = getMinOccurs(definition);
+
+			// If the maximum occurence is 0 this element must not be present.
+			if (maxOccurs == 0)
+				return true;
+
+			isRequired = isRequired && minOccurs > 0;
+
+			// <element ref="..."> may be used to point to a top-level element definition
+			var ref:QName;
+			if (definition.attribute("ref").length() == 1)
+			{
+				ref = schemaManager.getQNameForPrefixedName(definition.@ref, definition, true);
+				definition = schemaManager.getNamedDefinition(ref, constants.elementTypeQName);
+				if (definition == null)
+					throw new Error("Cannot resolve element definition for ref '" + ref + "'");
+			}
+
+			var elementName:String = definition.@name.toString();
+			var elementQName:QName = schemaManager.getQNameForElement(elementName,
+					getAttributeFromNode("form", definition));
+
+			// Use the uri from the name if it doesn't match the targetNamespace (Scott Gilroy, 07/20/2012)
+			var targetNamespaceUri:String = targetNamespace ? targetNamespace.uri : null;
+			if (name.uri != targetNamespaceUri && elementQName.uri != name.uri)
+			{
+				elementQName = new QName(name.uri, elementQName.localName);
+			}
+
+			// Now that we've resolved the real element name, look for the element's
+			// value on the provided value.
+			var elementValue:* = getValue(value, elementQName);
+			var encodedElement:XML;
+
+			// If minOccurs == 0 the element is optional so we can omit it if
+			// a value was not provided.
+			if (elementValue == null)
+			{
+				encodedElement = encodeElementTopLevel(definition, elementQName, elementValue);
+				if (encodedElement != null)
+					appendValue(siblings, encodedElement);
+
+				// If we found our element by reference, we now release the schema scope
+				if (ref != null)
+					schemaManager.releaseScope();
+
+				// if required, but no value was encoded, the definition is not
+				// satisfied
+				if (isRequired && encodedElement == null)
+					return false;
+
+				// Otherwise we can return true
+				return true;
+			}
+
+			// We treat maxOccurs="1" as a special case and not check the
+			// occurence because we need to pass through values to SOAP
+			// encoded Arrays which do not rely on minOccurs/maxOccurs
+			if (maxOccurs == 1)
+			{
+				encodedElement = encodeElementTopLevel(definition, elementQName, elementValue);
+				if (encodedElement != null)
+				{
+					appendValue(siblings, encodedElement);
+				}
+				// ...else we just skip the element as a value wasn't provided.
+			}
+			else if (maxOccurs > 1)
+			{
+				var valueOccurence:uint = getValueOccurence(elementValue);
+
+				// If maxOccurs is greater than 1 then we would expect an
+				// Array of values
+				if (valueOccurence < minOccurs)
+				{
+					throw new Error("Value supplied for element '" + elementQName +
+							"' occurs " + valueOccurence + " times which falls short of minOccurs " +
+							minOccurs + ".");
+				}
+
+				if (valueOccurence > maxOccurs)
+				{
+					throw new Error("Value supplied for element of type '" + elementQName +
+							"' occurs " + valueOccurence + " times which exceeds maxOccurs " +
+							maxOccurs + ".");
+				}
+
+				// Promote non-iterable values to an Array to handle the MXML
+				// single-child property case where the compiler doesn't promote
+				// a property to an Array until two items are present.
+				if (!TypeIterator.isIterable(elementValue))
+					elementValue = [elementValue];
+
+				// Encode element based on occurence within the bounds of
+				// minOccurs and maxOccurs
+				var iter:TypeIterator = new TypeIterator(elementValue);
+
+				for (var i:uint = 0; i < maxOccurs && i < valueOccurence; i++)
+				{
+					var item:*;
+					if (iter.hasNext())
+					{
+						item = iter.next();
+					}
+					else if (i > minOccurs)
+					{
+						break;
+					}
+
+					encodedElement = encodeElementTopLevel(definition, elementQName, item);
+					// encodedElement is null if encodeXSINil inside encodeElementTopLevel
+					// was not allowed to create element with xsi:nil for a null or undefined
+					// value. We must still force xsi:nil, because we are encoding an array
+					// and we need to preserve the index.
+					if (encodedElement == null)
+					{
+						encodedElement = createElement(elementQName);
+						setValue(encodedElement, null);
+					}
+					appendValue(siblings, encodedElement);
+				}
+			}
+
+			// If we found our element by reference, we now release the schema scope
+			if (ref != null)
+				schemaManager.releaseScope();
+
+			return true;
+		}
+
+		// Override the default to achieve the behavior we want with elements that have a different namespace. This
+		// will add the desired prefix for elements that are not in the target namespace.
+		override public function createElement(name:*):XML
+		{
+			var element:XML;
+			var elementName:QName;
+			if (name is QName)
+				elementName = name as QName;
+			else
+				elementName = new QName("", name.toString());
+
+			element = <{elementName.localName} />;
+			if (elementName.uri != null && elementName.uri.length > 0)
+			{
+				var prefix:String = schemaManager.getOrCreatePrefix(elementName.uri);
+				var ns:Namespace = new Namespace(prefix, elementName.uri);
+				element.setNamespace(ns);
+			}
+			return element;
+		}
+
+		public function get targetNamespace():Namespace
+		{
+			return _targetNamespace;
+		}
+
+		public function set targetNamespace(value:Namespace):void
+		{
+			_targetNamespace = value;
 		}
 	}
 }
