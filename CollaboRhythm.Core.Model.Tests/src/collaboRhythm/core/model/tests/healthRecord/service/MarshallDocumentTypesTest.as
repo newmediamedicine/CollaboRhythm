@@ -347,7 +347,56 @@ package collaboRhythm.core.model.tests.healthRecord.service
 					</HealthActionResult>
 				],
 				[
-					"HealthActionResult complex 2",
+					"HealthActionResult complex 2 occurrence no stopCondition",
+					"http://indivo.org/vocab/xml/documents/healthActionResult#HealthActionResult",
+					<HealthActionResult xmlns="http://indivo.org/vocab/xml/documents/healthActionResult#"
+										xmlns:indivo="http://indivo.org/vocab/xml/documents#"
+										xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+						<name>Knee Bend Test</name>
+						<planType>Prescribed</planType>
+						<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+						<dateReported>2011-07-15T13:42:05Z</dateReported>
+						<actions>
+							<action xsi:type="ActionStepResult">
+								<name>Bend knee</name>
+								<occurrences>
+									<occurrence>
+										<additionalDetails>Test</additionalDetails>
+									</occurrence>
+								</occurrences>
+							</action>
+						</actions>
+					</HealthActionResult>
+				],
+				[
+					"HealthActionResult complex 3 occurrence with stopCondition",
+					"http://indivo.org/vocab/xml/documents/healthActionResult#HealthActionResult",
+					<HealthActionResult xmlns="http://indivo.org/vocab/xml/documents/healthActionResult#"
+										xmlns:indivo="http://indivo.org/vocab/xml/documents#"
+										xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+						<name>Knee Bend Test</name>
+						<planType>Prescribed</planType>
+						<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+						<dateReported>2011-07-15T13:42:05Z</dateReported>
+						<actions>
+							<action xsi:type="ActionStepResult">
+								<name>Bend knee</name>
+								<occurrences>
+									<occurrence>
+										<stopCondition>
+											<name>Repetitions</name>
+											<value>
+												<indivo:value>1</indivo:value>
+											</value>
+										</stopCondition>
+									</occurrence>
+								</occurrences>
+							</action>
+						</actions>
+					</HealthActionResult>
+				],
+				[
+					"HealthActionResult complex 4",
 					"http://indivo.org/vocab/xml/documents/healthActionResult#HealthActionResult",
 					<HealthActionResult xmlns="http://indivo.org/vocab/xml/documents/healthActionResult#"
 										xmlns:indivo="http://indivo.org/vocab/xml/documents#"
