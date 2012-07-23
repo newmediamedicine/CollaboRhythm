@@ -493,12 +493,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			var previousMedicationScheduleItem:MedicationScheduleItem = _scheduleDetails.previousSchedule;
 			_previousDoseValue = previousMedicationScheduleItem ? previousMedicationScheduleItem.dose ? Number(previousMedicationScheduleItem.dose.value) : NaN : NaN;
 
-			// TODO: eliminate this line; attempting to first set the value to NaN to force data binding to trigger in the case where the change occurs too soon (?)
-			dosageChangeValue = NaN;
 			if ((!isNaN(_currentDoseValue) && !isNaN(previousDoseValue)) && (_newDose != previousDoseValue || decisionAdherenceItemAlreadyPersisted()))
 				dosageChangeValue = _newDose - previousDoseValue;
 			else
-				dosageChangeValue = NaN;
+				dosageChangeValue = 0;
 		}
 
 		public function save():Boolean

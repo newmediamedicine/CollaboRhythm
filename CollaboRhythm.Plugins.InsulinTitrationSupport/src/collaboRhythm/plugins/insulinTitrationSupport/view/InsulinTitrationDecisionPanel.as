@@ -32,8 +32,28 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 	import spark.skins.mobile.SpinnerListSkin;
 	import spark.skins.mobile.StageTextInputSkin;
 
+	import mx.core.mx_internal;
+
 	public class InsulinTitrationDecisionPanel extends Group
 	{
+		private static const SUGGESTED_CHANGE_LABEL_COLOR:int = 0x000000;
+		private static const OTHER_CHANGE_LABEL_COLOR:int = 0xBFBFBF;
+		private static const SUGGESTED_CHANGE_BACKGROUND_COLOR:int = 0xF7941E;
+		private static const OTHER_CHANGE_BACKGROUND_COLOR:int = 0xFFFFFF;
+
+		private static const PREREQUISITE_SATISFIED_ARROW_ALPHA:Number = 1;
+		private static const PREREQUISITE_NOT_SATISFIED_ARROW_ALPHA:Number = 0.25;
+		private static const STEP_ARROW_BUTTON_WIDTH:int = 48;
+
+		private static const STEP1_X:int = 48;
+		private static const STEP2_X:int = 208;
+		private static const STEP3_X:int = 368;
+
+		private static const STEP_WIDTH:int = 110;
+		private static const GOAL_LABEL_VERTICAL_OFFSET:Number = 3;
+
+		public static const INSULIN_DOSE_CHANGE_SPINNER_LIST_MAX:int = 6;
+
 		private var _model:InsulinTitrationDecisionPanelModel;
 
 		private var _dosageChangeSpinnerList:SpinnerList;
@@ -45,26 +65,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		private var _dosageNoChangeButton:Button;
 		private var _dosageDecreaseButton:Button;
 
-		private static const SUGGESTED_CHANGE_LABEL_COLOR:int = 0x000000;
-		private static const OTHER_CHANGE_LABEL_COLOR:int = 0xBFBFBF;
-		private static const SUGGESTED_CHANGE_BACKGROUND_COLOR:int = 0xF7941E;
-		private static const OTHER_CHANGE_BACKGROUND_COLOR:int = 0xFFFFFF;
-
-		private const PREREQUISITE_SATISFIED_ARROW_ALPHA:Number = 1;
-		private const PREREQUISITE_NOT_SATISFIED_ARROW_ALPHA:Number = 0.25;
-
 		public var _chartY:Number;
 		private var _chartHeight:Number;
 
-		private static const STEP_ARROW_BUTTON_WIDTH:int = 48;
-
-		private static const STEP1_X:int = 48;
-		private static const STEP2_X:int = 208;
-		private static const STEP3_X:int = 368;
-
-		private static const STEP_WIDTH:int = 110;
 		private var _step1Chart:Array;
 		private var _step2Chart:Array;
+
+		private var _averagePlotItemRenderer:AverageBloodGlucosePotItemRenderer;
+		private var _dosageChangeSpinnerListData:ArrayCollection;
 
 		public function InsulinTitrationDecisionPanel()
 		{
@@ -76,9 +84,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		{
 			super.measure();
 		}
-
-		private var _averagePlotItemRenderer:AverageBloodGlucosePotItemRenderer;
-		private const GOAL_LABEL_VERTICAL_OFFSET:Number = 3;
 
 		override protected function createChildren():void
 		{
@@ -116,14 +121,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			_dosageChangeSpinnerListContainer.setStyle("skinClass", SpinnerListContainerSkin);
 			_dosageChangeSpinnerList.percentWidth = 100;
 			var spinnerData:ArrayCollection = new ArrayCollection();
-			spinnerData.addItem(NaN);
-			for (var i:Number = 5; i >= -5; i--)
+			for (var i:Number = INSULIN_DOSE_CHANGE_SPINNER_LIST_MAX; i >= -INSULIN_DOSE_CHANGE_SPINNER_LIST_MAX; i--)
 			{
 				spinnerData.addItem(i);
 			}
+			_dosageChangeSpinnerListData = spinnerData;
 			_dosageChangeSpinnerList.labelFunction = dosageChangeLabelFunction;
 			_dosageChangeSpinnerList.dataProvider = spinnerData;
-			_dosageChangeSpinnerList.selectedItem = _model.dosageChangeValue;
+			setDosageChangeSpinnerListSelectedItem(_model.dosageChangeValue, false);
 			_dosageChangeSpinnerList.addEventListener(Event.CHANGE, dosageChangeSpinnerList_changeHandler);
 			_dosageChangeSpinnerList.wrapElements = false;
 
@@ -137,14 +142,26 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			if (isNaN(i))
 				return "";
 			else
-				return (i > 0 ? "+" : "") + i.toString();
+				return (i > 0 ? "+" : "") + i.toString() + " Units";
 		}
 
 		private function model_dosageChangeValue_changeHandler(value:Number):void
 		{
-//			_dosageChangeTextInput.text = _model.dosageChangeValueLabel;
-//			_dosageChangeTextInput.invalidateDisplayList();
-			_dosageChangeSpinnerList.selectedItem = _model.dosageChangeValue;
+			setDosageChangeSpinnerListSelectedItem(_model.dosageChangeValue);
+		}
+
+		protected function setDosageChangeSpinnerListSelectedItem(value:Number, animate:Boolean = true):void
+		{
+			var selectedItem:Number = isNaN(value) ? 0 : value;
+			if (animate)
+			{
+				var index:int = _dosageChangeSpinnerListData.getItemIndex(selectedItem);
+				_dosageChangeSpinnerList.mx_internal::animateToSelectedIndex(index);
+			}
+			else
+			{
+				_dosageChangeSpinnerList.selectedItem = selectedItem;
+			}
 		}
 
 		private function updateAveragePlotItemRenderer():void
@@ -297,8 +314,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			button.setStyle("color", labelColor);
 			button.addEventListener(MouseEvent.CLICK,
 			            function(event:MouseEvent):void {
-			                //_dosageChangeTextInput.text = dosageChangeTextInputText;
-							_dosageChangeSpinnerList.selectedItem = dosageChangeValue;
+							setDosageChangeSpinnerListSelectedItem(dosageChangeValue);
+							_model.dosageChangeValue = dosageChangeValue;
 			            });
 			addElement(button);
 			return button;

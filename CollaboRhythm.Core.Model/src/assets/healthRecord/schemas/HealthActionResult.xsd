@@ -40,30 +40,30 @@
 						whether it is prescribed by a health professional, recommended by a professional or a friend,
 						or self-prescribed. Possible values are "Prescribed", "Recommended", or "Self-prescribed".
 						Note that some patients self-prescribe health actions illegally as well as over-the-counter.
-						Required
+						Optional
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="reportedBy" type="xs:string" minOccurs="1" maxOccurs="1">
+			<xs:element name="reportedBy" type="xs:string" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation xml:lang="en">Person or device that reported the result. Required
+					<xs:documentation xml:lang="en">Person or device that reported the result. Optional
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="dateReported" type="xs:dateTime" minOccurs="1" maxOccurs="1">
+			<xs:element name="dateReported" type="xs:dateTime" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation xml:lang="en">Date and time that the health action result was reported. Required
+					<xs:documentation xml:lang="en">Date and time that the health action result was reported. Optional
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="actions" minOccurs="1" maxOccurs="1">
+			<xs:element name="actions" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation xml:lang="en">List of the actions of the Health Action Result. This can contain
 						one or more
 						ActionsResult of the type ActionGroupsResult or ActionStepsResult. It generates a tree data
 						structure were the leafs are
 						represented by ActionStepsResult, and the internal nodes are represented by ActionGroupsResult.
-						Required
+						Optional
 					</xs:documentation>
 				</xs:annotation>
 				<xs:complexType>
@@ -134,7 +134,7 @@
 								This can contain one or more actions of the type ActionGroupResult or ActionStepResult.
 								It generates a sub tree data structure were the leafs are represented by
 								ActionStepResult,
-								and the branches are represented by ActionGroupResult. Required
+								and the branches are represented by ActionGroupResult. Optional
 							</xs:documentation>
 						</xs:annotation>
 						<xs:complexType>
@@ -212,7 +212,7 @@
 				<xs:annotation>
 					<xs:documentation xml:lang="en">Rule that has been used as an Aggregation function when combining
 						the measured data.
-						For example: average, sum, minimum, maximum, counter. Required
+						For example: average, sum, minimum, maximum, counter. Optional
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -227,7 +227,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="type" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+			<xs:element name="type" type="indivo:CodedValue" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation xml:lang="en">Category of the device. Sphygmomanometer, for example. Optional
 					</xs:documentation>
@@ -263,15 +263,15 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="dose" type="indivo:CodedValue" minOccurs="1" maxOccurs="1">
+			<xs:element name="dose" type="indivo:CodedValue" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation xml:lang="en">Dose of the medication. Required
+					<xs:documentation xml:lang="en">Dose of the medication. Optional
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="route" type="indivo:ValueAndUnit" minOccurs="1" maxOccurs="1">
+			<xs:element name="route" type="indivo:ValueAndUnit" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation xml:lang="en">Route used for administering the medication. Required
+					<xs:documentation xml:lang="en">Route used for administering the medication. Optional
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -290,7 +290,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="value" type="indivo:ValueAndUnit" minOccurs="1" maxOccurs="1">
+			<xs:element name="value" type="indivo:ValueAndUnit" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation xml:lang="en">Value and unit that triggered the stop condition.
 						For example, 130 bpm for a Heart Rate. Optional
@@ -305,7 +305,7 @@
 			<xs:element name="startTime" type="xs:dateTime" minOccurs="0"/>
 			<xs:element name="endTime" type="xs:dateTime" minOccurs="0"/>
 			<xs:element name="additionalDetails" type="xs:string" minOccurs="0"/>
-			<xs:element name="stopCondition" type="result:StopCondition" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="stopCondition" type="result:StopCondition" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="measurements" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation xml:lang="en">List of measurements that were taken while the health action was
