@@ -181,7 +181,7 @@
 				click="toggleFastForwardMenuItem_clickHandler(event)"/>
 		<s:ViewMenuItem label="Change Record" id="changeRecordButton" click="changeRecordButton_clickHandler(event)"/>
 		<s:ViewMenuItem label="Synchronize" click="synchronizeMenuItem_clickHandler()"/>
-		<s:ViewMenuItem id="enableVoidingMenuItem" label="{determineEnableVoidingMenuItemLabel(_tabletApplicationController.settings.adherenceVoidingEnabled)}" visible="{_activeAccount.accountId == _activeRecordAccount.accountId &amp;&amp; _tabletApplicationController.settings.demoModeEnabled}" includeInLayout="{_activeAccount.accountId == _activeRecordAccount.accountId &amp;&amp; _tabletApplicationController.settings.demoModeEnabled}"
+		<s:ViewMenuItem id="enableVoidingMenuItem" label="{determineEnableVoidingMenuItemLabel(_tabletApplicationController.settings.adherenceVoidingEnabled)}" visible="{_activeAccount.accountId == _activeRecordAccount.accountId &amp;&amp; _tabletApplicationController.settings.includeAdherenceVoidingMenuItem}" includeInLayout="{_activeAccount.accountId == _activeRecordAccount.accountId &amp;&amp; _tabletApplicationController.settings.includeAdherenceVoidingMenuItem}"
 						click="_tabletApplicationController.settings.adherenceVoidingEnabled = !_tabletApplicationController.settings.adherenceVoidingEnabled"/>
 		<s:ViewMenuItem label="Reload Plugins" includeIn="debuggingToolsEnabled"
 						click="reloadPluginsViewMenuItem_clickHandler()"/>
