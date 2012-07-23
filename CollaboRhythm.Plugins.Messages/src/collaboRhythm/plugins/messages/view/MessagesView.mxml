@@ -17,6 +17,7 @@
 -->
 <tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   xmlns:view="collaboRhythm.plugins.messages.view.*"
 					   creationComplete="creationCompleteHandler(event)"
@@ -109,6 +110,20 @@
 		{
 			_messagesAppController.recordVideoMessage();
 		}
+
+
+		private function messageTextInput_keyDownHandler(event:KeyboardEvent):void
+		{
+			if (event.charCode == Keyboard.ENTER)
+			{
+				event.preventDefault();
+
+				if (messageTextInput.text != "")
+				{
+					sendButton_clickHandler();
+				}
+			}
+		}
 		]]></fx:Script>
 	<s:VGroup width="100%" height="100%" gap="0">
 		<s:List id="messagesList" width="100%" height="100%" dataProvider="{_messagesModel.messages}"
@@ -121,15 +136,17 @@
 				</s:stroke>
 			</s:Line>
 			<s:HGroup left="10" right="10" top="10" bottom="10" gap="20">
-				<s:TextArea id="messageTextInput" height="100%" width="100%"
-							skinClass="spark.skins.mobile.StageTextAreaSkin"/>
+				<!--TODO: Replace with spark component once the bug with preventing the enter key is fixed-->
+				<mx:TextArea id="messageTextInput" height="100%" width="100%"
+							keyDown="messageTextInput_keyDownHandler(event)"/>
 				<s:Group height="100%" width="80">
 					<s:Button height="100%" width="100%"
 							  skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin"
 							  click="sendButton_clickHandler()"/>
 					<view:SendIcon left="10" top="10" mouseEnabled="false" mouseChildren="false"/>
 				</s:Group>
-				<s:Group height="100%" width="80" visible="{_collaborationLobbyNetConnectionServiceProxy.collaborationState != CollaborationModel.COLLABORATION_ACTIVE}">
+				<s:Group height="100%" width="80"
+						 visible="{_collaborationLobbyNetConnectionServiceProxy.collaborationState != CollaborationModel.COLLABORATION_ACTIVE}">
 					<s:Button height="100%" width="100%"
 							  skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin"
 							  click="videoButton_clickHandler()"/>

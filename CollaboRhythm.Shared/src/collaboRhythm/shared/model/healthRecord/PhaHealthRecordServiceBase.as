@@ -142,9 +142,10 @@ package collaboRhythm.shared.model.healthRecord
 					_activeAccount.oauthAccountTokenSecret, message.id, healthRecordServiceRequestDetails);
 		}
 
-		public function sendMessage(accountId:String, requestXml:String):void
+		public function sendMessage(accountId:String, requestXml:String, message:Message):void
 		{
-			var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(SEND_MESSAGE);
+			var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(SEND_MESSAGE,
+					null, null, null, null, message);
 			_pha.accounts_X_sendPOST(requestXml, null, null, null, accountId, _activeAccount.oauthAccountToken,
 					_activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
 		}
@@ -186,8 +187,18 @@ package collaboRhythm.shared.model.healthRecord
 			}
 			else if (healthRecordServiceRequestDetails.indivoApiCall == SEND_MESSAGE)
 			{
-				sendMessageCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
+				sendMessageCompleteHandler(responseXml, healthRecordServiceRequestDetails);
 			}
+		}
+
+		override protected  function handleError(event:IndivoClientEvent, errorStatus:String, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):Boolean
+		{
+			if (healthRecordServiceRequestDetails.indivoApiCall == SEND_MESSAGE)
+			{
+				sendMessageErrorHandler(errorStatus, healthRecordServiceRequestDetails);
+			}
+
+			return defaultHandleError(event, healthRecordServiceRequestDetails);
 		}
 
 		protected function deleteDocumentCompleteHandler(event:IndivoClientEvent, responseXml:XML,
@@ -242,10 +253,17 @@ package collaboRhythm.shared.model.healthRecord
 			_logger.info("Get message COMPLETE");
 		}
 
-		private function sendMessageCompleteHandler(event:IndivoClientEvent, responseXml:XML,
+		protected function sendMessageCompleteHandler(responseXml:XML,
 													healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
 			_logger.info("Send message COMPLETE");
+		}
+
+
+		protected function sendMessageErrorHandler(errorStatus:String,
+												healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+		{
+			_logger.info("Send message ERROR");
 		}
 
 		override protected function retryFailedRequest(event:IndivoClientEvent,

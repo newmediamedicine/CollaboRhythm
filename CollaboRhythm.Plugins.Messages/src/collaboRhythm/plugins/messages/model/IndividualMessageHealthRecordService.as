@@ -52,6 +52,14 @@ package collaboRhythm.plugins.messages.model
 			}
 		}
 
+		override protected function sendMessageErrorHandler(errorStatus:String,
+														healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+		{
+			var message:Message = healthRecordServiceRequestDetails.message;
+
+			message.received_at = null;
+		}
+
 		override protected function getMessageCompleteHandler(responseXml:XML,
 															  healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
@@ -81,16 +89,24 @@ package collaboRhythm.plugins.messages.model
 
 			_messagesModel.addSentMessage(message);
 
-			_collaborationLobbyNetConnectionServiceProxy.sendMessage(subject, message);
-
 			var params:URLVariables = new URLVariables();
 			params["subject"] = subject;
 			params["body"] = body;
 			params["message_id"] = message.id;
 
-			sendMessage(subject, params.toString());
+			sendMessage(subject, params.toString(), message);
 
 			return message;
+		}
+
+		override protected function sendMessageCompleteHandler(responseXml:XML,
+															   healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+		{
+			var message:Message = healthRecordServiceRequestDetails.message;
+
+			message.id = responseXml.@id;
+
+			_collaborationLobbyNetConnectionServiceProxy.sendMessage(message.subject, message);
 		}
 
 		public function getMessageSubject():String
