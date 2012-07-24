@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!---
+  - Copyright 2012 John Moore, Scott Gilroy
+  -
+  - This file is part of CollaboRhythm.
+  -
+  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  - version.
+  -
+  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  - details.
+  -
+  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  - <http://www.gnu.org/licenses/>.
+  -->
 <Graphic version="2.0" viewHeight="32" viewWidth="110" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
   <Library/>
   <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="32" d:pageWidth="110" d:type="layer" d:userLabel="Artboard 1">
@@ -14,7 +30,7 @@
         </RichText>
       </Group>
       <RichText x="35" y="1.04529" columnCount="1" tabStops="S36 S72 " fontFamily="Myriad Pro" kerning="on" lineHeight="27" whiteSpaceCollapse="preserve" width="98.1328" height="39.9785" ai:aa="2" ai:objID="23be4e80" ai:seqID="6" flm:variant="2" d:id="4">
-        <content><p fontFamily="Myriad Pro" lineHeight="14.4"><span fontFamily="Myriad Pro">Consider</span></p><p fontFamily="Myriad Pro" fontSize="18" lineHeight="21.6" baselineShift="4"><span fontFamily="Myriad Pro">Protocol</span></p></content>
+        <content><p fontFamily="Myriad Pro" lineHeight="14.4"><span fontFamily="Myriad Pro" fontSize="12">Consider</span></p><p fontFamily="Myriad Pro" fontSize="18" lineHeight="21.6" baselineShift="4"><span fontFamily="Myriad Pro">Protocol</span></p></content>
       </RichText>
     </Group>
   </Group>

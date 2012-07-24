@@ -644,7 +644,6 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private function addListenerForCollectionChange(sourceDataCollection:ArrayCollection, chartDescriptor:IChartDescriptor):void
 		{
-			_logger.debug("addListenerForCollectionChange sourceDataCollection(" + DebugUtils.getObjectMemoryHash(sourceDataCollection) + ")");
 			sourceDataCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
 					function (event:CollectionEvent):void
 					{
