@@ -25,6 +25,13 @@
 
 	<target name="deploy_user_settings"
 			description="Copies the user settings file from the local (emulator) instance of the application to the device">
+
+		<exec executable="${ADB}">
+			<arg value="shell"/>
+			<arg value="mkdir"/>
+			<arg value="${collaboRhythm.application-device.local-store}"/>
+		</exec>
+
 		<echo>Pushing "${app.data}/${APP_ID}/Local Store/settings.xml" to "${collaboRhythm.application-device.local-store}"</echo>
 		<exec executable="${ADB}">
 			<arg value="push"/>

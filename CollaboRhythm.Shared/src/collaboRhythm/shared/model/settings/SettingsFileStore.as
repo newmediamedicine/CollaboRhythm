@@ -17,7 +17,8 @@
 package collaboRhythm.shared.model.settings
 {
 
-    import flash.filesystem.File;
+	import flash.desktop.NativeApplication;
+	import flash.filesystem.File;
     import flash.filesystem.FileMode;
     import flash.filesystem.FileStream;
     import flash.utils.ByteArray;
@@ -99,7 +100,10 @@ package collaboRhythm.shared.model.settings
 			// TODO: figure out how to write to the appropriate /data/data directory using "adb push" and avoid using /data/local
 			var nativePath:String = File.applicationStorageDirectory.resolvePath(SETTINGS_FILE_NAME).nativePath;
 			nativePath = nativePath.replace("/data/data", "/data/local");
-			return new File(nativePath);
+			var file:File = new File(nativePath);
+			if (!file.exists)
+				file = File.documentsDirectory.resolvePath(NativeApplication.nativeApplication.applicationID).resolvePath(SETTINGS_FILE_NAME);
+			return file;
 		}
 
         private function readSettingsFromFile(file:File):Boolean
