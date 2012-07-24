@@ -12,8 +12,6 @@ package collaboRhythm.plugins.messages.model
 
 	import flash.net.URLVariables;
 
-	import mx.utils.UIDUtil;
-
 	public class IndividualMessageHealthRecordService extends PhaHealthRecordServiceBase
 	{
 		private var _messagesModel:MessagesModel;
@@ -52,14 +50,6 @@ package collaboRhythm.plugins.messages.model
 			}
 		}
 
-		override protected function sendMessageErrorHandler(errorStatus:String,
-														healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
-		{
-			var message:Message = healthRecordServiceRequestDetails.message;
-
-			message.received_at = null;
-		}
-
 		override protected function getMessageCompleteHandler(responseXml:XML,
 															  healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
@@ -80,11 +70,9 @@ package collaboRhythm.plugins.messages.model
 			}
 
 			var message:Message = new Message();
-			message.id = UIDUtil.createUID();
 			message.subject = subject;
 			message.body = body;
 			message.sender = _activeAccount.accountId;
-			message.received_at = new Date();
 			message.type = Message.SENT;
 
 			_messagesModel.addSentMessage(message);
@@ -92,7 +80,6 @@ package collaboRhythm.plugins.messages.model
 			var params:URLVariables = new URLVariables();
 			params["subject"] = subject;
 			params["body"] = body;
-			params["message_id"] = message.id;
 
 			sendMessage(subject, params.toString(), message);
 
@@ -105,8 +92,18 @@ package collaboRhythm.plugins.messages.model
 			var message:Message = healthRecordServiceRequestDetails.message;
 
 			message.id = responseXml.@id;
+			message.received_at = new Date();
 
 			_collaborationLobbyNetConnectionServiceProxy.sendMessage(message.subject, message);
+		}
+
+
+		override protected function sendMessageErrorHandler(errorStatus:String,
+														healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+		{
+			var message:Message = healthRecordServiceRequestDetails.message;
+
+			message.received_at = new Date();
 		}
 
 		public function getMessageSubject():String

@@ -48,11 +48,11 @@
 		import collaboRhythm.shared.model.services.WorkstationKernel;
 
 		public static const ACCOUNT_IMAGES_API_URL_BASE:String = "http://www.mit.edu/~jom/temp/accountImages/";
-		private static const FAILED_TO_SEND_MESSAGE_:String = "Failed to send message.";
+		private static const FAILED_TO_SEND_MESSAGE:String = "failed to send.";
+		private static const SENDING_MESSAGE:String = "sending...";
 
 		[Bindable]
 		private var _message:Message;
-
 		private var _netStreamLocation:String;
 
 		override public function set data(value:Object):void
@@ -118,15 +118,19 @@
 			dispatchEvent(new VideoAvailableEvent(VideoAvailableEvent.VIDEO_AVAILABLE, _netStreamLocation));
 		}
 
-		private function formatTimeStampLabel(received_at:Date):String
+		private function formatTimeStampLabel(id:String, received_at:Date):String
 		{
-			if (received_at)
+			if (id && received_at)
 			{
 				return dateTimeFormatter.format(received_at);
 			}
+			else if (received_at)
+			{
+				return FAILED_TO_SEND_MESSAGE;
+			}
 			else
 			{
-				return FAILED_TO_SEND_MESSAGE_;
+				return SENDING_MESSAGE;
 			}
 		}
 		]]></fx:Script>
@@ -146,7 +150,7 @@
 		</s:Group>
 		<s:Label id="bodyLabel" text="{_message.body}" width="{this.width - 140}" maxDisplayedLines="3" includeIn="text"
 				 textAlign.sent="right" textAlign.inbox="left"/>
-		<s:Label id="timeStampLabel" text="{formatTimeStampLabel(_message.received_at)}" textAlign.sent="right"
+		<s:Label id="timeStampLabel" text="{formatTimeStampLabel(_message.id, _message.received_at)}" textAlign.sent="right"
 				 textAlign.inbox="left"/>
 	</s:VGroup>
 	<s:Line width="100%" bottom="0">

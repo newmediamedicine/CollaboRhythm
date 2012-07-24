@@ -3,7 +3,8 @@ package collaboRhythm.shared.model.healthRecord.document
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 
 	[Bindable]
-	public class Message extends DocumentBase
+	public class
+	Message extends DocumentBase
 	{
 		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#Message";
 
