@@ -3,7 +3,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationDecisionPanelModel;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.skins.SolidFillButtonSkin;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.skins.TransparentButtonSkin;
-	import collaboRhythm.shared.model.StringUtils;
 	import collaboRhythm.shared.ui.healthCharts.view.SynchronizedHealthCharts;
 
 	import flash.events.Event;
@@ -14,6 +13,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayCollection;
 	import mx.core.IVisualElement;
+	import mx.core.mx_internal;
 	import mx.events.PropertyChangeEvent;
 	import mx.graphics.SolidColor;
 	import mx.graphics.SolidColorStroke;
@@ -25,14 +25,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 	import spark.components.RichText;
 	import spark.components.SpinnerList;
 	import spark.components.SpinnerListContainer;
-	import spark.components.TextInput;
-	import spark.events.ListEvent;
+	import spark.core.SpriteVisualElement;
+	import spark.filters.ColorMatrixFilter;
 	import spark.primitives.Rect;
 	import spark.skins.mobile.SpinnerListContainerSkin;
 	import spark.skins.mobile.SpinnerListSkin;
-	import spark.skins.mobile.StageTextInputSkin;
-
-	import mx.core.mx_internal;
 
 	public class InsulinTitrationDecisionPanel extends Group
 	{
@@ -74,6 +71,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		private var _averagePlotItemRenderer:AverageBloodGlucosePotItemRenderer;
 		private var _dosageChangeSpinnerListData:ArrayCollection;
 
+		private var _grayScaleFiler:ColorMatrixFilter = new ColorMatrixFilter([0.3, 0.59, 0.11, 0, 0, 0.3, 0.59, 0.11, 0, 0, 0.3, 0.59, 0.11, 0, 0, 0, 0, 0, 1, 0]);
+		private var _step1Badge:Step1Badge;
+		private var _step2Badge:Step2Badge;
+		private var _step3Badge:Step3Badge;
+
+
 		public function InsulinTitrationDecisionPanel()
 		{
 			minHeight = SynchronizedHealthCharts.ADHERENCE_STRIP_CHART_HEIGHT * 2;
@@ -88,13 +91,30 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		override protected function createChildren():void
 		{
 			super.createChildren();
-			var titrationPanelMockup:TitrationPanelMockup = new TitrationPanelMockup();
-			titrationPanelMockup.bottom = 0;
-			addElement(titrationPanelMockup);
 
-			_arrow1CalloutButton = createArrowCalloutButton(0, _model.step1State);
-			_arrow2CalloutButton = createArrowCalloutButton(STEP2_X - STEP_ARROW_BUTTON_WIDTH, _model.step2State);
-			_arrow3CalloutButton = createArrowCalloutButton(STEP3_X - STEP_ARROW_BUTTON_WIDTH, _model.step3State);
+			_step1Badge = new Step1Badge();
+			_step1Badge.bottom = 0;
+			_step1Badge.x = STEP1_X;
+			updateBadge(_step1Badge, _model.step1State);
+			addElement(_step1Badge);
+
+			_step2Badge = new Step2Badge();
+			_step2Badge.bottom = 0;
+			_step2Badge.x = STEP2_X;
+			updateBadge(_step2Badge, _model.step2State);
+			addElement(_step2Badge);
+
+			_step3Badge = new Step3Badge();
+			_step3Badge.bottom = 0;
+			_step3Badge.x = STEP3_X;
+			updateBadge(_step3Badge, _model.step3State);
+			addElement(_step3Badge);
+
+			_arrow1CalloutButton = createArrowCalloutButton(0, _model.step1State, _model.step1StateDescription);
+			_arrow2CalloutButton = createArrowCalloutButton(STEP2_X - STEP_ARROW_BUTTON_WIDTH, _model.step2State,
+					_model.step2StateDescription);
+			_arrow3CalloutButton = createArrowCalloutButton(STEP3_X - STEP_ARROW_BUTTON_WIDTH, _model.step3State,
+					_model.step3StateDescription);
 
 			_chartY = 1;
 			determineChartHeight();
@@ -135,6 +155,20 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			BindingUtils.bindSetter(model_dosageChangeValue_changeHandler, _model, "dosageChangeValue");
 
 			addElement(_dosageChangeSpinnerListContainer);
+		}
+
+		private function updateBadge(badge:SpriteVisualElement, stepState:String):void
+		{
+			if (stepState != InsulinTitrationDecisionPanelModel.STEP_SATISFIED)
+			{
+				badge.filters = [_grayScaleFiler];
+				badge.alpha = 0.3;
+			}
+			else
+			{
+				badge.filters = [];
+				badge.alpha = 1;
+			}
 		}
 
 		protected function dosageChangeLabelFunction(i:Number):String
@@ -321,7 +355,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			return button;
 		}
 
-		private function createArrowCalloutButton(x:int, stepState:String):CalloutButton
+		private function createArrowCalloutButton(x:int, stepState:String, stepStateDescription:String):CalloutButton
 		{
 			var calloutButton:CalloutButton = new CalloutButton();
 			calloutButton.setStyle("skinClass", TransparentButtonSkin);
@@ -329,7 +363,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			calloutButton.setStyle("paddingRight", 8);
 			calloutButton.setStyle("paddingTop", 8);
 			calloutButton.setStyle("paddingBottom", 8);
-			updateArrow(calloutButton, stepState);
+			updateArrow(calloutButton, stepState, stepStateDescription);
 			calloutButton.x = x;
 			updateArrowButtonY(calloutButton);
 			addElement(calloutButton);
@@ -341,7 +375,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			calloutButton.y = _chartHeight / 2 - calloutButton.height / 2;
 		}
 
-		private function updateArrow(calloutButton:CalloutButton, stepState:String):void
+		private function updateArrow(calloutButton:CalloutButton, stepState:String,
+									 stepStateDescription:String):void
 		{
 			var arrow:IVisualElement;
 			var contentArray:Array = new Array();
@@ -350,22 +385,33 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			richText.setStyle("paddingBottom", 5);
 			richText.setStyle("paddingLeft", 5);
 			richText.setStyle("paddingRight", 5);
-			richText.setStyle("fontSize", 32);
+			richText.setStyle("fontSize", 24);
 			richText.percentWidth = 100;
 			richText.percentHeight = 100;
+			// This is a workaround for an what seems to be a bug in the CalloutButton. Without setting the width the
+			// Callout will be positioned incorrectly, perhaps because of the way that the flow layout of the RichText
+			// elements work.
+			richText.addEventListener(Event.ADDED_TO_STAGE, function (event:Event):void
+				{
+					richText.width = stage.width * 0.5;
+					stage.addEventListener(Event.RESIZE, function (event:Event):void
+						{
+							richText.width = stage.width * 0.5;
+						});
+				});
 			switch (stepState)
 			{
 				case InsulinTitrationDecisionPanelModel.STEP_SATISFIED:
 					arrow = new DecisionSupportArrow();
-					richText.textFlow = TextConverter.importToFlow("The requirements for this step of the algorithm have been satisfied.", TextConverter.TEXT_FIELD_HTML_FORMAT);
+					richText.textFlow = TextConverter.importToFlow("The requirements for this step of the algorithm have been satisfied. " + stepStateDescription, TextConverter.TEXT_FIELD_HTML_FORMAT);
 					break;
 				case InsulinTitrationDecisionPanelModel.STEP_STOP:
 					arrow = new DecisionSupportArrowStop();
-					richText.textFlow = TextConverter.importToFlow("The requirements for this step of the algorithm have <b>not</b> been satisfied.", TextConverter.TEXT_FIELD_HTML_FORMAT);
+					richText.textFlow = TextConverter.importToFlow("The requirements for this step of the algorithm have <b>not</b> been satisfied. " + stepStateDescription, TextConverter.TEXT_FIELD_HTML_FORMAT);
 					break;
 				default:
 					arrow = new DecisionSupportArrowDisabled();
-					richText.textFlow = TextConverter.importToFlow("The requirements for a <b>previous</b> step of the algorithm have <b>not</b> been satisfied.", TextConverter.TEXT_FIELD_HTML_FORMAT);
+					richText.textFlow = TextConverter.importToFlow("The requirements for a <b>previous</b> step of the algorithm have <b>not</b> been satisfied. " + stepStateDescription, TextConverter.TEXT_FIELD_HTML_FORMAT);
 					break;
 			}
 			calloutButton.setStyle("icon", arrow);
@@ -397,15 +443,18 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		{
 			if (event.property == "step1State")
 			{
-				updateArrow(_arrow1CalloutButton, _model.step1State);
+				updateArrow(_arrow1CalloutButton, _model.step1State, _model.step1StateDescription);
+				updateBadge(_step1Badge, model.step1State);
 			}
 			if (event.property == "step2State")
 			{
-				updateArrow(_arrow2CalloutButton, _model.step2State);
+				updateArrow(_arrow2CalloutButton, _model.step2State, _model.step2StateDescription);
+				updateBadge(_step2Badge, model.step2State);
 			}
 			if (event.property == "step3State")
 			{
-				updateArrow(_arrow3CalloutButton, _model.step3State);
+				updateArrow(_arrow3CalloutButton, _model.step3State, _model.step3StateDescription);
+				updateBadge(_step3Badge, model.step3State);
 			}
 			if (event.property == "bloodGlucoseAverage")
 			{

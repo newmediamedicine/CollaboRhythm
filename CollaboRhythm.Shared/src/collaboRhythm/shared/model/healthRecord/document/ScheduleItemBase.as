@@ -66,6 +66,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		private var _instructions:String;
 
 		private var _logger:ILogger;
+		private const _logGetScheduleItemOccurrences:Boolean = false;
 
 		public function ScheduleItemBase():void
 		{
@@ -243,9 +244,18 @@ package collaboRhythm.shared.model.healthRecord.document
 					scheduleItemOccurrencesVector.push(scheduleItemOccurrence);
 				}
 			}
-			_logger.debug("getScheduleItemOccurrences got " + scheduleItemOccurrencesVector.length + " occurrences for " + this.name.text + " " + this.dateStart.toLocaleString() + " to " + new Date(_dateStart.time + frequencyMilliseconds * _recurrenceRule.count).toLocaleString() +
-								  ((dateStart != null && dateEnd != null) ? (" in range " + dateStart.toLocaleString() + " to " + dateEnd.toLocaleString()) : "")
-								  + ". Recurrence count " + _recurrenceRule.count + " excludeOccurrencesBecauseReplaced " + excludeOccurrencesBecauseReplaced + " replacedById " + meta.replacedById + (this as MedicationScheduleItem ? " order " + (this as MedicationScheduleItem).scheduledMedicationOrder : ""));
+			if (_logGetScheduleItemOccurrences)
+			{
+				_logger.debug("getScheduleItemOccurrences got " + scheduleItemOccurrencesVector.length +
+						" occurrences for " + this.name.text + " " + this.dateStart.toLocaleString() + " to " +
+						new Date(_dateStart.time + frequencyMilliseconds * _recurrenceRule.count).toLocaleString() +
+						((dateStart != null && dateEnd != null) ? (" in range " + dateStart.toLocaleString() + " to " +
+								dateEnd.toLocaleString()) : "")
+						+ ". Recurrence count " + _recurrenceRule.count + " excludeOccurrencesBecauseReplaced " +
+						excludeOccurrencesBecauseReplaced + " replacedById " + meta.replacedById +
+						(this as MedicationScheduleItem ? " order " +
+								(this as MedicationScheduleItem).scheduledMedicationOrder : ""));
+			}
 			return scheduleItemOccurrencesVector;
 		}
 

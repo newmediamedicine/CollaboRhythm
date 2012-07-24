@@ -1806,8 +1806,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			var time:Number = date.getTime() - timezoneOffsetMilliseconds;
 			var roundNumerator = 60000 * interval; //there are 60000 milliseconds in a minute
 			var newTime:Number = (Math.ceil(time / roundNumerator) * roundNumerator);
-			date.setTime(newTime + timezoneOffsetMilliseconds);
-			return date;
+			return new Date(newTime + timezoneOffsetMilliseconds);
 		}
 
 		protected function updateSeries():void
