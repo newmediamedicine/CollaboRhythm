@@ -84,6 +84,13 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element type="xs:boolean" name="includeAdherenceVoidingMenuItem" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Include a menu item to allow adherence voiding to be toggled on and off
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element type="xs:dateTime" name="targetDate" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation xml:lang="en">

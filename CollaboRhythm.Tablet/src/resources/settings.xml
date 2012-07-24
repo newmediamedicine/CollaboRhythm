@@ -45,6 +45,7 @@
 	</pluginSearchPaths>
 	<demoModeEnabled>true</demoModeEnabled>
 	<adherenceVoidingEnabled>false</adherenceVoidingEnabled>
+	<includeAdherenceVoidingMenuItem>true</includeAdherenceVoidingMenuItem>
 	<targetDate>2011-08-13T10:40:00-5:00</targetDate>
 	<demoDatePresets>
 		<demoDatePreset>2011-07-14T09:10:00-5:00</demoDatePreset>
