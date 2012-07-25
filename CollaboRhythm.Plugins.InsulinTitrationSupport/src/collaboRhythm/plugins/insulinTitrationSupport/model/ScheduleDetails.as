@@ -9,9 +9,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _occurrence:ScheduleItemOccurrence;
 		private var _previousSchedule:MedicationScheduleItem;
 
-		public function ScheduleDetails(schedule:MedicationScheduleItem=null, occurrence:ScheduleItemOccurrence=null)
+		public function ScheduleDetails(currentSchedule:MedicationScheduleItem=null, occurrence:ScheduleItemOccurrence=null)
 		{
-			_currentSchedule = schedule;
+			_currentSchedule = currentSchedule;
 			_occurrence = occurrence;
 		}
 

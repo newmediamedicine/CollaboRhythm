@@ -6,6 +6,8 @@
 		#additionalAdherenceInformationLabel {
 			fontSize: 24;
 			fontWeight: bold;
+			textAlign: center;
+			lineBreak: toFit;
 		}
 	</fx:Style>
 	<fx:Script>
@@ -56,6 +58,7 @@
 				if (scheduleItemOccurrenceReportingViewAdapter.additionalAdherenceInformation &&
 						scheduleItemOccurrenceReportingViewAdapter.additionalAdherenceInformation != "...")
 				{
+					scaleFontToFit(scheduleItemOccurrenceReportingViewAdapter, additionalAdherenceInformationLabel, 24);
 					additionalAdherenceInformationLabel.text = scheduleItemOccurrenceReportingViewAdapter.additionalAdherenceInformation;
 					additionalAdherenceInformationLabel.visible = true;
 				}
@@ -75,6 +78,64 @@
 		{
 			_scheduleItemOccurrence = value;
 		}
+
+		public static function scaleFontToFit(scheduleItemOccurrenceReportingViewAdapter:IHealthActionListViewAdapter,
+											  richText:RichText, defaultFontSize:int):void
+		{
+			if (richText.stage)
+			{
+				scaleFontToFitOnResize(scheduleItemOccurrenceReportingViewAdapter, richText, defaultFontSize);
+			}
+			else
+			{
+				richText.addEventListener(Event.ADDED_TO_STAGE,
+						function (event:Event):void
+						{
+							scaleFontToFitOnResize(scheduleItemOccurrenceReportingViewAdapter, richText, defaultFontSize);
+						});
+			}
+		}
+
+		private static function scaleFontToFitOnResize(scheduleItemOccurrenceReportingViewAdapter:IHealthActionListViewAdapter,
+												richText:RichText, defaultFontSize:int):void
+		{
+			scaleFontToFitNow(scheduleItemOccurrenceReportingViewAdapter, richText,
+					defaultFontSize);
+			richText.parent.addEventListener(Event.RESIZE,
+					function (event:Event):void
+					{
+						scaleFontToFitNow(scheduleItemOccurrenceReportingViewAdapter, richText,
+								defaultFontSize);
+					});
+		}
+
+		private static function scaleFontToFitNow(scheduleItemOccurrenceReportingViewAdapter:IHealthActionListViewAdapter,
+												  richText:RichText, defaultFontSize:int):void
+		{
+			// Manually split the text (on spaces) and check the max line length because TextLineMetrics assumes that text is in a single line, whereas the RichText is using "lineBreak: toFit"
+			var lines:Array = scheduleItemOccurrenceReportingViewAdapter.additionalAdherenceInformation.split(" ");
+			var longestLineWidth:Number = 0;
+			for each (var line:String in lines)
+			{
+				var textLineMetrics:TextLineMetrics = richText.measureText(line);
+				if (textLineMetrics.width > longestLineWidth)
+					longestLineWidth = textLineMetrics.width;
+			}
+			var parentWidth:Number = richText.parent.width;
+
+			// Account for the glow or margin or padding or something that limits the amount of text beyond just the parent width
+			longestLineWidth += parentWidth / 4;
+			if (longestLineWidth > parentWidth && parentWidth > 0)
+			{
+				richText.setStyle("fontSize", defaultFontSize * parentWidth / longestLineWidth);
+				richText.setStyle("lineHeight", defaultFontSize * 0.9 * parentWidth / longestLineWidth);
+			}
+			else
+			{
+				richText.setStyle("fontSize", defaultFontSize);
+				richText.clearStyle("lineHeight");
+			}
+		}
 		]]>
     </fx:Script>
 
@@ -89,7 +150,7 @@
 					  visible="{_scheduleItemOccurrence.adherenceItem != null}"/>
 	</s:Group>
 
-	<s:Label id="additionalAdherenceInformationLabel" visible="false" bottom="0" horizontalCenter="-4"
+	<s:RichText id="additionalAdherenceInformationLabel" visible="false" width="{this.width}" bottom="0" horizontalCenter="-4"
 			 filters="{[new GlowFilter(0xFFFFFF, 0.7, this.width / 8, this.width / 8, this.width / 8)]}"/>
 
 </s:Group>

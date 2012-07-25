@@ -37,12 +37,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private static const REQUIRED_DAYS_OF_PERFECT_MEDICATION_ADHERENCE:int = 4;
 		private static const NUMBER_OF_DAYS_FOR_ELIGIBLE_BLOOD_GLUCOSE:int = 4;
 
-		/**
-		 * Number of milliseconds after the end of a schedule occurrence for which the item/action is to be still considered
-		 * "current" or "next" even though it is in the past (has been missed). This a non-negative value would allow the
-		 * schedule to be changed for a dose of medication (for example) after the medication was due to be taken.
-		 */
-		private static const NEXT_OCCURRENCE_DELTA:Number = 0;
 		private static const MILLISECONDS_IN_DAY:Number = 1000 * 60 * 60 * 24;
 
 		private static const bloodGlucoseRequirements:String = "<ol>" +
@@ -89,11 +83,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _decisionScheduleItemOccurrence:ScheduleItemOccurrence;
 		private var _nonAdherenceDescription:String;
 
+		private var _medicationTitrationHelper:MedicationTitrationHelper;
+
 		public function InsulinTitrationDecisionPanelModel(chartModelDetails:IChartModelDetails)
 		{
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			this.chartModelDetails = chartModelDetails;
 			updateBloodGlucoseAverage();
+			_medicationTitrationHelper = new MedicationTitrationHelper(chartModelDetails.record, chartModelDetails.currentDateSource);
 		}
 
 		private function updateBloodGlucoseAverage():void
@@ -486,19 +483,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			// validate
 			if (isChangeSpecified)
 			{
-				_scheduleDetails = getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_LEVEMIR_CODE);
-				var previousMedicationScheduleItem:MedicationScheduleItem = _scheduleDetails.previousSchedule;
-				if (previousMedicationScheduleItem)
-				{
-					_previousDoseValue = previousMedicationScheduleItem.dose ? Number(previousMedicationScheduleItem.dose.value) : NaN;
-					_newDose = _previousDoseValue + dosageChangeValue;
-				}
-				else
-				{
-					_previousDoseValue = NaN;
-					_newDose = dosageChangeValue;
-				}
-				_currentDoseValue = (_scheduleDetails.currentSchedule && _scheduleDetails.currentSchedule.dose) ? Number(_scheduleDetails.currentSchedule.dose.value) : NaN;
+				_scheduleDetails = _medicationTitrationHelper.getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_LEVEMIR_CODE);
+				_currentDoseValue = _medicationTitrationHelper.currentDoseValue;
+				_previousDoseValue = _medicationTitrationHelper.previousDoseValue;
+				_newDose = (isNaN(_previousDoseValue) ? 0 : _previousDoseValue) + dosageChangeValue;
 			}
 		}
 
@@ -509,24 +497,19 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 			if (_decisionScheduleItemOccurrence == null)
 				return;
-//				throw new Error("Failed to initialize. Decision data on the health charts model was not a ScheduleItemOccurrence.");
 
-			_scheduleDetails = getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_LEVEMIR_CODE);
-			_currentDoseValue = _newDose = (_scheduleDetails.currentSchedule &&
-					_scheduleDetails.currentSchedule.dose) ? Number(_scheduleDetails.currentSchedule.dose.value) : NaN;
-			var previousMedicationScheduleItem:MedicationScheduleItem = _scheduleDetails.previousSchedule;
-			_previousDoseValue = previousMedicationScheduleItem ? previousMedicationScheduleItem.dose ? Number(previousMedicationScheduleItem.dose.value) : NaN : NaN;
-
-			if ((!isNaN(_currentDoseValue) && !isNaN(previousDoseValue)) && (_newDose != previousDoseValue || decisionAdherenceItemAlreadyPersisted()))
-				dosageChangeValue = _newDose - previousDoseValue;
-			else
-				dosageChangeValue = 0;
+			_scheduleDetails = _medicationTitrationHelper.getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_LEVEMIR_CODE);
+			_currentDoseValue = _newDose = _medicationTitrationHelper.currentDoseValue;
+			_previousDoseValue = _medicationTitrationHelper.previousDoseValue;
+			dosageChangeValue = _medicationTitrationHelper.dosageChangeValue;
 
 			updateIsAdherencePerfect();
 		}
 
 		public function save():Boolean
 		{
+			var saveSucceeded:Boolean = true;
+
 			_decisionScheduleItemOccurrence = chartModelDetails.healthChartsModel.decisionData as
 					ScheduleItemOccurrence;
 
@@ -554,170 +537,123 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 					// If revisiting/changing the decision, don't make a new AdherenceItem (just change the schedule/dose)
 					if (!decisionAdherenceItemAlreadyPersisted())
 					{
-						// create new HealthActionOccurrence, related to HealthActionSchedule
-						// create new HealthActionResult, related to HealthActionOccurrence
-						var results:Vector.<DocumentBase> = new Vector.<DocumentBase>();
-						var decisionHealthActionResult:HealthActionResult = new HealthActionResult();
-
-						decisionHealthActionResult.name = plan.name.clone();
-						decisionHealthActionResult.planType = plan.planType;
-						decisionHealthActionResult.dateReported = chartModelDetails.currentDateSource.now();
-						decisionHealthActionResult.reportedBy = chartModelDetails.accountId;
-						var actionStepResult:ActionStepResult = new ActionStepResult();
-						actionStepResult.name = new CodedValue(null, "Chose a new dose");
-						decisionHealthActionResult.actions = new ArrayCollection();
-						decisionHealthActionResult.actions.addItem(actionStepResult);
-						results.push(decisionHealthActionResult);
-
-						if (_decisionScheduleItemOccurrence)
-						{
-							// TODO: switch to the new data types
-							//						_decisionScheduleItemOccurrence.createHealthActionOccurrence(results, chartModelDetails.record,
-							//								chartModelDetails.accountId);
-							_decisionScheduleItemOccurrence.createAdherenceItem(results, chartModelDetails.record,
-									chartModelDetails.accountId);
-						}
-						else
-						{
-							for each (var result:DocumentBase in results)
-							{
-								result.pendingAction = DocumentBase.ACTION_CREATE;
-								chartModelDetails.record.addDocument(result);
-							}
-						}
+						saveDecisionResult(plan);
 					}
 
 					// if dose is specified and is different, update existing and/or create a new schedule
 					if (_newDose != _currentDoseValue)
 					{
-						// determine cut off date for schedule change
-						// update existing MedicationScheduleItem (old dose) to end the recurrence by cut off date
-
-						var administeredOccurrenceCount:int = _scheduleDetails.occurrence.recurrenceIndex;
-						if (administeredOccurrenceCount > 0)
-						{
-							if (currentMedicationScheduleItem.recurrenceRule)
-							{
-								var remainingOccurrenceCount:int = currentMedicationScheduleItem.recurrenceRule.count -
-										administeredOccurrenceCount;
-								if (remainingOccurrenceCount > 0)
-								{
-									currentMedicationScheduleItem.recurrenceRule.count = administeredOccurrenceCount;
-									currentMedicationScheduleItem.pendingAction = DocumentBase.ACTION_UPDATE;
-
-									// create new MedicationScheduleItem with new dose starting at cut off day
-									var newMedicationScheduleItem:MedicationScheduleItem = new MedicationScheduleItem();
-									newMedicationScheduleItem.pendingAction = DocumentBase.ACTION_CREATE;
-									newMedicationScheduleItem.dose = new ValueAndUnit(_newDose.toString(),
-											new CodedValue("http://indivo.org/codes/units#", "Units", "U", "Units"));
-									newMedicationScheduleItem.name = currentMedicationScheduleItem.name.clone();
-									newMedicationScheduleItem.scheduledBy = chartModelDetails.accountId;
-									newMedicationScheduleItem.dateScheduled = chartModelDetails.currentDateSource.now();
-									newMedicationScheduleItem.dateStart = _scheduleDetails.occurrence.dateStart;
-									newMedicationScheduleItem.dateEnd = _scheduleDetails.occurrence.dateEnd;
-									newMedicationScheduleItem.recurrenceRule = new RecurrenceRule();
-									if (currentMedicationScheduleItem.recurrenceRule.frequency)
-										newMedicationScheduleItem.recurrenceRule.frequency = currentMedicationScheduleItem.recurrenceRule.frequency.clone();
-									if (currentMedicationScheduleItem.recurrenceRule.interval)
-										newMedicationScheduleItem.recurrenceRule.interval = currentMedicationScheduleItem.recurrenceRule.interval.clone();
-									newMedicationScheduleItem.recurrenceRule.count = remainingOccurrenceCount;
-									newMedicationScheduleItem.instructions = currentMedicationScheduleItem.instructions;
-
-									chartModelDetails.record.addDocument(newMedicationScheduleItem);
-
-									var relationship:Relationship = chartModelDetails.record.addNewRelationship(ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM,
-											currentMedicationScheduleItem.scheduledMedicationOrder,
-											newMedicationScheduleItem);
-									newMedicationScheduleItem.scheduledMedicationOrder = currentMedicationScheduleItem.scheduledMedicationOrder;
-
-									// TODO: Use the correct id for the newMedicationScheduleItem; we are currently using the temporary id that we assigned ourselves; the actual id of the document will not bet known until we get a response from the server after creation
-									currentMedicationScheduleItem.scheduledMedicationOrder.scheduleItems.put(newMedicationScheduleItem.meta.id,
-											newMedicationScheduleItem);
-								}
-								else
-								{
-									// schedule has ended; no future occurrences to reschedule or change the dose for
-									// TODO: warn the user why the dose cannot be changed; possibly provide a means to extend the schedule beyond the original recurrence range
-									_logger.warn("User is attempting to change the dose for " +
-											currentMedicationScheduleItem.name.text + " with dateStart of " +
-											currentMedicationScheduleItem.dateStart.toLocaleString() +
-											" but the schedule has ended; no future occurrences to reschedule or change the dose for.");
-									return false;
-								}
-							}
-						}
-						else
-						{
-							currentMedicationScheduleItem.pendingAction = DocumentBase.ACTION_UPDATE;
-							currentMedicationScheduleItem.dose.value = _newDose.toString();
-						}
-
+						saveSucceeded = saveSucceeded && saveDosageChange(currentMedicationScheduleItem);
 					}
 				}
 			}
 
-			return true;
+			return saveSucceeded;
 		}
 
-		/**
-		 * Finds the next ScheduleItemOccurrence and corresponding MedicationScheduleItem for the specified medication
-		 * where the medication has not yet been administered and the occurrence is current (adherence window overlaps
-		 * the current time) or future (occurrence starts after the current time).
-		 * @param medicationCode The medication to match.
-		 * @return The details of the schedule, including the ScheduleItemOccurrence and corresponding MedicationScheduleItem.
-		 */
-		public function getNextMedicationScheduleDetails(medicationCode:String):ScheduleDetails
+		private static const CHOSE_A_NEW_DOSE_ACTION_STEP_RESULT_TEXT:String = "Chose a new dose";
+
+		private function saveDecisionResult(plan:HealthActionPlan):void
 		{
-			var scheduleDetails:ScheduleDetails;
-			var now:Date = _chartModelDetails.currentDateSource.now();
-			for each (var medicationScheduleItem:MedicationScheduleItem in chartModelDetails.record.medicationScheduleItemsModel.medicationScheduleItemCollection)
+			// create new HealthActionOccurrence, related to HealthActionSchedule
+			// create new HealthActionResult, related to HealthActionOccurrence
+			var results:Vector.<DocumentBase> = new Vector.<DocumentBase>();
+			var decisionHealthActionResult:HealthActionResult = new HealthActionResult();
+
+			decisionHealthActionResult.name = plan.name.clone();
+			decisionHealthActionResult.planType = plan.planType;
+			decisionHealthActionResult.dateReported = chartModelDetails.currentDateSource.now();
+			decisionHealthActionResult.reportedBy = chartModelDetails.accountId;
+			var actionStepResult:ActionStepResult = new ActionStepResult();
+			actionStepResult.name = new CodedValue(null, null, null, CHOSE_A_NEW_DOSE_ACTION_STEP_RESULT_TEXT);
+			decisionHealthActionResult.actions = new ArrayCollection();
+			decisionHealthActionResult.actions.addItem(actionStepResult);
+			results.push(decisionHealthActionResult);
+
+			if (_decisionScheduleItemOccurrence)
 			{
-				if (medicationScheduleItem.name.value == medicationCode)
+				// TODO: switch to the new data types
+				//						_decisionScheduleItemOccurrence.createHealthActionOccurrence(results, chartModelDetails.record,
+				//								chartModelDetails.accountId);
+				_decisionScheduleItemOccurrence.createAdherenceItem(results, chartModelDetails.record,
+						chartModelDetails.accountId);
+			}
+			else
+			{
+				for each (var result:DocumentBase in results)
 				{
-					// TODO: exactly what span of time should we use to look for the "next" scheduled item? Currently we are using 24 hours before to 48 hours after the current time (a 3 day window)
-					var scheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = medicationScheduleItem.getScheduleItemOccurrences(
-							new Date(now.valueOf() - ScheduleItemBase.MILLISECONDS_IN_DAY),
-							new Date(now.valueOf() + 2 * ScheduleItemBase.MILLISECONDS_IN_DAY));
-					for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrences)
-					{
-						if (scheduleItemOccurrence.adherenceItem == null && scheduleItemOccurrence.dateEnd.valueOf() >= (now.valueOf() - NEXT_OCCURRENCE_DELTA))
-						{
-							scheduleDetails = new ScheduleDetails(medicationScheduleItem, scheduleItemOccurrence);
-							break;
-						}
-					}
-					if (scheduleDetails)
-						break;
+					result.pendingAction = DocumentBase.ACTION_CREATE;
+					chartModelDetails.record.addDocument(result);
 				}
 			}
+		}
 
-			if (scheduleDetails)
+		private function saveDosageChange(currentMedicationScheduleItem:MedicationScheduleItem):Boolean
+		{
+			var saveSucceeded:Boolean = true;
+
+			// determine cut off date for schedule change
+			// update existing MedicationScheduleItem (old dose) to end the recurrence by cut off date
+
+			var administeredOccurrenceCount:int = _scheduleDetails.occurrence.recurrenceIndex;
+			if (administeredOccurrenceCount > 0)
 			{
-				for each (medicationScheduleItem in
-						chartModelDetails.record.medicationScheduleItemsModel.medicationScheduleItemCollection)
+				if (currentMedicationScheduleItem.recurrenceRule)
 				{
-					if (medicationScheduleItem.name.value == medicationCode)
+					var remainingOccurrenceCount:int = currentMedicationScheduleItem.recurrenceRule.count -
+							administeredOccurrenceCount;
+					if (remainingOccurrenceCount > 0)
 					{
-						// TODO: find a more robust way of determining the previousSchedule; currently we look for the first occurrence in the 24 hours prior to the current occurrence
-						// For dateEnd, subtract 1 millisecond because dateEnd is inclusive, and we want to exclude occurrences that start at occurrence.dateStart
-						scheduleItemOccurrences = medicationScheduleItem.getScheduleItemOccurrences(
-								new Date(scheduleDetails.occurrence.dateStart.valueOf() -
-										ScheduleItemBase.MILLISECONDS_IN_DAY),
-								new Date(scheduleDetails.occurrence.dateStart.valueOf() - 1));
-						if (scheduleItemOccurrences.length > 0)
-						{
-							scheduleDetails.previousSchedule = medicationScheduleItem;
-							break;
-						}
+						currentMedicationScheduleItem.recurrenceRule.count = administeredOccurrenceCount;
+						currentMedicationScheduleItem.pendingAction = DocumentBase.ACTION_UPDATE;
+
+						// create new MedicationScheduleItem with new dose starting at cut off day
+						var newMedicationScheduleItem:MedicationScheduleItem = new MedicationScheduleItem();
+						newMedicationScheduleItem.pendingAction = DocumentBase.ACTION_CREATE;
+						newMedicationScheduleItem.dose = new ValueAndUnit(_newDose.toString(),
+								new CodedValue("http://indivo.org/codes/units#", "Units", "U", "Units"));
+						newMedicationScheduleItem.name = currentMedicationScheduleItem.name.clone();
+						newMedicationScheduleItem.scheduledBy = chartModelDetails.accountId;
+						newMedicationScheduleItem.dateScheduled = chartModelDetails.currentDateSource.now();
+						newMedicationScheduleItem.dateStart = _scheduleDetails.occurrence.dateStart;
+						newMedicationScheduleItem.dateEnd = _scheduleDetails.occurrence.dateEnd;
+						newMedicationScheduleItem.recurrenceRule = new RecurrenceRule();
+						if (currentMedicationScheduleItem.recurrenceRule.frequency)
+							newMedicationScheduleItem.recurrenceRule.frequency = currentMedicationScheduleItem.recurrenceRule.frequency.clone();
+						if (currentMedicationScheduleItem.recurrenceRule.interval)
+							newMedicationScheduleItem.recurrenceRule.interval = currentMedicationScheduleItem.recurrenceRule.interval.clone();
+						newMedicationScheduleItem.recurrenceRule.count = remainingOccurrenceCount;
+						newMedicationScheduleItem.instructions = currentMedicationScheduleItem.instructions;
+
+						chartModelDetails.record.addDocument(newMedicationScheduleItem);
+
+						var relationship:Relationship = chartModelDetails.record.addNewRelationship(ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM,
+								currentMedicationScheduleItem.scheduledMedicationOrder,
+								newMedicationScheduleItem);
+						newMedicationScheduleItem.scheduledMedicationOrder = currentMedicationScheduleItem.scheduledMedicationOrder;
+
+						// TODO: Use the correct id for the newMedicationScheduleItem; we are currently using the temporary id that we assigned ourselves; the actual id of the document will not bet known until we get a response from the server after creation
+						currentMedicationScheduleItem.scheduledMedicationOrder.scheduleItems.put(newMedicationScheduleItem.meta.id,
+								newMedicationScheduleItem);
+					}
+					else
+					{
+						// schedule has ended; no future occurrences to reschedule or change the dose for
+						// TODO: warn the user why the dose cannot be changed; possibly provide a means to extend the schedule beyond the original recurrence range
+						_logger.warn("User is attempting to change the dose for " +
+								currentMedicationScheduleItem.name.text + " with dateStart of " +
+								currentMedicationScheduleItem.dateStart.toLocaleString() +
+								" but the schedule has ended; no future occurrences to reschedule or change the dose for.");
+						saveSucceeded = false;
 					}
 				}
 			}
 			else
 			{
-				scheduleDetails = new ScheduleDetails(null, null);
+				currentMedicationScheduleItem.pendingAction = DocumentBase.ACTION_UPDATE;
+				currentMedicationScheduleItem.dose.value = _newDose.toString();
 			}
-
-			return scheduleDetails;
+			return saveSucceeded;
 		}
 
 		public function isMeasurementEligible(vitalSign:VitalSign):Boolean
@@ -744,8 +680,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		{
 			if (isNaN(dosageChangeValue))
 				return "";
-			else if (dosageChangeValue == 0)
-				return "No Change";
 			else
 				return dosageChangeValue > 0 ? "+" + dosageChangeValue.toString() : dosageChangeValue.toString();
 		}

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				xmlns:s="library://ns.adobe.com/flex/spark"
-				xmlns:view="collaboRhythm.plugins.schedule.shared.view.*"
+				xmlns:view="collaboRhythm.plugins.schedule.shared.view.*" xmlns:controls="com.dougmccune.controls.*"
 				width="100%"
 				height="{SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT}"
 				removedFromStage="removedHandler(event)"
@@ -39,6 +39,8 @@
 		#additionalInformationLabel {
 			fontSize: 26;
 			fontWeight: bold;
+			textAlign: center;
+			lineBreak: toFit;
 		}
 	</fx:Style>
 	<fx:Script>
@@ -122,6 +124,7 @@
 					imageGroup.top = 10;
 					imageGroup.bottom = 10;
 
+					ScheduleItemOccurrenceClockView.scaleFontToFit(scheduleItemOccurrenceReportingViewAdapter, additionalInformationLabel, 26);
 					additionalInformationLabel.visible = scheduleItemOccurrenceReportingModel.healthActionInputController;
 					additionalInformationLabel.text = scheduleItemOccurrenceReportingViewAdapter.additionalAdherenceInformation;
 
@@ -215,16 +218,19 @@
 		</s:VGroup>
 	</s:Group>
 
-	<s:Group id="buttonGroup" right="10" height="100%">
-		<view:AdherenceCheckBox id="adherenceCheckBox" width="70" height="70" verticalCenter="0"
+	<s:Group id="buttonGroup" right="10" height="100%" width="70">
+		<s:layout>
+			<controls:ChildIndependentLayout/>
+		</s:layout>
+		<view:AdherenceCheckBox id="adherenceCheckBox" width="70" height="70" verticalCenter="0" horizontalCenter="0"
 								skinClass="collaboRhythm.plugins.schedule.shared.view.AdherenceCheckBoxSkin"
 								selected="{_scheduleItemOccurrence.adherenceItem != null}"
 								mouseDown="adherenceCheckBoxMouseDownHandler(event)"
 								click="adherenceCheckBoxClickHandler(event)"
 								enabled="{isAdherenceCheckBoxEnabled(_scheduleItemOccurrence.adherenceItem, _scheduleItemOccurrence.adherenceItem ? _scheduleItemOccurrence.adherenceItem.pendingAction : null, _scheduleModel ? _scheduleModel.settings.adherenceVoidingEnabled : null)}"/>
-		<s:Label id="additionalInformationLabel"
+		<s:RichText id="additionalInformationLabel" width="70"
 				 text="{removeAdditionalAdherenceInformation(_scheduleItemOccurrence.adherenceItem)}"
-				 verticalCenter="42" horizontalCenter="-2" visible="false"/>
+				 y="{adherenceCheckBox.y + adherenceCheckBox.height - 5}" horizontalCenter="-2" visible="false"/>
 	</s:Group>
 
 	<s:Line width="100%" bottom="0">

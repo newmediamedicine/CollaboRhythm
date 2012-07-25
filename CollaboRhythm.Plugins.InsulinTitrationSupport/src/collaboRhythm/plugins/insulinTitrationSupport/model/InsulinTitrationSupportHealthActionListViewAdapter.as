@@ -6,7 +6,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewModel;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.services.ICurrentDateSource;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
 
 	import mx.core.IVisualElement;
 
@@ -18,6 +21,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _healthAction:InsulinTitrationSupportHealthAction;
 		private var _model:InsulinTitrationSupportHealthActionListViewModel;
 		private var _controller:HealthActionListViewControllerBase;
+		private var _dosageChangeValueLabel:String;
 
 		public function InsulinTitrationSupportHealthActionListViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
 																		   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider)
@@ -25,6 +29,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			_healthAction = new InsulinTitrationSupportHealthAction();
 			_model = new InsulinTitrationSupportHealthActionListViewModel(scheduleItemOccurrence, healthActionModelDetailsProvider);
 
+			var medicationTitrationHelper:MedicationTitrationHelper = new MedicationTitrationHelper(_model.healthActionInputModelDetailsProvider.record,
+					WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource);
+			medicationTitrationHelper.getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_LEVEMIR_CODE, true);
+			_dosageChangeValueLabel = medicationTitrationHelper.dosageChangeValueLabel;
 		}
 
 		public function get healthAction():HealthActionBase
@@ -81,7 +89,18 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		public function get additionalAdherenceInformation():String
 		{
-			return "...";
+			var additionalAdherenceInformation:String = "...";
+
+			if (_model.scheduleItemOccurrence.adherenceItem)
+			{
+				var adherenceResults:Vector.<DocumentBase> = _model.scheduleItemOccurrence.adherenceItem.adherenceResults;
+				if (adherenceResults.length != 0)
+				{
+					additionalAdherenceInformation = _dosageChangeValueLabel;
+				}
+			}
+
+			return additionalAdherenceInformation;
 		}
 
 		public function get model():IHealthActionListViewModel

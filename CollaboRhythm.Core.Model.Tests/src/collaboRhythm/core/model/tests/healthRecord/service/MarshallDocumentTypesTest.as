@@ -3,10 +3,15 @@ package collaboRhythm.core.model.tests.healthRecord.service
 
 	import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
 	import collaboRhythm.core.model.healthRecord.service.DocumentStorageServiceBase;
+	import collaboRhythm.shared.model.healthRecord.CodedValue;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
+	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.ActionStepResult;
 	import collaboRhythm.shared.model.services.DefaultCurrentDateSource;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
+
+	import mx.collections.ArrayCollection;
 
 	import org.flexunit.asserts.assertEquals;
 
@@ -636,6 +641,5 @@ package collaboRhythm.core.model.tests.healthRecord.service
 				assertEquals(_documentXml, resultXml);
 			}
 		}
-
 	}
 }
