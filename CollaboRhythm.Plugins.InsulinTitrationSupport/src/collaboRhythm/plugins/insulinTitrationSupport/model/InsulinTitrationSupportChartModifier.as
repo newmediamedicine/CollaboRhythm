@@ -37,6 +37,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	public class InsulinTitrationSupportChartModifier extends ChartModifierBase implements IChartModifier
 	{
 		public static const INSULIN_LEVEMIR_CODE:String = "847241";
+		private static const BLOOD_GLUCOSE_CHART_MIN_HEIGHT:int = 200;
 
 		private var _insulinTitrationDecisionPanelModel:InsulinTitrationDecisionPanelModel;
 		private var _vitalSignsDataCollection:ArrayCollection;
@@ -192,6 +193,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 						panel.model = _insulinTitrationDecisionPanelModel;
 						panel.percentHeight = 100;
 						extraPanel = panel;
+
+						adherenceGroup.minHeight = BLOOD_GLUCOSE_CHART_MIN_HEIGHT;
 					}
 					else
 					{
@@ -213,10 +216,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private function initializeInsulinTitrationDecisionPanelModel():void
 		{
 			_insulinTitrationDecisionPanelModel = new InsulinTitrationDecisionPanelModel(chartModelDetails);
-			// TODO: only average consecutive blood glucose readings in the last 3 days
-			_insulinTitrationDecisionPanelModel.updateIsAverageAvailable();
-			// TODO: determine whether adherence is perfect
-			_insulinTitrationDecisionPanelModel.isAdherencePerfect = true;
+			_insulinTitrationDecisionPanelModel.updateAreBloodGlucoseRequirementsMet();
+			_insulinTitrationDecisionPanelModel.updateIsAdherencePerfect();
 			_insulinTitrationDecisionPanelModel.verticalAxisMinimum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_VERTICAL_AXIS_MINIMUM;
 			_insulinTitrationDecisionPanelModel.verticalAxisMaximum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_VERTICAL_AXIS_MAXIMUM;
 			_insulinTitrationDecisionPanelModel.goalZoneMinimum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_GOAL_ZONE_MINIMUM;

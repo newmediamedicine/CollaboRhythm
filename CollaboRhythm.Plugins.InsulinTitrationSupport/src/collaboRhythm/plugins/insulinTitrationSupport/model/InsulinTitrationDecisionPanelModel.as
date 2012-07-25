@@ -34,6 +34,22 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public static const STEP_STOP:String = "stop";
 		public static const STEP_PREVIOUS_STOP:String = "previous stop";
 		private static const REQUIRED_BLOOD_GLUCOSE_MEASUREMENTS:int = 3;
+		private static const REQUIRED_DAYS_OF_PERFECT_MEDICATION_ADHERENCE:int = 4;
+		private static const NUMBER_OF_DAYS_FOR_ELIGIBLE_BLOOD_GLUCOSE:int = 4;
+
+		/**
+		 * Number of milliseconds after the end of a schedule occurrence for which the item/action is to be still considered
+		 * "current" or "next" even though it is in the past (has been missed). This a non-negative value would allow the
+		 * schedule to be changed for a dose of medication (for example) after the medication was due to be taken.
+		 */
+		private static const NEXT_OCCURRENCE_DELTA:Number = 0;
+		private static const MILLISECONDS_IN_DAY:Number = 1000 * 60 * 60 * 24;
+
+		private static const bloodGlucoseRequirements:String = "<ol>" +
+				"<li>it must be the first measurement taken in the day</li>" +
+				"<li>it must be taken before eating breakfast (preprandial)</li>" +
+				"<li>it must fall within a window of time including today and the three days prior to today (four day window)</li>" +
+				"</ol>";
 
 		private var _areBloodGlucoseRequirementsMet:Boolean = true;
 		private var _dosageChangeValue:Number;
@@ -46,9 +62,15 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private const _dosageIncreaseValue:Number = +3;
 		private const _dosageDecreaseValue:Number = -3;
 		private var _isChangeSpecified:Boolean;
+
 		private var _step1State:String;
 		private var _step2State:String;
 		private var _step3State:String;
+
+		private var _step1StateDescription:String = "";
+		private var _step2StateDescription:String = "";
+		private var _step3StateDescription:String = "";
+
 		private var _bloodGlucoseAverage:Number;
 		private var _verticalAxisMinimum:Number;
 		private var _verticalAxisMaximum:Number;
@@ -65,14 +87,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _newDose:Number;
 		private var _previousDoseValue:Number;
 		private var _decisionScheduleItemOccurrence:ScheduleItemOccurrence;
-
-		/**
-		 * Number of milliseconds after the end of a schedule occurrence for which the item/action is to be still considered
-		 * "current" or "next" even though it is in the past (has been missed). This a non-negative value would allow the
-		 * schedule to be changed for a dose of medication (for example) after the medication was due to be taken.
-		 */
-		private const NEXT_OCCURRENCE_DELTA:Number = 0;
-		private static const MILLISECONDS_IN_DAY:Number = 1000 * 60 * 60 * 24;
+		private var _nonAdherenceDescription:String;
 
 		public function InsulinTitrationDecisionPanelModel(chartModelDetails:IChartModelDetails)
 		{
@@ -101,7 +116,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			var bloodGlucoseArrayCollection:ArrayCollection = chartModelDetails.record.vitalSignsModel.vitalSignsByCategory.getItem(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY);
 			var previousBloodGlucose:VitalSign;
 			var now:Date = _chartModelDetails.currentDateSource.now();
-			var eligibleWindowCutoff:Date = new Date(SynchronizedHealthCharts.roundTimeToNextDay(now).valueOf() - MILLISECONDS_IN_DAY * 4);
+			var eligibleWindowCutoff:Date = new Date(SynchronizedHealthCharts.roundTimeToNextDay(now).valueOf() - MILLISECONDS_IN_DAY * NUMBER_OF_DAYS_FOR_ELIGIBLE_BLOOD_GLUCOSE);
 			if (bloodGlucoseArrayCollection && bloodGlucoseArrayCollection.length > 0)
 			{
 				for each (var bloodGlucose:VitalSign in bloodGlucoseArrayCollection)
@@ -151,19 +166,27 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private function updateStep1State():void
 		{
+			step1StateDescription = (areBloodGlucoseRequirementsMet ?
+					"There <b>are</b> at least three blood glucose measurements from the last four days (including one from today) which meet the following criteria: " :
+					"There are <b>not</b> at least three blood glucose measurements from the last four days (including one from today) which meet the following criteria: ") +
+					bloodGlucoseRequirements;
+
 			step1State = areBloodGlucoseRequirementsMet ? STEP_SATISFIED : STEP_STOP;
 			updateStep2State();
 		}
 
 		private function updateStep2State():void
 		{
+			step2StateDescription = isAdherencePerfect ?
+					"Medication adherence for the past three days <b>is</b> perfect." :
+					"Medication adherence for the past three days is <b>not</b> perfect. " + nonAdherenceDescription;
 			step2State = step1State == STEP_SATISFIED ? (isAdherencePerfect ? STEP_SATISFIED : STEP_STOP) : STEP_PREVIOUS_STOP;
 			updateStep3State();
 		}
 
 		private function updateStep3State():void
 		{
-			step3State = step2State == STEP_SATISFIED ? (isChangeSpecified ? STEP_SATISFIED : STEP_STOP) : STEP_PREVIOUS_STOP;
+			step3State = step2State == STEP_SATISFIED ? STEP_SATISFIED : STEP_PREVIOUS_STOP;
 		}
 
 		public function get isChangeSpecified():Boolean
@@ -287,11 +310,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function set bloodGlucoseAverage(value:Number):void
 		{
 			_bloodGlucoseAverage = value;
-			updateIsAverageAvailable();
+			updateAreBloodGlucoseRequirementsMet();
 			updateAlgorithmSuggestions();
 		}
 
-		public function updateIsAverageAvailable():void
+		public function updateAreBloodGlucoseRequirementsMet():void
 		{
 			areBloodGlucoseRequirementsMet = !isNaN(bloodGlucoseAverage) && _eligibleBloodGlucoseMeasurements != null &&
 					_eligibleBloodGlucoseMeasurements.length >= REQUIRED_BLOOD_GLUCOSE_MEASUREMENTS &&
@@ -316,9 +339,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private function updateAlgorithmSuggestions():void
 		{
-			algorithmSuggestsIncreaseDose = algorithmValuesAvailable() && bloodGlucoseAverage > goalZoneMaximum;
-			algorithmSuggestsNoChangeDose = algorithmValuesAvailable() && bloodGlucoseAverage <= goalZoneMaximum && bloodGlucoseAverage >= goalZoneMinimum;
-			algorithmSuggestsDecreaseDose = algorithmValuesAvailable() && bloodGlucoseAverage < goalZoneMinimum;
+			algorithmSuggestsIncreaseDose = (step2State == STEP_SATISFIED) && algorithmValuesAvailable() && bloodGlucoseAverage > goalZoneMaximum;
+			algorithmSuggestsNoChangeDose = (step2State == STEP_SATISFIED) && algorithmValuesAvailable() && bloodGlucoseAverage <= goalZoneMaximum && bloodGlucoseAverage >= goalZoneMinimum;
+			algorithmSuggestsDecreaseDose = (step2State == STEP_SATISFIED) && algorithmValuesAvailable() && bloodGlucoseAverage < goalZoneMinimum;
 		}
 
 		private function algorithmValuesAvailable():Boolean
@@ -446,6 +469,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			if (_isInitialized != value)
 			{
 				_isInitialized = value;
+				updateIsAdherencePerfect();
 				updateBloodGlucoseAverage();
 				evaluateForInitialize();
 			}
@@ -497,6 +521,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				dosageChangeValue = _newDose - previousDoseValue;
 			else
 				dosageChangeValue = 0;
+
+			updateIsAdherencePerfect();
 		}
 
 		public function save():Boolean
@@ -718,6 +744,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		{
 			if (isNaN(dosageChangeValue))
 				return "";
+			else if (dosageChangeValue == 0)
+				return "No Change";
 			else
 				return dosageChangeValue > 0 ? "+" + dosageChangeValue.toString() : dosageChangeValue.toString();
 		}
@@ -726,6 +754,101 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		{
 			return _decisionScheduleItemOccurrence && _decisionScheduleItemOccurrence.adherenceItem != null &&
 					_decisionScheduleItemOccurrence.adherenceItem.adherence;
+		}
+
+		public function updateIsAdherencePerfect():void
+		{
+			var nonAdherenceVector:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
+
+			// loop through all MedicationScheduleItem instances in the time of interest and check that adherence is perfect
+			var now:Date = _chartModelDetails.currentDateSource.now();
+			for each (var medicationScheduleItem:MedicationScheduleItem in
+					chartModelDetails.record.medicationScheduleItemsModel.medicationScheduleItemCollection)
+			{
+				var scheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = medicationScheduleItem.getScheduleItemOccurrences(
+						new Date(SynchronizedHealthCharts.roundTimeToNextDay(now).valueOf() -
+								REQUIRED_DAYS_OF_PERFECT_MEDICATION_ADHERENCE * ScheduleItemBase.MILLISECONDS_IN_DAY),
+						now);
+				for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrences)
+				{
+					// Does the scheduleItemOccurrence qualify as one that needs to be completed (or is it not yet over)?
+					if (scheduleItemOccurrence.dateEnd.valueOf() < now.valueOf())
+					{
+						if (scheduleItemOccurrence.adherenceItem == null ||
+								scheduleItemOccurrence.adherenceItem.adherence == false)
+						{
+							nonAdherenceVector.push(scheduleItemOccurrence);
+						}
+					}
+				}
+			}
+
+			isAdherencePerfect = nonAdherenceVector.length == 0;
+			updateNonAdherenceDescription(nonAdherenceVector);
+		}
+
+		private function updateNonAdherenceDescription(nonAdherenceVector:Vector.<ScheduleItemOccurrence>):void
+		{
+			if (isAdherencePerfect)
+			{
+				nonAdherenceDescription = "";
+			}
+			else
+			{
+				var missedDoses:String = "";
+				for each (var missedOccurrence:ScheduleItemOccurrence in nonAdherenceVector)
+				{
+					var medicationScheduleItem:MedicationScheduleItem = missedOccurrence.scheduleItem as
+							MedicationScheduleItem;
+					if (medicationScheduleItem)
+					{
+						missedDoses += "<li>" + medicationScheduleItem.dose.value + " " +
+								medicationScheduleItem.dose.unit.text + " of " + medicationScheduleItem.name.text +
+								" on " + missedOccurrence.dateStart.toLocaleString() + "</li>";
+					}
+				}
+				nonAdherenceDescription = "The following doses were missed: <ul>" + missedDoses + "</ul>";
+			}
+		}
+
+		public function get step1StateDescription():String
+		{
+			return _step1StateDescription;
+		}
+
+		public function set step1StateDescription(value:String):void
+		{
+			_step1StateDescription = value;
+		}
+
+		public function get step2StateDescription():String
+		{
+			return _step2StateDescription;
+		}
+
+		public function set step2StateDescription(value:String):void
+		{
+			_step2StateDescription = value;
+		}
+
+		public function get step3StateDescription():String
+		{
+			return _step3StateDescription;
+		}
+
+		public function set step3StateDescription(value:String):void
+		{
+			_step3StateDescription = value;
+		}
+
+		public function get nonAdherenceDescription():String
+		{
+			return _nonAdherenceDescription;
+		}
+
+		public function set nonAdherenceDescription(value:String):void
+		{
+			_nonAdherenceDescription = value;
 		}
 	}
 }
