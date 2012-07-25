@@ -61,7 +61,7 @@ package collaboRhythm.plugins.schedule.controller
 
 		private function collaborationViewSynchronization_eventHandler(event:CollaborationViewSynchronizationEvent):void
 		{
-			if (event.synchronizeData)
+			if (event.synchronizeData != null && !isNaN(event.synchronizeData))
 			{
 				this[event.synchronizeFunction]("remote", event.synchronizeData);
 			}
@@ -112,6 +112,23 @@ package collaboRhythm.plugins.schedule.controller
 			if (_scheduleModel.accountId == _scheduleModel.activeAccount.accountId)
 			{
 				_scheduleModel.saveChangesToRecord();
+			}
+		}
+
+		public function synchronizeScheduleGroupReportingViewScrollPosition(source:String,
+																			verticalScrollPosition:Number):void
+		{
+			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
+					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
+							CollaborationModel.COLLABORATION_ACTIVE)
+			{
+				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+						"synchronizeScheduleGroupReportingViewScrollPosition", verticalScrollPosition);
+			}
+
+			if (source == CollaborationLobbyNetConnectionServiceProxy.REMOTE)
+			{
+				_scheduleReportingModel.synchronizeScheduleGroupReportingViewScrollPosition(verticalScrollPosition);
 			}
 		}
 	}

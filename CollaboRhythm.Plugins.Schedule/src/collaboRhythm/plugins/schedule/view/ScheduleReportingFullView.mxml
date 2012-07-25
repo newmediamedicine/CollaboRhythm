@@ -35,8 +35,15 @@
 		import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
 		import collaboRhythm.plugins.schedule.model.ScheduleViewInitializationParameters;
 		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+		import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
+		import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
+		import mx.binding.utils.BindingUtils;
+		import mx.events.PropertyChangeEvent;
 		import mx.logging.ILogger;
+
+		import spark.collections.Sort;
 
 		private var _scheduleAppController:ScheduleAppController;
 		private var _scheduleReportingController:ScheduleReportingController;
@@ -49,6 +56,7 @@
 		[Bindable]
 		private var _isCountdownRunning:Boolean;
 		protected var _logger:ILogger;
+		private var _touchInteraction:Boolean;
 
 		override public function set data(value:Object):void
 		{
@@ -99,6 +107,74 @@
 		{
 			scheduleGroupReportingView.init(_scheduleModel, _scheduleAppController.activeAccount.accountId,
 					_scheduleReportingController);
+
+			BindingUtils.bindSetter(scheduleGroupReportingViewScrollerPosition_changeHandler, _scheduleReportingModel,
+					"scheduleGroupReportingViewScrollPosition");
+
+			var sort:Sort = new Sort();
+			sort.compareFunction = scheduleGroupReportingViewCompareFunction;
+			_scheduleReportingModel.currentScheduleGroup.scheduleItemsOccurrencesCollection.sort = sort;
+			_scheduleReportingModel.currentScheduleGroup.scheduleItemsOccurrencesCollection.refresh();
+		}
+
+		// TODO: Update once we update to new schemas
+		private function scheduleGroupReportingViewCompareFunction(aScheduleItemOccurrence:ScheduleItemOccurrence,
+																   bScheduleItemOccurrence:ScheduleItemOccurrence,
+																   array:Array = null):int
+		{
+			if (aScheduleItemOccurrence.scheduleItem.schedueItemType() == MedicationScheduleItem.MEDICATION)
+			{
+				if (bScheduleItemOccurrence.scheduleItem.schedueItemType() == MedicationScheduleItem.MEDICATION)
+				{
+					if (aScheduleItemOccurrence.scheduleItem.name.text ==
+							bScheduleItemOccurrence.scheduleItem.name.text)
+					{
+						return 0;
+					}
+					else if (aScheduleItemOccurrence.scheduleItem.name.text >
+							bScheduleItemOccurrence.scheduleItem.name.text)
+					{
+						return 1;
+					}
+					else
+					{
+						return -1;
+					}
+				}
+				else
+				{
+					return -1;
+				}
+			}
+			else
+			{
+				if (bScheduleItemOccurrence.scheduleItem.schedueItemType() == MedicationScheduleItem.MEDICATION)
+				{
+					return 1;
+				}
+				else
+				{
+					var aHealthActionSchedule:HealthActionSchedule = aScheduleItemOccurrence.scheduleItem as
+							HealthActionSchedule;
+					if (aHealthActionSchedule.scheduledEquipment != null)
+					{
+						return -1;
+					}
+					else
+					{
+						return 1;
+					}
+				}
+
+			}
+		}
+
+		private function scheduleGroupReportingViewScrollerPosition_changeHandler(scheduleGroupReportingViewScrollPosition:Number):void
+		{
+			if (!isNaN(scheduleGroupReportingViewScrollPosition) && scheduleGroupReportingView)
+			{
+				scheduleGroupReportingView.dataGroup.verticalScrollPosition = scheduleGroupReportingViewScrollPosition;
+			}
 		}
 
 		override protected function stage_keyUpHandler(event:KeyboardEvent):void
@@ -134,6 +210,32 @@
 				reportingGroup.width = width;
 			}
 		}
+
+		private function scheduleGroupReportingView_creationComplete():void
+		{
+			scheduleGroupReportingView.scroller.viewport.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+					propertyChangeHandler);
+		}
+
+		private function propertyChangeHandler(event:PropertyChangeEvent):void
+		{
+			if (event.property == "verticalScrollPosition" && _touchInteraction)
+			{
+				var verticalScrollPosition:Number = event.newValue as Number;
+				_scheduleReportingController.synchronizeScheduleGroupReportingViewScrollPosition(CollaborationLobbyNetConnectionServiceProxy.LOCAL,
+						verticalScrollPosition);
+			}
+		}
+
+		private function scheduleGroupReportingView_touchInteractionStartHandler():void
+		{
+			_touchInteraction = true
+		}
+
+		private function scheduleGroupReportingView_touchInteractionEndHandler():void
+		{
+			_touchInteraction = false;
+		}
 		]]></fx:Script>
 	<s:Group id="reportingGroup" height="100%">
 		<s:Rect width="100%" height="100%">
@@ -141,7 +243,10 @@
 				<s:SolidColor color="0xFFFFFF"/>
 			</s:fill>
 		</s:Rect>
-		<scheduleViews:ScheduleGroupReportingView id="scheduleGroupReportingView" width="100%" height="100%"/>
+		<scheduleViews:ScheduleGroupReportingView id="scheduleGroupReportingView" width="100%" height="100%"
+												  touchInteractionStart="scheduleGroupReportingView_touchInteractionStartHandler()"
+												  touchInteractionEnd="scheduleGroupReportingView_touchInteractionEndHandler()"
+												  creationComplete="scheduleGroupReportingView_creationComplete()"/>
 		<s:Line right="0" height="100%">
 			<s:stroke>
 				<s:SolidColorStroke color="0x000000"/>

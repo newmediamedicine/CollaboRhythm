@@ -45,6 +45,7 @@ package collaboRhythm.plugins.schedule.shared.model
 
 		public function ScheduleGroup()//scheduleModel:ScheduleModel, scheduleGroupReportXML:XML)
 		{
+
 		}
 
 		public function get dateStart():Date
@@ -232,6 +233,11 @@ package collaboRhythm.plugins.schedule.shared.model
 		public function get scheduleItemsOccurrencesCollection():ArrayCollection
 		{
 			return _scheduleItemsOccurrencesCollection;
+		}
+
+		public function set scheduleItemsOccurrencesCollection(value:ArrayCollection):void
+		{
+			_scheduleItemsOccurrencesCollection = value;
 		}
 
 		public function addScheduleItemOccurrence(scheduleItemOccurrence:ScheduleItemOccurrence):void
