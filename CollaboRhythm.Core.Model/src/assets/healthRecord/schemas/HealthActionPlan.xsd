@@ -94,7 +94,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="actions" minOccurs="1" maxOccurs="1">
+			<xs:element name="actions" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation xml:lang="en">List of the actions of the Health Action Plan. This can contain one
 						or more
@@ -105,7 +105,7 @@
 				</xs:annotation>
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="action" type="plan:Action" minOccurs="1" maxOccurs="unbounded">
+						<xs:element name="action" type="plan:Action" minOccurs="0" maxOccurs="unbounded">
 							<xs:annotation>
 								<xs:documentation xml:lang="en">Instance of an action of the type ActionGroups or
 									ActionSteps. Required
@@ -213,7 +213,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="actions" minOccurs="1" maxOccurs="1">
+					<xs:element name="actions" minOccurs="0" maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation xml:lang="en">List of the actions of this ActionGroup.
 								This can contain one or more actions of the type ActionGroups or ActionSteps.
@@ -223,7 +223,7 @@
 						</xs:annotation>
 						<xs:complexType>
 							<xs:sequence>
-								<xs:element name="action" type="plan:Action" minOccurs="1" maxOccurs="unbounded">
+								<xs:element name="action" type="plan:Action" minOccurs="0" maxOccurs="unbounded">
 									<xs:annotation>
 										<xs:documentation xml:lang="en">Instance of an action of the type ActionGroups
 											or ActionSteps. Required
