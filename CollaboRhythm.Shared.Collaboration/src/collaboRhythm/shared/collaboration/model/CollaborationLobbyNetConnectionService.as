@@ -385,7 +385,7 @@ package collaboRhythm.shared.collaboration.model
 
 		public function sendSynchronizationMessage():void
 		{
-			_netConnection.call("sendSynchronizationMessage", null, _collaborationModel.activeRecordAccount.accountId);
+//			_netConnection.call("sendSynchronizationMessage", null, _collaborationModel.activeRecordAccount.accountId);
 		}
 
 		public function receiveSynchronizationMessage():void

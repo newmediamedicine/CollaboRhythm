@@ -18,7 +18,8 @@
 <s:List xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		dataProvider="{_scheduleReportingModel.currentScheduleGroup.scheduleItemsOccurrencesCollection}"
-		itemRenderer="collaboRhythm.plugins.schedule.view.ScheduleItemOccurrenceReportingViewItemRenderer">
+		itemRenderer="collaboRhythm.plugins.schedule.view.ScheduleItemOccurrenceReportingViewItemRenderer"
+		horizontalScrollPolicy="{ScrollPolicy.OFF}">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -27,6 +28,8 @@
 		import collaboRhythm.plugins.schedule.controller.ScheduleReportingController;
 		import collaboRhythm.plugins.schedule.model.ScheduleModel;
 		import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
+
+		import flashx.textLayout.container.ScrollPolicy;
 
 		private var _scheduleModel:ScheduleModel;
 		[Bindable]
@@ -66,7 +69,7 @@
 		}
 		]]>
 	</fx:Script>
-	<s:layout>
-		<s:VerticalLayout gap="0"/>
-	</s:layout>
+	<!--<s:layout>-->
+		<!--<s:VerticalLayout gap="0"/>-->
+	<!--</s:layout>-->
 </s:List>

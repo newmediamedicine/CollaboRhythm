@@ -17,7 +17,6 @@
 package collaboRhythm.plugins.schedule.model
 {
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -28,6 +27,7 @@ package collaboRhythm.plugins.schedule.model
 		private var _accountId:String;
 		private var _currentScheduleGroup:ScheduleGroup;
 		private var _currentDateSource:ICurrentDateSource;
+		private var _scheduleGroupReportingViewScrollPosition:Number;
 
 		public function ScheduleReportingModel(scheduleModel:ScheduleModel, accountId:String)
 		{
@@ -44,6 +44,21 @@ package collaboRhythm.plugins.schedule.model
 		public function set currentScheduleGroup(value:ScheduleGroup):void
 		{
 			_currentScheduleGroup = value;
+		}
+
+		public function synchronizeScheduleGroupReportingViewScrollPosition(verticalScrollPosition:Number):void
+		{
+			scheduleGroupReportingViewScrollPosition = verticalScrollPosition;
+		}
+
+		public function get scheduleGroupReportingViewScrollPosition():Number
+		{
+			return _scheduleGroupReportingViewScrollPosition;
+		}
+
+		public function set scheduleGroupReportingViewScrollPosition(value:Number):void
+		{
+			_scheduleGroupReportingViewScrollPosition = value;
 		}
 	}
 }

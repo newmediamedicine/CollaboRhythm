@@ -38,7 +38,7 @@ package collaboRhythm.plugins.foraD40b.controller
 			_collaborationLobbyNetConnectionServiceProxy = healthActionModelDetailsProvider.collaborationLobbyNetConnectionServiceProxy as
 					CollaborationLobbyNetConnectionServiceProxy;
 
-			BindingUtils.bindSetter(currentView_changeHandler, _dataInputModel, "currentView", false, true);
+			BindingUtils.bindSetter(currentView_changeHandler, _dataInputModel, "currentView");
 		}
 
 		private function collaborationViewSynchronization_eventHandler(event:CollaborationViewSynchronizationEvent):void

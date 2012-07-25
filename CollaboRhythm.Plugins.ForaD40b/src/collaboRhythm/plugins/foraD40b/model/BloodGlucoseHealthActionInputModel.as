@@ -245,7 +245,6 @@ package collaboRhythm.plugins.foraD40b.model
 			_hypoglycemiaHealthActionResult.measurements.push(vitalSign);
 		}
 
-
 		public function addWaitHealthAction(seconds:int):void
 		{
 			var wait:int = TIMER_COUNT - seconds;

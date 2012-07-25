@@ -434,6 +434,11 @@ package collaboRhythm.plugins.schedule.model
 			return _settings;
 		}
 
+		public function set settings(value:Settings):void
+		{
+			_settings = value;
+		}
+
 		public function get activeAccount():Account
 		{
 			return _activeAccount;
