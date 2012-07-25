@@ -47,7 +47,7 @@ package collaboRhythm.shared.model.services
 			{key: "06035339", value: 0xcbc8ca},
 			{key: "0173071820", value: 0xa52b2a},
 			{key: "173068224", value: 0x3e84a6},
-			{key: "0169643910", value: 0x7F5468}, // levemir
+			{key: "0169643910", value: 0x2BA28E}, // levemir
 			{key: "169643910", value: 0x81c4b7},
 			{key: "551541918", value: 0xdbd8cf},
 			{key: "667159712", value: 0xec6a5d},
