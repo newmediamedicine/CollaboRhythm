@@ -60,7 +60,7 @@ package collaboRhythm.plugins.equipment.model
 
 		public function get description():String
 		{
-			return "Blood Glucose Meter";
+			return "";
 		}
 
 		public function get indication():String
@@ -70,12 +70,12 @@ package collaboRhythm.plugins.equipment.model
 
 		public function get primaryInstructions():String
 		{
-			return "1 measurement from fingerstick";
+			return "";
 		}
 
 		public function get secondaryInstructions():String
 		{
-			return "take measurement before eating";
+			return "";
 		}
 
 		public function get instructionalVideoPath():String
