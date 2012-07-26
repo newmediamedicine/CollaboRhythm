@@ -39,11 +39,18 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private static const MILLISECONDS_IN_DAY:Number = 1000 * 60 * 60 * 24;
 
-		private static const bloodGlucoseRequirements:String = "<ol>" +
-				"<li>it must be the first measurement taken in the day</li>" +
-				"<li>it must be taken before eating breakfast (preprandial)</li>" +
-				"<li>it must fall within a window of time including today and the three days prior to today (four day window)</li>" +
+		private static const STEP_1_STATE_DESCRIPTION_REQUIREMENTS_MET:String = "There <b>are</b> at least three blood glucose measurements from the last four days (including one from today) which meet the following criteria: ";
+		private static const STEP_1_STATE_DESCRIPTION_REQUIREMENTS_NOT_MET:String = "There are <b>not</b> at least three blood glucose measurements from the last four days (including one from today) which meet the following criteria: ";
+		private static const BLOOD_GLUCOSE_REQUIREMENTS:String = "<ol>" +
+				"<li>must be the first measurement taken in the day</li>" +
+				"<li>must be taken before eating breakfast (preprandial)</li>" +
+				"<li>must be after the last titration and also in the last four days</li>" +
 				"</ol>";
+
+		private static const STEP_2_STATE_DESCRIPTION_MEDICATION_ADHERENCE_PERFECT:String = "Medication adherence for the past three days <b>is</b> perfect.";
+		private static const STEP_2_STATE_DESCRIPTION_MEDICATION_ADHERENCE_NOT_PERFECT:String = "Medication adherence for the past three days is <b>not</b> perfect. ";
+
+		private static const CHOSE_A_NEW_DOSE_ACTION_STEP_RESULT_TEXT:String = "Chose a new dose";
 
 		private var _areBloodGlucoseRequirementsMet:Boolean = true;
 		private var _dosageChangeValue:Number;
@@ -103,9 +110,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		/**
 		 * Picks the eligible blood glucose measurements for the 303 algorithm.
 		 * For a blood glucose measurement to eligible for determining the average for the algorithm:
-		 * 	1) it must be the first measurement taken in the day
-		 * 	2) it must be taken before eating breakfast (preprandial)
-		 * 	3) it must fall within a window of time including today and the three days prior to today (four day window)
+		 * 	1) must be the first measurement taken in the day
+		 * 	2) must be taken before eating breakfast (preprandial)
+		 * 	3) must be after the last titration and also in the last four days
 		 */
 		private function pickEligibleBloodGlucoseMeasurements():void
 		{
@@ -164,9 +171,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private function updateStep1State():void
 		{
 			step1StateDescription = (areBloodGlucoseRequirementsMet ?
-					"There <b>are</b> at least three blood glucose measurements from the last four days (including one from today) which meet the following criteria: " :
-					"There are <b>not</b> at least three blood glucose measurements from the last four days (including one from today) which meet the following criteria: ") +
-					bloodGlucoseRequirements;
+					STEP_1_STATE_DESCRIPTION_REQUIREMENTS_MET :
+					STEP_1_STATE_DESCRIPTION_REQUIREMENTS_NOT_MET) +
+					BLOOD_GLUCOSE_REQUIREMENTS;
 
 			step1State = areBloodGlucoseRequirementsMet ? STEP_SATISFIED : STEP_STOP;
 			updateStep2State();
@@ -175,8 +182,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private function updateStep2State():void
 		{
 			step2StateDescription = isAdherencePerfect ?
-					"Medication adherence for the past three days <b>is</b> perfect." :
-					"Medication adherence for the past three days is <b>not</b> perfect. " + nonAdherenceDescription;
+					STEP_2_STATE_DESCRIPTION_MEDICATION_ADHERENCE_PERFECT :
+					STEP_2_STATE_DESCRIPTION_MEDICATION_ADHERENCE_NOT_PERFECT + nonAdherenceDescription;
 			step2State = step1State == STEP_SATISFIED ? (isAdherencePerfect ? STEP_SATISFIED : STEP_STOP) : STEP_PREVIOUS_STOP;
 			updateStep3State();
 		}
@@ -550,8 +557,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 			return saveSucceeded;
 		}
-
-		private static const CHOSE_A_NEW_DOSE_ACTION_STEP_RESULT_TEXT:String = "Chose a new dose";
 
 		private function saveDecisionResult(plan:HealthActionPlan):void
 		{
