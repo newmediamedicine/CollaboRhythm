@@ -171,12 +171,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			}
 		}
 
-		protected function dosageChangeLabelFunction(i:Number):String
+		protected function dosageChangeLabelFunction(value:Number):String
 		{
-			if (isNaN(i))
+			if (isNaN(value))
 				return "";
+			else if (value == 0)
+				return "No Change";
 			else
-				return (i > 0 ? "+" : "") + i.toString() + " Units";
+				return (value > 0 ? "+" : "") + value.toString() + " Units";
 		}
 
 		private function model_dosageChangeValue_changeHandler(value:Number):void
