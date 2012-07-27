@@ -41,12 +41,13 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private static const MILLISECONDS_IN_DAY:Number = 1000 * 60 * 60 * 24;
 
-		private static const STEP_1_STATE_DESCRIPTION_REQUIREMENTS_MET:String = "There <b>are</b> at least three blood glucose measurements from the last four days (including one from today) which meet the following criteria: ";
-		private static const STEP_1_STATE_DESCRIPTION_REQUIREMENTS_NOT_MET:String = "There are <b>not</b> at least three blood glucose measurements from the last four days (including one from today) which meet the following criteria: ";
+		private static const STEP_1_STATE_DESCRIPTION_REQUIREMENTS_MET:String = "There <b>are</b> at least three acceptable blood glucose measurements for the protocol that conform the following rules: ";
+		private static const STEP_1_STATE_DESCRIPTION_REQUIREMENTS_NOT_MET:String = "There are <b>not</b> at least three acceptable blood glucose measurements for the protocol that conform the following rules: ";
 		private static const BLOOD_GLUCOSE_REQUIREMENTS:String = "<ol>" +
-				"<li>must be the first measurement taken in the day</li>" +
-				"<li>must be taken before eating breakfast (preprandial)</li>" +
-				"<li>must be after the last titration{0} and also in the last four days</li>" +
+				"<li>Only the first measurement each day</li>" +
+				"<li>Taken before eating (preprandial)</li>" +
+				"<li>Since your last change in insulin dose{0}</li>" +
+				"<li>Within the past " + NUMBER_OF_DAYS_FOR_ELIGIBLE_BLOOD_GLUCOSE + " days (one must be this morning) </li>" +
 				"</ol>";
 		private static const BLOOD_GLUCOSE_REQUIREMENTS_DETAILS_LAST_TITRATION:String = " (the first dose of {0} Units was on {1})";
 		private static const BLOOD_GLUCOSE_REQUIREMENTS_DETAILS_NO_DOSE_INFORMATION:String = " (but titration information could not be determined)";
