@@ -37,7 +37,7 @@
                      <dateEnd>2012-07-02T17:00:00Z</dateEnd>
                      <recurrenceRule>
                         <frequency>DAILY</frequency>
-                        <count>30</count>
+                        <count>120</count>
                      </recurrenceRule>
                      <instructions xmlns="">Use device to record blood glucose. Insert test strip into device and apply a drop of blood.</instructions>
                   </HealthActionSchedule>

@@ -51,7 +51,7 @@
 							<dateEnd>2012-07-02T17:00:00Z</dateEnd>
 							<recurrenceRule>
 								<frequency>DAILY</frequency>
-								<count>30</count>
+								<count>120</count>
 							</recurrenceRule>
 						</HealthActionSchedule>
 					</document>
