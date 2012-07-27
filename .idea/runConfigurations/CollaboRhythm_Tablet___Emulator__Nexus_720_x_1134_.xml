@@ -5,6 +5,7 @@
     <option name="airProgramParameters" value="" />
     <option name="appDescriptorForEmulator" value="Android" />
     <option name="debugTransport" value="USB" />
+    <option name="debuggerSdkRaw" value="BC SDK" />
     <option name="emulator" value="Other" />
     <option name="emulatorAdlOptions" value="" />
     <option name="fullScreenHeight" value="1280" />

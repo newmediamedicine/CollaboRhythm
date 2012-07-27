@@ -443,17 +443,17 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 		private function model_propertyChangeHandler(event:PropertyChangeEvent):void
 		{
-			if (event.property == "step1State")
+			if (event.property == "step1State" || event.property == "step1StateDescription")
 			{
 				updateArrow(_arrow1CalloutButton, _model.step1State, _model.step1StateDescription);
 				updateBadge(_step1Badge, model.step1State);
 			}
-			if (event.property == "step2State")
+			if (event.property == "step2State" || event.property == "step2StateDescription")
 			{
 				updateArrow(_arrow2CalloutButton, _model.step2State, _model.step2StateDescription);
 				updateBadge(_step2Badge, model.step2State);
 			}
-			if (event.property == "step3State")
+			if (event.property == "step3State" || event.property == "step3StateDescription")
 			{
 				updateArrow(_arrow3CalloutButton, _model.step3State, _model.step3StateDescription);
 				updateBadge(_step3Badge, model.step3State);

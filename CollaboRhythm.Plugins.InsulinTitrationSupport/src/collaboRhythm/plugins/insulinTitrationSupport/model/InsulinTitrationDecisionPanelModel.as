@@ -9,6 +9,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionPlan;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
@@ -26,6 +27,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import mx.events.CollectionEventKind;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
+	import mx.utils.StringUtil;
 
 	[Bindable]
 	public class InsulinTitrationDecisionPanelModel
@@ -39,11 +41,20 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private static const MILLISECONDS_IN_DAY:Number = 1000 * 60 * 60 * 24;
 
-		private static const bloodGlucoseRequirements:String = "<ol>" +
-				"<li>it must be the first measurement taken in the day</li>" +
-				"<li>it must be taken before eating breakfast (preprandial)</li>" +
-				"<li>it must fall within a window of time including today and the three days prior to today (four day window)</li>" +
+		private static const STEP_1_STATE_DESCRIPTION_REQUIREMENTS_MET:String = "There <b>are</b> at least three blood glucose measurements from the last four days (including one from today) which meet the following criteria: ";
+		private static const STEP_1_STATE_DESCRIPTION_REQUIREMENTS_NOT_MET:String = "There are <b>not</b> at least three blood glucose measurements from the last four days (including one from today) which meet the following criteria: ";
+		private static const BLOOD_GLUCOSE_REQUIREMENTS:String = "<ol>" +
+				"<li>must be the first measurement taken in the day</li>" +
+				"<li>must be taken before eating breakfast (preprandial)</li>" +
+				"<li>must be after the last titration{0} and also in the last four days</li>" +
 				"</ol>";
+		private static const BLOOD_GLUCOSE_REQUIREMENTS_DETAILS_LAST_TITRATION:String = " (the first dose of {0} Units was on {1})";
+		private static const BLOOD_GLUCOSE_REQUIREMENTS_DETAILS_NO_DOSE_INFORMATION:String = " (but titration information could not be determined)";
+
+		private static const STEP_2_STATE_DESCRIPTION_MEDICATION_ADHERENCE_PERFECT:String = "Medication adherence for the past three days <b>is</b> perfect.";
+		private static const STEP_2_STATE_DESCRIPTION_MEDICATION_ADHERENCE_NOT_PERFECT:String = "Medication adherence for the past three days is <b>not</b> perfect. ";
+
+		private static const CHOSE_A_NEW_DOSE_ACTION_STEP_RESULT_TEXT:String = "Chose a new dose";
 
 		private var _areBloodGlucoseRequirementsMet:Boolean = true;
 		private var _dosageChangeValue:Number;
@@ -84,12 +95,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _nonAdherenceDescription:String;
 
 		private var _medicationTitrationHelper:MedicationTitrationHelper;
+		private var _bloodGlucoseRequirementsDetails:String;
 
 		public function InsulinTitrationDecisionPanelModel(chartModelDetails:IChartModelDetails)
 		{
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			this.chartModelDetails = chartModelDetails;
-			updateBloodGlucoseAverage();
 			_medicationTitrationHelper = new MedicationTitrationHelper(chartModelDetails.record, chartModelDetails.currentDateSource);
 		}
 
@@ -103,9 +114,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		/**
 		 * Picks the eligible blood glucose measurements for the 303 algorithm.
 		 * For a blood glucose measurement to eligible for determining the average for the algorithm:
-		 * 	1) it must be the first measurement taken in the day
-		 * 	2) it must be taken before eating breakfast (preprandial)
-		 * 	3) it must fall within a window of time including today and the three days prior to today (four day window)
+		 * 	1) must be the first measurement taken in the day
+		 * 	2) must be taken before eating breakfast (preprandial)
+		 * 	3) must be after the last titration and also in the last four days
 		 */
 		private function pickEligibleBloodGlucoseMeasurements():void
 		{
@@ -113,7 +124,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			var bloodGlucoseArrayCollection:ArrayCollection = chartModelDetails.record.vitalSignsModel.vitalSignsByCategory.getItem(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY);
 			var previousBloodGlucose:VitalSign;
 			var now:Date = _chartModelDetails.currentDateSource.now();
-			var eligibleWindowCutoff:Date = new Date(SynchronizedHealthCharts.roundTimeToNextDay(now).valueOf() - MILLISECONDS_IN_DAY * NUMBER_OF_DAYS_FOR_ELIGIBLE_BLOOD_GLUCOSE);
+			var timeConstraintValue:Number = SynchronizedHealthCharts.roundTimeToNextDay(now).valueOf() - MILLISECONDS_IN_DAY * NUMBER_OF_DAYS_FOR_ELIGIBLE_BLOOD_GLUCOSE;
+			var firstAdministrationDateOfPreviousSchedule:Number = getFirstAdministrationDateOfPreviousSchedule().valueOf();
+			var eligibleWindowCutoff:Date = new Date(Math.max(timeConstraintValue, firstAdministrationDateOfPreviousSchedule));
 			if (bloodGlucoseArrayCollection && bloodGlucoseArrayCollection.length > 0)
 			{
 				for each (var bloodGlucose:VitalSign in bloodGlucoseArrayCollection)
@@ -145,6 +158,31 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			}
 		}
 
+		private function getFirstAdministrationDateOfPreviousSchedule():Date
+		{
+			if (_scheduleDetails && _scheduleDetails.previousSchedule)
+			{
+				var scheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = _scheduleDetails.previousSchedule.getScheduleItemOccurrences();
+				for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrences)
+				{
+					if (scheduleItemOccurrence.adherenceItem && scheduleItemOccurrence.adherenceItem.adherence)
+					{
+						var adherenceResults:Vector.<DocumentBase> = scheduleItemOccurrence.adherenceItem.adherenceResults;
+						var medicationAdministration:MedicationAdministration = adherenceResults.length > 0 ? adherenceResults[0] as MedicationAdministration : null;
+						if (medicationAdministration)
+						{
+							bloodGlucoseRequirementsDetails = StringUtil.substitute(BLOOD_GLUCOSE_REQUIREMENTS_DETAILS_LAST_TITRATION, medicationAdministration.amountAdministered.value, medicationAdministration.dateAdministered.toLocaleString());
+							return medicationAdministration.dateAdministered;
+						}
+					}
+				}
+			}
+
+			// schedule not yet determined or otherwise unavailable; use now as a conservative alternative for this constraint
+			bloodGlucoseRequirementsDetails = BLOOD_GLUCOSE_REQUIREMENTS_DETAILS_NO_DOSE_INFORMATION;
+			return _chartModelDetails.currentDateSource.now();
+		}
+
 		public function get areBloodGlucoseRequirementsMet():Boolean
 		{
 			return _areBloodGlucoseRequirementsMet;
@@ -164,9 +202,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private function updateStep1State():void
 		{
 			step1StateDescription = (areBloodGlucoseRequirementsMet ?
-					"There <b>are</b> at least three blood glucose measurements from the last four days (including one from today) which meet the following criteria: " :
-					"There are <b>not</b> at least three blood glucose measurements from the last four days (including one from today) which meet the following criteria: ") +
-					bloodGlucoseRequirements;
+					STEP_1_STATE_DESCRIPTION_REQUIREMENTS_MET :
+					STEP_1_STATE_DESCRIPTION_REQUIREMENTS_NOT_MET) +
+					StringUtil.substitute(BLOOD_GLUCOSE_REQUIREMENTS, bloodGlucoseRequirementsDetails);
 
 			step1State = areBloodGlucoseRequirementsMet ? STEP_SATISFIED : STEP_STOP;
 			updateStep2State();
@@ -175,8 +213,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private function updateStep2State():void
 		{
 			step2StateDescription = isAdherencePerfect ?
-					"Medication adherence for the past three days <b>is</b> perfect." :
-					"Medication adherence for the past three days is <b>not</b> perfect. " + nonAdherenceDescription;
+					STEP_2_STATE_DESCRIPTION_MEDICATION_ADHERENCE_PERFECT :
+					STEP_2_STATE_DESCRIPTION_MEDICATION_ADHERENCE_NOT_PERFECT + nonAdherenceDescription;
 			step2State = step1State == STEP_SATISFIED ? (isAdherencePerfect ? STEP_SATISFIED : STEP_STOP) : STEP_PREVIOUS_STOP;
 			updateStep3State();
 		}
@@ -467,7 +505,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			{
 				_isInitialized = value;
 				updateIsAdherencePerfect();
-				updateBloodGlucoseAverage();
 				evaluateForInitialize();
 			}
 		}
@@ -504,6 +541,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			dosageChangeValue = _medicationTitrationHelper.dosageChangeValue;
 
 			updateIsAdherencePerfect();
+			updateBloodGlucoseAverage();
 		}
 
 		public function save():Boolean
@@ -550,8 +588,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 			return saveSucceeded;
 		}
-
-		private static const CHOSE_A_NEW_DOSE_ACTION_STEP_RESULT_TEXT:String = "Chose a new dose";
 
 		private function saveDecisionResult(plan:HealthActionPlan):void
 		{
@@ -783,6 +819,16 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function set nonAdherenceDescription(value:String):void
 		{
 			_nonAdherenceDescription = value;
+		}
+
+		public function get bloodGlucoseRequirementsDetails():String
+		{
+			return _bloodGlucoseRequirementsDetails;
+		}
+
+		public function set bloodGlucoseRequirementsDetails(value:String):void
+		{
+			_bloodGlucoseRequirementsDetails = value;
 		}
 	}
 }
