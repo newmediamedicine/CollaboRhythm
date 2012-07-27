@@ -27,7 +27,7 @@
             <dateExpires>2012-10-01T09:00:00-04:00</dateExpires>
             <indication>diabetes</indication>
             <amountOrdered>
-               <value>30</value>
+               <value>120</value>
                <unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
             </amountOrdered>
             <substitutionPermitted>true</substitutionPermitted>
@@ -43,7 +43,7 @@
                      <filledBy>ljohnson@records.media.mit.edu</filledBy>
                      <dateFilled>2012-07-01T19:13:11Z</dateFilled>
                      <amountFilled>
-                        <value>30</value>
+                        <value>120</value>
                         <unit>tab</unit>
                      </amountFilled>
                      <ndc>000931048</ndc>
@@ -62,7 +62,7 @@
                      <dateEnd>2012-07-02T17:00:00Z</dateEnd>
                      <recurrenceRule>
                         <frequency>DAILY</frequency>
-                        <count>30</count>
+                        <count>120</count>
                      </recurrenceRule>
                      <dose>
                         <value>1</value>
