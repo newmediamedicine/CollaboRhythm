@@ -62,7 +62,8 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 
 		public static const BLOOD_GLUCOSE_VERTICAL_AXIS_MINIMUM:Number = 50;
 		public static const BLOOD_GLUCOSE_VERTICAL_AXIS_MAXIMUM:Number = 140;
-		public static const GOAL_ZONE_COLOR:uint = 0x79A773;
+		public static const GOAL_ZONE_COLOR:uint = 0x5D85BF;
+		public static const GOAL_ZONE_ALPHA:Number = 0.5;
 		public static const BLOOD_GLUCOSE_GOAL_ZONE_MINIMUM:Number = 80;
 		public static const BLOOD_GLUCOSE_GOAL_ZONE_MAXIMUM:Number = 110;
 
@@ -227,7 +228,7 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 				canvas.clear();
 
 				var color:uint = GOAL_ZONE_COLOR;
-				canvas.beginFill(color, 1);
+				canvas.beginFill(color, GOAL_ZONE_ALPHA);
 				canvas.drawRect([Edge.LEFT, -1], BLOOD_GLUCOSE_GOAL_ZONE_MINIMUM, [Edge.RIGHT, 1], BLOOD_GLUCOSE_GOAL_ZONE_MAXIMUM);
 				canvas.endFill();
 
