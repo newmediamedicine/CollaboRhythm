@@ -30,21 +30,29 @@
 	<oauthChromeConsumerKey>collaboRhythmChrome</oauthChromeConsumerKey>
 	<oauthChromeConsumerSecret>collaboRhythmChrome_secret93452</oauthChromeConsumerSecret>
 	<pluginSearchPaths>
+		<pluginSearchPath>$APPLICATION_STORAGE_DIRECTORY$/plugins/SchedulePluginModule.swf</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_STORAGE_DIRECTORY$/plugins/HealthChartsPluginModule.swf</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_STORAGE_DIRECTORY$/plugins/MedicationsPluginModule.swf</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_STORAGE_DIRECTORY$/plugins/EquipmentPluginModule.swf</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_STORAGE_DIRECTORY$/plugins</pluginSearchPath>
 		<!-- The following paths are to allow the plugins to load during development without deploying them -->
-		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.BloodPressure/bin-debug</pluginSearchPath>
-		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Equipment/bin-debug</pluginSearchPath>
-		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Medications/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Schedule/bin-debug</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.HealthCharts/bin-debug</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Medications/bin-debug</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Equipment/bin-debug</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.BloodPressure/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.VideoMessages/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.ForaD40b/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.HealthActions/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.PainReport/bin-debug</pluginSearchPath>
-		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.HealthCharts/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Equipment.PillBox/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.BlingAvatar/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.InsulinTitrationSupport/bin-debug</pluginSearchPath>
 		<!-- This path is for the plugins that are installed with the application -->
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/SchedulePluginModule.swf</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/HealthChartsPluginModule.swf</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/MedicationsPluginModule.swf</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/EquipmentPluginModule.swf</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins</pluginSearchPath>
 	</pluginSearchPaths>
 	<demoModeEnabled>true</demoModeEnabled>
