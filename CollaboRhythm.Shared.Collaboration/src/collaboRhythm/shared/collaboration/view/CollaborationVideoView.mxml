@@ -20,7 +20,7 @@
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   resize="setVideoDisplaySize()"
-					   remove="removeHandler()"
+					   removedFromStage="removedFromStageHandler()"
 						title="Video View">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
@@ -95,68 +95,13 @@
 			return false;
 		}
 
-		private function removeHandler():void
+		private function removedFromStageHandler():void
 		{
+			videoDisplayOut.attachCamera(null);
 			if (_collaborationLobbyNetConnectionService.netStreamOut)
 			{
 				_collaborationLobbyNetConnectionService.netStreamOut.attachCamera(null);
 			}
-		}
-
-		private function handleMetaData(metaData:Object):void
-		{
-//						_netStreamTime = 0;
-//						_netStreamDuration = metaData.duration;
-		}
-
-		private function handlePlayStatus(playStatus:Object):void
-		{
-//						if (playStatus.code == "NetStream.Play.Complete")
-//						{
-//							currentState = "complete";
-//							_netStreamTime = _netStream.time;
-//							clearInterval(_playheadInterval);
-//							_playheadInterval = NaN;
-//						}
-		}
-
-		private function netStatusHandler(event:NetStatusEvent):void
-		{
-//						switch (event.info.code)
-//						{
-//							case NETSTREAM_BUFFER_EMPTY:
-//								if (currentState != "complete")
-//								{
-//									currentState = "buffering";
-//								}
-//								break;
-//							case NETSTREAM_BUFFER_FULL:
-//								currentState = "playing";
-//								break;
-//							case NETSTREAM_BUFFER_FLUSH:
-//								currentState = "playing";
-//								break;
-//							case NETSTREAM_FAILED:
-//								_logger.warn("VideoPlayer status " + NETSTREAM_FAILED + " " + _netStreamLocation);
-//								currentState = "failedToPlay";
-//								break;
-//							case NETSTREAM_PLAY_FAILED:
-//								_logger.warn("VideoPlayer status " + NETSTREAM_PLAY_FAILED + " " + _netStreamLocation);
-//								currentState = "failedToPlay";
-//								break;
-//							case NETSTREAM_PLAY_INSUFFICIENTBW:
-//								_logger.info("VideoPlayer status " + NETSTREAM_PLAY_INSUFFICIENTBW + " " + _netStreamLocation);
-//								break;
-//							case NETSTREAM_PLAY_STREAMNOTFOUND:
-//								_logger.warn("VideoPlayer status " + NETSTREAM_PLAY_STREAMNOTFOUND + " " + _netStreamLocation);
-//								currentState = "streamNotFound";
-//								break;
-//						}
-		}
-
-		private function netStatusErrorHandler(event:ErrorEvent):void
-		{
-//						_logger.warn("VideoPlayer status ERROR " + _netStreamLocation);
 		}
 
 		private function determineCollaborationLabelText(collaborationState:String):String
