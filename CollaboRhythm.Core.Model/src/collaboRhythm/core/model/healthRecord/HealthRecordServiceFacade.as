@@ -15,7 +15,6 @@ package collaboRhythm.core.model.healthRecord
 	import collaboRhythm.core.model.healthRecord.service.MedicationScheduleItemsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.ProblemsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.SaveChangesHealthRecordService;
-	import collaboRhythm.core.model.healthRecord.service.VideoMessagesHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.VitalSignHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.stitchers.AdherenceItemStitcher;
 	import collaboRhythm.core.model.healthRecord.stitchers.EquipmentStitcher;
@@ -85,8 +84,6 @@ package collaboRhythm.core.model.healthRecord
 					activeAccount,
 					debuggingToolsEnabled));
 			addService(new VitalSignHealthRecordService(consumerKey, consumerSecret, baseURL, activeAccount,
-					debuggingToolsEnabled));
-			addService(new VideoMessagesHealthRecordService(consumerKey, consumerSecret, baseURL, activeAccount,
 					debuggingToolsEnabled));
 			addService(new MedicationFillsHealthRecordService(consumerKey, consumerSecret, baseURL, activeAccount,
 					debuggingToolsEnabled));

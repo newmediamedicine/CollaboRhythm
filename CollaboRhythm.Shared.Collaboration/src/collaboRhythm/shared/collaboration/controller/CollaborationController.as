@@ -23,7 +23,6 @@ package collaboRhythm.shared.collaboration.controller
 	import collaboRhythm.shared.controller.ICollaborationController;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.Record;
-	import collaboRhythm.shared.model.healthRecord.document.VideoMessage;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	import collaboRhythm.shared.model.settings.Settings;
@@ -96,10 +95,10 @@ package collaboRhythm.shared.collaboration.controller
 
 		public function uploadVideoMessage():void
 		{
-			var record:Record = _collaborationModel.activeRecordAccount.primaryRecord;
-			var videoMessage:VideoMessage = record.videoMessagesModel.createVideoMessage(activeAccount,
-					_currentDateSource);
-			record.addDocument(videoMessage, true);
+//			var record:Record = _collaborationModel.activeRecordAccount.primaryRecord;
+//			var videoMessage:VideoMessage = record.videoMessagesModel.createVideoMessage(activeAccount,
+//					_currentDateSource);
+//			record.addDocument(videoMessage, true);
 		}
 
 		public function get activeAccount():Account
