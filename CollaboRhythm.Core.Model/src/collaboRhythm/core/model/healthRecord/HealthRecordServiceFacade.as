@@ -69,8 +69,6 @@ package collaboRhythm.core.model.healthRecord
 					activeAccount, this);
 
 			_services = new Vector.<DocumentStorageServiceBase>();
-			addService(new ProblemsHealthRecordService(consumerKey, consumerSecret, baseURL, activeAccount,
-					debuggingToolsEnabled));
 			addService(new MedicationAdministrationsHealthRecordService(consumerKey, consumerSecret, baseURL,
 					activeAccount,
 					debuggingToolsEnabled));

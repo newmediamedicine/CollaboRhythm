@@ -66,7 +66,7 @@ package collaboRhythm.shared.model
         private var _equipmentModel:EquipmentModel;
 		private var _healthActionSchedulesModel:HealthActionSchedulesModel;
         private var _adherenceItemsModel:AdherenceItemsModel;
-        private var _problemsModel:ProblemsModel;
+        private var _problemsModel:ProblemsModel = new ProblemsModel();
         private var _appData:HashMap = new HashMap();
 		private var _vitalSignsModel:VitalSignsModel;
 		private var _healthActionPlansModel:HealthActionPlansModel;
@@ -97,6 +97,9 @@ package collaboRhythm.shared.model
 
         private function initDocumentModels():void
         {
+			// TODO: fix the handling of problems
+			// the problems model is not currently cleared because it is only loaded once when in clinician mode
+			// the problems model is not currently used in patient mode
 			medicationOrdersModel = new MedicationOrdersModel();
             medicationFillsModel = new MedicationFillsModel();
             medicationScheduleItemsModel = new MedicationScheduleItemsModel();
@@ -104,7 +107,6 @@ package collaboRhythm.shared.model
             equipmentModel = new EquipmentModel();
             healthActionSchedulesModel = new HealthActionSchedulesModel();
             adherenceItemsModel = new AdherenceItemsModel();
-            problemsModel = new ProblemsModel();
 			vitalSignsModel = new VitalSignsModel();
 			healthActionPlansModel = new HealthActionPlansModel();
 			healthActionResultsModel = new HealthActionResultsModel();
