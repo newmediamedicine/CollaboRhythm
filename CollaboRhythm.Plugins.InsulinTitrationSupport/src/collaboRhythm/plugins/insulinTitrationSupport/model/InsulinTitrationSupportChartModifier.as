@@ -199,7 +199,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 					else
 					{
 						var spacerRect:Rect = new Rect();
-						spacerRect.width = 478;
+						spacerRect.width = InsulinTitrationDecisionPanel.INSULIN_TITRATION_DECISION_PANEL_WIDTH;
 						spacerRect.visible = false;
 						extraPanel = spacerRect;
 					}

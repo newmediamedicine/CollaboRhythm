@@ -72,10 +72,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _step1State:String;
 		private var _step2State:String;
 		private var _step3State:String;
+		private var _step4State:String;
 
 		private var _step1StateDescription:String = "";
 		private var _step2StateDescription:String = "";
 		private var _step3StateDescription:String = "";
+		private var _step4StateDescription:String = "";
 
 		private var _bloodGlucoseAverage:Number;
 		private var _verticalAxisMinimum:Number;
@@ -223,6 +225,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private function updateStep3State():void
 		{
 			step3State = step2State == STEP_SATISFIED ? STEP_SATISFIED : STEP_PREVIOUS_STOP;
+			updateStep4State();
+		}
+
+		private function updateStep4State():void
+		{
+			step4State = step3State == STEP_SATISFIED ? STEP_SATISFIED : STEP_PREVIOUS_STOP;
 		}
 
 		public function get isChangeSpecified():Boolean
@@ -830,6 +838,26 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function set bloodGlucoseRequirementsDetails(value:String):void
 		{
 			_bloodGlucoseRequirementsDetails = value;
+		}
+
+		public function get step4State():String
+		{
+			return _step4State;
+		}
+
+		public function set step4State(value:String):void
+		{
+			_step4State = value;
+		}
+
+		public function get step4StateDescription():String
+		{
+			return _step4StateDescription;
+		}
+
+		public function set step4StateDescription(value:String):void
+		{
+			_step4StateDescription = value;
 		}
 	}
 }
