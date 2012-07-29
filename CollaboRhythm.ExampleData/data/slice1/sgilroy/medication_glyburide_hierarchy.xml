@@ -19,19 +19,18 @@
    <LoadableIndivoDocument>
       <document>
          <MedicationOrder xmlns="http://indivo.org/vocab/xml/documents#">
-            <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+            <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310534">Glyburide 2.5 MG Oral Tablet</name>
             <orderType>prescribed</orderType>
             <orderedBy>jking@records.media.mit.edu</orderedBy>
-            <dateOrdered>2012-07-27T09:00:00-04:00</dateOrdered>
+            <dateOrdered>2012-07-27T19:13:11Z</dateOrdered>
             <dateExpires>2012-10-27T09:00:00-04:00</dateExpires>
             <indication>diabetes</indication>
             <amountOrdered>
-               <value>2</value>
-               <unit type="http://indivo.org/codes/units#" value="prefilled syringe"
-                     abbrev="prefilled syringe">prefilled syringe</unit>
+               <value>120</value>
+               <unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
             </amountOrdered>
-            <substitutionPermitted>false</substitutionPermitted>
-            <instructions>take in the evening</instructions>
+            <substitutionPermitted>true</substitutionPermitted>
+            <instructions>take with water</instructions>
          </MedicationOrder>
       </document>
       <relatesTo>
@@ -39,16 +38,14 @@
             <LoadableIndivoDocument>
                <document>
                   <MedicationFill xmlns="http://indivo.org/vocab/xml/documents#">
-                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310534">Glyburide 2.5 MG Oral Tablet</name>
                      <filledBy>ljohnson@records.media.mit.edu</filledBy>
                      <dateFilled>2012-07-27T19:13:11Z</dateFilled>
                      <amountFilled>
-                        <value>2</value>
-                        <unit type="http://indivo.org/codes/units#" value="prefilled syringe"
-                              abbrev="prefilled syringe">prefilled syringe</unit>
+                        <value>120</value>
+                        <unit>tab</unit>
                      </amountFilled>
-                     <ndc>0169643910</ndc>
-                     <instructions>keep in a cold place</instructions>
+                     <ndc>000939364</ndc>
                   </MedicationFill>
                </document>
             </LoadableIndivoDocument>
@@ -57,20 +54,20 @@
             <LoadableIndivoDocument>
                <document>
                   <MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
-                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="310534">Glyburide 2.5 MG Oral Tablet</name>
                      <scheduledBy>jking@records.media.mit.edu</scheduledBy>
                      <dateScheduled>2012-07-27T19:13:11Z</dateScheduled>
-                     <dateStart>2012-07-28T18:00:00-04:00</dateStart>
-                     <dateEnd>2012-07-28T22:00:00-04:00</dateEnd>
+                     <dateStart>2012-07-28T13:00:00Z</dateStart>
+                     <dateEnd>2012-07-28T17:00:00Z</dateEnd>
                      <recurrenceRule>
                         <frequency>DAILY</frequency>
                         <count>120</count>
                      </recurrenceRule>
                      <dose>
-                        <value>12</value>
-                        <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                        <value>1</value>
+                        <unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
                      </dose>
-                     <instructions>rotate injection sites</instructions>
+                     <instructions>take with water</instructions>
                   </MedicationScheduleItem>
                </document>
             </LoadableIndivoDocument>

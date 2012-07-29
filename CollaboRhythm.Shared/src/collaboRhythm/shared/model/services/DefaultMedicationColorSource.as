@@ -58,7 +58,11 @@ package collaboRhythm.shared.model.services
 			{key: "flexeril5", value: 0xfeb864},
 			{key: "6079352501", value: 0xe1e0e0},
 			{key: "007811452", value: 0x86625B}, // glipizide
-			{key: "000931048", value: 0x638AA7} // metformin
+			{key: "000931048", value: 0x638AA7}, // metformin
+			{key: "000939364", value: 0x98b1c2}, // glyburide
+			{key: "000060221", value: 0xeca770}, // sitagliptin
+			{key: "647640301", value: 0xd9d5d2}, // pioglitazone
+			{key: "504190863", value: 0xb4b9b3} // acarabose
 		];
 
 		private var _medicationColorsDictionary:Dictionary = new Dictionary();
