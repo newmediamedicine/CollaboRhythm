@@ -15,9 +15,9 @@
   - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   - <http://www.gnu.org/licenses/>.
   -->
-<Graphic version="2.0" viewHeight="32" viewWidth="110" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+<Graphic version="2.0" viewHeight="32" viewWidth="95" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
   <Library/>
-  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="32" d:pageWidth="110" d:type="layer" d:userLabel="Artboard 1">
+  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="32" d:pageWidth="95" d:type="layer" d:userLabel="Artboard 1">
     <Group ai:objID="23cf7d80" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
       <Group y="0.525391" ai:objID="23cfa180" ai:seqID="3">
         <Ellipse width="30" height="30" ai:objID="2dd7de80" ai:seqID="4">

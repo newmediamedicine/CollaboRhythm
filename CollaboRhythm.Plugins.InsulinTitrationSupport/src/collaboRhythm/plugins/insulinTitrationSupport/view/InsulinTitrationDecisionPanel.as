@@ -12,6 +12,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayCollection;
+	import mx.core.ClassFactory;
 	import mx.core.IVisualElement;
 	import mx.core.mx_internal;
 	import mx.events.PropertyChangeEvent;
@@ -28,11 +29,15 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 	import spark.core.SpriteVisualElement;
 	import spark.filters.ColorMatrixFilter;
 	import spark.primitives.Rect;
+	import spark.skins.mobile.ButtonSkin;
 	import spark.skins.mobile.SpinnerListContainerSkin;
 	import spark.skins.mobile.SpinnerListSkin;
 
 	public class InsulinTitrationDecisionPanel extends Group
 	{
+//		public static const INSULIN_TITRATION_DECISION_PANEL_WIDTH:int = 567;
+		public static const INSULIN_TITRATION_DECISION_PANEL_WIDTH:int = STEP4_X + STEP_WIDTH;
+
 		private static const SUGGESTED_CHANGE_LABEL_COLOR:int = 0x000000;
 		private static const OTHER_CHANGE_LABEL_COLOR:int = 0xBFBFBF;
 		private static const SUGGESTED_CHANGE_BACKGROUND_COLOR:int = 0xF7941E;
@@ -40,16 +45,19 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 		private static const PREREQUISITE_SATISFIED_ARROW_ALPHA:Number = 1;
 		private static const PREREQUISITE_NOT_SATISFIED_ARROW_ALPHA:Number = 0.25;
-		private static const STEP_ARROW_BUTTON_WIDTH:int = 48;
+		private static const STEP_ARROW_BUTTON_WIDTH:int = 46;
 
-		private static const STEP1_X:int = 48;
-		private static const STEP2_X:int = 208;
-		private static const STEP3_X:int = 368;
+		private static const STEP1_X:int = 46;
+		private static const STEP2_X:int = 188;
+		private static const STEP3_X:int = 330;
+		private static const STEP4_X:int = 472;
 
-		private static const STEP_WIDTH:int = 110;
+		private static const STEP_WIDTH:int = 95;
 		private static const GOAL_LABEL_VERTICAL_OFFSET:Number = 3;
 
 		public static const INSULIN_DOSE_CHANGE_SPINNER_LIST_MAX:int = 6;
+
+		public static const NO_CHANGE_LABEL:String = "No Change";
 
 		private var _model:InsulinTitrationDecisionPanelModel;
 
@@ -58,6 +66,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		private var _arrow1CalloutButton:CalloutButton;
 		private var _arrow2CalloutButton:CalloutButton;
 		private var _arrow3CalloutButton:CalloutButton;
+		private var _arrow4CalloutButton:CalloutButton;
 		private var _dosageIncreaseButton:Button;
 		private var _dosageNoChangeButton:Button;
 		private var _dosageDecreaseButton:Button;
@@ -75,12 +84,13 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		private var _step1Badge:Step1Badge;
 		private var _step2Badge:Step2Badge;
 		private var _step3Badge:Step3Badge;
-
+		private var _step4Badge:Step4Badge;
+		private var _sendButton:Button;
 
 		public function InsulinTitrationDecisionPanel()
 		{
 			minHeight = SynchronizedHealthCharts.ADHERENCE_STRIP_CHART_HEIGHT * 2;
-			minWidth = STEP3_X + STEP_WIDTH;
+			minWidth = STEP4_X + STEP_WIDTH;
 		}
 
 		override protected function measure():void
@@ -110,19 +120,30 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			updateBadge(_step3Badge, _model.step3State);
 			addElement(_step3Badge);
 
+			_step4Badge = new Step4Badge();
+			_step4Badge.bottom = 0;
+			_step4Badge.x = STEP4_X;
+			updateBadge(_step4Badge, _model.step4State);
+			addElement(_step4Badge);
+
 			_arrow1CalloutButton = createArrowCalloutButton(0, _model.step1State, _model.step1StateDescription);
 			_arrow2CalloutButton = createArrowCalloutButton(STEP2_X - STEP_ARROW_BUTTON_WIDTH, _model.step2State,
 					_model.step2StateDescription);
 			_arrow3CalloutButton = createArrowCalloutButton(STEP3_X - STEP_ARROW_BUTTON_WIDTH, _model.step3State,
 					_model.step3StateDescription);
+			_arrow4CalloutButton = createArrowCalloutButton(STEP4_X - STEP_ARROW_BUTTON_WIDTH, _model.step4State,
+					_model.step4StateDescription);
 
 			_chartY = 1;
 			determineChartHeight();
 			_step1Chart = createChart(STEP1_X, true);
 			_step2Chart = createChart(STEP2_X, false);
-			_dosageIncreaseButton = createDosageChangeButton(_chartY, 57, _model.dosageIncreaseText + " Units", getDosageChangeLabelColor(_model.algorithmSuggestsIncreaseDose), _model.dosageIncreaseValue);
-			_dosageNoChangeButton = createDosageChangeButton(58, 48, "No Change", getDosageChangeLabelColor(_model.algorithmSuggestsNoChangeDose), 0);
-			_dosageDecreaseButton = createDosageChangeButton(106, 33, _model.dosageDecreaseText + " Units", getDosageChangeLabelColor(_model.algorithmSuggestsDecreaseDose), _model.dosageDecreaseValue);
+			_dosageIncreaseButton = createDosageChangeButton(_chartY, 57, _model.dosageIncreaseText + " Units",
+					getDosageChangeLabelColor(_model.algorithmSuggestsIncreaseDose), _model.dosageIncreaseValue, 21);
+			_dosageNoChangeButton = createDosageChangeButton(58, 48, "No Change",
+					getDosageChangeLabelColor(_model.algorithmSuggestsNoChangeDose), 0, 18);
+			_dosageDecreaseButton = createDosageChangeButton(106, 33, _model.dosageDecreaseText + " Units",
+					getDosageChangeLabelColor(_model.algorithmSuggestsDecreaseDose), _model.dosageDecreaseValue, 21);
 			updateDosageChangeButtons();
 
 			_averagePlotItemRenderer = new AverageBloodGlucosePotItemRenderer();
@@ -138,6 +159,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			_dosageChangeSpinnerListContainer.addElement(_dosageChangeSpinnerList);
 			_dosageChangeSpinnerList.setStyle("skinClass", SpinnerListSkin);
 			_dosageChangeSpinnerList.setStyle("textAlign", "right");
+			_dosageChangeSpinnerList.setStyle("paddingLeft", 6);
+			_dosageChangeSpinnerList.setStyle("paddingRight", 6);
 			_dosageChangeSpinnerListContainer.setStyle("skinClass", SpinnerListContainerSkin);
 			_dosageChangeSpinnerList.percentWidth = 100;
 			var spinnerData:ArrayCollection = new ArrayCollection();
@@ -147,6 +170,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			}
 			_dosageChangeSpinnerListData = spinnerData;
 			_dosageChangeSpinnerList.labelFunction = dosageChangeLabelFunction;
+			_dosageChangeSpinnerList.itemRenderer = new ClassFactory(DosageChangeSpinnerItemRenderer);
 			_dosageChangeSpinnerList.dataProvider = spinnerData;
 			setDosageChangeSpinnerListSelectedItem(_model.dosageChangeValue, false);
 			_dosageChangeSpinnerList.addEventListener(Event.CHANGE, dosageChangeSpinnerList_changeHandler);
@@ -155,6 +179,15 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			BindingUtils.bindSetter(model_dosageChangeValue_changeHandler, _model, "dosageChangeValue");
 
 			addElement(_dosageChangeSpinnerListContainer);
+
+			_sendButton = new Button();
+			_sendButton.label = "Send";
+			_sendButton.x = STEP4_X;
+			updateArrowButtonY(_sendButton);
+			_sendButton.width = STEP_WIDTH;
+			_sendButton.setStyle("skinClass", ButtonSkin);
+			_sendButton.addEventListener(MouseEvent.CLICK, sendButton_clickHandler);
+			addElement(_sendButton);
 		}
 
 		private function updateBadge(badge:SpriteVisualElement, stepState:String):void
@@ -176,7 +209,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			if (isNaN(value))
 				return "";
 			else if (value == 0)
-				return "No Change";
+				return NO_CHANGE_LABEL;
 			else
 				return (value > 0 ? "+" : "") + value.toString() + " Units";
 		}
@@ -338,7 +371,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		}
 
 		private function createDosageChangeButton(y:int, height:int, label:String, labelColor:int,
-												  dosageChangeValue:Number):Button
+												  dosageChangeValue:Number, fontSize:int):Button
 		{
 			var button:Button = new Button();
 			button.setStyle("skinClass", TransparentButtonSkin);
@@ -348,6 +381,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			button.height = height;
 			button.label = label;
 			button.setStyle("color", labelColor);
+			button.setStyle("fontSize", fontSize);
 			button.addEventListener(MouseEvent.CLICK,
 			            function(event:MouseEvent):void {
 							setDosageChangeSpinnerListSelectedItem(dosageChangeValue);
@@ -372,9 +406,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			return calloutButton;
 		}
 
-		private function updateArrowButtonY(calloutButton:CalloutButton):void
+		private function updateArrowButtonY(button:Button):void
 		{
-			calloutButton.y = _chartHeight / 2 - calloutButton.height / 2;
+			button.y = _chartHeight / 2 - button.height / 2;
 		}
 
 		private function updateArrow(calloutButton:CalloutButton, stepState:String,
@@ -458,6 +492,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 				updateArrow(_arrow3CalloutButton, _model.step3State, _model.step3StateDescription);
 				updateBadge(_step3Badge, model.step3State);
 			}
+			if (event.property == "step4State" || event.property == "step4StateDescription")
+			{
+				updateArrow(_arrow4CalloutButton, _model.step4State, _model.step4StateDescription);
+				updateBadge(_step4Badge, model.step4State);
+			}
 			if (event.property == "bloodGlucoseAverage")
 			{
 				invalidateDisplayList();
@@ -476,7 +515,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			updateArrowButtonY(_arrow1CalloutButton);
 			updateArrowButtonY(_arrow2CalloutButton);
 			updateArrowButtonY(_arrow3CalloutButton);
+			updateArrowButtonY(_arrow4CalloutButton);
+			updateArrowButtonY(_sendButton);
 			_dosageChangeSpinnerListContainer.height = _chartHeight;
+		}
+
+		private function sendButton_clickHandler(event:MouseEvent):void
+		{
+			_model.chartModelDetails.record.healthChartsModel.save();
 		}
 	}
 }

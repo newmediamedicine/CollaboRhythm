@@ -41,12 +41,13 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private static const MILLISECONDS_IN_DAY:Number = 1000 * 60 * 60 * 24;
 
-		private static const STEP_1_STATE_DESCRIPTION_REQUIREMENTS_MET:String = "There <b>are</b> at least three blood glucose measurements from the last four days (including one from today) which meet the following criteria: ";
-		private static const STEP_1_STATE_DESCRIPTION_REQUIREMENTS_NOT_MET:String = "There are <b>not</b> at least three blood glucose measurements from the last four days (including one from today) which meet the following criteria: ";
+		private static const STEP_1_STATE_DESCRIPTION_REQUIREMENTS_MET:String = "There <b>are</b> at least three acceptable blood glucose measurements for the protocol that conform the following rules: ";
+		private static const STEP_1_STATE_DESCRIPTION_REQUIREMENTS_NOT_MET:String = "There are <b>not</b> at least three acceptable blood glucose measurements for the protocol that conform the following rules: ";
 		private static const BLOOD_GLUCOSE_REQUIREMENTS:String = "<ol>" +
-				"<li>must be the first measurement taken in the day</li>" +
-				"<li>must be taken before eating breakfast (preprandial)</li>" +
-				"<li>must be after the last titration{0} and also in the last four days</li>" +
+				"<li>Only the first measurement each day</li>" +
+				"<li>Taken before eating (preprandial)</li>" +
+				"<li>Since your last change in insulin dose{0}</li>" +
+				"<li>Within the past " + NUMBER_OF_DAYS_FOR_ELIGIBLE_BLOOD_GLUCOSE + " days (one must be this morning) </li>" +
 				"</ol>";
 		private static const BLOOD_GLUCOSE_REQUIREMENTS_DETAILS_LAST_TITRATION:String = " (the first dose of {0} Units was on {1})";
 		private static const BLOOD_GLUCOSE_REQUIREMENTS_DETAILS_NO_DOSE_INFORMATION:String = " (but titration information could not be determined)";
@@ -71,10 +72,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _step1State:String;
 		private var _step2State:String;
 		private var _step3State:String;
+		private var _step4State:String;
 
 		private var _step1StateDescription:String = "";
 		private var _step2StateDescription:String = "";
 		private var _step3StateDescription:String = "";
+		private var _step4StateDescription:String = "";
 
 		private var _bloodGlucoseAverage:Number;
 		private var _verticalAxisMinimum:Number;
@@ -222,6 +225,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private function updateStep3State():void
 		{
 			step3State = step2State == STEP_SATISFIED ? STEP_SATISFIED : STEP_PREVIOUS_STOP;
+			updateStep4State();
+		}
+
+		private function updateStep4State():void
+		{
+			step4State = step3State == STEP_SATISFIED ? STEP_SATISFIED : STEP_PREVIOUS_STOP;
 		}
 
 		public function get isChangeSpecified():Boolean
@@ -829,6 +838,26 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function set bloodGlucoseRequirementsDetails(value:String):void
 		{
 			_bloodGlucoseRequirementsDetails = value;
+		}
+
+		public function get step4State():String
+		{
+			return _step4State;
+		}
+
+		public function set step4State(value:String):void
+		{
+			_step4State = value;
+		}
+
+		public function get step4StateDescription():String
+		{
+			return _step4StateDescription;
+		}
+
+		public function set step4StateDescription(value:String):void
+		{
+			_step4StateDescription = value;
 		}
 	}
 }
