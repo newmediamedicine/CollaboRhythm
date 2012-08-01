@@ -110,63 +110,6 @@
 
 			BindingUtils.bindSetter(scheduleGroupReportingViewScrollerPosition_changeHandler, _scheduleReportingModel,
 					"scheduleGroupReportingViewScrollPosition");
-
-			var sort:Sort = new Sort();
-			sort.compareFunction = scheduleGroupReportingViewCompareFunction;
-			_scheduleReportingModel.currentScheduleGroup.scheduleItemsOccurrencesCollection.sort = sort;
-			_scheduleReportingModel.currentScheduleGroup.scheduleItemsOccurrencesCollection.refresh();
-		}
-
-		// TODO: Update once we update to new schemas
-		private function scheduleGroupReportingViewCompareFunction(aScheduleItemOccurrence:ScheduleItemOccurrence,
-																   bScheduleItemOccurrence:ScheduleItemOccurrence,
-																   array:Array = null):int
-		{
-			if (aScheduleItemOccurrence.scheduleItem.schedueItemType() == MedicationScheduleItem.MEDICATION)
-			{
-				if (bScheduleItemOccurrence.scheduleItem.schedueItemType() == MedicationScheduleItem.MEDICATION)
-				{
-					if (aScheduleItemOccurrence.scheduleItem.name.text ==
-							bScheduleItemOccurrence.scheduleItem.name.text)
-					{
-						return 0;
-					}
-					else if (aScheduleItemOccurrence.scheduleItem.name.text >
-							bScheduleItemOccurrence.scheduleItem.name.text)
-					{
-						return 1;
-					}
-					else
-					{
-						return -1;
-					}
-				}
-				else
-				{
-					return -1;
-				}
-			}
-			else
-			{
-				if (bScheduleItemOccurrence.scheduleItem.schedueItemType() == MedicationScheduleItem.MEDICATION)
-				{
-					return 1;
-				}
-				else
-				{
-					var aHealthActionSchedule:HealthActionSchedule = aScheduleItemOccurrence.scheduleItem as
-							HealthActionSchedule;
-					if (aHealthActionSchedule.scheduledEquipment != null)
-					{
-						return -1;
-					}
-					else
-					{
-						return 1;
-					}
-				}
-
-			}
 		}
 
 		private function scheduleGroupReportingViewScrollerPosition_changeHandler(scheduleGroupReportingViewScrollPosition:Number):void

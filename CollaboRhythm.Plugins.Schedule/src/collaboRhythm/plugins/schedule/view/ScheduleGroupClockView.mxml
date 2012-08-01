@@ -41,6 +41,8 @@
 		import mx.events.CollectionEvent;
 		import mx.events.CollectionEventKind;
 
+		import spark.collections.Sort;
+
 		import spark.components.Group;
 
 		private var _scheduleModel:ScheduleModel;
