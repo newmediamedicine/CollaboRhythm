@@ -15,14 +15,18 @@ package collaboRhythm.shared.ui.healthCharts.model
 		public static const MEDICATION_TYPE:String = "Medication";
 		public static const EQUIPMENT_TYPE:String = "Equipment";
 		private var _date:Date;
+		private var _color:uint;
 
-		public function AdherenceStripItemProxy(currentDateSource:ICurrentDateSource, proxyType:String,
+		public function AdherenceStripItemProxy(currentDateSource:ICurrentDateSource,
+												proxyType:String,
 												scheduleItemOccurrence:ScheduleItemOccurrence,
-												adherenceItem:AdherenceItem)
+												adherenceItem:AdherenceItem,
+												color:uint)
 		{
 			_currentDateSource = currentDateSource;
 			_proxyType = proxyType;
 			_scheduleItemOccurrence = scheduleItemOccurrence;
+			_color = color;
 			if (scheduleItemOccurrence && scheduleItemOccurrence.adherenceItem)
 				_adherenceItem = scheduleItemOccurrence.adherenceItem;
 			if (adherenceItem)
@@ -115,6 +119,16 @@ package collaboRhythm.shared.ui.healthCharts.model
 						"Date scheduled: " + scheduleItemOccurrence.dateStart.toLocaleString() + " to " +
 						scheduleItemOccurrence.dateEnd.toLocaleString();
 			}
+		}
+
+		public function get color():uint
+		{
+			return _color;
+		}
+
+		public function set color(value:uint):void
+		{
+			_color = value;
 		}
 	}
 }

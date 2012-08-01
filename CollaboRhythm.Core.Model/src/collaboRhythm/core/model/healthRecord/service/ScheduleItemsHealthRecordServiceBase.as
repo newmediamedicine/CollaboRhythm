@@ -17,10 +17,13 @@ package collaboRhythm.core.model.healthRecord.service
 		public function ScheduleItemsHealthRecordServiceBase(consumerKey:String, consumerSecret:String, baseURL:String,
 															 account:Account, debuggingToolsEnabled:Boolean,
 															 targetDocumentType:String, targetClass:Class, targetDocumentSchema:Class,
-															 indivoReportName:String)
+															 indivoReportName:String,
+															 orderByField:String = null,
+															 limit:int = 1000,
+															 sortField:String = null)
 		{
 			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled, targetDocumentType, targetClass,
-				  targetDocumentSchema, indivoReportName);
+				  targetDocumentSchema, indivoReportName, orderByField, limit, sortField);
 		}
 
 		override protected function initializeXmlMarshaller():void

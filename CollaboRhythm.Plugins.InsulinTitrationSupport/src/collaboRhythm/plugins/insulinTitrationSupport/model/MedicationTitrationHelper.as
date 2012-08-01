@@ -15,6 +15,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		 * schedule to be changed for a dose of medication (for example) after the medication was due to be taken.
 		 */
 		private static const NEXT_OCCURRENCE_DELTA:Number = 0;
+		private static const ALLOW_CHANGE_LATE_OCCURRENCE:Boolean = true;
 
 		private var _record:Record;
 		private var _currentDateSource:ICurrentDateSource;
@@ -88,11 +89,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 							scheduleDetails = new ScheduleDetails(medicationScheduleItem, scheduleItemOccurrence);
 							break;
 						}
-						else if (scheduleItemOccurrence.adherenceItem == null &&
-								scheduleItemOccurrence.dateEnd.valueOf() >= (now.valueOf() - NEXT_OCCURRENCE_DELTA))
-						{
-							scheduleDetails = new ScheduleDetails(medicationScheduleItem, scheduleItemOccurrence);
-							break;
+						else {
+							var currentScheduleCutoff:Number = ALLOW_CHANGE_LATE_OCCURRENCE ? SynchronizedHealthCharts.roundTimeToNextDay(now).valueOf() - ScheduleItemBase.MILLISECONDS_IN_DAY : (now.valueOf() - NEXT_OCCURRENCE_DELTA);
+							if ((scheduleItemOccurrence.adherenceItem == null || scheduleItemOccurrence.adherenceItem.adherence == false) &&
+															scheduleItemOccurrence.dateEnd.valueOf() >= currentScheduleCutoff)
+													{
+														scheduleDetails = new ScheduleDetails(medicationScheduleItem, scheduleItemOccurrence);
+														break;
+													}
 						}
 					}
 					if (scheduleDetails)

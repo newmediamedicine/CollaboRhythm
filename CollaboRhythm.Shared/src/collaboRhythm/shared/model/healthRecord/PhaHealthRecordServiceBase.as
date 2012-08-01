@@ -38,9 +38,12 @@ package collaboRhythm.shared.model.healthRecord
 		{
 			super(oauthPhaConsumerKey, oauthPhaConsumerSecret, indivoServerBaseURL, account);
 
-			_pha = new Pha(oauthPhaConsumerKey, oauthPhaConsumerSecret, indivoServerBaseURL);
-			_pha.addEventListener(IndivoClientEvent.COMPLETE, indivoClientEventHandler);
-			_pha.addEventListener(IndivoClientEvent.ERROR, indivoClientEventHandler)
+			if (oauthPhaConsumerKey && oauthPhaConsumerSecret && indivoServerBaseURL)
+			{
+				_pha = new Pha(oauthPhaConsumerKey, oauthPhaConsumerSecret, indivoServerBaseURL);
+				_pha.addEventListener(IndivoClientEvent.COMPLETE, indivoClientEventHandler);
+				_pha.addEventListener(IndivoClientEvent.ERROR, indivoClientEventHandler)
+			}
 		}
 
 		public function createDocument(record:Record, document:IDocument, documentXmlString:String):void

@@ -8,6 +8,8 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.MedicationChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.view.MedicationScheduleItemChartView;
 
+	import com.dougmccune.controls.BlankAxisRenderer;
+
 	import com.dougmccune.controls.ScrubChart;
 	import com.dougmccune.controls.SeriesDataSet;
 	import com.theory9.data.types.OrderedMap;
@@ -34,6 +36,7 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	public class DefaultMedicationChartModifier extends ChartModifierBase implements IChartModifier
 	{
 		private var _medicationColorSource:IMedicationColorSource;
+		private const HIDE_MEDICATION_VERTICAL_AXIS:Boolean = true;
 
 		public function DefaultMedicationChartModifier(chartDescriptor:MedicationChartDescriptor,
 														   chartModelDetails:IChartModelDetails,
@@ -65,6 +68,12 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 					verticalAxis = chart.mainChartCover.verticalAxis as LinearAxis;
 					verticalAxis.minimum = 0;
 					verticalAxis.maximum = medicationModel.concentrationAxisMaximum;
+					if (HIDE_MEDICATION_VERTICAL_AXIS)
+					{
+						var renderer:BlankAxisRenderer = new BlankAxisRenderer();
+						renderer.axis = verticalAxis;
+						chart.mainChartCover.verticalAxisRenderers = [renderer];
+					}
 				}
 			}
 		}

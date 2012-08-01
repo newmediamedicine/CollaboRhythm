@@ -29,12 +29,19 @@
 		<![CDATA[
 		import castle.flexbridge.reflection.ReflectionUtils;
 
+		import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
+
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+		import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
+		import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 		import collaboRhythm.shared.ui.healthCharts.model.AdherenceStripItemProxy;
 
 		import mx.charts.series.items.PlotSeriesItem;
+		import mx.collections.ArrayCollection;
+		import mx.collections.ArrayList;
+		import mx.core.UIComponent;
 		import mx.events.FlexEvent;
 
 		import assets.images.check;
@@ -52,12 +59,40 @@
 
 		private function updateImageVisible():void
 		{
-			var adherenceStripItemProxy:AdherenceStripItemProxy = (data as PlotSeriesItem).item as AdherenceStripItemProxy;
+			var adherenceStripItemProxy:AdherenceStripItemProxy = (data as PlotSeriesItem).item as
+					AdherenceStripItemProxy;
 			if (adherenceStripItemProxy == null)
-				throw new Error("data.item of renderer is a " + ReflectionUtils.getClassInfo(ReflectionUtils.getClass(data)).name + "; expected AdherenceStripItemProxy");
+				throw new Error("data.item of renderer is a " +
+						ReflectionUtils.getClassInfo(ReflectionUtils.getClass(data)).name +
+						"; expected AdherenceStripItemProxy");
 
 			var adherenceItem:AdherenceItem = adherenceStripItemProxy.adherenceItem;
+			var doseLabelText:String = "";
 
+			var medicationAdministration:MedicationAdministration = adherenceItem && adherenceItem.adherenceResults &&
+					adherenceItem.adherenceResults.length >
+							0 ? adherenceItem.adherenceResults[0] as MedicationAdministration : null;
+			var doseValueAndUnit:ValueAndUnit;
+			if (medicationAdministration && medicationAdministration.amountAdministered)
+			{
+				doseValueAndUnit = medicationAdministration.amountAdministered;
+			}
+			else if (adherenceStripItemProxy.scheduleItemOccurrence)
+			{
+				var medicationScheduleItem:MedicationScheduleItem = adherenceStripItemProxy.scheduleItemOccurrence.scheduleItem as
+						MedicationScheduleItem;
+				doseValueAndUnit = medicationScheduleItem ? medicationScheduleItem.dose : null;
+			}
+
+			if (doseValueAndUnit && doseValueAndUnit.value != "1")
+			{
+				doseLabelText = doseValueAndUnit.value;
+			} else
+			{
+				doseLabelText = "";
+			}
+
+			var adherence:Boolean = false;
 			if (adherenceItem)
 			{
 				if (adherenceItem.adherence)
@@ -65,6 +100,7 @@
 					yesImage.visible = true;
 					noImage.visible = false;
 					unreportedImage.visible = false;
+					adherence = true;
 				}
 				else
 				{
@@ -80,6 +116,28 @@
 				unreportedImage.visible = adherenceStripItemProxy.isEndBeforeCurrentDate;
 			}
 
+			doseLabel.setStyle("color", adherence ? 0xFFFFFF : adherenceStripItemProxy.color);
+			doseGlow.color = adherence ? adherenceStripItemProxy.color : 0xFFFFFF;
+			doseLabel.text = doseLabelText;
+		}
+
+		private function findMask():void
+		{
+			trace("Searching for mask......");
+			var component:UIComponent = this;
+			var ancestorStack:Array = new Array();
+			var depth:int = 0;
+			while (component)
+			{
+				if (component.mask)
+				{
+					trace("Mask ---))))))))))))) " + depth + " deep on " + component + " " + component.id);
+					component.mask = null;
+				}
+				ancestorStack.unshift(component);
+				component = component.parent as UIComponent;
+				depth++;
+			}
 		}
 		]]>
 	</fx:Script>
@@ -88,4 +146,9 @@
 	<sharedView:AdherenceCheck id="yesImage" width="26.53" height="28.057" horizontalCenter="3" verticalCenter="0"/>
 	<s:Label id="unreportedImage" text="?" fontSize="36" fontWeight="bold" color="#ED1C24" horizontalCenter="0" verticalCenter="3"/>
 	<s:Label id="noImage" text="X" fontSize="36" fontWeight="bold" color="#ED1C24" horizontalCenter="0" verticalCenter="3"/>
+	<s:Label id="doseLabel" fontSize="18" fontWeight="bold" horizontalCenter="0" y="{-34}" color="0xFFFFFF" mouseEnabled="false" alpha="0.5">
+		<s:filters>
+			<s:GlowFilter id="doseGlow" blurX="8" blurY="8" color="0x2BA28E" quality="2" strength="4"/>
+		</s:filters>
+	</s:Label>
 </s:ItemRenderer>

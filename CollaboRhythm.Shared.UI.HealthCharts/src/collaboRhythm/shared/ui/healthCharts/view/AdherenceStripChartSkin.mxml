@@ -17,7 +17,7 @@
   -->
 <s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
 			 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:mccune="com.dougmccune.controls.*" xmlns:skins="skins.*"
-			 xmlns:datashapes="qs.charts.dataShapes.*"
+			 xmlns:datashapes="qs.charts.dataShapes.*" xmlns:view="collaboRhythm.shared.ui.healthCharts.view.*"
 			 width="1024"
 			 height="600"
 			 styleName="scrubChartSkinStyle"
@@ -57,8 +57,9 @@
 			   styleName="canvasContainerStyles"
 			   backgroundColor="#BFBEBE"
 			   borderStyle="none"
+			   clipContent="false"
 			   >
-		<mx:LineChart id="mainChart"
+		<view:LineChartEx id="mainChart"
 					  x="0" y="0"
 					  showDataTips="true"
 					  width="{mainChartContainer.width * 3}" height="{mainChartContainer.height}"
@@ -73,7 +74,7 @@
 					  gutterRight="0"
 					  gutterTop="0"
 					  >
-			<mx:backgroundElements>
+			<view:backgroundElements>
 				<datashapes:DataDrawingCanvas id="mainDataDrawingCanvas" includeInRanges="true" width="100%" height="100%">
 				</datashapes:DataDrawingCanvas>
 				<mx:GridLines gridDirection="vertical" horizontalShowOrigin="false">
@@ -84,32 +85,32 @@
 						<s:SolidColorStroke weight="0"/>
 					</mx:horizontalStroke>
 				</mx:GridLines>
-			</mx:backgroundElements>
+			</view:backgroundElements>
 
-			<mx:horizontalAxis>
+			<view:horizontalAxis>
 				<mccune:InclusiveDateTimeAxis id="mainChartHorizontalAxis" dataUnits="milliseconds"
 								 disabledDays="[]" displayLocalTime="true"
 								 />
-			</mx:horizontalAxis>
+			</view:horizontalAxis>
 
-			<mx:horizontalAxisRenderers>
+			<view:horizontalAxisRenderers>
 				<!--<mccune:BlankAxisRenderer axis="{mainChartHorizontalAxis}"/>-->
 				<mx:AxisRenderer axis="{mainChartHorizontalAxis}" showLabels="false" tickLength="0" tickPlacement="none" labelGap="0">
 					<mx:axisStroke>
 						<s:SolidColorStroke weight="0" alpha="0"/>
 					</mx:axisStroke>
 				</mx:AxisRenderer>
-			</mx:horizontalAxisRenderers>
+			</view:horizontalAxisRenderers>
 
-			<mx:verticalAxis>
+			<view:verticalAxis>
 				<mx:LinearAxis id="mainChartVerticalAxis" baseAtZero="false"/>
-			</mx:verticalAxis>
+			</view:verticalAxis>
 
-			<mx:verticalAxisRenderers>
+			<view:verticalAxisRenderers>
 				<mccune:BlankAxisRenderer axis="{mainChartVerticalAxis}"/>
-			</mx:verticalAxisRenderers>
+			</view:verticalAxisRenderers>
 
-			<mx:annotationElements>
+			<view:annotationElements>
 				<!-- Skin part to receive mouse events for scrolling the main chart -->
 				<mx:Canvas id="mainChartArea"
 						   width="{mainChart.width}" height="{mainChart.height}"
@@ -130,8 +131,8 @@
 						</s:stroke>
 					</s:Ellipse>
 				</s:Group>
-			</mx:annotationElements>
-		</mx:LineChart>
+			</view:annotationElements>
+		</view:LineChartEx>
 
 		<!-- mainChart border lines -->
 		<s:Group id="borderGroup" height="100%" width="100%">

@@ -74,7 +74,7 @@ package collaboRhythm.core.model.healthRecord.service
 			super.handleResponse(event, responseXml, healthRecordServiceRequestDetails);
         }
 
-		private function createMedicationConcentrationCollections(medicationAdministrationsModel:MedicationAdministrationsModel):void
+		public function createMedicationConcentrationCollections(medicationAdministrationsModel:MedicationAdministrationsModel):void
 		{
 			for each (var key:String in medicationAdministrationsModel.medicationAdministrationsCollectionsByCode.keys)
 			{

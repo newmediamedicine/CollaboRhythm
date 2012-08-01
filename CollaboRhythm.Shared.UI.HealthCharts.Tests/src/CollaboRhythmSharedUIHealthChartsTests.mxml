@@ -1,0 +1,157 @@
+<?xml version="1.0"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:view="collaboRhythm.shared.ui.healthCharts.view.*" creationComplete="creationCompleteHandler(event)" preinitialize="preinitializeHandler(event)">
+    <fx:Script><![CDATA[
+		import collaboRhythm.core.model.XmlMarshaller;
+		import collaboRhythm.core.model.healthRecord.service.AdherenceItemsHealthRecordService;
+		import collaboRhythm.core.model.healthRecord.service.HealthChartsInitializationService;
+		import collaboRhythm.core.model.healthRecord.service.MedicationAdministrationsHealthRecordService;
+		import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
+		import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
+		import collaboRhythm.shared.model.DateUtil;
+		import collaboRhythm.shared.model.Record;
+		import collaboRhythm.shared.model.healthRecord.CodedValue;
+		import collaboRhythm.shared.model.healthRecord.Relationship;
+		import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
+		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+		import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
+		import collaboRhythm.shared.model.services.DefaultCurrentDateSource;
+		import collaboRhythm.shared.model.services.DefaultMedicationColorSource;
+		import collaboRhythm.shared.model.services.DemoCurrentDateSource;
+		import collaboRhythm.shared.model.services.ICurrentDateSource;
+		import collaboRhythm.shared.model.services.IMedicationColorSource;
+		import collaboRhythm.shared.model.services.WorkstationKernel;
+
+		import mx.controls.Alert;
+		import mx.events.FlexEvent;
+
+		[Bindable]
+		public var _healthChartsModel:HealthChartsModel;
+
+		[Bindable]
+		private var _componentContainer:DefaultComponentContainer;
+
+		private function preinitializeHandler(event:FlexEvent):void
+		{
+			var dateSource:DemoCurrentDateSource = new DemoCurrentDateSource();
+			dateSource.targetDate = DateUtil.parseW3CDTF("2011-07-17T22:57:00Z");
+			WorkstationKernel.instance.registerComponentInstance("CurrentDateSource", ICurrentDateSource,
+					dateSource);
+
+			var medicationColorSource:DefaultMedicationColorSource = new DefaultMedicationColorSource();
+			WorkstationKernel.instance.registerComponentInstance("MedicationColorSource", IMedicationColorSource,
+					medicationColorSource);
+
+			var record:Record = new Record(<Record id="118bd088-6ad1-4bad-bd0b-eebdb19cc9a5" label="Michael Brooks3"/>);
+			record.isLoading = true;
+
+			var medicationAdministration:MedicationAdministration = new MedicationAdministration();
+			const medicationAdministrationXmlVector:Vector.<XML> = new <XML> [
+				<MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+					<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+					<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+					<dateReported>2011-07-15T22:57:00Z</dateReported>
+					<dateAdministered>2011-07-15T22:57:00Z</dateAdministered>
+					<amountAdministered>
+						<value>12</value>
+						<unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+					</amountAdministered>
+					<amountRemaining>
+						<value>2</value>
+						<unit type="http://indivo.org/codes/units#" value="prefilled syringe"
+						abbrev="prefilled syringe">prefilled syringe</unit>
+					</amountRemaining>
+				</MedicationAdministration>,
+				<MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+					<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+					<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+					<dateReported>2011-07-16T22:57:00Z</dateReported>
+					<dateAdministered>2011-07-16T22:57:00Z</dateAdministered>
+					<amountAdministered>
+						<value>12</value>
+						<unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+					</amountAdministered>
+					<amountRemaining>
+						<value>2</value>
+						<unit type="http://indivo.org/codes/units#" value="prefilled syringe"
+						abbrev="prefilled syringe">prefilled syringe</unit>
+					</amountRemaining>
+				</MedicationAdministration>
+			];
+
+			var service:MedicationAdministrationsHealthRecordService = new MedicationAdministrationsHealthRecordService(null,
+					null, null, null, false);
+/*
+			for each (var medicationAdministrationXml:XML in medicationAdministrationXmlVector)
+			{
+				medicationAdministration = service.unmarshallDocumentXml(medicationAdministrationXml) as
+						MedicationAdministration;
+				record.addDocument(medicationAdministration);
+			}
+*/
+
+			var adherenceItem:AdherenceItem = new AdherenceItem();
+			const adherenceItemXmlVector:Vector.<XML> = new <XML> [
+				<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+					<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+					<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+					<dateReported>2011-07-15T22:57:00Z</dateReported>
+					<recurrenceIndex>1</recurrenceIndex>
+					<adherence>true</adherence>
+				</AdherenceItem>
+				,
+				<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+					<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+					<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
+					<dateReported>2011-07-16T23:07:00Z</dateReported>
+					<recurrenceIndex>2</recurrenceIndex>
+					<adherence>true</adherence>
+				</AdherenceItem>
+			];
+
+			var adherenceItemService:AdherenceItemsHealthRecordService = new AdherenceItemsHealthRecordService(null,
+					null, null, null, false);
+			for (var i:int = 0; i < adherenceItemXmlVector.length; i++)
+			{
+				var adherenceItemXml:XML = adherenceItemXmlVector[i];
+				adherenceItem = adherenceItemService.unmarshallDocumentXml(adherenceItemXml) as
+						AdherenceItem;
+
+				var medicationAdministrationXml:XML = medicationAdministrationXmlVector[i];
+				medicationAdministration = service.unmarshallDocumentXml(medicationAdministrationXml) as
+						MedicationAdministration;
+
+				var relationship:Relationship = new Relationship();
+				relationship.relatesFrom = adherenceItem;
+				relationship.relatesTo = medicationAdministration;
+				adherenceItem.relatesTo.addItem(relationship);
+				medicationAdministration.isRelatedFrom.addItem(relationship);
+				adherenceItem.adherenceResults.push(medicationAdministration);
+
+				record.addDocument(adherenceItem);
+				record.addDocument(medicationAdministration);
+			}
+
+			var chartsService:HealthChartsInitializationService = new HealthChartsInitializationService(null, null,
+					null, null, false);
+			chartsService.loadDocuments(record);
+			_healthChartsModel = record.healthChartsModel;
+
+			var administrationsService:MedicationAdministrationsHealthRecordService = new MedicationAdministrationsHealthRecordService(null, null, null, null, false);
+			administrationsService.createMedicationConcentrationCollections(record.medicationAdministrationsModel);
+
+			record.medicationAdministrationsModel.isInitialized = true;
+			record.adherenceItemsModel.isInitialized = true;
+			record.vitalSignsModel.isInitialized = true;
+			record.isLoading = false;
+
+			_componentContainer = new DefaultComponentContainer();
+
+		}
+
+		private function creationCompleteHandler(event:FlexEvent):void
+		{
+		}
+		]]></fx:Script>
+	<view:SynchronizedHealthCharts id="synchronizedHealthCharts" model="{_healthChartsModel}" width="100%" height="100%" componentContainer="{_componentContainer}"/>
+</s:WindowedApplication>

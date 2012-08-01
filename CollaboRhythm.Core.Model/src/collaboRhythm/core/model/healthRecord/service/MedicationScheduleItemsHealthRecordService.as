@@ -27,9 +27,10 @@ package collaboRhythm.core.model.healthRecord.service
 																   baseURL:String, account:Account,
 																   debuggingToolsEnabled:Boolean)
 		{
+			// TODO: fix server so that order_by date_start works as expected; currently results in error 400 Bad Request
 			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled,
 				  MedicationScheduleItem.DOCUMENT_TYPE, MedicationScheduleItem, Schemas.MedicationScheduleItemSchema,
-				  "medicationscheduleitems");
+				  "medicationscheduleitems", null, 1000, "dateStart");
 		}
 	}
 }
