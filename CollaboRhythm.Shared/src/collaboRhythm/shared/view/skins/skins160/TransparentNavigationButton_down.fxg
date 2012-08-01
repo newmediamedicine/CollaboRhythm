@@ -18,7 +18,7 @@
 	<!-- inner glow -->
 	<Rect x="0" y="0" width="80" height="65">
 		<fill>
-			<s:SolidColor color="#2EB5E5" alpha="0.5"/>
+			<s:SolidColor color="#6dcaec"/>
 		</fill>
 	</Rect>
 

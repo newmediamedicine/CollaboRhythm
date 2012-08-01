@@ -30,11 +30,6 @@
 			fontSize: 36;
 			color: #808285;
 		}
-
-		.complexCarbsItemList {
-			selectionColor: #33B5E5;
-			downColor: #0099CC;
-		}
 	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.model.ComplexCarbsItem;

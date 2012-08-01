@@ -24,10 +24,6 @@
 	<fx:Declarations>
 		<s:Button id="saveButton" label="Save" click="saveButton_clickHandler()"/>
 	</fx:Declarations>
-	<fx:Style>
-		@namespace s "library://ns.adobe.com/flex/spark";
-
-	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.schedule.controller.ScheduleAppController;
 		import collaboRhythm.plugins.schedule.controller.ScheduleReportingController;
@@ -35,15 +31,10 @@
 		import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
 		import collaboRhythm.plugins.schedule.model.ScheduleViewInitializationParameters;
 		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
-		import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
-		import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
-		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 		import mx.binding.utils.BindingUtils;
 		import mx.events.PropertyChangeEvent;
 		import mx.logging.ILogger;
-
-		import spark.collections.Sort;
 
 		private var _scheduleAppController:ScheduleAppController;
 		private var _scheduleReportingController:ScheduleReportingController;
