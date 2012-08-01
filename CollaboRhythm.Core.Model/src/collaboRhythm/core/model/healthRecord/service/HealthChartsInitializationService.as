@@ -24,6 +24,8 @@ package collaboRhythm.core.model.healthRecord.service
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministrationsModel;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationOrdersModel;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 
 	import mx.binding.utils.BindingUtils;
@@ -90,9 +92,9 @@ package collaboRhythm.core.model.healthRecord.service
 			if (isDoneLoading)
 			{
 				initializeMedicationSimulationModel(record.healthChartsModel.focusSimulation,
-													record.medicationAdministrationsModel);
+													record.medicationAdministrationsModel, record.medicationOrdersModel);
 				initializeMedicationSimulationModel(record.healthChartsModel.currentSimulation,
-													record.medicationAdministrationsModel);
+													record.medicationAdministrationsModel, record.medicationOrdersModel);
 				initializeVitalSignSimulationModel(record.healthChartsModel.focusSimulation);
 				initializeVitalSignSimulationModel(record.healthChartsModel.currentSimulation);
 			}
@@ -113,7 +115,10 @@ package collaboRhythm.core.model.healthRecord.service
 
 		public function get isDoneLoading():Boolean
 		{
-			return !record.isLoading && record.medicationAdministrationsModel && record.medicationAdministrationsModel.isInitialized;
+			return !record.isLoading &&
+					record.medicationAdministrationsModel && record.medicationAdministrationsModel.isInitialized &&
+					record.medicationOrdersModel && record.medicationOrdersModel.isInitialized &&
+					record.vitalSignsModel && record.vitalSignsModel.isInitialized;
 		}
 
 		/**
@@ -124,7 +129,8 @@ package collaboRhythm.core.model.healthRecord.service
 		 * @param medicationAdministrationsModel The model to use to initialize from.
 		 */
 		private function initializeMedicationSimulationModel(simulation:SimulationModel,
-															 medicationAdministrationsModel:MedicationAdministrationsModel):void
+															 medicationAdministrationsModel:MedicationAdministrationsModel,
+															 medicationOrdersModel:MedicationOrdersModel):void
 		{
 			if (!simulation.isInitialized)
 			{
@@ -134,20 +140,29 @@ package collaboRhythm.core.model.healthRecord.service
 					{
 						var medicationAdministration:MedicationAdministration = medicationAdministrationCollection[0];
 						var name:CodedValue = medicationAdministration.name;
-
-						var index:int = simulation.medicationsByCode.getIndexByKey(name.value);
-						if (index == -1)
-						{
-							var medication:MedicationComponentAdherenceModel = new MedicationComponentAdherenceModel();
-
-							medication.name = name;
-							initializeMedication(medication);
-
-							simulation.addMedication(medication);
-						}
+						createMedication(simulation, name);
 					}
 				}
+				for each (var medicationOrder:MedicationOrder in medicationOrdersModel.medicationOrdersCollection)
+				{
+					createMedication(simulation, medicationOrder.name);
+				}
+
 				simulation.isInitialized = true;
+			}
+		}
+
+		private function createMedication(simulation:SimulationModel, medicationNameCodedValue:CodedValue):void
+		{
+			var index:int = simulation.medicationsByCode.getIndexByKey(medicationNameCodedValue.value);
+			if (index == -1)
+			{
+				var medication:MedicationComponentAdherenceModel = new MedicationComponentAdherenceModel();
+
+				medication.name = medicationNameCodedValue;
+				initializeMedication(medication);
+
+				simulation.addMedication(medication);
 			}
 		}
 

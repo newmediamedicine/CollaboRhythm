@@ -14,6 +14,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
+	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.healthRecord.util.MedicationName;
 	import collaboRhythm.shared.model.healthRecord.util.MedicationNameUtil;
 	import collaboRhythm.shared.model.services.IComponentContainer;
@@ -402,7 +403,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 			if (dataCollection)
 			{
-				_stripChartDataCollections.removeByKey(chartDescriptor.descriptorKey);
+				if (_stripChartDataCollections.getIndexByKey(chartDescriptor.descriptorKey) != -1)
+					_stripChartDataCollections.removeByKey(chartDescriptor.descriptorKey);
 				_stripChartDataCollections.addKeyValue(chartDescriptor.descriptorKey, dataCollection);
 			}
 		}
@@ -556,25 +558,60 @@ package collaboRhythm.shared.ui.healthCharts.view
 			// TODO: make the list of chart descriptors plugable so that new charts can be added (other than the default list of medications and vitals)
 			for each (var medicationCode:String in model.medicationConcentrationCurvesByCode.keys)
 			{
-				var medicationFill:MedicationFill = getMedicationFill(medicationCode);
-
-				var medicationChartDescriptor:MedicationChartDescriptor = new MedicationChartDescriptor();
-				medicationChartDescriptor.medicationCode = medicationCode;
-				if (medicationFill && medicationFill.ndc)
-				medicationChartDescriptor.ndcCode = medicationFill.ndc.text;
-				addChartDescriptor(medicationChartDescriptor);
+				createMedicationChartDescriptor(medicationCode);
 			}
 
 			for each (var vitalSignKey:String in vitalSignChartCategories)
 			{
-				var vitalSignChartDescriptor:VitalSignChartDescriptor = new VitalSignChartDescriptor();
-				vitalSignChartDescriptor.vitalSignCategory = vitalSignKey;
-				addChartDescriptor(vitalSignChartDescriptor);
+				createVitalSignChartDescriptor(vitalSignKey);
+			}
+
+			for each (var medicationScheduleItem:MedicationScheduleItem in model.record.medicationScheduleItemsModel.medicationScheduleItemCollection)
+			{
+				createMedicationChartDescriptor(medicationScheduleItem.name.value);
+			}
+
+			for each (var healthActionSchedule:HealthActionSchedule in model.record.healthActionSchedulesModel.healthActionScheduleCollection)
+			{
+				for each (vitalSignKey in VitalSignsModel.SUPPORTED_CATEGORIES)
+				{
+					if (healthActionAppliesToVitalSign(healthActionSchedule, vitalSignKey))
+						createVitalSignChartDescriptor(vitalSignKey);
+				}
 			}
 
 			/*var measurementChartDescriptor:MeasurementChartDescriptor = new MeasurementChartDescriptor();
 						measurementChartDescriptor.measurementCode = "Performance";
 						addChartDescriptor(measurementChartDescriptor);*/
+		}
+
+		private function healthActionAppliesToVitalSign(healthActionSchedule:HealthActionSchedule,
+														vitalSignKey:String):Boolean
+		{
+			return (healthActionSchedule.instructions &&
+					healthActionSchedule.instructions.toLowerCase().search(vitalSignKey.toLowerCase()) != -1);
+		}
+
+		public function createVitalSignChartDescriptor(vitalSignKey:String):void
+		{
+			var vitalSignChartDescriptor:VitalSignChartDescriptor = new VitalSignChartDescriptor();
+			vitalSignChartDescriptor.vitalSignCategory = vitalSignKey;
+			if (_chartDescriptors.getIndexByKey(vitalSignChartDescriptor.descriptorKey) == -1)
+				addChartDescriptor(vitalSignChartDescriptor);
+		}
+
+		public function createMedicationChartDescriptor(medicationCode:String):void
+		{
+			var medicationFill:MedicationFill = getMedicationFill(medicationCode);
+
+			var medicationChartDescriptor:MedicationChartDescriptor = new MedicationChartDescriptor();
+			medicationChartDescriptor.medicationCode = medicationCode;
+			if (medicationFill && medicationFill.ndc)
+			{
+				medicationChartDescriptor.ndcCode = medicationFill.ndc.text;
+				if (_chartDescriptors.getIndexByKey(medicationChartDescriptor.descriptorKey) == -1)
+					addChartDescriptor(medicationChartDescriptor);
+			}
 		}
 
 		private function addChartDescriptor(chartDescriptor:IChartDescriptor):void
@@ -618,6 +655,10 @@ package collaboRhythm.shared.ui.healthCharts.view
 			var medicationCode:String = chartDescriptor.medicationCode;
 			var medicationFill:MedicationFill = getMedicationFill(medicationCode);
 			var medicationAdministrationsCollection:ArrayCollection = model.record.medicationAdministrationsModel.medicationAdministrationsCollectionsByCode.getItem(medicationCode);
+			var medicationNameText:String;
+			if (medicationFill && medicationFill.name)
+				medicationNameText = medicationFill.name.text;
+
 			if (medicationAdministrationsCollection && medicationAdministrationsCollection[0])
 			{
 				addListenerForCollectionChange(medicationAdministrationsCollection, chartDescriptor);
@@ -626,16 +667,17 @@ package collaboRhythm.shared.ui.healthCharts.view
 				if (medicationModel == null)
 					throw new Error("Medication " + medicationCode +
 							" is in model.medicationConcentrationCurvesByCode but not in model.simulation.medicationsByCode");
-
-				var medicationScheduleItem:MedicationScheduleItem = medicationModel.medicationScheduleItem;
-				var concentrationChart:TouchScrollingScrubChart = createConcentrationChart(chartDescriptor,
-						medicationFill,
-						medicationAdministration);
-				var adherenceStripChart:TouchScrollingScrubChart = createMedicationAdherenceStripChart(chartDescriptor,
-						medicationFill
-				);
-				createAdherenceGroup(chartDescriptor, createChartImage(chartDescriptor), concentrationChart, adherenceStripChart);
+				if (medicationNameText == null && medicationAdministration && medicationAdministration.name)
+					medicationNameText = medicationAdministration.name.text;
 			}
+
+			var concentrationChart:TouchScrollingScrubChart = createConcentrationChart(chartDescriptor,
+					medicationFill,
+					medicationNameText);
+			var adherenceStripChart:TouchScrollingScrubChart = createMedicationAdherenceStripChart(chartDescriptor,
+					medicationFill
+			);
+			createAdherenceGroup(chartDescriptor, createChartImage(chartDescriptor), concentrationChart, adherenceStripChart);
 		}
 
 		private function addListenerForCollectionChange(sourceDataCollection:ArrayCollection, chartDescriptor:IChartDescriptor):void
@@ -667,19 +709,14 @@ package collaboRhythm.shared.ui.healthCharts.view
 			return chartImage;
 		}
 
-		private function createConcentrationChart(chartDescriptor:MedicationChartDescriptor, medicationFill:MedicationFill, medicationAdministration:MedicationAdministration):TouchScrollingScrubChart
+		private function createConcentrationChart(chartDescriptor:MedicationChartDescriptor, medicationFill:MedicationFill, medicationNameText:String):TouchScrollingScrubChart
 		{
 			var medicationCode:String = chartDescriptor.medicationCode;
 			var chart:TouchScrollingScrubChart = createAdherenceChart(
 					getConcentrationChartKey(medicationCode), chartDescriptor);
 			setMedicationChartStyles(medicationCode, medicationFill, chart);
 			chart.setStyle("borderVisible", false);
-			var nameString:String;
-			if (medicationFill)
-				nameString = medicationFill.name.text;
-			else
-				nameString = medicationAdministration.name.text;
-			var medicationName:MedicationName = MedicationNameUtil.parseName(nameString);
+			var medicationName:MedicationName = MedicationNameUtil.parseName(medicationNameText);
 			chart.mainChartTitle = medicationName.medicationName;
 
 			chart.seriesName = "concentration";
@@ -1008,11 +1045,13 @@ package collaboRhythm.shared.ui.healthCharts.view
 			var healthActionSchedule:HealthActionSchedule = getMatchingHealthActionSchedule(vitalSignKey);
 			var vitalSignCollection:ArrayCollection = model.record.vitalSignsModel.vitalSignsByCategory[vitalSignKey];
 
-			if (vitalSignCollection && vitalSignCollection.length > 0 && vitalSignCollection[0])
+			if (healthActionSchedule || (vitalSignCollection && vitalSignCollection.length > 0 && vitalSignCollection[0]))
 			{
-				addListenerForCollectionChange(vitalSignCollection, vitalSignChartDescriptor);
+				// TODO: if the collection starts null (because there is no data yet) we need to detect when the collection is first created so we can start listening for changes
+				if (vitalSignCollection)
+					addListenerForCollectionChange(vitalSignCollection, vitalSignChartDescriptor);
 
-				var vitalSignChart:TouchScrollingScrubChart = createVitalSignChart(vitalSignChartDescriptor, vitalSignCollection);
+				var vitalSignChart:TouchScrollingScrubChart = createVitalSignChart(vitalSignChartDescriptor);
 				if (healthActionSchedule)
 				{
 					var adherenceStripChart:TouchScrollingScrubChart = createVitalSignAdherenceStripChart(vitalSignChartDescriptor,
@@ -1033,7 +1072,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			return model.record.vitalSignsModel.vitalSignsByCategory.keys;
 		}
 
-		private function createVitalSignChart(vitalSignChartDescriptor:VitalSignChartDescriptor, vitalSignCollection:ArrayCollection):TouchScrollingScrubChart
+		private function createVitalSignChart(vitalSignChartDescriptor:VitalSignChartDescriptor):TouchScrollingScrubChart
 		{
 			var vitalSignKey:String = vitalSignChartDescriptor.vitalSignCategory;
 			var chart:TouchScrollingScrubChart = createAdherenceChart(getVitalSignChartKey(vitalSignKey), vitalSignChartDescriptor);
@@ -2298,7 +2337,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			if (targetChart == null || _scrollTargetChart != targetChart)
 			{
 				var allCharts:Vector.<TouchScrollingScrubChart> = getAllCharts();
-				_visibleCharts = getVisibleCharts(allCharts, targetChart, _singleChartMode, model.showAdherence);
+				_visibleCharts = getVisibleCharts(allCharts, targetChart, _singleChartMode, true);
 				_nonTargetCharts = getVisibleNonTargetCharts(_visibleCharts, targetChart);
 				_scrollTargetChart = targetChart;
 			}
@@ -2672,7 +2711,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 				updateChartModifiers();
 			}
 
-			if (model && model.isInitialized && model.showAdherence)
+			if (model && model.isInitialized)
 			{
 				createAdherenceCharts();
 				updateSeries();

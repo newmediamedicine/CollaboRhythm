@@ -927,12 +927,63 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId/>
-    <accessKey/>
-    <accessSecret/>
-    <status/>
-    <demographicsId>84f096b3-88e3-4999-8843-1f7d5ec9452c</demographicsId>
+    <recordId>b58d8f7d-9557-4e0b-814a-8508aa8416eb</recordId>
+    <accessKey>rtVNbgAGqsZXRK0BUmsY</accessKey>
+    <accessSecret>tUiGgp16zqhVKRrgM2is</accessSecret>
+    <status>Created 19/19 documents, 11/12 relationships Failed on PUT http://indivo-dev.media.mit.edu:9091/records/3180f94f-86d1-4725-8d66-f2fddae0b473/owner Response: &lt;Error&gt;
+  &lt;InnerError&gt;
+    &lt;type&gt;complete&lt;/type&gt;
+  &lt;/InnerError&gt;
+  &lt;HTTPStatusEvent&gt;
+    &lt;status&gt;400&lt;/status&gt;
+  &lt;/HTTPStatusEvent&gt;
+&lt;/Error&gt; Failed on PUT http://indivo-dev.media.mit.edu:9091/records/3180f94f-86d1-4725-8d66-f2fddae0b473/owner Response: &lt;Error&gt;
+  &lt;InnerError&gt;
+    &lt;type&gt;complete&lt;/type&gt;
+  &lt;/InnerError&gt;
+  &lt;HTTPStatusEvent&gt;
+    &lt;status&gt;400&lt;/status&gt;
+  &lt;/HTTPStatusEvent&gt;
+&lt;/Error&gt; Failed on PUT http://indivo-dev.media.mit.edu:9091/records/3180f94f-86d1-4725-8d66-f2fddae0b473/owner Response: &lt;Error&gt;
+  &lt;InnerError&gt;
+    &lt;type&gt;complete&lt;/type&gt;
+  &lt;/InnerError&gt;
+  &lt;HTTPStatusEvent&gt;
+    &lt;status&gt;400&lt;/status&gt;
+  &lt;/HTTPStatusEvent&gt;
+&lt;/Error&gt; Failed on PUT http://indivo-dev.media.mit.edu:9091/records/3180f94f-86d1-4725-8d66-f2fddae0b473/owner Response: &lt;Error&gt;
+  &lt;InnerError&gt;
+    &lt;type&gt;complete&lt;/type&gt;
+  &lt;/InnerError&gt;
+  &lt;HTTPStatusEvent&gt;
+    &lt;status&gt;400&lt;/status&gt;
+  &lt;/HTTPStatusEvent&gt;
+&lt;/Error&gt; Failed on POST http://indivo-dev.media.mit.edu:9091/oauth/internal/session_create Response: &lt;Error&gt;
+  &lt;InnerError&gt;
+    &lt;type&gt;complete&lt;/type&gt;
+  &lt;/InnerError&gt;
+  &lt;HTTPStatusEvent&gt;
+    &lt;status&gt;403&lt;/status&gt;
+  &lt;/HTTPStatusEvent&gt;
+&lt;/Error&gt; Failed on POST http://indivo-dev.media.mit.edu:9091/oauth/internal/session_create Response: &lt;Error&gt;
+  &lt;InnerError&gt;
+    &lt;type&gt;complete&lt;/type&gt;
+  &lt;/InnerError&gt;
+  &lt;HTTPStatusEvent&gt;
+    &lt;status&gt;403&lt;/status&gt;
+  &lt;/HTTPStatusEvent&gt;
+&lt;/Error&gt; Failed on POST http://indivo-dev.media.mit.edu:9091/oauth/internal/session_create Response: &lt;Error&gt;
+  &lt;InnerError&gt;
+    &lt;type&gt;complete&lt;/type&gt;
+  &lt;/InnerError&gt;
+  &lt;HTTPStatusEvent&gt;
+    &lt;status&gt;403&lt;/status&gt;
+  &lt;/HTTPStatusEvent&gt;
+&lt;/Error&gt;</status>
+    <demographicsId>101b9866-47a4-4bae-b7dc-1f30fa488deb</demographicsId>
     <recordSeed/>
+    <shareAccountId>whsu@records.media.mit.edu</shareAccountId>
+    <shareRole>Coach</shareRole>
   </AccountSource>
   <AccountSource>
     <accountId>jmoore@records.media.mit.edu</accountId>
@@ -964,12 +1015,14 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId/>
-    <accessKey/>
-    <accessSecret/>
-    <status/>
-    <demographicsId>84f096b3-88e3-4999-8843-1f7d5ec9452c</demographicsId>
+    <recordId>3180f94f-86d1-4725-8d66-f2fddae0b473</recordId>
+    <accessKey>tOOGdkDBwkKVpRTfe62v</accessKey>
+    <accessSecret>l3mMTY4jE7H1YjRJabJ9</accessSecret>
+    <status>Created 10/10 documents, 5/6 relationships</status>
+    <demographicsId>5e90022f-5196-43a0-b8f5-867b35016e4c</demographicsId>
     <recordSeed/>
+    <shareAccountId>whsu@records.media.mit.edu</shareAccountId>
+    <shareRole>Coach</shareRole>
   </AccountSource>
   <AccountSource>
     <accountId>gwhite@records.media.mit.edu</accountId>
@@ -1046,6 +1099,6 @@
     <notes>Demo account for Mar and Oovit</notes>
     <recordSeed>2</recordSeed>
   </AccountSource>
-  <saveDate>Sun Jul 29 18:05:50 GMT-0400 2012</saveDate>
+  <saveDate>Wed Aug 1 11:17:54 GMT-0400 2012</saveDate>
   <indivoServerBaseURL>http://indivo-dev.media.mit.edu:9091</indivoServerBaseURL>
 </dataroot>

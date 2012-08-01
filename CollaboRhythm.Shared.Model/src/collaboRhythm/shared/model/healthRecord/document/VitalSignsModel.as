@@ -24,6 +24,20 @@ package collaboRhythm.shared.model.healthRecord.document
 		public static const CALORIC_INTAKE_CATEGORY:String = "Caloric Intake";
 		public static const PEAK_EXPIRATORY_FLOW_RATE_CATEGORY:String = "Peak Expiratory Flow Rate";
 		public static const STEP_COUNT_CATEGORY:String = "Step Count";
+		
+		public static const SUPPORTED_CATEGORIES:Vector.<String> = new <String>[
+			SYSTOLIC_CATEGORY,
+			DIASTOLIC_CATEGORY,
+			HEART_RATE_CATEGORY,
+			BLOOD_GLUCOSE_CATEGORY,
+			METABOLIC_EQUIVALENT_TASK_CATEGORY,
+			OXYGEN_SATURATION_CATEGORY,
+			ASTHMA_SYMPTOM_CATEGORY,
+			ASTHMA_TRIGGER_CATEGORY,
+			CALORIC_INTAKE_CATEGORY,
+			PEAK_EXPIRATORY_FLOW_RATE_CATEGORY,
+			STEP_COUNT_CATEGORY,
+		];
 
 		public function VitalSignsModel()
 		{

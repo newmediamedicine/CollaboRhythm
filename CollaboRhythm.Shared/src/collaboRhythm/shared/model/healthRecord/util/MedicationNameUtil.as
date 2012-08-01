@@ -18,17 +18,17 @@ package collaboRhythm.shared.model.healthRecord.util
 		 *  200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]
 		 *  Oxybutynin chloride 1 MG/ML Oral Solution [Ditropan]
 		 *
-		 * @param nameString
+		 * @param medicationNameText
 		 * @return
 		 */
-		public static function parseName(nameString:String):MedicationName
+		public static function parseName(medicationNameText:String):MedicationName
 		{
 			var medicationName:MedicationName = new MedicationName();
-			medicationName.rawName = nameString;
+			medicationName.rawName = medicationNameText;
 
 			var rxNormRegExp:RegExp = /(?:(\d+ HR) )?(?:(\d+(?:\.\d+)? (?:ML|MG|ACTUAT)) )?([A-Za-z\s]+) (\d+(?:\.\d+)? (?:MG|UNT\/ML|ML|MG\/ACTUAT|MG\/ML)) ([A-Za-z\s]+)(?:(\[[A-Za-z]+\]))?/;
 
-			var substrings:Array = nameString.split(rxNormRegExp);
+			var substrings:Array = medicationNameText.split(rxNormRegExp);
 
 			medicationName.fillQuantity = substrings[2];
 			medicationName.medicationName = substrings[3];
