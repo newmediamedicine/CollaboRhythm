@@ -70,6 +70,8 @@
 		import collaboRhythm.shared.collaboration.model.AudioVideoOutput;
 		import collaboRhythm.shared.collaboration.model.CollaborationModel;
 
+		import mx.utils.UIDUtil;
+
 		private const VIDEO_WIDTH:int = 240;
 		private const VIDEO_HEIGHT:int = 180;
 
@@ -231,7 +233,7 @@
 				_netStream.attachCamera(_camera);
 				if (_microphone)
 					_netStream.attachAudio(_microphone);
-				var fileId:String = _collaborationModel.activeRecordAccount.primaryRecord.videoMessagesModel.nextFileId;
+				var fileId:String = UIDUtil.createUID();
 				_netStreamLocation = _collaborationModel.activeRecordAccount.accountId + "/" + fileId;
 				_netStream.publish(_netStreamLocation, "record");
 				currentState = "startingRecording";

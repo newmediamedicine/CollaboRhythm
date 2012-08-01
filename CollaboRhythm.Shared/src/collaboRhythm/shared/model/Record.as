@@ -37,7 +37,6 @@ package collaboRhythm.shared.model
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrdersModel;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItemsModel;
 	import collaboRhythm.shared.model.healthRecord.document.ProblemsModel;
-	import collaboRhythm.shared.model.healthRecord.document.VideoMessagesModel;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 
 	import j2as3.collection.HashMap;
@@ -67,8 +66,7 @@ package collaboRhythm.shared.model
         private var _equipmentModel:EquipmentModel;
 		private var _healthActionSchedulesModel:HealthActionSchedulesModel;
         private var _adherenceItemsModel:AdherenceItemsModel;
-        private var _videoMessagesModel:VideoMessagesModel;
-        private var _problemsModel:ProblemsModel;
+        private var _problemsModel:ProblemsModel = new ProblemsModel();
         private var _appData:HashMap = new HashMap();
 		private var _vitalSignsModel:VitalSignsModel;
 		private var _healthActionPlansModel:HealthActionPlansModel;
@@ -99,6 +97,9 @@ package collaboRhythm.shared.model
 
         private function initDocumentModels():void
         {
+			// TODO: fix the handling of problems
+			// the problems model is not currently cleared because it is only loaded once when in clinician mode
+			// the problems model is not currently used in patient mode
 			medicationOrdersModel = new MedicationOrdersModel();
             medicationFillsModel = new MedicationFillsModel();
             medicationScheduleItemsModel = new MedicationScheduleItemsModel();
@@ -106,8 +107,6 @@ package collaboRhythm.shared.model
             equipmentModel = new EquipmentModel();
             healthActionSchedulesModel = new HealthActionSchedulesModel();
             adherenceItemsModel = new AdherenceItemsModel();
-            videoMessagesModel = new VideoMessagesModel();
-            problemsModel = new ProblemsModel();
 			vitalSignsModel = new VitalSignsModel();
 			healthActionPlansModel = new HealthActionPlansModel();
 			healthActionResultsModel = new HealthActionResultsModel();
@@ -121,7 +120,6 @@ package collaboRhythm.shared.model
 			addDocumentCollection(equipmentModel);
 			addDocumentCollection(healthActionSchedulesModel);
 			addDocumentCollection(adherenceItemsModel);
-			addDocumentCollection(videoMessagesModel);
 			addDocumentCollection(problemsModel);
 			addDocumentCollection(vitalSignsModel);
 			addDocumentCollection(healthActionPlansModel);
@@ -216,17 +214,6 @@ package collaboRhythm.shared.model
         public function set adherenceItemsModel(value:AdherenceItemsModel):void
         {
             _adherenceItemsModel = value;
-			addDocumentCollection(value);
-        }
-
-        public function get videoMessagesModel():VideoMessagesModel
-        {
-            return _videoMessagesModel;
-        }
-
-        public function set videoMessagesModel(value:VideoMessagesModel):void
-        {
-            _videoMessagesModel = value;
 			addDocumentCollection(value);
         }
 
