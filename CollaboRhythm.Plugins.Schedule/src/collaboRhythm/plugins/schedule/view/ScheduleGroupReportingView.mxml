@@ -69,7 +69,4 @@
 		}
 		]]>
 	</fx:Script>
-	<!--<s:layout>-->
-		<!--<s:VerticalLayout gap="0"/>-->
-	<!--</s:layout>-->
 </s:List>
