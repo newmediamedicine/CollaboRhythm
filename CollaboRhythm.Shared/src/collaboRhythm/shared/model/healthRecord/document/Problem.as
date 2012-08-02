@@ -38,6 +38,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		
 		public function Problem()
 		{
+			meta.type = DOCUMENT_TYPE;
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
 

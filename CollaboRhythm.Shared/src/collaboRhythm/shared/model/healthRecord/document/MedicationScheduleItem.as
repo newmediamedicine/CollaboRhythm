@@ -41,6 +41,7 @@ package collaboRhythm.shared.model.healthRecord.document
 
         override public function initFromReportXML(scheduleItemReportXml:XML, scheduleItemElementName:String):void
         {
+			meta.type = DOCUMENT_TYPE;
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
             super.initFromReportXML(scheduleItemReportXml, scheduleItemElementName);
 

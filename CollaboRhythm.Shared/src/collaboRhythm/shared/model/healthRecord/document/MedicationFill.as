@@ -45,6 +45,7 @@ package collaboRhythm.shared.model.healthRecord.document
 
         public function MedicationFill()
         {
+			meta.type = DOCUMENT_TYPE;
             _currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
         }
 

@@ -15,6 +15,7 @@
 		import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
+		import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
 		import collaboRhythm.shared.model.services.DefaultCurrentDateSource;
 		import collaboRhythm.shared.model.services.DefaultMedicationColorSource;
 		import collaboRhythm.shared.model.services.DemoCurrentDateSource;
@@ -44,6 +45,11 @@
 
 			var record:Record = new Record(<Record id="118bd088-6ad1-4bad-bd0b-eebdb19cc9a5" label="Michael Brooks3"/>);
 			record.isLoading = true;
+
+			var medicationFill:MedicationFill = new MedicationFill();
+			medicationFill.name = new CodedValue("http://rxnav.nlm.nih.gov/REST/rxcui/", "847241", null, "3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]");
+			medicationFill.ndc = new CodedValue(null, null, null, "0169643910");
+			record.addDocument(medicationFill);
 
 			var medicationAdministration:MedicationAdministration = new MedicationAdministration();
 			const medicationAdministrationXmlVector:Vector.<XML> = new <XML> [
@@ -81,14 +87,14 @@
 
 			var service:MedicationAdministrationsHealthRecordService = new MedicationAdministrationsHealthRecordService(null,
 					null, null, null, false);
-/*
-			for each (var medicationAdministrationXml:XML in medicationAdministrationXmlVector)
-			{
-				medicationAdministration = service.unmarshallDocumentXml(medicationAdministrationXml) as
-						MedicationAdministration;
-				record.addDocument(medicationAdministration);
-			}
-*/
+			/*
+			 for each (var medicationAdministrationXml:XML in medicationAdministrationXmlVector)
+			 {
+			 medicationAdministration = service.unmarshallDocumentXml(medicationAdministrationXml) as
+			 MedicationAdministration;
+			 record.addDocument(medicationAdministration);
+			 }
+			 */
 
 			var adherenceItem:AdherenceItem = new AdherenceItem();
 			const adherenceItemXmlVector:Vector.<XML> = new <XML> [
@@ -132,18 +138,22 @@
 				record.addDocument(medicationAdministration);
 			}
 
-			var chartsService:HealthChartsInitializationService = new HealthChartsInitializationService(null, null,
-					null, null, false);
-			chartsService.loadDocuments(record);
-			_healthChartsModel = record.healthChartsModel;
-
-			var administrationsService:MedicationAdministrationsHealthRecordService = new MedicationAdministrationsHealthRecordService(null, null, null, null, false);
+			var administrationsService:MedicationAdministrationsHealthRecordService = new MedicationAdministrationsHealthRecordService(null,
+					null, null, null, false);
 			administrationsService.createMedicationConcentrationCollections(record.medicationAdministrationsModel);
 
 			record.medicationAdministrationsModel.isInitialized = true;
+			record.medicationOrdersModel.isInitialized = true;
 			record.adherenceItemsModel.isInitialized = true;
 			record.vitalSignsModel.isInitialized = true;
+
 			record.isLoading = false;
+
+			var chartsService:HealthChartsInitializationService = new HealthChartsInitializationService(null, null,
+					null, null, false);
+			chartsService.loadDocuments(record);
+
+			_healthChartsModel = record.healthChartsModel;
 
 			_componentContainer = new DefaultComponentContainer();
 

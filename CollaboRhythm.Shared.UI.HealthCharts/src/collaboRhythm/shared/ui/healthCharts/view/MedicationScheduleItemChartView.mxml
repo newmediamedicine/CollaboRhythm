@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <s:Image xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
 	xmlns:mx="library://ns.adobe.com/flex/mx"
-	width="100" height="100"
 	skinClass="spark.skins.spark.ImageSkin"
 	initialize="pickImage()"
 	smooth="true"
@@ -13,13 +12,16 @@
 		import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 
+		import mx.events.ResizeEvent;
+
 		private var _medicationScheduleItem:MedicationScheduleItem;
 		private var _medicationModel:MedicationComponentAdherenceModel;
 
 		private function pickImage():void
 		{
 			// TODO: if there is no medicationScheduleItem, instead find the fill by looking in the record for a match by NDC code, as with "200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler [Proventil]" rxcui = 746763
-			if (medicationModel && medicationModel.medicationFill && medicationModel.medicationFill.ndc && medicationModel.medicationFill.ndc.text)
+			if (medicationModel && medicationModel.medicationFill && medicationModel.medicationFill.ndc &&
+					medicationModel.medicationFill.ndc.text)
 			{
 				var medicationFill:MedicationFill = medicationModel.medicationFill;
 
@@ -45,12 +47,12 @@
 		public function set medicationScheduleItem(value:MedicationScheduleItem):void
 		{
 			_medicationScheduleItem = value;
-			pickImage();
 		}
 
 		public function set medicationModel(medicationModel:MedicationComponentAdherenceModel):void
 		{
 			_medicationModel = medicationModel;
+			pickImage();
 		}
 
 		public function get medicationModel():MedicationComponentAdherenceModel

@@ -12,9 +12,9 @@ package collaboRhythm.shared.ui.healthCharts.view
 		{
 			super();
 
-			// keep the image square by having uniform padding on all sides
 			var uniformPadding:int = layoutPaddingLeft;
-			layoutPaddingRight = layoutPaddingTop = layoutPaddingBottom = layoutPaddingLeft = uniformPadding;
+			layoutPaddingRight = layoutPaddingLeft = uniformPadding;
+			layoutPaddingTop = layoutPaddingBottom = 0;
 		}
 
 		override mx_internal function layoutBorder(unscaledWidth:Number, unscaledHeight:Number):void

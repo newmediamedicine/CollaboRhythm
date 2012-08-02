@@ -36,6 +36,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import collaboRhythm.view.scroll.TouchScrollerEvent;
 
 	import com.dougmccune.controls.ChartFooter;
+	import com.dougmccune.controls.ChildIndependentLayout;
 	import com.dougmccune.controls.ScrubChart;
 	import com.dougmccune.controls.SeriesDataSet;
 	import com.dougmccune.controls.SynchronizedAxisCache;
@@ -88,6 +89,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import spark.components.CalloutButton;
 	import spark.components.Group;
 	import spark.components.HGroup;
+	import spark.components.Image;
 	import spark.components.Label;
 	import spark.components.VGroup;
 	import spark.components.View;
@@ -609,9 +611,9 @@ package collaboRhythm.shared.ui.healthCharts.view
 			if (medicationFill && medicationFill.ndc)
 			{
 				medicationChartDescriptor.ndcCode = medicationFill.ndc.text;
-				if (_chartDescriptors.getIndexByKey(medicationChartDescriptor.descriptorKey) == -1)
-					addChartDescriptor(medicationChartDescriptor);
 			}
+			if (_chartDescriptors.getIndexByKey(medicationChartDescriptor.descriptorKey) == -1)
+				addChartDescriptor(medicationChartDescriptor);
 		}
 
 		private function addChartDescriptor(chartDescriptor:IChartDescriptor):void
@@ -861,11 +863,13 @@ package collaboRhythm.shared.ui.healthCharts.view
 		{
 			var adherenceGroup:HGroup = new HGroup();
 
-			if (!image)
+			if (!image || (image is Image && (image as Image).source == null))
 			{
-				image = new Rect();
-				image.width = 100;
-				image.height = 100;
+				var rect:Rect = new Rect();
+				image = rect;
+				rect.width = 100;
+				rect.height = 100;
+				rect.fill = new SolidColor(getItemColor(chartDescriptor));
 			}
 
 			var adherenceChartsGroup:VGroup = new VGroup();
@@ -900,6 +904,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 			fixCalloutSkin();
 			var adherenceLeftContentGroup:Group = new Group();
+			adherenceLeftContentGroup.clipAndEnableScrolling = true;
+			adherenceLeftContentGroup.layout = new ChildIndependentLayout();
 			
 			var calloutButton:CalloutButton = new CalloutButton();
 
@@ -919,7 +925,12 @@ package collaboRhythm.shared.ui.healthCharts.view
 			calloutButton.calloutLayout = verticalLayout;
 			calloutButton.calloutContent = new Array(hideChartButton, singleChartButton);
 			adherenceLeftContentGroup.width = calloutButton.width = 100;
-			adherenceLeftContentGroup.maxHeight = calloutButton.maxHeight = 100;
+			adherenceLeftContentGroup.percentHeight = 100;
+			calloutButton.maxHeight = 100;
+			calloutButton.verticalCenter = 0;
+			adherenceLeftContentGroup.addEventListener(Event.RESIZE, function(event:Event):void {
+				image.width = image.height = Math.max(5, Math.min(100, adherenceLeftContentGroup.height));
+			});
 			if (chartDescriptor.descriptorKey == HORIZONTAL_AXIS_CHART_KEY)
 			{
 /*
@@ -942,7 +953,6 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 			adherenceGroup.addElement(adherenceLeftContentGroup);
 			adherenceGroup.addElement(adherenceChartsBorderContainer);
-//			adherenceGroup.addElement(adherenceChartsGroup);
 			adherenceGroup.percentWidth = 100;
 			adherenceGroup.percentHeight = 100;
 			adherenceGroup.verticalAlign = VerticalAlign.MIDDLE;
