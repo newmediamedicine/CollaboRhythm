@@ -239,7 +239,7 @@ package collaboRhythm.core.model.healthRecord.service
 
 		private function getMedicationScheduleItem(medicationCode:String):MedicationScheduleItem
 		{
-			var adherenceItemsCollection:ArrayCollection = record.adherenceItemsModel.adherenceItemsCollectionsByCode.getItem(medicationCode);
+			var adherenceItemsCollection:ArrayCollection = record.adherenceItemsModel.getAdherenceItemsCollectionByCode(medicationCode);
 			if (adherenceItemsCollection)
 			{
 				for each (var adherenceItem:AdherenceItem in adherenceItemsCollection)

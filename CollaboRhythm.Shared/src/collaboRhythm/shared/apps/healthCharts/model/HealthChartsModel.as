@@ -121,32 +121,45 @@ package collaboRhythm.shared.apps.healthCharts.model
 					if (record.medicationAdministrationsModel.hasMedicationConcentrationCurve(medication.name.value))
 					{
 						var medicationConcentrationCurve:ArrayCollection = record.medicationAdministrationsModel.medicationConcentrationCurvesByCode[medication.name.value];
-						var medicationConcentrationSample:MedicationConcentrationSample = medicationConcentrationCurve[medicationConcentrationCurve.length - 1];
+						if (medicationConcentrationCurve.length > 0)
+						{
+							var medicationConcentrationSample:MedicationConcentrationSample = medicationConcentrationCurve[medicationConcentrationCurve.length -
+									1];
 
-						targetSimulation.dataPointDate = medicationConcentrationSample.date;
-						medication.concentration = medicationConcentrationSample.concentration;
+							targetSimulation.dataPointDate = medicationConcentrationSample.date;
+							medication.concentration = medicationConcentrationSample.concentration;
+						}
 					}
 				}
 
 				for each (var vitalSignKey:String in targetSimulation.vitalSignsByCategory.arrayOfKeys)
 				{
 					var arrayCollection:ArrayCollection = record.vitalSignsModel.vitalSignsByCategory[vitalSignKey];
-					var vitalSign:VitalSign = arrayCollection[arrayCollection.length - 1];
-					targetSimulation.updateVitalSignSimulationModel(vitalSign);
+					if (arrayCollection.length > 0)
+					{
+						var vitalSign:VitalSign = arrayCollection[arrayCollection.length - 1];
+						targetSimulation.updateVitalSignSimulationModel(vitalSign);
+					}
 				}
 
 				if (record.vitalSignsModel.isInitialized && record.vitalSignsModel.hasCategory(VitalSignsModel.SYSTOLIC_CATEGORY))
 				{
 					var systolicCollection:ArrayCollection = record.vitalSignsModel.vitalSignsByCategory[VitalSignsModel.SYSTOLIC_CATEGORY];
-					var systolicVitalSign:VitalSign = systolicCollection[systolicCollection.length - 1];
-					targetSimulation.systolic = systolicVitalSign.resultAsNumber;
+					if (systolicCollection.length > 0)
+					{
+						var systolicVitalSign:VitalSign = systolicCollection[systolicCollection.length - 1];
+						targetSimulation.systolic = systolicVitalSign.resultAsNumber;
+					}
 				}
 
 				if (record.vitalSignsModel.isInitialized && record.vitalSignsModel.hasCategory(VitalSignsModel.DIASTOLIC_CATEGORY))
 				{
 					var diastolicCollection:ArrayCollection = record.vitalSignsModel.vitalSignsByCategory[VitalSignsModel.DIASTOLIC_CATEGORY];
-					var diastolicVitalSign:VitalSign = diastolicCollection[diastolicCollection.length - 1];
-					targetSimulation.diastolic = diastolicVitalSign.resultAsNumber;
+					if (diastolicCollection.length > 0)
+					{
+						var diastolicVitalSign:VitalSign = diastolicCollection[diastolicCollection.length - 1];
+						targetSimulation.diastolic = diastolicVitalSign.resultAsNumber;
+					}
 				}
 
 				targetSimulation.mode = SimulationModel.MOST_RECENT_MODE;
@@ -203,11 +216,6 @@ package collaboRhythm.shared.apps.healthCharts.model
 		{
 			updateSimulationModelToCurrent(_focusSimulation);
 			updateSimulationModelToCurrent(_currentSimulation);
-		}
-
-		public function get adherenceItemsCollectionsByCode():HashMap
-		{
-			return record.adherenceItemsModel.adherenceItemsCollectionsByCode;
 		}
 
 		public function get record():Record
@@ -410,6 +418,16 @@ package collaboRhythm.shared.apps.healthCharts.model
 		public function save():void
 		{
 			dispatchEvent(new HealthChartsEvent(HealthChartsEvent.SAVE));
+		}
+
+		public function getAdherenceItemsCollectionByCode(medicationCode:String):ArrayCollection
+		{
+			return record.adherenceItemsModel.getAdherenceItemsCollectionByCode(medicationCode);
+		}
+
+		public function getMedicationConcentrationCurveByCode(medicationCode:String):ArrayCollection
+		{
+			return record.medicationAdministrationsModel.getMedicationConcentrationCurveByCode(medicationCode);
 		}
 	}
 }

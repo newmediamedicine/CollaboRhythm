@@ -89,15 +89,33 @@ package collaboRhythm.shared.model.healthRecord.document
 
 		protected function addToMedicationAdministrationsCollectionsByCode(medicationAdministration:MedicationAdministration):void
 		{
-			var collection:ArrayCollection = _medicationAdministrationsCollectionsByCode[medicationAdministration.name.value];
-			if (collection == null)
-			{
-				collection = new ArrayCollection();
-				_medicationAdministrationsCollectionsByCode.put(medicationAdministration.name.value, collection);
-			}
+			var code:String = medicationAdministration.name.value;
+			var collection:ArrayCollection = getMedicationAdministrationsCollectionByCode(code);
 			if (_debugCollectionChanges)
 				_logger.debug("addToMedicationAdministrationsCollectionsByCode collection(" + DebugUtils.getObjectMemoryHash(collection) + ")");
 			collection.addItem(medicationAdministration);
+		}
+
+		public function getMedicationAdministrationsCollectionByCode(code:String):ArrayCollection
+		{
+			var collection:ArrayCollection = _medicationAdministrationsCollectionsByCode[code];
+			if (collection == null)
+			{
+				collection = new ArrayCollection();
+				_medicationAdministrationsCollectionsByCode.put(code, collection);
+			}
+			return collection;
+		}
+
+		public function getMedicationConcentrationCurveByCode(code:String):ArrayCollection
+		{
+			var collection:ArrayCollection = _medicationConcentrationCurvesByCode[code];
+			if (collection == null)
+			{
+				collection = new ArrayCollection();
+				_medicationConcentrationCurvesByCode.put(code, collection);
+			}
+			return collection;
 		}
 
 		override public function handleUpdatedId(oldId:String, document:IDocument):void

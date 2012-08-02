@@ -656,21 +656,24 @@ package collaboRhythm.shared.ui.healthCharts.view
 		{
 			var medicationCode:String = chartDescriptor.medicationCode;
 			var medicationFill:MedicationFill = getMedicationFill(medicationCode);
-			var medicationAdministrationsCollection:ArrayCollection = model.record.medicationAdministrationsModel.medicationAdministrationsCollectionsByCode.getItem(medicationCode);
+			var medicationAdministrationsCollection:ArrayCollection = model.record.medicationAdministrationsModel.getMedicationAdministrationsCollectionByCode(medicationCode);
 			var medicationNameText:String;
 			if (medicationFill && medicationFill.name)
 				medicationNameText = medicationFill.name.text;
 
-			if (medicationAdministrationsCollection && medicationAdministrationsCollection[0])
+			if (medicationAdministrationsCollection)
 			{
 				addListenerForCollectionChange(medicationAdministrationsCollection, chartDescriptor);
-				var medicationAdministration:MedicationAdministration = medicationAdministrationsCollection[0];
-				var medicationModel:MedicationComponentAdherenceModel = model.focusSimulation.getMedication(medicationCode);
-				if (medicationModel == null)
-					throw new Error("Medication " + medicationCode +
-							" is in model.medicationConcentrationCurvesByCode but not in model.simulation.medicationsByCode");
-				if (medicationNameText == null && medicationAdministration && medicationAdministration.name)
-					medicationNameText = medicationAdministration.name.text;
+				if (medicationAdministrationsCollection.length > 0)
+				{
+					var medicationAdministration:MedicationAdministration = medicationAdministrationsCollection[0];
+					var medicationModel:MedicationComponentAdherenceModel = model.focusSimulation.getMedication(medicationCode);
+					if (medicationModel == null)
+						throw new Error("Medication " + medicationCode +
+								" is in model.medicationConcentrationCurvesByCode but not in model.simulation.medicationsByCode");
+					if (medicationNameText == null && medicationAdministration && medicationAdministration.name)
+						medicationNameText = medicationAdministration.name.text;
+				}
 			}
 
 			var concentrationChart:TouchScrollingScrubChart = createConcentrationChart(chartDescriptor,
@@ -722,7 +725,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			chart.mainChartTitle = medicationName.medicationName;
 
 			chart.seriesName = "concentration";
-			chart.data = model.medicationConcentrationCurvesByCode.getItem(medicationCode);
+			chart.data = model.getMedicationConcentrationCurveByCode(medicationCode);
 
 			chart.addEventListener(SkinPartEvent.PART_ADDED, adherenceChart_skinPartAddedHandler, false, 0,
 					true);
@@ -1190,7 +1193,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			{
 				var medicationCode:String = medicationChartDescriptor.medicationCode;
 				updateAdherenceChart(getConcentrationChartKey(medicationCode),
-						model.medicationConcentrationCurvesByCode.getItem(medicationCode), "date");
+						model.getMedicationConcentrationCurveByCode(medicationCode), "date");
 				updateAdherenceChart(getMedicationAdherenceStripChartKey(medicationCode),
 						adherenceStripItemProxies, "date");
 			}
@@ -1567,7 +1570,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private function getMedicationFill(medicationCode:String):MedicationFill
 		{
 			var medicationFill:MedicationFill;
-			var adherenceItemsCollection:ArrayCollection = model.adherenceItemsCollectionsByCode.getItem(medicationCode);
+			var adherenceItemsCollection:ArrayCollection = model.getAdherenceItemsCollectionByCode(medicationCode);
 			medicationFill = null;
 			if (adherenceItemsCollection)
 			{
@@ -1729,7 +1732,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			// Also include all AdherenceItem instances that are not associated with any schedule item
 			// Note that in general, there shouldn't be any orphaned AdherenceItem instances, but if it does happen we want
 			// to include them anyways.
-			var adherenceItemsCollection:ArrayCollection = model.adherenceItemsCollectionsByCode.getItem(scheduleItemName);
+			var adherenceItemsCollection:ArrayCollection = model.getAdherenceItemsCollectionByCode(scheduleItemName);
 			for each (var adherenceItem:AdherenceItem in adherenceItemsCollection)
 			{
 				if (adherenceItem.scheduleItem == null)

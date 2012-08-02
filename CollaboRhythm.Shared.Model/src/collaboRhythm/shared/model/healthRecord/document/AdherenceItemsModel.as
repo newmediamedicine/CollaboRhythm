@@ -73,14 +73,19 @@ package collaboRhythm.shared.model.healthRecord.document
 				// fall back to using the text as the code if there is no value attribute
 				code = adherenceItem.name.text;
 			}
+			var collection:ArrayCollection = getAdherenceItemsCollectionByCode(code);
+			collection.addItem(adherenceItem);
+		}
 
+		public function getAdherenceItemsCollectionByCode(code:String):ArrayCollection
+		{
 			var collection:ArrayCollection = _adherenceItemsCollectionsByCode[code];
 			if (collection == null)
 			{
 				collection = new ArrayCollection();
 				_adherenceItemsCollectionsByCode.put(code, collection);
 			}
-			collection.addItem(adherenceItem);
+			return collection;
 		}
 
 		override public function handleUpdatedId(oldId:String, document:IDocument):void

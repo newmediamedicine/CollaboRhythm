@@ -482,10 +482,13 @@ package collaboRhythm.core.controller
 
 			//	_kernel.registerComponentInstance("CurrentDateSource", ICurrentDateSource, new DefaultCurrentDateSource());
 			var dateSource:ICurrentDateSource;
-			if (_settings.demoModeEnabled)
+			if (_settings.demoModeEnabled || _settings.debuggingToolsEnabled)
 			{
 				var demoCurrentDateSource:DemoCurrentDateSource = new DemoCurrentDateSource();
-				demoCurrentDateSource.targetDate = _settings.targetDate;
+				if (_settings.demoModeEnabled)
+				{
+					demoCurrentDateSource.targetDate = _settings.targetDate;
+				}
 				dateSource = demoCurrentDateSource;
 			}
 			else
