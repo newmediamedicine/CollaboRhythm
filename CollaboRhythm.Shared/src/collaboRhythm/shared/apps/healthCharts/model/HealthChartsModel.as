@@ -352,12 +352,12 @@ package collaboRhythm.shared.apps.healthCharts.model
 
 		public function get systolicData():ArrayCollection
 		{
-			return record.vitalSignsModel.vitalSignsByCategory[VitalSignsModel.SYSTOLIC_CATEGORY];
+			return record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.SYSTOLIC_CATEGORY);
 		}
 
 		public function get diastolicData():ArrayCollection
 		{
-			return record.vitalSignsModel.vitalSignsByCategory[VitalSignsModel.DIASTOLIC_CATEGORY];
+			return record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.DIASTOLIC_CATEGORY);
 		}
 
 		public function get medicationConcentrationCurvesByCode():HashMap

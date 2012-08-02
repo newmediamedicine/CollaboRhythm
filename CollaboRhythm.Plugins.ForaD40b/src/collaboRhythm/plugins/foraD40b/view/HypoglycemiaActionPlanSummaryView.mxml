@@ -72,7 +72,7 @@
 			_dataInputModel = value[2] as BloodGlucoseHealthActionInputModel;
 
 			for each (var vitalSign:VitalSign in
-					_dataInputModel.healthActionModelDetailsProvider.record.vitalSignsModel.vitalSignsByCategory[VitalSignsModel.BLOOD_GLUCOSE_CATEGORY])
+					_dataInputModel.healthActionModelDetailsProvider.record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY))
 			{
 				if (vitalSign.dateMeasuredStart.valueOf() == _bloodGlucoseVitalSignDate.valueOf())
 				{

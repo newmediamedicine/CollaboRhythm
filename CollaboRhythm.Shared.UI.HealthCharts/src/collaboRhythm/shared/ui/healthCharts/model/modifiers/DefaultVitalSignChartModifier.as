@@ -131,7 +131,7 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 			vitalSignSeries.id = chart.id + "_primarySeries";
 			vitalSignSeries.xField = "dateMeasuredStart";
 			vitalSignSeries.yField = "resultAsNumber";
-			var seriesDataCollection:ArrayCollection = chartModelDetails.record.vitalSignsModel.vitalSignsByCategory.getItem(vitalSignChartDescriptor.vitalSignCategory);
+			var seriesDataCollection:ArrayCollection = chartModelDetails.record.vitalSignsModel.getVitalSignsByCategory(vitalSignChartDescriptor.vitalSignCategory);
 			vitalSignSeries.dataProvider = seriesDataCollection;
 			vitalSignSeries.displayName = vitalSignChartDescriptor.vitalSignCategory;
 			vitalSignSeries.setStyle("radius", 10);

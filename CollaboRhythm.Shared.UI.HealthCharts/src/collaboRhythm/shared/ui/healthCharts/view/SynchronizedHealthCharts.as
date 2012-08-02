@@ -1053,7 +1053,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 			// find any equipment scheduled to be used to collect this vital sign
 			var healthActionSchedule:HealthActionSchedule = getMatchingHealthActionSchedule(vitalSignKey);
-			var vitalSignCollection:ArrayCollection = model.record.vitalSignsModel.vitalSignsByCategory[vitalSignKey];
+			var vitalSignCollection:ArrayCollection = model.record.vitalSignsModel.getVitalSignsByCategory(vitalSignKey);
 
 			if (healthActionSchedule || (vitalSignCollection && vitalSignCollection.length > 0 && vitalSignCollection[0]))
 			{
@@ -1093,7 +1093,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 			chart.dateField = "dateMeasuredStart";
 			chart.seriesName = "resultAsNumber";
-			chart.data = model.record.vitalSignsModel.vitalSignsByCategory.getItem(vitalSignKey);
+			chart.data = model.record.vitalSignsModel.getVitalSignsByCategory(vitalSignKey);
 
 			chart.addEventListener(SkinPartEvent.PART_ADDED, adherenceChart_skinPartAddedHandler, false, 0,
 					true);
@@ -1205,7 +1205,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 				}
 				if (seriesDataCollection == null)
 				{
-					seriesDataCollection = model.record.vitalSignsModel.vitalSignsByCategory.getItem(vitalSignChartDescriptor.vitalSignCategory);
+					seriesDataCollection = model.record.vitalSignsModel.getVitalSignsByCategory(vitalSignChartDescriptor.vitalSignCategory);
 				}
 
 				updateAdherenceChart(getVitalSignChartKey(vitalSignChartDescriptor.vitalSignCategory),

@@ -64,13 +64,28 @@ package collaboRhythm.shared.model.healthRecord.document
 
 			var vitalSign:VitalSign = document as VitalSign;
 			var category:String = vitalSign.name.text;
+			var collection:ArrayCollection = getVitalSignsByCategory(category);
+			collection.addItem(vitalSign);
+		}
+
+		/**
+		 * Returns a collection containing all of the vital signs of a given category. If the category does not yet
+		 * exist, a new collection will be created. Note that this method has the side effect of modifying the
+		 * vitalSignsByCategory, so getVitalSignsByCategory should generally not be called for categories that do not
+		 * apply or are not relevant to the current record.
+		 *
+		 * @param category The name from the vital sign (vitalSign.name.text)
+		 * @return The ArrayCollection of VitalSign objects where each VitalSign has name.text matching the category.
+		 */
+		public function getVitalSignsByCategory(category:String):ArrayCollection
+		{
 			var collection:ArrayCollection = vitalSignsByCategory.getItem(category);
 			if (!collection)
 			{
 				collection = new ArrayCollection();
 				vitalSignsByCategory.put(category, collection);
 			}
-			collection.addItem(vitalSign);
+			return collection;
 		}
 
 		override public function removeDocument(document:IDocument):void

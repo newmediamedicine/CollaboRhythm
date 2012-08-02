@@ -124,7 +124,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private function pickEligibleBloodGlucoseMeasurements():void
 		{
 			_eligibleBloodGlucoseMeasurements = new Vector.<VitalSign>();
-			var bloodGlucoseArrayCollection:ArrayCollection = chartModelDetails.record.vitalSignsModel.vitalSignsByCategory.getItem(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY);
+			var bloodGlucoseArrayCollection:ArrayCollection = chartModelDetails.record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY);
 			var previousBloodGlucose:VitalSign;
 			var now:Date = _chartModelDetails.currentDateSource.now();
 			var timeConstraintValue:Number = SynchronizedHealthCharts.roundTimeToNextDay(now).valueOf() - MILLISECONDS_IN_DAY * NUMBER_OF_DAYS_FOR_ELIGIBLE_BLOOD_GLUCOSE;
@@ -480,7 +480,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		{
 			if (isInitialized)
 			{
-				var vitalSignsBloodGlucose:ArrayCollection = chartModelDetails.record.vitalSignsModel.vitalSignsByCategory[VitalSignsModel.BLOOD_GLUCOSE_CATEGORY];
+				var vitalSignsBloodGlucose:ArrayCollection = chartModelDetails.record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY);
 				if (vitalSignsBloodGlucose)
 				{
 					vitalSignsBloodGlucose.addEventListener(CollectionEvent.COLLECTION_CHANGE,

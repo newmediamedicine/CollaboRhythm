@@ -89,7 +89,7 @@ package collaboRhythm.plugins.bloodPressure.model
 			vitalSignSeries.id = chart.id + "_systolicSeries";
 			vitalSignSeries.xField = "dateMeasuredStart";
 			vitalSignSeries.yField = "resultAsNumber";
-			seriesDataCollection = chartModelDetails.record.vitalSignsModel.vitalSignsByCategory.getItem(VitalSignsModel.SYSTOLIC_CATEGORY);
+			seriesDataCollection = chartModelDetails.record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.SYSTOLIC_CATEGORY);
 			vitalSignSeries.dataProvider = seriesDataCollection;
 			vitalSignSeries.displayName = "Blood Pressure Systolic";
 			vitalSignSeries.setStyle("itemRenderer", new ClassFactory(BloodPressurePlotItemRenderer));
@@ -102,7 +102,7 @@ package collaboRhythm.plugins.bloodPressure.model
 			vitalSignSeries.id = chart.id + "_diastolicSeries";
 			vitalSignSeries.xField = "dateMeasuredStart";
 			vitalSignSeries.yField = "resultAsNumber";
-			seriesDataCollection = chartModelDetails.record.vitalSignsModel.vitalSignsByCategory.getItem(VitalSignsModel.DIASTOLIC_CATEGORY);
+			seriesDataCollection = chartModelDetails.record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.DIASTOLIC_CATEGORY);
 			vitalSignSeries.dataProvider = seriesDataCollection;
 			vitalSignSeries.displayName = "Blood Pressure Diastolic";
 			vitalSignSeries.setStyle("itemRenderer", new ClassFactory(BloodPressureDiastolicPlotItemRenderer));

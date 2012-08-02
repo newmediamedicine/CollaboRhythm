@@ -95,7 +95,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 						vitalSignsDataCollection_collectionChangeHandler);
 			}
 
-			_vitalSignsDataCollection = chartModelDetails.record.vitalSignsModel.vitalSignsByCategory.getItem(vitalSignChartDescriptor.vitalSignCategory);
+			_vitalSignsDataCollection = chartModelDetails.record.vitalSignsModel.getVitalSignsByCategory(vitalSignChartDescriptor.vitalSignCategory);
 			if (_vitalSignsDataCollection)
 			{
 				_vitalSignsDataCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,

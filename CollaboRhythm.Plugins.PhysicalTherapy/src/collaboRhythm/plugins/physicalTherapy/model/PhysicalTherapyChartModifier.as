@@ -86,7 +86,7 @@ package collaboRhythm.plugins.physicalTherapy.model
 			measurementSeries.id = chart.id + "_Performance";
 			measurementSeries.xField = "dateMeasuredStart";
 			measurementSeries.yField = "resultAsNumber";
-			seriesDataCollection = chartModelDetails.record.vitalSignsModel.vitalSignsByCategory.getItem(VitalSignsModel.SYSTOLIC_CATEGORY);
+			seriesDataCollection = chartModelDetails.record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.SYSTOLIC_CATEGORY);
 			//seriesDataCollection= new ArrayCollection();
 			//seriesDataCollection.addItem();
 			measurementSeries.dataProvider = seriesDataCollection;

@@ -66,9 +66,7 @@
 			_dataInputModel = BloodGlucoseHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
 			_dataInputController = BloodGlucoseHealthActionInputController(dataInputModelAndController.healthActionInputController);
 
-			_bloodGlucoseArrayCollection = _dataInputModel.healthActionModelDetailsProvider.record.vitalSignsModel.vitalSignsByCategory[VitalSignsModel.BLOOD_GLUCOSE_CATEGORY];
-			if (_bloodGlucoseArrayCollection == null)
-				_bloodGlucoseArrayCollection = new ArrayCollection();
+			_bloodGlucoseArrayCollection = _dataInputModel.healthActionModelDetailsProvider.record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY);
 
 			BindingUtils.bindSetter(bloodGlucoseHistoryListScrollerPosition_changeHandler, _dataInputModel,
 					"bloodGlucoseHistoryListScrollerPosition");
