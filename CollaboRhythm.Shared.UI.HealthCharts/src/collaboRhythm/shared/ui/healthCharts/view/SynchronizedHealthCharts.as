@@ -191,6 +191,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private var _focusTime:Number;
 
 		private var _chartDescriptorsUpdateQueue:Vector.<IChartDescriptor> = new Vector.<IChartDescriptor>();
+		private const _isSimulationSupported:Boolean = false;
 
 		public function SynchronizedHealthCharts():void
 		{
@@ -223,10 +224,25 @@ package collaboRhythm.shared.ui.healthCharts.view
 				_showAllChartsButton.label = "Show All Charts";
 				_showAllChartsButton.addEventListener(MouseEvent.CLICK, showAllChartsButton_clickHandler);
 				_showAllChartsButton.setStyle("skinClass", TransparentActionButtonSkin);
-				_showAllChartsButton.visible = false;
+				_showAllChartsButton.visible = determineSomeChartsHidden();
 				_showAllChartsButton.setStyle("skinClass", TransparentActionButtonSkin);
 				view.actionContent.unshift(_showAllChartsButton);
 			}
+		}
+
+		private function determineSomeChartsHidden():Boolean
+		{
+			var someChartsHidden:Boolean = false;
+			var allCharts:Vector.<TouchScrollingScrubChart> = getAllCharts();
+
+			for each (var chart:TouchScrollingScrubChart in allCharts)
+			{
+				var visible:Boolean = _visibleCharts.indexOf(chart) != -1;
+				if (!visible)
+					someChartsHidden = true;
+			}
+
+			return someChartsHidden;
 		}
 
 		private function rangeTodayButton_clickHandler(event:MouseEvent):void
@@ -2122,7 +2138,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			_singleChartMode = mode;
 
 			_scrollTargetChart = null;
-			updateChartsCache(targetChart);
+			updateChartsCache(targetChart, true);
 			updateChartsVisibility(targetChart);
 		}
 
@@ -2267,7 +2283,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 				synchronizeScrollPositions(targetChart, _nonTargetCharts);
 			}
 
-			queueUpdateSimulation(targetChart);
+			if (_isSimulationSupported)
+				queueUpdateSimulation(targetChart);
 		}
 
 		protected function synchronizeScrollPositions(targetChart:TouchScrollingScrubChart, otherCharts:Vector.<TouchScrollingScrubChart>, visibleOnly:Boolean = true):void
@@ -2336,7 +2353,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 				synchronizeFocusTimes(targetChart, _nonTargetCharts);
 			}
 
-			queueUpdateSimulation(targetChart);
+			if (_isSimulationSupported)
+				queueUpdateSimulation(targetChart);
 		}
 
 		private function queueUpdateSimulation(targetChart:TouchScrollingScrubChart):void
@@ -2345,12 +2363,15 @@ package collaboRhythm.shared.ui.healthCharts.view
 			invalidateProperties();
 		}
 
-		private function updateChartsCache(targetChart:TouchScrollingScrubChart):void
+		private function updateChartsCache(targetChart:TouchScrollingScrubChart, updateVisibleCharts:Boolean = false):void
 		{
 			if (targetChart == null || _scrollTargetChart != targetChart)
 			{
-				var allCharts:Vector.<TouchScrollingScrubChart> = getAllCharts();
-				_visibleCharts = getVisibleCharts(allCharts, targetChart, _singleChartMode, true);
+				if (updateVisibleCharts)
+				{
+					var allCharts:Vector.<TouchScrollingScrubChart> = getAllCharts();
+					_visibleCharts = getVisibleCharts(allCharts, targetChart, _singleChartMode, true);
+				}
 				_nonTargetCharts = getVisibleNonTargetCharts(_visibleCharts, targetChart);
 				_scrollTargetChart = targetChart;
 			}
@@ -2818,6 +2839,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 					{
 						_showAllChartsButton.visible = true;
 					}
+
+					_rangeButtonTargetChart = _visibleCharts[0];
 				}
 			}
 		}
@@ -2870,6 +2893,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			var firstVisibleChart:TouchScrollingScrubChart = (_visibleCharts && _visibleCharts.length > 0) ? _visibleCharts[0] : null;
 			synchronizeScrollPositions(firstVisibleChart, getAllCharts(), false);
 			setSingleChartMode(null, false);
+			updateChartsAfterScrollStop();
 		}
 
 		private function calloutButton_mouseOverHandler(event:MouseEvent):void
