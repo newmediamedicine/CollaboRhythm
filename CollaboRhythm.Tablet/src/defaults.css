@@ -201,7 +201,7 @@ s|ActionBar s|ButtonBase
 s|ActionBar s|Button
 {
     fontWeight: "normal";
-	chromeColor: #2EB5E5;
+	chromeColor: #6dcaec;
 }
 
 s|ActionBar s|Group#navigationGroup s|Button
@@ -212,6 +212,12 @@ s|ActionBar s|Group#navigationGroup s|Button
 s|ActionBar s|Group#actionGroup s|Button
 {
 	skinClass: ClassReference("collaboRhythm.tablet.view.skins.TabletTransparentActionButtonSkin");
+}
+
+s|List
+{
+	selectionColor: #8ad6f0;
+	downColor: #6dcaec;
 }
 
 @media (application-dpi: 320) {

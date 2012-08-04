@@ -1,5 +1,6 @@
 package collaboRhythm.shared.view.skins
 {
+	import collaboRhythm.shared.view.skins.skins160.TransparentNavigationButton_down
 	import collaboRhythm.shared.view.skins.skins160.TransparentNavigationButton_up;
 	import collaboRhythm.shared.view.skins.skins320.TransparentNavigationButton_down;
 	import collaboRhythm.shared.view.skins.skins320.TransparentNavigationButton_up;
@@ -17,7 +18,7 @@ package collaboRhythm.shared.view.skins
 				case DPIClassification.DPI_320:
 				{
 					upBorderSkin = collaboRhythm.shared.view.skins.skins320.TransparentNavigationButton_up;
-					downBorderSkin = TransparentNavigationButton_down;
+					downBorderSkin = collaboRhythm.shared.view.skins.skins320.TransparentNavigationButton_down;
 
 					break;
 				}

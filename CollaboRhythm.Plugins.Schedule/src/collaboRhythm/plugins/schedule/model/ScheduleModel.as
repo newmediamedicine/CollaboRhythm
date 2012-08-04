@@ -162,6 +162,7 @@ package collaboRhythm.plugins.schedule.model
 				addToScheduleGroup(scheduleItemOccurrence);
 			}
 			adherencePerformanceModel.scheduleModelIsInitialized = true;
+			scheduleReportingModel.sortScheduleItemOccurrences();
 			scheduleTimelineModel.determineStacking();
 		}
 

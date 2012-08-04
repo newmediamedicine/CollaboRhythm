@@ -104,10 +104,13 @@
 
 		private function creationCompleteHandler():void
 		{
-			var sort:Sort = new Sort();
-			sort.fields = [new SortField("dateMeasuredStart")];
-			_bloodGlucoseArrayCollection.sort = sort;
-			_bloodGlucoseArrayCollection.refresh();
+			if (_bloodGlucoseArrayCollection)
+			{
+				var sort:Sort = new Sort();
+				sort.fields = [new SortField("dateMeasuredStart")];
+				_bloodGlucoseArrayCollection.sort = sort;
+				_bloodGlucoseArrayCollection.refresh();
+			}
 
 			callLater(scrollToEnd);
 		}

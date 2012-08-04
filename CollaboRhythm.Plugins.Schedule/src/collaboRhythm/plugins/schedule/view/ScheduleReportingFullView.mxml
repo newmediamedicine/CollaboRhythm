@@ -25,8 +25,9 @@
 		<s:Button id="saveButton" label="Save" click="saveButton_clickHandler()"/>
 	</fx:Declarations>
 	<fx:Style>
-		@namespace s "library://ns.adobe.com/flex/spark";
-
+		.adherenceInstructionsLabel {
+			fontSize: 22;
+		}
 	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.schedule.controller.ScheduleAppController;
@@ -35,15 +36,10 @@
 		import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
 		import collaboRhythm.plugins.schedule.model.ScheduleViewInitializationParameters;
 		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
-		import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
-		import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
-		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 		import mx.binding.utils.BindingUtils;
 		import mx.events.PropertyChangeEvent;
 		import mx.logging.ILogger;
-
-		import spark.collections.Sort;
 
 		private var _scheduleAppController:ScheduleAppController;
 		private var _scheduleReportingController:ScheduleReportingController;
@@ -110,63 +106,6 @@
 
 			BindingUtils.bindSetter(scheduleGroupReportingViewScrollerPosition_changeHandler, _scheduleReportingModel,
 					"scheduleGroupReportingViewScrollPosition");
-
-			var sort:Sort = new Sort();
-			sort.compareFunction = scheduleGroupReportingViewCompareFunction;
-			_scheduleReportingModel.currentScheduleGroup.scheduleItemsOccurrencesCollection.sort = sort;
-			_scheduleReportingModel.currentScheduleGroup.scheduleItemsOccurrencesCollection.refresh();
-		}
-
-		// TODO: Update once we update to new schemas
-		private function scheduleGroupReportingViewCompareFunction(aScheduleItemOccurrence:ScheduleItemOccurrence,
-																   bScheduleItemOccurrence:ScheduleItemOccurrence,
-																   array:Array = null):int
-		{
-			if (aScheduleItemOccurrence.scheduleItem.schedueItemType() == MedicationScheduleItem.MEDICATION)
-			{
-				if (bScheduleItemOccurrence.scheduleItem.schedueItemType() == MedicationScheduleItem.MEDICATION)
-				{
-					if (aScheduleItemOccurrence.scheduleItem.name.text ==
-							bScheduleItemOccurrence.scheduleItem.name.text)
-					{
-						return 0;
-					}
-					else if (aScheduleItemOccurrence.scheduleItem.name.text >
-							bScheduleItemOccurrence.scheduleItem.name.text)
-					{
-						return 1;
-					}
-					else
-					{
-						return -1;
-					}
-				}
-				else
-				{
-					return -1;
-				}
-			}
-			else
-			{
-				if (bScheduleItemOccurrence.scheduleItem.schedueItemType() == MedicationScheduleItem.MEDICATION)
-				{
-					return 1;
-				}
-				else
-				{
-					var aHealthActionSchedule:HealthActionSchedule = aScheduleItemOccurrence.scheduleItem as
-							HealthActionSchedule;
-					if (aHealthActionSchedule.scheduledEquipment != null)
-					{
-						return -1;
-					}
-					else
-					{
-						return 1;
-					}
-				}
-
-			}
 		}
 
 		private function scheduleGroupReportingViewScrollerPosition_changeHandler(scheduleGroupReportingViewScrollPosition:Number):void
@@ -237,6 +176,13 @@
 			_touchInteraction = false;
 		}
 		]]></fx:Script>
+	<s:Group width="100%" height="100%">
+		<s:VGroup verticalCenter="0" right="60" gap="60">
+			<s:Label text="Report adherence to a scheduled health action by touching the corresponding check box." styleName="adherenceInstructionsLabel" width="500"/>
+			<s:Label text="The '...' symbol means that you will need to enter additional information in another view." styleName="adherenceInstructionsLabel" width="500"/>
+			<s:Label text="Once you report adherence to a scheduled health action, you cannot uncheck it, but you can view previous results by touching the item." styleName="adherenceInstructionsLabel" width="500"/>
+		</s:VGroup>
+	</s:Group>
 	<s:Group id="reportingGroup" height="100%">
 		<s:Rect width="100%" height="100%">
 			<s:fill>
