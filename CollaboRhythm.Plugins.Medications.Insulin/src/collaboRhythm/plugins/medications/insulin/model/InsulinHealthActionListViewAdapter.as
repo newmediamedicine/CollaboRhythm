@@ -9,6 +9,8 @@ package collaboRhythm.plugins.medications.insulin.model
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.healthRecord.util.MedicationName;
+	import collaboRhythm.shared.model.healthRecord.util.MedicationNameUtil;
 	import collaboRhythm.shared.model.services.IImageCacheService;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -31,6 +33,7 @@ package collaboRhythm.plugins.medications.insulin.model
 		private var _medicationOrder:MedicationOrder;
 
 		private var _imageCacheService:IImageCacheService;
+		private var _medicationName:MedicationName;
 
 
 		public function InsulinHealthActionListViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
@@ -51,6 +54,9 @@ package collaboRhythm.plugins.medications.insulin.model
 			{
 				_medicationOrder = medicationOrder;
 			}
+
+			if (_medicationOrder)
+				_medicationName = MedicationNameUtil.parseName(_medicationOrder.name.text);
 
 			_imageCacheService = WorkstationKernel.instance.resolve(IImageCacheService) as IImageCacheService;
 		}
@@ -77,7 +83,7 @@ package collaboRhythm.plugins.medications.insulin.model
 
 		public function get description():String
 		{
-			return _currentHealthActionListViewAdapter.description;
+			return _medicationName.form;
 		}
 
 		public function get indication():String
