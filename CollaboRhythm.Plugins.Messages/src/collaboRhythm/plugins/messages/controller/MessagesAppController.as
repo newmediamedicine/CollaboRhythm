@@ -1,5 +1,7 @@
 package collaboRhythm.plugins.messages.controller
 {
+	import castle.flexbridge.reflection.ReflectionUtils;
+
 	import collaboRhythm.plugins.messages.model.IndividualMessageHealthRecordService;
 	import collaboRhythm.plugins.messages.model.MessagesModelAndController;
 	import collaboRhythm.plugins.messages.view.MessagesButtonWidgetView;
@@ -11,6 +13,7 @@ package collaboRhythm.plugins.messages.controller
 	import collaboRhythm.shared.collaboration.model.CollaborationViewSynchronizationEvent;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
+	import collaboRhythm.shared.messages.model.IIndividualMessageHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.document.MessagesModel;
 
 	import flash.utils.getQualifiedClassName;
@@ -35,6 +38,13 @@ package collaboRhythm.plugins.messages.controller
 					CollaborationLobbyNetConnectionServiceProxy;
 			_collaborationLobbyNetConnectionServiceProxyLocal.addEventListener(getQualifiedClassName(this),
 					collaborationViewSynchronization_eventHandler);
+
+			_individualMessagesHealthRecordService = new IndividualMessageHealthRecordService(_settings.oauthChromeConsumerKey,
+					_settings.oauthChromeConsumerSecret, _settings.indivoServerBaseURL, _activeAccount,
+					_activeRecordAccount, _activeRecordAccount.messagesModel,
+					collaborationLobbyNetConnectionServiceProxy);
+
+			_componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(IIndividualMessageHealthRecordService).name, IIndividualMessageHealthRecordService, _individualMessagesHealthRecordService);
 		}
 
 		private function collaborationViewSynchronization_eventHandler(event:CollaborationViewSynchronizationEvent):void
@@ -80,13 +90,6 @@ package collaboRhythm.plugins.messages.controller
 
 		private function get individualMessagesHealthRecordService():IndividualMessageHealthRecordService
 		{
-			if (!_individualMessagesHealthRecordService)
-			{
-				_individualMessagesHealthRecordService = new IndividualMessageHealthRecordService(_settings.oauthChromeConsumerKey,
-						_settings.oauthChromeConsumerSecret, _settings.indivoServerBaseURL, _activeAccount,
-						_activeRecordAccount, _activeRecordAccount.messagesModel,
-						collaborationLobbyNetConnectionServiceProxy);
-			}
 			return _individualMessagesHealthRecordService;
 		}
 
