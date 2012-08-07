@@ -17,6 +17,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import com.theory9.data.types.OrderedMap;
 
 	import mx.charts.HitData;
+	import mx.charts.chartClasses.CartesianChart;
 	import mx.charts.series.PlotSeries;
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
@@ -52,11 +53,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			initializeInsulinTitrationDecisionPanelModel();
 		}
 
-		public function modifyMainChart(chart:ScrubChart):void
+		public function modifyCartesianChart(chart:ScrubChart, cartesianChart:CartesianChart):void
 		{
 			if (decoratedModifier)
-				decoratedModifier.modifyMainChart(chart);
-			chart.mainChart.dataTipFunction = mainChart_dataTipFunction;
+				decoratedModifier.modifyCartesianChart(chart, cartesianChart);
+			cartesianChart.dataTipFunction = mainChart_dataTipFunction;
 		}
 
 		protected function get vitalSignChartDescriptor():VitalSignChartDescriptor

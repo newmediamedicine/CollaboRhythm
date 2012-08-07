@@ -1261,10 +1261,6 @@ package collaboRhythm.shared.ui.healthCharts.view
 				var chart:ScrubChart = ScrubChart(event.target);
 				var chartModifier:IChartModifier = getChartModifier(chart);
 
-				var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
-				verticalAxis.minimum = NaN;
-				verticalAxis.maximum = NaN;
-
 				chart.removeDefaultSeries();
 				if (chartModifier)
 					addSeriesDataSets(chartModifier, chart);
@@ -1278,20 +1274,20 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 				chart.mainChart.dataTipFunction = adherenceChart_dataTipFunction;
 				if (chartModifier)
-					chartModifier.modifyMainChart(chart);
+					chartModifier.modifyCartesianChart(chart, chart.mainChart);
 
 				chart.mainChart.addEventListener(Event.RESIZE, chart_mainChart_resizeHandler);
 			}
-			else if (event.partName == "rangeChart")
+			else if (event.partName == "mainChartCover")
 			{
-				chart = ScrubChart(event.target);
+				if (_traceEventHandlers)
+					logDebugEvent("adherenceChart_skinPartAddedHandler", "mainChartCover", chartToTraceString(event));
 
-				if (chart.rangeChart)
-				{
-					verticalAxis = chart.rangeChart.verticalAxis as LinearAxis;
-					verticalAxis.minimum = NaN;
-					verticalAxis.maximum = NaN;
-				}
+				chart = ScrubChart(event.target);
+				chartModifier = getChartModifier(chart);
+
+				if (chartModifier)
+					chartModifier.modifyCartesianChart(chart, chart.mainChartCover);
 			}
 		}
 

@@ -7,6 +7,8 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	import com.dougmccune.controls.SeriesDataSet;
 	import com.theory9.data.types.OrderedMap;
 
+	import mx.charts.chartClasses.CartesianChart;
+
 	import mx.collections.ArrayCollection;
 
 	import mx.core.IVisualElement;
@@ -29,7 +31,7 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 		 * tooltip (chart.mainChart.dataTipFunction).
 		 * @param chart
 		 */
-		function modifyMainChart(chart:ScrubChart):void;
+		function modifyCartesianChart(chart:ScrubChart, cartesianChart:CartesianChart):void;
 
 		/**
 		 * Creates or modifies the set of series (and associated data collection and data field for that each series)

@@ -7,6 +7,8 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	import com.dougmccune.controls.SeriesDataSet;
 	import com.theory9.data.types.OrderedMap;
 
+	import mx.charts.chartClasses.CartesianChart;
+
 	import mx.core.IVisualElement;
 
 	import qs.charts.dataShapes.DataDrawingCanvas;
@@ -22,7 +24,7 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 			super(chartDescriptor, chartModelDetails, decoratedChartModifier);
 		}
 
-		public function modifyMainChart(chart:ScrubChart):void
+		public function modifyCartesianChart(chart:ScrubChart, cartesianChart:CartesianChart):void
 		{
 		}
 

@@ -118,7 +118,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 			</mx:horizontalAxisRenderers>
 
 			<mx:verticalAxis>
-				<mx:LinearAxis id="mainChartVerticalAxis" baseAtZero="false"/>
+				<mccune:LimitedLinearAxis id="mainChartVerticalAxis" baseAtZero="false"/>
 			</mx:verticalAxis>
 
 			<mx:verticalAxisRenderers>
@@ -176,7 +176,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 				<!--Prevent default grid lines from being used-->
 			</mx:backgroundElements>
 			<mx:verticalAxis>
-				<mx:LinearAxis id="mainChartCoverVerticalAxis" baseAtZero="false"/>
+				<mccune:LimitedLinearAxis id="mainChartCoverVerticalAxis" baseAtZero="false"/>
 			</mx:verticalAxis>
 			<mx:verticalAxisRenderers>
 				<mccune:AxisRendererExt id="mainChartCoverVerticalAxisRenderer" axis="{mainChartVerticalAxis}"

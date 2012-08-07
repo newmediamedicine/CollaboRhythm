@@ -15,6 +15,7 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	import com.theory9.data.types.OrderedMap;
 
 	import mx.charts.LinearAxis;
+	import mx.charts.chartClasses.CartesianChart;
 	import mx.charts.series.AreaSeries;
 	import mx.collections.ArrayCollection;
 	import mx.core.ClassFactory;
@@ -51,29 +52,24 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 			return chartDescriptor as MedicationChartDescriptor;
 		}
 
-		public function modifyMainChart(chart:ScrubChart):void
+		public function modifyCartesianChart(chart:ScrubChart, cartesianChart:CartesianChart):void
 		{
 			if (decoratedModifier)
-				decoratedModifier.modifyMainChart(chart);
+				decoratedModifier.modifyCartesianChart(chart, cartesianChart);
 
 			var medicationModel:MedicationComponentAdherenceModel = getMedicationModel();
 
 			if (medicationModel)
 			{
-				var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
+				var verticalAxis:LinearAxis = cartesianChart.verticalAxis as LinearAxis;
 				verticalAxis.minimum = 0;
 				verticalAxis.maximum = medicationModel.concentrationAxisMaximum;
-				if (chart.mainChartCover)
+
+				if (HIDE_MEDICATION_VERTICAL_AXIS && cartesianChart == chart.mainChartCover)
 				{
-					verticalAxis = chart.mainChartCover.verticalAxis as LinearAxis;
-					verticalAxis.minimum = 0;
-					verticalAxis.maximum = medicationModel.concentrationAxisMaximum;
-					if (HIDE_MEDICATION_VERTICAL_AXIS)
-					{
-						var renderer:BlankAxisRenderer = new BlankAxisRenderer();
-						renderer.axis = verticalAxis;
-						chart.mainChartCover.verticalAxisRenderers = [renderer];
-					}
+					var renderer:BlankAxisRenderer = new BlankAxisRenderer();
+					renderer.axis = verticalAxis;
+					cartesianChart.verticalAxisRenderers = [renderer];
 				}
 			}
 		}

@@ -5,12 +5,15 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.VitalSignChartDescriptor;
 
+	import com.dougmccune.controls.LimitedLinearAxis;
+
 	import com.dougmccune.controls.ScrubChart;
 	import com.dougmccune.controls.SeriesDataSet;
 	import com.theory9.data.types.OrderedMap;
 
 	import mx.charts.HitData;
 	import mx.charts.LinearAxis;
+	import mx.charts.chartClasses.CartesianChart;
 	import mx.charts.renderers.CircleItemRenderer;
 	import mx.charts.renderers.DiamondItemRenderer;
 	import mx.charts.series.PlotSeries;
@@ -80,28 +83,26 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 			return chartDescriptor as VitalSignChartDescriptor;
 		}
 
-		public function modifyMainChart(chart:ScrubChart):void
+		public function modifyCartesianChart(chart:ScrubChart, cartesianChart:CartesianChart):void
 		{
 			if (decoratedModifier)
-				decoratedModifier.modifyMainChart(chart);
-			chart.mainChart.dataTipFunction = mainChart_dataTipFunction;
+				decoratedModifier.modifyCartesianChart(chart, cartesianChart);
+			cartesianChart.dataTipFunction = mainChart_dataTipFunction;
 
 			if (vitalSignChartDescriptor.vitalSignCategory == VitalSignsModel.BLOOD_GLUCOSE_CATEGORY)
 			{
-				modifyMainChartBloodGlucose(chart);
+				modifyMainChartBloodGlucose(chart, cartesianChart);
 			}
 		}
 
-		private function modifyMainChartBloodGlucose(chart:ScrubChart):void
+		private function modifyMainChartBloodGlucose(chart:ScrubChart, cartesianChart:CartesianChart):void
 		{
-			var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
-			verticalAxis.minimum = BLOOD_GLUCOSE_VERTICAL_AXIS_MINIMUM;
-			verticalAxis.maximum = BLOOD_GLUCOSE_VERTICAL_AXIS_MAXIMUM;
-			if (chart.mainChartCover)
+			var verticalAxis:LimitedLinearAxis = cartesianChart.verticalAxis as LimitedLinearAxis;
+			if (verticalAxis)
 			{
-				verticalAxis = chart.mainChartCover.verticalAxis as LinearAxis;
-				verticalAxis.minimum = BLOOD_GLUCOSE_VERTICAL_AXIS_MINIMUM;
-				verticalAxis.maximum = BLOOD_GLUCOSE_VERTICAL_AXIS_MAXIMUM;
+				verticalAxis.minimumLimit = BLOOD_GLUCOSE_VERTICAL_AXIS_MINIMUM;
+				verticalAxis.maximumLimit = BLOOD_GLUCOSE_VERTICAL_AXIS_MAXIMUM;
+				verticalAxis.interval = 10;
 			}
 		}
 

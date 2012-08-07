@@ -16,6 +16,7 @@ package collaboRhythm.plugins.bloodPressure.model
 
 	import mx.charts.HitData;
 	import mx.charts.LinearAxis;
+	import mx.charts.chartClasses.CartesianChart;
 	import mx.charts.chartClasses.Series;
 	import mx.charts.series.PlotSeries;
 	import mx.collections.ArrayCollection;
@@ -59,23 +60,17 @@ package collaboRhythm.plugins.bloodPressure.model
 			return hitData.displayText;
 		}
 
-		public function modifyMainChart(chart:ScrubChart):void
+		public function modifyCartesianChart(chart:ScrubChart, cartesianChart:CartesianChart):void
 		{
 			if (decoratedModifier)
-				decoratedModifier.modifyMainChart(chart);
+				decoratedModifier.modifyCartesianChart(chart, cartesianChart);
 			chart.mainChartTitle = "Blood Pressure (mmHg)";
 
-			var verticalAxis:LinearAxis = chart.mainChart.verticalAxis as LinearAxis;
+			var verticalAxis:LinearAxis = cartesianChart.verticalAxis as LinearAxis;
 			verticalAxis.minimum = BLOOD_PRESSURE_VERTICAL_AXIS_MINIMUM;
 			verticalAxis.maximum = BLOOD_PRESSURE_VERTICAL_AXIS_MAXIMUM;
-			if (chart.mainChartCover)
-			{
-				verticalAxis = chart.mainChartCover.verticalAxis as LinearAxis;
-				verticalAxis.minimum = BLOOD_PRESSURE_VERTICAL_AXIS_MINIMUM;
-				verticalAxis.maximum = BLOOD_PRESSURE_VERTICAL_AXIS_MAXIMUM;
-			}
 
-			chart.mainChart.dataTipFunction = bloodPressureChart_dataTipFunction;
+			cartesianChart.dataTipFunction = bloodPressureChart_dataTipFunction;
 		}
 
 		public function createMainChartSeriesDataSets(chart:ScrubChart,
