@@ -19,36 +19,15 @@
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+					   creationComplete="creationCompleteHandler()"
 					   resize="setVideoDisplaySize()"
-					   removedFromStage="removedFromStageHandler()"
 					   title="Video View">
-	<fx:Style>
-		@namespace s "library://ns.adobe.com/flex/spark";
-
-		#collaborationLabel {
-			color: #000000;
-			fontSize: 26;
-		}
-	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.shared.collaboration.controller.CollaborationController;
 		import collaboRhythm.shared.collaboration.model.AudioVideoOutput;
 		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
-		import collaboRhythm.shared.collaboration.model.CollaborationModel;
-
-		import mx.binding.utils.BindingUtils;
-
-		[Bindable]
-		[Embed(source="/assets/sounds/reverseChill.mp3")]
-		private var ringClass:Class;
-
-		private var ringSound:Sound = new ringClass as Sound;
-		private var soundChannel:SoundChannel;
 
 		private var _collaborationController:CollaborationController;
-		[Bindable]
-		private var _collaborationModel:CollaborationModel;
-		[Bindable]
 		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
 
 		override protected function createChildren():void
@@ -58,120 +37,29 @@
 			{
 				_collaborationController = _tabletApplicationController.iCollaborationController as
 						CollaborationController;
-				peerAccountImage.source = _collaborationController.collaborationModel.peerAccount.imageURI;
-
-				_collaborationModel = _collaborationController.collaborationModel;
-				_collaborationLobbyNetConnectionService = _collaborationModel.collaborationLobbyNetConnectionService;
-
-				BindingUtils.bindSetter(collaborationState_changeHandler, _collaborationModel, "collaborationState");
+				_collaborationLobbyNetConnectionService = _collaborationController.collaborationModel.collaborationLobbyNetConnectionService;
 			}
 		}
 
-		private function collaborationState_changeHandler(collaborationState:String):void
+		private function creationCompleteHandler():void
 		{
-			if (collaborationState == CollaborationModel.COLLABORATION_INVITATION_RECEIVED)
-			{
-				soundChannel = ringSound.play(0, int.MAX_VALUE);
-			}
-			else
-			{
-				if (soundChannel)
-				{
-					soundChannel.stop();
-				}
-			}
+			videoDisplay.mx_internal::videoPlayer.attachNetStream(_collaborationLobbyNetConnectionService.netStreamIn);
+			videoDisplay.mx_internal::videoPlayer.visible = true;
+
+			var camera:Camera = AudioVideoOutput.getVideoConferencingCamera();
+			_collaborationLobbyNetConnectionService.netStreamOut.attachCamera(camera);
+			videoDisplayOut.attachCamera(camera);
 		}
 
-		override protected function stage_keyUpHandler(event:KeyboardEvent):void
+		override protected function removedFromStageHandler():void
 		{
-			if (event.keyCode == Keyboard.BACK &&
-					_collaborationModel.collaborationState != CollaborationModel.COLLABORATION_ACTIVE)
-			{
-				event.stopImmediatePropagation();
-				event.preventDefault();
+			super.removedFromStageHandler();
 
-				_collaborationController.endCollaboration()
-			}
-		}
-
-		override public function homeButton_clickHandler():void
-		{
-			if (_collaborationModel.collaborationState != CollaborationModel.COLLABORATION_ACTIVE)
-			{
-				_collaborationController.endCollaboration();
-			}
-			else
-			{
-				super.homeButton_clickHandler();
-			}
-		}
-
-		private function determineVisible(netStreamIn:NetStream):Boolean
-		{
-			if (netStreamIn)
-			{
-				videoDisplay.mx_internal::videoPlayer.attachNetStream(netStreamIn);
-				videoDisplay.mx_internal::videoPlayer.visible = true;
-
-				var camera:Camera = AudioVideoOutput.getVideoConferencingCamera();
-				_collaborationLobbyNetConnectionService.netStreamOut.attachCamera(camera);
-				videoDisplayOut.attachCamera(camera);
-				return true;
-			}
-			return false;
-		}
-
-		private function removedFromStageHandler():void
-		{
 			videoDisplayOut.attachCamera(null);
 			if (_collaborationLobbyNetConnectionService.netStreamOut)
 			{
 				_collaborationLobbyNetConnectionService.netStreamOut.attachCamera(null);
 			}
-		}
-
-		private function determineCollaborationLabelText(collaborationState:String):String
-		{
-			var collaborationLabelText:String;
-
-			switch (collaborationState)
-			{
-				case CollaborationModel.COLLABORATION_INVITATION_SENT:
-					collaborationLabelText = "Calling ";
-					break;
-				case CollaborationModel.COLLABORATION_INVITATION_RECEIVED:
-					collaborationLabelText = "Incoming call from ";
-					break;
-				case CollaborationModel.COLLABORATION_INVITATION_REJECTED:
-					collaborationLabelText = "Call rejected by ";
-					break;
-			}
-
-			if (_collaborationModel.peerAccount.primaryRecord.contact.fullName)
-			{
-				collaborationLabelText += _collaborationModel.peerAccount.primaryRecord.contact.fullName;
-			}
-			else
-			{
-				collaborationLabelText += _collaborationModel.peerAccount.accountId;
-			}
-
-			return collaborationLabelText;
-		}
-
-		private function acceptButton_clickHandler():void
-		{
-			_collaborationController.acceptCollaborationInvitation();
-		}
-
-		private function rejectButton_clickHandler():void
-		{
-			_collaborationController.rejectCollaborationInvitation();
-		}
-
-		private function cancelButton_clickHandler():void
-		{
-			_collaborationController.cancelCollaborationInvitation();
 		}
 
 		private function setVideoDisplaySize():void
@@ -188,34 +76,7 @@
 			}
 		}
 		]]></fx:Script>
-	<s:Group width="100%" height="100%"
-			 visible="{_collaborationModel.collaborationState != CollaborationModel.COLLABORATION_ACTIVE}">
-		<s:VGroup horizontalAlign="center" verticalCenter="0" horizontalCenter="0" paddingTop="50" gap="20">
-			<s:Group width="500" height="500">
-				<s:Image id="peerAccountImage" width="100%" height="100%"/>
-				<s:Rect width="100%" height="100%">
-					<s:stroke>
-						<s:SolidColorStroke color="0x000000"/>
-					</s:stroke>
-				</s:Rect>
-			</s:Group>
-			<s:Label id="collaborationLabel"
-					 visible="{_collaborationModel.collaborationState != CollaborationModel.COLLABORATION_ACTIVE}"
-					 text="{determineCollaborationLabelText(_collaborationModel.collaborationState)}"/>
-			<s:HGroup
-					visible="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_RECEIVED}"
-					includeInLayout="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_RECEIVED}">
-				<s:Button id="acceptButton" label="Accept" click="acceptButton_clickHandler()"/>
-				<s:Button id="rejectButton" label="Reject" click="rejectButton_clickHandler()"/>
-			</s:HGroup>
-			<s:Button id="cancelButton" label="Cancel" top="10"
-					  visible="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_SENT}"
-					  includeInLayout="{_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_SENT}"
-					  click="cancelButton_clickHandler()"/>
-		</s:VGroup>
-	</s:Group>
-	<s:Group width="100%" height="100%"
-			 visible="{determineVisible(_collaborationLobbyNetConnectionService.netStreamIn)}">
+	<s:Group width="100%" height="100%">
 		<s:Rect width="100%" height="100%">
 			<s:fill>
 				<s:SolidColor color="0x000000"/>

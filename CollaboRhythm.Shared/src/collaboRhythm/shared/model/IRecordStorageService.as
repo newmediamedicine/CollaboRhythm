@@ -6,6 +6,14 @@ package collaboRhythm.shared.model
 	public interface IRecordStorageService
 	{
 		/**
+		 * Checks to see if there are unsaved changes (unsaved to the server) in a given record.
+		 * The one current implementation of this method currently only looks for unsaved changes to documents. It does not address unsaved relationships.
+		 *
+		 * @param record The record to query whether there are unsaved changes
+		 */
+		function hasUnsavedChanges(record:Record):Boolean;
+
+		/**
 		 * Saves all changes to all documents in the specified record to the server.
 		 *
 		 * @param record The record to save

@@ -12,7 +12,7 @@ package collaboRhythm.tablet.view
 	{
 		public function TabletFullViewContainer()
 		{
-			addEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler);
+
 		}
 
 		override protected function createChildren():void
@@ -38,8 +38,10 @@ package collaboRhythm.tablet.view
 			return data as AppControllerBase;
 		}
 
-		protected function removedFromStageHandler(event:Event):void
+		override protected function removedFromStageHandler():void
 		{
+			super.removedFromStageHandler();
+
 			if (app)
 			{
 				app.closeFullView();

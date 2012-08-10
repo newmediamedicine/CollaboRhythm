@@ -58,6 +58,42 @@ package collaboRhythm.core.model.healthRecord.service
 		}
 
 		/**
+		 * Checks to see if there are unsaved changes (unsaved to the server) in a given record.
+		 * This method currently only looks for unsaved changes to documents. It does not address unsaved relationships.
+		 *
+		 * @param record The record to query whether there are unsaved changes
+		 */
+		public function hasUnsavedChanges(record:Record):Boolean
+		{
+			for each (var document:IDocument in record.completeDocumentsById.values())
+			{
+				if (document == null)
+				{
+					_logger.warn("Attempted to check for unsaved changes to a null document. Document skipped.");
+				}
+				else if (document.pendingAction == DocumentBase.ACTION_CREATE)
+				{
+					return true;
+				}
+				else if (document.pendingAction == DocumentBase.ACTION_VOID)
+				{
+					return true;
+				}
+				else if (document.pendingAction == DocumentBase.ACTION_DELETE)
+				{
+					return true;
+				}
+				else if (document.pendingAction == DocumentBase.ACTION_UPDATE)
+				{
+					return true;
+				}
+				// TODO: handle other actions
+			}
+
+			return false;
+		}
+
+		/**
 		 * Saves all changes to all documents in the specified record to the server.
 		 *
 		 * @param record The record to save

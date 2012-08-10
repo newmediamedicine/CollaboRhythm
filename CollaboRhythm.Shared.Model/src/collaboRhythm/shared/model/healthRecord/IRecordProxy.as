@@ -36,6 +36,12 @@ package collaboRhythm.shared.model.healthRecord
 								reason:String = null, recursive:Boolean = false):int;
 
 		/**
+		 * Checks to see if there are unsaved changes (unsaved to the server) in a given record.
+		 * The one current implementation of this method currently only looks for unsaved changes to documents. It does not address unsaved relationships.
+		 */
+		function hasUnsavedChanges():Boolean;
+
+		/**
 		 * Saves all changes to all documents in this record to the server.
 		 */
 		function saveAllChanges():void;

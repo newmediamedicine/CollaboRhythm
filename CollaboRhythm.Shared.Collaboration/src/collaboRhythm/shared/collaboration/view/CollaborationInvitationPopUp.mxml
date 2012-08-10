@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:SkinnablePopUpContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+						   xmlns:s="library://ns.adobe.com/flex/spark"
+						   creationComplete="creationCompleteHandler()"
+						   addedToStage="addedToStageHandler()"
+						   removedFromStage="removedFromStageHandler()"
+						   width="500">
+	<fx:Style>
+		#mainLabel {
+			fontSize: 21;
+			color: #F3F3F3;
+		}
+
+		.unsavedChangesLabel {
+			fontSize: 18;
+			color: #F3F3F3;
+		}
+
+		.actionButtons {
+			fontSize: 16;
+			fontWeight: normal;
+			color: #F3F3F3;
+			textShadowAlpha: 0;
+		}
+	</fx:Style>
+	<s:states>
+		<s:State name="senderNoUnsavedChanges" stateGroups="sender, noUnsavedChanges"/>
+		<s:State name="recipientNoUnsavedChanges" stateGroups="recipient, noUnsavedChanges"/>
+		<s:State name="senderUnsavedChanges" stateGroups="sender, unsavedChanges"/>
+		<s:State name="recipientUnsavedChanges" stateGroups="recipient, unsavedChanges"/>
+	</s:states>
+	<fx:Script><![CDATA[
+		import collaboRhythm.shared.collaboration.controller.CollaborationController;
+		import collaboRhythm.shared.collaboration.model.CollaborationModel;
+		import collaboRhythm.shared.model.Account;
+
+		private var _collaborationController:CollaborationController;
+		private var _activeRecordAccount:Account;
+
+		[Bindable]
+		[Embed(source="/assets/sounds/reverseChill.mp3")]
+		private var ringClass:Class;
+
+		private var ringSound:Sound = new ringClass as Sound;
+		private var soundChannel:SoundChannel;
+
+		public function init(collaborationController:CollaborationController, activeRecordAccount:Account):void
+		{
+			_collaborationController = collaborationController;
+			_activeRecordAccount = activeRecordAccount;
+		}
+
+		private function creationCompleteHandler():void
+		{
+			var collaborationModel:CollaborationModel = _collaborationController.collaborationModel;
+			var currentStateString:String;
+			var collaborationLabelText:String;
+
+			switch (collaborationModel.collaborationState)
+			{
+				case CollaborationModel.COLLABORATION_INVITATION_SENT:
+					currentStateString = "sender";
+					collaborationLabelText = "Calling ";
+					break;
+				case CollaborationModel.COLLABORATION_INVITATION_RECEIVED:
+					currentStateString = "recipient";
+					collaborationLabelText = "Incoming call from ";
+					break;
+			}
+
+			if (_activeRecordAccount.primaryRecord.hasUnsavedChanges())
+			{
+				currentState = currentStateString + "UnsavedChanges";
+			}
+			else
+			{
+				currentState = currentStateString + "NoUnsavedChanges";
+			}
+
+			if (collaborationModel.peerAccount.primaryRecord && collaborationModel.peerAccount.primaryRecord.contact)
+			{
+				collaborationLabelText += collaborationModel.peerAccount.primaryRecord.contact.fullName;
+			}
+			else
+			{
+				collaborationLabelText += collaborationModel.peerAccount.accountId;
+			}
+
+			mainLabel.text = collaborationLabelText;
+			peerAccountImage.source = collaborationModel.peerAccount.imageURI;
+		}
+
+		private function addedToStageHandler():void
+		{
+			soundChannel = ringSound.play(0, int.MAX_VALUE);
+		}
+
+		private function removedFromStageHandler():void
+		{
+			if (soundChannel)
+			{
+				soundChannel.stop();
+			}
+		}
+		]]></fx:Script>
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="0x282828"/>
+		</s:fill>
+	</s:Rect>
+	<s:VGroup gap="20" width="100%" horizontalAlign="center">
+		<s:Label id="mainLabel" paddingTop="20"/>
+		<s:Image id="peerAccountImage" width="200" height="200"/>
+		<s:Label styleName="unsavedChangesLabel" text="You have unsaved changes." includeIn="unsavedChanges"/>
+		<s:Label styleName="unsavedChangesLabel" text="You must save these changes before collaborating." includeIn="unsavedChanges"/>
+		<s:VGroup gap="0" width="100%">
+			<s:Line width="100%">
+				<s:stroke>
+					<s:SolidColorStroke color="0x444444"/>
+				</s:stroke>
+			</s:Line>
+			<s:HGroup width="100%">
+				<s:Button label="Accept" width="250" height="50"
+						  skinClass="spark.skins.mobile.TransparentActionButtonSkin"
+						  styleName="actionButtons" click="dispatchEvent(new CollaborationInvitationPopUpEvent(CollaborationInvitationPopUpEvent.ACCEPT))" includeIn="recipientNoUnsavedChanges"/>
+				<s:Button label.recipientNoUnsavedChanges="Reject" label.recipientUnsavedChanges="OK" label.sender="Cancel" width="100%" height="50" click.recipient="dispatchEvent(new CollaborationInvitationPopUpEvent(CollaborationInvitationPopUpEvent.REJECT))"
+						  click.sender="dispatchEvent(new CollaborationInvitationPopUpEvent(CollaborationInvitationPopUpEvent.CANCEL))"
+						  skinClass="spark.skins.mobile.TransparentActionButtonSkin" styleName="actionButtons"/>
+			</s:HGroup>
+		</s:VGroup>
+	</s:VGroup>
+</s:SkinnablePopUpContainer>

@@ -268,8 +268,8 @@ package collaboRhythm.core.controller
 		private function autoSave():void
 		{
 			// Don't try to auto-save on quit if we just tried to save and had errors (allow the user to force quit)
-			if (activeRecordAccount && !hasErrorsSaving && !isSaving && _activeAccount.accountId == _activeRecordAccount.accountId)
-				activeRecordAccount.primaryRecord.saveAllChanges();
+//			if (activeRecordAccount && !hasErrorsSaving && !isSaving && _activeAccount.accountId == _activeRecordAccount.accountId)
+//				activeRecordAccount.primaryRecord.saveAllChanges();
 		}
 
 		/**

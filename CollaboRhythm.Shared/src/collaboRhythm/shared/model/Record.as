@@ -45,29 +45,29 @@ package collaboRhythm.shared.model
 	import mx.utils.UIDUtil;
 
 	[Bindable]
-    public class Record implements IRecord, IRecordProxy
-    {
-        private var _id:String;
-        private var _label:String;
-        private var _shared:Boolean = false;
-        private var _role_label:String;
-        private var _demographics:Demographics;
-        private var _contact:Contact;
+	public class Record implements IRecord, IRecordProxy
+	{
+		private var _id:String;
+		private var _label:String;
+		private var _shared:Boolean = false;
+		private var _role_label:String;
+		private var _demographics:Demographics;
+		private var _contact:Contact;
 
 		[ArrayElementType("collaboRhythm.shared.model.healthRecord.IDocumentCollection")]
 		private var _documentCollections:HashMap = new HashMap(); // key: document type, value: IDocumentCollection
 		private var _completeDocumentsById:HashMap = new HashMap(); // key: document id, value: IDocument
 		private var _originalDocumentsById:HashMap = new HashMap(); // key: document id, value: IDocument
 		private var _currentDocumentsById:HashMap = new HashMap(); // key: document id, value: IDocument
-        private var _medicationOrdersModel:MedicationOrdersModel;
-        private var _medicationFillsModel:MedicationFillsModel;
-        private var _medicationScheduleItemsModel:MedicationScheduleItemsModel;
-        private var _medicationAdministrationsModel:MedicationAdministrationsModel;
-        private var _equipmentModel:EquipmentModel;
+		private var _medicationOrdersModel:MedicationOrdersModel;
+		private var _medicationFillsModel:MedicationFillsModel;
+		private var _medicationScheduleItemsModel:MedicationScheduleItemsModel;
+		private var _medicationAdministrationsModel:MedicationAdministrationsModel;
+		private var _equipmentModel:EquipmentModel;
 		private var _healthActionSchedulesModel:HealthActionSchedulesModel;
-        private var _adherenceItemsModel:AdherenceItemsModel;
-        private var _problemsModel:ProblemsModel = new ProblemsModel();
-        private var _appData:HashMap = new HashMap();
+		private var _adherenceItemsModel:AdherenceItemsModel;
+		private var _problemsModel:ProblemsModel = new ProblemsModel();
+		private var _appData:HashMap = new HashMap();
 		private var _vitalSignsModel:VitalSignsModel;
 		private var _healthActionPlansModel:HealthActionPlansModel;
 		private var _healthActionResultsModel:HealthActionResultsModel;
@@ -83,30 +83,30 @@ package collaboRhythm.shared.model
 		private var _hasUnexpectedErrorsSaving:Boolean;
 		private var _dateLoaded:Date;
 
-        public function Record(recordXml:XML)
-        {
+		public function Record(recordXml:XML)
+		{
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
-            _id = recordXml.@id;
-            _label = recordXml.@label;
-            if (recordXml.hasOwnProperty("@shared"))
-                _shared = HealthRecordHelperMethods.stringToBoolean(recordXml.@shared);
-            if (recordXml.hasOwnProperty("@role_label"))
-                _role_label = recordXml.@role_label;
-            initDocumentModels();
-        }
+			_id = recordXml.@id;
+			_label = recordXml.@label;
+			if (recordXml.hasOwnProperty("@shared"))
+				_shared = HealthRecordHelperMethods.stringToBoolean(recordXml.@shared);
+			if (recordXml.hasOwnProperty("@role_label"))
+				_role_label = recordXml.@role_label;
+			initDocumentModels();
+		}
 
-        private function initDocumentModels():void
-        {
+		private function initDocumentModels():void
+		{
 			// TODO: fix the handling of problems
 			// the problems model is not currently cleared because it is only loaded once when in clinician mode
 			// the problems model is not currently used in patient mode
 			medicationOrdersModel = new MedicationOrdersModel();
-            medicationFillsModel = new MedicationFillsModel();
-            medicationScheduleItemsModel = new MedicationScheduleItemsModel();
-            medicationAdministrationsModel = new MedicationAdministrationsModel();
-            equipmentModel = new EquipmentModel();
-            healthActionSchedulesModel = new HealthActionSchedulesModel();
-            adherenceItemsModel = new AdherenceItemsModel();
+			medicationFillsModel = new MedicationFillsModel();
+			medicationScheduleItemsModel = new MedicationScheduleItemsModel();
+			medicationAdministrationsModel = new MedicationAdministrationsModel();
+			equipmentModel = new EquipmentModel();
+			healthActionSchedulesModel = new HealthActionSchedulesModel();
+			adherenceItemsModel = new AdherenceItemsModel();
 			vitalSignsModel = new VitalSignsModel();
 			healthActionPlansModel = new HealthActionPlansModel();
 			healthActionResultsModel = new HealthActionResultsModel();
@@ -174,50 +174,50 @@ package collaboRhythm.shared.model
 		}
 
 		public function get demographics():Demographics
-        {
-            return _demographics;
-        }
+		{
+			return _demographics;
+		}
 
-        public function set demographics(value:Demographics):void
-        {
-            _demographics = value;
-        }
+		public function set demographics(value:Demographics):void
+		{
+			_demographics = value;
+		}
 
-        public function get contact():Contact
-        {
-            return _contact;
-        }
+		public function get contact():Contact
+		{
+			return _contact;
+		}
 
-        public function set contact(value:Contact):void
-        {
-            _contact = value;
+		public function set contact(value:Contact):void
+		{
+			_contact = value;
 
-            // TODO: store the images with the record (as a binary document) or use some other identifier for the file name
-        }
+			// TODO: store the images with the record (as a binary document) or use some other identifier for the file name
+		}
 
-        public function get equipmentModel():EquipmentModel
-        {
-            return _equipmentModel;
-        }
+		public function get equipmentModel():EquipmentModel
+		{
+			return _equipmentModel;
+		}
 
-        public function set equipmentModel(value:EquipmentModel):void
-        {
-            _equipmentModel = value;
+		public function set equipmentModel(value:EquipmentModel):void
+		{
+			_equipmentModel = value;
 			addDocumentCollection(value);
-        }
+		}
 
-        public function get adherenceItemsModel():AdherenceItemsModel
-        {
-            return _adherenceItemsModel;
-        }
+		public function get adherenceItemsModel():AdherenceItemsModel
+		{
+			return _adherenceItemsModel;
+		}
 
-        public function set adherenceItemsModel(value:AdherenceItemsModel):void
-        {
-            _adherenceItemsModel = value;
+		public function set adherenceItemsModel(value:AdherenceItemsModel):void
+		{
+			_adherenceItemsModel = value;
 			addDocumentCollection(value);
-        }
+		}
 
-        public function get appData():HashMap
+		public function get appData():HashMap
 		{
 			return _appData;
 		}
@@ -228,82 +228,83 @@ package collaboRhythm.shared.model
 			if (data)
 				return data;
 			else
-				throw new Error("appData on Record does not contain a " + (type as Class).toString() + " for key " + key);
+				throw new Error("appData on Record does not contain a " + (type as Class).toString() + " for key " +
+						key);
 		}
 
-        public function clearDocuments():void
-        {
-            initDocumentModels();
+		public function clearDocuments():void
+		{
+			initDocumentModels();
 			completeDocumentsById.clear();
 			originalDocumentsById.clear();
 			currentDocumentsById.clear();
-        }
+		}
 
-        public function get problemsModel():ProblemsModel
-        {
-            return _problemsModel;
-        }
+		public function get problemsModel():ProblemsModel
+		{
+			return _problemsModel;
+		}
 
-        public function set problemsModel(value:ProblemsModel):void
-        {
-            _problemsModel = value;
+		public function set problemsModel(value:ProblemsModel):void
+		{
+			_problemsModel = value;
 			addDocumentCollection(value);
-        }
+		}
 
-        public function get medicationOrdersModel():MedicationOrdersModel
-        {
-            return _medicationOrdersModel;
-        }
+		public function get medicationOrdersModel():MedicationOrdersModel
+		{
+			return _medicationOrdersModel;
+		}
 
-        public function set medicationOrdersModel(value:MedicationOrdersModel):void
-        {
-            _medicationOrdersModel = value;
+		public function set medicationOrdersModel(value:MedicationOrdersModel):void
+		{
+			_medicationOrdersModel = value;
 			addDocumentCollection(value);
-        }
+		}
 
-        public function get medicationFillsModel():MedicationFillsModel
-        {
-            return _medicationFillsModel;
-        }
+		public function get medicationFillsModel():MedicationFillsModel
+		{
+			return _medicationFillsModel;
+		}
 
-        public function set medicationFillsModel(value:MedicationFillsModel):void
-        {
-            _medicationFillsModel = value;
+		public function set medicationFillsModel(value:MedicationFillsModel):void
+		{
+			_medicationFillsModel = value;
 			addDocumentCollection(value);
-        }
+		}
 
-        public function get medicationScheduleItemsModel():MedicationScheduleItemsModel
-        {
-            return _medicationScheduleItemsModel;
-        }
+		public function get medicationScheduleItemsModel():MedicationScheduleItemsModel
+		{
+			return _medicationScheduleItemsModel;
+		}
 
-        public function set medicationScheduleItemsModel(value:MedicationScheduleItemsModel):void
-        {
-            _medicationScheduleItemsModel = value;
+		public function set medicationScheduleItemsModel(value:MedicationScheduleItemsModel):void
+		{
+			_medicationScheduleItemsModel = value;
 			addDocumentCollection(value);
-        }
+		}
 
-        public function get medicationAdministrationsModel():MedicationAdministrationsModel
-        {
-            return _medicationAdministrationsModel;
-        }
+		public function get medicationAdministrationsModel():MedicationAdministrationsModel
+		{
+			return _medicationAdministrationsModel;
+		}
 
-        public function set medicationAdministrationsModel(value:MedicationAdministrationsModel):void
-        {
-            _medicationAdministrationsModel = value;
+		public function set medicationAdministrationsModel(value:MedicationAdministrationsModel):void
+		{
+			_medicationAdministrationsModel = value;
 			addDocumentCollection(value);
-        }
+		}
 
-        public function get healthActionSchedulesModel():HealthActionSchedulesModel
-        {
-            return _healthActionSchedulesModel;
-        }
+		public function get healthActionSchedulesModel():HealthActionSchedulesModel
+		{
+			return _healthActionSchedulesModel;
+		}
 
-        public function set healthActionSchedulesModel(value:HealthActionSchedulesModel):void
-        {
-            _healthActionSchedulesModel = value;
+		public function set healthActionSchedulesModel(value:HealthActionSchedulesModel):void
+		{
+			_healthActionSchedulesModel = value;
 			addDocumentCollection(value);
-        }
+		}
 
 		public function get vitalSignsModel():VitalSignsModel
 		{
@@ -371,7 +372,7 @@ package collaboRhythm.shared.model
 		 * @param saveImmediately If true, a request will be made to persist the document to the server immediately;
 		 * otherwise, the document will not be persisted until requested.
 		 */
-		public function addDocument(document:IDocument, saveImmediately:Boolean=false):void
+		public function addDocument(document:IDocument, saveImmediately:Boolean = false):void
 		{
 			if (document.meta.type == null)
 				throw new Error("The type of the document must be set when it is created. A document cannot be deleted if no type is specified.");
@@ -394,7 +395,8 @@ package collaboRhythm.shared.model
 			}
 			else
 			{
-				throw new Error("Attempted to add a document with an invalid value for pendingAction: " + document.pendingAction);
+				throw new Error("Attempted to add a document with an invalid value for pendingAction: " +
+						document.pendingAction);
 			}
 
 			completeDocumentsById.put(document.meta.id, document);
@@ -441,7 +443,9 @@ package collaboRhythm.shared.model
 
 			var expectDocumentInCollections:Boolean = true;
 
-			if (document.pendingAction == DocumentBase.ACTION_DELETE || document.pendingAction == DocumentBase.ACTION_ARCHIVE || document.pendingAction == DocumentBase.ACTION_VOID)
+			if (document.pendingAction == DocumentBase.ACTION_DELETE ||
+					document.pendingAction == DocumentBase.ACTION_ARCHIVE ||
+					document.pendingAction == DocumentBase.ACTION_VOID)
 			{
 				// no changes should be required to the collections, but check to be sure
 				expectDocumentInCollections = false;
@@ -517,6 +521,14 @@ package collaboRhythm.shared.model
 		public function get completeDocumentsById():HashMap
 		{
 			return _completeDocumentsById;
+		}
+
+		public function hasUnsavedChanges():Boolean
+		{
+			if (!storageService)
+				throw new Error("The storageService must be provided to connect the record to a storage service before saveAllChanges can be used.");
+
+			return storageService.hasUnsavedChanges(this);
 		}
 
 		public function saveAllChanges():void
