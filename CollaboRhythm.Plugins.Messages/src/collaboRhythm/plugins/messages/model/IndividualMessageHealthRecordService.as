@@ -1,5 +1,6 @@
 package collaboRhythm.plugins.messages.model
 {
+	import collaboRhythm.shared.messages.model.IIndividualMessageHealthRecordService;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
@@ -12,12 +13,19 @@ package collaboRhythm.plugins.messages.model
 
 	import flash.net.URLVariables;
 
-	public class IndividualMessageHealthRecordService extends PhaHealthRecordServiceBase
+	public class IndividualMessageHealthRecordService extends PhaHealthRecordServiceBase implements IIndividualMessageHealthRecordService
 	{
 		private var _messagesModel:MessagesModel;
 		private var _activeRecordAccount:Account;
 		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
 
+//		This service is currently separate from the MessagesHealthRecordService for several reasons. (An attempt was made to merge them.)
+//		1. If an interface is created for MessagesHealthRecordService, this is problematic because it inherits from HealthRecordServiceBase
+//		   and ApplicationControllerBase relies on its events.
+//		2. If a plugin is responsible for registering an instance of the merged service with the componentContainer,
+//		   issues arise because one cannot be sure that the plugin will be loaded by the time that the session is created
+//		   and the service is needed. It is certainly possible that additional events can be tracked, but this will take more
+//		   work and will require more intensive testing to ensure that all scenarios are properly handled.
 		public function IndividualMessageHealthRecordService(oauthPhaConsumerKey:String, oauthPhaConsumerSecret:String,
 															 indivoServerBaseURL:String, activeAccount:Account,
 															 activeRecordAccount:Account, messagesModel:MessagesModel,
@@ -96,7 +104,6 @@ package collaboRhythm.plugins.messages.model
 
 			_collaborationLobbyNetConnectionServiceProxy.sendMessage(message.subject, message);
 		}
-
 
 		override protected function sendMessageErrorHandler(errorStatus:String,
 														healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
