@@ -270,7 +270,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			{
 				confirmChangePopUp.model = new ConfirmChangePopUpModel(_insulinTitrationDecisionPanelModel.previousDoseValue, _insulinTitrationDecisionPanelModel.dosageChangeValueLabel, _insulinTitrationDecisionPanelModel.newDose);
 				confirmChangePopUp.addEventListener(PopUpEvent.CLOSE, confirmChangePopUp_closeHandler);
-				confirmChangePopUp.open(chartModelDetails.container, true);
+				confirmChangePopUp.open(chartModelDetails.owner, true);
 				PopUpManager.centerPopUp(confirmChangePopUp);
 
 				return false;
