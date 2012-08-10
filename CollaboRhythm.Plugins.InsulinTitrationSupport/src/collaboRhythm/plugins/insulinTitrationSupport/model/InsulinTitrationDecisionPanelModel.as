@@ -19,9 +19,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
 	import collaboRhythm.shared.ui.healthCharts.view.SynchronizedHealthCharts;
 
+	import com.dougmccune.controls.LimitedLinearAxis;
+
+	import flash.events.Event;
+
 	import flash.utils.getQualifiedClassName;
 
 	import mx.binding.utils.BindingUtils;
+	import mx.charts.LinearAxis;
 	import mx.collections.ArrayCollection;
 	import mx.events.CollectionEvent;
 	import mx.events.CollectionEventKind;
@@ -99,6 +104,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private var _medicationTitrationHelper:MedicationTitrationHelper;
 		private var _bloodGlucoseRequirementsDetails:String;
+		private var _isBloodGlucoseMaximumExceeded:Boolean;
+		private var _isBloodGlucoseMinimumExceeded:Boolean;
+		private var _bloodGlucoseAverageRangeLimited:Number;
+		private var _chartVerticalAxis:LinearAxis;
+		private var _connectedChartVerticalAxisMaximum:Number;
+		private var _connectedChartVerticalAxisMinimum:Number;
 
 		public function InsulinTitrationDecisionPanelModel(chartModelDetails:IChartModelDetails)
 		{
@@ -354,8 +365,16 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function set bloodGlucoseAverage(value:Number):void
 		{
 			_bloodGlucoseAverage = value;
+			updateOutsideRange();
 			updateAreBloodGlucoseRequirementsMet();
 			updateAlgorithmSuggestions();
+		}
+
+		private function updateOutsideRange():void
+		{
+			bloodGlucoseAverageRangeLimited = Math.min(verticalAxisMaximum, Math.max(verticalAxisMinimum, bloodGlucoseAverage));
+			isBloodGlucoseMaximumExceeded = bloodGlucoseAverage > verticalAxisMaximum;
+			isBloodGlucoseMinimumExceeded = bloodGlucoseAverage < verticalAxisMinimum;
 		}
 
 		public function updateAreBloodGlucoseRequirementsMet():void
@@ -858,6 +877,85 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function set step4StateDescription(value:String):void
 		{
 			_step4StateDescription = value;
+		}
+
+		public function get isBloodGlucoseMaximumExceeded():Boolean
+		{
+			return _isBloodGlucoseMaximumExceeded;
+		}
+
+		public function set isBloodGlucoseMaximumExceeded(value:Boolean):void
+		{
+			_isBloodGlucoseMaximumExceeded = value;
+		}
+
+		public function get isBloodGlucoseMinimumExceeded():Boolean
+		{
+			return _isBloodGlucoseMinimumExceeded;
+		}
+
+		public function set isBloodGlucoseMinimumExceeded(value:Boolean):void
+		{
+			_isBloodGlucoseMinimumExceeded = value;
+		}
+
+		public function get bloodGlucoseAverageRangeLimited():Number
+		{
+			return _bloodGlucoseAverageRangeLimited;
+		}
+
+		public function set bloodGlucoseAverageRangeLimited(value:Number):void
+		{
+			_bloodGlucoseAverageRangeLimited = value;
+		}
+
+		public function get chartVerticalAxis():LinearAxis
+		{
+			return _chartVerticalAxis;
+		}
+
+		public function set chartVerticalAxis(value:LinearAxis):void
+		{
+			if (_chartVerticalAxis)
+				_chartVerticalAxis.removeEventListener(LimitedLinearAxis.AXIS_CHANGE_EVENT, chartVerticalAxis_axisChangeHandler);
+
+			_chartVerticalAxis = value;
+			if (_chartVerticalAxis)
+			{
+				updateConnectedChartVerticalAxisLimits();
+				_chartVerticalAxis.addEventListener(LimitedLinearAxis.AXIS_CHANGE_EVENT, chartVerticalAxis_axisChangeHandler, false, 0, true);
+			}
+		}
+
+		private function chartVerticalAxis_axisChangeHandler(event:Event):void
+		{
+			updateConnectedChartVerticalAxisLimits();
+		}
+
+		private function updateConnectedChartVerticalAxisLimits():void
+		{
+			connectedChartVerticalAxisMaximum = _chartVerticalAxis.maximum;
+			connectedChartVerticalAxisMinimum = _chartVerticalAxis.minimum;
+		}
+
+		public function get connectedChartVerticalAxisMaximum():Number
+		{
+			return _connectedChartVerticalAxisMaximum;
+		}
+
+		public function set connectedChartVerticalAxisMaximum(value:Number):void
+		{
+			_connectedChartVerticalAxisMaximum = value;
+		}
+
+		public function get connectedChartVerticalAxisMinimum():Number
+		{
+			return _connectedChartVerticalAxisMinimum;
+		}
+
+		public function set connectedChartVerticalAxisMinimum(value:Number):void
+		{
+			_connectedChartVerticalAxisMinimum = value;
 		}
 	}
 }

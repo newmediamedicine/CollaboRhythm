@@ -6,16 +6,13 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.VitalSignChartDescriptor;
 
 	import com.dougmccune.controls.LimitedLinearAxis;
-
 	import com.dougmccune.controls.ScrubChart;
 	import com.dougmccune.controls.SeriesDataSet;
 	import com.theory9.data.types.OrderedMap;
 
 	import mx.charts.HitData;
-	import mx.charts.LinearAxis;
 	import mx.charts.chartClasses.CartesianChart;
 	import mx.charts.renderers.CircleItemRenderer;
-	import mx.charts.renderers.DiamondItemRenderer;
 	import mx.charts.series.PlotSeries;
 	import mx.collections.ArrayCollection;
 	import mx.core.ClassFactory;
@@ -69,7 +66,7 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 		public static const GOAL_ZONE_ALPHA:Number = 0.5;
 		public static const BLOOD_GLUCOSE_GOAL_ZONE_MINIMUM:Number = 80;
 		public static const BLOOD_GLUCOSE_GOAL_ZONE_MAXIMUM:Number = 110;
-
+		private static const PLOT_ITEM_RADIUS:int = 10;
 
 		public function DefaultVitalSignChartModifier(chartDescriptor:VitalSignChartDescriptor,
 														   chartModelDetails:IChartModelDetails,
@@ -83,10 +80,12 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 			return chartDescriptor as VitalSignChartDescriptor;
 		}
 
-		public function modifyCartesianChart(chart:ScrubChart, cartesianChart:CartesianChart):void
+		public function modifyCartesianChart(chart:ScrubChart,
+											 cartesianChart:CartesianChart,
+											 isMainChart:Boolean):void
 		{
 			if (decoratedModifier)
-				decoratedModifier.modifyCartesianChart(chart, cartesianChart);
+				decoratedModifier.modifyCartesianChart(chart, cartesianChart, isMainChart);
 			cartesianChart.dataTipFunction = mainChart_dataTipFunction;
 
 			if (vitalSignChartDescriptor.vitalSignCategory == VitalSignsModel.BLOOD_GLUCOSE_CATEGORY)
@@ -135,7 +134,7 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 			var seriesDataCollection:ArrayCollection = chartModelDetails.record.vitalSignsModel.getVitalSignsByCategory(vitalSignChartDescriptor.vitalSignCategory);
 			vitalSignSeries.dataProvider = seriesDataCollection;
 			vitalSignSeries.displayName = vitalSignChartDescriptor.vitalSignCategory;
-			vitalSignSeries.setStyle("radius", 10);
+			vitalSignSeries.setStyle("radius", PLOT_ITEM_RADIUS);
 			vitalSignSeries.filterDataValues = "none";
 //			var color:uint = getVitalSignColor(vitalSignChartDescriptor.vitalSignCategory);
 			var color:uint = 0;

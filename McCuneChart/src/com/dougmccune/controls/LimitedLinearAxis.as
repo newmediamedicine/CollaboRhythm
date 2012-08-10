@@ -1,5 +1,7 @@
 package com.dougmccune.controls
 {
+	import flash.events.Event;
+
 	import mx.charts.LinearAxis;
 
 	public class LimitedLinearAxis extends LinearAxis
@@ -20,6 +22,15 @@ package com.dougmccune.controls
 
 			if (!isNaN(minimumLimit))
 				computedMinimum = Math.min(minimumLimit, computedMinimum);
+		}
+
+		public static const AXIS_CHANGE_EVENT:String = "axisChange";
+
+		override public function update():void
+		{
+			super.update();
+
+			dispatchEvent(new Event(AXIS_CHANGE_EVENT));
 		}
 
 		public function get maximumLimit():Number
