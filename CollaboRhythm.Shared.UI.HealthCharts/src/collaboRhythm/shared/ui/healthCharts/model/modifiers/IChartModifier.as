@@ -17,6 +17,13 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	import spark.components.Label;
 	import spark.components.View;
 
+	/**
+	 * Each chart modifier is associated with an adherence group (containing charts) for a particular medication or vital sign
+	 * (designated by a IChartDescriptor). There may be one or more chart modifiers for a given chart descriptor.
+	 * Chart modifiers are created and combined via one or more IChartModifierFactory instances (Decorator design
+	 * pattern). A chart modifier is responsible for providing or modifying the data for the charts in the adherence
+	 * group it is associated with, as well as modifying the appearance and behavior of the charts and the group itself.
+	 */
 	public interface IChartModifier
 	{
 		function get chartKey():String;

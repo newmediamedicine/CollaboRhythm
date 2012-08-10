@@ -1,5 +1,6 @@
 package collaboRhythm.plugins.insulinTitrationSupport.model
 {
+	import collaboRhythm.shared.messages.model.IIndividualMessageHealthRecordService;
 	import collaboRhythm.shared.model.RecurrenceRule;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
@@ -62,6 +63,33 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private static const CHOSE_A_NEW_DOSE_ACTION_STEP_RESULT_TEXT:String = "Chose a new dose";
 
+		/**
+		 * {0} previous dose
+		 * {1} change (including + or - operator)
+		 * {2} new dose
+		 */
+		private static const TITRATION_DECISION_PHRASE_WITH_CHANGE:String = "Insulin titration: {0} Units {1} Units = {2} Units";
+		/**
+		 * {0} previous dose
+		 */
+		private static const TITRATION_DECISION_PHRASE_NO_CHANGE:String = "Insulin titration: no change, dose remains {0} Units";
+
+		/**
+		 * {0} titration decision phrase
+		 * {1} average blood glucose value
+		 */
+		private static const TITRATION_DECISION_MESSAGE_PROTOCOL_FOLLOWED:String = "{0} (consistent with 303 Protocol for average blood glucose of {1})";
+		/**
+		 * {0} titration decision phrase
+		 * {1} protocol recommended change (including + or - operator) and Units, or "no change"
+		 * {2} average blood glucose value
+		 */
+		private static const TITRATION_DECISION_MESSAGE_PROTOCOL_NOT_FOLLOWED:String = "{0} (note: 303 Protocol recommends {1} for average blood glucose of {2})";
+		/**
+		 * {0} titration decision phrase
+		 */
+		private static const TITRATION_DECISION_MESSAGE_MISSING_PREREQUISITES:String = "{0} (note: prerequisites of the 303 Protocol not met)";
+
 		private var _areBloodGlucoseRequirementsMet:Boolean = true;
 		private var _dosageChangeValue:Number;
 		private var _isAdherencePerfect:Boolean = true;
@@ -110,6 +138,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _chartVerticalAxis:LinearAxis;
 		private var _connectedChartVerticalAxisMaximum:Number;
 		private var _connectedChartVerticalAxisMinimum:Number;
+		private var _algorithmSuggestedDoseChange:Number;
+		private var _algorithmSuggestedDoseChangeLabel:String;
 
 		public function InsulinTitrationDecisionPanelModel(chartModelDetails:IChartModelDetails)
 		{
@@ -405,6 +435,27 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			algorithmSuggestsIncreaseDose = (step2State == STEP_SATISFIED) && algorithmValuesAvailable() && bloodGlucoseAverage > goalZoneMaximum;
 			algorithmSuggestsNoChangeDose = (step2State == STEP_SATISFIED) && algorithmValuesAvailable() && bloodGlucoseAverage <= goalZoneMaximum && bloodGlucoseAverage >= goalZoneMinimum;
 			algorithmSuggestsDecreaseDose = (step2State == STEP_SATISFIED) && algorithmValuesAvailable() && bloodGlucoseAverage < goalZoneMinimum;
+
+			if (algorithmSuggestsIncreaseDose)
+			{
+				algorithmSuggestedDoseChange = dosageIncreaseValue;
+				algorithmSuggestedDoseChangeLabel = dosageIncreaseText + " Units";
+			}
+			else if (algorithmSuggestsNoChangeDose)
+			{
+				algorithmSuggestedDoseChange = 0;
+				algorithmSuggestedDoseChangeLabel = "no change";
+			}
+			else if (algorithmSuggestsDecreaseDose)
+			{
+				algorithmSuggestedDoseChange = dosageDecreaseValue;
+				algorithmSuggestedDoseChangeLabel = dosageDecreaseText + " Units";
+			}
+			else
+			{
+				algorithmSuggestedDoseChange = NaN;
+				algorithmSuggestedDoseChangeLabel = "";
+			}
 		}
 
 		private function algorithmValuesAvailable():Boolean
@@ -611,10 +662,50 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 					{
 						saveSucceeded = saveSucceeded && saveDosageChange(currentMedicationScheduleItem);
 					}
+
+					sendMessage();
 				}
 			}
 
 			return saveSucceeded;
+		}
+
+		private function sendMessage():void
+		{
+			var servicesArray:Array = chartModelDetails.componentContainer.resolveAll(IIndividualMessageHealthRecordService);
+			if (servicesArray && servicesArray.length > 0)
+			{
+				var messageService:IIndividualMessageHealthRecordService = servicesArray[0];
+				var message:String = getMessageForClinician();
+				messageService.createAndSendMessage(message);
+			}
+		}
+
+		private function getMessageForClinician():String
+		{
+			var titrationPhrase:String = _newDose == _previousDoseValue ?
+					StringUtil.substitute(TITRATION_DECISION_PHRASE_NO_CHANGE, _previousDoseValue) :
+					StringUtil.substitute(TITRATION_DECISION_PHRASE_WITH_CHANGE, _previousDoseValue,
+							dosageChangeValueLabel, _newDose);
+			var message:String;
+			if (step2State == STEP_SATISFIED)
+			{
+				if (_dosageChangeValue == algorithmSuggestedDoseChange)
+				{
+					message = StringUtil.substitute(TITRATION_DECISION_MESSAGE_PROTOCOL_FOLLOWED, titrationPhrase,
+							bloodGlucoseAverage);
+				}
+				else
+				{
+					message = StringUtil.substitute(TITRATION_DECISION_MESSAGE_PROTOCOL_NOT_FOLLOWED, titrationPhrase,
+							algorithmSuggestedDoseChangeLabel, bloodGlucoseAverage);
+				}
+			}
+			else
+			{
+				message = StringUtil.substitute(TITRATION_DECISION_MESSAGE_MISSING_PREREQUISITES, titrationPhrase);
+			}
+			return message;
 		}
 
 		private function saveDecisionResult(plan:HealthActionPlan):void
@@ -956,6 +1047,26 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function set connectedChartVerticalAxisMinimum(value:Number):void
 		{
 			_connectedChartVerticalAxisMinimum = value;
+		}
+
+		public function get algorithmSuggestedDoseChange():Number
+		{
+			return _algorithmSuggestedDoseChange;
+		}
+
+		public function set algorithmSuggestedDoseChange(value:Number):void
+		{
+			_algorithmSuggestedDoseChange = value;
+		}
+
+		public function get algorithmSuggestedDoseChangeLabel():String
+		{
+			return _algorithmSuggestedDoseChangeLabel;
+		}
+
+		public function set algorithmSuggestedDoseChangeLabel(value:String):void
+		{
+			_algorithmSuggestedDoseChangeLabel = value;
 		}
 	}
 }
