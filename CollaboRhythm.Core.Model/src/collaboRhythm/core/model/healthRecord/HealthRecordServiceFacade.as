@@ -36,6 +36,7 @@ package collaboRhythm.core.model.healthRecord
 	import com.adobe.utils.DateUtil;
 
 	import flash.events.Event;
+	import flash.html.script.Package;
 	import flash.utils.getQualifiedClassName;
 
 	import mx.collections.ArrayCollection;
@@ -344,6 +345,11 @@ package collaboRhythm.core.model.healthRecord
 		public function resetUnexpectedErrorChangeSet():void
 		{
 			_saveChangesHealthRecordService.resetUnexpectedErrorChangeSet();
+		}
+
+		public function hasUnsavedChanges(record:Record):Boolean
+		{
+			return _saveChangesHealthRecordService.hasUnsavedChanges(record);
 		}
 
 		public function saveChanges(record:Record, documents:ArrayCollection, relationships:ArrayCollection = null):void

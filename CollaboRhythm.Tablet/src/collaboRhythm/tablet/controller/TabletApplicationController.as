@@ -21,6 +21,8 @@ package collaboRhythm.tablet.controller
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.shared.collaboration.model.CollaborationModel;
 	import collaboRhythm.shared.collaboration.model.CollaborationViewSynchronizationEvent;
+	import collaboRhythm.shared.collaboration.view.CollaborationInvitationPopUp;
+	import collaboRhythm.shared.collaboration.view.CollaborationInvitationPopUpEvent;
 	import collaboRhythm.shared.collaboration.view.CollaborationVideoView;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
@@ -37,8 +39,10 @@ package collaboRhythm.tablet.controller
 	import mx.binding.utils.BindingUtils;
 	import mx.core.IVisualElementContainer;
 	import mx.events.FlexEvent;
+	import mx.managers.PopUpManager;
 
 	import spark.components.ViewNavigator;
+	import spark.events.PopUpEvent;
 	import spark.transitions.SlideViewTransition;
 
 	public class TabletApplicationController extends ApplicationControllerBase
@@ -50,6 +54,8 @@ package collaboRhythm.tablet.controller
 		[Embed("/resources/settings.xml", mimeType="application/octet-stream")]
 		private var _applicationSettingsEmbeddedFile:Class;
 		private var _openingRecordAccount:Boolean = false;
+
+		private var _collaborationInvitationPopUp:CollaborationInvitationPopUp;
 
 		public function TabletApplicationController(collaboRhythmTabletApplication:CollaboRhythmTabletApplication)
 		{
@@ -100,13 +106,41 @@ package collaboRhythm.tablet.controller
 			if (collaborationState == CollaborationModel.COLLABORATION_INVITATION_SENT ||
 					collaborationState == CollaborationModel.COLLABORATION_INVITATION_RECEIVED)
 			{
-				navigator.popToFirstView();
-				navigator.pushView(CollaborationVideoView);
+				_collaborationInvitationPopUp = new CollaborationInvitationPopUp();
+				_collaborationInvitationPopUp.init(_collaborationController, activeRecordAccount);
+				_collaborationInvitationPopUp.addEventListener(CollaborationInvitationPopUpEvent.ACCEPT, collaborationInvitationPopUp_acceptHandler);
+				_collaborationInvitationPopUp.addEventListener(CollaborationInvitationPopUpEvent.REJECT, collaborationInvitationPopUp_rejectHandler);
+				_collaborationInvitationPopUp.addEventListener(CollaborationInvitationPopUpEvent.CANCEL, collaborationInvitationPopUp_cancelHandler);
+				_collaborationInvitationPopUp.open(navigator.activeView as TabletViewBase, true);
+				PopUpManager.centerPopUp(_collaborationInvitationPopUp);
 			}
-			else if (collaborationState == CollaborationModel.COLLABORATION_INACTIVE)
+			else
 			{
-				popCollaborationVideoView();
+				if (_collaborationInvitationPopUp && _collaborationInvitationPopUp.isOpen)
+				{
+					_collaborationInvitationPopUp.close(false);
+				}
+
+				if (collaborationState == CollaborationModel.COLLABORATION_ACTIVE)
+				{
+					navigator.popToFirstView();
+				}
 			}
+		}
+
+		private function collaborationInvitationPopUp_acceptHandler(event:CollaborationInvitationPopUpEvent):void
+		{
+			_collaborationController.acceptCollaborationInvitation();
+		}
+
+		private function collaborationInvitationPopUp_rejectHandler(event:CollaborationInvitationPopUpEvent):void
+		{
+			_collaborationController.rejectCollaborationInvitation();
+		}
+
+		private function collaborationInvitationPopUp_cancelHandler(event:CollaborationInvitationPopUpEvent):void
+		{
+			_collaborationController.cancelCollaborationInvitation();
 		}
 
 		private function popCollaborationVideoView():void

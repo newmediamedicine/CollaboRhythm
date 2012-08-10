@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark"
-		addedToStage="addedToStage()"
-		removedFromStage="removedFromStage()">
+		addedToStage="addedToStageHandler()"
+		removedFromStage="removedFromStageHandler()">
 	<s:states>
 		<s:State name="debuggingToolsEnabled"/>
 		<s:State name="debuggingToolsDisabled"/>
@@ -134,12 +134,12 @@
 			_tabletApplicationController.navigateHome("local");
 		}
 
-		private function addedToStage():void
+		protected function addedToStageHandler():void
 		{
 			stage.addEventListener(KeyboardEvent.KEY_UP, stage_keyUpHandler);
 		}
 
-		private function removedFromStage():void
+		protected function removedFromStageHandler():void
 		{
 			stage.removeEventListener(KeyboardEvent.KEY_UP, stage_keyUpHandler);
 		}

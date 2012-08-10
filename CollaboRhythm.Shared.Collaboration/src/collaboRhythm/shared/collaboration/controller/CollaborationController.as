@@ -93,14 +93,6 @@ package collaboRhythm.shared.collaboration.controller
 			_collaborationModel.recordVideo = false;
 		}
 
-		public function uploadVideoMessage():void
-		{
-//			var record:Record = _collaborationModel.activeRecordAccount.primaryRecord;
-//			var videoMessage:VideoMessage = record.videoMessagesModel.createVideoMessage(activeAccount,
-//					_currentDateSource);
-//			record.addDocument(videoMessage, true);
-		}
-
 		public function get activeAccount():Account
 		{
 			return _activeAccount;

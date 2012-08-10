@@ -310,7 +310,7 @@
 		private function sendVideoButtonClickHandler():void
 		{
 			stopPlayingVideo();
-			_collaborationController.uploadVideoMessage();
+//			_collaborationController.uploadVideoMessage();
 			_collaborationController.hideRecordVideoView();
 		}
 
