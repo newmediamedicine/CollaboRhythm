@@ -106,6 +106,15 @@
 
 			BindingUtils.bindSetter(scheduleGroupReportingViewScrollerPosition_changeHandler, _scheduleReportingModel,
 					"scheduleGroupReportingViewScrollPosition");
+
+			if (_scheduleModel.accountId == _scheduleModel.activeAccount.accountId)
+			{
+				ownRecordInstructionsVGroup.visible = true;
+			}
+			else
+			{
+				sharedRecordInstructionsVGroup.visible = true;
+			}
 		}
 
 		private function scheduleGroupReportingViewScrollerPosition_changeHandler(scheduleGroupReportingViewScrollPosition:Number):void
@@ -177,10 +186,18 @@
 		}
 		]]></fx:Script>
 	<s:Group width="100%" height="100%">
-		<s:VGroup verticalCenter="0" right="60" gap="60">
-			<s:Label text="Report adherence to a scheduled health action by touching the corresponding check box." styleName="adherenceInstructionsLabel" width="500"/>
-			<s:Label text="The '...' symbol means that you will need to enter additional information in another view." styleName="adherenceInstructionsLabel" width="500"/>
-			<s:Label text="Once you report adherence to a scheduled health action, you cannot uncheck it, but you can view previous results by touching the item." styleName="adherenceInstructionsLabel" width="500"/>
+		<s:VGroup id="ownRecordInstructionsVGroup" verticalCenter="0" right="60" gap="60" visible="false">
+			<s:Label text="Report adherence to a scheduled health action by touching the corresponding check box."
+					 styleName="adherenceInstructionsLabel" width="500"/>
+			<s:Label text="The '...' symbol means that you will need to enter additional information in another view."
+					 styleName="adherenceInstructionsLabel" width="500"/>
+			<s:Label
+					text="Once you report adherence to a scheduled health action, you cannot uncheck it, but you can view previous results by touching the item."
+					styleName="adherenceInstructionsLabel" width="500"/>
+		</s:VGroup>
+		<s:VGroup id="sharedRecordInstructionsVGroup" verticalCenter="0" right="60" gap="60" visible="false">
+			<s:Label text="It is only possible to view adherence in records that have been shared with you. The check boxes are therefore disabled."
+					 styleName="adherenceInstructionsLabel" width="500"/>
 		</s:VGroup>
 	</s:Group>
 	<s:Group id="reportingGroup" height="100%">
