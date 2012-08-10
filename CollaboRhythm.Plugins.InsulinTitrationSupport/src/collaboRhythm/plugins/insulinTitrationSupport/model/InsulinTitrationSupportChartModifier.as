@@ -17,7 +17,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import com.theory9.data.types.OrderedMap;
 
 	import mx.charts.HitData;
+	import mx.charts.LinearAxis;
 	import mx.charts.chartClasses.CartesianChart;
+	import mx.charts.chartClasses.IAxis;
 	import mx.charts.series.PlotSeries;
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
@@ -39,6 +41,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	{
 		public static const INSULIN_LEVEMIR_CODE:String = "847241";
 		private static const BLOOD_GLUCOSE_CHART_MIN_HEIGHT:int = 200;
+		private static const PLOT_ITEM_RADIUS:int = 11;
+		private static const PLOT_ITEM_STROKE_WEIGHT:int = 6;
 
 		private var _insulinTitrationDecisionPanelModel:InsulinTitrationDecisionPanelModel;
 		private var _vitalSignsDataCollection:ArrayCollection;
@@ -53,11 +57,16 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			initializeInsulinTitrationDecisionPanelModel();
 		}
 
-		public function modifyCartesianChart(chart:ScrubChart, cartesianChart:CartesianChart):void
+		public function modifyCartesianChart(chart:ScrubChart,
+											 cartesianChart:CartesianChart,
+											 isMainChart:Boolean):void
 		{
 			if (decoratedModifier)
-				decoratedModifier.modifyCartesianChart(chart, cartesianChart);
+				decoratedModifier.modifyCartesianChart(chart, cartesianChart, isMainChart);
+
 			cartesianChart.dataTipFunction = mainChart_dataTipFunction;
+			if (isMainChart)
+				_insulinTitrationDecisionPanelModel.chartVerticalAxis = cartesianChart.verticalAxis as LinearAxis;
 		}
 
 		protected function get vitalSignChartDescriptor():VitalSignChartDescriptor
@@ -76,12 +85,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			var seriesDataCollection:ArrayCollection = getSeriesDataCollection();
 			vitalSignSeries.dataProvider = seriesDataCollection;
 			vitalSignSeries.displayName = vitalSignChartDescriptor.vitalSignCategory;
-			vitalSignSeries.setStyle("radius", 11);
+			vitalSignSeries.setStyle("radius", PLOT_ITEM_RADIUS);
 			vitalSignSeries.filterDataValues = "none";
 //			var color:uint = getVitalSignColor(vitalSignChartDescriptor.vitalSignCategory);
 			var color:uint = 0;
 			vitalSignSeries.setStyle("itemRenderer", new ClassFactory(VitalSignForDecisionItemRenderer));
-			vitalSignSeries.setStyle("stroke", new SolidColorStroke(color, 6));
+			vitalSignSeries.setStyle("stroke", new SolidColorStroke(color, PLOT_ITEM_STROKE_WEIGHT));
 			vitalSignSeries.setStyle("fill", new SolidColor(color));
 
 			seriesDataSets.push(new SeriesDataSet(vitalSignSeries, seriesDataCollection, "dateMeasuredStart"));

@@ -60,10 +60,12 @@ package collaboRhythm.plugins.bloodPressure.model
 			return hitData.displayText;
 		}
 
-		public function modifyCartesianChart(chart:ScrubChart, cartesianChart:CartesianChart):void
+		public function modifyCartesianChart(chart:ScrubChart,
+											 cartesianChart:CartesianChart,
+											 isMainChart:Boolean):void
 		{
 			if (decoratedModifier)
-				decoratedModifier.modifyCartesianChart(chart, cartesianChart);
+				decoratedModifier.modifyCartesianChart(chart, cartesianChart, isMainChart);
 			chart.mainChartTitle = "Blood Pressure (mmHg)";
 
 			var verticalAxis:LinearAxis = cartesianChart.verticalAxis as LinearAxis;

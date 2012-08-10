@@ -59,6 +59,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 		public static const NO_CHANGE_LABEL:String = "No Change";
 
+		private static const RANGE_EXCEEDED_INDICATOR_HORIZONTAL_GAP:int = 2;
+
+		private static const AVERAGE_PLOT_ITEM_RENDERER_X:int = 63;
+
 		private var _model:InsulinTitrationDecisionPanelModel;
 
 		private var _dosageChangeSpinnerList:SpinnerList;
@@ -86,6 +90,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		private var _step3Badge:Step3Badge;
 		private var _step4Badge:Step4Badge;
 		private var _sendButton:Button;
+		private var _maximumExceededIndicator:MaximumExceededIndicator;
+		private var _minimumExceededIndicator:MinimumExceededIndicator;
+		private var _connectorMaxLine:DottedLine;
+		private var _connectorMinLine:DottedLine;
 
 		public function InsulinTitrationDecisionPanel()
 		{
@@ -126,6 +134,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			updateBadge(_step4Badge, _model.step4State);
 			addElement(_step4Badge);
 
+			_connectorMaxLine = createConnectorLine();
+			addElement(_connectorMaxLine);
+
+			_connectorMinLine = createConnectorLine();
+			addElement(_connectorMinLine);
+
 			_arrow1CalloutButton = createArrowCalloutButton(0, _model.step1State, _model.step1StateDescription);
 			_arrow2CalloutButton = createArrowCalloutButton(STEP2_X - STEP_ARROW_BUTTON_WIDTH, _model.step2State,
 					_model.step2StateDescription);
@@ -147,13 +161,23 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			updateDosageChangeButtons();
 
 			_averagePlotItemRenderer = new AverageBloodGlucosePotItemRenderer();
-			_averagePlotItemRenderer.x = 102 - _averagePlotItemRenderer.width / 2;
-			updateAveragePlotItemRenderer();
+			_averagePlotItemRenderer.x = Math.round(AVERAGE_PLOT_ITEM_RENDERER_X);
 			addElement(_averagePlotItemRenderer);
+			
+			_maximumExceededIndicator = new MaximumExceededIndicator();
+			_maximumExceededIndicator.x = _averagePlotItemRenderer.x + _averagePlotItemRenderer.width + RANGE_EXCEEDED_INDICATOR_HORIZONTAL_GAP;
+			_maximumExceededIndicator.y = Math.round(_chartY - _averagePlotItemRenderer.height / 2);
+			addElement(_maximumExceededIndicator);
 
+			_minimumExceededIndicator = new MinimumExceededIndicator();
+			_minimumExceededIndicator.x = _averagePlotItemRenderer.x + _averagePlotItemRenderer.width + RANGE_EXCEEDED_INDICATOR_HORIZONTAL_GAP;
+			addElement(_minimumExceededIndicator);
+
+			updateAveragePlotItemRenderer();
+			
 			_dosageChangeSpinnerListContainer = new SpinnerListContainer();
 			_dosageChangeSpinnerListContainer.x = STEP3_X;
-			_dosageChangeSpinnerListContainer.bottom = SynchronizedHealthCharts.ADHERENCE_STRIP_CHART_HEIGHT;
+			_dosageChangeSpinnerListContainer.bottom = SynchronizedHealthCharts.ADHERENCE_STRIP_CHART_HEIGHT + 1;
 			_dosageChangeSpinnerListContainer.width = STEP_WIDTH;
 			_dosageChangeSpinnerList = new SpinnerList();
 			_dosageChangeSpinnerListContainer.addElement(_dosageChangeSpinnerList);
@@ -188,6 +212,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			_sendButton.setStyle("skinClass", ButtonSkin);
 			_sendButton.addEventListener(MouseEvent.CLICK, sendButton_clickHandler);
 			addElement(_sendButton);
+		}
+
+		private function createConnectorLine():DottedLine
+		{
+			var line:DottedLine = createDottedLine();
+			line.x = 0;
+			line.alpha = 0.25;
+			return line;
 		}
 
 		private function updateBadge(badge:SpriteVisualElement, stepState:String):void
@@ -246,13 +278,21 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 					_averagePlotItemRenderer.alpha = 0.5
 				}
 
-				_averagePlotItemRenderer.y = chartValueToPosition(_model.bloodGlucoseAverage) -
-						_averagePlotItemRenderer.height / 2;
+				_averagePlotItemRenderer.y = Math.round(chartValueToPosition(_model.bloodGlucoseAverageRangeLimited)
+						- _averagePlotItemRenderer.height / 2
+						+ (_model.isBloodGlucoseMaximumExceeded ? -1 : 0)
+						+ (_model.isBloodGlucoseMinimumExceeded ? +1 : 0)
+					);
+				_minimumExceededIndicator.y = Math.round(_chartY + _chartHeight + 1 - _minimumExceededIndicator.height + _averagePlotItemRenderer.height / 2);
 				_averagePlotItemRenderer.visible = true;
+				_maximumExceededIndicator.visible = _model.isBloodGlucoseMaximumExceeded;
+				_minimumExceededIndicator.visible = _model.isBloodGlucoseMinimumExceeded;
 			}
 			else
 			{
 				_averagePlotItemRenderer.visible = false;
+				_maximumExceededIndicator.visible = false;
+				_minimumExceededIndicator.visible = false;
 			}
 		}
 
@@ -262,7 +302,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			_dosageDecreaseButton.y = chartValueToPosition(_model.goalZoneMinimum) + 1;
 			_dosageIncreaseButton.height = _dosageNoChangeButton.y - _dosageIncreaseButton.y - 1;
 			_dosageNoChangeButton.height = _dosageDecreaseButton.y - _dosageNoChangeButton.y - 1;
-			_dosageDecreaseButton.height = chartValueToPosition(_model.verticalAxisMinimum) - _dosageDecreaseButton.y + 1;
+			// TODO: figure out why the +2 is required to make this button fit
+			_dosageDecreaseButton.height = chartValueToPosition(_model.verticalAxisMinimum) - _dosageDecreaseButton.y + 2;
 
 			// TODO: need to invalidateDisplayList when any inputs to algorithm change so that the button label colors will be updated
 			setStylesForSuggestedAction(_dosageIncreaseButton, _model.algorithmSuggestsIncreaseDose);
@@ -279,7 +320,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 		private function determineChartHeight():void
 		{
-			_chartHeight = Math.max(height, minHeight) - SynchronizedHealthCharts.ADHERENCE_STRIP_CHART_HEIGHT - 1 - 2;
+			_chartHeight = Math.max(height, minHeight) - SynchronizedHealthCharts.ADHERENCE_STRIP_CHART_HEIGHT - 1 - 3;
 		}
 
 		public function createChart(x:int, showLabels:Boolean):Array
@@ -325,14 +366,20 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 		private function createGoalLine(x:int):DottedLine
 		{
+			var goalLine:DottedLine = createDottedLine();
+			goalLine.x = x + 1;
+			goalLine.width = STEP_WIDTH - 1;
+			return goalLine;
+		}
+
+		private function createDottedLine():DottedLine
+		{
 			var goalLine:DottedLine = new DottedLine();
 			goalLine.dotColor = 0x808285;
 			goalLine.dotWidth = 12;
 			goalLine.spacerWidth = 12;
 			goalLine.dotHeight = 1;
 			goalLine.spacerHeight = 1;
-			goalLine.x = x + 1;
-			goalLine.width = STEP_WIDTH - 1;
 			goalLine.height = 1;
 			return goalLine;
 		}
@@ -355,9 +402,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 				goalMinLabel.y = goalMinLine.y - goalMinLabel.height + GOAL_LABEL_VERTICAL_OFFSET;
 		}
 
-		private function chartValueToPosition(bloodGlucoseAverage:Number):Number
+		private function chartValueToPosition(value:Number):Number
 		{
-			return Math.round(map(bloodGlucoseAverage, _model.verticalAxisMinimum, _model.verticalAxisMaximum, _chartY + _chartHeight, _chartY));
+			return Math.round(map(value, _model.verticalAxisMinimum, _model.verticalAxisMaximum, _chartY + _chartHeight, _chartY));
 		}
 
 		private static function map(x:Number, inMin:Number, inMax:Number, outMin:Number, outMax:Number):Number
@@ -408,7 +455,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 		private function updateArrowButtonY(button:Button):void
 		{
-			button.y = _chartHeight / 2 - button.height / 2;
+			button.y = Math.round(_chartHeight / 2 - button.height / 2);
 		}
 
 		private function updateArrow(calloutButton:CalloutButton, stepState:String,
@@ -517,7 +564,38 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			updateArrowButtonY(_arrow3CalloutButton);
 			updateArrowButtonY(_arrow4CalloutButton);
 			updateArrowButtonY(_sendButton);
-			_dosageChangeSpinnerListContainer.height = _chartHeight;
+			updateConnectors();
+			// TODO: determine why the +3 is necessary to make the spinner the same height as the chart boxes
+			_dosageChangeSpinnerListContainer.height = _chartHeight + 3;
+		}
+
+		private function updateConnectors():void
+		{
+			if (!isNaN(model.connectedChartVerticalAxisMinimum) && !isNaN(model.connectedChartVerticalAxisMaximum))
+			{
+				updateConnectorLine(_connectorMaxLine, model.goalZoneMaximum);
+				updateConnectorLine(_connectorMinLine, model.goalZoneMinimum);
+			}
+		}
+
+		private function updateConnectorLine(connectorLine:DottedLine, connectedChartValue:Number):void
+		{
+			connectorLine.y = Math.round(linearTransform(connectedChartValue, model.connectedChartVerticalAxisMinimum,
+					model.connectedChartVerticalAxisMaximum, _chartY + _chartHeight, _chartY));
+			var y2:Number = chartValueToPosition(connectedChartValue);
+			var dy:Number = y2 - connectorLine.y;
+			connectorLine.width = Math.sqrt(STEP_ARROW_BUTTON_WIDTH * STEP_ARROW_BUTTON_WIDTH + dy * dy);
+			connectorLine.rotation = Math.atan(dy / STEP_ARROW_BUTTON_WIDTH) * 180 / Math.PI;
+		}
+
+		private static function linearTransform(value:Number, min:Number, max:Number, min2:Number, max2:Number):Number
+		{
+			return min2 + percentOfRange(value, min, max) * (max2 - min2);
+		}
+
+		private static function percentOfRange(value:Number, min:Number, max:Number):Number
+		{
+			return Math.max(0, Math.min(1, (value - min) / (max - min)));
 		}
 
 		private function sendButton_clickHandler(event:MouseEvent):void

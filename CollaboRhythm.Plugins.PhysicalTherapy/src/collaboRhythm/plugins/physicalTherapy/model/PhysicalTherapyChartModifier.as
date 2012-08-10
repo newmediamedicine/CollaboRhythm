@@ -2,12 +2,8 @@ package collaboRhythm.plugins.physicalTherapy.model
 {
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
-	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.MeasurementChartDescriptor;
-	import collaboRhythm.shared.ui.healthCharts.model.descriptors.MedicationChartDescriptor;
-	import collaboRhythm.shared.ui.healthCharts.model.descriptors.VitalSignChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.ChartModifierBase;
-	import collaboRhythm.shared.ui.healthCharts.model.modifiers.DefaultVitalSignChartModifier;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifier;
 
 	import com.dougmccune.controls.ScrubChart;
@@ -15,18 +11,14 @@ package collaboRhythm.plugins.physicalTherapy.model
 	import com.theory9.data.types.OrderedMap;
 
 	import mx.charts.chartClasses.CartesianChart;
-
 	import mx.charts.series.PlotSeries;
 	import mx.collections.ArrayCollection;
-
 	import mx.core.IVisualElement;
 	import mx.graphics.SolidColorStroke;
 
 	import qs.charts.dataShapes.DataDrawingCanvas;
 
-	import spark.components.Group;
 	import spark.components.Label;
-	import spark.primitives.Rect;
 
 	public class PhysicalTherapyChartModifier extends ChartModifierBase implements IChartModifier
 	{
@@ -38,9 +30,11 @@ package collaboRhythm.plugins.physicalTherapy.model
 			super(measurementChartDescriptor, chartModelDetails, currentChartModifier);
 		}
 
-		public function modifyCartesianChart(chart:ScrubChart, cartesianChart:CartesianChart):void
+		public function modifyCartesianChart(chart:ScrubChart,
+											 cartesianChart:CartesianChart,
+											 isMainChart:Boolean):void
 		{
-			return decoratedModifier.modifyCartesianChart(chart, cartesianChart);
+			return decoratedModifier.modifyCartesianChart(chart, cartesianChart, isMainChart);
 		}
 
 		public function createImage(currentChartImage:IVisualElement):IVisualElement

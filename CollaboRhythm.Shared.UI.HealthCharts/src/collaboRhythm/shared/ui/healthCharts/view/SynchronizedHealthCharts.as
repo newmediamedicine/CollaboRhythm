@@ -1274,7 +1274,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 				chart.mainChart.dataTipFunction = adherenceChart_dataTipFunction;
 				if (chartModifier)
-					chartModifier.modifyCartesianChart(chart, chart.mainChart);
+					chartModifier.modifyCartesianChart(chart, chart.mainChart, true);
 
 				chart.mainChart.addEventListener(Event.RESIZE, chart_mainChart_resizeHandler);
 			}
@@ -1287,7 +1287,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 				chartModifier = getChartModifier(chart);
 
 				if (chartModifier)
-					chartModifier.modifyCartesianChart(chart, chart.mainChartCover);
+					chartModifier.modifyCartesianChart(chart, chart.mainChartCover, false);
 			}
 		}
 
