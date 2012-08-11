@@ -152,11 +152,6 @@ package collaboRhythm.plugins.messages.controller
 			_viewNavigator.pushView(RecordVideoMessageView, messagesModelAndController);
 		}
 
-		public function getMessageSubject():String
-		{
-			return individualMessagesHealthRecordService.getMessageSubject();
-		}
-
 		public function playVideoMessage(source:String, netStreamLocation:String):void
 		{
 			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&

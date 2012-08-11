@@ -66,7 +66,7 @@
 		import mx.utils.UIDUtil;
 
 		private var _netConnection:NetConnection;
-		private var _subject:String;
+		private var _activeRecordAccountId:String;
 
 		[Bindable]
 		private var _camera:Camera;
@@ -85,10 +85,10 @@
 
 		private var _netStreamLocation:String;
 
-		public function init(netConnection:NetConnection, subject:String):void
+		public function init(netConnection:NetConnection, activeRecordAccountId:String):void
 		{
 			_netConnection = netConnection;
-			_subject = subject;
+			_activeRecordAccountId = activeRecordAccountId;
 
 			_camera = AudioVideoOutput.getVideoRecordingCamera();
 			_microphone = AudioVideoOutput.getMicrophone();
@@ -160,7 +160,7 @@
 					_netStream.attachAudio(_microphone);
 
 				var fileId:String = UIDUtil.createUID();
-				_netStreamLocation = _subject + "/" + fileId;
+				_netStreamLocation = _activeRecordAccountId + "/" + fileId;
 				_netStream.publish(_netStreamLocation, "record");
 
 				_recordingTimerCount = 0;

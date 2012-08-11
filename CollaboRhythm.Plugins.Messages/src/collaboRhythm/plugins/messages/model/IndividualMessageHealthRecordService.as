@@ -67,31 +67,34 @@ package collaboRhythm.plugins.messages.model
 			message.read_at = DateUtil.parseW3CDTF(responseXml.read_at, true);
 		}
 
-		public function createAndSendMessage(body:String):Message
+		public function createAndSendMessage(body:String):void
 		{
-			var subject:String = getMessageSubject();
+			var subjectsVector:Vector.<String> = getMessageSubjects();
 
-			if (subject == null)
+			if (subjectsVector.length == 0)
 			{
-				return null;
 				// TODO: Log that no message was sent;
 			}
+			else
+			{
+				var message:Message = new Message();
+				message.sender = _activeAccount.accountId;
+				message.type = Message.SENT;
+				message.body = body;
 
-			var message:Message = new Message();
-			message.subject = subject;
-			message.body = body;
-			message.sender = _activeAccount.accountId;
-			message.type = Message.SENT;
+				var params:URLVariables = new URLVariables();
+				params["body"] = body;
 
-			_messagesModel.addSentMessage(message);
+				for each (var subject:String in subjectsVector)
+				{
+					message.subject = subject;
+					params["subject"] = subject;
 
-			var params:URLVariables = new URLVariables();
-			params["subject"] = subject;
-			params["body"] = body;
+					_messagesModel.addSentMessage(message);
 
-			sendMessage(subject, params.toString(), message);
-
-			return message;
+					sendMessage(subject, params.toString(), message);
+				}
+			}
 		}
 
 		override protected function sendMessageCompleteHandler(responseXml:XML,
@@ -106,30 +109,36 @@ package collaboRhythm.plugins.messages.model
 		}
 
 		override protected function sendMessageErrorHandler(errorStatus:String,
-														healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+															healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
 			var message:Message = healthRecordServiceRequestDetails.message;
 
 			message.received_at = new Date();
 		}
 
-		public function getMessageSubject():String
+		/*
+		* Returns all of the accounts that should receive a message. This includes all of the accounts with which the activeRecordAccount
+		* is shared (except the sending account if the sending account is one of these accounts) and also the activeRecordAccount
+		* if the sending account is not the activeRecordAccount.
+		* */
+		public function getMessageSubjects():Vector.<String>
 		{
-			var subject:String;
-			if (_activeRecordAccount == _activeAccount)
+			var subjectsVector:Vector.<String> = new Vector.<String>();
+
+			for each (var recordShareAccount:Account in _activeRecordAccount.recordShareAccounts)
 			{
-				if (_activeAccount.recordShareAccounts.getIndex(0))
+				if (recordShareAccount.accountId != _activeAccount.accountId)
 				{
-					var recordShareAccount:Account = _activeAccount.recordShareAccounts.getIndex(0);
-					subject = recordShareAccount.accountId;
+					subjectsVector.push(recordShareAccount.accountId);
 				}
 			}
-			else
+
+			if (_activeRecordAccount != _activeAccount)
 			{
-				subject = _activeRecordAccount.accountId;
+				subjectsVector.push(_activeRecordAccount.accountId);
 			}
 
-			return subject;
+			return subjectsVector;
 		}
 	}
 }
