@@ -26,10 +26,6 @@
 		[Bindable]
 		protected var _activeRecordAccount:Account;
 
-		private function creationCompleteHandler():void
-		{
-		}
-
 		private function reloadPluginsViewMenuItem_clickHandler():void
 		{
 			_tabletApplicationController.reloadPlugins();
@@ -43,11 +39,6 @@
 		private function demoModeOffMenuItem_clickHandler():void
 		{
 			_tabletApplicationController.targetDate = null;
-		}
-
-		private function synchronizeMenuItem_clickHandler():void
-		{
-			_tabletApplicationController.synchronize();
 		}
 
 		private function createDemoDateLabel(isControllerReady:Boolean, index:int):String
@@ -69,7 +60,7 @@
 			_isControllerReady = value;
 		}
 
-		private function changeRecordButton_clickHandler(event:MouseEvent):void
+		private function selectRecordMenuItem_clickHandler(event:MouseEvent):void
 		{
 			_tabletApplicationController.showSelectRecordView();
 		}
@@ -179,8 +170,7 @@
 				label="{(_tabletApplicationController &amp;&amp; _tabletApplicationController.fastForwardEnabled ? 'Stop' : 'Start') + ' Fast Forward'}"
 				includeIn="debuggingToolsEnabled"
 				click="toggleFastForwardMenuItem_clickHandler(event)"/>
-		<s:ViewMenuItem label="Change Record" id="changeRecordButton" click="changeRecordButton_clickHandler(event)"/>
-		<s:ViewMenuItem label="Synchronize" click="synchronizeMenuItem_clickHandler()"/>
+		<s:ViewMenuItem label="Select Record" id="selectRecordMenuItem" click="selectRecordMenuItem_clickHandler(event)" visible="{_tabletApplicationController.settings.isClinicianMode}" includeInLayout="{_tabletApplicationController.settings.isClinicianMode}"/>
 		<s:ViewMenuItem id="enableVoidingMenuItem" label="{determineEnableVoidingMenuItemLabel(_tabletApplicationController.settings.adherenceVoidingEnabled)}" visible="{_activeAccount.accountId == _activeRecordAccount.accountId &amp;&amp; _tabletApplicationController.settings.includeAdherenceVoidingMenuItem}" includeInLayout="{_activeAccount.accountId == _activeRecordAccount.accountId &amp;&amp; _tabletApplicationController.settings.includeAdherenceVoidingMenuItem}"
 						click="_tabletApplicationController.settings.adherenceVoidingEnabled = !_tabletApplicationController.settings.adherenceVoidingEnabled"/>
 		<s:ViewMenuItem label="Reload Plugins" includeIn="debuggingToolsEnabled"
