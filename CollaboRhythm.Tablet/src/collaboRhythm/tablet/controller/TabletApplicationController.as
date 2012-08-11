@@ -214,6 +214,7 @@ package collaboRhythm.tablet.controller
 			if (activeRecordAccount)
 			{
 				closeRecordAccount(activeRecordAccount);
+				_collaborationController.endCollaboration();
 			}
 			super.openRecordAccount(recordAccount);
 			if (tabletHomeView)

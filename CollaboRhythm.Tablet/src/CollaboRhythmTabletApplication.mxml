@@ -17,6 +17,8 @@
 
 		<s:State name="clinicianTabletHomeViewCollaborationInactive"
 				 stateGroups="clinician, TabletHomeView, CollaborationInactive, clinicianCollaborationInactive"/>
+		<s:State name="clinicianTabletHomeViewCollaborationOutOfSync"
+				 stateGroups="clinician, TabletHomeView, CollaborationOutOfSync, clinicianCollaborationOutOfSync"/>
 		<s:State name="clinicianTabletHomeViewCollaborationInvitationSent"
 				 stateGroups="clinician, TabletHomeView, CollaborationInvitationSent"/>
 		<s:State name="clinicianTabletHomeViewCollaborationInvitationReceived"
@@ -28,6 +30,8 @@
 
 		<s:State name="clinicianCollaborationVideoViewCollaborationInactive"
 				 stateGroups="clinician, CollaborationVideoView, notHome, CollaborationInactive, clinicianCollaborationInactive"/>
+		<s:State name="clinicianCollaborationVideoViewCollaborationOutOfSync"
+				 stateGroups="clinician, CollaborationVideoView, notHome, CollaborationOutOfSync, clinicianCollaborationOutOfSync"/>
 		<s:State name="clinicianCollaborationVideoViewCollaborationInvitationSent"
 				 stateGroups="clinician, CollaborationVideoView, notHome, CollaborationInvitationSent"/>
 		<s:State name="clinicianCollaborationVideoViewCollaborationInvitationReceived"
@@ -39,6 +43,8 @@
 
 		<s:State name="clinicianOtherCollaborationInactive"
 				 stateGroups="clinician, Other, notHome, CollaborationInactive, clinicianCollaborationInactive"/>
+		<s:State name="clinicianOtherCollaborationOutOfSync"
+				 stateGroups="clinician, Other, notHome, CollaborationOutOfSync, clinicianCollaborationOutOfSync"/>
 		<s:State name="clinicianOtherCollaborationInvitationSent"
 				 stateGroups="clinician, Other, notHome, CollaborationInvitationSent"/>
 		<s:State name="clinicianOtherCollaborationInvitationReceived"
@@ -50,6 +56,8 @@
 
 		<s:State name="patientTabletHomeViewCollaborationInactive"
 				 stateGroups="patient, TabletHomeView, CollaborationInactive, patientCollaborationInactive"/>
+		<s:State name="patientTabletHomeViewCollaborationOutOfSync"
+				 stateGroups="patient, TabletHomeView, CollaborationOutOfSync, patientCollaborationOutOfSync"/>
 		<s:State name="patientTabletHomeViewCollaborationInvitationSent"
 				 stateGroups="patient, TabletHomeView, CollaborationInvitationSent"/>
 		<s:State name="patientTabletHomeViewCollaborationInvitationReceived"
@@ -72,6 +80,8 @@
 
 		<s:State name="patientOtherCollaborationInactive"
 				 stateGroups="patient, Other, notHome, CollaborationInactive, patientCollaborationInactive"/>
+		<s:State name="patientOtherCollaborationOutOfSync"
+				 stateGroups="patient, Other, notHome, CollaborationOutOfSync, patientCollaborationOutOfSync"/>
 		<s:State name="patientOtherCollaborationInvitationSent"
 				 stateGroups="patient, Other, notHome, CollaborationInvitationSent"/>
 		<s:State name="patientOtherCollaborationInvitationReceived"
@@ -305,6 +315,12 @@
 		{
 			(navigator.activeView as TabletViewBase).homeButton_clickHandler();
 		}
+
+		private function synchronize():void
+		{
+			navigator.popToFirstView();
+			_applicationController.synchronize()
+		}
 		]]></fx:Script>
 	<s:navigationContent>
 		<s:HGroup gap="0">
@@ -312,8 +328,8 @@
 					 visible="{_applicationController.activeRecordAccount != null}">
 				<s:Button width="{backGroup.width}" height="{backGroup.height}" click="homeButton_clickHandler()"/>
 				<s:HGroup id="backGroup" verticalAlign="middle" gap="0" mouseEnabled="false"
-												   mouseChildren="false">
-					<view:BackIcon id="backIcon" visible="false" visible.notHome="true" />
+						  mouseChildren="false">
+					<view:BackIcon id="backIcon" visible="false" visible.notHome="true"/>
 					<s:Image id="activeRecordProfileImage"
 							 source="{_applicationController.activeRecordAccount.imageURI}" smooth="true"/>
 					<s:VGroup gap="1" paddingTop="3" paddingLeft="5" paddingRight="10">
@@ -331,7 +347,7 @@
 						 visible="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}">
 					<s:Button width="44" height="46"
 							  click.clinicianCollaborationInactive="_applicationController.sendCollaborationInvitation()"
-							click.patientCollaborationInactive="_applicationController.setCollaborationLobbyConnectionStatusAway()"/>
+							  click.patientCollaborationInactive="_applicationController.setCollaborationLobbyConnectionStatusAway()"/>
 					<sharedView:OnlineIcon width="24" height="32" verticalCenter="0" horizontalCenter="0"
 										   mouseEnabled="false" mouseChildren="false"/>
 				</s:Group>
@@ -343,10 +359,11 @@
 											mouseEnabled="false" mouseChildren="false"/>
 				</s:Group>
 				<s:Group includeIn="patientCollaborationInactive, clinicianCollaborationInactive"
-						includeInLayout="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AWAY}"
-						visible="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AWAY}">
-					<s:Button width="44" height="46" click.patient="_applicationController.setCollaborationLobbyConnectionStatusAvailable()"
-							click.clinician="_applicationController.sendCollaborationInvitation()"/>
+						 includeInLayout="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AWAY}"
+						 visible="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AWAY}">
+					<s:Button width="44" height="46"
+							  click.patient="_applicationController.setCollaborationLobbyConnectionStatusAvailable()"
+							  click.clinician="_applicationController.sendCollaborationInvitation()"/>
 					<sharedView:AwayIcon width="24" height="32" verticalCenter="0" horizontalCenter="0"
 										 mouseEnabled="false" mouseChildren="false"/>
 				</s:Group>
@@ -355,6 +372,12 @@
 					<s:Button width="44" height="46"/>
 					<view:EndCallIcon width="24" height="32" verticalCenter="0" horizontalCenter="0"
 									  mouseEnabled="false" mouseChildren="false"/>
+				</s:Group>
+				<s:Group includeIn="CollaborationOutOfSync"
+						 click="synchronize()">
+					<s:Button width="44" height="46"/>
+					<view:SynchronizeIcon width="24" height="32" verticalCenter="0" horizontalCenter="0"
+										  mouseEnabled="false" mouseChildren="false"/>
 				</s:Group>
 				<s:Group includeIn="TabletHomeViewCollaborationActive, OtherCollaborationActive">
 					<s:Button width="46" height="46"

@@ -133,6 +133,11 @@ package collaboRhythm.shared.collaboration.controller
 			_collaborationModel.endCollaboration();
 		}
 
+		public function sendCollaborationOutOfSync():void
+		{
+			_collaborationModel.sendCollaborationOutOfSync();
+		}
+
 		public function prepareToExit():void
 		{
 			_collaborationModel.prepareToExit();

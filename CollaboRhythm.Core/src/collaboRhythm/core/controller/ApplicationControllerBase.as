@@ -35,6 +35,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionEvent;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+	import collaboRhythm.shared.collaboration.model.CollaborationModel;
 	import collaboRhythm.shared.collaboration.model.MessageEvent;
 	import collaboRhythm.shared.collaboration.view.CollaborationView;
 	import collaboRhythm.shared.controller.IApplicationControllerBase;
@@ -1080,7 +1081,7 @@ package collaboRhythm.core.controller
 		{
 			if (!isSaving && (isSaving != _serviceIsSavingPrevious) && !hasErrorsSaving)
 			{
-				_collaborationLobbyNetConnectionService.sendSynchronizationMessage();
+				_collaborationController.sendCollaborationOutOfSync();
 				if (_pendingExit)
 				{
 					_pendingExit = false;
@@ -1162,6 +1163,7 @@ package collaboRhythm.core.controller
 			{
 				_collaborationLobbyNetConnectionService.enterCollaborationLobby();
 			}
+			_collaborationController.collaborationModel.collaborationState = CollaborationModel.COLLABORATION_INACTIVE;
 		}
 
 		protected function updateConnectivityView():void

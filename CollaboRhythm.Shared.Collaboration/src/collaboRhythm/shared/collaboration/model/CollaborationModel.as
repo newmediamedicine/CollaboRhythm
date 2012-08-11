@@ -32,6 +32,7 @@ package collaboRhythm.shared.collaboration.model
 	{
 		public static const COLLABORATION_ACTIVE:String = "CollaborationActive";
 		public static const COLLABORATION_INACTIVE:String = "CollaborationInactive";
+		public static const COLLABORATION_OUT_OF_SYNC:String = "CollaborationOutOfSync";
 		public static const COLLABORATION_INVITATION_SENT:String = "CollaborationInvitationSent";
 		public static const COLLABORATION_INVITATION_RECEIVED:String = "CollaborationInvitationReceived";
 		public static const COLLABORATION_INVITATION_REJECTED:String = "CollaborationInvitationRejected";
@@ -67,6 +68,10 @@ package collaboRhythm.shared.collaboration.model
 			if (messageType == CollaborationLobbyNetConnectionService.INVITE)
 			{
 				receiveCollaborationInvitation(subjectAccountId, sourceAccountId, sourcePeerId, passWord);
+			}
+			else if (messageType == CollaborationLobbyNetConnectionService.OUT_OF_SYNC)
+			{
+				receiveCollaborationOutOfSync(subjectAccountId, sourceAccountId, sourcePeerId, passWord);
 			}
 			else if (this.passWord == passWord)
 			{
@@ -124,7 +129,8 @@ package collaboRhythm.shared.collaboration.model
 
 		public function acceptCollaborationInvitation():void
 		{
-			collaborationLobbyNetConnectionService.createNetStreamConnections(peerAccount.peerId, peerAccount.accountId);
+			collaborationLobbyNetConnectionService.createNetStreamConnections(peerAccount.peerId,
+					peerAccount.accountId);
 			collaborationState = CollaborationModel.COLLABORATION_ACTIVE;
 
 			collaborationLobbyNetConnectionService.sendCollaborationMessage(CollaborationLobbyNetConnectionService.ACCEPT);
@@ -134,7 +140,8 @@ package collaboRhythm.shared.collaboration.model
 																sourcePeerId:String, passWord:String):void
 		{
 			peerAccount.peerId = sourcePeerId;
-			collaborationLobbyNetConnectionService.createNetStreamConnections(peerAccount.peerId, peerAccount.accountId);
+			collaborationLobbyNetConnectionService.createNetStreamConnections(peerAccount.peerId,
+					peerAccount.accountId);
 			collaborationState = CollaborationModel.COLLABORATION_ACTIVE;
 		}
 
@@ -177,6 +184,27 @@ package collaboRhythm.shared.collaboration.model
 			resetCollaborationModel();
 		}
 
+		public function sendCollaborationOutOfSync():void
+		{
+			if (collaborationState == COLLABORATION_INACTIVE || collaborationState == COLLABORATION_OUT_OF_SYNC)
+			{
+				for each (var recordShareAccount:Account in _activeAccount.recordShareAccounts)
+				{
+					peerAccount = recordShareAccount;
+					collaborationLobbyNetConnectionService.sendCollaborationMessage(CollaborationLobbyNetConnectionService.OUT_OF_SYNC);
+				}
+			}
+		}
+
+		private function receiveCollaborationOutOfSync(subjectAccountId:String, sourceAccountId:String,
+													   sourcePeerId:String, passWord:String):void
+		{
+			if (sourceAccountId == activeRecordAccount.accountId)
+			{
+				collaborationState = COLLABORATION_OUT_OF_SYNC;
+			}
+		}
+
 		private function resetCollaborationModel():void
 		{
 			collaborationLobbyNetConnectionService.closeNetStreamConnections();
@@ -199,6 +227,10 @@ package collaboRhythm.shared.collaboration.model
 			else if (collaborationState == COLLABORATION_INVITATION_RECEIVED)
 			{
 				rejectCollaborationInvitation();
+			}
+			else
+			{
+				resetCollaborationModel();
 			}
 		}
 
