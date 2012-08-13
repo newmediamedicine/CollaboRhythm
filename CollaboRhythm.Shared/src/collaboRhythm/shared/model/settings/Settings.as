@@ -30,7 +30,9 @@ package collaboRhythm.shared.model.settings
 
 		private var _username:String;
 		private var _password:String;
-        private var _useFileTarget:Boolean;
+		private var _clinicianTeamMembers:ArrayCollection;
+		private var _primaryClinicianTeamMember:String;
+		private var _useFileTarget:Boolean;
         private var _useTraceTarget:Boolean;
         private var _useSyslogTarget:Boolean;
 		private var _debuggingToolsEnabled:Boolean;
@@ -319,6 +321,26 @@ package collaboRhythm.shared.model.settings
 		public function set includeAdherenceVoidingMenuItem(value:Boolean):void
 		{
 			_includeAdherenceVoidingMenuItem = value;
+		}
+
+		public function get clinicianTeamMembers():ArrayCollection
+		{
+			return _clinicianTeamMembers;
+		}
+
+		public function set clinicianTeamMembers(value:ArrayCollection):void
+		{
+			_clinicianTeamMembers = value;
+		}
+
+		public function get primaryClinicianTeamMember():String
+		{
+			return _primaryClinicianTeamMember;
+		}
+
+		public function set primaryClinicianTeamMember(value:String):void
+		{
+			_primaryClinicianTeamMember = value;
 		}
 	}
 }

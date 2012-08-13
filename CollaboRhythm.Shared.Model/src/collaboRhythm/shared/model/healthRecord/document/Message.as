@@ -13,6 +13,7 @@ package collaboRhythm.shared.model.healthRecord.document
 
 		private var _id:String;
 		private var _sender:String;
+		private var _recipient:String;
 		private var _received_at:Date;
 		private var _read_at:Date;
 		private var _subject:String;
@@ -125,6 +126,16 @@ package collaboRhythm.shared.model.healthRecord.document
 		public function set body(value:String):void
 		{
 			_body = value;
+		}
+
+		public function get recipient():String
+		{
+			return _recipient;
+		}
+
+		public function set recipient(value:String):void
+		{
+			_recipient = value;
 		}
 	}
 }

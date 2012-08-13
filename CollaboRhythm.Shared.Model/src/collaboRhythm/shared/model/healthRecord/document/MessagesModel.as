@@ -77,6 +77,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		{
 			return _unreadMessageCount;
 		}
+
 		public function set unreadMessageCount(value:int):void
 		{
 			_unreadMessageCount = value;

@@ -6,6 +6,7 @@ package collaboRhythm.core.model.healthRecord.service
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
 	import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
 	import collaboRhythm.shared.model.healthRecord.document.Message;
+	import collaboRhythm.shared.model.settings.Settings;
 
 	import org.indivo.client.IndivoClientEvent;
 
@@ -16,11 +17,14 @@ package collaboRhythm.core.model.healthRecord.service
 
 		private var _isGetInboxMessagesComplete:Boolean = false;
 		private var _isGetSentMessagesComplete:Boolean = false;
+		private var _settings:Settings;
 
 		public function MessagesHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String,
-													account:Account)
+													account:Account,
+													settings:Settings)
 		{
 			super(consumerKey, consumerSecret, baseURL, account);
+			_settings = settings;
 		}
 
 		public function getMessages(accountId:String):void
@@ -68,10 +72,10 @@ package collaboRhythm.core.model.healthRecord.service
 
 				// TODO: It appears that it is currently not possible to archive sent messages
 				// There are some ill-formed messages (wrong subject) currently that need to be ignored
-				if (_activeAccount.allSharingAccounts[message.sender])
+				if (_activeAccount.allSharingAccounts[message.subject])
 				{
-					var senderAccount:Account = _activeAccount.allSharingAccounts[message.sender];
-					senderAccount.messagesModel.addInboxMessage(message);
+					var subjectAccount:Account = _activeAccount.allSharingAccounts[message.subject];
+					subjectAccount.messagesModel.addInboxMessage(message);
 				}
 			}
 
@@ -87,14 +91,28 @@ package collaboRhythm.core.model.healthRecord.service
 			for each (var messageXml:XML in responseXml.Message)
 			{
 				var message:Message = createNewMessage(messageXml, Message.SENT);
-				_activeAccount.messagesModel.addSentMessage(message);
 
-				// TODO: It appears that it is currently not possible to archive sent messages
-				// There are some ill-formed messages (wrong subject) currently that need to be ignored
-				if (_activeAccount.allSharingAccounts[message.subject])
+				if (_settings.isPatientMode)
 				{
-					var recipientAccount:Account = _activeAccount.allSharingAccounts[message.subject];
-					recipientAccount.messagesModel.addSentMessage(message);
+					// TODO: this is a temporary fix to ensure that only one item is seen for each message that a
+					// patient sends. Eventually an implementation that supports this on the server will likely be
+					// preferable.
+					if (message.recipient == _settings.primaryClinicianTeamMember && _activeAccount.allSharingAccounts[message.recipient])
+					{
+						_activeAccount.messagesModel.addSentMessage(message);
+					}
+				}
+				else
+				{
+					_activeAccount.messagesModel.addSentMessage(message);
+
+					// TODO: It appears that it is currently not possible to archive sent messages
+					// There are some ill-formed messages (wrong subject) currently that need to be ignored
+					if (message.recipient == message.subject && _activeAccount.allSharingAccounts[message.recipient])
+					{
+						var recipientAccount:Account = _activeAccount.allSharingAccounts[message.recipient];
+						recipientAccount.messagesModel.addSentMessage(message);
+					}
 				}
 			}
 
@@ -112,73 +130,13 @@ package collaboRhythm.core.model.healthRecord.service
 			}
 		}
 
-//		override public function loadDocuments(record:Record):void
-//		{
-//
-//			super.loadDocuments(record);
-//			_record = record;
-//
-//			var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_INBOX,
-//					_activeRecordAccount, record);
-//			_pha.accounts_X_inboxGET(null, null, null, _activeAccount.accountId, _activeAccount.oauthAccountToken,
-//					_activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
-//			_pendingReportRequests.put(PRIMARY_REPORT_REQUEST, PRIMARY_REPORT_REQUEST);
-//			healthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_SENT, _activeRecordAccount,
-//					record);
-//			_pha.accounts_X_sentGET(null, null, null, _activeAccount.accountId, _activeAccount.oauthAccountToken,
-//					_activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
-//			_pendingReportRequests.put(PRIMARY_REPORT_REQUEST, PRIMARY_REPORT_REQUEST);
-//		}
-
-
-//		override protected function handleGetInbox(responseXml:XML,
-//												   healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
-//		{
-//			for each (var messageXml:XML in responseXml.Message)
-//			{
-//				if (_activeAccount == _activeRecordAccount)
-//				{
-//					createNewMessage(messageXml, MessagesModel.RECEIVED);
-//				}
-//				else
-//				{
-//					if (messageXml.sender == _activeRecordAccount.accountId)
-//					{
-//						createNewMessage(messageXml, MessagesModel.RECEIVED)
-//					}
-//				}
-//			}
-//
-//			_pendingReportRequests.remove(PRIMARY_REPORT_REQUEST);
-//		}
-//
-//		override protected function handleGetSent(responseXml:XML,
-//												  healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
-//		{
-//			for each (var messageXml:XML in responseXml.Message)
-//			{
-//				if (_activeAccount == _activeRecordAccount)
-//				{
-//					createNewMessage(messageXml, MessagesModel.SENT);
-//				}
-//				else
-//				{
-//					if (messageXml.subject == _activeRecordAccount.accountId)
-//					{
-//						createNewMessage(messageXml, MessagesModel.SENT)
-//					}
-//				}
-//			}
-//
-//			_pendingReportRequests.remove(PRIMARY_REPORT_REQUEST);
-//		}
-
 		private function createNewMessage(messageXml:XML, type:String):Message
 		{
 			var message:Message = new Message();
 			message.id = messageXml.@id;
 			message.subject = messageXml.subject;
 			message.sender = messageXml.sender;
+			message.recipient = messageXml.recipient;
 			message.read_at = DateUtil.parseW3CDTF(messageXml.read_at, true);
 			message.received_at = DateUtil.parseW3CDTF(messageXml.received_at, true);
 			message.type = type;

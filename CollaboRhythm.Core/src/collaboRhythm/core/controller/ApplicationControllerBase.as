@@ -694,9 +694,7 @@ package collaboRhythm.core.controller
 			_logger.info("Getting messages from Indivo...");
 
 			var messagesHealthRecordService:MessagesHealthRecordService = new MessagesHealthRecordService(_settings.oauthChromeConsumerKey,
-					_settings.oauthChromeConsumerSecret,
-					_settings.indivoServerBaseURL,
-					_activeAccount);
+					_settings.oauthChromeConsumerSecret, _settings.indivoServerBaseURL, _activeAccount, settings);
 			addPendingService(messagesHealthRecordService);
 
 			messagesHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE, getMessagesCompleteHandler);
@@ -876,8 +874,11 @@ package collaboRhythm.core.controller
 
 			_activeAccount.messagesModel.addInboxMessage(message);
 
-			var senderAccount:Account = _activeAccount.allSharingAccounts[message.sender];
-			senderAccount.messagesModel.addInboxMessage(message);
+			if (_activeAccount.allSharingAccounts[message.subject])
+			{
+				var subjectAccount:Account = _activeAccount.allSharingAccounts[message.subject];
+				subjectAccount.messagesModel.addInboxMessage(message);
+			}
 		}
 
 		/**

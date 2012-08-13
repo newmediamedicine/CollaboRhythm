@@ -45,6 +45,28 @@
 			</xs:element>
 			<xs:element type="xs:string" name="username" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:string" name="password" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="clinicianTeamMembers" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Collection of clinician team member accountIds that is used for group messaging.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element type="xs:string" name="clinicianTeamMember" maxOccurs="unbounded" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element type="xs:string" name="primaryClinicianTeamMember" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						AccountId of the primary clinician team member managing a patient. This is used
+						for group messaging when in patient mode to ensure that the patient only sees the message that
+						is sent to the primary clinician team member as apposed to all clinician team members. This is a
+						temporary fix to ensure that the patient only sees one item for each message that is sent.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element type="xs:boolean" name="useFileTarget" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:boolean" name="useTraceTarget" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:boolean" name="useSyslogTarget" minOccurs="0" maxOccurs="1"/>

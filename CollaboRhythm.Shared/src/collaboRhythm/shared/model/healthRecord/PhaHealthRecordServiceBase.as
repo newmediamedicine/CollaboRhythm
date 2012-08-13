@@ -129,7 +129,7 @@ package collaboRhythm.shared.model.healthRecord
 					otherDocument, healthRecordServiceRequestDetails);
 		}
 
-		public function getMessage(accountId:String, message:Message):void
+		public function getInboxMessage(accountId:String, message:Message):void
 		{
 			var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_MESSAGE,
 					null, null, null, null, message);
@@ -186,6 +186,7 @@ package collaboRhythm.shared.model.healthRecord
 			}
 			else if (healthRecordServiceRequestDetails.indivoApiCall == GET_MESSAGE)
 			{
+				// this handler deals with both getting inbox messages and sent messages
 				getMessageCompleteHandler(responseXml, healthRecordServiceRequestDetails);
 			}
 			else if (healthRecordServiceRequestDetails.indivoApiCall == SEND_MESSAGE)

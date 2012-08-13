@@ -10,14 +10,18 @@ package collaboRhythm.plugins.messages.model
 	import collaboRhythm.shared.model.healthRecord.document.MessagesModel;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
+	import collaboRhythm.shared.model.settings.Settings;
 
 	import flash.net.URLVariables;
 
 	public class IndividualMessageHealthRecordService extends PhaHealthRecordServiceBase implements IIndividualMessageHealthRecordService
 	{
+		private static const MESSAGE_SUBJECT_RE_TAG:String = "Re:";
+
 		private var _messagesModel:MessagesModel;
 		private var _activeRecordAccount:Account;
 		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
+		private var _settings:Settings;
 
 //		This service is currently separate from the MessagesHealthRecordService for several reasons. (An attempt was made to merge them.)
 //		1. If an interface is created for MessagesHealthRecordService, this is problematic because it inherits from HealthRecordServiceBase
@@ -29,13 +33,15 @@ package collaboRhythm.plugins.messages.model
 		public function IndividualMessageHealthRecordService(oauthPhaConsumerKey:String, oauthPhaConsumerSecret:String,
 															 indivoServerBaseURL:String, activeAccount:Account,
 															 activeRecordAccount:Account, messagesModel:MessagesModel,
-															 collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy)
+															 collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy,
+															 settings:Settings)
 		{
 			super(oauthPhaConsumerKey, oauthPhaConsumerSecret, indivoServerBaseURL, activeAccount);
 
 			_messagesModel = messagesModel;
 			_activeRecordAccount = activeRecordAccount;
 			_collaborationLobbyNetConnectionServiceProxy = collaborationLobbyNetConnectionServiceProxy;
+			_settings = settings;
 
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
@@ -48,7 +54,7 @@ package collaboRhythm.plugins.messages.model
 				{
 					if (message.type == Message.INBOX)
 					{
-						getMessage(activeAccount.accountId, message);
+						getInboxMessage(activeAccount.accountId, message);
 					}
 					else if (message.type == Message.SENT)
 					{
@@ -69,32 +75,68 @@ package collaboRhythm.plugins.messages.model
 
 		public function createAndSendMessage(body:String):void
 		{
-			var subjectsVector:Vector.<String> = getMessageSubjects();
+			var message:Message;
 
-			if (subjectsVector.length == 0)
+			if (_settings.isPatientMode)
 			{
-				// TODO: Log that no message was sent;
+				message = sendMessageToClinicianTeamMemberAccounts(body);
 			}
 			else
 			{
-				var message:Message = new Message();
-				message.sender = _activeAccount.accountId;
-				message.type = Message.SENT;
-				message.body = body;
+				message = sendMessageToActiveRecordAccount(body);
+				sendMessageToClinicianTeamMemberAccounts(body);
+			}
 
-				var params:URLVariables = new URLVariables();
-				params["body"] = body;
+			_messagesModel.addSentMessage(message);
+		}
 
-				for each (var subject:String in subjectsVector)
+		private function createMessage(recipientAccountId:String, body:String):Message
+		{
+			var message:Message = new Message();
+			message.sender = _activeAccount.accountId;
+			message.recipient = recipientAccountId;
+			message.subject = _activeRecordAccount.accountId;
+			message.type = Message.SENT;
+			message.body = body;
+
+			return message;
+		}
+
+		private function createParams(body:String):URLVariables
+		{
+			var params:URLVariables = new URLVariables();
+			params["subject"] = _activeRecordAccount.accountId;
+			params["body"] = body;
+
+			return params;
+		}
+
+		private function sendMessageToActiveRecordAccount(body:String):Message
+		{
+			var message:Message = createMessage(_activeRecordAccount.accountId, body);
+
+			sendMessage(_activeRecordAccount.accountId, createParams(body).toString(), message);
+
+			return message;
+		}
+
+		private function sendMessageToClinicianTeamMemberAccounts(body:String):Message
+		{
+			var primaryMessage:Message;
+
+			for each (var clinicianTeamMember:String in _settings.clinicianTeamMembers)
+			{
+				var message:Message = createMessage(clinicianTeamMember, body);
+
+				sendMessage(clinicianTeamMember, createParams(body).toString(), message);
+
+				if (clinicianTeamMember == _settings.primaryClinicianTeamMember)
 				{
-					message.subject = subject;
-					params["subject"] = subject;
-
-					_messagesModel.addSentMessage(message);
-
-					sendMessage(subject, params.toString(), message);
+					primaryMessage = message;
 				}
 			}
+
+			return primaryMessage;
 		}
 
 		override protected function sendMessageCompleteHandler(responseXml:XML,
@@ -105,7 +147,7 @@ package collaboRhythm.plugins.messages.model
 			message.id = responseXml.@id;
 			message.received_at = new Date();
 
-			_collaborationLobbyNetConnectionServiceProxy.sendMessage(message.subject, message);
+			_collaborationLobbyNetConnectionServiceProxy.sendMessage(message.recipient, message);
 		}
 
 		override protected function sendMessageErrorHandler(errorStatus:String,
@@ -114,31 +156,6 @@ package collaboRhythm.plugins.messages.model
 			var message:Message = healthRecordServiceRequestDetails.message;
 
 			message.received_at = new Date();
-		}
-
-		/*
-		* Returns all of the accounts that should receive a message. This includes all of the accounts with which the activeRecordAccount
-		* is shared (except the sending account if the sending account is one of these accounts) and also the activeRecordAccount
-		* if the sending account is not the activeRecordAccount.
-		* */
-		public function getMessageSubjects():Vector.<String>
-		{
-			var subjectsVector:Vector.<String> = new Vector.<String>();
-
-			for each (var recordShareAccount:Account in _activeRecordAccount.recordShareAccounts)
-			{
-				if (recordShareAccount.accountId != _activeAccount.accountId)
-				{
-					subjectsVector.push(recordShareAccount.accountId);
-				}
-			}
-
-			if (_activeRecordAccount != _activeAccount)
-			{
-				subjectsVector.push(_activeRecordAccount.accountId);
-			}
-
-			return subjectsVector;
 		}
 	}
 }
