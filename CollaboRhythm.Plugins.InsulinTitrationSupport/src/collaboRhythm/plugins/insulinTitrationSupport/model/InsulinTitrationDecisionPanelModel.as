@@ -64,28 +64,33 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private static const CHOSE_A_NEW_DOSE_ACTION_STEP_RESULT_TEXT:String = "Chose a new dose";
 
 		/**
+		 * Phrase used to start the titration decision message when a change is made to the dose.
 		 * {0} previous dose
 		 * {1} change (including + or - operator)
 		 * {2} new dose
 		 */
 		private static const TITRATION_DECISION_PHRASE_WITH_CHANGE:String = "Insulin titration: {0} Units {1} Units = {2} Units";
 		/**
+		 * Phrase used to start the titration decision message when no change is made to the dose.
 		 * {0} previous dose
 		 */
 		private static const TITRATION_DECISION_PHRASE_NO_CHANGE:String = "Insulin titration: no change, dose remains {0} Units";
 
 		/**
+		 * Message sent to clinician when insulin titration decision is made and the decision matches the protocol recommendation.
 		 * {0} titration decision phrase
 		 * {1} average blood glucose value
 		 */
 		private static const TITRATION_DECISION_MESSAGE_PROTOCOL_FOLLOWED:String = "{0} (consistent with 303 Protocol for average blood glucose of {1})";
 		/**
+		 * Message sent to clinician when insulin titration decision is made but the decision does not match the protocol recommendation.
 		 * {0} titration decision phrase
 		 * {1} protocol recommended change (including + or - operator) and Units, or "no change"
 		 * {2} average blood glucose value
 		 */
 		private static const TITRATION_DECISION_MESSAGE_PROTOCOL_NOT_FOLLOWED:String = "{0} (note: 303 Protocol recommends {1} for average blood glucose of {2})";
 		/**
+		 * Message sent to clinician when insulin titration decision is made but one or more of the prerequisites of the protocol have not been met.
 		 * {0} titration decision phrase
 		 */
 		private static const TITRATION_DECISION_MESSAGE_MISSING_PREREQUISITES:String = "{0} (note: prerequisites of the 303 Protocol not met)";
