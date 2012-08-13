@@ -153,6 +153,44 @@
     <recordSeed/>
   </AccountSource>
   <AccountSource>
+    <accountId>sghiloni@records.media.mit.edu</accountId>
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    <fullName>Sue Ghiloni</fullName>
+    <username>sghiloni</username>
+    <password>sghiloni-dope75</password>
+    <givenName>Sue</givenName>
+    <familyName>Ghiloni</familyName>
+    <streetAddress>366 Spinel Rd</streetAddress>
+    <postalCode>2142</postalCode>
+    <locality>Cambridge</locality>
+    <region>Massachusetts</region>
+    <country>US</country>
+    <timeZone>-5GMT</timeZone>
+    <emailPersonal>sghiloni@records.media.mit.edu</emailPersonal>
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    <instantMessengerName>sghiloni@records.media.mit.edu</instantMessengerName>
+    <dateOfBirth>1957-05-27T00:00:00Z</dateOfBirth>
+    <age>53</age>
+    <gender>Female</gender>
+    <ethnicity>White</ethnicity>
+    <language>English</language>
+    <maritalStatus>Married</maritalStatus>
+    <employmentStatus>Employed</employmentStatus>
+    <employmentIndustry>Medical</employmentIndustry>
+    <occupation>Certified Diabetes Educator</occupation>
+    <religion>Protestant</religion>
+    <highestEducation>University</highestEducation>
+    <organDonar>true</organDonar>
+    <recordId></recordId>
+    <status>Demographics document created. Id: 657e3b06-1b72-4130-b746-a1a86332d619</status>
+    <accessKey>scjC855R8GC95GyPwk02</accessKey>
+    <accessSecret>a6EZSt04A2APJWzgJZNf</accessSecret>
+    <demographicsId>657e3b06-1b72-4130-b746-a1a86332d619</demographicsId>
+    <notes>Demo health coach for Sue</notes>
+    <recordSeed/>
+  </AccountSource>
+  <AccountSource>
     <accountId>singlemed1@records.media.mit.edu</accountId>
     <contactEmail>sgilroy@mit.edu</contactEmail>
     <fullName>Single Medication Test1</fullName>
