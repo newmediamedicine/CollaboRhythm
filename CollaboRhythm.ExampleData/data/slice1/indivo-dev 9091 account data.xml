@@ -182,11 +182,11 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId></recordId>
-    <status>Demographics document created. Id: 657e3b06-1b72-4130-b746-a1a86332d619</status>
-    <accessKey>scjC855R8GC95GyPwk02</accessKey>
-    <accessSecret>a6EZSt04A2APJWzgJZNf</accessSecret>
-    <demographicsId>657e3b06-1b72-4130-b746-a1a86332d619</demographicsId>
+    <recordId>50cde873-5b7d-4eb8-b8b4-e72f66fa0f5d</recordId>
+    <status>Demographics document created. Id: 502b956d-70c8-4736-99dd-3ecd5079491b</status>
+    <accessKey>VYWZj62YoIg8B3y0InNb</accessKey>
+    <accessSecret>ZpyjREzQjiYYuAHGKY8c</accessSecret>
+    <demographicsId>502b956d-70c8-4736-99dd-3ecd5079491b</demographicsId>
     <notes>Demo health coach for Sue</notes>
     <recordSeed/>
   </AccountSource>
@@ -966,61 +966,12 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId>b58d8f7d-9557-4e0b-814a-8508aa8416eb</recordId>
-    <accessKey>rtVNbgAGqsZXRK0BUmsY</accessKey>
-    <accessSecret>tUiGgp16zqhVKRrgM2is</accessSecret>
-    <status>Created 19/19 documents, 11/12 relationships Failed on PUT http://indivo-dev.media.mit.edu:9091/records/3180f94f-86d1-4725-8d66-f2fddae0b473/owner Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;400&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt; Failed on PUT http://indivo-dev.media.mit.edu:9091/records/3180f94f-86d1-4725-8d66-f2fddae0b473/owner Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;400&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt; Failed on PUT http://indivo-dev.media.mit.edu:9091/records/3180f94f-86d1-4725-8d66-f2fddae0b473/owner Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;400&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt; Failed on PUT http://indivo-dev.media.mit.edu:9091/records/3180f94f-86d1-4725-8d66-f2fddae0b473/owner Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;400&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt; Failed on POST http://indivo-dev.media.mit.edu:9091/oauth/internal/session_create Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;403&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt; Failed on POST http://indivo-dev.media.mit.edu:9091/oauth/internal/session_create Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;403&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt; Failed on POST http://indivo-dev.media.mit.edu:9091/oauth/internal/session_create Response: &lt;Error&gt;
-  &lt;InnerError&gt;
-    &lt;type&gt;complete&lt;/type&gt;
-  &lt;/InnerError&gt;
-  &lt;HTTPStatusEvent&gt;
-    &lt;status&gt;403&lt;/status&gt;
-  &lt;/HTTPStatusEvent&gt;
-&lt;/Error&gt;</status>
+    <accessKey>HbjE3SWbvRdcenAXXaaX</accessKey>
+    <accessSecret>1wmB3F3A9uhH27q6dlmr</accessSecret>
+    <status>Record shared.</status>
     <demographicsId>101b9866-47a4-4bae-b7dc-1f30fa488deb</demographicsId>
     <recordSeed/>
-    <shareAccountId>whsu@records.media.mit.edu</shareAccountId>
+    <shareAccountId>sghiloni@records.media.mit.edu</shareAccountId>
     <shareRole>Coach</shareRole>
   </AccountSource>
   <AccountSource>
@@ -1054,12 +1005,12 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId>3180f94f-86d1-4725-8d66-f2fddae0b473</recordId>
-    <accessKey>tOOGdkDBwkKVpRTfe62v</accessKey>
-    <accessSecret>l3mMTY4jE7H1YjRJabJ9</accessSecret>
-    <status>Created 10/10 documents, 5/6 relationships</status>
+    <accessKey>uW7mTlxrWPpY9V8wEfXu</accessKey>
+    <accessSecret>pbk90hRMyRxpSzGqT8JS</accessSecret>
+    <status>Record shared.</status>
     <demographicsId>5e90022f-5196-43a0-b8f5-867b35016e4c</demographicsId>
     <recordSeed/>
-    <shareAccountId>whsu@records.media.mit.edu</shareAccountId>
+    <shareAccountId>sghiloni@records.media.mit.edu</shareAccountId>
     <shareRole>Coach</shareRole>
   </AccountSource>
   <AccountSource>
@@ -1137,6 +1088,6 @@
     <notes>Demo account for Mar and Oovit</notes>
     <recordSeed>2</recordSeed>
   </AccountSource>
-  <saveDate>Wed Aug 1 11:17:54 GMT-0400 2012</saveDate>
+  <saveDate>Mon Aug 13 15:28:05 GMT-0400 2012</saveDate>
   <indivoServerBaseURL>http://indivo-dev.media.mit.edu:9091</indivoServerBaseURL>
 </dataroot>

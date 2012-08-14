@@ -55,16 +55,16 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		 * Finds the next ScheduleItemOccurrence and corresponding MedicationScheduleItem for the specified medication
 		 * where the medication has not yet been administered and the occurrence is current (adherence window overlaps
 		 * the current time) or future (occurrence starts after the current time).
-		 * @param medicationCode The medication to match.
+		 * @param medicationCodes The medication(s) to match.
 		 * @return The details of the schedule, including the ScheduleItemOccurrence and corresponding MedicationScheduleItem.
 		 */
-		public function getNextMedicationScheduleDetails(medicationCode:String, todayOnly:Boolean = false):ScheduleDetails
+		public function getNextMedicationScheduleDetails(medicationCodes:Vector.<String>, todayOnly:Boolean = false):ScheduleDetails
 		{
 			var scheduleDetails:ScheduleDetails;
 			var now:Date = currentDateSource.now();
 			for each (var medicationScheduleItem:MedicationScheduleItem in record.medicationScheduleItemsModel.medicationScheduleItemCollection)
 			{
-				if (medicationScheduleItem.name.value == medicationCode)
+				if (medicationCodes.indexOf(medicationScheduleItem.name.value) != -1)
 				{
 					var currentPeriodDateStart:Date;
 					var currentPeriodDateEnd:Date;
@@ -109,7 +109,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				for each (medicationScheduleItem in
 						record.medicationScheduleItemsModel.medicationScheduleItemCollection)
 				{
-					if (medicationScheduleItem.name.value == medicationCode)
+					if (medicationScheduleItem.name.value == scheduleDetails.currentSchedule.name.value)
 					{
 						// TODO: find a more robust way of determining the previousSchedule; currently we look for the first occurrence in the 24 hours prior to the current occurrence
 						// For dateEnd, subtract 1 millisecond because dateEnd is inclusive, and we want to exclude occurrences that start at occurrence.dateStart

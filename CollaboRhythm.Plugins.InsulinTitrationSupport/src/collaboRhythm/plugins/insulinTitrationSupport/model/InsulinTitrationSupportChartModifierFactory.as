@@ -26,10 +26,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private function recordContainsInsulin(chartModelDetails:IChartModelDetails):Boolean
 		{
-			// TODO: if the MedicationOrdersModel could provide a more efficient way to check for the presence of a given medication
+			// TODO: the MedicationOrdersModel could provide a more efficient way to check for the presence of a given medication
 			for each (var medicationOrder:MedicationOrder in chartModelDetails.record.medicationOrdersModel.medicationOrdersCollection)
 			{
-				if (medicationOrder.name.value == InsulinTitrationSupportChartModifier.INSULIN_LEVEMIR_CODE)
+				if (InsulinTitrationSupportChartModifier.INSULIN_MEDICATION_CODES.indexOf(medicationOrder.name.value) != -1)
 					return true;
 			}
 			return false;
@@ -38,8 +38,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public static function isInsulinChartDescriptor(chartDescriptor:IChartDescriptor):Boolean
 		{
 			return chartDescriptor is MedicationChartDescriptor &&
-					(chartDescriptor as MedicationChartDescriptor).medicationCode ==
-							InsulinTitrationSupportChartModifier.INSULIN_LEVEMIR_CODE;
+				InsulinTitrationSupportChartModifier.INSULIN_MEDICATION_CODES.indexOf((chartDescriptor as MedicationChartDescriptor).medicationCode) != -1;
 		}
 
 		public static function isBloodGlucoseChartDescriptor(chartDescriptor:IChartDescriptor):Boolean

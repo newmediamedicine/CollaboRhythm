@@ -31,7 +31,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 			var medicationTitrationHelper:MedicationTitrationHelper = new MedicationTitrationHelper(_model.healthActionInputModelDetailsProvider.record,
 					WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource);
-			medicationTitrationHelper.getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_LEVEMIR_CODE, true);
+			medicationTitrationHelper.getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_MEDICATION_CODES, true);
 			_dosageChangeValueLabel = medicationTitrationHelper.dosageChangeValueLabel;
 		}
 

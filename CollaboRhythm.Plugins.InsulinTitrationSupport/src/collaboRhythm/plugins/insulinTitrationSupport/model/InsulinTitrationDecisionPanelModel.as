@@ -604,7 +604,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			// validate
 			if (isChangeSpecified)
 			{
-				_scheduleDetails = _medicationTitrationHelper.getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_LEVEMIR_CODE);
+				_scheduleDetails = _medicationTitrationHelper.getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_MEDICATION_CODES);
 				_currentDoseValue = _medicationTitrationHelper.currentDoseValue;
 				_previousDoseValue = _medicationTitrationHelper.previousDoseValue;
 				_newDose = (isNaN(_previousDoseValue) ? 0 : _previousDoseValue) + dosageChangeValue;
@@ -619,7 +619,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			if (_decisionScheduleItemOccurrence == null)
 				return;
 
-			_scheduleDetails = _medicationTitrationHelper.getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_LEVEMIR_CODE);
+			_scheduleDetails = _medicationTitrationHelper.getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_MEDICATION_CODES);
 			_currentDoseValue = _newDose = _medicationTitrationHelper.currentDoseValue;
 			_previousDoseValue = _medicationTitrationHelper.previousDoseValue;
 			dosageChangeValue = _medicationTitrationHelper.dosageChangeValue;
