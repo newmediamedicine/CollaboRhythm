@@ -42,7 +42,7 @@ package collaboRhythm.plugins.messages.controller
 			_individualMessagesHealthRecordService = new IndividualMessageHealthRecordService(_settings.oauthChromeConsumerKey,
 					_settings.oauthChromeConsumerSecret, _settings.indivoServerBaseURL, _activeAccount,
 					_activeRecordAccount, _activeRecordAccount.messagesModel,
-					collaborationLobbyNetConnectionServiceProxy);
+					collaborationLobbyNetConnectionServiceProxy, _settings);
 
 			_componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(IIndividualMessageHealthRecordService).name, IIndividualMessageHealthRecordService, _individualMessagesHealthRecordService);
 		}
@@ -150,11 +150,6 @@ package collaboRhythm.plugins.messages.controller
 			var messagesModelAndController:MessagesModelAndController = new MessagesModelAndController(_activeRecordAccount.messagesModel,
 					this, _collaborationLobbyNetConnectionServiceProxy);
 			_viewNavigator.pushView(RecordVideoMessageView, messagesModelAndController);
-		}
-
-		public function getMessageSubject():String
-		{
-			return individualMessagesHealthRecordService.getMessageSubject();
 		}
 
 		public function playVideoMessage(source:String, netStreamLocation:String):void

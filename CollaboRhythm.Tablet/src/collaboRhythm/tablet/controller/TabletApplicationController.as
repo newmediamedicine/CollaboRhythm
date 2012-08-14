@@ -125,6 +125,11 @@ package collaboRhythm.tablet.controller
 				{
 					navigator.popToFirstView();
 				}
+
+				if (collaborationState == CollaborationModel.COLLABORATION_INACTIVE && navigator.activeView as CollaborationVideoView)
+				{
+					navigator.popView();
+				}
 			}
 		}
 
@@ -209,6 +214,7 @@ package collaboRhythm.tablet.controller
 			if (activeRecordAccount)
 			{
 				closeRecordAccount(activeRecordAccount);
+				_collaborationController.endCollaboration();
 			}
 			super.openRecordAccount(recordAccount);
 			if (tabletHomeView)

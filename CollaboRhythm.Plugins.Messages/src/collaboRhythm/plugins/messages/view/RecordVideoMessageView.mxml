@@ -51,7 +51,7 @@
 		private function creationCompleteHandler(event:FlexEvent):void
 		{
 			videoRecorder.init(_collaborationLobbyNetConnectionServiceProxy.netConnection,
-					_messagesAppController.getMessageSubject());
+					_activeRecordAccount.accountId);
 			videoRecorder.addEventListener(VideoAvailableEvent.VIDEO_AVAILABLE, videoAvailableHandler);
 		}
 

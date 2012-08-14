@@ -35,6 +35,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionEvent;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+	import collaboRhythm.shared.collaboration.model.CollaborationModel;
 	import collaboRhythm.shared.collaboration.model.MessageEvent;
 	import collaboRhythm.shared.collaboration.view.CollaborationView;
 	import collaboRhythm.shared.controller.IApplicationControllerBase;
@@ -693,9 +694,7 @@ package collaboRhythm.core.controller
 			_logger.info("Getting messages from Indivo...");
 
 			var messagesHealthRecordService:MessagesHealthRecordService = new MessagesHealthRecordService(_settings.oauthChromeConsumerKey,
-					_settings.oauthChromeConsumerSecret,
-					_settings.indivoServerBaseURL,
-					_activeAccount);
+					_settings.oauthChromeConsumerSecret, _settings.indivoServerBaseURL, _activeAccount, settings);
 			addPendingService(messagesHealthRecordService);
 
 			messagesHealthRecordService.addEventListener(HealthRecordServiceEvent.COMPLETE, getMessagesCompleteHandler);
@@ -875,8 +874,11 @@ package collaboRhythm.core.controller
 
 			_activeAccount.messagesModel.addInboxMessage(message);
 
-			var senderAccount:Account = _activeAccount.allSharingAccounts[message.sender];
-			senderAccount.messagesModel.addInboxMessage(message);
+			if (_activeAccount.allSharingAccounts[message.subject])
+			{
+				var subjectAccount:Account = _activeAccount.allSharingAccounts[message.subject];
+				subjectAccount.messagesModel.addInboxMessage(message);
+			}
 		}
 
 		/**
@@ -1080,7 +1082,7 @@ package collaboRhythm.core.controller
 		{
 			if (!isSaving && (isSaving != _serviceIsSavingPrevious) && !hasErrorsSaving)
 			{
-				_collaborationLobbyNetConnectionService.sendSynchronizationMessage();
+				_collaborationController.sendCollaborationOutOfSync();
 				if (_pendingExit)
 				{
 					_pendingExit = false;
@@ -1162,6 +1164,7 @@ package collaboRhythm.core.controller
 			{
 				_collaborationLobbyNetConnectionService.enterCollaborationLobby();
 			}
+			_collaborationController.collaborationModel.collaborationState = CollaborationModel.COLLABORATION_INACTIVE;
 		}
 
 		protected function updateConnectivityView():void

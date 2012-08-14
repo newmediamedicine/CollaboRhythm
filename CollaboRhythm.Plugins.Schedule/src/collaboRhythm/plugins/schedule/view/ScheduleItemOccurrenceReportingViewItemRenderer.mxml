@@ -5,7 +5,11 @@
 				width="100%"
 				height="{SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT}"
 				removedFromStage="removedHandler(event)"
-				click="clickHandler(event)">
+				mouseDown="mouseDownHandler(event)"
+				mouseOut="mouseOutHandler()"
+				mouseUp="mouseUpHandler()"
+				click="clickHandler()"
+				autoDrawBackground="false">
 	<fx:Style>
 		#nameLabel {
 			font-size: 30;
@@ -56,6 +60,7 @@
 		import mx.core.IVisualElement;
 
 		import spark.components.Image;
+		import spark.components.List;
 
 		public static const SCHEDULE_ITEM_REPORTING_VIEW_HEIGHT:Number = 142;
 
@@ -124,7 +129,8 @@
 					imageGroup.top = 10;
 					imageGroup.bottom = 10;
 
-					ScheduleItemOccurrenceClockView.scaleFontToFit(scheduleItemOccurrenceReportingViewAdapter, additionalInformationLabel, 26);
+					ScheduleItemOccurrenceClockView.scaleFontToFit(scheduleItemOccurrenceReportingViewAdapter,
+							additionalInformationLabel, 26);
 					additionalInformationLabel.visible = scheduleItemOccurrenceReportingModel.healthActionInputController;
 					additionalInformationLabel.text = scheduleItemOccurrenceReportingViewAdapter.additionalAdherenceInformation;
 
@@ -137,7 +143,6 @@
 
 		private function adherenceCheckBoxClickHandler(event:MouseEvent):void
 		{
-			// Prevent the scheduleItemOccurrence in the list from being clicked when the check box is clicked
 			event.stopPropagation();
 			_scheduleItemOccurrenceReportingController.handleHealthActionResult(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
 		}
@@ -145,12 +150,6 @@
 		private function secondaryInstructionsLabel_clickHandler(event:MouseEvent):void
 		{
 			_scheduleItemOccurrenceReportingController.playVideo(_instructionalVideoPath);
-		}
-
-		private function adherenceCheckBoxMouseDownHandler(event:MouseEvent):void
-		{
-			// Prevent the scheduleItemOccurrence in the list from being selected when the check box is clicked
-			event.stopImmediatePropagation();
 		}
 
 		private function removeAdditionalAdherenceInformation(adherenceItem:AdherenceItem):String
@@ -197,17 +196,40 @@
 			_scheduleItemOccurrenceReportingController.removeEventListener();
 		}
 
-		private function clickHandler(event:MouseEvent):void
+		private function mouseDownHandler(event:MouseEvent):void
+		{
+			if (event.target != adherenceCheckBox)
+			{
+				mouseDownRect.visible = true;
+			}
+		}
+
+		private function mouseOutHandler():void
+		{
+			mouseDownRect.visible = false;
+		}
+
+		private function mouseUpHandler():void
+		{
+			mouseDownRect.visible = false;
+		}
+
+		private function clickHandler():void
 		{
 			_scheduleItemOccurrenceReportingController.handleHealthActionSelected(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
 		}
 		]]>
-    </fx:Script>
+	</fx:Script>
+
+	<s:Rect id="mouseDownRect" width="100%" height="100%" visible="false">
+		<s:fill>
+			<s:SolidColor color="0x6dcaec"/>
+		</s:fill>
+	</s:Rect>
 
 	<s:Group id="imageContainerGroup" width="{this.height}" height="{this.height}">
 		<s:Group id="imageGroup"/>
 	</s:Group>
-
 
 	<s:Group id="descriptionGroup" height="100%" left="{imageContainerGroup.width}" right="{buttonGroup.width}">
 		<s:VGroup left="10" right="10" top="10" bottom="10" gap="1">
@@ -225,12 +247,11 @@
 		<view:AdherenceCheckBox id="adherenceCheckBox" width="70" height="70" verticalCenter="0" horizontalCenter="0"
 								skinClass="collaboRhythm.plugins.schedule.shared.view.AdherenceCheckBoxSkin"
 								selected="{_scheduleItemOccurrence.adherenceItem != null}"
-								mouseDown="adherenceCheckBoxMouseDownHandler(event)"
 								click="adherenceCheckBoxClickHandler(event)"
 								enabled="{isAdherenceCheckBoxEnabled(_scheduleItemOccurrence.adherenceItem, _scheduleItemOccurrence.adherenceItem ? _scheduleItemOccurrence.adherenceItem.pendingAction : null, _scheduleModel ? _scheduleModel.settings.adherenceVoidingEnabled : null)}"/>
 		<s:RichText id="additionalInformationLabel" width="70"
-				 text="{removeAdditionalAdherenceInformation(_scheduleItemOccurrence.adherenceItem)}"
-				 y="{adherenceCheckBox.y + adherenceCheckBox.height - 5}" horizontalCenter="-2" visible="false"/>
+					text="{removeAdditionalAdherenceInformation(_scheduleItemOccurrence.adherenceItem)}"
+					y="{adherenceCheckBox.y + adherenceCheckBox.height - 5}" horizontalCenter="-2" visible="false"/>
 	</s:Group>
 
 	<s:Line width="100%" bottom="0">

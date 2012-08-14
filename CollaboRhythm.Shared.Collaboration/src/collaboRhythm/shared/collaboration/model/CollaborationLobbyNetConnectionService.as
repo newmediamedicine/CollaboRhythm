@@ -51,7 +51,7 @@ package collaboRhythm.shared.collaboration.model
 		public static const REJECT:String = "reject";
 		public static const CANCEL:String = "cancel";
 		public static const END:String = "end";
-		public static const SYNCHRONIZE:String = "synchronize";
+		public static const OUT_OF_SYNC:String = "out of sync";
 		public static const POINTER:String = "pointer";
 
 		private const COLLABORATION_LOBBY:String = "Collaboration Lobby";

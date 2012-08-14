@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="2.0" viewHeight="80" viewWidth="60" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+  <Library/>
+  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="80" d:pageWidth="60" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:objID="5d44980" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+      <Path y="35" winding="nonZero" ai:objID="333ce200" ai:seqID="3" data="M0 45C0 20.1494 13.4346 0 29.9951 0 46.5713 0 60 20.1494 60 45L0 45Z">
+        <fill>
+          <SolidColor color="#2EB5E5"/>
+        </fill>
+      </Path>
+      <Ellipse x="10" width="40" height="40" ai:objID="333ce080" ai:seqID="4">
+        <fill>
+          <SolidColor color="#2EB5E5"/>
+        </fill>
+      </Ellipse>
+      <Ellipse x="21" y="11.9995" width="6.00098" height="6.00098" ai:objID="333cdc00" ai:seqID="5">
+        <fill>
+          <SolidColor color="#FFFFFF"/>
+        </fill>
+      </Ellipse>
+      <Ellipse x="33" y="12" width="6" height="6" ai:objID="333cd900" ai:seqID="6">
+        <fill>
+          <SolidColor color="#FFFFFF"/>
+        </fill>
+      </Ellipse>
+      <Path x="19" y="25" winding="nonZero" ai:objID="333cd780" ai:seqID="7" data="M22 1.48633C15.9199 7.56641 6.08008 7.56641 0 1.48633L1 0C6.52734 5.52734 15.4727 5.52734 21 0L22 1.48633Z">
+        <fill>
+          <SolidColor color="#FFFFFF"/>
+        </fill>
+      </Path>
+      <Path x="15.5" y="47.1875" winding="nonZero" ai:objID="2bf7b580" ai:seqID="8" data="M6.06152 5.875C4.1582 7.99902 3 10.8057 3 13.8818 3 20.5098 8.37207 25.8818 15 25.8818 15.6699 25.8818 16.3271 25.8271 16.9678 25.7217L17.3701 28.6963C16.5986 28.8184 15.8066 28.8818 15 28.8818 6.71484 28.8818 0 22.167 0 13.8818 0 10.0322 1.4502
+ 6.52148 3.83301 3.86621L1.09277 1.09375 9.34277 0 8.68457 8.53125 6.06152 5.875Z">
+        <fill>
+          <SolidColor color="#FFFFFF"/>
+        </fill>
+      </Path>
+      <Path x="29.0938" y="44.8857" winding="nonZero" ai:objID="2bf7b100" ai:seqID="9" data="M11.3086 23.0068C13.2119 20.8828 14.3701 18.0762 14.3701 15 14.3701 8.37207 8.99805 3 2.37012 3 1.7002 3 1.04297 3.05469 0.401367 3.16016L0 0.185547C0.771484 0.0634766 1.56348 0 2.37012 0 10.6553 0 17.3691 6.71484 17.3691 15 17.3691 18.8496 15.9199
+ 22.3604 13.5371 25.0156L16.2773 27.7871 8.02734 28.8818 8.68555 20.3506 11.3086 23.0068Z">
+        <fill>
+          <SolidColor color="#FFFFFF"/>
+        </fill>
+      </Path>
+    </Group>
+  </Group>
+  <Private>
+      <ai:PrivateElement d:ref="#1">
+        <ai:SaveOptions>
+          <ai:Dict data="B includeObjectOutsideArtboard 0 B writeImages 1 B includeXMP 0 B includeSymbol 0 B aiEditCap 1 I versionKey 2 I expandBlendsOption 5 B downsampleLinkedImages 0 I rasterizeResolution 72 I preserveGradientPolicy 4 I preserveFilterPolicy 3 I preserveTextPolicy 4 "/>
+        </ai:SaveOptions>
+        <ai:DocData base="SynchronizeIcon.assets/images" rulerCanvasDiffH="13.5" rulerCanvasDiffV="13.5">
+          <ai:DocRasterSettings>
+            <ai:Dict data="R padd 36 B mask 0 B spot 1 B alis 0 I dpi. 300 I colr 5 "/>
+          </ai:DocRasterSettings>
+        </ai:DocData>
+        <ai:AutoGenImageList>
+          <ai:Dict/>
+        </ai:AutoGenImageList>
+      </ai:PrivateElement>
+      <ai:PrivateElement flm:hashcode="0265F8CF9207E65486D45CD6E556748B" d:ref="#2">
+        <ai:LayerOptions color="5 79.31 257 128.502"/>
+      </ai:PrivateElement>
+    </Private>
+  </Graphic>

@@ -108,7 +108,10 @@
 
 		private function addedToStageHandler():void
 		{
-			soundChannel = ringSound.play(0, int.MAX_VALUE);
+			if (_collaborationController.collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_RECEIVED)
+			{
+				soundChannel = ringSound.play(0, int.MAX_VALUE);
+			}
 		}
 
 		private function removedFromStageHandler():void

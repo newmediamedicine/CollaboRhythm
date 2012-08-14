@@ -19,7 +19,7 @@
    <LoadableIndivoDocument>
       <document>
          <MedicationOrder xmlns="http://indivo.org/vocab/xml/documents#">
-            <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+            <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847232">3 ML Insulin Glargine 100 UNT/ML Prefilled Syringe [Lantus]</name>
             <orderType>prescribed</orderType>
             <orderedBy>jking@records.media.mit.edu</orderedBy>
             <dateOrdered>2012-07-27T09:00:00-04:00</dateOrdered>
@@ -39,7 +39,7 @@
             <LoadableIndivoDocument>
                <document>
                   <MedicationFill xmlns="http://indivo.org/vocab/xml/documents#">
-                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+					  <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847232">3 ML Insulin Glargine 100 UNT/ML Prefilled Syringe [Lantus]</name>
                      <filledBy>ljohnson@records.media.mit.edu</filledBy>
                      <dateFilled>2012-07-27T19:13:11Z</dateFilled>
                      <amountFilled>
@@ -47,7 +47,7 @@
                         <unit type="http://indivo.org/codes/units#" value="prefilled syringe"
                               abbrev="prefilled syringe">prefilled syringe</unit>
                      </amountFilled>
-                     <ndc>0169643910</ndc>
+                     <ndc>00088221905</ndc>
                      <instructions>keep in a cold place</instructions>
                   </MedicationFill>
                </document>
@@ -57,7 +57,7 @@
             <LoadableIndivoDocument>
                <document>
                   <MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
-                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+					  <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847232">3 ML Insulin Glargine 100 UNT/ML Prefilled Syringe [Lantus]</name>
                      <scheduledBy>jking@records.media.mit.edu</scheduledBy>
                      <dateScheduled>2012-07-27T19:13:11Z</dateScheduled>
                      <dateStart>2012-07-28T18:00:00-04:00</dateStart>
