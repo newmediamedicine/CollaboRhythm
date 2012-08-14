@@ -22,8 +22,8 @@
             <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847232">3 ML Insulin Glargine 100 UNT/ML Prefilled Syringe [Lantus]</name>
             <orderType>prescribed</orderType>
             <orderedBy>jking@records.media.mit.edu</orderedBy>
-            <dateOrdered>2012-07-27T09:00:00-04:00</dateOrdered>
-            <dateExpires>2012-10-27T09:00:00-04:00</dateExpires>
+            <dateOrdered>2012-08-13T09:00:00-04:00</dateOrdered>
+            <dateExpires>2012-12-27T09:00:00-04:00</dateExpires>
             <indication>diabetes</indication>
             <amountOrdered>
                <value>2</value>
@@ -41,7 +41,7 @@
                   <MedicationFill xmlns="http://indivo.org/vocab/xml/documents#">
 					  <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847232">3 ML Insulin Glargine 100 UNT/ML Prefilled Syringe [Lantus]</name>
                      <filledBy>ljohnson@records.media.mit.edu</filledBy>
-                     <dateFilled>2012-07-27T19:13:11Z</dateFilled>
+                     <dateFilled>2012-08-13T19:13:11Z</dateFilled>
                      <amountFilled>
                         <value>2</value>
                         <unit type="http://indivo.org/codes/units#" value="prefilled syringe"
@@ -59,9 +59,9 @@
                   <MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
 					  <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847232">3 ML Insulin Glargine 100 UNT/ML Prefilled Syringe [Lantus]</name>
                      <scheduledBy>jking@records.media.mit.edu</scheduledBy>
-                     <dateScheduled>2012-07-27T19:13:11Z</dateScheduled>
-                     <dateStart>2012-07-28T18:00:00-04:00</dateStart>
-                     <dateEnd>2012-07-28T22:00:00-04:00</dateEnd>
+                     <dateScheduled>2012-08-13T19:13:11Z</dateScheduled>
+                     <dateStart>2012-08-14T18:00:00-04:00</dateStart>
+                     <dateEnd>2012-08-14T22:00:00-04:00</dateEnd>
                      <recurrenceRule>
                         <frequency>DAILY</frequency>
                         <count>120</count>

@@ -95,6 +95,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		 */
 		private static const TITRATION_DECISION_MESSAGE_MISSING_PREREQUISITES:String = "{0} (note: prerequisites of the 303 Protocol not met)";
 
+		/**
+		 * Potentially useful during testing/debugging as a way to terminate the schedule for a medication, such as
+		 * when you want to switch from one kind of insulin to another.
+		 */
+		private static const DISABLE_CREATION_OF_NEW_SCHEDULE:Boolean = false;
+
 		private var _areBloodGlucoseRequirementsMet:Boolean = true;
 		private var _dosageChangeValue:Number;
 		private var _isAdherencePerfect:Boolean = true;
@@ -767,34 +773,37 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 						currentMedicationScheduleItem.recurrenceRule.count = administeredOccurrenceCount;
 						currentMedicationScheduleItem.pendingAction = DocumentBase.ACTION_UPDATE;
 
-						// create new MedicationScheduleItem with new dose starting at cut off day
-						var newMedicationScheduleItem:MedicationScheduleItem = new MedicationScheduleItem();
-						newMedicationScheduleItem.pendingAction = DocumentBase.ACTION_CREATE;
-						newMedicationScheduleItem.dose = new ValueAndUnit(_newDose.toString(),
-								new CodedValue("http://indivo.org/codes/units#", "Units", "U", "Units"));
-						newMedicationScheduleItem.name = currentMedicationScheduleItem.name.clone();
-						newMedicationScheduleItem.scheduledBy = chartModelDetails.accountId;
-						newMedicationScheduleItem.dateScheduled = chartModelDetails.currentDateSource.now();
-						newMedicationScheduleItem.dateStart = _scheduleDetails.occurrence.dateStart;
-						newMedicationScheduleItem.dateEnd = _scheduleDetails.occurrence.dateEnd;
-						newMedicationScheduleItem.recurrenceRule = new RecurrenceRule();
-						if (currentMedicationScheduleItem.recurrenceRule.frequency)
-							newMedicationScheduleItem.recurrenceRule.frequency = currentMedicationScheduleItem.recurrenceRule.frequency.clone();
-						if (currentMedicationScheduleItem.recurrenceRule.interval)
-							newMedicationScheduleItem.recurrenceRule.interval = currentMedicationScheduleItem.recurrenceRule.interval.clone();
-						newMedicationScheduleItem.recurrenceRule.count = remainingOccurrenceCount;
-						newMedicationScheduleItem.instructions = currentMedicationScheduleItem.instructions;
+						if (!DISABLE_CREATION_OF_NEW_SCHEDULE)
+						{
+							// create new MedicationScheduleItem with new dose starting at cut off day
+							var newMedicationScheduleItem:MedicationScheduleItem = new MedicationScheduleItem();
+							newMedicationScheduleItem.pendingAction = DocumentBase.ACTION_CREATE;
+							newMedicationScheduleItem.dose = new ValueAndUnit(_newDose.toString(),
+									new CodedValue("http://indivo.org/codes/units#", "Units", "U", "Units"));
+							newMedicationScheduleItem.name = currentMedicationScheduleItem.name.clone();
+							newMedicationScheduleItem.scheduledBy = chartModelDetails.accountId;
+							newMedicationScheduleItem.dateScheduled = chartModelDetails.currentDateSource.now();
+							newMedicationScheduleItem.dateStart = _scheduleDetails.occurrence.dateStart;
+							newMedicationScheduleItem.dateEnd = _scheduleDetails.occurrence.dateEnd;
+							newMedicationScheduleItem.recurrenceRule = new RecurrenceRule();
+							if (currentMedicationScheduleItem.recurrenceRule.frequency)
+								newMedicationScheduleItem.recurrenceRule.frequency = currentMedicationScheduleItem.recurrenceRule.frequency.clone();
+							if (currentMedicationScheduleItem.recurrenceRule.interval)
+								newMedicationScheduleItem.recurrenceRule.interval = currentMedicationScheduleItem.recurrenceRule.interval.clone();
+							newMedicationScheduleItem.recurrenceRule.count = remainingOccurrenceCount;
+							newMedicationScheduleItem.instructions = currentMedicationScheduleItem.instructions;
 
-						chartModelDetails.record.addDocument(newMedicationScheduleItem);
+							chartModelDetails.record.addDocument(newMedicationScheduleItem);
 
-						var relationship:Relationship = chartModelDetails.record.addNewRelationship(ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM,
-								currentMedicationScheduleItem.scheduledMedicationOrder,
-								newMedicationScheduleItem);
-						newMedicationScheduleItem.scheduledMedicationOrder = currentMedicationScheduleItem.scheduledMedicationOrder;
+							var relationship:Relationship = chartModelDetails.record.addNewRelationship(ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM,
+									currentMedicationScheduleItem.scheduledMedicationOrder,
+									newMedicationScheduleItem);
+							newMedicationScheduleItem.scheduledMedicationOrder = currentMedicationScheduleItem.scheduledMedicationOrder;
 
-						// TODO: Use the correct id for the newMedicationScheduleItem; we are currently using the temporary id that we assigned ourselves; the actual id of the document will not bet known until we get a response from the server after creation
-						currentMedicationScheduleItem.scheduledMedicationOrder.scheduleItems.put(newMedicationScheduleItem.meta.id,
-								newMedicationScheduleItem);
+							// TODO: Use the correct id for the newMedicationScheduleItem; we are currently using the temporary id that we assigned ourselves; the actual id of the document will not bet known until we get a response from the server after creation
+							currentMedicationScheduleItem.scheduledMedicationOrder.scheduleItems.put(newMedicationScheduleItem.meta.id,
+									newMedicationScheduleItem);
+						}
 					}
 					else
 					{

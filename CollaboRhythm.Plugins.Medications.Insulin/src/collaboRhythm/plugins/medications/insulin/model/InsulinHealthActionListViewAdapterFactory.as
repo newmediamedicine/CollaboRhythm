@@ -15,6 +15,8 @@ package collaboRhythm.plugins.medications.insulin.model
 	public class InsulinHealthActionListViewAdapterFactory implements IHealthActionListViewAdapterFactory
 	{
 		public static const INSULIN_LEVEMIR_CODE:String = "847241";
+		public static const INSULIN_GLARGINE_CODE:String = "847232";
+		public static const INSULIN_MEDICATION_CODES:Vector.<String> = new <String>[INSULIN_LEVEMIR_CODE, INSULIN_GLARGINE_CODE];
 		private static const MOVIES_DIRECTORY_NAME:String = "Movies";
 		private static const JOSLIN_INSULIN_PEN_DEMO_MOVIE_FILE_NAME:String = "Joslin_Insulin_Pen_demo.mp4";
 
@@ -34,7 +36,7 @@ package collaboRhythm.plugins.medications.insulin.model
 			if (ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem) == MedicationScheduleItem)
 			{
 				var medicationScheduleItem:MedicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
-				if (medicationScheduleItem.name.value == INSULIN_LEVEMIR_CODE)
+				if (INSULIN_MEDICATION_CODES.indexOf(medicationScheduleItem.name.value) != -1)
 				{
 					if (currentHealthActionListViewAdapter)
 						currentHealthActionListViewAdapter.instructionalVideoPath = File.documentsDirectory.
