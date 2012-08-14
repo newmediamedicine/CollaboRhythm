@@ -199,7 +199,7 @@ package collaboRhythm.shared.collaboration.model
 		private function receiveCollaborationOutOfSync(subjectAccountId:String, sourceAccountId:String,
 													   sourcePeerId:String, passWord:String):void
 		{
-			if (sourceAccountId == activeRecordAccount.accountId)
+			if (activeRecordAccount && sourceAccountId == activeRecordAccount.accountId)
 			{
 				collaborationState = COLLABORATION_OUT_OF_SYNC;
 			}
