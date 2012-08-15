@@ -25,10 +25,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import collaboRhythm.shared.ui.healthCharts.model.ChartModelDetails;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.HorizontalAxisChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
-	import collaboRhythm.shared.ui.healthCharts.model.descriptors.MeasurementChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.MedicationChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.VitalSignChartDescriptor;
-	import collaboRhythm.shared.ui.healthCharts.model.modifiers.DefaultChartModifier;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.DefaultChartModifierFactory;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.DefaultVitalSignChartModifier;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifier;
@@ -574,19 +572,22 @@ package collaboRhythm.shared.ui.healthCharts.view
 			_chartDescriptors = new OrderedMap();
 
 			// TODO: make the list of chart descriptors plugable so that new charts can be added (other than the default list of medications and vitals)
+			var medicationScheduleItemCollection:ArrayCollection = new ArrayCollection();
+			var medicationSort:Sort = new Sort();
+			medicationSort.compareFunction = medicationSortCompareFunction;
+			medicationScheduleItemCollection.sort = medicationSort;
+			medicationScheduleItemCollection.addAll(model.record.medicationScheduleItemsModel.medicationScheduleItemCollection);
+			debugPrintMedicationScheduleItemCollection("Before: ", medicationScheduleItemCollection);
+			medicationScheduleItemCollection.refresh();
+			debugPrintMedicationScheduleItemCollection("After: ", medicationScheduleItemCollection);
+			for each (var medicationScheduleItem:MedicationScheduleItem in medicationScheduleItemCollection)
+			{
+				createMedicationChartDescriptor(medicationScheduleItem.name.value);
+			}
+
 			for each (var medicationCode:String in model.medicationConcentrationCurvesByCode.keys)
 			{
 				createMedicationChartDescriptor(medicationCode);
-			}
-
-			for each (var vitalSignKey:String in vitalSignChartCategories)
-			{
-				createVitalSignChartDescriptor(vitalSignKey);
-			}
-
-			for each (var medicationScheduleItem:MedicationScheduleItem in model.record.medicationScheduleItemsModel.medicationScheduleItemCollection)
-			{
-				createMedicationChartDescriptor(medicationScheduleItem.name.value);
 			}
 
 			for each (var healthActionSchedule:HealthActionSchedule in model.record.healthActionSchedulesModel.healthActionScheduleCollection)
@@ -598,9 +599,48 @@ package collaboRhythm.shared.ui.healthCharts.view
 				}
 			}
 
+			for each (var vitalSignKey:String in vitalSignChartCategories)
+			{
+				createVitalSignChartDescriptor(vitalSignKey);
+			}
+
 			/*var measurementChartDescriptor:MeasurementChartDescriptor = new MeasurementChartDescriptor();
 						measurementChartDescriptor.measurementCode = "Performance";
 						addChartDescriptor(measurementChartDescriptor);*/
+		}
+
+		private static function debugPrintMedicationScheduleItemCollection(prefix:String,
+																		   collection:ArrayCollection):void
+		{
+			var nameCollection:Array = new Array();
+			for each (var medicationScheduleItem:MedicationScheduleItem in collection)
+			{
+				nameCollection.push(medicationScheduleItem.name.text);
+			}
+			trace(prefix, nameCollection.join(", "));
+		}
+
+		private function medicationSortCompareFunction(objA:Object, objB:Object, fields:Array = null):int
+		{
+			var medicationScheduleItemA:MedicationScheduleItem = objA as MedicationScheduleItem;
+			var medicationScheduleItemB:MedicationScheduleItem = objB as MedicationScheduleItem;
+			if (medicationScheduleItemA && medicationScheduleItemA.name &&
+					medicationScheduleItemB && medicationScheduleItemB.name)
+			{
+				var medicationScheduleItemFullNameA:String = medicationScheduleItemA.name.text;
+				var medicationScheduleItemFullNameB:String = medicationScheduleItemB.name.text;
+
+				if (medicationScheduleItemFullNameA < medicationScheduleItemFullNameB)
+				{
+					return -1;
+				}
+				else if (medicationScheduleItemFullNameA == medicationScheduleItemFullNameB)
+				{
+					return 0;
+				}
+				return 1;
+			}
+			return 0;
 		}
 
 		private function healthActionAppliesToVitalSign(healthActionSchedule:HealthActionSchedule,
