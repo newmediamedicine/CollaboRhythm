@@ -218,7 +218,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		{
 			var line:DottedLine = createDottedLine();
 			line.x = 0;
-			line.alpha = 0.25;
+			line.alpha = 0.5;
 			return line;
 		}
 
