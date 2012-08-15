@@ -18,10 +18,18 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 	public class InsulinTitrationSupportHealthActionListViewAdapter implements IHealthActionListViewAdapter
 	{
+		[Embed("/assets/images/titrateLevemir.png")]
+		private var _titrateLevemirImageClass:Class;
+
+		[Embed("/assets/images/titrateLantus.png")]
+		private var _titrateLantusImageClass:Class;
+
 		private var _healthAction:InsulinTitrationSupportHealthAction;
 		private var _model:InsulinTitrationSupportHealthActionListViewModel;
 		private var _controller:HealthActionListViewControllerBase;
 		private var _dosageChangeValueLabel:String;
+
+		private var _medicationScheduleDetails:ScheduleDetails;
 
 		public function InsulinTitrationSupportHealthActionListViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
 																		   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider)
@@ -31,7 +39,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 			var medicationTitrationHelper:MedicationTitrationHelper = new MedicationTitrationHelper(_model.healthActionInputModelDetailsProvider.record,
 					WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource);
-			medicationTitrationHelper.getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_MEDICATION_CODES, true);
+			_medicationScheduleDetails = medicationTitrationHelper.getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_MEDICATION_CODES,
+					true);
 			_dosageChangeValueLabel = medicationTitrationHelper.dosageChangeValueLabel;
 		}
 
@@ -40,14 +49,19 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			return _healthAction;
 		}
 
-		[Embed("/assets/images/titrateLevemir.png")]
-		private var _titrateLevemirImageClass:Class;
-
 		public function createImage():Image
 		{
 			var image:Image = new Image();
 			image.setStyle("skinClass", ImageSkin);
-			image.source = _titrateLevemirImageClass;
+
+			if (_medicationScheduleDetails.currentSchedule && _medicationScheduleDetails.currentSchedule.name && _medicationScheduleDetails.currentSchedule.name.value == InsulinTitrationSupportChartModifier.INSULIN_LANTUS_CODE)
+			{
+				image.source = _titrateLantusImageClass;
+			}
+			else
+			{
+				image.source = _titrateLevemirImageClass;
+			}
 			image.smooth = true;
 			return image;
 		}

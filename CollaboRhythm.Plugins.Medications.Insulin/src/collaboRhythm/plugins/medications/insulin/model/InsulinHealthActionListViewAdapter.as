@@ -2,6 +2,7 @@ package collaboRhythm.plugins.medications.insulin.model
 {
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewModel;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
@@ -34,6 +35,7 @@ package collaboRhythm.plugins.medications.insulin.model
 
 		private var _imageCacheService:IImageCacheService;
 		private var _medicationName:MedicationName;
+		private var _unscaledDoseLabelRight:Number;
 
 
 		public function InsulinHealthActionListViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
@@ -141,14 +143,22 @@ package collaboRhythm.plugins.medications.insulin.model
 			group.addElement(customViewImage);
 
 			var label:Label = new Label();
-			label.top = 13;
-			label.right = 34;
 			var medicationScheduleItem:MedicationScheduleItem = _scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
 			if (medicationScheduleItem)
 				label.text = medicationScheduleItem.dose.value;
-			label.setStyle("fontSize", 26);
+
+			if (medicationScheduleItem && medicationScheduleItem.name.value == InsulinHealthActionListViewAdapterFactory.INSULIN_LANTUS_CODE)
+			{
+				_unscaledDoseLabelRight = 25;
+				label.setStyle("color", 0x000000);
+			}
+			else
+			{
+				_unscaledDoseLabelRight = 33;
+				label.setStyle("color", 0xFFFFFF);
+			}
 			label.setStyle("fontStyle", "italic");
-			label.setStyle("color", 0xFFFFFF);
+			updateDoseLabel(label, group);
 			group.addElement(label);
 
 			return group;
@@ -161,10 +171,15 @@ package collaboRhythm.plugins.medications.insulin.model
 
 			if (label)
 			{
-				label.top = 11 / 75 * group.height;
-				label.right = 33.0 / 75 * group.width;
-				label.setStyle("fontSize", 26.0 / 75 * group.width);
+				updateDoseLabel(label, group);
 			}
+		}
+
+		private function updateDoseLabel(label:Label, group:Group):void
+		{
+			label.top = 11 / 75 * group.height;
+			label.right = _unscaledDoseLabelRight / 75 * group.width;
+			label.setStyle("fontSize", 26.0 / 75 * group.width);
 		}
 	}
 }

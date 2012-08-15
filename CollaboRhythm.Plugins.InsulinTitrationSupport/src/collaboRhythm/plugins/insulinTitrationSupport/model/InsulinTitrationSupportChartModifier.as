@@ -40,8 +40,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	public class InsulinTitrationSupportChartModifier extends ChartModifierBase implements IChartModifier
 	{
 		public static const INSULIN_LEVEMIR_CODE:String = "847241";
-		public static const INSULIN_GLARGINE_CODE:String = "847232";
-		public static const INSULIN_MEDICATION_CODES:Vector.<String> = new <String>[INSULIN_LEVEMIR_CODE, INSULIN_GLARGINE_CODE];
+		public static const INSULIN_LANTUS_CODE:String = "847232";
+		public static const INSULIN_MEDICATION_CODES:Vector.<String> = new <String>[INSULIN_LEVEMIR_CODE, INSULIN_LANTUS_CODE];
 		private static const BLOOD_GLUCOSE_CHART_MIN_HEIGHT:int = 200;
 		private static const PLOT_ITEM_RADIUS:int = 11;
 		private static const PLOT_ITEM_STROKE_WEIGHT:int = 6;
