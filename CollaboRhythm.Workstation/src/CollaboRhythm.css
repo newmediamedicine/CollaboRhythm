@@ -21,11 +21,80 @@
 @namespace view "collaboRhythm.workstation.view.*";
 @namespace chart "mx.charts.chartClasses.*";
 
+@font-face
+{
+	src: url("/assets/fonts/MyriadPro-Regular.otf");
+	fontFamily: MyriadProCFF;
+	embedAsCFF: true;
+}
+
+@font-face
+{
+	src: url("/assets/fonts/MyriadPro-Bold.otf");
+	fontFamily: MyriadProCFF;
+	fontWeight: bold;
+	embedAsCFF: true;
+}
+
+@font-face
+{
+	src: url("/assets/fonts/MyriadPro-It.otf");
+	fontFamily: MyriadProCFF;
+	fontStyle: italic;
+	embedAsCFF: true;
+}
+
+@font-face
+{
+	src: url("/assets/fonts/MyriadPro-BoldIt.otf");
+	fontFamily: MyriadProCFF;
+	fontWeight: bold;
+	fontStyle: italic;
+	embedAsCFF: true;
+}
+
+@font-face
+{
+	src: url("/assets/fonts/MyriadPro-Regular.otf");
+	fontFamily: MyriadPro;
+	embedAsCFF: false;
+}
+
+@font-face
+{
+	src: url("/assets/fonts/MyriadPro-Bold.otf");
+	fontFamily: MyriadPro;
+	fontWeight: bold;
+	embedAsCFF: false;
+}
+
+@font-face
+{
+	src: url("/assets/fonts/MyriadPro-It.otf");
+	fontFamily: MyriadPro;
+	fontStyle: italic;
+	embedAsCFF: false;
+}
+
+@font-face
+{
+	src: url("/assets/fonts/MyriadPro-BoldIt.otf");
+	fontFamily: MyriadPro;
+	fontWeight: bold;
+	fontStyle: italic;
+	embedAsCFF: false;
+}
 
 global
 {
-	font-family: "Myriad Pro", "Verdana";
+	fontFamily: MyriadPro;
 }
+
+s|Label, s|RichText
+{
+	fontFamily: MyriadProCFF;
+}
+
 mx|DataGrid.WidgetGrid
 {
 	borderVisible: false;

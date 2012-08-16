@@ -27,10 +27,7 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import collaboRhythm.core.AssetManager;
 			import collaboRhythm.workstation.controller.WorkstationApplicationController;
-			
-//			private var forceAssetManagerCompile:String = AssetManager.FONT_MYRIAD_PRO;
 			
 			private function main() : void
 			{
