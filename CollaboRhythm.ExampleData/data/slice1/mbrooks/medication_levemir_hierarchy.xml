@@ -49,7 +49,7 @@
                         <unit type="http://indivo.org/codes/units#" value="prefilled syringe"
                               abbrev="prefilled syringe">prefilled syringe</unit>
                      </amountFilled>
-                     <ndc>0169643910</ndc>
+                     <ndc>001696439</ndc>
                      <instructions>keep in a cold place</instructions>
                   </MedicationFill>
                </document>
@@ -70,7 +70,7 @@
                      </recurrenceRule>
                      <dose>
                         <value>12</value>
-                        <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                        <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                      </dose>
                      <instructions>rotate injection sites</instructions>
                   </MedicationScheduleItem>
@@ -98,7 +98,7 @@
                                        <dateAdministered>2011-07-15T22:57:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>2</value>
@@ -132,7 +132,7 @@
                                        <dateAdministered>2011-07-16T23:07:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.988</value>
@@ -166,7 +166,7 @@
                                        <dateAdministered>2011-07-17T23:54:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.976</value>
@@ -200,7 +200,7 @@
                                        <dateAdministered>2011-07-18T23:52:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.964</value>
@@ -234,7 +234,7 @@
                                        <dateAdministered>2011-07-19T23:48:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.952</value>
@@ -268,7 +268,7 @@
                                        <dateAdministered>2011-07-20T22:27:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.94</value>
@@ -302,7 +302,7 @@
                                        <dateAdministered>2011-07-21T22:24:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.928</value>
@@ -336,7 +336,7 @@
                                        <dateAdministered>2011-07-22T22:14:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.916</value>
@@ -370,7 +370,7 @@
                                        <dateAdministered>2011-07-23T22:15:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.904</value>
@@ -404,7 +404,7 @@
                                        <dateAdministered>2011-07-24T22:59:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.892</value>
@@ -438,7 +438,7 @@
                                        <dateAdministered>2011-07-25T23:12:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.88</value>
@@ -472,7 +472,7 @@
                                        <dateAdministered>2011-07-26T23:26:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.868</value>
@@ -506,7 +506,7 @@
                                        <dateAdministered>2011-07-27T23:47:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.856</value>
@@ -540,7 +540,7 @@
                                        <dateAdministered>2011-07-28T22:12:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.844</value>
@@ -574,7 +574,7 @@
                                        <dateAdministered>2011-07-29T22:44:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.832</value>
@@ -608,7 +608,7 @@
                                        <dateAdministered>2011-07-30T22:02:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.82</value>
@@ -642,7 +642,7 @@
                                        <dateAdministered>2011-07-31T23:24:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.808</value>
@@ -709,7 +709,7 @@
                                        <dateAdministered>2011-08-04T22:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.796</value>
@@ -743,7 +743,7 @@
                                        <dateAdministered>2011-08-05T23:54:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.784</value>
@@ -777,7 +777,7 @@
                                        <dateAdministered>2011-08-06T23:14:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.772</value>
@@ -844,7 +844,7 @@
                                        <dateAdministered>2011-08-10T23:29:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.76</value>
@@ -878,7 +878,7 @@
                                        <dateAdministered>2011-08-11T23:40:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.748</value>
@@ -912,7 +912,7 @@
                                        <dateAdministered>2011-08-12T23:51:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.736</value>

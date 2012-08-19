@@ -81,7 +81,7 @@ package collaboRhythm.plugins.schedule.controller
 			if (!_scheduleModel)
 			{
 				_scheduleModel = new ScheduleModel(_componentContainer, _activeAccount, _activeRecordAccount,
-						_navigationProxy, _settings, collaborationLobbyNetConnectionServiceProxy);
+						_navigationProxy, _settings, collaborationLobbyNetConnectionServiceProxy, _viewNavigator);
 				_activeRecordAccount.primaryRecord.appData.put(ScheduleModelKey.SCHEDULE_MODEL_KEY, _scheduleModel);
 				_activeRecordAccount.primaryRecord.appData.put(AdherencePerformanceModel.ADHERENCE_PERFORMANCE_MODEL_KEY,
 						_scheduleModel.adherencePerformanceModel);
@@ -98,10 +98,7 @@ package collaboRhythm.plugins.schedule.controller
 
 		override protected function createFullView():UIComponent
 		{
-			if (isWorkstationMode)
-			{
-				_fullView = new ScheduleTimelineFullView();
-			}
+			_fullView = new ScheduleTimelineFullView();
 
 			return _fullView as UIComponent;
 		}
@@ -129,7 +126,7 @@ package collaboRhythm.plugins.schedule.controller
 
 			if (_widgetView && scheduleModel)
 			{
-				_widgetView.init(this, scheduleModel);
+				_widgetView.init(this, scheduleModel, _settings);
 			}
 		}
 

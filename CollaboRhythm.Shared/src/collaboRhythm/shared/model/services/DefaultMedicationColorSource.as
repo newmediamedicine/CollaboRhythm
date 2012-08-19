@@ -60,6 +60,7 @@ package collaboRhythm.shared.model.services
 			{key: "007811452", value: 0x86625B}, // glipizide
 			{key: "000931048", value: 0x638AA7}, // metformin
 			{key: "000939364", value: 0x98b1c2}, // glyburide
+			{key: "000060112", value: 0xc1ad94}, // sitagliptin
 			{key: "000060221", value: 0xeca770}, // sitagliptin
 			{key: "647640301", value: 0xd9d5d2}, // pioglitazone
 			{key: "504190863", value: 0xb4b9b3} // acarabose

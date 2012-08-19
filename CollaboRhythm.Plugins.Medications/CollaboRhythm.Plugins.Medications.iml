@@ -23,6 +23,12 @@
             <entry module-name="CollaboRhythm.View.Scroll" build-configuration-name="CollaboRhythm.View.Scroll">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-id="a562461a-a09c-4fd1-9371-220fcea1005b">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="8378e103-9fd8-44d9-ae40-14f03bd0ec59">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -61,6 +67,26 @@
     <orderEntry type="module" module-name="CollaboRhythm.View.Scroll" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" />
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="a562461a-a09c-4fd1-9371-220fcea1005b" />
+        <CLASSES>
+          <root url="jar://$PROJECT_FRAMEWORKS$/themes/Mobile/mobile.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="8378e103-9fd8-44d9-ae40-14f03bd0ec59" />
+        <CLASSES>
+          <root url="jar://$PROJECT_FRAMEWORKS$/libs/mobile/mobilecomponents.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 

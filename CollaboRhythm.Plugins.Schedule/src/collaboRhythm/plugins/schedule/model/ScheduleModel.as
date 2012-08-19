@@ -21,7 +21,6 @@ package collaboRhythm.plugins.schedule.model
 	import collaboRhythm.shared.model.IApplicationNavigationProxy;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.Record;
-	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
@@ -42,6 +41,8 @@ package collaboRhythm.plugins.schedule.model
 	import mx.events.CollectionEventKind;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
+
+	import spark.components.ViewNavigator;
 
 	[Bindable]
 	public class ScheduleModel extends EventDispatcher implements IScheduleCollectionsProvider, IHealthActionModelDetailsProvider
@@ -74,7 +75,10 @@ package collaboRhythm.plugins.schedule.model
 
 		private var _healthActionListViewAdapterFactory:MasterHealthActionListViewAdapterFactory;
 		private var _healthActionInputControllerFactory:MasterHealthActionInputControllerFactory;
+		private var _healthActionCreationControllers:ArrayCollection;
+
 		private var _navigationProxy:IApplicationNavigationProxy;
+		private var _viewNavigator:ViewNavigator;
 		private var _settings:Settings;
 		private var _activeAccount:Account;
 		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
@@ -84,10 +88,12 @@ package collaboRhythm.plugins.schedule.model
 									  activeRecordAccount:Account,
 									  navigationProxy:IApplicationNavigationProxy,
 									  settings:Settings,
-									  collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy)
+									  collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy,
+									  viewNavigator:ViewNavigator)
 		{
 			_accountId = activeRecordAccount.accountId;
 			_navigationProxy = navigationProxy;
+			_viewNavigator = viewNavigator;
 			_settings = settings;
 			_collaborationLobbyNetConnectionServiceProxy = collaborationLobbyNetConnectionServiceProxy;
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
@@ -106,6 +112,9 @@ package collaboRhythm.plugins.schedule.model
 
 			_healthActionListViewAdapterFactory = new MasterHealthActionListViewAdapterFactory(componentContainer);
 			_healthActionInputControllerFactory = new MasterHealthActionInputControllerFactory(componentContainer);
+			var healthActionCreationControllerFactory:MasterHealthActionCreationControllerFactory = new MasterHealthActionCreationControllerFactory(componentContainer);
+			_healthActionCreationControllers = healthActionCreationControllerFactory.createHealthActionCreationControllers(activeAccount,
+					activeRecordAccount, _viewNavigator);
 		}
 
 		private function init(isStitched:Boolean):void
@@ -162,7 +171,6 @@ package collaboRhythm.plugins.schedule.model
 				addToScheduleGroup(scheduleItemOccurrence);
 			}
 			adherencePerformanceModel.scheduleModelIsInitialized = true;
-			scheduleReportingModel.sortScheduleItemOccurrences();
 			scheduleTimelineModel.determineStacking();
 		}
 
@@ -321,7 +329,7 @@ package collaboRhythm.plugins.schedule.model
 			{
 				var scheduleItem:ScheduleItemBase = scheduleItemOccurrence.scheduleItem;
 				scheduleItem.rescheduleItem(_currentDateSource.now(), scheduleGroup.dateStart, scheduleGroup.dateEnd);
-				scheduleItem.pendingAction = DocumentBase.ACTION_UPDATE;
+//				scheduleItem.pendingAction = DocumentBase.ACTION_UPDATE;
 			}
 		}
 
@@ -448,6 +456,11 @@ package collaboRhythm.plugins.schedule.model
 		public function get collaborationLobbyNetConnectionServiceProxy():ICollaborationLobbyNetConnectionServiceProxy
 		{
 			return _collaborationLobbyNetConnectionServiceProxy;
+		}
+
+		public function get healthActionCreationControllers():ArrayCollection
+		{
+			return _healthActionCreationControllers;
 		}
 	}
 }

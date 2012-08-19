@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+		title="Find Medication">
+	<fx:Style>
+		#drugNameTextInput {
+			fontSize: 24;
+		}
+
+		#findMedicationButton {
+			fontSize: 24;
+		}
+
+		#noMedicationsFoundLabel {
+			fontSize: 40;
+		}
+
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.medications.controller.MedicationHealthActionCreationController;
+		import collaboRhythm.plugins.medications.model.MedicationHealthActionCreationModel;
+		import collaboRhythm.plugins.medications.model.RxNormConcept;
+		import collaboRhythm.plugins.schedule.shared.model.HealthActionCreationModelAndController;
+
+		import spark.events.IndexChangeEvent;
+
+		[Bindable]
+		private var _medicationHealthActionCreationModel:MedicationHealthActionCreationModel;
+		private var _medicationHealthActionCreationController:MedicationHealthActionCreationController;
+
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+
+			var healthActionCreationModelAndController:HealthActionCreationModelAndController = value as
+					HealthActionCreationModelAndController;
+
+			_medicationHealthActionCreationModel = MedicationHealthActionCreationModel(healthActionCreationModelAndController.healthActionCreationModel);
+			_medicationHealthActionCreationController = MedicationHealthActionCreationController(healthActionCreationModelAndController.healthActionCreationController);
+		}
+
+		private function drugNameButton_clickHandler():void
+		{
+			_medicationHealthActionCreationController.queryDrugName(drugNameTextInput.text);
+		}
+
+		private function rxNormConceptsList_changeHandler(event:IndexChangeEvent):void
+		{
+			var rxNormConcept:RxNormConcept = _medicationHealthActionCreationModel.rxNormConceptsArrayCollection.getItemAt(event.newIndex) as
+					RxNormConcept;
+			_medicationHealthActionCreationController.showCreateMedicationOrderView(rxNormConcept);
+		}
+		]]></fx:Script>
+	<s:VGroup width="100%" height="100%" gap="0">
+		<s:Group width="100%" height="100">
+			<s:HGroup horizontalCenter="0" verticalCenter="0" gap="20">
+				<s:TextInput id="drugNameTextInput" width="500" height="60" skinClass="spark.skins.mobile.StageTextInputSkin"/>
+				<s:Button id="findMedicationButton" label="Find Medication" width="200" height="60" click="drugNameButton_clickHandler()"/>
+			</s:HGroup>
+			<s:Line width="100%" bottom="0">
+				<s:stroke>
+					<s:SolidColorStroke color="666666"/>
+				</s:stroke>
+			</s:Line>
+		</s:Group>
+		<s:Group width="100%" height="100%">
+			<s:List width="100%" height="100%" dataProvider="{_medicationHealthActionCreationModel.rxNormConceptsArrayCollection}" itemRenderer="collaboRhythm.plugins.medications.view.RxNormConceptItemRenderer" change="rxNormConceptsList_changeHandler(event)"/>
+			<s:Label id="noMedicationsFoundLabel" text="No medications found." verticalCenter="0" horizontalCenter="0" visible="{!_medicationHealthActionCreationModel.areRxNormConceptsAvailable}"/>
+		</s:Group>
+	</s:VGroup>
+</tablet:TabletViewBase>

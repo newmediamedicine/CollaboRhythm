@@ -49,7 +49,7 @@
                         <unit type="http://indivo.org/codes/units#" value="prefilled syringe"
                               abbrev="prefilled syringe">prefilled syringe</unit>
                      </amountFilled>
-                     <ndc>0169643910</ndc>
+                     <ndc>001696439</ndc>
                      <instructions>keep in a cold place</instructions>
                   </MedicationFill>
                </document>
@@ -70,7 +70,7 @@
                      </recurrenceRule>
                      <dose>
                         <value>12</value>
-                        <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                        <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                      </dose>
                      <instructions>rotate injection sites</instructions>
                   </MedicationScheduleItem>
@@ -132,7 +132,7 @@
                                        <dateAdministered>2011-07-16T23:07:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>12</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.988</value>

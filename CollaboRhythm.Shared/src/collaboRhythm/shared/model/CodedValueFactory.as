@@ -35,6 +35,18 @@ package collaboRhythm.shared.model
 		public static const MILLIGRAMS_PER_DECILITER_CODED_VALUE_ABBREV:String = "mg/dL";
 		public static const MILLIGRAMS_PER_DECILITER_CODED_VALUE_TEXT:String = "milligrams per deciliter";
 
+		public static const TABLET_CODED_VALUE:String = "tablet";
+		public static const TABLET_CODED_VALUE_ABBREV:String = "tab";
+		public static const TABLET_CODED_VALUE_TEXT:String = "tablet";
+
+		public static const UNIT_CODED_VALUE:String = "Unit";
+		public static const UNIT_CODED_VALUE_ABBREV:String = "U";
+		public static const UNIT_CODED_VALUE_TEXT:String = "Unit";
+
+		public static const PREFILLED_SYRINGE_CODED_VALUE:String = "prefilled syringe";
+		public static const PREFILLED_SYRINGE_CODED_VALUE_ABBREV:String = "prefilled syringe";
+		public static const PREFILLED_SYRINGE_CODED_VALUE_TEXT:String = "prefilled syringe";
+
 		public function CodedValueFactory()
 		{
 		}
@@ -79,6 +91,24 @@ package collaboRhythm.shared.model
 		{
 			return new CodedValue(UNITS_CODED_VALUE_TYPE, MILLIGRAMS_PER_DECILITER_CODED_VALUE,
 					MILLIGRAMS_PER_DECILITER_CODED_VALUE_ABBREV, MILLIGRAMS_PER_DECILITER_CODED_VALUE_TEXT);
+		}
+
+		public function createTabletCodedValue():CodedValue
+		{
+			return new CodedValue(UNITS_CODED_VALUE_TYPE, TABLET_CODED_VALUE,
+					TABLET_CODED_VALUE_ABBREV, TABLET_CODED_VALUE_TEXT);
+		}
+
+		public function createUnitCodedValue():CodedValue
+		{
+			return new CodedValue(UNITS_CODED_VALUE_TYPE, UNIT_CODED_VALUE, UNIT_CODED_VALUE_ABBREV,
+					UNIT_CODED_VALUE_TEXT);
+		}
+
+		public function createPrefilledSyringeCodedValue():CodedValue
+		{
+			return new CodedValue(UNITS_CODED_VALUE_TYPE, PREFILLED_SYRINGE_CODED_VALUE,
+					PREFILLED_SYRINGE_CODED_VALUE_ABBREV, PREFILLED_SYRINGE_CODED_VALUE_TEXT)
 		}
 	}
 }

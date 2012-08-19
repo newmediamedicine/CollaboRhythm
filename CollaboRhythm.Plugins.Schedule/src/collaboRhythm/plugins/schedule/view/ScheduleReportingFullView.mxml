@@ -105,6 +105,8 @@
 			scheduleGroupReportingView.init(_scheduleModel, _scheduleAppController.activeAccount.accountId,
 					_scheduleReportingController);
 
+			_scheduleReportingModel.sortScheduleItemOccurrences();
+
 			BindingUtils.bindSetter(scheduleGroupReportingViewScrollerPosition_changeHandler, _scheduleReportingModel,
 					"scheduleGroupReportingViewScrollPosition");
 
