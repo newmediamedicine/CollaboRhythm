@@ -74,6 +74,7 @@ package collaboRhythm.core.controller
 	import flash.filesystem.File;
 	import flash.net.NetworkInfo;
 	import flash.net.NetworkInterface;
+	import flash.text.Font;
 	import flash.utils.Timer;
 	import flash.utils.getQualifiedClassName;
 
@@ -91,6 +92,7 @@ package collaboRhythm.core.controller
 	public class ApplicationControllerBase implements IApplicationControllerBase, IErrorDetailsProvider
 	{
 		private static const ONE_MINUTE:int = 1000 * 60;
+		private static const DEBUG_LOG_FONTS:Boolean = false;
 
 		protected var _applicationControllerModel:ApplicationControllerModel;
 		protected var _kernel:IKernel;
@@ -199,13 +201,8 @@ package collaboRhythm.core.controller
 			}
 			_logger.info("  " + applicationInfo.deviceDetails);
 
-			/*
-			 <s:Label id="applicationNameLabel" text="{_applicationInfo.appName}" fontSize="36"/>
-			 <s:Label id="applicationCopyrightLabel" text="{_applicationInfo.appCopyright}"/>
-			 <s:Label id="applicationVersionLabel" text="Version {_applicationInfo.appVersion}"/>
-			 <s:Label id="applicationModificationLabel" text="Updated {_applicationInfo.appModificationDateString}"
-			 */
-
+			if (DEBUG_LOG_FONTS)
+				debugLogFonts();
 
 			_logger.info("Settings initialized");
 			_logger.info("  Application settings file loaded: " + _settingsFileStore.isApplicationSettingsLoaded);
@@ -230,6 +227,30 @@ package collaboRhythm.core.controller
 			_activeAccount = new Account();
 
 			_navigationProxy = new ApplicationNavigationProxy(this);
+		}
+
+		private function debugLogFonts():void
+		{
+			logAvailableFonts(false, "Embedded Fonts: {0}");
+			logAvailableFonts(true, "Device Fonts: {0}");
+		}
+
+		private function logAvailableFonts(enumerateDeviceFonts:Boolean, message:String):void
+		{
+			var fontArray:Array = Font.enumerateFonts(enumerateDeviceFonts);
+			var fontsDescription:String = "Fonts: \n";
+			for (var i:int = 0; i < fontArray.length; i++)
+			{
+				var thisFont:Font = fontArray[i];
+				fontsDescription += "FONT " + i + ":: name: " + thisFont.fontName + "; typeface: " +
+						thisFont.fontStyle + "; type: " + thisFont.fontType;
+				if (thisFont.fontType == "embeddedCFF" || thisFont.fontType == "embedded")
+				{
+					fontsDescription += "*";
+				}
+				fontsDescription += "\n";
+			}
+			_logger.info(message, fontsDescription);
 		}
 
 		protected function initNativeApplicationEventListeners():void
@@ -973,7 +994,7 @@ package collaboRhythm.core.controller
 		{
 			_logger.info("Plugins loaded.");
 			var array:Array = _componentContainer.resolveAll(AppControllerInfo);
-			_logger.info("  Number of registered AppControllerInfo objects (apps): " + (array ? array.length : 0));
+			_logger.info("  Number of registered AppControllerInfo objects (apps): " + (array ? array.length : 0).toString());
 
 			if (_reloadWithRecordAccount)
 				openRecordAccount(_reloadWithRecordAccount);

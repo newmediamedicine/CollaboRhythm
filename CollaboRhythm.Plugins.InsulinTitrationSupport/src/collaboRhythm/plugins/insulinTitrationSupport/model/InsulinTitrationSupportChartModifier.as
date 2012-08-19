@@ -40,6 +40,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	public class InsulinTitrationSupportChartModifier extends ChartModifierBase implements IChartModifier
 	{
 		public static const INSULIN_LEVEMIR_CODE:String = "847241";
+		public static const INSULIN_LANTUS_CODE:String = "847232";
+		public static const INSULIN_MEDICATION_CODES:Vector.<String> = new <String>[INSULIN_LEVEMIR_CODE, INSULIN_LANTUS_CODE];
 		private static const BLOOD_GLUCOSE_CHART_MIN_HEIGHT:int = 200;
 		private static const PLOT_ITEM_RADIUS:int = 11;
 		private static const PLOT_ITEM_STROKE_WEIGHT:int = 6;
@@ -160,8 +162,15 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function updateChartDescriptors(chartDescriptors:OrderedMap):OrderedMap
 		{
 			var insulinDescriptorTemplate:MedicationChartDescriptor = new MedicationChartDescriptor();
-			insulinDescriptorTemplate.medicationCode = INSULIN_LEVEMIR_CODE;
-			var matchingInsulinChartDescriptor:IChartDescriptor = chartDescriptors.removeByKey(insulinDescriptorTemplate.descriptorKey) as IChartDescriptor;
+			var matchingInsulinChartDescriptors:Vector.<IChartDescriptor> = new Vector.<IChartDescriptor>();
+			for each (var medicationCode:String in INSULIN_MEDICATION_CODES)
+			{
+				insulinDescriptorTemplate.medicationCode = medicationCode;
+				var matchingInsulinChartDescriptor:IChartDescriptor = chartDescriptors.removeByKey(insulinDescriptorTemplate.descriptorKey) as
+						IChartDescriptor;
+				if (matchingInsulinChartDescriptor)
+					matchingInsulinChartDescriptors.push(matchingInsulinChartDescriptor);
+			}
 //			if (matchingInsulinChartDescriptor)
 //			{
 //				matchingInsulinChartDescriptor = chartDescriptors.removeByKey(insulinDescriptorTemplate.descriptorKey);
@@ -177,8 +186,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				reorderedChartDescriptors.addKeyValue(otherChartDescriptor.descriptorKey, otherChartDescriptor);
 			}
 
-			if (matchingInsulinChartDescriptor)
-				reorderedChartDescriptors.addKeyValue(matchingInsulinChartDescriptor.descriptorKey, matchingInsulinChartDescriptor);
+			if (matchingInsulinChartDescriptors.length > 0)
+			{
+				for each (matchingInsulinChartDescriptor in matchingInsulinChartDescriptors)
+				{
+					reorderedChartDescriptors.addKeyValue(matchingInsulinChartDescriptor.descriptorKey,
+							matchingInsulinChartDescriptor);
+				}
+			}
 			if (matchingBloodGlucoseChartDescriptor)
 				reorderedChartDescriptors.addKeyValue(matchingBloodGlucoseChartDescriptor.descriptorKey, matchingBloodGlucoseChartDescriptor);
 

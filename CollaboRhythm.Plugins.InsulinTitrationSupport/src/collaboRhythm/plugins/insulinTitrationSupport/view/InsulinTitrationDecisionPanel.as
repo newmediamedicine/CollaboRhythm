@@ -63,6 +63,13 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 		private static const AVERAGE_PLOT_ITEM_RENDERER_X:int = 63;
 
+		private static const DOSAGE_CHANGE_BUTTON_FONT_SIZE:int = 21;
+		private static const DOSAGE_NO_CHANGE_BUTTON_FONT_SIZE:int = 18;
+		private static const DOSAGE_SPINNER_FONT_SIZE:int = 20;
+
+		private static const GOAL_LABEL_FONT_SIZE:int = 21;
+		private static const ARROW_CALLOUT_INSTRUCTIONS_FONT_SIZE:int = 24;
+
 		private var _model:InsulinTitrationDecisionPanelModel;
 
 		private var _dosageChangeSpinnerList:SpinnerList;
@@ -153,11 +160,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			_step1Chart = createChart(STEP1_X, true);
 			_step2Chart = createChart(STEP2_X, false);
 			_dosageIncreaseButton = createDosageChangeButton(_chartY, 57, _model.dosageIncreaseText + " Units",
-					getDosageChangeLabelColor(_model.algorithmSuggestsIncreaseDose), _model.dosageIncreaseValue, 21);
+					getDosageChangeLabelColor(_model.algorithmSuggestsIncreaseDose), _model.dosageIncreaseValue, DOSAGE_CHANGE_BUTTON_FONT_SIZE);
 			_dosageNoChangeButton = createDosageChangeButton(58, 48, "No Change",
-					getDosageChangeLabelColor(_model.algorithmSuggestsNoChangeDose), 0, 18);
+					getDosageChangeLabelColor(_model.algorithmSuggestsNoChangeDose), 0, DOSAGE_NO_CHANGE_BUTTON_FONT_SIZE);
 			_dosageDecreaseButton = createDosageChangeButton(106, 33, _model.dosageDecreaseText + " Units",
-					getDosageChangeLabelColor(_model.algorithmSuggestsDecreaseDose), _model.dosageDecreaseValue, 21);
+					getDosageChangeLabelColor(_model.algorithmSuggestsDecreaseDose), _model.dosageDecreaseValue, DOSAGE_CHANGE_BUTTON_FONT_SIZE);
 			updateDosageChangeButtons();
 
 			_averagePlotItemRenderer = new AverageBloodGlucosePotItemRenderer();
@@ -183,8 +190,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			_dosageChangeSpinnerListContainer.addElement(_dosageChangeSpinnerList);
 			_dosageChangeSpinnerList.setStyle("skinClass", SpinnerListSkin);
 			_dosageChangeSpinnerList.setStyle("textAlign", "right");
-			_dosageChangeSpinnerList.setStyle("paddingLeft", 6);
-			_dosageChangeSpinnerList.setStyle("paddingRight", 6);
+			_dosageChangeSpinnerList.setStyle("paddingLeft", 1);
+			_dosageChangeSpinnerList.setStyle("paddingRight", 1);
+			_dosageChangeSpinnerList.setStyle("fontSize", DOSAGE_SPINNER_FONT_SIZE);
 			_dosageChangeSpinnerListContainer.setStyle("skinClass", SpinnerListContainerSkin);
 			_dosageChangeSpinnerList.percentWidth = 100;
 			var spinnerData:ArrayCollection = new ArrayCollection();
@@ -218,7 +226,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		{
 			var line:DottedLine = createDottedLine();
 			line.x = 0;
-			line.alpha = 0.25;
+			line.alpha = 0.5;
 			return line;
 		}
 
@@ -356,10 +364,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		private function createGoalLabel(x:int, value:Number):Label
 		{
 			var goalLabel:Label = new Label();
-			goalLabel.setStyle("fontSize", 21);
+			goalLabel.setStyle("fontSize", GOAL_LABEL_FONT_SIZE);
 			goalLabel.setStyle("color", 0x231F20);
 			goalLabel.text = value.toString();
-//			goalLabel.x = x + STEP_WIDTH - goalLabel.width;
 			goalLabel.right = minWidth - (x + STEP_WIDTH);
 			return goalLabel;
 		}
@@ -468,7 +475,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			richText.setStyle("paddingBottom", 5);
 			richText.setStyle("paddingLeft", 5);
 			richText.setStyle("paddingRight", 5);
-			richText.setStyle("fontSize", 24);
+			richText.setStyle("fontSize", ARROW_CALLOUT_INSTRUCTIONS_FONT_SIZE);
 			richText.percentWidth = 100;
 			richText.percentHeight = 100;
 			// This is a workaround for an what seems to be a bug in the CalloutButton. Without setting the width the
