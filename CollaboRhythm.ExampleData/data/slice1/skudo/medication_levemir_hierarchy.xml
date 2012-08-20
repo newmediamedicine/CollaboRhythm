@@ -33,7 +33,7 @@
                         <unit type="http://indivo.org/codes/units#" value="prefilled syringe"
                               abbrev="prefilled syringe">prefilled syringe</unit>
                      </amountFilled>
-                     <ndc>169643910</ndc>
+                     <ndc>001696439</ndc>
                      <instructions>keep in a cold place</instructions>
                   </MedicationFill>
                </document>
@@ -54,7 +54,7 @@
                      </recurrenceRule>
                      <dose>
                         <value>12</value>
-                        <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                        <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                      </dose>
                      <instructions>rotate injection sites</instructions>
                   </MedicationScheduleItem>
@@ -93,7 +93,7 @@
                                        <dateAdministered>2011-07-17T00:00:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>10</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>2</value>
@@ -127,7 +127,7 @@
                                        <dateAdministered>2011-07-17T23:45:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>10</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.988</value>
@@ -172,7 +172,7 @@
                                        <dateAdministered>2011-07-19T23:45:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>7</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.976</value>
@@ -206,7 +206,7 @@
                                        <dateAdministered>2011-07-20T23:45:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>7</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.964</value>
@@ -240,7 +240,7 @@
                                        <dateAdministered>2011-07-21T23:45:00Z</dateAdministered>
                                        <amountAdministered>
                                           <value>7</value>
-                                          <unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+                                          <unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
                                        </amountAdministered>
                                        <amountRemaining>
                                           <value>1.952</value>

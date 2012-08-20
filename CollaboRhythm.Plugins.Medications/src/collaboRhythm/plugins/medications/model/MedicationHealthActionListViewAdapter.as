@@ -118,7 +118,13 @@ package collaboRhythm.plugins.medications.model
 						route = "subcutaneous injection";
 						break;
 				}
-				return _medicationScheduleItem.dose.value + " " + _medicationScheduleItem.dose.unit.text + " " + route;
+
+				var plural:String = "";
+				if (int(_medicationScheduleItem.dose.value) > 1)
+				{
+					plural = "s";
+				}
+				return _medicationScheduleItem.dose.value + " " + _medicationScheduleItem.dose.unit.text + plural + " " + route;
 			}
 			else
 				return "";
@@ -126,7 +132,7 @@ package collaboRhythm.plugins.medications.model
 
 		public function get secondaryInstructions():String
 		{
-			if (_medicationScheduleItem)
+			if (_medicationScheduleItem && _medicationScheduleItem.instructions)
 				return _medicationScheduleItem.instructions;
 			else if (_medicationOrder)
 				return _medicationOrder.instructions;

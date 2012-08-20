@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				height="60">
+	<fx:Style>
+		#rxNormConceptNameLabel {
+			fontSize: 24;
+		}
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.medications.model.RxNormConcept;
+
+		override public function set data(value:Object):void
+		{
+			var rxNormConcept:RxNormConcept = value as RxNormConcept;
+
+			if (rxNormConcept)
+				rxNormConceptNameLabel.text = rxNormConcept.name;
+		}
+		]]></fx:Script>
+	<s:Label id="rxNormConceptNameLabel" verticalCenter="0" left="10" right="10"/>
+	<s:Line width="100%" bottom="0">
+		<s:stroke>
+			<s:SolidColorStroke color="0x000000"/>
+		</s:stroke>
+	</s:Line>
+</s:ItemRenderer>

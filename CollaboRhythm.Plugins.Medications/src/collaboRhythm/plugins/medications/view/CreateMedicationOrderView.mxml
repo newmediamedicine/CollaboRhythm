@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+					   creationComplete="creationCompleteHandler()"
+					   title="Create Medication">
+	<fx:Declarations>
+		<s:Button id="saveActionButton" label="Save" click="save_clickHandler()"/>
+	</fx:Declarations>
+	<fx:Style>
+		#rxNormConceptLabel {
+			fontSize: 30;
+		}
+
+		.createMedicationOrderLabel {
+			fontSize: 24;
+		}
+
+		.createMedicationOrderTextInput {
+			fontSize: 24;
+		}
+
+		.createMedicationOrderPanel {
+			fontSize: 24;
+		}
+
+		#findImageButton {
+			fontSize: 20;
+		}
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.medications.controller.MedicationHealthActionCreationController;
+		import collaboRhythm.plugins.medications.model.MedicationHealthActionCreationModel;
+		import collaboRhythm.plugins.medications.model.RxNormConcept;
+		import collaboRhythm.plugins.schedule.shared.model.HealthActionCreationModelAndController;
+		import collaboRhythm.shared.model.CodedValueFactory;
+		import collaboRhythm.shared.model.healthRecord.CodedValue;
+		import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
+		import collaboRhythm.shared.model.healthRecord.util.MedicationName;
+		import collaboRhythm.shared.model.healthRecord.util.MedicationNameUtil;
+
+		import mx.events.FlexEvent;
+
+		import spark.events.IndexChangeEvent;
+
+		private var _rxNormConcept:RxNormConcept;
+		private var _medicationHealthActionCreationModel:MedicationHealthActionCreationModel;
+		private var _medicationHealthActionCreationController:MedicationHealthActionCreationController;
+		private var _doseUnit:CodedValue;
+
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+
+			var healthActionCreationModelAndController:HealthActionCreationModelAndController = value as
+					HealthActionCreationModelAndController;
+
+			_medicationHealthActionCreationModel = MedicationHealthActionCreationModel(healthActionCreationModelAndController.healthActionCreationModel);
+			_medicationHealthActionCreationController = MedicationHealthActionCreationController(healthActionCreationModelAndController.healthActionCreationController);
+
+			_rxNormConcept = _medicationHealthActionCreationModel.currentRxNormConcept;
+		}
+
+		override protected function createChildren():void
+		{
+			super.createChildren();
+			actionContent.unshift(saveActionButton);
+		}
+
+		private function creationCompleteHandler():void
+		{
+			var medicationName:MedicationName = MedicationNameUtil.parseName(_rxNormConcept.name);
+			var codedValueFactory:CodedValueFactory = new CodedValueFactory();
+
+			if (medicationName.form == "Oral Tablet")
+			{
+				_doseUnit = codedValueFactory.createTabletCodedValue();
+				doseUnitLabel.text = "tablet(s)"
+			}
+			else if (medicationName.form == "Prefilled Syringe")
+			{
+				_doseUnit = codedValueFactory.createUnitCodedValue();
+				doseUnitLabel.text = "Unit(s)"
+			}
+
+			rxNormConceptLabel.text = _rxNormConcept.name;
+
+			if (_medicationHealthActionCreationModel.currentNdcCode)
+			{
+				ndcCodeLabel.text = _medicationHealthActionCreationModel.currentNdcCode;
+				ndcCodeImageFront.source = MedicationFillsModel.MEDICATION_API_URL_BASE +
+						_medicationHealthActionCreationModel.currentNdcCode + "-front.png";
+				ndcCodeImageBack.source = MedicationFillsModel.MEDICATION_API_URL_BASE +
+						_medicationHealthActionCreationModel.currentNdcCode + "-back.png";
+			}
+		}
+
+		private function findImageButton_clickHandler():void
+		{
+			_medicationHealthActionCreationController.showFindNdcCodeView();
+		}
+
+		private function save_clickHandler():void
+		{
+			_medicationHealthActionCreationController.createMedication(instructionsTextInput.text, doseTextInput.text,
+					_doseUnit, frequencySpinnerList.selectedIndex);
+		}
+
+		override protected function stage_keyUpHandler(event:KeyboardEvent):void
+		{
+			super.stage_keyUpHandler(event);
+
+			if (event.keyCode == Keyboard.BACK)
+			{
+				_medicationHealthActionCreationController.resetMedicationHealthActionCreationModel();
+			}
+		}
+		]]></fx:Script>
+	<s:VGroup width="100%" height="100%" gap="0">
+		<s:Group width="100%" height="100">
+			<s:Rect width="100%" height="100%">
+				<s:fill>
+					<s:SolidColor color="0xF4F4F4"/>
+				</s:fill>
+			</s:Rect>
+			<s:Label id="rxNormConceptLabel" horizontalCenter="0" verticalCenter="0"/>
+			<s:Line width="100%" bottom="0">
+				<s:stroke>
+					<s:SolidColorStroke color="666666"/>
+				</s:stroke>
+			</s:Line>
+		</s:Group>
+		<s:Group width="100%" height="100%">
+			<s:VGroup width="100%" paddingLeft="20" paddingRight="20" paddingTop="20" paddingBottom="20" gap="50">
+				<s:Panel title="Order" width="100%"
+						 skinClass="collaboRhythm.plugins.medications.view.CreateMedicationOrderPanelSkin"
+						 styleName="createMedicationOrderPanel">
+					<s:VGroup width="100%" paddingLeft="20" paddingRight="20" paddingTop="20" paddingBottom="20">
+						<s:Label text="Instructions:" styleName="createMedicationOrderLabel"/>
+						<s:TextInput id="instructionsTextInput" width="100%" height="60"
+									 skinClass="spark.skins.mobile.StageTextInputSkin"
+									 styleName="createMedicationOrderTextInput"/>
+					</s:VGroup>
+				</s:Panel>
+				<s:Panel title="Schedule" width="100%"
+						 skinClass="collaboRhythm.plugins.medications.view.CreateMedicationOrderPanelSkin"
+						 styleName="createMedicationOrderPanel">
+					<s:HGroup paddingLeft="20" paddingRight="20" paddingTop="20" paddingBottom="20" gap="100"
+							  verticalAlign="middle">
+						<s:HGroup verticalAlign="middle">
+							<s:Label text="Dose:" styleName="createMedicationOrderLabel"/>
+							<s:TextInput id="doseTextInput" width="100" height="60"
+										 skinClass="spark.skins.mobile.StageTextInputSkin"
+										 styleName="createMedicationOrderTextInput"/>
+							<s:Label id="doseUnitLabel" styleName="createMedicationOrderLabel"/>
+						</s:HGroup>
+						<s:HGroup verticalAlign="middle">
+							<s:Label text="Frequency:" styleName="createMedicationOrderLabel"/>
+							<s:SpinnerListContainer skinClass="spark.skins.mobile.SpinnerListContainerSkin">
+								<s:SpinnerList id="frequencySpinnerList" selectedIndex="0" width="200" height="100"
+											   skinClass="spark.skins.mobile.SpinnerListSkin">
+									<s:ArrayCollection>
+										<fx:String>once a day</fx:String>
+										<fx:String>twice a day</fx:String>
+										<fx:String>three times a day</fx:String>
+										<fx:String>four times a day</fx:String>
+									</s:ArrayCollection>
+								</s:SpinnerList>
+							</s:SpinnerListContainer>
+						</s:HGroup>
+					</s:HGroup>
+				</s:Panel>
+				<s:Panel title="Fill" width="100%"
+						 skinClass="collaboRhythm.plugins.medications.view.CreateMedicationOrderPanelSkin"
+						 styleName="createMedicationOrderPanel">
+					<s:HGroup paddingLeft="20" paddingRight="20" paddingTop="20" paddingBottom="20"
+							  verticalAlign="middle" gap="50">
+						<s:Button id="findImageButton" label="Find NDC Code / Image" width="250" height="60"
+								  click="findImageButton_clickHandler()"/>
+						<s:Label id="ndcCodeLabel" styleName="createMedicationOrderLabel"/>
+						<s:Image id="ndcCodeImageFront" width="100" height="100" smooth="true"/>
+						<s:Image id="ndcCodeImageBack" width="100" height="100" smooth="true"/>
+					</s:HGroup>
+				</s:Panel>
+			</s:VGroup>
+		</s:Group>
+	</s:VGroup>
+</tablet:TabletViewBase>

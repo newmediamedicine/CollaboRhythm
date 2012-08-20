@@ -15,32 +15,32 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark" 
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:view="collaboRhythm.plugins.schedule.view.*"
 		 xmlns:images="assets.images.*"
-         xmlns:controls="com.dougmccune.controls.*"
+		 xmlns:controls="com.dougmccune.controls.*"
 		 clipAndEnableScrolling="true"
 		 resize="resizeHandler()"
 		 creationComplete="creationCompleteHandler()"
 		 remove="removeHandler()"
-         height="100%" width="100%"
-		 >
+		 height="100%" width="100%"
+		>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-    <s:layout>
+	<s:layout>
 		<controls:ChildIndependentLayout/>
 	</s:layout>
 	<fx:Script>
 		<![CDATA[
-		//TODO: Maybe ChildIndependentLayout belongs in shared?
-
 		import collaboRhythm.plugins.schedule.controller.ScheduleAppController;
 		import collaboRhythm.plugins.schedule.controller.ScheduleClockController;
 		import collaboRhythm.plugins.schedule.model.ScheduleModel;
 		import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 		import collaboRhythm.shared.model.services.ICurrentDateSource;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
+		import collaboRhythm.shared.model.settings.Settings;
 
 		import mx.binding.utils.BindingUtils;
 		import mx.binding.utils.ChangeWatcher;
@@ -48,18 +48,24 @@
 		import mx.events.CollectionEvent;
 		import mx.events.CollectionEventKind;
 
+		//TODO: Maybe ChildIndependentLayout belongs in shared?
+
 		private var _scheduleModel:ScheduleModel;
 		private var _scheduleClockController:ScheduleClockController;
+		[Bindable]
+		private var _settings:Settings;
 		private var _scheduleGroupsCollection:ArrayCollection;
 		private var _scheduleGroupClockViews:Vector.<ScheduleGroupClockView> = new Vector.<ScheduleGroupClockView>();
 		private var _isCreationComplete:Boolean;
 		private var _scheduleModelInitialized_changeWatcher:ChangeWatcher;
 		private var _currentDateSource:ICurrentDateSource;
 
-		public function init(scheduleAppController:ScheduleAppController, scheduleModel:ScheduleModel):void
+		public function init(scheduleAppController:ScheduleAppController, scheduleModel:ScheduleModel,
+							 settings:Settings):void
 		{
 			_scheduleModel = scheduleModel;
 			_scheduleClockController = scheduleAppController.scheduleClockController;
+			_settings = settings;
 
 			_scheduleGroupsCollection = _scheduleModel.scheduleGroupsCollection;
 			_scheduleGroupsCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
@@ -108,6 +114,8 @@
 
 		private function createScheduleGroups():void
 		{
+			_scheduleModel.scheduleReportingModel.sortScheduleItemOccurrences();
+
 			for each (var scheduleGroup:ScheduleGroup in _scheduleGroupsCollection)
 			{
 				createScheduleGroupView(scheduleGroup);
@@ -214,13 +222,34 @@
 		{
 			updateTime();
 		}
+
+		private function showScheduleTimelineFullViewButton_clickHandler():void
+		{
+			_scheduleClockController.showScheduleTimelineFullView("widget button click");
+		}
 		]]>
 	</fx:Script>
-    <s:Group id="clock" verticalCenter="0" horizontalCenter="0">
-        <images:clockBackground id="clockBackground" width="{clock.width}" height="{clock.height}" mouseEnabled="false" mouseChildren="false"/>
-        <s:Group id="scheduleGroupsContainer" width="{clock.width}" height="{clock.height}"/>
-        <s:Group id="scheduleItemsContainer" width="{clock.width}" height="{clock.height}"/>
-        <images:clockHand id="clockHand" x="{clock.width / 2}" y="{clock.height / 2}" width="{clock.width / 2}" height="{clock.height / 2}" mouseEnabled="false" mouseChildren="false"/>
-        <images:clockForeground id="clockForeground" width="{clock.width}" height="{clock.height}" mouseEnabled="false" mouseChildren="false"/>
-    </s:Group>
+	<s:Group id="clock" verticalCenter="0" horizontalCenter="0">
+		<images:clockBackground id="clockBackground" width="{clock.width}" height="{clock.height}" mouseEnabled="false"
+								mouseChildren="false"/>
+		<s:Group id="scheduleGroupsContainer" width="{clock.width}" height="{clock.height}"/>
+		<s:Group id="scheduleItemsContainer" width="{clock.width}" height="{clock.height}"/>
+		<images:clockHand id="clockHand" x="{clock.width / 2}" y="{clock.height / 2}" width="{clock.width / 2}"
+						  height="{clock.height / 2}" mouseEnabled="false" mouseChildren="false"/>
+		<images:clockForeground id="clockForeground" width="{clock.width}" height="{clock.height}" mouseEnabled="false"
+								mouseChildren="false"/>
+		<s:Group width="90" height="90" horizontalCenter="0" verticalCenter="0" visible="{_settings.isClinicianMode}"
+				 click="showScheduleTimelineFullViewButton_clickHandler()">
+			<s:Button width="100%" height="100%"
+					  skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin"/>
+			<s:Group left="10" right="10" top="10" bottom="10" mouseEnabled="false" mouseChildren="false">
+				<s:Ellipse width="100%" height="100%">
+					<s:fill>
+						<s:SolidColor color="0x000000"/>
+					</s:fill>
+				</s:Ellipse>
+				<view:EditIcon width="45" height="45" verticalCenter="0" horizontalCenter="0"/>
+			</s:Group>
+		</s:Group>
+	</s:Group>
 </s:Group>

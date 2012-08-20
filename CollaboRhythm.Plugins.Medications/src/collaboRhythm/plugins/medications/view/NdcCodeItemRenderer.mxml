@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Style>
+		#ndcCodeLabel {
+			fontSize: 24;
+		}
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
+
+		override public function set data(value:Object):void
+		{
+			var ndcCode:String = value as String;
+
+			if (ndcCode)
+			{
+				ndcCodeLabel.text = ndcCode;
+				ndcCodeImageFront.source = MedicationFillsModel.MEDICATION_API_URL_BASE + ndcCode + "-front.png";
+				ndcCodeImageBack.source = MedicationFillsModel.MEDICATION_API_URL_BASE + ndcCode + "-back.png";
+			}
+		}
+		]]></fx:Script>
+	<s:HGroup width="100%" paddingTop="10" paddingBottom="10" paddingLeft="10" paddingRight="10" gap="10" verticalAlign="middle">
+		<s:Image id="ndcCodeImageFront" width="100" height="100" smooth="true"/>
+		<s:Image id="ndcCodeImageBack" width="100" height="100" smooth="true"/>
+		<s:Label id="ndcCodeLabel"/>
+	</s:HGroup>
+	<s:Line width="100%" bottom="0">
+		<s:stroke>
+			<s:SolidColorStroke color="0x000000"/>
+		</s:stroke>
+	</s:Line>
+</s:ItemRenderer>

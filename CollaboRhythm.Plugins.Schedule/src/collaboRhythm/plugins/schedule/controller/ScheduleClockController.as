@@ -24,6 +24,7 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.collaboration.model.CollaborationModel;
 	import collaboRhythm.shared.collaboration.model.CollaborationViewSynchronizationEvent;
+	import collaboRhythm.shared.controller.apps.AppEvent;
 
 	import flash.events.EventDispatcher;
 	import flash.utils.getQualifiedClassName;
@@ -84,12 +85,15 @@ package collaboRhythm.plugins.schedule.controller
 				}
 			}
 
-//			_scheduleModel.scheduleReportingModel.currentScheduleGroup = selectedScheduleGroup;
-
 			var scheduleViewInitializationParameters:ScheduleViewInitializationParameters = new ScheduleViewInitializationParameters(_scheduleAppController,
 					_scheduleModel);
 
 			_viewNavigator.pushView(ScheduleReportingFullView, scheduleViewInitializationParameters);
+		}
+
+		public function showScheduleTimelineFullView(viaMechanism:String):void
+		{
+			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, _scheduleAppController, null, null, viaMechanism));
 		}
 	}
 }

@@ -13,21 +13,21 @@
 	</fx:Declarations>
 	<fx:Style>
 
-		#nameLabel {
+		#nameLabelTimeline {
 			font-size: 18;
 			font-weight: bold;
 		}
 
-		#descriptionLabel {
+		#descriptionLabelTimeline {
 			font-size: 12;
 		}
 
-		#indicationLabel {
+		#indicationLabelTimeline {
 			fontSize: 12;
 			fontStyle: italic;
 		}
 
-		#instructionsLabel {
+		#instructionsLabelTimeline {
 			fontSize: 14;
 			font-weight: bold;
 		}
@@ -60,10 +60,10 @@
 			var scheduleItemOccurrenceReportingViewAdapter:IHealthActionListViewAdapter = scheduleModel.healthActionListViewAdapterFactory.createScheduledHealthActionViewAdapter(_scheduleItemOccurrence,
 					scheduleModel);
 
-			nameLabel.text = scheduleItemOccurrenceReportingViewAdapter.name;
-			descriptionLabel.text = scheduleItemOccurrenceReportingViewAdapter.description;
-			indicationLabel.text = scheduleItemOccurrenceReportingViewAdapter.indication;
-			instructionsLabel.text = scheduleItemOccurrenceReportingViewAdapter.secondaryInstructions;
+			nameLabelTimeline.text = scheduleItemOccurrenceReportingViewAdapter.name;
+			descriptionLabelTimeline.text = scheduleItemOccurrenceReportingViewAdapter.description;
+			indicationLabelTimeline.text = scheduleItemOccurrenceReportingViewAdapter.indication;
+			instructionsLabelTimeline.text = scheduleItemOccurrenceReportingViewAdapter.secondaryInstructions;
 
 			var customView:IVisualElement = scheduleItemOccurrenceReportingViewAdapter.createCustomView();
 			if (customView)
@@ -165,10 +165,10 @@
 
 	<s:Group id="descriptionRegion" height="100%" left="{imageContainerGroup.width}" right="{gripRegion.width}">
 		<s:VGroup left="5" right="5" top="5" bottom="5" gap="1">
-			<s:Label id="nameLabel" maxDisplayedLines="1" width="100%"/>
-			<s:Label id="descriptionLabel" maxDisplayedLines="1" width="100%"/>
-			<s:Label id="indicationLabel" paddingTop="5" maxDisplayedLines="1" width="100%"/>
-			<s:Label id="instructionsLabel" paddingTop="5" maxDisplayedLines="1" width="100%"/>
+			<s:Label id="nameLabelTimeline" maxDisplayedLines="1" width="100%"/>
+			<s:Label id="descriptionLabelTimeline" maxDisplayedLines="1" width="100%"/>
+			<s:Label id="indicationLabelTimeline" paddingTop="5" maxDisplayedLines="1" width="100%"/>
+			<s:Label id="instructionsLabelTimeline" paddingTop="5" maxDisplayedLines="1" width="100%"/>
 		</s:VGroup>
 	</s:Group>
 

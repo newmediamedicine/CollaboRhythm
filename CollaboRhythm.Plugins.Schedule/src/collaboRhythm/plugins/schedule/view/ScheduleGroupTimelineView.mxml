@@ -240,10 +240,13 @@
 
 		private function showMoving():void
 		{
-			glowFilter.blurX = 10;
-			glowFilter.blurY = 10;
-			stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler, false, 0, true);
-			stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler, false, 0, true);
+			if (stage)
+			{
+				glowFilter.blurX = 10;
+				glowFilter.blurY = 10;
+				stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler, false, 0, true);
+				stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler, false, 0, true);
+			}
 		}
 
 		private function movingChangeHandler(moving:Boolean):void
@@ -534,6 +537,8 @@
 			fadeInEffect.end();
 			fadeOutEffect.end();
 			fadeEffect.end();
+
+			_addedToStage = false;
 
 			for each (var changeWatcher:ChangeWatcher in _changeWatchers)
 			{

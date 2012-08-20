@@ -33,6 +33,7 @@
 		import collaboRhythm.plugins.schedule.controller.ScheduleTimelineController;
 		import collaboRhythm.plugins.schedule.model.ScheduleModel;
 		import collaboRhythm.plugins.schedule.model.ScheduleTimelineModel;
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionCreationController;
 		import collaboRhythm.plugins.schedule.shared.model.MoveData;
 		import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 		import collaboRhythm.plugins.schedule.shared.view.ScheduleTimelineViewEvent;
@@ -43,6 +44,8 @@
 		import mx.events.CollectionEvent;
 		import mx.events.CollectionEventKind;
 		import mx.events.ResizeEvent;
+
+		import spark.components.Button;
 
 		public static const TIMELINE_VIEW_HEIGHT:Number = 50;
 		public static const ADHERENCE_WINDOW_INITIAL_HEIGHT:Number = 50;
@@ -97,10 +100,25 @@
 					"isInitialized", false, true);
 		}
 
+		override protected function createChildren():void
+		{
+			super.createChildren();
+
+			for each (var healthActionCreationController:IHealthActionCreationController in
+					_scheduleModel.healthActionCreationControllers)
+			{
+				var button:Button = new Button();
+				button.label = healthActionCreationController.buttonLabel;
+				button.addEventListener(MouseEvent.CLICK, healthActionCreationController.showHealthActionCreationView);
+				createHealthActionButtonsHGroup.addElement(button);
+			}
+		}
+
 		private function creationCompleteHandler():void
 		{
 			if (_scheduleModel.isInitialized)
 			{
+				removeSorts();
 				createScheduleGroupViews();
 			}
 			_isCreationComplete = true;
@@ -110,7 +128,17 @@
 		{
 			if (isInitialized && _isCreationComplete)
 			{
+				removeSorts();
 				createScheduleGroupViews();
+			}
+		}
+
+		private function removeSorts():void
+		{
+			for each (var scheduleGroup:ScheduleGroup in _scheduleGroupsCollection)
+			{
+				scheduleGroup.scheduleItemsOccurrencesCollection.sort = null;
+				scheduleGroup.scheduleItemsOccurrencesCollection.refresh();
 			}
 		}
 
@@ -153,7 +181,7 @@
 			if (!_scheduleTimelineModel.timeWidth)
 			{
 				calculateTimeWidth();
-				updateContainerHeigth();
+				updateContainerHeight();
 			}
 			var scheduleGroupTimelineView:ScheduleGroupTimelineView = new ScheduleGroupTimelineView();
 			scheduleGroupTimelineView.init(_scheduleModel, _scheduleTimelineModel, scheduleGroup,
@@ -196,7 +224,7 @@
 					ScheduleGroupTimelineView.SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH) / 26;
 		}
 
-		private function updateContainerHeigth():void
+		private function updateContainerHeight():void
 		{
 			_scheduleTimelineModel.containerHeight = scheduleGroupsContainer.height;
 		}
@@ -204,7 +232,7 @@
 		public function resizeHandler(event:ResizeEvent):void
 		{
 			calculateTimeWidth();
-			updateContainerHeigth();
+			updateContainerHeight();
 		}
 
 		private function addContainerMoveData(moveData:MoveData):MoveData
@@ -301,4 +329,5 @@
 	<s:Group id="scheduleGroupSpotlightViewsContainer" width="100%" height="100%"/>
 	<s:Group id="scheduleGroupsContainer" width="100%" top="0" bottom="{TIMELINE_VIEW_HEIGHT}"
 			 resize="resizeHandler(event)"/>
+	<s:HGroup id="createHealthActionButtonsHGroup" left="10" right="10" top="10" bottom="10" gap="20"/>
 </s:Group>

@@ -85,7 +85,14 @@ package collaboRhythm.plugins.medications.insulin.model
 
 		public function get description():String
 		{
-			return _medicationName.form;
+			if (_medicationName)
+			{
+				return _medicationName.form;
+			}
+			else
+			{
+				return null;
+			}
 		}
 
 		public function get indication():String
