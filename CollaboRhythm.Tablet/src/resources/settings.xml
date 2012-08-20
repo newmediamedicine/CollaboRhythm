@@ -18,8 +18,12 @@
 <settings xmlns="http://collaborhythm.org/application/settings">
 	<mode>patient</mode>
 	<indivoServerBaseURL>http://184.106.136.151:8000</indivoServerBaseURL>
-	<username>csantos</username>
-	<password>csantos-dope75</password>
+	<username>mbrooks</username>
+	<password>mbrooks-dope75</password>
+	<clinicianTeamMembers>
+		<clinicianTeamMember>jking@records.media.mit.edu</clinicianTeamMember>
+	</clinicianTeamMembers>
+	<primaryClinicianTeamMember>jking@records.media.mit.edu</primaryClinicianTeamMember>
 	<useFileTarget>true</useFileTarget>
 	<useTraceTarget>true</useTraceTarget>
 	<useSyslogTarget>true</useSyslogTarget>
