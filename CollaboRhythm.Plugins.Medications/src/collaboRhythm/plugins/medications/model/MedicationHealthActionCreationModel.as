@@ -5,6 +5,7 @@ package collaboRhythm.plugins.medications.model
 	import collaboRhythm.shared.model.CodedValueFactory;
 	import collaboRhythm.shared.model.RecurrenceRule;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
@@ -65,17 +66,19 @@ package collaboRhythm.plugins.medications.model
 			medicationOrder.orderType = PRESCRIBED_ORDER_TYPE;
 			medicationOrder.orderedBy = _activeAccount.accountId;
 			medicationOrder.dateOrdered = now;
+			medicationOrder.indication = "Diabetes";
 			if (doseUnit.text == "tablet")
 			{
-				medicationOrder.amountOrdered = new ValueAndUnit("120", doseUnit, "120");
+				medicationOrder.amountOrdered = new ValueAndUnit("120", doseUnit);
 			}
 			else if (doseUnit.text == "Unit")
 			{
-				medicationOrder.amountOrdered = new ValueAndUnit("1", codedValueFactory.createPrefilledSyringeCodedValue(), "1");
+				medicationOrder.amountOrdered = new ValueAndUnit("1", codedValueFactory.createPrefilledSyringeCodedValue());
 			}
 			medicationOrder.instructions = medicationOrderInstructions;
 
-			_activeRecordAccount.primaryRecord.medicationOrdersModel.addDocument(medicationOrder);
+			medicationOrder.pendingAction = DocumentBase.ACTION_CREATE;
+			_activeRecordAccount.primaryRecord.addDocument(medicationOrder);
 
 			for (var administrationPerDay:int = 0; administrationPerDay <= frequency; administrationPerDay++)
 			{
@@ -94,11 +97,16 @@ package collaboRhythm.plugins.medications.model
 				{
 					dose = "1";
 				}
-				medicationScheduleItem.dose = new ValueAndUnit(dose, doseUnit, dose);
+				medicationScheduleItem.dose = new ValueAndUnit(dose, doseUnit);
+				medicationScheduleItem.instructions = medicationOrderInstructions;
 
-				_activeRecordAccount.primaryRecord.medicationScheduleItemsModel.addDocument(medicationScheduleItem);
+				medicationScheduleItem.pendingAction = DocumentBase.ACTION_CREATE;
+				_activeRecordAccount.primaryRecord.addDocument(medicationScheduleItem);
+
 				medicationOrder.scheduleItems[medicationScheduleItem.meta.id] = medicationScheduleItem;
 				medicationScheduleItem.scheduledMedicationOrder = medicationOrder;
+				_activeRecordAccount.primaryRecord.addNewRelationship(ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM, medicationOrder, medicationScheduleItem);
+
 			}
 
 			if (currentNdcCode)
@@ -110,9 +118,14 @@ package collaboRhythm.plugins.medications.model
 				medicationFill.amountFilled = medicationOrder.amountOrdered;
 				medicationFill.ndc = new CodedValue(null, null, null, currentNdcCode);
 
-				_activeRecordAccount.primaryRecord.medicationFillsModel.addDocument(medicationFill);
+				medicationFill.pendingAction = DocumentBase.ACTION_CREATE;
+				_activeRecordAccount.primaryRecord.addDocument(medicationFill);
+
 				medicationOrder.medicationFill = medicationFill;
+				_activeRecordAccount.primaryRecord.addNewRelationship(MedicationOrder.RELATION_TYPE_MEDICATION_FILL, medicationOrder, medicationFill);
 			}
+
+			_activeRecordAccount.primaryRecord.saveAllChanges();
 
 			reset();
 		}
