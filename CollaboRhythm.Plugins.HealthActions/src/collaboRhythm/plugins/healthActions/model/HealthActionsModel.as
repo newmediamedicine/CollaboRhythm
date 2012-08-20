@@ -9,6 +9,8 @@ package collaboRhythm.plugins.healthActions.model
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
 	import collaboRhythm.shared.model.services.IComponentContainer;
+	import collaboRhythm.shared.model.services.ICurrentDateSource;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
 
 	import mx.binding.utils.BindingUtils;
 	import mx.binding.utils.ChangeWatcher;
@@ -26,6 +28,7 @@ package collaboRhythm.plugins.healthActions.model
 		private var _navigationProxy:IApplicationNavigationProxy;
 		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
 		private var _activeAccount:Account;
+		private var _currentDateSource:ICurrentDateSource;
 
 		public function HealthActionsModel(activeAccount:Account,
 										   componentContainer:IComponentContainer,
@@ -39,6 +42,7 @@ package collaboRhythm.plugins.healthActions.model
 			_accountId = accountId;
 			_navigationProxy = navigationProxy;
 			_collaborationLobbyNetConnectionServiceProxy = collaborationLobbyNetConnectionServiceProxy;
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 
 			_documentCollectionDependenciesArray = [_record.medicationOrdersModel, _record.medicationScheduleItemsModel, _record.equipmentModel, _record.healthActionSchedulesModel, _record.adherenceItemsModel];
 
@@ -103,6 +107,16 @@ package collaboRhythm.plugins.healthActions.model
 		public function get activeAccount():Account
 		{
 			return _activeAccount;
+		}
+
+		public function get componentContainer():IComponentContainer
+		{
+			return _componentContainer;
+		}
+
+		public function get currentDateSource():ICurrentDateSource
+		{
+			return _currentDateSource;
 		}
 	}
 }

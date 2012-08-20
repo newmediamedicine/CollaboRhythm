@@ -78,6 +78,7 @@ package collaboRhythm.plugins.schedule.model
 		private var _settings:Settings;
 		private var _activeAccount:Account;
 		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
+		private var _componentContainer:IComponentContainer;
 
 		public function ScheduleModel(componentContainer:IComponentContainer,
 									  activeAccount:Account,
@@ -86,6 +87,7 @@ package collaboRhythm.plugins.schedule.model
 									  settings:Settings,
 									  collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy)
 		{
+			_componentContainer = componentContainer;
 			_accountId = activeRecordAccount.accountId;
 			_navigationProxy = navigationProxy;
 			_settings = settings;
@@ -448,6 +450,16 @@ package collaboRhythm.plugins.schedule.model
 		public function get collaborationLobbyNetConnectionServiceProxy():ICollaborationLobbyNetConnectionServiceProxy
 		{
 			return _collaborationLobbyNetConnectionServiceProxy;
+		}
+
+		public function get componentContainer():IComponentContainer
+		{
+			return _componentContainer;
+		}
+
+		public function get currentDateSource():ICurrentDateSource
+		{
+			return _currentDateSource;
 		}
 	}
 }

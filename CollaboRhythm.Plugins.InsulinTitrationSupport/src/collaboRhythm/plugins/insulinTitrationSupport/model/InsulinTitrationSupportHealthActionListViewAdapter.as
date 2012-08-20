@@ -14,6 +14,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import mx.core.IVisualElement;
 
 	import spark.components.Image;
+	import spark.filters.ColorMatrixFilter;
 	import spark.skins.spark.ImageSkin;
 
 	public class InsulinTitrationSupportHealthActionListViewAdapter implements IHealthActionListViewAdapter
@@ -30,6 +31,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _dosageChangeValueLabel:String;
 
 		private var _medicationScheduleDetails:ScheduleDetails;
+		private var _decisionModel:InsulinTitrationDecisionModelBase;
+		private var _greyScaleFilter:ColorMatrixFilter = new ColorMatrixFilter([0.3, 0.59, 0.11, 0, 0, 0.3, 0.59, 0.11, 0, 0, 0.3, 0.59, 0.11, 0, 0, 0, 0, 0, 1, 0]);
 
 		public function InsulinTitrationSupportHealthActionListViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
 																		   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider)
@@ -42,6 +45,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			_medicationScheduleDetails = medicationTitrationHelper.getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_MEDICATION_CODES,
 					true);
 			_dosageChangeValueLabel = medicationTitrationHelper.dosageChangeValueLabel;
+
+			_decisionModel = new InsulinTitrationDecisionHealthActionModel(scheduleItemOccurrence, healthActionModelDetailsProvider);
+			_decisionModel.updateAreBloodGlucoseRequirementsMet();
+			_decisionModel.updateIsAdherencePerfect();
 		}
 
 		public function get healthAction():HealthActionBase
@@ -63,6 +70,13 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				image.source = _titrateLevemirImageClass;
 			}
 			image.smooth = true;
+
+			if (_decisionModel && !_decisionModel.algorithmPrerequisitesSatisfied)
+			{
+				image.alpha = 0.3;
+				image.filters = [_greyScaleFilter];
+			}
+
 			return image;
 		}
 
