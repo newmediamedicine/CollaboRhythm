@@ -118,6 +118,11 @@
 			for each (var line:String in lines)
 			{
 				var textLineMetrics:TextLineMetrics = richText.measureText(line);
+				// TODO: figure out why measuring isn't working correctly with embedAsCFF fonts (Myriad Pro); for now we are using a workaround to guess the measurement
+				if (textLineMetrics.width == 0)
+				{
+					textLineMetrics.width = line.length * defaultFontSize * 0.5;
+				}
 				if (textLineMetrics.width > longestLineWidth)
 					longestLineWidth = textLineMetrics.width;
 			}
