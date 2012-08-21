@@ -251,8 +251,8 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			if (!_scheduleTimelineController)
 			{
-				_scheduleTimelineController = new ScheduleTimelineController(scheduleModel,
-						_fullView as ScheduleTimelineFullView);
+				_scheduleTimelineController = new ScheduleTimelineController(activeAccount, activeRecordAccount,
+						scheduleModel, _fullView as ScheduleTimelineFullView, _componentContainer, _viewNavigator);
 			}
 			return _scheduleTimelineController;
 		}

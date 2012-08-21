@@ -10,6 +10,14 @@
 		<s:Animate id="stackEffect" target="{this}">
 			<s:SimpleMotionPath id="motionPath" property="bottom"/>
 		</s:Animate>
+			<s:Callout id="scheduleItemCallout"
+					horizontalPosition="after"
+					verticalPosition="middle" mouseDownOutside="scheduleItemCallout_mouseDownOutsideHandler()">
+				<s:VGroup gap="0">
+					<s:Button label="Edit" width="150" height="60" click="editButton_clickHandler(event)"/>
+					<s:Button label="Unschedule" width="150" height="60" click="unscheduleButton_clickHandler(event)"/>
+				</s:VGroup>
+			</s:Callout>
 	</fx:Declarations>
 	<fx:Style>
 
@@ -38,6 +46,7 @@
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 		import collaboRhythm.plugins.schedule.shared.model.MoveData;
 		import collaboRhythm.plugins.schedule.shared.view.ScheduleTimelineViewEvent;
+		import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 		import mx.binding.utils.ChangeWatcher;
@@ -76,12 +85,23 @@
 				image.percentWidth = 100;
 				image.percentHeight = 100;
 				image.smooth = true;
+				image.addEventListener(MouseEvent.MOUSE_DOWN, image_clickHandler);
 				imageRegion.addElement(image);
 			}
 			imageRegion.left = 5;
 			imageRegion.right = 5;
 			imageRegion.top = 5;
 			imageRegion.bottom = 5;
+		}
+
+		private function image_clickHandler(event:MouseEvent):void
+		{
+			if (_scheduleItemOccurrence.scheduleItem as MedicationScheduleItem)
+			{
+				event.stopImmediatePropagation();
+
+				scheduleItemCallout.open(event.target as DisplayObjectContainer, true);
+			}
 		}
 
 		private function mouseDownHandler(event:MouseEvent):void
@@ -144,6 +164,29 @@
 		public function set scheduleItemOccurrence(value:ScheduleItemOccurrence):void
 		{
 			_scheduleItemOccurrence = value;
+		}
+
+		private function editButton_clickHandler(event:MouseEvent):void
+		{
+			scheduleItemCallout.close();
+
+			var moveData:MoveData = createMoveData(event);
+			dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_ITEM_TIMELINE_VIEW_EDIT,
+					moveData));
+		}
+
+		private function unscheduleButton_clickHandler(event:MouseEvent):void
+		{
+			scheduleItemCallout.close();
+
+			var moveData:MoveData = createMoveData(event);
+			dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_ITEM_TIMELINE_VIEW_UNSCHEDULE,
+					moveData));
+		}
+
+		private function scheduleItemCallout_mouseDownOutsideHandler():void
+		{
+			scheduleItemCallout.close();
 		}
 		]]>
     </fx:Script>

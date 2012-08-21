@@ -95,6 +95,11 @@
 			this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_ITEM_TIMELINE_VIEW_MOUSE_DOWN,
 					scheduleItemOccurrenceTimelineViewMouseDownHandler, false, 0, true);
 
+			this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_ITEM_TIMELINE_VIEW_EDIT,
+								scheduleItemOccurrenceTimelineViewEditHandler, false, 0, true);
+			this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_ITEM_TIMELINE_VIEW_UNSCHEDULE,
+					scheduleItemOccurrenceTimelineViewUnscheduleHandler, false, 0, true);
+
 			_initializedChangeWatcher = BindingUtils.bindSetter(initializedChangeHandler,
 					_scheduleModel,
 					"isInitialized", false, true);
@@ -288,6 +293,16 @@
 			_scheduleTimelineController.grabScheduleItemOccurrence(addContainerMoveData(event.moveData));
 		}
 
+		private function scheduleItemOccurrenceTimelineViewEditHandler(event:ScheduleTimelineViewEvent):void
+		{
+			_scheduleTimelineController.editItem(event.moveData);
+		}
+
+		private function scheduleItemOccurrenceTimelineViewUnscheduleHandler(event:ScheduleTimelineViewEvent):void
+		{
+			_scheduleTimelineController.unscheduleItem(event.moveData);
+		}
+
 		public function destroyChildren():void
 		{
 			scheduleGroupsContainer.removeAllElements();
@@ -315,6 +330,11 @@
 
 			this.removeEventListener(ScheduleTimelineViewEvent.SCHEDULE_ITEM_TIMELINE_VIEW_MOUSE_DOWN,
 					scheduleItemOccurrenceTimelineViewMouseDownHandler);
+
+			this.removeEventListener(ScheduleTimelineViewEvent.SCHEDULE_ITEM_TIMELINE_VIEW_EDIT,
+					scheduleItemOccurrenceTimelineViewEditHandler);
+			this.removeEventListener(ScheduleTimelineViewEvent.SCHEDULE_ITEM_TIMELINE_VIEW_UNSCHEDULE,
+					scheduleItemOccurrenceTimelineViewUnscheduleHandler);
 
 			_initializedChangeWatcher.unwatch();
 		}

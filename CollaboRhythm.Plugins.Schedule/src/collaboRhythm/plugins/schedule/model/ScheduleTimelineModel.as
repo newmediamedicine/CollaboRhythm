@@ -21,6 +21,10 @@ package collaboRhythm.plugins.schedule.model
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 	import collaboRhythm.plugins.schedule.view.ScheduleGroupTimelineView;
 	import collaboRhythm.plugins.schedule.view.ScheduleItemOccurrenceTimelineView;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	[Bindable]
@@ -66,13 +70,17 @@ package collaboRhythm.plugins.schedule.model
 			var scheduleGroup:ScheduleGroup = _scheduleModel.scheduleGroupsHashMap[moveData.id];
 			var scaleFactorX:Number = moveData.containerWidth / scheduleFullViewWidth;
 			var scaleFactorY:Number = moveData.containerHeight / scheduleFullViewHeight;
-			var hourChange:Number = Math.round(((moveData.containerX - scheduleGroup.containerMouseDownX) * scaleFactorX) / timeWidth);
-			if (hourChange + scheduleGroup.dateStartPreMove.hours >= 0 && hourChange + scheduleGroup.dateEndPreMove.hours <= 23)
+			var hourChange:Number = Math.round(((moveData.containerX - scheduleGroup.containerMouseDownX) *
+					scaleFactorX) / timeWidth);
+			if (hourChange + scheduleGroup.dateStartPreMove.hours >= 0 &&
+					hourChange + scheduleGroup.dateEndPreMove.hours <= 23)
 			{
 				//dateTimeStart and dateTimeEnd are updated in this setter to prevent a state where are of them are not updated
-				scheduleGroup.dateCenter = new Date(scheduleGroup.dateCenterPreMove.time + (hourChange * 60 * 60 * 1000));
+				scheduleGroup.dateCenter = new Date(scheduleGroup.dateCenterPreMove.time +
+						(hourChange * 60 * 60 * 1000));
 			}
-			scheduleGroup.yPosition = scheduleGroup.yPreMove + (moveData.containerY - scheduleGroup.containerMouseDownY) * scaleFactorY;
+			scheduleGroup.yPosition = scheduleGroup.yPreMove +
+					(moveData.containerY - scheduleGroup.containerMouseDownY) * scaleFactorY;
 		}
 
 		public function dropScheduleGroup(moveData:MoveData):void
@@ -99,13 +107,17 @@ package collaboRhythm.plugins.schedule.model
 			var scheduleGroup:ScheduleGroup = _scheduleModel.scheduleGroupsHashMap[moveData.id];
 			var scaleFactorX:Number = moveData.containerWidth / scheduleFullViewWidth;
 			var scaleFactorY:Number = moveData.containerHeight / scheduleFullViewHeight;
-			var hourChange:Number = Math.round(((moveData.containerX - scheduleGroup.containerMouseDownX) * scaleFactorX) / timeWidth);
+			var hourChange:Number = Math.round(((moveData.containerX - scheduleGroup.containerMouseDownX) *
+					scaleFactorX) / timeWidth);
 			if (leftEdge)
 			{
 				hourChange *= -1;
 			}
-			var durationPreMove:Number = (scheduleGroup.dateEndPreMove.time - scheduleGroup.dateStartPreMove.time) / (60 * 60 * 1000);
-			if (scheduleGroup.dateStartPreMove.hours - hourChange >= 0 && scheduleGroup.dateEndPreMove.hours + hourChange <= 23 && hourChange * 2 + durationPreMove <= 6 && hourChange * 2 + durationPreMove >= 2)
+			var durationPreMove:Number = (scheduleGroup.dateEndPreMove.time - scheduleGroup.dateStartPreMove.time) /
+					(60 * 60 * 1000);
+			if (scheduleGroup.dateStartPreMove.hours - hourChange >= 0 &&
+					scheduleGroup.dateEndPreMove.hours + hourChange <= 23 && hourChange * 2 + durationPreMove <= 6 &&
+					hourChange * 2 + durationPreMove >= 2)
 			{
 				scheduleGroup.dateStart = new Date(scheduleGroup.dateStartPreMove.time - (hourChange * 60 * 60 * 1000));
 				scheduleGroup.dateEnd = new Date(scheduleGroup.dateEndPreMove.time + (hourChange * 60 * 60 * 1000));
@@ -134,14 +146,18 @@ package collaboRhythm.plugins.schedule.model
 					oldScheduleGroup = scheduleGroup;
 					scheduleItemOccurrence.dateStart = oldScheduleGroup.dateStart;
 					scheduleItemOccurrence.dateEnd = oldScheduleGroup.dateEnd;
-					var yPosition:int = oldScheduleGroup.yPosition + (oldScheduleGroup.scheduleItemsOccurrencesCollection.length - 1 - scheduleItemOccurrenceIndex) * (ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT + ScheduleGroupTimelineView.SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH);
+					var yPosition:int = oldScheduleGroup.yPosition +
+							(oldScheduleGroup.scheduleItemsOccurrencesCollection.length - 1 -
+									scheduleItemOccurrenceIndex) *
+									(ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT +
+											ScheduleGroupTimelineView.SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH);
 					scheduleItemOccurrence.moving = true;
 
 					_scheduleModel.removeScheduleItemOccurrenceFromGroup(scheduleGroup, scheduleItemOccurrenceIndex);
 				}
 			}
 			var newScheduleGroup:ScheduleGroup = _scheduleModel.createScheduleGroup(scheduleItemOccurrence, true,
-																					yPosition);
+					yPosition);
 			storePreMoveInfo(newScheduleGroup, moveData);
 			stackingUpdated = false;
 		}
@@ -153,9 +169,15 @@ package collaboRhythm.plugins.schedule.model
 			// occurrences in the group because removing occurrences will invalidate the group's id
 			_scheduleModel.scheduleGroupsHashMap.remove(fromScheduleGroup.id);
 			var scheduleItemOccurrenceIndex:int = 0;
-			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in fromScheduleGroup.scheduleItemsOccurrencesCollection)
+			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in
+					fromScheduleGroup.scheduleItemsOccurrencesCollection)
 			{
-				scheduleItemOccurrence.yPosition = fromScheduleGroup.yPosition + ScheduleGroupTimelineView.SCHEDULE_GROUP_TIMELINE_VIEW_TOP_WIDTH + (fromScheduleGroup.scheduleItemsOccurrencesCollection.length - 1 - scheduleItemOccurrenceIndex) * (ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT + ScheduleGroupTimelineView.SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH);
+				scheduleItemOccurrence.yPosition = fromScheduleGroup.yPosition +
+						ScheduleGroupTimelineView.SCHEDULE_GROUP_TIMELINE_VIEW_TOP_WIDTH +
+						(fromScheduleGroup.scheduleItemsOccurrencesCollection.length - 1 -
+								scheduleItemOccurrenceIndex) *
+								(ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT +
+										ScheduleGroupTimelineView.SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH);
 				toScheduleGroup.scheduleItemsOccurrencesCollection.addItem(scheduleItemOccurrence);
 				scheduleItemOccurrenceIndex += 1;
 			}
@@ -180,7 +202,9 @@ package collaboRhythm.plugins.schedule.model
 			var scheduleGroupToRemove:ScheduleGroup;
 
 			//TODO: fix static medication width reference;
-			var scheduleItemsPerHour:Number = Math.ceil((ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH - ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2 + ScheduleGroupTimelineView.SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH) / timeWidth);
+			var scheduleItemsPerHour:Number = Math.ceil((ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_WIDTH -
+					ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_PICTURE_WIDTH / 2 +
+					ScheduleGroupTimelineView.SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH) / timeWidth);
 
 			for each (var scheduleGroup:ScheduleGroup in _scheduleModel.scheduleGroupsCollection)
 			{
@@ -199,7 +223,10 @@ package collaboRhythm.plugins.schedule.model
 						transferScheduleItemOccurrences(previousScheduleGroup, scheduleGroup);
 					}
 				}
-				else if (!previousScheduleGroup || (previousScheduleGroup && previousScheduleGroup.dateCenter.hours - scheduleGroup.dateCenter.hours > scheduleItemsPerHour))
+				else if (!previousScheduleGroup ||
+						(previousScheduleGroup &&
+								previousScheduleGroup.dateCenter.hours - scheduleGroup.dateCenter.hours >
+										scheduleItemsPerHour))
 				{
 					stackNumber = 0;
 					scheduleItemsStacked = 0;
@@ -208,7 +235,8 @@ package collaboRhythm.plugins.schedule.model
 				else
 				{
 					stackNumber += 1;
-					if (previousScheduleGroup.scheduleItemsOccurrencesCollection.length > 1 || (scheduleGroupToRemove && scheduleGroupToRemove == previousScheduleGroup))
+					if (previousScheduleGroup.scheduleItemsOccurrencesCollection.length > 1 ||
+							(scheduleGroupToRemove && scheduleGroupToRemove == previousScheduleGroup))
 					{
 						scheduleGroupsStacked += 1;
 					}
@@ -240,13 +268,34 @@ package collaboRhythm.plugins.schedule.model
 		private function stackItemsFromPreviousGroup(scheduleItemsStacked:Number,
 													 previousScheduleGroup:ScheduleGroup):Number
 		{
-			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in previousScheduleGroup.scheduleItemsOccurrencesCollection)
+			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in
+					previousScheduleGroup.scheduleItemsOccurrencesCollection)
 			{
 				scheduleItemsStacked += 1;
 			}
 			return scheduleItemsStacked
 		}
 
+		public function unscheduleItem(moveData:MoveData):void
+		{
+			stackingUpdated = false;
+
+			var scheduleItemOccurrence:ScheduleItemOccurrence = _scheduleModel.scheduleItemOccurrencesHashMap[moveData.id];
+			for each (var scheduleGroup:ScheduleGroup in _scheduleModel.scheduleGroupsCollection)
+			{
+				var scheduleItemOccurrenceIndex:int = scheduleGroup.scheduleItemsOccurrencesCollection.getItemIndex(scheduleItemOccurrence);
+				if (scheduleItemOccurrenceIndex != -1)
+				{
+					_scheduleModel.removeScheduleItemOccurrenceFromGroup(scheduleGroup, scheduleItemOccurrenceIndex);
+				}
+			}
+
+			//TODO: Persist unscheduling a scheduleItem. If there is no data for the scheduleItem, it can be voided. Otherwise, the
+			//recurrenceRule of the scheduleItem should be changed as appropriate
+			_scheduleModel.record.removeDocument(scheduleItemOccurrence.scheduleItem, DocumentBase.ACTION_VOID);
+
+			stackingUpdated = true;
+		}
 
 		public function get stackingUpdated():Boolean
 		{

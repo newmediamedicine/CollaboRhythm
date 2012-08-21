@@ -1,6 +1,7 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
 	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 
 	import mx.collections.ArrayCollection;
@@ -16,8 +17,7 @@ package collaboRhythm.plugins.schedule.shared.model
 			_factoryArray = componentContainer.resolveAll(IHealthActionCreationControllerFactory);
 		}
 
-		public function createHealthActionCreationControllers(activeAccount:Account,
-															  activeRecordAccount:Account,
+		public function createHealthActionCreationControllers(activeAccount:Account, activeRecordAccount:Account,
 															  viewNavigator:ViewNavigator):ArrayCollection
 		{
 			var healthActionCreationControllers:ArrayCollection = new ArrayCollection();
@@ -29,6 +29,23 @@ package collaboRhythm.plugins.schedule.shared.model
 			}
 
 			return healthActionCreationControllers;
+		}
+
+		public function createHealthActionCreationControllerFromScheduleItemOccurrence(activeAccount:Account,
+																					   activeRecordAccount:Account,
+																					   scheduleItemOccurrence:ScheduleItemOccurrence,
+																					   viewNavigator:ViewNavigator):IHealthActionCreationController
+		{
+			var currentHealthActionCreationController:IHealthActionCreationController = null;
+			for each (var healthActionCreationControllerFactory:IHealthActionCreationControllerFactory in _factoryArray)
+			{
+				var healthActionCreationController:IHealthActionCreationController = healthActionCreationControllerFactory.createHealthActionCreationControllerFromScheduleItemOccurrence(activeAccount,
+						activeRecordAccount, scheduleItemOccurrence, viewNavigator);
+			}
+			if (healthActionCreationController)
+				currentHealthActionCreationController = healthActionCreationController;
+
+			return currentHealthActionCreationController;
 		}
 	}
 }

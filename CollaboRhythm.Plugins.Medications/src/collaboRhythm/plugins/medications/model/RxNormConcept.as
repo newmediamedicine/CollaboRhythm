@@ -8,10 +8,13 @@ package collaboRhythm.plugins.medications.model
 		private var _rxcui:String;
 		private var _ndcCodes:ArrayCollection = new ArrayCollection();
 
-		public function RxNormConcept(conceptXML:XML)
+		public function RxNormConcept(conceptXML:XML = null)
 		{
-			_name = conceptXML.name;
-			_rxcui = conceptXML.rxcui;
+			if (conceptXML)
+			{
+				_name = conceptXML.name;
+				_rxcui = conceptXML.rxcui;
+			}
 		}
 
 		public function get name():String
@@ -19,9 +22,19 @@ package collaboRhythm.plugins.medications.model
 			return _name;
 		}
 
+		public function set name(value:String):void
+		{
+			_name = value;
+		}
+
 		public function get rxcui():String
 		{
 			return _rxcui;
+		}
+
+		public function set rxcui(value:String):void
+		{
+			_rxcui = value;
 		}
 
 		public function get ndcCodes():ArrayCollection

@@ -1,6 +1,7 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
 	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import spark.components.ViewNavigator;
 
@@ -9,5 +10,10 @@ package collaboRhythm.plugins.schedule.shared.model
 		function createHealthActionCreationController(activeAccount:Account,
 													  activeRecordAccount:Account,
 													  viewNavigator:ViewNavigator):IHealthActionCreationController;
+
+		function createHealthActionCreationControllerFromScheduleItemOccurrence(activeAccount:Account,
+																				activeRecordAccount:Account,
+																				scheduleItemOccurrence:ScheduleItemOccurrence,
+																				viewNavigator:ViewNavigator):IHealthActionCreationController;
 	}
 }

@@ -16,26 +16,45 @@
  */
 package collaboRhythm.plugins.schedule.controller
 {
-
 	import collaboRhythm.plugins.schedule.model.ScheduleModel;
 	import collaboRhythm.plugins.schedule.model.ScheduleTimelineModel;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionCreationController;
+	import collaboRhythm.plugins.schedule.shared.model.MasterHealthActionCreationControllerFactory;
 	import collaboRhythm.plugins.schedule.shared.model.MoveData;
 	import collaboRhythm.plugins.schedule.view.ScheduleTimelineFullView;
+	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.services.IComponentContainer;
 
 	import flash.events.EventDispatcher;
 
+	import spark.components.ViewNavigator;
+
 	public class ScheduleTimelineController extends EventDispatcher
 	{
+		private var _activeAccount:Account;
+		private var _activeRecordAccount:Account;
 		private var _scheduleModel:ScheduleModel;
 		private var _scheduleTimelineFullView:ScheduleTimelineFullView;
 		private var _scheduleTimelineModel:ScheduleTimelineModel;
+		private var _viewNavigator:ViewNavigator;
 
-		public function ScheduleTimelineController(scheduleModel:ScheduleModel,
-												   scheduleTimelineFullView:ScheduleTimelineFullView)
+		private var _healthActionCreationControllerFactory:MasterHealthActionCreationControllerFactory;
+
+		public function ScheduleTimelineController(activeAccount:Account,
+												   activeRecordAccount:Account,
+												   scheduleModel:ScheduleModel,
+												   scheduleTimelineFullView:ScheduleTimelineFullView,
+												   componentContainter:IComponentContainer,
+												   viewNavigator:ViewNavigator)
 		{
+			_activeAccount = activeAccount;
+			_activeRecordAccount = activeRecordAccount;
 			_scheduleModel = scheduleModel;
 			_scheduleTimelineFullView = scheduleTimelineFullView;
 			_scheduleTimelineModel = _scheduleModel.scheduleTimelineModel;
+			_viewNavigator = viewNavigator;
+
+			_healthActionCreationControllerFactory = new MasterHealthActionCreationControllerFactory(componentContainter);
 		}
 
 		public function grabScheduleGroup(moveData:MoveData):void
@@ -75,6 +94,17 @@ package collaboRhythm.plugins.schedule.controller
 		public function grabScheduleItemOccurrence(moveData:MoveData):void
 		{
 			_scheduleTimelineModel.grabScheduleItemOccurrence(moveData);
+		}
+
+		public function editItem(moveData:MoveData):void
+		{
+			var healthActionCreationController:IHealthActionCreationController = _healthActionCreationControllerFactory.createHealthActionCreationControllerFromScheduleItemOccurrence(_activeAccount, _activeRecordAccount, _scheduleModel.scheduleItemOccurrencesHashMap[moveData.id], _viewNavigator)
+			healthActionCreationController.showHealthActionEditView(_scheduleModel.scheduleItemOccurrencesHashMap[moveData.id]);
+		}
+
+		public function unscheduleItem(moveData:MoveData):void
+		{
+			_scheduleTimelineModel.unscheduleItem(moveData);
 		}
 	}
 }
