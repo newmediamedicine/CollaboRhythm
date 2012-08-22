@@ -86,9 +86,9 @@ package collaboRhythm.plugins.medications.controller
 
 		public function saveMedication():void
 		{
-			_medicationHealthActionCreationModel.saveMedication();
-
 			_medicationHealthActionCreationModel.addEventListener(SaveMedicationCompleteEvent.SAVE_MEDICATION, saveMedication_completeEventHandler);
+
+			_medicationHealthActionCreationModel.saveMedication();
 		}
 
 		private function saveMedication_completeEventHandler(event:SaveMedicationCompleteEvent):void

@@ -28,6 +28,10 @@ package collaboRhythm.plugins.medications.model
 	{
 		private static const RXCUI_CODED_VALUE_TYPE:String = "http://rxnav.nlm.nih.gov/REST/rxcui/";
 		private static const PRESCRIBED_ORDER_TYPE:String = "prescribed";
+		private static const DEFAULT_RECURRENCE_COUNT:int = 120;
+		private static const DEFAULT_START_TIME:int = 8;
+		private static const DEFAULT_ADHERENCE_WINDOW:int = 4;
+		private static const DEFAULT_DOSE:String = "1";
 
 		private var _activeAccount:Account;
 		private var _activeRecordAccount:Account;
@@ -102,6 +106,8 @@ package collaboRhythm.plugins.medications.model
 				var medicationOrder:MedicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
 
 				createMedicationFill(medicationOrder);
+
+				dispatchEvent(new SaveMedicationCompleteEvent(SaveMedicationCompleteEvent.SAVE_MEDICATION, 1))
 			}
 			else
 			{
@@ -132,10 +138,12 @@ package collaboRhythm.plugins.medications.model
 			medicationOrder.orderType = PRESCRIBED_ORDER_TYPE;
 			medicationOrder.orderedBy = _activeAccount.accountId;
 			medicationOrder.dateOrdered = _currentDateSource.now();
+			//TODO: Indication should not be required by the server. This can be removed once this is fixed
+			//Alternatively, the UI could allow an indication to be specified
 			medicationOrder.indication = "Diabetes";
 			if (doseUnit.text == "tablet")
 			{
-				medicationOrder.amountOrdered = new ValueAndUnit("120", doseUnit);
+				medicationOrder.amountOrdered = new ValueAndUnit(DEFAULT_RECURRENCE_COUNT.toString(), doseUnit);
 			}
 			else if (doseUnit.text == "Unit")
 			{
@@ -160,17 +168,18 @@ package collaboRhythm.plugins.medications.model
 				medicationScheduleItem.scheduledBy = _activeAccount.accountId;
 				medicationScheduleItem.dateScheduled = _currentDateSource.now();
 				medicationScheduleItem.dateStart = new Date(_currentDateSource.now().fullYear,
-						_currentDateSource.now().month, _currentDateSource.now().date, 8, 0, 0);
+						_currentDateSource.now().month, _currentDateSource.now().date, DEFAULT_START_TIME, 0, 0);
 				medicationScheduleItem.dateEnd = new Date(_currentDateSource.now().fullYear,
 						_currentDateSource.now().month,
-						_currentDateSource.now().date, 12, 0, 0);
+						_currentDateSource.now().date, DEFAULT_START_TIME + DEFAULT_ADHERENCE_WINDOW, 0, 0);
 				var recurrenceRule:RecurrenceRule = new RecurrenceRule();
 				recurrenceRule.frequency = new CodedValue(null, null, null, ScheduleItemBase.DAILY);
-				recurrenceRule.count = 120;
+				//TODO:
+				recurrenceRule.count = DEFAULT_RECURRENCE_COUNT;
 				medicationScheduleItem.recurrenceRule = recurrenceRule;
 				if (!dose)
 				{
-					dose = "1";
+					dose = DEFAULT_DOSE;
 				}
 				medicationScheduleItem.dose = new ValueAndUnit(dose, doseUnit);
 				medicationScheduleItem.instructions = instructions;
@@ -211,13 +220,7 @@ package collaboRhythm.plugins.medications.model
 					medicationScheduleItem.scheduledMedicationOrder.scheduleItems[medicationScheduleItem.meta.id] = medicationScheduleItem;
 				}
 
-				var viewsToPop:int = 1;
-				if (!_medicationScheduleItem)
-				{
-					viewsToPop++;
-				}
-
-				dispatchEvent(new SaveMedicationCompleteEvent(SaveMedicationCompleteEvent.SAVE_MEDICATION, viewsToPop))
+				dispatchEvent(new SaveMedicationCompleteEvent(SaveMedicationCompleteEvent.SAVE_MEDICATION, 2))
 			}
 		}
 

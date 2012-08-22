@@ -18,10 +18,18 @@ package collaboRhythm.core.model.healthRecord.stitchers
 {
 
 	import collaboRhythm.shared.model.*;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
+	import collaboRhythm.shared.model.healthRecord.Relationship;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
+
+	import mx.collections.ArrayCollection;
+
+	import spark.collections.Sort;
+	import spark.collections.SortField;
 
 	public class MedicationOrderStitcher extends DocumentStitcherBase
 	{
@@ -41,8 +49,25 @@ package collaboRhythm.core.model.healthRecord.stitchers
 
 		private function relateMedicationFill(medicationOrder:MedicationOrder):void
 		{
-			if (medicationOrder.medicationFillId)
-				medicationOrder.medicationFill = record.medicationFillsModel.medicationFills[medicationOrder.medicationFillId];
+			var medicationFills:ArrayCollection = new ArrayCollection();
+
+			for each (var relationship:Relationship in medicationOrder.relatesTo)
+			{
+				// relatesTo may be null if the related document is replaced or voided or fails to be loaded for some other reason
+				if (relationship.type == MedicationOrder.RELATION_TYPE_MEDICATION_FILL &&
+						relationship.relatesTo != null)
+				{
+					medicationFills.addItem(relationship.relatesTo);
+				}
+			}
+
+			var sort:Sort = new Sort();
+			sort.fields = [new SortField("dateFilled")];
+			sort.reverse();
+			medicationFills.sort = sort;
+			medicationFills.refresh();
+
+			medicationOrder.medicationFill = medicationFills.getItemAt(0) as MedicationFill;
 		}
 
 		private function relateMedicationScheduleItems(medicationOrder:MedicationOrder):void
