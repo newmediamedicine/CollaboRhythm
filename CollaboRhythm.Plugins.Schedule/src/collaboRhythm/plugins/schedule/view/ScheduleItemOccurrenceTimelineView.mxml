@@ -10,14 +10,14 @@
 		<s:Animate id="stackEffect" target="{this}">
 			<s:SimpleMotionPath id="motionPath" property="bottom"/>
 		</s:Animate>
-			<s:Callout id="scheduleItemCallout"
-					horizontalPosition="after"
-					verticalPosition="middle" mouseDownOutside="scheduleItemCallout_mouseDownOutsideHandler()">
-				<s:VGroup gap="0">
-					<s:Button label="Edit" width="150" height="60" click="editButton_clickHandler(event)"/>
-					<s:Button label="Unschedule" width="150" height="60" click="unscheduleButton_clickHandler(event)"/>
-				</s:VGroup>
-			</s:Callout>
+		<s:Callout id="scheduleItemCallout"
+				   horizontalPosition="after"
+				   verticalPosition="middle" mouseDownOutside="scheduleItemCallout_mouseDownOutsideHandler()">
+			<s:VGroup gap="0">
+				<s:Button label="Edit" width="150" height="60" click="editButton_clickHandler(event)"/>
+				<s:Button label="Unschedule" width="150" height="60" click="unscheduleButton_clickHandler(event)"/>
+			</s:VGroup>
+		</s:Callout>
 	</fx:Declarations>
 	<fx:Style>
 
@@ -27,15 +27,15 @@
 		}
 
 		#descriptionLabelTimeline {
-			font-size: 12;
+			font-size: 14;
 		}
 
-		#indicationLabelTimeline {
-			fontSize: 12;
-			fontStyle: italic;
+		#primaryInstructionsLabelTimeline {
+			fontSize: 14;
+			font-weight: bold;
 		}
 
-		#instructionsLabelTimeline {
+		#secondaryInstructionsLabelTimeline {
 			fontSize: 14;
 			font-weight: bold;
 		}
@@ -71,8 +71,8 @@
 
 			nameLabelTimeline.text = scheduleItemOccurrenceReportingViewAdapter.name;
 			descriptionLabelTimeline.text = scheduleItemOccurrenceReportingViewAdapter.description;
-			indicationLabelTimeline.text = scheduleItemOccurrenceReportingViewAdapter.indication;
-			instructionsLabelTimeline.text = scheduleItemOccurrenceReportingViewAdapter.secondaryInstructions;
+			primaryInstructionsLabelTimeline.text = scheduleItemOccurrenceReportingViewAdapter.primaryInstructions;
+			secondaryInstructionsLabelTimeline.text = scheduleItemOccurrenceReportingViewAdapter.secondaryInstructions;
 
 			var customView:IVisualElement = scheduleItemOccurrenceReportingViewAdapter.createCustomView();
 			if (customView)
@@ -210,8 +210,8 @@
 		<s:VGroup left="5" right="5" top="5" bottom="5" gap="1">
 			<s:Label id="nameLabelTimeline" maxDisplayedLines="1" width="100%"/>
 			<s:Label id="descriptionLabelTimeline" maxDisplayedLines="1" width="100%"/>
-			<s:Label id="indicationLabelTimeline" paddingTop="5" maxDisplayedLines="1" width="100%"/>
-			<s:Label id="instructionsLabelTimeline" paddingTop="5" maxDisplayedLines="1" width="100%"/>
+			<s:Label id="primaryInstructionsLabelTimeline" paddingTop="12" maxDisplayedLines="1" width="100%"/>
+			<s:Label id="secondaryInstructionsLabelTimeline" maxDisplayedLines="1" width="100%"/>
 		</s:VGroup>
 	</s:Group>
 

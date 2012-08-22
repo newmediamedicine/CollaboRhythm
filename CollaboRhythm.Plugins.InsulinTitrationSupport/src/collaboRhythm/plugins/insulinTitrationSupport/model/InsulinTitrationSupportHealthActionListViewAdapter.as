@@ -87,7 +87,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		public function get description():String
 		{
-			return "Make a decision to change insulin dose";
+			return "Decision Making Health Action";
 		}
 
 		public function get indication():String
