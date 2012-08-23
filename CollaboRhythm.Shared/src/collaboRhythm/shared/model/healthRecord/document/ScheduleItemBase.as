@@ -229,7 +229,7 @@ package collaboRhythm.shared.model.healthRecord.document
 					if (matchingAdherenceItems.length > 0)
 					{
 						// Normally, outside of testing scenarios, there should only be one AdherenceItem corresponding
-						// to each ScheduleItemOccurrence reccurrenceIndex. If there is more than one matching AdherenceItem
+						// to each ScheduleItemOccurrence recurrenceIndex. If there is more than one matching AdherenceItem
 						// log this and the sort the matching AdherenceItem documents by createdAt date in the metaData
 						// rather than by dateReported because, in testing scenarios, it is possible that the dateReported
 						// does not correspond correlate with the most recently created Document.

@@ -259,6 +259,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			if (_insulinTitrationDecisionPanelModel)
 			{
 				_insulinTitrationDecisionPanelModel.chartModelDetails = chartModelDetails;
+				_insulinTitrationDecisionPanelModel.updateForRecordChange();
+
 			}
 		}
 

@@ -61,8 +61,11 @@ package collaboRhythm.shared.model.healthRecord.document
 		public function addAdherenceItem(adherenceItem:AdherenceItem):void
 		{
 			adherenceItems.put(adherenceItem.meta.id, adherenceItem);
-			documents.addItem(adherenceItem);
 			addToAdherenceItemsCollectionsByCode(adherenceItem);
+			// Add the adherenceItem to the documents last because this is most likely the event that other classes
+			// will listen to in order to detect changes and the other collections should already be updated when
+			// this happens.
+			documents.addItem(adherenceItem);
 		}
 
 		protected function addToAdherenceItemsCollectionsByCode(adherenceItem:AdherenceItem):void

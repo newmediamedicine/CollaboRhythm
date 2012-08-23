@@ -451,6 +451,12 @@ package collaboRhythm.shared.model
 				expectDocumentInCollections = false;
 			}
 
+			// Remove the relationships before removing the document from the appropriate collections so that anyone
+			// listening to collection change events will not see misleading relationships still in place when
+			// the collection change event has just been fired.
+			removeNewRelationshipsForDocument(document);
+			document.clearRelationships();
+
 			documentCollection.removeDocument(document);
 
 			if (currentDocumentsById.getItem(document.meta.id) != null)
@@ -460,9 +466,6 @@ package collaboRhythm.shared.model
 //					_logger.warn("Document should have already been removed from the record (pendingAction = " + document.pendingAction + "), but was in currentDocumentsById");
 				currentDocumentsById.remove(document.meta.id);
 			}
-
-			removeNewRelationshipsForDocument(document);
-			document.clearRelationships();
 
 			if (document.pendingAction == DocumentBase.ACTION_CREATE)
 			{

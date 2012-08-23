@@ -148,8 +148,9 @@ package collaboRhythm.plugins.schedule.model
 		{
 			for each (var scheduleItemsCollectionsArray:ArrayCollection in _scheduleItemsCollectionsArray)
 			{
+				// Use as higher priority value of 1 so that the schedule model will be updated before other listeners
 				scheduleItemsCollectionsArray.addEventListener(CollectionEvent.COLLECTION_CHANGE,
-						documentCollection_changeHandler);
+						documentCollection_changeHandler, false, 1);
 			}
 		}
 

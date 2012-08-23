@@ -13,8 +13,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		public function InsulinTitrationDecisionPanelModel(chartModelDetails:IChartModelDetails)
 		{
-			this.chartModelDetails = chartModelDetails;
+			_chartModelDetails = chartModelDetails;
 			super();
+			updateForRecordChange();
 		}
 
 		public function get chartModelDetails():IChartModelDetails
@@ -25,7 +26,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function set chartModelDetails(value:IChartModelDetails):void
 		{
 			_chartModelDetails = value;
-			updateForRecordChange();
 		}
 
 		override public function get record():Record

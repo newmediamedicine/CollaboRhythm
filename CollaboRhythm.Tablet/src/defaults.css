@@ -86,12 +86,12 @@
 
 global
 {
-	fontFamily: MyriadPro;
+	fontFamily: MyriadPro, "Myriad Pro";
 }
 
-s|Label, s|RichText
+s|Label, s|RichText, s|RichEditableText
 {
-	fontFamily: MyriadProCFF;
+	fontFamily: MyriadProCFF, "Myriad Pro";
 }
 
 global

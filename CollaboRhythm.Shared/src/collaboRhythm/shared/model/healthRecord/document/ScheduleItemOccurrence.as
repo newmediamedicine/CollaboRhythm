@@ -51,16 +51,18 @@ package collaboRhythm.shared.model.healthRecord.document
 			adherenceItem.init(scheduleItem.name, reportedBy, _currentDateSource.now(), _recurrenceIndex,
 					adherenceResults);
 
+			// Add the relationship first so that the relationships will already be updated by the time anyone
+			// listening for collection change events on the document collection(s) responds.
 			adherenceItem.pendingAction = DocumentBase.ACTION_CREATE;
-			record.addDocument(adherenceItem);
 			record.addNewRelationship(ScheduleItemBase.RELATION_TYPE_ADHERENCE_ITEM,
 					scheduleItem, adherenceItem);
+			record.addDocument(adherenceItem);
 			for each (var adherenceResult:DocumentBase in adherenceItem.adherenceResults)
 			{
 				adherenceResult.pendingAction = DocumentBase.ACTION_CREATE;
-				record.addDocument(adherenceResult);
 				record.addNewRelationship(AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT,
-						adherenceItem, adherenceResult)
+						adherenceItem, adherenceResult);
+				record.addDocument(adherenceResult);
 			}
 		}
 
@@ -70,23 +72,29 @@ package collaboRhythm.shared.model.healthRecord.document
 			var occurrence:HealthActionOccurrence = new HealthActionOccurrence();
 			occurrence.init(scheduleItem.name, _recurrenceIndex, results);
 
+			// Add the relationship first so that the relationships will already be updated by the time anyone
+			// listening for collection change events on the document collection(s) responds.
 			occurrence.pendingAction = DocumentBase.ACTION_CREATE;
-			record.addDocument(occurrence);
 			record.addNewRelationship(ScheduleItemBase.RELATION_TYPE_OCCURRENCE,
 					scheduleItem, occurrence);
+			record.addDocument(occurrence);
 			for each (var adherenceResult:DocumentBase in occurrence.results)
 			{
 				adherenceResult.pendingAction = DocumentBase.ACTION_CREATE;
-				record.addDocument(adherenceResult);
 				record.addNewRelationship(HealthActionOccurrence.RELATION_TYPE_HEALTH_ACTION_RESULT,
-						occurrence, adherenceResult)
+						occurrence, adherenceResult);
+				record.addDocument(adherenceResult);
 			}
 		}
 
 		public function voidAdherenceItem(record:Record):void
 		{
-			record.removeDocument(adherenceItem, DocumentBase.ACTION_VOID, "deleted by user", true);
+			// Note that we set the adherenceItem = null first because it is likely that other classes will listen to
+			// the collection change event on the record and the state of the ScheduleItemOccurrence.adherenceItem
+			// should already be updated when this happens.
+			var oldAdherenceItem:AdherenceItem = adherenceItem;
 			adherenceItem = null;
+			record.removeDocument(oldAdherenceItem, DocumentBase.ACTION_VOID, "deleted by user", true);
 		}
 
 		public function get recurrenceIndex():int
