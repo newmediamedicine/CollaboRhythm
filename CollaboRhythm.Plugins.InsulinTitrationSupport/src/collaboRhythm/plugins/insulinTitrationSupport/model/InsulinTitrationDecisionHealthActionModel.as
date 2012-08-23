@@ -6,6 +6,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 
+	[Bindable]
 	public class InsulinTitrationDecisionHealthActionModel extends InsulinTitrationDecisionModelBase
 	{
 		private var _decisionScheduleItemOccurrence:ScheduleItemOccurrence;

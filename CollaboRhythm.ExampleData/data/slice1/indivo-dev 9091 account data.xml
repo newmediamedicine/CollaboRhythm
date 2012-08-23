@@ -334,13 +334,14 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>628f4ec3-4ea5-4209-bbce-0feaed5f7b0c</recordId>
-    <accessKey>JHplAmT4hZZXaPgLqC5w</accessKey>
-    <accessSecret>AXAp0L9WVGOcl9D0i0sK</accessSecret>
-    <demographicsId>c4262606-291e-4fec-88e5-6502d0e9179b</demographicsId>
-    <status>Created 13/13 documents, 7/8 relationships</status>
+    <recordId>4d41e000-87ea-44f1-9c7a-e5ad59fa72c7</recordId>
+    <accessKey>g1AMerpLDPMz6cUpQVTR</accessKey>
+    <accessSecret>ksoXDEQ6BKXT1Zxut4mk</accessSecret>
+    <demographicsId>15f8013c-478c-40f8-a6e0-974c654acddd</demographicsId>
+    <status>Record shared.</status>
     <notes/>
-    <recordSeed/>
+    <recordSeed>1</recordSeed>
+    <shareAccountId>sghiloni@records.media.mit.edu</shareAccountId>
   </AccountSource>
   <AccountSource>
     <accountId>jgreen@records.media.mit.edu</accountId>
@@ -965,13 +966,13 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>b58d8f7d-9557-4e0b-814a-8508aa8416eb</recordId>
-    <accessKey>5f8aNLXP2hpGYulpUYdq</accessKey>
-    <accessSecret>Cnxh6p0TTIS1cIc5lcGa</accessSecret>
+    <recordId>a1d9a85c-c15c-4a09-b075-5b5374ea39fc</recordId>
+    <accessKey>8962YgJPIGPpqmXZKtdp</accessKey>
+    <accessSecret>b8uagce8ISGh0973mxcy</accessSecret>
     <status>Created 3/3 documents, 1/2 relationships</status>
-    <demographicsId>101b9866-47a4-4bae-b7dc-1f30fa488deb</demographicsId>
-    <recordSeed/>
-    <shareAccountId>sghiloni@records.media.mit.edu</shareAccountId>
+    <demographicsId>6f9e1f7d-0b61-454d-b0b9-59c08ed894bf</demographicsId>
+    <recordSeed>1</recordSeed>
+    <shareAccountId>whsu@records.media.mit.edu</shareAccountId>
     <shareRole>Coach</shareRole>
   </AccountSource>
   <AccountSource>
@@ -1004,13 +1005,13 @@
     <religion>Protestant</religion>
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
-    <recordId>fb02c6c6-b8dc-4c82-b5df-c2a15e85c38e</recordId>
-    <accessKey>0dptRyi1rTSobL8jfbkR</accessKey>
-    <accessSecret>QylMtn8TTuW2bYVTpWU4</accessSecret>
+    <recordId>f2464603-5431-49a5-b296-c5a6b16ec152</recordId>
+    <accessKey>Ltx7vCsIlFQPN9jSkTC3</accessKey>
+    <accessSecret>zJwCEbpMjLtL564pZrNO</accessSecret>
     <status>Record shared.</status>
-    <demographicsId>01e29000-a3d6-48a0-b149-3f14c74ae2a0</demographicsId>
-    <recordSeed>1</recordSeed>
-    <shareAccountId>whsu@records.media.mit.edu</shareAccountId>
+    <demographicsId>5c7579d6-aad6-41df-8832-9a51fe132b02</demographicsId>
+    <recordSeed>2</recordSeed>
+    <shareAccountId>sghiloni@records.media.mit.edu</shareAccountId>
     <shareRole>Coach</shareRole>
   </AccountSource>
   <AccountSource>
@@ -1088,6 +1089,6 @@
     <notes>Demo account for Mar and Oovit</notes>
     <recordSeed>2</recordSeed>
   </AccountSource>
-  <saveDate>Wed Aug 15 09:37:54 GMT-0400 2012</saveDate>
+  <saveDate>Thu Aug 23 16:39:59 GMT-0400 2012</saveDate>
   <indivoServerBaseURL>http://indivo-dev.media.mit.edu:9091</indivoServerBaseURL>
 </dataroot>

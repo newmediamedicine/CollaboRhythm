@@ -39,6 +39,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import mx.logging.Log;
 	import mx.utils.StringUtil;
 
+	[Bindable]
 	public class InsulinTitrationDecisionModelBase
 	{
 		public static const STEP_SATISFIED:String = "satisfied";
@@ -152,6 +153,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _connectedChartVerticalAxisMinimum:Number;
 		private var _algorithmSuggestedDoseChange:Number;
 		private var _algorithmSuggestedDoseChangeLabel:String;
+		private var _instructionsHtml:String;
+		private var _algorithmPrerequisitesSatisfied:Boolean;
 
 		public function InsulinTitrationDecisionModelBase()
 		{
@@ -308,6 +311,42 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private function updateStep4State():void
 		{
 			step4State = step3State == STEP_SATISFIED ? STEP_SATISFIED : STEP_PREVIOUS_STOP;
+			updateInstructions();
+		}
+
+		private function updateInstructions():void
+		{
+			if (algorithmPrerequisitesSatisfied)
+			{
+				instructionsHtml = "<ol>" +
+						"<li>The average of your last 3 blood glucose measurements has been calculated.<br/></li>" +
+						"<li>The recommended change in dose has been highlighted. Keep in mind that this change does not account for diet, exercise, and other important factors.<br/></li>" +
+						"<li>You should choose the change in dose that you think is most appropriate.<br/></li>" +
+						"<li>Click Send to save your decision and send a message to your coach. Remember to check for feedback from your coach before using a new dose of insulin.</li>" +
+						"</ol>";
+			}
+			else if (step2State == STEP_STOP)
+			{
+				instructionsHtml = "<ol>" +
+						"<li>The average of your last 3 blood glucose measurements has been calculated.<br/></li>" +
+						"<Font color='0x888888'>" +
+						"<li>The 303 protocol requires perfect medication adherence. A change in dose is not recommended because your adherence is not perfect in the last 4 days.<br/></li>" +
+						"<li>Changing your dose without perfect medication adherence can be dangerous. It can lead to hypoglycemia.</li>" +
+						"</Font></ol>";
+			}
+			else
+			{
+				instructionsHtml = "<ol><Font color='0x888888'>" +
+						"<li>You do not have three acceptable blood glucose measurements for the protocol. The rules are:<br/>" +
+						"<ul><li>Only the first measurement each day</li>" +
+						"<li>Before eating (preprandial)</li>" +
+						"<li>Since your last change in insulin dose</li>" +
+						"<li>Within the past 4 days (one must be this morning)<br/></li></ul>" +
+						"</li>" +
+						"<li>Without an average blood glucose, a change in dose cannot be recommended.<br/></li>" +
+						"<li>Changing your dose without 3 blood glucose measurements can be dangerous. It can lead to hypoglycemia.</li>" +
+						"</Font></ol>";
+			}
 		}
 
 		public function get isChangeSpecified():Boolean
@@ -333,8 +372,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		public function set isAdherencePerfect(value:Boolean):void
 		{
-			_isAdherencePerfect = value;
-			updateStep2State();
+			if (_isAdherencePerfect != value)
+			{
+				_isAdherencePerfect = value;
+				updateStep2State();
+			}
 		}
 
 		public function get algorithmSuggestsIncreaseDose():Boolean
@@ -411,6 +453,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function set step2State(value:String):void
 		{
 			_step2State = value;
+			algorithmPrerequisitesSatisfied = step2State == STEP_SATISFIED;
 		}
 
 		public function get step3State():String
@@ -568,14 +611,16 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			return average;
 		}
 
-		protected function updateForRecordChange():void
+		internal function updateForRecordChange():void
 		{
 			this.isInitialized = false;
-			BindingUtils.bindSetter(vitalSignModel_isInitialized_setterHandler, record.vitalSignsModel,
+			BindingUtils.bindSetter(vitalSignsModel_isInitialized_setterHandler, record.vitalSignsModel,
+					"isInitialized");
+			BindingUtils.bindSetter(adherenceItemsModel_isInitialized_setterHandler, record.adherenceItemsModel,
 					"isInitialized");
 		}
 
-		private function vitalSignModel_isInitialized_setterHandler(isInitialized:Boolean):void
+		private function vitalSignsModel_isInitialized_setterHandler(isInitialized:Boolean):void
 		{
 			if (isInitialized)
 			{
@@ -589,9 +634,19 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			this.isInitialized = determineIsInitialized();
 		}
 
+		private function adherenceItemsModel_isInitialized_setterHandler(isInitialized:Boolean):void
+		{
+			if (isInitialized)
+			{
+				record.adherenceItemsModel.documents.addEventListener(CollectionEvent.COLLECTION_CHANGE,
+													adherenceItemsModelDocuments_collectionChangeEvent, false);
+			}
+			this.isInitialized = determineIsInitialized();
+		}
+
 		private function determineIsInitialized():Boolean
 		{
-			return (record && record.vitalSignsModel.isInitialized);
+			return (record && record.vitalSignsModel.isInitialized && record.adherenceItemsModel.isInitialized);
 		}
 
 		private function vitalSignsDocuments_collectionChangeEvent(event:CollectionEvent):void
@@ -599,6 +654,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			if (record.vitalSignsModel.isInitialized && (event.kind == CollectionEventKind.ADD || event.kind == CollectionEventKind.REMOVE))
 			{
 				updateBloodGlucoseAverage();
+			}
+		}
+
+		private function adherenceItemsModelDocuments_collectionChangeEvent(event:CollectionEvent):void
+		{
+			if (record.adherenceItemsModel.isInitialized && (event.kind == CollectionEventKind.ADD || event.kind == CollectionEventKind.REMOVE))
+			{
+				updateIsAdherencePerfect();
 			}
 		}
 
@@ -730,7 +793,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		public function get algorithmPrerequisitesSatisfied():Boolean
 		{
-			return step2State == STEP_SATISFIED;
+			return _algorithmPrerequisitesSatisfied;
 		}
 
 		private function saveDecisionResult(plan:HealthActionPlan):void
@@ -1094,6 +1157,21 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function set algorithmSuggestedDoseChangeLabel(value:String):void
 		{
 			_algorithmSuggestedDoseChangeLabel = value;
+		}
+
+		public function get instructionsHtml():String
+		{
+			return _instructionsHtml;
+		}
+
+		public function set instructionsHtml(value:String):void
+		{
+			_instructionsHtml = value;
+		}
+
+		public function set algorithmPrerequisitesSatisfied(value:Boolean):void
+		{
+			_algorithmPrerequisitesSatisfied = value;
 		}
 	}
 }

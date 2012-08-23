@@ -10,9 +10,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 	import flash.events.MouseEvent;
 
 	import flashx.textLayout.conversion.TextConverter;
+	import flashx.textLayout.elements.LinkElement;
+	import flashx.textLayout.events.FlowElementMouseEvent;
 
 	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayCollection;
+	import mx.controls.Alert;
 	import mx.core.ClassFactory;
 	import mx.core.IVisualElement;
 	import mx.core.mx_internal;
@@ -24,9 +27,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 	import spark.components.CalloutButton;
 	import spark.components.Group;
 	import spark.components.Label;
+	import spark.components.RichEditableText;
 	import spark.components.RichText;
+	import spark.components.Scroller;
 	import spark.components.SpinnerList;
 	import spark.components.SpinnerListContainer;
+	import spark.components.VGroup;
 	import spark.core.SpriteVisualElement;
 	import spark.filters.ColorMatrixFilter;
 	import spark.primitives.Rect;
@@ -102,6 +108,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		private var _minimumExceededIndicator:MinimumExceededIndicator;
 		private var _connectorMaxLine:DottedLine;
 		private var _connectorMinLine:DottedLine;
+		private var _instructionsScroller:Scroller;
+		private var _instructionsRichText:RichEditableText;
 
 		public function InsulinTitrationDecisionPanel()
 		{
@@ -117,6 +125,22 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		override protected function createChildren():void
 		{
 			super.createChildren();
+
+			_instructionsScroller = new Scroller();
+			_instructionsScroller.includeInLayout = false;
+			addElement(_instructionsScroller);
+
+			var instructionsGroup:VGroup = new VGroup();
+			_instructionsScroller.viewport = instructionsGroup;
+
+			_instructionsRichText = new RichEditableText();
+			_instructionsRichText.editable = false;
+//			_instructionsRichText.setStyle("paragraphSpaceAfter", 10);
+			_instructionsRichText.setStyle("paddingLeft", 20);
+			updateInstructionsText();
+//			_instructionsRichText.textFlow.addEventListener(FlowElementMouseEvent.CLICK, instructionsFlowElementMouseEventHandler);
+
+			instructionsGroup.addElement(_instructionsRichText);
 
 			_step1Badge = new Step1Badge();
 			_step1Badge.bottom = 0;
@@ -221,6 +245,19 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			_sendButton.setStyle("skinClass", ButtonSkin);
 			_sendButton.addEventListener(MouseEvent.CLICK, sendButton_clickHandler);
 			addElement(_sendButton);
+		}
+
+		private function updateInstructionsText():void
+		{
+			_instructionsRichText.textFlow = TextConverter.importToFlow("<p align='center'><Font size='30'>303 Protocol for Insulin Titration</Font></p><p/>" +
+					model.instructionsHtml +
+					"<p align='center'><br/><a href='http://www.ncbi.nlm.nih.gov/pubmed/17924873'>Learn more about the 303 Protocol</a></p>",
+					TextConverter.TEXT_FIELD_HTML_FORMAT);
+		}
+
+		private function instructionsFlowElementMouseEventHandler( event:FlowElementMouseEvent ):void
+		{
+			Alert.show( "html link with ID clicked: " + ( event.flowElement as LinkElement ).href );
 		}
 
 		private function createConnectorLine():DottedLine
@@ -556,12 +593,17 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			{
 				invalidateDisplayList();
 			}
+			if (event.property == "instructionsHtml")
+			{
+				updateInstructionsText();
+			}
 		}
 
 		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
 		{
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
 
+			updateInstructionsScroller();
 			determineChartHeight();
 			resizeChart(_step1Chart);
 			resizeChart(_step2Chart);
@@ -575,6 +617,17 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			updateConnectors();
 			// TODO: determine why the +3 is necessary to make the spinner the same height as the chart boxes
 			_dosageChangeSpinnerListContainer.height = _chartHeight + 3;
+		}
+
+		private function updateInstructionsScroller():void
+		{
+			var chartsContainer:VGroup = this.owner.parent as VGroup;
+			var chartsContainerPaddingTop:Number = (chartsContainer ? chartsContainer.paddingTop : 0);
+			_instructionsScroller.height = parent.y - (chartsContainer ? chartsContainer.gap : 0) - chartsContainerPaddingTop;
+			_instructionsScroller.y = -_instructionsScroller.height - chartsContainerPaddingTop;
+			_instructionsScroller.x = chartsContainer ? chartsContainer.gap : 0;
+			_instructionsScroller.width = this.width - _instructionsScroller.x;
+			_instructionsRichText.width = _instructionsScroller.width;
 		}
 
 		private function updateConnectors():void

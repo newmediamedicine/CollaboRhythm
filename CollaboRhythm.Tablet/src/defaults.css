@@ -23,14 +23,14 @@
 @font-face
 {
 	src: url("/assets/fonts/MyriadPro-Regular.otf");
-	fontFamily: MyriadProCFF;
+	fontFamily: MyriadProEmbeddedCFF;
 	embedAsCFF: true;
 }
 
 @font-face
 {
 	src: url("/assets/fonts/MyriadPro-Bold.otf");
-	fontFamily: MyriadProCFF;
+	fontFamily: MyriadProEmbeddedCFF;
 	fontWeight: bold;
 	embedAsCFF: true;
 }
@@ -38,7 +38,7 @@
 @font-face
 {
 	src: url("/assets/fonts/MyriadPro-It.otf");
-	fontFamily: MyriadProCFF;
+	fontFamily: MyriadProEmbeddedCFF;
 	fontStyle: italic;
 	embedAsCFF: true;
 }
@@ -46,7 +46,7 @@
 @font-face
 {
 	src: url("/assets/fonts/MyriadPro-BoldIt.otf");
-	fontFamily: MyriadProCFF;
+	fontFamily: MyriadProEmbeddedCFF;
 	fontWeight: bold;
 	fontStyle: italic;
 	embedAsCFF: true;
@@ -55,14 +55,14 @@
 @font-face
 {
 	src: url("/assets/fonts/MyriadPro-Regular.otf");
-	fontFamily: MyriadPro;
+	fontFamily: MyriadProEmbedded;
 	embedAsCFF: false;
 }
 
 @font-face
 {
 	src: url("/assets/fonts/MyriadPro-Bold.otf");
-	fontFamily: MyriadPro;
+	fontFamily: MyriadProEmbedded;
 	fontWeight: bold;
 	embedAsCFF: false;
 }
@@ -70,7 +70,7 @@
 @font-face
 {
 	src: url("/assets/fonts/MyriadPro-It.otf");
-	fontFamily: MyriadPro;
+	fontFamily: MyriadProEmbedded;
 	fontStyle: italic;
 	embedAsCFF: false;
 }
@@ -78,7 +78,7 @@
 @font-face
 {
 	src: url("/assets/fonts/MyriadPro-BoldIt.otf");
-	fontFamily: MyriadPro;
+	fontFamily: MyriadProEmbedded;
 	fontWeight: bold;
 	fontStyle: italic;
 	embedAsCFF: false;
@@ -86,12 +86,17 @@
 
 global
 {
-	fontFamily: MyriadPro;
+	fontFamily: MyriadProEmbedded;
 }
 
-s|Label, s|RichText
+s|Label, s|RichText, s|RichEditableText
 {
-	fontFamily: MyriadProCFF;
+	fontFamily: MyriadProEmbeddedCFF;
+}
+
+s|TextInput
+{
+	fontFamily: "Myriad Pro";
 }
 
 global

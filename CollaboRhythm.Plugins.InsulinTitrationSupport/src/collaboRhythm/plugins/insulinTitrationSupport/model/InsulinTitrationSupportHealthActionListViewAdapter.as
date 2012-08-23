@@ -12,6 +12,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
 	import mx.core.IVisualElement;
+	import mx.events.PropertyChangeEvent;
 
 	import spark.components.Image;
 	import spark.filters.ColorMatrixFilter;
@@ -70,14 +71,29 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				image.source = _titrateLevemirImageClass;
 			}
 			image.smooth = true;
+			updateImageForPrerequisites(image);
+			_decisionModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, function (event:PropertyChangeEvent):void
+					{
+						if (event.property == "algorithmPrerequisitesSatisfied")
+						{
+							updateImageForPrerequisites(image);
+						}
+					}, false, 0, true);
+			return image;
+		}
 
+		private function updateImageForPrerequisites(image:Image):void
+		{
 			if (_decisionModel && !_decisionModel.algorithmPrerequisitesSatisfied)
 			{
 				image.alpha = 0.3;
 				image.filters = [_greyScaleFilter];
 			}
-
-			return image;
+			else
+			{
+				image.alpha = 1;
+				image.filters = [];
+			}
 		}
 
 		public function get name():String
