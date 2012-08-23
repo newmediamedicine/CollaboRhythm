@@ -135,6 +135,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 			_instructionsRichText = new RichEditableText();
 			_instructionsRichText.editable = false;
+//			_instructionsRichText.setStyle("paragraphSpaceAfter", 10);
+			_instructionsRichText.setStyle("paddingLeft", 20);
 			updateInstructionsText();
 //			_instructionsRichText.textFlow.addEventListener(FlowElementMouseEvent.CLICK, instructionsFlowElementMouseEventHandler);
 
@@ -247,9 +249,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 		private function updateInstructionsText():void
 		{
-			_instructionsRichText.textFlow = TextConverter.importToFlow("<p align='center'><Font size='30'>303 Protocol for Insulin Titration</Font></p>" +
+			_instructionsRichText.textFlow = TextConverter.importToFlow("<p align='center'><Font size='30'>303 Protocol for Insulin Titration</Font></p><p/>" +
 					model.instructionsHtml +
-					"<a href='http://www.ncbi.nlm.nih.gov/pubmed/17924873'>Learn more about the 303 Protocol</a>",
+					"<p align='center'><br/><a href='http://www.ncbi.nlm.nih.gov/pubmed/17924873'>Learn more about the 303 Protocol</a></p>",
 					TextConverter.TEXT_FIELD_HTML_FORMAT);
 		}
 

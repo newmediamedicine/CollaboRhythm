@@ -319,31 +319,31 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			if (algorithmPrerequisitesSatisfied)
 			{
 				instructionsHtml = "<ol>" +
-						"<li>The average of your last 3 blood glucose measurements has been calculated.</li>" +
-						"<li>The recommended change in dose has been highlighted. Keep in mind that this change does not account for diet, exercise, and other important factors.</li>" +
-						"<li>You should choose the change in dose that you think is most appropriate.</li>" +
+						"<li>The average of your last 3 blood glucose measurements has been calculated.<br/></li>" +
+						"<li>The recommended change in dose has been highlighted. Keep in mind that this change does not account for diet, exercise, and other important factors.<br/></li>" +
+						"<li>You should choose the change in dose that you think is most appropriate.<br/></li>" +
 						"<li>Click Send to save your decision and send a message to your coach. Remember to check for feedback from your coach before using a new dose of insulin.</li>" +
 						"</ol>";
 			}
 			else if (step2State == STEP_STOP)
 			{
 				instructionsHtml = "<ol>" +
-						"<li>The average of your last 3 blood glucose measurements has been calculated.</li>" +
+						"<li>The average of your last 3 blood glucose measurements has been calculated.<br/></li>" +
 						"<Font color='0x888888'>" +
-						"<li>The 303 protocol requires perfect medication adherence. A change in dose is not recommended because your adherence is not perfect in the last 4 days.</li>" +
+						"<li>The 303 protocol requires perfect medication adherence. A change in dose is not recommended because your adherence is not perfect in the last 4 days.<br/></li>" +
 						"<li>Changing your dose without perfect medication adherence can be dangerous. It can lead to hypoglycemia.</li>" +
 						"</Font></ol>";
 			}
 			else
 			{
 				instructionsHtml = "<ol><Font color='0x888888'>" +
-						"<li>You do not have three acceptable blood glucose measurements for the protocol. The rules are:" +
+						"<li>You do not have three acceptable blood glucose measurements for the protocol. The rules are:<br/>" +
 						"<ul><li>Only the first measurement each day</li>" +
 						"<li>Before eating (preprandial)</li>" +
 						"<li>Since your last change in insulin dose</li>" +
-						"<li>Within the past 4 days (one must be this morning)</li></ul>" +
+						"<li>Within the past 4 days (one must be this morning)<br/></li></ul>" +
 						"</li>" +
-						"<li>Without an average blood glucose, a change in dose cannot be recommended.</li>" +
+						"<li>Without an average blood glucose, a change in dose cannot be recommended.<br/></li>" +
 						"<li>Changing your dose without 3 blood glucose measurements can be dangerous. It can lead to hypoglycemia.</li>" +
 						"</Font></ol>";
 			}
