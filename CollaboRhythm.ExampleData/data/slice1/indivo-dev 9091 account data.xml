@@ -967,9 +967,9 @@
     <highestEducation>University</highestEducation>
     <organDonar>true</organDonar>
     <recordId>a1d9a85c-c15c-4a09-b075-5b5374ea39fc</recordId>
-    <accessKey>YHGdP6DWULMfopCxkC2S</accessKey>
-    <accessSecret>mydCyt1KIftTye1mU6DV</accessSecret>
-    <status>Record shared.</status>
+    <accessKey>8962YgJPIGPpqmXZKtdp</accessKey>
+    <accessSecret>b8uagce8ISGh0973mxcy</accessSecret>
+    <status>Created 3/3 documents, 1/2 relationships</status>
     <demographicsId>6f9e1f7d-0b61-454d-b0b9-59c08ed894bf</demographicsId>
     <recordSeed>1</recordSeed>
     <shareAccountId>whsu@records.media.mit.edu</shareAccountId>
@@ -1089,6 +1089,6 @@
     <notes>Demo account for Mar and Oovit</notes>
     <recordSeed>2</recordSeed>
   </AccountSource>
-  <saveDate>Wed Aug 22 16:30:24 GMT-0400 2012</saveDate>
+  <saveDate>Thu Aug 23 16:39:59 GMT-0400 2012</saveDate>
   <indivoServerBaseURL>http://indivo-dev.media.mit.edu:9091</indivoServerBaseURL>
 </dataroot>
