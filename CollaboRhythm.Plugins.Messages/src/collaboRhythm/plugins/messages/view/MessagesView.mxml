@@ -41,6 +41,7 @@
 
 		import spark.collections.Sort;
 		import spark.collections.SortField;
+		import spark.events.TextOperationEvent;
 
 		[Bindable]
 		private var _messagesModel:MessagesModel;
@@ -111,17 +112,14 @@
 			_messagesAppController.recordVideoMessage();
 		}
 
-
-		private function messageTextInput_keyDownHandler(event:KeyboardEvent):void
+		// Prevent entering newline characters in messages. Instead, hitting return closes the soft keyboard.
+		// Unfortunately, setting the label for the return key doesn't work on all android devices and listening
+		// for the return key does not work either.
+		private function messageTextInput_changeHandler(event:TextOperationEvent):void
 		{
-			if (event.charCode == Keyboard.ENTER)
+			if (messageTextInput.text.charAt(messageTextInput.text.length - 1) == "\n")
 			{
-				event.preventDefault();
-
-				if (messageTextInput.text != "")
-				{
-					sendButton_clickHandler();
-				}
+				messageTextInput.text = messageTextInput.text.slice(0, messageTextInput.text.length - 1);
 			}
 		}
 		]]></fx:Script>
@@ -136,11 +134,11 @@
 				</s:stroke>
 			</s:Line>
 			<s:HGroup left="10" right="10" top="10" bottom="10" gap="20">
-				<!--TODO: Replace with spark component once the bug with preventing the enter key is fixed-->
-				<mx:TextArea id="messageTextInput" height="100%" width="100%"
-							keyDown="messageTextInput_keyDownHandler(event)"/>
+				<s:TextArea id="messageTextInput" height="100%" width="100%"
+							skinClass="spark.skins.mobile.StageTextAreaSkin"
+							autoCapitalize="{AutoCapitalize.SENTENCE}" autoCorrect="true" change="messageTextInput_changeHandler(event)"/>
 				<s:Group height="100%" width="80">
-					<s:Button height="100%" width="100%"
+					<s:Button id="sendButton" height="100%" width="100%"
 							  skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin"
 							  click="sendButton_clickHandler()"/>
 					<view:SendIcon left="10" top="10" mouseEnabled="false" mouseChildren="false"/>

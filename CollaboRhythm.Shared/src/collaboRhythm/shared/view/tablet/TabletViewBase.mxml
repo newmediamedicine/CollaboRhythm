@@ -137,10 +137,7 @@
 
 		protected function stage_keyUpHandler(event:KeyboardEvent):void
 		{
-			if (event.keyCode == Keyboard.BACK)
-			{
-				_tabletApplicationController.synchronizeBack("local");
-			}
+
 		}
 
 		private function determineEnableVoidingMenuItemLabel(adherenceVoidingEnabled:Boolean):String

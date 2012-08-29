@@ -42,8 +42,12 @@ package collaboRhythm.tablet.controller
 	import mx.managers.PopUpManager;
 
 	import spark.components.ViewNavigator;
+	import spark.components.supportClasses.ViewNavigatorAction;
 	import spark.events.PopUpEvent;
+	import spark.events.ViewNavigatorEvent;
 	import spark.transitions.SlideViewTransition;
+
+	import mx.core.mx_internal
 
 	public class TabletApplicationController extends ApplicationControllerBase
 	{
@@ -56,6 +60,7 @@ package collaboRhythm.tablet.controller
 		private var _openingRecordAccount:Boolean = false;
 
 		private var _collaborationInvitationPopUp:CollaborationInvitationPopUp;
+		private var _remoteBackCount:int = 0;
 
 		public function TabletApplicationController(collaboRhythmTabletApplication:CollaboRhythmTabletApplication)
 		{
@@ -82,6 +87,7 @@ package collaboRhythm.tablet.controller
 			navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
 			navigator.addEventListener("viewChangeComplete",
 					viewNavigator_transitionCompleteHandler);
+			navigator.addEventListener("viewChangeStart", viewNavigator_viewChangeStartHandler);
 			navigator.addEventListener(Event.ADDED, viewNavigator_addedHandler);
 
 			initializeActiveView();
@@ -251,13 +257,9 @@ package collaboRhythm.tablet.controller
 			if (_collaborationController.collaborationModel.collaborationState ==
 					CollaborationModel.COLLABORATION_ACTIVE)
 			{
-				if (source == "local")
+				if (source == "remote")
 				{
-					_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
-							"synchronizeBack");
-				}
-				else
-				{
+					_remoteBackCount += 1;
 					navigator.popView();
 				}
 			}
@@ -402,6 +404,22 @@ package collaboRhythm.tablet.controller
 		{
 			activeRecordAccount.collaborationLobbyConnectionStatus = Account.COLLABORATION_LOBBY_AVAILABLE;
 			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.updateCollaborationLobbyConnectionStatus(Account.COLLABORATION_LOBBY_AVAILABLE);
+		}
+
+		private function viewNavigator_viewChangeStartHandler(event:Event):void
+		{
+			if (navigator.mx_internal::lastAction == ViewNavigatorAction.POP)
+			{
+				if (_remoteBackCount > 0)
+				{
+					_remoteBackCount -= 1;
+				}
+				else
+				{
+					_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
+							"synchronizeBack");
+				}
+			}
 		}
 	}
 }
