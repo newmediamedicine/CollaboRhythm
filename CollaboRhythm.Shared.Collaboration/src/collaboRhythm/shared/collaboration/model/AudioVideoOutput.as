@@ -59,7 +59,7 @@ package collaboRhythm.shared.collaboration.model
 			if (camera != null)
 			{
 				camera.setMode(640, 480, 15);
-				camera.setQuality(0,80);
+				camera.setQuality(0, 80);
 			}
 
 			return camera;
@@ -99,6 +99,31 @@ package collaboRhythm.shared.collaboration.model
 			return camera;
 		}
 
+		static public function getSpeexMicrophone():Microphone
+		{
+			var microphone:Microphone = getMicrophone();
+			if (microphone != null)
+			{
+				microphone.codec = SoundCodec.SPEEX;
+				microphone.framesPerPacket = 1;
+				microphone.setSilenceLevel(0, 2000);
+				microphone.gain = 50;
+			}
+
+			return microphone;
+		}
+
+		static public function getNellymoserMicrophone():Microphone
+		{
+			var microphone:Microphone = getMicrophone();
+			if (microphone != null)
+			{
+				microphone.setSilenceLevel(0);
+			}
+
+			return microphone;
+		}
+
 		static public function getMicrophone():Microphone
 		{
 			var microphone:Microphone;
@@ -108,11 +133,6 @@ package collaboRhythm.shared.collaboration.model
 				microphone = Microphone.getMicrophone(0);
 				if (microphone != null)
 				{
-					microphone.codec = SoundCodec.SPEEX;
-//					microphone.setSilenceLevel(0);
-					microphone.framesPerPacket = 1;
-					microphone.setSilenceLevel(0, 2000);
-					microphone.gain = 50;
 					_logger.info("Microphone initialized: " + microphone.name);
 				}
 				else

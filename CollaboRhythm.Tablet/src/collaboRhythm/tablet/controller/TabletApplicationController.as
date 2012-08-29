@@ -414,7 +414,7 @@ package collaboRhythm.tablet.controller
 				{
 					_remoteBackCount -= 1;
 				}
-				else
+				else if (_collaborationController.collaborationModel.collaborationState == CollaborationModel.COLLABORATION_ACTIVE)
 				{
 					_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
 							"synchronizeBack");

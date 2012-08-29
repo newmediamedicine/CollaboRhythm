@@ -91,7 +91,7 @@
 			_activeRecordAccountId = activeRecordAccountId;
 
 			_camera = AudioVideoOutput.getVideoRecordingCamera();
-			_microphone = AudioVideoOutput.getMicrophone();
+			_microphone = AudioVideoOutput.getSpeexMicrophone();
 
 			if (_camera != null)
 			{
