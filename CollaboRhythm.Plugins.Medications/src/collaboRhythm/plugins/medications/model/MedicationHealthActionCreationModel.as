@@ -5,22 +5,33 @@ package collaboRhythm.plugins.medications.model
 	import collaboRhythm.shared.model.CodedValueFactory;
 	import collaboRhythm.shared.model.RecurrenceRule;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
+
+	import flash.events.EventDispatcher;
+
+	import mx.binding.utils.BindingUtils;
+	import mx.binding.utils.ChangeWatcher;
 
 	import mx.collections.ArrayCollection;
 	import mx.utils.UIDUtil;
 
 	[Bindable]
-	public class MedicationHealthActionCreationModel implements IHealthActionCreationModel
+	public class MedicationHealthActionCreationModel extends EventDispatcher implements IHealthActionCreationModel
 	{
 		private static const RXCUI_CODED_VALUE_TYPE:String = "http://rxnav.nlm.nih.gov/REST/rxcui/";
 		private static const PRESCRIBED_ORDER_TYPE:String = "prescribed";
+		private static const DEFAULT_RECURRENCE_COUNT:int = 120;
+		private static const DEFAULT_START_TIME:int = 8;
+		private static const DEFAULT_ADHERENCE_WINDOW:int = 4;
+		private static const DEFAULT_DOSE:String = "1";
 
 		private var _activeAccount:Account;
 		private var _activeRecordAccount:Account;
@@ -30,14 +41,50 @@ package collaboRhythm.plugins.medications.model
 		private var _areNdcCodesAvailable:Boolean;
 		private var _currentDateSource:ICurrentDateSource;
 
+		private var _medicationScheduleItem:MedicationScheduleItem;
+
 		private var _currentRxNormConcept:RxNormConcept;
+		private var _instructions:String;
+		private var _dose:String;
+		private var _doseUnit:CodedValue;
+		private var _frequency:int;
 		private var _currentNdcCode:String;
 
-		public function MedicationHealthActionCreationModel(activeAccount:Account, activeRecordAccount:Account)
+		private var _medicationScheduleItems:Vector.<MedicationScheduleItem> = new Vector.<MedicationScheduleItem>();
+		private var _oldMedicationScheduleItemIds:Vector.<String> = new Vector.<String>();
+		private var _newMedicationScheduleItemIdCount:int = 0;
+		private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>();
+
+		public function MedicationHealthActionCreationModel(activeAccount:Account, activeRecordAccount:Account,
+															scheduleItemOccurrence:ScheduleItemOccurrence = null)
 		{
 			_activeAccount = activeAccount;
 			_activeRecordAccount = activeRecordAccount;
 			_rxNormService = new RxNormService(this);
+
+			if (scheduleItemOccurrence)
+			{
+				if (scheduleItemOccurrence.scheduleItem as MedicationScheduleItem)
+				{
+					_medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
+
+					currentRxNormConcept = new RxNormConcept();
+					currentRxNormConcept.name = _medicationScheduleItem.name.text;
+					currentRxNormConcept.rxcui = _medicationScheduleItem.name.value;
+
+					_medicationScheduleItem = medicationScheduleItem;
+
+					if (_medicationScheduleItem.scheduledMedicationOrder)
+					{
+						var medicationOrder:MedicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
+
+						if (medicationOrder.medicationFill)
+						{
+							currentNdcCode = medicationOrder.medicationFill.ndc.text;
+						}
+					}
+				}
+			}
 
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
@@ -52,11 +99,37 @@ package collaboRhythm.plugins.medications.model
 			rxNormService.queryNdcCodes(currentRxNormConcept);
 		}
 
-		public function createMedication(medicationOrderInstructions:String, dose:String,
-										 doseUnit:CodedValue,
-										 frequency:int):void
+		public function saveMedication():void
 		{
-			var now:Date = _currentDateSource.now();
+			if (_medicationScheduleItem)
+			{
+				var medicationOrder:MedicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
+
+				createMedicationFill(medicationOrder);
+
+				dispatchEvent(new SaveMedicationCompleteEvent(SaveMedicationCompleteEvent.SAVE_MEDICATION, 1))
+			}
+			else
+			{
+				createMedication();
+			}
+
+			_activeRecordAccount.primaryRecord.saveAllChanges();
+
+			resetMedicationHealthActionCreationModel();
+		}
+
+		public function createMedication():void
+		{
+			var medicationOrder:MedicationOrder = createMedicationOrder();
+
+			createMedicationScheduleItems(medicationOrder);
+
+			createMedicationFill(medicationOrder);
+		}
+
+		private function createMedicationOrder():MedicationOrder
+		{
 			var codedValueFactory:CodedValueFactory = new CodedValueFactory();
 
 			var medicationOrder:MedicationOrder = new MedicationOrder();
@@ -64,43 +137,95 @@ package collaboRhythm.plugins.medications.model
 					currentRxNormConcept.name);
 			medicationOrder.orderType = PRESCRIBED_ORDER_TYPE;
 			medicationOrder.orderedBy = _activeAccount.accountId;
-			medicationOrder.dateOrdered = now;
+			medicationOrder.dateOrdered = _currentDateSource.now();
+			//TODO: Indication should not be required by the server. This can be removed once this is fixed
+			//Alternatively, the UI could allow an indication to be specified
+			medicationOrder.indication = "Diabetes";
 			if (doseUnit.text == "tablet")
 			{
-				medicationOrder.amountOrdered = new ValueAndUnit("120", doseUnit, "120");
+				medicationOrder.amountOrdered = new ValueAndUnit(DEFAULT_RECURRENCE_COUNT.toString(), doseUnit);
 			}
 			else if (doseUnit.text == "Unit")
 			{
-				medicationOrder.amountOrdered = new ValueAndUnit("1", codedValueFactory.createPrefilledSyringeCodedValue(), "1");
+				medicationOrder.amountOrdered = new ValueAndUnit("1",
+						codedValueFactory.createPrefilledSyringeCodedValue());
 			}
-			medicationOrder.instructions = medicationOrderInstructions;
+			medicationOrder.instructions = instructions;
 
-			_activeRecordAccount.primaryRecord.medicationOrdersModel.addDocument(medicationOrder);
+			medicationOrder.pendingAction = DocumentBase.ACTION_CREATE;
+			_activeRecordAccount.primaryRecord.addDocument(medicationOrder);
 
+			return medicationOrder;
+		}
+
+		private function createMedicationScheduleItems(medicationOrder:MedicationOrder):void
+		{
 			for (var administrationPerDay:int = 0; administrationPerDay <= frequency; administrationPerDay++)
 			{
 				var medicationScheduleItem:MedicationScheduleItem = new MedicationScheduleItem();
 				medicationScheduleItem.meta.id = UIDUtil.createUID();
 				medicationScheduleItem.name = medicationOrder.name;
 				medicationScheduleItem.scheduledBy = _activeAccount.accountId;
-				medicationScheduleItem.dateScheduled = now;
-				medicationScheduleItem.dateStart = new Date(now.fullYear, now.month, now.date, 8, 0, 0);
-				medicationScheduleItem.dateEnd = new Date(now.fullYear, now.month, now.date, 12, 0, 0);
+				medicationScheduleItem.dateScheduled = _currentDateSource.now();
+				medicationScheduleItem.dateStart = new Date(_currentDateSource.now().fullYear,
+						_currentDateSource.now().month, _currentDateSource.now().date, DEFAULT_START_TIME, 0, 0);
+				medicationScheduleItem.dateEnd = new Date(_currentDateSource.now().fullYear,
+						_currentDateSource.now().month,
+						_currentDateSource.now().date, DEFAULT_START_TIME + DEFAULT_ADHERENCE_WINDOW, 0, 0);
 				var recurrenceRule:RecurrenceRule = new RecurrenceRule();
 				recurrenceRule.frequency = new CodedValue(null, null, null, ScheduleItemBase.DAILY);
-				recurrenceRule.count = 120;
+				//TODO:
+				recurrenceRule.count = DEFAULT_RECURRENCE_COUNT;
 				medicationScheduleItem.recurrenceRule = recurrenceRule;
 				if (!dose)
 				{
-					dose = "1";
+					dose = DEFAULT_DOSE;
 				}
-				medicationScheduleItem.dose = new ValueAndUnit(dose, doseUnit, dose);
+				medicationScheduleItem.dose = new ValueAndUnit(dose, doseUnit);
+				medicationScheduleItem.instructions = instructions;
 
-				_activeRecordAccount.primaryRecord.medicationScheduleItemsModel.addDocument(medicationScheduleItem);
-				medicationOrder.scheduleItems[medicationScheduleItem.meta.id] = medicationScheduleItem;
+				medicationScheduleItem.pendingAction = DocumentBase.ACTION_CREATE;
+				_activeRecordAccount.primaryRecord.addDocument(medicationScheduleItem);
+
 				medicationScheduleItem.scheduledMedicationOrder = medicationOrder;
+				_activeRecordAccount.primaryRecord.addNewRelationship(ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM, medicationOrder, medicationScheduleItem);
+
+				_medicationScheduleItems.push(medicationScheduleItem);
+				_oldMedicationScheduleItemIds.push(medicationScheduleItem.meta.id);
+				_changeWatchers.push(BindingUtils.bindSetter(medicationScheduleItemId_changeHandler, medicationScheduleItem.meta, "id"));
+
+			}
+		}
+
+		// It is necessary to make sure that the meta data id for each medicationScheduleItem is updated after being saved to the server
+		// before the scheduleItems HashMap of the medicationOrder is updated and before the CreateMedicationOrderView is popped
+		private function medicationScheduleItemId_changeHandler(id:String):void
+		{
+			var index:int = _oldMedicationScheduleItemIds.indexOf(id);
+
+			if (index == -1)
+			{
+				_newMedicationScheduleItemIdCount++;
 			}
 
+			if (_newMedicationScheduleItemIdCount == _oldMedicationScheduleItemIds.length)
+			{
+				for each (var changeWatcher:ChangeWatcher in _changeWatchers)
+				{
+					changeWatcher.unwatch();
+				}
+
+				for each (var medicationScheduleItem:MedicationScheduleItem in _medicationScheduleItems)
+				{
+					medicationScheduleItem.scheduledMedicationOrder.scheduleItems[medicationScheduleItem.meta.id] = medicationScheduleItem;
+				}
+
+				dispatchEvent(new SaveMedicationCompleteEvent(SaveMedicationCompleteEvent.SAVE_MEDICATION, 2))
+			}
+		}
+
+		private function createMedicationFill(medicationOrder:MedicationOrder):void
+		{
 			if (currentNdcCode)
 			{
 				var medicationFill:MedicationFill = new MedicationFill();
@@ -110,18 +235,22 @@ package collaboRhythm.plugins.medications.model
 				medicationFill.amountFilled = medicationOrder.amountOrdered;
 				medicationFill.ndc = new CodedValue(null, null, null, currentNdcCode);
 
-				_activeRecordAccount.primaryRecord.medicationFillsModel.addDocument(medicationFill);
-				medicationOrder.medicationFill = medicationFill;
-			}
+				medicationFill.pendingAction = DocumentBase.ACTION_CREATE;
+				_activeRecordAccount.primaryRecord.addDocument(medicationFill);
 
-			reset();
+				medicationOrder.medicationFill = medicationFill;
+				_activeRecordAccount.primaryRecord.addNewRelationship(MedicationOrder.RELATION_TYPE_MEDICATION_FILL, medicationOrder, medicationFill);
+			}
 		}
 
-		public function reset():void
+		public function resetMedicationHealthActionCreationModel():void
 		{
 			_rxNormConceptsArrayCollection.removeAll();
 			currentNdcCode = null;
 			currentRxNormConcept = null;
+			instructions = null;
+			dose = null;
+			frequency = NaN;
 		}
 
 		public function get rxNormService():RxNormService
@@ -172,6 +301,51 @@ package collaboRhythm.plugins.medications.model
 		public function set currentNdcCode(value:String):void
 		{
 			_currentNdcCode = value;
+		}
+
+		public function get instructions():String
+		{
+			return _instructions;
+		}
+
+		public function set instructions(value:String):void
+		{
+			_instructions = value;
+		}
+
+		public function get dose():String
+		{
+			return _dose;
+		}
+
+		public function set dose(value:String):void
+		{
+			_dose = value;
+		}
+
+		public function get doseUnit():CodedValue
+		{
+			return _doseUnit;
+		}
+
+		public function set doseUnit(value:CodedValue):void
+		{
+			_doseUnit = value;
+		}
+
+		public function get frequency():int
+		{
+			return _frequency;
+		}
+
+		public function set frequency(value:int):void
+		{
+			_frequency = value;
+		}
+
+		public function get medicationScheduleItem():MedicationScheduleItem
+		{
+			return _medicationScheduleItem;
 		}
 	}
 }

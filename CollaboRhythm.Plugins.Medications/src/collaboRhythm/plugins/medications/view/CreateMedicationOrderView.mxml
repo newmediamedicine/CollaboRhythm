@@ -58,11 +58,11 @@
 		import mx.events.FlexEvent;
 
 		import spark.events.IndexChangeEvent;
+		import spark.events.TextOperationEvent;
 
 		private var _rxNormConcept:RxNormConcept;
 		private var _medicationHealthActionCreationModel:MedicationHealthActionCreationModel;
 		private var _medicationHealthActionCreationController:MedicationHealthActionCreationController;
-		private var _doseUnit:CodedValue;
 
 		override public function set data(value:Object):void
 		{
@@ -85,21 +85,36 @@
 
 		private function creationCompleteHandler():void
 		{
+			if (_medicationHealthActionCreationModel.medicationScheduleItem)
+			{
+				orderPanel.visible = false;
+				schedulePanel.visible = false;
+			}
+
 			var medicationName:MedicationName = MedicationNameUtil.parseName(_rxNormConcept.name);
 			var codedValueFactory:CodedValueFactory = new CodedValueFactory();
 
+			rxNormConceptLabel.text = _rxNormConcept.name;
+
+			if (_medicationHealthActionCreationModel.instructions)
+				instructionsTextInput.text = _medicationHealthActionCreationModel.instructions;
+
+			if (_medicationHealthActionCreationModel.dose)
+				doseTextInput.text = _medicationHealthActionCreationModel.dose;
+
 			if (medicationName.form == "Oral Tablet")
 			{
-				_doseUnit = codedValueFactory.createTabletCodedValue();
+				_medicationHealthActionCreationModel.doseUnit = codedValueFactory.createTabletCodedValue();
 				doseUnitLabel.text = "tablet(s)"
 			}
 			else if (medicationName.form == "Prefilled Syringe")
 			{
-				_doseUnit = codedValueFactory.createUnitCodedValue();
+				_medicationHealthActionCreationModel.doseUnit = codedValueFactory.createUnitCodedValue();
 				doseUnitLabel.text = "Unit(s)"
 			}
 
-			rxNormConceptLabel.text = _rxNormConcept.name;
+			if (!isNaN(_medicationHealthActionCreationModel.frequency))
+				frequencySpinnerList.selectedIndex = _medicationHealthActionCreationModel.frequency;
 
 			if (_medicationHealthActionCreationModel.currentNdcCode)
 			{
@@ -118,8 +133,7 @@
 
 		private function save_clickHandler():void
 		{
-			_medicationHealthActionCreationController.createMedication(instructionsTextInput.text, doseTextInput.text,
-					_doseUnit, frequencySpinnerList.selectedIndex);
+			_medicationHealthActionCreationController.saveMedication();
 		}
 
 		override protected function stage_keyUpHandler(event:KeyboardEvent):void
@@ -130,6 +144,21 @@
 			{
 				_medicationHealthActionCreationController.resetMedicationHealthActionCreationModel();
 			}
+		}
+
+		private function instructionsTextInput_changeHandler():void
+		{
+			_medicationHealthActionCreationController.updateInstructions(instructionsTextInput.text);
+		}
+
+		private function doseTextInput_changeHandler():void
+		{
+			_medicationHealthActionCreationController.updateDose(doseTextInput.text);
+		}
+
+		private function frequencySpinnerList_changeHandler():void
+		{
+			_medicationHealthActionCreationController.updateFrequency(frequencySpinnerList.selectedIndex);
 		}
 		]]></fx:Script>
 	<s:VGroup width="100%" height="100%" gap="0">
@@ -148,17 +177,17 @@
 		</s:Group>
 		<s:Group width="100%" height="100%">
 			<s:VGroup width="100%" paddingLeft="20" paddingRight="20" paddingTop="20" paddingBottom="20" gap="50">
-				<s:Panel title="Order" width="100%"
+				<s:Panel id="orderPanel" title="Order" width="100%"
 						 skinClass="collaboRhythm.plugins.medications.view.CreateMedicationOrderPanelSkin"
 						 styleName="createMedicationOrderPanel">
 					<s:VGroup width="100%" paddingLeft="20" paddingRight="20" paddingTop="20" paddingBottom="20">
 						<s:Label text="Instructions:" styleName="createMedicationOrderLabel"/>
 						<s:TextInput id="instructionsTextInput" width="100%" height="60"
 									 skinClass="spark.skins.mobile.StageTextInputSkin"
-									 styleName="createMedicationOrderTextInput"/>
+									 styleName="createMedicationOrderTextInput" change="instructionsTextInput_changeHandler()"/>
 					</s:VGroup>
 				</s:Panel>
-				<s:Panel title="Schedule" width="100%"
+				<s:Panel id="schedulePanel" title="Schedule" width="100%"
 						 skinClass="collaboRhythm.plugins.medications.view.CreateMedicationOrderPanelSkin"
 						 styleName="createMedicationOrderPanel">
 					<s:HGroup paddingLeft="20" paddingRight="20" paddingTop="20" paddingBottom="20" gap="100"
@@ -167,14 +196,14 @@
 							<s:Label text="Dose:" styleName="createMedicationOrderLabel"/>
 							<s:TextInput id="doseTextInput" width="100" height="60"
 										 skinClass="spark.skins.mobile.StageTextInputSkin"
-										 styleName="createMedicationOrderTextInput"/>
+										 styleName="createMedicationOrderTextInput" change="doseTextInput_changeHandler()"/>
 							<s:Label id="doseUnitLabel" styleName="createMedicationOrderLabel"/>
 						</s:HGroup>
 						<s:HGroup verticalAlign="middle">
 							<s:Label text="Frequency:" styleName="createMedicationOrderLabel"/>
 							<s:SpinnerListContainer skinClass="spark.skins.mobile.SpinnerListContainerSkin">
 								<s:SpinnerList id="frequencySpinnerList" selectedIndex="0" width="200" height="100"
-											   skinClass="spark.skins.mobile.SpinnerListSkin">
+											   skinClass="spark.skins.mobile.SpinnerListSkin" change="frequencySpinnerList_changeHandler()">
 									<s:ArrayCollection>
 										<fx:String>once a day</fx:String>
 										<fx:String>twice a day</fx:String>
@@ -186,7 +215,7 @@
 						</s:HGroup>
 					</s:HGroup>
 				</s:Panel>
-				<s:Panel title="Fill" width="100%"
+				<s:Panel id="fillPanel" title="Fill" width="100%"
 						 skinClass="collaboRhythm.plugins.medications.view.CreateMedicationOrderPanelSkin"
 						 styleName="createMedicationOrderPanel">
 					<s:HGroup paddingLeft="20" paddingRight="20" paddingTop="20" paddingBottom="20"

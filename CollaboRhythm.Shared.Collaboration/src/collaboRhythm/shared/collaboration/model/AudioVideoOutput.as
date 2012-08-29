@@ -19,6 +19,7 @@ package collaboRhythm.shared.collaboration.model
 	import flash.media.Camera;
 	import flash.media.CameraPosition;
 	import flash.media.Microphone;
+	import flash.media.SoundCodec;
 	import flash.utils.getQualifiedClassName;
 
 	import mx.logging.ILogger;
@@ -107,9 +108,11 @@ package collaboRhythm.shared.collaboration.model
 				microphone = Microphone.getMicrophone(0);
 				if (microphone != null)
 				{
-					//					_microphone.codec = SoundCodec.SPEEX;
-					microphone.setSilenceLevel(0);
-					//					_microphone.framesPerPacket = 1;
+					microphone.codec = SoundCodec.SPEEX;
+//					microphone.setSilenceLevel(0);
+					microphone.framesPerPacket = 1;
+					microphone.setSilenceLevel(0, 2000);
+					microphone.gain = 50;
 					_logger.info("Microphone initialized: " + microphone.name);
 				}
 				else

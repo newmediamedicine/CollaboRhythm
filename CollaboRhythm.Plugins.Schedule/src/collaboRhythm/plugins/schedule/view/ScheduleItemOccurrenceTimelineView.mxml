@@ -10,6 +10,14 @@
 		<s:Animate id="stackEffect" target="{this}">
 			<s:SimpleMotionPath id="motionPath" property="bottom"/>
 		</s:Animate>
+		<s:Callout id="scheduleItemCallout"
+				   horizontalPosition="after"
+				   verticalPosition="middle" mouseDownOutside="scheduleItemCallout_mouseDownOutsideHandler()">
+			<s:VGroup gap="0">
+				<s:Button label="Edit" width="150" height="60" click="editButton_clickHandler(event)"/>
+				<s:Button label="Unschedule" width="150" height="60" click="unscheduleButton_clickHandler(event)"/>
+			</s:VGroup>
+		</s:Callout>
 	</fx:Declarations>
 	<fx:Style>
 
@@ -19,15 +27,15 @@
 		}
 
 		#descriptionLabelTimeline {
-			font-size: 12;
+			font-size: 14;
 		}
 
-		#indicationLabelTimeline {
-			fontSize: 12;
-			fontStyle: italic;
+		#primaryInstructionsLabelTimeline {
+			fontSize: 14;
+			font-weight: bold;
 		}
 
-		#instructionsLabelTimeline {
+		#secondaryInstructionsLabelTimeline {
 			fontSize: 14;
 			font-weight: bold;
 		}
@@ -38,6 +46,7 @@
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 		import collaboRhythm.plugins.schedule.shared.model.MoveData;
 		import collaboRhythm.plugins.schedule.shared.view.ScheduleTimelineViewEvent;
+		import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 		import mx.binding.utils.ChangeWatcher;
@@ -62,8 +71,8 @@
 
 			nameLabelTimeline.text = scheduleItemOccurrenceReportingViewAdapter.name;
 			descriptionLabelTimeline.text = scheduleItemOccurrenceReportingViewAdapter.description;
-			indicationLabelTimeline.text = scheduleItemOccurrenceReportingViewAdapter.indication;
-			instructionsLabelTimeline.text = scheduleItemOccurrenceReportingViewAdapter.secondaryInstructions;
+			primaryInstructionsLabelTimeline.text = scheduleItemOccurrenceReportingViewAdapter.primaryInstructions;
+			secondaryInstructionsLabelTimeline.text = scheduleItemOccurrenceReportingViewAdapter.secondaryInstructions;
 
 			var customView:IVisualElement = scheduleItemOccurrenceReportingViewAdapter.createCustomView();
 			if (customView)
@@ -76,12 +85,23 @@
 				image.percentWidth = 100;
 				image.percentHeight = 100;
 				image.smooth = true;
+				image.addEventListener(MouseEvent.MOUSE_DOWN, image_clickHandler);
 				imageRegion.addElement(image);
 			}
 			imageRegion.left = 5;
 			imageRegion.right = 5;
 			imageRegion.top = 5;
 			imageRegion.bottom = 5;
+		}
+
+		private function image_clickHandler(event:MouseEvent):void
+		{
+			if (_scheduleItemOccurrence.scheduleItem as MedicationScheduleItem)
+			{
+				event.stopImmediatePropagation();
+
+				scheduleItemCallout.open(event.target as DisplayObjectContainer, true);
+			}
 		}
 
 		private function mouseDownHandler(event:MouseEvent):void
@@ -145,6 +165,29 @@
 		{
 			_scheduleItemOccurrence = value;
 		}
+
+		private function editButton_clickHandler(event:MouseEvent):void
+		{
+			scheduleItemCallout.close();
+
+			var moveData:MoveData = createMoveData(event);
+			dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_ITEM_TIMELINE_VIEW_EDIT,
+					moveData));
+		}
+
+		private function unscheduleButton_clickHandler(event:MouseEvent):void
+		{
+			scheduleItemCallout.close();
+
+			var moveData:MoveData = createMoveData(event);
+			dispatchEvent(new ScheduleTimelineViewEvent(ScheduleTimelineViewEvent.SCHEDULE_ITEM_TIMELINE_VIEW_UNSCHEDULE,
+					moveData));
+		}
+
+		private function scheduleItemCallout_mouseDownOutsideHandler():void
+		{
+			scheduleItemCallout.close();
+		}
 		]]>
     </fx:Script>
 
@@ -167,8 +210,8 @@
 		<s:VGroup left="5" right="5" top="5" bottom="5" gap="1">
 			<s:Label id="nameLabelTimeline" maxDisplayedLines="1" width="100%"/>
 			<s:Label id="descriptionLabelTimeline" maxDisplayedLines="1" width="100%"/>
-			<s:Label id="indicationLabelTimeline" paddingTop="5" maxDisplayedLines="1" width="100%"/>
-			<s:Label id="instructionsLabelTimeline" paddingTop="5" maxDisplayedLines="1" width="100%"/>
+			<s:Label id="primaryInstructionsLabelTimeline" paddingTop="12" maxDisplayedLines="1" width="100%"/>
+			<s:Label id="secondaryInstructionsLabelTimeline" maxDisplayedLines="1" width="100%"/>
 		</s:VGroup>
 	</s:Group>
 

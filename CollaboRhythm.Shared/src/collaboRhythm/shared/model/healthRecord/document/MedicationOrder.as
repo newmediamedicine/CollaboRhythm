@@ -51,7 +51,6 @@ package collaboRhythm.shared.model.healthRecord.document
 		private var _refills:int;
 		private var _substitutionPermitted:Boolean;
 		private var _instructions:String;
-		private var _medicationFillId:String;
 		private var _medicationFill:MedicationFill;
 
         private var _scheduleItems:HashMap = new HashMap();
@@ -94,7 +93,6 @@ package collaboRhythm.shared.model.healthRecord.document
             _refills = int(medicationOrderXml.refills);
             _substitutionPermitted = HealthRecordHelperMethods.stringToBoolean(medicationOrderXml.substitutionPermitted);
             _instructions = medicationOrderXml.instructions;
-            _medicationFillId = medicationOrderReportXml..relatesTo.relation.(@type == RELATION_TYPE_MEDICATION_FILL).relatedDocument.@id;
             for each (var scheduleItemXml:XML in medicationOrderReportXml..relatesTo.relation.(@type == ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM).relatedDocument)
             {
                 _scheduleItems.put(scheduleItemXml.@id, null);
@@ -244,16 +242,6 @@ package collaboRhythm.shared.model.healthRecord.document
         public function set scheduleItems(value:HashMap):void
         {
             _scheduleItems = value;
-        }
-
-        public function get medicationFillId():String
-        {
-            return _medicationFillId;
-        }
-
-        public function set medicationFillId(value:String):void
-        {
-            _medicationFillId = value;
         }
 
         public function get medicationFill():MedicationFill

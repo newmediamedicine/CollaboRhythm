@@ -17,6 +17,9 @@ package collaboRhythm.plugins.schedule.shared.view
 
         public static const SCHEDULE_ITEM_TIMELINE_VIEW_MOUSE_DOWN:String = "ScheduleItemTimelineViewMouseDown";
 
+		public static const SCHEDULE_ITEM_TIMELINE_VIEW_EDIT:String = "ScheduleItemTimelineViewEdit";
+		public static const SCHEDULE_ITEM_TIMELINE_VIEW_UNSCHEDULE:String = "ScheduleItemTimelineViewUnschedule";
+
 		private var _moveData:MoveData;
 		
 		public function ScheduleTimelineViewEvent(type:String, moveData:MoveData)
