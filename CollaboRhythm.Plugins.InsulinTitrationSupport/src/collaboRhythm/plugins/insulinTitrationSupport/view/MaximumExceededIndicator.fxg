@@ -15,33 +15,37 @@
   - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   - <http://www.gnu.org/licenses/>.
   -->
-<Graphic version="2.0" viewHeight="24" viewWidth="19" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+<Graphic version="2.0" viewHeight="12.1602" viewWidth="19" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
   <Library/>
-  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="24" d:pageWidth="19" d:type="layer" d:userLabel="Artboard 1">
-    <Group ai:objID="740b780" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
-      <Path winding="nonZero" ai:objID="f311280" ai:seqID="3" data="M17.3564 11.7314 19.0039 10.1973 9.50195 0 0 10.1953 1.64844 11.7295 8 4.91992 8 24 11 24 11 4.91504 17.3564 11.7314Z">
-        <fill>
-          <SolidColor color="#231F20"/>
-        </fill>
-      </Path>
+  <Group ai:seqID="1" d:layerType="page" d:pageHeight="12.16" d:pageWidth="19" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:seqID="2" d:type="layer" d:userLabel="Layer 1">
+      <Group x="-0.700684" ai:seqID="3">
+        <mask>
+          <Group x="0.700684" ai:spare="1">
+            <Rect width="19" height="12.1602" ai:seqID="4">
+              <fill>
+                <SolidColor color="#FFFFFF"/>
+              </fill>
+            </Rect>
+          </Group>
+        </mask>
+        <Line xFrom="10.2007" yFrom="2.53271" xTo="10.2007" yTo="9.87988" ai:seqID="5">
+          <stroke>
+            <SolidColorStroke caps="none" joints="miter" miterLimit="10" color="#FFFFFF"/>
+          </stroke>
+        </Line>
+        <Path x="0.700684" y="0.5" winding="nonZero" ai:seqID="6" data="M0 1.26807C0 1.26807 1.68164 0 4.56006 0 7.43848 0 11.3955 3.99414 14.4404 3.99414 17.4844 3.99414 19 2.72607 19 2.72607">
+          <stroke>
+            <SolidColorStroke caps="square" joints="miter" miterLimit="10"/>
+          </stroke>
+        </Path>
+        <Path x="0.700684" y="7.66699" winding="nonZero" ai:seqID="7" data="M0 1.26807C0 1.26807 1.68164 0 4.56006 0 7.43848 0 11.3955 3.99414 14.4404 3.99414 17.4844 3.99414 19 2.72656 19 2.72656">
+          <stroke>
+            <SolidColorStroke caps="square" joints="miter" miterLimit="10"/>
+          </stroke>
+        </Path>
+      </Group>
     </Group>
   </Group>
-  <Private>
-      <ai:PrivateElement d:ref="#1">
-        <ai:SaveOptions>
-          <ai:Dict data="I expandBlendsOption 5 B downsampleLinkedImages 0 I rasterizeResolution 72 I preserveGradientPolicy 4 I preserveFilterPolicy 3 I preserveTextPolicy 4 I versionKey 2 B includeXMP 0 B aiEditCap 1 B writeImages 1 B includeSymbol 0 B includeObjectOutsideArtboard 0 "/>
-        </ai:SaveOptions>
-        <ai:DocData base="MaximumExceededIndicator.assets/images" globalOffsetH="5.5" globalOffsetV="5" rulerCanvasDiffH="14.5" rulerCanvasDiffV="9.5">
-          <ai:DocRasterSettings>
-            <ai:Dict data="R padd 36 B mask 0 B spot 1 B alis 0 I dpi. 72 I colr 4 "/>
-          </ai:DocRasterSettings>
-        </ai:DocData>
-        <ai:AutoGenImageList>
-          <ai:Dict/>
-        </ai:AutoGenImageList>
-      </ai:PrivateElement>
-      <ai:PrivateElement flm:hashcode="F11D9C08DE31D1916FBBF614450E81F7" d:ref="#2">
-        <ai:LayerOptions color="5 79.31 257 128.502"/>
-      </ai:PrivateElement>
-    </Private>
-  </Graphic>
+  <Private/>
+</Graphic>
