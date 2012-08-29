@@ -776,12 +776,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				if (_dosageChangeValue == algorithmSuggestedDoseChange)
 				{
 					message = StringUtil.substitute(TITRATION_DECISION_MESSAGE_PROTOCOL_FOLLOWED, titrationPhrase,
-							bloodGlucoseAverage);
+							bloodGlucoseAverageLabel);
 				}
 				else
 				{
 					message = StringUtil.substitute(TITRATION_DECISION_MESSAGE_PROTOCOL_NOT_FOLLOWED, titrationPhrase,
-							algorithmSuggestedDoseChangeLabel, bloodGlucoseAverage);
+							algorithmSuggestedDoseChangeLabel, bloodGlucoseAverageLabel);
 				}
 			}
 			else
@@ -789,6 +789,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				message = StringUtil.substitute(TITRATION_DECISION_MESSAGE_MISSING_PREREQUISITES, titrationPhrase);
 			}
 			return message;
+		}
+
+		public function get bloodGlucoseAverageLabel():String
+		{
+			return bloodGlucoseAverage.toFixed(0);
 		}
 
 		public function get algorithmPrerequisitesSatisfied():Boolean

@@ -6,8 +6,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 	import collaboRhythm.plugins.insulinTitrationSupport.view.skins.TransparentButtonSkin;
 	import collaboRhythm.shared.ui.healthCharts.view.SynchronizedHealthCharts;
 
+	import flash.display.InteractiveObject;
+
 	import flash.events.Event;
+	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
+	import flash.ui.Keyboard;
 
 	import flashx.textLayout.conversion.TextConverter;
 	import flashx.textLayout.elements.LinkElement;
@@ -17,11 +21,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
 	import mx.core.ClassFactory;
+	import mx.core.IButton;
 	import mx.core.IVisualElement;
 	import mx.core.mx_internal;
 	import mx.events.PropertyChangeEvent;
 	import mx.graphics.SolidColor;
 	import mx.graphics.SolidColorStroke;
+	import mx.managers.IFocusManager;
+	import mx.managers.IFocusManagerComponent;
 
 	import spark.components.Button;
 	import spark.components.CalloutButton;
@@ -35,12 +42,13 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 	import spark.components.VGroup;
 	import spark.core.SpriteVisualElement;
 	import spark.filters.ColorMatrixFilter;
+	import spark.filters.GlowFilter;
 	import spark.primitives.Rect;
 	import spark.skins.mobile.ButtonSkin;
 	import spark.skins.mobile.SpinnerListContainerSkin;
 	import spark.skins.mobile.SpinnerListSkin;
 
-	public class InsulinTitrationDecisionPanel extends Group
+	public class InsulinTitrationDecisionPanel extends Group implements IFocusManagerComponent
 	{
 //		public static const INSULIN_TITRATION_DECISION_PANEL_WIDTH:int = 567;
 		public static const INSULIN_TITRATION_DECISION_PANEL_WIDTH:int = STEP4_X + STEP_WIDTH;
@@ -96,6 +104,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		private var _step2Chart:Array;
 
 		private var _averagePlotItemRenderer:AverageBloodGlucosePotItemRenderer;
+		private var _averageLabel:Label;
 		private var _dosageChangeSpinnerListData:ArrayCollection;
 
 		private var _greyScaleFilter:ColorMatrixFilter = new ColorMatrixFilter([0.3, 0.59, 0.11, 0, 0, 0.3, 0.59, 0.11, 0, 0, 0.3, 0.59, 0.11, 0, 0, 0, 0, 0, 1, 0]);
@@ -105,7 +114,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		private var _step4Badge:Step4Badge;
 		private var _sendButton:Button;
 		private var _maximumExceededIndicator:MaximumExceededIndicator;
-		private var _minimumExceededIndicator:MinimumExceededIndicator;
+		private var _minimumExceededIndicator:MaximumExceededIndicator;
 		private var _connectorMaxLine:DottedLine;
 		private var _connectorMinLine:DottedLine;
 		private var _instructionsScroller:Scroller;
@@ -196,13 +205,23 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			_averagePlotItemRenderer.x = Math.round(AVERAGE_PLOT_ITEM_RENDERER_X);
 			addElement(_averagePlotItemRenderer);
 			
+			_averageLabel = new Label();
+			var averageLabelGlowFilter:GlowFilter = new GlowFilter();
+			averageLabelGlowFilter.color = 0xFFFFFF;
+			averageLabelGlowFilter.strength = 8;
+			averageLabelGlowFilter.blurX = 16;
+			averageLabelGlowFilter.blurY = 16;
+			_averageLabel.filters = [averageLabelGlowFilter];
+			_averageLabel.x = Math.round(AVERAGE_PLOT_ITEM_RENDERER_X + _averagePlotItemRenderer.width + 5);
+			_averageLabel.setStyle("fontSize", GOAL_LABEL_FONT_SIZE);
+			addElement(_averageLabel);
+
 			_maximumExceededIndicator = new MaximumExceededIndicator();
-			_maximumExceededIndicator.x = _averagePlotItemRenderer.x + _averagePlotItemRenderer.width + RANGE_EXCEEDED_INDICATOR_HORIZONTAL_GAP;
-			_maximumExceededIndicator.y = Math.round(_chartY - _averagePlotItemRenderer.height / 2);
+			_maximumExceededIndicator.x = STEP1_X + STEP_WIDTH - _maximumExceededIndicator.width / 2 + 1;
 			addElement(_maximumExceededIndicator);
 
-			_minimumExceededIndicator = new MinimumExceededIndicator();
-			_minimumExceededIndicator.x = _averagePlotItemRenderer.x + _averagePlotItemRenderer.width + RANGE_EXCEEDED_INDICATOR_HORIZONTAL_GAP;
+			_minimumExceededIndicator = new MaximumExceededIndicator();
+			_minimumExceededIndicator.x = STEP1_X + STEP_WIDTH - _minimumExceededIndicator.width / 2 + 1;
 			addElement(_minimumExceededIndicator);
 
 			updateAveragePlotItemRenderer();
@@ -329,14 +348,23 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 						+ (_model.isBloodGlucoseMaximumExceeded ? -1 : 0)
 						+ (_model.isBloodGlucoseMinimumExceeded ? +1 : 0)
 					);
-				_minimumExceededIndicator.y = Math.round(_chartY + _chartHeight + 1 - _minimumExceededIndicator.height + _averagePlotItemRenderer.height / 2);
+				_maximumExceededIndicator.y = Math.round(_chartY + _chartHeight * 1 / 6 - _maximumExceededIndicator.height / 2);
+				_minimumExceededIndicator.y = Math.round(_chartY + _chartHeight * 5 / 6 - _minimumExceededIndicator.height / 2);
 				_averagePlotItemRenderer.visible = true;
+				_averageLabel.y = Math.round(chartValueToPosition(_model.bloodGlucoseAverageRangeLimited)
+										- _averageLabel.height / 2
+										+ (_model.isBloodGlucoseMaximumExceeded ? -1 : 0)
+										+ (_model.isBloodGlucoseMinimumExceeded ? +1 : 0)
+					);
+				_averageLabel.text = _model.bloodGlucoseAverageLabel;
+				_averageLabel.visible = true;
 				_maximumExceededIndicator.visible = _model.isBloodGlucoseMaximumExceeded;
 				_minimumExceededIndicator.visible = _model.isBloodGlucoseMinimumExceeded;
 			}
 			else
 			{
 				_averagePlotItemRenderer.visible = false;
+				_averageLabel.visible = false;
 				_maximumExceededIndicator.visible = false;
 				_minimumExceededIndicator.visible = false;
 			}
@@ -662,6 +690,20 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		private function sendButton_clickHandler(event:MouseEvent):void
 		{
 			_model.record.healthChartsModel.save();
+		}
+
+		protected override function keyDownHandler(event:KeyboardEvent):void
+		{
+			var bloodGlucoseChange:Number = 0;
+			if (event.keyCode == Keyboard.UP)
+			{
+				bloodGlucoseChange = 1;
+			}
+			else if (event.keyCode == Keyboard.DOWN)
+			{
+				bloodGlucoseChange = -1;
+			}
+			_model.bloodGlucoseAverage += bloodGlucoseChange;
 		}
 	}
 }
