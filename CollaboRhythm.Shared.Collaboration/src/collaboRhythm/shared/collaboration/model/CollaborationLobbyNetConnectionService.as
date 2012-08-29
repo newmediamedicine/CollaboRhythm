@@ -280,7 +280,7 @@ package collaboRhythm.shared.collaboration.model
 			netStreamOut.addEventListener(NetStatusEvent.NET_STATUS, netStreamOut_netStatusHandler);
 			netStreamOut.publish(_activeAccount.accountId, "live");
 
-			netStreamOut.attachAudio(Microphone.getMicrophone());
+			netStreamOut.attachAudio(AudioVideoOutput.getMicrophone());
 
 			netStreamIn = new NetStream(_netConnection, peerId);
 			netStreamIn.addEventListener(NetStatusEvent.NET_STATUS, netStreamIn_netStatusHandler);
