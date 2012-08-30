@@ -108,17 +108,10 @@
 			{
 				var sort:Sort = new Sort();
 				sort.fields = [new SortField("dateMeasuredStart")];
+				sort.reverse();
 				_bloodGlucoseArrayCollection.sort = sort;
 				_bloodGlucoseArrayCollection.refresh();
 			}
-
-			callLater(scrollToEnd);
-		}
-
-		private function scrollToEnd():void
-		{
-			bloodGlucoseHistoryList.dataGroup.verticalScrollPosition = bloodGlucoseHistoryList.dataGroup.contentHeight -
-					bloodGlucoseHistoryList.height;
 		}
 
 		private function bloodGlucoseHistoryList_creationComplete():void
