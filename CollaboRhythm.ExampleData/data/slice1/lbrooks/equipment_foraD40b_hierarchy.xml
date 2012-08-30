@@ -21,8 +21,8 @@
 	<LoadableIndivoDocument>
 		<document>
 			<Equipment xmlns="http://indivo.org/vocab/xml/documents#">
-				<dateStarted>2011-07-30</dateStarted>
-				<type>Blood pressure monitor</type>
+				<dateStarted>2012-08-28</dateStarted>
+				<type>Blood Pressure Meter</type>
 				<name>FORA D40b</name>
 			</Equipment>
 		</document>
@@ -33,12 +33,12 @@
 						<HealthActionSchedule xmlns="http://indivo.org/vocab/xml/documents#">
 							<name>FORA D40b</name>
 							<scheduledBy>unknown@records.media.mit.edu</scheduledBy>
-							<dateScheduled>2011-07-30T12:00:00Z</dateScheduled>
-							<dateStart>2011-07-30T14:00:00Z</dateStart>
-							<dateEnd>2011-07-30T18:00:00Z</dateEnd>
+							<dateScheduled>2012-08-28T12:00:00Z</dateScheduled>
+							<dateStart>2012-08-28T14:00:00Z</dateStart>
+							<dateEnd>2012-08-28T18:00:00Z</dateEnd>
 							<recurrenceRule>
 								<frequency>DAILY</frequency>
-								<count>90</count>
+								<count>120</count>
 							</recurrenceRule>
 							<instructions>Measure blood pressure once from left arm in sitting position</instructions>
 						</HealthActionSchedule>

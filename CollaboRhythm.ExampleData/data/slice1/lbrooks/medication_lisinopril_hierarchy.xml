@@ -24,11 +24,11 @@
 				<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="206766">Lisinopril 20 MG Oral Tablet [Prinivil]</name>
 				<orderType>prescribed</orderType>
 				<orderedBy>unknown@records.media.mit.edu</orderedBy>
-				<dateOrdered>2011-07-30T12:00:00Z</dateOrdered>
-				<dateExpires>2012-07-30T12:00:00Z</dateExpires>
+				<dateOrdered>2012-08-28T12:00:00Z</dateOrdered>
+				<dateExpires>2013-08-28T12:00:00Z</dateExpires>
 				<indication>hypertension</indication>
 				<amountOrdered>
-					<value>90</value>
+					<value>120</value>
 					<unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
 				</amountOrdered>
 				<substitutionPermitted>true</substitutionPermitted>
@@ -42,9 +42,9 @@
 						<MedicationFill xmlns="http://indivo.org/vocab/xml/documents#">
 							<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="206766">Lisinopril 20 MG Oral Tablet [Prinivil]</name>
 							<filledBy>unknown@records.media.mit.edu</filledBy>
-							<dateFilled>2011-07-30T12:00:00Z</dateFilled>
+							<dateFilled>2012-08-28T12:00:00Z</dateFilled>
 							<amountFilled>
-								<value>90</value>
+								<value>120</value>
 								<unit>tab</unit>
 							</amountFilled>
 							<ndc>s0011460385R</ndc>
@@ -58,12 +58,12 @@
 						<MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
 							<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="206766">Lisinopril 20 MG Oral Tablet [Prinivil]</name>
 							<scheduledBy>unknown@records.media.mit.edu</scheduledBy>
-							<dateScheduled>2011-07-30T12:00:00Z</dateScheduled>
-							<dateStart>2011-07-30T14:00:00Z</dateStart>
-							<dateEnd>2011-07-30T18:00:00Z</dateEnd>
+							<dateScheduled>2012-08-28T12:00:00Z</dateScheduled>
+							<dateStart>2012-08-28T14:00:00Z</dateStart>
+							<dateEnd>2012-08-28T18:00:00Z</dateEnd>
 							<recurrenceRule>
 								<frequency>DAILY</frequency>
-								<count>90</count>
+								<count>120</count>
 							</recurrenceRule>
 							<dose>
 								<value>1</value>
