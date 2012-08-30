@@ -85,6 +85,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		private static const GOAL_LABEL_FONT_SIZE:int = 21;
 		private static const ARROW_CALLOUT_INSTRUCTIONS_FONT_SIZE:int = 24;
 
+		private static const SEND_BUTTON_FONT_SIZE:int = 19;
+		private static const SEND_BUTTON_FONT_SIZE_SMALL:int = 14;
+
 		private var _model:InsulinTitrationDecisionPanelModel;
 
 		private var _dosageChangeSpinnerList:SpinnerList;
@@ -257,13 +260,34 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			addElement(_dosageChangeSpinnerListContainer);
 
 			_sendButton = new Button();
-			_sendButton.label = "Send";
+			updateSendButtonLabel();
 			_sendButton.x = STEP4_X;
 			updateArrowButtonY(_sendButton);
 			_sendButton.width = STEP_WIDTH;
 			_sendButton.setStyle("skinClass", ButtonSkin);
 			_sendButton.addEventListener(MouseEvent.CLICK, sendButton_clickHandler);
 			addElement(_sendButton);
+		}
+
+		private function updateSendButtonLabel():void
+		{
+			if (model.isPatient)
+			{
+				_sendButton.label = "Send";
+				_sendButton.setStyle("fontSize", SEND_BUTTON_FONT_SIZE);
+			}
+			else
+			{
+				if (model.isNewDoseDifferentFromCurrent)
+				{
+					_sendButton.label = "Advise\nChange";
+					_sendButton.setStyle("fontSize", SEND_BUTTON_FONT_SIZE);
+				} else
+				{
+					_sendButton.label = "Confirm";
+					_sendButton.setStyle("fontSize", SEND_BUTTON_FONT_SIZE);
+				}
+			}
 		}
 
 		private function updateInstructionsText():void
@@ -624,6 +648,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			if (event.property == "instructionsHtml")
 			{
 				updateInstructionsText();
+			}
+			if (event.property == "isNewDoseDifferentFromCurrent")
+			{
+				updateSendButtonLabel();
 			}
 		}
 
