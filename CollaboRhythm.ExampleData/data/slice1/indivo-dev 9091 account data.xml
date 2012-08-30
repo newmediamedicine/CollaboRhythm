@@ -714,43 +714,6 @@
     <notes>Demo for diabetes with titration</notes>
   </AccountSource>
   <AccountSource>
-    <accountId>lbrooks@records.media.mit.edu</accountId>
-    <contactEmail>sgilroy@mit.edu</contactEmail>
-    <fullName>Linda Brooks</fullName>
-    <username>lbrooks</username>
-    <password>lbrooks-dope75</password>
-    <givenName>Linda</givenName>
-    <familyName>Brooks</familyName>
-    <streetAddress>26 Frost Road</streetAddress>
-    <postalCode>60601</postalCode>
-    <locality>Chicago</locality>
-    <region>Illinois</region>
-    <country>US</country>
-    <timeZone>-6GMT</timeZone>
-    <emailPersonal>lbrooks@records.media.mit.edu</emailPersonal>
-    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
-    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
-    <instantMessengerName>lbrooks@records.media.mit.edu</instantMessengerName>
-    <dateOfBirth>1942-06-13T00:00:00Z</dateOfBirth>
-    <age>67</age>
-    <gender>Female</gender>
-    <ethnicity>Black</ethnicity>
-    <language>English</language>
-    <maritalStatus>Married</maritalStatus>
-    <employmentStatus>Retired</employmentStatus>
-    <employmentIndustry>Education</employmentIndustry>
-    <occupation>Teacher</occupation>
-    <religion>Protestant</religion>
-    <highestEducation>University</highestEducation>
-    <organDonar>true</organDonar>
-    <recordId/>
-    <accessKey/>
-    <accessSecret/>
-    <status/>
-    <demographicsId>c2372196-6b45-4fda-ba41-f83e4af863d1</demographicsId>
-    <recordSeed/>
-  </AccountSource>
-  <AccountSource>
     <accountId>mjones@records.media.mit.edu</accountId>
     <contactEmail>sgilroy@mit.edu</contactEmail>
     <fullName>Madeline Jones</fullName>
@@ -822,43 +785,6 @@
     <accessSecret/>
     <status/>
     <demographicsId>b0476e25-777b-4aa2-bb62-32175347068a</demographicsId>
-    <recordSeed/>
-  </AccountSource>
-  <AccountSource>
-    <accountId>ksato@records.media.mit.edu</accountId>
-    <contactEmail>sgilroy@mit.edu</contactEmail>
-    <fullName>Kumiko Sato</fullName>
-    <username>ksato</username>
-    <password>ksato-dope75</password>
-    <givenName>Kumiko</givenName>
-    <familyName>Sato</familyName>
-    <streetAddress>112 River Street</streetAddress>
-    <postalCode>21201</postalCode>
-    <locality>Baltimore</locality>
-    <region>Maryland</region>
-    <country>US</country>
-    <timeZone>-5GMT</timeZone>
-    <emailPersonal>ksato@records.media.mit.edu</emailPersonal>
-    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
-    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
-    <instantMessengerName>ksato@records.media.mit.edu</instantMessengerName>
-    <dateOfBirth>1933-11-22T00:00:00Z</dateOfBirth>
-    <age>76</age>
-    <gender>Female</gender>
-    <ethnicity>Asian</ethnicity>
-    <language>Japanese</language>
-    <maritalStatus>Married</maritalStatus>
-    <employmentStatus>Retired</employmentStatus>
-    <employmentIndustry>Education</employmentIndustry>
-    <occupation>Teacher</occupation>
-    <religion>Protestant</religion>
-    <highestEducation>High School</highestEducation>
-    <organDonar>true</organDonar>
-    <recordId/>
-    <accessKey/>
-    <accessSecret/>
-    <status/>
-    <demographicsId>8458345b-e2b3-43c9-8348-da62720a33d5</demographicsId>
     <recordSeed/>
   </AccountSource>
   <AccountSource>
@@ -1089,6 +1015,124 @@
     <notes>Demo account for Mar and Oovit</notes>
     <recordSeed>2</recordSeed>
   </AccountSource>
-  <saveDate>Thu Aug 23 16:39:59 GMT-0400 2012</saveDate>
+  <AccountSource>
+    <accountId>mhindman@records.media.mit.edu</accountId>
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    <fullName>Margaret Hindman</fullName>
+    <username>mhindman</username>
+    <password>mhindman-dope75</password>
+    <givenName>Margaret</givenName>
+    <familyName>Hindman</familyName>
+    <streetAddress>366 Spinel Rd</streetAddress>
+    <postalCode>2142</postalCode>
+    <locality>Cambridge</locality>
+    <region>Massachusetts</region>
+    <country>US</country>
+    <timeZone>-5GMT</timeZone>
+    <emailPersonal>mhindman@records.media.mit.edu</emailPersonal>
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    <instantMessengerName>mhindman@records.media.mit.edu</instantMessengerName>
+    <dateOfBirth>1957-05-27T00:00:00Z</dateOfBirth>
+    <age>53</age>
+    <gender>Female</gender>
+    <ethnicity>White</ethnicity>
+    <language>English</language>
+    <maritalStatus>Married</maritalStatus>
+    <employmentStatus>Employed</employmentStatus>
+    <employmentIndustry>Medical</employmentIndustry>
+    <occupation>Health Coach</occupation>
+    <religion>Protestant</religion>
+    <highestEducation>University</highestEducation>
+    <organDonar>true</organDonar>
+    <recordId>c156b899-684d-456e-83dc-1837325388d5</recordId>
+    <status>Record shared.</status>
+    <accessKey>qErozvGl7WhPjmwFg79R</accessKey>
+    <accessSecret>TQe0I2udabuCAVAb5yd0</accessSecret>
+    <demographicsId>833f4f39-76c6-470a-90f8-fd7bebd74802</demographicsId>
+    <notes>Demo health coach for Margaret</notes>
+    <recordSeed/>
+    <shareAccountId>lbrooks@records.media.mit.edu</shareAccountId>
+    <shareRole>Patient</shareRole>
+  </AccountSource>
+  <AccountSource>
+    <accountId>ksato@records.media.mit.edu</accountId>
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    <fullName>Kumiko Sato</fullName>
+    <username>ksato</username>
+    <password>ksato-dope75</password>
+    <givenName>Kumiko</givenName>
+    <familyName>Sato</familyName>
+    <streetAddress>112 River Street</streetAddress>
+    <postalCode>21201</postalCode>
+    <locality>Baltimore</locality>
+    <region>Maryland</region>
+    <country>US</country>
+    <timeZone>-5GMT</timeZone>
+    <emailPersonal>ksato@records.media.mit.edu</emailPersonal>
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    <instantMessengerName>ksato@records.media.mit.edu</instantMessengerName>
+    <dateOfBirth>1933-11-22T00:00:00Z</dateOfBirth>
+    <age>76</age>
+    <gender>Female</gender>
+    <ethnicity>Asian</ethnicity>
+    <language>Japanese</language>
+    <maritalStatus>Married</maritalStatus>
+    <employmentStatus>Retired</employmentStatus>
+    <employmentIndustry>Education</employmentIndustry>
+    <occupation>Teacher</occupation>
+    <religion>Protestant</religion>
+    <highestEducation>High School</highestEducation>
+    <organDonar>true</organDonar>
+    <recordId>99e8da92-344d-48ac-952d-b7f886ed0649</recordId>
+    <accessKey>zuEedeitjy44qke2NX6b</accessKey>
+    <accessSecret>H4i567hdjRUwd1r2Aqcl</accessSecret>
+    <status>Created 8/8 documents, 4/5 relationships</status>
+    <demographicsId>e1a07f3a-6099-4e70-bf96-eb956b770d01</demographicsId>
+    <recordSeed/>
+    <shareAccountId>mhindman@records.media.mit.edu</shareAccountId>
+    <shareRole>Coach</shareRole>
+  </AccountSource>
+  <AccountSource>
+    <accountId>lbrooks@records.media.mit.edu</accountId>
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    <fullName>Linda Brooks</fullName>
+    <username>lbrooks</username>
+    <password>lbrooks-dope75</password>
+    <givenName>Linda</givenName>
+    <familyName>Brooks</familyName>
+    <streetAddress>26 Frost Road</streetAddress>
+    <postalCode>60601</postalCode>
+    <locality>Chicago</locality>
+    <region>Illinois</region>
+    <country>US</country>
+    <timeZone>-6GMT</timeZone>
+    <emailPersonal>lbrooks@records.media.mit.edu</emailPersonal>
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    <instantMessengerName>lbrooks@records.media.mit.edu</instantMessengerName>
+    <dateOfBirth>1942-06-13T00:00:00Z</dateOfBirth>
+    <age>67</age>
+    <gender>Female</gender>
+    <ethnicity>Black</ethnicity>
+    <language>English</language>
+    <maritalStatus>Married</maritalStatus>
+    <employmentStatus>Retired</employmentStatus>
+    <employmentIndustry>Education</employmentIndustry>
+    <occupation>Teacher</occupation>
+    <religion>Protestant</religion>
+    <highestEducation>University</highestEducation>
+    <organDonar>true</organDonar>
+    <recordId>6c0d1602-fda5-4b74-b666-5c497712ec8b</recordId>
+    <accessKey>h7stFIRItcaOeobmahKY</accessKey>
+    <accessSecret>nW7JcuxumhBmexy8I2o3</accessSecret>
+    <status>Created 15/15 documents, 9/10 relationships</status>
+    <demographicsId>069962c1-27e9-4de7-b3b2-ed484799bd15</demographicsId>
+    <recordSeed>1</recordSeed>
+    <shareAccountId>mhindman@records.media.mit.edu</shareAccountId>
+    <shareRole>Coach</shareRole>
+  </AccountSource>
+  <saveDate>Thu Aug 30 00:05:27 GMT-0400 2012</saveDate>
   <indivoServerBaseURL>http://indivo-dev.media.mit.edu:9091</indivoServerBaseURL>
 </dataroot>
