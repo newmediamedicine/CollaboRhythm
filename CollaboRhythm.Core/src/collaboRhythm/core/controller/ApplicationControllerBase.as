@@ -155,7 +155,7 @@ package collaboRhythm.core.controller
 
 		private function autoSyncTimer_timerHandler(event:TimerEvent):void
 		{
-			var now:Date = new Date();
+			var now:Date = _currentDateSource.now();
 			if (now.getTime() < _nextAutoSyncTime.getTime())
 			{
 				_logger.warn("Automatic synchronization timer went off before the expected time.");
@@ -305,6 +305,20 @@ package collaboRhythm.core.controller
 		private function nativeApplication_activateHandler(event:Event):void
 		{
 			InteractionLogUtil.log(_logger, "Application activate");
+			checkAutoSyncTimer();
+		}
+
+		private function checkAutoSyncTimer():void
+		{
+			var now:Date = _currentDateSource.now();
+			if (now.getTime() > _nextAutoSyncTime.getTime())
+			{
+				_logger.info("Performing automatic synchronization from activate event. Local time: " + now.toString() +
+						". Expected auto sync time: " + _nextAutoSyncTime.toString() +
+						". Previous timer delay (minutes): " + _autoSyncTimer.delay / ONE_MINUTE);
+				synchronize();
+				updateAutoSyncTime();
+			}
 		}
 
 		private function nativeApplication_deactivateHandler(event:Event):void
