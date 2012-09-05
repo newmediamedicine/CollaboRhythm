@@ -48,6 +48,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import flash.geom.Point;
 	import flash.text.TextFormat;
 	import flash.ui.Keyboard;
+	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;
 
 	import mx.charts.ChartItem;
@@ -190,6 +191,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private var _chartDescriptorsUpdateQueue:Vector.<IChartDescriptor> = new Vector.<IChartDescriptor>();
 		private const _isSimulationSupported:Boolean = false;
+		private var _collectionEventListeners:Dictionary = new Dictionary();
 
 		public function SynchronizedHealthCharts():void
 		{
@@ -743,12 +745,18 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private function addListenerForCollectionChange(sourceDataCollection:ArrayCollection, chartDescriptor:IChartDescriptor):void
 		{
-			sourceDataCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,
-					function (event:CollectionEvent):void
-					{
-						queueChartDescriptorUpdate(chartDescriptor);
-					}
-					, false, 0, false);
+			var previousListener:Function  = _collectionEventListeners[sourceDataCollection];
+			if (previousListener)
+				sourceDataCollection.removeEventListener(CollectionEvent.COLLECTION_CHANGE, previousListener);
+
+			// we need to declare the function inline so that we can reference the chartDescriptor
+			var listener:Function = function (event:CollectionEvent):void
+			{
+				queueChartDescriptorUpdate(chartDescriptor);
+			};
+
+			_collectionEventListeners[sourceDataCollection] = listener;
+			sourceDataCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, listener, false, 0, false);
 		}
 
 		private function queueChartDescriptorUpdate(chartDescriptor:IChartDescriptor):void
@@ -1112,7 +1120,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 			// find any equipment scheduled to be used to collect this vital sign
 			var healthActionSchedule:HealthActionSchedule = getMatchingHealthActionSchedule(vitalSignKey);
-			var vitalSignCollection:ArrayCollection = model.record.vitalSignsModel.getVitalSignsByCategory(vitalSignKey);
+			var vitalSignCollection:ArrayCollection = getVitalSignSeriesDataCollection(vitalSignChartDescriptor);
 
 			if (healthActionSchedule || (vitalSignCollection && vitalSignCollection.length > 0 && vitalSignCollection[0]))
 			{
@@ -1120,7 +1128,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 				if (vitalSignCollection)
 					addListenerForCollectionChange(vitalSignCollection, vitalSignChartDescriptor);
 
-				var vitalSignChart:TouchScrollingScrubChart = createVitalSignChart(vitalSignChartDescriptor);
+				var vitalSignChart:TouchScrollingScrubChart = createVitalSignChart(vitalSignChartDescriptor, vitalSignCollection);
 				if (healthActionSchedule)
 				{
 					var adherenceStripChart:TouchScrollingScrubChart = createVitalSignAdherenceStripChart(vitalSignChartDescriptor,
@@ -1141,7 +1149,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 			return model.record.vitalSignsModel.vitalSignsByCategory.keys;
 		}
 
-		private function createVitalSignChart(vitalSignChartDescriptor:VitalSignChartDescriptor):TouchScrollingScrubChart
+		private function createVitalSignChart(vitalSignChartDescriptor:VitalSignChartDescriptor,
+											  vitalSignCollection:ArrayCollection):TouchScrollingScrubChart
 		{
 			var vitalSignKey:String = vitalSignChartDescriptor.vitalSignCategory;
 			var chart:TouchScrollingScrubChart = createAdherenceChart(getVitalSignChartKey(vitalSignKey), vitalSignChartDescriptor);
@@ -1152,7 +1161,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 			chart.dateField = "dateMeasuredStart";
 			chart.seriesName = "resultAsNumber";
-			chart.data = model.record.vitalSignsModel.getVitalSignsByCategory(vitalSignKey);
+			chart.data = vitalSignCollection;
 
 			chart.addEventListener(SkinPartEvent.PART_ADDED, adherenceChart_skinPartAddedHandler, false, 0,
 					true);
@@ -1252,27 +1261,43 @@ package collaboRhythm.shared.ui.healthCharts.view
 						model.getMedicationConcentrationCurveByCode(medicationCode), "date");
 				updateAdherenceChart(getMedicationAdherenceStripChartKey(medicationCode),
 						adherenceStripItemProxies, "date");
+				var medicationAdministrationsCollection:ArrayCollection = model.record.medicationAdministrationsModel.getMedicationAdministrationsCollectionByCode(medicationCode);
+				if (medicationAdministrationsCollection)
+				{
+					addListenerForCollectionChange(medicationAdministrationsCollection, chartDescriptor);
+				}
 			}
 			var vitalSignChartDescriptor:VitalSignChartDescriptor = chartDescriptor as VitalSignChartDescriptor;
 			if (vitalSignChartDescriptor)
 			{
-				var seriesDataCollection:ArrayCollection;
-				var chartModifier:IChartModifier = _chartModifiers.getValueByKey(chartDescriptor.descriptorKey);
-				if (chartModifier)
-				{
-					seriesDataCollection = chartModifier.getSeriesDataCollection();
-				}
-				if (seriesDataCollection == null)
-				{
-					seriesDataCollection = model.record.vitalSignsModel.getVitalSignsByCategory(vitalSignChartDescriptor.vitalSignCategory);
-				}
-
+				var seriesDataCollection:ArrayCollection = getVitalSignSeriesDataCollection(vitalSignChartDescriptor);
 				updateAdherenceChart(getVitalSignChartKey(vitalSignChartDescriptor.vitalSignCategory),
 						seriesDataCollection,
 						"dateMeasuredStart");
 				updateAdherenceChart(getVitalSignAdherenceStripChartKey(vitalSignChartDescriptor.vitalSignCategory),
 						adherenceStripItemProxies, "date");
+
+				// TODO: if the collection starts null (because there is no data yet) we need to detect when the collection is first created so we can start listening for changes
+				if (seriesDataCollection)
+				{
+					addListenerForCollectionChange(seriesDataCollection, vitalSignChartDescriptor);
+				}
 			}
+		}
+
+		private function getVitalSignSeriesDataCollection(vitalSignChartDescriptor:VitalSignChartDescriptor):ArrayCollection
+		{
+			var seriesDataCollection:ArrayCollection;
+			var chartModifier:IChartModifier = _chartModifiers.getValueByKey(vitalSignChartDescriptor.descriptorKey);
+			if (chartModifier)
+			{
+				seriesDataCollection = chartModifier.getSeriesDataCollection();
+			}
+			if (seriesDataCollection == null)
+			{
+				seriesDataCollection = model.record.vitalSignsModel.getVitalSignsByCategory(vitalSignChartDescriptor.vitalSignCategory);
+			}
+			return seriesDataCollection;
 		}
 
 		private function updateAdherenceChart(chartKey:String, seriesDataCollection:ArrayCollection, dateField:String):void

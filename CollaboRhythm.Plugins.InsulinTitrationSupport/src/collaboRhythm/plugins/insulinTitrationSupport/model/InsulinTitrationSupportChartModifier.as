@@ -26,6 +26,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import mx.core.ClassFactory;
 	import mx.core.IVisualElement;
 	import mx.events.CollectionEvent;
+	import mx.events.CollectionEventKind;
 	import mx.graphics.SolidColor;
 	import mx.graphics.SolidColorStroke;
 	import mx.managers.PopUpManager;
@@ -48,6 +49,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private var _insulinTitrationDecisionPanelModel:InsulinTitrationDecisionPanelModel;
 		private var _vitalSignsDataCollection:ArrayCollection;
+		private var _seriesDataCollection:ArrayCollection;
 		private var confirmChangePopUp:ConfirmChangePopUp = new ConfirmChangePopUp();
 		private var _changeConfirmed:Boolean = false;
 
@@ -114,8 +116,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 						vitalSignsDataCollection_collectionChangeHandler, false, 0, true);
 			}
 
-			var seriesDataCollection:ArrayCollection = createProxiesForDecision(_vitalSignsDataCollection);
-			return seriesDataCollection;
+			_seriesDataCollection = createProxiesForDecision(_vitalSignsDataCollection);
+			return _seriesDataCollection;
 		}
 
 		private function createProxiesForDecision(vitalSignsDataCollection:ArrayCollection):ArrayCollection
@@ -308,6 +310,20 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private function vitalSignsDataCollection_collectionChangeHandler(event:CollectionEvent):void
 		{
+			if (event.kind == CollectionEventKind.ADD)
+			{
+				for each (var vitalSign:VitalSign in event.items)
+				{
+					_seriesDataCollection.addItem(new VitalSignForDecisionProxy(vitalSign,
+							_insulinTitrationDecisionPanelModel));
+				}
+			}
+			else if (event.kind == CollectionEventKind.REMOVE)
+			{
+				_seriesDataCollection.removeAll();
+				var collection:ArrayCollection = createProxiesForDecision(_vitalSignsDataCollection);
+				_seriesDataCollection.addAll(collection);
+			}
 		}
 	}
 }
