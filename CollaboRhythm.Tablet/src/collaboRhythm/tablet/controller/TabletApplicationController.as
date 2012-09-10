@@ -66,6 +66,7 @@ package collaboRhythm.tablet.controller
 		{
 			_tabletApplication = collaboRhythmTabletApplication;
 			_connectivityView = collaboRhythmTabletApplication.connectivityView;
+			_busyView = collaboRhythmTabletApplication.busyView;
 			_aboutApplicationView = collaboRhythmTabletApplication.aboutApplicationView;
 			initializeConnectivityView();
 		}

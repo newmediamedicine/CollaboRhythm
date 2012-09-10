@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<!---
+  - Copyright 2012 John Moore, Scott Gilroy
+  -
+  - This file is part of CollaboRhythm.
+  -
+  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  - version.
+  -
+  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  - details.
+  -
+  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  - <http://www.gnu.org/licenses/>.
+  -->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:view="collaboRhythm.core.view.*"
+		 hideEffect="{hideEffect}"
+		 showEffect="{showEffect}"
+		 height="100%" width="100%"
+		 resize="resizeHandler(event)">
+	<fx:Declarations>
+		<s:Fade id="hideEffect" target="this" alphaFrom="1" alphaTo="0"/>
+		<s:Fade id="showEffect" target="this" alphaFrom="0" alphaTo="1" duration="100"/>
+	</fx:Declarations>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		.connectivityText {
+			color: #FFFFFF;
+			lineBreak: "toFit";
+			textAlign: "center";
+		}
+
+		@media (application-dpi: 320) {
+			.connectivityText {
+				font-size: 40;
+			}
+		}
+		@media (application-dpi: 240) {
+			.connectivityText {
+				font-size: 32;
+			}
+		}
+		@media (application-dpi: 160) {
+			.connectivityText {
+				font-size: 24;
+			}
+		}
+
+		.connectivityDetailsText {
+			contentBackgroundAlpha: 0;
+			color: #FFFFFF;
+			/*font-size: 16;*/
+		}
+
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.core.controller.IErrorDetailsProvider;
+
+		import mx.events.ResizeEvent;
+
+		[Embed("../../../../../CollaboRhythm.Tablet/src/assets/swfs/buffering.swf")]
+		[Bindable]
+		public var bufferingAnimation:Class;
+		private var _message:String;
+
+		[Bindable]
+		public function get message():String
+		{
+			return _message;
+		}
+
+		public function set message(value:String):void
+		{
+			_message = value;
+		}
+
+		private function resizeHandler(event:ResizeEvent):void
+		{
+			var dialogWidth:Number = this.width * 0.8;
+			// limit the width to a reasonable size
+			dialogWidth = Math.min(1000, dialogWidth);
+			dialogGroup.percentWidth = NaN;
+			dialogGroup.width = dialogWidth;
+		}
+		]]></fx:Script>
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="#000000" alpha="0.3"/>
+		</s:fill>
+	</s:Rect>
+	<s:Group id="dialogGroup" verticalCenter="0" horizontalCenter="0" width="80%">
+		<s:Rect width="100%" height="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="#FFFFFF" alpha="0.5"/>
+			</s:stroke>
+			<s:fill>
+				<s:SolidColor color="#000000" alpha="0.9"/>
+			</s:fill>
+		</s:Rect>
+		<s:VGroup id="dialogContentGroup" horizontalAlign="center" paddingLeft="20" paddingRight="20"
+				  paddingTop="20" paddingBottom="20" gap="20" width="100%">
+			<s:Label text="{message}"
+					 styleName="connectivityText"
+					 width="100%"/>
+			<s:BusyIndicator id="busyIndicator" symbolColor="0xFFFFFF" width="200" height="200"/>
+		</s:VGroup>
+	</s:Group>
+</s:Group>

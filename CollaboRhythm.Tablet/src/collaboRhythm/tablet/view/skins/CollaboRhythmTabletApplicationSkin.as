@@ -2,6 +2,7 @@ package collaboRhythm.tablet.view.skins
 {
 
 	import collaboRhythm.core.view.AboutApplicationView;
+	import collaboRhythm.core.view.BusyView;
 	import collaboRhythm.core.view.ConnectivityView;
 
 	import flash.events.Event;
@@ -14,6 +15,7 @@ package collaboRhythm.tablet.view.skins
 	public class CollaboRhythmTabletApplicationSkin extends ViewNavigatorApplicationSkin
 	{
 		public var connectivityView:ConnectivityView;
+		public var busyView:BusyView;
 		public var aboutApplicationView:AboutApplicationView;
 		public var pointer:Graphic;
 
@@ -31,6 +33,12 @@ package collaboRhythm.tablet.view.skins
 			connectivityView.height = 600;
 			connectivityView.visible = false;
 			addChild(connectivityView);
+			
+			busyView = new BusyView();
+			busyView.width = 800;
+			busyView.height = 600;
+			busyView.visible = false;
+			addChild(busyView);
 			
 			aboutApplicationView = new AboutApplicationView();
 			aboutApplicationView.width = 800;
@@ -50,6 +58,8 @@ package collaboRhythm.tablet.view.skins
 		{
 			connectivityView.width = width;
 			connectivityView.height = height;
+			busyView.width = width;
+			busyView.height = height;
 			aboutApplicationView.width = width;
 			aboutApplicationView.height = height;
 		}

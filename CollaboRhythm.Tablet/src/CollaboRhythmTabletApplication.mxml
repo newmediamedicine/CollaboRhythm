@@ -94,6 +94,7 @@
 	<fx:Style source="defaults.css"/>
 	<fx:Script><![CDATA[
 		import collaboRhythm.core.view.AboutApplicationView;
+		import collaboRhythm.core.view.BusyView;
 		import collaboRhythm.core.view.ConnectivityView;
 		import collaboRhythm.shared.collaboration.controller.CollaborationController;
 		import collaboRhythm.shared.collaboration.model.CollaborationModel;
@@ -115,6 +116,9 @@
 
 		[SkinPart(required="false")]
 		public var connectivityView:ConnectivityView;
+
+		[SkinPart(required="false")]
+		public var busyView:BusyView;
 
 		[SkinPart(required="false")]
 		public var aboutApplicationView:AboutApplicationView;
